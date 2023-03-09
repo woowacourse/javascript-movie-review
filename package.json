@@ -1,0 +1,46 @@
+{
+  "name": "javascript-movie-review",
+  "version": "1.0.0",
+  "description": "우아한테크코스 레벨1 영화관 미션 저장소",
+  "main": "src/index.js",
+  "private": "true",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch",
+    "start": "webpack serve",
+    "build": "webpack --mode=development",
+    "test-unit": "jest",
+    "test-e2e": "cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/woowacourse-projects/javascript-movie-review.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/woowacourse-projects/javascript-movie-review/issues"
+  },
+  "homepage": "https://github.com/woowacourse-projects/javascript-movie-review#readme",
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-typescript": "^7.18.6",
+    "@types/jest": "^29.4.0",
+    "babel-jest": "^29.3.1",
+    "css-loader": "^6.7.3",
+    "cypress": "^12.3.0",
+    "dotenv-webpack": "^8.0.1",
+    "eslint": "^8.35.0",
+    "html-webpack-plugin": "^5.5.0",
+    "jest": "^29.3.1",
+    "prettier": "^2.8.4",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.4",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1"
+  }
+}
