@@ -1,3 +1,4 @@
+import { starFilledImage } from '../../assets/images';
 import type { Movie } from '../../types/movie';
 
 const MovieCard = {
@@ -13,7 +14,7 @@ const MovieCard = {
               alt="${item.title}"
             />
             <p class="item-title">${item.title}</p>
-            <p class="item-score"><img src="./star_filled.png" alt="별점" /> ${item.vote_average}</p>
+            <p class="item-score"><img src=${starFilledImage} alt="별점" /> ${item.vote_average}</p>
           </div>
         </a>
       </li>
