@@ -1,12 +1,14 @@
 import { $ } from "../util/dom";
 import CustomElement from "./basic/CustomElement";
+import "./SearchInput";
 
 class Header extends CustomElement {
   template() {
     return `
     <header>
         <h1><img src="./image/logo.png" alt="MovieList logo" /></h1>
-      </header>
+        <search-input class='search-box'/>  
+    </header>
     `;
   }
 
