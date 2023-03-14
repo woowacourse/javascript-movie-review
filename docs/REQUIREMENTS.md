@@ -9,7 +9,6 @@
 - [ ] Header 컴포넌트
   - [ ] Search 컴포넌트
 - [ ] MovieList 컴포넌트
-  - [ ] MovieCard 컴포넌트
   - [ ] Button 컴포넌트
 - [ ] Loading 컴포넌트 (후순위)
 
