@@ -16,7 +16,7 @@ const movieHandler: MovieHandler = {
   },
 
   sortByPopularity(movies) {
-    return movies.sort((a, b) => a.popularity - b.popularity);
+    return movies.sort((a, b) => b.popularity - a.popularity);
   },
 };
 
