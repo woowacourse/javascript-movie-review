@@ -93,17 +93,6 @@ button {
   margin-top: 48px;
 }
 
-button.btn {
-  border: 0;
-  border-radius: 8px;
-  height: 30px;
-  color: #fff;
-}
-
-button.primary {
-  background: #f33f3f;
-}
-
 .item-card .skeleton {
   background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
   background-size: 400%;

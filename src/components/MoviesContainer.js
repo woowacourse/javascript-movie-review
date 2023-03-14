@@ -12,6 +12,7 @@ class MoviesContainer extends HTMLElement {
         <h2>지금 인기 있는 영화</h2>
         <ul class="item-list">
         </ul>
+        <common-button text="더보기" color="primary"></common-button>
       </section>
     </main>`;
   }
