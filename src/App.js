@@ -1,7 +1,6 @@
 import Header from "./components/Header";
 import { $ } from "./utils/Dom";
 import Star from "./assets/star_filled.png";
-
 export default class App {
   #movieList = [];
   #page = 1;
@@ -13,12 +12,14 @@ export default class App {
   }
 
   init() {
+    this.#movieList = [];
+    this.#page = 1;
     const ajax = new XMLHttpRequest();
     ajax.open(
       "GET",
-      `https://api.themoviedb.org/3/movie/popular?api_key=8234a3d5f8d4ad207c32e60e4aa9486b&language=ko-KR&page=${
-        this.#page
-      }`,
+      `https://api.themoviedb.org/3/movie/popular?api_key=${
+        process.env.API_KEY
+      }&language=ko-KR&page=${this.#page}`,
       true
     );
     ajax.send(null);
@@ -76,9 +77,9 @@ export default class App {
       const ajax = new XMLHttpRequest();
       ajax.open(
         "GET",
-        `https://api.themoviedb.org/3/movie/popular?api_key=8234a3d5f8d4ad207c32e60e4aa9486b&language=ko-KR&page=${
-          this.#page
-        }`,
+        `https://api.themoviedb.org/3/movie/popular?api_key=${
+          process.env.API_KEY
+        }&language=ko-KR&page=${this.#page}`,
         true
       );
       ajax.send(null);
