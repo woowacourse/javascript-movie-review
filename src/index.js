@@ -7,3 +7,4 @@ import "../templates/star_empty.png";
 import "../templates/star_filled.png";
 
 import SearchBox from "../src/components/SearchBox";
+import MovieItem from "../src/components/MovieItem";
