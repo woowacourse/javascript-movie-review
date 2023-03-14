@@ -1,21 +1,28 @@
 import type { Movie } from "../types/type";
 
-customElements.define(
-  "movie-list",
-  class MovieList extends HTMLElement {
-    constructor() {
-      super();
-    }
-
-    render(movies: Movie[]) {
-      this.innerHTML = /* html */ `
-            <ul class="item-list">
-            ${movies.map(
-              (movie) => `
-            <movie-item><movie-item/>`
-            )}
-            </ul>
-            `;
-    }
+class MovieList extends HTMLElement {
+  constructor() {
+    super();
   }
-);
+
+  render(movies: Movie[]) {
+    this.innerHTML = /* html */ `
+          ${movies
+            .map(
+              (movie) => /* html */ `
+            <movie-item
+              poster-path="${movie.poster_path}"
+              title="${movie.title}"
+              vote_average="${movie.vote_average}"
+            ></movie-item>`
+            )
+            .join("")}
+          `;
+  }
+}
+
+interface MovieList {
+  "movie-list": typeof MovieList;
+}
+
+customElements.define("movie-list", MovieList);
