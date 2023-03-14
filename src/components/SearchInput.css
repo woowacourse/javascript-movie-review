@@ -1,0 +1,17 @@
+.search-box {
+  background: #fff;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.search-box > input {
+  border: 0;
+}
+
+.search-box > .search-button {
+  width: 14px;
+  border: 0;
+  text-indent: -1000rem;
+  background: url('../image/search_button.png') transparent no-repeat 0 1px;
+  background-size: contain;
+}
