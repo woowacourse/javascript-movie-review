@@ -1,12 +1,14 @@
+import {Movie} from '../app';
 import MovieItem from './MovieItem';
+import skeletonTemplate from './Skeleton';
 
 class MovieList {
   private _node!: HTMLElement;
-  // private movies: string[];
   private moviesType: string = '지금 인기있는 영화';
 
   constructor() {
     this.createTemplate();
+    this.initEventHandler();
   }
 
   get node(): HTMLElement {
@@ -15,32 +17,68 @@ class MovieList {
 
   createTemplate(): this {
     this._node = document.createElement('main');
-
-    this.paintMovieList();
-
-    const movie = new MovieItem();
-    this._node.querySelector('ul')?.insertAdjacentElement('afterbegin', movie.node);
+    this.paintMovieLayout();
+    this.createSkeleton();
 
     return this;
   }
 
-  paintMovieList() {
+  createSkeleton() {
+    let listContainer = this._node.querySelector('.skeleton-list');
+
+    if (!listContainer) {
+      const button = this._node.querySelector('button');
+
+      if (!button) return;
+
+      listContainer = document.createElement('ul');
+      listContainer.className = 'item-list skeleton-list';
+      button.insertAdjacentElement('beforebegin', listContainer);
+    }
+
+    listContainer.innerHTML = skeletonTemplate(20);
+  }
+
+  paintMovieLayout() {
     this._node.innerHTML = `
-    <main>
       <section class="item-view">
-      <h2>${this.moviesType}</h2>
-      <ul class="item-list">
-      </ul>
-      <button class="btn primary full-width">더 보기</button>
+        <h2>${this.moviesType}</h2>
+        <ul class="item-list skeleton-list"></ul>
+        <button class="btn primary full-width hidden">더 보기</button>
       </section>
-    </main>
     `;
   }
 
-  changeMoivesType(search: string) {
-    this.moviesType = `${search} 검색 결과`;
+  removeSkeleton() {}
 
-    this.paintMovieList();
+  updateMovieList(movieData: Movie[]) {
+    this._node.querySelector('.skeleton-list')?.remove();
+
+    let ul = this._node.querySelector('.movie-list');
+
+    if (!ul) {
+      ul = document.createElement('ul');
+      ul.className = 'item-list movie-list';
+    }
+
+    const button = this._node.querySelector('button');
+    button?.classList.remove('hidden');
+
+    movieData.forEach(movie => {
+      const moiveItem = new MovieItem(movie);
+      ul?.insertAdjacentElement('beforeend', moiveItem.node);
+    });
+    button?.insertAdjacentElement('beforebegin', ul);
+  }
+
+  initEventHandler() {
+    const button = this._node.querySelector('button');
+
+    if (!button) return;
+
+    button.addEventListener('click', () => {
+      this._node.dispatchEvent(new CustomEvent('seeMoreMovie', {bubbles: true}));
+    });
   }
 }
 
