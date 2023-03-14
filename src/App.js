@@ -4,17 +4,21 @@ import Star from "./assets/star_filled.png";
 
 export default class App {
   #movieList = [];
+  #page = 1;
 
   constructor() {
     this.init();
     new Header();
+    this.setEvent();
   }
 
   init() {
     const ajax = new XMLHttpRequest();
     ajax.open(
       "GET",
-      `https://api.themoviedb.org/3/movie/popular?api_key=8234a3d5f8d4ad207c32e60e4aa9486b&language=ko-KR&page=1`,
+      `https://api.themoviedb.org/3/movie/popular?api_key=8234a3d5f8d4ad207c32e60e4aa9486b&language=ko-KR&page=${
+        this.#page
+      }`,
       true
     );
     ajax.send(null);
@@ -29,6 +33,10 @@ export default class App {
             rating: item.vote_average,
           });
         });
+        this.#page += 1;
+        const ItemList = $(".item-list");
+        ItemList.innerHTML = "";
+
         this.render();
       }
     };
@@ -37,10 +45,7 @@ export default class App {
   render() {
     const ItemList = $(".item-list");
 
-    ItemList.innerHTML = "";
-
     this.#movieList.forEach((item) => {
-      console.log(item.poster);
       ItemList.insertAdjacentHTML(
         "beforeend",
         `
@@ -64,5 +69,35 @@ export default class App {
     });
   }
 
-  renderInit() {}
+  setEvent() {
+    const moreButton = $("#more-button");
+    moreButton.addEventListener("click", () => {
+      console.log(this.#page);
+      const ajax = new XMLHttpRequest();
+      ajax.open(
+        "GET",
+        `https://api.themoviedb.org/3/movie/popular?api_key=8234a3d5f8d4ad207c32e60e4aa9486b&language=ko-KR&page=${
+          this.#page
+        }`,
+        true
+      );
+      ajax.send(null);
+      ajax.onload = () => {
+        if (ajax.status === 200) {
+          const data = JSON.parse(ajax.response);
+          const results = data.results;
+          this.#movieList = [];
+          results.forEach((item) => {
+            this.#movieList.push({
+              title: item.title,
+              poster: item.poster_path,
+              rating: item.vote_average,
+            });
+          });
+          this.#page++;
+          this.render();
+        }
+      };
+    });
+  }
 }
