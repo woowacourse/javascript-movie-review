@@ -1,6 +1,15 @@
+import { movieApi } from "../domain/movieApi";
+
 export default class MovieList extends HTMLElement {
+  movies: any[];
+
   constructor() {
     super();
+    this.movies = [];
+  }
+
+  async connectedCallback() {
+    this.movies = await movieApi.fetchMovieInfo();
     this.render();
   }
 
