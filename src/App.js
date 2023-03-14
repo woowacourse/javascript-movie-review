@@ -1,8 +1,11 @@
 import Header from "./components/Header";
+import MovieList from "./components/MovieList";
 
 const App = () => {
   return `
-    ${Header()}
+  <header>${Header()}</header>
+  <main>${MovieList()}</main>
+   
 `;
 };
 
