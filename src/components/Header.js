@@ -1,3 +1,4 @@
+import './Header.css';
 import Logo from '../image/logo.png';
 
 class Header extends HTMLElement {
@@ -9,6 +10,7 @@ class Header extends HTMLElement {
     this.innerHTML = `
     <header>
       <h1><img src="${Logo}" alt="MovieList 로고" /></h1>
+      <search-input></search-input>
     </header>`;
   }
 }
