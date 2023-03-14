@@ -2,14 +2,14 @@ class SearchBox {
   private _node!: HTMLElement;
 
   constructor() {
-    this.createTemplete().initEventHandler();
+    this.createTemplate().initEventHandler();
   }
 
   get node(): HTMLElement {
     return this._node;
   }
 
-  createTemplete(): this {
+  createTemplate(): this {
     this._node = document.createElement('div');
     this._node.classList.add('search-box');
 
@@ -26,7 +26,7 @@ class SearchBox {
 
   initEventHandler() {
     this._node.querySelector<HTMLInputElement>('input')?.addEventListener('click', () => {
-      console.log('clicked!');
+      this._node.dispatchEvent(new CustomEvent('changeMoviesType', {bubbles: true, detail: {serach: '해리포터'}}));
     });
   }
 }
