@@ -1,31 +1,23 @@
 import SearchBox from './SearchBox';
 
 class Header {
-  private targetElement!: HTMLElement;
+  private _node!: HTMLElement;
 
   constructor() {
     this.createTemplate();
   }
 
-  get template() {
-    return this.targetElement.innerHTML;
+  get node(): HTMLElement {
+    return this._node;
   }
 
   createTemplate() {
-    const wrapper = document.createElement('div');
+    this._node = document.createElement('header');
+    this._node.classList.add('header');
+    this._node.insertAdjacentHTML('afterbegin', `<h1><img src="./logo.png" alt="MovieList 로고" /></h1>`);
+
     const searchBox = new SearchBox();
-
-    wrapper.insertAdjacentHTML(
-      'afterbegin',
-      `
-      <header>
-        <h1><img src="./logo.png" alt="MovieList 로고" /></h1>
-        ${searchBox.template}
-      </header>
-      `
-    );
-
-    this.targetElement = wrapper;
+    this._node.insertAdjacentElement('beforeend', searchBox.node);
 
     return this;
   }

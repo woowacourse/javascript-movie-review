@@ -1,32 +1,34 @@
 class SearchBox {
-  private targetElement!: HTMLElement;
+  private _node!: HTMLElement;
 
   constructor() {
     this.createTemplete().initEventHandler();
   }
 
-  get template(): string {
-    return this.targetElement.innerHTML;
+  get node(): HTMLElement {
+    return this._node;
   }
 
   createTemplete(): this {
-    const wrapper = document.createElement('div');
+    this._node = document.createElement('div');
+    this._node.classList.add('search-box');
 
-    wrapper.insertAdjacentHTML(
+    this._node.insertAdjacentHTML(
       'afterbegin',
-      `<wrapper>
-        <input type="text" placeholder="검색" />
-        <button class="search-button">검색</button>
-      <div>
+      `
+      <input type="text" placeholder="검색" />
+      <button class="search-button">검색</button>
       `
     );
-
-    this.targetElement = wrapper;
 
     return this;
   }
 
-  initEventHandler() {}
+  initEventHandler() {
+    this._node.querySelector<HTMLInputElement>('input')?.addEventListener('click', () => {
+      console.log('clicked!');
+    });
+  }
 }
 
 export default SearchBox;

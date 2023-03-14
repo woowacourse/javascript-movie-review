@@ -7,11 +7,11 @@ class App {
 
   initLoad() {
     const header = new Header();
-    const app = document.querySelector('.app');
+    const app = document.querySelector('#app');
 
     if (!app) return;
 
-    app.insertAdjacentHTML('afterbegin', header.template);
+    app.insertAdjacentElement('afterbegin', header.node);
   }
 
   initEventHandler() {
