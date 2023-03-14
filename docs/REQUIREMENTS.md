@@ -1,5 +1,51 @@
 ## 기능구현목록
 
+$('main').appendChild();
+const head = $('header')
+const header = new Header(manager, head)
+
+class header {
+  엘리먼트
+  도메인객체
+
+  constructor(도메인객체, 엘리먼트){
+      필드 갖다 넣고
+      this.ㅇ애드서치버튼이벤트()
+  }
+
+  render(데이터들) {
+    엘리먼트.innnerHTML = ``
+  }
+
+  getMovies(){
+      데이터 = fetch();
+      element.dispatchEvent(커스텀이벤트)
+  }
+  event.detail.query // '검색어'
+
+  addSearchButtonEvent() {
+    element.addEventListener('click', (e) => {
+      if (e.target이 버튼이면 진행) {
+
+        // fetch ~~~~~ 하고
+        // 도메인에서 데이터 가공하고
+
+        this.도메인객체.setData(가공된데이터)
+  
+
+        main컴포넌트파일에서
+        {
+          this.element.addEventListener('검색성공', (e) => {
+            this.render(가공된데이터);
+          })
+        }
+
+        element.dispatchEvent(new CustomEvnet('검색성공', { bubbles: true })) // 다른곳으로 데이터변경된거알리기? 리렌더링 시키려면
+      }
+      
+    })
+  }
+}
 
 컴포넌트를 어떤 기준으로 나눌거냐 - 역할, 책임에 따라
 
