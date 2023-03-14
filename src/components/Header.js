@@ -19,16 +19,21 @@ class Header {
     e.preventDefault();
     const { currentTarget } = e;
     const { value } = currentTarget.querySelector('input');
-    console.log(value);
+
     if (value.length === 0) alert('1글자 이상 입력해 주셔야 합니다.');
 
     console.log(await new Movie().findMovies(value));
   }
 
-  async onClickEvent(e) {}
+  async onClickEvent(e) {
+    const { target } = e;
+    if (target.dataset.type !== 'logo') return;
+
+    console.log(await new Movie().getPopularMovies());
+  }
 
   template() {
-    return `<h1><img src="${logo}" alt="MovieList 로고" data-type="home" /></h1>
+    return `<h1><img src="${logo}" alt="MovieList 로고" data-type="logo" /></h1>
       <form class="search-box">
         <input type="text" placeholder="검색" />
         <button data-type="search" class="search-button">검색</button>
