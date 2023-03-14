@@ -1,6 +1,7 @@
 import { movieApi } from "../domain/movieApi";
 import { executeEventListener } from "../utils/eventListener";
 import { $ } from "../utils/selector";
+import MovieList from "./MovieList";
 
 export const onClickMoreButton = () => {
   executeEventListener(
@@ -9,3 +10,10 @@ export const onClickMoreButton = () => {
     async () => await movieApi.fetchMovieInfo()
   );
 };
+
+export const updateMovies = () => {
+  const movieList = $("#movie-list") as MovieList;
+  movieList.renderMovies();
+  onClickMoreButton();
+};
+

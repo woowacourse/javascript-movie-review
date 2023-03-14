@@ -1,5 +1,4 @@
 import { movieApi } from "../domain/movieApi";
-import { onClickMoreButton } from "./movieListHandler";
 
 export default class MovieList extends HTMLElement {
   constructor() {
@@ -9,7 +8,6 @@ export default class MovieList extends HTMLElement {
 
   async updateMovies() {
     await movieApi.fetchMovieInfo();
-    this.renderMovies();
   }
 
   renderMovies() {
@@ -22,8 +20,6 @@ export default class MovieList extends HTMLElement {
       <button id="more-button" class="btn primary full-width">더 보기</button>
     </section>
     `;
-
-    onClickMoreButton();
   }
 
   renderMovie(movie: any) {

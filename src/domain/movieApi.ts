@@ -1,5 +1,4 @@
-import MovieList from "../components/MovieList";
-import { $ } from "../utils/selector";
+import { updateMovies } from "../components/movieListHandler";
 
 export const movieApi = {
   page: 1,
@@ -18,7 +17,6 @@ export const movieApi = {
     this.total_pages = total_pages;
     this.total_results = total_results;
 
-    const movieList = $("#movie-list") as MovieList;
-    movieList.renderMovies();
+    updateMovies();
   },
 };
