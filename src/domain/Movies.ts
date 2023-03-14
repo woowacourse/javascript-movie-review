@@ -15,7 +15,6 @@ class Movies {
     this.#page = 1;
     const { results } = await getPopularMovies(this.#page);
     this.#list = results;
-    console.log(results);
   }
 
   async addPopular() {

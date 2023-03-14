@@ -16,7 +16,7 @@ class App {
     this.#movies.init();
   }
 
-  async render() {
+  async init() {
     if (this.#app === null) return;
 
     await this.#movies.init();
@@ -27,10 +27,13 @@ class App {
         ${MovieCardSection.template(this.#movies.get(), 'this.#title')}
       </main>
     `;
-    return this;
+
+    this.setEvent();
   }
 
-  setEvent() {}
+  setEvent() {
+    MovieCardSection.setEvent(this.#movies);
+  }
 }
 
 export default App;
