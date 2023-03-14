@@ -1,12 +1,11 @@
 import { TMDB_API_KEY } from "./apiKey";
 
-export const mostPopular = async () => {
+export const mostPopular = async (pageNumber: number) => {
   const response = await fetch(
-    `https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_API_KEY}&language=ko-KR&page=1`,
+    `https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_API_KEY}&language=ko-KR&page=${pageNumber}`,
     { method: "GET" }
   );
   const result = await response.json();
-  console.log(result);
 
   return result;
 };
