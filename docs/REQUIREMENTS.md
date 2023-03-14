@@ -20,7 +20,7 @@
 - [x] header
 - [x] 헤더 누르면 기본 화면으로 새로고침한다.
 - [ ] movieContainer가 리렌더링 된다.
-- [ ] searchInput
+- [x] searchInput
 - [ ] 엔터키를 누르거나 검색 아이콘을 클릭하면 movieContainer가 리렌더링 된다.
 - [ ] movieContainer
 - [ ] movieList
