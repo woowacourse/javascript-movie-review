@@ -80,6 +80,11 @@ button {
   margin-left: 8px;
 }
 
+.star {
+  margin-right: 4px;
+  transform: translateY(5px);
+}
+
 .item-title.skeleton::after,
 .item-score.skeleton::after {
   font-size: 0;

@@ -20,7 +20,7 @@ customElements.define(
               alt="${title}"
             />
             <p class="item-title">${title}</p>
-            <p class="item-score"><img src="${StarFilled}" alt="별점" />${voteAverage}</p>
+            <p class="item-score"><img src="${StarFilled}" class="star" alt="별점" />${voteAverage}</p>
           </div>
         </a>
   `;
