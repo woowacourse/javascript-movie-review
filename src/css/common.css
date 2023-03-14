@@ -48,8 +48,8 @@ button {
 .item-list {
   display: grid;
   margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  grid-template-columns: repeat(5, 180px);
+  grid-column-gap: 76px;
   grid-row-gap: 48px;
 }
 
