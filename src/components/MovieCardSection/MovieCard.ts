@@ -1,4 +1,5 @@
 import { starFilledImage } from '../../assets/images';
+import { IMAGE_URL } from '../../constants';
 import type { Movie } from '../../types/movie';
 
 const MovieCard = {
@@ -9,7 +10,7 @@ const MovieCard = {
           <div class="item-card">
             <img
               class="item-thumbnail"
-              src="${item.poster_path}"
+              src="${IMAGE_URL}${item.poster_path}"
               loading="lazy"
               alt="${item.title}"
             />
