@@ -34,8 +34,8 @@ class MovieListManager {
     await fetch(url)
       .then((res) => res.json())
       .then((data) => {
+        this.list.push(...data.results);
         if (data["total_results"] === this.list.length) this.lastPage = true;
-        this.list.push(...data.results)
       });
   }
 

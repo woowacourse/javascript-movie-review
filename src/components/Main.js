@@ -7,6 +7,8 @@ class Main {
   constructor (element, manager) {
     this.#element = element;
     this.#manager = manager;
+
+    this.#requestMovieListEvent();
   }
 
   render () {
@@ -23,6 +25,15 @@ class Main {
       : '<button class="btn primary full-width">더 보기</button>'
     }
     `;
+  }
+
+  #requestMovieListEvent () {
+    this.#element.addEventListener('click', async (e) => {
+      if (e.target.tagName === 'BUTTON') {
+        await this.#manager.getMoreMovieList();
+        this.render();
+      }
+    });
   }
 }
 
