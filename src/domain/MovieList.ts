@@ -17,6 +17,12 @@ class MovieList {
     this.searchKey = newSearchKey;
   }
 
+  async getMovieData() {
+    return this.searchKey !== ""
+      ? await this.searchMovieData()
+      : await this.fetchPopularMovieData();
+  }
+
   async fetchPopularMovieData() {
     const data = await fetch(
       `https://api.themoviedb.org/3/movie/popular?api_key=f34d1031242e2e85f709994a1cede895&language=ko-KR&page=${this.currentPage}`
@@ -35,12 +41,6 @@ class MovieList {
     this.currentPage = movieData.page + 1;
 
     return [...movieData.results];
-  }
-
-  async getMovieData() {
-    return this.searchKey !== ""
-      ? await this.searchMovieData()
-      : await this.fetchPopularMovieData();
   }
 
   initCurrentPage() {
