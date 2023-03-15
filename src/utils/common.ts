@@ -7,5 +7,5 @@ export const request = async (url: string): Promise<Response> => {
     return response;
   }
 
-  throw new Error();
+  throw new Error('404 불러올 수 없습니다.');
 };

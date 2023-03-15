@@ -45,9 +45,13 @@ class MoviesContainer extends HTMLElement {
   }
 
   async updateMovieList() {
-    await this.#movieData.update(this.#searchWord.value);
-    this.renderMovieList();
-    this.toggleVisibleButton();
+    try {
+      await this.#movieData.update(this.#searchWord.value);
+      this.renderMovieList();
+      this.toggleVisibleButton();
+    } catch (error) {
+      window.alert(error.message);
+    }
   }
 
   renderMovieList() {
