@@ -1,11 +1,10 @@
 ## 도메인
 
-- [ ] API를 이용해 전체 영화 중 상위 20개씩 불러온다.
-- [ ] 불러온 영화를 인기 순으로 정렬한다.
+- [x] API를 이용해 전체 영화 중 상위 20개씩 불러온다.
 - [ ] 더보기 버튼 클릭시 다음 페이지 영화를 불러온다
 - [ ] 더 불러올 정보가 없으면 더보기 버튼이 사라진다.(total-page)
 - [ ] 불러올 정보가 있으면 더보기 버튼이 사라지지 않는다.
-- [ ] 검색어를 입력하면 해당되는 영화를 불러온다
+- [x] 검색어를 입력하면 해당되는 영화를 불러온다
 - [ ] 엔터키를 눌러 검색할 수 있다.
 - [ ] 오류 (try-catch)
 - [ ] 존재하지 않는 영화 이름 검색 시 화면에 문구를 출력한다.
@@ -22,10 +21,10 @@
 - [ ] movieContainer가 리렌더링 된다.
 - [x] searchInput
 - [ ] 엔터키를 누르거나 검색 아이콘을 클릭하면 movieContainer가 리렌더링 된다.
-- [ ] movieContainer
+- [x] movieContainer
 - [x] movieList
 - [x] movieItem
-- [ ] showMoreButton
+- [x] showMoreButton
 - [ ] 버튼을 누르면 movieList가 리렌더링된다.
 - [ ] 영화 목록 아이템에 대한 Skeleton UI 구현
 

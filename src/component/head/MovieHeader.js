@@ -17,6 +17,6 @@ class MovieHeader extends CustomElement {
   }
 }
 
-customElements.define("movie-header", MovieHeader);
+customElements.define("movie-head", MovieHeader);
 
 export default MovieHeader;
