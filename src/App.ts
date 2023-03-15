@@ -1,12 +1,16 @@
+import { Header } from "./components/Header";
 import { MovieList } from "./components/MovieList";
 import { $ } from "./utils/selector";
 
 export class App {
+  #header;
   #movieList;
 
   constructor() {
-    const movieList = $(".item-list");
+    const $header = $("header");
+    const $movieList = $(".item-list");
 
-    if (movieList) this.#movieList = new MovieList(movieList);
+    if ($header) this.#header = new Header($header);
+    if ($movieList) this.#movieList = new MovieList($movieList);
   }
 }
