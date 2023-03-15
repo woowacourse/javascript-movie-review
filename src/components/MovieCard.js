@@ -1,4 +1,5 @@
 import Star from "../assets/star_filled.png";
+
 class MovieCard extends HTMLElement {
   get title() {
     return this.getAttribute("title");
@@ -13,7 +14,7 @@ class MovieCard extends HTMLElement {
   }
 
   connectedCallback() {
-    this.innerHTML = `
+    this.innerHTML = /*html*/ `
     <li>
        <a href="#">
          <div class="item-card">

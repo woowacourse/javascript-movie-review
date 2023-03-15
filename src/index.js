@@ -1,7 +1,8 @@
 import "../templates/reset.css";
 import "../templates/common.css";
 import "../src/App";
-import "../src/components/Card";
+import "./components/MovieCard";
+import "./components/MoreButton";
 import App from "./App";
 
 new App();
