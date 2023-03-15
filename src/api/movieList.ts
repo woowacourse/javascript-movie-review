@@ -1,5 +1,5 @@
-export const getPopularMovie = (page: number) => {
-  let currentPage = page;
+export const getPopularMovie = () => {
+  let currentPage = 1;
 
   return async function getCurrentMovies() {
     const response = await fetch(
