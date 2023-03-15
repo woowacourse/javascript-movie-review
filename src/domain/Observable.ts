@@ -16,7 +16,6 @@ export default class Observable {
   }
 
   notify(key: keyof OberserverType, newData?: Object) {
-    console.log('notify');
     this.observer[key].forEach((method) => method(newData));
   }
 }
