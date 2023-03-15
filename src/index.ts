@@ -4,4 +4,4 @@ import { render } from './utils/index';
 
 import { App } from './components/App';
 
-render(App);
+render(App());
