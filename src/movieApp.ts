@@ -1,17 +1,24 @@
 import { mostPopular } from "../src/fetch";
 import movieHandler from "./domain/movieHandler";
 import { $ } from "./utils/dom";
+import MovieListContainer from "../src/components/MovieListContainer";
+import MovieList from "./components/MovieList";
 
 const movieApp = {
-  async init() {
-    const movies = await mostPopular(1);
-    movieHandler.addMovies(movies.results);
-    // console.log(movieHandler.movies);
+  currentPageNumber: 1,
 
+  init() {
     const movieListContainer = <MovieListContainer>$("movie-list-container");
     movieListContainer.render();
 
-    const movieList = $("movie-list") as any;
+    this.loadMovieData();
+  },
+
+  async loadMovieData() {
+    const movies = await mostPopular(this.currentPageNumber++);
+    movieHandler.addMovies(movies.results);
+
+    const movieList = <MovieList>$("movie-list");
     movieList.render(movieHandler.movies);
   },
 };
