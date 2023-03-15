@@ -22,10 +22,22 @@ const App = {
       changeTitle('지금 인기 있는 영화');
       this.renderPopularMovies();
     });
+
+    $('movie-header').addEventListener('search', ({ detail: query }) => {
+      this.query = query;
+      this.refresh();
+      changeTitle(`"${this.query}" 검색 결과`);
+      this.renderSearchMovies();
+    });
   },
 
   async renderPopularMovies() {
     const newMovies = await this.loadMovies(getPopularMovies, [this.currentPage]);
+    this.updatePage(newMovies);
+  },
+
+  async renderSearchMovies() {
+    const newMovies = await this.loadMovies(getSearchMovies, [this.query, this.currentPage]);
     this.updatePage(newMovies);
   },
 
