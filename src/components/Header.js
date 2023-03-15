@@ -10,7 +10,6 @@ class Header {
   }
 
   render () {
-    console.log(this.#element, this.#manager);
     this.#element.innerHTML = `
       <h1><img src="./logo.png" alt="MovieList 로고" /></h1>
       <div class="search-box">
