@@ -1,3 +1,5 @@
+import { $ } from "../utils/dom";
+
 class MovieListContainer extends HTMLElement {
   constructor() {
     super();
@@ -12,6 +14,10 @@ class MovieListContainer extends HTMLElement {
         <button class="btn primary full-width">더 보기</button>
       `;
   }
+
+  addEvent() {
+    $("button", this)?.addEventListener("click", () => {});
+  }
 }
 
 interface MovieListContainer {
@@ -19,3 +25,5 @@ interface MovieListContainer {
 }
 
 customElements.define("movie-list-container", MovieListContainer);
+
+export default MovieListContainer;
