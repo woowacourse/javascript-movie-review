@@ -10,7 +10,7 @@ class MoviesContainer extends HTMLElement {
     this.#movieData = new MovieData();
   }
 
-  async connectedCallback() {
+  connectedCallback() {
     this.renderContainer();
     this.updateMovieList();
     this.setButtonEvent();
@@ -27,6 +27,12 @@ class MoviesContainer extends HTMLElement {
     </main>`;
   }
 
+  async updateMovieList() {
+    await this.#movieData.update();
+    this.renderMovieList();
+    this.toggleVisibleButton();
+  }
+
   renderMovieList() {
     const movieList = this.#movieData.movies;
     const movieListTemplate = movieList.reduce((curr, prev) => {
@@ -34,12 +40,6 @@ class MoviesContainer extends HTMLElement {
     }, '');
 
     $('.item-list').insertAdjacentHTML('beforeend', movieListTemplate);
-  }
-
-  async updateMovieList() {
-    await this.#movieData.update();
-    this.renderMovieList();
-    this.toggleVisibleButton();
   }
 
   toggleVisibleButton() {
