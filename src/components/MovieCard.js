@@ -9,7 +9,7 @@ const MovieCard = (movie) => {
       <div class="item-card">
         <img
         class="item-thumbnail"
-        src="${poster_path}"
+        src="https://image.tmdb.org/t/p/w220_and_h330_face${poster_path}"
         loading="lazy"
         alt=${title}
         />

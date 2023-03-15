@@ -16,7 +16,9 @@ export default class MovieList {
     return this;
   }
 
-  renderMovieCards(movieList) {
+  async renderMovieCards(movieListPromise) {
+    const movieList = await movieListPromise;
+
     const movieCardsHTML = movieList.reduce((html, movie) => {
       const movieCard = MovieCard(movie);
 
