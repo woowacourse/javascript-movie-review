@@ -3,6 +3,7 @@ import { Movie } from "../../types";
 import { fetchPopularMovies, fetchSearchMovies } from "../../utils/api";
 import starImg from "../../../templates/star_filled.png";
 import { $ } from "../../utils/selector";
+import { getSkeletonContainer } from "../../utils/skeleton";
 
 type showType = "popular" | "search";
 
@@ -23,8 +24,11 @@ export class MovieList {
 
   #movies: Movies = new Movies([]);
 
+  #$skeletonContainer = getSkeletonContainer();
+
   constructor($target: Element) {
     this.#$target = $target;
+    this.renderSkeleton();
 
     fetchPopularMovies(this.#state.page).then((response) => {
       const { results, total_pages } = response;
@@ -36,6 +40,8 @@ export class MovieList {
   }
 
   init(total_pages: number) {
+    this.#$target.removeChild(this.#$skeletonContainer);
+
     this.#$target.innerHTML = `
       ${this.#movies
         .getList()
@@ -69,6 +75,8 @@ export class MovieList {
   }
 
   render(movieList: Movie[], total_pages: number) {
+    this.#$target.removeChild(this.#$skeletonContainer);
+
     this.#$target.innerHTML += `
         ${movieList.map((movie) => this.getMovieCardTemplate(movie)).join("")}
     `;
@@ -77,9 +85,10 @@ export class MovieList {
     if (this.#state.page === total_pages) this.hideMoreButton();
   }
 
-  reset(state: "popular" | "search", searchKeyword?: string) {
-    this.#state.page = 1;
-    this.#state = { ...this.#state, show: state };
+  reset(state: showType, searchKeyword?: string) {
+    this.#state = { ...this.#state, show: state, page: 1 };
+    this.showMoreButton();
+    this.renderSkeleton();
 
     if (state === "popular") {
       fetchPopularMovies(this.#state.page).then((response) => {
@@ -108,6 +117,7 @@ export class MovieList {
 
   onClickMoreButton() {
     this.#state.page += 1;
+    this.renderSkeleton();
 
     if (this.#state.show === "popular")
       fetchPopularMovies(this.#state.page).then((response) => {
@@ -124,7 +134,15 @@ export class MovieList {
       );
   }
 
+  renderSkeleton() {
+    this.#$target.appendChild(this.#$skeletonContainer);
+  }
+
   hideMoreButton() {
-    $(".btn")?.setAttribute("hidden", "true");
+    $(".btn")?.setAttribute("hidden", "");
+  }
+
+  showMoreButton() {
+    $(".btn")?.removeAttribute("hidden");
   }
 }
