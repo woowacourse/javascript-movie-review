@@ -162,3 +162,20 @@ header .search-box > .search-button {
   background: url("../assets/search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
 }
+
+.error-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.error-message h3 {
+  font-size: 24px;
+  margin-bottom: 24px;
+}
+
+.error-message p {
+  font-size: 14px;
+}
