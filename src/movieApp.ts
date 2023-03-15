@@ -39,6 +39,9 @@ const movieApp = {
   },
 
   async getPopularMovieData() {
+    const movieList = <MovieList>$("movie-list");
+    movieList.displaySkeletonUI();
+
     const movies = await mostPopular(this.currentPageNumber++);
 
     this.loadMovieData(movies.results);
@@ -47,6 +50,10 @@ const movieApp = {
   async searchMovieData(query: string) {
     this.currentPageNumber = 1;
     this.query = query;
+
+    const movieList = <MovieList>$("movie-list");
+    movieList.displaySkeletonUI();
+
     const movies = await search(query, this.currentPageNumber++);
 
     const movieListContainer = <MovieListContainer>$("movie-list-container");
@@ -57,7 +64,11 @@ const movieApp = {
   },
 
   async getSearchMovieData() {
+    const movieList = <MovieList>$("movie-list");
+    movieList.displaySkeletonUI();
+
     const movies = await search(this.query, this.currentPageNumber++);
+
     this.loadMovieData(movies.results);
   },
 };
