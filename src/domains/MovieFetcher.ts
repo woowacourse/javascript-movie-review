@@ -1,14 +1,13 @@
-import { PopularMovieType, APIPopularMovieType } from '../types';
-import API_KEY from '../apikey.js';
+import { MovieType, APIPopularMovieType } from '../types';
 
 class MovieFetcher {
   #currentPage = 1;
 
   async fetchMovieInfoByPopularity() {
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=${
-        this.#currentPage
-      }`,
+      `https://api.themoviedb.org/3/movie/popular?api_key=${
+        process.env.API_KEY
+      }&language=en-US&page=${this.#currentPage}`,
     );
 
     if (!response.ok) {
@@ -26,10 +25,10 @@ class MovieFetcher {
         popularity: currentResult.popularity,
       }),
     );
+
     this.#currentPage += 1;
-    return [...popularMovieInfos].sort(
-      (x: PopularMovieType, y: PopularMovieType) => y.popularity - x.popularity,
-    );
+
+    return [...popularMovieInfos].sort((x: MovieType, y: MovieType) => y.popularity - x.popularity);
   }
 }
 
