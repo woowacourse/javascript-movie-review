@@ -1,4 +1,5 @@
 import { Movie } from "../type/movie";
+import Storage from "../type/Storage";
 
 const getPopularMovieRequestUrl = (page = 1) => (
   `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}&language=ko-KR&page=${page}`
@@ -13,6 +14,16 @@ class MovieListManager {
   private list: Movie[] = [];
   private currentPage: number = 1;
   private lastPage = false;
+  private storage: Storage;
+
+  constructor(storage: Storage) {
+    this.storage = storage;
+    this.query = this.storage.getItem('query');
+  }
+
+  getCurrentPage(){
+    return this.currentPage;
+  }
 
   getMovieList() {
     return this.list.map((movie) => ({ ...movie }));
@@ -27,6 +38,8 @@ class MovieListManager {
   }
 
   async fetchMovieList() {
+    this.storage.setItem('query', this.query);
+
     const url = this.query === "" 
       ? getPopularMovieRequestUrl(this.currentPage)
       : getSearchMovieUrl(this.query, this.currentPage);
@@ -41,7 +54,7 @@ class MovieListManager {
       .catch(() => alert('정보 요청에 실패했습니다.'));
   }
 
-  async searchMovieList(movieName:string){
+  async searchMovieList(movieName: string){
     this.query = movieName;
     this.currentPage = 1;
     this.list = [];

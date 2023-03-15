@@ -6,8 +6,9 @@ import { $ } from './util/querySelector';
 import Header from './components/Header';
 import Main from './components/Main';
 import EventBus from './util/EventBus';
+import LocalStorage from './util/LocalStorage.ts';
 
-const manager = new MovieListManager();
+const manager = new MovieListManager(LocalStorage);
 
 const header = new Header(manager, $('header'));
 header.render();

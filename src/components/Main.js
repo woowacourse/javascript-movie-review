@@ -38,6 +38,9 @@ class Main {
     if (query === '' && !this.#manager.getMovieList().length) {
       this.renderSkeleton();
       await this.#manager.searchMovieList('');
+    } else if (this.#manager.getCurrentPage() === 1) {
+      this.renderSkeleton();
+      await this.#manager.searchMovieList(query);
     }
 
     this.#element.innerHTML = `
