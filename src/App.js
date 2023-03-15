@@ -33,4 +33,15 @@ export default class App {
 
     return movieList;
   }
+
+  setEvent() {
+    $('#more-button').addEventListener('click', this.onClickMoreButton.bind(this));
+  }
+
+  onClickMoreButton() {
+    this.#movieList.showSkeletonList();
+    const movieList = this.getPopularMovieList();
+
+    this.#movieList.renderMovieCards(movieList);
+  }
 }
