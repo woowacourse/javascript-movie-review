@@ -25,6 +25,7 @@ export default class SeeMore {
   }
 
   showMoreMovies() {
-    movies.setMovies();
+    if (movies.getIsSearched()) movies.searchMovies(movies.getQuery());
+    else movies.setMovies();
   }
 }
