@@ -1,8 +1,8 @@
-import { $ } from "../util/dom";
-import CustomElement from "./basic/CustomElement";
+import { $ } from "../../util/dom";
+import CustomElement from "../basic/CustomElement";
 import "./SearchInput";
 
-class Header extends CustomElement {
+class MovieHeader extends CustomElement {
   template() {
     return `
     <header>
@@ -19,6 +19,6 @@ class Header extends CustomElement {
   }
 }
 
-customElements.define("movie-header", Header);
+customElements.define("movie-header", MovieHeader);
 
-export default Header;
+export default MovieHeader;

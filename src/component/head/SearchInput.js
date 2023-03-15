@@ -1,5 +1,5 @@
-import { $ } from "../util/dom";
-import CustomElement from "./basic/CustomElement";
+import { $ } from "../../util/dom";
+import CustomElement from "../basic/CustomElement";
 
 class SearchInput extends CustomElement {
   template() {
