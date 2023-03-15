@@ -1,3 +1,4 @@
+import { Store } from '..';
 import logo from '../assets/logo';
 import { searchMovies } from '../service/movie';
 
@@ -32,6 +33,7 @@ export default class Header {
       const keyword = new FormData(event.target).get('keyword');
       const { results } = await searchMovies({ text: keyword, page: 1 });
 
+      Store.keyword = keyword;
       onSubmitSearch(results);
     };
 

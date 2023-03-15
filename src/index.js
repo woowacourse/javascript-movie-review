@@ -4,6 +4,10 @@ import Header from './components/Header';
 import MovieList from './components/MovieList';
 import { getPopularMovies } from './service/movie';
 
+export const Store = {
+  keyword: '',
+};
+
 class App {
   constructor() {
     const $app = document.querySelector('#app');
@@ -20,6 +24,7 @@ class App {
   }
 
   onSubmitSearch(results) {
+    this.movieList.renderMode = 'search';
     this.movieList.removeMovieCards();
     this.movieList.renderMovieCards(results);
   }

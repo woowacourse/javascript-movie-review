@@ -1,3 +1,4 @@
+import { Store } from '..';
 import { getPopularMovies, searchMovies } from '../service/movie';
 import MovieCard from './MovieCard';
 
@@ -38,6 +39,11 @@ export default class MovieList {
 
       if (this.renderMode === 'popular') {
         const { results } = await getPopularMovies({ page: this.page });
+        this.renderMovieCards(results);
+      }
+
+      if (this.renderMode === 'search') {
+        const { results } = await searchMovies({ page: this.page, text: Store.keyword });
         this.renderMovieCards(results);
       }
     };
