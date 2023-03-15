@@ -30,11 +30,9 @@ class MoreButton {
 
   hide() {
     this.$button.classList.add('hidden');
-    console.log(this.$button.classList);
   }
 
   show() {
-    console.log('show', '@@');
     this.$button.classList.remove('hidden');
   }
 }
