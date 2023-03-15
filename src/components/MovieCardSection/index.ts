@@ -19,6 +19,11 @@ const MovieCardSection = {
   setEvent(movies: Movies) {
     LoadMoreButton.setEvent(movies);
   },
+  renderTitle(query: string) {
+    const itemView = document.querySelector<HTMLElement>('.item-view');
+    itemView?.firstElementChild?.remove();
+    itemView?.insertAdjacentHTML('afterbegin', MovieSectionTitle.template(query));
+  },
 };
 
 export default MovieCardSection;

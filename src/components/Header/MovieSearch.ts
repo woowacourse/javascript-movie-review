@@ -1,4 +1,5 @@
 import type Movies from '../../domain/Movies';
+import MovieCardSection from '../MovieCardSection';
 import MovieCardList from '../MovieCardSection/MovieCardList';
 
 const MovieSearch = {
@@ -25,6 +26,7 @@ const MovieSearch = {
       if (!query) return;
 
       await movies.search(query);
+      MovieCardSection.renderTitle(query);
       MovieCardList.renderSearched(movies.get());
     });
   },
