@@ -3,18 +3,21 @@ import { $ } from '../utils/domSelector';
 import movieItem from './movieItem';
 
 class MovieList {
-  render(listTitle: string, movieInfoList: MovieType[]) {
-    const itemListContents = movieInfoList.map((movieInfo) => movieItem(movieInfo)).join('');
+  renderListTitle(listTitle: string) {
     const template = `
       <h2>${listTitle}</h2>
-      <ul class="item-list">${itemListContents}</ul>`;
+      <ul class="item-list"></ul>`;
 
-    $('.item-view').innerHTML = template;
+    $('.item-view').insertAdjacentHTML('beforeend', template);
   }
 
-  renderAtEnd(movieInfoList: MovieType[]) {
+  renderContents(movieInfoList: MovieType[]) {
     const itemListContents = movieInfoList.map((movieInfo) => movieItem(movieInfo)).join('');
+    $('.item-list').innerHTML = itemListContents;
+  }
 
+  renderNextContents(movieInfoList: MovieType[]) {
+    const itemListContents = movieInfoList.map((movieInfo) => movieItem(movieInfo)).join('');
     $('.item-list').insertAdjacentHTML('beforeend', itemListContents);
   }
 }
