@@ -1,5 +1,5 @@
+import MovieListContent from "./MovieListContent";
 import MovieList from "../domain/MovieList";
-import MovieListContainer from "./MovieListContainer";
 import { Logo } from "../assets";
 import { $ } from "../utils/domSelector";
 
@@ -27,7 +27,8 @@ const NavBar = {
 
         MovieList.setSearchKey(inputElement.value);
         MovieList.initCurrentPage();
-        MovieListContainer.loadMovies(inputElement.value);
+
+        MovieListContent.loadMovies(inputElement.value);
       }
     );
   },
