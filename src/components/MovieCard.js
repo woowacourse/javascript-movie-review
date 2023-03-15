@@ -1,6 +1,6 @@
 import Star from "../assets/star_filled.png";
 
-class MovieCard extends HTMLElement {
+export default class MovieCard extends HTMLElement {
   get title() {
     return this.getAttribute("title");
   }

@@ -1,4 +1,4 @@
-import Header from "./components/Header";
+import Header from "./components/MovieHeader";
 import { $ } from "./utils/Dom";
 
 export default class App {
@@ -8,7 +8,7 @@ export default class App {
   constructor() {
     this.init(); //영화 초기 20개 불러오기
     new Header();
-    this.setEvent();
+    this.initEventHandler();
   }
 
   init() {
@@ -55,7 +55,11 @@ export default class App {
 
   setEvent() {
     const moreButton = $("#more-button");
-    moreButton.addEventListener("click", () => {
+    moreButton.addEventListener("click", () => {});
+  }
+
+  initEventHandler() {
+    document.addEventListener("more-button-clicked", () => {
       const ajax = new XMLHttpRequest();
       ajax.open(
         "GET",
