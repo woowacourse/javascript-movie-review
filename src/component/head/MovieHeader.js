@@ -1,6 +1,6 @@
-import { $ } from "../../util/dom";
 import CustomElement from "../basic/CustomElement";
 import "./SearchInput";
+import { $ } from "../../util/dom";
 
 class MovieHeader extends CustomElement {
   template() {

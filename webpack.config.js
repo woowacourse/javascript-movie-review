@@ -7,6 +7,9 @@ module.exports = {
   entry: "./src/index.js",
   mode: "development",
   resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src/"),
+    },
     extensions: [".ts", ".js"],
   },
   devServer: {
@@ -29,11 +32,6 @@ module.exports = {
       patterns: [{ from: "image", to: "image" }],
     }),
   ],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src/"),
-    },
-  },
   module: {
     rules: [
       {
