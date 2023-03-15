@@ -2,24 +2,40 @@ import MovieCard from './MovieCard';
 import type { Movie } from '../../types/movie';
 
 const MovieCardList = {
-  template(list: Movie[]) {
+  template() {
     return `
       <ul class="item-list">
-        ${list.map((item) => MovieCard.template(item)).join('')}
+        ${MovieCardList.skeletonItems()}
       </ul>
     `;
   },
-  renderMoreItems(movies: Movie[]) {
+  skeletonItems() {
+    return Array.from({ length: 20 }, () => MovieCard.template()).join('');
+  },
+  renderMoreItems() {
     const movieList = document.querySelector<HTMLUListElement>('.item-list');
 
-    movieList?.insertAdjacentHTML('beforeend', `${movies.map((item) => MovieCard.template(item)).join('')}`);
+    movieList?.insertAdjacentHTML('beforeend', MovieCardList.skeletonItems());
   },
-  render(movies: Movie[]) {
+  render() {
     const movieList = document.querySelector<HTMLUListElement>('.item-list');
 
     if (movieList === null) return;
 
-    movieList.innerHTML = `${movies.map((item) => MovieCard.template(item)).join('')}`;
+    movieList.innerHTML = MovieCardList.skeletonItems();
+  },
+  paint(movies: Movie[], page: number = 1) {
+    const movieList = document.querySelector<HTMLUListElement>('.item-list');
+
+    if (!movieList) return;
+
+    [...movieList.children].slice((page - 1) * 20).forEach((node, key) => {
+      if (movies.length <= key) {
+        node.remove();
+      } else if (node instanceof HTMLLIElement) {
+        MovieCard.paint(node, movies[key]);
+      }
+    });
   },
 };
 

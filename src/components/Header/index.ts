@@ -21,9 +21,12 @@ const Header = {
     const pageTitleButton = document.querySelector<HTMLButtonElement>('.page-title-button');
 
     pageTitleButton?.addEventListener('click', async () => {
-      await movies.init();
       MovieCardSection.renderTitle('');
-      MovieCardList.render(movies.get());
+      MovieCardList.render();
+
+      await movies.init();
+
+      MovieCardList.paint(movies.get());
 
       LoadMoreButton.handleVisibility(movies.isLastPage());
     });

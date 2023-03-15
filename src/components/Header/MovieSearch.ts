@@ -26,10 +26,12 @@ const MovieSearch = {
 
       if (!query) return;
 
-      await movies.search(query);
       MovieCardSection.renderTitle(query);
-      MovieCardList.render(movies.get());
+      MovieCardList.render();
 
+      await movies.search(query);
+
+      MovieCardList.paint(movies.get());
       LoadMoreButton.handleVisibility(movies.isLastPage());
     });
   },

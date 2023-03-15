@@ -1,17 +1,16 @@
 import './MovieCardSection.style.css';
 
-import type { Movie } from '../../types/movie';
 import LoadMoreButton from './LoadMoreButton';
 import MovieCardList from './MovieCardList';
 import MovieSectionTitle from './MovieSectionTitle';
 import Movies from '../../domain/Movies';
 
 const MovieCardSection = {
-  template(list: Movie[]) {
+  template() {
     return `
       <section class="item-view">
         ${MovieSectionTitle.template()}
-        ${MovieCardList.template(list)}
+        ${MovieCardList.template()}
         ${LoadMoreButton.template()}
       </section>
     `;

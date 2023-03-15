@@ -40,7 +40,7 @@ class Movies {
     const { results, total_pages } = await getSearchedMovies(query);
 
     this.#list = results;
-    this.#totalPage = Math.min(this.#totalPage, total_pages);
+    this.#totalPage = Math.min(500, total_pages);
   }
 
   async addSearch() {
@@ -53,6 +53,10 @@ class Movies {
     return results;
   }
 
+  isLastPage() {
+    return this.#page === this.#totalPage;
+  }
+
   get() {
     return this.#list;
   }
@@ -61,8 +65,8 @@ class Movies {
     return this.#query;
   }
 
-  isLastPage() {
-    return this.#page === this.#totalPage;
+  getPage() {
+    return this.#page;
   }
 }
 

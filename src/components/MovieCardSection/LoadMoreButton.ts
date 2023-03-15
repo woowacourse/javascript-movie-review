@@ -9,11 +9,13 @@ const LoadMoreButton = {
     const button = document.querySelector<HTMLButtonElement>('#load-more-button');
 
     button?.addEventListener('click', async () => {
+      MovieCardList.renderMoreItems();
       const newMovies = movies.getQuery() ? await movies.addSearch() : await movies.addPopular();
 
       if (!newMovies) return;
 
-      MovieCardList.renderMoreItems(newMovies);
+      MovieCardList.paint(newMovies, movies.getPage());
+      console.log(movies.isLastPage());
       LoadMoreButton.handleVisibility(movies.isLastPage());
     });
   },
