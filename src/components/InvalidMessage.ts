@@ -13,6 +13,7 @@ const InvalidMessage = {
 
   renderErrorMessage: () => {
     $<HTMLElement>(".item-view").replaceChildren();
+
     const template = `
       <div class="error-message">
         <h3>서비스 이용에 불편을 드려 죄송합니다.</h3>

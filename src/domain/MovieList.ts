@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "../constants";
 import { MovieDataType } from "../types/movie";
 
 class MovieList {
@@ -25,7 +26,7 @@ class MovieList {
 
   async fetchPopularMovieData() {
     const data = await fetch(
-      `https://api.themoviedb.org/3/movie/popular?api_key=f34d1031242e2e85f709994a1cede895&language=ko-KR&page=${this.currentPage}`
+      `${API_BASE_URL}movie/popular?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&page=${this.currentPage}`
     );
     const movieData: MovieDataType = await data.json();
     this.currentPage = movieData.page + 1;
@@ -35,7 +36,7 @@ class MovieList {
 
   async searchMovieData() {
     const data = await fetch(
-      ` https://api.themoviedb.org/3/search/movie?api_key=f34d1031242e2e85f709994a1cede895&language=ko-KR&query=${this.searchKey}&page=${this.currentPage}&include_adult=false`
+      `${API_BASE_URL}search/movie?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&query=${this.searchKey}&page=${this.currentPage}&include_adult=false`
     );
     const movieData: MovieDataType = await data.json();
     this.currentPage = movieData.page + 1;
