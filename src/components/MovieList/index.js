@@ -11,8 +11,6 @@ class MovieList {
   #searchKeyword;
   #page;
 
-  #movies;
-
   constructor($target, props) {
     this.$target = $target;
     this.#type = props?.type;
@@ -20,7 +18,6 @@ class MovieList {
     this.#page = 1;
 
     this.render();
-    this.fetchPopularMovieList();
   }
 
   template() {
@@ -32,8 +29,8 @@ class MovieList {
     return `
         <section class="item-view">
           <h2>${title}</h2>
-          <ul id="item-list" class="item-list"></ul>
-          <ul class="skeleton-container item-list"></ul>
+          <ul class="item-list"></ul>
+          <ul class="skeleton-container"></ul>
           <button class="btn primary full-width">더 보기</button>
         </section>
       `;
@@ -42,13 +39,29 @@ class MovieList {
   async fetchPopularMovieList() {
     const url = `${popularUrl}?api_key=${
       process.env.API_KEY
-    }&language=ko&page=${this.#page}`;
+    }&language=ko&page=${this.#page++}`;
 
-    const fetchedData = await fetchApi(url);
-    this.movies = fetchedData.results.map((movieData) => new Movie(movieData));
+    return await fetchApi(url);
+  }
 
-    const $itemList = this.$target.querySelector("#item-list");
-    this.movies.forEach((movie) => new MovieItem($itemList, movie));
+  toggleSkeletonContainerVisibility() {
+    const $skeletonContainer = this.$target.querySelector(
+      ".skeleton-container"
+    );
+    $skeletonContainer.classList.toggle("visible");
+  }
+
+  async renderMovieList() {
+    const $itemList = this.$target.querySelector(".item-list");
+
+    this.toggleSkeletonContainerVisibility();
+    const fetchedMovieData = await this.fetchPopularMovieList();
+    this.toggleSkeletonContainerVisibility();
+
+    const movies = fetchedMovieData.results.map(
+      (movieData) => new Movie(movieData)
+    );
+    movies.forEach((movie) => new MovieItem($itemList, movie));
   }
 
   mounted() {
@@ -56,6 +69,8 @@ class MovieList {
       ".skeleton-container"
     );
     new SkeletonList($skeletonContainer);
+
+    this.renderMovieList();
   }
 
   render() {
