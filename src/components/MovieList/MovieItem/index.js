@@ -1,5 +1,6 @@
 import "./index.css";
 import StarIcon from "../../../images/star_filled.png";
+import NotFoundImageIcon from "../../../images/not_found_image.png";
 import { imageUrl } from "../../../constants/urls";
 
 class MovieItem {
@@ -26,7 +27,9 @@ class MovieItem {
         <div class="item-card">
           <img
             class="item-thumbnail"
-            src=${this.convertToImgUrl(posterSrc)}
+            src=${
+              posterSrc ? this.convertToImgUrl(posterSrc) : NotFoundImageIcon
+            }
             loading="lazy"
             alt=${title}
           />
