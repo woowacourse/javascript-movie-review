@@ -1,8 +1,9 @@
 import { removeMoreButton, updateMovies } from "../components/movieListHandler";
+import { IApiResponse, IMovie } from "../type";
 
 export const movieApi = {
   page: 1,
-  movies: [],
+  movies: [] as IMovie[],
   total_pages: 2,
   total_results: 0,
   last_keyword: "",
@@ -26,7 +27,7 @@ export const movieApi = {
     const { page, results, total_pages, total_results } = await response.json();
 
     this.page = page + 1;
-    this.movies = [...this.movies, ...results] as any;
+    this.movies = [...this.movies, ...convertApiResponseToMovieList(results)];
     this.total_pages = total_pages;
     this.total_results = total_results;
 
@@ -45,7 +46,7 @@ export const movieApi = {
 
     this.last_keyword = keyword;
     this.page = page + 1;
-    this.movies = [...this.movies, ...results] as any;
+    this.movies = [...this.movies, ...convertApiResponseToMovieList(results)];
     this.total_pages = total_pages;
     this.total_results = total_results;
 
@@ -55,4 +56,14 @@ export const movieApi = {
       removeMoreButton();
     }
   },
+};
+
+const convertApiResponseToMovieList = (results: IApiResponse[]): IMovie[] => {
+  return results.map((movie) => {
+    return {
+      poster: movie.poster_path,
+      title: movie.title,
+      ratings: movie.vote_average,
+    };
+  });
 };

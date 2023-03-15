@@ -1,4 +1,5 @@
 import { movieApi } from "../domain/movieApi";
+import { IMovie } from "../type";
 
 export default class MovieList extends HTMLElement {
   constructor() {
@@ -32,22 +33,22 @@ export default class MovieList extends HTMLElement {
     `;
   }
 
-  renderMovie(movie: any) {
+  renderMovie(movie: IMovie) {
     return `
     <li>
       <a href="#">
         <div class="item-card">
           <img
             class="item-thumbnail"
-            src="https://image.tmdb.org/t/p/w500/${movie.poster_path}"
+            src="https://image.tmdb.org/t/p/w500/${movie.poster}"
             loading="lazy"
             alt="${movie.title}"
           />
           <p class="item-title">${movie.title}</p>
           <p class="item-score">
             <img src="./assets/star_${
-              movie.vote_average > 0 ? "filled" : "empty"
-            }.png" alt="별점" /> ${movie.vote_average.toFixed(1)}
+              movie.ratings > 0 ? "filled" : "empty"
+            }.png" alt="별점" /> ${movie.ratings.toFixed(1)}
           </p>
         </div>
       </a>
