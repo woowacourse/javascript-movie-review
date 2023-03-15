@@ -27,21 +27,23 @@ export class MovieList {
     this.#$target = $target;
 
     fetchPopularMovies(this.#state.page).then((response) => {
-      const { results } = response;
+      const { results, total_pages } = response;
       this.#movies.reset(results);
-      this.init();
+      this.init(total_pages);
     });
 
     $(".btn")?.addEventListener("click", this.onClickMoreButton.bind(this));
   }
 
-  init() {
+  init(total_pages: number) {
     this.#$target.innerHTML = `
       ${this.#movies
         .getList()
         .map((movie) => this.getMovieCardTemplate(movie))
         .join("")}
     `;
+
+    if (this.#state.page === total_pages) this.hideMoreButton();
   }
 
   getMovieCardTemplate(movie: Movie) {
@@ -66,11 +68,13 @@ export class MovieList {
     );
   }
 
-  render(movieList: Movie[]) {
+  render(movieList: Movie[], total_pages: number) {
     this.#$target.innerHTML += `
         ${movieList.map((movie) => this.getMovieCardTemplate(movie)).join("")}
     `;
     this.#movies.add(movieList);
+
+    if (this.#state.page === total_pages) this.hideMoreButton();
   }
 
   reset(state: "popular" | "search", searchKeyword?: string) {
@@ -79,10 +83,10 @@ export class MovieList {
 
     if (state === "popular") {
       fetchPopularMovies(this.#state.page).then((response) => {
-        const { results } = response;
+        const { results, total_pages } = response;
 
         this.#movies.reset(results);
-        this.init();
+        this.init(total_pages);
       });
 
       return;
@@ -93,10 +97,10 @@ export class MovieList {
 
       fetchSearchMovies(this.#state.page, this.#state.searchKeyword).then(
         (response) => {
-          const { results } = response;
+          const { results, total_pages } = response;
 
           this.#movies.reset(results);
-          this.init();
+          this.init(total_pages);
         }
       );
     }
@@ -107,16 +111,20 @@ export class MovieList {
 
     if (this.#state.show === "popular")
       fetchPopularMovies(this.#state.page).then((response) => {
-        const { results } = response;
-        this.render(results);
+        const { results, total_pages } = response;
+        this.render(results, total_pages);
       });
 
     if (this.#state.show === "search")
       fetchSearchMovies(this.#state.page, this.#state.searchKeyword).then(
         (response) => {
-          const { results } = response;
-          this.render(results);
+          const { results, total_pages } = response;
+          this.render(results, total_pages);
         }
       );
+  }
+
+  hideMoreButton() {
+    $(".btn")?.setAttribute("hidden", "true");
   }
 }
