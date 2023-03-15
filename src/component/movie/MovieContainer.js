@@ -1,9 +1,16 @@
 import CustomElement from "../basic/CustomElement";
+import MovieManager from "../../domain/MovieManager";
 import { $ } from "../../util/dom";
 import "./MovieList";
 import "./ShowMoreButton";
 
 class MovieContainer extends CustomElement {
+  connectedCallback() {
+    super.connectedCallback();
+    MovieManager.subscribe(this);
+    MovieManager.publish();
+  }
+
   template() {
     return `
         <section class="item-view">
@@ -14,7 +21,7 @@ class MovieContainer extends CustomElement {
     `;
   }
 
-  rerender(searchWord) {
+  rerender({ searchWord }) {
     $(".movie-container-title").innerText = `'${searchWord}' 검색 결과`;
   }
 }

@@ -2,16 +2,23 @@ import CustomElement from "../basic/CustomElement";
 import "../movie/MovieItem";
 import { objectToAttributeString } from "../../util/convertor";
 import { $ } from "../../util/dom";
+import MovieManager from "../../domain/MovieManager";
 
 class MovieList extends CustomElement {
+  connectedCallback() {
+    super.connectedCallback();
+    MovieManager.subscribe(this);
+    MovieManager.publish();
+  }
+
   template() {
     return `
     <ul class="item-list"></ul>
     `;
   }
 
-  rerender(movies) {
-    const movieItemsTemplate = movies
+  rerender({ list }) {
+    const movieItemsTemplate = list
       .map((movie) => {
         const { title, poster_path, vote_average } = movie;
         const imgAttribute = objectToAttributeString({
