@@ -10,6 +10,8 @@ class App {
   $itemView = document.createElement('section');
 
   constructor($target) {
+    Store.getPopularMovies();
+
     this.$itemView.className = 'item-view';
     new Header($target);
 
@@ -24,14 +26,21 @@ class App {
           return target[props];
         },
         set: async (target, props, value) => {
-          if (value === 'popular') target['query'] = '';
-          if (props === 'nextPage' && value === -1) this.moreButton.hide();
-          else if (props === 'nextPage' && value !== -1) this.moreButton.show();
-
           target[props] = value;
 
-          this.itemList.render(this.itemList.$ul);
-          this.listTitle.render(this.listTitle.$h2);
+          switch (props) {
+            case 'nextPage':
+              value === -1 ? this.moreButton.hide() : this.moreButton.show();
+              break;
+            case 'category':
+              if (value === 'popular') target['query'] = '';
+              this.listTitle.render(this.listTitle.$h2);
+              break;
+            case 'results':
+              this.itemList.render(this.itemList.$ul);
+              break;
+            default:
+          }
 
           return true;
         },
