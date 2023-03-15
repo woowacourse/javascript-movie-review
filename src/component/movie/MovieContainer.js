@@ -1,6 +1,7 @@
 import CustomElement from "../basic/CustomElement";
-import "./MovieList";
 import { $ } from "../../util/dom";
+import "./MovieList";
+import "./ShowMoreButton";
 
 class MovieContainer extends CustomElement {
   template() {
@@ -8,6 +9,7 @@ class MovieContainer extends CustomElement {
         <section class="item-view">
           <h2 class='movie-container-title'>지금 인기 있는 영화</h2>
           <movie-list></movie-list>
+          <show-more-button></show-more-button>
         </section>
     `;
   }
