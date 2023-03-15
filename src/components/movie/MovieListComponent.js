@@ -1,6 +1,7 @@
 import CustomComponent from "../../abstracts/CustomComponent";
 import MovieListPageComponent from "./MovieListPageComponent";
 import MovieComponent from "./MovieComponent";
+import ErrorComponent from "./ErrorComponent";
 
 export default class MovieListComponent extends CustomComponent {
   #page = null;
@@ -59,6 +60,9 @@ export default class MovieListComponent extends CustomComponent {
   }
 
   appendRender() {
+    if (this.querySelector("error-page")) {
+      this.querySelector("error-page").remove();
+    }
     this.#page = document.createElement("movie-list-page");
     this.querySelector(".item-list").append(this.#page);
 
@@ -71,8 +75,8 @@ export default class MovieListComponent extends CustomComponent {
   }
 
   renderPageFail() {
-    const errorPage = document.createElement("div");
-    errorPage.textContent = "ERROR!";
+    if (this.querySelector("error-page")) return;
+    const errorPage = document.createElement("error-page");
     this.#page.replaceWith(errorPage);
   }
 
