@@ -1,0 +1,42 @@
+import Store from '../Store';
+
+class MoreButton {
+  $button = document.createElement('button');
+
+  constructor($target) {
+    this.$button.className = 'btn primary full-width';
+
+    this.$button.addEventListener('click', this.onClickMoreButton);
+
+    this.init($target);
+  }
+
+  init($target) {
+    this.$button.innerText = '더 보기';
+    $target.insertAdjacentElement('beforeend', this.$button);
+  }
+
+  onClickMoreButton() {
+    const { nextPage, category, query } = Store.movies;
+
+    if (category === 'popular') {
+      Store.getPopularMovies(nextPage);
+
+      return;
+    }
+
+    Store.searchedMovies(query, nextPage);
+  }
+
+  hide() {
+    this.$button.classList.add('hidden');
+    console.log(this.$button.classList);
+  }
+
+  show() {
+    console.log('show', '@@');
+    this.$button.classList.remove('hidden');
+  }
+}
+
+export default MoreButton;
