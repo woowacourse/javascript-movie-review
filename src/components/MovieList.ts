@@ -35,7 +35,7 @@ export default class MovieList extends HTMLElement {
           />
           <p class="item-title">${movie.title}</p>
           <p class="item-score">
-            <img src="./star_${
+            <img src="./assets/star_${
               movie.vote_average > 0 ? "filled" : "empty"
             }.png" alt="별점" /> ${movie.vote_average}
           </p>
