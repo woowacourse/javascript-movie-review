@@ -4,7 +4,7 @@ export const MovieItem = (movieInfo: any) => {
   const { title, posterPath, voteAverage } = movieInfo;
 
   return `
-    <li>
+
       <a href="#">
         <div class="item-card">
           <img
@@ -17,6 +17,6 @@ export const MovieItem = (movieInfo: any) => {
           <p class="item-score"><img src="./star_filled.png" alt="별점" /> ${voteAverage}</p>
         </div>
       </a>
-    </li>
+
     `;
 };
