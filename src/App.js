@@ -1,11 +1,12 @@
 import Header from "./components/MovieHeader";
+import { LIST_STATE } from "./constant/variables";
 import { $ } from "./utils/Dom";
 import { getPopularMovies, getSearchedMovies } from "./utils/fetch";
 
 export default class App {
   #movieList = [];
   #page = 1;
-  #state = "popular";
+  #listState = LIST_STATE.POPULAR;
   #movieName = "";
 
   constructor() {
@@ -18,14 +19,14 @@ export default class App {
     await this.getPopularMoviesList();
     this.render();
 
-    document.querySelector("card-list")?.setMovieList(this.#movieList);
+    this.mountMovieList();
   }
 
   render() {
     const itemView = $(".item-view");
     itemView.innerHTML = `
     <card-list header='${
-      this.#state === "popular"
+      this.#listState === LIST_STATE.POPULAR
         ? "지금 인기 있는 영화"
         : `"${this.#movieName}" 검색 결과`
     }'></card-list>
@@ -40,16 +41,33 @@ export default class App {
 
   async initEventHandler() {
     document.addEventListener("more-button-clicked", async () => {
-      if (this.#state === "popular") this.appendPopularMovieList();
-      if (this.#state === "searched") this.appendSearchedMovieList();
+      if (this.#listState === LIST_STATE.POPULAR) this.appendPopularMovieList();
+      if (this.#listState === LIST_STATE.SEARCHED)
+        this.appendSearchedMovieList();
     });
 
     document.addEventListener("search-movie", (event) => {
-      this.#state = "searched";
+      this.#listState = LIST_STATE.SEARCHED;
       this.#page = 1;
       this.#movieName = event.detail;
       this.renderSearchedMovies(event.detail);
     });
+  }
+
+  async appendPopularMovieList() {
+    this.#page += 1;
+    this.#movieList = [];
+    await this.getPopularMoviesList();
+
+    this.mountMovieList();
+  }
+
+  async appendSearchedMovieList() {
+    this.#page += 1;
+    this.#movieList = [];
+    await this.getSearchedMoviesList();
+
+    this.mountMovieList();
   }
 
   async getPopularMoviesList() {
@@ -76,22 +94,6 @@ export default class App {
     });
   }
 
-  async appendPopularMovieList() {
-    this.#page += 1;
-    this.#movieList = [];
-    await this.getPopularMoviesList();
-
-    document.querySelector("card-list")?.setMovieList(this.#movieList);
-  }
-
-  async appendSearchedMovieList() {
-    this.#page += 1;
-    this.#movieList = [];
-    await this.getSearchedMoviesList();
-
-    document.querySelector("card-list")?.setMovieList(this.#movieList);
-  }
-
   async renderSearchedMovies(movieName) {
     this.render();
 
@@ -106,6 +108,10 @@ export default class App {
       });
     });
 
+    this.mountMovieList();
+  }
+
+  mountMovieList() {
     document.querySelector("card-list")?.setMovieList(this.#movieList);
   }
 }
