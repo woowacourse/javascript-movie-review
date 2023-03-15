@@ -1,4 +1,3 @@
-import getPopularMovies from '../../api/getPopularMovies';
 import type Movies from '../../domain/Movies';
 import MovieCardList from './MovieCardList';
 
@@ -15,7 +14,17 @@ const LoadMoreButton = {
       if (!newMovies) return;
 
       MovieCardList.renderMoreItems(newMovies);
+      LoadMoreButton.handleVisibility(movies.isLastPage());
     });
+  },
+  handleVisibility(state: boolean) {
+    const button = document.querySelector<HTMLButtonElement>('#load-more-button');
+
+    if (state) {
+      return button?.classList.add('hide');
+    }
+
+    return button?.classList.remove('hide');
   },
 };
 

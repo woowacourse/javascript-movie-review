@@ -4,6 +4,7 @@ import { logoImage } from '../../assets/images';
 import type Movies from '../../domain/Movies';
 import MovieCardSection from '../MovieCardSection';
 import MovieCardList from '../MovieCardSection/MovieCardList';
+import LoadMoreButton from '../MovieCardSection/LoadMoreButton';
 
 const Header = {
   template() {
@@ -20,9 +21,11 @@ const Header = {
     const pageTitleButton = document.querySelector<HTMLButtonElement>('.page-title-button');
 
     pageTitleButton?.addEventListener('click', async () => {
-      MovieCardSection.renderTitle('');
       await movies.init();
+      MovieCardSection.renderTitle('');
       MovieCardList.render(movies.get());
+
+      LoadMoreButton.handleVisibility(movies.isLastPage());
     });
   },
 };

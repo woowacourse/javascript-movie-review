@@ -24,3 +24,7 @@ button {
 #app {
   padding-bottom: 48px;
 }
+
+.hide {
+  display: none;
+}

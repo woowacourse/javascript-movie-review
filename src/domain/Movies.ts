@@ -3,19 +3,27 @@ import getSearchedMovies from '../api/getSearchedMovies';
 import { Movie } from '../types/movie';
 
 class Movies {
-  #list: Movie[] = [];
+  #list: Movie[];
 
-  #query: string | undefined;
+  #query: string;
 
-  #page: number = 1;
+  #page: number;
 
-  constructor() {}
+  #totalPage: number;
+
+  constructor() {
+    this.#list = [];
+    this.#query = '';
+    this.#page = 1;
+    this.#totalPage = 500;
+  }
 
   async init() {
     this.#query = '';
     this.#page = 1;
-    const { results } = await getPopularMovies(this.#page);
+    const { results, total_pages } = await getPopularMovies(this.#page);
     this.#list = results;
+    this.#totalPage = Math.min(500, total_pages);
   }
 
   async addPopular() {
@@ -29,8 +37,10 @@ class Movies {
   async search(query: string) {
     this.#query = query;
     this.#page = 1;
-    const { results } = await getSearchedMovies(query);
+    const { results, total_pages } = await getSearchedMovies(query);
+
     this.#list = results;
+    this.#totalPage = Math.min(this.#totalPage, total_pages);
   }
 
   async addSearch() {
@@ -49,6 +59,10 @@ class Movies {
 
   getQuery() {
     return this.#query;
+  }
+
+  isLastPage() {
+    return this.#page === this.#totalPage;
   }
 }
 

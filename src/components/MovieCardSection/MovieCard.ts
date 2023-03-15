@@ -15,7 +15,7 @@ const MovieCard = {
               alt="${item.title}"
             />
             <p class="item-title">${item.title}</p>
-            <p class="item-score"><img src=${starFilledImage} alt="별점" /> ${item.vote_average}</p>
+            <p class="item-score"><img src=${starFilledImage} alt="별점" /> ${item.vote_average.toFixed(1)}</p>
           </div>
         </a>
       </li>

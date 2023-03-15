@@ -1,5 +1,6 @@
 import type Movies from '../../domain/Movies';
 import MovieCardSection from '../MovieCardSection';
+import LoadMoreButton from '../MovieCardSection/LoadMoreButton';
 import MovieCardList from '../MovieCardSection/MovieCardList';
 
 const MovieSearch = {
@@ -28,6 +29,8 @@ const MovieSearch = {
       await movies.search(query);
       MovieCardSection.renderTitle(query);
       MovieCardList.render(movies.get());
+
+      LoadMoreButton.handleVisibility(movies.isLastPage());
     });
   },
 };

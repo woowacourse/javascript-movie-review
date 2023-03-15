@@ -24,6 +24,7 @@ const MovieCardSection = {
     itemView?.firstElementChild?.remove();
     itemView?.insertAdjacentHTML('afterbegin', MovieSectionTitle.template(query));
   },
+  render(movies: Movies) {},
 };
 
 export default MovieCardSection;
