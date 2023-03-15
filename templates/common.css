@@ -170,3 +170,7 @@ movie-list-page {
   grid-column-gap: 160px;
   grid-row-gap: 48px;
 }
+
+.hide {
+  display: none;
+}
