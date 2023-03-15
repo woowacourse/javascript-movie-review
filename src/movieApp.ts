@@ -11,7 +11,14 @@ const movieApp = {
     const movieListContainer = <MovieListContainer>$("movie-list-container");
     movieListContainer.render();
 
+    this.addEvent();
     this.loadMovieData();
+  },
+
+  addEvent() {
+    $("movie-list-container")?.addEventListener("fetchMovieData", () =>
+      this.loadMovieData()
+    );
   },
 
   async loadMovieData() {

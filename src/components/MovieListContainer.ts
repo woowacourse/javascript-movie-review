@@ -1,3 +1,4 @@
+import { dispatchCustomEvent } from "./../utils/dom";
 import { $ } from "../utils/dom";
 
 class MovieListContainer extends HTMLElement {
@@ -13,10 +14,13 @@ class MovieListContainer extends HTMLElement {
         <movie-list class="item-list"></movie-list>
         <button class="btn primary full-width">더 보기</button>
       `;
+    this.addEvent();
   }
 
   addEvent() {
-    $("button", this)?.addEventListener("click", () => {});
+    $("button", this)?.addEventListener("click", () => {
+      dispatchCustomEvent(this, { eventType: "fetchMovieData" });
+    });
   }
 }
 

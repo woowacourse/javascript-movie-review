@@ -4,3 +4,8 @@ export interface Movie {
   vote_average: number;
   popularity: number;
 }
+
+export type CustomEvent = {
+  eventType: string;
+  data?: string | null;
+};
