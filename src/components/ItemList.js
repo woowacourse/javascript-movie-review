@@ -7,24 +7,22 @@ class ItemList {
   constructor($target) {
     this.$ul.className = 'item-list';
 
-    this.render($target);
+    this.init($target);
+  }
+
+  init($target) {
+    $target.insertAdjacentElement('beforeend', this.$ul);
+    this.render(this.$ul);
   }
 
   template() {
-    // 영화 데이터 정보 배열로 있다.
-    // const infos = await Store.movie.getPopularMovies();
-
-    // const movies = infos.results;
     const movies = Store.movies['results'];
 
-    return movies.reduce((item, movie) => {
-      return (item += movieItem(movie));
-    }, ``);
+    return movies.reduce((item, movie) => (item += movieItem(movie)), ``);
   }
 
-  async render($target) {
-    this.$ul.innerHTML = await this.template();
-    $target.insertAdjacentElement('beforeend', this.$ul);
+  render($target) {
+    $target.innerHTML = this.template();
   }
 }
 

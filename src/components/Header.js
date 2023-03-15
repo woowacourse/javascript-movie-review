@@ -1,19 +1,23 @@
 import logo from '../../templates/logo.png';
-import Movie from '../domain/Movie';
 import Store from '../Store';
+
 class Header {
-  header = document.createElement('header');
+  $header = document.createElement('header');
 
   constructor($target) {
-    this.render($target);
+    this.init($target);
 
-    this.header.addEventListener('click', this.onClickEvent);
-    this.header.querySelector('.search-box').addEventListener('submit', this.onSubmitEvent);
+    this.$header.addEventListener('click', this.onClickEvent);
+    this.$header.querySelector('.search-box').addEventListener('submit', this.onSubmitEvent);
+  }
+
+  init($target) {
+    $target.insertAdjacentElement('beforeend', this.$header);
+    this.render(this.$header);
   }
 
   render($target) {
-    this.header.innerHTML = this.template();
-    $target.insertAdjacentElement('beforeend', this.header);
+    $target.innerHTML = this.template();
   }
 
   async onSubmitEvent(e) {
@@ -21,7 +25,10 @@ class Header {
     const { currentTarget } = e;
     const { value } = currentTarget.querySelector('input');
 
-    if (value.length === 0) alert('1글자 이상 입력해 주셔야 합니다.');
+    if (value.length === 0) {
+      alert('1글자 이상 입력해 주셔야 합니다.');
+      return;
+    }
 
     Store.searchedMovies(value);
   }
