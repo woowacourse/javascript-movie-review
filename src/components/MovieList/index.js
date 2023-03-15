@@ -2,54 +2,50 @@ import "./index.css";
 import MovieItem from "./MovieItem";
 import SkeletonList from "./SkeletonList";
 
-// const temp = async (type, pageNumber) => {
-//     const newHtml = awaitfetch(
-//       "https://api.themoviedb.org/3/movie/popular?api_key=ef7c54f21b65b1fe66b6cf70349fa55f&language=ko&page=1"
-//     )
-//       .then((response) => response.json())
-//       .then((data) => {
-//         // return data.results.map((item) => item.title).join("<br>");
-//         return `
-//           <div>
-//             <p>{data.asd}</p>
-//             <p>{data.asd}</p>
-//           </div>
-//         `;
-//       });
+class MovieList {
+  $target;
+  #type;
+  #searchKeyword;
 
-//     document.querySelector("#temp").innerHTML = newHTML;
-//   }
+  constructor($target, props) {
+    this.$target = $target;
+    this.#type = props.type;
+    this.#searchKeyword = props.searchKeyword;
+  }
 
-//   return `<div id="temp">hi~hi~hi~hi~hi~hi~hi~hi~hi~hi~hi~hi~hi~hi~hi~hi~hi~hi~hi~hi~hi~hi~hi~</div>`;
-// };
+  template() {
+    const title =
+      this.#type === "popular"
+        ? "지금 인기있는 영화"
+        : `"${this.#searchKeyword}" 검색결과`;
 
-const MovieList = (type, searchKeyword) => {
-  const template = () => {
-    fetch(
-      "https://api.themoviedb.org/3/movie/popular?api_key=ef7c54f21b65b1fe66b6cf70349fa55f&language=ko&page=1"
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        document.querySelector("#temp").innerHTML = data.results
-          .map((item) => item.title)
-          .join("<br>");
-      });
-    return `<div id='temp' class='item-list'>${SkeletonList()}</div>`;
-  };
-
-  return `
+    return `
         <section class="item-view">
-          <h2>${
-            type === "popular"
-              ? "지금 인기있는 영화"
-              : `"${searchKeyword}" 검색결과`
-          }</h2>
+          <h2>${title}</h2>
           <ul class="item-list">
-            ${template()}
           </ul>
           <button class="btn primary full-width">더 보기</button>
         </section>
       `;
-};
+  }
+
+  mounted() {
+    // fetch(
+    //   "https://api.themoviedb.org/3/movie/popular?api_key=ef7c54f21b65b1fe66b6cf70349fa55f&language=ko&page=1"
+    // )
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     document.querySelector("#temp").innerHTML = data.results
+    //       .map((item) => item.title)
+    //       .join("<br>");
+    //   });
+    // return `<div id='temp' class='item-list'>${SkeletonList()}</div>`;
+  }
+
+  render() {
+    this.$target.innerHTML = this.template();
+    this.mounted();
+  }
+}
 
 export default MovieList;
