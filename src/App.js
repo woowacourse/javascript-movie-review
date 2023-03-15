@@ -22,12 +22,19 @@ class App {
     this.mounted();
   }
 
+  renderMovieList(type, searchKeyword) {
+    const $main = this.$target.querySelector("main");
+    const props = { type, searchKeyword };
+    new MovieList($main, props);
+  }
+
   mounted() {
     const $header = this.$target.querySelector("header");
-    const $main = this.$target.querySelector("main");
 
-    new Header($header);
-    new MovieList($main, { type: "popular" });
+    new Header($header, {
+      onSubmitSearchInput: this.renderMovieList.bind(this),
+    });
+    this.renderMovieList("popular");
   }
 }
 
