@@ -10,7 +10,6 @@ class Movie extends HTMLElement {
     const imgUrl = this.getAttribute('imgUrl');
     const title = this.getAttribute('title');
     const score = this.getAttribute('score');
-    console.log(imgUrl);
 
     this.innerHTML = `
     <li>
