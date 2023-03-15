@@ -15,9 +15,9 @@ type MovieType = {
   vote_count: number;
 };
 
-type PopularMovieApiType = {
+type MovieListApiType = {
   page: number;
   results: MovieType[];
 };
 
-export default PopularMovieApiType;
+export default MovieListApiType;
