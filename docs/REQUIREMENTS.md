@@ -23,12 +23,8 @@
 - [x] searchInput
 - [ ] 엔터키를 누르거나 검색 아이콘을 클릭하면 movieContainer가 리렌더링 된다.
 - [ ] movieContainer
-- [ ] movieList
-- [ ] movieItem
+- [x] movieList
+- [x] movieItem
 - [ ] showMoreButton
 - [ ] 버튼을 누르면 movieList가 리렌더링된다.
-- [ ] 최대한 추가로 구현하되, 어려우면 전체 리렌더링으로!
-
 - [ ] 영화 목록 아이템에 대한 Skeleton UI 구현
-
-> copy webpack<
