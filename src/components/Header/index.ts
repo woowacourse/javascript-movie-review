@@ -6,7 +6,8 @@ export class Header {
 
   constructor(
     $target: Element,
-    onSubmitSearchKeyword: (searchKeyword: string) => void
+    onSubmitSearchKeyword: (searchKeyword: string) => void,
+    onClickLogoImage: () => void
   ) {
     this.#$target = $target;
 
@@ -21,12 +22,16 @@ export class Header {
 
       if ($searchInput instanceof HTMLInputElement)
         onSubmitSearchKeyword($searchInput.value);
+
+      if (event.target instanceof HTMLFormElement) event.target.reset();
     });
+
+    $(".logo")?.addEventListener("click", onClickLogoImage);
   }
 
   render() {
     this.#$target.innerHTML = `
-        <h1><img src="${logoImage}" alt="MovieList 로고" /></h1>
+        <h1 class="logo"><img src="${logoImage}" alt="MovieList 로고" /></h1>
         <form class="search-box">
             <input class="search-input" type="text" placeholder="검색" />
             <button type="submit" class="search-button">검색</button>
