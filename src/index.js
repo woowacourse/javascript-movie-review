@@ -13,6 +13,7 @@ class App {
 
   async init() {
     this.header.bindEvent(this.onSubmitSearch.bind(this));
+    this.movieList.bindEvent();
 
     const { results } = await getPopularMovies({ page: 1 });
     this.movieList.renderMovieCards(results);
