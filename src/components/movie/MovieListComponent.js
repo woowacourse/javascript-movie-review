@@ -1,4 +1,4 @@
-import CustomComponent from "../abstracts/CustomComponent";
+import CustomComponent from "../../abstracts/CustomComponent";
 import MovieListPageComponent from "./MovieListPageComponent";
 import MovieComponent from "./MovieComponent";
 

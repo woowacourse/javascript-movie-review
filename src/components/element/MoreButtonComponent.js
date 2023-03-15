@@ -1,4 +1,4 @@
-import CustomComponent from "../abstracts/CustomComponent";
+import CustomComponent from "../../abstracts/CustomComponent";
 
 export default class MoreButtonComponent extends CustomComponent {
   static get observedAttributes() {

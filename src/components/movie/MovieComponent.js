@@ -1,6 +1,6 @@
-import CustomComponent from "../abstracts/CustomComponent";
-import StarEmptyImg from "../../templates/star_empty.png";
-import StarFilledImg from "../../templates/star_filled.png";
+import CustomComponent from "../../abstracts/CustomComponent";
+import StarEmptyImg from "../../../templates/star_empty.png";
+import StarFilledImg from "../../../templates/star_filled.png";
 
 export default class MovieComponent extends CustomComponent {
   template() {
