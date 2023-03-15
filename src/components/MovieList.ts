@@ -11,6 +11,10 @@ class MovieList {
     $('.item-view').insertAdjacentHTML('beforeend', template);
   }
 
+  setTitle(listTitle: string) {
+    $('.item-view h2').textContent = listTitle;
+  }
+
   renderContents(movieInfoList: MovieType[]) {
     const itemListContents = movieInfoList.map((movieInfo) => movieItem(movieInfo)).join('');
     $('.item-list').innerHTML = itemListContents;
