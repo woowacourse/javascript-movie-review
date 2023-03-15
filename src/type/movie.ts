@@ -1,6 +1,6 @@
 export interface Movie {
-  posterPath: string;
+  poster_path: string;
   title: string;
-  voteAverage: number;
-  backdropPath: string;
+  vote_average: number;
+  backdrop_path: string;
 }

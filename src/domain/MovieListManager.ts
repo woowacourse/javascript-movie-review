@@ -12,7 +12,19 @@ class MovieListManager {
   private query: string = "";
   private list: Movie[] = [];
   private currentPage: number = 1;
-  private isLastPage = false;
+  private lastPage = false;
+
+  getMovieList() {
+    return this.list.map((movie) => ({ ...movie }));
+  }   
+
+  getQuery() {
+    return this.query;
+  }
+
+  isLastPage() {
+    return this.lastPage;
+  }
 
   async fetchMovieList() {
     const url = this.query === "" 
@@ -22,7 +34,7 @@ class MovieListManager {
     await fetch(url)
       .then((res) => res.json())
       .then((data) => {
-        if (data["total_results"] === this.list.length) this.isLastPage = true;
+        if (data["total_results"] === this.list.length) this.lastPage = true;
         this.list.push(...data.results)
       });
   }
