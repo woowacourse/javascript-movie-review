@@ -1,12 +1,12 @@
 class SearchBox {
-  htmlTemplate: string = '';
+  template: string = '';
 
   constructor(template: string) {
-    this.htmlTemplate = template;
+    this.template = template;
   }
 
   render(element: HTMLElement) {
-    element.insertAdjacentHTML('beforeend', this.htmlTemplate);
+    element.insertAdjacentHTML('beforeend', this.template);
   }
 }
 

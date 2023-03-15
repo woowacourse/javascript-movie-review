@@ -1,4 +1,4 @@
-class Logo {
+class Input {
   template: string = '';
 
   constructor(template: string) {
@@ -10,4 +10,4 @@ class Logo {
   }
 }
 
-export default Logo;
+export default Input;
