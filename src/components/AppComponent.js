@@ -34,9 +34,22 @@ export default class AppComponent extends CustomComponent {
   }
 
   setInitial() {
-    this.page = 1;
     this.$itemList = this.querySelector("movie-list");
     this.$listTitle = this.querySelector("list-title");
+
+    this.getPopularData();
+  }
+
+  checkPage() {
+    if (this.totalPage < this.nextPage) {
+      this.querySelector("more-button").classList.add("hide");
+      return;
+    }
+    this.querySelector("more-button").classList.remove("hide");
+  }
+
+  getPopularData() {
+    this.nextPage = 1;
 
     this.$listTitle.setTitle("지금 인기있는 영화");
     this.$itemList.initialRender();
@@ -49,12 +62,18 @@ export default class AppComponent extends CustomComponent {
     this.querySelector("more-button").setAttribute("data-action", this.option);
   }
 
-  checkPage() {
-    if (this.totalPage < this.nextPage) {
-      this.querySelector("more-button").classList.add("hide");
-      return;
-    }
-    this.querySelector("more-button").classList.remove("hide");
+  getSearchData() {
+    this.nextPage = 1;
+    const searchValue = document.querySelector("input").value;
+
+    this.$listTitle.setTitle(`"${searchValue}" 검색결과`);
+    this.$itemList.initialRender();
+
+    this.getData(
+      `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchValue}&page=${this.nextPage}&include_adult=false`
+    );
+    this.option = "more_search";
+    this.querySelector("more-button").setAttribute("data-action", this.option);
   }
 
   handleEvent() {
@@ -64,37 +83,11 @@ export default class AppComponent extends CustomComponent {
     document.getElementById("app").addEventListener("click", (e) => {
       // 로고 클릭
       if (e.target.dataset.action === "popular") {
-        this.nextPage = 1;
-
-        this.$listTitle.setTitle("지금 인기있는 영화");
-        this.$itemList.initialRender();
-
-        this.getData(
-          `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`
-        );
-
-        this.option = "more_popular";
-        this.querySelector("more-button").setAttribute(
-          "data-action",
-          this.option
-        );
+        this.getPopularData();
       }
       // 검색 버튼 클릭 시
       if (e.target.dataset.action === "search") {
-        this.nextPage = 1;
-        const searchValue = document.querySelector("input").value;
-
-        this.$listTitle.setTitle(`"${searchValue}" 검색결과`);
-        this.$itemList.initialRender();
-
-        this.getData(
-          `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchValue}&page=${this.nextPage}&include_adult=false`
-        );
-        this.option = "more_search";
-        this.querySelector("more-button").setAttribute(
-          "data-action",
-          this.option
-        );
+        this.getSearchData();
       }
       // 인기 항목 - 더보기
       if (e.target.dataset.action === "more_popular") {
@@ -118,24 +111,14 @@ export default class AppComponent extends CustomComponent {
     document.getElementById("app").addEventListener("keyup", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
+
         const searchValue = document.querySelector("input").value;
         if (!searchValue) {
           alert("검색어를 입력해주세요.");
           return;
         }
-        this.nextPage = 1;
 
-        this.$listTitle.setTitle(`"${searchValue}" 검색결과`);
-        this.$itemList.initialRender();
-
-        this.getData(
-          `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchValue}&page=${this.nextPage}&include_adult=false`
-        );
-        this.option = "more_search";
-        this.querySelector("more-button").setAttribute(
-          "data-action",
-          this.option
-        );
+        this.getSearchData();
       }
     });
   }
