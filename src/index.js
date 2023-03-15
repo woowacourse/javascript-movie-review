@@ -16,3 +16,4 @@ const main = new Main($('.item-view'), manager);
 main.render();
 
 EventBus.subscribe('searchFullfilled', main.render.bind(main));
+EventBus.subscribe('searchPending', main.renderSkeleton.bind(main));

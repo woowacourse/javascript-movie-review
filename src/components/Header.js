@@ -24,9 +24,11 @@ class Header {
     this.#element.addEventListener('click', async (e) => {
       if (e.target.tagName === 'BUTTON') {
         const searchData = $('#search-input').value;
+        this.#element.dispatchEvent(new CustomEvent('searchPending', { bubbles: true }));
         await this.#manager.searchMovieList(searchData);
         this.#element.dispatchEvent(new CustomEvent('searchFullfilled', { bubbles: true }));
       } else if (e.target.tagName === 'IMG') {
+        this.#element.dispatchEvent(new CustomEvent('searchPending', { bubbles: true }));
         await this.#manager.searchMovieList('');
         this.#element.dispatchEvent(new CustomEvent('searchFullfilled', { bubbles: true }));
       }
