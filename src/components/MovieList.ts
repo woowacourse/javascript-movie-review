@@ -7,7 +7,7 @@ export default class MovieList extends HTMLElement {
   }
 
   async updateMovies() {
-    await movieApi.fetchMovieInfo();
+    await movieApi.fetchPopularMovieInfo();
   }
 
   renderMovies() {

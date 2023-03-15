@@ -4,11 +4,13 @@ import { $ } from "../utils/selector";
 import MovieList from "./MovieList";
 
 export const onClickMoreButton = () => {
-  executeEventListener(
-    $("#more-button"),
-    "click",
-    async () => await movieApi.fetchMovieInfo()
-  );
+  executeEventListener($("#more-button"), "click", async () => {
+    if (movieApi.last_keyword === "") {
+      await movieApi.fetchPopularMovieInfo();
+    } else {
+      await movieApi.fetchSearchedMovieInfo(movieApi.last_keyword);
+    }
+  });
 };
 
 export const updateMovies = () => {
@@ -17,3 +19,6 @@ export const updateMovies = () => {
   onClickMoreButton();
 };
 
+export const removeMoreButton = () => {
+  $("#more-button").remove();
+};
