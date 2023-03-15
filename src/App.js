@@ -1,5 +1,6 @@
 import Header from "./components/MovieHeader";
 import { $ } from "./utils/Dom";
+import { getPopularMovies } from "./utils/fetch";
 
 export default class App {
   #movieList = [];
@@ -11,36 +12,10 @@ export default class App {
     this.initEventHandler();
   }
 
-  init() {
+  async init() {
     this.#movieList = [];
     this.#page = 1;
-    const ajax = new XMLHttpRequest();
-    ajax.open(
-      "GET",
-      `https://api.themoviedb.org/3/movie/popular?api_key=${
-        process.env.API_KEY
-      }&language=ko-KR&page=${this.#page}`,
-      true
-    );
-    ajax.send(null);
-    ajax.onload = () => {
-      if (ajax.status === 200) {
-        const data = JSON.parse(ajax.response);
-        const results = data.results;
-        results.forEach((item) => {
-          this.#movieList.push({
-            title: item.title,
-            poster: item.poster_path,
-            rating: item.vote_average,
-          });
-        });
-        this.#page += 1;
-        const ItemList = $(".item-list");
-        ItemList.innerHTML = "";
-
-        this.render();
-      }
-    };
+    this.appendMovieList();
   }
 
   render() {
@@ -58,33 +33,28 @@ export default class App {
     moreButton.addEventListener("click", () => {});
   }
 
-  initEventHandler() {
-    document.addEventListener("more-button-clicked", () => {
-      const ajax = new XMLHttpRequest();
-      ajax.open(
-        "GET",
-        `https://api.themoviedb.org/3/movie/popular?api_key=${
-          process.env.API_KEY
-        }&language=ko-KR&page=${this.#page}`,
-        true
-      );
-      ajax.send(null);
-      ajax.onload = () => {
-        if (ajax.status === 200) {
-          const data = JSON.parse(ajax.response);
-          const results = data.results;
-          this.#movieList = [];
-          results.forEach((item) => {
-            this.#movieList.push({
-              title: item.title,
-              poster: item.poster_path,
-              rating: item.vote_average,
-            });
-          });
-          this.#page++;
-          this.render();
-        }
-      };
+  async initEventHandler() {
+    document.addEventListener("more-button-clicked", async () => {
+      this.appendMovieList();
     });
+
+    document.addEventListener("search-movie", () => {});
+  }
+
+  async appendMovieList() {
+    const fetchedData = await getPopularMovies(this.#page);
+    const result = fetchedData.results;
+    result.forEach((item) => {
+      this.#movieList.push({
+        title: item.title,
+        poster: item.poster_path,
+        rating: item.vote_average,
+      });
+    });
+    this.#page += 1;
+    const ItemList = $(".item-list");
+    ItemList.innerHTML = "";
+
+    this.render();
   }
 }

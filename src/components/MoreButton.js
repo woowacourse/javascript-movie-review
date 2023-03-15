@@ -13,7 +13,6 @@ export default class MoreButton extends HTMLElement {
       this.dispatchEvent(
         new CustomEvent("more-button-clicked", { bubbles: true }) //detail :
       );
-      2;
     });
   }
 }
