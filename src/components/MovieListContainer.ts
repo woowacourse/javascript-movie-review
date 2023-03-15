@@ -1,5 +1,6 @@
 import { dispatchCustomEvent } from "./../utils/dom";
 import { $ } from "../utils/dom";
+import { ErrorUnresponsive } from "../../images";
 
 class MovieListContainer extends HTMLElement {
   constructor() {
@@ -35,6 +36,14 @@ class MovieListContainer extends HTMLElement {
 
   removeLoadMovieButton() {
     $("button", this)?.classList.add("hidden");
+  }
+
+  displayErrorUI() {
+    this.innerHTML = `
+    <div class="error-image-container">
+     <img class="error-image" src=${ErrorUnresponsive} alt="서버 무응답"/>
+    </div>
+    `;
   }
 }
 

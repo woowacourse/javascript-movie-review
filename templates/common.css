@@ -171,3 +171,28 @@ header .search-box .search-button {
 .hidden {
   display: none;
 }
+
+.error-image-container {
+  margin-top: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-image {
+  width: 20rem;
+  height: 30rem;
+}
+
+.not-search {
+  margin-top: 10rem;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+movie-list:has(.not-search) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

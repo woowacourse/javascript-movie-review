@@ -9,6 +9,7 @@ export const mostPopular = async (pageNumber: number) => {
 
     return result;
   }
+  return null;
 };
 
 export const search = async (query: String, pageNumber: number) => {
@@ -22,4 +23,5 @@ export const search = async (query: String, pageNumber: number) => {
 
     return result;
   }
+  return null;
 };

@@ -7,16 +7,20 @@ class MovieList extends HTMLElement {
 
   render(movies: Movie[]) {
     this.innerHTML = /* html */ `
-          ${movies
-            .map(
-              (movie) => /* html */ `
+          ${
+            movies.length !== 0
+              ? movies
+                  .map(
+                    (movie) => /* html */ `
             <movie-item
               poster-path="${movie.poster_path}"
               title="${movie.title}"
               vote_average="${movie.vote_average}"
             ></movie-item>`
-            )
-            .join("")}
+                  )
+                  .join("")
+              : '<p class="not-search">해당 검색 결과가 없습니다</p>'
+          }
           `;
   }
 

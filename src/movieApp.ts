@@ -3,16 +3,15 @@ import movieHandler from "./domain/movieHandler";
 import { $ } from "./utils/dom";
 import MovieListContainer from "../src/components/MovieListContainer";
 import MovieList from "./components/MovieList";
-import { Movie } from "./types/type";
+import type { Movie } from "./types/type";
 
 const movieApp = {
   currentPageNumber: 1,
   query: "",
+  $container: <MovieListContainer>$("movie-list-container"),
 
   init() {
-    const movieListContainer = <MovieListContainer>$("movie-list-container");
-    movieListContainer.render();
-
+    this.$container.render();
     this.addEvent();
     this.getPopularMovieData();
   },
@@ -32,29 +31,24 @@ const movieApp = {
   },
 
   async loadMovieData(movies: Movie[]) {
+    const movieList = <MovieList>$("movie-list");
+
     movieHandler.addMovies(movies);
 
-    const movieList = <MovieList>$("movie-list");
-    const movieListContainer = <MovieListContainer>$("movie-list-container");
-
-    if (movies.length < 20) {
-      movieListContainer.removeLoadMovieButton();
-    }
+    if (movies.length < 20) this.$container.removeLoadMovieButton();
 
     movieList.render(movieHandler.movies);
   },
 
   async getPopularMovieData() {
     const movieList = <MovieList>$("movie-list");
+
     movieList.displaySkeletonUI();
 
     const movies = await mostPopular(this.currentPageNumber++);
+    if (!movies) this.$container.displayErrorUI();
 
-    const movieListContainer = <MovieListContainer>$("movie-list-container");
-
-    if (this.currentPageNumber > 500) {
-      movieListContainer.removeLoadMovieButton();
-    }
+    if (this.currentPageNumber > 500) this.$container.removeLoadMovieButton();
 
     this.loadMovieData(movies.results);
   },
@@ -64,12 +58,13 @@ const movieApp = {
     this.query = query;
 
     const movieList = <MovieList>$("movie-list");
+
     movieList.displaySkeletonUI();
 
     const movies = await search(query, this.currentPageNumber++);
+    if (!movies) this.$container.displayErrorUI();
 
-    const movieListContainer = <MovieListContainer>$("movie-list-container");
-    movieListContainer.changeTitle(query);
+    this.$container.changeTitle(query);
 
     movieHandler.initializeMovies();
     this.loadMovieData(movies.results);
@@ -77,8 +72,10 @@ const movieApp = {
 
   async getSearchMovieData() {
     const movieList = <MovieList>$("movie-list");
+
     movieList.displaySkeletonUI();
     const movies = await search(this.query, this.currentPageNumber++);
+    if (!movies) this.$container.displayErrorUI();
 
     this.loadMovieData(movies.results);
   },
