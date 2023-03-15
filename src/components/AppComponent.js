@@ -16,11 +16,12 @@ export default class AppComponent extends CustomComponent {
   getData(url) {
     fetch(url, { method: "GET" })
       .then(async (res) => {
-        if (res.status === 200) {
+        if (res.ok) {
           const data = await res.json();
           this.totalPage = data.total_pages;
 
           const movieItems = transformMovieItemsType(data.results);
+
           this.$itemList.renderPageSuccess(movieItems);
           this.nextPage += 1;
           this.checkPage();

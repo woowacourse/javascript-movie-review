@@ -43,11 +43,6 @@ export default class MovieListComponent extends CustomComponent {
           </movie-item>
         `;
         break;
-      case "fail":
-        this.querySelector(".item-list").innerHTML = `
-          <div>Page Error</div>
-        `;
-        break;
     }
   }
 
@@ -70,6 +65,10 @@ export default class MovieListComponent extends CustomComponent {
   }
 
   renderPageSuccess(movieItems) {
+    if (!movieItems.length) {
+      this.#page.setAttribute("data-status", "no-result");
+      return;
+    }
     this.#page.setAttribute("data-movie-list", JSON.stringify(movieItems));
     this.#page.setAttribute("data-status", "success");
   }
