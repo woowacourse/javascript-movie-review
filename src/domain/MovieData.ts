@@ -47,6 +47,8 @@ class MovieData {
 
     const movies = await (await (await request(url)).json()).results;
 
+    this.#pageIndex += 1;
+
     return movies.map((movie: ApiMovieProps) => {
       return {
         id: movie.id,

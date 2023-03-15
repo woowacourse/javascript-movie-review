@@ -1,5 +1,11 @@
 export const $ = (selector: string) => document.querySelector(selector);
 
 export const request = async (url: string): Promise<Response> => {
-  return await fetch(url);
+  const response = await fetch(url);
+
+  if (response.ok) {
+    return response;
+  }
+
+  throw new Error();
 };
