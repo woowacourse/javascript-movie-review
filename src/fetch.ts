@@ -6,7 +6,7 @@ export const fetchMovies = async (params: string, page = 1, query = '') => {
   const res = await fetch(API_URL);
   try {
     const data = await res.json();
-    return data.results;
+    return { movies: data.results, total_pages: data.total_pages };
   } catch (error) {
     if (error instanceof Error) console.log(error.message);
   }
