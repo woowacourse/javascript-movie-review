@@ -8,10 +8,6 @@ const movieService = {
   resetMovies() {
     this.movies = [];
   },
-
-  sortByPopularity(movies) {
-    return [...movies].sort((a, b) => b.popularity - a.popularity);
-  },
 };
 
 export default movieService;
