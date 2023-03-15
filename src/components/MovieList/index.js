@@ -9,8 +9,10 @@ class MovieList {
 
   constructor($target, props) {
     this.$target = $target;
-    this.#type = props.type;
-    this.#searchKeyword = props.searchKeyword;
+    this.#type = props?.type;
+    this.#searchKeyword = props?.searchKeyword;
+
+    this.render();
   }
 
   template() {
@@ -40,6 +42,8 @@ class MovieList {
     //       .join("<br>");
     //   });
     // return `<div id='temp' class='item-list'>${SkeletonList()}</div>`;
+    const $itemList = this.$target.querySelector(".item-list");
+    new SkeletonList($itemList);
   }
 
   render() {

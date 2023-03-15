@@ -1,188 +1,33 @@
 import "./index.css";
 
-const SkeletonList = () => {
-  return `
+class SkeletonList {
+  $target;
+
+  constructor($target) {
+    this.$target = $target;
+
+    this.render();
+  }
+
+  template() {
+    return Array.from(
+      { length: 20 },
+      () => `
     <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-  `;
-};
+    <a href="#">
+      <div class="item-card">
+        <div class="item-thumbnail skeleton"></div>
+        <div class="item-title skeleton"></div>
+        <div class="item-score skeleton"></div>
+      </div>
+    </a>
+    </li>`
+    ).join("");
+  }
+
+  render() {
+    this.$target.innerHTML = this.template();
+  }
+}
 
 export default SkeletonList;
