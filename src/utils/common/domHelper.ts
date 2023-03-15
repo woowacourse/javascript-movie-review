@@ -38,11 +38,16 @@ export const getElement = (template: string) => {
   const root = document.createElement('div');
   root.innerHTML = template;
 
+  console.log(root);
+
   return root.firstElementChild;
 };
 
 export const replaceComponent = (element: Element | null, component: Element | null) => {
   if (!element || !component || !element.parentNode) return;
 
-  element.parentNode.replaceChild(component, element);
+  element.replaceWith(component);
+  /**@todo 추후 에러 발생 가능 */
+  // element.parentNode.appendChild(component);
+  // element.parentNode.replaceChild(component, element);
 };
