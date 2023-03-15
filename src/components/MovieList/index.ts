@@ -5,11 +5,11 @@ import { Movie } from '../../types';
 export class MovieList extends HTMLElement {
   connectedCallback() {
     this.innerHTML = template;
-    this.getPopularMovieList();
+    this.getPopularMovieList(1);
   }
 
-  async getPopularMovieList() {
-    const movieList = await fetchPopularMovies();
+  async getPopularMovieList(page: number) {
+    const movieList = await fetchPopularMovies(page);
     const $movieList = document.querySelector('.item-list');
 
     movieList.results.map((movie: Movie) => {
