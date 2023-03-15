@@ -1,32 +1,42 @@
 import "./index.css";
 import Logo from "../../images/Logo.png";
-import SearchBox from "./SearchBox";
 
 class Header {
   $target;
+  #props;
 
-  constructor($target) {
+  constructor($target, props) {
     this.$target = $target;
+    this.#props = props;
 
     this.render();
+    this.setEvents();
   }
 
   template() {
     return `
     <h1><img src=${Logo} alt="MovieList 로고" /></h1>
-    <div class="search-box"></div>
+    <form class="search-box">
+      <input class="search-input" type="text" placeholder="검색" />
+      <button class="search-button">검색</button>
+    </form>
   `;
-  }
-
-  mounted() {
-    const $searchBox = this.$target.querySelector(".search-box");
-
-    new SearchBox($searchBox);
   }
 
   render() {
     this.$target.innerHTML = this.template();
-    this.mounted();
+  }
+
+  setEvents() {
+    const $searchBox = this.$target.querySelector(".search-box");
+
+    $searchBox.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const { onSubmitSearchInput } = this.#props;
+
+      const searchValue = event.target.querySelector(".search-input").value;
+      onSubmitSearchInput("search", searchValue);
+    });
   }
 }
 
