@@ -1,5 +1,5 @@
-import './style/common';
 import './style/reset';
+import './style/common';
 import Header from './components/Header';
 import MovieList from './components/MovieList';
 
@@ -10,9 +10,9 @@ class App {
     this.movieList = new MovieList($app);
   }
 
-  init() {
+  async init() {
     this.header.render();
-    this.movieList.render();
+    await this.movieList.render();
   }
 }
 

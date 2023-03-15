@@ -1,19 +1,22 @@
 import starFilled from '../assets/star_filled';
 
+const IMAGE_BASE = 'https://image.tmdb.org/t/p/original';
+
 export default class MovieCard {
-  constructor($parent) {
+  constructor($parent, movie) {
     this.$parent = $parent;
+    this.movie = movie;
   }
 
-  template(movie) {
-    const { poster_path, title, vote_average } = movie;
+  template() {
+    const { poster_path, title, vote_average } = this.movie;
     return `
       <li>
         <a href="#">
           <div class="item-card">
             <img
               class="item-thumbnail"
-              src="${poster_path}"
+              src="${IMAGE_BASE}${poster_path}"
               loading="lazy"
               alt="${title}"
             />

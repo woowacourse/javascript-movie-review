@@ -1,9 +1,12 @@
+import { getPopularMovies } from '../service/movie';
+import MovieCard from './MovieCard';
+
 export default class MovieList {
   constructor($parent) {
     this.$parent = $parent;
   }
 
-  template(movie) {
+  template(movies) {
     return `
       <main>
         <section class="item-view">
@@ -15,7 +18,12 @@ export default class MovieList {
     `;
   }
 
-  render() {
+  async render() {
     this.$parent.insertAdjacentHTML('beforeend', this.template());
+
+    const { results } = await getPopularMovies({ page: 1 });
+    results.forEach((movie) => {
+      new MovieCard(this.$parent.querySelector('.item-list'), movie).render();
+    });
   }
 }
