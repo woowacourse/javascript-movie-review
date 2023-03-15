@@ -10,9 +10,11 @@ const Store = {
     }
 
     const movieList = await this.movie.getPopularMovies(page);
+    console.log(movieList);
 
-    this.movies['results'] = movieList.results;
-    this.movies['nextPage'] = movieList.page + 1;
+    this.movies['results'] =
+      page === 1 ? [...movieList.results] : [...this.movies.results, ...movieList.results];
+    this.movies['nextPage'] = movieList.total_pages === movieList.page ? -1 : movieList.page + 1;
     this.movies['category'] = 'popular';
   },
 
@@ -23,9 +25,11 @@ const Store = {
 
     const movieList = await this.movie.findMovies(query, page);
 
-    this.movies['results'] = movieList.results;
+    this.movies['results'] =
+      page === 1 ? [...movieList.results] : [...this.movies.results, ...movieList.results];
     this.movies['query'] = query;
-    this.movies['nextPage'] = movieList.page + 1;
+    this.movies['nextPage'] = movieList.total_pages === movieList.page ? -1 : movieList.page + 1;
+
     this.movies['category'] = 'search';
   },
 };
