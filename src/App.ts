@@ -1,7 +1,6 @@
 import Header from './components/Header';
 import MovieCardSection from './components/MovieCardSection';
 import Movies from './domain/Movies';
-import type { Movie } from './types/movie';
 
 class App {
   #app: HTMLDivElement | null;
@@ -29,6 +28,7 @@ class App {
   }
 
   setEvent() {
+    Header.setEvent(this.#movies);
     MovieCardSection.setEvent(this.#movies);
   }
 }

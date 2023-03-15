@@ -45,6 +45,10 @@ class Movies {
   get() {
     return this.#list;
   }
+
+  getQuery() {
+    return this.#query;
+  }
 }
 
 export default Movies;

@@ -12,9 +12,14 @@ const MovieCardList = {
   render(movies: Movie[]) {
     const movieList = document.querySelector<HTMLUListElement>('.item-list');
 
-    if (!movieList) return;
+    movieList?.insertAdjacentHTML('beforeend', `${movies.map((item) => MovieCard.template(item)).join('')}`);
+  },
+  renderSearched(movies: Movie[]) {
+    const movieList = document.querySelector<HTMLUListElement>('.item-list');
 
-    movieList.insertAdjacentHTML('beforeend', `${movies.map((item) => MovieCard.template(item)).join('')}`);
+    if (movieList === null) return;
+
+    movieList.innerHTML = `${movies.map((item) => MovieCard.template(item)).join('')}`;
   },
 };
 

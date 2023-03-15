@@ -10,7 +10,10 @@ const LoadMoreButton = {
     const button = document.querySelector<HTMLButtonElement>('#load-more-button');
 
     button?.addEventListener('click', async () => {
-      const newMovies = await movies.addPopular();
+      const newMovies = movies.getQuery() ? await movies.addSearch() : await movies.addPopular();
+
+      if (!newMovies) return;
+
       MovieCardList.render(newMovies);
     });
   },
