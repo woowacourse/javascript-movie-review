@@ -1,3 +1,5 @@
+import Movie from "../../domain/Movie";
+import fetchApi from "../../utils/fetchApi";
 import "./index.css";
 import MovieItem from "./MovieItem";
 import SkeletonList from "./SkeletonList";
@@ -6,13 +8,18 @@ class MovieList {
   $target;
   #type;
   #searchKeyword;
+  #page;
+
+  #movies;
 
   constructor($target, props) {
     this.$target = $target;
     this.#type = props?.type;
     this.#searchKeyword = props?.searchKeyword;
+    this.#page = 1;
 
     this.render();
+    this.fetchPopularMovieList();
   }
 
   template() {
@@ -31,17 +38,19 @@ class MovieList {
       `;
   }
 
+  async fetchPopularMovieList() {
+    const url = `https://api.themoviedb.org/3/movie/popular?api_key=${
+      process.env.API_KEY
+    }&language=ko&page=${this.#page}`;
+
+    const fetchedData = await fetchApi(url);
+    this.movies = fetchedData.results.map((movieData) => new Movie(movieData));
+
+    const $itemList = this.$target.querySelector("#item-list");
+    this.movies.forEach((movie) => new MovieItem($itemList, movie));
+  }
+
   mounted() {
-    // fetch(
-    //   "https://api.themoviedb.org/3/movie/popular?api_key=ef7c54f21b65b1fe66b6cf70349fa55f&language=ko&page=1"
-    // )
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     document.querySelector("#temp").innerHTML = data.results
-    //       .map((item) => item.title)
-    //       .join("<br>");
-    //   });
-    // return `<div id='temp' class='item-list'>${SkeletonList()}</div>`;
     const $skeletonContainer = this.$target.querySelector(
       ".skeleton-container"
     );
