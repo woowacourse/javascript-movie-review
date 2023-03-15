@@ -49,8 +49,6 @@ function Core() {
     const state = states[key];
 
     const setState = (newState: S) => {
-      if (newState === state) return;
-
       states[key] = newState;
       _render();
     };

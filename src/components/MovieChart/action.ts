@@ -15,7 +15,7 @@ const MovieChartActions = () => {
   const SkeletonMovieListComponent = () => {
     return (
       debounce(() => {
-        replaceComponent($(`#MovieList`), SkeletonMovieList({}));
+        replaceComponent($(`#SkeletonList`), SkeletonMovieList({}));
       })() && ''
     );
   };

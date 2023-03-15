@@ -22,7 +22,7 @@ const Movie = assemble<MovieProps>((props) => {
               alt=${title}
             />
             <p class="item-title">${title}</p>
-            <p class="item-score"><img src="./star_filled.png" alt="별점" />${vote_average}</p>
+            <p class="item-score"><img src="./star_filled.png" alt="별점" />${vote_average}</p>            
           </div>
         </a>
     </li>

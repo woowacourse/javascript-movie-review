@@ -7,7 +7,7 @@ export interface GetPopularMoviesRes {
   total_results: number;
 }
 
-interface MovieInfo {
+export interface MovieInfo {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
