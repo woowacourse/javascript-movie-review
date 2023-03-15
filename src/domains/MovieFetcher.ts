@@ -1,9 +1,9 @@
-import { MovieType, APIPopularMovieType } from '../types';
+import { MovieType, APIMovieType } from '../types';
 
 class MovieFetcher {
   #currentPage = 1;
 
-  async fetchMovieInfoByPopularity() {
+  async fetchMovieInfoByPopularity(): Promise<MovieType[] | undefined> {
     const response = await fetch(
       `https://api.themoviedb.org/3/movie/popular?api_key=${
         process.env.API_KEY
@@ -17,18 +17,15 @@ class MovieFetcher {
     const responseText = await response.text();
     const parsedResponseText = JSON.parse(responseText);
 
-    const popularMovieInfos = parsedResponseText.results.map(
-      (currentResult: APIPopularMovieType) => ({
-        title: currentResult.title,
-        posterPath: currentResult.poster_path,
-        voteAverage: currentResult.vote_average,
-        popularity: currentResult.popularity,
-      }),
-    );
+    const popularMovieInfos = parsedResponseText.results.map((currentResult: APIMovieType) => ({
+      title: currentResult.title,
+      posterPath: currentResult.poster_path,
+      voteAverage: currentResult.vote_average,
+    }));
 
     this.#currentPage += 1;
 
-    return [...popularMovieInfos].sort((x: MovieType, y: MovieType) => y.popularity - x.popularity);
+    return popularMovieInfos;
   }
 }
 
