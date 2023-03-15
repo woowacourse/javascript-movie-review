@@ -18,6 +18,7 @@ class MovieList {
     this.#page = 1;
 
     this.render();
+    this.setEvent();
   }
 
   template() {
@@ -31,7 +32,7 @@ class MovieList {
           <h2>${title}</h2>
           <ul class="item-list"></ul>
           <ul class="skeleton-container"></ul>
-          <button class="btn primary full-width">더 보기</button>
+          <button class="more btn primary full-width">더 보기</button>
         </section>
       `;
   }
@@ -76,6 +77,12 @@ class MovieList {
   render() {
     this.$target.innerHTML = this.template();
     this.mounted();
+  }
+
+  setEvent() {
+    this.$target.querySelector(".more").addEventListener("click", () => {
+      this.renderMovieList();
+    });
   }
 }
 
