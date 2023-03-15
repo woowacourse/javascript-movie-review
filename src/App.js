@@ -5,12 +5,23 @@ import MovieListMaker from './domain/MovieListMaker';
 
 import { $, getParsedData } from './utils';
 
-const App = {
-  render() {
-    new Header($('#app')).render();
+export default class App {
+  #header;
+  #movieList;
 
-    new MovieList($('main')).render().renderMovieCards(App.getPopularMovieList());
-  },
+  constructor() {
+    this.#header = new Header($('#app'));
+    this.#movieList = new MovieList($('main', this.getPopularMovieList.bind(this)));
+
+    this.initialRender();
+    this.setEvent();
+  }
+
+  initialRender() {
+    this.#header.render();
+    this.#movieList.render();
+    this.#movieList.renderMovieCards(this.getPopularMovieList());
+  }
 
   async getPopularMovieList() {
     const url = `
@@ -21,7 +32,5 @@ const App = {
     const movieList = MovieListMaker(moviesData);
 
     return movieList;
-  },
-};
-
-export default App;
+  }
+}
