@@ -1,23 +1,25 @@
-import { fetchPopularMovies, fetchSearchMovies } from './fetch';
+import { fetchMovies } from './fetch';
 import { Movie } from './types';
 
 class Store {
   movieList: Movie[];
   page: number;
+  searchWord: string;
 
   constructor() {
     this.movieList = [];
-    this.page = 1;
+    this.page = 0;
+    this.searchWord = '';
   }
 
-  async getPopularMovieList() {
-    this.movieList = await fetchPopularMovies(this.page);
+  async getMovieList(value?: string) {
     this.page++;
-  }
-
-  async searchMovie(value: string) {
-    this.movieList = await fetchSearchMovies(this.page, value);
-    this.page++;
+    if (value) {
+      this.searchWord = value;
+      this.movieList = await fetchMovies('/search/movie', this.page, value);
+      return;
+    }
+    this.movieList = await fetchMovies('/movie/popular', this.page);
   }
 
   get movieListValue() {

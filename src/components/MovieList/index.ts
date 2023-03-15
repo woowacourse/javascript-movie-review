@@ -1,20 +1,28 @@
 import template from './index.html';
-import { fetchPopularMovies } from '../../fetch';
 import { Movie } from '../../types';
 
 export class MovieList extends HTMLElement {
-  connectedCallback() {
+  $movieItems: HTMLElement;
+
+  constructor() {
+    super();
     this.innerHTML = template;
-    this.getPopularMovieList(1);
+    this.$movieItems = document.querySelector('.item-list')!;
   }
 
-  async getPopularMovieList(page: number) {
-    const movieList = await fetchPopularMovies(page);
-    const $movieList = document.querySelector('.item-list');
+  renderMovies(movieList: Movie[]) {
+    this.insertMovieList(movieList);
+  }
 
-    movieList.results.map((movie: Movie) => {
+  renderSearchedMovies(movieList: Movie[]) {
+    this.$movieItems.replaceChildren();
+    this.insertMovieList(movieList);
+  }
+
+  insertMovieList(movieList: Movie[]) {
+    movieList.map((movie: Movie) => {
       const { title, poster_path, vote_average } = movie;
-      $movieList?.insertAdjacentHTML(
+      this.$movieItems?.insertAdjacentHTML(
         'beforeend',
         `<movie-item title=${`"${title}"`} poster=${poster_path} vote=${vote_average}></movie-item>`,
       );
