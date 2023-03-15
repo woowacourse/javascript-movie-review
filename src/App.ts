@@ -1,6 +1,7 @@
+import MovieListContainer from "./components/MovieListContainer";
+import MovieListContent from "./components/MovieListContent";
 import NavBar from "./components/NavBar";
 import { $ } from "./utils/domSelector";
-import MovieListContainer from "./components/MovieListContainer";
 
 class App {
   private app = $<HTMLDivElement>("#app");
@@ -13,7 +14,7 @@ class App {
   async render() {
     this.app.insertAdjacentHTML("afterbegin", NavBar.render());
     this.main.insertAdjacentHTML("afterbegin", MovieListContainer.render());
-    MovieListContainer.loadMovies();
+    MovieListContent.loadMovies();
     this.initEvents();
   }
 
