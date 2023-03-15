@@ -4,11 +4,13 @@ import { Movie } from './types';
 class Store {
   movieList: Movie[];
   page: number;
+  totalPage: number;
   searchWord: string;
 
   constructor() {
     this.movieList = [];
     this.page = 0;
+    this.totalPage = 0;
     this.searchWord = '';
   }
 
@@ -16,10 +18,16 @@ class Store {
     this.page++;
     if (value) {
       this.searchWord = value;
-      this.movieList = await fetchMovies('/search/movie', this.page, value);
+      await fetchMovies('/search/movie', this.page, value).then((data) => {
+        this.movieList = data?.movies;
+        this.totalPage = data?.total_pages;
+      });
       return;
     }
-    this.movieList = await fetchMovies('/movie/popular', this.page);
+    await fetchMovies('/movie/popular', this.page).then((data) => {
+      this.movieList = data?.movies;
+      this.totalPage = data?.total_pages;
+    });
   }
 
   get movieListValue() {

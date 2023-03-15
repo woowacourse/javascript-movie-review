@@ -33,17 +33,23 @@ class App {
 
   moreButtonHandler() {
     this.store.getMovieList(this.store.searchWord).then(() => {
+      if (this.store.page === this.store.totalPage) this.removeButton();
       this.$movieList.renderMovies(this.store.movieListValue);
     });
   }
 
   searchHandler(value: string) {
     this.skeleton.attachSkeleton();
+    this.store.page = 0;
     this.store.getMovieList(value).then(() => {
       setTimeout(() => {
         this.$movieList.renderSearchedMovies(this.store.movieListValue);
       }, 500);
     });
+  }
+
+  removeButton() {
+    this.$seeMoreButton.remove();
   }
 }
 

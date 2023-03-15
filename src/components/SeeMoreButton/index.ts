@@ -17,4 +17,8 @@ export class SeeMoreButton extends HTMLElement {
       moreButtonHandler();
     });
   }
+
+  remove() {
+    this.querySelector('.btn')?.classList.add('button-close');
+  }
 }
