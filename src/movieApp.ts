@@ -35,6 +35,12 @@ const movieApp = {
     movieHandler.addMovies(movies);
 
     const movieList = <MovieList>$("movie-list");
+    const movieListContainer = <MovieListContainer>$("movie-list-container");
+
+    if (movies.length < 20) {
+      movieListContainer.removeLoadMovieButton();
+    }
+
     movieList.render(movieHandler.movies);
   },
 
@@ -43,6 +49,12 @@ const movieApp = {
     movieList.displaySkeletonUI();
 
     const movies = await mostPopular(this.currentPageNumber++);
+
+    const movieListContainer = <MovieListContainer>$("movie-list-container");
+
+    if (this.currentPageNumber > 500) {
+      movieListContainer.removeLoadMovieButton();
+    }
 
     this.loadMovieData(movies.results);
   },
@@ -66,7 +78,6 @@ const movieApp = {
   async getSearchMovieData() {
     const movieList = <MovieList>$("movie-list");
     movieList.displaySkeletonUI();
-
     const movies = await search(this.query, this.currentPageNumber++);
 
     this.loadMovieData(movies.results);

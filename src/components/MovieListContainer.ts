@@ -32,6 +32,10 @@ class MovieListContainer extends HTMLElement {
     this.setAttribute("type", "search");
     this.render(query);
   }
+
+  removeLoadMovieButton() {
+    $("button", this)?.classList.add("hidden");
+  }
 }
 
 interface MovieListContainer {
