@@ -1,8 +1,15 @@
-import CustomElement from "../basic/CustomElement";
-import { objectToAttributeString } from "../../util/convertor";
-import { $ } from "../../util/dom";
+import CustomElement from "@/component/basic/CustomElement";
+import "@/component/movie/MovieItem";
+import { objectToAttributeString } from "@/util/convertor";
+import { $ } from "@/util/dom";
 
 class MovieList extends CustomElement {
+  template() {
+    return `
+    <ul class="item-list"></ul>
+    `;
+  }
+
   rerender(movies) {
     const movieItemsTemplate = movies
       .map((movie) => {
@@ -19,12 +26,6 @@ class MovieList extends CustomElement {
       .join("");
 
     $(".item-list").insertAdjacentHTML("beforeend", movieItemsTemplate);
-  }
-
-  template() {
-    return `
-    <ul class="item-list"></ul>
-    `;
   }
 }
 
