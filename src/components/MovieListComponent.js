@@ -1,7 +1,10 @@
 import CustomComponent from "../abstracts/CustomComponent";
+import MovieListPageComponent from "./MovieListPageComponent";
 import MovieComponent from "./MovieComponent";
 
 export default class MovieListComponent extends CustomComponent {
+  #page = null;
+
   static get observedAttributes() {
     return ["data-status"];
   }
@@ -45,6 +48,32 @@ export default class MovieListComponent extends CustomComponent {
         `;
         break;
     }
+  }
+
+  initialRender() {
+    this.#page = document.createElement("movie-list-page");
+    this.querySelector(".item-list").innerHTML = ``;
+    this.querySelector(".item-list").append(this.#page);
+
+    this.#page.setAttribute("data-status", "loading");
+  }
+
+  appendRender() {
+    this.#page = document.createElement("movie-list-page");
+    this.querySelector(".item-list").append(this.#page);
+
+    this.#page.setAttribute("data-status", "loading");
+  }
+
+  renderPageSuccess(movieItems) {
+    this.#page.setAttribute("data-movie-list", JSON.stringify(movieItems));
+    this.#page.setAttribute("data-status", "success");
+  }
+
+  renderPageFail() {
+    const errorPage = document.createElement("div");
+    errorPage.textContent = "ERROR!";
+    this.#page.replaceWith(errorPage);
   }
 
   template() {

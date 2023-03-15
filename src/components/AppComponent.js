@@ -3,52 +3,38 @@ import HeaderComponent from "./AppHeaderComponent";
 import MovieListComponent from "./MovieListComponent";
 import MoreButtonComponent from "./MoreButtonComponent";
 import ListTitleComponent from "./ListTitleComponent";
-import MovieListPageComponent from "./MovieListPageComponent";
 import { REQUEST_URL, API_KEY } from "../constants/key";
 import transformMovieItemsType from "../util/MovieList";
 
 export default class AppComponent extends CustomComponent {
   option = "more_popular";
+  page = 1;
 
   handleEvent() {
     document.getElementById("app").addEventListener("click", (e) => {
       // TODO: 로고 클릭 시
       if (e.target.dataset.action === "popular") {
-        const page = document.createElement("movie-list-page");
-        this.querySelector(".item-list").innerHTML = ``;
-        this.querySelector(".item-list").append(page);
-        // TODO: 로딩 상태 변경 (대기중)
-        this.popularListStatus = "loading";
-        page.setAttribute("data-status", this.popularListStatus);
-        // TODO: 데이터 요청
+        const $itemList = this.querySelector("movie-list");
+
+        $itemList.initialRender();
+
+        // TODO: 페이지 상수화
         const movieList = fetch(
-          `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=1`,
+          `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.page}`,
           { method: "GET" }
         )
           .then(async (res) => {
             if (res.status === 200) {
               const data = await res.json();
-              // TODO: 데이터 성공 시,
-              // TODO: 로딩 상태 변경 (성공)
               const movieItems = transformMovieItemsType(data.results);
-
-              this.popularListStatus = "success";
-              page.setAttribute("data-movie-list", JSON.stringify(movieItems));
-              page.setAttribute("data-status", this.popularListStatus);
+              $itemList.renderPageSuccess(movieItems);
+              this.page += 1;
             } else {
-              this.popularListStatus = "fail";
-              page.setAttribute("data-status", this.popularListStatus);
+              $itemList.renderPageFail();
             }
           })
           .catch((error) => {
-            // TODO: 로딩 상태 변경 (성공)
-            this.popularListStatus = "fail";
-            this.querySelector("movie-list").setAttribute(
-              "data-status",
-              this.popularListStatus
-            );
-            //TODO: 실패 시, 상태 변경
-            console.log(error);
+            $itemList.renderPageFail();
           });
 
         this.option = "more_popular";
@@ -67,7 +53,25 @@ export default class AppComponent extends CustomComponent {
       }
       // 인기 항목 - 더보기
       if (e.target.dataset.action === "more_popular") {
-        console.log("popular");
+        const $itemList = this.querySelector("movie-list");
+        $itemList.appendRender();
+        const movieList = fetch(
+          `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.page}`,
+          { method: "GET" }
+        )
+          .then(async (res) => {
+            if (res.status === 200) {
+              const data = await res.json();
+              const movieItems = transformMovieItemsType(data.results);
+              $itemList.renderPageSuccess(movieItems);
+              this.page += 1;
+            } else {
+              $itemList.renderPageFail();
+            }
+          })
+          .catch((error) => {
+            $itemList.renderPageFail();
+          });
       }
       // 검색 항목 - 더보기
       if (e.target.dataset.action === "more_search") {

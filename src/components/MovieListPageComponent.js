@@ -1,5 +1,6 @@
 import CustomComponent from "../abstracts/CustomComponent";
 import MovieComponent from "./MovieComponent";
+import MovieSkeletonComponent from "./MovieSkeletonComponent";
 
 export default class MovieListPageComponent extends CustomComponent {
   static get observedAttributes() {
@@ -12,24 +13,10 @@ export default class MovieListPageComponent extends CustomComponent {
     switch (status) {
       case "loading":
         this.innerHTML = `
-          <li>
-            <a href="#">
-              <div class="item-card">
-                <div class="item-thumbnail skeleton"></div>
-                <div class="item-title skeleton"></div>
-                <div class="item-score skeleton"></div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <div class="item-card">
-                <div class="item-thumbnail skeleton"></div>
-                <div class="item-title skeleton"></div>
-                <div class="item-score skeleton"></div>
-              </div>
-            </a>
-          </li>
+          ${Array.from(
+            { length: 20 },
+            (_) => `<movie-item-skeleton></movie-item-skeleton>`
+          ).join("")}
         `;
         break;
       case "success":
@@ -44,18 +31,7 @@ export default class MovieListPageComponent extends CustomComponent {
           .join("");
         this.innerHTML = movieItem;
         break;
-      case "fail":
-        this.innerHTML = `
-          <div>Page Error</div>
-        `;
-        break;
     }
-  }
-
-  template() {
-    return `
-            <movie-item></movie-item>
-        `;
   }
 }
 customElements.define("movie-list-page", MovieListPageComponent);
