@@ -1,7 +1,7 @@
 import { request } from '../utils/common';
 import { ApiMovieProps, ParsedMovieResult } from '../types/type';
 
-const BASE_URL = 'https://api.themoviedb.org/3/movie/';
+const BASE_URL = 'https://api.themoviedb.org/3/';
 
 class MovieData {
   #parsedMovieResult: ParsedMovieResult = { isLastPage: false, movies: [] };
@@ -11,17 +11,16 @@ class MovieData {
     return this.#parsedMovieResult;
   }
 
-  async update() {
-    const movies = await this.handleParsing();
-
+  async update(word: string = '') {
+    const movies = await this.handleParsing(word);
     this.#parsedMovieResult = movies;
   }
 
-  async handleParsing(word: string = ''): Promise<ParsedMovieResult> {
+  async handleParsing(word: string): Promise<ParsedMovieResult> {
     const url =
       word === ''
-        ? `${BASE_URL}popular?api_key=${process.env.API_KEY}&language=ko&page=${this.#pageIndex}`
-        : `${BASE_URL}search/movie?api_key=${process.env.API_KEY}&query=${word}&language=ko&page=${this.#pageIndex}`;
+        ? `${BASE_URL}movie/popular?api_key=${process.env.API_KEY}&language=ko&page=${this.#pageIndex}`
+        : `${BASE_URL}search/movie?api_key=${process.env.API_KEY}&language=ko&page=${this.#pageIndex}&query=${word}`;
 
     const apiFetchingData = await (await request(url)).json();
 

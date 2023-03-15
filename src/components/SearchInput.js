@@ -1,17 +1,29 @@
+import { $ } from '../utils/common';
 import './SearchInput.css';
 
 class SearchInput extends HTMLElement {
   connectedCallback() {
     this.render();
+    this.setSubmitEvent();
   }
 
   render() {
     this.innerHTML = `
-    <div class="search-box">
+    <form class="search-box">
       <input type="text" placeholder="검색" />
       <button class="search-button">검색</button>
-    </div>
+    </form>
     `;
+  }
+
+  setSubmitEvent() {
+    $('.search-box').addEventListener('submit', e => {
+      e.preventDefault();
+      const word = $('input').value;
+
+      $('movies-container').setSearchWord(word);
+      $('input').value = '';
+    });
   }
 }
 

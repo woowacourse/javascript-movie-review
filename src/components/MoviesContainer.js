@@ -4,6 +4,23 @@ import { $ } from '../utils/common';
 
 class MoviesContainer extends HTMLElement {
   #movieData;
+  #searchWord = new Proxy(
+    { value: '' },
+    {
+      get: (target, property) => {
+        return target[property];
+      },
+
+      set: (target, property, value) => {
+        target[property] = value;
+        this.reset();
+        this.updateMovieList();
+        this.updateTitle(value);
+
+        return true;
+      },
+    }
+  );
 
   constructor() {
     super();
@@ -28,7 +45,7 @@ class MoviesContainer extends HTMLElement {
   }
 
   async updateMovieList() {
-    await this.#movieData.update();
+    await this.#movieData.update(this.#searchWord.value);
     this.renderMovieList();
     this.toggleVisibleButton();
   }
@@ -55,6 +72,24 @@ class MoviesContainer extends HTMLElement {
     $('#more-button').addEventListener('click', () => {
       this.updateMovieList();
     });
+  }
+
+  setSearchWord(searchWord) {
+    this.#searchWord.value = searchWord;
+  }
+
+  reset() {
+    $('.item-list').replaceChildren();
+    this.#movieData.resetPageIndex();
+  }
+
+  updateTitle(word) {
+    if (word === '') {
+      $('h2').innerText = '지금 인기 있는 영화';
+      return;
+    }
+
+    $('h2').innerText = `"${word}" 검색 결과`;
   }
 }
 
