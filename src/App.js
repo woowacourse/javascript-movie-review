@@ -1,12 +1,12 @@
 import Header from "./components/Header";
 import { $ } from "./utils/Dom";
-import Star from "./assets/star_filled.png";
+
 export default class App {
   #movieList = [];
   #page = 1;
 
   constructor() {
-    this.init();
+    this.init(); //영화 초기 20개 불러오기
     new Header();
     this.setEvent();
   }
@@ -49,23 +49,7 @@ export default class App {
     this.#movieList.forEach((item) => {
       ItemList.insertAdjacentHTML(
         "beforeend",
-        `
-        <li>
-        <a href="#">
-          <div class="item-card">
-            <img
-              class="item-thumbnail"
-              src="https://image.tmdb.org/t/p/w220_and_h330_face${item.poster}"
-              loading="lazy"
-              alt="${item.title}"
-            />
-            <p class="item-title">${item.title}</p>
-            <p class="item-score">${item.rating}<img src=${Star} alt="별점" /> </p>
-            
-          </div>
-        </a>
-      </li>
-      `
+        `<movie-card title='${item.title}' poster='${item.poster}' rating='${item.rating}'></movie-card>`
       );
     });
   }
