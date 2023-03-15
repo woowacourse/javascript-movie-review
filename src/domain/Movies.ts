@@ -12,6 +12,7 @@ class Movies {
   constructor() {}
 
   async init() {
+    this.#query = '';
     this.#page = 1;
     const { results } = await getPopularMovies(this.#page);
     this.#list = results;

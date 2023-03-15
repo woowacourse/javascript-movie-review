@@ -20,6 +20,12 @@ header h1 {
   color: #f33f3f;
 }
 
+.page-title-button {
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
 header > .search-box {
   background: #fff;
   padding: 8px;
