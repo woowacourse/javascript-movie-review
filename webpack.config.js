@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const DotEnv = require('dotenv-webpack');
 
 module.exports = {
@@ -24,6 +25,9 @@ module.exports = {
       template: './index.html',
     }),
     new DotEnv(),
+    new CopyPlugin({
+      patterns: [{ from: 'assets', to: 'assets' }],
+    }),
   ],
   module: {
     rules: [
@@ -39,13 +43,6 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
-      },
-      {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]',
-        },
       },
     ],
   },
