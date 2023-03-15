@@ -1,6 +1,7 @@
 import { debounce } from './../../utils/common/debounce';
 import { $, replaceComponent } from './../../utils/common/domHelper';
 import { MovieList, MovieListProps } from '../MovieList';
+import { SkeletonMovieList } from '../SkeletonMovieList';
 
 const MovieChartActions = () => {
   const MovieListComponent = (props: MovieListProps) => {
@@ -10,7 +11,15 @@ const MovieChartActions = () => {
       })() && ''
     );
   };
-  return { MovieListComponent };
+
+  const SkeletonMovieListComponent = () => {
+    return (
+      debounce(() => {
+        replaceComponent($(`#MovieList`), SkeletonMovieList({}));
+      })() && ''
+    );
+  };
+  return { MovieListComponent, SkeletonMovieListComponent };
 };
 
-export const { MovieListComponent } = MovieChartActions();
+export const { MovieListComponent, SkeletonMovieListComponent } = MovieChartActions();
