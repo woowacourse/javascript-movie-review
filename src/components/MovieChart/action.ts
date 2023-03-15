@@ -1,5 +1,16 @@
+import { debounce } from './../../utils/common/debounce';
+import { $, replaceComponent } from './../../utils/common/domHelper';
+import { Movie, MovieProps } from '../Movie';
+
 const MovieChartActions = () => {
-  return {};
+  const MovieComponent = (props: MovieProps) => {
+    return (
+      debounce(() => {
+        replaceComponent($('#Movie'), Movie(props));
+      })() && ''
+    );
+  };
+  return { MovieComponent };
 };
 
-export const {} = MovieChartActions();
+export const { MovieComponent } = MovieChartActions();
