@@ -1,6 +1,6 @@
 header {
   width: 100%;
-  min-width: 1200px;
+  /* min-width: 1200px; */
   height: 72px;
   background-color: #222;
   display: flex;
