@@ -6,7 +6,6 @@
 .item-thumbnail {
   border-radius: 8px;
   width: 180px;
-  height: 270px;
   background-size: contain;
 }
 
@@ -48,4 +47,16 @@ button.btn {
 
 button.primary {
   background: #f33f3f;
+}
+
+@media screen and (max-width: 420px) {
+  .item-thumbnail {
+    width: 90vw;
+  }
+
+  .item-title {
+    margin-top: 16px;
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
 }

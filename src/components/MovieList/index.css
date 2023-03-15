@@ -1,13 +1,12 @@
 .item-view,
 .item-test {
-  width: 100%;
 }
 
 .item-view {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  width: 90vw;
   margin: 0 auto;
 }
 
@@ -21,10 +20,14 @@
 
 .item-list {
   display: grid;
+
+  width: 100%;
   margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-column-gap: 50px;
   grid-row-gap: 48px;
+
+  /* justify-items: center; */
 }
 
 .invisible {
