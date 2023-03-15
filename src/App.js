@@ -45,7 +45,6 @@ export default class App {
 
   render() {
     const ItemList = $(".item-list");
-
     this.#movieList.forEach((item) => {
       ItemList.insertAdjacentHTML(
         "beforeend",
@@ -57,7 +56,6 @@ export default class App {
   setEvent() {
     const moreButton = $("#more-button");
     moreButton.addEventListener("click", () => {
-      console.log(this.#page);
       const ajax = new XMLHttpRequest();
       ajax.open(
         "GET",
