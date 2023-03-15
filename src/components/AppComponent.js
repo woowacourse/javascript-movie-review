@@ -33,7 +33,9 @@ export default class AppComponent extends CustomComponent {
       });
   }
 
-  setInitial() {
+  render() {
+    super.render();
+
     this.$itemList = this.querySelector("movie-list");
     this.$listTitle = this.querySelector("list-title");
 
@@ -77,9 +79,6 @@ export default class AppComponent extends CustomComponent {
   }
 
   handleEvent() {
-    // TODO: 밖으로 빼기
-    this.setInitial();
-
     document.getElementById("app").addEventListener("click", (e) => {
       // 로고 클릭
       if (e.target.dataset.action === "popular") {
