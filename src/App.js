@@ -29,6 +29,14 @@ const App = {
       changeTitle(`"${this.query}" 검색 결과`);
       this.renderSearchMovies();
     });
+
+    $('movie-list-section').addEventListener('loadMore', () => {
+      if ($('#movie-list-title').textContent === '지금 인기 있는 영화') {
+        this.renderPopularMovies();
+      } else {
+        this.renderSearchMovies();
+      }
+    });
   },
 
   async renderPopularMovies() {
