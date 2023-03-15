@@ -1,3 +1,5 @@
+@import './reset.css';
+
 * {
   box-sizing: border-box !important;
 }
@@ -53,6 +55,10 @@ button {
   grid-row-gap: 48px;
 }
 
+.item-list > hr {
+  display: none;
+}
+
 .item-card {
   display: flex;
   flex-direction: column;
@@ -83,7 +89,7 @@ button {
 .item-title.skeleton::after,
 .item-score.skeleton::after {
   font-size: 0;
-  content: "loading";
+  content: 'loading';
 }
 
 .full-width {
@@ -159,6 +165,62 @@ header .search-box > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
-  background: url("./search_button.png") transparent no-repeat 0 1px;
+  background: url('./search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+hr ~ * {
+  display: none;
+}
+
+ul:has(hr:last-child) + button {
+  display: none;
+}
+
+.popup-container {
+  position: fixed;
+  bottom: 140px;
+  width: 100vw;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.popup {
+  position: absolute;
+
+  background-color: hsl(0, 85%, 60%);
+  filter: drop-shadow(0 0 16px hsl(0, 85%, 60%));
+
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 24px 32px;
+  border-radius: 16px;
+
+  animation: alert-fade-in 0.5s ease-out;
+}
+
+.popup[data-fade-out] {
+  animation: alert-fade-out 0.5s ease-in;
+  animation-fill-mode: forwards;
+}
+
+@keyframes alert-fade-in {
+  from {
+    transform: translateY(200px) scale(0.9);
+  }
+
+  to {
+    transform: translateY(0px) scale(1);
+  }
+}
+
+@keyframes alert-fade-out {
+  from {
+    transform: translateY(0px);
+  }
+
+  to {
+    transform: translateY(200px);
+  }
 }
