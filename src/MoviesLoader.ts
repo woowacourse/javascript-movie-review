@@ -91,9 +91,6 @@ export class MoviesLoader {
       if (page < totalPages) return;
 
       this.isFinished = true;
-      document
-        .querySelector('.item-list')
-        ?.insertAdjacentHTML('beforeend', '<div>마지막 페이지입니다.</div>');
     } catch (e) {
       const error = e as Error;
       this.createSkeletons();

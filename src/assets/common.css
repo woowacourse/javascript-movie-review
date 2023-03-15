@@ -174,8 +174,19 @@ hr ~ * {
   display: none;
 }
 
-ul:has(hr:last-child) + button {
+ul:has(hr:last-child) ~ #item-load {
   display: none;
+}
+
+.item-last-notice {
+  display: none;
+  text-align: center;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+ul:has(hr:last-child) ~ .item-last-notice {
+  display: initial;
 }
 
 .popup-container {
