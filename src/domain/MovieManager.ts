@@ -1,10 +1,11 @@
 import { ApiMovies, ApiMovieItem, Movie } from "../type/movieType";
-import { popularUrl, request } from "../util/api";
+import { popularUrl, request, searchUrl } from "../util/api";
 
 class MovieManager {
   #movies: Movie[] = [];
-  #totalPage: number = 0;
+  #totalPages: number = 0;
   #page: number = 1;
+  #searchWord: string = "";
 
   constructor() {
     if (this.#movies.length === 0) {
@@ -12,10 +13,7 @@ class MovieManager {
     // 인기도 함수 호츌~~~
   }
 
-  updateMoviesInfo(data: ApiMovies) {
-    const { total_page, results } = data;
-
-    this.#totalPage = total_page;
+  updateMoviesInfo(results: ApiMovieItem[]) {
     this.#movies = results.map((result: ApiMovieItem) => {
       return {
         title: result.title,
@@ -23,13 +21,30 @@ class MovieManager {
         starRate: result.vote_average,
       };
     });
+    console.log(this.#movies, this.#totalPages, this.#searchWord, this.#page);
   }
 
-  async getPopular() {
-    const url = popularUrl(this.#page);
+  async getMovies(query: string = "") {
+    this.#page = 1;
+    this.#searchWord = query;
+
+    const url = query ? searchUrl(query, this.#page) : popularUrl(this.#page);
     const data = await request(url);
+    this.#totalPages = data.total_pages;
+
+    this.updateMoviesInfo(data.results);
+  }
+
+  async getMoreMovies() {
+    this.increasePage();
+    const url = searchUrl(this.#searchWord, this.#page);
+    const data = await request(url);
+
     this.updateMoviesInfo(data);
-    console.log(this.#movies);
+  }
+
+  increasePage() {
+    this.#page += 1;
   }
 }
 
