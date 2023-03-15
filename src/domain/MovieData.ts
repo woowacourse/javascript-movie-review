@@ -1,61 +1,46 @@
 import { request } from '../utils/common';
+import { ApiMovieProps, ParsedMovieResult } from '../types/type';
 
 const BASE_URL = 'https://api.themoviedb.org/3/movie/';
 
-interface Movie {
-  id: number;
-  title: string;
-  imgUrl: string;
-  score: number;
-}
-
-interface ApiMovieProps {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
-
 class MovieData {
-  #movies: Movie[] = [];
+  #parsedMovieResult: ParsedMovieResult = { isLastPage: false, movies: [] };
   #pageIndex: number = 1;
 
-  get movies(): Movie[] {
-    return this.#movies;
+  get movieResult(): ParsedMovieResult {
+    return this.#parsedMovieResult;
   }
 
   async update() {
-    const movies = await this.parse();
+    const movies = await this.handleParsing();
 
-    this.#movies = movies;
+    this.#parsedMovieResult = movies;
   }
 
-  async parse(): Promise<Movie[]> {
-    const url = `${BASE_URL}popular?api_key=${
-      process.env.API_KEY
-    }&language=ko&page=${this.#pageIndex}`;
+  async handleParsing(word: string = ''): Promise<ParsedMovieResult> {
+    const url =
+      word === ''
+        ? `${BASE_URL}popular?api_key=${process.env.API_KEY}&language=ko&page=${this.#pageIndex}`
+        : `${BASE_URL}search/movie?api_key=${process.env.API_KEY}&query=${word}&language=ko&page=${this.#pageIndex}`;
 
     const apiFetchingData = await (await request(url)).json();
 
-    const movies = await apiFetchingData.results;
+    const fetchingMovies = await apiFetchingData.results;
 
-    if (apiFetchingData.total_pages === this.#pageIndex) {
-      return [];
+    if (apiFetchingData.total_pages > this.#pageIndex) {
+      this.#pageIndex += 1;
     }
 
-    this.#pageIndex += 1;
+    const movies = this.parseFetchingMovies(fetchingMovies);
 
-    return movies.map((movie: ApiMovieProps) => {
+    return {
+      isLastPage: apiFetchingData.total_pages === this.#pageIndex,
+      movies,
+    };
+  }
+
+  parseFetchingMovies(fetchingMovies: ApiMovieProps[]) {
+    return fetchingMovies.map((movie: ApiMovieProps) => {
       return {
         id: movie.id,
         title: movie.title,
@@ -63,6 +48,10 @@ class MovieData {
         score: movie.vote_average,
       };
     });
+  }
+
+  resetPageIndex() {
+    this.#pageIndex = 1;
   }
 }
 

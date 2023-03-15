@@ -34,8 +34,8 @@ class MoviesContainer extends HTMLElement {
   }
 
   renderMovieList() {
-    const movieList = this.#movieData.movies;
-    const movieListTemplate = movieList.reduce((curr, prev) => {
+    const movieList = this.#movieData.movieResult;
+    const movieListTemplate = movieList.movies.reduce((curr, prev) => {
       return (curr += `<movie-item id="${prev.id}" title="${prev.title}" imgUrl="${prev.imgUrl}" score="${prev.score}"></movie-item>`);
     }, '');
 
@@ -43,7 +43,7 @@ class MoviesContainer extends HTMLElement {
   }
 
   toggleVisibleButton() {
-    if (this.#movieData.movies.length === 0) {
+    if (this.#movieData.movieResult.isLastPage) {
       $('#more-button').classList.add('hide-button');
       return;
     }
