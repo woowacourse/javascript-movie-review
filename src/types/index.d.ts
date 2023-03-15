@@ -1,4 +1,4 @@
-export interface PopularMovieType {
+export interface MovieType {
   title: string;
   posterPath: string;
   voteAverage: number;
