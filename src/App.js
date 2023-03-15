@@ -10,6 +10,31 @@ const App = {
   currentPage: 1,
   query: '',
 
+  init() {
+    this.bindEvents();
+    this.renderPopularMovies();
+  },
+
+  bindEvents() {
+    $('movie-header').addEventListener('home', () => {
+      this.refresh();
+      movieService.resetMovies();
+      changeTitle('지금 인기 있는 영화');
+      this.renderPopularMovies();
+    });
+  },
+
+  async renderPopularMovies() {
+    const newMovies = await this.loadMovies(getPopularMovies, [this.currentPage]);
+    this.updatePage(newMovies);
+  },
+
+  updatePage(newMovies) {
+    if (newMovies.length < this.MAX_MOVIES_PER_PAGE) hide('#load-more');
+    this.currentPage += 1;
+    renderList(newMovies);
+  },
+
   async loadMovies(api, params) {
     let newMovies = [];
     show('#skeleton-list');
