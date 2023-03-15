@@ -9,7 +9,7 @@ class MovieHeader extends HTMLElement {
       <header>
         <h1><img src="${Logo}" alt="MovieList 로고" /></h1>
         <form class="search-box">
-          <input type="text" placeholder="검색" />
+          <input id="search-input" type="text" placeholder="검색" required />
           <button class="search-button">검색</button>
         </form>
       </header>
@@ -23,7 +23,14 @@ class MovieHeader extends HTMLElement {
 
   handleSubmit = (e) => {
     e.preventDefault();
+
     const [input] = e.target;
+
+    if (!input.value.trim()) {
+      alert('검색어를 입력해 주세요.');
+      return;
+    }
+
     dispatchCustomEvent(this, 'search', input.value);
   };
 }
