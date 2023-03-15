@@ -8,6 +8,8 @@ class MovieItem {
   constructor($target, movie) {
     this.$target = $target;
     this.#movieInfo = movie.getMovieData();
+
+    this.render();
   }
 
   template() {
