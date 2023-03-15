@@ -29,7 +29,7 @@ class MovieList {
 
     return `
         <section class="item-view">
-          <h2>${title}</h2>
+          <h2 class="search-title">${title}</h2>
           <ul class="item-list"></ul>
           <ul class="skeleton-container"></ul>
           <button class="more btn primary full-width">더 보기</button>
@@ -76,7 +76,17 @@ class MovieList {
     movies.forEach((movie) => new MovieItem($itemList, movie));
 
     this.ckeckIsLastPageToShow(fetchedMovieData.total_pages);
+    this.checkNoMovieToShow(fetchedMovieData.results);
     this.#page += 1;
+  }
+
+  checkNoMovieToShow(searchResults) {
+    if (searchResults.length) return;
+
+    const $searchTitle = this.$target.querySelector(".search-title");
+    $searchTitle.innerText = `"${
+      this.#searchKeyword
+    }" 에 대한 검색 결과가 없습니다 :(`;
   }
 
   ckeckIsLastPageToShow(totalPage) {
