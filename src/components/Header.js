@@ -31,10 +31,10 @@ export default class Header {
       event.preventDefault();
 
       const keyword = new FormData(event.target).get('keyword');
-      const { results } = await searchMovies({ text: keyword, page: 1 });
+      const { results, total_pages } = await searchMovies({ text: keyword, page: 1 });
 
       Store.keyword = keyword;
-      onSubmitSearch(results);
+      onSubmitSearch(results, total_pages);
     };
 
     searchBox?.addEventListener('submit', handleSubmitSearch);

@@ -6,7 +6,6 @@ export default class MovieList {
   constructor($parent) {
     this.$parent = $parent;
     this.renderMode = 'popular';
-    this.page = 1;
   }
 
   template() {
@@ -19,6 +18,7 @@ export default class MovieList {
           <ul id="js-movie-list" class="item-list"></ul>
         </section>
         <button id="js-more-movie-button" class="btn primary full-width">더 보기</button>
+        <p id='js-last-page-notify'>마지막 페이지입니다</p>
       </main>
     `;
   }
@@ -27,38 +27,45 @@ export default class MovieList {
     this.$parent.insertAdjacentHTML('beforeend', this.template());
     this.$title = this.$parent.querySelector('#js-movie-list-title');
     this.$movieItemList = this.$parent.querySelector('#js-movie-list');
+    this.$moreMovieButton = this.$parent.querySelector('#js-more-movie-button');
+    this.$lastPageNotify = this.$parent.querySelector('#js-last-page-notify');
 
     return this;
   }
 
   bindEvent() {
-    const moreMovieButton = this.$parent.querySelector('#js-more-movie-button');
-
     const handleMoreMovieButton = async () => {
-      this.page += 1;
+      Store.page += 1;
 
       if (this.renderMode === 'popular') {
-        const { results } = await getPopularMovies({ page: this.page });
-        this.renderMovieCards(results);
+        const { results, total_pages } = await getPopularMovies({ page: Store.page });
+
+        this.renderMovieCards(results, total_pages);
       }
 
       if (this.renderMode === 'search') {
-        const { results } = await searchMovies({ page: this.page, text: Store.keyword });
-        this.renderMovieCards(results);
+        const { results, total_pages } = await searchMovies({
+          page: Store.page,
+          text: Store.keyword,
+        });
+        this.renderMovieCards(results, total_pages);
       }
     };
 
-    moreMovieButton?.addEventListener('click', handleMoreMovieButton);
+    this.$moreMovieButton?.addEventListener('click', handleMoreMovieButton);
   }
 
   renderTitle(title) {
     this.$title.textContents = title;
   }
 
-  renderMovieCards(results) {
+  renderMovieCards(results, totalPages) {
     results.forEach((movie) => {
       new MovieCard(this.$movieItemList, movie).render();
     });
+
+    this.$moreMovieButton.style.display = totalPages > Store.page ? 'block' : 'none';
+    this.$lastPageNotify.style.display = totalPages > Store.page ? 'none' : 'block';
   }
 
   removeMovieCards() {
