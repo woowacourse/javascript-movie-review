@@ -26,14 +26,13 @@ button {
 }
 .item-view,
 .item-test {
-  width: 100%;
+  width: 90%;
 }
 
 .item-view {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
   margin: 0 auto;
 }
 
@@ -48,9 +47,22 @@ button {
 .item-list {
   display: grid;
   margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
-  grid-row-gap: 48px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 20px;
+}
+
+@media screen and (max-width: 500px) {
+  .item-view h2 {
+    font-size: 20px;
+  }
+  .item-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .item-thumbnail {
+    width: 70px;
+  }
 }
 
 .item-card {
@@ -66,6 +78,7 @@ button {
 }
 
 .item-title {
+  width: 70%;
   margin-top: 16px;
   font-size: 1.2rem;
   font-weight: bold;
@@ -83,7 +96,7 @@ button {
 .item-title.skeleton::after,
 .item-score.skeleton::after {
   font-size: 0;
-  content: "loading";
+  content: 'loading';
 }
 
 .full-width {
@@ -125,7 +138,6 @@ button.primary {
 }
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -159,6 +171,14 @@ header .search-box > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
-  background: url("./search_button.png") transparent no-repeat 0 1px;
+  background: url('../assets/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+li {
+  list-style: none;
+}
+
+.view-more-button {
+  display: inline-block;
 }
