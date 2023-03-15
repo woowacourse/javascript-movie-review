@@ -7,7 +7,7 @@ const NavBar = {
   render: () => {
     return `
       <header>
-        <h1><img src="${Logo}" alt="MovieList 로고" /></h1>
+        <h1><a href=""><img src="${Logo}" alt="MovieList 로고" /></a></h1>
         <form class="search-box">
           <input id="search-input" type="text" placeholder="검색" />
           <button class="search-button">검색</button>
@@ -22,6 +22,9 @@ const NavBar = {
         event.preventDefault();
         const target = event.target as HTMLFormElement;
         const inputElement = target.elements[0] as HTMLInputElement;
+
+        if (inputElement.value.trim().length === 0) return;
+
         MovieList.setSearchKey(inputElement.value);
         MovieList.initCurrentPage();
         MovieListContainer.loadMovies(inputElement.value);
