@@ -8,9 +8,14 @@ export const movieApi = {
   last_keyword: "",
 
   async fetchPopularMovieInfo() {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}&language=ko&page=${this.page}`
-    );
+    if (this.last_keyword !== "") {
+      this.movies = [];
+      this.last_keyword = "";
+      this.page = 1;
+    }
+
+    const url = `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}&language=ko&page=${this.page}`;
+    const response = await fetch(url);
 
     try {
       if (response.status !== 200) throw new Error("서버가 불안정합니다.");
@@ -19,12 +24,6 @@ export const movieApi = {
     }
 
     const { page, results, total_pages, total_results } = await response.json();
-
-    if (this.last_keyword !== "") {
-      this.movies = [];
-      this.last_keyword = "";
-      this.page = 1;
-    }
 
     this.page = page + 1;
     this.movies = [...this.movies, ...results] as any;
@@ -35,15 +34,14 @@ export const movieApi = {
   },
 
   async fetchSearchedMovieInfo(keyword: string) {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY}&language=ko&page=${this.page}&include_adult=false&query=${keyword}`
-    );
-    const { page, results, total_pages, total_results } = await response.json();
-
     if (this.last_keyword !== keyword) {
       this.movies = [];
       this.page = 1;
     }
+
+    const url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY}&language=ko&page=${this.page}&include_adult=false&query=${keyword}`;
+    const response = await fetch(url);
+    const { page, results, total_pages, total_results } = await response.json();
 
     this.last_keyword = keyword;
     this.page = page + 1;
