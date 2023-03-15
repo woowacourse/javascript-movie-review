@@ -13,10 +13,13 @@ export const movieApi = {
     const { page, results, total_pages, total_results } = await response.json();
 
     this.page = page + 1;
-    this.movies = [...this.movies, ...results] as any;
+    this.movies = [...this.movies, ...sortMovies(results)] as any;
     this.total_pages = total_pages;
     this.total_results = total_results;
 
     updateMovies();
   },
 };
+
+const sortMovies = (movies: any) =>
+  movies.sort((a: any, b: any) => b.popularity - a.popularity);
