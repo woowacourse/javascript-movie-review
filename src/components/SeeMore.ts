@@ -6,6 +6,8 @@ export default class SeeMore {
 
   constructor($target: HTMLElement) {
     this.$target = $target;
+
+    movies.subscribe('movies', this.showButton.bind(this));
   }
 
   setEvent() {
@@ -27,5 +29,10 @@ export default class SeeMore {
   showMoreMovies() {
     if (movies.getIsSearched()) movies.searchMovies(movies.getQuery());
     else movies.setMovies();
+  }
+
+  showButton() {
+    if (movies.getIsEnd()) $('button.btn').classList.add('button--hidden');
+    else $('button.btn').classList.remove('button--hidden');
   }
 }

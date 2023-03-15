@@ -6,12 +6,17 @@ class Movies extends Observable {
   private popularPage = 1;
   private searchPage = 1;
   private isSearched = false;
+  private isEnd = false;
   private query = '';
 
   constructor() {
     super();
 
     this.setMovies();
+  }
+
+  getIsEnd() {
+    return this.isEnd;
   }
 
   getTitle() {
@@ -28,9 +33,13 @@ class Movies extends Observable {
     return this.query;
   }
 
+  isEndOfPage(totalPage: number, page: number) {
+    return totalPage === page;
+  }
+
   async setMovies() {
     const popularMovies = await getApiPopularMovie<MovieListApiType>(
-      this.popularPage++
+      this.popularPage
     );
 
     const refineMovies = popularMovies.results.map(
@@ -39,6 +48,10 @@ class Movies extends Observable {
       }
     );
 
+    const totalPage = popularMovies.total_pages;
+    this.isEnd = this.isEndOfPage(totalPage, this.popularPage);
+
+    this.popularPage++;
     this.isSearched = false;
     this.notify('movies', refineMovies);
   }
@@ -47,7 +60,7 @@ class Movies extends Observable {
     this.query = query;
     const searchMovies = await getApiSearchMovie<MovieListApiType>(
       query,
-      this.searchPage++
+      this.searchPage
     );
     const refineMovies = searchMovies.results.map(
       ({ id, poster_path, title, vote_average }) => {
@@ -55,6 +68,10 @@ class Movies extends Observable {
       }
     );
 
+    const totalPage = searchMovies.total_pages;
+    this.isEnd = this.isEndOfPage(totalPage, this.searchPage);
+
+    this.searchPage++;
     this.isSearched = true;
     this.notify('movies', refineMovies);
   }
