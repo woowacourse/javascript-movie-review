@@ -1,6 +1,6 @@
 import { Movie } from "../type/movie";
 
-const getPopolarMovieRequestUrl = (page = 1) => (
+const getPopularMovieRequestUrl = (page = 1) => (
   `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}&language=ko-KR&page=${page}`
 );
 
@@ -28,7 +28,7 @@ class MovieListManager {
 
   async fetchMovieList() {
     const url = this.query === "" 
-      ? getPopolarMovieRequestUrl(this.currentPage)
+      ? getPopularMovieRequestUrl(this.currentPage)
       : getSearchMovieUrl(this.query, this.currentPage);
 
     await fetch(url)
