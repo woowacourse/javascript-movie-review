@@ -13,9 +13,19 @@ export default class MovieList {
   render() {
     this.$element.innerHTML = this.template();
 
-    this.toggleSkeletonList();
+    this.showSkeletonList();
 
     return this;
+  }
+
+  template() {
+    return /* html */ ` 
+    <h2>지금 인기 있는 영화</h2>
+    <ul class="item-list"></ul> 
+    <ul class="skeleton-item-list item-list hide">
+      ${this.getSkeletonCardsHTML(20)}
+    </ul>
+    <button id="more-button" class="btn primary full-width">더 보기</button>`;
   }
 
   async renderMovieCards(movieListPromise) {
@@ -27,7 +37,7 @@ export default class MovieList {
       return html + movieCard;
     }, '');
 
-    this.toggleSkeletonList();
+    this.hideSkeletonList();
     this.$element.querySelector('.item-list').insertAdjacentHTML('beforeend', movieCardsHTML);
   }
 
@@ -46,17 +56,11 @@ export default class MovieList {
     return skeletonCardHTML.repeat(count);
   }
 
-  template() {
-    return /* html */ ` 
-    <h2>지금 인기 있는 영화</h2>
-    <ul class="item-list"></ul> 
-    <ul class="skeleton-item-list item-list hide">
-      ${this.getSkeletonCardsHTML(20)}
-    </ul>
-    <button class="btn primary full-width">더 보기</button>`;
+  showSkeletonList() {
+    this.$element.querySelector('.skeleton-item-list').classList.remove('hide');
   }
 
-  toggleSkeletonList() {
-    this.$element.querySelector('.skeleton-item-list').classList.toggle('hide');
+  hideSkeletonList() {
+    this.$element.querySelector('.skeleton-item-list').classList.add('hide');
   }
 }
