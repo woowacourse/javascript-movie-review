@@ -7,8 +7,7 @@ import "./ShowMoreButton";
 class MovieContainer extends CustomElement {
   connectedCallback() {
     super.connectedCallback();
-    MovieManager.subscribe(this);
-    MovieManager.publish();
+    MovieManager.searchSubscribe(this);
   }
 
   template() {
