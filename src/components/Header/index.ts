@@ -24,9 +24,9 @@ const Header = {
       MovieCardSection.renderTitle('');
       MovieCardList.render();
 
-      await movies.init();
+      const results = await movies.init();
 
-      MovieCardList.paint(movies.get());
+      MovieCardList.paint(results);
 
       LoadMoreButton.handleVisibility(movies.isLastPage());
     });

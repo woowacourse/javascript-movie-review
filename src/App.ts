@@ -16,8 +16,10 @@ class App {
 
   async init() {
     this.render();
-    await this.#movies.init();
-    this.paint(this.#movies.get());
+
+    const results = await this.#movies.init();
+
+    this.paint(results);
     this.setEvent();
   }
 

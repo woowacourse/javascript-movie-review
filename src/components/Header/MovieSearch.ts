@@ -29,9 +29,9 @@ const MovieSearch = {
       MovieCardSection.renderTitle(query);
       MovieCardList.render();
 
-      await movies.search(query);
+      const results = await movies.search(query);
 
-      MovieCardList.paint(movies.get());
+      MovieCardList.paint(results);
       LoadMoreButton.handleVisibility(movies.isLastPage());
     });
   },
