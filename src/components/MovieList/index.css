@@ -26,3 +26,7 @@
   grid-column-gap: 160px;
   grid-row-gap: 48px;
 }
+
+.invisible {
+  display: none;
+}

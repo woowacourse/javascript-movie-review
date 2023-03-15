@@ -40,7 +40,7 @@ class MovieList {
   async fetchMovieListWithKeyword(keyword) {
     const url = `${searchUrl}?api_key=${
       process.env.API_KEY
-    }&query=${keyword}&language=ko&page=${this.#page++}`;
+    }&query=${keyword}&language=ko&page=${this.#page}`;
 
     return await fetchApi(url);
   }
@@ -48,7 +48,7 @@ class MovieList {
   async fetchPopularMovieList() {
     const url = `${popularUrl}?api_key=${
       process.env.API_KEY
-    }&language=ko&page=${this.#page++}`;
+    }&language=ko&page=${this.#page}`;
 
     return await fetchApi(url);
   }
@@ -74,6 +74,16 @@ class MovieList {
       (movieData) => new Movie(movieData)
     );
     movies.forEach((movie) => new MovieItem($itemList, movie));
+
+    this.ckeckIsLastPageToShow(fetchedMovieData.total_pages);
+    this.#page += 1;
+  }
+
+  ckeckIsLastPageToShow(totalPage) {
+    if (this.#page !== totalPage) return;
+
+    const $loadMoreButton = this.$target.querySelector(".more");
+    $loadMoreButton.classList.toggle("invisible");
   }
 
   mounted() {
