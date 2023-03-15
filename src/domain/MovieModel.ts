@@ -9,13 +9,7 @@ class MovieModel {
   private page: number = 1;
   private totalPages: number = 0;
 
-  constructor() {
-    if (this.moviesData.list.length === 0) {
-      this.getApiMoreMovies();
-    }
-  }
-
-  get movieList() {
+  async getMovieList() {
     return this.moviesData;
   }
 
@@ -59,4 +53,5 @@ class MovieModel {
   }
 }
 
-export default new MovieModel();
+const MovieInstance = new MovieModel();
+export default MovieInstance;

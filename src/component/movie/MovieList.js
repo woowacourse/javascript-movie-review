@@ -1,6 +1,5 @@
 import CustomElement from "../basic/CustomElement";
 import "../movie/MovieItem";
-import { objectToAttributeString } from "../../util/convertor";
 import { $ } from "../../util/dom";
 import MovieManager from "../../domain/MovieManager";
 
@@ -20,14 +19,9 @@ class MovieList extends CustomElement {
   rerender({ list }) {
     const movieItemsTemplate = list
       .map((movie) => {
-        const { title, poster_path, vote_average } = movie;
-        const imgAttribute = objectToAttributeString({
-          alt: title,
-          src: poster_path,
-        });
-
+        const { title, src, starRate } = movie;
         return `
-      <movie-item imgAttribute=${imgAttribute} title=${title} vote_average=${vote_average} />
+      <movie-item title='${title}' vote_average=${starRate} src=${src}></movie-item>
       `;
       })
       .join("");

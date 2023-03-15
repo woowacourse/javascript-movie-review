@@ -2,24 +2,23 @@ import CustomElement from "../basic/CustomElement";
 
 class MovieItem extends CustomElement {
   template() {
-    const imgAttribute = this.getAttribute("imgAttribute");
     const title = this.getAttribute("title");
+    const src = this.getAttribute("src");
     const voteAverage = this.getAttribute("vote_average");
 
     return `
-    <li>
       <a href="#">
         <div class="item-card">
           <img
             class="item-thumbnail"
             loading="lazy"
-            ${imgAttribute}
+            src= https://image.tmdb.org/t/p/w220_and_h330_face${src}
+            alt=${title}
           />
           <p class="item-title">${title}</p>
-          <p class="item-score"><img src="./star_filled.png" alt="별점" />${voteAverage}</p>
+          <p class="item-score"><img src="./image/star_filled.png" alt="별점" />${voteAverage}</p>
         </div>
       </a>
-    </li>
   `;
   }
 }
