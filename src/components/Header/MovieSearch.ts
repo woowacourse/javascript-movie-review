@@ -27,7 +27,7 @@ const MovieSearch = {
 
       await movies.search(query);
       MovieCardSection.renderTitle(query);
-      MovieCardList.renderSearched(movies.get());
+      MovieCardList.render(movies.get());
     });
   },
 };

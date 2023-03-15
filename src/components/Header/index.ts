@@ -22,7 +22,7 @@ const Header = {
     pageTitleButton?.addEventListener('click', async () => {
       MovieCardSection.renderTitle('');
       await movies.init();
-      MovieCardList.renderSearched(movies.get());
+      MovieCardList.render(movies.get());
     });
   },
 };

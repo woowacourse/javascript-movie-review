@@ -9,12 +9,12 @@ const MovieCardList = {
       </ul>
     `;
   },
-  render(movies: Movie[]) {
+  renderMoreItems(movies: Movie[]) {
     const movieList = document.querySelector<HTMLUListElement>('.item-list');
 
     movieList?.insertAdjacentHTML('beforeend', `${movies.map((item) => MovieCard.template(item)).join('')}`);
   },
-  renderSearched(movies: Movie[]) {
+  render(movies: Movie[]) {
     const movieList = document.querySelector<HTMLUListElement>('.item-list');
 
     if (movieList === null) return;

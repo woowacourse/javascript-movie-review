@@ -14,7 +14,7 @@ const LoadMoreButton = {
 
       if (!newMovies) return;
 
-      MovieCardList.render(newMovies);
+      MovieCardList.renderMoreItems(newMovies);
     });
   },
 };
