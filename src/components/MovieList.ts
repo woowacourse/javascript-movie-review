@@ -18,9 +18,15 @@ export default class MovieList extends HTMLElement {
           ? "지금 인기 있는 영화"
           : `"${movieApi.last_keyword}" 검색 결과`
       }</h2>
-      <ul class="item-list">
-        ${movieApi.movies.map((movie) => this.renderMovie(movie)).join("")}
-      </ul>
+      ${
+        movieApi.movies.length > 0
+          ? `<ul class="item-list">
+              ${movieApi.movies
+                .map((movie) => this.renderMovie(movie))
+                .join("")}
+            </ul>`
+          : `<no-results-message></no-results-message>`
+      }
       <button id="more-button" class="btn primary full-width">더 보기</button>
     </section>
     `;
