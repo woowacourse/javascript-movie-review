@@ -52,6 +52,12 @@ class MoviesContainer extends HTMLElement {
 
   renderMovieList() {
     const movieList = this.#movieData.movieResult;
+
+    if (movieList.movies.length === 0) {
+      this.showNoResult();
+      return;
+    }
+
     const movieListTemplate = movieList.movies.reduce((curr, prev) => {
       return (curr += `<movie-item id="${prev.id}" title="${prev.title}" imgUrl="${prev.imgUrl}" score="${prev.score}"></movie-item>`);
     }, '');
@@ -90,6 +96,13 @@ class MoviesContainer extends HTMLElement {
     }
 
     $('h2').innerText = `"${word}" 검색 결과`;
+  }
+
+  showNoResult() {
+    const noResultMessage = document.createElement('span');
+    noResultMessage.innerText = '검색 결과가 없습니다';
+    noResultMessage.classList.add('no-result');
+    $('.item-list').appendChild(noResultMessage);
   }
 }
 
