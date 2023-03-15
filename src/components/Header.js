@@ -1,5 +1,6 @@
 import logo from '../../templates/logo.png';
 import Movie from '../domain/Movie';
+import Store from '../Store';
 class Header {
   header = document.createElement('header');
 
@@ -22,14 +23,15 @@ class Header {
 
     if (value.length === 0) alert('1글자 이상 입력해 주셔야 합니다.');
 
-    console.log(await new Movie().findMovies(value));
+    Store.searchedMovies(value);
   }
 
-  async onClickEvent(e) {
+  onClickEvent(e) {
     const { target } = e;
     if (target.dataset.type !== 'logo') return;
 
-    console.log(await new Movie().getPopularMovies());
+    Store.getPopularMovies();
+    document.querySelector('.search-box').reset();
   }
 
   template() {

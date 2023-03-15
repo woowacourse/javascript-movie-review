@@ -1,4 +1,5 @@
 import movieItem from './movieItem';
+import Store from '../Store';
 
 class ItemList {
   $ul = document.createElement('ul');
@@ -11,14 +12,18 @@ class ItemList {
 
   template() {
     // 영화 데이터 정보 배열로 있다.
-    const movies = [];
+    // const infos = await Store.movie.getPopularMovies();
+
+    // const movies = infos.results;
+    const movies = Store.movies['results'];
+
     return movies.reduce((item, movie) => {
       return (item += movieItem(movie));
     }, ``);
   }
 
-  render($target) {
-    this.$ul.innerHTML = this.template();
+  async render($target) {
+    this.$ul.innerHTML = await this.template();
     $target.insertAdjacentElement('beforeend', this.$ul);
   }
 }
