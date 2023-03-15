@@ -86,6 +86,8 @@ export class MovieList {
   }
 
   reset(state: showType, searchKeyword?: string) {
+    this.#$target.innerHTML = ``;
+
     this.#state = { ...this.#state, show: state, page: 1 };
     this.showMoreButton();
     this.renderSkeleton();
@@ -135,6 +137,7 @@ export class MovieList {
   }
 
   renderSkeleton() {
+    console.log("스켈레톤 생성");
     this.#$target.appendChild(this.#$skeletonContainer);
   }
 
