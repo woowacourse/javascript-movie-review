@@ -13,7 +13,7 @@ const movieHandler: MovieHandler = {
   currentPageNumber: 1,
 
   addMovies(movies) {
-    this.movies = [...this.movies, ...this.sortByPopularity(movies)];
+    this.movies = [...this.movies, ...movies];
   },
 
   sortByPopularity(movies) {

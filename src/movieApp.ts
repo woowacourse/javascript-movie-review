@@ -3,21 +3,27 @@ import movieHandler from "./domain/movieHandler";
 import { $ } from "./utils/dom";
 import MovieListContainer from "../src/components/MovieListContainer";
 import MovieList from "./components/MovieList";
+import { Movie } from "./types/type";
 
 const movieApp = {
   currentPageNumber: 1,
+  query: "",
 
   init() {
     const movieListContainer = <MovieListContainer>$("movie-list-container");
     movieListContainer.render();
 
     this.addEvent();
-    this.loadMovieData();
+    this.getPopularMovieData();
   },
 
   addEvent() {
-    $("movie-list-container")?.addEventListener("fetchMovieData", () =>
-      this.loadMovieData()
+    $("movie-list-container")?.addEventListener(
+      "fetchMovieData",
+      ({ detail }: CustomEventInit) =>
+        detail === "popular"
+          ? this.getPopularMovieData()
+          : this.getSearchMovieData()
     );
     $("search-box")?.addEventListener(
       "searchMovieData",
@@ -25,23 +31,34 @@ const movieApp = {
     );
   },
 
-  async loadMovieData() {
-    const movies = await mostPopular(this.currentPageNumber++);
-    movieHandler.addMovies(movies.results);
+  async loadMovieData(movies: Movie[]) {
+    movieHandler.addMovies(movies);
 
     const movieList = <MovieList>$("movie-list");
     movieList.render(movieHandler.movies);
   },
 
+  async getPopularMovieData() {
+    const movies = await mostPopular(this.currentPageNumber++);
+
+    this.loadMovieData(movies.results);
+  },
+
   async searchMovieData(query: string) {
     this.currentPageNumber = 1;
-    const movies = await search(query, this.currentPageNumber);
+    this.query = query;
+    const movies = await search(query, this.currentPageNumber++);
+
+    const movieListContainer = <MovieListContainer>$("movie-list-container");
+    movieListContainer.changeTitle(query);
 
     movieHandler.initializeMovies();
-    movieHandler.addMovies(movies.results);
+    this.loadMovieData(movies.results);
+  },
 
-    const movieList = <MovieList>$("movie-list");
-    movieList.render(movieHandler.movies);
+  async getSearchMovieData() {
+    const movies = await search(this.query, this.currentPageNumber++);
+    this.loadMovieData(movies.results);
   },
 };
 
