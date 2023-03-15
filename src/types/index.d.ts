@@ -9,3 +9,9 @@ export interface APIMovieType {
   poster_path: string;
   vote_average: number;
 }
+
+export interface ResponseType {
+  result: string;
+  status?: number;
+  movieList?: MovieType[];
+}

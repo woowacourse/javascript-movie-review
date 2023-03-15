@@ -24,10 +24,37 @@ class App {
   async fetchAndUpdateMovieList(requestListType: string, updateType: string, keyword: string = '') {
     if (updateType === 'overwrite') this.#movieFetcher.resetPage();
 
-    const movieList =
+    const { result, movieList } =
       requestListType === 'popularity'
         ? await this.#movieFetcher.fetchMovieInfoByPopularity()
         : await this.#movieFetcher.fetchMovieInfoByKeyword(keyword);
+
+    if (result === 'PAGE_ERROR') {
+      alert('페이지 에러');
+    }
+
+    if (result === 'CLIENT_ERROR') {
+      alert('잘못된 요청입니다. 잠시 후 다시 시도해 주세요.');
+    }
+
+    if (result === 'SYSTEM_CRASHED') {
+      alert(
+        '죄송합니다. 알 수 없는 오류로 인해 영화 정보를 가져오는 데 실패하였습니다. 페이지 새로고침 후 다시 시도해 주세요.',
+      );
+      return;
+    }
+
+    if (result === 'SERVER_ERROR') {
+      alert(
+        '죄송합니다. 서버에 문제가 있어 현재 영화 정보를 가져올 수 없습니다. 잠시 후 다시 시도해 주세요.',
+      );
+      return;
+    }
+
+    if (result === 'EMPTY_LIST') {
+      alert('검색 결과가 없습니다!');
+    }
+
     if (!movieList) return;
 
     updateType === 'overwrite'
@@ -40,6 +67,7 @@ class App {
   };
 
   onClickSearchButton = (keyword: string) => {
+    this.#movieList.setTitle(`Search Results of "${keyword}"`);
     this.#requestListType = 'keyword';
     this.#searchKeyword = keyword;
     this.fetchAndUpdateMovieList(this.#requestListType, 'overwrite', this.#searchKeyword);
