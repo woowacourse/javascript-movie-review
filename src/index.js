@@ -1,5 +1,5 @@
-import '../css/common.css';
 import '../css/reset.css';
+import '../css/common.css';
 
 import MovieListManager from './domain/MovieListManager';
 import { $ } from './util/querySelector';
