@@ -1,3 +1,4 @@
+import { popularUrl } from "../../constants/urls";
 import Movie from "../../domain/Movie";
 import fetchApi from "../../utils/fetchApi";
 import "./index.css";
@@ -39,7 +40,7 @@ class MovieList {
   }
 
   async fetchPopularMovieList() {
-    const url = `https://api.themoviedb.org/3/movie/popular?api_key=${
+    const url = `${popularUrl}?api_key=${
       process.env.API_KEY
     }&language=ko&page=${this.#page}`;
 

@@ -1,5 +1,6 @@
 import "./index.css";
 import StarIcon from "../../../images/star_filled.png";
+import { imageUrl } from "../../../constants/urls";
 
 class MovieItem {
   $target;
@@ -13,7 +14,7 @@ class MovieItem {
   }
 
   convertToImgUrl(imgSrc) {
-    return `http://image.tmdb.org/t/p/w300${imgSrc}`;
+    return `${imageUrl}${imgSrc}`;
   }
 
   template() {
