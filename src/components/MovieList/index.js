@@ -24,8 +24,8 @@ class MovieList {
     return `
         <section class="item-view">
           <h2>${title}</h2>
-          <ul class="item-list">
-          </ul>
+          <ul id="item-list" class="item-list"></ul>
+          <ul class="skeleton-container item-list"></ul>
           <button class="btn primary full-width">더 보기</button>
         </section>
       `;
@@ -42,8 +42,10 @@ class MovieList {
     //       .join("<br>");
     //   });
     // return `<div id='temp' class='item-list'>${SkeletonList()}</div>`;
-    const $itemList = this.$target.querySelector(".item-list");
-    new SkeletonList($itemList);
+    const $skeletonContainer = this.$target.querySelector(
+      ".skeleton-container"
+    );
+    new SkeletonList($skeletonContainer);
   }
 
   render() {
