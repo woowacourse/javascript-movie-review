@@ -2,14 +2,15 @@ class SearchBox {
   private _node!: HTMLElement;
 
   constructor() {
-    this.createTemplate().initEventHandler();
+    this.createTemplate();
+    this.initEventHandler();
   }
 
   get node(): HTMLElement {
     return this._node;
   }
 
-  createTemplate(): this {
+  createTemplate() {
     this._node = document.createElement('div');
     this._node.classList.add('search-box');
 
@@ -20,14 +21,27 @@ class SearchBox {
       <button class="search-button">검색</button>
       `
     );
-
-    return this;
   }
 
   initEventHandler() {
-    this._node.querySelector<HTMLInputElement>('input')?.addEventListener('click', () => {
-      this._node.dispatchEvent(new CustomEvent('changeMoviesType', {bubbles: true, detail: {serach: '해리포터'}}));
+    const input = this._node.querySelector<HTMLInputElement>('input');
+    const button = this._node.querySelector<HTMLButtonElement>('.search-button');
+
+    if (!input || !button) return;
+
+    input.addEventListener('keydown', (event: KeyboardEvent) => {
+      if (event.key !== 'Enter') return;
+
+      this.dispatchSearchEvent(input.value);
     });
+
+    button.addEventListener('click', () => {
+      this.dispatchSearchEvent(input.value);
+    });
+  }
+
+  dispatchSearchEvent(keyword: string): void {
+    this._node.dispatchEvent(new CustomEvent('searchMovies', { bubbles: true, detail: { keyword } }));
   }
 }
 
