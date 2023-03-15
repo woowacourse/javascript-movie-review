@@ -1,5 +1,5 @@
 class Movie {
-  template ({ poster_path, title, vote_average, backdrop_path }) {
+  template ({ poster_path, title, vote_average }) {
     return `
     <li>
       <a>
@@ -11,7 +11,7 @@ class Movie {
             alt="${title}"
           />
           <p class="item-title">${title}</p>
-          <p class="item-score"><img src="./star_filled.png" alt="별점" /> ${vote_average}</p>
+          <p class="item-score"><img src="./assets/star_filled.png" alt="별점" /> ${vote_average}</p>
         </div>
       </a>
     </li>
