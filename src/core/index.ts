@@ -82,7 +82,6 @@ export const assemble =
   (props: T) => {
     try {
       const [$element, $events = []] = getElement(props);
-
       if (!$element) throw new Error('이벤트를 등록할 엘리먼트가 존재하지 않습니다.');
 
       $events.forEach(({ event, callback }) => addEvent({ $element, event, callback }));
