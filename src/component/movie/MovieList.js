@@ -1,7 +1,7 @@
-import CustomElement from "@/component/basic/CustomElement";
-import "@/component/movie/MovieItem";
-import { objectToAttributeString } from "@/util/convertor";
-import { $ } from "@/util/dom";
+import CustomElement from "../basic/CustomElement";
+import "../movie/MovieItem";
+import { objectToAttributeString } from "../../util/convertor";
+import { $ } from "../../util/dom";
 
 class MovieList extends CustomElement {
   template() {

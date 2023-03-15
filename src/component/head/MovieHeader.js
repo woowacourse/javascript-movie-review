@@ -5,10 +5,8 @@ import { $ } from "../../util/dom";
 class MovieHeader extends CustomElement {
   template() {
     return `
-    <header>
-        <h1><img src="./image/logo.png" alt="MovieList logo" /></h1>
-        <search-input class='search-box'/>  
-    </header>
+      <h1><img src="./image/logo.png" alt="MovieList logo" /></h1>
+      <search-input class='search-box'/>  
     `;
   }
 

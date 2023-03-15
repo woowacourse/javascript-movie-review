@@ -1,4 +1,4 @@
-import CustomElement from "@/basic/CustomElement";
+import CustomElement from "../basic/CustomElement";
 
 class MovieItem extends CustomElement {
   template() {
