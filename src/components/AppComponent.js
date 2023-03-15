@@ -10,35 +10,40 @@ export default class AppComponent extends CustomComponent {
   option = "more_popular";
   nextPage = 1;
   totalPage;
+  $itemList;
+  $listTitle;
 
-  setInitial() {
-    this.page = 1;
-    const $itemList = this.querySelector("movie-list");
-    const $listTitle = this.querySelector("list-title");
-
-    $listTitle.setTitle("지금 인기있는 영화");
-    $itemList.initialRender();
-
-    // TODO: 페이지 상수화
-    fetch(
-      `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`,
-      { method: "GET" }
-    )
+  getData(url) {
+    fetch(url, { method: "GET" })
       .then(async (res) => {
         if (res.status === 200) {
           const data = await res.json();
           this.totalPage = data.total_pages;
 
           const movieItems = transformMovieItemsType(data.results);
-          $itemList.renderPageSuccess(movieItems);
+          this.$itemList.renderPageSuccess(movieItems);
           this.nextPage += 1;
+          this.checkPage();
         } else {
-          $itemList.renderPageFail();
+          this.$itemList.renderPageFail();
         }
       })
       .catch((error) => {
-        $itemList.renderPageFail();
+        this.$itemList.renderPageFail();
       });
+  }
+
+  setInitial() {
+    this.page = 1;
+    this.$itemList = this.querySelector("movie-list");
+    this.$listTitle = this.querySelector("list-title");
+
+    this.$listTitle.setTitle("지금 인기있는 영화");
+    this.$itemList.initialRender();
+
+    this.getData(
+      `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`
+    );
 
     this.option = "more_popular";
     this.querySelector("more-button").setAttribute("data-action", this.option);
@@ -53,40 +58,20 @@ export default class AppComponent extends CustomComponent {
   }
 
   handleEvent() {
-    // TODO: 메서드 호출 위치 옮기기
+    // TODO: 밖으로 빼기
     this.setInitial();
 
     document.getElementById("app").addEventListener("click", (e) => {
-      // TODO: 로고 클릭 시
+      // 로고 클릭
       if (e.target.dataset.action === "popular") {
         this.nextPage = 1;
-        const $itemList = this.querySelector("movie-list");
-        const $listTitle = this.querySelector("list-title");
 
-        $listTitle.setTitle("지금 인기있는 영화");
-        $itemList.initialRender();
+        this.$listTitle.setTitle("지금 인기있는 영화");
+        this.$itemList.initialRender();
 
-        // TODO: 페이지 상수화
-        fetch(
-          `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`,
-          { method: "GET" }
-        )
-          .then(async (res) => {
-            if (res.status === 200) {
-              const data = await res.json();
-              this.totalPage = data.total_pages;
-
-              const movieItems = transformMovieItemsType(data.results);
-              $itemList.renderPageSuccess(movieItems);
-              this.nextPage += 1;
-              this.checkPage();
-            } else {
-              $itemList.renderPageFail();
-            }
-          })
-          .catch((error) => {
-            $itemList.renderPageFail();
-          });
+        this.getData(
+          `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`
+        );
 
         this.option = "more_popular";
         this.querySelector("more-button").setAttribute(
@@ -97,37 +82,14 @@ export default class AppComponent extends CustomComponent {
       // 검색 버튼 클릭 시
       if (e.target.dataset.action === "search") {
         this.nextPage = 1;
-        // TODO: INPUT 창에서 검색어 가져오기
         const searchValue = document.querySelector("input").value;
 
-        const $itemList = this.querySelector("movie-list");
-        const $listTitle = this.querySelector("list-title");
+        this.$listTitle.setTitle(`"${searchValue}" 검색결과`);
+        this.$itemList.initialRender();
 
-        $listTitle.setTitle(`"${searchValue}" 검색결과`);
-        $itemList.initialRender();
-
-        // TODO: 호출 API
-        fetch(
-          `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchValue}&page=${this.nextPage}&include_adult=false`,
-          { method: "GET" }
-        )
-          .then(async (res) => {
-            if (res.status === 200) {
-              const data = await res.json();
-              this.totalPage = data.total_pages;
-
-              const movieItems = transformMovieItemsType(data.results);
-              $itemList.renderPageSuccess(movieItems);
-              this.nextPage += 1;
-              this.checkPage();
-            } else {
-              $itemList.renderPageFail();
-            }
-          })
-          .catch((error) => {
-            $itemList.renderPageFail();
-          });
-        // TODO: 결과 띄우기
+        this.getData(
+          `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchValue}&page=${this.nextPage}&include_adult=false`
+        );
         this.option = "more_search";
         this.querySelector("more-button").setAttribute(
           "data-action",
@@ -136,55 +98,24 @@ export default class AppComponent extends CustomComponent {
       }
       // 인기 항목 - 더보기
       if (e.target.dataset.action === "more_popular") {
-        const $itemList = this.querySelector("movie-list");
-        $itemList.appendRender();
-        fetch(
-          `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`,
-          { method: "GET" }
-        )
-          .then(async (res) => {
-            if (res.status === 200) {
-              const data = await res.json();
-              const movieItems = transformMovieItemsType(data.results);
-              $itemList.renderPageSuccess(movieItems);
-              this.nextPage += 1;
-              this.checkPage();
-            } else {
-              $itemList.renderPageFail();
-            }
-          })
-          .catch((error) => {
-            $itemList.renderPageFail();
-          });
+        this.$itemList.appendRender();
+        this.getData(
+          `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`
+        );
       }
       // 검색 항목 - 더보기
       if (e.target.dataset.action === "more_search") {
         const searchValue = document.querySelector("input").value;
-        const $itemList = this.querySelector("movie-list");
-        $itemList.appendRender();
-        fetch(
-          `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchValue}&page=${this.nextPage}&include_adult=false`,
-          { method: "GET" }
-        )
-          .then(async (res) => {
-            if (res.status === 200) {
-              const data = await res.json();
-              const movieItems = transformMovieItemsType(data.results);
-              $itemList.renderPageSuccess(movieItems);
-              this.nextPage += 1;
-              this.checkPage();
-            } else {
-              $itemList.renderPageFail();
-            }
-          })
-          .catch((error) => {
-            $itemList.renderPageFail();
-          });
+
+        this.$itemList.appendRender();
+        this.getData(
+          `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchValue}&page=${this.nextPage}&include_adult=false`
+        );
       }
     });
 
+    // 엔터 키 이벤트
     document.getElementById("app").addEventListener("keyup", (e) => {
-      // ENTER 키 코드 상수화!
       if (e.key === "Enter") {
         e.preventDefault();
         const searchValue = document.querySelector("input").value;
@@ -193,36 +124,13 @@ export default class AppComponent extends CustomComponent {
           return;
         }
         this.nextPage = 1;
-        // TODO: INPUT 창에서 검색어 가져오기
 
-        const $itemList = this.querySelector("movie-list");
-        const $listTitle = this.querySelector("list-title");
+        this.$listTitle.setTitle(`"${searchValue}" 검색결과`);
+        this.$itemList.initialRender();
 
-        $listTitle.setTitle(`"${searchValue}" 검색결과`);
-        $itemList.initialRender();
-
-        // TODO: 호출 API
-        fetch(
-          `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchValue}&page=${this.nextPage}&include_adult=false`,
-          { method: "GET" }
-        )
-          .then(async (res) => {
-            if (res.status === 200) {
-              const data = await res.json();
-              this.totalPage = data.total_pages;
-
-              const movieItems = transformMovieItemsType(data.results);
-              $itemList.renderPageSuccess(movieItems);
-              this.nextPage += 1;
-              this.checkPage();
-            } else {
-              $itemList.renderPageFail();
-            }
-          })
-          .catch((error) => {
-            $itemList.renderPageFail();
-          });
-        // TODO: 결과 띄우기
+        this.getData(
+          `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchValue}&page=${this.nextPage}&include_adult=false`
+        );
         this.option = "more_search";
         this.querySelector("more-button").setAttribute(
           "data-action",
