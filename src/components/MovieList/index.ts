@@ -78,8 +78,10 @@ export class MovieList {
     this.#state = { ...this.#state, show: state };
 
     if (state === "popular") {
-      fetchPopularMovies(this.#state.page).then((response: Movie[]) => {
-        this.#movies.reset(response);
+      fetchPopularMovies(this.#state.page).then((response) => {
+        const { results } = response;
+
+        this.#movies.reset(results);
         this.init();
       });
 
@@ -90,14 +92,14 @@ export class MovieList {
       this.#state = { ...this.#state, searchKeyword: searchKeyword };
 
       fetchSearchMovies(this.#state.page, this.#state.searchKeyword).then(
-        (response: Movie[]) => {
-          this.#movies.reset(response);
+        (response) => {
+          const { results } = response;
+
+          this.#movies.reset(results);
           this.init();
         }
       );
     }
-
-    this.init();
   }
 
   onClickMoreButton() {

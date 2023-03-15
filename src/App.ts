@@ -10,7 +10,13 @@ export class App {
     const $header = $("header");
     const $movieList = $(".item-list");
 
-    if ($header) this.#header = new Header($header);
+    if ($header)
+      this.#header = new Header($header, this.onSubmitSearchKeyword.bind(this));
     if ($movieList) this.#movieList = new MovieList($movieList);
+  }
+
+  onSubmitSearchKeyword(serachKeyword: string) {
+    if (this.#movieList instanceof MovieList)
+      this.#movieList.reset("search", serachKeyword);
   }
 }
