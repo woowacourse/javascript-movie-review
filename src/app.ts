@@ -37,28 +37,20 @@ class App {
     app.insertAdjacentElement('afterbegin', header.node);
 
     this.movieList = new MovieList();
-
     app.insertAdjacentElement('beforeend', this.movieList.node);
 
     this.movieList.createSkeleton();
+
     const movieData = await this.getMovieData();
     this.movieList.updateMovieList(movieData.movies);
-
-    // const movies: {page: number; results: Movie[]} | undefined = await this.getMovies();
-
-    // if (!movies) return;
-
-    // movies[0].results;
   }
 
   async seeMoreMovies() {
     this.page += 1;
     this.movieList.createSkeleton();
 
-    const movies = await this.getMovieData();
-    // const moviesToRender = movies.results;
-
-    // this.movieList.updateMovieList(moviesToRender);
+    const movieData = await this.getMovieData();
+    this.movieList.updateMovieList(movieData.movies);
   }
 
   async getMovieData() {

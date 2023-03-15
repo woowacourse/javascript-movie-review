@@ -33,6 +33,7 @@ class MovieList {
     skeletionListContainer.className = 'item-list skeleton-list';
     skeletionListContainer.innerHTML = skeletonTemplate(20);
 
+    this.loadMoreButton.classList.add('hidden');
     this._node.querySelector('.item-view')?.insertAdjacentElement('beforeend', skeletionListContainer);
   }
 
