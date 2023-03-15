@@ -1,5 +1,4 @@
 {
-  "rules": {},
   "env": {
     "es6": true,
     "node": true,
@@ -9,13 +8,14 @@
   "parserOptions": {
     "ecmaVersion": "latest"
   },
-  "plugins": [
-    "@typescript-eslint"
-  ],
+  "plugins": ["@typescript-eslint"],
   "extends": [
     "eslint:recommended",
     "airbnb-base/legacy",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
-  ]
+  ],
+  "rules": {
+    "class-methods-use-this": "off"
+  }
 }
