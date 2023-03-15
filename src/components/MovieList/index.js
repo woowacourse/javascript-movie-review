@@ -1,4 +1,4 @@
-import { popularUrl } from "../../constants/urls";
+import { popularUrl, searchUrl } from "../../constants/urls";
 import Movie from "../../domain/Movie";
 import fetchApi from "../../utils/fetchApi";
 import "./index.css";
@@ -37,6 +37,14 @@ class MovieList {
       `;
   }
 
+  async fetchMovieListWithKeyword(keyword) {
+    const url = `${searchUrl}?api_key=${
+      process.env.API_KEY
+    }&query=${keyword}&language=ko&page=${this.#page++}`;
+
+    return await fetchApi(url);
+  }
+
   async fetchPopularMovieList() {
     const url = `${popularUrl}?api_key=${
       process.env.API_KEY
@@ -56,7 +64,10 @@ class MovieList {
     const $itemList = this.$target.querySelector(".item-list");
 
     this.toggleSkeletonContainerVisibility();
-    const fetchedMovieData = await this.fetchPopularMovieList();
+    const fetchedMovieData =
+      this.#type === "popular"
+        ? await this.fetchPopularMovieList()
+        : await this.fetchMovieListWithKeyword(this.#searchKeyword);
     this.toggleSkeletonContainerVisibility();
 
     const movies = fetchedMovieData.results.map(
