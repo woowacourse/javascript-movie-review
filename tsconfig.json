@@ -101,5 +101,9 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
   "include": ["src"],
-  "exclude": ["node_modules", "cypress", "dist"]
+  "exclude": ["node_modules", "cypress", "dist"],
+  "baseUrl": ".",
+  "paths": {
+    "@/*": ["src/*"]
+  }
 }

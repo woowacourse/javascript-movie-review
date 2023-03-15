@@ -29,6 +29,11 @@ module.exports = {
       patterns: [{ from: "image", to: "image" }],
     }),
   ],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src/"),
+    },
+  },
   module: {
     rules: [
       {
