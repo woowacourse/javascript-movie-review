@@ -10,3 +10,14 @@ export const getPopularMovies = async (page: number) => {
 
   return response.json();
 };
+
+export const getSearchedMovies = async (movieName: string, page: number) => {
+  const response = await fetch(
+    `${TMDB_BASE_URL}${API.SEARCH_MOVIES}?api_key=${process.env.API_KEY}&language=ko-KR&query=${movieName}&page=${page}&include_adult=false`,
+    {
+      method: "GET",
+    }
+  );
+
+  return response.json();
+};

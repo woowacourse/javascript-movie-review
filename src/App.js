@@ -1,10 +1,12 @@
 import Header from "./components/MovieHeader";
 import { $ } from "./utils/Dom";
-import { getPopularMovies } from "./utils/fetch";
+import { getPopularMovies, getSearchedMovies } from "./utils/fetch";
 
 export default class App {
   #movieList = [];
   #page = 1;
+  #state = "popular";
+  #movieName = "";
 
   constructor() {
     this.init(); //영화 초기 20개 불러오기
@@ -13,19 +15,22 @@ export default class App {
   }
 
   async init() {
-    this.#movieList = [];
-    this.#page = 1;
-    this.appendMovieList();
+    await this.getPopularMoviesList();
+    this.render();
+
+    document.querySelector("card-list")?.setMovieList(this.#movieList);
   }
 
   render() {
-    const ItemList = $(".item-list");
-    this.#movieList.forEach((item) => {
-      ItemList.insertAdjacentHTML(
-        "beforeend",
-        `<movie-card title='${item.title}' poster='${item.poster}' rating='${item.rating}'></movie-card>`
-      );
-    });
+    const itemView = $(".item-view");
+    itemView.innerHTML = `
+    <card-list header='${
+      this.#state === "popular"
+        ? "지금 인기 있는 영화"
+        : `"${this.#movieName}" 검색 결과`
+    }'></card-list>
+    <more-button></more-button>
+    `;
   }
 
   setEvent() {
@@ -35,13 +40,19 @@ export default class App {
 
   async initEventHandler() {
     document.addEventListener("more-button-clicked", async () => {
-      this.appendMovieList();
+      if (this.#state === "popular") this.appendPopularMovieList();
+      if (this.#state === "searched") this.appendSearchedMovieList();
     });
 
-    document.addEventListener("search-movie", () => {});
+    document.addEventListener("search-movie", (event) => {
+      this.#state = "searched";
+      this.#page = 1;
+      this.#movieName = event.detail;
+      this.renderSearchedMovies(event.detail);
+    });
   }
 
-  async appendMovieList() {
+  async getPopularMoviesList() {
     const fetchedData = await getPopularMovies(this.#page);
     const result = fetchedData.results;
     result.forEach((item) => {
@@ -51,10 +62,50 @@ export default class App {
         rating: item.vote_average,
       });
     });
-    this.#page += 1;
-    const ItemList = $(".item-list");
-    ItemList.innerHTML = "";
+  }
 
+  async getSearchedMoviesList() {
+    const fetchedData = await getSearchedMovies(this.#movieName, this.#page);
+    const result = fetchedData.results;
+    result.forEach((item) => {
+      this.#movieList.push({
+        title: item.title,
+        poster: item.poster_path,
+        rating: item.vote_average,
+      });
+    });
+  }
+
+  async appendPopularMovieList() {
+    this.#page += 1;
+    this.#movieList = [];
+    await this.getPopularMoviesList();
+
+    document.querySelector("card-list")?.setMovieList(this.#movieList);
+  }
+
+  async appendSearchedMovieList() {
+    this.#page += 1;
+    this.#movieList = [];
+    await this.getSearchedMoviesList();
+
+    document.querySelector("card-list")?.setMovieList(this.#movieList);
+  }
+
+  async renderSearchedMovies(movieName) {
     this.render();
+
+    const searchedMovies = await getSearchedMovies(movieName, 1);
+    this.#movieList = [];
+
+    searchedMovies.results.forEach((item) => {
+      this.#movieList.push({
+        title: item.title,
+        poster: item.poster_path,
+        rating: item.vote_average,
+      });
+    });
+
+    document.querySelector("card-list")?.setMovieList(this.#movieList);
   }
 }
