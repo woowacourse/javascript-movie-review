@@ -1,14 +1,19 @@
-import {Movie} from '../app';
+import { Movie } from '../app';
 import MovieItem from './MovieItem';
 import skeletonTemplate from './Skeleton';
 
 class MovieList {
   private _node!: HTMLElement;
+  private movieList!: HTMLUListElement;
+  private loadMoreButton!: HTMLButtonElement;
   private moviesType: string = '지금 인기있는 영화';
 
   constructor() {
     this.createTemplate();
     this.initEventHandler();
+
+    this.movieList = this._node.querySelector('.movie-list') as HTMLUListElement;
+    this.loadMoreButton = this._node.querySelector('.btn') as HTMLButtonElement;
   }
 
   get node(): HTMLElement {
@@ -18,57 +23,47 @@ class MovieList {
   createTemplate(): this {
     this._node = document.createElement('main');
     this.paintMovieLayout();
-    this.createSkeleton();
 
     return this;
   }
 
   createSkeleton() {
-    let listContainer = this._node.querySelector('.skeleton-list');
+    const skeletionListContainer = document.createElement('ul');
 
-    if (!listContainer) {
-      const button = this._node.querySelector('button');
+    skeletionListContainer.className = 'item-list skeleton-list';
+    skeletionListContainer.innerHTML = skeletonTemplate(20);
 
-      if (!button) return;
-
-      listContainer = document.createElement('ul');
-      listContainer.className = 'item-list skeleton-list';
-      button.insertAdjacentElement('beforebegin', listContainer);
-    }
-
-    listContainer.innerHTML = skeletonTemplate(20);
+    this._node.querySelector('.item-view')?.insertAdjacentElement('beforeend', skeletionListContainer);
   }
 
   paintMovieLayout() {
     this._node.innerHTML = `
       <section class="item-view">
         <h2>${this.moviesType}</h2>
-        <ul class="item-list skeleton-list"></ul>
+        <ul class="item-list movie-list hidden"></ul>
         <button class="btn primary full-width hidden">더 보기</button>
       </section>
     `;
   }
 
-  removeSkeleton() {}
+  removeSkeleton() {
+    const skeletionList = this._node.querySelector('.skeleton-list');
+
+    if (!skeletionList) return;
+
+    skeletionList.remove();
+  }
 
   updateMovieList(movieData: Movie[]) {
-    this._node.querySelector('.skeleton-list')?.remove();
+    this.removeSkeleton();
 
-    let ul = this._node.querySelector('.movie-list');
-
-    if (!ul) {
-      ul = document.createElement('ul');
-      ul.className = 'item-list movie-list';
-    }
-
-    const button = this._node.querySelector('button');
-    button?.classList.remove('hidden');
+    this.movieList.classList.remove('hidden');
+    this.loadMoreButton.classList.remove('hidden');
 
     movieData.forEach(movie => {
       const moiveItem = new MovieItem(movie);
-      ul?.insertAdjacentElement('beforeend', moiveItem.node);
+      this.movieList.insertAdjacentElement('beforeend', moiveItem.node);
     });
-    button?.insertAdjacentElement('beforebegin', ul);
   }
 
   initEventHandler() {
@@ -77,7 +72,7 @@ class MovieList {
     if (!button) return;
 
     button.addEventListener('click', () => {
-      this._node.dispatchEvent(new CustomEvent('seeMoreMovie', {bubbles: true}));
+      this._node.dispatchEvent(new CustomEvent('seeMoreMovie', { bubbles: true }));
     });
   }
 }

@@ -1,15 +1,21 @@
 import Header from './components/Header';
 import MovieList from './components/MoiveList';
+import fetchJson from './domain/fetchJson';
+import processMovieData from './domain/processMovieData';
 
 export type Movie = {
   title: string;
-  backdrop_path: string;
-  vote_average: number;
+  backdropPath: string;
+  voteAverage: number;
 };
 
-export type Movies = {
+export type MovieFetchedJson = {
   page: number;
-  results: Movie[];
+  results: {
+    title: string;
+    backdrop_path: string;
+    vote_average: number;
+  }[];
   total_pages: number;
 };
 
@@ -34,15 +40,9 @@ class App {
 
     app.insertAdjacentElement('beforeend', this.movieList.node);
 
-    // API 통신
-
-    let page = '1';
-
-    const movies = (await this.getMovies()) as unknown as Movies;
-
-    const moviesToRender = movies.results;
-
-    this.movieList.updateMovieList(moviesToRender);
+    this.movieList.createSkeleton();
+    const movieData = await this.getMovieData();
+    this.movieList.updateMovieList(movieData.movies);
 
     // const movies: {page: number; results: Movie[]} | undefined = await this.getMovies();
 
@@ -55,25 +55,23 @@ class App {
     this.page += 1;
     this.movieList.createSkeleton();
 
-    const movies = (await this.getMovies()) as unknown as Movies;
+    const movies = await this.getMovieData();
+    // const moviesToRender = movies.results;
 
-    const moviesToRender = movies.results;
-
-    this.movieList.updateMovieList(moviesToRender);
+    // this.movieList.updateMovieList(moviesToRender);
   }
 
-  async getMovies() {
+  async getMovieData() {
     const api = `https://api.themoviedb.org/3/movie/popular?api_key=c9b417a74f38d67da13a13b782bc5ce3&language=ko-KRS&page=${this.page}`;
+    const moviesJson = await fetchJson<MovieFetchedJson>(api);
 
-    const movies = await this.fetchMovies(api);
-
-    return movies;
+    return processMovieData(moviesJson);
   }
 
-  fetchMovies: typeof fetch = async api => {
+  fetchMovies = async <T>(api: string): Promise<T> => {
     const response = await fetch(api);
     if (!response.ok) {
-      throw new Error('');
+      throw new Error(response.statusText);
     }
 
     return response.json();

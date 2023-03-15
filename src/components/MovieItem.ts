@@ -1,4 +1,4 @@
-import {Movie} from '../app';
+import { Movie } from '../app';
 
 class MovieItem {
   private _node!: HTMLElement;
@@ -17,16 +17,16 @@ class MovieItem {
     this._node = document.createElement('li');
 
     this._node.innerHTML = `<a>
-      <div class="item-card">
-        <img
-          class="item-thumbnail"
-          src="https://image.tmdb.org/t/p/w220_and_h330_face/${this.movieData.backdrop_path}"
-          loading="lazy"
-          alt=${this.movieData.title}
-        />
-        <p class="item-title">${this.movieData.title}</p>
-        <p class="item-score"><img src="./star_filled.png" alt="별점" /> ${this.movieData.vote_average}</p>
-      </div>
+        <div class="item-card">
+          <img
+            class="item-thumbnail"
+            src="https://image.tmdb.org/t/p/w220_and_h330_face/${this.movieData.backdropPath}"
+            loading="lazy"
+            alt=${this.movieData.title}
+          />
+          <p class="item-title">${this.movieData.title}</p>
+          <p class="item-score"><img src="./star_filled.png" alt="별점" /> ${this.movieData.voteAverage}</p>
+        </div>
       </a>
       `;
 
