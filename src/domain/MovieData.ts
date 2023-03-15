@@ -45,7 +45,13 @@ class MovieData {
       process.env.API_KEY
     }&language=ko&page=${this.#pageIndex}`;
 
-    const movies = await (await (await request(url)).json()).results;
+    const apiFetchingData = await (await request(url)).json();
+
+    const movies = await apiFetchingData.results;
+
+    if (apiFetchingData.total_pages === this.#pageIndex) {
+      return [];
+    }
 
     this.#pageIndex += 1;
 

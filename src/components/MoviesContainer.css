@@ -24,3 +24,7 @@
   font-weight: bold;
   user-select: none;
 }
+
+.hide-button {
+  display: none;
+}

@@ -1,21 +1,60 @@
+import MovieData from '../domain/MovieData';
 import './MoviesContainer.css';
+import { $ } from '../utils/common';
 
 class MoviesContainer extends HTMLElement {
-  connectedCallback() {
-    this.render();
+  #movieData;
+
+  constructor() {
+    super();
+    this.#movieData = new MovieData();
   }
 
-  render() {
+  async connectedCallback() {
+    this.renderContainer();
+    this.updateMovieList();
+    this.setButtonEvent();
+  }
+
+  renderContainer() {
     this.innerHTML = `
     <main>
-      <section class="item-view">
-        <h2>지금 인기 있는 영화</h2>
-        <ul class="item-list">
-          <movie-item imgUrl="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg" title="앤트맨과 와스프: 퀀텀매니아" score="6.7"></movie-item>
-        </ul>
-        <common-button text="더보기" color="primary"></common-button>
-      </section>
+    <section class="item-view">
+    <h2>지금 인기 있는 영화</h2>
+    <ul class="item-list"></ul>
+    <common-button id="more-button" class="hide-button" text="더보기" color="primary"></common-button>
+    </section>
     </main>`;
+  }
+
+  renderMovieList() {
+    const movieList = this.#movieData.movies;
+    const movieListTemplate = movieList.reduce((curr, prev) => {
+      return (curr += `<movie-item id="${prev.id}" title="${prev.title}" imgUrl="${prev.imgUrl}" score="${prev.score}"></movie-item>`);
+    }, '');
+
+    $('.item-list').insertAdjacentHTML('beforeend', movieListTemplate);
+  }
+
+  async updateMovieList() {
+    await this.#movieData.update();
+    this.renderMovieList();
+    this.toggleVisibleButton();
+  }
+
+  toggleVisibleButton() {
+    if (this.#movieData.movies.length === 0) {
+      $('#more-button').classList.add('hide-button');
+      return;
+    }
+
+    $('#more-button').classList.remove('hide-button');
+  }
+
+  setButtonEvent() {
+    $('#more-button').addEventListener('click', () => {
+      this.updateMovieList();
+    });
   }
 }
 

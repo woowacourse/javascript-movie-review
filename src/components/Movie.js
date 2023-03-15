@@ -17,7 +17,7 @@ class Movie extends HTMLElement {
         <div class="item-card">
           <img
             class="item-thumbnail"
-            src="${imgUrl}"
+            src="https://image.tmdb.org/t/p/w200/${imgUrl}"
             loading="lazy"
             alt="${title}"
           />
