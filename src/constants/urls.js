@@ -4,4 +4,4 @@ export const imageUrl = `http://image.tmdb.org/t/p/w300`;
 
 export const popularUrl = `${baseUrl}/movie/popular`;
 
-export const searchUrl = "";
+export const searchUrl = `${baseUrl}/search/movie`;
