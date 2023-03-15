@@ -1,29 +1,33 @@
 import { $ } from '../utils/domHelper';
 import MovieItem from './MovieItem';
-import Movies from '../domain/Movies.js';
+import movies from '../domain/Movies';
 
 export default class MovieList {
   $target;
 
-  constructor($target: HTMLElement) {
-    this.$target = $target;
+  constructor($parentTarget: HTMLElement) {
+    $parentTarget.insertAdjacentHTML('beforeend', this.initTemplate());
+
+    movies.subscribe('movies', this.render.bind(this));
+    this.$target = $('.item-list');
   }
 
-  async render() {
-    const movies = await new Movies().setMovies();
+  initTemplate() {
+    return `
+      <ul class="item-list"></ul>
+    `;
+  }
 
-    const movieItems = movies
+  async render(popularMovies: any) {
+    this.$target.insertAdjacentHTML(
+      'beforeend',
+      await this.template(popularMovies)
+    );
+  }
+
+  async template(popularMovies: any) {
+    return popularMovies
       .map((movie: any) => new MovieItem().template(movie))
       .join('');
-
-    this.$target.innerHTML = this.template(movieItems);
-  }
-
-  template(movieItems: string) {
-    return `
-      <ul class="item-list">
-      ${movieItems}
-      </ul>
-    `;
   }
 }
