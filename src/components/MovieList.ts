@@ -41,7 +41,7 @@ export default class MovieList extends HTMLElement {
           <p class="item-score">
             <img src="./assets/star_${
               movie.vote_average > 0 ? "filled" : "empty"
-            }.png" alt="별점" /> ${movie.vote_average}
+            }.png" alt="별점" /> ${movie.vote_average.toFixed(1)}
           </p>
         </div>
       </a>
