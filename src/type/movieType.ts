@@ -1,10 +1,3 @@
-export interface ApiMovies {
-  page: number;
-  results: [];
-  total_pages: number;
-  total_results: number;
-}
-
 export interface ApiMovieItem {
   adult: boolean;
   backdrop_path: string;

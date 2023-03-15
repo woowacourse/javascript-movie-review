@@ -1,7 +1,7 @@
-import { ApiMovies, ApiMovieItem, Movie } from "../type/movieType";
+import { ApiMovieItem, Movie } from "../type/movieType";
 import { popularUrl, request, searchUrl } from "../util/api";
 
-class MovieManager {
+class MovieModel {
   private movies: Movie[] = [];
   private totalPages: number = 0;
   private page: number = 1;
@@ -11,6 +11,10 @@ class MovieManager {
     if (this.movies.length === 0) {
       this.getApiMoreMovies();
     }
+  }
+
+  get movieList() {
+    return this.movies;
   }
 
   toMovies(results: ApiMovieItem[]) {
@@ -39,15 +43,15 @@ class MovieManager {
     const data = await request(url);
     this.totalPages = data.total_pages;
 
-    this.movies = this.toMovies(data);
+    this.movies = this.toMovies(data.results);
   }
 
   async getApiMoreMovies() {
     const url = searchUrl(this.searchWord, this.page);
     const data = await request(url);
 
-    this.movies = [...this.movies, ...this.toMovies(data)];
+    this.movies = [...this.movies, ...this.toMovies(data.results)];
   }
 }
 
-export default new MovieManager();
+export default new MovieModel();

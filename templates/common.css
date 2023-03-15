@@ -123,7 +123,7 @@ button.primary {
     background-position: 0% 50%;
   }
 }
-movie-header {
+movie-head {
   width: 100%;
   min-width: 1200px;
   height: 72px;
@@ -136,7 +136,7 @@ movie-header {
   margin-bottom: 48px;
 }
 
-movie-header h1 {
+movie-head h1 {
   cursor: pointer;
   user-select: none;
   font-size: 2rem;
@@ -145,17 +145,17 @@ movie-header h1 {
   color: #f33f3f;
 }
 
-movie-header > .search-box {
+movie-head > .search-box {
   background: #fff;
   padding: 8px;
   border-radius: 4px;
 }
 
-movie-header .search-box > input {
+movie-head .search-box > input {
   border: 0;
 }
 
-movie-header .search-box > .search-button {
+movie-head .search-box > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
