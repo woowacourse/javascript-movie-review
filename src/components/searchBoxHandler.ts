@@ -10,4 +10,3 @@ export const onSubmitSearchBox = () => {
     await movieApi.fetchSearchedMovieInfo(keyword);
   });
 };
-

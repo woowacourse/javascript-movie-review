@@ -13,7 +13,11 @@ export default class MovieList extends HTMLElement {
   renderMovies() {
     this.innerHTML = `
     <section class="item-view">
-      <h2>지금 인기 있는 영화</h2>
+      <h2>${
+        movieApi.last_keyword === ""
+          ? "지금 인기 있는 영화"
+          : `"${movieApi.last_keyword}" 검색 결과`
+      }</h2>
       <ul class="item-list">
         ${movieApi.movies.map((movie) => this.renderMovie(movie)).join("")}
       </ul>
