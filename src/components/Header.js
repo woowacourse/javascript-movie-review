@@ -26,6 +26,9 @@ class Header {
         const searchData = $('#search-input').value;
         await this.#manager.searchMovieList(searchData);
         this.#element.dispatchEvent(new CustomEvent('searchFullfilled', { bubbles: true }));
+      } else if (e.target.tagName === 'IMG') {
+        await this.#manager.searchMovieList('');
+        this.#element.dispatchEvent(new CustomEvent('searchFullfilled', { bubbles: true }));
       }
     });
   }

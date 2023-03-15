@@ -11,9 +11,10 @@ class Main {
     this.#requestMovieListEvent();
   }
 
-  render () {
+  async render () {
     const movie = new Movie();
     const query = this.#manager.getQuery();
+    if (query === '' && !this.#manager.getMovieList().length) await this.#manager.searchMovieList('');
     this.#element.innerHTML = `
     <h2>${query === '' ? '지금 인기 있는 영화' : `"${query}" 검색 결과`}</h2>
     <ul class="item-list">

@@ -46,11 +46,10 @@ class MovieListManager {
     await this.fetchMovieList();
   }
 
-  async getMoreMovieList(){
+  async getMoreMovieList () {
     this.currentPage += 1;
     await this.fetchMovieList();
   }
-  
 }
 
 export default MovieListManager;
