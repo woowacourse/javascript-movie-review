@@ -9,16 +9,24 @@ class App {
 
   constructor() {
     this.#movieList.renderListTitle('Popular movies');
-    this.fetchAndUpdateMovieList();
+    this.fetchAndUpdateMovieList('overwrite');
     this.#loadMoreButton.render('Show More');
+
+    this.#loadMoreButton.addClickEventHandler(this.onClickLoadMoreButton);
   }
 
-  async fetchAndUpdateMovieList() {
+  async fetchAndUpdateMovieList(updateType: string) {
     const movieList = await this.#movieFetcher.fetchMovieInfoByPopularity();
     if (!movieList) return;
 
-    this.#movieList.renderContents(movieList);
+    updateType === 'overwrite'
+      ? this.#movieList.renderContents(movieList)
+      : this.#movieList.renderNextContents(movieList);
   }
+
+  onClickLoadMoreButton = () => {
+    this.fetchAndUpdateMovieList('append');
+  };
 }
 
 export default App;
