@@ -6,7 +6,7 @@ const MovieChartActions = () => {
   const MovieComponent = (props: MovieProps) => {
     return (
       debounce(() => {
-        replaceComponent($('#Movie'), Movie(props));
+        replaceComponent($(`#Movie-${props.info.id}`), Movie(props));
       })() && ''
     );
   };

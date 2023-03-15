@@ -38,8 +38,6 @@ export const getElement = (template: string) => {
   const root = document.createElement('div');
   root.innerHTML = template;
 
-  console.log(root);
-
   return root.firstElementChild;
 };
 
