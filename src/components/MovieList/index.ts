@@ -137,7 +137,6 @@ export class MovieList {
   }
 
   renderSkeleton() {
-    console.log("스켈레톤 생성");
     this.#$target.appendChild(this.#$skeletonContainer);
   }
 
