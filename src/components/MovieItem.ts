@@ -1,4 +1,5 @@
 import { StarFilled } from "../../images";
+import { AddSkeleton } from "../../images";
 
 customElements.define(
   "movie-item",
@@ -15,7 +16,11 @@ customElements.define(
           <div class="item-card">
             <img
               class="item-thumbnail"
-              src="https://image.tmdb.org/t/p/original/${posterPath}"
+              src="${
+                posterPath !== "null"
+                  ? `https://image.tmdb.org/t/p/original/${posterPath}`
+                  : `${AddSkeleton}`
+              }"
               loading="lazy"
               alt="${title}"
             />
