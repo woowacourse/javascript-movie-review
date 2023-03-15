@@ -12,6 +12,10 @@ class MovieItem {
     this.render();
   }
 
+  convertToImgUrl(imgSrc) {
+    return `http://image.tmdb.org/t/p/w300${imgSrc}`;
+  }
+
   template() {
     const { title, posterSrc, voteAverage } = this.#movieInfo;
 
@@ -21,7 +25,7 @@ class MovieItem {
         <div class="item-card">
           <img
             class="item-thumbnail"
-            src=${posterSrc}
+            src=${this.convertToImgUrl(posterSrc)}
             loading="lazy"
             alt=${title}
           />
