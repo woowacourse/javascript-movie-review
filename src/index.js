@@ -2,17 +2,25 @@ import './style/reset';
 import './style/common';
 import Header from './components/Header';
 import MovieList from './components/MovieList';
+import { getPopularMovies } from './service/movie';
 
 class App {
   constructor() {
     const $app = document.querySelector('#app');
-    this.header = new Header($app);
-    this.movieList = new MovieList($app);
+    this.header = new Header($app).init();
+    this.movieList = new MovieList($app).init();
   }
 
   async init() {
-    this.header.render();
-    await this.movieList.render();
+    this.header.bindEvent(this.onSubmitSearch.bind(this));
+
+    const { results } = await getPopularMovies({ page: 1 });
+    this.movieList.renderMovieCards(results);
+  }
+
+  onSubmitSearch(results) {
+    this.movieList.removeMovieCards();
+    this.movieList.renderMovieCards(results);
   }
 }
 

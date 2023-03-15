@@ -1,4 +1,3 @@
-import { getPopularMovies } from '../service/movie';
 import MovieCard from './MovieCard';
 
 export default class MovieList {
@@ -6,7 +5,7 @@ export default class MovieList {
     this.$parent = $parent;
   }
 
-  template(movies) {
+  template() {
     return `
       <main>
         <section class="item-view">
@@ -18,12 +17,25 @@ export default class MovieList {
     `;
   }
 
-  async render() {
+  init() {
     this.$parent.insertAdjacentHTML('beforeend', this.template());
+    this.$title = this.$parent.querySelector('h2');
+    this.$movieItemList = this.$parent.querySelector('ul');
 
-    const { results } = await getPopularMovies({ page: 1 });
+    return this;
+  }
+
+  renderTitle(title) {
+    this.$title.textContents = title;
+  }
+
+  renderMovieCards(results) {
     results.forEach((movie) => {
-      new MovieCard(this.$parent.querySelector('.item-list'), movie).render();
+      new MovieCard(this.$movieItemList, movie).render();
     });
+  }
+
+  removeMovieCards() {
+    this.$movieItemList.innerHTML = '';
   }
 }

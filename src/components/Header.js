@@ -1,4 +1,5 @@
 import logo from '../assets/logo';
+import { searchMovies } from '../service/movie';
 
 export default class Header {
   constructor($parent) {
@@ -9,15 +10,31 @@ export default class Header {
     return `
       <header>
         <h1><img src="${logo}" alt="MovieList 로고" /></h1>
-        <div class="search-box">
-          <input type="text" placeholder="검색" />
+        <form class="search-box">
+          <input type="text" name="keyword" placeholder="검색" />
           <button class="search-button">검색</button>
-        </div>
+        </form>
       </header>
     `;
   }
 
-  render() {
+  init() {
     this.$parent.insertAdjacentHTML('beforeend', this.template());
+    return this;
+  }
+
+  bindEvent(onSubmitSearch) {
+    const searchBox = this.$parent.querySelector('.search-box');
+
+    const handleSubmitSearch = async (event) => {
+      event.preventDefault();
+
+      const keyword = new FormData(event.target).get('keyword');
+      const { results } = await searchMovies({ text: keyword, page: 1 });
+
+      onSubmitSearch(results);
+    };
+
+    searchBox?.addEventListener('submit', handleSubmitSearch);
   }
 }
