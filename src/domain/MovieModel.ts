@@ -1,20 +1,22 @@
-import { ApiMovieItem, Movie } from "../type/movieType";
+import { ApiMovieItem, MoviesData } from "../type/movieType";
 import { popularUrl, request, searchUrl } from "../util/api";
 
 class MovieModel {
-  private movies: Movie[] = [];
-  private totalPages: number = 0;
+  private moviesData: MoviesData = {
+    list: [],
+    searchWord: "",
+  };
   private page: number = 1;
-  private searchWord: string = "";
+  private totalPages: number = 0;
 
   constructor() {
-    if (this.movies.length === 0) {
+    if (this.moviesData.list.length === 0) {
       this.getApiMoreMovies();
     }
   }
 
   get movieList() {
-    return this.movies;
+    return this.moviesData;
   }
 
   toMovies(results: ApiMovieItem[]) {
@@ -37,20 +39,23 @@ class MovieModel {
 
   async getApiMovies(query: string = "") {
     this.page = 1;
-    this.searchWord = query;
+    this.moviesData.searchWord = query;
 
     const url = query ? searchUrl(query, this.page) : popularUrl(this.page);
     const data = await request(url);
     this.totalPages = data.total_pages;
 
-    this.movies = this.toMovies(data.results);
+    this.moviesData.list = this.toMovies(data.results);
   }
 
   async getApiMoreMovies() {
-    const url = searchUrl(this.searchWord, this.page);
+    const url = searchUrl(this.moviesData.searchWord, this.page);
     const data = await request(url);
 
-    this.movies = [...this.movies, ...this.toMovies(data.results)];
+    this.moviesData.list = [
+      ...this.moviesData.list,
+      ...this.toMovies(data.results),
+    ];
   }
 }
 

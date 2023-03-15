@@ -20,3 +20,8 @@ export interface Movie {
   src: string;
   starRate: number;
 }
+
+export interface MoviesData {
+  list: Movie[];
+  searchWord: string;
+}
