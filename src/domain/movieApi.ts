@@ -11,6 +11,13 @@ export const movieApi = {
     const response = await fetch(
       `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}&language=ko&page=${this.page}`
     );
+
+    try {
+      if (response.status !== 200) throw new Error("서버가 불안정합니다.");
+    } catch (error) {
+      if (error instanceof Error) return alert(error.message);
+    }
+
     const { page, results, total_pages, total_results } = await response.json();
 
     if (this.last_keyword !== "") {
