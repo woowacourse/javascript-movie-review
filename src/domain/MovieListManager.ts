@@ -30,13 +30,14 @@ class MovieListManager {
     const url = this.query === "" 
       ? getPopolarMovieRequestUrl(this.currentPage)
       : getSearchMovieUrl(this.query, this.currentPage);
-    
+
     await fetch(url)
       .then((res) => res.json())
       .then((data) => {
         this.list.push(...data.results);
         if (data["total_results"] === this.list.length) this.lastPage = true;
-      });
+      })
+      .catch((error) => alert('정보 요청에 실패했습니다.'));
   }
 
   async searchMovieList(movieName:string){
