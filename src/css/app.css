@@ -58,6 +58,10 @@ button {
   flex-direction: column;
 }
 
+.item-thumbnail:hover {
+  transform: scale(1.3);
+}
+
 .item-thumbnail {
   border-radius: 8px;
   width: 180px;
