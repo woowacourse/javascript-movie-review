@@ -32,7 +32,7 @@ class App {
     const $header = this.$target.querySelector("header");
 
     new Header($header, {
-      onSubmitSearchInput: this.renderMovieList.bind(this),
+      renderMovieList: this.renderMovieList.bind(this),
     });
     this.renderMovieList("popular");
   }

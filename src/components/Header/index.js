@@ -15,7 +15,7 @@ class Header {
 
   template() {
     return `
-    <h1><img src=${Logo} alt="MovieList 로고" /></h1>
+    <h1 class="logo"><img src=${Logo} alt="MovieList 로고" /></h1>
     <form class="search-box">
       <input class="search-input" type="text" placeholder="검색" />
       <button class="search-button">검색</button>
@@ -28,14 +28,20 @@ class Header {
   }
 
   setEvents() {
+    const { renderMovieList } = this.#props;
+
     const $searchBox = this.$target.querySelector(".search-box");
+    const $logo = this.$target.querySelector(".logo");
 
     $searchBox.addEventListener("submit", (event) => {
       event.preventDefault();
-      const { onSubmitSearchInput } = this.#props;
 
       const searchValue = event.target.querySelector(".search-input").value;
-      onSubmitSearchInput("search", searchValue);
+      renderMovieList("search", searchValue);
+    });
+
+    $logo.addEventListener("click", () => {
+      renderMovieList("popular");
     });
   }
 }
