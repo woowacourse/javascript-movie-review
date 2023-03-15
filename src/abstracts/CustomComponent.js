@@ -1,11 +1,13 @@
 export default class CustomComponent extends HTMLElement {
-    connectedCallback() {
-        this.render();
-    }
+  connectedCallback() {
+    this.render();
+    this.handleEvent();
+  }
 
-    render() {
-        this.innerHTML = this.template();
-    }
+  render() {
+    this.innerHTML = this.template();
+  }
 
-    template() {}
+  template() {}
+  handleEvent() {}
 }

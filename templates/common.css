@@ -46,11 +46,11 @@ button {
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .item-list {
-  display: grid;
+  /* display: grid;
   margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
   grid-column-gap: 160px;
-  grid-row-gap: 48px;
+  grid-row-gap: 48px; */
 }
 
 .item-card {
@@ -161,4 +161,12 @@ header .search-box > .search-button {
   text-indent: -1000rem;
   background: url("./search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+movie-list-page {
+  display: grid;
+  margin: 48px 0;
+  grid-template-columns: repeat(4, 180px);
+  grid-column-gap: 160px;
+  grid-row-gap: 48px;
 }

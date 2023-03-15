@@ -1,17 +1,17 @@
 import CustomComponent from "../abstracts/CustomComponent";
 import MovieComponent from "./MovieComponent";
 
-export default class MovieListComponent extends CustomComponent {
+export default class MovieListPageComponent extends CustomComponent {
   static get observedAttributes() {
     return ["data-status"];
   }
 
   attributeChangedCallback() {
     const status = this.getAttribute("data-status");
-
+    const movieList = JSON.parse(this.getAttribute("data-movie-list"));
     switch (status) {
       case "loading":
-        this.querySelector(".item-list").innerHTML = `
+        this.innerHTML = `
           <li>
             <a href="#">
               <div class="item-card">
@@ -33,14 +33,19 @@ export default class MovieListComponent extends CustomComponent {
         `;
         break;
       case "success":
-        this.querySelector(".item-list").innerHTML = `
-          <movie-item>
-          
-          </movie-item>
-        `;
+        const movieItem = movieList
+          .map((movieItem) => {
+            return `<movie-item
+                title="${movieItem.title}"
+                vote_average="${movieItem.vote_average}"
+                poster_path="${movieItem.poster_path}">
+            </movie-item>`;
+          })
+          .join("");
+        this.innerHTML = movieItem;
         break;
       case "fail":
-        this.querySelector(".item-list").innerHTML = `
+        this.innerHTML = `
           <div>Page Error</div>
         `;
         break;
@@ -49,9 +54,8 @@ export default class MovieListComponent extends CustomComponent {
 
   template() {
     return `
-            <ul class="item-list">
-            </ul>
+            <movie-item></movie-item>
         `;
   }
 }
-customElements.define("movie-list", MovieListComponent);
+customElements.define("movie-list-page", MovieListPageComponent);
