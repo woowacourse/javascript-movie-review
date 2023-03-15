@@ -1,6 +1,7 @@
 import { $ } from './utils/domHelper';
 import Header from './components/Header';
 import MovieList from './components/MovieList';
+import SeeMore from './components/SeeMore';
 
 export default class App {
   $target;
@@ -20,6 +21,7 @@ export default class App {
   render() {
     new Header($('#app')).render();
     this.$target.insertAdjacentHTML('beforeend', this.template());
-    new MovieList($('.item-view')).render();
+    new MovieList($('.item-view'));
+    new SeeMore($('.item-view')).render().setEvent();
   }
 }
