@@ -6,18 +6,18 @@ export const fetchPopularMovies = async (page: number) => {
   const res = await fetch(API_URL);
   try {
     const data = await res.json();
-    return data;
+    return data.results;
   } catch (error) {
     if (error instanceof Error) console.log(error.message);
   }
 };
 
-export const fetchSearchMovie = async (query: string) => {
-  const API_URL = `${getAPIUrl('/search/movie')}&query=${query}`;
+export const fetchSearchMovies = async (page: number, query: string) => {
+  const API_URL = `${getAPIUrl('/search/movie', page)}&query=${query}`;
   const res = await fetch(API_URL);
   try {
     const data = await res.json();
-    return data;
+    return data.results;
   } catch (error) {
     if (error instanceof Error) console.log(error.message);
   }
