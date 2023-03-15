@@ -6,22 +6,43 @@ import { $ } from "../utils/domSelector";
 const MovieListContainer = {
   loadMovies: async (searchKey?: string) => {
     try {
-      MovieListContainer.render();
+      if (searchKey) {
+        $<HTMLElement>(
+          "#movie-list-title"
+        ).textContent = `"${searchKey}" 검색 결과`;
+      }
+
+      MovieListContainer.renderContent();
+
       const movies = await MovieList.getMovieData();
-      console.log(movies);
-      MovieListContainer.render(movies, searchKey);
+      MovieListContainer.renderContent(movies);
+
+      if (movies.length < 20) {
+        $<HTMLButtonElement>("#more-button").style.display = "none";
+      }
+      if (searchKey && movies.length === 0) {
+        $<HTMLButtonElement>("#movie-list-title").style.display = "none";
+        MovieListContainer.renderNoSearchMessage(searchKey);
+        return;
+      }
     } catch (error) {
+      MovieListContainer.renderErrorMessage();
       console.log(error);
     }
   },
 
-  render: (movies?: Movie[], searchKey?: string) => {
+  render() {
+    return `
+    <section class="item-view">
+      <h2 id="movie-list-title">지금 인기 있는 영화</h2>
+      <ul class="item-list"></ul>
+      <button id="more-button" class="btn primary full-width">더 보기</button>
+    </section>
+    `;
+  },
+
+  renderContent: (movies?: Movie[]) => {
     const template = `
-      <section class="item-view">
-        <h2>${
-          searchKey ? `"${searchKey}" 검색 결과` : "지금 인기 있는 영화"
-        }</h2>
-        <ul class="item-list">
         ${
           !movies
             ? `
@@ -35,14 +56,43 @@ const MovieListContainer = {
           </a>
           </li>`.repeat(20)
             : movies.map((movie) => MovieItem.render(movie)).join("")
-        }
-        </ul>
-        <button id="more-button" class="btn primary full-width">더 보기</button>
-      </section>`;
+        }`;
 
-    $<HTMLElement>("main").replaceChildren();
-    $<HTMLElement>("main").insertAdjacentHTML("beforeend", template);
-    MovieListContainer.onClick();
+    $<HTMLElement>(".item-list").replaceChildren();
+    $<HTMLElement>(".item-list").insertAdjacentHTML("beforeend", template);
+  },
+
+  renderNoSearchMessage: (searchKey: string) => {
+    const template = `
+      <div class="error-message">
+        <h3>입력하신 검색어 "${searchKey}"(와)과 일치하는 결과가 없습니다.</h3>
+        <p>다른 키워드를 입력해 보세요.</p>
+      </div>`;
+
+    const errorMessageElement = document.querySelector(".error-message");
+
+    if (errorMessageElement) {
+      $<HTMLElement>(".item-view").removeChild(errorMessageElement);
+    }
+
+    $<HTMLElement>(".item-view").insertAdjacentHTML("afterbegin", template);
+  },
+
+  renderErrorMessage: () => {
+    $<HTMLElement>(".item-view").replaceChildren();
+    const template = `
+      <div class="error-message">
+        <h3>서비스 이용에 불편을 드려 죄송합니다.</h3>
+        <p>새로고침 단추를 클릭하거나 나중에 다시 시도해 주세요.</p>
+      </div>`;
+
+    const errorMessageElement = document.querySelector(".error-message");
+
+    if (errorMessageElement) {
+      $<HTMLElement>(".item-view").removeChild(errorMessageElement);
+    }
+
+    $<HTMLElement>(".item-view").insertAdjacentHTML("afterbegin", template);
   },
 
   onClick: () => {
@@ -52,6 +102,10 @@ const MovieListContainer = {
         "beforeend",
         movies.map((movie) => MovieItem.render(movie)).join("")
       );
+
+      if (movies.length < 20) {
+        $<HTMLButtonElement>("#more-button").style.display = "none";
+      }
     });
   },
 };
