@@ -36,8 +36,9 @@ class MovieListManager {
       .then((data) => {
         this.list.push(...data.results);
         if (data["total_results"] === this.list.length) this.lastPage = true;
+        else this.lastPage = false;
       })
-      .catch((error) => alert('정보 요청에 실패했습니다.'));
+      .catch(() => alert('정보 요청에 실패했습니다.'));
   }
 
   async searchMovieList(movieName:string){
