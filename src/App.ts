@@ -8,12 +8,9 @@ class App {
 
   #movies: Movies;
 
-  #title: string | undefined;
-
   constructor() {
     this.#app = document.querySelector<HTMLDivElement>('#app');
     this.#movies = new Movies();
-    this.#movies.init();
   }
 
   async init() {
@@ -24,7 +21,7 @@ class App {
     this.#app.innerHTML = `
       ${Header.template()}
       <main>
-        ${MovieCardSection.template(this.#movies.get(), 'this.#title')}
+        ${MovieCardSection.template(this.#movies.get())}
       </main>
     `;
 

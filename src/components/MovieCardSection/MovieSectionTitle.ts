@@ -1,6 +1,6 @@
 const MovieSectionTitle = {
-  template(title: string) {
-    return `<h2>${title}</h2>`;
+  template(query: string = '') {
+    return `<h2>${query === '' ? '지금 인기있는 영화' : `"${query}" 검색 결과`}</h2>`;
   },
 };
 

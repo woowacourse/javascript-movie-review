@@ -7,10 +7,10 @@ import MovieSectionTitle from './MovieSectionTitle';
 import Movies from '../../domain/Movies';
 
 const MovieCardSection = {
-  template(list: Movie[], title: string) {
+  template(list: Movie[]) {
     return `
       <section class="item-view">
-        ${MovieSectionTitle.template(title)}
+        ${MovieSectionTitle.template()}
         ${MovieCardList.template(list)}
         ${LoadMoreButton.template()}
       </section>
