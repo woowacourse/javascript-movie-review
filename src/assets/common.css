@@ -174,15 +174,19 @@ hr ~ * {
   display: none;
 }
 
-ul:has(hr:last-child) ~ #item-load {
+ul.item-list:has(hr:last-child) ~ button {
   display: none;
 }
 
-.item-last-notice {
+ul.item-list ~ h3 {
   display: none;
   text-align: center;
   font-size: 1.2rem;
   color: rgba(255, 255, 255, 0.3);
+}
+
+ul.item-list:has(hr:first-child) ~ h3 {
+  display: initial;
 }
 
 ul:has(hr:last-child) ~ .item-last-notice {
