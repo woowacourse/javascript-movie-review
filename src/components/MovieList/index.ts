@@ -27,7 +27,7 @@ export class MovieList extends HTMLElement {
     if (movieList.length === 0) {
       this.$movieItems?.insertAdjacentHTML(
         'beforeend',
-        `<img src="./assets/empty.png" width="900px"/>`,
+        `<img src="./assets/empty.png" width="1200px"/>`,
       );
     }
     movieList.map((movie: Movie) => {
