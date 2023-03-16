@@ -5,15 +5,19 @@ import SearchBox from "./components/SearchBox";
 import MovieDataManager from "./domain/MovieDataManager";
 
 export const App = async () => {
-  let currentTab = "ALL";
-
+  const movieDataManager = new MovieDataManager();
   const searchBox = new SearchBox();
+  const movieItemList = new MovieItemList();
+
+  document.querySelector(".logo")?.addEventListener("click", () => {
+    window.location.reload();
+  });
+
   document
     .querySelector(".search-input")!
-    .addEventListener("searchButtonClicked", async (e: unknown) => {
+    .addEventListener("searchButtonClicked", async (e: Event) => {
       if (!(e instanceof CustomEvent)) return;
       document.querySelector("main")!.innerHTML = "";
-      currentTab = "SEARCH";
       searchBox.updateKeyword(e.detail.query);
 
       showMovieList();
@@ -56,15 +60,11 @@ export const App = async () => {
     });
   };
 
-  const getData = getPopularMovie(); // 최초 데이타
-
+  const getData = getPopularMovie();
   const getCurrentTabResult = async () => {
     return await getData();
   };
-
-  const movieDataManager = new MovieDataManager(); // 도메인 객체 생성
   const popularMovieData = await getCurrentTabResult();
-
   const result = await popularMovieData?.data.results;
   const movieElement = await movieDataManager.generateElement(
     await result,
@@ -72,9 +72,7 @@ export const App = async () => {
     popularMovieData?.currentPage as number
   );
 
-  const movieItemList = new MovieItemList();
   movieItemList.addMovies(movieElement);
-
   document.querySelector(".primary")?.addEventListener("click", async () => {
     const popularMovieData = await getCurrentTabResult();
     const result = popularMovieData?.data.results;
