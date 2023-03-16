@@ -6,15 +6,13 @@ export default class MoreButtonComponent extends CustomComponent {
   }
 
   attributeChangedCallback() {
-    this.querySelector("button").setAttribute(
-      "data-action",
-      this.getAttribute("data-action")
-    );
+    const actionType = this.getAttribute("data-action");
+    this.querySelector("button").setAttribute("data-action", actionType);
   }
 
   template() {
     return `
-            <button class="btn primary full-width" data-action="">더 보기</button>
+            <button class="btn primary full-width">더 보기</button>
         `;
   }
 }
