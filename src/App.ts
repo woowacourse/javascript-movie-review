@@ -43,6 +43,7 @@ class App {
     this.store.page = 0;
     this.store.getMovieList(value).then(() => {
       setTimeout(() => {
+        if (this.store.totalPage === 1 || this.store.totalPage === 0) this.removeButton();
         this.$movieList.renderSearchedMovies(this.store.movieListValue);
       }, 500);
     });
