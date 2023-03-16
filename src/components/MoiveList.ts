@@ -115,4 +115,6 @@ class MovieList {
   }
 }
 
-export default MovieList;
+const moveList = new MovieList();
+
+export default moveList;
