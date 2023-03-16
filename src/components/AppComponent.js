@@ -19,6 +19,18 @@ export default class AppComponent extends CustomComponent {
   $movieListTitle;
   $searchInput;
 
+  render() {
+    super.render();
+
+    this.$movieList = this.querySelector("movie-list");
+    this.$movieListTitle = this.querySelector("movie-list-title");
+    this.$searchInput = this.querySelector("input");
+
+    this.popularListInit();
+    this.getMovieData(ACTION.POPULAR);
+    this.changeMoreButtonAction(ACTION.MORE_POPULAR);
+  }
+
   urlByActionType(actionType) {
     switch (actionType) {
       case ACTION.POPULAR:
@@ -36,8 +48,8 @@ export default class AppComponent extends CustomComponent {
           this.totalPage = data.total_pages;
 
           const movieItems = transformMovieItemsType(data.results);
-
           this.$movieList.renderPageSuccess(movieItems);
+
           this.nextPage += 1;
           this.checkPage();
         } else {
@@ -47,18 +59,6 @@ export default class AppComponent extends CustomComponent {
       .catch((error) => {
         this.$movieList.renderPageFail();
       });
-  }
-
-  render() {
-    super.render();
-
-    this.$movieList = this.querySelector("movie-list");
-    this.$movieListTitle = this.querySelector("movie-list-title");
-    this.$searchInput = this.querySelector("input");
-
-    this.popularListInit();
-    this.getMovieData(ACTION.POPULAR);
-    this.changeMoreButtonAction(ACTION.MORE_POPULAR);
   }
 
   checkPage() {
@@ -80,6 +80,7 @@ export default class AppComponent extends CustomComponent {
 
   popularListInit() {
     this.nextPage = 1;
+
     this.$searchInput.value = "";
     this.$movieListTitle.setTitle(TITLE.POPULAR);
     this.$movieList.initialPage();
@@ -94,13 +95,11 @@ export default class AppComponent extends CustomComponent {
       switch (e.target.dataset.action) {
         case ACTION.POPULAR:
           this.popularListInit();
-
           this.getMovieData(ACTION.POPULAR);
           this.changeMoreButtonAction(ACTION.MORE_POPULAR);
           break;
         case ACTION.SEARCH:
           this.searchListInit();
-
           this.getMovieData(ACTION.SEARCH);
           this.changeMoreButtonAction(ACTION.MORE_SEARCH);
           break;
@@ -123,12 +122,14 @@ export default class AppComponent extends CustomComponent {
           alert(SEARCH_WARNING);
           return;
         }
+
         this.searchListInit();
         this.getMovieData(ACTION.SEARCH);
         this.changeMoreButtonAction(ACTION.MORE_SEARCH);
       }
     });
   }
+
   template() {
     return `
         <div id="app">
