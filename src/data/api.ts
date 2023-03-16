@@ -1,4 +1,4 @@
-const API_KEY = '040ef8ffb4bf681809f3c88b6d22a354';
+const API_KEY = '입력하세요';
 const BASE_PATH = 'https://api.themoviedb.org/3';
 
 export interface IMovie {
