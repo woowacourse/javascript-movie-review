@@ -1,4 +1,5 @@
 import Movie from './domain/Movie';
+import { statusCodeToErrorMessage } from './statusCode';
 
 const Store = {
   movie: new Movie(),
@@ -30,12 +31,12 @@ const Store = {
 
       const { results, total_pages, page } = data;
       setTimeout(() => this.setMovies({ results, total_pages, page }), 500);
-    } catch (error) {
-      const { isError, data } = error;
+    } catch ({ isError, data }) {
+      const message = statusCodeToErrorMessage(data.status_code);
 
       this.movies['error'] = {
         isError,
-        message: data.status_message,
+        message,
       };
     }
   },
@@ -59,12 +60,12 @@ const Store = {
 
       const { results, total_pages, page } = data;
       setTimeout(() => this.setMovies({ results, total_pages, page }, query), 500);
-    } catch (error) {
-      const { isError, data } = error;
+    } catch ({ isError, data }) {
+      const message = statusCodeToErrorMessage(data.status_code);
 
       this.movies['error'] = {
         isError,
-        message: data.status_message,
+        message,
       };
     }
   },
@@ -73,7 +74,7 @@ const Store = {
     const emptyArray = Array.from({ length: 20 }).map(() => {
       return { title: null };
     });
-    // this.movies['category'] = 'loading';
+
     this.movies['results'] = curPage === 1 ? emptyArray : [...this.movies.results, ...emptyArray];
   },
 
