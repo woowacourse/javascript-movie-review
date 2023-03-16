@@ -7,7 +7,7 @@ const MovieItem = {
     return `
       <li>
         <a href="#">
-          <div class="item-card">
+          <div class="item-card movie-item">
           ${
             movie.poster_path
               ? `<img

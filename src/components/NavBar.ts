@@ -10,7 +10,7 @@ const NavBar = {
         <h1><a href=""><img src="${Logo}" alt="MovieList 로고" /></a></h1>
         <form class="search-box">
           <input id="search-input" name="search-input" type="text" placeholder="검색" />
-          <button class="search-button">검색</button>
+          <button id="search-button">검색</button>
         </form>
       </header>`;
   },
