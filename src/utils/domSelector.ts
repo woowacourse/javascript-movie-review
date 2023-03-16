@@ -1,5 +1,5 @@
-const $ = <E extends Element>(selector: string): E => {
-  const element = document.querySelector(selector);
+const $ = <E extends Element>(selector: string, target: E | Document = document): E => {
+  const element = target.querySelector(selector);
 
   if (!element) {
     throw new Error(`DOM에 ${selector} 요소가 존재하지 않습니다.`);
