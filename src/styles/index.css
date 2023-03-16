@@ -29,37 +29,10 @@ button {
   width: 100%;
 }
 
-/* https://andrew.hedges.name/experiments/aspect_ratio/ */
-
-.item-title.skeleton::after,
-.item-score.skeleton::after {
-  font-size: 0;
-  content: 'loading';
-}
-
 .full-width {
   width: 100%;
 }
 
 .last-item {
   margin-top: 48px;
-}
-
-.item-card .skeleton {
-  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
-  background-size: 400%;
-  animation: skeleton-animation 5s infinite ease-out;
-  border-radius: 8px;
-}
-
-@keyframes skeleton-animation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
 }

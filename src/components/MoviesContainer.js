@@ -14,6 +14,11 @@ class MoviesContainer extends HTMLElement {
       set: (target, property, value) => {
         target[property] = value;
         this.reset();
+
+        document.querySelectorAll('skeleton-item').forEach(node => {
+          node.classList.remove('skeleton-hide');
+        });
+
         this.updateMovieList();
         this.updateTitle(value);
 
@@ -38,7 +43,10 @@ class MoviesContainer extends HTMLElement {
     <main>
     <section class="item-view">
     <h2>지금 인기 있는 영화</h2>
-    <ul class="item-list"></ul>
+    <ul class="item-list">
+      <skeleton-item id="first-skeleton"></skeleton-item>
+    ${'<skeleton-item></skeleton-item>'.repeat(19)}
+    </ul>
     <common-button id="more-button" class="hide-button" text="더보기" color="primary"></common-button>
     </section>
     </main>`;
@@ -47,10 +55,20 @@ class MoviesContainer extends HTMLElement {
   async updateMovieList() {
     try {
       await this.#movieData.update(this.#searchWord.value);
+
+      document.querySelectorAll('skeleton-item').forEach(node => {
+        node.classList.add('skeleton-hide');
+      });
+
       this.renderMovieList();
       this.toggleVisibleButton();
     } catch (error) {
-      window.alert(error.message);
+      $('h2').innerText = error.message;
+      $('#more-button').classList.add('hide-button');
+
+      document.querySelectorAll('skeleton-item').forEach(node => {
+        node.classList.add('skeleton-hide');
+      });
     }
   }
 
@@ -66,7 +84,7 @@ class MoviesContainer extends HTMLElement {
       return (curr += `<movie-item id="${prev.id}" title="${prev.title}" imgUrl="${prev.imgUrl}" score="${prev.score}"></movie-item>`);
     }, '');
 
-    $('.item-list').insertAdjacentHTML('beforeend', movieListTemplate);
+    $('#first-skeleton').insertAdjacentHTML('beforebegin', movieListTemplate);
   }
 
   toggleVisibleButton() {
@@ -80,6 +98,10 @@ class MoviesContainer extends HTMLElement {
 
   setButtonEvent() {
     $('#more-button').addEventListener('click', () => {
+      document.querySelectorAll('skeleton-item').forEach(node => {
+        node.classList.remove('skeleton-hide');
+      });
+
       this.updateMovieList();
     });
   }
@@ -89,7 +111,14 @@ class MoviesContainer extends HTMLElement {
   }
 
   reset() {
-    $('.item-list').replaceChildren();
+    document.querySelectorAll('movie-item').forEach(node => node.remove());
+
+    const noResultMessage = $('.item-list > span');
+
+    if (noResultMessage) {
+      noResultMessage.remove();
+    }
+
     this.#movieData.resetPageIndex();
   }
 
@@ -106,6 +135,7 @@ class MoviesContainer extends HTMLElement {
     const noResultMessage = document.createElement('span');
     noResultMessage.innerText = '검색 결과가 없습니다';
     noResultMessage.classList.add('no-result');
+
     $('.item-list').appendChild(noResultMessage);
   }
 }

@@ -17,14 +17,8 @@
 }
 
 .item-score {
-  display: flex;
-  align-items: center;
   margin-top: 16px;
   font-size: 1.2rem;
-}
-
-.item-score > img {
-  margin-left: 8px;
 }
 
 .item-score::after {
