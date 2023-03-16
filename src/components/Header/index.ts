@@ -17,6 +17,11 @@ export class Header extends HTMLElement {
       e.currentTarget.value = '';
     });
   }
+
+  addClickLogoHandler(handler: CallableFunction) {
+    const $logo = this.querySelector('img');
+    $logo?.addEventListener('click', () => {
+      handler();
     });
   }
 }
