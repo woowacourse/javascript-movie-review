@@ -15,19 +15,16 @@ class MovieList {
     return MovieList.instance;
   }
 
-  initCurrentPage() {
+  init(searchKey: string) {
     this.currentPage = 1;
+    this.searchKey = searchKey;
   }
 
   increaseCurrentPage() {
     this.currentPage += 1;
   }
 
-  setSearchKey(newSearchKey: string) {
-    this.searchKey = newSearchKey;
-  }
-
-  async getPopularMovieData(): Promise<Movie[]> {
+  private async getPopularMovieData(): Promise<Movie[]> {
     const movieData: Movie[] = await fetchPopularMovieData(this.currentPage);
     this.increaseCurrentPage();
 
@@ -41,7 +38,7 @@ class MovieList {
     return movies;
   }
 
-  async getSearchedMovieData(): Promise<Movie[]> {
+  private async getSearchedMovieData(): Promise<Movie[]> {
     const movieData = await fetchSearchedMovieData(
       this.searchKey,
       this.currentPage

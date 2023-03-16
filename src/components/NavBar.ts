@@ -25,8 +25,7 @@ const NavBar = {
 
         if (inputElement.value.trim().length === 0) return;
 
-        MovieList.setSearchKey(inputElement.value);
-        MovieList.initCurrentPage();
+        MovieList.init(inputElement.value);
 
         MovieListContent.loadMovies(inputElement.value);
       }
