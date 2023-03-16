@@ -24,19 +24,19 @@ export default class MovieItemList {
   }
 
   addMovies(n: any) {
-    const listContainer = document.createElement("li");
-
-    listContainer.innerHTML = n;
+    // const listContainer = document.createDocumentFragment();
+    // listContainer.classList.add("list-container");
+    // listContainer.innerHTML = n;
     console.log(n);
-    document.querySelector(".item-list")?.appendChild(listContainer);
+    document.querySelector(".item-list")?.insertAdjacentHTML("beforeend", n);
   }
 
   render() {
-    const container = document.createElement("div");
+    const container = document.createElement("section");
+    container.classList.add("item-view");
+    document.querySelector("main")?.appendChild(container);
     container.innerHTML = this.create();
-    console.log(container);
-    document
-      .querySelector(".item-view")
-      ?.insertAdjacentElement("afterend", container);
+    // console.log(container);
+    // document.querySelector(".item-view")?.appendChild(container);
   }
 }
