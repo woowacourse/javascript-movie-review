@@ -1,5 +1,5 @@
 import { fetchMovies } from './fetch';
-import { Movie } from './types';
+import { Movie, MovieList } from './types';
 
 class Store {
   movieList: Movie[];
@@ -19,19 +19,30 @@ class Store {
     if (value) {
       this.searchWord = value;
       await fetchMovies('/search/movie', this.page, value).then((data) => {
-        this.movieList = data?.movies;
-        this.totalPage = data?.total_pages;
+        if (data) this.setMovieData(data);
       });
       return;
     }
     await fetchMovies('/movie/popular', this.page).then((data) => {
-      this.movieList = data?.movies;
-      this.totalPage = data?.total_pages;
+      if (data) this.setMovieData(data);
     });
+  }
+
+  setMovieData(data: MovieList) {
+    this.movieList = data?.movies;
+    this.totalPage = data?.total_pages;
   }
 
   get movieListValue() {
     return this.movieList;
+  }
+
+  setInitPage(value: number) {
+    this.page = value;
+  }
+
+  setInitSearchWord() {
+    this.searchWord = '';
   }
 }
 

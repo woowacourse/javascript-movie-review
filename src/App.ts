@@ -22,9 +22,15 @@ class App {
 
     this.$seeMoreButton.addMoreButtonHandler(this.moreButtonHandler.bind(this));
     this.$header.addSearchHandler(this.searchHandler.bind(this));
+    this.$header.addClickLogoHandler(this.initializeMovieList.bind(this));
   }
 
   initializeMovieList() {
+    this.store.setInitPage(0);
+    this.$movieList.setTitle('지금 인기 있는 영화');
+    this.store.setInitSearchWord();
+    this.$seeMoreButton.attach();
+
     this.store.getMovieList().then(() => {
       this.skeleton.removeSkeleton();
       this.$movieList.renderMovies(this.store.movieListValue);
@@ -40,7 +46,9 @@ class App {
 
   searchHandler(value: string) {
     this.skeleton.attachSkeleton();
-    this.store.page = 0;
+    this.store.setInitPage(0);
+    this.$movieList.setTitle(`"${value}"에 대한 검색 결과`);
+
     this.store.getMovieList(value).then(() => {
       setTimeout(() => {
         if (this.store.totalPage === 1 || this.store.totalPage === 0) this.removeButton();
