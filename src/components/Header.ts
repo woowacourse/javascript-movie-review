@@ -23,6 +23,14 @@ class Header {
 
       onClickSearchButton($searchInput.value);
     });
+
+    // $searchInput.addEventListener('keydown', (event: KeyboardEvent) => {
+    //   if (event.key === 'Enter') {
+    //     if (!($searchInput instanceof HTMLInputElement)) return;
+
+    //     onClickSearchButton($searchInput.value);
+    //   }
+    // });
   }
 }
 
