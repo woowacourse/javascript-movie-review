@@ -18,7 +18,7 @@ const errorTemplate = (errorCode) => {
   return `
   <div class="error-container">
     <h1>죄송합니다. 영화 목록을 불러올 수 없습니다. 관리자에게 문의하세요. (error code: ${errorCode})</h1>
-    <img class="error-img" src=${errorImg}/ >
+    <img src=${errorImg} class="error-img" />
   </div>`;
 };
 
