@@ -1,10 +1,10 @@
-import { MovieInfo } from './../../domain/Theater';
 import { assemble, Event } from '../../core';
 import { getElement } from './../../utils/common/domHelper';
 import { MovieComponent } from './action';
+import { MovieInfo, MovieInfoByKeyword } from '../../apis';
 
 export interface MovieListProps {
-  movieList: MovieInfo[];
+  movieList: MovieInfo[] | MovieInfoByKeyword[];
 }
 
 const MovieList = assemble<MovieListProps>((props) => {

@@ -1,14 +1,20 @@
-import { assemble, Event } from '../../core';
+import { assemble, Event, useState } from '../../core';
 import { getElement } from './../../utils/common/domHelper';
 import { HeaderComponent, MovieChartComponent } from './actions';
 
 const App = assemble(() => {
+  const [keyword, setKeyword] = useState<string>('');
   const $events: Event[] = [];
+
+  const handleKeyword = (keyword: string) => {
+    setKeyword(keyword);
+  };
+
   const $template = getElement(
     ` 
       <div>
-        <fragment id="Header">${HeaderComponent()}</fragment>
-        <fragment id="MovieChart">${MovieChartComponent()}</fragment>
+        <fragment id="Header">${HeaderComponent({ handleKeyword })}</fragment>
+        <fragment id="MovieChart">${MovieChartComponent({ keyword })}</fragment>
       </div>
     `
   );

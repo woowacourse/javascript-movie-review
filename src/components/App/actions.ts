@@ -1,10 +1,10 @@
 import { $, replaceComponent } from '../../utils/common/domHelper';
-import { Header } from '../Header';
+import { Header, HeaderProps } from '../Header';
 import { MovieChart } from '../MovieChart';
 import { debounce } from './../../utils/common/debounce';
 
 const AppActions = () => {
-  const HeaderComponent = (props?: any) => {
+  const HeaderComponent = (props: HeaderProps) => {
     return (
       debounce(() => {
         replaceComponent($('#Header'), Header(props));

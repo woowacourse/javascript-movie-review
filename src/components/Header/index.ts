@@ -1,14 +1,35 @@
 import { assemble, Event } from '../../core';
 import { getElement } from './../../utils/common/domHelper';
+import { $ } from './../../utils/common/domHelper';
 
-const Header = assemble(() => {
-  const $events: Event[] = [];
+export interface HeaderProps {
+  handleKeyword(keyword: string): void;
+}
+
+const Header = assemble<HeaderProps>(({ handleKeyword }) => {
+  const $events: Event[] = [
+    {
+      event: 'submit',
+      callback(e) {
+        if (e.target === $('.search-form')) {
+          e.preventDefault();
+          const formData = new FormData(e.target as HTMLFormElement);
+          const fields = Object.fromEntries(formData);
+
+          handleKeyword(fields['keyword'] as string);
+        }
+      },
+    },
+  ];
+
   const $template = getElement(`
     <header>
-      <h1><img src="./logo.png" alt="MovieList 로고" /></h1>
+      <h1><a href="/"><img src="./logo.png" alt="MovieList 로고" /></a></h1>
       <div class="search-box">
-        <input type="text" placeholder="검색" />
-        <button class="search-button">검색</button>
+        <form class="search-form">
+          <input type="text" name="keyword" placeholder="검색" />
+          <button class="search-button">검색</button>
+        </form>
       </div>
     </header>
   `);

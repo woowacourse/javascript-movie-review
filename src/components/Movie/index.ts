@@ -1,15 +1,16 @@
+import { MovieInfo, MovieInfoByKeyword } from '../../apis';
 import { assemble, Event } from '../../core';
-import { MovieInfo } from '../../domain/Theater';
 import { getElement } from './../../utils/common/domHelper';
 
 export interface MovieProps {
-  info: MovieInfo;
+  info: MovieInfo | MovieInfoByKeyword;
 }
 
 const Movie = assemble<MovieProps>((props) => {
   const {
     info: { poster_path, title, vote_average, id },
   } = props;
+
   const $events: Event[] = [];
   const $template = getElement(`
       <li data=id=${id}>
@@ -22,7 +23,7 @@ const Movie = assemble<MovieProps>((props) => {
               alt=${title}
             />
             <p class="item-title">${title}</p>
-            <p class="item-score"><img src="./star_filled.png" alt="별점" />${vote_average}</p>            
+            <p class="item-score"><img src="./star_filled.png" alt="별점" />${vote_average}</p>
           </div>
         </a>
     </li>
