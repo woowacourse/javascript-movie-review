@@ -1,5 +1,4 @@
-import { API_BASE_URL } from "../constants";
-import { Movie, MovieDataType } from "../types/movie";
+import { Movie } from "../types/movie";
 import { fetchPopularMovieData, fetchSearchedMovieData } from "../api/index";
 
 class MovieList {
