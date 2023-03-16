@@ -1,7 +1,8 @@
 import { Movies } from "../src/domain/Movies";
-import { Movie } from "../src/types";
+import { Movie, MovieResponse } from "../src/types";
+import { expect } from "@jest/globals";
 
-const movieList: Movie[] = [
+const movieList: MovieResponse[] = [
   {
     adult: false,
     backdrop_path: "/jr8tSoJGj33XLgFBy6lmZhpGQNu.jpg",
@@ -38,7 +39,22 @@ const movieList: Movie[] = [
   },
 ];
 
-const addedMovie: Movie[] = [
+const storedMovieList: Movie[] = [
+  {
+    id: 315162,
+    poster_path: "/rKgvctIuPXyuqOzCQ16VGdnHxKx.jpg",
+    title: "장화신은 고양이: 끝내주는 모험",
+    vote_average: 8.4,
+  },
+  {
+    id: 631842,
+    poster_path: "/mCDSOfcVJfMkGUNrNpXWFO7oNBY.jpg",
+    title: "똑똑똑",
+    vote_average: 6.5,
+  },
+];
+
+const addedMovie: MovieResponse[] = [
   {
     adult: false,
     backdrop_path: "/xDMIl84Qo5Tsu62c9DGWhmPI67A.jpg",
@@ -58,7 +74,7 @@ const addedMovie: Movie[] = [
   },
 ];
 
-const searchMovieList: Movie[] = [
+const searchMovieList: MovieResponse[] = [
   {
     adult: false,
     backdrop_path: "/pxJbfnMIQQxCrdeLD0zQnWr6ouL.jpg",
@@ -84,7 +100,7 @@ describe("도메인 테스트", () => {
   test("영화 리스트 가져오기 기능 테스트", () => {
     const list = movies.getList();
 
-    expect(list).toEqual(movieList);
+    expect(list).toEqual(storedMovieList);
   });
 
   test("영화 리스트 추가 기능 테스트", () => {
