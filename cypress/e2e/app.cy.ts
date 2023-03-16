@@ -47,4 +47,11 @@ describe("영화 리뷰 애플리케이션 e2e 테스트", () => {
 
     cy.get(".more").should("not.be.visible");
   });
+
+  it("검색 되지 않는 영화를 검색 할 경우 검색 결과가 없다는 메시지가 출력되어야 한다.", () => {
+    cy.get(".search-input").type("해리포터10");
+    cy.get(".search-box").submit();
+
+    cy.get(".search-title").should("contain", '"해리포터10"에 대한 검색 결과가 없습니다 :(');
+  });
 });
