@@ -1,6 +1,6 @@
 export const mostPopular = async (pageNumber: number) => {
   const response = await fetch(
-    `https://api.themoviedb.org/3/movieddd/popular?api_key=${process.env.API_KEY}&language=ko-KR&page=${pageNumber}`,
+    `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}&language=ko-KR&page=${pageNumber}`,
     {
       method: "GET",
     }
