@@ -20,8 +20,13 @@ export class Header {
 
       if ($searchInput === null) return;
 
-      if ($searchInput instanceof HTMLInputElement)
-        onSubmitSearchKeyword($searchInput.value);
+      if ($searchInput instanceof HTMLInputElement) {
+        const inputValue = $searchInput.value;
+
+        if (inputValue === "") return alert("검색값을 입력해주세요.");
+
+        onSubmitSearchKeyword(inputValue);
+      }
 
       if (event.target instanceof HTMLFormElement) event.target.reset();
     });
