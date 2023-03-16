@@ -40,4 +40,11 @@ describe("영화 리뷰 애플리케이션 e2e 테스트", () => {
 
     cy.get(".search-title").should("contain", '"해리포터" 검색결과');
   });
+
+  it("더이상 로드 할 컨텐츠가 없으면 더보기 버튼이 숨겨져야 한다.", () => {
+    cy.get(".search-input").type("해리포터");
+    cy.get(".search-box").submit();
+
+    cy.get(".more").should("not.be.visible");
+  });
 });
