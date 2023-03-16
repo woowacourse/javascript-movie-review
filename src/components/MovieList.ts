@@ -1,7 +1,12 @@
 import { IMovie } from '../data/api';
 import { MovieItem } from './MovieItem';
-import { usePopularMovie } from '../data/useMovie';
-import { $ } from '../utils';
+import {
+  getPageStatus,
+  getRecentKeyword,
+  usePopularMovie,
+  useSearchedMovie,
+} from '../data/useMovie';
+import { $, $$ } from '../utils';
 import { Skeleton } from './Skeleton';
 
 export async function renderSkeletonList() {
@@ -12,9 +17,28 @@ export async function renderSkeletonList() {
   await usePopularMovie().then(({ values }) => renderPopularMovieList(values.results));
 }
 
+export async function renderMoreSkeletonList() {
+  const parentElem = $('.item-list') as HTMLElement;
+
+  parentElem.insertAdjacentHTML('beforeend', Skeleton());
+
+  if (getPageStatus() === 'popular') {
+    await usePopularMovie().then(({ values }) => {
+      renderMoreMovieList(values.results);
+      deleteSkeletonList();
+    });
+  } else {
+    await useSearchedMovie(getRecentKeyword()).then(({ values }) => {
+      renderMoreMovieList(values.results);
+      deleteSkeletonList();
+    });
+  }
+}
+
 export function deleteSkeletonList() {
-  const skeletonList = $('.skeleton-List') as HTMLElement;
-  skeletonList.remove();
+  const skeletonList = $$('.skeleton-item');
+
+  skeletonList?.forEach((item) => item.remove());
 }
 
 export async function renderPopularMovieList(results: IMovie[]) {

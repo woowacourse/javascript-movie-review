@@ -1,6 +1,6 @@
 export function Skeleton() {
   const template = `
-    <li>
+    <li class="skeleton-item">
         <a href="#">
             <div class="item-card">
             <div class="item-thumbnail skeleton"></div>

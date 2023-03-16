@@ -6,22 +6,21 @@ import {
   useSearchedMovie,
   getRecentKeyword,
 } from '../data/useMovie';
+import { renderMoreSkeletonList, renderSkeletonList } from './MovieList';
 
 export function ViewMoreButton() {
   Event.addEvent('click', '.view-more-button', async () => {
     plusPage();
 
-    if (getPageStatus() === 'popular') {
-      const {
-        handlers: { handleMoreMovieList },
-      } = await usePopularMovie();
-      handleMoreMovieList();
-    } else {
-      const {
-        handlers: { handleMoreMovieList },
-      } = await useSearchedMovie(getRecentKeyword());
-      handleMoreMovieList();
-    }
+    renderMoreSkeletonList();
+    // if (getPageStatus() === 'popular') {
+    //   renderMoreSkeletonList();
+    // } else {
+    //   const {
+    //     handlers: { handleMoreMovieList },
+    //   } = await useSearchedMovie(getRecentKeyword());
+    //   handleMoreMovieList();
+    // }
   });
 
   return `

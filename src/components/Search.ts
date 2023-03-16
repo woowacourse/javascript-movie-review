@@ -1,6 +1,7 @@
 import { togglePageStatus, useSearchedMovie, resetPage } from '../data/useMovie';
 import { getFormFields } from '../utils/formData';
 import { $, Event } from '../utils/index';
+import { renderSkeletonList } from './MovieList';
 
 export function Search() {
   Event.addEvent('submit', '.search-box', async (event) => {
@@ -13,7 +14,6 @@ export function Search() {
     const {
       handlers: { handlePageHeader, handleSearchResult },
     } = await useSearchedMovie(String(formData.keyword));
-
     handlePageHeader();
     handleSearchResult();
   });
