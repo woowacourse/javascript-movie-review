@@ -1,4 +1,5 @@
 import { getPopularMovies, getSearchMovies } from './api';
+import { MAX_MOVIES_PER_PAGE, POPULAR_TITLE } from './constants';
 import { changeTitle, clearList, renderList, resetSearchBox, show, hide } from './dom';
 
 import movieService from './domain/movieService';
@@ -6,7 +7,6 @@ import movieService from './domain/movieService';
 import { $ } from './utils/domUtils';
 
 const App = {
-  MAX_MOVIES_PER_PAGE: 20,
   currentPage: 1,
   query: '',
 
@@ -19,7 +19,7 @@ const App = {
     $('movie-header').addEventListener('home', () => {
       this.refresh();
       movieService.resetMovies();
-      changeTitle('지금 인기 있는 영화');
+      changeTitle(POPULAR_TITLE);
       this.renderPopularMovies();
     });
 
@@ -31,7 +31,7 @@ const App = {
     });
 
     $('movie-list-section').addEventListener('loadMore', () => {
-      if ($('#movie-list-title').textContent === '지금 인기 있는 영화') {
+      if ($('#movie-list-title').textContent === POPULAR_TITLE) {
         this.renderPopularMovies();
       } else {
         this.renderSearchMovies();
@@ -50,7 +50,7 @@ const App = {
   },
 
   updatePage(newMovies) {
-    if (newMovies.length < this.MAX_MOVIES_PER_PAGE) hide('#load-more');
+    if (newMovies.length < MAX_MOVIES_PER_PAGE) hide('#load-more');
     this.currentPage += 1;
     renderList(newMovies);
   },
