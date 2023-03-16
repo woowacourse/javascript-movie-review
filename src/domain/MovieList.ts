@@ -1,5 +1,6 @@
 import { API_BASE_URL } from "../constants";
 import { Movie, MovieDataType } from "../types/movie";
+import { fetchPopularMovieData, fetchSearchedMovieData } from "../api/index";
 
 class MovieList {
   private static instance: MovieList;
@@ -26,30 +27,41 @@ class MovieList {
     this.searchKey = newSearchKey;
   }
 
-  async fetchPopularMovieData(): Promise<Movie[]> {
-    const data = await fetch(
-      `${API_BASE_URL}movie/popular?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&page=${this.currentPage}`
-    );
-    const movieData: MovieDataType = await data.json();
+  async getPopularMovieData(): Promise<Movie[]> {
+    const movieData: Movie[] = await fetchPopularMovieData(this.currentPage);
     this.increaseCurrentPage();
 
-    return [...movieData.results];
+    const movies: Movie[] = movieData.map((movie: Movie) => ({
+      id: movie.id,
+      title: movie.title,
+      vote_average: movie.vote_average,
+      poster_path: movie.poster_path,
+    }));
+
+    return movies;
   }
 
-  async searchMovieData(): Promise<Movie[]> {
-    const data = await fetch(
-      `${API_BASE_URL}search/movie?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&query=${this.searchKey}&page=${this.currentPage}&include_adult=false`
+  async getSearchedMovieData(): Promise<Movie[]> {
+    const movieData = await fetchSearchedMovieData(
+      this.searchKey,
+      this.currentPage
     );
-    const movieData: MovieDataType = await data.json();
     this.increaseCurrentPage();
 
-    return [...movieData.results];
+    const movies: Movie[] = movieData.map((movie: Movie) => ({
+      id: movie.id,
+      title: movie.title,
+      vote_average: movie.vote_average,
+      poster_path: movie.poster_path,
+    }));
+
+    return movies;
   }
 
   async getMovieData(): Promise<Movie[]> {
     return this.searchKey !== ""
-      ? await this.searchMovieData()
-      : await this.fetchPopularMovieData();
+      ? await this.getSearchedMovieData()
+      : await this.getPopularMovieData();
   }
 }
 
