@@ -20,4 +20,4 @@ export const SEARCH_WARNING = "검색어를 입력해주세요.";
 export const TITLE = {
   POPULAR: "지금 인기있는 영화",
   SEARCH: "검색결과",
-};
+} as const;
