@@ -1,27 +1,21 @@
-import Form from '../../components/shared/Form';
 import Logo from '../../components/shared/Logo';
+import Form from '../../components/shared/Form';
 import { $ } from '../../utils/dom';
 import { HeaderComponents } from '../../types/header';
 import { getFormData } from '../../utils/form';
-
-interface Query {
-  value: FormDataEntryValue | null;
-}
-
-interface HeaderProxy {
-  query: { value: FormDataEntryValue | null };
-}
+import { Proxy } from '../../types/proxy';
 
 class Header {
   private components: HeaderComponents = {
     logo: null,
     searchBox: null,
   };
-  private proxy: HeaderProxy = {
-    query: { value: '' },
+  private proxy: Proxy = {
+    query: { value: '', isSearch: false },
+    moreButton: { isClick: false, currentPage: 1, isSearch: false },
   };
 
-  constructor({ logo, searchBox }: HeaderComponents, proxy: HeaderProxy) {
+  constructor({ logo, searchBox }: HeaderComponents, proxy: Proxy) {
     this.components = { logo, searchBox };
     this.proxy = proxy;
   }
@@ -63,6 +57,7 @@ class Header {
       if (formData instanceof Object) {
         const query = Object.fromEntries(formData);
         this.proxy.query.value = query['search-input'];
+        this.proxy.query.isSearch = true;
       }
     }
   }
