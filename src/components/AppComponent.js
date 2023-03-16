@@ -3,8 +3,8 @@ import HeaderComponent from "./AppHeaderComponent";
 import MovieListComponent from "./movie/MovieListComponent";
 import MoreButtonComponent from "./element/MoreButtonComponent";
 import TitleComponent from "./element/TitleComponent";
-import { API_KEY } from "../constants/key";
 import transformMovieItemsType from "../util/MovieList";
+import { API_KEY } from "../constants/key";
 import {
   ACTION,
   REQUEST_URL,
@@ -13,18 +13,18 @@ import {
 } from "../abstracts/constants";
 
 export default class AppComponent extends CustomComponent {
-  nextPage = 1;
-  totalPage;
-  $movieList;
-  $movieListTitle;
-  $searchInput;
+  #nextPage = 1;
+  #totalPage;
+  #$movieList;
+  #$movieListTitle;
+  #$searchInput;
 
   render() {
     super.render();
 
-    this.$movieList = this.querySelector("movie-list");
-    this.$movieListTitle = this.querySelector("movie-list-title");
-    this.$searchInput = this.querySelector("input");
+    this.#$movieList = this.querySelector("movie-list");
+    this.#$movieListTitle = this.querySelector("movie-list-title");
+    this.#$searchInput = this.querySelector("input");
 
     this.popularListInit();
     this.getMovieData(ACTION.POPULAR);
@@ -34,9 +34,13 @@ export default class AppComponent extends CustomComponent {
   urlByActionType(actionType) {
     switch (actionType) {
       case ACTION.POPULAR:
-        return `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`;
+        return `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${
+          this.#nextPage
+        }`;
       case ACTION.SEARCH:
-        return `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${this.$searchInput.value}&page=${this.nextPage}&include_adult=false`;
+        return `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${
+          this.#$searchInput.value
+        }&page=${this.#nextPage}&include_adult=false`;
     }
   }
 
@@ -45,24 +49,24 @@ export default class AppComponent extends CustomComponent {
       .then(async (res) => {
         if (res.ok) {
           const data = await res.json();
-          this.totalPage = data.total_pages;
+          this.#totalPage = data.total_pages;
 
           const movieItems = transformMovieItemsType(data.results);
-          this.$movieList.renderPageSuccess(movieItems);
+          this.#$movieList.renderPageSuccess(movieItems);
 
-          this.nextPage += 1;
+          this.#nextPage += 1;
           this.checkPage();
         } else {
-          this.$movieList.renderPageFail();
+          this.#$movieList.renderPageFail();
         }
       })
       .catch((error) => {
-        this.$movieList.renderPageFail();
+        this.#$movieList.renderPageFail();
       });
   }
 
   checkPage() {
-    if (this.totalPage < this.nextPage) {
+    if (this.#totalPage < this.#nextPage) {
       this.querySelector("more-button").classList.add("hide");
       return;
     }
@@ -70,20 +74,20 @@ export default class AppComponent extends CustomComponent {
   }
 
   searchListInit() {
-    this.nextPage = 1;
+    this.#nextPage = 1;
 
-    this.$movieListTitle.setTitle(
-      `"${this.$searchInput.value}" ${TITLE.SEARCH}`
+    this.#$movieListTitle.setTitle(
+      `"${this.#$searchInput.value}" ${TITLE.SEARCH}`
     );
-    this.$movieList.initialPage();
+    this.#$movieList.initialPage();
   }
 
   popularListInit() {
-    this.nextPage = 1;
+    this.#nextPage = 1;
 
-    this.$searchInput.value = "";
-    this.$movieListTitle.setTitle(TITLE.POPULAR);
-    this.$movieList.initialPage();
+    this.#$searchInput.value = "";
+    this.#$movieListTitle.setTitle(TITLE.POPULAR);
+    this.#$movieList.initialPage();
   }
 
   changeMoreButtonAction(actionType) {
@@ -104,11 +108,11 @@ export default class AppComponent extends CustomComponent {
           this.changeMoreButtonAction(ACTION.MORE_SEARCH);
           break;
         case ACTION.MORE_POPULAR:
-          this.$movieList.appendNewPage();
+          this.#$movieList.appendNewPage();
           this.getMovieData(ACTION.POPULAR);
           break;
         case ACTION.MORE_SEARCH:
-          this.$movieList.appendNewPage();
+          this.#$movieList.appendNewPage();
           this.getMovieData(ACTION.SEARCH);
           break;
       }
@@ -118,7 +122,7 @@ export default class AppComponent extends CustomComponent {
       if (e.key === "Enter") {
         e.preventDefault();
 
-        if (!this.$searchInput.value) {
+        if (!this.#$searchInput.value) {
           alert(SEARCH_WARNING);
           return;
         }
@@ -145,4 +149,5 @@ export default class AppComponent extends CustomComponent {
         `;
   }
 }
+
 customElements.define("app-component", AppComponent);

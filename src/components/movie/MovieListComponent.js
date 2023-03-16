@@ -5,7 +5,7 @@ import ErrorComponent from "./ErrorComponent";
 import { STATUS } from "../../abstracts/constants";
 
 export default class MovieListComponent extends CustomComponent {
-  #page = null;
+  #page;
 
   initialPage() {
     this.#page = document.createElement("movie-list-page");
@@ -16,8 +16,9 @@ export default class MovieListComponent extends CustomComponent {
   }
 
   appendNewPage() {
-    if (this.querySelector("error-page")) {
-      this.querySelector("error-page").remove();
+    const errorPage = this.querySelector("error-page");
+    if (errorPage) {
+      errorPage.remove();
     }
     this.#page = document.createElement("movie-list-page");
     this.append(this.#page);
@@ -36,8 +37,10 @@ export default class MovieListComponent extends CustomComponent {
 
   renderPageFail() {
     if (this.querySelector("error-page")) return;
+
     const errorPage = document.createElement("error-page");
     this.#page.replaceWith(errorPage);
   }
 }
+
 customElements.define("movie-list", MovieListComponent);

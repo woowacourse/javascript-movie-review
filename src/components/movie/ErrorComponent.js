@@ -11,4 +11,5 @@ export default class ErrorComponent extends CustomComponent {
         `;
   }
 }
+
 customElements.define("error-page", ErrorComponent);

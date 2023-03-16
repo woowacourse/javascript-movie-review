@@ -16,4 +16,5 @@ export default class MoreButtonComponent extends CustomComponent {
         `;
   }
 }
+
 customElements.define("more-button", MoreButtonComponent);

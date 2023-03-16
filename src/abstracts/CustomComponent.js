@@ -9,5 +9,6 @@ export default class CustomComponent extends HTMLElement {
   }
 
   template() {}
+
   handleEvent() {}
 }

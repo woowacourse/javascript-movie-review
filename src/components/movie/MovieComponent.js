@@ -24,4 +24,5 @@ export default class MovieComponent extends CustomComponent {
         `;
   }
 }
+
 customElements.define("movie-item", MovieComponent);

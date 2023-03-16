@@ -11,6 +11,7 @@ export default class MovieListPageComponent extends CustomComponent {
   attributeChangedCallback() {
     const status = this.getAttribute("data-status");
     const movieList = JSON.parse(this.getAttribute("data-movie-list"));
+
     switch (status) {
       case STATUS.LOADING:
         this.innerHTML = `
@@ -21,16 +22,18 @@ export default class MovieListPageComponent extends CustomComponent {
         `;
         break;
       case STATUS.SUCCESS:
-        const movieItem = movieList
-          .map((movieItem) => {
-            return `<movie-item
-                title="${movieItem.title}"
-                vote_average="${movieItem.vote_average}"
-                poster_path="${movieItem.poster_path}">
-            </movie-item>`;
-          })
-          .join("");
-        this.innerHTML = movieItem;
+        this.innerHTML = `
+            ${movieList
+              .map((movieItem) => {
+                return `
+                  <movie-item
+                    title="${movieItem.title}"
+                    vote_average="${movieItem.vote_average}"
+                    poster_path="${movieItem.poster_path}">
+                  </movie-item>`;
+              })
+              .join("")}
+        `;
         break;
       case STATUS.NO_RESULT:
         this.innerHTML = `
@@ -47,4 +50,5 @@ export default class MovieListPageComponent extends CustomComponent {
     }
   }
 }
+
 customElements.define("movie-list-page", MovieListPageComponent);
