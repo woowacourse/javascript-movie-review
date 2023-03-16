@@ -56,18 +56,18 @@ const App = {
   },
 
   async loadMovies(api, params) {
-    let newMovies = [];
     show('#skeleton-list');
 
     try {
       const { results } = await api(...params);
-      newMovies = results;
+      movieService.concatMovies(movieService.resultsToMovies(results));
+      hide('#skeleton-list');
+
+      return movieService.movies.slice(-results.length);
     } catch (error) {
+      hide('#skeleton-list');
       alert(error.message);
     }
-
-    hide('#skeleton-list');
-    return newMovies;
   },
 
   refresh() {
