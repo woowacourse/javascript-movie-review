@@ -2,49 +2,10 @@ import CustomComponent from "../../abstracts/CustomComponent";
 import MovieListPageComponent from "./MovieListPageComponent";
 import MovieComponent from "./MovieComponent";
 import ErrorComponent from "./ErrorComponent";
+import { STATUS } from "../../abstracts/constants";
 
 export default class MovieListComponent extends CustomComponent {
   #page = null;
-
-  static get observedAttributes() {
-    return ["data-status"];
-  }
-
-  attributeChangedCallback() {
-    const status = this.getAttribute("data-status");
-
-    switch (status) {
-      case "loading":
-        this.querySelector(".item-list").innerHTML = `
-          <li>
-            <a href="#">
-              <div class="item-card">
-                <div class="item-thumbnail skeleton"></div>
-                <div class="item-title skeleton"></div>
-                <div class="item-score skeleton"></div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <div class="item-card">
-                <div class="item-thumbnail skeleton"></div>
-                <div class="item-title skeleton"></div>
-                <div class="item-score skeleton"></div>
-              </div>
-            </a>
-          </li>
-        `;
-        break;
-      case "success":
-        this.querySelector(".item-list").innerHTML = `
-          <movie-item>
-          
-          </movie-item>
-        `;
-        break;
-    }
-  }
 
   initialRender() {
     this.#page = document.createElement("movie-list-page");
