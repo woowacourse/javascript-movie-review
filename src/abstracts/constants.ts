@@ -6,7 +6,7 @@ export const STATUS = {
   NO_RESULT: "no-result",
 } as const;
 
-export const ACTION_OPTION = {
+export const ACTION = {
   MORE_POPULAR: "more_popular",
   MORE_SEARCH: "more_search",
   POPULAR: "popular",

@@ -6,7 +6,7 @@ import TitleComponent from "./element/TitleComponent";
 import { API_KEY } from "../constants/key";
 import transformMovieItemsType from "../util/MovieList";
 import {
-  ACTION_OPTION,
+  ACTION,
   REQUEST_URL,
   SEARCH_WARNING,
   TITLE,
@@ -19,8 +19,17 @@ export default class AppComponent extends CustomComponent {
   $movieListTitle;
   $searchInput;
 
-  getMovieData(url) {
-    fetch(url, { method: "GET" })
+  urlByActionType(actionType) {
+    switch (actionType) {
+      case ACTION.POPULAR:
+        return `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`;
+      case ACTION.SEARCH:
+        return `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${this.$searchInput.value}&page=${this.nextPage}&include_adult=false`;
+    }
+  }
+
+  getMovieData(actionType) {
+    fetch(this.urlByActionType(actionType), { method: "GET" })
       .then(async (res) => {
         if (res.ok) {
           const data = await res.json();
@@ -48,12 +57,10 @@ export default class AppComponent extends CustomComponent {
     this.$searchInput = this.querySelector("input");
 
     this.popularListInit();
-    this.getMovieData(
-      `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`
-    );
+    this.getMovieData(ACTION.POPULAR);
     this.querySelector("more-button").setAttribute(
       "data-action",
-      ACTION_OPTION.MORE_POPULAR
+      ACTION.MORE_POPULAR
     );
   }
 
@@ -84,37 +91,31 @@ export default class AppComponent extends CustomComponent {
   handleEvent() {
     this.addEventListener("click", (e) => {
       switch (e.target.dataset.action) {
-        case ACTION_OPTION.POPULAR:
+        case ACTION.POPULAR:
           this.popularListInit();
-          this.getMovieData(
-            `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`
-          );
+
+          this.getMovieData(ACTION.POPULAR);
           this.querySelector("more-button").setAttribute(
             "data-action",
-            ACTION_OPTION.MORE_POPULAR
+            ACTION.MORE_POPULAR
           );
           break;
-        case ACTION_OPTION.SEARCH:
+        case ACTION.SEARCH:
           this.searchListInit();
-          this.getMovieData(
-            `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${this.$searchInput.value}&page=${this.nextPage}&include_adult=false`
-          );
+
+          this.getMovieData(ACTION.SEARCH);
           this.querySelector("more-button").setAttribute(
             "data-action",
-            ACTION_OPTION.MORE_SEARCH
+            ACTION.MORE_SEARCH
           );
           break;
-        case ACTION_OPTION.MORE_POPULAR:
+        case ACTION.MORE_POPULAR:
           this.$movieList.appendNewPage();
-          this.getMovieData(
-            `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`
-          );
+          this.getMovieData(ACTION.POPULAR);
           break;
-        case ACTION_OPTION.MORE_SEARCH:
+        case ACTION.MORE_SEARCH:
           this.$movieList.appendNewPage();
-          this.getMovieData(
-            `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${this.$searchInput.value}&page=${this.nextPage}&include_adult=false`
-          );
+          this.getMovieData(ACTION.SEARCH);
           break;
       }
     });
@@ -128,12 +129,10 @@ export default class AppComponent extends CustomComponent {
           return;
         }
         this.searchListInit();
-        this.getMovieData(
-          `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${this.$searchInput.value}&page=${this.nextPage}&include_adult=false`
-        );
+        this.getMovieData(ACTION.SEARCH);
         this.querySelector("more-button").setAttribute(
           "data-action",
-          ACTION_OPTION.MORE_SEARCH
+          ACTION.MORE_SEARCH
         );
       }
     });
