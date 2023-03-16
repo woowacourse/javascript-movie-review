@@ -15,7 +15,7 @@ export default class MovieList {
 
   initTemplate() {
     return `
-      <ul class="item-list"></ul>
+      <ul class="item-list movie-container"></ul>
     `;
   }
 
