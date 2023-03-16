@@ -20,14 +20,11 @@
 
 .item-list {
   display: grid;
-
   width: 100%;
   margin: 48px 0;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   grid-column-gap: 50px;
   grid-row-gap: 48px;
-
-  /* justify-items: center; */
 }
 
 .invisible {
