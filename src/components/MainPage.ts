@@ -1,9 +1,10 @@
 import { PageHeader } from './PageHeader';
-import { renderMovieList } from './MovieList';
+import { renderPopularMovieList } from './MovieList';
 import { ViewMoreButton } from './ViewMoreButton';
 
 export function MainPage() {
-  renderMovieList();
+  renderPopularMovieList();
+
   return `
     <section class="item-view">
         ${PageHeader()}
