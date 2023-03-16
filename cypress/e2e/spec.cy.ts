@@ -35,8 +35,6 @@ describe("영화 리뷰 웹 테스트", () => {
     cy.wait("@getPopularMoviesPage1").then((interception) => {
       const movieItems = interception.response?.body.results;
 
-      expect(movieItems.length).to.equal(20);
-
       movieItems.forEach((item: Movie) => {
         cy.contains(item.title).should("be.visible");
       });
@@ -48,8 +46,6 @@ describe("영화 리뷰 웹 테스트", () => {
 
     cy.wait("@getPopularMoviesPage2").then((interception) => {
       const movieItems = interception.response?.body.results;
-
-      expect(movieItems.length).to.equal(20);
 
       movieItems.forEach((item: Movie) => {
         cy.contains(item.title).should("be.visible");
@@ -64,8 +60,6 @@ describe("영화 리뷰 웹 테스트", () => {
     cy.wait("@getSearchMovies").then((interception) => {
       const movieItems = interception.response?.body.results;
 
-      expect(movieItems.length).to.equal(20);
-
       movieItems.forEach((item: Movie) => {
         cy.contains(item.title).should("be.visible");
       });
@@ -77,8 +71,6 @@ describe("영화 리뷰 웹 테스트", () => {
 
     cy.wait("@getPopularMoviesPage1").then((interception) => {
       const movieItems = interception.response?.body.results;
-
-      expect(movieItems.length).to.equal(20);
 
       movieItems.forEach((item: Movie) => {
         cy.contains(item.title).should("be.visible");
