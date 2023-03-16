@@ -50,7 +50,7 @@ class MovieItem {
   }
 
   errorLoadImage(thumbnail: HTMLImageElement) {
-    thumbnail.classList.add('hidden');
+    thumbnail.src = 'https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg';
   }
 
   initEventHandelr() {
