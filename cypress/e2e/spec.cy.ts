@@ -27,7 +27,7 @@ beforeEach(() => {
     { fixture: "movie-search.json" }
   ).as("getSearchMovies");
 
-  cy.visit("http://localhost:8080/");
+  cy.visit("http://localhost:8085/");
 });
 
 describe("영화 리뷰 웹 테스트", () => {
