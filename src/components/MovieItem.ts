@@ -17,13 +17,15 @@ class MovieItem {
   createTemplate(): this {
     this._node = document.createElement('li');
 
+    console.log(this.movieData.posterPath);
+
     this._node.innerHTML = `<a>
         <div class="item-card">
           <div class="item-thumbnail skeleton"></div>
           <img
             id="item-thumbnail"
             class="item-thumbnail hidden"
-            src="https://image.tmdb.org/t/p/w220_and_h330_face/${this.movieData.backdropPath}"
+            src="${this.movieData.posterPath}"
             alt=${this.movieData.title}
           />
           <p class="item-title">${this.movieData.title}</p>
