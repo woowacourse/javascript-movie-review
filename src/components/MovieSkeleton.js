@@ -1,7 +1,7 @@
 class MovieSkeleton {
   template () {
     return `
-    <li>
+    <li class="skeleton">
       <a href="#">
         <div class="item-card">
           <div class="item-thumbnail skeleton"></div>

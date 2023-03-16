@@ -1,7 +1,7 @@
 class Movie {
   template ({ poster_path, title, vote_average }) {
     return `
-    <li>
+    <li class="movie-info">
       <a>
         <div class="item-card">
           <img
