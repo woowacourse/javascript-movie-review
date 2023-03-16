@@ -11,13 +11,18 @@ const InvalidMessage = {
     $<HTMLElement>(".item-view").insertAdjacentHTML("afterbegin", template);
   },
 
-  renderErrorMessage: () => {
+  renderErrorMessage: (statusCode: number) => {
     $<HTMLElement>(".item-view").replaceChildren();
 
     const template = `
       <div class="error-message">
-        <h3>서비스 이용에 불편을 드려 죄송합니다.</h3>
-        <p>새로고침 단추를 클릭하거나 나중에 다시 시도해 주세요.</p>
+      ${
+        statusCode >= 500
+          ? `<h3>서비스 이용에 불편을 드려 죄송합니다.</h3>
+        <p>새로고침 단추를 클릭하거나 나중에 다시 시도해 주세요.</p>`
+          : `<h3>요청하신 페이지를 찾을 수 없습니다.</h3>
+        <p>유효한 페이지 주소인지 확인해 주세요.</p>`
+      }
       </div>`;
 
     $<HTMLElement>(".item-view").insertAdjacentHTML("afterbegin", template);

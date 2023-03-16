@@ -4,6 +4,7 @@ import InvalidMessage from "./InvalidMessage";
 import { Movie } from "../types/movie";
 import { $ } from "../utils/domSelector";
 import { MOVIE_MAX_COUNT } from "../constants";
+import { HTTPError } from "../api/HTTPError";
 
 const MovieListContent = {
   loadMovies: async (searchKey?: string) => {
@@ -32,7 +33,9 @@ const MovieListContent = {
         return;
       }
     } catch (error) {
-      InvalidMessage.renderErrorMessage();
+      if (error instanceof HTTPError) {
+        InvalidMessage.renderErrorMessage(error.statusCode);
+      }
     }
   },
 
