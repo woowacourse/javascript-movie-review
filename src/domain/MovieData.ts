@@ -24,13 +24,13 @@ class MovieData {
 
     const apiFetchingData = await (await request(url)).json();
 
-    const fetchingMovies = await apiFetchingData.results;
+    const fetchedMovies = await apiFetchingData.results;
 
     if (apiFetchingData.total_pages > this.#pageIndex) {
       this.#pageIndex += 1;
     }
 
-    const movies = this.parseFetchingMovies(fetchingMovies);
+    const movies = this.parseFetchedMovies(fetchedMovies);
 
     return {
       isLastPage: apiFetchingData.total_pages === this.#pageIndex,
@@ -38,8 +38,8 @@ class MovieData {
     };
   }
 
-  parseFetchingMovies(fetchingMovies: ApiMovieProps[]) {
-    return fetchingMovies.map((movie: ApiMovieProps) => {
+  parseFetchedMovies(fetchedMovies: ApiMovieProps[]) {
+    return fetchedMovies.map((movie: ApiMovieProps) => {
       return {
         id: movie.id,
         title: movie.title,
