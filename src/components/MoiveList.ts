@@ -58,13 +58,8 @@ class MovieList {
   }
 
   updateMovieList(movieData: Movie[], isLastPage?: Boolean) {
+    this.showEmptyMessage(movieData.length === 0);
     this.removeSkeleton();
-
-    if (movieData.length === 0) {
-      this.movieList.insertAdjacentHTML('afterend', '<div class="search-message">검색 결과가 없습니다.</div>');
-
-      return;
-    }
 
     this.movieList.classList.remove('hidden');
     this.loadMoreButton.classList.remove('hidden');
@@ -75,6 +70,18 @@ class MovieList {
     });
 
     if (isLastPage) this.loadMoreButton.classList.add('hidden');
+  }
+
+  showEmptyMessage(isEmpty: boolean) {
+    if (isEmpty) {
+      this.movieList.insertAdjacentHTML('afterend', '<div class="empty-message">검색 결과가 없습니다.</div>');
+      return;
+    }
+  }
+
+  deleteEmptyMessage() {
+    const emptyMessage = this._node.querySelector('.empty-message');
+    if (emptyMessage) emptyMessage.remove();
   }
 
   setListName(type: FetchType, keyword?: string) {

@@ -67,6 +67,7 @@ class App {
 
     this.movieList.setListName(this.fetchStandard.type, this.fetchStandard.keyword);
     this.movieList.cleanMovieList();
+    this.movieList.deleteEmptyMessage();
     this.movieList.createSkeleton();
 
     const movieData = await this.getMovieData(getAPI.searchMovie(this.fetchStandard.keyword!, this.fetchStandard.page));

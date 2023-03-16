@@ -77,12 +77,13 @@ button {
 }
 
 .item-score {
-  align-items: center;
   margin-top: 16px;
   font-size: 1.2rem;
+  display: flex;
+  align-items: center;
 }
 
-.search-message {
+.empty-message {
   position: fixed;
   top: 72px;
   bottom: 0;
