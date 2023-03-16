@@ -1,10 +1,14 @@
+import { MakeOptional } from '../types/common';
+
 const REDIRECT_SERVER_HOST = 'https://ornate-swan-ce5a5e.netlify.app';
 
-export interface GetPopularMoviesRes {
+interface CommonMoviesResult {
   page: number;
-  results: MovieInfo[];
   total_pages: number;
   total_results: number;
+}
+export interface GetPopularMoviesRes extends CommonMoviesResult {
+  results: MovieInfo[];
 }
 
 export interface MovieInfo {
@@ -24,6 +28,12 @@ export interface MovieInfo {
   vote_count: number;
 }
 
+export interface GetMoviesByKeywordRes extends CommonMoviesResult {
+  results: MovieInfoByKeyword[];
+}
+
+export type MovieInfoByKeyword = MakeOptional<MovieInfo, 'backdrop_path' | 'poster_path'>;
+
 const fetchQuery = async (path: string, init?: RequestInit) => {
   const url = new URL(path, REDIRECT_SERVER_HOST);
 
@@ -37,11 +47,11 @@ const fetchQuery = async (path: string, init?: RequestInit) => {
   return body;
 };
 
-export const getMoviesByKeyword = (keyword: string, page?: number) => {
-  return fetchQuery(`tmdb/search/keyword?query=${keyword}&${page ? `page=${page}` : ''}`);
+export const fetchMoviesByKeyword = (keyword: string, page?: number) => {
+  return fetchQuery(`tmdb/search/movie?query=${keyword}&${page ? `page=${page}` : ''}`);
 };
 
-export const getPopularMovies = (page: number = 1): Promise<GetPopularMoviesRes> => {
+export const fetchPopularMovies = (page: number = 1): Promise<GetPopularMoviesRes> => {
   return fetchQuery(`tmdb/movie/popular?page=${page}`);
 };
 

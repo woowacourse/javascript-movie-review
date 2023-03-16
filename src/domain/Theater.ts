@@ -1,26 +1,3 @@
-export interface Root {
-  page: number;
-  results: MovieInfo[];
-  total_pages: number;
-  total_results: number;
-}
-export interface MovieInfo {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
-
 interface ITheater {
   load(page: number, env: Env): Promise<any>;
   getMoviesByKeyword(page: number, query: string, env: Env): Promise<any>;
