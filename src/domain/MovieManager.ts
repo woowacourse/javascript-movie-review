@@ -14,15 +14,15 @@ class MovieManager {
     this.skeleton.push(element);
   }
 
-  showSkeleton() {
-    this.skeleton.forEach((subscriber) => {
-      subscriber.render();
+  publish(data: MovieAppData) {
+    this.subscribers.forEach((subscriber) => {
+      subscriber.rerender(data);
     });
   }
 
-  async publish(data: MovieAppData) {
-    this.subscribers.forEach((subscriber) => {
-      subscriber.rerender(data);
+  showSkeleton() {
+    this.skeleton.forEach((subscriber) => {
+      subscriber.render();
     });
   }
 
