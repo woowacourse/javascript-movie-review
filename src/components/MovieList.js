@@ -91,7 +91,6 @@ export default class MovieList {
   toggleSkeleton() {
     const $skeletonLists = this.$movieItemList.querySelectorAll('.skeleton-li');
 
-    console.log($skeletonLists);
     if ($skeletonLists.length > 0) {
       $skeletonLists.forEach(($skeletonList) => $skeletonList.remove());
     } else {
