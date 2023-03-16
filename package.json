@@ -10,7 +10,9 @@
     "start": "webpack serve",
     "build": "webpack --mode=development",
     "test-unit": "jest",
-    "test-e2e": "cypress open"
+    "test-e2e": "cypress open",
+    "predeploy": "npm run build",
+    "deploy": "gh-page -d dist"
   },
   "repository": {
     "type": "git",
@@ -22,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/woowacourse-projects/javascript-movie-review/issues"
   },
-  "homepage": "https://github.com/woowacourse-projects/javascript-movie-review#readme",
+  "homepage": "https://hozzijeong.github.io/javascript-movie-review/",
   "devDependencies": {
     "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.20.2",
@@ -36,6 +38,7 @@
     "cypress": "^12.3.0",
     "dotenv-webpack": "^8.0.1",
     "eslint": "^8.35.0",
+    "gh-pages": "^5.0.0",
     "html-webpack-plugin": "^5.5.0",
     "jest": "^29.3.1",
     "jest-environment-jsdom": "^29.5.0",
