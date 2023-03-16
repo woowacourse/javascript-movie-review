@@ -16,7 +16,7 @@ const MovieCard = {
       </li>
     `;
   },
-  imageTemplate(path: string, title: string) {
+  imageTemplate(path: string | null, title: string) {
     return `
       <img
         class="item-thumbnail skeleton"
@@ -44,7 +44,7 @@ const MovieCard = {
     itemTitle?.classList.remove('skeleton');
     itemScore?.classList.remove('skeleton');
   },
-  handlePosterImage(path: string) {
+  handlePosterImage(path: string | null) {
     return path === null ? posterNotFoundImage : IMAGE_URL + path;
   },
 };

@@ -1,5 +1,6 @@
 import MovieCard from './MovieCard';
 import type { Movie } from '../../types/movie';
+import { DEFAULT_LIST_LENGTH } from '../../constants';
 
 const MovieCardList = {
   template() {
@@ -10,7 +11,7 @@ const MovieCardList = {
     `;
   },
   skeletonItems() {
-    return Array.from({ length: 20 }, () => MovieCard.template()).join('');
+    return Array.from({ length: DEFAULT_LIST_LENGTH }, () => MovieCard.template()).join('');
   },
   renderMoreItems() {
     const movieList = document.querySelector<HTMLUListElement>('.item-list');
@@ -29,7 +30,8 @@ const MovieCardList = {
 
     if (movieList === null) return;
 
-    [...movieList.children].slice((page - 1) * 20).forEach((child, key) => {
+    const startLine = (page - 1) * DEFAULT_LIST_LENGTH;
+    [...movieList.children].slice(startLine).forEach((child, key) => {
       if (movies.length <= key) {
         child.remove();
       } else if (child instanceof HTMLLIElement) {
@@ -51,7 +53,7 @@ const MovieCardList = {
 
     if (movieList === null) return;
 
-    [...movieList.children].slice(-20).forEach((child) => {
+    [...movieList.children].slice(-DEFAULT_LIST_LENGTH).forEach((child) => {
       child.remove();
     });
   },

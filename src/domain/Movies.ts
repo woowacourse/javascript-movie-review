@@ -1,7 +1,6 @@
 import getPopularMovies from '../api/getPopularMovies';
 import getSearchedMovies from '../api/getSearchedMovies';
-import { ERROR_MESSAGE } from '../constants';
-import { Movie, MovieAPIFailure, MovieAPIResponse } from '../types/movie';
+import { ERROR_MESSAGE, MAX_PAGE } from '../constants';
 
 class Movies {
   #query: string;
@@ -13,7 +12,7 @@ class Movies {
   constructor() {
     this.#query = '';
     this.#page = 1;
-    this.#totalPage = 500;
+    this.#totalPage = MAX_PAGE;
   }
 
   async init() {
@@ -26,7 +25,7 @@ class Movies {
       return ERROR_MESSAGE;
     }
 
-    this.#totalPage = Math.min(500, data.total_pages);
+    this.#totalPage = Math.min(MAX_PAGE, data.total_pages);
 
     return data.results;
   }
@@ -53,7 +52,7 @@ class Movies {
       return ERROR_MESSAGE;
     }
 
-    this.#totalPage = Math.min(500, data.total_pages);
+    this.#totalPage = Math.min(MAX_PAGE, data.total_pages);
 
     return data.results;
   }
