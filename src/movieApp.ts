@@ -3,7 +3,7 @@ import movieHandler from "./domain/movieHandler";
 import { $ } from "./utils/dom";
 import MovieListContainer from "../src/components/MovieListContainer";
 import MovieList from "./components/MovieList";
-import type { Movie, ResponseData } from "./types/type";
+import type { ResponseData } from "./types/type";
 
 const movieApp = {
   currentPageNumber: 1,
