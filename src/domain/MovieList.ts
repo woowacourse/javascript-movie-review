@@ -1,5 +1,5 @@
 import { Movie } from '../types/movie';
-import { fetchPopularMovieData, fetchSearchedMovieData } from '../api/index';
+import { fetchPopularMovieData, fetchSearchedMovieData } from '../api/movieAPI';
 
 class MovieList {
   private static instance: MovieList;
