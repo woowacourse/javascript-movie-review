@@ -4,7 +4,7 @@ class MoreButton {
   $button = document.createElement('button');
 
   constructor($target) {
-    this.$button.className = 'btn primary full-width';
+    this.$button.className = 'btn primary full-width more-button';
 
     this.render($target);
 
