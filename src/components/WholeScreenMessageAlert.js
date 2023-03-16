@@ -1,5 +1,5 @@
 function WholeScreenMessageAlert(message) {
-  return `<p>${message}</p>`;
+  return `<p class="alert-message">${message}</p>`;
 }
 
 export default WholeScreenMessageAlert;
