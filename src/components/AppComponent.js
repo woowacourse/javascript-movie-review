@@ -76,7 +76,7 @@ export default class AppComponent extends CustomComponent {
 
   popularListInit() {
     this.nextPage = 1;
-
+    this.$searchInput.value = "";
     this.$movieListTitle.setTitle(TITLE.POPULAR);
     this.$movieList.initialPage();
   }
