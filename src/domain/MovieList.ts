@@ -1,4 +1,4 @@
-import { Movie } from '../types/movie';
+import { Movie, MovieDataResult } from '../types/movie';
 import { fetchPopularMovieData, fetchSearchedMovieData } from '../api/movieAPI';
 
 class MovieList {
@@ -24,7 +24,7 @@ class MovieList {
   }
 
   private async getPopularMovieData(): Promise<Movie[]> {
-    const moviesData: Movie[] = await fetchPopularMovieData(this.currentPage);
+    const moviesData: MovieDataResult[] = await fetchPopularMovieData(this.currentPage);
     this.increaseCurrentPage();
 
     const movies: Movie[] = moviesData.map((movie: Movie) => ({
@@ -38,7 +38,10 @@ class MovieList {
   }
 
   private async getSearchedMovieData(): Promise<Movie[]> {
-    const moviesData: Movie[] = await fetchSearchedMovieData(this.searchKey, this.currentPage);
+    const moviesData: MovieDataResult[] = await fetchSearchedMovieData(
+      this.searchKey,
+      this.currentPage
+    );
     this.increaseCurrentPage();
 
     const movies: Movie[] = moviesData.map((movie: Movie) => ({
