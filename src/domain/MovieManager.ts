@@ -5,17 +5,28 @@ import { Movie, MoviesData } from "../type/movieType";
 class MovieManage {
   private subscribers: CustomElement[] = [];
   private searchSubscribers: CustomElement[] = [];
+  private skeleton: CustomElement[] = [];
 
   subscribe(element: CustomElement) {
     this.subscribers.push(element);
   }
 
-  searchSubscribe(element: CustomElement) {
+  subscribeSkeleton(element: CustomElement) {
+    this.skeleton.push(element);
+  }
+
+  subscribeSearch(element: CustomElement) {
     this.searchSubscribers.push(element);
   }
 
   toggleButton() {
     return MovieModel.isLastPage();
+  }
+
+  showSkeleton() {
+    this.skeleton.forEach((subscriber) => {
+      subscriber.render();
+    });
   }
 
   async publishSearch(searchWord: string) {

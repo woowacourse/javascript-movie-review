@@ -25,6 +25,7 @@ class SearchInput extends CustomElement {
   }
 
   searchMovie(query) {
+    MovieManager.showSkeleton();
     MovieManager.searchMovies(query);
   }
 }

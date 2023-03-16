@@ -10,6 +10,7 @@ class ShowMoreButton extends CustomElement {
 
   setEvent() {
     this.addEventListener("click", () => {
+      MovieManager.showSkeleton();
       MovieManager.showMoreMovies();
 
       const isLastPage = MovieManager.toggleButton();

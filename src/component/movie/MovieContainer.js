@@ -8,15 +8,15 @@ import "./MovieListSkeleton";
 class MovieContainer extends CustomElement {
   connectedCallback() {
     super.connectedCallback();
-    MovieManager.searchSubscribe(this);
+    MovieManager.subscribeSearch(this);
   }
 
   template() {
     return `
         <section class="item-view">
           <h2 class='movie-container-title'>지금 인기 있는 영화</h2>
-          <movie-list-skeleton></movie-list-skeleton>
           <movie-list></movie-list>
+          <movie-list-skeleton></movie-list-skeleton>
           <show-more-button></show-more-button>
         </section>
     `;

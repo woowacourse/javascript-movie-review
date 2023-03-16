@@ -26,7 +26,7 @@
 - [x] movieItem
 - [x] showMoreButton
 - [x] 버튼을 누르면 movieList가 리렌더링된다.
-- [ ] 영화 목록 아이템에 대한 Skeleton UI 구현
+- [x] 영화 목록 아이템에 대한 Skeleton UI 구현
 
 ## 통신오류 처리
 

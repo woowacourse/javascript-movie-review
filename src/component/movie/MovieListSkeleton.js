@@ -1,16 +1,17 @@
 import MovieManager from "../../domain/MovieManager";
-//import { $ } from "../../util/dom";
+import { $ } from "../../util/dom";
 import CustomElement from "../basic/CustomElement";
 
 class MovieListSkeleton extends CustomElement {
   connectedCallback() {
     super.connectedCallback();
     MovieManager.subscribe(this);
+    MovieManager.subscribeSkeleton(this);
   }
 
   template() {
     return `
-    <ul class="item-list">
+    <ul class="item-list skeleton-list">
             <li>
               <a href="#">
                 <div class="item-card">
@@ -196,7 +197,8 @@ class MovieListSkeleton extends CustomElement {
   }
 
   rerender() {
-    this.remove();
+    console.log($(".skeleton-list"));
+    $(".skeleton-list").remove();
   }
 }
 
