@@ -1,5 +1,4 @@
 import { $ } from '../utils/domSelector';
-import MovieListContent from './MovieListContent';
 
 const InvalidMessage = {
   renderNoSearchMessage: (searchKey: string) => {
