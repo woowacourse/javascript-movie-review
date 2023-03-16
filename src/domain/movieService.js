@@ -1,8 +1,16 @@
 const movieService = {
   movies: [],
 
-  concatMovies(newMovies) {
-    this.movies = [...this.movies, ...newMovies];
+  resultsToMovies(results) {
+    return results.map(({ title, poster_path, vote_average }) => ({
+      title,
+      posterPath: poster_path,
+      voteAverage: vote_average,
+    }));
+  },
+
+  concatMovies(movies) {
+    this.movies = this.movies.concat(movies);
   },
 
   resetMovies() {
