@@ -30,9 +30,14 @@ const MovieChart = assemble<MovieChart>(({ keyword }) => {
         <fragment id='SkeletonList'>
           ${isLoading ? SkeletonMovieListComponent() : ''}
         </fragment>
-        <button class="btn primary full-width" ${chartInfo?.page === LAST_PAGE ? 'disabled' : ''}>
-        ${chartInfo?.page === LAST_PAGE ? '마지막 페이지' : '더 보기'}
-        </button>
+        ${
+          chartInfo?.page !== LAST_PAGE
+            ? `<button class="btn primary full-width">
+                더 보기
+              </button>`
+            : ''
+        }
+        
       </section>
       </main>
       `);
