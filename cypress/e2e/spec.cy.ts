@@ -5,12 +5,6 @@
 api 주소를 이상하게 해서 한다
 요청 시간을 길게 준다 */
 
-/**
-* 검색를 포함하고 있는 영화를 검색할 수 있다.
-  - 엔터키를 눌러 검색할 수 있다.
-  - 검색 버튼을 클릭하여 검색할 수 있다.
- */
-
 describe("정상 작동 기능 테스트", () => {
   beforeEach(() => {
     cy.visit("http://localhost:8080/");
@@ -44,5 +38,12 @@ describe("정상 작동 기능 테스트", () => {
     ).as("moviePopular");
 
     cy.get(".skeleton").should("be.visible");
+  });
+
+  it("검색를 포함하고 있는 영화를 검색할 수 있다", () => {
+    cy.get("#search-input").type("무서운 영화");
+    cy.get("#search-form").submit();
+
+    cy.get("movie-item").should("have.length", 5);
   });
 });

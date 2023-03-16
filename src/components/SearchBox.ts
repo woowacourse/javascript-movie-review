@@ -8,8 +8,8 @@ customElements.define(
       super();
 
       this.innerHTML = /* html */ `
-        <form>
-          <input type="text" placeholder="검색" />
+        <form id="search-form">
+          <input id="search-input" type="text" placeholder="검색" />
           <button class="search-button">검색</button>
         </form>
       `;
