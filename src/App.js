@@ -1,38 +1,56 @@
 import Header from './components/Header';
 import MovieList from './components/MovieList';
 
-import { popularMovieDataFetchFuncGenerator } from './api/get';
+import { popularMovieDataFetchFuncGenerator, searchedMovieDataFetchFuncGenerator } from './api/get';
 
 import { $ } from './utils';
 
 export default class App {
-  #getPopularMovieData;
+  #getMovieData;
 
   #header;
   #movieList;
 
   constructor() {
-    this.#getPopularMovieData = popularMovieDataFetchFuncGenerator();
+    this.#getMovieData = popularMovieDataFetchFuncGenerator();
 
-    this.#header = new Header($('#app'));
-    this.#movieList = new MovieList($('main'), { getPopularMovieMetaData: this.getPopularMovieMetaData.bind(this) });
+    this.#header = new Header($('#app'), this.renderMovieListByOption.bind(this));
+    this.#movieList = new MovieList($('main'), { getMovieMetaData: this.getMovieMetaData.bind(this) });
 
     this.initialRender();
   }
 
   initialRender() {
     this.#header.render();
-    this.#movieList.render();
+    this.#movieList.render('popular');
     this.#movieList.load();
   }
 
-  async getPopularMovieMetaData() {
-    const data = await this.#getPopularMovieData();
+  renderMovieListByOption(option, query) {
+    this.assignGetMovieDataFunc(option, query);
+    this.#movieList.render(option, query);
+    this.#movieList.load();
+  }
+
+  async getMovieMetaData() {
+    const data = await this.#getMovieData();
 
     const moviesData = data.results;
     const page = data.page;
     const totalPages = data.total_pages;
 
     return { moviesData, page, totalPages };
+  }
+
+  assignGetMovieDataFunc(option, query) {
+    switch (option) {
+      case 'popular':
+        this.#getMovieData = popularMovieDataFetchFuncGenerator();
+        break;
+
+      case 'search':
+        this.#getMovieData = searchedMovieDataFetchFuncGenerator(query);
+        break;
+    }
   }
 }

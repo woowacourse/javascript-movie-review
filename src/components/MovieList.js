@@ -1,26 +1,36 @@
 import MovieCard from './MovieCard';
 import MovieHandler from '../domain/MovieHandler';
 
+const headerTemplate = {
+  popular() {
+    return '지금 인기 있는 영화';
+  },
+
+  search(query) {
+    return `"${query}" 검색 결과`;
+  },
+};
+
 export default class MovieList {
   $element;
-  #getPopularMovieMetaData;
+  #getMovieMetaData;
 
-  constructor($parent, { getPopularMovieMetaData }) {
+  constructor($parent, { getMovieMetaData }) {
     this.$element = document.createElement('section');
     this.$element.className = 'item-view';
-    this.#getPopularMovieMetaData = getPopularMovieMetaData;
+    this.#getMovieMetaData = getMovieMetaData;
 
     $parent.insertAdjacentElement('beforeend', this.$element);
   }
 
-  render() {
-    this.$element.innerHTML = this.template();
+  render(option, query) {
+    this.$element.innerHTML = this.template(option, query);
     this.setEvent();
   }
 
-  template() {
-    return /* html */ ` 
-    <h2>지금 인기 있는 영화</h2>
+  template(option, query) {
+    return /* html */ `
+    <h2>${headerTemplate[option](query)}</h2>     
     <ul class="item-list"></ul> 
     <ul class="skeleton-item-list item-list hide">
       ${this.getSkeletonCardsHTML(20)}
@@ -69,7 +79,7 @@ export default class MovieList {
 
   async load() {
     this.showSkeletonList();
-    const { moviesData, page, totalPages } = await this.#getPopularMovieMetaData();
+    const { moviesData, page, totalPages } = await this.#getMovieMetaData();
 
     const movieList = MovieHandler.convertMovieList(moviesData);
 
