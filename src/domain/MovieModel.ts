@@ -33,7 +33,9 @@ class MovieModel {
     this.page = 1;
     this.searchWord = query;
 
-    const url = query ? searchUrl(query, this.page) : popularUrl(this.page);
+    const url = query
+      ? searchUrl(this.searchWord, this.page)
+      : popularUrl(this.page);
     const data = await request(url);
     this.totalPages = data.total_pages;
 
@@ -41,10 +43,14 @@ class MovieModel {
   }
 
   async getApiMoreMovies() {
-    const url = searchUrl(this.searchWord, this.page);
+    this.increasePage();
+
+    const url = this.searchWord
+      ? searchUrl(this.searchWord, this.page)
+      : popularUrl(this.page);
     const data = await request(url);
 
-    this.movies = [...this.movies, ...this.toMovies(data.results)];
+    this.movies = this.toMovies(data.results);
   }
 }
 
