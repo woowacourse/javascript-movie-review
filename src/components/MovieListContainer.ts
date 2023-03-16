@@ -15,7 +15,7 @@ class MovieListContainer extends HTMLElement {
           type === "popular" ? "지금 인기 있는 영화" : `"${query}" 검색 결과`
         }</h2>
         <movie-list class="item-list"></movie-list>
-        <button class="btn primary full-width">더 보기</button>
+        <button id="more-button" class="btn primary full-width">더 보기</button>
       `;
     this.addEvent();
   }
