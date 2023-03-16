@@ -23,9 +23,9 @@ class MovieContainer extends CustomElement {
   }
 
   rerender({ searchWord, page, totalPages }) {
-    $(".movie-container-title").innerText = `${
-      searchWord ? `'${searchWord}'검색 결과` : "지금 인기 있는 영화"
-    }`;
+    $(".movie-container-title").innerText = searchWord
+      ? `'${searchWord}'검색 결과`
+      : "지금 인기 있는 영화";
 
     const isLastPage = page === totalPages;
     $("show-more-button").hidden = isLastPage;

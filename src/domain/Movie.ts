@@ -10,10 +10,6 @@ class Movie {
     isShowMore: false,
   };
 
-  async getData() {
-    return this.state;
-  }
-
   formMovies(apiData: ApiMovieItem[]) {
     return apiData.map((result: ApiMovieItem) => {
       return {
@@ -24,7 +20,7 @@ class Movie {
     });
   }
 
-  async getApiMovies(query: string = "") {
+  async getMovies(query: string = "") {
     this.state.page = 1;
     this.state.searchWord = query;
     this.state.isShowMore = false;
@@ -34,16 +30,19 @@ class Movie {
     this.state.movies = this.formMovies(apiData.results);
 
     this.state.totalPages = apiData.total_pages;
+
+    return this.state;
   }
 
-  async getApiMoreMovies() {
+  async getMoreMovies() {
     this.state.page += 1;
     this.state.isShowMore = true;
 
     const url = this.makeUrl();
     const apiData = await request(url);
-
     this.state.movies = this.formMovies(apiData.results);
+
+    return this.state;
   }
 
   makeUrl() {

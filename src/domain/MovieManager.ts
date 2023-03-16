@@ -27,17 +27,13 @@ class MovieManager {
   }
 
   async showMovies(searchWord: string = "") {
-    await Movie.getApiMovies(searchWord);
-
-    const data = await Movie.getData();
-    this.publish(data);
+    const movieAppData = await Movie.getMovies(searchWord);
+    this.publish(movieAppData);
   }
 
   async showMoreMovies() {
-    await Movie.getApiMoreMovies();
-
-    const data = await Movie.getData();
-    this.publish(data);
+    const movieAppData = await Movie.getMoreMovies();
+    this.publish(movieAppData);
   }
 }
 
