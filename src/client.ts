@@ -13,10 +13,13 @@ export type TMDBErrorResponse = {
 };
 
 class Client {
+  private static readonly API_KEY =
+    process.env.TMDB_API_KEY ?? prompt('TMDB API KEY를 입력해주세요');
+
   private static readonly BASE_URL = 'https://api.themoviedb.org/3';
 
   async fetch(path: string): Promise<TMDBResponse> {
-    const res = await fetch(`${Client.BASE_URL}${path}&api_key=${process.env.TMDB_API_KEY}`);
+    const res = await fetch(`${Client.BASE_URL}${path}&api_key=${Client.API_KEY}`);
     if (!res.ok) throw await res.json();
 
     const response: TMDBResponse = await res.json();
