@@ -1,14 +1,14 @@
-import { API_KEY } from "../../apiKey.js";
+const API_KEY = process.env.API_KEY;
 
-export const popularUrl = (page) => {
+export const popularUrl = (page: number) => {
   return `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=${page}`;
 };
 
-export const searchUrl = (query, page) => {
+export const searchUrl = (query: string, page: number) => {
   return `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=ko-KR&query=${query}&page=${page}`;
 };
 
-export const request = async (url) => {
+export const request = async (url: string) => {
   const data = await fetch(url).then((res) => {
     if (res.status === 401) {
       return alert("접근 권한이 없습니다.");
