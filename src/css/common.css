@@ -185,3 +185,7 @@ header .search-box > #search-button {
 .placeholder-thumbnail {
   background-color: #3a3a3a;
 }
+
+.hide {
+  display: none;
+}
