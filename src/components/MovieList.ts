@@ -22,9 +22,7 @@ class MovieList {
   }
 
   removeSkeletonItems() {
-    console.log($$('.item-list .skeleton-item'));
     $$('.item-list .skeleton-item').forEach((skeletonItem) => {
-      console.log('OK remove');
       skeletonItem.remove();
     });
   }
