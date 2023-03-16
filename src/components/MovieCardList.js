@@ -1,6 +1,6 @@
 import { $ } from "../utils/Dom";
 
-export default class CardList extends HTMLElement {
+export default class MovieCardList extends HTMLElement {
   #movieList = [];
 
   get header() {
@@ -36,4 +36,4 @@ export default class CardList extends HTMLElement {
   }
 }
 
-customElements.define("card-list", CardList);
+customElements.define("card-list", MovieCardList);

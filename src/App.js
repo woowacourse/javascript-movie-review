@@ -3,8 +3,8 @@ import { $ } from "./utils/Dom";
 import { getPopularMovies, getSearchedMovies } from "./utils/fetch";
 
 export default class App {
-  #movieList = [];
-  #page = 1;
+  #movieList;
+  #page;
   #listState = LIST_STATE.POPULAR;
   #movieName;
 
@@ -14,6 +14,8 @@ export default class App {
   }
 
   async initRender() {
+    this.#movieList = [];
+    this.#page = 1;
     await this.addPopularMoviesList();
     this.render();
     this.mountMovieList();
@@ -32,7 +34,7 @@ export default class App {
   }
 
   async setEvent() {
-    document.addEventListener("more-button-clicked", () => {
+    document.addEventListener("click-more-button", () => {
       this.toggleSkeletonList();
       this.appendMovieList();
     });
@@ -43,6 +45,10 @@ export default class App {
       this.#movieList = [];
       this.#movieName = event.detail;
       this.renderSearchedMovies(event.detail);
+    });
+
+    document.addEventListener("click-home-button", () => {
+      this.initRender();
     });
   }
 

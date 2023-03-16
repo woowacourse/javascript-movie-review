@@ -5,6 +5,16 @@ export default class MovieHeader extends HTMLElement {
     <h1>MovieList</h1>
     <movie-search></movie-search>
   </header>`;
+
+    this.setEvent();
+  }
+
+  setEvent() {
+    this.querySelector("h1").addEventListener("click", () => {
+      this.dispatchEvent(
+        new CustomEvent("click-home-button", { bubbles: true })
+      );
+    });
   }
 }
 

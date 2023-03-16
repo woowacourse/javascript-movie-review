@@ -11,7 +11,7 @@ export default class MoreButton extends HTMLElement {
   setEvent() {
     this.querySelector("#more-button").addEventListener("click", () => {
       this.dispatchEvent(
-        new CustomEvent("more-button-clicked", { bubbles: true }) //detail :
+        new CustomEvent("click-more-button", { bubbles: true }) //detail :
       );
     });
   }

@@ -1,4 +1,4 @@
-import CardList from "./CardList";
+import MovieCardList from "./MovieCardList";
 import MoreButton from "./MoreButton";
 import MovieCard from "./MovieCard";
 import MovieHeader from "./MovieHeader";
