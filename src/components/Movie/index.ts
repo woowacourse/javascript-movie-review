@@ -15,7 +15,7 @@ const Movie = assemble<MovieProps>((props) => {
   const $template = getElement(`
       <li data=id=${id}>
         <a href="#">
-          <div class="item-card">
+          <div class="item-card movie">
             <img
               class="item-thumbnail"
               src=https://image.tmdb.org/t/p/w200/${poster_path}

@@ -60,6 +60,6 @@ export const waitFor = async <T>(promise: Promise<T>): Promise<[T, null] | [unde
     const data = await promise;
     return [data, null];
   } catch (err) {
-    return [undefined, new Error(err as string)];
+    return [undefined, new Error(JSON.stringify(err))];
   }
 };
