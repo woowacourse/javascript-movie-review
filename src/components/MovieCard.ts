@@ -1,10 +1,10 @@
-import { Movie } from '../domain/processMovieData';
+import { MovieItem } from '../domain/processMovieData';
 
-class MovieItem {
+class MovieCard {
   private _node!: HTMLElement;
-  private movieData: Movie;
+  private movieData: MovieItem;
 
-  constructor(movieDate: Movie) {
+  constructor(movieDate: MovieItem) {
     this.movieData = movieDate;
     this.createTemplate();
     this.initEventHandelr();
@@ -40,7 +40,7 @@ class MovieItem {
     return this;
   }
 
-  updateMovie(props: Movie) {
+  updateMovie(props: MovieItem) {
     this.movieData = props;
   }
 
@@ -71,4 +71,4 @@ class MovieItem {
   }
 }
 
-export default MovieItem;
+export default MovieCard;

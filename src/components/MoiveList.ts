@@ -1,7 +1,7 @@
-import MovieItem from './MovieItem';
+import MovieCard from './MovieCard';
 import skeletonTemplate from './Skeleton';
 import { FetchType } from '../app';
-import { Movie } from '../domain/processMovieData';
+import { MovieItem } from '../domain/processMovieData';
 
 class MovieList {
   private _node!: HTMLElement;
@@ -57,7 +57,7 @@ class MovieList {
     skeletionList.remove();
   }
 
-  updateMovieList(movieData: Movie[], isLastPage?: Boolean) {
+  updateMovieList(movieData: MovieItem[], isLastPage: Boolean) {
     this.showEmptyMessage(movieData.length === 0);
     this.removeSkeleton();
 
@@ -65,7 +65,7 @@ class MovieList {
     this.loadMoreButton.classList.remove('hidden');
 
     movieData.forEach(movie => {
-      const moiveItem = new MovieItem(movie);
+      const moiveItem = new MovieCard(movie);
       this.movieList.insertAdjacentElement('beforeend', moiveItem.node);
     });
 
@@ -94,6 +94,7 @@ class MovieList {
 
   cleanMovieList() {
     this.movieList.innerHTML = '';
+    this.deleteEmptyMessage();
   }
 
   initEventHandler() {
