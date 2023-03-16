@@ -1,12 +1,4 @@
-const interceptFetch = (fixture: string) => {
-  cy.intercept(
-    {
-      method: "GET",
-      url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
-    },
-    { fixture },
-  );
-};
+import interceptFetch from '../utils/interceptFetch';
 
 describe('영화 검색 기능 테스트', () => {
   it('"짱구" 검색 시 짱구 키워드 관련 검색 결과 출력', () => {

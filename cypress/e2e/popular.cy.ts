@@ -1,12 +1,4 @@
-const interceptFetch = (fixture: string) => {
-  cy.intercept(
-    {
-      method: "GET",
-      url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
-    },
-    { fixture },
-  );
-};
+import interceptFetch from '../utils/interceptFetch';
 
 describe('인기 영화 목록 테스트', () => {
   it('사이트 첫 접속시 인기영화 목록 출력', () => {
@@ -15,7 +7,7 @@ describe('인기 영화 목록 테스트', () => {
     cy.visit('localhost:8080');
 
     cy.get('ul.item-list')
-      .children('li')
+      .children('li.movie-info')
       .should('have.length', 20);
   });
 
@@ -28,7 +20,7 @@ describe('인기 영화 목록 테스트', () => {
     cy.get('section.item-view').children('button').click();
 
     cy.get('ul.item-list')
-      .children('.item-card')
+      .children('li.movie-info')
       .should('have.length', 40);
   });
 });
