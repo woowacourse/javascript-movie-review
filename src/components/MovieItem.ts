@@ -25,7 +25,10 @@ class MovieItem {
             alt=${this.movieData.title}
           />
           <p class="item-title">${this.movieData.title}</p>
-          <p class="item-score"><img src="./star_filled.png" alt="별점" /> ${this.movieData.voteAverage}</p>
+          <div class="item-score">
+            <img src="./star_filled.png" alt="별점" />
+            <p>${this.movieData.voteAverage}</p>
+          </div>
         </div>
       </a>
       `;
