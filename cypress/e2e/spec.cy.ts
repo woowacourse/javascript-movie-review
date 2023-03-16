@@ -41,10 +41,6 @@ describe("정상 작동 기능 테스트", () => {
   });
 });
 
-/** e2e 오류 테스트
-검색어 없을 때
-*/
-
 describe("데이터 값이 없을 때 테스트", () => {
   beforeEach(() => {
     cy.visit("http://localhost:8080/");
@@ -58,6 +54,13 @@ describe("데이터 값이 없을 때 테스트", () => {
     cy.get(".item-card")
       .find(".item-thumbnail")
       .should("have.attr", "src", "/da3e03a95b7922e70c82.png");
+  });
+
+  it("검색어가 없을 때 안내 메세지가 출력된다", () => {
+    cy.get("#search-input").type("고구마");
+    cy.get("#search-form").submit();
+
+    cy.get(".not-search").should("contain.text", "해당 검색 결과가 없습니다");
   });
 });
 
