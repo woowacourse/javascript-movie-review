@@ -1,8 +1,8 @@
-import { ApiMovieItem, ModelData } from "../type/movieType";
+import { ApiMovieItem, MovieAppData } from "../type/movieType";
 import { popularUrl, request, searchUrl } from "../util/api";
 
-class MovieModel {
-  private state: ModelData = {
+class Movie {
+  private state: MovieAppData = {
     movies: [],
     searchWord: "",
     page: 1,
@@ -50,4 +50,4 @@ class MovieModel {
   }
 }
 
-export default new MovieModel();
+export default new Movie();

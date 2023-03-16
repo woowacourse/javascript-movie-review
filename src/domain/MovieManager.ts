@@ -1,6 +1,6 @@
-import MovieModel from "./MovieModel";
+import Movie from "./Movie";
 import { CustomElement } from "../type/componentType";
-import { ModelData, Movie } from "../type/movieType";
+import { MovieAppData } from "../type/movieType";
 
 class MovieManager {
   private subscribers: CustomElement[] = [];
@@ -20,23 +20,23 @@ class MovieManager {
     });
   }
 
-  async publish(data: ModelData, isShowMore: boolean = false) {
+  async publish(data: MovieAppData, isShowMore: boolean = false) {
     this.subscribers.forEach((subscriber) => {
       subscriber.rerender(data, isShowMore);
     });
   }
 
   async searchMovies(searchWord: string = "") {
-    await MovieModel.getApiMovies(searchWord);
+    await Movie.getApiMovies(searchWord);
 
-    const data = await MovieModel.getData();
+    const data = await Movie.getData();
     this.publish(data);
   }
 
   async showMoreMovies() {
-    await MovieModel.getApiMoreMovies();
+    await Movie.getApiMoreMovies();
 
-    const data = await MovieModel.getData();
+    const data = await Movie.getData();
     this.publish(data, true);
   }
 }

@@ -15,14 +15,14 @@ export interface ApiMovieItem {
   vote_count: number;
 }
 
-export interface Movie {
+export interface IMovie {
   title: string;
   src: string;
   starRate: number;
 }
 
-export interface ModelData {
-  movies: Movie[];
+export interface MovieAppData {
+  movies: IMovie[];
   searchWord: string;
   page: number;
   totalPages: number;
