@@ -1,9 +1,7 @@
-import Header from './components/Header';
-import MovieList from './components/MoiveList';
+import render from './render';
 import getAPI from './domain/getAPI';
 import fetchJson, { FetchedMovieJson } from './domain/fetchJson';
-import { processMovieData, Movie } from './domain/processMovieData';
-import moveList from './components/MoiveList';
+import { processMovieData } from './domain/processMovieData';
 
 export enum FetchType {
   Popular = 'popular',
@@ -24,26 +22,15 @@ type SearchFetchType = {
 export type FetchStandard = PopularFetchType | SearchFetchType;
 
 class App {
-  private movieList: typeof MovieList = moveList;
   private fetchStandard: FetchStandard = { page: 1, type: FetchType.Popular };
 
   constructor() {
     this.initEventHandler();
   }
 
-  updateMovieList(movieData: Movie) {
-    const isLastPage = movieData.totalPages === this.fetchStandard.page;
-    moveList.updateMovieList(movieData.movies, isLastPage);
-  }
-
-  alertError() {
-    moveList.removeSkeleton();
-    moveList.showErrorMessage();
-  }
-
   async initMovieList() {
     const movieData = await this.getMovieData(getAPI.popularMovie(this.fetchStandard.page));
-    this.updateMovieList(movieData);
+    render.updateMoveList(movieData, this.fetchStandard);
   }
 
   async showMoreMovieList() {
@@ -51,41 +38,37 @@ class App {
       this.fetchStandard.type === FetchType.Popular
         ? await this.getMovieData(getAPI.popularMovie(this.fetchStandard.page))
         : await this.getMovieData(getAPI.searchMovie(this.fetchStandard.keyword, this.fetchStandard.page));
-    this.updateMovieList(movieData);
+    render.updateMoveList(movieData, this.fetchStandard);
   }
 
   async showSearchedMovieList() {
     if (this.fetchStandard.type === FetchType.Popular) return;
 
     const movieData = await this.getMovieData(getAPI.searchMovie(this.fetchStandard.keyword!, this.fetchStandard.page));
-    this.updateMovieList(movieData);
+    render.updateMoveList(movieData, this.fetchStandard);
   }
 
   async initLoad() {
-    const app = document.querySelector('#app');
+    render.init();
 
-    if (!app) return;
-
-    app.insertAdjacentElement('afterbegin', new Header().node);
-    app.insertAdjacentElement('beforeend', moveList.node);
-
-    moveList.createSkeleton();
+    render.createSkeleton();
 
     try {
       await this.initMovieList();
     } catch {
-      this.alertError();
+      render.apiError();
     }
   }
 
   async seeMoreMovies() {
     this.fetchStandard.page += 1;
-    moveList.createSkeleton();
+
+    render.createSkeleton();
 
     try {
       await this.showMoreMovieList();
     } catch {
-      this.alertError();
+      render.apiError();
     }
   }
 
@@ -93,14 +76,12 @@ class App {
     const { keyword } = detail;
     this.fetchStandard = { page: 1, type: FetchType.Search, keyword };
 
-    moveList.setListName(this.fetchStandard.type, this.fetchStandard.keyword);
-    moveList.cleanMovieList();
-    moveList.createSkeleton();
+    render.setupSearchMovie(this.fetchStandard);
 
     try {
       this.showSearchedMovieList();
     } catch {
-      this.alertError();
+      render.apiError();
     }
   }
 

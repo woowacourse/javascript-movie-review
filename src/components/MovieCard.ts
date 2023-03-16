@@ -50,7 +50,8 @@ class MovieCard {
   }
 
   errorLoadImage(thumbnail: HTMLImageElement) {
-    thumbnail.src = 'https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg';
+    thumbnail.src =
+      'https://user-images.githubusercontent.com/112997662/223046479-306cc6a7-7024-4616-b28e-be2f2878d2f0.png';
   }
 
   initEventHandelr() {
