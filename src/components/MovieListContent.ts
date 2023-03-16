@@ -1,65 +1,69 @@
 import MovieList from '../domain/MovieList';
 import MovieItem from './MovieItem';
-import InvalidMessage from './InvalidMessage';
-import MovieListContainer from './MovieListContainer';
 import { Movie } from '../types/movie';
-import { $ } from '../utils/domSelector';
-import { MOVIE_MAX_COUNT } from '../constants';
+import { $, $$ } from '../utils/domSelector';
+import InvalidMessage from './InvalidMessage';
 import { HTTPError } from '../api/HTTPError';
+import { MOVIE_MAX_COUNT } from '../constants';
 
 const MovieListContent = {
-  loadMovies: async (searchKey?: string) => {
+  loadMovies: async () => {
+    $<HTMLButtonElement>('#more-button').classList.remove('hide');
+    MovieListContent.clear();
+    MovieListContent.loadMoreMovies();
+  },
+
+  loadMoreMovies: async () => {
     try {
-      MovieListContainer.show();
+      MovieListContent.renderSkeleton();
 
-      if (searchKey) {
-        $<HTMLElement>('#movie-list-title').textContent = `"${searchKey}" 검색 결과`;
-      }
+      const { movies, searchKey } = await MovieList.getMovieData();
 
-      MovieListContent.render();
-      const movies = await MovieList.getMovieData();
-      MovieListContent.render(movies);
-
-      if (movies.length < MOVIE_MAX_COUNT) {
-        MovieListContainer.hideButton();
+      if (movies.length < 20) {
+        $<HTMLButtonElement>('#more-button').classList.add('hide');
       }
 
       if (searchKey && movies.length === 0) {
-        MovieListContainer.hideTitle();
+        MovieListContent.clear();
+        $<HTMLButtonElement>('#movie-list-title').textContent = '';
+        $<HTMLButtonElement>('#more-button').classList.add('hide');
         InvalidMessage.renderNoSearchMessage(searchKey);
+        return;
       }
+
+      MovieListContent.renderMovies(movies);
     } catch (error) {
       if (error instanceof HTTPError) {
+        $<HTMLUListElement>('.item-list').replaceChildren();
+        $<HTMLButtonElement>('#more-button').classList.add('hide');
         InvalidMessage.renderErrorMessage(error.statusCode);
       }
     }
   },
 
-  render: (movies?: Movie[]) => {
-    const errorMessageElement = document.querySelector('.error-message');
+  renderSkeleton: () => {
+    const itemList = $<HTMLUListElement>('.item-list');
 
-    if (errorMessageElement) {
-      $<HTMLElement>('.item-view').removeChild(errorMessageElement);
-    }
+    itemList.insertAdjacentHTML('beforeend', MovieItem.template().repeat(20));
+  },
 
-    const template = `
-        ${
-          !movies
-            ? `
-        <li>
-          <a href="#">
-            <div class="item-card">
-              <div class="item-thumbnail skeleton"></div>
-              <div class="item-title skeleton"></div>
-              <div class="item-score skeleton"></div>
-            </div>
-          </a>
-          </li>`.repeat(MOVIE_MAX_COUNT)
-            : movies.map((movie) => MovieItem.render(movie)).join('')
-        }`;
+  renderMovies: (movies: Movie[]) => {
+    const items = [...$$<HTMLUListElement>('.item-card')];
+    const extraItems = MOVIE_MAX_COUNT - movies.length;
 
-    $<HTMLElement>('.item-list').replaceChildren();
-    $<HTMLElement>('.item-list').insertAdjacentHTML('beforeend', template);
+    Array.from({ length: extraItems }, () => {
+      const element = items.pop();
+      element?.remove();
+    });
+
+    [...items].slice(-movies.length).forEach((child, key) => {
+      MovieItem.render(child, movies[key]);
+    });
+  },
+
+  clear() {
+    $<HTMLUListElement>('.item-list').replaceChildren();
+    $<HTMLDivElement>('.error-message').classList.add('hide');
   },
 };
 
