@@ -1,4 +1,5 @@
 import SearchBox from './SearchBox';
+import logoImage from '../asset/logo.png';
 
 class Header {
   private _node!: HTMLElement;
@@ -15,7 +16,7 @@ class Header {
   createTemplate() {
     this._node = document.createElement('header');
     this._node.classList.add('header');
-    this._node.insertAdjacentHTML('afterbegin', `<h1><img src="./logo.png" alt="MovieList 로고" /></h1>`);
+    this._node.insertAdjacentHTML('afterbegin', `<h1><img src="${logoImage}" alt="MovieList 로고" /></h1>`);
 
     const searchBox = new SearchBox();
     this._node.insertAdjacentElement('beforeend', searchBox.node);

@@ -1,3 +1,4 @@
+import starFilled from '../asset/star_filled.png';
 import { MovieItem } from '../domain/processMovieData';
 
 class MovieCard {
@@ -30,7 +31,7 @@ class MovieCard {
           />
           <p class="item-title">${this.movieData.title}</p>
           <div class="item-score">
-            <img src="./star_filled.png" alt="별점" />
+            <img src="${starFilled}" alt="별점" />
             <p>${this.movieData.voteAverage}</p>
           </div>
         </div>
