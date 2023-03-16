@@ -1,5 +1,5 @@
-import { API_BASE_URL } from '../constants';
 import { MovieDataType } from '../types/movie';
+import { API_BASE_URL } from '../constants';
 import HTTPError from './HTTPError';
 
 async function fetchPopularMovieData(currentPage: number) {

@@ -1,7 +1,7 @@
+import { $ } from '../utils/domSelector';
+import { Logo } from '../assets';
 import MovieListContent from './MovieListContent';
 import MovieList from '../domain/MovieList';
-import { Logo } from '../assets';
-import { $ } from '../utils/domSelector';
 
 const NavBar = {
   template() {

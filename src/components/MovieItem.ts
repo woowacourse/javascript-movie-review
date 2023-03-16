@@ -1,7 +1,7 @@
-import { StarFilled } from '../assets';
-import { POSTER_BASE_URL } from '../constants';
 import { Movie } from '../types/movie';
+import { POSTER_BASE_URL } from '../constants';
 import { $ } from '../utils/domSelector';
+import { StarFilled } from '../assets';
 
 const MovieItem = {
   template() {

@@ -1,10 +1,10 @@
-import MovieList from '../domain/MovieList';
-import MovieItem from './MovieItem';
 import { Movie } from '../types/movie';
-import { $, $$ } from '../utils/domSelector';
-import InvalidMessage from './InvalidMessage';
-import HTTPError from '../api/HTTPError';
 import { MOVIE_MAX_COUNT } from '../constants';
+import { $, $$ } from '../utils/domSelector';
+import MovieItem from './MovieItem';
+import InvalidMessage from './InvalidMessage';
+import MovieList from '../domain/MovieList';
+import HTTPError from '../api/HTTPError';
 
 const MovieListContent = {
   loadMovies() {
