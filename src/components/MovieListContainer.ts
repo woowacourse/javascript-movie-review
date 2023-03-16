@@ -29,6 +29,19 @@ const MovieListContainer = {
       }
     });
   },
+
+  show: () => {
+    $<HTMLHeadingElement>("#movie-list-title").style.display = "block";
+    $<HTMLButtonElement>("#more-button").style.display = "block";
+  },
+
+  hideTitle: () => {
+    $<HTMLHeadingElement>("#movie-list-title").style.display = "none";
+  },
+
+  hideButton: () => {
+    $<HTMLButtonElement>("#more-button").style.display = "none";
+  },
 };
 
 export default MovieListContainer;

@@ -5,12 +5,12 @@ import { Movie } from "../types/movie";
 import { $ } from "../utils/domSelector";
 import { MOVIE_MAX_COUNT } from "../constants";
 import { HTTPError } from "../api/HTTPError";
+import MovieListContainer from "./MovieListContainer";
 
 const MovieListContent = {
   loadMovies: async (searchKey?: string) => {
     try {
-      $<HTMLButtonElement>("#movie-list-title").style.display = "block";
-      $<HTMLButtonElement>("#more-button").style.display = "block";
+      MovieListContainer.show();
 
       if (searchKey) {
         $<HTMLElement>(
@@ -19,16 +19,16 @@ const MovieListContent = {
       }
 
       MovieListContent.render();
-      const movies = await MovieList.getMovieData();
 
+      const movies = await MovieList.getMovieData();
       MovieListContent.render(movies);
 
       if (movies.length < MOVIE_MAX_COUNT) {
-        $<HTMLButtonElement>("#more-button").style.display = "none";
+        MovieListContainer.hideButton();
       }
 
       if (searchKey && movies.length === 0) {
-        $<HTMLButtonElement>("#movie-list-title").style.display = "none";
+        MovieListContainer.hideTitle();
         InvalidMessage.renderNoSearchMessage(searchKey);
         return;
       }
