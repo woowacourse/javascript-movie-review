@@ -9,10 +9,33 @@ export const searchUrl = (query, page) => {
 };
 
 export const request = async (url) => {
-  try {
-    const data = await fetch(url).then((res) => res.json());
-    return data;
-  } catch (e) {
-    console.log(e);
-  }
+  const data = await fetch(url).then((res) => {
+    if (res.status === 401) {
+      return alert("접근 권한이 없습니다.");
+    }
+
+    if (res.status === 404) {
+      return alert("없는 페이지입니다.");
+    }
+
+    if (!res.ok) {
+      return alert("알수 없는 에러가 발생했습니다.");
+    }
+
+    return res.json();
+  });
+
+  return data;
 };
+
+// fetch(myRequest)
+//   .then((response) => {
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! Status: ${response.status}`);
+//     }
+
+//     return response.blob();
+//   })
+//   .then((response) => {
+//     myImage.src = URL.createObjectURL(response);
+//   });
