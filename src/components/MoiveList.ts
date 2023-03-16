@@ -1,4 +1,4 @@
-import { Movie } from '../app';
+import { Movie, FetchType } from '../app';
 import MovieItem from './MovieItem';
 import skeletonTemplate from './Skeleton';
 
@@ -69,8 +69,12 @@ class MovieList {
     });
   }
 
-  setListName(keyword?: string) {
-    this.listName.innerText = keyword ? `${keyword} 검색 결과` : '지금 인기있는 영화';
+  setListName(type: FetchType, keyword?: string) {
+    if (type === 'popular') {
+      this.listName.innerText = '지금 인기있는 영화';
+    } else {
+      this.listName.innerText = `${keyword} 검색 결과`;
+    }
   }
 
   cleanMovieList() {
