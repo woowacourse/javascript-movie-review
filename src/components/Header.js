@@ -12,7 +12,7 @@ export default class Header {
       <header>
         <h1><a href="/"><img src="${logo}" alt="MovieList 로고" /></a></h1>
         <form class="search-box">
-          <input type="text" name="keyword" placeholder="검색" />
+          <input id="js-search-input" type="text" name="keyword" placeholder="검색" />
           <button class="search-button">검색</button>
         </form>
       </header>
