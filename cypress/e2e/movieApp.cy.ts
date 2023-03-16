@@ -14,4 +14,23 @@ describe('영화 리뷰 E2E test', () => {
 
     cy.get('.item-card.movie').should('have.length', 40);
   });
+
+  it('검색창을 통해 검색이 가능하다', () => {
+    cy.waitUntil(() => cy.get('.item-card.movie')).then(() => {
+      cy.get('.search-form > input').type('업');
+      cy.get('.search-form').submit();
+    });
+
+    cy.get('.item-card.movie').should('have.length', 20).should('contain.text', '업');
+  });
+
+  it('로고를 클릭 시 홈 화면으로 라우팅 한다', () => {
+    cy.waitUntil(() => cy.get('.item-card.movie')).then(() => {
+      cy.get('img[alt="MovieList 로고"]').click();
+    });
+
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq('/');
+    });
+  });
 });
