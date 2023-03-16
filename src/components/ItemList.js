@@ -1,30 +1,27 @@
 import movieItem from './movieItem';
 import Store from '../Store';
-
+import WholeScreenMessageAlert from './WholeScreenMessageAlert';
 class ItemList {
+  // 렌더링 방식 변경하기...
   $ul = document.createElement('ul');
 
   constructor($target) {
     this.$ul.className = 'item-list';
 
-    this.init($target);
-  }
-
-  init($target) {
-    $target.insertAdjacentElement('beforeend', this.$ul);
-    this.render(this.$ul);
+    this.render($target);
   }
 
   template() {
     const movies = Store.movies['results'];
 
-    if (!movies.length) return `<p>영화 목록이 없습니다.</p>`;
+    if (!movies.length) return WholeScreenMessageAlert('영화 목록이 없습니다.');
 
     return movies.reduce((item, movie) => (item += movieItem(movie)), ``);
   }
 
   render($target) {
-    $target.innerHTML = this.template();
+    this.$ul.innerHTML = this.template();
+    $target.insertAdjacentElement('beforeend', this.$ul);
   }
 }
 

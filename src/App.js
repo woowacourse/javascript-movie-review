@@ -4,16 +4,17 @@ import Header from './components/Header';
 import ListTitle from './components/ListTitle';
 import ItemList from './components/ItemList';
 import MoreButton from './components/MoreButton';
+import WholeScreenMessageAlert from './components/WholeScreenMessageAlert';
 
 class App {
   $main = document.createElement('main');
   $itemView = document.createElement('section');
 
   constructor($target) {
+    new Header($target);
     Store.getPopularMovies();
 
     this.$itemView.className = 'item-view';
-    new Header($target);
 
     this.listTitle = new ListTitle(this.$itemView);
     this.itemList = new ItemList(this.$itemView);
@@ -32,12 +33,24 @@ class App {
             case 'nextPage':
               value === -1 ? this.moreButton.hide() : this.moreButton.show();
               break;
+
             case 'category':
               if (value === 'popular') target['query'] = '';
-              this.listTitle.render(this.listTitle.$h2);
+
+              this.listTitle.render(this.$itemView);
               break;
+
             case 'results':
-              this.itemList.render(this.itemList.$ul);
+              this.itemList.render(this.$itemView);
+              this.moreButton.render(this.$itemView);
+              break;
+
+            case 'error':
+              const { isError, message } = value;
+
+              if (isError === false) break;
+
+              this.$itemView.innerHTML = WholeScreenMessageAlert(message);
               break;
             default:
           }
