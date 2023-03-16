@@ -6,12 +6,12 @@ class MoreButton {
   constructor($target) {
     this.$button.className = 'btn primary full-width';
 
-    this.$button.addEventListener('click', this.onClickMoreButton);
+    this.render($target);
 
-    this.init($target);
+    this.$button.addEventListener('click', this.onClickMoreButton);
   }
 
-  init($target) {
+  render($target) {
     this.$button.innerText = '더 보기';
     $target.insertAdjacentElement('beforeend', this.$button);
   }
