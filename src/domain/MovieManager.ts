@@ -20,9 +20,9 @@ class MovieManage {
     });
   }
 
-  async publish(movies: Movie[]) {
+  async publish(movies: Movie[], isShowMore: boolean = false) {
     this.subscribers.forEach((subscriber) => {
-      subscriber.rerender(movies);
+      subscriber.rerender(movies, isShowMore);
     });
   }
 

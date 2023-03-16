@@ -16,7 +16,7 @@ class MovieList extends CustomElement {
     `;
   }
 
-  rerender(movies) {
+  rerender(movies, isShowMore) {
     const movieItemsTemplate = movies
       .map((movie) => {
         const { title, src, starRate } = movie;
@@ -26,7 +26,9 @@ class MovieList extends CustomElement {
       })
       .join("");
 
-    $(".item-list").innerHTML = movieItemsTemplate;
+    isShowMore
+      ? $(".item-list").insertAdjacentHTML("beforeend", movieItemsTemplate)
+      : ($(".item-list").innerHTML = movieItemsTemplate);
   }
 }
 

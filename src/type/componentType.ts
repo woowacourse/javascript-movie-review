@@ -6,5 +6,5 @@ export interface CustomElement extends HTMLElement {
   setEvent: () => void;
   show: () => void;
   hide: () => void;
-  rerender: (data: Movie[] | string) => void;
+  rerender: (data: Movie[] | string, isShowMore?: boolean) => void;
 }
