@@ -1,10 +1,7 @@
-const API_KEY = '61777263370291e01254d71031583c64';
+const API_KEY = process.env.API_KEY;
+
 const url = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US`;
-
 const searchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US`;
-
-const example =
-  'https://api.themoviedb.org/3/search/movie?api_key=61777263370291e01254d71031583c64&language=en-US&query=해리포터&page=1&include_adult=false';
 
 export const getApiPopularMovie = async <T>(page: number): Promise<T> => {
   const fetchingData = await fetch(`${url}&page=${page}`);
