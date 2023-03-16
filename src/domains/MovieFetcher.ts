@@ -73,6 +73,10 @@ class MovieFetcher {
         voteAverage: currentResult.vote_average,
       }));
 
+      if (movieList.length === 0) {
+        return { result: 'EMPTY_LIST' };
+      }
+
       this.#currentPage += 1;
 
       return { result: 'OK', movieList };
