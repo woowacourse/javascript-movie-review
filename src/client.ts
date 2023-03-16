@@ -6,14 +6,20 @@ export type TMDBResponse = {
   total_pages: number;
 };
 
+export type TMDBErrorResponse = {
+  success: boolean;
+  status_code: number;
+  status_message: string;
+};
+
 class Client {
   private static readonly BASE_URL = 'https://api.themoviedb.org/3';
 
   async fetch(path: string): Promise<TMDBResponse> {
-    const response: TMDBResponse = await fetch(
-      `${Client.BASE_URL}${path}&api_key=${process.env.TMDB_API_KEY}`,
-    ).then((res) => res.json());
+    const res = await fetch(`${Client.BASE_URL}${path}&api_key=${process.env.TMDB_API_KEY}`);
+    if (!res.ok) throw await res.json();
 
+    const response: TMDBResponse = await res.json();
     return response;
   }
 
