@@ -1,11 +1,12 @@
 import MovieCard from './MovieCard';
 import type { Movie } from '../../types/movie';
 import { DEFAULT_LIST_LENGTH } from '../../constants';
+import { CLASS } from '../../constants/selector';
 
 const MovieCardList = {
   template() {
     return `
-      <ul class="item-list">
+      <ul class=${CLASS.ITEM_LIST}>
         ${MovieCardList.skeletonItems()}
       </ul>
     `;
@@ -14,19 +15,19 @@ const MovieCardList = {
     return Array.from({ length: DEFAULT_LIST_LENGTH }, () => MovieCard.template()).join('');
   },
   renderMoreItems() {
-    const movieList = document.querySelector<HTMLUListElement>('.item-list');
+    const movieList = document.querySelector<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
 
     movieList?.insertAdjacentHTML('beforeend', MovieCardList.skeletonItems());
   },
   render() {
-    const movieList = document.querySelector<HTMLUListElement>('.item-list');
+    const movieList = document.querySelector<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
 
     if (movieList === null) return;
 
     movieList.innerHTML = MovieCardList.skeletonItems();
   },
   paint(movies: Movie[], page: number = 1) {
-    const movieList = document.querySelector<HTMLUListElement>('.item-list');
+    const movieList = document.querySelector<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
 
     if (movieList === null) return;
 
@@ -40,16 +41,16 @@ const MovieCardList = {
     });
   },
   handleVisibility(state: boolean) {
-    const movieList = document.querySelector<HTMLUListElement>('.item-list');
+    const movieList = document.querySelector<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
 
     if (state) {
-      return movieList?.classList.add('hide');
+      return movieList?.classList.add(CLASS.HIDE);
     }
 
-    return movieList?.classList.remove('hide');
+    return movieList?.classList.remove(CLASS.HIDE);
   },
   removeSkeleton() {
-    const movieList = document.querySelector<HTMLUListElement>('.item-list');
+    const movieList = document.querySelector<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
 
     if (movieList === null) return;
 

@@ -1,5 +1,6 @@
 import { posterNotFoundImage, starFilledImage } from '../../assets/images';
 import { IMAGE_URL } from '../../constants';
+import { CLASS } from '../../constants/selector';
 import type { Movie } from '../../types/movie';
 
 const MovieCard = {
@@ -8,9 +9,9 @@ const MovieCard = {
       <li>
         <a href="#">
           <div class="item-card">
-            <div class="item-thumbnail skeleton"></div>
-            <p class="item-title skeleton"></p>
-            <p class="item-score skeleton"></p>
+            <div class="${CLASS.ITEM_THUMBNAIL} ${CLASS.SKELETON}"></div>
+            <p class="${CLASS.ITEM_TITLE} ${CLASS.SKELETON}"></p>
+            <p class="${CLASS.ITEM_SCORE} ${CLASS.SKELETON}"></p>
           </div>
         </a>
       </li>
@@ -19,7 +20,7 @@ const MovieCard = {
   imageTemplate(path: string | null, title: string) {
     return `
       <img
-        class="item-thumbnail skeleton"
+        class="${CLASS.ITEM_THUMBNAIL} ${CLASS.SKELETON}"
         src="${MovieCard.handlePosterImage(path)}"
         loading="lazy"
         alt="${title}"
@@ -32,17 +33,17 @@ const MovieCard = {
   paint(target: HTMLLIElement, item: Movie) {
     const { title, poster_path: path, vote_average: score } = item;
 
-    const itemThumbnail = target.querySelector<HTMLDivElement>('.item-thumbnail');
-    const itemTitle = target.querySelector<HTMLParagraphElement>('.item-title');
-    const itemScore = target.querySelector<HTMLParagraphElement>('.item-score');
+    const itemThumbnail = target.querySelector<HTMLDivElement>(`.${CLASS.ITEM_THUMBNAIL}`);
+    const itemTitle = target.querySelector<HTMLParagraphElement>(`.${CLASS.ITEM_TITLE}`);
+    const itemScore = target.querySelector<HTMLParagraphElement>(`.${CLASS.ITEM_SCORE}`);
 
     itemThumbnail?.insertAdjacentHTML('beforeend', MovieCard.imageTemplate(path, title));
     itemTitle?.insertAdjacentText('beforeend', title);
     itemScore?.insertAdjacentHTML('beforeend', MovieCard.scoreTemplate(score));
 
-    itemThumbnail?.classList.remove('skeleton');
-    itemTitle?.classList.remove('skeleton');
-    itemScore?.classList.remove('skeleton');
+    itemThumbnail?.classList.remove(CLASS.SKELETON);
+    itemTitle?.classList.remove(CLASS.SKELETON);
+    itemScore?.classList.remove(CLASS.SKELETON);
   },
   handlePosterImage(path: string | null) {
     return path === null ? posterNotFoundImage : IMAGE_URL + path;

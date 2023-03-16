@@ -1,8 +1,9 @@
 import Header from './components/Header';
 import MovieCardSection from './components/MovieCardSection';
 import MovieCardList from './components/MovieCardSection/MovieCardList';
+import { ID } from './constants/selector';
 import Movies from './domain/Movies';
-import { Movie } from './types/movie';
+import type { Movie } from './types/movie';
 
 class App {
   #app: HTMLDivElement | null;
@@ -10,7 +11,7 @@ class App {
   #movies: Movies;
 
   constructor() {
-    this.#app = document.querySelector<HTMLDivElement>('#app');
+    this.#app = document.querySelector<HTMLDivElement>(`#${ID.APP}`);
     this.#movies = new Movies();
   }
 

@@ -5,12 +5,13 @@ import type Movies from '../../domain/Movies';
 import MovieCardSection from '../MovieCardSection';
 import MovieCardList from '../MovieCardSection/MovieCardList';
 import LoadMoreButton from '../MovieCardSection/LoadMoreButton';
+import { CLASS } from '../../constants/selector';
 
 const Header = {
   template() {
     return `
       <header>
-        <h1><button type="button" class="page-title-button"><img src=${logoImage} alt="MovieList 로고" /></button></h1>
+        <h1><button type="button" class=${CLASS.PAGE_TITLE_BUTTON}><img src=${logoImage} alt="MovieList 로고" /></button></h1>
         ${MovieSearch.template()}
       </header>
     `;
@@ -18,7 +19,7 @@ const Header = {
   setEvent(movies: Movies) {
     MovieSearch.setEvent(movies);
 
-    const pageTitleButton = document.querySelector<HTMLButtonElement>('.page-title-button');
+    const pageTitleButton = document.querySelector<HTMLButtonElement>(`.${CLASS.PAGE_TITLE_BUTTON}`);
 
     pageTitleButton?.addEventListener('click', async () => {
       MovieCardSection.render();

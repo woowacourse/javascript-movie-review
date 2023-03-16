@@ -1,3 +1,4 @@
+import { ID } from '../../constants/selector';
 import type Movies from '../../domain/Movies';
 import MovieCardSection from '../MovieCardSection';
 import LoadMoreButton from '../MovieCardSection/LoadMoreButton';
@@ -7,7 +8,7 @@ const MovieSearch = {
   template() {
     return `
       <div class="search-box">
-        <form id="movie-search-form">
+        <form id=${ID.MOVIE_SEARCH_FORM}>
           <input type="text" name="search-query" placeholder="검색" />
           <button class="search-button">검색</button>
         </form>
@@ -15,7 +16,7 @@ const MovieSearch = {
     `;
   },
   setEvent(movies: Movies) {
-    const movieSearchForm = document.querySelector<HTMLFormElement>('#movie-search-form');
+    const movieSearchForm = document.querySelector<HTMLFormElement>(`#${ID.MOVIE_SEARCH_FORM}`);
 
     movieSearchForm?.addEventListener('submit', async (event) => {
       event.preventDefault();

@@ -5,11 +5,12 @@ import MovieCardList from './MovieCardList';
 import MovieSectionTitle from './MovieSectionTitle';
 import Movies from '../../domain/Movies';
 import Message from './Message';
+import { CLASS } from '../../constants/selector';
 
 const MovieCardSection = {
   template() {
     return `
-      <section class="item-view">
+      <section class=${CLASS.ITEM_VIEW}>
         ${MovieSectionTitle.template()}
         ${MovieCardList.template()}
         ${LoadMoreButton.template()}
@@ -26,7 +27,7 @@ const MovieCardSection = {
     MovieCardList.render();
   },
   renderTitle(query: string) {
-    const itemView = document.querySelector<HTMLElement>('.item-view');
+    const itemView = document.querySelector<HTMLElement>(`.${CLASS.ITEM_VIEW}`);
     itemView?.firstElementChild?.remove();
     itemView?.insertAdjacentHTML('afterbegin', MovieSectionTitle.template(query));
   },

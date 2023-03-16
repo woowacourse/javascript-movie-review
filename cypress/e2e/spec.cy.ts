@@ -1,3 +1,4 @@
+import { CLASS, ID } from '../../src/constants/selector';
 import type { Movie } from '../../src/types/movie';
 
 beforeEach(() => {
@@ -19,17 +20,17 @@ describe('메인 화면과 더보기 버튼 테스트', () => {
       expect(movieItems.length).to.equal(20);
     });
 
-    cy.get('.item-list').children().should('have.length', 20);
+    cy.get(`.${CLASS.ITEM_LIST}`).children().should('have.length', 20);
   });
 
   it('더보기 버튼을 클릭하면 영화 리스트를 더 불러와 보여준다.', () => {
-    cy.get('#load-more-button').click();
+    cy.get(`#${ID.LOAD_MORE_BUTTON}`).click();
 
     cy.wait('@getPopularMovies').then((interception) => {
       const movieItems = interception.response?.body.results;
       expect(movieItems.length).to.equal(20);
     });
-    cy.get('.item-list').children().should('have.length', 40);
+    cy.get(`.${CLASS.ITEM_LIST}`).children().should('have.length', 40);
   });
 });
 
@@ -43,8 +44,8 @@ describe('영화 검색 테스트', () => {
       { fixture: 'movie-search-mock.json' }
     ).as('getSearchedMovies');
 
-    cy.get('#movie-search-form input').type('해리포터');
-    cy.get('#movie-search-form').submit();
+    cy.get(`#${ID.MOVIE_SEARCH_FORM} input`).type('해리포터');
+    cy.get(`#${ID.MOVIE_SEARCH_FORM}`).submit();
   });
 
   it('"해리포터"를 검색하면 해리포터 문자열이 포함된 영화 리스트를 보여준다.', () => {
@@ -57,17 +58,17 @@ describe('영화 검색 테스트', () => {
       });
     });
 
-    cy.get('.item-list').children().should('have.length', 8);
+    cy.get(`.${CLASS.ITEM_LIST}`).children().should('have.length', 8);
   });
 
   it('영화 검색 후 헤더 타이틀 버튼을 클릭하면 지금 인기있는 영화 목록을 보여준다.', () => {
-    cy.get('.page-title-button').click();
+    cy.get(`.${CLASS.PAGE_TITLE_BUTTON}`).click();
 
     cy.wait('@getPopularMovies').then((interception) => {
       const movieItems = interception.response?.body.results;
       expect(movieItems.length).to.equal(20);
     });
 
-    cy.get('.item-list').children().should('have.length', 20);
+    cy.get(`.${CLASS.ITEM_LIST}`).children().should('have.length', 20);
   });
 });

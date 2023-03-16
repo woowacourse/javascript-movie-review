@@ -1,12 +1,13 @@
+import { ID } from '../../constants/selector';
 import type Movies from '../../domain/Movies';
 import MovieCardList from './MovieCardList';
 
 const LoadMoreButton = {
   template() {
-    return `<button id="load-more-button" class="btn primary full-width">더 보기</button>`;
+    return `<button id=${ID.LOAD_MORE_BUTTON} class="btn primary full-width">더 보기</button>`;
   },
   setEvent(movies: Movies) {
-    const button = document.querySelector<HTMLButtonElement>('#load-more-button');
+    const button = document.querySelector<HTMLButtonElement>(`#${ID.LOAD_MORE_BUTTON}`);
 
     button?.addEventListener('click', async () => {
       MovieCardList.renderMoreItems();
@@ -31,7 +32,7 @@ const LoadMoreButton = {
     });
   },
   handleVisibility(state: boolean) {
-    const button = document.querySelector<HTMLButtonElement>('#load-more-button');
+    const button = document.querySelector<HTMLButtonElement>(`#${ID.LOAD_MORE_BUTTON}`);
 
     if (state) {
       return button?.classList.add('hide');
