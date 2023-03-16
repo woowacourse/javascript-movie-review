@@ -6,25 +6,37 @@ import SkeletonList from "./SkeletonList";
 
 class MovieList {
   $target;
-  #type;
-  #searchKeyword;
+  #props;
   #page;
 
   constructor($target, props) {
     this.$target = $target;
-    this.#type = props?.type;
-    this.#searchKeyword = props?.searchKeyword;
+    this.#props = props;
     this.#page = 1;
 
     this.render();
     this.setEvent();
   }
 
+  async renderMovieList() {
+    const $itemList = this.$target.querySelector(".item-list");
+
+    this.toggleSkeletonContainerVisibility();
+    const fetchedMovieData = await this.fetchMovieList();
+    this.toggleSkeletonContainerVisibility();
+
+    if (!this.isExistMovie(fetchedMovieData)) this.renderNotfoundMessage();
+    if (this.isLastPage(fetchedMovieData)) this.toggleMoreButton();
+
+    const movies = fetchedMovieData.results.map((movieData) => new Movie(movieData));
+    movies.forEach((movie) => new MovieItem($itemList, movie));
+    this.#page += 1;
+  }
+
   template() {
-    const title =
-      this.#type === "popular"
-        ? "지금 인기있는 영화"
-        : `"${this.#searchKeyword}" 검색결과`;
+    const { type, searchKeyword } = this.#props;
+
+    const title = type === "popular" ? "지금 인기있는 영화" : `"${searchKeyword}" 검색결과`;
 
     return `
         <section class="item-view">
@@ -36,53 +48,8 @@ class MovieList {
       `;
   }
 
-  toggleSkeletonContainerVisibility() {
-    const $skeletonContainer = this.$target.querySelector(
-      ".skeleton-container"
-    );
-    $skeletonContainer.classList.toggle("visible");
-  }
-
-  async renderMovieList() {
-    const $itemList = this.$target.querySelector(".item-list");
-
-    this.toggleSkeletonContainerVisibility();
-    const fetchedMovieData =
-      this.#type === "popular"
-        ? await fetchPopularMovieList(this.#page)
-        : await fetchMovieListWithKeyword(this.#page, this.#searchKeyword);
-    this.toggleSkeletonContainerVisibility();
-
-    const movies = fetchedMovieData.results.map(
-      (movieData) => new Movie(movieData)
-    );
-    movies.forEach((movie) => new MovieItem($itemList, movie));
-
-    this.ckeckIsLastPageToShow(fetchedMovieData.total_pages);
-    this.checkNoMovieToShow(fetchedMovieData.results);
-    this.#page += 1;
-  }
-
-  checkNoMovieToShow(searchResults) {
-    if (searchResults.length) return;
-
-    const $searchTitle = this.$target.querySelector(".search-title");
-    $searchTitle.innerText = `"${
-      this.#searchKeyword
-    }" 에 대한 검색 결과가 없습니다 :(`;
-  }
-
-  ckeckIsLastPageToShow(totalPage) {
-    if (this.#page !== totalPage) return;
-
-    const $loadMoreButton = this.$target.querySelector(".more");
-    $loadMoreButton.classList.toggle("invisible");
-  }
-
   mounted() {
-    const $skeletonContainer = this.$target.querySelector(
-      ".skeleton-container"
-    );
+    const $skeletonContainer = this.$target.querySelector(".skeleton-container");
     new SkeletonList($skeletonContainer);
 
     this.renderMovieList();
@@ -97,6 +64,43 @@ class MovieList {
     this.$target.querySelector(".more").addEventListener("click", () => {
       this.renderMovieList();
     });
+  }
+
+  toggleSkeletonContainerVisibility() {
+    const $skeletonContainer = this.$target.querySelector(".skeleton-container");
+    $skeletonContainer.classList.toggle("visible");
+  }
+
+  async fetchMovieList() {
+    const { type, searchKeyword } = this.#props;
+
+    if (type === "popular") {
+      return await fetchPopularMovieList(this.#page);
+    }
+    if (type === "search") {
+      return await fetchMovieListWithKeyword(this.#page, searchKeyword);
+    }
+  }
+
+  isExistMovie(movieData) {
+    return !!movieData.results.length;
+  }
+
+  isLastPage(movieData) {
+    return movieData.total_pages === this.#page;
+  }
+
+  renderNotfoundMessage() {
+    const { searchKeyword } = this.#props;
+    const $searchTitle = this.$target.querySelector(".search-title");
+
+    $searchTitle.innerText = `"${searchKeyword}" 에 대한 검색 결과가 없습니다 :(`;
+  }
+
+  toggleMoreButton() {
+    const $loadMoreButton = this.$target.querySelector(".more");
+
+    $loadMoreButton.classList.toggle("invisible");
   }
 }
 
