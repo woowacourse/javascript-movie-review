@@ -1,8 +1,8 @@
-import { ApiMovieItem, ModelData, Movie } from "../type/movieType";
+import { ApiMovieItem, ModelData } from "../type/movieType";
 import { popularUrl, request, searchUrl } from "../util/api";
 
 class MovieModel {
-  private data: ModelData = {
+  private state: ModelData = {
     movies: [],
     searchWord: "",
     page: 1,
@@ -10,10 +10,10 @@ class MovieModel {
   };
 
   async getData() {
-    return this.data;
+    return this.state;
   }
 
-  toMovies(apiData: ApiMovieItem[]) {
+  formMovies(apiData: ApiMovieItem[]) {
     return apiData.map((result: ApiMovieItem) => {
       return {
         title: result.title,
@@ -24,35 +24,37 @@ class MovieModel {
   }
 
   increasePage() {
-    this.data.page += 1;
+    this.state.page += 1;
   }
 
   isLastPage() {
-    return this.data.page === this.data.totalPages;
+    return this.state.page === this.state.totalPages;
   }
 
   async getApiMovies(query: string = "") {
-    this.data.page = 1;
-    this.data.searchWord = query;
+    this.state.page = 1;
+    this.state.searchWord = query;
 
-    const url = query
-      ? searchUrl(this.data.searchWord, this.data.page)
-      : popularUrl(this.data.page);
-    const data = await request(url);
-    this.data.totalPages = data.total_pages;
+    const url = this.makeUrl();
+    const apiData = await request(url);
+    this.state.movies = this.formMovies(apiData.results);
 
-    this.data.movies = this.toMovies(data.results);
+    this.state.totalPages = apiData.total_pages;
   }
 
   async getApiMoreMovies() {
     this.increasePage();
 
-    const url = this.data.searchWord
-      ? searchUrl(this.data.searchWord, this.data.page)
-      : popularUrl(this.data.page);
-    const data = await request(url);
+    const url = this.makeUrl();
+    const apiData = await request(url);
 
-    this.data.movies = this.toMovies(data.results);
+    this.state.movies = this.formMovies(apiData.results);
+  }
+
+  makeUrl() {
+    return this.state.searchWord
+      ? searchUrl(this.state.searchWord, this.state.page)
+      : popularUrl(this.state.page);
   }
 }
 
