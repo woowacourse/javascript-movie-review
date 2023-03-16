@@ -48,11 +48,11 @@ const fetchQuery = async (path: string, init?: RequestInit) => {
 };
 
 export const fetchMoviesByKeyword = (keyword: string, page?: number) => {
-  return fetchQuery(`tmdb/search/movie?query=${keyword}&${page ? `page=${page}` : ''}`);
+  return fetchQuery(`tmdb/search/movie?query=${keyword}&${page ? `page=${page}` : ''}&language=ko`);
 };
 
 export const fetchPopularMovies = (page: number = 1): Promise<GetPopularMoviesRes> => {
-  return fetchQuery(`tmdb/movie/popular?page=${page}`);
+  return fetchQuery(`tmdb/movie/popular?page=${page}&language=ko`);
 };
 
 export const waitFor = async <T>(promise: Promise<T>): Promise<[T, null] | [undefined, Error]> => {
