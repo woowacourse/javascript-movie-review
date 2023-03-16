@@ -1,18 +1,29 @@
+import Form from '../../components/shared/Form';
 import Logo from '../../components/shared/Logo';
-import SearchBox from '../../components/shared/SearchBox';
 import { $ } from '../../utils/dom';
 import { HeaderComponents } from '../../types/header';
-import Input from '../../components/shared/Input';
+import { getFormData } from '../../utils/form';
+
+interface Query {
+  value: FormDataEntryValue | null;
+}
+
+interface HeaderProxy {
+  query: { value: FormDataEntryValue | null };
+}
 
 class Header {
   private components: HeaderComponents = {
     logo: null,
     searchBox: null,
-    searchButton: null,
+  };
+  private proxy: HeaderProxy = {
+    query: { value: '' },
   };
 
-  constructor(logo: Logo, searchBox: Input, searchButton: Input) {
-    this.components = { logo, searchBox, searchButton };
+  constructor({ logo, searchBox }: HeaderComponents, proxy: HeaderProxy) {
+    this.components = { logo, searchBox };
+    this.proxy = proxy;
   }
 
   render() {
@@ -21,6 +32,8 @@ class Header {
     if (appElement instanceof HTMLDivElement && appElement.closest('body')) {
       appElement.insertAdjacentHTML('beforeend', '<header></header>');
       this.renderChild();
+      this.listenEvent('click');
+      this.listenEvent('submit');
     }
   }
 
@@ -31,14 +44,34 @@ class Header {
       headerElement instanceof HTMLElement &&
       headerElement.closest('#app') &&
       this.components.logo instanceof Logo &&
-      this.components.searchBox instanceof Input
+      this.components.searchBox instanceof Form
     ) {
       this.components.logo.render(headerElement);
       this.components.searchBox.render(headerElement);
+    }
+  }
 
-      const searchBoxElement = $<HTMLDivElement>('.search-box');
-      if (searchBoxElement instanceof HTMLDivElement && this.components.searchButton instanceof Input)
-        this.components.searchButton.render(searchBoxElement);
+  private async callback(event: Event) {
+    if (event.target instanceof HTMLImageElement && event.target.matches('#logo')) {
+      window.location.reload();
+    }
+
+    if (event.target instanceof HTMLFormElement && event.target.matches('#search-box')) {
+      event.preventDefault();
+
+      const formData = getFormData(event);
+      if (formData instanceof Object) {
+        const query = Object.fromEntries(formData);
+        this.proxy.query.value = query['search-input'];
+      }
+    }
+  }
+
+  private listenEvent(type: string) {
+    const headerElement = $<HTMLElement>('header');
+
+    if (headerElement instanceof HTMLElement) {
+      headerElement.addEventListener(type, this.callback.bind(this));
     }
   }
 }

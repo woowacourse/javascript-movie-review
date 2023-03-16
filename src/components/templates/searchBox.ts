@@ -1,9 +1,12 @@
-import { SearchBoxState } from '../../types/searchBox';
+import { SearchBoxProps } from '../../types/searchBox';
 
-export const showSearchInputTemplate = ({ className, placeholder }: SearchBoxState) =>
+export const showSearchBoxTemplate = ({ className, id, inputId, placeholder }: SearchBoxProps) =>
   /* html */
   `
-		<div class="${className}">
-			<input type="text" placeholder="${placeholder}" />
-		</div>
+		<form class="${className}" id="${id}">
+			<label for="${inputId}">
+				<input class="search-input" id="${inputId}" type="text" name="${inputId}" placeholder="${placeholder}" />
+				<button class="search-button">검색</button>
+			</label>
+		</form>
 	`;

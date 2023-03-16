@@ -1,4 +1,5 @@
 export interface MovieContainerProps {
   className: string;
-  title: string;
+  id: string;
+  query: FormDataEntryValue;
 }

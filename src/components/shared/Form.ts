@@ -1,4 +1,4 @@
-class MovieContainer {
+class Form {
   template: string = '';
 
   constructor(template: string) {
@@ -8,10 +8,6 @@ class MovieContainer {
   render(element: HTMLElement) {
     element.insertAdjacentHTML('beforeend', this.template);
   }
-
-  renderChild(parentsElement: HTMLElement, template: string) {
-    parentsElement.innerHTML = template;
-  }
 }
 
-export default MovieContainer;
+export default Form;
