@@ -123,6 +123,7 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
   width: 100%;
   min-width: 1200px;
@@ -178,4 +179,8 @@ header .search-box > .search-button {
 
 .error-message p {
   font-size: 14px;
+}
+
+.placeholder-thumbnail {
+  background-color: #3a3a3a;
 }
