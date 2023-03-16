@@ -13,13 +13,12 @@ import {
 } from "../abstracts/constants";
 
 export default class AppComponent extends CustomComponent {
-  option = ACTION_OPTION.MORE_POPULAR;
   nextPage = 1;
   totalPage;
   $movieList;
   $movieListTitle;
 
-  getMovieData(searchType) {
+  getMovieData(url) {
     fetch(url, { method: "GET" })
       .then(async (res) => {
         if (res.ok) {
@@ -67,8 +66,10 @@ export default class AppComponent extends CustomComponent {
       `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`
     );
 
-    this.option = ACTION_OPTION.MORE_POPULAR;
-    this.querySelector("more-button").setAttribute("data-action", this.option);
+    this.querySelector("more-button").setAttribute(
+      "data-action",
+      ACTION_OPTION.MORE_POPULAR
+    );
   }
 
   getSearchData() {
@@ -81,8 +82,10 @@ export default class AppComponent extends CustomComponent {
     this.getMovieData(
       `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchValue}&page=${this.nextPage}&include_adult=false`
     );
-    this.option = ACTION_OPTION.MORE_SEARCH;
-    this.querySelector("more-button").setAttribute("data-action", this.option);
+    this.querySelector("more-button").setAttribute(
+      "data-action",
+      ACTION_OPTION.MORE_SEARCH
+    );
   }
 
   handleEvent() {
