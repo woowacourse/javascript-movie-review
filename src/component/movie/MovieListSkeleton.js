@@ -12,188 +12,27 @@ class MovieListSkeleton extends CustomElement {
   template() {
     return `
     <ul class="item-list skeleton-list">
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-          </ul>
+      ${this.makeItemSkeleton()}
+    </ul>
     `;
+  }
+
+  makeItemSkeleton() {
+    return [...new Array(20)]
+      .map(
+        () => `
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+  `
+      )
+      .join("");
   }
 
   rerender() {
