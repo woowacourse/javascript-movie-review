@@ -20,6 +20,12 @@ export class MovieList extends HTMLElement {
   }
 
   insertMovieList(movieList: Movie[]) {
+    if (movieList.length === 0) {
+      this.$movieItems?.insertAdjacentHTML(
+        'beforeend',
+        `<img src="./assets/empty.png" width="900px"/>`,
+      );
+    }
     movieList.map((movie: Movie) => {
       const { title, poster_path, vote_average } = movie;
       this.$movieItems?.insertAdjacentHTML(
