@@ -8,8 +8,8 @@ export const getPopularMovie = () => {
       );
       const data = await response.json();
       currentPage += 1;
-      const a = { data, currentPage };
-      return a;
+      const popularMovieData = { data, currentPage };
+      return popularMovieData;
     } catch (e) {
       console.log(e);
     }

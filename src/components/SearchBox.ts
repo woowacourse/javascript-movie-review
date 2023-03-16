@@ -24,8 +24,8 @@ class SearchBox {
 
   handleEvent() {
     const button = document.querySelector(".search-input");
-    button?.addEventListener("keyup", (e: any) => {
-      e.key === "Enter" && this.onKeyup(e);
+    button?.addEventListener("keyup", (e: Event) => {
+      this.onKeyup(e);
     });
   }
 

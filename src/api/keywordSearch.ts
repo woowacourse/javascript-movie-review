@@ -6,10 +6,8 @@ export const getSearchResult = () => {
       `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY}&query=${keyword}&page=${currentPage}`
     );
     const data = await response.json();
-    console.log(data?.results);
     currentPage += 1;
-
-    return data.results;
+    return { data, currentPage };
   };
 };
 

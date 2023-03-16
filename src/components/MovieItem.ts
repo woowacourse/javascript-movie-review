@@ -1,6 +1,6 @@
-import { MovieInfoType } from "../@types/movieType";
+import { CoreInfoType } from "../@types/movieType";
 
-export const MovieItem = (movieInfo: any) => {
+export const MovieItem = (movieInfo: CoreInfoType) => {
   const { title, posterPath, voteAverage } = movieInfo;
 
   return `
