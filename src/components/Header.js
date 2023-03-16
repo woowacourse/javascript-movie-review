@@ -24,6 +24,7 @@ class Header {
     e.preventDefault();
     const { currentTarget } = e;
     const { value } = currentTarget.querySelector('input');
+    document.querySelector('h2').innerHTML = `<p>${value}에 대한 검색 결과입니다</p>`;
 
     if (value.length === 0) {
       alert('1글자 이상 입력해 주셔야 합니다.');
