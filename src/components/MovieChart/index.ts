@@ -1,77 +1,20 @@
-import {
-  fetchMoviesByKeyword,
-  GetMoviesByKeywordRes,
-  fetchPopularMovies,
-  GetPopularMoviesRes,
-  waitFor,
-} from './../../apis/index';
-import { assemble, Event, useEffect, useState } from '../../core';
+import { assemble, Event, useEffect } from '../../core';
 import { $, getElement } from './../../utils/common/domHelper';
 import { MovieListComponent, SkeletonMovieListComponent } from './action';
+import { useMovieChart } from '../../hooks/useMovieChart';
 
 interface MovieChart {
   keyword: string;
 }
-
 let page: number;
 const MovieChart = assemble<MovieChart>(({ keyword }) => {
-  const [chartInfo, setChartInfo] = useState<GetPopularMoviesRes | GetMoviesByKeywordRes>();
-  const [movieList, setMovieList] = useState<(typeof chartInfo)['results']>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const getPopularMovies = async () => {
-    setIsLoading(true);
-
-    const [data, error] = await waitFor<GetPopularMoviesRes>(fetchPopularMovies(page));
-    if (error) throw new Error(JSON.stringify(error));
-    setChartInfo(data);
-    setMovieList([...movieList, ...data.results]);
-
-    page += 1;
-    setIsLoading(false);
-
-    setTimeout(() => {
-      scrollTo({ left: 0, top: document.body.scrollHeight, behavior: 'smooth' });
-    }, 500);
-  };
-
-  const getMoviesByKeyword = async () => {
-    setIsLoading(true);
-
-    const [data, error] = await waitFor<GetMoviesByKeywordRes>(fetchMoviesByKeyword(keyword, page));
-    if (error) throw new Error(JSON.stringify(error));
-    setChartInfo(data);
-
-    if (page === 1) {
-      setMovieList(data.results);
-    } else {
-      setMovieList([...movieList, ...data.results]);
-    }
-
-    page += 1;
-    setIsLoading(false);
-
-    setTimeout(() => {
-      scrollTo({ left: 0, top: document.body.scrollHeight, behavior: 'smooth' });
-    }, 500);
-  };
-
-  const fetchMore = async () => {
-    if (keyword) getMoviesByKeyword();
-    else getPopularMovies();
-  };
-
-  useEffect(() => {
-    page = 1;
-
-    fetchMore();
-  }, [keyword]);
+  const { chartInfo, movieList, isLoading, fetchMore } = useMovieChart(keyword);
 
   const $events: Event[] = [
     {
       event: 'click',
       callback(e) {
-        if (e.target === $('.btn.primary')) fetchMore();
+        e.target === $('.btn.primary') && fetchMore(keyword);
       },
     },
   ];
