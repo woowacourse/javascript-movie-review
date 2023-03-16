@@ -10,7 +10,7 @@ import {
   REQUEST_URL,
   SEARCH_WARNING,
   TITLE,
-} from "../abstracts/constants";
+} from "../constants/constants";
 
 export default class AppComponent extends CustomComponent {
   #nextPage = 1;

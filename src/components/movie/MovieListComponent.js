@@ -2,7 +2,7 @@ import CustomComponent from "../../abstracts/CustomComponent";
 import MovieListPageComponent from "./MovieListPageComponent";
 import MovieComponent from "./MovieComponent";
 import ErrorComponent from "./ErrorComponent";
-import { STATUS } from "../../abstracts/constants";
+import { STATUS } from "../../constants/constants";
 
 export default class MovieListComponent extends CustomComponent {
   #page;

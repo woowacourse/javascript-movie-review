@@ -1,4 +1,4 @@
-import { PAGE_LENGTH, STATUS } from "../../abstracts/constants";
+import { PAGE_LENGTH, STATUS } from "../../constants/constants";
 import CustomComponent from "../../abstracts/CustomComponent";
 import MovieComponent from "./MovieComponent";
 import MovieSkeletonComponent from "./MovieSkeletonComponent";
