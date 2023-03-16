@@ -70,7 +70,8 @@ class App {
     this.movieList.createSkeleton();
 
     const movieData = await this.getMovieData(getAPI.searchMovie(this.fetchStandard.keyword!, this.fetchStandard.page));
-    this.movieList.updateMovieList(movieData.movies);
+    const isLastPage = movieData.totalPages === this.fetchStandard.page;
+    this.movieList.updateMovieList(movieData.movies, isLastPage);
   }
 
   async getMovieData(api: string) {

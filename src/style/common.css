@@ -77,10 +77,18 @@ button {
 }
 
 .item-score {
-  display: flex;
   align-items: center;
   margin-top: 16px;
   font-size: 1.2rem;
+}
+
+.search-message {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
 }
 
 .item-score img {

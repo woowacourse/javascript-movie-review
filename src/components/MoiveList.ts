@@ -58,8 +58,13 @@ class MovieList {
   }
 
   updateMovieList(movieData: Movie[], isLastPage?: Boolean) {
-    console.log(movieData);
     this.removeSkeleton();
+
+    if (movieData.length === 0) {
+      this.movieList.insertAdjacentHTML('afterend', '<div class="search-message">검색 결과가 없습니다.</div>');
+
+      return;
+    }
 
     this.movieList.classList.remove('hidden');
     this.loadMoreButton.classList.remove('hidden');
