@@ -3,7 +3,7 @@ import movieHandler from "./domain/movieHandler";
 import { $ } from "./utils/dom";
 import MovieListContainer from "../src/components/MovieListContainer";
 import MovieList from "./components/MovieList";
-import type { Movie } from "./types/type";
+import type { Movie, ResponseData } from "./types/type";
 
 const movieApp = {
   currentPageNumber: 1,
@@ -40,13 +40,22 @@ const movieApp = {
     movieList.render(movieHandler.movies);
   },
 
-  async getPopularMovieData() {
+  async fetchMovieData(fetchFunction: () => Promise<ResponseData>) {
     const movieList = <MovieList>$("movie-list");
 
     movieList.displaySkeletonUI();
 
-    const movies = await mostPopular(this.currentPageNumber++);
+    const movies = await fetchFunction();
+
     if (!movies) this.$container.displayErrorUI();
+
+    return movies;
+  },
+
+  async getPopularMovieData() {
+    const movies = await this.fetchMovieData(() =>
+      mostPopular(this.currentPageNumber++)
+    );
 
     if (this.currentPageNumber > 500) this.$container.removeLoadMovieButton();
 
@@ -57,25 +66,21 @@ const movieApp = {
     this.currentPageNumber = 1;
     this.query = query;
 
-    const movieList = <MovieList>$("movie-list");
-
-    movieList.displaySkeletonUI();
-
-    const movies = await search(query, this.currentPageNumber++);
-    if (!movies) this.$container.displayErrorUI();
-
     this.$container.changeTitle(query);
 
     movieHandler.initializeMovies();
+
+    const movies = await this.fetchMovieData(() =>
+      search(query, this.currentPageNumber++)
+    );
+
     this.loadMovieData(movies.results);
   },
 
   async getSearchMovieData() {
-    const movieList = <MovieList>$("movie-list");
-
-    movieList.displaySkeletonUI();
-    const movies = await search(this.query, this.currentPageNumber++);
-    if (!movies) this.$container.displayErrorUI();
+    const movies = await this.fetchMovieData(() =>
+      search(this.query, this.currentPageNumber++)
+    );
 
     this.loadMovieData(movies.results);
   },
