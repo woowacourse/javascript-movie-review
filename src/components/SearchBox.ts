@@ -1,7 +1,10 @@
 class SearchBox {
+  private _keyword: string;
+
   constructor() {
     this.render();
     this.handleEvent();
+    this._keyword = "";
   }
 
   create() {
@@ -34,6 +37,14 @@ class SearchBox {
       },
     });
     document.querySelector(".search-input")!.dispatchEvent(event);
+  }
+
+  updateKeyword(newWord: string) {
+    this._keyword = newWord;
+  }
+
+  getKeyword() {
+    return this._keyword;
   }
 }
 
