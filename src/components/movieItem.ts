@@ -2,6 +2,9 @@ import { MovieType } from '../types';
 
 const movieItem = ({ title, posterPath, voteAverage }: MovieType) => {
   const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original';
+  const originalImageUrl = `${IMAGE_BASE_URL}${posterPath}`;
+  const alternativeImageUrl = '../../assets/no_image.png';
+  const imageUrl = posterPath ? originalImageUrl : alternativeImageUrl;
 
   return `
     <li>
@@ -9,7 +12,7 @@ const movieItem = ({ title, posterPath, voteAverage }: MovieType) => {
         <div class="item-card">
           <img
             class="item-thumbnail"
-            src="${IMAGE_BASE_URL}${posterPath}"
+            src="${imageUrl}"
             loading="lazy"
             alt="${title}" />
           <p class="item-title">${title}</p>
