@@ -16,9 +16,6 @@ class MovieFetcher {
       );
 
       if (!response.ok) {
-        const responseText = await response.text();
-        const parsedResponseText = JSON.parse(responseText);
-
         if (response.status === 422) return { result: 'PAGE_ERROR' };
         if (response.status >= 400 && response.status <= 499) return { result: 'CLIENT_ERROR' };
         if (response.status >= 500 && response.status <= 599) return { result: 'SERVER_ERROR' };
@@ -55,9 +52,6 @@ class MovieFetcher {
       );
 
       if (!response.ok) {
-        const responseText = await response.text();
-        const parsedResponseText = JSON.parse(responseText);
-
         if (response.status === 422) return { result: 'PAGE_ERROR' };
         if (response.status >= 400 && response.status <= 499) return { result: 'CLIENT_ERROR' };
         if (response.status >= 500 && response.status <= 599) return { result: 'SERVER_ERROR' };
