@@ -31,7 +31,7 @@ class MovieList {
     const movies: Movie[] = movieData.map((movie: Movie) => ({
       id: movie.id,
       title: movie.title,
-      vote_average: movie.vote_average,
+      vote_average: Math.round(movie.vote_average * 10) / 10,
       poster_path: movie.poster_path,
     }));
 
