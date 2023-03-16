@@ -4,6 +4,7 @@ export default class Header extends HTMLElement {
   constructor() {
     super();
     this.render();
+    
     onSubmitSearchBox();
     onClickLogo();
   }

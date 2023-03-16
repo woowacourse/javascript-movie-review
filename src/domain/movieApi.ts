@@ -1,61 +1,55 @@
-import { removeMoreButton, updateMovies } from "../components/movieListHandler";
+import { removeMoreButton } from "../components/movieListHandler";
 import { IApiResponse, IMovie } from "../type";
+import { movieStore } from "./movieStore";
 
 export const movieApi = {
   page: 1,
-  movies: [] as IMovie[],
-  total_pages: 2,
-  total_results: 0,
+  total_page: 2,
   last_keyword: "",
 
-  async fetchPopularMovieInfo() {
-    if (this.last_keyword !== "") {
-      this.movies = [];
-      this.last_keyword = "";
-      this.page = 1;
-    }
-
-    const url = `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}&language=ko&page=${this.page}`;
-    const response = await fetch(url);
-
-    try {
-      if (response.status !== 200) throw new Error("서버가 불안정합니다.");
-    } catch (error) {
-      if (error instanceof Error) return alert(error.message);
-    }
-
-    const { page, results, total_pages, total_results } = await response.json();
-
-    this.page = page + 1;
-    this.movies = [...this.movies, ...convertApiResponseToMovieList(results)];
-    this.total_pages = total_pages;
-    this.total_results = total_results;
-
-    updateMovies();
+  showPopularMovies() {
+    fetchMovieInfo("movie/popular", "");
   },
 
-  async fetchSearchedMovieInfo(keyword: string) {
-    if (this.last_keyword !== keyword) {
-      this.movies = [];
-      this.page = 1;
-    }
-
-    const url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY}&language=ko&page=${this.page}&include_adult=false&query=${keyword}`;
-    const response = await fetch(url);
-    const { page, results, total_pages, total_results } = await response.json();
-
-    this.last_keyword = keyword;
-    this.page = page + 1;
-    this.movies = [...this.movies, ...convertApiResponseToMovieList(results)];
-    this.total_pages = total_pages;
-    this.total_results = total_results;
-
-    updateMovies();
-
-    if (this.page === total_pages) {
-      removeMoreButton();
-    }
+  showSearchedMovies(keyword: string) {
+    fetchMovieInfo("search/movie", keyword);
   },
+};
+
+const fetchMovieInfo = async (endpoint: string, keyword: string) => {
+  const url = buildUrl(endpoint, keyword);
+  const response = await fetch(url);
+  catchError(response.status);
+
+  handleMovieInfoResponse(response);
+};
+
+const buildUrl = (endpoint: string, keyword: string) =>
+  `https://api.themoviedb.org/3/${endpoint}?api_key=${
+    process.env.API_KEY
+  }&language=ko&page=${movieApi.page}${
+    keyword === "" ? "" : `&query=${keyword}`
+  }`;
+
+const catchError = (status: number) => {
+  try {
+    if (status !== 200) throw new Error("서버가 불안정합니다.");
+  } catch (error) {
+    if (error instanceof Error) return alert(error.message);
+  }
+};
+
+const handleMovieInfoResponse = async (response: Response) => {
+  const { results, total_pages } = await response.json();
+  movieApi.total_page = total_pages;
+
+  saveMoviesAndRemoveMoreButton(results);
+};
+
+const saveMoviesAndRemoveMoreButton = (results: IApiResponse[]) => {
+  movieStore.appendMovies(convertApiResponseToMovieList(results));
+
+  if (movieApi.page === movieApi.total_page) removeMoreButton();
 };
 
 const convertApiResponseToMovieList = (results: IApiResponse[]): IMovie[] => {
@@ -66,4 +60,10 @@ const convertApiResponseToMovieList = (results: IApiResponse[]): IMovie[] => {
       ratings: movie.vote_average,
     };
   });
+};
+
+export const resetMoviesAndPages = () => {
+  movieStore.movies = [];
+  movieApi.page = 1;
+  movieApi.total_page = 2;
 };

@@ -1,14 +1,10 @@
 import { movieApi } from "../domain/movieApi";
+import { movieStore } from "../domain/movieStore";
 import { IMovie } from "../type";
 
 export default class MovieList extends HTMLElement {
   constructor() {
     super();
-    this.updateMovies();
-  }
-
-  async updateMovies() {
-    await movieApi.fetchPopularMovieInfo();
   }
 
   renderMovies() {
@@ -20,9 +16,9 @@ export default class MovieList extends HTMLElement {
           : `"${movieApi.last_keyword}" 검색 결과`
       }</h2>
       ${
-        movieApi.movies.length > 0
+        movieStore.movies.length > 0
           ? `<ul class="item-list">
-              ${movieApi.movies
+              ${movieStore.movies
                 .map((movie) => this.renderMovie(movie))
                 .join("")}
             </ul>`

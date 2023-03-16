@@ -5,10 +5,12 @@ import MovieList from "./MovieList";
 
 export const onClickMoreButton = () => {
   executeEventListener($("#more-button"), "click", async () => {
+    movieApi.page += 1;
+
     if (movieApi.last_keyword === "") {
-      await movieApi.fetchPopularMovieInfo();
+      movieApi.showPopularMovies();
     } else {
-      await movieApi.fetchSearchedMovieInfo(movieApi.last_keyword);
+      movieApi.showSearchedMovies(movieApi.last_keyword);
     }
   });
 };
@@ -16,6 +18,7 @@ export const onClickMoreButton = () => {
 export const updateMovies = () => {
   const movieList = $("#movie-list") as MovieList;
   movieList.renderMovies();
+
   onClickMoreButton();
 };
 
