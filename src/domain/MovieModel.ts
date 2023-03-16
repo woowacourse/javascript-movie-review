@@ -27,10 +27,6 @@ class MovieModel {
     this.state.page += 1;
   }
 
-  isLastPage() {
-    return this.state.page === this.state.totalPages;
-  }
-
   async getApiMovies(query: string = "") {
     this.state.page = 1;
     this.state.searchWord = query;

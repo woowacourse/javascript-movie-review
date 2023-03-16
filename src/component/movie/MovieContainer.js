@@ -14,7 +14,7 @@ class MovieContainer extends CustomElement {
   template() {
     return `
         <section class="item-view">
-          <h2 class='movie-container-title'>지금 인기 있는 영화</h2>
+          <h2 class='movie-container-title'></h2>
           <movie-list></movie-list>
           <movie-list-skeleton></movie-list-skeleton>
           <show-more-button></show-more-button>
@@ -22,10 +22,12 @@ class MovieContainer extends CustomElement {
     `;
   }
 
-  rerender({ searchWord }) {
-    $(".movie-container-title").innerText = `'${searchWord}' 검색 결과`;
+  rerender({ searchWord, page, totalPages }) {
+    $(".movie-container-title").innerText = `${
+      searchWord ? `'${searchWord}'검색 결과` : "지금 인기 있는 영화"
+    }`;
 
-    const isLastPage = MovieManager.toggleButton();
+    const isLastPage = page === totalPages;
     $("show-more-button").hidden = isLastPage;
   }
 }

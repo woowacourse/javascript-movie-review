@@ -14,10 +14,6 @@ class MovieManager {
     this.skeleton.push(element);
   }
 
-  toggleButton() {
-    return MovieModel.isLastPage();
-  }
-
   showSkeleton() {
     this.skeleton.forEach((subscriber) => {
       subscriber.render();
