@@ -6,6 +6,7 @@
 .item-thumbnail {
   border-radius: 8px;
   width: 180px;
+  height: 270px;
   background-size: contain;
 }
 
@@ -52,6 +53,7 @@ button.primary {
 @media screen and (max-width: 420px) {
   .item-thumbnail {
     width: 90vw;
+    height: 135vw;
   }
 
   .item-title {
