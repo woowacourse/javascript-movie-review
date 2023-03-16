@@ -20,8 +20,9 @@ const NavBar = {
       event.preventDefault();
       const target = event.target as HTMLFormElement;
       const inputElement = target['search-input'] as HTMLInputElement;
+      const searchKey = inputElement.value.trim();
 
-      if (inputElement.value.trim().length === 0) return;
+      if (searchKey === '') return;
 
       MovieList.init(inputElement.value);
 
