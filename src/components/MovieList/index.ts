@@ -1,5 +1,5 @@
 import { Movies } from "../../domain/Movies";
-import { Movie } from "../../types";
+import { Movie, MovieResponse } from "../../types";
 import { fetchPopularMovies, fetchSearchMovies } from "../../utils/api";
 import starImg from "../../../templates/star_filled.png";
 import { $ } from "../../utils/selector";
@@ -41,7 +41,6 @@ export class MovieList {
 
   init(total_pages: number) {
     this.#$target.removeChild(this.#$skeletonContainer);
-
     this.#$target.innerHTML = `
       ${this.#movies
         .getList()
@@ -74,7 +73,7 @@ export class MovieList {
     );
   }
 
-  render(movieList: Movie[], total_pages: number) {
+  render(movieList: MovieResponse[], total_pages: number) {
     this.#$target.removeChild(this.#$skeletonContainer);
 
     this.#$target.innerHTML += `
