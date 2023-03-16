@@ -21,4 +21,8 @@ export class SeeMoreButton extends HTMLElement {
   remove() {
     this.querySelector('.btn')?.classList.add('button-close');
   }
+
+  attach() {
+    this.querySelector('.btn')?.classList.remove('button-close');
+  }
 }
