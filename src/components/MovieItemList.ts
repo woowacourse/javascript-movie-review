@@ -27,7 +27,6 @@ export default class MovieItemList {
     // const listContainer = document.createDocumentFragment();
     // listContainer.classList.add("list-container");
     // listContainer.innerHTML = n;
-    console.log(n);
     document.querySelector(".item-list")?.insertAdjacentHTML("beforeend", n);
   }
 
