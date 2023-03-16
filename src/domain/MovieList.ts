@@ -51,10 +51,11 @@ class MovieList {
     return movies;
   }
 
-  async getMovieData(): Promise<Movie[]> {
-    return this.searchKey !== ''
-      ? await this.getSearchedMovieData()
-      : await this.getPopularMovieData();
+  async getMovieData() {
+    const movies =
+      this.searchKey !== '' ? await this.getSearchedMovieData() : await this.getPopularMovieData();
+
+    return { movies, searchKey: this.searchKey };
   }
 }
 
