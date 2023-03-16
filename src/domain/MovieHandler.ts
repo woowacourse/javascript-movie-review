@@ -1,7 +1,7 @@
-import { Movie } from '../type/Movie';
+import { Movie, MovieAPIData } from '../type/Movie';
 
 const MovieHandler = {
-  convertMovieList(moviesData: []) {
+  convertMovieList(moviesData: MovieAPIData[]) {
     const movieList: Movie[] = moviesData.map((data) => {
       const { id, title, poster_path, vote_average } = data;
 
