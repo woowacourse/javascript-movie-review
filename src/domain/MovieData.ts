@@ -15,8 +15,7 @@ class MovieData {
   }
 
   convertMovieData(movieItems: any) {
-    // any..?
-    return movieItems.map((item: MovieInfoType) => {
+    return movieItems?.map((item: MovieInfoType) => {
       const title = item?.title;
       const posterPath = item?.poster_path;
       const voteAverage = item?.vote_average;
@@ -25,8 +24,9 @@ class MovieData {
   }
 
   async generateElement(getData: any) {
-    const movieItems = await getData();
-    const movieElement = await this.convertMovieData(movieItems)
+    // const movieItems = await getData();
+    console.log(getData);
+    const movieElement = await this.convertMovieData(getData)
       .map((item: any) => {
         return MovieItem(item);
       })
