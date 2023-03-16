@@ -23,6 +23,7 @@ class MovieList {
 
     this.toggleSkeletonContainerVisibility();
     const fetchedMovieData = await this.fetchMovieList();
+    console.log(fetchedMovieData);
     this.toggleSkeletonContainerVisibility();
 
     if (!this.isExistMovie(fetchedMovieData)) this.renderNotfoundMessage();
@@ -73,12 +74,18 @@ class MovieList {
 
   async fetchMovieList() {
     const { type, searchKeyword } = this.#props;
+    try {
+      if (type === "popular") {
+        return await fetchPopularMovieList(this.#page);
+      }
+      if (type === "search") {
+        return await fetchMovieListWithKeyword(this.#page, searchKeyword);
+      }
+    } catch (e) {
+      const $searchTitle = this.$target.querySelector(".search-title");
 
-    if (type === "popular") {
-      return await fetchPopularMovieList(this.#page);
-    }
-    if (type === "search") {
-      return await fetchMovieListWithKeyword(this.#page, searchKeyword);
+      $searchTitle.innerText = `영화 리스트를 불러오는데 실패했습니다 :(`;
+      this.toggleMoreButton();
     }
   }
 
