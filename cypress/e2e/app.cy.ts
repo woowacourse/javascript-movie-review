@@ -20,4 +20,10 @@ describe("template spec", () => {
   it("영화 데이터를 받아오기 전까지 스켈레톤 UI를 렌더링 해야한다.", () => {
     cy.get(".skeleton").should("exist");
   });
+
+  it("더보기 버튼을 누르면 영화 데이터 20개를 추가로 받아서 렌더링 해야 한다.", () => {
+    cy.get(".more").click();
+
+    cy.get(".item-card:not(.skeleton)").should("have.length", 40);
+  });
 });
