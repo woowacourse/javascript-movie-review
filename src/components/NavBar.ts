@@ -4,7 +4,7 @@ import { Logo } from '../assets';
 import { $ } from '../utils/domSelector';
 
 const NavBar = {
-  render: () => {
+  template: () => {
     return `
       <header>
         <h1><a href=""><img src="${Logo}" alt="MovieList 로고" /></a></h1>
