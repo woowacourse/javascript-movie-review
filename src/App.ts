@@ -25,7 +25,7 @@ export default class App {
     new Header($('#app')).render().setEvent();
     this.$target.insertAdjacentHTML('beforeend', this.template());
     new Title($('.movie-list-title'));
-    new MovieList($('.item-view'));
+    new MovieList($('.item-view')).skeletonRender();
     new SeeMore($('.item-view')).render().setEvent();
   }
 }

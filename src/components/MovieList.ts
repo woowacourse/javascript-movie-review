@@ -7,9 +7,10 @@ export default class MovieList {
 
   constructor($parentTarget: HTMLElement) {
     $parentTarget.insertAdjacentHTML('beforeend', this.initTemplate());
+    this.$target = $('.item-list');
 
     movies.subscribe('movies', this.render.bind(this));
-    this.$target = $('.item-list');
+    movies.subscribe('loading', this.skeletonRender.bind(this));
   }
 
   initTemplate() {
@@ -18,7 +19,24 @@ export default class MovieList {
     `;
   }
 
+  skeletonTemplate() {
+    return `
+    <ul class="item-list skeleton-container">
+    ${new Array(20)
+      .fill('')
+      .map(() => new MovieItem().skeletonTemplate())
+      .join('')}
+      </ul>
+      `;
+  }
+
+  skeletonRender() {
+    this.$target.insertAdjacentHTML('beforeend', this.skeletonTemplate());
+  }
+
   async render(popularMovies: any) {
+    $('.skeleton-container').remove();
+
     this.$target.insertAdjacentHTML(
       'beforeend',
       await this.template(popularMovies)

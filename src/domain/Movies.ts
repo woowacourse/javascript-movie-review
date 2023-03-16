@@ -38,6 +38,8 @@ class Movies extends Observable {
   }
 
   async setMovies() {
+    this.notify('loading');
+
     const popularMovies = await getApiPopularMovie<MovieListApiType>(
       this.popularPage
     );
@@ -57,6 +59,8 @@ class Movies extends Observable {
   }
 
   async searchMovies(query: string) {
+    this.notify('loading');
+
     this.query = query;
     const searchMovies = await getApiSearchMovie<MovieListApiType>(
       query,

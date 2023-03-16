@@ -1,5 +1,6 @@
 type OberserverType = {
   movies: ((value?: Object) => void)[];
+  loading: (() => void)[];
 };
 
 export default class Observable {
@@ -8,6 +9,7 @@ export default class Observable {
   constructor() {
     this.observer = {
       movies: [],
+      loading: [],
     };
   }
 
