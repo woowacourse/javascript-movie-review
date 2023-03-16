@@ -73,7 +73,7 @@ export default class AppComponent extends CustomComponent {
 
   getSearchData() {
     this.nextPage = 1;
-    const searchValue = document.querySelector("input").value;
+    const searchValue = this.querySelector("input").value;
 
     this.$listTitle.setTitle(`"${searchValue}" ${TITLE.SEARCH}`);
     this.$itemList.initialRender();
@@ -86,7 +86,7 @@ export default class AppComponent extends CustomComponent {
   }
 
   handleEvent() {
-    document.getElementById("app").addEventListener("click", (e) => {
+    this.addEventListener("click", (e) => {
       switch (e.target.dataset.action) {
         case ACTION_OPTION.POPULAR:
           this.getPopularData();
@@ -101,7 +101,7 @@ export default class AppComponent extends CustomComponent {
           );
           break;
         case ACTION_OPTION.MORE_SEARCH:
-          const searchValue = document.querySelector("input").value;
+          const searchValue = this.querySelector("input").value;
 
           this.$itemList.appendRender();
           this.getData(
@@ -111,11 +111,11 @@ export default class AppComponent extends CustomComponent {
       }
     });
 
-    document.getElementById("app").addEventListener("keyup", (e) => {
+    this.addEventListener("keyup", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
 
-        const searchValue = document.querySelector("input").value;
+        const searchValue = this.querySelector("input").value;
         if (!searchValue) {
           alert(SEARCH_WARNING);
           return;
