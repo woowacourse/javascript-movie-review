@@ -51,15 +51,14 @@ class App {
     this.fetchStandard.page += 1;
     this.movieList.createSkeleton();
 
+    let movieData;
     if (this.fetchStandard.type === FetchType.Popular) {
-      const movieData = await this.getMovieData(getAPI.popularMovie(this.fetchStandard.page));
-      this.movieList.updateMovieList(movieData.movies);
+      movieData = await this.getMovieData(getAPI.popularMovie(this.fetchStandard.page));
     } else {
-      const movieData = await this.getMovieData(
-        getAPI.searchMovie(this.fetchStandard.keyword, this.fetchStandard.page)
-      );
-      this.movieList.updateMovieList(movieData.movies);
+      movieData = await this.getMovieData(getAPI.searchMovie(this.fetchStandard.keyword, this.fetchStandard.page));
     }
+    const isLastPage = movieData.totalPages === this.fetchStandard.page;
+    this.movieList.updateMovieList(movieData.movies, isLastPage);
   }
 
   async searchMoives({ detail }: CustomEvent) {

@@ -57,7 +57,7 @@ class MovieList {
     skeletionList.remove();
   }
 
-  updateMovieList(movieData: Movie[]) {
+  updateMovieList(movieData: Movie[], isLastPage?: Boolean) {
     console.log(movieData);
     this.removeSkeleton();
 
@@ -68,6 +68,8 @@ class MovieList {
       const moiveItem = new MovieItem(movie);
       this.movieList.insertAdjacentElement('beforeend', moiveItem.node);
     });
+
+    if (isLastPage) this.loadMoreButton.classList.add('hidden');
   }
 
   setListName(type: FetchType, keyword?: string) {
