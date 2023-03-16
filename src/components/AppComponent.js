@@ -4,6 +4,7 @@ import MovieListComponent from "./movie/MovieListComponent";
 import MoreButtonComponent from "./element/MoreButtonComponent";
 import TitleComponent from "./element/TitleComponent";
 import transformMovieItemsType from "../util/MovieList";
+import { API_KEY } from "../constants/key";
 import {
   ACTION,
   REQUEST_URL,
@@ -33,15 +34,13 @@ export default class AppComponent extends CustomComponent {
   urlByActionType(actionType) {
     switch (actionType) {
       case ACTION.POPULAR:
-        return `${REQUEST_URL}/movie/popular?api_key=${
-          process.env.API_KEY
-        }&language=ko-KR&page=${this.#nextPage}`;
-      case ACTION.SEARCH:
-        return `${REQUEST_URL}/search/movie?api_key=${
-          process.env.API_KEY
-        }&language=ko-KR&query=${this.#$searchInput.value}&page=${
+        return `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${
           this.#nextPage
-        }&include_adult=false`;
+        }`;
+      case ACTION.SEARCH:
+        return `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${
+          this.#$searchInput.value
+        }&page=${this.#nextPage}&include_adult=false`;
     }
   }
 
