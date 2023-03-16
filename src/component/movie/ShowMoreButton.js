@@ -9,7 +9,7 @@ class ShowMoreButton extends CustomElement {
 
   template() {
     return `
-    <button class="show-more-button btn primary full-width">더 보기</button>
+    <button class="show-more-button btn primary button-width">더 보기</button>
   `;
   }
 

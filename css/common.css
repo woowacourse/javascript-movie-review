@@ -86,8 +86,12 @@ button {
   content: "loading";
 }
 
-.full-width {
-  width: 100%;
+show-more-button {
+  text-align: center;
+}
+
+.button-width {
+  width: 30%;
 }
 
 .last-item {
