@@ -35,6 +35,10 @@ export default class App {
   async getMovieMetaData() {
     const data = await this.#getMovieData();
 
+    if (data.success === false) {
+      return { errorCode: data.status_code };
+    }
+
     const moviesData = data.results;
     const page = data.page;
     const totalPages = data.total_pages;

@@ -1,5 +1,8 @@
 import MovieCard from './MovieCard';
+
 import MovieHandler from '../domain/MovieHandler';
+
+import errorImg from '../assets/error.jpg';
 
 const headerTemplate = {
   popular() {
@@ -9,6 +12,14 @@ const headerTemplate = {
   search(query) {
     return `"${query}" 검색 결과`;
   },
+};
+
+const errorTemplate = (errorCode) => {
+  return `
+  <div class="error-container">
+    <h1>죄송합니다. 영화 목록을 불러올 수 없습니다. 관리자에게 문의하세요. (error code: ${errorCode})</h1>
+    <img class="error-img" src=${errorImg}/ >
+  </div>`;
 };
 
 export default class MovieList {
@@ -79,7 +90,14 @@ export default class MovieList {
 
   async load() {
     this.showSkeletonList();
-    const { moviesData, page, totalPages } = await this.#getMovieMetaData();
+    const { moviesData, page, totalPages, errorCode } = await this.#getMovieMetaData();
+
+    if (errorCode) {
+      this.hideSkeletonList();
+      this.$element.innerHTML = errorTemplate(errorCode);
+
+      return;
+    }
 
     const movieList = MovieHandler.convertMovieList(moviesData);
 

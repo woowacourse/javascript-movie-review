@@ -43,6 +43,19 @@ button {
   user-select: none;
 }
 
+.error-container {
+  margin-top: 10vh;
+  align-self: center;
+  height: 80vh;
+}
+
+.error-container h1 {
+  text-align: center;
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .item-list {
