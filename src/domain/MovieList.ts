@@ -24,10 +24,10 @@ class MovieList {
   }
 
   private async getPopularMovieData(): Promise<Movie[]> {
-    const movieData: Movie[] = await fetchPopularMovieData(this.currentPage);
+    const moviesData: Movie[] = await fetchPopularMovieData(this.currentPage);
     this.increaseCurrentPage();
 
-    const movies: Movie[] = movieData.map((movie: Movie) => ({
+    const movies: Movie[] = moviesData.map((movie: Movie) => ({
       id: movie.id,
       title: movie.title,
       vote_average: Math.round(movie.vote_average * 10) / 10,
@@ -38,13 +38,13 @@ class MovieList {
   }
 
   private async getSearchedMovieData(): Promise<Movie[]> {
-    const movieData = await fetchSearchedMovieData(
+    const moviesData: Movie[] = await fetchSearchedMovieData(
       this.searchKey,
       this.currentPage
     );
     this.increaseCurrentPage();
 
-    const movies: Movie[] = movieData.map((movie: Movie) => ({
+    const movies: Movie[] = moviesData.map((movie: Movie) => ({
       id: movie.id,
       title: movie.title,
       vote_average: movie.vote_average,

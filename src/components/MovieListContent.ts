@@ -1,11 +1,11 @@
 import MovieList from "../domain/MovieList";
 import MovieItem from "./MovieItem";
 import InvalidMessage from "./InvalidMessage";
+import MovieListContainer from "./MovieListContainer";
 import { Movie } from "../types/movie";
 import { $ } from "../utils/domSelector";
 import { MOVIE_MAX_COUNT } from "../constants";
 import { HTTPError } from "../api/HTTPError";
-import MovieListContainer from "./MovieListContainer";
 
 const MovieListContent = {
   loadMovies: async (searchKey?: string) => {
