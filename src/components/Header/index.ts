@@ -1,4 +1,5 @@
 import { assemble, Event } from '../../core';
+import { getFormFields, isFormElement, isStringFields } from '../../utils/common/formData';
 import { getElement } from './../../utils/common/domHelper';
 import { $ } from './../../utils/common/domHelper';
 
@@ -11,12 +12,11 @@ const Header = assemble<HeaderProps>(({ handleKeyword }) => {
     {
       event: 'submit',
       callback(e) {
-        if (e.target === $('.search-form')) {
-          e.preventDefault();
-          const formData = new FormData(e.target as HTMLFormElement);
-          const fields = Object.fromEntries(formData);
+        e.preventDefault();
+        if (e.target && e.target === $('.search-form') && isFormElement(e.target)) {
+          const fields = getFormFields(e.target);
 
-          handleKeyword(fields['keyword'] as string);
+          isStringFields(fields['keyword']) && handleKeyword(fields['keyword']);
         }
       },
     },
