@@ -13,14 +13,6 @@ export function ViewMoreButton() {
     plusPage();
 
     renderMoreSkeletonList();
-    // if (getPageStatus() === 'popular') {
-    //   renderMoreSkeletonList();
-    // } else {
-    //   const {
-    //     handlers: { handleMoreMovieList },
-    //   } = await useSearchedMovie(getRecentKeyword());
-    //   handleMoreMovieList();
-    // }
   });
 
   return `
