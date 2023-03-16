@@ -18,30 +18,10 @@ class MovieList {
     this.setEvent();
   }
 
-  async renderMovieList() {
-    const $itemList = this.$target.querySelector(".item-list");
-
-    this.toggleSkeletonContainerVisibility();
-    const fetchedMovieData = await this.fetchMovieList();
-    console.log(fetchedMovieData);
-    this.toggleSkeletonContainerVisibility();
-
-    if (!this.isExistMovie(fetchedMovieData)) this.renderNotfoundMessage();
-    if (this.isLastPage(fetchedMovieData)) this.toggleMoreButton();
-
-    const movies = fetchedMovieData.results.map((movieData) => new Movie(movieData));
-    movies.forEach((movie) => new MovieItem($itemList, movie));
-    this.#page += 1;
-  }
-
   template() {
-    const { type, searchKeyword } = this.#props;
-
-    const title = type === "popular" ? "지금 인기있는 영화" : `"${searchKeyword}" 검색결과`;
-
     return `
         <section class="item-view">
-          <h2 class="search-title">${title}</h2>
+          <h2 class="search-title"></h2>
           <ul class="item-list"></ul>
           <ul class="skeleton-container"></ul>
           <button class="more btn primary full-width">더 보기</button>
@@ -49,27 +29,42 @@ class MovieList {
       `;
   }
 
-  mounted() {
+  render() {
+    this.$target.innerHTML = this.template();
+
     const $skeletonContainer = this.$target.querySelector(".skeleton-container");
     new SkeletonList($skeletonContainer);
 
+    this.renderTitle();
     this.renderMovieList();
   }
 
-  render() {
-    this.$target.innerHTML = this.template();
-    this.mounted();
+  renderTitle(title) {
+    const { type, searchKeyword } = this.#props;
+    const $searchTitle = this.$target.querySelector(".search-title");
+
+    const text =
+      title || (type === "popular" ? "지금 인기있는 영화" : `"${searchKeyword}" 검색결과`);
+
+    $searchTitle.innerText = text;
   }
 
-  setEvent() {
-    this.$target.querySelector(".more").addEventListener("click", () => {
-      this.renderMovieList();
-    });
-  }
+  async renderMovieList() {
+    const $itemList = this.$target.querySelector(".item-list");
 
-  toggleSkeletonContainerVisibility() {
-    const $skeletonContainer = this.$target.querySelector(".skeleton-container");
-    $skeletonContainer.classList.toggle("visible");
+    this.toggleSkeletonContainerVisibility();
+    const fetchedMovieData = await this.fetchMovieList();
+    this.toggleSkeletonContainerVisibility();
+
+    if (!this.isExistMovie(fetchedMovieData)) {
+      const { searchKeyword } = this.#props;
+      this.renderTitle(`"${searchKeyword}"에 대한 검색 결과가 없습니다 :(`);
+    }
+    if (this.isLastPage(fetchedMovieData)) this.toggleMoreButton();
+
+    const movies = fetchedMovieData.results.map((movieData) => new Movie(movieData));
+    movies.forEach((movie) => new MovieItem($itemList, movie));
+    this.#page += 1;
   }
 
   async fetchMovieList() {
@@ -82,9 +77,7 @@ class MovieList {
         return await fetchMovieListWithKeyword(this.#page, searchKeyword);
       }
     } catch (e) {
-      const $searchTitle = this.$target.querySelector(".search-title");
-
-      $searchTitle.innerText = `영화 리스트를 불러오는데 실패했습니다 :(`;
+      this.renderTitle("영화 리스트를 불러오는데 실패 했습니다 :(");
       this.toggleMoreButton();
     }
   }
@@ -97,17 +90,21 @@ class MovieList {
     return movieData.total_pages === this.#page;
   }
 
-  renderNotfoundMessage() {
-    const { searchKeyword } = this.#props;
-    const $searchTitle = this.$target.querySelector(".search-title");
-
-    $searchTitle.innerText = `"${searchKeyword}" 에 대한 검색 결과가 없습니다 :(`;
-  }
-
   toggleMoreButton() {
     const $loadMoreButton = this.$target.querySelector(".more");
 
     $loadMoreButton.classList.toggle("invisible");
+  }
+
+  toggleSkeletonContainerVisibility() {
+    const $skeletonContainer = this.$target.querySelector(".skeleton-container");
+    $skeletonContainer.classList.toggle("visible");
+  }
+
+  setEvent() {
+    this.$target.querySelector(".more").addEventListener("click", () => {
+      this.renderMovieList();
+    });
   }
 }
 
