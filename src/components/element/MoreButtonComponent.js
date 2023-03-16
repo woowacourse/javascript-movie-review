@@ -6,7 +6,6 @@ export default class MoreButtonComponent extends CustomComponent {
   }
 
   attributeChangedCallback() {
-    console.log(this.querySelector("button"));
     this.querySelector("button").setAttribute(
       "data-action",
       this.getAttribute("data-action")

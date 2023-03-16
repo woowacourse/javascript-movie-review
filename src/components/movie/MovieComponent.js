@@ -8,7 +8,6 @@ export default class MovieComponent extends CustomComponent {
     const voteAverage = this.getAttribute("vote_average");
     const posterPath = this.getAttribute("poster_path");
 
-    console.log({ title, voteAverage, posterPath });
     return `
             <li>
                 <a href="#">
