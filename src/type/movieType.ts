@@ -15,15 +15,16 @@ export interface ApiMovieItem {
   vote_count: number;
 }
 
-export interface IMovie {
+export interface MovieItem {
   title: string;
   src: string;
   starRate: number;
 }
 
 export interface MovieAppData {
-  movies: IMovie[];
+  movies: MovieItem[];
   searchWord: string;
   page: number;
   totalPages: number;
+  isShowMore: boolean;
 }

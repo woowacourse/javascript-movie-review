@@ -1,4 +1,4 @@
-import { MovieAppData, IMovie } from "./movieType";
+import { MovieAppData, MovieItem } from "./movieType";
 
 export interface CustomElement extends HTMLElement {
   render: () => void;

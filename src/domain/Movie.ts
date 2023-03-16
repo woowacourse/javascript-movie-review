@@ -7,6 +7,7 @@ class Movie {
     searchWord: "",
     page: 1,
     totalPages: 0,
+    isShowMore: false,
   };
 
   async getData() {
@@ -26,6 +27,7 @@ class Movie {
   async getApiMovies(query: string = "") {
     this.state.page = 1;
     this.state.searchWord = query;
+    this.state.isShowMore = false;
 
     const url = this.makeUrl();
     const apiData = await request(url);
@@ -36,6 +38,7 @@ class Movie {
 
   async getApiMoreMovies() {
     this.state.page += 1;
+    this.state.isShowMore = true;
 
     const url = this.makeUrl();
     const apiData = await request(url);

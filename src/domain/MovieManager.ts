@@ -20,9 +20,9 @@ class MovieManager {
     });
   }
 
-  async publish(data: MovieAppData, isShowMore: boolean = false) {
+  async publish(data: MovieAppData) {
     this.subscribers.forEach((subscriber) => {
-      subscriber.rerender(data, isShowMore);
+      subscriber.rerender(data);
     });
   }
 
@@ -37,7 +37,7 @@ class MovieManager {
     await Movie.getApiMoreMovies();
 
     const data = await Movie.getData();
-    this.publish(data, true);
+    this.publish(data);
   }
 }
 
