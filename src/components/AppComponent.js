@@ -2,7 +2,7 @@ import CustomComponent from "../abstracts/CustomComponent";
 import HeaderComponent from "./AppHeaderComponent";
 import MovieListComponent from "./movie/MovieListComponent";
 import MoreButtonComponent from "./element/MoreButtonComponent";
-import ListTitleComponent from "./element/ListTitleComponent";
+import TitleComponent from "./element/TitleComponent";
 import { API_KEY } from "../constants/key";
 import transformMovieItemsType from "../util/MovieList";
 import {
@@ -44,7 +44,7 @@ export default class AppComponent extends CustomComponent {
     super.render();
 
     this.$itemList = this.querySelector("movie-list");
-    this.$listTitle = this.querySelector("list-title");
+    this.$listTitle = this.querySelector("movie-list-title");
 
     this.getPopularData();
   }
@@ -131,7 +131,7 @@ export default class AppComponent extends CustomComponent {
             <app-header></app-header>
             <main>
                 <section class="item-view">
-                    <list-title></list-title>
+                    <movie-list-title></movie-list-title>
                     <movie-list></movie-list>
                     <more-button></more-button>
                 </section>

@@ -226,3 +226,9 @@ error-page {
 .no-result-recommends > li {
   margin-top: 4px;
 }
+
+movie-list-title {
+  font-size: 2rem;
+  font-weight: bold;
+  user-select: none;
+}
