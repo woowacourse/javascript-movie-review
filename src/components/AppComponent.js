@@ -17,6 +17,7 @@ export default class AppComponent extends CustomComponent {
   totalPage;
   $movieList;
   $movieListTitle;
+  $searchInput;
 
   getMovieData(url) {
     fetch(url, { method: "GET" })
@@ -44,8 +45,16 @@ export default class AppComponent extends CustomComponent {
 
     this.$movieList = this.querySelector("movie-list");
     this.$movieListTitle = this.querySelector("movie-list-title");
+    this.$searchInput = this.querySelector("input");
 
-    this.getPopularData();
+    this.popularListInit();
+    this.getMovieData(
+      `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`
+    );
+    this.querySelector("more-button").setAttribute(
+      "data-action",
+      ACTION_OPTION.MORE_POPULAR
+    );
   }
 
   checkPage() {
@@ -56,46 +65,44 @@ export default class AppComponent extends CustomComponent {
     this.querySelector("more-button").classList.remove("hide");
   }
 
-  getPopularData() {
+  searchListInit() {
+    this.nextPage = 1;
+
+    this.$movieListTitle.setTitle(
+      `"${this.$searchInput.value}" ${TITLE.SEARCH}`
+    );
+    this.$movieList.initialPage();
+  }
+
+  popularListInit() {
     this.nextPage = 1;
 
     this.$movieListTitle.setTitle(TITLE.POPULAR);
     this.$movieList.initialPage();
-
-    this.getMovieData(
-      `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`
-    );
-
-    this.querySelector("more-button").setAttribute(
-      "data-action",
-      ACTION_OPTION.MORE_POPULAR
-    );
-  }
-
-  getSearchData() {
-    this.nextPage = 1;
-    const searchValue = this.querySelector("input").value;
-
-    this.$movieListTitle.setTitle(`"${searchValue}" ${TITLE.SEARCH}`);
-    this.$movieList.initialPage();
-
-    this.getMovieData(
-      `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchValue}&page=${this.nextPage}&include_adult=false`
-    );
-    this.querySelector("more-button").setAttribute(
-      "data-action",
-      ACTION_OPTION.MORE_SEARCH
-    );
   }
 
   handleEvent() {
     this.addEventListener("click", (e) => {
       switch (e.target.dataset.action) {
         case ACTION_OPTION.POPULAR:
-          this.getPopularData();
+          this.popularListInit();
+          this.getMovieData(
+            `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`
+          );
+          this.querySelector("more-button").setAttribute(
+            "data-action",
+            ACTION_OPTION.MORE_POPULAR
+          );
           break;
         case ACTION_OPTION.SEARCH:
-          this.getSearchData();
+          this.searchListInit();
+          this.getMovieData(
+            `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${this.$searchInput.value}&page=${this.nextPage}&include_adult=false`
+          );
+          this.querySelector("more-button").setAttribute(
+            "data-action",
+            ACTION_OPTION.MORE_SEARCH
+          );
           break;
         case ACTION_OPTION.MORE_POPULAR:
           this.$movieList.appendNewPage();
@@ -104,11 +111,9 @@ export default class AppComponent extends CustomComponent {
           );
           break;
         case ACTION_OPTION.MORE_SEARCH:
-          const searchValue = this.querySelector("input").value;
-
           this.$movieList.appendNewPage();
           this.getMovieData(
-            `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchValue}&page=${this.nextPage}&include_adult=false`
+            `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${this.$searchInput.value}&page=${this.nextPage}&include_adult=false`
           );
           break;
       }
@@ -118,13 +123,18 @@ export default class AppComponent extends CustomComponent {
       if (e.key === "Enter") {
         e.preventDefault();
 
-        const searchValue = this.querySelector("input").value;
-        if (!searchValue) {
+        if (!this.$searchInput.value) {
           alert(SEARCH_WARNING);
           return;
         }
-
-        this.getSearchData();
+        this.searchListInit();
+        this.getMovieData(
+          `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${this.$searchInput.value}&page=${this.nextPage}&include_adult=false`
+        );
+        this.querySelector("more-button").setAttribute(
+          "data-action",
+          ACTION_OPTION.MORE_SEARCH
+        );
       }
     });
   }
