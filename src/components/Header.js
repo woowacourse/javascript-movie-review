@@ -10,7 +10,7 @@ export default class Header {
   template() {
     return `
       <header>
-        <h1><img src="${logo}" alt="MovieList 로고" /></h1>
+        <h1><a href="/"><img src="${logo}" alt="MovieList 로고" /></a></h1>
         <form class="search-box">
           <input type="text" name="keyword" placeholder="검색" />
           <button class="search-button">검색</button>
@@ -24,16 +24,21 @@ export default class Header {
     return this;
   }
 
-  bindEvent(onSubmitSearch) {
+  bindEvent(toggleSkeleton, onSubmitSearch) {
     const searchBox = this.$parent.querySelector('.search-box');
 
     const handleSubmitSearch = async (event) => {
       event.preventDefault();
 
+      toggleSkeleton();
+
       const keyword = new FormData(event.target).get('keyword');
       const { results, total_pages } = await searchMovies({ text: keyword, page: 1 });
 
       Store.keyword = keyword;
+
+      toggleSkeleton();
+
       onSubmitSearch(results, total_pages);
     };
 

@@ -21,12 +21,27 @@ export default class MovieList {
     `;
   }
 
+  skeletonTemplate() {
+    return `
+      <li class='skeleton-li'>
+        <a href="#">
+          <div class="item-card">
+            <div class="item-thumbnail skeleton"></div>
+            <div class="item-title skeleton"></div>
+            <div class="item-score skeleton"></div>
+          </div>
+        </a>
+      </li>
+    `;
+  }
+
   init() {
     this.$parent.insertAdjacentHTML('beforeend', this.template());
     this.$title = this.$parent.querySelector('#js-movie-list-title');
     this.$movieItemList = this.$parent.querySelector('#js-movie-list');
     this.$moreMovieButton = this.$parent.querySelector('#js-more-movie-button');
     this.$lastPageNotify = this.$parent.querySelector('#js-last-page-notify');
+    this.$skeletonDiv = this.$parent.querySelector('#js-movie-list-skeleton');
 
     return this;
   }
@@ -36,16 +51,19 @@ export default class MovieList {
       Store.page += 1;
 
       if (this.renderMode === 'popular') {
+        this.toggleSkeleton();
         const { results, total_pages } = await getPopularMovies({ page: Store.page });
-
+        this.toggleSkeleton();
         this.renderMovieCards(results, total_pages);
       }
 
       if (this.renderMode === 'search') {
+        this.toggleSkeleton();
         const { results, total_pages } = await searchMovies({
           page: Store.page,
           text: Store.keyword,
         });
+        this.toggleSkeleton();
         this.renderMovieCards(results, total_pages);
       }
     };
@@ -68,5 +86,16 @@ export default class MovieList {
 
   removeMovieCards() {
     this.$movieItemList.innerHTML = '';
+  }
+
+  toggleSkeleton() {
+    const $skeletonLists = this.$movieItemList.querySelectorAll('.skeleton-li');
+
+    console.log($skeletonLists);
+    if ($skeletonLists.length > 0) {
+      $skeletonLists.forEach(($skeletonList) => $skeletonList.remove());
+    } else {
+      this.$movieItemList.insertAdjacentHTML('beforeend', this.skeletonTemplate().repeat(20));
+    }
   }
 }

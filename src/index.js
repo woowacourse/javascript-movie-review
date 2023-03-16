@@ -17,10 +17,15 @@ class App {
   }
 
   async init() {
-    this.header.bindEvent(this.onSubmitSearch.bind(this));
+    this.header.bindEvent(
+      this.movieList.toggleSkeleton.bind(this.movieList),
+      this.onSubmitSearch.bind(this),
+    );
     this.movieList.bindEvent();
 
+    this.movieList.toggleSkeleton();
     const { results, total_pages } = await getPopularMovies({ page: 1 });
+    this.movieList.toggleSkeleton();
     this.movieList.renderMovieCards(results, total_pages);
   }
 
