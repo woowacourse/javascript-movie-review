@@ -87,33 +87,30 @@ export default class AppComponent extends CustomComponent {
 
   handleEvent() {
     document.getElementById("app").addEventListener("click", (e) => {
-      // 로고 클릭
-      if (e.target.dataset.action === ACTION_OPTION.POPULAR) {
-        this.getPopularData();
-      }
-      // 검색 버튼 클릭 시
-      if (e.target.dataset.action === ACTION_OPTION.SEARCH) {
-        this.getSearchData();
-      }
-      // 인기 항목 - 더보기
-      if (e.target.dataset.action === ACTION_OPTION.MORE_POPULAR) {
-        this.$itemList.appendRender();
-        this.getData(
-          `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`
-        );
-      }
-      // 검색 항목 - 더보기
-      if (e.target.dataset.action === ACTION_OPTION.MORE_SEARCH) {
-        const searchValue = document.querySelector("input").value;
+      switch (e.target.dataset.action) {
+        case ACTION_OPTION.POPULAR:
+          this.getPopularData();
+          break;
+        case ACTION_OPTION.SEARCH:
+          this.getSearchData();
+          break;
+        case ACTION_OPTION.MORE_POPULAR:
+          this.$itemList.appendRender();
+          this.getData(
+            `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`
+          );
+          break;
+        case ACTION_OPTION.MORE_SEARCH:
+          const searchValue = document.querySelector("input").value;
 
-        this.$itemList.appendRender();
-        this.getData(
-          `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchValue}&page=${this.nextPage}&include_adult=false`
-        );
+          this.$itemList.appendRender();
+          this.getData(
+            `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchValue}&page=${this.nextPage}&include_adult=false`
+          );
+          break;
       }
     });
 
-    // 엔터 키 이벤트
     document.getElementById("app").addEventListener("keyup", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
