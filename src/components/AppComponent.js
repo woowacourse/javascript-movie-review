@@ -58,10 +58,7 @@ export default class AppComponent extends CustomComponent {
 
     this.popularListInit();
     this.getMovieData(ACTION.POPULAR);
-    this.querySelector("more-button").setAttribute(
-      "data-action",
-      ACTION.MORE_POPULAR
-    );
+    this.changeMoreButtonAction(ACTION.MORE_POPULAR);
   }
 
   checkPage() {
@@ -88,6 +85,10 @@ export default class AppComponent extends CustomComponent {
     this.$movieList.initialPage();
   }
 
+  changeMoreButtonAction(actionType) {
+    this.querySelector("more-button").setAttribute("data-action", actionType);
+  }
+
   handleEvent() {
     this.addEventListener("click", (e) => {
       switch (e.target.dataset.action) {
@@ -95,19 +96,13 @@ export default class AppComponent extends CustomComponent {
           this.popularListInit();
 
           this.getMovieData(ACTION.POPULAR);
-          this.querySelector("more-button").setAttribute(
-            "data-action",
-            ACTION.MORE_POPULAR
-          );
+          this.changeMoreButtonAction(ACTION.MORE_POPULAR);
           break;
         case ACTION.SEARCH:
           this.searchListInit();
 
           this.getMovieData(ACTION.SEARCH);
-          this.querySelector("more-button").setAttribute(
-            "data-action",
-            ACTION.MORE_SEARCH
-          );
+          this.changeMoreButtonAction(ACTION.MORE_SEARCH);
           break;
         case ACTION.MORE_POPULAR:
           this.$movieList.appendNewPage();
@@ -130,10 +125,7 @@ export default class AppComponent extends CustomComponent {
         }
         this.searchListInit();
         this.getMovieData(ACTION.SEARCH);
-        this.querySelector("more-button").setAttribute(
-          "data-action",
-          ACTION.MORE_SEARCH
-        );
+        this.changeMoreButtonAction(ACTION.MORE_SEARCH);
       }
     });
   }
