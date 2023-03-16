@@ -6,7 +6,7 @@ export default class App {
   #movieList = [];
   #page = 1;
   #listState = LIST_STATE.POPULAR;
-  #movieName = "";
+  #movieName;
 
   constructor() {
     this.initRender();
@@ -14,7 +14,7 @@ export default class App {
   }
 
   async initRender() {
-    await this.getPopularMoviesList();
+    await this.addPopularMoviesList();
     this.render();
     this.mountMovieList();
   }
@@ -32,40 +32,34 @@ export default class App {
   }
 
   async setEvent() {
-    document.addEventListener("more-button-clicked", async () => {
+    document.addEventListener("more-button-clicked", () => {
       this.toggleSkeletonList();
-      if (this.#listState === LIST_STATE.POPULAR) this.appendPopularMovieList();
-      if (this.#listState === LIST_STATE.SEARCHED)
-        this.appendSearchedMovieList();
+      this.appendMovieList();
     });
 
     document.addEventListener("search-movie", (event) => {
       this.#listState = LIST_STATE.SEARCHED;
       this.#page = 1;
+      this.#movieList = [];
       this.#movieName = event.detail;
       this.renderSearchedMovies(event.detail);
     });
   }
 
-  async appendPopularMovieList() {
+  async appendMovieList() {
     this.#page += 1;
     this.#movieList = [];
-    await this.getPopularMoviesList();
-
+    if (this.#listState === LIST_STATE.POPULAR) {
+      await this.addPopularMoviesList();
+    }
+    if (this.#listState === LIST_STATE.SEARCHED) {
+      await this.addSearchedMoviesList();
+    }
     this.toggleSkeletonList();
     this.mountMovieList();
   }
 
-  async appendSearchedMovieList() {
-    this.#page += 1;
-    this.#movieList = [];
-    await this.getSearchedMoviesList();
-
-    this.toggleSkeletonList();
-    this.mountMovieList();
-  }
-
-  async getPopularMoviesList() {
+  async addPopularMoviesList() {
     const fetchedData = await getPopularMovies(this.#page);
     const result = fetchedData.results;
     result.forEach((item) => {
@@ -77,7 +71,7 @@ export default class App {
     });
   }
 
-  async getSearchedMoviesList() {
+  async addSearchedMoviesList() {
     const fetchedData = await getSearchedMovies(this.#movieName, this.#page);
     const result = fetchedData.results;
     result.forEach((item) => {
@@ -92,18 +86,7 @@ export default class App {
   async renderSearchedMovies(movieName) {
     this.render();
     this.toggleSkeletonList();
-
-    const searchedMovies = await getSearchedMovies(movieName, this.#page);
-    this.#movieList = [];
-
-    searchedMovies.results.forEach((item) => {
-      this.#movieList.push({
-        title: item.title,
-        poster: item.poster_path,
-        rating: item.vote_average,
-      });
-    });
-
+    await this.addSearchedMoviesList();
     this.toggleSkeletonList();
     this.mountMovieList();
   }

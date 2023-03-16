@@ -14,7 +14,7 @@ export default class MovieSearch extends HTMLElement {
       this.createSearchMovieEvent();
     });
 
-    this.querySelector("input").addEventListener("keydown", (e) => {
+    this.querySelector("input").addEventListener("keypress", (e) => {
       if (e.key === "Enter") this.createSearchMovieEvent();
     });
   }
