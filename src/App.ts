@@ -10,7 +10,7 @@ class App {
 
   async render() {
     $<HTMLDivElement>('#app').insertAdjacentHTML('afterbegin', NavBar.render());
-    $<HTMLElement>('main').insertAdjacentHTML('afterbegin', MovieListContainer.render());
+    $<HTMLElement>('main').insertAdjacentHTML('afterbegin', MovieListContainer.template());
     MovieListContent.loadMovies();
     this.initEvents();
   }

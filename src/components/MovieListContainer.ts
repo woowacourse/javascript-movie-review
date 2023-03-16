@@ -5,7 +5,7 @@ import { $ } from '../utils/domSelector';
 import { MOVIE_MAX_COUNT } from '../constants';
 
 const MovieListContainer = {
-  render() {
+  template() {
     return `
       <section class="item-view">
         <h2 id="movie-list-title">지금 인기 있는 영화</h2>
