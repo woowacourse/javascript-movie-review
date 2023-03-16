@@ -23,10 +23,6 @@ class MovieModel {
     });
   }
 
-  increasePage() {
-    this.state.page += 1;
-  }
-
   async getApiMovies(query: string = "") {
     this.state.page = 1;
     this.state.searchWord = query;
@@ -39,7 +35,7 @@ class MovieModel {
   }
 
   async getApiMoreMovies() {
-    this.increasePage();
+    this.state.page += 1;
 
     const url = this.makeUrl();
     const apiData = await request(url);
