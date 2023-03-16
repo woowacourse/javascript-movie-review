@@ -1,7 +1,8 @@
 import CustomElement from "../basic/CustomElement";
-import "../movie/MovieItem";
 import { $ } from "../../util/dom";
 import MovieManager from "../../domain/MovieManager";
+import "../movie/MovieItem";
+import "./MovieEmpty";
 
 class MovieList extends CustomElement {
   connectedCallback() {
@@ -17,18 +18,25 @@ class MovieList extends CustomElement {
   }
 
   rerender(movies, isShowMore) {
-    const movieItemsTemplate = movies
-      .map((movie) => {
-        const { title, src, starRate } = movie;
-        return `
-      <movie-item title='${title}' vote_average=${starRate} src=${src}></movie-item>
-      `;
-      })
-      .join("");
+    const movieItemsTemplate = movies.length
+      ? this.makeMovieItems(movies)
+      : `<movie-empty></movie-empty>`;
 
     isShowMore
       ? $(".item-list").insertAdjacentHTML("beforeend", movieItemsTemplate)
       : ($(".item-list").innerHTML = movieItemsTemplate);
+  }
+
+  makeMovieItems(movies) {
+    return movies
+      .map((movie) => {
+        const { title, src, starRate } = movie;
+        return `
+          <movie-item title='${title}' vote_average=${starRate} src=${src}>
+          </movie-item>
+          `;
+      })
+      .join("");
   }
 }
 
