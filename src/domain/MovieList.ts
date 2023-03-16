@@ -1,10 +1,10 @@
-import { Movie } from "../types/movie";
-import { fetchPopularMovieData, fetchSearchedMovieData } from "../api/index";
+import { Movie } from '../types/movie';
+import { fetchPopularMovieData, fetchSearchedMovieData } from '../api/index';
 
 class MovieList {
   private static instance: MovieList;
   private currentPage: number = 1;
-  private searchKey: string = "";
+  private searchKey: string = '';
 
   static getInstance(): MovieList {
     if (!MovieList.instance) {
@@ -38,10 +38,7 @@ class MovieList {
   }
 
   private async getSearchedMovieData(): Promise<Movie[]> {
-    const moviesData: Movie[] = await fetchSearchedMovieData(
-      this.searchKey,
-      this.currentPage
-    );
+    const moviesData: Movie[] = await fetchSearchedMovieData(this.searchKey, this.currentPage);
     this.increaseCurrentPage();
 
     const movies: Movie[] = moviesData.map((movie: Movie) => ({
@@ -55,7 +52,7 @@ class MovieList {
   }
 
   async getMovieData(): Promise<Movie[]> {
-    return this.searchKey !== ""
+    return this.searchKey !== ''
       ? await this.getSearchedMovieData()
       : await this.getPopularMovieData();
   }

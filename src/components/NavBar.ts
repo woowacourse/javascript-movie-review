@@ -1,7 +1,7 @@
-import MovieListContent from "./MovieListContent";
-import MovieList from "../domain/MovieList";
-import { Logo } from "../assets";
-import { $ } from "../utils/domSelector";
+import MovieListContent from './MovieListContent';
+import MovieList from '../domain/MovieList';
+import { Logo } from '../assets';
+import { $ } from '../utils/domSelector';
 
 const NavBar = {
   render: () => {
@@ -16,20 +16,17 @@ const NavBar = {
   },
 
   onSubmit: () => {
-    $<HTMLFormElement>(".search-box").addEventListener(
-      "submit",
-      async (event: Event) => {
-        event.preventDefault();
-        const target = event.target as HTMLFormElement;
-        const inputElement = target["search-input"] as HTMLInputElement;
+    $<HTMLFormElement>('.search-box').addEventListener('submit', async (event: Event) => {
+      event.preventDefault();
+      const target = event.target as HTMLFormElement;
+      const inputElement = target['search-input'] as HTMLInputElement;
 
-        if (inputElement.value.trim().length === 0) return;
+      if (inputElement.value.trim().length === 0) return;
 
-        MovieList.init(inputElement.value);
+      MovieList.init(inputElement.value);
 
-        MovieListContent.loadMovies(inputElement.value);
-      }
-    );
+      MovieListContent.loadMovies(inputElement.value);
+    });
   },
 };
 

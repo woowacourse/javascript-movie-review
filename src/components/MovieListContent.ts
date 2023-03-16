@@ -1,11 +1,11 @@
-import MovieList from "../domain/MovieList";
-import MovieItem from "./MovieItem";
-import InvalidMessage from "./InvalidMessage";
-import MovieListContainer from "./MovieListContainer";
-import { Movie } from "../types/movie";
-import { $ } from "../utils/domSelector";
-import { MOVIE_MAX_COUNT } from "../constants";
-import { HTTPError } from "../api/HTTPError";
+import MovieList from '../domain/MovieList';
+import MovieItem from './MovieItem';
+import InvalidMessage from './InvalidMessage';
+import MovieListContainer from './MovieListContainer';
+import { Movie } from '../types/movie';
+import { $ } from '../utils/domSelector';
+import { MOVIE_MAX_COUNT } from '../constants';
+import { HTTPError } from '../api/HTTPError';
 
 const MovieListContent = {
   loadMovies: async (searchKey?: string) => {
@@ -13,9 +13,7 @@ const MovieListContent = {
       MovieListContainer.show();
 
       if (searchKey) {
-        $<HTMLElement>(
-          "#movie-list-title"
-        ).textContent = `"${searchKey}" 검색 결과`;
+        $<HTMLElement>('#movie-list-title').textContent = `"${searchKey}" 검색 결과`;
       }
 
       MovieListContent.render();
@@ -38,10 +36,10 @@ const MovieListContent = {
   },
 
   render: (movies?: Movie[]) => {
-    const errorMessageElement = document.querySelector(".error-message");
+    const errorMessageElement = document.querySelector('.error-message');
 
     if (errorMessageElement) {
-      $<HTMLElement>(".item-view").removeChild(errorMessageElement);
+      $<HTMLElement>('.item-view').removeChild(errorMessageElement);
     }
 
     const template = `
@@ -57,11 +55,11 @@ const MovieListContent = {
             </div>
           </a>
           </li>`.repeat(MOVIE_MAX_COUNT)
-            : movies.map((movie) => MovieItem.render(movie)).join("")
+            : movies.map((movie) => MovieItem.render(movie)).join('')
         }`;
 
-    $<HTMLElement>(".item-list").replaceChildren();
-    $<HTMLElement>(".item-list").insertAdjacentHTML("beforeend", template);
+    $<HTMLElement>('.item-list').replaceChildren();
+    $<HTMLElement>('.item-list').insertAdjacentHTML('beforeend', template);
   },
 };
 

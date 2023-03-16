@@ -1,4 +1,4 @@
-import { $ } from "../utils/domSelector";
+import { $ } from '../utils/domSelector';
 
 const InvalidMessage = {
   renderNoSearchMessage: (searchKey: string) => {
@@ -8,11 +8,11 @@ const InvalidMessage = {
         <p>다른 키워드를 입력해 보세요.</p>
       </div>`;
 
-    $<HTMLElement>(".item-view").insertAdjacentHTML("afterbegin", template);
+    $<HTMLElement>('.item-view').insertAdjacentHTML('afterbegin', template);
   },
 
   renderErrorMessage: (statusCode: number) => {
-    $<HTMLElement>(".item-view").replaceChildren();
+    $<HTMLElement>('.item-view').replaceChildren();
 
     const template = `
       <div class="error-message">
@@ -25,7 +25,7 @@ const InvalidMessage = {
       }
       </div>`;
 
-    $<HTMLElement>(".item-view").insertAdjacentHTML("afterbegin", template);
+    $<HTMLElement>('.item-view').insertAdjacentHTML('afterbegin', template);
   },
 };
 

@@ -6,10 +6,10 @@ const $ = <E extends Element>(selector: string): E => {
   }
 
   return <E>element;
-}
+};
 
 const $$ = <E extends Element>(selector: string): NodeListOf<E> => {
   return document.querySelectorAll(selector);
-}
+};
 
 export { $, $$ };
