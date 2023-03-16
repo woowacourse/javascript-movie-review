@@ -72,8 +72,13 @@ button {
 }
 
 .item-score {
+  align-items: center;
   margin-top: 16px;
   font-size: 1.2rem;
+}
+
+.item-score > img {
+  margin-right: 8px;
 }
 
 .item-score::after {
@@ -161,4 +166,16 @@ header .search-box > .search-button {
   text-indent: -1000rem;
   background: url("../assets/search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+#no-result {
+  line-height: 2;
+}
+
+#no-result > h2 {
+  margin: 40px 0 32px;
+}
+
+#no-result > p {
+  margin-bottom: 10px;
 }
