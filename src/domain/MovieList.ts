@@ -14,7 +14,7 @@ class MovieList {
     return MovieList.instance;
   }
 
-  init(searchKey: string) {
+  init(searchKey: string = '') {
     this.currentPage = 1;
     this.searchKey = searchKey;
   }
