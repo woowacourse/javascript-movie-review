@@ -29,7 +29,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - run: |
-          echo "API_KEY=$API_KEY" >> .env
+          echo "API_KEY=$API_KEY" >> .env.production
         env:
           API_KEY: ${{ secrets.API_KEY }}
 
