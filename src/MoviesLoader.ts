@@ -1,26 +1,17 @@
+import { TMDBResponse } from './client';
+
 import MovieListItem from './components/MovieListItem';
 import Skeleton from './components/Skeleton';
+import { Movie } from './movies.type';
 
-export type Movie = {
-  title: string;
-  vote_average: number;
-  poster_path: string;
-};
-
-export type TMDBResponse = {
-  page: number;
-  results: Movie[];
-  total_pages: number;
-};
-
-export type MoviesURLGenerator = (page: number) => string;
+export type MoviesGenerator = (page: number) => Promise<TMDBResponse>;
 
 export class MoviesLoader {
   private isFinished = false;
 
   private page = 1;
 
-  constructor(private readonly urlGenerator: MoviesURLGenerator) {
+  constructor(private readonly fetchFn: MoviesGenerator) {
     document.querySelector('.item-list')!.innerHTML = '<hr>';
     this.init();
   }
@@ -44,11 +35,10 @@ export class MoviesLoader {
     if (this.isFinished) return;
 
     const page = this.page;
-    const url = this.urlGenerator(page);
     this.page += 1;
 
     try {
-      const response: TMDBResponse = await fetch(url).then((res) => res.json());
+      const response: TMDBResponse = await this.fetchFn(page);
 
       await new Promise((resolve) => {
         setTimeout(resolve, 500);

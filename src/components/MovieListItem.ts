@@ -1,4 +1,4 @@
-import { Movie } from '../MoviesLoader';
+import { Movie } from '../movies.type';
 
 class MovieListItem {
   private template = (movie: Movie) => `<li>
