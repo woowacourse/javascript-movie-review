@@ -12,9 +12,7 @@ export default class MovieList {
     return `
       <main>
         <section class="item-view">
-          <h2 id="js-movie-list-title">${
-            '추후수정' ? '지금 인기 있는 영화' : `"${text}" 검색 결과`
-          }</h2>
+          <h2 id="js-movie-list-title">지금 인기 있는 영화</h2>
           <ul id="js-movie-list" class="item-list"></ul>
         </section>
         <button id="js-more-movie-button" class="btn primary full-width">더 보기</button>
@@ -56,7 +54,7 @@ export default class MovieList {
   }
 
   renderTitle(title) {
-    this.$title.textContents = title;
+    this.$title.textContent = title;
   }
 
   renderMovieCards(results, totalPages) {

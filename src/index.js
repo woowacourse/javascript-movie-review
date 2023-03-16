@@ -28,6 +28,8 @@ class App {
     this.movieList.renderMode = 'search';
     this.movieList.page = 1;
     this.movieList.removeMovieCards();
+
+    this.movieList.renderTitle(`"${Store.keyword}" 검색결과`);
     this.movieList.renderMovieCards(results, totalPages);
   }
 }
