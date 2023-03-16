@@ -1,8 +1,8 @@
 .skeleton-container {
   display: none;
-  margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-column-gap: 50px;
   grid-row-gap: 48px;
 }
 

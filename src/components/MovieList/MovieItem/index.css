@@ -1,11 +1,11 @@
 .item-card {
   display: flex;
+  width: 180px;
   flex-direction: column;
 }
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
   height: 270px;
   background-size: contain;
 }
