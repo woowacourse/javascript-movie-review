@@ -1,4 +1,4 @@
-const $ = <E extends Element>(selector: string, target: E | Document = document): E => {
+function $<E extends Element>(selector: string, target: E | Document = document): E {
   const element = target.querySelector(selector);
 
   if (!element) {
@@ -6,10 +6,10 @@ const $ = <E extends Element>(selector: string, target: E | Document = document)
   }
 
   return <E>element;
-};
+}
 
-const $$ = <E extends Element>(selector: string): NodeListOf<E> => {
+function $$<E extends Element>(selector: string): NodeListOf<E> {
   return document.querySelectorAll(selector);
-};
+}
 
 export { $, $$ };

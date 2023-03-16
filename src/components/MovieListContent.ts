@@ -3,17 +3,17 @@ import MovieItem from './MovieItem';
 import { Movie } from '../types/movie';
 import { $, $$ } from '../utils/domSelector';
 import InvalidMessage from './InvalidMessage';
-import { HTTPError } from '../api/HTTPError';
+import HTTPError from '../api/HTTPError';
 import { MOVIE_MAX_COUNT } from '../constants';
 
 const MovieListContent = {
-  loadMovies: async () => {
+  loadMovies() {
     $<HTMLButtonElement>('#more-button').classList.remove('hide');
     MovieListContent.clear();
     MovieListContent.loadMoreMovies();
   },
 
-  loadMoreMovies: async () => {
+  async loadMoreMovies() {
     try {
       MovieListContent.renderSkeleton();
 
@@ -41,13 +41,13 @@ const MovieListContent = {
     }
   },
 
-  renderSkeleton: () => {
+  renderSkeleton() {
     const itemList = $<HTMLUListElement>('.item-list');
 
     itemList.insertAdjacentHTML('beforeend', MovieItem.template().repeat(20));
   },
 
-  renderMovies: (movies: Movie[]) => {
+  renderMovies(movies: Movie[]) {
     const items = [...$$<HTMLUListElement>('.item-card')];
     const extraItems = MOVIE_MAX_COUNT - movies.length;
 

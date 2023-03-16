@@ -4,7 +4,7 @@ import { Movie } from '../types/movie';
 import { $ } from '../utils/domSelector';
 
 const MovieItem = {
-  template: () => {
+  template() {
     return `
       <li>
         <a href="#">
@@ -17,7 +17,7 @@ const MovieItem = {
       </li>`;
   },
 
-  posterImageTemplate: (title: string, imagePath: string) => {
+  posterImageTemplate(title: string, imagePath: string) {
     return imagePath
       ? `
         <img
@@ -29,13 +29,13 @@ const MovieItem = {
       : `<div class="item-thumbnail"></div>`;
   },
 
-  scoreTemplate: (voteAverage: number) => {
+  scoreTemplate(voteAverage: number) {
     return `
       <img src="${StarFilled}" alt="별점" />${voteAverage}
     `;
   },
 
-  render: (target: HTMLElement, movie: Movie) => {
+  render(target: HTMLElement, movie: Movie) {
     const itemThumbnail = $('.item-thumbnail', target);
     itemThumbnail.classList.remove('skeleton');
     itemThumbnail.insertAdjacentHTML(

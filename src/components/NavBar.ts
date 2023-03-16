@@ -4,7 +4,7 @@ import { Logo } from '../assets';
 import { $ } from '../utils/domSelector';
 
 const NavBar = {
-  template: () => {
+  template() {
     return `
       <header>
         <h1><a href=""><img src="${Logo}" alt="MovieList 로고" /></a></h1>
@@ -15,7 +15,7 @@ const NavBar = {
       </header>`;
   },
 
-  onSubmit: () => {
+  onSubmit() {
     $<HTMLFormElement>('.search-box').addEventListener('submit', async (event: Event) => {
       event.preventDefault();
       const target = event.target as HTMLFormElement;
