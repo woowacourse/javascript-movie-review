@@ -46,6 +46,7 @@ class App {
 
   searchHandler(value: string) {
     this.skeleton.attachSkeleton();
+    this.$seeMoreButton.attach();
     this.store.setInitPage(0);
     this.$movieList.setTitle(`"${value}"에 대한 검색 결과`);
 
