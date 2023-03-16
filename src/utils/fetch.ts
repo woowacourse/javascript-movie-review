@@ -8,7 +8,8 @@ export const getPopularMovies = async (page: number) => {
     }
   );
 
-  return response.json();
+  if (response.ok) return response.json();
+  alert("오류 발생");
 };
 
 export const getSearchedMovies = async (movieName: string, page: number) => {
@@ -19,5 +20,6 @@ export const getSearchedMovies = async (movieName: string, page: number) => {
     }
   );
 
-  return response.json();
+  if (response.ok) return response.json();
+  alert("오류 발생");
 };
