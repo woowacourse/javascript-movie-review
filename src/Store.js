@@ -7,45 +7,81 @@ const Store = {
     nextPage: 1,
     query: '',
     category: 'popular',
+    error: {
+      isError: false,
+      message: '',
+    },
   },
 
   async getPopularMovies(curPage = 1) {
-    this.setSkeletonArray(curPage);
-
-    if (this.category === 'search') {
+    if (this.movies['category'] === 'search') {
       this.movies['nextPage'] = 1;
     }
 
-    const { results, total_pages, page } = await this.movie.getPopularMovies(curPage);
+    this.movies['category'] = 'popular';
+    this.setSkeletonArray(curPage);
 
-    setTimeout(() => this.setMovies({ results, total_pages, page }, 'popular'), 500);
+    try {
+      const { isError, data } = await this.movie.getPopularMovies({
+        curPage,
+      });
+
+      if (isError) throw { isError, data };
+
+      const { results, total_pages, page } = data;
+      setTimeout(() => this.setMovies({ results, total_pages, page }), 500);
+    } catch (error) {
+      const { isError, data } = error;
+
+      this.movies['error'] = {
+        isError,
+        message: data.status_message,
+      };
+    }
   },
 
   async searchedMovies(query, curPage = 1) {
-    this.setSkeletonArray(curPage);
-
-    if (this.category === 'popular') {
+    if (this.movies['category'] === 'popular') {
       this.movies['nextPage'] = 1;
     }
 
-    const { results, total_pages, page } = await this.movie.findMovies(query, curPage);
-    setTimeout(() => this.setMovies({ results, total_pages, page }, 'search', query), 500);
+    this.movies['query'] = query;
+    this.movies['category'] = 'search';
+    this.setSkeletonArray(curPage);
+
+    try {
+      const { isError, data } = await this.movie.findMovies({
+        query,
+        curPage,
+      });
+
+      if (isError) throw { isError, data };
+
+      const { results, total_pages, page } = data;
+      setTimeout(() => this.setMovies({ results, total_pages, page }, query), 500);
+    } catch (error) {
+      const { isError, data } = error;
+
+      this.movies['error'] = {
+        isError,
+        message: data.status_message,
+      };
+    }
   },
 
   setSkeletonArray(curPage) {
     const emptyArray = Array.from({ length: 20 }).map(() => {
       return { title: null };
     });
-
+    // this.movies['category'] = 'loading';
     this.movies['results'] = curPage === 1 ? emptyArray : [...this.movies.results, ...emptyArray];
   },
 
-  setMovies({ results, total_pages, page }, category, query) {
+  setMovies({ results, total_pages, page }) {
     this.movies['results'] =
       page === 1 ? results : [...this.movies.results.filter(({ title }) => title), ...results];
-    this.movies['query'] = query;
     this.movies['nextPage'] = total_pages === page ? -1 : page + 1;
-    this.movies['category'] = category;
+    this.movies['isError'] = false;
   },
 };
 
