@@ -21,12 +21,12 @@ const MovieItem = {
     return imagePath
       ? `
         <img
-          class="item-thumbnail skeleton"
+          class="item-thumbnail"
           src="${POSTER_BASE_URL}${imagePath}"
           loading="lazy"
           alt="${title}"
         />`
-      : `<div class="item-thumbnail placeholder-thumbnail"></div>`;
+      : `<div class="item-thumbnail"></div>`;
   },
 
   scoreTemplate: (voteAverage: number) => {
@@ -37,19 +37,19 @@ const MovieItem = {
 
   render: (target: HTMLElement, movie: Movie) => {
     const itemThumbnail = $('.item-thumbnail', target);
+    itemThumbnail.classList.remove('skeleton');
     itemThumbnail.insertAdjacentHTML(
       'beforeend',
       MovieItem.posterImageTemplate(movie.title, movie.poster_path)
     );
-    itemThumbnail.classList.remove('skeleton');
 
     const itemTitle = $('.item-title', target);
-    itemTitle.textContent = movie.title;
     itemTitle.classList.remove('skeleton');
+    itemTitle.textContent = movie.title;
 
     const itemScore = $('.item-score', target);
-    itemScore.insertAdjacentHTML('beforeend', MovieItem.scoreTemplate(movie.vote_average));
     itemScore.classList.remove('skeleton');
+    itemScore.insertAdjacentHTML('beforeend', MovieItem.scoreTemplate(movie.vote_average));
   },
 };
 

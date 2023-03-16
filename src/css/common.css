@@ -186,6 +186,10 @@ header .search-box > #search-button {
   background-color: #3a3a3a;
 }
 
+.item-thumbnail {
+  background-color: #3a3a3a;
+}
+
 .hide {
   display: none;
 }
