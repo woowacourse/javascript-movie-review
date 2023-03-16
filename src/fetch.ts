@@ -1,9 +1,10 @@
-import { MOVIE_POPULAR_API, MOVIE_SEARCH_API } from "./api/movie";
-
 export const mostPopular = async (pageNumber: number) => {
-  const response = await fetch(MOVIE_POPULAR_API(pageNumber), {
-    method: "GET",
-  });
+  const response = await fetch(
+    `https://api.themoviedb.org/3/movieddd/popular?api_key=${process.env.API_KEY}&language=ko-KR&page=${pageNumber}`,
+    {
+      method: "GET",
+    }
+  );
 
   if (response.ok) {
     const result = await response.json();
@@ -14,9 +15,12 @@ export const mostPopular = async (pageNumber: number) => {
 };
 
 export const search = async (query: string, pageNumber: number) => {
-  const response = await fetch(MOVIE_SEARCH_API(query, pageNumber), {
-    method: "GET",
-  });
+  const response = await fetch(
+    `https://api.themoviedb.org/3/search/movieasd?api_key=${process.env.API_KEY}&language=ko-KR&query=${query}&page=${pageNumber}&include_adult=false`,
+    {
+      method: "GET",
+    }
+  );
 
   if (response.ok) {
     const result = await response.json();
