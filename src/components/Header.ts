@@ -5,6 +5,7 @@ class Header {
 
   constructor() {
     this.createTemplate();
+    this.initEventHander();
   }
 
   get node(): HTMLElement {
@@ -20,6 +21,18 @@ class Header {
     this._node.insertAdjacentElement('beforeend', searchBox.node);
 
     return this;
+  }
+
+  clickLogoIcon() {
+    this._node.dispatchEvent(new Event('moveHome', { bubbles: true }));
+  }
+
+  initEventHander() {
+    const logoIcon = this._node.querySelector('h1');
+
+    if (!logoIcon) return;
+
+    logoIcon.addEventListener('click', this.clickLogoIcon.bind(this));
   }
 }
 

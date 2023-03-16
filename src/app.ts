@@ -91,10 +91,23 @@ class App {
     return processMovieData(moviesJson);
   }
 
+  async moveHome() {
+    this.fetchStandard = { page: 1, type: FetchType.Popular };
+
+    render.setupPopularMovie(this.fetchStandard);
+
+    try {
+      await this.showMoreMovieList();
+    } catch {
+      render.apiError();
+    }
+  }
+
   initEventHandler() {
     window.addEventListener('load', this.initLoad.bind(this));
     document.addEventListener('seeMoreMovie', this.seeMoreMovies.bind(this) as EventListener);
     document.addEventListener('searchMovies', this.searchMoives.bind(this) as unknown as EventListener);
+    document.addEventListener('moveHome', this.moveHome.bind(this));
   }
 }
 
