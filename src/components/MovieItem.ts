@@ -1,5 +1,4 @@
-import { StarFilled } from "../../images";
-import { AddSkeleton } from "../../images";
+import { StarFilled, AddSkeleton } from "../../images";
 
 customElements.define(
   "movie-item",
