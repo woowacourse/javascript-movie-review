@@ -6,16 +6,24 @@ export default class MovieSearch extends HTMLElement {
           <button class="search-button">검색</button>
          </div>
         `;
-    this.initEventHandler();
+    this.setEvent();
   }
 
-  initEventHandler() {
+  setEvent() {
     this.querySelector(".search-button").addEventListener("click", () => {
-      const movieName = this.querySelector("input").value;
-      this.dispatchEvent(
-        new CustomEvent("search-movie", { bubbles: true, detail: movieName })
-      );
+      this.createSearchMovieEvent();
     });
+
+    this.querySelector("input").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") this.createSearchMovieEvent();
+    });
+  }
+
+  createSearchMovieEvent() {
+    const movieName = this.querySelector("input").value;
+    this.dispatchEvent(
+      new CustomEvent("search-movie", { bubbles: true, detail: movieName })
+    );
   }
 }
 

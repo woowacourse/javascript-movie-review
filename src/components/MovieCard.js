@@ -25,7 +25,7 @@ export default class MovieCard extends HTMLElement {
              alt="${this.title}"
            />
            <p class="item-title">${this.title}</p>
-           <p class="item-score">${this.rating}<img src=${Star} alt="별점" /> </p>
+           <p class="item-score">${this.rating}<img src=${Star} alt="별점" /></p>
          </div>
        </a>
      </li>

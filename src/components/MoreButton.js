@@ -5,10 +5,10 @@ export default class MoreButton extends HTMLElement {
             더 보기
        </button>`;
 
-    this.initEventHandler();
+    this.setEvent();
   }
 
-  initEventHandler() {
+  setEvent() {
     this.querySelector("#more-button").addEventListener("click", () => {
       this.dispatchEvent(
         new CustomEvent("more-button-clicked", { bubbles: true }) //detail :
