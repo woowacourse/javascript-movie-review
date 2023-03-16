@@ -17,11 +17,9 @@
 
 # 컴포넌트 목록
 
-- Header : 타이틀과 검색창을 포함한 헤더
-- Container : CardList와 MoreButton을 감싸주는 컨테이너
+- MovieHeader : 타이틀과 검색창을 포함한 헤더
 - CardList : Card를 감싸고 정렬하는 컨테이너
-- Card : 영화포스터, 영화제목, 별점을 보여주는 카드
+- MovieCard : 영화포스터, 영화제목, 별점을 보여주는 카드
 - MoreButton : CardList에 Card를 추가해주는 버튼
-
-🚨🚨🚨 주의사항 🚨🚨🚨
-API를 사용하기 위해서는 개인 key를 발급받아서 이용해야 합니다. 이 key는 보안상 중요한 값이기 때문에 🚨공개된 저장소에 등록되면 안 된다.🚨
+- MovieSearch : 검색창 컴포넌트
+- SkeletonList : Skeleton 영화 리스트 UI 컴포넌트
