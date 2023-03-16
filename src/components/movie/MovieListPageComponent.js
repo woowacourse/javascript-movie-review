@@ -1,3 +1,4 @@
+import { PAGE_LENGTH, STATUS } from "../../abstracts/constants";
 import CustomComponent from "../../abstracts/CustomComponent";
 import MovieComponent from "./MovieComponent";
 import MovieSkeletonComponent from "./MovieSkeletonComponent";
@@ -11,15 +12,15 @@ export default class MovieListPageComponent extends CustomComponent {
     const status = this.getAttribute("data-status");
     const movieList = JSON.parse(this.getAttribute("data-movie-list"));
     switch (status) {
-      case "loading":
+      case STATUS.LOADING:
         this.innerHTML = `
           ${Array.from(
-            { length: 20 },
+            { length: PAGE_LENGTH },
             (_) => `<movie-item-skeleton></movie-item-skeleton>`
           ).join("")}
         `;
         break;
-      case "success":
+      case STATUS.SUCCESS:
         const movieItem = movieList
           .map((movieItem) => {
             return `<movie-item
@@ -31,7 +32,7 @@ export default class MovieListPageComponent extends CustomComponent {
           .join("");
         this.innerHTML = movieItem;
         break;
-      case "no-result":
+      case STATUS.NO_RESULT:
         this.innerHTML = `
           <div class="no-result-box">
             <h1 class="no-result-title">검색 결과를 찾지 못하였습니다.</h1>

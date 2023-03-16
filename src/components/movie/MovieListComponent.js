@@ -12,7 +12,7 @@ export default class MovieListComponent extends CustomComponent {
     this.querySelector(".item-list").innerHTML = ``;
     this.querySelector(".item-list").append(this.#page);
 
-    this.#page.setAttribute("data-status", "loading");
+    this.#page.setAttribute("data-status", STATUS.LOADING);
   }
 
   appendRender() {
@@ -22,7 +22,7 @@ export default class MovieListComponent extends CustomComponent {
     this.#page = document.createElement("movie-list-page");
     this.querySelector(".item-list").append(this.#page);
 
-    this.#page.setAttribute("data-status", "loading");
+    this.#page.setAttribute("data-status", STATUS.LOADING);
   }
 
   renderPageSuccess(movieItems) {
@@ -31,7 +31,7 @@ export default class MovieListComponent extends CustomComponent {
       return;
     }
     this.#page.setAttribute("data-movie-list", JSON.stringify(movieItems));
-    this.#page.setAttribute("data-status", "success");
+    this.#page.setAttribute("data-status", STATUS.SUCCESS);
   }
 
   renderPageFail() {

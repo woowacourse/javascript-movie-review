@@ -3,11 +3,17 @@ import HeaderComponent from "./AppHeaderComponent";
 import MovieListComponent from "./movie/MovieListComponent";
 import MoreButtonComponent from "./element/MoreButtonComponent";
 import ListTitleComponent from "./element/ListTitleComponent";
-import { REQUEST_URL, API_KEY } from "../constants/key";
+import { API_KEY } from "../constants/key";
 import transformMovieItemsType from "../util/MovieList";
+import {
+  ACTION_OPTION,
+  REQUEST_URL,
+  SEARCH_WARNING,
+  TITLE,
+} from "../abstracts/constants";
 
 export default class AppComponent extends CustomComponent {
-  option = "more_popular";
+  option = ACTION_OPTION.MORE_POPULAR;
   nextPage = 1;
   totalPage;
   $itemList;
@@ -54,14 +60,14 @@ export default class AppComponent extends CustomComponent {
   getPopularData() {
     this.nextPage = 1;
 
-    this.$listTitle.setTitle("지금 인기있는 영화");
+    this.$listTitle.setTitle(TITLE.POPULAR);
     this.$itemList.initialRender();
 
     this.getData(
       `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`
     );
 
-    this.option = "more_popular";
+    this.option = ACTION_OPTION.MORE_POPULAR;
     this.querySelector("more-button").setAttribute("data-action", this.option);
   }
 
@@ -69,40 +75,40 @@ export default class AppComponent extends CustomComponent {
     this.nextPage = 1;
     const searchValue = document.querySelector("input").value;
 
-    this.$listTitle.setTitle(`"${searchValue}" 검색결과`);
+    this.$listTitle.setTitle(`"${searchValue}" ${TITLE.SEARCH}`);
     this.$itemList.initialRender();
 
     this.getData(
-      `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchValue}&page=${this.nextPage}&include_adult=false`
+      `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchValue}&page=${this.nextPage}&include_adult=false`
     );
-    this.option = "more_search";
+    this.option = ACTION_OPTION.MORE_SEARCH;
     this.querySelector("more-button").setAttribute("data-action", this.option);
   }
 
   handleEvent() {
     document.getElementById("app").addEventListener("click", (e) => {
       // 로고 클릭
-      if (e.target.dataset.action === "popular") {
+      if (e.target.dataset.action === ACTION_OPTION.POPULAR) {
         this.getPopularData();
       }
       // 검색 버튼 클릭 시
-      if (e.target.dataset.action === "search") {
+      if (e.target.dataset.action === ACTION_OPTION.SEARCH) {
         this.getSearchData();
       }
       // 인기 항목 - 더보기
-      if (e.target.dataset.action === "more_popular") {
+      if (e.target.dataset.action === ACTION_OPTION.MORE_POPULAR) {
         this.$itemList.appendRender();
         this.getData(
           `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`
         );
       }
       // 검색 항목 - 더보기
-      if (e.target.dataset.action === "more_search") {
+      if (e.target.dataset.action === ACTION_OPTION.MORE_SEARCH) {
         const searchValue = document.querySelector("input").value;
 
         this.$itemList.appendRender();
         this.getData(
-          `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchValue}&page=${this.nextPage}&include_adult=false`
+          `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchValue}&page=${this.nextPage}&include_adult=false`
         );
       }
     });
@@ -114,7 +120,7 @@ export default class AppComponent extends CustomComponent {
 
         const searchValue = document.querySelector("input").value;
         if (!searchValue) {
-          alert("검색어를 입력해주세요.");
+          alert(SEARCH_WARNING);
           return;
         }
 
