@@ -1,5 +1,5 @@
-import "../templates/reset.css";
-import "../templates/common.css";
+import "../css/reset.css";
+import "../css/common.css";
 
 import "./component/head/MovieHeader";
 import "./component/movie/MovieContainer";
