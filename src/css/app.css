@@ -53,6 +53,10 @@ button {
   grid-row-gap: 48px;
 }
 
+#skeleton-list {
+  margin: 0;
+}
+
 .item-card {
   display: flex;
   flex-direction: column;
