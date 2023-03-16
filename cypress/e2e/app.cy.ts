@@ -1,4 +1,4 @@
-describe("template spec", () => {
+describe("영화 리뷰 애플리케이션 e2e 테스트", () => {
   beforeEach(() => {
     cy.visit("localhost:8080");
   });
@@ -25,5 +25,12 @@ describe("template spec", () => {
     cy.get(".more").click();
 
     cy.get(".item-card:not(.skeleton)").should("have.length", 40);
+  });
+
+  it("검색창에 '해리포터'를 검색하면 해리포터 시리즈 영화 8개가 존재해야 한다.", () => {
+    cy.get(".search-input").type("해리포터");
+    cy.get(".search-box").submit();
+
+    cy.get(".item-card:not(.skeleton)").should("have.length", 8);
   });
 });
