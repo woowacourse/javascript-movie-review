@@ -1,5 +1,6 @@
 import MovieModel from "./MovieModel";
 import { CustomElement } from "../type/componentType";
+import { Movie, MoviesData } from "../type/movieType";
 
 class MovieManage {
   private subscribers: CustomElement[] = [];
@@ -13,23 +14,31 @@ class MovieManage {
     this.searchSubscribers.push(element);
   }
 
-  async publishSearch() {
-    await MovieModel.getApiMovies();
-
-    const movies = await MovieModel.getMovieList();
-
+  async publishSearch(searchWord: string) {
     this.searchSubscribers.forEach((subscriber) => {
+      subscriber.rerender(searchWord);
+    });
+  }
+
+  async publish(movies: Movie[]) {
+    this.subscribers.forEach((subscriber) => {
       subscriber.rerender(movies);
     });
   }
 
-  async publish() {
+  async initMovies() {
     await MovieModel.getApiMovies();
 
     const movies = await MovieModel.getMovieList();
-    this.subscribers.forEach((subscriber) => {
-      subscriber.rerender(movies);
-    });
+    this.publish(movies);
+  }
+
+  async searchMovies(searchWord: string) {
+    await MovieModel.getApiMovies(searchWord);
+
+    const movies = await MovieModel.getMovieList();
+    this.publishSearch(searchWord);
+    this.publish(movies);
   }
 }
 

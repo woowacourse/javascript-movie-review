@@ -7,7 +7,7 @@ class MovieList extends CustomElement {
   connectedCallback() {
     super.connectedCallback();
     MovieManager.subscribe(this);
-    MovieManager.publish();
+    MovieManager.initMovies();
   }
 
   template() {
@@ -16,8 +16,8 @@ class MovieList extends CustomElement {
     `;
   }
 
-  rerender({ list }) {
-    const movieItemsTemplate = list
+  rerender(movies) {
+    const movieItemsTemplate = movies
       .map((movie) => {
         const { title, src, starRate } = movie;
         return `
@@ -26,7 +26,7 @@ class MovieList extends CustomElement {
       })
       .join("");
 
-    $(".item-list").insertAdjacentHTML("beforeend", movieItemsTemplate);
+    $(".item-list").innerHTML = movieItemsTemplate;
   }
 }
 

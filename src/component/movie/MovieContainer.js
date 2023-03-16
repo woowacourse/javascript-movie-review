@@ -20,7 +20,7 @@ class MovieContainer extends CustomElement {
     `;
   }
 
-  rerender({ searchWord }) {
+  rerender(searchWord) {
     $(".movie-container-title").innerText = `'${searchWord}' 검색 결과`;
   }
 }

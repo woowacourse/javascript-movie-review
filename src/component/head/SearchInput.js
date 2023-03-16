@@ -1,5 +1,6 @@
 import CustomElement from "../basic/CustomElement";
 import { $ } from "../../util/dom";
+import MovieManager from "../../domain/MovieManager";
 
 class SearchInput extends CustomElement {
   template() {
@@ -12,15 +13,19 @@ class SearchInput extends CustomElement {
   setEvent() {
     $(".search-button").addEventListener("click", () => {
       const query = $(".search-text").value;
-      console.log(query);
+      this.searchMovie(query);
     });
 
     $(".search-text").addEventListener("keyup", (e) => {
       if (e.key === "Enter") {
         const query = $(".search-text").value;
-        console.log(query);
+        this.searchMovie(query);
       }
     });
+  }
+
+  searchMovie(query) {
+    MovieManager.searchMovies(query);
   }
 }
 
