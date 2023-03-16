@@ -15,7 +15,7 @@ class App {
     this.#header.render();
     this.#movieList.renderListTitle('Popular movies');
     this.fetchAndUpdateMovieList('popularity', 'overwrite');
-    this.#loadMoreButton.render('Show More');
+    this.#loadMoreButton.render('Load More');
 
     this.#loadMoreButton.addClickEventHandler(this.onClickLoadMoreButton);
     this.#header.addClickEventHandler(this.onClickSearchButton);
@@ -24,10 +24,14 @@ class App {
   async fetchAndUpdateMovieList(requestListType: string, updateType: string, keyword: string = '') {
     if (updateType === 'overwrite') this.#movieFetcher.resetPage();
 
+    this.#movieList.renderSkeletonItems();
+
     const { result, movieList } =
       requestListType === 'popularity'
         ? await this.#movieFetcher.fetchMovieInfoByPopularity()
         : await this.#movieFetcher.fetchMovieInfoByKeyword(keyword);
+
+    this.#movieList.removeSkeletonItems();
 
     if (result === 'PAGE_ERROR') {
       alert('페이지 에러');

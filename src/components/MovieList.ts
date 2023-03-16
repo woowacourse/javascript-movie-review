@@ -1,6 +1,7 @@
 import { MovieType } from '../types';
-import { $ } from '../utils/domSelector';
+import { $, $$ } from '../utils/domSelector';
 import movieItem from './movieItem';
+import skeletonItem from './skeletonItem';
 
 class MovieList {
   renderListTitle(listTitle: string) {
@@ -13,6 +14,19 @@ class MovieList {
 
   setTitle(listTitle: string) {
     $('.item-view h2').textContent = listTitle;
+  }
+
+  renderSkeletonItems(count: number = 20) {
+    const skeletonItems = skeletonItem().repeat(count);
+    $('.item-list').insertAdjacentHTML('beforeend', skeletonItems);
+  }
+
+  removeSkeletonItems() {
+    console.log($$('.item-list .skeleton-item'));
+    $$('.item-list .skeleton-item').forEach((skeletonItem) => {
+      console.log('OK remove');
+      skeletonItem.remove();
+    });
   }
 
   renderContents(movieInfoList: MovieType[]) {
