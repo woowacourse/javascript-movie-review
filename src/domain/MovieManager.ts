@@ -1,8 +1,8 @@
 import MovieModel from "./MovieModel";
 import { CustomElement } from "../type/componentType";
-import { Movie, MoviesData } from "../type/movieType";
+import { Movie } from "../type/movieType";
 
-class MovieManage {
+class MovieManager {
   private subscribers: CustomElement[] = [];
   private searchSubscribers: CustomElement[] = [];
   private skeleton: CustomElement[] = [];
@@ -44,14 +44,14 @@ class MovieManage {
   async initMovies() {
     await MovieModel.getApiMovies();
 
-    const movies = await MovieModel.getMovieList();
+    const { movies } = await MovieModel.getData();
     this.publish(movies);
   }
 
   async searchMovies(searchWord: string) {
     await MovieModel.getApiMovies(searchWord);
 
-    const movies = await MovieModel.getMovieList();
+    const { movies } = await MovieModel.getData();
     this.publishSearch(searchWord);
     this.publish(movies);
   }
@@ -59,9 +59,9 @@ class MovieManage {
   async showMoreMovies() {
     await MovieModel.getApiMoreMovies();
 
-    const movies = await MovieModel.getMovieList();
+    const { movies } = await MovieModel.getData();
     this.publish(movies, true);
   }
 }
 
-export default new MovieManage();
+export default new MovieManager();

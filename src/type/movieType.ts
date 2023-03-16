@@ -21,7 +21,9 @@ export interface Movie {
   starRate: number;
 }
 
-export interface MoviesData {
-  list: Movie[];
+export interface ModelData {
+  movies: Movie[];
   searchWord: string;
+  page: number;
+  totalPages: number;
 }

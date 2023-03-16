@@ -1,18 +1,20 @@
-import { ApiMovieItem, Movie } from "../type/movieType";
+import { ApiMovieItem, ModelData, Movie } from "../type/movieType";
 import { popularUrl, request, searchUrl } from "../util/api";
 
 class MovieModel {
-  private movies: Movie[] = [];
-  private searchWord: string = "";
-  private page: number = 1;
-  private totalPages: number = 0;
+  private data: ModelData = {
+    movies: [],
+    searchWord: "",
+    page: 1,
+    totalPages: 0,
+  };
 
-  async getMovieList() {
-    return this.movies;
+  async getData() {
+    return this.data;
   }
 
-  toMovies(results: ApiMovieItem[]) {
-    return results.map((result: ApiMovieItem) => {
+  toMovies(apiData: ApiMovieItem[]) {
+    return apiData.map((result: ApiMovieItem) => {
       return {
         title: result.title,
         src: result.poster_path,
@@ -22,37 +24,36 @@ class MovieModel {
   }
 
   increasePage() {
-    this.page += 1;
+    this.data.page += 1;
   }
 
   isLastPage() {
-    return this.page === this.totalPages;
+    return this.data.page === this.data.totalPages;
   }
 
   async getApiMovies(query: string = "") {
-    this.page = 1;
-    this.searchWord = query;
+    this.data.page = 1;
+    this.data.searchWord = query;
 
     const url = query
-      ? searchUrl(this.searchWord, this.page)
-      : popularUrl(this.page);
+      ? searchUrl(this.data.searchWord, this.data.page)
+      : popularUrl(this.data.page);
     const data = await request(url);
-    this.totalPages = data.total_pages;
+    this.data.totalPages = data.total_pages;
 
-    this.movies = this.toMovies(data.results);
+    this.data.movies = this.toMovies(data.results);
   }
 
   async getApiMoreMovies() {
     this.increasePage();
 
-    const url = this.searchWord
-      ? searchUrl(this.searchWord, this.page)
-      : popularUrl(this.page);
+    const url = this.data.searchWord
+      ? searchUrl(this.data.searchWord, this.data.page)
+      : popularUrl(this.data.page);
     const data = await request(url);
 
-    this.movies = this.toMovies(data.results);
+    this.data.movies = this.toMovies(data.results);
   }
 }
 
-const MovieInstance = new MovieModel();
-export default MovieInstance;
+export default new MovieModel();

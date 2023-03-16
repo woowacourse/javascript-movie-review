@@ -1,11 +1,11 @@
-import { apiKey } from "../../apiKey.js";
+import { API_KEY } from "../../apiKey.js";
 
 export const popularUrl = (page) => {
-  return `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&page=${page}`;
+  return `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=${page}`;
 };
 
 export const searchUrl = (query, page) => {
-  return `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=ko-KR&query=${query}&page=${page}`;
+  return `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=ko-KR&query=${query}&page=${page}`;
 };
 
 export const request = async (url) => {
@@ -27,15 +27,3 @@ export const request = async (url) => {
 
   return data;
 };
-
-// fetch(myRequest)
-//   .then((response) => {
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! Status: ${response.status}`);
-//     }
-
-//     return response.blob();
-//   })
-//   .then((response) => {
-//     myImage.src = URL.createObjectURL(response);
-//   });
