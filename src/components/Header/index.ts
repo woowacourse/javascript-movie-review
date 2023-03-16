@@ -9,7 +9,14 @@ export class Header extends HTMLElement {
     $input?.addEventListener('change', (e: Event) => {
       if (!(e.currentTarget instanceof HTMLInputElement)) return;
       const { value } = e.currentTarget;
+      if (value.trim() === '') {
+        alert('검색어를 입력해주세요.');
+        return;
+      }
       searchHandler(value);
+      e.currentTarget.value = '';
+    });
+  }
     });
   }
 }
