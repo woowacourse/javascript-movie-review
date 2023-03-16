@@ -3,6 +3,7 @@ import MovieManager from "../../domain/MovieManager";
 import { $ } from "../../util/dom";
 import "./MovieList";
 import "./ShowMoreButton";
+import "./MovieListSkeleton";
 
 class MovieContainer extends CustomElement {
   connectedCallback() {
@@ -14,6 +15,7 @@ class MovieContainer extends CustomElement {
     return `
         <section class="item-view">
           <h2 class='movie-container-title'>지금 인기 있는 영화</h2>
+          <movie-list-skeleton></movie-list-skeleton>
           <movie-list></movie-list>
           <show-more-button></show-more-button>
         </section>

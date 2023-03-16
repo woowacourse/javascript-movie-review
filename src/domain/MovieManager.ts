@@ -14,6 +14,10 @@ class MovieManage {
     this.searchSubscribers.push(element);
   }
 
+  toggleButton() {
+    return MovieModel.isLastPage();
+  }
+
   async publishSearch(searchWord: string) {
     this.searchSubscribers.forEach((subscriber) => {
       subscriber.rerender(searchWord);
@@ -46,10 +50,6 @@ class MovieManage {
 
     const movies = await MovieModel.getMovieList();
     this.publish(movies, true);
-  }
-
-  toggleButton() {
-    return MovieModel.isLastPage();
   }
 }
 

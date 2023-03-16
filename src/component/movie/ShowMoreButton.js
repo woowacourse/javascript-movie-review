@@ -1,5 +1,4 @@
 import MovieManager from "../../domain/MovieManager";
-import { $ } from "../../util/dom";
 import CustomElement from "../basic/CustomElement";
 
 class ShowMoreButton extends CustomElement {
@@ -10,11 +9,11 @@ class ShowMoreButton extends CustomElement {
   }
 
   setEvent() {
-    $(".show-more-button").addEventListener("click", () => {
+    this.addEventListener("click", () => {
       MovieManager.showMoreMovies();
 
       const isLastPage = MovieManager.toggleButton();
-      $(".show-more-button").hidden = isLastPage;
+      this.hidden = isLastPage;
     });
   }
 }
