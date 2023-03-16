@@ -15,7 +15,7 @@ class SkeletonList {
       () => `
     <li>
     <a href="#">
-      <div class="item-card">
+      <div class="item-card skeleton">
         <div class="item-thumbnail skeleton"></div>
         <div class="item-title skeleton"></div>
         <div class="item-score skeleton"></div>
