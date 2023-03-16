@@ -17,11 +17,13 @@ export interface IMovieList {
   total_results: number;
 }
 
-type IGetMovies = () => Promise<IMovieList>;
+type IGetMovies = (page: number) => Promise<IMovieList>;
 
-export const getMovies: IGetMovies = async () => {
+export const getMovies: IGetMovies = async (page) => {
   try {
-    const response = await fetch(`${BASE_PATH}/movie/popular?api_key=${API_KEY}&language=ko-KR`);
+    const response = await fetch(
+      `${BASE_PATH}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${page}`
+    );
 
     return response.json();
   } catch (err) {
@@ -30,14 +32,11 @@ export const getMovies: IGetMovies = async () => {
   }
 };
 
-type IGetSearchMovies = (keyword: string) => Promise<IMovieList>;
-export const getSearchMovie: IGetSearchMovies = async (keyword) => {
+type IGetSearchMovies = (keyword: string, page: number) => Promise<IMovieList>;
+export const getSearchMovie: IGetSearchMovies = async (keyword, page) => {
   const response = await fetch(
-    `${BASE_PATH}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${keyword}`
+    `${BASE_PATH}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${keyword}&page=${page}`
   );
   if (!response.ok) return [];
   return response.json();
 };
-
-//const movieList = getMovies();
-//console.log(typeof movieList);
