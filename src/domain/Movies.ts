@@ -1,6 +1,7 @@
 import getPopularMovies from '../api/getPopularMovies';
 import getSearchedMovies from '../api/getSearchedMovies';
-import { Movie } from '../types/movie';
+import { ERROR_MESSAGE } from '../constants';
+import { Movie, MovieAPIFailure, MovieAPIResponse } from '../types/movie';
 
 class Movies {
   #query: string;
@@ -19,40 +20,64 @@ class Movies {
     this.#query = '';
     this.#page = 1;
 
-    const { results, total_pages } = await getPopularMovies(this.#page);
-    this.#totalPage = Math.min(500, total_pages);
+    const data = await getPopularMovies(this.#page);
 
-    return results;
+    if ('status_message' in data) {
+      return ERROR_MESSAGE;
+    }
+
+    this.#totalPage = Math.min(500, data.total_pages);
+
+    return data.results;
   }
 
   async addPopular() {
     this.#page += 1;
-    const { results } = await getPopularMovies(this.#page);
 
-    return results;
+    const data = await getPopularMovies(this.#page);
+
+    if ('status_message' in data) {
+      return ERROR_MESSAGE;
+    }
+
+    return data.results;
   }
 
   async search(query: string) {
     this.#query = query;
     this.#page = 1;
 
-    const { results, total_pages } = await getSearchedMovies(query);
-    this.#totalPage = Math.min(500, total_pages);
+    const data = await getSearchedMovies(query);
 
-    return results;
+    if ('status_message' in data) {
+      return ERROR_MESSAGE;
+    }
+
+    this.#totalPage = Math.min(500, data.total_pages);
+
+    return data.results;
   }
 
   async addSearch() {
     if (!this.#query) return;
 
     this.#page += 1;
-    const { results } = await getSearchedMovies(this.#query, this.#page);
 
-    return results;
+    const data = await getSearchedMovies(this.#query, this.#page);
+
+    if ('status_message' in data) {
+      return ERROR_MESSAGE;
+    }
+
+    return data.results;
   }
 
   isLastPage() {
     return this.#page === this.#totalPage;
+  }
+
+  previousPage() {
+    this.#page -= 1;
   }
 
   getQuery() {

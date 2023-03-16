@@ -10,13 +10,24 @@ const LoadMoreButton = {
 
     button?.addEventListener('click', async () => {
       MovieCardList.renderMoreItems();
-      const newMovies = movies.getQuery() ? await movies.addSearch() : await movies.addPopular();
 
-      if (!newMovies) return;
+      try {
+        const newMovies = movies.getQuery() ? await movies.addSearch() : await movies.addPopular();
 
-      MovieCardList.paint(newMovies, movies.getPage());
-      console.log(movies.isLastPage());
-      LoadMoreButton.handleVisibility(movies.isLastPage());
+        if (!newMovies) return;
+        if (typeof newMovies === 'string') {
+          throw new Error(newMovies);
+        }
+
+        MovieCardList.paint(newMovies, movies.getPage());
+        LoadMoreButton.handleVisibility(movies.isLastPage());
+      } catch (error) {
+        if (error instanceof Error) {
+          movies.previousPage();
+          MovieCardList.removeSkeleton();
+          alert(error.message);
+        }
+      }
     });
   },
   handleVisibility(state: boolean) {

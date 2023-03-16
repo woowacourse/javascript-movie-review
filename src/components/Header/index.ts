@@ -23,11 +23,20 @@ const Header = {
     pageTitleButton?.addEventListener('click', async () => {
       MovieCardSection.render();
 
-      const results = await movies.init();
+      try {
+        const results = await movies.init();
 
-      MovieCardList.paint(results);
+        if (typeof results === 'string') {
+          throw new Error(results);
+        }
 
-      LoadMoreButton.handleVisibility(movies.isLastPage());
+        MovieCardList.paint(results);
+        LoadMoreButton.handleVisibility(movies.isLastPage());
+      } catch (error) {
+        if (error instanceof Error) {
+          alert(error.message);
+        }
+      }
     });
   },
 };

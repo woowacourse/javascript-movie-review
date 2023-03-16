@@ -17,10 +17,21 @@ class App {
   async init() {
     this.render();
 
-    const results = await this.#movies.init();
+    try {
+      const results = await this.#movies.init();
 
-    this.paint(results);
-    this.setEvent();
+      if (typeof results === 'string') {
+        throw new Error(results);
+      }
+
+      this.paint(results);
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      }
+    } finally {
+      this.setEvent();
+    }
   }
 
   render() {

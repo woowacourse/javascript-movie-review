@@ -1,4 +1,4 @@
-export interface MovieAPIResponse {
+export interface MovieAPISuccess {
   page: number;
   results: Movie[];
   total_pages: number;
@@ -21,3 +21,11 @@ export interface Movie {
   vote_average: number;
   vote_count: number;
 }
+
+export interface MovieAPIFailure {
+  status_message: string;
+  status_code: number;
+  success?: boolean;
+}
+
+export type MovieAPIResponse = MovieAPISuccess | MovieAPIFailure;

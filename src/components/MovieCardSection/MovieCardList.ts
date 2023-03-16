@@ -27,13 +27,13 @@ const MovieCardList = {
   paint(movies: Movie[], page: number = 1) {
     const movieList = document.querySelector<HTMLUListElement>('.item-list');
 
-    if (!movieList) return;
+    if (movieList === null) return;
 
-    [...movieList.children].slice((page - 1) * 20).forEach((node, key) => {
+    [...movieList.children].slice((page - 1) * 20).forEach((child, key) => {
       if (movies.length <= key) {
-        node.remove();
-      } else if (node instanceof HTMLLIElement) {
-        MovieCard.paint(node, movies[key]);
+        child.remove();
+      } else if (child instanceof HTMLLIElement) {
+        MovieCard.paint(child, movies[key]);
       }
     });
   },
@@ -45,6 +45,15 @@ const MovieCardList = {
     }
 
     return movieList?.classList.remove('hide');
+  },
+  removeSkeleton() {
+    const movieList = document.querySelector<HTMLUListElement>('.item-list');
+
+    if (movieList === null) return;
+
+    [...movieList.children].slice(-20).forEach((child) => {
+      child.remove();
+    });
   },
 };
 

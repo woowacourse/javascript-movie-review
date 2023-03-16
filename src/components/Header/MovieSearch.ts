@@ -28,14 +28,24 @@ const MovieSearch = {
 
       MovieCardSection.render(query);
 
-      const results = await movies.search(query);
+      try {
+        const results = await movies.search(query);
 
-      if (results.length === 0) {
-        return MovieCardSection.renderEmpty(true);
+        if (typeof results === 'string') {
+          throw new Error(results);
+        }
+
+        if (results.length === 0) {
+          return MovieCardSection.renderEmpty(true);
+        }
+
+        MovieCardList.paint(results);
+        LoadMoreButton.handleVisibility(movies.isLastPage());
+      } catch (error) {
+        if (error instanceof Error) {
+          alert(error.message);
+        }
       }
-
-      MovieCardList.paint(results);
-      LoadMoreButton.handleVisibility(movies.isLastPage());
     });
   },
 };
