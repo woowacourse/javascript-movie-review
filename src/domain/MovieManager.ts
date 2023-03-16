@@ -1,6 +1,6 @@
 import MovieModel from "./MovieModel";
 import { CustomElement } from "../type/componentType";
-import { Movie, MoviesData } from "../type/movieType";
+import { Movie } from "../type/movieType";
 
 class MovieManage {
   private subscribers: CustomElement[] = [];
