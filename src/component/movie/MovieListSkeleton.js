@@ -197,7 +197,6 @@ class MovieListSkeleton extends CustomElement {
   }
 
   rerender() {
-    console.log($(".skeleton-list"));
     $(".skeleton-list").remove();
   }
 }

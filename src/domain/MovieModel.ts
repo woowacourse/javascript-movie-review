@@ -16,7 +16,7 @@ class MovieModel {
       return {
         title: result.title,
         src: result.poster_path,
-        starRate: result.vote_average,
+        starRate: Number(result.vote_average.toFixed(1)),
       };
     });
   }

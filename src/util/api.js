@@ -9,8 +9,10 @@ export const searchUrl = (query, page) => {
 };
 
 export const request = async (url) => {
-  const data = await fetch(url)
-    .then((res) => res.json())
-    .catch((res) => console.log(res));
-  return data;
+  try {
+    const data = await fetch(url).then((res) => res.json());
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
 };
