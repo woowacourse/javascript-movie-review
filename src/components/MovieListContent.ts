@@ -19,7 +19,6 @@ const MovieListContent = {
       }
 
       MovieListContent.render();
-
       const movies = await MovieList.getMovieData();
       MovieListContent.render(movies);
 
@@ -30,7 +29,6 @@ const MovieListContent = {
       if (searchKey && movies.length === 0) {
         MovieListContainer.hideTitle();
         InvalidMessage.renderNoSearchMessage(searchKey);
-        return;
       }
     } catch (error) {
       if (error instanceof HTTPError) {
