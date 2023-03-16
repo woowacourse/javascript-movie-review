@@ -3,7 +3,7 @@ import './MoviesContainer.css';
 import { $ } from '../utils/common';
 
 class MoviesContainer extends HTMLElement {
-  #movieData;
+  #movieData = new MovieData();
   #searchWord = new Proxy(
     { value: '' },
     {
@@ -27,11 +27,6 @@ class MoviesContainer extends HTMLElement {
     }
   );
 
-  constructor() {
-    super();
-    this.#movieData = new MovieData();
-  }
-
   connectedCallback() {
     this.renderContainer();
     this.updateMovieList();
@@ -44,7 +39,7 @@ class MoviesContainer extends HTMLElement {
     <section class="item-view">
     <h2>지금 인기 있는 영화</h2>
     <ul class="item-list">
-      <skeleton-item id="first-skeleton"></skeleton-item>
+    <skeleton-item id="first-skeleton"></skeleton-item>
     ${'<skeleton-item></skeleton-item>'.repeat(19)}
     </ul>
     <common-button id="more-button" class="hide-button" text="더보기" color="primary"></common-button>
@@ -80,8 +75,8 @@ class MoviesContainer extends HTMLElement {
       return;
     }
 
-    const movieListTemplate = movieList.movies.reduce((curr, prev) => {
-      return (curr += `<movie-item id="${prev.id}" title="${prev.title}" imgUrl="${prev.imgUrl}" score="${prev.score}"></movie-item>`);
+    const movieListTemplate = movieList.movies.reduce((acc, curr) => {
+      return (acc += `<movie-item id="${curr.id}" title="${curr.title}" imgUrl="${curr.imgUrl}" score="${curr.score}"></movie-item>`);
     }, '');
 
     $('#first-skeleton').insertAdjacentHTML('beforebegin', movieListTemplate);
@@ -96,6 +91,14 @@ class MoviesContainer extends HTMLElement {
     $('#more-button').classList.remove('hide-button');
   }
 
+  showNoResult() {
+    const noResultMessage = document.createElement('span');
+    noResultMessage.innerText = '검색 결과가 없습니다';
+    noResultMessage.classList.add('no-result');
+
+    $('.item-list').appendChild(noResultMessage);
+  }
+
   setButtonEvent() {
     $('#more-button').addEventListener('click', () => {
       document.querySelectorAll('skeleton-item').forEach(node => {
@@ -104,10 +107,6 @@ class MoviesContainer extends HTMLElement {
 
       this.updateMovieList();
     });
-  }
-
-  setSearchWord(searchWord) {
-    this.#searchWord.value = searchWord;
   }
 
   reset() {
@@ -131,12 +130,8 @@ class MoviesContainer extends HTMLElement {
     $('h2').innerText = `"${word}" 검색 결과`;
   }
 
-  showNoResult() {
-    const noResultMessage = document.createElement('span');
-    noResultMessage.innerText = '검색 결과가 없습니다';
-    noResultMessage.classList.add('no-result');
-
-    $('.item-list').appendChild(noResultMessage);
+  setSearchWord(searchWord) {
+    this.#searchWord.value = searchWord;
   }
 }
 
