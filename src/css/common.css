@@ -5,8 +5,8 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
-  background-color: #222222;
-  color: #fff;
+  background-color: #141414;
+  color: white;
 }
 
 a {
@@ -70,11 +70,16 @@ button {
   margin-top: 16px;
   font-size: 1.2rem;
   font-weight: bold;
+  line-height: 1.2;
 }
 
 .item-score {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
   margin-top: 16px;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .item-score::after {
@@ -99,11 +104,24 @@ button.btn {
   border: 0;
   border-radius: 8px;
   height: 30px;
-  color: #fff;
+  color: whitesmoke;
 }
 
 button.primary {
-  background: #f33f3f;
+  height: max-content;
+  padding: 12px;
+  background-color: transparent;
+  border: 1px solid whitesmoke;
+  transition: all 0.2s ease-in;
+}
+
+button.primary:hover {
+  background-color: #232323;
+}
+
+button.primary:active {
+  background-color: whitesmoke;
+  color: #232323;
 }
 
 .item-card .skeleton {
@@ -129,12 +147,12 @@ header {
   width: 100%;
   min-width: 1200px;
   height: 72px;
-  background-color: #222;
+  background-color: #141414;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid #383838;
   margin-bottom: 48px;
 }
 
@@ -148,12 +166,14 @@ header h1 {
 }
 
 header > .search-box {
-  background: #fff;
+  background: #232323;
   padding: 8px;
   border-radius: 4px;
 }
 
 header .search-box > input {
+  background: #232323;
+  color: white;
   border: 0;
 }
 
@@ -183,11 +203,11 @@ header .search-box > #search-button {
 }
 
 .placeholder-thumbnail {
-  background-color: #3a3a3a;
+  background-color: #232323;
 }
 
 .item-thumbnail {
-  background-color: #3a3a3a;
+  background-color: #232323;
 }
 
 .hide {
