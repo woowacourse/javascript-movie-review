@@ -1,0 +1,34 @@
+const interceptFetch = (fixture: string) => {
+  cy.intercept(
+    {
+      method: "GET",
+      url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
+    },
+    { fixture },
+  );
+};
+
+describe('인기 영화 목록 테스트', () => {
+  it('사이트 첫 접속시 인기영화 목록 출력', () => {
+    interceptFetch('movie-popular-page1.json');
+      
+    cy.visit('localhost:8080');
+
+    cy.get('ul.item-list')
+      .children('li')
+      .should('have.length', 20);
+  });
+
+  it('더보기 버튼 클릭 시 인기영화 목록 추가', () => {
+    interceptFetch('movie-popular-page1.json');
+
+    cy.visit('localhost:8080');
+
+    interceptFetch('movie-popular-page2.json');
+    cy.get('section.item-view').children('button').click();
+
+    cy.get('ul.item-list')
+      .children('.item-card')
+      .should('have.length', 40);
+  });
+});
