@@ -18,58 +18,82 @@ export const App = async () => {
       document.querySelector("main")!.innerHTML = "";
       currentTab = "SEARCH";
       searchBox.updateKeyword(e.detail.query);
-      const getData = getSearchResult();
 
-      const getCurrentTabResult = async (keyword: string) => {
-        if (currentTab === "SEARCH") {
-          console.log(getData(keyword));
-          return await getData(keyword);
-        }
-      };
-
-      const movieData = new MovieData(); // 도메인 객체 생성
-      const result =
-        currentTab === "ALL"
-          ? getCurrentTabResult("")
-          : getCurrentTabResult(searchBox.getKeyword());
-      const movieElement = await movieData.generateElement(await result); // 받아온 정보 변환
-
-      const movieItemList = new MovieItemList();
-      movieItemList.addMovies(movieElement);
-
-      document
-        .querySelector(".primary")
-        ?.addEventListener("click", async () => {
-          const result =
-            currentTab === "ALL"
-              ? getCurrentTabResult("")
-              : getCurrentTabResult(searchBox.getKeyword());
-
-          const movieElement = await movieData.generateElement(await result);
-          movieItemList.addMovies(movieElement);
-        });
+      showMovieList();
     });
+
+  const showMovieList = async () => {
+    const getData = getSearchResult();
+
+    const getCurrentTabResult = async (keyword: string) => {
+      // const { data, currentPage } = await getData(keyword)
+      return await getData(keyword);
+    };
+
+    const movieData = new MovieData(); // 도메인 객체 생성
+    // const response = await getCurrentTabResult(searchBox.getKeyword());
+    const { data, currentPage } = await getCurrentTabResult(
+      searchBox.getKeyword()
+    );
+    const result = data.results;
+    const movieElement = await movieData.generateElement(
+      await result,
+      data.total_pages,
+      currentPage
+    ); // 받아온 정보 변환
+
+    const movieItemList = new MovieItemList();
+    movieItemList.addMovies(movieElement);
+
+    document.querySelector(".primary")?.addEventListener("click", async () => {
+      // const response = await getCurrentTabResult(searchBox.getKeyword());
+      const { data, currentPage } = await getCurrentTabResult(
+        searchBox.getKeyword()
+      );
+
+      const result = data.results;
+
+      const movieElement = await movieData.generateElement(
+        await result,
+        data.total_pages,
+        currentPage
+      );
+      movieItemList.addMovies(movieElement);
+    });
+  };
 
   const getData = getPopularMovie(); // 최초 데이타
 
-  const getCurrentTabResult = () => {
-    if (currentTab === "ALL") {
-      return getData();
-    }
+  const getCurrentTabResult = async () => {
+    return await getData();
   };
 
   const movieData = new MovieData(); // 도메인 객체 생성
-  const result = getCurrentTabResult();
-  const movieElement = await movieData.generateElement(await result); // 받아온 정보 변환
+  // const response = await getCurrentTabResult();
+  const a = await getCurrentTabResult();
+
+  const result = await a?.data.results;
+  console.log(result, "fffffff");
+  const movieElement = await movieData.generateElement(
+    await result,
+    a?.data.total_pages,
+    a?.currentPage as number
+  ); // 받아온 정보 변환
 
   const movieItemList = new MovieItemList();
   movieItemList.addMovies(movieElement);
 
   document.querySelector(".primary")?.addEventListener("click", async () => {
-    const result = getCurrentTabResult();
+    // const response = await getCurrentTabResult();
+    const a = await getCurrentTabResult();
 
-    console.log(result, "app");
-    const movieElement = await movieData.generateElement(await result);
+    const result = a?.data.results;
+
+    const movieElement = await movieData.generateElement(
+      await result,
+      a?.data.total_pages,
+      a?.currentPage as number
+    );
     movieItemList.addMovies(movieElement);
   });
 
