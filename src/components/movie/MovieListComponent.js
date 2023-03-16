@@ -7,7 +7,7 @@ import { STATUS } from "../../abstracts/constants";
 export default class MovieListComponent extends CustomComponent {
   #page = null;
 
-  initialRender() {
+  initialPage() {
     this.#page = document.createElement("movie-list-page");
     this.innerHTML = ``;
     this.append(this.#page);
@@ -15,7 +15,7 @@ export default class MovieListComponent extends CustomComponent {
     this.#page.setAttribute("data-status", STATUS.LOADING);
   }
 
-  appendRender() {
+  appendNewPage() {
     if (this.querySelector("error-page")) {
       this.querySelector("error-page").remove();
     }
