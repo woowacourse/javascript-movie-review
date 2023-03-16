@@ -23,17 +23,23 @@ class MovieData {
     });
   }
 
-  async generateElement(getData: any) {
+  async generateElement(getData: any, totalPage: number, currentPage: number) {
     // const movieItems = await getData();
-    console.log(getData);
+    console.log(totalPage);
     const movieElement = await this.convertMovieData(getData)
       .map((item: any) => {
         return MovieItem(item);
       })
       .join("");
+
+    totalPage <= currentPage && this.deleteMoreButton();
     return movieElement;
 
     // await movieItemList.bindEvent(this.generateElement(getData));
+  }
+
+  deleteMoreButton() {
+    document.querySelector(".primary")?.remove();
   }
 }
 
