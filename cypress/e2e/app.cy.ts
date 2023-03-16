@@ -33,4 +33,11 @@ describe("영화 리뷰 애플리케이션 e2e 테스트", () => {
 
     cy.get(".item-card:not(.skeleton)").should("have.length", 8);
   });
+
+  it("검색창에 '해리포터'를 검색하면 상단에 '해리포터 검색결과' 문구가 존재해야 한다.", () => {
+    cy.get(".search-input").type("해리포터");
+    cy.get(".search-box").submit();
+
+    cy.get(".search-title").should("contain", '"해리포터" 검색결과');
+  });
 });
