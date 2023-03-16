@@ -1,4 +1,3 @@
-const API_KEY = '입력하세요';
 const BASE_PATH = 'https://api.themoviedb.org/3';
 
 export interface IMovie {
@@ -22,10 +21,11 @@ type IGetMovies = (page: number) => Promise<IMovieList>;
 export const getMovies: IGetMovies = async (page) => {
   try {
     const response = await fetch(
-      `${BASE_PATH}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${page}`
+      `${BASE_PATH}/movie/popular?api_key=${process.env.API_KEY}&language=ko-KR&page=${page}`
     );
+    if (!response.ok) throw Error(response.statusText);
 
-    return response.json();
+    return await response.json();
   } catch (err) {
     console.log(err);
     return [];
@@ -35,7 +35,7 @@ export const getMovies: IGetMovies = async (page) => {
 type IGetSearchMovies = (keyword: string, page: number) => Promise<IMovieList>;
 export const getSearchMovie: IGetSearchMovies = async (keyword, page) => {
   const response = await fetch(
-    `${BASE_PATH}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${keyword}&page=${page}`
+    `${BASE_PATH}/search/movie?api_key=${process.env.API_KEY}&language=ko-KR&query=${keyword}&page=${page}`
   );
   if (!response.ok) return [];
   return response.json();
