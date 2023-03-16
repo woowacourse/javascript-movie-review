@@ -84,6 +84,13 @@ class MovieList {
     if (emptyMessage) emptyMessage.remove();
   }
 
+  showErrorMessage() {
+    this.movieList.insertAdjacentHTML(
+      'afterend',
+      '<div class="empty-message">요청이 불안정합니다. 크론에게 문의해주세요.</div>'
+    );
+  }
+
   setListName(type: FetchType, keyword?: string) {
     if (type === FetchType.Popular) {
       this.listName.innerText = '지금 인기있는 영화';

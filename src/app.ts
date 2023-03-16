@@ -45,8 +45,13 @@ class App {
 
     this.movieList.createSkeleton();
 
-    const movieData = await this.getMovieData(getAPI.popularMovie(this.fetchStandard.page));
-    this.updateMovieList(movieData);
+    try {
+      const movieData = await this.getMovieData(getAPI.popularMovie(this.fetchStandard.page));
+      this.updateMovieList(movieData);
+    } catch (error) {
+      this.movieList.removeSkeleton();
+      this.movieList.showErrorMessage();
+    }
   }
 
   async seeMoreMovies() {

@@ -41,20 +41,16 @@ button {
   font-size: 2rem;
   font-weight: bold;
   user-select: none;
+  margin-bottom: 48px;
 }
 
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .item-list {
   display: grid;
-  margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
   grid-column-gap: 160px;
   grid-row-gap: 48px;
-}
-
-.skeleton-list {
-  margin: 0;
 }
 
 .item-card {
