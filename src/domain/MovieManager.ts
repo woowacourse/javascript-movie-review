@@ -1,10 +1,9 @@
 import MovieModel from "./MovieModel";
 import { CustomElement } from "../type/componentType";
-import { Movie } from "../type/movieType";
+import { ModelData, Movie } from "../type/movieType";
 
 class MovieManager {
   private subscribers: CustomElement[] = [];
-  private searchSubscribers: CustomElement[] = [];
   private skeleton: CustomElement[] = [];
 
   subscribe(element: CustomElement) {
@@ -13,10 +12,6 @@ class MovieManager {
 
   subscribeSkeleton(element: CustomElement) {
     this.skeleton.push(element);
-  }
-
-  subscribeSearch(element: CustomElement) {
-    this.searchSubscribers.push(element);
   }
 
   toggleButton() {
@@ -29,38 +24,24 @@ class MovieManager {
     });
   }
 
-  async publishSearch(searchWord: string) {
-    this.searchSubscribers.forEach((subscriber) => {
-      subscriber.rerender(searchWord);
-    });
-  }
-
-  async publish(movies: Movie[], isShowMore: boolean = false) {
+  async publish(data: ModelData, isShowMore: boolean = false) {
     this.subscribers.forEach((subscriber) => {
-      subscriber.rerender(movies, isShowMore);
+      subscriber.rerender(data, isShowMore);
     });
   }
 
-  async initMovies() {
-    await MovieModel.getApiMovies();
-
-    const { movies } = await MovieModel.getData();
-    this.publish(movies);
-  }
-
-  async searchMovies(searchWord: string) {
+  async searchMovies(searchWord: string = "") {
     await MovieModel.getApiMovies(searchWord);
 
-    const { movies } = await MovieModel.getData();
-    this.publishSearch(searchWord);
-    this.publish(movies);
+    const data = await MovieModel.getData();
+    this.publish(data);
   }
 
   async showMoreMovies() {
     await MovieModel.getApiMoreMovies();
 
-    const { movies } = await MovieModel.getData();
-    this.publish(movies, true);
+    const data = await MovieModel.getData();
+    this.publish(data, true);
   }
 }
 

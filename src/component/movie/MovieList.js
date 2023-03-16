@@ -8,7 +8,7 @@ class MovieList extends CustomElement {
   connectedCallback() {
     super.connectedCallback();
     MovieManager.subscribe(this);
-    MovieManager.initMovies();
+    MovieManager.searchMovies();
   }
 
   template() {
@@ -17,7 +17,7 @@ class MovieList extends CustomElement {
     `;
   }
 
-  rerender(movies, isShowMore) {
+  rerender({ movies }, isShowMore) {
     const movieItemsTemplate = movies.length
       ? this.makeMovieItems(movies)
       : `<movie-empty></movie-empty>`;

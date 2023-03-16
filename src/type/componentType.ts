@@ -1,4 +1,4 @@
-import { Movie } from "./movieType";
+import { ModelData, Movie } from "./movieType";
 
 export interface CustomElement extends HTMLElement {
   render: () => void;
@@ -6,5 +6,5 @@ export interface CustomElement extends HTMLElement {
   setEvent: () => void;
   show: () => void;
   hide: () => void;
-  rerender: (data: Movie[] | string, isShowMore?: boolean) => void;
+  rerender: (data: ModelData, isShowMore?: boolean) => void;
 }

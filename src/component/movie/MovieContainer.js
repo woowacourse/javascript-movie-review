@@ -8,7 +8,7 @@ import "./MovieListSkeleton";
 class MovieContainer extends CustomElement {
   connectedCallback() {
     super.connectedCallback();
-    MovieManager.subscribeSearch(this);
+    MovieManager.subscribe(this);
   }
 
   template() {
@@ -22,7 +22,7 @@ class MovieContainer extends CustomElement {
     `;
   }
 
-  rerender(searchWord) {
+  rerender({ searchWord }) {
     $(".movie-container-title").innerText = `'${searchWord}' 검색 결과`;
 
     const isLastPage = MovieManager.toggleButton();
