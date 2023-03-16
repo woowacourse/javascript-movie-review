@@ -16,10 +16,10 @@ export default class AppComponent extends CustomComponent {
   option = ACTION_OPTION.MORE_POPULAR;
   nextPage = 1;
   totalPage;
-  $itemList;
-  $listTitle;
+  $movieList;
+  $movieListTitle;
 
-  getData(url) {
+  getMovieData(searchType) {
     fetch(url, { method: "GET" })
       .then(async (res) => {
         if (res.ok) {
@@ -28,23 +28,23 @@ export default class AppComponent extends CustomComponent {
 
           const movieItems = transformMovieItemsType(data.results);
 
-          this.$itemList.renderPageSuccess(movieItems);
+          this.$movieList.renderPageSuccess(movieItems);
           this.nextPage += 1;
           this.checkPage();
         } else {
-          this.$itemList.renderPageFail();
+          this.$movieList.renderPageFail();
         }
       })
       .catch((error) => {
-        this.$itemList.renderPageFail();
+        this.$movieList.renderPageFail();
       });
   }
 
   render() {
     super.render();
 
-    this.$itemList = this.querySelector("movie-list");
-    this.$listTitle = this.querySelector("movie-list-title");
+    this.$movieList = this.querySelector("movie-list");
+    this.$movieListTitle = this.querySelector("movie-list-title");
 
     this.getPopularData();
   }
@@ -60,10 +60,10 @@ export default class AppComponent extends CustomComponent {
   getPopularData() {
     this.nextPage = 1;
 
-    this.$listTitle.setTitle(TITLE.POPULAR);
-    this.$itemList.initialRender();
+    this.$movieListTitle.setTitle(TITLE.POPULAR);
+    this.$movieList.initialRender();
 
-    this.getData(
+    this.getMovieData(
       `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`
     );
 
@@ -75,10 +75,10 @@ export default class AppComponent extends CustomComponent {
     this.nextPage = 1;
     const searchValue = this.querySelector("input").value;
 
-    this.$listTitle.setTitle(`"${searchValue}" ${TITLE.SEARCH}`);
-    this.$itemList.initialRender();
+    this.$movieListTitle.setTitle(`"${searchValue}" ${TITLE.SEARCH}`);
+    this.$movieList.initialRender();
 
-    this.getData(
+    this.getMovieData(
       `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchValue}&page=${this.nextPage}&include_adult=false`
     );
     this.option = ACTION_OPTION.MORE_SEARCH;
@@ -95,16 +95,16 @@ export default class AppComponent extends CustomComponent {
           this.getSearchData();
           break;
         case ACTION_OPTION.MORE_POPULAR:
-          this.$itemList.appendRender();
-          this.getData(
+          this.$movieList.appendRender();
+          this.getMovieData(
             `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${this.nextPage}`
           );
           break;
         case ACTION_OPTION.MORE_SEARCH:
           const searchValue = this.querySelector("input").value;
 
-          this.$itemList.appendRender();
-          this.getData(
+          this.$movieList.appendRender();
+          this.getMovieData(
             `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${searchValue}&page=${this.nextPage}&include_adult=false`
           );
           break;
