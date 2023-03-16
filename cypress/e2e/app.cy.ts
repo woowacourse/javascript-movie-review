@@ -16,4 +16,8 @@ describe("template spec", () => {
 
     cy.get(".item-card:not(.skeleton)").should("have.length", 20);
   });
+
+  it("영화 데이터를 받아오기 전까지 스켈레톤 UI를 렌더링 해야한다.", () => {
+    cy.get(".skeleton").should("exist");
+  });
 });
