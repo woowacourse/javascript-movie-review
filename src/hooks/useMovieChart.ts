@@ -1,4 +1,5 @@
 import { fetchMoviesByKeyword, fetchPopularMovies, GetMoviesByKeywordRes, GetPopularMoviesRes, waitFor } from '../apis';
+import { INITIAL_PAGE, PAGE } from '../constants';
 import { useEffect, useState } from '../core';
 
 type DefaultFetchAction = (callback: (args: any) => Promise<void>) => (args?: any | undefined) => Promise<void>;
@@ -24,8 +25,8 @@ function useMovieChart(keyword: string) {
   const updateMovieData = (data: GetPopularMoviesRes | GetMoviesByKeywordRes) => {
     setChartInfo(data);
 
-    page === 1 ? setMovieList(data.results) : setMovieList([...movieList, ...data.results]);
-    page += 1;
+    page === INITIAL_PAGE ? setMovieList(data.results) : setMovieList([...movieList, ...data.results]);
+    page += PAGE;
   };
 
   const getPopularMovies = defaultFetchAction(async () => {
@@ -48,7 +49,7 @@ function useMovieChart(keyword: string) {
   };
 
   useEffect(() => {
-    page = 1;
+    page = INITIAL_PAGE;
 
     fetchMore(keyword);
   }, [keyword]);
