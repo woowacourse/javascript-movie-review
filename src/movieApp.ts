@@ -1,4 +1,4 @@
-import { mostPopular, search } from "../src/fetch";
+import { mostPopular, search } from "./api/fetch";
 import movieHandler from "./domain/movieHandler";
 import { $ } from "./utils/dom";
 import MovieListContainer from "../src/components/MovieListContainer";

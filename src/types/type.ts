@@ -15,14 +15,14 @@ export interface Movie {
   release_date?: string;
 }
 
-export type CustomEvent = {
+export interface CustomEvent {
   eventType: string;
   data?: string | null;
-};
+}
 
-export type ResponseData = {
+export interface ResponseData {
   page: number;
   results: Movie[];
   total_pages: number;
   total_results: number;
-};
+}

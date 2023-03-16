@@ -1,5 +1,4 @@
-import { dispatchCustomEvent } from "./../utils/dom";
-import { $ } from "../utils/dom";
+import { $, dispatchCustomEvent } from "./../utils/dom";
 
 customElements.define(
   "search-box",
