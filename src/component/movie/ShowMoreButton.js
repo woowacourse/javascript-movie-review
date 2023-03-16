@@ -2,6 +2,11 @@ import MovieManager from "../../domain/MovieManager";
 import CustomElement from "../basic/CustomElement";
 
 class ShowMoreButton extends CustomElement {
+  connectedCallback() {
+    super.connectedCallback();
+    MovieManager.subscribe(this);
+  }
+
   template() {
     return `
     <button class="show-more-button btn primary full-width">더 보기</button>
@@ -12,10 +17,12 @@ class ShowMoreButton extends CustomElement {
     this.addEventListener("click", () => {
       MovieManager.showSkeleton();
       MovieManager.showMoreMovies();
-
-      const isLastPage = MovieManager.toggleButton();
-      this.hidden = isLastPage;
     });
+  }
+
+  rerender({ page, totalPages }) {
+    const isLastPage = page === totalPages;
+    this.hidden = isLastPage;
   }
 }
 
