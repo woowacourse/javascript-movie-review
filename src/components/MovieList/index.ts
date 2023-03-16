@@ -10,6 +10,10 @@ export class MovieList extends HTMLElement {
     this.$movieItems = document.querySelector('.item-list')!;
   }
 
+  setTitle(title: string) {
+    this.querySelector('h2')!.innerText = title;
+  }
+
   renderMovies(movieList: Movie[]) {
     this.insertMovieList(movieList);
   }
