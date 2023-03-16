@@ -9,7 +9,7 @@ const NavBar = {
       <header>
         <h1><a href=""><img src="${Logo}" alt="MovieList 로고" /></a></h1>
         <form class="search-box">
-          <input id="search-input" type="text" placeholder="검색" />
+          <input id="search-input" name="search-input" type="text" placeholder="검색" />
           <button class="search-button">검색</button>
         </form>
       </header>`;
@@ -21,7 +21,7 @@ const NavBar = {
       async (event: Event) => {
         event.preventDefault();
         const target = event.target as HTMLFormElement;
-        const inputElement = target.elements[0] as HTMLInputElement;
+        const inputElement = target["search-input"] as HTMLInputElement;
 
         if (inputElement.value.trim().length === 0) return;
 

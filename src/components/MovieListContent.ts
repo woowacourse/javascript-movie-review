@@ -1,8 +1,9 @@
 import MovieList from "../domain/MovieList";
 import MovieItem from "./MovieItem";
+import InvalidMessage from "./InvalidMessage";
 import { Movie } from "../types/movie";
 import { $ } from "../utils/domSelector";
-import InvalidMessage from "./InvalidMessage";
+import { MOVIE_MAX_COUNT } from "../constants";
 
 const MovieListContent = {
   loadMovies: async (searchKey?: string) => {
@@ -21,7 +22,7 @@ const MovieListContent = {
 
       MovieListContent.render(movies);
 
-      if (movies.length < 20) {
+      if (movies.length < MOVIE_MAX_COUNT) {
         $<HTMLButtonElement>("#more-button").style.display = "none";
       }
 
@@ -54,7 +55,7 @@ const MovieListContent = {
               <div class="item-score skeleton"></div>
             </div>
           </a>
-          </li>`.repeat(20)
+          </li>`.repeat(MOVIE_MAX_COUNT)
             : movies.map((movie) => MovieItem.render(movie)).join("")
         }`;
 
