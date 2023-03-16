@@ -1,19 +1,30 @@
-import { TMDBResponse } from './client';
-
-import MovieListItem from './components/MovieListItem';
-import Skeleton from './components/Skeleton';
-import { Movie } from './movies.type';
+import { TMDBErrorResponse, TMDBResponse } from '../client';
+import { Movie } from '../movies.type';
+import MovieListItem from './MovieListItem';
+import Skeleton from './Skeleton';
 
 export type MoviesGenerator = (page: number) => Promise<TMDBResponse>;
 
-export class MoviesLoader {
+export class MovieList {
   private isFinished = false;
 
   private page = 1;
 
-  constructor(private readonly fetchFn: MoviesGenerator) {
-    document.querySelector('.item-list')!.innerHTML = '<hr>';
+  private section = document.createElement('section');
+
+  constructor(private readonly fetchFn: MoviesGenerator, private readonly title: string) {
+    this.section.classList.add('item-view');
+    this.section.innerHTML = `
+      <h2>${this.title}</h2>
+      <ul class="item-list"><hr></ul>
+      <button class="btn primary full-width">더 보기</button>
+      <h3>결과가 없습니다</h3>
+    `;
     this.init();
+
+    this.section.querySelector('button')?.addEventListener('click', (event) => {
+      this.nextPage();
+    });
   }
 
   async init() {
@@ -22,12 +33,16 @@ export class MoviesLoader {
     this.load();
   }
 
+  render() {
+    return this.section;
+  }
+
   private createSkeletons() {
     if (this.isFinished) return;
+
     const skeleton = new Skeleton();
-    Array.from({ length: 20 }, () => {
-      document.querySelector('.item-list')?.insertAdjacentHTML('beforeend', skeleton.render());
-      return document.querySelector<HTMLLIElement>('.item-list > *:last-child')!;
+    [...Array(20)].forEach(() => {
+      this.section.querySelector('ul')?.insertAdjacentHTML('beforeend', skeleton.render());
     });
   }
 
@@ -54,7 +69,7 @@ export class MoviesLoader {
         $fragment.innerHTML = movieListItem.render(movie);
 
         ($fragment.childNodes[0] as HTMLElement).setAttribute('page', String(page));
-        const $skeleton = document.querySelector('li.skeleton')!;
+        const $skeleton = this.section.querySelector('ul > li.skeleton')!;
         $skeleton.after($fragment.childNodes[0]);
         $skeleton.remove();
       });
@@ -62,12 +77,21 @@ export class MoviesLoader {
 
       this.isFinished = true;
     } catch (e) {
-      const error = e as Error;
+      console.error(e);
+      const error = e as Error | TMDBErrorResponse;
       this.createSkeletons();
       const $popup = document.createElement('div');
       $popup.classList.add('popup');
-      $popup.innerText = String(error.message ?? error);
 
+      const errorMessage =
+        // eslint-disable-next-line no-nested-ternary
+        'message' in error
+          ? error.message
+          : 'status_message' in error
+          ? error.status_message
+          : String(error);
+
+      $popup.innerText = errorMessage;
       document.querySelector('.popup-container')?.append($popup);
 
       setTimeout(() => {
@@ -77,13 +101,15 @@ export class MoviesLoader {
         }, 1000);
       }, 5000);
     }
-    document.querySelectorAll<HTMLLIElement>('li.skeleton').forEach(($skeleton: HTMLLIElement) => {
-      $skeleton.remove();
-    });
+    this.section
+      .querySelectorAll<HTMLLIElement>('ul > li.skeleton')
+      .forEach(($skeleton: HTMLLIElement) => {
+        $skeleton.remove();
+      });
   }
 
   private reveal() {
-    const $hr = document.querySelector('.item-list > hr')!;
+    const $hr = this.section.querySelector('ul > hr')!;
 
     const $anchor: HTMLElement = Array(20)
       .fill(undefined)
