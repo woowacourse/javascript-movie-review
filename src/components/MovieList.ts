@@ -53,10 +53,13 @@ export async function renderPopularMovieList(results: IMovie[]) {
 export async function renderSearchMovieList(searchResults: IMovie[]) {
   const parentElem = $('.item-list') as HTMLElement;
 
-  parentElem.innerHTML = `
+  parentElem.innerHTML =
+    searchResults.length === 0
+      ? '검색 결과가 없습니다.'
+      : (`
     ${searchResults.map((movie) => MovieItem(movie)).join('')}
   
-  ` as string;
+  ` as string);
 }
 
 export async function renderMoreMovieList(moreResults: IMovie[]) {
