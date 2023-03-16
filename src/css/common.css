@@ -156,7 +156,7 @@ header .search-box > input {
   border: 0;
 }
 
-header .search-box > .search-button {
+header .search-box > #search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;

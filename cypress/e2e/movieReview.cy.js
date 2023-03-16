@@ -1,10 +1,10 @@
 import { API_BASE_URL, MOVIE_MAX_COUNT } from "../../src/constants";
 
 const TEST_URL = "http://localhost:8081/";
+const apiKey = Cypress.env("API_KEY");
 
-describe("template spec", () => {
+describe("영화 리뷰 e2e 테스트", () => {
   beforeEach(() => {
-    const apiKey = Cypress.env("API_KEY");
     cy.intercept(
       `${API_BASE_URL}movie/popular?api_key=${apiKey}&language=ko-KR&page=1`,
       {
@@ -27,6 +27,7 @@ describe("template spec", () => {
     ).as("fetchSearchedMoviePage1Data");
 
     cy.visit(TEST_URL);
+    cy.wait("@fetchPopularMoviePage1Data");
   });
 
   it("1. 웹 페이지에 처음 방문하면 지금 인기 있는 영화 목록 데이터가 렌더링되기 전에 skeleton을 볼 수 있다..", () => {
