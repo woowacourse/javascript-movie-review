@@ -3,7 +3,7 @@ export const getSearchResult = () => {
 
   return async function getCurrentResult(keyword: string) {
     const response = await fetch(
-      `https://api.themoviedb.org/3/search/keyword?api_key=${process.env.API_KEY}&query=${keyword}&page=${currentPage}`
+      `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY}&query=${keyword}&page=${currentPage}`
     );
     const data = await response.json();
     console.log(data?.results);
@@ -12,3 +12,5 @@ export const getSearchResult = () => {
     return data.results;
   };
 };
+
+const getData = getSearchResult();
