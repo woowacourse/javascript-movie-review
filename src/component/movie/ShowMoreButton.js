@@ -12,6 +12,9 @@ class ShowMoreButton extends CustomElement {
   setEvent() {
     $(".show-more-button").addEventListener("click", () => {
       MovieManager.showMoreMovies();
+
+      const isLastPage = MovieManager.toggleButton();
+      $(".show-more-button").hidden = isLastPage;
     });
   }
 }

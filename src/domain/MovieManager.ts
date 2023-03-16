@@ -45,8 +45,11 @@ class MovieManage {
     await MovieModel.getApiMoreMovies();
 
     const movies = await MovieModel.getMovieList();
-    console.log(movies);
     this.publish(movies, true);
+  }
+
+  toggleButton() {
+    return MovieModel.isLastPage();
   }
 }
 
