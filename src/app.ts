@@ -1,24 +1,8 @@
 import Header from './components/Header';
 import MovieList from './components/MoiveList';
-import fetchJson from './domain/fetchJson';
+import fetchJson, { FetchedMovieJson } from './domain/fetchJson';
 import processMovieData from './domain/processMovieData';
 import getAPI from './domain/getAPI';
-
-export type Movie = {
-  title: string;
-  backdropPath: string;
-  voteAverage: number;
-};
-
-export type MovieFetchedJson = {
-  page: number;
-  results: {
-    title: string;
-    backdrop_path: string;
-    vote_average: number;
-  }[];
-  total_pages: number;
-};
 
 export enum FetchType {
   Popular = 'popular',
@@ -91,7 +75,7 @@ class App {
   }
 
   async getMovieData(api: string) {
-    const moviesJson = await fetchJson<MovieFetchedJson>(api);
+    const moviesJson = await fetchJson<FetchedMovieJson>(api);
 
     return processMovieData(moviesJson);
   }

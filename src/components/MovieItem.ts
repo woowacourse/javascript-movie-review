@@ -1,4 +1,4 @@
-import { Movie } from '../app';
+import { Movie } from '../domain/processMovieData';
 
 class MovieItem {
   private _node!: HTMLElement;

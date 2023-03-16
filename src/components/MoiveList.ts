@@ -1,6 +1,7 @@
-import { Movie, FetchType } from '../app';
 import MovieItem from './MovieItem';
 import skeletonTemplate from './Skeleton';
+import { FetchType } from '../app';
+import { Movie } from '../domain/processMovieData';
 
 class MovieList {
   private _node!: HTMLElement;
@@ -70,7 +71,7 @@ class MovieList {
   }
 
   setListName(type: FetchType, keyword?: string) {
-    if (type === 'popular') {
+    if (type === FetchType.Popular) {
       this.listName.innerText = '지금 인기있는 영화';
     } else {
       this.listName.innerText = `${keyword} 검색 결과`;
