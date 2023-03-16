@@ -1,7 +1,7 @@
 import { request } from '../utils/common';
 import { ApiMovieProps, ParsedMovieResult } from '../types/type';
 
-const BASE_URL = 'https://api.themoviedb.org/3/';
+export const BASE_URL = 'https://api.themoviedb.org/3/';
 
 class MovieData {
   #parsedMovieResult: ParsedMovieResult = { isLastPage: false, movies: [] };
