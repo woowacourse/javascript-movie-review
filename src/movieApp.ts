@@ -30,12 +30,13 @@ const movieApp = {
     );
   },
 
-  async loadMovieData(movies: Movie[]) {
+  async loadMovieData(movies: ResponseData) {
     const movieList = <MovieList>$("movie-list");
+    if (!movies) return;
 
-    movieHandler.addMovies(movies);
+    movieHandler.addMovies(movies.results);
 
-    if (movies.length < 20) this.$container.removeLoadMovieButton();
+    if (movies.results.length < 20) this.$container.removeLoadMovieButton();
 
     movieList.render(movieHandler.movies);
   },
@@ -59,7 +60,7 @@ const movieApp = {
 
     if (this.currentPageNumber > 500) this.$container.removeLoadMovieButton();
 
-    this.loadMovieData(movies.results);
+    this.loadMovieData(movies);
   },
 
   async searchMovieData(query: string) {
@@ -74,7 +75,7 @@ const movieApp = {
       search(query, this.currentPageNumber++)
     );
 
-    this.loadMovieData(movies.results);
+    this.loadMovieData(movies);
   },
 
   async getSearchMovieData() {
@@ -82,7 +83,7 @@ const movieApp = {
       search(this.query, this.currentPageNumber++)
     );
 
-    this.loadMovieData(movies.results);
+    this.loadMovieData(movies);
   },
 };
 
