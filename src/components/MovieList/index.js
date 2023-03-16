@@ -1,6 +1,5 @@
-import { popularUrl, searchUrl } from "../../constants/urls";
+import { fetchMovieListWithKeyword, fetchPopularMovieList } from "../../apis";
 import Movie from "../../domain/Movie";
-import fetchApi from "../../utils/fetchApi";
 import "./index.css";
 import MovieItem from "./MovieItem";
 import SkeletonList from "./SkeletonList";
@@ -37,22 +36,6 @@ class MovieList {
       `;
   }
 
-  async fetchMovieListWithKeyword(keyword) {
-    const url = `${searchUrl}?api_key=${
-      process.env.API_KEY
-    }&query=${keyword}&language=ko&page=${this.#page}`;
-
-    return await fetchApi(url);
-  }
-
-  async fetchPopularMovieList() {
-    const url = `${popularUrl}?api_key=${
-      process.env.API_KEY
-    }&language=ko&page=${this.#page}`;
-
-    return await fetchApi(url);
-  }
-
   toggleSkeletonContainerVisibility() {
     const $skeletonContainer = this.$target.querySelector(
       ".skeleton-container"
@@ -66,8 +49,8 @@ class MovieList {
     this.toggleSkeletonContainerVisibility();
     const fetchedMovieData =
       this.#type === "popular"
-        ? await this.fetchPopularMovieList()
-        : await this.fetchMovieListWithKeyword(this.#searchKeyword);
+        ? await fetchPopularMovieList(this.#page)
+        : await fetchMovieListWithKeyword(this.#page, this.#searchKeyword);
     this.toggleSkeletonContainerVisibility();
 
     const movies = fetchedMovieData.results.map(
