@@ -29,7 +29,7 @@ export async function usePopularMovie() {
   }
 
   function handlePopularResult() {
-    renderPopularMovieList();
+    //renderPopularMovieList();
   }
 
   function handleMoreMovieList() {
