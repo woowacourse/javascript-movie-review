@@ -63,7 +63,3 @@ describe("데이터 값이 없을 때 테스트", () => {
     cy.get(".not-search").should("contain.text", "해당 검색 결과가 없습니다");
   });
 });
-
-/*
-api 주소를 이상하게 해서 한다
-요청 시간을 길게 준다 */
