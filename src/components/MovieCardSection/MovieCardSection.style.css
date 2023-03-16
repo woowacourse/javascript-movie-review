@@ -97,3 +97,13 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
+.message {
+  margin: 48px auto;
+  text-align: center;
+}
+
+.message-title {
+  font-size: 48px;
+  padding: 12px;
+}

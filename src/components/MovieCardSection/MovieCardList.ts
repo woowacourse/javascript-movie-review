@@ -37,6 +37,15 @@ const MovieCardList = {
       }
     });
   },
+  handleVisibility(state: boolean) {
+    const movieList = document.querySelector<HTMLUListElement>('.item-list');
+
+    if (state) {
+      return movieList?.classList.add('hide');
+    }
+
+    return movieList?.classList.remove('hide');
+  },
 };
 
 export default MovieCardList;

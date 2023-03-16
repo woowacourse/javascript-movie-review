@@ -26,10 +26,13 @@ const MovieSearch = {
 
       if (!query) return;
 
-      MovieCardSection.renderTitle(query);
-      MovieCardList.render();
+      MovieCardSection.render(query);
 
       const results = await movies.search(query);
+
+      if (results.length === 0) {
+        return MovieCardSection.renderEmpty(true);
+      }
 
       MovieCardList.paint(results);
       LoadMoreButton.handleVisibility(movies.isLastPage());

@@ -21,8 +21,7 @@ const Header = {
     const pageTitleButton = document.querySelector<HTMLButtonElement>('.page-title-button');
 
     pageTitleButton?.addEventListener('click', async () => {
-      MovieCardSection.renderTitle('');
-      MovieCardList.render();
+      MovieCardSection.render();
 
       const results = await movies.init();
 
