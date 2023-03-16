@@ -1,4 +1,3 @@
-import Header from "./components/MovieHeader";
 import { LIST_STATE } from "./constant/variables";
 import { $ } from "./utils/Dom";
 import { getPopularMovies, getSearchedMovies } from "./utils/fetch";
@@ -10,15 +9,13 @@ export default class App {
   #movieName = "";
 
   constructor() {
-    this.init(); //영화 초기 20개 불러오기
-    new Header();
-    this.initEventHandler();
+    this.initRender();
+    this.setEvent();
   }
 
-  async init() {
+  async initRender() {
     await this.getPopularMoviesList();
     this.render();
-
     this.mountMovieList();
   }
 
@@ -34,13 +31,9 @@ export default class App {
     `;
   }
 
-  setEvent() {
-    const moreButton = $("#more-button");
-    moreButton.addEventListener("click", () => {});
-  }
-
-  async initEventHandler() {
+  async setEvent() {
     document.addEventListener("more-button-clicked", async () => {
+      this.toggleSkeletonList();
       if (this.#listState === LIST_STATE.POPULAR) this.appendPopularMovieList();
       if (this.#listState === LIST_STATE.SEARCHED)
         this.appendSearchedMovieList();
@@ -59,6 +52,7 @@ export default class App {
     this.#movieList = [];
     await this.getPopularMoviesList();
 
+    this.toggleSkeletonList();
     this.mountMovieList();
   }
 
@@ -67,6 +61,7 @@ export default class App {
     this.#movieList = [];
     await this.getSearchedMoviesList();
 
+    this.toggleSkeletonList();
     this.mountMovieList();
   }
 
@@ -96,8 +91,9 @@ export default class App {
 
   async renderSearchedMovies(movieName) {
     this.render();
+    this.toggleSkeletonList();
 
-    const searchedMovies = await getSearchedMovies(movieName, 1);
+    const searchedMovies = await getSearchedMovies(movieName, this.#page);
     this.#movieList = [];
 
     searchedMovies.results.forEach((item) => {
@@ -108,10 +104,15 @@ export default class App {
       });
     });
 
+    this.toggleSkeletonList();
     this.mountMovieList();
   }
 
   mountMovieList() {
     document.querySelector("card-list")?.setMovieList(this.#movieList);
+  }
+
+  toggleSkeletonList() {
+    document.querySelector("card-list").toggleSkeletonList();
   }
 }

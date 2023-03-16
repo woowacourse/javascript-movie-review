@@ -74,10 +74,13 @@ button {
 .item-score {
   margin-top: 16px;
   font-size: 1.2rem;
+  display: flex;
+  align-items: center;
 }
 
-.item-score::after {
+.item-score img {
   margin-left: 8px;
+  padding-bottom: 4px;
 }
 
 .item-title.skeleton::after,
@@ -161,4 +164,8 @@ header h1 {
   text-indent: -1000rem;
   background: url("./search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+.none {
+  display: none;
 }

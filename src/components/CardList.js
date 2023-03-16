@@ -8,10 +8,11 @@ export default class CardList extends HTMLElement {
   }
 
   connectedCallback() {
-    this.innerHTML = `
+    this.innerHTML = /*html*/ `
         <h2>${this.header}</h2>
-        <ul class="item-list">
+        <ul id="movie-list" class="item-list">
         </ul>
+        <skeleton-list class="none"></skeleton-list> 
         `;
   }
 
@@ -20,13 +21,18 @@ export default class CardList extends HTMLElement {
     const moreButton = $("more-button");
     if (this.#movieList.length < 20) moreButton.style.display = "none";
 
-    const ItemList = $(".item-list");
+    const $movieList = $("#movie-list");
     this.#movieList.forEach((item) => {
-      ItemList.insertAdjacentHTML(
+      $movieList.insertAdjacentHTML(
         "beforeend",
         `<movie-card title='${item.title}' poster='${item.poster}' rating='${item.rating}'></movie-card>`
       );
     });
+  }
+
+  toggleSkeletonList() {
+    const $skeletonList = $("skeleton-list");
+    $skeletonList.classList.toggle("none");
   }
 }
 
