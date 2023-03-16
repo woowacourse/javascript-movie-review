@@ -29,7 +29,7 @@ class SearchBox {
 
     if (!input || !button) return;
 
-    input.addEventListener('keydown', (event: KeyboardEvent) => {
+    input.addEventListener('keypress', (event: KeyboardEvent) => {
       if (event.key !== 'Enter') return;
 
       this.dispatchSearchEvent(input.value);

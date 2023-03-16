@@ -6,7 +6,7 @@ class MovieList {
   private _node!: HTMLElement;
   private movieList!: HTMLUListElement;
   private loadMoreButton!: HTMLButtonElement;
-  private moviesType: string = '지금 인기있는 영화';
+  private listName!: HTMLElement;
 
   constructor() {
     this.createTemplate();
@@ -14,6 +14,7 @@ class MovieList {
 
     this.movieList = this._node.querySelector('.movie-list') as HTMLUListElement;
     this.loadMoreButton = this._node.querySelector('.btn') as HTMLButtonElement;
+    this.listName = this._node.querySelector('#list-name') as HTMLElement;
   }
 
   get node(): HTMLElement {
@@ -40,7 +41,7 @@ class MovieList {
   paintMovieLayout() {
     this._node.innerHTML = `
       <section class="item-view">
-        <h2>${this.moviesType}</h2>
+        <h2 id="list-name">지금 인기있는 영화</h2>
         <ul class="item-list movie-list hidden"></ul>
         <button class="btn primary full-width hidden">더 보기</button>
       </section>
@@ -56,6 +57,7 @@ class MovieList {
   }
 
   updateMovieList(movieData: Movie[]) {
+    console.log(movieData);
     this.removeSkeleton();
 
     this.movieList.classList.remove('hidden');
@@ -65,6 +67,14 @@ class MovieList {
       const moiveItem = new MovieItem(movie);
       this.movieList.insertAdjacentElement('beforeend', moiveItem.node);
     });
+  }
+
+  setListName(keyword?: string) {
+    this.listName.innerText = keyword ? `${keyword} 검색 결과` : '지금 인기있는 영화';
+  }
+
+  cleanMovieList() {
+    this.movieList.innerHTML = '';
   }
 
   initEventHandler() {
