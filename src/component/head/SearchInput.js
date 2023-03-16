@@ -31,7 +31,7 @@ class SearchInput extends CustomElement {
     }
 
     MovieManager.showSkeleton();
-    MovieManager.searchMovies(query);
+    MovieManager.showMovies(query);
   }
 }
 

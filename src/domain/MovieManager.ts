@@ -26,7 +26,7 @@ class MovieManager {
     });
   }
 
-  async searchMovies(searchWord: string = "") {
+  async showMovies(searchWord: string = "") {
     await Movie.getApiMovies(searchWord);
 
     const data = await Movie.getData();
