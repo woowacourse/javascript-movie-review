@@ -9,20 +9,18 @@ export default class MovieComponent extends CustomComponent {
     const posterPath = this.getAttribute("poster_path");
 
     return `
-            <li>
-                <a href="#">
-                <div class="item-card">
-                    <img
+            <a href="#">
+              <div class="item-card">
+                  <img
                     class="item-thumbnail"
                     src="https://image.tmdb.org/t/p/w220_and_h330_face${posterPath}"
                     loading="lazy"
                     alt=${title}
-                    />
-                    <p class="item-title">${title}</p>
-                    <p class="item-score"><img src=${StarFilledImg} alt="별점" /> ${voteAverage}</p>
-                </div>
-                </a>
-            </li>
+                  />
+                  <p class="item-title">${title}</p>
+                  <p class="item-score"><img src=${StarFilledImg} alt="별점" /> ${voteAverage}</p>
+              </div>
+            </a>
         `;
   }
 }

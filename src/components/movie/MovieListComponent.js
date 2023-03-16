@@ -9,8 +9,8 @@ export default class MovieListComponent extends CustomComponent {
 
   initialRender() {
     this.#page = document.createElement("movie-list-page");
-    this.querySelector(".item-list").innerHTML = ``;
-    this.querySelector(".item-list").append(this.#page);
+    this.innerHTML = ``;
+    this.append(this.#page);
 
     this.#page.setAttribute("data-status", STATUS.LOADING);
   }
@@ -20,7 +20,7 @@ export default class MovieListComponent extends CustomComponent {
       this.querySelector("error-page").remove();
     }
     this.#page = document.createElement("movie-list-page");
-    this.querySelector(".item-list").append(this.#page);
+    this.append(this.#page);
 
     this.#page.setAttribute("data-status", STATUS.LOADING);
   }
@@ -38,13 +38,6 @@ export default class MovieListComponent extends CustomComponent {
     if (this.querySelector("error-page")) return;
     const errorPage = document.createElement("error-page");
     this.#page.replaceWith(errorPage);
-  }
-
-  template() {
-    return `
-            <ul class="item-list">
-            </ul>
-        `;
   }
 }
 customElements.define("movie-list", MovieListComponent);
