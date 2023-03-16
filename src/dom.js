@@ -17,11 +17,11 @@ export const renderList = (movies) => {
     'beforeend',
     /* html */ ` ${movies
       .map(
-        ({ title, poster_path, vote_average }) => /* html */ `
+        ({ title, posterPath, voteAverage }) => /* html */ `
             <movie-list-item 
               title="${title}" 
-              poster-path="${poster_path}" 
-              vote-average="${vote_average}"
+              poster-path="${posterPath}" 
+              vote-average="${voteAverage}"
             ></movie-list-item>
           `
       )
