@@ -6,8 +6,8 @@ import MovieListContent from './components/MovieListContent';
 class App {
   constructor() {
     this.render();
-    MovieListContent.loadMovies();
     this.initEvents();
+    MovieListContent.loadMovies();
   }
 
   render() {
