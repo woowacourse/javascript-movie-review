@@ -19,6 +19,12 @@ const MovieListContainer = {
     });
   },
 
+  changeContainerTitle(title?: string) {
+    $<HTMLHeadingElement>('#movie-list-title').textContent = title
+      ? `"${title}" 검색 결과`
+      : '지금 인기 있는 영화';
+  },
+
   showListContainer() {
     $<HTMLDivElement>('.item-view').classList.remove('hide');
   },

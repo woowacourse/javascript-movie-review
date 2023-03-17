@@ -1,5 +1,6 @@
 import { $ } from '../utils/domSelector';
 import { Logo } from '../assets';
+import MovieListContainer from './MovieListContainer';
 import MovieListContent from './MovieListContent';
 import MovieList from '../domain/MovieList';
 
@@ -26,8 +27,8 @@ const NavBar = {
 
       MovieList.init(searchKey);
 
+      MovieListContainer.changeContainerTitle(searchKey);
       MovieListContent.loadMovies();
-      // $<HTMLHeadingElement>('#movie-list-title').textContent = `"${searchKey}" 검색 결과`;
     });
   },
 };
