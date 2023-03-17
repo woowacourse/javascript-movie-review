@@ -45,13 +45,12 @@ export default class App {
 
   async setEvent() {
     document.addEventListener("click-more-button", () => {
-      this.toggleSkeletonList();
+      this.toggleSkeletonList(); //add skeleton list
       this.appendMovieList();
     });
 
     document.addEventListener("search-movie", (event) => {
       const movieName = event.detail;
-
       this.setState({
         movieList: [],
         page: 1,
@@ -74,7 +73,7 @@ export default class App {
     if (this.#state.listState === LIST_STATE.SEARCHED) {
       await this.addSearchedMoviesList();
     }
-    this.toggleSkeletonList();
+    this.toggleSkeletonList(); // remove skeleton list
     this.mountMovieList();
   }
 
@@ -85,6 +84,7 @@ export default class App {
         title: item.title,
         poster: item.poster_path,
         rating: item.vote_average,
+        movieId: item.id,
       };
     });
     this.setState({ movieList: newMovieList });
@@ -107,9 +107,9 @@ export default class App {
 
   async renderSearchedMovies() {
     this.render();
-    this.toggleSkeletonList();
+    this.toggleSkeletonList(); //add skeleton list
     await this.addSearchedMoviesList();
-    this.toggleSkeletonList();
+    this.toggleSkeletonList(); // remove skeleton list
     this.mountMovieList();
   }
 

@@ -166,6 +166,6 @@ header h1 {
   background-size: contain;
 }
 
-.none {
+.hidden {
   display: none;
 }
