@@ -1,4 +1,4 @@
-import { PAGE_LENGTH, STATUS } from "../../constants/constants";
+import { MOVIES_PER_PAGE, STATUS } from "../../constants/constants";
 import CustomComponent from "../../abstracts/CustomComponent";
 import MovieComponent from "./MovieComponent";
 import MovieSkeletonComponent from "./MovieSkeletonComponent";
@@ -16,7 +16,7 @@ export default class MovieListPageComponent extends CustomComponent {
       case STATUS.LOADING:
         this.innerHTML = `
           ${Array.from(
-            { length: PAGE_LENGTH },
+            { length: MOVIES_PER_PAGE },
             (_) => `<movie-item-skeleton></movie-item-skeleton>`
           ).join("")}
         `;

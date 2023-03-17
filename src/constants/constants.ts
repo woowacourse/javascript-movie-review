@@ -1,4 +1,4 @@
-export const PAGE_LENGTH = 20;
+export const MOVIES_PER_PAGE = 20;
 
 export const STATUS = {
   LOADING: "loading",
