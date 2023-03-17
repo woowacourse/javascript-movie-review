@@ -44,7 +44,7 @@ const MovieListContent = {
   renderSkeleton() {
     const itemList = $<HTMLUListElement>('.item-list');
 
-    itemList.insertAdjacentHTML('beforeend', MovieItem.template().repeat(20));
+    itemList.insertAdjacentHTML('beforeend', MovieItem.template().repeat(MOVIE_MAX_COUNT));
   },
 
   renderMovies(movies: Movie[]) {
