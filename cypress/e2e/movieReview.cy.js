@@ -35,16 +35,31 @@ describe('영화 리뷰 e2e 테스트', () => {
     ).as('fetchNoSearchResultMovieData');
 
     cy.visit(TEST_URL);
-    cy.wait('@fetchPopularMoviePage1Data').then((interception) => {
-      expect(interception.response.statusCode).to.equal(200);
-    });
   });
 
   it('1. 웹 페이지에 처음 방문하면 지금 인기 있는 영화 목록 데이터가 렌더링되기 전에 skeleton을 볼 수 있다..', () => {
+    cy.intercept(
+      `${API_BASE_URL}movie/popular?api_key=${apiKey}&language=ko-KR&page=1`,
+      (request) => {
+        request.reply(async (response) => {
+          const movieData = await cy.fixture('popularMoviesPage1.json').then((data) => data);
+
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              resolve(response.send(movieData));
+            }, 2000);
+          });
+        });
+      }
+    ).as('fetchPopularMovieData');
+
+    cy.clock();
+
     cy.visit(TEST_URL);
-    cy.wait('@fetchPopularMoviePage1Data').then((interception) => {
-      cy.get('.skeleton').should('be.visible');
-    });
+
+    cy.tick(1000);
+
+    cy.get('.skeleton').should('be.visible');
   });
 
   it('2. 웹 페이지에 처음 방문하면 지금 인기 있는 영화 목록을 볼 수 있다.', () => {
@@ -61,7 +76,7 @@ describe('영화 리뷰 e2e 테스트', () => {
     cy.get('.item-card').should('have.length', MOVIE_MAX_COUNT);
     cy.get('#more-button').click({ force: true });
 
-    cy.wait(3000);
+    cy.wait(2000);
 
     cy.get('.item-card').should('have.length', MOVIE_MAX_COUNT * 2);
 
@@ -76,7 +91,7 @@ describe('영화 리뷰 e2e 테스트', () => {
     cy.get('#search-input').type('외계인', { force: true });
     cy.get('#search-button').click({ force: true });
 
-    cy.wait(3000);
+    cy.wait(2000);
 
     cy.fixture('searchedMoviesPage1.json').then((expectedData) => {
       expectedData.results.forEach((movieData) => {
@@ -89,12 +104,12 @@ describe('영화 리뷰 e2e 테스트', () => {
     cy.get('#search-input').type('외계인', { force: true });
     cy.get('#search-button').click({ force: true });
 
-    cy.wait(3000);
+    cy.wait(2000);
 
     cy.get('.item-card').should('have.length', MOVIE_MAX_COUNT);
     cy.get('#more-button').click();
 
-    cy.wait(3000);
+    cy.wait(2000);
 
     cy.fixture('searchedMoviesPage2.json').then((expectedData) => {
       cy.get('.item-card').should('have.length', MOVIE_MAX_COUNT + expectedData.results.length);
@@ -109,11 +124,11 @@ describe('영화 리뷰 e2e 테스트', () => {
     cy.get('#search-input').type('외계인', { force: true });
     cy.get('#search-button').click({ force: true });
 
-    cy.wait(3000);
+    cy.wait(2000);
 
     cy.get('#more-button').click();
 
-    cy.wait(3000);
+    cy.wait(2000);
 
     cy.get('#more-button').should('not.be.visible');
   });
@@ -122,7 +137,7 @@ describe('영화 리뷰 e2e 테스트', () => {
     cy.get('#search-input').type('외계인입니다요', { force: true });
     cy.get('#search-button').click({ force: true });
 
-    cy.wait(3000);
+    cy.wait(2000);
 
     cy.get('.error-message').should(
       'contain',
