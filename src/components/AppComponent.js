@@ -75,7 +75,6 @@ export default class AppComponent extends CustomComponent {
 
   searchListInit() {
     this.#nextPage = 1;
-
     this.#$movieListTitle.setTitle(
       `"${this.#$searchInput.value}" ${TITLE.SEARCH}`
     );
@@ -103,6 +102,9 @@ export default class AppComponent extends CustomComponent {
           this.changeMoreButtonAction(ACTION.MORE_POPULAR);
           break;
         case ACTION.SEARCH:
+          if (!this.#$searchInput.value) {
+            return;
+          }
           this.searchListInit();
           this.getMovieData(ACTION.SEARCH);
           this.changeMoreButtonAction(ACTION.MORE_SEARCH);
@@ -123,7 +125,6 @@ export default class AppComponent extends CustomComponent {
         e.preventDefault();
 
         if (!this.#$searchInput.value) {
-          alert(SEARCH_WARNING);
           return;
         }
 
