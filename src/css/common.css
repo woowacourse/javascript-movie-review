@@ -34,7 +34,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  width: min-content;
   margin: 0 auto;
 }
 
@@ -44,14 +44,13 @@ button {
   user-select: none;
 }
 
-/* https://andrew.hedges.name/experiments/aspect_ratio/ */
-
 .item-list {
+  position: relative;
   display: grid;
   margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
-  grid-row-gap: 48px;
+  grid-template-columns: repeat(4, 250px);
+  grid-column-gap: 56px;
+  grid-row-gap: 64px;
 }
 
 .item-card {
@@ -61,13 +60,13 @@ button {
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
-  height: 270px;
+  width: 250px;
+  height: 375px;
   background-size: contain;
 }
 
 .item-title {
-  margin-top: 16px;
+  margin-top: 24px;
   font-size: 1.2rem;
   font-weight: bold;
   line-height: 1.2;
@@ -76,9 +75,9 @@ button {
 .item-score {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 
-  margin-top: 16px;
+  margin-top: 8px;
   font-size: 1rem;
 }
 
@@ -172,6 +171,7 @@ header > .search-box {
 }
 
 header .search-box > input {
+  width: 250px;
   background: #232323;
   color: white;
   border: 0;
