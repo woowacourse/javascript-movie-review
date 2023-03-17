@@ -23,7 +23,7 @@ type IGetMovies = (page: number) => Promise<IMovieList>;
 export const getMovies: IGetMovies = async (page) => {
   try {
     const response = await fetch(
-      `${BASE_PATH}/movie/popular?api_key=${process.env.API_KEY}&language=ko-KR&page=${page}`
+      `${BASE_PATH}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${page}`
     );
     if (!response.ok) throw Error(response.statusText);
 
@@ -37,7 +37,7 @@ export const getMovies: IGetMovies = async (page) => {
 type IGetSearchMovies = (keyword: string, page: number) => Promise<IMovieList>;
 export const getSearchMovie: IGetSearchMovies = async (keyword, page) => {
   const response = await fetch(
-    `${BASE_PATH}/search/movie?api_key=${process.env.API_KEY}&language=ko-KR&query=${keyword}&page=${page}`
+    `${BASE_PATH}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${keyword}&page=${page}`
   );
   if (!response.ok) return [];
   return response.json();
