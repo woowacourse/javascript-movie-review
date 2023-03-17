@@ -26,14 +26,13 @@ button {
 }
 .item-view,
 .item-test {
-  width: 100%;
+  width: 90%;
 }
 
 .item-view {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
   margin: 0 auto;
 }
 
@@ -48,9 +47,22 @@ button {
 .item-list {
   display: grid;
   margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
-  grid-row-gap: 48px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 20px;
+}
+
+@media screen and (max-width: 500px) {
+  .item-view h2 {
+    font-size: 20px;
+  }
+  .item-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .item-thumbnail {
+    width: 70px;
+  }
 }
 
 .item-card {
