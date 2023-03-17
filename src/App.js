@@ -3,19 +3,29 @@ import { $ } from "./utils/Dom";
 import { getPopularMovies, getSearchedMovies } from "./utils/fetch";
 
 export default class App {
-  #movieList;
-  #page;
-  #listState = LIST_STATE.POPULAR;
-  #movieName;
+  #state = {
+    movieList: [],
+    page: 1,
+    listState: LIST_STATE.POPULAR,
+    movieName: "",
+  };
 
   constructor() {
     this.initRender();
     this.setEvent();
   }
 
+  setState(newState) {
+    this.#state = { ...this.#state, ...newState };
+  }
+
   async initRender() {
-    this.#movieList = [];
-    this.#page = 1;
+    this.setState({
+      movieList: [],
+      page: 1,
+      listState: LIST_STATE.POPULAR,
+      movieName: "",
+    });
     await this.addPopularMoviesList();
     this.render();
     this.mountMovieList();
@@ -25,9 +35,9 @@ export default class App {
     const itemView = $(".item-view");
     itemView.innerHTML = `
     <card-list header='${
-      this.#listState === LIST_STATE.POPULAR
+      this.#state.listState === LIST_STATE.POPULAR
         ? "지금 인기 있는 영화"
-        : `"${this.#movieName}" 검색 결과`
+        : `"${this.#state.movieName}" 검색 결과`
     }'></card-list>
     <more-button></more-button>
     `;
@@ -40,11 +50,15 @@ export default class App {
     });
 
     document.addEventListener("search-movie", (event) => {
-      this.#listState = LIST_STATE.SEARCHED;
-      this.#page = 1;
-      this.#movieList = [];
-      this.#movieName = event.detail;
-      this.renderSearchedMovies(event.detail);
+      const movieName = event.detail;
+
+      this.setState({
+        movieList: [],
+        page: 1,
+        listState: LIST_STATE.SEARCHED,
+        movieName: movieName,
+      });
+      this.renderSearchedMovies();
     });
 
     document.addEventListener("click-home-button", () => {
@@ -53,12 +67,11 @@ export default class App {
   }
 
   async appendMovieList() {
-    this.#page += 1;
-    this.#movieList = [];
-    if (this.#listState === LIST_STATE.POPULAR) {
+    this.setState({ movieList: [], page: this.#state.page + 1 });
+    if (this.#state.listState === LIST_STATE.POPULAR) {
       await this.addPopularMoviesList();
     }
-    if (this.#listState === LIST_STATE.SEARCHED) {
+    if (this.#state.listState === LIST_STATE.SEARCHED) {
       await this.addSearchedMoviesList();
     }
     this.toggleSkeletonList();
@@ -66,30 +79,33 @@ export default class App {
   }
 
   async addPopularMoviesList() {
-    const fetchedData = await getPopularMovies(this.#page);
-    const result = fetchedData.results;
-    result.forEach((item) => {
-      this.#movieList.push({
+    const fetchedData = await getPopularMovies(this.#state.page);
+    const newMovieList = fetchedData.results.map((item) => {
+      return {
         title: item.title,
         poster: item.poster_path,
         rating: item.vote_average,
-      });
+      };
     });
+    this.setState({ movieList: newMovieList });
   }
 
   async addSearchedMoviesList() {
-    const fetchedData = await getSearchedMovies(this.#movieName, this.#page);
-    const result = fetchedData.results;
-    result.forEach((item) => {
-      this.#movieList.push({
+    const fetchedData = await getSearchedMovies(
+      this.#state.movieName,
+      this.#state.page
+    );
+    const newMovieList = fetchedData.results.map((item) => {
+      return {
         title: item.title,
         poster: item.poster_path,
         rating: item.vote_average,
-      });
+      };
     });
+    this.setState({ movieList: newMovieList });
   }
 
-  async renderSearchedMovies(movieName) {
+  async renderSearchedMovies() {
     this.render();
     this.toggleSkeletonList();
     await this.addSearchedMoviesList();
@@ -98,7 +114,7 @@ export default class App {
   }
 
   mountMovieList() {
-    document.querySelector("card-list")?.setMovieList(this.#movieList);
+    document.querySelector("card-list")?.setMovieList(this.#state.movieList);
   }
 
   toggleSkeletonList() {
