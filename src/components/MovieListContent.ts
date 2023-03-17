@@ -1,6 +1,6 @@
 import { Movie } from '../types/movie';
 import { MOVIE_MAX_COUNT } from '../constants';
-import { HTTP_ERROR_CODE } from '../constants/invalidMessage';
+import { HTTP_ERROR_CODE, NO_SEARCH_RESULT } from '../constants/invalidMessage';
 import { $, $$ } from '../utils/domSelector';
 import MovieListContainer from './MovieListContainer';
 import MovieItem from './MovieItem';
@@ -30,7 +30,7 @@ const MovieListContent = {
 
       if (searchQuery && !movies.length) {
         MovieListContainer.hideListContainer();
-        InvalidMessage.render('NO_SEARCH_RESULT', searchQuery);
+        InvalidMessage.render(NO_SEARCH_RESULT, searchQuery);
         return;
       }
 

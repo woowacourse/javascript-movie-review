@@ -27,4 +27,4 @@ const INVALID_MESSAGE: Record<InvalidMessageType, InvalidMessage> = {
   },
 } as const;
 
-export { HTTP_ERROR_CODE, INVALID_MESSAGE_TYPES, INVALID_MESSAGE };
+export { NO_SEARCH_RESULT, HTTP_ERROR_CODE, INVALID_MESSAGE_TYPES, INVALID_MESSAGE };
