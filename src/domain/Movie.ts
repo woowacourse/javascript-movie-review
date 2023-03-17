@@ -41,9 +41,10 @@ class Movie {
 
     const url = this.makeUrl();
     const apiData = await request(url);
-    this.state.movies = this.formMovies(apiData.results);
+    const moreMovies = this.formMovies(apiData.results);
+    this.state.movies = [...this.state.movies, ...moreMovies];
 
-    return this.state;
+    return { ...this.state, movies: moreMovies };
   }
 
   makeUrl() {
