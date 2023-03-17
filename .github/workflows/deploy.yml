@@ -2,32 +2,28 @@ name: NodeJS with Webpack
 
 on:
   push:
-    branches: [ "step1" ]
+    branches: ['step1']
 
 jobs:
-  # deploy 라는 job 입니다.
-  # 안에는 배포에 필요한 과정들을 기술하면 됩니다!
   deploy:
-    runs-on: ubuntu-latest # 우분투에서 실행
+    runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 18
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
-    - run: |
-          echo "TMDB_API_KEY=$TMDB_API_KEY" >> .env
-        env:
-          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
       - run: npm ci
         if: steps.cache.outputs.cache-hit != 'true'
       - run: npm run build
-    
-    - uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist

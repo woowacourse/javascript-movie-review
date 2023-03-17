@@ -24,7 +24,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './index.html',
     }),
-    new DotEnv(),
+    new DotEnv({
+      systemvars: true,
+    }),
     new CopyPlugin({
       patterns: [{ from: 'src/assets', to: 'assets' }],
     }),
