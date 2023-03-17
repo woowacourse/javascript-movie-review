@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v3
