@@ -12,7 +12,6 @@ class MovieItem extends CustomElement {
         : `https://image.tmdb.org/t/p/w220_and_h330_face${src}`;
 
     return `
-      <a href="#">
         <div class="item-card">
           <img
             class="item-thumbnail"
@@ -23,7 +22,6 @@ class MovieItem extends CustomElement {
           <p class="item-title">${title}</p>
           <p class="item-score"><img src="./image/star_filled.png" alt="별점" />${voteAverage}</p>
         </div>
-      </a>
   `;
   }
 }
