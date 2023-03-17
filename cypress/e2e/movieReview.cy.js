@@ -145,7 +145,7 @@ describe('영화 리뷰 e2e 테스트', () => {
     );
   });
 
-  it('HTTP 에러 발생시 에러 메세지가 화면에 출력된다.', () => {
+  it('HTTP 400대 에러 발생시 에러 메세지가 화면에 출력된다.', () => {
     cy.intercept('GET', `${API_BASE_URL}movie/popular?api_key=${apiKey}&language=ko-KR&page=1`, {
       statusCode: 400,
     }).as('HTTPError');
@@ -156,7 +156,7 @@ describe('영화 리뷰 e2e 테스트', () => {
     cy.get('.error-message').should('contain', '요청하신 작업을 할 수 없습니다.');
   });
 
-  it('HTTP 에러 발생시 에러 메세지가 화면에 출력된다.', () => {
+  it('HTTP 500대 에러 발생시 에러 메세지가 화면에 출력된다.', () => {
     cy.intercept('GET', `${API_BASE_URL}movie/popular?api_key=${apiKey}&language=ko-KR&page=1`, {
       statusCode: 500,
     }).as('HTTPError');
