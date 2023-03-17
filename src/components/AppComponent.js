@@ -47,18 +47,19 @@ export default class AppComponent extends CustomComponent {
   getMovieData(actionType) {
     fetch(this.urlByActionType(actionType), { method: "GET" })
       .then(async (res) => {
-        if (res.ok) {
-          const data = await res.json();
-          this.#totalPage = data.total_pages;
-
-          const movieItems = transformMovieItemsType(data.results);
-          this.#$movieList.renderPageSuccess(movieItems);
-
-          this.#nextPage += 1;
-          this.checkHasNextPage();
-        } else {
+        if (!res.ok) {
           this.#$movieList.renderPageFail();
+          return;
         }
+
+        const data = await res.json();
+        this.#totalPage = data.total_pages;
+
+        const movieItems = transformMovieItemsType(data.results);
+        this.#$movieList.renderPageSuccess(movieItems);
+
+        this.#nextPage += 1;
+        this.checkHasNextPage();
       })
       .catch((error) => {
         this.#$movieList.renderPageFail();
