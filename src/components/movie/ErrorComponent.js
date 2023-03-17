@@ -1,5 +1,6 @@
 import CustomComponent from "../../abstracts/CustomComponent";
 import ErrorImg from "../../../templates/error.png";
+
 export default class ErrorComponent extends CustomComponent {
   template() {
     return `
