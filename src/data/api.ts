@@ -1,4 +1,4 @@
-//import { API_KEY } from '../../apiKey.js';
+import { API_KEY } from '../../apiKey.js';
 
 const BASE_PATH = 'https://api.themoviedb.org/3';
 
