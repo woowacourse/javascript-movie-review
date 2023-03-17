@@ -1,10 +1,9 @@
 import { IMovie } from '../data/api';
 import { MovieItem } from './MovieItem';
-
 import { usePopularMovie, useSearchedMovie } from '../data/useMovie';
 import { $, $$ } from '../utils';
 import { Skeleton } from './Skeleton';
-import { getPageStatus } from '../data/usePage';
+import { IPageStatus, getPageStatus, POPULAR } from '../data/usePage';
 import { getRecentKeyword } from '../data/useKeyword';
 
 export async function renderSkeletonList() {
@@ -20,7 +19,7 @@ export async function renderMoreSkeletonList() {
 
   parentElem.insertAdjacentHTML('beforeend', Skeleton());
 
-  if (getPageStatus() === 'popular') {
+  if (getPageStatus() === POPULAR) {
     await usePopularMovie().then(({ values }) => {
       renderMoreMovieList(values.results);
       deleteSkeletonList();

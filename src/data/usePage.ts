@@ -1,4 +1,7 @@
-type IPageStatus = 'popular' | 'search';
+export const POPULAR = 'popular';
+export const SEARCH = 'search';
+
+export type IPageStatus = 'popular' | 'search';
 
 let moviePage: number = 1;
 
@@ -17,7 +20,7 @@ export function getPage() {
 }
 
 export function togglePageStatus() {
-  pageStatus = pageStatus === 'popular' ? 'search' : 'popular';
+  pageStatus = pageStatus === POPULAR ? SEARCH : POPULAR;
 }
 
 export function getPageStatus() {
