@@ -6,13 +6,13 @@ import MovieListContent from './components/MovieListContent';
 class App {
   constructor() {
     this.render();
+    MovieListContent.loadMovies();
+    this.initEvents();
   }
 
   render() {
     $<HTMLDivElement>('#app').insertAdjacentHTML('afterbegin', NavBar.template());
     $<HTMLElement>('main').insertAdjacentHTML('afterbegin', MovieListContainer.template());
-    MovieListContent.loadMovies();
-    this.initEvents();
   }
 
   initEvents() {
