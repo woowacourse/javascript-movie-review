@@ -76,7 +76,7 @@ describe('영화 리뷰 e2e 테스트', () => {
     cy.get('.item-card').should('have.length', MOVIE_MAX_COUNT);
     cy.get('#more-button').click({ force: true });
 
-    cy.wait(2000);
+    cy.wait(4000);
 
     cy.get('.item-card').should('have.length', MOVIE_MAX_COUNT * 2);
 
