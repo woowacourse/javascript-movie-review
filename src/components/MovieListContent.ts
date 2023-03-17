@@ -29,7 +29,7 @@ const MovieListContent = {
 
       if (searchKey && !movies.length) {
         MovieListContainer.hideListContainer();
-        InvalidMessage.renderNoSearchMessage(searchKey);
+        InvalidMessage.render('NO_SEARCH_RESULT', searchKey);
         return;
       }
 
@@ -37,7 +37,14 @@ const MovieListContent = {
     } catch (error) {
       if (error instanceof HTTPError) {
         MovieListContainer.hideListContainer();
-        InvalidMessage.renderErrorMessage(error.statusCode);
+
+        if (error.statusCode >= 400 && error.statusCode < 500) {
+          InvalidMessage.render('ERROR_400_RANGE');
+        }
+
+        if (error.statusCode >= 500) {
+          InvalidMessage.render('ERROR_500_RANGE');
+        }
       }
     }
   },
