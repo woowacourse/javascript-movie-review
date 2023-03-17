@@ -19,7 +19,7 @@ class MovieList {
     this.searchKey = searchKey;
   }
 
-  increaseCurrentPage() {
+  private increaseCurrentPage() {
     this.currentPage += 1;
   }
 
