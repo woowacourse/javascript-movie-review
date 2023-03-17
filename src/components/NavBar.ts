@@ -24,7 +24,7 @@ const NavBar = {
 
       if (searchKey === '') return;
 
-      MovieList.init(inputElement.value);
+      MovieList.init(searchKey);
 
       MovieListContent.loadMovies();
       $<HTMLHeadingElement>('#movie-list-title').textContent = `"${searchKey}" 검색 결과`;
