@@ -13,6 +13,7 @@ class Movie {
   formMovies(apiData: ApiMovieItem[]) {
     return apiData.map((result: ApiMovieItem) => {
       return {
+        id: result.id,
         title: result.title,
         src: result.poster_path,
         starRate: Number(result.vote_average.toFixed(1)),

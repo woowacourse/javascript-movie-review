@@ -16,6 +16,7 @@ export interface ApiMovieItem {
 }
 
 export interface MovieItem {
+  id: number;
   title: string;
   src: string;
   starRate: number;
