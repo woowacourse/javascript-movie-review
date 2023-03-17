@@ -18,7 +18,7 @@ describe("인기 영화 목록 확인", () => {
 });
 
 describe("인기 영화 더보기 확인", () => {
-  it("끝 페이지에 도달했을 때, 더보기 버튼이 없어졌는지", () => {
+  it("끝 페이지에 도달했을 때, 더보기 버튼이 없어진다.", () => {
     cy.intercept(
       {
         method: "GET",
@@ -46,10 +46,12 @@ describe("인기 영화 더보기 확인", () => {
 });
 
 describe("검색 목록 확인", () => {
-  it("검색했을 때 결과가 정확히 오는지 (검색버튼 클릭)", () => {
+  beforeEach(() => {
     cy.visit("http://localhost:8081/");
     cy.viewport(1920, 1080);
+  });
 
+  it("검색했을 때 결과가 정확히 니온다. (검색버튼 클릭)", () => {
     cy.get(".search-box").find("input").type("해리포터");
     cy.get("button[data-action='search']")
       .click()
@@ -60,10 +62,7 @@ describe("검색 목록 확인", () => {
       });
   });
 
-  it("검색했을 때 결과가 정확히 오는지 (엔터키 입력)", () => {
-    cy.visit("http://localhost:8081/");
-    cy.viewport(1920, 1080);
-
+  it("검색했을 때 결과가 정확히 나온다. (엔터키 입력)", () => {
     cy.get(".search-box")
       .find("input")
       .type("해리포터{enter}")
@@ -74,10 +73,7 @@ describe("검색 목록 확인", () => {
       });
   });
 
-  it("검색결과가 존재하지 않을 시 검색결과 없음 페이지가 뜨는지", () => {
-    cy.visit("http://localhost:8081/");
-    cy.viewport(1920, 1080);
-
+  it("검색결과가 존재하지 않을 시 검색결과 없음 페이지가 뜬다.", () => {
     cy.get(".search-box")
       .find("input")
       .type("sdmnfbikrdnfivjdnfodmfhfidff{enter}")
