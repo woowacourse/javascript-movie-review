@@ -55,7 +55,7 @@ export default class AppComponent extends CustomComponent {
           this.#$movieList.renderPageSuccess(movieItems);
 
           this.#nextPage += 1;
-          this.checkPage();
+          this.checkHasNextPage();
         } else {
           this.#$movieList.renderPageFail();
         }
@@ -65,7 +65,7 @@ export default class AppComponent extends CustomComponent {
       });
   }
 
-  checkPage() {
+  checkHasNextPage() {
     if (this.#totalPage < this.#nextPage) {
       this.querySelector("more-button").classList.add("hide");
       return;
