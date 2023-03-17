@@ -1,7 +1,7 @@
 import { Movie } from '../types/movie';
 import { POSTER_BASE_URL } from '../constants';
 import { $ } from '../utils/domSelector';
-import { StarEmpty, StarFilled } from '../assets';
+import { EmptyStar, FilledStar } from '../assets';
 
 const MovieItem = {
   template() {
@@ -31,7 +31,7 @@ const MovieItem = {
 
   scoreTemplate(voteAverage: number) {
     return `
-      <img src="${voteAverage ? StarFilled : StarEmpty}" alt="별점" />${voteAverage}
+      <img src="${voteAverage ? FilledStar : EmptyStar}" alt="별점" />${voteAverage}
     `;
   },
 
