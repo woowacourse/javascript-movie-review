@@ -24,8 +24,10 @@ const MovieListContent = {
 
       const { movies, searchQuery } = await MovieList.getMovieData();
 
-      if (movies.length === 20) {
-        MovieListContainer.showMoreButton();
+      MovieListContainer.showMoreButton();
+
+      if (movies.length !== 20) {
+        MovieListContainer.hideMoreButton();
       }
 
       if (searchQuery && !movies.length) {
