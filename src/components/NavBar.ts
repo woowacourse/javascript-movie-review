@@ -21,13 +21,13 @@ const NavBar = {
       event.preventDefault();
       const target = event.target as HTMLFormElement;
       const inputElement = target['search-input'] as HTMLInputElement;
-      const searchKey = inputElement.value.trim();
+      const searchQuery = inputElement.value.trim();
 
-      if (searchKey === '') return;
+      if (searchQuery === '') return;
 
-      MovieList.init(searchKey);
+      MovieList.init(searchQuery);
 
-      MovieListContainer.changeContainerTitle(searchKey);
+      MovieListContainer.changeContainerTitle(searchQuery);
       MovieListContent.loadMovies();
     });
   },

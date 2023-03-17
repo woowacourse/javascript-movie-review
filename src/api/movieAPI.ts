@@ -11,11 +11,11 @@ async function fetchPopularMovieData(currentPage: number): Promise<MovieDataResu
 }
 
 async function fetchSearchedMovieData(
-  searchKey: string,
+  searchQuery: string,
   currentPage: number
 ): Promise<MovieDataResult[]> {
   const movieData: MovieData = await fetchAPI(
-    `${API_BASE_URL}search/movie?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&query=${searchKey}&page=${currentPage}&include_adult=false`
+    `${API_BASE_URL}search/movie?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&query=${searchQuery}&page=${currentPage}&include_adult=false`
   );
 
   return movieData.results;

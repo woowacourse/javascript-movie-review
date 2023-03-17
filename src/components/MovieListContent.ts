@@ -22,15 +22,15 @@ const MovieListContent = {
       MovieListContainer.hideMoreButton();
       MovieListContent.renderSkeleton();
 
-      const { movies, searchKey } = await MovieList.getMovieData();
+      const { movies, searchQuery } = await MovieList.getMovieData();
 
       if (movies.length === 20) {
         MovieListContainer.showMoreButton();
       }
 
-      if (searchKey && !movies.length) {
+      if (searchQuery && !movies.length) {
         MovieListContainer.hideListContainer();
-        InvalidMessage.render('NO_SEARCH_RESULT', searchKey);
+        InvalidMessage.render('NO_SEARCH_RESULT', searchQuery);
         return;
       }
 

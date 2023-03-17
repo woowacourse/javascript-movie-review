@@ -4,7 +4,7 @@ import { fetchPopularMovieData, fetchSearchedMovieData } from '../api/movieAPI';
 class MovieList {
   private static instance: MovieList;
   private currentPage: number = 1;
-  private searchKey: string = '';
+  private searchQuery: string = '';
 
   static getInstance(): MovieList {
     if (!MovieList.instance) {
@@ -14,9 +14,9 @@ class MovieList {
     return MovieList.instance;
   }
 
-  init(searchKey: string = '') {
+  init(searchQuery: string = '') {
     this.currentPage = 1;
-    this.searchKey = searchKey;
+    this.searchQuery = searchQuery;
   }
 
   private increaseCurrentPage() {
@@ -44,14 +44,16 @@ class MovieList {
   }
 
   private async getSearchedMovieData(): Promise<Movie[]> {
-    return this.processMovieData(() => fetchSearchedMovieData(this.searchKey, this.currentPage));
+    return this.processMovieData(() => fetchSearchedMovieData(this.searchQuery, this.currentPage));
   }
 
   async getMovieData() {
     const movies =
-      this.searchKey !== '' ? await this.getSearchedMovieData() : await this.getPopularMovieData();
+      this.searchQuery !== ''
+        ? await this.getSearchedMovieData()
+        : await this.getPopularMovieData();
 
-    return { movies, searchKey: this.searchKey };
+    return { movies, searchQuery: this.searchQuery };
   }
 }
 
