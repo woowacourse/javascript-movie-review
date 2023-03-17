@@ -14,12 +14,9 @@ export default class MovieListPageComponent extends CustomComponent {
 
     switch (status) {
       case STATUS.LOADING:
-        this.innerHTML = `
-          ${Array.from(
-            { length: MOVIES_PER_PAGE },
-            (_) => `<movie-item-skeleton></movie-item-skeleton>`
-          ).join("")}
-        `;
+        this.innerHTML = `<movie-item-skeleton></movie-item-skeleton>`.repeat(
+          MOVIES_PER_PAGE
+        );
         break;
       case STATUS.SUCCESS:
         this.innerHTML = `
