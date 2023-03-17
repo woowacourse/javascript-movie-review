@@ -27,25 +27,34 @@ export default class AppComponent extends CustomComponent {
     this.#$searchInput = this.querySelector("input");
 
     this.popularListInit();
-    this.getMovieData(ACTION.POPULAR);
+    this.renderListByData(ACTION.POPULAR);
     this.changeMoreButtonAction(ACTION.MORE_POPULAR);
   }
 
-  urlByActionType(actionType) {
+  async fetchAPI(actionType) {
     switch (actionType) {
       case ACTION.POPULAR:
-        return `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${
-          this.#nextPage
-        }`;
+        return await fetch(
+          `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${
+            this.#nextPage
+          }`,
+          { method: "GET" }
+        );
       case ACTION.SEARCH:
-        return `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${
-          this.#$searchInput.value
-        }&page=${this.#nextPage}&include_adult=false`;
+        return await fetch(
+          `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${
+            this.#$searchInput.value
+          }&page=${this.#nextPage}&include_adult=false`,
+          { method: "GET" }
+        );
+      default:
+        return null;
+        break;
     }
   }
 
-  getMovieData(actionType) {
-    fetch(this.urlByActionType(actionType), { method: "GET" })
+  renderListByData(actionType) {
+    this.fetchAPI(actionType)
       .then(async (res) => {
         if (!res.ok) {
           this.#$movieList.renderPageFail();
@@ -94,31 +103,40 @@ export default class AppComponent extends CustomComponent {
     this.querySelector("more-button").setAttribute("data-action", actionType);
   }
 
+  checkEventAction(e) {
+    switch (e.target.dataset.action) {
+      case ACTION.POPULAR:
+        this.popularListInit();
+        this.renderListByData(ACTION.POPULAR);
+        this.changeMoreButtonAction(ACTION.MORE_POPULAR);
+        break;
+      case ACTION.SEARCH:
+        if (!this.#$searchInput.value) {
+          this.popularListInit();
+          this.renderListByData(ACTION.POPULAR);
+          this.changeMoreButtonAction(ACTION.MORE_POPULAR);
+          return;
+        }
+        this.searchListInit();
+        this.renderListByData(ACTION.SEARCH);
+        this.changeMoreButtonAction(ACTION.MORE_SEARCH);
+        break;
+      case ACTION.MORE_POPULAR:
+        this.#$movieList.appendNewPage();
+        this.renderListByData(ACTION.POPULAR);
+        break;
+      case ACTION.MORE_SEARCH:
+        this.#$movieList.appendNewPage();
+        this.renderListByData(ACTION.SEARCH);
+        break;
+      default:
+        break;
+    }
+  }
+
   handleEvent() {
     this.addEventListener("click", (e) => {
-      switch (e.target.dataset.action) {
-        case ACTION.POPULAR:
-          this.popularListInit();
-          this.getMovieData(ACTION.POPULAR);
-          this.changeMoreButtonAction(ACTION.MORE_POPULAR);
-          break;
-        case ACTION.SEARCH:
-          if (!this.#$searchInput.value) {
-            return;
-          }
-          this.searchListInit();
-          this.getMovieData(ACTION.SEARCH);
-          this.changeMoreButtonAction(ACTION.MORE_SEARCH);
-          break;
-        case ACTION.MORE_POPULAR:
-          this.#$movieList.appendNewPage();
-          this.getMovieData(ACTION.POPULAR);
-          break;
-        case ACTION.MORE_SEARCH:
-          this.#$movieList.appendNewPage();
-          this.getMovieData(ACTION.SEARCH);
-          break;
-      }
+      this.checkEventAction(e);
     });
 
     this.addEventListener("keyup", (e) => {
@@ -126,11 +144,14 @@ export default class AppComponent extends CustomComponent {
         e.preventDefault();
 
         if (!this.#$searchInput.value) {
+          this.popularListInit();
+          this.renderListByData(ACTION.POPULAR);
+          this.changeMoreButtonAction(ACTION.MORE_POPULAR);
           return;
         }
 
         this.searchListInit();
-        this.getMovieData(ACTION.SEARCH);
+        this.renderListByData(ACTION.SEARCH);
         this.changeMoreButtonAction(ACTION.MORE_SEARCH);
       }
     });
