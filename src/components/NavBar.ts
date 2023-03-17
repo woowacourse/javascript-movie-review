@@ -27,7 +27,7 @@ const NavBar = {
       MovieList.init(searchKey);
 
       MovieListContent.loadMovies();
-      $<HTMLHeadingElement>('#movie-list-title').textContent = `"${searchKey}" 검색 결과`;
+      // $<HTMLHeadingElement>('#movie-list-title').textContent = `"${searchKey}" 검색 결과`;
     });
   },
 };

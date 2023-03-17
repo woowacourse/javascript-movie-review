@@ -8,8 +8,8 @@ const MovieListContainer = {
         <h2 id="movie-list-title">지금 인기 있는 영화</h2>
         <ul class="item-list"></ul>
         <button id="more-button" class="btn primary full-width">더 보기</button>
-        <div class="error-message hide"></div>
       </section>
+      <div class="error-message hide"></div>
     `;
   },
 
@@ -17,6 +17,26 @@ const MovieListContainer = {
     $<HTMLButtonElement>('#more-button').addEventListener('click', async () => {
       MovieListContent.loadMoreMovies();
     });
+  },
+
+  showListContainer() {
+    $<HTMLDivElement>('.item-view').classList.remove('hide');
+  },
+
+  hideListContainer() {
+    $<HTMLDivElement>('.item-view').classList.add('hide');
+  },
+
+  showMoreButton() {
+    $<HTMLButtonElement>('#more-button').classList.remove('hide');
+  },
+
+  hideMoreButton() {
+    $<HTMLButtonElement>('#more-button').classList.add('hide');
+  },
+
+  clearInvalidMessageContainer() {
+    $<HTMLDivElement>('.error-message').textContent = '';
   },
 };
 

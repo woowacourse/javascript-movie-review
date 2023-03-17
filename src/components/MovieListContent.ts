@@ -1,6 +1,7 @@
 import { Movie } from '../types/movie';
 import { MOVIE_MAX_COUNT } from '../constants';
 import { $, $$ } from '../utils/domSelector';
+import MovieListContainer from './MovieListContainer';
 import MovieItem from './MovieItem';
 import InvalidMessage from './InvalidMessage';
 import MovieList from '../domain/MovieList';
@@ -8,8 +9,11 @@ import HTTPError from '../api/HTTPError';
 
 const MovieListContent = {
   loadMovies() {
-    $<HTMLButtonElement>('#more-button').classList.remove('hide');
-    MovieListContent.clear();
+    MovieListContainer.clearInvalidMessageContainer();
+    MovieListContainer.showListContainer();
+    MovieListContainer.showMoreButton();
+    MovieListContent.clearListContent();
+
     MovieListContent.loadMoreMovies();
   },
 
@@ -20,13 +24,11 @@ const MovieListContent = {
       const { movies, searchKey } = await MovieList.getMovieData();
 
       if (movies.length < 20) {
-        $<HTMLButtonElement>('#more-button').classList.add('hide');
+        MovieListContainer.hideMoreButton();
       }
 
-      if (searchKey && movies.length === 0) {
-        MovieListContent.clear();
-        $<HTMLButtonElement>('#movie-list-title').textContent = '';
-        $<HTMLButtonElement>('#more-button').classList.add('hide');
+      if (searchKey && !movies.length) {
+        MovieListContainer.hideListContainer();
         InvalidMessage.renderNoSearchMessage(searchKey);
         return;
       }
@@ -34,8 +36,7 @@ const MovieListContent = {
       MovieListContent.renderMovies(movies);
     } catch (error) {
       if (error instanceof HTTPError) {
-        $<HTMLUListElement>('.item-list').replaceChildren();
-        $<HTMLButtonElement>('#more-button').classList.add('hide');
+        MovieListContainer.hideListContainer();
         InvalidMessage.renderErrorMessage(error.statusCode);
       }
     }
@@ -61,9 +62,8 @@ const MovieListContent = {
     });
   },
 
-  clear() {
+  clearListContent() {
     $<HTMLUListElement>('.item-list').replaceChildren();
-    $<HTMLDivElement>('.error-message').classList.add('hide');
   },
 };
 
