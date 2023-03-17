@@ -1,13 +1,11 @@
 import { IMovie } from '../data/api';
 import { MovieItem } from './MovieItem';
-import {
-  getPageStatus,
-  getRecentKeyword,
-  usePopularMovie,
-  useSearchedMovie,
-} from '../data/useMovie';
+
+import { usePopularMovie, useSearchedMovie } from '../data/useMovie';
 import { $, $$ } from '../utils';
 import { Skeleton } from './Skeleton';
+import { getPageStatus } from '../data/usePage';
+import { getRecentKeyword } from '../data/useKeyword';
 
 export async function renderSkeletonList() {
   const parentElem = $('.item-list') as HTMLElement;

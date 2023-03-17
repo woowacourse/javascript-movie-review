@@ -1,7 +1,7 @@
-import { togglePageStatus, useSearchedMovie, resetPage } from '../data/useMovie';
+import { useSearchedMovie } from '../data/useMovie';
+import { resetPage, togglePageStatus } from '../data/usePage';
 import { getFormFields } from '../utils/formData';
 import { $, Event } from '../utils/index';
-import { renderSkeletonList } from './MovieList';
 
 export function Search() {
   Event.addEvent('submit', '.search-box', async (event) => {

@@ -1,25 +1,12 @@
-import {
-  renderPopularMovieList,
-  renderSearchMovieList,
-  renderMoreMovieList,
-} from '../components/MovieList';
+import { renderSearchMovieList, renderMoreMovieList } from '../components/MovieList';
 import { $ } from '../utils';
-import { getMovies, getSearchMovie, IMovieList } from './api';
+import { getMovies, getSearchMovie } from './api';
+import { setRecentKeyword } from './useKeyword';
+import { getPage } from './usePage';
 
-type IPageStatus = 'popular' | 'search';
-
-let moviePage: number = 1;
-
-export function plusPage() {
-  moviePage++;
-}
-
-export function resetPage() {
-  moviePage = 1;
-}
 const movieList = [];
 export async function usePopularMovie() {
-  const popularMovieResponse = await getMovies(moviePage);
+  const popularMovieResponse = await getMovies(getPage());
   const { page, results } = popularMovieResponse;
   movieList.push(results);
 
@@ -28,24 +15,20 @@ export async function usePopularMovie() {
     $pageHeader.innerText = '지금 인기 있는 영화';
   }
 
-  function handlePopularResult() {
-    //renderPopularMovieList();
-  }
-
   function handleMoreMovieList() {
     renderMoreMovieList(results);
   }
 
   return {
     values: { page, results },
-    handlers: { handlePageHeader, handlePopularResult: handlePopularResult, handleMoreMovieList },
+    handlers: { handlePageHeader, handleMoreMovieList },
   };
 }
 
-let recentKeyword: string;
 export async function useSearchedMovie(keyword: string) {
-  const { page, results } = await getSearchMovie(keyword, moviePage);
-  recentKeyword = keyword;
+  const { page, results } = await getSearchMovie(keyword, getPage());
+
+  setRecentKeyword(keyword);
 
   const val = $('.view-more-button') as HTMLElement;
   val.style.display = 'inline-block';
@@ -71,17 +54,4 @@ export async function useSearchedMovie(keyword: string) {
     values: { page, results },
     handlers: { handlePageHeader, handleSearchResult, handleMoreMovieList },
   };
-}
-
-let pageStatus: IPageStatus = 'popular';
-export function togglePageStatus() {
-  pageStatus = pageStatus === 'popular' ? 'search' : 'popular';
-}
-
-export function getPageStatus() {
-  return pageStatus;
-}
-
-export function getRecentKeyword() {
-  return recentKeyword;
 }

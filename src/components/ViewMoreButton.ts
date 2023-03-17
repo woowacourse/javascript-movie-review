@@ -1,12 +1,7 @@
-import { $, Event } from '../utils/index';
-import {
-  usePopularMovie,
-  plusPage,
-  getPageStatus,
-  useSearchedMovie,
-  getRecentKeyword,
-} from '../data/useMovie';
-import { renderMoreSkeletonList, renderSkeletonList } from './MovieList';
+import { plusPage } from '../data/usePage';
+import { Event } from '../utils/index';
+
+import { renderMoreSkeletonList } from './MovieList';
 
 export function ViewMoreButton() {
   Event.addEvent('click', '.view-more-button', async () => {
