@@ -1,5 +1,6 @@
 import { Movie } from '../types/movie';
 import { MOVIE_MAX_COUNT } from '../constants';
+import { HTTP_ERROR_CODE } from '../constants/invalidMessage';
 import { $, $$ } from '../utils/domSelector';
 import MovieListContainer from './MovieListContainer';
 import MovieItem from './MovieItem';
@@ -37,14 +38,7 @@ const MovieListContent = {
     } catch (error) {
       if (error instanceof HTTPError) {
         MovieListContainer.hideListContainer();
-
-        if (error.statusCode >= 400 && error.statusCode < 500) {
-          InvalidMessage.render('ERROR_400_RANGE');
-        }
-
-        if (error.statusCode >= 500) {
-          InvalidMessage.render('ERROR_500_RANGE');
-        }
+        InvalidMessage.render(HTTP_ERROR_CODE[error.statusCode]);
       }
     }
   },

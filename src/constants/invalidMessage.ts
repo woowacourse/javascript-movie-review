@@ -4,6 +4,11 @@ const NO_SEARCH_RESULT = 'NO_SEARCH_RESULT';
 const ERROR_400_RANGE = 'ERROR_400_RANGE';
 const ERROR_500_RANGE = 'ERROR_500_RANGE';
 
+const HTTP_ERROR_CODE: Record<number, InvalidMessageType> = {
+  400: ERROR_400_RANGE,
+  500: ERROR_500_RANGE,
+};
+
 const INVALID_MESSAGE_TYPES = [NO_SEARCH_RESULT, ERROR_400_RANGE, ERROR_500_RANGE] as const;
 
 const INVALID_MESSAGE: Record<InvalidMessageType, InvalidMessage> = {
@@ -22,4 +27,4 @@ const INVALID_MESSAGE: Record<InvalidMessageType, InvalidMessage> = {
   },
 } as const;
 
-export { INVALID_MESSAGE_TYPES, INVALID_MESSAGE };
+export { HTTP_ERROR_CODE, INVALID_MESSAGE_TYPES, INVALID_MESSAGE };
