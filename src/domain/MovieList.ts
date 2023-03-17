@@ -23,8 +23,10 @@ class MovieList {
     this.currentPage += 1;
   }
 
-  private async getPopularMovieData(): Promise<Movie[]> {
-    const moviesData: MovieDataResult[] = await fetchPopularMovieData(this.currentPage);
+  private async processMovieData(
+    fetchFunction: () => Promise<MovieDataResult[]>
+  ): Promise<Movie[]> {
+    const moviesData: MovieDataResult[] = await fetchFunction();
     this.increaseCurrentPage();
 
     const movies: Movie[] = moviesData.map((movie: Movie) => ({
@@ -37,21 +39,12 @@ class MovieList {
     return movies;
   }
 
+  private async getPopularMovieData(): Promise<Movie[]> {
+    return this.processMovieData(() => fetchPopularMovieData(this.currentPage));
+  }
+
   private async getSearchedMovieData(): Promise<Movie[]> {
-    const moviesData: MovieDataResult[] = await fetchSearchedMovieData(
-      this.searchKey,
-      this.currentPage
-    );
-    this.increaseCurrentPage();
-
-    const movies: Movie[] = moviesData.map((movie: Movie) => ({
-      id: movie.id,
-      title: movie.title,
-      vote_average: Math.round(movie.vote_average * 10) / 10,
-      poster_path: movie.poster_path,
-    }));
-
-    return movies;
+    return this.processMovieData(() => fetchSearchedMovieData(this.searchKey, this.currentPage));
   }
 
   async getMovieData() {
