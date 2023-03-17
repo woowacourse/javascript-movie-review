@@ -18,9 +18,7 @@ class MovieListSkeleton extends CustomElement {
   }
 
   makeItemSkeleton() {
-    return [...new Array(20)]
-      .map(
-        () => `
+    return `
     <li>
       <a href="#">
         <div class="item-card">
@@ -30,9 +28,7 @@ class MovieListSkeleton extends CustomElement {
         </div>
       </a>
     </li>
-  `
-      )
-      .join("");
+  `.repeat(20);
   }
 
   rerender() {
