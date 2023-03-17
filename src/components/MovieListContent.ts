@@ -11,7 +11,6 @@ const MovieListContent = {
   loadMovies() {
     MovieListContainer.clearInvalidMessageContainer();
     MovieListContainer.showListContainer();
-    MovieListContainer.showMoreButton();
     MovieListContent.clearListContent();
 
     MovieListContent.loadMoreMovies();
@@ -19,12 +18,13 @@ const MovieListContent = {
 
   async loadMoreMovies() {
     try {
+      MovieListContainer.hideMoreButton();
       MovieListContent.renderSkeleton();
 
       const { movies, searchKey } = await MovieList.getMovieData();
 
-      if (movies.length < 20) {
-        MovieListContainer.hideMoreButton();
+      if (movies.length === 20) {
+        MovieListContainer.showMoreButton();
       }
 
       if (searchKey && !movies.length) {
