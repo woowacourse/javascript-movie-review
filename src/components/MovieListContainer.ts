@@ -14,7 +14,7 @@ const MovieListContainer = {
   },
 
   onClick() {
-    $<HTMLButtonElement>('#more-button').addEventListener('click', async () => {
+    $<HTMLButtonElement>('#more-button').addEventListener('click', () => {
       MovieListContent.loadMoreMovies();
     });
   },
