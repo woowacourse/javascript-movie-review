@@ -5,20 +5,17 @@ import MovieManager from "../../domain/MovieManager";
 class SearchInput extends CustomElement {
   template() {
     return `
-      <input type="text" class="search-text" placeholder="검색" />
-      <button class="search-button">검색</button>
-    `;
+      <form class="search-box">
+        <input type="text" class="search-text" placeholder="검색" />
+        <button class="search-button">검색</button>
+      </form>
+      `;
   }
 
   setEvent() {
-    $(".search-button").addEventListener("click", () => {
+    $(".search-box").addEventListener("submit", (e) => {
+      e.preventDefault();
       this.showMovieList();
-    });
-
-    $(".search-text").addEventListener("keyup", (e) => {
-      if (e.key === "Enter") {
-        this.showMovieList();
-      }
     });
   }
 

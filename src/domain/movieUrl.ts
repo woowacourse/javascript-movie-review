@@ -1,7 +1,7 @@
 const API_KEY = process.env.API_KEY;
 
 export const popularMovieUrl = (page: number) => {
-  return `https://api.themoviedb.org/3/movide/popular?api_key=${API_KEY}&page=${page}&include_adult=false`;
+  return `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=${page}&include_adult=false`;
 };
 
 export const searchMovieUrl = (query: string, page: number) => {
