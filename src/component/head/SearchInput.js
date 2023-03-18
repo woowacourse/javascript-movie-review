@@ -6,8 +6,10 @@ class SearchInput extends CustomElement {
   template() {
     return `
       <form class="search-box">
-        <input type="text" class="search-text" placeholder="검색" />
-        <button class="search-button">검색</button>
+        <label>
+          <input type="text" class="search-text" placeholder="검색" />
+          <button class="search-button">검색</button>
+        </label>
       </form>
       `;
   }
@@ -27,7 +29,6 @@ class SearchInput extends CustomElement {
       return;
     }
 
-    MovieManager.showSkeleton();
     MovieManager.showMovies(query);
   }
 }

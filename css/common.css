@@ -156,11 +156,11 @@ movie-head > .search-box {
   border-radius: 4px;
 }
 
-movie-head .search-box > input {
+movie-head .search-box > label > input {
   border: 0;
 }
 
-movie-head .search-box > .search-button {
+movie-head .search-box > label > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
