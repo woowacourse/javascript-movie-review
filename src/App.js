@@ -18,10 +18,8 @@ export default class App {
 
   async setInitState() {
     this.#state = {
-      movieList: [],
       page: 1,
       listState: LIST_STATE.POPULAR,
-      movieName: "",
     };
 
     await this.addPopularMoviesList();
@@ -54,7 +52,7 @@ export default class App {
       this.setInitState();
       this.setState({
         listState: LIST_STATE.SEARCHED,
-        movieName: movieName,
+        movieName,
       });
       this.renderSearchedMovies();
     });
@@ -65,7 +63,7 @@ export default class App {
   }
 
   async appendMovieList() {
-    this.setState({ movieList: [], page: this.#state.page + 1 });
+    this.setState({ page: this.#state.page + 1 });
     if (this.#state.listState === LIST_STATE.POPULAR) {
       await this.addPopularMoviesList();
     }
@@ -78,15 +76,16 @@ export default class App {
 
   async addPopularMoviesList() {
     const fetchedData = await getPopularMovies(this.#state.page);
-    const newMovieList = fetchedData.results.map((item) => {
+    const movieList = fetchedData.results.map((item) => {
+      const { title, poster_path, vote_average, id } = item;
       return {
-        title: item.title,
-        poster: item.poster_path,
-        rating: item.vote_average,
-        movieId: item.id,
+        title,
+        poster: poster_path,
+        rating: vote_average,
+        movieId: id,
       };
     });
-    this.setState({ movieList: newMovieList });
+    this.setState({ movieList });
   }
 
   async addSearchedMoviesList() {
@@ -94,14 +93,16 @@ export default class App {
       this.#state.movieName,
       this.#state.page
     );
-    const newMovieList = fetchedData.results.map((item) => {
+    const movieList = fetchedData.results.map((item) => {
+      const { title, poster_path, vote_average, id } = item;
       return {
-        title: item.title,
-        poster: item.poster_path,
-        rating: item.vote_average,
+        title,
+        poster: poster_path,
+        rating: vote_average,
+        movieId: id,
       };
     });
-    this.setState({ movieList: newMovieList });
+    this.setState({ movieList });
   }
 
   async renderSearchedMovies() {
