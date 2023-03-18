@@ -1,12 +1,14 @@
 import starFilled from '../../templates/star_filled.png';
 import starEmpty from '../../templates/star_empty.png';
+import { IMovieItemProps } from '../types/movie';
+
 const skeletonTemplate = () => `
   <div class="item-thumbnail skeleton"></div>
   <div class="item-title skeleton"></div>
   <div class="item-score skeleton"></div>
 `;
 
-const commonTemplate = ({ title, voteAverage, posterPath }) => `
+const commonTemplate = ({ title, voteAverage, posterPath }: IMovieItemProps) => `
   <img
     class="item-thumbnail"
     src="https://image.tmdb.org/t/p/w500/${posterPath}"
@@ -19,7 +21,7 @@ const commonTemplate = ({ title, voteAverage, posterPath }) => `
   }" alt="별점" /> ${voteAverage?.toFixed(1)}</p>
 `;
 
-function movieItem(movie) {
+function movieItem(movie: IMovieItemProps | { title: null }) {
   const item = `
   <li>
     <a href="#">
