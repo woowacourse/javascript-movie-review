@@ -1,3 +1,5 @@
+import { MovieListCategory } from '.';
+
 export interface IMovieProps {
   adult: boolean;
   backdrop_path: string;
@@ -15,9 +17,25 @@ export interface IMovieProps {
   vote_count: number;
 }
 
-export interface IMovieListAPIProps {
+export interface IMovieHandleProps {
   page: number;
   results: Array<IMovieProps>;
   total_pages: number;
+}
+
+export interface IMovieListAPIProps extends IMovieHandleProps {
   total_results: number;
+}
+
+export interface IErrorMessageProps {
+  isError: boolean;
+  message: string;
+}
+
+export interface IMovieState {
+  results: Array<IMovieProps | { title: null }>;
+  nextPage: number;
+  query: string;
+  category: MovieListCategory;
+  error: IErrorMessageProps;
 }
