@@ -12,19 +12,19 @@ import InvalidMessage from './InvalidMessage';
 import MovieList from '../domain/MovieList';
 import HTTPError from '../api/HTTPError';
 
-const MovieListContent = {
+class MovieListContent {
   loadMovies() {
-    MovieListContainer.clearInvalidMessageContainer();
+    InvalidMessage.clearInvalidMessageContainer();
     MovieListContainer.showListContainer();
-    MovieListContent.clearListContent();
+    this.clearListContent();
 
-    MovieListContent.loadMoreMovies();
-  },
+    this.loadMoreMovies();
+  }
 
   async loadMoreMovies() {
     try {
       MovieListContainer.hideMoreButton();
-      MovieListContent.renderSkeleton();
+      this.renderSkeleton();
 
       const { movies, searchQuery } = await MovieList.getMovieData();
 
@@ -40,7 +40,7 @@ const MovieListContent = {
         return;
       }
 
-      MovieListContent.renderMovies(movies);
+      this.renderMovies(movies);
     } catch (error) {
       MovieListContainer.hideListContainer();
 
@@ -57,13 +57,14 @@ const MovieListContent = {
         alert(error.message);
       }
     }
-  },
+  }
 
   renderSkeleton() {
-    const itemList = $<HTMLUListElement>('.item-list');
-
-    itemList.insertAdjacentHTML('beforeend', MovieItem.template().repeat(MOVIE_MAX_COUNT));
-  },
+    $<HTMLUListElement>('.item-list').insertAdjacentHTML(
+      'beforeend',
+      MovieItem.template().repeat(MOVIE_MAX_COUNT)
+    );
+  }
 
   renderMovies(movies: Movie[]) {
     const items = $$<HTMLUListElement>('.item-card');
@@ -76,11 +77,11 @@ const MovieListContent = {
     items.slice(-movies.length).forEach((child, key) => {
       MovieItem.render(child, movies[key]);
     });
-  },
+  }
 
   clearListContent() {
     $<HTMLUListElement>('.item-list').replaceChildren();
-  },
-};
+  }
+}
 
-export default MovieListContent;
+export default new MovieListContent();
