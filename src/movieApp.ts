@@ -51,6 +51,8 @@ const MovieApp = {
 
     const movies = await fetchFunction();
 
+    movieList.removeSkeletonUI();
+
     if (!movies) this.$container.displayErrorUI();
 
     return movies;
