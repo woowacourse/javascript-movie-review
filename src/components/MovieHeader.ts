@@ -1,4 +1,5 @@
 import { Logo } from "../../images";
+import { $ } from "../utils/dom";
 
 class MovieHeader extends HTMLElement {
   constructor() {
@@ -7,6 +8,7 @@ class MovieHeader extends HTMLElement {
 
   connectedCallback() {
     this.render();
+    this.addEvent();
   }
 
   render() {
@@ -15,6 +17,12 @@ class MovieHeader extends HTMLElement {
     <h1><img src="${Logo}" alt="MovieList" /></h1>
     <search-box class="search-box"></search-box>
   </header>`;
+  }
+
+  addEvent() {
+    $("h1", this)?.addEventListener("click", () => {
+      location.reload();
+    });
   }
 }
 
