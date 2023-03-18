@@ -8,11 +8,13 @@ class MovieListContainer extends HTMLElement {
   }
 
   render(query?: string) {
-    const type = this.getAttribute("type");
+    const contentType = this.getAttribute("content-type");
 
     this.innerHTML = /* html */ `
         <h2>${
-          type === "popular" ? "지금 인기 있는 영화" : `"${query}" 검색 결과`
+          contentType === "popular"
+            ? "지금 인기 있는 영화"
+            : `"${query}" 검색 결과`
         }</h2>
         <movie-list class="item-list"></movie-list>
         <button id="more-button" class="btn primary full-width">더 보기</button>
@@ -24,13 +26,13 @@ class MovieListContainer extends HTMLElement {
     $("button", this)?.addEventListener("click", () => {
       dispatchCustomEvent(this, {
         eventType: "fetchMovieData",
-        data: this.getAttribute("type"),
+        data: this.getAttribute("contentType"),
       });
     });
   }
 
   changeTitle(query: string) {
-    this.setAttribute("type", "search");
+    this.setAttribute("contentType", "search");
     this.render(query);
   }
 
