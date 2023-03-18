@@ -34,6 +34,7 @@ export default class AppComponent extends CustomComponent {
   async fetchAPI(actionType) {
     switch (actionType) {
       case ACTION.POPULAR:
+      default:
         return await fetch(
           `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${
             this.#nextPage
@@ -47,9 +48,6 @@ export default class AppComponent extends CustomComponent {
           }&page=${this.#nextPage}&include_adult=false`,
           { method: "GET" }
         );
-      default:
-        return null;
-        break;
     }
   }
 
@@ -106,6 +104,7 @@ export default class AppComponent extends CustomComponent {
   checkEventAction(e) {
     switch (e.target.dataset.action) {
       case ACTION.POPULAR:
+      default:
         this.popularListInit();
         this.renderListByData(ACTION.POPULAR);
         this.changeMoreButtonAction(ACTION.MORE_POPULAR);
@@ -128,8 +127,6 @@ export default class AppComponent extends CustomComponent {
       case ACTION.MORE_SEARCH:
         this.#$movieList.appendNewPage();
         this.renderListByData(ACTION.SEARCH);
-        break;
-      default:
         break;
     }
   }
