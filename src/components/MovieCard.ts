@@ -1,3 +1,4 @@
+import NULL_IMAGE from '../const/nullImage';
 import { MovieItem } from '../domain/processMovieData';
 
 class MovieCard {
@@ -49,11 +50,6 @@ class MovieCard {
     thumbnail.classList.remove('hidden');
   }
 
-  errorLoadImage(thumbnail: HTMLImageElement) {
-    thumbnail.src =
-      'https://user-images.githubusercontent.com/112997662/223046479-306cc6a7-7024-4616-b28e-be2f2878d2f0.png';
-  }
-
   setEvent() {
     const thumbnail = this._node.querySelector<HTMLImageElement>('#item-thumbnail');
     const thumbnailSkeleton = this._node.querySelector<HTMLDivElement>('.skeleton');
@@ -67,7 +63,7 @@ class MovieCard {
     });
 
     thumbnail.addEventListener('error', () => {
-      this.errorLoadImage(thumbnail);
+      thumbnail.src = NULL_IMAGE;
     });
   }
 }
