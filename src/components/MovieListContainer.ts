@@ -1,7 +1,19 @@
 import { $ } from '../utils/domSelector';
 import MovieListContent from './MovieListContent';
 
-const MovieListContainer = {
+class MovieListContainer {
+  private listContainer: HTMLDivElement;
+  private movieTitle: HTMLHeadingElement;
+  private moreButton: HTMLButtonElement;
+
+  constructor() {
+    $<HTMLElement>('main').insertAdjacentHTML('beforeend', this.template());
+    this.listContainer = $<HTMLDivElement>('.item-view');
+    this.movieTitle = $<HTMLHeadingElement>('#movie-list-title');
+    this.moreButton = $<HTMLButtonElement>('#more-button');
+    this.addEventToMoreButton();
+  }
+
   template() {
     return `
       <section class="item-view">
@@ -11,39 +23,33 @@ const MovieListContainer = {
       </section>
       <div class="error-message hide"></div>
     `;
-  },
+  }
 
   addEventToMoreButton() {
-    $<HTMLButtonElement>('#more-button').addEventListener('click', () => {
+    this.moreButton.addEventListener('click', () => {
       MovieListContent.loadMoreMovies();
     });
-  },
+  }
 
   changeContainerTitle(title?: string) {
-    $<HTMLHeadingElement>('#movie-list-title').textContent = title
-      ? `"${title}" 검색 결과`
-      : '지금 인기 있는 영화';
-  },
+    this.movieTitle.textContent = title ? `"${title}" 검색 결과` : '지금 인기 있는 영화';
+  }
 
   showListContainer() {
-    $<HTMLDivElement>('.item-view').classList.remove('hide');
-  },
+    this.listContainer.classList.remove('hide');
+  }
 
   hideListContainer() {
-    $<HTMLDivElement>('.item-view').classList.add('hide');
-  },
+    this.listContainer.classList.add('hide');
+  }
 
   showMoreButton() {
-    $<HTMLButtonElement>('#more-button').classList.remove('hide');
-  },
+    this.moreButton.classList.remove('hide');
+  }
 
   hideMoreButton() {
-    $<HTMLButtonElement>('#more-button').classList.add('hide');
-  },
+    this.moreButton.classList.add('hide');
+  }
+}
 
-  clearInvalidMessageContainer() {
-    $<HTMLDivElement>('.error-message').textContent = '';
-  },
-};
-
-export default MovieListContainer;
+export default new MovieListContainer();

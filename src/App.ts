@@ -1,6 +1,6 @@
 import { $ } from './utils/domSelector';
 import NavBar from './components/NavBar';
-import MovieListContainer from './components/MovieListContainer';
+import './components/MovieListContainer';
 import MovieListContent from './components/MovieListContent';
 
 class App {
@@ -12,12 +12,10 @@ class App {
 
   render() {
     $<HTMLDivElement>('#app').insertAdjacentHTML('afterbegin', NavBar.template());
-    $<HTMLElement>('main').insertAdjacentHTML('afterbegin', MovieListContainer.template());
   }
 
   initEvents() {
     NavBar.addEventToSearchInput();
-    MovieListContainer.addEventToMoreButton();
   }
 }
 
