@@ -36,7 +36,7 @@ class MovieListContainer extends HTMLElement {
     this.render(query);
   }
 
-  removeLoadMovieButton() {
+  hiddenLoadMovieButton() {
     $("button", this)?.classList.add("hidden");
   }
 

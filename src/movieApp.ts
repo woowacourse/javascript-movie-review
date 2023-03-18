@@ -36,7 +36,7 @@ const MovieApp = {
 
     movieHandler.addMovies(movies.results);
 
-    if (movies.results.length < 20) this.$container.removeLoadMovieButton();
+    if (movies.results.length < 20) this.$container.hiddenLoadMovieButton();
 
     movieList.render(movieHandler.movies);
   },
@@ -58,7 +58,7 @@ const MovieApp = {
       mostPopular(this.currentPageNumber++)
     );
 
-    if (this.currentPageNumber > 500) this.$container.removeLoadMovieButton();
+    if (this.currentPageNumber > 500) this.$container.hiddenLoadMovieButton();
 
     this.loadMovieData(movies);
   },
