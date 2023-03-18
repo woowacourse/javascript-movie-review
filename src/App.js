@@ -3,32 +3,32 @@ import { $ } from "./utils/Dom";
 import { getPopularMovies, getSearchedMovies } from "./utils/fetch";
 
 export default class App {
-  #state = {
-    movieList: [],
-    page: 1,
-    listState: LIST_STATE.POPULAR,
-    movieName: "",
-  };
+  #state;
 
   constructor() {
-    this.initRender();
+    this.init();
     this.setEvent();
   }
 
-  setState(newState) {
-    this.#state = { ...this.#state, ...newState };
+  async init() {
+    await this.setInitState();
+    this.render();
+    this.mountMovieList();
   }
 
-  async initRender() {
-    this.setState({
+  async setInitState() {
+    this.#state = {
       movieList: [],
       page: 1,
       listState: LIST_STATE.POPULAR,
       movieName: "",
-    });
+    };
+
     await this.addPopularMoviesList();
-    this.render();
-    this.mountMovieList();
+  }
+
+  setState(newState) {
+    this.#state = { ...this.#state, ...newState };
   }
 
   render() {
@@ -51,9 +51,8 @@ export default class App {
 
     document.addEventListener("search-movie", (event) => {
       const { movieName } = event.detail;
+      this.setInitState();
       this.setState({
-        movieList: [],
-        page: 1,
         listState: LIST_STATE.SEARCHED,
         movieName: movieName,
       });
@@ -61,7 +60,7 @@ export default class App {
     });
 
     document.addEventListener("click-home-button", () => {
-      this.initRender();
+      this.init();
     });
   }
 
