@@ -69,12 +69,11 @@ const MovieListContent = {
     const items = $$<HTMLUListElement>('.item-card');
     const extraItems = MOVIE_MAX_COUNT - movies.length;
 
-    Array.from({ length: extraItems }, () => {
-      const element = items.pop();
-      element?.remove();
+    items.splice(items.length - extraItems).forEach((element) => {
+      element.remove();
     });
 
-    [...items].slice(-movies.length).forEach((child, key) => {
+    items.slice(-movies.length).forEach((child, key) => {
       MovieItem.render(child, movies[key]);
     });
   },
