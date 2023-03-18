@@ -15,6 +15,7 @@ class ShowMoreButton extends CustomElement {
 
   setEvent() {
     this.addEventListener("click", () => {
+      MovieManager.showSkeleton();
       MovieManager.showMoreMovies();
     });
   }

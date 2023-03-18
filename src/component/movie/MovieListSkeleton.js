@@ -4,7 +4,6 @@ import CustomElement from "../basic/CustomElement";
 
 class MovieListSkeleton extends CustomElement {
   connectedCallback() {
-    MovieManager.subscribe(this);
     MovieManager.subscribeSkeleton(this);
   }
 
@@ -30,8 +29,8 @@ class MovieListSkeleton extends CustomElement {
   `.repeat(20);
   }
 
-  rerender() {
-    $(".skeleton-list").remove();
+  remove() {
+    $(".skeleton-list")?.remove();
   }
 }
 
