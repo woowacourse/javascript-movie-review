@@ -2,19 +2,18 @@ import movieItem from './movieItem';
 import { Store } from '../Store';
 import WholeScreenMessageAlert from './WholeScreenMessageAlert';
 class ItemList {
-  // 렌더링 방식 변경하기...
   $ul = document.createElement('ul');
 
-  constructor($target) {
+  constructor($target: HTMLElement) {
     this.$ul.className = 'item-list';
 
     this.render($target);
   }
 
   template() {
-    const movies = Store.movieStates.getMovieStates()['results'];
+    const movies = Store.movieStates?.getMovieStates()['results'];
 
-    if (!movies.length)
+    if (!movies?.length)
       return {
         isProblem: true,
         template: WholeScreenMessageAlert('영화 목록이 없습니다.'),
@@ -22,11 +21,11 @@ class ItemList {
 
     return {
       isProblem: false,
-      template: movies.reduce((item, movie) => (item += movieItem(movie)), ``),
+      template: movies?.reduce((item, movie) => (item += movieItem(movie)), ``),
     };
   }
 
-  render($target) {
+  render($target: HTMLElement) {
     const { isProblem, template } = this.template();
 
     if (isProblem) {
