@@ -1,5 +1,5 @@
 import { fetchData } from '../http';
-import { IMovieHandleProps, IMovieListAPIProps, IMovieProps } from '../types/movie';
+import { IMovieHandleProps, IMovieItemProps, IMovieProps } from '../types/movie';
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 interface IMovieFetchProps {
@@ -16,14 +16,19 @@ export interface IFetchedError {
   status_message: string;
 }
 
+export interface IFetchMovie {
+  isError: boolean;
+  data: IMovieHandleProps<IMovieProps> | IFetchedError;
+}
+
 export interface IModifiedMovie {
   isError: boolean;
-  data: IMovieHandleProps | IFetchedError;
+  data: IMovieHandleProps<IMovieItemProps> | IFetchedError;
 }
 
 class Movie {
   async getPopularMovies({ curPage = 1 }: IMovieFetchProps): Promise<IModifiedMovie> {
-    const movieList = await fetchData<IModifiedMovie>(
+    const movieList = await fetchData<IFetchMovie>(
       `${BASE_URL}/movie/popular?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&page=${curPage}`
     );
 
@@ -32,9 +37,15 @@ class Movie {
     if ('results' in data) {
       const { results, total_pages, page } = data;
 
+      const movleList = results.map((currentMovie) => ({
+        title: currentMovie.title,
+        posterPath: currentMovie.poster_path,
+        voteAverage: currentMovie.vote_average,
+      }));
+
       return {
         isError,
-        data: { results, total_pages, page },
+        data: { results: movleList, total_pages, page },
       };
     }
 
@@ -45,7 +56,7 @@ class Movie {
   }
 
   async findMovies({ query, curPage = 1 }: IFindMovieFetchProps): Promise<IModifiedMovie> {
-    const foundedMovies = await fetchData<IModifiedMovie>(
+    const foundedMovies = await fetchData<IFetchMovie>(
       `${BASE_URL}/search/movie?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&query=${query}&page=${curPage}`
     );
 
@@ -53,9 +64,16 @@ class Movie {
 
     if ('results' in data) {
       const { results, total_pages, page } = data;
+
+      const movleList = results.map((currentMovie) => ({
+        title: currentMovie.title,
+        posterPath: currentMovie.poster_path,
+        voteAverage: currentMovie.vote_average,
+      }));
+
       return {
         isError,
-        data: { results, total_pages, page },
+        data: { results: movleList, total_pages, page },
       };
     }
 

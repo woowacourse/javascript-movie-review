@@ -17,14 +17,16 @@ export interface IMovieProps {
   vote_count: number;
 }
 
-export interface IMovieHandleProps {
-  page: number;
-  results: Array<IMovieProps>;
-  total_pages: number;
+export interface IMovieItemProps {
+  title: string;
+  posterPath: string;
+  voteAverage: number;
 }
 
-export interface IMovieListAPIProps extends IMovieHandleProps {
-  total_results: number;
+export interface IMovieHandleProps<T> {
+  page: number;
+  results: Array<T>;
+  total_pages: number;
 }
 
 export interface IErrorMessageProps {
@@ -33,7 +35,7 @@ export interface IErrorMessageProps {
 }
 
 export interface IMovieState {
-  results: Array<IMovieProps | { title: null }>;
+  results: Array<IMovieItemProps | { title: null }>;
   nextPage: number;
   query: string;
   category: MovieListCategory;

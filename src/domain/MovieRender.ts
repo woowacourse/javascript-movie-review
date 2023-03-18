@@ -1,5 +1,5 @@
 import { statusCodeToErrorMessage } from '../statusCode';
-import { IMovieHandleProps, IMovieState } from '../types/movie';
+import { IMovieHandleProps, IMovieItemProps, IMovieState } from '../types/movie';
 import Movie from './Movie';
 
 export const initialMovieStats: IMovieState = {
@@ -91,7 +91,7 @@ export class MovieRender {
       curPage === 1 ? emptyArray : [...this.#movieState.results, ...emptyArray];
   }
 
-  #setMovies({ results, total_pages, page }: IMovieHandleProps) {
+  #setMovies({ results, total_pages, page }: IMovieHandleProps<IMovieItemProps>) {
     this.#movieState['results'] =
       page === 1 ? results : [...this.#movieState.results.filter(({ title }) => title), ...results];
     this.#movieState['nextPage'] = total_pages === page ? -1 : page + 1;
