@@ -1,5 +1,6 @@
 import { TMDBErrorResponse, TMDBResponse } from '../client';
 import { Movie } from '../movies.type';
+import ErrorPopup from './ErrorPopup';
 import MovieListItem from './MovieListItem';
 import Skeleton from './Skeleton';
 
@@ -60,47 +61,46 @@ export class MovieList {
       });
 
       const movies = response.results;
-
       const totalPages = response.total_pages;
 
-      movies.forEach((movie: Movie) => {
-        const movieListItem = new MovieListItem();
-        const $fragment = document.createElement('div');
-        $fragment.innerHTML = movieListItem.render(movie);
-
-        ($fragment.childNodes[0] as HTMLElement).setAttribute('page', String(page));
-        const $skeleton = this.section.querySelector('ul > li.skeleton')!;
-        $skeleton.after($fragment.childNodes[0]);
-        $skeleton.remove();
-      });
+      this.replaceSkeleton(page, movies);
       if (page < totalPages) return;
 
       this.isFinished = true;
     } catch (e) {
-      console.error(e);
       const error = e as Error | TMDBErrorResponse;
       this.createSkeletons();
-      const $popup = document.createElement('div');
-      $popup.classList.add('popup');
 
-      const errorMessage =
-        // eslint-disable-next-line no-nested-ternary
-        'message' in error
-          ? error.message
-          : 'status_message' in error
-          ? error.status_message
-          : String(error);
-
-      $popup.innerText = errorMessage;
-      document.querySelector('.popup-container')?.append($popup);
-
-      setTimeout(() => {
-        $popup.dataset.fadeOut = '';
-        setTimeout(() => {
-          $popup.remove();
-        }, 1000);
-      }, 5000);
+      const errorMessage = this.getErrorMessage(error);
+      const errorPopup = new ErrorPopup();
+      errorPopup.pop(errorMessage);
     }
+    this.removeSkeleton();
+  }
+
+  private getErrorMessage(error: Error | TMDBErrorResponse) {
+    // eslint-disable-next-line no-nested-ternary
+    return 'message' in error
+      ? error.message
+      : 'status_message' in error
+      ? error.status_message
+      : String(error);
+  }
+
+  private replaceSkeleton(page: number, movies: Movie[]) {
+    movies.forEach((movie: Movie) => {
+      const movieListItem = new MovieListItem();
+      const $div = document.createElement('div');
+      $div.innerHTML = movieListItem.render(movie);
+
+      ($div.childNodes[0] as HTMLElement).setAttribute('page', String(page));
+      const $skeleton = this.section.querySelector('ul > li.skeleton')!;
+      $skeleton.after($div.childNodes[0]);
+      $skeleton.remove();
+    });
+  }
+
+  private removeSkeleton() {
     this.section
       .querySelectorAll<HTMLLIElement>('ul > li.skeleton')
       .forEach(($skeleton: HTMLLIElement) => {
