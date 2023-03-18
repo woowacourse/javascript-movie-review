@@ -13,6 +13,10 @@ const InvalidMessage = {
     errorMessage.insertAdjacentHTML('beforeend', template);
     errorMessage.classList.remove('hide');
   },
+
+  clearInvalidMessageContainer() {
+    $<HTMLDivElement>('.error-message').textContent = '';
+  },
 };
 
 export default InvalidMessage;
