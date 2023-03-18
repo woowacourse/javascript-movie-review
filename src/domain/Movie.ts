@@ -1,4 +1,4 @@
-import { fetchData } from '../http';
+import { fetchData } from '../api/http';
 import { IMovieHandleProps, IMovieItemProps, IMovieProps } from '../types/movie';
 const BASE_URL = 'https://api.themoviedb.org/3';
 

@@ -1,4 +1,4 @@
-import { statusCodeToErrorMessage } from '../statusCode';
+import { statusCodeToErrorMessage } from '../api/statusCode';
 import { IMovieHandleProps, IMovieItemProps, IMovieState } from '../types/movie';
 import Movie from './Movie';
 
