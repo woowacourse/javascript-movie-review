@@ -50,7 +50,7 @@ export default class App {
     });
 
     document.addEventListener("search-movie", (event) => {
-      const movieName = event.detail;
+      const { movieName } = event.detail;
       this.setState({
         movieList: [],
         page: 1,
@@ -108,9 +108,15 @@ export default class App {
   async renderSearchedMovies() {
     this.render();
     this.toggleSkeletonList(); //add skeleton list
+    this.hideMoreButton();
     await this.addSearchedMoviesList();
     this.toggleSkeletonList(); // remove skeleton list
     this.mountMovieList();
+  }
+
+  hideMoreButton() {
+    const $moreButton = $("more-button");
+    $moreButton.classList.add("hidden");
   }
 
   mountMovieList() {

@@ -21,17 +21,23 @@ export default class MovieCardList extends HTMLElement {
   }
 
   setMovieList(movieList) {
-    const moreButton = $("more-button");
-    this.#movieList = movieList;
-    if (this.#movieList.length === 20) moreButton.classList.remove("hidden");
+    this.toggleMoreButton(movieList);
 
     const $movieList = $("#movie-list");
-    this.#movieList.forEach((item) => {
+
+    movieList.forEach((item) => {
       $movieList.insertAdjacentHTML(
         "beforeend",
         `<movie-card title='${item.title}' poster='${item.poster}' rating='${item.rating}' movieId='${item.movieId}'></movie-card>`
       );
     });
+
+    this.#movieList = movieList;
+  }
+
+  toggleMoreButton(movieList) {
+    const $moreButton = $("more-button");
+    if (movieList.length === 20) $moreButton.classList.remove("hidden");
   }
 
   toggleSkeletonList() {
