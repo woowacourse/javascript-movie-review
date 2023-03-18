@@ -103,12 +103,14 @@ export default class AppComponent extends CustomComponent {
 
   checkEventAction(e) {
     switch (e.target.dataset.action) {
+      // 로고 눌렀을 때 액션
       case ACTION.POPULAR:
       default:
         this.popularListInit();
         this.renderListByData(ACTION.POPULAR);
         this.changeMoreButtonAction(ACTION.MORE_POPULAR);
         break;
+      // 검색했을 때 액션
       case ACTION.SEARCH:
         if (!this.#$searchInput.value) {
           this.popularListInit();
@@ -120,10 +122,12 @@ export default class AppComponent extends CustomComponent {
         this.renderListByData(ACTION.SEARCH);
         this.changeMoreButtonAction(ACTION.MORE_SEARCH);
         break;
+      // 인기 영화 목록에서 더보기 눌렀을 때 액션
       case ACTION.MORE_POPULAR:
         this.#$movieList.appendNewPage();
         this.renderListByData(ACTION.POPULAR);
         break;
+      // 검색 결과 목록에서 더보기 눌렀을 때 액션
       case ACTION.MORE_SEARCH:
         this.#$movieList.appendNewPage();
         this.renderListByData(ACTION.SEARCH);
@@ -136,6 +140,7 @@ export default class AppComponent extends CustomComponent {
       this.checkEventAction(e);
     });
 
+    // 검색시 엔터 눌렀을 때 액션
     this.addEventListener("keyup", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
