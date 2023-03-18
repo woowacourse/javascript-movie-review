@@ -31,8 +31,9 @@ const MovieApp = {
   },
 
   async loadMovieData(movies: ResponseData) {
-    const movieList = <MovieList>$("movie-list");
     if (!movies) return;
+
+    const movieList = <MovieList>$("movie-list");
 
     movieHandler.addMovies(movies.results);
 
