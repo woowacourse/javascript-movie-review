@@ -1,5 +1,5 @@
 import movieItem from './movieItem';
-import Store from '../Store';
+import { Store } from '../Store';
 import WholeScreenMessageAlert from './WholeScreenMessageAlert';
 class ItemList {
   // 렌더링 방식 변경하기...
@@ -12,7 +12,7 @@ class ItemList {
   }
 
   template() {
-    const movies = Store.movies['results'];
+    const movies = Store.movieStates.getMovieStates()['results'];
 
     if (!movies.length)
       return {

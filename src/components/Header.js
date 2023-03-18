@@ -1,5 +1,5 @@
 import logo from '../../templates/logo.png';
-import Store from '../Store';
+import { Store } from '../Store';
 
 class Header {
   $header = document.createElement('header');
@@ -30,14 +30,14 @@ class Header {
       return;
     }
 
-    Store.searchedMovies(value);
+    Store.movieStates.renderSearchedMovies(value);
   }
 
   onClickEvent(e) {
     const { target } = e;
     if (target.dataset.type !== 'logo') return;
 
-    Store.getPopularMovies();
+    Store.movieStates.renderPopularMovies();
     document.querySelector('.search-box').reset();
   }
 

@@ -1,4 +1,4 @@
-import Store from '../Store';
+import { Store } from '../Store';
 
 class MoreButton {
   $button = document.createElement('button');
@@ -17,15 +17,15 @@ class MoreButton {
   }
 
   onClickMoreButton() {
-    const { nextPage, category, query } = Store.movies;
+    const { nextPage, category, query } = Store.movieStates.getMovieStates();
 
     if (category === 'popular') {
-      Store.getPopularMovies(nextPage);
+      Store.movieStates.renderPopularMovies(nextPage);
 
       return;
     }
 
-    Store.searchedMovies(query, nextPage);
+    Store.movieStates.renderSearchedMovies(query, nextPage);
   }
 
   hide() {

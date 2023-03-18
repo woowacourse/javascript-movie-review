@@ -1,4 +1,4 @@
-import Store from '../Store';
+import { Store } from '../Store';
 class ListTitle {
   $h2 = document.createElement('h2');
 
@@ -8,7 +8,7 @@ class ListTitle {
   }
 
   render($target) {
-    const { query, category } = Store.movies;
+    const { query, category } = Store.movieStates.getMovieStates();
 
     this.$h2.innerHTML = category === 'popular' ? '지금 인기있는 영화' : `"${query}" 검색 결과`;
     $target.insertAdjacentElement('beforeend', this.$h2);
