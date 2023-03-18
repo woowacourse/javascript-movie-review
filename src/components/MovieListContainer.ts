@@ -13,7 +13,7 @@ const MovieListContainer = {
     `;
   },
 
-  onClick() {
+  addEventToMoreButton() {
     $<HTMLButtonElement>('#more-button').addEventListener('click', () => {
       MovieListContent.loadMoreMovies();
     });

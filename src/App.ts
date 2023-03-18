@@ -16,8 +16,8 @@ class App {
   }
 
   initEvents() {
-    NavBar.onSubmit();
-    MovieListContainer.onClick();
+    NavBar.addEventToSearchInput();
+    MovieListContainer.addEventToMoreButton();
   }
 }
 
