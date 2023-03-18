@@ -1,7 +1,7 @@
+import { FetchUrl } from "./utils/constants";
+
 export const mostPopular = async (pageNumber: number) => {
-  const response = await fetch(
-    `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}&language=ko-KR&page=${pageNumber}`
-  );
+  const response = await fetch(`${FetchUrl.POPULAR_URL}${pageNumber}`);
 
   if (response.ok) {
     const result = await response.json();
@@ -13,7 +13,7 @@ export const mostPopular = async (pageNumber: number) => {
 
 export const search = async (query: string, pageNumber: number) => {
   const response = await fetch(
-    `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY}&language=ko-KR&query=${query}&page=${pageNumber}&include_adult=false`
+    `${FetchUrl.SEARCH_URL}${query}&page=${pageNumber}&include_adult=false`
   );
 
   if (response.ok) {
