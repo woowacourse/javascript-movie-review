@@ -5,7 +5,7 @@ class Header {
 
   constructor() {
     this.createTemplate();
-    this.initEventHander();
+    this.setEvent();
   }
 
   get node(): HTMLElement {
@@ -27,7 +27,7 @@ class Header {
     this._node.dispatchEvent(new Event('moveHome', { bubbles: true }));
   }
 
-  initEventHander() {
+  setEvent() {
     const logoIcon = this._node.querySelector('h1');
 
     if (!logoIcon) return;

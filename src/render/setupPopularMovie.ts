@@ -1,4 +1,4 @@
-import moveList from '../components/MoiveList';
+import moveList from '../components/MovieList';
 import { FetchStandard } from '../app';
 
 export default (fetchStandard: FetchStandard) => {

@@ -3,7 +3,7 @@ import skeletonTemplate from './Skeleton';
 import { FetchType } from '../app';
 import { MovieItem } from '../domain/processMovieData';
 
-class MovieList {
+class ItemView {
   private _node!: HTMLElement;
   private movieList!: HTMLUListElement;
   private loadMoreButton!: HTMLButtonElement;
@@ -11,7 +11,7 @@ class MovieList {
 
   constructor() {
     this.createTemplate();
-    this.initEventHandler();
+    this.setEvent();
 
     this.movieList = this._node.querySelector('.movie-list') as HTMLUListElement;
     this.loadMoreButton = this._node.querySelector('.btn') as HTMLButtonElement;
@@ -30,13 +30,13 @@ class MovieList {
   }
 
   createSkeleton() {
-    const skeletionListContainer = document.createElement('ul');
+    const skeletonListContainer = document.createElement('ul');
 
-    skeletionListContainer.className = 'item-list skeleton-list';
-    skeletionListContainer.innerHTML = skeletonTemplate(20);
+    skeletonListContainer.className = 'item-list skeleton-list';
+    skeletonListContainer.innerHTML = skeletonTemplate(20);
 
     this.loadMoreButton.classList.add('hidden');
-    this._node.querySelector('.item-view')?.insertAdjacentElement('beforeend', skeletionListContainer);
+    this._node.querySelector('.item-view')?.insertAdjacentElement('beforeend', skeletonListContainer);
   }
 
   paintMovieLayout() {
@@ -50,11 +50,11 @@ class MovieList {
   }
 
   removeSkeleton() {
-    const skeletionList = this._node.querySelector('.skeleton-list');
+    const skeletonList = this._node.querySelector('.skeleton-list');
 
-    if (!skeletionList) return;
+    if (!skeletonList) return;
 
-    skeletionList.remove();
+    skeletonList.remove();
   }
 
   updateMovieList(movieData: MovieItem[], isLastPage: Boolean) {
@@ -65,8 +65,8 @@ class MovieList {
     this.loadMoreButton.classList.remove('hidden');
 
     movieData.forEach(movie => {
-      const moiveItem = new MovieCard(movie);
-      this.movieList.insertAdjacentElement('beforeend', moiveItem.node);
+      const movieItem = new MovieCard(movie);
+      this.movieList.insertAdjacentElement('beforeend', movieItem.node);
     });
 
     if (isLastPage) this.loadMoreButton.classList.add('hidden');
@@ -104,7 +104,7 @@ class MovieList {
     this.deleteEmptyMessage();
   }
 
-  initEventHandler() {
+  setEvent() {
     const button = this._node.querySelector('button');
 
     if (!button) return;
@@ -115,6 +115,6 @@ class MovieList {
   }
 }
 
-const moveList = new MovieList();
+const moveList = new ItemView();
 
 export default moveList;

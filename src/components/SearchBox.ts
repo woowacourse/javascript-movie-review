@@ -3,7 +3,7 @@ class SearchBox {
 
   constructor() {
     this.createTemplate();
-    this.initEventHandler();
+    this.setEvent();
   }
 
   get node(): HTMLElement {
@@ -23,7 +23,7 @@ class SearchBox {
     );
   }
 
-  initEventHandler() {
+  setEvent() {
     const input = this._node.querySelector<HTMLInputElement>('input');
     const button = this._node.querySelector<HTMLButtonElement>('.search-button');
 

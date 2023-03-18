@@ -1,5 +1,5 @@
 import Header from '../components/Header';
-import moveList from '../components/MoiveList';
+import moveList from '../components/MovieList';
 
 export default () => {
   const app = document.querySelector('#app');
