@@ -1,4 +1,5 @@
-import { getApiPopularMovie, getApiSearchMovie } from './api';
+import { makeParams, makeURL, getApiData } from '../utils/apiHelper';
+
 import Observable from './Observable';
 import MovieListApiType from '../type/movie';
 
@@ -40,8 +41,9 @@ class Movies extends Observable {
   async setMovies() {
     this.notify('loading');
 
-    const popularMovies = await getApiPopularMovie<MovieListApiType>(
-      this.popularPage
+    const popularMovies = await getApiData<MovieListApiType>(
+      makeURL('movie/popular'),
+      makeParams({ page: this.popularPage })
     );
 
     const refineMovies = popularMovies?.results.map(
@@ -51,11 +53,11 @@ class Movies extends Observable {
     );
 
     const totalPage = popularMovies?.total_pages;
-    if (!totalPage) return;
-    this.isEnd = this.isEndOfPage(totalPage, this.popularPage);
 
-    this.popularPage++;
+    this.isEnd = this.isEndOfPage(totalPage, this.popularPage);
+    this.popularPage += 1;
     this.isSearched = false;
+
     this.notify('movies', refineMovies);
   }
 
@@ -65,9 +67,9 @@ class Movies extends Observable {
     if (this.query !== query) this.searchPage = 1;
     this.query = query;
 
-    const searchMovies = await getApiSearchMovie<MovieListApiType>(
-      query,
-      this.searchPage
+    const searchMovies = await getApiData<MovieListApiType>(
+      makeURL('search/movie'),
+      makeParams({ query, page: this.searchPage })
     );
 
     const refineMovies = searchMovies?.results.map(
