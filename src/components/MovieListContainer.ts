@@ -8,7 +8,7 @@ class MovieListContainer extends HTMLElement {
   }
 
   render(query?: string) {
-    const contentType = this.getAttribute("content-type");
+    const contentType = this.getAttribute("contenttype");
 
     this.innerHTML = /* html */ `
         <h2>${
