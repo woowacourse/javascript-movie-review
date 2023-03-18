@@ -8,7 +8,6 @@ class MovieList extends CustomElement {
   connectedCallback() {
     super.connectedCallback();
     MovieManager.subscribe(this);
-    MovieManager.showMovies();
   }
 
   template() {

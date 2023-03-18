@@ -5,6 +5,7 @@ import { MovieAppData } from "../type/movieType";
 class MovieManager {
   private subscribers: CustomElement[] = [];
   private skeleton: CustomElement[] = [];
+  private errorSubscribers: CustomElement[] = [];
 
   subscribe(element: CustomElement) {
     this.subscribers.push(element);
@@ -14,9 +15,19 @@ class MovieManager {
     this.skeleton.push(element);
   }
 
+  subscribeError(element: CustomElement) {
+    this.errorSubscribers.push(element);
+  }
+
   publish(data: MovieAppData) {
     this.subscribers.forEach((subscriber) => {
       subscriber.rerender(data);
+    });
+  }
+
+  publishError() {
+    this.errorSubscribers.forEach((subscriber) => {
+      subscriber.render();
     });
   }
 
@@ -27,13 +38,21 @@ class MovieManager {
   }
 
   async showMovies(searchWord: string = "") {
-    const movieAppData = await Movie.getMovies(searchWord);
-    this.publish(movieAppData);
+    try {
+      const movieAppData = await Movie.getMovies(searchWord);
+      this.publish(movieAppData);
+    } catch {
+      this.publishError();
+    }
   }
 
   async showMoreMovies() {
-    const movieAppData = await Movie.getMoreMovies();
-    this.publish(movieAppData);
+    try {
+      const movieAppData = await Movie.getMoreMovies();
+      this.publish(movieAppData);
+    } catch {
+      this.publishError();
+    }
   }
 }
 
