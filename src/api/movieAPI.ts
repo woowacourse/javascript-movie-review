@@ -1,11 +1,10 @@
 import { MovieData, MovieDataResult } from '../types/movie';
-import { API_BASE_URL } from '../constants';
+import { generateUrl } from './generateUrl';
 import { fetchAPI } from './fetchAPI';
 
 async function fetchPopularMovieData(currentPage: number): Promise<MovieDataResult[]> {
-  const movieData: MovieData = await fetchAPI(
-    `${API_BASE_URL}movie/popular?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&page=${currentPage}`
-  );
+  const apiUrl = generateUrl('movie/popular', { page: currentPage });
+  const movieData: MovieData = await fetchAPI(apiUrl);
 
   return movieData.results;
 }
@@ -14,9 +13,12 @@ async function fetchSearchedMovieData(
   searchQuery: string,
   currentPage: number
 ): Promise<MovieDataResult[]> {
-  const movieData: MovieData = await fetchAPI(
-    `${API_BASE_URL}search/movie?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&query=${searchQuery}&page=${currentPage}&include_adult=false`
-  );
+  const apiUrl = generateUrl('search/movie', {
+    query: searchQuery,
+    page: currentPage,
+    include_adult: false,
+  });
+  const movieData: MovieData = await fetchAPI(apiUrl);
 
   return movieData.results;
 }
