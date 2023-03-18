@@ -16,11 +16,6 @@ export interface IFetchedError {
   status_message: string;
 }
 
-interface IFetchedMovie {
-  isError: boolean;
-  data: IMovieListAPIProps;
-}
-
 export interface IModifiedMovie {
   isError: boolean;
   data: IMovieHandleProps | IFetchedError;
@@ -28,42 +23,45 @@ export interface IModifiedMovie {
 
 class Movie {
   async getPopularMovies({ curPage = 1 }: IMovieFetchProps): Promise<IModifiedMovie> {
-    const movieList = await fetchData<IFetchedMovie>(
+    const movieList = await fetchData<IModifiedMovie>(
       `${BASE_URL}/movie/popular?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&page=${curPage}`
     );
 
-    const {
-      isError,
-      data: { results, total_pages, page },
-    } = movieList;
+    const { isError, data } = movieList;
+
+    if ('results' in data) {
+      const { results, total_pages, page } = data;
+
+      return {
+        isError,
+        data: { results, total_pages, page },
+      };
+    }
 
     return {
       isError,
-      data: {
-        results,
-        total_pages,
-        page,
-      },
+      data,
     };
   }
 
   async findMovies({ query, curPage = 1 }: IFindMovieFetchProps): Promise<IModifiedMovie> {
-    const foundedMovies = await fetchData<IFetchedMovie>(
+    const foundedMovies = await fetchData<IModifiedMovie>(
       `${BASE_URL}/search/movie?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&query=${query}&page=${curPage}`
     );
 
-    const {
-      isError,
-      data: { results, total_pages, page },
-    } = foundedMovies;
+    const { isError, data } = foundedMovies;
+
+    if ('results' in data) {
+      const { results, total_pages, page } = data;
+      return {
+        isError,
+        data: { results, total_pages, page },
+      };
+    }
 
     return {
       isError,
-      data: {
-        results,
-        total_pages,
-        page,
-      },
+      data,
     };
   }
 }
