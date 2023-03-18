@@ -13,17 +13,17 @@ class MovieItem extends HTMLElement {
     const posterPath = this.getAttribute("poster-path");
     const title = this.getAttribute("title");
     const voteAverage = this.getAttribute("vote_average");
+    const imageUrl =
+      posterPath !== "null"
+        ? `https://image.tmdb.org/t/p/original/${posterPath}`
+        : `${AddSkeleton}`;
 
     this.innerHTML = /* html */ `
       <a href="#">
         <div class="item-card">
           <img
             class="item-thumbnail"
-            src="${
-              posterPath !== "null"
-                ? `https://image.tmdb.org/t/p/original/${posterPath}`
-                : `${AddSkeleton}`
-            }"
+            src="${imageUrl}"
             loading="lazy"
             alt="${title}"
           />
