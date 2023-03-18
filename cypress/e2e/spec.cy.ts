@@ -9,7 +9,7 @@ describe('영화 리뷰 어플리케이션을 테스트한다.', () => {
       { fixture: 'movie-popular.json' }
     );
     // 사이트 방문
-    cy.visit('http://localhost:8081/');
+    cy.visit('http://localhost:8080/');
 
     // 현재 영화 목록 정보의 타이틀 확인
     cy.get('.movie-list-title').should('have.text', '지금 인기있는 영화');
@@ -29,7 +29,7 @@ describe('영화 리뷰 어플리케이션을 테스트한다.', () => {
     );
 
     // 화면 방문
-    cy.visit('http://localhost:8081/');
+    cy.visit('http://localhost:8080/');
 
     // 검색값 설정
     const query = '원피스';
@@ -84,7 +84,7 @@ describe('영화 리뷰 어플리케이션을 테스트한다.', () => {
     );
 
     // 사이트 방문
-    cy.visit('http://localhost:8081/');
+    cy.visit('http://localhost:8080/');
 
     // query 설정
     const query = '원피스';
