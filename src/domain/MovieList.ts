@@ -29,11 +29,11 @@ class MovieList {
     const moviesData: MovieDataResult[] = await fetchFunction();
     this.increaseCurrentPage();
 
-    const movies: Movie[] = moviesData.map((movie: Movie) => ({
+    const movies: Movie[] = moviesData.map((movie: MovieDataResult) => ({
       id: movie.id,
       title: movie.title,
-      vote_average: Math.round(movie.vote_average * 10) / 10,
-      poster_path: movie.poster_path,
+      voteAverage: Math.round(movie.voteAverage * 10) / 10,
+      posterPath: movie.posterPath,
     }));
 
     return movies;

@@ -1,10 +1,12 @@
 import { MovieData, MovieDataResult } from '../types/movie';
+import { convertKeysToCamelCase } from '../utils/camelCaseConverter';
 import { generateUrl } from './generateUrl';
 import { fetchAPI } from './fetchAPI';
 
 async function fetchPopularMovieData(currentPage: number): Promise<MovieDataResult[]> {
   const apiUrl = generateUrl('movie/popular', { page: currentPage });
-  const movieData: MovieData = await fetchAPI(apiUrl);
+  const data: MovieData = await fetchAPI(apiUrl);
+  const movieData: MovieData = convertKeysToCamelCase(data);
 
   return movieData.results;
 }
@@ -18,7 +20,8 @@ async function fetchSearchedMovieData(
     page: currentPage,
     include_adult: false,
   });
-  const movieData: MovieData = await fetchAPI(apiUrl);
+  const data: MovieData = await fetchAPI(apiUrl);
+  const movieData: MovieData = convertKeysToCamelCase(data);
 
   return movieData.results;
 }

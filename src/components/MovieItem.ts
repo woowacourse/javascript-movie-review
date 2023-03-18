@@ -40,7 +40,7 @@ const MovieItem = {
     itemThumbnail.classList.remove('skeleton');
     itemThumbnail.insertAdjacentHTML(
       'beforeend',
-      MovieItem.posterImageTemplate(movie.title, movie.poster_path)
+      MovieItem.posterImageTemplate(movie.title, movie.posterPath)
     );
 
     const itemTitle = $('.item-title', target);
@@ -49,7 +49,7 @@ const MovieItem = {
 
     const itemScore = $('.item-score', target);
     itemScore.classList.remove('skeleton');
-    itemScore.insertAdjacentHTML('beforeend', MovieItem.scoreTemplate(movie.vote_average));
+    itemScore.insertAdjacentHTML('beforeend', MovieItem.scoreTemplate(movie.voteAverage));
   },
 };
 
