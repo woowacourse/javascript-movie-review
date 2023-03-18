@@ -66,7 +66,7 @@ const MovieListContent = {
   },
 
   renderMovies(movies: Movie[]) {
-    const items = [...$$<HTMLUListElement>('.item-card')];
+    const items = $$<HTMLUListElement>('.item-card');
     const extraItems = MOVIE_MAX_COUNT - movies.length;
 
     Array.from({ length: extraItems }, () => {
