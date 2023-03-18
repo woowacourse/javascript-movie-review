@@ -1,10 +1,11 @@
-import { initialMovieStats, MovieRenderState, Store } from './Store';
+import { Store } from './Store';
 
 import Header from './components/Header';
 import ListTitle from './components/ListTitle';
 import ItemList from './components/ItemList';
 import MoreButton from './components/MoreButton';
 import WholeScreenMessageAlert from './components/WholeScreenMessageAlert';
+import { initialMovieStats, MovieRender } from './domain/MovieRender';
 
 class App {
   $main = document.createElement('main');
@@ -14,7 +15,7 @@ class App {
   itemList;
   moreButton;
 
-  constructor($target) {
+  constructor($target: HTMLElement) {
     this.init();
 
     new Header($target);
@@ -30,11 +31,11 @@ class App {
   }
 
   init() {
-    const movieStateProxy = new Proxy(initialMovieStats, {
+    const movieStateProxy = new Proxy<any>(initialMovieStats, {
       get: (target, props) => {
         return target[props];
       },
-      set: async (target, props, value) => {
+      set: (target, props, value) => {
         target[props] = value;
 
         switch (props) {
@@ -71,8 +72,8 @@ class App {
       },
     });
 
-    Store.movieStates = new MovieRenderState(movieStateProxy);
-    Store.movieStates.renderPopularMovies();
+    Store.movieStates = new MovieRender(movieStateProxy);
+    Store.movieStates?.renderPopularMovies();
   }
 }
 
