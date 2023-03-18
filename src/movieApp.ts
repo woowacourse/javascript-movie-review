@@ -4,9 +4,10 @@ import { $ } from "./utils/dom";
 import MovieListContainer from "./components/MovieListContainer";
 import MovieList from "./components/MovieList";
 import type { ResponseData } from "./types/type";
+import { ConstantsNumber } from "./utils/constants";
 
 const MovieApp = {
-  currentPageNumber: 1,
+  currentPageNumber: ConstantsNumber.PAGE_MIN_NUMBER,
   query: "",
   $container: <MovieListContainer>$("movie-list-container"),
 
@@ -37,7 +38,8 @@ const MovieApp = {
 
     movieHandler.addMovies(movies.results);
 
-    if (movies.results.length < 20) this.$container.hiddenLoadMovieButton();
+    if (movies.results.length < ConstantsNumber.ROAD_IMAGE_NUMBER)
+      this.$container.hiddenLoadMovieButton();
 
     movieList.render(movieHandler.movies);
   },
@@ -59,13 +61,14 @@ const MovieApp = {
       mostPopular(this.currentPageNumber++)
     );
 
-    if (this.currentPageNumber > 500) this.$container.hiddenLoadMovieButton();
+    if (this.currentPageNumber > ConstantsNumber.PAGE_MAX_NUMBER)
+      this.$container.hiddenLoadMovieButton();
 
     this.loadMovieData(movies);
   },
 
   async searchMovieData(query: string) {
-    this.currentPageNumber = 1;
+    this.currentPageNumber = ConstantsNumber.PAGE_MIN_NUMBER;
     this.query = query;
 
     this.$container.changeTitle(query);
