@@ -3,7 +3,7 @@ import { POSTER_BASE_URL } from '../constants';
 import { $ } from '../utils/domSelector';
 import { EmptyStar, FilledStar } from '../assets';
 
-const MovieItem = {
+class MovieItem {
   template() {
     return `
       <li>
@@ -15,7 +15,7 @@ const MovieItem = {
           </div>
         </a>
       </li>`;
-  },
+  }
 
   posterImageTemplate(title: string, imagePath: string) {
     return imagePath
@@ -27,20 +27,20 @@ const MovieItem = {
           alt="${title}"
         />`
       : `<div class="item-thumbnail"></div>`;
-  },
+  }
 
   scoreTemplate(voteAverage: number) {
     return `
       <img src="${voteAverage ? FilledStar : EmptyStar}" alt="별점" />${voteAverage}
     `;
-  },
+  }
 
   render(target: HTMLElement, movie: Movie) {
     const itemThumbnail = $('.item-thumbnail', target);
     itemThumbnail.classList.remove('skeleton');
     itemThumbnail.insertAdjacentHTML(
       'beforeend',
-      MovieItem.posterImageTemplate(movie.title, movie.posterPath)
+      this.posterImageTemplate(movie.title, movie.posterPath)
     );
 
     const itemTitle = $('.item-title', target);
@@ -49,8 +49,8 @@ const MovieItem = {
 
     const itemScore = $('.item-score', target);
     itemScore.classList.remove('skeleton');
-    itemScore.insertAdjacentHTML('beforeend', MovieItem.scoreTemplate(movie.voteAverage));
-  },
-};
+    itemScore.insertAdjacentHTML('beforeend', this.scoreTemplate(movie.voteAverage));
+  }
+}
 
-export default MovieItem;
+export default new MovieItem();
