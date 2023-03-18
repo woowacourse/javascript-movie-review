@@ -1,0 +1,108 @@
+{
+    "page": 3,
+    "results": [
+        {
+            "adult": false,
+            "backdrop_path": "/5RRPK1DDQ5GneRHOAck6Y2DdtiO.jpg",
+            "genre_ids": [
+                18,
+                80,
+                16,
+                10770
+            ],
+            "id": 963806,
+            "original_language": "ja",
+            "original_title": "名探偵コナン 本庁の刑事恋物語～結婚前夜～",
+            "overview": "A feature-length companion piece for the film \"Detective Conan: The Bride of Halloween.\" It consists of clips from past “Conan” TV series episodes associated with Detectives Miwako Sato and Wataru Takagi, showing the adventures they went through together and how they have grown to attracted to each other. This serves as a great companion to \"The Bride of Halloween,\" detailing the history of two lovebirds along with their (former) colleagues at the police headquarters, to dedicated “Conan” fans to help appreciate \"The Bride of Halloween\" even more.",
+            "popularity": 2.354,
+            "poster_path": "/6LZWf5nX9XjtySTCnBFDgXhHJh5.jpg",
+            "release_date": "2022-05-13",
+            "title": "명탐정 코난 본청 형사의 사랑이야기 ~결혼전야~",
+            "video": false,
+            "vote_average": 8.3,
+            "vote_count": 4
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/x0sxpGdUqnjYIx78kceSBgvclJz.jpg",
+            "genre_ids": [
+                16,
+                12,
+                10751
+            ],
+            "id": 674683,
+            "original_language": "ja",
+            "original_title": "未来少年コナン 特別編 巨大機ギガントの復活",
+            "overview": "In the aftermath of a war fought by magnetic weapons which caused massive earthquakes, a young and spunky boy naned Conan gets involved in a grand adventure. Conan lives in a world that is mostly oceans; the major land masses having been destroyed by the weapons of the great war. He meets a young girl named Lana, and they eventually foil the plans of the city-state of Industria which wants to regain the lethal weapons.",
+            "popularity": 3.643,
+            "poster_path": "/1Zzfh4ccoe4eoxQEvHIMSwU4ipT.jpg",
+            "release_date": "1984-03-11",
+            "title": "미래소년 코난 거대기 기간트의 부활",
+            "video": false,
+            "vote_average": 8.8,
+            "vote_count": 6
+        },
+        {
+            "adult": false,
+            "backdrop_path": null,
+            "genre_ids": [
+                9648
+            ],
+            "id": 334118,
+            "original_language": "ja",
+            "original_title": "名探偵コナン- 工藤新一への挑戦状",
+            "overview": "친구들과 함께 수학여행을 떠나는 신이치. 도전장 속 경고대로 학생 한 명이 납치되는데. 사라진 친구를 찾고 더 이상의 납치를 막아야 한다. 고교생 탐정의 명예를 걸고!",
+            "popularity": 2.38,
+            "poster_path": "/myr7FkrZC9vxMMHLLXVNTkHCwAT.jpg",
+            "release_date": "2006-10-02",
+            "title": "명탐정 코난: 작별까지의 프롤로그",
+            "video": false,
+            "vote_average": 5.8,
+            "vote_count": 13
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/20qIcbrrhqxA0k3roEgosfJGCGo.jpg",
+            "genre_ids": [
+                28,
+                12,
+                878,
+                16
+            ],
+            "id": 497537,
+            "original_language": "ja",
+            "original_title": "未来少年コナン 劇場版",
+            "overview": "미래소년 코난 극장판",
+            "popularity": 2.471,
+            "poster_path": "/1ROiVwaVa9z0I9NB9EhunrJqIpR.jpg",
+            "release_date": "1979-09-15",
+            "title": "미래소년 코난 극장판",
+            "video": false,
+            "vote_average": 8.4,
+            "vote_count": 7
+        },
+        {
+            "adult": false,
+            "backdrop_path": null,
+            "genre_ids": [
+                80,
+                10770,
+                16,
+                9648
+            ],
+            "id": 925492,
+            "original_language": "ja",
+            "original_title": "名探偵コナン 大怪獣ゴメラVS仮面ヤイバー",
+            "overview": "코난 일행과 핫토리 일행은 영화 제작 발표회에 초대를 받아 니치우리 TV 신사옥을 방문한다. 행사가 진행되던 도중, 창고에서 요네쿠라 PD가 모형에 깔려 사망한 채로 발견된다. 정황으로 보아 누군가가 일부러 모형을 고정하는 밧줄을 자른 듯하다. 용의자들은 코난과 핫토리 앞에서도 자신만만해하지만 결국 범행이 들통나고 만다. 경찰의 추격을 피해 범인 중 한 사람은 피해자의 차를 타고 도주하다 차량이 폭발하는 사고를 당한다. 란과 카즈하도 사고에 휘말릴 뻔하였으나 때마침 의외의 인물이 나타나 두 사람을 구해준다. 그는 요네쿠라에 대해 조사를 하러 오사카에 왔다며 오사카 경찰한테 협조를 요청한다. 한편 코난과 핫토리는 영화 촬영에 들어가려던 순간, 또 다른 폭파 사건이 일어났다는 소식을 접하는데...",
+            "popularity": 1.523,
+            "poster_path": "/uyiRtcWKUpAR8adqvf3j4sd0lT3.jpg",
+            "release_date": "2022-01-07",
+            "title": "명탐정 코난 용가리 고메라 vs 가면 사나이",
+            "video": false,
+            "vote_average": 7.5,
+            "vote_count": 2
+        }
+    ],
+    "total_pages": 3,
+    "total_results": 45
+}
