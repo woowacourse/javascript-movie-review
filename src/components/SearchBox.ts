@@ -30,7 +30,7 @@ class SearchBox extends HTMLElement {
     event.preventDefault();
 
     const form = <HTMLFormElement>event.target;
-    const input = <HTMLInputElement>$("input[type='text']", form);
+    const input = <HTMLInputElement>form.elements.namedItem("search-input");
 
     dispatchCustomEvent(this, {
       eventType: "searchMovieData",
