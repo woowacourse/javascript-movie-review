@@ -6,11 +6,12 @@ import { showMovieList } from './MovieList';
 export function Search() {
   Event.addEvent('submit', '.search-box', async (event) => {
     event.preventDefault();
+    const formEl = $('.search-box') as HTMLFormElement;
+    const formData = getFormFields(formEl);
+
     statusController.changePageStatus();
     statusController.resetPage();
 
-    const formEl = $('.search-box') as HTMLFormElement;
-    const formData = getFormFields(formEl);
     showMovieList('search', String(formData.keyword));
   });
 

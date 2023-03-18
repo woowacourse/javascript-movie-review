@@ -3,7 +3,9 @@ import { MovieItem } from './MovieItem';
 import { stateGetter, usePopularMovie, useSearchedMovie } from '../data/PageData';
 import { $, $$ } from '../utils';
 import { Skeleton } from './Skeleton';
+import { Validation } from '../Validation';
 
+type pageStatusType = 'popular' | 'search';
 type callPlaceType = 'popular' | 'search' | 'more';
 type keywordType = string | null;
 export async function showMovieList(callPlace: callPlaceType, keyword: keywordType) {
@@ -12,11 +14,18 @@ export async function showMovieList(callPlace: callPlaceType, keyword: keywordTy
 
   if (callPlace === 'popular') {
     await usePopularMovie().then(({ values }) => renderMovieList(values.results));
+
+    changePageHeader('popular', null);
     return;
   }
-  if (callPlace === 'search' && keyword) {
-    await useSearchedMovie(keyword).then(({ values }) => renderMovieList(values.results));
-    return;
+  if (callPlace === 'search' && keyword !== null) {
+    try {
+      changePageHeader('search', keyword);
+      Validation.inputText(keyword);
+      await useSearchedMovie(keyword).then(({ values }) => renderMovieList(values.results));
+    } catch (error) {
+      if (error instanceof Error) renderError(String(error.message));
+    }
   }
   if (callPlace === 'more' && PageStatus === 'popular') {
     await usePopularMovie().then(({ values }) => renderAddMovieList(values.results));
@@ -55,4 +64,21 @@ export async function renderAddMovieList(results: IMovie[]) {
     'beforeend',
     `${results.map((movie) => MovieItem(movie)).join('')}`
   );
+}
+
+function changePageHeader(pageStatus: pageStatusType, keyword: keywordType) {
+  const pageHeaderElem = $('.page-header') as HTMLElement;
+
+  let text = '지금 인기 있는 영화';
+  if (pageStatus !== 'popular') text = `"${keyword}" 검색 결과`;
+
+  pageHeaderElem.innerText = text;
+}
+
+function renderError(message: string) {
+  const pageHeaderElem = $('.page-header') as HTMLElement;
+  const parentElem = $('.item-list') as HTMLElement;
+
+  pageHeaderElem.innerHTML = message;
+  parentElem.innerHTML = '';
 }

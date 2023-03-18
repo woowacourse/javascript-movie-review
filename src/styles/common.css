@@ -165,3 +165,8 @@ header .search-box > .search-button {
 li {
   list-style: none;
 }
+
+.error {
+  position: absolute;
+  font-size: xx-large;
+}

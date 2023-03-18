@@ -42,6 +42,8 @@ export async function usePopularMovie() {
   const { page, results } = await getMovies(status.moviePage);
   status.movieList.push(results);
 
+  toggleMoreButton(results);
+
   return {
     values: { page, results },
   };
@@ -61,15 +63,6 @@ export async function useSearchedMovie(keyword: string) {
 function toggleMoreButton(result: IMovie[]) {
   const val = $('.view-more-button') as HTMLElement;
 
-  if (result.length >= 20) return (val.style.display = 'inline-block');
+  if (result.length >= 20 && result.length > 0) return (val.style.display = 'inline-block');
   return (val.style.display = 'none');
-}
-
-function changePageHeader() {
-  const $pageHeader = $('.page-header') as HTMLElement;
-
-  let text = '지금 인기 있는 영화';
-  if (status.pageStatus === 'popular') text = `"${status.recentKeyword}" 검색 결과`;
-
-  $pageHeader.innerText = text;
 }
