@@ -5,12 +5,7 @@ import MoreButtonComponent from "./element/MoreButtonComponent";
 import TitleComponent from "./element/TitleComponent";
 import transformMovieItemsType from "../util/MovieList";
 import { API_KEY } from "../constants/key";
-import {
-  ACTION,
-  REQUEST_URL,
-  SEARCH_WARNING,
-  TITLE,
-} from "../constants/constants";
+import { ACTION, REQUEST_URL, TITLE } from "../constants/constants";
 
 export default class AppComponent extends CustomComponent {
   #nextPage = 1;
