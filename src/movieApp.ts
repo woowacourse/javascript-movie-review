@@ -1,11 +1,11 @@
-import { mostPopular, search } from "../src/fetch";
+import { mostPopular, search } from "./fetch";
 import movieHandler from "./domain/movieHandler";
 import { $ } from "./utils/dom";
-import MovieListContainer from "../src/components/MovieListContainer";
+import MovieListContainer from "./components/MovieListContainer";
 import MovieList from "./components/MovieList";
 import type { ResponseData } from "./types/type";
 
-const movieApp = {
+const MovieApp = {
   currentPageNumber: 1,
   query: "",
   $container: <MovieListContainer>$("movie-list-container"),
@@ -87,4 +87,4 @@ const movieApp = {
   },
 };
 
-export default movieApp;
+export default MovieApp;

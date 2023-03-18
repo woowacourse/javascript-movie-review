@@ -7,6 +7,6 @@ import MovieItem from "../src/components/MovieItem";
 import MovieList from "../src/components/MovieList";
 import MovieListContainer from "../src/components/MovieListContainer";
 
-import movieApp from "./movieApp";
+import MovieApp from "./MovieApp";
 
-movieApp.init();
+MovieApp.init();
