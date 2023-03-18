@@ -1,4 +1,4 @@
-function WholeScreenMessageAlert(message) {
+function WholeScreenMessageAlert(message: string) {
   return `<p class="alert-message">${message}</p>`;
 }
 
