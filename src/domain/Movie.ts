@@ -1,5 +1,6 @@
 import { ApiMovieItem, MovieAppData } from "../type/movieType";
-import { popularUrl, request, searchUrl } from "../util/api";
+import { request } from "../util/apiRequest";
+import { popularMovieUrl, searchMovieUrl } from "./movieUrl";
 
 class Movie {
   private state: MovieAppData = {
@@ -29,7 +30,6 @@ class Movie {
     const url = this.makeUrl();
     const apiData = await request(url);
     this.state.movies = this.formMovies(apiData.results);
-
     this.state.totalPages = apiData.total_pages;
 
     return this.state;
@@ -49,8 +49,8 @@ class Movie {
 
   makeUrl() {
     return this.state.searchWord
-      ? searchUrl(this.state.searchWord, this.state.page)
-      : popularUrl(this.state.page);
+      ? searchMovieUrl(this.state.searchWord, this.state.page)
+      : popularMovieUrl(this.state.page);
   }
 }
 
