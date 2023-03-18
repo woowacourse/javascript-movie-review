@@ -1,8 +1,3 @@
-import {
-  renderSearchMovieList,
-  renderPopularMovieList,
-  renderMoreMovieList,
-} from '../components/MovieList';
 import { $ } from '../utils';
 import { getMovies, getSearchMovie, IMovie } from './api';
 
@@ -34,7 +29,7 @@ export const statusController = {
   },
 };
 
-export const staterGetter = {
+export const stateGetter = {
   getPageStatus() {
     return status.pageStatus;
   },
@@ -47,17 +42,8 @@ export async function usePopularMovie() {
   const { page, results } = await getMovies(status.moviePage);
   status.movieList.push(results);
 
-  function handlePopularResult() {
-    renderPopularMovieList(results);
-  }
-
-  function handleMoreMovieList() {
-    renderMoreMovieList(results);
-  }
-
   return {
     values: { page, results },
-    handlers: { changePageHeader, handlePopularResult: handlePopularResult, handleMoreMovieList },
   };
 }
 
@@ -67,17 +53,8 @@ export async function useSearchedMovie(keyword: string) {
 
   toggleMoreButton(results);
 
-  function handleSearchResult() {
-    renderSearchMovieList(results);
-  }
-
-  function handleMoreMovieList() {
-    renderMoreMovieList(results);
-  }
-
   return {
     values: { page, results },
-    handlers: { changePageHeader, handleSearchResult, handleMoreMovieList },
   };
 }
 

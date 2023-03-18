@@ -1,21 +1,17 @@
-import { togglePageStatus, useSearchedMovie, resetPage } from '../data/useMovie';
+import { statusController } from '../data/PageData';
 import { getFormFields } from '../utils/formData';
 import { $, Event } from '../utils/index';
-import { renderSkeletonList } from './MovieList';
+import { showMovieList } from './MovieList';
 
 export function Search() {
   Event.addEvent('submit', '.search-box', async (event) => {
     event.preventDefault();
-    togglePageStatus();
-    resetPage();
+    statusController.changePageStatus();
+    statusController.resetPage();
 
     const formEl = $('.search-box') as HTMLFormElement;
     const formData = getFormFields(formEl);
-    const {
-      handlers: { handlePageHeader, handleSearchResult },
-    } = await useSearchedMovie(String(formData.keyword));
-    handlePageHeader();
-    handleSearchResult();
+    showMovieList('search', String(formData.keyword));
   });
 
   return `

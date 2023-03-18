@@ -1,26 +1,11 @@
 import { $, Event } from '../utils/index';
-import {
-  usePopularMovie,
-  plusPage,
-  getPageStatus,
-  useSearchedMovie,
-  getRecentKeyword,
-} from '../data/useMovie';
-import { renderMoreSkeletonList, renderSkeletonList } from './MovieList';
+import { statusController } from '../data/PageData';
+import { showMovieList } from './MovieList';
 
 export function ViewMoreButton() {
   Event.addEvent('click', '.view-more-button', async () => {
-    plusPage();
-
-    renderMoreSkeletonList();
-    // if (getPageStatus() === 'popular') {
-    //   renderMoreSkeletonList();
-    // } else {
-    //   const {
-    //     handlers: { handleMoreMovieList },
-    //   } = await useSearchedMovie(getRecentKeyword());
-    //   handleMoreMovieList();
-    // }
+    statusController.plusPage();
+    showMovieList('more', null);
   });
 
   return `

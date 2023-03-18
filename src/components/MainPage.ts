@@ -1,5 +1,4 @@
 import { PageHeader } from './PageHeader';
-import { renderPopularMovieList } from './MovieList';
 import { ViewMoreButton } from './ViewMoreButton';
 
 export function MainPage() {

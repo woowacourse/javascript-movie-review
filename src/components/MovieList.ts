@@ -1,69 +1,58 @@
 import { IMovie } from '../data/api';
 import { MovieItem } from './MovieItem';
-import {
-  getPageStatus,
-  getRecentKeyword,
-  usePopularMovie,
-  useSearchedMovie,
-} from '../data/useMovie';
+import { stateGetter, usePopularMovie, useSearchedMovie } from '../data/PageData';
 import { $, $$ } from '../utils';
 import { Skeleton } from './Skeleton';
 
-export async function renderSkeletonList() {
-  const parentElem = $('.item-list') as HTMLElement;
+type callPlaceType = 'popular' | 'search' | 'more';
+type keywordType = string | null;
+export async function showMovieList(callPlace: callPlaceType, keyword: keywordType) {
+  const PageStatus = stateGetter.getPageStatus();
+  renderSkeleton();
 
-  parentElem.insertAdjacentHTML('beforeend', Skeleton());
-
-  await usePopularMovie().then(({ values }) => renderPopularMovieList(values.results));
-}
-
-export async function renderMoreSkeletonList() {
-  const parentElem = $('.item-list') as HTMLElement;
-
-  parentElem.insertAdjacentHTML('beforeend', Skeleton());
-
-  if (getPageStatus() === 'popular') {
-    await usePopularMovie().then(({ values }) => {
-      renderMoreMovieList(values.results);
-      deleteSkeletonList();
-    });
-  } else {
-    await useSearchedMovie(getRecentKeyword()).then(({ values }) => {
-      renderMoreMovieList(values.results);
-      deleteSkeletonList();
+  if (callPlace === 'popular') {
+    await usePopularMovie().then(({ values }) => renderMovieList(values.results));
+    return;
+  }
+  if (callPlace === 'search' && keyword) {
+    await useSearchedMovie(keyword).then(({ values }) => renderMovieList(values.results));
+    return;
+  }
+  if (callPlace === 'more' && PageStatus === 'popular') {
+    await usePopularMovie().then(({ values }) => renderAddMovieList(values.results));
+  }
+  if (callPlace === 'more' && PageStatus === 'search') {
+    await useSearchedMovie(stateGetter.getRecentKeyword()).then(({ values }) => {
+      renderAddMovieList(values.results);
     });
   }
+
+  deleteSkeleton();
 }
 
-export function deleteSkeletonList() {
-  const skeletonList = $$('.skeleton-item');
+export function renderSkeleton() {
+  const parentElem = $('.item-list') as HTMLElement;
+  parentElem.insertAdjacentHTML('beforeend', Skeleton());
+}
 
+export function deleteSkeleton() {
+  const skeletonList = $$('.skeleton-item');
   skeletonList?.forEach((item) => item.remove());
 }
 
-export async function renderPopularMovieList(results: IMovie[]) {
+export async function renderMovieList(results: IMovie[]) {
   const parentElem = $('.item-list') as HTMLElement;
 
   parentElem.innerHTML = `
     ${results.map((movie) => MovieItem(movie)).join('')}
-  
-  ` as string;
+    `;
 }
 
-export async function renderSearchMovieList(searchResults: IMovie[]) {
-  const parentElem = $('.item-list') as HTMLElement;
-
-  parentElem.innerHTML = `
-    ${searchResults.map((movie) => MovieItem(movie)).join('')}
-  
-  ` as string;
-}
-
-export async function renderMoreMovieList(moreResults: IMovie[]) {
+export async function renderAddMovieList(results: IMovie[]) {
   const parentElem = $('.item-list') as HTMLElement;
 
   parentElem.insertAdjacentHTML(
     'beforeend',
-    `${moreResults.map((movie) => MovieItem(movie)).join('')}`
+    `${results.map((movie) => MovieItem(movie)).join('')}`
   );
 }
