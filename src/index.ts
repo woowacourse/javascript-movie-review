@@ -1,8 +1,8 @@
 import './assets/common.css';
-import client from './client';
 import { MovieList } from './components/MovieList';
+import MovieAPI from './MovieAPI';
 
-const popularFetchFn = (page: number) => client.getPopularMovies(page);
+const popularFetchFn = (page: number) => MovieAPI.getPopularMovies(page);
 
 function assignMovieList(movieList: MovieList) {
   document.querySelector('main')?.replaceChildren(movieList.render());
@@ -20,6 +20,6 @@ document.querySelector('.search-box')?.addEventListener('submit', (event) => {
   const formData = Object.fromEntries(new FormData(event.target as HTMLFormElement).entries());
   const query = formData['search-text'] as string;
 
-  const searchFetchFn = (page: number) => client.getSearchMovies(query, page);
+  const searchFetchFn = (page: number) => MovieAPI.getSearchMovies(query, page);
   assignMovieList(new MovieList(searchFetchFn, `"${query}" 검색결과`));
 });

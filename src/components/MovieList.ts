@@ -1,4 +1,4 @@
-import { TMDBErrorResponse, TMDBResponse } from '../client';
+import { TMDBErrorResponse, TMDBResponse } from '../MovieAPI';
 import { Movie } from '../movies.type';
 import ErrorPopup from './ErrorPopup';
 import MovieListItem from './MovieListItem';

@@ -12,11 +12,11 @@ export type TMDBErrorResponse = {
   status_message: string;
 };
 
-class Client {
+class MovieAPI {
   private static readonly BASE_URL = 'https://api.themoviedb.org/3';
 
   async fetch(path: string): Promise<TMDBResponse> {
-    const res = await fetch(`${Client.BASE_URL}${path}&api_key=${process.env.TMDB_API_KEY}`);
+    const res = await fetch(`${MovieAPI.BASE_URL}${path}&api_key=${process.env.TMDB_API_KEY}`);
     if (!res.ok) throw await res.json();
 
     const response: TMDBResponse = await res.json();
@@ -34,6 +34,4 @@ class Client {
   }
 }
 
-const client = new Client();
-
-export default client;
+export default new MovieAPI();
