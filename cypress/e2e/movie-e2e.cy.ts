@@ -51,7 +51,7 @@ describe("검색 목록 확인", () => {
     cy.viewport(1920, 1080);
   });
 
-  it("검색했을 때 결과가 정확히 니온다. (검색버튼 클릭)", () => {
+  it("해리포터를 입력하고 검색버튼을 눌렀을 때 해리포터에 대한 검색 결과가 나온다.", () => {
     cy.get(".search-box").find("input").type("해리포터");
     cy.get("button[data-action='search']")
       .click()
@@ -62,7 +62,7 @@ describe("검색 목록 확인", () => {
       });
   });
 
-  it("검색했을 때 결과가 정확히 나온다. (엔터키 입력)", () => {
+  it("해리포터를 입력하고 엔터키를 입력했을 때 해리포터에 대한 검색 결과가 나온다.", () => {
     cy.get(".search-box")
       .find("input")
       .type("해리포터{enter}")
@@ -73,7 +73,7 @@ describe("검색 목록 확인", () => {
       });
   });
 
-  it("검색결과가 존재하지 않을 시 검색결과 없음 페이지가 뜬다.", () => {
+  it("검색했을 때, 검색결과가 존재하지 않을 시 검색결과 없음 페이지가 뜬다.", () => {
     cy.get(".search-box")
       .find("input")
       .type("sdmnfbikrdnfivjdnfodmfhfidff{enter}")

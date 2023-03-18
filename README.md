@@ -26,7 +26,7 @@ FE 5기 레벨1 영화관 미션
 - node v16.14.0
 - npm 8.3.1
 
-## API 키 방급 방법
+## API 키 발급 방법
 
 1. [TMDB](https://www.themoviedb.org/) 접속
 2. 회원가입 후 `설정 > API` 진입
