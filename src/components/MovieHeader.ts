@@ -10,11 +10,13 @@ export default class MovieHeader extends HTMLElement {
   }
 
   setEvent() {
-    this.querySelector("h1").addEventListener("click", () => {
-      this.dispatchEvent(
-        new CustomEvent("click-home-button", { bubbles: true })
-      );
-    });
+    const $homeButtom = this.querySelector("h1");
+    if ($homeButtom instanceof HTMLHeadingElement)
+      $homeButtom.addEventListener("click", () => {
+        this.dispatchEvent(
+          new CustomEvent("click-home-button", { bubbles: true })
+        );
+      });
   }
 }
 

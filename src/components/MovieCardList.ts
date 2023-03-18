@@ -1,8 +1,10 @@
 import { MAX_MOVIE_QUANTITY_PER_PAGE } from "../constant/variables";
 import { $ } from "../utils/Dom";
+import MoreButton from "./MoreButton";
+import SkeletonList from "./SkeletonList";
 
 export default class MovieCardList extends HTMLElement {
-  #movieList = [];
+  #movieList: movieList = [];
 
   get header() {
     return this.getAttribute("header");
@@ -21,30 +23,32 @@ export default class MovieCardList extends HTMLElement {
         `;
   }
 
-  setMovieList(movieList) {
+  setMovieList(movieList: movieList) {
     this.toggleMoreButton(movieList);
 
     const $movieList = $("#movie-list");
-
-    movieList.forEach((item) => {
-      $movieList.insertAdjacentHTML(
-        "beforeend",
-        `<movie-card title='${item.title}' poster='${item.poster}' rating='${item.rating}' movieId='${item.movieId}'></movie-card>`
-      );
-    });
+    if ($movieList instanceof HTMLElement)
+      movieList.forEach((item: movieInfo) => {
+        $movieList.insertAdjacentHTML(
+          "beforeend",
+          `<movie-card movieTitle='${item.title}' poster='${item.poster}' rating='${item.rating}' movieId='${item.movieId}'></movie-card>`
+        );
+      });
 
     this.#movieList = movieList;
   }
 
-  toggleMoreButton(movieList) {
+  toggleMoreButton(movieList: movieList) {
     const $moreButton = $("more-button");
-    if (movieList.length === MAX_MOVIE_QUANTITY_PER_PAGE)
-      $moreButton.classList.remove("hidden");
+    if ($moreButton instanceof MoreButton)
+      if (movieList.length === MAX_MOVIE_QUANTITY_PER_PAGE)
+        $moreButton.classList.remove("hidden");
   }
 
   toggleSkeletonList() {
     const $skeletonList = $("skeleton-list");
-    $skeletonList.classList.toggle("hidden");
+    if ($skeletonList instanceof SkeletonList)
+      $skeletonList.classList.toggle("hidden");
   }
 }
 

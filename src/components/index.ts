@@ -4,3 +4,12 @@ import MovieCard from "./MovieCard";
 import MovieHeader from "./MovieHeader";
 import MovieSearch from "./MovieSearch";
 import SkeletonList from "./SkeletonList";
+
+export {
+  MovieCardList,
+  MoreButton,
+  MovieCard,
+  MovieHeader,
+  MovieSearch,
+  SkeletonList,
+};

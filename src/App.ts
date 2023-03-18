@@ -1,11 +1,19 @@
+import MoreButton from "./components/MoreButton";
+import MovieCardList from "./components/MovieCardList";
 import { LIST_STATE } from "./constant/variables";
 import { $ } from "./utils/Dom";
 import { getPopularMovies, getSearchedMovies } from "./utils/fetch";
 
 export default class App {
-  #state;
+  #state: appState;
 
   constructor() {
+    this.#state = {
+      page: 1,
+      listState: LIST_STATE.POPULAR,
+      movieList: [],
+      movieName: "",
+    };
     this.init();
     this.setEvent();
   }
@@ -17,21 +25,22 @@ export default class App {
   }
 
   async setInitState() {
-    this.#state = {
+    this.setState({
       page: 1,
       listState: LIST_STATE.POPULAR,
-    };
+    });
 
     await this.addPopularMoviesList();
   }
 
-  setState(newState) {
+  setState(newState: Object) {
     this.#state = { ...this.#state, ...newState };
   }
 
   render() {
     const itemView = $(".item-view");
-    itemView.innerHTML = `
+    if (itemView instanceof HTMLElement)
+      itemView.innerHTML = `
     <card-list header='${
       this.#state.listState === LIST_STATE.POPULAR
         ? "지금 인기 있는 영화"
@@ -41,26 +50,31 @@ export default class App {
     `;
   }
 
-  async setEvent() {
+  setEvent() {
     document.addEventListener("click-more-button", () => {
       this.toggleSkeletonList(); //add skeleton list
       this.appendMovieList();
     });
 
-    document.addEventListener("search-movie", (event) => {
-      const { movieName } = event.detail;
-      this.setInitState();
-      this.setState({
-        listState: LIST_STATE.SEARCHED,
-        movieName,
-      });
-      this.renderSearchedMovies();
-    });
+    document.addEventListener(
+      "search-movie",
+      this.searchMovieCallback as EventListener
+    );
 
     document.addEventListener("click-home-button", () => {
       this.init();
     });
   }
+
+  searchMovieCallback = ({ detail }: CustomEvent) => {
+    const { movieName } = detail;
+    this.setInitState();
+    this.setState({
+      listState: LIST_STATE.SEARCHED,
+      movieName,
+    });
+    this.renderSearchedMovies();
+  };
 
   async appendMovieList() {
     this.setState({ page: this.#state.page + 1 });
@@ -76,7 +90,7 @@ export default class App {
 
   async addPopularMoviesList() {
     const fetchedData = await getPopularMovies(this.#state.page);
-    const movieList = fetchedData.results.map((item) => {
+    const movieList = fetchedData.results.map((item: fetchedData) => {
       const { title, poster_path, vote_average, id } = item;
       return {
         title,
@@ -89,11 +103,9 @@ export default class App {
   }
 
   async addSearchedMoviesList() {
-    const fetchedData = await getSearchedMovies(
-      this.#state.movieName,
-      this.#state.page
-    );
-    const movieList = fetchedData.results.map((item) => {
+    const { movieName, page } = this.#state;
+    const fetchedData = await getSearchedMovies(movieName, page);
+    const movieList = fetchedData.results.map((item: fetchedData) => {
       const { title, poster_path, vote_average, id } = item;
       return {
         title,
@@ -116,14 +128,17 @@ export default class App {
 
   hideMoreButton() {
     const $moreButton = $("more-button");
-    $moreButton.classList.add("hidden");
+    if ($moreButton instanceof MoreButton) $moreButton.classList.add("hidden");
   }
 
   mountMovieList() {
-    document.querySelector("card-list")?.setMovieList(this.#state.movieList);
+    const $cardList = $("card-list");
+    if ($cardList instanceof MovieCardList)
+      $cardList.setMovieList(this.#state.movieList);
   }
 
   toggleSkeletonList() {
-    document.querySelector("card-list").toggleSkeletonList();
+    const $cardList = $("card-list");
+    if ($cardList instanceof MovieCardList) $cardList.toggleSkeletonList();
   }
 }

@@ -11,13 +11,14 @@ export default class MoreButton extends HTMLElement {
   }
 
   setEvent() {
-    this.querySelector("#more-button").addEventListener("click", () => {
-      const $moreButton = $("more-button");
-      $moreButton.classList.add("hidden");
-      this.dispatchEvent(
-        new CustomEvent("click-more-button", { bubbles: true }) //detail :
-      );
-    });
+    const $moreButton = $("more-button");
+    if ($moreButton instanceof MoreButton)
+      $moreButton.addEventListener("click", () => {
+        $moreButton.classList.add("hidden");
+        this.dispatchEvent(
+          new CustomEvent("click-more-button", { bubbles: true }) //detail :
+        );
+      });
   }
 }
 
