@@ -19,9 +19,9 @@ class MovieManager {
     this.errorSubscribers.push(element);
   }
 
-  publish(data: MovieAppData) {
+  publish(movieAppData: MovieAppData) {
     this.subscribers.forEach((subscriber) => {
-      subscriber.rerender(data);
+      subscriber.rerender(movieAppData);
     });
   }
 
