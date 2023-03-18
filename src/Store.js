@@ -14,7 +14,7 @@ const Store = {
     },
   },
 
-  async getPopularMovies(curPage = 1) {
+  async renderPopularMovies(curPage = 1) {
     if (this.movies['category'] === 'search') {
       this.movies['nextPage'] = 1;
     }
@@ -41,7 +41,7 @@ const Store = {
     }
   },
 
-  async searchedMovies(query, curPage = 1) {
+  async renderSearchedMovies(query, curPage = 1) {
     if (this.movies['category'] === 'popular') {
       this.movies['nextPage'] = 1;
     }
