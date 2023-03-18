@@ -1,6 +1,10 @@
 import { Movie } from '../types/movie';
 import { MOVIE_MAX_COUNT } from '../constants';
-import { HTTP_ERROR_CODE, NO_SEARCH_RESULT } from '../constants/invalidMessage';
+import {
+  NO_SEARCH_RESULT,
+  HTTP_ERROR_CODE,
+  INVALID_JSON_RESPONSE,
+} from '../constants/invalidMessage';
 import { $, $$ } from '../utils/domSelector';
 import MovieListContainer from './MovieListContainer';
 import MovieItem from './MovieItem';
@@ -38,9 +42,19 @@ const MovieListContent = {
 
       MovieListContent.renderMovies(movies);
     } catch (error) {
+      MovieListContainer.hideListContainer();
+
       if (error instanceof HTTPError) {
-        MovieListContainer.hideListContainer();
         InvalidMessage.render(HTTP_ERROR_CODE[error.statusCode]);
+      }
+
+      if (error instanceof Error) {
+        if (error.message === INVALID_JSON_RESPONSE) {
+          InvalidMessage.render(INVALID_JSON_RESPONSE);
+          return;
+        }
+
+        alert(error.message);
       }
     }
   },
