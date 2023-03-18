@@ -1,5 +1,5 @@
-import starFilled from '../../templates/star_filled.png';
-import starEmpty from '../../templates/star_empty.png';
+import starFilled from '../images/star_filled.png';
+import starEmpty from '../images/star_empty.png';
 import { IMovieItemProps } from '../types/movie';
 
 const skeletonTemplate = () => `

@@ -1,4 +1,4 @@
-import logo from '../../templates/logo.png';
+import logo from '../images/logo.png';
 import { Store } from '../Store';
 
 class Header {
