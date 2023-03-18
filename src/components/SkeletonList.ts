@@ -22,7 +22,7 @@ export default class SkeletonList extends HTMLElement {
       </li>
         `;
 
-    const $itemList = $(".item-list");
+    const $itemList = this.querySelector(".item-list");
     if ($itemList instanceof HTMLUListElement)
       $itemList.innerHTML = skeletonItem.repeat(20);
   }
