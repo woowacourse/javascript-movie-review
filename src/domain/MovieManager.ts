@@ -31,7 +31,7 @@ class MovieManager {
     });
   }
 
-  showSkeleton() {
+  publishSkeleton() {
     this.skeleton.forEach((subscriber) => {
       subscriber.render();
     });
@@ -39,6 +39,7 @@ class MovieManager {
 
   async showMovies(searchWord: string = "") {
     try {
+      this.publishSkeleton();
       const movieAppData = await Movie.getMovies(searchWord);
       this.publish(movieAppData);
     } catch {
@@ -48,6 +49,7 @@ class MovieManager {
 
   async showMoreMovies() {
     try {
+      this.publishSkeleton();
       const movieAppData = await Movie.getMoreMovies();
       this.publish(movieAppData);
     } catch {

@@ -4,7 +4,6 @@ import CustomElement from "../basic/CustomElement";
 
 class MovieListSkeleton extends CustomElement {
   connectedCallback() {
-    super.connectedCallback();
     MovieManager.subscribe(this);
     MovieManager.subscribeSkeleton(this);
   }
