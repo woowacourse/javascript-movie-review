@@ -123,6 +123,15 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
+.text-subtitle {
+  padding-top: 15px;
+
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 600;
+}
+
 movie-head {
   width: 100%;
   min-width: 1200px;

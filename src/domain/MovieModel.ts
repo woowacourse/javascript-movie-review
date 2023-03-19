@@ -6,6 +6,7 @@ class MovieModel {
   private searchWord: string = "";
   private page: number = 1;
   private totalPages: number = 0;
+  statusCode: number = 1;
 
   getMovieList() {
     return this.movies;
@@ -33,11 +34,15 @@ class MovieModel {
     this.page = 1;
     this.searchWord = query;
 
-    const url = query
+    const url = this.searchWord
       ? searchUrl(this.searchWord, this.page)
       : popularUrl(this.page);
     const data = await request(url);
     this.totalPages = data.total_pages;
+    if (data.status_code) {
+      this.statusCode = data.status_code;
+      return;
+    }
 
     this.movies = this.toMovies(data.results);
   }
@@ -49,6 +54,10 @@ class MovieModel {
       ? searchUrl(this.searchWord, this.page)
       : popularUrl(this.page);
     const data = await request(url);
+    if (data.status_code) {
+      this.statusCode = data.status_code;
+      return;
+    }
 
     this.movies = this.toMovies(data.results);
   }

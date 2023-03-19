@@ -1,8 +1,10 @@
 import MovieModel from "./MovieModel";
 import SearchStore from "./SearchTitleStore";
+import SkeletonStore from "./SkeletonStore";
+import ErrorStore from "./ErrorStore";
+import { MovieValidation } from "./MovieValidation";
 import { CustomElement } from "../type/componentType";
 import { Movie } from "../type/movieType";
-import SkeletonStore from "./SkeletonStore";
 
 class MovieStore {
   private subscribers: CustomElement[] = [];
@@ -21,14 +23,29 @@ class MovieStore {
   async initMovies() {
     await MovieModel.updateMovies();
 
+    this.checkBeforePublish();
+
     const movies = MovieModel.getMovieList();
     this.publish(movies);
   }
 
+  checkBeforePublish() {
+    try {
+      MovieValidation(MovieModel.statusCode);
+    } catch (e) {
+      const message = e instanceof Error ? e.message : "";
+      SkeletonStore.removeSkeleton();
+      ErrorStore.publish(message);
+    }
+  }
+
   async searchMovies(searchWord: string) {
-    SearchStore.publish(searchWord);
     SkeletonStore.publish();
+    SearchStore.publish(searchWord);
+
     await MovieModel.updateMovies(searchWord);
+
+    this.checkBeforePublish();
 
     const movies = MovieModel.getMovieList();
     this.publish(movies);
@@ -36,7 +53,10 @@ class MovieStore {
 
   async showMoreMovies() {
     SkeletonStore.publish();
+
     await MovieModel.updateMoreMovies();
+
+    this.checkBeforePublish();
 
     const movies = MovieModel.getMovieList();
     this.publish(movies, true);
