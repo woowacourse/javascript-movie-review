@@ -1,4 +1,6 @@
 import { Movie, MovieDataResult } from '../types/movie';
+import { MOVIE_LIST_LOADED, MOVIE_LIST_LOADING, MOVIE_LIST_RESET } from '../constants';
+import EventEmitter from '../utils/EventEmitter';
 import { fetchPopularMovieData, fetchSearchedMovieData } from '../api/movieAPI';
 
 class MovieList {
@@ -17,6 +19,7 @@ class MovieList {
   init(searchQuery: string = '') {
     this.currentPage = 1;
     this.searchQuery = searchQuery;
+    EventEmitter.emit(MOVIE_LIST_RESET, searchQuery);
   }
 
   private increaseCurrentPage() {
@@ -48,12 +51,18 @@ class MovieList {
   }
 
   async getMovieData() {
+    EventEmitter.emit(MOVIE_LIST_LOADING);
+
     const movies =
       this.searchQuery !== ''
         ? await this.getSearchedMovieData()
         : await this.getPopularMovieData();
 
-    return { movies, searchQuery: this.searchQuery };
+    EventEmitter.emit(MOVIE_LIST_LOADED, { movies, searchQuery: this.searchQuery });
+  }
+
+  on(eventName: string, callback: EventListenerOrEventListenerObject) {
+    EventEmitter.on(eventName, callback);
   }
 }
 
