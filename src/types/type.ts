@@ -1,6 +1,13 @@
-export interface ApiMovieProps {
+export interface ApiResponseResult {
+  page: number;
+  results: ApiMovieResult[];
+  total_pages: number;
+  total_results: number;
+}
+
+export interface ApiMovieResult {
   adult: boolean;
-  backdrop_path: string;
+  backdrop_path?: string;
   genre_ids: number[];
   id: number;
   original_language: string;

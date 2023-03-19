@@ -30,7 +30,7 @@
 
 - [x] 헤더를 fixed 한다 ( 사용자 편의성 측면 )
 - [x] fixture와 intercept 테스트를 따로 분리한다
-- [ ] utils 의 fetch해주는 request 함수가 json을 반환하도록 한다
+- [x] utils 의 fetch해주는 request 함수가 json을 반환하도록 한다
   - Fetch API 래핑하기 (추상화)
 - [ ] 자바스크립트 선택자 id가 아닌 것 id로 바꾸어주기
 - [ ] 스켈레톤 UI 개선하기 ( 불필요한 렌더링 줄이기 )

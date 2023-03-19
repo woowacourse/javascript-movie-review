@@ -1,10 +1,10 @@
 import { request } from '../utils/common';
-import { ApiMovieProps, ParsedMovieResult } from '../types/type';
+import { ApiMovieResult, ApiResponseResult, ParsedMovieResult } from '../types/type';
 
 export const BASE_URL = 'https://api.themoviedb.org/3/';
 
 class MovieData {
-  #parsedMovieResult: ParsedMovieResult = { isLastPage: false, movies: [] };
+  #parsedMovieResult: ParsedMovieResult = { isLastPage: true, movies: [] };
   #pageIndex: number = 1;
 
   get movieResult(): ParsedMovieResult {
@@ -22,9 +22,9 @@ class MovieData {
         ? `${BASE_URL}movie/popular?api_key=${process.env.API_KEY}&language=ko&page=${this.#pageIndex}`
         : `${BASE_URL}search/movie?api_key=${process.env.API_KEY}&language=ko&page=${this.#pageIndex}&query=${word}`;
 
-    const apiFetchingData = await (await request(url)).json();
+    const apiFetchingData = await request<ApiResponseResult>(url);
 
-    const fetchedMovies = await apiFetchingData.results;
+    const fetchedMovies = apiFetchingData.results;
 
     if (apiFetchingData.total_pages > this.#pageIndex) {
       this.#pageIndex += 1;
@@ -38,8 +38,8 @@ class MovieData {
     };
   }
 
-  parseFetchedMovies(fetchedMovies: ApiMovieProps[]) {
-    return fetchedMovies.map((movie: ApiMovieProps) => {
+  parseFetchedMovies(fetchedMovies: ApiMovieResult[]) {
+    return fetchedMovies.map((movie: ApiMovieResult) => {
       return {
         id: movie.id,
         title: movie.title,
