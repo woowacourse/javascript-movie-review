@@ -42,15 +42,14 @@ class Main {
       await this.#manager.searchMovieList(query);
     }
 
+    const movieListData = this.#manager.getMovieList();
+
     this.#element.innerHTML = `
     <h2>${query === '' ? '지금 인기 있는 영화' : `"${query}" 검색 결과`}</h2>
     <ul class="item-list">
     ${
-      this.#manager.getMovieList().length
-        ? this.#manager
-            .getMovieList()
-            .map((movieInfo) => MovieItem(movieInfo))
-            .join('\n')
+      movieListData.length
+        ? movieListData.map((movieInfo) => MovieItem(movieInfo)).join('\n')
         : '<p>검색 결과가 없습니다.</p>'
     }
     </ul>
