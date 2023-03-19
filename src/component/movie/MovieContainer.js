@@ -1,5 +1,6 @@
 import CustomElement from "../basic/CustomElement";
-import MovieManager from "../../domain/MovieManager";
+import SearchStore from "../../domain/SearchTitleStore";
+import MovieStore from "../../domain/MovieStore";
 import { $ } from "../../util/dom";
 import "./MovieList";
 import "./ShowMoreButton";
@@ -8,7 +9,7 @@ import "./MovieListSkeleton";
 class MovieContainer extends CustomElement {
   connectedCallback() {
     super.connectedCallback();
-    MovieManager.subscribeSearch(this);
+    SearchStore.subscribeSearchTitle(this);
   }
 
   template() {
@@ -25,7 +26,7 @@ class MovieContainer extends CustomElement {
   rerender(searchWord) {
     $(".movie-container-title").innerText = `'${searchWord}' 검색 결과`;
 
-    const isLastPage = MovieManager.hideShowMoreButton();
+    const isLastPage = MovieStore.hideShowMoreButton();
     $("show-more-button").hidden = isLastPage;
   }
 }
