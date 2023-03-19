@@ -9,3 +9,7 @@ export const request = async <T>(url: string): Promise<T> => {
 
   throw new Error('404 불러올 수 없습니다.');
 };
+
+export const createUniqueId = () => {
+  return 'id' + Math.random().toString(16).slice(2);
+};

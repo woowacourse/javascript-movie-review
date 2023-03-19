@@ -3,13 +3,6 @@
   flex-direction: column;
 }
 
-.item-thumbnail {
-  border-radius: 8px;
-  width: 180px;
-  height: 270px;
-  background-size: contain;
-}
-
 .item-title {
   margin-top: 16px;
   font-size: 1.2rem;
