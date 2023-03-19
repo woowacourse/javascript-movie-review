@@ -1,6 +1,6 @@
 import CustomElement from "../basic/CustomElement";
 import { $ } from "../../util/dom";
-import MovieManager from "../../domain/MovieManager";
+import MovieStore from "../../domain/MovieStore";
 
 class SearchInput extends CustomElement {
   template() {
@@ -29,8 +29,7 @@ class SearchInput extends CustomElement {
       $(".search-text").value = "";
       return;
     }
-    MovieManager.showSkeleton();
-    MovieManager.searchMovies(query);
+    MovieStore.searchMovies(query);
   }
 }
 

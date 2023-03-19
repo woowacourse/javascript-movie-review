@@ -1,39 +1,20 @@
 import MovieModel from "./MovieModel";
+import SearchStore from "./SearchTitleStore";
 import { CustomElement } from "../type/componentType";
 import { Movie } from "../type/movieType";
+import SkeletonStore from "./SkeletonStore";
 
-class MovieManage {
+class MovieStore {
   private subscribers: CustomElement[] = [];
-  private searchSubscribers: CustomElement[] = [];
-  private skeletons: CustomElement[] = [];
 
   subscribe(element: CustomElement) {
     this.subscribers.push(element);
   }
 
-  subscribeSkeletons(element: CustomElement) {
-    this.skeletons.push(element);
-  }
-
-  subscribeSearch(element: CustomElement) {
-    this.searchSubscribers.push(element);
-  }
-
-  publishSearch(searchWord: string) {
-    this.searchSubscribers.forEach((subscriber) => {
-      subscriber.rerender(searchWord);
-    });
-  }
-
   publish(movies: Movie[], isShowMore: boolean = false) {
+    SkeletonStore.removeSkeleton();
     this.subscribers.forEach((subscriber) => {
       subscriber.rerender(movies, isShowMore);
-    });
-  }
-
-  publishSkeleton() {
-    this.skeletons.forEach((subscriber) => {
-      subscriber.render();
     });
   }
 
@@ -45,14 +26,16 @@ class MovieManage {
   }
 
   async searchMovies(searchWord: string) {
+    SearchStore.publish(searchWord);
+    SkeletonStore.publish();
     await MovieModel.updateMovies(searchWord);
 
     const movies = MovieModel.getMovieList();
-    this.publishSearch(searchWord);
     this.publish(movies);
   }
 
   async showMoreMovies() {
+    SkeletonStore.publish();
     await MovieModel.updateMoreMovies();
 
     const movies = MovieModel.getMovieList();
@@ -64,4 +47,4 @@ class MovieManage {
   }
 }
 
-export default new MovieManage();
+export default new MovieStore();

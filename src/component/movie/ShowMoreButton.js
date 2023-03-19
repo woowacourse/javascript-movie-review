@@ -1,4 +1,4 @@
-import MovieManager from "../../domain/MovieManager";
+import MovieStore from "../../domain/MovieStore";
 import CustomElement from "../basic/CustomElement";
 
 class ShowMoreButton extends CustomElement {
@@ -10,10 +10,9 @@ class ShowMoreButton extends CustomElement {
 
   setEvent() {
     this.addEventListener("click", () => {
-      MovieManager.showSkeleton();
-      MovieManager.showMoreMovies();
+      MovieStore.showMoreMovies();
 
-      const isLastPage = MovieManager.hideShowMoreButton();
+      const isLastPage = MovieStore.hideShowMoreButton();
       this.hidden = isLastPage;
     });
   }
