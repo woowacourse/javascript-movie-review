@@ -14,7 +14,10 @@ export default class App {
   constructor() {
     this.#getMovieData = popularMovieDataFetchFuncGenerator();
 
-    this.#header = new Header($('#app'), this.renderMovieListByOption.bind(this));
+    this.#header = new Header($('#app'), {
+      onClickMainLogo: this.renderPopularMovieList.bind(this),
+      onSubmitSearchForm: this.renderSearchedMovieList.bind(this),
+    });
     this.#movieList = new MovieList($('main'), { getMovieMetaData: this.getMovieMetaData.bind(this) });
 
     this.initialRender();
@@ -26,9 +29,15 @@ export default class App {
     this.#movieList.load();
   }
 
-  renderMovieListByOption(option, query) {
-    this.assignGetMovieDataFunc(option, query);
-    this.#movieList.render(option, query);
+  renderPopularMovieList() {
+    this.assignPopularMovieDataFetchFunc();
+    this.#movieList.render('popular');
+    this.#movieList.load();
+  }
+
+  renderSearchedMovieList(query) {
+    this.assignSearchedMovieDataFetchFunc(query);
+    this.#movieList.render('search', query);
     this.#movieList.load();
   }
 
@@ -46,15 +55,11 @@ export default class App {
     return { moviesData, page, totalPages };
   }
 
-  assignGetMovieDataFunc(option, query) {
-    switch (option) {
-      case 'popular':
-        this.#getMovieData = popularMovieDataFetchFuncGenerator();
-        break;
+  assignPopularMovieDataFetchFunc() {
+    this.#getMovieData = popularMovieDataFetchFuncGenerator();
+  }
 
-      case 'search':
-        this.#getMovieData = searchedMovieDataFetchFuncGenerator(query);
-        break;
-    }
+  assignSearchedMovieDataFetchFunc(query) {
+    this.#getMovieData = searchedMovieDataFetchFuncGenerator(query);
   }
 }

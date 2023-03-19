@@ -1,11 +1,13 @@
 import logo from '../assets/logo.png';
 
 export default class Header {
-  #renderMovieListByOption;
+  #onClickMainLogo;
+  #onSubmitSearchForm;
   $element;
 
-  constructor($parent, renderMovieListByOption) {
-    this.#renderMovieListByOption = renderMovieListByOption;
+  constructor($parent, { onClickMainLogo, onSubmitSearchForm }) {
+    this.#onClickMainLogo = onClickMainLogo;
+    this.#onSubmitSearchForm = onSubmitSearchForm;
     this.$element = document.createElement('header');
 
     $parent.insertAdjacentElement('afterbegin', this.$element);
@@ -26,20 +28,20 @@ export default class Header {
   }
 
   setEvent() {
-    this.$element.querySelector('.search-box').addEventListener('submit', this.onSubmitSerachForm.bind(this));
+    this.$element.querySelector('.search-box').addEventListener('submit', this.onSubmitSearchForm.bind(this));
     this.$element.querySelector('.main-logo').addEventListener('click', this.onClickMainLogo.bind(this));
   }
 
-  onSubmitSerachForm(e) {
+  onSubmitSearchForm(e) {
     e.preventDefault();
 
     const queryInput = e.target.elements['query'].value;
 
-    this.#renderMovieListByOption('search', queryInput);
+    this.#onSubmitSearchForm(queryInput);
   }
 
   onClickMainLogo() {
-    this.#renderMovieListByOption('popular');
+    this.#onClickMainLogo();
     this.$element.querySelector('.search-box').reset();
   }
 }
