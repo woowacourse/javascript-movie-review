@@ -9,10 +9,6 @@ export const App = async () => {
   const searchBox = new SearchBox();
   const movieItemList = new MovieItemList();
 
-  document.querySelector(".logo")?.addEventListener("click", () => {
-    window.location.reload();
-  });
-
   document
     .querySelector(".search-input")!
     .addEventListener("searchButtonClicked", async (e: Event) => {
