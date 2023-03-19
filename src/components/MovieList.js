@@ -49,9 +49,7 @@ export default class MovieList {
     <button id="more-button" class="btn primary full-width">더 보기</button>`;
   }
 
-  async renderMovieCards(movieListPromise) {
-    const movieList = await movieListPromise;
-
+  async renderMovieCards(movieList) {
     const movieCardsHTML = movieList.reduce((html, movie) => {
       const movieCard = MovieCard(movie);
 
