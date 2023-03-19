@@ -1,29 +1,16 @@
-import { dispatchCustomEvent } from '../utils/domUtils';
-
 class MovieListSection extends HTMLElement {
   constructor() {
     super();
+    this.render();
+  }
+
+  render() {
     this.innerHTML = /* html */ `
       <section class="item-view">
         <h2 id="movie-list-title">지금 인기 있는 영화</h2>
         <ul class="item-list"></ul>
         <ul class="item-list" id="skeleton-list">
-        ${Array(20)
-          .fill()
-          .map(
-            () => /* html */ `
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            `
-          )
-          .join('')}
+          ${/* html */ `<skeleton-list-item></skeleton-list-item>`.repeat(20)}
         </ul>
         <button id="load-more" class="btn primary full-width">더 보기</button>
       </section>
@@ -31,10 +18,12 @@ class MovieListSection extends HTMLElement {
   }
 
   connectedCallback() {
-    this.querySelector('#load-more').addEventListener('click', () =>
-      dispatchCustomEvent(this, 'loadMore')
-    );
+    this.querySelector('#load-more').addEventListener('click', this.onClickLoadMore);
   }
+
+  onClickLoadMore = () => {
+    this.dispatchEvent(new CustomEvent('loadMore', { bubbles: true }));
+  };
 }
 
 export default MovieListSection;
