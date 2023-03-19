@@ -8,8 +8,8 @@ export class MovieItem extends HTMLElement {
 
   #render() {
     this.innerHTML = template
-      .replace('{poster_path}', this.getAttribute('poster')!)
-      .replaceAll('{title}', this.getAttribute('title')!)
-      .replace('{vote_average}', this.getAttribute('vote')!);
+      .replace('{poster_path}', this.getAttribute('poster') ?? '알 수 없음')
+      .replaceAll('{title}', this.getAttribute('title') ?? '알 수 없음')
+      .replace('{vote_average}', this.getAttribute('vote') ?? '알 수 없음');
   }
 }
