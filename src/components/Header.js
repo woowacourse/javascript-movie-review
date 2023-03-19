@@ -4,12 +4,13 @@ class Header {
   #element;
   #manager;
 
-  constructor (manager, element) {
-    this.#element = element;
+  constructor(manager, element) {
     this.#manager = manager;
+    this.#element = element;
+    this.#searchEvent();
   }
 
-  render () {
+  render() {
     this.#element.innerHTML = `
       <h1><img src="./assets/logo.png" alt="MovieList 로고" /></h1>
       <form class="search-box">
@@ -17,15 +18,18 @@ class Header {
         <button class="search-button">검색</button>
       </form>
     `;
-    this.#searchEvent();
   }
 
-  #searchEvent () {
+  #searchEvent() {
     this.#element.addEventListener('click', async (event) => {
       if (event.target.tagName === 'IMG') {
-        this.#element.dispatchEvent(new CustomEvent('searchPending', { bubbles: true }));
+        this.#element.dispatchEvent(
+          new CustomEvent('searchPending', { bubbles: true })
+        );
         await this.#manager.searchMovieList('');
-        this.#element.dispatchEvent(new CustomEvent('searchFullfilled', { bubbles: true }));
+        this.#element.dispatchEvent(
+          new CustomEvent('searchFullfilled', { bubbles: true })
+        );
       }
     });
 
@@ -33,9 +37,13 @@ class Header {
       event.preventDefault();
 
       const searchData = $('#search-input').value;
-      this.#element.dispatchEvent(new CustomEvent('searchPending', { bubbles: true }));
+      this.#element.dispatchEvent(
+        new CustomEvent('searchPending', { bubbles: true })
+      );
       await this.#manager.searchMovieList(searchData);
-      this.#element.dispatchEvent(new CustomEvent('searchFullfilled', { bubbles: true }));
+      this.#element.dispatchEvent(
+        new CustomEvent('searchFullfilled', { bubbles: true })
+      );
     });
   }
 }
