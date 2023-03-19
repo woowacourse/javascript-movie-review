@@ -1,37 +1,49 @@
 import { API_BASE_URL, MOVIE_MAX_COUNT } from '../../src/constants';
 
 const TEST_URL = 'http://localhost:8080/';
-const apiKey = Cypress.env('API_KEY');
 
 describe('영화 리뷰 e2e 테스트', () => {
   beforeEach(() => {
-    cy.intercept(`${API_BASE_URL}movie/popular?api_key=${apiKey}&language=ko-KR&page=1`, {
-      fixture: 'popularMoviesPage1.json',
-    }).as('fetchPopularMoviePage1Data');
-
-    cy.intercept(`${API_BASE_URL}movie/popular?api_key=${apiKey}&language=ko-KR&page=2`, {
-      fixture: 'popularMoviesPage2.json',
-    }).as('fetchPopularMoviePage2Data');
+    cy.intercept(
+      {
+        method: 'GET',
+        url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular\?[^#]*page=1$/,
+      },
+      { fixture: 'popularMoviesPage1.json' }
+    ).as('fetchPopularMoviePage1Data');
 
     cy.intercept(
-      `${API_BASE_URL}search/movie?api_key=${apiKey}&language=ko-KR&query=외계인&page=1&include_adult=false`,
       {
-        fixture: 'searchedMoviesPage1.json',
-      }
+        method: 'GET',
+        url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular\?[^#]*page=2$/,
+      },
+      { fixture: 'popularMoviesPage2.json' }
+    ).as('fetchPopularMoviePage2Data');
+
+    cy.intercept(
+      {
+        method: 'GET',
+        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie\?[^#]*query=%EC%99%B8%EA%B3%84%EC%9D%B8[^#]*page=1/,
+      },
+      { fixture: 'searchedMoviesPage1.json' }
     ).as('fetchSearchedMoviePage1Data');
 
     cy.intercept(
-      `${API_BASE_URL}search/movie?api_key=${apiKey}&language=ko-KR&query=외계인&page=2&include_adult=false`,
+      {
+        method: 'GET',
+        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie\?[^#]*query=%EC%99%B8%EA%B3%84%EC%9D%B8[^#]*page=2/,
+      },
       {
         fixture: 'searchedMoviesPage2.json',
       }
     ).as('fetchSearchedMoviePage2Data');
 
     cy.intercept(
-      `${API_BASE_URL}search/movie?api_key=${apiKey}&language=ko-KR&query=외계인입니다요&page=2&include_adult=false`,
       {
-        fixture: 'noSearchResult.json',
-      }
+        method: 'GET',
+        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie\?[^#]*query=%ED%95%9C%EA%B5%AD%EC%9D%B8%EC%9E%85%EB%8B%88%EB%8B%A4[^#]*page=1/,
+      },
+      { fixture: 'noSearchResult.json' }
     ).as('fetchNoSearchResultMovieData');
 
     cy.visit(TEST_URL);
@@ -39,7 +51,10 @@ describe('영화 리뷰 e2e 테스트', () => {
 
   it('웹 페이지에 처음 방문하면 지금 인기 있는 영화 목록 데이터가 렌더링되기 전에 skeleton을 볼 수 있다.', () => {
     cy.intercept(
-      `${API_BASE_URL}movie/popular?api_key=${apiKey}&language=ko-KR&page=1`,
+      {
+        method: 'GET',
+        url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular\?[^#]*page=1$/,
+      },
       (request) => {
         request.reply(async (response) => {
           const movieData = await cy.fixture('popularMoviesPage1.json').then((data) => data);
@@ -134,21 +149,25 @@ describe('영화 리뷰 e2e 테스트', () => {
   });
 
   it('검색시 검색 결과가 없으면 결과 없음 메세지가 화면에 출력된다.', () => {
-    cy.get('#search-input').type('외계인입니다요', { force: true });
+    cy.get('#search-input').type('한국인입니다', { force: true });
     cy.get('#search-button').click({ force: true });
 
     cy.wait(2000);
 
     cy.get('.error-message').should(
       'contain',
-      '입력하신 검색어 "외계인입니다요"(와)과 일치하는 결과가 없습니다.'
+      '입력하신 검색어 "한국인입니다"(와)과 일치하는 결과가 없습니다.'
     );
   });
 
   it('HTTP 400대 에러 발생시 에러 메세지가 화면에 출력된다.', () => {
-    cy.intercept('GET', `${API_BASE_URL}movie/popular?api_key=${apiKey}&language=ko-KR&page=1`, {
-      statusCode: 400,
-    }).as('HTTPError');
+    cy.intercept(
+      {
+        method: 'GET',
+        url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular\?[^#]*page=1$/,
+      },
+      { statusCode: 400 }
+    ).as('HTTPError');
 
     cy.visit(TEST_URL);
     cy.wait('@HTTPError');
@@ -157,9 +176,13 @@ describe('영화 리뷰 e2e 테스트', () => {
   });
 
   it('HTTP 500대 에러 발생시 에러 메세지가 화면에 출력된다.', () => {
-    cy.intercept('GET', `${API_BASE_URL}movie/popular?api_key=${apiKey}&language=ko-KR&page=1`, {
-      statusCode: 500,
-    }).as('HTTPError');
+    cy.intercept(
+      {
+        method: 'GET',
+        url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular\?[^#]*page=1$/,
+      },
+      { statusCode: 500 }
+    ).as('HTTPError');
 
     cy.visit(TEST_URL);
     cy.wait('@HTTPError');
