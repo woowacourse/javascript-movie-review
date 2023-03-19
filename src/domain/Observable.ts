@@ -1,10 +1,7 @@
-type OberserverType = {
-  movies: ((value?: Object) => void)[];
-  loading: (() => void)[];
-};
+import { MovieItemType, MovieSubscribserType } from '../type/movie';
 
 export default class Observable {
-  observer: OberserverType;
+  observer: MovieSubscribserType;
 
   constructor() {
     this.observer = {
@@ -13,11 +10,14 @@ export default class Observable {
     };
   }
 
-  subscribe(key: keyof OberserverType, method: (value?: Object) => void) {
+  subscribe(
+    key: keyof MovieSubscribserType,
+    method: (value?: MovieItemType[]) => void
+  ) {
     this.observer[key].push(method);
   }
 
-  notify(key: keyof OberserverType, newData?: Object) {
+  notify(key: keyof MovieSubscribserType, newData?: MovieItemType[]) {
     this.observer[key].forEach((method) => method(newData));
   }
 }
