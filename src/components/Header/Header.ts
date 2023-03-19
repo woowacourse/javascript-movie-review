@@ -1,13 +1,17 @@
 import "./index.css";
 import Logo from "../../images/Logo.png";
 
-class Header {
-  $target;
-  #props;
+interface IHeaderProps {
+  renderMovieList: (type: string, searchKeyword?: string) => void;
+}
 
-  constructor($target, props) {
+class Header {
+  $target: HTMLHeadElement;
+  private props: IHeaderProps;
+
+  constructor($target: HTMLHeadElement, props: IHeaderProps) {
     this.$target = $target;
-    this.#props = props;
+    this.props = props;
 
     this.render();
     this.setEvents();
@@ -28,21 +32,31 @@ class Header {
   }
 
   setEvents() {
-    const { renderMovieList } = this.#props;
+    const { renderMovieList } = this.props;
 
     const $searchBox = this.$target.querySelector(".search-box");
     const $logo = this.$target.querySelector(".logo");
 
+    if (!$searchBox) return;
+
     $searchBox.addEventListener("submit", (event) => {
       event.preventDefault();
 
-      const searchValue = event.target.querySelector(".search-input").value;
+      if (!(event.target instanceof HTMLElement)) return;
+
+      const searchInput = event.target.querySelector(".search-input") as HTMLInputElement;
+
+      if (!searchInput) return;
+
+      const searchValue = searchInput.value;
       renderMovieList("search", searchValue);
     });
 
-    $logo.addEventListener("click", () => {
-      renderMovieList("popular");
-    });
+    if ($logo) {
+      $logo.addEventListener("click", () => {
+        renderMovieList("popular");
+      });
+    }
   }
 }
 
