@@ -61,6 +61,8 @@ class App {
 
     if (!movieList) return;
 
+    if (requestListType === 'keyword') this.#movieList.setTitle(`Search Results of "${keyword}"`);
+
     updateType === 'overwrite'
       ? this.#movieList.renderContents(movieList)
       : this.#movieList.renderNextContents(movieList);
@@ -71,7 +73,6 @@ class App {
   };
 
   onClickSearchButton = (keyword: string) => {
-    this.#movieList.setTitle(`Search Results of "${keyword}"`);
     this.#requestListType = 'keyword';
     this.#searchKeyword = keyword;
     this.fetchAndUpdateMovieList(this.#requestListType, 'overwrite', this.#searchKeyword);
