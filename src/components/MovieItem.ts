@@ -10,8 +10,8 @@ export default class MovieItem {
           <img
           class="item-thumbnail"
           src="https://image.tmdb.org/t/p/original${poster_path}"
+          onerror=this.src="${MOVIE_APP_IMG_PATH.posterEmpty}"
           loading="lazy"
-          alt="앤트맨과 와스프: 퀀텀매니아"
           />
           <p class="item-title">${title}</p>
           <p class="item-score"><img src="${MOVIE_APP_IMG_PATH.starFilled}" alt="별점" /> ${vote_average}</p>
