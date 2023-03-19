@@ -1,20 +1,29 @@
 import { $ } from '../utils/domSelector';
-import MovieListContent from './MovieListContent';
+import { MOVIE_LIST_LOADING, MOVIE_LIST_RESET } from '../constants';
+import MovieList from '../domain/MovieList';
 
 class MovieListContainer {
+  private static instance: MovieListContainer;
   private listContainer: HTMLDivElement;
-  private movieTitle: HTMLHeadingElement;
   private moreButton: HTMLButtonElement;
 
-  constructor() {
+  private constructor() {
     $<HTMLElement>('main').insertAdjacentHTML('beforeend', this.template());
+    this.init();
     this.listContainer = $<HTMLDivElement>('.item-view');
-    this.movieTitle = $<HTMLHeadingElement>('#movie-list-title');
     this.moreButton = $<HTMLButtonElement>('#more-button');
     this.addEventToMoreButton();
   }
 
-  template() {
+  static getInstance(): MovieListContainer {
+    if (!MovieListContainer.instance) {
+      MovieListContainer.instance = new MovieListContainer();
+    }
+
+    return MovieListContainer.instance;
+  }
+
+  private template() {
     return `
       <section class="item-view">
         <h2 id="movie-list-title">지금 인기 있는 영화</h2>
@@ -25,14 +34,20 @@ class MovieListContainer {
     `;
   }
 
-  addEventToMoreButton() {
-    this.moreButton.addEventListener('click', () => {
-      MovieListContent.loadMoreMovies();
+  private init() {
+    MovieList.on(MOVIE_LIST_RESET, () => {
+      this.showListContainer();
+    });
+
+    MovieList.on(MOVIE_LIST_LOADING, () => {
+      this.hideMoreButton();
     });
   }
 
-  changeContainerTitle(title?: string) {
-    this.movieTitle.textContent = title ? `"${title}" 검색 결과` : '지금 인기 있는 영화';
+  private addEventToMoreButton() {
+    this.moreButton.addEventListener('click', () => {
+      MovieList.getMovieData();
+    });
   }
 
   showListContainer() {
@@ -52,4 +67,4 @@ class MovieListContainer {
   }
 }
 
-export default new MovieListContainer();
+export default MovieListContainer.getInstance();
