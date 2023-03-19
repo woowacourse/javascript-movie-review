@@ -40,4 +40,4 @@
 ## 1단계 코드 리뷰 - 리팩터링 목록
 
 - [x] refactor: prompt 창 지우기
-- [ ] refactor: 타입 한 곳에서 관리하기
+- [x] refactor: 타입 한 곳에서 관리하기

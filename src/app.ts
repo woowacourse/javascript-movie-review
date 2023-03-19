@@ -1,25 +1,9 @@
 import render from './render';
 import getAPI from './domain/getAPI';
-import fetchJson, { FetchedMovieJson } from './domain/fetchJson';
+import fetchJson from './domain/fetchJson';
 import { processMovieData } from './domain/processMovieData';
-
-export enum FetchType {
-  Popular = 'popular',
-  Search = 'search',
-}
-
-type PopularFetchType = {
-  page: number;
-  type: FetchType.Popular;
-};
-
-type SearchFetchType = {
-  page: number;
-  type: FetchType.Search;
-  keyword: string;
-};
-
-export type FetchStandard = PopularFetchType | SearchFetchType;
+import { FetchedMovieJson } from './@types/fetchJsonType';
+import { FetchStandard, FetchType } from './@types/fetchType';
 
 class App {
   private fetchStandard: FetchStandard = { page: 1, type: FetchType.Popular };
@@ -42,7 +26,7 @@ class App {
   }
 
   async showSearchedMovieList() {
-    if (this.fetchStandard.type === FetchType.Popular) return;
+    if (this.fetchStandard.type === 'popular') return;
 
     const movieData = await this.getMovieData(getAPI.searchMovie(this.fetchStandard.keyword!, this.fetchStandard.page));
     render.updateMoveList(movieData, this.fetchStandard);

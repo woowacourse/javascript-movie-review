@@ -1,7 +1,7 @@
 import MovieCard from './MovieCard';
 import skeletonTemplate from './Skeleton';
-import { FetchType } from '../app';
-import { MovieItem } from '../domain/processMovieData';
+import { MovieItem } from '../@types/movieType';
+import { FetchType } from '../@types/fetchType';
 
 class MovieList {
   private _node!: HTMLElement;

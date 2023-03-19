@@ -1,5 +1,5 @@
+import { MovieItem } from '../@types/movieType';
 import starFilled from '../asset/star_filled.png';
-import { MovieItem } from '../domain/processMovieData';
 
 class MovieCard {
   private _node!: HTMLElement;

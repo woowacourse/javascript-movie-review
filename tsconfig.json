@@ -12,5 +12,7 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "skipLibCheck": true
-  }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "./src/@types"],
+  "exclude": ["node_modules"]
 }
