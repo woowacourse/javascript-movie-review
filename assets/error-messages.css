@@ -1,0 +1,33 @@
+:root {
+  --error-title-color: rgb(240, 110, 110);
+  --error-message-color: rgb(250, 170, 170);
+}
+
+.error-layout {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 1200px;
+  gap: 5px;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.error-image {
+  width: 200px;
+  margin: 0 auto;
+}
+
+.error-title {
+  font-size: 26px;
+  font-family: 'Pretendard';
+  font-weight: 800;
+  color: var(--error-title-color);
+}
+
+.error-message {
+  font-size: 20px;
+  font-family: 'Lato';
+  font-weight: 400;
+  color: var(--error-message-color);
+}
