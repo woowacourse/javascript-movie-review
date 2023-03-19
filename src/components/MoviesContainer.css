@@ -1,3 +1,9 @@
+.item-container {
+  position: relative;
+  top: 120px;
+  padding-bottom: 120px;
+}
+
 .item-view,
 .item-test {
   width: 100%;

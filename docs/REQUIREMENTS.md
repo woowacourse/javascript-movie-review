@@ -28,7 +28,7 @@
 
 ### 스탭 1 리팩터링 목록
 
-- [ ] 헤더를 fixed 한다 ( 사용자 편의성 측면 )
+- [x] 헤더를 fixed 한다 ( 사용자 편의성 측면 )
 - [x] fixture와 intercept 테스트를 따로 분리한다
 - [ ] utils 의 fetch해주는 request 함수가 json을 반환하도록 한다
   - Fetch API 래핑하기 (추상화)

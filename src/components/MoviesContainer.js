@@ -35,7 +35,7 @@ class MoviesContainer extends HTMLElement {
 
   renderContainer() {
     this.innerHTML = `
-    <main>
+    <main class="item-container">
     <section class="item-view">
     <h2>지금 인기 있는 영화</h2>
     <ul class="item-list">
