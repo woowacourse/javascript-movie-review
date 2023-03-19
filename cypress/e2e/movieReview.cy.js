@@ -7,7 +7,7 @@ describe('영화 리뷰 e2e 테스트', () => {
     cy.intercept(
       {
         method: 'GET',
-        url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular\?[^#]*page=1$/,
+        url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular\?[^#]*page=1/,
       },
       { fixture: 'popularMoviesPage1.json' }
     ).as('fetchPopularMoviePage1Data');
@@ -15,7 +15,7 @@ describe('영화 리뷰 e2e 테스트', () => {
     cy.intercept(
       {
         method: 'GET',
-        url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular\?[^#]*page=2$/,
+        url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular\?[^#]*page=2/,
       },
       { fixture: 'popularMoviesPage2.json' }
     ).as('fetchPopularMoviePage2Data');
