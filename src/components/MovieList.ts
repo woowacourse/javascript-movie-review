@@ -1,6 +1,6 @@
 import { movieApi } from "../domain/movieApi";
 import { movieStore } from "../domain/movieStore";
-import { IMovie } from "../type";
+import { Movie } from "../type";
 import { renderSkeletons } from "./movieListHandler";
 
 export default class MovieList extends HTMLElement {
@@ -17,26 +17,24 @@ export default class MovieList extends HTMLElement {
   renderMovies() {
     this.innerHTML = `
     <section class="item-view">
-      ${
-        movieStore.movies.length > 0
-          ? `<h2>${
-              movieApi.last_keyword === ""
-                ? "지금 인기 있는 영화"
-                : `"${movieApi.last_keyword}" 검색 결과`
-            }</h2>
+      ${movieStore.movies.length > 0
+        ? `<h2>${movieApi.last_keyword === ""
+          ? "지금 인기 있는 영화"
+          : `"${movieApi.last_keyword}" 검색 결과`
+        }</h2>
             <ul class="item-list">
               ${movieStore.movies
-                .map((movie) => this.renderMovie(movie))
-                .join("")}
+          .map((movie) => this.renderMovie(movie))
+          .join("")}
             </ul>`
-          : `<no-results-message></no-results-message>`
+        : `<no-results-message></no-results-message>`
       }
       <button id="more-button" class="btn primary full-width">더 보기</button>
     </section>
     `;
   }
 
-  renderMovie(movie: IMovie) {
+  renderMovie(movie: Movie) {
     return `
     <li>
       <a href="#">
@@ -53,9 +51,8 @@ export default class MovieList extends HTMLElement {
           />
           <p class="item-title">${movie.title}</p>
           <p class="item-score">
-            <img src="./assets/star_${
-              movie.ratings > 0 ? "filled" : "empty"
-            }.png" alt="별점" /> ${movie.ratings.toFixed(1)}
+            <img src="./assets/star_${movie.ratings > 0 ? "filled" : "empty"
+      }.png" alt="별점" /> ${movie.ratings.toFixed(1)}
           </p>
         </div>
       </a>

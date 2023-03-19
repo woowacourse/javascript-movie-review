@@ -1,6 +1,12 @@
 import { removeMoreButton } from "../components/movieListHandler";
-import { IApiResponse, IMovie } from "../type";
+import { Movie } from "../type";
 import { movieStore } from "./movieStore";
+
+interface MovieApiResponse {
+  poster_path: string;
+  title: string;
+  vote_average: number;
+}
 
 export const movieApi = {
   page: 1,
@@ -25,10 +31,8 @@ const fetchMovieInfo = async (endpoint: string, keyword: string) => {
 };
 
 const buildUrl = (endpoint: string, keyword: string) =>
-  `https://api.themoviedb.org/3/${endpoint}?api_key=${
-    process.env.API_KEY
-  }&language=ko&page=${movieApi.page}${
-    keyword === "" ? "" : `&query=${keyword}`
+  `https://api.themoviedb.org/3/${endpoint}?api_key=${process.env.API_KEY
+  }&language=ko&page=${movieApi.page}${keyword === "" ? "" : `&query=${keyword}`
   }`;
 
 const catchError = (status: number) => {
@@ -46,13 +50,13 @@ const handleMovieInfoResponse = async (response: Response) => {
   saveMoviesAndRemoveMoreButton(results);
 };
 
-const saveMoviesAndRemoveMoreButton = (results: IApiResponse[]) => {
+const saveMoviesAndRemoveMoreButton = (results: MovieApiResponse[]) => {
   movieStore.appendMovies(convertApiResponseToMovieList(results));
 
   if (movieApi.page === movieApi.total_page) removeMoreButton();
 };
 
-const convertApiResponseToMovieList = (results: IApiResponse[]): IMovie[] => {
+const convertApiResponseToMovieList = (results: MovieApiResponse[]): Movie[] => {
   return results.map((movie) => {
     return {
       poster: movie.poster_path,
