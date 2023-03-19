@@ -11,7 +11,6 @@ const movieApp = {
   $container: <MovieListContainer>$("movie-list-container"),
 
   init() {
-    this.$container.render();
     this.addEvent();
     this.getPopularMovieData();
   },

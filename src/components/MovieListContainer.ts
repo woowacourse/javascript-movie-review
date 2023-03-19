@@ -6,17 +6,21 @@ class MovieListContainer extends HTMLElement {
     super();
   }
 
+  connectedCallback() {
+    this.render();
+    this.addEvent();
+  }
+
   render(query?: string) {
     const type = this.getAttribute("type");
 
     this.innerHTML = /* html */ `
-        <h2>${
-          type === "popular" ? "지금 인기 있는 영화" : `"${query}" 검색 결과`
-        }</h2>
-        <movie-list class="item-list"></movie-list>
-        <button id="more-button" class="btn primary full-width">더 보기</button>
-      `;
-    this.addEvent();
+      <h2>
+        ${type === "popular" ? "지금 인기 있는 영화" : `"${query}" 검색 결과`}
+      </h2>
+      <movie-list class="item-list"></movie-list>
+      <button id="more-button" class="btn primary full-width">더 보기</button>
+    `;
   }
 
   addEvent() {
