@@ -6,7 +6,7 @@ import NoResultsMessage from "./components/NoResultsMessage";
 import { movieApi } from "./domain/movieApi";
 import Skeleton from "./components/Skeleton";
 
-movieApi.showPopularMovies();
+movieApi.showMovies();
 
 customElements.define("movie-header", Header);
 customElements.define("movie-list", MovieList);

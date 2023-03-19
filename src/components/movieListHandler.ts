@@ -1,18 +1,17 @@
 import { movieApi } from "../domain/movieApi";
 import { $ } from "../utils/selector";
 import MovieList from "./MovieList";
+import { MOVIE_COUNT_IN_ONE_PAGE } from "../constants";
 
 export const onClickMoreButton = () => {
   $("#more-button").addEventListener("click", async () => {
     $(".item-list").insertAdjacentHTML("beforeend", renderSkeletons());
 
-    movieApi.page += 1;
+    const currentPage = Number(movieApi.urlParams.get("page"));
+    movieApi.urlParams.set("page", `${currentPage + 1}`);
 
-    if (movieApi.lastKeyword === "") {
-      movieApi.showPopularMovies();
-    } else {
-      movieApi.showSearchedMovies(movieApi.lastKeyword);
-    }
+    const path = movieApi.url.pathname.replace("/3/", "");
+    movieApi.showMovies(path, `${movieApi.urlParams.get("query")}`);
   });
 };
 
@@ -27,5 +26,5 @@ export const removeMoreButton = () => {
 };
 
 export const renderSkeletons = () => {
-  return "<movie-skeleton></movie-skeleton>".repeat(20);
+  return "<movie-skeleton></movie-skeleton>".repeat(MOVIE_COUNT_IN_ONE_PAGE);
 };

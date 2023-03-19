@@ -1,35 +1,40 @@
 import { removeMoreButton } from "../components/movieListHandler";
 import { ApiResponse, Movie } from "../type";
 import { movieStore } from "./movieStore";
+import { API, PATH } from "../constants";
+const { URL: API_URL, LANGUAGE } = API;
+const { POPULAR_MOVIE } = PATH;
 
 export const movieApi = {
-  page: 1,
+  url: new URL(API_URL),
+  urlParams: new URLSearchParams(),
   totalPage: 2,
-  lastKeyword: "",
 
-  showPopularMovies() {
-    fetchMovieInfo("movie/popular", "");
-  },
-
-  showSearchedMovies(keyword: string) {
-    fetchMovieInfo("search/movie", keyword);
+  showMovies(endpoint: string = POPULAR_MOVIE, keyword: string = "") {
+    fetchMovieInfo(endpoint, keyword);
   },
 };
 
 const fetchMovieInfo = async (endpoint: string, keyword: string) => {
-  const url = buildUrl(endpoint, keyword);
+  const url = buildMovieUrl(endpoint, keyword);
   const response = await fetch(url);
   catchError(response.status);
 
   handleMovieInfoResponse(response);
 };
 
-const buildUrl = (endpoint: string, keyword: string) =>
-  `https://api.themoviedb.org/3/${endpoint}?api_key=${
-    process.env.API_KEY
-  }&language=ko&page=${movieApi.page}${
-    keyword === "" ? "" : `&query=${keyword}`
-  }`;
+const buildMovieUrl = (endpoint: string, keyword: string) => {
+  movieApi.url = new URL(endpoint, API_URL);
+  const urlParams = new URLSearchParams(`api_key=${process.env.API_KEY}`);
+
+  urlParams.set("language", LANGUAGE);
+  urlParams.set("page", movieApi.urlParams.get("page") ?? "1");
+  urlParams.set("query", keyword);
+
+  movieApi.urlParams = urlParams;
+
+  return `${movieApi.url}?${urlParams}`;
+};
 
 const catchError = (status: number) => {
   try {
@@ -49,7 +54,8 @@ const handleMovieInfoResponse = async (response: Response) => {
 const saveMoviesAndRemoveMoreButton = (results: Array<ApiResponse>) => {
   movieStore.appendMovies(convertApiResponseToMovieList(results));
 
-  if (movieApi.page === movieApi.totalPage) removeMoreButton();
+  const currentPage = Number(movieApi.urlParams.get("page"));
+  if (currentPage === movieApi.totalPage) removeMoreButton();
 };
 
 const convertApiResponseToMovieList = (
@@ -66,6 +72,6 @@ const convertApiResponseToMovieList = (
 
 export const resetMoviesAndPages = () => {
   movieStore.movies = [];
-  movieApi.page = 1;
+  movieApi.urlParams.set("page", "1");
   movieApi.totalPage = 2;
 };

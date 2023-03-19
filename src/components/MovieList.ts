@@ -2,6 +2,8 @@ import { movieApi } from "../domain/movieApi";
 import { movieStore } from "../domain/movieStore";
 import { Movie } from "../type";
 import { renderSkeletons } from "./movieListHandler";
+import { PATH } from "../constants";
+const { POPULAR_MOVIE } = PATH;
 
 export default class MovieList extends HTMLElement {
   constructor() {
@@ -20,9 +22,9 @@ export default class MovieList extends HTMLElement {
       ${
         movieStore.movies.length > 0
           ? `<h2>${
-              movieApi.lastKeyword === ""
+              movieApi.url.pathname.includes(POPULAR_MOVIE)
                 ? "지금 인기 있는 영화"
-                : `"${movieApi.lastKeyword}" 검색 결과`
+                : `"${movieApi.urlParams.get("query")}" 검색 결과`
             }</h2>
             <ul class="item-list">
               ${movieStore.movies
