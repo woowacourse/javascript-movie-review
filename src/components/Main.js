@@ -22,14 +22,13 @@ class Main {
 
   renderSkeleton(element) {
     const query = this.#manager.getQuery();
-    const skeleton = new MovieSkeleton();
 
     $('h2', element).innerHTML =
       query === '' ? '지금 인기 있는 영화' : `"${query}" 검색 결과`;
     $('ul', element).appendChild(document.createElement('div'));
 
     const skeletonElement = $('ul', element).lastElementChild;
-    skeletonElement.outerHTML = skeleton.template().repeat(SKELETON_ITEM_COUNT);
+    skeletonElement.outerHTML = MovieSkeleton().repeat(SKELETON_ITEM_COUNT);
   }
 
   async render() {

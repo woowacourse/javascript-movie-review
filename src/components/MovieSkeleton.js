@@ -1,8 +1,7 @@
-class MovieSkeleton {
-  template () {
-    return `
+const MovieSkeleton = () => {
+  return `
     <li class="skeleton">
-      <a href="#">
+      <a>
         <div class="item-card">
           <div class="item-thumbnail skeleton"></div>
           <div class="item-title skeleton"></div>
@@ -11,7 +10,6 @@ class MovieSkeleton {
       </a>
     </li>
     `;
-  }
-}
+};
 
 export default MovieSkeleton;
