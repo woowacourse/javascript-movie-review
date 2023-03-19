@@ -1,22 +1,12 @@
 import { $ } from './utils/domSelector';
 import NavBar from './components/NavBar';
 import './components/MovieListContainer';
-import MovieListContent from './components/MovieListContent';
+import './components/MovieTitle';
+import './components/MovieListContent';
+import './components/InvalidMessage';
+import MovieList from './domain/MovieList';
 
-class App {
-  constructor() {
-    this.render();
-    this.initEvents();
-    MovieListContent.loadMovies();
-  }
+$<HTMLDivElement>('#app').insertAdjacentHTML('afterbegin', NavBar.template());
+NavBar.addEventToSearchInput();
 
-  render() {
-    $<HTMLDivElement>('#app').insertAdjacentHTML('afterbegin', NavBar.template());
-  }
-
-  initEvents() {
-    NavBar.addEventToSearchInput();
-  }
-}
-
-new App();
+MovieList.getMovieData();
