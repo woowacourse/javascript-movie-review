@@ -10,63 +10,62 @@ class App {
 
   constructor() {
     this.initEventHandler();
+    this.initLoad();
   }
 
-  async initMovieList() {
+  loadMovieList() {
+    const isPopularMovieList = this.fetchStandard.type === FetchType.Popular;
+
+    try {
+      if (isPopularMovieList) this.loadPopularMovieList();
+      else this.loadSearchedMovieList();
+    } catch (error) {
+      render.apiError();
+    }
+  }
+
+  async loadPopularMovieList() {
     const movieData = await this.getMovieData(getAPI.popularMovie(this.fetchStandard.page));
     render.updateMovieList(movieData, this.fetchStandard);
   }
 
-  async showMoreMovieList() {
-    const movieData =
-      this.fetchStandard.type === FetchType.Popular
-        ? await this.getMovieData(getAPI.popularMovie(this.fetchStandard.page))
-        : await this.getMovieData(getAPI.searchMovie(this.fetchStandard.keyword, this.fetchStandard.page));
-    render.updateMovieList(movieData, this.fetchStandard);
-  }
-
-  async showSearchedMovieList() {
-    if (this.fetchStandard.type === 'popular') return;
+  async loadSearchedMovieList() {
+    if (this.fetchStandard.type === FetchType.Popular) return;
 
     const movieData = await this.getMovieData(getAPI.searchMovie(this.fetchStandard.keyword!, this.fetchStandard.page));
     render.updateMovieList(movieData, this.fetchStandard);
   }
 
-  async initLoad() {
-    render.init();
-
-    render.createSkeleton();
-
-    try {
-      await this.initMovieList();
-    } catch {
-      render.apiError();
-    }
-  }
-
-  async seeMoreMovies() {
+  loadMoreMovies() {
     this.fetchStandard.page += 1;
 
     render.createSkeleton();
 
-    try {
-      await this.showMoreMovieList();
-    } catch {
-      render.apiError();
-    }
+    this.loadMovieList();
   }
 
-  async searchMovies({ detail }: CustomEvent) {
+  searchMovies({ detail }: CustomEvent) {
     const { keyword } = detail;
     this.fetchStandard = { page: 1, type: FetchType.Search, keyword };
 
     render.setupSearchMovie(this.fetchStandard);
 
-    try {
-      this.showSearchedMovieList();
-    } catch {
-      render.apiError();
-    }
+    this.loadMovieList();
+  }
+
+  moveHome() {
+    this.fetchStandard = { page: 1, type: FetchType.Popular };
+
+    render.setupPopularMovie(this.fetchStandard);
+
+    this.loadMovieList();
+  }
+
+  initLoad() {
+    render.init();
+    render.createSkeleton();
+
+    this.loadMovieList();
   }
 
   async getMovieData(api: string) {
@@ -75,21 +74,8 @@ class App {
     return processMovieData(moviesJson);
   }
 
-  async moveHome() {
-    this.fetchStandard = { page: 1, type: FetchType.Popular };
-
-    render.setupPopularMovie(this.fetchStandard);
-
-    try {
-      await this.showMoreMovieList();
-    } catch {
-      render.apiError();
-    }
-  }
-
   initEventHandler() {
-    window.addEventListener('load', this.initLoad.bind(this));
-    document.addEventListener('seeMoreMovie', this.seeMoreMovies.bind(this) as EventListener);
+    document.addEventListener('seeMoreMovie', this.loadMoreMovies.bind(this) as EventListener);
     document.addEventListener('searchMovies', this.searchMovies.bind(this) as unknown as EventListener);
     document.addEventListener('moveHome', this.moveHome.bind(this));
   }

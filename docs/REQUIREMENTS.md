@@ -42,3 +42,6 @@
 - [x] refactor: prompt 창 지우기
 - [x] refactor: 타입 한 곳에서 관리하기
 - [x] refactor: 오탈자 수정하기
+- [x] refactor: app.js 로직 리팩터링
+  - 중복되는 함수 제거
+  - 메서드명 변경
