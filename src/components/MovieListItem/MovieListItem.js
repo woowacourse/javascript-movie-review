@@ -24,7 +24,7 @@ class MovieListItem extends HTMLElement {
           <p class="item-title">${title}</p>
           <p class="item-score">
             ${score}
-            <img src="${StarFilled}" alt="별점" />
+            <img src="${StarFilled}" alt="별점${score}" />
           </p>
         </div>
       </a>
