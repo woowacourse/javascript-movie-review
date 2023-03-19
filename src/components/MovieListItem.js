@@ -35,6 +35,14 @@ class MovieListItem extends HTMLElement {
       </li>
     `;
   }
+
+  connectedCallback() {
+    this.querySelector('.item-thumbnail').addEventListener('load', this.onLoad);
+  }
+
+  onLoad = () => {
+    this.querySelector('.item-thumbnail').classList.remove('skeleton');
+  };
 }
 
 export default MovieListItem;
