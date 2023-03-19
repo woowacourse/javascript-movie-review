@@ -1,26 +1,29 @@
 import { moreButton } from "./moreButton";
 
-export default class MovieItemList {
-  constructor() {
-    this.render();
-  }
+const MovieItemList = () => {
+  const create = () => `<ul class="item-list"></ul>
+  ${moreButton()}
+  `;
 
-  create() {
-    return `<ul class="item-list"></ul>
-    ${moreButton()}
-    `;
-  }
-
-  addMovies(movieInfos: string) {
+  const addMovies = (movieInfos: string) => {
     document
       .querySelector(".item-list")
       ?.insertAdjacentHTML("beforeend", movieInfos);
-  }
+  };
 
-  render() {
+  const render = () => {
     const container = document.createElement("section");
     container.classList.add("item-view");
     document.querySelector("main")?.appendChild(container);
-    container.innerHTML = this.create();
-  }
-}
+    container.innerHTML = create();
+  };
+
+  render();
+
+  return {
+    render,
+    addMovies,
+  };
+};
+
+export default MovieItemList;
