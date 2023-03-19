@@ -45,25 +45,29 @@ export default class MovieCard extends HTMLElement {
     const $moiveImage = this.querySelector("img");
     if ($moiveImage instanceof HTMLImageElement) {
       $moiveImage.addEventListener("load", () => {
-        if (!$moiveImage.complete) return;
-
-        const $title = this.querySelector(".item-title");
-        const $rating = this.querySelector(".item-score");
-        const $skeleton = this.querySelector("#skeleton");
-
-        if (
-          $skeleton instanceof HTMLDivElement &&
-          $title instanceof HTMLParagraphElement &&
-          $rating instanceof HTMLParagraphElement
-        ) {
-          $skeleton.classList.add("hidden");
-          if (this.movieTitle) $title.innerText = this.movieTitle;
-          $title.classList.remove("skeleton");
-          $rating.innerHTML = `${this.rating}<img src="${Star}" alt="별점" />`;
-          $rating.classList.remove("skeleton");
-          $moiveImage.classList.remove("hidden");
-        }
+        this.keepSkeletonWhileImageLoading($moiveImage);
       });
+    }
+  }
+
+  keepSkeletonWhileImageLoading($moiveImage: HTMLImageElement) {
+    if (!$moiveImage.complete) return;
+
+    const $title = this.querySelector(".item-title");
+    const $rating = this.querySelector(".item-score");
+    const $skeleton = this.querySelector("#skeleton");
+
+    if (
+      $skeleton instanceof HTMLDivElement &&
+      $title instanceof HTMLParagraphElement &&
+      $rating instanceof HTMLParagraphElement
+    ) {
+      $skeleton.classList.add("hidden");
+      if (this.movieTitle) $title.innerText = this.movieTitle;
+      $title.classList.remove("skeleton");
+      $rating.innerHTML = `${this.rating}<img src="${Star}" alt="별점" />`;
+      $rating.classList.remove("skeleton");
+      $moiveImage.classList.remove("hidden");
     }
   }
 }

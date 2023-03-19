@@ -1,6 +1,6 @@
 import MoreButton from "./components/MoreButton";
 import MovieCardList from "./components/MovieCardList";
-import { TOGGLE_SKELETON, LIST_STATE } from "./constant/variables";
+import { TOGGLE_SKELETON, LIST_STATE } from "./constant/setting";
 import { $ } from "./utils/Dom";
 import { getPopularMovies, getSearchedMovies } from "./utils/fetch";
 

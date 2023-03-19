@@ -1,3 +1,4 @@
+import { SKELETON_REPEAT_TIME } from "../constant/setting";
 import { $ } from "../utils/Dom";
 
 export default class SkeletonList extends HTMLElement {
@@ -24,7 +25,7 @@ export default class SkeletonList extends HTMLElement {
 
     const $itemList = this.querySelector(".item-list");
     if ($itemList instanceof HTMLUListElement)
-      $itemList.innerHTML = skeletonItem.repeat(20);
+      $itemList.innerHTML = skeletonItem.repeat(SKELETON_REPEAT_TIME);
   }
 }
 
