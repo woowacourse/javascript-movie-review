@@ -13,7 +13,7 @@ class MovieList extends HTMLElement {
 
       set: (target, property, value) => {
         target[property] = value;
-        this.reset();
+        this.resetMovieItem();
 
         document.querySelectorAll('skeleton-item').forEach(node => {
           node.classList.remove('skeleton-hide');
@@ -109,7 +109,7 @@ class MovieList extends HTMLElement {
     });
   }
 
-  reset() {
+  resetMovieItem() {
     document.querySelectorAll('movie-item').forEach(node => node.remove());
 
     const noResultMessage = $('.item-list > span');
