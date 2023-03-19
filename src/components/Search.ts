@@ -9,7 +9,7 @@ export function Search() {
     const formEl = $('.search-box') as HTMLFormElement;
     const formData = getFormFields(formEl);
 
-    statusController.changePageStatus();
+    statusController.changePageStatus('search');
     statusController.resetPage();
 
     showMovieList('search', String(formData.keyword));

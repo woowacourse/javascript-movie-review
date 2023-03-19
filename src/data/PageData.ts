@@ -24,8 +24,9 @@ export const statusController = {
   resetPage() {
     status.moviePage = 1;
   },
-  changePageStatus() {
-    status.pageStatus = status.pageStatus === 'popular' ? 'search' : 'popular';
+  changePageStatus(callPage: IPageStatus) {
+    status.pageStatus = callPage;
+    console.log(status.pageStatus);
   },
 };
 

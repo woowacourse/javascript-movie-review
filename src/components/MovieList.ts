@@ -21,8 +21,8 @@ export async function showMovieList(callPlace: callPlaceType, keyword: keywordTy
   if (callPlace === 'search' && keyword !== null) {
     try {
       changePageHeader('search', keyword);
-      Validation.inputText(keyword);
       await useSearchedMovie(keyword).then(({ values }) => renderMovieList(values.results));
+      Validation.inputText(keyword);
     } catch (error) {
       if (error instanceof Error) renderError(String(error.message));
     }
