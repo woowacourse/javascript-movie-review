@@ -4,8 +4,8 @@ import { movieStore } from "./movieStore";
 
 export const movieApi = {
   page: 1,
-  total_page: 2,
-  last_keyword: "",
+  totalPage: 2,
+  lastKeyword: "",
 
   showPopularMovies() {
     fetchMovieInfo("movie/popular", "");
@@ -41,7 +41,7 @@ const catchError = (status: number) => {
 
 const handleMovieInfoResponse = async (response: Response) => {
   const { results, total_pages } = await response.json();
-  movieApi.total_page = total_pages;
+  movieApi.totalPage = total_pages;
 
   saveMoviesAndRemoveMoreButton(results);
 };
@@ -49,7 +49,7 @@ const handleMovieInfoResponse = async (response: Response) => {
 const saveMoviesAndRemoveMoreButton = (results: Array<ApiResponse>) => {
   movieStore.appendMovies(convertApiResponseToMovieList(results));
 
-  if (movieApi.page === movieApi.total_page) removeMoreButton();
+  if (movieApi.page === movieApi.totalPage) removeMoreButton();
 };
 
 const convertApiResponseToMovieList = (
@@ -67,5 +67,5 @@ const convertApiResponseToMovieList = (
 export const resetMoviesAndPages = () => {
   movieStore.movies = [];
   movieApi.page = 1;
-  movieApi.total_page = 2;
+  movieApi.totalPage = 2;
 };

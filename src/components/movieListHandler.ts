@@ -8,10 +8,10 @@ export const onClickMoreButton = () => {
 
     movieApi.page += 1;
 
-    if (movieApi.last_keyword === "") {
+    if (movieApi.lastKeyword === "") {
       movieApi.showPopularMovies();
     } else {
-      movieApi.showSearchedMovies(movieApi.last_keyword);
+      movieApi.showSearchedMovies(movieApi.lastKeyword);
     }
   });
 };

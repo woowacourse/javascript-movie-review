@@ -11,7 +11,7 @@ export const onSubmitSearchBox = () => {
 
       if (keyword === "") return;
 
-      movieApi.last_keyword = keyword;
+      movieApi.lastKeyword = keyword;
       resetMoviesAndPages();
       movieApi.showSearchedMovies(keyword);
     }
@@ -21,7 +21,7 @@ export const onSubmitSearchBox = () => {
 export const onClickLogo = () => {
   $("#logo").addEventListener("click", () => {
     resetMoviesAndPages();
-    movieApi.last_keyword = "";
+    movieApi.lastKeyword = "";
 
     movieApi.showPopularMovies();
   });

@@ -20,9 +20,9 @@ export default class MovieList extends HTMLElement {
       ${
         movieStore.movies.length > 0
           ? `<h2>${
-              movieApi.last_keyword === ""
+              movieApi.lastKeyword === ""
                 ? "지금 인기 있는 영화"
-                : `"${movieApi.last_keyword}" 검색 결과`
+                : `"${movieApi.lastKeyword}" 검색 결과`
             }</h2>
             <ul class="item-list">
               ${movieStore.movies
