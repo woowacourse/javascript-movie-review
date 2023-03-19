@@ -1,7 +1,7 @@
 import NULL_IMAGE from '../const/nullImage';
 import { MovieItem } from '../domain/processMovieData';
 
-class MovieCard {
+class MovieCard implements Component {
   readonly node: HTMLElement;
   private thumbnail!: HTMLImageElement;
   private thumbnailSkeleton!: HTMLDivElement;

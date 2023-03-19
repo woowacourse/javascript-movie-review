@@ -3,7 +3,7 @@ import skeletonTemplate from './Skeleton';
 import { FetchType } from '../app';
 import { MovieItem } from '../domain/processMovieData';
 
-class MovieList {
+class MovieList implements Component {
   readonly node: HTMLElement;
 
   private listName!: HTMLParagraphElement;

@@ -1,4 +1,4 @@
-class SearchBox {
+class SearchBox implements Component {
   readonly node: HTMLElement;
   private searchInput!: HTMLInputElement;
   private searchButton!: HTMLButtonElement;
