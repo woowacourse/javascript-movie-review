@@ -1,10 +1,16 @@
 import { MovieType, APIMovieType, ResponseType } from '../types';
 
 class MovieFetcher {
+  #previousPage = 1;
   #currentPage = 1;
 
   resetPage() {
+    this.#previousPage = this.#currentPage;
     this.#currentPage = 1;
+  }
+
+  cancelResetPage() {
+    this.#currentPage = this.#previousPage;
   }
 
   async fetchMovieInfoByPopularity(): Promise<ResponseType> {
@@ -16,12 +22,10 @@ class MovieFetcher {
       );
 
       if (!response.ok) {
-        const responseText = await response.text();
-        const parsedResponseText = JSON.parse(responseText);
-
         if (response.status === 422) return { result: 'PAGE_ERROR' };
         if (response.status >= 400 && response.status <= 499) return { result: 'CLIENT_ERROR' };
         if (response.status >= 500 && response.status <= 599) return { result: 'SERVER_ERROR' };
+
         return { result: '' };
       }
 
@@ -55,12 +59,10 @@ class MovieFetcher {
       );
 
       if (!response.ok) {
-        const responseText = await response.text();
-        const parsedResponseText = JSON.parse(responseText);
-
         if (response.status === 422) return { result: 'PAGE_ERROR' };
         if (response.status >= 400 && response.status <= 499) return { result: 'CLIENT_ERROR' };
         if (response.status >= 500 && response.status <= 599) return { result: 'SERVER_ERROR' };
+
         return { result: '' };
       }
 

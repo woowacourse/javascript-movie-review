@@ -33,6 +33,10 @@ class App {
 
     this.#movieList.removeSkeletonItems();
 
+    if (result !== 'OK' && updateType === 'overwrite') {
+      this.#movieFetcher.cancelResetPage();
+    }
+
     if (result === 'PAGE_ERROR') {
       alert('페이지 에러');
     }
