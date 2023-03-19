@@ -1,6 +1,6 @@
 import { getApiPopularMovie, getApiSearchMovie } from './api';
 import Observable from './Observable';
-import MovieListApiType from '../type/movie';
+import { MovieListType, MovieItemType } from '../type/movie';
 
 class Movies extends Observable {
   private popularPage = 1;
@@ -40,12 +40,12 @@ class Movies extends Observable {
   async setMovies() {
     this.notify('loading');
 
-    const popularMovies = await getApiPopularMovie<MovieListApiType>(
+    const popularMovies = await getApiPopularMovie<MovieListType>(
       this.popularPage
     );
 
     const refineMovies = popularMovies?.results.map(
-      ({ id, poster_path, title, vote_average }) => {
+      ({ id, poster_path, title, vote_average }: MovieItemType) => {
         return { id, poster_path, title, vote_average };
       }
     );
@@ -65,13 +65,13 @@ class Movies extends Observable {
     if (this.query !== query) this.searchPage = 1;
     this.query = query;
 
-    const searchMovies = await getApiSearchMovie<MovieListApiType>(
+    const searchMovies = await getApiSearchMovie<MovieListType>(
       query,
       this.searchPage
     );
 
     const refineMovies = searchMovies?.results.map(
-      ({ id, poster_path, title, vote_average }) => {
+      ({ id, poster_path, title, vote_average }: MovieItemType) => {
         return { id, poster_path, title, vote_average };
       }
     );
