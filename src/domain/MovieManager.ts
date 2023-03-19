@@ -42,14 +42,14 @@ class MovieManage {
   }
 
   async initMovies() {
-    await MovieModel.getApiMovies();
+    await MovieModel.updateMovies();
 
     const movies = MovieModel.getMovieList();
     this.publish(movies);
   }
 
   async searchMovies(searchWord: string) {
-    await MovieModel.getApiMovies(searchWord);
+    await MovieModel.updateMovies(searchWord);
 
     const movies = MovieModel.getMovieList();
     this.publishSearch(searchWord);
@@ -57,7 +57,7 @@ class MovieManage {
   }
 
   async showMoreMovies() {
-    await MovieModel.getApiMoreMovies();
+    await MovieModel.updateMoreMovies();
 
     const movies = MovieModel.getMovieList();
     this.publish(movies, true);

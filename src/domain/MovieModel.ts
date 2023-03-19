@@ -29,7 +29,7 @@ class MovieModel {
     return this.page === this.totalPages;
   }
 
-  async getApiMovies(query: string = "") {
+  async updateMovies(query: string = "") {
     this.page = 1;
     this.searchWord = query;
 
@@ -42,7 +42,7 @@ class MovieModel {
     this.movies = this.toMovies(data.results);
   }
 
-  async getApiMoreMovies() {
+  async updateMoreMovies() {
     this.increasePage();
 
     const url = this.searchWord
