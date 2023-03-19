@@ -18,7 +18,7 @@ class App {
     this.#loadMoreButton.render('Load More');
 
     this.#loadMoreButton.addClickEventHandler(this.onClickLoadMoreButton);
-    this.#header.addClickEventHandler(this.onClickSearchButton);
+    this.#header.addSubmitEventHandler(this.onSubmitSearchForm);
   }
 
   async fetchAndUpdateMovieList(requestListType: string, updateType: string, keyword: string = '') {
@@ -72,7 +72,7 @@ class App {
     this.fetchAndUpdateMovieList(this.#requestListType, 'append', this.#searchKeyword);
   };
 
-  onClickSearchButton = (keyword: string) => {
+  onSubmitSearchForm = (keyword: string) => {
     this.#requestListType = 'keyword';
     this.#searchKeyword = keyword;
     this.fetchAndUpdateMovieList(this.#requestListType, 'overwrite', this.#searchKeyword);

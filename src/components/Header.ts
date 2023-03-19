@@ -6,31 +6,27 @@ class Header {
   render() {
     const template = `      
       <h1><a href="./"><img src="./assets/logo.png" alt="MovieList 로고" /></a></h1>
-      <div class="search-box">
-        <input type="text" id="search-input" placeholder="Search" />
-        <button class="search-button" id="search-button">검색</button>
-      </div>`;
+      <form class="search-box" id="search-form">
+        <input type="text" id="search-input" name="keyword" placeholder="Search" />
+        <button type="submit" class="search-button" id="search-button">검색</button>
+      </form>`;
 
     this.#element.innerHTML = template;
   }
 
-  addClickEventHandler(onClickSearchButton: CallableFunction) {
-    const $searchButton = $('#search-button');
-    const $searchInput = $('#search-input');
+  addSubmitEventHandler(onSubmitSearchForm: CallableFunction) {
+    const $searchForm = $('#search-form');
 
-    $searchButton.addEventListener('click', () => {
-      if (!($searchInput instanceof HTMLInputElement)) return;
+    $searchForm.addEventListener('submit', (event) => {
+      event.preventDefault();
 
-      onClickSearchButton($searchInput.value);
+      if (!(event.target instanceof HTMLFormElement)) return;
+
+      const formData = new FormData(event.target);
+      const keyword = String(formData.get('keyword'));
+
+      onSubmitSearchForm(keyword);
     });
-
-    // $searchInput.addEventListener('keydown', (event: KeyboardEvent) => {
-    //   if (event.key === 'Enter') {
-    //     if (!($searchInput instanceof HTMLInputElement)) return;
-
-    //     onClickSearchButton($searchInput.value);
-    //   }
-    // });
   }
 }
 
