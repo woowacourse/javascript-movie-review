@@ -34,16 +34,13 @@ export default class MovieList {
     this.$target.insertAdjacentHTML('beforeend', this.skeletonTemplate());
   }
 
-  async render(popularMovies: any) {
+  render(popularMovies: any) {
     $('.skeleton-container').remove();
 
-    this.$target.insertAdjacentHTML(
-      'beforeend',
-      await this.template(popularMovies)
-    );
+    this.$target.insertAdjacentHTML('beforeend', this.template(popularMovies));
   }
 
-  async template(popularMovies: any) {
+  template(popularMovies: any) {
     return popularMovies
       .map((movie: any) => new MovieItem().template(movie))
       .join('');
