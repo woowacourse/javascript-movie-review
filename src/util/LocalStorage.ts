@@ -1,13 +1,13 @@
-import Storage from "../type/Storage";
+import Storage from '../type/Storage';
 
 const LocalStorage: Storage = {
-  setItem (key, value) {
-    return window.localStorage.setItem(key, value);
+  setItem(key, value) {
+    window.localStorage.setItem(key, value);
   },
 
-  getItem (key) {
+  getItem(key) {
     return window.localStorage.getItem(key) ?? '';
-  }
+  },
 };
 
 export default LocalStorage;
