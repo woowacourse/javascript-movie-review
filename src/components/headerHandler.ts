@@ -1,4 +1,3 @@
-import { executeEventListener } from "../utils/eventListener";
 import { $ } from "../utils/selector";
 import { movieApi, resetMoviesAndPages } from "../domain/movieApi";
 
@@ -20,7 +19,7 @@ export const onSubmitSearchBox = () => {
 };
 
 export const onClickLogo = () => {
-  executeEventListener($("#logo"), "click", () => {
+  $("#logo").addEventListener("click", () => {
     resetMoviesAndPages();
     movieApi.last_keyword = "";
 
