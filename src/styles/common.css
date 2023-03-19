@@ -45,10 +45,18 @@ button {
 
 .alert-message {
   margin: 24px auto;
+}
 
+.alert-title {
   font-size: 24px;
   font-weight: 600;
-  color: #aaa;
+  line-height: 20px;
+}
+
+.alert-sub-title {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 16px;
 }
 
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
@@ -80,6 +88,10 @@ button {
 }
 
 .item-score {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+
   margin-top: 16px;
   font-size: 1.2rem;
 }

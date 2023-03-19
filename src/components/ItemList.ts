@@ -1,6 +1,6 @@
 import movieItem from './movieItem';
 import { Store } from '../Store';
-import WholeScreenMessageAlert from './WholeScreenMessageAlert';
+
 class ItemList {
   $ul = document.createElement('ul');
 
@@ -11,17 +11,19 @@ class ItemList {
   }
 
   template() {
-    const movies = Store.movieStates?.getMovieStates()['results'];
+    const movies = Store.movieStates?.getMovieStates();
 
-    if (!movies?.length)
+    if (!movies?.results.length)
       return {
         isProblem: true,
-        template: WholeScreenMessageAlert('영화 목록이 없습니다.'),
+        template: ItemListErrorTemplate(
+          `입력하신 "${movies?.query}"(와)과 일치하는 결과가 없습니다.`
+        ),
       };
 
     return {
       isProblem: false,
-      template: movies?.reduce((item, movie) => (item += movieItem(movie)), ``),
+      template: movies?.results.reduce((item, movie) => (item += movieItem(movie)), ``),
     };
   }
 
@@ -34,12 +36,25 @@ class ItemList {
       return;
     }
 
-    const $alertMessage = $target.querySelector('.alert-message');
-    if ($alertMessage) $target.removeChild($alertMessage);
+    const $alertContainer = $target.querySelector('.alert-container');
+    if ($alertContainer) $target.removeChild($alertContainer);
 
     this.$ul.innerHTML = template;
     $target.insertAdjacentElement('beforeend', this.$ul);
   }
+}
+
+function ItemListErrorTemplate(message: string) {
+  return `
+  <div class="alert-container">
+    <p class="alert-message alert-title">${message}</p>
+      
+    <p class="alert-message alert-sub-title">🌕 다른 키워드를 입력해 보세요.</p>
+    <p class="alert-message alert-sub-title">🌕 영화를 찾고 계신가요?</p>
+    <p class="alert-message alert-sub-title">🌕 영화 제목만을 입력해 주세요</p>
+    
+  </div>
+  `;
 }
 
 export default ItemList;
