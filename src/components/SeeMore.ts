@@ -1,5 +1,5 @@
-import movies from '../domain/Movies';
 import { $ } from '../utils/domHelper';
+import movies from '../domain/Movies';
 
 export default class SeeMore {
   private $target;

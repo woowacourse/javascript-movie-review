@@ -1,4 +1,5 @@
 import { $ } from './utils/domHelper';
+
 import Header from './components/Header';
 import MovieList from './components/MovieList';
 import SeeMore from './components/SeeMore';

@@ -1,6 +1,7 @@
 import { MOVIE_APP_IMG_PATH } from '../constant/index';
-import movies from '../domain/Movies';
 import { $ } from '../utils/domHelper';
+
+import movies from '../domain/Movies';
 
 export default class Header {
   private $target;

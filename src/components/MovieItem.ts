@@ -1,7 +1,8 @@
 import { MOVIE_APP_IMG_PATH } from '../constant/index';
+import { MovieItemType } from '../type/movie';
 
 export default class MovieItem {
-  template({ id, poster_path, title, vote_average }: any) {
+  template({ id, poster_path, title, vote_average }: MovieItemType) {
     return `
     <li id="${id}">
       <a href="#">

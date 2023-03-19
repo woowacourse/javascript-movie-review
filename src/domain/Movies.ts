@@ -1,6 +1,7 @@
 import { getApiPopularMovie, getApiSearchMovie } from './api';
-import Observable from './Observable';
 import { MovieListApiType, MovieItemType } from '../type/movie';
+
+import Observable from './Observable';
 
 class Movies extends Observable {
   private popularPage = 1;
