@@ -22,7 +22,7 @@ export interface Movie {
   score: number;
 }
 
-export interface ParsedMovieResult {
+export interface MoviesState {
   isLastPage: boolean;
   movies: Movie[];
 }

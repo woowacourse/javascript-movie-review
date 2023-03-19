@@ -1,8 +1,9 @@
-import Movies from '../../domain/Movies';
 import './MovieList.css';
-import { $ } from '../../utils/common';
+import { $, parsedFechedMovies, request } from '../../utils/common';
+import Movies from '../../domain/Movies';
 
 class MovieList extends HTMLElement {
+  #pageIndex = 1;
   #movies = new Movies();
   #searchWord = new Proxy(
     { value: '' },
@@ -47,8 +48,7 @@ class MovieList extends HTMLElement {
 
   async updateMovieList() {
     try {
-      await this.#movies.update(this.#searchWord.value);
-
+      this.#movies.update(await this.getMoviesFromApi(this.#searchWord.value));
       this.hideSkeletonItem();
 
       this.renderMovieList();
@@ -59,6 +59,23 @@ class MovieList extends HTMLElement {
 
       this.hideSkeletonItem();
     }
+  }
+
+  async getMoviesFromApi(searchWord) {
+    const apiFetchingData = await (await request(searchWord, this.#pageIndex)).json();
+
+    const fetchedMovies = apiFetchingData.results;
+
+    if (apiFetchingData.total_pages > this.#pageIndex) {
+      this.#pageIndex += 1;
+    }
+
+    const movies = parsedFechedMovies(fetchedMovies);
+
+    return {
+      isLastPage: apiFetchingData.total_pages === this.#pageIndex,
+      movies,
+    };
   }
 
   showSkeletonItem() {
@@ -74,14 +91,14 @@ class MovieList extends HTMLElement {
   }
 
   renderMovieList() {
-    const movieList = this.#movies.movieResult;
+    const movieResultState = this.#movies.movieResultState;
 
-    if (movieList.movies.length === 0) {
+    if (movieResultState.movies.length === 0) {
       this.showNoResult();
       return;
     }
 
-    $('#first-skeleton').insertAdjacentHTML('beforebegin', this.makeMovieListTemplate(movieList.movies));
+    $('#first-skeleton').insertAdjacentHTML('beforebegin', this.makeMovieListTemplate(movieResultState.movies));
   }
 
   showNoResult() {
@@ -102,7 +119,7 @@ class MovieList extends HTMLElement {
   }
 
   toggleVisibleButton() {
-    if (this.#movies.movieResult.isLastPage) {
+    if (this.#movies.movieResultState.isLastPage) {
       $('#more-button').classList.add('hide-button');
       return;
     }
@@ -129,7 +146,11 @@ class MovieList extends HTMLElement {
       noResultMessage.remove();
     }
 
-    this.#movies.resetPageIndex();
+    this.resetPageIndex();
+  }
+
+  resetPageIndex() {
+    this.#pageIndex = 1;
   }
 
   updateTitle(word) {
