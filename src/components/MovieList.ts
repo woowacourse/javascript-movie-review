@@ -143,7 +143,14 @@ class MovieList {
   }
 
   #handleClickMoreButton() {
+    if (this.loadMoreButton.disabled === true) return;
+
     this.node.dispatchEvent(new CustomEvent('seeMoreMovie', { bubbles: true }));
+    this.loadMoreButton.disabled = true;
+
+    setTimeout(() => {
+      this.loadMoreButton.disabled = false;
+    }, 2000);
   }
 }
 
