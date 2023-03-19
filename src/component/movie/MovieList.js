@@ -19,7 +19,7 @@ class MovieList extends CustomElement {
   rerender({ movies, isShowMore }) {
     const movieItemsTemplate = movies.length
       ? this.makeMovieItems(movies)
-      : `<movie-empty></movie-empty>`;
+      : this.makeEmptyItem();
 
     isShowMore
       ? $(".item-list").insertAdjacentHTML("beforeend", movieItemsTemplate)
@@ -36,6 +36,10 @@ class MovieList extends CustomElement {
           `;
       })
       .join("");
+  }
+
+  makeEmptyItem() {
+    return `<movie-empty></movie-empty>`;
   }
 }
 
