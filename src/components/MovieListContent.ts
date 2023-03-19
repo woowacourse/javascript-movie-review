@@ -1,5 +1,10 @@
 import { Movie } from '../types/movie';
-import { MOVIE_LIST_ERROR, MOVIE_MAX_COUNT } from '../constants';
+import {
+  MOVIE_LIST_LOADED,
+  MOVIE_LIST_LOADING,
+  MOVIE_LIST_RESET,
+  MOVIE_MAX_COUNT,
+} from '../constants';
 import { NO_SEARCH_RESULT } from '../constants/invalidMessage';
 import { $, $$ } from '../utils/domSelector';
 import MovieListContainer from './MovieListContainer';
@@ -25,11 +30,11 @@ class MovieListContent {
   }
 
   private init() {
-    MovieList.on('movieListReset', this.clearListContent);
+    MovieList.on(MOVIE_LIST_RESET, this.clearListContent);
 
-    MovieList.on('movieListLoading', this.renderSkeleton);
+    MovieList.on(MOVIE_LIST_LOADING, this.renderSkeleton);
 
-    MovieList.on('movieListLoaded', (event) => {
+    MovieList.on(MOVIE_LIST_LOADED, (event) => {
       const { movies, searchQuery } = (event as CustomEvent).detail;
       this.loadMovies(movies, searchQuery);
     });
