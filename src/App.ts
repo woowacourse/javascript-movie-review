@@ -30,7 +30,7 @@ export default class App {
       listState: LIST_STATE.POPULAR,
     });
 
-    await this.addPopularMoviesList();
+    await this.setMoviesList();
   }
 
   setState(newState: Object) {
@@ -78,39 +78,27 @@ export default class App {
 
   async appendMovieList() {
     this.setState({ page: this.#state.page + 1 });
-    if (this.#state.listState === LIST_STATE.POPULAR) {
-      await this.addPopularMoviesList();
-    }
-    if (this.#state.listState === LIST_STATE.SEARCHED) {
-      await this.addSearchedMoviesList();
-    }
+    await this.setMoviesList();
     this.toggleSkeletonList(); // remove skeleton list
     this.mountMovieList();
   }
 
-  async addPopularMoviesList() {
+  async setMoviesList() {
     try {
-      const fetchedData = await getPopularMovies(this.#state.page);
-      const movieList = fetchedData.results.map((item: movieData) => {
-        const { title, poster_path, vote_average, id } = item;
-        return {
-          title,
-          poster: poster_path,
-          rating: vote_average,
-          movieId: id,
-        };
-      });
+      const { listState, page, movieName } = this.#state;
+      const fetchedData =
+        listState === LIST_STATE.POPULAR
+          ? await getPopularMovies(page)
+          : await getSearchedMovies(movieName, page);
+      const movieList = this.getMovieListFromFetchedData(fetchedData);
       this.setState({ movieList });
     } catch (error) {
-      console.log(error);
       alert(error);
     }
   }
 
-  async addSearchedMoviesList() {
-    const { movieName, page } = this.#state;
-    const fetchedData = await getSearchedMovies(movieName, page);
-    const movieList = fetchedData.results.map((item: movieData) => {
+  getMovieListFromFetchedData(fetchedData: parsedJson) {
+    return fetchedData.results.map((item: movieData) => {
       const { title, poster_path, vote_average, id } = item;
       return {
         title,
@@ -119,14 +107,13 @@ export default class App {
         movieId: id,
       };
     });
-    this.setState({ movieList });
   }
 
   async renderSearchedMovies() {
     this.render();
     this.toggleSkeletonList(); //add skeleton list
     this.hideMoreButton();
-    await this.addSearchedMoviesList();
+    await this.setMoviesList();
     this.toggleSkeletonList(); // remove skeleton list
     this.mountMovieList();
   }
