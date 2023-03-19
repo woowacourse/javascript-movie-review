@@ -15,7 +15,7 @@ type MovieApiType = {
   vote_count: number;
 };
 
-export type MovieListType = {
+export type MovieListApiType = {
   page: number;
   results: MovieApiType[];
   total_pages: number;
@@ -27,4 +27,9 @@ export type MovieItemType = {
   poster_path: string;
   title: string;
   vote_average: number;
+};
+
+export type MovieSubscribserType = {
+  movies: ((value?: MovieItemType[]) => void)[];
+  loading: (() => void)[];
 };
