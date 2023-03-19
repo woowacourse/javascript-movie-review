@@ -11,7 +11,8 @@ export class MovieList extends HTMLElement {
   }
 
   setTitle(title: string) {
-    this.querySelector('h2')!.innerText = title;
+    const pageTitle = this.querySelector('.page-title');
+    if (pageTitle !== null) pageTitle.innerHTML = title;
   }
 
   renderMovies(movieList: Movie[]) {
