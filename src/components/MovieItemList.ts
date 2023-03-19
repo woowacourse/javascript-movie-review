@@ -1,14 +1,23 @@
 import { moreButton } from "./moreButton";
 
-const MovieItemList = () => {
-  const create = () => `<ul class="item-list"></ul>
-  ${moreButton()}
-  `;
+const MovieItemList = (totalPages: number) => {
+  const create = () => {
+    return `<ul class="item-list"></ul>
+    ${moreButton()}
+    `;
+  };
 
-  const addMovies = (movieInfos: string) => {
+  const deleteAddButton = () => {
+    const moreButton = document.querySelector(".primary");
+    moreButton?.classList.add("hidden");
+  };
+
+  const addMovies = (movieInfos: string, currentPage: number) => {
     document
       .querySelector(".item-list")
       ?.insertAdjacentHTML("beforeend", movieInfos);
+
+    totalPages < currentPage ? deleteAddButton() : null;
   };
 
   const render = () => {

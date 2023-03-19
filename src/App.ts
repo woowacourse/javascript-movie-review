@@ -2,82 +2,76 @@ import { getSearchResult } from "./api/keywordSearch";
 import { getPopularMovie } from "./api/movieList";
 import MovieItemList from "./components/MovieItemList";
 import SearchBox from "./components/SearchBox";
-import MovieDataManager from "./domain/MovieDataManager";
+import { generateElement } from "./domain/MovieDataManager";
 
 export const App = async () => {
-  const movieDataManager = new MovieDataManager();
-  const searchBox = new SearchBox();
-  const movieItemList = new MovieItemList();
+  const searchBox = SearchBox();
 
-  document
-    .querySelector(".search-input")!
-    .addEventListener("searchButtonClicked", async (e: Event) => {
-      if (!(e instanceof CustomEvent)) return;
-      document.querySelector("main")!.innerHTML = "";
-      searchBox.updateKeyword(e.detail.query);
-
-      showMovieList();
-    });
-
-  const showMovieList = async () => {
-    const getData = getSearchResult();
-
-    const getCurrentTabResult = async (keyword: string) => {
-      return await getData(keyword);
-    };
-
-    const movieDataManager = new MovieDataManager();
-    const { data, currentPage } = await getCurrentTabResult(
-      searchBox.getKeyword()
-    );
-    const result = data.results;
-    const movieElement = await movieDataManager.generateElement(
-      await result,
-      data.total_pages,
-      currentPage
-    );
-
-    const movieItemList = new MovieItemList();
-    movieItemList.addMovies(movieElement);
-
-    document.querySelector(".primary")?.addEventListener("click", async () => {
-      const { data, currentPage } = await getCurrentTabResult(
-        searchBox.getKeyword()
-      );
-
-      const result = data.results;
-
-      const movieElement = await movieDataManager.generateElement(
-        await result,
-        data.total_pages,
-        currentPage
-      );
-      movieItemList.addMovies(movieElement);
-    });
+  const getPopularMovieInfo = getPopularMovie();
+  const getCurrentPagePopularMovie = async () => {
+    return await getPopularMovieInfo();
   };
 
-  const getData = getPopularMovie();
-  const getCurrentTabResult = async () => {
-    return await getData();
-  };
-  const popularMovieData = await getCurrentTabResult();
-  const result = await popularMovieData?.data.results;
-  const movieElement = await movieDataManager.generateElement(
-    await result,
-    popularMovieData?.data.total_pages,
-    popularMovieData?.currentPage as number
+  const currentPagePopularMovieData = await getCurrentPagePopularMovie();
+  if (!currentPagePopularMovieData) return;
+
+  const result = currentPagePopularMovieData?.data.results;
+  const totalPages = currentPagePopularMovieData?.data.total_pages;
+
+  const movieElement = generateElement(result);
+  const movieItemList = MovieItemList(totalPages);
+
+  movieItemList.addMovies(
+    movieElement,
+    currentPagePopularMovieData.currentPage
   );
 
-  movieItemList.addMovies(movieElement);
-  document.querySelector(".primary")?.addEventListener("click", async () => {
-    const popularMovieData = await getCurrentTabResult();
-    const result = popularMovieData?.data.results;
-    const movieElement = await movieDataManager.generateElement(
-      await result,
-      popularMovieData?.data.total_pages,
-      popularMovieData?.currentPage as number
+  const searchInput = document.querySelector(".search-input");
+  searchInput?.addEventListener("searchButtonClicked", async (e: Event) => {
+    if (!(e instanceof CustomEvent)) return;
+    document.querySelector("main")!.innerHTML = "";
+    searchBox.updateKeyword(e.detail.query);
+
+    showMovieList();
+  });
+
+  const showMovieList = async () => {
+    const getSearchMoiveInfo = getSearchResult();
+
+    const getCurrentSearchMovieInfo = async (keyword: string) => {
+      return await getSearchMoiveInfo(keyword);
+    };
+
+    const { data, currentPage } = await getCurrentSearchMovieInfo(
+      searchBox.getKeyword()
     );
-    movieItemList.addMovies(movieElement);
+    if (!data || !currentPage) return;
+
+    const result = data.results;
+    const searchResultElement = generateElement(result);
+
+    const movieItemList = MovieItemList(data.total_pages);
+    movieItemList.addMovies(searchResultElement, currentPage);
+
+    document.querySelector(".primary")?.addEventListener("click", async () => {
+      const { data, currentPage } = await getCurrentSearchMovieInfo(
+        searchBox.getKeyword()
+      );
+      const result = data.results;
+      const searchResultElement = generateElement(result);
+
+      movieItemList.addMovies(searchResultElement, currentPage);
+    });
+  };
+
+  document.querySelector(".primary")?.addEventListener("click", async () => {
+    const currentPagePopularMovieData = await getCurrentPagePopularMovie();
+    const result = await currentPagePopularMovieData?.data.results;
+    const movieElement = generateElement(result);
+    movieItemList.addMovies(
+      movieElement,
+      currentPagePopularMovieData!.currentPage
+    );
   });
 
   return;
