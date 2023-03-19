@@ -8,7 +8,7 @@ export default class MovieItem {
       <a href="#">
         <div class="item-card">
           <img
-          class="item-thumbnail"
+          class="item-thumbnail skeleton"
           src="https://image.tmdb.org/t/p/original${poster_path}"
           onerror=this.src="${MOVIE_APP_IMG_PATH.posterEmpty}"
           loading="lazy"
