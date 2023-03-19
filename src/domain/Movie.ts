@@ -1,8 +1,7 @@
 import { fetchData } from '../api/http';
 import { statusCodeToErrorMessage } from '../api/statusCode';
+import { TMDB_MOVIE_BASE_URL } from '../constants';
 import { IMovieHandleProps, IMovieItemProps, IMovieProps, IMovieState } from '../types/movie';
-
-const BASE_URL = 'https://api.themoviedb.org/3';
 
 interface IMovieFetchProps {
   curPage: number;
@@ -48,7 +47,7 @@ class Movie {
 
   async getPopularMovies({ curPage = 1 }: IMovieFetchProps): Promise<IModifiedMovie> {
     const movieList = await fetchData<IFetchMovie>(
-      `${BASE_URL}/movie/popular?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&page=${curPage}`
+      `${TMDB_MOVIE_BASE_URL}/movie/popular?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&page=${curPage}`
     );
 
     const { isError, data } = movieList;
@@ -76,7 +75,7 @@ class Movie {
 
   async findMovies({ query, curPage = 1 }: IFindMovieFetchProps): Promise<IModifiedMovie> {
     const foundedMovies = await fetchData<IFetchMovie>(
-      `${BASE_URL}/search/movie?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&query=${query}&page=${curPage}`
+      `${TMDB_MOVIE_BASE_URL}/search/movie?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&query=${query}&page=${curPage}`
     );
 
     const { isError, data } = foundedMovies;
