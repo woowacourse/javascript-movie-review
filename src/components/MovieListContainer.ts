@@ -1,6 +1,5 @@
 import { dispatchCustomEvent } from "./../utils/dom";
 import { $ } from "../utils/dom";
-import { ErrorUnresponsive } from "../../images";
 
 class MovieListContainer extends HTMLElement {
   constructor() {
