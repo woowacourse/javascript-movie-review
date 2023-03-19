@@ -8,7 +8,7 @@ class MovieCard {
   constructor(movieDate: MovieItem) {
     this.movieData = movieDate;
     this.createTemplate();
-    this.initEventHandelr();
+    this.initEventHandler();
   }
 
   get node(): HTMLElement {
@@ -55,7 +55,7 @@ class MovieCard {
       'https://user-images.githubusercontent.com/112997662/223046479-306cc6a7-7024-4616-b28e-be2f2878d2f0.png';
   }
 
-  initEventHandelr() {
+  initEventHandler() {
     const thumbnail = this._node.querySelector<HTMLImageElement>('#item-thumbnail');
     const thumbnailSkeleton = this._node.querySelector<HTMLDivElement>('.skeleton');
 

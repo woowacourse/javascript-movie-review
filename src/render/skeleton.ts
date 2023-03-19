@@ -1,5 +1,5 @@
-import moveList from '../components/MoiveList';
+import movieList from '../components/MovieList';
 
 export default {
-  create: () => moveList.createSkeleton,
+  create: () => movieList.createSkeleton,
 };

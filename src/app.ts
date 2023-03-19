@@ -14,7 +14,7 @@ class App {
 
   async initMovieList() {
     const movieData = await this.getMovieData(getAPI.popularMovie(this.fetchStandard.page));
-    render.updateMoveList(movieData, this.fetchStandard);
+    render.updateMovieList(movieData, this.fetchStandard);
   }
 
   async showMoreMovieList() {
@@ -22,14 +22,14 @@ class App {
       this.fetchStandard.type === FetchType.Popular
         ? await this.getMovieData(getAPI.popularMovie(this.fetchStandard.page))
         : await this.getMovieData(getAPI.searchMovie(this.fetchStandard.keyword, this.fetchStandard.page));
-    render.updateMoveList(movieData, this.fetchStandard);
+    render.updateMovieList(movieData, this.fetchStandard);
   }
 
   async showSearchedMovieList() {
     if (this.fetchStandard.type === 'popular') return;
 
     const movieData = await this.getMovieData(getAPI.searchMovie(this.fetchStandard.keyword!, this.fetchStandard.page));
-    render.updateMoveList(movieData, this.fetchStandard);
+    render.updateMovieList(movieData, this.fetchStandard);
   }
 
   async initLoad() {
@@ -56,7 +56,7 @@ class App {
     }
   }
 
-  async searchMoives({ detail }: CustomEvent) {
+  async searchMovies({ detail }: CustomEvent) {
     const { keyword } = detail;
     this.fetchStandard = { page: 1, type: FetchType.Search, keyword };
 
@@ -90,7 +90,7 @@ class App {
   initEventHandler() {
     window.addEventListener('load', this.initLoad.bind(this));
     document.addEventListener('seeMoreMovie', this.seeMoreMovies.bind(this) as EventListener);
-    document.addEventListener('searchMovies', this.searchMoives.bind(this) as unknown as EventListener);
+    document.addEventListener('searchMovies', this.searchMovies.bind(this) as unknown as EventListener);
     document.addEventListener('moveHome', this.moveHome.bind(this));
   }
 }

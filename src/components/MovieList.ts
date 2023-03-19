@@ -30,13 +30,13 @@ class MovieList {
   }
 
   createSkeleton() {
-    const skeletionListContainer = document.createElement('ul');
+    const skeletonListContainer = document.createElement('ul');
 
-    skeletionListContainer.className = 'item-list skeleton-list';
-    skeletionListContainer.innerHTML = skeletonTemplate(20);
+    skeletonListContainer.className = 'item-list skeleton-list';
+    skeletonListContainer.innerHTML = skeletonTemplate(20);
 
     this.loadMoreButton.classList.add('hidden');
-    this._node.querySelector('.item-view')?.insertAdjacentElement('beforeend', skeletionListContainer);
+    this._node.querySelector('.item-view')?.insertAdjacentElement('beforeend', skeletonListContainer);
   }
 
   paintMovieLayout() {
@@ -50,11 +50,11 @@ class MovieList {
   }
 
   removeSkeleton() {
-    const skeletionList = this._node.querySelector('.skeleton-list');
+    const skeletonList = this._node.querySelector('.skeleton-list');
 
-    if (!skeletionList) return;
+    if (!skeletonList) return;
 
-    skeletionList.remove();
+    skeletonList.remove();
   }
 
   updateMovieList(movieData: MovieItem[], isLastPage: Boolean) {
@@ -115,6 +115,6 @@ class MovieList {
   }
 }
 
-const moveList = new MovieList();
+const movieList = new MovieList();
 
-export default moveList;
+export default movieList;

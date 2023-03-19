@@ -3,11 +3,11 @@ import init from './init';
 import setupPopularMovie from './setupPopularMovie';
 import setupSearchMovie from './setupSearchMovie';
 import skeleton from './skeleton';
-import updateMoveList from './updateMoveList';
+import updateMovieList from './updateMovieList';
 
 export default {
   init,
-  updateMoveList,
+  updateMovieList,
   apiError,
   setupSearchMovie,
   setupPopularMovie,

@@ -1,10 +1,10 @@
 import { FetchStandard, FetchType } from '../@types/fetchType';
-import moveList from '../components/MoiveList';
+import movieList from '../components/MovieList';
 
 export default (fetchStandard: FetchStandard) => {
   if (fetchStandard.type === FetchType.Popular) return;
 
-  moveList.setListName(fetchStandard.type, fetchStandard.keyword);
-  moveList.cleanMovieList();
-  moveList.createSkeleton();
+  movieList.setListName(fetchStandard.type, fetchStandard.keyword);
+  movieList.cleanMovieList();
+  movieList.createSkeleton();
 };

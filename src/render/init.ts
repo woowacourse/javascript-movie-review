@@ -1,5 +1,5 @@
 import Header from '../components/Header';
-import moveList from '../components/MoiveList';
+import movieList from '../components/MovieList';
 
 export default () => {
   const app = document.querySelector('#app');
@@ -7,5 +7,5 @@ export default () => {
   if (!app) return;
 
   app.insertAdjacentElement('afterbegin', new Header().node);
-  app.insertAdjacentElement('beforeend', moveList.node);
+  app.insertAdjacentElement('beforeend', movieList.node);
 };

@@ -41,3 +41,4 @@
 
 - [x] refactor: prompt 창 지우기
 - [x] refactor: 타입 한 곳에서 관리하기
+- [x] refactor: 오탈자 수정하기
