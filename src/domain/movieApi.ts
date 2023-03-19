@@ -8,32 +8,29 @@ interface MovieApiResponse {
   vote_average: number;
 }
 
+const BASE_URL = 'https://api.themoviedb.org/3'
+const API_KEY = process.env.API_KEY
+
 export const movieApi = {
   page: 1,
   total_page: 2,
   last_keyword: "",
 
   showPopularMovies() {
-    fetchMovieInfo("movie/popular", "");
+    fetchMovieInfo(`${BASE_URL}/movie/popular?api_key=${API_KEY}&language=ko&page=${movieApi.page}`);
   },
 
   showSearchedMovies(keyword: string) {
-    fetchMovieInfo("search/movie", keyword);
+    fetchMovieInfo(`${BASE_URL}/search/movie?api_key=${API_KEY}&language=ko&page=${movieApi.page}&query=${keyword}`);
   },
 };
 
-const fetchMovieInfo = async (endpoint: string, keyword: string) => {
-  const url = buildUrl(endpoint, keyword);
+const fetchMovieInfo = async (url: string) => {
   const response = await fetch(url);
   catchError(response.status);
 
   handleMovieInfoResponse(response);
 };
-
-const buildUrl = (endpoint: string, keyword: string) =>
-  `https://api.themoviedb.org/3/${endpoint}?api_key=${process.env.API_KEY
-  }&language=ko&page=${movieApi.page}${keyword === "" ? "" : `&query=${keyword}`
-  }`;
 
 const catchError = (status: number) => {
   try {
