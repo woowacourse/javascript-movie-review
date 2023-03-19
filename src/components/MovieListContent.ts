@@ -13,21 +13,35 @@ import MovieList from '../domain/MovieList';
 import HTTPError from '../api/HTTPError';
 
 class MovieListContent {
-  loadMovies() {
-    InvalidMessage.clearInvalidMessageContainer();
-    MovieListContainer.showListContainer();
-    this.clearListContent();
+  private static instance: MovieListContent;
+  private itemList: HTMLUListElement;
 
-    this.loadMoreMovies();
+  private constructor() {
+    this.init();
+    this.itemList = $<HTMLUListElement>('.item-list');
   }
 
-  async loadMoreMovies() {
+  static getInstance(): MovieListContent {
+    if (!MovieListContent.instance) {
+      MovieListContent.instance = new MovieListContent();
+    }
+
+    return MovieListContent.instance;
+  }
+
+  private init() {
+    MovieList.on('movieListReset', this.clearListContent);
+
+    MovieList.on('movieListLoading', this.renderSkeleton);
+
+    MovieList.on('movieListLoaded', (event) => {
+      const { movies, searchQuery } = (event as CustomEvent).detail;
+      this.loadMovies(movies, searchQuery);
+    });
+  }
+
+  private async loadMovies(movies: Movie[], searchQuery: string) {
     try {
-      MovieListContainer.hideMoreButton();
-      this.renderSkeleton();
-
-      const { movies, searchQuery } = await MovieList.getMovieData();
-
       MovieListContainer.showMoreButton();
 
       if (movies.length !== 20) {
@@ -59,12 +73,9 @@ class MovieListContent {
     }
   }
 
-  renderSkeleton() {
-    $<HTMLUListElement>('.item-list').insertAdjacentHTML(
-      'beforeend',
-      MovieItem.template().repeat(MOVIE_MAX_COUNT)
-    );
-  }
+  private renderSkeleton = () => {
+    this.itemList.insertAdjacentHTML('beforeend', MovieItem.template().repeat(MOVIE_MAX_COUNT));
+  };
 
   renderMovies(movies: Movie[]) {
     const items = $$<HTMLUListElement>('.item-card');
@@ -79,9 +90,9 @@ class MovieListContent {
     });
   }
 
-  clearListContent() {
-    $<HTMLUListElement>('.item-list').replaceChildren();
-  }
+  private clearListContent = () => {
+    this.itemList.replaceChildren();
+  };
 }
 
-export default new MovieListContent();
+export default MovieListContent.getInstance();
