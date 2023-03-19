@@ -1,16 +1,11 @@
 import { Movie } from '../types/movie';
-import { MOVIE_MAX_COUNT } from '../constants';
-import {
-  NO_SEARCH_RESULT,
-  HTTP_ERROR_CODE,
-  INVALID_JSON_RESPONSE,
-} from '../constants/invalidMessage';
+import { MOVIE_LIST_ERROR, MOVIE_MAX_COUNT } from '../constants';
+import { NO_SEARCH_RESULT } from '../constants/invalidMessage';
 import { $, $$ } from '../utils/domSelector';
 import MovieListContainer from './MovieListContainer';
 import MovieItem from './MovieItem';
 import InvalidMessage from './InvalidMessage';
 import MovieList from '../domain/MovieList';
-import HTTPError from '../api/HTTPError';
 
 class MovieListContent {
   private static instance: MovieListContent;
@@ -41,36 +36,19 @@ class MovieListContent {
   }
 
   private async loadMovies(movies: Movie[], searchQuery: string) {
-    try {
-      MovieListContainer.showMoreButton();
+    MovieListContainer.showMoreButton();
 
-      if (movies.length !== 20) {
-        MovieListContainer.hideMoreButton();
-      }
-
-      if (searchQuery && !movies.length) {
-        MovieListContainer.hideListContainer();
-        InvalidMessage.render(NO_SEARCH_RESULT, searchQuery);
-        return;
-      }
-
-      this.renderMovies(movies);
-    } catch (error) {
-      MovieListContainer.hideListContainer();
-
-      if (error instanceof HTTPError) {
-        InvalidMessage.render(HTTP_ERROR_CODE[error.statusCode]);
-      }
-
-      if (error instanceof Error) {
-        if (error.message === INVALID_JSON_RESPONSE) {
-          InvalidMessage.render(INVALID_JSON_RESPONSE);
-          return;
-        }
-
-        alert(error.message);
-      }
+    if (movies.length !== 20) {
+      MovieListContainer.hideMoreButton();
     }
+
+    if (searchQuery && !movies.length) {
+      MovieListContainer.hideListContainer();
+      InvalidMessage.render(NO_SEARCH_RESULT, searchQuery);
+      return;
+    }
+
+    this.renderMovies(movies);
   }
 
   private renderSkeleton = () => {

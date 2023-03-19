@@ -1,5 +1,10 @@
 import { Movie, MovieDataResult, MovieFetchFunction } from '../types/movie';
-import { MOVIE_LIST_LOADED, MOVIE_LIST_LOADING, MOVIE_LIST_RESET } from '../constants';
+import {
+  MOVIE_LIST_ERROR,
+  MOVIE_LIST_LOADED,
+  MOVIE_LIST_LOADING,
+  MOVIE_LIST_RESET,
+} from '../constants';
 import EventEmitter from '../utils/EventEmitter';
 import { fetchPopularMovieData, fetchSearchedMovieData } from '../api/movieAPI';
 
@@ -51,12 +56,16 @@ class MovieList {
   async getMovieData() {
     EventEmitter.emit(MOVIE_LIST_LOADING);
 
-    const movies =
-      this.searchQuery !== ''
-        ? await this.getSearchedMovieData()
-        : await this.getPopularMovieData();
+    try {
+      const movies =
+        this.searchQuery !== ''
+          ? await this.getSearchedMovieData()
+          : await this.getPopularMovieData();
 
-    EventEmitter.emit(MOVIE_LIST_LOADED, { movies, searchQuery: this.searchQuery });
+      EventEmitter.emit(MOVIE_LIST_LOADED, { movies, searchQuery: this.searchQuery });
+    } catch (error) {
+      EventEmitter.emit(MOVIE_LIST_ERROR, { error });
+    }
   }
 
   on(eventName: string, callback: EventListenerOrEventListenerObject) {
