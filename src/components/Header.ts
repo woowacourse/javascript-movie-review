@@ -3,7 +3,7 @@ import movies from '../domain/Movies';
 import { $ } from '../utils/domHelper';
 
 export default class Header {
-  $target;
+  private $target;
 
   constructor($target: HTMLElement) {
     this.$target = $target;

@@ -2,7 +2,7 @@ import movies from '../domain/Movies';
 import { $ } from '../utils/domHelper';
 
 export default class SeeMore {
-  $target;
+  private $target;
 
   constructor($target: HTMLElement) {
     this.$target = $target;

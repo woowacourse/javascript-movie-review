@@ -5,7 +5,7 @@ import SeeMore from './components/SeeMore';
 import Title from './components/Title';
 
 export default class App {
-  $target;
+  private $target;
 
   constructor($target: HTMLElement) {
     this.$target = $target;

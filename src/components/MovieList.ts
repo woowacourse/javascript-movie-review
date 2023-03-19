@@ -3,7 +3,7 @@ import MovieItem from './MovieItem';
 import movies from '../domain/Movies';
 
 export default class MovieList {
-  $target;
+  private $target;
 
   constructor($parentTarget: HTMLElement) {
     $parentTarget.insertAdjacentHTML('beforeend', this.initTemplate());
