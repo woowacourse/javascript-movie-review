@@ -1,4 +1,5 @@
 @import './reset.css';
+@import './color.css';
 
 * {
   box-sizing: border-box !important;
@@ -7,8 +8,8 @@
 body {
   padding-bottom: 48px;
   font-size: 14px;
-  background-color: #222222;
-  color: #fff;
+  background-color: var(--black-color);
+  color: var(--white-color);
 }
 
 a {

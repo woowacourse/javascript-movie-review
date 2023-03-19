@@ -2,7 +2,7 @@ header {
   width: 100%;
   min-width: 1200px;
   height: 72px;
-  background-color: #222;
+  background-color: var(--black-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,5 +17,5 @@ header h1 {
   font-size: 2rem;
   font-weight: bold;
   letter-spacing: -0.1rem;
-  color: #f33f3f;
+  color: var(--primary-color);
 }
