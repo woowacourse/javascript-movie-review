@@ -3,7 +3,7 @@ export const executeEventListener = (
   type: string,
   listener: (event: Event) => void
 ) => {
-  target?.addEventListener(type, (event) => {
+  target.addEventListener(type, (event) => {
     event.preventDefault();
 
     listener(event);
