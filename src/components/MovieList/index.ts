@@ -1,3 +1,4 @@
+import './index.css';
 import template from './index.html';
 import { Movie } from '../../types';
 
