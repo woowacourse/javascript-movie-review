@@ -42,22 +42,27 @@ export const App = async () => {
       return await getSearchMoiveInfo(keyword);
     };
 
-    const { data, currentPage } = await getCurrentSearchMovieInfo(
+    const currentSearchMovieData = await getCurrentSearchMovieInfo(
       searchBox.getKeyword()
     );
-    if (!data || !currentPage) return;
+    if (!currentSearchMovieData) return;
 
-    const result = data.results;
+    const result = currentSearchMovieData?.data.results;
+    const totalPages = currentSearchMovieData?.data.total_pages;
+    const currentPage = currentSearchMovieData.currentPage;
+
     const searchResultElement = generateElement(result);
 
-    const movieItemList = MovieItemList(data.total_pages);
+    const movieItemList = MovieItemList(totalPages);
     movieItemList.addMovies(searchResultElement, currentPage);
 
     document.querySelector(".primary")?.addEventListener("click", async () => {
-      const { data, currentPage } = await getCurrentSearchMovieInfo(
+      const currentSearchMovieData = await getCurrentSearchMovieInfo(
         searchBox.getKeyword()
       );
-      const result = data.results;
+      if (!currentSearchMovieData) return;
+      const result = currentSearchMovieData?.data.results;
+      const currentPage = currentSearchMovieData.currentPage;
       const searchResultElement = generateElement(result);
 
       movieItemList.addMovies(searchResultElement, currentPage);
@@ -66,11 +71,15 @@ export const App = async () => {
 
   document.querySelector(".primary")?.addEventListener("click", async () => {
     const currentPagePopularMovieData = await getCurrentPagePopularMovie();
+    if (!currentPagePopularMovieData) return;
+
     const result = await currentPagePopularMovieData?.data.results;
+
     const movieElement = generateElement(result);
+
     movieItemList.addMovies(
       movieElement,
-      currentPagePopularMovieData!.currentPage
+      currentPagePopularMovieData.currentPage
     );
   });
 
