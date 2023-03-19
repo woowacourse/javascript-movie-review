@@ -5,7 +5,7 @@ import ListTitle from './components/ListTitle';
 import ItemList from './components/ItemList';
 import MoreButton from './components/MoreButton';
 import WholeScreenMessageAlert from './components/WholeScreenMessageAlert';
-import { initialMovieStats, MovieRender } from './domain/MovieRender';
+import Movie, { initialMovieStats } from './domain/Movie';
 
 class App {
   $main = document.createElement('main');
@@ -16,7 +16,7 @@ class App {
   moreButton;
 
   constructor($target: HTMLElement) {
-    this.init();
+    this.setStoreMovieState();
 
     new Header($target);
 
@@ -30,7 +30,7 @@ class App {
     $target.insertAdjacentElement('beforeend', this.$main);
   }
 
-  init() {
+  setStoreMovieState() {
     const movieStateProxy = new Proxy<any>(initialMovieStats, {
       get: (target, props) => {
         return target[props];
@@ -72,7 +72,7 @@ class App {
       },
     });
 
-    Store.movieStates = new MovieRender(movieStateProxy);
+    Store.movieStates = new Movie(movieStateProxy);
     Store.movieStates?.renderPopularMovies();
   }
 }

@@ -1,7 +1,7 @@
-import { MovieRender } from './domain/MovieRender';
+import Movie from './domain/Movie';
 
 export const Store: {
-  movieStates: MovieRender | null;
+  movieStates: Movie | null;
 } = {
   movieStates: null,
 };
