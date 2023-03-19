@@ -164,9 +164,7 @@ class Movie {
   }
 
   #setSkeletonArray(curPage = 1) {
-    const emptyArray = Array.from({ length: 20 }).map(() => {
-      return { title: null };
-    });
+    const emptyArray = Array.from({ length: 20 }, () => ({ title: null }));
 
     this.#movieState['results'] =
       curPage === 1 ? emptyArray : [...this.#movieState.results, ...emptyArray];

@@ -21,7 +21,7 @@ const commonTemplate = ({ title, voteAverage, posterPath }: IMovieItemProps) => 
     />
   <p class="item-title">${title}</p>
   <p class="item-score"><img src="${
-    voteAverage > 5 ? starFilled : starEmpty
+    voteAverage && voteAverage > 5 ? starFilled : starEmpty
   }" alt="별점" /> ${voteAverage?.toFixed(1)}</p>
 `;
 

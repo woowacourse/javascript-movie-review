@@ -18,9 +18,9 @@ export interface IMovieProps {
 }
 
 export interface IMovieItemProps {
-  title: string;
-  posterPath: string;
-  voteAverage: number;
+  title: string | null;
+  posterPath?: string;
+  voteAverage?: number;
 }
 
 export interface IMovieHandleProps<T> {
@@ -35,7 +35,7 @@ export interface IErrorMessageProps {
 }
 
 export interface IMovieState {
-  results: Array<IMovieItemProps | { title: null }>;
+  results: Array<IMovieItemProps>;
   nextPage: number;
   query: string;
   category: MovieListCategory;
