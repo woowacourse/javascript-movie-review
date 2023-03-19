@@ -1,7 +1,5 @@
 import { $ } from '../utils/domSelector';
 import { Logo } from '../assets';
-import MovieListContainer from './MovieListContainer';
-import MovieListContent from './MovieListContent';
 import MovieList from '../domain/MovieList';
 
 const NavBar = {
@@ -26,9 +24,7 @@ const NavBar = {
       if (searchQuery === '') return;
 
       MovieList.init(searchQuery);
-
-      MovieListContainer.changeContainerTitle(searchQuery);
-      MovieListContent.loadMovies();
+      MovieList.getMovieData();
     });
   },
 };
