@@ -1,12 +1,12 @@
-import { onSubmitSearchBox, onClickLogo } from "./headerHandler";
+import { initSearchBox, initLogo } from "./headerHandler";
 
 export default class Header extends HTMLElement {
   constructor() {
     super();
     this.render();
-    
-    onSubmitSearchBox();
-    onClickLogo();
+
+    initSearchBox();
+    initLogo();
   }
 
   render() {

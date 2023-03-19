@@ -3,7 +3,7 @@ import { movieApi, resetMoviesAndPages } from "../domain/movieApi";
 import { PATH } from "../constants";
 const { SEARCHED_MOVIE } = PATH;
 
-export const onSubmitSearchBox = () => {
+export const initSearchBox = () => {
   $(".search-box").addEventListener("submit", (event) => {
     event.preventDefault();
 
@@ -20,7 +20,7 @@ export const onSubmitSearchBox = () => {
   });
 };
 
-export const onClickLogo = () => {
+export const initLogo = () => {
   $("#logo").addEventListener("click", () => {
     resetMoviesAndPages();
     $<HTMLFormElement>(".search-box").reset();

@@ -3,9 +3,15 @@ import { $ } from "../utils/selector";
 import MovieList from "./MovieList";
 import { MOVIE_COUNT_IN_ONE_PAGE } from "../constants";
 
-export const onClickMoreButton = () => {
-  $("#more-button").addEventListener("click", async () => {
-    $(".item-list").insertAdjacentHTML("beforeend", renderSkeletons());
+export const updateMovies = () => {
+  $<MovieList>("#movie-list").renderMovies();
+
+  loadMoreMovies();
+};
+
+const loadMoreMovies = () => {
+  $("#more-button").addEventListener("click", () => {
+    $(".item-list").insertAdjacentHTML("beforeend", makeSkeletons());
 
     const currentPage = Number(movieApi.urlParams.get("page"));
     movieApi.urlParams.set("page", `${currentPage + 1}`);
@@ -15,16 +21,10 @@ export const onClickMoreButton = () => {
   });
 };
 
-export const updateMovies = () => {
-  $<MovieList>("#movie-list").renderMovies();
-
-  onClickMoreButton();
-};
-
 export const removeMoreButton = () => {
   $("#more-button").remove();
 };
 
-export const renderSkeletons = () => {
+export const makeSkeletons = () => {
   return "<movie-skeleton></movie-skeleton>".repeat(MOVIE_COUNT_IN_ONE_PAGE);
 };

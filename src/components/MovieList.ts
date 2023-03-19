@@ -1,7 +1,7 @@
 import { movieApi } from "../domain/movieApi";
 import { movieStore } from "../domain/movieStore";
 import { Movie } from "../type";
-import { renderSkeletons } from "./movieListHandler";
+import { makeSkeletons } from "./movieListHandler";
 import { PATH } from "../constants";
 const { POPULAR_MOVIE } = PATH;
 
@@ -11,7 +11,7 @@ export default class MovieList extends HTMLElement {
     this.innerHTML = `
     <section class="item-view">
       <h2>지금 인기 있는 영화</h2>
-      <ul class="item-list">${renderSkeletons()}</ul>
+      <ul class="item-list">${makeSkeletons()}</ul>
     </section>
     `;
   }
