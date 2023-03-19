@@ -14,7 +14,7 @@ class Store {
     this.searchWord = '';
   }
 
-  async getMovieList(value?: string) {
+  async allocateData(value?: string) {
     this.page++;
     if (value) {
       this.searchWord = value;

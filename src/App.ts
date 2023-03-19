@@ -31,17 +31,16 @@ class App {
     this.store.setInitSearchWord();
     this.$seeMoreButton.attach();
 
-    this.store.getMovieList().then(() => {
+    this.store.allocateData().then(() => {
       this.skeleton.removeSkeleton();
       this.$movieList.renderMovies(this.store.movieListValue);
     });
   }
 
-  moreButtonHandler() {
-    this.store.getMovieList(this.store.searchWord).then(() => {
-      if (this.store.page === this.store.totalPage) this.removeButton();
-      this.$movieList.renderMovies(this.store.movieListValue);
-    });
+  async moreButtonHandler() {
+    await this.store.allocateData(this.store.searchWord);
+    if (this.store.page === this.store.totalPage) this.removeButton();
+    this.$movieList.renderMovies(this.store.movieListValue);
   }
 
   searchHandler(value: string) {
@@ -50,7 +49,7 @@ class App {
     this.store.setInitPage(0);
     this.$movieList.setTitle(`"${value}"에 대한 검색 결과`);
 
-    this.store.getMovieList(value).then(() => {
+    this.store.allocateData(value).then(() => {
       setTimeout(() => {
         if (this.store.totalPage === 1 || this.store.totalPage === 0) this.removeButton();
         this.$movieList.renderSearchedMovies(this.store.movieListValue);
