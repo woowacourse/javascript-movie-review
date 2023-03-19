@@ -76,7 +76,7 @@ class App {
 
   initEventHandler() {
     document.addEventListener('seeMoreMovie', this.loadMoreMovies.bind(this) as EventListener);
-    document.addEventListener('searchMovies', this.searchMovies.bind(this) as unknown as EventListener);
+    document.addEventListener('searchMovies', this.searchMovies.bind(this) as EventListener);
     document.addEventListener('moveHome', this.moveHome.bind(this));
   }
 }
