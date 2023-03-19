@@ -1,7 +1,14 @@
 import { MovieType } from '../types';
 import { $, $$ } from '../utils/domSelector';
-import movieItem from './movieItem';
+import MovieItem from './MovieItem';
 import skeletonItem from './skeletonItem';
+import errorLayout from './errorLayout';
+
+type ErrorLayoutConstructorType = {
+  image: string;
+  title: string;
+  message: string;
+};
 
 class MovieList {
   renderListTitle(listTitle: string) {
@@ -16,25 +23,33 @@ class MovieList {
     $('.item-view h2').textContent = listTitle;
   }
 
+  showErrorMessage({ image, title, message }: ErrorLayoutConstructorType) {
+    $('.item-list').innerHTML = errorLayout.getTemplate({ image, title, message });
+  }
+
+  clearItems() {
+    $('.item-list').innerHTML = '';
+  }
+
   renderSkeletonItems(count: number = 20) {
     const skeletonItems = skeletonItem().repeat(count);
     $('.item-list').insertAdjacentHTML('beforeend', skeletonItems);
   }
 
   removeSkeletonItems() {
-    $$('.item-list .skeleton-item').forEach((skeletonItem) => {
-      skeletonItem.remove();
+    $$('.item-list .skeleton-item:not(.occupied)').forEach((skeleton) => {
+      skeleton.remove();
     });
   }
 
   renderContents(movieInfoList: MovieType[]) {
-    const itemListContents = movieInfoList.map((movieInfo) => movieItem(movieInfo)).join('');
-    $('.item-list').innerHTML = itemListContents;
-  }
+    const skeletons = $$('.item-list .skeleton-item');
+    console.log(skeletons);
 
-  renderNextContents(movieInfoList: MovieType[]) {
-    const itemListContents = movieInfoList.map((movieInfo) => movieItem(movieInfo)).join('');
-    $('.item-list').insertAdjacentHTML('beforeend', itemListContents);
+    movieInfoList.forEach((movieInfo, index) => {
+      skeletons[index].classList.add('occupied');
+      new MovieItem({ skeleton: skeletons[index], movieInfo: movieInfo });
+    });
   }
 }
 
