@@ -42,3 +42,5 @@ type movieData = {
   vote_average: number;
   vote_count: number;
 };
+
+type toggleSkeleton = keyof TOGGLE_SKELETON;

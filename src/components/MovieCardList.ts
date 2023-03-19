@@ -1,4 +1,7 @@
-import { MAX_MOVIE_QUANTITY_PER_PAGE } from "../constant/variables";
+import {
+  MAX_MOVIE_QUANTITY_PER_PAGE,
+  TOGGLE_SKELETON,
+} from "../constant/variables";
 import { $ } from "../utils/Dom";
 import MoreButton from "./MoreButton";
 import SkeletonList from "./SkeletonList";
@@ -45,10 +48,10 @@ export default class MovieCardList extends HTMLElement {
         $moreButton.classList.remove("hidden");
   }
 
-  toggleSkeletonList(method: "add" | "remove") {
+  toggleSkeletonList(method: toggleSkeleton) {
     const $skeletonList = $("skeleton-list");
     if ($skeletonList instanceof SkeletonList)
-      method === "add"
+      method === TOGGLE_SKELETON.HIDDEN
         ? $skeletonList.classList.add("hidden")
         : $skeletonList.classList.remove("hidden");
   }

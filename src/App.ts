@@ -1,6 +1,6 @@
 import MoreButton from "./components/MoreButton";
 import MovieCardList from "./components/MovieCardList";
-import { LIST_STATE } from "./constant/variables";
+import { TOGGLE_SKELETON, LIST_STATE } from "./constant/variables";
 import { $ } from "./utils/Dom";
 import { getPopularMovies, getSearchedMovies } from "./utils/fetch";
 
@@ -52,7 +52,7 @@ export default class App {
 
   setEvent() {
     document.addEventListener("click-more-button", () => {
-      this.toggleSkeletonList("add");
+      this.toggleSkeletonList(TOGGLE_SKELETON.SHOW);
       this.appendMovieList();
     });
 
@@ -79,7 +79,7 @@ export default class App {
   async appendMovieList() {
     this.setState({ page: this.#state.page + 1 });
     await this.setMoviesList();
-    this.toggleSkeletonList("remove");
+    this.toggleSkeletonList(TOGGLE_SKELETON.HIDDEN);
     this.mountMovieList();
   }
 
@@ -111,10 +111,10 @@ export default class App {
 
   async renderSearchedMovies() {
     this.render();
-    this.toggleSkeletonList("add");
+    this.toggleSkeletonList(TOGGLE_SKELETON.SHOW);
     this.hideMoreButton();
     await this.setMoviesList();
-    this.toggleSkeletonList("remove");
+    this.toggleSkeletonList(TOGGLE_SKELETON.HIDDEN);
     this.mountMovieList();
   }
 
@@ -129,7 +129,7 @@ export default class App {
       $cardList.setMovieList(this.#state.movieList);
   }
 
-  toggleSkeletonList(method: "add" | "remove") {
+  toggleSkeletonList(method: toggleSkeleton) {
     const $cardList = $("card-list");
     if ($cardList instanceof MovieCardList)
       $cardList.toggleSkeletonList(method);
