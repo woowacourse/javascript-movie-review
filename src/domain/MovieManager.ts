@@ -5,28 +5,18 @@ import { Movie } from "../type/movieType";
 class MovieManage {
   private subscribers: CustomElement[] = [];
   private searchSubscribers: CustomElement[] = [];
-  private skeleton: CustomElement[] = [];
+  private skeletons: CustomElement[] = [];
 
   subscribe(element: CustomElement) {
     this.subscribers.push(element);
   }
 
-  subscribeSkeleton(element: CustomElement) {
-    this.skeleton.push(element);
+  subscribeSkeletons(element: CustomElement) {
+    this.skeletons.push(element);
   }
 
   subscribeSearch(element: CustomElement) {
     this.searchSubscribers.push(element);
-  }
-
-  hideShowMoreButton() {
-    return MovieModel.isLastPage();
-  }
-
-  showSkeleton() {
-    this.skeleton.forEach((subscriber) => {
-      subscriber.render();
-    });
   }
 
   publishSearch(searchWord: string) {
@@ -38,6 +28,12 @@ class MovieManage {
   publish(movies: Movie[], isShowMore: boolean = false) {
     this.subscribers.forEach((subscriber) => {
       subscriber.rerender(movies, isShowMore);
+    });
+  }
+
+  publishSkeleton() {
+    this.skeletons.forEach((subscriber) => {
+      subscriber.render();
     });
   }
 
@@ -61,6 +57,10 @@ class MovieManage {
 
     const movies = MovieModel.getMovieList();
     this.publish(movies, true);
+  }
+
+  hideShowMoreButton() {
+    return MovieModel.isLastPage();
   }
 }
 
