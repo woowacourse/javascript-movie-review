@@ -18,27 +18,15 @@ export default class App {
   }
 
   async init() {
-    await this.setInitState();
+    await this.setMoviesList();
     this.render();
     this.mountMovieList();
-  }
-
-  async setInitState() {
-    this.setState({
-      page: 1,
-      listState: LIST_STATE.POPULAR,
-    });
-
-    await this.setMoviesList();
-  }
-
-  setState(newState: Object) {
-    this.#state = { ...this.#state, ...newState };
   }
 
   render() {
     const itemView = $(".item-view");
     const { listState, movieList, movieName } = this.#state;
+
     if (itemView instanceof HTMLElement)
       itemView.innerHTML = `
     <card-list header='${LIST_HEADING(listState, movieName)}'></card-list>
@@ -90,13 +78,21 @@ export default class App {
   searchMovieCallback = ({ detail }: CustomEvent) => {
     const { movieName } = detail;
 
-    this.setInitState();
     this.setState({
+      page: 1,
       listState: LIST_STATE.SEARCHED,
       movieName,
     });
     this.renderSearchedMovies();
   };
+
+  async renderSearchedMovies() {
+    this.render();
+    this.toggleSkeletonList(TOGGLE_SKELETON.SHOW);
+    await this.setMoviesList();
+    this.toggleSkeletonList(TOGGLE_SKELETON.HIDDEN);
+    this.mountMovieList();
+  }
 
   getMovieListFromFetchedData(fetchedData: parsedJson) {
     return fetchedData.results.map((item: movieData) => {
@@ -108,14 +104,6 @@ export default class App {
         movieId: id,
       };
     });
-  }
-
-  async renderSearchedMovies() {
-    this.render();
-    this.toggleSkeletonList(TOGGLE_SKELETON.SHOW);
-    await this.setMoviesList();
-    this.toggleSkeletonList(TOGGLE_SKELETON.HIDDEN);
-    this.mountMovieList();
   }
 
   mountMovieList() {
@@ -133,5 +121,9 @@ export default class App {
   setMoreButtonState() {
     const { length } = this.#state.movieList;
     $("more-button")?.setAttribute("length", `${length}`);
+  }
+
+  setState(newState: Object) {
+    this.#state = { ...this.#state, ...newState };
   }
 }
