@@ -1,10 +1,10 @@
-export interface IMovie {
+export interface Movie {
   poster: string;
   title: string;
   ratings: number;
 }
 
-export interface IApiResponse {
+export interface ApiResponse {
   poster_path: string;
   title: string;
   vote_average: number;

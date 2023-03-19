@@ -18,8 +18,7 @@ export const onClickMoreButton = () => {
 };
 
 export const updateMovies = () => {
-  const movieList = $("#movie-list") as MovieList;
-  movieList.renderMovies();
+  $<MovieList>("#movie-list").renderMovies();
 
   onClickMoreButton();
 };

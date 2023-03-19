@@ -1,10 +1,10 @@
 import { updateMovies } from "../components/movieListHandler";
-import { IMovie } from "../type";
+import { Movie } from "../type";
 
 export const movieStore = {
-  movies: [] as IMovie[],
+  movies: Array<Movie>(),
 
-  appendMovies(newMovies: IMovie[]) {
+  appendMovies(newMovies: Array<Movie>) {
     this.movies = [...this.movies, ...newMovies];
 
     updateMovies();

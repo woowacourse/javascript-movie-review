@@ -1,11 +1,11 @@
-export const $ = <E extends Element>(selector: string): E => {
-  const element = document.querySelector(selector);
-  if (element) return <E>element;
+export const $ = <E extends Element>(selector: string) => {
+  const element = document.querySelector<E>(selector);
+  if (element) return element;
   throw new Error(`존재하지 않는 요소입니다: ${selector}`);
 };
 
-export const $$ = <E extends Element>(selector: string): NodeListOf<E> => {
-  const elements = document.querySelectorAll(selector);
-  if (elements.length) return elements as NodeListOf<E>;
+export const $$ = <E extends Element>(selector: string) => {
+  const elements = document.querySelectorAll<E>(selector);
+  if (elements.length) return elements;
   throw new Error(`존재하지 않는 요소입니다: ${selector}`);
 };

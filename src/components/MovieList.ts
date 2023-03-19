@@ -1,6 +1,6 @@
 import { movieApi } from "../domain/movieApi";
 import { movieStore } from "../domain/movieStore";
-import { IMovie } from "../type";
+import { Movie } from "../type";
 import { renderSkeletons } from "./movieListHandler";
 
 export default class MovieList extends HTMLElement {
@@ -36,7 +36,7 @@ export default class MovieList extends HTMLElement {
     `;
   }
 
-  renderMovie(movie: IMovie) {
+  renderMovie(movie: Movie) {
     return `
     <li>
       <a href="#">

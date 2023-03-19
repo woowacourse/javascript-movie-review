@@ -3,15 +3,19 @@ import { $ } from "../utils/selector";
 import { movieApi, resetMoviesAndPages } from "../domain/movieApi";
 
 export const onSubmitSearchBox = () => {
-  executeEventListener($(".search-box"), "submit", (event) => {
-    const formData = new FormData(event.target as HTMLFormElement);
-    const keyword = String(formData.get("search-bar"));
+  $(".search-box").addEventListener("submit", (event) => {
+    event.preventDefault();
 
-    if (keyword === "") return;
+    if (event.target instanceof HTMLFormElement) {
+      const formData = new FormData(event.target);
+      const keyword = String(formData.get("search-bar"));
 
-    movieApi.last_keyword = keyword;
-    resetMoviesAndPages();
-    movieApi.showSearchedMovies(keyword);
+      if (keyword === "") return;
+
+      movieApi.last_keyword = keyword;
+      resetMoviesAndPages();
+      movieApi.showSearchedMovies(keyword);
+    }
   });
 };
 

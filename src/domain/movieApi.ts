@@ -1,5 +1,5 @@
 import { removeMoreButton } from "../components/movieListHandler";
-import { IApiResponse, IMovie } from "../type";
+import { ApiResponse, Movie } from "../type";
 import { movieStore } from "./movieStore";
 
 export const movieApi = {
@@ -46,13 +46,15 @@ const handleMovieInfoResponse = async (response: Response) => {
   saveMoviesAndRemoveMoreButton(results);
 };
 
-const saveMoviesAndRemoveMoreButton = (results: IApiResponse[]) => {
+const saveMoviesAndRemoveMoreButton = (results: Array<ApiResponse>) => {
   movieStore.appendMovies(convertApiResponseToMovieList(results));
 
   if (movieApi.page === movieApi.total_page) removeMoreButton();
 };
 
-const convertApiResponseToMovieList = (results: IApiResponse[]): IMovie[] => {
+const convertApiResponseToMovieList = (
+  results: Array<ApiResponse>
+): Array<Movie> => {
   return results.map((movie) => {
     return {
       poster: movie.poster_path,
