@@ -1,20 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
+
 * {
   box-sizing: border-box !important;
 }
 
 body {
+  font-family: "Noto Sans KR", sans-serif;
   font-size: 14px;
   background-color: #222222;
   color: #fff;
+  /* hidden scroll */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+body::-webkit-scrollbar {
+  /* hidden scroll */
+  display: none;
 }
 
 button {
   cursor: pointer;
+}
+
+movie-item {
+  list-style: none;
 }
 
 #app {
@@ -48,8 +58,8 @@ button {
 .item-list {
   display: grid;
   margin: 48px 0;
-  grid-template-columns: repeat(5, 180px);
-  grid-column-gap: 76px;
+  grid-template-columns: repeat(5, 200px);
+  grid-column-gap: 50px;
   grid-row-gap: 48px;
 }
 
@@ -60,21 +70,37 @@ button {
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
+  width: 200px;
   height: 270px;
   background-size: contain;
+  cursor: pointer;
 }
 
 .item-title {
-  margin-top: 16px;
-  font-size: 1.2rem;
+  display: -webkit-box;
+  margin-top: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  font-size: 19px;
   font-weight: bold;
+  line-height: 1.5;
+}
+
+.item-title.skeleton {
+  height: 20px;
 }
 
 .item-score {
+  display: flex;
   align-items: center;
-  margin-top: 16px;
-  font-size: 1.2rem;
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.item-score.skeleton {
+  display: block;
 }
 
 .item-score > img {
@@ -151,17 +177,21 @@ header h1 {
 }
 
 header > .search-box {
+  display: flex;
   background: #fff;
-  padding: 8px;
+  padding: 8px 12px;
   border-radius: 4px;
 }
 
 header .search-box > input {
   border: 0;
+  padding: 0;
+  font-size: 14px;
 }
 
 header .search-box > .search-button {
   width: 14px;
+  margin-top: 1px;
   border: 0;
   text-indent: -1000rem;
   background: url("../assets/search_button.png") transparent no-repeat 0 1px;
