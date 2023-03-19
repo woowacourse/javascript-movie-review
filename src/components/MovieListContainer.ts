@@ -40,10 +40,10 @@ class MovieListContainer extends HTMLElement {
     $("button", this)?.classList.add("hidden");
   }
 
-  displayErrorUI() {
+  displayErrorUI(message: string) {
     this.innerHTML = `
     <div class="error-image-container">
-     <img class="error-image" src=${ErrorUnresponsive} alt="서버 무응답"/>
+      <p class="error-message">${message}</p>
     </div>
     `;
   }

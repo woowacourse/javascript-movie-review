@@ -179,9 +179,10 @@ header .search-box .search-button {
   align-items: center;
 }
 
-.error-image {
-  width: 20rem;
-  height: 30rem;
+.error-message {
+  margin-top: 10rem;
+  font-size: 2.5rem;
+  font-weight: bold;
 }
 
 .not-search {

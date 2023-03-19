@@ -10,3 +10,11 @@ export const ConstantsNumber: Readonly<{ [key: string]: number }> = {
   PAGE_MAX_NUMBER: 50,
   ROAD_IMAGE_NUMBER: 20,
 };
+
+export const StatusCode: Readonly<{ [key: number]: number }> = {
+  401: 34,
+  402: 7,
+  403: 3,
+  404: 34,
+  500: 25,
+};

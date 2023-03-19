@@ -5,6 +5,7 @@ import MovieListContainer from "./components/MovieListContainer";
 import MovieList from "./components/MovieList";
 import type { ResponseData } from "./types/type";
 import { ConstantsNumber } from "./utils/constants";
+import { onHandleCatchError, onHandleStatusError } from "./utils/errorHandler";
 
 const MovieApp = {
   currentPageNumber: ConstantsNumber.PAGE_MIN_NUMBER,
@@ -31,7 +32,7 @@ const MovieApp = {
     );
   },
 
-  async loadMovieData(movies: ResponseData) {
+  async loadMovieData(movies: ResponseData | undefined) {
     if (!movies) return;
 
     const movieList = <MovieList>$("movie-list");
@@ -45,17 +46,26 @@ const MovieApp = {
   },
 
   async fetchMovieData(fetchFunction: () => Promise<ResponseData>) {
-    const movieList = <MovieList>$("movie-list");
+    try {
+      const movieList = <MovieList>$("movie-list");
 
-    movieList.displaySkeletonUI();
+      movieList.displaySkeletonUI();
 
-    const movies = await fetchFunction();
+      const movies = await fetchFunction();
 
-    movieList.removeSkeletonUI();
+      movieList.removeSkeletonUI();
 
-    if (!movies) this.$container.displayErrorUI();
+      return movies;
+    } catch (error: any) {
+      const errorData = JSON.parse(error.message);
+      const statusCode = errorData.status_code;
 
-    return movies;
+      const message = statusCode
+        ? onHandleStatusError(statusCode)
+        : onHandleCatchError(error.message);
+
+      this.$container.displayErrorUI(message);
+    }
   },
 
   async getPopularMovieData() {
