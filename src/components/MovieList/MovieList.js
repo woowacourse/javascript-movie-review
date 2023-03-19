@@ -15,9 +15,7 @@ class MovieList extends HTMLElement {
         target[property] = value;
         this.resetMovieItem();
 
-        document.querySelectorAll('skeleton-item').forEach(node => {
-          node.classList.remove('skeleton-hide');
-        });
+        this.showSkeletonItem();
 
         this.updateMovieList();
         this.updateTitle(value);
@@ -51,9 +49,7 @@ class MovieList extends HTMLElement {
     try {
       await this.#movies.update(this.#searchWord.value);
 
-      document.querySelectorAll('skeleton-item').forEach(node => {
-        node.classList.add('skeleton-hide');
-      });
+      this.hideSkeletonItem();
 
       this.renderMovieList();
       this.toggleVisibleButton();
@@ -61,10 +57,20 @@ class MovieList extends HTMLElement {
       $('h2').innerText = error.message;
       $('#more-button').classList.add('hide-button');
 
-      document.querySelectorAll('skeleton-item').forEach(node => {
-        node.classList.add('skeleton-hide');
-      });
+      this.hideSkeletonItem();
     }
+  }
+
+  showSkeletonItem() {
+    document.querySelectorAll('skeleton-item').forEach(node => {
+      node.classList.remove('skeleton-hide');
+    });
+  }
+
+  hideSkeletonItem() {
+    document.querySelectorAll('skeleton-item').forEach(node => {
+      node.classList.add('skeleton-hide');
+    });
   }
 
   renderMovieList() {
@@ -75,11 +81,24 @@ class MovieList extends HTMLElement {
       return;
     }
 
-    const movieListTemplate = movieList.movies.reduce((acc, curr) => {
-      return (acc += `<movie-item id="${curr.id}" title="${curr.title}" imgUrl="${curr.imgUrl}" score="${curr.score}"></movie-item>`);
-    }, '');
+    $('#first-skeleton').insertAdjacentHTML('beforebegin', this.makeMovieListTemplate(movieList.movies));
+  }
 
-    $('#first-skeleton').insertAdjacentHTML('beforebegin', movieListTemplate);
+  showNoResult() {
+    const noResultMessage = document.createElement('span');
+    noResultMessage.innerText = '검색 결과가 없습니다';
+    noResultMessage.classList.add('no-result');
+
+    $('.item-list').appendChild(noResultMessage);
+  }
+
+  makeMovieListTemplate(movieList) {
+    return movieList.reduce((acc, curr) => {
+      return (
+        acc +
+        `<movie-item id="${curr.id}" title="${curr.title}" imgUrl="${curr.imgUrl}" score="${curr.score}"></movie-item>`
+      );
+    }, '');
   }
 
   toggleVisibleButton() {
@@ -89,14 +108,6 @@ class MovieList extends HTMLElement {
     }
 
     $('#more-button').classList.remove('hide-button');
-  }
-
-  showNoResult() {
-    const noResultMessage = document.createElement('span');
-    noResultMessage.innerText = '검색 결과가 없습니다';
-    noResultMessage.classList.add('no-result');
-
-    $('.item-list').appendChild(noResultMessage);
   }
 
   setButtonEvent() {
