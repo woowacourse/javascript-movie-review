@@ -6,5 +6,5 @@ export default (fetchStandard: FetchStandard) => {
 
   moveList.setListName(fetchStandard.type, fetchStandard.keyword);
   moveList.cleanMovieList();
-  moveList.createSkeleton();
+  moveList.showSkeleton();
 };

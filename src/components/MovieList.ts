@@ -3,84 +3,118 @@ import skeletonTemplate from './Skeleton';
 import { FetchType } from '../app';
 import { MovieItem } from '../domain/processMovieData';
 
-class ItemView {
-  private _node!: HTMLElement;
+class MovieList {
+  readonly node: HTMLElement;
+
+  private listName!: HTMLParagraphElement;
   private movieList!: HTMLUListElement;
+  private skeletonList!: HTMLUListElement;
   private loadMoreButton!: HTMLButtonElement;
-  private listName!: HTMLElement;
 
   constructor() {
-    this.createTemplate();
-    this.setEvent();
+    // section을 부모로
+    this.node = document.createElement('section');
+    this.node.classList.add('item-view');
 
-    this.movieList = this._node.querySelector('.movie-list') as HTMLUListElement;
-    this.loadMoreButton = this._node.querySelector('.btn') as HTMLButtonElement;
-    this.listName = this._node.querySelector('#list-name') as HTMLElement;
+    //
+    this.composeNode().setElements().addEvents();
   }
 
-  get node(): HTMLElement {
-    return this._node;
-  }
-
-  createTemplate(): this {
-    this._node = document.createElement('main');
-    this.paintMovieLayout();
+  composeNode() {
+    this.node.innerHTML = `
+      <h2 id="list-name">지금 인기있는 영화</h2>
+      <ul class="item-list movie-list hidden"></ul>
+      <ul class="item-list skeleton-list hidden">${skeletonTemplate(20)}</ul>
+      <button class="btn primary full-width hidden">더 보기</button>`;
 
     return this;
   }
 
-  createSkeleton() {
-    const skeletonListContainer = document.createElement('ul');
+  setElements(): this {
+    const listName = this.node.querySelector<HTMLParagraphElement>('#list-name');
+    const movieList = this.node.querySelector<HTMLUListElement>('.movie-list');
+    const skeletonList = this.node.querySelector<HTMLUListElement>('.skeleton-list');
+    const loadMoreButton = this.node.querySelector<HTMLButtonElement>('.btn');
 
-    skeletonListContainer.className = 'item-list skeleton-list';
-    skeletonListContainer.innerHTML = skeletonTemplate(20);
+    if (!(movieList && loadMoreButton && listName && skeletonList)) {
+      return this;
+    }
 
-    this.loadMoreButton.classList.add('hidden');
-    this._node.querySelector('.item-view')?.insertAdjacentElement('beforeend', skeletonListContainer);
+    this.movieList = movieList;
+    this.loadMoreButton = loadMoreButton;
+    this.listName = listName;
+    this.skeletonList = skeletonList;
+
+    return this;
   }
 
-  paintMovieLayout() {
-    this._node.innerHTML = `
-      <section class="item-view">
-        <h2 id="list-name">지금 인기있는 영화</h2>
-        <ul class="item-list movie-list hidden"></ul>
-        <button class="btn primary full-width hidden">더 보기</button>
-      </section>
-    `;
+  showSkeleton(): this {
+    this.skeletonList.classList.remove('hidden');
+
+    return this;
   }
 
-  removeSkeleton() {
-    const skeletonList = this._node.querySelector('.skeleton-list');
+  hideSkeleton(): this {
+    this.skeletonList.classList.add('hidden');
 
-    if (!skeletonList) return;
-
-    skeletonList.remove();
+    return this;
   }
 
-  updateMovieList(movieData: MovieItem[], isLastPage: Boolean) {
-    this.showEmptyMessage(movieData.length === 0);
-    this.removeSkeleton();
-
-    this.movieList.classList.remove('hidden');
+  showButton() {
     this.loadMoreButton.classList.remove('hidden');
 
-    movieData.forEach(movie => {
-      const movieItem = new MovieCard(movie);
-      this.movieList.insertAdjacentElement('beforeend', movieItem.node);
-    });
-
-    if (isLastPage) this.loadMoreButton.classList.add('hidden');
+    return this;
   }
 
-  showEmptyMessage(isEmpty: boolean) {
-    if (isEmpty) {
-      this.movieList.insertAdjacentHTML('afterend', '<div class="empty-message">검색 결과가 없습니다.</div>');
-      return;
+  hideButton() {
+    this.loadMoreButton.classList.add('hidden');
+
+    return this;
+  }
+
+  showMovieList() {
+    this.movieList.classList.remove('hidden');
+
+    return this;
+  }
+
+  hideMovieList() {
+    this.movieList.classList.add('hidden');
+
+    return this;
+  }
+
+  updateMovieList(movieDetails: MovieItem[], isLastPage: Boolean): this {
+    if (movieDetails.length === 0) {
+      this.hideSkeleton().hideButton().showEmptyMessage();
+      return this;
     }
+
+    this.hideSkeleton().showMovieList();
+    this.movieList.append(this.createMovieCards(movieDetails));
+
+    isLastPage ? this.hideButton() : this.showButton();
+
+    return this;
+  }
+
+  createMovieCards(movieDetails: MovieItem[]): DocumentFragment {
+    return movieDetails
+      .map(movie => new MovieCard(movie))
+      .reduce((acc: DocumentFragment, cur) => {
+        acc.appendChild(cur.node);
+        return acc;
+      }, new DocumentFragment());
+  }
+
+  showEmptyMessage() {
+    this.movieList.insertAdjacentHTML('afterend', '<div class="empty-message">검색 결과가 없습니다.</div>');
+
+    return this;
   }
 
   deleteEmptyMessage() {
-    const emptyMessage = this._node.querySelector('.empty-message');
+    const emptyMessage = this.node.querySelector('.empty-message');
     if (emptyMessage) emptyMessage.remove();
   }
 
@@ -104,17 +138,14 @@ class ItemView {
     this.deleteEmptyMessage();
   }
 
-  setEvent() {
-    const button = this._node.querySelector('button');
+  addEvents() {
+    this.loadMoreButton.addEventListener('click', this.#handleClickMoreButton.bind(this));
+  }
 
-    if (!button) return;
-
-    button.addEventListener('click', () => {
-      this._node.dispatchEvent(new CustomEvent('seeMoreMovie', { bubbles: true }));
-    });
+  #handleClickMoreButton() {
+    this.node.dispatchEvent(new CustomEvent('seeMoreMovie', { bubbles: true }));
   }
 }
 
-const moveList = new ItemView();
-
-export default moveList;
+const movieList = new MovieList();
+export default movieList;
