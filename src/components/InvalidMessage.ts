@@ -1,8 +1,15 @@
 import { INVALID_MESSAGE } from '../constants/invalidMessage';
+import MovieList from '../domain/MovieList';
 import { InvalidMessageType } from '../types/ui';
 import { $ } from '../utils/domSelector';
 
 const InvalidMessage = {
+  init() {
+    MovieList.on('movieListReset', () => {
+      InvalidMessage.clear();
+    });
+  },
+
   render(type: InvalidMessageType, message?: string) {
     const heading = INVALID_MESSAGE[type].HEADING;
     const template = `
@@ -14,7 +21,7 @@ const InvalidMessage = {
     errorMessage.classList.remove('hide');
   },
 
-  clearInvalidMessageContainer() {
+  clear() {
     $<HTMLDivElement>('.error-message').textContent = '';
   },
 };
