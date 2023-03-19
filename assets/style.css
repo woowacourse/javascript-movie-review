@@ -64,6 +64,16 @@ button {
   width: 180px;
   height: 270px;
   background-size: contain;
+  animation: fade-in 0.3s;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .item-title {
@@ -111,7 +121,7 @@ button.primary {
 }
 
 .item-card .skeleton {
-  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background: linear-gradient(-90deg, #8e2222, #a94444, #8e2222, #a94444);
   background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
   border-radius: 8px;
@@ -139,6 +149,7 @@ header {
   padding: 0 20px;
   border-bottom: 1px solid #f33f3f;
   margin-bottom: 48px;
+  box-shadow: 0 0 50px #f33f3f90;
 }
 
 header h1 {
@@ -166,4 +177,21 @@ header .search-box > .search-button {
   text-indent: -1000rem;
   background: url('./search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+.show-more-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.button-error-message {
+  font-size: 16px;
+  text-align: center;
+  color: #ff6e6e;
+}
+
+.btn.primary[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
