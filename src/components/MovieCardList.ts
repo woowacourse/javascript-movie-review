@@ -45,10 +45,12 @@ export default class MovieCardList extends HTMLElement {
         $moreButton.classList.remove("hidden");
   }
 
-  toggleSkeletonList() {
+  toggleSkeletonList(method: "add" | "remove") {
     const $skeletonList = $("skeleton-list");
     if ($skeletonList instanceof SkeletonList)
-      $skeletonList.classList.toggle("hidden");
+      method === "add"
+        ? $skeletonList.classList.add("hidden")
+        : $skeletonList.classList.remove("hidden");
   }
 }
 

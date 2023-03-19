@@ -52,7 +52,7 @@ export default class App {
 
   setEvent() {
     document.addEventListener("click-more-button", () => {
-      this.toggleSkeletonList(); //add skeleton list
+      this.toggleSkeletonList("add");
       this.appendMovieList();
     });
 
@@ -79,7 +79,7 @@ export default class App {
   async appendMovieList() {
     this.setState({ page: this.#state.page + 1 });
     await this.setMoviesList();
-    this.toggleSkeletonList(); // remove skeleton list
+    this.toggleSkeletonList("remove");
     this.mountMovieList();
   }
 
@@ -111,10 +111,10 @@ export default class App {
 
   async renderSearchedMovies() {
     this.render();
-    this.toggleSkeletonList(); //add skeleton list
+    this.toggleSkeletonList("add");
     this.hideMoreButton();
     await this.setMoviesList();
-    this.toggleSkeletonList(); // remove skeleton list
+    this.toggleSkeletonList("remove");
     this.mountMovieList();
   }
 
@@ -129,8 +129,9 @@ export default class App {
       $cardList.setMovieList(this.#state.movieList);
   }
 
-  toggleSkeletonList() {
+  toggleSkeletonList(method: "add" | "remove") {
     const $cardList = $("card-list");
-    if ($cardList instanceof MovieCardList) $cardList.toggleSkeletonList();
+    if ($cardList instanceof MovieCardList)
+      $cardList.toggleSkeletonList(method);
   }
 }
