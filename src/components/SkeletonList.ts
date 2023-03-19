@@ -3,11 +3,15 @@ import { $ } from "../utils/Dom";
 
 export default class SkeletonList extends HTMLElement {
   connectedCallback() {
+    this.render();
+    this.mountSkeletonItem();
+  }
+
+  render() {
     this.innerHTML = `
         <ul class="item-list">
       </ul>
         `;
-    this.mountSkeletonItem();
   }
 
   mountSkeletonItem() {

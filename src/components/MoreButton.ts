@@ -1,34 +1,42 @@
 import { $ } from "../utils/Dom";
 
 export default class MoreButton extends HTMLElement {
-  get movieListLength(): number {
-    return Number(this.getAttribute("movieListLength"));
+  get length(): number {
+    return Number(this.getAttribute("length"));
   }
 
   connectedCallback() {
+    this.render();
+    this.setEvent();
+  }
+
+  static get observedAttributes() {
+    return ["length"];
+  }
+
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    this.toggleMoreButton();
+  }
+
+  render() {
     this.innerHTML = /*html*/ ` 
        <button id="more-button" class="btn primary full-width">
             더 보기
        </button>`;
-
-    this.setEvent();
   }
 
   setEvent() {
-    const $moreButton = $("more-button");
-    if ($moreButton instanceof MoreButton)
-      $moreButton.addEventListener("click", () => {
-        this.toggleMoreButton($moreButton);
-        this.dispatchEvent(
-          new CustomEvent("click-more-button", { bubbles: true })
-        );
-      });
+    this.addEventListener("click", () => {
+      this.dispatchEvent(
+        new CustomEvent("click-more-button", { bubbles: true })
+      );
+    });
   }
 
-  toggleMoreButton($moreButton: MoreButton) {
-    this.movieListLength < 20
-      ? $moreButton.classList.add("hidden")
-      : $moreButton.classList.remove("hidden");
+  toggleMoreButton() {
+    this.length < 20
+      ? this.classList.add("hidden")
+      : this.classList.remove("hidden");
   }
 }
 

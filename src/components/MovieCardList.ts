@@ -9,12 +9,12 @@ import SkeletonList from "./SkeletonList";
 export default class MovieCardList extends HTMLElement {
   #movieList: movieList = [];
 
-  get header() {
-    return this.getAttribute("header");
-  }
-
   connectedCallback() {
     this.render();
+  }
+
+  get header() {
+    return this.getAttribute("header");
   }
 
   render() {
@@ -27,8 +27,6 @@ export default class MovieCardList extends HTMLElement {
   }
 
   setMovieList(movieList: movieList) {
-    this.toggleMoreButton(movieList);
-
     const $movieList = $("#movie-list");
     if ($movieList instanceof HTMLElement)
       movieList.forEach((item: movieInfo) => {
@@ -39,15 +37,6 @@ export default class MovieCardList extends HTMLElement {
       });
 
     this.#movieList = movieList;
-  }
-
-  toggleMoreButton(movieList: movieList) {
-    const $moreButton = $("more-button");
-    if (
-      $moreButton instanceof MoreButton &&
-      movieList.length === MAX_MOVIE_QUANTITY_PER_PAGE
-    )
-      $moreButton.classList.remove("hidden");
   }
 
   toggleSkeletonList(method: toggleSkeleton) {

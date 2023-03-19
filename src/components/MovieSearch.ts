@@ -2,13 +2,17 @@ import { $ } from "../utils/Dom";
 
 export default class MovieSearch extends HTMLElement {
   connectedCallback() {
+    this.render();
+    this.setEvent();
+  }
+
+  render() {
     this.innerHTML = /*html*/ `
          <div class="search-box">
           <input type="text" placeholder="검색" />
           <button class="search-button">검색</button>
          </div>
         `;
-    this.setEvent();
   }
 
   setEvent() {
@@ -28,7 +32,7 @@ export default class MovieSearch extends HTMLElement {
     const $searchInput = this.querySelector("input") as HTMLInputElement;
     const $moreButton = $("more-button") as HTMLElement;
 
-    if ($searchInput.value ) {
+    if ($searchInput.value) {
       this.dispatchEvent(
         new CustomEvent("search-movie", {
           bubbles: true,

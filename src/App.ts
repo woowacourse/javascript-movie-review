@@ -1,10 +1,6 @@
 import MoreButton from "./components/MoreButton";
 import MovieCardList from "./components/MovieCardList";
-import {
-  TOGGLE_SKELETON,
-  LIST_STATE,
-  MAX_MOVIE_QUANTITY_PER_PAGE,
-} from "./constant/setting";
+import { TOGGLE_SKELETON, LIST_STATE } from "./constant/setting";
 import { $ } from "./utils/Dom";
 import { getPopularMovies, getSearchedMovies } from "./utils/fetch";
 
@@ -51,7 +47,7 @@ export default class App {
         ? "지금 인기 있는 영화"
         : `"${this.#state.movieName}" 검색 결과`
     }'></card-list>
-    <more-button movieListLength='${movieList.length}'>
+    <more-button length='${movieList.length}'>
     </more-button>
     `;
   }
@@ -72,19 +68,12 @@ export default class App {
     });
   }
 
-  searchMovieCallback = ({ detail }: CustomEvent) => {
-    const { movieName } = detail;
-    this.setInitState();
-    this.setState({
-      listState: LIST_STATE.SEARCHED,
-      movieName,
-    });
-    this.renderSearchedMovies();
-  };
-
   async appendMovieList() {
-    this.setState({ page: this.#state.page + 1 });
+    const { page } = this.#state;
+
+    this.setState({ page: page + 1 });
     await this.setMoviesList();
+    this.setMoreButtonState();
     this.toggleSkeletonList(TOGGLE_SKELETON.HIDDEN);
     this.mountMovieList();
   }
@@ -102,6 +91,17 @@ export default class App {
       alert(error);
     }
   }
+
+  searchMovieCallback = ({ detail }: CustomEvent) => {
+    const { movieName } = detail;
+
+    this.setInitState();
+    this.setState({
+      listState: LIST_STATE.SEARCHED,
+      movieName,
+    });
+    this.renderSearchedMovies();
+  };
 
   getMovieListFromFetchedData(fetchedData: parsedJson) {
     return fetchedData.results.map((item: movieData) => {
@@ -133,5 +133,12 @@ export default class App {
     const $cardList = $("card-list");
     if ($cardList instanceof MovieCardList)
       $cardList.toggleSkeletonList(method);
+  }
+
+  setMoreButtonState() {
+    const $moreButton = $("more-button");
+    if ($moreButton instanceof MoreButton) {
+      $moreButton.setAttribute("length", `${this.#state.movieList.length}`);
+    }
   }
 }
