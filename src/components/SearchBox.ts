@@ -1,51 +1,56 @@
-class SearchBox {
-  private _keyword: string;
-
-  constructor() {
-    this.render();
-    this.handleEvent();
-    this._keyword = "";
-  }
-
-  create() {
+const SearchBox = () => {
+  const create = () => {
     return `
-          <input type="text" placeholder="검색" class="search-input"/>
-          <button class="search-button">검색</button>
-        `;
-  }
+      <input type="text" placeholder="검색" class="search-input"/>
+      <button class="search-button">검색</button>
+    `;
+  };
 
-  render() {
+  const render = () => {
     const searchBox = document.createElement("div");
     searchBox.classList.add("search-box");
-    searchBox.innerHTML = this.create();
+    searchBox.innerHTML = create();
 
     document.querySelector("header")?.appendChild(searchBox);
-  }
+  };
 
-  handleEvent() {
-    const button = document.querySelector(".search-input");
-    button?.addEventListener("keyup", (e: Event) => {
-      this.onKeyup(e);
+  const handleEvent = () => {
+    const searchInput = document.querySelector(".search-input");
+    searchInput?.addEventListener("keyup", (e) => {
+      e.preventDefault();
+      onKeyup(e);
     });
-  }
+  };
 
-  onKeyup(e: Event) {
-    const target = e.target as HTMLInputElement;
+  const onKeyup = (e: any) => {
+    const target = e.target;
     const event = new CustomEvent("searchButtonClicked", {
       detail: {
         query: target!.value,
       },
     });
     document.querySelector(".search-input")!.dispatchEvent(event);
-  }
+    updateKeyword(target!.value);
+  };
 
-  updateKeyword(newWord: string) {
-    this._keyword = newWord;
-  }
+  const updateKeyword = (newWord: string) => {
+    const keywordElement = document.querySelector(
+      ".search-input"
+    ) as HTMLInputElement;
+    keywordElement.value = newWord;
+  };
 
-  getKeyword() {
-    return this._keyword;
-  }
-}
+  const getKeyword = () => {
+    const keywordElement = document.querySelector(
+      ".search-input"
+    ) as HTMLInputElement;
+    return keywordElement.value;
+  };
+
+  render();
+  handleEvent();
+
+  return { updateKeyword, getKeyword };
+};
 
 export default SearchBox;
