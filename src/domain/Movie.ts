@@ -103,11 +103,11 @@ class Movie {
   }
 
   async renderPopularMovies(curPage = 1) {
-    if (this.#movieState['category'] === 'search') {
-      this.#movieState['nextPage'] = 1;
+    if (this.#movieState.category === 'search') {
+      this.#movieState.nextPage = 1;
     }
 
-    this.#movieState['category'] = 'popular';
+    this.#movieState.category = 'popular';
     this.#setSkeletonArray(curPage);
 
     const { isError, data } = await this.getPopularMovies({
@@ -117,7 +117,7 @@ class Movie {
     if (isError && 'status_code' in data) {
       const message = statusCodeToErrorMessage(data.status_code);
 
-      this.#movieState['error'] = {
+      this.#movieState.error = {
         isError,
         message,
       };
@@ -133,12 +133,12 @@ class Movie {
   }
 
   async renderSearchedMovies(query: string, curPage = 1) {
-    if (this.#movieState['category'] === 'popular') {
-      this.#movieState['nextPage'] = 1;
+    if (this.#movieState.category === 'popular') {
+      this.#movieState.nextPage = 1;
     }
 
-    this.#movieState['query'] = query;
-    this.#movieState['category'] = 'search';
+    this.#movieState.query = query;
+    this.#movieState.category = 'search';
     this.#setSkeletonArray(curPage);
 
     const { isError, data } = await this.findMovies({
@@ -149,7 +149,7 @@ class Movie {
     if (isError && 'status_code' in data) {
       const message = statusCodeToErrorMessage(data.status_code);
 
-      this.#movieState['error'] = {
+      this.#movieState.error = {
         isError,
         message,
       };
@@ -166,15 +166,15 @@ class Movie {
   #setSkeletonArray(curPage = 1) {
     const emptyArray = Array.from({ length: 20 }, () => ({ title: null }));
 
-    this.#movieState['results'] =
+    this.#movieState.results =
       curPage === 1 ? emptyArray : [...this.#movieState.results, ...emptyArray];
   }
 
   #setMovies({ results, total_pages, page }: IMovieHandleProps<IMovieItemProps>) {
-    this.#movieState['results'] =
+    this.#movieState.results =
       page === 1 ? results : [...this.#movieState.results.filter(({ title }) => title), ...results];
-    this.#movieState['nextPage'] = total_pages === page ? -1 : page + 1;
-    this.#movieState['error']['isError'] = false;
+    this.#movieState.nextPage = total_pages === page ? -1 : page + 1;
+    this.#movieState.error.isError = false;
   }
 
   getMovieStates() {
