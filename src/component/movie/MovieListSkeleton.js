@@ -10,12 +10,12 @@ class MovieListSkeleton extends CustomElement {
   template() {
     return `
     <ul class="item-list skeleton-list">
-      ${this.makeItemSkeleton()}
+      ${this.makeSkeletonItem()}
     </ul>
     `;
   }
 
-  makeItemSkeleton() {
+  makeSkeletonItem() {
     return `
     <li>
       <a href="#">
@@ -30,7 +30,11 @@ class MovieListSkeleton extends CustomElement {
   }
 
   remove() {
-    $(".skeleton-list")?.remove();
+    $(".skeleton-list").remove();
+  }
+
+  show() {
+    this.render();
   }
 }
 

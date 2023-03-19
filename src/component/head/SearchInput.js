@@ -29,7 +29,6 @@ class SearchInput extends CustomElement {
       return;
     }
 
-    MovieManager.showSkeleton();
     MovieManager.showMovies(query);
   }
 }

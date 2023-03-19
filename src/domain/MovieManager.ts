@@ -35,19 +35,22 @@ class MovieManager {
     this.skeletonSubscriber?.remove();
   }
 
-  showSkeleton() {
-    this.skeletonSubscriber?.render();
+  private showSkeleton() {
+    this.skeletonSubscriber?.show();
   }
 
   async showMovies(searchWord: string = "") {
+    this.showSkeleton();
     const movieAppData = await Movie.getMovies(searchWord);
     this.publish(movieAppData);
     this.hideSkeleton();
   }
 
   async showMoreMovies() {
+    this.showSkeleton();
     const movieAppData = await Movie.getMoreMovies();
     this.publish(movieAppData);
+    this.hideSkeleton();
   }
 }
 
