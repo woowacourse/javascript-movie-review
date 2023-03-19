@@ -61,7 +61,10 @@ class App {
 
     if (!movieList) return;
 
-    if (requestListType === 'keyword') this.#movieList.setTitle(`Search Results of "${keyword}"`);
+    if (requestListType === 'keyword') {
+      this.#movieList.setTitle(`Search Results of "${keyword}"`);
+      this.#requestListType = 'keyword';
+    }
 
     updateType === 'overwrite'
       ? this.#movieList.renderContents(movieList)
@@ -73,9 +76,8 @@ class App {
   };
 
   onSubmitSearchForm = (keyword: string) => {
-    this.#requestListType = 'keyword';
     this.#searchKeyword = keyword;
-    this.fetchAndUpdateMovieList(this.#requestListType, 'overwrite', this.#searchKeyword);
+    this.fetchAndUpdateMovieList('keyword', 'overwrite', this.#searchKeyword);
   };
 }
 
