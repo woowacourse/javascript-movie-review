@@ -1,7 +1,7 @@
-import { MovieItemType, MovieSubscribserType } from '../type/movie';
+import { MovieItemType, MovieSubscriberType } from '../type/movie';
 
 export default class Observable {
-  observer: MovieSubscribserType;
+  observer: MovieSubscriberType;
 
   constructor() {
     this.observer = {
@@ -11,13 +11,13 @@ export default class Observable {
   }
 
   subscribe(
-    key: keyof MovieSubscribserType,
+    key: keyof MovieSubscriberType,
     method: (value?: MovieItemType[]) => void
   ) {
     this.observer[key].push(method);
   }
 
-  notify(key: keyof MovieSubscribserType, newData?: MovieItemType[]) {
+  notify(key: keyof MovieSubscriberType, newData?: MovieItemType[]) {
     this.observer[key].forEach((method) => method(newData));
   }
 }

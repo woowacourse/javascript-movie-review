@@ -29,7 +29,7 @@ export type MovieItemType = {
   vote_average: number;
 };
 
-export type MovieSubscribserType = {
+export type MovieSubscriberType = {
   movies: ((value?: MovieItemType[]) => void)[];
   loading: (() => void)[];
 };
