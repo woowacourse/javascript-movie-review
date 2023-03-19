@@ -14,7 +14,7 @@ class Header {
     this.#element.innerHTML = template;
   }
 
-  addSubmitEventHandler(onSubmitSearchForm: CallableFunction) {
+  addSubmitEventHandler(onSubmitSearchForm: (keyword: string) => void) {
     const $searchForm = $('#search-form');
 
     $searchForm.addEventListener('submit', (event) => {

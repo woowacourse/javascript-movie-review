@@ -12,7 +12,7 @@ class LoadMoreButton {
     parentElement.appendChild(this.#element);
   }
 
-  addClickEventHandler(onClickLoadMoreButton: CallableFunction) {
+  addClickEventHandler(onClickLoadMoreButton: () => void) {
     this.#element.addEventListener('click', () => {
       onClickLoadMoreButton();
     });
