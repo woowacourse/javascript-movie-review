@@ -39,10 +39,12 @@ class App {
 
     if (result === 'PAGE_ERROR') {
       alert('페이지 에러');
+      return;
     }
 
     if (result === 'CLIENT_ERROR') {
       alert('잘못된 요청입니다. 잠시 후 다시 시도해 주세요.');
+      return;
     }
 
     if (result === 'SYSTEM_CRASHED') {
@@ -61,6 +63,7 @@ class App {
 
     if (result === 'EMPTY_LIST') {
       alert('검색 결과가 없습니다!');
+      return;
     }
 
     if (!movieList) return;
