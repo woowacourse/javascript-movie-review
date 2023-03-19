@@ -1,6 +1,10 @@
 import MoreButton from "./components/MoreButton";
 import MovieCardList from "./components/MovieCardList";
-import { TOGGLE_SKELETON, LIST_STATE } from "./constant/setting";
+import {
+  TOGGLE_SKELETON,
+  LIST_STATE,
+  MAX_MOVIE_QUANTITY_PER_PAGE,
+} from "./constant/setting";
 import { $ } from "./utils/Dom";
 import { getPopularMovies, getSearchedMovies } from "./utils/fetch";
 
@@ -39,6 +43,7 @@ export default class App {
 
   render() {
     const itemView = $(".item-view");
+    const { movieList } = this.#state;
     if (itemView instanceof HTMLElement)
       itemView.innerHTML = `
     <card-list header='${
@@ -46,7 +51,8 @@ export default class App {
         ? "지금 인기 있는 영화"
         : `"${this.#state.movieName}" 검색 결과`
     }'></card-list>
-    <more-button></more-button>
+    <more-button movieListLength='${movieList.length}'>
+    </more-button>
     `;
   }
 
@@ -112,15 +118,9 @@ export default class App {
   async renderSearchedMovies() {
     this.render();
     this.toggleSkeletonList(TOGGLE_SKELETON.SHOW);
-    this.hideMoreButton();
     await this.setMoviesList();
     this.toggleSkeletonList(TOGGLE_SKELETON.HIDDEN);
     this.mountMovieList();
-  }
-
-  hideMoreButton() {
-    const $moreButton = $("more-button");
-    if ($moreButton instanceof MoreButton) $moreButton.classList.add("hidden");
   }
 
   mountMovieList() {
