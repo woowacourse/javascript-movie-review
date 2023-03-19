@@ -4,6 +4,16 @@ import { $ } from '../utils/domSelector';
 import { EmptyStar, FilledStar } from '../assets';
 
 class MovieItem {
+  private static instance: MovieItem;
+
+  static getInstance(): MovieItem {
+    if (!MovieItem.instance) {
+      MovieItem.instance = new MovieItem();
+    }
+
+    return MovieItem.instance;
+  }
+
   template() {
     return `
       <li>
@@ -17,7 +27,7 @@ class MovieItem {
       </li>`;
   }
 
-  posterImageTemplate(title: string, imagePath: string) {
+  private posterImageTemplate(title: string, imagePath: string) {
     return imagePath
       ? `
         <img
@@ -29,7 +39,7 @@ class MovieItem {
       : `<div class="item-thumbnail"></div>`;
   }
 
-  scoreTemplate(voteAverage: number) {
+  private scoreTemplate(voteAverage: number) {
     return `
       <img src="${voteAverage ? FilledStar : EmptyStar}" alt="별점" />${voteAverage}
     `;
@@ -53,4 +63,4 @@ class MovieItem {
   }
 }
 
-export default new MovieItem();
+export default MovieItem.getInstance();
