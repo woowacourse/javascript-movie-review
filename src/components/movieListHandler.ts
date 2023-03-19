@@ -4,7 +4,10 @@ import { $ } from "../utils/selector";
 import MovieList from "./MovieList";
 
 export const onClickMoreButton = () => {
-  executeEventListener($("#more-button"), "click", async () => {
+  executeEventListener($("#more-button"), {
+    type: "click",
+    prevent: true
+  }, async () => {
     $(".item-list").insertAdjacentHTML("beforeend", renderSkeletons());
 
     movieApi.page += 1;

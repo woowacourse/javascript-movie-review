@@ -1,10 +1,15 @@
 export const executeEventListener = (
   target: Element,
-  type: string,
+  options: {
+    type: string,
+    prevent: boolean
+  },
   listener: (event: Event) => void
 ) => {
-  target.addEventListener(type, (event) => {
-    event.preventDefault();
+  target.addEventListener(options.type, (event) => {
+    if (options.prevent) {
+      event.preventDefault();
+    }
 
     listener(event);
   });
