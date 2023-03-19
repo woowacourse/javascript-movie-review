@@ -89,17 +89,22 @@ export default class App {
   }
 
   async addPopularMoviesList() {
-    const fetchedData = await getPopularMovies(this.#state.page);
-    const movieList = fetchedData.results.map((item: movieData) => {
-      const { title, poster_path, vote_average, id } = item;
-      return {
-        title,
-        poster: poster_path,
-        rating: vote_average,
-        movieId: id,
-      };
-    });
-    this.setState({ movieList });
+    try {
+      const fetchedData = await getPopularMovies(this.#state.page);
+      const movieList = fetchedData.results.map((item: movieData) => {
+        const { title, poster_path, vote_average, id } = item;
+        return {
+          title,
+          poster: poster_path,
+          rating: vote_average,
+          movieId: id,
+        };
+      });
+      this.setState({ movieList });
+    } catch (error) {
+      console.log(error);
+      alert(error);
+    }
   }
 
   async addSearchedMoviesList() {

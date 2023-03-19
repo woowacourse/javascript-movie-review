@@ -5,7 +5,16 @@ const fetchAPI = async (url: string) => {
   if (response.status === 200) {
     return await response.json();
   }
-  throw new Error("통신오류가 발생하였습니다.");
+  if (response.status === 401) {
+    throw new Error(`${response.status} API KEY가 잘못되었습니다.`);
+  }
+  if (response.status === 422) {
+    throw new Error(`${response.status} Page가 잘못되었습니다.`);
+  }
+  if (response.status === 404) {
+    throw new Error(`${response.status} 페이지를 찾을 수 없습니다.`);
+  }
+  throw new Error(`${response.status}`);
 };
 
 export const getPopularMovies = async (page: number): Promise<parsedJson> => {
