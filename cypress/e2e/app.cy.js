@@ -11,7 +11,7 @@ describe('영화 목록 불러오기 테스트', () => {
     cy.get('@moviePopular').its('body.results').should('have.length', 20);
   });
 
-  it('Fixture 이용하여 테스트하다', () => {
+  it('Intercept를 이용히여 테스트에 사용할 movie-popular.json을 생성하다.', () => {
     cy.intercept(
       {
         method: 'GET',
@@ -21,11 +21,12 @@ describe('영화 목록 불러오기 테스트', () => {
     ).as('getPopularMovies');
 
     cy.visit('http://localhost:8080');
+  });
 
-    cy.wait('@getPopularMovies').then(interception => {
-      const movieItems = interception.response.body.results;
-      expect(movieItems.length).to.equal(20);
-    });
+  it('Fixture를 이용하여 인기 있는 영화 아이템이 20개인지 테스트하다', () => {
+    cy.fixture('movie-popular.json').as('getPopularMovies');
+
+    cy.get('@getPopularMovies').its('results').should('have.length', 20);
   });
 
   it('더보기 버튼을 눌렀을때 영화 목록이 추가되는지 테스트하다', () => {
@@ -34,10 +35,10 @@ describe('영화 목록 불러오기 테스트', () => {
     cy.get('#more-button').click();
     cy.get('movie-item').should('have.length', 40);
   });
-  
+
   it('검색 결과 목록이 나오는지 확인하는 테스트하다', () => {
     cy.visit('http://localhost:8080');
-    
+
     cy.get('input').type('범죄도시');
     cy.get('.search-button').click();
     cy.get('movie-item').should('have.length', 9);
