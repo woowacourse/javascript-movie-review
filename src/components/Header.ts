@@ -1,38 +1,45 @@
 import SearchBox from './SearchBox';
 
-class Header {
-  private _node!: HTMLElement;
+class Header implements Component {
+  readonly node: HTMLElement;
+  private logo!: HTMLHeadingElement;
+
+  private children: { [key: string]: Component };
 
   constructor() {
-    this.createTemplate();
-    this.setEvent();
+    this.node = document.createElement('header');
+    this.node.classList.add('header');
+    this.children = { searchBox: new SearchBox() };
+
+    this.composeNode().setElements().setEvents();
   }
 
-  get node(): HTMLElement {
-    return this._node;
-  }
-
-  createTemplate() {
-    this._node = document.createElement('header');
-    this._node.classList.add('header');
-    this._node.insertAdjacentHTML('afterbegin', `<h1><img src="./logo.png" alt="MovieList 로고" /></h1>`);
-
-    const searchBox = new SearchBox();
-    this._node.insertAdjacentElement('beforeend', searchBox.node);
+  composeNode() {
+    this.node.innerHTML = '<h1><img src="./logo.png" alt="MovieList 로고" /></h1>';
+    this.node.appendChild(this.children.searchBox.node);
 
     return this;
   }
 
-  clickLogoIcon() {
-    this._node.dispatchEvent(new Event('moveHome', { bubbles: true }));
+  setElements(): this {
+    const logo = this.node.querySelector<HTMLHeadingElement>('h1');
+
+    if (!logo) {
+      return this;
+    }
+
+    this.logo = logo;
+    return this;
   }
 
-  setEvent() {
-    const logoIcon = this._node.querySelector('h1');
+  setEvents(): this {
+    this.logo.addEventListener('click', this.handleClickLogo.bind(this));
 
-    if (!logoIcon) return;
+    return this;
+  }
 
-    logoIcon.addEventListener('click', this.clickLogoIcon.bind(this));
+  handleClickLogo() {
+    this.node.dispatchEvent(new Event('click-logo', { bubbles: true }));
   }
 }
 

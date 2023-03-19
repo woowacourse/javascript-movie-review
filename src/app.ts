@@ -107,7 +107,7 @@ class App {
     window.addEventListener('load', this.initLoad.bind(this));
     document.addEventListener('seeMoreMovie', this.seeMoreMovies.bind(this) as EventListener);
     document.addEventListener('searchMovies', this.searchMoives.bind(this) as unknown as EventListener);
-    document.addEventListener('moveHome', this.moveHome.bind(this));
+    document.addEventListener('click-logo', this.moveHome.bind(this));
   }
 }
 
