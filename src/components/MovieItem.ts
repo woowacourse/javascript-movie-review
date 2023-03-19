@@ -11,7 +11,7 @@ export const MovieItem = (movieInfo: CoreInfoType) => {
             class="item-thumbnail skeleton "
             src="https://image.tmdb.org/t/p/w220_and_h330_face${posterPath}"
             loading="lazy"
-            alt="앤트맨과 와스프: 퀀텀매니아"
+            alt="${title}"
           />
           <p class="item-title ">${title}</p>
           <p class="item-score "><img src="./star_filled.png" alt="별점" /> ${voteAverage}</p>
