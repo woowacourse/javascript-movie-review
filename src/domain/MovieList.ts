@@ -1,4 +1,4 @@
-import { Movie, MovieDataResult } from '../types/movie';
+import { Movie, MovieDataResult, MovieFetchFunction } from '../types/movie';
 import { MOVIE_LIST_LOADED, MOVIE_LIST_LOADING, MOVIE_LIST_RESET } from '../constants';
 import EventEmitter from '../utils/EventEmitter';
 import { fetchPopularMovieData, fetchSearchedMovieData } from '../api/movieAPI';
@@ -26,9 +26,7 @@ class MovieList {
     this.currentPage += 1;
   }
 
-  private async processMovieData(
-    fetchFunction: () => Promise<MovieDataResult[]>
-  ): Promise<Movie[]> {
+  private async processMovieData(fetchFunction: MovieFetchFunction): Promise<Movie[]> {
     const moviesData: MovieDataResult[] = await fetchFunction();
     this.increaseCurrentPage();
 

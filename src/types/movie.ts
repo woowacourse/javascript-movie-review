@@ -29,4 +29,6 @@ interface Movie {
   posterPath: string;
 }
 
-export { MovieData, MovieDataResult, Movie };
+type MovieFetchFunction = () => Promise<MovieDataResult[]>;
+
+export { MovieData, MovieDataResult, Movie, MovieFetchFunction };
