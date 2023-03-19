@@ -3,12 +3,28 @@ import MovieList from '../domain/MovieList';
 import { InvalidMessageType } from '../types/ui';
 import { $ } from '../utils/domSelector';
 
-const InvalidMessage = {
-  init() {
+class InvalidMessage {
+  private static instance: InvalidMessage;
+  private messageContainer: HTMLDivElement;
+
+  private constructor() {
+    this.init();
+    this.messageContainer = $<HTMLDivElement>('.error-message');
+  }
+
+  static getInstance(): InvalidMessage {
+    if (!InvalidMessage.instance) {
+      InvalidMessage.instance = new InvalidMessage();
+    }
+
+    return InvalidMessage.instance;
+  }
+
+  private init() {
     MovieList.on('movieListReset', () => {
-      InvalidMessage.clear();
+      this.clear();
     });
-  },
+  }
 
   render(type: InvalidMessageType, message?: string) {
     const heading = INVALID_MESSAGE[type].HEADING;
@@ -16,14 +32,13 @@ const InvalidMessage = {
       <h3>${typeof heading === 'function' && message ? heading(message) : heading}</h3>
       <p>${INVALID_MESSAGE[type].CONTENT}</p>`;
 
-    const errorMessage = $<HTMLDivElement>('.error-message');
-    errorMessage.insertAdjacentHTML('beforeend', template);
-    errorMessage.classList.remove('hide');
-  },
+    this.messageContainer.insertAdjacentHTML('beforeend', template);
+    this.messageContainer.classList.remove('hide');
+  }
 
   clear() {
-    $<HTMLDivElement>('.error-message').textContent = '';
-  },
-};
+    this.messageContainer.textContent = '';
+  }
+}
 
-export default InvalidMessage;
+export default InvalidMessage.getInstance();
