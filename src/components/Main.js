@@ -1,5 +1,5 @@
 import { $ } from '../util/querySelector';
-import Movie from './Movie';
+import { MovieItem } from './MovieItem';
 import MovieSkeleton from './MovieSkeleton';
 
 const SKELETON_ITEM_COUNT = 20;
@@ -33,7 +33,6 @@ class Main {
   }
 
   async render() {
-    const movie = new Movie();
     const query = this.#manager.getQuery();
 
     if (query === '' && !this.#manager.getMovieList().length) {
@@ -51,7 +50,7 @@ class Main {
       this.#manager.getMovieList().length
         ? this.#manager
             .getMovieList()
-            .map((movieInfo) => movie.template(movieInfo))
+            .map((movieInfo) => MovieItem(movieInfo))
             .join('\n')
         : '<p>검색 결과가 없습니다.</p>'
     }
