@@ -1,10 +1,9 @@
+import { IMAGE_URL } from '../constants/constants';
 import { MovieType } from '../types';
 
 const movieItem = ({ title, posterPath, voteAverage }: MovieType) => {
-  const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original';
-  const originalImageUrl = `${IMAGE_BASE_URL}${posterPath}`;
-  const alternativeImageUrl = './assets/no_image.png';
-  const imageUrl = posterPath ? originalImageUrl : alternativeImageUrl;
+  const originalImageUrl = `${IMAGE_URL.BASE}${posterPath}`;
+  const imageUrl = posterPath ? originalImageUrl : IMAGE_URL.ALTERNATIVE;
 
   return `
     <li>
