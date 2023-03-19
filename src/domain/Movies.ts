@@ -1,5 +1,6 @@
 import { getApiPopularMovie, getApiSearchMovie } from './api';
 import { MovieListApiType, MovieItemType } from '../type/movie';
+import { ERROR_MESSAGE } from '../constant';
 
 import Observable from './Observable';
 
@@ -45,6 +46,10 @@ class Movies extends Observable {
       this.popularPage
     );
 
+    setTimeout(() => {
+      if (popularMovies === undefined) window.alert(ERROR_MESSAGE.unableAccess);
+    }, 3000);
+
     const refineMovies = popularMovies?.results.map(
       ({ id, poster_path, title, vote_average }: MovieItemType) => {
         return { id, poster_path, title, vote_average };
@@ -70,6 +75,10 @@ class Movies extends Observable {
       query,
       this.searchPage
     );
+
+    setTimeout(() => {
+      if (searchMovies === undefined) window.alert(ERROR_MESSAGE.unableAccess);
+    }, 3000);
 
     const refineMovies = searchMovies?.results.map(
       ({ id, poster_path, title, vote_average }: MovieItemType) => {
