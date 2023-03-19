@@ -4,9 +4,9 @@ class Header {
   #element;
   #manager;
 
-  constructor(manager, element) {
-    this.#manager = manager;
+  constructor(element, manager) {
     this.#element = element;
+    this.#manager = manager;
     this.#searchEvent();
   }
 
