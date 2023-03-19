@@ -1,12 +1,11 @@
-import MovieManager from "../../domain/MovieManager";
+import SkeletonStore from "../../domain/SkeletonStore";
 import { $ } from "../../util/dom";
 import CustomElement from "../basic/CustomElement";
 
 class MovieListSkeleton extends CustomElement {
   connectedCallback() {
     super.connectedCallback();
-    MovieManager.subscribe(this);
-    MovieManager.subscribeSkeletons(this);
+    SkeletonStore.subscribe(this);
   }
 
   template() {
@@ -196,7 +195,7 @@ class MovieListSkeleton extends CustomElement {
     `;
   }
 
-  rerender() {
+  removeSkeleton() {
     $(".skeleton-list").remove();
   }
 }
