@@ -1,4 +1,4 @@
-import { ApiMovieItem, MovieAppData } from "../type/movieType";
+import { ApiMovieItem, MovieAppData, MovieItem } from "../type/movieType";
 import { request } from "../util/apiRequest";
 import { popularMovieUrl, searchMovieUrl } from "./movieUrl";
 
@@ -12,7 +12,7 @@ class Movie {
   };
 
   formMovies(apiData: ApiMovieItem[]) {
-    return apiData.map((result: ApiMovieItem) => {
+    return apiData.map<MovieItem>((result: ApiMovieItem) => {
       return {
         id: result.id,
         title: result.title,
@@ -43,6 +43,7 @@ class Movie {
     const apiData = await request(url);
     const moreMovies = this.formMovies(apiData.results);
     this.state.movies = [...this.state.movies, ...moreMovies];
+    this.state.totalPages = apiData.total_pages;
 
     return { ...this.state, movies: moreMovies };
   }
