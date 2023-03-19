@@ -1,4 +1,4 @@
-const TEST_URL = 'http://localhost:8082/';
+const TEST_URL = 'http://localhost:8080/';
 
 describe('영화 사이트 테스트', () => {
   beforeEach('beforeEach', () => {
@@ -51,7 +51,7 @@ describe('영화 사이트 테스트', () => {
       .wait('@getHarryPotter')
       .then((interception) => {
         const movieItems = interception.response.body.results;
-        expect(movieItems.length).to.equal(10);
+        expect(movieItems[0].original_title).to.equal('harry poter');
       });
   });
 
@@ -70,7 +70,7 @@ describe('영화 사이트 테스트', () => {
       .wait('@getHarryPotter')
       .then((interception) => {
         const movieItems = interception.response.body.results;
-        expect(movieItems.length).to.equal(10);
+        expect(movieItems[0].original_title).to.equal('harry poter');
       });
   });
 });
