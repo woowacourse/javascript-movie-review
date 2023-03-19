@@ -1,4 +1,4 @@
-const skeletonTemplate = (repetition: number) => {
+const skeletonTemplate = (repetition: number = 20) => {
   const template = `<li>
      <a href="#">
        <div class="item-card">

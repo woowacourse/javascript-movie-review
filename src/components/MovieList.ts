@@ -24,7 +24,7 @@ class MovieList {
     this.node.innerHTML = `
       <h2 id="list-name">지금 인기있는 영화</h2>
       <ul class="item-list movie-list hidden"></ul>
-      <ul class="item-list skeleton-list hidden">${skeletonTemplate(20)}</ul>
+      <ul class="item-list skeleton-list hidden">${skeletonTemplate()}</ul>
       <button class="btn primary full-width hidden">더 보기</button>`;
 
     return this;
