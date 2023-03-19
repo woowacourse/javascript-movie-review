@@ -1,4 +1,6 @@
+import { MovieItemType } from '../type/movie';
 import { $ } from '../utils/domHelper';
+
 import MovieItem from './MovieItem';
 import movies from '../domain/Movies';
 
@@ -34,15 +36,18 @@ export default class MovieList {
     this.$target.insertAdjacentHTML('beforeend', this.skeletonTemplate());
   }
 
-  render(popularMovies: any) {
+  render(popularMovies?: MovieItemType[]) {
     $('.skeleton-container').remove();
 
-    this.$target.insertAdjacentHTML('beforeend', this.template(popularMovies));
+    this.$target.insertAdjacentHTML(
+      'beforeend',
+      this.template(popularMovies) || ''
+    );
   }
 
-  template(popularMovies: any) {
+  template(popularMovies?: MovieItemType[]) {
     return popularMovies
-      .map((movie: any) => new MovieItem().template(movie))
+      ?.map((movie: MovieItemType) => new MovieItem().template(movie))
       .join('');
   }
 }
