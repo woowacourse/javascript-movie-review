@@ -28,8 +28,7 @@ class MovieList {
   }
 
   renderContents(movieInfoList: MovieType[]) {
-    const itemListContents = movieInfoList.map((movieInfo) => movieItem(movieInfo)).join('');
-    $('.item-list').innerHTML = itemListContents;
+    $('.item-list').innerHTML = movieInfoList.map(movieItem).join('');
   }
 
   renderNextContents(movieInfoList: MovieType[]) {
