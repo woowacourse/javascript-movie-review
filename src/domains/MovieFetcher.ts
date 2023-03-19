@@ -1,7 +1,8 @@
-import { MovieType, APIMovieType, ResponseType } from '../types';
+import { API_URL } from '../constants/constants';
+import { APIMovieType, ResponseType } from '../types';
 
 class MovieFetcher {
-  #previousPage = 1;
+  #previousPage = 0;
   #currentPage = 1;
 
   resetPage() {
@@ -9,54 +10,21 @@ class MovieFetcher {
     this.#currentPage = 1;
   }
 
+  resetPreviousPage() {
+    this.#previousPage = 0;
+  }
+
   cancelResetPage() {
     this.#currentPage = this.#previousPage;
   }
 
-  async fetchMovieInfoByPopularity(): Promise<ResponseType> {
+  async fetchMovieInfo(keyword?: string): Promise<ResponseType> {
     try {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/popular?api_key=${
-          process.env.API_KEY
-        }&language=en-US&page=${this.#currentPage}`,
-      );
-
-      if (!response.ok) {
-        if (response.status === 422) return { result: 'PAGE_ERROR' };
-        if (response.status >= 400 && response.status <= 499) return { result: 'CLIENT_ERROR' };
-        if (response.status >= 500 && response.status <= 599) return { result: 'SERVER_ERROR' };
-
-        return { result: '' };
-      }
-
-      const responseText = await response.text();
-      const parsedResponseText = JSON.parse(responseText);
-
-      const movieList = parsedResponseText.results.map((currentResult: APIMovieType) => ({
-        title: currentResult.title,
-        posterPath: currentResult.poster_path,
-        voteAverage: currentResult.vote_average,
-      }));
-
-      if (movieList.length === 0) {
-        return { result: 'EMPTY_LIST' };
-      }
-
-      this.#currentPage += 1;
-
-      return { result: 'OK', movieList };
-    } catch (error) {
-      return { result: 'SYSTEM_CRASHED' };
-    }
-  }
-
-  async fetchMovieInfoByKeyword(keyword: string): Promise<ResponseType> {
-    try {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/search/movie?api_key=${
-          process.env.API_KEY
-        }&language=en-US&query=${keyword}&page=${this.#currentPage}&include_adult=false`,
-      );
+      const apiUrl =
+        typeof keyword === 'string'
+          ? API_URL.SEARCH_MOVIES(this.#currentPage, keyword)
+          : API_URL.POPULAR_MOVIES(this.#currentPage);
+      const response = await fetch(apiUrl);
 
       if (!response.ok) {
         if (response.status === 422) return { result: 'PAGE_ERROR' };

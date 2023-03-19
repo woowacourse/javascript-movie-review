@@ -28,13 +28,17 @@ class App {
 
     const { result, movieList } =
       requestListType === 'popularity'
-        ? await this.#movieFetcher.fetchMovieInfoByPopularity()
-        : await this.#movieFetcher.fetchMovieInfoByKeyword(keyword);
+        ? await this.#movieFetcher.fetchMovieInfo()
+        : await this.#movieFetcher.fetchMovieInfo(keyword);
 
     this.#movieList.removeSkeletonItems();
 
     if (result !== 'OK' && updateType === 'overwrite') {
       this.#movieFetcher.cancelResetPage();
+    }
+
+    if (result === 'OK' && updateType === 'overwrite') {
+      this.#movieFetcher.resetPreviousPage();
     }
 
     if (result === 'PAGE_ERROR') {
