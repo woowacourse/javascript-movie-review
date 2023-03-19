@@ -17,9 +17,11 @@ class Header extends HTMLElement {
   }
 
   setLogoClickEvent() {
-    $('#logo').addEventListener('click', () => {
-      $('movie-list').setSearchWord('');
-    });
+    $('#logo').addEventListener('click', this.setWordToInitializing.bind(this));
+  }
+
+  setWordToInitializing() {
+    $('movie-list').setSearchWord('');
   }
 }
 
