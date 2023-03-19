@@ -1,47 +1,55 @@
 class SearchBox {
-  private _node!: HTMLElement;
-
+  readonly node: HTMLElement;
+  private searchInput!: HTMLInputElement;
+  private searchButton!: HTMLButtonElement;
   constructor() {
-    this.createTemplate();
-    this.setEvent();
+    this.node = document.createElement('div');
+    this.node.classList.add('search-box');
+
+    this.composeNode().setElements().addEvents();
   }
 
-  get node(): HTMLElement {
-    return this._node;
-  }
-
-  createTemplate() {
-    this._node = document.createElement('div');
-    this._node.classList.add('search-box');
-
-    this._node.insertAdjacentHTML(
-      'afterbegin',
-      `
+  composeNode(): this {
+    this.node.innerHTML = `
       <input type="text" placeholder="검색" />
       <button class="search-button">검색</button>
-      `
-    );
+      `;
+
+    return this;
   }
 
-  setEvent() {
-    const input = this._node.querySelector<HTMLInputElement>('input');
-    const button = this._node.querySelector<HTMLButtonElement>('.search-button');
+  setElements(): this {
+    const input = this.node.querySelector<HTMLInputElement>('input');
+    const button = this.node.querySelector<HTMLButtonElement>('.search-button');
 
-    if (!input || !button) return;
+    if (!(input && button)) {
+      return this;
+    }
 
-    input.addEventListener('keypress', (event: KeyboardEvent) => {
+    this.searchInput = input;
+    this.searchButton = button;
+
+    return this;
+  }
+
+  // TODO: throttling 구현
+
+  addEvents(): this {
+    this.searchInput.addEventListener('keypress', (event: KeyboardEvent) => {
       if (event.key !== 'Enter') return;
 
-      this.dispatchSearchEvent(input.value);
+      this.dispatchSearchEvent(this.searchInput.value);
     });
 
-    button.addEventListener('click', () => {
-      this.dispatchSearchEvent(input.value);
+    this.searchButton.addEventListener('click', () => {
+      this.dispatchSearchEvent(this.searchInput.value);
     });
+
+    return this;
   }
 
   dispatchSearchEvent(keyword: string): void {
-    this._node.dispatchEvent(new CustomEvent('searchMovies', { bubbles: true, detail: { keyword } }));
+    this.node.dispatchEvent(new CustomEvent('searchMovies', { bubbles: true, detail: { keyword } }));
   }
 }
 
