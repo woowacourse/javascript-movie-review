@@ -1,9 +1,9 @@
-import MovieData from '../../domain/MovieData';
+import Movies from '../../domain/Movies';
 import './MovieList.css';
 import { $ } from '../../utils/common';
 
 class MovieList extends HTMLElement {
-  #movieData = new MovieData();
+  #movies = new Movies();
   #searchWord = new Proxy(
     { value: '' },
     {
@@ -49,7 +49,7 @@ class MovieList extends HTMLElement {
 
   async updateMovieList() {
     try {
-      await this.#movieData.update(this.#searchWord.value);
+      await this.#movies.update(this.#searchWord.value);
 
       document.querySelectorAll('skeleton-item').forEach(node => {
         node.classList.add('skeleton-hide');
@@ -68,7 +68,7 @@ class MovieList extends HTMLElement {
   }
 
   renderMovieList() {
-    const movieList = this.#movieData.movieResult;
+    const movieList = this.#movies.movieResult;
 
     if (movieList.movies.length === 0) {
       this.showNoResult();
@@ -83,7 +83,7 @@ class MovieList extends HTMLElement {
   }
 
   toggleVisibleButton() {
-    if (this.#movieData.movieResult.isLastPage) {
+    if (this.#movies.movieResult.isLastPage) {
       $('#more-button').classList.add('hide-button');
       return;
     }
@@ -118,7 +118,7 @@ class MovieList extends HTMLElement {
       noResultMessage.remove();
     }
 
-    this.#movieData.resetPageIndex();
+    this.#movies.resetPageIndex();
   }
 
   updateTitle(word) {

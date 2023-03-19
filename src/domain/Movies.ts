@@ -3,7 +3,7 @@ import { ApiMovieProps, ParsedMovieResult } from '../types/type';
 
 export const BASE_URL = 'https://api.themoviedb.org/3/';
 
-class MovieData {
+class Movies {
   #parsedMovieResult: ParsedMovieResult = { isLastPage: false, movies: [] };
   #pageIndex: number = 1;
 
@@ -54,4 +54,4 @@ class MovieData {
   }
 }
 
-export default MovieData;
+export default Movies;

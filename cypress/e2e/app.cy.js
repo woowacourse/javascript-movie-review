@@ -1,4 +1,4 @@
-import { BASE_URL } from '../../src/domain/MovieData';
+import { BASE_URL } from '../../src/domain/Movies';
 
 describe('영화 목록 불러오기 테스트', () => {
   it('실제 외부 API에 요청하여 받아오는 것을 테스트하다', () => {
@@ -34,10 +34,10 @@ describe('영화 목록 불러오기 테스트', () => {
     cy.get('#more-button').click();
     cy.get('movie-item').should('have.length', 40);
   });
-  
+
   it('검색 결과 목록이 나오는지 확인하는 테스트하다', () => {
     cy.visit('http://localhost:8080');
-    
+
     cy.get('input').type('범죄도시');
     cy.get('.search-button').click();
     cy.get('movie-item').should('have.length', 9);
