@@ -1,4 +1,4 @@
-import { BASE_URL } from '../../src/domain/Movies';
+import { BASE_URL } from '../../src/utils/common';
 
 describe('영화 목록 불러오기 테스트', () => {
   it('실제 외부 API에 요청하여 받아오는 것을 테스트하다', () => {
