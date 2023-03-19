@@ -37,8 +37,8 @@ class MoviesContainer extends HTMLElement {
     this.innerHTML = `
     <main class="item-container">
     <section class="item-view">
-    <h2>지금 인기 있는 영화</h2>
-    <ul class="item-list">
+    <h2 id="movie-container-title">지금 인기 있는 영화</h2>
+    <ul id="movie-list-wrapper" class="item-list">
     <skeleton-item id="first-skeleton"></skeleton-item>
     ${'<skeleton-item></skeleton-item>'.repeat(19)}
     </ul>
@@ -58,7 +58,7 @@ class MoviesContainer extends HTMLElement {
       this.renderMovieList();
       this.toggleVisibleButton();
     } catch (error) {
-      $('h2').innerText = error.message;
+      $('#movie-container-title').innerText = error.message;
       $('#more-button').classList.add('hide-button');
 
       document.querySelectorAll('skeleton-item').forEach(node => {
@@ -95,8 +95,9 @@ class MoviesContainer extends HTMLElement {
     const noResultMessage = document.createElement('span');
     noResultMessage.innerText = '검색 결과가 없습니다';
     noResultMessage.classList.add('no-result');
+    noResultMessage.id = 'no-result-message';
 
-    $('.item-list').appendChild(noResultMessage);
+    $('#movie-list-wrapper').appendChild(noResultMessage);
   }
 
   setButtonEvent() {
@@ -112,7 +113,7 @@ class MoviesContainer extends HTMLElement {
   reset() {
     document.querySelectorAll('movie-item').forEach(node => node.remove());
 
-    const noResultMessage = $('.item-list > span');
+    const noResultMessage = $('#no-result-message');
 
     if (noResultMessage) {
       noResultMessage.remove();
@@ -123,11 +124,11 @@ class MoviesContainer extends HTMLElement {
 
   updateTitle(word) {
     if (word === '') {
-      $('h2').innerText = '지금 인기 있는 영화';
+      $('#movie-container-title').innerText = '지금 인기 있는 영화';
       return;
     }
 
-    $('h2').innerText = `"${word}" 검색 결과`;
+    $('#movie-container-title').innerText = `"${word}" 검색 결과`;
   }
 
   setSearchWord(searchWord) {

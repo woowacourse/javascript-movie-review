@@ -9,20 +9,20 @@ class SearchInput extends HTMLElement {
 
   render() {
     this.innerHTML = `
-    <form class="search-box">
-      <input type="text" placeholder="검색" />
+    <form id="search-form-box" class="search-box">
+      <input id="search-input-tag" type="text" placeholder="검색" />
       <button class="search-button">검색</button>
     </form>
     `;
   }
 
   setSubmitEvent() {
-    $('.search-box').addEventListener('submit', e => {
-      e.preventDefault();
-      const word = $('input').value;
+    $('#search-form-box').addEventListener('submit', event => {
+      event.preventDefault();
+      const word = $('#search-input-tag').value;
 
       $('movies-container').setSearchWord(word);
-      $('input').value = '';
+      $('#search-input-tag').value = '';
     });
   }
 }
