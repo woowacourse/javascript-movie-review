@@ -5,9 +5,11 @@ declare module "*.png" {
 
 type movieList = movieInfo[];
 
+type listState = keyof LIST_STATE;
+
 interface appState {
   page: number;
-  listState: "popular" | "searched";
+  listState: listState;
   movieList: movieList;
   movieName: string;
 }

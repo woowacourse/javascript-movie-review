@@ -3,6 +3,11 @@ export const LIST_STATE = {
   SEARCHED: "searched",
 } as const;
 
+export const LIST_HEADING = (state: listState, movieName: string) => {
+  if (state === LIST_STATE.POPULAR) return "지금 인기 있는 영화";
+  if (state === LIST_STATE.SEARCHED) return `"${movieName}" 검색 결과`;
+};
+
 export const TOGGLE_SKELETON = {
   SHOW: "show",
   HIDDEN: "hidden",

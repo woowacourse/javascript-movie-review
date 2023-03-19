@@ -7,8 +7,6 @@ import MoreButton from "./MoreButton";
 import SkeletonList from "./SkeletonList";
 
 export default class MovieCardList extends HTMLElement {
-  #movieList: movieList = [];
-
   connectedCallback() {
     this.render();
   }
@@ -35,8 +33,6 @@ export default class MovieCardList extends HTMLElement {
           `<movie-card movieTitle='${item.title}' poster='${item.poster}' rating='${item.rating}' movieId='${item.movieId}'></movie-card>`
         );
       });
-
-    this.#movieList = movieList;
   }
 
   toggleSkeletonList(method: toggleSkeleton) {

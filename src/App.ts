@@ -1,6 +1,5 @@
-import MoreButton from "./components/MoreButton";
 import MovieCardList from "./components/MovieCardList";
-import { TOGGLE_SKELETON, LIST_STATE } from "./constant/setting";
+import { TOGGLE_SKELETON, LIST_STATE, LIST_HEADING } from "./constant/setting";
 import { $ } from "./utils/Dom";
 import { getPopularMovies, getSearchedMovies } from "./utils/fetch";
 
@@ -39,14 +38,10 @@ export default class App {
 
   render() {
     const itemView = $(".item-view");
-    const { movieList } = this.#state;
+    const { listState, movieList, movieName } = this.#state;
     if (itemView instanceof HTMLElement)
       itemView.innerHTML = `
-    <card-list header='${
-      this.#state.listState === LIST_STATE.POPULAR
-        ? "지금 인기 있는 영화"
-        : `"${this.#state.movieName}" 검색 결과`
-    }'></card-list>
+    <card-list header='${LIST_HEADING(listState, movieName)}'></card-list>
     <more-button length='${movieList.length}'>
     </more-button>
     `;
@@ -136,9 +131,7 @@ export default class App {
   }
 
   setMoreButtonState() {
-    const $moreButton = $("more-button");
-    if ($moreButton instanceof MoreButton) {
-      $moreButton.setAttribute("length", `${this.#state.movieList.length}`);
-    }
+    const { length } = this.#state.movieList;
+    $("more-button")?.setAttribute("length", `${length}`);
   }
 }
