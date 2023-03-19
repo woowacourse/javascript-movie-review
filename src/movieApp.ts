@@ -56,15 +56,17 @@ const MovieApp = {
       movieList.removeSkeletonUI();
 
       return movies;
-    } catch (error: any) {
-      const errorData = JSON.parse(error.message);
-      const statusCode = errorData.status_code;
+    } catch (error) {
+      if (error instanceof Error) {
+        const errorData = JSON.parse(error.message);
+        const statusCode = errorData.status_code;
 
-      const message = statusCode
-        ? onHandleStatusError(statusCode)
-        : onHandleCatchError(error.message);
+        const message = statusCode
+          ? onHandleStatusError(statusCode)
+          : onHandleCatchError(error.message);
 
-      this.$container.displayErrorUI(message);
+        this.$container.displayErrorUI(message);
+      }
     }
   },
 
