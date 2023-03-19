@@ -16,7 +16,7 @@ export default class MoreButton extends HTMLElement {
       $moreButton.addEventListener("click", () => {
         $moreButton.classList.add("hidden");
         this.dispatchEvent(
-          new CustomEvent("click-more-button", { bubbles: true }) //detail :
+          new CustomEvent("click-more-button", { bubbles: true })
         );
       });
   }

@@ -3,10 +3,6 @@ declare module "*.png" {
   export default value;
 }
 
-declare module customElements{
-
-}
-
 type movieList = movieInfo[];
 
 interface appState {
@@ -23,9 +19,26 @@ interface movieInfo {
   movieId: string;
 }
 
-interface fetchedData {
-  title: string;
+type parsedJson = {
+  page: number;
+  results: movieData[];
+  total_pages: number;
+  total_results: number;
+};
+
+type movieData = {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  original_language: "ko";
+  original_title: string;
+  overview: string;
+  popularity: number;
   poster_path: string;
-  vote_average: string;
-  id: string;
-}
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+};

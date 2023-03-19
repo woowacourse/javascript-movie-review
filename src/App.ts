@@ -90,7 +90,7 @@ export default class App {
 
   async addPopularMoviesList() {
     const fetchedData = await getPopularMovies(this.#state.page);
-    const movieList = fetchedData.results.map((item: fetchedData) => {
+    const movieList = fetchedData.results.map((item: movieData) => {
       const { title, poster_path, vote_average, id } = item;
       return {
         title,
@@ -105,7 +105,7 @@ export default class App {
   async addSearchedMoviesList() {
     const { movieName, page } = this.#state;
     const fetchedData = await getSearchedMovies(movieName, page);
-    const movieList = fetchedData.results.map((item: fetchedData) => {
+    const movieList = fetchedData.results.map((item: movieData) => {
       const { title, poster_path, vote_average, id } = item;
       return {
         title,
