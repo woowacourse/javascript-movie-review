@@ -12,19 +12,23 @@ class SearchInput extends CustomElement {
 
   setEvent() {
     $(".search-button").addEventListener("click", () => {
-      const query = $(".search-text").value;
-      this.searchMovie(query);
+      this.searchMovie();
     });
 
     $(".search-text").addEventListener("keyup", (e) => {
       if (e.key === "Enter") {
-        const query = $(".search-text").value;
-        this.searchMovie(query);
+        this.searchMovie();
       }
     });
   }
 
-  searchMovie(query) {
+  searchMovie() {
+    const query = $(".search-text").value.trim();
+
+    if (!query) {
+      $(".search-text").value = "";
+      return;
+    }
     MovieManager.showSkeleton();
     MovieManager.searchMovies(query);
   }
