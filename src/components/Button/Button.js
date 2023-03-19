@@ -15,4 +15,6 @@ class Button extends HTMLElement {
   }
 }
 
+customElements.define('common-button', Button);
+
 export default Button;

@@ -146,4 +146,6 @@ class MovieList extends HTMLElement {
   }
 }
 
+customElements.define('movie-list', MovieList);
+
 export default MovieList;

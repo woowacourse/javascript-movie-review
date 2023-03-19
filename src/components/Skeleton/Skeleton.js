@@ -23,4 +23,6 @@ class Skeleton extends HTMLElement {
   }
 }
 
+customElements.define('skeleton-item', Skeleton);
+
 export default Skeleton;

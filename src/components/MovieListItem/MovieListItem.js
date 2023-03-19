@@ -32,4 +32,6 @@ class MovieListItem extends HTMLElement {
   }
 }
 
+customElements.define('movie-item', MovieListItem);
+
 export default MovieListItem;

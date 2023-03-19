@@ -25,4 +25,6 @@ class Header extends HTMLElement {
   }
 }
 
+customElements.define('movie-header', Header);
+
 export default Header;
