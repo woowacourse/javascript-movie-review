@@ -41,12 +41,12 @@ class MovieList {
 
   renderTitle(title) {
     const { type, searchKeyword } = this.#props;
-    const $searchTitle = this.$target.querySelector(".search-title");
+    const $titleForMovieContents = this.$target.querySelector(".search-title");
 
     const text =
       title || (type === "popular" ? "지금 인기있는 영화" : `"${searchKeyword}" 검색결과`);
 
-    $searchTitle.innerText = text;
+    $titleForMovieContents.innerText = text;
   }
 
   async renderMovieList() {
