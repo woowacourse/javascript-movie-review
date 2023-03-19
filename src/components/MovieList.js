@@ -101,15 +101,17 @@ export default class MovieList {
 
     const movieList = MovieHandler.convertMovieList(moviesData);
 
-    this.judgeButtonState(page, totalPages);
+    if (this.isLastPage(page, totalPages)) {
+      this.hideMoreButton();
+    }
 
     this.hideSkeletonList();
 
     this.renderMovieCards(movieList);
   }
 
-  judgeButtonState(page, totalPages) {
-    page === totalPages && this.hideMoreButton();
+  isLastPage(page, totalPages) {
+    return page === totalPages;
   }
 
   hideMoreButton() {
