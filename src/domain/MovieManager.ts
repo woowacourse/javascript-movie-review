@@ -19,7 +19,7 @@ class MovieManage {
     this.searchSubscribers.push(element);
   }
 
-  toggleButton() {
+  hideShowMoreButton() {
     return MovieModel.isLastPage();
   }
 

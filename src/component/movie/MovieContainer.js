@@ -25,7 +25,7 @@ class MovieContainer extends CustomElement {
   rerender(searchWord) {
     $(".movie-container-title").innerText = `'${searchWord}' 검색 결과`;
 
-    const isLastPage = MovieManager.toggleButton();
+    const isLastPage = MovieManager.hideShowMoreButton();
     $("show-more-button").hidden = isLastPage;
   }
 }

@@ -13,7 +13,7 @@ class ShowMoreButton extends CustomElement {
       MovieManager.showSkeleton();
       MovieManager.showMoreMovies();
 
-      const isLastPage = MovieManager.toggleButton();
+      const isLastPage = MovieManager.hideShowMoreButton();
       this.hidden = isLastPage;
     });
   }
