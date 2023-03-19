@@ -7,7 +7,7 @@ class MovieModel {
   private page: number = 1;
   private totalPages: number = 0;
 
-  async getMovieList() {
+  getMovieList() {
     return this.movies;
   }
 
