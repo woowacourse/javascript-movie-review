@@ -1,9 +1,9 @@
-describe('template spec', () => {
+describe('Movie-Review e2e Test', () => {
   beforeEach(() => {
     cy.visit('http://localhost:8080');
   });
 
-  it('API 요청을 보냈을 때 정상적으로 응답하는지 확인한다.', () => {
+  it('처음 홈페이지에 들어갔을 때 영화 리스트가 잘 보여야 한다.', () => {
     cy.intercept(
       {
         method: 'GET',
@@ -13,8 +13,7 @@ describe('template spec', () => {
     ).as('moviePopular');
 
     cy.wait('@moviePopular').then((interception) => {
-      const movieItems = interception.response.body.results;
-      expect(movieItems.length).to.equal(20);
+      cy.get('.item-title').first().should('have.text', '장화신은 고양이: 끝내주는 모험');
     });
   });
 
