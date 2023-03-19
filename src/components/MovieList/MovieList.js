@@ -1,8 +1,8 @@
-import MovieData from '../domain/MovieData';
-import './MoviesContainer.css';
-import { $ } from '../utils/common';
+import MovieData from '../../domain/MovieData';
+import './MovieList.css';
+import { $ } from '../../utils/common';
 
-class MoviesContainer extends HTMLElement {
+class MovieList extends HTMLElement {
   #movieData = new MovieData();
   #searchWord = new Proxy(
     { value: '' },
@@ -36,14 +36,14 @@ class MoviesContainer extends HTMLElement {
   renderContainer() {
     this.innerHTML = `
     <main>
-    <section class="item-view">
-    <h2>지금 인기 있는 영화</h2>
-    <ul class="item-list">
-    <skeleton-item id="first-skeleton"></skeleton-item>
-    ${'<skeleton-item></skeleton-item>'.repeat(19)}
-    </ul>
-    <common-button id="more-button" class="hide-button" text="더보기" color="primary"></common-button>
-    </section>
+      <section class="item-view">
+        <h2>지금 인기 있는 영화</h2>
+        <ul class="item-list">
+          <skeleton-item id="first-skeleton"></skeleton-item>
+          ${'<skeleton-item></skeleton-item>'.repeat(19)}
+        </ul>
+        <common-button id="more-button" class="hide-button" text="더보기" color="primary"></common-button>
+      </section>
     </main>`;
   }
 
@@ -135,4 +135,4 @@ class MoviesContainer extends HTMLElement {
   }
 }
 
-export default MoviesContainer;
+export default MovieList;

@@ -1,4 +1,4 @@
-import { $ } from '../utils/common';
+import { $ } from '../../utils/common';
 import './SearchInput.css';
 
 class SearchInput extends HTMLElement {
@@ -21,7 +21,7 @@ class SearchInput extends HTMLElement {
       e.preventDefault();
       const word = $('input').value;
 
-      $('movies-container').setSearchWord(word);
+      $('movie-list').setSearchWord(word);
       $('input').value = '';
     });
   }

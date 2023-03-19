@@ -1,7 +1,7 @@
-import './Movie.css';
-import StarFilled from '../image/star_filled.png';
+import './MovieListItem.css';
+import StarFilled from '../../image/star_filled.png';
 
-class Movie extends HTMLElement {
+class MovieListItem extends HTMLElement {
   connectedCallback() {
     this.render();
   }
@@ -32,4 +32,4 @@ class Movie extends HTMLElement {
   }
 }
 
-export default Movie;
+export default MovieListItem;
