@@ -59,6 +59,7 @@ class MovieList {
     if (!this.isExistMovie(fetchedMovieData)) {
       const { searchKeyword } = this.#props;
       this.renderTitle(`"${searchKeyword}"에 대한 검색 결과가 없습니다 :(`);
+      return;
     }
     if (this.isLastPage(fetchedMovieData)) this.toggleMoreButton();
 
