@@ -1,15 +1,18 @@
-import { NETWORK_ERROR_MESSAGE } from '../constants/messages';
+import { NETWORK_ERROR_MESSAGE, NOT_FOUND_MESSAGE } from '../constants/messages';
 
-type FetchJson = <T>(url: string) => Promise<T>;
+const fetchJson = async (apiLink: string, process: any) => {
+  console.log(apiLink, 'final');
+  const response = await fetch(apiLink);
 
-const fetchJson: FetchJson = async api => {
-  const response = await fetch(api);
-
-  if (!response.ok) {
-    throw new Error(NETWORK_ERROR_MESSAGE);
+  if (response.ok) {
+    return process(await response.json());
   }
 
-  return response.json();
+  if (response.status === 404) {
+    throw new Error(NOT_FOUND_MESSAGE);
+  } else {
+    throw new Error(NETWORK_ERROR_MESSAGE);
+  }
 };
 
 export default fetchJson;
