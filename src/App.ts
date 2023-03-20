@@ -2,7 +2,7 @@ import { Header } from "./components/Header";
 import { MovieList } from "./components/MovieList";
 import { $ } from "./utils/selector";
 
-export class App {
+class App {
   #header;
   #movieList;
 
@@ -36,3 +36,5 @@ export class App {
     if (this.#movieList instanceof MovieList) this.#movieList.reset("popular");
   }
 }
+
+export { App };

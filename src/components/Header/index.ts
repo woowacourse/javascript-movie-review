@@ -1,7 +1,7 @@
 import logoImage from "../../../templates/logo.png";
 import { $ } from "../../utils/selector";
 
-export class Header {
+class Header {
   #$target;
 
   constructor(
@@ -44,3 +44,5 @@ export class Header {
     `;
   }
 }
+
+export { Header };

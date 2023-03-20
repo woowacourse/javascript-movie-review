@@ -1,4 +1,4 @@
-export const getSkeletonContainer = () => {
+const getSkeletonContainer = () => {
   const skeletonContainer = document.createElement("ul");
   skeletonContainer.className = "item-list";
   /*html*/
@@ -16,3 +16,5 @@ export const getSkeletonContainer = () => {
 
   return skeletonContainer;
 };
+
+export { getSkeletonContainer };

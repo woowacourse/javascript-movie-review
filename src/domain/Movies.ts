@@ -1,6 +1,6 @@
 import type { MovieResponse, Movie } from "../types";
 
-export class Movies {
+class Movies {
   #list: Movie[];
 
   constructor(list: MovieResponse[]) {
@@ -30,3 +30,5 @@ export class Movies {
     });
   }
 }
+
+export { Movies };

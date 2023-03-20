@@ -13,7 +13,7 @@ interface State {
   page: number;
 }
 
-export class MovieList {
+class MovieList {
   #$target;
 
   #state: State = {
@@ -147,3 +147,5 @@ export class MovieList {
     $(".btn")?.removeAttribute("hidden");
   }
 }
+
+export { MovieList };
