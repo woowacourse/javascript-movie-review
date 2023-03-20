@@ -1,3 +1,5 @@
+import { MAX_MOVIES_PER_PAGE } from '../../src/constants';
+
 const mockPopularMovies = (movieCount: number) => {
   cy.intercept(
     {
@@ -15,12 +17,12 @@ describe('Movielist 앱 테스트', () => {
 
   context('로고를 누르면', () => {
     beforeEach(() => {
-      mockPopularMovies(20);
+      mockPopularMovies(MAX_MOVIES_PER_PAGE);
       cy.get('header h1').click();
     });
 
     it('인기 있는 영화 목록을 화면에 보여준다.', () => {
-      cy.get('movie-list-item').should('have.length', 20);
+      cy.get('movie-list-item').should('have.length', MAX_MOVIES_PER_PAGE);
     });
   });
 
@@ -40,19 +42,19 @@ describe('Movielist 앱 테스트', () => {
     });
   });
 
-  context('리스트가 20개일 때 더보기 버튼을 누르면', () => {
+  context(`리스트가 ${MAX_MOVIES_PER_PAGE}개일 때 더보기 버튼을 누르면`, () => {
     beforeEach(() => {
-      mockPopularMovies(20);
-      cy.get('movie-list-item').should('have.length', 20);
+      mockPopularMovies(MAX_MOVIES_PER_PAGE);
+      cy.get('movie-list-item').should('have.length', MAX_MOVIES_PER_PAGE);
       cy.get('#load-more').click();
     });
 
-    it('40개가 된다.', () => {
-      cy.get('movie-list-item').should('have.length', 40);
+    it(`${MAX_MOVIES_PER_PAGE * 2}개가 된다.`, () => {
+      cy.get('movie-list-item').should('have.length', MAX_MOVIES_PER_PAGE * 2);
     });
   });
 
-  context('더보기 버튼을 눌렀을 때 20개 미만의 영화가 추가되면', () => {
+  context(`더보기 버튼을 눌렀을 때 ${MAX_MOVIES_PER_PAGE}개 미만의 영화가 추가되면`, () => {
     beforeEach(() => {
       mockPopularMovies(10);
       cy.get('#load-more').click();
