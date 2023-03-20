@@ -44,16 +44,28 @@ button {
 }
 
 .error-container {
-  margin-top: 10vh;
+  display: flex;
+  flex-direction: column;
   align-self: center;
-  height: 80vh;
 }
 
-.error-container h1 {
-  text-align: center;
+.error-container .error-heading {
   font-size: 25px;
   font-weight: 700;
   margin-bottom: 30px;
+}
+
+.error-container p {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.error-container .error-message {
+  margin-bottom: 30px;
+}
+
+.error-container .error-img {
+  height: 60vh;
 }
 
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
