@@ -1,4 +1,4 @@
-import { page } from "../../domain/page";
+import { movies } from "../../domain/movies";
 import Store from "../../domain/Store";
 import { Movie } from "../../type";
 import { renderSkeletons } from "./movieListHandler";
@@ -20,9 +20,9 @@ export default class MovieList extends HTMLElement {
     this.innerHTML = `
     <section class="item-view">
       ${this.store.getMovies().length > 0
-        ? `<h2>${page.last_keyword === ""
+        ? `<h2>${this.store.getLastKeyword() === ""
           ? "지금 인기 있는 영화"
-          : `"${page.last_keyword}" 검색 결과`
+          : `"${this.store.getLastKeyword()}" 검색 결과`
         }</h2>
             <ul class="item-list">
               ${this.store.getMovies()

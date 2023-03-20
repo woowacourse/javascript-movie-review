@@ -1,7 +1,10 @@
-import { page } from "../../domain/page";
+import { movies } from "../../domain/movies";
 import { executeEventListener } from "../../utils/eventListener";
 import { $ } from "../../utils/selector";
 import MovieList from ".";
+import Store from "../../domain/Store";
+
+const store: Store = Store.getInstance();
 
 export const onClickMoreButton = () => {
   executeEventListener($("#more-button"), {
@@ -10,12 +13,12 @@ export const onClickMoreButton = () => {
   }, async () => {
     $(".item-list").insertAdjacentHTML("beforeend", renderSkeletons());
 
-    page.page += 1;
+    store.nextPage();
 
-    if (page.last_keyword === "") {
-      page.showPopularMovies();
+    if (store.getLastKeyword() === "") {
+      movies.showPopularMovies();
     } else {
-      page.showSearchedMovies(page.last_keyword);
+      movies.showSearchedMovies(store.getLastKeyword());
     }
   });
 };

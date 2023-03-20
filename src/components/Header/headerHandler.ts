@@ -1,6 +1,9 @@
 import { executeEventListener } from "../../utils/eventListener";
 import { $ } from "../../utils/selector";
-import { page, resetMoviesAndPages } from "../../domain/page";
+import { movies } from "../../domain/movies";
+import Store from "../../domain/Store";
+
+const store: Store = Store.getInstance();
 
 export const onSubmitSearchBox = () => {
   executeEventListener($(".search-box"), {
@@ -12,9 +15,10 @@ export const onSubmitSearchBox = () => {
 
     if (keyword === "") return;
 
-    page.last_keyword = keyword;
-    resetMoviesAndPages();
-    page.showSearchedMovies(keyword);
+    store.resetMoviesAndPages();
+    store.setLastKeyword(keyword);
+
+    movies.showSearchedMovies(keyword);
   });
 };
 
@@ -23,9 +27,9 @@ export const onClickLogo = () => {
     type: "click",
     prevent: true
   }, () => {
-    resetMoviesAndPages();
-    page.last_keyword = "";
+    store.resetMoviesAndPages();
+    store.setLastKeyword("");
 
-    page.showPopularMovies();
+    movies.showPopularMovies();
   });
 };

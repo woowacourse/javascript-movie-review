@@ -1,6 +1,5 @@
 import { removeMoreButton } from "../components/MovieList/movieListHandler";
 import { Movie } from "../type";
-import { page } from "./page";
 import Store from "./Store";
 
 interface MovieResult {
@@ -16,10 +15,12 @@ interface MovieApiResponse {
   total_results: number;
 }
 
+const store: Store = Store.getInstance();
+
 export const fetchMovieInfo = async (url: string) => {
   try {
     const response = await fetch(url).then((data) => data.json());
-    if (page.page === response.page) {
+    if (store.getPage() === response.page) {
       handleMovieInfoResponse(response);
     }
     else {
@@ -33,14 +34,14 @@ export const fetchMovieInfo = async (url: string) => {
 
 export const handleMovieInfoResponse = async (response: MovieApiResponse) => {
   const { results, total_pages } = await response;
-  page.total_page = total_pages;
+  store.setTotalPage(total_pages);
 
   saveMoviesAndRemoveMoreButton(results);
 };
 
 const saveMoviesAndRemoveMoreButton = (results: MovieResult[]) => {
-  Store.getInstance().appendMovies(convertApiResponseToMovieList(results));
-  if (page.page === page.total_page) removeMoreButton();
+  store.appendMovies(convertApiResponseToMovieList(results));
+  if (store.getPage() === store.getTotalPage()) removeMoreButton();
 };
 
 const convertApiResponseToMovieList = (results: MovieResult[]): Movie[] => {

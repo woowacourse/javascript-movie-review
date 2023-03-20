@@ -4,8 +4,9 @@ import { Movie } from "../type";
 export default class Store {
   private static instance: Store;
   private movies = [] as Movie[];
-
-  private constructor() { }
+  private page = 1;
+  private totalPage = 2;
+  private lastKeyword = "";
 
   public static getInstance(): Store {
     if (!Store.instance) {
@@ -15,12 +16,32 @@ export default class Store {
     return Store.instance;
   }
 
-  getMovies() {
-    return this.movies;
+  getPage() {
+    return this.page;
   }
 
-  initMovies() {
-    this.movies = [];
+  nextPage() {
+    this.page += 1;
+  }
+
+  getTotalPage() {
+    return this.totalPage;
+  }
+
+  setTotalPage(newTotalPage: number) {
+    this.totalPage = newTotalPage;
+  }
+
+  getLastKeyword() {
+    return this.lastKeyword;
+  }
+
+  setLastKeyword(newKeyword: string) {
+    this.lastKeyword = newKeyword;
+  }
+
+  getMovies() {
+    return this.movies;
   }
 
   appendMovies(newMovies: Movie[]) {
@@ -28,6 +49,12 @@ export default class Store {
 
     updateMovies(); // 수정 예정
   }
+
+  resetMoviesAndPages = () => {
+    this.movies = [];
+    this.page = 1;
+    this.totalPage = 2;
+  };
 }
 
 
