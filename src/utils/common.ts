@@ -3,11 +3,11 @@ export const $ = <E extends Element>(selector: string): E | null => document.que
 export const request = async <T>(url: string): Promise<T> => {
   const response = await fetch(url);
 
-  if (response.ok) {
-    return response.json();
+  if (!response.ok) {
+    throw new Error('정보를 불러올 수 없습니다.');
   }
 
-  throw new Error('404 불러올 수 없습니다.');
+  return response.json();
 };
 
 export const createUniqueId = () => {
