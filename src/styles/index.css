@@ -1,14 +1,22 @@
 @import './reset.css';
 
+:root {
+  --white: #ffffff;
+  --black: #222222;
+  --silver: #aaaaaa;
+  --gray: #f0f0f0;
+  --red: #f33f3f;
+}
+
 * {
-  box-sizing: border-box !important;
+  box-sizing: border-box;
 }
 
 body {
   padding-bottom: 48px;
   font-size: 14px;
-  background-color: #222222;
-  color: #fff;
+  color: var(--white);
+  background-color: var(--black);
 }
 
 a {
@@ -31,8 +39,4 @@ button {
 
 .full-width {
   width: 100%;
-}
-
-.last-item {
-  margin-top: 48px;
 }

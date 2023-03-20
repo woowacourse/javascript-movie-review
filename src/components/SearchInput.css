@@ -1,7 +1,7 @@
 .search-box {
-  background: #fff;
   padding: 8px;
   border-radius: 4px;
+  background: var(--white);
 }
 
 .search-box > input {

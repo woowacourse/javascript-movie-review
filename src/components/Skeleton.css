@@ -5,24 +5,24 @@
 }
 
 .item-card .skeleton {
-  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  border-radius: 8px;
+  background: linear-gradient(-90deg, var(--silver), var(----gray), var(--silver), var(----gray));
   background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
-  border-radius: 8px;
 }
 
 .item-thumbnail {
-  border-radius: 8px;
   width: 180px;
   height: 270px;
+  border-radius: 8px;
   background-size: contain;
 }
 
 .item-thumbnail .skeleton {
-  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  border-radius: 8px;
+  background: linear-gradient(-90deg, var(--silver), var(----gray), var(--silver), var(----gray));
   background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
-  border-radius: 8px;
 }
 
 @keyframes skeleton-animation {

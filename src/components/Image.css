@@ -1,15 +1,15 @@
 .movie-image {
-  border-radius: 8px;
   width: 180px;
   height: 270px;
+  border-radius: 8px;
   background-size: contain;
 }
 
 .skeleton {
-  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
-  background-size: 400%;
-  animation: skeleton-animation 5s infinite ease-out;
   border-radius: 8px;
+  background-size: 400%;
+  background: linear-gradient(-90deg, var(--silver), var(----gray), var(--silver), var(----gray));
+  animation: skeleton-animation 5s infinite ease-out;
 }
 
 @keyframes skeleton-animation {

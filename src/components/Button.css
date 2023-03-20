@@ -1,10 +1,10 @@
 .btn {
+  height: 30px;
   border: 0;
   border-radius: 8px;
-  height: 30px;
-  color: #fff;
+  color: var(--white);
 }
 
 .primary {
-  background: #f33f3f;
+  background: var(--red);
 }
