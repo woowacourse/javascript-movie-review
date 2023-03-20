@@ -82,7 +82,7 @@ describe('E2E 테스트', () => {
     });
   });
 
-  it.only('웹페이지에 접속', () => {
+  it('서버에서 500에러가 발생하였을 때 오류 메세지와 함께 toast 메시지를 띄워야 한다.', () => {
     cy.intercept(
       {
         method: 'GET',
@@ -100,6 +100,6 @@ describe('E2E 테스트', () => {
     );
 
     cy.get('button').contains('더 보기').click();
-    cy.get('.popup').contains('The resource you requested could not be found');
+    cy.get('.toast').contains('The resource you requested could not be found');
   });
 });
