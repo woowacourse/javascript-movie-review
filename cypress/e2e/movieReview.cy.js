@@ -57,7 +57,6 @@ describe("영화 리뷰 e2e 테스트", () => {
     cy.get("#search-button").click();
 
     cy.fixture("searchedMoviesPage1.json").then((expectedData) => {
-      cy.log(expectedData.results.length);
       expectedData.results.forEach((movieData) => {
         cy.get(".item-list").should("contain", movieData.title);
       });
