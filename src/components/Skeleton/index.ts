@@ -12,10 +12,14 @@ export class Skeleton extends HTMLElement {
   }
 
   attachSkeleton() {
+    this.#$movieItems.insertAdjacentHTML('beforeend', this.innerHTML);
+  }
+
+  searchSkeleton() {
     this.#$movieItems.innerHTML = this.innerHTML;
   }
 
   removeSkeleton() {
-    this.#$movieItems.replaceChildren();
+    document.querySelector('.item-list .skeleton-list')?.remove();
   }
 }

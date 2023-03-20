@@ -38,13 +38,16 @@ class App {
   }
 
   async moreButtonHandler() {
-    await this.store.allocateData(this.store.searchWord);
+    this.skeleton.attachSkeleton();
+    this.store.allocateData(this.store.searchWord).then(() => {
+      this.skeleton.removeSkeleton();
+      this.$movieList.renderMovies(this.store.movieListValue);
+    });
     if (this.store.page === this.store.totalPage) this.removeButton();
-    this.$movieList.renderMovies(this.store.movieListValue);
   }
 
   searchHandler(value: string) {
-    this.skeleton.attachSkeleton();
+    this.skeleton.searchSkeleton();
     this.$seeMoreButton.attach();
     this.store.setInitPage(0);
     this.$movieList.setTitle(`"${value}"에 대한 검색 결과`);
