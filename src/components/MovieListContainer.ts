@@ -35,16 +35,18 @@ class MovieListContainer extends HTMLElement {
   changeTitle(query: string) {
     this.setAttribute("type", "search");
     this.render(query);
+    this.addEvent();
   }
 
   removeLoadMovieButton() {
     $("button", this)?.classList.add("hidden");
   }
 
-  displayErrorUI() {
+  displayErrorUI(errorMessage: string) {
     this.innerHTML = `
-    <div class="error-image-container">
-     <img class="error-image" src=${ErrorUnresponsive} alt="서버 무응답"/>
+    <div class="error-container">
+      <p>${errorMessage}</p>
+      <p>페이지를 새로 고침하거나 네트워크 상태를 확인 후 나중에 다시 시도해주세요.</p>
     </div>
     `;
   }
