@@ -1,3 +1,5 @@
+import { getErrorMessageByStatusCode } from '../utils/errorHandler';
+
 interface ApiResponse {
   page: number;
   results: MovieData[];
@@ -36,11 +38,17 @@ const params = {
 const request: Request = async (path) => {
   const url = new URL(path, BASE_URL);
   url.search = createSearchParams(url, params);
-  const response = await fetch(url);
 
-  if (!response.ok) throw new Error('API 요청 중 에러가 발생했습니다.');
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(getErrorMessageByStatusCode(response.status));
+    }
 
-  return response.json();
+    return response.json();
+  } catch (error) {
+    throw error;
+  }
 };
 
 const createSearchParams = (url: URL, params: Record<string, string>) => {

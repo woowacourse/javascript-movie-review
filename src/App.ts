@@ -11,6 +11,7 @@ import {
 
 import movieService, { Movie } from './domain/movieService';
 import { $ } from './utils/domUtils';
+import { handleError } from './utils/errorHandler';
 
 const App = {
   isPopular: true,
@@ -56,21 +57,39 @@ const App = {
   },
 
   async renderPopularMovies() {
-    showSkeleton();
-    const popularMovies = await fetchPopularMovies(this.currentPage);
-    hideSkeleton();
-    this.updatePage(movieService.resultsToMovies(popularMovies));
+    try {
+      showSkeleton();
+      const popularMovies = await fetchPopularMovies(this.currentPage);
+      hideSkeleton();
+      this.updatePage(movieService.resultsToMovies(popularMovies));
+    } catch (error) {
+      if (error instanceof Error) {
+        handleError(error);
+      }
+      hideSkeleton();
+      hideLoadMoreButton();
+    }
   },
 
   async renderSearchedMovies() {
-    showSkeleton();
-    const searchedMovies = await fetchSearchedMovies(this.query, this.currentPage);
-    hideSkeleton();
-    this.updatePage(movieService.resultsToMovies(searchedMovies));
+    try {
+      showSkeleton();
+      const searchedMovies = await fetchSearchedMovies(this.query, this.currentPage);
+      hideSkeleton();
+      this.updatePage(movieService.resultsToMovies(searchedMovies));
+    } catch (error) {
+      if (error instanceof Error) {
+        handleError(error);
+      }
+      hideSkeleton();
+      hideLoadMoreButton();
+    }
   },
 
   updatePage(newMovies: Movie[]) {
-    if (newMovies.length < MAX_MOVIES_PER_PAGE) hideLoadMoreButton();
+    if (newMovies.length < MAX_MOVIES_PER_PAGE) {
+      hideLoadMoreButton();
+    }
 
     this.currentPage += 1;
     renderList(newMovies);
