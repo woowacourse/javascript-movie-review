@@ -1,9 +1,9 @@
-import Logo from '../../images/logo.png';
-
 import { POPULAR_TITLE } from '../constants';
 import { changeTitle, resetSearchBox } from '../dom';
 
 import { $, dispatchCustomEvent, isFormElement } from '../utils/domUtils';
+
+import Logo from '../../images/logo.png';
 
 class MovieHeader extends HTMLElement {
   constructor() {
