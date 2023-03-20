@@ -4,7 +4,7 @@ export const hide = (selectors) => $(selectors).classList.add('hide');
 
 export const show = (selectors) => $(selectors).classList.remove('hide');
 
-export const changeTitle = (title) => {
+export const setTitle = (title) => {
   $('#movie-list-title').textContent = title;
 };
 
@@ -12,10 +12,10 @@ export const resetSearchBox = () => {
   $('.search-box').reset();
 };
 
-export const renderList = (movies) => {
+export const renderMovieListItem = (movies) => {
   $('.item-list').insertAdjacentHTML(
     'beforeend',
-    /* html */ ` ${movies
+    /* html */ `${movies
       .map(
         ({ title, posterPath, voteAverage }) => /* html */ `
             <movie-list-item 
@@ -32,4 +32,12 @@ export const renderList = (movies) => {
 
 export const clearList = () => {
   $('.item-list').replaceChildren();
+};
+
+export const renderMoviePage = () => {
+  $('#page').innerHTML = /* html */ `<movie-page></movie-page>`;
+};
+
+export const renderErrorPage = () => {
+  $('#page').innerHTML = /* html */ `<error-page></error-page>`;
 };
