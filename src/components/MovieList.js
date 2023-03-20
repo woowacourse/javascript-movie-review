@@ -49,6 +49,34 @@ export default class MovieList {
     <button id="more-button" class="btn primary full-width">더 보기</button>`;
   }
 
+  setEvent() {
+    this.$element.querySelector('#more-button').addEventListener('click', this.#onClickMoreButton.bind(this));
+  }
+
+  renderListContent(movieMetaData) {
+    if (!movieMetaData.isOk) {
+      const { statusCode, statusMessage } = movieMetaData;
+
+      this.hideSkeletonList();
+      this.renderErrorTemplate(statusCode, statusMessage);
+
+      return;
+    }
+
+    const { movieList, page, totalPages } = movieMetaData;
+
+    if (this.isLastPage(page, totalPages)) {
+      this.hideMoreButton();
+    }
+
+    this.hideSkeletonList();
+    this.renderMovieCards(movieList);
+  }
+
+  renderErrorTemplate(statusCode, statusMessage) {
+    this.$element.innerHTML = errorTemplate(statusCode, statusMessage);
+  }
+
   renderMovieCards(movieList) {
     const movieCardsHTML = movieList.reduce((html, movie) => {
       const movieCard = MovieCard(movie);
@@ -74,44 +102,16 @@ export default class MovieList {
     return skeletonCardHTML.repeat(count);
   }
 
+  isLastPage(page, totalPages) {
+    return page === totalPages;
+  }
+
   showSkeletonList() {
     this.$element.querySelector('.skeleton-item-list').classList.remove('hide');
   }
 
   hideSkeletonList() {
     this.$element.querySelector('.skeleton-item-list').classList.add('hide');
-  }
-
-  setEvent() {
-    this.$element.querySelector('#more-button').addEventListener('click', this.#onClickMoreButton.bind(this));
-  }
-
-  renderErrorTemplate(statusCode, statusMessage) {
-    this.$element.innerHTML = errorTemplate(statusCode, statusMessage);
-  }
-
-  renderListContent(movieMetaData) {
-    if (!movieMetaData.isOk) {
-      const { statusCode, statusMessage } = movieMetaData;
-
-      this.hideSkeletonList();
-      this.renderErrorTemplate(statusCode, statusMessage);
-
-      return;
-    }
-
-    const { movieList, page, totalPages } = movieMetaData;
-
-    if (this.isLastPage(page, totalPages)) {
-      this.hideMoreButton();
-    }
-
-    this.hideSkeletonList();
-    this.renderMovieCards(movieList);
-  }
-
-  isLastPage(page, totalPages) {
-    return page === totalPages;
   }
 
   hideMoreButton() {
