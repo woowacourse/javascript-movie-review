@@ -1,80 +1,80 @@
 import { getPopularMovies, getSearchMovies } from './api';
-import { MAX_MOVIES_PER_PAGE, POPULAR_TITLE } from './constants';
-import { changeTitle, clearList, renderList, resetSearchBox, show, hide } from './dom';
-
+import { POPULAR_TITLE } from './constants';
+import {
+  clearList,
+  renderMovieListItem,
+  resetSearchBox,
+  show,
+  hide,
+  setTitle,
+  renderErrorPage,
+  renderMoviePage,
+} from './dom';
 import movieService from './domain/movieService';
-
 import { $ } from './utils/domUtils';
 
 const App = {
-  currentPage: 1,
-  query: '',
-
   init() {
+    this.pageNumber = 1;
+    this.pageCategory = 'home';
+    this.searchQuery = '';
+
     this.bindEvents();
-    this.renderPopularMovies();
+    renderMoviePage();
+    this.updateMoviePage(getPopularMovies, [this.pageNumber]);
   },
 
   bindEvents() {
     $('movie-header').addEventListener('home', () => {
-      this.refresh();
-      movieService.resetMovies();
-      changeTitle(POPULAR_TITLE);
-      this.renderPopularMovies();
+      this.pageCategory = 'home';
+      this.initMoviePage(POPULAR_TITLE);
+      this.updateMoviePage(getPopularMovies, [this.pageNumber]);
     });
 
-    $('movie-header').addEventListener('search', ({ detail: query }) => {
-      this.query = query;
-      this.refresh();
-      changeTitle(`"${this.query}" 검색 결과`);
-      this.renderSearchMovies();
+    $('movie-header').addEventListener('search', ({ detail }) => {
+      this.pageCategory = 'search';
+      this.searchQuery = detail.query;
+      this.initMoviePage(`"${this.searchQuery}" 검색 결과`);
+      this.updateMoviePage(getSearchMovies, [this.searchQuery, this.pageNumber]);
     });
 
-    $('movie-list-section').addEventListener('loadMore', () => {
-      if ($('#movie-list-title').textContent === POPULAR_TITLE) {
-        this.renderPopularMovies();
+    $('#page').addEventListener('loadMore', () => {
+      if (this.pageCategory === 'home') {
+        this.updateMoviePage(getPopularMovies, [this.pageNumber]);
       } else {
-        this.renderSearchMovies();
+        this.updateMoviePage(getSearchMovies, [this.searchQuery, this.pageNumber]);
       }
     });
   },
 
-  async renderPopularMovies() {
-    const newMovies = await this.loadMovies(getPopularMovies, [this.currentPage]);
-    this.updatePage(newMovies);
-  },
+  initMoviePage(title) {
+    this.pageNumber = 1;
+    movieService.resetMovies();
 
-  async renderSearchMovies() {
-    const newMovies = await this.loadMovies(getSearchMovies, [this.query, this.currentPage]);
-    this.updatePage(newMovies);
-  },
-
-  updatePage(newMovies) {
-    if (newMovies.length < MAX_MOVIES_PER_PAGE) hide('#load-more');
-    this.currentPage += 1;
-    renderList(newMovies);
-  },
-
-  async loadMovies(api, params) {
-    show('#skeleton-list');
-
-    try {
-      const { results } = await api(...params);
-      movieService.concatMovies(movieService.resultsToMovies(results));
-      hide('#skeleton-list');
-
-      return movieService.movies.slice(-results.length);
-    } catch (error) {
-      hide('#skeleton-list');
-      alert(error.message);
-    }
-  },
-
-  refresh() {
-    this.currentPage = 1;
+    renderMoviePage();
+    setTitle(title);
     clearList();
     resetSearchBox();
     show('#load-more');
+  },
+
+  async updateMoviePage(api, params) {
+    show('#skeleton-list');
+    try {
+      const { results, total_pages } = await api(...params);
+      const newMovies = movieService.resultsToMovies(results);
+
+      if (this.pageNumber === total_pages) hide('#load-more');
+      this.pageNumber += 1;
+
+      movieService.concatMovies(newMovies);
+      renderMovieListItem(newMovies);
+    } catch {
+      hide('#load-more');
+      renderErrorPage();
+    }
+
+    hide('#skeleton-list');
   },
 };
 
