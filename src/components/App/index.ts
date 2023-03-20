@@ -13,7 +13,7 @@ const App = assemble(() => {
   const $template = getElement(
     ` 
       <div>
-        <fragment id="Header">${HeaderComponent({ handleKeyword })}</fragment>
+        <fragment id="Header">${HeaderComponent({ keyword, handleKeyword })}</fragment>
         <fragment id="MovieChart">${MovieChartComponent({ keyword })}</fragment>
       </div>
     `
