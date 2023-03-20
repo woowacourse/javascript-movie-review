@@ -19,7 +19,7 @@ export class MovieList {
       <ul class="item-list"><hr></ul>
       <button class="btn primary full-width">더 보기</button>
       <h3>결과가 없습니다</h3>
-    `;
+    `.trim();
     this.init();
 
     this.section.querySelector('button')?.addEventListener('click', () => {

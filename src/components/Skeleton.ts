@@ -8,7 +8,7 @@ class Skeleton {
           <div class="item-score skeleton"></div>
         </div>
       </a>
-    </li>`;
+    </li>`.trim();
 
   render() {
     return this.template;
