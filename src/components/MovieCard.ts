@@ -1,5 +1,3 @@
-import Star from "../assets/star_filled.png";
-
 export default class MovieCard extends HTMLElement {
   get movieTitle() {
     return this.getAttribute("movieTitle");

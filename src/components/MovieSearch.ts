@@ -23,7 +23,7 @@ export default class MovieSearch extends HTMLElement {
       this.createSearchMovieEvent();
     });
 
-    $searchInput.addEventListener("keypress", (event) => {
+    $searchInput.addEventListener("keyup", (event) => {
       if (event.key === "Enter") this.createSearchMovieEvent();
     });
   }
