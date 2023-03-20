@@ -8,7 +8,7 @@ import { getSkeletonContainer } from "../../utils/skeleton";
 type showType = "popular" | "search";
 
 interface State {
-  show: showType;
+  showState: showType;
   searchKeyword: string;
   page: number;
 }
@@ -17,7 +17,7 @@ export class MovieList {
   #$target;
 
   #state: State = {
-    show: "popular",
+    showState: "popular",
     searchKeyword: "",
     page: 1,
   };
@@ -87,7 +87,7 @@ export class MovieList {
   reset(state: showType, searchKeyword?: string) {
     this.#$target.innerHTML = ``;
 
-    this.#state = { ...this.#state, show: state, page: 1 };
+    this.#state = { ...this.#state, showState: state, page: 1 };
     this.showMoreButton();
     this.renderSkeleton();
 
@@ -120,13 +120,13 @@ export class MovieList {
     this.#state.page += 1;
     this.renderSkeleton();
 
-    if (this.#state.show === "popular")
+    if (this.#state.showState === "popular")
       fetchPopularMovies(this.#state.page).then((response) => {
         const { results, total_pages } = response;
         this.render(results, total_pages);
       });
 
-    if (this.#state.show === "search")
+    if (this.#state.showState === "search")
       fetchSearchMovies(this.#state.page, this.#state.searchKeyword).then(
         (response) => {
           const { results, total_pages } = response;
