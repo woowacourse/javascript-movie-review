@@ -1,15 +1,6 @@
 import { getPopularMovies, getSearchMovies } from './api';
 import { POPULAR_TITLE } from './constants';
-import {
-  clearList,
-  renderMovieListItem,
-  resetSearchBox,
-  show,
-  hide,
-  setTitle,
-  renderErrorPage,
-  renderMoviePage,
-} from './dom';
+import * as dom from './dom';
 import movieService from './domain/movieService';
 import { $ } from './utils/domUtils';
 
@@ -19,8 +10,8 @@ const App = {
     this.pageCategory = 'home';
     this.searchQuery = '';
 
+    dom.renderMoviePage();
     this.bindEvents();
-    renderMoviePage();
     this.updateMoviePage(getPopularMovies, [this.pageNumber]);
   },
 
@@ -51,30 +42,30 @@ const App = {
     this.pageNumber = 1;
     movieService.resetMovies();
 
-    renderMoviePage();
-    setTitle(title);
-    clearList();
-    resetSearchBox();
-    show('#load-more');
+    dom.renderMoviePage();
+    dom.setTitle(title);
+    dom.clearList();
+    dom.resetSearchBox();
+    dom.show('#load-more');
   },
 
   async updateMoviePage(api, params) {
-    show('#skeleton-list');
+    dom.show('#skeleton-list');
     try {
       const { results, total_pages } = await api(...params);
       const newMovies = movieService.resultsToMovies(results);
 
-      if (this.pageNumber === total_pages) hide('#load-more');
+      if (this.pageNumber === total_pages) dom.hide('#load-more');
       this.pageNumber += 1;
 
       movieService.concatMovies(newMovies);
-      renderMovieListItem(newMovies);
+      dom.renderMovieListItem(newMovies);
     } catch {
       hide('#load-more');
-      renderErrorPage();
+      dom.renderErrorPage();
     }
 
-    hide('#skeleton-list');
+    dom.hide('#skeleton-list');
   },
 };
 
