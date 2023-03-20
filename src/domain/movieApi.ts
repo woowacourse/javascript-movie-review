@@ -39,25 +39,15 @@ const fetchMovieInfo = async (url: string) => {
       handleMovieInfoResponse(response);
     }
     else {
-      alert(response.status_message);
+      throw new Error(response.status_message);
     }
-    // catchError(response.status);
 
-  } catch (error) {
-    if (error instanceof Error) return alert(error.message);
-  }
-};
-
-const catchError = (status: number) => {
-  try {
-    if (status !== 200) throw new Error("서버가 불안정합니다.");
   } catch (error) {
     if (error instanceof Error) return alert(error.message);
   }
 };
 
 const handleMovieInfoResponse = async (response: MovieApiResponse) => {
-  console.log(response)
   const { results, total_pages } = await response;
   movieApi.total_page = total_pages;
 
