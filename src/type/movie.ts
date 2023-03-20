@@ -1,4 +1,4 @@
-type MovieType = {
+type MovieApiType = {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -17,9 +17,18 @@ type MovieType = {
 
 type MovieListApiType = {
   page: number;
-  results: MovieType[];
+  results: MovieApiType[];
   total_pages: number;
   total_results: number;
 };
+
+type MovieType = {
+  id: number;
+  poster_path: string;
+  title: string;
+  vote_average: number;
+};
+
+export type MovieListType = MovieType[];
 
 export default MovieListApiType;
