@@ -214,3 +214,67 @@ header .search-box > #search-button {
 .hide {
   display: none;
 }
+
+@media screen and (max-width: 1280px) {
+  .item-list {
+    margin: 56px 0;
+    grid-template-columns: repeat(4, 180px);
+    grid-column-gap: 36px;
+    grid-row-gap: 56px;
+  }
+
+  .item-thumbnail {
+    width: 180px;
+    height: 270px;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .item-list {
+    grid-template-columns: repeat(3, 200px);
+  }
+
+  .item-thumbnail {
+    width: 200px;
+    height: 300px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .item-list {
+    margin: 48px 0;
+    grid-template-columns: repeat(2, 250px);
+    grid-row-gap: 48px;
+  }
+
+  .item-thumbnail {
+    width: 250px;
+    height: 375px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .item-view h2 {
+    font-size: 1.6rem;
+  }
+
+  .item-list {
+    margin: 36px 0;
+    grid-template-columns: repeat(2, 150px);
+    grid-column-gap: 24px;
+    grid-row-gap: 36px;
+  }
+
+  .item-thumbnail {
+    width: 150px;
+    height: 225px;
+  }
+
+  .item-title {
+    font-size: 1rem;
+  }
+
+  .item-score {
+    font-size: 0.9rem;
+  }
+}
