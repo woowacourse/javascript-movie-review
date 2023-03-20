@@ -1,5 +1,5 @@
 class MovieContainer {
-  template: string = '';
+  template: string;
 
   constructor(template: string) {
     this.template = template;
