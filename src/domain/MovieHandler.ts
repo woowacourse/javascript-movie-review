@@ -1,4 +1,5 @@
-import { Movie, MovieAPIData } from '../type/Movie';
+import { Movie } from '../type/Movie';
+import { MovieAPIData } from '../api/get';
 
 const MovieHandler = {
   convertMovieList(moviesData: MovieAPIData[]) {

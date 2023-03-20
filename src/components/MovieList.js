@@ -1,7 +1,5 @@
 import MovieCard from './MovieCard';
 
-import MovieHandler from '../domain/MovieHandler';
-
 import errorImg from '../assets/error.jpg';
 
 const headerTemplate = {
@@ -14,22 +12,24 @@ const headerTemplate = {
   },
 };
 
-const errorTemplate = (errorCode) => {
+const errorTemplate = (statusCode, statusMessage) => {
   return `
   <div class="error-container">
-    <h1>죄송합니다. 영화 목록을 불러올 수 없습니다. 관리자에게 문의하세요. (error code: ${errorCode})</h1>
-    <img src=${errorImg} class="error-img" />
+    <h1 class="error-heading">죄송합니다. 영화 목록을 불러올 수 없습니다. 관리자에게 문의해주세요.</h1>
+    <p class="error-code">error code: ${statusCode}</p>
+    <p class="error-message">error message: ${statusMessage}</p>
+    <img class="error-img" src=${errorImg} alt="error-img" />
   </div>`;
 };
 
 export default class MovieList {
   $element;
-  #getMovieMetaData;
+  #onClickMoreButton;
 
-  constructor($parent, { getMovieMetaData }) {
+  constructor($parent, { onClickMoreButton }) {
     this.$element = document.createElement('section');
     this.$element.className = 'item-view';
-    this.#getMovieMetaData = getMovieMetaData;
+    this.#onClickMoreButton = onClickMoreButton;
 
     $parent.insertAdjacentElement('beforeend', this.$element);
   }
@@ -49,7 +49,7 @@ export default class MovieList {
     <button id="more-button" class="btn primary full-width">더 보기</button>`;
   }
 
-  async renderMovieCards(movieList) {
+  renderMovieCards(movieList) {
     const movieCardsHTML = movieList.reduce((html, movie) => {
       const movieCard = MovieCard(movie);
 
@@ -83,28 +83,30 @@ export default class MovieList {
   }
 
   setEvent() {
-    this.$element.querySelector('#more-button').addEventListener('click', this.load.bind(this));
+    this.$element.querySelector('#more-button').addEventListener('click', this.#onClickMoreButton.bind(this));
   }
 
-  async load() {
-    this.showSkeletonList();
-    const { moviesData, page, totalPages, errorCode } = await this.#getMovieMetaData();
+  renderErrorTemplate(statusCode, statusMessage) {
+    this.$element.innerHTML = errorTemplate(statusCode, statusMessage);
+  }
 
-    if (errorCode) {
+  load(movieMetaData) {
+    if (!movieMetaData.isOk) {
+      const { statusCode, statusMessage } = movieMetaData;
+
       this.hideSkeletonList();
-      this.$element.innerHTML = errorTemplate(errorCode);
+      this.renderErrorTemplate(statusCode, statusMessage);
 
       return;
     }
 
-    const movieList = MovieHandler.convertMovieList(moviesData);
+    const { movieList, page, totalPages } = movieMetaData;
 
     if (this.isLastPage(page, totalPages)) {
       this.hideMoreButton();
     }
 
     this.hideSkeletonList();
-
     this.renderMovieCards(movieList);
   }
 

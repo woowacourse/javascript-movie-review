@@ -6,60 +6,54 @@ import { popularMovieDataFetchFuncGenerator, searchedMovieDataFetchFuncGenerator
 import { $ } from './utils';
 
 export default class App {
-  #getMovieData;
+  #getMovieMetaData;
 
   #header;
   #movieList;
 
   constructor() {
-    this.#getMovieData = popularMovieDataFetchFuncGenerator();
+    this.#getMovieMetaData = popularMovieDataFetchFuncGenerator();
 
     this.#header = new Header($('#app'), {
       onClickMainLogo: this.renderPopularMovieList.bind(this),
       onSubmitSearchForm: this.renderSearchedMovieList.bind(this),
     });
-    this.#movieList = new MovieList($('main'), { getMovieMetaData: this.getMovieMetaData.bind(this) });
+    this.#movieList = new MovieList($('main'), { onClickMoreButton: this.renderMovieList.bind(this) });
 
     this.initialRender();
   }
 
-  initialRender() {
+  async initialRender() {
     this.#header.render();
     this.#movieList.render('popular');
-    this.#movieList.load();
+
+    this.#movieList.load(await this.#getMovieMetaData());
   }
 
-  renderPopularMovieList() {
+  async renderPopularMovieList() {
     this.assignPopularMovieDataFetchFunc();
     this.#movieList.render('popular');
-    this.#movieList.load();
+    this.#movieList.showSkeletonList();
+    this.#movieList.load(await this.#getMovieMetaData());
   }
 
-  renderSearchedMovieList(query) {
+  async renderSearchedMovieList(query) {
     this.assignSearchedMovieDataFetchFunc(query);
     this.#movieList.render('search', query);
-    this.#movieList.load();
+    this.#movieList.showSkeletonList();
+    this.#movieList.load(await this.#getMovieMetaData());
   }
 
-  async getMovieMetaData() {
-    const data = await this.#getMovieData();
-
-    if (data.success === false) {
-      return { errorCode: data.status_code };
-    }
-
-    const moviesData = data.results;
-    const page = data.page;
-    const totalPages = data.total_pages;
-
-    return { moviesData, page, totalPages };
+  async renderMovieList() {
+    this.#movieList.showSkeletonList();
+    this.#movieList.load(await this.#getMovieMetaData());
   }
 
   assignPopularMovieDataFetchFunc() {
-    this.#getMovieData = popularMovieDataFetchFuncGenerator();
+    this.#getMovieMetaData = popularMovieDataFetchFuncGenerator();
   }
 
   assignSearchedMovieDataFetchFunc(query) {
-    this.#getMovieData = searchedMovieDataFetchFuncGenerator(query);
+    this.#getMovieMetaData = searchedMovieDataFetchFuncGenerator(query);
   }
 }
