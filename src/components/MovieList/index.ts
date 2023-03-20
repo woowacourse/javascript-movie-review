@@ -53,7 +53,7 @@ export class MovieList {
               alt="${movie.title}"
             />
             <p class="item-title">${movie.title}</p>
-            <p class="item-score"><img src="${starImg}" alt="별점" />${movie.vote_average}</p>
+            <p class="item-score"><img src="${starImg}" alt="별점 ${movie.vote_average}" />${movie.vote_average}</p>
           </div>
         </a>
       </li>
