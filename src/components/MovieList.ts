@@ -22,7 +22,7 @@ export class MovieList {
     `;
     this.init();
 
-    this.section.querySelector('button')?.addEventListener('click', (event) => {
+    this.section.querySelector('button')?.addEventListener('click', () => {
       this.nextPage();
     });
   }

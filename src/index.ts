@@ -10,7 +10,7 @@ function assignMovieList(movieList: MovieList) {
 
 assignMovieList(new MovieList(popularFetchFn, '지금 인기있는 영화'));
 
-document.querySelector('.logo')?.addEventListener('click', (event) => {
+document.querySelector('.logo')?.addEventListener('click', () => {
   assignMovieList(new MovieList(popularFetchFn, '지금 인기있는 영화'));
 });
 
