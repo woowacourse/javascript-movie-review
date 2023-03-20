@@ -7,6 +7,6 @@ import './components/InvalidMessage';
 import MovieList from './domain/MovieList';
 
 $<HTMLDivElement>('#app').insertAdjacentHTML('afterbegin', NavBar.template());
-NavBar.addEventToSearchInput();
+NavBar.addEventListenerToSearchInput();
 
 MovieList.getMovieData();

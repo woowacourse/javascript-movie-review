@@ -12,7 +12,7 @@ class MovieListContainer {
     this.init();
     this.listContainer = $<HTMLDivElement>('.item-view');
     this.moreButton = $<HTMLButtonElement>('#more-button');
-    this.addEventToMoreButton();
+    this.addEventListenerToMoreButton();
   }
 
   static getInstance(): MovieListContainer {
@@ -44,7 +44,7 @@ class MovieListContainer {
     });
   }
 
-  private addEventToMoreButton() {
+  private addEventListenerToMoreButton() {
     this.moreButton.addEventListener('click', () => {
       MovieList.getMovieData();
     });

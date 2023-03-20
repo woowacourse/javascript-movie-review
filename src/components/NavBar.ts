@@ -14,7 +14,7 @@ const NavBar = {
       </header>`;
   },
 
-  addEventToSearchInput() {
+  addEventListenerToSearchInput() {
     $<HTMLFormElement>('.search-box').addEventListener('submit', (event) => {
       event.preventDefault();
       const target = event.target as HTMLFormElement;
