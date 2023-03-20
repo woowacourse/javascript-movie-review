@@ -1,4 +1,4 @@
-import "./index.css";
+import "./style.css";
 import Logo from "../../images/Logo.png";
 
 interface IHeaderProps {
