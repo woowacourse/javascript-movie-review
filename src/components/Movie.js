@@ -1,6 +1,5 @@
 class Movie {
   #title;
-  #image;
   #score;
   #templateNode = this.#makeTemplateNode();
 
@@ -13,10 +12,8 @@ class Movie {
     const itemCard = document.createElement('div');
     itemCard.setAttribute('class', 'item-card');
 
-    const image = document.createElement('img');
-    image.setAttribute('class', 'item-thumbnail');
-    image.setAttribute('loading', 'lazy');
-    this.#image = image;
+    const image = document.createElement('div');
+    image.setAttribute('class', 'item-thumbnail skeleton');
 
     const title = document.createElement('p');
     title.setAttribute('class', 'item-title');
@@ -46,13 +43,21 @@ class Movie {
   }
 
   makeNode ({ poster_path, title, vote_average }) {
-    this.#image.setAttribute('src', `https://image.tmdb.org/t/p/w500${poster_path}`);
-    this.#image.setAttribute('alt', `${title}`);
     this.#title.textContent = title;
 
     this.#score.textContent = Number(vote_average).toFixed(1).toString();
 
-    return this.#templateNode.cloneNode(true);
+    const node = this.#templateNode.cloneNode(true);
+    const skeletonImage = node.querySelector('div .skeleton');
+    const movieImage = document.createElement('img');
+
+    movieImage.onload = () => {
+      skeletonImage.replaceWith(movieImage);
+    };
+    movieImage.setAttribute('src', `https://image.tmdb.org/t/p/w500${poster_path}`);
+    movieImage.setAttribute('alt', `${title}`);
+
+    return node;
   }
 }
 
