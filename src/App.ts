@@ -56,12 +56,14 @@ class App {
           case 'results': {
             if (!this.itemList || !this.moreButton) break;
 
-            this.itemList?.render(this.$itemView);
-            this.moreButton?.render(this.$itemView);
+            this.itemList.render(this.$itemView);
+            this.moreButton.render(this.$itemView);
             break;
           }
 
           case 'error': {
+            if (!value.length) break;
+
             this.$itemView.innerHTML = WholeScreenMessageAlert(value);
             break;
           }
