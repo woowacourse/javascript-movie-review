@@ -30,11 +30,15 @@ export class MovieList {
     this.#$target = $target;
     this.renderSkeleton();
 
-    fetchPopularMovies(this.#state.page).then((response) => {
-      const { results, total_pages } = response;
-      this.#movies.reset(results);
-      this.render(results, total_pages);
-    });
+    fetchPopularMovies(this.#state.page)
+      .then((response) => {
+        const { results, total_pages } = response;
+        this.#movies.reset(results);
+        this.render(results, total_pages);
+      })
+      .catch(() => {
+        this.#$target.removeChild(this.#$skeletonContainer);
+      });
 
     $(".btn").addEventListener("click", this.onClickMoreButton.bind(this));
   }
