@@ -9,7 +9,7 @@ export function MovieItem({ poster_path, title, vote_average }: IMovie) {
         <a href="#">
             <div class="item-card">
                 <img
-                class="item-thumbnail"
+                class="item-thumbnail movie-poster-background"
                 src=${makeImagePath(poster_path)}
                 loading="lazy"
                 alt=${title}

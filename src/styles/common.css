@@ -72,8 +72,10 @@ button {
 }
 
 .item-score {
-  margin-top: 16px;
+  margin-top: 0px;
   font-size: 1.2rem;
+  display: flex;
+  align-items: flex-end;
 }
 
 .item-score::after {
@@ -169,4 +171,8 @@ li {
 .error {
   position: absolute;
   font-size: xx-large;
+}
+
+.movie-poster-background {
+  background-color: #71717146;
 }
