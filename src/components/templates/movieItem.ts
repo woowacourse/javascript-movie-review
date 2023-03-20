@@ -1,7 +1,7 @@
 import { IMAGES } from '../../assets/images';
-import { MoveItem } from '../../types/movieItem';
+import { MovieItem } from '../../types/movieItem';
 
-export const showMovieItemTemplate = ({ src, title, score }: MoveItem): string =>
+export const showMovieItemTemplate = ({ src, title, score }: MovieItem): string =>
   /* html */
   `
 		<li>

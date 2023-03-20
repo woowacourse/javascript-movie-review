@@ -47,9 +47,9 @@ const App = {
           const container = $('#item-view');
           if (container instanceof HTMLElement) {
             movieApi.fetchMovieList({ query: value, currentPage: 1 }).then(data => {
-              const results = data.results as any[];
+              const results = data.results;
               const cardTemplateList = results
-                .map(item =>
+                .map((item: { poster_path: string; title: string; vote_average: number }) =>
                   showMovieItemTemplate({ src: item.poster_path, title: item.title, score: item.vote_average })
                 )
                 .join('');
@@ -79,9 +79,9 @@ const App = {
           if (container instanceof HTMLElement) {
             if (this.proxy.query.isSearch) {
               movieApi.searchMovieList(this.proxy.query.value, this.proxy.moreButton.currentPage + 1).then(data => {
-                const results = data.results as any[];
+                const results = data.results;
                 const cardTemplateList = results
-                  .map(item =>
+                  .map((item: { poster_path: string; title: string; vote_average: number }) =>
                     showMovieItemTemplate({ src: item.poster_path, title: item.title, score: item.vote_average })
                   )
                   .join('');
@@ -97,9 +97,9 @@ const App = {
               });
             } else {
               movieApi.getMoreMovieList(this.proxy.moreButton.currentPage).then(data => {
-                const results = data.results as any[];
+                const results = data.results;
                 const cardTemplateList = results
-                  .map(item =>
+                  .map((item: { poster_path: string; title: string; vote_average: number }) =>
                     showMovieItemTemplate({ src: item.poster_path, title: item.title, score: item.vote_average })
                   )
                   .join('');
