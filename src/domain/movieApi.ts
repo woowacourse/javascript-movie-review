@@ -1,5 +1,4 @@
-import { removeMoreButton } from "../components/movieListHandler";
-import { ApiResponse, Movie } from "../type";
+import { ApiData, MovieApiResponse, Movie } from "../type";
 import { movieStore } from "./movieStore";
 import { API, PATH } from "../constants";
 const { URL: API_URL, LANGUAGE } = API;
@@ -16,11 +15,13 @@ export const movieApi = {
 };
 
 const fetchMovieInfo = async (endpoint: string, keyword: string) => {
-  const url = buildMovieUrl(endpoint, keyword);
-  const response = await fetch(url);
-  catchError(response.status);
+  const movieUrl = buildMovieUrl(endpoint, keyword);
+  const movieApiData = await fetch(movieUrl).then((response) =>
+    response.json()
+  );
+  catchError(movieApiData);
 
-  handleMovieInfoResponse(response);
+  saveMovieInfoResponse(movieApiData);
 };
 
 const buildMovieUrl = (endpoint: string, keyword: string) => {
@@ -36,30 +37,23 @@ const buildMovieUrl = (endpoint: string, keyword: string) => {
   return `${movieApi.url}?${urlParams}`;
 };
 
-const catchError = (status: number) => {
+const catchError = (movieApiData: ApiData) => {
   try {
-    if (status !== 200) throw new Error("서버가 불안정합니다.");
+    if (movieApiData.success === false)
+      throw new Error(movieApiData.status_message);
   } catch (error) {
     if (error instanceof Error) return alert(error.message);
   }
 };
 
-const handleMovieInfoResponse = async (response: Response) => {
-  const { results, total_pages } = await response.json();
-  movieApi.totalPage = total_pages;
+const saveMovieInfoResponse = (movieApiData: ApiData) => {
+  movieApi.totalPage = movieApiData.total_pages;
 
-  saveMoviesAndRemoveMoreButton(results);
-};
-
-const saveMoviesAndRemoveMoreButton = (results: Array<ApiResponse>) => {
-  movieStore.appendMovies(convertApiResponseToMovieList(results));
-
-  const currentPage = Number(movieApi.urlParams.get("page"));
-  if (currentPage === movieApi.totalPage) removeMoreButton();
+  movieStore.appendMovies(convertApiResponseToMovieList(movieApiData.results));
 };
 
 const convertApiResponseToMovieList = (
-  results: Array<ApiResponse>
+  results: Array<MovieApiResponse>
 ): Array<Movie> => {
   return results.map((movie) => {
     return {
@@ -68,10 +62,4 @@ const convertApiResponseToMovieList = (
       ratings: movie.vote_average,
     };
   });
-};
-
-export const resetMoviesAndPages = () => {
-  movieStore.movies = [];
-  movieApi.urlParams.set("page", "1");
-  movieApi.totalPage = 2;
 };

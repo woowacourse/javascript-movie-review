@@ -7,6 +7,7 @@ export const updateMovies = () => {
   $<MovieList>("#movie-list").renderMovies();
 
   loadMoreMovies();
+  removeMoreButtonIfLastPage();
 };
 
 const loadMoreMovies = () => {
@@ -21,8 +22,9 @@ const loadMoreMovies = () => {
   });
 };
 
-export const removeMoreButton = () => {
-  $("#more-button").remove();
+const removeMoreButtonIfLastPage = () => {
+  const currentPage = Number(movieApi.urlParams.get("page"));
+  if (currentPage === movieApi.totalPage) $("#more-button").remove();
 };
 
 export const makeSkeletons = () => {

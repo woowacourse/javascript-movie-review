@@ -4,8 +4,15 @@ export interface Movie {
   ratings: number;
 }
 
-export interface ApiResponse {
+export interface MovieApiResponse {
   poster_path: string;
   title: string;
   vote_average: number;
+}
+
+export interface ApiData {
+  success: boolean;
+  status_message: string | undefined;
+  total_pages: number;
+  results: MovieApiResponse[];
 }

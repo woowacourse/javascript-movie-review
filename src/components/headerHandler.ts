@@ -1,6 +1,7 @@
 import { $ } from "../utils/selector";
-import { movieApi, resetMoviesAndPages } from "../domain/movieApi";
+import { movieApi } from "../domain/movieApi";
 import { PATH } from "../constants";
+import { movieStore } from "../domain/movieStore";
 const { SEARCHED_MOVIE } = PATH;
 
 export const initSearchBox = () => {
@@ -27,4 +28,10 @@ export const initLogo = () => {
 
     movieApi.showMovies();
   });
+};
+
+const resetMoviesAndPages = () => {
+  movieStore.movies = [];
+  movieApi.urlParams.set("page", "1");
+  movieApi.totalPage = 2;
 };
