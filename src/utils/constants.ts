@@ -12,7 +12,7 @@ export const ConstantsNumber: Readonly<{ [key: string]: number }> = {
 };
 
 export const StatusCode: Readonly<{ [key: number]: number }> = {
-  401: 34,
+  401: 33,
   402: 7,
   403: 3,
   404: 34,
