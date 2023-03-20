@@ -43,6 +43,31 @@ button {
   user-select: none;
 }
 
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+
+.error-container .error-heading {
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+.error-container p {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.error-container .error-message {
+  margin-bottom: 30px;
+}
+
+.error-container .error-img {
+  height: 60vh;
+}
+
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .item-list {
@@ -83,7 +108,7 @@ button {
 .item-title.skeleton::after,
 .item-score.skeleton::after {
   font-size: 0;
-  content: "loading";
+  content: 'loading';
 }
 
 .full-width {
@@ -159,6 +184,10 @@ header .search-box > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
-  background: url("./search_button.png") transparent no-repeat 0 1px;
+  background: url('../assets/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+.hide {
+  display: none;
 }
