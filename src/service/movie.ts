@@ -1,11 +1,15 @@
-import { MoviesResponse, Popular } from './types';
+import { GetPopularMoviesRequest, MoviesResponse, SearchMoviesRequest } from './types';
 
 const API_TOKEN = process.env.API_TOKEN;
 const BASE_URL = 'https://api.themoviedb.org/3';
 
-const getPopularMovies = async ({ page }: Popular): Promise<MoviesResponse> => {
-  const query = `page=${page}&region=KR&language=ko-KR`;
-  const response = await fetch(`${BASE_URL}/movie/popular?${query}`, {
+const getPopularMovies = async ({
+  page,
+  region = 'KR',
+  language = 'ko-KR',
+}: GetPopularMoviesRequest): Promise<MoviesResponse> => {
+  const params = `page=${page}&region=${region}&language=${language}`;
+  const response = await fetch(`${BASE_URL}/movie/popular?${params}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${API_TOKEN}`,
@@ -15,15 +19,9 @@ const getPopularMovies = async ({ page }: Popular): Promise<MoviesResponse> => {
   return movies;
 };
 
-const searchMovies = async ({
-  text,
-  page,
-}: {
-  text: string;
-  page: number;
-}): Promise<MoviesResponse> => {
-  const query = `query=${text}&page=${page}&language=ko-KR&region=KR`;
-  const response = await fetch(`${BASE_URL}/search/movie?${query}`, {
+const searchMovies = async ({ query, page }: SearchMoviesRequest): Promise<MoviesResponse> => {
+  const params = `query=${query}&page=${page}&language=ko-KR&region=KR`;
+  const response = await fetch(`${BASE_URL}/search/movie?${params}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${API_TOKEN}`,

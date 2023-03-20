@@ -70,7 +70,7 @@ export default class MovieList {
         this.toggleSkeleton();
         const { results, total_pages } = await searchMovies({
           page: Store.page,
-          text: Store.keyword,
+          query: Store.keyword,
         });
         this.toggleSkeleton();
         this.renderMovieCards(results, total_pages);
