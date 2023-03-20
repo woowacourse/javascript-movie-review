@@ -46,6 +46,7 @@ class App {
   initMoviePage(title: string) {
     this.pageNumber = 1;
     movieService.resetMovies();
+    dom.resetSearchBox();
     dom.renderMoviePage(title);
   }
 

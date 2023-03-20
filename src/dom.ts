@@ -32,3 +32,8 @@ export const renderErrorPage = () => {
   const $page = $('#page');
   if ($page) $page.innerHTML = /* html */ `<error-page></error-page>`;
 };
+
+export const resetSearchBox = () => {
+  const searchBox = $('.search-box');
+  if (searchBox instanceof HTMLFormElement) searchBox.reset();
+};
