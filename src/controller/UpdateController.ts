@@ -53,7 +53,6 @@ class UpdateController {
     }
 
     if (movies) {
-      console.log(movies);
       this.movieList.renderContents(movies);
     }
 

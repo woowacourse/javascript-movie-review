@@ -45,7 +45,6 @@ class MovieFetcher {
       }
 
       const responseText = JSON.parse(await response.text());
-      console.log(responseText);
       const rawMovies: Record<string, unknown>[] = responseText.results;
 
       const movies = rawMovies.map(
