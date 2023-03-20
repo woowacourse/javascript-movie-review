@@ -2,7 +2,7 @@ import MovieCard from './MovieCard';
 import skeletonTemplate from './Skeleton';
 import Component from '../types/component';
 import { FetchType } from '../types/fetcherType';
-import { MovieItem } from '../types/movie';
+import { Movie, MovieItem } from '../types/movie';
 import { NULL_SEARCH_RESULT_MESSAGE } from '../constants/messages';
 
 class MovieList implements Component {
@@ -12,6 +12,10 @@ class MovieList implements Component {
   private movieList!: HTMLUListElement;
   private skeletonList!: HTMLUListElement;
   private loadMoreButton!: HTMLButtonElement;
+
+  private children: { movieCardList: MovieCard[] } = {
+    movieCardList: [],
+  };
 
   constructor() {
     this.node = document.createElement('section');
@@ -25,6 +29,7 @@ class MovieList implements Component {
       <h2 id="list-name">지금 인기있는 영화</h2>
       <ul class="item-list movie-list hidden"></ul>
       <ul class="item-list skeleton-list hidden">${skeletonTemplate()}</ul>
+      
       <button class="btn primary full-width hidden">더 보기</button>`;
 
     return this;
@@ -100,7 +105,11 @@ class MovieList implements Component {
 
   createMovieCards(movieDetails: MovieItem[]): DocumentFragment {
     return movieDetails
-      .map(movie => new MovieCard(movie))
+      .map(movie => {
+        const movieCard = new MovieCard(movie);
+        this.children.movieCardList.push(movieCard);
+        return movieCard;
+      })
       .reduce((acc: DocumentFragment, cur) => {
         acc.appendChild(cur.node);
         return acc;
@@ -127,6 +136,7 @@ class MovieList implements Component {
   }
 
   cleanMovieList() {
+    this.children.movieCardList = [];
     this.movieList.innerHTML = '';
     this.removeMessage();
   }
