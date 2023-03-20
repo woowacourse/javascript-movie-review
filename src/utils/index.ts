@@ -48,14 +48,15 @@ export const Event = {
     events.forEach(({ parentSelector, targetSelector, event, callback }) => {
       if (parentSelector) {
         $(parentSelector)?.addEventListener(event, (e) => {
-          const $parent = $(parentSelector);
+          const $parent = $(parentSelector) as HTMLElement;
 
-          if (isTarget(e.target, { targetSelector, parentSelector }) && $parent)
-            callback.call($parent, e);
+          if (!isTarget(e.target, { targetSelector, parentSelector })) return;
+          callback.call($parent, e);
         });
-      } else {
-        $(targetSelector)?.addEventListener(event, callback);
+        return;
       }
+
+      $(targetSelector)?.addEventListener(event, callback);
     });
   },
 };
