@@ -3,17 +3,26 @@ import './style/common';
 import Header from './components/Header';
 import MovieList from './components/MovieList';
 import { getPopularMovies } from './service/movie';
+import { Movie } from './service/types';
 
-export const Store = {
+interface Store {
+  keyword: string;
+  page: number;
+}
+
+export const Store: Store = {
   keyword: '',
   page: 1,
 };
 
 class App {
+  header;
+  movieList;
+
   constructor() {
-    const $app = document.querySelector('#app');
-    this.header = new Header($app).init();
-    this.movieList = new MovieList($app).init();
+    const $app = document.querySelector('#app') as HTMLDivElement;
+    this.header = new Header($app);
+    this.movieList = new MovieList($app);
   }
 
   async init() {
@@ -29,9 +38,8 @@ class App {
     this.movieList.renderMovieCards(results, total_pages);
   }
 
-  onSubmitSearch(results, totalPages) {
+  onSubmitSearch(results: Movie[], totalPages: number) {
     this.movieList.renderMode = 'search';
-    this.movieList.page = 1;
     this.movieList.removeMovieCards();
 
     this.movieList.renderTitle(`"${Store.keyword}" 검색결과`);

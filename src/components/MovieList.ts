@@ -1,11 +1,31 @@
 import { Store } from '..';
 import { getPopularMovies, searchMovies } from '../service/movie';
+import { Movie } from '../service/types';
 import MovieCard from './MovieCard';
 
 export default class MovieList {
-  constructor($parent) {
+  $parent: HTMLElement;
+  renderMode: 'popular' | 'search';
+  $title: HTMLHeadElement;
+  $movieItemList: HTMLUListElement;
+  $moreMovieButton: HTMLButtonElement;
+  $lastPageNotify: HTMLParagraphElement;
+  $skeletonDiv: HTMLDivElement;
+
+  constructor($parent: HTMLElement) {
     this.$parent = $parent;
     this.renderMode = 'popular';
+
+    this.$parent.insertAdjacentHTML('beforeend', this.template());
+    this.$title = this.$parent.querySelector('#js-movie-list-title') as HTMLHeadElement;
+    this.$movieItemList = this.$parent.querySelector('#js-movie-list') as HTMLUListElement;
+    this.$moreMovieButton = this.$parent.querySelector(
+      '#js-more-movie-button',
+    ) as HTMLButtonElement;
+    this.$lastPageNotify = this.$parent.querySelector(
+      '#js-last-page-notify',
+    ) as HTMLParagraphElement;
+    this.$skeletonDiv = this.$parent.querySelector('#js-movie-list-skeleton') as HTMLDivElement;
   }
 
   template() {
@@ -35,17 +55,6 @@ export default class MovieList {
     `;
   }
 
-  init() {
-    this.$parent.insertAdjacentHTML('beforeend', this.template());
-    this.$title = this.$parent.querySelector('#js-movie-list-title');
-    this.$movieItemList = this.$parent.querySelector('#js-movie-list');
-    this.$moreMovieButton = this.$parent.querySelector('#js-more-movie-button');
-    this.$lastPageNotify = this.$parent.querySelector('#js-last-page-notify');
-    this.$skeletonDiv = this.$parent.querySelector('#js-movie-list-skeleton');
-
-    return this;
-  }
-
   bindEvent() {
     const handleMoreMovieButton = async () => {
       Store.page += 1;
@@ -71,11 +80,11 @@ export default class MovieList {
     this.$moreMovieButton?.addEventListener('click', handleMoreMovieButton);
   }
 
-  renderTitle(title) {
+  renderTitle(title: string) {
     this.$title.textContent = title;
   }
 
-  renderMovieCards(results, totalPages) {
+  renderMovieCards(results: Movie[], totalPages: number) {
     results.forEach((movie) => {
       new MovieCard(this.$movieItemList, movie).render();
     });

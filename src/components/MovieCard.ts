@@ -1,9 +1,13 @@
-import starFilled from '../assets/star_filled';
+import starFilled from '../assets/star_filled.png';
+import { Movie } from '../service/types';
 
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/original';
 
 export default class MovieCard {
-  constructor($parent, movie) {
+  $parent: HTMLElement;
+  movie: Movie;
+
+  constructor($parent: HTMLElement, movie: Movie) {
     this.$parent = $parent;
     this.movie = movie;
   }

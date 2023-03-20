@@ -1,10 +1,14 @@
 import { Store } from '..';
-import logo from '../assets/logo';
+import logo from '../assets/logo.png';
 import { searchMovies } from '../service/movie';
+import { Movie } from '../service/types';
 
 export default class Header {
-  constructor($parent) {
+  $parent: HTMLElement;
+
+  constructor($parent: HTMLElement) {
     this.$parent = $parent;
+    this.$parent.insertAdjacentHTML('beforeend', this.template());
   }
 
   template() {
@@ -19,20 +23,18 @@ export default class Header {
     `;
   }
 
-  init() {
-    this.$parent.insertAdjacentHTML('beforeend', this.template());
-    return this;
-  }
-
-  bindEvent(toggleSkeleton, onSubmitSearch) {
+  bindEvent(
+    toggleSkeleton: () => void,
+    onSubmitSearch: (results: Movie[], totalPages: number) => void,
+  ) {
     const searchBox = this.$parent.querySelector('.search-box');
 
-    const handleSubmitSearch = async (event) => {
+    const handleSubmitSearch = async (event: Event) => {
       event.preventDefault();
 
       toggleSkeleton();
 
-      const keyword = new FormData(event.target).get('keyword');
+      const keyword = new FormData(event.target as HTMLFormElement).get('keyword') as string;
       const { results, total_pages } = await searchMovies({ text: keyword, page: 1 });
 
       Store.keyword = keyword;

@@ -73,12 +73,19 @@ button {
 }
 
 .item-score {
+  display: flex;
+  align-items: center;
   margin-top: 16px;
   font-size: 1.2rem;
 }
 
 .item-score::after {
   margin-left: 8px;
+}
+
+.item-vote-average {
+  margin-top: 3px;
+  margin-left: 5px;
 }
 
 .item-title.skeleton::after,
