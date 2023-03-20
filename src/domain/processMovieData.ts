@@ -1,7 +1,6 @@
+import { MOVIE_IMAGE_URL } from '../constants/movieURLs';
 import { FetchedMovieJson } from '../types/fetchedMovie';
 import { MovieItem } from '../types/movie';
-
-const MOVIE_IMAGE_URL = 'https://image.tmdb.org/t/p/w220_and_h330_face/';
 
 export const processMovieData = ({ page, results, total_pages: totalPages }: FetchedMovieJson) => {
   const movies: MovieItem[] = results.map(result => ({
