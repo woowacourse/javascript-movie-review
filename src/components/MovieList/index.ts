@@ -1,11 +1,13 @@
 import { page } from "../../domain/page";
-import { movieStore } from "../../domain/movieStore";
+import Store from "../../domain/Store";
 import { Movie } from "../../type";
 import { renderSkeletons } from "./movieListHandler";
 
 export default class MovieList extends HTMLElement {
+  private store: Store;
   constructor() {
     super();
+    this.store = Store.getInstance();
     this.innerHTML = `
     <section class="item-view">
       <h2>지금 인기 있는 영화</h2>
@@ -17,13 +19,13 @@ export default class MovieList extends HTMLElement {
   renderMovies() {
     this.innerHTML = `
     <section class="item-view">
-      ${movieStore.movies.length > 0
+      ${this.store.getMovies().length > 0
         ? `<h2>${page.last_keyword === ""
           ? "지금 인기 있는 영화"
           : `"${page.last_keyword}" 검색 결과`
         }</h2>
             <ul class="item-list">
-              ${movieStore.movies
+              ${this.store.getMovies()
           .map((movie) => this.renderMovie(movie))
           .join("")}
             </ul>`

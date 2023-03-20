@@ -1,7 +1,7 @@
 import { removeMoreButton } from "../components/MovieList/movieListHandler";
 import { Movie } from "../type";
-import { movieStore } from "./movieStore";
 import { page } from "./page";
+import Store from "./Store";
 
 interface MovieResult {
   poster_path: string;
@@ -39,8 +39,7 @@ export const handleMovieInfoResponse = async (response: MovieApiResponse) => {
 };
 
 const saveMoviesAndRemoveMoreButton = (results: MovieResult[]) => {
-  movieStore.appendMovies(convertApiResponseToMovieList(results));
-
+  Store.getInstance().appendMovies(convertApiResponseToMovieList(results));
   if (page.page === page.total_page) removeMoreButton();
 };
 

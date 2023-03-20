@@ -1,5 +1,5 @@
 import { fetchMovieInfo } from "./movieApi";
-import { movieStore } from "./movieStore";
+import Store from "./Store";
 
 const BASE_URL = 'https://api.themoviedb.org/3'
 const API_KEY = process.env.API_KEY
@@ -19,7 +19,7 @@ export const page = {
 };
 
 export const resetMoviesAndPages = () => {
-  movieStore.movies = [];
+  Store.getInstance().initMovies();
   page.page = 1;
   page.total_page = 2;
 };
