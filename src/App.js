@@ -16,12 +16,14 @@ export default class App {
   async initRender() {
     this.#movieList = [];
     this.#page = 1;
-    await this.addPopularMoviesList();
+    await this.addMovieList();
     this.render();
     this.mountMovieList();
   }
 
   render() {
+    if (null) return;
+
     const itemView = $(".item-view");
     itemView.innerHTML = `
     <card-list header='${
@@ -56,17 +58,21 @@ export default class App {
     this.#page += 1;
     this.#movieList = [];
     if (this.#listState === LIST_STATE.POPULAR) {
-      await this.addPopularMoviesList();
+      await this.addMovieList();
     }
     if (this.#listState === LIST_STATE.SEARCHED) {
-      await this.addSearchedMoviesList();
+      await this.addMovieList();
     }
     this.toggleSkeletonList();
     this.mountMovieList();
   }
 
-  async addPopularMoviesList() {
-    const fetchedData = await getPopularMovies(this.#page);
+  async addMovieList() {
+    const fetchedData =
+      this.#listState === LIST_STATE.POPULAR
+        ? await getPopularMovies(this.#page)
+        : await getSearchedMovies(this.#movieName, this.#page);
+
     const result = fetchedData.results;
     result.forEach((item) => {
       this.#movieList.push({
@@ -77,22 +83,10 @@ export default class App {
     });
   }
 
-  async addSearchedMoviesList() {
-    const fetchedData = await getSearchedMovies(this.#movieName, this.#page);
-    const result = fetchedData.results;
-    result.forEach((item) => {
-      this.#movieList.push({
-        title: item.title,
-        poster: item.poster_path,
-        rating: item.vote_average,
-      });
-    });
-  }
-
-  async renderSearchedMovies(movieName) {
+  async renderSearchedMovies() {
     this.render();
     this.toggleSkeletonList();
-    await this.addSearchedMoviesList();
+    await this.addMovieList();
     this.toggleSkeletonList();
     this.mountMovieList();
   }
