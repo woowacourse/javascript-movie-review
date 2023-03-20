@@ -12,7 +12,7 @@ const AppActions = () => {
     );
   };
 
-  const MovieChartComponent = (props?: any) => {
+  const MovieChartComponent = (props: MovieChart) => {
     return (
       debounce(() => {
         replaceComponent($('#MovieChart'), MovieChart(props));
