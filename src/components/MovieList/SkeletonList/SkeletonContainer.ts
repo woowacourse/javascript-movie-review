@@ -1,9 +1,9 @@
-import "./index.css";
+import "./style.css";
 
 class SkeletonList {
-  $target;
+  $target: HTMLUListElement;
 
-  constructor($target) {
+  constructor($target: HTMLUListElement) {
     this.$target = $target;
 
     this.render();
