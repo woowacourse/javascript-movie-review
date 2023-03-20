@@ -1,4 +1,4 @@
-import { Movie } from './types/domain';
+import type { Movie } from './types/domain';
 import { $ } from './utils/domUtils';
 
 export const hide = (selectors: string) => $(selectors)?.classList.add('hide');

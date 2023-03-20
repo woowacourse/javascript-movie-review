@@ -1,5 +1,5 @@
-import { TMDBResponseResult } from '../types/tmdb';
-import { Movie } from '../types/domain';
+import type { TMDBResponseResult } from '../types/tmdb';
+import type { Movie } from '../types/domain';
 
 interface MovieService {
   movies: Movie[];

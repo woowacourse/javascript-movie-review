@@ -1,4 +1,4 @@
-import { TMDBResponseResult } from './tmdb';
+import type { TMDBResponseResult } from './tmdb';
 
 export interface Movie {
   title: TMDBResponseResult['title'];
