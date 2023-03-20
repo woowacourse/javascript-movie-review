@@ -1,5 +1,6 @@
 import { HTTP_STATUS_BAD_REQUEST, HTTP_STATUS_INTERNAL_SERVER_ERROR } from '../constants';
 import { INVALID_JSON_RESPONSE } from '../constants/invalidMessage';
+import { convertKeysToCamelCase } from '../utils/camelCaseConverter';
 import HTTPError from './HTTPError';
 
 async function fetchAPI(endpoint: string) {
@@ -23,7 +24,7 @@ async function fetchAPI(endpoint: string) {
   try {
     const data = await response.json();
 
-    return data;
+    return convertKeysToCamelCase(data);
   } catch (error) {
     throw new Error(INVALID_JSON_RESPONSE);
   }

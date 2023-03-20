@@ -5,8 +5,7 @@ import { fetchAPI } from './fetchAPI';
 
 async function fetchPopularMovieData(currentPage: number): Promise<MovieDataResult[]> {
   const apiUrl = generateUrl('movie/popular', { page: currentPage });
-  const data: MovieData = await fetchAPI(apiUrl);
-  const movieData: MovieData = convertKeysToCamelCase(data);
+  const movieData: MovieData = await fetchAPI(apiUrl);
 
   return movieData.results;
 }
@@ -20,8 +19,7 @@ async function fetchSearchedMovieData(
     page: currentPage,
     include_adult: false,
   });
-  const data: MovieData = await fetchAPI(apiUrl);
-  const movieData: MovieData = convertKeysToCamelCase(data);
+  const movieData: MovieData = await fetchAPI(apiUrl);
 
   return movieData.results;
 }
