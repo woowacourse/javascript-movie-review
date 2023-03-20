@@ -197,3 +197,8 @@ movie-list:has(.not-search) {
   align-items: center;
   justify-content: center;
 }
+
+#logo-button {
+  background: transparent;
+  border: none;
+}

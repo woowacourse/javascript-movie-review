@@ -1,4 +1,5 @@
 import { Logo } from "../../images";
+import { $, dispatchCustomEvent } from "../utils/dom";
 
 class MovieHeader extends HTMLElement {
   constructor() {
@@ -7,18 +8,26 @@ class MovieHeader extends HTMLElement {
 
   connectedCallback() {
     this.render();
+    this.addEvent();
   }
 
   render() {
     this.innerHTML = /* html */ `
         <header>
-          <h1>
+          <button id="logo-button" type="button">
             <img src="${Logo}" alt="MovieList" />
-          </h1>
+          </button>
           <search-box class="search-box" />
         </header>
       `;
   }
-}
 
+  addEvent() {
+    $("#logo-button", this)?.addEventListener("click", () => {
+      dispatchCustomEvent(this, {
+        eventType: "clickLogo",
+      });
+    });
+  }
+}
 customElements.define("movie-header", MovieHeader);

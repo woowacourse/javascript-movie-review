@@ -31,9 +31,14 @@ class MovieListContainer extends HTMLElement {
     });
   }
 
-  changeTitle(query: string) {
-    this.setAttribute("type", "search");
-    this.render(query);
+  changeTitle(query?: string) {
+    if (query && this.getAttribute("type") === "popular") {
+      this.setAttribute("type", "search");
+      this.render(query);
+    } else {
+      this.setAttribute("type", "popular");
+      this.render();
+    }
     this.addEvent();
   }
 

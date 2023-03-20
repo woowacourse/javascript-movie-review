@@ -28,6 +28,14 @@ const movieApp = {
       "searchMovieData",
       ({ detail }: CustomEventInit) => this.searchMovieData(detail)
     );
+    $("movie-header")?.addEventListener("clickLogo", () => this.goMain());
+  },
+
+  goMain() {
+    this.currentPageNumber = 1;
+    this.$container.changeTitle();
+    movieHandler.initializeMovies();
+    this.getPopularMovieData();
   },
 
   renderMovieList(movies: ResponseData | undefined) {
