@@ -1,3 +1,4 @@
+import { ERROR_MESSAGE } from '../../constants';
 import { ID } from '../../constants/selector';
 import type Movies from '../../domain/Movies';
 import MovieCardList from './MovieCardList';
@@ -14,7 +15,7 @@ const LoadMoreButton = {
         MovieCardList.renderMoreItems();
         const newMovies = movies.getQuery() ? await movies.addSearch() : await movies.addPopular();
 
-        if (typeof newMovies === 'string') {
+        if (newMovies === ERROR_MESSAGE.DATA_LOAD) {
           throw new Error(newMovies);
         }
 

@@ -6,6 +6,7 @@ import MovieCardSection from '../MovieCardSection';
 import MovieCardList from '../MovieCardSection/MovieCardList';
 import LoadMoreButton from '../MovieCardSection/LoadMoreButton';
 import { CLASS } from '../../constants/selector';
+import { ERROR_MESSAGE } from '../../constants';
 
 const Header = {
   template() {
@@ -27,7 +28,7 @@ const Header = {
       try {
         const results = await movies.init();
 
-        if (typeof results === 'string') {
+        if (results === ERROR_MESSAGE.DATA_LOAD) {
           throw new Error(results);
         }
 
