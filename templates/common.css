@@ -45,7 +45,8 @@ button {
 
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
-.item-list {
+.item-list,
+.skeleton-list {
   display: grid;
   margin: 48px 0;
   grid-template-columns: repeat(4, 180px);

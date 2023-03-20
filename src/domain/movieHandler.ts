@@ -10,7 +10,7 @@ const movieHandler: MovieHandler = {
   movies: [],
 
   addMovies(movies) {
-    this.movies = [...this.movies, ...movies];
+    this.movies = [...movies];
   },
 
   initializeMovies() {

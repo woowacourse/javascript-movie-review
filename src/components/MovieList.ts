@@ -6,8 +6,9 @@ class MovieList extends HTMLElement {
   }
 
   render(movies: Movie[]) {
-    this.innerHTML = /* html */ `
-      ${
+    this.insertAdjacentHTML(
+      "beforeend",
+      `${
         movies.length !== 0
           ? movies
               .map(
@@ -20,22 +21,8 @@ class MovieList extends HTMLElement {
               )
               .join("")
           : '<p class="not-search">해당 검색 결과가 없습니다</p>'
-      }
-    `;
-  }
-
-  displaySkeletonUI() {
-    this.innerHTML = /* html */ `
-      <li>
-        <a href="#">
-          <div class="item-card">
-            <div class="item-thumbnail skeleton"></div>
-            <div class="item-title skeleton"></div>
-            <div class="item-score skeleton"></div>
-          </div>
-        </a>
-      </li>
-    `.repeat(20);
+      }`
+    );
   }
 }
 
