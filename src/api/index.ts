@@ -15,7 +15,8 @@ export interface MovieResponse {
   vote_count: number;
 }
 
-type ValidResponseType = MovieResponse[];
+type ValidResponse = MovieResponse[];
+type Request = <T extends ValidResponse>(path: string) => Promise<T>;
 
 const API_KEY = process.env.API_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3/';
@@ -25,16 +26,14 @@ const params = {
   language: 'ko-KR',
 };
 
-const request = async <T extends ValidResponseType>(path: string): Promise<T> => {
+const request: Request = async (path) => {
   const url = new URL(path, BASE_URL);
   url.search = createSearchParams(url, params);
   const response = await fetch(url);
 
   if (!response.ok) throw new Error('API 요청 중 에러가 발생했습니다.');
 
-  const data = (await response.json()) as T;
-
-  return data;
+  return response.json();
 };
 
 const createSearchParams = (url: URL, params: Record<string, string>) => {
