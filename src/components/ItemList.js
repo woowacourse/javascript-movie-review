@@ -3,7 +3,6 @@ import Store from '../Store';
 import { movieItem, WholeScreenMessageAlert } from './';
 
 class ItemList {
-  // 렌더링 방식 변경하기...
   $ul = document.createElement('ul');
 
   constructor($target) {
