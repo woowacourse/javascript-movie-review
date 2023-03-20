@@ -85,8 +85,18 @@ export default class MovieList {
     }, '');
 
     this.$movieItemList.insertAdjacentHTML('beforeend', MovieCardshtml);
-    this.$moreMovieButton.style.display = totalPages > Store.page ? 'block' : 'none';
-    this.$lastPageNotify.style.display = totalPages > Store.page ? 'none' : 'block';
+
+    totalPages > Store.page ? this.showMoreMovieButton() : this.hideMoreMovieButton();
+  }
+
+  hideMoreMovieButton() {
+    this.$moreMovieButton.classList.add('hide');
+    this.$lastPageNotify.classList.remove('hide');
+  }
+
+  showMoreMovieButton() {
+    this.$moreMovieButton.classList.remove('hide');
+    this.$lastPageNotify.classList.add('hide');
   }
 
   removeMovieCards() {
