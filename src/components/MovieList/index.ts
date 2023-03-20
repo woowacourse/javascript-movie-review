@@ -3,7 +3,7 @@ import { Movie, MovieResponse } from "../../types";
 import { fetchPopularMovies, fetchSearchMovies } from "../../utils/api";
 import starImg from "../../../templates/star_filled.png";
 import { $ } from "../../utils/selector";
-import { getSkeletonContainer } from "../../utils/skeleton";
+import { getSkeletonContainer } from "../Skeleton";
 
 type showType = "popular" | "search";
 
