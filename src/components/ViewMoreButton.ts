@@ -1,14 +1,14 @@
 import { $, Event } from '../utils/index';
 import { statusController } from '../data/PageData';
-import { showMovieList } from './MovieList';
+import { showMovieList } from '../showMovieList';
 
 export function ViewMoreButton() {
-  Event.addEvent('click', '.view-more-button', async () => {
+  Event.addEvent('click', '#more-movie-btn', async () => {
     statusController.plusPage();
     showMovieList('more', null);
   });
 
   return `
-        <button class="btn primary full-width view-more-button">더 보기</button>
+        <button type="button" class="btn primary full-width view-more-button" id="more-movie-btn">더 보기</button>
       `;
 }
