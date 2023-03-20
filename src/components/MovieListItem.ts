@@ -1,9 +1,13 @@
 import { Movie } from '../movies.type';
 
 class MovieListItem {
-  private template = (movie: Movie) => `<li>
-    <a href="#">
-      <div class="item-card">
+  constructor(private readonly movie: Movie) {}
+
+  private li = document.createElement('li');
+
+  private template = (movie: Movie) => `
+    <a>
+      <div class="item-card" id="${movie.id}">
         <img
           class="item-thumbnail"
           src="https://image.tmdb.org/t/p/w220_and_h330_face${movie.poster_path}"
@@ -14,10 +18,11 @@ class MovieListItem {
         <p class="item-score"><img src="assets/star_filled.png" alt="별점" /> ${movie.vote_average}</p>
       </div>
     </a>
-  </li>`;
+`;
 
-  render(movie: Movie) {
-    return this.template(movie);
+  render() {
+    this.li.innerHTML = this.template(this.movie);
+    return this.li;
   }
 }
 

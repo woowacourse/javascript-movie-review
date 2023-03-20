@@ -221,6 +221,61 @@ ul:has(hr:last-child) ~ .item-last-notice {
   animation-fill-mode: forwards;
 }
 
+/** modal */
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-open {
+  position: fixed;
+  top: 30%;
+  left: 15%;
+  width: 70%;
+
+  background-color: #212122;
+}
+
+.modal-title {
+  height: 60px;
+  width: 100%;
+  font-size: 20px;
+  font-weight: 600;
+  padding-top: 20px;
+  text-align: center;
+  align-items: center;
+}
+
+.modal-thumbnail {
+  border-radius: 8px;
+  width: 290px;
+  height: 430px;
+  background-size: contain;
+}
+
+.modal-overview {
+  font-size: 16px;
+}
+
+.modal-card {
+  display: flex;
+  flex-direction: row;
+}
+
+.modal-info {
+  margin: 10px;
+}
 @keyframes alert-fade-in {
   from {
     transform: translateY(200px) scale(0.9);

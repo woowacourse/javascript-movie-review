@@ -1,5 +1,7 @@
 import { TMDBErrorResponse, TMDBResponse } from '../MovieAPI';
 import { Movie } from '../movies.type';
+import store from '../store';
+import DetailModal from './DetailModal';
 import ErrorPopup from './ErrorPopup';
 import MovieListItem from './MovieListItem';
 import Skeleton from './Skeleton';
@@ -32,6 +34,7 @@ export class MovieList {
     await this.nextPage();
     this.createSkeletons();
     this.load();
+    this.showModal();
   }
 
   render() {
@@ -61,6 +64,7 @@ export class MovieList {
       });
 
       const movies = response.results;
+      store.setMovies(movies);
       const totalPages = response.total_pages;
 
       this.replaceSkeleton(page, movies);
@@ -89,9 +93,9 @@ export class MovieList {
 
   private replaceSkeleton(page: number, movies: Movie[]) {
     movies.forEach((movie: Movie) => {
-      const movieListItem = new MovieListItem();
+      const movieListItem = new MovieListItem(movie);
       const $div = document.createElement('div');
-      $div.innerHTML = movieListItem.render(movie);
+      $div.insertAdjacentElement('beforeend', movieListItem.render());
 
       ($div.childNodes[0] as HTMLElement).setAttribute('page', String(page));
       const $skeleton = this.section.querySelector('ul > li.skeleton')!;
@@ -122,5 +126,15 @@ export class MovieList {
     this.createSkeletons();
     this.reveal();
     await this.load();
+  }
+
+  showModal() {
+    document.querySelector('.item-view')?.addEventListener('click', (e) => {
+      const id = (e.target as HTMLLIElement).closest('.item-card')?.id;
+      if (id) {
+        const detailModal = new DetailModal();
+        detailModal.render(store.getMovie(Number(id))!);
+      }
+    });
   }
 }
