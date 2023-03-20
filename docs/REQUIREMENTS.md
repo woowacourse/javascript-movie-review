@@ -52,6 +52,7 @@
 - [x] refactor: API URL 상수화
 - [x] refactor: dataProcessors객체 생성
   - processMovieData메서드를 추가
+- [x] chore: eslint-plugin-import 설치 및 적용
 
 ### 테스트 목록
 

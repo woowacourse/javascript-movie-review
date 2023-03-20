@@ -1,7 +1,7 @@
 import MovieCard from './MovieCard';
 import skeletonTemplate from './Skeleton';
-import { MovieItem } from '../@types/movieType';
 import { FetchType } from '../@types/fetchType';
+import { MovieItem } from '../@types/movieType';
 
 class MovieList {
   private _node!: HTMLElement;

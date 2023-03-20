@@ -5,4 +5,4 @@ import './asset/search_button.png';
 import './asset/star_empty.png';
 import './asset/star_filled.png';
 
-const app = new App();
+new App();

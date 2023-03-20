@@ -1,9 +1,9 @@
-import render from './render';
-import getAPI from './domain/getAPI';
-import fetchJson from './domain/fetchJson';
 import { FetchedMovieJson } from './@types/fetchJsonType';
 import { FetchStandard, FetchType } from './@types/fetchType';
+import fetchJson from './domain/fetchJson';
+import getAPI from './domain/getAPI';
 import { dataProcessors } from './domain/processMovieData';
+import render from './render';
 
 class App {
   private fetchStandard: FetchStandard = { page: 1, type: FetchType.Popular };
@@ -44,8 +44,11 @@ class App {
     this.loadMovieList();
   }
 
-  searchMovies({ detail }: CustomEvent) {
-    const { keyword } = detail;
+  searchMovies(event: Event) {
+    const {
+      detail: { keyword },
+    } = event as Event & { detail: { keyword: string } };
+
     this.fetchStandard = { page: 1, type: FetchType.Search, keyword };
 
     render.setupSearchMovie(this.fetchStandard);
@@ -75,8 +78,8 @@ class App {
   }
 
   initEventHandler() {
-    document.addEventListener('seeMoreMovie', this.loadMoreMovies.bind(this) as EventListener);
-    document.addEventListener('searchMovies', this.searchMovies.bind(this) as EventListener);
+    document.addEventListener('seeMoreMovie', this.loadMoreMovies.bind(this));
+    document.addEventListener('searchMovies', this.searchMovies.bind(this));
     document.addEventListener('moveHome', this.moveHome.bind(this));
   }
 }
