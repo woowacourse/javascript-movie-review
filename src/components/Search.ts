@@ -1,6 +1,6 @@
 import { setRecentKeyword } from '../hooks/useKeyword';
 import { useSearchedMovie } from '../hooks/useMovie';
-import { getPage, resetPage, togglePageStatus } from '../hooks/usePage';
+import { getPage, getPageStatus, POPULAR, resetPage, togglePageStatus } from '../hooks/usePage';
 import { getFormFields } from '../utils/formData';
 import { $, Event } from '../utils/index';
 
@@ -8,8 +8,9 @@ export function Search() {
   Event.addEvent('submit', '.search-box', async (event) => {
     event.preventDefault();
 
-    togglePageStatus();
     resetPage();
+
+    if (getPageStatus() === POPULAR) togglePageStatus();
 
     const formEl = $('.search-box') as HTMLFormElement;
     const formData = getFormFields(formEl);
