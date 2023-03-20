@@ -1,7 +1,7 @@
-import { executeEventListener } from "../utils/eventListener";
-import { $ } from "../utils/selector";
-import { page } from "../domain/page";
-import { resetMoviesAndPages } from "../domain/movieApi";
+import { executeEventListener } from "../../utils/eventListener";
+import { $ } from "../../utils/selector";
+import { page } from "../../domain/page";
+import { resetMoviesAndPages } from "../../domain/movieApi";
 
 export const onSubmitSearchBox = () => {
   executeEventListener($(".search-box"), {

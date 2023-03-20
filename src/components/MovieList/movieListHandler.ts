@@ -1,7 +1,7 @@
-import { page } from "../domain/page";
-import { executeEventListener } from "../utils/eventListener";
-import { $ } from "../utils/selector";
-import MovieList from "./MovieList";
+import { page } from "../../domain/page";
+import { executeEventListener } from "../../utils/eventListener";
+import { $ } from "../../utils/selector";
+import MovieList from ".";
 
 export const onClickMoreButton = () => {
   executeEventListener($("#more-button"), {

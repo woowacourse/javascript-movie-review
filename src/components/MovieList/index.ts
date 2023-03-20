@@ -1,6 +1,6 @@
-import { page } from "../domain/page";
-import { movieStore } from "../domain/movieStore";
-import { Movie } from "../type";
+import { page } from "../../domain/page";
+import { movieStore } from "../../domain/movieStore";
+import { Movie } from "../../type";
 import { renderSkeletons } from "./movieListHandler";
 
 export default class MovieList extends HTMLElement {

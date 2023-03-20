@@ -1,4 +1,4 @@
-import { removeMoreButton } from "../components/movieListHandler";
+import { removeMoreButton } from "../components/MovieList/movieListHandler";
 import { Movie } from "../type";
 import { movieStore } from "./movieStore";
 import { page } from "./page";
