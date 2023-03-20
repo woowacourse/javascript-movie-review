@@ -10,6 +10,7 @@ export default class MovieCard {
   constructor($parent: HTMLElement, movie: Movie) {
     this.$parent = $parent;
     this.movie = movie;
+    this.$parent.insertAdjacentHTML('beforeend', this.template());
   }
 
   template() {
@@ -30,9 +31,5 @@ export default class MovieCard {
         </a>
       </li>
     `;
-  }
-
-  render() {
-    this.$parent.insertAdjacentHTML('beforeend', this.template());
   }
 }

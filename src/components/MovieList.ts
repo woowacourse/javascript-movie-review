@@ -86,7 +86,7 @@ export default class MovieList {
 
   renderMovieCards(results: Movie[], totalPages: number) {
     results.forEach((movie) => {
-      new MovieCard(this.$movieItemList, movie).render();
+      new MovieCard(this.$movieItemList, movie);
     });
 
     this.$moreMovieButton.style.display = totalPages > Store.page ? 'block' : 'none';
