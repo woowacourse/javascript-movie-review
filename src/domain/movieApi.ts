@@ -54,8 +54,3 @@ const convertApiResponseToMovieList = (results: MovieResult[]): Movie[] => {
   });
 };
 
-export const resetMoviesAndPages = () => {
-  movieStore.movies = [];
-  page.page = 1;
-  page.total_page = 2;
-};
