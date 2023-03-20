@@ -1,7 +1,7 @@
 import { fetchMovieListWithKeyword, fetchPopularMovieList } from "../../apis/apis";
 import Movie from "../../domain/Movie";
 import "./index.css";
-import MovieItem from "./MovieItem";
+import MovieItem from "./MovieItem/MovieItem";
 import SkeletonList from "./SkeletonList";
 
 class MovieList {

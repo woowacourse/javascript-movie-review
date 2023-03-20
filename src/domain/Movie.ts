@@ -1,4 +1,4 @@
-interface IMovie {
+export interface IMovie {
   title: string;
   posterSrc: string | null;
   voteAverage: number;

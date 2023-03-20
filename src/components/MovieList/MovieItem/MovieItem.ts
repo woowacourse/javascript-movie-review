@@ -1,20 +1,21 @@
-import "./index.css";
+import "./style.css";
 import StarIcon from "../../../images/star_filled.png";
 import NotFoundImageIcon from "../../../images/not_found_image.png";
 import { imageUrl } from "../../../constants/urls";
+import Movie, { IMovie } from "../../../domain/Movie";
 
 class MovieItem {
   $target;
-  #movieInfo;
+  #movieInfo: IMovie;
 
-  constructor($target, movie) {
+  constructor($target: HTMLUListElement, movie: Movie) {
     this.$target = $target;
     this.#movieInfo = movie.getMovieData();
 
     this.render();
   }
 
-  convertToImgUrl(imgSrc) {
+  convertToImgUrl(imgSrc: string) {
     return `${imageUrl}${imgSrc}`;
   }
 
@@ -27,9 +28,7 @@ class MovieItem {
         <div class="item-card">
           <img
             class="item-thumbnail"
-            src=${
-              posterSrc ? this.convertToImgUrl(posterSrc) : NotFoundImageIcon
-            }
+            src=${posterSrc ? this.convertToImgUrl(posterSrc) : NotFoundImageIcon}
             loading="lazy"
             alt=${title}
           />
