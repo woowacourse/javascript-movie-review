@@ -10,15 +10,16 @@ class MovieError extends CustomElement {
   template() {
     return `
       <div class='error'>
-        <h1>예상치 못한 오류가 발생했습니다.</h1>
+        <h1 class='error-message'></h1>
         <p>불편을 드려 죄송합니다.</p>
       </div>  
     `;
   }
 
-  render() {
+  rerender(errorMessage) {
     $("movie-container").remove();
     super.render();
+    $(".error-message").innerText = errorMessage;
   }
 }
 
