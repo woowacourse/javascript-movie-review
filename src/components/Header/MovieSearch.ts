@@ -29,7 +29,7 @@ const MovieSearch = {
       if (!query) return;
 
       MovieCardSection.render(query);
-      MovieSearch.paintList(movies, query);
+      await MovieSearch.paintList(movies, query);
     });
   },
   async paintList(movies: Movies, query: string) {
