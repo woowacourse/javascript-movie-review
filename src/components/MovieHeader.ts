@@ -30,10 +30,10 @@ class MovieHeader extends HTMLElement {
     if (!(e.target instanceof HTMLFormElement)) return;
 
     const [input] = e.target.elements;
-
     if (!(input instanceof HTMLInputElement)) return;
 
-    if (!input.value.trim()) {
+    const isInputEmpty = input.value.trim() === '';
+    if (isInputEmpty) {
       alert('검색어를 입력해 주세요.');
       return;
     }
