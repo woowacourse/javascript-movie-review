@@ -1,5 +1,5 @@
 import { getPopularMovies, getSearchMovies } from './api';
-import { POPULAR_TITLE } from './constants';
+import { MAXIMUM_PAGE, POPULAR_TITLE } from './constants';
 import * as dom from './dom';
 import movieService from './domain/movieService';
 import { $ } from './utils/domUtils';
@@ -48,11 +48,12 @@ const App = {
     dom.show('#skeleton-list');
     try {
       const { results, total_pages } = await api(...params);
-      const newMovies = movieService.resultsToMovies(results);
+      if (this.pageNumber >= total_pages || total_pages >= MAXIMUM_PAGE) {
+        dom.hide('#load-more');
+      }
 
-      if (this.pageNumber === total_pages) dom.hide('#load-more');
       this.pageNumber += 1;
-
+      const newMovies = movieService.resultsToMovies(results);
       movieService.concatMovies(newMovies);
       dom.renderMovieListItem(newMovies);
     } catch {
