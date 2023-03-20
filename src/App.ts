@@ -1,3 +1,60 @@
+import { fetchPopularMovies, fetchSearchedMovies } from './api';
+import { MAX_MOVIES_PER_PAGE } from './constants';
+import {
+  clearList,
+  renderList,
+  showSkeleton,
+  hideSkeleton,
+  hideLoadMoreButton,
+  showLoadMoreButton,
+} from './dom';
+
+import movieService, { Movie } from './domain/movieService';
+import { $ } from './utils/domUtils';
+
+const App = {
+  isPopular: true,
+  query: '',
+  currentPage: 1,
+
+  init() {
+    this.bindEvents();
+    this.renderPopularMovies();
+  },
+
+  bindEvents() {
+    $('movie-header')?.addEventListener('home', () => this.handleLogoClick());
+    $('movie-header')?.addEventListener('search', ({ detail: query }: CustomEventInit<string>) => {
+      if (query === '' || !query) return;
+
+      this.handleSearch(query);
+    });
+    $('movie-list-section')?.addEventListener('loadMore', () => this.handleLoadMore());
+  },
+
+  handleLogoClick() {
+    this.reset();
+    this.renderPopularMovies();
+  },
+
+  handleSearch(query: string) {
+    if (this.query === query) return;
+
+    this.isPopular = false;
+    this.query = query;
+    this.currentPage = 1;
+    clearList();
+    this.renderSearchedMovies();
+  },
+
+  handleLoadMore() {
+    if (this.isPopular) {
+      this.renderPopularMovies();
+    } else {
+      this.renderSearchedMovies();
+    }
+  },
+
   async renderPopularMovies() {
     showSkeleton();
     const popularMovies = await fetchPopularMovies(this.currentPage);
@@ -18,3 +75,14 @@
     this.currentPage += 1;
     renderList(newMovies);
   },
+
+  reset() {
+    this.isPopular = true;
+    this.query = '';
+    this.currentPage = 1;
+    clearList();
+    showLoadMoreButton();
+  },
+};
+
+export default App;
