@@ -1,25 +1,26 @@
-export const mostPopular = async (pageNumber: number) => {
-  const response = await fetch(
-    `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}&language=ko-KR&page=${pageNumber}`
-  );
+import { URL } from "./url";
 
-  if (response.ok) {
-    const result = await response.json();
+export const getMostPopularMovies = async (pageNumber: number) => {
+  const fetchURL = `${URL.GET_POPULAR_MOVIES}&page=${pageNumber}`;
+  const result = await fetchWithValidation(fetchURL);
 
-    return result;
-  }
-  return null;
+  return result;
 };
 
-export const search = async (query: string, pageNumber: number) => {
-  const response = await fetch(
-    `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY}&language=ko-KR&query=${query}&page=${pageNumber}&include_adult=false`
-  );
+export const getSearchMovies = async (query: string, pageNumber: number) => {
+  const fetchURL = `${URL.GET_SEARCH_MOVIES}&page=${pageNumber}&query=${query}`;
+  const result = await fetchWithValidation(fetchURL);
 
-  if (response.ok) {
-    const result = await response.json();
+  return result;
+};
 
-    return result;
+const fetchWithValidation = async (url: string) => {
+  const response = await fetch(url);
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(response.status.toString());
   }
-  return null;
+
+  return result;
 };
