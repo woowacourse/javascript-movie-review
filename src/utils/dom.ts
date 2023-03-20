@@ -2,7 +2,7 @@ import type { CustomEvent } from "../types/type";
 
 export const $ = (
   selector: string,
-  target: HTMLElement | Document = document
+  target: HTMLElement | HTMLImageElement | Document = document
 ) => target.querySelector(selector);
 
 export const dispatchCustomEvent = (

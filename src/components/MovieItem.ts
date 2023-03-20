@@ -1,4 +1,5 @@
-import { StarFilled, AddSkeleton } from "../../images";
+import { StarFilled, AddSkeleton, ErrorNoAvailable } from "../../images";
+import { $ } from "../utils/dom";
 
 class MovieItem extends HTMLElement {
   constructor() {
@@ -7,6 +8,7 @@ class MovieItem extends HTMLElement {
 
   connectedCallback() {
     this.render();
+    this.addEvent();
   }
 
   render() {
@@ -18,7 +20,7 @@ class MovieItem extends HTMLElement {
       <a href="#">
         <div class="item-card">
           <img
-            class="item-thumbnail"
+            class="item-thumbnail skeleton"
             src="${
               posterPath !== "null"
                 ? `https://image.tmdb.org/t/p/original/${posterPath}`
@@ -32,6 +34,27 @@ class MovieItem extends HTMLElement {
         </div>
       </a>
     `;
+  }
+
+  addEvent() {
+    $(".item-thumbnail", this)?.addEventListener("load", () =>
+      this.removeSkeletonUI()
+    );
+    $(".item-thumbnail", this)?.addEventListener("error", () =>
+      this.loadErrorImage()
+    );
+  }
+
+  removeSkeletonUI() {
+    $(".item-thumbnail", this)?.classList.remove("skeleton");
+  }
+
+  loadErrorImage() {
+    const targetImage = this.querySelector<HTMLImageElement>(".item-thumbnail");
+    if (targetImage) {
+      targetImage.classList.remove("skeleton");
+      targetImage.src = `${ErrorNoAvailable}`;
+    }
   }
 }
 
