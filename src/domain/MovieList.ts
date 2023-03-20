@@ -4,12 +4,14 @@ import {
   MOVIE_LIST_LOADED,
   MOVIE_LIST_LOADING,
   MOVIE_LIST_RESET,
+  MOVIE_RETRIEVED,
 } from '../constants';
 import EventEmitter from '../utils/EventEmitter';
 import { fetchPopularMovieData, fetchSearchedMovieData } from '../api/movieAPI';
 
 class MovieList {
   private static instance: MovieList;
+  private movies: Movie[] = [];
   private currentPage: number = 1;
   private searchQuery: string = '';
 
@@ -22,6 +24,7 @@ class MovieList {
   }
 
   init(searchQuery: string = '') {
+    this.movies = [];
     this.currentPage = 1;
     this.searchQuery = searchQuery;
     EventEmitter.emit(MOVIE_LIST_RESET, searchQuery);
@@ -41,6 +44,8 @@ class MovieList {
       voteAverage: Math.round(movie.voteAverage * 10) / 10,
       posterPath: movie.posterPath,
     }));
+
+    this.movies = [...this.movies, ...movies];
 
     return movies;
   }
@@ -66,6 +71,12 @@ class MovieList {
     } catch (error) {
       EventEmitter.emit(MOVIE_LIST_ERROR, { error });
     }
+  }
+
+  getMovieInformation(movieId: number) {
+    const [movie] = this.movies.filter((movie) => movie.id === movieId);
+
+    EventEmitter.emit(MOVIE_RETRIEVED, { movie });
   }
 
   on(eventName: string, callback: EventListenerOrEventListenerObject) {

@@ -10,6 +10,7 @@ const MOVIE_LIST_RESET = 'movieListReset';
 const MOVIE_LIST_LOADING = 'movieListLoading';
 const MOVIE_LIST_LOADED = 'movieListLoaded';
 const MOVIE_LIST_ERROR = 'movieListError';
+const MOVIE_RETRIEVED = 'movieRetrieved';
 
 export {
   POSTER_BASE_URL,
@@ -21,4 +22,5 @@ export {
   MOVIE_LIST_LOADING,
   MOVIE_LIST_LOADED,
   MOVIE_LIST_ERROR,
+  MOVIE_RETRIEVED,
 };
