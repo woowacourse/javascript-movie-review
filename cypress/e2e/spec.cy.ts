@@ -66,7 +66,7 @@ describe("영화 리뷰 웹 테스트", () => {
     });
   });
 
-  it("로고 클릭시 인기영화 정보가 렌더링 된다. (초기 화면이 렌더링 된다.)", () => {
+  it("로고 클릭시 초기화면이 렌더링이 되면서 인기 영화 정보를 20개 보여준다.", () => {
     cy.get(".logo").click();
 
     cy.wait("@getPopularMoviesPage1").then((interception) => {
