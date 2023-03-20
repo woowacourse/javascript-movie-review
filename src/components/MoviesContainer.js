@@ -19,8 +19,8 @@ class MoviesContainer extends HTMLElement {
         target[property] = value;
 
         this.reset();
-        this.updateMovieList();
         this.updateTitle(value);
+        this.updateMovieList();
 
         return true;
       },
@@ -88,12 +88,24 @@ class MoviesContainer extends HTMLElement {
   }
 
   showNoResult() {
-    const noResultMessage = document.createElement('span');
-    noResultMessage.innerText = '검색 결과가 없습니다';
-    noResultMessage.classList.add('no-result');
-    noResultMessage.id = 'no-result-message';
+    const noResultContainer = document.createElement('div');
+    const spelling = document.createElement('span');
+    const language = document.createElement('span');
+    const searchWord = document.createElement('span');
+    const spacing = document.createElement('span');
 
-    $('#movie-list-wrapper').appendChild(noResultMessage);
+    noResultContainer.classList.add('no-result');
+    noResultContainer.id = 'no-result-message';
+
+    $('#movie-container-title').innerText = `"${this.#searchWord.value}" 에 대한 검색결과가 없습니다.`;
+    spelling.innerText = '단어의 철자가 정확한지 확인해 보세요.';
+    language.innerText = '한글을 영어로 혹은 영어를 한글로 입력했는지 확인해 보세요.';
+    searchWord.innerText = '검색어의 단어 수를 줄이거나, 보다 일반적인 검색어로 다시 검색해 보세요.';
+    spacing.innerText = '두 단어 이상의 검색어인 경우, 띄어쓰기를 확인해 보세요. ';
+
+    noResultContainer.append(spelling, language, searchWord, spacing);
+
+    $('#movie-container-title').insertAdjacentElement('afterend', noResultContainer);
   }
 
   setButtonEvent() {
@@ -109,6 +121,10 @@ class MoviesContainer extends HTMLElement {
   reset() {
     this.#isFatching = false;
     $('#movie-list-wrapper').innerHTML = `<skeleton-item id="skeleton-container"></skeleton-item>`;
+
+    if ($('#no-result-message')) {
+      $('#no-result-message').remove();
+    }
 
     this.#movieData.resetPageIndex();
   }
