@@ -33,22 +33,10 @@ export class MovieList {
     fetchPopularMovies(this.#state.page).then((response) => {
       const { results, total_pages } = response;
       this.#movies.reset(results);
-      this.init(total_pages);
+      this.render(results, total_pages);
     });
 
     $(".btn")?.addEventListener("click", this.onClickMoreButton.bind(this));
-  }
-
-  init(total_pages: number) {
-    this.#$target.removeChild(this.#$skeletonContainer);
-    this.#$target.innerHTML = `
-      ${this.#movies
-        .getList()
-        .map((movie) => this.getMovieCardTemplate(movie))
-        .join("")}
-    `;
-
-    if (this.#state.page === total_pages) this.hideMoreButton();
   }
 
   getMovieCardTemplate(movie: Movie) {
@@ -86,8 +74,8 @@ export class MovieList {
 
   reset(state: showType, searchKeyword?: string) {
     this.#$target.innerHTML = ``;
-
     this.#state = { ...this.#state, showState: state, page: 1 };
+
     this.showMoreButton();
     this.renderSkeleton();
 
@@ -96,7 +84,7 @@ export class MovieList {
         const { results, total_pages } = response;
 
         this.#movies.reset(results);
-        this.init(total_pages);
+        this.render(results, total_pages);
       });
 
       return;
@@ -110,7 +98,7 @@ export class MovieList {
           const { results, total_pages } = response;
 
           this.#movies.reset(results);
-          this.init(total_pages);
+          this.render(results, total_pages);
         }
       );
     }
@@ -123,6 +111,7 @@ export class MovieList {
     if (this.#state.showState === "popular")
       fetchPopularMovies(this.#state.page).then((response) => {
         const { results, total_pages } = response;
+
         this.render(results, total_pages);
       });
 
@@ -130,6 +119,7 @@ export class MovieList {
       fetchSearchMovies(this.#state.page, this.#state.searchKeyword).then(
         (response) => {
           const { results, total_pages } = response;
+
           this.render(results, total_pages);
         }
       );
