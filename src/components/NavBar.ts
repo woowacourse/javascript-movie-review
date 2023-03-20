@@ -8,28 +8,29 @@ const NavBar = {
     return `
       <header>
         <h1><a href=""><img src="${Logo}" alt="MovieList 로고" /></a></h1>
-        <form class="search-box">
+        <form id="search-form" class="search-box">
           <input id="search-input" name="search-input" type="text" placeholder="검색" />
           <button id="search-button">검색</button>
         </form>
       </header>`;
   },
 
-  onSubmit: () => {
-    $<HTMLFormElement>(".search-box").addEventListener(
-      "submit",
-      async (event: Event) => {
-        event.preventDefault();
-        const target = event.target as HTMLFormElement;
-        const inputElement = target["search-input"] as HTMLInputElement;
-
-        if (inputElement.value.trim().length === 0) return;
-
-        MovieList.init(inputElement.value);
-
-        MovieListContent.loadMovies(inputElement.value);
-      }
+  bindSubmitEvent: () => {
+    $<HTMLFormElement>(".search-box").addEventListener("submit", (event) =>
+      NavBar.onSubmitSearchForm(event)
     );
+  },
+
+  onSubmitSearchForm: async (event: SubmitEvent) => {
+    event.preventDefault();
+    const target = event.target as HTMLFormElement;
+    const inputElement = target["search-input"] as HTMLInputElement;
+
+    if (inputElement.value.trim().length === 0) return;
+
+    MovieList.init(inputElement.value);
+
+    MovieListContent.loadMovies(inputElement.value);
   },
 };
 
