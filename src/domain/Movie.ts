@@ -11,24 +11,12 @@ class Movie {
     isShowMore: false,
   };
 
-  formMovies(apiData: ApiMovieItem[]) {
-    return apiData.map<MovieItem>((result: ApiMovieItem) => {
-      return {
-        id: result.id,
-        title: result.title,
-        src: result.poster_path,
-        starRate: Number(result.vote_average.toFixed(1)),
-      };
-    });
-  }
-
   async getMovies(query: string = "") {
     this.state.page = 1;
     this.state.searchWord = query;
     this.state.isShowMore = false;
 
-    const url = this.makeUrl();
-    const apiData = await request(url);
+    const apiData = await this.getApiData();
 
     if (apiData.error) {
       return apiData;
@@ -44,8 +32,7 @@ class Movie {
     this.state.page += 1;
     this.state.isShowMore = true;
 
-    const url = this.makeUrl();
-    const apiData = await request(url);
+    const apiData = await this.getApiData();
 
     if (apiData.error) {
       return apiData;
@@ -58,10 +45,27 @@ class Movie {
     return { ...this.state, movies: moreMovies };
   }
 
-  makeUrl() {
+  private formMovies(apiData: ApiMovieItem[]) {
+    return apiData.map<MovieItem>((result: ApiMovieItem) => {
+      return {
+        id: result.id,
+        title: result.title,
+        src: result.poster_path,
+        starRate: Number(result.vote_average.toFixed(1)),
+      };
+    });
+  }
+
+  private makeUrl() {
     return this.state.searchWord
       ? searchMovieUrl(this.state.searchWord, this.state.page)
       : popularMovieUrl(this.state.page);
+  }
+
+  private async getApiData() {
+    const url = this.makeUrl();
+    const apiData = await request(url);
+    return apiData;
   }
 }
 
