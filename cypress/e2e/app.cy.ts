@@ -1,3 +1,13 @@
+const mockPopularMovies = (movieCount: number) => {
+  cy.intercept(
+    {
+      method: 'GET',
+      url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
+    },
+    { fixture: `movies${movieCount}.json` }
+  ).as('getPopularMovies');
+};
+
 describe('Movielist 앱 테스트', () => {
   beforeEach(() => {
     cy.visit('http://localhost:8080/');
@@ -5,7 +15,7 @@ describe('Movielist 앱 테스트', () => {
 
   context('로고를 누르면', () => {
     beforeEach(() => {
-      cy.mockPopularMovies(20);
+      mockPopularMovies(20);
       cy.get('header h1').click();
     });
 
@@ -32,7 +42,7 @@ describe('Movielist 앱 테스트', () => {
 
   context('리스트가 20개일 때 더보기 버튼을 누르면', () => {
     beforeEach(() => {
-      cy.mockPopularMovies(20);
+      mockPopularMovies(20);
       cy.get('movie-list-item').should('have.length', 20);
       cy.get('#load-more').click();
     });
@@ -44,7 +54,7 @@ describe('Movielist 앱 테스트', () => {
 
   context('더보기 버튼을 눌렀을 때 20개 미만의 영화가 추가되면', () => {
     beforeEach(() => {
-      cy.mockPopularMovies(10);
+      mockPopularMovies(10);
       cy.get('#load-more').click();
     });
 
