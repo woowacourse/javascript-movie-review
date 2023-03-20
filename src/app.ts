@@ -1,82 +1,70 @@
-import render from './render';
-import getAPI from './domain/getAPI';
-import { processMovieData } from './domain/processMovieData';
 import { FetchStandard, FetchType } from './types/fetcherType';
-import fetchJson from './domain/fetchJson';
-import { FetchedMovieJson } from './types/fetchedMovie';
-import { tryCatchWrapper } from './utils/handleError';
+import MovieList from './components/MovieList';
+import Header from './components/Header';
+import MovieFetcher from './domain/MovieFetcher';
 
 class App {
-  private fetchStandard: FetchStandard = { page: 1, type: FetchType.Popular };
+  readonly node: HTMLElement;
+  private children;
+  private movieFetcher;
 
   constructor() {
-    this.initEventHandler();
+    this.node = document.querySelector('#app')!;
+
+    this.children = {
+      header: new Header(),
+      movieList: new MovieList(),
+    };
+
+    this.movieFetcher = new MovieFetcher();
+
+    this.composeNode().addEvents().renderMovies();
   }
 
-  async initMovieList() {
-    const movieData = await this.getMovieData(getAPI.popularMovie(this.fetchStandard.page));
-    render.updateMoveList(movieData, this.fetchStandard);
+  async renderMovies() {
+    try {
+      this.children.movieList.showSkeleton();
+      const movieDetails = await this.movieFetcher.fetchMovies();
+      this.children.movieList.updateMovieList(movieDetails, this.movieFetcher.isLastPage());
+    } catch (error) {
+      this.children.movieList.hideSkeleton();
+
+      if (!(error instanceof Error)) return;
+
+      this.children.movieList.showMessage(error.message);
+    }
   }
 
-  async showMoreMovieList() {
-    const movieData =
-      this.fetchStandard.type === FetchType.Popular
-        ? await this.getMovieData(getAPI.popularMovie(this.fetchStandard.page))
-        : await this.getMovieData(getAPI.searchMovie(this.fetchStandard.keyword, this.fetchStandard.page));
-    render.updateMoveList(movieData, this.fetchStandard);
+  async searchMovies(keyword: string) {
+    this.children.movieList.cleanMovieList();
+    this.movieFetcher.setSearchSettings(keyword);
+    await this.renderMovies();
   }
 
-  async showSearchedMovieList() {
-    if (this.fetchStandard.type === FetchType.Popular) return;
+  composeNode(): this {
+    this.node.appendChild(this.children.header.node);
+    this.node.appendChild(this.children.movieList.node);
 
-    const movieData = await this.getMovieData(getAPI.searchMovie(this.fetchStandard.keyword!, this.fetchStandard.page));
-    render.updateMoveList(movieData, this.fetchStandard);
+    return this;
   }
 
-  async initLoad() {
-    render.init();
-
-    render.createSkeleton();
-
-    await tryCatchWrapper(this.initMovieList.bind(this), render.renderMessage);
+  async handleClickLogo() {
+    this.children.movieList.cleanMovieList();
+    this.movieFetcher.setPopularSettings();
+    await this.renderMovies();
   }
 
-  async seeMoreMovies() {
-    this.fetchStandard.page += 1;
+  addEvents() {
+    document.addEventListener('searchMovies', async ({ detail }: any) => {
+      await this.searchMovies(detail.keyword);
+    });
 
-    render.createSkeleton();
+    document.addEventListener('seeMoreMovie', this.renderMovies.bind(this));
 
-    await tryCatchWrapper(this.showMoreMovieList.bind(this), render.renderMessage);
-  }
-
-  async searchMovies({ detail }: CustomEvent) {
-    const { keyword } = detail;
-    this.fetchStandard = { page: 1, type: FetchType.Search, keyword };
-
-    render.setupSearchMovie(this.fetchStandard);
-
-    await tryCatchWrapper(this.showSearchedMovieList.bind(this), render.renderMessage);
-  }
-
-  async getMovieData(api: string) {
-    const moviesJson = await fetchJson<FetchedMovieJson>(api);
-
-    return processMovieData(moviesJson);
-  }
-
-  async moveHome() {
-    this.fetchStandard = { page: 1, type: FetchType.Popular };
-
-    render.setupPopularMovie(this.fetchStandard);
-
-    await tryCatchWrapper(this.showMoreMovieList.bind(this), render.renderMessage);
-  }
-
-  initEventHandler() {
-    window.addEventListener('load', this.initLoad.bind(this));
-    document.addEventListener('seeMoreMovie', this.seeMoreMovies.bind(this) as EventListener);
-    document.addEventListener('searchMovies', this.searchMovies.bind(this) as unknown as EventListener);
-    document.addEventListener('click-logo', this.moveHome.bind(this));
+    document.addEventListener('click-logo', () => {
+      this.handleClickLogo();
+    });
+    return this;
   }
 }
 

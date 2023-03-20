@@ -18,7 +18,6 @@ class MovieList implements Component {
     this.node = document.createElement('section');
     this.node.classList.add('item-view');
 
-    //
     this.composeNode().setElements().addEvents();
   }
 
@@ -109,13 +108,13 @@ class MovieList implements Component {
       }, new DocumentFragment());
   }
 
-  deleteEmptyMessage() {
-    const emptyMessage = this.node.querySelector('.empty-message');
+  removeMessage() {
+    const emptyMessage = this.node.querySelector('.message');
     if (emptyMessage) emptyMessage.remove();
   }
 
   showMessage(message: string): this {
-    this.movieList.insertAdjacentHTML('afterend', `<div class="empty-message">${message}</div>`);
+    this.movieList.insertAdjacentHTML('afterend', `<div class="message">${message}</div>`);
 
     return this;
   }
@@ -130,7 +129,7 @@ class MovieList implements Component {
 
   cleanMovieList() {
     this.movieList.innerHTML = '';
-    this.deleteEmptyMessage();
+    this.removeMessage();
   }
 
   addEvents() {
@@ -149,5 +148,4 @@ class MovieList implements Component {
   }
 }
 
-const movieList = new MovieList();
-export default movieList;
+export default MovieList;
