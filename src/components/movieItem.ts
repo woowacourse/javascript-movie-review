@@ -34,7 +34,7 @@ class MovieItem {
             src="${imageUrl}"
             alt="${title}"/>
           <p class="item-title ">${title}</p>
-          <p class="item-score"><img src="../../assets/star_filled.png" alt="별점" /> ${voteAverage}</p>
+          <p class="item-score"><img src="../assets/star_filled.png" alt="별점" /> ${voteAverage}</p>
         </div>
       </a>`;
   }
