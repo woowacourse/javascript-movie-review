@@ -1,3 +1,6 @@
+import DefaultPoster from '../../images/default_poster.png';
+import StarFilled from '../../images/star_filled.png';
+
 class MovieListItem extends HTMLElement {
   constructor() {
     super();
@@ -10,16 +13,16 @@ class MovieListItem extends HTMLElement {
               class="item-thumbnail"
               src=${
                 imgSrc === 'null'
-                  ? './default_poster.png'
+                  ? DefaultPoster
                   : `https://image.tmdb.org/t/p/w220_and_h330_face${imgSrc}`
               }
               loading="lazy"
               alt="${this.getAttribute('title')}"
             />
             <p class="item-title">${this.getAttribute('title')}</p>
-            <p class="item-score"><img src="./star_filled.png" alt="별점" /> ${this.getAttribute(
-              'vote-average'
-            )}</p>
+            <p class="item-score"><img src=${StarFilled} alt="별점" /> ${this.getAttribute(
+      'vote-average'
+    )}</p>
           </div>
         </a>
       </li>
