@@ -103,6 +103,10 @@ export default class AppComponent extends CustomComponent {
           this.changeMoreButtonAction(ACTION.MORE_POPULAR);
           break;
         case ACTION.SEARCH:
+          if (!this.#$searchInput.value.trim()) {
+            alert(SEARCH_WARNING);
+            return;
+          }
           this.searchListInit();
           this.getMovieData(ACTION.SEARCH);
           this.changeMoreButtonAction(ACTION.MORE_SEARCH);
@@ -122,7 +126,7 @@ export default class AppComponent extends CustomComponent {
       if (e.key === "Enter") {
         e.preventDefault();
 
-        if (!this.#$searchInput.value) {
+        if (!this.#$searchInput.value.trim()) {
           alert(SEARCH_WARNING);
           return;
         }
