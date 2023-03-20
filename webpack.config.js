@@ -24,7 +24,7 @@ module.exports = {
       template: './index.html',
     }),
     new DotEnv({
-      systemvars: true
+      systemvars: true,
     }),
     new CopyPlugin({
       patterns: [{ from: 'src/assets', to: 'assets' }],
