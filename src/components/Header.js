@@ -30,6 +30,9 @@ export default class Header {
       toggleSkeleton();
 
       const keyword = new FormData(event.target).get('keyword');
+
+      if (keyword.trim() === '') return;
+
       const { results, total_pages } = await searchMovies({ text: keyword, page: 1 });
 
       Store.keyword = keyword;
