@@ -60,14 +60,14 @@ class Movie {
       `${TMDB_MOVIE_BASE_URL}/search/movie?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&query=${query}&page=${curPage}`
     );
 
-    const movleList = results.map((currentMovie) => ({
+    const movieList = results.map((currentMovie) => ({
       title: currentMovie.title,
       posterPath: currentMovie.poster_path,
       voteAverage: currentMovie.vote_average,
     }));
 
     return {
-      results: movleList,
+      results: movieList,
       total_pages,
       page,
     };
@@ -87,7 +87,6 @@ class Movie {
 
       this.#setMovies({ results, total_pages, page });
     } catch (error) {
-      console.log(error, '@@');
       this.#movieState.error = error as string;
     }
   }
@@ -96,6 +95,7 @@ class Movie {
     if (this.#movieState.category === 'popular') {
       this.#movieState.nextPage = 1;
     }
+
     try {
       this.#movieState.query = query;
       this.#movieState.category = 'search';
@@ -107,8 +107,6 @@ class Movie {
 
       this.#setMovies({ results, total_pages, page });
     } catch (error) {
-      console.log(error, '!!');
-
       this.#movieState.error = error as string;
     }
   }
@@ -121,7 +119,7 @@ class Movie {
   }
 
   #setMovies({ results, total_pages, page }: IMovieHandleProps<IMovieItemProps>) {
-    this.#movieState.results = page === 1 ? results : [...this.#movieState.results, ...results];
+    this.#movieState.results = results;
     this.#movieState.nextPage = total_pages === page ? -1 : page + 1;
     this.#movieState.error = '';
   }
