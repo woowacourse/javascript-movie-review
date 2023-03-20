@@ -9,11 +9,12 @@ class Header {
   constructor($target: HTMLElement) {
     this.init($target);
 
-    this.$header.addEventListener('click', eventThrottle(this.onClickEvent, 1000));
-    this.$searchBox = this.$header.querySelector('.search-box');
+    this.$header.addEventListener('click', this.onClickEvent.bind(this));
 
+    this.$searchBox = this.$header.querySelector('.search-box');
     if (!(this.$searchBox instanceof HTMLFormElement)) return;
-    this.$searchBox.addEventListener('submit', eventThrottle(this.onSubmitEvent, 1000));
+
+    this.$searchBox.addEventListener('submit', this.onSubmitEvent.bind(this));
   }
 
   init($target: HTMLElement) {
@@ -42,7 +43,6 @@ class Header {
   }
 
   onClickEvent(e: Event) {
-    e.preventDefault();
     if (!(e.target instanceof HTMLElement)) return;
     const { target } = e;
 

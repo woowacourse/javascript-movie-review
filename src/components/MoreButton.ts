@@ -5,11 +5,11 @@ class MoreButton {
   $button = document.createElement('button');
 
   constructor($target: HTMLElement) {
-    this.$button.className = 'btn primary full-width more-button';
+    this.$button.className = 'btn primary full-width more-button hidden';
 
     this.render($target);
 
-    this.$button.addEventListener('click', eventThrottle(this.onClickMoreButton, 1000));
+    this.$button.addEventListener('click', this.onClickMoreButton);
   }
 
   render($target: HTMLElement) {
