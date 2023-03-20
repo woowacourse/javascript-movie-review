@@ -3,15 +3,9 @@ import starFilled from '../assets/star_filled';
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/original';
 
 export default class MovieCard {
-  constructor($parent, movie) {
-    this.$parent = $parent;
-    this.movie = movie;
+  template(movie) {
+    const { poster_path, title, vote_average } = movie;
 
-    this.render();
-  }
-
-  template() {
-    const { poster_path, title, vote_average } = this.movie;
     return `
       <li>
         <a href="#">
@@ -28,9 +22,5 @@ export default class MovieCard {
         </a>
       </li>
     `;
-  }
-
-  render() {
-    this.$parent.insertAdjacentHTML('beforeend', this.template());
   }
 }

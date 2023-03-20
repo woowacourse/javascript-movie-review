@@ -80,10 +80,11 @@ export default class MovieList {
   }
 
   renderMovieCards(results, totalPages) {
-    results.forEach((movie) => {
-      new MovieCard(this.$movieItemList, movie);
-    });
+    const MovieCardshtml = results.reduce((html, movie) => {
+      return html + new MovieCard().template(movie);
+    }, '');
 
+    this.$movieItemList.insertAdjacentHTML('beforeend', MovieCardshtml);
     this.$moreMovieButton.style.display = totalPages > Store.page ? 'block' : 'none';
     this.$lastPageNotify.style.display = totalPages > Store.page ? 'none' : 'block';
   }
