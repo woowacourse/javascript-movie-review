@@ -3,3 +3,5 @@ interface Component {
   composeNode(): this;
   setElements(): this;
 }
+
+export default Component;

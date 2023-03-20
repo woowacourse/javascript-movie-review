@@ -1,6 +1,6 @@
 import moveList from '../components/MovieList';
-import { FetchStandard } from '../app';
-import { Movie } from '../domain/processMovieData';
+import { FetchStandard } from '../types/fetcherType';
+import { Movie } from '../types/movie';
 
 export default (movieData: Movie, fetchStandard: FetchStandard) => {
   const isLastPage = movieData.totalPages === fetchStandard.page;

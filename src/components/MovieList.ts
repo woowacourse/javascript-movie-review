@@ -1,7 +1,8 @@
 import MovieCard from './MovieCard';
 import skeletonTemplate from './Skeleton';
-import { FetchType } from '../app';
-import { MovieItem } from '../domain/processMovieData';
+import Component from '../types/component';
+import { FetchType } from '../types/fetcherType';
+import { MovieItem } from '../types/movie';
 
 class MovieList implements Component {
   readonly node: HTMLElement;

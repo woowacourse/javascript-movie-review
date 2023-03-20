@@ -1,25 +1,9 @@
 import render from './render';
 import getAPI from './domain/getAPI';
-import fetchJson, { FetchedMovieJson } from './domain/fetchJson';
 import { processMovieData } from './domain/processMovieData';
-
-export enum FetchType {
-  Popular = 'popular',
-  Search = 'search',
-}
-
-type PopularFetchType = {
-  page: number;
-  type: FetchType.Popular;
-};
-
-type SearchFetchType = {
-  page: number;
-  type: FetchType.Search;
-  keyword: string;
-};
-
-export type FetchStandard = PopularFetchType | SearchFetchType;
+import { FetchStandard, FetchType } from './types/fetcherType';
+import fetchJson from './domain/fetchJson';
+import { FetchedMovieJson } from './types/fetchedMovie';
 
 class App {
   private fetchStandard: FetchStandard = { page: 1, type: FetchType.Popular };
@@ -72,7 +56,7 @@ class App {
     }
   }
 
-  async searchMoives({ detail }: CustomEvent) {
+  async searchMovies({ detail }: CustomEvent) {
     const { keyword } = detail;
     this.fetchStandard = { page: 1, type: FetchType.Search, keyword };
 
@@ -106,7 +90,7 @@ class App {
   initEventHandler() {
     window.addEventListener('load', this.initLoad.bind(this));
     document.addEventListener('seeMoreMovie', this.seeMoreMovies.bind(this) as EventListener);
-    document.addEventListener('searchMovies', this.searchMoives.bind(this) as unknown as EventListener);
+    document.addEventListener('searchMovies', this.searchMovies.bind(this) as unknown as EventListener);
     document.addEventListener('click-logo', this.moveHome.bind(this));
   }
 }

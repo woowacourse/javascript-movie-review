@@ -1,3 +1,4 @@
+import Component from '../types/component';
 import SearchBox from './SearchBox';
 
 class Header implements Component {

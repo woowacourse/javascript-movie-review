@@ -1,7 +1,10 @@
+import Component from '../types/component';
+
 class SearchBox implements Component {
   readonly node: HTMLElement;
   private searchInput!: HTMLInputElement;
   private searchButton!: HTMLButtonElement;
+
   constructor() {
     this.node = document.createElement('div');
     this.node.classList.add('search-box');

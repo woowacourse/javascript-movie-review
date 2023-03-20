@@ -1,5 +1,6 @@
-import NULL_IMAGE from '../const/nullImage';
-import { MovieItem } from '../domain/processMovieData';
+import NULL_IMAGE from '../constants/nullImage';
+import Component from '../types/component';
+import { MovieItem } from '../types/movie';
 
 class MovieCard implements Component {
   readonly node: HTMLElement;

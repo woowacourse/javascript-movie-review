@@ -1,5 +1,5 @@
-import { FetchStandard, FetchType } from '../app';
 import moveList from '../components/MovieList';
+import { FetchStandard, FetchType } from '../types/fetcherType';
 
 export default (fetchStandard: FetchStandard) => {
   if (fetchStandard.type === FetchType.Popular) return;

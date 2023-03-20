@@ -1,16 +1,5 @@
-import { FetchedMovieJson } from './fetchJson';
-
-export type MovieItem = {
-  title: string;
-  posterPath: string;
-  voteAverage: number;
-};
-
-export type Movie = {
-  page: number;
-  movies: MovieItem[];
-  totalPages: number;
-};
+import { FetchedMovieJson } from '../types/fetchedMovie';
+import { MovieItem } from '../types/movie';
 
 const MOVIE_IMAGE_URL = 'https://image.tmdb.org/t/p/w220_and_h330_face/';
 
