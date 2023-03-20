@@ -22,7 +22,7 @@ class Movies {
     const data = await getPopularMovies(this.#page);
 
     if ('status_message' in data) {
-      return ERROR_MESSAGE;
+      return ERROR_MESSAGE.DATA_LOAD;
     }
 
     this.#totalPage = Math.min(MAX_PAGE, data.total_pages);
@@ -36,7 +36,7 @@ class Movies {
     const data = await getPopularMovies(this.#page);
 
     if ('status_message' in data) {
-      return ERROR_MESSAGE;
+      return ERROR_MESSAGE.DATA_LOAD;
     }
 
     return data.results;
@@ -49,7 +49,7 @@ class Movies {
     const data = await getSearchedMovies(query);
 
     if ('status_message' in data) {
-      return ERROR_MESSAGE;
+      return ERROR_MESSAGE.DATA_LOAD;
     }
 
     this.#totalPage = Math.min(MAX_PAGE, data.total_pages);
@@ -65,7 +65,7 @@ class Movies {
     const data = await getSearchedMovies(this.#query, this.#page);
 
     if ('status_message' in data) {
-      return ERROR_MESSAGE;
+      return ERROR_MESSAGE.DATA_LOAD;
     }
 
     return data.results;

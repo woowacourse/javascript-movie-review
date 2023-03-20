@@ -1,17 +1,18 @@
 import Header from './components/Header';
 import MovieCardSection from './components/MovieCardSection';
 import MovieCardList from './components/MovieCardSection/MovieCardList';
+import { ERROR_MESSAGE } from './constants';
 import { ID } from './constants/selector';
 import Movies from './domain/Movies';
-import type { Movie } from './types/movie';
+import type { Movie, ErrorMessage } from './types/movie';
 
 class App {
-  #app: HTMLDivElement | null;
+  #app: HTMLDivElement;
 
   #movies: Movies;
 
   constructor() {
-    this.#app = document.querySelector<HTMLDivElement>(`#${ID.APP}`);
+    this.#app = document.querySelector(`#${ID.APP}`) as HTMLDivElement;
     this.#movies = new Movies();
   }
 
@@ -21,7 +22,7 @@ class App {
     try {
       const results = await this.#movies.init();
 
-      if (typeof results === 'string') {
+      if (results === ERROR_MESSAGE.DATA_LOAD) {
         throw new Error(results);
       }
 
@@ -36,8 +37,6 @@ class App {
   }
 
   render() {
-    if (this.#app === null) return;
-
     this.#app.innerHTML = `
       ${Header.template()}
       <main>

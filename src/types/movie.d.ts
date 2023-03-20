@@ -5,6 +5,14 @@ export interface MovieAPISuccess {
   total_results: number;
 }
 
+export interface MovieAPIFailure {
+  status_message: string;
+  status_code: number;
+  success?: boolean;
+}
+
+export type MovieAPIResponse = MovieAPISuccess | MovieAPIFailure;
+
 export interface Movie {
   adult: boolean;
   backdrop_path: string;
@@ -22,10 +30,6 @@ export interface Movie {
   vote_count: number;
 }
 
-export interface MovieAPIFailure {
-  status_message: string;
-  status_code: number;
-  success?: boolean;
+export interface ErrorMessage {
+  DATA_LOAD: '데이터를 불러올 수 없습니다.';
 }
-
-export type MovieAPIResponse = MovieAPISuccess | MovieAPIFailure;
