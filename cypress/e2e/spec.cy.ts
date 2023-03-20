@@ -53,7 +53,11 @@ describe("데이터 값이 없을 때 테스트", () => {
 
     cy.get(".item-card")
       .find(".item-thumbnail")
-      .should("have.attr", "src", "/da3e03a95b7922e70c82.png");
+      .should(
+        "have.attr",
+        "src",
+        "http://localhost:8080/da3e03a95b7922e70c82.png"
+      );
   });
 
   it("검색어가 없을 때 안내 메세지가 출력된다", () => {
