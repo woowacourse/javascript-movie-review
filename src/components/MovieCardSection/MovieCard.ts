@@ -22,6 +22,7 @@ const MovieCard = {
       <img
         class="${CLASS.ITEM_THUMBNAIL} ${CLASS.SKELETON}"
         src="${MovieCard.handlePosterImage(path)}"
+        onerror="this.src=${posterNotFoundImage}"
         loading="lazy"
         alt="${title}"
       />
