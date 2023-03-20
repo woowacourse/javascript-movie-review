@@ -65,7 +65,7 @@ export default class MovieCard extends HTMLElement {
       $skeleton.classList.add("hidden");
       if (this.movieTitle) $title.innerText = this.movieTitle;
       $title.classList.remove("skeleton");
-      $rating.innerHTML = `${this.rating}<img src="${Star}" alt="별점" />`;
+      $rating.innerHTML = `${this.rating}<img class="star-filled" alt="별점" />`;
       $rating.classList.remove("skeleton");
       $moiveImage.classList.remove("hidden");
     }

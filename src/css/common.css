@@ -149,7 +149,7 @@ header h1 {
 }
 
 .home-button {
-  content: url("../assets/logo.png");
+  content: url("../assets/image/logo.png");
 }
 
 .search-box {
@@ -166,10 +166,19 @@ header h1 {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
-  background: url("../assets/search_button.png") transparent no-repeat 0 1px;
+  background: url("../assets/image/search_button.png") transparent no-repeat 0
+    1px;
   background-size: contain;
 }
 
 .hidden {
   display: none;
+}
+
+.star-filled {
+  content: url("../assets/image/star_filled.png");
+}
+
+.star-empty {
+  content: url("../assets/image/star_empty.png");
 }
