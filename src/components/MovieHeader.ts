@@ -8,26 +8,17 @@ class MovieHeader extends HTMLElement {
 
   connectedCallback() {
     this.render();
-    this.addEvent();
   }
 
   render() {
     this.innerHTML = /* html */ `
         <header>
-          <button id="logo-button" type="button">
+          <a href="">
             <img src="${Logo}" alt="MovieList" />
-          </button>
+          </a>
           <search-box class="search-box" />
         </header>
       `;
-  }
-
-  addEvent() {
-    $("#logo-button", this)?.addEventListener("click", () => {
-      dispatchCustomEvent(this, {
-        eventType: "clickLogo",
-      });
-    });
   }
 }
 customElements.define("movie-header", MovieHeader);
