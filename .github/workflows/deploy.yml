@@ -1,4 +1,4 @@
-name: NodeJS with Webpack
+name: 영화 미션 배포
 
 on:
   push:
