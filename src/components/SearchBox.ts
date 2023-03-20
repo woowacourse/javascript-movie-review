@@ -36,7 +36,7 @@ class SearchBox implements Component {
   }
 
   addEvents(): this {
-    let enabled = true;
+    let enabled = { value: true };
 
     this.searchInput.addEventListener('keypress', this.#handleKeyEnter(enabled).bind(this));
     this.searchButton.addEventListener('click', this.#handleClickSearch(enabled).bind(this));
@@ -44,31 +44,29 @@ class SearchBox implements Component {
     return this;
   }
 
-  #handleKeyEnter(enabled: boolean) {
+  #handleKeyEnter(enabled: { value: boolean }) {
     return (event: KeyboardEvent) => {
       if (event.key !== 'Enter') return;
-      console.log(enabled);
 
-      if (enabled) {
-        enabled = false;
+      if (enabled.value) {
+        enabled.value = false;
         this.dispatchSearchEvent(this.searchInput.value);
         this.searchInput.value = '';
         setTimeout(() => {
-          enabled = true;
+          enabled.value = true;
         }, 2000);
       }
     };
   }
 
-  #handleClickSearch(enabled: boolean) {
+  #handleClickSearch(enabled: { value: boolean }) {
     return () => {
-      console.log('clicked');
-      if (enabled) {
-        enabled = false;
+      if (enabled.value) {
+        enabled.value = false;
         this.dispatchSearchEvent(this.searchInput.value);
         this.searchInput.value = '';
         setTimeout(() => {
-          enabled = true;
+          enabled.value = true;
         }, 2000);
       }
     };
