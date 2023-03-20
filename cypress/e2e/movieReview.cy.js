@@ -30,11 +30,11 @@ describe("영화 리뷰 e2e 테스트", () => {
     cy.wait("@fetchPopularMoviePage1Data");
   });
 
-  it("1. 웹 페이지에 처음 방문하면 지금 인기 있는 영화 목록 데이터가 렌더링되기 전에 skeleton을 볼 수 있다..", () => {
+  it("웹 페이지에 처음 방문하면 지금 인기 있는 영화 목록 데이터가 렌더링되기 전에 skeleton을 볼 수 있다.", () => {
     cy.get(".skeleton").should("be.visible");
   });
 
-  it("2. 웹 페이지에 처음 방문하면 지금 인기 있는 영화 목록을 볼 수 있다.", () => {
+  it("웹 페이지에 처음 방문하면 지금 인기 있는 영화 목록을 볼 수 있다.", () => {
     cy.fixture("popularMoviesPage1.json").then((expectedData) => {
       expectedData.results.forEach((movieData) => {
         cy.get(".item-list").should("contain", movieData.title);
@@ -42,7 +42,7 @@ describe("영화 리뷰 e2e 테스트", () => {
     });
   });
 
-  it("3. 지금 인기 있는 영화 목록에서 더보기 버튼을 누르면 영화를 더 볼 수 있다.", () => {
+  it("지금 인기 있는 영화 목록에서 더보기 버튼을 누르면 영화를 더 볼 수 있다.", () => {
     cy.get("#more-button").click();
 
     cy.fixture("popularMoviesPage2.json").then((expectedData) => {
@@ -52,7 +52,7 @@ describe("영화 리뷰 e2e 테스트", () => {
     });
   });
 
-  it("4. 검색시 검색 결과가 있으면 검색 결과 목록을 볼 수 있다.", () => {
+  it("검색시 검색 결과가 있으면 검색 결과 목록을 볼 수 있다.", () => {
     cy.get("#search-input").type("외계인", { force: true });
     cy.get("#search-button").click();
 
@@ -64,7 +64,7 @@ describe("영화 리뷰 e2e 테스트", () => {
     });
   });
 
-  it("5. 페이지 끝에 도달한 경우에는 더보기 버튼이 화면에 더이상 보이지 않는다.", () => {
+  it("페이지 끝에 도달한 경우에는 더보기 버튼이 화면에 더이상 보이지 않는다.", () => {
     cy.get("#search-input").type("외계인", { force: true });
     cy.get("#search-button").click();
 
