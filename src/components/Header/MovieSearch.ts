@@ -1,3 +1,4 @@
+import { ERROR_MESSAGE } from '../../constants';
 import { ID } from '../../constants/selector';
 import type Movies from '../../domain/Movies';
 import MovieCardSection from '../MovieCardSection';
@@ -28,26 +29,28 @@ const MovieSearch = {
       if (!query) return;
 
       MovieCardSection.render(query);
-
-      try {
-        const results = await movies.search(query);
-
-        if (typeof results === 'string') {
-          throw new Error(results);
-        }
-
-        if (results.length === 0) {
-          return MovieCardSection.renderEmpty(true);
-        }
-
-        MovieCardList.paint(results);
-        LoadMoreButton.handleVisibility(movies.isLastPage());
-      } catch (error) {
-        if (error instanceof Error) {
-          alert(error.message);
-        }
-      }
+      MovieSearch.paintList(movies, query);
     });
+  },
+  async paintList(movies: Movies, query: string) {
+    try {
+      const results = await movies.search(query);
+
+      if (results === ERROR_MESSAGE.DATA_LOAD) {
+        throw new Error(results);
+      }
+
+      if (results.length === 0) {
+        return MovieCardSection.renderEmpty(true);
+      }
+
+      MovieCardList.paint(results);
+      LoadMoreButton.handleVisibility(movies.isLastPage());
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      }
+    }
   },
 };
 
