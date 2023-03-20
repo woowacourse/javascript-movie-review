@@ -1,23 +1,8 @@
 import { Validation } from '../Validation';
+import { MovieListInterface } from '../utils/type';
 
 const API_KEY = process.env.API_KEY;
 const BASE_PATH = 'https://api.themoviedb.org/3';
-
-export interface MovieInterface {
-  id: number;
-  backdrop_path: string;
-  poster_path: string;
-  title: string;
-  overview: string;
-  vote_average: number;
-}
-
-export interface MovieListInterface {
-  page: number;
-  results: MovieInterface[];
-  total_pages: number;
-  total_results: number;
-}
 
 type getMoviesType = (page: number) => Promise<MovieListInterface>;
 export const getMovies: getMoviesType = async (page) => {

@@ -1,11 +1,10 @@
-import { MovieInterface } from './data/api';
+import { MovieInterface, PageStatusType } from './utils/type';
 import { MovieItem } from './components/MovieItem';
 import PageData from './data/PageData';
-import { $, $$ } from './utils';
+import { $, $$, toggleMoreButton } from './utils';
 import { SkeletonMovieItem } from './components/SkeletonMovieItem';
 import { Validation, renderError } from './Validation';
 
-type pageStatusType = 'popular' | 'search';
 type callPlaceType = 'popular' | 'search' | 'more';
 type keywordType = string | null;
 
@@ -62,15 +61,16 @@ export async function renderMovieList(results: MovieInterface[]) {
 }
 
 export async function renderAddMovieList(results: MovieInterface[]) {
-  const parentElem = $('.item-list') as HTMLElement;
+  toggleMoreButton(results);
 
+  const parentElem = $('.item-list') as HTMLElement;
   parentElem.insertAdjacentHTML(
     'beforeend',
     `${results.map((movie) => MovieItem(movie)).join('')}`
   );
 }
 
-function changePageHeader(pageStatus: pageStatusType, keyword: keywordType) {
+function changePageHeader(pageStatus: PageStatusType, keyword: keywordType) {
   const pageHeaderElem = $('.page-header') as HTMLElement;
 
   let text = '지금 인기 있는 영화';

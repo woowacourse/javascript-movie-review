@@ -5,7 +5,7 @@ import PageData from '../data/PageData';
 import { showMovieList } from '../showMovieList';
 
 export function Header() {
-  Event.addEvent('click', '#logo-img', async (event) => {
+  Event.addEvent('click', '#logo-img', async () => {
     PageData.changePageStatus('popular');
     PageData.resetPage();
     showMovieList('popular', null);

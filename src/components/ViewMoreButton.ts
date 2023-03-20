@@ -1,4 +1,4 @@
-import { $, Event } from '../utils/index';
+import { Event } from '../utils/index';
 import PageData from '../data/PageData';
 import { showMovieList } from '../showMovieList';
 

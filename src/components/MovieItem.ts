@@ -1,6 +1,5 @@
 import star_filled from '../assets/star_filled.png';
-
-import { MovieInterface } from '../data/api';
+import { MovieInterface } from '../utils/type';
 import { makeImagePath } from '../utils/makeImagePath';
 
 export function MovieItem({ poster_path, title, vote_average }: MovieInterface) {
