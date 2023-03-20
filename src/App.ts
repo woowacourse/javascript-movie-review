@@ -2,7 +2,7 @@ import { Store } from './Store';
 
 import Header from './components/Header';
 import ListTitle from './components/ListTitle';
-import ItemList from './components/ItemList';
+import MovieList from './components/MovieList';
 import MoreButton from './components/MoreButton';
 import WholeScreenMessageAlert from './components/WholeScreenMessageAlert';
 import Movie, { initialMovieStats } from './domain/Movie';
@@ -13,7 +13,7 @@ class App {
   $itemView = document.createElement('section');
 
   listTitle: ListTitle;
-  itemList: ItemList;
+  movieList: MovieList;
   moreButton: MoreButton;
   skeleton: Skeleton;
 
@@ -25,9 +25,9 @@ class App {
     this.$itemView.className = 'item-view';
 
     this.listTitle = new ListTitle();
-    this.itemList = new ItemList();
+    this.movieList = new MovieList();
     this.moreButton = new MoreButton();
-    this.skeleton = new Skeleton(this.itemList.$ul);
+    this.skeleton = new Skeleton(this.movieList.$ul);
 
     this.initialRender();
 
@@ -48,7 +48,7 @@ class App {
             value === -1 ? this.moreButton.hide() : this.moreButton.show();
             if (value === 1) {
               this.skeleton.attachSkeleton();
-              this.itemList.removeCurentCategory();
+              this.movieList.removeCurentCategory();
             }
             break;
           }
@@ -62,9 +62,9 @@ class App {
           }
 
           case 'results': {
-            if (!this.itemList || !this.moreButton) break;
+            if (!this.movieList || !this.moreButton) break;
 
-            this.itemList.render(this.$itemView);
+            this.movieList.render(this.$itemView);
             this.skeleton.removeSkeleton();
             this.moreButton.render(this.$itemView);
             break;

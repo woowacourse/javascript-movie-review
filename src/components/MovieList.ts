@@ -2,7 +2,7 @@ import MovieCard from './MovieCard';
 import { Store } from '../Store';
 import WholeScreenMessageAlert from './WholeScreenMessageAlert';
 
-class ItemList {
+class MovieList {
   $ul = document.createElement('ul');
 
   constructor() {
@@ -14,7 +14,7 @@ class ItemList {
     if (!movies) return WholeScreenMessageAlert('알 수 없는 에러');
 
     if (!movies.results.length) {
-      return this.itemListErrorTemplate(
+      return this.movieListErrorTemplate(
         `입력하신 "${movies?.query}"(와)과 일치하는 결과가 없습니다.`
       );
     }
@@ -48,7 +48,7 @@ class ItemList {
     while (this.$ul.firstChild) this.$ul.removeChild(this.$ul.firstChild);
   }
 
-  itemListErrorTemplate(message: string) {
+  movieListErrorTemplate(message: string) {
     const $container = document.createElement('div');
     $container.className = 'alert-container';
     $container.innerHTML = ` 
@@ -63,4 +63,4 @@ class ItemList {
   }
 }
 
-export default ItemList;
+export default MovieList;
