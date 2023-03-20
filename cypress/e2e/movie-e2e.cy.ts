@@ -55,7 +55,7 @@ describe("검색 목록 확인", () => {
       .click()
       .then(() => {
         cy.get(".item-title").each(() => {
-          cy.get("p.item-title").contains(/해\s*리\s*포\s*터/);
+          cy.get(".item-title").contains(/해\s*리\s*포\s*터/);
         });
       });
   });
@@ -69,7 +69,7 @@ describe("검색 목록 확인", () => {
       .type("해리포터{enter}")
       .then(() => {
         cy.get(".item-title").each(() => {
-          cy.get("p.item-title").contains(/해\s*리\s*포\s*터/);
+          cy.get(".item-title").contains(/해\s*리\s*포\s*터/);
         });
       });
   });
@@ -102,8 +102,8 @@ describe("검색목록 더보기 확인", () => {
         cy.get("movie-list-page").should("have.length", 2);
       })
       .then(() => {
-        cy.get(".item-title").each(() => {
-          cy.get("p.item-title").contains(/전\s*쟁/);
+        cy.get("h3.item-title").each(() => {
+          cy.get("h3.item-title").contains(/전\s*쟁/);
         });
       });
   });
