@@ -29,15 +29,10 @@ export interface IMovieHandleProps<T> {
   total_pages: number;
 }
 
-export interface IErrorMessageProps {
-  isError: boolean;
-  message: string;
-}
-
 export interface IMovieState {
   results: Array<IMovieItemProps>;
   nextPage: number;
   query: string;
   category: MovieListCategory;
-  error: IErrorMessageProps;
+  error: string;
 }

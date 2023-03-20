@@ -62,11 +62,7 @@ class App {
           }
 
           case 'error': {
-            const { isError, message } = value;
-
-            if (isError === false) break;
-
-            this.$itemView.innerHTML = WholeScreenMessageAlert(message);
+            this.$itemView.innerHTML = WholeScreenMessageAlert(value);
             break;
           }
           default:
@@ -76,8 +72,8 @@ class App {
       },
     });
 
-    Store.set('movieState', new Movie(movieStateProxy));
-    Store.get('movieState')?.renderPopularMovies();
+    Store.set('movieStates', new Movie(movieStateProxy));
+    Store.get('movieStates')?.renderPopularMovies();
   }
 }
 

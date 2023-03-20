@@ -18,13 +18,11 @@ export interface IFetchedError {
 }
 
 export interface IFetchMovie {
-  isError: boolean;
-  data: IMovieHandleProps<IMovieProps> | IFetchedError;
+  data: IMovieHandleProps<IMovieProps>;
 }
 
 export interface IModifiedMovie {
-  isError: boolean;
-  data: IMovieHandleProps<IMovieItemProps> | IFetchedError;
+  data: IMovieHandleProps<IMovieItemProps>;
 }
 
 export const initialMovieStats: IMovieState = {
@@ -32,10 +30,7 @@ export const initialMovieStats: IMovieState = {
   nextPage: 1,
   query: '',
   category: 'popular',
-  error: {
-    isError: false,
-    message: '',
-  },
+  error: '',
 };
 
 class Movie {
@@ -47,29 +42,21 @@ class Movie {
 
   async getPopularMovies({ curPage = 1 }: IMovieFetchProps): Promise<IModifiedMovie> {
     const movieList = await fetchData<IFetchMovie>(
-      `${TMDB_MOVIE_BASE_URL}/movie/popular?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&page=${curPage}`
+      `${TMDB_MOVIE_BASE_URL}/movie/popular?api_key=${'asdfa'}&language=ko-KR&page=${curPage}`
     );
 
-    const { isError, data } = movieList;
+    const { data } = movieList;
 
-    if ('results' in data) {
-      const { results, total_pages, page } = data;
+    const { results, total_pages, page } = data;
 
-      const movleList = results.map((currentMovie) => ({
-        title: currentMovie.title,
-        posterPath: currentMovie.poster_path,
-        voteAverage: currentMovie.vote_average,
-      }));
-
-      return {
-        isError,
-        data: { results: movleList, total_pages, page },
-      };
-    }
+    const movleList = results.map((currentMovie) => ({
+      title: currentMovie.title,
+      posterPath: currentMovie.poster_path,
+      voteAverage: currentMovie.vote_average,
+    }));
 
     return {
-      isError,
-      data,
+      data: { results: movleList, total_pages, page },
     };
   }
 
@@ -78,26 +65,18 @@ class Movie {
       `${TMDB_MOVIE_BASE_URL}/search/movie?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&query=${query}&page=${curPage}`
     );
 
-    const { isError, data } = foundedMovies;
+    const { data } = foundedMovies;
 
-    if ('results' in data) {
-      const { results, total_pages, page } = data;
+    const { results, total_pages, page } = data;
 
-      const movleList = results.map((currentMovie) => ({
-        title: currentMovie.title,
-        posterPath: currentMovie.poster_path,
-        voteAverage: currentMovie.vote_average,
-      }));
-
-      return {
-        isError,
-        data: { results: movleList, total_pages, page },
-      };
-    }
+    const movleList = results.map((currentMovie) => ({
+      title: currentMovie.title,
+      posterPath: currentMovie.poster_path,
+      voteAverage: currentMovie.vote_average,
+    }));
 
     return {
-      isError,
-      data,
+      data: { results: movleList, total_pages, page },
     };
   }
 
@@ -106,60 +85,39 @@ class Movie {
       this.#movieState.nextPage = 1;
     }
 
-    this.#movieState.category = 'popular';
-    this.#setSkeletonArray(curPage);
+    try {
+      this.#movieState.category = 'popular';
 
-    const { isError, data } = await this.getPopularMovies({
-      curPage,
-    });
+      const { data } = await this.getPopularMovies({
+        curPage,
+      });
 
-    if (isError && 'status_code' in data) {
-      const message = statusCodeToErrorMessage(data.status_code);
+      const { results, total_pages, page } = data;
 
-      this.#movieState.error = {
-        isError,
-        message,
-      };
-
-      return;
+      this.#setMovies({ results, total_pages, page });
+    } catch (error) {
+      this.#movieState.error = error as string;
     }
-
-    if (!('results' in data)) return;
-
-    const { results, total_pages, page } = data;
-
-    setTimeout(() => this.#setMovies({ results, total_pages, page }), 500);
   }
 
   async renderSearchedMovies(query: string, curPage = 1) {
     if (this.#movieState.category === 'popular') {
       this.#movieState.nextPage = 1;
     }
+    try {
+      this.#movieState.query = query;
+      this.#movieState.category = 'search';
 
-    this.#movieState.query = query;
-    this.#movieState.category = 'search';
-    this.#setSkeletonArray(curPage);
+      const { data } = await this.findMovies({
+        query,
+        curPage,
+      });
 
-    const { isError, data } = await this.findMovies({
-      query,
-      curPage,
-    });
-
-    if (isError && 'status_code' in data) {
-      const message = statusCodeToErrorMessage(data.status_code);
-
-      this.#movieState.error = {
-        isError,
-        message,
-      };
-
-      return;
+      const { results, total_pages, page } = data;
+      this.#setMovies({ results, total_pages, page });
+    } catch (error) {
+      this.#movieState.error = error as string;
     }
-
-    if (!('results' in data)) return;
-
-    const { results, total_pages, page } = data;
-    setTimeout(() => this.#setMovies({ results, total_pages, page }), 500);
   }
 
   #setSkeletonArray(curPage = 1) {
@@ -170,10 +128,9 @@ class Movie {
   }
 
   #setMovies({ results, total_pages, page }: IMovieHandleProps<IMovieItemProps>) {
-    this.#movieState.results =
-      page === 1 ? results : [...this.#movieState.results.filter(({ title }) => title), ...results];
+    this.#movieState.results = page === 1 ? results : [...this.#movieState.results, ...results];
     this.#movieState.nextPage = total_pages === page ? -1 : page + 1;
-    this.#movieState.error.isError = false;
+    this.#movieState.error = '';
   }
 
   getMovieStates() {
