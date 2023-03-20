@@ -12,6 +12,8 @@ class MoviesContainer extends HTMLElement {
       },
 
       set: (target, property, value) => {
+        if (target[property] === value) return;
+
         target[property] = value;
 
         this.reset();
