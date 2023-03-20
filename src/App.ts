@@ -8,13 +8,12 @@ class App {
   #movieList = new MovieList();
   #movieFetcher = new MovieFetcher();
   #loadMoreButton = new LoadMoreButton();
-  #searchKeyword = '';
 
   constructor() {
     this.#header.render();
-    this.#movieList.renderListTitle('Popular movies');
+    this.#movieList.renderListTitle('지금 인기있는 영화 🎬');
     this.fetchAndUpdateMovieList('overwrite');
-    this.#loadMoreButton.render('Load More');
+    this.#loadMoreButton.render('더보기');
 
     this.#loadMoreButton.addClickEventHandler(this.onClickLoadMoreButton);
     this.#header.addClickEventHandler(this.onClickSearchButton);
@@ -71,8 +70,9 @@ class App {
   };
 
   onClickSearchButton = (keyword: string) => {
-    this.#movieList.setTitle(`Search Results of "${keyword}"`);
+    this.#movieList.setTitle(`"${keyword}" 검색 결과 🔍`);
     this.#movieFetcher.setRequestMode('search');
+    this.#loadMoreButton.enableButton();
     this.fetchAndUpdateMovieList('overwrite', keyword);
   };
 }
