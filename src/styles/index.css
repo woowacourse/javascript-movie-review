@@ -1,0 +1,39 @@
+@import './reset.css';
+@import './color.css';
+
+* {
+  box-sizing: border-box !important;
+}
+
+body {
+  padding-bottom: 48px;
+  font-size: 14px;
+  background-color: var(--black-color);
+  color: var(--white-color);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+*:focus {
+  outline: none;
+}
+
+.item-view,
+.item-test {
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.last-item {
+  margin-top: 48px;
+}
