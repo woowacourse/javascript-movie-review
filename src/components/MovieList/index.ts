@@ -33,10 +33,10 @@ export class MovieList extends HTMLElement {
       );
     }
     movieList.map((movie: Movie) => {
-      const { title, poster_path, vote_average } = movie;
+      const { title, posterPath, voteAverage } = movie;
       this.$movieItems.insertAdjacentHTML(
         'beforeend',
-        `<movie-item title=${`"${title}"`} poster=${poster_path} vote=${vote_average}></movie-item>`,
+        `<movie-item title=${`"${title}"`} poster=${posterPath} vote=${voteAverage}></movie-item>`,
       );
     });
   }

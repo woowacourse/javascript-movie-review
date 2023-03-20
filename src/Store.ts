@@ -30,7 +30,7 @@ class Store {
 
   setMovieData(data: MovieList) {
     this.movieList = data?.movies;
-    this.totalPage = data?.total_pages;
+    this.totalPage = data?.totalPages;
   }
 
   get movieListValue() {
