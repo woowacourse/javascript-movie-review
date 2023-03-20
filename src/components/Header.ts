@@ -24,7 +24,7 @@ class Header {
       onClickSearchButton($searchInput.value);
     });
 
-    ($searchInput as HTMLElement).addEventListener('keydown', (event: KeyboardEvent) => {
+    $searchInput.addEventListener('keydown', (event: KeyboardEvent) => {
       if (event.key === 'Enter') {
         if (!($searchInput instanceof HTMLInputElement)) return;
 
