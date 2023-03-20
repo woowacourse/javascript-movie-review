@@ -56,6 +56,7 @@ button {
 .item-card {
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .item-thumbnail {
@@ -86,8 +87,12 @@ button {
   content: "loading";
 }
 
-.full-width {
-  width: 100%;
+show-more-button {
+  text-align: center;
+}
+
+.button-width {
+  width: 30%;
 }
 
 .last-item {
@@ -123,7 +128,7 @@ button.primary {
     background-position: 0% 50%;
   }
 }
-header {
+movie-head {
   width: 100%;
   min-width: 1200px;
   height: 72px;
@@ -136,7 +141,7 @@ header {
   margin-bottom: 48px;
 }
 
-header h1 {
+movie-head h1 {
   cursor: pointer;
   user-select: none;
   font-size: 2rem;
@@ -145,20 +150,33 @@ header h1 {
   color: #f33f3f;
 }
 
-header > .search-box {
+movie-head > .search-box {
   background: #fff;
   padding: 8px;
   border-radius: 4px;
 }
 
-header .search-box > input {
+movie-head .search-box > label > input {
   border: 0;
 }
 
-header .search-box > .search-button {
+movie-head .search-box > label > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
-  background: url("./search_button.png") transparent no-repeat 0 1px;
+  background: url("../image/search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+.error {
+  margin: 2rem;
+}
+
+.error > h1 {
+  font-size: 40px;
+  margin-bottom: 2rem;
+}
+
+.error > p {
+  font-size: 20px;
 }
