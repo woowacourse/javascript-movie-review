@@ -3,6 +3,7 @@ import skeletonTemplate from './Skeleton';
 import Component from '../types/component';
 import { FetchType } from '../types/fetcherType';
 import { MovieItem } from '../types/movie';
+import { NULL_SEARCH_RESULT_MESSAGE } from '../constants/messages';
 
 class MovieList implements Component {
   readonly node: HTMLElement;
@@ -87,7 +88,7 @@ class MovieList implements Component {
 
   updateMovieList(movieDetails: MovieItem[], isLastPage: Boolean): this {
     if (movieDetails.length === 0) {
-      this.hideSkeleton().hideButton().showEmptyMessage();
+      this.hideSkeleton().hideButton().showMessage(NULL_SEARCH_RESULT_MESSAGE);
       return this;
     }
 
@@ -108,22 +109,15 @@ class MovieList implements Component {
       }, new DocumentFragment());
   }
 
-  showEmptyMessage() {
-    this.movieList.insertAdjacentHTML('afterend', '<div class="empty-message">검색 결과가 없습니다.</div>');
-
-    return this;
-  }
-
   deleteEmptyMessage() {
     const emptyMessage = this.node.querySelector('.empty-message');
     if (emptyMessage) emptyMessage.remove();
   }
 
-  showErrorMessage() {
-    this.movieList.insertAdjacentHTML(
-      'afterend',
-      '<div class="empty-message">요청이 불안정합니다. 크론에게 문의해주세요.</div>'
-    );
+  showMessage(message: string): this {
+    this.movieList.insertAdjacentHTML('afterend', `<div class="empty-message">${message}</div>`);
+
+    return this;
   }
 
   setListName(type: FetchType, keyword?: string) {

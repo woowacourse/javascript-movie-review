@@ -1,4 +1,4 @@
-import apiError from './apiError';
+import apiError from './renderMessage';
 import init from './init';
 import setupPopularMovie from './setupPopularMovie';
 import setupSearchMovie from './setupSearchMovie';
@@ -8,7 +8,7 @@ import updateMoveList from './updateMoveList';
 export default {
   init,
   updateMoveList,
-  apiError,
+  renderMessage: apiError,
   setupSearchMovie,
   setupPopularMovie,
   createSkeleton: skeleton.create,

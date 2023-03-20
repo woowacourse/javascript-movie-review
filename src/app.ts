@@ -4,6 +4,7 @@ import { processMovieData } from './domain/processMovieData';
 import { FetchStandard, FetchType } from './types/fetcherType';
 import fetchJson from './domain/fetchJson';
 import { FetchedMovieJson } from './types/fetchedMovie';
+import { tryCatchWrapper } from './utils/handleError';
 
 class App {
   private fetchStandard: FetchStandard = { page: 1, type: FetchType.Popular };
@@ -37,11 +38,7 @@ class App {
 
     render.createSkeleton();
 
-    try {
-      await this.initMovieList();
-    } catch {
-      render.apiError();
-    }
+    await tryCatchWrapper(this.initMovieList.bind(this), render.renderMessage);
   }
 
   async seeMoreMovies() {
@@ -49,11 +46,7 @@ class App {
 
     render.createSkeleton();
 
-    try {
-      await this.showMoreMovieList();
-    } catch {
-      render.apiError();
-    }
+    await tryCatchWrapper(this.showMoreMovieList.bind(this), render.renderMessage);
   }
 
   async searchMovies({ detail }: CustomEvent) {
@@ -62,11 +55,7 @@ class App {
 
     render.setupSearchMovie(this.fetchStandard);
 
-    try {
-      this.showSearchedMovieList();
-    } catch {
-      render.apiError();
-    }
+    await tryCatchWrapper(this.showSearchedMovieList.bind(this), render.renderMessage);
   }
 
   async getMovieData(api: string) {
@@ -80,11 +69,7 @@ class App {
 
     render.setupPopularMovie(this.fetchStandard);
 
-    try {
-      await this.showMoreMovieList();
-    } catch {
-      render.apiError();
-    }
+    await tryCatchWrapper(this.showMoreMovieList.bind(this), render.renderMessage);
   }
 
   initEventHandler() {

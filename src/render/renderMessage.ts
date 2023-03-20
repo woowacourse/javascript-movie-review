@@ -1,6 +1,6 @@
 import moveList from '../components/MovieList';
 
-export default () => {
+export default (error: string) => {
   moveList.hideSkeleton();
-  moveList.showErrorMessage();
+  moveList.showMessage(error);
 };
