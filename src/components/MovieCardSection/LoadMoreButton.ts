@@ -10,12 +10,10 @@ const LoadMoreButton = {
     const button = document.querySelector<HTMLButtonElement>(`#${ID.LOAD_MORE_BUTTON}`);
 
     button?.addEventListener('click', async () => {
-      MovieCardList.renderMoreItems();
-
       try {
+        MovieCardList.renderMoreItems();
         const newMovies = movies.getQuery() ? await movies.addSearch() : await movies.addPopular();
 
-        if (!newMovies) return;
         if (typeof newMovies === 'string') {
           throw new Error(newMovies);
         }
@@ -31,10 +29,10 @@ const LoadMoreButton = {
       }
     });
   },
-  handleVisibility(state: boolean) {
+  handleVisibility(isHide: boolean) {
     const button = document.querySelector<HTMLButtonElement>(`#${ID.LOAD_MORE_BUTTON}`);
 
-    if (state) {
+    if (isHide) {
       return button?.classList.add('hide');
     }
 

@@ -58,8 +58,6 @@ class Movies {
   }
 
   async addSearch() {
-    if (!this.#query) return;
-
     this.#page += 1;
 
     const data = await getSearchedMovies(this.#query, this.#page);
