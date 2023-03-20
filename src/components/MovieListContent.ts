@@ -26,7 +26,7 @@ const MovieListContent = {
         MovieListContainer.hideButton();
       }
 
-      if (searchKey && movies.length === 0) {
+      if (searchKey && !movies.length) {
         MovieListContainer.hideTitle();
         InvalidMessage.renderNoSearchMessage(searchKey);
       }
