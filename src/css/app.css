@@ -53,10 +53,6 @@ button {
   grid-row-gap: 48px;
 }
 
-#skeleton-list {
-  margin: 0;
-}
-
 .item-card {
   display: flex;
   flex-direction: column;
@@ -132,6 +128,7 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
   width: 100%;
   min-width: 1200px;
@@ -168,6 +165,6 @@ header .search-box > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
-  background: url('../../image/search_button.png') transparent no-repeat 0 1px;
+  background: url('../../images/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
 }
