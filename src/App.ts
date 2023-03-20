@@ -18,6 +18,10 @@ export default class App {
   }
 
   async init() {
+    this.setState({
+      page: 1,
+      listState: LIST_STATE.POPULAR,
+    });
     await this.setMoviesList();
     this.render();
     this.mountMovieList();

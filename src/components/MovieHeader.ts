@@ -7,13 +7,13 @@ export default class MovieHeader extends HTMLElement {
   render() {
     this.innerHTML = /*html*/ `
   <header>
-    <h1>MovieList</h1>
+    <h1 class="home-button">MovieList</h1>
     <movie-search></movie-search>
   </header>`;
   }
 
   setEvent() {
-    const $homeButtom = this.querySelector("h1");
+    const $homeButtom = this.querySelector(".home-button");
     if ($homeButtom instanceof HTMLHeadingElement)
       $homeButtom.addEventListener("click", () => {
         this.dispatchEvent(
