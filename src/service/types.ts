@@ -1,5 +1,17 @@
-interface Popular {
+interface GetPopularMoviesRequest {
   page: number;
+  region?: string;
+  language?: string;
+}
+
+interface SearchMoviesRequest {
+  query: string;
+  page: number;
+  language?: string;
+  region?: string;
+  year?: number;
+  primary_release_year?: number;
+  include_adult?: boolean;
 }
 
 interface Movie {
@@ -26,4 +38,4 @@ interface MoviesResponse {
   total_results: number;
 }
 
-export { Popular, Movie, MoviesResponse };
+export { Movie, MoviesResponse, GetPopularMoviesRequest, SearchMoviesRequest };
