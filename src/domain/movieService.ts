@@ -8,9 +8,7 @@ interface Movie {
 
 interface MovieService {
   movies: Movie[];
-  resultsToMovies: (results: MovieResponse[]) => Movie[];
-  concatMovies: (newMovies: Movie[]) => void;
-  resetMovies: () => void;
+  resultsToMovies: (results: MovieData[]) => Movie[];
 }
 
 const movieService: MovieService = {
@@ -22,14 +20,6 @@ const movieService: MovieService = {
       posterPath: poster_path,
       voteAverage: vote_average,
     }));
-  },
-
-  concatMovies(newMovies: Movie[]) {
-    this.movies = [...this.movies, ...newMovies];
-  },
-
-  resetMovies() {
-    this.movies = [];
   },
 };
 
