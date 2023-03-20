@@ -1,4 +1,4 @@
-import { fetchMovieListWithKeyword, fetchPopularMovieList } from "../../apis";
+import { fetchMovieListWithKeyword, fetchPopularMovieList } from "../../apis/apis";
 import Movie from "../../domain/Movie";
 import "./index.css";
 import MovieItem from "./MovieItem";
