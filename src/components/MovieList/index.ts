@@ -85,12 +85,16 @@ export class MovieList {
     this.renderSkeleton();
 
     if (state === "popular") {
-      fetchPopularMovies(this.#state.page).then((response) => {
-        const { results, total_pages } = response;
+      fetchPopularMovies(this.#state.page)
+        .then((response) => {
+          const { results, total_pages } = response;
 
-        this.#movies.reset(results);
-        this.render(results, total_pages);
-      });
+          this.#movies.reset(results);
+          this.render(results, total_pages);
+        })
+        .catch(() => {
+          this.#$target.removeChild(this.#$skeletonContainer);
+        });
 
       return;
     }
@@ -98,14 +102,16 @@ export class MovieList {
     if (searchKeyword) {
       this.#state = { ...this.#state, searchKeyword: searchKeyword };
 
-      fetchSearchMovies(this.#state.page, this.#state.searchKeyword).then(
-        (response) => {
+      fetchSearchMovies(this.#state.page, this.#state.searchKeyword)
+        .then((response) => {
           const { results, total_pages } = response;
 
           this.#movies.reset(results);
           this.render(results, total_pages);
-        }
-      );
+        })
+        .catch(() => {
+          this.#$target.removeChild(this.#$skeletonContainer);
+        });
     }
   }
 
@@ -114,20 +120,26 @@ export class MovieList {
     this.renderSkeleton();
 
     if (this.#state.showState === "popular")
-      fetchPopularMovies(this.#state.page).then((response) => {
-        const { results, total_pages } = response;
-
-        this.render(results, total_pages);
-      });
-
-    if (this.#state.showState === "search")
-      fetchSearchMovies(this.#state.page, this.#state.searchKeyword).then(
-        (response) => {
+      fetchPopularMovies(this.#state.page)
+        .then((response) => {
           const { results, total_pages } = response;
 
           this.render(results, total_pages);
-        }
-      );
+        })
+        .catch(() => {
+          this.#$target.removeChild(this.#$skeletonContainer);
+        });
+
+    if (this.#state.showState === "search")
+      fetchSearchMovies(this.#state.page, this.#state.searchKeyword)
+        .then((response) => {
+          const { results, total_pages } = response;
+
+          this.render(results, total_pages);
+        })
+        .catch(() => {
+          this.#$target.removeChild(this.#$skeletonContainer);
+        });
   }
 
   renderSkeleton() {
