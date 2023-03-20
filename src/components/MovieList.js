@@ -90,7 +90,7 @@ export default class MovieList {
     this.$element.innerHTML = errorTemplate(statusCode, statusMessage);
   }
 
-  load(movieMetaData) {
+  renderListContent(movieMetaData) {
     if (!movieMetaData.isOk) {
       const { statusCode, statusMessage } = movieMetaData;
 
