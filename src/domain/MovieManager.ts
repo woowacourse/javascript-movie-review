@@ -5,7 +5,7 @@ import { MovieAppData } from "../type/movieType";
 class MovieManager {
   private subscribers: CustomElement[] = [];
   private skeletonSubscriber: CustomElement | undefined;
-  private errorSubscribers: CustomElement[] = [];
+  private errorSubscriber: CustomElement | undefined;
 
   subscribe(element: CustomElement) {
     this.subscribers.push(element);
@@ -16,7 +16,7 @@ class MovieManager {
   }
 
   subscribeError(element: CustomElement) {
-    this.errorSubscribers.push(element);
+    this.errorSubscriber = element;
   }
 
   private publish(movieAppData: MovieAppData) {
@@ -25,10 +25,8 @@ class MovieManager {
     });
   }
 
-  private publishError() {
-    this.errorSubscribers.forEach((subscriber) => {
-      subscriber.render();
-    });
+  private publishError(errorMessage: string) {
+    this.errorSubscriber?.rerender(errorMessage);
   }
 
   private hideSkeleton() {
@@ -40,17 +38,25 @@ class MovieManager {
   }
 
   async showMovies(searchWord: string = "") {
-    this.showSkeleton();
-    const movieAppData = await Movie.getMovies(searchWord);
-    this.publish(movieAppData);
-    this.hideSkeleton();
+    try {
+      this.showSkeleton();
+      const movieAppData = await Movie.getMovies(searchWord);
+      this.publish(movieAppData);
+      this.hideSkeleton();
+    } catch (e) {
+      this.publishError(String(e));
+    }
   }
 
   async showMoreMovies() {
-    this.showSkeleton();
-    const movieAppData = await Movie.getMoreMovies();
-    this.publish(movieAppData);
-    this.hideSkeleton();
+    try {
+      this.showSkeleton();
+      const movieAppData = await Movie.getMoreMovies();
+      this.publish(movieAppData);
+      this.hideSkeleton();
+    } catch (e) {
+      this.publishError(String(e));
+    }
   }
 }
 
