@@ -93,11 +93,9 @@ export class MovieList {
         }, 1000);
       }, 5000);
     }
-    this.section
-      .querySelectorAll<HTMLLIElement>('ul > li.skeleton')
-      .forEach(($skeleton: HTMLLIElement) => {
-        $skeleton.remove();
-      });
+    this.section.querySelectorAll<HTMLLIElement>('ul > li.skeleton').forEach(($skeleton) => {
+      $skeleton.remove();
+    });
   }
 
   private reveal() {
