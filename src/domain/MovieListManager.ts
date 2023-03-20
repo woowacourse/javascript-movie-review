@@ -2,11 +2,11 @@ import { Movie } from "../type/movie";
 import Storage from "../type/Storage";
 
 const getPopularMovieRequestUrl = (page = 1) => (
-  `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}&language=ko-KR&page=${page}`
+  `${process.env.HOST}/${process.env.REQUEST_POPULAR}&language=ko&page=${page}`
 );
 
 const getSearchMovieUrl = (query: string, page = 1) => (
-  `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY}&language=ko-KR&query=${query}&page=${page}&include_adult=false`
+  `${process.env.HOST}/${process.env.REQUEST_SEARCH}&language=ko&query=${query}&page=${page}&include_adult=false`
 );
 
 class MovieListManager {
