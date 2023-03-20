@@ -16,20 +16,21 @@ class MoreButton {
   }
 
   onClickMoreButton() {
-    if (!Store.get('movieStates')) return;
+    const movieState = Store.get('movieStates');
+    if (!movieState) return;
 
-    const states = Store.get('movieStates')?.getMovieStates();
+    const states = movieState.getMovieStates();
 
     if (!states) return;
     const { nextPage, category, query } = states;
 
     if (category === 'popular') {
-      Store.get('movieStates')?.renderPopularMovies(nextPage);
+      movieState.renderPopularMovies(nextPage);
 
       return;
     }
 
-    Store.get('movieStates')?.renderSearchedMovies(query, nextPage);
+    movieState.renderSearchedMovies(query, nextPage);
   }
 
   hide() {
