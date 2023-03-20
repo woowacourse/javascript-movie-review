@@ -1,5 +1,6 @@
 import MovieHandler from '../src/domain/MovieHandler';
-import { Movie, MovieAPIData } from '../src/type/Movie';
+import { Movie } from '../src/type/Movie';
+import { MovieAPIData } from '../src/api/get';
 
 describe('MovieHandler객체 테스트', () => {
   test('API 영화 데이터 배열을 받아 가공한 배열을 반환한다..', () => {
