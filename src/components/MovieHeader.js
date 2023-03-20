@@ -1,14 +1,19 @@
 import Logo from '../../image/logo.png';
-
 import { dispatchCustomEvent } from '../utils/domUtils';
 
 class MovieHeader extends HTMLElement {
   constructor() {
     super();
+    this.render();
+  }
+
+  render() {
     this.innerHTML = /* html */ `
       <header>
-        <h1><img src="${Logo}" alt="MovieList 로고" /></h1>
-        <form class="search-box">
+        <h1 id="logo">
+          <img src="${Logo}" alt="MovieList 로고" />
+        </h1>
+        <form id="search-form" class="search-box">
           <input id="search-input" type="text" placeholder="검색" required />
           <button class="search-button">검색</button>
         </form>
@@ -17,21 +22,18 @@ class MovieHeader extends HTMLElement {
   }
 
   connectedCallback() {
-    this.querySelector('form').addEventListener('submit', this.handleSubmit);
-    this.querySelector('h1').addEventListener('click', () => dispatchCustomEvent(this, 'home'));
+    this.querySelector('#search-form').addEventListener('submit', this.onSubmitSearchForm);
+    this.querySelector('#logo').addEventListener('click', this.onClickLogo);
   }
 
-  handleSubmit = (e) => {
+  onSubmitSearchForm = (e) => {
     e.preventDefault();
-
     const [input] = e.target;
+    dispatchCustomEvent(this, 'search', { query: input.value });
+  };
 
-    if (!input.value.trim()) {
-      alert('검색어를 입력해 주세요.');
-      return;
-    }
-
-    dispatchCustomEvent(this, 'search', input.value);
+  onClickLogo = () => {
+    dispatchCustomEvent(this, 'home');
   };
 }
 
