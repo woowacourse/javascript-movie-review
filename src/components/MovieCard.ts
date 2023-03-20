@@ -27,7 +27,7 @@ class MovieCard {
             id="item-thumbnail"
             class="item-thumbnail hidden"
             src="${this.movieData.posterPath}"
-            alt=${this.movieData.title}
+            alt="${this.movieData.title}"
           />
           <p class="item-title">${this.movieData.title}</p>
           <div class="item-score">

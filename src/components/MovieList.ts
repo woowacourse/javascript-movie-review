@@ -63,8 +63,8 @@ class MovieList {
     this.loadMoreButton.classList.remove('hidden');
 
     movieData.forEach(movie => {
-      const moiveItem = new MovieCard(movie);
-      this.movieList.insertAdjacentElement('beforeend', moiveItem.node);
+      const movieItem = new MovieCard(movie);
+      this.movieList.insertAdjacentElement('beforeend', movieItem.node);
     });
 
     if (isLastPage) this.loadMoreButton.classList.add('hidden');
