@@ -12,8 +12,8 @@ export const dispatchCustomEvent = (
 
 export const $ = (selector: string) => document.querySelector(selector);
 
-export const isFormElement = (target: Element | null): target is HTMLFormElement =>
-  target instanceof HTMLFormElement;
+export const isFormElement = ($target: Element | null): $target is HTMLFormElement =>
+  $target instanceof HTMLFormElement;
 
-export const isInputElement = (target: Element | null): target is HTMLInputElement =>
-  target instanceof HTMLInputElement;
+export const isInputElement = ($target: Element | null): $target is HTMLInputElement =>
+  $target instanceof HTMLInputElement;
