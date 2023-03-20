@@ -20,9 +20,8 @@ class MovieCard {
     return `
       <a href="#">
         <div class = "item-card">
-        <div class="item-thumbnail skeleton"></div>
           <img
-            class="item-thumbnail hidden"
+            class="item-thumbnail"
             src="https://image.tmdb.org/t/p/w500${posterPath}"
             loading="lazy"
             alt="${title}"
