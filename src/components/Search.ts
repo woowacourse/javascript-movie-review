@@ -5,10 +5,7 @@ import { showMovieList } from '../showMovieList';
 
 export function Search() {
   Event.addEvent('submit', '#search-movie-box', async (event) => {
-    console.log('Ddd');
-
     event.preventDefault();
-    console.log('Ddd');
     const formEl = $('#search-movie-box') as HTMLFormElement;
     const formData = getFormFields(formEl);
 
