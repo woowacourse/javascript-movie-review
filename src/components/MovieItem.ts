@@ -1,6 +1,6 @@
 import star_filled from '../assets/star_filled.png';
 import { MovieInterface } from '../utils/type';
-import { makeImagePath } from '../utils/makeImagePath';
+import { makePosterImagePath } from '../utils/makePosterImagePath';
 
 export function MovieItem({ poster_path, title, vote_average }: MovieInterface) {
   return `
@@ -9,7 +9,7 @@ export function MovieItem({ poster_path, title, vote_average }: MovieInterface) 
             <div class="item-card">
                 <img
                 class="item-thumbnail movie-poster-background"
-                src=${makeImagePath(poster_path)}
+                src=${makePosterImagePath(poster_path)}
                 loading="lazy"
                 alt=${title}
                 />
