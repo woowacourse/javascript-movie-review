@@ -1,4 +1,4 @@
-class MovieListSection extends HTMLElement {
+class MovieSection extends HTMLElement {
   constructor() {
     super();
     this.render();
@@ -26,4 +26,4 @@ class MovieListSection extends HTMLElement {
   };
 }
 
-export default MovieListSection;
+export default MovieSection;
