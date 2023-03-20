@@ -48,3 +48,5 @@
 - [x] refactor: 이벤트 콜백함수 단언문 리팩터링
 - [x] refactor: this 리턴 삭제하기
 - [x] refactor: API URL 상수화
+- [x] refactor: dataProcessors객체 생성
+  - processMovieData메서드를 추가

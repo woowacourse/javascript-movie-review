@@ -1,9 +1,9 @@
 import render from './render';
 import getAPI from './domain/getAPI';
 import fetchJson from './domain/fetchJson';
-import { processMovieData } from './domain/processMovieData';
 import { FetchedMovieJson } from './@types/fetchJsonType';
 import { FetchStandard, FetchType } from './@types/fetchType';
+import { dataProcessors } from './domain/processMovieData';
 
 class App {
   private fetchStandard: FetchStandard = { page: 1, type: FetchType.Popular };
@@ -71,7 +71,7 @@ class App {
   async getMovieData(api: string) {
     const moviesJson = await fetchJson<FetchedMovieJson>(api);
 
-    return processMovieData(moviesJson);
+    return dataProcessors.processMovieData(moviesJson);
   }
 
   initEventHandler() {
