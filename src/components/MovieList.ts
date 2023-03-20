@@ -2,14 +2,14 @@ import { IMovie } from '../api';
 import { MovieItem } from './MovieItem';
 import { usePopularMovie, useSearchedMovie } from '../hooks/useMovie';
 import { $, $$ } from '../utils';
-import { Skeleton } from './Skeleton';
+import { MovieListSkeleton } from './MovieListSkeleton';
 import { IPageStatus, getPageStatus, POPULAR } from '../hooks/usePage';
 import { getRecentKeyword } from '../hooks/useKeyword';
 
 export async function renderSkeletonList() {
   const parentElem = $('.item-list') as HTMLElement;
 
-  parentElem.insertAdjacentHTML('beforeend', Skeleton());
+  parentElem.insertAdjacentHTML('beforeend', MovieListSkeleton());
 
   await usePopularMovie().then(({ values }) => renderPopularMovieList(values.results));
 }
@@ -17,7 +17,7 @@ export async function renderSkeletonList() {
 export async function renderMoreSkeletonList() {
   const parentElem = $('.item-list') as HTMLElement;
 
-  parentElem.insertAdjacentHTML('beforeend', Skeleton());
+  parentElem.insertAdjacentHTML('beforeend', MovieListSkeleton());
 
   if (getPageStatus() === POPULAR) {
     await usePopularMovie().then(({ values }) => {
