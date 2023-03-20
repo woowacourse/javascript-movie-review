@@ -1,5 +1,4 @@
 import './Image.css';
-import { $ } from '../utils/common';
 
 class Image extends HTMLElement {
   connectedCallback() {
@@ -8,7 +7,6 @@ class Image extends HTMLElement {
   }
 
   async render() {
-    const id = this.getAttribute('imgId');
     const imgUrl = this.getAttribute('imgUrl');
     const title = this.getAttribute('title');
     const width = this.getAttribute('width');
@@ -17,7 +15,6 @@ class Image extends HTMLElement {
 
     this.innerHTML = `
       <img
-        id="${id}"
         class="movie-image skeleton"
         src="${URL}"
         loading="lazy"
@@ -26,10 +23,8 @@ class Image extends HTMLElement {
   }
 
   setLoadingEvent() {
-    const id = this.getAttribute('imgId');
-
-    $(`#${id}`).addEventListener('load', () => {
-      $(`#${id}`).classList.remove('skeleton');
+    this.querySelector('img').addEventListener('load', () => {
+      this.querySelector('img').classList.remove('skeleton');
     });
   }
 }
