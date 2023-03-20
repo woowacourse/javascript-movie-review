@@ -60,7 +60,7 @@ export default class AppComponent extends CustomComponent {
           this.#$movieList.renderPageFail();
         }
       })
-      .catch((error) => {
+      .catch(() => {
         this.#$movieList.renderPageFail();
       });
   }
