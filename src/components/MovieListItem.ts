@@ -1,23 +1,31 @@
 import { Movie } from '../domain/movie.type';
 
 class MovieListItem {
-  private template = (movie: Movie) =>
-    `<li>
+  private element = document.createElement('li');
+
+  thumbnailLoaded: Promise<unknown>;
+
+  constructor(private readonly movie: Movie) {
+    this.element.innerHTML = `
       <a href="#">
         <div class="item-card">
           <img
             class="item-thumbnail"
-            src="https://image.tmdb.org/t/p/w220_and_h330_face${movie.posterPath}"
-            alt="${movie.title}"
+            src="https://image.tmdb.org/t/p/w220_and_h330_face${this.movie.posterPath}"
+            alt="${this.movie.title}"
           />
-          <p class="item-title">${movie.title}</p>
-          <p class="item-score"><img src="assets/star_filled.png" alt="별점" /> ${movie.voteAverage}</p>
+          <p class="item-title">${this.movie.title}</p>
+          <p class="item-score"><img src="assets/star_filled.png" alt="별점" /> ${this.movie.voteAverage}</p>
         </div>
-      </a>
-    </li>`.trim();
+      </a>`.trim();
 
-  render(movie: Movie) {
-    return this.template(movie);
+    this.thumbnailLoaded = new Promise((resolve) => {
+      this.element.querySelector('img.item-thumbnail')!.addEventListener('load', resolve);
+    });
+  }
+
+  render() {
+    return this.element;
   }
 }
 

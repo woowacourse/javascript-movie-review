@@ -1,5 +1,4 @@
 import { MoviesErrorResponse, MoviesResponse } from '../api/apis/MoviesAPI';
-import { Movie } from '../domain/movie.type';
 
 import MovieListItem from './MovieListItem';
 import Skeleton from './Skeleton';
@@ -13,6 +12,8 @@ export class MovieList {
   private page = 1;
 
   private section = document.createElement('section');
+
+  private skeletons: Skeleton[] = [];
 
   constructor(private readonly fetchFn: MoviesGenerator, private readonly title: string) {
     this.section.classList.add('item-view');
@@ -42,10 +43,10 @@ export class MovieList {
   private createSkeletons() {
     if (this.isFinished) return;
 
-    const skeleton = new Skeleton();
-    [...Array(20)].forEach(() => {
-      this.section.querySelector('ul')?.insertAdjacentHTML('beforeend', skeleton.render());
-    });
+    const skeletons = [...Array(20)].map(() => new Skeleton());
+    this.skeletons = this.skeletons.concat(skeletons);
+
+    this.section.querySelector('ul')!.append(...skeletons.map((skeleton) => skeleton.render()));
   }
 
   private async load() {
@@ -58,15 +59,20 @@ export class MovieList {
       const response = await this.fetchFn(page);
       const { movies, totalPages } = response;
 
-      movies.forEach((movie: Movie) => {
-        const movieListItem = new MovieListItem();
-        const $fragment = document.createElement('div');
-        $fragment.innerHTML = movieListItem.render(movie);
+      movies.forEach((movie) => {
+        const movieListItem = new MovieListItem(movie);
 
-        const $skeleton = this.section.querySelector('ul > li.skeleton')!;
-        $skeleton.after($fragment.childNodes[0]);
-        $skeleton.remove();
+        const skeleton = this.skeletons.shift();
+        if (skeleton === undefined) {
+          this.section.append(movieListItem.render());
+          return;
+        }
+
+        movieListItem.thumbnailLoaded.then(() => {
+          skeleton.unwrap(movieListItem.render());
+        });
       });
+
       if (page < totalPages) return;
 
       this.isFinished = true;
@@ -80,12 +86,10 @@ export class MovieList {
       const errorMessage = 'message' in error ? error.message : String(error);
       Toast.create(errorMessage);
     }
-    this.section.querySelectorAll<HTMLLIElement>('ul > li.skeleton').forEach(($skeleton) => {
-      $skeleton.remove();
-    });
+    this.skeletons.forEach((skeleton) => skeleton.remove());
   }
 
-  private reveal() {
+  private showItems() {
     const $hr = this.section.querySelector('ul > hr')!;
 
     const $anchor: HTMLElement = Array(20)
@@ -97,7 +101,7 @@ export class MovieList {
 
   async nextPage() {
     this.createSkeletons();
-    this.reveal();
+    this.showItems();
     await this.load();
   }
 }

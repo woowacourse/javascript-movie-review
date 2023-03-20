@@ -1,6 +1,9 @@
 class Skeleton {
-  private template = `
-    <li class="skeleton">
+  private element = document.createElement('li');
+
+  constructor() {
+    this.element.classList.add('skeleton');
+    this.element.innerHTML = `
       <a href="#">
         <div class="item-card">
           <div class="item-thumbnail skeleton"></div>
@@ -8,10 +11,20 @@ class Skeleton {
           <div class="item-score skeleton"></div>
         </div>
       </a>
-    </li>`.trim();
+    `.trim();
+  }
 
   render() {
-    return this.template;
+    return this.element;
+  }
+
+  unwrap(content: HTMLElement) {
+    this.element.after(content);
+    this.element.remove();
+  }
+
+  remove() {
+    this.element.remove();
   }
 }
 
