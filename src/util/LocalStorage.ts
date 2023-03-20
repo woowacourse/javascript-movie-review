@@ -2,7 +2,7 @@ import Storage from "../type/Storage";
 
 const LocalStorage: Storage = {
   setItem (key, value) {
-    return window.localStorage.setItem(key, value);
+    window.localStorage.setItem(key, value);
   },
 
   getItem (key) {
