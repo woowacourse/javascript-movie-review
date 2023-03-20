@@ -17,6 +17,8 @@ export default class MovieCardList extends HTMLElement {
   }
 
   setMovieList(movieList) {
+    if (null) return;
+
     this.#movieList = movieList;
     const moreButton = $("more-button");
     if (this.#movieList.length < 20) moreButton.style.display = "none";
