@@ -6,6 +6,8 @@ import { $ } from "./utils/domSelector";
 class App {
   constructor() {
     this.render();
+    this.initEvents();
+    MovieListContent.loadMovies();
   }
 
   async render() {
@@ -14,8 +16,6 @@ class App {
       "afterbegin",
       MovieListContainer.render()
     );
-    MovieListContent.loadMovies();
-    this.initEvents();
   }
 
   initEvents() {
