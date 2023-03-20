@@ -1,13 +1,20 @@
 const API_END_POINT = "https://api.themoviedb.org/3";
 
 const request = async (url: string) => {
-  const response = await fetch(url);
+  try {
+    const response = await fetch(url);
 
-  if (response.ok) {
+    if (!response.ok) {
+      throw new Error(`${response.status} 에러가 발생했습니다.`);
+    }
     return response.json();
+  } catch (error: any) {
+    if ((error.message = "failed to fetch")) {
+      alert("네트워크 연결이 끊어졌습니다.");
+    } else {
+      alert(error.message);
+    }
   }
-
-  alert("요청 실패");
 };
 
 const fetchPopularMovies = (page: number) => {
