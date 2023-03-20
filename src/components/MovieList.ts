@@ -35,6 +35,10 @@ class MovieList {
     const itemListContents = movieInfoList.map((movieInfo) => movieItem(movieInfo)).join('');
     $('.item-list').insertAdjacentHTML('beforeend', itemListContents);
   }
+
+  renderNoResult(errorItemTemplate: string) {
+    $('.item-list').innerHTML = errorItemTemplate;
+  }
 }
 
 export default MovieList;

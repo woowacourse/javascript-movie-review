@@ -101,6 +101,11 @@ button.btn {
   color: #fff;
 }
 
+button.btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 button.primary {
   background: #f33f3f;
 }
@@ -134,6 +139,7 @@ header {
   padding: 0 20px;
   border-bottom: 1px solid white;
   margin-bottom: 48px;
+  box-shadow: 0 0 100px #ffe1c0;
 }
 
 header h1 {
@@ -161,4 +167,9 @@ header .search-box > .search-button {
   text-indent: -1000rem;
   background: url('./search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+#error-item {
+  grid-column: auto / span 4;
+  text-align: center;
 }

@@ -1,6 +1,8 @@
 export enum IMAGE_URL {
   BASE = 'https://image.tmdb.org/t/p/original',
   ALTERNATIVE = './assets/no_image.png',
+  NO_RESULT = './assets/no_result.png',
+  ERROR_RESULT = './assets/error_result.png',
 }
 
 export const API_URL = {
