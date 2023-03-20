@@ -12,10 +12,12 @@ interface SearchWord {
   value: string;
 }
 
+const DEFAULT_VALUE = 'default_movie_search_title';
+
 class MoviesContainer extends HTMLElement {
   #movies: MovieInformation = new Movie();
   #searchWord: SearchWord = new Proxy(
-    { value: '' },
+    { value: DEFAULT_VALUE },
     {
       get: (target: SearchWord, property: 'value') => {
         return target[property];
@@ -30,6 +32,7 @@ class MoviesContainer extends HTMLElement {
 
         this.reset();
         this.updateTitle(value);
+        this.updateQueries(value);
         this.updateMovieList();
 
         return true;
@@ -40,7 +43,6 @@ class MoviesContainer extends HTMLElement {
 
   connectedCallback(): void {
     this.renderContainer();
-    this.updateMovieList();
     this.setButtonEvent();
   }
 
@@ -151,6 +153,14 @@ class MoviesContainer extends HTMLElement {
     }
 
     movieContainerTitle.innerText = `"${word}" 검색 결과`;
+  }
+
+  updateQueries(word: string) {
+    if (word === '') {
+      window.location.hash = '';
+      return;
+    }
+    window.location.hash = `?q=${word}`;
   }
 
   setSearchWord(searchWord: string): void {

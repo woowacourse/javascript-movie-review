@@ -15,7 +15,7 @@ class MovieListItem extends HTMLElement {
 
     this.innerHTML = `
     <li>
-      <a href="#">
+      <a>
         <div class="item-card">
           <movie-image imgUrl="${imgUrl}" title="${title}" width="200"></movie-image>
           <p class="item-title">${title}</p>
