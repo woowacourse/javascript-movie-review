@@ -1,4 +1,5 @@
 import { Store } from '../Store';
+import { eventThrottle } from '../utils/throttle';
 
 class MoreButton {
   $button = document.createElement('button');
@@ -8,7 +9,7 @@ class MoreButton {
 
     this.render($target);
 
-    this.$button.addEventListener('click', this.onClickMoreButton);
+    this.$button.addEventListener('click', eventThrottle(this.onClickMoreButton, 1000));
   }
 
   render($target: HTMLElement) {

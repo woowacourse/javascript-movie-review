@@ -1,5 +1,6 @@
 import logo from '../images/logo.png';
 import { Store } from '../Store';
+import { eventThrottle } from '../utils/throttle';
 
 class Header {
   $header = document.createElement('header');
@@ -8,11 +9,11 @@ class Header {
   constructor($target: HTMLElement) {
     this.init($target);
 
-    this.$header.addEventListener('click', this.onClickEvent);
+    this.$header.addEventListener('click', eventThrottle(this.onClickEvent, 1000));
     this.$searchBox = this.$header.querySelector('.search-box');
 
     if (!(this.$searchBox instanceof HTMLFormElement)) return;
-    this.$searchBox.addEventListener('submit', this.onSubmitEvent);
+    this.$searchBox.addEventListener('submit', eventThrottle(this.onSubmitEvent, 1000));
   }
 
   init($target: HTMLElement) {
@@ -27,7 +28,9 @@ class Header {
   async onSubmitEvent(e: SubmitEvent) {
     e.preventDefault();
     if (!(e.currentTarget instanceof HTMLElement)) return;
+
     const { currentTarget } = e;
+
     const { value } = currentTarget.querySelector('input') as HTMLInputElement;
 
     if (value.length === 0) {
@@ -39,9 +42,10 @@ class Header {
   }
 
   onClickEvent(e: Event) {
+    e.preventDefault();
     if (!(e.target instanceof HTMLElement)) return;
-
     const { target } = e;
+
     if (target.dataset.type !== 'logo') return;
 
     Store.movieStates?.renderPopularMovies();
