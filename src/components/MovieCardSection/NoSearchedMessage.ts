@@ -1,6 +1,6 @@
 import { CLASS } from '../../constants/selector';
 
-const Message = {
+const NoSearchedMessage = {
   template() {
     return `
       <div class="${CLASS.MESSAGE} ${CLASS.HIDE}">
@@ -20,4 +20,4 @@ const Message = {
   },
 };
 
-export default Message;
+export default NoSearchedMessage;

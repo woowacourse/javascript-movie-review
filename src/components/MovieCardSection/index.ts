@@ -4,7 +4,7 @@ import LoadMoreButton from './LoadMoreButton';
 import MovieCardList from './MovieCardList';
 import MovieSectionTitle from './MovieSectionTitle';
 import Movies from '../../domain/Movies';
-import Message from './Message';
+import NoSearchedMessage from './NoSearchedMessage';
 import { CLASS } from '../../constants/selector';
 
 const MovieCardSection = {
@@ -14,7 +14,7 @@ const MovieCardSection = {
         ${MovieSectionTitle.template()}
         ${MovieCardList.template()}
         ${LoadMoreButton.template()}
-        ${Message.template()}
+        ${NoSearchedMessage.template()}
       </section>
     `;
   },
@@ -34,7 +34,7 @@ const MovieCardSection = {
   renderEmpty(state: boolean) {
     MovieCardList.handleVisibility(state);
     LoadMoreButton.handleVisibility(state);
-    Message.handleVisibility(!state);
+    NoSearchedMessage.handleVisibility(!state);
   },
 };
 
