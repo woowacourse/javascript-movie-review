@@ -18,9 +18,11 @@ export interface IMovieList {
   total_results: number;
 }
 
-type IGetMovies = (page: number) => Promise<IMovieList>;
+type TGetMovies = (page: number) => Promise<IMovieList>;
 
-export const getMovies: IGetMovies = async (page) => {
+type TGetSearchMovies = (keyword: string, page: number) => Promise<IMovieList>;
+
+export const getMovies: TGetMovies = async (page) => {
   try {
     const response = await fetch(
       `${BASE_PATH}/movie/popular?api_key=${process.env.API_KEY}&language=ko-KR&page=${page}`
@@ -30,15 +32,26 @@ export const getMovies: IGetMovies = async (page) => {
     return await response.json();
   } catch (err) {
     console.log(err);
-    return [];
+
+    if (err instanceof Error) return err.message;
+
+    return String(err);
   }
 };
 
-type IGetSearchMovies = (keyword: string, page: number) => Promise<IMovieList>;
-export const getSearchMovie: IGetSearchMovies = async (keyword, page) => {
-  const response = await fetch(
-    `${BASE_PATH}/search/movie?api_key=${process.env.API_KEY}&language=ko-KR&query=${keyword}&page=${page}`
-  );
-  if (!response.ok) return [];
-  return response.json();
+export const getSearchMovie: TGetSearchMovies = async (keyword, page) => {
+  try {
+    const response = await fetch(
+      `${BASE_PATH}/search/movie?api_key=${process.env.API_KEY}&language=ko-KR&query=${keyword}&page=${page}`
+    );
+    if (!response.ok) throw Error(response.statusText);
+
+    return response.json();
+  } catch (err) {
+    console.log(err);
+
+    if (err instanceof Error) return err.message;
+
+    return String(err);
+  }
 };
