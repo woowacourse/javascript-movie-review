@@ -9,6 +9,7 @@ const Message = {
       </div>
     `;
   },
+
   handleVisibility(state: boolean) {
     const message = document.querySelector<HTMLDivElement>(`.${CLASS.MESSAGE}`);
 

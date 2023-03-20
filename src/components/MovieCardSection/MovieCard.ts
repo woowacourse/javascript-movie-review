@@ -17,6 +17,7 @@ const MovieCard = {
       </li>
     `;
   },
+
   imageTemplate(path: string | null, title: string) {
     return `
       <img
@@ -27,9 +28,11 @@ const MovieCard = {
       />
     `;
   },
+
   scoreTemplate(score: number) {
     return `<img src=${starFilledImage} alt="별점" /> ${score.toFixed(1)}`;
   },
+
   paint(target: HTMLLIElement, item: Movie) {
     const { title, poster_path: path, vote_average: score } = item;
 
@@ -45,6 +48,7 @@ const MovieCard = {
     itemTitle?.classList.remove(CLASS.SKELETON);
     itemScore?.classList.remove(CLASS.SKELETON);
   },
+
   handlePosterImage(path: string | null) {
     return path === null ? posterNotFoundImage : IMAGE_URL + path;
   },

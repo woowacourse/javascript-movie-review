@@ -11,14 +11,17 @@ const MovieCardList = {
       </ul>
     `;
   },
+
   skeletonItems() {
     return Array.from({ length: DEFAULT_LIST_LENGTH }, () => MovieCard.template()).join('');
   },
+
   renderMoreItems() {
     const movieList = document.querySelector<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
 
     movieList?.insertAdjacentHTML('beforeend', MovieCardList.skeletonItems());
   },
+
   render() {
     const movieList = document.querySelector<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
 
@@ -26,6 +29,7 @@ const MovieCardList = {
 
     movieList.innerHTML = MovieCardList.skeletonItems();
   },
+
   paint(movies: Movie[], page: number = 1) {
     const movieList = document.querySelector<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
 
@@ -40,6 +44,7 @@ const MovieCardList = {
       }
     });
   },
+
   handleVisibility(state: boolean) {
     const movieList = document.querySelector<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
 
@@ -49,6 +54,7 @@ const MovieCardList = {
 
     return movieList?.classList.remove(CLASS.HIDE);
   },
+
   removeSkeleton() {
     const movieList = document.querySelector<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
 

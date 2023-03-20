@@ -18,19 +18,23 @@ const MovieCardSection = {
       </section>
     `;
   },
+
   setEvent(movies: Movies) {
     LoadMoreButton.setEvent(movies);
   },
+
   render(query: string = '') {
     MovieCardSection.renderEmpty(false);
     MovieCardSection.renderTitle(query);
     MovieCardList.render();
   },
+
   renderTitle(query: string) {
     const itemView = document.querySelector<HTMLElement>(`.${CLASS.ITEM_VIEW}`);
     itemView?.firstElementChild?.remove();
     itemView?.insertAdjacentHTML('afterbegin', MovieSectionTitle.template(query));
   },
+
   renderEmpty(state: boolean) {
     MovieCardList.handleVisibility(state);
     LoadMoreButton.handleVisibility(state);

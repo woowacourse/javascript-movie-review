@@ -16,6 +16,7 @@ const Header = {
       </header>
     `;
   },
+
   setEvent(movies: Movies) {
     MovieSearch.setEvent(movies);
 

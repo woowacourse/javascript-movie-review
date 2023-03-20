@@ -15,6 +15,7 @@ const MovieSearch = {
       </div>
     `;
   },
+
   setEvent(movies: Movies) {
     const movieSearchForm = document.querySelector<HTMLFormElement>(`#${ID.MOVIE_SEARCH_FORM}`);
 
