@@ -1,9 +1,10 @@
-import { mostPopular, search } from "./api/fetch";
+import { getMostPopularMovies, getSearchMovies } from "./api/fetch";
 import movieHandler from "./domain/movieHandler";
 import { $ } from "./utils/dom";
 import MovieListContainer from "../src/components/MovieListContainer";
 import MovieList from "./components/MovieList";
 import type { Movie, ResponseData } from "./types/type";
+import { errorHandler } from "./utils/errorHandler";
 
 const movieApp = {
   currentPageNumber: 1,
@@ -29,8 +30,9 @@ const movieApp = {
     );
   },
 
-  async loadMovieData(movies: ResponseData) {
+  renderMovieList(movies: ResponseData | undefined) {
     const movieList = <MovieList>$("movie-list");
+
     if (!movies) return;
 
     movieHandler.addMovies(movies.results);
@@ -40,49 +42,49 @@ const movieApp = {
     movieList.render(movieHandler.movies);
   },
 
-  async fetchMovieData(fetchFunction: () => Promise<ResponseData>) {
-    const movieList = <MovieList>$("movie-list");
-
-    movieList.displaySkeletonUI();
-
-    const movies = await fetchFunction();
-
-    if (!movies) this.$container.displayErrorUI();
-
-    return movies;
-  },
-
-  async getPopularMovieData() {
-    const movies = await this.fetchMovieData(() =>
-      mostPopular(this.currentPageNumber++)
-    );
-
-    if (this.currentPageNumber > 500) this.$container.removeLoadMovieButton();
-
-    this.loadMovieData(movies);
-  },
-
-  async searchMovieData(query: string) {
+  searchMovieData(query: string) {
     this.currentPageNumber = 1;
     this.query = query;
 
     this.$container.changeTitle(query);
 
     movieHandler.initializeMovies();
+    this.getSearchMovieData();
+  },
 
+  async fetchMovieData(fetchFunction: () => Promise<ResponseData>) {
+    const movieList = <MovieList>$("movie-list");
+
+    movieList.displaySkeletonUI();
+    try {
+      const movies = await fetchFunction();
+
+      return movies;
+    } catch (error) {
+      if (error instanceof Error) {
+        const errorMessage = errorHandler(error.message);
+
+        this.$container.displayErrorUI(errorMessage);
+      }
+    }
+  },
+
+  async getPopularMovieData() {
     const movies = await this.fetchMovieData(() =>
-      search(query, this.currentPageNumber++)
+      getMostPopularMovies(this.currentPageNumber++)
     );
 
-    this.loadMovieData(movies);
+    if (this.currentPageNumber > 500) this.$container.removeLoadMovieButton();
+
+    this.renderMovieList(movies);
   },
 
   async getSearchMovieData() {
     const movies = await this.fetchMovieData(() =>
-      search(this.query, this.currentPageNumber++)
+      getSearchMovies(this.query, this.currentPageNumber++)
     );
 
-    this.loadMovieData(movies);
+    this.renderMovieList(movies);
   },
 };
 
