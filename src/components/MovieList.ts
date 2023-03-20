@@ -1,18 +1,20 @@
 import MovieCard from './MovieCard';
 
+import { Movie } from '../type/Movie';
+import { MovieMetadata, FaildData } from '../api/get';
+
 import errorImg from '../assets/error.jpg';
+import Component from '../type/Component';
 
 const headerTemplate = {
-  popular() {
-    return '지금 인기 있는 영화';
-  },
+  popular: '지금 인기 있는 영화',
 
-  search(query) {
+  search(query: string) {
     return `"${query}" 검색 결과`;
   },
 };
 
-const errorTemplate = (statusCode, statusMessage) => {
+const errorTemplate = (statusCode: number, statusMessage: string) => {
   return `
   <div class="error-container">
     <h1 class="error-heading">죄송합니다. 영화 목록을 불러올 수 없습니다. 관리자에게 문의해주세요.</h1>
@@ -22,26 +24,30 @@ const errorTemplate = (statusCode, statusMessage) => {
   </div>`;
 };
 
-export default class MovieList {
-  $element;
-  #onClickMoreButton;
+type HandlerCallback = {
+  onClickMoreButton: () => void;
+};
 
-  constructor($parent, { onClickMoreButton }) {
+export default class MovieList implements Component {
+  private $element;
+
+  constructor($parent: Element, private handlerCallback: HandlerCallback) {
     this.$element = document.createElement('section');
     this.$element.className = 'item-view';
-    this.#onClickMoreButton = onClickMoreButton;
 
     $parent.insertAdjacentElement('beforeend', this.$element);
   }
 
-  render(option, query) {
-    this.$element.innerHTML = this.template(option, query);
+  render(query?: string) {
+    this.$element.innerHTML = this.template(query);
     this.setEvent();
   }
 
-  template(option, query) {
+  template(query?: string) {
+    const header = query ? headerTemplate.search(query) : headerTemplate.popular;
+
     return /* html */ `
-    <h2>${headerTemplate[option](query)}</h2>     
+    <h2>${header}</h2>     
     <ul class="item-list"></ul> 
     <ul class="skeleton-item-list item-list hide">
       ${this.getSkeletonCardsHTML(20)}
@@ -50,10 +56,13 @@ export default class MovieList {
   }
 
   setEvent() {
-    this.$element.querySelector('#more-button').addEventListener('click', this.#onClickMoreButton.bind(this));
+    const moreButton = this.$element.querySelector('#more-button');
+    if (!(moreButton instanceof HTMLButtonElement)) return;
+
+    moreButton.addEventListener('click', this.handlerCallback.onClickMoreButton.bind(this));
   }
 
-  renderListContent(movieMetaData) {
+  renderListContent(movieMetaData: MovieMetadata | FaildData) {
     if (!movieMetaData.isOk) {
       const { statusCode, statusMessage } = movieMetaData;
 
@@ -73,17 +82,19 @@ export default class MovieList {
     this.renderMovieCards(movieList);
   }
 
-  renderErrorTemplate(statusCode, statusMessage) {
+  renderErrorTemplate(statusCode: number, statusMessage: string) {
     this.$element.innerHTML = errorTemplate(statusCode, statusMessage);
   }
 
-  renderMovieCards(movieList) {
+  renderMovieCards(movieList: Movie[]) {
     movieList.forEach((movie) => {
-      new MovieCard(this.$element.querySelector('.item-list')).render(movie);
+      const $ul = this.$element.querySelector('.item-list');
+
+      if ($ul) new MovieCard($ul).render(movie);
     });
   }
 
-  getSkeletonCardsHTML(count) {
+  getSkeletonCardsHTML(count: number) {
     const skeletonCardHTML = `
     <li>
       <a href="#">
@@ -98,19 +109,28 @@ export default class MovieList {
     return skeletonCardHTML.repeat(count);
   }
 
-  isLastPage(page, totalPages) {
+  isLastPage(page: number, totalPages: number) {
     return page === totalPages;
   }
 
   showSkeletonList() {
-    this.$element.querySelector('.skeleton-item-list').classList.remove('hide');
+    const $skeletonList = this.$element.querySelector('.skeleton-item-list');
+    if (!($skeletonList instanceof HTMLUListElement)) return;
+
+    $skeletonList.classList.remove('hide');
   }
 
   hideSkeletonList() {
-    this.$element.querySelector('.skeleton-item-list').classList.add('hide');
+    const $skeletonList = this.$element.querySelector('.skeleton-item-list');
+    if (!($skeletonList instanceof HTMLUListElement)) return;
+
+    $skeletonList.classList.add('hide');
   }
 
   hideMoreButton() {
-    this.$element.querySelector('#more-button').classList.add('hide');
+    const $moreButton = this.$element.querySelector('#more-button');
+    if (!($moreButton instanceof HTMLButtonElement)) return;
+
+    $moreButton.classList.add('hide');
   }
 }

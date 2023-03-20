@@ -1,19 +1,21 @@
+import { Movie } from '../type/Movie';
+
 import FilledStar from '../assets/star_filled.png';
 
 export default class MovieCard {
   $element;
 
-  constructor($parent) {
+  constructor($parent: Element) {
     this.$element = document.createElement('li');
 
     $parent.insertAdjacentElement('beforeend', this.$element);
   }
 
-  render(movie) {
+  render(movie: Movie) {
     this.$element.innerHTML = this.template(movie);
   }
 
-  template(movie) {
+  template(movie: Movie) {
     const { id, title, posterPath, voteAverage } = movie;
 
     return /* html */ `    

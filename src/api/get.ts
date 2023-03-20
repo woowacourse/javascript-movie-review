@@ -33,10 +33,20 @@ export interface FaildResponse {
   success: false;
 }
 
-type FetchMovieData = () => Promise<
-  | { isOk: boolean; statusCode: number; statusMessage: string }
-  | { isOk: boolean; movieList: Movie[]; page: number; totalPages: number }
->;
+export type FaildData = {
+  isOk: false;
+  statusCode: number;
+  statusMessage: string;
+};
+
+export type MovieMetadata = {
+  isOk: true;
+  movieList: Movie[];
+  page: number;
+  totalPages: number;
+};
+
+export type FetchMovieData = () => Promise<FaildData | MovieMetadata>;
 
 const BASE_URL = 'https://api.themoviedb.org/3';
 

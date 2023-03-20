@@ -25,21 +25,21 @@ export default class App {
 
   async initialRender() {
     this.#header.render();
-    this.#movieList.render('popular');
+    this.#movieList.render();
     this.#movieList.showSkeletonList();
     this.#movieList.renderListContent(await this.#getMovieMetaData());
   }
 
   async renderPopularMovieList() {
     this.assignPopularMovieDataFetchFunc();
-    this.#movieList.render('popular');
+    this.#movieList.render();
     this.#movieList.showSkeletonList();
     this.#movieList.renderListContent(await this.#getMovieMetaData());
   }
 
   async renderSearchedMovieList(query) {
     this.assignSearchedMovieDataFetchFunc(query);
-    this.#movieList.render('search', query);
+    this.#movieList.render(query);
     this.#movieList.showSkeletonList();
     this.#movieList.renderListContent(await this.#getMovieMetaData());
   }
