@@ -25,7 +25,7 @@ export class MovieList {
     `.trim();
     this.init();
 
-    this.section.querySelector('button')?.addEventListener('click', () => {
+    this.section.querySelector('button')!.addEventListener('click', () => {
       this.nextPage();
     });
   }
