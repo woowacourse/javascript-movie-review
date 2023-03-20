@@ -10,7 +10,7 @@ const App = {
     this.pageCategory = 'home';
     this.searchQuery = '';
 
-    dom.renderMoviePage();
+    this.initMoviePage(POPULAR_TITLE);
     this.bindEvents();
     this.updateMoviePage(getPopularMovies, [this.pageNumber]);
   },
@@ -41,12 +41,7 @@ const App = {
   initMoviePage(title) {
     this.pageNumber = 1;
     movieService.resetMovies();
-
-    dom.renderMoviePage();
-    dom.setTitle(title);
-    dom.clearList();
-    dom.resetSearchBox();
-    dom.show('#load-more');
+    dom.renderMoviePage(title);
   },
 
   async updateMoviePage(api, params) {

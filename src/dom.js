@@ -4,14 +4,6 @@ export const hide = (selectors) => $(selectors).classList.add('hide');
 
 export const show = (selectors) => $(selectors).classList.remove('hide');
 
-export const setTitle = (title) => {
-  $('#movie-list-title').textContent = title;
-};
-
-export const resetSearchBox = () => {
-  $('.search-box').reset();
-};
-
 export const renderMovieListItem = (movies) => {
   $('.item-list').insertAdjacentHTML(
     'beforeend',
@@ -30,12 +22,8 @@ export const renderMovieListItem = (movies) => {
   );
 };
 
-export const clearList = () => {
-  $('.item-list').replaceChildren();
-};
-
-export const renderMoviePage = () => {
-  $('#page').innerHTML = /* html */ `<movie-page></movie-page>`;
+export const renderMoviePage = (title) => {
+  $('#page').innerHTML = /* html */ `<movie-page title="${title}"></movie-page>`;
 };
 
 export const renderErrorPage = () => {

@@ -5,9 +5,10 @@ class MoviePage extends HTMLElement {
   }
 
   render() {
+    const title = this.getAttribute('title');
     this.innerHTML = /* html */ `
       <section class="item-view">
-        <h2 id="movie-list-title">지금 인기 있는 영화</h2>
+        <h2 id="movie-list-title">${title}</h2>
         <ul class="item-list"></ul>
         <ul class="item-list" id="skeleton-list">
           ${/* html */ `<skeleton-list-item></skeleton-list-item>`.repeat(20)}
