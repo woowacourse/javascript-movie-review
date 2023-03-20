@@ -30,7 +30,9 @@ const MovieChart = assemble<MovieChart>(({ keyword }) => {
           ${isLoading ? SkeletonMovieListComponent() : ''}
         </fragment>
         <button class="btn primary full-width" ${chartInfo?.page === 500 ? 'disabled' : ''}>
-        ${chartInfo?.page === 500 ? '마지막 페이지' : '더 보기'}
+        ${
+          chartInfo?.page === 500 || movieList.length % 20 !== 0 || movieList.length === 0 ? '마지막 페이지' : '더 보기'
+        }
         </button>
       </section>
       </main>
