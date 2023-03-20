@@ -23,10 +23,12 @@ class MovieContainer extends CustomElement {
     `;
   }
 
-  rerender({ searchWord }) {
-    $(".movie-container-title").innerText = searchWord
-      ? `'${searchWord}'검색 결과`
-      : "지금 인기 있는 영화";
+  rerender({ searchWord, isShowMore }) {
+    if (!isShowMore) {
+      $(".movie-container-title").innerText = searchWord
+        ? `'${searchWord}'검색 결과`
+        : "지금 인기 있는 영화";
+    }
   }
 }
 
