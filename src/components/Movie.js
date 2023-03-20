@@ -1,5 +1,5 @@
 import './Movie.css';
-import StarFilled from '../image/star_filled.png';
+import STAR_FILLED from '../image/star-filled.png';
 
 class Movie extends HTMLElement {
   connectedCallback() {
@@ -19,7 +19,7 @@ class Movie extends HTMLElement {
           <p class="item-title">${title}</p>
           <p class="item-score">
             ${score}
-            <img src="${StarFilled}" alt="별점" />
+            <img src="${STAR_FILLED}" alt="별점" />
           </p>
         </div>
       </a>

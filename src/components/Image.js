@@ -1,4 +1,5 @@
 import './Image.css';
+import DEFAULT_IMAGE from '../image/default-movie-image.png';
 
 class Image extends HTMLElement {
   connectedCallback() {
@@ -7,11 +8,13 @@ class Image extends HTMLElement {
   }
 
   async render() {
+    const EMPTY = 'null';
+
     const imgUrl = this.getAttribute('imgUrl');
     const title = this.getAttribute('title');
     const width = this.getAttribute('width');
 
-    const URL = `https://image.tmdb.org/t/p/w${width}${imgUrl}`;
+    const URL = imgUrl !== EMPTY ? `https://image.tmdb.org/t/p/w${width}${imgUrl}` : DEFAULT_IMAGE;
 
     this.innerHTML = `
       <img
