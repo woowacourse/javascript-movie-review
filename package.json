@@ -2,7 +2,7 @@
   "name": "javascript-movie-review",
   "version": "1.0.0",
   "description": "우아한테크코스 레벨1 영화관 미션 저장소",
-  "main": "src/index.js",
+  "main": "src/index.ts",
   "private": "true",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -32,10 +32,12 @@
     "@types/jest": "^29.4.0",
     "@types/testing-library__jest-dom": "^5.14.5",
     "babel-jest": "^29.3.1",
+    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
-    "cypress": "^12.3.0",
+    "cypress": "^12.8.1",
     "dotenv-webpack": "^8.0.1",
     "eslint": "^8.35.0",
+    "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
     "jest": "^29.3.1",
     "jest-environment-jsdom": "^29.5.0",
@@ -46,5 +48,8 @@
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3"
   }
 }
