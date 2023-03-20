@@ -14,7 +14,6 @@ class MovieList implements Component {
   private loadMoreButton!: HTMLButtonElement;
 
   constructor() {
-    // section을 부모로
     this.node = document.createElement('section');
     this.node.classList.add('item-view');
 

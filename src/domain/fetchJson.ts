@@ -1,7 +1,6 @@
 import { NETWORK_ERROR_MESSAGE, NOT_FOUND_MESSAGE } from '../constants/messages';
 
 const fetchJson = async (apiLink: string, process: any) => {
-  console.log(apiLink, 'final');
   const response = await fetch(apiLink);
 
   if (response.ok) {

@@ -10,13 +10,9 @@ class MovieCard implements Component {
   private movieItemDetails: MovieItem;
 
   constructor(movieItemDetails: MovieItem) {
-    // li 태그를 부모 태그로.
     this.node = document.createElement('li');
-
-    // 상태 초기화
     this.movieItemDetails = movieItemDetails;
 
-    // dom 생성 후 이벤트 추가
     this.composeNode().setElements().addEvents();
   }
 
@@ -45,7 +41,6 @@ class MovieCard implements Component {
     const thumbnail = this.node.querySelector<HTMLImageElement>('#item-thumbnail');
     const thumbnailSkeleton = this.node.querySelector<HTMLDivElement>('.skeleton');
 
-    // type guard
     if (!thumbnail || !thumbnailSkeleton) {
       return this;
     }

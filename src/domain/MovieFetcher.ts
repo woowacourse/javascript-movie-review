@@ -34,7 +34,6 @@ class MovieFetcher {
   }
 
   setSearchSettings(keyword: string) {
-    console.log(keyword, 'argu: keyword');
     this.base = SEARCH_MOVIE_URL;
     this.params = {
       ...this.params,
@@ -56,14 +55,10 @@ class MovieFetcher {
   }
 
   createSearchURL(params: Params) {
-    // ?api_key=${process.env.API_KEY}&language=ko-KR
     const url = new URL(this.base);
     Object.entries(params).forEach(([param, value]) => {
-      console.log(param, value);
       url.searchParams.append(param, value);
     });
-
-    console.log(url.toString());
 
     return url.toString();
   }
