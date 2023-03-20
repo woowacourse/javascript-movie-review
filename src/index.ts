@@ -1,8 +1,12 @@
+import { TMDBClient } from './api/clients/TMDBClient';
 import './assets/common.css';
-import client from './client';
 import { MovieList } from './components/MovieList';
 
-const popularFetchFn = (page: number) => client.getPopularMovies(page);
+const client = new TMDBClient({
+  apiKey: process.env.TMDB_API_KEY!,
+});
+
+const popularFetchFn = (page: number) => client.getPopularMovies({ page });
 
 function assignMovieList(movieList: MovieList) {
   document.querySelector('main')?.replaceChildren(movieList.render());
@@ -20,6 +24,6 @@ document.querySelector('.search-box')?.addEventListener('submit', (event) => {
   const formData = Object.fromEntries(new FormData(event.target as HTMLFormElement).entries());
   const query = formData['search-text'] as string;
 
-  const searchFetchFn = (page: number) => client.getSearchMovies(query, page);
+  const searchFetchFn = (page: number) => client.searchMovies({ query, page });
   assignMovieList(new MovieList(searchFetchFn, `"${query}" 검색결과`));
 });

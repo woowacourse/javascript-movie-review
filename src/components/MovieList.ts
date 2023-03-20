@@ -1,9 +1,10 @@
-import { TMDBErrorResponse, TMDBResponse } from '../client';
-import { Movie } from '../movies.type';
+import { MoviesErrorResponse, MoviesResponse } from '../api/apis/MoviesAPI';
+import { Movie } from '../domain/movie.type';
+
 import MovieListItem from './MovieListItem';
 import Skeleton from './Skeleton';
 
-export type MoviesGenerator = (page: number) => Promise<TMDBResponse>;
+export type MoviesGenerator = (page: number) => Promise<MoviesResponse>;
 
 export class MovieList {
   private isFinished = false;
@@ -53,8 +54,8 @@ export class MovieList {
     this.page += 1;
 
     try {
-      const response: TMDBResponse = await this.fetchFn(page);
-      const { results: movies, total_pages: totalPages } = response;
+      const response = await this.fetchFn(page);
+      const { movies, totalPages } = response;
 
       movies.forEach((movie: Movie) => {
         const movieListItem = new MovieListItem();
@@ -70,18 +71,12 @@ export class MovieList {
       this.isFinished = true;
     } catch (e) {
       console.error(e);
-      const error = e as Error | TMDBErrorResponse;
+      const error = e as Error | MoviesErrorResponse;
       this.createSkeletons();
       const $popup = document.createElement('div');
       $popup.classList.add('popup');
 
-      const errorMessage =
-        // eslint-disable-next-line no-nested-ternary
-        'message' in error
-          ? error.message
-          : 'status_message' in error
-          ? error.status_message
-          : String(error);
+      const errorMessage = 'message' in error ? error.message : String(error);
 
       $popup.innerText = errorMessage;
       document.querySelector('.popup-container')?.append($popup);
