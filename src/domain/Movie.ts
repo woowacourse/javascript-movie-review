@@ -29,6 +29,11 @@ class Movie {
 
     const url = this.makeUrl();
     const apiData = await request(url);
+
+    if (apiData.error) {
+      return apiData;
+    }
+
     this.state.movies = this.formMovies(apiData.results);
     this.state.totalPages = apiData.total_pages;
 
@@ -41,6 +46,11 @@ class Movie {
 
     const url = this.makeUrl();
     const apiData = await request(url);
+
+    if (apiData.error) {
+      return apiData;
+    }
+
     const moreMovies = this.formMovies(apiData.results);
     this.state.movies = [...this.state.movies, ...moreMovies];
     this.state.totalPages = apiData.total_pages;

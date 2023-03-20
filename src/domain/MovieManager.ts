@@ -6,6 +6,7 @@ class MovieManager {
   private subscribers: CustomElement[] = [];
   private skeletonSubscriber: CustomElement | undefined;
   private errorSubscriber: CustomElement | undefined;
+  private errorType: string = "";
 
   subscribe(element: CustomElement) {
     this.subscribers.push(element);
@@ -38,25 +39,29 @@ class MovieManager {
   }
 
   async showMovies(searchWord: string = "") {
-    try {
-      this.showSkeleton();
-      const movieAppData = await Movie.getMovies(searchWord);
-      this.publish(movieAppData);
-      this.hideSkeleton();
-    } catch (e) {
-      this.publishError(String(e));
+    this.showSkeleton();
+    const movieAppData = await Movie.getMovies(searchWord);
+
+    if (movieAppData.error) {
+      this.publishError(movieAppData.errorMessage);
+      return;
     }
+
+    this.publish(movieAppData);
+    this.hideSkeleton();
   }
 
   async showMoreMovies() {
-    try {
-      this.showSkeleton();
-      const movieAppData = await Movie.getMoreMovies();
-      this.publish(movieAppData);
-      this.hideSkeleton();
-    } catch (e) {
-      this.publishError(String(e));
+    this.showSkeleton();
+    const movieAppData = await Movie.getMoreMovies();
+
+    if (movieAppData.error) {
+      this.publishError(movieAppData.errorMessage);
+      return;
     }
+
+    this.publish(movieAppData);
+    this.hideSkeleton();
   }
 }
 
