@@ -11,7 +11,6 @@ class Store {
 
   setMovies(movies: Movie[]) {
     this.movieList = [...this.movieList, ...movies];
-    console.log(this.movieList);
   }
 
   getMovie(id: number): Movie | undefined {
@@ -23,7 +22,6 @@ class Store {
   }
 
   getGenres(id: number) {
-    console.log(this.genreList.get(id));
     return this.genreList.get(id);
   }
 }
