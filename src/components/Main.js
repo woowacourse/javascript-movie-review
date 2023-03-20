@@ -1,34 +1,32 @@
-import { $ } from '../util/querySelector';
 import Movie from './Movie';
 import MovieSkeleton from './MovieSkeleton';
 
 const SKELETON_ITEM_COUNT = 20;
+const skeleton = document.createDocumentFragment();
+for (let i = 0; i < SKELETON_ITEM_COUNT; i += 1) {
+  skeleton.appendChild(MovieSkeleton.makeNode());
+}
 
 class Main {
   #element;
   #manager;
+  #title;
+  #list;
+  #button;
 
   constructor (element, manager) {
     this.#element = element;
     this.#manager = manager;
 
+    this.#initializeElement();
     this.#requestMovieListEvent();
-
-    this.#element.innerHTML = `
-    <h2></h2>
-    <ul class="item-list"></ul>
-    `;
   }
 
   renderSkeleton () {
     const query = this.#manager.getQuery();
-    const skeleton = new MovieSkeleton();
 
-    $('h2', this.#element).innerHTML = query === '' ? '지금 인기 있는 영화' : `"${query}" 검색 결과`;
-    $('ul', this.#element).appendChild(document.createElement('div'));
-
-    const skeletonElement = $('ul', this.#element).lastElementChild;
-    skeletonElement.outerHTML = skeleton.template().repeat(SKELETON_ITEM_COUNT);
+    this.#title.textContent = query ? `"${query}" 검색 결과` : '지금 인기 있는 영화';
+    this.#list.appendChild(skeleton.cloneNode(true));
   }
 
   async render () {
@@ -39,25 +37,52 @@ class Main {
       this.renderSkeleton();
       await this.#manager.searchMovieList('');
     } else if (this.#manager.getCurrentPage() === 1) {
+      this.#list.replaceChildren();
       this.renderSkeleton();
       await this.#manager.searchMovieList(query);
     }
 
-    this.#element.innerHTML = `
-    <h2>${query === '' ? '지금 인기 있는 영화' : `"${query}" 검색 결과`}</h2>
-    <ul class="item-list">
-    ${
-      this.#manager.getMovieList().length
-      ? this.#manager.getMovieList().map((movieInfo) => movie.template(movieInfo)).join('\n')
-      : '<p>검색 결과가 없습니다.</p>'
+    this.#title.textContent = query ? `"${query}" 검색 결과` : '지금 인기 있는 영화';
+    this.#list.replaceChildren();
+
+    const movieListFragment = document.createDocumentFragment();
+    const movieList = this.#manager.getMovieList();
+
+    if (!movieList.length) {
+      const noSearchResult = document.createElement('p');
+      noSearchResult.textContent = '검색 결과가 없습니다.';
+
+      movieListFragment.appendChild(noSearchResult);
     }
-    </ul>
-    ${
-      this.#manager.isLastPage()
-      ? ''
-      : '<button class="btn primary full-width">더 보기</button>'
+
+    movieList.forEach((movieInfo) => movieListFragment.appendChild(movie.makeNode(movieInfo)));
+
+    this.#list.appendChild(movieListFragment);
+
+    if (this.#manager.isLastPage()) {
+      this.#button.dataset.hidden = 'true';
+    } else {
+      this.#button.dataset.hidden = 'false';
     }
-    `;
+  }
+
+  #initializeElement () {
+    const title = document.createElement('h2');
+
+    const list = document.createElement('ul');
+    list.setAttribute('class', 'item-list');
+
+    const button = document.createElement('button');
+    button.setAttribute('class', 'btn primary full-width');
+    button.textContent = '더 보기';
+
+    this.#title = title;
+    this.#list = list;
+    this.#button = button;
+
+    this.#element.appendChild(title);
+    this.#element.appendChild(list);
+    this.#element.appendChild(button);
   }
 
   #requestMovieListEvent () {
