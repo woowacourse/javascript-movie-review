@@ -1,9 +1,9 @@
-import { IMovie } from '../data/api';
-import { MovieItem } from './MovieItem';
-import { stateGetter, usePopularMovie, useSearchedMovie } from '../data/PageData';
-import { $, $$ } from '../utils';
-import { Skeleton } from './Skeleton';
-import { Validation, renderError } from '../Validation';
+import { MovieInterface } from './data/api';
+import { MovieItem } from './components/MovieItem';
+import { stateGetter, usePopularMovie, useSearchedMovie } from './data/PageData';
+import { $, $$ } from './utils';
+import { SkeletonMovieItem } from './components/SkeletonMovieItem';
+import { Validation, renderError } from './Validation';
 
 type pageStatusType = 'popular' | 'search';
 type callPlaceType = 'popular' | 'search' | 'more';
@@ -45,7 +45,7 @@ async function tryShowMovieList(callPlace: callPlaceType, keyword: keywordType) 
 
 export function renderSkeleton() {
   const parentElem = $('.item-list') as HTMLElement;
-  parentElem.insertAdjacentHTML('beforeend', Skeleton());
+  parentElem.insertAdjacentHTML('beforeend', SkeletonMovieItem());
 }
 
 export function deleteSkeleton() {
@@ -53,7 +53,7 @@ export function deleteSkeleton() {
   skeletonList?.forEach((item) => item.remove());
 }
 
-export async function renderMovieList(results: IMovie[]) {
+export async function renderMovieList(results: MovieInterface[]) {
   const parentElem = $('.item-list') as HTMLElement;
 
   parentElem.innerHTML = `
@@ -61,7 +61,7 @@ export async function renderMovieList(results: IMovie[]) {
     `;
 }
 
-export async function renderAddMovieList(results: IMovie[]) {
+export async function renderAddMovieList(results: MovieInterface[]) {
   const parentElem = $('.item-list') as HTMLElement;
 
   parentElem.insertAdjacentHTML(

@@ -1,4 +1,4 @@
-export function Skeleton() {
+export function SkeletonMovieItem() {
   const template = `
     <li class="skeleton-item">
         <a href="#">
