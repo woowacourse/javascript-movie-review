@@ -1,3 +1,5 @@
+import { renderError, Validation } from '../Validation';
+
 const API_KEY = process.env.API_KEY;
 const BASE_PATH = 'https://api.themoviedb.org/3';
 
@@ -20,16 +22,11 @@ export interface IMovieList {
 type IGetMovies = (page: number) => Promise<IMovieList>;
 
 export const getMovies: IGetMovies = async (page) => {
-  try {
-    const response = await fetch(
-      `${BASE_PATH}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${page}`
-    );
-
-    return response.json();
-  } catch (err) {
-    console.log(err);
-    return [];
-  }
+  const response = await fetch(
+    `${BASE_PATH}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${page}`
+  );
+  Validation.api(response.status);
+  return response.json();
 };
 
 type IGetSearchMovies = (keyword: string, page: number) => Promise<IMovieList>;
@@ -37,6 +34,6 @@ export const getSearchMovie: IGetSearchMovies = async (keyword, page) => {
   const response = await fetch(
     `${BASE_PATH}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${keyword}&page=${page}`
   );
-  if (!response.ok) return [];
+  Validation.api(response.status);
   return response.json();
 };
