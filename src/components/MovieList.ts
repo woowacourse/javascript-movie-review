@@ -20,12 +20,13 @@ export async function renderMoreSkeletonList() {
   parentElem.insertAdjacentHTML('beforeend', MovieListSkeleton());
 
   if (getPageStatus() === POPULAR) {
-    await usePopularMovie(getPage()).then(({ values }) => {
-      renderMoreMovieList(values.results);
-      deleteSkeletonList();
-    });
+    const {
+      values: { results },
+    } = await usePopularMovie(getPage() + 1);
+    renderMoreMovieList(results);
+    deleteSkeletonList();
   } else {
-    await useSearchedMovie(getRecentKeyword(), getPage()).then(({ values }) => {
+    await useSearchedMovie(getRecentKeyword(), getPage() + 1).then(({ values }) => {
       renderMoreMovieList(values.results);
       deleteSkeletonList();
     });

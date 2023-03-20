@@ -5,9 +5,9 @@ import { renderMoreSkeletonList } from './MovieList';
 
 export function ViewMoreButton() {
   Event.addEvent('click', '.view-more-button', async () => {
-    plusPage();
-
     renderMoreSkeletonList();
+
+    plusPage();
   });
 
   return `
