@@ -29,9 +29,9 @@ describe('MovieHandler객체 테스트', () => {
     const expected: Movie[] = [
       {
         id: 315162,
-        poster_path: '/rKgvctIuPXyuqOzCQ16VGdnHxKx.jpg',
+        posterPath: '/rKgvctIuPXyuqOzCQ16VGdnHxKx.jpg',
         title: '장화신은 고양이: 끝내주는 모험',
-        vote_average: 8.4,
+        voteAverage: 8.4,
       },
     ];
 

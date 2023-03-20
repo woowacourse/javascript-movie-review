@@ -4,13 +4,13 @@ import { MovieAPIData } from '../api/get';
 const MovieHandler = {
   convertMovieList(moviesData: MovieAPIData[]) {
     const movieList: Movie[] = moviesData.map((data) => {
-      const { id, title, poster_path, vote_average } = data;
+      const { id, title, poster_path: posterPath, vote_average: voteAverage } = data;
 
       const movie: Movie = {
         id,
         title,
-        poster_path,
-        vote_average,
+        posterPath,
+        voteAverage,
       };
 
       return movie;
