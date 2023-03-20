@@ -12,6 +12,8 @@ class MoviesContainer extends HTMLElement {
       },
 
       set: (target, property, value) => {
+        window.scrollTo(0, 0);
+
         if (target[property] === value) return;
 
         target[property] = value;
