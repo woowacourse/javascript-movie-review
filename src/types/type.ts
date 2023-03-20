@@ -1,4 +1,4 @@
-export interface Movie {
+export interface MovieInfo {
   id: number;
   title: string;
   imgUrl: string;
@@ -7,5 +7,5 @@ export interface Movie {
 
 export interface ParsedMovieResult {
   isLastPage: boolean;
-  movies: Movie[];
+  movies: MovieInfo[];
 }

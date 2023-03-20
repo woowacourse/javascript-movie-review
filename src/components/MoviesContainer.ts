@@ -1,5 +1,5 @@
 import './MoviesContainer.css';
-import MovieData, { MovieDataInformation } from '../domain/MovieData';
+import Movie, { MovieInformation } from '../domain/Movie';
 import { $, getErrorMessage } from '../utils/common';
 
 export interface MovieConatainerInformation extends HTMLElement {
@@ -13,7 +13,7 @@ interface SearchWord {
 }
 
 class MoviesContainer extends HTMLElement {
-  #movieData: MovieDataInformation = new MovieData();
+  #movies: MovieInformation = new Movie();
   #searchWord: SearchWord = new Proxy(
     { value: '' },
     {
@@ -59,7 +59,7 @@ class MoviesContainer extends HTMLElement {
 
   async updateMovieList(): Promise<void> {
     try {
-      await this.#movieData.update(this.#searchWord.value);
+      await this.#movies.update(this.#searchWord.value);
 
       $('#skeleton-container')?.classList.add('skeleton-hide');
 
@@ -74,7 +74,7 @@ class MoviesContainer extends HTMLElement {
   }
 
   renderMovieList(): void {
-    const movieList = this.#movieData.movieResult;
+    const movieList = this.#movies.movieResult;
 
     if (movieList.movies.length === 0) {
       this.showNoResult();
@@ -89,7 +89,7 @@ class MoviesContainer extends HTMLElement {
   }
 
   toggleVisibleButton(): void {
-    if (this.#movieData.movieResult.isLastPage) {
+    if (this.#movies.movieResult.isLastPage) {
       $('#more-button')?.classList.add('hide-button');
       return;
     }
@@ -139,7 +139,7 @@ class MoviesContainer extends HTMLElement {
       $('#no-result-message')?.remove();
     }
 
-    this.#movieData.resetPageIndex();
+    this.#movies.resetPageIndex();
   }
 
   updateTitle(word: string): void {

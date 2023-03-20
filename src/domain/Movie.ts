@@ -1,17 +1,17 @@
 import { request } from '../utils/common';
-import { Movie, ParsedMovieResult } from '../types/type';
+import { MovieInfo, ParsedMovieResult } from '../types/type';
 import { ApiMovieResult, ApiResponseResult } from '../apis/tmdbType';
 import { getPopularUrl, getSearchUrl } from '../apis/tmdb';
 
-export interface MovieDataInformation {
+export interface MovieInformation {
   movieResult: ParsedMovieResult;
   update: (word: string) => Promise<void>;
   handleParsing: (word: string) => Promise<ParsedMovieResult>;
-  parseFetchedMovies: (fetchedMovies: ApiMovieResult[]) => Movie[];
+  parseFetchedMovies: (fetchedMovies: ApiMovieResult[]) => MovieInfo[];
   resetPageIndex: () => void;
 }
 
-class MovieData {
+class Movie {
   #parsedMovieResult: ParsedMovieResult = { isLastPage: true, movies: [] };
   #pageIndex: number = 1;
 
@@ -44,7 +44,7 @@ class MovieData {
     };
   }
 
-  parseFetchedMovies(fetchedMovies: ApiMovieResult[]): Movie[] {
+  parseFetchedMovies(fetchedMovies: ApiMovieResult[]): MovieInfo[] {
     return fetchedMovies.map((movie: ApiMovieResult) => {
       return {
         id: movie.id,
@@ -60,4 +60,4 @@ class MovieData {
   }
 }
 
-export default MovieData;
+export default Movie;
