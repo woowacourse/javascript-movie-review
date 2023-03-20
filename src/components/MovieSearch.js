@@ -1,3 +1,5 @@
+import { $ } from "../utils/Dom";
+
 export default class MovieSearch extends HTMLElement {
   connectedCallback() {
     this.innerHTML = /*html*/ `
@@ -10,17 +12,17 @@ export default class MovieSearch extends HTMLElement {
   }
 
   setEvent() {
-    this.querySelector(".search-button").addEventListener("click", () => {
+    $(".search-button").addEventListener("click", () => {
       this.createSearchMovieEvent();
     });
 
-    this.querySelector("input").addEventListener("keypress", (e) => {
+    $("input").addEventListener("keypress", (e) => {
       if (e.key === "Enter") this.createSearchMovieEvent();
     });
   }
 
   createSearchMovieEvent() {
-    const movieName = this.querySelector("input").value;
+    const movieName = $("input").value;
     this.dispatchEvent(
       new CustomEvent("search-movie", { bubbles: true, detail: movieName })
     );

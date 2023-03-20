@@ -1,3 +1,4 @@
+import { $ } from "../utils/Dom";
 export default class MovieHeader extends HTMLElement {
   connectedCallback() {
     this.innerHTML = /*html*/ `
@@ -10,7 +11,7 @@ export default class MovieHeader extends HTMLElement {
   }
 
   setEvent() {
-    this.querySelector("h1").addEventListener("click", () => {
+    $("h1").addEventListener("click", () => {
       this.dispatchEvent(
         new CustomEvent("click-home-button", { bubbles: true })
       );

@@ -1,3 +1,5 @@
+import { $ } from "../utils/Dom";
+
 export default class MoreButton extends HTMLElement {
   connectedCallback() {
     this.innerHTML = /*html*/ ` 
@@ -9,7 +11,7 @@ export default class MoreButton extends HTMLElement {
   }
 
   setEvent() {
-    this.querySelector("#more-button").addEventListener("click", () => {
+    $("#more-button").addEventListener("click", () => {
       this.dispatchEvent(
         new CustomEvent("click-more-button", { bubbles: true }) //detail :
       );
