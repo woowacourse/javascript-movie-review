@@ -10,11 +10,6 @@ body {
   color: #ffffff;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
 button {
   cursor: pointer;
 }
@@ -54,6 +49,9 @@ button {
 .item-card {
   display: flex;
   flex-direction: column;
+
+  color: inherit;
+  text-decoration: none;
 }
 
 .item-thumbnail {
