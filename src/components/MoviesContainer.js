@@ -1,5 +1,5 @@
-import MovieData from '../domain/MovieData';
 import './MoviesContainer.css';
+import MovieData from '../domain/MovieData';
 import { $ } from '../utils/common';
 
 class MoviesContainer extends HTMLElement {
@@ -13,12 +13,8 @@ class MoviesContainer extends HTMLElement {
 
       set: (target, property, value) => {
         target[property] = value;
+
         this.reset();
-
-        document.querySelectorAll('skeleton-item').forEach(node => {
-          node.classList.remove('skeleton-hide');
-        });
-
         this.updateMovieList();
         this.updateTitle(value);
 
@@ -39,8 +35,7 @@ class MoviesContainer extends HTMLElement {
     <section class="item-view">
     <h2 id="movie-container-title">지금 인기 있는 영화</h2>
     <ul id="movie-list-wrapper" class="item-list">
-    <skeleton-item id="first-skeleton"></skeleton-item>
-    ${'<skeleton-item></skeleton-item>'.repeat(19)}
+    <skeleton-item id="skeleton-container"></skeleton-item>
     </ul>
     <common-button id="more-button" class="hide-button" text="더보기" color="primary"></common-button>
     </section>
@@ -51,19 +46,14 @@ class MoviesContainer extends HTMLElement {
     try {
       await this.#movieData.update(this.#searchWord.value);
 
-      document.querySelectorAll('skeleton-item').forEach(node => {
-        node.classList.add('skeleton-hide');
-      });
+      $('#skeleton-container').classList.add('skeleton-hide');
 
       this.renderMovieList();
       this.toggleVisibleButton();
     } catch (error) {
       $('#movie-container-title').innerText = error.message;
       $('#more-button').classList.add('hide-button');
-
-      document.querySelectorAll('skeleton-item').forEach(node => {
-        node.classList.add('skeleton-hide');
-      });
+      $('#skeleton-container').classList.add('skeleton-hide');
     }
   }
 
@@ -79,7 +69,7 @@ class MoviesContainer extends HTMLElement {
       return (acc += `<movie-item id="${curr.id}" title="${curr.title}" imgUrl="${curr.imgUrl}" score="${curr.score}"></movie-item>`);
     }, '');
 
-    $('#first-skeleton').insertAdjacentHTML('beforebegin', movieListTemplate);
+    $('#skeleton-container').insertAdjacentHTML('beforebegin', movieListTemplate);
   }
 
   toggleVisibleButton() {
@@ -102,22 +92,14 @@ class MoviesContainer extends HTMLElement {
 
   setButtonEvent() {
     $('#more-button').addEventListener('click', () => {
-      document.querySelectorAll('skeleton-item').forEach(node => {
-        node.classList.remove('skeleton-hide');
-      });
+      $('#skeleton-container').classList.remove('skeleton-hide');
 
       this.updateMovieList();
     });
   }
 
   reset() {
-    document.querySelectorAll('movie-item').forEach(node => node.remove());
-
-    const noResultMessage = $('#no-result-message');
-
-    if (noResultMessage) {
-      noResultMessage.remove();
-    }
+    $('#movie-list-wrapper').innerHTML = `<skeleton-item id="skeleton-container"></skeleton-item>`;
 
     this.#movieData.resetPageIndex();
   }

@@ -19,7 +19,11 @@ class Skeleton extends HTMLElement {
   }
 
   render() {
-    this.innerHTML = this.makeSkeletonItem();
+    this.innerHTML = `
+    <ul class="item-list">
+    ${this.makeSkeletonItem().repeat(20)}
+    </ul>
+    `;
   }
 }
 
