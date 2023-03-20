@@ -1,6 +1,6 @@
 import { fetchData } from '../api/http';
 import { statusCodeToErrorMessage } from '../api/statusCode';
-import { TMDB_MOVIE_BASE_URL } from '../constants';
+import { TMDB_MOVIE_BASE_URL } from '../utils/constants';
 import { IMovieHandleProps, IMovieItemProps, IMovieProps, IMovieState } from '../types/movie';
 
 interface IMovieFetchProps {
