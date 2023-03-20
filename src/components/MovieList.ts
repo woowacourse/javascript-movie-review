@@ -3,7 +3,7 @@ import { MovieItem } from './MovieItem';
 import { usePopularMovie, useSearchedMovie } from '../hooks/useMovie';
 import { $, $$ } from '../utils';
 import { MovieListSkeleton } from './MovieListSkeleton';
-import { IPageStatus, getPageStatus, POPULAR } from '../hooks/usePage';
+import { getPageStatus, POPULAR } from '../hooks/usePage';
 import { getRecentKeyword } from '../hooks/useKeyword';
 
 export async function renderSkeletonList() {
@@ -66,4 +66,11 @@ export async function renderMoreMovieList(moreResults: IMovie[]) {
     'beforeend',
     `${moreResults.map((movie) => MovieItem(movie)).join('')}`
   );
+}
+
+export function MovieList() {
+  return `
+    <ul class="item-list">
+    </ul>
+  `;
 }
