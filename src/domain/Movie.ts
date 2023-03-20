@@ -74,16 +74,15 @@ class Movie {
   }
 
   async renderPopularMovies(curPage = 1) {
-    if (this.#movieState.category === 'search') {
-      this.#movieState.nextPage = 1;
-    }
-
     try {
-      this.#movieState.category = 'popular';
-
       const { results, total_pages, page } = await this.getPopularMovies({
         curPage,
       });
+
+      if (this.#movieState.category === 'search') {
+        this.#movieState.category = 'popular';
+        this.#movieState.nextPage = 1;
+      }
 
       this.#setMovies({ results, total_pages, page });
     } catch (error) {
@@ -92,30 +91,22 @@ class Movie {
   }
 
   async renderSearchedMovies(query: string, curPage = 1) {
-    if (this.#movieState.category === 'popular') {
-      this.#movieState.nextPage = 1;
-    }
-
     try {
-      this.#movieState.query = query;
-      this.#movieState.category = 'search';
-
       const { results, total_pages, page } = await this.getFindMovies({
         query,
         curPage,
       });
 
+      if (this.#movieState.category === 'popular') {
+        this.#movieState.query = query;
+        this.#movieState.category = 'search';
+        this.#movieState.nextPage = 1;
+      }
+
       this.#setMovies({ results, total_pages, page });
     } catch (error) {
       this.#movieState.error = error as string;
     }
-  }
-
-  #setSkeletonArray(curPage = 1) {
-    const emptyArray = Array.from({ length: 20 }, () => ({ title: null }));
-
-    this.#movieState.results =
-      curPage === 1 ? emptyArray : [...this.#movieState.results, ...emptyArray];
   }
 
   #setMovies({ results, total_pages, page }: IMovieHandleProps<IMovieItemProps>) {

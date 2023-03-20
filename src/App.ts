@@ -29,10 +29,10 @@ class App {
     this.moreButton = new MoreButton();
     this.skeleton = new Skeleton(this.itemList.$ul);
 
+    this.initialRender();
+
     this.$main.insertAdjacentElement('beforeend', this.$itemView);
     $target.insertAdjacentElement('beforeend', this.$main);
-
-    Store.get('movieStates')?.renderPopularMovies();
   }
 
   setStoreMovieState() {
@@ -64,8 +64,8 @@ class App {
           case 'results': {
             if (!this.itemList || !this.moreButton) break;
 
-            this.skeleton.removeSkeleton();
             this.itemList.render(this.$itemView);
+            this.skeleton.removeSkeleton();
             this.moreButton.render(this.$itemView);
             break;
           }
@@ -85,6 +85,11 @@ class App {
     });
 
     Store.set('movieStates', new Movie(movieStateProxy));
+  }
+
+  initialRender() {
+    this.listTitle.render(this.$itemView);
+    Store.get('movieStates')?.renderPopularMovies();
   }
 }
 
