@@ -24,6 +24,8 @@ export class Header {
         const inputValue = $searchInput.value;
 
         if (inputValue === "") return alert("검색값을 입력해주세요.");
+        if (inputValue.trim().length === 0)
+          return alert("올바른 검색어를 입력해주세요.");
 
         onSubmitSearchKeyword(inputValue);
       }
