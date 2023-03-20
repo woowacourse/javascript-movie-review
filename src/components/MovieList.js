@@ -78,13 +78,9 @@ export default class MovieList {
   }
 
   renderMovieCards(movieList) {
-    const movieCardsHTML = movieList.reduce((html, movie) => {
-      const movieCard = MovieCard(movie);
-
-      return html + movieCard;
-    }, '');
-
-    this.$element.querySelector('.item-list').insertAdjacentHTML('beforeend', movieCardsHTML);
+    movieList.forEach((movie) => {
+      new MovieCard(this.$element.querySelector('.item-list')).render(movie);
+    });
   }
 
   getSkeletonCardsHTML(count) {
