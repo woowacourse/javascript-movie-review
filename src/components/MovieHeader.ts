@@ -1,3 +1,6 @@
+import { POPULAR_TITLE } from '../constants';
+import { changeTitle, resetSearchBox } from '../dom';
+
 import { $, dispatchCustomEvent, isFormElement } from '../utils/domUtils';
 
 class MovieHeader extends HTMLElement {
@@ -16,12 +19,11 @@ class MovieHeader extends HTMLElement {
 
   connectedCallback() {
     const $searchBox = $('.search-box');
-
     if (isFormElement($searchBox)) {
-      $searchBox.addEventListener('submit', (e) => this.handleSubmit(e));
+      $searchBox.addEventListener('submit', (e: SubmitEvent) => this.handleSubmit(e));
     }
 
-    $('.title')?.addEventListener('click', () => dispatchCustomEvent(this, 'home'));
+    $('.title')?.addEventListener('click', () => this.handleLogoClick());
   }
 
   handleSubmit(e: SubmitEvent) {
@@ -32,13 +34,21 @@ class MovieHeader extends HTMLElement {
     const [input] = e.target.elements;
     if (!(input instanceof HTMLInputElement)) return;
 
-    const isInputEmpty = input.value.trim() === '';
+    const trimmedInput = input.value.trim();
+    const isInputEmpty = trimmedInput === '';
     if (isInputEmpty) {
       alert('검색어를 입력해 주세요.');
       return;
     }
 
-    dispatchCustomEvent(this, 'search', input.value);
+    changeTitle(`"${trimmedInput}" 검색 결과`);
+    dispatchCustomEvent(this, 'search', trimmedInput);
+  }
+
+  handleLogoClick() {
+    changeTitle(POPULAR_TITLE);
+    resetSearchBox();
+    dispatchCustomEvent(this, 'home');
   }
 }
 
