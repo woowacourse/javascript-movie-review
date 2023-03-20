@@ -1,29 +1,9 @@
-export interface MovieResponse {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
-
-interface Movie {
-  title: MovieResponse['title'];
-  posterPath: MovieResponse['poster_path'];
-  voteAverage: MovieResponse['vote_average'];
-}
+import { TMDBResponseResult } from '../types/tmdb';
+import { Movie } from '../types/domain';
 
 interface MovieService {
   movies: Movie[];
-  resultsToMovies: (results: MovieResponse[]) => Movie[];
+  resultsToMovies: (results: TMDBResponseResult[]) => Movie[];
   concatMovies: (newMovies: Movie[]) => void;
   resetMovies: () => void;
 }
