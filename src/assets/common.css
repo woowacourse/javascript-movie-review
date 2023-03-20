@@ -193,7 +193,7 @@ ul:has(hr:last-child) ~ .item-last-notice {
   display: initial;
 }
 
-.popup-container {
+#toast-container {
   position: fixed;
   bottom: 140px;
   width: 100vw;
@@ -202,7 +202,7 @@ ul:has(hr:last-child) ~ .item-last-notice {
   justify-content: center;
 }
 
-.popup {
+.toast {
   position: absolute;
 
   background-color: hsl(0, 85%, 60%);
@@ -216,7 +216,7 @@ ul:has(hr:last-child) ~ .item-last-notice {
   animation: alert-fade-in 0.5s ease-out;
 }
 
-.popup[data-fade-out] {
+.toast.fade-out {
   animation: alert-fade-out 0.5s ease-in;
   animation-fill-mode: forwards;
 }

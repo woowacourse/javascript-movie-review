@@ -3,6 +3,7 @@ import { Movie } from '../domain/movie.type';
 
 import MovieListItem from './MovieListItem';
 import Skeleton from './Skeleton';
+import { Toast } from './Toast';
 
 export type MoviesGenerator = (page: number) => Promise<MoviesResponse>;
 
@@ -77,16 +78,7 @@ export class MovieList {
       $popup.classList.add('popup');
 
       const errorMessage = 'message' in error ? error.message : String(error);
-
-      $popup.innerText = errorMessage;
-      document.querySelector('.popup-container')?.append($popup);
-
-      setTimeout(() => {
-        $popup.dataset.fadeOut = '';
-        setTimeout(() => {
-          $popup.remove();
-        }, 1000);
-      }, 5000);
+      Toast.create(errorMessage);
     }
     this.section.querySelectorAll<HTMLLIElement>('ul > li.skeleton').forEach(($skeleton) => {
       $skeleton.remove();
