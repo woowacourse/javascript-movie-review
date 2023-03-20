@@ -1,13 +1,15 @@
 const API_END_POINT = "https://api.themoviedb.org/3";
 
 const request = async (url: string) => {
-  const response = await fetch(url);
+  try {
+    const response = await fetch(url);
 
-  if (response.ok) {
-    return response.json();
+    if (response.ok) {
+      return response.json();
+    }
+  } catch (error: any) {
+    alert("정보를 가져오는 중 에러가 발생했습니다!");
   }
-
-  alert("요청 실패");
 };
 
 export const fetchPopularMovies = (page: number) => {

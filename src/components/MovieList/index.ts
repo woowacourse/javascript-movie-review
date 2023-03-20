@@ -36,7 +36,7 @@ export class MovieList {
       this.render(results, total_pages);
     });
 
-    $(".btn")?.addEventListener("click", this.onClickMoreButton.bind(this));
+    $(".btn").addEventListener("click", this.onClickMoreButton.bind(this));
   }
 
   getMovieCardTemplate(movie: Movie) {
@@ -147,10 +147,10 @@ export class MovieList {
   }
 
   hideMoreButton() {
-    $(".btn")?.setAttribute("hidden", "");
+    $(".btn").setAttribute("hidden", "");
   }
 
   showMoreButton() {
-    $(".btn")?.removeAttribute("hidden");
+    $(".btn").removeAttribute("hidden");
   }
 }

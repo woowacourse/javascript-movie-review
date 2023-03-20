@@ -13,12 +13,10 @@ export class Header {
 
     this.render();
 
-    $(".search-box")?.addEventListener("submit", (event: Event) => {
+    $(".search-box").addEventListener("submit", (event: Event) => {
       event.preventDefault();
 
       const $searchInput = $(".search-input");
-
-      if ($searchInput === null) return;
 
       if ($searchInput instanceof HTMLInputElement) {
         const inputValue = $searchInput.value;
@@ -33,7 +31,7 @@ export class Header {
       if (event.target instanceof HTMLFormElement) event.target.reset();
     });
 
-    $(".logo")?.addEventListener("click", onClickLogoImage);
+    $(".logo").addEventListener("click", onClickLogoImage);
   }
 
   render() {
