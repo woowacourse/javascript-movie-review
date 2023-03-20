@@ -53,7 +53,7 @@ class MoviesContainer extends HTMLElement {
       this.toggleVisibleButton();
       this.#isFatching = false;
     } catch (error) {
-      $('#movie-container-title').innerText = error.message;
+      this.setErrorMessage(error.message);
       $('#more-button').classList.add('hide-button');
       $('#skeleton-container').classList.add('skeleton-hide');
     }
@@ -120,6 +120,10 @@ class MoviesContainer extends HTMLElement {
 
   setSearchWord(searchWord) {
     this.#searchWord.value = searchWord;
+  }
+
+  setErrorMessage(errorMessage) {
+    $('#movie-container-title').innerText = errorMessage;
   }
 }
 
