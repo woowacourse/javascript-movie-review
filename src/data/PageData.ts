@@ -1,66 +1,64 @@
 import { $ } from '../utils';
 import { getMovies, getSearchMovie, MovieInterface } from './api';
-import { Validation, renderError } from '../Validation';
 
 type PageStatusType = 'popular' | 'search';
 
-interface statusInterface {
-  moviePage: number;
-  recentKeyword: string;
-  pageStatus: PageStatusType;
-}
+class PageData {
+  #moviePage: number;
+  #recentKeyword: string;
+  #pageStatus: PageStatusType;
 
-const status: statusInterface = {
-  moviePage: 1,
-  recentKeyword: '',
-  pageStatus: 'popular',
-};
+  constructor() {
+    this.#moviePage = 1;
+    this.#recentKeyword = '';
+    this.#pageStatus = 'popular';
+  }
 
-export const statusController = {
   plusPage() {
-    status.moviePage++;
-  },
+    this.#moviePage++;
+  }
   resetPage() {
-    status.moviePage = 1;
-  },
+    this.#moviePage = 1;
+  }
   changePageStatus(callPage: PageStatusType) {
-    status.pageStatus = callPage;
-  },
-};
+    this.#pageStatus = callPage;
+  }
 
-export const stateGetter = {
   getPageStatus() {
-    return status.pageStatus;
-  },
+    return this.#pageStatus;
+  }
   getRecentKeyword() {
-    return status.recentKeyword;
-  },
-};
+    return this.#recentKeyword;
+  }
 
-export async function usePopularMovie() {
-  const { page, results } = await getMovies(status.moviePage);
+  async usePopularMovie() {
+    const { page, results } = await getMovies(this.#moviePage);
 
-  toggleMoreButton(results);
+    this.toggleMoreButton(results);
 
-  return {
-    values: { page, results },
-  };
+    return {
+      values: { page, results },
+    };
+  }
+
+  async useSearchedMovie(keyword: string) {
+    const { page, results } = await getSearchMovie(keyword, this.#moviePage);
+    this.#recentKeyword = keyword;
+
+    this.toggleMoreButton(results);
+
+    return {
+      values: { page, results },
+    };
+  }
+
+  toggleMoreButton(result: MovieInterface[]) {
+    const moreButton = $('.view-more-button') as HTMLElement;
+
+    if (result.length >= 20 && result.length > 0)
+      return (moreButton.style.display = 'inline-block');
+    return (moreButton.style.display = 'none');
+  }
 }
 
-export async function useSearchedMovie(keyword: string) {
-  const { page, results } = await getSearchMovie(keyword, status.moviePage);
-  status.recentKeyword = keyword;
-
-  toggleMoreButton(results);
-
-  return {
-    values: { page, results },
-  };
-}
-
-function toggleMoreButton(result: MovieInterface[]) {
-  const moreButton = $('.view-more-button') as HTMLElement;
-
-  if (result.length >= 20 && result.length > 0) return (moreButton.style.display = 'inline-block');
-  return (moreButton.style.display = 'none');
-}
+export default new PageData();

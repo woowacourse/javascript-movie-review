@@ -1,13 +1,13 @@
 import { Search } from './Search';
 import logo from '../assets/logo.png';
 import { Event } from '../utils';
-import { statusController } from '../data/PageData';
+import PageData from '../data/PageData';
 import { showMovieList } from '../showMovieList';
 
 export function Header() {
   Event.addEvent('click', '#logo-img', async (event) => {
-    statusController.changePageStatus('popular');
-    statusController.resetPage();
+    PageData.changePageStatus('popular');
+    PageData.resetPage();
     showMovieList('popular', null);
   });
 

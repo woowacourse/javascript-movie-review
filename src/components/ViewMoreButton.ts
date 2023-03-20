@@ -1,10 +1,10 @@
 import { $, Event } from '../utils/index';
-import { statusController } from '../data/PageData';
+import PageData from '../data/PageData';
 import { showMovieList } from '../showMovieList';
 
 export function ViewMoreButton() {
   Event.addEvent('click', '#more-movie-btn', async () => {
-    statusController.plusPage();
+    PageData.plusPage();
     showMovieList('more', null);
   });
 

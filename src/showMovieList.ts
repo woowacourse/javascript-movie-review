@@ -1,6 +1,6 @@
 import { MovieInterface } from './data/api';
 import { MovieItem } from './components/MovieItem';
-import { stateGetter, usePopularMovie, useSearchedMovie } from './data/PageData';
+import PageData from './data/PageData';
 import { $, $$ } from './utils';
 import { SkeletonMovieItem } from './components/SkeletonMovieItem';
 import { Validation, renderError } from './Validation';
@@ -18,24 +18,24 @@ export async function showMovieList(callPlace: callPlaceType, keyword: keywordTy
 }
 
 async function tryShowMovieList(callPlace: callPlaceType, keyword: keywordType) {
-  const PageStatus = stateGetter.getPageStatus();
+  const PageStatus = PageData.getPageStatus();
   renderSkeleton();
 
   if (callPlace === 'popular') {
-    await usePopularMovie().then(({ values }) => renderMovieList(values.results));
+    await PageData.usePopularMovie().then(({ values }) => renderMovieList(values.results));
     changePageHeader('popular', null);
     return;
   }
   if (callPlace === 'search' && keyword !== null) {
     Validation.inputText(keyword);
     changePageHeader('search', keyword);
-    await useSearchedMovie(keyword).then(({ values }) => renderMovieList(values.results));
+    await PageData.useSearchedMovie(keyword).then(({ values }) => renderMovieList(values.results));
   }
   if (callPlace === 'more' && PageStatus === 'popular') {
-    await usePopularMovie().then(({ values }) => renderAddMovieList(values.results));
+    await PageData.usePopularMovie().then(({ values }) => renderAddMovieList(values.results));
   }
   if (callPlace === 'more' && PageStatus === 'search') {
-    await useSearchedMovie(stateGetter.getRecentKeyword()).then(({ values }) => {
+    await PageData.useSearchedMovie(PageData.getRecentKeyword()).then(({ values }) => {
       renderAddMovieList(values.results);
     });
   }

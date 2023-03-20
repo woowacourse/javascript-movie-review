@@ -1,4 +1,4 @@
-import { statusController } from '../data/PageData';
+import PageData from '../data/PageData';
 import { getFormFields } from '../utils/formData';
 import { $, Event } from '../utils/index';
 import { showMovieList } from '../showMovieList';
@@ -9,8 +9,8 @@ export function Search() {
     const formEl = $('#search-movie-box') as HTMLFormElement;
     const formData = getFormFields(formEl);
 
-    statusController.changePageStatus('search');
-    statusController.resetPage();
+    PageData.changePageStatus('search');
+    PageData.resetPage();
 
     showMovieList('search', String(formData.keyword));
   });
