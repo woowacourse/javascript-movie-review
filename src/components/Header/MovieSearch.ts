@@ -16,8 +16,8 @@ const MovieSearch = {
       </div>
     `;
   },
-  setEvent(movies: Movies) {
-    const movieSearchForm = document.querySelector<HTMLFormElement>(`#${ID.MOVIE_SEARCH_FORM}`);
+  setEvent(movies: Movies, target: HTMLElement) {
+    const movieSearchForm = target.querySelector<HTMLFormElement>(`#${ID.MOVIE_SEARCH_FORM}`);
 
     movieSearchForm?.addEventListener('submit', async (event) => {
       event.preventDefault();

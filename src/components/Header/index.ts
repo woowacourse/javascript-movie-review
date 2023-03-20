@@ -17,10 +17,11 @@ const Header = {
       </header>
     `;
   },
-  setEvent(movies: Movies) {
-    MovieSearch.setEvent(movies);
+  setEvent(movies: Movies, target: HTMLElement) {
+    const header = target.querySelector('header') as HTMLElement;
+    MovieSearch.setEvent(movies, header);
 
-    const pageTitleButton = document.querySelector<HTMLButtonElement>(`.${CLASS.PAGE_TITLE_BUTTON}`);
+    const pageTitleButton = target.querySelector<HTMLButtonElement>(`.${CLASS.PAGE_TITLE_BUTTON}`);
 
     pageTitleButton?.addEventListener('click', async () => {
       MovieCardSection.render();

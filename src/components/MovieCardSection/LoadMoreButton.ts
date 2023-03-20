@@ -7,8 +7,8 @@ const LoadMoreButton = {
   template() {
     return `<button id=${ID.LOAD_MORE_BUTTON} class="btn primary full-width">더 보기</button>`;
   },
-  setEvent(movies: Movies) {
-    const button = document.querySelector<HTMLButtonElement>(`#${ID.LOAD_MORE_BUTTON}`);
+  setEvent(movies: Movies, target: HTMLElement) {
+    const button = target.querySelector<HTMLButtonElement>(`#${ID.LOAD_MORE_BUTTON}`);
 
     button?.addEventListener('click', async () => {
       try {

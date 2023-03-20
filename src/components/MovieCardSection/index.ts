@@ -18,8 +18,9 @@ const MovieCardSection = {
       </section>
     `;
   },
-  setEvent(movies: Movies) {
-    LoadMoreButton.setEvent(movies);
+  setEvent(movies: Movies, target: HTMLElement) {
+    const itemView = target.querySelector(`.${CLASS.ITEM_VIEW}`) as HTMLElement;
+    LoadMoreButton.setEvent(movies, itemView);
   },
   render(query: string = '') {
     MovieCardSection.renderEmpty(false);

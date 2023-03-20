@@ -50,8 +50,8 @@ class App {
   }
 
   setEvent() {
-    Header.setEvent(this.#movies);
-    MovieCardSection.setEvent(this.#movies);
+    Header.setEvent(this.#movies, this.#app);
+    MovieCardSection.setEvent(this.#movies, this.#app);
   }
 }
 
