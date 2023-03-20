@@ -34,12 +34,12 @@ class Header implements Component {
   }
 
   setEvents(): this {
-    this.logo.addEventListener('click', this.handleClickLogo.bind(this));
+    this.logo.addEventListener('click', this.#handleClickLogo.bind(this));
 
     return this;
   }
 
-  handleClickLogo() {
+  #handleClickLogo() {
     this.node.dispatchEvent(new Event('click-logo', { bubbles: true }));
   }
 }

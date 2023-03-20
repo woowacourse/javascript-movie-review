@@ -1,7 +1,7 @@
-import { FetchStandard, FetchType } from './types/fetcherType';
 import MovieList from './components/MovieList';
 import Header from './components/Header';
 import MovieFetcher from './domain/MovieFetcher';
+import { POPULAR_LIST_NAME, SEARCH_LIST_NAME_SUFFIX } from './constants/listNames';
 
 class App {
   readonly node: HTMLElement;
@@ -18,10 +18,10 @@ class App {
 
     this.movieFetcher = new MovieFetcher();
 
-    this.composeNode().addEvents().renderMovies();
+    this.composeNode().addEvents().#renderMovies();
   }
 
-  async renderMovies() {
+  async #renderMovies() {
     try {
       this.children.movieList.showSkeleton();
       const movieDetails = await this.movieFetcher.fetchMovies();
@@ -35,12 +35,6 @@ class App {
     }
   }
 
-  async searchMovies(keyword: string) {
-    this.children.movieList.cleanMovieList();
-    this.movieFetcher.setSearchSettings(keyword);
-    await this.renderMovies();
-  }
-
   composeNode(): this {
     this.node.appendChild(this.children.header.node);
     this.node.appendChild(this.children.movieList.node);
@@ -48,22 +42,29 @@ class App {
     return this;
   }
 
-  async handleClickLogo() {
+  searchMovies(keyword: string) {
     this.children.movieList.cleanMovieList();
+    this.movieFetcher.setSearchSettings(keyword);
+    this.#renderMovies();
+  }
+
+  #handleClickLogo() {
+    this.children.movieList.cleanMovieList().setListName(POPULAR_LIST_NAME);
     this.movieFetcher.setPopularSettings();
-    await this.renderMovies();
+    this.#renderMovies();
+  }
+
+  #handleSubmitSearch({ detail }: any) {
+    this.children.movieList.cleanMovieList().setListName(`${detail.keyword} ${SEARCH_LIST_NAME_SUFFIX}`);
+    this.movieFetcher.setSearchSettings(detail.keyword);
+    this.#renderMovies();
   }
 
   addEvents() {
-    document.addEventListener('submit-search', async ({ detail }: any) => {
-      await this.searchMovies(detail.keyword);
-    });
+    document.addEventListener('submit-search', this.#handleSubmitSearch.bind(this));
+    document.addEventListener('click-more-button', this.#renderMovies.bind(this));
+    document.addEventListener('click-logo', this.#handleClickLogo.bind(this));
 
-    document.addEventListener('click-more-button', this.renderMovies.bind(this));
-
-    document.addEventListener('click-logo', () => {
-      this.handleClickLogo();
-    });
     return this;
   }
 }
