@@ -1,9 +1,13 @@
-import HTTPError from './HTTPError';
 import { HTTP_STATUS_BAD_REQUEST, HTTP_STATUS_INTERNAL_SERVER_ERROR } from '../constants';
 import { INVALID_JSON_RESPONSE } from '../constants/invalidMessage';
+import HTTPError from './HTTPError';
 
 async function fetchAPI(endpoint: string) {
-  const response = await fetch(endpoint);
+  const response = await fetch(endpoint, {
+    headers: {
+      Accept: 'application/json',
+    },
+  });
 
   if (!response.ok) {
     if (
@@ -16,15 +20,13 @@ async function fetchAPI(endpoint: string) {
     }
   }
 
-  const contentType = response.headers.get('Content-Type');
+  try {
+    const data = await response.json();
 
-  if (!contentType || !contentType.includes('application/json')) {
+    return data;
+  } catch (error) {
     throw new Error(INVALID_JSON_RESPONSE);
   }
-
-  const data = await response.json();
-
-  return data;
 }
 
 export { fetchAPI };
