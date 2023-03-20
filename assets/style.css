@@ -66,14 +66,27 @@ button {
 }
 
 .item-title {
+  display: -webkit-box;
   margin-top: 16px;
   font-size: 1.2rem;
   font-weight: bold;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .item-score {
+  display: flex;
+  align-items: center;
   margin-top: 16px;
   font-size: 1.2rem;
+}
+
+.item-score > img {
+  margin-right: 8px;
+  padding-bottom: 2px;
 }
 
 .item-score::after {
