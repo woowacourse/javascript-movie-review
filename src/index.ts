@@ -46,7 +46,7 @@ const App = {
           );
           const container = $('#item-view');
           if (container instanceof HTMLElement) {
-            movieApi.fetchMovieList({ query: value, currentPage: 1 }).then(data => {
+            movieApi.searchMovieList(value, 1).then(data => {
               const results = data.results;
               const cardTemplateList = results
                 .map((item: { poster_path: string; title: string; vote_average: number }) =>
