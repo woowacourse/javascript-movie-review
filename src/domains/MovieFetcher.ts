@@ -1,5 +1,5 @@
 import { API_URL } from '../constants/constants';
-import { APIMovieType, ResponseType } from '../types';
+import { APIMovieType, APIResponseType, FetchStatusType, MovieResponseType } from '../types';
 
 class MovieFetcher {
   #currentPage = 1;
@@ -12,38 +12,49 @@ class MovieFetcher {
     this.#currentPage += 1;
   }
 
-  async fetchMovieInfo(keyword?: string): Promise<ResponseType> {
+  async fetchMovieInfo(keyword?: string): Promise<MovieResponseType> {
     try {
       const apiUrl =
         typeof keyword === 'string'
           ? API_URL.SEARCH_MOVIES(this.#currentPage, keyword)
           : API_URL.POPULAR_MOVIES(this.#currentPage);
-      const response = await fetch(apiUrl);
+      const response = await fetch(apiUrl).then((res) => res.json());
+      const fetchStatus = this.getFetchStatus(response);
 
-      if (!response.ok) {
-        if (response.status === 422) return { result: 'PAGE_ERROR' };
-        if (response.status >= 400 && response.status <= 499) return { result: 'CLIENT_ERROR' };
-        if (response.status >= 500 && response.status <= 599) return { result: 'SERVER_ERROR' };
-
-        return { result: 'RESPONSE_NOT_OK' };
+      if (!(fetchStatus.statusCode === 200)) {
+        return { result: 'FETCH_FAIL', fetchStatus: fetchStatus };
       }
 
-      const responseText = await response.text();
-      const parsedResponseText = JSON.parse(responseText);
-      const totalPages = parsedResponseText.total_pages;
-
-      const movieList = parsedResponseText.results.map((currentResult: APIMovieType) => ({
+      const totalPages = response.total_pages;
+      const movieList = response.results.map((currentResult: APIMovieType) => ({
         title: currentResult.title,
         posterPath: currentResult.poster_path,
         voteAverage: currentResult.vote_average,
       }));
 
-      if (this.#currentPage === totalPages) return { result: 'LAST_PAGE', movieList };
+      if (this.#currentPage === totalPages)
+        return { result: 'FETCH_SUCCESS', movieList, isLastPage: true };
 
-      return { result: 'OK', movieList };
+      return { result: 'FETCH_SUCCESS', movieList };
     } catch (error) {
+      if (error instanceof Error) {
+        const fetchStatus = { statusCode: undefined, statusMessage: error.message };
+        return { result: 'SYSTEM_CRASHED', fetchStatus }; // 네트워크 에러 등
+      }
       return { result: 'SYSTEM_CRASHED' };
     }
+  }
+
+  getFetchStatus(response: APIResponseType): FetchStatusType {
+    if (response.success === false && response.status_message) {
+      return { statusCode: response.status_code, statusMessage: response.status_message };
+    }
+
+    if (response.success === false && response.errors) {
+      return { statusCode: undefined, statusMessage: response.errors[0] };
+    }
+
+    return { statusCode: 200, statusMessage: 'Success' };
   }
 }
 

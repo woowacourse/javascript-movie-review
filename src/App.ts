@@ -3,6 +3,7 @@ import MovieList from './components/MovieList';
 import MovieFetcher from './domains/MovieFetcher';
 import LoadMoreButton from './components/LoadMoreButton';
 import errorItem from './components/errorItem';
+import handleError from './handleError';
 
 class App {
   #header = new Header();
@@ -28,36 +29,14 @@ class App {
 
     this.#movieList.renderSkeletonItems();
 
-    const { result, movieList } =
+    const { result, fetchStatus, movieList, isLastPage } =
       requestListType === 'popularity'
         ? await this.#movieFetcher.fetchMovieInfo()
         : await this.#movieFetcher.fetchMovieInfo(keyword);
 
     this.#movieList.removeSkeletonItems();
 
-    if (result === 'PAGE_ERROR') {
-      alert('페이지 에러');
-      return;
-    }
-
-    if (result === 'CLIENT_ERROR') {
-      alert('잘못된 요청입니다. 잠시 후 다시 시도해 주세요.');
-      return;
-    }
-
-    if (result === 'SYSTEM_CRASHED') {
-      alert(
-        '죄송합니다. 알 수 없는 오류로 인해 영화 정보를 가져오는 데 실패하였습니다. 페이지 새로고침 후 다시 시도해 주세요.',
-      );
-      return;
-    }
-
-    if (result === 'SERVER_ERROR') {
-      alert(
-        '죄송합니다. 서버에 문제가 있어 현재 영화 정보를 가져올 수 없습니다. 잠시 후 다시 시도해 주세요.',
-      );
-      return;
-    }
+    if (handleError(result, fetchStatus)) return;
 
     if (!movieList) return;
 
@@ -66,11 +45,11 @@ class App {
       this.#requestListType = 'keyword';
     }
 
-    if (result === 'LAST_PAGE') {
+    if (isLastPage) {
       this.#loadMoreButton.disable();
     }
 
-    if (result === 'LAST_PAGE' && updateType === 'overwrite') {
+    if (isLastPage && updateType === 'overwrite') {
       this.#movieList.renderNoResult(errorItem(result));
       return;
     }
@@ -79,7 +58,7 @@ class App {
       ? this.#movieList.renderContents(movieList)
       : this.#movieList.renderNextContents(movieList);
 
-    if (result === 'OK') this.#loadMoreButton.enable();
+    if (!isLastPage) this.#loadMoreButton.enable();
   }
 
   onClickLoadMoreButton = () => {

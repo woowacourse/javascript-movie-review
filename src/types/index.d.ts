@@ -10,8 +10,23 @@ export interface APIMovieType {
   vote_average: number;
 }
 
-export interface ResponseType {
+export interface MovieResponseType {
   result: string;
   status?: number;
+  fetchStatus?: FetchStatusType;
   movieList?: MovieType[];
+  isLastPage?: boolean = false;
+}
+export interface APIResponseType {
+  success?: boolean;
+  status_code?: number;
+  status_message?: string;
+  errors?: string[];
+  total_pages?: number;
+  results?: MovieResponseType[];
+}
+
+export interface FetchStatusType {
+  statusCode: number | undefined;
+  statusMessage: string;
 }
