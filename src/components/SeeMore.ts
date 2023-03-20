@@ -1,38 +1,45 @@
-import movies from '../domain/Movies';
-import { $ } from '../utils/domHelper';
+import Component from './core/Component';
 
-export default class SeeMore {
+export default class SeeMore extends Component {
   $target;
 
+  state;
+
   constructor($target: HTMLElement) {
+    super();
     this.$target = $target;
 
-    movies.subscribe('movies', this.showButton.bind(this));
+    this.state = this.useState();
   }
 
-  setEvent() {
-    $('.btn').addEventListener('click', () => {
-      this.showMoreMovies();
-    });
-  }
-
-  template() {
-    return `<button class="btn primary full-width">더 보기</button>`;
-  }
-
-  render() {
-    this.$target.insertAdjacentHTML('beforeend', this.template());
-
-    return this;
-  }
-
-  showMoreMovies() {
-    if (movies.getIsSearched()) movies.searchMovies(movies.getQuery());
-    else movies.setMovies();
+  showMoreMovies(renderMovieList: () => void) {
+    renderMovieList();
   }
 
   showButton() {
-    if (movies.getIsEnd()) $('button.btn').classList.add('button--hidden');
-    else $('button.btn').classList.remove('button--hidden');
+    if (this.state.getValue('isEnd')) {
+      this.$target.classList.add('button--hidden');
+      return;
+    }
+
+    this.$target.classList.remove('button--hidden');
+  }
+
+  template() {
+    return '더보기';
+  }
+
+  render() {
+    this.showButton();
+
+    this.$target.innerHTML = this.template();
+  }
+
+  setEvent(renderMovieList: () => void) {
+    this.$target.addEventListener('click', () => {
+      if (this.$target instanceof HTMLButtonElement) {
+        this.showMoreMovies(renderMovieList);
+      }
+    });
   }
 }
