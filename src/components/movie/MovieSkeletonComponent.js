@@ -3,7 +3,7 @@ import CustomComponent from "../../abstracts/CustomComponent";
 export default class MovieSkeletonComponent extends CustomComponent {
   template() {
     return `
-        <a href="#">
+        <a>
           <div class="item-card">
             <div class="item-thumbnail skeleton"></div>
             <div class="item-title skeleton"></div>

@@ -12,7 +12,7 @@ export default class MoreButtonComponent extends CustomComponent {
 
   template() {
     return `
-            <button class="btn primary full-width">더 보기</button>
+            <button class="btn primary full-width" aria-label="영화 목록 더 보기">더 보기</button>
         `;
   }
 }
