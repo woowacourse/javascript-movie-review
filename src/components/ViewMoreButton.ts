@@ -1,4 +1,4 @@
-import { plusPage } from '../data/usePage';
+import { plusPage } from '../hooks/usePage';
 import { Event } from '../utils/index';
 
 import { renderMoreSkeletonList } from './MovieList';

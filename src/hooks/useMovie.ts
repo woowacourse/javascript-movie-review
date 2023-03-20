@@ -1,6 +1,6 @@
 import { renderSearchMovieList, renderMoreMovieList } from '../components/MovieList';
 import { $ } from '../utils';
-import { getMovies, getSearchMovie } from './api';
+import { getMovies, getSearchMovie } from '../api';
 import { setRecentKeyword } from './useKeyword';
 import { getPage } from './usePage';
 

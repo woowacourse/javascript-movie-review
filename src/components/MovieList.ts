@@ -1,10 +1,10 @@
-import { IMovie } from '../data/api';
+import { IMovie } from '../api';
 import { MovieItem } from './MovieItem';
-import { usePopularMovie, useSearchedMovie } from '../data/useMovie';
+import { usePopularMovie, useSearchedMovie } from '../hooks/useMovie';
 import { $, $$ } from '../utils';
 import { Skeleton } from './Skeleton';
-import { IPageStatus, getPageStatus, POPULAR } from '../data/usePage';
-import { getRecentKeyword } from '../data/useKeyword';
+import { IPageStatus, getPageStatus, POPULAR } from '../hooks/usePage';
+import { getRecentKeyword } from '../hooks/useKeyword';
 
 export async function renderSkeletonList() {
   const parentElem = $('.item-list') as HTMLElement;

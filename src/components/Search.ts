@@ -1,5 +1,5 @@
-import { useSearchedMovie } from '../data/useMovie';
-import { resetPage, togglePageStatus } from '../data/usePage';
+import { useSearchedMovie } from '../hooks/useMovie';
+import { resetPage, togglePageStatus } from '../hooks/usePage';
 import { getFormFields } from '../utils/formData';
 import { $, Event } from '../utils/index';
 
