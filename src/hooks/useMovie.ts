@@ -27,11 +27,11 @@ export async function usePopularMovie(requestedPage: number) {
 export async function useSearchedMovie(keyword: string, requestedPage: number) {
   const { page, results } = await getSearchMovie(keyword, requestedPage);
 
-  const val = $('.view-more-button') as HTMLElement;
-  val.style.display = 'inline-block';
+  const $viewMoreButton = $('.view-more-button') as HTMLElement;
+  $viewMoreButton.style.display = 'inline-block';
 
   if (results.length < 20) {
-    val.style.display = 'none';
+    $viewMoreButton.style.display = 'none';
   }
 
   function handlePageHeader() {
