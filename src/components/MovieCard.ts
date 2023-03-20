@@ -15,7 +15,7 @@ class MovieCard {
     return this._node;
   }
 
-  createTemplate(): this {
+  createTemplate() {
     this._node = document.createElement('li');
 
     console.log(this.movieData.posterPath);
@@ -37,8 +37,6 @@ class MovieCard {
         </div>
       </a>
     `;
-
-    return this;
   }
 
   updateMovie(props: MovieItem) {

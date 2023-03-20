@@ -20,8 +20,6 @@ class Header {
 
     const searchBox = new SearchBox();
     this._node.insertAdjacentElement('beforeend', searchBox.node);
-
-    return this;
   }
 
   clickLogoIcon() {

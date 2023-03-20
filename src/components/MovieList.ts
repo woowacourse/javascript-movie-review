@@ -22,11 +22,9 @@ class MovieList {
     return this._node;
   }
 
-  createTemplate(): this {
+  createTemplate() {
     this._node = document.createElement('main');
     this.paintMovieLayout();
-
-    return this;
   }
 
   createSkeleton() {
