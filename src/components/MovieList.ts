@@ -55,10 +55,6 @@ export class MovieList {
     try {
       const response: TMDBResponse = await this.fetchFn(page);
 
-      await new Promise((resolve) => {
-        setTimeout(resolve, 500);
-      });
-
       const movies = response.results;
 
       const totalPages = response.total_pages;
