@@ -21,7 +21,7 @@ export default class MovieCard {
               alt="${title}"
             />
             <p class="item-title">${title}</p>
-            <p class="item-score"><img src="${starFilled}" alt="별점" /> ${vote_average}</p>
+            <p class="item-score"><img src="${starFilled}" alt="별점" /><span class='item-vote-average'>${vote_average}</span></p>
           </div>
         </a>
       </li>
