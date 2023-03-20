@@ -79,7 +79,7 @@ button {
   align-items: center;
 }
 
-.empty-message {
+.message {
   position: fixed;
   top: 72px;
   bottom: 0;
