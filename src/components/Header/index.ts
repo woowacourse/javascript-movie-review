@@ -17,13 +17,13 @@ export class Header extends HTMLElement {
         return;
       }
       searchHandler(value);
-      e.currentTarget.value = '';
     });
   }
 
   addClickLogoHandler(handler: CallableFunction) {
     const $logo = $<HTMLImageElement>('.movie-logo');
     $logo?.addEventListener('click', () => {
+      $<HTMLInputElement>('input', this).value = '';
       handler();
     });
   }
