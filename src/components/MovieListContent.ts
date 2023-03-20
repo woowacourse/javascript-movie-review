@@ -62,15 +62,12 @@ class MovieListContent {
 
   renderMovies(movies: Movie[]) {
     const items = $$<HTMLUListElement>('.item-card');
-    const extraItems = MOVIE_MAX_COUNT - movies.length;
+    const lastPageItems = items.slice(-MOVIE_MAX_COUNT);
+    const itemsToRender = lastPageItems.slice(0, movies.length);
+    const itemsToRemove = lastPageItems.slice(movies.length);
 
-    items.splice(items.length - extraItems).forEach((element) => {
-      element.remove();
-    });
-
-    items.slice(-movies.length).forEach((child, key) => {
-      MovieItem.render(child, movies[key]);
-    });
+    itemsToRender.forEach((child, key) => MovieItem.render(child, movies[key]));
+    itemsToRemove.forEach((item) => item.remove());
   }
 
   private clearListContent = () => {
