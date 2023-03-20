@@ -8,7 +8,7 @@
 .skeleton {
   border-radius: 8px;
   background-size: 400%;
-  background: linear-gradient(-90deg, var(--silver), var(----gray), var(--silver), var(----gray));
+  background: linear-gradient(-90deg, var(--silver), var(--gray), var(--silver), var(--gray));
   animation: skeleton-animation 5s infinite ease-out;
 }
 
