@@ -47,6 +47,7 @@ const movieApp = {
 
     if (movies.results.length < 20) this.$container.removeLoadMovieButton();
 
+    this.$container.hideSkeletonUI();
     movieList.render(movieHandler.movies);
   },
 
@@ -63,7 +64,7 @@ const movieApp = {
   async fetchMovieData(fetchFunction: () => Promise<ResponseData>) {
     const movieList = <MovieList>$("movie-list");
 
-    movieList.displaySkeletonUI();
+    this.$container.showSkeletonUI();
     try {
       const movies = await fetchFunction();
 
