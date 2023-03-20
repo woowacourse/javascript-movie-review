@@ -1,6 +1,7 @@
 import { executeEventListener } from "../utils/eventListener";
 import { $ } from "../utils/selector";
-import { movieApi, resetMoviesAndPages } from "../domain/movieApi";
+import { page } from "../domain/page";
+import { resetMoviesAndPages } from "../domain/movieApi";
 
 export const onSubmitSearchBox = () => {
   executeEventListener($(".search-box"), {
@@ -12,9 +13,9 @@ export const onSubmitSearchBox = () => {
 
     if (keyword === "") return;
 
-    movieApi.last_keyword = keyword;
+    page.last_keyword = keyword;
     resetMoviesAndPages();
-    movieApi.showSearchedMovies(keyword);
+    page.showSearchedMovies(keyword);
   });
 };
 
@@ -24,8 +25,8 @@ export const onClickLogo = () => {
     prevent: true
   }, () => {
     resetMoviesAndPages();
-    movieApi.last_keyword = "";
+    page.last_keyword = "";
 
-    movieApi.showPopularMovies();
+    page.showPopularMovies();
   });
 };

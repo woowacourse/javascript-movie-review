@@ -1,4 +1,4 @@
-import { movieApi } from "../domain/movieApi";
+import { page } from "../domain/page";
 import { executeEventListener } from "../utils/eventListener";
 import { $ } from "../utils/selector";
 import MovieList from "./MovieList";
@@ -10,12 +10,12 @@ export const onClickMoreButton = () => {
   }, async () => {
     $(".item-list").insertAdjacentHTML("beforeend", renderSkeletons());
 
-    movieApi.page += 1;
+    page.page += 1;
 
-    if (movieApi.last_keyword === "") {
-      movieApi.showPopularMovies();
+    if (page.last_keyword === "") {
+      page.showPopularMovies();
     } else {
-      movieApi.showSearchedMovies(movieApi.last_keyword);
+      page.showSearchedMovies(page.last_keyword);
     }
   });
 };

@@ -1,4 +1,4 @@
-import { movieApi } from "../domain/movieApi";
+import { page } from "../domain/page";
 
 export default class NoResultsMessage extends HTMLElement {
   constructor() {
@@ -9,7 +9,7 @@ export default class NoResultsMessage extends HTMLElement {
   render() {
     this.innerHTML = `
     <section id="no-result" class="center">
-      <h2>"${movieApi.last_keyword}"에 일치하는 검색 결과가 없습니다.</h2>
+      <h2>"${page.last_keyword}"에 일치하는 검색 결과가 없습니다.</h2>
       <p>[ 제안 ]</p>
       <ul>
         <li>다른 키워드를 입력하세요.</li>

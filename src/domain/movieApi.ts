@@ -1,6 +1,7 @@
 import { removeMoreButton } from "../components/movieListHandler";
 import { Movie } from "../type";
 import { movieStore } from "./movieStore";
+import { page } from "./page";
 
 interface MovieResult {
   poster_path: string;
@@ -15,27 +16,10 @@ interface MovieApiResponse {
   total_results: number;
 }
 
-const BASE_URL = 'https://api.themoviedb.org/3'
-const API_KEY = process.env.API_KEY
-
-export const movieApi = {
-  page: 1,
-  total_page: 2,
-  last_keyword: "",
-
-  showPopularMovies() {
-    fetchMovieInfo(`${BASE_URL}/movie/popular?api_key=${API_KEY}&language=ko&page=${movieApi.page}`);
-  },
-
-  showSearchedMovies(keyword: string) {
-    fetchMovieInfo(`${BASE_URL}/search/movie?api_key=${API_KEY}&language=ko&page=${movieApi.page}&query=${keyword}`);
-  },
-};
-
-const fetchMovieInfo = async (url: string) => {
+export const fetchMovieInfo = async (url: string) => {
   try {
     const response = await fetch(url).then((data) => data.json());
-    if (movieApi.page === response.page) {
+    if (page.page === response.page) {
       handleMovieInfoResponse(response);
     }
     else {
@@ -47,9 +31,9 @@ const fetchMovieInfo = async (url: string) => {
   }
 };
 
-const handleMovieInfoResponse = async (response: MovieApiResponse) => {
+export const handleMovieInfoResponse = async (response: MovieApiResponse) => {
   const { results, total_pages } = await response;
-  movieApi.total_page = total_pages;
+  page.total_page = total_pages;
 
   saveMoviesAndRemoveMoreButton(results);
 };
@@ -57,7 +41,7 @@ const handleMovieInfoResponse = async (response: MovieApiResponse) => {
 const saveMoviesAndRemoveMoreButton = (results: MovieResult[]) => {
   movieStore.appendMovies(convertApiResponseToMovieList(results));
 
-  if (movieApi.page === movieApi.total_page) removeMoreButton();
+  if (page.page === page.total_page) removeMoreButton();
 };
 
 const convertApiResponseToMovieList = (results: MovieResult[]): Movie[] => {
@@ -72,6 +56,6 @@ const convertApiResponseToMovieList = (results: MovieResult[]): Movie[] => {
 
 export const resetMoviesAndPages = () => {
   movieStore.movies = [];
-  movieApi.page = 1;
-  movieApi.total_page = 2;
+  page.page = 1;
+  page.total_page = 2;
 };

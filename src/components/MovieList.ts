@@ -1,4 +1,4 @@
-import { movieApi } from "../domain/movieApi";
+import { page } from "../domain/page";
 import { movieStore } from "../domain/movieStore";
 import { Movie } from "../type";
 import { renderSkeletons } from "./movieListHandler";
@@ -18,9 +18,9 @@ export default class MovieList extends HTMLElement {
     this.innerHTML = `
     <section class="item-view">
       ${movieStore.movies.length > 0
-        ? `<h2>${movieApi.last_keyword === ""
+        ? `<h2>${page.last_keyword === ""
           ? "지금 인기 있는 영화"
-          : `"${movieApi.last_keyword}" 검색 결과`
+          : `"${page.last_keyword}" 검색 결과`
         }</h2>
             <ul class="item-list">
               ${movieStore.movies
