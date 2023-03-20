@@ -2,21 +2,35 @@ import type { MovieResponse, Movie } from "../types";
 
 export class Movies {
   #list: Movie[];
+  #currentList: Movie[];
 
   constructor(list: MovieResponse[]) {
-    this.#list = this.convertResponseToMovieData(list);
+    const convertedList = this.convertResponseToMovieData(list);
+
+    this.#list = convertedList;
+    this.#currentList = convertedList;
   }
 
   getList(): Movie[] {
-    return this.#list;
+    return [...this.#list];
+  }
+
+  getCurrentList(): Movie[] {
+    return [...this.#currentList];
   }
 
   add(list: MovieResponse[]) {
-    this.#list = [...this.#list, ...this.convertResponseToMovieData(list)];
+    const convertedList = this.convertResponseToMovieData(list);
+
+    this.#list = [...this.#list, ...convertedList];
+    this.#currentList = convertedList;
   }
 
   reset(list: MovieResponse[]) {
-    this.#list = this.convertResponseToMovieData(list);
+    const convertedList = this.convertResponseToMovieData(list);
+
+    this.#list = convertedList;
+    this.#currentList = convertedList;
   }
 
   convertResponseToMovieData(list: MovieResponse[]): Movie[] {

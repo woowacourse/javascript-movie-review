@@ -64,10 +64,15 @@ export class MovieList {
   render(movieList: MovieResponse[], total_pages: number) {
     this.#$target.removeChild(this.#$skeletonContainer);
 
-    this.#$target.innerHTML += `
-        ${movieList.map((movie) => this.getMovieCardTemplate(movie)).join("")}
-    `;
-    this.#movies.add(movieList);
+    if (this.#state.page !== 1) this.#movies.add(movieList);
+
+    this.#$target.insertAdjacentHTML(
+      "beforeend",
+      `${this.#movies
+        .getCurrentList()
+        .map((movie) => this.getMovieCardTemplate(movie))
+        .join("")}`
+    );
 
     if (this.#state.page === total_pages) this.hideMoreButton();
   }
