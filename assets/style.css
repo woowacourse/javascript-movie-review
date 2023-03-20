@@ -64,7 +64,7 @@ button {
   width: 180px;
   height: 270px;
   background-size: contain;
-  animation: fade-in 0.3s;
+  animation: fade-in 0.7s;
 }
 
 @keyframes fade-in {
