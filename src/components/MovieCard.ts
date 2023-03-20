@@ -18,8 +18,6 @@ class MovieCard {
   createTemplate() {
     this._node = document.createElement('li');
 
-    console.log(this.movieData.posterPath);
-
     this._node.innerHTML = `<a>
         <div class="item-card">
           <div class="item-thumbnail skeleton"></div>

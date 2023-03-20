@@ -37,7 +37,9 @@
 
 ---
 
-## 1단계 코드 리뷰 - 리팩터링 목록
+## 1단계 코드 리뷰
+
+### 리팩터링 목록
 
 - [x] refactor: prompt 창 지우기
 - [x] refactor: 타입 한 곳에서 관리하기
@@ -50,3 +52,7 @@
 - [x] refactor: API URL 상수화
 - [x] refactor: dataProcessors객체 생성
   - processMovieData메서드를 추가
+
+### 테스트 목록
+
+- [x] test: cypress 테스트 작성
