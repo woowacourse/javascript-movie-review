@@ -7,14 +7,14 @@ export default class MovieHeader extends HTMLElement {
   render() {
     this.innerHTML = /*html*/ `
   <header>
-    <h1 class="home-button">MovieList</h1>
+    <img class='home-button'/>
     <movie-search></movie-search>
   </header>`;
   }
 
   setEvent() {
     const $homeButtom = this.querySelector(".home-button");
-    if ($homeButtom instanceof HTMLHeadingElement)
+    if ($homeButtom instanceof HTMLImageElement)
       $homeButtom.addEventListener("click", () => {
         this.dispatchEvent(
           new CustomEvent("click-home-button", { bubbles: true })
