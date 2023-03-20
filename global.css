@@ -32,3 +32,10 @@ input:focus {
   width: 1200px;
   margin: 0 auto;
 }
+
+.skeleton {
+  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background-size: 400%;
+  animation: skeleton-animation 5s infinite ease-out;
+  border-radius: 8px;
+}
