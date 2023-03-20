@@ -1,33 +1,32 @@
 import { MovieType } from '../types';
-import { $, $$ } from '../utils/domSelector';
+import { $ } from '../utils/domSelector';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original';
 const NO_IMAGE_URL = '../../assets/no_image.png';
 
 type MovieItemConstructorType = {
+  parentElement: HTMLElement;
   skeleton: Element;
   movieInfo: MovieType;
 };
 
 class MovieItem {
-  #skeleton: Element;
-  #item!: HTMLElement;
+  private $parentElement;
+  private $skeleton;
+  private item!: HTMLElement;
 
-  constructor({ skeleton, movieInfo }: MovieItemConstructorType) {
-    this.#skeleton = skeleton;
-    this.#createElement(movieInfo);
-    this.#replaceSkeletonWhenLoaded();
+  constructor({ parentElement, skeleton, movieInfo }: MovieItemConstructorType) {
+    this.$parentElement = parentElement;
+    this.$skeleton = skeleton;
+    this.createElement(movieInfo);
+    this.replaceSkeletonWhenLoaded();
   }
 
-  render() {
-    $('.item-list').appendChild(this.#item);
-  }
-
-  #createElement({ title, posterPath, voteAverage }: MovieType) {
+  private createElement({ title, posterPath, voteAverage }: MovieType) {
     const imageUrl = posterPath ? `${IMAGE_BASE_URL}${posterPath}` : NO_IMAGE_URL;
 
-    this.#item = document.createElement('li');
-    this.#item.innerHTML = `
+    this.item = document.createElement('li');
+    this.item.innerHTML = `
       <a href="#">
         <div class="item-card">
           <img
@@ -40,11 +39,11 @@ class MovieItem {
       </a>`;
   }
 
-  #replaceSkeletonWhenLoaded() {
-    const $imageElement = $('img', this.#item);
+  private replaceSkeletonWhenLoaded() {
+    const $imageElement = $('img', this.item);
 
     $imageElement.addEventListener('load', () => {
-      $('.item-list').replaceChild(this.#item, this.#skeleton);
+      this.$parentElement.replaceChild(this.item, this.$skeleton);
     });
   }
 }

@@ -1,9 +1,14 @@
 import { $ } from '../utils/domSelector';
 
 class Header {
-  #element = $('header');
+  $parentElement;
 
-  render() {
+  constructor(parentElement: HTMLElement) {
+    this.$parentElement = parentElement;
+    this.render();
+  }
+
+  private render() {
     const template = `      
       <h1><a href="./"><img src="./assets/logo.png" alt="MovieList 로고" /></a></h1>
       <div class="search-box">
@@ -11,7 +16,7 @@ class Header {
         <button class="search-button" id="search-button">검색</button>
       </div>`;
 
-    this.#element.innerHTML = template;
+    this.$parentElement.innerHTML = template;
   }
 
   addClickEventHandler(onClickSearchButton: CallableFunction) {

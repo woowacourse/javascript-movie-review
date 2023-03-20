@@ -10,44 +10,63 @@ type ErrorLayoutConstructorType = {
   message: string;
 };
 
+type MovieListConstructorType = {
+  parentElement: HTMLElement;
+  listTitle: string;
+};
+
 class MovieList {
-  renderListTitle(listTitle: string) {
-    const template = `
+  private $parentElement;
+  private $element!: HTMLElement;
+
+  constructor({ parentElement, listTitle }: MovieListConstructorType) {
+    this.$parentElement = parentElement;
+    this.render(listTitle);
+  }
+
+  private render(listTitle: string) {
+    this.$element = document.createElement('div');
+
+    this.$element.innerHTML = `
       <h2>${listTitle}</h2>
       <ul class="item-list"></ul>`;
 
-    $('.item-view').insertAdjacentHTML('beforeend', template);
+    this.$parentElement.appendChild(this.$element);
   }
 
   setTitle(listTitle: string) {
-    $('.item-view h2').textContent = listTitle;
+    $('h2', this.$element).textContent = listTitle;
   }
 
   showErrorMessage({ image, title, message }: ErrorLayoutConstructorType) {
-    $('.item-list').innerHTML = errorLayout.getTemplate({ image, title, message });
+    $('.item-list', this.$element).innerHTML = errorLayout.getTemplate({ image, title, message });
   }
 
   clearItems() {
-    $('.item-list').innerHTML = '';
+    $('.item-list', this.$element).innerHTML = '';
   }
 
   renderSkeletonItems(count: number = 20) {
     const skeletonItems = skeletonItem().repeat(count);
-    $('.item-list').insertAdjacentHTML('beforeend', skeletonItems);
+    $('.item-list', this.$element).insertAdjacentHTML('beforeend', skeletonItems);
   }
 
   removeSkeletonItems() {
-    $$('.item-list .skeleton-item:not(.occupied)').forEach((skeleton) => {
+    $$('.skeleton-item:not(.occupied)', this.$element).forEach((skeleton) => {
       skeleton.remove();
     });
   }
 
   renderContents(movieInfoList: MovieType[]) {
-    const skeletons = $$('.item-list .skeleton-item');
+    const skeletons = $$('.skeleton-item', this.$element);
 
     movieInfoList.forEach((movieInfo, index) => {
       skeletons[index].classList.add('occupied');
-      new MovieItem({ skeleton: skeletons[index], movieInfo: movieInfo });
+      new MovieItem({
+        parentElement: $('.item-list', this.$element),
+        skeleton: skeletons[index],
+        movieInfo: movieInfo,
+      });
     });
   }
 }
