@@ -2,7 +2,7 @@ import { fetchMovieListWithKeyword, fetchPopularMovieList } from "../../apis/api
 import Movie from "../../domain/Movie";
 import "./index.css";
 import MovieItem from "./MovieItem/MovieItem";
-import SkeletonList from "./SkeletonList";
+import SkeletonList from "./SkeletonList/SkeletonContainer";
 
 class MovieList {
   $target;
