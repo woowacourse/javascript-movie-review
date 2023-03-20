@@ -1,4 +1,5 @@
 import Movie from './domain/Movie';
+
 import { statusCodeToErrorMessage } from './statusCode';
 
 const Store = {

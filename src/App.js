@@ -1,10 +1,6 @@
 import Store from './Store';
 
-import Header from './components/Header';
-import ListTitle from './components/ListTitle';
-import ItemList from './components/ItemList';
-import MoreButton from './components/MoreButton';
-import WholeScreenMessageAlert from './components/WholeScreenMessageAlert';
+import { Header, ListTitle, ItemList, MoreButton, WholeScreenMessageAlert } from './components';
 
 class App {
   $main = document.createElement('main');

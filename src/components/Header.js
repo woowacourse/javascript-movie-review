@@ -1,5 +1,6 @@
-import logo from '../../templates/logo.png';
 import Store from '../Store';
+
+import logo from '../../templates/logo.png';
 
 class Header {
   $header = document.createElement('header');

@@ -1,6 +1,7 @@
-import movieItem from './movieItem';
 import Store from '../Store';
-import WholeScreenMessageAlert from './WholeScreenMessageAlert';
+
+import { movieItem, WholeScreenMessageAlert } from './';
+
 class ItemList {
   // 렌더링 방식 변경하기...
   $ul = document.createElement('ul');
