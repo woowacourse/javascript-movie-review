@@ -1,22 +1,30 @@
+// components
+import Component from './core/Component';
+import MovieSearchList from './MovieList/MovieSearchList';
+
 import { MOVIE_APP_IMG_PATH } from '../constant/index';
-import movies from '../domain/Movies';
 import { $ } from '../utils/domHelper';
 
-export default class Header {
+export default class Header extends Component {
   $target;
 
+  state;
+
   constructor($target: HTMLElement) {
+    super();
+
     this.$target = $target;
+    this.state = this.useState();
   }
 
-  setEvent() {
-    $('.search-box').addEventListener('submit', (event) => {
-      this.searchMovies(event);
-    });
-
-    $('.logo').addEventListener('click', () => {
-      window.location.reload();
-    });
+  template() {
+    return `
+      <h1><img src="${MOVIE_APP_IMG_PATH.logo}" alt="MovieList 로고" class="logo" /></h1>
+      <form class="search-box">
+        <input id="searchMovie" type="text" placeholder="검색" />
+        <button class="search-button">검색</button>
+      </form>
+    `;
   }
 
   render() {
@@ -25,27 +33,23 @@ export default class Header {
     return this;
   }
 
-  template() {
-    return `
-      <header>
-        <h1><img src="${MOVIE_APP_IMG_PATH.logo}" alt="MovieList 로고" class="logo" /></h1>
-        <form class="search-box">
-          <input id="searchMovie" type="text" placeholder="검색" />
-          <button class="search-button">검색</button>
-        </form>
-      </header>
-    `;
+  addEvent(eventTarget: HTMLFormElement) {
+    const { searchMovie } = eventTarget;
+
+    this.state.setValue('isSearched', true);
+
+    $('.item-list').innerHTML = '';
+
+    new MovieSearchList($('.item-list')).emit(searchMovie.value);
   }
 
-  searchMovies(event: Event) {
-    event.preventDefault();
+  setEvent() {
+    this.$target.addEventListener('submit', (e) => {
+      e.preventDefault();
 
-    if (event.target instanceof HTMLFormElement) {
-      const { searchMovie } = event.target;
-
-      $('.item-list').innerHTML = '';
-
-      movies.searchMovies(searchMovie.value);
-    }
+      if (e.target instanceof HTMLFormElement) {
+        this.addEvent(e.target);
+      }
+    });
   }
 }
