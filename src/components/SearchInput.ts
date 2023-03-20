@@ -12,7 +12,7 @@ class SearchInput extends HTMLElement {
     this.innerHTML = `
     <label for="search-input-tag">
       <form id="search-form-box" class="search-box"> 
-      <input id="search-input-tag" type="text" placeholder="검색" />
+      <input id="search-input-tag" type="text" required maxlength=50 placeholder="검색" />
       <button class="search-button">검색</button>
       </form>
     </label>
