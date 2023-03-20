@@ -1,4 +1,11 @@
-export interface MovieResponse {
+interface ApiResponse {
+  page: number;
+  results: MovieData[];
+  total_pages: number;
+  total_results: number;
+}
+
+export interface MovieData {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -15,7 +22,7 @@ export interface MovieResponse {
   vote_count: number;
 }
 
-type ValidResponse = MovieResponse[];
+type ValidResponse = ApiResponse;
 type Request = <T extends ValidResponse>(path: string) => Promise<T>;
 
 const API_KEY = process.env.API_KEY;
@@ -43,10 +50,14 @@ const createSearchParams = (url: URL, params: Record<string, string>) => {
   }).toString();
 };
 
-export const fetchPopularMovies = async (page: number): Promise<MovieResponse[]> => {
-  return request(`movie/popular?page=${page}`);
+export const fetchPopularMovies = async (page: number): Promise<MovieData[]> => {
+  const { results } = await request(`movie/popular?page=${page}`);
+
+  return results;
 };
 
-export const fetchSearchedMovies = async (query: string, page = 1): Promise<MovieResponse[]> => {
-  return request(`search/movie?query=${query}&page=${page}`);
+export const fetchSearchedMovies = async (query: string, page = 1): Promise<MovieData[]> => {
+  const { results } = await request(`search/movie?query=${query}&page=${page}`);
+
+  return results;
 };

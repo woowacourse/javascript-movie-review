@@ -1,9 +1,9 @@
-import { MovieResponse } from '../api';
+import { MovieData } from '../api';
 
-interface Movie {
-  title: MovieResponse['title'];
-  posterPath: MovieResponse['poster_path'];
-  voteAverage: MovieResponse['vote_average'];
+export interface Movie {
+  title: MovieData['title'];
+  posterPath: MovieData['poster_path'];
+  voteAverage: MovieData['vote_average'];
 }
 
 interface MovieService {
