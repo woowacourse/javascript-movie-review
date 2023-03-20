@@ -28,10 +28,6 @@ const Header = {
       try {
         const results = await movies.init();
 
-        if (typeof results === 'string') {
-          throw new Error(results);
-        }
-
         MovieCardList.paint(results);
         LoadMoreButton.handleVisibility(movies.isLastPage());
       } catch (error) {

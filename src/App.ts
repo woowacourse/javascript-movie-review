@@ -6,12 +6,12 @@ import Movies from './domain/Movies';
 import type { Movie } from './types/movie';
 
 class App {
-  #app: HTMLDivElement | null;
+  #app: HTMLDivElement;
 
   #movies: Movies;
 
   constructor() {
-    this.#app = document.querySelector<HTMLDivElement>(`#${ID.APP}`);
+    this.#app = document.querySelector<HTMLDivElement>(`#${ID.APP}`) as HTMLDivElement;
     this.#movies = new Movies();
   }
 
@@ -20,11 +20,6 @@ class App {
 
     try {
       const results = await this.#movies.init();
-
-      if (typeof results === 'string') {
-        throw new Error(results);
-      }
-
       this.paint(results);
     } catch (error) {
       if (error instanceof Error) {
@@ -36,8 +31,6 @@ class App {
   }
 
   render() {
-    if (this.#app === null) return;
-
     this.#app.innerHTML = `
       ${Header.template()}
       <main>

@@ -17,9 +17,6 @@ const LoadMoreButton = {
         const newMovies = movies.getQuery() ? await movies.addSearch() : await movies.addPopular();
 
         if (!newMovies) return;
-        if (typeof newMovies === 'string') {
-          throw new Error(newMovies);
-        }
 
         MovieCardList.paint(newMovies, movies.getPage());
         LoadMoreButton.handleVisibility(movies.isLastPage());

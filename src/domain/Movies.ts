@@ -19,42 +19,30 @@ class Movies {
     this.#query = '';
     this.#page = 1;
 
-    const data = await getPopularMovies(this.#page);
+    const { total_pages: totalPages, results } = await getPopularMovies(this.#page);
 
-    if ('status_message' in data) {
-      return ERROR_MESSAGE;
-    }
+    this.#totalPage = Math.min(MAX_PAGE, totalPages);
 
-    this.#totalPage = Math.min(MAX_PAGE, data.total_pages);
-
-    return data.results;
+    return results;
   }
 
   async addPopular() {
     this.#page += 1;
 
-    const data = await getPopularMovies(this.#page);
+    const { results } = await getPopularMovies(this.#page);
 
-    if ('status_message' in data) {
-      return ERROR_MESSAGE;
-    }
-
-    return data.results;
+    return results;
   }
 
   async search(query: string) {
     this.#query = query;
     this.#page = 1;
 
-    const data = await getSearchedMovies(query);
+    const { total_pages: totalPages, results } = await getSearchedMovies(query);
 
-    if ('status_message' in data) {
-      return ERROR_MESSAGE;
-    }
+    this.#totalPage = Math.min(MAX_PAGE, totalPages);
 
-    this.#totalPage = Math.min(MAX_PAGE, data.total_pages);
-
-    return data.results;
+    return results;
   }
 
   async addSearch() {
@@ -62,13 +50,9 @@ class Movies {
 
     this.#page += 1;
 
-    const data = await getSearchedMovies(this.#query, this.#page);
+    const { results } = await getSearchedMovies(this.#query, this.#page);
 
-    if ('status_message' in data) {
-      return ERROR_MESSAGE;
-    }
-
-    return data.results;
+    return results;
   }
 
   isLastPage() {
