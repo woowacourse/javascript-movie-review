@@ -16,4 +16,4 @@ customElements.define('movie-list-item', MovieListItem);
 customElements.define('skeleton-list-item', SkeletonListItem);
 customElements.define('error-page', ErrorPage);
 
-App.init();
+new App();
