@@ -22,13 +22,19 @@ class MovieHeader extends HTMLElement {
   }
 
   connectedCallback() {
-    this.querySelector('#search-form').addEventListener('submit', this.onSubmitSearchForm);
-    this.querySelector('#logo').addEventListener('click', this.onClickLogo);
+    this.querySelector<HTMLFormElement>('#search-form')?.addEventListener(
+      'submit',
+      this.onSubmitSearchForm
+    );
+    this.querySelector('#logo')?.addEventListener('click', this.onClickLogo);
   }
 
-  onSubmitSearchForm = (e) => {
+  onSubmitSearchForm = (e: SubmitEvent) => {
     e.preventDefault();
+    if (!(e.target instanceof HTMLFormElement)) return;
     const [input] = e.target;
+
+    if (!(input instanceof HTMLInputElement)) return;
     dispatchCustomEvent(this, 'search', { query: input.value });
   };
 

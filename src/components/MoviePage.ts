@@ -19,7 +19,7 @@ class MoviePage extends HTMLElement {
   }
 
   connectedCallback() {
-    this.querySelector('#load-more').addEventListener('click', this.onClickLoadMore);
+    this.querySelector('#load-more')?.addEventListener('click', this.onClickLoadMore);
   }
 
   onClickLoadMore = () => {

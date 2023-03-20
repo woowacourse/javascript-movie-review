@@ -1,5 +1,5 @@
-import StarFilled from '../../image/star_filled.png';
 import DefaultPoster from '../../image/default_poster.png';
+import StarFilled from '../../image/star_filled.png';
 
 class MovieListItem extends HTMLElement {
   constructor() {
@@ -37,11 +37,11 @@ class MovieListItem extends HTMLElement {
   }
 
   connectedCallback() {
-    this.querySelector('.item-thumbnail').addEventListener('load', this.onLoad);
+    this.querySelector('.item-thumbnail')?.addEventListener('load', this.onLoad);
   }
 
   onLoad = () => {
-    this.querySelector('.item-thumbnail').classList.remove('skeleton');
+    this.querySelector('.item-thumbnail')?.classList.remove('skeleton');
   };
 }
 
