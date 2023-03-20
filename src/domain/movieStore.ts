@@ -7,6 +7,6 @@ export const movieStore = {
   appendMovies(newMovies: Movie[]) {
     this.movies = [...this.movies, ...newMovies];
 
-    updateMovies();
+    updateMovies(); // 수정 예정
   },
 };
