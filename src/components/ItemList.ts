@@ -5,10 +5,8 @@ import WholeScreenMessageAlert from './WholeScreenMessageAlert';
 class ItemList {
   $ul = document.createElement('ul');
 
-  constructor($target: HTMLElement) {
+  constructor() {
     this.$ul.className = 'item-list';
-
-    this.render($target);
   }
 
   template() {

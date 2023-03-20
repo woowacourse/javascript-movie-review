@@ -4,10 +4,8 @@ import { eventThrottle } from '../utils/throttle';
 class MoreButton {
   $button = document.createElement('button');
 
-  constructor($target: HTMLElement) {
+  constructor() {
     this.$button.className = 'btn primary full-width more-button hidden';
-
-    this.render($target);
 
     this.$button.addEventListener('click', this.onClickMoreButton);
   }

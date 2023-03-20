@@ -2,9 +2,8 @@ import { Store } from '../Store';
 class ListTitle {
   $h2 = document.createElement('h2');
 
-  constructor($target: HTMLElement) {
+  constructor() {
     this.$h2.className = 'movie-list-title';
-    this.render($target);
   }
 
   render($target: HTMLElement) {
