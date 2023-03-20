@@ -12,6 +12,7 @@ export function Search() {
     PageData.changePageStatus('search');
     PageData.resetPage();
 
+    formEl.reset();
     showMovieList('search', String(formData.keyword));
   });
 
