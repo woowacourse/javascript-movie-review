@@ -4,17 +4,12 @@ import MovieHandler from '../domain/MovieHandler';
 
 import errorImg from '../assets/error.jpg';
 
-const headerTemplate = {
-  popular() {
-    return '지금 인기 있는 영화';
-  },
-
-  search(query) {
-    return `"${query}" 검색 결과`;
-  },
+const HEADER_TEMPLATE = {
+  POPULAR: '지금 인기 있는 영화',
+  SEARCH: (query) => `"${query}" 검색 결과`,
 };
 
-const errorTemplate = (errorCode) => {
+const ERROR_TEMPLATE = (errorCode) => {
   return `
   <div class="error-container">
     <h1>죄송합니다. 영화 목록을 불러올 수 없습니다. 관리자에게 문의하세요. (error code: ${errorCode})</h1>
@@ -41,7 +36,7 @@ export default class MovieList {
 
   template(option, query) {
     return /* html */ `
-    <h2>${headerTemplate[option](query)}</h2>     
+    <h2>${option === 'POPULAR' ? HEADER_TEMPLATE.POPULAR : HEADER_TEMPLATE.SEARCH(query)}</h2>     
     <ul class="item-list"></ul> 
     <ul class="skeleton-item-list item-list hide">
       ${this.getSkeletonCardsHTML(20)}
@@ -94,7 +89,7 @@ export default class MovieList {
 
     if (errorCode) {
       this.hideSkeletonList();
-      this.$element.innerHTML = errorTemplate(errorCode);
+      this.$element.innerHTML = ERROR_TEMPLATE(errorCode);
 
       return;
     }
