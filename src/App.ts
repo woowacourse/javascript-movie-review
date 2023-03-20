@@ -3,6 +3,7 @@ import NavBar from './components/NavBar';
 import './components/MovieListContainer';
 import './components/MovieTitle';
 import './components/MovieListContent';
+import './components/MovieInformationModal';
 import './components/InvalidMessage';
 import MovieList from './domain/MovieList';
 
