@@ -1,15 +1,21 @@
 import { fetchMovieListWithKeyword, fetchPopularMovieList } from "../../apis/apis";
 import Movie from "../../domain/Movie";
-import "./index.css";
+import "./style.css";
 import MovieItem from "./MovieItem/MovieItem";
 import SkeletonList from "./SkeletonList/SkeletonContainer";
+import { IMoviesResponseData } from "../../types/IMovieResponseData";
+
+interface IMovieListProps {
+  type: string;
+  searchKeyword: string;
+}
 
 class MovieList {
-  $target;
-  #props;
-  #page;
+  $target: HTMLElement;
+  #props: IMovieListProps;
+  #page: number;
 
-  constructor($target, props) {
+  constructor($target: HTMLElement, props: IMovieListProps) {
     this.$target = $target;
     this.#props = props;
     this.#page = 1;
@@ -33,20 +39,25 @@ class MovieList {
     this.$target.innerHTML = this.template();
 
     const $skeletonContainer = this.$target.querySelector(".skeleton-container");
-    new SkeletonList($skeletonContainer);
 
-    this.renderTitle();
-    this.renderMovieList();
+    if ($skeletonContainer instanceof HTMLUListElement) {
+      new SkeletonList($skeletonContainer);
+
+      this.renderTitle();
+      this.renderMovieList();
+    }
   }
 
-  renderTitle(title) {
+  renderTitle(title?: string) {
     const { type, searchKeyword } = this.#props;
     const $titleForMovieContents = this.$target.querySelector(".search-title");
 
-    const text =
-      title || (type === "popular" ? "지금 인기있는 영화" : `"${searchKeyword}" 검색결과`);
+    if ($titleForMovieContents instanceof HTMLHeadElement) {
+      const text =
+        title || (type === "popular" ? "지금 인기있는 영화" : `"${searchKeyword}" 검색결과`);
 
-    $titleForMovieContents.innerText = text;
+      $titleForMovieContents.innerText = text;
+    }
   }
 
   async renderMovieList() {
@@ -55,6 +66,8 @@ class MovieList {
     this.toggleSkeletonContainerVisibility();
     const fetchedMovieData = await this.fetchMovieList();
     this.toggleSkeletonContainerVisibility();
+
+    if (!($itemList instanceof HTMLUListElement) || !fetchedMovieData) return;
 
     if (!this.isExistMovie(fetchedMovieData)) {
       const { searchKeyword } = this.#props;
@@ -83,29 +96,38 @@ class MovieList {
     }
   }
 
-  isExistMovie(movieData) {
+  isExistMovie(movieData: IMoviesResponseData) {
     return !!movieData.results.length;
   }
 
-  isLastPage(movieData) {
+  isLastPage(movieData: IMoviesResponseData) {
     return movieData.total_pages === this.#page;
   }
 
   toggleMoreButton() {
     const $loadMoreButton = this.$target.querySelector(".more");
 
-    $loadMoreButton.classList.toggle("invisible");
+    if ($loadMoreButton) {
+      $loadMoreButton.classList.toggle("invisible");
+    }
   }
 
   toggleSkeletonContainerVisibility() {
     const $skeletonContainer = this.$target.querySelector(".skeleton-container");
-    $skeletonContainer.classList.toggle("visible");
+
+    if ($skeletonContainer) {
+      $skeletonContainer.classList.toggle("visible");
+    }
   }
 
   setEvent() {
-    this.$target.querySelector(".more").addEventListener("click", () => {
-      this.renderMovieList();
-    });
+    const $moreButton = this.$target.querySelector(".more");
+
+    if ($moreButton) {
+      $moreButton.addEventListener("click", () => {
+        this.renderMovieList();
+      });
+    }
   }
 }
 
