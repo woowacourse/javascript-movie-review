@@ -1,7 +1,7 @@
 import { render } from '../utils';
 import { Header } from './Header';
 import { MainPage } from './MainPage';
-import { showMovieList } from './MovieList';
+import { showMovieList } from '../showMovieList';
 
 export class App {
   constructor() {

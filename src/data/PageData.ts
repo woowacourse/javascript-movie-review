@@ -1,13 +1,13 @@
 import { $ } from '../utils';
-import { getMovies, getSearchMovie, IMovie } from './api';
+import { getMovies, getSearchMovie, MovieInterface } from './api';
 import { Validation, renderError } from '../Validation';
 
-type IPageStatus = 'popular' | 'search';
+type PageStatusType = 'popular' | 'search';
 
 interface statusInterface {
   moviePage: number;
   recentKeyword: string;
-  pageStatus: IPageStatus;
+  pageStatus: PageStatusType;
 }
 
 const status: statusInterface = {
@@ -23,7 +23,7 @@ export const statusController = {
   resetPage() {
     status.moviePage = 1;
   },
-  changePageStatus(callPage: IPageStatus) {
+  changePageStatus(callPage: PageStatusType) {
     status.pageStatus = callPage;
   },
 };
@@ -58,7 +58,7 @@ export async function useSearchedMovie(keyword: string) {
   };
 }
 
-function toggleMoreButton(result: IMovie[]) {
+function toggleMoreButton(result: MovieInterface[]) {
   const moreButton = $('.view-more-button') as HTMLElement;
 
   if (result.length >= 20 && result.length > 0) return (moreButton.style.display = 'inline-block');

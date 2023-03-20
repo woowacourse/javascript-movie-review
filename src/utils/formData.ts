@@ -1,4 +1,4 @@
-export interface IFormData {
+export interface FormDataInterface {
   [k: string]: FormDataEntryValue;
 }
 

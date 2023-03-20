@@ -1,9 +1,9 @@
 import star_filled from '../assets/star_filled.png';
 
-import { IMovie } from '../data/api';
+import { MovieInterface } from '../data/api';
 import { makeImagePath } from '../utils/makeImagePath';
 
-export function MovieItem({ poster_path, title, vote_average }: IMovie) {
+export function MovieItem({ poster_path, title, vote_average }: MovieInterface) {
   return `
   <li>
         <a href="#">
