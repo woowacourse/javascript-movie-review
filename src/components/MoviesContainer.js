@@ -22,6 +22,7 @@ class MoviesContainer extends HTMLElement {
       },
     }
   );
+  #isFatching = false;
 
   connectedCallback() {
     this.renderContainer();
@@ -50,6 +51,7 @@ class MoviesContainer extends HTMLElement {
 
       this.renderMovieList();
       this.toggleVisibleButton();
+      this.#isFatching = false;
     } catch (error) {
       $('#movie-container-title').innerText = error.message;
       $('#more-button').classList.add('hide-button');
@@ -92,6 +94,8 @@ class MoviesContainer extends HTMLElement {
 
   setButtonEvent() {
     $('#more-button').addEventListener('click', () => {
+      if (this.#isFatching) return;
+      this.#isFatching = true;
       $('#skeleton-container').classList.remove('skeleton-hide');
 
       this.updateMovieList();
@@ -99,6 +103,7 @@ class MoviesContainer extends HTMLElement {
   }
 
   reset() {
+    this.#isFatching = false;
     $('#movie-list-wrapper').innerHTML = `<skeleton-item id="skeleton-container"></skeleton-item>`;
 
     this.#movieData.resetPageIndex();
