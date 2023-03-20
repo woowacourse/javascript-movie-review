@@ -30,7 +30,7 @@ class MovieListSkeleton extends CustomElement {
   }
 
   remove() {
-    $(".skeleton-list").remove();
+    this.replaceChildren();
   }
 
   show() {
