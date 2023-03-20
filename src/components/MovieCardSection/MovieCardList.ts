@@ -13,7 +13,7 @@ const MovieCardList = {
   },
 
   skeletonItems() {
-    return Array.from({ length: DEFAULT_LIST_LENGTH }, () => MovieCard.template()).join('');
+    return MovieCard.template().repeat(DEFAULT_LIST_LENGTH);
   },
 
   renderMoreItems() {
