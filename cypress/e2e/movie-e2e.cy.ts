@@ -85,6 +85,67 @@ describe("검색 목록 확인", () => {
         cy.get(".no-result-title").contains("검색 결과를 찾지 못하였습니다.");
       });
   });
+
+  it("검색창에 입력을 하지 않고 엔터키를 누르면 사용자에게 검색어가 없다는 경고창이 화면에 나온다.", () => {
+    cy.visit("http://localhost:8081/");
+    cy.viewport(1920, 1080);
+
+    const stub = cy.stub();
+
+    cy.on("window:alert", stub);
+
+    cy.get(".search-box")
+      .find("input")
+      .type("{enter}")
+      .then(() => {
+        expect(stub.getCall(0)).to.be.calledWith("검색어를 입력해주세요.");
+      });
+  });
+
+  it("검색창에 입력을 하지 않고 검색버튼을 클릭하면 사용자에게 검색어가 없다는 경고창이 화면에 나온다.", () => {
+    cy.visit("http://localhost:8081/");
+    cy.viewport(1920, 1080);
+
+    const stub = cy.stub();
+
+    cy.on("window:alert", stub);
+
+    cy.get(".search-button")
+      .click()
+      .then(() => {
+        expect(stub.getCall(0)).to.be.calledWith("검색어를 입력해주세요.");
+      });
+  });
+
+  it("검색창에 공백만을 입력하고 검색버튼을 클릭하면 사용자에게 검색어가 없다는 경고창이 화면에 나온다.", () => {
+    cy.visit("http://localhost:8081/");
+    cy.viewport(1920, 1080);
+
+    const stub = cy.stub();
+    cy.on("window:alert", stub);
+
+    cy.get(".search-box").find("input").type("     ");
+    cy.get(".search-button")
+      .click()
+      .then(() => {
+        expect(stub.getCall(0)).to.be.calledWith("검색어를 입력해주세요.");
+      });
+  });
+
+  it("검색창에 공백만을 입력하고 엔터키를 누르면 사용자에게 검색어가 없다는 경고창이 화면에 나온다.", () => {
+    cy.visit("http://localhost:8081/");
+    cy.viewport(1920, 1080);
+
+    const stub = cy.stub();
+    cy.on("window:alert", stub);
+
+    cy.get(".search-box")
+      .find("input")
+      .type("     {enter}")
+      .then(() => {
+        expect(stub.getCall(0)).to.be.calledWith("검색어를 입력해주세요.");
+      });
+  });
 });
 
 describe("검색목록 더보기 확인", () => {
