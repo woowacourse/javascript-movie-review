@@ -52,9 +52,7 @@ class MovieList {
   }
 
   getMovieCardTemplate(movie: Movie) {
-    return (
-      /*html*/
-      `
+    return /*html*/ `
       <li>
         <a href="#">
           <div class="item-card">
@@ -69,8 +67,7 @@ class MovieList {
           </div>
         </a>
       </li>
-    `
-    );
+    `;
   }
 
   render(movieList: MovieResponse[], total_pages: number) {
