@@ -1,11 +1,14 @@
 import logo from '../assets/logo.png';
 
 export default class Header {
-  #renderMovieListByOption;
+  #renderer;
   $element;
 
-  constructor($parent, renderMovieListByOption) {
-    this.#renderMovieListByOption = renderMovieListByOption;
+  constructor($parent, { renderPopularMovieList, renderSearchedMovieList }) {
+    this.#renderer = {
+      popularMovieList: renderPopularMovieList,
+      searchedMovieList: renderSearchedMovieList,
+    };
     this.$element = document.createElement('header');
 
     $parent.insertAdjacentElement('afterbegin', this.$element);
@@ -35,11 +38,11 @@ export default class Header {
 
     const queryInput = e.target.elements['query'].value;
 
-    this.#renderMovieListByOption('search', queryInput);
+    this.#renderer.searchedMovieList(queryInput);
   }
 
   onClickMainLogo() {
-    this.#renderMovieListByOption('popular');
+    this.#renderer.popularMovieList();
     this.$element.querySelector('.search-box').reset();
   }
 }
