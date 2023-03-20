@@ -28,6 +28,8 @@ class App {
 
     this.$main.insertAdjacentElement('beforeend', this.$itemView);
     $target.insertAdjacentElement('beforeend', this.$main);
+
+    Store.get('movieStates')?.renderPopularMovies();
   }
 
   setStoreMovieState() {
@@ -41,12 +43,12 @@ class App {
         switch (props) {
           case 'nextPage': {
             value === -1 ? this.moreButton.hide() : this.moreButton.show();
+            if (value === 1) this.itemList.removeCurentCategory();
             break;
           }
 
           case 'category': {
             if (!this.listTitle) break;
-
             if (value === 'popular') target['query'] = '';
 
             this.listTitle.render(this.$itemView);
@@ -63,8 +65,8 @@ class App {
 
           case 'error': {
             if (!value.length) break;
-
-            this.$itemView.innerHTML = WholeScreenMessageAlert(value);
+            this.$itemView.innerHTML = '';
+            this.$itemView.insertAdjacentElement('beforeend', WholeScreenMessageAlert(value));
             break;
           }
           default:
@@ -75,7 +77,6 @@ class App {
     });
 
     Store.set('movieStates', new Movie(movieStateProxy));
-    Store.get('movieStates')?.renderPopularMovies();
   }
 }
 
