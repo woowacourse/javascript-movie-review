@@ -1,4 +1,4 @@
-import { BASE_URL } from '../../src/domain/MovieData';
+import { BASE_URL } from '../../src/apis/tmdb';
 
 describe('영화 목록 불러오기 테스트', () => {
   const SITE_URL = 'http://localhost:8080';

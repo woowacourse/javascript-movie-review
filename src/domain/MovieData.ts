@@ -1,7 +1,7 @@
 import { request } from '../utils/common';
-import { ApiMovieResult, ApiResponseResult, ParsedMovieResult } from '../types/type';
-
-export const BASE_URL = 'https://api.themoviedb.org/3/';
+import { ParsedMovieResult } from '../types/type';
+import { ApiMovieResult, ApiResponseResult } from '../apis/tmdbType';
+import { getPopularUrl, getSearchUrl } from '../apis/tmdb';
 
 class MovieData {
   #parsedMovieResult: ParsedMovieResult = { isLastPage: true, movies: [] };
@@ -18,9 +18,7 @@ class MovieData {
 
   async handleParsing(word: string): Promise<ParsedMovieResult> {
     const url =
-      word === ''
-        ? `${BASE_URL}movie/popular?api_key=${process.env.API_KEY}&language=ko&page=${this.#pageIndex}`
-        : `${BASE_URL}search/movie?api_key=${process.env.API_KEY}&language=ko&page=${this.#pageIndex}&query=${word}`;
+      word === '' ? getPopularUrl({ pageIndex: this.#pageIndex }) : getSearchUrl({ pageIndex: this.#pageIndex, word });
 
     const apiFetchingData = await request<ApiResponseResult>(url);
 

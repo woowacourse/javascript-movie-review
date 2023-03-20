@@ -1,6 +1,7 @@
 import './styles/index.css';
 import './components/index';
 import { $ } from './utils/common';
+import './apis/tmdb';
 
 window.addEventListener('offline', () => {
   $('movies-container').reset();
