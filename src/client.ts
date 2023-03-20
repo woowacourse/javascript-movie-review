@@ -13,8 +13,7 @@ export type TMDBErrorResponse = {
 };
 
 class Client {
-  private static readonly API_KEY =
-    process.env.TMDB_API_KEY ?? prompt('TMDB API KEY를 입력해주세요');
+  private static readonly API_KEY = process.env.TMDB_API_KEY;
 
   private static readonly BASE_URL = 'https://api.themoviedb.org/3';
 
