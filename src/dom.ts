@@ -24,7 +24,7 @@ export const renderMovieListItem = (movies: Movie[]) => {
 };
 
 export const renderMoviePage = (title: string) => {
-  const $page = $('#$page');
+  const $page = $('#page');
   if ($page) $page.innerHTML = /* html */ `<movie-page title="${title}"></movie-page>`;
 };
 
