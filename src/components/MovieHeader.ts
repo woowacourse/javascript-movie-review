@@ -1,16 +1,15 @@
 import { POPULAR_TITLE } from '../constants';
 import { changeTitle, resetSearchBox } from '../dom';
+import { LOGO } from '../icons';
 
 import { $, dispatchCustomEvent, isFormElement } from '../utils/domUtils';
-
-import Logo from '../../images/logo.png';
 
 class MovieHeader extends HTMLElement {
   constructor() {
     super();
     this.innerHTML = /* html */ `
       <header>
-        <h1 class="title"><img src=${Logo} alt="MovieList 로고" /></h1>
+        <h1 class="title" aria-label="Movielist 로고">${LOGO}</h1>
         <form class="search-box">
           <input id="search-input" type="text" placeholder="검색" required />
           <button class="search-button">검색</button>

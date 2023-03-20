@@ -1,5 +1,6 @@
+import { STAR_FILLED_ICON } from '../icons';
+
 import DefaultPoster from '../../images/default_poster.png';
-import StarFilled from '../../images/star_filled.png';
 
 class MovieListItem extends HTMLElement {
   constructor() {
@@ -20,9 +21,9 @@ class MovieListItem extends HTMLElement {
               alt="${this.getAttribute('title')}"
             />
             <p class="item-title">${this.getAttribute('title')}</p>
-            <p class="item-score"><img src=${StarFilled} alt="별점" /> ${this.getAttribute(
+            <p class="item-score" aria-label="별점">${STAR_FILLED_ICON} ${this.getAttribute(
       'vote-average'
-    )}</p>
+    )}  </p>
           </div>
         </a>
       </li>
