@@ -28,7 +28,7 @@ class MovieList implements Component {
     this.node.innerHTML = `
       <h2 id="list-name">지금 인기있는 영화</h2>
       <ul class="item-list movie-list hidden"></ul>
-      <ul class="item-list skeleton-list hidden">${skeletonTemplate()}</ul>
+      <ul class="item-list skeleton-list">${skeletonTemplate()}</ul>
       
       <button class="btn primary full-width hidden">더 보기</button>`;
 
@@ -65,25 +65,25 @@ class MovieList implements Component {
     return this;
   }
 
-  showButton() {
+  showButton(): this {
     this.loadMoreButton.classList.remove('hidden');
 
     return this;
   }
 
-  hideButton() {
+  hideButton(): this {
     this.loadMoreButton.classList.add('hidden');
 
     return this;
   }
 
-  showMovieList() {
+  showMovieList(): this {
     this.movieList.classList.remove('hidden');
 
     return this;
   }
 
-  hideMovieList() {
+  hideMovieList(): this {
     this.movieList.classList.add('hidden');
 
     return this;
@@ -127,22 +127,22 @@ class MovieList implements Component {
     return this;
   }
 
-  setListName(type: FetchType, keyword?: string) {
-    if (type === FetchType.Popular) {
-      this.listName.innerText = '지금 인기있는 영화';
-    } else {
-      this.listName.innerText = `${keyword} 검색 결과`;
-    }
+  setListName(listName: string) {
+    this.listName.innerText = listName;
   }
 
-  cleanMovieList() {
+  cleanMovieList(): this {
     this.children.movieCardList = [];
     this.movieList.innerHTML = '';
     this.removeMessage();
+
+    return this;
   }
 
-  addEvents() {
+  addEvents(): this {
     this.loadMoreButton.addEventListener('click', this.#handleClickMoreButton.bind(this));
+
+    return this;
   }
 
   #handleClickMoreButton() {
