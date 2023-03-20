@@ -3,9 +3,10 @@
 }
 
 body {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
-  background-color: #222222;
-  color: #fff;
+  background-color: #141414;
+  color: white;
 }
 
 a {
@@ -33,7 +34,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  width: min-content;
   margin: 0 auto;
 }
 
@@ -43,14 +44,13 @@ button {
   user-select: none;
 }
 
-/* https://andrew.hedges.name/experiments/aspect_ratio/ */
-
 .item-list {
+  position: relative;
   display: grid;
   margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
-  grid-row-gap: 48px;
+  grid-template-columns: repeat(4, 250px);
+  grid-column-gap: 56px;
+  grid-row-gap: 64px;
 }
 
 .item-card {
@@ -60,20 +60,25 @@ button {
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
-  height: 270px;
+  width: 250px;
+  height: 375px;
   background-size: contain;
 }
 
 .item-title {
-  margin-top: 16px;
+  margin-top: 24px;
   font-size: 1.2rem;
   font-weight: bold;
+  line-height: 1.2;
 }
 
 .item-score {
-  margin-top: 16px;
-  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  margin-top: 8px;
+  font-size: 1rem;
 }
 
 .item-score::after {
@@ -83,7 +88,7 @@ button {
 .item-title.skeleton::after,
 .item-score.skeleton::after {
   font-size: 0;
-  content: "loading";
+  content: 'loading';
 }
 
 .full-width {
@@ -98,15 +103,28 @@ button.btn {
   border: 0;
   border-radius: 8px;
   height: 30px;
-  color: #fff;
+  color: whitesmoke;
 }
 
 button.primary {
-  background: #f33f3f;
+  height: max-content;
+  padding: 12px;
+  background-color: transparent;
+  border: 1px solid whitesmoke;
+  transition: all 0.2s ease-in;
+}
+
+button.primary:hover {
+  background-color: #232323;
+}
+
+button.primary:active {
+  background-color: whitesmoke;
+  color: #232323;
 }
 
 .item-card .skeleton {
-  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background: linear-gradient(-90deg, #232323, #303030, #232323, #303030);
   background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
   border-radius: 8px;
@@ -123,16 +141,17 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
   width: 100%;
   min-width: 1200px;
   height: 72px;
-  background-color: #222;
+  background-color: #141414;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid #383838;
   margin-bottom: 48px;
 }
 
@@ -146,19 +165,52 @@ header h1 {
 }
 
 header > .search-box {
-  background: #fff;
+  background: #232323;
   padding: 8px;
   border-radius: 4px;
 }
 
 header .search-box > input {
+  width: 250px;
+  background: #232323;
+  color: white;
   border: 0;
 }
 
-header .search-box > .search-button {
+header .search-box > #search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
-  background: url("./search_button.png") transparent no-repeat 0 1px;
+  background: url('../assets/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+.error-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.error-message h3 {
+  font-size: 24px;
+  margin-bottom: 24px;
+}
+
+.error-message p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.placeholder-thumbnail {
+  background-color: #232323;
+}
+
+.item-thumbnail {
+  background-color: #232323;
+}
+
+.hide {
+  display: none;
 }
