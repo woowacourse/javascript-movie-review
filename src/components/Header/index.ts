@@ -40,7 +40,7 @@ export class Header {
     this.#$target.innerHTML = `
         <h1 class="logo"><img src="${logoImage}" alt="MovieList 로고" /></h1>
         <form class="search-box">
-            <input class="search-input" type="text" placeholder="검색" />
+            <input class="search-input" type="search" placeholder="검색" />
             <button type="submit" class="search-button">검색</button>
         </form>
     `;
