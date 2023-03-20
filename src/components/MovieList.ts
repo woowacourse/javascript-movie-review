@@ -61,7 +61,6 @@ export class MovieList {
         const $fragment = document.createElement('div');
         $fragment.innerHTML = movieListItem.render(movie);
 
-        ($fragment.childNodes[0] as HTMLElement).setAttribute('page', String(page));
         const $skeleton = this.section.querySelector('ul > li.skeleton')!;
         $skeleton.after($fragment.childNodes[0]);
         $skeleton.remove();
