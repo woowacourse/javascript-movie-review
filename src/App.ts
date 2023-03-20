@@ -24,6 +24,7 @@ class App {
 
   async fetchAndUpdateMovieList(requestListType: string, updateType: string, keyword: string = '') {
     if (updateType === 'overwrite') this.#movieFetcher.resetPage();
+    if (updateType === 'append') this.#movieFetcher.increasePage();
 
     this.#movieList.renderSkeletonItems();
 
@@ -65,11 +66,11 @@ class App {
       this.#requestListType = 'keyword';
     }
 
-    if (result === 'EMPTY_LIST') {
+    if (result === 'LAST_PAGE') {
       this.#loadMoreButton.disable();
     }
 
-    if (result === 'EMPTY_LIST' && updateType === 'overwrite') {
+    if (result === 'LAST_PAGE' && updateType === 'overwrite') {
       this.#movieList.renderNoResult(errorItem(result));
       return;
     }

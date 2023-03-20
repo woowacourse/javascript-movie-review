@@ -8,6 +8,10 @@ class MovieFetcher {
     this.#currentPage = 1;
   }
 
+  increasePage() {
+    this.#currentPage += 1;
+  }
+
   async fetchMovieInfo(keyword?: string): Promise<ResponseType> {
     try {
       const apiUrl =
@@ -21,11 +25,12 @@ class MovieFetcher {
         if (response.status >= 400 && response.status <= 499) return { result: 'CLIENT_ERROR' };
         if (response.status >= 500 && response.status <= 599) return { result: 'SERVER_ERROR' };
 
-        return { result: '' };
+        return { result: 'RESPONSE_NOT_OK' };
       }
 
       const responseText = await response.text();
       const parsedResponseText = JSON.parse(responseText);
+      const totalPages = parsedResponseText.total_pages;
 
       const movieList = parsedResponseText.results.map((currentResult: APIMovieType) => ({
         title: currentResult.title,
@@ -33,11 +38,7 @@ class MovieFetcher {
         voteAverage: currentResult.vote_average,
       }));
 
-      if (movieList.length === 0) {
-        return { result: 'EMPTY_LIST', movieList };
-      }
-
-      this.#currentPage += 1;
+      if (this.#currentPage === totalPages) return { result: 'LAST_PAGE', movieList };
 
       return { result: 'OK', movieList };
     } catch (error) {
