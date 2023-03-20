@@ -2,6 +2,7 @@ import Header from './components/Header';
 import MovieList from './components/MovieList';
 import MovieFetcher from './domains/MovieFetcher';
 import LoadMoreButton from './components/LoadMoreButton';
+import errorItem from './components/errorItem';
 
 class App {
   #header = new Header();
@@ -33,14 +34,6 @@ class App {
 
     this.#movieList.removeSkeletonItems();
 
-    if (result !== 'OK' && updateType === 'overwrite') {
-      this.#movieFetcher.cancelResetPage();
-    }
-
-    if (result === 'OK' && updateType === 'overwrite') {
-      this.#movieFetcher.resetPreviousPage();
-    }
-
     if (result === 'PAGE_ERROR') {
       alert('페이지 에러');
       return;
@@ -65,11 +58,6 @@ class App {
       return;
     }
 
-    if (result === 'EMPTY_LIST') {
-      alert('검색 결과가 없습니다!');
-      return;
-    }
-
     if (!movieList) return;
 
     if (requestListType === 'keyword') {
@@ -77,9 +65,20 @@ class App {
       this.#requestListType = 'keyword';
     }
 
+    if (result === 'EMPTY_LIST') {
+      this.#loadMoreButton.disable();
+    }
+
+    if (result === 'EMPTY_LIST' && updateType === 'overwrite') {
+      this.#movieList.renderNoResult(errorItem(result));
+      return;
+    }
+
     updateType === 'overwrite'
       ? this.#movieList.renderContents(movieList)
       : this.#movieList.renderNextContents(movieList);
+
+    if (result === 'OK') this.#loadMoreButton.enable();
   }
 
   onClickLoadMoreButton = () => {

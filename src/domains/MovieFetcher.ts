@@ -2,20 +2,10 @@ import { API_URL } from '../constants/constants';
 import { APIMovieType, ResponseType } from '../types';
 
 class MovieFetcher {
-  #previousPage = 0;
   #currentPage = 1;
 
   resetPage() {
-    this.#previousPage = this.#currentPage;
     this.#currentPage = 1;
-  }
-
-  resetPreviousPage() {
-    this.#previousPage = 0;
-  }
-
-  cancelResetPage() {
-    this.#currentPage = this.#previousPage;
   }
 
   async fetchMovieInfo(keyword?: string): Promise<ResponseType> {
@@ -44,7 +34,7 @@ class MovieFetcher {
       }));
 
       if (movieList.length === 0) {
-        return { result: 'EMPTY_LIST' };
+        return { result: 'EMPTY_LIST', movieList };
       }
 
       this.#currentPage += 1;
