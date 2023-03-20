@@ -102,7 +102,7 @@ button.primary {
 }
 
 .item-card .skeleton {
-  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background: linear-gradient(-90deg, #aaaaaa, #f0f0f0, #aaaaaa, #f0f0f0);
   background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
   border-radius: 8px;
@@ -142,7 +142,7 @@ header h1 {
 }
 
 header > .search-box {
-  background: #fff;
+  background: #ffffff;
   padding: 8px;
   border-radius: 4px;
 }
