@@ -2,10 +2,17 @@ import { removeMoreButton } from "../components/movieListHandler";
 import { Movie } from "../type";
 import { movieStore } from "./movieStore";
 
-interface MovieApiResponse {
+interface MovieResult {
   poster_path: string;
   title: string;
   vote_average: number;
+}
+
+interface MovieApiResponse {
+  page: number;
+  results: MovieResult[];
+  total_pages: number;
+  total_results: number;
 }
 
 const BASE_URL = 'https://api.themoviedb.org/3'
@@ -26,10 +33,19 @@ export const movieApi = {
 };
 
 const fetchMovieInfo = async (url: string) => {
-  const response = await fetch(url);
-  catchError(response.status);
+  try {
+    const response = await fetch(url).then((data) => data.json());
+    if (movieApi.page === response.page) {
+      handleMovieInfoResponse(response);
+    }
+    else {
+      alert(response.status_message);
+    }
+    // catchError(response.status);
 
-  handleMovieInfoResponse(response);
+  } catch (error) {
+    if (error instanceof Error) return alert(error.message);
+  }
 };
 
 const catchError = (status: number) => {
@@ -40,20 +56,21 @@ const catchError = (status: number) => {
   }
 };
 
-const handleMovieInfoResponse = async (response: Response) => {
-  const { results, total_pages } = await response.json();
+const handleMovieInfoResponse = async (response: MovieApiResponse) => {
+  console.log(response)
+  const { results, total_pages } = await response;
   movieApi.total_page = total_pages;
 
   saveMoviesAndRemoveMoreButton(results);
 };
 
-const saveMoviesAndRemoveMoreButton = (results: MovieApiResponse[]) => {
+const saveMoviesAndRemoveMoreButton = (results: MovieResult[]) => {
   movieStore.appendMovies(convertApiResponseToMovieList(results));
 
   if (movieApi.page === movieApi.total_page) removeMoreButton();
 };
 
-const convertApiResponseToMovieList = (results: MovieApiResponse[]): Movie[] => {
+const convertApiResponseToMovieList = (results: MovieResult[]): Movie[] => {
   return results.map((movie) => {
     return {
       poster: movie.poster_path,
