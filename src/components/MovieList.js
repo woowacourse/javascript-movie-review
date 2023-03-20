@@ -6,6 +6,9 @@ export default class MovieList {
   constructor($parent) {
     this.$parent = $parent;
     this.renderMode = 'popular';
+
+    this.render();
+    this.selectDom();
   }
 
   template() {
@@ -35,17 +38,6 @@ export default class MovieList {
     `;
   }
 
-  init() {
-    this.$parent.insertAdjacentHTML('beforeend', this.template());
-    this.$title = this.$parent.querySelector('#js-movie-list-title');
-    this.$movieItemList = this.$parent.querySelector('#js-movie-list');
-    this.$moreMovieButton = this.$parent.querySelector('#js-more-movie-button');
-    this.$lastPageNotify = this.$parent.querySelector('#js-last-page-notify');
-    this.$skeletonDiv = this.$parent.querySelector('#js-movie-list-skeleton');
-
-    return this;
-  }
-
   bindEvent() {
     const handleMoreMovieButton = async () => {
       Store.page += 1;
@@ -71,13 +63,25 @@ export default class MovieList {
     this.$moreMovieButton?.addEventListener('click', handleMoreMovieButton);
   }
 
+  render() {
+    this.$parent.insertAdjacentHTML('beforeend', this.template());
+  }
+
+  selectDom() {
+    this.$title = this.$parent.querySelector('#js-movie-list-title');
+    this.$movieItemList = this.$parent.querySelector('#js-movie-list');
+    this.$moreMovieButton = this.$parent.querySelector('#js-more-movie-button');
+    this.$lastPageNotify = this.$parent.querySelector('#js-last-page-notify');
+    this.$skeletonDiv = this.$parent.querySelector('#js-movie-list-skeleton');
+  }
+
   renderTitle(title) {
     this.$title.textContent = title;
   }
 
   renderMovieCards(results, totalPages) {
     results.forEach((movie) => {
-      new MovieCard(this.$movieItemList, movie).render();
+      new MovieCard(this.$movieItemList, movie);
     });
 
     this.$moreMovieButton.style.display = totalPages > Store.page ? 'block' : 'none';

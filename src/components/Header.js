@@ -5,6 +5,8 @@ import { searchMovies } from '../service/movie';
 export default class Header {
   constructor($parent) {
     this.$parent = $parent;
+
+    this.render();
   }
 
   template() {
@@ -17,11 +19,6 @@ export default class Header {
         </form>
       </header>
     `;
-  }
-
-  init() {
-    this.$parent.insertAdjacentHTML('beforeend', this.template());
-    return this;
   }
 
   bindEvent(toggleSkeleton, onSubmitSearch) {
@@ -43,5 +40,9 @@ export default class Header {
     };
 
     searchBox?.addEventListener('submit', handleSubmitSearch);
+  }
+
+  render() {
+    this.$parent.insertAdjacentHTML('beforeend', this.template());
   }
 }

@@ -6,6 +6,8 @@ export default class MovieCard {
   constructor($parent, movie) {
     this.$parent = $parent;
     this.movie = movie;
+
+    this.render();
   }
 
   template() {

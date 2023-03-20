@@ -12,8 +12,11 @@ export const Store = {
 class App {
   constructor() {
     const $app = document.querySelector('#app');
-    this.header = new Header($app).init();
-    this.movieList = new MovieList($app).init();
+
+    this.header = new Header($app);
+    this.movieList = new MovieList($app);
+
+    this.init();
   }
 
   async init() {
@@ -39,5 +42,4 @@ class App {
   }
 }
 
-const app = new App();
-app.init();
+new App();
