@@ -15,7 +15,9 @@ const Header = assemble<HeaderProps>(({ handleKeyword, keyword }) => {
       event: 'submit',
       callback(e) {
         e.preventDefault();
-        if (e.target && e.target === $('.search-form') && isFormElement(e.target)) {
+        if (!e.target) return new Error('이벤트 타깃이 존재하지 않습니다');
+
+        if (e.target === $('.search-form') && isFormElement(e.target)) {
           const fields = getFormFields(e.target);
 
           isStringFields(fields['keyword']) && handleKeyword(fields['keyword']);

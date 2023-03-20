@@ -1,4 +1,4 @@
-import { MovieInfo, MovieInfoByKeyword } from '../../apis';
+import { MovieInfo, MovieInfoByKeyword } from '../../types/api';
 import { assemble, Event } from '../../core';
 import { getElement } from './../../utils/common/domHelper';
 

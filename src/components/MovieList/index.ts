@@ -1,8 +1,7 @@
 import { assemble, Event } from '../../core';
 import { getElement } from './../../utils/common/domHelper';
 import { MovieComponent } from './action';
-import { MovieInfo, MovieInfoByKeyword } from '../../apis';
-
+import { MovieInfo, MovieInfoByKeyword } from '../../types/api';
 export interface MovieListProps {
   movieList: MovieInfo[] | MovieInfoByKeyword[];
 }

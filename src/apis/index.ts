@@ -1,38 +1,6 @@
-import { MakeOptional } from '../types/common';
+import { GetPopularMoviesRes } from '../types/api';
 
 const REDIRECT_SERVER_HOST = 'https://ornate-swan-ce5a5e.netlify.app';
-
-interface CommonMoviesResult {
-  page: number;
-  total_pages: number;
-  total_results: number;
-}
-export interface GetPopularMoviesRes extends CommonMoviesResult {
-  results: MovieInfo[];
-}
-
-export interface MovieInfo {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
-
-export interface GetMoviesByKeywordRes extends CommonMoviesResult {
-  results: MovieInfoByKeyword[];
-}
-
-export type MovieInfoByKeyword = MakeOptional<MovieInfo, 'backdrop_path' | 'poster_path'>;
 
 const fetchQuery = async (path: string, init?: RequestInit) => {
   const url = new URL(path, REDIRECT_SERVER_HOST);

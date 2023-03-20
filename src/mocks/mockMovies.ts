@@ -1,4 +1,4 @@
-import { GetPopularMoviesRes } from '../apis';
+import { GetPopularMoviesRes } from '../types/api';
 
 export const mockMovies: GetPopularMoviesRes = {
   page: 1,

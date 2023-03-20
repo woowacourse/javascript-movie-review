@@ -14,7 +14,7 @@ const MovieChart = assemble<MovieChart>(({ keyword }) => {
     {
       event: 'click',
       callback(e) {
-        e.target === $('.btn.primary') && fetchMore(keyword);
+        if (e.target === $('.btn.primary')) fetchMore(keyword);
       },
     },
   ];

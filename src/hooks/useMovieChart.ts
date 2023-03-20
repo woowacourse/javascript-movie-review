@@ -1,7 +1,7 @@
-import { fetchMoviesByKeyword, fetchPopularMovies, GetMoviesByKeywordRes, GetPopularMoviesRes, waitFor } from '../apis';
+import { fetchMoviesByKeyword, fetchPopularMovies, waitFor } from '../apis';
 import { INITIAL_PAGE, PAGE } from '../constants';
 import { useEffect, useState } from '../core';
-
+import { GetMoviesByKeywordRes, GetPopularMoviesRes } from '../types/api';
 type DefaultFetchAction = (callback: (args: any) => Promise<void>) => (args?: any | undefined) => Promise<void>;
 
 let page: number;
