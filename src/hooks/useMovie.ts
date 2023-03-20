@@ -1,12 +1,11 @@
 import { renderSearchMovieList, renderMoreMovieList } from '../components/MovieList';
 import { $ } from '../utils';
 import { getMovies, getSearchMovie } from '../api';
-import { setRecentKeyword } from './useKeyword';
-import { getPage } from './usePage';
 
 const movieList = [];
-export async function usePopularMovie() {
-  const popularMovieResponse = await getMovies(getPage());
+
+export async function usePopularMovie(requestedPage: number) {
+  const popularMovieResponse = await getMovies(requestedPage);
   const { page, results } = popularMovieResponse;
   movieList.push(results);
 
@@ -25,10 +24,8 @@ export async function usePopularMovie() {
   };
 }
 
-export async function useSearchedMovie(keyword: string) {
-  const { page, results } = await getSearchMovie(keyword, getPage());
-
-  setRecentKeyword(keyword);
+export async function useSearchedMovie(keyword: string, requestedPage: number) {
+  const { page, results } = await getSearchMovie(keyword, requestedPage);
 
   const val = $('.view-more-button') as HTMLElement;
   val.style.display = 'inline-block';

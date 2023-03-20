@@ -3,7 +3,7 @@ import { MovieItem } from './MovieItem';
 import { usePopularMovie, useSearchedMovie } from '../hooks/useMovie';
 import { $, $$ } from '../utils';
 import { MovieListSkeleton } from './MovieListSkeleton';
-import { getPageStatus, POPULAR } from '../hooks/usePage';
+import { getPage, getPageStatus, POPULAR } from '../hooks/usePage';
 import { getRecentKeyword } from '../hooks/useKeyword';
 
 export async function renderSkeletonList() {
@@ -11,7 +11,7 @@ export async function renderSkeletonList() {
 
   parentElem.insertAdjacentHTML('beforeend', MovieListSkeleton());
 
-  await usePopularMovie().then(({ values }) => renderPopularMovieList(values.results));
+  await usePopularMovie(getPage()).then(({ values }) => renderPopularMovieList(values.results));
 }
 
 export async function renderMoreSkeletonList() {
@@ -20,12 +20,12 @@ export async function renderMoreSkeletonList() {
   parentElem.insertAdjacentHTML('beforeend', MovieListSkeleton());
 
   if (getPageStatus() === POPULAR) {
-    await usePopularMovie().then(({ values }) => {
+    await usePopularMovie(getPage()).then(({ values }) => {
       renderMoreMovieList(values.results);
       deleteSkeletonList();
     });
   } else {
-    await useSearchedMovie(getRecentKeyword()).then(({ values }) => {
+    await useSearchedMovie(getRecentKeyword(), getPage()).then(({ values }) => {
       renderMoreMovieList(values.results);
       deleteSkeletonList();
     });
