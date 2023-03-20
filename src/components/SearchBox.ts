@@ -35,20 +35,43 @@ class SearchBox implements Component {
     return this;
   }
 
-  // TODO: throttling 구현
-
   addEvents(): this {
-    this.searchInput.addEventListener('keypress', (event: KeyboardEvent) => {
-      if (event.key !== 'Enter') return;
+    let enabled = true;
 
-      this.dispatchSearchEvent(this.searchInput.value);
-    });
-
-    this.searchButton.addEventListener('click', () => {
-      this.dispatchSearchEvent(this.searchInput.value);
-    });
+    this.searchInput.addEventListener('keypress', this.#handleKeyEnter(enabled).bind(this));
+    this.searchButton.addEventListener('click', this.#handleClickSearch(enabled).bind(this));
 
     return this;
+  }
+
+  #handleKeyEnter(enabled: boolean) {
+    return (event: KeyboardEvent) => {
+      if (event.key !== 'Enter') return;
+      console.log(enabled);
+
+      if (enabled) {
+        enabled = false;
+        this.dispatchSearchEvent(this.searchInput.value);
+        this.searchInput.value = '';
+        setTimeout(() => {
+          enabled = true;
+        }, 2000);
+      }
+    };
+  }
+
+  #handleClickSearch(enabled: boolean) {
+    return () => {
+      console.log('clicked');
+      if (enabled) {
+        enabled = false;
+        this.dispatchSearchEvent(this.searchInput.value);
+        this.searchInput.value = '';
+        setTimeout(() => {
+          enabled = true;
+        }, 2000);
+      }
+    };
   }
 
   dispatchSearchEvent(keyword: string): void {
