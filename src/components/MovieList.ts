@@ -54,10 +54,7 @@ export class MovieList {
 
     try {
       const response: TMDBResponse = await this.fetchFn(page);
-
-      const movies = response.results;
-
-      const totalPages = response.total_pages;
+      const { results: movies, total_pages: totalPages } = response;
 
       movies.forEach((movie: Movie) => {
         const movieListItem = new MovieListItem();
