@@ -2,7 +2,7 @@ export const ID = {
   APP: 'app',
   MOVIE_SEARCH_FORM: 'movie-search-form',
   LOAD_MORE_BUTTON: 'load-more-button',
-};
+} as const;
 
 export const CLASS = {
   PAGE_TITLE_BUTTON: 'page-title-button',
@@ -14,4 +14,4 @@ export const CLASS = {
   SKELETON: 'skeleton',
   MESSAGE: 'message',
   HIDE: 'hide',
-};
+} as const;
