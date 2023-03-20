@@ -3,7 +3,7 @@ describe('E2E 테스트입니다.', () => {
     cy.intercept(
       {
         method: 'GET',
-        url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
+        url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular$/,
       },
       {
         fixture: 'movie-20.json',
@@ -20,7 +20,7 @@ describe('E2E 테스트입니다.', () => {
     cy.intercept(
       {
         method: 'GET',
-        url: /^https:\/\/api.themoviedb.org\/3\/search\/movie*/,
+        url: /^https:\/\/api.themoviedb.org\/3\/search\/movie$/,
       },
       {
         fixture: 'movie-20.json',
@@ -37,7 +37,7 @@ describe('E2E 테스트입니다.', () => {
     cy.intercept(
       {
         method: 'GET',
-        url: /^https:\/\/api.themoviedb.org\/3\/search\/movie*/,
+        url: /^https:\/\/api.themoviedb.org\/3\/search\/movie$/,
       },
       {
         fixture: 'movie-10.json',
