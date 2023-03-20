@@ -1,12 +1,13 @@
 import './index.css';
 import template from './index.html';
+import { $ } from '../../utils/dom';
 
 export class Skeleton extends HTMLElement {
   $movieItems: HTMLElement;
 
   constructor() {
     super();
-    this.$movieItems = document.querySelector('.item-list')!;
+    this.$movieItems = $<HTMLUListElement>('.item-list');
     this.innerHTML = template;
 
     this.attachSkeleton();

@@ -1,5 +1,6 @@
 import './index.css';
 import template from './index.html';
+import { $ } from '../../utils/dom';
 
 export class SeeMoreButton extends HTMLElement {
   page: number;
@@ -20,10 +21,10 @@ export class SeeMoreButton extends HTMLElement {
   }
 
   remove() {
-    this.querySelector('.btn')?.classList.add('button-close');
+    $<HTMLButtonElement>('.btn', this).classList.add('button-close');
   }
 
   attach() {
-    this.querySelector('.btn')?.classList.remove('button-close');
+    $<HTMLButtonElement>('.btn', this).classList.remove('button-close');
   }
 }

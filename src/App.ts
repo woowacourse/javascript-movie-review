@@ -3,6 +3,7 @@ import { MovieList } from './components/MovieList';
 import { SeeMoreButton } from './components/SeeMoreButton';
 import { Skeleton } from './components/Skeleton';
 import Store from './Store';
+import { $ } from './utils/dom';
 
 class App {
   $movieList: MovieList;
@@ -12,9 +13,9 @@ class App {
   skeleton: Skeleton;
 
   constructor() {
-    this.$movieList = document.querySelector('movie-list')!;
-    this.$seeMoreButton = document.querySelector('more-button')!;
-    this.$header = document.querySelector('movie-header')!;
+    this.$movieList = $<MovieList>('movie-list');
+    this.$seeMoreButton = $<SeeMoreButton>('more-button');
+    this.$header = $<Header>('movie-header');
     this.skeleton = new Skeleton();
     this.store = new Store();
 

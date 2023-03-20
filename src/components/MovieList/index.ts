@@ -1,6 +1,7 @@
 import './index.css';
 import template from './index.html';
 import { Movie } from '../../types';
+import { $ } from '../../utils/dom';
 
 export class MovieList extends HTMLElement {
   $movieItems: HTMLElement;
@@ -8,11 +9,11 @@ export class MovieList extends HTMLElement {
   constructor() {
     super();
     this.innerHTML = template;
-    this.$movieItems = document.querySelector('.item-list')!;
+    this.$movieItems = $<HTMLUListElement>('.item-list');
   }
 
   setTitle(title: string) {
-    this.querySelector('h2')!.innerText = title;
+    $<HTMLHeadingElement>('.title', this).innerText = title;
   }
 
   renderMovies(movieList: Movie[]) {
@@ -26,14 +27,14 @@ export class MovieList extends HTMLElement {
 
   insertMovieList(movieList: Movie[]) {
     if (movieList.length === 0) {
-      this.$movieItems?.insertAdjacentHTML(
+      this.$movieItems.insertAdjacentHTML(
         'beforeend',
         `<img src="./assets/empty.png" width="1200px"/>`,
       );
     }
     movieList.map((movie: Movie) => {
       const { title, poster_path, vote_average } = movie;
-      this.$movieItems?.insertAdjacentHTML(
+      this.$movieItems.insertAdjacentHTML(
         'beforeend',
         `<movie-item title=${`"${title}"`} poster=${poster_path} vote=${vote_average}></movie-item>`,
       );

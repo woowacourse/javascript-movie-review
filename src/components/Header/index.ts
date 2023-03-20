@@ -1,12 +1,14 @@
 import './index.css';
 import template from './index.html';
+import { $ } from '../../utils/dom';
+
 export class Header extends HTMLElement {
   connectedCallback() {
     this.innerHTML = template;
   }
 
   addSearchHandler(searchHandler: CallableFunction) {
-    const $input = this.querySelector('input');
+    const $input = $<HTMLInputElement>('input', this);
     $input?.addEventListener('change', (e: Event) => {
       if (!(e.currentTarget instanceof HTMLInputElement)) return;
       const { value } = e.currentTarget;
@@ -20,7 +22,7 @@ export class Header extends HTMLElement {
   }
 
   addClickLogoHandler(handler: CallableFunction) {
-    const $logo = this.querySelector('img');
+    const $logo = $<HTMLImageElement>('.movie-logo');
     $logo?.addEventListener('click', () => {
       handler();
     });
