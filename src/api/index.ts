@@ -43,10 +43,10 @@ const createSearchParams = (url: URL, params: Record<string, string>) => {
   }).toString();
 };
 
-export const getPopularMovies = async (page: number): Promise<MovieResponse[]> => {
+export const fetchPopularMovies = async (page: number): Promise<MovieResponse[]> => {
   return request(`movie/popular?page=${page}`);
 };
 
-export const getSearchMovies = async (query: string, page = 1): Promise<MovieResponse[]> => {
+export const fetchSearchedMovies = async (query: string, page = 1): Promise<MovieResponse[]> => {
   return request(`search/movie?query=${query}&page=${page}`);
 };
