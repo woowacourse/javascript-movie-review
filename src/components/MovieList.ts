@@ -1,4 +1,4 @@
-import { MoviesErrorResponse, MoviesResponse } from '../api/apis/MoviesAPI';
+import { MoviesErrorResponse, MoviesResponse } from '../api/interfaces/MoviesAPI';
 
 import MovieListItem from './MovieListItem';
 import Skeleton from './Skeleton';

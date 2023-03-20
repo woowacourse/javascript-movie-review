@@ -1,6 +1,6 @@
 import { Movie } from '../../domain/movie.type';
-import { MoviesAPI, MoviesResponse, PaginatedParams } from '../apis/MoviesAPI';
 import { Client } from '../Client';
+import { MoviesAPI, MoviesResponse, PaginatedParams } from '../interfaces/MoviesAPI';
 import { TMDBAPISpec, TMDBClientProps, TMDBLanguage, TMDBMovie } from './TMDBClient.type';
 
 export class TMDBClient extends Client<TMDBAPISpec> implements MoviesAPI {
