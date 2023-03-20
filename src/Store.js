@@ -72,9 +72,7 @@ const Store = {
   },
 
   setSkeletonArray(curPage) {
-    const emptyArray = Array.from({ length: 20 }).map(() => {
-      return { title: null };
-    });
+    const emptyArray = Array(20).fill({ title: null });
 
     this.movies['results'] = curPage === 1 ? emptyArray : [...this.movies.results, ...emptyArray];
   },
