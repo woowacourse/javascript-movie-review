@@ -132,8 +132,9 @@ export class MovieList {
     document.querySelector('.item-view')?.addEventListener('click', (e) => {
       const id = (e.target as HTMLLIElement).closest('.item-card')?.id;
       if (id) {
-        const detailModal = new DetailModal();
-        detailModal.render(store.getMovie(Number(id))!);
+        const detailModal = new DetailModal(store.getMovie(Number(id))!);
+
+        detailModal.addEvent();
       }
     });
   }

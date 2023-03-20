@@ -15,7 +15,7 @@ class MovieListItem {
           alt="${movie.title}"
         />
         <p class="item-title">${movie.title}</p>
-        <p class="item-score"><img src="assets/star_filled.png" alt="별점" /> ${movie.vote_average}</p>
+        <p class="item-score">${movie.vote_average}<img src="assets/star_filled.png" alt="별점" /> </p>
       </div>
     </a>
 `;

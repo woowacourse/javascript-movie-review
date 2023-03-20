@@ -24,6 +24,11 @@ main {
   justify-content: center;
 }
 
+dialog {
+  color: #fff;
+  border: none;
+}
+
 #app {
   padding-bottom: 48px;
 }
@@ -62,6 +67,7 @@ main {
 .item-card {
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .item-thumbnail {
@@ -78,12 +84,18 @@ main {
 }
 
 .item-score {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
   margin-top: 16px;
   font-size: 1.2rem;
 }
 
 .item-score::after {
   margin-left: 8px;
+}
+
+.item-score img {
 }
 
 .item-title.skeleton::after,
@@ -236,25 +248,24 @@ ul:has(hr:last-child) ~ .item-last-notice {
 .modal-container {
   display: flex;
   flex-direction: column;
-}
-
-.modal-open {
   position: fixed;
-  top: 30%;
+  top: 25%;
   left: 15%;
   width: 70%;
 
+  border-radius: 8px;
   background-color: #212122;
 }
 
 .modal-title {
   height: 60px;
   width: 100%;
-  font-size: 20px;
+  font-size: 1.4rem;
   font-weight: 600;
   padding-top: 20px;
   text-align: center;
   align-items: center;
+  border-bottom: 1px solid rgba(241, 241, 241, 0.25);
 }
 
 .modal-thumbnail {
@@ -264,18 +275,83 @@ ul:has(hr:last-child) ~ .item-last-notice {
   background-size: contain;
 }
 
-.modal-overview {
-  font-size: 16px;
-}
-
 .modal-card {
   display: flex;
   flex-direction: row;
+  margin: 30px 30px 50px 30px;
 }
 
 .modal-info {
-  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 30px;
 }
+
+.modal-info .user-score {
+  background-color: #383839;
+  padding: 10px;
+  font-size: 1.2rem;
+  width: 100%;
+  border-radius: 16px;
+}
+
+.modal-genre-score {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 2fr;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.modal-genres {
+  margin-right: 20px;
+  font-size: 1.2rem;
+}
+
+.modal-score {
+  flex-direction: row;
+  align-items: flex-end;
+  font-size: 1.2rem;
+}
+
+.modal-score img {
+  margin-right: 6px;
+}
+
+.modal-overview {
+  display: grid;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  font-size: 1.2rem;
+}
+
+.star {
+  width: 24px;
+  position: relative;
+}
+
+.star img {
+  width: 24px;
+  overflow: hidden;
+}
+
+.star span {
+  width: 0;
+  height: 25px;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  position: absolute;
+}
+
+.star input {
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
 @keyframes alert-fade-in {
   from {
     transform: translateY(200px) scale(0.9);
