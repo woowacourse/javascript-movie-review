@@ -26,8 +26,8 @@ class Image extends HTMLElement {
   }
 
   setLoadingEvent() {
-    this.querySelector('img').addEventListener('load', () => {
-      this.querySelector('img').classList.remove('skeleton');
+    this.querySelector('img')?.addEventListener('load', () => {
+      this.querySelector('img')?.classList.remove('skeleton');
     });
   }
 }

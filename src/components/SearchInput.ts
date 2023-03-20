@@ -1,13 +1,14 @@
 import { $ } from '../utils/common';
+import { MovieConatainerInformation } from './MoviesContainer';
 import './SearchInput.css';
 
 class SearchInput extends HTMLElement {
-  connectedCallback() {
+  connectedCallback(): void {
     this.render();
     this.setSubmitEvent();
   }
 
-  render() {
+  render(): void {
     this.innerHTML = `
     <label for="search-input-tag">
       <form id="search-form-box" class="search-box"> 
@@ -18,16 +19,18 @@ class SearchInput extends HTMLElement {
     `;
   }
 
-  setSubmitEvent() {
-    $('#search-form-box').addEventListener('submit', event => {
+  setSubmitEvent(): void {
+    $('#search-form-box')?.addEventListener('submit', event => {
       event.preventDefault();
+      const searchInputTag = $('#search-input-tag') as HTMLInputElement;
+      const movieContainer = $('movies-container') as MovieConatainerInformation;
 
-      const word = $('#search-input-tag').value.trim();
+      const word = searchInputTag.value.trim();
       if (word === '') return;
 
-      $('movies-container').setSearchWord(word);
-      $('#search-input-tag').value = '';
-      $('#search-input-tag').blur();
+      movieContainer.setSearchWord(word);
+      searchInputTag.value = '';
+      searchInputTag.blur();
     });
   }
 }

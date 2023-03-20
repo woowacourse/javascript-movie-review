@@ -1,6 +1,7 @@
 import './Header.css';
-import LOGO from '../image/logo.png';
 import { $ } from '../utils/common';
+import { MovieConatainerInformation } from './MoviesContainer';
+import LOGO from '../image/logo.png';
 
 class Header extends HTMLElement {
   connectedCallback() {
@@ -17,8 +18,10 @@ class Header extends HTMLElement {
   }
 
   setLogoClickEvent() {
-    $('#logo').addEventListener('click', () => {
-      $('movies-container').setSearchWord('');
+    $('#logo')?.addEventListener('click', () => {
+      const movieContainer = $('movies-container') as MovieConatainerInformation;
+
+      movieContainer.setSearchWord('');
     });
   }
 }

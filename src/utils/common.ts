@@ -1,4 +1,4 @@
-export const $ = (selector: string) => document.querySelector(selector);
+export const $ = <E extends Element>(selector: string): E | null => document.querySelector(selector);
 
 export const request = async <T>(url: string): Promise<T> => {
   const response = await fetch(url);
@@ -12,4 +12,9 @@ export const request = async <T>(url: string): Promise<T> => {
 
 export const createUniqueId = () => {
   return 'id' + Math.random().toString(16).slice(2);
+};
+
+export const getErrorMessage = (error: unknown) => {
+  if (error instanceof Error) return error.message;
+  return String(error);
 };

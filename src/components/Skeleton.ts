@@ -1,11 +1,11 @@
 import './Skeleton.css';
 
 class Skeleton extends HTMLElement {
-  connectedCallback() {
+  connectedCallback(): void {
     this.render();
   }
 
-  makeSkeletonItem() {
+  makeSkeletonItem(): string {
     return `
       <li>
         <a href="#">
@@ -18,7 +18,7 @@ class Skeleton extends HTMLElement {
       </li>`;
   }
 
-  render() {
+  render(): void {
     this.innerHTML = `
     <ul class="item-list">
     ${this.makeSkeletonItem().repeat(20)}

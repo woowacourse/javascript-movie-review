@@ -1,6 +1,6 @@
 import { BaseParams, SearchParams } from './tmdbType';
 
-const convertQuerystring = (params: Record<string, string>) => {
+const convertQuerystring = (params: Record<string, string>): string => {
   const URLParams = new URLSearchParams();
   Object.keys(params).forEach(key => {
     URLParams.append(key, params[key]);
@@ -9,9 +9,16 @@ const convertQuerystring = (params: Record<string, string>) => {
   return URLParams.toString();
 };
 
-const getFetchURL = (baseUrl: string) => (path: string) => (query: string) => `${baseUrl}${path}${query}`;
+const getFetchURL =
+  (baseUrl: string) =>
+  (path: string) =>
+  (query: string): string =>
+    `${baseUrl}${path}${query}`;
 
-const getQuerieURL = (baseQueries: string) => (optionQueries: string) => `${baseQueries}&${optionQueries}`;
+const getQuerieURL =
+  (baseQueries: string) =>
+  (optionQueries: string): string =>
+    `${baseQueries}&${optionQueries}`;
 
 const baseParams = (pageIndex: number) => {
   return {
@@ -32,9 +39,9 @@ export const BASE_URL = 'https://api.themoviedb.org/3/';
 const POPULAR_URL = 'movie/popular?';
 const SEARCH_URL = 'search/movie?';
 
-const baseUrl = getFetchURL(BASE_URL);
-const popularUrl = baseUrl(POPULAR_URL);
-const searchUrl = baseUrl(SEARCH_URL);
+const baseUrl: (path: string) => (query: string) => string = getFetchURL(BASE_URL);
+const popularUrl: (query: string) => string = baseUrl(POPULAR_URL);
+const searchUrl: (query: string) => string = baseUrl(SEARCH_URL);
 
 export const getPopularUrl = ({ pageIndex }: BaseParams): string => {
   const params = baseParams(pageIndex);
