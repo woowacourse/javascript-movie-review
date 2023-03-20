@@ -5,7 +5,7 @@ import { imageUrl } from "../../../constants/urls";
 import Movie, { IMovie } from "../../../domain/Movie";
 
 class MovieItem {
-  $target;
+  $target: HTMLUListElement;
   #movieInfo: IMovie;
 
   constructor($target: HTMLUListElement, movie: Movie) {
