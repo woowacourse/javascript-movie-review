@@ -8,7 +8,7 @@ class ListTitle {
   }
 
   render($target: HTMLElement) {
-    const movieState = Store.movieStates?.getMovieStates();
+    const movieState = Store.get('movieStates')?.getMovieStates();
 
     this.$h2.innerHTML =
       movieState?.category === 'popular'

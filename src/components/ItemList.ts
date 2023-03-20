@@ -11,7 +11,7 @@ class ItemList {
   }
 
   template() {
-    const movies = Store.movieStates?.getMovieStates();
+    const movies = Store.get('movieStates')?.getMovieStates();
 
     if (!movies?.results.length)
       return {

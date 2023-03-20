@@ -39,32 +39,36 @@ class App {
         target[props] = value;
 
         switch (props) {
-          case 'nextPage':
+          case 'nextPage': {
             value === -1 ? this.moreButton.hide() : this.moreButton.show();
             break;
+          }
 
-          case 'category':
+          case 'category': {
             if (!this.listTitle) break;
 
             if (value === 'popular') target['query'] = '';
 
             this.listTitle.render(this.$itemView);
             break;
+          }
 
-          case 'results':
+          case 'results': {
             if (!this.itemList || !this.moreButton) break;
 
             this.itemList?.render(this.$itemView);
             this.moreButton?.render(this.$itemView);
             break;
+          }
 
-          case 'error':
+          case 'error': {
             const { isError, message } = value;
 
             if (isError === false) break;
 
             this.$itemView.innerHTML = WholeScreenMessageAlert(message);
             break;
+          }
           default:
         }
 
@@ -72,8 +76,8 @@ class App {
       },
     });
 
-    Store.movieStates = new Movie(movieStateProxy);
-    Store.movieStates?.renderPopularMovies();
+    Store.set('movieState', new Movie(movieStateProxy));
+    Store.get('movieState')?.renderPopularMovies();
   }
 }
 

@@ -38,7 +38,7 @@ class Header {
       return;
     }
 
-    Store.movieStates?.renderSearchedMovies(value);
+    Store.get('movieStates')?.renderSearchedMovies(value);
   }
 
   onClickEvent(e: Event) {
@@ -48,7 +48,7 @@ class Header {
 
     if (target.dataset.type !== 'logo') return;
 
-    Store.movieStates?.renderPopularMovies();
+    Store.get('movieStates')?.renderPopularMovies();
 
     if (this.$searchBox instanceof HTMLFormElement) {
       this.$searchBox.reset();
