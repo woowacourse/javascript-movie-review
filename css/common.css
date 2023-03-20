@@ -7,7 +7,7 @@ body {
 
   font-size: 14px;
   background-color: #222222;
-  color: #fff;
+  color: #ffffff;
 }
 
 a {
@@ -96,7 +96,7 @@ button.btn {
   border: 0;
   border-radius: 8px;
   height: 30px;
-  color: #fff;
+  color: #ffffff;
 }
 
 button.primary {
@@ -125,12 +125,12 @@ header {
   width: 100%;
   min-width: 1200px;
   height: 72px;
-  background-color: #222;
+  background-color: #222222;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid #ffffff;
   margin-bottom: 48px;
 }
 
