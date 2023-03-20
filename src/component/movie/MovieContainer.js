@@ -15,7 +15,7 @@ class MovieContainer extends CustomElement {
   template() {
     return `
         <section class="item-view movie-container">
-          <h2 class='movie-container-title'>지금 인기 있는 영화</h2>
+          <h2 class="movie-container-title">지금 인기 있는 영화</h2>
           <movie-list></movie-list>
           <movie-list-skeleton></movie-list-skeleton>
           <show-more-button></show-more-button>
