@@ -44,7 +44,6 @@ class MovieList {
 
   renderContents(movieInfoList: MovieType[]) {
     const skeletons = $$('.item-list .skeleton-item');
-    console.log(skeletons);
 
     movieInfoList.forEach((movieInfo, index) => {
       skeletons[index].classList.add('occupied');
