@@ -55,11 +55,11 @@ class App {
   }
 
   addEvents() {
-    document.addEventListener('searchMovies', async ({ detail }: any) => {
+    document.addEventListener('submit-search', async ({ detail }: any) => {
       await this.searchMovies(detail.keyword);
     });
 
-    document.addEventListener('seeMoreMovie', this.renderMovies.bind(this));
+    document.addEventListener('click-more-button', this.renderMovies.bind(this));
 
     document.addEventListener('click-logo', () => {
       this.handleClickLogo();

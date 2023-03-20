@@ -52,7 +52,7 @@ class SearchBox implements Component {
   }
 
   dispatchSearchEvent(keyword: string): void {
-    this.node.dispatchEvent(new CustomEvent('searchMovies', { bubbles: true, detail: { keyword } }));
+    this.node.dispatchEvent(new CustomEvent('submit-search', { bubbles: true, detail: { keyword } }));
   }
 }
 
