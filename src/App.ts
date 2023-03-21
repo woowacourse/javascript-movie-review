@@ -28,14 +28,10 @@ class App {
     if (updateType === UPDATE_TYPE.OVERWRITE) this.#movieFetcher.resetPage();
     if (updateType === UPDATE_TYPE.APPEND) this.#movieFetcher.increasePage();
 
-    this.#movieList.renderSkeletonItems();
-
     const { result, fetchStatus, movieList, isLastPage } =
       requestListType === REQUEST_MOVIES.POPULARITY
         ? await this.#movieFetcher.getMovieFetchResult()
         : await this.#movieFetcher.getMovieFetchResult(keyword);
-
-    this.#movieList.removeSkeletonItems();
 
     if (handleError(result, fetchStatus)) return;
 

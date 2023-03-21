@@ -10,7 +10,7 @@ const movieItem = ({ title, posterPath, voteAverage }: MovieType) => {
       <a href="#">
         <div class="item-card">
           <img
-            class="item-thumbnail"
+            class="item-thumbnail skeleton"
             src="${imageUrl}"
             loading="lazy"
             alt="${title}" />
