@@ -28,7 +28,10 @@ class MovieDataManager {
 
   reset() {
     const itemList = document.querySelector(".item-list") as HTMLUListElement;
+    const title = document.querySelector("h2") as HTMLElement;
+
     itemList.innerHTML = "";
+    title.remove();
     this._currentPage = 0;
   }
 
@@ -45,6 +48,12 @@ class MovieDataManager {
       this._searchMovies.push(data);
       return data;
     }
+  }
+
+  getTitle() {
+    return this._currentTab === CurrentTab.POPULAR
+      ? "지금 인기있는 영화"
+      : "의 검색결과";
   }
 
   checkDataPage(response: ResponseInfo) {

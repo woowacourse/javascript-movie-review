@@ -30,6 +30,7 @@ export const App = async () => {
     const movieDatas = response?.results;
     const movieItems = generateMovieItemElement(movieDatas);
 
+    movieItemList.renderTitle(movieDataManager.getTitle());
     movieItems?.map((movie: string) => {
       movieItemList.addMovies(movie);
     });
@@ -43,6 +44,9 @@ export const App = async () => {
     checkIsEmptyData(movieDatas);
     const movieItems = generateMovieItemElement(movieDatas);
 
+    movieItemList.renderTitle(
+      searchBox.getKeyword() + movieDataManager.getTitle()
+    );
     movieItems?.map((movie: string) => {
       movieItemList.addMovies(movie);
     });

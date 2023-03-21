@@ -32,4 +32,11 @@ export default class MovieItemList {
     const itemList = document.querySelector(".item-list") as HTMLElement;
     itemList.innerHTML = `<div class="empty-data">검색 결과가 존재하지 않습니다.</div>`;
   }
+
+  renderTitle(titleText: string) {
+    const itemView = document.querySelector(".item-view") as HTMLElement;
+    const titleSection = document.createElement("h2");
+    titleSection.textContent = titleText;
+    itemView.prepend(titleSection);
+  }
 }
