@@ -11,13 +11,17 @@ const HEADER_TEMPLATE = {
   SEARCH: (query: string) => `"${query}" 검색 결과`,
 };
 
-const ERROR_TEMPLATE = (errorCode: number) => {
-  return /* html */ `
+const ERROR_TEMPLATE = (errorCode: number) => /* html */ `
   <div class="error-container">
     <h1>죄송합니다. 영화 목록을 불러올 수 없습니다. 관리자에게 문의하세요. (error code: ${errorCode})</h1>
     <img class="error-img" src=${errorImg} />
   </div>`;
-};
+
+const NO_RESULT_TEMPLATE = /* html */ `
+  <div>
+    <p>검색 결과를 찾을 수 없습니다.</p>
+  </div>
+`;
 
 export default class MovieList implements Component {
   $element;
@@ -55,6 +59,11 @@ export default class MovieList implements Component {
   }
 
   renderMovieCards(movieList: Movie[]) {
+    if (!movieList.length) {
+      (<HTMLUListElement>this.$element.querySelector('.item-list')).innerHTML = NO_RESULT_TEMPLATE;
+      return;
+    }
+
     const $itemList = <HTMLUListElement>this.$element.querySelector('.item-list');
     const $tempList = document.createElement('ul');
     $tempList.replaceChildren(...$itemList.childNodes);
