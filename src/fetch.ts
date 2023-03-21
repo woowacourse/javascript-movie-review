@@ -1,9 +1,9 @@
-import { FailedResponse, Movie, MovieResponse } from './types';
+import { FailedResponse, Movie, MovieDataResponse, MovieList, MovieResults } from './types';
 
 export const getAPIUrl = (params: string, page = 1, query = '') =>
   `https://api.themoviedb.org/3${params}?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&page=${page}&query=${query}`;
 
-export const fetchMovies = async (params: string, page = 1, query = '') => {
+export const fetchMovies = async (params: string, page = 1, query = ''): Promise<MovieList> => {
   const API_URL = getAPIUrl(params, page, query);
   try {
     const res = await fetch(API_URL);
@@ -11,8 +11,8 @@ export const fetchMovies = async (params: string, page = 1, query = '') => {
       const error: FailedResponse = await res.json();
       throw new Error(error.status_message);
     }
-    const data = await res.json();
-    const movies: Movie[] = data.results.map((result: MovieResponse) => ({
+    const data: MovieDataResponse = await res.json();
+    const movies: Movie[] = data.results.map((result: MovieResults) => ({
       title: result.title,
       posterPath: result.poster_path,
       voteAverage: result.vote_average,
@@ -20,6 +20,9 @@ export const fetchMovies = async (params: string, page = 1, query = '') => {
 
     return { movies: movies, totalPages: data.total_pages };
   } catch (error) {
-    if (error instanceof Error) alert(error.message);
+    if (error instanceof Error) {
+      alert(error.message);
+    }
+    throw new Error();
   }
 };
