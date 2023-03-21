@@ -2,9 +2,9 @@ import Header from "./components/Header/Header";
 import MovieList from "./components/MovieList/MovieList";
 
 class App {
-  $target;
+  $target: HTMLDivElement;
 
-  constructor($target) {
+  constructor($target: HTMLDivElement) {
     this.$target = $target;
 
     this.render();
@@ -22,19 +22,24 @@ class App {
     this.mounted();
   }
 
-  renderMovieList(type, searchKeyword) {
+  renderMovieList(type: string, searchKeyword?: string) {
     const $main = this.$target.querySelector("main");
-    const props = { type, searchKeyword };
-    new MovieList($main, props);
+    const props = { type, searchKeyword: searchKeyword || "" };
+
+    if ($main) {
+      new MovieList($main, props);
+    }
   }
 
   mounted() {
     const $header = this.$target.querySelector("header");
 
-    new Header($header, {
-      renderMovieList: this.renderMovieList.bind(this),
-    });
-    this.renderMovieList("popular");
+    if ($header) {
+      new Header($header, {
+        renderMovieList: this.renderMovieList.bind(this),
+      });
+      this.renderMovieList("popular");
+    }
   }
 }
 
