@@ -9,7 +9,7 @@ import "./MovieListSkeleton";
 class MovieContainer extends CustomElement {
   connectedCallback() {
     super.connectedCallback();
-    SearchStore.subscribeSearchTitle(this);
+    SearchStore.subscribe(this);
   }
 
   template() {

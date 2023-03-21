@@ -1,15 +1,14 @@
 import { CustomElement } from "../type/componentType";
 
 class SearchTitleStore {
-  private searchTitleSubscribers: CustomElement | undefined;
+  private subscriber: CustomElement | undefined;
 
-  subscribeSearchTitle(element: CustomElement) {
-    this.searchTitleSubscribers = element;
+  subscribe(element: CustomElement) {
+    this.subscriber = element;
   }
 
   publish(searchWord: string) {
-    if (this.searchTitleSubscribers)
-      this.searchTitleSubscribers.rerender(searchWord);
+    if (this.subscriber) this.subscriber.rerender(searchWord);
   }
 }
 
