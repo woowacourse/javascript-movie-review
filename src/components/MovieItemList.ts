@@ -1,6 +1,6 @@
 import { moreButton } from "./moreButton";
 
-const MovieItemList = (totalPages: number) => {
+const MovieItemList = (totalPages: number, currentTab: string) => {
   const create = () => {
     return `<ul class="item-list"></ul>
     ${moreButton()}
@@ -23,8 +23,16 @@ const MovieItemList = (totalPages: number) => {
   const render = () => {
     const container = document.createElement("section");
     container.classList.add("item-view");
-    document.querySelector("main")?.appendChild(container);
+    const currentTabElement = document.createElement("h2");
+
     container.innerHTML = create();
+    container.insertAdjacentElement("afterbegin", currentTabElement);
+    console.log(currentTab);
+    if (currentTab == "POPULAR") currentTabElement.innerHTML = "인기 있는 영화";
+    if (currentTab == "SEARCH") currentTabElement.innerHTML = "검색 결과";
+    document
+      .querySelector("main")
+      ?.insertAdjacentElement("afterbegin", container);
   };
 
   render();
