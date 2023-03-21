@@ -8,7 +8,7 @@ class Movies {
   }
 
   getList(): Movie[] {
-    return this.#list;
+    return [...this.#list];
   }
 
   add(list: MovieResponse[]) {
