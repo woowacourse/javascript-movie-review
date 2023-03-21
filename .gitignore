@@ -3,3 +3,5 @@ node_modules
 src/constants/key.js
 
 .env
+
+/dist

@@ -98,15 +98,32 @@ export default class AppComponent extends CustomComponent {
 
   checkEventAction(e) {
     switch (e.target.dataset.action) {
+      case "hide_search":
+        if (this.querySelector(".header-logo").style.display === "none") {
+          this.querySelector(".search-button-wrapper").style.display = "flex";
+          this.querySelector(".search-box").style.display = "none";
+          this.querySelector(".header-logo").style.display = "block";
+          this.querySelector(".hide-all").style.display = "none";
+        }
+        break;
       // 로고 눌렀을 때 액션
+      case "search_on":
+        this.querySelector(".search-button-wrapper").style.display = "none";
+        this.querySelector(".search-box").style.display = "flex";
+        this.querySelector(".header-logo").style.display = "none";
+        this.querySelector(".hide-all").style.display = "block";
+        break;
       case ACTION.POPULAR:
-      default:
         this.popularListInit();
         this.renderListByData(ACTION.POPULAR);
         this.changeMoreButtonAction(ACTION.MORE_POPULAR);
         break;
       // 검색했을 때 액션
       case ACTION.SEARCH:
+        if (this.#$searchInput.style.display === "none") {
+          this.#$searchInput.style.display = "block";
+          return;
+        }
         if (!this.#$searchInput.value) {
           this.popularListInit();
           this.renderListByData(ACTION.POPULAR);
