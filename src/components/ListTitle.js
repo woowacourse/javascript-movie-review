@@ -1,9 +1,11 @@
 import Store from '../Store';
+
 class ListTitle {
   $h2 = document.createElement('h2');
 
   constructor($target) {
     this.$h2.className = 'movie-list-title';
+
     this.render($target);
   }
 

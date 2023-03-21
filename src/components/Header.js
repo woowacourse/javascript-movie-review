@@ -6,19 +6,19 @@ class Header {
   $header = document.createElement('header');
 
   constructor($target) {
-    this.init($target);
+    $target.insertAdjacentElement('beforeend', this.$header);
 
+    this.render();
+    this.bindEvent();
+  }
+
+  render() {
+    this.$header.innerHTML = this.template();
+  }
+
+  bindEvent() {
     this.$header.addEventListener('click', this.onClickEvent);
     this.$header.querySelector('.search-box').addEventListener('submit', this.onSubmitEvent);
-  }
-
-  init($target) {
-    $target.insertAdjacentElement('beforeend', this.$header);
-    this.render(this.$header);
-  }
-
-  render($target) {
-    $target.innerHTML = this.template();
   }
 
   async onSubmitEvent(e) {
