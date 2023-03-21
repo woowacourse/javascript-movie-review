@@ -11,7 +11,7 @@ class MovieDataManager {
   private _popularMovies: MovieInfoType[] = [];
   private _searchMovies: MovieInfoType[] = [];
   private _currentTab = CurrentTab.POPULAR;
-  private _currentPage: number = 1;
+  private _currentPage: number = 0;
 
   getCurrentTab() {
     return this._currentTab;
@@ -27,7 +27,8 @@ class MovieDataManager {
   }
 
   reset() {
-    document.querySelector(".item-list")!.innerHTML = "";
+    const itemList = document.querySelector(".item-list") as HTMLUListElement;
+    itemList.innerHTML = "";
     this._currentPage = 0;
   }
 
