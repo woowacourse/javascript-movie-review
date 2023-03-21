@@ -1,10 +1,11 @@
 import { ErrorComment } from "../components/ErrorComment";
+import { PATH } from "../constants/path";
 import { Validator } from "./Validator";
 
 export const getMovieData = async (page: number) => {
   try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}&page=${page}`
+      `${PATH.BASE_URL}/movie/popular?api_key=${process.env.API_KEY}&page=${page}`
     );
     if (!Validator.status(response.status)) {
       throw new Error(`${response.status}`);
