@@ -1,19 +1,18 @@
 import { $ } from '../utils/domSelector';
-import { MOVIE_LIST_LOADING, MOVIE_LIST_RESET } from '../constants';
+import { MOVIE_LIST_LOADED, MOVIE_LIST_LOADING, MOVIE_LIST_RESET } from '../constants';
 import MovieList from '../domain/MovieList';
 
 class MovieListContainer {
   private static instance: MovieListContainer;
   private listContainer: HTMLDivElement;
   private itemList: HTMLUListElement;
-  private moreButton: HTMLButtonElement;
+  private shouldScroll: boolean = true;
 
   private constructor() {
     $<HTMLElement>('main').insertAdjacentHTML('beforeend', this.template());
     this.init();
     this.listContainer = $<HTMLDivElement>('.item-view');
     this.itemList = $<HTMLUListElement>('.item-list');
-    this.moreButton = $<HTMLButtonElement>('#more-button');
     this.addEventListenerToMoreButton();
     this.addEventListenerToMovieItems();
   }
@@ -31,7 +30,6 @@ class MovieListContainer {
       <section class="item-view">
         <h2 id="movie-list-title">지금 인기 있는 영화</h2>
         <ul class="item-list"></ul>
-        <button id="more-button" class="btn primary full-width">더 보기</button>
       </section>
       <div class="error-message hide"></div>
     `;
@@ -43,13 +41,23 @@ class MovieListContainer {
     });
 
     MovieList.on(MOVIE_LIST_LOADING, () => {
-      this.hideMoreButton();
+      this.disableScroll();
+    });
+
+    MovieList.on(MOVIE_LIST_LOADED, () => {
+      this.enableScroll();
     });
   }
 
   private addEventListenerToMoreButton() {
-    this.moreButton.addEventListener('click', () => {
-      MovieList.getMovieData();
+    window.addEventListener('scroll', () => {
+      const endOfPage = window.innerHeight + window.scrollY + 250 >= document.body.offsetHeight;
+
+      if (!this.shouldScroll) return;
+
+      if (endOfPage) {
+        MovieList.getMovieData();
+      }
     });
   }
 
@@ -69,6 +77,10 @@ class MovieListContainer {
     });
   }
 
+  endScroll() {
+    this.shouldScroll = false;
+  }
+
   showListContainer() {
     this.listContainer.classList.remove('hide');
   }
@@ -77,12 +89,12 @@ class MovieListContainer {
     this.listContainer.classList.add('hide');
   }
 
-  showMoreButton() {
-    this.moreButton.classList.remove('hide');
+  disableScroll() {
+    document.body.classList.add('no-scroll');
   }
 
-  hideMoreButton() {
-    this.moreButton.classList.add('hide');
+  enableScroll() {
+    document.body.classList.remove('no-scroll');
   }
 }
 

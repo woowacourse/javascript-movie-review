@@ -41,10 +41,8 @@ class MovieListContent {
   }
 
   private async loadMovies(movies: Movie[], searchQuery: string) {
-    MovieListContainer.showMoreButton();
-
     if (movies.length !== 20) {
-      MovieListContainer.hideMoreButton();
+      MovieListContainer.endScroll();
     }
 
     if (searchQuery && !movies.length) {

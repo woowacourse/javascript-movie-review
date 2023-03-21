@@ -367,3 +367,7 @@ dialog::backdrop {
 .margin-bottom-8 {
   margin-bottom: 8px;
 }
+
+.no-scroll {
+  overflow: hidden;
+}
