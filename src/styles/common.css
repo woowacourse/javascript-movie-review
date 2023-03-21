@@ -177,3 +177,7 @@ header .search-box > .search-button {
 li {
   list-style: none;
 }
+
+.view-more-button {
+  display: inline-block;
+}

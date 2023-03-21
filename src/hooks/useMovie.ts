@@ -39,13 +39,6 @@ export async function usePopularMovie(requestedPage: number) {
 export async function useSearchedMovie(keyword: string, requestedPage: number) {
   const { page, results } = await getSearchMovie(keyword, requestedPage);
 
-  const $viewMoreButton = $('.view-more-button') as HTMLElement;
-  $viewMoreButton.style.display = 'inline-block';
-
-  if (results.length < 20) {
-    $viewMoreButton.style.display = 'none';
-  }
-
   function handleSearchResult() {
     renderSearchMovieList(results);
   }

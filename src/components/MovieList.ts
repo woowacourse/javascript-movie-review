@@ -21,6 +21,13 @@ export function renderPageTitle(keyword?: string | undefined) {
   $pageTitle.innerText = PAGE_TITLE.POPULAR_NOW;
 }
 
+export function renderViewMoreButton(isContentEnd: boolean) {
+  if (isContentEnd) {
+    const $viewMoreButton = $('.view-more-button') as HTMLElement;
+    $viewMoreButton.style.display = 'none';
+  }
+}
+
 export async function renderSkeletonList() {
   const parentElem = $('.item-list') as HTMLElement;
 
@@ -45,6 +52,7 @@ export async function renderMoreSkeletonList() {
   }
 
   await useSearchedMovie(getRecentKeyword(), getPage() + 1).then(({ values }) => {
+    renderViewMoreButton(values.results.length < 20);
     renderMoreMovieList(values.results);
     deleteSkeletonList();
   });
