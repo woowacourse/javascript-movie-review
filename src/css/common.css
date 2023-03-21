@@ -278,3 +278,92 @@ header .search-box > #search-button {
     font-size: 0.9rem;
   }
 }
+
+dialog {
+  width: 800px;
+  height: 500px;
+  background-color: #1a1a1a;
+  color: white;
+  border: 0;
+  border-radius: 16px;
+  padding: 0;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.information {
+  display: flex;
+  padding: 36px;
+  width: 100%;
+  height: 100%;
+}
+
+.information-image {
+  height: 100%;
+  border-radius: 10px;
+}
+
+.information-container {
+  margin-left: 36px;
+  padding-right: 16px;
+  margin-right: 8px;
+  width: 100%;
+  overflow: scroll;
+}
+
+.information-modal h3 {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.information-modal h6 {
+  margin-bottom: 14px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.information-modal p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: whitesmoke;
+}
+
+.information-vote-average-rate {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.information-user-vote {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vote-stars {
+  display: flex;
+  gap: 4px;
+}
+
+.vote-stars img {
+  width: 32px;
+}
+
+.hr {
+  margin: 24px 0;
+  border-bottom: 1px solid #383838;
+}
+
+.close-button {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.margin-bottom-8 {
+  margin-bottom: 8px;
+}
