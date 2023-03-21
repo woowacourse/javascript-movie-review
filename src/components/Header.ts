@@ -24,7 +24,8 @@ export default class Header {
   }
 
   bindEvent(
-    toggleSkeleton: () => void,
+    removeSkeleton: () => void,
+    showSkeleton: () => void,
     onSubmitSearch: (results: Movie[], totalPages: number) => void,
   ) {
     const searchBox = this.$parent.querySelector('.search-box');
@@ -32,14 +33,14 @@ export default class Header {
     const handleSubmitSearch = async (event: Event) => {
       event.preventDefault();
 
-      toggleSkeleton();
+      showSkeleton();
 
       const keyword = new FormData(event.target as HTMLFormElement).get('keyword') as string;
       const { results, total_pages } = await searchMovies({ query: keyword, page: 1 });
 
       Store.keyword = keyword;
 
-      toggleSkeleton();
+      removeSkeleton();
 
       onSubmitSearch(results, total_pages);
     };

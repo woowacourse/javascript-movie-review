@@ -27,14 +27,15 @@ class App {
 
   async init() {
     this.header.bindEvent(
-      this.movieList.toggleSkeleton.bind(this.movieList),
+      this.movieList.showSkeleton.bind(this.movieList),
+      this.movieList.removeSkeleton.bind(this.movieList),
       this.onSubmitSearch.bind(this),
     );
     this.movieList.bindEvent();
 
-    this.movieList.toggleSkeleton();
+    this.movieList.showSkeleton();
     const { results, total_pages } = await getPopularMovies({ page: 1 });
-    this.movieList.toggleSkeleton();
+    this.movieList.removeSkeleton();
     this.movieList.renderMovieCards(results, total_pages);
   }
 

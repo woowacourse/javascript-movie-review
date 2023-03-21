@@ -60,19 +60,19 @@ export default class MovieList {
       Store.page += 1;
 
       if (this.renderMode === 'popular') {
-        this.toggleSkeleton();
+        this.showSkeleton();
         const { results, total_pages } = await getPopularMovies({ page: Store.page });
-        this.toggleSkeleton();
+        this.removeSkeleton();
         this.renderMovieCards(results, total_pages);
       }
 
       if (this.renderMode === 'search') {
-        this.toggleSkeleton();
+        this.showSkeleton();
         const { results, total_pages } = await searchMovies({
           page: Store.page,
           query: Store.keyword,
         });
-        this.toggleSkeleton();
+        this.removeSkeleton();
         this.renderMovieCards(results, total_pages);
       }
     };
@@ -84,8 +84,8 @@ export default class MovieList {
     this.$title.textContent = title;
   }
 
-  renderMovieCards(results: Movie[], totalPages: number) {
-    results.forEach((movie) => {
+  renderMovieCards(movies: Movie[], totalPages: number) {
+    movies.forEach((movie) => {
       new MovieCard(this.$movieItemList, movie);
     });
 
@@ -97,13 +97,13 @@ export default class MovieList {
     this.$movieItemList.innerHTML = '';
   }
 
-  toggleSkeleton() {
+  removeSkeleton() {
     const $skeletonLists = this.$movieItemList.querySelectorAll('.skeleton-li');
 
-    if ($skeletonLists.length > 0) {
-      $skeletonLists.forEach(($skeletonList) => $skeletonList.remove());
-    } else {
-      this.$movieItemList.insertAdjacentHTML('beforeend', this.skeletonTemplate().repeat(20));
-    }
+    $skeletonLists.forEach(($skeletonList) => $skeletonList.remove());
+  }
+
+  showSkeleton() {
+    this.$movieItemList.insertAdjacentHTML('beforeend', this.skeletonTemplate().repeat(20));
   }
 }
