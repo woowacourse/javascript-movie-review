@@ -67,10 +67,10 @@ class Movies extends Observable {
     this.notify('movies', refineMovies);
   }
 
-  async searchMovies(query: string) {
+  async searchMovies(query: string, isFromSearchButton: boolean = false) {
     this.notify('loading');
 
-    if (this.query !== query) this.searchPage = 1;
+    if (this.query !== query || isFromSearchButton) this.searchPage = 1;
     this.query = query;
 
     const { movieList, status } = await getApiSearchMovie(

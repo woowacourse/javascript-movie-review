@@ -46,7 +46,7 @@ export default class Header {
 
       $('.item-list').innerHTML = '';
 
-      movies.searchMovies(searchMovie.value);
+      movies.searchMovies(searchMovie.value, true);
     }
   }
 }
