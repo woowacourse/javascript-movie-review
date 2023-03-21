@@ -1,4 +1,5 @@
 import { ERROR_MESSAGE } from "../constants/errorMessages";
+import { $ } from "../utils/selector";
 
 export class ErrorComment {
   private _errorCode: number;
@@ -14,6 +15,7 @@ export class ErrorComment {
   }
 
   render() {
-    document.querySelector(".item-list")!.innerHTML = this.create();
+    const itemList = $(".item-list") as HTMLElement;
+    itemList.innerHTML = this.create();
   }
 }

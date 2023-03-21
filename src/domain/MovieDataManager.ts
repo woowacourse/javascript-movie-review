@@ -6,6 +6,7 @@ import {
 } from "../@types/movieDataType";
 import { getKeywordData } from "../api/keywordSearch";
 import { getMovieData } from "../api/movieList";
+import { $ } from "../utils/selector";
 
 class MovieDataManager {
   private _popularMovies: MovieInfoType[] = [];
@@ -27,8 +28,8 @@ class MovieDataManager {
   }
 
   reset() {
-    const itemList = document.querySelector(".item-list") as HTMLUListElement;
-    const title = document.querySelector("h2") as HTMLElement;
+    const itemList = $(".item-list") as HTMLUListElement;
+    const title = $("h2") as HTMLElement;
 
     itemList.innerHTML = "";
     title.remove();

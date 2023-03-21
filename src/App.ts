@@ -9,6 +9,7 @@ import { MovieItem } from "./components/MovieItem";
 import MovieItemList from "./components/MovieItemList";
 import SearchBox from "./components/SearchBox";
 import MovieDataManager from "./domain/MovieDataManager";
+import { $ } from "./utils/selector";
 
 export const App = async () => {
   const movieDataManager = new MovieDataManager();
@@ -41,7 +42,9 @@ export const App = async () => {
     const response = await movieDataManager.getData(searchBox.getKeyword());
     checkIsLastData(response);
     const movieDatas = response?.results;
-    checkIsEmptyData(movieDatas);
+    if (checkIsEmptyData(movieDatas)) {
+      return;
+    }
     const movieItems = generateMovieItemElement(movieDatas);
 
     movieItemList.renderTitle(
@@ -72,24 +75,22 @@ export const App = async () => {
     if (movieDataManager.checkDataAmount(results) === 0) {
       moreButton.hide();
       movieItemList.renderNoData();
+      return true;
     }
   };
 
-  document
-    .querySelector(".search-input")
-    ?.addEventListener("searchInputChange", (e) => {
-      movieDataManager.convertTab(CurrentTab.SEARCH);
-      renderMovies();
-    });
+  $(".search-input")?.addEventListener("searchInputChange", (e) => {
+    movieDataManager.convertTab(CurrentTab.SEARCH);
+    renderMovies();
+  });
 
-  document
-    .querySelector(".primary")
-    ?.addEventListener("clickMoreButton", () => {
-      renderMovies();
-    });
+  $(".primary")?.addEventListener("clickMoreButton", () => {
+    renderMovies();
+  });
 
-  document.querySelector(".logo")?.addEventListener("click", () => {
+  $(".logo")?.addEventListener("click", () => {
     movieDataManager.convertTab(CurrentTab.POPULAR);
+    searchBox.resetInput();
     renderMovies();
   });
 

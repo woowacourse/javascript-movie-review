@@ -1,3 +1,5 @@
+import { $ } from "../utils/selector";
+
 export default class MoreButton {
   constructor() {
     this.render();
@@ -11,9 +13,7 @@ export default class MoreButton {
   }
 
   render() {
-    document
-      .querySelector(".item-list")
-      ?.insertAdjacentHTML("afterend", this.create());
+    $(".item-list")?.insertAdjacentHTML("afterend", this.create());
   }
 
   hadleEvent() {
@@ -23,14 +23,14 @@ export default class MoreButton {
 
   onClick() {
     const event = new CustomEvent("clickMoreButton");
-    document.querySelector(".primary")?.dispatchEvent(event);
+    $(".primary")?.dispatchEvent(event);
   }
 
   hide() {
-    document.querySelector(".primary")?.classList.add("hidden");
+    $(".primary")?.classList.add("hidden");
   }
 
   show() {
-    document.querySelector(".primary")?.classList.remove("hidden");
+    $(".primary")?.classList.remove("hidden");
   }
 }

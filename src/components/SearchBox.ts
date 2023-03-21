@@ -1,3 +1,5 @@
+import { $ } from "../utils/selector";
+
 export default class SearchBox {
   private _keyword: string;
 
@@ -19,11 +21,11 @@ export default class SearchBox {
 
     searchBox.classList.add("search-box");
     searchBox.innerHTML = this.create();
-    document.querySelector("header")?.appendChild(searchBox);
+    $("header")?.appendChild(searchBox);
   }
 
   handleEvent() {
-    const searchInput = document.querySelector(".search-input");
+    const searchInput = $(".search-input");
 
     searchInput?.addEventListener("keyup", (e: any) => {
       e.keyCode === 13 && this.onKeyup(e);
@@ -33,9 +35,7 @@ export default class SearchBox {
   onKeyup(e: Event) {
     const target = e.target as HTMLInputElement;
     const event = new CustomEvent("searchInputChange");
-    const searchInput = document.querySelector(
-      ".search-input"
-    ) as HTMLInputElement;
+    const searchInput = $(".search-input") as HTMLInputElement;
 
     this.updateKeyword(target.value);
     searchInput.dispatchEvent(event);
@@ -47,5 +47,10 @@ export default class SearchBox {
 
   getKeyword() {
     return this._keyword;
+  }
+
+  resetInput() {
+    const inputBox = $(".search-input") as HTMLInputElement;
+    inputBox.value = "";
   }
 }
