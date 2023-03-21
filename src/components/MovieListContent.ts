@@ -41,7 +41,7 @@ class MovieListContent {
   }
 
   private async loadMovies(movies: Movie[], searchQuery: string) {
-    if (movies.length !== 20) {
+    if (movies.length !== MOVIE_MAX_COUNT) {
       MovieListContainer.disableScroll();
     }
 
@@ -58,7 +58,7 @@ class MovieListContent {
     this.itemList.insertAdjacentHTML('beforeend', MovieItem.template().repeat(MOVIE_MAX_COUNT));
   };
 
-  renderMovies(movies: Movie[]) {
+  private renderMovies(movies: Movie[]) {
     const items = $$<HTMLUListElement>('.item-card');
     const lastPageItems = items.slice(-MOVIE_MAX_COUNT);
     const itemsToRender = lastPageItems.slice(0, movies.length);
