@@ -29,6 +29,7 @@ export class MovieList {
   async init() {
     await this.nextPage();
     this.showModal();
+    this.infiniteScroll();
   }
 
   render() {
@@ -122,5 +123,30 @@ export class MovieList {
       }
       return null;
     });
+  }
+
+  infiniteScroll() {
+    const $start = document.querySelector('ul')?.lastElementChild;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              this.nextPage().then(() => {
+                const $li = document.querySelector('ul')?.lastElementChild;
+                io.unobserve($li!);
+                io.observe($li!);
+              });
+            }, 500);
+          }
+        });
+      },
+      {
+        threshold: 0,
+      },
+    );
+
+    io.observe($start!);
   }
 }
