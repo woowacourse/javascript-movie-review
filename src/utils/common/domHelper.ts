@@ -16,7 +16,7 @@ export const getElement = (template: string) => {
 };
 
 export const replaceComponent = (element: Element | null, component: Element | null) => {
-  if (!element || !component || !element.parentNode) return;
-
-  element.replaceWith(component);
+  if (element && component) {
+    element.replaceWith(component);
+  }
 };
