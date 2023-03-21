@@ -27,7 +27,7 @@ const MovieItemList = (totalPages: number, currentTab: string) => {
 
     container.innerHTML = create();
     container.insertAdjacentElement("afterbegin", currentTabElement);
-    console.log(currentTab);
+
     if (currentTab == "POPULAR") currentTabElement.innerHTML = "인기 있는 영화";
     if (currentTab == "SEARCH") currentTabElement.innerHTML = "검색 결과";
     document
