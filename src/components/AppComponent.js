@@ -13,6 +13,7 @@ export default class AppComponent extends CustomComponent {
   #$movieList;
   #$movieListTitle;
   #$searchInput;
+  #intersectionObserver;
 
   async render() {
     super.render();
@@ -23,29 +24,31 @@ export default class AppComponent extends CustomComponent {
 
     this.popularListInit();
     await this.renderListByData(ACTION.POPULAR);
-    this.changeMoreButtonAction(ACTION.MORE_POPULAR);
+    this.loadIntersectionObserver(ACTION.POPULAR);
+  }
 
-    const lastChild = this.#$movieList
+  async loadIntersectionObserver(type) {
+    const lastChild = await this.#$movieList
       .querySelector("movie-list-page:last-of-type")
       .querySelector(`movie-item:last-of-type`);
 
-    const io = new IntersectionObserver((entry, observer) => {
+    this.#intersectionObserver = new IntersectionObserver((entry) => {
       const ioTarget = entry[0].target;
 
-      if (entry[0].isIntersecting) {
-        console.log("현재 보이는 타켓", ioTarget);
-        io.unobserve(ioTarget);
+      if (entry[0].isIntersecting && this.checkHasNextPage()) {
+        this.#intersectionObserver.unobserve(ioTarget);
         this.#$movieList.appendNewPage();
-        this.renderListByData(ACTION.POPULAR).then(() => {
+
+        this.renderListByData(type).then(() => {
           const newLastChild = this.#$movieList
             .querySelector("movie-list-page:last-of-type")
             .querySelector(`movie-item:last-of-type`);
-          io.observe(newLastChild);
+          this.#intersectionObserver.observe(newLastChild);
         });
       }
     });
 
-    io.observe(lastChild);
+    this.#intersectionObserver.observe(lastChild);
   }
 
   async fetchAPI(actionType) {
@@ -83,7 +86,6 @@ export default class AppComponent extends CustomComponent {
         this.#$movieList.renderPageSuccess(movieItems);
 
         this.#nextPage += 1;
-        this.checkHasNextPage();
       })
       .catch((error) => {
         this.#$movieList.renderPageFail();
@@ -92,10 +94,11 @@ export default class AppComponent extends CustomComponent {
 
   checkHasNextPage() {
     if (this.#totalPage < this.#nextPage) {
-      this.querySelector("more-button").classList.add("hide");
-      return;
+      this.#intersectionObserver.disconnect();
+      return false;
     }
-    this.querySelector("more-button").classList.remove("hide");
+
+    return true;
   }
 
   searchListInit() {
@@ -112,10 +115,6 @@ export default class AppComponent extends CustomComponent {
     this.#$searchInput.value = "";
     this.#$movieListTitle.setTitle(TITLE.POPULAR);
     this.#$movieList.initialPage();
-  }
-
-  changeMoreButtonAction(actionType) {
-    this.querySelector("more-button").setAttribute("data-action", actionType);
   }
 
   async checkEventAction(e) {
@@ -138,7 +137,7 @@ export default class AppComponent extends CustomComponent {
       case ACTION.POPULAR:
         this.popularListInit();
         await this.renderListByData(ACTION.POPULAR);
-        this.changeMoreButtonAction(ACTION.MORE_POPULAR);
+        this.loadIntersectionObserver(ACTION.POPULAR);
         break;
       // 검색했을 때 액션
       case ACTION.SEARCH:
@@ -149,22 +148,12 @@ export default class AppComponent extends CustomComponent {
         if (!this.#$searchInput.value) {
           this.popularListInit();
           await this.renderListByData(ACTION.POPULAR);
-          this.changeMoreButtonAction(ACTION.MORE_POPULAR);
+          this.loadIntersectionObserver(ACTION.POPULAR);
           return;
         }
         this.searchListInit();
         await this.renderListByData(ACTION.SEARCH);
-        this.changeMoreButtonAction(ACTION.MORE_SEARCH);
-        break;
-      // 인기 영화 목록에서 더보기 눌렀을 때 액션
-      case ACTION.MORE_POPULAR:
-        this.#$movieList.appendNewPage();
-        await this.renderListByData(ACTION.POPULAR);
-        break;
-      // 검색 결과 목록에서 더보기 눌렀을 때 액션
-      case ACTION.MORE_SEARCH:
-        this.#$movieList.appendNewPage();
-        await this.renderListByData(ACTION.SEARCH);
+        this.loadIntersectionObserver(ACTION.SEARCH);
         break;
     }
   }
@@ -182,13 +171,13 @@ export default class AppComponent extends CustomComponent {
         if (!this.#$searchInput.value) {
           this.popularListInit();
           await this.renderListByData(ACTION.POPULAR);
-          this.changeMoreButtonAction(ACTION.MORE_POPULAR);
+          this.loadIntersectionObserver(ACTION.POPULAR);
           return;
         }
 
         this.searchListInit();
         await this.renderListByData(ACTION.SEARCH);
-        this.changeMoreButtonAction(ACTION.MORE_SEARCH);
+        this.loadIntersectionObserver(ACTION.SEARCH);
       }
     });
   }
@@ -201,7 +190,6 @@ export default class AppComponent extends CustomComponent {
                 <section class="item-view">
                     <movie-list-title></movie-list-title>
                     <movie-list></movie-list>
-                    <more-button></more-button>
                 </section>
             </main>
         </div>
