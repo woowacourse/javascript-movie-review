@@ -154,6 +154,7 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
   width: 100%;
   min-width: 1200px;
@@ -163,14 +164,16 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: rgba(255, 255, 255, 0.4) -1px -2px 4px,
+    rgba(255, 255, 255, 0.3) 0px 6px 13px -3px,
+    rgba(255, 255, 255, 0.2) 0px -3px 0px inset;
   margin-bottom: 48px;
 }
 
 header h1 {
   cursor: pointer;
   user-select: none;
-  font-size: 2rem;
   font-weight: bold;
   letter-spacing: -0.1rem;
   color: #f33f3f;
@@ -191,7 +194,7 @@ header .search-box > input {
 
 header .search-box > .search-button {
   width: 14px;
-  margin-top: 1px;
+  margin-top: 2px;
   border: 0;
   text-indent: -1000rem;
   background: url("../assets/search_button.png") transparent no-repeat 0 1px;
@@ -208,4 +211,70 @@ header .search-box > .search-button {
 
 #no-result > p {
   margin-bottom: 10px;
+}
+
+@media screen and (max-width: 834px) {
+  .item-view {
+    width: 834px;
+    margin: 0 auto;
+  }
+
+  .item-view h2 {
+    padding-left: 70px;
+    font-weight: 600;
+    font-size: 28px;
+  }
+
+  .item-list {
+    margin: 36px auto;
+    grid-template-columns: repeat(3, 200px);
+    grid-column-gap: 50px;
+  }
+
+  .item-thumbnail {
+    height: auto;
+  }
+
+  header {
+    min-width: 834px;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .item-view {
+    width: 390px;
+    margin: 0 auto;
+  }
+
+  .item-view h2 {
+    padding-left: 25px;
+  }
+
+  .item-list {
+    margin: 30px auto;
+    grid-template-columns: repeat(2, 150px);
+    grid-column-gap: 40px;
+  }
+
+  .item-thumbnail {
+    width: 150px;
+  }
+
+  .item-title {
+    font-size: 17px;
+  }
+
+  .item-score {
+    margin-top: 8px;
+    font-size: 16px;
+  }
+
+  header {
+    min-width: 390px;
+    margin-bottom: 40px;
+  }
+
+  header .search-box > input {
+    display: none;
+  }
 }
