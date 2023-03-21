@@ -1,5 +1,6 @@
 import { Props, UnPack } from '../types/common';
 import { debounce } from '../utils/common/debounce';
+import { replaceComponent, $ } from '../utils/common/domHelper';
 
 export interface EventCallback {
   (e: HTMLElementEventMap[keyof HTMLElementEventMap]): void;
@@ -20,6 +21,7 @@ interface Options<T = unknown> {
   states: T[];
   events: Event[];
   effects: Effect[];
+  componentList: [string, Element | null][];
   root: null | Element;
   rootComponent: null | ((props: Props<{}>) => Element | null);
 }
@@ -37,6 +39,7 @@ function Core() {
     states: [],
     events: [],
     effects: [],
+    componentList: [],
     root: null,
     rootComponent: null,
   };
@@ -79,11 +82,27 @@ function Core() {
     if (!root || !component) return;
     root.innerHTML = '';
     root.appendChild(component);
+    _replaceComponents();
+
     options.currentStateKey = 0;
     options.currentEffectsKey = 0;
 
     options.events = [];
   });
+
+  const setComponentList = (target: string, component: Element | null) => {
+    const { componentList } = options;
+    componentList.push([target, component]);
+  };
+
+  const _replaceComponents = () => {
+    const { componentList } = options;
+    componentList.reverse().forEach(([target, component]) => {
+      replaceComponent($(target), component);
+    });
+
+    options.componentList = [];
+  };
 
   function render(rootComponent: Options['rootComponent'], root: Options['root']) {
     options.root = root;
@@ -91,10 +110,10 @@ function Core() {
     _render();
   }
 
-  return { useState, useEffect, render };
+  return { useState, useEffect, render, setComponentList };
 }
 
-export const { useState, useEffect, render } = Core();
+export const { useState, useEffect, render, setComponentList } = Core();
 
 export const addEvent = ({ $element, event, callback }: { $element: Element } & Event) => {
   $element.addEventListener(event, callback);

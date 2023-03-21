@@ -16,10 +16,6 @@ function useMovieChart(keyword: string) {
       setIsLoading(true);
       await callback(args);
       setIsLoading(false);
-
-      setTimeout(() => {
-        scrollTo({ left: 0, top: document.body.scrollHeight, behavior: 'smooth' });
-      }, 500);
     };
 
   const updateMovieData = (data: GetPopularMoviesRes | GetMoviesByKeywordRes) => {
