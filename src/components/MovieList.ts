@@ -116,15 +116,15 @@ export default class MovieList implements Component {
       return;
     }
 
-    this.judgeButtonState(data.page, data.totalPages);
+    this.isLastPage(data.page, data.totalPages) && this.hideMoreButton();
 
     this.hideSkeletonList();
 
     this.renderMovieCards(data.movieList);
   }
 
-  judgeButtonState(page: number, totalPages: number) {
-    page === totalPages && this.hideMoreButton();
+  isLastPage(page: number, totalPages: number) {
+    return page === totalPages;
   }
 
   hideMoreButton() {
