@@ -1,3 +1,5 @@
+import { $ } from "../utils/Dom";
+
 export default class MovieCard extends HTMLElement {
   get movieTitle() {
     return this.getAttribute("movieTitle");
@@ -13,6 +15,10 @@ export default class MovieCard extends HTMLElement {
 
   get movieId() {
     return this.getAttribute("movieId");
+  }
+
+  get genreId() {
+    return this.getAttribute("genreId");
   }
 
   connectedCallback() {
@@ -41,11 +47,28 @@ export default class MovieCard extends HTMLElement {
 
   setEvent() {
     const $moiveImage = this.querySelector("img");
-    if ($moiveImage instanceof HTMLImageElement) {
-      $moiveImage.addEventListener("load", () => {
-        this.keepSkeletonWhileImageLoading($moiveImage);
-      });
-    }
+    $moiveImage?.addEventListener("load", () => {
+      this.keepSkeletonWhileImageLoading($moiveImage);
+    });
+
+    this.addEventListener("click", () => {
+      const $modal = $("movie-modal");
+
+      if (
+        this.movieTitle &&
+        this.rating &&
+        this.poster &&
+        this.movieId &&
+        this.genreId
+      ) {
+        $modal?.setAttribute("movie-title", this.movieTitle);
+        $modal?.setAttribute("poster", this.poster);
+        $modal?.setAttribute("rating", this.rating);
+        $modal?.setAttribute("genre-id", this.genreId);
+        $modal?.setAttribute("movie-id", this.movieId);
+      }
+      $modal?.classList.toggle("hidden");
+    });
   }
 
   keepSkeletonWhileImageLoading($moiveImage: HTMLImageElement) {

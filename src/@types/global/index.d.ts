@@ -7,6 +7,8 @@ type movieList = movieInfo[];
 
 type listState = keyof LIST_STATE;
 
+type myRating = { movieId: Number; score: Number }[];
+
 interface appState {
   page: number;
   listState: listState;
@@ -19,6 +21,7 @@ interface movieInfo {
   poster: string;
   rating: string;
   movieId: string;
+  genreId: string | null;
 }
 
 type parsedJson = {

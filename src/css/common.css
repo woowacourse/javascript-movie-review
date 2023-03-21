@@ -13,6 +13,31 @@ a {
   text-decoration: none;
 }
 
+h1 {
+  cursor: pointer;
+  user-select: none;
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: -0.1rem;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: bold;
+  user-select: none;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: bold;
+  color: #f1f1f1;
+}
+
+h4 {
+  font-size: 16px;
+  color: #f1f1f1;
+}
+
 button {
   cursor: pointer;
 }
@@ -35,12 +60,6 @@ button {
   justify-content: center;
   width: 1200px;
   margin: 0 auto;
-}
-
-.item-view h2 {
-  font-size: 2rem;
-  font-weight: bold;
-  user-select: none;
 }
 
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
@@ -126,6 +145,7 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
   width: 100%;
   min-width: 1200px;
@@ -137,15 +157,6 @@ header {
   padding: 0 20px;
   border-bottom: 1px solid white;
   margin-bottom: 48px;
-}
-
-header h1 {
-  cursor: pointer;
-  user-select: none;
-  font-size: 2rem;
-  font-weight: bold;
-  letter-spacing: -0.1rem;
-  color: #f33f3f;
 }
 
 .home-button {
@@ -171,14 +182,57 @@ header h1 {
   background-size: contain;
 }
 
-.hidden {
-  display: none;
-}
-
 .star-filled {
   content: url("../assets/image/star_filled.png");
 }
 
 .star-empty {
   content: url("../assets/image/star_empty.png");
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed; /* 스크롤에 따라 움직이지 않도록 고정 */
+  z-index: 1; /* 다른 요소보다 위에 위치하도록 설정 */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* 스크롤이 필요한 경우 스크롤바를 보여줌 */
+  background-color: rgba(0, 0, 0, 0.6); /* 배경색과 투명도 조절 */
+}
+
+.modal-content {
+  position: relative;
+  width: 826px;
+  height: 577px;
+  background: #212122;
+  border-radius: 8px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 18px;
+}
+
+.exit-button {
+  position: absolute;
+  right: 32px;
+  border-radius: 9999px;
+  border: none;
+  background: #383839;
+}
+
+.modal-image {
+}
+
+.rating-box {
+  border-radius: 16px;
+  background-color: #383839;
+  width: 100%;
+  padding: 16px;
+  position: absolute;
+  bottom: 0;
 }

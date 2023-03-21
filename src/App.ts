@@ -5,6 +5,7 @@ import { getPopularMovies, getSearchedMovies } from "./utils/fetch";
 
 export default class App {
   #state: appState;
+  #myRating: myRating;
 
   constructor() {
     this.#state = {
@@ -13,6 +14,7 @@ export default class App {
       movieList: [],
       movieName: "",
     };
+    this.#myRating = [];
     this.init();
     this.setEvent();
   }
@@ -34,8 +36,7 @@ export default class App {
     if (itemView instanceof HTMLElement)
       itemView.innerHTML = `
     <card-list header='${LIST_HEADING(listState, movieName)}'></card-list>
-    <more-button length='${movieList.length}'>
-    </more-button>
+    <more-button length='${movieList.length}'></more-button>
     `;
   }
 
@@ -53,6 +54,11 @@ export default class App {
     document.addEventListener("click-home-button", () => {
       this.init();
     });
+
+    document.addEventListener(
+      "set-my-rating",
+      this.setMyRating as EventListener
+    );
   }
 
   async appendMovieList() {
@@ -90,6 +96,15 @@ export default class App {
     this.renderSearchedMovies();
   };
 
+  setMyRating = ({ detail }: CustomEvent) => {
+    const { movieId, myRating } = detail;
+    const element = this.#myRating.find((item) => item.movieId === movieId);
+
+    element
+      ? (element.score = myRating)
+      : this.#myRating.push({ movieId, score: myRating });
+  };
+
   async renderSearchedMovies() {
     this.render();
     this.toggleSkeletonList(TOGGLE_SKELETON.SHOW);
@@ -100,20 +115,21 @@ export default class App {
 
   getMovieListFromFetchedData(fetchedData: parsedJson) {
     return fetchedData.results.map((item: movieData) => {
-      const { title, poster_path, vote_average, id } = item;
+      const { title, poster_path, vote_average, id, genre_ids } = item;
       return {
         title,
         poster: poster_path,
         rating: vote_average,
         movieId: id,
+        genreId: genre_ids.join(","),
       };
     });
   }
 
   mountMovieList() {
+    const { movieList } = this.#state;
     const $cardList = $("card-list");
-    if ($cardList instanceof MovieCardList)
-      $cardList.setMovieList(this.#state.movieList);
+    if ($cardList instanceof MovieCardList) $cardList.setMovieList(movieList);
   }
 
   toggleSkeletonList(method: toggleSkeleton) {

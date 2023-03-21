@@ -30,7 +30,8 @@ export default class MovieCardList extends HTMLElement {
       movieList.forEach((item: movieInfo) => {
         $movieList.insertAdjacentHTML(
           "beforeend",
-          `<movie-card movieTitle='${item.title}' poster='${item.poster}' rating='${item.rating}' movieId='${item.movieId}'></movie-card>`
+          `<movie-card movieTitle='${item.title}' poster='${item.poster}' rating='${item.rating}' movieId='${item.movieId}' genreId='${item.genreId}'>
+          </movie-card>`
         );
       });
   }
