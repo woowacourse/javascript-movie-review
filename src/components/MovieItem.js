@@ -3,7 +3,7 @@ import { $ } from '../util/querySelector';
 export const MovieItem = (element, { poster_path, title, vote_average }) => {
   const renderData = `
   <li class="movie-info">
-    <a>
+    <a href="javascript:void(0)">
       <div class="item-card">
       <div class="item-thumbnail skeleton"></div>
         <img

@@ -1,7 +1,7 @@
 const MovieSkeleton = () => {
   return `
     <li class="skeleton">
-      <a>
+      <a href="javascript:void(0)">
         <div class="item-card">
           <div class="item-thumbnail skeleton"></div>
           <div class="item-title skeleton"></div>
