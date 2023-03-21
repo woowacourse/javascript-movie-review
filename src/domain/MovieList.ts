@@ -80,7 +80,7 @@ class MovieList {
   getMovieInformation(movieId: number) {
     const [movie] = this.movies.filter((movie) => movie.id === movieId);
 
-    EventEmitter.emit(MOVIE_RETRIEVED, { movie });
+    EventEmitter.emit(MOVIE_RETRIEVED, { movie, searchQuery: this.searchQuery });
   }
 
   on(eventName: string, callback: EventListenerOrEventListenerObject) {

@@ -13,6 +13,7 @@ class MovieInformationModal {
     this.init();
     this.informationModal = $<HTMLDialogElement>('.information-modal');
     this.addCloseModalEventListener();
+    this.addBrowserBackButtonEventListener();
   }
 
   static getInstance(): MovieInformationModal {
@@ -54,17 +55,30 @@ class MovieInformationModal {
 
   private init() {
     MovieList.on(MOVIE_RETRIEVED, (event) => {
-      const { movie } = (event as CustomEvent).detail;
-      this.openModal(movie);
+      const { movie, searchQuery } = (event as CustomEvent).detail;
+      this.openModal(movie, searchQuery);
     });
   }
 
-  private openModal(movie: Movie) {
-    this.informationModal.showModal();
+  private openModal(movie: Movie, searchQuery: string) {
+    const queryParams = searchQuery
+      ? `/search?q=${searchQuery}&id=${movie.id}`
+      : `/?id=${movie.id}`;
+
+    history.pushState(
+      { showModal: true, movieId: movie.id, timestamp: new Date().getTime() },
+      '',
+      queryParams
+    );
+
     this.render(movie);
+    this.informationModal.showModal();
   }
 
   private closeModal() {
+    history.pushState({ showModal: false, timestamp: new Date().getTime() }, '', '/');
+
+    this.informationModal.setAttribute('open', 'false');
     this.informationModal.close();
   }
 
@@ -106,6 +120,21 @@ class MovieInformationModal {
 
       if (target === event.currentTarget || target.classList.contains('close-button')) {
         this.closeModal();
+      }
+    });
+  }
+
+  private addBrowserBackButtonEventListener() {
+    window.addEventListener('popstate', (event) => {
+      console.log('popstate', event.state);
+
+      if (event.state && event.state.showModal) {
+        console.log('open');
+      }
+
+      if (event.state && !event.state.showModal) {
+        console.log('close');
+      }
     });
   }
 }
