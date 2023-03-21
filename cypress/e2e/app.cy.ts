@@ -7,6 +7,20 @@ describe("영화 리뷰 애플리케이션 e2e 테스트", () => {
       },
       { fixture: "popularMovieList.json" }
     );
+    cy.intercept(
+      {
+        method: "GET",
+        url: /^https:\/\/api.themoviedb.org\/3\/search\/movie.*query=%ED%95%B4%EB%A6%AC%ED%8F%AC%ED%84%B0.*/,
+      },
+      { fixture: "harryPotterMovieList.json" }
+    );
+    cy.intercept(
+      {
+        method: "GET",
+        url: /^https:\/\/api.themoviedb.org\/3\/search\/movie.*query=asdasd.*/,
+      },
+      { fixture: "emptyMovieList.json" }
+    );
     cy.visit("localhost:8080");
   });
 
@@ -56,9 +70,9 @@ describe("영화 리뷰 애플리케이션 e2e 테스트", () => {
   });
 
   it("검색 되지 않는 영화를 검색 할 경우 검색 결과가 없다는 메시지가 출력되어야 한다.", () => {
-    cy.get(".search-input").type("해리포터10");
+    cy.get(".search-input").type("asdasd");
     cy.get(".search-box").submit();
 
-    cy.get(".search-title").should("contain", '"해리포터10"에 대한 검색 결과가 없습니다 :(');
+    cy.get(".search-title").should("contain", '"asdasd"에 대한 검색 결과가 없습니다 :(');
   });
 });
