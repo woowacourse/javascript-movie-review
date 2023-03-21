@@ -14,13 +14,13 @@ class MovieHeader extends HTMLElement {
   render() {
     this.innerHTML = /* html */ `
     <header>
-    <p><img src="${Logo}" alt="MovieList" /></p>
+    <p class="title-logo"><img src="${Logo}" alt="MovieList" /></p>
     <search-box class="search-box"></search-box>
   </header>`;
   }
 
   addEvent() {
-    $("h1", this)?.addEventListener("click", () => {
+    $(".title-logo")?.addEventListener("click", () => {
       location.reload();
     });
   }

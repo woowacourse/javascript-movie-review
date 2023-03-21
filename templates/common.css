@@ -141,7 +141,7 @@ header {
   margin-bottom: 48px;
 }
 
-header h1 {
+header p {
   cursor: pointer;
   user-select: none;
   font-size: 2rem;
