@@ -16,5 +16,3 @@ export const fetchMovies = async (url: string) => {
     if (error instanceof Error) return alert(error.message);
   }
 };
-
-

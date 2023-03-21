@@ -9,8 +9,8 @@ interface MovieResult {
   vote_average: number;
 }
 
-const BASE_URL = 'https://api.themoviedb.org/3'
-const API_KEY = process.env.API_KEY
+const BASE_URL = 'https://api.themoviedb.org/3';
+const API_KEY = process.env.API_KEY;
 const store: Store = Store.getInstance();
 
 export const updateMovies = async (keyword?: string) => {

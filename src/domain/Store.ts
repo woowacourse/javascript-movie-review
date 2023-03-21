@@ -1,7 +1,7 @@
-import { renderMovieList } from "../components/MovieList/movieListHandler";
 import { Movie } from "../type";
 
 export default class Store {
+
   private static instance: Store;
   private movies = [] as Movie[];
   private page = 1;
@@ -54,5 +54,3 @@ export default class Store {
     this.totalPage = 2;
   };
 }
-
-
