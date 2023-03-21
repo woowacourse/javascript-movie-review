@@ -27,10 +27,7 @@ class MovieItem {
         <div class="item-card">
           <img
             class="item-thumbnail"
-            src=${
-              posterSrc ? this.convertToImgUrl(posterSrc) : NotFoundImageIcon
-            }
-            loading="lazy"
+            src=${posterSrc ? this.convertToImgUrl(posterSrc) : NotFoundImageIcon}
             alt=${title}
           />
           <p class="item-title">${title}</p>
