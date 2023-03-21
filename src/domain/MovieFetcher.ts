@@ -1,13 +1,12 @@
 import { MOVIE_IMAGE_URL, POPULAR_MOVIE_URL, SEARCH_MOVIE_URL } from '../constants/movieURLs';
 import { FetchedMovieJson } from '../types/fetchedMovie';
 import { MovieItem } from '../types/movie';
-import { Params } from '../types/params';
 import fetchJson from './fetchJson';
 
 class MovieFetcher {
   private base = POPULAR_MOVIE_URL;
 
-  private params: Params;
+  private params: { [param: string]: string };
 
   constructor() {
     this.params = {
@@ -19,21 +18,21 @@ class MovieFetcher {
 
   private totalPages!: number;
 
-  fetchMovies() {
+  fetchMovies(): Promise<any> {
     this.params.page = String(Number(this.params.page) + 1);
 
     return fetchJson(this.createSearchURL(this.params), this.processMovieData.bind(this));
   }
 
-  fetchSearchMovies(keyword: string) {
+  fetchSearchMovies(keyword: string): Promise<any> {
     return this.setSearchSettings(keyword).fetchMovies();
   }
 
-  fetchPopularMovies() {
+  fetchPopularMovies(): Promise<any> {
     return this.setPopularSettings().fetchMovies();
   }
 
-  setSearchSettings(keyword: string) {
+  setSearchSettings(keyword: string): this {
     this.base = SEARCH_MOVIE_URL;
     this.params = {
       ...this.params,
@@ -44,7 +43,7 @@ class MovieFetcher {
     return this;
   }
 
-  setPopularSettings() {
+  setPopularSettings(): this {
     this.base = POPULAR_MOVIE_URL;
     this.params = {
       ...this.params,
@@ -54,7 +53,7 @@ class MovieFetcher {
     return this;
   }
 
-  createSearchURL(params: Params) {
+  createSearchURL(params: { [param: string]: string }): string {
     const url = new URL(this.base);
     Object.entries(params).forEach(([param, value]) => {
       url.searchParams.append(param, value);
@@ -63,7 +62,7 @@ class MovieFetcher {
     return url.toString();
   }
 
-  processMovieData({ page, results, total_pages }: FetchedMovieJson) {
+  processMovieData({ page, results, total_pages }: FetchedMovieJson): MovieItem[] {
     const movies: MovieItem[] = results.map(result => ({
       title: result.title,
       posterPath: `${MOVIE_IMAGE_URL}${result.poster_path}`,
@@ -76,7 +75,7 @@ class MovieFetcher {
     return movies;
   }
 
-  isLastPage() {
+  isLastPage(): boolean {
     return Number(this.params.page) === this.totalPages;
   }
 }
