@@ -22,28 +22,28 @@ interface Movie {
   vote_count: number;
 }
 
-const getPopularMovies = async ({ page }: Popular): Promise<Movie[]> => {
-  const query = `page=${page}&region=KR&language=ko-KR`;
-  const response = await fetch(`${BASE_URL}/movie/popular?${query}`, {
+const request = (uri: string) => {
+  return fetch(`${BASE_URL}${uri}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${API_TOKEN}`,
     },
   });
+};
+
+const getPopularMovies = async ({ page }: Popular): Promise<Movie[]> => {
+  const query = `page=${page}&region=KR&language=ko-KR`;
+  const response = await request(`/movie/popular?${query}`);
   const movies = await response.json();
+
   return movies;
 };
 
 const searchMovies = async ({ text, page }: { text: string; page: number }) => {
   const query = `query=${text}&page=${page}&language=ko-KR&region=KR`;
-  const response = await fetch(`${BASE_URL}/search/movie?${query}`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${API_TOKEN}`,
-    },
-  });
-
+  const response = await request(`/search/movie?${query}`);
   const movies = await response.json();
+
   return movies;
 };
 
