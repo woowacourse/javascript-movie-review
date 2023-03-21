@@ -43,6 +43,22 @@ button {
   user-select: none;
 }
 
+.alert-message {
+  margin: 24px auto;
+}
+
+.alert-title {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.alert-sub-title {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 16px;
+}
+
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .item-list {
@@ -76,6 +92,12 @@ button {
   font-size: 1.2rem;
 }
 
+.item-score-align-sort {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
+
 .item-score::after {
   margin-left: 8px;
 }
@@ -83,7 +105,7 @@ button {
 .item-title.skeleton::after,
 .item-score.skeleton::after {
   font-size: 0;
-  content: "loading";
+  content: 'loading';
 }
 
 .full-width {
@@ -103,6 +125,10 @@ button.btn {
 
 button.primary {
   background: #f33f3f;
+}
+
+.hidden {
+  display: none;
 }
 
 .item-card .skeleton {
@@ -159,6 +185,6 @@ header .search-box > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
-  background: url("./search_button.png") transparent no-repeat 0 1px;
+  background: url('../images/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
 }
