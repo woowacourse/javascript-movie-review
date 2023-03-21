@@ -6,6 +6,7 @@ import MovieCardSection from '../MovieCardSection';
 import MovieCardList from '../MovieCardSection/MovieCardList';
 import LoadMoreButton from '../MovieCardSection/LoadMoreButton';
 import { CLASS } from '../../constants/selector';
+import Tooltip from '../common/Tootip';
 
 const Header = {
   template() {
@@ -13,6 +14,9 @@ const Header = {
       <header>
         <h1><button type="button" class=${CLASS.PAGE_TITLE_BUTTON}><img src=${logoImage} alt="MovieList 로고" /></button></h1>
         ${MovieSearch.template()}
+        <div class="search-tooltip hide">
+          ${Tooltip.template('올바른 검색값을 입력해주세요.')}
+        </div>
       </header>
     `;
   },

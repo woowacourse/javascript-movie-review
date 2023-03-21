@@ -9,7 +9,7 @@ const MovieSearch = {
     return `
       <div class="search-box">
         <form id=${ID.MOVIE_SEARCH_FORM}>
-          <input type="search" name="search-query" placeholder="검색" />
+          <input type="search" name="search-query" placeholder="검색" data-tooltip="버튼 요소 길이보다 툴팁 길이가 훨씬 기네요." />
           <button class="search-button">검색</button>
         </form>
       </div>
@@ -27,8 +27,11 @@ const MovieSearch = {
       const searchInput = event.target.querySelector('input[name="search-query"]') as HTMLInputElement;
       const query = searchInput.value;
 
-      if (query.trim().length === 0) return;
+      if (query.trim().length === 0) {
+        return MovieSearch.handleShowTooltip(true);
+      }
 
+      MovieSearch.handleShowTooltip(false);
       MovieCardSection.render(query);
 
       try {
@@ -46,6 +49,24 @@ const MovieSearch = {
         }
       }
     });
+
+    const movieSearchInput = document.querySelector('input[name="search-query"]');
+
+    movieSearchInput?.addEventListener('focus', () => {
+      MovieSearch.handleShowTooltip(false);
+    });
+  },
+
+  handleShowTooltip(state: boolean) {
+    const searchTooltip = document.querySelector<HTMLDivElement>('.search-tooltip');
+
+    if (searchTooltip === null) return;
+
+    if (state) {
+      return searchTooltip.classList.remove('hide');
+    }
+
+    return searchTooltip.classList.add('hide');
   },
 };
 

@@ -43,3 +43,9 @@ header .search-box .search-button {
   background: url('../../assets/images/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
 }
+
+header .search-tooltip {
+  position: absolute;
+  top: 60px;
+  right: 10px;
+}
