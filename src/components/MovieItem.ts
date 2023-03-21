@@ -17,7 +17,7 @@ class MovieItem {
   template() {
     return `
       <li>
-        <a href="#">
+        <a href="" class="item-link">
           <div class="item-card">
             <div class="item-thumbnail skeleton"></div>
             <p class="item-title skeleton"></p>
@@ -46,6 +46,9 @@ class MovieItem {
   }
 
   render(target: HTMLElement, movie: Movie) {
+    const itemLink = target.closest('.item-link') as HTMLAnchorElement;
+    itemLink.href = `?id=${movie.id}`;
+
     const itemThumbnail = $('.item-thumbnail', target);
     itemThumbnail.classList.remove('skeleton');
     itemThumbnail.insertAdjacentHTML(
