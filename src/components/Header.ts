@@ -1,7 +1,7 @@
 import { $ } from '../utils/domSelector';
 
 class Header {
-  #element = $('header');
+  private element = $('header');
 
   render() {
     const template = `      
@@ -11,7 +11,7 @@ class Header {
         <button type="submit" class="search-button" id="search-button">검색</button>
       </form>`;
 
-    this.#element.innerHTML = template;
+    this.element.innerHTML = template;
   }
 
   addSubmitEventHandler(onSubmitSearchForm: (keyword: string) => void) {

@@ -1,12 +1,12 @@
 import { $ } from '../utils/domSelector';
 
 class LoadMoreButton {
-  #name = 'Load More';
+  private name = 'Load More';
 
   getTemplate() {
     return `
       <button type="submit" id="load-more-button" class="btn primary full-width">
-        ${this.#name}
+        ${this.name}
       </button>`;
   }
 
@@ -14,7 +14,7 @@ class LoadMoreButton {
     const $loadMoreButton = $<HTMLButtonElement>('#load-more-button');
 
     $loadMoreButton.disabled = false;
-    $loadMoreButton.textContent = this.#name;
+    $loadMoreButton.textContent = this.name;
   }
 
   disable() {
