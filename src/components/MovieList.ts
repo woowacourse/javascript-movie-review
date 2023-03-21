@@ -24,7 +24,7 @@ class MovieList implements Component {
     this.composeNode().setElements().addEvents();
   }
 
-  composeNode() {
+  composeNode(): this {
     this.node.innerHTML = `
       <h2 id="list-name">지금 인기있는 영화</h2>
       <ul class="item-list movie-list hidden"></ul>
@@ -116,9 +116,11 @@ class MovieList implements Component {
       }, new DocumentFragment());
   }
 
-  removeMessage() {
+  removeMessage(): this {
     const emptyMessage = this.node.querySelector('.message');
     if (emptyMessage) emptyMessage.remove();
+
+    return this;
   }
 
   showMessage(message: string): this {
@@ -127,8 +129,10 @@ class MovieList implements Component {
     return this;
   }
 
-  setListName(listName: string) {
+  setListName(listName: string): this {
     this.listName.innerText = listName;
+
+    return this;
   }
 
   cleanMovieList(): this {
@@ -145,7 +149,7 @@ class MovieList implements Component {
     return this;
   }
 
-  #handleClickMoreButton() {
+  #handleClickMoreButton(): void {
     if (this.loadMoreButton.disabled === true) return;
 
     this.node.dispatchEvent(new CustomEvent('click-more-button', { bubbles: true }));

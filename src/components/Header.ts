@@ -15,7 +15,7 @@ class Header implements Component {
     this.composeNode().setElements().setEvents();
   }
 
-  composeNode() {
+  composeNode(): this {
     this.node.innerHTML = '<h1><img src="./logo.png" alt="MovieList 로고" /></h1>';
     this.node.appendChild(this.children.searchBox.node);
 
@@ -25,9 +25,7 @@ class Header implements Component {
   setElements(): this {
     const logo = this.node.querySelector<HTMLHeadingElement>('h1');
 
-    if (!logo) {
-      return this;
-    }
+    if (!logo) return this;
 
     this.logo = logo;
     return this;
@@ -39,7 +37,7 @@ class Header implements Component {
     return this;
   }
 
-  #handleClickLogo() {
+  #handleClickLogo(): void {
     this.node.dispatchEvent(new Event('click-logo', { bubbles: true }));
   }
 }

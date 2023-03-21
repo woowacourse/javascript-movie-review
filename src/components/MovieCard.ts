@@ -58,14 +58,14 @@ class MovieCard implements Component {
     return this;
   }
 
-  #handleLoadImage() {
+  #handleLoadImage(): void {
     if (!this.thumbnail.complete) return;
 
     this.thumbnailSkeleton.remove();
     this.thumbnail.classList.remove('hidden');
   }
 
-  #handleNullImage() {
+  #handleNullImage(): void {
     this.thumbnail.src = NULL_IMAGE;
   }
 }
