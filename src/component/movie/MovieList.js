@@ -13,10 +13,24 @@ class MovieList extends CustomElement {
   template() {
     return `
     <ul class="item-list"></ul>
+    <div class="list-footer"></div>
     `;
   }
 
-  rerender({ movies, isShowMore }) {
+  setEvent() {
+    const observer = new IntersectionObserver((entries) => {
+      const $listFooter = entries[0];
+
+      if ($listFooter.isIntersecting) {
+        MovieManager.showMoreMovies();
+      }
+    });
+
+    const $listFooter = $(".list-footer");
+    observer.observe($listFooter);
+  }
+
+  rerender({ movies, isShowMore, page, totalPages }) {
     const movieItemsTemplate = movies.length
       ? this.makeMovieItems(movies)
       : this.makeEmptyItem();
@@ -24,6 +38,8 @@ class MovieList extends CustomElement {
     isShowMore
       ? $(".item-list").insertAdjacentHTML("beforeend", movieItemsTemplate)
       : ($(".item-list").innerHTML = movieItemsTemplate);
+
+    $(".list-footer").hidden = page === totalPages ? true : false;
   }
 
   makeMovieItems(movies) {
