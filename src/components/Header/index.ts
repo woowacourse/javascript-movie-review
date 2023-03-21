@@ -20,7 +20,11 @@ class Header {
         const $searchInput = $(".search-input");
         if ($searchInput instanceof HTMLInputElement) {
           const inputValue = $searchInput.value;
-          if (inputValue === "") return alert("검색값을 입력해주세요.");
+
+          if (inputValue === "") {
+            alert("검색값을 입력해주세요.");
+            return;
+          }
 
           onSubmitSearchKeyword(inputValue);
         }
