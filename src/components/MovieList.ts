@@ -4,6 +4,7 @@ import { Movie } from '../service/types';
 import MovieCard from './MovieCard';
 
 export default class MovieList {
+  page: number;
   $parent: HTMLElement;
   renderMode: 'popular' | 'search';
   $title: HTMLHeadElement;
@@ -13,6 +14,7 @@ export default class MovieList {
   $skeletonDiv: HTMLDivElement;
 
   constructor($parent: HTMLElement) {
+    this.page = 1;
     this.$parent = $parent;
     this.renderMode = 'popular';
 
@@ -57,11 +59,11 @@ export default class MovieList {
 
   bindEvent() {
     const handleMoreMovieButton = async () => {
-      Store.page += 1;
+      this.page += 1;
 
       if (this.renderMode === 'popular') {
         this.showSkeleton();
-        const { results, total_pages } = await getPopularMovies({ page: Store.page });
+        const { results, total_pages } = await getPopularMovies({ page: this.page });
         this.removeSkeleton();
         this.renderMovieCards(results, total_pages);
       }
@@ -69,7 +71,7 @@ export default class MovieList {
       if (this.renderMode === 'search') {
         this.showSkeleton();
         const { results, total_pages } = await searchMovies({
-          page: Store.page,
+          page: this.page,
           query: Store.keyword,
         });
         this.removeSkeleton();
@@ -89,8 +91,8 @@ export default class MovieList {
       new MovieCard(this.$movieItemList, movie);
     });
 
-    this.$moreMovieButton.style.display = totalPages > Store.page ? 'block' : 'none';
-    this.$lastPageNotify.style.display = totalPages > Store.page ? 'none' : 'block';
+    this.$moreMovieButton.style.display = totalPages > this.page ? 'block' : 'none';
+    this.$lastPageNotify.style.display = totalPages > this.page ? 'none' : 'block';
   }
 
   removeMovieCards() {

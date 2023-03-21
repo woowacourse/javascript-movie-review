@@ -7,12 +7,10 @@ import { Movie } from './service/types';
 
 interface Store {
   keyword: string;
-  page: number;
 }
 
 export const Store: Store = {
   keyword: '',
-  page: 1,
 };
 
 class App {
