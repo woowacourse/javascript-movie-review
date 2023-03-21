@@ -40,7 +40,7 @@ class App {
   async moreButtonHandler() {
     this.skeleton.attachSkeleton();
     this.store.allocateData(this.store.searchWord).then(() => {
-      this.skeleton.removeSkeleton();
+      this.skeleton.moreButtonRemoveSkeleton();
       this.$movieList.renderMovies(this.store.movieListValue);
     });
     if (this.store.page === this.store.totalPage) this.removeButton();

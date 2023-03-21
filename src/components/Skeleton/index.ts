@@ -19,7 +19,11 @@ export class Skeleton extends HTMLElement {
     this.#$movieItems.innerHTML = this.innerHTML;
   }
 
-  removeSkeleton() {
+  moreButtonRemoveSkeleton() {
     document.querySelector('.item-list .skeleton-list')?.remove();
+  }
+
+  removeSkeleton() {
+    this.#$movieItems.replaceChildren();
   }
 }
