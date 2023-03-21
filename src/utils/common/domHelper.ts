@@ -4,9 +4,9 @@ export interface Attribute {
 }
 
 export const $ = (selector: string, parentNode: ParentNode | null = document) =>
-  parentNode && parentNode.querySelector(selector);
+  parentNode?.querySelector(selector) ?? null;
 export const $$ = (selector: string, parentNode: ParentNode | null = document) =>
-  parentNode && parentNode.querySelectorAll(selector);
+  parentNode?.querySelectorAll(selector) ?? null;
 
 export const getElement = (template: string) => {
   const root = document.createElement('div');
