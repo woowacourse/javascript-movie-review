@@ -42,7 +42,7 @@ class MovieListContent {
 
   private async loadMovies(movies: Movie[], searchQuery: string) {
     if (movies.length !== 20) {
-      MovieListContainer.endScroll();
+      MovieListContainer.disableScroll();
     }
 
     if (searchQuery && !movies.length) {

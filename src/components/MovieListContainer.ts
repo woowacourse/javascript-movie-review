@@ -36,17 +36,9 @@ class MovieListContainer {
   }
 
   private init() {
-    MovieList.on(MOVIE_LIST_RESET, () => {
-      this.showListContainer();
-    });
-
-    MovieList.on(MOVIE_LIST_LOADING, () => {
-      this.disableScroll();
-    });
-
-    MovieList.on(MOVIE_LIST_LOADED, () => {
-      this.enableScroll();
-    });
+    MovieList.on(MOVIE_LIST_RESET, this.showListContainer);
+    MovieList.on(MOVIE_LIST_LOADING, this.disableScroll);
+    MovieList.on(MOVIE_LIST_LOADED, this.enableScroll);
   }
 
   private addEventListenerToMoreButton() {
@@ -77,10 +69,6 @@ class MovieListContainer {
     });
   }
 
-  endScroll() {
-    this.shouldScroll = false;
-  }
-
   showListContainer() {
     this.listContainer.classList.remove('hide');
   }
@@ -90,11 +78,11 @@ class MovieListContainer {
   }
 
   disableScroll() {
-    document.body.classList.add('no-scroll');
+    this.shouldScroll = false;
   }
 
   enableScroll() {
-    document.body.classList.remove('no-scroll');
+    this.shouldScroll = true;
   }
 }
 
