@@ -1,5 +1,12 @@
 describe("영화 리뷰 애플리케이션 e2e 테스트", () => {
   beforeEach(() => {
+    cy.intercept(
+      {
+        method: "GET",
+        url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
+      },
+      { fixture: "popularMovieList.json" }
+    );
     cy.visit("localhost:8080");
   });
 
