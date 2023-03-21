@@ -25,9 +25,6 @@ class MovieContainer extends CustomElement {
 
   rerender(searchWord) {
     $(".movie-container-title").innerText = `'${searchWord}' 검색 결과`;
-
-    const isLastPage = MovieStore.hideShowMoreButton();
-    $("show-more-button").hidden = isLastPage;
   }
 }
 
