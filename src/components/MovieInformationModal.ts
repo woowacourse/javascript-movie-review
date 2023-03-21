@@ -65,20 +65,23 @@ class MovieInformationModal {
       ? `/search?q=${searchQuery}&id=${movie.id}`
       : `/?id=${movie.id}`;
 
-    history.pushState(
-      { showModal: true, movieId: movie.id, timestamp: new Date().getTime() },
-      '',
-      queryParams
-    );
+    if (!history.state.isBackButton) {
+      history.pushState(
+        { showModal: true, movieId: movie.id, timestamp: new Date().getTime() },
+        '',
+        queryParams
+      );
+    }
 
     this.render(movie);
     this.informationModal.showModal();
   }
 
   private closeModal() {
-    history.pushState({ showModal: false, timestamp: new Date().getTime() }, '', '/');
+    if (!history.state.isBackButton) {
+      history.pushState({ showModal: false, timestamp: new Date().getTime() }, '', '/');
+    }
 
-    this.informationModal.setAttribute('open', 'false');
     this.informationModal.close();
   }
 
@@ -126,14 +129,16 @@ class MovieInformationModal {
 
   private addBrowserBackButtonEventListener() {
     window.addEventListener('popstate', (event) => {
-      console.log('popstate', event.state);
+      if (!event.state) return;
 
-      if (event.state && event.state.showModal) {
-        console.log('open');
+      event.state.isBackButton = true;
+
+      if (event.state.showModal) {
+        MovieList.getMovieInformation(event.state.movieId);
       }
 
-      if (event.state && !event.state.showModal) {
-        console.log('close');
+      if (!event.state.showModal) {
+        this.closeModal();
       }
     });
   }
