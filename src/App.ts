@@ -26,12 +26,12 @@ export const App = async () => {
   };
 
   const renderMovieList = async () => {
+    movieItemList.renderTitle(movieDataManager.getTitle());
     const response = await movieDataManager.getData("");
     checkIsLastData(response);
     const movieDatas = response?.results;
     const movieItems = generateMovieItemElement(movieDatas);
 
-    movieItemList.renderTitle(movieDataManager.getTitle());
     movieItems?.map((movie: string) => {
       movieItemList.addMovies(movie);
     });
@@ -39,6 +39,9 @@ export const App = async () => {
   };
 
   const renderSearchList = async () => {
+    movieItemList.renderTitle(
+      searchBox.getKeyword() + movieDataManager.getTitle()
+    );
     const response = await movieDataManager.getData(searchBox.getKeyword());
     checkIsLastData(response);
     const movieDatas = response?.results;
@@ -47,9 +50,6 @@ export const App = async () => {
     }
     const movieItems = generateMovieItemElement(movieDatas);
 
-    movieItemList.renderTitle(
-      searchBox.getKeyword() + movieDataManager.getTitle()
-    );
     movieItems?.map((movie: string) => {
       movieItemList.addMovies(movie);
     });
@@ -79,7 +79,16 @@ export const App = async () => {
     }
   };
 
+  const checkKeywordEmpty = () => {
+    if (searchBox.getKeyword() === "") {
+      moreButton.hide();
+      movieItemList.renderNoData();
+      return true;
+    }
+  };
+
   $(".search-input")?.addEventListener("searchInputChange", (e) => {
+    checkKeywordEmpty();
     movieDataManager.convertTab(CurrentTab.SEARCH);
     renderMovies();
   });
