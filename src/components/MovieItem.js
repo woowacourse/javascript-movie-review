@@ -1,6 +1,11 @@
 import { $ } from '../util/querySelector';
 
 export const MovieItem = (element, { poster_path, title, vote_average }) => {
+  const poster =
+    poster_path === null
+      ? './assets/no_image.png'
+      : `https://image.tmdb.org/t/p/w500${poster_path}`;
+
   const renderData = `
   <li class="movie-info">
     <a href="javascript:void(0)">
@@ -8,7 +13,7 @@ export const MovieItem = (element, { poster_path, title, vote_average }) => {
       <div class="item-thumbnail skeleton"></div>
         <img
           class="item-thumbnail hidden"
-          src="https://image.tmdb.org/t/p/w500${poster_path}" 
+          src=${poster}
           alt="${title}"
           
         />
