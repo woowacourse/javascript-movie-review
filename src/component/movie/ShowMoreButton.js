@@ -21,7 +21,7 @@ class ShowMoreButton extends CustomElement {
   }
 
   rerender() {
-    const isLastPage = MovieStore.hideShowMoreButton();
+    const isLastPage = MovieStore.isLastPage();
     this.hidden = isLastPage;
   }
 }

@@ -20,15 +20,6 @@ class MovieStore {
     });
   }
 
-  async initMovies() {
-    await MovieModel.updateMovies();
-
-    this.checkBeforePublish();
-
-    const movies = MovieModel.getMovieList();
-    this.publish(movies);
-  }
-
   checkBeforePublish() {
     try {
       MovieValidation(MovieModel.getStatusCode());
@@ -37,6 +28,19 @@ class MovieStore {
       SkeletonStore.removeSkeleton();
       ErrorStore.publish(message);
     }
+  }
+
+  isLastPage() {
+    return MovieModel.isLastPage();
+  }
+
+  async initMovies() {
+    await MovieModel.updateMovies();
+
+    this.checkBeforePublish();
+
+    const movies = MovieModel.getMovieList();
+    this.publish(movies);
   }
 
   async searchMovies(searchWord: string) {
@@ -60,10 +64,6 @@ class MovieStore {
 
     const movies = MovieModel.getMovieList();
     this.publish(movies, true);
-  }
-
-  hideShowMoreButton() {
-    return MovieModel.isLastPage();
   }
 }
 
