@@ -72,6 +72,7 @@ class MovieInformationModal {
     }
 
     this.render(movie);
+    document.body.classList.add('hide-overflow');
     this.informationModal.showModal();
   }
 
@@ -84,6 +85,7 @@ class MovieInformationModal {
       history.pushState({ showModal: false, timestamp: new Date().getTime() }, '', queryParams);
     }
 
+    document.body.classList.remove('hide-overflow');
     this.informationModal.close();
   }
 

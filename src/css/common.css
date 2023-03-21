@@ -369,6 +369,6 @@ dialog::backdrop {
   margin-bottom: 6px;
 }
 
-.no-scroll {
+.hide-overflow {
   overflow: hidden;
 }
