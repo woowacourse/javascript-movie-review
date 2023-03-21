@@ -67,7 +67,9 @@ class MovieListContent {
     const itemsToRemove = lastPageItems.slice(movies.length);
 
     itemsToRender.forEach((child, key) => MovieItem.render(child, movies[key]));
-    itemsToRemove.forEach((item) => item.remove());
+    itemsToRemove.forEach((item) => {
+      item.closest('li')?.remove();
+    });
   }
 
   private clearListContent = () => {
