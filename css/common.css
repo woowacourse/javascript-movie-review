@@ -168,6 +168,21 @@ movie-head .search-box > label > .search-button {
   background-size: contain;
 }
 
+search-button {
+  width: 48px;
+  height: 44px;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.search-button {
+  width: 14px;
+  border: 0;
+  text-indent: -1000rem;
+  background: url("../image/search_button.png") transparent no-repeat 0 1px;
+  background-size: contain;
+}
+
 .error {
   margin: 2rem;
 }
@@ -194,5 +209,11 @@ movie-head .search-box > label > .search-button {
   .item-thumbnail {
     width: 140px;
     height: 220px;
+  }
+}
+
+@media (min-width: 801px) {
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
   }
 }
