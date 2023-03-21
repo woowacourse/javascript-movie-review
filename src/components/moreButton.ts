@@ -12,7 +12,7 @@ export default class MoreButton {
 
   render() {
     document
-      .querySelector("main")
+      .querySelector(".item-list")
       ?.insertAdjacentHTML("afterend", this.create());
   }
 
