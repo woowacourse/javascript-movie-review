@@ -15,19 +15,23 @@ const MovieListContainer = {
     `;
   },
 
-  onClick: () => {
-    $<HTMLButtonElement>("#more-button").addEventListener("click", async () => {
-      const movies: Movie[] = await MovieList.getMovieData();
+  bindClickEvent: () => {
+    $<HTMLButtonElement>("#more-button").addEventListener("click", () =>
+      MovieListContainer.onClickMoreButton()
+    );
+  },
 
-      $<HTMLUListElement>(".item-list").insertAdjacentHTML(
-        "beforeend",
-        movies.map((movie) => MovieItem.render(movie)).join("")
-      );
+  onClickMoreButton: async () => {
+    const movies: Movie[] = await MovieList.getMovieData();
 
-      if (movies.length < MOVIE_MAX_COUNT) {
-        $<HTMLButtonElement>("#more-button").style.display = "none";
-      }
-    });
+    $<HTMLUListElement>(".item-list").insertAdjacentHTML(
+      "beforeend",
+      movies.map((movie) => MovieItem.render(movie)).join("")
+    );
+
+    if (movies.length < MOVIE_MAX_COUNT) {
+      MovieListContainer.hideButton();
+    }
   },
 
   show: () => {

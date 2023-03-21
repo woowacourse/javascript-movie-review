@@ -19,8 +19,8 @@ class App {
   }
 
   initEvents() {
-    NavBar.onSubmit();
-    MovieListContainer.onClick();
+    NavBar.bindSubmitEvent();
+    MovieListContainer.bindClickEvent();
   }
 }
 
