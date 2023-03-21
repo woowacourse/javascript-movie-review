@@ -220,6 +220,7 @@ ul:has(hr:last-child) ~ .item-last-notice {
 }
 
 .toast {
+  z-index: 1000;
   position: absolute;
 
   background-color: hsl(0, 85%, 60%);
