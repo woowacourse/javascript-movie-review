@@ -18,12 +18,15 @@ class Store {
     this.page++;
     if (value) {
       this.searchWord = value;
-      await fetchMovies('/search/movie', this.page, value).then((data) => {
+      await fetchMovies('/search/movie', {
+        page: this.page,
+        query: value,
+      }).then((data) => {
         if (data) this.setMovieData(data);
       });
       return;
     }
-    await fetchMovies('/movie/popular', this.page).then((data) => {
+    await fetchMovies('/movie/popular', { page: this.page }).then((data) => {
       if (data) this.setMovieData(data);
     });
   }

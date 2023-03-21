@@ -38,3 +38,8 @@ export interface FailedResponse {
   status_code: number;
   status_message: string;
 }
+
+export interface Options {
+  page: number;
+  query?: string;
+}

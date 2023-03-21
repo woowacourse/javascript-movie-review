@@ -1,10 +1,17 @@
-import { FailedResponse, Movie, MovieDataResponse, MovieList, MovieResults } from './types';
+import {
+  FailedResponse,
+  Movie,
+  MovieDataResponse,
+  MovieList,
+  MovieResults,
+  Options,
+} from './types';
 
-export const getAPIUrl = (params: string, page = 1, query = '') =>
-  `https://api.themoviedb.org/3${params}?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&page=${page}&query=${query}`;
+export const getAPIUrl = (params: string, options: Options) =>
+  `https://api.themoviedb.org/3${params}?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&page=${options.page}&query=${options.query}`;
 
-export const fetchMovies = async (params: string, page = 1, query = ''): Promise<MovieList> => {
-  const API_URL = getAPIUrl(params, page, query);
+export const fetchMovies = async (params: string, options: Options): Promise<MovieList> => {
+  const API_URL = getAPIUrl(params, options);
   try {
     const res = await fetch(API_URL);
     if (!res.ok) {
