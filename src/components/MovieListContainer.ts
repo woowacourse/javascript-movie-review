@@ -8,13 +8,13 @@ class MovieListContainer extends HTMLElement {
 
   render(query?: string) {
     const contentType = this.getAttribute("contenttype");
+    const title =
+      contentType === "popular"
+        ? "지금 인기 있는 영화"
+        : `"${query}" 검색 결과`;
 
     this.innerHTML = /* html */ `
-        <h2>${
-          contentType === "popular"
-            ? "지금 인기 있는 영화"
-            : `"${query}" 검색 결과`
-        }</h2>
+        <h2>${title}</h2>
         <movie-list class="item-list"></movie-list>
         <button id="more-button" class="btn primary full-width">더 보기</button>
       `;
