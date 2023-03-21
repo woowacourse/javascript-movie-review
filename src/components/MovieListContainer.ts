@@ -6,8 +6,12 @@ class MovieListContainer extends HTMLElement {
     super();
   }
 
+  get contentTypeAttribute() {
+    return this.getAttribute("content-type");
+  }
+
   render(query?: string) {
-    const contentType = this.getAttribute("contenttype");
+    const contentType = this.contentTypeAttribute;
     const title =
       contentType === "popular"
         ? "지금 인기 있는 영화"
@@ -25,13 +29,13 @@ class MovieListContainer extends HTMLElement {
     $("button", this)?.addEventListener("click", () => {
       dispatchCustomEvent(this, {
         eventType: "fetchMovieData",
-        data: this.getAttribute("contentType"),
+        data: this.contentTypeAttribute,
       });
     });
   }
 
   changeTitle(query: string) {
-    this.setAttribute("contentType", "search");
+    this.setAttribute("content-type", "search");
     this.render(query);
   }
 
