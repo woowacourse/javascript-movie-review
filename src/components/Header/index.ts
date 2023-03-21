@@ -18,12 +18,8 @@ class Header {
         event.preventDefault();
 
         const $searchInput = $(".search-input");
-
-        if ($searchInput === null) return;
-
         if ($searchInput instanceof HTMLInputElement) {
           const inputValue = $searchInput.value;
-
           if (inputValue === "") return alert("검색값을 입력해주세요.");
 
           onSubmitSearchKeyword(inputValue);
@@ -31,11 +27,9 @@ class Header {
 
         if (event.target instanceof HTMLFormElement) event.target.reset();
       });
-    } else {
-      console.error("생성된 요소가 없습니다.");
     }
 
-    $(".logo")?.addEventListener("click", onClickLogoImage);
+    $(".logo").addEventListener("click", onClickLogoImage);
   }
 
   render() {

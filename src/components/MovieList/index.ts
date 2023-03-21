@@ -36,7 +36,7 @@ class MovieList {
       this.init(total_pages);
     });
 
-    $(".btn")?.addEventListener("click", this.onClickMoreButton.bind(this));
+    $(".btn").addEventListener("click", this.onClickMoreButton.bind(this));
   }
 
   init(total_pages: number) {
@@ -137,11 +137,11 @@ class MovieList {
   }
 
   hideMoreButton() {
-    $(".btn")?.setAttribute("hidden", "");
+    $(".btn").setAttribute("hidden", "");
   }
 
   showMoreButton() {
-    $(".btn")?.removeAttribute("hidden");
+    $(".btn").removeAttribute("hidden");
   }
 }
 
