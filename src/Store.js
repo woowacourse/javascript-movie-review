@@ -33,7 +33,7 @@ const Store = {
       if (isError) throw { isError, data };
 
       const { results, total_pages, page } = data;
-      setTimeout(() => this.setMovies({ results, total_pages, page }), 500);
+      this.setMovies({ results, total_pages, page });
     } catch ({ isError, data }) {
       const message = statusCodeToErrorMessage(data.status_code);
 
@@ -62,7 +62,7 @@ const Store = {
       if (isError) throw { isError, data };
 
       const { results, total_pages, page } = data;
-      setTimeout(() => this.setMovies({ results, total_pages, page }, query), 500);
+      this.setMovies({ results, total_pages, page }, query);
     } catch ({ isError, data }) {
       const message = statusCodeToErrorMessage(data.status_code);
 
