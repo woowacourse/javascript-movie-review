@@ -31,15 +31,24 @@ class Header {
     if (!(e.currentTarget instanceof HTMLElement)) return;
 
     const { currentTarget } = e;
-
     const { value } = currentTarget.querySelector('input') as HTMLInputElement;
 
-    if (value.length === 0) {
-      alert('1글자 이상 입력해 주셔야 합니다.');
-      return;
-    }
+    const query = Store.get('movieStates')?.getMovieStates().query ?? '';
+
+    if (this.checkSearchWordValidation(value, query)) return;
 
     Store.get('movieStates')?.renderSearchedMovies(value);
+  }
+
+  checkSearchWordValidation(value: string, query: string) {
+    if (value.length === 0) {
+      alert('1글자 이상 입력해 주셔야 합니다.');
+      return true;
+    }
+    console.log(value, query, '@@');
+    if (value === query) return true;
+
+    return false;
   }
 
   onClickEvent(e: Event) {

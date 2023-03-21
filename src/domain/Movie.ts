@@ -79,6 +79,8 @@ class Movie {
         curPage,
       });
 
+      this.#movieState.query = '';
+
       if (this.#movieState.category === 'search') {
         this.#movieState.category = 'popular';
         this.#movieState.nextPage = 1;
@@ -97,8 +99,8 @@ class Movie {
         curPage,
       });
 
+      this.#movieState.query = query;
       if (this.#movieState.category === 'popular') {
-        this.#movieState.query = query;
         this.#movieState.category = 'search';
         this.#movieState.nextPage = 1;
       }
