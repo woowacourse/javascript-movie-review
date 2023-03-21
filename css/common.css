@@ -3,22 +3,15 @@
 }
 
 body {
+  padding-bottom: 48px;
+
   font-size: 14px;
   background-color: #222222;
-  color: #fff;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
+  color: #ffffff;
 }
 
 button {
   cursor: pointer;
-}
-
-#app {
-  padding-bottom: 48px;
 }
 
 *:focus {
@@ -56,6 +49,9 @@ button {
 .item-card {
   display: flex;
   flex-direction: column;
+
+  color: inherit;
+  text-decoration: none;
 }
 
 .item-thumbnail {
@@ -98,7 +94,7 @@ button.btn {
   border: 0;
   border-radius: 8px;
   height: 30px;
-  color: #fff;
+  color: #ffffff;
 }
 
 button.primary {
@@ -106,7 +102,7 @@ button.primary {
 }
 
 .item-card .skeleton {
-  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background: linear-gradient(-90deg, #aaaaaa, #f0f0f0, #aaaaaa, #f0f0f0);
   background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
   border-radius: 8px;
@@ -127,12 +123,12 @@ header {
   width: 100%;
   min-width: 1200px;
   height: 72px;
-  background-color: #222;
+  background-color: #222222;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid #ffffff;
   margin-bottom: 48px;
 }
 
@@ -146,7 +142,7 @@ header h1 {
 }
 
 header > .search-box {
-  background: #fff;
+  background: #ffffff;
   padding: 8px;
   border-radius: 4px;
 }
@@ -159,6 +155,10 @@ header .search-box > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
-  background: url("./assets/search_button.png") transparent no-repeat 0 1px;
+  background: url("../assets/search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+button[data-hidden='true'] {
+  display: none;
 }

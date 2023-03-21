@@ -1,8 +1,9 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const DotEnv = require("dotenv-webpack");
+const CopyPlugin = require("copy-webpack-plugin");
 
-module.exports = {
+module.exports = (env) => ({
   entry: "./src/index.js",
   mode: "development",
   resolve: {
@@ -23,7 +24,14 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./index.html",
     }),
-    new DotEnv(),
+    new DotEnv({
+      path: `./.env.${env.development ? 'development' : 'production'}`,
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: "assets", to: "assets" },
+      ],
+    }),
   ],
   module: {
     rules: [
@@ -42,4 +50,4 @@ module.exports = {
       },
     ],
   },
-};
+});
