@@ -17,15 +17,15 @@ class MoreButton {
   }
 
   onClickMoreButton() {
-    const { nextPage, category, query } = Store.movies;
+    const { nextPage, category, query } = Store.state;
 
     if (category === 'popular') {
-      Store.getPopularMovies(nextPage);
+      Store.updatePopularMovies(nextPage);
 
       return;
     }
 
-    Store.searchedMovies(query, nextPage);
+    Store.updateSearchedMoviesByQuery(query, nextPage);
   }
 
   hide() {

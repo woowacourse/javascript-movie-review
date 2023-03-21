@@ -31,14 +31,14 @@ class Header {
       return;
     }
 
-    Store.searchedMovies(value);
+    Store.updateSearchedMoviesByQuery(value);
   }
 
   onClickEvent(e) {
     const { target } = e;
     if (target.dataset.type !== 'logo') return;
 
-    Store.getPopularMovies();
+    Store.updatePopularMovies();
     document.querySelector('.search-box').reset();
   }
 

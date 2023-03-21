@@ -8,9 +8,9 @@ class ListTitle {
   }
 
   render($target) {
-    const { query, category } = Store.movies;
+    const { query } = Store.state;
 
-    this.$h2.innerHTML = category === 'popular' ? '지금 인기있는 영화' : `"${query}" 검색 결과`;
+    this.$h2.innerHTML = query ? `"${query}" 검색 결과` : '지금 인기있는 영화';
     $target.insertAdjacentElement('beforeend', this.$h2);
   }
 }

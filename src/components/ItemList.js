@@ -12,7 +12,7 @@ class ItemList {
   }
 
   template() {
-    const movies = Store.movies['results'];
+    const { movies } = Store.getState();
 
     if (!movies.length)
       return {
