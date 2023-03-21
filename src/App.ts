@@ -31,8 +31,8 @@ class App {
 
     const { result, fetchStatus, movieList, isLastPage } =
       requestListType === 'popularity'
-        ? await this.#movieFetcher.fetchMovieInfo()
-        : await this.#movieFetcher.fetchMovieInfo(keyword);
+        ? await this.#movieFetcher.getMovieFetchResult()
+        : await this.#movieFetcher.getMovieFetchResult(keyword);
 
     this.#movieList.removeSkeletonItems();
 
