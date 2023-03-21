@@ -4,10 +4,9 @@ export class Skeleton {
 
   constructor($listItems: HTMLElement) {
     this.$movieItems = $listItems;
-    this.$container = document.createElement('div');
+    this.$container = document.createElement('ul');
+    this.$container.className = 'item-list';
     this.$container.innerHTML = this.template();
-
-    this.attachSkeleton();
   }
 
   template() {

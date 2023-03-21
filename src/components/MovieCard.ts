@@ -21,7 +21,7 @@ class MovieCard {
       <a href="#">
         <div class = "item-card">
           <img
-            class="item-thumbnail"
+            class="item-thumbnail skeleton"
             src="https://image.tmdb.org/t/p/w500${posterPath}"
             loading="lazy"
             alt="${title}"
@@ -53,14 +53,8 @@ class MovieCard {
 
       if (!currentTarget.complete) return;
 
-      currentTarget.classList.remove('hidden');
-      this.removeSkeleton();
+      currentTarget.classList.remove('skeleton');
     });
-  }
-
-  removeSkeleton() {
-    const $skeleton = this.$li.querySelector<HTMLDivElement>('.skeleton');
-    $skeleton?.remove();
   }
 }
 

@@ -25,9 +25,9 @@ class App {
     this.$itemView.className = 'item-view';
 
     this.listTitle = new ListTitle();
+    this.skeleton = new Skeleton(this.$itemView);
     this.movieList = new MovieList();
     this.moreButton = new MoreButton();
-    this.skeleton = new Skeleton(this.movieList.$ul);
 
     this.initialRender();
 
@@ -37,25 +37,22 @@ class App {
 
   setStoreMovieState() {
     const movieStateProxy = new Proxy<any>(initialMovieStats, {
-      get: (target, props) => {
-        return target[props];
-      },
       set: (target, props, value) => {
+        if (props === 'query' && target['query'] !== value) {
+          this.skeleton.attachSkeleton();
+          this.movieList.removeCurentCategory();
+        }
+
         target[props] = value;
 
         switch (props) {
           case 'nextPage': {
             value === -1 ? this.moreButton.hide() : this.moreButton.show();
-            if (value === 1) {
-              this.skeleton.attachSkeleton();
-              this.movieList.removeCurentCategory();
-            }
             break;
           }
 
           case 'category': {
             if (!this.listTitle) break;
-            if (value === 'popular') target['query'] = '';
 
             this.listTitle.render(this.$itemView);
             break;
@@ -64,8 +61,8 @@ class App {
           case 'results': {
             if (!this.movieList || !this.moreButton) break;
 
-            this.movieList.render(this.$itemView);
             this.skeleton.removeSkeleton();
+            this.movieList.render(this.$itemView);
             this.moreButton.render(this.$itemView);
             break;
           }
@@ -89,6 +86,7 @@ class App {
 
   initialRender() {
     this.listTitle.render(this.$itemView);
+    this.skeleton.attachSkeleton();
     Store.get('movieStates')?.renderPopularMovies();
   }
 }
