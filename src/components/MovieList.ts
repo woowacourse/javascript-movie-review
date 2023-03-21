@@ -5,22 +5,23 @@ class MovieList extends HTMLElement {
     super();
   }
 
+  //prettier-ignore
+  renderMovies(movies: Movie[]) {
+    if (movies.length === 0)
+      return `<p class="not-search">해당 검색 결과가 없습니다</p>`;
+    return movies.map((movie) => /* html */ `
+        <movie-item
+          poster-path="${movie.poster_path}"
+          title="${movie.title}"
+          vote_average="${movie.vote_average}"
+        ></movie-item>`
+      )
+      .join("");
+  }
+
   render(movies: Movie[]) {
     this.innerHTML = /* html */ `
-          ${
-            movies.length !== 0
-              ? movies
-                  .map(
-                    (movie) => /* html */ `
-            <movie-item
-              poster-path="${movie.poster_path}"
-              title="${movie.title}"
-              vote_average="${movie.vote_average}"
-            ></movie-item>`
-                  )
-                  .join("")
-              : '<p class="not-search">해당 검색 결과가 없습니다</p>'
-          }
+          ${this.renderMovies(movies)}
           `;
   }
 
