@@ -1,4 +1,4 @@
-import { API_URL } from '../constants/constants';
+import { API_URL, FETCH_SUCCESS, FETCH_FAIL, SYSTEM_CRASHED } from '../constants/constants';
 import {
   MovieType,
   MovieResponseType,
@@ -9,7 +9,7 @@ import {
 
 class MovieFetcher {
   private currentPage = 1;
-  private movieResponse: MovieResponseType = { result: 'FETCH_SUCCESS' };
+  private movieResponse: MovieResponseType = { result: FETCH_SUCCESS };
 
   resetPage() {
     this.currentPage = 1;
@@ -34,7 +34,7 @@ class MovieFetcher {
       }),
     );
 
-    this.movieResponse = { result: 'FETCH_SUCCESS', movieList };
+    this.movieResponse = { result: FETCH_SUCCESS, movieList };
 
     if (this.currentPage === totalPages) this.movieResponse.isLastPage = true;
 
@@ -51,7 +51,7 @@ class MovieFetcher {
       const fetchStatus = this.getFetchStatus(APIMovieResponse);
 
       if (!(fetchStatus.statusCode === 200)) {
-        this.movieResponse = { result: 'FETCH_FAIL', fetchStatus: fetchStatus };
+        this.movieResponse = { result: FETCH_FAIL, fetchStatus: fetchStatus };
         return;
       }
 
@@ -59,7 +59,7 @@ class MovieFetcher {
     } catch (error) {
       if (error instanceof Error) {
         const fetchStatus = { statusCode: undefined, statusMessage: error.message };
-        this.movieResponse = { result: 'SYSTEM_CRASHED', fetchStatus }; // 네트워크 에러 등
+        this.movieResponse = { result: SYSTEM_CRASHED, fetchStatus }; // 네트워크 에러 등
       }
     }
   }

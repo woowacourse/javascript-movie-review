@@ -9,9 +9,8 @@ export interface APIMovieType {
   poster_path: string;
   vote_average: number;
 }
-
 export interface MovieResponseType {
-  result: string;
+  result: 'FETCH_SUCCESS' | 'FETCH_FAIL' | 'SYSTEM_CRASHED';
   status?: number;
   fetchStatus?: FetchStatusType;
   movieList?: MovieType[];

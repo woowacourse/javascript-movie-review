@@ -28,3 +28,9 @@ export const MOVIE_LIST_TITLE = {
   POPULARITY: 'Popular movies',
   SEARCH: (keyword: string) => `Search Results of "${keyword}"`,
 };
+
+const FETCH_SUCCESS = 'FETCH_SUCCESS';
+const FETCH_FAIL = 'FETCH_FAIL';
+const SYSTEM_CRASHED = 'SYSTEM_CRASHED';
+
+export { FETCH_SUCCESS, FETCH_FAIL, SYSTEM_CRASHED };
