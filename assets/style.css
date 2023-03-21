@@ -1,0 +1,197 @@
+* {
+  box-sizing: border-box !important;
+  font-family: 'Pretendard';
+}
+
+body {
+  font-size: 14px;
+  background-color: #222222;
+  color: #fff;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+#app {
+  padding-bottom: 48px;
+}
+
+*:focus {
+  outline: none;
+}
+.item-view,
+.item-test {
+  width: 100%;
+}
+
+.item-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.item-view h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  user-select: none;
+}
+
+/* https://andrew.hedges.name/experiments/aspect_ratio/ */
+
+.item-list {
+  display: grid;
+  margin: 48px 0;
+  grid-template-columns: repeat(4, 180px);
+  grid-column-gap: 160px;
+  grid-row-gap: 48px;
+}
+
+.item-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-thumbnail {
+  border-radius: 8px;
+  width: 180px;
+  height: 270px;
+  background-size: contain;
+  animation: fade-in 0.7s;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.item-title {
+  margin-top: 16px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.item-score {
+  display: flex;
+  gap: 5px;
+  line-height: 25px;
+  margin-top: 10px;
+  font-size: 1.2rem;
+  font-family: 'Lato';
+}
+
+.item-score::after {
+  margin-left: 8px;
+}
+
+.item-title.skeleton::after,
+.item-score.skeleton::after {
+  font-size: 0;
+  content: 'loading';
+}
+
+.full-width {
+  width: 100%;
+}
+
+.last-item {
+  margin-top: 48px;
+}
+
+button.btn {
+  border: 0;
+  border-radius: 8px;
+  height: 30px;
+  color: #fff;
+}
+
+button.primary {
+  background: #f33f3f;
+}
+
+.item-card .skeleton {
+  background: linear-gradient(-90deg, #8e2222, #a94444, #8e2222, #a94444);
+  background-size: 400%;
+  animation: skeleton-animation 5s infinite ease-out;
+  border-radius: 8px;
+}
+
+@keyframes skeleton-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+header {
+  width: 100%;
+  min-width: 1200px;
+  height: 72px;
+  background-color: #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid #f33f3f;
+  margin-bottom: 48px;
+  box-shadow: 0 0 50px #f33f3f90;
+}
+
+header h1 {
+  cursor: pointer;
+  user-select: none;
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: -0.1rem;
+  color: #f33f3f;
+}
+
+header > .search-box {
+  background: #fff;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+header .search-box > input {
+  border: 0;
+}
+
+header .search-box > .search-button {
+  width: 14px;
+  border: 0;
+  text-indent: -1000rem;
+  background: url('./search_button.png') transparent no-repeat 0 1px;
+  background-size: contain;
+}
+
+.show-more-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.button-error-message {
+  font-size: 16px;
+  text-align: center;
+  color: #ff6e6e;
+}
+
+.btn.primary[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
