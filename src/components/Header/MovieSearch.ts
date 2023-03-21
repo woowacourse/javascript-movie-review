@@ -24,9 +24,10 @@ const MovieSearch = {
 
       if (!(event.target instanceof HTMLFormElement)) return;
 
-      const query = new FormData(event.target).get('search-query')?.toString();
+      const searchInput = event.target.querySelector('input[name="search-query"]') as HTMLInputElement;
+      const query = searchInput.value;
 
-      if (!query) return;
+      if (query.trim().length === 0) return;
 
       MovieCardSection.render(query);
 
