@@ -6,10 +6,14 @@ class MovieModel {
   private searchWord: string = "";
   private page: number = 1;
   private totalPages: number = 0;
-  statusCode: number = 1;
+  private statusCode: number = 1;
 
   getMovieList() {
     return this.movies;
+  }
+
+  getStatusCode() {
+    return this.statusCode;
   }
 
   toMovies(results: ApiMovieItem[]) {

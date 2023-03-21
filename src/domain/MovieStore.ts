@@ -31,7 +31,7 @@ class MovieStore {
 
   checkBeforePublish() {
     try {
-      MovieValidation(MovieModel.statusCode);
+      MovieValidation(MovieModel.getStatusCode());
     } catch (e) {
       const message = e instanceof Error ? e.message : "";
       SkeletonStore.removeSkeleton();
