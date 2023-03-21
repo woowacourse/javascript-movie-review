@@ -1,4 +1,4 @@
-import { ErrorType } from "../@types/movieType";
+import { ErrorType } from "../@types/movieDataType";
 
 export const ERROR_MESSAGE: ErrorType = {
   400: "Bad Request: 해당 검색을 진행할 수 없습니다.",

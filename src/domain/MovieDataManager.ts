@@ -3,15 +3,14 @@ import {
   MovieInfoType,
   ResponseInfo,
   TotalMovieInfoType,
-} from "../@types/movieType";
+} from "../@types/movieDataType";
 import { getKeywordData } from "../api/keywordSearch";
 import { getMovieData } from "../api/movieList";
-import { MovieItem } from "../components/MovieItem";
 
 class MovieDataManager {
   private _popularMovies: MovieInfoType[] = [];
   private _searchMovies: MovieInfoType[] = [];
-  private _currentTab: CurrentTab = "popular";
+  private _currentTab = CurrentTab.POPULAR;
   private _currentPage: number = 1;
 
   getCurrentTab() {
@@ -35,12 +34,12 @@ class MovieDataManager {
   async getData(keyword: string) {
     this._currentPage++;
 
-    if (this._currentTab === "popular") {
+    if (this._currentTab === CurrentTab.POPULAR) {
       const data = await getMovieData(this._currentPage);
       this._popularMovies.push(data);
       return data;
     }
-    if (this._currentTab === "search") {
+    if (this._currentTab === CurrentTab.SEARCH) {
       const data = await getKeywordData(this._currentPage, keyword);
       this._searchMovies.push(data);
       return data;

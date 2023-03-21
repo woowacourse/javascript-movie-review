@@ -4,12 +4,6 @@ export interface MovieInfoType {
   vote_average: number;
 }
 
-export interface CoreInfoType {
-  title: string;
-  posterPath: string;
-  voteAverage: number;
-}
-
 export interface TotalMovieInfoType {
   audult: boolean;
   backdrop_path: string;
@@ -27,7 +21,10 @@ export interface TotalMovieInfoType {
   vote_count: number;
 }
 
-export type CurrentTab = "popular" | "search";
+export enum CurrentTab {
+  POPULAR = "popular",
+  SEARCH = "search",
+}
 
 export interface ResponseInfo {
   page: number;
@@ -36,6 +33,6 @@ export interface ResponseInfo {
   total_results: number;
 }
 
-export type ErrorType = {
+export interface ErrorType {
   [key: number]: string;
-};
+}

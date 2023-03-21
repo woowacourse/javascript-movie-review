@@ -1,10 +1,4 @@
-export const moreButton = () => {
-  return `
-    <button class="btn primary full-width">더 보기</button>
-    `;
-};
-
-export class MoreButton {
+export default class MoreButton {
   constructor() {
     this.render();
     this.hadleEvent();
@@ -12,7 +6,7 @@ export class MoreButton {
 
   create() {
     return `
-    <button class="btn primary full-width">더 보기</button>
+    <button class="btn primary full-width hidden">더 보기</button>
     `;
   }
 

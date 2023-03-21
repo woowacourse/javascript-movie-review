@@ -1,5 +1,3 @@
-import { moreButton } from "./moreButton";
-
 export default class MovieItemList {
   constructor() {
     this.render();
