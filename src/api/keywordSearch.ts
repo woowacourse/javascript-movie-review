@@ -1,14 +1,18 @@
-export const getSearchResult = () => {
-  let currentPage = 1;
+import { ErrorComment } from "../components/ErrorComment";
+import { Validator } from "./Validator";
 
-  return async function getCurrentResult(keyword: string) {
+export const getKeywordData = async (page: number, keyword: string) => {
+  try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY}&query=${keyword}&page=${currentPage}`
+      `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY}&query=${keyword}&page=${page}`
     );
+    if (!Validator.status(response.status)) {
+      throw Error(`${response.status}`);
+    }
     const data = await response.json();
-    currentPage += 1;
-    return { data, currentPage };
-  };
+    return data;
+  } catch ({ message }) {
+    const errorComment = new ErrorComment(Number(message));
+    errorComment.render();
+  }
 };
-
-const getData = getSearchResult();

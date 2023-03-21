@@ -1,17 +1,18 @@
-export const getPopularMovie = () => {
-  let currentPage = 1;
+import { ErrorComment } from "../components/ErrorComment";
+import { Validator } from "./Validator";
 
-  return async function getCurrentMovies() {
-    try {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}&page=${currentPage}`
-      );
-      const data = await response.json();
-      currentPage += 1;
-      const popularMovieData = { data, currentPage };
-      return popularMovieData;
-    } catch (e) {
-      console.log(e);
+export const getMovieData = async (page: number) => {
+  try {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}&page=${page}`
+    );
+    if (!Validator.status(response.status)) {
+      throw new Error(`${response.status}`);
     }
-  };
+    const data = await response.json();
+    return data;
+  } catch ({ message }) {
+    const errorComment = new ErrorComment(Number(message));
+    errorComment.render();
+  }
 };
