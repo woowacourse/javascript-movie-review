@@ -21,7 +21,7 @@ export default class MovieCardList extends HTMLElement {
 
     this.#movieList = movieList;
     const moreButtonElement = $("more-button");
-    if (this.#movieList.length < 20) moreButtonElement.style.display = "none";
+    if (this.#movieList.length < 20) moreButtonElement.classList.toggle("none");
 
     const movieListElement = $("#movie-list");
     this.#movieList.forEach((item) => {
