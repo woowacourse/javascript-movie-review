@@ -1,6 +1,7 @@
 import { ApiMovieItem, MovieAppData, MovieItem } from "../type/movieType";
 import { request } from "../util/apiRequest";
 import { popularMovieUrl, searchMovieUrl } from "./movieUrl";
+import GenreMatcher from "./GenreMatcher";
 
 class Movie {
   private state: MovieAppData = {
@@ -47,11 +48,16 @@ class Movie {
 
   private formMovies(apiData: ApiMovieItem[]) {
     return apiData.map<MovieItem>((result: ApiMovieItem) => {
+      const { id, title, poster_path, vote_average, genre_ids, overview } =
+        result;
+
       return {
-        id: result.id,
-        title: result.title,
-        src: result.poster_path,
-        starRate: Number(result.vote_average.toFixed(1)),
+        id: id,
+        title: title,
+        src: poster_path,
+        starRate: Number(vote_average.toFixed(1)),
+        genres: GenreMatcher.convert(genre_ids),
+        description: overview,
       };
     });
   }

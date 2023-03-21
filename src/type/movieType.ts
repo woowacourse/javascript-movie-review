@@ -20,6 +20,8 @@ export interface MovieItem {
   title: string;
   src: string;
   starRate: number;
+  genres: string[];
+  description: string;
 }
 
 export interface MovieAppData {
@@ -28,4 +30,13 @@ export interface MovieAppData {
   page: number;
   totalPages: number;
   isShowMore: boolean;
+}
+
+export interface MovieGenreApi {
+  id: number;
+  name: string;
+}
+
+export interface Genre {
+  [key: number]: string;
 }
