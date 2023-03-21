@@ -1,33 +1,54 @@
-import { MovieInfoType, TotalMovieInfoType } from "../@types/movieType";
+import {
+  CurrentTab,
+  MovieInfoType,
+  ResponseInfo,
+  TotalMovieInfoType,
+} from "../@types/movieType";
+import { getKeywordData } from "../api/keywordSearch";
+import { getMovieData } from "../api/movieList";
 import { MovieItem } from "../components/MovieItem";
 
 class MovieDataManager {
-  convertMovieData(movieItems: TotalMovieInfoType[]) {
-    return movieItems?.map((item: MovieInfoType) => {
-      const title = item?.title;
-      const posterPath = item?.poster_path;
-      const voteAverage = item?.vote_average;
-      return { title, posterPath, voteAverage };
-    });
+  private _popularMovies: MovieInfoType[] = [];
+  private _searchMovies: MovieInfoType[] = [];
+  private _currentTab: CurrentTab = "popular";
+  private _currentPage: number = 1;
+
+  getCurrentTab() {
+    return this._currentTab;
   }
 
-  async generateElement(
-    movieData: TotalMovieInfoType[],
-    totalPage: number,
-    currentPage: number
-  ) {
-    const movieElement = this.convertMovieData(movieData)
-      .map((item: any) => {
-        return MovieItem(item);
-      })
-      .join("");
-
-    totalPage <= currentPage && this.deleteMoreButton();
-    return movieElement;
+  getCurrenPage() {
+    return this._currentPage;
   }
 
-  deleteMoreButton() {
-    document.querySelector(".primary")?.remove();
+  convertTab(convertTarget: CurrentTab) {
+    this.reset();
+    this._currentTab = convertTarget;
+  }
+
+  reset() {
+    document.querySelector(".item-list")!.innerHTML = "";
+    this._currentPage = 0;
+  }
+
+  async getData(keyword: string) {
+    this._currentPage++;
+
+    if (this._currentTab === "popular") {
+      const data = await getMovieData(this._currentPage);
+      this._popularMovies.push(data);
+      return data;
+    }
+    if (this._currentTab === "search") {
+      const data = await getKeywordData(this._currentPage, keyword);
+      this._searchMovies.push(data);
+      return data;
+    }
+  }
+
+  checkDataPage(response: ResponseInfo) {
+    return response.total_pages === response.page;
   }
 }
 
