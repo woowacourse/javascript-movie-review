@@ -4,8 +4,8 @@ import MovieFetcher from './domains/MovieFetcher';
 import LoadMoreButton from './components/LoadMoreButton';
 import errorItem from './components/errorItem';
 import handleError from './handleError';
-import { MOVIE_LIST_TITLE, REQUEST_MOVIES, UPDATE_TYPE } from './constants/constants';
 import MovieListAndButtonContainer from './components/MovieListAndButtonContainer';
+import { MOVIE_LIST_TITLE, REQUEST_MOVIES, UPDATE_TYPE } from './constants/constants';
 
 class App {
   private header = new Header();
@@ -17,6 +17,11 @@ class App {
   private searchKeyword = '';
 
   constructor() {
+    this.renderInitialItems();
+    this.bindEventHandlers();
+  }
+
+  renderInitialItems() {
     this.header.render();
 
     this.movieListAndButtonContainer.renderMovieListTitle(
@@ -24,9 +29,11 @@ class App {
     );
     this.fetchAndUpdateMovieList(REQUEST_MOVIES.POPULARITY, UPDATE_TYPE.OVERWRITE);
     this.movieListAndButtonContainer.renderLoadMoreButton(this.loadMoreButton.getTemplate());
+  }
 
-    this.loadMoreButton.addClickEventHandler(this.onClickLoadMoreButton);
+  bindEventHandlers() {
     this.header.addSubmitEventHandler(this.onSubmitSearchForm);
+    this.loadMoreButton.addClickEventHandler(this.onClickLoadMoreButton);
   }
 
   async fetchAndUpdateMovieList(requestListType: string, updateType: string, keyword: string = '') {
@@ -65,13 +72,13 @@ class App {
     if (!isLastPage) this.loadMoreButton.enable();
   }
 
-  onClickLoadMoreButton = () => {
-    this.fetchAndUpdateMovieList(this.requestListType, UPDATE_TYPE.APPEND, this.searchKeyword);
-  };
-
   onSubmitSearchForm = (keyword: string) => {
     this.searchKeyword = keyword;
     this.fetchAndUpdateMovieList(REQUEST_MOVIES.SEARCH, UPDATE_TYPE.OVERWRITE, this.searchKeyword);
+  };
+
+  onClickLoadMoreButton = () => {
+    this.fetchAndUpdateMovieList(this.requestListType, UPDATE_TYPE.APPEND, this.searchKeyword);
   };
 }
 
