@@ -5,9 +5,9 @@ import {
   GetPath,
   GetSuccess,
   HTTPResponse,
-} from './Client.type';
+} from './HttpClient.type';
 
-export abstract class Client<GenericAPISpec extends APISpec> {
+export abstract class HttpClient<GenericAPISpec extends APISpec> {
   constructor(protected readonly base: string) {}
 
   isSuccess<GenericHTTPResponse extends HTTPResponse>(

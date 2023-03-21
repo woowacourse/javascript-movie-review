@@ -1,11 +1,11 @@
 import { Movie } from '../../domain/movie.type';
-import { Client } from '../Client';
-import { ClientError } from '../ClientError';
+import { HttpClient } from '../HttpClient';
+import { ClientError } from '../HttpClientError';
 import { MoviesAPI, MoviesResponse, PaginatedParams } from '../interfaces/MoviesAPI';
 import { TMDBAPISpec } from './TMDBClient.api';
 import { TMDBClientProps, TMDBLanguage, TMDBMovie } from './TMDBClient.type';
 
-export class TMDBClient extends Client<TMDBAPISpec> implements MoviesAPI {
+export class TMDBClient extends HttpClient<TMDBAPISpec> implements MoviesAPI {
   apiKey: string;
 
   language: TMDBLanguage;

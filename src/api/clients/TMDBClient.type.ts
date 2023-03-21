@@ -1,4 +1,4 @@
-import { HTTPResponse, HTTPStatus } from '../Client.type';
+import { HTTPResponse, HTTPStatus } from '../HttpClient.type';
 
 export type TMDBClientProps = {
   apiKey: string;
