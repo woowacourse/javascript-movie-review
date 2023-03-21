@@ -24,8 +24,8 @@ class SearchBox {
 
   handleEvent() {
     const button = document.querySelector(".search-input");
-    button?.addEventListener("keyup", (e: Event) => {
-      this.onKeyup(e);
+    button?.addEventListener("keyup", (e: any) => {
+      e.keyCode === 13 && this.onKeyup(e);
     });
   }
 
@@ -36,6 +36,7 @@ class SearchBox {
         query: target!.value,
       },
     });
+    this.updateKeyword(target!.value);
     document.querySelector(".search-input")!.dispatchEvent(event);
   }
 
