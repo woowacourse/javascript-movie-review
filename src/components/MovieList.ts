@@ -43,7 +43,7 @@ export default class MovieList extends HTMLElement {
     <li>
       <div class="item-card">
         <img
-          class="item-thumbnail"
+          class="item-thumbnail skeleton"
           src="https://image.tmdb.org/t/p/w500/${movie.poster}"
           onerror="
             this.style.border='1px solid #e2e2e2';
