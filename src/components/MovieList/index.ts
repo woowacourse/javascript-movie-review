@@ -2,6 +2,7 @@ import { assemble, Event } from '../../core';
 import { getElement } from './../../utils/common/domHelper';
 import { MovieComponent } from './action';
 import { MovieInfo, MovieInfoByKeyword } from '../../apis';
+import { NO_RESULT } from '../../constants';
 
 export interface MovieListProps {
   movieList: MovieInfo[] | MovieInfoByKeyword[];

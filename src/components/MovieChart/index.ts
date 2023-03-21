@@ -20,25 +20,20 @@ const MovieChart = assemble<MovieChartProps>(({ keyword }) => {
     },
   ];
 
+  const noResult = !isLoading && !chartInfo.total_results;
   const needMoreBtn = Boolean(chartInfo?.page !== LAST_PAGE && movieList.length);
   const $template = getElement(`
     <main>
       <section class="item-view">
         <h2>지금 인기 있는 영화</h2>
         <div class="item-list-layout">
-          ${
-            isLoading
-              ? `
-              <fragment id='SkeletonList'>
-                ${SkeletonMovieListComponent()}
-              </fragment>
-            `
-              : `
-              <fragment id='MovieList'>
-                ${movieList.length ? MovieListComponent({ movieList }) : NO_RESULT}
-              </fragment>
-            `
-          }
+          <fragment id='MovieList'>
+            ${MovieListComponent({ movieList })}
+          </fragment>
+          <fragment id='SkeletonList'>
+            ${isLoading ? SkeletonMovieListComponent() : ''}
+          </fragment>
+          ${noResult ? `<h1>${NO_RESULT}</h1>` : ''}
         </div>
         ${
           needMoreBtn
