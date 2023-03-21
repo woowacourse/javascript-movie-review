@@ -9,6 +9,6 @@ export function ViewMoreButton() {
   });
 
   return `
-        <button type="button" class="btn primary full-width view-more-button" id="more-movie-btn">더 보기</button>
+        <button type="button" class="btn primary full-width view-more-button" id="more-movie-btn">더보기</button>
       `;
 }
