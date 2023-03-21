@@ -109,26 +109,26 @@ function Core() {
     });
   }
 
-  return { useState, useEffect, render, absorb };
+  const addEvent = ({ $element, event, callback }: { $element: Element } & Event) => {
+    $element.addEventListener(event, callback);
+  };
+
+  const assemble =
+    <T = Props>(getElement: GetElement<T>) =>
+    (props: T) => {
+      try {
+        const [$element, $events = []] = getElement(props);
+        if (!$element) throw new Error('이벤트를 등록할 엘리먼트가 존재하지 않습니다.');
+
+        $events.forEach(({ event, callback }) => addEvent({ $element, event, callback }));
+
+        return $element;
+      } catch (error) {
+        return null;
+      }
+    };
+
+  return { useState, useEffect, render, absorb, addEvent, assemble };
 }
 
-export const { useState, useEffect, render, absorb } = Core();
-
-export const addEvent = ({ $element, event, callback }: { $element: Element } & Event) => {
-  $element.addEventListener(event, callback);
-};
-
-export const assemble =
-  <T = Props>(getElement: GetElement<T>) =>
-  (props: T) => {
-    try {
-      const [$element, $events = []] = getElement(props);
-      if (!$element) throw new Error('이벤트를 등록할 엘리먼트가 존재하지 않습니다.');
-
-      $events.forEach(({ event, callback }) => addEvent({ $element, event, callback }));
-
-      return $element;
-    } catch (error) {
-      return null;
-    }
-  };
+export const { useState, useEffect, render, absorb, addEvent, assemble } = Core();
