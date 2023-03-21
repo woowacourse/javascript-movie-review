@@ -87,12 +87,10 @@ describe('E2E 테스트', () => {
       {
         method: 'GET',
         url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular/,
-        query: { page: '1' },
       },
       {
         statusCode: 500,
         body: {
-          success: false,
           status_code: 34,
           status_message: 'The resource you requested could not be found.',
         },
