@@ -25,7 +25,11 @@ interface MovieDataResult {
 interface Movie {
   id: number;
   title: string;
+  genreIds: number[];
+  releaseDate: string;
   voteAverage: number;
+  userVote: number;
+  overview: string;
   posterPath: string;
 }
 

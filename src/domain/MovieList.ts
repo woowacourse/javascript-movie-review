@@ -41,7 +41,11 @@ class MovieList {
     const movies: Movie[] = moviesData.map((movie: MovieDataResult) => ({
       id: movie.id,
       title: movie.title,
+      genreIds: movie.genreIds,
+      releaseDate: movie.releaseDate,
       voteAverage: Math.round(movie.voteAverage * 10) / 10,
+      userVote: 0,
+      overview: movie.overview,
       posterPath: movie.posterPath,
     }));
 
