@@ -1,4 +1,5 @@
-import { Movie, MovieAPIData } from '../type/Movie';
+import { Movie } from '../type/Movie';
+import { MovieAPIData } from '../api/get';
 
 const MovieHandler = {
   convertMovieList(moviesData: MovieAPIData[]) {
@@ -8,8 +9,8 @@ const MovieHandler = {
       const movie: Movie = {
         id,
         title,
-        poster_path,
-        vote_average,
+        posterPath: poster_path,
+        voteAverage: vote_average,
       };
 
       return movie;
