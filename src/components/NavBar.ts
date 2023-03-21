@@ -2,7 +2,22 @@ import { $ } from '../utils/domSelector';
 import { Logo } from '../assets';
 import MovieList from '../domain/MovieList';
 
-const NavBar = {
+class NavBar {
+  private static instance: NavBar;
+
+  constructor() {
+    $<HTMLDivElement>('#app').insertAdjacentHTML('afterbegin', this.template());
+    this.addEventListenerToSearchInput();
+  }
+
+  static getInstance(): NavBar {
+    if (!NavBar.instance) {
+      NavBar.instance = new NavBar();
+    }
+
+    return NavBar.instance;
+  }
+
   template() {
     return `
       <header>
@@ -12,7 +27,7 @@ const NavBar = {
           <button id="search-button">검색</button>
         </form>
       </header>`;
-  },
+  }
 
   addEventListenerToSearchInput() {
     $<HTMLFormElement>('.search-box').addEventListener('submit', (event) => {
@@ -31,7 +46,7 @@ const NavBar = {
       MovieList.init(searchQuery);
       MovieList.getMovieData();
     });
-  },
-};
+  }
+}
 
-export default NavBar;
+export default NavBar.getInstance();
