@@ -12,6 +12,13 @@ export default class MovieItemList {
     document
       .querySelector(".item-list")
       ?.insertAdjacentHTML("beforeend", movieElementString);
+    this.removeSkeleton();
+  }
+
+  removeSkeleton() {
+    document.querySelectorAll(".skeleton").forEach((element) => {
+      element.classList.remove("skeleton");
+    });
   }
 
   render() {
