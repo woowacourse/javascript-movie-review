@@ -6,13 +6,14 @@ import {
 } from "../@types/movieDataType";
 import { getKeywordData } from "../api/keywordSearch";
 import { getMovieData } from "../api/movieList";
+import { DATA } from "../constants/data";
 import { $ } from "../utils/selector";
 
 class MovieDataManager {
   private _popularMovies: MovieInfoType[] = [];
   private _searchMovies: MovieInfoType[] = [];
   private _currentTab = CurrentTab.POPULAR;
-  private _currentPage: number = 0;
+  private _currentPage: number = DATA.INIT_PAGE;
 
   getCurrentTab() {
     return this._currentTab;
@@ -33,7 +34,7 @@ class MovieDataManager {
 
     itemList.innerHTML = "";
     title.remove();
-    this._currentPage = 0;
+    this._currentPage = DATA.INIT_PAGE;
   }
 
   async getData(keyword: string) {
