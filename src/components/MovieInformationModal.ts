@@ -1,7 +1,8 @@
 import { Movie } from '../types/movie';
 import { POSTER_BASE_URL, MOVIE_RETRIEVED } from '../constants';
 import { $ } from '../utils/domSelector';
-import { CloseButton, EmptyStar, FilledStar } from '../assets';
+import { CloseButton } from '../assets';
+import { renderUserVote, renderVoteAverage } from './MovieInformationContent';
 import MovieList from '../domain/MovieList';
 
 class MovieInformationModal {
@@ -32,10 +33,7 @@ class MovieInformationModal {
           <div class="information-container">
             <h3 class="information-title"></h3>
             <p class="information-meta-info margin-bottom-8"></p>
-            <p class="information-vote-average-rate">
-              평균 <img src="${FilledStar}" alt="별점" />
-              <span class="vote-average"></span>
-            </p>
+            <p class="information-vote-average-rate"></p>
             <div class="hr"></div>
             <h6 class="information-sub-title">내 별점</h6>
             <div class="information-user-vote">
@@ -95,23 +93,8 @@ class MovieInformationModal {
     const metaInfo = $<HTMLParagraphElement>('.information-meta-info');
     metaInfo.textContent = `${movie.releaseDate.split('-')[0]} · ${movie.genreIds}`;
 
-    const voteAverage = $<HTMLParagraphElement>('.vote-average');
-    voteAverage.textContent = String(movie.voteAverage);
-
-    const voteStars = $<HTMLDivElement>('.vote-stars'); // need to convert movie.userVote to stars
-    voteStars.innerHTML = `
-      <img src="${EmptyStar}" alt="별점" />
-      <img src="${EmptyStar}" alt="별점" />
-      <img src="${EmptyStar}" alt="별점" />
-      <img src="${EmptyStar}" alt="별점" />
-      <img src="${EmptyStar}" alt="별점" />
-    `;
-
-    const voteComment = $<HTMLParagraphElement>('.vote-message');
-    voteComment.textContent = '볼만해요'; // need to convert num to some message
-
-    const voteInfo = $<HTMLParagraphElement>('.vote-info');
-    voteInfo.textContent = `(${movie.userVote}/10)`;
+    renderVoteAverage(movie.voteAverage);
+    renderUserVote(movie.userVote);
 
     const overview = $<HTMLParagraphElement>('.information-overview');
     overview.textContent = movie.overview;
