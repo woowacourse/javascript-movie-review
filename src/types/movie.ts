@@ -5,6 +5,11 @@ interface Movie {
   poster_path: string;
 }
 
+interface MovieDetail extends Movie {
+  genres: [{ id: number; name: string }];
+  overview: string;
+}
+
 interface MovieDataType {
   page: number;
   results: Movie[];
@@ -12,4 +17,4 @@ interface MovieDataType {
   total_result: number;
 }
 
-export { Movie, MovieDataType };
+export { Movie, MovieDetail, MovieDataType };
