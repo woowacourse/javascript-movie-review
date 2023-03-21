@@ -1,5 +1,6 @@
-import MovieInfo from "../type/MovieInfo";
+import MovieInfo from "../type/MovieSummary";
 import Storage from "../type/Storage";
+import makeMovieSummary from "./makeMovieSummary";
 
 const getPopularMovieRequestUrl = (page = 1) => (
   `${process.env.HOST}/${process.env.REQUEST_POPULAR}&language=ko&page=${page}`
@@ -47,7 +48,7 @@ class MovieListManager {
     await fetch(url)
       .then((res) => res.json())
       .then((data) => {
-        this.list.push(...data.results);
+        this.list.push(...[...data.results].map((movie) => makeMovieSummary(movie)));
         if (data["total_results"] === this.list.length) this.lastPage = true;
         else this.lastPage = false;
       })

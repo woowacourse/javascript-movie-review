@@ -1,4 +1,4 @@
-import Movie from './Movie';
+import Movie from './MovieSummaryItem';
 import MovieSkeleton from './MovieSkeleton';
 
 const SKELETON_ITEM_COUNT = 20;
@@ -30,7 +30,6 @@ class Main {
   }
 
   async render () {
-    //const movie = new Movie();
     const query = this.#manager.getQuery();
 
     if (query === '' && !this.#manager.getMovieList().length) {
@@ -55,7 +54,7 @@ class Main {
       movieListFragment.appendChild(noSearchResult);
     }
 
-    movieList.forEach((movieInfo) => movieListFragment.appendChild(new Movie({ movie: movieInfo, myScore: '0' }).render()));
+    movieList.forEach((movieInfo) => movieListFragment.appendChild(new Movie(movieInfo).render()));
 
     this.#list.appendChild(movieListFragment);
 
