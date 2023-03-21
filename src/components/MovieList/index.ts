@@ -27,17 +27,23 @@ export class MovieList extends HTMLElement {
 
   insertMovieList(movieList: readonly Movie[]) {
     if (movieList.length === 0) {
-      this.$movieItems.insertAdjacentHTML(
-        'beforeend',
-        `<img src="./assets/empty.png" width="1200px"/>`,
-      );
+      this.createEmptyTemplate();
     }
-    movieList.map((movie: Movie) => {
-      const { title, posterPath, voteAverage } = movie;
-      this.$movieItems.insertAdjacentHTML(
-        'beforeend',
-        `<movie-item title=${`"${title}"`} poster=${posterPath} vote=${voteAverage}></movie-item>`,
-      );
-    });
+    movieList.map((movie: Movie) => this.createMovieItemTemplate(movie));
+  }
+
+  createEmptyTemplate() {
+    this.$movieItems.insertAdjacentHTML(
+      'beforeend',
+      `<img src="./assets/empty.png" width="1200px"/>`,
+    );
+  }
+
+  createMovieItemTemplate(movie: Movie) {
+    const { title, posterPath, voteAverage } = movie;
+    this.$movieItems.insertAdjacentHTML(
+      'beforeend',
+      `<movie-item title=${`"${title}"`} poster=${posterPath} vote=${voteAverage}></movie-item>`,
+    );
   }
 }
