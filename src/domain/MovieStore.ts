@@ -3,13 +3,13 @@ import SearchStore from "./SearchTitleStore";
 import SkeletonStore from "./SkeletonStore";
 import ErrorStore from "./ErrorStore";
 import { MovieValidation } from "./MovieValidation";
-import { CustomElement } from "../type/componentType";
+import { MovieElement } from "../type/componentType";
 import { Movie } from "../type/movieType";
 
 class MovieStore {
-  private subscribers: CustomElement[] = [];
+  private subscribers: MovieElement[] = [];
 
-  subscribe(element: CustomElement) {
+  subscribe(element: MovieElement) {
     this.subscribers.push(element);
   }
 

@@ -1,9 +1,9 @@
-import { MovieListSkeleton } from "../type/componentType";
+import { SkeletonElement } from "../type/componentType";
 
 class SkeletonStore {
-  private subscriber: MovieListSkeleton | undefined;
+  private subscriber: SkeletonElement | undefined;
 
-  subscribe(element: MovieListSkeleton) {
+  subscribe(element: SkeletonElement) {
     this.subscriber = element;
   }
 
