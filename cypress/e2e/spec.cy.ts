@@ -1,12 +1,12 @@
+const localhostUrl = "http://localhost:8080/";
+const apiKey = Cypress.env("CYPRESS_API_KEY");
+
 describe("정상 작동 기능 테스트", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:8080/");
-    cy.viewport(1400, 850);
+    cy.visit(localhostUrl);
   });
 
   it("영화 목록을 인기 순으로 1페이지를 불러 올 수 있다", () => {
-    const apiKey = Cypress.env("CYPRESS_API_KEY");
-
     cy.request(
       "GET",
       `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=ko-KR&page=1`
@@ -23,8 +23,6 @@ describe("정상 작동 기능 테스트", () => {
   });
 
   it("영화 목록 아이템에 대한 Skeleton UI를 띄운다.", () => {
-    const apiKey = Cypress.env("CYPRESS_API_KEY");
-
     cy.intercept(
       "GET",
       `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=ko-KR&page=1`
@@ -43,8 +41,7 @@ describe("정상 작동 기능 테스트", () => {
 
 describe("데이터 값이 없을 때 테스트", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:8080/");
-    cy.viewport(1400, 850);
+    cy.visit(localhostUrl);
   });
 
   it("포스터가 없을 때 대체 이미지가 출력된다", () => {
