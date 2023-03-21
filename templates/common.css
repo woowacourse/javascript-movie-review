@@ -166,3 +166,13 @@ header .search-box > .search-button {
 .hidden {
   display: none;
 }
+
+.empty {
+  background-color: white;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: 24px;
+}
