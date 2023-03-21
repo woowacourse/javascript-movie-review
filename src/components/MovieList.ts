@@ -11,6 +11,7 @@ class MovieList extends HTMLElement {
       return `<p class="not-search">해당 검색 결과가 없습니다</p>`;
     return movies.map((movie) => /* html */ `
         <movie-item
+          id="${movie.id}"
           poster-path="${movie.poster_path}"
           title="${movie.title}"
           vote_average="${movie.vote_average}"

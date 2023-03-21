@@ -202,3 +202,60 @@ movie-list:has(.not-search) {
   align-items: center;
   justify-content: center;
 }
+
+.modal--open {
+  display: block;
+}
+
+.modal {
+  position: absolute;
+  width: 826px;
+  height: 577px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  background: #212122;
+  border-radius: 8px;
+}
+
+.modal-header {
+  box-sizing: border-box;
+
+  position: relative;
+  width: 826px;
+  height: 50px;
+
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-top: 20px;
+  border-bottom: 1px solid rgba(241, 241, 241, 0.25);
+}
+
+.modal-title {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+}
+
+.modal-close-button {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  left: 758px;
+  top: 0px;
+  border: none;
+  border-radius: 50%;
+  background-color: #383839;
+  transition: all 0.2s ease-in;
+}
+
+.modal-close-button:hover {
+  transform: scale(1.1);
+}
+
+.close {
+  color: #f1f1f1;
+}

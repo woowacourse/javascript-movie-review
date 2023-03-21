@@ -32,6 +32,18 @@ class MovieListContainer extends HTMLElement {
         data: this.contentTypeAttribute,
       });
     });
+
+    $("movie-list")?.addEventListener("click", (event) => {
+      const target = <HTMLElement>event.target;
+      const id = target.closest<HTMLElement>("movie-item")?.id;
+
+      if (id) {
+        dispatchCustomEvent(this, {
+          eventType: "openMovieDetail",
+          data: id,
+        });
+      }
+    });
   }
 
   changeTitle(query: string) {

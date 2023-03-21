@@ -6,6 +6,7 @@ import MovieList from "./components/MovieList";
 import type { ResponseData } from "./types/type";
 import { ConstantsNumber } from "./utils/constants";
 import { onHandleCatchError, onHandleStatusError } from "./utils/errorHandler";
+import MovieDetailModal from "./components/MovieDetailModal";
 
 const MovieApp = {
   currentPageNumber: ConstantsNumber.PAGE_MIN_NUMBER,
@@ -25,6 +26,10 @@ const MovieApp = {
         detail === "popular"
           ? this.getPopularMovieData()
           : this.getSearchMovieData()
+    );
+    $("movie-list-container")?.addEventListener(
+      "openMovieDetail",
+      ({ detail }: CustomEventInit) => this.onHandleModal(detail)
     );
     $("search-box")?.addEventListener(
       "searchMovieData",
@@ -102,6 +107,14 @@ const MovieApp = {
     );
 
     this.loadMovieData(movies);
+  },
+
+  onHandleModal(id: number) {
+    const movieDetailModal = <MovieDetailModal>$("movie-detail-modal");
+    const movie = movieHandler.getSelectedMovie(id);
+    // console.log(movie);
+
+    movieDetailModal?.render(movie);
   },
 };
 

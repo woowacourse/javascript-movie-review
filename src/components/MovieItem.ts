@@ -19,7 +19,6 @@ class MovieItem extends HTMLElement {
         : `${AddSkeleton}`;
 
     this.innerHTML = /* html */ `
-      <a href="#">
         <div class="item-card">
           <img
             class="item-thumbnail"
@@ -30,7 +29,6 @@ class MovieItem extends HTMLElement {
           <p class="item-title">${title}</p>
           <p class="item-score"><img src="${StarFilled}" class="star" alt="별점" />${voteAverage}</p>
         </div>
-      </a>
 `;
   }
 }
