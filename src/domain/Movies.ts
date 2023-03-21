@@ -36,10 +36,6 @@ class Movies extends Observable {
     return this.query;
   }
 
-  isEndOfPage(totalPage: number, page: number) {
-    return totalPage === page;
-  }
-
   async setMovies() {
     this.notify('loading');
 
@@ -47,10 +43,6 @@ class Movies extends Observable {
     const popularMovies = movieList;
 
     if (alertFetchStatus(status)) return;
-
-    setTimeout(() => {
-      if (popularMovies === undefined) window.alert(ERROR_MESSAGE.unableAccess);
-    }, 3000);
 
     const refineMovies = popularMovies?.results.map(
       ({ id, poster_path, title, vote_average }: MovieItemType) => {
@@ -60,11 +52,11 @@ class Movies extends Observable {
 
     const totalPage = popularMovies?.total_pages;
     if (!totalPage) return;
-    this.isEnd = this.isEndOfPage(totalPage, this.popularPage);
+    this.isEnd = totalPage === this.popularPage;
 
     this.popularPage++;
     this.isSearched = false;
-    this.notify('movies', refineMovies);
+    // this.notify('movies', refineMovies);
   }
 
   async searchMovies(query: string, isFromSearchButton: boolean = false) {
@@ -81,10 +73,6 @@ class Movies extends Observable {
 
     if (alertFetchStatus(status)) return;
 
-    setTimeout(() => {
-      if (searchMovies === undefined) window.alert(ERROR_MESSAGE.unableAccess);
-    }, 3000);
-
     const refineMovies = searchMovies?.results?.map(
       ({ id, poster_path, title, vote_average }: MovieItemType) => {
         return { id, poster_path, title, vote_average };
@@ -93,7 +81,7 @@ class Movies extends Observable {
 
     const totalPage = searchMovies?.total_pages;
     if (!totalPage) return;
-    this.isEnd = this.isEndOfPage(totalPage, this.searchPage);
+    this.isEnd = totalPage === this.searchPage;
 
     this.searchPage++;
     this.isSearched = true;
