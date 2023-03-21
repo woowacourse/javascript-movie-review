@@ -13,7 +13,7 @@ const Movie = assemble<MovieProps>((props) => {
 
   const $events: Event[] = [];
   const $template = getElement(`
-      <li data=id=${id}>
+      <li class="item--movie" data=id=${id}>
         <a href="#">
           <div class="item-card movie">
             <img

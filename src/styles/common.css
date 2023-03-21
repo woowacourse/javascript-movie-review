@@ -18,15 +18,22 @@ button {
 }
 
 #app {
-  padding-bottom: 48px;
+  height: 100vh;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+}
+
+main {
+  flex-grow: 1;
 }
 
 *:focus {
   outline: none;
-}
-.item-view,
-.item-test {
-  width: 100%;
 }
 
 .item-view {
@@ -34,6 +41,7 @@ button {
   flex-direction: column;
   justify-content: center;
   width: 1200px;
+  height: 100%;
   margin: 0 auto;
 }
 
@@ -45,12 +53,25 @@ button {
 
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
+.item-list-layout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
 .item-list {
   display: grid;
+  flex-grow: 1;
   margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
   grid-column-gap: 160px;
   grid-row-gap: 48px;
+}
+
+.item--movie,
+.item--skeleton {
+  height: 370px;
 }
 
 .item-card {
@@ -99,6 +120,7 @@ button.btn {
   border-radius: 8px;
   height: 30px;
   color: #fff;
+  margin-bottom: 48px;
 }
 
 button.primary {

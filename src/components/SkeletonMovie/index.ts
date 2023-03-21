@@ -4,7 +4,7 @@ import { getElement } from './../../utils/common/domHelper';
 const SkeletonMovie = assemble(() => {
   const $events: Event[] = [];
   const $template = getElement(`
-      <li>
+      <li class="item--skeleton">
         <a href="#">
           <div class="item-card">
             <div class="item-thumbnail skeleton"></div>
