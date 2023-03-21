@@ -1,4 +1,3 @@
-import { movies } from "../../domain/movies";
 import Store from "../../domain/Store";
 import { Movie } from "../../type";
 import { renderSkeletons } from "./movieListHandler";

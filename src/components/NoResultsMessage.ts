@@ -1,4 +1,3 @@
-import { movies } from "../domain/movies";
 import Store from "../domain/Store";
 
 export default class NoResultsMessage extends HTMLElement {

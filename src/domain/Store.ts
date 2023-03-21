@@ -1,4 +1,4 @@
-import { updateMovies } from "../components/MovieList/movieListHandler";
+import { renderMovieList } from "../components/MovieList/movieListHandler";
 import { Movie } from "../type";
 
 export default class Store {
@@ -46,8 +46,6 @@ export default class Store {
 
   appendMovies(newMovies: Movie[]) {
     this.movies = [...this.movies, ...newMovies];
-
-    updateMovies(); // 수정 예정
   }
 
   resetMoviesAndPages = () => {

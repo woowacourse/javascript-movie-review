@@ -1,6 +1,6 @@
 import { executeEventListener } from "../../utils/eventListener";
 import { $ } from "../../utils/selector";
-import { movies } from "../../domain/movies";
+import { updateMovies } from "../../domain/movies";
 import Store from "../../domain/Store";
 
 const store: Store = Store.getInstance();
@@ -18,7 +18,7 @@ export const onSubmitSearchBox = () => {
     store.resetMoviesAndPages();
     store.setLastKeyword(keyword);
 
-    movies.showSearchedMovies(keyword);
+    updateMovies(keyword);
   });
 };
 
@@ -30,6 +30,6 @@ export const onClickLogo = () => {
     store.resetMoviesAndPages();
     store.setLastKeyword("");
 
-    movies.showPopularMovies();
+    updateMovies();
   });
 };

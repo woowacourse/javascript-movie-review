@@ -1,8 +1,8 @@
-import { movies } from "../../domain/movies";
 import { executeEventListener } from "../../utils/eventListener";
 import { $ } from "../../utils/selector";
 import MovieList from ".";
 import Store from "../../domain/Store";
+import { updateMovies } from "../../domain/movies";
 
 const store: Store = Store.getInstance();
 
@@ -16,14 +16,14 @@ export const onClickMoreButton = () => {
     store.nextPage();
 
     if (store.getLastKeyword() === "") {
-      movies.showPopularMovies();
+      updateMovies();
     } else {
-      movies.showSearchedMovies(store.getLastKeyword());
+      updateMovies(store.getLastKeyword());
     }
   });
 };
 
-export const updateMovies = () => {
+export const renderMovieList = () => {
   const movieList = $("#movie-list") as MovieList;
   movieList.renderMovies();
 
