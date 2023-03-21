@@ -113,7 +113,7 @@ export default class App {
     this.mountMovieList();
   }
 
-  getMovieListFromFetchedData(fetchedData: parsedJson) {
+  getMovieListFromFetchedData(fetchedData: movieListResponse) {
     return fetchedData.results.map((item: movieData) => {
       const { title, poster_path, vote_average, id, genre_ids } = item;
       return {

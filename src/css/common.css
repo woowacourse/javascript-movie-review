@@ -226,6 +226,8 @@ header {
 }
 
 .modal-image {
+  width: 260px;
+  height: 400px;
 }
 
 .rating-box {
