@@ -36,9 +36,9 @@ class MovieList extends HTMLElement {
           </div>
         </a>
       </li>
-    `;
+    `.repeat(20);
 
-    this.insertAdjacentHTML("beforeend", skeletonUI.repeat(20));
+    this.insertAdjacentHTML("beforeend", skeletonUI);
   }
 
   removeSkeletonUI() {
