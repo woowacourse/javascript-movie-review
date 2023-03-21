@@ -1,16 +1,16 @@
 import { fetchData } from '../http';
 const BASE_URL = 'https://api.themoviedb.org/3';
 
-interface IMovieProps {
+interface PopularMovieProps {
   curPage: number;
 }
 
-interface IFindMovieProps extends IMovieProps {
+interface FindMovieProps extends PopularMovieProps {
   query: string;
 }
 
 class Movie {
-  async getPopularMovies({ curPage = 1 }: IMovieProps) {
+  async getPopularMovies({ curPage = 1 }: PopularMovieProps) {
     const movieList = await fetchData(
       `${BASE_URL}/movie/popular?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&page=${curPage}`
     );
@@ -18,7 +18,7 @@ class Movie {
     return movieList;
   }
 
-  async findMovies({ query, curPage = 1 }: IFindMovieProps) {
+  async findMovies({ query, curPage = 1 }: FindMovieProps) {
     const foundedMovies = await fetchData(
       `${BASE_URL}/search/movie?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&query=${query}&page=${curPage}`
     );
