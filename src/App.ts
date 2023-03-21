@@ -46,9 +46,7 @@ class App {
       this.#requestListType = requestListType;
     }
 
-    if (isLastPage) {
-      this.#loadMoreButton.disable();
-    }
+    if (isLastPage) this.#loadMoreButton.disable();
 
     if (isLastPage && updateType === UPDATE_TYPE.OVERWRITE) {
       this.#movieList.renderNoResult(errorItem(result));

@@ -6,7 +6,7 @@ const errorItem = (result: string, status?: number) => {
   return `
     <div id="error-item">
       <img src="${imageUrl}" alt="${result}" id="no-result-image"/>
-      <p>검색 결과가 없습니다.</p>
+      <p>Sorry🥹... No search results were found.</p>
     </div>`;
 };
 

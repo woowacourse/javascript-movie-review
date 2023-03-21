@@ -186,3 +186,13 @@ header .search-box > .search-button {
   grid-column: auto / span 4;
   text-align: center;
 }
+
+#error-item > img {
+  width: 20rem;
+}
+
+#error-item > p {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: rgb(178, 178, 178);
+}
