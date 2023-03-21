@@ -11,10 +11,10 @@ export const MovieItem = (movieInfo: MovieInfoType) => {
             class="item-thumbnail skeleton "
             src="https://image.tmdb.org/t/p/w220_and_h330_face${poster_path}"
             loading="lazy"
-            alt="앤트맨과 와스프: 퀀텀매니아"
+            alt="${title}"
           />
-          <p class="item-title ">${title}</p>
-          <p class="item-score "><img src="./star_filled.png" alt="별점" /> ${vote_average}</p>
+          <p class="item-title skeleton">${title}</p>
+          <p class="item-score skeleton"><img src="./star_filled.png" alt="별점" /> ${vote_average}</p>
         </div>
       </a>
 </li>
