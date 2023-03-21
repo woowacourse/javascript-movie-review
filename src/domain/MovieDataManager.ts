@@ -48,7 +48,11 @@ class MovieDataManager {
   }
 
   checkDataPage(response: ResponseInfo) {
-    return response.total_pages === response.page;
+    return response?.total_pages === response?.page;
+  }
+
+  checkDataAmount(results: TotalMovieInfoType[]) {
+    return results?.length;
   }
 }
 
