@@ -23,19 +23,22 @@ export default class SearchBox {
   }
 
   handleEvent() {
-    const button = document.querySelector(".search-input");
+    const searchInput = document.querySelector(".search-input");
 
-    button?.addEventListener("keyup", (e: any) => {
+    searchInput?.addEventListener("keyup", (e: any) => {
       e.keyCode === 13 && this.onKeyup(e);
     });
   }
 
   onKeyup(e: Event) {
     const target = e.target as HTMLInputElement;
-    const event = new CustomEvent("searchButtonClicked");
+    const event = new CustomEvent("searchInputChange");
+    const searchInput = document.querySelector(
+      ".search-input"
+    ) as HTMLInputElement;
 
-    this.updateKeyword(target!.value);
-    document.querySelector(".search-input")!.dispatchEvent(event);
+    this.updateKeyword(target.value);
+    searchInput.dispatchEvent(event);
   }
 
   updateKeyword(newWord: string) {
