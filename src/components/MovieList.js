@@ -1,11 +1,12 @@
 import { Store } from '..';
+import { RENDER_MODE } from '../constants';
 import { getPopularMovies, searchMovies } from '../service/movie';
 import MovieCard from './MovieCard';
 
 export default class MovieList {
   constructor($parent) {
     this.$parent = $parent;
-    this.renderMode = 'popular';
+    this.renderMode = RENDER_MODE.POPULAR;
 
     this.render();
     this.selectDom();
@@ -42,14 +43,14 @@ export default class MovieList {
     const handleMoreMovieButton = async () => {
       Store.page += 1;
 
-      if (this.renderMode === 'popular') {
+      if (this.renderMode === RENDER_MODE.POPULAR) {
         this.toggleSkeleton();
         const { results, total_pages } = await getPopularMovies({ page: Store.page });
         this.toggleSkeleton();
         this.renderMovieCards(results, total_pages);
       }
 
-      if (this.renderMode === 'search') {
+      if (this.renderMode === RENDER_MODE.SEARCH) {
         this.toggleSkeleton();
         const { results, total_pages } = await searchMovies({
           page: Store.page,

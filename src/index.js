@@ -3,6 +3,7 @@ import './style/common';
 import Header from './components/Header';
 import MovieList from './components/MovieList';
 import { getPopularMovies } from './service/movie';
+import { RENDER_MODE } from './constants';
 
 export const Store = {
   keyword: '',
@@ -33,7 +34,7 @@ class App {
   }
 
   onSubmitSearch(results, totalPages) {
-    this.movieList.renderMode = 'search';
+    this.movieList.renderMode = RENDER_MODE.SEARCH;
     this.movieList.page = 1;
     this.movieList.removeMovieCards();
 
