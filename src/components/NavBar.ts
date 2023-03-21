@@ -23,6 +23,11 @@ const NavBar = {
 
       if (searchQuery === '') return;
 
+      history.pushState(
+        { isList: true, searchQuery: searchQuery, timestamp: new Date().getTime() },
+        '',
+        `/search?q=${searchQuery}`
+      );
       MovieList.init(searchQuery);
       MovieList.getMovieData();
     });

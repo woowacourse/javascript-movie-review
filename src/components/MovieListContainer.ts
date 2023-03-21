@@ -15,6 +15,7 @@ class MovieListContainer {
     this.itemList = $<HTMLUListElement>('.item-list');
     this.addEventListenerToMoreButton();
     this.addEventListenerToMovieItems();
+    this.addBrowserBackButtonEventListener();
   }
 
   static getInstance(): MovieListContainer {
@@ -36,9 +37,9 @@ class MovieListContainer {
   }
 
   private init() {
-    MovieList.on(MOVIE_LIST_RESET, this.showListContainer);
-    MovieList.on(MOVIE_LIST_LOADING, this.disableScroll);
-    MovieList.on(MOVIE_LIST_LOADED, this.enableScroll);
+    MovieList.on(MOVIE_LIST_RESET, this.showListContainer.bind(this));
+    MovieList.on(MOVIE_LIST_LOADING, this.disableScroll.bind(this));
+    MovieList.on(MOVIE_LIST_LOADED, this.enableScroll.bind(this));
   }
 
   private addEventListenerToMoreButton() {
@@ -65,6 +66,19 @@ class MovieListContainer {
         const params = new URLSearchParams(url.search);
         const movieId = params.get('id');
         MovieList.getMovieInformation(Number(movieId));
+      }
+    });
+  }
+
+  private addBrowserBackButtonEventListener() {
+    window.addEventListener('popstate', (event) => {
+      if (!event.state) return;
+
+      event.state.isBackButton = true;
+
+      if (event.state.isList) {
+        MovieList.init(event.state.searchQuery);
+        MovieList.getMovieData();
       }
     });
   }

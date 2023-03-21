@@ -8,7 +8,7 @@ import './components/InvalidMessage';
 import MovieList from './domain/MovieList';
 
 // something to solve ! don't place this twice but once?
-history.pushState({ showModal: false, timestamp: new Date().getTime() }, '', '/');
+history.pushState({ isList: true, searchQuery: '', timestamp: new Date().getTime() }, '', '/');
 
 $<HTMLDivElement>('#app').insertAdjacentHTML('afterbegin', NavBar.template());
 NavBar.addEventListenerToSearchInput();

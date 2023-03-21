@@ -65,7 +65,7 @@ class MovieInformationModal {
 
     if (!history.state.isBackButton) {
       history.pushState(
-        { showModal: true, movieId: movie.id, timestamp: new Date().getTime() },
+        { showModal: true, movieId: movie.id, searchQuery, timestamp: new Date().getTime() },
         '',
         queryParams
       );
@@ -77,7 +77,11 @@ class MovieInformationModal {
 
   private closeModal() {
     if (!history.state.isBackButton) {
-      history.pushState({ showModal: false, timestamp: new Date().getTime() }, '', '/');
+      const queryParams = history.state.searchQuery
+        ? `/search?q=${history.state.searchQuery}`
+        : `/`;
+
+      history.pushState({ showModal: false, timestamp: new Date().getTime() }, '', queryParams);
     }
 
     this.informationModal.close();
