@@ -17,10 +17,6 @@ export default class MovieCard extends HTMLElement {
     return this.getAttribute("movieId");
   }
 
-  get genreId() {
-    return this.getAttribute("genreId");
-  }
-
   connectedCallback() {
     this.render();
     this.setEvent();
@@ -54,20 +50,18 @@ export default class MovieCard extends HTMLElement {
     this.addEventListener("click", () => {
       const $modal = $("movie-modal");
 
-      if (
-        this.movieTitle &&
-        this.rating &&
-        this.poster &&
-        this.movieId &&
-        this.genreId
-      ) {
+      if (this.movieTitle && this.movieId) {
         $modal?.setAttribute("movie-title", this.movieTitle);
-        $modal?.setAttribute("poster", this.poster);
-        $modal?.setAttribute("rating", this.rating);
-        $modal?.setAttribute("genre-id", this.genreId);
         $modal?.setAttribute("movie-id", this.movieId);
       }
       $modal?.classList.toggle("hidden");
+
+      this.dispatchEvent(
+        new CustomEvent("send-my-rating", {
+          bubbles: true,
+          detail: { movieId: this.movieId },
+        })
+      );
     });
   }
 

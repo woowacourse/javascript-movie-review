@@ -23,7 +23,6 @@ type movieInfo = {
   poster: string;
   rating: string;
   movieId: string;
-  genreId: string | null;
 };
 
 type movieListResponse = {

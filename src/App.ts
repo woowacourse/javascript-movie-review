@@ -59,6 +59,11 @@ export default class App {
       "set-my-rating",
       this.setMyRating as EventListener
     );
+
+    document.addEventListener(
+      "send-my-rating",
+      this.sendMyRating as EventListener
+    );
   }
 
   async appendMovieList() {
@@ -97,12 +102,22 @@ export default class App {
   };
 
   setMyRating = ({ detail }: CustomEvent) => {
-    const { movieId, myRating } = detail;
-    const element = this.#myRating.find((item) => item.movieId === movieId);
+    this.#myRating = this.#myRating.filter(
+      ({ movieId }) => movieId !== detail.movieId
+    );
+    this.#myRating.push({ movieId: detail.movieId, score: detail.myRating });
+  };
 
-    element
-      ? (element.score = myRating)
-      : this.#myRating.push({ movieId, score: myRating });
+  sendMyRating = ({ detail }: CustomEvent) => {
+    const targetObject = this.#myRating.find(
+      ({ movieId }) => movieId === detail.movieId
+    );
+    const $modal = $("movie-modal");
+    if (!targetObject) $modal?.setAttribute("my-rating", "0");
+    if (targetObject) {
+      console.log(targetObject);
+      $modal?.setAttribute("my-rating", String(targetObject.score));
+    }
   };
 
   async renderSearchedMovies() {
@@ -115,13 +130,12 @@ export default class App {
 
   getMovieListFromFetchedData(fetchedData: movieListResponse) {
     return fetchedData.results.map((item: movieData) => {
-      const { title, poster_path, vote_average, id, genre_ids } = item;
+      const { title, poster_path, vote_average, id } = item;
       return {
         title,
         poster: poster_path,
         rating: vote_average,
         movieId: id,
-        genreId: genre_ids.join(","),
       };
     });
   }
