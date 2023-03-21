@@ -1,4 +1,4 @@
-import { Movie } from "../type/movie";
+import MovieInfo from "../type/MovieInfo";
 import Storage from "../type/Storage";
 
 const getPopularMovieRequestUrl = (page = 1) => (
@@ -11,7 +11,7 @@ const getSearchMovieUrl = (query: string, page = 1) => (
 
 class MovieListManager {
   private query: string = "";
-  private list: Movie[] = [];
+  private list: MovieInfo[] = [];
   private currentPage: number = 1;
   private lastPage = false;
   private storage: Storage;

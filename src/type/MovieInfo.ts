@@ -1,4 +1,4 @@
-interface Movie {
+interface MovieInfo {
   id: string;
   poster_path: string;
   title: string;
@@ -6,4 +6,4 @@ interface Movie {
   overview: string;
 }
 
-export default Movie;
+export default MovieInfo;
