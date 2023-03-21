@@ -80,8 +80,6 @@ export class MovieList {
       console.error(e);
       const error = e as Error | MoviesErrorResponse;
       this.createSkeletons();
-      const $popup = document.createElement('div');
-      $popup.classList.add('popup');
 
       const errorMessage = 'message' in error ? error.message : String(error);
       Toast.create(errorMessage);
