@@ -126,15 +126,6 @@ button.primary {
   border-radius: 8px;
 }
 
-.item-card .skeleton:has(img.loading) {
-  opacity: 0.5;
-}
-
-.item-card .skeleton img {
-  z-index: 0;
-  opacity: initial;
-}
-
 @keyframes skeleton-animation {
   0% {
     background-position: 0% 50%;
