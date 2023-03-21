@@ -53,8 +53,9 @@ export function deleteSkeleton() {
 }
 
 export async function renderMovieList(results: MovieInterface[]) {
-  const parentElem = $('.item-list') as HTMLElement;
+  toggleMoreButton(results);
 
+  const parentElem = $('.item-list') as HTMLElement;
   parentElem.innerHTML = `
     ${results.map((movie) => MovieItem(movie)).join('')}
     `;
