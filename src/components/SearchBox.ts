@@ -1,3 +1,4 @@
+import { KEYWORD } from "../constants/keyword";
 import { $ } from "../utils/selector";
 
 export default class SearchBox {
@@ -6,7 +7,7 @@ export default class SearchBox {
   constructor() {
     this.render();
     this.handleEvent();
-    this._keyword = "";
+    this._keyword = KEYWORD.BLANK;
   }
 
   create() {
@@ -51,6 +52,6 @@ export default class SearchBox {
 
   resetInput() {
     const inputBox = $(".search-input") as HTMLInputElement;
-    inputBox.value = "";
+    inputBox.value = KEYWORD.BLANK;
   }
 }

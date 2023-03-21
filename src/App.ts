@@ -8,6 +8,8 @@ import MoreButton from "./components/moreButton";
 import { MovieItem } from "./components/MovieItem";
 import MovieItemList from "./components/MovieItemList";
 import SearchBox from "./components/SearchBox";
+import { DATA } from "./constants/data";
+import { KEYWORD } from "./constants/keyword";
 import MovieDataManager from "./domain/MovieDataManager";
 import { $ } from "./utils/selector";
 
@@ -27,7 +29,7 @@ export const App = async () => {
 
   const renderMovieList = async () => {
     movieItemList.renderTitle(movieDataManager.getTitle());
-    const response = await movieDataManager.getData("");
+    const response = await movieDataManager.getData(KEYWORD.BLANK);
     checkIsLastData(response);
     const movieDatas = response?.results;
     const movieItems = generateMovieItemElement(movieDatas);
@@ -57,11 +59,11 @@ export const App = async () => {
   };
 
   const renderMovies = async () => {
-    if (movieDataManager.getCurrentTab() === "popular") {
+    if (movieDataManager.getCurrentTab() === CurrentTab.POPULAR) {
       await renderMovieList();
       return;
     }
-    if (movieDataManager.getCurrentTab() === "search") {
+    if (movieDataManager.getCurrentTab() === CurrentTab.SEARCH) {
       await renderSearchList();
       return;
     }
@@ -72,7 +74,7 @@ export const App = async () => {
   };
 
   const checkIsEmptyData = (results: TotalMovieInfoType[]) => {
-    if (movieDataManager.checkDataAmount(results) === 0) {
+    if (movieDataManager.checkDataAmount(results) === DATA.EMPTY) {
       moreButton.hide();
       movieItemList.renderNoData();
       return true;
@@ -80,7 +82,7 @@ export const App = async () => {
   };
 
   const checkKeywordEmpty = () => {
-    if (searchBox.getKeyword() === "") {
+    if (searchBox.getKeyword() === KEYWORD.BLANK) {
       moreButton.hide();
       movieItemList.renderNoData();
       return true;
