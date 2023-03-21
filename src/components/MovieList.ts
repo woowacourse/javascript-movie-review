@@ -1,10 +1,8 @@
 import MovieCard from './MovieCard';
-
-import MovieHandler from '../domain/MovieHandler';
-
 import errorImg from '../assets/error.jpg';
 import { Movie } from '../type/Movie';
 import { Component } from '../type/Component';
+import { popularMovieDataFetchFuncGenerator, searchedMovieDataFetchFuncGenerator } from '../api/get';
 
 type options = 'popular' | 'search';
 
@@ -25,12 +23,20 @@ export default class MovieList implements Component {
   $element;
   #getMovieMetaData;
 
-  constructor($parent: Element, getMovieMetaData: () => Promise<any>) {
+  constructor($parent: Element) {
     this.$element = document.createElement('section');
     this.$element.className = 'item-view';
-    this.#getMovieMetaData = getMovieMetaData;
+    this.#getMovieMetaData = popularMovieDataFetchFuncGenerator();
 
     $parent.insertAdjacentElement('beforeend', this.$element);
+  }
+
+  setPopularMovieDataFetchFunc() {
+    this.#getMovieMetaData = popularMovieDataFetchFuncGenerator();
+  }
+
+  setSearchedMovieDataFetchFunc(query: string) {
+    this.#getMovieMetaData = searchedMovieDataFetchFuncGenerator(query);
   }
 
   render(query?: string) {
@@ -48,7 +54,7 @@ export default class MovieList implements Component {
     <button id="more-button" class="btn primary full-width">더 보기</button>`;
   }
 
-  async renderMovieCards(movieList: Movie[]) {
+  renderMovieCards(movieList: Movie[]) {
     const $itemList = <HTMLUListElement>this.$element.querySelector('.item-list');
     const $tempList = document.createElement('ul');
     $tempList.replaceChildren(...$itemList.childNodes);
@@ -92,22 +98,20 @@ export default class MovieList implements Component {
 
   async load() {
     this.showSkeletonList();
-    const { moviesData, page, totalPages, errorCode } = await this.#getMovieMetaData();
+    const data = await this.#getMovieMetaData();
 
-    if (errorCode) {
+    if (!data.isSuccess) {
       this.hideSkeletonList();
-      this.$element.innerHTML = ERROR_TEMPLATE(errorCode);
+      this.$element.innerHTML = ERROR_TEMPLATE(data.errorCode);
 
       return;
     }
 
-    const movieList = MovieHandler.convertMovieList(moviesData);
-
-    this.judgeButtonState(page, totalPages);
+    this.judgeButtonState(data.page, data.totalPages);
 
     this.hideSkeletonList();
 
-    this.renderMovieCards(movieList);
+    this.renderMovieCards(data.movieList);
   }
 
   judgeButtonState(page: number, totalPages: number) {
