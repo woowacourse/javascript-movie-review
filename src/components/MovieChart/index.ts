@@ -1,14 +1,14 @@
-import { assemble, Event, useEffect } from '../../core';
+import { assemble, Event } from '../../core';
 import { $, getElement } from './../../utils/common/domHelper';
 import { MovieListComponent, SkeletonMovieListComponent } from './action';
 import { useMovieChart } from '../../hooks/useMovieChart';
 import { LAST_PAGE, NO_RESULT } from '../../constants';
 
-interface MovieChart {
+export interface MovieChartProps {
   keyword: string;
 }
 
-const MovieChart = assemble<MovieChart>(({ keyword }) => {
+const MovieChart = assemble<MovieChartProps>(({ keyword }) => {
   const { chartInfo, movieList, isLoading, fetchMore } = useMovieChart(keyword);
 
   const $events: Event[] = [
@@ -19,6 +19,8 @@ const MovieChart = assemble<MovieChart>(({ keyword }) => {
       },
     },
   ];
+
+  const needMoreBtn = Boolean(chartInfo?.page !== LAST_PAGE && movieList.length);
   const $template = getElement(`
     <main>
       <section class="item-view">
@@ -39,7 +41,7 @@ const MovieChart = assemble<MovieChart>(({ keyword }) => {
           }
         </div>
         ${
-          chartInfo?.page !== LAST_PAGE
+          needMoreBtn
             ? `<button class="btn primary full-width">
                 더 보기
               </button>`

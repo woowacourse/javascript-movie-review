@@ -1,5 +1,7 @@
+import { replaceComponent } from './../utils/common/domHelper';
 import { Props, UnPack } from '../types/common';
 import { debounce } from '../utils/common/debounce';
+import { $ } from '../utils/common/domHelper';
 
 export interface EventCallback {
   (e: HTMLElementEventMap[keyof HTMLElementEventMap]): void;
@@ -14,13 +16,16 @@ export interface Effect {
   deps: unknown[];
 }
 
+export type HydrateTarget = [string, Element | null];
+
 interface Options<T = unknown> {
   currentStateKey: number;
   currentEffectsKey: number;
   states: T[];
   events: Event[];
   effects: Effect[];
-  root: null | Element;
+  hydrateList: HydrateTarget[];
+  root: Element | null;
   rootComponent: null | ((props: Props<{}>) => Element | null);
 }
 
@@ -37,6 +42,7 @@ function Core() {
     states: [],
     events: [],
     effects: [],
+    hydrateList: [],
     root: null,
     rootComponent: null,
   };
@@ -79,9 +85,11 @@ function Core() {
     if (!root || !component) return;
     root.innerHTML = '';
     root.appendChild(component);
+    _hydrate();
+
     options.currentStateKey = 0;
     options.currentEffectsKey = 0;
-
+    options.hydrateList = [];
     options.events = [];
   });
 
@@ -91,10 +99,20 @@ function Core() {
     _render();
   }
 
-  return { useState, useEffect, render };
+  function absorb(target: string, component: Element | null) {
+    options.hydrateList.push([target, component]);
+  }
+
+  function _hydrate() {
+    options.hydrateList.reverse().forEach(([target, component]) => {
+      replaceComponent($(target), component);
+    });
+  }
+
+  return { useState, useEffect, render, absorb };
 }
 
-export const { useState, useEffect, render } = Core();
+export const { useState, useEffect, render, absorb } = Core();
 
 export const addEvent = ({ $element, event, callback }: { $element: Element } & Event) => {
   $element.addEventListener(event, callback);

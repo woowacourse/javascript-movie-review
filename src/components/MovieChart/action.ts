@@ -1,23 +1,14 @@
-import { debounce } from './../../utils/common/debounce';
-import { $, replaceComponent } from './../../utils/common/domHelper';
 import { MovieList, MovieListProps } from '../MovieList';
 import { SkeletonMovieList } from '../SkeletonMovieList';
+import { absorb } from '../../core';
 
 const MovieChartActions = () => {
   const MovieListComponent = (props: MovieListProps) => {
-    return (
-      debounce(() => {
-        replaceComponent($(`#MovieList`), MovieList(props));
-      })() && ''
-    );
+    absorb('#MovieList', MovieList(props));
   };
 
   const SkeletonMovieListComponent = () => {
-    return (
-      debounce(() => {
-        replaceComponent($(`#SkeletonList`), SkeletonMovieList({}));
-      })() && ''
-    );
+    absorb('#SkeletonList', SkeletonMovieList({}));
   };
   return { MovieListComponent, SkeletonMovieListComponent };
 };

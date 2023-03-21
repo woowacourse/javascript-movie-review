@@ -1,23 +1,14 @@
-import { $, replaceComponent } from '../../utils/common/domHelper';
+import { absorb } from '../../core';
 import { Header, HeaderProps } from '../Header';
-import { MovieChart } from '../MovieChart';
-import { debounce } from './../../utils/common/debounce';
+import { MovieChart, MovieChartProps } from '../MovieChart';
 
 const AppActions = () => {
   const HeaderComponent = (props: HeaderProps) => {
-    return (
-      debounce(() => {
-        replaceComponent($('#Header'), Header(props));
-      })() && ''
-    );
+    absorb('#Header', Header(props));
   };
 
-  const MovieChartComponent = (props?: any) => {
-    return (
-      debounce(() => {
-        replaceComponent($('#MovieChart'), MovieChart(props));
-      })() && ''
-    );
+  const MovieChartComponent = (props: MovieChartProps) => {
+    absorb('#MovieChart', MovieChart(props));
   };
 
   return { HeaderComponent, MovieChartComponent };
