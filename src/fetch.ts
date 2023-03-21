@@ -6,7 +6,8 @@ const fetchData = async (url: string) => {
     if (response.ok) {
       const result = await response.json();
       return result;
-    } else {
+    }
+    if (response.text) {
       const message = await response.text();
       throw new Error(message);
     }
