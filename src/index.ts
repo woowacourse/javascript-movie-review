@@ -2,15 +2,17 @@ import './style/reset';
 import './style/common';
 import Header from './components/Header';
 import MovieList from './components/MovieList';
-import { getPopularMovies } from './service/movie';
+import { getPopularMovies, searchMovies } from './service/movie';
 import { Movie } from './service/types';
 
 interface Store {
   keyword: string;
+  page: number;
 }
 
 export const Store: Store = {
   keyword: '',
+  page: 1,
 };
 
 class App {
@@ -29,7 +31,7 @@ class App {
       this.movieList.removeSkeleton.bind(this.movieList),
       this.onSubmitSearch.bind(this),
     );
-    this.movieList.bindEvent();
+    this.movieList.bindEvent(() => getPopularMovies({ page: Store.page }));
 
     this.movieList.showSkeleton();
     const { results, total_pages } = await getPopularMovies({ page: 1 });
@@ -38,11 +40,17 @@ class App {
   }
 
   onSubmitSearch(results: Movie[], totalPages: number) {
-    this.movieList.renderMode = 'search';
+    Store.page = 1;
     this.movieList.removeMovieCards();
 
     this.movieList.renderTitle(`"${Store.keyword}" 검색결과`);
     this.movieList.renderMovieCards(results, totalPages);
+    this.movieList.bindEvent(() =>
+      searchMovies({
+        page: Store.page,
+        query: Store.keyword,
+      }),
+    );
   }
 }
 

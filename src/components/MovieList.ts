@@ -1,10 +1,9 @@
 import { Store } from '..';
 import { getPopularMovies, searchMovies } from '../service/movie';
-import { Movie } from '../service/types';
+import { Movie, MoviesResponse } from '../service/types';
 import MovieCard from './MovieCard';
 
 export default class MovieList {
-  page: number;
   $parent: HTMLElement;
   renderMode: 'popular' | 'search';
   $title: HTMLHeadElement;
@@ -14,7 +13,6 @@ export default class MovieList {
   $skeletonDiv: HTMLDivElement;
 
   constructor($parent: HTMLElement) {
-    this.page = 1;
     this.$parent = $parent;
     this.renderMode = 'popular';
 
@@ -57,26 +55,13 @@ export default class MovieList {
     `;
   }
 
-  bindEvent() {
+  bindEvent(getMovieRequest: () => Promise<MoviesResponse>) {
     const handleMoreMovieButton = async () => {
-      this.page += 1;
-
-      if (this.renderMode === 'popular') {
-        this.showSkeleton();
-        const { results, total_pages } = await getPopularMovies({ page: this.page });
-        this.removeSkeleton();
-        this.renderMovieCards(results, total_pages);
-      }
-
-      if (this.renderMode === 'search') {
-        this.showSkeleton();
-        const { results, total_pages } = await searchMovies({
-          page: this.page,
-          query: Store.keyword,
-        });
-        this.removeSkeleton();
-        this.renderMovieCards(results, total_pages);
-      }
+      Store.page += 1;
+      this.showSkeleton();
+      const { results, total_pages } = await getMovieRequest();
+      this.removeSkeleton();
+      this.renderMovieCards(results, total_pages);
     };
 
     this.$moreMovieButton?.addEventListener('click', handleMoreMovieButton);
@@ -91,8 +76,8 @@ export default class MovieList {
       new MovieCard(this.$movieItemList, movie);
     });
 
-    this.$moreMovieButton.style.display = totalPages > this.page ? 'block' : 'none';
-    this.$lastPageNotify.style.display = totalPages > this.page ? 'none' : 'block';
+    this.$moreMovieButton.style.display = totalPages > Store.page ? 'block' : 'none';
+    this.$lastPageNotify.style.display = totalPages > Store.page ? 'none' : 'block';
   }
 
   removeMovieCards() {
