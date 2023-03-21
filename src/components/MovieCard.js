@@ -1,4 +1,5 @@
 import starFilled from '../assets/star_filled';
+import cron from '../assets/cron';
 
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
 
@@ -15,6 +16,7 @@ export default class MovieCard {
               src="${IMAGE_BASE}${poster_path}"
               loading="lazy"
               alt="${title}"
+              onerror="this.src='${cron}';"
             />
             <p class="item-title">${title}</p>
             <p class="item-score"><img src="${starFilled}" alt="별점" /> ${vote_average}</p>
