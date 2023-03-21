@@ -19,7 +19,7 @@ class Header {
 
   template() {
     return `
-    <h1 class="logo"><img src=${Logo} alt="MovieList 로고" /></h1>
+    <h1 class="logo"><a><img src=${Logo} alt="MovieList 로고" /></a></h1>
     <form class="search-box">
       <input class="search-input" type="text" placeholder="검색" />
       <button class="search-button">검색</button>
@@ -50,6 +50,7 @@ class Header {
 
       const searchValue = searchInput.value;
       renderMovieList("search", searchValue);
+      searchInput.blur();
     });
 
     if ($logo) {
