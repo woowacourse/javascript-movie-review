@@ -22,8 +22,10 @@ class MovieList {
     return `
         <section class="item-view">
           <h2 class="search-title"></h2>
-          <ul class="item-list"></ul>
-          <ul class="skeleton-container"></ul>
+          <div class="list-container">
+            <ul class="item-list"></ul>
+            <ul class="skeleton-container"></ul>
+          </div>
           <button class="more btn primary full-width">더 보기</button>
         </section>
       `;
