@@ -1,3 +1,13 @@
+export enum REQUEST_MOVIES {
+  POPULARITY = 'popularity',
+  SEARCH = 'search',
+}
+
+export enum UPDATE_TYPE {
+  OVERWRITE = 'overwrite',
+  APPEND = 'append',
+}
+
 export enum IMAGE_URL {
   BASE = 'https://image.tmdb.org/t/p/original',
   ALTERNATIVE = './assets/no_image.png',
