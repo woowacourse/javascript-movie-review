@@ -4,7 +4,7 @@ import MovieFetcher from './domains/MovieFetcher';
 import LoadMoreButton from './components/LoadMoreButton';
 import errorItem from './components/errorItem';
 import handleError from './handleError';
-import { REQUEST_MOVIES, UPDATE_TYPE } from './constants/constants';
+import { MOVIE_LIST_TITLE, REQUEST_MOVIES, UPDATE_TYPE } from './constants/constants';
 import MovieListAndButtonContainer from './components/MovieListAndButtonContainer';
 
 class App {
@@ -20,7 +20,7 @@ class App {
     this.header.render();
 
     this.movieListAndButtonContainer.renderMovieListTitle(
-      this.movieList.getListTitleTemplate('Popular movies'),
+      this.movieList.getListTitleTemplate(MOVIE_LIST_TITLE.POPULARITY),
     );
     this.fetchAndUpdateMovieList(REQUEST_MOVIES.POPULARITY, UPDATE_TYPE.OVERWRITE);
     this.movieListAndButtonContainer.renderLoadMoreButton(this.loadMoreButton.getTemplate());
@@ -33,17 +33,21 @@ class App {
     if (updateType === UPDATE_TYPE.OVERWRITE) this.movieFetcher.resetPage();
     if (updateType === UPDATE_TYPE.APPEND) this.movieFetcher.increasePage();
 
+    this.movieList.renderSkeletonItems();
+
     const { result, fetchStatus, movieList, isLastPage } =
       requestListType === REQUEST_MOVIES.POPULARITY
         ? await this.movieFetcher.getMovieFetchResult()
         : await this.movieFetcher.getMovieFetchResult(keyword);
+
+    this.movieList.removeSkeletonItems();
 
     if (handleError(result, fetchStatus)) return;
 
     if (!movieList) return;
 
     if (requestListType === REQUEST_MOVIES.SEARCH) {
-      this.movieList.setTitle(`Search Results of "${keyword}"`);
+      this.movieList.setTitle(MOVIE_LIST_TITLE.SEARCH(keyword));
       this.requestListType = requestListType;
     }
 

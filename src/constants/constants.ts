@@ -23,3 +23,8 @@ export const API_URL = {
     return `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY}&language=en-US&query=${keyword}&page=${currentPage}&include_adult=false`;
   },
 };
+
+export const MOVIE_LIST_TITLE = {
+  POPULARITY: 'Popular movies',
+  SEARCH: (keyword: string) => `Search Results of "${keyword}"`,
+};
