@@ -10,26 +10,30 @@ class Header {
     onClickLogoImage: () => void
   ) {
     this.#$target = $target;
-
     this.render();
 
-    $(".search-box")?.addEventListener("submit", (event: Event) => {
-      event.preventDefault();
+    const $searchBox = $(".search-box");
+    if ($searchBox) {
+      $searchBox.addEventListener("submit", (event: Event) => {
+        event.preventDefault();
 
-      const $searchInput = $(".search-input");
+        const $searchInput = $(".search-input");
 
-      if ($searchInput === null) return;
+        if ($searchInput === null) return;
 
-      if ($searchInput instanceof HTMLInputElement) {
-        const inputValue = $searchInput.value;
+        if ($searchInput instanceof HTMLInputElement) {
+          const inputValue = $searchInput.value;
 
-        if (inputValue === "") return alert("검색값을 입력해주세요.");
+          if (inputValue === "") return alert("검색값을 입력해주세요.");
 
-        onSubmitSearchKeyword(inputValue);
-      }
+          onSubmitSearchKeyword(inputValue);
+        }
 
-      if (event.target instanceof HTMLFormElement) event.target.reset();
-    });
+        if (event.target instanceof HTMLFormElement) event.target.reset();
+      });
+    } else {
+      console.error("생성된 요소가 없습니다.");
+    }
 
     $(".logo")?.addEventListener("click", onClickLogoImage);
   }
