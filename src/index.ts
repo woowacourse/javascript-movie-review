@@ -10,7 +10,7 @@ const client = new TMDBClient({
 });
 
 function assignMovieList(movieList: MovieList) {
-  document.querySelector('main')!.replaceChildren(movieList.render());
+  document.querySelector('main')!.replaceChildren(movieList.getRoot());
 }
 
 assignMovieList(

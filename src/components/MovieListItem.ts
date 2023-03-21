@@ -2,10 +2,10 @@ import { Movie } from '../domain/movie.type';
 import { OfPromise, Subject } from '../states/Subject';
 
 class MovieListItem {
-  private element = document.createElement('li');
+  private $root = document.createElement('li');
 
   constructor(private readonly movie: Subject<OfPromise<Movie | null>>) {
-    this.element.innerHTML = `
+    this.$root.innerHTML = `
       <a href="#">
         <div class="item-card">
           <div class="item-thumbnail skeleton"></div>
@@ -26,19 +26,23 @@ class MovieListItem {
     });
   }
 
+  getRoot() {
+    return this.$root;
+  }
+
   onFulfilledButNull() {
-    this.element.remove();
+    this.$root.remove();
   }
 
   onFulfilled(movie: Movie) {
-    this.element.querySelector('.item-thumbnail')!.innerHTML = `
+    this.$root.querySelector('.item-thumbnail')!.innerHTML = `
       <img
         class="loading"
         src="https://image.tmdb.org/t/p/w220_and_h330_face${movie.posterPath}"
         alt="${movie.title}"
       />
     `.trim();
-    this.element
+    this.$root
       .querySelector<HTMLImageElement>('.item-thumbnail > img')!
       .addEventListener('load', (event) => {
         if (event.target instanceof HTMLImageElement) {
@@ -46,15 +50,11 @@ class MovieListItem {
         }
       });
 
-    this.element.querySelector<HTMLParagraphElement>('.item-title')!.innerText = movie.title;
+    this.$root.querySelector<HTMLParagraphElement>('.item-title')!.innerText = movie.title;
 
-    this.element.querySelector<HTMLParagraphElement>('.item-score')!.innerHTML = `
+    this.$root.querySelector<HTMLParagraphElement>('.item-score')!.innerHTML = `
       <img src="assets/star_filled.png" alt="별점" /> ${movie.voteAverage}
     `.trim();
-  }
-
-  render() {
-    return this.element;
   }
 }
 

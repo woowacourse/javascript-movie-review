@@ -1,25 +1,25 @@
 export class Toast {
-  private element = document.createElement('div');
+  private $root = document.createElement('div');
 
   constructor(private readonly message: string) {
-    this.element.innerText = this.message;
-    this.element.classList.add('toast');
+    this.$root.innerText = this.message;
+    this.$root.classList.add('toast');
 
     setTimeout(() => {
-      this.element.classList.add('fade-out');
+      this.$root.classList.add('fade-out');
       setTimeout(() => {
-        this.element.remove();
+        this.$root.remove();
       }, 1000);
     }, 5000);
   }
 
-  static create(message: string) {
-    const toast = new Toast(message);
-    document.querySelector('#toast-container')!.append(toast.render());
-    return toast;
+  getRoot() {
+    return this.$root;
   }
 
-  render() {
-    return this.element;
+  static create(message: string) {
+    const toast = new Toast(message);
+    document.querySelector('#toast-container')!.append(toast.getRoot());
+    return toast;
   }
 }
