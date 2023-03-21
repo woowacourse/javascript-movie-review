@@ -1,4 +1,20 @@
+import MovieHandler from '../domain/MovieHandler';
+import { Movie } from '../type/Movie';
+
 const BASE_URL = 'https://api.themoviedb.org/3';
+
+export interface MovieAPIMetadata {
+  page: number;
+  results: MovieAPIData[];
+  total_pages: number;
+  total_results: number;
+}
+
+export interface FailedResponse {
+  success: boolean;
+  status_code: number;
+  status_message: string;
+}
 
 export interface MovieAPIData {
   adult: boolean;
@@ -17,6 +33,18 @@ export interface MovieAPIData {
   vote_count: number;
 }
 
+export interface MovieMetaData {
+  isSuccess: true;
+  movieList: Movie[];
+  page: number;
+  totalPages: number;
+}
+
+export interface FailedFetchingData {
+  isSuccess: false;
+  errorCode: number;
+  errorMessage: string;
+}
 export const popularMovieDataFetchFuncGenerator = () => {
   let currentPage = 1;
 
@@ -24,10 +52,30 @@ export const popularMovieDataFetchFuncGenerator = () => {
     const url = `
     ${BASE_URL}/movie/popular?api_key=${process.env.API_KEY}&language=ko-KR&page=${currentPage}`;
 
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      const result: FailedResponse = await response.json();
+      const data: FailedFetchingData = {
+        isSuccess: false,
+        errorCode: result.status_code,
+        errorMessage: result.status_message,
+      };
+
+      return data;
+    }
+
     currentPage += 1;
 
-    const data = await fetch(url);
-    return data.json();
+    const result: MovieAPIMetadata = await response.json();
+    const data: MovieMetaData = {
+      isSuccess: true,
+      movieList: MovieHandler.convertMovieList(result.results),
+      page: result.page,
+      totalPages: result.total_pages,
+    };
+
+    return data;
   };
 
   return getPopularMovieData;
@@ -40,11 +88,30 @@ export const searchedMovieDataFetchFuncGenerator = (query: string) => {
     const url = `
     ${BASE_URL}/search/movie?api_key=${process.env.API_KEY}&language=ko-KR&page=${currentPage}&query=${query}`;
 
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      const result: FailedResponse = await response.json();
+      const data: FailedFetchingData = {
+        isSuccess: false,
+        errorCode: result.status_code,
+        errorMessage: result.status_message,
+      };
+
+      return data;
+    }
+
     currentPage += 1;
 
-    const data = await fetch(url);
+    const result: MovieAPIMetadata = await response.json();
+    const data: MovieMetaData = {
+      isSuccess: true,
+      movieList: MovieHandler.convertMovieList(result.results),
+      page: result.page,
+      totalPages: result.total_pages,
+    };
 
-    return data.json();
+    return data;
   };
 
   return getSearchedMovieData;
