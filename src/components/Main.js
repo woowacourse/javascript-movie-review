@@ -30,7 +30,7 @@ class Main {
   }
 
   async render () {
-    const movie = new Movie();
+    //const movie = new Movie();
     const query = this.#manager.getQuery();
 
     if (query === '' && !this.#manager.getMovieList().length) {
@@ -55,7 +55,7 @@ class Main {
       movieListFragment.appendChild(noSearchResult);
     }
 
-    movieList.forEach((movieInfo) => movieListFragment.appendChild(movie.makeNode(movieInfo)));
+    movieList.forEach((movieInfo) => movieListFragment.appendChild(new Movie({ movie: movieInfo, myScore: '0' }).render()));
 
     this.#list.appendChild(movieListFragment);
 
