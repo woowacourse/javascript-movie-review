@@ -1,4 +1,4 @@
-import { getSearchResult } from "./api/keywordSearch";
+import { getCurrentResult } from "./api/keywordSearch";
 import { getPopularMovie } from "./api/movieList";
 import MovieItemList from "./components/MovieItemList";
 import SearchBox from "./components/SearchBox";
@@ -7,24 +7,19 @@ import { generateElement } from "./domain/MovieDataManager";
 export const App = async () => {
   const searchBox = SearchBox();
 
-  const getPopularMovieInfo = getPopularMovie();
-  const getCurrentPagePopularMovie = async () => {
-    return await getPopularMovieInfo();
-  };
-
-  const currentPagePopularMovieData = await getCurrentPagePopularMovie();
+  let popularMovieCurrentPage = 1;
+  const currentPagePopularMovieData = await getPopularMovie(
+    popularMovieCurrentPage
+  );
   if (!currentPagePopularMovieData) return;
 
-  const result = currentPagePopularMovieData?.data.results;
-  const totalPages = currentPagePopularMovieData?.data.total_pages;
+  const { results, total_pages } = currentPagePopularMovieData?.data;
+  popularMovieCurrentPage = currentPagePopularMovieData.currentPage;
 
-  const movieElement = generateElement(result);
-  const movieItemList = MovieItemList(totalPages);
+  const movieElement = generateElement(results);
+  const movieItemList = MovieItemList(total_pages, "POPULAR");
 
-  movieItemList.addMovies(
-    movieElement,
-    currentPagePopularMovieData.currentPage
-  );
+  movieItemList.addMovies(movieElement, popularMovieCurrentPage);
 
   const searchInput = document.querySelector(".search-input");
   searchInput?.addEventListener("searchButtonClicked", async (e: Event) => {
@@ -36,46 +31,46 @@ export const App = async () => {
   });
 
   const showMovieList = async () => {
-    const getSearchMoiveInfo = getSearchResult();
+    let searchMovieCurrentPage = 1;
 
-    const getCurrentSearchMovieInfo = async (keyword: string) => {
-      return await getSearchMoiveInfo(keyword);
-    };
-
-    const currentSearchMovieData = await getCurrentSearchMovieInfo(
-      searchBox.getKeyword()
+    const currentSearchMovieData = await getCurrentResult(
+      searchBox.getKeyword(),
+      searchMovieCurrentPage
     );
     if (!currentSearchMovieData) return;
 
-    const result = currentSearchMovieData?.data.results;
-    const totalPages = currentSearchMovieData?.data.total_pages;
-    const currentPage = currentSearchMovieData.currentPage;
+    const { results, total_pages } = currentSearchMovieData?.data;
+    searchMovieCurrentPage = currentSearchMovieData.currentPage;
 
-    const searchResultElement = generateElement(result);
-
-    const movieItemList = MovieItemList(totalPages);
-    movieItemList.addMovies(searchResultElement, currentPage);
+    const searchResultElement = generateElement(results);
+    const movieItemList = MovieItemList(total_pages, "SEARCH");
+    movieItemList.addMovies(searchResultElement, searchMovieCurrentPage);
 
     document.querySelector(".primary")?.addEventListener("click", async () => {
-      const currentSearchMovieData = await getCurrentSearchMovieInfo(
-        searchBox.getKeyword()
+      const currentSearchMovieData = await getCurrentResult(
+        searchBox.getKeyword(),
+        searchMovieCurrentPage
       );
+
       if (!currentSearchMovieData) return;
       const result = currentSearchMovieData?.data.results;
-      const currentPage = currentSearchMovieData.currentPage;
-      const searchResultElement = generateElement(result);
+      searchMovieCurrentPage = currentSearchMovieData.currentPage;
 
-      movieItemList.addMovies(searchResultElement, currentPage);
+      const searchResultElement = generateElement(result);
+      movieItemList.addMovies(searchResultElement, searchMovieCurrentPage);
     });
   };
 
   document.querySelector(".primary")?.addEventListener("click", async () => {
-    const currentPagePopularMovieData = await getCurrentPagePopularMovie();
+    const currentPagePopularMovieData = await getPopularMovie(
+      popularMovieCurrentPage
+    );
     if (!currentPagePopularMovieData) return;
 
-    const result = await currentPagePopularMovieData?.data.results;
+    const { results } = currentPagePopularMovieData?.data;
+    popularMovieCurrentPage = currentPagePopularMovieData.currentPage;
 
-    const movieElement = generateElement(result);
+    const movieElement = generateElement(results);
 
     movieItemList.addMovies(
       movieElement,
