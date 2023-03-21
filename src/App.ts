@@ -33,6 +33,7 @@ export const App = async () => {
     movieItems?.map((movie: string) => {
       movieItemList.addMovies(movie);
     });
+    moreButton.show();
   };
 
   const renderSearchList = async () => {
@@ -45,6 +46,7 @@ export const App = async () => {
     movieItems?.map((movie: string) => {
       movieItemList.addMovies(movie);
     });
+    moreButton.show();
   };
 
   const renderMovies = async () => {
@@ -71,7 +73,7 @@ export const App = async () => {
 
   document
     .querySelector(".search-input")
-    ?.addEventListener("searchButtonClicked", (e) => {
+    ?.addEventListener("searchInputChange", (e) => {
       movieDataManager.convertTab(CurrentTab.SEARCH);
       renderMovies();
     });
