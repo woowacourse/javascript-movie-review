@@ -7,12 +7,18 @@ const skeletonTemplate = () => `
 `;
 
 const commonTemplate = ({ title, vote_average, poster_path }) => `
-  <img
-    class="item-thumbnail"
-    src="https://image.tmdb.org/t/p/w500/${poster_path}"
-    loading="lazy"
-    alt="${title}"
-    />
+  ${
+    poster_path
+      ? `<img
+        class="item-thumbnail skeleton"
+        src="https://image.tmdb.org/t/p/w500/${poster_path}"
+        loading="lazy"
+        alt="${title}"
+      />`
+      : `<div class="item-thumbnail no-image">
+        <span>No Image</span>
+      </div>`
+  }
   <p class="item-title">${title}</p>
   <p class="item-score"><img src="${starFilled}" alt="별점" /> ${vote_average?.toFixed(1)}</p>
 `;
