@@ -1,6 +1,6 @@
 import { $ } from '../util/querySelector';
 import { MovieItem } from './MovieItem';
-import MovieSkeleton from './MovieSkeleton';
+import movieSkeleton from './MovieSkeleton';
 
 const SKELETON_ITEM_COUNT = 20;
 
@@ -28,7 +28,7 @@ class Main {
     $('ul', element).appendChild(document.createElement('div'));
 
     const skeletonElement = $('ul', element).lastElementChild;
-    skeletonElement.outerHTML = MovieSkeleton().repeat(SKELETON_ITEM_COUNT);
+    skeletonElement.outerHTML = movieSkeleton().repeat(SKELETON_ITEM_COUNT);
   }
 
   async render() {
