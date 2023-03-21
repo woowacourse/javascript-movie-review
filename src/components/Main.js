@@ -46,19 +46,24 @@ class Main {
 
     this.#element.innerHTML = `
     <h2>${query === '' ? '지금 인기 있는 영화' : `"${query}" 검색 결과`}</h2>
-    <ul class="item-list">
-    ${
-      movieListData.length
-        ? movieListData.map((movieInfo) => MovieItem(movieInfo)).join('\n')
-        : '<p>검색 결과가 없습니다.</p>'
-    }
-    </ul>
+    <ul class="item-list"> </ul>
     ${
       this.#manager.isLastPage()
         ? ''
         : '<button class="btn primary full-width">더 보기</button>'
     }
     `;
+
+    if (movieListData.length) {
+      movieListData.forEach((data) => {
+        MovieItem($('ul', this.#element), data);
+      });
+    } else {
+      const tempElement = document.createElement('div');
+      tempElement.className = 'temp';
+      $('ul.item-list').appendChild(tempElement);
+      $('.temp').outerHTML = '<p>검색 결과가 없습니다.</p>';
+    }
   }
 
   #requestMovieListEvent() {
