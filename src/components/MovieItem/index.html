@@ -25,15 +25,38 @@
   .item-score::after {
     margin-left: 8px;
   }
+
+  .item-card .skeleton {
+    background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+    background-size: 400%;
+    animation: skeleton-animation 5s infinite ease-out;
+    border-radius: 8px;
+  }
+
+  @keyframes skeleton-animation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .hidden {
+    display: none;
+  }
 </style>
 
 <li>
   <a href="#">
-    <div class="item-card">
+    <div class="item-card"> 
+      <div class="item-thumbnail skeleton"></div>
       <img
-        class="item-thumbnail"
+        class="item-thumbnail hidden"
         src="https://image.tmdb.org/t/p/w500{poster_path}"
-        loading="lazy"
         alt="{title}"
       />
       <p class="item-title">{title}</p>
