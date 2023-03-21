@@ -63,10 +63,15 @@ button {
   width: 180px;
   height: 270px;
   background-size: contain;
+  transition: all 300ms ease-out;
+}
+
+.item-thumbnail:hover {
+  transform: scale(1.1);
 }
 
 .item-title {
-  margin-top: 16px;
+  margin-top: 24px;
   font-size: 1.2rem;
   font-weight: bold;
 }
