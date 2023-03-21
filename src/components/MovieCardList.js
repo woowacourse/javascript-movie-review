@@ -20,12 +20,12 @@ export default class MovieCardList extends HTMLElement {
     if (null) return;
 
     this.#movieList = movieList;
-    const moreButton = $("more-button");
-    if (this.#movieList.length < 20) moreButton.style.display = "none";
+    const moreButtonElement = $("more-button");
+    if (this.#movieList.length < 20) moreButtonElement.style.display = "none";
 
-    const $movieList = $("#movie-list");
+    const movieListElement = $("#movie-list");
     this.#movieList.forEach((item) => {
-      $movieList.insertAdjacentHTML(
+      movieListElement.insertAdjacentHTML(
         "beforeend",
         `<movie-card title='${item.title}' poster='${item.poster}' rating='${item.rating}'></movie-card>`
       );
