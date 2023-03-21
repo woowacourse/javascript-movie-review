@@ -57,16 +57,16 @@ const MovieApp = {
 
       return movies;
     } catch (error) {
-      if (error instanceof Error) {
-        const errorData = JSON.parse(error.message);
-        const statusCode = errorData.status_code;
+      if (!(error instanceof Error)) throw error;
 
-        const message = statusCode
-          ? onHandleStatusError(statusCode)
-          : onHandleCatchError(error.message);
+      const errorData = JSON.parse(error.message);
+      const statusCode = errorData.status_code;
 
-        this.$container.displayErrorUI(message);
-      }
+      const message = statusCode
+        ? onHandleStatusError(statusCode)
+        : onHandleCatchError(error.message);
+
+      this.$container.displayErrorUI(message);
     }
   },
 
