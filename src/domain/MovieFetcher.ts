@@ -65,7 +65,7 @@ class MovieFetcher {
   processMovieData({ page, results, total_pages }: FetchedMovieJson): MovieItem[] {
     const movies: MovieItem[] = results.map(result => ({
       title: result.title,
-      posterPath: `${MOVIE_IMAGE_URL}${result.poster_path}`,
+      posterPath: `${MOVIE_IMAGE_URL}/${result.poster_path}`,
       voteAverage: result.vote_average,
     }));
 
