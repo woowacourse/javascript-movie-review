@@ -22,6 +22,7 @@ class Movie {
 
   constructor(info: PersonalMovieInfo) {
     this.info = info;
+    this.addClickEvent();
   }
 
   render() {
@@ -39,6 +40,15 @@ class Movie {
     posterImage.setAttribute('alt', `영화 ${title} 포스터 사진`);
 
     return this.element;
+  }
+
+  private addClickEvent() {
+    this.element.addEventListener('click', () => {
+      this.element.dispatchEvent(new CustomEvent('movieClick', {
+        bubbles: true,
+        detail: { info: this.info },
+      }));
+    });
   }
 }
 
