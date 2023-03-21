@@ -5,20 +5,25 @@ import LoadMoreButton from './components/LoadMoreButton';
 import errorItem from './components/errorItem';
 import handleError from './handleError';
 import { REQUEST_MOVIES, UPDATE_TYPE } from './constants/constants';
+import MovieListAndButtonContainer from './components/MovieListAndButtonContainer';
 
 class App {
   #header = new Header();
   #movieList = new MovieList();
   #movieFetcher = new MovieFetcher();
   #loadMoreButton = new LoadMoreButton();
+  #movieListAndButtonContainer = new MovieListAndButtonContainer();
   #requestListType = REQUEST_MOVIES.POPULARITY;
   #searchKeyword = '';
 
   constructor() {
     this.#header.render();
-    this.#movieList.renderListTitle('Popular movies');
+
+    this.#movieListAndButtonContainer.renderMovieListTitle(
+      this.#movieList.getListTitleTemplate('Popular movies'),
+    );
     this.fetchAndUpdateMovieList(REQUEST_MOVIES.POPULARITY, UPDATE_TYPE.OVERWRITE);
-    this.#loadMoreButton.render('Load More');
+    this.#movieListAndButtonContainer.renderLoadMoreButton(this.#loadMoreButton.getTemplate());
 
     this.#loadMoreButton.addClickEventHandler(this.onClickLoadMoreButton);
     this.#header.addSubmitEventHandler(this.onSubmitSearchForm);

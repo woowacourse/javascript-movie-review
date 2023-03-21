@@ -4,16 +4,14 @@ import movieItem from './movieItem';
 import skeletonItem from './skeletonItem';
 
 class MovieList {
-  renderListTitle(listTitle: string) {
-    const template = `
-      <h2>${listTitle}</h2>
+  getListTitleTemplate(listTitle: string) {
+    return `
+      <h2 id="movie-list-title">${listTitle}</h2>
       <ul class="item-list"></ul>`;
-
-    $('.item-view').insertAdjacentHTML('beforeend', template);
   }
 
   setTitle(listTitle: string) {
-    $('.item-view h2').textContent = listTitle;
+    $('#movie-list-title').textContent = listTitle;
   }
 
   renderSkeletonItems(count: number = 20) {

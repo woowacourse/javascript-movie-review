@@ -1,31 +1,33 @@
 import { $ } from '../utils/domSelector';
 
 class LoadMoreButton {
-  #element = document.createElement('button');
   #name = 'Load More';
 
-  render(name: string) {
-    const parentElement = $('.item-view');
-
-    this.#name = name;
-    this.#element.textContent = name;
-    this.#element.classList.add('btn', 'primary', 'full-width');
-
-    parentElement.appendChild(this.#element);
+  getTemplate() {
+    return `
+      <button type="submit" id="load-more-button" class="btn primary full-width">
+        ${this.#name}
+      </button>`;
   }
 
   enable() {
-    this.#element.disabled = false;
-    this.#element.textContent = this.#name;
+    const $loadMoreButton = $<HTMLButtonElement>('#load-more-button');
+
+    $loadMoreButton.disabled = false;
+    $loadMoreButton.textContent = this.#name;
   }
 
   disable() {
-    this.#element.disabled = true;
-    this.#element.textContent = 'There are no more movies to load.';
+    const $loadMoreButton = $<HTMLButtonElement>('#load-more-button');
+
+    $loadMoreButton.disabled = true;
+    $loadMoreButton.textContent = 'There are no more movies to load.';
   }
 
   addClickEventHandler(onClickLoadMoreButton: () => void) {
-    this.#element.addEventListener('click', () => {
+    const $loadMoreButton = $<HTMLButtonElement>('#load-more-button');
+
+    $loadMoreButton.addEventListener('click', () => {
       onClickLoadMoreButton();
     });
   }
