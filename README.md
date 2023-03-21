@@ -1,6 +1,6 @@
 # javascript-movie-review
 
-FE 5기 레벨1 영화관 미션
+🔥 FE 5기 레벨1 영화관 미션
 
 https://sh981013s.github.io/javascript-movie-review/
 
