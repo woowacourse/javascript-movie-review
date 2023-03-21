@@ -1,5 +1,4 @@
 import MovieManager from "../../domain/MovieManager";
-import { $ } from "../../util/dom";
 import CustomElement from "../basic/CustomElement";
 
 class MovieListSkeleton extends CustomElement {

@@ -6,7 +6,6 @@ class MovieManager {
   private subscribers: CustomElement[] = [];
   private skeletonSubscriber: CustomElement | undefined;
   private errorSubscriber: CustomElement | undefined;
-  private errorType: string = "";
 
   subscribe(element: CustomElement) {
     this.subscribers.push(element);
