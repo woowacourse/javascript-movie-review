@@ -1,11 +1,27 @@
 import FilledStar from '../assets/star_filled.png';
+import { Component } from '../type/Component';
 import { Movie } from '../type/Movie';
 
-const MovieCard = (movie: Movie) => {
-  const { id, title, poster_path, vote_average } = movie;
+export default class MovieCard implements Component {
+  $element: Element;
+  #movie: Movie;
 
-  return /* html */ `
-  <li id=${id}>
+  constructor($parent: Element, movie: Movie) {
+    this.$element = document.createElement('li');
+    this.$element.id = movie.id.toString();
+    this.#movie = movie;
+
+    $parent.insertAdjacentElement('beforeend', this.$element);
+  }
+
+  render() {
+    this.$element.innerHTML = this.template();
+  }
+
+  template() {
+    const { id, title, poster_path, vote_average } = this.#movie;
+
+    return /* html */ `
     <a href="#">
       <div class="item-card">
         <img
@@ -18,8 +34,6 @@ const MovieCard = (movie: Movie) => {
         <p class="item-score"><img src=${FilledStar} alt="별점" /> ${vote_average}</p>
       </div>
     </a>
-  </li>
-  `;
-};
-
-export default MovieCard;
+    `;
+  }
+}

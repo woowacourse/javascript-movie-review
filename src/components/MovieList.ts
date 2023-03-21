@@ -4,6 +4,7 @@ import MovieHandler from '../domain/MovieHandler';
 
 import errorImg from '../assets/error.jpg';
 import { Movie } from '../type/Movie';
+import { Component } from '../type/Component';
 
 type options = 'popular' | 'search';
 
@@ -13,14 +14,14 @@ const HEADER_TEMPLATE = {
 };
 
 const ERROR_TEMPLATE = (errorCode: number) => {
-  return `
+  return /* html */ `
   <div class="error-container">
     <h1>죄송합니다. 영화 목록을 불러올 수 없습니다. 관리자에게 문의하세요. (error code: ${errorCode})</h1>
     <img class="error-img" src=${errorImg} />
   </div>`;
 };
 
-export default class MovieList {
+export default class MovieList implements Component {
   $element;
   #getMovieMetaData;
 
@@ -32,14 +33,14 @@ export default class MovieList {
     $parent.insertAdjacentElement('beforeend', this.$element);
   }
 
-  render(option: options, query: string) {
-    this.$element.innerHTML = this.template(option, query);
+  render(query?: string) {
+    this.$element.innerHTML = this.template(query);
     this.setEvent();
   }
 
-  template(option: options, query: string) {
+  template(query?: string) {
     return /* html */ `
-    <h2>${option === 'popular' ? HEADER_TEMPLATE.POPULAR : HEADER_TEMPLATE.SEARCH(query)}</h2>     
+    <h2>${query ? HEADER_TEMPLATE.SEARCH(query) : HEADER_TEMPLATE.POPULAR}</h2>     
     <ul class="item-list"></ul> 
     <ul class="skeleton-item-list item-list hide">
       ${this.getSkeletonCardsHTML(20)}
@@ -47,16 +48,19 @@ export default class MovieList {
     <button id="more-button" class="btn primary full-width">더 보기</button>`;
   }
 
-  async renderMovieCards(movieListPromise: Movie[]) {
-    const movieList = await movieListPromise;
+  async renderMovieCards(movieList: Movie[]) {
+    const $itemList = <HTMLUListElement>this.$element.querySelector('.item-list');
+    const $tempList = document.createElement('ul');
+    $tempList.replaceChildren(...$itemList.childNodes);
 
-    const movieCardsHTML = movieList.reduce((html: string, movie: Movie) => {
-      const movieCard = MovieCard(movie);
+    const fragment = new DocumentFragment();
+    fragment.appendChild($tempList);
 
-      return html + movieCard;
-    }, '');
+    movieList.forEach((movie) => {
+      new MovieCard($tempList, movie).render();
+    });
 
-    (<HTMLUListElement>this.$element.querySelector('.item-list')).insertAdjacentHTML('beforeend', movieCardsHTML);
+    (<HTMLUListElement>this.$element.querySelector('.item-list')).replaceChildren(...$tempList.childNodes);
   }
 
   getSkeletonCardsHTML(count: number) {

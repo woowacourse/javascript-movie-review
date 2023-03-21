@@ -25,19 +25,19 @@ export default class App {
 
   initialRender() {
     this.#header.render();
-    this.#movieList.render('popular');
+    this.#movieList.render();
     this.#movieList.load();
   }
 
   renderPopularMovieList() {
     this.setPopularMovieDataFetchFunc();
-    this.#movieList.render('popular');
+    this.#movieList.render();
     this.#movieList.load();
   }
 
   renderSearchedMovieList(query) {
     this.setSearchedMovieDataFetchFunc(query);
-    this.#movieList.render('search', query);
+    this.#movieList.render(query);
     this.#movieList.load();
   }
 

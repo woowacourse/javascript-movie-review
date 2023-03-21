@@ -1,6 +1,7 @@
 import logo from '../assets/logo.png';
+import { Component } from '../type/Component';
 
-export default class Header {
+export default class Header implements Component {
   #renderer;
   $element;
 
@@ -41,7 +42,7 @@ export default class Header {
 
     const $form = <HTMLFormElement>e.target;
     const $query = <HTMLInputElement>$form.querySelector('input[name="query"]');
-    
+
     this.#renderer.searchedMovieList($query.value);
   }
 
