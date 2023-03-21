@@ -1,10 +1,12 @@
 import { TMDBClient } from './api/clients/TMDBClient';
+import { TMDBLanguage } from './api/clients/TMDBClient.type';
 import './assets/common.css';
 import { MovieList } from './components/MovieList';
 import { NewMovie } from './states/NewMovie';
 
 const client = new TMDBClient({
   apiKey: process.env.TMDB_API_KEY!,
+  language: navigator.language as TMDBLanguage,
 });
 
 function assignMovieList(movieList: MovieList) {
