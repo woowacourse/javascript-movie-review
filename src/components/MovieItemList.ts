@@ -29,8 +29,7 @@ export default class MovieItemList {
   }
 
   renderNoData() {
-    document.querySelector(
-      ".item-list"
-    )!.innerHTML = `<div class="empty-data">검색 결과가 존재하지 않습니다.</div>`;
+    const itemList = document.querySelector(".item-list") as HTMLElement;
+    itemList.innerHTML = `<div class="empty-data">검색 결과가 존재하지 않습니다.</div>`;
   }
 }
