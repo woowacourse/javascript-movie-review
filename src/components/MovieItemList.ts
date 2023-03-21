@@ -7,14 +7,13 @@ export default class MovieItemList {
 
   create() {
     return `<ul class="item-list"></ul>
-    ${moreButton()}
     `;
   }
 
-  addMovies(movieInfos: string) {
+  addMovies(movieElementString: string) {
     document
       .querySelector(".item-list")
-      ?.insertAdjacentHTML("beforeend", movieInfos);
+      ?.insertAdjacentHTML("beforeend", movieElementString);
   }
 
   render() {
