@@ -13,25 +13,24 @@ class Header {
     this.render();
 
     const $searchBox = $(".search-box");
-    if ($searchBox) {
-      $searchBox.addEventListener("submit", (event: Event) => {
-        event.preventDefault();
 
-        const $searchInput = $(".search-input");
-        if ($searchInput instanceof HTMLInputElement) {
-          const inputValue = $searchInput.value;
+    $searchBox.addEventListener("submit", (event: Event) => {
+      event.preventDefault();
 
-          if (inputValue === "") {
-            alert("검색값을 입력해주세요.");
-            return;
-          }
+      const $searchInput = $(".search-input");
+      if ($searchInput instanceof HTMLInputElement) {
+        const inputValue = $searchInput.value;
 
-          onSubmitSearchKeyword(inputValue);
+        if (inputValue === "") {
+          alert("검색값을 입력해주세요.");
+          return;
         }
 
-        if (event.target instanceof HTMLFormElement) event.target.reset();
-      });
-    }
+        onSubmitSearchKeyword(inputValue);
+      }
+
+      if (event.target instanceof HTMLFormElement) event.target.reset();
+    });
 
     $(".logo").addEventListener("click", onClickLogoImage);
   }
