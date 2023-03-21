@@ -71,7 +71,7 @@ movie-item {
 .item-thumbnail {
   border-radius: 8px;
   width: 200px;
-  height: 270px;
+  height: 300px;
   background-size: contain;
   cursor: pointer;
 }
@@ -231,10 +231,6 @@ header .search-box > .search-button {
     grid-column-gap: 50px;
   }
 
-  .item-thumbnail {
-    height: auto;
-  }
-
   header {
     min-width: 834px;
   }
@@ -258,6 +254,7 @@ header .search-box > .search-button {
 
   .item-thumbnail {
     width: 150px;
+    height: 225px;
   }
 
   .item-title {
