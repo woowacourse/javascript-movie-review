@@ -1,3 +1,4 @@
+import { $ } from "../../util/dom";
 import CustomElement from "../basic/CustomElement";
 
 class MovieItem extends CustomElement {
@@ -14,7 +15,7 @@ class MovieItem extends CustomElement {
       <a href="#">
         <div class="item-card">
           <img
-            class="item-thumbnail"
+            class="item-thumbnail skeleton"
             loading="lazy"
             src= ${img}
             alt=${title}
@@ -24,6 +25,13 @@ class MovieItem extends CustomElement {
         </div>
       </a>
   `;
+  }
+
+  setEvent() {
+    const image = $(".item-thumbnail");
+    image.addEventListener("load", () => {
+      image.classList.remove("skeleton");
+    });
   }
 }
 
