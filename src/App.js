@@ -25,30 +25,33 @@ class App {
         target[props] = value;
 
         switch (props) {
-          case 'nextPage':
+          case 'nextPage': {
             value === -1 ? this.moreButton.hide() : this.moreButton.show();
             break;
+          }
 
-          case 'query':
+          case 'query': {
             this.listTitle.render(this.$itemView);
             break;
+          }
 
-          case 'movies':
+          case 'movies': {
             this.itemList.render(this.$itemView);
             this.moreButton.render(this.$itemView);
             break;
+          }
 
-          case 'error':
+          case 'error': {
             const { isError, message } = value;
 
             if (isError === false) break;
 
             this.$itemView.innerHTML = WholeScreenMessageAlert(message);
             break;
+          }
+
           default:
         }
-
-        return true;
       },
     });
 
