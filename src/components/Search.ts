@@ -19,10 +19,10 @@ export function Search() {
     setRecentKeyword(searchedKeyword);
 
     const {
-      handlers: { handlePageHeader, handleSearchResult },
+      handlers: { handlePageTitle, handleSearchResult },
     } = await useSearchedMovie(searchedKeyword, getPage());
 
-    handlePageHeader();
+    handlePageTitle();
     handleSearchResult();
   });
 
