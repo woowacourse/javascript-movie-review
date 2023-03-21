@@ -3,6 +3,7 @@
 }
 
 body {
+  width: 100%;
   font-size: 14px;
   background-color: #222222;
   color: #fff;
@@ -33,7 +34,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  width: 80%;
   margin: 0 auto;
 }
 
@@ -50,7 +51,7 @@ button {
   margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
   grid-column-gap: 160px;
-  grid-row-gap: 48px;
+  grid-row-gap: 4rem;
 }
 
 .item-card {
@@ -92,7 +93,7 @@ show-more-button {
 }
 
 .button-width {
-  width: 30%;
+  width: 40%;
 }
 
 .last-item {
@@ -102,7 +103,7 @@ show-more-button {
 button.btn {
   border: 0;
   border-radius: 8px;
-  height: 30px;
+  height: 40px;
   color: #fff;
 }
 
@@ -130,7 +131,6 @@ button.primary {
 }
 movie-head {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -179,4 +179,20 @@ movie-head .search-box > label > .search-button {
 
 .error > p {
   font-size: 20px;
+}
+
+@media (min-width: 320px) {
+  .item-view h2 {
+    font-size: 1.5rem;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(2, 140px);
+    grid-column-gap: 36px;
+  }
+
+  .item-thumbnail {
+    width: 140px;
+    height: 220px;
+  }
 }
