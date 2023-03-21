@@ -3,7 +3,7 @@ import MovieListItem from './MovieListItem';
 import { Toast } from './Toast';
 
 export class MovieList {
-  private $root = document.createElement('section');
+  private readonly $root = document.createElement('section');
 
   constructor(private readonly title: string, private readonly newMovie: NewMovie) {
     this.$root.classList.add('item-view');

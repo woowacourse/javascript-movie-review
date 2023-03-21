@@ -2,7 +2,7 @@ import { Movie } from '../domain/movie.type';
 import { OfPromise, Subject } from '../states/Subject';
 
 class MovieListItem {
-  private $root = document.createElement('li');
+  private readonly $root = document.createElement('li');
 
   constructor(private readonly movie: Subject<OfPromise<Movie | null>>) {
     this.$root.innerHTML = `

@@ -1,5 +1,5 @@
 export class Toast {
-  private $root = document.createElement('div');
+  private readonly $root = document.createElement('div');
 
   constructor(private readonly message: string) {
     this.$root.innerText = this.message;
