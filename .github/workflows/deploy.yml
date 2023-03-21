@@ -11,6 +11,7 @@ jobs:
       contents: write
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
 
     steps:
       - uses: actions/checkout@v3
@@ -25,7 +26,13 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - run: npm ci
+
+      - run: |
+          echo "MOVIE_API_KEY=$MOVIE_API_KEY" >> .env
+        env:
+          MOVIE_API_KEY: ${{ secrets.MOVIE_API_KEY }}
+      
+      - run: npm ci 
         if: steps.cache.outputs.cache-hit != 'true'
 
       - run: npm run build
