@@ -123,7 +123,16 @@ button.primary {
     background-position: 0% 50%;
   }
 }
-header {
+
+.text-subtitle {
+  padding-top: 15px;
+
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 600;
+}
+
+movie-head {
   width: 100%;
   min-width: 1200px;
   height: 72px;
@@ -136,7 +145,7 @@ header {
   margin-bottom: 48px;
 }
 
-header h1 {
+movie-head h1 {
   cursor: pointer;
   user-select: none;
   font-size: 2rem;
@@ -145,20 +154,20 @@ header h1 {
   color: #f33f3f;
 }
 
-header > .search-box {
+movie-head > .search-box {
   background: #fff;
   padding: 8px;
   border-radius: 4px;
 }
 
-header .search-box > input {
+movie-head .search-box > input {
   border: 0;
 }
 
-header .search-box > .search-button {
+movie-head .search-box > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
-  background: url("./search_button.png") transparent no-repeat 0 1px;
+  background: url("../image/search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
 }
