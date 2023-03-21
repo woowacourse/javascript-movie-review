@@ -38,10 +38,7 @@ class App {
   setStoreMovieState() {
     const movieStateProxy = new Proxy<any>(initialMovieStats, {
       set: (target, props, value) => {
-        if (props === 'query' && target['query'] !== value) {
-          this.skeleton.attachSkeleton();
-          this.movieList.removeCurentCategory();
-        }
+        if (props === 'query' && target['query'] !== value) this.skeletonRenderAndClearMovieList();
 
         target[props] = value;
 
@@ -59,19 +56,12 @@ class App {
           }
 
           case 'results': {
-            if (!this.movieList || !this.moreButton) break;
-
-            this.skeleton.removeSkeleton();
-            this.movieList.render(this.$itemView);
-            this.moreButton.render(this.$itemView);
+            this.movieListRender();
             break;
           }
 
           case 'error': {
-            if (!value.length) break;
-
-            this.$itemView.innerHTML = '';
-            this.$itemView.insertAdjacentElement('beforeend', WholeScreenMessageAlert(value));
+            this.apiErrorRender(value);
             break;
           }
           default:
@@ -88,6 +78,26 @@ class App {
     this.listTitle.render(this.$itemView);
     this.skeleton.attachSkeleton();
     Store.get('movieStates')?.renderPopularMovies();
+  }
+
+  skeletonRenderAndClearMovieList() {
+    this.skeleton.attachSkeleton();
+    this.movieList.removeCurentCategory();
+  }
+
+  movieListRender() {
+    if (!this.movieList || !this.moreButton) return;
+
+    this.skeleton.removeSkeleton();
+    this.movieList.render(this.$itemView);
+    this.moreButton.render(this.$itemView);
+  }
+
+  apiErrorRender(value: any) {
+    if (!value.length) return;
+
+    this.$itemView.innerHTML = '';
+    this.$itemView.insertAdjacentElement('beforeend', WholeScreenMessageAlert(value));
   }
 }
 
