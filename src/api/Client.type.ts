@@ -8,6 +8,7 @@ export type HTTPStatusFailure = Exclude<HTTPStatus, HTTPStatusOK>;
 
 export type HTTPResponse<Status extends HTTPStatus = HTTPStatus, Data = any> = {
   status: Status;
+  ok: boolean;
   data: Data;
 };
 

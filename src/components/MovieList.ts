@@ -1,5 +1,6 @@
 import { NewMovie } from '../states/NewMovie';
 import MovieListItem from './MovieListItem';
+import { Toast } from './Toast';
 
 export class MovieList {
   private section = document.createElement('section');
@@ -20,6 +21,8 @@ export class MovieList {
     this.newMovie.subscribe((movieSubject) => {
       this.section.querySelector('ul')!.append(new MovieListItem(movieSubject).render());
     });
+
+    this.newMovie.subscribeError((error) => Toast.create(error.message));
 
     this.newMovie.fetchNextPage().then(() => this.nextPage());
   }

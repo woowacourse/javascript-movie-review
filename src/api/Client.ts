@@ -5,11 +5,16 @@ import {
   GetPath,
   GetSuccess,
   HTTPResponse,
-  HTTPStatus,
 } from './Client.type';
 
 export abstract class Client<GenericAPISpec extends APISpec> {
   constructor(protected readonly base: string) {}
+
+  isSuccess<GenericHTTPResponse extends HTTPResponse>(
+    response: GenericHTTPResponse,
+  ): response is GetSuccess<GenericHTTPResponse> {
+    return response.ok;
+  }
 
   getURL(path: string): URL {
     return new URL(path, this.base);
@@ -18,22 +23,19 @@ export abstract class Client<GenericAPISpec extends APISpec> {
   async fetch<GenericHTTPResponse extends HTTPResponse>(
     url: URL,
     init?: RequestInit,
-  ): Promise<GetSuccess<GenericHTTPResponse>> {
+  ): Promise<GenericHTTPResponse> {
     const res = await fetch(url, init);
-    const response = {
-      status: res.status as HTTPStatus,
+    return {
+      status: res.status,
+      ok: res.ok,
       data: await res.json(),
-    } satisfies HTTPResponse;
-
-    if (!res.ok) throw response;
-
-    return response as GetSuccess<HTTPResponse>;
+    } as GenericHTTPResponse;
   }
 
   async get<GETAPISpec extends ExtractByHTTPMethod<GenericAPISpec, 'GET'>>(
     path: GetPath<GETAPISpec>,
     params?: GetParams<GETAPISpec>,
-  ): Promise<GetSuccess<GETAPISpec['response']>> {
+  ): Promise<GETAPISpec['response']> {
     const url = this.getURL(path);
     Object.entries(params ?? {}).forEach(([key, value]) =>
       url.searchParams.set(key, String(value)),
@@ -45,7 +47,7 @@ export abstract class Client<GenericAPISpec extends APISpec> {
   async post<POSTAPISpec extends ExtractByHTTPMethod<GenericAPISpec, 'POST'>>(
     path: GetPath<POSTAPISpec>,
     init?: Omit<RequestInit, 'method'>,
-  ): Promise<GetSuccess<POSTAPISpec['response']>> {
+  ): Promise<POSTAPISpec['response']> {
     const url = this.getURL(path);
 
     return this.fetch(url, { method: 'POST', ...init });
@@ -54,7 +56,7 @@ export abstract class Client<GenericAPISpec extends APISpec> {
   async put<PUTAPISpec extends ExtractByHTTPMethod<GenericAPISpec, 'PUT'>>(
     path: GetPath<PUTAPISpec>,
     init?: Omit<RequestInit, 'method'>,
-  ): Promise<GetSuccess<PUTAPISpec['response']>> {
+  ): Promise<PUTAPISpec['response']> {
     const url = this.getURL(path);
 
     return this.fetch(url, { method: 'PUT', ...init });

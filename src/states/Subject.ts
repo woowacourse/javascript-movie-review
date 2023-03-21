@@ -1,22 +1,20 @@
 export type Subscriber<State> = (state: State) => void;
 
-export type OfPromise<Resolved, Rejected = unknown> =
+export type OfPromise<Resolved> =
   | {
       state: 'pending';
     }
   | {
       state: 'fulfilled';
       resolved: Resolved;
-    }
-  | {
-      state: 'rejected';
-      rejected: Rejected;
     };
 
-export class Subject<State> {
+export class Subject<State, GenericError extends Error = Error> {
   protected state: State | null = null;
 
   protected subscribers: Subscriber<State>[] = [];
+
+  protected errorSubscribers: Subscriber<GenericError>[] = [];
 
   subscribe(subscriber: Subscriber<State>) {
     if (this.state !== null) {
@@ -30,10 +28,18 @@ export class Subject<State> {
     this.state = state;
   }
 
-  static ofPromise<Resolved, Rejected = unknown>(
+  error(error: GenericError) {
+    this.errorSubscribers.forEach((subscriber) => subscriber(error));
+  }
+
+  subscribeError(subscriber: Subscriber<GenericError>) {
+    this.errorSubscribers.push(subscriber);
+  }
+
+  static ofPromise<Resolved, Rejected extends Error = Error>(
     promise: Promise<Resolved>,
-  ): Subject<OfPromise<Resolved, Rejected>> {
-    const subject = new Subject<OfPromise<Resolved, Rejected>>();
+  ): Subject<OfPromise<Resolved>, Rejected> {
+    const subject = new Subject<OfPromise<Resolved>, Rejected>();
     subject.next({
       state: 'pending',
     });
@@ -45,12 +51,7 @@ export class Subject<State> {
           resolved,
         }),
       )
-      .catch((rejected) =>
-        subject.next({
-          state: 'rejected',
-          rejected,
-        }),
-      );
+      .catch((rejected) => subject.error(rejected));
 
     return subject;
   }

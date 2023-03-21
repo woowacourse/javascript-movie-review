@@ -23,7 +23,11 @@ export class NewMovie extends Subject<Subject<OfPromise<Movie | null>>> {
     const promises = [...Array(20)].map(
       (_, index) =>
         new Promise<Movie | null>((resolve) => {
-          promise.then((response) => resolve(response.movies[index] ?? null));
+          promise
+            .then((response) => resolve(response.movies[index] ?? null))
+            .catch(() => {
+              /* Supress Exception */
+            });
         }),
     );
 
@@ -32,9 +36,15 @@ export class NewMovie extends Subject<Subject<OfPromise<Movie | null>>> {
       this.next(movieSubject);
     });
 
-    const { totalPages } = await promise;
-    if (page >= totalPages) {
-      this.isFinished = true;
+    try {
+      const { totalPages } = await promise;
+
+      if (page >= totalPages) {
+        this.isFinished = true;
+      }
+    } catch (e) {
+      const error = e as Error;
+      this.error(error);
     }
   }
 }
