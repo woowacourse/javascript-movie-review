@@ -1,8 +1,9 @@
 import { getApiPopularMovie, getApiSearchMovie } from './api';
-import { MovieListApiType, MovieItemType } from '../type/movie';
+import { MovieItemType } from '../type/movie';
 import { ERROR_MESSAGE } from '../constant';
 
 import Observable from './Observable';
+import alertFetchStatus from '../validation/alertFetchStatus';
 
 class Movies extends Observable {
   private popularPage = 1;
@@ -42,8 +43,10 @@ class Movies extends Observable {
   async setMovies() {
     this.notify('loading');
 
-    const fetchingData = await getApiPopularMovie(this.popularPage);
-    const popularMovies: MovieListApiType = await fetchingData?.json();
+    const { movieList, status } = await getApiPopularMovie(this.popularPage);
+    const popularMovies = movieList;
+
+    if (alertFetchStatus(status)) return;
 
     setTimeout(() => {
       if (popularMovies === undefined) window.alert(ERROR_MESSAGE.unableAccess);
@@ -70,8 +73,13 @@ class Movies extends Observable {
     if (this.query !== query) this.searchPage = 1;
     this.query = query;
 
-    const fetchingData = await getApiSearchMovie(query, this.searchPage);
-    const searchMovies: MovieListApiType = await fetchingData?.json();
+    const { movieList, status } = await getApiSearchMovie(
+      query,
+      this.searchPage
+    );
+    const searchMovies = movieList;
+
+    if (alertFetchStatus(status)) return;
 
     setTimeout(() => {
       if (searchMovies === undefined) window.alert(ERROR_MESSAGE.unableAccess);

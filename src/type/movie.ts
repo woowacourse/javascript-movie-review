@@ -29,12 +29,12 @@ export type MovieItemType = {
   vote_average: number;
 };
 
+export type FetchingMovieType = {
+  movieList: MovieListApiType;
+  status: number;
+};
+
 export type MovieSubscriberType = {
   movies: ((value?: MovieItemType[]) => void)[];
   loading: (() => void)[];
-};
-
-export type FetchingMovieType = {
-  fetchingData: Promise<string>;
-  status: number;
 };
