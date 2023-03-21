@@ -1,7 +1,7 @@
 import { IMAGE_URL } from '../constants/constants';
 
 const errorItem = (result: string, status?: number) => {
-  const imageUrl = result === 'LAST_PAGE' ? IMAGE_URL.NO_RESULT : IMAGE_URL.ERROR_RESULT;
+  const imageUrl = result === 'FETCH_FAIL' ? IMAGE_URL.ERROR_RESULT : IMAGE_URL.NO_RESULT;
 
   return `
     <div id="error-item">
