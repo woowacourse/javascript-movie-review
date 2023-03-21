@@ -42,9 +42,8 @@ class Movies extends Observable {
   async setMovies() {
     this.notify('loading');
 
-    const popularMovies = await getApiPopularMovie<MovieListApiType>(
-      this.popularPage
-    );
+    const fetchingData = await getApiPopularMovie(this.popularPage);
+    const popularMovies: MovieListApiType = await fetchingData?.json();
 
     setTimeout(() => {
       if (popularMovies === undefined) window.alert(ERROR_MESSAGE.unableAccess);
@@ -71,16 +70,14 @@ class Movies extends Observable {
     if (this.query !== query) this.searchPage = 1;
     this.query = query;
 
-    const searchMovies = await getApiSearchMovie<MovieListApiType>(
-      query,
-      this.searchPage
-    );
+    const fetchingData = await getApiSearchMovie(query, this.searchPage);
+    const searchMovies: MovieListApiType = await fetchingData?.json();
 
     setTimeout(() => {
       if (searchMovies === undefined) window.alert(ERROR_MESSAGE.unableAccess);
     }, 3000);
 
-    const refineMovies = searchMovies?.results.map(
+    const refineMovies = searchMovies?.results?.map(
       ({ id, poster_path, title, vote_average }: MovieItemType) => {
         return { id, poster_path, title, vote_average };
       }
