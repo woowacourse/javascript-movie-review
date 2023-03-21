@@ -203,10 +203,11 @@ header .search-box > .search-button {
 
 #no-result {
   line-height: 2;
+  padding: 0 20px;
 }
 
 #no-result > h2 {
-  margin: 40px 0 32px;
+  margin: 50px 0 32px;
 }
 
 #no-result > p {
@@ -231,6 +232,10 @@ header .search-box > .search-button {
     grid-column-gap: 50px;
   }
 
+  #no-result {
+    padding: 0 30px;
+  }
+
   header {
     min-width: 834px;
   }
@@ -243,7 +248,7 @@ header .search-box > .search-button {
   }
 
   .item-view h2 {
-    padding-left: 25px;
+    padding-left: 20px;
   }
 
   .item-list {
@@ -266,12 +271,33 @@ header .search-box > .search-button {
     font-size: 16px;
   }
 
+  #no-result > h2 {
+    padding: 0;
+  }
+
   header {
     min-width: 390px;
     margin-bottom: 40px;
   }
 
-  header .search-box > input {
-    display: none;
+  #logo {
+    position: absolute;
+    top: 26px;
+    z-index: 0;
+  }
+
+  header > .search-box {
+    z-index: 1;
+  }
+
+  header .search-input {
+    width: 0;
+    opacity: 0;
+    transition: all 0.8s ease;
+  }
+
+  header .search-input.extended {
+    width: 312px;
+    opacity: 1;
   }
 }

@@ -3,8 +3,8 @@ import "./css/common.css";
 import Header from "./components/Header";
 import MovieList from "./components/MovieList";
 import NoResultsMessage from "./components/NoResultsMessage";
-import { movieApi } from "./domain/movieApi";
 import Skeleton from "./components/Skeleton";
+import { movieApi } from "./domain/movieApi";
 
 movieApi.showMovies();
 
