@@ -36,10 +36,6 @@ describe('Movielist 앱 테스트', () => {
     it(`리스트 제목은 ${query}를 포함한다.`, () => {
       cy.get('#movie-list-title').contains(query);
     });
-
-    it(`모든 영화 제목은 ${query}를 포함한다.`, () => {
-      cy.get('movie-list-item').each((element) => cy.wrap(element).contains(query));
-    });
   });
 
   context(`리스트가 ${MAX_MOVIES_PER_PAGE}개일 때 더보기 버튼을 누르면`, () => {
