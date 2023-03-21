@@ -2,7 +2,7 @@ import { fetchMovies } from './fetch';
 import { Movie, MovieList } from './types';
 
 class Store {
-  movieList: Movie[];
+  movieList: readonly Movie[];
   page: number;
   totalPage: number;
   searchWord: string;

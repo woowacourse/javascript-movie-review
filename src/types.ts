@@ -22,7 +22,7 @@ export interface Movie {
 }
 
 export interface MovieList {
-  movies: Movie[];
+  movies: readonly Movie[];
   totalPages: number;
 }
 

@@ -16,16 +16,16 @@ export class MovieList extends HTMLElement {
     $<HTMLHeadingElement>('.title', this).innerText = title;
   }
 
-  renderMovies(movieList: Movie[]) {
+  renderMovies(movieList: readonly Movie[]) {
     this.insertMovieList(movieList);
   }
 
-  renderSearchedMovies(movieList: Movie[]) {
+  renderSearchedMovies(movieList: readonly Movie[]) {
     this.$movieItems.replaceChildren();
     this.insertMovieList(movieList);
   }
 
-  insertMovieList(movieList: Movie[]) {
+  insertMovieList(movieList: readonly Movie[]) {
     if (movieList.length === 0) {
       this.$movieItems.insertAdjacentHTML(
         'beforeend',
