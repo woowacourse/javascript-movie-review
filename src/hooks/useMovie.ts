@@ -1,26 +1,38 @@
 import { renderSearchMovieList, renderMoreMovieList } from '../components/MovieList';
 import { $ } from '../utils';
-import { getMovies, getSearchMovie } from '../api';
+import { getMovies, getSearchMovie, IMovieList } from '../api';
+import { PAGE_TITLE } from '../constants/constants';
+/*
+interface RequestedInfo {
+  requestedPage: number;
+  keyword?: string;
+}
 
-const movieList = [];
+type Values = Pick<IMovieList, 'page' | 'results'>
+interface Handlers {
+  handlePageTitle: () => void;
+  handleNextPage: () => void;
+  handleSearchResult: () => void;
+}
+interface ResponseInfo {
+  values: Values,
+  handlers: {}
+}
+*/
+// type TMovieFunction = (info: RequestedInfo) =>
 
 export async function usePopularMovie(requestedPage: number) {
   const popularMovieResponse = await getMovies(requestedPage);
   const { page, results } = popularMovieResponse;
-  movieList.push(results);
 
-  function handlePageHeader() {
-    const $pageHeader = $('.page-header') as HTMLElement;
-    $pageHeader.innerText = '지금 인기 있는 영화';
-  }
-
-  function handleMoreMovieList() {
-    renderMoreMovieList(results);
+  async function handleNextPage() {
+    const { results } = await getMovies(page + 1);
+    return results;
   }
 
   return {
     values: { page, results },
-    handlers: { handlePageHeader, handleMoreMovieList },
+    handlers: { handleNextPage },
   };
 }
 
@@ -34,21 +46,16 @@ export async function useSearchedMovie(keyword: string, requestedPage: number) {
     $viewMoreButton.style.display = 'none';
   }
 
-  function handlePageHeader() {
-    const $pageHeader = $('.page-header') as HTMLElement;
-    $pageHeader.innerText = `"${keyword}" 검색 결과`;
-  }
-
   function handleSearchResult() {
     renderSearchMovieList(results);
   }
 
-  function handleMoreMovieList() {
+  function handleNextPage() {
     renderMoreMovieList(results);
   }
 
   return {
     values: { page, results },
-    handlers: { handlePageHeader, handleSearchResult, handleMoreMovieList },
+    handlers: { handleSearchResult, handleNextPage },
   };
 }

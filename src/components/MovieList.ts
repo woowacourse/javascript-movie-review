@@ -1,10 +1,25 @@
 import { IMovie } from '../api';
-import { MovieItem } from './MovieItem';
-import { usePopularMovie, useSearchedMovie } from '../hooks/useMovie';
+
 import { $, $$ } from '../utils';
-import { MovieListSkeleton } from './MovieListSkeleton';
-import { getPage, getPageStatus, POPULAR } from '../hooks/usePage';
+
+import { usePopularMovie, useSearchedMovie } from '../hooks/useMovie';
+import { getPage, getPageStatus, POPULAR, SEARCH } from '../hooks/usePage';
 import { getRecentKeyword } from '../hooks/useKeyword';
+
+import { MovieListSkeleton } from './MovieListSkeleton';
+import { MovieItem } from './MovieItem';
+import { PAGE_TITLE } from '../constants/constants';
+
+export function renderPageTitle(keyword?: string | undefined) {
+  const $pageTitle = $('.page-title') as HTMLElement;
+
+  if (getPageStatus() === SEARCH && keyword) {
+    $pageTitle.innerText = PAGE_TITLE.showSearchResult(keyword);
+    return;
+  }
+
+  $pageTitle.innerText = PAGE_TITLE.POPULAR_NOW;
+}
 
 export async function renderSkeletonList() {
   const parentElem = $('.item-list') as HTMLElement;
@@ -25,12 +40,14 @@ export async function renderMoreSkeletonList() {
     } = await usePopularMovie(getPage() + 1);
     renderMoreMovieList(results);
     deleteSkeletonList();
-  } else {
-    await useSearchedMovie(getRecentKeyword(), getPage() + 1).then(({ values }) => {
-      renderMoreMovieList(values.results);
-      deleteSkeletonList();
-    });
+
+    return;
   }
+
+  await useSearchedMovie(getRecentKeyword(), getPage() + 1).then(({ values }) => {
+    renderMoreMovieList(values.results);
+    deleteSkeletonList();
+  });
 }
 
 export function deleteSkeletonList() {
@@ -40,6 +57,8 @@ export function deleteSkeletonList() {
 }
 
 export async function renderPopularMovieList(results: IMovie[]) {
+  renderPageTitle();
+
   const parentElem = $('.item-list') as HTMLElement;
 
   parentElem.innerHTML = `
@@ -49,6 +68,7 @@ export async function renderPopularMovieList(results: IMovie[]) {
 }
 
 export async function renderSearchMovieList(searchResults: IMovie[]) {
+  renderPageTitle(getRecentKeyword());
   const parentElem = $('.item-list') as HTMLElement;
 
   parentElem.innerHTML =

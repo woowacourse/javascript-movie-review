@@ -1,5 +1,6 @@
 import { setRecentKeyword } from '../hooks/useKeyword';
 import { useSearchedMovie } from '../hooks/useMovie';
+
 import { getPage, getPageStatus, POPULAR, resetPage, togglePageStatus } from '../hooks/usePage';
 import { getFormFields } from '../utils/formData';
 import { $, Event } from '../utils/index';
@@ -19,16 +20,15 @@ export function Search() {
     setRecentKeyword(searchedKeyword);
 
     const {
-      handlers: { handlePageTitle, handleSearchResult },
+      handlers: { handleSearchResult },
     } = await useSearchedMovie(searchedKeyword, getPage());
 
-    handlePageTitle();
     handleSearchResult();
   });
 
   return `
         <form class="search-box">
-            <input type="text" placeholder="검색" name="keyword"/>
+            <input type="text" placeholder="검색" name="keyword" required/>
             <button type="submit" class="search-button">검색</button>
         </form>
      `;

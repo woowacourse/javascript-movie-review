@@ -5,7 +5,7 @@ import { $, Event } from '../utils/index';
 import { Search } from './Search';
 
 export function Header() {
-  Event.addEvent('click', '#home-logo', async () => {
+  Event.addEvent('click', '#home-logo', () => {
     window.location.href = '/';
   });
 
