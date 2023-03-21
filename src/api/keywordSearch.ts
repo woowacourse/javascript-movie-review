@@ -1,4 +1,4 @@
-//const BASE_URL = "https://api.themoviedb.org/3";
+const BASE_URL = "https://api.themoviedb.org/3";
 
 export const getCurrentResult = async (
   keyword: string,
@@ -7,7 +7,7 @@ export const getCurrentResult = async (
   try {
     console.log(process.env.BASE_URL);
     const response = await fetch(
-      `${process.env.BASE_URL}/search/movie?api_key=${process.env.API_KEY}&query=${keyword}&page=${currentPage}`
+      `${BASE_URL}/search/movie?api_key=${process.env.API_KEY}&query=${keyword}&page=${currentPage}`
     );
     const data = await response.json();
     currentPage++;
