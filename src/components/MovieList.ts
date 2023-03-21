@@ -1,6 +1,7 @@
 import { TMDBErrorResponse, TMDBResponse } from '../MovieAPI';
 import { Movie } from '../movies.type';
 import store from '../store';
+import { getLocalStorage } from '../util/LocalStorage';
 import DetailModal from './DetailModal';
 import ErrorPopup from './ErrorPopup';
 import MovieListItem from './MovieListItem';
@@ -19,21 +20,14 @@ export class MovieList {
     this.section.classList.add('item-view');
     this.section.innerHTML = `
       <h2>${this.title}</h2>
-      <ul class="item-list"><hr></ul>
-      <button class="btn primary full-width">더 보기</button>
+      <ul class="item-list"></ul>
       <h3>결과가 없습니다</h3>
     `;
     this.init();
-
-    this.section.querySelector('button')?.addEventListener('click', (event) => {
-      this.nextPage();
-    });
   }
 
   async init() {
     await this.nextPage();
-    this.createSkeletons();
-    this.load();
     this.showModal();
   }
 
@@ -112,19 +106,8 @@ export class MovieList {
       });
   }
 
-  private reveal() {
-    const $hr = this.section.querySelector('ul > hr')!;
-
-    const $anchor: HTMLElement = Array(20)
-      .fill(undefined)
-      .reduce((acc) => acc?.nextSibling ?? acc, $hr);
-
-    $anchor?.after($hr);
-  }
-
   async nextPage() {
     this.createSkeletons();
-    this.reveal();
     await this.load();
   }
 
@@ -132,10 +115,12 @@ export class MovieList {
     document.querySelector('.item-view')?.addEventListener('click', (e) => {
       const id = (e.target as HTMLLIElement).closest('.item-card')?.id;
       if (id) {
-        const detailModal = new DetailModal(store.getMovie(Number(id))!);
-
-        detailModal.addEvent();
+        const rate = getLocalStorage(String(id));
+        return typeof rate === 'object'
+          ? new DetailModal(store.getMovie(Number(id))!)
+          : new DetailModal(store.getMovie(Number(id))!, rate);
       }
+      return null;
     });
   }
 }

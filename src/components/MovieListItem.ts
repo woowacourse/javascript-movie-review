@@ -9,7 +9,7 @@ class MovieListItem {
     <a>
       <div class="item-card" id="${movie.id}">
         <img
-          class="item-thumbnail"
+          class="item-thumbnail skeleton"
           src="https://image.tmdb.org/t/p/w220_and_h330_face${movie.poster_path}"
           loading="lazy"
           alt="${movie.title}"

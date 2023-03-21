@@ -5,7 +5,7 @@ import { setLocalStorage } from '../util/LocalStorage';
 
 /* eslint camelcase: ["error", {ignoreDestructuring: true}] */
 class DetailModal {
-  constructor(private readonly movie: Movie) {
+  constructor(private readonly movie: Movie, private readonly rate?: string) {
     this.init();
   }
 
@@ -13,7 +13,7 @@ class DetailModal {
       <div class="modal"> 
           <div class="modal-backdrop"></div>
           <div class="modal-container" id="${id}">
-              <p class="modal-title">${title} <button class="modal-button">hi</button></p>
+              <p class="modal-title">${title} <button class="close-button"></button></p>
               <div class="modal-card">
                   <img
                     class="modal-thumbnail"
@@ -56,10 +56,18 @@ class DetailModal {
 
   init() {
     this.render(this.movie);
+    this.addEvent();
   }
 
   render(movie: Movie) {
     document.querySelector('main')?.insertAdjacentHTML('afterend', this.template(movie));
+    if (this.rate) {
+      (document.querySelector('.star span') as HTMLImageElement).style.width = `${
+        Number(this.rate) * 10
+      }%`;
+      (document.querySelector('.rating-text') as HTMLParagraphElement).textContent =
+        this.ratingText(this.rate);
+    }
   }
 
   addEvent() {
@@ -71,25 +79,26 @@ class DetailModal {
       (starSpan as HTMLImageElement).style.width = `${
         Number((starInput as HTMLInputElement).value) * 10
       }%`;
-      setLocalStorage(
-        String(this.movie.id),
-        JSON.stringify((document.querySelector('.star input') as HTMLInputElement)?.value),
-      );
-
+      this.saveRate();
       (document.querySelector('.rating-text') as HTMLParagraphElement).textContent =
-        this.ratingText();
+        this.ratingText((document.querySelector('.star input') as HTMLInputElement)?.value);
     });
   }
 
   closeModal = () => {
     const modal: HTMLDivElement = document.querySelector('.modal')!;
-
     modal.remove();
   };
 
-  ratingText() {
-    const value = (document.querySelector('.star input') as HTMLInputElement)?.value;
-    return value + ' ' + ratingComment[Number(value)];
+  saveRate() {
+    setLocalStorage(
+      String(this.movie.id),
+      JSON.stringify((document.querySelector('.star input') as HTMLInputElement)?.value),
+    );
+  }
+
+  ratingText(rate: string) {
+    return rate + ' ' + ratingComment[Number(rate)];
   }
 }
 
