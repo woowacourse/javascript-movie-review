@@ -1,44 +1,45 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const DotEnv = require("dotenv-webpack");
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const DotEnv = require('dotenv-webpack');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: "./src/index.js",
-  mode: "development",
+  entry: './src/index.ts',
+  mode: 'development',
   resolve: {
-    extensions: [".ts", ".js"],
+    extensions: ['.ts', '.js'],
   },
   devServer: {
-    static: "./dist",
+    static: './dist',
     open: true,
     historyApiFallback: true,
   },
   output: {
-    publicPath: "/",
-    filename: "bundle.js",
-    path: path.resolve(__dirname, "dist"),
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
     clean: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./index.html",
+      template: './index.html',
     }),
-    new DotEnv(),
+    new DotEnv({
+      systemvars: true,
+    }),
+    new CopyPlugin({
+      patterns: [{ from: 'src/assets', to: 'assets' }],
+    }),
   ],
   module: {
     rules: [
       {
         test: /\.(js|mjs|ts)$/i,
         exclude: /node_modules/,
-        use: { loader: "ts-loader" },
+        use: { loader: 'ts-loader' },
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
-      },
-      {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: "asset/resource",
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
