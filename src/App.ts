@@ -8,6 +8,7 @@ export const App = async () => {
   const searchBox = SearchBox();
 
   let popularMovieCurrentPage = 1;
+
   const currentPagePopularMovieData = await getPopularMovie(
     popularMovieCurrentPage
   );
@@ -24,7 +25,11 @@ export const App = async () => {
   const searchInput = document.querySelector(".search-input");
   searchInput?.addEventListener("searchButtonClicked", async (e: Event) => {
     if (!(e instanceof CustomEvent)) return;
-    document.querySelector("main")!.innerHTML = "";
+
+    const mainElement = document.querySelector("main");
+    if (mainElement !== null) {
+      mainElement.innerHTML = "";
+    }
     searchBox.updateKeyword(e.detail.query);
 
     showMovieList();
