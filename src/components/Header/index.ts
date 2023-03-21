@@ -14,9 +14,9 @@ const Header = assemble<HeaderProps>(({ handleKeyword }) => {
       callback(e) {
         e.preventDefault();
         if (e.target && e.target === $('.search-form') && isFormElement(e.target)) {
-          const fields = getFormFields(e.target);
+          const fields = getFormFields(e.target, ['keyword']);
 
-          isStringFields(fields['keyword']) && handleKeyword(fields['keyword']);
+          handleKeyword(fields['keyword']);
         }
       },
     },
