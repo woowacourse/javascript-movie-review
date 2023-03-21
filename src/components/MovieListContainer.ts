@@ -5,14 +5,17 @@ import MovieList from '../domain/MovieList';
 class MovieListContainer {
   private static instance: MovieListContainer;
   private listContainer: HTMLDivElement;
+  private itemList: HTMLUListElement;
   private moreButton: HTMLButtonElement;
 
   private constructor() {
     $<HTMLElement>('main').insertAdjacentHTML('beforeend', this.template());
     this.init();
     this.listContainer = $<HTMLDivElement>('.item-view');
+    this.itemList = $<HTMLUListElement>('.item-list');
     this.moreButton = $<HTMLButtonElement>('#more-button');
     this.addEventListenerToMoreButton();
+    this.addEventListenerToMovieItems();
   }
 
   static getInstance(): MovieListContainer {
@@ -47,6 +50,22 @@ class MovieListContainer {
   private addEventListenerToMoreButton() {
     this.moreButton.addEventListener('click', () => {
       MovieList.getMovieData();
+    });
+  }
+
+  private addEventListenerToMovieItems() {
+    this.itemList.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      const itemLink = target.closest('a');
+
+      if (itemLink instanceof HTMLAnchorElement) {
+        event.preventDefault();
+
+        const url = new URL(itemLink.href);
+        const params = new URLSearchParams(url.search);
+        const movieId = params.get('id');
+        MovieList.getMovieInformation(Number(movieId));
+      }
     });
   }
 
