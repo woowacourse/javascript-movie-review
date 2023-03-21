@@ -56,7 +56,7 @@ class Movies extends Observable {
 
     this.popularPage++;
     this.isSearched = false;
-    // this.notify('movies', refineMovies);
+    this.notify('movies', refineMovies);
   }
 
   async searchMovies(query: string, isFromSearchButton: boolean = false) {
