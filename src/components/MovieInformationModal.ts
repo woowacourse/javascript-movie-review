@@ -1,8 +1,8 @@
 import { Movie } from '../types/movie';
-import { MOVIE_RETRIEVED } from '../constants';
-import MovieList from '../domain/MovieList';
-import { CloseButton, EmptyStar } from '../assets';
+import { POSTER_BASE_URL, MOVIE_RETRIEVED } from '../constants';
 import { $ } from '../utils/domSelector';
+import { CloseButton, EmptyStar, FilledStar } from '../assets';
+import MovieList from '../domain/MovieList';
 
 class MovieInformationModal {
   private static instance: MovieInformationModal;
@@ -23,32 +23,30 @@ class MovieInformationModal {
     return MovieInformationModal.instance;
   }
 
-  // <img src="${EmptyStar}" alt="별점" />
-  // <img src="${EmptyStar}" alt="별점" />
-  // <img src="${EmptyStar}" alt="별점" />
-  // <img src="${EmptyStar}" alt="별점" />
-  // <img src="${EmptyStar}" alt="별점" />
-
-  // need to import close button
   private template() {
     return `
       <dialog class="information-modal">
-        <img class="information-image" src="" loading="lazy" alt="" />
-        <div class="information-container">
-          <img src="${CloseButton}" alt="" class="close-button" />
-          <h3 class="information-title"></h3>
-          <p class="information-meta-info"></p>
-          <p class="information-average-rate"></p>
-          <div class="hr"></div>
-          <h6 class="information-sub-title">내 별점</h6>
-          <div class="information-user-score-container">
-            <div class="score-stars"></div>
-            <p class="score-comment">볼만해요</p>
-            <p class="score-info">(6/10)</p>
+        <div class="information">
+          <img class="information-image" src="" loading="lazy" alt="" />
+          <div class="information-container">
+            <h3 class="information-title"></h3>
+            <p class="information-meta-info margin-bottom-8"></p>
+            <p class="information-vote-average-rate">
+              평균 <img src="${FilledStar}" alt="별점" />
+              <span class="vote-average"></span>
+            </p>
+            <div class="hr"></div>
+            <h6 class="information-sub-title">내 별점</h6>
+            <div class="information-user-vote">
+              <div class="vote-stars"></div>
+              <p class="vote-message"></p>
+              <p class="vote-info"></p>
+            </div>
+            <div class="hr"></div>
+            <h6 class="information-sub-title">줄거리</h6>
+            <p class="information-overview"></p>
           </div>
-          <div class="hr"></div>
-          <h6 class="information-sub-title">줄거리</h6>
-          <p class="information-summary"></p>
+          <img src="${CloseButton}" alt="" class="close-button" />
         </div>
       </dialog>
     `;
@@ -63,11 +61,43 @@ class MovieInformationModal {
 
   private openModal(movie: Movie) {
     this.informationModal.showModal();
-    // render movie data
+    this.render(movie);
   }
 
   private closeModal() {
     this.informationModal.close();
+  }
+
+  private render(movie: Movie) {
+    const image = $<HTMLImageElement>('.information-image');
+    image.src = `${POSTER_BASE_URL}${movie.posterPath}`;
+
+    const title = $<HTMLHeadingElement>('.information-title');
+    title.textContent = movie.title;
+
+    const metaInfo = $<HTMLParagraphElement>('.information-meta-info');
+    metaInfo.textContent = `${movie.releaseDate.split('-')[0]} · ${movie.genreIds}`;
+
+    const voteAverage = $<HTMLParagraphElement>('.vote-average');
+    voteAverage.textContent = String(movie.voteAverage);
+
+    const voteStars = $<HTMLDivElement>('.vote-stars'); // need to convert movie.userVote to stars
+    voteStars.innerHTML = `
+      <img src="${EmptyStar}" alt="별점" />
+      <img src="${EmptyStar}" alt="별점" />
+      <img src="${EmptyStar}" alt="별점" />
+      <img src="${EmptyStar}" alt="별점" />
+      <img src="${EmptyStar}" alt="별점" />
+    `;
+
+    const voteComment = $<HTMLParagraphElement>('.vote-message');
+    voteComment.textContent = '볼만해요'; // need to convert num to some message
+
+    const voteInfo = $<HTMLParagraphElement>('.vote-info');
+    voteInfo.textContent = `(${movie.userVote}/10)`;
+
+    const overview = $<HTMLParagraphElement>('.information-overview');
+    overview.textContent = movie.overview;
   }
 
   private addEventListenerToBackdrop() {
