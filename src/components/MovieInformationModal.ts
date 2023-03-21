@@ -12,7 +12,7 @@ class MovieInformationModal {
     $<HTMLElement>('main').insertAdjacentHTML('beforeend', this.template());
     this.init();
     this.informationModal = $<HTMLDialogElement>('.information-modal');
-    this.addEventListenerToBackdrop();
+    this.addCloseModalEventListener();
   }
 
   static getInstance(): MovieInformationModal {
@@ -100,9 +100,12 @@ class MovieInformationModal {
     overview.textContent = movie.overview;
   }
 
-  private addEventListenerToBackdrop() {
-    this.informationModal.addEventListener('click', () => {
-      this.closeModal();
+  private addCloseModalEventListener() {
+    this.informationModal.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+
+      if (target === event.currentTarget || target.classList.contains('close-button')) {
+        this.closeModal();
     });
   }
 }
