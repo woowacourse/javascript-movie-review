@@ -35,3 +35,7 @@ export interface ResponseInfo {
   total_pages: number;
   total_results: number;
 }
+
+export type ErrorType = {
+  [key: number]: string;
+};
