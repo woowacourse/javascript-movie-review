@@ -26,3 +26,12 @@ export interface TotalMovieInfoType {
   vote_average: number;
   vote_count: number;
 }
+
+export type CurrentTab = "popular" | "search";
+
+export interface ResponseInfo {
+  page: number;
+  results: TotalMovieInfoType[];
+  total_pages: number;
+  total_results: number;
+}
