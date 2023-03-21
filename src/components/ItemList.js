@@ -11,27 +11,13 @@ class ItemList {
     this.render($target);
   }
 
-  template() {
-    const { movies } = Store.getState();
-
-    if (!movies.length)
-      return {
-        isProblem: true,
-        template: WholeScreenMessageAlert('영화 목록이 없습니다.'),
-      };
-
-    return {
-      isProblem: false,
-      template: movies.reduce((item, movie) => (item += movieItem(movie)), ``),
-    };
-  }
-
   render($target) {
-    const { isProblem, template } = this.template();
+    const { nonexistent, template } = this.template();
 
-    if (isProblem) {
+    if (nonexistent) {
       this.$ul.innerHTML = '';
       this.$ul.insertAdjacentHTML('beforebegin', template);
+
       return;
     }
 
@@ -40,6 +26,22 @@ class ItemList {
 
     this.$ul.innerHTML = template;
     $target.insertAdjacentElement('beforeend', this.$ul);
+  }
+
+  template() {
+    const { movies } = Store.getState();
+
+    if (!movies.length) {
+      return {
+        nonexistent: true,
+        template: WholeScreenMessageAlert('영화 목록이 없습니다.'),
+      };
+    }
+
+    return {
+      nonexistent: false,
+      template: movies.reduce((item, movie) => (item += movieItem(movie)), ``),
+    };
   }
 }
 

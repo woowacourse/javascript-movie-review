@@ -28,22 +28,22 @@ class Header {
 
     if (value.length === 0) {
       alert('1글자 이상 입력해 주셔야 합니다.');
+
       return;
     }
 
     Store.updateSearchedMoviesByQuery(value);
   }
 
-  onClickEvent(e) {
-    const { target } = e;
-    if (target.dataset.type !== 'logo') return;
+  onClickEvent({ target }) {
+    if (target.id !== 'logo') return;
 
     Store.updatePopularMovies();
     document.querySelector('.search-box').reset();
   }
 
   template() {
-    return `<h1><img src="${logo}" alt="MovieList 로고" data-type="logo" /></h1>
+    return `<h1><img id="logo" src="${logo}" alt="MovieList 로고" data-type="logo" /></h1>
       <form class="search-box">
         <input type="text" placeholder="검색" class="search-input" />
         <button data-type="search" class="search-button">검색</button>
