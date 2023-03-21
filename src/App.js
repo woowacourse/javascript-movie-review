@@ -18,26 +18,26 @@ export default class App {
       renderPopularMovieList: this.renderPopularMovieList.bind(this),
       renderSearchedMovieList: this.renderSearchedMovieList.bind(this),
     });
-    this.#movieList = new MovieList($('main'), { getMovieMetaData: this.getMovieMetaData.bind(this) });
+    this.#movieList = new MovieList($('main'), this.getMovieMetaData.bind(this));
 
     this.initialRender();
   }
 
   initialRender() {
     this.#header.render();
-    this.#movieList.render('POPULAR');
+    this.#movieList.render('popular');
     this.#movieList.load();
   }
 
   renderPopularMovieList() {
     this.setPopularMovieDataFetchFunc();
-    this.#movieList.render('POPULAR');
+    this.#movieList.render('popular');
     this.#movieList.load();
   }
 
   renderSearchedMovieList(query) {
     this.setSearchedMovieDataFetchFunc(query);
-    this.#movieList.render('SEARCH', query);
+    this.#movieList.render('search', query);
     this.#movieList.load();
   }
 

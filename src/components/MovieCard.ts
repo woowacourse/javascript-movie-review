@@ -1,6 +1,7 @@
 import FilledStar from '../assets/star_filled.png';
+import { Movie } from '../type/Movie';
 
-const MovieCard = (movie) => {
+const MovieCard = (movie: Movie) => {
   const { id, title, poster_path, vote_average } = movie;
 
   return /* html */ `
