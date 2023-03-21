@@ -32,7 +32,7 @@ class MovieInformationModal {
           <img class="information-image" src="" loading="lazy" alt="" />
           <div class="information-container">
             <h3 class="information-title"></h3>
-            <p class="information-meta-info margin-bottom-8"></p>
+            <p class="information-meta-info margin-bottom-6"></p>
             <p class="information-vote-average-rate"></p>
             <div class="hr"></div>
             <h6 class="information-sub-title">내 별점</h6>

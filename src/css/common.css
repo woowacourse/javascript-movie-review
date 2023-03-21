@@ -317,6 +317,7 @@ dialog::backdrop {
 .information-modal h3 {
   font-size: 30px;
   font-weight: bold;
+  margin-top: 6px;
   margin-bottom: 20px;
 }
 
@@ -364,8 +365,8 @@ dialog::backdrop {
   cursor: pointer;
 }
 
-.margin-bottom-8 {
-  margin-bottom: 8px;
+.margin-bottom-6 {
+  margin-bottom: 6px;
 }
 
 .no-scroll {
