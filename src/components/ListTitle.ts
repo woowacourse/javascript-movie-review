@@ -1,5 +1,5 @@
 import stateRender from '../renderer/StateRender';
-import { Store } from '../Store';
+
 class ListTitle {
   #$h2 = document.createElement('h2');
 
