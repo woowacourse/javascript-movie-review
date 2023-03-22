@@ -63,7 +63,8 @@ class MovieFetcher {
       }
 
       const responseText = JSON.parse(await response.text());
-      const rawData: Record<string, unknown>[] = responseText.results;
+      const rawData: Record<string, unknown>[] =
+        this.#requestMode === 'genre' ? responseText.genres : responseText.results;
       const trimmedData =
         this.#requestMode === 'genre'
           ? this.trimData<GenreType[]>(rawData, changingKeyPairs)
