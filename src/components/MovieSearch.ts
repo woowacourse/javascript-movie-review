@@ -23,8 +23,14 @@ export default class MovieSearch extends HTMLElement {
       this.createSearchMovieEvent();
     });
 
+    let debounce: any;
     $searchInput.addEventListener("keyup", (event) => {
       if (event.key === "Enter") this.createSearchMovieEvent();
+      if (!debounce)
+        debounce = setTimeout(() => {
+          debounce = null;
+          this.createSearchMovieEvent();
+        }, 500);
     });
   }
 
@@ -32,19 +38,13 @@ export default class MovieSearch extends HTMLElement {
     const $searchInput = this.querySelector("input") as HTMLInputElement;
     const $moreButton = $("more-button") as HTMLElement;
 
-    if ($searchInput.value) {
-      this.dispatchEvent(
-        new CustomEvent("search-movie", {
-          bubbles: true,
-          detail: { movieName: $searchInput.value },
-        })
-      );
-      $moreButton.classList.add("hidden");
-    }
-
-    if (!$searchInput.value) {
-      alert("검색어를 입력하시오");
-    }
+    this.dispatchEvent(
+      new CustomEvent("search-movie", {
+        bubbles: true,
+        detail: { movieName: $searchInput.value },
+      })
+    );
+    $moreButton.classList.add("hidden");
   }
 }
 

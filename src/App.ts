@@ -46,13 +46,13 @@ export default class App {
   }
 
   setEvent() {
-    let throttle: any = 0;
+    let throttle: any;
 
     window.addEventListener("scroll", () => {
       if (this.#state.movieList.length < MAX_MOVIE_QUANTITY_PER_PAGE) return;
       if (!throttle)
         throttle = setTimeout(() => {
-          throttle = 0;
+          throttle = null;
           const scrollPosition = window.pageYOffset + window.innerHeight;
           const documentHeight = document.body.offsetHeight - 0.5;
 
@@ -111,7 +111,7 @@ export default class App {
 
   searchMovieCallback = ({ detail }: CustomEvent) => {
     const { movieName } = detail;
-
+    if (!movieName) return this.init();
     this.setState({
       page: 1,
       listState: LIST_STATE.SEARCHED,
