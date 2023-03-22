@@ -1,5 +1,5 @@
 class Input {
-  template: string = '';
+  template = '';
 
   constructor(template: string) {
     this.template = template;

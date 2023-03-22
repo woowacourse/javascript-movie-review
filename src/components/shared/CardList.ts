@@ -1,5 +1,5 @@
 class CardList {
-  template: string = '';
+  template = '';
 
   constructor(template: string) {
     this.template = template;

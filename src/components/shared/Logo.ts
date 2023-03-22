@@ -1,5 +1,5 @@
 class Logo {
-  template: string = '';
+  template = '';
 
   constructor(template: string) {
     this.template = template;
