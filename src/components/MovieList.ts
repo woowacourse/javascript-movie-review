@@ -2,10 +2,23 @@ import { NewMovie } from '../states/NewMovie';
 import MovieListItem from './MovieListItem';
 import { Toast } from './Toast';
 
+export type MovieListProps = {
+  title: string;
+  newMovie: NewMovie;
+  autoNextPage?: boolean;
+};
+
 export class MovieList {
   private readonly $root = document.createElement('section');
 
-  constructor(private readonly title: string, private readonly newMovie: NewMovie) {
+  private readonly title: string;
+
+  private readonly newMovie: NewMovie;
+
+  constructor({ title, newMovie, autoNextPage = true }: MovieListProps) {
+    this.title = title;
+    this.newMovie = newMovie;
+
     this.$root.classList.add('item-view');
     this.$root.innerHTML = `
       <h2>${this.title}</h2>
@@ -21,10 +34,20 @@ export class MovieList {
     this.newMovie.subscribe((movieSubject) => {
       this.$root.querySelector('ul')!.append(new MovieListItem(movieSubject).getRoot());
     });
-
     this.newMovie.subscribeError((error) => Toast.create(error.message));
-
     this.newMovie.fetchNextPage().then(() => this.nextPage());
+
+    if (autoNextPage) {
+      new IntersectionObserver(
+        () => {
+          this.nextPage(); // NOTE: 두 번씩 호출되나 의도된 동작
+        },
+        {
+          threshold: 0,
+          rootMargin: '1200px 0px',
+        },
+      ).observe(this.$root.querySelector('button')!);
+    }
   }
 
   getRoot() {

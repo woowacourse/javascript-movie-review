@@ -14,12 +14,18 @@ function assignMovieList(movieList: MovieList) {
 }
 
 assignMovieList(
-  new MovieList('지금 인기있는 영화', new NewMovie((page) => client.getPopularMovies({ page }))),
+  new MovieList({
+    title: '지금 인기있는 영화',
+    newMovie: new NewMovie((page) => client.getPopularMovies({ page })),
+  }),
 );
 
 document.querySelector('.logo')!.addEventListener('click', () => {
   assignMovieList(
-    new MovieList('지금 인기있는 영화', new NewMovie((page) => client.getPopularMovies({ page }))),
+    new MovieList({
+      title: '지금 인기있는 영화',
+      newMovie: new NewMovie((page) => client.getPopularMovies({ page })),
+    }),
   );
 });
 
@@ -30,9 +36,9 @@ document.querySelector('.search-box')!.addEventListener('submit', (event) => {
   const query = formData['search-text'] as string;
 
   assignMovieList(
-    new MovieList(
-      `"${query}" 검색결과`,
-      new NewMovie((page) => client.searchMovies({ query, page })),
-    ),
+    new MovieList({
+      title: `"${query}" 검색결과`,
+      newMovie: new NewMovie((page) => client.searchMovies({ query, page })),
+    }),
   );
 });
