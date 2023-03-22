@@ -5,8 +5,8 @@ class EventBus {
     this.events[command] = event;
   }
 
-  triggerEvent(command: string) {
-    this.events[command]();
+  triggerEvent(command: string, parameters?: unknown[]) {
+    parameters ? this.events[command](...parameters) : this.events[command]();
   }
 }
 
