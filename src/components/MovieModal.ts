@@ -25,8 +25,7 @@ class MovieModal {
     this._node.insertAdjacentHTML(
       'afterbegin',
       `
-      <div class="modal-backdrop"></div>
-      <div class="modal-container">
+      <div class="modal-backdrop">
         <div class="modal-layout">
           <div class="movie-detail-top">
             <div class="movie-detail-title skeleton"></div>
@@ -128,14 +127,21 @@ class MovieModal {
 
   initEventListener() {
     const $backButton = this._node.querySelector('.back-button');
+    const $modalBackdrop = this._node.querySelector('.modal-backdrop');
 
-    if (!$backButton) return;
+    if (!$backButton || !$modalBackdrop) return;
 
     window.addEventListener('keydown', (event: KeyboardEvent) => {
       if (event.key === 'Backspace' || event.key === 'Escape') this.closeModal();
     });
 
     $backButton.addEventListener('click', this.closeModal.bind(this));
+    $modalBackdrop.addEventListener('click', (event: Event) => {
+      const target = event.target as HTMLElement;
+      if (!target.matches('.modal-backdrop')) return;
+
+      this.closeModal.bind(this)();
+    });
   }
 }
 
