@@ -3,27 +3,27 @@ import { Store } from '../Store';
 import WholeScreenMessageAlert from './WholeScreenMessageAlert';
 
 class MovieList {
-  $ul = document.createElement('ul');
+  #$ul = document.createElement('ul');
 
   constructor() {
-    this.$ul.className = 'item-list';
+    this.#$ul.className = 'item-list';
   }
 
-  template() {
+  #template() {
     const movies = Store.get('movieStates')?.getMovieStates();
     if (!movies) return WholeScreenMessageAlert('알 수 없는 에러');
 
     if (!movies.results.length) {
-      return this.movieListErrorTemplate(
+      return this.#movieListErrorTemplate(
         `입력하신 "${movies?.query}"(와)과 일치하는 결과가 없습니다.`
       );
     }
 
-    return movies.results.map((movie) => new MovieCard(movie).$li);
+    return movies.results.map((movie) => new MovieCard(movie).getCardNode());
   }
 
   render($target: HTMLElement) {
-    const template = this.template();
+    const template = this.#template();
     this.removeAlertContainer($target);
 
     if (template instanceof HTMLDivElement) {
@@ -33,10 +33,10 @@ class MovieList {
     }
 
     for (const child of template) {
-      this.$ul.insertAdjacentElement('beforeend', child);
+      this.#$ul.insertAdjacentElement('beforeend', child);
     }
 
-    $target.insertAdjacentElement('beforeend', this.$ul);
+    $target.insertAdjacentElement('beforeend', this.#$ul);
   }
 
   removeAlertContainer($target: HTMLElement) {
@@ -45,10 +45,10 @@ class MovieList {
   }
 
   removeCurentCategory() {
-    while (this.$ul.firstChild) this.$ul.removeChild(this.$ul.firstChild);
+    while (this.#$ul.firstChild) this.#$ul.removeChild(this.#$ul.firstChild);
   }
 
-  movieListErrorTemplate(message: string) {
+  #movieListErrorTemplate(message: string) {
     const $container = document.createElement('div');
     $container.className = 'alert-container';
     $container.innerHTML = ` 

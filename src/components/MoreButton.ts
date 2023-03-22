@@ -7,7 +7,7 @@ class MoreButton {
   constructor() {
     this.$button.className = 'btn primary full-width more-button hidden';
 
-    this.$button.addEventListener('click', this.onClickMoreButton);
+    this.$button.addEventListener('click', this.#onClickMoreButton);
   }
 
   render($target: HTMLElement) {
@@ -15,7 +15,7 @@ class MoreButton {
     $target.insertAdjacentElement('beforeend', this.$button);
   }
 
-  onClickMoreButton() {
+  #onClickMoreButton() {
     const movieState = Store.get('movieStates');
     if (!movieState) return;
 

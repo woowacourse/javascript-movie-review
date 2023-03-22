@@ -3,18 +3,18 @@ import starEmpty from '../images/star_empty.png';
 import { IMovieItemProps } from '../types/movie';
 
 class MovieCard {
-  $li: HTMLElement;
+  #$li: HTMLElement;
   #movie: IMovieItemProps;
 
   constructor(movie: IMovieItemProps) {
-    this.$li = document.createElement('li');
+    this.#$li = document.createElement('li');
     this.#movie = movie;
 
     this.render();
-    this.initialEventListener();
+    this.#initialEventListener();
   }
 
-  template() {
+  #template() {
     const { posterPath, title, voteAverage } = this.#movie;
 
     return `
@@ -40,11 +40,15 @@ class MovieCard {
   }
 
   render() {
-    this.$li.innerHTML = this.template();
+    this.#$li.innerHTML = this.#template();
   }
 
-  initialEventListener() {
-    const $image = this.$li.querySelector<HTMLImageElement>('img');
+  getCardNode() {
+    return this.#$li;
+  }
+
+  #initialEventListener() {
+    const $image = this.#$li.querySelector<HTMLImageElement>('img');
     if (!$image) return;
 
     $image.addEventListener('load', (e) => {
