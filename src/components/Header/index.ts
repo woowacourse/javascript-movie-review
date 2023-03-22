@@ -26,7 +26,7 @@ const Header = assemble<HeaderProps>(({ handleKeyword }) => {
 
   const $template = getElement(`
     <header>
-      <h1><a href="/"><img src="./logo.png" alt="MovieList 로고" /></a></h1>
+      <h1><a href="./"><img src="./logo.png" alt="MovieList 로고" /></a></h1>
       <div class="search-box">
         <form class="search-form">
           <input type="text" name="keyword" placeholder="검색" value="${keyword}" />
