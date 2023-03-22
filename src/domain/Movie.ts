@@ -1,6 +1,12 @@
 import { fetchData } from '../api/http';
 import { TMDB_MOVIE_BASE_URL } from '../utils/constants';
-import { IMovieHandleProps, IMovieItemProps, IMovieProps, IMovieState } from '../types/movie';
+import {
+  IGenre,
+  IMovieHandleProps,
+  IMovieItemProps,
+  IMovieProps,
+  IMovieState,
+} from '../types/movie';
 
 interface IMovieFetchProps {
   curPage: number;
@@ -25,6 +31,12 @@ export const initialMovieStats: IMovieState = {
 };
 
 class Movie {
+  #genreList!: Array<IGenre>;
+
+  async initialSetting() {
+    this.#genreList = await this.getGenreList();
+  }
+
   async getPopularMovies({
     curPage = 1,
   }: IMovieFetchProps): Promise<IMovieHandleProps<IMovieItemProps>> {
@@ -33,6 +45,7 @@ class Movie {
     );
 
     const movleList = results.map((currentMovie) => ({
+      id: currentMovie.id,
       title: currentMovie.title,
       posterPath: currentMovie.poster_path,
       voteAverage: currentMovie.vote_average,
@@ -54,6 +67,7 @@ class Movie {
     );
 
     const movieList = results.map((currentMovie) => ({
+      id: currentMovie.id,
       title: currentMovie.title,
       posterPath: currentMovie.poster_path,
       voteAverage: currentMovie.vote_average,
@@ -64,6 +78,24 @@ class Movie {
       total_pages,
       page,
     };
+  }
+
+  async getMovieDetails({ movieId }: { movieId: number }) {
+    /**
+     * 제목
+     * 장르
+     * 포스터
+     * 평균 별점
+     * 줄거리
+     */
+  }
+
+  async getGenreList() {
+    const genreLists = await fetchData<Array<IGenre>>(
+      `${TMDB_MOVIE_BASE_URL}/genre/movie/list?api_key=83abefa42986ae190c0bbb24c6d2e0ae&language=ko-KR`
+    );
+
+    return genreLists;
   }
 }
 

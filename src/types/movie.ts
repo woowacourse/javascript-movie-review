@@ -18,7 +18,8 @@ export interface IMovieProps {
 }
 
 export interface IMovieItemProps {
-  title: string | null;
+  id: number;
+  title: string;
   posterPath?: string;
   voteAverage?: number;
 }
@@ -35,4 +36,9 @@ export interface IMovieState {
   query: string;
   category: MovieListCategory;
   error: string;
+}
+
+export interface IGenre {
+  id: number;
+  name: string;
 }

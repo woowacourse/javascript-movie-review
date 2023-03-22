@@ -1,10 +1,10 @@
 class Modal {
-  $modal: HTMLDivElement | null;
-  $modalContainer: HTMLDivElement | null;
+  #$modal: HTMLDivElement | null;
+  #$modalContainer: HTMLDivElement | null;
 
   constructor() {
-    this.$modal = document.querySelector('.modal');
-    this.$modalContainer = document.querySelector('.modal-container');
+    this.#$modal = document.querySelector('.modal');
+    this.#$modalContainer = document.querySelector('.modal-container');
 
     const $closeButton = document.createElement('button');
     $closeButton.className = 'modal-close-button';
@@ -12,15 +12,19 @@ class Modal {
     $closeButton.addEventListener('click', () => {
       this.close();
     });
-    this.$modalContainer?.appendChild($closeButton);
+    this.#$modalContainer?.appendChild($closeButton);
+  }
+
+  getModalContainer() {
+    return this.#$modalContainer;
   }
 
   open() {
-    this.$modal?.classList.add('modal--open');
+    this.#$modal?.classList.add('modal--open');
   }
 
   close() {
-    this.$modal?.classList.remove('modal--open');
+    this.#$modal?.classList.remove('modal--open');
   }
 }
 
