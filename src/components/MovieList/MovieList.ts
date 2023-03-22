@@ -4,6 +4,7 @@ import "./style.css";
 import MovieItem from "./MovieItem/MovieItem";
 import SkeletonList from "./SkeletonList/SkeletonContainer";
 import { IMoviesResponseData } from "../../types/IMovieResponseData";
+import throttle from "../../utils/throttle";
 
 interface IMovieListProps {
   type: string;
@@ -14,11 +15,13 @@ class MovieList {
   $target: HTMLElement;
   #props: IMovieListProps;
   #page: number;
+  #observer: IntersectionObserver | null;
 
   constructor($target: HTMLElement, props: IMovieListProps) {
     this.$target = $target;
     this.#props = props;
     this.#page = 1;
+    this.#observer = null;
 
     this.render();
     this.setEvent();
@@ -45,6 +48,7 @@ class MovieList {
 
       this.renderTitle();
       this.renderMovieList();
+      this.setupIntersectionObserver();
     }
   }
 
@@ -53,10 +57,8 @@ class MovieList {
     const $titleForMovieContents = this.$target.querySelector(".search-title");
 
     if ($titleForMovieContents instanceof HTMLHeadElement) {
-      const text =
+      $titleForMovieContents.innerText =
         title || (type === "popular" ? "지금 인기있는 영화" : `"${searchKeyword}" 검색결과`);
-
-      $titleForMovieContents.innerText = text;
     }
   }
 
@@ -74,11 +76,18 @@ class MovieList {
       this.renderTitle(`"${searchKeyword}"에 대한 검색 결과가 없습니다 :(`);
       return;
     }
+
+    if (this.isLastPage(fetchedMovieData)) {
+      this.disconnectObserver();
+    }
+
     if (this.isLastPage(fetchedMovieData)) this.toggleMoreButton();
 
     const movies = fetchedMovieData.results.map((movieData) => new Movie(movieData));
     movies.forEach((movie) => new MovieItem($itemList, movie));
     this.#page += 1;
+
+    this.setupIntersectionObserver();
   }
 
   async fetchMovieList() {
@@ -117,6 +126,46 @@ class MovieList {
 
     if ($skeletonContainer) {
       $skeletonContainer.classList.toggle("visible");
+    }
+  }
+
+  setupIntersectionObserver() {
+    const options = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 1.0,
+    };
+
+    const throttledRenderMovieList = throttle(this.renderMovieList.bind(this), 1000);
+
+    const handleIntersection: IntersectionObserverCallback = (entries) => {
+      entries.forEach(async (entry) => {
+        if (entry.isIntersecting) {
+          throttledRenderMovieList();
+        }
+      });
+    };
+
+    if (this.#observer) {
+      this.#observer.disconnect();
+    }
+
+    this.#observer = new IntersectionObserver(handleIntersection, options);
+    const $itemList = this.$target.querySelector(".item-list");
+
+    if ($itemList instanceof HTMLUListElement) {
+      const $lastItem = $itemList.lastElementChild;
+
+      if ($lastItem) {
+        this.#observer.observe($lastItem);
+      }
+    }
+  }
+
+  disconnectObserver() {
+    if (this.#observer) {
+      this.#observer.disconnect();
+      this.#observer = null;
     }
   }
 
