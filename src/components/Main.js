@@ -81,7 +81,10 @@ class Main {
       }
       if (e.target.tagName === 'IMG') {
         const movieData = this.#manager.getMovieData(e.target.alt);
-        $('.modal').innerHTML = movieModal(movieData);
+        $('.modal').innerHTML = movieModal(
+          movieData,
+          this.#manager.getGenreData()
+        );
         $('.modal').classList.remove('hidden');
       }
     });

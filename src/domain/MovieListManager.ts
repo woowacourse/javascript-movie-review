@@ -20,7 +20,7 @@ class MovieListManager {
   constructor(storage: Storage) {
     this.#storage = storage;
     this.#query = this.#storage.getItem('query');
-    this.getGenreData();
+    this.setGenreData();
   }
 
   getCurrentPage() {
@@ -29,6 +29,10 @@ class MovieListManager {
 
   getMovieList() {
     return this.#list.map((movie) => ({ ...movie }));
+  }
+
+  getGenreData() {
+    return this.#genre;
   }
 
   getMovieData(movieName: string) {
@@ -43,7 +47,7 @@ class MovieListManager {
     return this.#lastPage;
   }
 
-  async getGenreData() {
+  async setGenreData() {
     if (navigator.onLine) {
       await fetch(getGenreDataUrl)
         .then((res) => res.json())

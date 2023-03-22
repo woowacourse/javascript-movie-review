@@ -166,7 +166,7 @@ header .search-box > .search-button {
 }
 
 .modal {
-  position: absolute;
+  position: fixed;
   width: 826px;
   height: 577px;
   left: 50%;
