@@ -1,6 +1,6 @@
 import { EmptyStar, FilledStar } from '../assets';
 import { USER_VOTE_MESSAGE } from '../constants/movieInformation';
-import { $ } from '../utils/domSelector';
+import { $, $$ } from '../utils/domSelector';
 
 function getUserVoteMessage(userVote: number) {
   return USER_VOTE_MESSAGE[userVote];
@@ -21,12 +21,16 @@ function renderVoteAverage(voteAverage: number) {
 function userVoteStarsTemplate(userVoteCount: number) {
   const userStars: string[] = [];
 
-  Array.from({ length: userVoteCount }, () => {
-    userStars.push(`<img src="${FilledStar}" alt="별점" />`);
-  });
-
-  Array.from({ length: 5 - userVoteCount }, () => {
-    userStars.push(`<img src="${EmptyStar}" alt="별점" />`);
+  Array.from({ length: 5 }, (_, index) => {
+    if (index < userVoteCount) {
+      userStars.push(
+        `<img src="${FilledStar}" class="user-vote-star" alt="별점" data-star-index="${index}" />`
+      );
+    } else {
+      userStars.push(
+        `<img src="${EmptyStar}" class="user-vote-star" alt="별점" data-star-index="${index}" />`
+      );
+    }
   });
 
   return userStars;
@@ -37,7 +41,10 @@ function renderUserVote(userVote: number) {
 
   const voteStarsContainer = $<HTMLDivElement>('.vote-stars');
   voteStarsContainer.replaceChildren();
-  voteStarsContainer.insertAdjacentHTML('beforeend', userVoteStarsTemplate(userVoteCount).join(''));
+  voteStarsContainer.insertAdjacentHTML(
+    'afterbegin',
+    userVoteStarsTemplate(userVoteCount).join('')
+  );
 
   const voteComment = $<HTMLParagraphElement>('.vote-message');
   voteComment.textContent = getUserVoteMessage(userVote);
@@ -46,4 +53,20 @@ function renderUserVote(userVote: number) {
   voteInfo.textContent = `(${userVote}/10)`;
 }
 
-export { renderUserVote, renderVoteAverage };
+function updateUserVoteStars(updatedUserVoteCount: number) {
+  const userStars = $$<HTMLImageElement>('.temp-star');
+
+  userStars.forEach((star, index) => {
+    if (index <= updatedUserVoteCount) {
+      star.src = FilledStar;
+    } else {
+      star.src = EmptyStar;
+    }
+  });
+}
+
+// function updateStar(starIndex: number) {
+
+// }
+
+export { renderUserVote, renderVoteAverage, updateUserVoteStars, userVoteStarsTemplate };

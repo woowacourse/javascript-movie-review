@@ -8,5 +8,5 @@ import MovieList from './domain/MovieList';
 
 // something to solve ! don't place this twice but once?
 history.pushState({ isList: true, searchQuery: '', timestamp: new Date().getTime() }, '', '/');
-MovieList.getMovieData();
 MovieList.getMovieGenre();
+MovieList.getMovieData();

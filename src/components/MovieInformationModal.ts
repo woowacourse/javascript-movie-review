@@ -1,8 +1,13 @@
 import { Movie } from '../types/movie';
 import { POSTER_BASE_URL, MOVIE_RETRIEVED } from '../constants';
 import { $ } from '../utils/domSelector';
-import { CloseButton } from '../assets';
-import { renderUserVote, renderVoteAverage } from './MovieInformationContent';
+import { CloseButton, EmptyStar } from '../assets';
+import {
+  renderUserVote,
+  renderVoteAverage,
+  updateUserVoteStars,
+  userVoteStarsTemplate,
+} from './MovieInformationContent';
 import MovieList from '../domain/MovieList';
 
 class MovieInformationModal {
@@ -15,6 +20,7 @@ class MovieInformationModal {
     this.informationModal = $<HTMLDialogElement>('.information-modal');
     this.addCloseModalEventListener();
     this.addBrowserBackButtonEventListener();
+    this.addUserStarEventListener();
   }
 
   static getInstance(): MovieInformationModal {
@@ -37,7 +43,15 @@ class MovieInformationModal {
             <div class="hr"></div>
             <h6 class="information-sub-title">내 별점</h6>
             <div class="information-user-vote">
-              <div class="vote-stars"></div>
+              <div class="vote-stars">
+              </div>
+              <div class="vote-stars--temp hide">
+                <img src="${EmptyStar}" class="temp-star" alt="별점" />
+                <img src="${EmptyStar}" class="temp-star" alt="별점" />
+                <img src="${EmptyStar}" class="temp-star" alt="별점" />
+                <img src="${EmptyStar}" class="temp-star" alt="별점" />
+                <img src="${EmptyStar}" class="temp-star" alt="별점" />
+              </div>
               <p class="vote-message"></p>
               <p class="vote-info"></p>
             </div>
@@ -112,6 +126,41 @@ class MovieInformationModal {
 
       if (target === event.currentTarget || target.classList.contains('close-button')) {
         this.closeModal();
+      }
+    });
+  }
+
+  private addUserStarEventListener() {
+    $<HTMLDivElement>('.vote-stars').addEventListener('mouseenter', (event) => {
+      if (event.target === event.currentTarget) {
+        $<HTMLDivElement>('.vote-stars--temp').classList.remove('hide');
+      }
+    });
+
+    $<HTMLDivElement>('.vote-stars').addEventListener('mouseleave', (event) => {
+      if (event.target === event.currentTarget) {
+        $<HTMLDivElement>('.vote-stars--temp').classList.add('hide');
+      }
+    });
+
+    $<HTMLDivElement>('.vote-stars').addEventListener('mouseover', (event) => {
+      const target = event.target as HTMLElement;
+
+      if (target.classList.contains('user-vote-star')) {
+        updateUserVoteStars(Number(target.dataset.starIndex));
+      }
+    });
+
+    $<HTMLDivElement>('.vote-stars').addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+
+      if (target.classList.contains('user-vote-star')) {
+        const voteStarsContainer = $<HTMLDivElement>('.vote-stars');
+        voteStarsContainer.replaceChildren();
+        voteStarsContainer.insertAdjacentHTML(
+          'afterbegin',
+          userVoteStarsTemplate(Number(target.dataset.starIndex) + 1).join('')
+        );
       }
     });
   }

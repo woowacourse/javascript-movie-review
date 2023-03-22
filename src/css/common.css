@@ -211,10 +211,6 @@ header .search-box > #search-button {
   background-color: #232323;
 }
 
-.hide {
-  display: none;
-}
-
 @media screen and (max-width: 1280px) {
   .item-list {
     margin: 56px 0;
@@ -345,12 +341,22 @@ dialog::backdrop {
   gap: 8px;
 }
 
-.vote-stars {
+.vote-stars,
+.vote-stars--temp {
   display: flex;
   gap: 4px;
 }
 
+.vote-stars--temp {
+  position: absolute;
+  pointer-events: none;
+}
+
 .vote-stars img {
+  width: 32px;
+}
+
+.vote-stars--temp img {
   width: 32px;
 }
 
@@ -375,4 +381,8 @@ dialog::backdrop {
 
 .vote-average-star {
   width: 24px;
+}
+
+.hide {
+  display: none;
 }
