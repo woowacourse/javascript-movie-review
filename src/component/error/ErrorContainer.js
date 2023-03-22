@@ -1,5 +1,6 @@
 import CustomElement from "../basic/CustomElement";
 import ErrorBoss from "../../domain/ErrorBoss";
+import { ERROR } from "../../abstract/constants";
 import { $ } from "../../util/dom";
 
 class ErrorContainer extends CustomElement {
@@ -31,15 +32,15 @@ class ErrorContainer extends CustomElement {
   }
 
   makeErrorMessage(errorCode) {
-    if (errorCode === "서버")
+    if (errorCode === ERROR.SERVER)
       return `<h3 class="text-subtitle">현재 서버와 연결이 어렵습니다.</h3>`;
-    if (errorCode === "접근")
+    if (errorCode === ERROR.ACCESS)
       return `<h3 class="text-subtitle">잘못된 접근입니다.</h3>
       <p class="text-subtitle">접근 권한을 확인해주세요.</p>`;
-    if (errorCode === "경로")
+    if (errorCode === ERROR.ROUTE)
       return `<h3 class="text-subtitle">잘못된 접근입니다.</h3>
       <p class="text-subtitle">페이지 경로를 확인해주세요.</p>`;
-    if (errorCode === "알수없음")
+    if (errorCode === ERROR.UNKNOWN)
       return `<h3 class="text-subtitle">알 수 없는 오류가 발생했습니다.</h3>`;
   }
 }

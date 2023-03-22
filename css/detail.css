@@ -1,0 +1,127 @@
+:root {
+  --gray-black: #212122;
+  --gray-gray: #383839;
+}
+
+hr {
+  margin: 0;
+}
+
+.modal-head {
+  display: flex;
+
+  padding: 18px 32px 18px 32px;
+  justify-content: space-between;
+  margin: 0;
+}
+
+.text-title {
+  padding-top: 6px;
+
+  font: normal 600 20px/24px "Roboto";
+}
+
+.text-body {
+  font: normal 400 16px/24px "Roboto";
+}
+
+.close-btn {
+  width: 36px;
+  height: 36px;
+
+  border-radius: 50%;
+  background-color: var(--gray-gray);
+
+  cursor: default;
+}
+
+.modal-main {
+  display: flex;
+
+  padding: 36px 32px 48px 32px;
+  justify-content: space-between;
+  margin: 0;
+}
+
+.modal-img {
+  border-radius: 8px;
+  width: 260px;
+  height: 400px;
+  background-size: contain;
+}
+
+.modal-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 0px 32px 0 32px;
+
+  height: 400px;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+
+  padding-bottom: 16px;
+  text-align: left;
+}
+
+.detail-star {
+  padding-left: 12px;
+}
+
+.detail {
+  overflow: auto;
+  width: 100%;
+  height: auto;
+  max-height: 290px;
+}
+
+.detail::-webkit-scrollbar {
+  width: 10px;
+}
+
+.detail::-webkit-scrollbar-thumb {
+  background-color: #2f3542;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+.detail::-webkit-scrollbar-track {
+  background-color: grey;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px white;
+}
+
+.user-rate {
+  display: flex;
+  flex-direction: row;
+
+  padding: 16px;
+  gap: 12px;
+
+  width: 100%;
+  height: 64px;
+
+  background: #383839;
+  border-radius: 16px;
+}
+
+.user-rate-title {
+  padding-top: 6px;
+
+  font: normal 700 16px/24px "Roboto";
+}
+
+.rate-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.rate {
+  width: 32px;
+  height: 32px;
+}
