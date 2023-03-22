@@ -2,6 +2,7 @@ import starFilled from '../images/star_filled.png';
 import starEmpty from '../images/star_empty.png';
 import { IMovieItemProps } from '../types/movie';
 import modal from './Modal';
+import stateRender from '../renderer/StateRender';
 
 class MovieCard {
   #$li: HTMLElement;
@@ -11,7 +12,7 @@ class MovieCard {
     this.#$li = document.createElement('li');
     this.#movie = movie;
 
-    this.#$li.addEventListener('click', () => {
+    this.#$li.addEventListener('click', async () => {
       modal.open();
     });
 

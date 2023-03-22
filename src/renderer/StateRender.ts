@@ -27,7 +27,6 @@ class StateRender {
   constructor() {
     this.#movie = new Movie();
     this.#movieState = initialMovieStats;
-    this.#movie.initialSetting();
   }
 
   initialize({ moreButton, listTitle, skeleton, movieList, targetNode }: StateRenderProps) {
