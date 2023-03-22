@@ -3,6 +3,8 @@ import { $, $$ } from '../utils/domSelector';
 import MovieItem from './MovieItem';
 import skeletonItem from './skeletonItem';
 import errorLayout from './errorLayout';
+import LoadMoreObserver from './LoadMoreObserver';
+import EventBus from '../EventBus';
 
 type ErrorLayoutConstructorType = {
   image: string;
@@ -18,10 +20,12 @@ type MovieListConstructorType = {
 class MovieList {
   private $parentElement;
   private $element!: HTMLElement;
+  private loadMoreObserver = new LoadMoreObserver();
 
   constructor({ parentElement, listTitle }: MovieListConstructorType) {
     this.$parentElement = parentElement;
     this.render(listTitle);
+    this.addMovieItemClickListener();
   }
 
   private render(listTitle: string) {
@@ -62,11 +66,28 @@ class MovieList {
 
     movieInfoList.forEach((movieInfo, index) => {
       skeletons[index].classList.add('occupied');
-      new MovieItem({
+      const movieItem = new MovieItem({
         parentElement: $('.item-list', this.$element),
         skeleton: skeletons[index],
         movieInfo: movieInfo,
       });
+
+      if (index === movieInfoList.length - 1) {
+        this.loadMoreObserver.selectObservingElement(movieItem.getItemElement());
+      }
+    });
+  }
+
+  addMovieItemClickListener() {
+    this.$element.addEventListener('click', (event) => {
+      if (!(event.target instanceof HTMLElement)) return;
+
+      const selectedCard = event.target.closest('.item-card');
+
+      if (selectedCard) {
+        const movieItemId = Number(selectedCard.getAttribute('movie-id'));
+        EventBus.triggerEvent('openInfoModal', [movieItemId]);
+      }
     });
   }
 }
