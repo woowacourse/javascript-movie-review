@@ -1,4 +1,4 @@
-import { StarFilled, StartEmpty } from "../../images";
+import { StarFilled } from "../../images";
 import type { Genre, Movie } from "../types/type";
 import { $ } from "../utils/dom";
 
@@ -8,7 +8,7 @@ class MovieDetailModal extends HTMLElement {
   }
 
   render(movie: Movie, genres: any) {
-    const { title, poster_path, genre_ids, vote_average, overview } = movie;
+    const { id, title, poster_path, genre_ids, vote_average, overview } = movie;
 
     const selectedGenres = genres["genres"]
       .filter((genre: Genre) => genre_ids?.includes(genre.id))
@@ -19,7 +19,7 @@ class MovieDetailModal extends HTMLElement {
       : "영화 내용이 등록되지 않았습니다";
 
     this.innerHTML = /* html */ `
-      <dialog>
+      <dialog data-id=${id}>
       <div class="modal-backdrop"></div>
       <div class="modal">
         <div class="modal-header">
@@ -44,15 +44,9 @@ class MovieDetailModal extends HTMLElement {
             <div class="vote-container">
               <div class="user-vote">
                 <span class="vote-title">내 별점</span>
-                <span class="vote-score">
-                  <img src="${StartEmpty}" class="user-vote-star" alt="별점" />
-                  <img src="${StartEmpty}" class="user-vote-star" alt="별점" />
-                  <img src="${StartEmpty}" class="user-vote-star" alt="별점" />
-                  <img src="${StartEmpty}" class="user-vote-star" alt="별점" />
-                  <img src="${StartEmpty}" class="user-vote-star" alt="별점" />
-                </span>
-                <span>6</span>
-                <span class="vote-review">보통이에요</span>
+                <movie-vote></movie-vote>
+                <span class="vote-score">0</span>
+                <span class="vote-message">별점을 눌러주세요</span>
               </div>
             </div>
           </div>
@@ -76,6 +70,22 @@ class MovieDetailModal extends HTMLElement {
     window.addEventListener("popstate", () => {
       dialog.close();
     });
+
+    this.addVoteScoreUpdateListener();
+  }
+
+  addVoteScoreUpdateListener() {
+    $("movie-vote")?.addEventListener(
+      "voteScoreUpdated",
+      ({ detail }: CustomEventInit) => {
+        const { index, score, message } = detail;
+        const $voteScore = $(".vote-score");
+        const $voteMessage = $(".vote-message");
+
+        if ($voteScore) $voteScore.textContent = score;
+        if ($voteMessage) $voteMessage.textContent = message;
+      }
+    );
   }
 
   openModal() {

@@ -5,6 +5,11 @@ export const $ = (
   target: HTMLElement | Document = document
 ) => target.querySelector(selector);
 
+export const $$ = (
+  selector: string,
+  target: HTMLElement | Document = document
+) => target.querySelectorAll(selector);
+
 export const dispatchCustomEvent = (
   $target: HTMLElement,
   { eventType, data = null }: CustomEvent

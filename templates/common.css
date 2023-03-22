@@ -257,7 +257,7 @@ movie-list:has(.not-search) {
   position: absolute;
   width: 36px;
   height: 36px;
-  left: 758px;
+  left: 810px;
   top: 0px;
   border: none;
   border-radius: 50%;
@@ -316,17 +316,17 @@ movie-list:has(.not-search) {
 }
 
 .user-vote {
-  transform: translateY(-5px);
+  transform: translateY(-2px);
 }
 
 .vote-title {
   font-weight: bold;
 }
 
-.vote-score {
+movie-vote {
   display: inline-block;
   margin: 10px;
-  transform: translateY(10px);
+  transform: translateY(8px);
 }
 
 .user-vote-star {
@@ -337,4 +337,9 @@ movie-list:has(.not-search) {
 
 .vote-review {
   margin-left: 10px;
+}
+
+.star-icon {
+  width: 30px;
+  height: 30px;
 }
