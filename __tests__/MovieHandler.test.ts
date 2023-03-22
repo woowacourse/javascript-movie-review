@@ -1,3 +1,5 @@
+import { expect } from '@jest/globals';
+
 import MovieHandler from '../src/domain/MovieHandler';
 import { Movie } from '../src/type/Movie';
 import { MovieAPIData } from '../src/api/get';
