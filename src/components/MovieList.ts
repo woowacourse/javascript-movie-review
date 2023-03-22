@@ -1,4 +1,4 @@
-import { MovieType } from '../types';
+import { Movie } from '../types';
 import { $, $$ } from '../utils/domSelector';
 import movieItem from './movieItem';
 import skeletonItem from './skeletonItem';
@@ -25,11 +25,11 @@ class MovieList {
     });
   }
 
-  renderContents(movieInfoList: MovieType[]) {
+  renderContents(movieInfoList: Movie[]) {
     $('.item-list').innerHTML = movieInfoList.map(movieItem).join('');
   }
 
-  renderNextContents(movieInfoList: MovieType[]) {
+  renderNextContents(movieInfoList: Movie[]) {
     const itemListContents = movieInfoList.map((movieInfo) => movieItem(movieInfo)).join('');
     $('.item-list').insertAdjacentHTML('beforeend', itemListContents);
   }

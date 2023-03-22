@@ -5,7 +5,7 @@ import LoadMoreButton from './components/LoadMoreButton';
 import errorItem from './components/errorItem';
 import handleError from './handleError';
 import MovieListAndButtonContainer from './components/MovieListAndButtonContainer';
-import { MOVIE_LIST_TITLE, REQUEST_MOVIES, UPDATE_TYPE } from './constants/constants';
+import { MOVIE_LIST_TITLE, REQUEST_MOVIES, UPDATE_TYPE } from './constants';
 
 class App {
   private header = new Header();
@@ -42,14 +42,14 @@ class App {
 
     this.movieList.renderSkeletonItems();
 
-    const { result, fetchStatus, movieList, isLastPage } =
+    const { statusCode, statusMessage, movieList, isLastPage } =
       requestListType === REQUEST_MOVIES.POPULARITY
-        ? await this.movieFetcher.getMovieFetchResult()
-        : await this.movieFetcher.getMovieFetchResult(keyword);
+        ? await this.movieFetcher.fetchMovieList()
+        : await this.movieFetcher.fetchMovieList(keyword);
 
     this.movieList.removeSkeletonItems();
 
-    if (handleError(result, fetchStatus)) return;
+    if (handleError(statusCode, statusMessage)) return;
 
     if (!movieList) return;
 
@@ -61,7 +61,8 @@ class App {
     if (isLastPage) this.loadMoreButton.disable();
 
     if (isLastPage && updateType === UPDATE_TYPE.OVERWRITE) {
-      this.movieList.renderNoResult(errorItem(result));
+      this.movieList.renderNoResult(errorItem(isLastPage));
+
       return;
     }
 

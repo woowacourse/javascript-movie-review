@@ -1,15 +1,15 @@
-import { API_URL, FETCH_SUCCESS, FETCH_FAIL, SYSTEM_CRASHED } from '../constants/constants';
+import { API_URL } from '../constants';
+import { API_STATUS, STATUS_CODE } from '../constants/apiStatusCode';
 import {
-  MovieType,
-  MovieResponseType,
-  APIMovieType,
-  APIMovieResponseType,
-  FetchStatusType,
+  Movie,
+  RawMovie,
+  FetchMoviesResult,
+  ResponseParsedData,
+  APIMovieResponseData,
 } from '../types';
 
 class MovieFetcher {
   private currentPage = 1;
-  private movieResponse: MovieResponseType = { result: FETCH_SUCCESS };
 
   resetPage() {
     this.currentPage = 1;
@@ -19,61 +19,71 @@ class MovieFetcher {
     this.currentPage += 1;
   }
 
-  async getMovieFetchResult(keyword?: string): Promise<MovieResponseType> {
-    const response: APIMovieResponseType | undefined = await this.fetchMovieInfo(keyword);
+  async fetchMovieList(keyword?: string): Promise<FetchMoviesResult> {
+    try {
+      const apiUrl =
+        typeof keyword === 'string'
+          ? API_URL.BASE + API_URL.SEARCH_MOVIES(this.currentPage, keyword)
+          : API_URL.BASE + API_URL.POPULAR_MOVIES(this.currentPage);
+      const response = await fetch(apiUrl);
+      const result = await this.parse(response);
 
-    if (!response) return this.movieResponse;
-    if (!response.results) return this.movieResponse;
+      if (!result.rawMovieList) {
+        return {
+          statusCode: result.statusCode,
+          statusMessage: result.statusMessage,
+          movieList: [],
+          isLastPage: false,
+        };
+      }
 
-    const totalPages = response.total_pages;
-    const movieList = response.results.map(
-      (rawMovie: APIMovieType): MovieType => ({
+      const movieList = this.convertToMovieList(result.rawMovieList);
+
+      return {
+        statusCode: result.statusCode,
+        statusMessage: result.statusMessage,
+        movieList: movieList,
+        isLastPage: this.currentPage === result.totalPages ? true : false,
+      };
+    } catch (error) {
+      if (error instanceof Error) console.log(error);
+      return {
+        statusCode: undefined,
+        statusMessage: 'Not valid error',
+        movieList: [],
+        isLastPage: false,
+      };
+    }
+  }
+
+  async parse(response: Response): Promise<ResponseParsedData> {
+    const { status_code, errors, total_pages, results }: APIMovieResponseData =
+      await response.json();
+
+    if (results) {
+      return {
+        statusCode: STATUS_CODE.SUCCESS,
+        statusMessage: API_STATUS[STATUS_CODE.SUCCESS][1],
+        totalPages: total_pages,
+        rawMovieList: results,
+      };
+    }
+
+    if (!status_code) return { statusCode: undefined, statusMessage: errors[0] };
+
+    return { statusCode: status_code, statusMessage: API_STATUS[status_code][1] };
+  }
+
+  convertToMovieList(rawMovieList: RawMovie[]) {
+    const movieList = rawMovieList.map(
+      (rawMovie): Movie => ({
         title: rawMovie.title,
         posterPath: rawMovie.poster_path,
         voteAverage: rawMovie.vote_average,
       }),
     );
 
-    this.movieResponse = { result: FETCH_SUCCESS, movieList };
-
-    if (this.currentPage === totalPages) this.movieResponse.isLastPage = true;
-
-    return this.movieResponse;
-  }
-
-  async fetchMovieInfo(keyword?: string) {
-    try {
-      const apiUrl =
-        typeof keyword === 'string'
-          ? API_URL.SEARCH_MOVIES(this.currentPage, keyword)
-          : API_URL.POPULAR_MOVIES(this.currentPage);
-      const APIMovieResponse = await fetch(apiUrl).then((response) => response.json());
-      const fetchStatus = this.getFetchStatus(APIMovieResponse);
-
-      if (!(fetchStatus.statusCode === 200)) {
-        this.movieResponse = { result: FETCH_FAIL, fetchStatus: fetchStatus };
-        return;
-      }
-
-      return APIMovieResponse;
-    } catch (error) {
-      if (error instanceof Error) {
-        const fetchStatus = { statusCode: undefined, statusMessage: error.message };
-        this.movieResponse = { result: SYSTEM_CRASHED, fetchStatus }; // 네트워크 에러 등
-      }
-    }
-  }
-
-  getFetchStatus(response: APIMovieResponseType): FetchStatusType {
-    if (response.success === false && response.status_message) {
-      return { statusCode: response.status_code, statusMessage: response.status_message };
-    }
-
-    if (response.success === false && response.errors) {
-      return { statusCode: undefined, statusMessage: response.errors[0] };
-    }
-
-    return { statusCode: 200, statusMessage: 'Success' };
+    return movieList;
   }
 }
 

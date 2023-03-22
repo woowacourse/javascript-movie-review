@@ -1,7 +1,7 @@
-import { IMAGE_URL } from '../constants/constants';
-import { MovieType } from '../types';
+import { Movie } from '../types';
+import { IMAGE_URL } from '../constants';
 
-const movieItem = ({ title, posterPath, voteAverage }: MovieType) => {
+const movieItem = ({ title, posterPath, voteAverage }: Movie) => {
   const originalImageUrl = `${IMAGE_URL.BASE}${posterPath}`;
   const imageUrl = posterPath ? originalImageUrl : IMAGE_URL.ALTERNATIVE;
 
