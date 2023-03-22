@@ -35,11 +35,11 @@ class MovieSkeleton {
   }
 
   show() {
-    this.element.dataset.hidden = 'true';
+    this.element.dataset.hidden = 'false';
   }
 
   hide() {
-    this.element.dataset.hidden = 'false';
+    this.element.dataset.hidden = 'true';
   }
 }
 

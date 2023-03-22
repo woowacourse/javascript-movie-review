@@ -64,7 +64,9 @@ class Main {
 
   async #showMoreMoviesCallback (entries) {
     if (entries[0].intersectionRatio > 0.5) {
+      this.#element.dispatchEvent(new CustomEvent('searchPending', { bubbles: true }));
       await this.#manager.getMoreMovieList();
+      this.#element.dispatchEvent(new CustomEvent('searchFullfilled', { bubbles: true }));
       this.render();
     }
   }
