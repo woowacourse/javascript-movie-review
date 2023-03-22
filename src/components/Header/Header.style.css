@@ -1,4 +1,4 @@
-header {
+.header {
   width: 100%;
   min-width: 1200px;
   height: 72px;
@@ -11,7 +11,7 @@ header {
   margin-bottom: 48px;
 }
 
-header h1 {
+.header h1 {
   cursor: pointer;
   user-select: none;
   font-size: 2rem;
@@ -20,23 +20,17 @@ header h1 {
   color: #f33f3f;
 }
 
-.page-title-button {
-  padding: 0;
-  background: transparent;
-  border: none;
-}
-
-header > .search-box {
+.header > .search-box {
   background: #fff;
   padding: 8px;
   border-radius: 4px;
 }
 
-header .search-box input {
+.header .search-box input {
   border: 0;
 }
 
-header .search-box .search-button {
+.header .search-box .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
@@ -44,7 +38,7 @@ header .search-box .search-button {
   background-size: contain;
 }
 
-header .search-tooltip {
+.header .search-tooltip {
   position: absolute;
   top: 60px;
   right: 10px;

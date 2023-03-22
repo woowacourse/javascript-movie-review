@@ -9,7 +9,7 @@ import './Header.style.css';
 const Header = {
   template() {
     return `
-      <header>
+      <header class="header">
         <h1>
           <a href="./">
             <img src=${logoImage} alt="MovieList 로고" />
