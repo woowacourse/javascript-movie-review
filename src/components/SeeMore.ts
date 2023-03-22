@@ -1,10 +1,12 @@
 import { $ } from '../utils/domHelper';
 import movies from '../domain/Movies';
 
-export default class SeeMore {
+export default class SeeMore extends HTMLElement {
   private $target;
 
   constructor($target: HTMLElement) {
+    super();
+
     this.$target = $target;
 
     movies.subscribe('movies', this.showButton.bind(this));

@@ -1,32 +1,30 @@
-import { $ } from './utils/domHelper';
-
-import Header from './components/Header';
-import MovieList from './components/MovieList';
-import SeeMore from './components/SeeMore';
-import Title from './components/Title';
-
 export default class App {
   private $target;
 
   constructor($target: HTMLElement) {
     this.$target = $target;
+
+    this.render();
+  }
+
+  render() {
+    this.$target.innerHTML = this.template();
+
+    // this.$target.insertAdjacentHTML('beforeend', this.template());
+    // new Title($('.movie-list-title'));
+    // new MovieList($('.item-view')).skeletonRender();
+    // new SeeMore($('.item-view')).render().setEvent();
   }
 
   template() {
     return `
+      <movie-header></movie-header>
       <main>
         <section class="item-view">
-        <h2 class="movie-list-title"></h2>
+        <movie-title></movie-title>
+        <movie-list></movie-list>
         </section>
       </main>
     `;
-  }
-
-  render() {
-    new Header($('#app')).render().setEvent();
-    this.$target.insertAdjacentHTML('beforeend', this.template());
-    new Title($('.movie-list-title'));
-    new MovieList($('.item-view')).skeletonRender();
-    new SeeMore($('.item-view')).render().setEvent();
   }
 }

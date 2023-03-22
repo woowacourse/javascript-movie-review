@@ -4,21 +4,39 @@ import { $ } from '../utils/domHelper';
 import MovieItem from './MovieItem';
 import movies from '../domain/Movies';
 
-export default class MovieList {
-  private $target;
-
-  constructor($parentTarget: HTMLElement) {
-    $parentTarget.insertAdjacentHTML('beforeend', this.initTemplate());
-    this.$target = $('.item-list');
+export default class MovieList extends HTMLElement {
+  constructor() {
+    super();
 
     movies.subscribe('movies', this.render.bind(this));
     movies.subscribe('loading', this.skeletonRender.bind(this));
+
+    this.skeletonRender();
+    this.render();
   }
 
-  initTemplate() {
-    return `
-      <ul class="item-list movie-container"></ul>
-    `;
+  render(popularMovies?: MovieItemType[]) {
+    $('.skeleton-container').remove();
+
+    this.innerHTML = `<ul class="item-list movie-container"></ul>`;
+
+    $('.movie-container').insertAdjacentHTML(
+      'beforeend',
+      this.template(popularMovies) || ''
+    );
+  }
+
+  template(popularMovies?: MovieItemType[]) {
+    return popularMovies
+      ?.map(
+        ({ id, poster_path, title, vote_average }: MovieItemType) =>
+          `<movie-item id=${id} poster-path=${poster_path} title=${title} vote-average=${vote_average}</movie-item>`
+      )
+      .join('');
+  }
+
+  skeletonRender() {
+    this.insertAdjacentHTML('beforeend', this.skeletonTemplate());
   }
 
   skeletonTemplate() {
@@ -30,24 +48,5 @@ export default class MovieList {
       .join('')}
       </ul>
       `;
-  }
-
-  skeletonRender() {
-    this.$target.insertAdjacentHTML('beforeend', this.skeletonTemplate());
-  }
-
-  render(popularMovies?: MovieItemType[]) {
-    $('.skeleton-container').remove();
-
-    this.$target.insertAdjacentHTML(
-      'beforeend',
-      this.template(popularMovies) || ''
-    );
-  }
-
-  template(popularMovies?: MovieItemType[]) {
-    return popularMovies
-      ?.map((movie: MovieItemType) => new MovieItem().template(movie))
-      .join('');
   }
 }
