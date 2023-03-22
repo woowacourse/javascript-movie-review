@@ -1,8 +1,8 @@
-import { publisher } from '../store/publisher';
+import { store } from '../store';
 import { PAGE_TITLE } from '../constants/constants';
 
 export function PageTitle() {
-  const { isPopular, keyword } = publisher.state;
+  const { isPopular, keyword } = store.state;
 
   return `
         <h2 class="page-title">${

@@ -1,11 +1,11 @@
-import { IMovie } from '../api/api.js';
-import { observable } from '../core/observer.js';
+import { IMovie } from './api/api.js';
+import { observable } from './core/observer.js';
 
 export type stateType = {
   [key: string]: string | number | boolean;
 };
 
-export const publisher = {
+export const store = {
   state: observable({
     page: 1,
     keyword: '검색 결과',
