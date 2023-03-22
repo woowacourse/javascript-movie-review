@@ -5,10 +5,12 @@ import MovieItem from "./MovieItem/MovieItem";
 import SkeletonList from "./SkeletonList/SkeletonContainer";
 import { IMoviesResponseData } from "../../types/IMovieResponseData";
 import throttle from "../../utils/throttle";
+import Modal from "../Modal/Modal";
 
 interface IMovieListProps {
   type: string;
   searchKeyword: string;
+  modal: Modal;
 }
 
 class MovieList {

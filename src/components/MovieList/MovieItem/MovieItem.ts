@@ -13,6 +13,7 @@ class MovieItem {
     this.#movieInfo = movie.getMovieData();
 
     this.render();
+    this.setEvent();
   }
 
   convertToImgUrl(imgSrc: string) {
@@ -42,6 +43,24 @@ class MovieItem {
 
   render() {
     this.$target.insertAdjacentHTML("beforeend", this.template());
+  }
+
+  setEvent() {
+    const $movieItem = this.$target.querySelector("li:last-child");
+
+    if (!$movieItem) return;
+
+    $movieItem.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.$target.dispatchEvent(
+        new CustomEvent("movieItemClick", {
+          detail: {
+            movie: this.#movieInfo,
+          },
+          bubbles: true,
+        })
+      );
+    });
   }
 }
 
