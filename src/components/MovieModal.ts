@@ -1,6 +1,7 @@
 import { MovieDetail } from '../@types/movieType';
 import starEmpty from '../asset/star_empty.png';
 import starFilled from '../asset/star_filled.png';
+import handleImageLoadError from '../libs/handleImageLoadError';
 
 class MovieModal {
   private _node!: HTMLElement;
@@ -112,23 +113,21 @@ class MovieModal {
   }
 
   updateMovieThumbnail() {
+    const $thumbnailSkeleton = this._node.querySelector<HTMLDivElement>('.thumbnail-skeleton');
     const $movieThumbnailContainer = document.querySelector('.movie-detail-image');
     const $thumbnail = this.createMovieThumbnail();
 
-    if (!$movieThumbnailContainer || !$thumbnail) return;
+    if (!$movieThumbnailContainer || !$thumbnail || !$thumbnailSkeleton) return;
 
     $movieThumbnailContainer.insertAdjacentElement('beforeend', $thumbnail);
+    $thumbnailSkeleton.remove();
 
     this.addThumbnailEventListener($thumbnail);
   }
 
   addThumbnailEventListener($thumbnail: HTMLImageElement) {
-    $thumbnail.addEventListener('load', () => {
-      this.completeLoadImage($thumbnail);
-    });
-
     $thumbnail.addEventListener('error', () => {
-      this.errorLoadImage($thumbnail);
+      handleImageLoadError($thumbnail);
     });
   }
 
@@ -136,25 +135,11 @@ class MovieModal {
     if (!this.movieDetail) return;
 
     const $thumbnail = document.createElement('img');
-    $thumbnail.classList.add('movie-detail-thumbnail', 'hidden');
+    $thumbnail.classList.add('movie-detail-thumbnail');
     $thumbnail.src = `${this.movieDetail.posterPath}`;
     $thumbnail.alt = `${this.movieDetail.title}`;
 
     return $thumbnail;
-  }
-
-  completeLoadImage($thumbnail: HTMLImageElement) {
-    const $thumbnailSkeleton = this._node.querySelector<HTMLDivElement>('.thumbnail-skeleton');
-
-    if (!$thumbnailSkeleton) return;
-
-    $thumbnailSkeleton.remove();
-    $thumbnail.classList.remove('hidden');
-  }
-
-  errorLoadImage($thumbnail: HTMLImageElement) {
-    $thumbnail.src =
-      'https://user-images.githubusercontent.com/112997662/223046479-306cc6a7-7024-4616-b28e-be2f2878d2f0.png';
   }
 }
 
