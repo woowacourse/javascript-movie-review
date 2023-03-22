@@ -1,22 +1,49 @@
 import { MovieInfoType } from "../@types/movieDataType";
+import { $ } from "../utils/selector";
 
-export const MovieItem = (movieInfo: MovieInfoType) => {
-  const { title, poster_path, vote_average } = movieInfo;
+export class MovieItem {
+  private _title: string;
+  private _posterPath: string;
+  private _voteAverage: number;
 
-  return `
-<li>
+  constructor(movieInfo: MovieInfoType, id: number) {
+    this._title = movieInfo.title;
+    this._posterPath = movieInfo.poster_path;
+    this._voteAverage = movieInfo.vote_average;
+    this.render(id);
+    this.handleClick(id);
+  }
+
+  create(id: number) {
+    return `
+    <li id=${id}>
       <a href="#">
         <div class="item-card">
           <img
-            class="item-thumbnail skeleton "
-            src="https://image.tmdb.org/t/p/w220_and_h330_face${poster_path}"
+            class="item-thumbnail "
+            src="https://image.tmdb.org/t/p/w220_and_h330_face${this._posterPath}"
             loading="lazy"
-            alt="${title}"
+            alt="${this._title}"
           />
-          <p class="item-title skeleton">${title}</p>
-          <p class="item-score skeleton"><img src="./star_filled.png" alt="별점" /> ${vote_average}</p>
+          <p class="item-title">${this._title}</p>
+          <p class="item-score"><img src="./star_filled.png" alt="별점" /> ${this._voteAverage}</p>
         </div>
       </a>
 </li>
     `;
-};
+  }
+
+  render(id: number) {
+    $(".item-list")?.insertAdjacentHTML("beforeend", this.create(id));
+  }
+
+  handleClick(id: number) {
+    const targetMovie = document.getElementById(String(id)) as HTMLElement;
+    targetMovie.addEventListener("click", () => this.onClick(id));
+  }
+
+  onClick(id: number) {
+    const event = new CustomEvent("clickMovieItem");
+    document.getElementById(String(id))?.dispatchEvent(event);
+  }
+}
