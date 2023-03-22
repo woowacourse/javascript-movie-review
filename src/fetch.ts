@@ -13,6 +13,9 @@ export const getAPIUrl = (params: string, options: Options) =>
 export const fetchMovies = async (params: string, options: Options): Promise<MovieList> => {
   const API_URL = getAPIUrl(params, options);
   try {
+    if (!navigator.onLine) {
+      throw new Error('네트워크 오프라인이 감지되었습니다');
+    }
     const res = await fetch(API_URL);
     if (!res.ok) {
       const error: FailedResponse = await res.json();
