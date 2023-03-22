@@ -8,6 +8,7 @@ class MovieModal {
 
   constructor() {
     this.createTemplate();
+    this.toggleBodyOverflow();
   }
 
   get node(): HTMLElement {
@@ -52,6 +53,14 @@ class MovieModal {
       </div>
       `
     );
+  }
+
+  toggleBodyOverflow() {
+    const $body = document.querySelector('body');
+
+    if (!$body) return;
+
+    $body.classList.toggle('overflow-hidden');
   }
 
   updateMovieDetail(movieDetail: MovieDetail) {

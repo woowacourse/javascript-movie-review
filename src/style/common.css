@@ -8,6 +8,10 @@ body {
   color: #fff;
 }
 
+.overflow-hidden {
+  overflow: hidden;
+}
+
 a {
   color: inherit;
   text-decoration: none;
