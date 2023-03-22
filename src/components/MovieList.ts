@@ -8,8 +8,7 @@ import { MovieListSkeleton } from './MovieListSkeleton';
 import { MovieItem } from './MovieItem';
 import { PAGE_TITLE } from '../constants/constants';
 
-export function renderPageTitle(state: publisher) {
-  const { keyword, isPopular } = state;
+export function renderPageTitle(keyword: string, isPopular: boolean) {
   const $pageTitle = $('.page-title') as HTMLElement;
   if (!isPopular && keyword) {
     $pageTitle.innerText = PAGE_TITLE.showSearchResult(keyword);
@@ -27,18 +26,32 @@ export function renderViewMoreButton(isContentEnd: boolean) {
 }
 
 export async function renderSkeletonList(state: publisher) {
-  const parentElem = $('.item-list') as HTMLElement;
+  console.log('here');
+  const { page, keyword, isPopular } = state;
 
+  const parentElem = $('.item-list') as HTMLElement;
   parentElem.insertAdjacentHTML('beforeend', MovieListSkeleton());
 
-  const { results } = await getPopularMovies(state.page);
+  renderPageTitle(keyword, isPopular);
 
-  renderPopularMovieList(results, state);
+  if (isPopular) {
+    const { results } = await getPopularMovies(page);
+    renderPopularMovieList(results);
+
+    return;
+  }
+
+  const { results } = await getSearchMovie(keyword, page + 1);
+
+  renderSearchMovieList(results);
+  renderViewMoreButton(results.length < 20);
+  renderMoreMovieList(results);
 }
 
 export async function renderMoreSkeletonList(state: publisher) {
-  const parentElem = $('.item-list') as HTMLElement;
   const { keyword, isPopular } = state;
+
+  const parentElem = $('.item-list') as HTMLElement;
   parentElem.insertAdjacentHTML('beforeend', MovieListSkeleton());
 
   if (isPopular) {
@@ -64,9 +77,7 @@ export function deleteSkeletonList() {
   skeletonList?.forEach((item) => item.remove());
 }
 
-export async function renderPopularMovieList(results: IMovie[], state: publisher) {
-  renderPageTitle(state);
-
+export async function renderPopularMovieList(results: IMovie[]) {
   const parentElem = $('.item-list') as HTMLElement;
 
   parentElem.innerHTML = `
@@ -75,8 +86,7 @@ export async function renderPopularMovieList(results: IMovie[], state: publisher
   `;
 }
 
-export async function renderSearchMovieList(searchResults: IMovie[], state: publisher) {
-  renderPageTitle(state);
+export async function renderSearchMovieList(searchResults: IMovie[]) {
   const parentElem = $('.item-list') as HTMLElement;
 
   parentElem.innerHTML =

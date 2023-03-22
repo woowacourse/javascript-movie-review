@@ -4,7 +4,7 @@ import { publisher } from '../store/publisher';
 
 import { getFormFields } from '../utils/formData';
 import { $, Event } from '../utils/index';
-import { renderSearchMovieList } from './MovieList';
+import { renderSkeletonList } from './MovieList';
 
 export function Search(state: publisher) {
   const { isPopular } = state;
@@ -22,9 +22,7 @@ export function Search(state: publisher) {
 
     state.change({ keyword: searchedKeyword });
 
-    const { results } = await getSearchMovie(searchedKeyword, state.page + 1);
-
-    renderSearchMovieList(results, state);
+    renderSkeletonList(state);
   });
 
   return `
