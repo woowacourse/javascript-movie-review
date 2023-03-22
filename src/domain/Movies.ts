@@ -1,3 +1,4 @@
+import getMovieById from '../api/getMovieById';
 import getPopularMovies from '../api/getPopularMovies';
 import getSearchedMovies from '../api/getSearchedMovies';
 import { ERROR_MESSAGE, MAX_PAGE } from '../constants';
@@ -75,6 +76,11 @@ class Movies {
 
   previousPage() {
     this.#page -= 1;
+  }
+
+  getById(id: string) {
+    const a = getMovieById(id);
+    console.log(a);
   }
 
   getQuery() {
