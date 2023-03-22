@@ -64,16 +64,13 @@ class MovieDetailModal extends HTMLElement {
   }
 
   addEvent() {
-    $(".modal-backdrop")?.addEventListener("click", () => {
-      const dialog = <HTMLDialogElement>$("dialog");
+    const dialog = <HTMLDialogElement>$("dialog");
+    const $elements = [$(".modal-backdrop"), $(".modal-close-button")];
 
-      dialog.close();
-    });
-
-    $(".modal-close-button")?.addEventListener("click", () => {
-      const dialog = <HTMLDialogElement>$("dialog");
-
-      dialog.close();
+    $elements.forEach((element) => {
+      element?.addEventListener("click", () => {
+        dialog.close();
+      });
     });
   }
 
