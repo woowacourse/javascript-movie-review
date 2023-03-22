@@ -131,15 +131,12 @@ export class MovieList {
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => {
-              this.nextPage().then(() => {
-                const $li = document.querySelector('ul')?.lastElementChild;
-                io.unobserve($li!);
-                io.observe($li!);
-              });
-            }, 500);
-          }
+          if (!entry.isIntersecting) return;
+          this.nextPage().then(() => {
+            const $li = document.querySelector('ul')?.lastElementChild;
+            io.unobserve($li!);
+            io.observe($li!);
+          });
         });
       },
       {

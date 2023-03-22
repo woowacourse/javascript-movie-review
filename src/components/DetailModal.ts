@@ -23,30 +23,32 @@ class DetailModal {
                   />
                   <div class="modal-info">
                       <div class="modal-genre-score">
-                          <p class="modal-genres">${genre_ids.map(
-                            (genreId) => ' ' + store.getGenres(genreId),
-                          )}</p>
+                          <p class="modal-genres">${genre_ids.map((genreId) => {
+                            return ' ' + store.getGenres(genreId);
+                          })}</p>
                           <p class="modal-score"><img src="assets/star_filled.png" alt="별점" /> ${vote_average}</p>
                           <p class="modal-overview">${overview}</p>
                       </div>
                       <div class="user-score">
-                            내 별점 
-                          <span class="star">
-                              <img src="assets/star_empty.png" alt="별점" />
-                              <img src="assets/star_empty.png" alt="별점" />
-                              <img src="assets/star_empty.png" alt="별점" />
-                              <img src="assets/star_empty.png" alt="별점" />
-                              <img src="assets/star_empty.png" alt="별점" />
-                              <span>
-                                  <img src="assets/star_filled.png" alt="별점" />
-                                  <img src="assets/star_filled.png" alt="별점" />
-                                  <img src="assets/star_filled.png" alt="별점" />
-                                  <img src="assets/star_filled.png" alt="별점" />
-                                  <img src="assets/star_filled.png" alt="별점" />
+                          <div class="star-wrapper">
+                          <p>내 별점</p> 
+                              <span class="star">
+                                  <img src="assets/star_empty.png" alt="별점" />
+                                  <img src="assets/star_empty.png" alt="별점" />
+                                  <img src="assets/star_empty.png" alt="별점" />
+                                  <img src="assets/star_empty.png" alt="별점" />
+                                  <img src="assets/star_empty.png" alt="별점" />
+                                  <span>
+                                      <img src="assets/star_filled.png" alt="별점" />
+                                      <img src="assets/star_filled.png" alt="별점" />
+                                      <img src="assets/star_filled.png" alt="별점" />
+                                      <img src="assets/star_filled.png" alt="별점" />
+                                      <img src="assets/star_filled.png" alt="별점" />
+                                  </span>
+                                  <input type="range" value="2" step="2" min="2" max="10">
                               </span>
-                              <input type="range" value="2" step="2" min="2" max="10">
-                              </span>
-                            <p class="rating-text"></p>
+                          </div>
+                          <p class="rating-text"></p>
                       </div>
                   </div>
               </div>
@@ -61,10 +63,15 @@ class DetailModal {
 
   render(movie: Movie) {
     document.querySelector('main')?.insertAdjacentHTML('afterend', this.template(movie));
+    this.renderStar();
+  }
+
+  renderStar() {
     if (this.rate) {
       (document.querySelector('.star span') as HTMLImageElement).style.width = `${
         Number(this.rate) * 10
       }%`;
+
       (document.querySelector('.rating-text') as HTMLParagraphElement).textContent =
         this.ratingText(this.rate);
     }
@@ -98,7 +105,7 @@ class DetailModal {
   }
 
   ratingText(rate: string) {
-    return rate + ' ' + ratingComment[Number(rate)];
+    return window.outerWidth > 480 ? rate + ' ' + ratingComment[Number(rate)] : rate;
   }
 }
 
