@@ -1,5 +1,6 @@
 import { $ } from '../util/querySelector';
 import { MovieItem } from './MovieItem';
+import movieModal from './MovieModal';
 import movieSkeleton from './MovieSkeleton';
 
 const SKELETON_ITEM_COUNT = 20;
@@ -64,6 +65,11 @@ class Main {
       $('ul.item-list').appendChild(tempElement);
       $('.temp').outerHTML = '<p>검색 결과가 없습니다.</p>';
     }
+
+    const modal = document.createElement('div');
+    modal.className = 'modal hidden';
+
+    this.#element.appendChild(modal);
   }
 
   #requestMovieListEvent() {
@@ -72,6 +78,11 @@ class Main {
         this.renderSkeleton(this.#element);
         await this.#manager.getMoreMovieList();
         this.render();
+      }
+      if (e.target.tagName === 'IMG') {
+        const movieData = this.#manager.getMovieData(e.target.alt);
+        $('.modal').innerHTML = movieModal(movieData);
+        $('.modal').classList.remove('hidden');
       }
     });
   }

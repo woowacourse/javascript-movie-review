@@ -27,6 +27,10 @@ class MovieListManager {
     return this.#list.map((movie) => ({ ...movie }));
   }
 
+  getMovieData(movieName: string) {
+    return this.#list.find((data: Movie) => data.title === movieName);
+  }
+
   getQuery() {
     return this.#query;
   }

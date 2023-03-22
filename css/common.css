@@ -164,3 +164,16 @@ header .search-box > .search-button {
 .hidden {
   display: none;
 }
+
+.modal {
+  position: absolute;
+  width: 826px;
+  height: 577px;
+  left: 50%;
+  top: 50%;
+
+  background: #212122;
+  border-radius: 8px;
+  z-index: 0;
+  transform: translateX(-50%) translateY(-50%);
+}
