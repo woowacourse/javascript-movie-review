@@ -94,4 +94,5 @@ export interface IMovieDetailItem {
   voteAverage: number;
   movieId: number;
   genres: Array<string>;
+  posterPath: string | null;
 }

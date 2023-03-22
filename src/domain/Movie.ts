@@ -76,7 +76,7 @@ class Movie {
   }
 
   async getMovieDetails({ movieId }: { movieId: number }): Promise<IMovieDetailItem> {
-    const { genres, overview, title, vote_average } = await fetchData<IMovieDetail>(
+    const { genres, overview, title, vote_average, poster_path } = await fetchData<IMovieDetail>(
       `${TMDB_MOVIE_BASE_URL}/movie/${movieId}?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR`
     );
 
@@ -86,6 +86,7 @@ class Movie {
       voteAverage: vote_average,
       movieId,
       genres: genres.map(({ name }) => name),
+      posterPath: poster_path,
     };
 
     return movieDetails;

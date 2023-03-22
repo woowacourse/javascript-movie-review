@@ -5,14 +5,6 @@ class Modal {
   constructor() {
     this.#$modal = document.querySelector('.modal');
     this.#$modalContainer = document.querySelector('.modal-container');
-
-    const $closeButton = document.createElement('button');
-    $closeButton.className = 'modal-close-button';
-
-    $closeButton.addEventListener('click', () => {
-      this.close();
-    });
-    this.#$modalContainer?.appendChild($closeButton);
   }
 
   getModalContainer() {
