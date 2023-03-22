@@ -10,11 +10,6 @@ export default class MovieItemList {
     `;
   }
 
-  addMovies(movieElementString: string) {
-    $(".item-list")?.insertAdjacentHTML("beforeend", movieElementString);
-    this.removeSkeleton();
-  }
-
   removeSkeleton() {
     $$(".skeleton").forEach((element) => {
       element.classList.remove("skeleton");
