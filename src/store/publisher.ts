@@ -2,7 +2,7 @@ import { IMovie } from '../api/api.js';
 import { observable } from '../core/observer.js';
 
 export type stateType = {
-  [key: string]: string | number | boolean | IMovie[];
+  [key: string]: string | number | boolean;
 };
 
 export const publisher = {
@@ -10,7 +10,6 @@ export const publisher = {
     page: 1,
     keyword: '검색 결과',
     isPopular: true,
-    movies: [],
   }),
 
   setState(newState: stateType) {
@@ -20,30 +19,3 @@ export const publisher = {
     }
   },
 };
-
-/*
-export class publisher {
-  [x: string]: any;
-  #state: stateType = {};
-  // #observers = new Set();
-
-  constructor(state: stateType) {
-    this.#state = state;
-    Object.keys(state).forEach((key: string) =>
-      Object.defineProperty(this, key, {
-        get: () => this.#state[key],
-      })
-    );
-  }
-
-  change(newState: stateType) {
-    this.#state = { ...this.#state, ...newState };
-    // this.subscriber_notify();
-  }
-
-  getState() {
-    return this.#state;
-  }
-
-}
-*/

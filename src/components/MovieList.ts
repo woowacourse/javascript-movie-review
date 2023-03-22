@@ -9,6 +9,13 @@ import { MovieItem } from './MovieItem';
 
 import { renderViewMoreButton } from './ViewMoreButton';
 
+export function MovieList() {
+  return `
+    <ul class="item-list">
+    </ul>
+  `;
+}
+
 export async function renderSkeletonList() {
   const { page, keyword, isPopular } = publisher.state;
 
@@ -21,6 +28,7 @@ export async function renderSkeletonList() {
     renderPopularMovieList(results);
     return;
   }
+
   const { results } = await getSearchMovie(keyword, page);
 
   renderSearchMovieList(results);
@@ -28,7 +36,7 @@ export async function renderSkeletonList() {
 }
 
 export async function renderMoreSkeletonList() {
-  const { page, keyword, isPopular, movies } = publisher.state;
+  const { page, keyword, isPopular } = publisher.state;
   const nextPage = page + 1;
 
   const parentElem = $('.item-list') as HTMLElement;
@@ -40,22 +48,18 @@ export async function renderMoreSkeletonList() {
 
     publisher.setState({ page: nextPage });
 
-    console.log(publisher.state.page);
-
-    deleteSkeletonList();
-
-    return;
-  } else {
-    const { results } = await getSearchMovie(keyword, nextPage);
-    renderMoreMovieList(results);
-
-    publisher.setState({ page: nextPage });
-    console.log(publisher.state.page);
-
     deleteSkeletonList();
 
     return;
   }
+  const { results } = await getSearchMovie(keyword, nextPage);
+  renderMoreMovieList(results);
+
+  publisher.setState({ page: nextPage });
+
+  deleteSkeletonList();
+
+  return;
 }
 
 export async function renderPopularMovieList(results: IMovie[]) {
@@ -92,11 +96,4 @@ export function deleteSkeletonList() {
   const skeletonList = $$('.skeleton-item');
 
   skeletonList?.forEach((item) => item.remove());
-}
-
-export function MovieList() {
-  return `
-    <ul class="item-list">
-    </ul>
-  `;
 }
