@@ -25,7 +25,9 @@ class MovieSummaryItem {
     this.addClickEvent();
   }
 
-  render() {
+  render(newInfo?: MovieSummary) {
+    if (newInfo) this.info = newInfo;
+
     const { posterPath, title, voteAverage } = this.info;
 
     $('.item-title', this.element).textContent = title;

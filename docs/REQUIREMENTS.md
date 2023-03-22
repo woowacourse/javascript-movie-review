@@ -18,11 +18,11 @@
 ### Movie
 
 - [x] 영화 정보 HTML 형태 문자열 반환
-- [ ] 영화 요약정보를 눌렀을 때 세부정보 모달이 열림
+- [x] 영화 요약정보를 눌렀을 때 세부정보 모달이 열림
 
 ### MovieModal
 
-- [ ] 닫기: &times;버튼, `Esc`, `Backspace`, 검은 배경 클릭
+- [x] 닫기: &times;버튼, `Esc`, `Backspace`, 검은 배경 클릭
 
 ### MyScore
 
