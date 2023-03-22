@@ -97,7 +97,7 @@ class MovieInformationModal {
     title.textContent = movie.title;
 
     const metaInfo = $<HTMLParagraphElement>('.information-meta-info');
-    metaInfo.textContent = `${movie.releaseDate.split('-')[0]} · ${movie.genreIds}`;
+    metaInfo.textContent = `${movie.releaseDate.split('-')[0]} · ${movie.genres.join(', ')}`;
 
     renderVoteAverage(movie.voteAverage);
     renderUserVote(movie.userVote);

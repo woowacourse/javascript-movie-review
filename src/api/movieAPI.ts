@@ -1,5 +1,4 @@
-import { MovieData, MovieDataResult } from '../types/movie';
-import { convertKeysToCamelCase } from '../utils/camelCaseConverter';
+import { MovieData, MovieDataResult, MovieGenreData } from '../types/movie';
 import { generateUrl } from './generateUrl';
 import { fetchAPI } from './fetchAPI';
 
@@ -24,4 +23,11 @@ async function fetchSearchedMovieData(
   return movieData.results;
 }
 
-export { fetchPopularMovieData, fetchSearchedMovieData };
+async function fetchMovieGenreData() {
+  const apiUrl = generateUrl('genre/movie/list', {});
+  const movieGenreData: MovieGenreData = await fetchAPI(apiUrl);
+
+  return movieGenreData.genres;
+}
+
+export { fetchPopularMovieData, fetchSearchedMovieData, fetchMovieGenreData };

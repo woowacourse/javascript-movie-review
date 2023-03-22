@@ -25,7 +25,7 @@ interface MovieDataResult {
 interface Movie {
   id: number;
   title: string;
-  genreIds: number[];
+  genres: string[];
   releaseDate: string;
   voteAverage: number;
   userVote: number;
@@ -35,4 +35,13 @@ interface Movie {
 
 type MovieFetchFunction = () => Promise<MovieDataResult[]>;
 
-export { MovieData, MovieDataResult, Movie, MovieFetchFunction };
+interface MovieGenreData {
+  genres: MovieGenre[];
+}
+
+interface MovieGenre {
+  id: number;
+  name: string;
+}
+
+export { MovieData, MovieDataResult, Movie, MovieFetchFunction, MovieGenreData, MovieGenre };

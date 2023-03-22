@@ -1,4 +1,4 @@
-import { Movie, MovieDataResult, MovieFetchFunction } from '../types/movie';
+import { Movie, MovieDataResult, MovieFetchFunction, MovieGenre } from '../types/movie';
 import {
   MOVIE_LIST_ERROR,
   MOVIE_LIST_LOADED,
@@ -7,11 +7,16 @@ import {
   MOVIE_RETRIEVED,
 } from '../constants';
 import EventEmitter from '../utils/EventEmitter';
-import { fetchPopularMovieData, fetchSearchedMovieData } from '../api/movieAPI';
+import {
+  fetchMovieGenreData,
+  fetchPopularMovieData,
+  fetchSearchedMovieData,
+} from '../api/movieAPI';
 
 class MovieList {
   private static instance: MovieList;
   private movies: Movie[] = [];
+  private movieGenres: MovieGenre[] = [];
   private currentPage: number = 1;
   private searchQuery: string = '';
 
@@ -34,6 +39,12 @@ class MovieList {
     this.currentPage += 1;
   }
 
+  private convertMovieGenreId(genreIds: number[]) {
+    const selectedGenres = this.movieGenres.filter((genre) => genreIds.includes(genre.id));
+
+    return selectedGenres.map((genre) => genre.name);
+  }
+
   private async processMovieData(fetchFunction: MovieFetchFunction): Promise<Movie[]> {
     const moviesData: MovieDataResult[] = await fetchFunction();
     this.increaseCurrentPage();
@@ -41,7 +52,7 @@ class MovieList {
     const movies: Movie[] = moviesData.map((movie: MovieDataResult) => ({
       id: movie.id,
       title: movie.title,
-      genreIds: movie.genreIds,
+      genres: this.convertMovieGenreId(movie.genreIds),
       releaseDate: movie.releaseDate,
       voteAverage: Math.round(movie.voteAverage * 10) / 10,
       userVote: 0,
@@ -75,6 +86,10 @@ class MovieList {
     } catch (error) {
       EventEmitter.emit(MOVIE_LIST_ERROR, { error });
     }
+  }
+
+  async getMovieGenre() {
+    this.movieGenres = await fetchMovieGenreData();
   }
 
   getMovieInformation(movieId: number) {
