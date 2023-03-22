@@ -1,4 +1,4 @@
-import Tooltip from '../common/Tooltip';
+import Header from '.';
 import MovieCardSection from '../MovieCardSection';
 
 import { SEARCH_ERROR_MESSAGE } from '../../constants/message';
@@ -22,6 +22,7 @@ const MovieSearch = {
 
   setEvent(movies: Movies, getMovies: GetMovies) {
     const movieSearchForm = $<HTMLFormElement>(`#${ID.MOVIE_SEARCH_FORM}`);
+    const movieSearchInput = $('input[name="search-query"]');
 
     movieSearchForm.addEventListener('submit', (event) => {
       event.preventDefault();
@@ -32,34 +33,20 @@ const MovieSearch = {
       const query = searchInput.value;
 
       if (query.trim().length === 0) {
-        return MovieSearch.renderTooltip(SEARCH_ERROR_MESSAGE.EMPTY.error);
+        return Header.renderTooltip(SEARCH_ERROR_MESSAGE.EMPTY.error);
       }
 
       if (movies.isCurrentQuery(query)) {
-        return MovieSearch.renderTooltip(SEARCH_ERROR_MESSAGE.EQUAL.error);
+        return Header.renderTooltip(SEARCH_ERROR_MESSAGE.EQUAL.error);
       }
 
-      MovieSearch.removeTooltip();
+      Header.removeTooltip();
       MovieCardSection.render(movies, getMovies, query);
     });
 
-    const movieSearchInput = $('input[name="search-query"]');
-
     movieSearchInput.addEventListener('focus', () => {
-      MovieSearch.removeTooltip();
+      Header.removeTooltip();
     });
-  },
-
-  renderTooltip(message: string) {
-    const searchTooltip = $<HTMLDivElement>('.search-tooltip');
-
-    searchTooltip.insertAdjacentHTML('beforeend', Tooltip.template(message));
-  },
-
-  removeTooltip() {
-    const searchTooltip = $<HTMLDivElement>('.search-tooltip');
-
-    searchTooltip.innerHTML = '';
   },
 };
 

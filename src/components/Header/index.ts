@@ -1,6 +1,8 @@
 import MovieSearch from './MovieSearch';
+import Tooltip from '../common/Tooltip';
 
 import { logoImage } from '../../assets/images';
+import { $ } from '../../utils/dom';
 
 import './Header.style.css';
 
@@ -17,6 +19,18 @@ const Header = {
         <div class="search-tooltip"></div>
       </header>
     `;
+  },
+
+  renderTooltip(message: string) {
+    const searchTooltip = $<HTMLDivElement>('.search-tooltip');
+
+    searchTooltip.insertAdjacentHTML('beforeend', Tooltip.template(message));
+  },
+
+  removeTooltip() {
+    const searchTooltip = $<HTMLDivElement>('.search-tooltip');
+
+    searchTooltip.innerHTML = '';
   },
 };
 
