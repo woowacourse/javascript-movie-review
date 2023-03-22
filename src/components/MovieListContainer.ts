@@ -1,5 +1,6 @@
 import { $ } from '../utils/domSelector';
 import { MOVIE_LIST_LOADED, MOVIE_LIST_LOADING, MOVIE_LIST_RESET } from '../constants';
+import { SCROLL_OFFSET } from '../constants/ui';
 import MovieList from '../domain/MovieList';
 
 class MovieListContainer {
@@ -44,7 +45,8 @@ class MovieListContainer {
 
   private addEventListenerToMoreButton() {
     window.addEventListener('scroll', () => {
-      const endOfPage = window.innerHeight + window.scrollY + 250 >= document.body.offsetHeight;
+      const endOfPage =
+        window.innerHeight + window.scrollY + SCROLL_OFFSET >= document.body.offsetHeight;
 
       if (!this.shouldScroll) return;
 

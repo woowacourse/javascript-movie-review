@@ -1,3 +1,5 @@
+const SCROLL_OFFSET = 250;
+
 const MOVIE_LIST_MAIN_TITLE = '지금 인기 있는 영화';
 
 const USER_VOTE_MESSAGE: Record<number, string> = {
@@ -9,4 +11,4 @@ const USER_VOTE_MESSAGE: Record<number, string> = {
   10: '명작이에요',
 };
 
-export { MOVIE_LIST_MAIN_TITLE, USER_VOTE_MESSAGE };
+export { SCROLL_OFFSET, MOVIE_LIST_MAIN_TITLE, USER_VOTE_MESSAGE };
