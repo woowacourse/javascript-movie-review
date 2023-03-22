@@ -1,9 +1,17 @@
-import { ImgSrc, RateCaption, RATE_RANGE } from "../../constant/movieConstants";
+import {
+  ImgSrc,
+  RateCaption,
+  RATE_RANGE,
+  STORAGE_KEY,
+} from "../../constant/movieConstants";
 import MovieManager from "../../domain/MovieManager";
 import { $, $$ } from "../../util/dom";
+import { getData, saveData } from "../../util/localStorage";
 import CustomElement from "../basic/CustomElement";
 
 class MovieItemModal extends CustomElement {
+  id = null;
+
   connectedCallback() {
     MovieManager.subscribeModal(this);
   }
@@ -12,8 +20,7 @@ class MovieItemModal extends CustomElement {
     const { title, starRate, src, id, genres, description } = movieInfo;
 
     return `
-    <dialog class="item-modal-container" id=${id}>
-      
+    <dialog class="item-modal-container">
       <div class="item-modal-header">
         <div class='item-modal-title'>${title}</div>
         <button class="item-modal-close-button button" type="button">X</button>
@@ -47,7 +54,14 @@ class MovieItemModal extends CustomElement {
   }
 
   popUp(movieInfo) {
+    this.id = movieInfo.id;
     this.insertAdjacentHTML("beforeend", this.template(movieInfo));
+
+    const rate = getData(STORAGE_KEY)[this.id];
+    if (rate) {
+      this.rerenderUserRate(rate);
+    }
+
     $(".item-modal-container").showModal();
     this.setEvent();
   }
@@ -66,19 +80,33 @@ class MovieItemModal extends CustomElement {
         return;
       }
 
-      const rateNumber = targetNumber * RATE_RANGE;
-      const rateCaption = RateCaption[targetNumber];
-
-      $(".user-rate-number").innerText = rateNumber;
-      $(".user-rate-caption").innerText = rateCaption;
-      this.rerenderStars(targetNumber);
+      this.rerenderUserRate(targetNumber);
+      this.saveUserRate(targetNumber);
     });
   }
 
-  rerenderStars(targetNumber) {
+  rerenderUserRate(rate) {
+    const rateNumber = rate * RATE_RANGE;
+    const rateCaption = RateCaption[rate];
+
+    $(".user-rate-number").innerText = rateNumber;
+    $(".user-rate-caption").innerText = rateCaption;
+    this.rerenderStars(rate);
+  }
+
+  rerenderStars(rate) {
     $$(".user-rate-star").forEach(($star, index) => {
-      $star.src = index < targetNumber ? ImgSrc.FULL_STAR : ImgSrc.EMPTY_STAR;
+      $star.src = index < rate ? ImgSrc.FULL_STAR : ImgSrc.EMPTY_STAR;
     });
+  }
+
+  saveUserRate(rate) {
+    const newData = {
+      ...getData(STORAGE_KEY),
+      [this.id]: rate,
+    };
+
+    saveData(STORAGE_KEY, newData);
   }
 }
 
