@@ -1,0 +1,30 @@
+.item-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.hidden {
+  display: none;
+}
+
+.item-thumbnail {
+  border-radius: 8px;
+  width: 180px;
+  height: 270px;
+  background-size: contain;
+}
+
+.item-title {
+  margin-top: 16px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.item-score {
+  margin-top: 16px;
+  font-size: 1.2rem;
+}
+
+.item-score::after {
+  margin-left: 8px;
+}

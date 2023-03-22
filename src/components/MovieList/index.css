@@ -1,0 +1,17 @@
+.item-test {
+  width: 100%;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  user-select: none;
+}
+
+.item-list {
+  display: grid;
+  margin: 48px 0;
+  grid-template-columns: repeat(4, 180px);
+  grid-column-gap: 160px;
+  grid-row-gap: 48px;
+}
