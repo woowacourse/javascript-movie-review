@@ -36,6 +36,7 @@ class MovieModal {
     if (this.element.dataset.open === 'true') return;
 
     this.element.dataset.open = 'true';
+    history.pushState(null, '', location.href);
   }
 
   close() {
@@ -60,6 +61,13 @@ class MovieModal {
     window.addEventListener('keyup', (event) => {
       if (event.key === 'Escape' || 'Esc' || 'Backspace') this.close();
     });
+
+    window.addEventListener('popstate', () => {
+      if (this.element.dataset.open === 'true') {
+        history.forward();
+        this.close();
+      }
+    })
   }
 
 }
