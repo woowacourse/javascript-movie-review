@@ -3,7 +3,7 @@ import MovieContainer from '../../components/MovieContainer';
 import CardList from '../../components/shared/CardList';
 import { MainComponents } from '../../types/main';
 import Button from '../../components/shared/Button';
-import { Proxy } from '../../types/proxy';
+import { proxy } from '../../domains/proxy';
 
 class Main {
   private components: MainComponents = {
@@ -12,14 +12,8 @@ class Main {
     moreButton: null,
   };
 
-  private proxy: Proxy = {
-    query: { value: '', isSearch: false },
-    moreButton: { isClick: false, currentPage: 1, isSearch: false },
-  };
-
-  constructor({ movieContainer, movieList, moreButton }: MainComponents, proxy: Proxy) {
+  constructor({ movieContainer, movieList, moreButton }: MainComponents) {
     this.components = { movieContainer, movieList, moreButton };
-    this.proxy = proxy;
   }
 
   render() {
@@ -57,7 +51,7 @@ class Main {
 
   private callback(event: Event) {
     if (event.target instanceof HTMLButtonElement && event.target.matches('#moreButton')) {
-      this.proxy.moreButton.isClick = true;
+      proxy.moreButton.isClick = true;
     }
   }
 

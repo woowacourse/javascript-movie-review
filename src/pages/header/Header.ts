@@ -4,20 +4,16 @@ import { $ } from '../../utils/dom';
 import { HeaderComponents } from '../../types/header';
 import { getFormData } from '../../utils/form';
 import { Proxy } from '../../types/proxy';
+import { proxy } from '../../domains/proxy';
 
 class Header {
   private components: HeaderComponents = {
     logo: null,
     searchBox: null,
   };
-  private proxy: Proxy = {
-    query: { value: '', isSearch: false },
-    moreButton: { isClick: false, currentPage: 1, isSearch: false },
-  };
 
-  constructor({ logo, searchBox }: HeaderComponents, proxy: Proxy) {
+  constructor({ logo, searchBox }: HeaderComponents) {
     this.components = { logo, searchBox };
-    this.proxy = proxy;
   }
 
   render() {
@@ -56,8 +52,8 @@ class Header {
       const formData = getFormData(event);
       if (formData instanceof Object) {
         const query = Object.fromEntries(formData);
-        this.proxy.query.value = query['search-input'];
-        this.proxy.query.isSearch = true;
+        proxy.query.value = query['search-input'];
+        proxy.query.isSearch = true;
       }
     }
   }
