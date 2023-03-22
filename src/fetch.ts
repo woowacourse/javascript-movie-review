@@ -6,6 +6,7 @@ import {
   MovieResults,
   Options,
 } from './types';
+import { handleError } from './utils/handleError';
 
 export const getAPIUrl = (params: string, options: Options) =>
   `https://api.themoviedb.org/3${params}?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&page=${options.page}&query=${options.query}`;
@@ -21,6 +22,7 @@ export const fetchMovies = async (params: string, options: Options): Promise<Mov
       const error: FailedResponse = await res.json();
       throw new Error(error.status_message);
     }
+
     const data: MovieDataResponse = await res.json();
     const movies: Movie[] = data.results.map((result: MovieResults) => ({
       title: result.title,
@@ -31,7 +33,7 @@ export const fetchMovies = async (params: string, options: Options): Promise<Mov
     return { movies: movies, totalPages: data.total_pages };
   } catch (error) {
     if (error instanceof Error) {
-      alert(error.message);
+      handleError(error.message);
     }
     throw new Error();
   }
