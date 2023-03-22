@@ -1,14 +1,16 @@
-import './MovieCardSection.style.css';
-
 import LoadMoreButton from './LoadMoreButton';
 import MovieCardList from './MovieCardList';
 import MovieSectionTitle from './MovieSectionTitle';
 import ErrorMessage from './ErrorMessage';
-import { CLASS } from '../../constants/selector';
+
 import { CustomErrorMessage, SEARCH_ERROR_MESSAGE } from '../../constants/message';
+import { CLASS } from '../../constants/selector';
 import { $ } from '../../utils/dom';
-import Movies from '../../domain/Movies';
-import { GetMovies } from '../../App';
+
+import type Movies from '../../domain/Movies';
+import type { GetMovies } from '../../App';
+
+import './MovieCardSection.style.css';
 
 const MovieCardSection = {
   template() {

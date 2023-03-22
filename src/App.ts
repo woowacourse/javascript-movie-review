@@ -1,17 +1,19 @@
-import getPopularMovies from './api/getPopularMovies';
-import getSearchedMovies from './api/getSearchedMovies';
 import Header from './components/Header';
 import MovieSearch from './components/Header/MovieSearch';
 import MovieCardSection from './components/MovieCardSection';
 import LoadMoreButton from './components/MovieCardSection/LoadMoreButton';
-import MovieCardList from './components/MovieCardSection/MovieCardList';
+
+import Movies from './domain/Movies';
+import { convertToAppMovies } from './domain/util';
+
+import getPopularMovies from './api/getPopularMovies';
+import getSearchedMovies from './api/getSearchedMovies';
 import { MAX_PAGE } from './constants';
 import { isCustomErrorMessage } from './constants/message';
 import { ID } from './constants/selector';
-import Movies from './domain/Movies';
-import { convertToAppMovies } from './domain/util';
-import { AppMovie } from './types/movie';
 import { $ } from './utils/dom';
+
+import type { AppMovie } from './types/movie';
 
 interface ConvertingMovies {
   list: AppMovie[];
@@ -43,10 +45,6 @@ class App {
         ${MovieCardSection.template()}
       </main>
     `;
-  }
-
-  paint(movies: AppMovie[]) {
-    MovieCardList.paint(movies);
   }
 
   setEvent() {

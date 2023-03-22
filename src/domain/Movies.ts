@@ -1,4 +1,4 @@
-import { AppMovie } from '../types/movie';
+import type { AppMovie } from '../types/movie';
 
 class Movies {
   #query: string;

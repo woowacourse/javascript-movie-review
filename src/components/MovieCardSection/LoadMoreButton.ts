@@ -1,9 +1,10 @@
 import MovieCardSection from '.';
-import type { GetMovies } from '../../App';
+
 import { ID } from '../../constants/selector';
-import type Movies from '../../domain/Movies';
 import { $ } from '../../utils/dom';
-import MovieCardList from './MovieCardList';
+
+import type Movies from '../../domain/Movies';
+import type { GetMovies } from '../../App';
 
 const LoadMoreButton = {
   template() {
@@ -13,7 +14,7 @@ const LoadMoreButton = {
   setEvent(movies: Movies, getMovies: GetMovies) {
     const button = $<HTMLButtonElement>(`#${ID.LOAD_MORE_BUTTON}`);
 
-    button.addEventListener('click', async () => {
+    button.addEventListener('click', () => {
       MovieCardSection.render(movies, getMovies);
     });
   },

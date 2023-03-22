@@ -1,8 +1,10 @@
 import MovieCard from './MovieCard';
-import type { AppMovie } from '../../types/movie';
+
 import { DEFAULT_LIST_LENGTH } from '../../constants';
 import { CLASS } from '../../constants/selector';
 import { $ } from '../../utils/dom';
+
+import type { AppMovie } from '../../types/movie';
 
 const MovieCardList = {
   template() {

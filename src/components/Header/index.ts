@@ -1,8 +1,8 @@
-import './Header.style.css';
-
 import MovieSearch from './MovieSearch';
+
 import { logoImage } from '../../assets/images';
-import Tooltip from '../common/Tooltip';
+
+import './Header.style.css';
 
 const Header = {
   template() {

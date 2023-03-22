@@ -1,7 +1,8 @@
 import { posterNotFoundImage, starFilledImage } from '../../assets/images';
 import { IMAGE_URL } from '../../constants';
 import { CLASS } from '../../constants/selector';
-import type { AppMovie, RawMovie } from '../../types/movie';
+
+import type { AppMovie } from '../../types/movie';
 
 const MovieCard = {
   template() {

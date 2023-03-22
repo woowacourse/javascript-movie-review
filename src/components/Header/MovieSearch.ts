@@ -1,10 +1,12 @@
-import { GetMovies } from '../../App';
-import { SEARCH_ERROR_MESSAGE } from '../../constants/message';
-import { ID } from '../../constants/selector';
-import type Movies from '../../domain/Movies';
-import { $ } from '../../utils/dom';
 import Tooltip from '../common/Tooltip';
 import MovieCardSection from '../MovieCardSection';
+
+import { SEARCH_ERROR_MESSAGE } from '../../constants/message';
+import { ID } from '../../constants/selector';
+import { $ } from '../../utils/dom';
+
+import type { GetMovies } from '../../App';
+import type Movies from '../../domain/Movies';
 
 const MovieSearch = {
   template() {
