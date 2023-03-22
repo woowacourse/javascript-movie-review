@@ -72,7 +72,7 @@ interface GetMovieDetailResponse {
   vote_count: number;
 }
 
-interface Genre {
+export interface Genre {
   id: number;
   name: string;
 }

@@ -1,7 +1,8 @@
 import { Store } from '..';
-import { getPopularMovies, searchMovies } from '../service/movie';
+import { getMovieDetail, getPopularMovies, searchMovies } from '../service/movie';
 import { Movie, MoviesResponse } from '../service/types';
 import MovieCard from './MovieCard';
+import MovieDetailModal from './MovieDetailModal';
 
 export default class MovieList {
   $parent: HTMLElement;
@@ -44,13 +45,11 @@ export default class MovieList {
   skeletonTemplate() {
     return `
       <li class='skeleton-li'>
-        <a href="#">
-          <div class="item-card">
-            <div class="item-thumbnail skeleton"></div>
-            <div class="item-title skeleton"></div>
-            <div class="item-score skeleton"></div>
-          </div>
-        </a>
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
       </li>
     `;
   }
@@ -65,6 +64,24 @@ export default class MovieList {
     };
 
     this.$moreMovieButton?.addEventListener('click', handleMoreMovieButton);
+    this.$movieItemList?.addEventListener('click', (e) => {
+      if (!(e.target instanceof HTMLElement)) return;
+      const $itemCard = e.target.closest('.js-item-card');
+      if (
+        !$itemCard ||
+        !this.$movieItemList.contains($itemCard) ||
+        !($itemCard instanceof HTMLElement) ||
+        !$itemCard.dataset.id
+      )
+        return;
+      // 각 카드에 맞게 api 요청 후 모달 창 띄우기
+      getMovieDetail({ movie_id: Number($itemCard.dataset.id) }).then((movieDetail) => {
+        const $detailModal = new MovieDetailModal(this.$parent, movieDetail);
+        $detailModal.bindEvent();
+
+        $detailModal.show();
+      });
+    });
   }
 
   renderTitle(title: string) {

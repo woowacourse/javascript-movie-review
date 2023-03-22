@@ -14,21 +14,19 @@ export default class MovieCard {
   }
 
   template() {
-    const { poster_path, title, vote_average } = this.movie;
+    const { poster_path, title, vote_average, id } = this.movie;
     return `
-      <li>
-        <a href="#">
-          <div class="item-card">
-            <img
-              class="item-thumbnail"
-              src="${IMAGE_BASE}${poster_path}"
-              loading="lazy"
-              alt="${title}"
-            />
-            <p class="item-title">${title}</p>
-            <p class="item-score"><img src="${starFilled}" alt="별점" /><span class='item-vote-average'>${vote_average}</span></p>
-          </div>
-        </a>
+      <li class="js-item-card" data-id="${id}">
+        <div class="item-card">
+          <img
+            class="item-thumbnail"
+            src="${IMAGE_BASE}${poster_path}"
+            loading="lazy"
+            alt="${title}"
+          />
+          <p class="item-title">${title}</p>
+          <p class="item-score"><img src="${starFilled}" alt="별점" /><span class='item-vote-average'>${vote_average}</span></p>
+        </div>
       </li>
     `;
   }
