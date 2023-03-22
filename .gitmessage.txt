@@ -1,9 +1,8 @@
-# ✨ feat : 새로운 기능 추가
-# 🔩 fix : 버그 수정
-# 📝 docs : 문서 수정
-# ✅ test : 테스트 코드 추가
-# ♻️ refactor : 코드 리팩토링
-# 🖌️ style : 코드 의미에 영향을 주지 않는 변경사항
-# 📦 chore : 빌드 부분 혹은 패키지 매니저 수정사항
-
-Co-authored-by: 정우시 <jeongwusi@gmail.com>
+# build : 빌드 부분 혹은 패키지 매니저 수정사항
+# ci: ci 파일 수정
+# docs : 문서 수정사항
+# feat : 새로운 기능
+# fix : 버그 수정사항
+# perf : 성능이 향상된 코드 수정사항
+# refactor : 코드 리팩토링
+# test : 테스트 코드
