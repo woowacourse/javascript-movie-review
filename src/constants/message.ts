@@ -16,9 +16,10 @@ const DEFAULT_ERROR_MESSAGE: CustomErrorMessage = {
   desc: '다시 접속해주세요.',
 };
 
-export const SEARCH_ERROR_MESSAGE: CustomErrorMessage = {
-  error: '🔎 검색 결과가 없습니다. 🔎',
-  desc: '검색 값이 올바른지 확인해주세요.',
+export const SEARCH_ERROR_MESSAGE: Record<string, CustomErrorMessage> = {
+  NO_RESULT: { error: '🔎 검색 결과가 없습니다. 🔎', desc: '검색 값이 올바른지 확인해주세요.' },
+  EMPTY: { error: '빈 값이나 스페이스는 검색할 수 없습니다.', desc: '올바른 값을 입력해주세요.' },
+  EQUAL: { error: '같은 입력 값을 검색했습니다.', desc: '다른 값을 검색해보세요.' },
 };
 
 export const getErrorMessage = (status: number) => FETCH_ERROR_MESSAGE[status] ?? DEFAULT_ERROR_MESSAGE;

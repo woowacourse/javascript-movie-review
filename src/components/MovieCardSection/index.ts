@@ -33,7 +33,7 @@ const MovieCardSection = {
     }
 
     if (newMovies.list.length === 0) {
-      return MovieCardSection.renderErrorMessage(SEARCH_ERROR_MESSAGE);
+      return MovieCardSection.renderErrorMessage(SEARCH_ERROR_MESSAGE.NO_RESULT);
     }
 
     MovieCardList.paint(newMovies.list, movies.getPage());

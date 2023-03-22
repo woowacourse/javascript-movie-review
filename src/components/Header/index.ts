@@ -14,9 +14,7 @@ const Header = {
           </a>
         </h1>
         ${MovieSearch.template()}
-        <div class="search-tooltip hide">
-          ${Tooltip.template('올바른 검색값을 입력해주세요.')}
-        </div>
+        <div class="search-tooltip"></div>
       </header>
     `;
   },
