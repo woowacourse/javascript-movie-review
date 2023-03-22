@@ -1,6 +1,5 @@
 import MovieCard from './MovieCard';
-import { Store } from '../Store';
-import WholeScreenMessageAlert from './WholeScreenMessageAlert';
+import stateRender from '../renderer/StateRender';
 
 class MovieList {
   #$ul = document.createElement('ul');
@@ -10,16 +9,13 @@ class MovieList {
   }
 
   #template() {
-    const movies = Store.get('movieStates')?.getMovieStates();
-    if (!movies) return WholeScreenMessageAlert('알 수 없는 에러');
+    const { results, query } = stateRender.getMovieState();
 
-    if (!movies.results.length) {
-      return this.#movieListErrorTemplate(
-        `입력하신 "${movies?.query}"(와)과 일치하는 결과가 없습니다.`
-      );
+    if (!results.length) {
+      return this.#movieListErrorTemplate(`입력하신 "${query}"(와)과 일치하는 결과가 없습니다.`);
     }
 
-    return movies.results.map((movie) => new MovieCard(movie).getCardNode());
+    return results.map((movie) => new MovieCard(movie).getCardNode());
   }
 
   render($target: HTMLElement) {

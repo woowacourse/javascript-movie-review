@@ -1,5 +1,4 @@
-import { Store } from '../Store';
-import { eventThrottle } from '../utils/throttle';
+import stateRender from '../renderer/StateRender';
 
 class MoreButton {
   $button = document.createElement('button');
@@ -16,21 +15,15 @@ class MoreButton {
   }
 
   #onClickMoreButton() {
-    const movieState = Store.get('movieStates');
-    if (!movieState) return;
-
-    const states = movieState.getMovieStates();
-
-    if (!states) return;
+    const states = stateRender.getMovieState();
     const { nextPage, category, query } = states;
-
+    console.log(nextPage, '@');
     if (category === 'popular') {
-      movieState.renderPopularMovies(nextPage);
-
+      stateRender.renderPopularMovies(nextPage);
       return;
     }
 
-    movieState.renderSearchedMovies(query, nextPage);
+    stateRender.renderSearchedMovies(query, nextPage);
   }
 
   hide() {

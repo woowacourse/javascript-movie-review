@@ -1,5 +1,5 @@
 import logo from '../images/logo.png';
-import { Store } from '../Store';
+import stateRender from '../renderer/StateRender';
 
 class Header {
   #$header = document.createElement('header');
@@ -32,11 +32,11 @@ class Header {
     const { currentTarget } = e;
     const { value } = currentTarget.querySelector('input') as HTMLInputElement;
 
-    const query = Store.get('movieStates')?.getMovieStates().query ?? '';
+    const query = stateRender.getMovieState().query ?? '';
 
     if (this.#checkSearchWordValidation(value, query)) return;
 
-    Store.get('movieStates')?.renderSearchedMovies(value);
+    stateRender.renderSearchedMovies(value);
   }
 
   #checkSearchWordValidation(value: string, query: string) {
@@ -44,7 +44,7 @@ class Header {
       alert('1글자 이상 입력해 주셔야 합니다.');
       return true;
     }
-    console.log(value, query, '@@');
+
     if (value === query) return true;
 
     return false;
@@ -56,7 +56,7 @@ class Header {
 
     if (target.dataset.type !== 'logo') return;
 
-    Store.get('movieStates')?.renderPopularMovies();
+    stateRender.renderPopularMovies();
 
     if (this.#$searchBox instanceof HTMLFormElement) {
       this.#$searchBox.reset();

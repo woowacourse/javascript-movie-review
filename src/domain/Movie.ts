@@ -1,5 +1,4 @@
 import { fetchData } from '../api/http';
-import { statusCodeToErrorMessage } from '../api/statusCode';
 import { TMDB_MOVIE_BASE_URL } from '../utils/constants';
 import { IMovieHandleProps, IMovieItemProps, IMovieProps, IMovieState } from '../types/movie';
 
@@ -26,11 +25,11 @@ export const initialMovieStats: IMovieState = {
 };
 
 class Movie {
-  #movieState: IMovieState;
+  // #movieState: IMovieState;
 
-  constructor(initialMovieState: IMovieState) {
-    this.#movieState = initialMovieState;
-  }
+  // constructor(initialMovieState: IMovieState) {
+  //   this.#movieState = initialMovieState;
+  // }
 
   async getPopularMovies({
     curPage = 1,
@@ -73,55 +72,55 @@ class Movie {
     };
   }
 
-  async renderPopularMovies(curPage = 1) {
-    try {
-      const { results, total_pages, page } = await this.getPopularMovies({
-        curPage,
-      });
+  // async renderPopularMovies(curPage = 1) {
+  //   try {
+  //     const { results, total_pages, page } = await this.getPopularMovies({
+  //       curPage,
+  //     });
 
-      this.#movieState.query = '';
+  //     this.#movieState.query = '';
 
-      if (this.#movieState.category === 'search') {
-        this.#movieState.category = 'popular';
-        this.#movieState.nextPage = 1;
-      }
+  //     if (this.#movieState.category === 'search') {
+  //       this.#movieState.category = 'popular';
+  //       this.#movieState.nextPage = 1;
+  //     }
 
-      this.#setMovies({ results, total_pages, page });
-    } catch (error) {
-      this.#movieState.error = error as string;
-    }
-  }
+  //     this.#setMovies({ results, total_pages, page });
+  //   } catch (error) {
+  //     this.#movieState.error = error as string;
+  //   }
+  // }
 
-  async renderSearchedMovies(query: string, curPage = 1) {
-    try {
-      const { results, total_pages, page } = await this.getFindMovies({
-        query,
-        curPage,
-      });
+  // async renderSearchedMovies(query: string, curPage = 1) {
+  //   try {
+  //     const { results, total_pages, page } = await this.getFindMovies({
+  //       query,
+  //       curPage,
+  //     });
 
-      this.#movieState.query = query;
-      if (this.#movieState.category === 'popular') {
-        this.#movieState.category = 'search';
-        this.#movieState.nextPage = 1;
-      }
+  //     this.#movieState.query = query;
+  //     if (this.#movieState.category === 'popular') {
+  //       this.#movieState.category = 'search';
+  //       this.#movieState.nextPage = 1;
+  //     }
 
-      this.#setMovies({ results, total_pages, page });
-    } catch (error) {
-      this.#movieState.error = error as string;
-    }
-  }
+  //     this.#setMovies({ results, total_pages, page });
+  //   } catch (error) {
+  //     this.#movieState.error = error as string;
+  //   }
+  // }
 
-  #setMovies({ results, total_pages, page }: IMovieHandleProps<IMovieItemProps>) {
-    this.#movieState.results = results;
-    this.#movieState.nextPage = total_pages === page ? -1 : page + 1;
-    this.#movieState.error = '';
-  }
+  // #setMovies({ results, total_pages, page }: IMovieHandleProps<IMovieItemProps>) {
+  //   this.#movieState.results = results;
+  //   this.#movieState.nextPage = total_pages === page ? -1 : page + 1;
+  //   this.#movieState.error = '';
+  // }
 
-  getMovieStates() {
-    return {
-      ...this.#movieState,
-    };
-  }
+  // getMovieStates() {
+  //   return {
+  //     ...this.#movieState,
+  //   };
+  // }
 }
 
 export default Movie;
