@@ -1,7 +1,5 @@
-import { renderSearchMovieList, renderMoreMovieList } from '../components/MovieList';
-import { $ } from '../utils';
-import { getMovies, getSearchMovie, IMovieList } from '../api';
-import { PAGE_TITLE } from '../constants/constants';
+import { renderMoreMovieList } from '../components/MovieList';
+import { getMovies, getSearchMovie } from '../api/api';
 /*
 interface RequestedInfo {
   requestedPage: number;
@@ -22,8 +20,7 @@ interface ResponseInfo {
 // type TMovieFunction = (info: RequestedInfo) =>
 
 export async function usePopularMovie(requestedPage: number) {
-  const popularMovieResponse = await getMovies(requestedPage);
-  const { page, results } = popularMovieResponse;
+  const { page, results } = await getMovies(requestedPage);
 
   async function handleNextPage() {
     const { results } = await getMovies(page + 1);
@@ -38,17 +35,12 @@ export async function usePopularMovie(requestedPage: number) {
 
 export async function useSearchedMovie(keyword: string, requestedPage: number) {
   const { page, results } = await getSearchMovie(keyword, requestedPage);
-
-  function handleSearchResult() {
-    renderSearchMovieList(results);
-  }
-
   function handleNextPage() {
     renderMoreMovieList(results);
   }
 
   return {
     values: { page, results },
-    handlers: { handleSearchResult, handleNextPage },
+    handlers: { handleNextPage },
   };
 }

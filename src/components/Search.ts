@@ -1,29 +1,33 @@
-import { setRecentKeyword } from '../hooks/useKeyword';
 import { useSearchedMovie } from '../hooks/useMovie';
 
-import { getPage, getPageStatus, POPULAR, resetPage, togglePageStatus } from '../hooks/usePage';
+import { publisher } from '../store/publisher';
+
 import { getFormFields } from '../utils/formData';
 import { $, Event } from '../utils/index';
+import { renderSearchMovieList } from './MovieList';
 
-export function Search() {
+export function Search(state: publisher) {
+  const { page, keyword, isPopular } = state;
+  console.log(page, keyword, isPopular);
+
   Event.addEvent('submit', '.search-box', async (event) => {
     event.preventDefault();
 
-    resetPage();
+    state.change({ page: 1 });
 
-    if (getPageStatus() === POPULAR) togglePageStatus();
+    if (isPopular) state.change({ isPopular: false });
 
     const formEl = $('.search-box') as HTMLFormElement;
     const formData = getFormFields(formEl);
     const searchedKeyword = String(formData.keyword);
 
-    setRecentKeyword(searchedKeyword);
+    state.change({ keyword: searchedKeyword });
 
     const {
-      handlers: { handleSearchResult },
-    } = await useSearchedMovie(searchedKeyword, getPage());
-
-    handleSearchResult();
+      values: { results },
+    } = await useSearchedMovie(searchedKeyword, state.page);
+    console.log(results);
+    renderSearchMovieList(results, state);
   });
 
   return `

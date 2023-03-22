@@ -1,6 +1,6 @@
 import star_filled from '../assets/star_filled.png';
 
-import { IMovie } from '../api';
+import { IMovie } from '../api/api';
 import { makeImagePath } from '../utils/makeImagePath';
 import { fixDecimal } from '../utils/fixDecimal';
 

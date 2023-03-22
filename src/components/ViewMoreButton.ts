@@ -1,13 +1,14 @@
-import { plusPage } from '../hooks/usePage';
+import { publisher } from '../store/publisher';
 import { Event } from '../utils/index';
 
 import { renderMoreSkeletonList } from './MovieList';
 
-export function ViewMoreButton() {
+export function ViewMoreButton(state: publisher) {
   Event.addEvent('click', '.view-more-button', async () => {
-    renderMoreSkeletonList();
+    renderMoreSkeletonList(state);
 
-    plusPage();
+    const { page } = state;
+    state.change({ page: page + 1 });
   });
 
   return `

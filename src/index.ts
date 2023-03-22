@@ -8,7 +8,14 @@ import { render } from './utils/index';
 
 import { App } from './components/App';
 import { renderSkeletonList } from './components/MovieList';
+import { publisher } from './store/publisher';
 
-render(App());
+const state = new publisher({
+  page: 1,
+  keyword: '',
+  isPopular: true,
+});
 
-renderSkeletonList();
+render(App(state));
+
+renderSkeletonList(state);

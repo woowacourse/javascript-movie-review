@@ -1,19 +1,19 @@
-import { IMovie } from '../api';
+import { publisher } from '../store/publisher';
+
+import { IMovie } from '../api/api';
 
 import { $, $$ } from '../utils';
 
 import { usePopularMovie, useSearchedMovie } from '../hooks/useMovie';
-import { getPage, getPageStatus, POPULAR, SEARCH } from '../hooks/usePage';
-import { getRecentKeyword } from '../hooks/useKeyword';
 
 import { MovieListSkeleton } from './MovieListSkeleton';
 import { MovieItem } from './MovieItem';
 import { PAGE_TITLE } from '../constants/constants';
 
-export function renderPageTitle(keyword?: string | undefined) {
+export function renderPageTitle(state: publisher) {
+  const { keyword, isPopular } = state;
   const $pageTitle = $('.page-title') as HTMLElement;
-
-  if (getPageStatus() === SEARCH && keyword) {
+  if (!isPopular && keyword) {
     $pageTitle.innerText = PAGE_TITLE.showSearchResult(keyword);
     return;
   }
@@ -28,30 +28,32 @@ export function renderViewMoreButton(isContentEnd: boolean) {
   }
 }
 
-export async function renderSkeletonList() {
+export async function renderSkeletonList(state: publisher) {
   const parentElem = $('.item-list') as HTMLElement;
 
   parentElem.insertAdjacentHTML('beforeend', MovieListSkeleton());
 
-  await usePopularMovie(getPage()).then(({ values }) => renderPopularMovieList(values.results));
+  await usePopularMovie(state.page).then(({ values }) =>
+    renderPopularMovieList(values.results, state)
+  );
 }
 
-export async function renderMoreSkeletonList() {
+export async function renderMoreSkeletonList(state: publisher) {
   const parentElem = $('.item-list') as HTMLElement;
-
+  const { page, keyword, isPopular } = state;
   parentElem.insertAdjacentHTML('beforeend', MovieListSkeleton());
 
-  if (getPageStatus() === POPULAR) {
+  if (isPopular) {
     const {
       values: { results },
-    } = await usePopularMovie(getPage() + 1);
+    } = await usePopularMovie(page + 1);
     renderMoreMovieList(results);
     deleteSkeletonList();
 
     return;
   }
 
-  await useSearchedMovie(getRecentKeyword(), getPage() + 1).then(({ values }) => {
+  await useSearchedMovie(keyword, page + 1).then(({ values }) => {
     renderViewMoreButton(values.results.length < 20);
     renderMoreMovieList(values.results);
     deleteSkeletonList();
@@ -64,8 +66,8 @@ export function deleteSkeletonList() {
   skeletonList?.forEach((item) => item.remove());
 }
 
-export async function renderPopularMovieList(results: IMovie[]) {
-  renderPageTitle();
+export async function renderPopularMovieList(results: IMovie[], state: publisher) {
+  renderPageTitle(state);
 
   const parentElem = $('.item-list') as HTMLElement;
 
@@ -75,8 +77,8 @@ export async function renderPopularMovieList(results: IMovie[]) {
   ` as string;
 }
 
-export async function renderSearchMovieList(searchResults: IMovie[]) {
-  renderPageTitle(getRecentKeyword());
+export async function renderSearchMovieList(searchResults: IMovie[], state: publisher) {
+  renderPageTitle(state);
   const parentElem = $('.item-list') as HTMLElement;
 
   parentElem.innerHTML =
