@@ -10,7 +10,8 @@ body {
   color: #ffffff;
 }
 
-button {
+button,
+.movie-info {
   cursor: pointer;
 }
 
