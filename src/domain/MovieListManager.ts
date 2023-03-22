@@ -1,4 +1,4 @@
-import { Movie } from '../type/movie';
+import { Genre, Movie } from '../type/movie';
 import Storage from '../type/Storage';
 
 const getPopularMovieRequestUrl = (page = 1) =>
@@ -7,16 +7,20 @@ const getPopularMovieRequestUrl = (page = 1) =>
 const getSearchMovieUrl = (query: string, page = 1) =>
   `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY}&language=ko-KR&query=${query}&page=${page}&include_adult=false`;
 
+const getGenreDataUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.API_KEY}&language=ko-KR`;
+
 class MovieListManager {
   #query: string = '';
   #list: Movie[] = [];
   #currentPage: number = 1;
   #lastPage = false;
   #storage: Storage;
+  #genre: Record<number, string> = {};
 
   constructor(storage: Storage) {
     this.#storage = storage;
     this.#query = this.#storage.getItem('query');
+    this.getGenreData();
   }
 
   getCurrentPage() {
@@ -37,6 +41,22 @@ class MovieListManager {
 
   isLastPage() {
     return this.#lastPage;
+  }
+
+  async getGenreData() {
+    if (navigator.onLine) {
+      await fetch(getGenreDataUrl)
+        .then((res) => res.json())
+        .then((data) => {
+          this.#genre = data.genres.reduce(
+            (acc: Record<number, string>, genreData: Genre) => {
+              acc[genreData.id] = genreData.name;
+              return acc;
+            },
+            {}
+          );
+        });
+    }
   }
 
   async fetchMovieList() {
