@@ -54,6 +54,7 @@ export default class App {
       if (event.detail === "") {
         this.#listState = LIST_STATE.POPULAR;
         this.initRender();
+        return;
       }
 
       this.renderSearchedMovies(event.detail);
