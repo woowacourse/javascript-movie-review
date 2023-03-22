@@ -104,6 +104,10 @@ button.primary {
 }
 
 .message-title {
-  font-size: 48px;
-  padding: 12px;
+  font-size: 36px;
+  padding: 20px;
+}
+
+.message-desc {
+  font-size: 20px;
 }

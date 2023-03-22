@@ -27,6 +27,7 @@ const MovieCardList = {
 
     if (movieList === null) return;
 
+    movieList.classList.remove(CLASS.HIDE);
     movieList.innerHTML = MovieCardList.skeletonItems();
   },
 

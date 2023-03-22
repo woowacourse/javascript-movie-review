@@ -1,6 +1,7 @@
 import Header from './components/Header';
 import MovieCardSection from './components/MovieCardSection';
 import MovieCardList from './components/MovieCardSection/MovieCardList';
+import { isCustomErrorMessage } from './constants/message';
 import { ID } from './constants/selector';
 import Movies from './domain/Movies';
 import type { Movie } from './types/movie';
@@ -22,8 +23,8 @@ class App {
       const results = await this.#movies.init();
       this.paint(results);
     } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message);
+      if (isCustomErrorMessage(error)) {
+        MovieCardSection.renderErrorMessage(error);
       }
     } finally {
       this.setEvent();

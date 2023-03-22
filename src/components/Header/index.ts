@@ -7,6 +7,7 @@ import MovieCardList from '../MovieCardSection/MovieCardList';
 import LoadMoreButton from '../MovieCardSection/LoadMoreButton';
 import { CLASS } from '../../constants/selector';
 import Tooltip from '../common/Tootip';
+import { isCustomErrorMessage } from '../../constants/message';
 
 const Header = {
   template() {
@@ -35,8 +36,8 @@ const Header = {
         MovieCardList.paint(results);
         LoadMoreButton.handleVisibility(movies.isLastPage());
       } catch (error) {
-        if (error instanceof Error) {
-          alert(error.message);
+        if (isCustomErrorMessage(error)) {
+          MovieCardSection.renderErrorMessage(error);
         }
       }
     });

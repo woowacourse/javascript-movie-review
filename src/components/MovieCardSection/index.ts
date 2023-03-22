@@ -4,8 +4,9 @@ import LoadMoreButton from './LoadMoreButton';
 import MovieCardList from './MovieCardList';
 import MovieSectionTitle from './MovieSectionTitle';
 import Movies from '../../domain/Movies';
-import Message from './Message';
+import ErrorMessage from './ErrorMessage';
 import { CLASS } from '../../constants/selector';
+import type { CustomErrorMessage } from '../../constants/message';
 
 const MovieCardSection = {
   template() {
@@ -14,7 +15,6 @@ const MovieCardSection = {
         ${MovieSectionTitle.template()}
         ${MovieCardList.template()}
         ${LoadMoreButton.template()}
-        ${Message.template()}
       </section>
     `;
   },
@@ -24,7 +24,7 @@ const MovieCardSection = {
   },
 
   render(query: string = '') {
-    MovieCardSection.renderEmpty(false);
+    MovieCardSection.removeErrorMessage();
     MovieCardSection.renderTitle(query);
     MovieCardList.render();
   },
@@ -35,10 +35,22 @@ const MovieCardSection = {
     itemView?.insertAdjacentHTML('afterbegin', MovieSectionTitle.template(query));
   },
 
-  renderEmpty(state: boolean) {
-    MovieCardList.handleVisibility(state);
-    LoadMoreButton.handleVisibility(state);
-    Message.handleVisibility(!state);
+  renderErrorMessage(errorMessage: CustomErrorMessage) {
+    const itemView = document.querySelector<HTMLElement>(`.${CLASS.ITEM_VIEW}`);
+
+    if (itemView === null) return;
+
+    MovieCardList.handleVisibility(true);
+    LoadMoreButton.handleVisibility(true);
+    ErrorMessage.render(itemView, errorMessage);
+  },
+
+  removeErrorMessage() {
+    const itemView = document.querySelector<HTMLElement>(`.${CLASS.ITEM_VIEW}`);
+
+    if (itemView === null) return;
+
+    ErrorMessage.remove(itemView);
   },
 };
 

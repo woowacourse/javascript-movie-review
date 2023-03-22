@@ -1,3 +1,5 @@
+import MovieCardSection from '.';
+import { isCustomErrorMessage } from '../../constants/message';
 import { ID } from '../../constants/selector';
 import type Movies from '../../domain/Movies';
 import MovieCardList from './MovieCardList';
@@ -21,10 +23,10 @@ const LoadMoreButton = {
         MovieCardList.paint(newMovies, movies.getPage());
         LoadMoreButton.handleVisibility(movies.isLastPage());
       } catch (error) {
-        if (error instanceof Error) {
+        if (isCustomErrorMessage(error)) {
           movies.previousPage();
           MovieCardList.removeSkeleton();
-          alert(error.message);
+          MovieCardSection.renderErrorMessage(error);
         }
       }
     });

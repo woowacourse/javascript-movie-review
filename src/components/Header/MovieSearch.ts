@@ -1,3 +1,4 @@
+import { isCustomErrorMessage, SEARCH_ERROR_MESSAGE } from '../../constants/message';
 import { ID } from '../../constants/selector';
 import type Movies from '../../domain/Movies';
 import MovieCardSection from '../MovieCardSection';
@@ -38,14 +39,14 @@ const MovieSearch = {
         const results = await movies.search(query);
 
         if (results.length === 0) {
-          return MovieCardSection.renderEmpty(true);
+          throw SEARCH_ERROR_MESSAGE;
         }
 
         MovieCardList.paint(results);
         LoadMoreButton.handleVisibility(movies.isLastPage());
       } catch (error) {
-        if (error instanceof Error) {
-          alert(error.message);
+        if (isCustomErrorMessage(error)) {
+          MovieCardSection.renderErrorMessage(error);
         }
       }
     });

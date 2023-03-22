@@ -1,4 +1,5 @@
-import { BASE_URL, ERROR_MESSAGE } from '../constants';
+import { BASE_URL } from '../constants';
+import { getErrorMessage } from '../constants/message';
 import type { MovieAPISuccess } from '../types/movie';
 
 const getPopularMovies = async (page: number = 1) => {
@@ -9,7 +10,7 @@ const getPopularMovies = async (page: number = 1) => {
     return data;
   }
 
-  throw new Error(`${ERROR_MESSAGE} - ${response.status}`);
+  throw getErrorMessage(response.status);
 };
 
 export default getPopularMovies;
