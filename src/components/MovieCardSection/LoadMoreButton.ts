@@ -2,6 +2,7 @@ import MovieCardSection from '.';
 import { isCustomErrorMessage } from '../../constants/message';
 import { ID } from '../../constants/selector';
 import type Movies from '../../domain/Movies';
+import { $ } from '../../utils/dom';
 import MovieCardList from './MovieCardList';
 
 const LoadMoreButton = {
@@ -10,9 +11,9 @@ const LoadMoreButton = {
   },
 
   setEvent(movies: Movies) {
-    const button = document.querySelector<HTMLButtonElement>(`#${ID.LOAD_MORE_BUTTON}`);
+    const button = $<HTMLButtonElement>(`#${ID.LOAD_MORE_BUTTON}`);
 
-    button?.addEventListener('click', async () => {
+    button.addEventListener('click', async () => {
       MovieCardList.renderMoreItems();
 
       try {
@@ -33,13 +34,13 @@ const LoadMoreButton = {
   },
 
   handleVisibility(state: boolean) {
-    const button = document.querySelector<HTMLButtonElement>(`#${ID.LOAD_MORE_BUTTON}`);
+    const button = $<HTMLButtonElement>(`#${ID.LOAD_MORE_BUTTON}`);
 
     if (state) {
-      return button?.classList.add('hide');
+      return button.classList.add('hide');
     }
 
-    return button?.classList.remove('hide');
+    return button.classList.remove('hide');
   },
 };
 

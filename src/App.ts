@@ -5,6 +5,7 @@ import { isCustomErrorMessage } from './constants/message';
 import { ID } from './constants/selector';
 import Movies from './domain/Movies';
 import type { Movie } from './types/movie';
+import { $ } from './utils/dom';
 
 class App {
   #app: HTMLDivElement;
@@ -12,7 +13,7 @@ class App {
   #movies: Movies;
 
   constructor() {
-    this.#app = document.querySelector<HTMLDivElement>(`#${ID.APP}`) as HTMLDivElement;
+    this.#app = $<HTMLDivElement>(`#${ID.APP}`);
     this.#movies = new Movies();
   }
 

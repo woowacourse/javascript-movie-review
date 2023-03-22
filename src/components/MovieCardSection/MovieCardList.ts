@@ -2,6 +2,7 @@ import MovieCard from './MovieCard';
 import type { Movie } from '../../types/movie';
 import { DEFAULT_LIST_LENGTH } from '../../constants';
 import { CLASS } from '../../constants/selector';
+import { $ } from '../../utils/dom';
 
 const MovieCardList = {
   template() {
@@ -17,26 +18,22 @@ const MovieCardList = {
   },
 
   renderMoreItems() {
-    const movieList = document.querySelector<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
+    const movieList = $<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
 
-    movieList?.insertAdjacentHTML('beforeend', MovieCardList.skeletonItems());
+    movieList.insertAdjacentHTML('beforeend', MovieCardList.skeletonItems());
   },
 
   render() {
-    const movieList = document.querySelector<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
-
-    if (movieList === null) return;
+    const movieList = $<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
 
     movieList.classList.remove(CLASS.HIDE);
     movieList.innerHTML = MovieCardList.skeletonItems();
   },
 
   paint(movies: Movie[], page: number = 1) {
-    const movieList = document.querySelector<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
-
-    if (movieList === null) return;
-
+    const movieList = $<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
     const startLine = (page - 1) * DEFAULT_LIST_LENGTH;
+
     [...movieList.children].slice(startLine).forEach((child, key) => {
       if (movies.length <= key) {
         child.remove();
@@ -47,19 +44,17 @@ const MovieCardList = {
   },
 
   handleVisibility(state: boolean) {
-    const movieList = document.querySelector<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
+    const movieList = $<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
 
     if (state) {
-      return movieList?.classList.add(CLASS.HIDE);
+      return movieList.classList.add(CLASS.HIDE);
     }
 
-    return movieList?.classList.remove(CLASS.HIDE);
+    return movieList.classList.remove(CLASS.HIDE);
   },
 
   removeSkeleton() {
-    const movieList = document.querySelector<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
-
-    if (movieList === null) return;
+    const movieList = $<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
 
     [...movieList.children].slice(-DEFAULT_LIST_LENGTH).forEach((child) => {
       child.remove();

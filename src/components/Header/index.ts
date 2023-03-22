@@ -8,6 +8,7 @@ import LoadMoreButton from '../MovieCardSection/LoadMoreButton';
 import { CLASS } from '../../constants/selector';
 import Tooltip from '../common/Tootip';
 import { isCustomErrorMessage } from '../../constants/message';
+import { $ } from '../../utils/dom';
 
 const Header = {
   template() {
@@ -25,9 +26,9 @@ const Header = {
   setEvent(movies: Movies) {
     MovieSearch.setEvent(movies);
 
-    const pageTitleButton = document.querySelector<HTMLButtonElement>(`.${CLASS.PAGE_TITLE_BUTTON}`);
+    const pageTitleButton = $<HTMLButtonElement>(`.${CLASS.PAGE_TITLE_BUTTON}`);
 
-    pageTitleButton?.addEventListener('click', async () => {
+    pageTitleButton.addEventListener('click', async () => {
       MovieCardSection.render();
 
       try {
