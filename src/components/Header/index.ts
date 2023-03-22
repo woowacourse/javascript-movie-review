@@ -6,7 +6,7 @@ import MovieCardSection from '../MovieCardSection';
 import MovieCardList from '../MovieCardSection/MovieCardList';
 import LoadMoreButton from '../MovieCardSection/LoadMoreButton';
 import { CLASS } from '../../constants/selector';
-import Tooltip from '../common/Tootip';
+import Tooltip from '../common/Tooltip';
 import { isCustomErrorMessage } from '../../constants/message';
 import { $ } from '../../utils/dom';
 
