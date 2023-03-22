@@ -1,4 +1,4 @@
-import { useSearchedMovie } from '../hooks/useMovie';
+import { getSearchMovie } from '../api/api';
 
 import { publisher } from '../store/publisher';
 
@@ -22,9 +22,7 @@ export function Search(state: publisher) {
 
     state.change({ keyword: searchedKeyword });
 
-    const {
-      values: { results },
-    } = await useSearchedMovie(searchedKeyword, state.page);
+    const { results } = await getSearchMovie(searchedKeyword, state.page + 1);
 
     renderSearchMovieList(results, state);
   });

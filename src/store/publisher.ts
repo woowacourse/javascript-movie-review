@@ -21,6 +21,10 @@ export class publisher {
     // this.subscriber_notify();
   }
 
+  getState() {
+    return this.#state;
+  }
+
   /*
   subscriber_register(subscriber: unknown) {
     this.#observers.add(subscriber);

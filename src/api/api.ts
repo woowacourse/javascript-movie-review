@@ -18,11 +18,11 @@ export interface IMovieList {
   total_results: number;
 }
 
-type TGetMovies = (page: number) => Promise<IMovieList>;
+type TGetPopularMovies = (page: number) => Promise<IMovieList>;
 
 type TGetSearchMovies = (keyword: string, page: number) => Promise<IMovieList>;
 
-export const getMovies: TGetMovies = async (page) => {
+export const getPopularMovies: TGetPopularMovies = async (page) => {
   try {
     const response = await fetch(
       `${BASE_PATH}/movie/popular?api_key=${process.env.API_KEY}&language=ko-KR&page=${page}`

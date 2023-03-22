@@ -1,10 +1,8 @@
 import { publisher } from '../store/publisher';
 
-import { IMovie } from '../api/api';
+import { getPopularMovies, getSearchMovie, IMovie } from '../api/api';
 
 import { $, $$ } from '../utils';
-
-import { usePopularMovie, useSearchedMovie } from '../hooks/useMovie';
 
 import { MovieListSkeleton } from './MovieListSkeleton';
 import { MovieItem } from './MovieItem';
@@ -33,22 +31,18 @@ export async function renderSkeletonList(state: publisher) {
 
   parentElem.insertAdjacentHTML('beforeend', MovieListSkeleton());
 
-  const {
-    values: { results },
-  } = await usePopularMovie(state.page);
+  const { results } = await getPopularMovies(state.page);
 
   renderPopularMovieList(results, state);
 }
 
 export async function renderMoreSkeletonList(state: publisher) {
   const parentElem = $('.item-list') as HTMLElement;
-  const { page, keyword, isPopular } = state;
+  const { keyword, isPopular } = state;
   parentElem.insertAdjacentHTML('beforeend', MovieListSkeleton());
 
   if (isPopular) {
-    const {
-      values: { results },
-    } = await usePopularMovie(page + 1);
+    const { results } = await getPopularMovies(state.page + 1);
 
     renderMoreMovieList(results);
     deleteSkeletonList();
@@ -56,9 +50,7 @@ export async function renderMoreSkeletonList(state: publisher) {
     return;
   }
 
-  const {
-    values: { results },
-  } = await useSearchedMovie(keyword, page + 1);
+  const { results } = await getSearchMovie(keyword, state.page + 1);
 
   renderViewMoreButton(results.length < 20);
   renderMoreMovieList(results);
