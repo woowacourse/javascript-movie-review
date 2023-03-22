@@ -202,6 +202,7 @@ header .search-box > #search-button {
   transform: translate(-50%, -50%);
 
   max-width: 826px;
+  min-width: 327px;
   max-height: 577px;
 
   background-color: #212122;
@@ -241,8 +242,8 @@ header .search-box > #search-button {
 }
 
 .modal-poster {
-  width: 292px;
-  height: 433px;
+  width: 30%;
+  height: 50%;
 }
 
 .modal-sub-container {
@@ -254,6 +255,7 @@ header .search-box > #search-button {
 .modal-text {
   font-size: 16px;
   line-height: 24px;
+  height: 100%;
 }
 
 .modal-info-container {
@@ -261,7 +263,6 @@ header .search-box > #search-button {
   flex-direction: column;
   justify-content: space-between;
   margin-left: 30px;
-  width: 100vh;
 }
 
 .info-header {
@@ -271,8 +272,9 @@ header .search-box > #search-button {
 }
 
 .modal-score {
-  font-size: 16px;
-  background-color: blue;
+  width: 26px;
+  height: 26px;
+  margin-right: 5px;
 }
 
 .modal-icon {
@@ -280,11 +282,32 @@ header .search-box > #search-button {
 }
 
 .modal-score-box {
-  width: 438px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  width: 100%;
   height: 64px;
-  left: 356px;
-  top: 465px;
 
   background: #383839;
   border-radius: 16px;
+
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.modal-score-box > div > p.bold {
+  font-weight: 700;
+  font-size: 16px;
+  margin-right: 1rem;
+}
+
+.modal-score-box > div > p.normal {
+  font-weight: 400;
+  margin-left: 0.7rem;
+}
+
+.star-count {
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
 }
