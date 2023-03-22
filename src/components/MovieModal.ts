@@ -87,8 +87,15 @@ export default class MovieModal extends HTMLElement {
 
   setEvent() {
     const $stars = this.querySelectorAll(".rating-box img");
+    const $image = this.querySelector(".modal-image");
 
     this.addEventListener("click", this.exitModal);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" || event.key === "Backspace")
+        this.classList.add("hidden");
+      event.stopPropagation();
+    });
 
     $stars?.forEach((star, index) => {
       star.addEventListener("click", (event) => {
@@ -98,13 +105,15 @@ export default class MovieModal extends HTMLElement {
         this.setEvent();
       });
     });
+
+    $image?.addEventListener("load", () => {});
   }
 
   exitModal(event: Event) {
     const $exitButton = this.querySelector(".exit-button");
-
+    const $modal = this.querySelector(".modal");
     event.stopPropagation();
-    if (event.target === $exitButton) {
+    if (event.target === $exitButton || event.target === $modal) {
       this.classList.toggle("hidden");
     }
 
