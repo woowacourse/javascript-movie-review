@@ -2,6 +2,7 @@ import MovieCardList from "./components/MovieCardList";
 import { TOGGLE_SKELETON, LIST_STATE, LIST_HEADING } from "./constant/setting";
 import { $ } from "./utils/Dom";
 import { getPopularMovies, getSearchedMovies } from "./utils/fetch";
+import { requestLocalStorage } from "./utils/localstorage";
 
 export default class App {
   #state: appState;
@@ -14,7 +15,7 @@ export default class App {
       movieList: [],
       movieName: "",
     };
-    this.#myRating = [];
+    this.#myRating = requestLocalStorage.getMyRating();
     this.init();
     this.setEvent();
   }
@@ -106,6 +107,7 @@ export default class App {
       ({ movieId }) => movieId !== detail.movieId
     );
     this.#myRating.push({ movieId: detail.movieId, score: detail.myRating });
+    requestLocalStorage.setMyRating(this.#myRating);
   };
 
   sendMyRating = ({ detail }: CustomEvent) => {
@@ -115,7 +117,6 @@ export default class App {
     const $modal = $("movie-modal");
     if (!targetObject) $modal?.setAttribute("my-rating", "0");
     if (targetObject) {
-      console.log(targetObject);
       $modal?.setAttribute("my-rating", String(targetObject.score));
     }
   };

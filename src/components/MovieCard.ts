@@ -59,7 +59,7 @@ export default class MovieCard extends HTMLElement {
       this.dispatchEvent(
         new CustomEvent("send-my-rating", {
           bubbles: true,
-          detail: { movieId: this.movieId },
+          detail: { movieId: Number(this.movieId) },
         })
       );
     });

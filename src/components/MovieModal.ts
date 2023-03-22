@@ -15,7 +15,7 @@ export default class MovieModal extends HTMLElement {
   }
 
   get movieId() {
-    return this.getAttribute("movie-id");
+    return Number(this.getAttribute("movie-id"));
   }
 
   get myRating() {
@@ -54,10 +54,10 @@ export default class MovieModal extends HTMLElement {
                       <p class="mr-16">${genre}</p>
                       <div class="flex align-center">
                         <img class="star-filled mr-4" alt="별점" />
-                        ${rating}
+                        <p>${rating}</p>
                       </div>
                     </div>
-                    <h4 class="mt-16">${overview}</h4>
+                    <p class="mt-16">${overview}</p>
                     <div class="rating-box flex align-center">
                       <p class="mr-16">내 별점</p>
                       <img class="star-${
@@ -127,13 +127,12 @@ export default class MovieModal extends HTMLElement {
   async getDetail() {
     if (!this.movieId) throw new Error("movie_id가 존재하지 않습니다.");
     const fetchedData = await getMovieDetail(Number(this.movieId));
-    console.log(fetchedData);
     const { poster_path, overview, vote_average, genres } = fetchedData;
     this.setState({
       poster: poster_path,
       rating: vote_average,
       overview,
-      genre: genres.map((genre) => genre.name).join(","),
+      genre: genres.map((genre) => genre.name).join(", "),
     });
   }
 

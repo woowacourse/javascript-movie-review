@@ -7,7 +7,7 @@ type movieList = movieInfo[];
 
 type listState = keyof LIST_STATE;
 
-type myRating = { movieId: Number; score: Number }[];
+type myRating = { movieId: number; score: number }[];
 
 type toggleSkeleton = keyof TOGGLE_SKELETON;
 
@@ -22,7 +22,7 @@ type movieInfo = {
   title: string;
   poster: string;
   rating: string;
-  movieId: string;
+  movieId: number;
 };
 
 type movieListResponse = {

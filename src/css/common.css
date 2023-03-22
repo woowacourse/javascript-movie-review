@@ -38,6 +38,12 @@ h4 {
   color: #f1f1f1;
 }
 
+p {
+  font-size: 16px;
+  color: #f1f1f1;
+  line-height: 1.5;
+}
+
 button {
   cursor: pointer;
 }
@@ -227,7 +233,7 @@ header {
 
 .modal-image {
   width: 260px;
-  height: 400px;
+  height: 420px;
 }
 
 .rating-box {
