@@ -1,4 +1,11 @@
 const MovieModal = (data, genreData) => {
+  const blankStar = '<img src="./assets/star_empty.png" alt="별점" />'.repeat(
+    5
+  );
+  const filledStar = '<img src="./assets/star_filled.png" alt="별점" />'.repeat(
+    5
+  );
+
   const poster =
     data.poster_path === null
       ? './assets/no_image.png'
@@ -22,15 +29,15 @@ const MovieModal = (data, genreData) => {
                     <div>${data.overview}</div>
                 </div>
                 <div>
-                    내 별점
-                    <span>
-                        <img src="./assets/star_filled.png" alt="별점" />
-                        <img src="./assets/star_filled.png" alt="별점" />
-                        <img src="./assets/star_filled.png" alt="별점" />
-                        <img src="./assets/star_filled.png" alt="별점" />
-                        <img src="./assets/star_filled.png" alt="별점" />
-                        5
+                내 별점
+                    <span class="star">
+                        ${blankStar}
+                        <span>
+                            ${filledStar}
+                        </span>
+                        <input type="range" value="1" step="1" min="0" max="10">
                     </span>
+                    5
                     보통이에요
                 </div>
             </div>

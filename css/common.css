@@ -192,3 +192,32 @@ header .search-box > .search-button {
   width: 100%;
   height: 100%;
 }
+
+.star {
+  position: relative;
+  font-size: 32px;
+  color: #ddd;
+  height: 20px;
+  overflow: hidden;
+}
+
+.star img {
+  width: 24px;
+  overflow: hidden;
+}
+
+.star input {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  opacity: 0;
+}
+
+.star span {
+  width: 0;
+  height: 25px;
+  position: absolute;
+  left: 0;
+  color: red;
+  overflow: hidden;
+}

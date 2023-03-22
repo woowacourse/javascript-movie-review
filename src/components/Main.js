@@ -82,6 +82,7 @@ class Main {
         );
         $('.modal').classList.remove('hidden');
         $('.modal-background').classList.remove('hidden');
+        this.#drawStar();
       }
     });
   }
@@ -98,6 +99,12 @@ class Main {
       $('.modal-container').remove();
       $('.modal').classList.add('hidden');
       $('.modal-background').classList.add('hidden');
+    });
+  }
+
+  #drawStar() {
+    $('.star input').addEventListener('input', (e) => {
+      $('.star span').style.width = `${e.target.value * 10}%`;
     });
   }
 }
