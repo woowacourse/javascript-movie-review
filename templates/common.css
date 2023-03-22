@@ -229,7 +229,7 @@ more-button {
   width: 100%;
 }
 
-movie-list-page {
+movie-list {
   display: grid;
   margin: 48px 0;
   grid-template-columns: repeat(4, 1fr);
@@ -274,10 +274,11 @@ movie-item-skeleton .item-thumbnail {
   z-index: 99;
   background-color: rgba(0, 0, 0, 0.4);
   display: none;
+  backdrop-filter: blur(3px);
 }
 
 @media only screen and (max-width: 1220px) {
-  movie-list-page {
+  movie-list {
     grid-template-columns: repeat(3, 1fr);
     grid-column-gap: 120px;
     grid-row-gap: 55px;
@@ -289,8 +290,22 @@ movie-item-skeleton .item-thumbnail {
     font-size: 28px;
   }
 }
+@media only screen and (min-width: 801px) {
+  .search-button-wrapper {
+    display: none !important;
+  }
+  .search-box {
+    display: block !important;
+  }
+  .header-logo {
+    display: block !important;
+  }
+  .hide-all {
+    display: none !important;
+  }
+}
 @media only screen and (max-width: 800px) {
-  movie-list-page {
+  movie-list {
     grid-template-columns: repeat(2, 1fr);
     grid-column-gap: 46px;
   }

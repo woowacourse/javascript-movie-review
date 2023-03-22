@@ -28,9 +28,9 @@ export default class AppComponent extends CustomComponent {
   }
 
   async loadIntersectionObserver(type) {
-    const lastChild = await this.#$movieList
-      .querySelector("movie-list-page:last-of-type")
-      .querySelector(`movie-item:last-of-type`);
+    const lastChild = await this.#$movieList.querySelector(
+      `movie-item:last-of-type`
+    );
 
     this.#intersectionObserver = new IntersectionObserver((entry) => {
       const ioTarget = entry[0].target;
@@ -40,9 +40,10 @@ export default class AppComponent extends CustomComponent {
         this.#$movieList.appendNewPage();
 
         this.renderListByData(type).then(() => {
-          const newLastChild = this.#$movieList
-            .querySelector("movie-list-page:last-of-type")
-            .querySelector(`movie-item:last-of-type`);
+          const newLastChild = this.#$movieList.querySelector(
+            `movie-item:last-of-type`
+          );
+
           this.#intersectionObserver.observe(newLastChild);
         });
       }
@@ -76,6 +77,9 @@ export default class AppComponent extends CustomComponent {
       .then(async (res) => {
         if (!res.ok) {
           this.#$movieList.renderPageFail();
+          if (this.#intersectionObserver) {
+            this.#intersectionObserver.disconnect();
+          }
           return;
         }
 
@@ -89,6 +93,9 @@ export default class AppComponent extends CustomComponent {
       })
       .catch((error) => {
         this.#$movieList.renderPageFail();
+        if (this.#intersectionObserver) {
+          this.#intersectionObserver.disconnect();
+        }
       });
   }
 
@@ -117,15 +124,19 @@ export default class AppComponent extends CustomComponent {
     this.#$movieList.initialPage();
   }
 
+  hideSearch() {
+    if (this.querySelector(".header-logo").style.display === "none") {
+      this.querySelector(".search-button-wrapper").style.display = "flex";
+      this.querySelector(".search-box").style.display = "none";
+      this.querySelector(".header-logo").style.display = "block";
+      this.querySelector(".hide-all").style.display = "none";
+    }
+  }
+
   async checkEventAction(e) {
     switch (e.target.dataset.action) {
       case "hide_search":
-        if (this.querySelector(".header-logo").style.display === "none") {
-          this.querySelector(".search-button-wrapper").style.display = "flex";
-          this.querySelector(".search-box").style.display = "none";
-          this.querySelector(".header-logo").style.display = "block";
-          this.querySelector(".hide-all").style.display = "none";
-        }
+        this.hideSearch();
         break;
       // 로고 눌렀을 때 액션
       case "search_on":
@@ -151,6 +162,7 @@ export default class AppComponent extends CustomComponent {
           this.loadIntersectionObserver(ACTION.POPULAR);
           return;
         }
+        this.hideSearch();
         this.searchListInit();
         await this.renderListByData(ACTION.SEARCH);
         this.loadIntersectionObserver(ACTION.SEARCH);
@@ -175,6 +187,7 @@ export default class AppComponent extends CustomComponent {
           return;
         }
 
+        this.hideSearch();
         this.searchListInit();
         await this.renderListByData(ACTION.SEARCH);
         this.loadIntersectionObserver(ACTION.SEARCH);

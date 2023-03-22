@@ -1,18 +1,14 @@
 import CustomComponent from "../../abstracts/CustomComponent";
-import MovieListPageComponent from "./MovieListPageComponent";
 import MovieComponent from "./MovieComponent";
 import ErrorComponent from "./ErrorComponent";
-import { STATUS } from "../../constants/constants";
+import { MOVIES_PER_PAGE, STATUS } from "../../constants/constants";
 
 export default class MovieListComponent extends CustomComponent {
   #page;
 
   initialPage() {
-    this.#page = document.createElement("movie-list-page");
+    this.#page = ``;
     this.innerHTML = ``;
-    this.append(this.#page);
-
-    this.#page.setAttribute("data-status", STATUS.LOADING);
   }
 
   appendNewPage() {
@@ -20,26 +16,45 @@ export default class MovieListComponent extends CustomComponent {
     if (errorPage) {
       errorPage.remove();
     }
-    this.#page = document.createElement("movie-list-page");
-    this.append(this.#page);
-
-    this.#page.setAttribute("data-status", STATUS.LOADING);
   }
 
   renderPageSuccess(movieItems) {
     if (!movieItems.length) {
-      this.#page.setAttribute("data-status", "no-result");
+      // this.#page.setAttribute("data-status", "no-result");
+      this.innerHTML = `
+          <div class="no-result-box">
+            <h1 class="no-result-title">검색 결과를 찾지 못하였습니다.</h1>
+            <ul class="no-result-recommends">
+              <li>단어의 철자가 정확한지 확인해 보세요.</li>
+              <li>검색어의 단어 수를 줄이거나, 보다 일반적인 검색어로 다시 검색해 보세요.</li>
+              <li>두 단어 이상의 검색어인 경우, 띄어쓰기를 확인해 보세요.</li>
+            </ul>
+          </div>
+        `;
       return;
     }
-    this.#page.setAttribute("data-movie-list", JSON.stringify(movieItems));
-    this.#page.setAttribute("data-status", STATUS.SUCCESS);
+
+    this.#page = `
+            ${movieItems
+              .map((movieItem) => {
+                return `
+                  <movie-item
+                    title="${movieItem.title}"
+                    vote_average="${movieItem.vote_average}"
+                    poster_path="${movieItem.poster_path}">
+                  </movie-item>`;
+              })
+              .join("")}
+        `;
+    this.insertAdjacentHTML("beforeend", this.#page);
   }
 
   renderPageFail() {
     if (this.querySelector("error-page")) return;
 
     const errorPage = document.createElement("error-page");
-    this.#page.replaceWith(errorPage);
+    // this.#page.replaceWith(errorPage);
+    this.append(errorPage);
   }
 }
 
