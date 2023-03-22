@@ -18,7 +18,14 @@ const SearchBox = () => {
     const searchInput = document.querySelector(".search-input");
     searchInput?.addEventListener("keyup", (e) => {
       e.preventDefault();
-      onKeyup(e);
+
+      let timer;
+      if (timer) {
+        clearTimeout(timer);
+      }
+      timer = setTimeout(function () {
+        onKeyup(e);
+      }, 200);
     });
   };
 
