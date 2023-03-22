@@ -1,3 +1,4 @@
+import { Genre } from '../@types/fetchJsonType';
 import { MovieDetail } from '../@types/movieType';
 import starEmpty from '../asset/star_empty.png';
 import starFilled from '../asset/star_filled.png';
@@ -5,7 +6,6 @@ import handleImageLoadError from '../libs/handleImageLoadError';
 
 class MovieModal {
   private _node!: HTMLElement;
-  private movieDetail: MovieDetail | null = null;
   private body = document.querySelector('body') as HTMLBodyElement;
 
   constructor() {
@@ -58,66 +58,54 @@ class MovieModal {
     );
   }
 
-  // toggleBodyOverflow() {
-  //   const $body = document.querySelector('body');
-
-  //   if (!$body) return;
-
-  //   $body.classList.toggle('overflow-hidden');
-  // }
-
   updateMovieDetail(movieDetail: MovieDetail) {
-    this.movieDetail = movieDetail;
+    const { title, voteAverage, genres, overview, posterPath } = movieDetail;
 
-    if (!this.movieDetail) return;
-
-    this.updateMovieTitle();
-    this.updateMovieOverview();
-    this.updateMovieThumbnail();
-    this.updateMovieGenresAndGrade();
+    this.updateMovieTitle(title);
+    this.updateMovieOverview(overview);
+    this.updateMovieThumbnail(posterPath, title);
+    this.updateMovieGenresAndGrade(genres, voteAverage);
   }
 
-  updateMovieGenresAndGrade() {
+  updateMovieGenresAndGrade(genres: Genre[], voteAverage: number) {
     const $movieGenresAndGradeContainer = document.querySelector<HTMLDivElement>('.movie-detail-genres-grade');
 
-    if (!$movieGenresAndGradeContainer || !this.movieDetail) return;
+    if (!$movieGenresAndGradeContainer) return;
 
-    const genres = this.movieDetail.genres.map(genre => genre.name).join(', ');
+    const movieGenres = genres.map(genre => genre.name).join(', ');
 
     $movieGenresAndGradeContainer.classList.remove('skeleton');
     $movieGenresAndGradeContainer.insertAdjacentHTML(
       'afterbegin',
       `
-      <div>${genres}</div>
-      <div class="movie-detail-grade"><img src="${starFilled}" alt="별점" /> ${this.movieDetail.voteAverage}</div>
+      <div>${movieGenres}</div>
+      <div class="movie-detail-grade"><img src="${starFilled}" alt="별점" /> ${voteAverage}</div>
     `
     );
   }
 
-  updateMovieTitle() {
+  updateMovieTitle(title: string) {
     const $movieTitle = document.querySelector<HTMLDivElement>('.movie-detail-title');
 
-    if (!$movieTitle || !this.movieDetail) return;
+    if (!$movieTitle) return;
 
     $movieTitle.classList.remove('skeleton');
-    $movieTitle.innerText = this.movieDetail.title;
+    $movieTitle.innerText = title;
   }
 
-  updateMovieOverview() {
+  updateMovieOverview(overview: string) {
     const $movieOverview = document.querySelector<HTMLDivElement>('.movie-detail-overview');
 
-    if (!$movieOverview || !this.movieDetail) return;
-
-    const overview = this.movieDetail.overview === '' ? '해당 콘텐츠의 줄거리가 없습니다.' : this.movieDetail.overview;
+    if (!$movieOverview) return;
 
     $movieOverview.classList.remove('skeleton');
-    $movieOverview.innerText = overview;
+    $movieOverview.innerText = overview === '' ? '해당 콘텐츠의 줄거리가 없습니다.' : overview;
   }
 
-  updateMovieThumbnail() {
+  updateMovieThumbnail(posterPath: string, title: string) {
     const $thumbnailSkeleton = this._node.querySelector<HTMLDivElement>('.thumbnail-skeleton');
     const $movieThumbnailContainer = document.querySelector('.movie-detail-image');
-    const $thumbnail = this.createMovieThumbnail();
+    const $thumbnail = this.createMovieThumbnail(posterPath, title);
 
     if (!$movieThumbnailContainer || !$thumbnail || !$thumbnailSkeleton) return;
 
@@ -127,21 +115,19 @@ class MovieModal {
     this.addThumbnailEventListener($thumbnail);
   }
 
+  createMovieThumbnail(posterPath: string, title: string) {
+    const $thumbnail = document.createElement('img');
+    $thumbnail.classList.add('movie-detail-thumbnail');
+    $thumbnail.src = `${posterPath}`;
+    $thumbnail.alt = `${title}`;
+
+    return $thumbnail;
+  }
+
   addThumbnailEventListener($thumbnail: HTMLImageElement) {
     $thumbnail.addEventListener('error', () => {
       handleImageLoadError($thumbnail);
     });
-  }
-
-  createMovieThumbnail() {
-    if (!this.movieDetail) return;
-
-    const $thumbnail = document.createElement('img');
-    $thumbnail.classList.add('movie-detail-thumbnail');
-    $thumbnail.src = `${this.movieDetail.posterPath}`;
-    $thumbnail.alt = `${this.movieDetail.title}`;
-
-    return $thumbnail;
   }
 
   closeModal() {
