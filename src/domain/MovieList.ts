@@ -1,10 +1,15 @@
-import { Movie } from "../types/movie";
-import { fetchPopularMovieData, fetchSearchedMovieData } from "../api/index";
+import { Movie, MovieDetail } from "../types/movie";
+import {
+  fetchDetailedMovieData,
+  fetchPopularMovieData,
+  fetchSearchedMovieData,
+} from "../api/index";
 
 class MovieList {
   private static instance: MovieList;
   private currentPage: number = 1;
   private searchKey: string = "";
+  private currentMovieId: number = 0;
 
   static getInstance(): MovieList {
     if (!MovieList.instance) {
@@ -23,8 +28,13 @@ class MovieList {
     this.currentPage += 1;
   }
 
+  setCurrentMovieId(newMovieId: number) {
+    this.currentMovieId = newMovieId;
+    console.log(this.currentMovieId);
+  }
+
   private async getPopularMovieData(): Promise<Movie[]> {
-    const moviesData: Movie[] = await fetchPopularMovieData(this.currentPage);
+    const moviesData = await fetchPopularMovieData(this.currentPage);
     this.increaseCurrentPage();
 
     const movies: Movie[] = moviesData.map((movie: Movie) => ({
@@ -38,7 +48,7 @@ class MovieList {
   }
 
   private async getSearchedMovieData(): Promise<Movie[]> {
-    const moviesData: Movie[] = await fetchSearchedMovieData(
+    const moviesData = await fetchSearchedMovieData(
       this.searchKey,
       this.currentPage
     );
@@ -52,6 +62,21 @@ class MovieList {
     }));
 
     return movies;
+  }
+
+  async getDetailedMovieData(): Promise<MovieDetail> {
+    const movieData = await fetchDetailedMovieData(this.currentMovieId);
+
+    const movieDetail: MovieDetail = {
+      id: movieData.id,
+      title: movieData.title,
+      genres: movieData.genres,
+      overview: movieData.overview,
+      vote_average: Math.round(movieData.vote_average * 10) / 10,
+      poster_path: movieData.poster_path,
+    };
+
+    return movieDetail;
   }
 
   async getMovieData(): Promise<Movie[]> {
