@@ -1,5 +1,6 @@
 import { $ } from '../utils/domSelector';
 import { MOVIE_LIST_RESET } from '../constants';
+import { MOVIE_LIST_MAIN_TITLE } from '../constants/ui';
 import MovieList from '../domain/MovieList';
 
 class MovieTitle {
@@ -27,7 +28,7 @@ class MovieTitle {
   }
 
   private render(searchQuery: string) {
-    this.title.textContent = searchQuery ? `"${searchQuery}" 검색 결과` : '지금 인기 있는 영화';
+    this.title.textContent = searchQuery ? `"${searchQuery}" 검색 결과` : MOVIE_LIST_MAIN_TITLE;
   }
 }
 
