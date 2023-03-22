@@ -163,6 +163,6 @@ header .search-box > .search-button {
   background-size: contain;
 }
 
-.button--hidden {
+.hide {
   display: none;
 }
