@@ -1,34 +1,37 @@
-import { EmptyStar, FilledStar } from '../assets';
-import { MOVIE_USER_VOTE_UPDATED, POSTER_BASE_URL } from '../constants';
-import { USER_VOTE_MESSAGE } from '../constants/movieInformation';
-import MovieList from '../domain/MovieList';
 import { Movie } from '../types/movie';
-import { $, $$ } from '../utils/domSelector';
+import { MOVIE_RETRIEVED, POSTER_BASE_URL } from '../constants';
+import { EmptyStar, FilledStar } from '../assets';
+import { $ } from '../utils/domSelector';
+import MovieList from '../domain/MovieList';
+import { EMPTY_OVERVIEW_MESSAGE } from '../constants/ui';
 
 class MovieInformationContent {
+  private static instance: MovieInformationContent;
   private image: HTMLImageElement;
   private title: HTMLHeadingElement;
   private metaInfo: HTMLParagraphElement;
   private voteAverage: HTMLParagraphElement;
-  private userVoteStars: HTMLDivElement;
-  private voteComment: HTMLParagraphElement;
-  private voteInfo: HTMLParagraphElement;
   private overview: HTMLParagraphElement;
 
   constructor() {
     $<HTMLDivElement>('.information-content').insertAdjacentHTML('beforeend', this.template());
-    this.voteAverage = $<HTMLParagraphElement>('.information-vote-average-rate');
+    this.init();
     this.image = $<HTMLImageElement>('.information-image');
     this.title = $<HTMLHeadingElement>('.information-title');
     this.metaInfo = $<HTMLParagraphElement>('.information-meta-info');
-    this.userVoteStars = $<HTMLDivElement>('.vote-stars');
-    this.voteComment = $<HTMLParagraphElement>('.vote-message');
-    this.voteInfo = $<HTMLParagraphElement>('.vote-info');
+    this.voteAverage = $<HTMLParagraphElement>('.information-vote-average-rate');
     this.overview = $<HTMLParagraphElement>('.information-overview');
-    this.init();
   }
 
-  template() {
+  static getInstance(): MovieInformationContent {
+    if (!MovieInformationContent.instance) {
+      MovieInformationContent.instance = new MovieInformationContent();
+    }
+
+    return MovieInformationContent.instance;
+  }
+
+  private template() {
     return `
       <img class="information-image" src="" loading="lazy" alt="" />
       <div class="information-container">
@@ -39,9 +42,7 @@ class MovieInformationContent {
         <h6 class="information-sub-title">내 별점</h6>
         <div class="information-user-vote">
           <div class="vote-stars"></div>
-          <div class="vote-stars--temp hide">
-            ${this.userVoteStarsTemplate('temp-star')}
-          </div>
+          <div class="vote-stars--temp hide"></div>
           <p class="vote-message"></p>
           <p class="vote-info"></p>
         </div>
@@ -51,24 +52,10 @@ class MovieInformationContent {
       </div>`;
   }
 
-  userVoteStarsTemplate(className: string, userVoteCount: number = 0) {
-    const userStars: string[] = [];
-
-    Array.from({ length: 5 }, (_, index) => {
-      const star = `
-        <img src="${
-          index < userVoteCount ? FilledStar : EmptyStar
-        }" class="${className}" alt="별점" data-star-index="${index}" />`;
-      userStars.push(star);
-    });
-
-    return userStars.join('');
-  }
-
   private init() {
-    MovieList.on(MOVIE_USER_VOTE_UPDATED, (event) => {
-      const { userVote } = (event as CustomEvent).detail;
-      this.renderUserVote(userVote);
+    MovieList.on(MOVIE_RETRIEVED, (event) => {
+      const { movie } = (event as CustomEvent).detail;
+      this.render(movie);
     });
   }
 
@@ -103,7 +90,7 @@ class MovieInformationContent {
       return;
     }
 
-    this.overview.textContent = '이 영화는 줄거리가 없습니다.';
+    this.overview.textContent = EMPTY_OVERVIEW_MESSAGE;
     this.overview.classList.add('secondary-text');
   }
 
@@ -112,21 +99,8 @@ class MovieInformationContent {
     this.renderPosterImage(movie.title, movie.posterPath);
     this.renderMetaInfo(movie.releaseDate, movie.genres);
     this.renderVoteAverage(movie.voteAverage);
-    this.renderUserVote(movie.userVote);
     this.renderOverview(movie.overview);
-  }
-
-  updateUserVoteStarsOnHover(updatedUserVoteCount: number) {
-    const userStars = $$<HTMLImageElement>('.temp-star');
-
-    userStars.forEach((star, index) => {
-      if (index <= updatedUserVoteCount) {
-        star.src = FilledStar;
-      } else {
-        star.src = EmptyStar;
-      }
-    });
   }
 }
 
-export default MovieInformationContent;
+export default MovieInformationContent.getInstance();
