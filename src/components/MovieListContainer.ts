@@ -28,6 +28,7 @@ const MovieListContainer = {
       "beforeend",
       movies.map((movie) => MovieItem.render(movie)).join("")
     );
+    MovieItem.bindClickEvent();
 
     if (movies.length < MOVIE_MAX_COUNT) {
       MovieListContainer.hideButton();

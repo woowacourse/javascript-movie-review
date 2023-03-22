@@ -21,6 +21,7 @@ const MovieListContent = {
       MovieListContent.render();
       const movies = await MovieList.getMovieData();
       MovieListContent.render(movies);
+      MovieItem.bindClickEvent();
 
       if (movies.length < MOVIE_MAX_COUNT) {
         MovieListContainer.hideButton();
@@ -59,7 +60,6 @@ const MovieListContent = {
           </li>`.repeat(MOVIE_MAX_COUNT)
             : movies.map((movie) => MovieItem.render(movie)).join("")
         }`;
-
     $<HTMLElement>(".item-list").replaceChildren();
     $<HTMLElement>(".item-list").insertAdjacentHTML("beforeend", template);
   },
