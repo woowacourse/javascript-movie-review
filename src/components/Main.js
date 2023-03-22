@@ -1,5 +1,6 @@
 import Movie from './MovieSummaryItem';
 import MovieSkeleton from './MovieSkeleton';
+import { $ } from '../util/querySelector';
 
 const SKELETON_ITEM_COUNT = 20;
 const skeleton = document.createDocumentFragment();
@@ -12,14 +13,14 @@ class Main {
   #manager;
   #title;
   #list;
-  #button;
+  #observer;
 
   constructor (element, manager) {
     this.#element = element;
     this.#manager = manager;
+    this.#observer = new IntersectionObserver(this.#showMoreMoviesCallback.bind(this), { threshold: 0.5 });
 
     this.#initializeElement();
-    this.#requestMovieListEvent();
   }
 
   renderSkeleton () {
@@ -31,6 +32,7 @@ class Main {
 
   async render () {
     const query = this.#manager.getQuery();
+    this.#observer.disconnect();
 
     if (query === '' && !this.#manager.getMovieList().length) {
       this.renderSkeleton();
@@ -58,10 +60,8 @@ class Main {
 
     this.#list.appendChild(movieListFragment);
 
-    if (this.#manager.isLastPage()) {
-      this.#button.dataset.hidden = 'true';
-    } else {
-      this.#button.dataset.hidden = 'false';
+    if (!this.#manager.isLastPage()) {
+      this.#observer.observe($('li.movie-info:nth-last-child(10)', this.#list));
     }
   }
 
@@ -71,27 +71,19 @@ class Main {
     const list = document.createElement('ul');
     list.setAttribute('class', 'item-list');
 
-    const button = document.createElement('button');
-    button.setAttribute('class', 'btn primary full-width');
-    button.textContent = '더 보기';
-
     this.#title = title;
     this.#list = list;
-    this.#button = button;
 
     this.#element.appendChild(title);
     this.#element.appendChild(list);
-    this.#element.appendChild(button);
   }
 
-  #requestMovieListEvent () {
-    this.#element.addEventListener('click', async (e) => {
-      if (e.target.tagName === 'BUTTON') {
-        this.renderSkeleton();
-        await this.#manager.getMoreMovieList();
-        this.render();
-      }
-    });
+  async #showMoreMoviesCallback (entries) {
+    if (entries[0].intersectionRatio > 0.5) {
+      this.renderSkeleton();
+      await this.#manager.getMoreMovieList();
+      this.render();
+    }
   }
 }
 
