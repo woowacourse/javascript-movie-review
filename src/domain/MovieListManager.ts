@@ -16,10 +16,13 @@ class MovieListManager {
   #lastPage = false;
   #storage: Storage;
   #genre: Record<number, string> = {};
+  #starData: Record<number, number> = {};
 
   constructor(storage: Storage) {
     this.#storage = storage;
     this.#query = this.#storage.getItem('query');
+    const starData = this.#storage.getItem('stardata');
+    this.#starData = !starData ? {} : JSON.parse(starData);
     this.setGenreData();
   }
 
@@ -41,6 +44,15 @@ class MovieListManager {
 
   getQuery() {
     return this.#query;
+  }
+
+  getStarData() {
+    return this.#starData;
+  }
+
+  setStarData(movieId: number, numberData: number) {
+    this.#starData[movieId] = numberData;
+    this.#storage.setItem('stardata', JSON.stringify(this.#starData));
   }
 
   isLastPage() {

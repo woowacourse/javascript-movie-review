@@ -1,3 +1,4 @@
+import { SCORE_DATA_TEXT } from '../util/constants';
 import { $ } from '../util/querySelector';
 import { MovieItem } from './MovieItem';
 import movieModal from './MovieModal';
@@ -76,9 +77,11 @@ class Main {
       }
       if (e.target.tagName === 'IMG') {
         const movieData = this.#manager.getMovieData(e.target.alt);
+        const movieStar = this.#manager.getStarData()[movieData.id];
         $('.modal').innerHTML = movieModal(
           movieData,
-          this.#manager.getGenreData()
+          this.#manager.getGenreData(),
+          !movieStar ? 0 : movieStar
         );
         $('.modal').classList.remove('hidden');
         $('.modal-background').classList.remove('hidden');
@@ -90,12 +93,14 @@ class Main {
   #addModalEvent() {
     $('.modal').addEventListener('click', (e) => {
       if (e.target.tagName === 'BUTTON') {
+        this.#saveStarData();
         $('.modal-container').remove();
         $('.modal').classList.add('hidden');
         $('.modal-background').classList.add('hidden');
       }
     });
     $('.modal-background').addEventListener('click', () => {
+      this.#saveStarData();
       $('.modal-container').remove();
       $('.modal').classList.add('hidden');
       $('.modal-background').classList.add('hidden');
@@ -104,8 +109,18 @@ class Main {
 
   #drawStar() {
     $('.star input').addEventListener('input', (e) => {
-      $('.star span').style.width = `${e.target.value * 10}%`;
+      const nowStarData = $('.star input');
+      $('.star span').style.width = `${e.target.value * 20}%`;
+      $('#star-data').textContent = `${nowStarData.value * 2}점`;
+      $('#star-text').textContent = SCORE_DATA_TEXT[nowStarData.value * 2];
     });
+  }
+
+  #saveStarData() {
+    const resultStar = Number($('#star-data').textContent.split('점')[0]);
+    const movieName = $('#movie-name').textContent;
+    const movieId = this.#manager.getMovieData(movieName).id;
+    this.#manager.setStarData(movieId, resultStar);
   }
 }
 

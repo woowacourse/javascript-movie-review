@@ -1,4 +1,6 @@
-const MovieModal = (data, genreData) => {
+import { SCORE_DATA_TEXT } from '../util/constants';
+
+const MovieModal = (data, genreData, star) => {
   const blankStar = '<img src="./assets/star_empty.png" alt="별점" />'.repeat(
     5
   );
@@ -15,30 +17,36 @@ const MovieModal = (data, genreData) => {
       return genreData[id];
     })
     .join(', ');
-  console.log(genres);
+
   return `
         <div class="modal-container">
-            <span>${data.title}</span>
+            <span id="movie-name">${data.title}</span>
             <button>X</button>
         </div>
         <div>
             <img class="item-thumbnail" src=${poster} alt="${data.title}" />
             <div>
                 <div>
-                    <div>${genres}<img src="./assets/star_filled.png" alt="별점" />${data.vote_average}</div>
+                    <div>${genres}<img src="./assets/star_filled.png" alt="별점" />${
+    data.vote_average
+  }</div>
                     <div>${data.overview}</div>
                 </div>
                 <div>
                 내 별점
                     <span class="star">
                         ${blankStar}
-                        <span>
+                        <span style="width:${(star / 2) * 20}%">
                             ${filledStar}
                         </span>
-                        <input type="range" value="1" step="1" min="0" max="10">
+                        <input type="range" value="${
+                          !star ? 0 : star / 2
+                        }" step="1" min="1" max="5">
                     </span>
-                    5
-                    보통이에요
+                    <span id="star-data">${star}</span>
+                    <span id="star-text">${
+                      !star ? '점수를 부여해주세요' : SCORE_DATA_TEXT[star]
+                    }</span>
                 </div>
             </div>
         </div>
