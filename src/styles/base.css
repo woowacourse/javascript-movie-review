@@ -1,5 +1,5 @@
 * {
-  box-sizing: border-box !important;
+  box-sizing: border-box;
 }
 
 body {
@@ -17,14 +17,10 @@ button {
   cursor: pointer;
 }
 
-*:focus {
-  outline: none;
-}
-
 #app {
   padding-bottom: 48px;
 }
 
 .hide {
-  display: none !important;
+  display: none;
 }

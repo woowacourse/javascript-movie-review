@@ -22,11 +22,12 @@
 
 .header > .search-box {
   background: #fff;
-  padding: 8px;
+  padding: 0 8px 0 0;
   border-radius: 4px;
 }
 
 .header .search-box input {
+  padding: 8px;
   border: 0;
 }
 
