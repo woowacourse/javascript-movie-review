@@ -14,7 +14,7 @@ module.exports = {
     historyApiFallback: true,
   },
   output: {
-    publicPath: './',
+    publicPath: '/',
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
