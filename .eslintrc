@@ -13,9 +13,9 @@
     "@typescript-eslint/no-empty-interface": "off",
     "no-empty-interface": "off",
     "no-console": "warn",
-    "no-unused-vars": "warn",
     "semi": ["error", "always"],
-    "quotes": ["error", "double"]
+    "quotes": ["error", "double"],
+    "no-unused-vars": "off"
   },
   "overrides": [
     {
