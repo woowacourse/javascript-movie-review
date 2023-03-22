@@ -1,5 +1,6 @@
 import { Header } from "./components/Header";
 import { MovieList } from "./components/MovieList";
+import { Movie } from "./types";
 import { $ } from "./utils/selector";
 
 export class App {
@@ -17,6 +18,19 @@ export class App {
     );
 
     this.#movieList = new MovieList($movieList);
+
+    this.bindEvent();
+  }
+
+  bindEvent() {
+    window.addEventListener("popstate", () => {
+      const selectedMovieId = Number(window.location.hash.replace("#", ""));
+
+      this.#movieList.getMovieInfo(
+        selectedMovieId,
+        this.onClickMovieCard.bind(this)
+      );
+    });
   }
 
   onSubmitSearchKeyword(serachKeyword: string) {
@@ -35,5 +49,9 @@ export class App {
 
     if (this.#movieList instanceof MovieList)
       this.#movieList.changeShowTarget("popular");
+  }
+
+  onClickMovieCard(movie: Movie) {
+    console.log(movie);
   }
 }

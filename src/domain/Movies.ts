@@ -43,4 +43,13 @@ export class Movies {
       };
     });
   }
+
+  getMovieInfoById(id: number) {
+    const movie = this.#list.find((item) => item.id === id);
+
+    if (movie === undefined)
+      throw new Error(`${id}를 가진 영화를 찾을 수 없습니다.`);
+
+    return movie;
+  }
 }

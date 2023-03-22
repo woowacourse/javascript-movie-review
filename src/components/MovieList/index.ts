@@ -1,7 +1,8 @@
 import "./movieList.css";
 
+import { Movie, MovieResponse } from "../../types";
+
 import { Movies } from "../../domain/Movies";
-import { MovieResponse } from "../../types";
 import { fetchPopularMovies, fetchSearchMovies } from "../../utils/api";
 import { $ } from "../../utils/selector";
 import {
@@ -143,5 +144,9 @@ export class MovieList {
 
   activateScrollFetch() {
     $(".btn").removeAttribute("hidden");
+  }
+
+  getMovieInfo(id: number, handleClickMovieCard: (movieInfo: Movie) => void) {
+    handleClickMovieCard(this.#movies.getMovieInfoById(id));
   }
 }
