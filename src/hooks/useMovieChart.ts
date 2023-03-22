@@ -26,14 +26,14 @@ function useMovieChart(keyword: string) {
   };
 
   const getPopularMovies = defaultFetchAction(async () => {
-    const [data, error] = await waitFor<GetPopularMoviesRes>(fetchPopularMovies(page));
+    const [data, error] = await waitFor(fetchPopularMovies(page));
     if (error) throw new Error(JSON.stringify(error));
 
     updateMovieData(data);
   });
 
   const getMoviesByKeyword = defaultFetchAction(async (keyword: string) => {
-    const [data, error] = await waitFor<GetMoviesByKeywordRes>(fetchMoviesByKeyword(keyword, page));
+    const [data, error] = await waitFor(fetchMoviesByKeyword(keyword, page));
     if (error) throw new Error(JSON.stringify(error));
 
     updateMovieData(data);

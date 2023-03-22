@@ -1,4 +1,6 @@
 import { MakeOptional } from '../types/common';
+import { handleStatusCode } from '../validation/errorHandler';
+import { CustomError } from '../validation/errors';
 
 const REDIRECT_SERVER_HOST = 'https://ornate-swan-ce5a5e.netlify.app';
 
@@ -40,14 +42,12 @@ const fetchQuery = async (path: string, init?: RequestInit) => {
   const response = await fetch(url, init);
   const body = await response.json();
 
-  if (!response.ok) {
-    throw new Error(body.error.message);
-  }
+  if (!response.ok) throw handleStatusCode(response.status);
 
   return body;
 };
 
-export const fetchMoviesByKeyword = (keyword: string, page?: number) => {
+export const fetchMoviesByKeyword = (keyword: string, page?: number): Promise<GetMoviesByKeywordRes> => {
   return fetchQuery(`tmdb/search/movie?query=${keyword}&${page ? `page=${page}` : ''}&language=ko`);
 };
 
@@ -59,7 +59,7 @@ export const waitFor = async <T>(promise: Promise<T>): Promise<[T, null] | [unde
   try {
     const data = await promise;
     return [data, null];
-  } catch (err) {
-    return [undefined, new Error(JSON.stringify(err))];
+  } catch (error) {
+    return [undefined, new CustomError({ code: error })];
   }
 };
