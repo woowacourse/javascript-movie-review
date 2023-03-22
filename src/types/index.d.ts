@@ -7,14 +7,31 @@ type MovieType = {
   title: string;
   posterPath: string;
   voteAverage: number;
+  genreIds: number[];
+  id: number;
+  overview: string;
 };
 
-type MovieFetchResponseType = {
+type GenreType = {
+  id: number;
+  name: string;
+};
+
+type BaseFetchResponseType = {
   result: string;
   status?: number;
   errorMessage?: string;
-  movies?: MovieType[];
 };
+
+type MovieFetchResponseType = BaseFetchResponseType & {
+  fetchedData?: MovieType[];
+};
+
+type GenreFetchResponseType = BaseFetchResponseType & {
+  fetchedData?: GenreType[];
+};
+
+type FetchResponseType = MovieFetchResponseType | GenreFetchResponseType;
 
 type ViewBundleType = {
   header: Header;
@@ -23,4 +40,11 @@ type ViewBundleType = {
   loadMoreButton: LoadMoreButton;
 };
 
-export { MovieType, MovieFetchResponseType, ViewBundleType };
+export {
+  MovieType,
+  GenreType,
+  MovieFetchResponseType,
+  GenreFetchResponseType,
+  FetchResponseType,
+  ViewBundleType,
+};
