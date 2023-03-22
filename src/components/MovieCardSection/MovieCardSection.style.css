@@ -1,13 +1,13 @@
 .item-view,
 .item-test {
-  width: 100%;
+  width: 1200px;
 }
 
 .item-view {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -21,7 +21,7 @@
 
 .item-list {
   display: grid;
-  margin: 48px 0;
+  margin: 48px auto;
   grid-template-columns: repeat(4, 180px);
   grid-column-gap: 160px;
   grid-row-gap: 48px;
@@ -66,6 +66,44 @@
 
 .last-item {
   margin-top: 48px;
+}
+
+@media screen and (max-width: 1280px) {
+  .item-view {
+    min-width: 1080px;
+  }
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+  }
+}
+
+@media screen and (max-width: 812px) {
+  .item-view {
+    min-width: 612px;
+  }
+  .item-list {
+    grid-template-columns: repeat(2, 180px);
+  }
+}
+
+@media screen and (max-width: 486px) {
+  .item-view {
+    min-width: 400px;
+  }
+  .item-list {
+    grid-template-columns: repeat(2, 140px);
+    grid-column-gap: 80px;
+  }
+  .item-thumbnail {
+    width: 140px;
+    height: 220px;
+  }
+  .item-title {
+    font-size: 1rem;
+  }
+  .item-score {
+    font-size: 1rem;
+  }
 }
 
 button.btn {
