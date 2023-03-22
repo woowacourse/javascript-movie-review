@@ -1,26 +1,23 @@
 import { publisher } from '../store/publisher';
 
-import { getFormFields } from '../utils/formData';
-import { $, Event } from '../utils/index';
+import { Event } from '../utils/index';
+
 import { renderSkeletonList } from './MovieList';
 
-export function Search(state: publisher) {
-  const { isPopular } = state;
+export function Search() {
+  const { isPopular } = publisher.state;
 
   Event.addEvent('submit', '.search-box', async (event) => {
     event.preventDefault();
+    if (event.target instanceof HTMLFormElement) {
+      if (isPopular) publisher.setState({ isPopular: false });
 
-    state.change({ page: 1 });
+      const searchedKeyword = event.target['keyword'].value;
 
-    if (isPopular) state.change({ isPopular: false });
-
-    const formEl = $('.search-box') as HTMLFormElement;
-    const formData = getFormFields(formEl);
-    const searchedKeyword = String(formData.keyword);
-
-    state.change({ keyword: searchedKeyword });
-
-    renderSkeletonList(state);
+      publisher.setState({ page: 1, keyword: searchedKeyword });
+      console.log(publisher.state.page);
+      renderSkeletonList();
+    }
   });
 
   return `

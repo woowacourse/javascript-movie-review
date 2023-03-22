@@ -1,4 +1,4 @@
-interface IEvent {
+export interface IEvent {
   parentSelector?: string;
   targetSelector: string;
   event: keyof HTMLElementEventMap;

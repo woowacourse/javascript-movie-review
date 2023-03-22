@@ -1,19 +1,12 @@
-import { $ } from '../utils';
-
+import { publisher } from '../store/publisher';
 import { PAGE_TITLE } from '../constants/constants';
 
-export function renderPageTitle(keyword: string, isPopular: boolean) {
-  const $pageTitle = $('.page-title') as HTMLElement;
-  if (!isPopular && keyword) {
-    $pageTitle.innerText = PAGE_TITLE.showSearchResult(keyword);
-    return;
-  }
-
-  $pageTitle.innerText = PAGE_TITLE.POPULAR_NOW;
-}
-
 export function PageTitle() {
+  const { isPopular, keyword } = publisher.state;
+
   return `
-        <h2 class="page-title">지금 인기 있는 영화</h2>
+        <h2 class="page-title">${
+          isPopular ? PAGE_TITLE.POPULAR_NOW : PAGE_TITLE.showSearchResult(keyword)
+        }</h2>
     `;
 }

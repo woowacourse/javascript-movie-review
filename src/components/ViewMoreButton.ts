@@ -1,6 +1,5 @@
 import { publisher } from '../store/publisher';
 import { $, Event } from '../utils/index';
-
 import { renderMoreSkeletonList } from './MovieList';
 
 export function renderViewMoreButton(isContentEnd: boolean) {
@@ -10,12 +9,9 @@ export function renderViewMoreButton(isContentEnd: boolean) {
   }
 }
 
-export function ViewMoreButton(state: publisher) {
+export function ViewMoreButton() {
   Event.addEvent('click', '.view-more-button', async () => {
-    renderMoreSkeletonList(state);
-
-    const { page } = state;
-    state.change({ page: page + 1 });
+    await renderMoreSkeletonList();
   });
 
   return `

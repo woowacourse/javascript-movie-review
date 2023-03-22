@@ -1,7 +1,27 @@
+import { IMovie } from '../api/api.js';
+import { observable } from '../core/observer.js';
+
 export type stateType = {
-  [key: string]: string | number | boolean;
+  [key: string]: string | number | boolean | IMovie[];
 };
 
+export const publisher = {
+  state: observable({
+    page: 1,
+    keyword: '검색 결과',
+    isPopular: true,
+    movies: [],
+  }),
+
+  setState(newState: stateType) {
+    for (const [key, value] of Object.entries(newState)) {
+      if (!this.state[key]) continue;
+      this.state[key] = value;
+    }
+  },
+};
+
+/*
 export class publisher {
   [x: string]: any;
   #state: stateType = {};
@@ -25,13 +45,5 @@ export class publisher {
     return this.#state;
   }
 
-  /*
-  subscriber_register(subscriber: unknown) {
-    this.#observers.add(subscriber);
-  }
-
-  subscriber_notify() {
-    this.#observers.forEach((fn: any) => fn());
-  }
-  */
 }
+*/

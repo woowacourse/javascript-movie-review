@@ -4,18 +4,9 @@ import './assets/search_button.png';
 import './assets/star_empty.png';
 import './assets/star_filled.png';
 
-import { render } from './utils/index';
-
-import { App } from './components/App';
 import { renderSkeletonList } from './components/MovieList';
-import { publisher } from './store/publisher';
+import { App } from './App';
 
-const state = new publisher({
-  page: 1,
-  keyword: '',
-  isPopular: true,
-});
+new App(document.querySelector('#app'));
 
-render(App(state));
-
-renderSkeletonList(state);
+renderSkeletonList();
