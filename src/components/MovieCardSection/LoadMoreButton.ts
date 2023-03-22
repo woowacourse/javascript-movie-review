@@ -1,5 +1,4 @@
-import MovieCardSection from '.';
-import { isCustomErrorMessage } from '../../constants/message';
+import type { GetMovies } from '../../App';
 import { ID } from '../../constants/selector';
 import type Movies from '../../domain/Movies';
 import { $ } from '../../utils/dom';
@@ -10,26 +9,22 @@ const LoadMoreButton = {
     return `<button id=${ID.LOAD_MORE_BUTTON} class="btn primary full-width">더 보기</button>`;
   },
 
-  setEvent(movies: Movies) {
+  setEvent(movies: Movies, getMovies: GetMovies) {
     const button = $<HTMLButtonElement>(`#${ID.LOAD_MORE_BUTTON}`);
 
     button.addEventListener('click', async () => {
       MovieCardList.renderMoreItems();
 
-      try {
-        const newMovies = movies.getQuery() ? await movies.addSearch() : await movies.addPopular();
+      const newMovies = await getMovies();
 
-        if (!newMovies) return;
-
-        MovieCardList.paint(newMovies, movies.getPage());
-        LoadMoreButton.handleVisibility(movies.isLastPage());
-      } catch (error) {
-        if (isCustomErrorMessage(error)) {
-          movies.previousPage();
-          MovieCardList.removeSkeleton();
-          MovieCardSection.renderErrorMessage(error);
-        }
+      if (!newMovies) {
+        movies.previousPage();
+        MovieCardList.removeSkeleton();
+        return;
       }
+
+      MovieCardList.paint(newMovies.list, movies.getPage());
+      LoadMoreButton.handleVisibility(movies.isLastPage(newMovies.totalPages));
     });
   },
 

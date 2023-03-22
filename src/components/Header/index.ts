@@ -2,7 +2,6 @@ import './Header.style.css';
 
 import MovieSearch from './MovieSearch';
 import { logoImage } from '../../assets/images';
-import type Movies from '../../domain/Movies';
 import Tooltip from '../common/Tooltip';
 
 const Header = {
@@ -20,10 +19,6 @@ const Header = {
         </div>
       </header>
     `;
-  },
-
-  setEvent(movies: Movies) {
-    MovieSearch.setEvent(movies);
   },
 };
 

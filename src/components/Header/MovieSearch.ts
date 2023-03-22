@@ -1,4 +1,5 @@
-import { isCustomErrorMessage, SEARCH_ERROR_MESSAGE } from '../../constants/message';
+import { GetMovies } from '../../App';
+import { SEARCH_ERROR_MESSAGE } from '../../constants/message';
 import { ID } from '../../constants/selector';
 import type Movies from '../../domain/Movies';
 import { $ } from '../../utils/dom';
@@ -18,7 +19,7 @@ const MovieSearch = {
     `;
   },
 
-  setEvent(movies: Movies) {
+  setEvent(movies: Movies, getMovies: GetMovies) {
     const movieSearchForm = $<HTMLFormElement>(`#${ID.MOVIE_SEARCH_FORM}`);
 
     movieSearchForm.addEventListener('submit', async (event) => {
@@ -36,20 +37,16 @@ const MovieSearch = {
       MovieSearch.handleShowTooltip(false);
       MovieCardSection.render(query);
 
-      try {
-        const results = await movies.search(query);
+      const newMovies = await getMovies(query);
 
-        if (results.length === 0) {
-          throw SEARCH_ERROR_MESSAGE;
-        }
+      if (!newMovies) return;
 
-        MovieCardList.paint(results);
-        LoadMoreButton.handleVisibility(movies.isLastPage());
-      } catch (error) {
-        if (isCustomErrorMessage(error)) {
-          MovieCardSection.renderErrorMessage(error);
-        }
+      if (newMovies.list.length === 0) {
+        return MovieCardSection.renderErrorMessage(SEARCH_ERROR_MESSAGE);
       }
+
+      MovieCardList.paint(newMovies.list);
+      LoadMoreButton.handleVisibility(movies.isLastPage(newMovies.totalPages));
     });
 
     const movieSearchInput = $('input[name="search-query"]');

@@ -1,11 +1,24 @@
+import getPopularMovies from './api/getPopularMovies';
+import getSearchedMovies from './api/getSearchedMovies';
 import Header from './components/Header';
+import MovieSearch from './components/Header/MovieSearch';
 import MovieCardSection from './components/MovieCardSection';
+import LoadMoreButton from './components/MovieCardSection/LoadMoreButton';
 import MovieCardList from './components/MovieCardSection/MovieCardList';
+import { MAX_PAGE } from './constants';
 import { isCustomErrorMessage } from './constants/message';
 import { ID } from './constants/selector';
 import Movies from './domain/Movies';
-import type { Movie } from './types/movie';
+import { convertToAppMovies } from './domain/util';
+import { AppMovie } from './types/movie';
 import { $ } from './utils/dom';
+
+interface ConvertingMovies {
+  list: AppMovie[];
+  totalPages: number;
+}
+
+export type GetMovies = (query?: string) => Promise<ConvertingMovies | undefined>;
 
 class App {
   #app: HTMLDivElement;
@@ -20,16 +33,12 @@ class App {
   async init() {
     this.render();
 
-    try {
-      const results = await this.#movies.init();
-      this.paint(results);
-    } catch (error) {
-      if (isCustomErrorMessage(error)) {
-        MovieCardSection.renderErrorMessage(error);
-      }
-    } finally {
-      this.setEvent();
-    }
+    const movies = await this.getMovies();
+
+    if (!movies) return;
+
+    this.paint(movies.list);
+    this.setEvent();
   }
 
   render() {
@@ -41,13 +50,35 @@ class App {
     `;
   }
 
-  paint(movies: Movie[]) {
+  paint(movies: AppMovie[]) {
     MovieCardList.paint(movies);
   }
 
   setEvent() {
-    Header.setEvent(this.#movies);
-    MovieCardSection.setEvent(this.#movies);
+    MovieSearch.setEvent(this.#movies, this.getMovies.bind(this));
+    LoadMoreButton.setEvent(this.#movies, this.getMovies.bind(this));
+  }
+
+  async getMovies(query: string = '') {
+    try {
+      if (!this.#movies.isCurrentQuery(query)) {
+        this.#movies.reset(query);
+      }
+
+      this.#movies.addPage();
+
+      const { results, total_pages: totalPages } =
+        query === '' ? await getPopularMovies(this.#movies.getPage()) : await getSearchedMovies(query, this.#movies.getPage());
+      const movies = convertToAppMovies(results);
+
+      this.#movies.add(movies);
+
+      return { list: movies, totalPages: Math.min(MAX_PAGE, totalPages) };
+    } catch (error) {
+      if (isCustomErrorMessage(error)) {
+        MovieCardSection.renderErrorMessage(error);
+      }
+    }
   }
 }
 

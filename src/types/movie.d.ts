@@ -1,11 +1,11 @@
-export interface MovieAPISuccess {
+export interface MovieAPIResponse {
   page: number;
   results: Movie[];
   total_pages: number;
   total_results: number;
 }
 
-export interface Movie {
+export interface RawMovie {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -22,10 +22,9 @@ export interface Movie {
   vote_count: number;
 }
 
-export interface MovieAPIFailure {
-  status_message: string;
-  status_code: number;
-  success?: boolean;
+export interface AppMovie {
+  id: number;
+  title: string;
+  posterPath: string | null;
+  rating: number;
 }
-
-export type MovieAPIResponse = MovieAPISuccess | MovieAPIFailure;

@@ -1,74 +1,46 @@
-import getPopularMovies from '../api/getPopularMovies';
-import getSearchedMovies from '../api/getSearchedMovies';
-import { ERROR_MESSAGE, MAX_PAGE } from '../constants';
+import { AppMovie } from '../types/movie';
 
 class Movies {
   #query: string;
 
   #page: number;
 
-  #totalPage: number;
+  #movies: AppMovie[];
 
-  constructor() {
-    this.#query = '';
-    this.#page = 1;
-    this.#totalPage = MAX_PAGE;
-  }
-
-  async init() {
-    this.#query = '';
-    this.#page = 1;
-
-    const { total_pages: totalPages, results } = await getPopularMovies(this.#page);
-
-    this.#totalPage = Math.min(MAX_PAGE, totalPages);
-
-    return results;
-  }
-
-  async addPopular() {
-    this.#page += 1;
-
-    const { results } = await getPopularMovies(this.#page);
-
-    return results;
-  }
-
-  async search(query: string) {
+  constructor(query: string = '') {
     this.#query = query;
-    this.#page = 1;
-
-    const { total_pages: totalPages, results } = await getSearchedMovies(query);
-
-    this.#totalPage = Math.min(MAX_PAGE, totalPages);
-
-    return results;
+    this.#page = 0;
+    this.#movies = [];
   }
 
-  async addSearch() {
-    if (!this.#query) return;
+  getPage() {
+    return this.#page;
+  }
 
+  add(movies: AppMovie[]) {
+    this.#movies = [...this.#movies, ...movies];
+  }
+
+  isCurrentQuery(currentQuery: string) {
+    return currentQuery === this.#query;
+  }
+
+  isLastPage(totalPages: number) {
+    return this.#page === totalPages;
+  }
+
+  addPage() {
     this.#page += 1;
-
-    const { results } = await getSearchedMovies(this.#query, this.#page);
-
-    return results;
-  }
-
-  isLastPage() {
-    return this.#page === this.#totalPage;
   }
 
   previousPage() {
     this.#page -= 1;
   }
 
-  getQuery() {
-    return this.#query;
-  }
-
-  getPage() {
-    return this.#page;
+  reset(query: string) {
+    this.#page = 0;
+    this.#query = query;
+    this.#movies = [];
   }
 }
 

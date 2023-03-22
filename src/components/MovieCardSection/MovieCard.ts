@@ -1,7 +1,7 @@
 import { posterNotFoundImage, starFilledImage } from '../../assets/images';
 import { IMAGE_URL } from '../../constants';
 import { CLASS } from '../../constants/selector';
-import type { Movie } from '../../types/movie';
+import type { AppMovie, RawMovie } from '../../types/movie';
 
 const MovieCard = {
   template() {
@@ -33,16 +33,16 @@ const MovieCard = {
     return `<img src=${starFilledImage} alt="별점" /> ${score.toFixed(1)}`;
   },
 
-  paint(target: HTMLLIElement, item: Movie) {
-    const { title, poster_path: path, vote_average: score } = item;
+  paint(target: HTMLLIElement, item: AppMovie) {
+    const { title, posterPath, rating } = item;
 
     const itemThumbnail = target.querySelector<HTMLDivElement>(`.${CLASS.ITEM_THUMBNAIL}`);
     const itemTitle = target.querySelector<HTMLParagraphElement>(`.${CLASS.ITEM_TITLE}`);
     const itemScore = target.querySelector<HTMLParagraphElement>(`.${CLASS.ITEM_SCORE}`);
 
-    itemThumbnail?.insertAdjacentHTML('beforeend', MovieCard.imageTemplate(path, title));
+    itemThumbnail?.insertAdjacentHTML('beforeend', MovieCard.imageTemplate(posterPath, title));
     itemTitle?.insertAdjacentText('beforeend', title);
-    itemScore?.insertAdjacentHTML('beforeend', MovieCard.scoreTemplate(score));
+    itemScore?.insertAdjacentHTML('beforeend', MovieCard.scoreTemplate(rating));
 
     itemThumbnail?.classList.remove(CLASS.SKELETON);
     itemTitle?.classList.remove(CLASS.SKELETON);

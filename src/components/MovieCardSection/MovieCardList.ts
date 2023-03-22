@@ -1,5 +1,5 @@
 import MovieCard from './MovieCard';
-import type { Movie } from '../../types/movie';
+import type { AppMovie } from '../../types/movie';
 import { DEFAULT_LIST_LENGTH } from '../../constants';
 import { CLASS } from '../../constants/selector';
 import { $ } from '../../utils/dom';
@@ -30,7 +30,7 @@ const MovieCardList = {
     movieList.innerHTML = MovieCardList.skeletonItems();
   },
 
-  paint(movies: Movie[], page: number = 1) {
+  paint(movies: AppMovie[], page: number = 1) {
     const movieList = $<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
     const startLine = (page - 1) * DEFAULT_LIST_LENGTH;
 

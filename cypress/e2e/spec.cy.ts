@@ -1,5 +1,5 @@
 import { CLASS, ID } from '../../src/constants/selector';
-import type { Movie } from '../../src/types/movie';
+import type { RawMovie } from '../../src/types/movie';
 
 beforeEach(() => {
   cy.intercept(
@@ -50,7 +50,7 @@ describe('영화 검색 테스트', () => {
 
   it('"해리포터"를 검색하면 해리포터 문자열이 포함된 영화 리스트를 보여준다.', () => {
     cy.wait('@getSearchedMovies').then((interception) => {
-      const movieItems: Movie[] = interception.response?.body.results;
+      const movieItems: RawMovie[] = interception.response?.body.results;
       expect(movieItems.length).to.equal(8);
 
       movieItems.forEach((item) => {
