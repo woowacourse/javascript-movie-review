@@ -8,11 +8,6 @@ const MovieListActions = () => {
     setComponentList(`#Movie-${props.info.id}`, Movie(props));
 
     return '';
-    return (
-      debounce(() => {
-        replaceComponent($(`#Movie-${props.info.id}`), Movie(props));
-      })() && ''
-    );
   };
   return { MovieComponent };
 };

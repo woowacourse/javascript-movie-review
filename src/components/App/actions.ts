@@ -9,22 +9,12 @@ const AppActions = () => {
     setComponentList('#Header', Header(props));
 
     return '';
-    return (
-      debounce(() => {
-        replaceComponent($('#Header'), Header(props));
-      })() && ''
-    );
   };
 
   const MovieChartComponent = (props: MovieChart) => {
     setComponentList('#MovieChart', MovieChart(props));
 
     return '';
-    return (
-      debounce(() => {
-        replaceComponent($('#MovieChart'), MovieChart(props));
-      })() && ''
-    );
   };
 
   return { HeaderComponent, MovieChartComponent };

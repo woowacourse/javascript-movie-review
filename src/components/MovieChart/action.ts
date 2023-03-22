@@ -9,22 +9,12 @@ const MovieChartActions = () => {
     setComponentList(`#MovieList`, MovieList(props));
 
     return '';
-    return (
-      debounce(() => {
-        replaceComponent($(`#MovieList`), MovieList(props));
-      })() && ''
-    );
   };
 
   const SkeletonMovieListComponent = () => {
     setComponentList(`#SkeletonList`, SkeletonMovieList({}));
 
     return '';
-    return (
-      debounce(() => {
-        replaceComponent($(`#SkeletonList`), SkeletonMovieList({}));
-      })() && ''
-    );
   };
   return { MovieListComponent, SkeletonMovieListComponent };
 };
