@@ -14,7 +14,7 @@ class Main {
     this.#manager = manager;
 
     this.#requestMovieListEvent();
-
+    this.#addModalEvent();
     this.#element.innerHTML = `
     <h2></h2>
     <ul class="item-list"></ul>
@@ -65,11 +65,6 @@ class Main {
       $('ul.item-list').appendChild(tempElement);
       $('.temp').outerHTML = '<p>검색 결과가 없습니다.</p>';
     }
-
-    const modal = document.createElement('div');
-    modal.className = 'modal hidden';
-
-    this.#element.appendChild(modal);
   }
 
   #requestMovieListEvent() {
@@ -86,7 +81,23 @@ class Main {
           this.#manager.getGenreData()
         );
         $('.modal').classList.remove('hidden');
+        $('.modal-background').classList.remove('hidden');
       }
+    });
+  }
+
+  #addModalEvent() {
+    $('.modal').addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON') {
+        $('.modal-container').remove();
+        $('.modal').classList.add('hidden');
+        $('.modal-background').classList.add('hidden');
+      }
+    });
+    $('.modal-background').addEventListener('click', () => {
+      $('.modal-container').remove();
+      $('.modal').classList.add('hidden');
+      $('.modal-background').classList.add('hidden');
     });
   }
 }
