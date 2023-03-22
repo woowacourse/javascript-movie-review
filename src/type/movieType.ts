@@ -40,3 +40,7 @@ export interface MovieGenreApi {
 export interface Genre {
   [key: number]: string;
 }
+
+export interface Constant {
+  [key: string]: string;
+}

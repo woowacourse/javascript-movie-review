@@ -2,6 +2,7 @@ import { ApiMovieItem, MovieAppData, MovieItem } from "../type/movieType";
 import { request } from "../util/apiRequest";
 import { popularMovieUrl, searchMovieUrl } from "./movieUrl";
 import GenreMatcher from "./GenreMatcher";
+import { ImgSrc } from "../constant/movieConstants";
 
 class Movie {
   private state: MovieAppData = {
@@ -55,10 +56,9 @@ class Movie {
       const { id, title, poster_path, vote_average, genre_ids, overview } =
         result;
 
-      const imgSrc =
-        poster_path === "null"
-          ? "./image/no_image.jpg"
-          : `https://image.tmdb.org/t/p/w220_and_h330_face${poster_path}`;
+      const imgSrc = poster_path
+        ? `https://image.tmdb.org/t/p/w220_and_h330_face${poster_path}`
+        : ImgSrc.NO_IMG;
 
       return {
         id: id,

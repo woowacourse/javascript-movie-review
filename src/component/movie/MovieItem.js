@@ -1,3 +1,4 @@
+import { ImgSrc } from "../../constant/movieConstants";
 import CustomElement from "../basic/CustomElement";
 
 class MovieItem extends CustomElement {
@@ -15,7 +16,7 @@ class MovieItem extends CustomElement {
             alt=${title}
           />
           <p class="item-title">${title}</p>
-          <p class="item-score"><img src="./image/star_filled.png" alt="별점" />${voteAverage}</p>
+          <p class="item-score"><img src=${ImgSrc.FULL_STAR} alt="별점" />${voteAverage}</p>
         </div>
   `;
   }

@@ -208,9 +208,7 @@ search-button {
   height: 570px;
   color: white;
   background-color: gray;
-  position: fixed;
-  bottom: 20%;
-  left: 15%;
+  border: none;
   border-radius: 8px;
 }
 
@@ -246,7 +244,6 @@ search-button {
   color: white;
   background-color: #383839;
   border-radius: 50%;
-  cursor: pointer;
 }
 
 .item-modal-content {
@@ -258,7 +255,7 @@ search-button {
 }
 
 .item-modal-thumbnail {
-  width: 40%;
+  width: 43%;
   height: auto;
 }
 
@@ -269,6 +266,7 @@ search-button {
 .item-modal-description {
   padding: 10px 0;
   height: 75%;
+  line-height: 20px;
 }
 
 .item-modal-user-rate {
@@ -286,14 +284,14 @@ search-button {
   padding: 0 5px;
 }
 
-.user-rate-star {
-  cursor: pointer;
-}
-
 .user-rate-number {
   padding: 0 5px;
 }
 
 .user-rate-caption {
   padding: 0 5px;
+}
+
+.user-rate-star {
+  cursor: pointer;
 }
