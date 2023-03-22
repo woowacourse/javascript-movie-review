@@ -1,3 +1,19 @@
+@media (min-width: 320px) {
+  .item-view h2 {
+    font-size: 1.5rem;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(2, 140px);
+    grid-column-gap: 36px;
+  }
+
+  .item-thumbnail {
+    width: 140px;
+    height: 220px;
+  }
+}
+
 * {
   box-sizing: border-box !important;
 }
@@ -88,27 +104,8 @@ button {
   content: "loading";
 }
 
-show-more-button {
-  text-align: center;
-}
-
-.button-width {
-  width: 40%;
-}
-
 .last-item {
   margin-top: 48px;
-}
-
-button.btn {
-  border: 0;
-  border-radius: 8px;
-  height: 40px;
-  color: #fff;
-}
-
-button.primary {
-  background: #f33f3f;
 }
 
 .item-card .skeleton {
@@ -196,24 +193,107 @@ search-button {
   font-size: 20px;
 }
 
-@media (min-width: 320px) {
-  .item-view h2 {
-    font-size: 1.5rem;
-  }
-
-  .item-list {
-    grid-template-columns: repeat(2, 140px);
-    grid-column-gap: 36px;
-  }
-
-  .item-thumbnail {
-    width: 140px;
-    height: 220px;
-  }
-}
-
+/* 
 @media (min-width: 801px) {
   .item-list {
     grid-template-columns: repeat(3, 180px);
   }
+} */
+
+/* Movie-item-modal */
+.item-modal-container {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  height: 570px;
+  color: white;
+  background-color: gray;
+  position: fixed;
+  bottom: 20%;
+  left: 15%;
+  border-radius: 8px;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  /*background: rgba(0, 0, 0, 0.6);*/
+}
+
+.item-modal-header {
+  border-bottom: white solid 1px;
+  position: relative;
+  height: 10%;
+}
+
+.item-modal-title {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  padding: 18px 0;
+}
+
+.item-modal-close-button {
+  position: absolute;
+  top: 0.7rem;
+  left: 90%;
+  width: 36px;
+  height: 36px;
+  color: white;
+  background-color: #383839;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.item-modal-content {
+  display: flex;
+  height: 90%;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 2rem;
+}
+
+.item-modal-thumbnail {
+  width: 40%;
+  height: auto;
+}
+
+.item-modal-detail {
+  width: 50%;
+}
+
+.item-modal-description {
+  padding: 10px 0;
+  height: 75%;
+}
+
+.item-modal-user-rate {
+  width: 100%;
+  height: 64px;
+  background-color: #383839;
+  display: flex;
+  flex-direction: row;
+  border-radius: 8px;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.user-rate-stars {
+  padding: 0 5px;
+}
+
+.user-rate-star {
+  cursor: pointer;
+}
+
+.user-rate-number {
+  padding: 0 5px;
+}
+
+.user-rate-caption {
+  padding: 0 5px;
 }

@@ -3,6 +3,7 @@ import MovieManager from "../../domain/MovieManager";
 import { $ } from "../../util/dom";
 import "./MovieList";
 import "./MovieListSkeleton";
+import "../modal/MovieItemModal";
 
 class MovieContainer extends CustomElement {
   #searchWord = "";
@@ -20,6 +21,7 @@ class MovieContainer extends CustomElement {
           <movie-list></movie-list>
           <movie-list-skeleton></movie-list-skeleton>
         </section>
+        <movie-item-modal></movie-item-modal>
     `;
   }
 
