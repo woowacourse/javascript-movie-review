@@ -1,9 +1,13 @@
 import { Movies } from "../../domain/Movies";
-import { Movie, MovieResponse } from "../../types";
+import { MovieResponse } from "../../types";
 import { fetchPopularMovies, fetchSearchMovies } from "../../utils/api";
-import starImg from "../../../templates/star_filled.png";
 import { $ } from "../../utils/selector";
-import { getSkeletonContainer } from "../Skeleton";
+import {
+  deleteSkeletonContainer,
+  getSkeletonContainer,
+  showSkeletonContainer,
+} from "./Skeleton";
+import { getMovieCardTemplate } from "./MovieCard";
 
 type showType = "popular" | "search";
 
@@ -24,11 +28,14 @@ export class MovieList {
 
   #movies: Movies = new Movies([]);
 
-  #$skeletonContainer = getSkeletonContainer();
-
   constructor($target: Element) {
     this.#$target = $target;
-    this.renderSkeleton();
+
+    this.init();
+  }
+
+  init() {
+    this.#$target.insertAdjacentElement("afterend", getSkeletonContainer());
 
     fetchPopularMovies(this.#state.page)
       .then((response) => {
@@ -37,53 +44,17 @@ export class MovieList {
         this.#movies.reset(results);
         this.render(results, total_pages);
 
-        const observer = new IntersectionObserver(
-          this.onClickMoreButton.bind(this)
+        new IntersectionObserver(this.fetchNextPage.bind(this)).observe(
+          $(".btn")
         );
-        observer.observe($(".btn"));
       })
       .catch(() => {
-        this.#$target.removeChild(this.#$skeletonContainer);
+        deleteSkeletonContainer();
       });
   }
 
-  getMovieCardTemplate(movie: Movie) {
-    return (
-      /*html*/
-      `
-      <li>
-        <a href="#">
-          <div class="item-card">
-            ${
-              movie.poster_path
-                ? /*html */ `
-                  <img
-                    class="item-thumbnail skeleton"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}"
-                    loading="lazy"
-                    alt="${movie.title}"
-                  />
-                `
-                : /*html */ `
-                <div class="item-thumbnail center" style="background-color:white; color:black; display:flex; justify-content:center; align-items:center; font-weight:600; font-size:24px">
-                  <span>No Image</span>
-                </div>
-                `
-            }
-            <p class="item-title">${movie.title}</p>
-            <p class="item-score">
-              <img src="${starImg}" alt="별점 ${movie.vote_average}" />
-              ${movie.vote_average}
-            </p>
-          </div>
-        </a>
-      </li>
-    `
-    );
-  }
-
   render(movieList: MovieResponse[], total_pages: number) {
-    this.#$target.removeChild(this.#$skeletonContainer);
+    deleteSkeletonContainer();
 
     if (this.#state.page !== 1) this.#movies.add(movieList);
 
@@ -91,22 +62,22 @@ export class MovieList {
       "beforeend",
       `${this.#movies
         .getCurrentList()
-        .map((movie) => this.getMovieCardTemplate(movie))
+        .map((movie) => getMovieCardTemplate(movie))
         .join("")}
       `
     );
 
     console.log("render");
 
-    if (this.#state.page === total_pages) this.hideMoreButton();
+    if (this.#state.page === total_pages) this.deactivateScrollFetch();
   }
 
   reset(state: showType, searchKeyword?: string) {
     this.#$target.innerHTML = ``;
     this.#state = { ...this.#state, showState: state, page: 1 };
 
-    this.showMoreButton();
-    this.renderSkeleton();
+    this.activateScrollFetch();
+    showSkeletonContainer();
 
     if (state === "popular") {
       fetchPopularMovies(this.#state.page)
@@ -117,7 +88,7 @@ export class MovieList {
           this.render(results, total_pages);
         })
         .catch(() => {
-          this.#$target.removeChild(this.#$skeletonContainer);
+          deleteSkeletonContainer();
         });
 
       return;
@@ -134,14 +105,14 @@ export class MovieList {
           this.render(results, total_pages);
         })
         .catch(() => {
-          this.#$target.removeChild(this.#$skeletonContainer);
+          deleteSkeletonContainer();
         });
     }
   }
 
-  onClickMoreButton() {
+  fetchNextPage() {
     this.#state.page += 1;
-    this.renderSkeleton();
+    showSkeletonContainer();
 
     if (this.#state.showState === "popular")
       fetchPopularMovies(this.#state.page)
@@ -151,7 +122,7 @@ export class MovieList {
           this.render(results, total_pages);
         })
         .catch(() => {
-          this.#$target.removeChild(this.#$skeletonContainer);
+          deleteSkeletonContainer();
         });
 
     if (this.#state.showState === "search")
@@ -162,19 +133,15 @@ export class MovieList {
           this.render(results, total_pages);
         })
         .catch(() => {
-          this.#$target.removeChild(this.#$skeletonContainer);
+          deleteSkeletonContainer();
         });
   }
 
-  renderSkeleton() {
-    this.#$target.appendChild(this.#$skeletonContainer);
-  }
-
-  hideMoreButton() {
+  deactivateScrollFetch() {
     $(".btn").setAttribute("hidden", "");
   }
 
-  showMoreButton() {
+  activateScrollFetch() {
     $(".btn").removeAttribute("hidden");
   }
 }
