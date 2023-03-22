@@ -65,6 +65,10 @@ export default class App {
       "send-my-rating",
       this.sendMyRating as EventListener
     );
+
+    window.addEventListener("beforeunload", () => {
+      requestLocalStorage.setMyRating(this.#myRating);
+    });
   }
 
   async appendMovieList() {
@@ -107,7 +111,6 @@ export default class App {
       ({ movieId }) => movieId !== detail.movieId
     );
     this.#myRating.push({ movieId: detail.movieId, score: detail.myRating });
-    requestLocalStorage.setMyRating(this.#myRating);
   };
 
   sendMyRating = ({ detail }: CustomEvent) => {
