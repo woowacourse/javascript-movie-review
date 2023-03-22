@@ -33,9 +33,11 @@ export async function renderSkeletonList(state: publisher) {
 
   parentElem.insertAdjacentHTML('beforeend', MovieListSkeleton());
 
-  await usePopularMovie(state.page).then(({ values }) =>
-    renderPopularMovieList(values.results, state)
-  );
+  const {
+    values: { results },
+  } = await usePopularMovie(state.page);
+
+  renderPopularMovieList(results, state);
 }
 
 export async function renderMoreSkeletonList(state: publisher) {
@@ -47,17 +49,21 @@ export async function renderMoreSkeletonList(state: publisher) {
     const {
       values: { results },
     } = await usePopularMovie(page + 1);
+
     renderMoreMovieList(results);
     deleteSkeletonList();
 
     return;
   }
 
-  await useSearchedMovie(keyword, page + 1).then(({ values }) => {
-    renderViewMoreButton(values.results.length < 20);
-    renderMoreMovieList(values.results);
-    deleteSkeletonList();
-  });
+  const {
+    values: { results },
+  } = await useSearchedMovie(keyword, page + 1);
+
+  renderViewMoreButton(results.length < 20);
+  renderMoreMovieList(results);
+
+  deleteSkeletonList();
 }
 
 export function deleteSkeletonList() {
@@ -74,7 +80,7 @@ export async function renderPopularMovieList(results: IMovie[], state: publisher
   parentElem.innerHTML = `
     ${results.map((movie) => MovieItem(movie)).join('')}
   
-  ` as string;
+  `;
 }
 
 export async function renderSearchMovieList(searchResults: IMovie[], state: publisher) {
@@ -84,10 +90,10 @@ export async function renderSearchMovieList(searchResults: IMovie[], state: publ
   parentElem.innerHTML =
     searchResults.length === 0
       ? '검색 결과가 없습니다.'
-      : (`
+      : `
     ${searchResults.map((movie) => MovieItem(movie)).join('')}
   
-  ` as string);
+  `;
 }
 
 export async function renderMoreMovieList(moreResults: IMovie[]) {
