@@ -71,6 +71,25 @@ const MovieModal = {
     });
   },
 
+  bindPressEvent: () => {
+    window.addEventListener(
+      "keyup",
+      (event) => {
+        if (event.code == "Backspace") {
+          MovieModal.close();
+        }
+      },
+      { once: true }
+    );
+  },
+
+  bindGoBack: () => {
+    history.pushState(null, location.href);
+    window.onpopstate = function () {
+      MovieModal.close();
+    };
+  },
+
   close: async () => {
     $<HTMLDivElement>("#modal-backdrop").remove();
   },
