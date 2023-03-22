@@ -6,7 +6,7 @@ export type HTTPStatusOK = 200;
 
 export type HTTPStatusFailure = Exclude<HTTPStatus, HTTPStatusOK>;
 
-export type HTTPResponse<Status extends HTTPStatus = HTTPStatus, Data = any> = {
+export type HTTPResponse<Status extends HTTPStatus = HTTPStatus, Data = unknown> = {
   status: Status;
   ok: boolean;
   data: Data;
