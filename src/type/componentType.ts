@@ -7,4 +7,5 @@ export interface CustomElement extends HTMLElement {
   show: () => void;
   hide: () => void;
   rerender: <T>(data: T) => void;
+  popUp: <T>(data: T) => void;
 }

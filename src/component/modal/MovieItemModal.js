@@ -1,17 +1,20 @@
+import MovieManager from "../../domain/MovieManager";
 import { $ } from "../../util/dom";
 import CustomElement from "../basic/CustomElement";
 
 class MovieItemModal extends CustomElement {
-  template() {
-    const { title, starRate, src, id, genres, description } = {
-      title: "title",
-      starRate: 3.4,
-      src: "https://image.tmdb.org/t/p/w220_and_h330_face/kuf6dutpsT0vSVehic3EZIqkOBt.jpg",
-      id: 2313,
-      genres: ["Animation", "Adventure", "Comedy", "Family"],
-      description:
-        "Darcy and Tom gather their families for the ultimate destination wedding but when the entire party is taken hostage, “’Til Death Do Us Part” takes on a whole new meaning in this hilarious, adrenaline-fueled adventure as Darcy and Tom must save their loved ones—if they don’t kill each other first.",
-    };
+  connectedCallback() {
+    MovieManager.subscribeModal(this);
+  }
+
+  template(movieInfo) {
+    const { title, starRate, src, id, genres, description } = movieInfo;
+
+    const imgSrc =
+      src === "null"
+        ? "./image/no_image.jpg"
+        : `https://image.tmdb.org/t/p/w220_and_h330_face${src}`;
+
     return `
     <div class="item-modal-container" id=${id}>
       <div class="backdrop"></div>
@@ -20,7 +23,7 @@ class MovieItemModal extends CustomElement {
         <button class="item-modal-close-button button" type="button">X</button>
       </div>
       <div class="item-modal-content">
-        <img class="item-modal-thumbnail" src=${src} alt=${title} />
+        <img class="item-modal-thumbnail" src=${imgSrc} alt=${title} />
         <div class="item-modal-detail">
           <div class="item-modal-genre">${genres.join(
             " "
@@ -46,7 +49,6 @@ class MovieItemModal extends CustomElement {
 
   popUp(movieInfo) {
     this.insertAdjacentHTML("beforeend", this.template(movieInfo));
-    $("body").insertAdjacentHTML("beforeend", this);
   }
 }
 

@@ -18,6 +18,39 @@ class MovieList extends CustomElement {
   }
 
   setEvent() {
+    this.scrollDown();
+    this.openItemModal();
+  }
+
+  rerender({ movies, isShowMore, page, totalPages }) {
+    const movieItemsTemplate = movies.length
+      ? this.makeMovieItems(movies)
+      : this.makeEmptyItem();
+
+    isShowMore
+      ? $(".item-list").insertAdjacentHTML("beforeend", movieItemsTemplate)
+      : ($(".item-list").innerHTML = movieItemsTemplate);
+
+    $(".list-footer").hidden = page === totalPages;
+  }
+
+  makeMovieItems(movies) {
+    return movies
+      .map((movie) => {
+        const { title, src, starRate, id } = movie;
+        return `
+          <movie-item id=${id} title='${title}' vote_average=${starRate} src=${src}>
+          </movie-item>
+          `;
+      })
+      .join("");
+  }
+
+  makeEmptyItem() {
+    return `<movie-empty></movie-empty>`;
+  }
+
+  scrollDown() {
     const observer = new IntersectionObserver((entries) => {
       const $listFooter = entries[0];
 
@@ -30,32 +63,13 @@ class MovieList extends CustomElement {
     observer.observe($listFooter);
   }
 
-  rerender({ movies, isShowMore, page, totalPages }) {
-    const movieItemsTemplate = movies.length
-      ? this.makeMovieItems(movies)
-      : this.makeEmptyItem();
-
-    isShowMore
-      ? $(".item-list").insertAdjacentHTML("beforeend", movieItemsTemplate)
-      : ($(".item-list").innerHTML = movieItemsTemplate);
-
-    $(".list-footer").hidden = page === totalPages ? true : false;
-  }
-
-  makeMovieItems(movies) {
-    return movies
-      .map((movie) => {
-        const { title, src, starRate } = movie;
-        return `
-          <movie-item title='${title}' vote_average=${starRate} src=${src}>
-          </movie-item>
-          `;
-      })
-      .join("");
-  }
-
-  makeEmptyItem() {
-    return `<movie-empty></movie-empty>`;
+  openItemModal() {
+    $(".item-list").addEventListener("click", (e) => {
+      const movieId = e.target.closest("movie-item")?.id;
+      if (movieId) {
+        MovieManager.openItemModal(Number(movieId));
+      }
+    });
   }
 }
 

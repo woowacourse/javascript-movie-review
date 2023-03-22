@@ -6,6 +6,7 @@ class MovieManager {
   private subscribers: CustomElement[] = [];
   private skeletonSubscriber: CustomElement | undefined;
   private errorSubscriber: CustomElement | undefined;
+  private modalSubscriber: CustomElement | undefined;
 
   subscribe(element: CustomElement) {
     this.subscribers.push(element);
@@ -17,6 +18,10 @@ class MovieManager {
 
   subscribeError(element: CustomElement) {
     this.errorSubscriber = element;
+  }
+
+  subscribeModal(element: CustomElement) {
+    this.modalSubscriber = element;
   }
 
   private publish(movieAppData: MovieAppData) {
@@ -61,6 +66,11 @@ class MovieManager {
 
     this.publish(movieAppData);
     this.hideSkeleton();
+  }
+
+  openItemModal(id: number) {
+    const movieData = Movie.getMovie(id);
+    this.modalSubscriber?.popUp(movieData);
   }
 }
 

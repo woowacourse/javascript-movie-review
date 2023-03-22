@@ -12,6 +12,10 @@ class Movie {
     isShowMore: false,
   };
 
+  getMovie(id: number) {
+    return this.state.movies.find((movie) => movie.id === id);
+  }
+
   async getMovies(query: string = "") {
     this.state.page = 1;
     this.state.searchWord = query;
