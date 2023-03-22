@@ -57,7 +57,9 @@ export default class MovieModal extends HTMLElement {
                         <p>${rating}</p>
                       </div>
                     </div>
-                    <p class="mt-16">${overview}</p>
+                    <p class="mt-16">${
+                      overview ? overview : '" 제공된 줄거리가 없습니다. "'
+                    }</p>
                     <div class="rating-box flex align-center">
                       <p class="mr-16">내 별점</p>
                       <img class="star-${
