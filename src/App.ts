@@ -27,11 +27,12 @@ class App {
   constructor() {
     this.#app = $<HTMLDivElement>(`#${ID.APP}`);
     this.#movies = new Movies();
+    this.getMovies = this.getMovies.bind(this)
   }
 
   init() {
     this.render();
-    MovieCardSection.render(this.#movies, this.getMovies.bind(this));
+    MovieCardSection.render(this.#movies, this.getMovies);
     this.setEvent();
   }
 
@@ -45,8 +46,8 @@ class App {
   }
 
   setEvent() {
-    Header.setEvent(this.#movies, this.getMovies.bind(this));
-    MovieCardSection.setEvent(this.#movies, this.getMovies.bind(this));
+    Header.setEvent(this.#movies, this.getMovies);
+    MovieCardSection.setEvent(this.#movies, this.getMovies);
   }
 
   async getMovies(query: string = '') {
