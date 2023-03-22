@@ -9,11 +9,6 @@ export default class App {
 
   render() {
     this.$target.innerHTML = this.template();
-
-    // this.$target.insertAdjacentHTML('beforeend', this.template());
-    // new Title($('.movie-list-title'));
-    // new MovieList($('.item-view')).skeletonRender();
-    // new SeeMore($('.item-view')).render().setEvent();
   }
 
   template() {
@@ -23,6 +18,7 @@ export default class App {
         <section class="item-view">
         <movie-title></movie-title>
         <movie-list></movie-list>
+        <movie-see-more></movie-see-more>
         </section>
       </main>
     `;

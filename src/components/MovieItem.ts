@@ -1,5 +1,4 @@
 import { MOVIE_APP_IMG_PATH } from '../constant/index';
-import { MovieItemType } from '../type/movie';
 
 export default class MovieItem extends HTMLElement {
   constructor() {
@@ -25,20 +24,6 @@ export default class MovieItem extends HTMLElement {
           <p class="item-score"><img src="${
             MOVIE_APP_IMG_PATH.starFilled
           }" alt="별점" /> ${this.getAttribute('vote-average')}</p>
-        </div>
-      </a>
-    </li>
-    `;
-  }
-
-  skeletonTemplate() {
-    return `
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
         </div>
       </a>
     </li>
