@@ -26,7 +26,6 @@ export function renderViewMoreButton(isContentEnd: boolean) {
 }
 
 export async function renderSkeletonList(state: publisher) {
-  console.log('here');
   const { page, keyword, isPopular } = state;
 
   const parentElem = $('.item-list') as HTMLElement;
@@ -41,7 +40,7 @@ export async function renderSkeletonList(state: publisher) {
     return;
   }
 
-  const { results } = await getSearchMovie(keyword, page + 1);
+  const { results } = await getSearchMovie(keyword, page);
 
   renderSearchMovieList(results);
   renderViewMoreButton(results.length < 20);
