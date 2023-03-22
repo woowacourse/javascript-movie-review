@@ -1,13 +1,10 @@
 import Header from './components/Header';
-import MovieSearch from './components/Header/MovieSearch';
 import MovieCardSection from './components/MovieCardSection';
-import LoadMoreButton from './components/MovieCardSection/LoadMoreButton';
 
 import Movies from './domain/Movies';
 import { convertToAppMovies } from './domain/util';
 
-import getPopularMovies from './api/getPopularMovies';
-import getSearchedMovies from './api/getSearchedMovies';
+import { getPopularMovies, getSearchedMovies } from './api';
 import { MAX_PAGE } from './constants';
 import { isCustomErrorMessage } from './constants/message';
 import { ID } from './constants/selector';
@@ -32,7 +29,7 @@ class App {
     this.#movies = new Movies();
   }
 
-  async init() {
+  init() {
     this.render();
     MovieCardSection.render(this.#movies, this.getMovies.bind(this));
     this.setEvent();
@@ -48,8 +45,8 @@ class App {
   }
 
   setEvent() {
-    MovieSearch.setEvent(this.#movies, this.getMovies.bind(this));
-    LoadMoreButton.setEvent(this.#movies, this.getMovies.bind(this));
+    Header.setEvent(this.#movies, this.getMovies.bind(this));
+    MovieCardSection.setEvent(this.#movies, this.getMovies.bind(this));
   }
 
   async getMovies(query: string = '') {

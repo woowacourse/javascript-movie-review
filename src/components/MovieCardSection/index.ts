@@ -23,6 +23,10 @@ const MovieCardSection = {
     `;
   },
 
+  setEvent(movies: Movies, getMovies: GetMovies) {
+    LoadMoreButton.setEvent(movies, getMovies);
+  },
+
   async render(movies: Movies, getMovies: GetMovies, query: string = '') {
     MovieCardSection.renderInit(query, movies);
 

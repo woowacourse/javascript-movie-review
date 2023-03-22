@@ -4,6 +4,9 @@ import Tooltip from '../common/Tooltip';
 import { logoImage } from '../../assets/images';
 import { $ } from '../../utils/dom';
 
+import type Movies from '../../domain/Movies';
+import type { GetMovies } from '../../App';
+
 import './Header.style.css';
 
 const Header = {
@@ -19,6 +22,10 @@ const Header = {
         <div class="search-tooltip"></div>
       </header>
     `;
+  },
+
+  setEvent(movies: Movies, getMovies: GetMovies) {
+    MovieSearch.setEvent(movies, getMovies);
   },
 
   renderTooltip(message: string) {
