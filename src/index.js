@@ -20,11 +20,11 @@ const manager = new MovieListManager(LocalStorage);
 const header = new Header(manager, $('header'));
 header.render();
 
-const main = new Main($('.item-view'), manager);
-main.render();
-
 const skeleton = new MovieSkeleton($('#skeleton-container'));
 skeleton.render(SKELETON_ITEM_COUNT);
+
+const main = new Main($('.item-view'), manager);
+main.render();
 
 const modal = new MovieModal($('#movie-modal'));
 

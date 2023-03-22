@@ -13,7 +13,7 @@ const getSearchMovieUrl = (query: string, page = 1) => (
 class MovieListManager {
   private query: string = "";
   private list: MovieInfo[] = [];
-  private currentPage: number = 1;
+  private currentPage = 1;
   private lastPage = false;
   private storage: Storage;
 
@@ -47,9 +47,10 @@ class MovieListManager {
 
     await fetch(url)
       .then((res) => res.json())
-      .then((data) => {
-        this.list.push(...[...data.results].map((movie) => makeMovieSummary(movie)));
-        if (data["total_results"] === this.list.length) this.lastPage = true;
+      .then((json) => {
+        this.list = [...json.results].map((movie) => makeMovieSummary(movie));
+
+        if (json["total_pages"] === this.currentPage) this.lastPage = true;
         else this.lastPage = false;
       })
       .catch(() => alert('정보 요청에 실패했습니다.'));
@@ -58,7 +59,6 @@ class MovieListManager {
   async searchMovieList(movieName: string){
     this.query = movieName;
     this.currentPage = 1;
-    this.list = [];
     await this.fetchMovieList();
   }
 

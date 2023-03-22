@@ -20,6 +20,7 @@ class MovieSkeleton {
 
   constructor(element: HTMLElement) {
     this.element = element;
+    this.element.dataset.hidden = 'true';
 
     this.list = document.createElement('ul');
     this.list.setAttribute('class', 'item-list');

@@ -11,29 +11,30 @@ class Main {
   constructor (element, manager) {
     this.#element = element;
     this.#manager = manager;
-    this.#observer = new IntersectionObserver(this.#showMoreMoviesCallback.bind(this), { threshold: 0.5 });
 
     this.#initializeElement();
   }
 
   async render () {
     const query = this.#manager.getQuery();
-    this.#observer.disconnect();
 
-    if (query === '' && !this.#manager.getMovieList().length) {
-      await this.#manager.searchMovieList('');
-    } else if (this.#manager.getCurrentPage() === 1) {
+    if (this.#manager.getCurrentPage() === 1) {
       this.#list.replaceChildren();
+    }
+
+    if (!this.#observer) {
+      this.#observer = new IntersectionObserver(this.#showMoreMoviesCallback.bind(this), { threshold: 0.5 });
       await this.#manager.searchMovieList(query);
     }
 
+    this.#observer.disconnect();
+
     this.#title.textContent = query ? `"${query}" 검색 결과` : '지금 인기 있는 영화';
-    this.#list.replaceChildren();
 
     const movieListFragment = document.createDocumentFragment();
     const movieList = this.#manager.getMovieList();
 
-    if (!movieList.length) {
+    if (!movieList.length && this.#manager.getCurrentPage() === 1) {
       const noSearchResult = document.createElement('p');
       noSearchResult.textContent = '검색 결과가 없습니다.';
 
