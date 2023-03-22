@@ -8,6 +8,9 @@ import Main from './components/Main';
 import EventBus from './util/EventBus';
 import LocalStorage from './util/LocalStorage.ts';
 import MovieModal from './components/MovieModal';
+import GenreMap from './domain/GenreMap';
+
+GenreMap.fetch();
 
 const manager = new MovieListManager(LocalStorage);
 
