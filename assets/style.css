@@ -227,6 +227,3 @@ header .search-box > .search-button {
     grid-template-columns: repeat(2, 180px);
   }
 }
-
-@media (max-width: 530px) {
-}
