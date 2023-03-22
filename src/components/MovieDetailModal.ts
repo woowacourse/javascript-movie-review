@@ -8,8 +8,6 @@ class MovieDetailModal extends HTMLElement {
   }
 
   render(movie: Movie, genres: any) {
-    console.log(movie);
-
     const { title, poster_path, genre_ids, vote_average, overview } = movie;
 
     const selectedGenres = genres["genres"]
@@ -21,7 +19,9 @@ class MovieDetailModal extends HTMLElement {
       : "영화 내용이 등록되지 않았습니다";
 
     this.innerHTML = /* html */ `
-      <dialog class="modal">
+      <dialog>
+      <div class="modal-backdrop"></div>
+      <div class="modal">
         <div class="modal-header">
           <span class="modal-title">${title}</span>
           <button class="modal-close-button">
@@ -57,21 +57,28 @@ class MovieDetailModal extends HTMLElement {
             </div>
           </div>
         </div>
+        </div>
       </dialog>
     `;
     this.addEvent();
   }
 
   addEvent() {
+    $(".modal-backdrop")?.addEventListener("click", () => {
+      const dialog = <HTMLDialogElement>$("dialog");
+
+      dialog.close();
+    });
+
     $(".modal-close-button")?.addEventListener("click", () => {
-      const dialog = <HTMLDialogElement>$(".modal");
+      const dialog = <HTMLDialogElement>$("dialog");
 
       dialog.close();
     });
   }
 
   openModal() {
-    const dialog = <HTMLDialogElement>$(".modal");
+    const dialog = <HTMLDialogElement>$("dialog");
     dialog.showModal();
   }
 }

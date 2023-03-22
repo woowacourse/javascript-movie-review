@@ -207,12 +207,22 @@ movie-list:has(.not-search) {
   display: block;
 }
 
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  background: rgba(0, 0, 0, 0.35);
+}
+
 .modal {
-  position: absolute;
+  position: fixed;
   width: 865px;
   height: 577px;
   left: 50%;
-  top: 80%;
+  top: 50%;
   transform: translate(-50%, -50%);
   padding: 0;
 
@@ -227,7 +237,6 @@ movie-list:has(.not-search) {
   box-sizing: border-box;
 
   position: relative;
-  width: 826px;
   height: 50px;
 
   display: flex;

@@ -116,8 +116,6 @@ const MovieApp = {
     const selectedMovie = movieHandler.getSelectedMovie(id);
     const genreList = await genre();
 
-    console.log(genreList);
-
     movieDetailModal?.render(selectedMovie, genreList);
     movieDetailModal.openModal();
   },
