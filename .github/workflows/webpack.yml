@@ -1,8 +1,6 @@
 name: NodeJS with Webpack
 
-# on �κ���, � ���ǿ��� workflow�� ������ ������ �����մϴ�.
 on:
-  # step2 �귣ġ�� push �ൿ�� �� ������ workflow�� �����մϴ�.
   push:
     branches: ['step1']
 
