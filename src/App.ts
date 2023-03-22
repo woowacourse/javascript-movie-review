@@ -2,14 +2,16 @@ import { Header } from './components/Header';
 import { MovieList } from './components/MovieList';
 import { SeeMoreButton } from './components/SeeMoreButton';
 import { Skeleton } from './components/Skeleton';
+import { Modal } from './components/Modal';
 import Store from './Store';
 
 class App {
+  $header: Header;
   $movieList: MovieList;
   $seeMoreButton: SeeMoreButton;
-  $header: Header;
   store: Store;
   skeleton: Skeleton;
+  modal: Modal;
 
   constructor() {
     this.$movieList = document.querySelector('movie-list')!;
@@ -17,12 +19,14 @@ class App {
     this.$header = document.querySelector('movie-header')!;
     this.skeleton = new Skeleton();
     this.store = new Store();
+    this.modal = new Modal();
 
     setTimeout(() => this.initializeMovieList(), 500);
 
     this.$seeMoreButton.addMoreButtonHandler(this.moreButtonHandler.bind(this));
     this.$header.addSearchHandler(this.searchHandler.bind(this));
     this.$header.addClickLogoHandler(this.initializeMovieList.bind(this));
+    this.$movieList.modalHandler(this.modal.show.bind(this));
   }
 
   initializeMovieList() {

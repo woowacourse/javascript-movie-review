@@ -32,11 +32,22 @@ export class MovieList extends HTMLElement {
       );
     }
     movieList.map((movie: Movie) => {
-      const { title, poster_path, vote_average } = movie;
+      const { id, title, poster_path, vote_average } = movie;
       this.#$movieItems?.insertAdjacentHTML(
         'beforeend',
-        `<movie-item title=${`"${title}"`} poster=${poster_path} vote=${vote_average}></movie-item>`,
+        `<movie-item id=${id} title=${`"${title}"`} poster=${poster_path} vote=${vote_average}}></movie-item>`,
       );
+    });
+  }
+
+  modalHandler(open: CallableFunction) {
+    const a = this.querySelector('ul');
+
+    a?.addEventListener('click', (e: Event) => {
+      const target = e.target as HTMLTextAreaElement;
+      const targetParent = target.parentElement as HTMLTextAreaElement;
+
+      if (targetParent.id) open();
     });
   }
 }

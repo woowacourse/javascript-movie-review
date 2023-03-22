@@ -32,3 +32,8 @@ button {
   width: 70vw;
   margin: 0 auto;
 }
+
+.modal-container {
+  width: 100vw;
+  height: 100vh;
+}
