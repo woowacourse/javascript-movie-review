@@ -2,22 +2,20 @@ import { Movie } from '../types/movie';
 import { MOVIE_RETRIEVED } from '../constants';
 import { $ } from '../utils/domSelector';
 import { CloseButton } from '../assets';
-import MovieInformationContent from './MovieInformationContent';
 import MovieList from '../domain/MovieList';
 
 class MovieInformationModal {
   private static instance: MovieInformationModal;
   private informationModal: HTMLDialogElement;
-  private content: MovieInformationContent;
+  private informationContainer: HTMLDivElement;
 
   constructor() {
     $<HTMLElement>('main').insertAdjacentHTML('beforeend', this.template());
-    this.content = new MovieInformationContent();
     this.init();
     this.informationModal = $<HTMLDialogElement>('.information-modal');
+    this.informationContainer = $<HTMLDivElement>('.information-content');
     this.addCloseModalEventListener();
     this.addBrowserBackButtonEventListener();
-    this.addUserStarEventListener();
   }
 
   static getInstance(): MovieInformationModal {
@@ -59,8 +57,7 @@ class MovieInformationModal {
       );
     }
 
-    $<HTMLDivElement>('.information-content').dataset.movieId = String(movie.id);
-    this.content.render(movie);
+    this.informationContainer.dataset.movieId = String(movie.id);
     document.body.classList.add('hide-overflow');
     this.informationModal.showModal();
   }
@@ -84,40 +81,6 @@ class MovieInformationModal {
 
       if (target === event.currentTarget || target.classList.contains('close-button')) {
         this.closeModal();
-      }
-    });
-  }
-
-  private addUserStarEventListener() {
-    $<HTMLDivElement>('.vote-stars').addEventListener('mouseenter', (event) => {
-      if (event.target === event.currentTarget) {
-        $<HTMLDivElement>('.vote-stars--temp').classList.remove('hide');
-      }
-    });
-
-    $<HTMLDivElement>('.vote-stars').addEventListener('mouseleave', (event) => {
-      if (event.target === event.currentTarget) {
-        $<HTMLDivElement>('.vote-stars--temp').classList.add('hide');
-      }
-    });
-
-    $<HTMLDivElement>('.vote-stars').addEventListener('mouseover', (event) => {
-      const target = event.target as HTMLElement;
-
-      if (target.classList.contains('user-vote-star')) {
-        this.content.updateUserVoteStarsOnHover(Number(target.dataset.starIndex));
-      }
-    });
-
-    $<HTMLDivElement>('.vote-stars').addEventListener('click', (event) => {
-      const target = event.target as HTMLElement;
-
-      if (target.classList.contains('user-vote-star')) {
-        const movieId = Number($<HTMLDivElement>('.information-content').dataset.movieId);
-
-        if (movieId) {
-          MovieList.updateUserVote(movieId, Number(target.dataset.starIndex) + 1);
-        }
       }
     });
   }
