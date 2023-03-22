@@ -120,6 +120,7 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
   width: 100%;
   min-width: 1200px;
@@ -160,10 +161,6 @@ header .search-box > .search-button {
   background-size: contain;
 }
 
-button[data-hidden='true'] {
-  display: none;
-}
-
 #movie-modal {
   min-width: 70vh;
   min-height: 50vh;
@@ -183,4 +180,12 @@ button[data-hidden='true'] {
 
 dialog#movie-modal::backdrop {
   background: rgba(0, 0, 0, 0.45);
+}
+
+#skeleton-container {
+  display: block;
+}
+
+#skeleton-container[data-hidden='true'] {
+  display: none;
 }

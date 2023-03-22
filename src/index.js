@@ -9,6 +9,9 @@ import EventBus from './util/EventBus';
 import LocalStorage from './util/LocalStorage.ts';
 import MovieModal from './components/MovieModal';
 import GenreMap from './domain/GenreMap';
+import MovieSkeleton from './components/MovieSkeleton';
+
+const SKELETON_ITEM_COUNT = 20;
 
 GenreMap.fetch();
 
@@ -20,8 +23,12 @@ header.render();
 const main = new Main($('.item-view'), manager);
 main.render();
 
+const skeleton = new MovieSkeleton($('#skeleton-container'));
+skeleton.render(SKELETON_ITEM_COUNT);
+
 const modal = new MovieModal($('#movie-modal'));
 
 EventBus.subscribe('searchFullfilled', main.render.bind(main));
-EventBus.subscribe('searchPending', main.renderSkeleton.bind(main));
+EventBus.subscribe('searchPending', skeleton.show.bind(skeleton));
+EventBus.subscribe('searchFullfilled', skeleton.hide.bind(skeleton));
 EventBus.subscribe('summaryClick', modal.catchMovieIdEvent.bind(modal));
