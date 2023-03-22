@@ -1,3 +1,5 @@
+import { $ } from '../utils/selector';
+
 export class Toast {
   private readonly $root = document.createElement('div');
 
@@ -19,7 +21,7 @@ export class Toast {
 
   static create(message: string) {
     const toast = new Toast(message);
-    document.querySelector('#toast-container')!.append(toast.getRoot());
+    $('#toast-container').append(toast.getRoot());
     return toast;
   }
 }

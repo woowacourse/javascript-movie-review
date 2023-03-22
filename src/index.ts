@@ -3,6 +3,7 @@ import { TMDBLanguage } from './api/clients/TMDBClient.type';
 import './assets/common.css';
 import { MovieList } from './components/MovieList';
 import { NewMovie } from './states/NewMovie';
+import { $ } from './utils/selector';
 
 const client = new TMDBClient({
   apiKey: process.env.TMDB_API_KEY!,
@@ -10,7 +11,7 @@ const client = new TMDBClient({
 });
 
 function assignMovieList(movieList: MovieList) {
-  document.querySelector('main')!.replaceChildren(movieList.getRoot());
+  $('main').replaceChildren(movieList.getRoot());
 }
 
 assignMovieList(
@@ -20,7 +21,7 @@ assignMovieList(
   }),
 );
 
-document.querySelector('.logo')!.addEventListener('click', () => {
+$('.logo').addEventListener('click', () => {
   assignMovieList(
     new MovieList({
       title: '지금 인기있는 영화',
@@ -29,7 +30,7 @@ document.querySelector('.logo')!.addEventListener('click', () => {
   );
 });
 
-document.querySelector('.search-box')!.addEventListener('submit', (event) => {
+$('.search-box').addEventListener('submit', (event) => {
   event.preventDefault();
 
   const formData = Object.fromEntries(new FormData(event.target as HTMLFormElement).entries());

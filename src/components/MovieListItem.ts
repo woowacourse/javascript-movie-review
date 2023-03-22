@@ -1,8 +1,11 @@
 import { Movie } from '../domain/movie.type';
 import { OfPromise, Subject } from '../states/Subject';
+import { $context } from '../utils/selector';
 
 class MovieListItem {
   private readonly $root = document.createElement('li');
+
+  private readonly $ = $context(this.$root);
 
   constructor(private readonly movie: Subject<OfPromise<Movie | null>>) {
     this.$root.innerHTML = `
@@ -35,24 +38,20 @@ class MovieListItem {
   }
 
   onFulfilled(movie: Movie) {
-    this.$root.querySelector('.item-thumbnail')!.innerHTML = `
+    this.$('.item-thumbnail').innerHTML = `
       <img
         class="loading"
         src="https://image.tmdb.org/t/p/w220_and_h330_face${movie.posterPath}"
         alt="${movie.title}"
       />
     `.trim();
-    this.$root
-      .querySelector<HTMLImageElement>('.item-thumbnail > img')!
-      .addEventListener('load', (event) => {
-        if (event.target instanceof HTMLImageElement) {
-          event.target.classList.remove('loading');
-        }
-      });
-
-    this.$root.querySelector<HTMLParagraphElement>('.item-title')!.innerText = movie.title;
-
-    this.$root.querySelector<HTMLParagraphElement>('.item-score')!.innerHTML = `
+    this.$<HTMLImageElement>('.item-thumbnail > img').addEventListener('load', (event) => {
+      if (event.target instanceof HTMLImageElement) {
+        event.target.classList.remove('loading');
+      }
+    });
+    this.$<HTMLParagraphElement>('.item-title').innerText = movie.title;
+    this.$<HTMLParagraphElement>('.item-score').innerHTML = `
       <img src="assets/star_filled.png" alt="별점" /> ${movie.voteAverage}
     `.trim();
   }

@@ -1,4 +1,5 @@
 import { NewMovie } from '../states/NewMovie';
+import { $context } from '../utils/selector';
 import MovieListItem from './MovieListItem';
 import { Toast } from './Toast';
 
@@ -10,6 +11,8 @@ export type MovieListProps = {
 
 export class MovieList {
   private readonly $root = document.createElement('section');
+
+  private readonly $ = $context(this.$root);
 
   private readonly title: string;
 
@@ -27,12 +30,12 @@ export class MovieList {
       <h3>결과가 없습니다</h3>
     `.trim();
 
-    this.$root.querySelector('button')!.addEventListener('click', () => {
+    this.$('button').addEventListener('click', () => {
       this.nextPage();
     });
 
     this.newMovie.subscribe((movieSubject) => {
-      this.$root.querySelector('ul')!.append(new MovieListItem(movieSubject).getRoot());
+      this.$('ul').append(new MovieListItem(movieSubject).getRoot());
     });
     this.newMovie.subscribeError((error) => Toast.create(error.message));
     this.newMovie.fetchNextPage().then(() => this.nextPage());
@@ -46,7 +49,7 @@ export class MovieList {
           threshold: 0,
           rootMargin: '1200px 0px',
         },
-      ).observe(this.$root.querySelector('button')!);
+      ).observe(this.$('button'));
     }
   }
 
@@ -57,8 +60,7 @@ export class MovieList {
   private nextPage() {
     this.newMovie.fetchNextPage();
 
-    const $hr = this.$root.querySelector('ul > hr')!;
-
+    const $hr = this.$('ul > hr');
     const $anchor: HTMLElement = Array(20)
       .fill(undefined)
       .reduce((acc) => acc?.nextSibling ?? acc, $hr);
