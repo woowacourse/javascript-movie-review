@@ -13,6 +13,7 @@ export default class MovieListComponent extends CustomComponent {
 
   appendNewPage() {
     const errorPage = this.querySelector("error-page");
+
     if (errorPage) {
       errorPage.remove();
     }
@@ -20,7 +21,7 @@ export default class MovieListComponent extends CustomComponent {
 
   renderPageSuccess(movieItems) {
     if (!movieItems.length) {
-      // this.#page.setAttribute("data-status", "no-result");
+      this.classList.add("no-result-list");
       this.innerHTML = `
           <div class="no-result-box">
             <h1 class="no-result-title">검색 결과를 찾지 못하였습니다.</h1>
@@ -34,14 +35,19 @@ export default class MovieListComponent extends CustomComponent {
       return;
     }
 
+    this.classList.remove("no-result-list");
+
     this.#page = `
             ${movieItems
               .map((movieItem) => {
                 return `
                   <movie-item
                     title="${movieItem.title}"
+                    poster_path="${movieItem.poster_path}"
+                    genre_ids="${movieItem.genre_ids}"
                     vote_average="${movieItem.vote_average}"
-                    poster_path="${movieItem.poster_path}">
+                    overview="${movieItem.overview}"
+                  >
                   </movie-item>`;
               })
               .join("")}
@@ -53,7 +59,6 @@ export default class MovieListComponent extends CustomComponent {
     if (this.querySelector("error-page")) return;
 
     const errorPage = document.createElement("error-page");
-    // this.#page.replaceWith(errorPage);
     this.append(errorPage);
   }
 }

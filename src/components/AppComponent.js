@@ -3,6 +3,7 @@ import HeaderComponent from "./AppHeaderComponent";
 import MovieListComponent from "./movie/MovieListComponent";
 import MoreButtonComponent from "./element/MoreButtonComponent";
 import TitleComponent from "./element/TitleComponent";
+import MovieModalComponent from "./modal/MovieModalComponent";
 import transformMovieItemsType from "../util/MovieList";
 import { API_KEY } from "../constants/key";
 import { ACTION, REQUEST_URL, TITLE } from "../constants/constants";
@@ -38,13 +39,14 @@ export default class AppComponent extends CustomComponent {
       if (entry[0].isIntersecting && this.checkHasNextPage()) {
         this.#intersectionObserver.unobserve(ioTarget);
         this.#$movieList.appendNewPage();
+        this.renderListByData(type).then((res) => {
+          if (res) {
+            const newLastChild = this.#$movieList.querySelector(
+              `movie-item:last-of-type`
+            );
 
-        this.renderListByData(type).then(() => {
-          const newLastChild = this.#$movieList.querySelector(
-            `movie-item:last-of-type`
-          );
-
-          this.#intersectionObserver.observe(newLastChild);
+            this.#intersectionObserver.observe(newLastChild);
+          }
         });
       }
     });
@@ -73,14 +75,14 @@ export default class AppComponent extends CustomComponent {
   }
 
   async renderListByData(actionType) {
-    await this.fetchAPI(actionType)
+    const result = await this.fetchAPI(actionType)
       .then(async (res) => {
         if (!res.ok) {
           this.#$movieList.renderPageFail();
           if (this.#intersectionObserver) {
             this.#intersectionObserver.disconnect();
           }
-          return;
+          return false;
         }
 
         const data = await res.json();
@@ -90,13 +92,18 @@ export default class AppComponent extends CustomComponent {
         this.#$movieList.renderPageSuccess(movieItems);
 
         this.#nextPage += 1;
+
+        return true;
       })
       .catch((error) => {
         this.#$movieList.renderPageFail();
         if (this.#intersectionObserver) {
           this.#intersectionObserver.disconnect();
         }
+        return false;
       });
+
+    return result;
   }
 
   checkHasNextPage() {
