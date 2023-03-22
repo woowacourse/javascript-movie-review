@@ -1,4 +1,6 @@
 import { httpStatus } from '../constants/httpStatusCode';
+import { GetMovieDetailResponse } from './types';
+import { GetMovieDetailRequest } from './types';
 import { GetPopularMoviesRequest, MoviesResponse, SearchMoviesRequest } from './types';
 
 const API_TOKEN = process.env.API_TOKEN;
@@ -68,5 +70,14 @@ const searchMovies = async ({ query, page }: SearchMoviesRequest): Promise<Movie
   const movies = await get(url);
   return movies;
 };
+const getMovieDetail = async ({
+  movie_id,
+}: GetMovieDetailRequest): Promise<GetMovieDetailResponse> => {
+  const params = `language=ko-KR`;
+  const url = `${BASE_URL}/movie/${movie_id}?${params}`;
 
-export { getPopularMovies, searchMovies };
+  const movieDetail = await get(url);
+  return movieDetail;
+};
+
+export { getPopularMovies, searchMovies, getMovieDetail };
