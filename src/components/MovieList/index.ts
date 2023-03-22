@@ -33,14 +33,18 @@ export class MovieList {
     fetchPopularMovies(this.#state.page)
       .then((response) => {
         const { results, total_pages } = response;
+
         this.#movies.reset(results);
         this.render(results, total_pages);
+
+        const observer = new IntersectionObserver(
+          this.onClickMoreButton.bind(this)
+        );
+        observer.observe($(".btn"));
       })
       .catch(() => {
         this.#$target.removeChild(this.#$skeletonContainer);
       });
-
-    $(".btn").addEventListener("click", this.onClickMoreButton.bind(this));
   }
 
   getMovieCardTemplate(movie: Movie) {
@@ -50,14 +54,27 @@ export class MovieList {
       <li>
         <a href="#">
           <div class="item-card">
-            <img
-              class="item-thumbnail"
-              src="https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}"
-              loading="lazy"
-              alt="${movie.title}"
-            />
+            ${
+              movie.poster_path
+                ? /*html */ `
+                  <img
+                    class="item-thumbnail skeleton"
+                    src="https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}"
+                    loading="lazy"
+                    alt="${movie.title}"
+                  />
+                `
+                : /*html */ `
+                <div class="item-thumbnail center" style="background-color:white; color:black; display:flex; justify-content:center; align-items:center; font-weight:600; font-size:24px">
+                  <span>No Image</span>
+                </div>
+                `
+            }
             <p class="item-title">${movie.title}</p>
-            <p class="item-score"><img src="${starImg}" alt="별점 ${movie.vote_average}" />${movie.vote_average}</p>
+            <p class="item-score">
+              <img src="${starImg}" alt="별점 ${movie.vote_average}" />
+              ${movie.vote_average}
+            </p>
           </div>
         </a>
       </li>
@@ -75,8 +92,11 @@ export class MovieList {
       `${this.#movies
         .getCurrentList()
         .map((movie) => this.getMovieCardTemplate(movie))
-        .join("")}`
+        .join("")}
+      `
     );
+
+    console.log("render");
 
     if (this.#state.page === total_pages) this.hideMoreButton();
   }
