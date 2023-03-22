@@ -1,14 +1,14 @@
 import CustomElement from "../basic/CustomElement";
 import { $ } from "../../util/dom";
-import MovieStore from "../../domain/MovieStore";
+import MovieBoss from "../../domain/MovieBoss";
 import "../movie/MovieItem";
 import "./MovieEmpty";
 
 class MovieList extends CustomElement {
   connectedCallback() {
     super.connectedCallback();
-    MovieStore.subscribe(this);
-    MovieStore.initMovies();
+    MovieBoss.subscribe(this);
+    MovieBoss.initMovies();
   }
 
   template() {

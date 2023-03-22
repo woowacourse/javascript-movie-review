@@ -1,12 +1,12 @@
 import MovieModel from "./MovieModel";
-import SearchStore from "./SearchTitleStore";
-import SkeletonStore from "./SkeletonStore";
-import ErrorStore from "./ErrorStore";
+import SearchTitleBoss from "./SearchTitleBoss";
+import SkeletonBoss from "./SkeletonBoss";
+import ErrorBoss from "./ErrorBoss";
 import { MovieValidation } from "./MovieValidation";
 import { MovieElement } from "../type/componentType";
 import { Movie } from "../type/movieType";
 
-class MovieStore {
+class MovieBoss {
   private subscribers: MovieElement[] = [];
 
   subscribe(element: MovieElement) {
@@ -14,7 +14,7 @@ class MovieStore {
   }
 
   publish(movies: Movie[], isShowMore: boolean = false) {
-    SkeletonStore.removeSkeleton();
+    SkeletonBoss.removeSkeleton();
     this.subscribers.forEach((subscriber) => {
       subscriber.rerender(movies, isShowMore);
     });
@@ -25,8 +25,8 @@ class MovieStore {
       MovieValidation(MovieModel.getStatusCode());
     } catch (e) {
       const message = e instanceof Error ? e.message : "";
-      SkeletonStore.removeSkeleton();
-      ErrorStore.publish(message);
+      SkeletonBoss.removeSkeleton();
+      ErrorBoss.publish(message);
     }
   }
 
@@ -44,8 +44,8 @@ class MovieStore {
   }
 
   async searchMovies(searchWord: string) {
-    SkeletonStore.publish();
-    SearchStore.publish(searchWord);
+    SkeletonBoss.publish();
+    SearchTitleBoss.publish(searchWord);
 
     await MovieModel.updateMovies(searchWord);
 
@@ -56,7 +56,7 @@ class MovieStore {
   }
 
   async showMoreMovies() {
-    SkeletonStore.publish();
+    SkeletonBoss.publish();
 
     await MovieModel.updateMoreMovies();
 
@@ -67,4 +67,4 @@ class MovieStore {
   }
 }
 
-export default new MovieStore();
+export default new MovieBoss();

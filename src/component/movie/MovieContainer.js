@@ -1,6 +1,5 @@
 import CustomElement from "../basic/CustomElement";
-import SearchStore from "../../domain/SearchTitleStore";
-import MovieStore from "../../domain/MovieStore";
+import SearchTitleBoss from "../../domain/SearchTitleBoss";
 import { $ } from "../../util/dom";
 import "./MovieList";
 import "./ShowMoreButton";
@@ -9,7 +8,7 @@ import "./MovieListSkeleton";
 class MovieContainer extends CustomElement {
   connectedCallback() {
     super.connectedCallback();
-    SearchStore.subscribe(this);
+    SearchTitleBoss.subscribe(this);
   }
 
   template() {

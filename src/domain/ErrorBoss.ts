@@ -1,6 +1,6 @@
 import { CustomElement } from "../type/componentType";
 
-class ErrorStore {
+class ErrorBoss {
   private subscriber: CustomElement | undefined;
 
   subscribe(element: CustomElement) {
@@ -12,4 +12,4 @@ class ErrorStore {
   }
 }
 
-export default new ErrorStore();
+export default new ErrorBoss();

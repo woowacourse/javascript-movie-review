@@ -1,11 +1,11 @@
-import MovieStore from "../../domain/MovieStore";
+import MovieBoss from "../../domain/MovieBoss";
 import CustomElement from "../basic/CustomElement";
 import SearchInput from "../head/SearchInput";
 
 class ShowMoreButton extends CustomElement {
   connectedCallback() {
     super.connectedCallback();
-    MovieStore.subscribe(this);
+    MovieBoss.subscribe(this);
   }
 
   template() {
@@ -16,12 +16,12 @@ class ShowMoreButton extends CustomElement {
 
   setEvent() {
     this.addEventListener("click", () => {
-      MovieStore.showMoreMovies();
+      MovieBoss.showMoreMovies();
     });
   }
 
   rerender() {
-    const isLastPage = MovieStore.isLastPage();
+    const isLastPage = MovieBoss.isLastPage();
     this.hidden = isLastPage;
   }
 }

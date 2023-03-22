@@ -1,11 +1,11 @@
 import CustomElement from "../basic/CustomElement";
-import ErrorStore from "../../domain/ErrorStore";
+import ErrorBoss from "../../domain/ErrorBoss";
 import { $ } from "../../util/dom";
 
 class ErrorContainer extends CustomElement {
   connectedCallback() {
     super.connectedCallback();
-    ErrorStore.subscribe(this);
+    ErrorBoss.subscribe(this);
   }
 
   template() {
