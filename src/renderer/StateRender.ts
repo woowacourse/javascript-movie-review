@@ -68,7 +68,7 @@ class StateRender {
         curPage,
       });
 
-      if (this.#movieState.query === '' && curPage === 1) this.#skeletonRenderAndClearMovieList();
+      if (curPage === 1) this.#skeletonRenderAndClearMovieList();
 
       this.#setPopularProperty();
       this.#setMovies({ results, total_pages, page });
@@ -85,7 +85,8 @@ class StateRender {
         curPage,
       });
 
-      if (this.#movieState.query !== query) this.#skeletonRenderAndClearMovieList();
+      if (this.#movieState.query !== query || curPage === 1)
+        this.#skeletonRenderAndClearMovieList();
 
       this.#setSearchProperty(query);
       this.#setMovies({ results, total_pages, page });
