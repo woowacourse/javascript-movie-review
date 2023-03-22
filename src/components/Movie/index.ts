@@ -1,6 +1,7 @@
 import { MovieInfo, MovieInfoByKeyword } from '../../types/api';
 import { assemble, Event } from '../../core';
-import { getElement } from './../../utils/common/domHelper';
+import { getElement, $ } from './../../utils/common/domHelper';
+import { useState } from '../../core';
 
 export interface MovieProps {
   info: MovieInfo | MovieInfoByKeyword;
@@ -11,7 +12,17 @@ const Movie = assemble<MovieProps>((props) => {
     info: { poster_path, title, vote_average, id },
   } = props;
 
-  const $events: Event[] = [];
+  const $events: Event[] = [
+    {
+      event: 'click',
+      callback(e) {
+        e.preventDefault();
+
+        // history.pushState({ poster_path, title, vote_average, id }, '', `#${id}`);
+        if ($(`li[data="id=${id}"]`)) console.log($(`li[data="id=${id}"]`));
+      },
+    },
+  ];
   const $template = getElement(`
       <li data=id=${id}>
         <a href="#">

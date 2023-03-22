@@ -9,6 +9,7 @@ function useMovieChart(keyword: string) {
   const [chartInfo, setChartInfo] = useState<GetPopularMoviesRes | GetMoviesByKeywordRes>();
   const [movieList, setMovieList] = useState<(typeof chartInfo)['results']>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [subtitle, setSubtitle] = useState<string>('지금 인기 있는 영화');
 
   const defaultFetchAction: DefaultFetchAction =
     <T>(callback: (args: T) => Promise<void>) =>
@@ -47,10 +48,11 @@ function useMovieChart(keyword: string) {
   useEffect(() => {
     page = INITIAL_PAGE;
 
+    keyword ? setSubtitle(`"${keyword}"검색 결과`) : setSubtitle('지금 인기 있는 영화');
     fetchMore(keyword);
   }, [keyword]);
 
-  return { chartInfo, movieList, isLoading, fetchMore };
+  return { chartInfo, movieList, isLoading, subtitle, fetchMore };
 }
 
 export { useMovieChart };
