@@ -41,16 +41,17 @@ button {
   font-size: 2rem;
   font-weight: bold;
   user-select: none;
+  margin-bottom: 48px;
 }
 
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .item-list {
   display: grid;
-  margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
   grid-column-gap: 160px;
   grid-row-gap: 48px;
+  margin-bottom: 48px;
 }
 
 .item-card {
@@ -69,11 +70,30 @@ button {
   margin-top: 16px;
   font-size: 1.2rem;
   font-weight: bold;
+  line-height: 140%;
 }
 
 .item-score {
   margin-top: 16px;
   font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+
+.message {
+  position: fixed;
+  top: 72px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.item-score img {
+  margin-right: 8px;
 }
 
 .item-score::after {
@@ -83,7 +103,7 @@ button {
 .item-title.skeleton::after,
 .item-score.skeleton::after {
   font-size: 0;
-  content: "loading";
+  content: 'loading';
 }
 
 .full-width {
@@ -95,6 +115,7 @@ button {
 }
 
 button.btn {
+  margin-top: 48px;
   border: 0;
   border-radius: 8px;
   height: 30px;
@@ -123,7 +144,8 @@ button.primary {
     background-position: 0% 50%;
   }
 }
-header {
+
+.header {
   width: 100%;
   min-width: 1200px;
   height: 72px;
@@ -159,6 +181,10 @@ header .search-box > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
-  background: url("./search_button.png") transparent no-repeat 0 1px;
+  background: url('../asset/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+.hidden {
+  display: none;
 }
