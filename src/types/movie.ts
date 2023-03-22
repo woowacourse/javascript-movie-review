@@ -17,4 +17,9 @@ interface MovieDataType {
   total_result: number;
 }
 
-export { Movie, MovieDetail, MovieDataType };
+interface Star {
+  id: number;
+  count: number;
+}
+
+export { Movie, MovieDetail, MovieDataType, Star };
