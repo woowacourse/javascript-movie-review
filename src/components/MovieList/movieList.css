@@ -1,29 +1,3 @@
-* {
-  box-sizing: border-box !important;
-}
-
-body {
-  font-size: 14px;
-  background-color: #222222;
-  color: #fff;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button {
-  cursor: pointer;
-}
-
-#app {
-  padding-bottom: 48px;
-}
-
-*:focus {
-  outline: none;
-}
 .item-view,
 .item-test {
   width: 100%;
@@ -122,42 +96,30 @@ button.primary {
     background-position: 0% 50%;
   }
 }
-header {
-  width: 100%;
-  min-width: 1200px;
-  height: 72px;
-  background-color: #222;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-  border-bottom: 1px solid white;
-  margin-bottom: 48px;
+
+@media screen and (max-width: 1200px) {
+  .item-view h2 {
+    font-size: 28px;
+  }
+  .item-view {
+    width: 674px;
+  }
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+    grid-column-gap: 64px;
+  }
 }
 
-header h1 {
-  cursor: pointer;
-  user-select: none;
-  font-size: 2rem;
-  font-weight: bold;
-  letter-spacing: -0.1rem;
-  color: #f33f3f;
-}
-
-header > .search-box {
-  background: #fff;
-  padding: 8px;
-  border-radius: 4px;
-}
-
-header .search-box > input {
-  border: 0;
-}
-
-header .search-box > .search-button {
-  width: 14px;
-  border: 0;
-  text-indent: -1000rem;
-  background: url("./search_button.png") transparent no-repeat 0 1px;
-  background-size: contain;
+@media screen and (max-width: 674px) {
+  .item-view {
+    width: max-content;
+  }
+  .item-list {
+    grid-template-columns: repeat(2, 140px);
+    grid-column-gap: 36px;
+  }
+  .item-thumbnail {
+    width: 140px;
+    height: 220px;
+  }
 }

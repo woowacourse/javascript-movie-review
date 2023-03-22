@@ -1,3 +1,5 @@
+import "./movieList.css";
+
 import { Movies } from "../../domain/Movies";
 import { MovieResponse } from "../../types";
 import { fetchPopularMovies, fetchSearchMovies } from "../../utils/api";
@@ -67,12 +69,10 @@ export class MovieList {
       `
     );
 
-    console.log("render");
-
     if (this.#state.page === total_pages) this.deactivateScrollFetch();
   }
 
-  reset(state: showType, searchKeyword?: string) {
+  changeShowTarget(state: showType, searchKeyword?: string) {
     this.#$target.innerHTML = ``;
     this.#state = { ...this.#state, showState: state, page: 1 };
 

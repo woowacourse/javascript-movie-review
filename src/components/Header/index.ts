@@ -1,3 +1,5 @@
+import "./index.css";
+
 import logoImage from "../../../templates/logo.png";
 import { $ } from "../../utils/selector";
 
@@ -12,7 +14,13 @@ export class Header {
     this.#$target = $target;
 
     this.render();
+    this.bindEvent(onSubmitSearchKeyword, onClickLogoImage);
+  }
 
+  bindEvent(
+    onSubmitSearchKeyword: (searchKeyword: string) => void,
+    onClickLogoImage: () => void
+  ) {
     $(".search-box").addEventListener("submit", (event: Event) => {
       event.preventDefault();
 

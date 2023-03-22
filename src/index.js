@@ -1,6 +1,6 @@
 import { App } from "./App";
 
-import "../templates/reset.css";
-import "../templates/common.css";
+import "./style/reset.css";
+import "./style/common.css";
 
 const app = new App();

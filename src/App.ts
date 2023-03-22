@@ -25,7 +25,7 @@ export class App {
     subTitle.innerHTML = `"${serachKeyword}" 검색 결과`;
 
     if (this.#movieList instanceof MovieList)
-      this.#movieList.reset("search", serachKeyword);
+      this.#movieList.changeShowTarget("search", serachKeyword);
   }
 
   onClickLogoImage() {
@@ -33,6 +33,7 @@ export class App {
 
     subTitle.innerHTML = `지금 인기 있는 영화`;
 
-    if (this.#movieList instanceof MovieList) this.#movieList.reset("popular");
+    if (this.#movieList instanceof MovieList)
+      this.#movieList.changeShowTarget("popular");
   }
 }
