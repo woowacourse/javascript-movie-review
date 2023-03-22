@@ -1,4 +1,5 @@
-import { ViewBundleType } from '../types';
+import MovieStorage from '../domains/MovieStorage';
+import { GenreFetchResponseType, MovieFetchResponseType, ViewBundleType } from '../types';
 import { ERROR_IMAGE_PATH } from '../constants';
 
 class UpdateController {
@@ -11,6 +12,22 @@ class UpdateController {
     this.movieFetcher = movieFetcher;
     this.loadMoreButton = loadMoreButton;
 
+    this.initMovies();
+  }
+
+  private async initMovies() {
+    this.movieFetcher.setRequestMode('genre');
+    const genres = await this.movieFetcher.getMovieData<GenreFetchResponseType>();
+
+    if (genres.fetchedData) {
+      MovieStorage.setGenres(genres.fetchedData);
+    } else {
+      console.warn(
+        '장르를 불러오는 데 실패했습니다. 장르가 제대로 표시되지 않을 것입니다. 새로고침을 해 주세요.',
+      );
+    }
+
+    this.movieFetcher.setRequestMode('popularity');
     this.fetchAndUpdateMovieList('overwrite');
   }
 
@@ -22,7 +39,8 @@ class UpdateController {
 
     this.movieList.renderSkeletonItems();
 
-    const { result, errorMessage, movies } = await this.movieFetcher.fetchMovies(keyword);
+    const { result, errorMessage, fetchedData }: MovieFetchResponseType =
+      await this.movieFetcher.getMovieData<MovieFetchResponseType>(keyword);
 
     if (result === 'FAILED' || result === 'FETCH_CRASHED') {
       if (updateMode === 'overwrite') {
@@ -38,7 +56,7 @@ class UpdateController {
       }
     }
 
-    if (result === 'NO_MORE_MOVIES') {
+    if (result === 'NO_RESULT') {
       if (updateMode === 'overwrite') {
         this.movieList.showErrorMessage({
           image: ERROR_IMAGE_PATH.noSearchResults,
@@ -52,8 +70,9 @@ class UpdateController {
       }
     }
 
-    if (movies) {
-      this.movieList.renderContents(movies);
+    if (fetchedData) {
+      MovieStorage.addMovies(fetchedData);
+      this.movieList.renderContents(fetchedData);
     }
 
     this.movieList.removeSkeletonItems();
