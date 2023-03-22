@@ -2,6 +2,7 @@ import { TMDBClient } from './api/clients/TMDBClient';
 import { TMDBLanguage } from './api/clients/TMDBClient.type';
 import './assets/common.css';
 import { MovieList } from './components/MovieList';
+import { SearchBox } from './components/SearchBox';
 import { NewMovie } from './states/NewMovie';
 import { $ } from './utils/selector';
 
@@ -29,6 +30,8 @@ $('.logo').addEventListener('click', () => {
     }),
   );
 });
+
+$('header').append(new SearchBox().getRoot());
 
 $('.search-box').addEventListener('submit', (event) => {
   event.preventDefault();
