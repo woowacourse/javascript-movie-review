@@ -214,11 +214,13 @@ movie-list:has(.not-search) {
   left: 50%;
   top: 80%;
   transform: translate(-50%, -50%);
+  padding: 0;
 
   background-color: #212122;
   color: #f1f1f1;
   border: none;
   border-radius: 8px;
+  font-size: 16px;
 }
 
 .modal-header {
@@ -264,6 +266,7 @@ movie-list:has(.not-search) {
 
 .modal-content {
   display: flex;
+  padding: 20px 30px;
 }
 
 .modal-image {
@@ -271,7 +274,27 @@ movie-list:has(.not-search) {
   height: 433px;
 }
 
-.user-vote {
+.modal-detail-content {
+  margin-left: 40px;
+}
+
+.modal-content-header {
+  margin-bottom: 25px;
+}
+
+.modal-genre {
+  margin-right: 10px;
+}
+
+.vote-star {
+  transform: translateY(5px);
+}
+
+.modal-overview {
+  line-height: 25px;
+}
+
+.vote-container {
   position: absolute;
   width: 438px;
   height: 64px;
@@ -280,4 +303,29 @@ movie-list:has(.not-search) {
 
   background: #383839;
   border-radius: 16px;
+  padding: 0px 20px;
+}
+
+.user-vote {
+  transform: translateY(-5px);
+}
+
+.vote-title {
+  font-weight: bold;
+}
+
+.vote-score {
+  display: inline-block;
+  margin: 10px;
+  transform: translateY(10px);
+}
+
+.user-vote-star {
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+}
+
+.vote-review {
+  margin-left: 10px;
 }

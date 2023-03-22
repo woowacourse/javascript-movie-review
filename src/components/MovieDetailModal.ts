@@ -32,26 +32,28 @@ class MovieDetailModal extends HTMLElement {
           <div>
             <img class="modal-image" src="https://image.tmdb.org/t/p/original/${poster_path}" alt="${title}">
           </div>
-          <div>
-            <div>
-              <span>${selectedGenres}</span>
+          <div class="modal-detail-content">
+            <div class="modal-content-header">
+              <span class="modal-genre">${selectedGenres}</span>
               <span>
-                <img src="${StarFilled}" class="star" alt="별점" />
+                <img src="${StarFilled}" class="vote-star" alt="별점" />
                 ${vote_average}
               </span>
             </div>
-            <p>${movieOverView}</p>
-            <div class="user-vote">
-              <span>내 별점</span>
-              <span class="item-score">
-                <img src="${StartEmpty}" class="star" alt="별점" />
-                <img src="${StartEmpty}" class="star" alt="별점" />
-                <img src="${StartEmpty}" class="star" alt="별점" />
-                <img src="${StartEmpty}" class="star" alt="별점" />
-                <img src="${StartEmpty}" class="star" alt="별점" />
-              </span>
-              <span>6</span>
-              <span>보통이에요</span>
+            <p class="modal-overview">${movieOverView}</p>
+            <div class="vote-container">
+              <div class="user-vote">
+                <span class="vote-title">내 별점</span>
+                <span class="vote-score">
+                  <img src="${StartEmpty}" class="user-vote-star" alt="별점" />
+                  <img src="${StartEmpty}" class="user-vote-star" alt="별점" />
+                  <img src="${StartEmpty}" class="user-vote-star" alt="별점" />
+                  <img src="${StartEmpty}" class="user-vote-star" alt="별점" />
+                  <img src="${StartEmpty}" class="user-vote-star" alt="별점" />
+                </span>
+                <span>6</span>
+                <span class="vote-review">보통이에요</span>
+              </div>
             </div>
           </div>
         </div>
