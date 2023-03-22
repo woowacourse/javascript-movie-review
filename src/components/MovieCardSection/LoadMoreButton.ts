@@ -1,3 +1,4 @@
+import MovieCardSection from '.';
 import type { GetMovies } from '../../App';
 import { ID } from '../../constants/selector';
 import type Movies from '../../domain/Movies';
@@ -13,18 +14,7 @@ const LoadMoreButton = {
     const button = $<HTMLButtonElement>(`#${ID.LOAD_MORE_BUTTON}`);
 
     button.addEventListener('click', async () => {
-      MovieCardList.renderMoreItems();
-
-      const newMovies = await getMovies();
-
-      if (!newMovies) {
-        movies.previousPage();
-        MovieCardList.removeSkeleton();
-        return;
-      }
-
-      MovieCardList.paint(newMovies.list, movies.getPage());
-      LoadMoreButton.handleVisibility(movies.isLastPage(newMovies.totalPages));
+      MovieCardSection.render(movies, getMovies);
     });
   },
 

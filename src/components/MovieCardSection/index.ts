@@ -5,8 +5,10 @@ import MovieCardList from './MovieCardList';
 import MovieSectionTitle from './MovieSectionTitle';
 import ErrorMessage from './ErrorMessage';
 import { CLASS } from '../../constants/selector';
-import type { CustomErrorMessage } from '../../constants/message';
+import { CustomErrorMessage, SEARCH_ERROR_MESSAGE } from '../../constants/message';
 import { $ } from '../../utils/dom';
+import Movies from '../../domain/Movies';
+import { GetMovies } from '../../App';
 
 const MovieCardSection = {
   template() {
@@ -19,10 +21,29 @@ const MovieCardSection = {
     `;
   },
 
-  render(query: string = '') {
+  async render(movies: Movies, getMovies: GetMovies, query: string = '') {
+    MovieCardSection.renderInit(query, movies);
+
+    const newMovies = await getMovies(query);
+
+    if (!newMovies) {
+      movies.previousPage();
+      MovieCardList.removeSkeleton();
+      return;
+    }
+
+    if (newMovies.list.length === 0) {
+      return MovieCardSection.renderErrorMessage(SEARCH_ERROR_MESSAGE);
+    }
+
+    MovieCardList.paint(newMovies.list, movies.getPage());
+    LoadMoreButton.handleVisibility(movies.isLastPage(newMovies.totalPages));
+  },
+
+  renderInit(query: string, movies: Movies) {
     MovieCardSection.removeErrorMessage();
     MovieCardSection.renderTitle(query);
-    MovieCardList.render();
+    MovieCardList.renderSkeletonItems(movies.isCurrentQuery(query));
   },
 
   renderTitle(query: string) {

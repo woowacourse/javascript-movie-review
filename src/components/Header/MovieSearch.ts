@@ -22,7 +22,7 @@ const MovieSearch = {
   setEvent(movies: Movies, getMovies: GetMovies) {
     const movieSearchForm = $<HTMLFormElement>(`#${ID.MOVIE_SEARCH_FORM}`);
 
-    movieSearchForm.addEventListener('submit', async (event) => {
+    movieSearchForm.addEventListener('submit', (event) => {
       event.preventDefault();
 
       if (!(event.target instanceof HTMLFormElement)) return;
@@ -35,18 +35,7 @@ const MovieSearch = {
       }
 
       MovieSearch.handleShowTooltip(false);
-      MovieCardSection.render(query);
-
-      const newMovies = await getMovies(query);
-
-      if (!newMovies) return;
-
-      if (newMovies.list.length === 0) {
-        return MovieCardSection.renderErrorMessage(SEARCH_ERROR_MESSAGE);
-      }
-
-      MovieCardList.paint(newMovies.list);
-      LoadMoreButton.handleVisibility(movies.isLastPage(newMovies.totalPages));
+      MovieCardSection.render(movies, getMovies, query);
     });
 
     const movieSearchInput = $('input[name="search-query"]');

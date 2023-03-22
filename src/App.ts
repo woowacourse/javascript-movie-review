@@ -32,12 +32,7 @@ class App {
 
   async init() {
     this.render();
-
-    const movies = await this.getMovies();
-
-    if (!movies) return;
-
-    this.paint(movies.list);
+    MovieCardSection.render(this.#movies, this.getMovies.bind(this));
     this.setEvent();
   }
 

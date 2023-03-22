@@ -7,9 +7,7 @@ import { $ } from '../../utils/dom';
 const MovieCardList = {
   template() {
     return `
-      <ul class=${CLASS.ITEM_LIST}>
-        ${MovieCardList.skeletonItems()}
-      </ul>
+      <ul class=${CLASS.ITEM_LIST}></ul>
     `;
   },
 
@@ -17,16 +15,16 @@ const MovieCardList = {
     return MovieCard.template().repeat(DEFAULT_LIST_LENGTH);
   },
 
-  renderMoreItems() {
-    const movieList = $<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
-
-    movieList.insertAdjacentHTML('beforeend', MovieCardList.skeletonItems());
-  },
-
-  render() {
+  renderSkeletonItems(isCurrentQuery: boolean) {
     const movieList = $<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
 
     movieList.classList.remove(CLASS.HIDE);
+
+    if (isCurrentQuery) {
+      movieList.insertAdjacentHTML('beforeend', MovieCardList.skeletonItems());
+      return;
+    }
+
     movieList.innerHTML = MovieCardList.skeletonItems();
   },
 
