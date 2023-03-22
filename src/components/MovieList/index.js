@@ -25,6 +25,7 @@ class MovieList {
           <div class="list-container">
             <ul class="item-list"></ul>
             <ul class="skeleton-container"></ul>
+            <div class="error-container"></div>
           </div>
           <button class="more btn primary full-width">더 보기</button>
         </section>
@@ -51,12 +52,23 @@ class MovieList {
     $searchTitle.innerText = text;
   }
 
+  renderErrorMessage(message) {
+    const $errorContainer = this.$target.querySelector(".error-container");
+    const messageTemplate = `
+    <h3 class="error-title">영화 목록을 불러오는데 문제가 발생했습니다 :(</h2>
+    <p class="error-message">[실패 사유]</p>
+    <p class="error-message">${message}</p>`;
+
+    $errorContainer.insertAdjacentHTML("beforeend", messageTemplate);
+  }
+
   async renderMovieList() {
     const $itemList = this.$target.querySelector(".item-list");
 
     this.toggleSkeletonContainerVisibility();
     const fetchedMovieData = await this.fetchMovieList();
     this.toggleSkeletonContainerVisibility();
+    if (!fetchedMovieData) return;
 
     if (!this.isExistMovie(fetchedMovieData)) {
       const { searchKeyword } = this.#props;
@@ -78,9 +90,10 @@ class MovieList {
       if (type === "search") {
         return await fetchMovieListWithKeyword(this.#page, searchKeyword);
       }
-    } catch (e) {
-      this.renderTitle("영화 리스트를 불러오는데 실패 했습니다 :(");
+    } catch (error) {
+      this.renderErrorMessage(error.message);
       this.toggleMoreButton();
+      return false;
     }
   }
 
