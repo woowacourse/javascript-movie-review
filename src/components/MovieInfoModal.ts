@@ -30,7 +30,7 @@ class MovieInfoModal {
     }
   }
 
-  closeInfoModalWithoutHistoryBack() {
+  private closeInfoModalWithoutHistoryBack() {
     this.$modal.setAttribute('hidden', '');
   }
 
@@ -81,11 +81,11 @@ class MovieInfoModal {
               src="${IMAGE_URL(posterPath)}" />
           </div>
         <div class="information-modal-genre-rating">
-          <div class="modal-text">${convertedGenres.join(' ')}</div>
+          <div class="modal-text">${this.getArrangedGenres(convertedGenres)}</div>
           <div class="modal-text">${voteAverage}</div>
         </div>
         <div class="information-modal-content"
-          >${overview}</div
+          >${this.getOverview(overview)}</div
         >
         <div class="information-modal-my-rating">
           <div class="user-rating-title">내 별점</div>
@@ -94,6 +94,18 @@ class MovieInfoModal {
           <div class="modal-text">보통이에요</div>
         </div>
       </div>`;
+  }
+
+  private getArrangedGenres(genres: string[]) {
+    return genres.length > 0
+      ? genres.join(', ')
+      : '<span class="modal-text no-data">장르 정보 없음</span>';
+  }
+
+  private getOverview(overview: string) {
+    return overview.trim() === ''
+      ? '<span class="modal-text no-data">이 영화는 별도의 영화에 대한 설명이 없네요!</span>'
+      : overview;
   }
 }
 
