@@ -1,7 +1,9 @@
 :root {
-  --modal-background-color: #212122;
-  --modal-menu-color: #383839;
-  --modal-backdrop-color: #000000bb;
+  --modal-dark-gray: #212122;
+  --modal-gray: #383839;
+  --modal-light-gray: #ababab;
+  --modal-transparent-black: #000000bb;
+  --modal-pink: #ff4646;
   color: white;
   font-family: 'Pretendard';
 }
@@ -15,7 +17,7 @@
 .information-modal-backdrop {
   width: 100vw;
   height: 100vh;
-  background-color: var(--modal-backdrop-color);
+  background-color: var(--modal-transparent-black);
   backdrop-filter: blur(10px);
 }
 
@@ -28,7 +30,7 @@
   width: 826px;
   height: 577px;
   margin: 0 0 auto;
-  background-color: var(--modal-background-color);
+  background-color: var(--modal-dark-gray);
   grid-template-areas:
     'title title'
     'poster genre-rating'
@@ -41,7 +43,7 @@
 
 .information-modal-title {
   grid-area: title;
-  border-bottom: 3px solid var(--modal-menu-color);
+  border-bottom: 3px solid var(--modal-gray);
   font-size: 24px;
   font-weight: 600;
   line-height: 60px;
@@ -81,7 +83,7 @@
 .information-modal-my-rating {
   grid-area: my-rating;
   margin: 0 32px 32px 0;
-  background-color: var(--modal-menu-color);
+  background-color: var(--modal-gray);
   border-radius: 20px;
   padding: 10px;
 }
@@ -92,4 +94,8 @@
 
 .modal-text {
   font-weight: 200;
+}
+
+.modal-text.no-data {
+  color: var(--modal-light-gray);
 }
