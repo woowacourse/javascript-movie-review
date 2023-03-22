@@ -30,7 +30,6 @@ async function fetchSearchedMovieData(
 }
 
 async function fetchMovieGenreData() {
-  console.log(process.env.API_KEY);
   const apiUrl = generateApiUrl('genre/movie/list', {
     api_key: process.env.API_KEY as string,
     language: 'ko-KR',
