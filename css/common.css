@@ -164,25 +164,7 @@ button[data-hidden='true'] {
   display: none;
 }
 
-.movie-modal {
-  display: none;
-}
-
-.movie-modal[data-open="true"] {
-  display: block;
-}
-
-.modal-bg {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-
-  background: rgba(0, 0, 0, 0.35);
-}
-
-.modal-container {
+#movie-modal {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -200,4 +182,11 @@ button[data-hidden='true'] {
 
   border-radius: 8px 8px 0 0;
   background: black;
+
+  color: white;
+  border: none;
+}
+
+dialog.movie-modal::backdrop {
+  background: rgba(0, 0, 0, 0.35);
 }

@@ -2,25 +2,20 @@ import MovieSummary from "../type/MovieInfo";
 import { $ } from "../util/querySelector";
 
 const modalTemplate = `
-  <div class="modal-bg"></div>
-  <div class="modal-container">
-    <div class="modal-header">
-      <h1></h1>
-      <button type="button" class="modal-close">&times;</button>
-    </div>
-    <div class="movie-poster"></div>
-    <div class="movie-info">
-    
-    </div>
-  </div>
+<div class="modal-header">
+  <h1></h1>
+  <button type="button" class="modal-close">&times;</button>
+</div>
+<div class="movie-poster"></div>
+<div class="movie-info">
+</div>
   `.trim();
 
 class MovieModal {
   private readonly element;
 
-  constructor(element: HTMLElement) {
+  constructor(element: HTMLDialogElement) {
     this.element = element;
-    this.element.dataset.open = 'false';
 
     this.element.innerHTML = modalTemplate;
 
@@ -32,40 +27,36 @@ class MovieModal {
     return this.element;
   }
 
-  open() {
-    if (this.element.dataset.open === 'true') return;
-
-    this.element.dataset.open = 'true';
-    history.pushState(null, '', location.href);
-  }
-
-  close() {
-    if (this.element.dataset.open === 'false') return;
-
-    this.element.dataset.open = 'false';
-  }
-
   catchMovieIdEvent(event: CustomEvent) {
     if (!event.detail.info) throw new Error('[ERROR] 이벤트 detail에 id가 없습니다');
     this.render(event.detail.info);
-    this.open();
+    this.element.showModal();
   }
 
   private addCloseEvent() {
-    $('.modal-close', this.element).addEventListener('click', () => this.close());
+    $('.modal-close', this.element).addEventListener('click', () => this.element.close());
 
     this.element.addEventListener('click', (event) => {
-      if (event.target === $('.modal-bg', this.element)) this.close();
+      const modalPosition = this.element.getBoundingClientRect();
+
+      if (
+        modalPosition.left > event.clientX ||
+        modalPosition.right < event.clientX ||
+        modalPosition.top > event.clientY ||
+        modalPosition.bottom < event.clientY
+      ) {
+        this.element.close();
+      }
     });
 
     window.addEventListener('keyup', (event) => {
-      if (event.key === 'Escape' || 'Esc' || 'Backspace') this.close();
+      if (event.key === 'Escape' || 'Esc' || 'Backspace') this.element.close();
     });
 
     window.addEventListener('popstate', () => {
       if (this.element.dataset.open === 'true') {
         history.forward();
-        this.close();
+        this.element.close();
       }
     })
   }

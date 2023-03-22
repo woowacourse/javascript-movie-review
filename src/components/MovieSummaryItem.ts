@@ -6,11 +6,11 @@ const movieTemplate = (() => {
   movieInfo.setAttribute('class', 'movie-info');
 
   movieInfo.innerHTML = `
-  <div class="item-card">
+  <a class="item-card">
     <div class="item-thumbnail skeleton"></div>
     <p class="item-title"></p>
     <p class="item-score"><img src="./assets/star_filled.png" alt="별점"/></p>
-  </div>
+  </a>
   `.trim();
 
   return movieInfo;

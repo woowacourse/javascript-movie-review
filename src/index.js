@@ -20,7 +20,7 @@ header.render();
 const main = new Main($('.item-view'), manager);
 main.render();
 
-const modal = new MovieModal($('.movie-modal'));
+const modal = new MovieModal($('#movie-modal'));
 
 EventBus.subscribe('searchFullfilled', main.render.bind(main));
 EventBus.subscribe('searchPending', main.renderSkeleton.bind(main));
