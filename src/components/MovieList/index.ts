@@ -35,7 +35,7 @@ class MovieList {
   }
 
   async init() {
-    this.#$target.removeChild(this.#$skeletonContainer);
+    this.renderSkeleton();
 
     const response = await fetchPopularMovies(this.#state.page);
     const { results, total_pages } = response;
@@ -53,10 +53,9 @@ class MovieList {
 
     if (state === "popular") {
       const response = await fetchPopularMovies(this.#state.page);
-
       const { results, total_pages } = response;
-
       this.#movies.reset(results);
+
       this.renderMovieList(total_pages);
       return;
     }
@@ -69,8 +68,8 @@ class MovieList {
         this.#state.searchKeyword
       );
       const { results, total_pages } = response;
-
       this.#movies.reset(results);
+
       this.renderMovieList(total_pages);
     }
   }
@@ -87,7 +86,7 @@ class MovieList {
   }
 
   renderNextMovies(movieList: MovieResponse[], total_pages: number) {
-    this.#$target.removeChild(this.#$skeletonContainer);
+    this.renderSkeleton();
 
     this.#$target.innerHTML += `
         ${movieList.map((movie) => MovieCard.render(movie)).join("")}
@@ -104,6 +103,7 @@ class MovieList {
     if (this.#state.show === "popular") {
       const response = await fetchPopularMovies(this.#state.page);
       const { results, total_pages } = response;
+
       this.renderNextMovies(results, total_pages);
     }
 
@@ -113,12 +113,17 @@ class MovieList {
         this.#state.searchKeyword
       );
       const { results, total_pages } = response;
+
       this.renderNextMovies(results, total_pages);
     }
   }
 
   renderSkeleton() {
-    this.#$target.appendChild(this.#$skeletonContainer);
+    if (this.#$target.contains(this.#$skeletonContainer)) {
+      this.#$target.removeChild(this.#$skeletonContainer);
+    } else {
+      this.#$target.appendChild(this.#$skeletonContainer);
+    }
   }
 
   hideMoreButton() {
