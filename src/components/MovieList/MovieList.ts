@@ -33,7 +33,6 @@ class MovieList {
           <h2 class="search-title"></h2>
           <ul class="item-list"></ul>
           <ul class="skeleton-container"></ul>
-          <button class="more btn primary full-width">더 보기</button>
         </section>
       `;
   }
@@ -81,8 +80,6 @@ class MovieList {
       this.disconnectObserver();
     }
 
-    if (this.isLastPage(fetchedMovieData)) this.toggleMoreButton();
-
     const movies = fetchedMovieData.results.map((movieData) => new Movie(movieData));
     movies.forEach((movie) => new MovieItem($itemList, movie));
     this.#page += 1;
@@ -101,7 +98,6 @@ class MovieList {
       }
     } catch (e) {
       this.renderTitle("영화 리스트를 불러오는데 실패 했습니다 :(");
-      this.toggleMoreButton();
     }
   }
 
@@ -111,14 +107,6 @@ class MovieList {
 
   isLastPage(movieData: IMoviesResponseData) {
     return movieData.total_pages === this.#page;
-  }
-
-  toggleMoreButton() {
-    const $loadMoreButton = this.$target.querySelector(".more");
-
-    if ($loadMoreButton) {
-      $loadMoreButton.classList.toggle("invisible");
-    }
   }
 
   toggleSkeletonContainerVisibility() {
