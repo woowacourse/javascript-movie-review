@@ -1,6 +1,7 @@
 import CustomComponent from "../../abstracts/CustomComponent";
 import StarEmptyImg from "../../../templates/star_empty.png";
 import StarFilledImg from "../../../templates/star_filled.png";
+import navigate from "../../util/Navigate";
 
 export default class MovieComponent extends CustomComponent {
   constructor() {
@@ -17,21 +18,26 @@ export default class MovieComponent extends CustomComponent {
     };
   }
 
+  onModal() {
+    const modal = document.createElement("movie-modal");
+
+    Object.keys(this.state.movie).forEach((key) => {
+      modal.setAttribute(key, this.state.movie[key]);
+    });
+
+    document.querySelector("#app").append(modal);
+
+    setTimeout(() => {
+      modal.style.opacity = 1;
+    });
+
+    history.pushState(this.state.movie, null, "/info");
+  }
+
   handleEvent() {
     this.addEventListener("click", (e) => {
       e.preventDefault();
-
-      const modal = document.createElement("movie-modal");
-
-      Object.keys(this.state.movie).forEach((key) => {
-        modal.setAttribute(key, this.state.movie[key]);
-      });
-
-      document.querySelector("#app").append(modal);
-
-      setTimeout(() => {
-        modal.style.opacity = 1;
-      });
+      this.onModal();
     });
   }
 
@@ -52,7 +58,7 @@ export default class MovieComponent extends CustomComponent {
     const posterPath = this.state.movie.poster_path;
 
     return /*html*/ `
-            <a href="#">
+            <div>
               <div class="item-card">
                   <img
                     class="item-thumbnail"
@@ -63,7 +69,7 @@ export default class MovieComponent extends CustomComponent {
                   <p class="item-title">${title}</p>
                   <p class="item-score"><img src=${StarFilledImg} alt="별점" /> ${voteAverage}</p>
               </div>
-            </a>
+            </div>
         `;
   }
 }

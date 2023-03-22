@@ -2,14 +2,12 @@ import CustomAsyncComponent from "../../abstracts/CustomAsyncComponent";
 import SelectVoteScoreComponent from "./SelectVoteScoreComponent";
 import StarFilledImg from "../../../templates/star_filled.png";
 import ModalCloseButtonImg from "../../../templates/close.png";
+import navigate from "../../util/Navigate";
 
 export default class MovieModalComponent extends CustomAsyncComponent {
   handleEvent() {
     this.querySelector(".movie-modal-close").addEventListener("click", () => {
-      this.style.opacity = 0;
-      setTimeout(() => {
-        this.remove();
-      }, 500);
+      navigate("/");
     });
   }
 
@@ -38,7 +36,6 @@ export default class MovieModalComponent extends CustomAsyncComponent {
 
   async template() {
     const id = this.getAttribute("id");
-    console.log(id);
     const title = this.getAttribute("title");
     const moviePoster = this.getAttribute("poster_path");
     const genre = this.getAttribute("genre_ids");

@@ -7,6 +7,81 @@ import MovieModalComponent from "./modal/MovieModalComponent";
 import transformMovieItemsType from "../util/MovieList";
 import { API_KEY } from "../constants/key";
 import { ACTION, REQUEST_URL, TITLE } from "../constants/constants";
+import navigate from "../util/Navigate";
+
+const routes = [
+  {
+    path: "/",
+    view: () => {
+      const modal = document.querySelector("movie-modal");
+
+      if (modal) {
+        modal.style.opacity = 0;
+        setTimeout(() => {
+          modal.remove();
+        }, 500);
+      }
+    },
+  },
+  {
+    path: "/info",
+    view: () => {},
+  },
+];
+
+export const App = async () => {
+  const pageMatches = routes.map((route) => {
+    return {
+      route: route,
+      isMatch: window.location.pathname === route.path,
+    };
+  });
+
+  let match = pageMatches.find((pageMatch) => pageMatch.isMatch);
+  if (match) {
+    match.route.view();
+  }
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.body.addEventListener("click", (e) => {
+    const target = e.target.closest("a");
+    if (!(target instanceof HTMLAnchorElement)) return;
+
+    e.preventDefault();
+    navigate(target.href);
+  });
+
+  App();
+});
+
+window.addEventListener("popstate", (event) => {
+  const state = event.state;
+  if (state) {
+    const modal = document.createElement("movie-modal");
+
+    Object.keys(state).forEach((key) => {
+      modal.setAttribute(key, state[key]);
+    });
+
+    document.querySelector("#app").append(modal);
+
+    setTimeout(() => {
+      modal.style.opacity = 1;
+    });
+
+    window.history.replaceState(state, null, "/info");
+  } else {
+    navigate("/");
+  }
+});
+
+window.addEventListener("keyup", async (event) => {
+  if (event.key === "Backspace") {
+    event.preventDefault();
+    navigate("/");
+  }
+});
 
 export default class AppComponent extends CustomComponent {
   #nextPage = 1;
