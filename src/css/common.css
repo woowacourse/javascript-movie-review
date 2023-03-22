@@ -372,3 +372,7 @@ dialog::backdrop {
 .hide-overflow {
   overflow: hidden;
 }
+
+.vote-average-star {
+  width: 24px;
+}

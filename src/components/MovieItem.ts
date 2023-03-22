@@ -41,7 +41,9 @@ class MovieItem {
 
   private scoreTemplate(voteAverage: number) {
     return `
-      <img src="${voteAverage ? FilledStar : EmptyStar}" alt="별점" />${voteAverage}
+      <img src="${
+        voteAverage ? FilledStar : EmptyStar
+      }" class="vote-average-star" alt="별점" />${voteAverage}
     `;
   }
 
