@@ -1,4 +1,5 @@
 import { fetchMovieListWithKeyword, fetchPopularMovieList } from "../../apis";
+import { LIST_TYPE } from "../../constants/common";
 import Movie from "../../domain/Movie";
 import "./index.css";
 import MovieItem from "./MovieItem";
@@ -47,7 +48,7 @@ class MovieList {
     const $searchTitle = this.$target.querySelector(".search-title");
 
     const text =
-      title || (type === "popular" ? "지금 인기있는 영화" : `"${searchKeyword}" 검색결과`);
+      title || (type === LIST_TYPE.POPULAR ? "지금 인기있는 영화" : `"${searchKeyword}" 검색결과`);
 
     $searchTitle.innerText = text;
   }
@@ -84,10 +85,10 @@ class MovieList {
   async fetchMovieList() {
     const { type, searchKeyword } = this.#props;
     try {
-      if (type === "popular") {
+      if (type === LIST_TYPE.POPULAR) {
         return await fetchPopularMovieList(this.#page);
       }
-      if (type === "search") {
+      if (type === LIST_TYPE.SEARCH) {
         return await fetchMovieListWithKeyword(this.#page, searchKeyword);
       }
     } catch (error) {
