@@ -21,7 +21,7 @@ const MovieChart = assemble<MovieChartProps>(({ keyword }) => {
   ];
 
   const noResult = !isLoading && !chartInfo.total_results;
-  const needMoreBtn = Boolean(chartInfo?.page !== LAST_PAGE && movieList.length);
+  const needMoreBtn = Boolean(!isLoading && chartInfo?.page !== LAST_PAGE && movieList.length);
   const $template = getElement(`
     <main>
       <section class="item-view">
@@ -31,7 +31,7 @@ const MovieChart = assemble<MovieChartProps>(({ keyword }) => {
             ${!isLoading ? MovieListComponent({ movieList }) : ''}
           </fragment>
           <fragment id='SkeletonList'>
-            ${isLoading ? SkeletonMovieListComponent() : SkeletonMovieListComponent()}
+            ${isLoading ? SkeletonMovieListComponent() : ''}
           </fragment>
           ${noResult ? `<h1>${NO_RESULT}</h1>` : ''}
         </div>
