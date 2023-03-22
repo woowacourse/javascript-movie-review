@@ -1,6 +1,6 @@
+import VoteMovie from './VoteMovie';
 import { Genre } from '../@types/fetchJsonType';
 import { MovieDetail } from '../@types/movieType';
-import starEmpty from '../asset/star_empty.png';
 import starFilled from '../asset/star_filled.png';
 import handleImageLoadError from '../libs/handleImageLoadError';
 
@@ -39,23 +39,14 @@ class MovieModal {
             <div class="movie-detail-info">
               <div class="movie-detail-genres-grade skeleton"></div>
               <div class="movie-detail-overview skeleton"></div>
-              <div class="movie-detail-voteContainer">
-                <div>내 별점</div>
-                <div>
-                  <img src="${starEmpty}" alt="별점" />
-                  <img src="${starEmpty}" alt="별점" />
-                  <img src="${starEmpty}" alt="별점" />
-                  <img src="${starEmpty}" alt="별점" />
-                  <img src="${starEmpty}" alt="별점" />
-                </div>
-                <div>이 영화 어떠나요?</div>
-              </div>
             </div>
           </div>
         </div>
       </div>
       `
     );
+
+    this._node.querySelector('.movie-detail-info')?.insertAdjacentElement('beforeend', new VoteMovie().node);
   }
 
   updateMovieDetail(movieDetail: MovieDetail) {
