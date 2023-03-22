@@ -21,6 +21,10 @@ export default class MovieSearchList extends MovieList {
 
     this.searchFirstQuery(query);
 
+    this.state.setValue('isLoading', true);
+    this.state.setValue('movies', []);
+    this.state.emit();
+
     const movieData = await this.getMoviesData(
       'search/movie',
       'searchPage',
@@ -33,13 +37,10 @@ export default class MovieSearchList extends MovieList {
     this.state.setValue('isEnd', movieData.total_page === currentPage);
     this.state.setValue('searchPage', currentPage + 1);
     this.state.setValue('isLoading', false);
-
     this.state.emit();
 
     return this;
   }
-
-  render() {}
 
   emit(query: string) {
     this.getSearchMovies(query);
