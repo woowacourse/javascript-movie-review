@@ -28,10 +28,10 @@ const MovieChart = assemble<MovieChartProps>(({ keyword }) => {
         <h2>지금 인기 있는 영화</h2>
         <div class="item-list-layout">
           <fragment id='MovieList'>
-            ${MovieListComponent({ movieList })}
+            ${!isLoading ? MovieListComponent({ movieList }) : ''}
           </fragment>
           <fragment id='SkeletonList'>
-            ${isLoading ? SkeletonMovieListComponent() : ''}
+            ${isLoading ? SkeletonMovieListComponent() : SkeletonMovieListComponent()}
           </fragment>
           ${noResult ? `<h1>${NO_RESULT}</h1>` : ''}
         </div>
