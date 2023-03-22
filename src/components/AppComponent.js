@@ -4,13 +4,9 @@ import MovieListComponent from "./movie/MovieListComponent";
 import MoreButtonComponent from "./element/MoreButtonComponent";
 import TitleComponent from "./element/TitleComponent";
 import transformMovieItemsType from "../util/MovieList";
-import { API_KEY } from "../constants/key";
-import {
-  ACTION,
-  REQUEST_URL,
-  SEARCH_WARNING,
-  TITLE,
-} from "../constants/constants";
+import { ACTION, SEARCH_WARNING, TITLE } from "../constants/constants";
+import { getRequest, transData } from "../api/handler";
+import { urlByActionType } from "../api/url";
 
 export default class AppComponent extends CustomComponent {
   #nextPage = 1;
@@ -31,32 +27,16 @@ export default class AppComponent extends CustomComponent {
     this.changeMoreButtonAction(ACTION.MORE_POPULAR);
   }
 
-  urlByActionType(actionType) {
-    switch (actionType) {
-      case ACTION.POPULAR:
-        return `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${
-          this.#nextPage
-        }`;
-      case ACTION.SEARCH:
-        return `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${
-          this.#$searchInput.value
-        }&page=${this.#nextPage}&include_adult=false`;
-    }
-  }
-
   getMovieData(actionType) {
-    fetch(this.urlByActionType(actionType), { method: "GET" })
-      .then(async (res) => {
-        if (!res.ok) {
-          this.#$movieList.renderPageFail();
-          return;
-        }
-        const data = await res.json();
-        this.#totalPage = data.total_pages;
-
-        const movieItems = transformMovieItemsType(data.results);
-        this.#$movieList.renderPageSuccess(movieItems);
-
+    getRequest(
+      urlByActionType(actionType, {
+        nextPage: this.#nextPage,
+        query: this.#$searchInput.value,
+      })
+    )
+      .then((res) => {
+        const data = transData(res);
+        this.#$movieList.renderPageSuccess(data.results);
         this.#nextPage += 1;
         this.changeButtonDisplayByPage();
       })
