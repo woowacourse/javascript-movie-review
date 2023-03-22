@@ -21,14 +21,14 @@ const MovieChart = assemble<MovieChartProps>(({ keyword }) => {
   ];
 
   const noResult = !isLoading && !chartInfo.total_results;
-  const needMoreBtn = Boolean(!isLoading && chartInfo?.page !== LAST_PAGE && movieList.length);
+  const needMoreBtn = Boolean(!isLoading && chartInfo.page !== chartInfo.total_pages && movieList.length);
   const $template = getElement(`
     <main>
       <section class="item-view">
         <h2>지금 인기 있는 영화</h2>
         <div class="item-list-layout">
           <fragment id='MovieList'>
-            ${!isLoading ? MovieListComponent({ movieList }) : ''}
+            ${MovieListComponent({ movieList })}
           </fragment>
           <fragment id='SkeletonList'>
             ${isLoading ? SkeletonMovieListComponent() : ''}
