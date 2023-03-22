@@ -92,6 +92,8 @@ export default class MovieModal extends HTMLElement {
     this.addEventListener("click", this.exitModal);
 
     document.addEventListener("keydown", (event) => {
+      event.preventDefault();
+      console.log(event.key, event.target);
       if (event.key === "Escape" || event.key === "Backspace")
         this.classList.add("hidden");
       event.stopPropagation();

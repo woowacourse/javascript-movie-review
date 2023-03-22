@@ -46,16 +46,20 @@ export default class App {
   }
 
   setEvent() {
+    let throttle: any = 0;
+
     window.addEventListener("scroll", () => {
       if (this.#state.movieList.length < MAX_MOVIE_QUANTITY_PER_PAGE) return;
-      const scrollPosition = window.pageYOffset + window.innerHeight;
-      const documentHeight = document.body.offsetHeight - 0.5;
+      if (!throttle)
+        throttle = setTimeout(() => {
+          throttle = 0;
+          const scrollPosition = window.pageYOffset + window.innerHeight;
+          const documentHeight = document.body.offsetHeight - 0.5;
 
-      if (scrollPosition >= documentHeight) {
-        this.toggleSkeletonList(TOGGLE_SKELETON.SHOW);
-        this.appendMovieList();
-        console.log(this.#state.page);
-      }
+          if (scrollPosition >= documentHeight) {
+            this.appendMovieList();
+          }
+        }, 2000);
     });
 
     document.addEventListener(
@@ -88,7 +92,6 @@ export default class App {
     this.setState({ page: page + 1 });
     await this.setMoviesList();
     this.setMoreButtonState();
-    this.toggleSkeletonList(TOGGLE_SKELETON.HIDDEN);
     this.mountMovieList();
   }
 
@@ -137,9 +140,7 @@ export default class App {
 
   async renderSearchedMovies() {
     this.render();
-    this.toggleSkeletonList(TOGGLE_SKELETON.SHOW);
     await this.setMoviesList();
-    this.toggleSkeletonList(TOGGLE_SKELETON.HIDDEN);
     this.mountMovieList();
   }
 
@@ -159,12 +160,6 @@ export default class App {
     const { movieList } = this.#state;
     const $cardList = $("card-list");
     if ($cardList instanceof MovieCardList) $cardList.setMovieList(movieList);
-  }
-
-  toggleSkeletonList(method: toggleSkeleton) {
-    const $cardList = $("card-list");
-    if ($cardList instanceof MovieCardList)
-      $cardList.toggleSkeletonList(method);
   }
 
   setMoreButtonState() {
