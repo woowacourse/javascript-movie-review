@@ -51,6 +51,12 @@ class MovieCard {
       'https://user-images.githubusercontent.com/112997662/223046479-306cc6a7-7024-4616-b28e-be2f2878d2f0.png';
   }
 
+  clickMovieCard() {
+    this._node.dispatchEvent(
+      new CustomEvent('openMovieModal', { bubbles: true, detail: { movieId: this.movieData.id } })
+    );
+  }
+
   initEventHandler() {
     const thumbnail = this._node.querySelector<HTMLImageElement>('#item-thumbnail');
     const thumbnailSkeleton = this._node.querySelector<HTMLDivElement>('.skeleton');
@@ -66,6 +72,8 @@ class MovieCard {
     thumbnail.addEventListener('error', () => {
       this.errorLoadImage(thumbnail);
     });
+
+    this._node.addEventListener('click', this.clickMovieCard.bind(this));
   }
 }
 

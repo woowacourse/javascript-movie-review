@@ -23,7 +23,7 @@ class Header {
   }
 
   clickLogoIcon() {
-    this._node.dispatchEvent(new Event('moveHome', { bubbles: true }));
+    this._node.dispatchEvent(new CustomEvent('moveHome', { bubbles: true }));
   }
 
   initEventHandler() {
