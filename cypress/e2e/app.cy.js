@@ -1,21 +1,27 @@
-const TEST_URL = 'http://localhost:8082/';
+const TEST_URL = 'http://localhost:8080/';
+
+const API_KEY = Cypress.env('apiKey');
 
 describe('영화 사이트 테스트', () => {
   beforeEach('beforeEach', () => {
     cy.intercept(
       {
         method: 'GET',
-        url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
+        url: `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`,
       },
       { fixture: 'movie-popular.json' }
     ).as('getPopularMovies');
     cy.visit(TEST_URL);
+    cy.log(API_KEY);
   });
 
   it('웹 페이지에 방문하면, 영화 리스트를 확인할 수 있다.', () => {
     cy.wait('@getPopularMovies').then((interception) => {
       const movieItems = interception.response.body.results;
-      expect(movieItems.length).to.equal(20);
+
+      movieItems.forEach((movieData) => {
+        cy.get('.item-list').should('contain', movieData.title);
+      });
     });
   });
 
@@ -23,7 +29,7 @@ describe('영화 사이트 테스트', () => {
     cy.intercept(
       {
         method: 'GET',
-        url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
+        url: `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=2`,
       },
       { fixture: 'movie-popular2.json' }
     ).as('getPopularMovies2');
@@ -33,7 +39,10 @@ describe('영화 사이트 테스트', () => {
       .wait('@getPopularMovies2')
       .then((interception) => {
         const movieItems = interception.response.body.results;
-        expect(movieItems.length).to.equal(20);
+
+        movieItems.forEach((movieData) => {
+          cy.get('.item-list').should('contain', movieData.title);
+        });
       });
   });
 
@@ -41,7 +50,7 @@ describe('영화 사이트 테스트', () => {
     cy.intercept(
       {
         method: 'GET',
-        url: /^https:\/\/api.themoviedb.org\/3\/search\/movie*/,
+        url: `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=%ED%95%B4%EB%A6%AC%ED%8F%AC%ED%84%B0&page=1`,
       },
       { fixture: 'harry-potter.json' }
     ).as('getHarryPotter');
@@ -51,7 +60,10 @@ describe('영화 사이트 테스트', () => {
       .wait('@getHarryPotter')
       .then((interception) => {
         const movieItems = interception.response.body.results;
-        expect(movieItems.length).to.equal(10);
+
+        movieItems.forEach((movieData) => {
+          cy.get('.item-list').should('contain', movieData.title);
+        });
       });
   });
 
@@ -59,7 +71,7 @@ describe('영화 사이트 테스트', () => {
     cy.intercept(
       {
         method: 'GET',
-        url: /^https:\/\/api.themoviedb.org\/3\/search\/movie*/,
+        url: `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=%ED%95%B4%EB%A6%AC%ED%8F%AC%ED%84%B0&page=1`,
       },
       { fixture: 'harry-potter.json' }
     ).as('getHarryPotter');
@@ -70,7 +82,10 @@ describe('영화 사이트 테스트', () => {
       .wait('@getHarryPotter')
       .then((interception) => {
         const movieItems = interception.response.body.results;
-        expect(movieItems.length).to.equal(10);
+
+        movieItems.forEach((movieData) => {
+          cy.get('.item-list').should('contain', movieData.title);
+        });
       });
   });
 });
