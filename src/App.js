@@ -16,8 +16,9 @@ export default class App {
   async initRender() {
     this.#movieList = [];
     this.#page = 1;
-    await this.addMovieList();
     this.render();
+    this.toggleSkeletonList();
+    await this.addMovieList();
     this.mountMovieList();
   }
 
@@ -25,12 +26,14 @@ export default class App {
     if (null) return;
 
     const itemView = $(".item-view");
+
     itemView.innerHTML = `
     <card-list header='${
       this.#listState === LIST_STATE.POPULAR
         ? "지금 인기 있는 영화"
         : `"${this.#movieName}" 검색 결과`
-    }'></card-list>
+    }
+    '></card-list>
     <more-button></more-button>
     `;
   }
@@ -92,10 +95,10 @@ export default class App {
   }
 
   mountMovieList() {
-    document.querySelector("card-list")?.setMovieList(this.#movieList);
+    $("card-list")?.setMovieList(this.#movieList);
   }
 
   toggleSkeletonList() {
-    document.querySelector("card-list").toggleSkeletonList();
+    $("card-list").toggleSkeletonList();
   }
 }
