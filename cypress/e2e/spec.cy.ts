@@ -63,7 +63,69 @@ describe('영화 검색 테스트', () => {
     cy.get(`#${ID.MOVIE_SEARCH_FORM} input`).type('해리포터');
     cy.get(`#${ID.MOVIE_SEARCH_FORM}`).submit();
 
+    cy.get(`.${CLASS.ITEM_VIEW} > h2`).should('have.text', '"해리포터" 검색 결과');
     cy.get(`.${CLASS.ITEM_LIST}`).children().get(`.${CLASS.ITEM_TITLE}`).should('contain.text', '해리 포터');
+  });
+
+  it('빈 값을 검색하면 "빈 값이나 스페이스는 검색할 수 없습니다." 문구의 툴팁을 보여준다.', () => {
+    cy.get(`#${ID.MOVIE_SEARCH_FORM}`).submit();
+
+    cy.get('.search-tooltip')
+      .find('.tooltip')
+      .should('be.visible')
+      .find('p')
+      .should('have.text', '빈 값이나 스페이스는 검색할 수 없습니다.');
+  });
+
+  it('스페이스 문자열을 검색하면 "빈 값이나 스페이스는 검색할 수 없습니다." 문구의 툴팁을 보여준다.', () => {
+    cy.get(`#${ID.MOVIE_SEARCH_FORM} input`).type('    ');
+    cy.get(`#${ID.MOVIE_SEARCH_FORM}`).submit();
+
+    cy.get('.search-tooltip')
+      .find('.tooltip')
+      .should('be.visible')
+      .find('p')
+      .should('have.text', '빈 값이나 스페이스는 검색할 수 없습니다.');
+  });
+
+  it('이전 검색 값과 같은 값을 검색하면 "같은 입력 값을 검색했습니다." 문구의 툴팁을 보여준다.', () => {
+    cy.intercept(
+      {
+        method: 'GET',
+        url: /^https:\/\/api.themoviedb.org\/3\/search\/movie*/,
+      },
+      { fixture: 'movie-search-mock.json' }
+    );
+
+    cy.get(`#${ID.MOVIE_SEARCH_FORM} input`).type('해리포터');
+    cy.get(`#${ID.MOVIE_SEARCH_FORM}`).submit();
+    cy.get(`#${ID.MOVIE_SEARCH_FORM}`).submit();
+
+    cy.get('.search-tooltip').find('.tooltip').should('be.visible').find('p').should('have.text', '같은 입력 값을 검색했습니다.');
+  });
+
+  it('검색 결과가 없으면 "🔎 검색 결과가 없습니다. 🔎"를 보여준다.', () => {
+    cy.intercept(
+      {
+        method: 'GET',
+        url: /^https:\/\/api.themoviedb.org\/3\/search\/movie*/,
+      },
+      { fixture: 'movie-empty-mock.json' }
+    ).as('getEmptyMovie');
+
+    cy.get(`#${ID.MOVIE_SEARCH_FORM} input`).type('asdf');
+    cy.get(`#${ID.MOVIE_SEARCH_FORM}`).submit();
+
+    cy.wait('@getEmptyMovie').then((interception) => {
+      const movieItems = interception.response?.body.results;
+      expect(movieItems.length).to.equal(0);
+    });
+
+    cy.get(`.${CLASS.ITEM_VIEW}`)
+      .find(`.${CLASS.MESSAGE}`)
+      .should('be.visible')
+      .find('.message-title')
+      .should('have.text', '🔎 검색 결과가 없습니다. 🔎');
   });
 });
 
