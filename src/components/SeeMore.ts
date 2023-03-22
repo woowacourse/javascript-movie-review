@@ -22,7 +22,7 @@ export default class SeeMore extends HTMLElement {
 
   showMoreMovies() {
     if (movies.getIsSearched()) movies.searchMovies(movies.getQuery());
-    else movies.setMovies();
+    else movies.popularMovies();
   }
 
   showButton() {
