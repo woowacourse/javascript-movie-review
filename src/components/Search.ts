@@ -1,5 +1,3 @@
-import { getSearchMovie } from '../api/api';
-
 import { publisher } from '../store/publisher';
 
 import { getFormFields } from '../utils/formData';

@@ -1,7 +1,14 @@
 import { publisher } from '../store/publisher';
-import { Event } from '../utils/index';
+import { $, Event } from '../utils/index';
 
 import { renderMoreSkeletonList } from './MovieList';
+
+export function renderViewMoreButton(isContentEnd: boolean) {
+  if (isContentEnd) {
+    const $viewMoreButton = $('.view-more-button') as HTMLElement;
+    $viewMoreButton.style.display = 'none';
+  }
+}
 
 export function ViewMoreButton(state: publisher) {
   Event.addEvent('click', '.view-more-button', async () => {
