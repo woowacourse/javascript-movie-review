@@ -4,7 +4,7 @@ import "./MovieDetail";
 class MovieModal extends CustomElement {
   template() {
     return `
-      <div class="modal-open">
+      <div class="modal">
         <div class="modal-backdrop"></div> 
         <div class="modal-container">
           <movie-detail></movie-detail>
