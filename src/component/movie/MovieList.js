@@ -13,7 +13,7 @@ class MovieList extends CustomElement {
   template() {
     return `
     <ul class="item-list"></ul>
-    <div class="list-footer"></div>
+    <div class="list-footer" hidden></div>
     `;
   }
 
