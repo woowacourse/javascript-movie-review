@@ -1,5 +1,5 @@
-export interface Movie {
-  poster_path: string;
+export interface MoveItem {
+  src: string;
   title: string;
-  vote_average: number;
+  score: number;
 }

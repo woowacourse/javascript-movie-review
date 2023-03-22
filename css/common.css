@@ -123,7 +123,7 @@ button.primary {
     background-position: 0% 50%;
   }
 }
-header {
+custom-header {
   width: 100%;
   min-width: 1200px;
   height: 72px;
@@ -136,7 +136,7 @@ header {
   margin-bottom: 48px;
 }
 
-header h1 {
+custom-header h1 {
   cursor: pointer;
   user-select: none;
   font-size: 2rem;
@@ -145,22 +145,22 @@ header h1 {
   color: #f33f3f;
 }
 
-header > .search-box {
+custom-header > .search-box {
   background: #fff;
   padding: 8px;
   border-radius: 4px;
 }
 
-header .search-box > input {
+custom-header .search-box > input {
   border: 0;
 }
 
-header .search-input {
+custom-header .search-input {
   border: none;
   border-radius: 4px;
 }
 
-header .search-button {
+custom-header .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;

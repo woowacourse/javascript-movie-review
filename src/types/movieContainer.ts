@@ -1,5 +1,5 @@
-export interface MovieContainerProps {
-  className: string;
-  id: string;
-  query: FormDataEntryValue;
+export interface MovieContainerRenderProps {
+  containerTitle: string;
+  movieList: string;
+  moreButton: string;
 }
