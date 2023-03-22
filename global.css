@@ -29,6 +29,6 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  width: 70vw;
   margin: 0 auto;
 }

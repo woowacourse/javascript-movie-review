@@ -20,7 +20,7 @@ export class Skeleton extends HTMLElement {
   }
 
   moreButtonRemoveSkeleton() {
-    document.querySelector('.item-list .skeleton-list')?.remove();
+    document.querySelector('.skeleton-view')?.remove();
   }
 
   removeSkeleton() {

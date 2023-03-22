@@ -11,9 +11,10 @@
 
   .item-list {
     display: grid;
+    place-items: center;
     margin: 48px 0;
-    grid-template-columns: repeat(4, 180px);
-    grid-column-gap: 160px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-column-gap: 40px;
     grid-row-gap: 48px;
   }
 </style>

@@ -1,9 +1,10 @@
 <style>
   .skeleton-list {
     display: grid;
+    place-items: center;
     margin: 48px 0;
-    grid-template-columns: repeat(4, 180px);
-    grid-column-gap: 160px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-column-gap: 40px;
     grid-row-gap: 48px;
   }
 
@@ -56,187 +57,197 @@
       background-position: 0% 50%;
     }
   }
+
+  .skeleton-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 70vw;
+    margin: 0 auto;
+  }
 </style>
 
-<div class="skeleton-list">
-  <li>
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-    </a>
-  </li>
+<div class="skeleton-view">
+  <div class="skeleton-list">
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>
+  </div>
 </div>
