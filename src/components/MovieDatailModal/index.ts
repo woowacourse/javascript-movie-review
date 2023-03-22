@@ -7,11 +7,11 @@ const MovieDetailModal = {
   template() {
     return `
       <dialog id="movie-detail-modal">
-        <div id="movie-detail-title">
-          <h2></h2>
-          <button id="movie-detail-close">x</button>
-        </div>
-        <div>
+        <div class="modal-backdrop"></div>
+        <button id="movie-detail-close">X</button>
+        <h2 id="movie-detail-title">
+        </h2>
+        <div id="movie-detail-main">
           <img
             class="${CLASS.SKELETON}"
             src=""
@@ -19,11 +19,16 @@ const MovieDetailModal = {
             loading="lazy"
             alt=""
           />
-          <div>
-            <div id="movie-detail-genres"></div>
-            <div id="movie-detail-rate"><img src=${starFilledImage} alt="별점" /><div>
-            <p id="movie-detail-overview"></p>
-            <div>
+          <div id="movie-detail">
+            <div id="movie-detail-text">
+              <div id="movie-detail-genre-rate">
+                <div id="movie-detail-genres"></div>
+                <img src=${starFilledImage} alt="별점" />
+                <div id="movie-detail-rate"></div>
+              </div>
+              <p id="movie-detail-overview"></p>
+            </div>
+            <div id="movie-detail-score">
               <div>내 별점</div>
               <div>
                 <img src=${starFilledImage} alt="별점" />
@@ -44,8 +49,14 @@ const MovieDetailModal = {
     const modal = document.querySelector<HTMLDialogElement>('dialog');
     const title = modal?.querySelector('h2') as HTMLElement;
     title.innerHTML = data.title as string;
+    const overview = modal?.querySelector('#movie-detail-overview') as HTMLElement;
+    if (data.overview === '') {
+      overview.innerHTML = 'overview가 존재하지 않습니다.';
+    } else {
+      overview.innerHTML = data.overview;
+    }
     const poster = modal?.querySelector('img') as HTMLImageElement;
-    poster.src = IMAGE_URL + data.backdrop_path;
+    poster.src = IMAGE_URL + data.poster_path;
     const genres = modal?.querySelector('#movie-detail-genres') as HTMLElement;
     genres.innerHTML = data.genres
       .map((genre: any) => {
@@ -53,14 +64,15 @@ const MovieDetailModal = {
       })
       .join(', ');
     const rate = modal?.querySelector('#movie-detail-rate') as HTMLElement;
-    rate.insertAdjacentText('beforeend', data.vote_average);
-    const overview = modal?.querySelector('#movie-detail-overview') as HTMLElement;
-    overview.innerHTML = data.overview;
+    rate.innerText = data.vote_average.toFixed(1);
 
+    const backdrop = modal?.querySelector('.modal-backdrop') as HTMLElement;
+    backdrop.style.display = 'block';
     modal?.showModal();
 
     const closeButton = document.querySelector('#movie-detail-close') as HTMLElement;
     closeButton.addEventListener('click', () => {
+      backdrop.style.display = 'none';
       modal?.close();
     });
   },
