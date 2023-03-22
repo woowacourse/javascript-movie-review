@@ -13,7 +13,7 @@ type MovieItemConstructorType = {
 class MovieItem {
   private $parentElement;
   private $skeleton;
-  private item!: HTMLElement;
+  private $item!: HTMLElement;
 
   constructor({ parentElement, skeleton, movieInfo }: MovieItemConstructorType) {
     this.$parentElement = parentElement;
@@ -22,29 +22,31 @@ class MovieItem {
     this.replaceSkeletonWhenLoaded();
   }
 
-  private createElement({ title, posterPath, voteAverage }: MovieType) {
+  private createElement({ title, posterPath, id, voteAverage }: MovieType) {
     const imageUrl = posterPath ? `${IMAGE_BASE_URL}${posterPath}` : NO_IMAGE_URL;
 
-    this.item = document.createElement('li');
-    this.item.innerHTML = `
-      <a href="#">
-        <div class="item-card">
-          <img
-            class="item-thumbnail"
-            src="${imageUrl}"
-            alt="${title}"/>
-          <p class="item-title ">${title}</p>
-          <p class="item-score"><img src="./assets/star_filled.png" alt="별점" /> ${voteAverage}</p>
-        </div>
-      </a>`;
+    this.$item = document.createElement('a');
+    this.$item.innerHTML = `
+      <div class="item-card" movie-id="${id}">
+        <img
+          class="item-thumbnail"
+          src="${imageUrl}"
+          alt="${title}"/>
+        <p class="item-title">${title}</p>
+        <p class="item-score"><img src="./assets/star_filled.png" alt="별점" /> ${voteAverage}</p>
+      </div>`;
   }
 
   private replaceSkeletonWhenLoaded() {
-    const $imageElement = $('img', this.item);
+    const $imageElement = $('img', this.$item);
 
     $imageElement.addEventListener('load', () => {
-      this.$parentElement.replaceChild(this.item, this.$skeleton);
+      this.$parentElement.replaceChild(this.$item, this.$skeleton);
     });
+  }
+
+  getItemElement() {
+    return this.$item;
   }
 }
 
