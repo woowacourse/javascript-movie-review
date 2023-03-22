@@ -1,4 +1,4 @@
-import { Movie, MovieDetail } from "../types/movie";
+import { Movie, MovieDetail, Star } from "../types/movie";
 import {
   fetchDetailedMovieData,
   fetchPopularMovieData,
@@ -15,6 +15,7 @@ class MovieList {
     if (!MovieList.instance) {
       MovieList.instance = new MovieList();
     }
+    localStorage.setItem("stars", JSON.stringify([{ id: 315162, count: 3 }]));
 
     return MovieList.instance;
   }
@@ -83,6 +84,23 @@ class MovieList {
     return this.searchKey !== ""
       ? await this.getSearchedMovieData()
       : await this.getPopularMovieData();
+  }
+
+  // addStarCount(starCount: number) {
+  //   const stars = this.getStars();
+  //   localStorage.setItem(
+  //     "stars",
+  //     JSON.stringify([...stars, { id: 677179, starCount: 3 }])
+  //   );
+  // }
+
+  getStars() {
+    const stars = JSON.parse(localStorage.getItem("stars") as string);
+    const star = stars.filter((star: Star) => star.id === this.currentMovieId);
+
+    if (star.length != 0) return star[0].count;
+
+    return 0;
   }
 }
 
