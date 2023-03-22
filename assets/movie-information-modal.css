@@ -1,0 +1,95 @@
+:root {
+  --modal-background-color: #212122;
+  --modal-menu-color: #383839;
+  --modal-backdrop-color: #000000bb;
+  color: white;
+  font-family: 'Pretendard';
+}
+
+.information-modal-wrapper {
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.information-modal-backdrop {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--modal-backdrop-color);
+  backdrop-filter: blur(10px);
+}
+
+.information-modal {
+  display: grid;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 826px;
+  height: 577px;
+  margin: 0 0 auto;
+  background-color: var(--modal-background-color);
+  grid-template-areas:
+    'title title'
+    'poster genre-rating'
+    'poster content'
+    'poster my-rating';
+  grid-template-rows: 60px 80px 347px 90px;
+  grid-template-columns: 356px 470px;
+  border-radius: 10px;
+}
+
+.information-modal-title {
+  grid-area: title;
+  border-bottom: 3px solid var(--modal-menu-color);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 60px;
+  text-align: center;
+}
+
+.information-modal-poster {
+  grid-area: poster;
+  margin: 32px;
+}
+
+.modal-image {
+  width: 100%;
+}
+
+.information-modal-content {
+  grid-area: content;
+  margin: 0 32px 32px 0;
+  font-size: 20px;
+  line-height: 150%;
+  overflow: auto;
+}
+
+.information-modal-genre-rating,
+.information-modal-my-rating {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 20px;
+}
+
+.information-modal-genre-rating {
+  grid-area: genre-rating;
+  margin: 32px 32px 10px 0;
+}
+
+.information-modal-my-rating {
+  grid-area: my-rating;
+  margin: 0 32px 32px 0;
+  background-color: var(--modal-menu-color);
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.rating-title {
+  font-weight: 600;
+}
+
+.modal-text {
+  font-weight: 200;
+}
