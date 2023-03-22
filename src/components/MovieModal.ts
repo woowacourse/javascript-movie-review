@@ -6,10 +6,12 @@ import handleImageLoadError from '../libs/handleImageLoadError';
 class MovieModal {
   private _node!: HTMLElement;
   private movieDetail: MovieDetail | null = null;
+  private body = document.querySelector('body') as HTMLBodyElement;
 
   constructor() {
     this.createTemplate();
-    this.toggleBodyOverflow();
+    this.initEventListener();
+    this.body.classList.add('overflow-hidden');
   }
 
   get node(): HTMLElement {
@@ -56,13 +58,13 @@ class MovieModal {
     );
   }
 
-  toggleBodyOverflow() {
-    const $body = document.querySelector('body');
+  // toggleBodyOverflow() {
+  //   const $body = document.querySelector('body');
 
-    if (!$body) return;
+  //   if (!$body) return;
 
-    $body.classList.toggle('overflow-hidden');
-  }
+  //   $body.classList.toggle('overflow-hidden');
+  // }
 
   updateMovieDetail(movieDetail: MovieDetail) {
     this.movieDetail = movieDetail;
@@ -140,6 +142,23 @@ class MovieModal {
     $thumbnail.alt = `${this.movieDetail.title}`;
 
     return $thumbnail;
+  }
+
+  closeModal() {
+    this.body.classList.remove('overflow-hidden');
+    this._node.dispatchEvent(new CustomEvent('closeMovieModal', { bubbles: true }));
+  }
+
+  initEventListener() {
+    const $backButton = this._node.querySelector('.back-button');
+
+    if (!$backButton) return;
+
+    window.addEventListener('keydown', (event: KeyboardEvent) => {
+      if (event.key === 'Backspace' || event.key === 'Escape') this.closeModal();
+    });
+
+    $backButton.addEventListener('click', this.closeModal.bind(this));
   }
 }
 
