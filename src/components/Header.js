@@ -43,7 +43,7 @@ class Header {
   }
 
   template() {
-    return `<h1><img id="logo" src="${logo}" alt="MovieList 로고" data-type="logo" /></h1>
+    return `<h1><img id="logo" src="${logo}" alt="MovieList 로고" /></h1>
       <form class="search-box">
         <input type="text" placeholder="검색" class="search-input" />
         <button data-type="search" class="search-button">검색</button>
