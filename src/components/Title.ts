@@ -3,13 +3,10 @@ import Component from './core/Component';
 export default class Title extends Component {
   $target;
 
-  state;
-
   constructor($target: HTMLElement) {
     super();
 
     this.$target = $target;
-    this.state = this.useState();
   }
 
   getTitle() {
