@@ -74,10 +74,13 @@ button {
 .item-score {
   margin-top: 16px;
   font-size: 1.2rem;
+  display: flex;
+  align-items: center;
 }
 
-.item-score::after {
+.item-score img {
   margin-left: 8px;
+  padding-bottom: 4px;
 }
 
 .item-title.skeleton::after,
@@ -145,20 +148,24 @@ header h1 {
   color: #f33f3f;
 }
 
-header > .search-box {
+.search-box {
   background: #fff;
   padding: 8px;
   border-radius: 4px;
 }
 
-header .search-box > input {
+.search-box > input {
   border: 0;
 }
 
-header .search-box > .search-button {
+.search-box > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
   background: url("./search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+.none {
+  display: none;
 }
