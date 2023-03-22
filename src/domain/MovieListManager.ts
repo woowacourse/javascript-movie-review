@@ -1,4 +1,4 @@
-import MovieInfo from "../type/MovieSummary";
+import MovieInfo from "../type/MovieInfo";
 import Storage from "../type/Storage";
 import makeMovieSummary from "./makeMovieSummary";
 

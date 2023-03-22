@@ -1,4 +1,4 @@
-import MovieSummary from "../type/MovieSummary";
+import MovieSummary from "../type/MovieInfo";
 import { $ } from "../util/querySelector";
 
 const movieTemplate = (() => {
@@ -48,7 +48,7 @@ class MovieSummaryItem {
     this.element.addEventListener('click', () => {
       this.element.dispatchEvent(new CustomEvent('summaryClick', {
         bubbles: true,
-        detail: { id: this.info.id },
+        detail: { info: this.info },
       }));
     });
   }

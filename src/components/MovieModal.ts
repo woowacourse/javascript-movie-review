@@ -1,3 +1,4 @@
+import MovieSummary from "../type/MovieInfo";
 import { $ } from "../util/querySelector";
 
 const modalTemplate = `
@@ -26,9 +27,8 @@ class MovieModal {
     this.addCloseEvent();
   }
 
-  render(id?: number) {
-    if (id) $('h1', this.element).textContent = id.toString();
-
+  render(info?: MovieSummary) {
+    if (info) $('h1', this.element).textContent = info.genreList.join(', ');
     return this.element;
   }
 
@@ -45,8 +45,8 @@ class MovieModal {
   }
 
   catchMovieIdEvent(event: CustomEvent) {
-    if (!event.detail.id) throw new Error('[ERROR] 이벤트 detail에 id가 없습니다');
-    this.render(event.detail.id);
+    if (!event.detail.info) throw new Error('[ERROR] 이벤트 detail에 id가 없습니다');
+    this.render(event.detail.info);
     this.open();
   }
 
