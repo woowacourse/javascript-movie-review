@@ -1,9 +1,9 @@
 import { Movies } from "../../domain/Movies";
-import { Movie, MovieResponse } from "../../types";
+import { MovieResponse } from "../../types";
 import { fetchPopularMovies, fetchSearchMovies } from "../../utils/api";
-import starImg from "../../../templates/star_filled.png";
 import { $ } from "../../utils/selector";
 import { getSkeletonContainer } from "../../utils/skeleton";
+import { MovieCard } from "../MovieCard";
 
 type showType = "popular" | "search";
 
@@ -44,47 +44,6 @@ class MovieList {
     this.renderMovieList(total_pages);
   }
 
-  renderMovieList(total_pages: number) {
-    this.#$target.innerHTML = `
-      ${this.#movies
-        .getList()
-        .map((movie) => this.getMovieCardTemplate(movie))
-        .join("")}
-    `;
-
-    if (this.#state.page === total_pages) this.hideMoreButton();
-  }
-
-  getMovieCardTemplate(movie: Movie) {
-    return /*html*/ `
-      <li>
-        <a href="#">
-          <div class="item-card">
-            <img
-              class="item-thumbnail"
-              src="https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}"
-              loading="lazy"
-              alt="${movie.title}"
-            />
-            <p class="item-title">${movie.title}</p>
-            <p class="item-score"><img src="${starImg}" alt="별점" />${movie.vote_average}</p>
-          </div>
-        </a>
-      </li>
-    `;
-  }
-
-  renderAddedMovie(movieList: MovieResponse[], total_pages: number) {
-    this.#$target.removeChild(this.#$skeletonContainer);
-
-    this.#$target.innerHTML += `
-        ${movieList.map((movie) => this.getMovieCardTemplate(movie)).join("")}
-    `;
-    this.#movies.add(movieList);
-
-    if (this.#state.page === total_pages) this.hideMoreButton();
-  }
-
   async reset(state: showType, searchKeyword?: string) {
     this.#$target.innerHTML = ``;
 
@@ -116,6 +75,28 @@ class MovieList {
     }
   }
 
+  renderMovieList(total_pages: number) {
+    this.#$target.innerHTML = `
+      ${this.#movies
+        .getList()
+        .map((movie) => MovieCard.render(movie))
+        .join("")}
+    `;
+
+    if (this.#state.page === total_pages) this.hideMoreButton();
+  }
+
+  renderNextMovies(movieList: MovieResponse[], total_pages: number) {
+    this.#$target.removeChild(this.#$skeletonContainer);
+
+    this.#$target.innerHTML += `
+        ${movieList.map((movie) => MovieCard.render(movie)).join("")}
+    `;
+    this.#movies.add(movieList);
+
+    if (this.#state.page === total_pages) this.hideMoreButton();
+  }
+
   async onClickMoreButton() {
     this.#state.page += 1;
     this.renderSkeleton();
@@ -123,7 +104,7 @@ class MovieList {
     if (this.#state.show === "popular") {
       const response = await fetchPopularMovies(this.#state.page);
       const { results, total_pages } = response;
-      this.renderAddedMovie(results, total_pages);
+      this.renderNextMovies(results, total_pages);
     }
 
     if (this.#state.show === "search") {
@@ -132,7 +113,7 @@ class MovieList {
         this.#state.searchKeyword
       );
       const { results, total_pages } = response;
-      this.renderAddedMovie(results, total_pages);
+      this.renderNextMovies(results, total_pages);
     }
   }
 
