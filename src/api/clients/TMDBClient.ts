@@ -34,6 +34,7 @@ export class TMDBClient extends HttpClient<TMDBAPISpec> implements MoviesAPI {
       title: movie.title,
       voteAverage: movie.vote_average,
       posterPath: movie.poster_path,
+      overview: movie.overview,
     };
   }
 

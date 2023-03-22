@@ -1,6 +1,7 @@
 import { Movie } from '../domain/movie.type';
 import { OfPromise, Subject } from '../states/Subject';
 import { $context } from '../utils/selector';
+import { MovieDetailDialog } from './MovieDetailDialog';
 
 class MovieListItem {
   private readonly $root = document.createElement('li');
@@ -38,8 +39,8 @@ class MovieListItem {
   }
 
   onFulfilled(movie: Movie) {
-    this.$root.setAttribute('id', movie.id);
-    this.$('a').setAttribute('href', `#${movie.id}`);
+    // this.$root.setAttribute('id', movie.id);
+    // this.$('a').setAttribute('href', `#${movie.id}`);
 
     this.$('.item-thumbnail').innerHTML = `
       <img
@@ -58,6 +59,13 @@ class MovieListItem {
       <img src="assets/star_filled.png" alt="별점" />
       <span>${movie.voteAverage}</span>
     `.trim();
+
+    this.$('a').addEventListener('click', (event) => {
+      event.preventDefault();
+      const movieSubject = new Subject<Movie>();
+      movieSubject.next(movie);
+      new MovieDetailDialog(movieSubject).open();
+    });
   }
 }
 

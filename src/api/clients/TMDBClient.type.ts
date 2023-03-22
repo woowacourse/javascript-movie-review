@@ -13,6 +13,7 @@ export type TMDBMovie = {
   title: string;
   vote_average: number;
   poster_path: string;
+  overview: string;
 };
 
 export type TMDBErrorResponse<Status extends HTTPStatus = 400> = HTTPResponse<

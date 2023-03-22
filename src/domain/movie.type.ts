@@ -3,4 +3,5 @@ export type Movie = {
   title: string;
   voteAverage: number;
   posterPath: string;
+  overview: string;
 };
