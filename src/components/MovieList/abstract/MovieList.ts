@@ -6,13 +6,10 @@ import { makeURL, makeParams, getApiData } from './../../../utils/apiHelper';
 export default abstract class MovieList extends Component {
   $target;
 
-  state;
-
   constructor($target: HTMLElement) {
     super();
 
     this.$target = $target;
-    this.state = this.useState();
   }
 
   async getMoviesData(
