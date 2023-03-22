@@ -31,7 +31,7 @@ class MovieSummaryItem {
     const { posterPath, title, voteAverage } = this.info;
 
     $('.item-title', this.element).textContent = title;
-    $('.item-score', this.element).insertAdjacentHTML('beforeend', voteAverage.toString());
+    $('.item-score', this.element).insertAdjacentHTML('beforeend', voteAverage.toFixed(1).toString());
 
     const skeletonImage = $('.skeleton', this.element);
     const posterImage = document.createElement('img');
