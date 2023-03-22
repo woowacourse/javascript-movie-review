@@ -15,7 +15,7 @@ const LoadMoreButton = {
     const button = $<HTMLButtonElement>(`#${ID.LOAD_MORE_BUTTON}`);
 
     button.addEventListener('click', () => {
-      MovieCardSection.render(movies, getMovies);
+      MovieCardSection.render(movies, getMovies, movies.getQuery());
     });
   },
 

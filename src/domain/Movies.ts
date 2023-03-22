@@ -17,6 +17,10 @@ class Movies {
     return this.#page;
   }
 
+  getQuery() {
+    return this.#query;
+  }
+
   add(movies: AppMovie[]) {
     this.#movies = [...this.#movies, ...movies];
   }
