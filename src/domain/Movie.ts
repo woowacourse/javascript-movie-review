@@ -1,4 +1,5 @@
 import { fetchData } from '../http';
+
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 interface PopularMovieProps {
