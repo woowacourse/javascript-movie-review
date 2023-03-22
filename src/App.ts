@@ -1,5 +1,10 @@
 import MovieCardList from "./components/MovieCardList";
-import { TOGGLE_SKELETON, LIST_STATE, LIST_HEADING } from "./constant/setting";
+import {
+  TOGGLE_SKELETON,
+  LIST_STATE,
+  LIST_HEADING,
+  MAX_MOVIE_QUANTITY_PER_PAGE,
+} from "./constant/setting";
 import { $ } from "./utils/Dom";
 import { getPopularMovies, getSearchedMovies } from "./utils/fetch";
 import { requestLocalStorage } from "./utils/localstorage";
@@ -32,19 +37,25 @@ export default class App {
 
   render() {
     const itemView = $(".item-view");
-    const { listState, movieList, movieName } = this.#state;
+    const { listState, movieName } = this.#state;
 
     if (itemView instanceof HTMLElement)
       itemView.innerHTML = `
     <card-list header='${LIST_HEADING(listState, movieName)}'></card-list>
-    <more-button length='${movieList.length}'></more-button>
     `;
   }
 
   setEvent() {
-    document.addEventListener("click-more-button", () => {
-      this.toggleSkeletonList(TOGGLE_SKELETON.SHOW);
-      this.appendMovieList();
+    window.addEventListener("scroll", () => {
+      if (this.#state.movieList.length < MAX_MOVIE_QUANTITY_PER_PAGE) return;
+      const scrollPosition = window.pageYOffset + window.innerHeight;
+      const documentHeight = document.body.offsetHeight - 0.5;
+
+      if (scrollPosition >= documentHeight) {
+        this.toggleSkeletonList(TOGGLE_SKELETON.SHOW);
+        this.appendMovieList();
+        console.log(this.#state.page);
+      }
     });
 
     document.addEventListener(

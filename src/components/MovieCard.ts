@@ -48,7 +48,8 @@ export default class MovieCard extends HTMLElement {
       this.keepSkeletonWhileImageLoading($moiveImage);
     });
 
-    this.addEventListener("click", () => {
+    this.addEventListener("click", (event) => {
+      event.preventDefault();
       const $modal = $("movie-modal");
 
       if (this.movieTitle && this.movieId) {
