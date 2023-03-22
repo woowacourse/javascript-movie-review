@@ -19,6 +19,7 @@ export default class App {
     this.render();
     this.toggleSkeletonList();
     await this.addMovieList();
+    this.toggleSkeletonList();
     this.mountMovieList();
   }
 
