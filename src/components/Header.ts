@@ -5,16 +5,23 @@ import MovieSearchList from './MovieList/MovieSearchList';
 import { MOVIE_APP_IMG_PATH } from '../constant/index';
 import { $ } from '../utils/domHelper';
 
+type HeaderProps = {
+  $target: HTMLElement;
+  components: {
+    search: MovieSearchList;
+  };
+};
+
 export default class Header extends Component {
   $target;
 
-  state;
+  components;
 
-  constructor($target: HTMLElement) {
+  constructor({ $target, components }: HeaderProps) {
     super();
 
     this.$target = $target;
-    this.state = this.useState();
+    this.components = components;
   }
 
   template() {
@@ -40,7 +47,7 @@ export default class Header extends Component {
 
     $('.item-list').innerHTML = '';
 
-    new MovieSearchList($('.item-list')).emit(searchMovie.value);
+    this.components.search.emit(searchMovie.value);
   }
 
   setEvent() {
