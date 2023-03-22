@@ -50,6 +50,12 @@ export default class App {
       this.#page = 1;
       this.#movieList = [];
       this.#movieName = event.detail;
+
+      if (event.detail === "") {
+        this.#listState = LIST_STATE.POPULAR;
+        this.initRender();
+      }
+
       this.renderSearchedMovies(event.detail);
     });
 
