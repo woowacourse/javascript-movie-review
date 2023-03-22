@@ -43,6 +43,14 @@ button {
   user-select: none;
 }
 
+.alert-message {
+  margin: 24px auto;
+
+  font-size: 24px;
+  font-weight: 600;
+  color: #aaa;
+}
+
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .item-list {
@@ -83,7 +91,7 @@ button {
 .item-title.skeleton::after,
 .item-score.skeleton::after {
   font-size: 0;
-  content: "loading";
+  content: 'loading';
 }
 
 .full-width {
@@ -103,6 +111,10 @@ button.btn {
 
 button.primary {
   background: #f33f3f;
+}
+
+.hidden {
+  display: none;
 }
 
 .item-card .skeleton {
@@ -159,6 +171,18 @@ header .search-box > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
-  background: url("./search_button.png") transparent no-repeat 0 1px;
+  background: url('./search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+.no-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: white;
+
+  color: black;
+  font-weight: 600;
+  font-size: 24px;
 }
