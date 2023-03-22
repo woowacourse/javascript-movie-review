@@ -65,8 +65,4 @@ function updateUserVoteStars(updatedUserVoteCount: number) {
   });
 }
 
-// function updateStar(starIndex: number) {
-
-// }
-
 export { renderUserVote, renderVoteAverage, updateUserVoteStars, userVoteStarsTemplate };
