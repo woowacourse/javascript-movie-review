@@ -34,6 +34,8 @@ class MovieListContainer extends HTMLElement {
     });
 
     $("movie-list")?.addEventListener("click", (event) => {
+      event.preventDefault();
+
       const target = <HTMLElement>event.target;
       const id = target.closest<HTMLElement>("movie-item")?.id;
 
