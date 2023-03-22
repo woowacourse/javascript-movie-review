@@ -20,7 +20,7 @@ export interface MovieItem {
   title: string;
   src: string;
   starRate: number;
-  genres: string[];
+  genres: string;
   description: string;
 }
 

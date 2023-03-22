@@ -65,7 +65,7 @@ class Movie {
         title: title,
         src: imgSrc,
         starRate: Number(vote_average.toFixed(1)),
-        genres: GenreMatcher.convert(genre_ids),
+        genres: GenreMatcher.convert(genre_ids).join(", "),
         description: overview,
       };
     });
