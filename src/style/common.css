@@ -63,6 +63,7 @@ button {
   width: 180px;
   height: 270px;
   background-size: contain;
+  background-color: #aaa;
 }
 
 .item-title {
@@ -78,6 +79,11 @@ button {
 
 .item-score::after {
   margin-left: 8px;
+}
+
+.item-vote-average {
+  margin-left: 5px;
+  vertical-align: 25%;
 }
 
 .item-title.skeleton::after,
@@ -159,6 +165,6 @@ header .search-box > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
-  background: url('./search_button.png') transparent no-repeat 0 1px;
+  background: url('../assets/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
 }

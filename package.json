@@ -2,6 +2,7 @@
   "name": "javascript-movie-review",
   "version": "1.0.0",
   "description": "우아한테크코스 레벨1 영화관 미션 저장소",
+  "homepage": "https://yogjin.github.io/javascript-movie-review",
   "main": "src/index.js",
   "private": "true",
   "scripts": {
@@ -9,6 +10,7 @@
     "watch": "webpack --watch",
     "start": "webpack serve",
     "build": "webpack --mode=development",
+    "deploy": "gh-pages -d dist",
     "test-unit": "jest",
     "test-e2e": "cypress open"
   },
@@ -36,6 +38,7 @@
     "cypress": "^12.3.0",
     "dotenv-webpack": "^8.0.1",
     "eslint": "^8.35.0",
+    "gh-pages": "^5.0.0",
     "html-webpack-plugin": "^5.5.0",
     "jest": "^29.3.1",
     "jest-environment-jsdom": "^29.5.0",
