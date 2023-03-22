@@ -1,7 +1,7 @@
-import { notify } from './Observer';
-import { StateType } from './Store';
+import { notify } from '../atoms/Observer';
+import { StateType } from '../atoms/Store';
 
-export const useObserverState = (observerState: StateType) => {
+export const useStateHook = (observerState: StateType) => {
   return {
     getValue: <T extends keyof StateType>(key: T): StateType[T] => {
       return observerState[key];
