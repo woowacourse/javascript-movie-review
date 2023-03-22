@@ -12,6 +12,10 @@ export default class MoviePopularList extends MovieList {
   async getPopularMovies() {
     if (this.state.getValue('isSearched')) return;
 
+    this.state.setValue('isLoading', true);
+    this.state.setValue('movies', []);
+    this.state.emit();
+
     const movieData = await this.getMoviesData('movie/popular', 'popularPage');
     const currentPage = this.getCurrentPage('popularPage');
 
@@ -19,13 +23,10 @@ export default class MoviePopularList extends MovieList {
     this.state.setValue('isEnd', movieData.total_page === currentPage);
     this.state.setValue('popularPage', currentPage + 1);
     this.state.setValue('isLoading', false);
-
     this.state.emit();
   }
 
   emit() {
     this.getPopularMovies();
   }
-
-  render(): void {}
 }
