@@ -396,3 +396,7 @@ dialog::backdrop {
 .hide {
   display: none;
 }
+
+.secondary-text {
+  color: #757575 !important;
+}

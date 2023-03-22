@@ -96,26 +96,15 @@ class MovieInformationContent {
     this.voteAverage.insertAdjacentHTML('beforeend', template);
   }
 
-  private getUserVoteMessage(userVote: number) {
-    return USER_VOTE_MESSAGE[userVote];
-  }
-
-  private renderUserVote(userVote: number) {
-    const userVoteCount = userVote / 2;
-
-    this.userVoteStars.replaceChildren();
-    this.userVoteStars.insertAdjacentHTML(
-      'beforeend',
-      this.userVoteStarsTemplate('user-vote-star', userVoteCount)
-    );
-
-    this.voteComment.textContent = this.getUserVoteMessage(userVote);
-
-    this.voteInfo.textContent = `(${userVote}/10)`;
-  }
-
   private renderOverview(overviewText: string) {
-    this.overview.textContent = overviewText ? overviewText : '이 영화는 줄거리가 없습니다.';
+    if (overviewText) {
+      this.overview.textContent = overviewText;
+      this.overview.classList.remove('secondary-text');
+      return;
+    }
+
+    this.overview.textContent = '이 영화는 줄거리가 없습니다.';
+    this.overview.classList.add('secondary-text');
   }
 
   render(movie: Movie) {
