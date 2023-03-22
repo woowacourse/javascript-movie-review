@@ -47,8 +47,19 @@ class MovieItemModal extends CustomElement {
     `;
   }
 
+  setEvent() {
+    this.close();
+  }
+
   popUp(movieInfo) {
     this.insertAdjacentHTML("beforeend", this.template(movieInfo));
+    this.setEvent();
+  }
+
+  close() {
+    $(".item-modal-close-button").addEventListener("click", () => {
+      this.replaceChildren();
+    });
   }
 }
 
