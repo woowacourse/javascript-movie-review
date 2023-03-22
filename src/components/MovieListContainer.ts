@@ -14,7 +14,7 @@ class MovieListContainer {
     this.init();
     this.listContainer = $<HTMLDivElement>('.item-view');
     this.itemList = $<HTMLUListElement>('.item-list');
-    this.addEventListenerToMoreButton();
+    this.addEventListenerToScroll();
     this.addEventListenerToMovieItems();
     this.addBrowserBackButtonEventListener();
   }
@@ -43,12 +43,12 @@ class MovieListContainer {
     MovieList.on(MOVIE_LIST_LOADED, this.enableScroll.bind(this));
   }
 
-  private addEventListenerToMoreButton() {
+  private addEventListenerToScroll() {
     window.addEventListener('scroll', () => {
+      if (!this.shouldScroll) return;
+
       const endOfPage =
         window.innerHeight + window.scrollY + SCROLL_OFFSET >= document.body.offsetHeight;
-
-      if (!this.shouldScroll) return;
 
       if (endOfPage) {
         MovieList.getMovieData();
