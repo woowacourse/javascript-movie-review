@@ -1,0 +1,84 @@
+import { MovieInfoType, TotalMovieInfoType } from "../@types/movieDataType";
+import { $ } from "../utils/selector";
+
+export class MovieDatail {
+  private _title: string;
+  private _genre: number[];
+  private _overView: string;
+  private _posterPath: string;
+  private _voteAverage: number;
+
+  constructor({
+    genre_ids,
+    overview,
+    poster_path,
+    title,
+    vote_average,
+  }: TotalMovieInfoType) {
+    this._title = title;
+    this._genre = genre_ids;
+    this._overView = overview;
+    this._posterPath = poster_path;
+    this._voteAverage = vote_average;
+    this.render();
+    this.close();
+  }
+
+  create() {
+    return `
+        <div class="modal-bg"></div>
+        <section class="modal">
+          <header class="modal__header">
+            <h3 class="modal__title">${this._title}</h3>
+            <div class="modal__close-btn">❌</div>
+          </header>
+          <main class="modal__main">
+            <article class="modal__poster">
+              <img class="modal__poster-img" src="https://image.tmdb.org/t/p/w220_and_h330_face${
+                this._posterPath
+              }" alt=${this._title} />
+            </article>
+            <article class="modal__info">
+              <div class="modal__info-title-wrapper">
+                <h4 class="modal__genre">${this._genre.join("")}</h4>
+                <img class="star" src="/star_filled.png" />
+                <strong class="modal__score">${this._voteAverage}</strong>
+              </div>
+              <div class="modal__description">
+                ${this._overView}
+              </div>
+              <section class="score">
+                <strong class="my-score">내 별점</strong>
+                <div class="score__img-wrapper">
+                  <img src="/star_filled.png" />
+                  <img src="/star_filled.png" />
+                  <img src="/star_filled.png" />
+                  <img src="/star_filled.png" />
+                  <img src="/star_filled.png" />
+                </div>
+                <strong class="score__count">6</strong>
+                <strong class="score__comment">보통이에요</strong>
+              </section>
+            </article>
+          </main>
+        </section>
+        `;
+  }
+
+  render() {
+    const body = $("body") as HTMLBodyElement;
+    body.insertAdjacentHTML("afterbegin", this.create());
+  }
+
+  remove() {
+    const detailModal = $(".modal") as HTMLElement;
+    const modalBg = $(".modal-bg") as HTMLElement;
+    detailModal.remove();
+    modalBg.remove();
+  }
+
+  close() {
+    const closeButton = $(".modal__close-btn") as HTMLElement;
+    closeButton.addEventListener("click", this.remove);
+  }
+}
