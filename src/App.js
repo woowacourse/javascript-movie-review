@@ -54,10 +54,9 @@ export default class App {
       if (event.detail === "") {
         this.#listState = LIST_STATE.POPULAR;
         this.initRender();
-        return;
+      } else {
+        this.renderSearchedMovies(event.detail);
       }
-
-      this.renderSearchedMovies(event.detail);
     });
 
     document.addEventListener("click-home-button", () => {
