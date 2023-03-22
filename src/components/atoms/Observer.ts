@@ -1,8 +1,8 @@
 import { state, StateType } from './Store';
 
-export const subscribeStateInfo = new Set<() => void>();
+export const subscribeStateInfo = new Set<VoidFunction>();
 
-const subscribe = (fn: () => void) => {
+const subscribe = (fn: VoidFunction) => {
   if (!subscribeStateInfo.has(fn)) {
     subscribeStateInfo.add(fn);
   }
@@ -15,7 +15,7 @@ export const notify = () => {
 };
 
 const observerState = (state: StateType) => {
-  return (fn: () => void) => {
+  return (fn: VoidFunction) => {
     return new Proxy(state, {
       get(target: StateType, prop: keyof StateType) {
         subscribe(fn);
