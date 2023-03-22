@@ -1,8 +1,6 @@
 import MovieHandler from '../domain/MovieHandler';
 import { Movie } from '../type/Movie';
 
-const BASE_URL = 'https://api.themoviedb.org/3';
-
 export interface MovieAPIMetadata {
   page: number;
   results: MovieAPIData[];
@@ -45,12 +43,18 @@ export interface FailedFetchingData {
   errorCode: number;
   errorMessage: string;
 }
+
+const SCHEME = 'https';
+const HOST = 'api.themoviedb.org';
+const PATHS = { POPULAR: '/3/movie/popular', SEARCH: '/3/search/movie' };
+const QUERY = (page: number, searchQuery?: string) =>
+  `api_key=${process.env.API_KEY}&language=ko-KR&page=${page}` + (searchQuery ? `&query=${searchQuery}` : '');
+
 export const popularMovieDataFetchFuncGenerator = () => {
   let currentPage = 1;
 
   const getPopularMovieData = async () => {
-    const url = `
-    ${BASE_URL}/movie/popular?api_key=${process.env.API_KEY}&language=ko-KR&page=${currentPage}`;
+    const url = `${SCHEME}://${HOST}/${PATHS.POPULAR}?${QUERY(currentPage)}`;
 
     const response = await fetch(url);
 
@@ -85,8 +89,7 @@ export const searchedMovieDataFetchFuncGenerator = (query: string) => {
   let currentPage = 1;
 
   const getSearchedMovieData = async () => {
-    const url = `
-    ${BASE_URL}/search/movie?api_key=${process.env.API_KEY}&language=ko-KR&page=${currentPage}&query=${query}`;
+    const url = `${SCHEME}://${HOST}/${PATHS.SEARCH}?${QUERY(currentPage, query)}`;
 
     const response = await fetch(url);
 
