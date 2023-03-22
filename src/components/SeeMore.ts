@@ -1,28 +1,32 @@
 import Component from './core/Component';
+import MovieListContainer from './MovieList/MovieListContainer';
+
+type SeeMoreProps = {
+  $target: HTMLElement;
+  components: {
+    movieList: MovieListContainer;
+  };
+};
 
 export default class SeeMore extends Component {
   $target;
 
-  state;
+  components;
 
-  constructor($target: HTMLElement) {
+  constructor({ $target, components }: SeeMoreProps) {
     super();
+
     this.$target = $target;
-
-    this.state = this.useState();
-  }
-
-  showMoreMovies(renderMovieList: () => void) {
-    renderMovieList();
+    this.components = components;
   }
 
   showButton() {
     if (this.state.getValue('isEnd')) {
-      this.$target.classList.add('button--hidden');
+      this.$target.classList.add('hide');
       return;
     }
 
-    this.$target.classList.remove('button--hidden');
+    this.$target.classList.remove('hide');
   }
 
   template() {
@@ -33,12 +37,14 @@ export default class SeeMore extends Component {
     this.showButton();
 
     this.$target.innerHTML = this.template();
+
+    return this;
   }
 
-  setEvent(renderMovieList: () => void) {
+  setEvent() {
     this.$target.addEventListener('click', () => {
       if (this.$target instanceof HTMLButtonElement) {
-        this.showMoreMovies(renderMovieList);
+        this.components.movieList.fetchData();
       }
     });
   }
