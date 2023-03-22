@@ -7,8 +7,7 @@ import { $, Event } from '../utils/index';
 import { renderSearchMovieList } from './MovieList';
 
 export function Search(state: publisher) {
-  const { page, keyword, isPopular } = state;
-  console.log(page, keyword, isPopular);
+  const { isPopular } = state;
 
   Event.addEvent('submit', '.search-box', async (event) => {
     event.preventDefault();
@@ -26,7 +25,7 @@ export function Search(state: publisher) {
     const {
       values: { results },
     } = await useSearchedMovie(searchedKeyword, state.page);
-    console.log(results);
+
     renderSearchMovieList(results, state);
   });
 

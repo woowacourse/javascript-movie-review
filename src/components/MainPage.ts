@@ -5,8 +5,6 @@ import { ViewMoreButton } from './ViewMoreButton';
 import { publisher } from '../store/publisher';
 
 export function MainPage(state: publisher) {
-  console.log(state);
-
   return `
     <section class="item-view">
         ${PageTitle()}
