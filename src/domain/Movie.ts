@@ -55,10 +55,15 @@ class Movie {
       const { id, title, poster_path, vote_average, genre_ids, overview } =
         result;
 
+      const imgSrc =
+        poster_path === "null"
+          ? "./image/no_image.jpg"
+          : `https://image.tmdb.org/t/p/w220_and_h330_face${poster_path}`;
+
       return {
         id: id,
         title: title,
-        src: poster_path,
+        src: imgSrc,
         starRate: Number(vote_average.toFixed(1)),
         genres: GenreMatcher.convert(genre_ids),
         description: overview,

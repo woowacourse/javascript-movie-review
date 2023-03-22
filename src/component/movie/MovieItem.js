@@ -6,17 +6,12 @@ class MovieItem extends CustomElement {
     const src = this.getAttribute("src");
     const voteAverage = this.getAttribute("vote_average");
 
-    const imgSrc =
-      src === "null"
-        ? "./image/no_image.jpg"
-        : `https://image.tmdb.org/t/p/w220_and_h330_face${src}`;
-
     return `
         <div class="item-card">
           <img
             class="item-thumbnail"
             loading="lazy"
-            src= ${imgSrc}
+            src= ${src}
             alt=${title}
           />
           <p class="item-title">${title}</p>

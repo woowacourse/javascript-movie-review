@@ -10,11 +10,6 @@ class MovieItemModal extends CustomElement {
   template(movieInfo) {
     const { title, starRate, src, id, genres, description } = movieInfo;
 
-    const imgSrc =
-      src === "null"
-        ? "./image/no_image.jpg"
-        : `https://image.tmdb.org/t/p/w220_and_h330_face${src}`;
-
     return `
     <div class="item-modal-container" id=${id}>
       <div class="backdrop"></div>
@@ -23,7 +18,7 @@ class MovieItemModal extends CustomElement {
         <button class="item-modal-close-button button" type="button">X</button>
       </div>
       <div class="item-modal-content">
-        <img class="item-modal-thumbnail" src=${imgSrc} alt=${title} />
+        <img class="item-modal-thumbnail" src=${src} alt=${title} />
         <div class="item-modal-detail">
           <div class="item-modal-genre">${genres.join(
             " "
