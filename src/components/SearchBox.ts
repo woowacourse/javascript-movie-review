@@ -48,7 +48,6 @@ class SearchBox implements Component {
     return (event: KeyboardEvent) => {
       if (event.key !== 'Enter') return;
 
-      // TODO: 반복 제거
       if (enabled.value) {
         enabled.value = false;
         this.dispatchSearchEvent(this.searchInput.value);
@@ -62,7 +61,6 @@ class SearchBox implements Component {
 
   #handleClickSearch(enabled: { value: boolean }) {
     return () => {
-      // TODO: 반복 제거
       if (enabled.value) {
         enabled.value = false;
         this.dispatchSearchEvent(this.searchInput.value);
