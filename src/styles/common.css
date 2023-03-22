@@ -61,6 +61,8 @@ main {
   justify-content: center;
   align-items: center;
   flex-grow: 1;
+
+  padding: 48px 0;
 }
 
 .item-list-layout > h1 {
@@ -72,16 +74,15 @@ main {
 
 .item-list {
   display: grid;
-  flex-grow: 1;
-  margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
   grid-column-gap: 160px;
-  grid-row-gap: 48px;
 }
 
 .item--movie,
 .item--skeleton {
   height: 370px;
+
+  margin: 24px 0;
 }
 
 .item-card {
