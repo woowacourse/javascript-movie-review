@@ -42,6 +42,7 @@ export default class MovieListComponent extends CustomComponent {
               .map((movieItem) => {
                 return `
                   <movie-item
+                    id="${movieItem.id}"
                     title="${movieItem.title}"
                     poster_path="${movieItem.poster_path}"
                     genre_ids="${movieItem.genre_ids}"

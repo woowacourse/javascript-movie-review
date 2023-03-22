@@ -253,8 +253,8 @@ movie-item .item-thumbnail {
 }
 
 movie-item:hover .item-thumbnail {
-  /* box-shadow: 0px 14px 24px hsla(0, 0%, 42%, 0.565); */
-  transform: translateY(-5px);
+  box-shadow: 0px 14px 24px #f33f3f1c;
+  transform: translateY(-10px);
 }
 
 movie-item,
@@ -430,6 +430,19 @@ movie-modal {
   height: 100%;
 }
 
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  background-color: #212122;
+}
+
+::-webkit-scrollbar-thumb {
+  height: 5px;
+  background: #cecece;
+
+  border-radius: 4px;
+}
+
 .movie-modal-description > p {
   font-family: "Roboto";
   font-style: normal;
@@ -443,16 +456,21 @@ movie-modal {
 .movie-modal-vote {
   margin-top: 32px;
   width: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: space-evenly;
   height: 64px;
   background: #383839;
   border-radius: 16px;
 }
 
-.movie-modal-vote > h2 {
+select-vote-score {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+select-vote-score > h2 {
   font-family: "Roboto";
   font-style: normal;
   font-weight: 700;
@@ -471,7 +489,11 @@ movie-modal {
   justify-content: center;
 }
 
-.movie-modal-stars > img:not(:last-of-type) {
+.movie-vote-star {
+  cursor: pointer;
+}
+
+.movie-vote-star:not(:last-of-type) {
   margin-right: 5.33px;
 }
 

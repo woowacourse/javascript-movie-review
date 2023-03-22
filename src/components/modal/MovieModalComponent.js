@@ -1,8 +1,9 @@
-import CustomComponent from "../../abstracts/CustomComponent";
+import CustomAsyncComponent from "../../abstracts/CustomAsyncComponent";
+import SelectVoteScoreComponent from "./SelectVoteScoreComponent";
 import StarFilledImg from "../../../templates/star_filled.png";
 import ModalCloseButtonImg from "../../../templates/close.png";
 
-export default class MovieModalComponent extends CustomComponent {
+export default class MovieModalComponent extends CustomAsyncComponent {
   handleEvent() {
     this.querySelector(".movie-modal-close").addEventListener("click", () => {
       this.style.opacity = 0;
@@ -12,12 +13,40 @@ export default class MovieModalComponent extends CustomComponent {
     });
   }
 
-  template() {
+  async getGenreNames(genreIds) {
+    const result = await fetch(
+      "https://api.themoviedb.org/3/genre/movie/list?api_key=6df0efa1372141fac2793e6184ea5add&language=ko-KR",
+      { method: "GET" }
+    ).then(async (res) => {
+      const data = await res.json();
+      const genres = data.genres;
+
+      const genreNames = genreIds.split(",").map((genreId) => {
+        const genreName = genres.find((genre) => genre.id === Number(genreId));
+
+        if (genreName.name) {
+          return genreName.name;
+        }
+        return "";
+      });
+
+      return genreNames;
+    });
+
+    return result;
+  }
+
+  async template() {
+    const id = this.getAttribute("id");
+    console.log(id);
     const title = this.getAttribute("title");
     const moviePoster = this.getAttribute("poster_path");
     const genre = this.getAttribute("genre_ids");
     const averageVote = this.getAttribute("vote_average");
     const description = this.getAttribute("overview");
+
+    const genreNameArray = await this.getGenreNames(genre);
+    const genreNames = genreNameArray.join(", ");
 
     return /*html*/ `
         <div class="movie-modal-wrapper">
@@ -32,7 +61,7 @@ export default class MovieModalComponent extends CustomComponent {
                 <div class="movie-modal-right">
                     <div class="movie-modal-information">
                         <div class="movie-modal-info-head">
-                            <p>${genre}</p> 
+                            <p>${genreNames}</p> 
                             <div class="movie-modal-average-vote"><img src=${StarFilledImg} alt="별점" /> ${averageVote}</div>
                         </div>
                         <div class="movie-modal-description">
@@ -40,16 +69,7 @@ export default class MovieModalComponent extends CustomComponent {
                         </div>
                     </div>
                     <div class="movie-modal-vote">
-                        <h2>내 별점</h2>
-                        <div class="movie-modal-stars">
-                            <img src=${StarFilledImg} alt="별점" />
-                            <img src=${StarFilledImg} alt="별점" />
-                            <img src=${StarFilledImg} alt="별점" />
-                            <img src=${StarFilledImg} alt="별점" />
-                            <img src=${StarFilledImg} alt="별점" />
-                        </div>
-                        <h3 id="movie-modal-score">6</h3>
-                        <h3 id="movie-modal-score-desc">보통이에요</h3>
+                        <select-vote-score movie-id="${id}"></select-vote-score>
                     </div>
                 </div>
             </div>

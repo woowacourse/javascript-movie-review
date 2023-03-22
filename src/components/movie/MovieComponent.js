@@ -7,10 +7,11 @@ export default class MovieComponent extends CustomComponent {
     super();
     this.state = {
       movie: {
+        id: 0,
         title: "",
         poster_path: "",
         genre_ids: "",
-        vote_average: "",
+        vote_average: 0,
         overview: "",
       },
     };
@@ -21,10 +22,13 @@ export default class MovieComponent extends CustomComponent {
       e.preventDefault();
 
       const modal = document.createElement("movie-modal");
+
       Object.keys(this.state.movie).forEach((key) => {
         modal.setAttribute(key, this.state.movie[key]);
       });
+
       document.querySelector("#app").append(modal);
+
       setTimeout(() => {
         modal.style.opacity = 1;
       });
@@ -33,6 +37,7 @@ export default class MovieComponent extends CustomComponent {
 
   template() {
     const movie = {
+      id: this.getAttribute("id"),
       title: this.getAttribute("title"),
       poster_path: this.getAttribute("poster_path"),
       genre_ids: this.getAttribute("genre_ids"),
