@@ -10,8 +10,12 @@ import { DATA } from "../constants/data";
 import { $ } from "../utils/selector";
 
 class MovieDataManager {
-  private _popularMovies: MovieInfoType[] = [];
-  private _searchMovies: MovieInfoType[] = [];
+  // private _popularMovies: MovieInfoType[] = [];
+  // private _searchMovies: MovieInfoType[] = [];
+  private _movieDatas: any = {
+    popular: {},
+    search: {},
+  };
   private _currentTab = CurrentTab.POPULAR;
   private _currentPage: number = DATA.INIT_PAGE;
 
@@ -37,20 +41,38 @@ class MovieDataManager {
     this._currentPage = DATA.INIT_PAGE;
   }
 
-  async getData(keyword: string) {
-    this._currentPage++;
-
-    if (this._currentTab === CurrentTab.POPULAR) {
-      const data = await getMovieData(this._currentPage);
-      this._popularMovies.push(data);
-      return data;
+  addPopularMovieData(movieData: any, page: number) {
+    if (!(page in this._movieDatas.popular)) {
+      this._movieDatas.popular[page] = [];
     }
-    if (this._currentTab === CurrentTab.SEARCH) {
-      const data = await getKeywordData(this._currentPage, keyword);
-      this._searchMovies.push(data);
-      return data;
-    }
+    this._movieDatas.popular[page].push(movieData);
   }
+
+  addKeywordData(movieData: any, page: number) {
+    if (!(page in this._movieDatas.search)) {
+      this._movieDatas.search[page] = [];
+    }
+    this._movieDatas.search[page].push(movieData);
+  }
+
+  updatePage() {
+    this._currentPage++;
+  }
+
+  // async getData(keyword: string) {
+  //   this._currentPage++;
+
+  //   if (this._currentTab === CurrentTab.POPULAR) {
+  //     const data = await getMovieData(this._currentPage);
+  //     this._popularMovies.push(data);
+  //     return data;
+  //   }
+  //   if (this._currentTab === CurrentTab.SEARCH) {
+  //     const data = await getKeywordData(this._currentPage, keyword);
+  //     this._searchMovies.push(data);
+  //     return data;
+  //   }
+  // }
 
   getTitle() {
     return this._currentTab === CurrentTab.POPULAR
