@@ -1,6 +1,6 @@
 import { moreButton } from "./moreButton";
 
-const MovieItemList = (totalPages: number, currentTab: string) => {
+const MovieItemList = (currentTab: string) => {
   const create = () => {
     return `<ul class="item-list"></ul>
     ${moreButton()}
@@ -12,7 +12,11 @@ const MovieItemList = (totalPages: number, currentTab: string) => {
     moreButton?.classList.add("hidden");
   };
 
-  const addMovies = (movieInfos: string, currentPage: number) => {
+  const addMovies = (
+    movieInfos: string,
+    totalPages: number,
+    currentPage: number
+  ) => {
     document
       .querySelector(".item-list")
       ?.insertAdjacentHTML("beforeend", movieInfos);

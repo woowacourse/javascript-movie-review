@@ -8,34 +8,26 @@ export const App = async () => {
   const searchBox = SearchBox();
 
   let popularMovieCurrentPage = 1;
+  const movieItemList = MovieItemList("POPULAR");
 
-  const currentPagePopularMovieData = await getPopularMovie(
-    popularMovieCurrentPage
-  );
-  if (!currentPagePopularMovieData) return;
+  const showPopularMovies = async () => {
+    const popularMovieData = await getPopularMovie(popularMovieCurrentPage);
+    if (!popularMovieData) return;
 
-  const { results, total_pages } = currentPagePopularMovieData?.data;
-  popularMovieCurrentPage = currentPagePopularMovieData.currentPage;
+    const { results, total_pages } = popularMovieData.data;
+    const currentPage = popularMovieData.currentPage;
 
-  const movieElement = generateElement(results);
-  const movieItemList = MovieItemList(total_pages, "POPULAR");
+    popularMovieCurrentPage = currentPage;
+    const movieElement = generateElement(results);
+    movieItemList.addMovies(movieElement, total_pages, popularMovieCurrentPage);
 
-  movieItemList.addMovies(movieElement, popularMovieCurrentPage);
+    const moreButton = document.querySelector(".primary");
+    moreButton?.addEventListener("click", showPopularMovies);
+  };
 
-  const searchInput = document.querySelector(".search-input");
-  searchInput?.addEventListener("searchButtonClicked", async (e: Event) => {
-    if (!(e instanceof CustomEvent)) return;
+  await showPopularMovies();
 
-    const mainElement = document.querySelector("main");
-    if (mainElement !== null) {
-      mainElement.innerHTML = "";
-    }
-    searchBox.updateKeyword(e.detail.query);
-
-    showMovieList();
-  });
-
-  const showMovieList = async () => {
+  const showSearchResult = async () => {
     let searchMovieCurrentPage = 1;
 
     const currentSearchMovieData = await getCurrentResult(
@@ -44,44 +36,51 @@ export const App = async () => {
     );
     if (!currentSearchMovieData) return;
 
-    const { results, total_pages } = currentSearchMovieData?.data;
+    const { results, total_pages } = currentSearchMovieData.data;
     searchMovieCurrentPage = currentSearchMovieData.currentPage;
 
     const searchResultElement = generateElement(results);
-    const movieItemList = MovieItemList(total_pages, "SEARCH");
-    movieItemList.addMovies(searchResultElement, searchMovieCurrentPage);
+    const movieItemList = MovieItemList("SEARCH");
+    movieItemList.addMovies(
+      searchResultElement,
+      total_pages,
+      searchMovieCurrentPage
+    );
 
-    document.querySelector(".primary")?.addEventListener("click", async () => {
+    const moreButton = document.querySelector(".primary");
+    moreButton?.addEventListener("click", async () => {
       const currentSearchMovieData = await getCurrentResult(
         searchBox.getKeyword(),
         searchMovieCurrentPage
       );
-
       if (!currentSearchMovieData) return;
-      const result = currentSearchMovieData?.data.results;
-      searchMovieCurrentPage = currentSearchMovieData.currentPage;
 
-      const searchResultElement = generateElement(result);
-      movieItemList.addMovies(searchResultElement, searchMovieCurrentPage);
+      const { results } = currentSearchMovieData.data;
+      const page = currentSearchMovieData.currentPage;
+      searchMovieCurrentPage = page;
+
+      const searchResultElement = generateElement(results);
+      movieItemList.addMovies(
+        searchResultElement,
+        total_pages,
+        searchMovieCurrentPage
+      );
     });
   };
 
-  document.querySelector(".primary")?.addEventListener("click", async () => {
-    const currentPagePopularMovieData = await getPopularMovie(
-      popularMovieCurrentPage
-    );
-    if (!currentPagePopularMovieData) return;
+  const onSearchButtonClicked = async (e: Event) => {
+    if (!(e instanceof CustomEvent)) return;
 
-    const { results } = currentPagePopularMovieData?.data;
-    popularMovieCurrentPage = currentPagePopularMovieData.currentPage;
+    const mainElement = document.querySelector("main");
+    if (!mainElement) return;
+    mainElement.innerHTML = "";
 
-    const movieElement = generateElement(results);
+    searchBox.updateKeyword(e.detail.query);
+    await showSearchResult();
+  };
 
-    movieItemList.addMovies(
-      movieElement,
-      currentPagePopularMovieData.currentPage
-    );
-  });
-
+  document
+    .querySelector(".search-input")
+    ?.addEventListener("searchButtonClicked", onSearchButtonClicked);
   return;
 };
