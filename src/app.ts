@@ -1,12 +1,14 @@
 import MovieList from './components/MovieList';
 import Header from './components/Header';
-import MovieFetcher from './domain/MovieFetcher';
+import MovieFetcher from './domain/fetcher/MovieFetcher';
 import { POPULAR_LIST_NAME, SEARCH_LIST_NAME_SUFFIX } from './constants/listNames';
+import PopularMovieFetcher from './domain/fetcher/PopularMovieFetcher';
+import SearchMovieFetcher from './domain/fetcher/SearchMovieFetcher';
 
 class App {
   readonly node: HTMLElement;
   private children;
-  private movieFetcher;
+  private movieFetcher: MovieFetcher;
 
   constructor() {
     this.node = document.querySelector('#app')!;
@@ -16,7 +18,7 @@ class App {
       movieList: new MovieList(),
     };
 
-    this.movieFetcher = new MovieFetcher();
+    this.movieFetcher = new PopularMovieFetcher();
 
     this.composeNode().addEvents().#renderMovies();
   }
@@ -24,8 +26,9 @@ class App {
   async #renderMovies() {
     try {
       this.children.movieList.showSkeleton();
-      const movieDetails = await this.movieFetcher.fetchMovies();
-      this.children.movieList.updateMovieList(movieDetails, this.movieFetcher.isLastPage());
+      const movieDetails = await this.movieFetcher.fetchNextMovies();
+      const isLastPage = this.movieFetcher.isLastPage();
+      this.children.movieList.updateMovieList(movieDetails, isLastPage);
     } catch (error) {
       this.children.movieList.hideSkeleton();
 
@@ -42,21 +45,15 @@ class App {
     return this;
   }
 
-  searchMovies(keyword: string) {
-    this.children.movieList.cleanMovieList();
-    this.movieFetcher.setSearchSettings(keyword);
-    this.#renderMovies();
-  }
-
   #handleClickLogo() {
+    this.movieFetcher = new PopularMovieFetcher();
     this.children.movieList.cleanMovieList().setListName(POPULAR_LIST_NAME);
-    this.movieFetcher.setPopularSettings();
     this.#renderMovies();
   }
 
   #handleSubmitSearch({ detail }: any) {
+    this.movieFetcher = new SearchMovieFetcher(detail.keyword);
     this.children.movieList.cleanMovieList().setListName(`${detail.keyword} ${SEARCH_LIST_NAME_SUFFIX}`);
-    this.movieFetcher.setSearchSettings(detail.keyword);
     this.#renderMovies();
   }
 
