@@ -31,7 +31,7 @@ const Header = {
   renderTooltip(message: string) {
     const searchTooltip = $<HTMLDivElement>('.search-tooltip');
 
-    searchTooltip.insertAdjacentHTML('beforeend', Tooltip.template(message));
+    searchTooltip.innerHTML = Tooltip.template(message);
   },
 
   removeTooltip() {
