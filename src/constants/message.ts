@@ -11,9 +11,9 @@ const FETCH_ERROR_MESSAGE: Record<number, CustomErrorMessage> = {
   500: { error: '서버 내부 오류가 발생했습니다.', desc: 'Status 500' },
 };
 
-const DEFAULT_ERROR_MESSAGE: CustomErrorMessage = {
+export const DEFAULT_ERROR_MESSAGE: CustomErrorMessage = {
   error: '알 수 없는 오류가 발생했습니다.',
-  desc: '다시 접속해주세요.',
+  desc: '네트워크 연결을 확인 후 다시 접속해주세요.',
 };
 
 export const SEARCH_ERROR_MESSAGE: Record<string, CustomErrorMessage> = {

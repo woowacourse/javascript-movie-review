@@ -6,7 +6,7 @@ import { convertToAppMovies } from './domain/util';
 
 import { getPopularMovies, getSearchedMovies } from './api';
 import { MAX_PAGE } from './constants';
-import { isCustomErrorMessage } from './constants/message';
+import { DEFAULT_ERROR_MESSAGE, isCustomErrorMessage } from './constants/message';
 import { ID } from './constants/selector';
 import { $ } from './utils/dom';
 
@@ -27,7 +27,7 @@ class App {
   constructor() {
     this.#app = $<HTMLDivElement>(`#${ID.APP}`);
     this.#movies = new Movies();
-    this.getMovies = this.getMovies.bind(this)
+    this.getMovies = this.getMovies.bind(this);
   }
 
   init() {
@@ -68,6 +68,11 @@ class App {
     } catch (error) {
       if (isCustomErrorMessage(error)) {
         MovieCardSection.renderErrorMessage(error);
+        return;
+      }
+
+      if (error instanceof Error) {
+        MovieCardSection.renderErrorMessage(DEFAULT_ERROR_MESSAGE);
       }
     }
   }
