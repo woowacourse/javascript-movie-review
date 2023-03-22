@@ -1,5 +1,5 @@
 import { fetchMovieListWithKeyword, fetchPopularMovieList } from "../../apis/apis";
-import Movie from "../../domain/Movie";
+import Movie, { IMovie } from "../../domain/Movie";
 import "./style.css";
 import MovieItem from "./MovieItem/MovieItem";
 import SkeletonList from "./SkeletonList/SkeletonContainer";
@@ -158,14 +158,19 @@ class MovieList {
   }
 
   setEvent() {
-    const $moreButton = this.$target.querySelector(".more");
-
-    if ($moreButton) {
-      $moreButton.addEventListener("click", () => {
-        this.renderMovieList();
-      });
-    }
+    this.$target.addEventListener("movieItemClick", (event) => {
+      const { movie } = event.detail;
+      this.#props.modal.updateContent(movie);
+      this.#props.modal.show();
+    });
   }
 }
 
+declare global {
+  interface HTMLElementEventMap {
+    movieItemClick: CustomEvent<{
+      movie: IMovie;
+    }>;
+  }
+}
 export default MovieList;
