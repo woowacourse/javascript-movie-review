@@ -297,14 +297,22 @@ dialog::backdrop {
   height: 100%;
 }
 
+.information-content {
+  width: calc(100% - 16px);
+  display: flex;
+}
+
 .information-image {
-  height: 100%;
+  width: 290px;
+  height: 428px;
+  background-color: #232323;
+  background-size: contain;
   border-radius: 10px;
 }
 
 .information-container {
   margin-left: 36px;
-  padding-right: 16px;
+  padding-right: 20px;
   margin-right: 8px;
   width: 100%;
   overflow: scroll;

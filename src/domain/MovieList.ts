@@ -5,6 +5,7 @@ import {
   MOVIE_LIST_LOADING,
   MOVIE_LIST_RESET,
   MOVIE_RETRIEVED,
+  MOVIE_USER_VOTE_UPDATED,
 } from '../constants';
 import EventEmitter from '../utils/EventEmitter';
 import {
@@ -16,6 +17,7 @@ import {
 class MovieList {
   private static instance: MovieList;
   private movies: Movie[] = [];
+  private userMovies: Movie[] = [];
   private movieGenres: MovieGenre[] = [];
   private currentPage: number = 1;
   private searchQuery: string = '';
@@ -96,6 +98,14 @@ class MovieList {
     const [movie] = this.movies.filter((movie) => movie.id === movieId);
 
     EventEmitter.emit(MOVIE_RETRIEVED, { movie, searchQuery: this.searchQuery });
+  }
+
+  updateUserVote(movieId: number, userVoteCount: number) {
+    const movie: Movie = this.movies.filter((movie) => movie.id === movieId)[0];
+    movie.userVote = userVoteCount * 2;
+    this.userMovies.push(movie);
+
+    EventEmitter.emit(MOVIE_USER_VOTE_UPDATED, { userVote: movie.userVote });
   }
 
   on(eventName: string, callback: EventListenerOrEventListenerObject) {

@@ -11,6 +11,7 @@ const MOVIE_LIST_LOADING = 'movieListLoading';
 const MOVIE_LIST_LOADED = 'movieListLoaded';
 const MOVIE_LIST_ERROR = 'movieListError';
 const MOVIE_RETRIEVED = 'movieRetrieved';
+const MOVIE_USER_VOTE_UPDATED = 'movieUserVoteUpdated';
 
 export {
   POSTER_BASE_URL,
@@ -23,4 +24,5 @@ export {
   MOVIE_LIST_LOADED,
   MOVIE_LIST_ERROR,
   MOVIE_RETRIEVED,
+  MOVIE_USER_VOTE_UPDATED,
 };
