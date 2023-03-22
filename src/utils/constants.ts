@@ -4,6 +4,7 @@ export const BASE_URL = "https://api.themoviedb.org/3/";
 export const FetchUrl: Readonly<{ [key: string]: string }> = {
   POPULAR_URL: `${BASE_URL}movie/popular?api_key=${API_KEY}&language=ko-KR&page=`,
   SEARCH_URL: `${BASE_URL}search/movie?api_key=${API_KEY}&language=ko-KR&query=`,
+  GENRE_URL: `${BASE_URL}genre/movie/list?api_key=${API_KEY}&language=ko-KR`,
 };
 
 export const ConstantsNumber: Readonly<{ [key: string]: number }> = {

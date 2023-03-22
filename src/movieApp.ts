@@ -1,4 +1,4 @@
-import { mostPopular, search } from "./fetch";
+import { mostPopular, search, genre } from "./fetch";
 import movieHandler from "./domain/movieHandler";
 import { $ } from "./utils/dom";
 import MovieListContainer from "./components/MovieListContainer";
@@ -29,7 +29,9 @@ const MovieApp = {
     );
     $("movie-list-container")?.addEventListener(
       "openMovieDetail",
-      ({ detail }: CustomEventInit) => this.onHandleModal(detail)
+      ({ detail }: CustomEventInit) => {
+        this.onHandleModal(detail);
+      }
     );
     $("search-box")?.addEventListener(
       "searchMovieData",
@@ -109,12 +111,15 @@ const MovieApp = {
     this.loadMovieData(movies);
   },
 
-  onHandleModal(id: number) {
+  async onHandleModal(id: number) {
     const movieDetailModal = <MovieDetailModal>$("movie-detail-modal");
-    const movie = movieHandler.getSelectedMovie(id);
-    // console.log(movie);
+    const selectedMovie = movieHandler.getSelectedMovie(id);
+    const genreList = await genre();
 
-    movieDetailModal?.render(movie);
+    console.log(genreList);
+
+    movieDetailModal?.render(selectedMovie, genreList);
+    movieDetailModal.openModal();
   },
 };
 

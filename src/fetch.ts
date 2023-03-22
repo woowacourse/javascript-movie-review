@@ -25,3 +25,8 @@ export const search = async (query: string, pageNumber: number) => {
   const url = `${FetchUrl.SEARCH_URL}${query}&page=${pageNumber}&include_adult=false`;
   return await fetchData(url);
 };
+
+export const genre = async () => {
+  const url = `${FetchUrl.GENRE_URL}`;
+  return await fetchData(url);
+};

@@ -209,13 +209,15 @@ movie-list:has(.not-search) {
 
 .modal {
   position: absolute;
-  width: 826px;
+  width: 865px;
   height: 577px;
   left: 50%;
-  top: 50%;
+  top: 80%;
   transform: translate(-50%, -50%);
 
-  background: #212122;
+  background-color: #212122;
+  color: #f1f1f1;
+  border: none;
   border-radius: 8px;
 }
 
@@ -258,4 +260,24 @@ movie-list:has(.not-search) {
 
 .close {
   color: #f1f1f1;
+}
+
+.modal-content {
+  display: flex;
+}
+
+.modal-image {
+  width: 292px;
+  height: 433px;
+}
+
+.user-vote {
+  position: absolute;
+  width: 438px;
+  height: 64px;
+  left: 356px;
+  top: 465px;
+
+  background: #383839;
+  border-radius: 16px;
 }
