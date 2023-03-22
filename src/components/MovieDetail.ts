@@ -9,14 +9,6 @@ class MovieDetail {
 
   constructor() {
     this.#$detainContainer = document.createElement('div');
-
-    const $closeButton = document.createElement('button');
-    $closeButton.className = 'modal-close-button';
-
-    $closeButton.addEventListener('click', () => {
-      modal.close();
-    });
-    this.#$detainContainer?.appendChild($closeButton);
   }
 
   template({ title, overview, voteAverage, genres, posterPath }: IMovieDetailItem) {

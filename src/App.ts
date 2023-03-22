@@ -4,6 +4,7 @@ import MovieList from './components/MovieList';
 import MoreButton from './components/MoreButton';
 import { Skeleton } from './components/Skeleton';
 import stateRender from './renderer/StateRender';
+import MovieDetail from './components/MovieDetail';
 
 class App {
   $main = document.createElement('main');
@@ -13,6 +14,7 @@ class App {
   movieList: MovieList;
   moreButton: MoreButton;
   skeleton: Skeleton;
+  movieDetail: MovieDetail;
 
   constructor($target: HTMLElement) {
     new Header($target);
@@ -23,13 +25,15 @@ class App {
     this.skeleton = new Skeleton(this.$itemView);
     this.movieList = new MovieList();
     this.moreButton = new MoreButton();
+    this.movieDetail = new MovieDetail();
 
     stateRender.initialize({
       listTitle: this.listTitle,
       skeleton: this.skeleton,
       movieList: this.movieList,
       moreButton: this.moreButton,
-      targetNode: this.$itemView,
+      movieDetail: this.movieDetail,
+      itemViewSection: this.$itemView,
     });
 
     this.initialRender();

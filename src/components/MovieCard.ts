@@ -14,6 +14,10 @@ class MovieCard {
 
     this.#$li.addEventListener('click', async () => {
       modal.open();
+      const $modal = modal.getModalContainer();
+      if (!$modal) return;
+
+      stateRender.renderMovieDetail(movie.id, $modal);
     });
 
     this.render();

@@ -1,5 +1,7 @@
 import ListTitle from '../components/ListTitle';
+import modal from '../components/Modal';
 import MoreButton from '../components/MoreButton';
+import MovieDetail from '../components/MovieDetail';
 import MovieList from '../components/MovieList';
 import { Skeleton } from '../components/Skeleton';
 import WholeScreenMessageAlert from '../components/WholeScreenMessageAlert';
@@ -11,7 +13,8 @@ interface StateRenderProps {
   listTitle: ListTitle;
   skeleton: Skeleton;
   movieList: MovieList;
-  targetNode: HTMLElement;
+  movieDetail: MovieDetail;
+  itemViewSection: HTMLElement;
 }
 
 class StateRender {
@@ -19,7 +22,8 @@ class StateRender {
   #listTitle!: ListTitle;
   #skeleton!: Skeleton;
   #movieList!: MovieList;
-  #targetNode!: HTMLElement;
+  #movieDetail!: MovieDetail;
+  #itemViewSection!: HTMLElement;
 
   #movie: Movie;
   #movieState: IMovieState;
@@ -29,12 +33,20 @@ class StateRender {
     this.#movieState = initialMovieStats;
   }
 
-  initialize({ moreButton, listTitle, skeleton, movieList, targetNode }: StateRenderProps) {
+  initialize({
+    moreButton,
+    listTitle,
+    skeleton,
+    movieList,
+    movieDetail,
+    itemViewSection,
+  }: StateRenderProps) {
     this.#moreButton = moreButton;
     this.#listTitle = listTitle;
     this.#skeleton = skeleton;
     this.#movieList = movieList;
-    this.#targetNode = targetNode;
+    this.#movieDetail = movieDetail;
+    this.#itemViewSection = itemViewSection;
   }
 
   #excuteMoreButtonVisible() {
@@ -43,7 +55,7 @@ class StateRender {
   }
 
   #listTitleRender() {
-    this.#listTitle.render(this.#targetNode);
+    this.#listTitle.render(this.#itemViewSection);
   }
 
   #skeletonRenderAndClearMovieList() {
@@ -53,13 +65,13 @@ class StateRender {
 
   #movieListRender() {
     this.#skeleton.removeSkeleton();
-    this.#movieList.render(this.#targetNode);
-    this.#moreButton.render(this.#targetNode);
+    this.#movieList.render(this.#itemViewSection);
+    this.#moreButton.render(this.#itemViewSection);
   }
 
   #apiErrorRender(value: any) {
-    this.#targetNode.innerHTML = '';
-    this.#targetNode.insertAdjacentElement('beforeend', WholeScreenMessageAlert(value));
+    this.#itemViewSection.innerHTML = '';
+    this.#itemViewSection.insertAdjacentElement('beforeend', WholeScreenMessageAlert(value));
   }
 
   async renderPopularMovies(curPage = 1) {
@@ -96,6 +108,14 @@ class StateRender {
     }
   }
 
+  async renderMovieDetail(movieId: number, $target: HTMLElement) {
+    try {
+      const movieDetail = await this.#movie.getMovieDetails({ movieId });
+
+      this.#movieDetail.render(movieDetail, $target);
+    } catch (error) {}
+  }
+
   #renderWholeComponent() {
     this.#listTitleRender();
     this.#movieListRender();
@@ -122,7 +142,6 @@ class StateRender {
     this.#movieState.results = results;
     this.#movieState.nextPage = total_pages === page ? -1 : page + 1;
     this.#movieState.error = '';
-    console.log(page, this.#movieState.nextPage);
   }
 
   getMovieState() {
