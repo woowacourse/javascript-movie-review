@@ -6,7 +6,7 @@ const movieTemplate = (() => {
   movieInfo.setAttribute('class', 'movie-info');
 
   movieInfo.innerHTML = `
-  <a class="item-card">
+  <a class="item-card" href="#movie-modal">
     <div class="item-thumbnail skeleton"></div>
     <p class="item-title"></p>
     <p class="item-score"><img src="./assets/star_filled.png" alt="별점"/></p>

@@ -28,13 +28,12 @@ class MovieModal {
   }
 
   catchMovieIdEvent(event: CustomEvent) {
-    if (!event.detail.info) throw new Error('[ERROR] 이벤트 detail에 id가 없습니다');
+    if (!event.detail.info) throw new Error('[ERROR] 이벤트 detail에 info가 없습니다');
     this.render(event.detail.info);
-    this.element.showModal();
   }
 
   private addCloseEvent() {
-    $('.modal-close', this.element).addEventListener('click', () => this.element.close());
+    $('.modal-close', this.element).addEventListener('click', () => history.back());
 
     this.element.addEventListener('click', (event) => {
       const modalPosition = this.element.getBoundingClientRect();
@@ -45,20 +44,31 @@ class MovieModal {
         modalPosition.top > event.clientY ||
         modalPosition.bottom < event.clientY
       ) {
-        this.element.close();
+        history.back();
       }
     });
 
+    this.element.addEventListener('cancel', (event) => event.preventDefault());
+
     window.addEventListener('keyup', (event) => {
-      if (event.key === 'Escape' || 'Esc' || 'Backspace') this.element.close();
+      if (
+        this.element.open &&
+        ['Escape', 'Esc', 'Backspace'].includes(event.key)
+       ) {
+        history.back();
+       }
     });
 
     window.addEventListener('popstate', () => {
-      if (this.element.dataset.open === 'true') {
-        history.forward();
-        this.element.close();
+      if (!this.element.open) {
+        this.element.showModal();
+        ($('body') as HTMLElement).style.overflow = 'hidden';
       }
-    })
+      else {
+        this.element.close();
+        ($('body') as HTMLElement).style.overflow = 'auto';
+      }
+    });
   }
 
 }

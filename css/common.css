@@ -165,15 +165,9 @@ button[data-hidden='true'] {
 }
 
 #movie-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  
   min-width: 70vh;
   min-height: 50vh;
   max-height: 90vh;
-  overflow-y: auto;
 
   width: 200px;
   height: 200px;
@@ -187,6 +181,6 @@ button[data-hidden='true'] {
   border: none;
 }
 
-dialog.movie-modal::backdrop {
-  background: rgba(0, 0, 0, 0.35);
+dialog#movie-modal::backdrop {
+  background: rgba(0, 0, 0, 0.45);
 }
