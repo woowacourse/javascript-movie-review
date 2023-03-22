@@ -30,6 +30,13 @@ class MovieItem extends CustomElement {
     image.addEventListener("load", () => {
       image.classList.remove("skeleton");
     });
+
+    this.addEventListener("click", () => {
+      console.log("zmffkr");
+      $(".modal").classList.add("modal-open");
+      $(".modal").classList.remove("modal");
+      this.closest("body").classList.add("scroll");
+    }); //리펙터링 필요함~~ 관심사분리!
   }
 }
 

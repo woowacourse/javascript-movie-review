@@ -173,3 +173,7 @@ movie-head .search-box > .search-button {
   background: url("../image/search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
 }
+
+.scroll {
+  overflow: hidden;
+}
