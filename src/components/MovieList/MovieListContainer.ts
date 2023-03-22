@@ -5,21 +5,29 @@ import MovieItem from '../MovieItem';
 import MoviePopularList from './MoviePopularList';
 import MovieSearchList from './MovieSearchList';
 
+type MovieListProps = {
+  $target: HTMLElement;
+  components: {
+    popular: MoviePopularList;
+    search: MovieSearchList;
+  };
+};
+
 export default class MovieListContainer extends Component {
   $target;
 
-  state;
+  components;
 
-  constructor($target: HTMLElement) {
+  constructor({ $target, components }: MovieListProps) {
     super();
 
     this.$target = $target;
-    this.state = this.useState();
+    this.components = components;
   }
 
   fetchData() {
-    new MoviePopularList(this.$target).emit();
-    new MovieSearchList(this.$target).emit(this.state.getValue('query'));
+    this.components.popular.emit();
+    this.components.search.emit(this.state.getValue('query'));
   }
 
   template() {
