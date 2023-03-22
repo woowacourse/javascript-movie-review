@@ -163,7 +163,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 8px 20px;
   border-bottom: 1px solid white;
   margin-bottom: 48px;
 }
