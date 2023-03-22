@@ -188,3 +188,43 @@ header .search-box > .search-button {
   background: url('../images/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
 }
+
+.modal {
+  display: none;
+}
+
+.modal--open {
+  display: block;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+
+  width: 877px;
+  height: 577px;
+
+  overflow: auto;
+  border-radius: 8px;
+  background: #212122;
+  transform: translate(-50%, -50%);
+}
+
+.modal-container > .modal-close-button {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: url('../images/close_button.png') transparent no-repeat 0 1px;
+  background-size: contain;
+}
