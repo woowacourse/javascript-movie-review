@@ -1,7 +1,7 @@
 import { MovieItemType, MovieSubscriberType } from '../type/movie';
 
 export default class Observable {
-  observer: MovieSubscriberType;
+  private observer: MovieSubscriberType;
 
   constructor() {
     this.observer = {
