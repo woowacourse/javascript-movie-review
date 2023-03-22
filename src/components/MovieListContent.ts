@@ -30,10 +30,8 @@ class MovieListContent {
   }
 
   private init() {
-    MovieList.on(MOVIE_LIST_RESET, this.clearListContent);
-
-    MovieList.on(MOVIE_LIST_LOADING, this.renderSkeleton);
-
+    MovieList.on(MOVIE_LIST_RESET, this.clearListContent.bind(this));
+    MovieList.on(MOVIE_LIST_LOADING, this.renderSkeleton.bind(this));
     MovieList.on(MOVIE_LIST_LOADED, (event) => {
       const { movies, searchQuery } = (event as CustomEvent).detail;
       this.loadMovies(movies, searchQuery);
@@ -54,9 +52,9 @@ class MovieListContent {
     this.renderMovies(movies);
   }
 
-  private renderSkeleton = () => {
+  private renderSkeleton() {
     this.itemList.insertAdjacentHTML('beforeend', MovieItem.template().repeat(MOVIE_MAX_COUNT));
-  };
+  }
 
   private renderMovies(movies: Movie[]) {
     const items = $$<HTMLUListElement>('.item-card');
@@ -70,9 +68,9 @@ class MovieListContent {
     });
   }
 
-  private clearListContent = () => {
+  private clearListContent() {
     this.itemList.replaceChildren();
-  };
+  }
 }
 
 export default MovieListContent.getInstance();
