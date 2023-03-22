@@ -29,18 +29,22 @@ class MovieList {
   constructor($target: Element) {
     this.#$target = $target;
     this.renderSkeleton();
-
-    fetchPopularMovies(this.#state.page).then((response) => {
-      const { results, total_pages } = response;
-      this.#movies.reset(results);
-      this.init(total_pages);
-    });
+    this.init();
 
     $(".btn").addEventListener("click", this.onClickMoreButton.bind(this));
   }
 
-  init(total_pages: number) {
+  async init() {
     this.#$target.removeChild(this.#$skeletonContainer);
+
+    const response = await fetchPopularMovies(this.#state.page);
+    const { results, total_pages } = response;
+    this.#movies.reset(results);
+
+    this.renderMovieList(total_pages);
+  }
+
+  renderMovieList(total_pages: number) {
     this.#$target.innerHTML = `
       ${this.#movies
         .getList()
@@ -70,7 +74,7 @@ class MovieList {
     `;
   }
 
-  render(movieList: MovieResponse[], total_pages: number) {
+  renderAddedMovie(movieList: MovieResponse[], total_pages: number) {
     this.#$target.removeChild(this.#$skeletonContainer);
 
     this.#$target.innerHTML += `
@@ -81,7 +85,7 @@ class MovieList {
     if (this.#state.page === total_pages) this.hideMoreButton();
   }
 
-  reset(state: showType, searchKeyword?: string) {
+  async reset(state: showType, searchKeyword?: string) {
     this.#$target.innerHTML = ``;
 
     this.#state = { ...this.#state, show: state, page: 1 };
@@ -89,47 +93,47 @@ class MovieList {
     this.renderSkeleton();
 
     if (state === "popular") {
-      fetchPopularMovies(this.#state.page).then((response) => {
-        const { results, total_pages } = response;
+      const response = await fetchPopularMovies(this.#state.page);
 
-        this.#movies.reset(results);
-        this.init(total_pages);
-      });
+      const { results, total_pages } = response;
 
+      this.#movies.reset(results);
+      this.renderMovieList(total_pages);
       return;
     }
 
     if (searchKeyword) {
       this.#state = { ...this.#state, searchKeyword: searchKeyword };
 
-      fetchSearchMovies(this.#state.page, this.#state.searchKeyword).then(
-        (response) => {
-          const { results, total_pages } = response;
-
-          this.#movies.reset(results);
-          this.init(total_pages);
-        }
+      const response = await fetchSearchMovies(
+        this.#state.page,
+        this.#state.searchKeyword
       );
+      const { results, total_pages } = response;
+
+      this.#movies.reset(results);
+      this.renderMovieList(total_pages);
     }
   }
 
-  onClickMoreButton() {
+  async onClickMoreButton() {
     this.#state.page += 1;
     this.renderSkeleton();
 
-    if (this.#state.show === "popular")
-      fetchPopularMovies(this.#state.page).then((response) => {
-        const { results, total_pages } = response;
-        this.render(results, total_pages);
-      });
+    if (this.#state.show === "popular") {
+      const response = await fetchPopularMovies(this.#state.page);
+      const { results, total_pages } = response;
+      this.renderAddedMovie(results, total_pages);
+    }
 
-    if (this.#state.show === "search")
-      fetchSearchMovies(this.#state.page, this.#state.searchKeyword).then(
-        (response) => {
-          const { results, total_pages } = response;
-          this.render(results, total_pages);
-        }
+    if (this.#state.show === "search") {
+      const response = await fetchSearchMovies(
+        this.#state.page,
+        this.#state.searchKeyword
       );
+      const { results, total_pages } = response;
+      this.renderAddedMovie(results, total_pages);
+    }
   }
 
   renderSkeleton() {
