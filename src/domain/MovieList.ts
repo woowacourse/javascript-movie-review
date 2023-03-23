@@ -9,7 +9,7 @@ import {
 } from '../constants';
 import { userMovies } from './userMovies';
 import EventEmitter from '../utils/EventEmitter';
-import MovieAPI from './MovieApi';
+import MovieAPI from './MovieAPI';
 
 class MovieList {
   private static instance: MovieList;
