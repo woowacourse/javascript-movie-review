@@ -20,33 +20,47 @@ const MovieModal = (data, genreData, star) => {
 
   return `
         <div class="modal-container">
-            <span id="movie-name">${data.title}</span>
-            <button>X</button>
+            <div class="modal-header">
+                <span id="movie-name">${data.title}</span>
+                <button>X</button>
+            <div>
         </div>
         <div>
             <img class="item-thumbnail" src=${poster} alt="${data.title}" />
             <div>
-                <div>
-                    <div>${genres}<img src="./assets/star_filled.png" alt="별점" />${
-    data.vote_average
-  }</div>
-                    <div>${data.overview}</div>
+                <div id="movie-data-frame">
+                    <div id="movie-data-1">
+                        <span id="genre-data">${genres}</span>
+                        <span id="modal-star-data">
+                            <span id="modal-star-image">
+                                <img src="./assets/star_filled.png" alt="별점" />
+                            </span>
+                                <span id="modal-star-average">
+                                    ${data.vote_average}
+                                </span>
+                            </span>
+                        </div>
+                    <div id="data-overview">${data.overview}</div>
                 </div>
-                <div>
-                내 별점
-                    <span class="star">
-                        ${blankStar}
-                        <span style="width:${(star / 2) * 20}%">
-                            ${filledStar}
-                        </span>
-                        <input type="range" value="${
-                          !star ? 0 : star / 2
-                        }" step="1" min="1" max="5">
-                    </span>
-                    <span id="star-data">${star}</span>
-                    <span id="star-text">${
-                      !star ? '점수를 부여해주세요' : SCORE_DATA_TEXT[star]
-                    }</span>
+                <div id="review-container">
+                    <div id="review-datas">
+                        <h4>내 별점</h4>
+                            <span class="star">
+                                ${blankStar}
+                                <span class="star-filled" style="width:${
+                                  (star / 2) * 20
+                                }%">
+                                    ${filledStar}
+                                </span>
+                                <input type="range" value="${
+                                  !star ? 0 : star / 2
+                                }" step="1" min="1" max="5">
+                            </span>
+                        <span id="star-data">${star}</span>
+                        <span id="star-text">${
+                          !star ? '' : SCORE_DATA_TEXT[star]
+                        }</span>
+                    </div>
                 </div>
             </div>
         </div>

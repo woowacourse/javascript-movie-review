@@ -199,6 +199,21 @@ header .search-box > .search-button {
   color: #ddd;
   height: 20px;
   overflow: hidden;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  left: 12px;
+  /* width: 160px; */
+  /* height: 32px; */
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 1;
+  flex-grow: 0;
 }
 
 .star img {
@@ -225,3 +240,267 @@ header .search-box > .search-button {
 .btn.primary.full-width {
   opacity: 0;
 }
+
+.modal-header {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 826px;
+  height: 60px;
+  left: 0px;
+  top: 0px;
+
+  background: #212122;
+  border-bottom: 1px solid rgba(241, 241, 241, 0.25);
+}
+
+#movie-name {
+  position: absolute;
+  width: 762px;
+  height: 24px;
+  left: 32px;
+  top: 18px;
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  /* identical to box height, or 120% */
+
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.15px;
+
+  color: #f1f1f1;
+}
+
+.modal-header button {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  left: 758px;
+  top: 12px;
+  color: white;
+  border-radius: 50%;
+  border: solid #383839;
+  background: #383839;
+}
+
+.modal-container .item-thumbnail {
+  position: absolute;
+  width: 292px;
+  height: 433px;
+  left: 32px;
+  top: 96px;
+}
+
+#modal-star-average {
+  width: 24px;
+  height: 24px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.5px;
+  color: #f1f1f1;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+#modal-star-image {
+  width: 24px;
+  height: 24px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+#modal-star-data {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 4px;
+  width: 52px;
+  height: 24px;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+#star-data {
+  width: 9px;
+  height: 24px;
+
+  /* body */
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  /* identical to box height, or 150% */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.5px;
+
+  color: #f1f1f1;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 2;
+  flex-grow: 0;
+}
+
+#star-text {
+  width: 76px;
+  height: 24px;
+
+  /* body */
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  /* identical to box height, or 150% */
+
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.5px;
+
+  color: #f1f1f1;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 3;
+  flex-grow: 0;
+}
+
+#genre-data {
+  width: 123px;
+  height: 24px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.5px;
+  color: #f1f1f1;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+#movie-data-1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 16px;
+  width: 191px;
+  height: 24px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+#movie-data-frame {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 16px;
+
+  position: absolute;
+  width: 438px;
+  height: 184px;
+  left: 356px;
+  top: 96px;
+}
+
+#data-overview {
+  width: 422px;
+  height: 144px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: #f1f1f1;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+#review-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 16px;
+  gap: 12px;
+
+  position: absolute;
+  width: 438px;
+  height: 64px;
+  left: 356px;
+  top: 465px;
+
+  background: #383839;
+  border-radius: 16px;
+}
+
+#review-datas {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 12px;
+  width: 331px;
+  height: 32px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+#review-container h4 {
+  width: 50px;
+  height: 24px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.5px;
+  color: #f1f1f1;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+/* #button-round {
+  position: absolute;
+  left: 93.1%;
+  right: 5.23%;
+  top: 3.81%;
+  bottom: 93.52%;
+
+  background: #f1f1f1;
+} */

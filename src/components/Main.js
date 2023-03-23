@@ -122,13 +122,13 @@ class Main {
     $('.star input').addEventListener('input', (e) => {
       const nowStarData = $('.star input');
       $('.star span').style.width = `${e.target.value * 20}%`;
-      $('#star-data').textContent = `${nowStarData.value * 2}점`;
+      $('#star-data').textContent = `${nowStarData.value * 2}`;
       $('#star-text').textContent = SCORE_DATA_TEXT[nowStarData.value * 2];
     });
   }
 
   #saveStarData() {
-    const resultStar = Number($('#star-data').textContent.split('점')[0]);
+    const resultStar = Number($('#star-data').textContent);
     const movieName = $('#movie-name').textContent;
     const movieId = this.#manager.getMovieData(movieName).id;
     this.#manager.setStarData(movieId, resultStar);
