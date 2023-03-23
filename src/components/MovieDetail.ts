@@ -51,7 +51,9 @@ class MovieDetail {
           <span class="star">
            ${this.starImage(starEmpty)}
             <span> ${this.starImage(starFilled)}</span>
-            <input class="star-input" type="range" value="0" step="2" min="0" max="10">
+            <input class="star-input" type="range" value=${
+              this.#starScore
+            } step="2" min="0" max="10">
           </span>
           <span class="star-description">${STAR_DESCRIPTION[this.#starScore]}</span>      
         </div>
@@ -89,7 +91,7 @@ class MovieDetail {
       if (!(e.target instanceof HTMLInputElement)) return;
       if (!e.target.classList.contains('star-input')) return;
 
-      const starSpan = document.querySelector<HTMLSpanElement>('.star span');
+      const starSpan = document.querySelector<HTMLSpanElement>('.star > span');
       const starDescription = document.querySelector<HTMLSpanElement>('.star-description');
 
       if (!starSpan || !starDescription) return;

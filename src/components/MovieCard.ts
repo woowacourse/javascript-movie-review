@@ -26,10 +26,10 @@ class MovieCard {
   }
 
   #template() {
-    const { posterPath, title, voteAverage } = this.#movie;
+    const { posterPath, title, voteAverage, id } = this.#movie;
 
     return `
-      <a href="#">
+      <a href="#/${id}">
         <div class = "item-card">
           <img
             class="item-thumbnail skeleton"

@@ -27,6 +27,12 @@ class Modal {
 
   close() {
     this.#$modal?.classList.remove('modal--open');
+    history.pushState('', '', '/');
+  }
+
+  closeModalWhenHashEmpty() {
+    const isModalOpen = document.querySelector('.modal--open') ? true : false;
+    if (location.hash === '' && isModalOpen) this.close();
   }
 }
 
