@@ -9,9 +9,9 @@ export const hideSkeleton = () => hide('#skeleton-list');
 
 export const showSkeleton = () => show('#skeleton-list');
 
-export const hideLoadMoreButton = () => hide('#load-more');
+export const hideScrollObserver = () => hide('#scroll-observer');
 
-export const showLoadMoreButton = () => show('#load-more');
+export const showScrollObserver = () => show('#scroll-observer');
 
 export const changeTitle = (title: string) => {
   const $title = $('#movie-list-title');

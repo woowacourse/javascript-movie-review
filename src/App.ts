@@ -1,17 +1,18 @@
-import { fetchPopularMovies, fetchSearchedMovies } from './api';
 import { MAX_MOVIES_PER_PAGE } from './constants';
 import {
   clearList,
   renderList,
   showSkeleton,
   hideSkeleton,
-  hideLoadMoreButton,
-  showLoadMoreButton,
+  hideScrollObserver,
+  showScrollObserver,
 } from './dom';
 
+import { fetchPopularMovies, fetchSearchedMovies } from './api/movies';
 import movieService, { Movie } from './domain/movieService';
 import { $ } from './utils/domUtils';
 import { handleError } from './utils/errorHandler';
+import { bindObserver } from './utils/intersectionObserver';
 
 const App = {
   isPopular: true,
@@ -21,6 +22,7 @@ const App = {
   init() {
     this.bindEvents();
     this.renderPopularMovies();
+    bindObserver($('#scroll-observer')!, () => this.handleLoadMore());
   },
 
   bindEvents() {
@@ -45,6 +47,7 @@ const App = {
     this.query = query;
     this.currentPage = 1;
     clearList();
+    showScrollObserver();
     this.renderSearchedMovies();
   },
 
@@ -67,7 +70,7 @@ const App = {
         handleError(error);
       }
       hideSkeleton();
-      hideLoadMoreButton();
+      hideScrollObserver();
     }
   },
 
@@ -82,13 +85,13 @@ const App = {
         handleError(error);
       }
       hideSkeleton();
-      hideLoadMoreButton();
+      hideScrollObserver();
     }
   },
 
   updatePage(newMovies: Movie[]) {
     if (newMovies.length < MAX_MOVIES_PER_PAGE) {
-      hideLoadMoreButton();
+      hideScrollObserver();
     }
 
     this.currentPage += 1;
@@ -100,7 +103,7 @@ const App = {
     this.query = '';
     this.currentPage = 1;
     clearList();
-    showLoadMoreButton();
+    showScrollObserver();
   },
 };
 

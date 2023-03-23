@@ -12,7 +12,7 @@ class MovieListSection extends HTMLElement {
         <ul class="item-list" id="skeleton-list">
         ${SKELETON_TEMPLATE}
         </ul>
-        <button id="load-more" class="btn primary full-width">더 보기</button>
+        <div id="scroll-observer"></div>
       </section>
     `;
   }
