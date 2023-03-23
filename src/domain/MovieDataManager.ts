@@ -41,18 +41,12 @@ class MovieDataManager {
     this._currentPage = DATA.INIT_PAGE;
   }
 
-  addPopularMovieData(movieData: any, page: number) {
-    if (!(page in this._movieDatas.popular)) {
-      this._movieDatas.popular[page] = [];
-    }
-    this._movieDatas.popular[page].push(movieData);
+  addPopularMovieData(movieData: TotalMovieInfoType) {
+    this._movieDatas.popular[movieData.id] = movieData;
   }
 
-  addKeywordData(movieData: any, page: number) {
-    if (!(page in this._movieDatas.search)) {
-      this._movieDatas.search[page] = [];
-    }
-    this._movieDatas.search[page].push(movieData);
+  addKeywordData(movieData: TotalMovieInfoType) {
+    this._movieDatas.search[movieData.id] = movieData;
   }
 
   updatePage() {
