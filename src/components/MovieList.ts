@@ -1,9 +1,12 @@
 import { MovieItemType } from '../type/movie';
 import { $ } from '../utils/domHelper';
+import InfiniteScroll from '../utils/infiniteScroll';
 
 import movies from '../domain/Movies';
 
 export default class MovieList extends HTMLElement {
+  infiniteScroll: any;
+
   constructor() {
     super();
 
@@ -12,6 +15,8 @@ export default class MovieList extends HTMLElement {
 
     this.render();
     this.skeletonItemRender();
+
+    this.infiniteScroll = new InfiniteScroll();
   }
 
   render() {
@@ -42,6 +47,8 @@ export default class MovieList extends HTMLElement {
       'beforeend',
       this.movieItemTemplate(popularMovies) || ''
     );
+
+    this.infiniteScroll.setItem($('.movie-container').lastElementChild, true);
   }
 
   movieItemTemplate(popularMovies?: MovieItemType[]) {

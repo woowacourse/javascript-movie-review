@@ -18,7 +18,6 @@ export default class App {
         <section class="item-view">
         <movie-title></movie-title>
         <movie-list></movie-list>
-        <movie-see-more></movie-see-more>
         </section>
       </main>
     `;

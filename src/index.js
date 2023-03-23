@@ -15,6 +15,5 @@ customElements.define('movie-title', Title);
 customElements.define('movie-list', MovieList);
 customElements.define('movie-item', MovieItem);
 customElements.define('skeleton-item', SkeletonItem);
-customElements.define('movie-see-more', SeeMore);
 
 new App($('#app'));
