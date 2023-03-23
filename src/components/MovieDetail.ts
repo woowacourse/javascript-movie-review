@@ -4,6 +4,7 @@ import starEmpty from '../images/star_empty.png';
 
 import { IMovieDetailItem } from '../types/movie';
 import modal from './Modal';
+import { STAR_DESCRIPTION } from '../utils/constants';
 
 class MovieDetail {
   #$detainContainer: HTMLDivElement;
@@ -49,11 +50,9 @@ class MovieDetail {
           <span class="star">
            ${this.starImage(starEmpty)}
             <span> ${this.starImage(starFilled)}</span>
-            <input class="star-input" type="range" value="1" step="1" min="0" max="5">
+            <input class="star-input" type="range" value="0" step="2" min="0" max="10">
           </span>
-          <span class="star-description">${this.getStarDescriptionEachStar(
-            this.#starScore
-          )}</span>      
+          <span class="star-description">${STAR_DESCRIPTION[this.#starScore]}</span>      
         </div>
       </div>  
     </div>`;
@@ -63,23 +62,16 @@ class MovieDetail {
     return `<img src=${path}/>`.repeat(5);
   }
 
-  getStarDescriptionEachStar(score: number) {
-    switch (score) {
-      case 0:
-        return '별점을 주지 않았습니다.';
-      case 2:
-        return '2점 최악이예요.';
-      case 4:
-        return '4점 별로예요.';
-      case 6:
-        return '6점 보통이에요.';
-      case 8:
-        return '8점 재미있어요.';
-      case 10:
-        return '10점 명작이에요.';
-    }
-  }
-
+  /**
+   *
+   * @param movie
+   * @param $target
+   *
+   * 렌더 조건은 다음과 같이 나뉜다.
+   * 1. 처음 클릭한 경우
+   * 2. localStorage에 영화 정보가 저장되어 있는 경우
+   * 3. 이전에 클릭했던 데이터를 또다시 클릭한다면 ? -> 이건 그냥 modal을 클릭하는 거잖슴.
+   */
   render(movie: IMovieDetailItem, $target: HTMLElement) {
     this.#$detainContainer.innerHTML = this.template(movie);
     this.#loadImageEventListener();
@@ -102,8 +94,8 @@ class MovieDetail {
       if (!starSpan || !starDescription) return;
       this.#starScore = Number(e.target.value);
 
-      starSpan.style.width = `${this.#starScore * 20}%`;
-      starDescription.innerText = `${this.getStarDescriptionEachStar(this.#starScore * 2)}`;
+      starSpan.style.width = `${this.#starScore * 10}%`;
+      starDescription.innerText = `${STAR_DESCRIPTION[this.#starScore]}`;
     });
   }
 
