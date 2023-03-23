@@ -67,14 +67,11 @@ button.primary {
 }
 
 @media screen and (max-width: 420px) {
-  .item-thumbnail {
-    width: 90vw;
-    height: 135vw;
+  .item-card {
+    width: 140px;
   }
 
-  .item-title {
-    margin-top: 16px;
-    font-size: 1.8rem;
-    font-weight: bold;
+  .item-thumbnail {
+    height: 210px;
   }
 }
