@@ -54,7 +54,7 @@ const MovieModal = {
             </div>
             <div class="modal-score-box">
               <p class="bold">내 별점</p>
-              <a href="" id="star-count" class="star-count"></a>
+              <a href="#" id="star-count" class="star-count"></a>
             </div>
           </div>
         </div>
@@ -66,7 +66,6 @@ const MovieModal = {
 
   renderStar: (starCount: number) => {
     const score = starCount * 2;
-
     const template = `
     ${
       [...Array(starCount)]
