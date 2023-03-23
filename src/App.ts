@@ -38,6 +38,8 @@ class App {
     document.body.addEventListener('home', this.onHome);
     document.body.addEventListener('search', this.onSearch);
     document.body.addEventListener('loadMore', this.onLoadMore);
+    document.body.addEventListener('clickItem', this.onClickItem);
+    document.body.addEventListener('vote', this.onVote);
 
     const { genres } = await getGenres();
     this.movieService = new MovieService(genres);
@@ -68,6 +70,24 @@ class App {
         page: this.state.pageNumber,
       });
     }
+  };
+
+  onClickItem = (e: Event) => {
+    const { id } = (<CustomEvent>e).detail;
+
+    const movie = this.movieService.findMovie(id);
+    const myVote = this.voteMapStorage.getValue()[id] ?? '0';
+
+    if (movie) dom.renderMovieDetailBox(movie, myVote);
+    dom.show('.modal');
+    document.body.classList.add('fix');
+  };
+
+  onVote = (e: Event) => {
+    const { id, myVote } = (<CustomEvent>e).detail;
+
+    this.voteMapStorage.setValue({ ...this.voteMapStorage.getValue(), [id]: myVote });
+    dom.renderMyVoteArea(id, myVote);
   };
 
   initMoviePage(title: string) {
