@@ -4,6 +4,14 @@ import { $ } from '../util/querySelector';
 const SCORE_MIN = 0;
 const SCORE_MAX = 10;
 const SCORE_STEP = 2;
+const RATING_MESSAGES = [
+  '별점을 입력해 주세요',
+  '최악이에요',
+  '별로에요',
+  '보통이에요',
+  '재미있어요',
+  '세기의 명작',
+]
 
 const normalizeRating = (score: number): number => {
   return Math.max(SCORE_MIN, Math.min(SCORE_MAX, Math.round(score / SCORE_STEP) * SCORE_STEP));
@@ -28,6 +36,7 @@ class StarRating {
 
     this.element.innerHTML = `
     <input type="range" class="star-range" value="${this.rating}" step="${SCORE_STEP}" min="${SCORE_MIN}" max="${SCORE_MAX}">
+    <p>내 별점</p>
     <span class="rating-images">
       <img class="rating-img">
       <img class="rating-img">
@@ -35,6 +44,7 @@ class StarRating {
       <img class="rating-img">
       <img class="rating-img">
     </span>
+    <span class="rating-message"></span>
     `.trim();
 
     this.renderStars();
@@ -63,6 +73,11 @@ class StarRating {
         (img as HTMLElement).dataset.filled = 'true';
         (img as HTMLImageElement).alt = '채워진 별점';
       });
+
+    const message = $('.rating-message', this.element);
+    message.replaceChildren();
+    message.insertAdjacentHTML('afterbegin', `<span>${this.rating.toString()}</span>`);
+    message.insertAdjacentHTML('beforeend', `<span>${RATING_MESSAGES[this.rating / SCORE_STEP]}</span>`);
   }
 }
 
