@@ -88,9 +88,10 @@ class MovieList {
   renderNextMovies(movieList: MovieResponse[], total_pages: number) {
     this.renderSkeleton();
 
-    this.#$target.innerHTML += `
-        ${movieList.map((movie) => MovieCard.render(movie)).join("")}
-    `;
+    this.#$target.insertAdjacentHTML(
+      "beforeend",
+      `${movieList.map((movie) => MovieCard.render(movie)).join("")}`
+    );
     this.#movies.add(movieList);
 
     if (this.#state.page === total_pages) this.hideMoreButton();
