@@ -7,7 +7,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  max-width: 1200px;
+  padding: 0 20px;
   margin: 0 auto;
 }
 
@@ -22,8 +23,8 @@
 .item-list {
   display: grid;
   margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  grid-template-columns: repeat(2, 140px);
+  justify-content: space-between;
   grid-row-gap: 48px;
 }
 
@@ -34,8 +35,7 @@
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
-  height: 270px;
+  width: 140px;
   background-size: contain;
 }
 
@@ -110,4 +110,20 @@ button.primary {
 
 .message-desc {
   font-size: 20px;
+}
+
+@media (min-width: 440px) {
+  .item-list {
+    grid-template-columns: repeat(auto-fill, 180px);
+  }
+
+  .item-thumbnail {
+    width: 180px;
+  }
+}
+
+@media (min-width: 840px) {
+  .item-list {
+    grid-template-columns: repeat(4, 180px);
+  }
 }
