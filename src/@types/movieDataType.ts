@@ -36,3 +36,7 @@ export interface ResponseInfo {
 export interface ErrorType {
   [key: number]: string;
 }
+
+export interface ScoreComment {
+  [key: string]: string;
+}

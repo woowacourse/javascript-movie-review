@@ -1,3 +1,4 @@
+import { SCORE_COMMENT } from "../constants/data";
 import { getLocalstorage, setLocalstorage } from "../utils/localStorage";
 import { $ } from "../utils/selector";
 
@@ -16,24 +17,26 @@ export class StarInput {
   create() {
     return `
             <section class="score" id=${this._id}>
-                <strong class="my-score">내 별점</strong>
-                <div class="score__img-wrapper">
-                ${this.getCountedStar()}
-                </div>
-                <strong class="score__count">6</strong>
-                <strong class="score__comment">보통이에요</strong>
+            ${this.getCountedStar()}
             </section>
         `;
   }
 
   getCountedStar() {
-    return Array.from({ length: 5 })
-      .map((_, idx) => {
-        return idx <= this._score
-          ? `<img src="/star_filled.png" class="star-img" id=${idx} />`
-          : `<img src="/star_empty.png" class="star-img" id=${idx} />`;
-      })
-      .join("");
+    return (
+      `<strong class="my-score">내 별점</strong><div class="score__img-wrapper">` +
+      Array.from({ length: 5 })
+        .map((_, idx) => {
+          return idx <= this._score
+            ? `<img src="/star_filled.png" class="star-img" id=${idx} />`
+            : `<img src="/star_empty.png" class="star-img" id=${idx} />`;
+        })
+        .join("") +
+      `</div><strong class="score__count">${(this._score + 1) * 2}</strong>
+      <strong class="score__comment">${
+        SCORE_COMMENT[(this._score + 1) * 2]
+      }</strong>`
+    );
   }
 
   render() {
@@ -42,9 +45,9 @@ export class StarInput {
   }
 
   rerenderStarImages() {
-    const imageWrapper = $(".score__img-wrapper") as HTMLElement;
-    imageWrapper.innerHTML = "";
-    imageWrapper.innerHTML = this.getCountedStar();
+    const scoreBox = $(".score") as HTMLElement;
+    scoreBox.innerHTML = "";
+    scoreBox.innerHTML = this.getCountedStar();
   }
 
   updateScore(score: number) {
@@ -59,7 +62,7 @@ export class StarInput {
   }
 
   handleEvent() {
-    const starBox = $(".score__img-wrapper") as HTMLElement;
+    const starBox = $(".score") as HTMLElement;
     starBox.addEventListener("click", (e) => {
       const target = e.target as HTMLElement;
       if (target.className === "star-img") {
