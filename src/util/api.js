@@ -1,7 +1,7 @@
 import { apiKey } from "../../apiKey.js";
 
 export const popularUrl = (page) => {
-  return `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&page=${page}`;
+  return `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=ko-KR&page=${page}`;
 };
 
 export const searchUrl = (query, page) => {

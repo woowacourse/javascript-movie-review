@@ -37,6 +37,22 @@ class MovieDetail extends CustomElement {
     </section>
     `;
   }
+
+  setEvent() {
+    $(".close-btn").addEventListener("click", this.hideModal);
+
+    window.addEventListener("keyup", (e) => {
+      if ($(".modal-open").classList.contains("modal")) return;
+      if (e.key === "Escape") {
+        this.hideModal();
+      }
+    });
+  }
+
+  hideModal() {
+    $(".modal-open").classList.add("modal");
+    $(".modal-open").closest("body").classList.remove("scroll");
+  }
 }
 
 customElements.define("movie-detail", MovieDetail);
