@@ -7,10 +7,10 @@ export class Modal extends HTMLElement {
   }
 
   close() {
-    (this.querySelector('.one') as HTMLDialogElement).close();
+    (document.querySelector('.modal') as HTMLDialogElement).close();
   }
 
   show() {
-    (document.querySelector('.one') as HTMLDialogElement).showModal();
+    (document.querySelector('.modal') as HTMLDialogElement).showModal();
   }
 }

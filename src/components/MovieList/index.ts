@@ -7,7 +7,7 @@ export class MovieList extends HTMLElement {
   constructor() {
     super();
     this.innerHTML = template;
-    this.#$movieItems = document.querySelector('.item-list')!;
+    this.#$movieItems = this.querySelector('.item-list')!;
   }
 
   setTitle(title: string) {
@@ -32,15 +32,15 @@ export class MovieList extends HTMLElement {
       );
     }
     movieList.map((movie: Movie) => {
-      const { id, title, poster_path, vote_average } = movie;
+      const { id, title, poster_path, vote_average, genre_ids, overview } = movie;
       this.#$movieItems?.insertAdjacentHTML(
         'beforeend',
-        `<movie-item id=${id} title=${`"${title}"`} poster=${poster_path} vote=${vote_average}}></movie-item>`,
+        `<movie-item id=${id} title=${`"${title}"`} poster=${poster_path} vote=${vote_average} genre=${genre_ids} overview=${`"${overview}"`}></movie-item>`,
       );
     });
   }
 
-  modalHandler(open: CallableFunction) {
+  modalHandler(open: CallableFunction, setInformationToModal: CallableFunction) {
     const a = this.querySelector('ul');
 
     a?.addEventListener('click', (e: Event) => {
@@ -48,6 +48,7 @@ export class MovieList extends HTMLElement {
       const targetParent = target.parentElement as HTMLTextAreaElement;
 
       if (targetParent.id) open();
+      setInformationToModal(targetParent);
     });
   }
 }

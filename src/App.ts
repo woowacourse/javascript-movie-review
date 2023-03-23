@@ -3,6 +3,7 @@ import { MovieList } from './components/MovieList';
 import { SeeMoreButton } from './components/SeeMoreButton';
 import { Skeleton } from './components/Skeleton';
 import { Modal } from './components/Modal';
+import { ModalInformation } from './ModalInformation';
 import Store from './Store';
 
 class App {
@@ -12,6 +13,7 @@ class App {
   store: Store;
   skeleton: Skeleton;
   modal: Modal;
+  modalInformation: ModalInformation;
 
   constructor() {
     this.$movieList = document.querySelector('movie-list')!;
@@ -20,13 +22,17 @@ class App {
     this.skeleton = new Skeleton();
     this.store = new Store();
     this.modal = new Modal();
+    this.modalInformation = new ModalInformation();
 
     setTimeout(() => this.initializeMovieList(), 500);
 
     this.$seeMoreButton.addMoreButtonHandler(this.moreButtonHandler.bind(this));
     this.$header.addSearchHandler(this.searchHandler.bind(this));
     this.$header.addClickLogoHandler(this.initializeMovieList.bind(this));
-    this.$movieList.modalHandler(this.modal.show.bind(this));
+    this.$movieList.modalHandler(
+      this.modal.show.bind(this),
+      this.modalInformation.setInformationToModal.bind(this),
+    );
   }
 
   initializeMovieList() {
