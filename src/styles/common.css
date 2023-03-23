@@ -199,3 +199,101 @@ header .search-box > form > .search-button {
   background: url('./search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
 }
+
+.movie-overview-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  flex-direction: column;
+
+  width: 64vw;
+  height: 60vh;
+  background: #212122;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.movie-overview-modal__header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 60px;
+
+  padding: 0 12px;
+
+  border-bottom: 1px solid rgba(241, 241, 241, 0.25);
+}
+
+.movie-overview-modal__title {
+  margin-left: auto;
+  font-size: 20px;
+  font-weight: 600;
+}
+.movie-overview-modal__close-btn {
+  width: 36px;
+  height: 36px;
+
+  margin-left: auto;
+
+  border: none;
+  border-radius: 50%;
+
+  color: white;
+  background: #383839;
+}
+
+.movie-overview-modal__body {
+  display: flex;
+  flex-grow: 1;
+
+  width: 100%;
+  padding: 36px;
+}
+
+.movie-overview-modal__left-aside {
+  width: 40%;
+}
+
+.movie-overview-modal__right-aside {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  margin-left: 36px;
+}
+.movie-overview-modal__subInfo {
+  display: flex;
+}
+
+.movie-overview-modal__overview {
+  flex-grow: 1;
+  margin-top: 16px;
+
+  overflow-y: scroll;
+}
+
+.movie-overview-modal__my-vote-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  height: 64px;
+
+  padding: 0 16px;
+
+  border-radius: 16px;
+  background: #383839;
+}
