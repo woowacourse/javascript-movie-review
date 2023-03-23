@@ -34,12 +34,12 @@ export default class MovieComponent extends CustomComponent {
     this.querySelector(".item-card").prepend(skeleton);
 
     const thumbnail = this.querySelector("img.item-thumbnail");
-    thumbnail.classList.add("hide");
+    thumbnail.classList.add("fadein");
 
     this.querySelector("img.item-thumbnail").addEventListener("load", (e) => {
       if (thumbnail.complete) {
         skeleton.remove();
-        this.querySelector("img.item-thumbnail").classList.remove("hide");
+        this.querySelector("img.item-thumbnail").classList.remove("fadein");
       }
     });
   }
