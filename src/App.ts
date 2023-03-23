@@ -1,51 +1,80 @@
-import type { TMDBResponse } from './types/tmdb';
-import movieService from './domain/movieService';
+import type { MoviesResponse } from './types/tmdb';
+import MovieService from './domain/MovieService';
 import * as dom from './dom';
-import { $ } from './utils/domUtils';
-import { getPopularMovies, getSearchMovies } from './api';
+import { getGenres, getPopularMovies, getSearchMovies } from './api';
 import { MAXIMUM_PAGE, POPULAR_TITLE } from './constants';
+import CustomStorage from './utils/CustomStorage';
 
-class App {
+interface State {
   pageNumber: number;
   pageCategory: 'home' | 'search';
   searchQuery: string;
+  loading: boolean;
+}
+
+type VoteMap = Record<string, string>;
+
+class App {
+  voteMapStorage;
+  movieService;
+  state: State;
 
   constructor() {
-    this.pageNumber = 1;
-    this.pageCategory = 'home';
-    this.searchQuery = '';
+    this.voteMapStorage = new CustomStorage<VoteMap>('voteMap', {});
+    this.movieService = new MovieService([]);
+    this.state = {
+      pageNumber: 1,
+      pageCategory: 'home',
+      searchQuery: '',
+      loading: false,
+    };
 
+    this.init();
     this.initMoviePage(POPULAR_TITLE);
-    this.bindEvents();
-    this.updateMoviePage(getPopularMovies, { page: this.pageNumber });
+    this.updateMoviePage(getPopularMovies, { page: this.state.pageNumber });
   }
 
-  bindEvents() {
-    $('movie-header')?.addEventListener('home', () => {
-      this.pageCategory = 'home';
-      this.initMoviePage(POPULAR_TITLE);
-      this.updateMoviePage(getPopularMovies, { page: this.pageNumber });
-    });
+  async init() {
+    document.body.addEventListener('home', this.onHome);
+    document.body.addEventListener('search', this.onSearch);
+    document.body.addEventListener('loadMore', this.onLoadMore);
 
-    $('movie-header')?.addEventListener('search', (e) => {
-      this.pageCategory = 'search';
-      this.searchQuery = (<CustomEvent>e).detail.query;
-      this.initMoviePage(`"${this.searchQuery}" 검색 결과`);
-      this.updateMoviePage(getSearchMovies, { query: this.searchQuery, page: this.pageNumber });
-    });
-
-    $('#page')?.addEventListener('loadMore', () => {
-      if (this.pageCategory === 'home') {
-        this.updateMoviePage(getPopularMovies, { page: this.pageNumber });
-      } else {
-        this.updateMoviePage(getSearchMovies, { query: this.searchQuery, page: this.pageNumber });
-      }
-    });
+    const { genres } = await getGenres();
+    this.movieService = new MovieService(genres);
   }
+
+  onHome = () => {
+    this.state.pageCategory = 'home';
+    this.initMoviePage(POPULAR_TITLE);
+    this.updateMoviePage(getPopularMovies, { page: this.state.pageNumber });
+  };
+
+  onSearch = (e: Event) => {
+    this.state.pageCategory = 'search';
+    this.state.searchQuery = (<CustomEvent>e).detail.query;
+    this.initMoviePage(`"${this.state.searchQuery}" 검색 결과`);
+    this.updateMoviePage(getSearchMovies, {
+      query: this.state.searchQuery,
+      page: this.state.pageNumber,
+    });
+  };
+
+  onLoadMore = () => {
+    if (this.state.pageCategory === 'home') {
+      this.updateMoviePage(getPopularMovies, { page: this.state.pageNumber });
+    } else {
+      this.updateMoviePage(getSearchMovies, {
+        query: this.state.searchQuery,
+        page: this.state.pageNumber,
+      });
+    }
+  };
 
   initMoviePage(title: string) {
-    this.pageNumber = 1;
-    movieService.resetMovies();
+    window.scrollTo({ top: 0 });
+    this.state.pageNumber = 1;
+    this.movieService.resetMovies();
+
     dom.resetSearchBox();
     dom.renderMoviePage(title);
   }
