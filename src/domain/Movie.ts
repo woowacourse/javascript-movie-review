@@ -1,4 +1,5 @@
 interface IMovie {
+  id: number;
   title: string;
   posterSrc: string | null;
   voteAverage: number;
@@ -26,6 +27,7 @@ class Movie {
 
   constructor(movieData: IMovieApiData) {
     this.movieData = {
+      id: movieData.id,
       title: movieData.title,
       posterSrc: movieData.poster_path,
       voteAverage: movieData.vote_average,
