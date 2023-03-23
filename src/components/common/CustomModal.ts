@@ -22,6 +22,7 @@ class CustomModal extends HTMLElement {
     if (!$modal) return;
 
     $modal.showModal();
+    $('body')?.classList.add('no-scroll');
   }
 
   closeModal() {
@@ -30,6 +31,7 @@ class CustomModal extends HTMLElement {
     if (!$modal) return;
 
     $modal.close();
+    $('body')?.classList.remove('no-scroll');
   }
 }
 

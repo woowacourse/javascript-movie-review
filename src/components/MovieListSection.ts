@@ -1,3 +1,5 @@
+import MovieDetailModal from './MovieDetailModal';
+
 import { SKELETON_TEMPLATE } from '../constants';
 
 import { $, dispatchCustomEvent } from '../utils/domUtils';
@@ -41,9 +43,14 @@ class MovieListSection extends HTMLElement {
   }
 
   renderMovieDetailModal(movieDetail: MovieDetailResponse) {
-    const { genres, overview } = movieDetail;
-    // console.log(genres.map((genre) => genre.name).join(', '));
-    // console.log(overview === '' ? '줄거리가 없습니다.' : overview);
+    const $modalContainer = $('.modal-container');
+
+    if (!$modalContainer) return;
+
+    $modalContainer.innerHTML = `<movie-detail-modal></movie-detail-modal>`;
+
+    const $movieDetailModal = $('movie-detail-modal') as MovieDetailModal;
+    $movieDetailModal.render(movieDetail);
   }
 }
 
