@@ -17,63 +17,35 @@ export function MovieList() {
 export async function renderSkeletonList() {
   const { page, keyword, isPopular } = store.state;
 
-  const parentElem = $('.item-list') as HTMLElement;
-  parentElem?.insertAdjacentHTML('beforeend', MovieListSkeleton());
+  const $parentElem = $('.item-list') as HTMLElement;
+  $parentElem?.insertAdjacentHTML('beforeend', MovieListSkeleton());
 
   if (isPopular) {
-    const { results } = await getPopularMovies(page);
-
+    const results = await getPopularMovies(page);
     renderPopularMovieList(results);
+
     return;
   }
 
-  const { results } = await getSearchMovie(keyword, page);
-
+  const results = await getSearchMovie(keyword, page);
   renderSearchMovieList(results);
 
   store.setState({ isContentEnd: true });
 }
 
-export async function renderMoreSkeletonList() {
-  const { page, keyword, isPopular } = store.state;
-  const nextPage = (page as number) + 1;
+export async function renderPopularMovieList(movies: IMovie[]) {
+  const $parentElem = $('.item-list') as HTMLElement;
 
-  const parentElem = $('.item-list') as HTMLElement;
-  parentElem.insertAdjacentHTML('beforeend', MovieListSkeleton());
-
-  if (isPopular) {
-    const { results } = await getPopularMovies(nextPage);
-    renderMoreMovieList(results);
-
-    store.setState({ page: nextPage });
-
-    deleteSkeletonList();
-
-    return;
-  }
-  const { results } = await getSearchMovie(keyword, nextPage);
-  renderMoreMovieList(results);
-
-  store.setState({ page: nextPage });
-
-  deleteSkeletonList();
-
-  return;
-}
-
-export async function renderPopularMovieList(results: IMovie[]) {
-  const parentElem = $('.item-list') as HTMLElement;
-
-  parentElem.innerHTML = `
-  ${results.map((movie) => MovieItem(movie)).join('')}
+  $parentElem.innerHTML = `
+  ${movies.map((movie) => MovieItem(movie)).join('')}
   
   `;
 }
 
 export async function renderSearchMovieList(searchResults: IMovie[]) {
-  const parentElem = $('.item-list') as HTMLElement;
+  const $parentElem = $('.item-list') as HTMLElement;
 
-  parentElem.innerHTML =
+  $parentElem.innerHTML =
     searchResults.length === 0
       ? '검색 결과가 없습니다.'
       : `
@@ -82,10 +54,35 @@ export async function renderSearchMovieList(searchResults: IMovie[]) {
   `;
 }
 
-export async function renderMoreMovieList(moreResults: IMovie[]) {
-  const parentElem = $('.item-list') as HTMLElement;
+export async function renderMoreSkeletonList() {
+  const { page, keyword, isPopular } = store.state;
+  const nextPage = (page as number) + 1;
 
-  parentElem.insertAdjacentHTML(
+  const $parentElem = $('.item-list') as HTMLElement;
+  $parentElem.insertAdjacentHTML('beforeend', MovieListSkeleton());
+
+  if (isPopular) {
+    const results = await getPopularMovies(nextPage);
+    renderMoreMovieList(results);
+
+    store.setState({ page: nextPage });
+
+    deleteSkeletonList();
+
+    return;
+  }
+  const results = await getSearchMovie(keyword, nextPage);
+  renderMoreMovieList(results);
+
+  store.setState({ page: nextPage });
+
+  deleteSkeletonList();
+}
+
+export async function renderMoreMovieList(moreResults: IMovie[]) {
+  const $parentElem = $('.item-list') as HTMLElement;
+
+  $parentElem.insertAdjacentHTML(
     'beforeend',
     `${moreResults.map((movie) => MovieItem(movie)).join('')}`
   );

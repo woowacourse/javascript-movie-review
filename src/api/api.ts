@@ -11,47 +11,60 @@ export interface IMovie {
   vote_average: number;
 }
 
-export interface IMovieList {
+export interface MovieDataResponse {
   page: number;
   results: IMovie[];
   total_pages: number;
   total_results: number;
 }
 
-type TGetPopularMovies = (page: number) => Promise<IMovieList>;
+export interface ErrorResponse {
+  status_message: string;
+  success?: boolean;
+  status_code: number;
+}
 
-type TGetSearchMovies = (keyword: string, page: number) => Promise<IMovieList>;
-
-export const getPopularMovies: TGetPopularMovies = async (page) => {
+export const getPopularMovies = async (page: number): Promise<IMovie[]> => {
   try {
     const response = await fetch(
       `${BASE_PATH}/movie/popular?api_key=${process.env.API_KEY}&language=ko-KR&page=${page}`
     );
-    if (!response.ok) throw Error(response.statusText);
 
-    return await response.json();
-  } catch (err) {
-    console.log(err);
+    if (!response.ok) {
+      const error: ErrorResponse = await response.json();
 
-    if (err instanceof Error) return err.message;
+      throw new Error(error.status_message);
+    }
 
-    return String(err);
+    const data: MovieDataResponse = await response.json();
+    const movies: IMovie[] = data.results;
+
+    return movies;
+  } catch (error) {
+    if (error instanceof Error) {
+      alert(error.message);
+    }
   }
 };
 
-export const getSearchMovie: TGetSearchMovies = async (keyword, page) => {
+export const getSearchMovie = async (keyword: string, page: number): Promise<IMovie[]> => {
   try {
     const response = await fetch(
       `${BASE_PATH}/search/movie?api_key=${process.env.API_KEY}&language=ko-KR&query=${keyword}&page=${page}`
     );
-    if (!response.ok) throw Error(response.statusText);
+    if (!response.ok) {
+      const error: ErrorResponse = await response.json();
 
-    return response.json();
-  } catch (err) {
-    console.log(err);
+      throw new Error(error.status_message);
+    }
 
-    if (err instanceof Error) return err.message;
+    const data: MovieDataResponse = await response.json();
+    const movies: IMovie[] = data.results;
 
-    return String(err);
+    return movies;
+  } catch (error) {
+    if (error instanceof Error) {
+      alert(error.message);
+    }
   }
 };
