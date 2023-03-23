@@ -1,33 +1,35 @@
 import { posterNotFoundImage, starFilledImage } from '../../assets/images';
+import { IMAGE_URL } from '../../constants';
 import { CLASS } from '../../constants/selector';
 import { $ } from '../../utils/dom';
+import { MovieDetail } from '../MovieCardSection/MovieCard';
 
 import './MovieDetailModal.style.css';
 
 const MovieDetailModal = {
-  template(movieId: string) {
+  template(movieDetail: MovieDetail) {
     return `
       <div class="modal-background"></div>
       <div class="modal-content">
         <div class="modal-header">
-          <h2>해리 포터 20주년: 리턴 투 호그와트</h2>
+          <h2>${movieDetail.title}</h2>
           <button type="button">X</button>
         </div>
         <div class="movie-details">
           <div class="movie-detail-poster">
-            <img src=${posterNotFoundImage} alt="해리 포터 20주년: 리턴 투 호그와트" />
+            <img src="${MovieDetailModal.handlePosterImage(movieDetail.posterPath)}" alt=${movieDetail.title} />
           </div>
           <div class="movie-detail-content">
             <div class="movie-detail-info">
               <div class="movie-detail-genre">
-                <p>액션, 코미디, 범죄</p>
+                <p>${movieDetail.genres.join(', ')}</p>
                 <div class="movie-detail-score">
                   <img src=${starFilledImage} alt="별점" />
                 </div>
-                <p>8.1</p>
+                <p>${movieDetail.rating.toFixed(1)}</p>
               </div>
               <p class="movie-detail-desc">
-              해리 포터 영화 시리즈가 다룬 주제들을 챕터로 나누어 다루었으며, 배우들의 영화 촬영장에서의 에피소드들과 감독들의 설명이 이어졌다. DVD 코멘터리와 비슷한 구성이지만, 영화에 참여하기까지의 일련의 오디션 과정과 시리즈가 끝난 후의 배우들의 커리어 등에 대해서 광범위하게 다루고 있다. 또한 세상을 떠난 배우들에 대한 기억들을 회상하는 시간도 가졌다.
+                ${movieDetail.overview}
               </p>
             </div>
             <div class="user-rating-container">
@@ -63,11 +65,11 @@ const MovieDetailModal = {
     if (event.code === 'Escape') MovieDetailModal.close();
   },
 
-  open(movieId: string) {
+  open(movieDetail: MovieDetail) {
     const modalRoot = $<HTMLDivElement>('#modal-root');
 
     modalRoot.classList.remove(CLASS.HIDE);
-    modalRoot.insertAdjacentHTML('beforeend', MovieDetailModal.template(movieId));
+    modalRoot.insertAdjacentHTML('beforeend', MovieDetailModal.template(movieDetail));
   },
 
   close() {
@@ -76,6 +78,10 @@ const MovieDetailModal = {
     modalRoot.classList.add(CLASS.HIDE);
     modalRoot.innerHTML = '';
     MovieDetailModal.removeEvent();
+  },
+
+  handlePosterImage(path: string | null) {
+    return path === null ? posterNotFoundImage : IMAGE_URL + path;
   },
 };
 

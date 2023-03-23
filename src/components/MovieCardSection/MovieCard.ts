@@ -1,8 +1,18 @@
+import { getMovieDetailApi } from '../../api';
 import { posterNotFoundImage, starFilledImage } from '../../assets/images';
 import { IMAGE_URL } from '../../constants';
+import { isCustomErrorMessage } from '../../constants/message';
 import { CLASS } from '../../constants/selector';
 
 import type { AppMovie } from '../../types/movie';
+
+export interface MovieDetail {
+  title: string;
+  genres: string[];
+  posterPath: string | null;
+  overview: string;
+  rating: number;
+}
 
 const MovieCard = {
   template() {
@@ -54,6 +64,24 @@ const MovieCard = {
 
   handlePosterImage(path: string | null) {
     return path === null ? posterNotFoundImage : IMAGE_URL + path;
+  },
+
+  async getMovieDetail(movieId: string): Promise<MovieDetail | undefined> {
+    try {
+      const { title, genres: rawGenres, poster_path: posterPath, overview, vote_average: voteAverage } = await getMovieDetailApi(movieId);
+      const genres = rawGenres.map((genre) => genre.name);
+
+      return { title, genres, posterPath, overview, rating: voteAverage };
+    } catch (error) {
+      if (isCustomErrorMessage(error)) {
+        alert(error.error);
+        return;
+      }
+
+      if (error instanceof Error) {
+        alert(error.message);
+      }
+    }
   },
 };
 

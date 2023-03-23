@@ -6,6 +6,7 @@ import { CLASS } from '../../constants/selector';
 import { $ } from '../../utils/dom';
 
 import type { AppMovie } from '../../types/movie';
+import { getMovieDetailApi } from '../../api';
 
 const MovieCardList = {
   template() {
@@ -21,7 +22,7 @@ const MovieCardList = {
   setEvent() {
     const movieCardList = $<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
 
-    movieCardList.addEventListener('click', (event) => {
+    movieCardList.addEventListener('click', async (event) => {
       if (!(event.target instanceof HTMLElement)) return;
 
       const movieItem = event.target.closest('li');
@@ -29,7 +30,11 @@ const MovieCardList = {
 
       if (!movieId) return;
 
-      MovieDetailModal.open(movieId);
+      const movieDetail = await MovieCard.getMovieDetail(movieId);
+
+      if (!movieDetail) return;
+
+      MovieDetailModal.open(movieDetail);
       MovieDetailModal.setEvent();
     });
   },
