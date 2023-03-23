@@ -15,6 +15,7 @@ import {
 } from '../api/movieAPI';
 import { getLocalStorage } from '../utils/localStorage';
 
+// TODO: MovieApi랑 MovieList 도메인 두 개로 나누기! -> api related should go inside api related because it's api related it can have local storage data and I can add it via constructor
 class MovieList {
   private static instance: MovieList;
   private movies: Movie[] = [];
@@ -22,6 +23,10 @@ class MovieList {
   private movieGenres: MovieGenre[] = [];
   private currentPage: number = 1;
   private searchQuery: string = '';
+
+  constructor() {
+    this.getMovieGenre();
+  }
 
   static getInstance(): MovieList {
     if (!MovieList.instance) {
@@ -87,8 +92,6 @@ class MovieList {
   async getMovieData() {
     EventEmitter.emit(MOVIE_LIST_LOADING);
 
-    console.log(this.userMovies);
-
     try {
       const movies =
         this.searchQuery !== ''
@@ -115,9 +118,8 @@ class MovieList {
     return [...this.userMovies];
   }
 
-  updateUserVote(movieId: number, userVoteCount: number) {
+  updateUserVote(movieId: number, userVote: number) {
     const hasMovie = this.userMovies.find((movie) => movie.id === movieId);
-    const userVote = userVoteCount * 2;
 
     if (hasMovie) {
       this.userMovies = this.userMovies.map((movie: Movie) => {
