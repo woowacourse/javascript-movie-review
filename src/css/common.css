@@ -276,7 +276,7 @@ header .search-box > #search-button {
 }
 
 .modal {
-  position: absolute;
+  position: fixed;
   top: 0;
 }
 
