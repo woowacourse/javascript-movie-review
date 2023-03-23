@@ -19,7 +19,7 @@ class MovieDetailModal extends HTMLElement {
       : "영화 내용이 등록되지 않았습니다";
 
     this.innerHTML = /* html */ `
-      <dialog data-id=${id}>
+      <dialog>
       <div class="modal-backdrop"></div>
       <div class="modal">
         <div class="modal-header">
@@ -42,7 +42,7 @@ class MovieDetailModal extends HTMLElement {
             </div>
             <p class="modal-overview">${movieOverView}</p>
             <div class="vote-container">
-            <movie-vote></movie-vote>
+            <movie-vote modal-id="${id}"></movie-vote>
             </div>
           </div>
         </div>
@@ -65,28 +65,7 @@ class MovieDetailModal extends HTMLElement {
     window.addEventListener("popstate", () => {
       dialog.close();
     });
-
-    // this.addVoteScoreUpdateListener();
   }
-
-  // addVoteScoreUpdateListener() {
-  //   $("movie-vote")?.addEventListener(
-  //     "voteScoreUpdated",
-  //     ({ detail }: CustomEventInit) => {
-  //       const { index, score, message } = detail;
-  //       const $voteScore = $(".vote-score");
-  //       const $voteMessage = $(".vote-message");
-
-  //       if ($voteScore) $voteScore.textContent = score;
-  //       if ($voteMessage) $voteMessage.textContent = message;
-
-  //       dispatchCustomEvent(this, {
-  //         eventType: "voteStarIndex",
-  //         data: index,
-  //       });
-  //     }
-  //   );
-  // }
 
   openModal() {
     const dialog = <HTMLDialogElement>$("dialog");

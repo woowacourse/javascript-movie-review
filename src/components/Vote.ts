@@ -16,21 +16,11 @@ class Vote extends HTMLElement {
       <div class="user-vote">
         <span class="vote-title">내 별점</span>
         <div class="vote-stars">
-          <span class="user-vote-star">
-          <img class="star-icon" src="${StarEmpty}" alt="start-empty" />
-          </span>
-          <span class="user-vote-star">
-          <img class="star-icon" src="${StarEmpty}" alt="start-empty" />
-          </span>
-          <span class="user-vote-star">
-          <img class="star-icon" src="${StarEmpty}" alt="start-empty" />
-          </span>
-          <span class="user-vote-star">
-          <img class="star-icon" src="${StarEmpty}" alt="start-empty" />
-          </span>
-          <span class="user-vote-star">
-          <img class="star-icon" src="${StarEmpty}" alt="start-empty" />
-          </span>
+          <img class="star-icon" data-order="1" src="${StarEmpty}" alt="start-empty" />
+          <img class="star-icon" data-order="2" src="${StarEmpty}" alt="start-empty" />
+          <img class="star-icon" data-order="3" src="${StarEmpty}" alt="start-empty" />
+          <img class="star-icon" data-order="4" src="${StarEmpty}" alt="start-empty" />
+          <img class="star-icon" data-order="5" src="${StarEmpty}" alt="start-empty" />
         </div>
         <span class="vote-score">0</span>
         <span class="vote-message">별점을 눌러주세요</span>
@@ -38,33 +28,38 @@ class Vote extends HTMLElement {
   }
 
   addEvent() {
-    $$(".user-vote-star")?.forEach((star, index) => {
-      star.addEventListener("click", () => {
-        this.onHandleVoteData(index);
-      });
+    const id = this.getAttribute("modal-id");
+
+    $(".vote-stars")?.addEventListener("click", (event) => {
+      this.onHandleVoteData(event);
     });
   }
 
-  onHandleVoteData(index: number) {
-    const starIcons = $$(".star-icon");
-    const score = this.calculateScore(index);
-    const message = this.showMessage(score);
+  onHandleVoteData(event: Event) {
+    const target = <HTMLElement>event.target;
+    const order = Number(
+      (<HTMLElement>target.closest(".star-icon"))?.dataset.order
+    );
 
-    starIcons.forEach((icon, i) => {
-      (<HTMLImageElement>icon).src = i <= index ? StarFilled : StarEmpty;
+    if (!order) return;
+
+    this.renderStar(order);
+    this.renderScoreAndMessage(order);
+  }
+
+  renderStar(order: number) {
+    $$(".star-icon")?.forEach((star, index) => {
+      (<HTMLImageElement>star).src = index < order ? StarFilled : StarEmpty;
     });
+  }
 
+  renderScoreAndMessage(order: number) {
     const $voteScore = $(".vote-score");
     const $voteMessage = $(".vote-message");
+    const message = this.showMessage(order);
 
-    if ($voteScore) $voteScore.textContent = score.toString();
+    if ($voteScore) $voteScore.textContent = String(order * 2);
     if ($voteMessage) $voteMessage.textContent = message;
-  }
-
-  calculateScore(index: number) {
-    let score = 0;
-    score = (index + 1) * 2;
-    return score;
   }
 
   showMessage(score: number) {
