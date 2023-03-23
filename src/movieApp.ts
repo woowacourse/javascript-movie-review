@@ -88,12 +88,12 @@ const movieApp = {
 
     if (!movies) return;
 
-    movieHandler.addMovies(movies.results);
+    const newMovies = movieHandler.addMovies(movies.results);
 
     if (movies.results.length < 20) this.$container.removeLoadMovieButton();
 
     this.$container.hideSkeletonUI();
-    movieList.render(movieHandler.movies);
+    movieList.render(newMovies);
   },
 
   searchMovieData(query: string) {

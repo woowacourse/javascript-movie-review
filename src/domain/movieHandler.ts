@@ -4,7 +4,7 @@ interface MovieHandler {
   movies: Movie[];
   genres: Genre[];
   setGenres(genres: Genre[]): void;
-  addMovies(movies: Movie[]): void;
+  addMovies(movies: Movie[]): Movie[];
   getMovie(movieID: number): Movie;
   initializeMovies(): void;
 }
@@ -18,7 +18,7 @@ const movieHandler: MovieHandler = {
   },
 
   addMovies(movies) {
-    this.movies = movies.map((movie) => {
+    const newMovies = movies.map((movie) => {
       return {
         id: movie.id,
         title: movie.title,
@@ -31,6 +31,9 @@ const movieHandler: MovieHandler = {
         ),
       };
     });
+    this.movies = [...this.movies, ...newMovies];
+
+    return newMovies;
   },
 
   getMovie(movieID) {
