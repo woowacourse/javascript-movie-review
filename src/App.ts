@@ -3,15 +3,40 @@ import './components/MovieListContainer';
 import './components/MovieTitle';
 import './components/MovieListContent';
 import './components/MovieInformationModal';
+import './components/MovieInformationContent';
+import './components/UserMovieVote';
 import './components/InvalidMessage';
-import MovieList from './domain/MovieList';
 import { saveToLocalStorage } from './utils/localStorage';
+import MovieList from './domain/MovieList';
 
-// something to solve ! don't place this twice but once?
-history.pushState({ isList: true, searchQuery: '', timestamp: new Date().getTime() }, '', '/');
-MovieList.getMovieGenre();
-MovieList.getMovieData();
+class App {
+  constructor() {
+    this.loadMovieData();
+    this.addInitialPageLoadEventListener();
+    this.addSaveToLocalStorageEventListener();
+  }
 
-window.addEventListener('beforeunload', () => {
-  saveToLocalStorage(MovieList.getUserMovies());
-});
+  private loadMovieData() {
+    MovieList.getMovieGenre();
+    MovieList.getMovieData();
+  }
+
+  private addInitialPageLoadEventListener() {
+    window.addEventListener('load', () => {
+      history.replaceState(
+        { isList: true, searchQuery: '', timestamp: new Date().getTime() },
+        '',
+        '/'
+      );
+    });
+  }
+
+  private addSaveToLocalStorageEventListener() {
+    window.addEventListener('beforeunload', () => {
+      saveToLocalStorage(MovieList.getUserMovies());
+      window.scrollTo(0, 0);
+    });
+  }
+}
+
+export default new App();
