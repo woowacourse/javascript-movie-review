@@ -35,6 +35,7 @@ class MovieInformationModal {
           <img src="${CloseButton}" alt="" class="close-button" />
         </div>
       </div>
+      <div class="modal-message-container"></div>
     `;
   }
 

@@ -364,6 +364,10 @@ header .search-box > #search-button {
   gap: 4px;
 }
 
+.vote-stars {
+  cursor: pointer;
+}
+
 .vote-stars--temp {
   position: absolute;
   pointer-events: none;
@@ -430,5 +434,39 @@ header .search-box > #search-button {
   }
   100% {
     transform: scale(1);
+  }
+}
+
+.voted {
+  position: absolute;
+  bottom: -74px;
+  margin: 20px;
+  padding: 20px;
+  width: 300px;
+
+  background-color: #232323;
+  opacity: 0;
+
+  border-radius: 10px;
+
+  animation: votedAnimation 2s ease-in-out;
+}
+
+@keyframes votedAnimation {
+  0% {
+    bottom: -74px;
+    opacity: 0;
+  }
+  25% {
+    bottom: 0;
+    opacity: 1;
+  }
+  75% {
+    bottom: 0;
+    opacity: 1;
+  }
+  100% {
+    bottom: -74px;
+    opacity: 0;
   }
 }

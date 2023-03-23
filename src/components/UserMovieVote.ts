@@ -11,6 +11,7 @@ import MovieList from '../domain/MovieList';
 
 class UserMovieVote {
   private static instance: UserMovieVote;
+  private messageContainer: HTMLDivElement;
   private userVoteStars: HTMLDivElement;
   private temporaryVoteStars: HTMLDivElement;
   private voteMessage: HTMLParagraphElement;
@@ -23,6 +24,7 @@ class UserMovieVote {
       this.userVoteStarsTemplate('temp-star')
     );
     this.init();
+    this.messageContainer = $<HTMLDivElement>('.modal-message-container');
     this.userVoteStars = $<HTMLDivElement>('.vote-stars');
     this.voteMessage = $<HTMLParagraphElement>('.vote-message');
     this.voteInfo = $<HTMLParagraphElement>('.vote-info');
@@ -96,6 +98,13 @@ class UserMovieVote {
     }, 200);
   }
 
+  private renderVotedMessage() {
+    const template = `<div class="voted">평가가 완료되었습니다.</div>`;
+
+    this.messageContainer.replaceChildren();
+    this.messageContainer.insertAdjacentHTML('beforeend', template);
+  }
+
   private addUserStarEventListener() {
     this.userVoteStars.addEventListener('mouseenter', () => {
       this.temporaryVoteStars.classList.remove('hide');
@@ -119,6 +128,7 @@ class UserMovieVote {
       if (!target.classList.contains('user-vote-star')) return;
 
       this.addStarClickedInteraction(target.dataset.starIndex!);
+      this.renderVotedMessage();
 
       const movieId = Number($<HTMLDivElement>('.information-content').dataset.movieId);
       const userVote = (Number(target.dataset.starIndex) + 1) * VOTE_SCORE_AND_STAR_RATIO;
