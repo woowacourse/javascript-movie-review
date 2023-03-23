@@ -8,4 +8,5 @@ export interface Movie {
 
 export interface DetailMovie extends Movie {
   genres: string;
+  overview: string;
 }

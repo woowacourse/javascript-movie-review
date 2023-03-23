@@ -99,8 +99,8 @@ export const getDetailMovieData: FetchDetailMovieData = async (movieId: string) 
 
   const data: DetailMovieAPIData = await response.json();
 
-  const { id, title, poster_path: posterPath, vote_average: voteAverage } = data;
+  const { id, title, poster_path: posterPath, vote_average: voteAverage, overview } = data;
   const genres = MovieHandler.convertGenreList(data.genres);
 
-  return { isOk: response.ok, id, title, posterPath, voteAverage, genres };
+  return { isOk: response.ok, id, title, posterPath, voteAverage, overview, genres };
 };
