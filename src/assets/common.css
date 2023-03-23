@@ -492,27 +492,32 @@ dialog::backdrop {
   border: none;
   background: url('./star_empty.png');
   background-size: contain;
+  cursor: pointer;
 
   transition: scale 0.2s, drop-shadow 0.2s;
 }
 
-.star:hover ~ .star {
-  background: url('./star_empty.png');
-  background-size: contain;
+.star > input[type='radio'] {
+  display: none;
 }
 
+.star:has(~ .star.active),
 .star.active,
-.star:has(~ .active) {
-  filter: drop-shadow(0 0 0px);
+.star:hover,
+.star:has(~ .star:hover) {
   background: url('./star_filled.png');
   background-size: contain;
-  transform: scale(1);
 }
 
 .star:hover,
 .star:has(~ .star:hover) {
   filter: drop-shadow(0 0 12px rgba(255, 255, 63, 0.5));
-  background: url('./star_filled.png');
+  transform: scale(1);
+}
+
+.star:hover ~ .star {
+  filter: drop-shadow(0 0 0px);
+  background: url('./star_empty.png');
   background-size: contain;
-  transform: scale(1.1);
+  transform: scale(1);
 }
