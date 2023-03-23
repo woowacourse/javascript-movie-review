@@ -1,3 +1,4 @@
+import { getLocalstorage, setLocalstorage } from "../utils/localStorage";
 import { $ } from "../utils/selector";
 
 export class StarInput {
@@ -6,7 +7,8 @@ export class StarInput {
 
   constructor(id: number) {
     this._id = id;
-    this._score = -1;
+    this._score =
+      getLocalstorage(this._id) !== null ? getLocalstorage(this._id) : -1;
     this.render();
     this.handleEvent();
   }
@@ -62,7 +64,15 @@ export class StarInput {
       const target = e.target as HTMLElement;
       if (target.className === "star-img") {
         this.updateStarImage(target);
+        this.save();
       }
     });
+  }
+
+  save() {
+    setLocalstorage<Number, Number>(this._id, this._score);
+  }
+  getPrevScore() {
+    return getLocalstorage<Number>(this._id);
   }
 }
