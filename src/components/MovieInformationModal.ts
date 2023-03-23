@@ -74,6 +74,7 @@ class MovieInformationModal {
         {
           showModal: false,
           searchQuery: history.state.searchQuery,
+          isList: true,
           timestamp: new Date().getTime(),
         },
         '',
@@ -101,8 +102,6 @@ class MovieInformationModal {
   private addBrowserBackButtonEventListener() {
     window.addEventListener('popstate', (event) => {
       if (!event.state) return;
-
-      event.state.isBackButton = true;
 
       if (event.state.showModal) {
         MovieList.getMovieInformation(event.state.movieId, true);
