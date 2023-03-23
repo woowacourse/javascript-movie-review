@@ -4,6 +4,7 @@ import { IMAGE_URL } from '../../constants';
 import { CLASS } from '../../constants/selector';
 import type { Movie } from '../../types/movie';
 import MovieDetailModal from '../MovieDatailModal';
+import StarRate from '../MovieDatailModal/StarRate';
 
 const MovieCard = {
   template() {
@@ -50,6 +51,7 @@ const MovieCard = {
     card?.addEventListener('click', async () => {
       const data = await getMovieById(String(id));
       MovieDetailModal.open(data);
+      StarRate.paint(String(id));
     });
   },
   handlePosterImage(path: string | null) {

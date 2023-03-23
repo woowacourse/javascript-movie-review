@@ -4,6 +4,7 @@
   position: relative;
   flex-direction: column;
   width: 70%;
+  min-width: 896px;
   height: 572px;
   background: #212122;
   border: none;
@@ -62,12 +63,35 @@
   display: flex;
   align-items: center;
   padding: 16px;
+  width: 100%;
   background: #383839;
   border-radius: 12px;
 }
 
 #movie-detail-score > * {
   margin: 0 6px;
+}
+
+#movie-detail-score > div:first-child {
+  min-width: 46px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+#star-rate-message {
+  min-width: 120px;
+  font-size: 16px;
+}
+
+#star-rate-box {
+  display: flex;
+  margin: 0;
+}
+
+#star-rate-box > * {
+  min-width: 40px;
+  min-height: 40px;
+  padding: 2px;
 }
 
 .modal-backdrop {
@@ -85,14 +109,28 @@
 @media screen and (max-width: 1000px) {
   #movie-detail-modal {
     height: 420px;
+    width: 80%;
     min-width: 612px;
   }
   #movie-detail-main > img {
     width: 200px;
   }
+  #movie-detail-score > div:first-child {
+    min-width: 28px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  #star-rate-message {
+    min-width: 72px;
+    font-size: 10px;
+  }
+  #star-rate-box > * {
+    min-width: 29px;
+    min-height: 29px;
+  }
 }
 
-@media screen and (max-width: 486px) {
+@media screen and (max-width: 600px) {
   body {
     overflow: hidden;
   }

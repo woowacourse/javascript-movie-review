@@ -2,6 +2,8 @@ import { posterNotFoundImage, starFilledImage } from '../../assets/images';
 import { CLASS } from '../../constants/selector';
 import './MovieDetailModal.style.css';
 import { IMAGE_URL } from '../../constants';
+import StarRate from './StarRate';
+import Movies from '../../domain/Movies';
 
 const MovieDetailModal = {
   template() {
@@ -9,8 +11,7 @@ const MovieDetailModal = {
       <dialog id="movie-detail-modal">
         <div class="modal-backdrop"></div>
         <button id="movie-detail-close">X</button>
-        <h2 id="movie-detail-title">
-        </h2>
+        <h2 id="movie-detail-title"></h2>
         <div id="movie-detail-main">
           <img
             class="${CLASS.SKELETON}"
@@ -28,24 +29,16 @@ const MovieDetailModal = {
               </div>
               <p id="movie-detail-overview"></p>
             </div>
-            <div id="movie-detail-score">
-              <div>내 별점</div>
-              <div>
-                <img src=${starFilledImage} alt="별점" />
-                <img src=${starFilledImage} alt="별점" />
-                <img src=${starFilledImage} alt="별점" />
-                <img src=${starFilledImage} alt="별점" />
-                <img src=${starFilledImage} alt="별점" />
-              </div>
-              <div>6 보통이에요</div>
-            </div>
+            ${StarRate.template()}
           </div>
         </div>
       </dialog>
     `;
   },
+  setEvent(movies: Movies, target: HTMLElement) {
+    StarRate.setEvent(movies, target);
+  },
   open(data: any) {
-    console.log(data);
     const modal = document.querySelector<HTMLDialogElement>('dialog');
     const title = modal?.querySelector('h2') as HTMLElement;
     title.innerHTML = data.title as string;

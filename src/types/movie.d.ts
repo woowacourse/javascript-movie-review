@@ -33,3 +33,8 @@ export interface Movie {
 export interface ErrorMessage {
   DATA_LOAD: '데이터를 불러올 수 없습니다.';
 }
+
+export interface Rate {
+  id: number;
+  rate: number;
+}
