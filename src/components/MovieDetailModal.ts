@@ -12,7 +12,9 @@ export default class MovieDetailModal {
     this.$parent = $parent;
     this.$parent.insertAdjacentHTML('beforeend', this.template());
     this.$modal = this.$parent.querySelector('.movie-detail-modal') as HTMLDialogElement;
-    this.$closeButton = this.$modal.querySelector('.movie-detail-modal-close') as HTMLButtonElement;
+    this.$closeButton = this.$modal.querySelector(
+      '.movie-detail-modal-close-button',
+    ) as HTMLButtonElement;
   }
 
   template() {
@@ -23,8 +25,10 @@ export default class MovieDetailModal {
     };
     return `
     <dialog class='movie-detail-modal'>
-      <p class='movie-detail-modal-title'>${title}</p>
-      <button class='movie-detail-modal-close'>X</button>
+      <div class="movie-detail-modal-title-container">
+        <span class='movie-detail-modal-title'>${title}</span>
+        <button class='movie-detail-modal-close-button'>X</button>
+      </div>
       <div class='movie-detail-modal-main'>
         <div class="movie-detail-modal-thumbnail">
           <img
@@ -34,7 +38,7 @@ export default class MovieDetailModal {
         </div>
         <section class="movie-detail-modal-description">
           <div>
-            <div>
+            <div class="movie-detail-modal-genre-vote">
               <span>${getGenreNames(genres).join(',')}</span>
               <span class="item-score"><img src="${starFilled}" alt="별점" /><span class='item-vote-average'>${vote_average}</span>
               </div>
