@@ -131,6 +131,7 @@ button.primary {
   display: none;
 }
 
+.content-container .skeleton,
 .item-card .skeleton {
   background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
   background-size: 400%;
@@ -215,16 +216,7 @@ header .search-box > .search-button {
   width: 877px;
   height: 577px;
 
-  overflow: auto;
   border-radius: 8px;
   background: #212122;
   transform: translate(-50%, -50%);
-}
-
-.modal-container > .modal-close-button {
-  width: 36px;
-  height: 36px;
-  border: 0;
-  background: url('../images/close_button.png') transparent no-repeat 0 1px;
-  background-size: contain;
 }
