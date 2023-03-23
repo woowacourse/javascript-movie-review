@@ -1,18 +1,14 @@
 class Modal {
   #$modal: HTMLDivElement | null;
   #$modalContainer: HTMLDivElement | null;
+  #$modalDrop: HTMLDivElement | null;
 
   constructor() {
     this.#$modal = document.querySelector('.modal');
+    this.#$modalDrop = document.querySelector('.modal-backdrop');
     this.#$modalContainer = document.querySelector('.modal-container');
 
-    const $closeButton = document.createElement('button');
-    $closeButton.className = 'modal-close-button';
-
-    $closeButton.addEventListener('click', () => {
-      modal.close();
-    });
-    this.#$modalContainer?.appendChild($closeButton);
+    this.#$modalDrop?.addEventListener('click', () => this.close());
   }
 
   getModalContainer() {
