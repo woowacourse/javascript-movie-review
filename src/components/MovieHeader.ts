@@ -8,7 +8,7 @@ class MovieHeader extends HTMLElement {
   constructor() {
     super();
     this.innerHTML = /* html */ `
-      <header>
+      <header class="header">
         <h1 class="title" aria-label="Movielist 로고">${LOGO}</h1>
         <form class="search-box">
           <input id="search-input" type="text" placeholder="검색" required />
