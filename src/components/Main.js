@@ -68,7 +68,6 @@ class Main {
       this.#element.dispatchEvent(new CustomEvent('searchPending', { bubbles: true }));
       await this.#manager.getMoreMovieList();
       this.#element.dispatchEvent(new CustomEvent('searchFullfilled', { bubbles: true }));
-      this.render();
     }
   }
 }
