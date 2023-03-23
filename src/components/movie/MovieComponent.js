@@ -1,6 +1,7 @@
 import CustomComponent from "../../abstracts/CustomComponent";
 import StarFilledImg from "../../../templates/star_filled.png";
-import { pushNavigate } from "../../util/Router";
+import { navigate } from "../../util/Router";
+import { ROUTER } from "../../constants/constants";
 
 export default class MovieComponent extends CustomComponent {
   constructor() {
@@ -20,7 +21,7 @@ export default class MovieComponent extends CustomComponent {
   handleEvent() {
     this.addEventListener("click", (e) => {
       e.preventDefault();
-      pushNavigate(`/movie/${this.state.movie.id}`);
+      navigate(`/${ROUTER.MOVIE_DETAIL}/${this.state.movie.id}`);
     });
 
     this.renderMovieItem();

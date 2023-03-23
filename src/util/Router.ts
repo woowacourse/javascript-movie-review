@@ -1,4 +1,5 @@
 import { GenreType, MovieDetails } from "../abstracts/type";
+import { ANIMATED_TIME } from "../constants/constants";
 import { fetchMovieDetails } from "./Api";
 
 const routes = {
@@ -13,7 +14,7 @@ function app() {
     modal.style.opacity = "0";
     setTimeout(() => {
       modal.remove();
-    }, 500);
+    }, ANIMATED_TIME.MODAL);
   }
 }
 
@@ -33,7 +34,7 @@ async function movieDetail(id: string) {
   });
 }
 
-export const App = async () => {
+export const Router = async () => {
   const hash = window.location.pathname;
   const parts = hash.split("/");
 
@@ -58,11 +59,6 @@ export const App = async () => {
 };
 
 export const navigate = (url: string) => {
-  window.history.replaceState(null, "", url);
-  App();
-};
-
-export const pushNavigate = (url: string) => {
   window.history.pushState(null, "", url);
-  App();
+  Router();
 };

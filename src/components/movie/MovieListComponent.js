@@ -32,6 +32,7 @@ export default class MovieListComponent extends CustomComponent {
 
   noResultRender() {
     this.classList.add("no-result-list");
+
     this.innerHTML = /*html*/ `
         <div class="no-result-box">
           <h1 class="no-result-title">검색 결과를 찾지 못하였습니다.</h1>
