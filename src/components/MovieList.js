@@ -42,19 +42,19 @@ export default class MovieList {
       Store.page += 1;
 
       if (this.renderMode === RENDER_MODE.POPULAR) {
-        this.toggleSkeleton();
+        this.startLoading();
         const { results, total_pages } = await getPopularMovies({ page: Store.page });
-        this.toggleSkeleton();
+        this.finishLoading();
         this.renderMovieCards(results, total_pages);
       }
 
       if (this.renderMode === RENDER_MODE.SEARCH) {
-        this.toggleSkeleton();
+        this.startLoading();
         const { results, total_pages } = await searchMovies({
           page: Store.page,
           text: Store.keyword,
         });
-        this.toggleSkeleton();
+        this.finishLoading();
         this.renderMovieCards(results, total_pages);
       }
     };
@@ -90,13 +90,15 @@ export default class MovieList {
     this.$movieItemList.innerHTML = '';
   }
 
-  toggleSkeleton() {
+  startLoading() {
+    this.$movieItemList.insertAdjacentHTML('beforeend', this.skeletonTemplate().repeat(20));
+  }
+
+  finishLoading() {
     const $skeletonLists = this.$movieItemList.querySelectorAll('.skeleton-li');
 
     if ($skeletonLists.length > 0) {
       $skeletonLists.forEach(($skeletonList) => $skeletonList.remove());
-    } else {
-      this.$movieItemList.insertAdjacentHTML('beforeend', this.skeletonTemplate().repeat(20));
     }
   }
 }

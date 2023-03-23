@@ -21,13 +21,13 @@ export default class Header {
     `;
   }
 
-  bindEvent(toggleSkeleton, onSubmitSearch) {
+  bindEvent(startLoading, finishLoading, onSubmitSearch) {
     const searchBox = this.$parent.querySelector('.search-box');
 
     const handleSubmitSearch = async (event) => {
       event.preventDefault();
 
-      toggleSkeleton();
+      startLoading();
 
       const keyword = new FormData(event.target).get('keyword');
 
@@ -37,7 +37,7 @@ export default class Header {
 
       Store.keyword = keyword;
 
-      toggleSkeleton();
+      finishLoading();
 
       onSubmitSearch(results, total_pages);
     };

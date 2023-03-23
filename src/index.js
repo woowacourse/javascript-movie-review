@@ -22,14 +22,15 @@ class App {
 
   async init() {
     this.header.bindEvent(
-      this.movieList.toggleSkeleton.bind(this.movieList),
+      this.movieList.startLoading.bind(this.movieList),
+      this.movieList.finishLoading.bind(this.movieList),
       this.onSubmitSearch.bind(this),
     );
     this.movieList.bindEvent();
 
-    this.movieList.toggleSkeleton();
+    this.movieList.startLoading();
     const { results, total_pages } = await getPopularMovies({ page: 1 });
-    this.movieList.toggleSkeleton();
+    this.movieList.finishLoading();
     this.movieList.renderMovieCards(results, total_pages);
 
     const lastItem = document.querySelector('#js-movie-list').lastElementChild;
@@ -43,11 +44,11 @@ class App {
       if (entry.isIntersecting) {
         console.log('무한스크롤');
         io.unobserve(entry.target);
-        this.movieList.toggleSkeleton();
+        this.movieList.startLoading();
         const { results, total_pages, page } = await getPopularMovies({ page: Store.page + 1 });
         Store.page += 1;
         this.movieList.renderMovieCards(results);
-        this.movieList.toggleSkeleton();
+        this.movieList.finishLoading();
         io.observe(document.querySelector('#js-movie-list').lastElementChild);
       }
     });
