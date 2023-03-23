@@ -8,7 +8,7 @@ import { getPopularMovieList } from './domains/movieApi';
 
 const App = {
   state: {
-    movie: { list: '', currentPage: 1, query: '' },
+    movie: { list: '', query: '', currentPage: 1, totalPages: 1 },
   },
 
   init() {
@@ -24,9 +24,12 @@ const App = {
     MovieContainer.initRender();
   },
 
-  async initState() {
-    const movieResults = (await getPopularMovieList(proxy.movie.currentPage)).results;
-    proxy.movie.list = generateMovieListTemplate(movieResults);
+  initState() {
+    getPopularMovieList(proxy.movie.currentPage).then(movieRoot => {
+      const movieResults = movieRoot.results;
+      proxy.movie.totalPages = movieRoot.total_pages;
+      proxy.movie.list = generateMovieListTemplate(movieResults);
+    });
   },
 };
 

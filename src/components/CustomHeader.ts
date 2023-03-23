@@ -26,11 +26,11 @@ class CustomHeader extends HTMLElement {
     const target = event.target;
 
     if (target instanceof HTMLFormElement && target.className === 'search-box') {
-      this.searchMovieList(event);
+      this.updateQuery(event);
     }
   }
 
-  private async searchMovieList(event: Event) {
+  private updateQuery(event: Event) {
     const formData = getFormData(event);
 
     if (formData instanceof Object) {
