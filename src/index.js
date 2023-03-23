@@ -42,6 +42,7 @@ EventBus.subscribe('summaryClick', modal.catchMovieIdEvent.bind(modal));
 EventBus.subscribe('summaryClick', star.catchMovieIdEvent.bind(star));
 
 const scrollButton = $('button#scroll-to-top');
+$('img', scrollButton).setAttribute('src', '../assets/up_arrow.png');
 scrollButton.addEventListener('click', () => {
   $('html').scrollTo({ top: 0, behavior: 'smooth' });
 });
