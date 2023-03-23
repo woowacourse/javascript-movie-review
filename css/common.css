@@ -150,22 +150,8 @@ movie-head .search-box > label > .search-button {
   background-size: contain;
 }
 
-search-button {
-  width: 35px;
-  height: 35px;
-  border-radius: 8px;
-  background-color: #fff;
-  text-align: center;
-}
-
-.mobile-search-button {
-  width: 14px;
-  height: 20px;
-  border: 0;
-  text-indent: -1000rem;
-  transform: translateY(8px);
-  background: url("../image/search_button.png") transparent no-repeat 0 1px;
-  background-size: contain;
+mobile-search-button {
+  display: none;
 }
 
 .error {
@@ -184,9 +170,11 @@ search-button {
 /* Movie-item-modal */
 .item-modal-container {
   position: fixed;
+  bottom: 20%;
+  left: 25%;
   display: flex;
   flex-direction: column;
-  width: 826px;
+  width: 60%;
   height: 570px;
   color: white;
   background-color: #212122;
@@ -281,6 +269,29 @@ search-button {
 }
 
 @media (min-width: 320px) and (max-width: 480px) {
+  search-input {
+    display: none;
+  }
+
+  mobile-search-button {
+    display: block;
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    background-color: #fff;
+    text-align: center;
+  }
+
+  .mobile-search-button {
+    width: 14px;
+    height: 20px;
+    border: 0;
+    text-indent: -1000rem;
+    transform: translateY(8px);
+    background: url("../image/search_button.png") transparent no-repeat 0 1px;
+    background-size: contain;
+  }
+
   .item-view h2 {
     font-size: 1.5rem;
   }
@@ -338,4 +349,12 @@ search-button {
   .user-rate-caption {
     display: none;
   }
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
 }

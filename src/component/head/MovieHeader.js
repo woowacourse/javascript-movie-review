@@ -1,6 +1,6 @@
 import CustomElement from "../basic/CustomElement";
 import "./SearchInput";
-import "./SearchButton";
+import "./MobileSearchButton";
 
 class MovieHeader extends CustomElement {
   template() {
@@ -8,8 +8,8 @@ class MovieHeader extends CustomElement {
       <a href='.'>
         <h1> <img src="./image/logo.png" alt="MovieList logo" /></h1>
       </a>
-      <search-input class="search-box" hidden></search-input>
-      <search-button></search-button>
+      <search-input class="search-box"></search-input>
+      <mobile-search-button></mobile-search-button>
       `;
   }
 }
