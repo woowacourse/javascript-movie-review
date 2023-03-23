@@ -512,6 +512,11 @@ select-vote-score > h2 {
   opacity: 1;
 }
 
+.fadeout {
+  opacity: 0;
+  height: 0;
+}
+
 .skeleton-card {
   width: 100%;
 }
@@ -626,5 +631,9 @@ select-vote-score > h2 {
 
   #movie-modal-score-desc {
     display: none;
+  }
+
+  .item-thumbnail.skeleton {
+    height: 210px;
   }
 }

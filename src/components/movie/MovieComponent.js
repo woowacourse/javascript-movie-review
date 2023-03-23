@@ -14,7 +14,6 @@ export default class MovieComponent extends CustomComponent {
         vote_average: 0,
         overview: "",
       },
-      isLoading: true,
     };
   }
 
@@ -34,12 +33,12 @@ export default class MovieComponent extends CustomComponent {
     this.querySelector(".item-card").prepend(skeleton);
 
     const thumbnail = this.querySelector("img.item-thumbnail");
-    thumbnail.classList.add("fadein");
+    thumbnail.classList.add("fadeout");
 
-    this.querySelector("img.item-thumbnail").addEventListener("load", (e) => {
+    thumbnail.addEventListener("load", () => {
       if (thumbnail.complete) {
         skeleton.remove();
-        this.querySelector("img.item-thumbnail").classList.remove("fadein");
+        thumbnail.classList.remove("fadeout");
       }
     });
   }
