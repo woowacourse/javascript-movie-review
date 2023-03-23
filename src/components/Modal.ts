@@ -1,20 +1,22 @@
 import './Modal.css';
 import STAR_FILLED from '../image/star-filled.png';
+import { $ } from '../utils/common';
 
 class Modal extends HTMLElement {
   connectedCallback() {
     this.render();
+    this.setModalCloseEvent();
   }
 
   render() {
     this.innerHTML = /*html*/ `
-        <div class="modal-background"></div> 
-        <dialog class="modal-wrapper" open>
+        <dialog id="modal" class="modal-wrapper" open>
+            <div id="modal-background" class="modal-background"></div> 
             <div class="modal">
                 <header class="modal-header">
                     <div></div>
                     <div class="modal-header-title">해리 포터 20주년: 리턴 투 호그와트</div>
-                    <div class="mocal-cancle">
+                    <div id="modal-close-button" class="mocal-cancle">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="modal-cancle-content">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                         </svg>
@@ -54,6 +56,24 @@ class Modal extends HTMLElement {
             </div>
         </dialog> 
      `;
+  }
+
+  setModalCloseEvent() {
+    window.addEventListener('keydown', event => {
+      if (event.code === 'Escape') {
+        this.closeModal();
+      }
+    });
+
+    $('#modal-background')?.addEventListener('click', () => this.closeModal());
+
+    $('#modal-close-button')?.addEventListener('click', () => this.closeModal());
+  }
+
+  closeModal() {
+    const modal = $('#modal') as HTMLDialogElement;
+    $('body')?.classList.remove('overflow-hidden');
+    modal.close();
   }
 }
 

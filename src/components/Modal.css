@@ -5,20 +5,24 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 2;
 }
 
 .modal-wrapper {
+  z-index: 1;
+}
+
+.modal {
   position: fixed;
+  top: 120px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 0 auto;
   max-width: 826px;
   max-height: 577px;
-  top: 120px;
-  bottom: 0;
-  margin: 0 auto;
   border-radius: 8px;
   color: var(--modal-white);
   background-color: var(--modal-black);
-  z-index: 3;
 }
 
 .modal-header {
