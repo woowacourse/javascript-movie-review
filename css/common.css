@@ -48,9 +48,10 @@ button {
 
 .item-list {
   display: grid;
+  justify-content: space-between;
   margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  grid-column-gap: 10%;
   grid-row-gap: 4rem;
 }
 
@@ -180,7 +181,7 @@ mobile-search-button {
   left: 25%;
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 826px;
   height: 570px;
   color: white;
   background-color: #212122;
@@ -274,7 +275,25 @@ mobile-search-button {
   cursor: pointer;
 }
 
-@media (min-width: 320px) and (max-width: 480px) {
+/* Table */
+
+@media (min-width: 581px) and (max-width: 1140px) {
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+  }
+
+  .item-modal-container {
+    width: 80%;
+    left: 10%;
+  }
+
+  .item-modal-user-rate {
+    padding-left: 6px;
+  }
+}
+
+/* Mobile */
+@media (min-width: 320px) and (max-width: 580px) {
   search-input {
     display: none;
   }
@@ -348,7 +367,7 @@ mobile-search-button {
 
   .item-modal-description {
     padding: 10px 0;
-    height: 75%;
+    height: 65%;
     line-height: 20px;
     overflow: hidden;
   }
