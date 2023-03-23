@@ -1,6 +1,4 @@
-import './css/reset.css';
-import './css/app.css';
-import './css/util.css';
+import './css/index.css';
 
 import MovieHeader from './components/MovieHeader';
 import MovieListSection from './components/MovieListSection';
