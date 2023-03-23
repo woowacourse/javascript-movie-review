@@ -393,6 +393,15 @@ dialog::backdrop {
   width: 24px;
 }
 
+.vote-message,
+.vote-info {
+  margin-top: 3px;
+}
+
+.vote-info {
+  color: #757575 !important;
+}
+
 .hide {
   display: none;
 }
