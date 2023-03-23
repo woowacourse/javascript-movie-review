@@ -42,12 +42,7 @@ class MovieDetailModal extends HTMLElement {
             </div>
             <p class="modal-overview">${movieOverView}</p>
             <div class="vote-container">
-              <div class="user-vote">
-                <span class="vote-title">내 별점</span>
-                <movie-vote></movie-vote>
-                <span class="vote-score">0</span>
-                <span class="vote-message">별점을 눌러주세요</span>
-              </div>
+            <movie-vote></movie-vote>
             </div>
           </div>
         </div>
@@ -71,22 +66,27 @@ class MovieDetailModal extends HTMLElement {
       dialog.close();
     });
 
-    this.addVoteScoreUpdateListener();
+    // this.addVoteScoreUpdateListener();
   }
 
-  addVoteScoreUpdateListener() {
-    $("movie-vote")?.addEventListener(
-      "voteScoreUpdated",
-      ({ detail }: CustomEventInit) => {
-        const { index, score, message } = detail;
-        const $voteScore = $(".vote-score");
-        const $voteMessage = $(".vote-message");
+  // addVoteScoreUpdateListener() {
+  //   $("movie-vote")?.addEventListener(
+  //     "voteScoreUpdated",
+  //     ({ detail }: CustomEventInit) => {
+  //       const { index, score, message } = detail;
+  //       const $voteScore = $(".vote-score");
+  //       const $voteMessage = $(".vote-message");
 
-        if ($voteScore) $voteScore.textContent = score;
-        if ($voteMessage) $voteMessage.textContent = message;
-      }
-    );
-  }
+  //       if ($voteScore) $voteScore.textContent = score;
+  //       if ($voteMessage) $voteMessage.textContent = message;
+
+  //       dispatchCustomEvent(this, {
+  //         eventType: "voteStarIndex",
+  //         data: index,
+  //       });
+  //     }
+  //   );
+  // }
 
   openModal() {
     const dialog = <HTMLDialogElement>$("dialog");

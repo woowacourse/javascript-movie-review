@@ -1,5 +1,5 @@
 import { StarFilled, StarEmpty } from "../../images";
-import { $$ } from "../utils/dom";
+import { $, $$ } from "../utils/dom";
 
 class Vote extends HTMLElement {
   constructor() {
@@ -13,29 +13,52 @@ class Vote extends HTMLElement {
 
   render() {
     this.innerHTML = /* html */ `
-      <span class="user-vote-star">
-        <img class="star-icon" src="${StarEmpty}" alt="start-empty" />
-      </span>
-    `.repeat(5);
+      <div class="user-vote">
+        <span class="vote-title">내 별점</span>
+        <div class="vote-stars">
+          <span class="user-vote-star">
+          <img class="star-icon" src="${StarEmpty}" alt="start-empty" />
+          </span>
+          <span class="user-vote-star">
+          <img class="star-icon" src="${StarEmpty}" alt="start-empty" />
+          </span>
+          <span class="user-vote-star">
+          <img class="star-icon" src="${StarEmpty}" alt="start-empty" />
+          </span>
+          <span class="user-vote-star">
+          <img class="star-icon" src="${StarEmpty}" alt="start-empty" />
+          </span>
+          <span class="user-vote-star">
+          <img class="star-icon" src="${StarEmpty}" alt="start-empty" />
+          </span>
+        </div>
+        <span class="vote-score">0</span>
+        <span class="vote-message">별점을 눌러주세요</span>
+      </div>`;
   }
 
   addEvent() {
     $$(".user-vote-star")?.forEach((star, index) => {
       star.addEventListener("click", () => {
-        const starIcons = $$(".star-icon");
-        const score = this.calculateScore(index);
-        const message = this.showMessage(score);
-
-        starIcons.forEach((icon, i) => {
-          (<HTMLImageElement>icon).src = i <= index ? StarFilled : StarEmpty;
-        });
-
-        const event = new CustomEvent("voteScoreUpdated", {
-          detail: { index, score, message },
-        });
-        this.dispatchEvent(event);
+        this.onHandleVoteData(index);
       });
     });
+  }
+
+  onHandleVoteData(index: number) {
+    const starIcons = $$(".star-icon");
+    const score = this.calculateScore(index);
+    const message = this.showMessage(score);
+
+    starIcons.forEach((icon, i) => {
+      (<HTMLImageElement>icon).src = i <= index ? StarFilled : StarEmpty;
+    });
+
+    const $voteScore = $(".vote-score");
+    const $voteMessage = $(".vote-message");
+
+    if ($voteScore) $voteScore.textContent = score.toString();
+    if ($voteMessage) $voteMessage.textContent = message;
   }
 
   calculateScore(index: number) {
