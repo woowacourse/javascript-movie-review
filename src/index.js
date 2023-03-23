@@ -7,16 +7,23 @@ import stateRender from './renderer/StateRender';
 
 new App(document.getElementById('app'));
 
-window.addEventListener('popstate', () => {
+window.addEventListener('hashchange', () => {
   // hashChange가 발생한다면 -> url 변화가 있다면 modal을 닫는지 아닌지 확인
-  modal.closeModalWhenHashEmpty();
+  const isModalOpen = document.querySelector('.modal--open') ? true : false;
+  const hash = location.hash;
 
-  const movieId = location.hash.split('/')[1];
+  if (hash === '' && isModalOpen) {
+    modal.close(true);
+    return;
+  }
+
+  const movieId = hash.split('/')[1];
+
   // movieId가 존재한다면 -> 다시 한번 modal을 띄워줌.
-  if (!movieId) return;
-
-  modal.open();
-  stateRender.renderMovieDetail(movieId, modal.getModalContainer());
+  if (movieId && !isModalOpen) {
+    modal.open();
+    stateRender.renderMovieDetail(movieId, modal.getModalContainer());
+  }
 });
 
 window.addEventListener('keyup', (event) => {

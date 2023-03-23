@@ -33,12 +33,6 @@ class Modal {
     }
     history.pushState('', '', '/');
   }
-
-  closeModalWhenHashEmpty() {
-    const isModalOpen = document.querySelector('.modal--open') ? true : false;
-
-    if (location.hash === '' && isModalOpen) this.close(true);
-  }
 }
 
 const modal = new Modal();
