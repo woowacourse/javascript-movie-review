@@ -1,5 +1,11 @@
 import "./style.css";
 import { IMovie } from "../../domain/Movie";
+import EmptyStarIcon from "../../images/star_empty.png";
+import FilledStarIcon from "../../images/star_filled.png";
+import NotFoundImageIcon from "../../images/not_found_image.png";
+import { $, $$ } from "../../utils/querySelelctor";
+import { getRatings, setLocalStorageItem } from "../../utils/localStorageUtils";
+import { IRatings } from "../../types/IRatings";
 
 class Modal {
   $target: HTMLDivElement;
@@ -94,6 +100,24 @@ class Modal {
       </div>
     `;
     }
+
+    this.bindEvents();
+  }
+
+  updateRating(movieId: string, rating: number) {
+    const $userRateContainer = $(".user-rate-container", this.$target);
+    if (!$userRateContainer) return;
+
+    const scoreElement = $(".score", $userRateContainer);
+    if (!scoreElement) return;
+
+    const ratingCommentElement = $(".score-comment", $userRateContainer);
+    if (!ratingCommentElement) return;
+
+    const stars: Array<HTMLImageElement> = Array.from($$("img", $userRateContainer));
+    this.updateStars(stars, rating);
+    scoreElement.textContent = rating ? rating.toString() : "";
+    ratingCommentElement.textContent = rating ? this.getScoreComment(rating) : "";
   }
 
   show() {
