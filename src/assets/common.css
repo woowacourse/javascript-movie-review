@@ -451,7 +451,7 @@ ul:has(hr:last-child) ~ .item-last-notice {
     position: absolute;
     right: 5%;
     width: 35px;
-    height: 70%;
+    height: 35px;
     transition: width 0.7s ease-in-out;
   }
   header .search-box.active {
