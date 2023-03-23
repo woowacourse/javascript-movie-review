@@ -275,7 +275,7 @@ mobile-search-button {
   cursor: pointer;
 }
 
-/* Table */
+/* Tablet */
 
 @media (min-width: 581px) and (max-width: 1140px) {
   .item-list {
