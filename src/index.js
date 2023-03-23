@@ -15,8 +15,6 @@ import StarRating from './components/StarRating';
 
 const SKELETON_ITEM_COUNT = 20;
 
-GenreMap.fetch();
-
 const listManager = new MovieListManager(LocalStorage);
 const ratingManager = new RatingManager();
 
@@ -51,10 +49,12 @@ window.addEventListener('beforeunload', () => {
   LocalStorage.setItem('myRatings', ratingManager.toString());
 });
 
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
   const myRatings = JSON.parse(LocalStorage.getItem('myRatings'));
 
   Object.entries(myRatings).forEach(([movieId, rating]) => {
     ratingManager.setRating(Number(movieId), rating);
   });
+
+  await GenreMap.fetch();
 });
