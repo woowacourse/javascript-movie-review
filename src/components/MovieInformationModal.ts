@@ -41,17 +41,17 @@ class MovieInformationModal {
 
   private init() {
     MovieList.on(MOVIE_RETRIEVED, (event) => {
-      const { movie, searchQuery } = (event as CustomEvent).detail;
-      this.openModal(movie, searchQuery);
+      const { movie, searchQuery, isBackButton } = (event as CustomEvent).detail;
+      this.openModal(movie, searchQuery, isBackButton);
     });
   }
 
-  private openModal(movie: Movie, searchQuery: string) {
+  private openModal(movie: Movie, searchQuery: string, isBackButton: boolean = false) {
     const queryParams = searchQuery
       ? `/search?q=${searchQuery}&id=${movie.id}`
       : `/?id=${movie.id}`;
 
-    if (!history.state.isBackButton) {
+    if (!isBackButton) {
       history.pushState(
         { showModal: true, movieId: movie.id, searchQuery, timestamp: new Date().getTime() },
         '',
@@ -64,13 +64,21 @@ class MovieInformationModal {
     this.modal.classList.remove('hide');
   }
 
-  private closeModal() {
-    if (!history.state.isBackButton) {
+  private closeModal(isBackButton: boolean = false) {
+    if (!isBackButton) {
       const queryParams = history.state.searchQuery
         ? `/search?q=${history.state.searchQuery}`
         : `/`;
 
-      history.pushState({ showModal: false, timestamp: new Date().getTime() }, '', queryParams);
+      history.pushState(
+        {
+          showModal: false,
+          searchQuery: history.state.searchQuery,
+          timestamp: new Date().getTime(),
+        },
+        '',
+        queryParams
+      );
     }
 
     document.body.classList.remove('hide-overflow');
@@ -97,11 +105,11 @@ class MovieInformationModal {
       event.state.isBackButton = true;
 
       if (event.state.showModal) {
-        MovieList.getMovieInformation(event.state.movieId);
+        MovieList.getMovieInformation(event.state.movieId, true);
       }
 
       if (!event.state.showModal) {
-        this.closeModal();
+        this.closeModal(true);
       }
     });
   }

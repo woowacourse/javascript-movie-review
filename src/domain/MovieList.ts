@@ -108,10 +108,10 @@ class MovieList {
     this.movieGenres = await fetchMovieGenreData();
   }
 
-  getMovieInformation(movieId: number) {
+  getMovieInformation(movieId: number, isBackButton: boolean = false) {
     const [movie] = this.movies.filter((movie) => movie.id === movieId);
 
-    EventEmitter.emit(MOVIE_RETRIEVED, { movie, searchQuery: this.searchQuery });
+    EventEmitter.emit(MOVIE_RETRIEVED, { movie, searchQuery: this.searchQuery, isBackButton });
   }
 
   getUserMovies() {

@@ -76,8 +76,6 @@ class MovieListContainer {
     window.addEventListener('popstate', (event) => {
       if (!event.state) return;
 
-      event.state.isBackButton = true;
-
       if (event.state.isList) {
         MovieList.init(event.state.searchQuery);
         MovieList.getMovieData();
