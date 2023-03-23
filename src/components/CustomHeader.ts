@@ -1,9 +1,7 @@
-import { searchMovieList } from '../domains/movieApi';
 import { proxy } from '../domains/proxy';
 import { $ } from '../utils/dom';
 import { getFormData } from '../utils/form';
 import { customHeaderTemplate } from './templates/customHeader';
-import { generateMovieListTemplate } from './templates/movieList';
 
 class CustomHeader extends HTMLElement {
   constructor() {
@@ -34,11 +32,10 @@ class CustomHeader extends HTMLElement {
 
   private async searchMovieList(event: Event) {
     const formData = getFormData(event);
+
     if (formData instanceof Object) {
       const queryValue = Object.fromEntries(formData);
       proxy.movie.query = queryValue['search-input'] as string;
-      const movieResults = (await searchMovieList(proxy.movie.query, proxy.movie.currentPage)).results;
-      proxy.movie.list = generateMovieListTemplate(movieResults);
     }
   }
 

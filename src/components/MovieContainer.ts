@@ -1,10 +1,8 @@
-import { getMoreMovieList } from '../domains/movieApi';
 import { proxy } from '../domains/proxy';
 import { $ } from '../utils/dom';
 import { generateContainerTitleTemplate } from './templates/containerTitle';
 import { generateMoreButtonTemplate } from './templates/moreButton';
 import { movieContainerTemplate } from './templates/movieContainer';
-import { generateMovieListTemplate } from './templates/movieList';
 
 class MovieContainer extends HTMLElement {
   constructor() {
@@ -20,8 +18,6 @@ class MovieContainer extends HTMLElement {
 
     if (target instanceof HTMLButtonElement && target.ariaLabel === '더 보기') {
       proxy.movie.currentPage += 1;
-      const movieResults = (await getMoreMovieList(proxy.movie.query, proxy.movie.currentPage)).results;
-      proxy.movie.list += generateMovieListTemplate(movieResults);
     }
   }
 
