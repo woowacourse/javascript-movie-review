@@ -1,6 +1,5 @@
 import MovieCardList from "./components/MovieCardList";
 import {
-  TOGGLE_SKELETON,
   LIST_STATE,
   LIST_HEADING,
   MAX_MOVIE_QUANTITY_PER_PAGE,
@@ -128,14 +127,18 @@ export default class App {
   };
 
   sendMyRating = ({ detail }: CustomEvent) => {
+    const $app = document.querySelector("#app");
     const targetObject = this.#myRating.find(
       ({ movieId }) => movieId === detail.movieId
     );
-    const $modal = $("movie-modal");
-    if (!targetObject) $modal?.setAttribute("my-rating", "0");
-    if (targetObject) {
-      $modal?.setAttribute("my-rating", String(targetObject.score));
-    }
+    $app?.insertAdjacentHTML(
+      "afterbegin",
+      `<movie-modal 
+      my-rating="${targetObject ? targetObject.score : 0}"
+      movie-id="${detail.movieId}"
+      movie-title="${detail.movieTitle}"
+      ></movie-modal>`
+    );
   };
 
   async renderSearchedMovies() {

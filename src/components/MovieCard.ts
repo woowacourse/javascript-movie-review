@@ -50,18 +50,13 @@ export default class MovieCard extends HTMLElement {
 
     this.addEventListener("click", (event) => {
       event.preventDefault();
-      const $modal = $("movie-modal");
-
-      if (this.movieTitle && this.movieId) {
-        $modal?.setAttribute("movie-title", this.movieTitle);
-        $modal?.setAttribute("movie-id", this.movieId);
-      }
-      $modal?.classList.toggle("hidden");
-
       this.dispatchEvent(
         new CustomEvent("send-my-rating", {
           bubbles: true,
-          detail: { movieId: Number(this.movieId) },
+          detail: {
+            movieId: Number(this.movieId),
+            movieTitle: this.movieTitle,
+          },
         })
       );
     });

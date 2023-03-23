@@ -94,8 +94,15 @@ export default class MovieModal extends HTMLElement {
     this.addEventListener("click", this.exitModal);
 
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") this.classList.add("hidden");
-      event.stopPropagation();
+      if (event.key === "Escape") {
+        this.remove();
+        this.dispatchEvent(
+          new CustomEvent("set-my-rating", {
+            bubbles: true,
+            detail: { movieId: this.movieId, myRating: this.#state.myRating },
+          })
+        );
+      }
     });
 
     $stars?.forEach((star, index) => {
@@ -107,15 +114,14 @@ export default class MovieModal extends HTMLElement {
       });
     });
 
-    $image?.addEventListener("load", () => {});
+    // $image?.addEventListener("load", () => {});
   }
 
   exitModal(event: Event) {
     const $exitButton = this.querySelector(".exit-button");
-    const $modal = this.querySelector(".modal");
     event.stopPropagation();
-    if (event.target === $exitButton || event.target === $modal) {
-      this.classList.toggle("hidden");
+    if (event.target === $exitButton || event.target === this) {
+      this.remove();
     }
 
     this.dispatchEvent(
