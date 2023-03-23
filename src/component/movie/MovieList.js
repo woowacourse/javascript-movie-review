@@ -18,8 +18,8 @@ class MovieList extends CustomElement {
   }
 
   setEvent() {
-    this.scrollDown();
-    this.openItemModal();
+    this.setScrollEvent();
+    this.setModalOpenEvent();
   }
 
   rerender({ movies, isShowMore, page, totalPages }) {
@@ -50,7 +50,7 @@ class MovieList extends CustomElement {
     return `<movie-empty></movie-empty>`;
   }
 
-  scrollDown() {
+  setScrollEvent() {
     const observer = new IntersectionObserver((entries) => {
       const $listFooter = entries[0];
 
@@ -63,11 +63,8 @@ class MovieList extends CustomElement {
     observer.observe($listFooter);
   }
 
-  openItemModal() {
+  setModalOpenEvent() {
     $(".item-list").addEventListener("click", (e) => {
-      e.preventDefault();
-      history.pushState({}, "", "#");
-
       const movieId = e.target.closest("movie-item")?.id;
 
       if (movieId) {

@@ -16,4 +16,4 @@ export const RateCaption: Readonly<Constant> = {
   "5": "명작이에요",
 };
 
-export const STORAGE_KEY: string = "user_rate";
+export const USER_RATE_STORAGE_KEY: string = "user_rate";

@@ -2,7 +2,7 @@ import {
   ImgSrc,
   RateCaption,
   RATE_RANGE,
-  STORAGE_KEY,
+  USER_RATE_STORAGE_KEY,
 } from "../../constant/movieConstants";
 import MovieManager from "../../domain/MovieManager";
 import { $, $$ } from "../../util/dom";
@@ -59,7 +59,7 @@ class MovieItemModal extends CustomElement {
     this.id = movieInfo.id;
     this.insertAdjacentHTML("beforeend", this.template(movieInfo));
 
-    const rate = getData(STORAGE_KEY)[this.id];
+    const rate = getData(USER_RATE_STORAGE_KEY)[this.id];
     if (rate) {
       this.rerenderUserRate(rate);
     }
@@ -80,10 +80,6 @@ class MovieItemModal extends CustomElement {
       if (e.key === "Escape") {
         this.closeModal();
       }
-    });
-
-    window.addEventListener("popstate", () => {
-      this.closeModal();
     });
   }
 
@@ -123,11 +119,11 @@ class MovieItemModal extends CustomElement {
 
   saveUserRate(rate) {
     const newData = {
-      ...getData(STORAGE_KEY),
+      ...getData(USER_RATE_STORAGE_KEY),
       [this.id]: rate,
     };
 
-    saveData(STORAGE_KEY, newData);
+    saveData(USER_RATE_STORAGE_KEY, newData);
   }
 }
 
