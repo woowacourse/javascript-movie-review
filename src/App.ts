@@ -7,11 +7,11 @@ export default class App {
   #movieList;
 
   constructor() {
-    this.#header = new Header($('#app'), {
+    this.#header = new Header(<Element>$('#app'), {
       renderPopularMovieList: this.renderPopularMovieList.bind(this),
       renderSearchedMovieList: this.renderSearchedMovieList.bind(this),
     });
-    this.#movieList = new MovieList($('main'));
+    this.#movieList = new MovieList(<Element>$('main'));
 
     this.initialRender();
   }
@@ -28,7 +28,7 @@ export default class App {
     this.#movieList.load();
   }
 
-  renderSearchedMovieList(query) {
+  renderSearchedMovieList(query: string) {
     this.#movieList.setSearchedMovieDataFetchFunc(query);
     this.#movieList.render(query);
     this.#movieList.load();
