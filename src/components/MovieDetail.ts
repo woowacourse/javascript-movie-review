@@ -6,19 +6,31 @@ import { IMovieDetailItem } from '../types/movie';
 import modal from './Modal';
 import { STAR_DESCRIPTION } from '../utils/constants';
 import { removeSkeletonAfterImageLoad } from '../utils/eventCallback';
+import { eventThrottle } from '../utils/throttle';
+import { parseLocalStorage, stringifyLocalStorage } from '../utils/localStorage';
+
+const initialMovieState: IMovieDetailItem = {
+  title: '',
+  overview: null,
+  voteAverage: 0,
+  movieId: -1,
+  genres: [],
+  posterPath: null,
+  myStarScore: 0,
+};
 
 class MovieDetail {
   #$detainContainer: HTMLDivElement;
-  #starScore: number;
+  #movieState: IMovieDetailItem;
 
   constructor() {
     this.#$detainContainer = document.createElement('div');
-    this.#starScore = 0;
+    this.#movieState = initialMovieState;
 
     this.#initialEventListener();
   }
 
-  template({ title, overview, voteAverage, genres, posterPath }: IMovieDetailItem) {
+  #template({ title, overview, voteAverage, genres, posterPath, myStarScore }: IMovieDetailItem) {
     return `  
     <div class="header-container">
       <p class="movie-title">${title}</p>
@@ -49,34 +61,23 @@ class MovieDetail {
         <div class="vote-container">
           <span class="star-title">내 별점</span>
           <span class="star">
-           ${this.starImage(starEmpty)}
-            <span> ${this.starImage(starFilled)}</span>
-            <input class="star-input" type="range" value=${
-              this.#starScore
-            } step="2" min="0" max="10">
+           ${this.#starImage(starEmpty)}
+            <span style="width:${(myStarScore ?? 0) * 10}%"> ${this.#starImage(starFilled)}</span>
+            <input class="star-input" type="range" value=${myStarScore} step="2" min="0" max="10">
           </span>
-          <span class="star-description">${STAR_DESCRIPTION[this.#starScore]}</span>      
+          <span class="star-description">${STAR_DESCRIPTION[myStarScore ?? 0]}</span>      
         </div>
       </div>  
     </div>`;
   }
 
-  starImage(path: string) {
+  #starImage(path: string) {
     return `<img src=${path}/>`.repeat(5);
   }
 
-  /**
-   *
-   * @param movie
-   * @param $target
-   *
-   * 렌더 조건은 다음과 같이 나뉜다.
-   * 1. 처음 클릭한 경우
-   * 2. localStorage에 영화 정보가 저장되어 있는 경우
-   * 3. 이전에 클릭했던 데이터를 또다시 클릭한다면 ? -> 이건 그냥 modal을 클릭하는 거잖슴.
-   */
   render(movie: IMovieDetailItem, $target: HTMLElement) {
-    this.#$detainContainer.innerHTML = this.template(movie);
+    this.#movieState = { ...movie };
+    this.#$detainContainer.innerHTML = this.#template(movie);
     this.#loadImageEventListener();
     $target.insertAdjacentElement('beforeend', this.#$detainContainer);
   }
@@ -90,15 +91,8 @@ class MovieDetail {
     this.#$detainContainer.addEventListener('input', (e) => {
       if (!(e.target instanceof HTMLInputElement)) return;
       if (!e.target.classList.contains('star-input')) return;
-
-      const starSpan = document.querySelector<HTMLSpanElement>('.star > span');
-      const starDescription = document.querySelector<HTMLSpanElement>('.star-description');
-
-      if (!starSpan || !starDescription) return;
-      this.#starScore = Number(e.target.value);
-
-      starSpan.style.width = `${this.#starScore * 10}%`;
-      starDescription.innerText = `${STAR_DESCRIPTION[this.#starScore]}`;
+      this.#changeStarState(Number(e.target.value));
+      this.#saveMovieScoreInLocalStorage();
     });
   }
 
@@ -106,6 +100,40 @@ class MovieDetail {
     const $image = this.#$detainContainer.querySelector<HTMLImageElement>('img');
     if (!$image) return;
     $image.addEventListener('load', removeSkeletonAfterImageLoad, { once: true });
+  }
+
+  #changeStarState(value: number) {
+    const starSpan = document.querySelector<HTMLSpanElement>('.star > span');
+    const starDescription = document.querySelector<HTMLSpanElement>('.star-description');
+
+    if (!starSpan || !starDescription) return;
+    this.#movieState.myStarScore = value;
+
+    starSpan.style.width = `${this.#movieState.myStarScore * 10}%`;
+    starDescription.innerText = `${STAR_DESCRIPTION[this.#movieState.myStarScore]}`;
+  }
+
+  #saveMovieScoreInLocalStorage() {
+    const movieState = this.#movieState;
+    const currentMovieInfos = parseLocalStorage<Array<IMovieDetailItem>>({
+      key: 'movieList',
+      data: [],
+    });
+
+    const { movieId } = this.#movieState;
+
+    const data = this.isExistCurrentMovieDetail(currentMovieInfos, movieId)
+      ? currentMovieInfos.map((movieInfo) =>
+          movieInfo.movieId === movieState.movieId ? { ...movieState } : movieInfo
+        )
+      : [...currentMovieInfos, { ...movieState }];
+    stringifyLocalStorage<Array<IMovieDetailItem>>({ key: 'movieList', data });
+  }
+
+  isExistCurrentMovieDetail(movies: Array<IMovieDetailItem>, id: IMovieDetailItem['movieId']) {
+    const currentItem = movies.find(({ movieId }) => movieId === id);
+
+    return currentItem;
   }
 }
 

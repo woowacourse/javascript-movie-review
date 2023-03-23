@@ -6,7 +6,14 @@ import MovieList from '../components/MovieList';
 import { Skeleton } from '../components/Skeleton';
 import WholeScreenMessageAlert from '../components/WholeScreenMessageAlert';
 import Movie, { initialMovieStats } from '../domain/Movie';
-import { IMovieHandleProps, IMovieItemProps, IMovieProps, IMovieState } from '../types/movie';
+import {
+  IMovieDetailItem,
+  IMovieHandleProps,
+  IMovieItemProps,
+  IMovieProps,
+  IMovieState,
+} from '../types/movie';
+import { parseLocalStorage } from '../utils/localStorage';
 
 interface StateRenderProps {
   moreButton: MoreButton;
@@ -86,7 +93,9 @@ class StateRender {
       this.#setMovies({ results, total_pages, page });
       this.#renderWholeComponent();
     } catch (error) {
-      this.#apiErrorRender(error);
+      if (error instanceof Error) {
+        this.#apiErrorRender(error.message);
+      }
     }
   }
 
@@ -104,11 +113,24 @@ class StateRender {
       this.#setMovies({ results, total_pages, page });
       this.#renderWholeComponent();
     } catch (error) {
-      this.#apiErrorRender(error);
+      if (error instanceof Error) {
+        this.#apiErrorRender(error.message);
+      }
     }
   }
 
   async renderMovieDetail(movieId: number, $target: HTMLElement) {
+    const currentMovieInfos = parseLocalStorage<Array<IMovieDetailItem>>({
+      key: 'movieList',
+      data: [],
+    });
+    const currentItem = this.#movieDetail.isExistCurrentMovieDetail(currentMovieInfos, movieId);
+
+    if (currentItem) {
+      this.#movieDetail.render(currentItem, $target);
+      return;
+    }
+
     try {
       const movieDetail = await this.#movie.getMovieDetails({ movieId });
 

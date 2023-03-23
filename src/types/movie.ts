@@ -95,4 +95,5 @@ export interface IMovieDetailItem {
   movieId: number;
   genres: Array<string>;
   posterPath: string | null;
+  myStarScore?: number;
 }
