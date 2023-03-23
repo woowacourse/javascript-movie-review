@@ -63,7 +63,6 @@ const StarRate = {
         starRateMessage.innerText = String(Number(score) * 2) + ' ' + SCORE_MESSAGE[Number(score)];
       });
       const id = starRateBox.dataset.id as string;
-      movies.addRate({ id: Number(id), rate: Number(score) });
       localStorage.setItem(id, score);
     });
   },

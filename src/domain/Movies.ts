@@ -11,13 +11,10 @@ class Movies {
 
   #totalPage: number;
 
-  #rate: Rate[];
-
   constructor() {
     this.#query = '';
     this.#page = 1;
     this.#totalPage = MAX_PAGE;
-    this.#rate = [];
   }
 
   async init() {
@@ -80,24 +77,6 @@ class Movies {
 
   previousPage() {
     this.#page -= 1;
-  }
-
-  addRate(rate: Rate) {
-    if (this.#rate.find((item: Rate) => item.id === rate.id)) {
-      this.#rate.forEach((item) => {
-        if (item.id === rate.id) {
-          item.rate = rate.rate;
-        }
-      });
-      return;
-    }
-
-    this.#rate.push(rate);
-    return;
-  }
-
-  getRateById(id: number) {
-    return this.#rate.find((item) => item.id === id);
   }
 
   getById(id: string) {
