@@ -1,7 +1,6 @@
 import { Header } from "./components/Header";
 import { Modal } from "./components/Modal";
 import { MovieList } from "./components/MovieList";
-import { Movie } from "./types";
 import { $ } from "./utils/selector";
 
 export class App {
