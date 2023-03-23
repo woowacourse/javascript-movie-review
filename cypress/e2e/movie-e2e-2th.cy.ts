@@ -61,9 +61,29 @@ describe("무한 스크롤 확인", () => {
     cy.visit("http://localhost:8081/");
     cy.viewport(1920, 1080);
   });
-  it("인기 영화 리스트에서 아래로 스크롤 내리면 리스트가 추가된다.", () => {});
+  it("인기 영화 리스트에서 아래로 스크롤 내리면 리스트가 추가된다.", () => {
+    cy.scrollTo("bottom");
+    cy.scrollTo("bottom");
+    cy.scrollTo("bottom");
 
-  it("전쟁을 검색하고 리스트에서 아래로 스크롤 내리면 리스트가 추가된다.", () => {});
+    cy.get("movie-list").children().should("have.length", 40);
+  });
+
+  it("전쟁을 검색하고 리스트에서 아래로 스크롤 내리면 리스트가 추가된다.", () => {
+    cy.get(".search-box")
+      .find("input")
+      .type("전쟁{enter}")
+      .then(() => {
+        cy.get(".item-title").each(() => {
+          cy.scrollTo("bottom");
+          cy.scrollTo("bottom");
+          cy.scrollTo("bottom");
+
+          cy.get("movie-list").children().should("have.length", 40);
+          cy.get("p.item-title").contains(/전\s*쟁/);
+        });
+      });
+  });
 });
 
 describe("반응형 확인", () => {
@@ -71,5 +91,25 @@ describe("반응형 확인", () => {
     cy.visit("http://localhost:8081/");
     cy.viewport(390, 844);
   });
-  it("모바일 환경에서 검색 버튼을 누르고 입력창이 뜨면, 전쟁을 입력하면 전쟁에 대한 검색 결과가 나온다.", () => {});
+  it("모바일 환경에서 검색 버튼을 누르고 입력창이 뜨면, 전쟁을 입력하면 전쟁에 대한 검색 결과가 나온다.", () => {
+    cy.get(".search-button-wrapper").click();
+    cy.get(".search-box")
+      .find("input")
+      .type("전쟁{enter}")
+      .then(() => {
+        cy.scrollTo("bottom");
+        cy.scrollTo("bottom");
+        cy.scrollTo("bottom");
+
+        cy.get("movie-list").children().should("have.length", 40);
+        cy.get("p.item-title").contains(/전\s*쟁/);
+      });
+  });
+
+  it("모바일 환경에서 검색 버튼을 누르고 입력창이 뜨면, 바깥 부분을 누르면 입력창이 꺼진다.", () => {
+    cy.get(".search-button-wrapper").click();
+    cy.get(".hide-all").click();
+
+    cy.get(".search-box").should("not.be.visible");
+  });
 });
