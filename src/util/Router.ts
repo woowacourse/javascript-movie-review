@@ -1,4 +1,4 @@
-import { GenreType, MovieDetails } from "../abstracts/type";
+import { MovieDetails } from "../abstracts/type";
 import { ANIMATED_TIME } from "../constants/constants";
 import { fetchMovieDetails } from "./Api";
 
