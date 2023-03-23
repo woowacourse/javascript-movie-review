@@ -1,5 +1,3 @@
-import { $ } from "../utils/Dom";
-
 export default class MovieCard extends HTMLElement {
   get movieTitle() {
     return this.getAttribute("movieTitle");
@@ -27,14 +25,13 @@ export default class MovieCard extends HTMLElement {
   <li>
      <a href="#">
        <div class="item-card">
-         <div id='skeleton' class="item-thumbnail skeleton"></div>
          <img
-           class="item-thumbnail hidden"
+           class="item-thumbnail skeleton"
            src="https://image.tmdb.org/t/p/w220_and_h330_face${this.poster}"
            alt="${this.movieTitle}"
          />
-         <p class="item-title skeleton"></p>
-         <p class="item-score skeleton"></p>
+         <p class="item-title skeleton">${this.movieTitle}</p>
+         <p class="item-score skeleton">${this.rating}<img class="star-filled hidden" alt="별점" /></p>
        </div>
      </a>
    </li>
@@ -43,9 +40,13 @@ export default class MovieCard extends HTMLElement {
 
   setEvent() {
     const $moiveImage = this.querySelector("img");
-
+    const $skeletonList = this.querySelectorAll(".skeleton");
+    const $star = this.querySelector(".star-filled");
     $moiveImage?.addEventListener("load", () => {
-      this.keepSkeletonWhileImageLoading($moiveImage);
+      if (!$moiveImage.complete) return;
+
+      $skeletonList.forEach((element) => element.classList.remove("skeleton"));
+      $star?.classList.remove("hidden");
     });
 
     this.addEventListener("click", (event) => {
@@ -60,27 +61,6 @@ export default class MovieCard extends HTMLElement {
         })
       );
     });
-  }
-
-  keepSkeletonWhileImageLoading($moiveImage: HTMLImageElement) {
-    if (!$moiveImage.complete) return;
-
-    const $title = this.querySelector(".item-title");
-    const $rating = this.querySelector(".item-score");
-    const $skeleton = this.querySelector("#skeleton");
-
-    if (
-      $skeleton instanceof HTMLDivElement &&
-      $title instanceof HTMLParagraphElement &&
-      $rating instanceof HTMLParagraphElement
-    ) {
-      $skeleton.classList.add("hidden");
-      if (this.movieTitle) $title.innerText = this.movieTitle;
-      $title.classList.remove("skeleton");
-      $rating.innerHTML = `${this.rating}<img class="star-filled" alt="별점" />`;
-      $rating.classList.remove("skeleton");
-      $moiveImage.classList.remove("hidden");
-    }
   }
 }
 

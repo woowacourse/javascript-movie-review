@@ -48,19 +48,19 @@ export default class MovieModal extends HTMLElement {
                 <button class="exit-button">X</button>
                 <h2>${this.movieTitle}</h2>
                 <div class="w-full h-full flex align-center justify-between p-32">
-                  <img class="modal-image" src="https://image.tmdb.org/t/p/w220_and_h330_face${poster}"/>
+                  <img class="modal-image skeleton" src='https://image.tmdb.org/t/p/w220_and_h330_face${poster}'/>
                   <div class="w-full h-full flex flex-column p-16 relative">
-                    <div class="w-full flex align-center">
+                    <div class="w-full flex align-center skeleton">
                       <p class="mr-16">${genre}</p>
                       <div class="flex align-center">
-                        <img class="star-filled mr-4" alt="별점" />
-                        <p>${rating}</p>
+                        <img class="star-filled mr-4 hidden" alt="별점" />
+                        <p class="skeleton">${rating}</p>
                       </div>
                     </div>
-                    <p class="mt-16">${
+                    <p class="mt-16 skeleton">${
                       overview ? overview : '" 제공된 줄거리가 없습니다. "'
                     }</p>
-                    <div class="rating-box flex align-center">
+                    <div class="rating-box flex align-center  skeleton">
                       <p class="mr-16">내 별점</p>
                       <img class="star-${
                         myRating >= 2 ? "filled" : "empty"
@@ -89,7 +89,6 @@ export default class MovieModal extends HTMLElement {
 
   setEvent() {
     const $stars = this.querySelectorAll(".rating-box img");
-    const $image = this.querySelector(".modal-image");
 
     this.addEventListener("click", this.exitModal);
 
@@ -114,7 +113,14 @@ export default class MovieModal extends HTMLElement {
       });
     });
 
-    // $image?.addEventListener("load", () => {});
+    const $skeletonList = this.querySelectorAll(".skeleton");
+    const $hiddenList = this.querySelectorAll(".hidden");
+    const $image = this.querySelector(".modal-image") as HTMLImageElement;
+    $image?.addEventListener("load", () => {
+      if (!$image.complete) return;
+      $skeletonList.forEach((element) => element.classList.remove("skeleton"));
+      $hiddenList.forEach((element) => element.classList.remove("hidden"));
+    });
   }
 
   exitModal(event: Event) {
