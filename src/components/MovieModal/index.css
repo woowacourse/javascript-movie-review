@@ -1,0 +1,133 @@
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+fieldset {
+  direction: rtl;
+}
+
+.modal-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 0;
+  height: 577px;
+  width: 826px;
+  padding: 0;
+  border-radius: 8px;
+  border: none;
+  background-color: #212122;
+  color: #f1f1f1;
+}
+
+.movie-title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 32px;
+  border-bottom: 1px solid rgba(241, 241, 241, 0.25);
+}
+
+.movie-title {
+  margin-left: auto;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.modal-close-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  border-radius: 50%;
+  background-color: #383839;
+  width: 36px;
+  height: 36px;
+}
+
+.movie-modal-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 36px 32px;
+}
+
+.movie-poster {
+  height: 433px;
+  width: 292px;
+  grid-row: 1/3;
+}
+
+.genre-rating-wrapper {
+  display: grid;
+  grid-template-rows: 1fr 5fr;
+}
+
+.genre-rating-wrapper div:nth-child(1) {
+  display: flex;
+  grid-column: 1/3;
+  align-items: center;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+}
+
+.rating-box {
+  align-self: end;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  height: 64px;
+  padding: 16px;
+  background-color: rgba(56, 56, 57, 1);
+  border-radius: 16px;
+}
+
+.rating-item-wrapper {
+  display: flex;
+}
+
+.rating-item-wrapper > input {
+  display: none;
+}
+
+.rating-item-wrapper > label {
+  margin: 2px;
+  font-family: FontAwesome;
+  color: #888;
+  font-size: 24px;
+  content: '\f005';
+}
+
+.rating-item-wrapper > label:before {
+  font-family: FontAwesome;
+  font-size: 24px;
+  content: '\f005';
+}
+
+.rating-item-wrapper > label {
+  color: #888;
+}
+
+.rating-item-wrapper > input:checked ~ label,
+.rating-item-wrapper:not(:checked) > label:hover,
+.rating-item-wrapper:not(:checked) > label:hover ~ label {
+  color: #ffc700;
+}
+
+.hidden {
+  display: none;
+}
