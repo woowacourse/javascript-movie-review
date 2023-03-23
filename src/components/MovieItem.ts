@@ -17,7 +17,6 @@ export class MovieItem {
   create(id: number) {
     return `
     <li id=${id}>
-      <a href="#">
         <div class="item-card">
           <img
             class="item-thumbnail "
@@ -28,7 +27,6 @@ export class MovieItem {
           <p class="item-title">${this._title}</p>
           <p class="item-score"><img src="./star_filled.png" alt="별점" /> ${this._voteAverage}</p>
         </div>
-      </a>
 </li>
     `;
   }
