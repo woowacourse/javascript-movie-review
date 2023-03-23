@@ -24,6 +24,7 @@ button {
 *:focus {
   outline: none;
 }
+
 .item-view,
 .item-test {
   width: 100%;
@@ -43,7 +44,33 @@ button {
   user-select: none;
 }
 
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .item-view {
+    width: 920px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .item-view {
+    width: 674px;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+  .item-view {
+    width: 316px;
+  }
+}
+
+@media (max-width: 479px) {
+  .item-view {
+    width: 280px;
+  }
+}
+
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
+
+/* 무비 리스트 */
 
 .item-list,
 .skeleton-list {
@@ -61,8 +88,8 @@ button {
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
-  height: 270px;
+  /* width: 180px;
+  height: 270px; */
   background-size: contain;
 }
 
@@ -131,6 +158,45 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .item-list,
+  .skeleton-list {
+    grid-template-columns: repeat(4, 182px);
+    grid-column-gap: 64px;
+    grid-row-gap: 64px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .item-list,
+  .skeleton-list {
+    grid-template-columns: repeat(3, 182px);
+    grid-column-gap: 64px;
+    grid-row-gap: 56px;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+  .item-list,
+  .skeleton-list {
+    grid-template-columns: repeat(2, 140px);
+    grid-column-gap: 36px;
+    grid-row-gap: 58px;
+  }
+}
+
+@media (max-width: 479px) {
+  .item-list,
+  .skeleton-list {
+    grid-template-columns: repeat(1, 182px);
+    justify-content: center;
+    grid-row-gap: 64px;
+  }
+}
+
+/* 헤더 */
+
 header {
   width: 100%;
   min-width: 1200px;
