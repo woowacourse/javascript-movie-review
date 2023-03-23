@@ -55,7 +55,7 @@ describe("검색 목록 확인", () => {
       .click()
       .then(() => {
         cy.get(".item-title").each(() => {
-          cy.get(".item-title").contains(/해\s*리\s*포\s*터/);
+          cy.get("h3.item-title").contains(/해\s*리\s*포\s*터/);
         });
       });
   });
@@ -69,7 +69,7 @@ describe("검색 목록 확인", () => {
       .type("해리포터{enter}")
       .then(() => {
         cy.get(".item-title").each(() => {
-          cy.get(".item-title").contains(/해\s*리\s*포\s*터/);
+          cy.get("h3.item-title").contains(/해\s*리\s*포\s*터/);
         });
       });
   });
