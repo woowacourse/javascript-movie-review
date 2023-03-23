@@ -38,7 +38,7 @@ class MovieContainer extends HTMLElement {
     const container = $<HTMLElement>('.item-view');
 
     if (container instanceof HTMLElement) {
-      container.innerHTML =
+      container.innerHTML = container.innerHTML =
         proxy.movie.currentPage === proxy.movie.totalPages
           ? generateContainerTitleTemplate(proxy.movie.query) + movieList
           : generateContainerTitleTemplate(proxy.movie.query) + movieList + generateMoreButtonTemplate();

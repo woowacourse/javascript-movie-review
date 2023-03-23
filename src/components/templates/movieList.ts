@@ -9,7 +9,7 @@ const generateMovieItemTemplate = ({ src, title, score }: MoveItem): string =>
 		<a href="#">
 		  <div class="item-card">
 		    <img
-		      class="item-thumbnail"
+		      class="item-thumbnail skeleton"
 		      src="https://image.tmdb.org/t/p/w500/${src}"
 		      loading="lazy"
 		      alt="${title}"
