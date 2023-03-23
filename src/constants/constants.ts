@@ -27,5 +27,5 @@ export const ANIMATED_TIME = {
 };
 
 export const ROUTER = {
-  MOVIE_DETAIL: "/movie",
+  MOVIE_DETAIL: "movie",
 };
