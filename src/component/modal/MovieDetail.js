@@ -5,6 +5,7 @@ import "./MovieStar";
 class MovieDetail extends CustomElement {
   template() {
     const id = this.getAttribute("id");
+    const starSrc = this.toStarSrc();
     const title = this.getAttribute("title");
     const src = this.getAttribute("src");
     const voteAverage = this.getAttribute("voteAverage");
@@ -27,10 +28,21 @@ class MovieDetail extends CustomElement {
           <p>${voteAverage}</p>
         </div>
         <div class="detail text-body">${detail}</div>
-        <movie-star id=${id}></movie-star>
+        <movie-star id=${id} starSrc=${starSrc}></movie-star>
       </section>
     </section>
     `;
+  }
+
+  toStarSrc() {
+    const fill = parseInt(localStorage.getItem(this.getAttribute("id")));
+
+    const starSrc = Array.from({ length: 5 }, (v, i) => {
+      if (i < fill) return "./image/star_filled.png";
+      return "./image/star_empty.png";
+    });
+
+    return starSrc;
   }
 
   setEvent() {

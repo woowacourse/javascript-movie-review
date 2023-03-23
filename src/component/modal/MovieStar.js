@@ -3,17 +3,18 @@ import CustomElement from "../basic/CustomElement";
 
 class MovieStar extends CustomElement {
   template() {
-    const id = this.getAttribute("id");
-
+    const src = this.getAttribute("starSrc");
+    const starSrc = src.split(",");
+    console.log(starSrc);
     return `
       <div class="user-rate">
         <p class="user-rate-title">내 별점</p>
         <div class="rate-container">
-          <input name="1" type="image" class="rate" src="./image/star_empty.png" alt="별점" />
-          <input name="2" type="image" class="rate" src="./image/star_empty.png" alt="별점" />
-          <input name="3" type="image" class="rate" src="./image/star_empty.png" alt="별점" />
-          <input name="4" type="image" class="rate" src="./image/star_empty.png" alt="별점" />
-          <input name="5" type="image" class="rate" src="./image/star_empty.png" alt="별점" />
+          <input name="1" type="image" class="rate" src=${starSrc[0]} alt="별점" />
+          <input name="2" type="image" class="rate" src=${starSrc[1]} alt="별점" />
+          <input name="3" type="image" class="rate" src=${starSrc[2]} alt="별점" />
+          <input name="4" type="image" class="rate" src=${starSrc[3]} alt="별점" />
+          <input name="5" type="image" class="rate" src=${starSrc[4]} alt="별점" />
         </div>
         <p class="user-rate-title rate-result"></p>
       </div>
@@ -22,9 +23,11 @@ class MovieStar extends CustomElement {
 
   setEvent() {
     const rates = $$(".rate");
+    const id = this.getAttribute("id");
 
     rates.forEach((rate) => {
       rate.addEventListener("click", () => {
+        localStorage.setItem(id, rate.name);
         this.changeRate(rate);
       });
     });
@@ -32,6 +35,7 @@ class MovieStar extends CustomElement {
 
   changeRate(element) {
     element.setAttribute("src", "./image/star_filled.png");
+
     this.fillStar(element);
     this.emptyStar(element);
 
