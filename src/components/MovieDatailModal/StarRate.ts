@@ -1,7 +1,7 @@
 import { starEmptyImage, starFilledImage } from '../../assets/images';
 import type Movies from '../../domain/Movies';
 
-const SCORE_MESSAGE = ['메세지를 입력해주세요', '최악이에요', '별로에요', '보통이에요', '재미있어요', '명작이에요'];
+const SCORE_MESSAGE = ['별점 매기기', '최악이에요', '별로에요', '보통이에요', '재미있어요', '명작이에요'];
 
 const StarRate = {
   template() {
