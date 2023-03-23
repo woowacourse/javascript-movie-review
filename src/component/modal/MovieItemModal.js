@@ -51,8 +51,8 @@ class MovieItemModal extends CustomElement {
   }
 
   setEvent() {
-    this.close();
-    this.rateMovie();
+    this.setCloseEvent();
+    this.setRateEvent();
   }
 
   popUp(movieInfo) {
@@ -67,15 +67,31 @@ class MovieItemModal extends CustomElement {
     this.setEvent();
   }
 
-  close() {
+  setCloseEvent() {
     $(".item-modal-close-button").addEventListener("click", () => {
-      this.replaceChildren();
+      this.closeModal();
+    });
+
+    $(".backdrop").addEventListener("click", () => {
+      this.closeModal();
+    });
+
+    window.addEventListener("keyup", (e) => {
+      if (e.key === "Escape") {
+        this.closeModal();
+      }
     });
   }
 
-  rateMovie() {
+  closeModal() {
+    this.replaceChildren();
+  }
+
+  setRateEvent() {
     $(".user-rate-stars").addEventListener("click", (e) => {
-      const targetNumber = Number(e.target.closest("img")?.dataset.number);
+      const targetNumber = Number(
+        e.target.closest(".user-rate-star")?.dataset.number
+      );
 
       if (!targetNumber) {
         return;
