@@ -98,8 +98,8 @@ export class Modal {
                 <p class="modal-movie-description modal-detail--text">
                     ${movie.overview ? movie.overview : ""}
                 </p>
-                <div class="modal-star-rate modal-detail--text">내 별점 </div>
             </div>
+            <div class="modal-star-rate modal-detail--text">내 별점 </div>
         </div>
     `;
   }

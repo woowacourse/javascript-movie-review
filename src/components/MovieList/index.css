@@ -97,7 +97,7 @@ button.primary {
   }
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1220px) {
   .item-view h2 {
     font-size: 28px;
   }

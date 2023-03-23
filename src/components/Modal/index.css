@@ -22,15 +22,14 @@
 
 .modal {
   position: fixed;
-  top: 50%;
+  bottom: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 50%);
 
   width: 826px;
   height: 577px;
 
   background-color: #222;
-
   z-index: 999;
 }
 
@@ -67,7 +66,7 @@
   align-items: center;
   gap: 32px;
 
-  height: calc(100% - 60px);
+  padding-top: 32px;
 }
 
 .modal-image-container {
@@ -87,11 +86,13 @@
   border-radius: 8px;
 }
 
-.modal-movie-detail {
+.modal-detail-container {
   width: 438px;
   height: 433px;
 
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .modal-movie-genre {
@@ -115,8 +116,6 @@
   width: 438px;
   height: 64px;
   padding: 0 16px;
-  position: absolute;
-  bottom: 0;
 
   display: flex;
   align-items: center;
@@ -125,4 +124,50 @@
   border-radius: 16px;
   background-color: #383839;
   font-weight: bold;
+}
+
+@media screen and (max-width: 1220px) {
+  .modal {
+    width: 740px;
+    height: 544px;
+  }
+
+  .modal-image-container {
+    width: 260px;
+    height: 400px;
+  }
+
+  .modal-detail-container {
+    width: 385px;
+    height: 400px;
+  }
+
+  .modal-star-rate {
+    width: 385px;
+  }
+}
+
+@media screen and (max-width: 674px) {
+  .modal {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    transform: translate(0, 0);
+
+    width: 100vw;
+    height: 485px;
+  }
+
+  .modal-image-container {
+    display: none;
+  }
+
+  .modal-detail-container {
+    width: 80vw;
+    height: 344px;
+  }
+
+  .modal-star-rate {
+    width: 80vw;
+  }
 }
