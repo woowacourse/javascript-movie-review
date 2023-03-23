@@ -1,4 +1,4 @@
-import { fetchMovies } from './fetch';
+import { fetchMovies, fetchGenre } from './fetch';
 import { Movie, MovieList } from './types';
 
 class Store {
@@ -6,16 +6,26 @@ class Store {
   page: number;
   totalPage: number;
   searchWord: string;
+  genre: Array<{ id: number; name: string }>;
 
   constructor() {
     this.movieList = [];
     this.page = 0;
     this.totalPage = 0;
     this.searchWord = '';
+    this.genre = [];
+    this.getGenreStandard();
+  }
+
+  async getGenreStandard() {
+    await fetchGenre().then((data) => {
+      this.genre = data;
+    });
   }
 
   async allocateData(value?: string) {
     this.page++;
+
     if (value) {
       this.searchWord = value;
       await fetchMovies('/search/movie', this.page, value).then((data) => {

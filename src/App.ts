@@ -43,7 +43,7 @@ class App {
 
     this.store.allocateData().then(() => {
       this.skeleton.removeSkeleton();
-      this.$movieList.renderMovies(this.store.movieListValue);
+      this.$movieList.renderMovies(this.store.movieListValue, this.store.genre);
     });
   }
 
@@ -51,7 +51,7 @@ class App {
     this.skeleton.attachSkeleton();
     this.store.allocateData(this.store.searchWord).then(() => {
       this.skeleton.moreButtonRemoveSkeleton();
-      this.$movieList.renderMovies(this.store.movieListValue);
+      this.$movieList.renderMovies(this.store.movieListValue, this.store.genre);
     });
     if (this.store.page === this.store.totalPage) this.removeButton();
   }
@@ -65,7 +65,7 @@ class App {
     this.store.allocateData(value).then(() => {
       setTimeout(() => {
         if (this.store.totalPage === 1 || this.store.totalPage === 0) this.removeButton();
-        this.$movieList.renderSearchedMovies(this.store.movieListValue);
+        this.$movieList.renderSearchedMovies(this.store.movieListValue, this.store.genre);
       }, 500);
     });
   }

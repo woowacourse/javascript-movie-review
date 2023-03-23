@@ -18,3 +18,21 @@ export const fetchMovies = async (params: string, page = 1, query = '') => {
     if (error instanceof Error) ErrorAlert(error.message);
   }
 };
+
+export const getGenreAPIUrl = () =>
+  `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR`;
+
+export const fetchGenre = async () => {
+  const API_URL = getGenreAPIUrl();
+  try {
+    const res = await fetch(API_URL);
+    if (!res.ok) {
+      const error: FailedResponse = await res.json();
+      throw new Error(error.status_message);
+    }
+    const data = await res.json();
+    return data.genres;
+  } catch (error) {
+    if (error instanceof Error) ErrorAlert(error.message);
+  }
+};
