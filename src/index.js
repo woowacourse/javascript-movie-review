@@ -2,12 +2,12 @@ import './style/reset';
 import './style/common';
 import Header from './components/Header';
 import MovieList from './components/MovieList';
-import { getPopularMovies } from './service/movie';
 import { RENDER_MODE } from './constants';
 
 export const Store = {
   keyword: '',
   page: 1,
+  lastPage: Infinity,
 };
 
 class App {
@@ -17,50 +17,19 @@ class App {
     this.header = new Header($app);
     this.movieList = new MovieList($app);
 
-    this.init();
+    this.bindEvent();
   }
 
-  async init() {
-    this.header.bindEvent(
-      this.movieList.startLoading.bind(this.movieList),
-      this.movieList.finishLoading.bind(this.movieList),
-      this.onSubmitSearch.bind(this),
-    );
-    this.movieList.bindEvent();
-
-    this.movieList.startLoading();
-    const { results, total_pages } = await getPopularMovies({ page: 1 });
-    this.movieList.finishLoading();
-    this.movieList.renderMovieCards(results, total_pages);
-
-    const lastItem = document.querySelector('#js-movie-list').lastElementChild;
-
-    const io = new IntersectionObserver(this.handleIntersect.bind(this), { threshold: 0 });
-    io.observe(lastItem);
+  bindEvent() {
+    this.header.bindEvent(this.onSubmitSearch.bind(this));
   }
 
-  handleIntersect(entries, io) {
-    entries.forEach(async (entry) => {
-      if (entry.isIntersecting) {
-        console.log('무한스크롤');
-        io.unobserve(entry.target);
-        this.movieList.startLoading();
-        const { results, total_pages, page } = await getPopularMovies({ page: Store.page + 1 });
-        Store.page += 1;
-        this.movieList.renderMovieCards(results);
-        this.movieList.finishLoading();
-        io.observe(document.querySelector('#js-movie-list').lastElementChild);
-      }
-    });
-  }
-
-  onSubmitSearch(results, totalPages) {
-    this.movieList.renderMode = RENDER_MODE.SEARCH;
-    this.movieList.page = 1;
+  async onSubmitSearch() {
     this.movieList.removeMovieCards();
-
     this.movieList.renderTitle(`"${Store.keyword}" 검색결과`);
-    this.movieList.renderMovieCards(results, totalPages);
+    this.movieList.renderMode = RENDER_MODE.SEARCH;
+    await this.movieList.renderNewContent();
+    this.movieList.observeLastItem();
   }
 }
 

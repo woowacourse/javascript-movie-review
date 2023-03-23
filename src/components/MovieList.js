@@ -7,9 +7,39 @@ export default class MovieList {
   constructor($parent) {
     this.$parent = $parent;
     this.renderMode = RENDER_MODE.POPULAR;
+    this.io = new IntersectionObserver(this.handleIntersect.bind(this), {
+      threshold: 0,
+    });
+    this.FETCH_FUNCTION = {
+      [RENDER_MODE.POPULAR]: getPopularMovies,
+      [RENDER_MODE.SEARCH]: searchMovies,
+    };
+    this.getFetchOptions = {
+      [RENDER_MODE.POPULAR]: () => ({ page: Store.page }),
+      [RENDER_MODE.SEARCH]: () => ({ page: Store.page, text: Store.keyword }),
+    };
 
     this.render();
     this.selectDom();
+    this.mount().then(() => {
+      this.io.observe(document.querySelector('#js-movie-list').lastElementChild);
+    });
+  }
+
+  handleIntersect(entries, io) {
+    entries.forEach(async (entry) => {
+      if (entry.isIntersecting) {
+        // TODO: console.log 삭제
+        console.log(`[무한스크롤] page:${Store.page}`);
+
+        io.unobserve(entry.target);
+        await this.renderNewContent();
+
+        if (Store.page < Store.lastPage) {
+          io.observe(document.querySelector('#js-movie-list').lastElementChild);
+        }
+      }
+    });
   }
 
   template() {
@@ -37,29 +67,22 @@ export default class MovieList {
     `;
   }
 
-  bindEvent() {
-    const handleMoreMovieButton = async () => {
-      Store.page += 1;
+  observeLastItem() {
+    this.io.observe(document.querySelector('#js-movie-list').lastElementChild);
+  }
 
-      if (this.renderMode === RENDER_MODE.POPULAR) {
-        this.startLoading();
-        const { results, total_pages } = await getPopularMovies({ page: Store.page });
-        this.finishLoading();
-        this.renderMovieCards(results, total_pages);
-      }
+  async renderNewContent() {
+    Store.page += 1;
 
-      if (this.renderMode === RENDER_MODE.SEARCH) {
-        this.startLoading();
-        const { results, total_pages } = await searchMovies({
-          page: Store.page,
-          text: Store.keyword,
-        });
-        this.finishLoading();
-        this.renderMovieCards(results, total_pages);
-      }
-    };
+    this.startLoading();
 
-    this.$moreMovieButton?.addEventListener('click', handleMoreMovieButton);
+    const fetchMovies = this.FETCH_FUNCTION[this.renderMode];
+    const { results, total_pages } = await fetchMovies(this.getFetchOptions[this.renderMode]());
+
+    Store.lastPage = total_pages;
+
+    this.finishLoading();
+    this.renderMovieCards(results);
   }
 
   render() {
@@ -78,7 +101,7 @@ export default class MovieList {
     this.$title.textContent = title;
   }
 
-  renderMovieCards(results, totalPages) {
+  renderMovieCards(results) {
     const MovieCardshtml = results.reduce((html, movie) => {
       return html + new MovieCard().template(movie);
     }, '');
@@ -100,5 +123,12 @@ export default class MovieList {
     if ($skeletonLists.length > 0) {
       $skeletonLists.forEach(($skeletonList) => $skeletonList.remove());
     }
+  }
+
+  async mount() {
+    this.startLoading();
+    const { results, total_pages } = await getPopularMovies({ page: 1 });
+    this.finishLoading();
+    this.renderMovieCards(results, total_pages);
   }
 }

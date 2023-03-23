@@ -21,25 +21,19 @@ export default class Header {
     `;
   }
 
-  bindEvent(startLoading, finishLoading, onSubmitSearch) {
+  bindEvent(onSubmitSearch) {
     const searchBox = this.$parent.querySelector('.search-box');
 
     const handleSubmitSearch = async (event) => {
       event.preventDefault();
 
-      startLoading();
-
       const keyword = new FormData(event.target).get('keyword');
-
       if (keyword.trim() === '') return;
 
-      const { results, total_pages } = await searchMovies({ text: keyword, page: 1 });
-
+      Store.page = 0;
       Store.keyword = keyword;
 
-      finishLoading();
-
-      onSubmitSearch(results, total_pages);
+      onSubmitSearch();
     };
 
     searchBox?.addEventListener('submit', handleSubmitSearch);
