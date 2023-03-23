@@ -25,6 +25,7 @@ button {
 *:focus {
   outline: none;
 }
+
 .item-view,
 .item-test {
   width: 100%;
@@ -429,6 +430,16 @@ header .search-box > #search-button {
     width: 200px;
     height: 300px;
   }
+
+  .modal-content {
+    width: 660px;
+    height: 400px;
+  }
+
+  .information-image {
+    width: 222px;
+    height: 328px;
+  }
 }
 
 @media screen and (max-width: 720px) {
@@ -441,6 +452,20 @@ header .search-box > #search-button {
   .item-thumbnail {
     width: 250px;
     height: 375px;
+  }
+
+  .modal-content {
+    width: 560px;
+    height: 400px;
+    padding: 28px;
+  }
+
+  .information-image {
+    display: none;
+  }
+
+  .information-container {
+    margin-left: 0;
   }
 }
 
@@ -506,5 +531,25 @@ header .search-box > #search-button {
     min-width: calc(100vw - 74px);
     opacity: 1;
     pointer-events: all;
+  }
+
+  .modal-content {
+    width: 100vw;
+    padding: 24px;
+    top: initial;
+    left: initial;
+    bottom: 0;
+    height: 500px;
+    transform: none;
+  }
+
+  .information-image {
+    display: none;
+  }
+
+  .information-container {
+    margin-left: 0;
+    margin-right: 4px;
+    padding-right: 16px;
   }
 }
