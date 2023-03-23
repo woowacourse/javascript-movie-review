@@ -18,14 +18,11 @@ class UserMovieVote {
   private voteInfo: HTMLParagraphElement;
 
   constructor() {
-    this.temporaryVoteStars = $<HTMLDivElement>('.vote-stars--temp');
-    this.temporaryVoteStars.insertAdjacentHTML(
-      'beforeend',
-      this.userVoteStarsTemplate('temp-star')
-    );
     this.init();
-    this.messageContainer = $<HTMLDivElement>('.modal-message-container');
+    this.temporaryVoteStars = $<HTMLDivElement>('.vote-stars--temp');
     this.userVoteStars = $<HTMLDivElement>('.vote-stars');
+    this.renderUserVoteStars();
+    this.messageContainer = $<HTMLDivElement>('.modal-message-container');
     this.voteMessage = $<HTMLParagraphElement>('.vote-message');
     this.voteInfo = $<HTMLParagraphElement>('.vote-info');
     this.addUserStarEventListener();
@@ -42,12 +39,12 @@ class UserMovieVote {
   private init() {
     MovieList.on(MOVIE_RETRIEVED, (event) => {
       const { movie } = (event as CustomEvent).detail;
-      this.renderUserVote(movie.userVote);
+      this.updateUserVote(movie.userVote);
     });
 
     MovieList.on(MOVIE_USER_VOTE_UPDATED, (event) => {
       const { userVote } = (event as CustomEvent).detail;
-      this.renderUserVote(userVote);
+      this.updateUserVote(userVote);
     });
   }
 
@@ -64,21 +61,27 @@ class UserMovieVote {
       .join('');
   }
 
-  private renderUserVote(userVote: number) {
-    const userVoteCount = userVote / VOTE_SCORE_AND_STAR_RATIO;
-
-    this.userVoteStars.replaceChildren();
+  private renderUserVoteStars() {
+    this.temporaryVoteStars.insertAdjacentHTML(
+      'beforeend',
+      this.userVoteStarsTemplate('temp-star')
+    );
     this.userVoteStars.insertAdjacentHTML(
       'beforeend',
-      this.userVoteStarsTemplate('user-vote-star', userVoteCount)
+      this.userVoteStarsTemplate('user-vote-star')
     );
+  }
 
+  private updateUserVote(userVote: number) {
+    const userVoteCount = userVote / VOTE_SCORE_AND_STAR_RATIO;
+
+    this.updateUserVoteStars('.user-vote-star', userVoteCount - 1);
     this.voteMessage.textContent = USER_VOTE_MESSAGE[userVote];
     this.voteInfo.textContent = `(${userVote}/${MAX_VOTE_SCORE})`;
   }
 
-  private updateUserVoteStarsOnHover(updatedUserVoteCount: number) {
-    const userStars = $$<HTMLImageElement>('.temp-star');
+  private updateUserVoteStars(target: string, updatedUserVoteCount: number) {
+    const userStars = $$<HTMLImageElement>(target);
 
     userStars.forEach((element, index) => {
       if (index <= updatedUserVoteCount) {
@@ -118,7 +121,7 @@ class UserMovieVote {
       const target = event.target as HTMLElement;
 
       if (target.classList.contains('user-vote-star')) {
-        this.updateUserVoteStarsOnHover(Number(target.dataset.starIndex));
+        this.updateUserVoteStars('.temp-star', Number(target.dataset.starIndex));
       }
     });
 
