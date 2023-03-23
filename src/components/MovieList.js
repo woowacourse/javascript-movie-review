@@ -19,8 +19,6 @@ export default class MovieList {
           <h2 id="js-movie-list-title">지금 인기 있는 영화</h2>
           <ul id="js-movie-list" class="item-list"></ul>
         </section>
-        <button id="js-more-movie-button" class="btn primary full-width">더 보기</button>
-        <p id='js-last-page-notify'>마지막 페이지입니다</p>
       </main>
     `;
   }
@@ -86,18 +84,6 @@ export default class MovieList {
     }, '');
 
     this.$movieItemList.insertAdjacentHTML('beforeend', MovieCardshtml);
-
-    totalPages > Store.page ? this.showMoreMovieButton() : this.hideMoreMovieButton();
-  }
-
-  hideMoreMovieButton() {
-    this.$moreMovieButton.classList.add('hide');
-    this.$lastPageNotify.classList.remove('hide');
-  }
-
-  showMoreMovieButton() {
-    this.$moreMovieButton.classList.remove('hide');
-    this.$lastPageNotify.classList.add('hide');
   }
 
   removeMovieCards() {

@@ -31,6 +31,26 @@ class App {
     const { results, total_pages } = await getPopularMovies({ page: 1 });
     this.movieList.toggleSkeleton();
     this.movieList.renderMovieCards(results, total_pages);
+
+    const lastItem = document.querySelector('#js-movie-list').lastElementChild;
+
+    const io = new IntersectionObserver(this.handleIntersect.bind(this), { threshold: 0 });
+    io.observe(lastItem);
+  }
+
+  handleIntersect(entries, io) {
+    entries.forEach(async (entry) => {
+      if (entry.isIntersecting) {
+        console.log('무한스크롤');
+        io.unobserve(entry.target);
+        this.movieList.toggleSkeleton();
+        const { results, total_pages, page } = await getPopularMovies({ page: Store.page + 1 });
+        Store.page += 1;
+        this.movieList.renderMovieCards(results);
+        this.movieList.toggleSkeleton();
+        io.observe(document.querySelector('#js-movie-list').lastElementChild);
+      }
+    });
   }
 
   onSubmitSearch(results, totalPages) {
