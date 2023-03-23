@@ -1,8 +1,8 @@
-import { movieApi } from '../domains/movieApi';
+import { getMoreMovieList } from '../domains/movieApi';
 import { proxy } from '../domains/proxy';
-import { MovieContainerRenderProps } from '../types/movieContainer';
 import { $ } from '../utils/dom';
-import { generateContainerTitle } from './templates/containerTitle';
+import { generateContainerTitleTemplate } from './templates/containerTitle';
+import { generateMoreButtonTemplate } from './templates/moreButton';
 import { movieContainerTemplate } from './templates/movieContainer';
 import { generateMovieListTemplate } from './templates/movieList';
 
@@ -20,8 +20,8 @@ class MovieContainer extends HTMLElement {
 
     if (target instanceof HTMLButtonElement && target.ariaLabel === '더 보기') {
       proxy.movie.currentPage += 1;
-      const movieListAdder = (await movieApi.getMoreMovieList(proxy.movie.query, proxy.movie.currentPage)).results;
-      proxy.movie.list += generateMovieListTemplate(movieListAdder);
+      const movieResults = (await getMoreMovieList(proxy.movie.query, proxy.movie.currentPage)).results;
+      proxy.movie.list += generateMovieListTemplate(movieResults);
     }
   }
 
@@ -32,14 +32,13 @@ class MovieContainer extends HTMLElement {
     }
   }
 
-  static renderContents({
-    containerTitle = generateContainerTitle(),
-    movieList = '',
-    moreButton = '',
-  }: MovieContainerRenderProps) {
+  static renderContents(movieList = '') {
     const container = $<HTMLElement>('.item-view');
 
-    if (container instanceof HTMLElement) container.innerHTML = containerTitle + movieList + moreButton;
+    if (container instanceof HTMLElement) {
+      container.innerHTML =
+        generateContainerTitleTemplate(proxy.movie.query) + movieList + generateMoreButtonTemplate();
+    }
   }
 }
 

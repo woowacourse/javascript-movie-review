@@ -1,10 +1,10 @@
 import '../css/reset.css';
 import '../css/common.css';
 import { initProxy, proxy } from './domains/proxy';
-import { movieApi } from './domains/movieApi';
 import { generateMovieListTemplate } from './components/templates/movieList';
 import MovieContainer from './components/MovieContainer';
 import CustomHeader from './components/CustomHeader';
+import { getPopularMovieList } from './domains/movieApi';
 
 const App = {
   state: {
@@ -12,8 +12,8 @@ const App = {
   },
 
   init() {
-    this.initRender();
     initProxy(this.state);
+    this.initRender();
     this.initState();
   },
 
@@ -25,7 +25,8 @@ const App = {
   },
 
   async initState() {
-    proxy.movie.list = generateMovieListTemplate((await movieApi.getPopularMovieList(proxy.movie.currentPage)).results);
+    const movieResults = (await getPopularMovieList(proxy.movie.currentPage)).results;
+    proxy.movie.list = generateMovieListTemplate(movieResults);
   },
 };
 
