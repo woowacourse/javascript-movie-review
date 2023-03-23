@@ -53,21 +53,6 @@ class MovieDataManager {
     this._currentPage++;
   }
 
-  // async getData(keyword: string) {
-  //   this._currentPage++;
-
-  //   if (this._currentTab === CurrentTab.POPULAR) {
-  //     const data = await getMovieData(this._currentPage);
-  //     this._popularMovies.push(data);
-  //     return data;
-  //   }
-  //   if (this._currentTab === CurrentTab.SEARCH) {
-  //     const data = await getKeywordData(this._currentPage, keyword);
-  //     this._searchMovies.push(data);
-  //     return data;
-  //   }
-  // }
-
   getTitle() {
     return this._currentTab === CurrentTab.POPULAR
       ? "지금 인기있는 영화"
