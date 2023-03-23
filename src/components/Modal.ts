@@ -23,10 +23,12 @@ class Modal {
 
   open() {
     this.#$modal?.classList.add('modal--open');
+    document.body.classList.add('scroll-lock');
   }
 
   close(isBack = false) {
     this.#$modal?.classList.remove('modal--open');
+    document.body.classList.remove('scroll-lock');
     if (isBack) {
       history.back();
       return;

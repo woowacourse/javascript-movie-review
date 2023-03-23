@@ -131,6 +131,10 @@ button.primary {
   display: none;
 }
 
+.scroll-lock {
+  overflow: hidden;
+}
+
 .content-container .skeleton,
 .item-card .skeleton {
   background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
