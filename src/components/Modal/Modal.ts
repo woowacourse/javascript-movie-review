@@ -63,15 +63,36 @@ class Modal {
   }
 
   updateContent(movie: IMovie) {
-    const $modalContent = this.$target.querySelector(".modal-content");
+    const $modalContent = $(".modal-content", this.$target);
 
     if ($modalContent instanceof HTMLDivElement) {
+      const ratings: IRatings = getRatings() as IRatings;
+
+      const storedRating = ratings[movie.id] || 0;
+      const stars = this.renderStars(+storedRating);
+
       $modalContent.innerHTML = `
-        <h2>${movie.title}</h2>
-        <p>voteAverage: ${movie.voteAverage}</p>
-        <p>voteAverage: ${movie.voteAverage}</p>
-        <p>Overview: ${movie.overview}</p>
-      `;
+      <h2>${movie.title}</h2>
+      <div class="flex-container">
+        <div class="left">
+          <img src="${movie.posterSrc || NotFoundImageIcon}" alt="${movie.title} poster">
+        </div>
+        <div class="right">
+          <p>${movie.genre}</p>
+          <img src="${FilledStarIcon}" alt="rating star">
+          <p>${movie.voteAverage}</p>
+          <p>${movie.overview}</p>
+          <div class="user-rate-container" data-movie-id="${movie.id}">
+            <span class="rating-header">내 별점</span>
+            ${stars}
+            <span class="score">${storedRating ? storedRating : ""}</span>
+            <span class="score-comment">${
+              storedRating ? this.getScoreComment(+storedRating) : ""
+            }</span>
+          </div>
+        </div>
+      </div>
+    `;
     }
   }
 
