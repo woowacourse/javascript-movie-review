@@ -19,3 +19,17 @@ export type MovieElementData = Pick<
   MovieItem,
   "poster_path" | "id" | "title" | "vote_average"
 >;
+
+export interface MovieDetails {
+  id: number;
+  genres: string;
+  overview: string;
+  poster_path: string;
+  title: string;
+  vote_average: number;
+}
+
+export type GenreType = {
+  id: number;
+  name: string;
+};

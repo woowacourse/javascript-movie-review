@@ -509,6 +509,10 @@ select-vote-score > h2 {
   color: #f1f1f1;
 }
 
+.fadein {
+  opacity: 1;
+}
+
 @media only screen and (max-width: 1220px) {
   movie-list {
     grid-template-columns: repeat(3, 1fr);

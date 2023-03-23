@@ -2,48 +2,61 @@ import CustomAsyncComponent from "../../abstracts/CustomAsyncComponent";
 import SelectVoteScoreComponent from "./SelectVoteScoreComponent";
 import StarFilledImg from "../../../templates/star_filled.png";
 import ModalCloseButtonImg from "../../../templates/close.png";
-import navigate from "../../util/Navigate";
+import { navigate } from "../../util/Router";
 
 export default class MovieModalComponent extends CustomAsyncComponent {
   handleEvent() {
     this.querySelector(".movie-modal-close").addEventListener("click", () => {
       navigate("/");
     });
-  }
 
-  async getGenreNames(genreIds) {
-    const result = await fetch(
-      "https://api.themoviedb.org/3/genre/movie/list?api_key=6df0efa1372141fac2793e6184ea5add&language=ko-KR",
-      { method: "GET" }
-    ).then(async (res) => {
-      const data = await res.json();
-      const genres = data.genres;
-
-      const genreNames = genreIds.split(",").map((genreId) => {
-        const genreName = genres.find((genre) => genre.id === Number(genreId));
-
-        if (genreName.name) {
-          return genreName.name;
-        }
-        return "";
-      });
-
-      return genreNames;
+    this.addEventListener("keyup", async (e) => {
+      if (e.key === "Backspace") {
+        e.preventDefault();
+        navigate("/");
+      }
     });
-
-    return result;
   }
+
+  //   async getGenreNames(genreIds) {
+  //     const result = await fetch(
+  //       "https://api.themoviedb.org/3/genre/movie/list?api_key=6df0efa1372141fac2793e6184ea5add&language=ko-KR",
+  //       { method: "GET" }
+  //     ).then(async (res) => {
+  //       const data = await res.json();
+  //       const genres = data.genres;
+
+  //       const genreNames = genreIds.split(",").map((genreId) => {
+  //         const genreName = genres.find((genre) => genre.id === Number(genreId));
+
+  //         if (genreName.name) {
+  //           return genreName.name;
+  //         }
+  //         return "";
+  //       });
+
+  //       return genreNames;
+  //     });
+
+  //     return result;
+  //   }
 
   async template() {
     const id = this.getAttribute("id");
     const title = this.getAttribute("title");
     const moviePoster = this.getAttribute("poster_path");
-    const genre = this.getAttribute("genre_ids");
+    const genreNames = this.getAttribute("genres");
     const averageVote = this.getAttribute("vote_average");
     const description = this.getAttribute("overview");
 
-    const genreNameArray = await this.getGenreNames(genre);
-    const genreNames = genreNameArray.join(", ");
+    // const genreNames = JSON.parse(genres);
+
+    // console.log(genreNames);
+    //   .map((genre) => genre.name)
+    //   .join(", ");
+
+    // const genreNameArray = await this.getGenreNames(genre);
+    // const genreNames = genreNameArray.join(", ");
 
     return /*html*/ `
         <div class="movie-modal-wrapper">
