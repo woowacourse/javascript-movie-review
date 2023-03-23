@@ -1,6 +1,6 @@
-import { LARGE_STAR_EMPTY, LARGE_STAR_FILLED } from '../../assets/svg';
-import { VOTE_MESSAGE } from '../constants';
-import { dispatchCustomEvent } from '../utils/domUtils';
+import { LARGE_STAR_EMPTY, LARGE_STAR_FILLED } from '../../../assets/svg';
+import { VOTE_MESSAGE } from '../../constants';
+import { dispatchCustomEvent } from '../../utils/domUtils';
 
 class VoteArea extends HTMLElement {
   constructor() {

@@ -5,11 +5,11 @@ import './css/responsive.css';
 
 import MovieHeader from './components/MovieHeader';
 import MoviePage from './components/MoviePage';
-import MovieListItem from './components/MovieListItem';
-import SkeletonListItem from './components/SkeletonListItem';
+import MovieListItem from './components/movieList/MovieListItem';
+import SkeletonListItem from './components/movieList/SkeletonListItem';
 import ErrorPage from './components/ErrorPage';
-import MovieDetailBox from './components/MovieDetailBox';
-import VoteArea from './components/VoteArea';
+import MovieDetailBox from './components/movieDetail/MovieDetailBox';
+import VoteArea from './components/movieDetail/VoteArea';
 
 customElements.define('movie-header', MovieHeader);
 customElements.define('movie-page', MoviePage);

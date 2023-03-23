@@ -1,6 +1,6 @@
 import DefaultPoster from '../../assets/default_poster.png';
-import { STAR_FILLED } from '../../assets/svg';
-import { hide } from '../dom';
+import { STAR_FILLED } from '../../../assets/svg';
+import { hide } from '../../dom';
 
 class MovieDetailBox extends HTMLElement {
   constructor() {

@@ -1,6 +1,6 @@
 import DefaultPoster from '../../assets/default_poster.png';
-import { STAR_FILLED } from '../../assets/svg';
-import { dispatchCustomEvent } from '../utils/domUtils';
+import { STAR_FILLED } from '../../../assets/svg';
+import { dispatchCustomEvent } from '../../utils/domUtils';
 
 class MovieListItem extends HTMLElement {
   constructor() {
