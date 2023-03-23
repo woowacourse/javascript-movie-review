@@ -1,13 +1,13 @@
 import genresById from "../data/genres";
 
 export interface IMovie {
-  id: number;
+  id: string;
   title: string;
   posterSrc: string | null;
   voteAverage: number;
   genre: string;
   overview: string;
-  userRate: number | 6;
+  userRate: number | null;
 }
 
 interface IMovieApiData {
