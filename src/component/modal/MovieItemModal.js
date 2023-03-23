@@ -35,11 +35,11 @@ class MovieItemModal extends CustomElement {
           <div class="item-modal-user-rate">
             <span>내 별점</span>
             <div class="user-rate-stars">
-              <img class="user-rate-star" src="./image/star_empty.png" data-number="1" />
-              <img class="user-rate-star" src="./image/star_empty.png" data-number="2" />
-              <img class="user-rate-star" src="./image/star_empty.png" data-number="3" />
-              <img class="user-rate-star" src="./image/star_empty.png" data-number="4" />
-              <img class="user-rate-star" src="./image/star_empty.png" data-number="5" />
+              <img class="user-rate-star" src=${ImgSrc.EMPTY_STAR} data-value="1" />
+              <img class="user-rate-star" src=${ImgSrc.EMPTY_STAR} data-value="2" />
+              <img class="user-rate-star" src=${ImgSrc.EMPTY_STAR} data-value="3" />
+              <img class="user-rate-star" src=${ImgSrc.EMPTY_STAR} data-value="4" />
+              <img class="user-rate-star" src=${ImgSrc.EMPTY_STAR} data-value="5" />
             </div>
             <span class="user-rate-number"></span>
             <span class="user-rate-caption"></span>
@@ -90,21 +90,19 @@ class MovieItemModal extends CustomElement {
 
   setRateEvent() {
     $(".user-rate-stars").addEventListener("click", (e) => {
-      const targetNumber = Number(
-        e.target.closest(".user-rate-star")?.dataset.number
-      );
+      const targetRate = e.target.closest(".user-rate-star")?.dataset.value;
 
-      if (!targetNumber) {
+      if (!targetRate) {
         return;
       }
 
-      this.rerenderUserRate(targetNumber);
-      this.saveUserRate(targetNumber);
+      this.rerenderUserRate(targetRate);
+      this.saveUserRate(targetRate);
     });
   }
 
   rerenderUserRate(rate) {
-    const rateNumber = rate * RATE_RANGE;
+    const rateNumber = Number(rate) * RATE_RANGE;
     const rateCaption = RateCaption[rate];
 
     $(".user-rate-number").innerText = rateNumber;
