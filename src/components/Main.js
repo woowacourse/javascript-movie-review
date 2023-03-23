@@ -106,6 +106,16 @@ class Main {
       $('.modal').classList.add('hidden');
       $('.modal-background').classList.add('hidden');
     });
+    document.addEventListener('keyup', (e) => {
+      if (
+        (e.key === 'Escape' || e.key === 'Backspace') &&
+        !$('.modal.hidden')
+      ) {
+        $('.modal-container').remove();
+        $('.modal').classList.add('hidden');
+        $('.modal-background').classList.add('hidden');
+      }
+    });
   }
 
   #drawStar() {
