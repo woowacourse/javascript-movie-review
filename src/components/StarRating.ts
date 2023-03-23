@@ -35,7 +35,6 @@ class StarRating {
     else this.rating = normalizeRating(rating);
 
     this.element.innerHTML = `
-    <input type="range" class="star-range" value="${this.rating}" step="${SCORE_STEP}" min="${SCORE_MIN}" max="${SCORE_MAX}">
     <p>내 별점</p>
     <span class="rating-images">
       <img class="rating-img">
@@ -44,6 +43,7 @@ class StarRating {
       <img class="rating-img">
       <img class="rating-img">
     </span>
+    <input type="range" class="star-range" value="${this.rating}" step="${SCORE_STEP}" min="${SCORE_MIN}" max="${SCORE_MAX}">
     <span class="rating-message"></span>
     `.trim();
 
@@ -57,6 +57,11 @@ class StarRating {
     });
 
     return this.element;
+  }
+
+  catchMovieIdEvent(event: CustomEvent) {
+    const id = event.detail.info.id ?? 0;
+    this.render(id);
   }
 
   private renderStars() {

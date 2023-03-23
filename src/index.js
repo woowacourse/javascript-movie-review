@@ -20,8 +20,6 @@ GenreMap.fetch();
 const listManager = new MovieListManager(LocalStorage);
 const ratingManager = new RatingManager();
 
-const star = new StarRating($('.star'), ratingManager);
-
 const header = new Header(listManager, $('header'));
 header.render();
 
@@ -33,10 +31,15 @@ main.render();
 
 const modal = new MovieModal($('#movie-modal'));
 
+const star = new StarRating($('.star'), ratingManager);
+
 EventBus.subscribe('searchFullfilled', main.render.bind(main));
-EventBus.subscribe('searchPending', skeleton.show.bind(skeleton));
 EventBus.subscribe('searchFullfilled', skeleton.hide.bind(skeleton));
+
+EventBus.subscribe('searchPending', skeleton.show.bind(skeleton));
+
 EventBus.subscribe('summaryClick', modal.catchMovieIdEvent.bind(modal));
+EventBus.subscribe('summaryClick', star.catchMovieIdEvent.bind(star));
 
 const scrollButton = $('button#scroll-to-top');
 scrollButton.addEventListener('click', () => {
@@ -53,6 +56,4 @@ window.addEventListener('load', () => {
   Object.entries(myRatings).forEach(([movieId, rating]) => {
     ratingManager.setRating(Number(movieId), rating);
   });
-
-  star.render(0);
 });

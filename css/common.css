@@ -212,7 +212,6 @@ dialog#movie-modal::backdrop {
 .star {
   position: relative;
 
-  /* width: 550px; */
   height: 100px;
 }
 
