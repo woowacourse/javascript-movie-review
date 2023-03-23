@@ -10,20 +10,25 @@ import LocalStorage from './util/LocalStorage.ts';
 import MovieModal from './components/MovieModal';
 import GenreMap from './domain/GenreMap';
 import MovieSkeleton from './components/MovieSkeleton';
+import RatingManager from './domain/RatingManager';
+import StarRating from './components/StarRating';
 
 const SKELETON_ITEM_COUNT = 20;
 
 GenreMap.fetch();
 
-const manager = new MovieListManager(LocalStorage);
+const listManager = new MovieListManager(LocalStorage);
+const ratingManager = new RatingManager();
 
-const header = new Header(manager, $('header'));
+const star = new StarRating($('.star'), ratingManager);
+
+const header = new Header(listManager, $('header'));
 header.render();
 
 const skeleton = new MovieSkeleton($('#skeleton-container'));
 skeleton.render(SKELETON_ITEM_COUNT);
 
-const main = new Main($('.item-view'), manager);
+const main = new Main($('.item-view'), listManager);
 main.render();
 
 const modal = new MovieModal($('#movie-modal'));
@@ -36,4 +41,18 @@ EventBus.subscribe('summaryClick', modal.catchMovieIdEvent.bind(modal));
 const scrollButton = $('button#scroll-to-top');
 scrollButton.addEventListener('click', () => {
   $('html').scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+window.addEventListener('beforeunload', () => {
+  LocalStorage.setItem('myRatings', ratingManager.toString());
+});
+
+window.addEventListener('load', () => {
+  const myRatings = JSON.parse(LocalStorage.getItem('myRatings'));
+
+  Object.entries(myRatings).forEach(([movieId, rating]) => {
+    ratingManager.setRating(Number(movieId), rating);
+  });
+
+  star.render(0);
 });

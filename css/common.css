@@ -199,11 +199,19 @@ dialog#movie-modal::backdrop {
 
   width: 55px;
   height: 55px;
-    
+
   background-color: #f33f3f;
 }
 
 #scroll-to-top img {
   width: 32px;
   height: 32px;
+}
+
+img.rating-img {
+  content: url('../assets/star_empty.png');
+}
+
+img.rating-img[data-filled="true"] {
+  content: url('../assets/star_filled.png');
 }
