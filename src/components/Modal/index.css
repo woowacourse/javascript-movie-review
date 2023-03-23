@@ -126,6 +126,10 @@
   font-weight: bold;
 }
 
+.star-rate-select {
+  cursor: pointer;
+}
+
 @media screen and (max-width: 1220px) {
   .modal {
     width: 740px;
@@ -169,5 +173,10 @@
 
   .modal-star-rate {
     width: 80vw;
+    justify-content: center;
+  }
+
+  .star-rate-desc {
+    display: none;
   }
 }

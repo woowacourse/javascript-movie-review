@@ -2,9 +2,11 @@ import "./index.css";
 
 import { MovieDetail } from "../../types";
 import { fetchMovieDetailById } from "../../utils/api";
-import starImg from "../../../templates/star_filled.png";
+import filledStarImg from "../../../templates/star_filled.png";
+import emptyStarImg from "../../../templates/star_empty.png";
 import xButton from "../../../templates/xButton.png";
 import { $ } from "../../utils/selector";
+import { getStarRateById, setStarRateById } from "../../utils/storage";
 
 export class Modal {
   #$target;
@@ -21,7 +23,7 @@ export class Modal {
     const modalSection = $(".modal-section");
 
     fetchMovieDetailById(movieId).then((movieDetail) => {
-      this.render(movieDetail);
+      this.render(movieDetail, movieId);
 
       if (modalSection instanceof HTMLElement)
         modalSection.style.display = "block";
@@ -65,17 +67,41 @@ export class Modal {
     window.addEventListener("keydown", (event: KeyboardEvent) => {
       if (event.key === "Escape") this.close();
     });
+
+    $(".modal-content").addEventListener("click", (event: Event) => {
+      if (!(event.target instanceof HTMLImageElement)) return;
+
+      const movieId = Number(event.target.dataset.movieId);
+      const starRate = Number(event.target.dataset.starRate) + 1;
+
+      this.renderStars(movieId, starRate);
+
+      setStarRateById(movieId, starRate);
+    });
   }
 
-  render(movie: MovieDetail) {
+  render(movie: MovieDetail, movieId: number) {
     const header = $(".modal-header--text");
 
     if (header instanceof HTMLElement) header.textContent = movie.title;
 
-    this.#$target.innerHTML = this.getMovieDetailTemplate(movie);
+    this.#$target.innerHTML = this.getMovieDetailTemplate(
+      movie,
+      getStarRateById(movieId)
+    );
   }
 
-  getMovieDetailTemplate(movie: MovieDetail) {
+  renderStars(movieId: number, starRate: number) {
+    const starRateContainer = $(".modal-star-rate");
+
+    if (starRateContainer instanceof HTMLElement)
+      starRateContainer.innerHTML = this.getStarSelectContainerTemplate(
+        movieId,
+        starRate
+      );
+  }
+
+  getMovieDetailTemplate(movie: MovieDetail, starRate: number) {
     return /*html */ `
         <div class="modal-image-container">
             <img 
@@ -91,7 +117,10 @@ export class Modal {
                 <p class="modal-movie-genre modal-detail--text">
                     ${movie.genre.join(" ")} 
                     <span>
-                    <img src="${starImg}" alt="별점 ${movie.vote_average}" />
+                    <img 
+                        src="${filledStarImg}" 
+                        alt="별점 ${movie.vote_average}" 
+                    />
                     ${movie.vote_average.toFixed(1)}
                     </span>
                 </p>
@@ -99,8 +128,41 @@ export class Modal {
                     ${movie.overview ? movie.overview : ""}
                 </p>
             </div>
-            <div class="modal-star-rate modal-detail--text">내 별점 </div>
+            <div class="modal-star-rate modal-detail--text">
+                ${this.getStarSelectContainerTemplate(movie.id, starRate)}
+            </div>
         </div>
     `;
   }
+
+  getStarSelectContainerTemplate(movieId: number, starRate: number) {
+    const imgArray = new Array(5).fill("").map(
+      (_, index) =>
+        `<img 
+          src="${starRate > index ? filledStarImg : emptyStarImg}" 
+          alt="별점" 
+          class="star-rate-select"
+          data-movie-id="${movieId}"
+          data-star-rate="${index}"
+        />`
+    );
+
+    return /*html*/ `
+        내 별점
+        <span class="star-select-container">
+            ${imgArray.join("")}
+        </span>
+        <span>${starRate}</span>
+        <span class="star-rate-desc">${STAR_RATE_STRING[starRate]}</span>
+    `;
+  }
 }
+
+const STAR_RATE_STRING = [
+  "나의 점수는?",
+  "정말 별로예요",
+  "별로예요",
+  "보통이예요",
+  "재밌어요",
+  "정말 재밌어요",
+];
