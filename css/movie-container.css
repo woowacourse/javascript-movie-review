@@ -1,29 +1,3 @@
-* {
-  box-sizing: border-box !important;
-}
-
-body {
-  font-size: 14px;
-  background-color: #222222;
-  color: #fff;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button {
-  cursor: pointer;
-}
-
-#app {
-  padding-bottom: 48px;
-}
-
-*:focus {
-  outline: none;
-}
 .item-view,
 .item-test {
   width: 100%;
@@ -41,6 +15,22 @@ button {
   font-size: 2rem;
   font-weight: bold;
   user-select: none;
+}
+
+.item-view .empty-movie-list-container {
+  margin-top: 50px;
+}
+
+.item-view .empty-movie-list-container h3 {
+  padding: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  user-select: none;
+}
+
+.item-view .empty-movie-list-container p {
+  padding: 5px 0 0 10px;
+  font-size: 1rem;
 }
 
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
@@ -83,7 +73,7 @@ button {
 .item-title.skeleton::after,
 .item-score.skeleton::after {
   font-size: 0;
-  content: "loading";
+  content: 'loading';
 }
 
 .full-width {
@@ -122,43 +112,4 @@ button.primary {
   100% {
     background-position: 0% 50%;
   }
-}
-header {
-  width: 100%;
-  min-width: 1200px;
-  height: 72px;
-  background-color: #222;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-  border-bottom: 1px solid white;
-  margin-bottom: 48px;
-}
-
-header h1 {
-  cursor: pointer;
-  user-select: none;
-  font-size: 2rem;
-  font-weight: bold;
-  letter-spacing: -0.1rem;
-  color: #f33f3f;
-}
-
-header > .search-box {
-  background: #fff;
-  padding: 8px;
-  border-radius: 4px;
-}
-
-header .search-box > input {
-  border: 0;
-}
-
-header .search-box > .search-button {
-  width: 14px;
-  border: 0;
-  text-indent: -1000rem;
-  background: url("./search_button.png") transparent no-repeat 0 1px;
-  background-size: contain;
 }
