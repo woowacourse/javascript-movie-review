@@ -33,3 +33,8 @@ export type GenreType = {
   id: number;
   name: string;
 };
+
+export type listAPIReturnType = {
+  isSuccess: boolean;
+  data: Object;
+};

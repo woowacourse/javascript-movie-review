@@ -1,13 +1,11 @@
 import CustomComponent from "../abstracts/CustomComponent";
 import HeaderComponent from "./AppHeaderComponent";
 import MovieListComponent from "./movie/MovieListComponent";
-import MoreButtonComponent from "./element/MoreButtonComponent";
 import TitleComponent from "./element/TitleComponent";
 import MovieModalComponent from "./modal/MovieModalComponent";
-import transformMovieItemsType from "../util/MovieList";
-import { API_KEY } from "../constants/key";
-import { ACTION, REQUEST_URL, TITLE } from "../constants/constants";
-import { App, navigate } from "../util/Router";
+import { ACTION, TITLE } from "../constants/constants";
+import { Router } from "../util/Router";
+import { fetchPopularMovieList, fetchSearchMovieList } from "../util/Api";
 
 export default class AppComponent extends CustomComponent {
   #nextPage = 1;
@@ -63,18 +61,11 @@ export default class AppComponent extends CustomComponent {
     switch (actionType) {
       case ACTION.POPULAR:
       default:
-        return await fetch(
-          `${REQUEST_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${
-            this.#nextPage
-          }`,
-          { method: "GET" }
-        );
+        return await fetchPopularMovieList(this.#nextPage);
       case ACTION.SEARCH:
-        return await fetch(
-          `${REQUEST_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${
-            this.#$searchInput.value
-          }&page=${this.#nextPage}&include_adult=false`,
-          { method: "GET" }
+        return await fetchSearchMovieList(
+          this.#$searchInput.value,
+          this.#nextPage
         );
     }
   }
@@ -84,7 +75,7 @@ export default class AppComponent extends CustomComponent {
 
     const result = await this.fetchAPI(actionType)
       .then(async (res) => {
-        if (!res.ok) {
+        if (!res.isSuccess) {
           this.#$movieList.renderPageFail();
           if (this.#intersectionObserver) {
             this.#intersectionObserver.disconnect();
@@ -92,12 +83,11 @@ export default class AppComponent extends CustomComponent {
           return false;
         }
 
-        const data = await res.json();
-        this.#totalPage = data.total_pages;
+        const listData = res.data.list;
+        this.#$movieList.renderPageSuccess(listData);
 
-        const movieItems = transformMovieItemsType(data.results);
-        console.log(movieItems);
-        this.#$movieList.renderPageSuccess(movieItems);
+        const totalPage = res.data.totalPage;
+        this.#totalPage = totalPage;
 
         this.#nextPage += 1;
 
@@ -123,12 +113,15 @@ export default class AppComponent extends CustomComponent {
     return true;
   }
 
-  searchListInit() {
+  async searchListInit() {
     this.#nextPage = 1;
     this.#$movieListTitle.setTitle(
       `"${this.#$searchInput.value}" ${TITLE.SEARCH}`
     );
     this.#$movieList.initialPage();
+
+    await this.renderListByData(ACTION.SEARCH);
+    this.loadIntersectionObserver(ACTION.SEARCH);
   }
 
   popularListInit() {
@@ -139,50 +132,30 @@ export default class AppComponent extends CustomComponent {
     this.#$movieList.initialPage();
   }
 
-  hideSearch() {
-    if (this.querySelector(".header-logo").style.display === "none") {
-      this.querySelector(".search-button-wrapper").style.display = "flex";
-      this.querySelector(".search-box").style.display = "none";
-      this.querySelector(".header-logo").style.display = "block";
-      this.querySelector(".hide-all").style.display = "none";
-    }
-  }
-
   async popularListAction() {
     this.popularListInit();
     await this.renderListByData(ACTION.POPULAR);
-    this.loadIntersectionObserver(ACTION.POPULAR);
+  }
+
+  async searchListAction() {
+    await this.searchListInit();
+    await this.renderListByData(ACTION.SEARCH);
   }
 
   async checkEventAction(e) {
     switch (e.target.dataset.action) {
-      case "hide_search":
-        this.hideSearch();
-        break;
       // 로고 눌렀을 때 액션
-      case "search_on":
-        this.querySelector(".search-button-wrapper").style.display = "none";
-        this.querySelector(".search-box").style.display = "flex";
-        this.querySelector(".header-logo").style.display = "none";
-        this.querySelector(".hide-all").style.display = "block";
-        break;
       case ACTION.POPULAR:
         this.popularListAction();
         break;
       // 검색했을 때 액션
       case ACTION.SEARCH:
-        if (this.#$searchInput.style.display === "none") {
-          this.#$searchInput.style.display = "block";
-          return;
-        }
+        // 검색 값이 없을 때 전체 리스트 보여줌.
         if (!this.#$searchInput.value) {
           this.popularListAction();
           return;
         }
-        this.hideSearch();
-        this.searchListInit();
-        await this.renderListByData(ACTION.SEARCH);
-        this.loadIntersectionObserver(ACTION.SEARCH);
+        this.searchListAction();
         break;
     }
   }
@@ -196,15 +169,14 @@ export default class AppComponent extends CustomComponent {
     this.addEventListener("keyup", async (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
+
         if (!this.#$searchInput.value) {
           this.popularListAction();
           return;
         }
 
-        this.hideSearch();
-        this.searchListInit();
-        await this.renderListByData(ACTION.SEARCH);
-        this.loadIntersectionObserver(ACTION.SEARCH);
+        this.querySelector("app-header").hideSearch();
+        this.searchListAction();
       }
     });
 
@@ -213,11 +185,11 @@ export default class AppComponent extends CustomComponent {
 
   defaultRoutingEvent() {
     window.addEventListener("DOMContentLoaded", () => {
-      App();
+      Router();
     });
 
     window.addEventListener("popstate", () => {
-      App();
+      Router();
     });
   }
 
