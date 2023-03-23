@@ -1,12 +1,19 @@
-export const $ = <GenericElement extends Element>(
-  selector: keyof HTMLElementTagNameMap | string,
+export const $ = <
+  GenericElement extends Element,
+  Selector extends string =
+    | `${keyof HTMLElementTagNameMap | string}`
+    | `${keyof HTMLElementTagNameMap | string}?`,
+>(
+  selector: Selector,
   context: Element | Document = document,
-): GenericElement => {
-  const $element = context.querySelector<GenericElement>(selector);
-  if ($element === null) {
+): Selector extends `${string}?` ? GenericElement | null : GenericElement => {
+  const $element = context.querySelector<GenericElement>(
+    selector.endsWith('?') ? selector.slice(0, -1) : selector,
+  );
+  if ($element === null && !selector.endsWith('?')) {
     throw new Error(`"${selector}" 에 해당되는 엘리먼트를 찾을 수 없습니다`);
   }
-  return $element;
+  return $element!;
 };
 
 export const $context = (context: Element | Document = document): typeof $ => {
