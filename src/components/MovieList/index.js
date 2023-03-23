@@ -1,6 +1,7 @@
 import { fetchMovieListWithKeyword, fetchPopularMovieList } from "../../apis";
 import { LIST_TYPE } from "../../constants/common";
 import Movie from "../../domain/Movie";
+import Modal from "../Modal";
 import "./index.css";
 import MovieItem from "./MovieItem";
 import SkeletonList from "./SkeletonList";
@@ -120,6 +121,14 @@ class MovieList {
   setEvent() {
     this.$target.querySelector(".more").addEventListener("click", () => {
       this.renderMovieList();
+    });
+
+    this.$target.querySelector(".item-list").addEventListener("click", (event) => {
+      const $li = event.target.closest("li");
+      if (!$li) return;
+
+      const id = $li.dataset.id;
+      Modal.openMovieDetail(id);
     });
   }
 }

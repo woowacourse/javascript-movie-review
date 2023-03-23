@@ -1,16 +1,16 @@
 const MovieDetailModal = {
-  template(movie) {
+  template(id) {
     return `
     <div class="movie-detail">
-     ${movie.title}
+     ${id}
     </div>
     `;
   },
 
-  render(movie) {
+  render(id) {
     const $modalContainer = document.querySelector(".modal-container");
 
-    $modalContainer.innerHTML = this.template(movie);
+    $modalContainer.innerHTML = this.template(id);
   },
 };
 
