@@ -55,6 +55,7 @@ export default class MovieList {
   }
 
   bindEvent(getMovieRequest: () => Promise<MoviesResponse>) {
+    // 무한스크롤 이벤트
     const handleMoreMovieButton = async () => {
       Store.page += 1;
       this.showSkeleton();
@@ -63,7 +64,10 @@ export default class MovieList {
       this.renderMovieCards(results, total_pages);
     };
 
-    this.$moreMovieButton?.addEventListener('click', handleMoreMovieButton);
+    const io = new IntersectionObserver(handleMoreMovieButton, { rootMargin: '100%' });
+    io.observe(this.$moreMovieButton);
+
+    // 모달 이벤트
     this.$movieItemList?.addEventListener('click', (e) => {
       if (!(e.target instanceof HTMLElement)) return;
       const $itemCard = e.target.closest('.js-item-card');
