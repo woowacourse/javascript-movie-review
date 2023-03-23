@@ -245,7 +245,16 @@ mobile-search-button {
   padding: 10px 0;
   height: 75%;
   line-height: 20px;
-  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.item-modal-description::-webkit-scrollbar {
+  display: none;
+}
+
+.item-modal-description {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .item-modal-user-rate {
