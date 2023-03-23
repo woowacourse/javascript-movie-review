@@ -44,11 +44,17 @@ export default class MovieDetailModal {
               </div>
             <p>${overview}</p>
           </div>
-          <div>
-            <span>내 별점</span>
-            <span>별</span>
-            <span>6</span>
-            <span>보통이에요</span>
+          <div class="movie-detail-modal-user-vote">
+            <span id="user-vote-title">내 별점</span>
+            <span id="user-vote-star-span">
+              <img src="${starFilled}" alt="별점"/>
+              <img src="${starFilled}" alt="별점"/>
+              <img src="${starFilled}" alt="별점"/>
+              <img src="${starFilled}" alt="별점"/>
+              <img src="${starFilled}" alt="별점"/>
+            </span>
+            <span id="user-vote-star-amount">6</span>
+            <span id="user-vote-star-description">보통이에요</span>
           </div>
         </section>
       </div>

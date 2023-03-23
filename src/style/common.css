@@ -229,5 +229,35 @@ dialog {
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  margin: 0px 32px;
+  margin-left: 32px;
+}
+
+.movie-detail-modal-user-vote {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  border-radius: 16px;
+  padding: 16px;
+  background: #383839;
+}
+
+.movie-detail-modal-user-vote > #user-vote-title {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.movie-detail-modal-user-vote > #user-vote-star-span > img {
+  vertical-align: -20%;
+}
+
+.movie-detail-modal-user-vote > #user-vote-star-amount {
+}
+
+.movie-detail-modal-user-vote > #user-vote-star-description {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
 }
