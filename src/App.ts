@@ -50,20 +50,34 @@ class App {
     dom.renderMoviePage(title);
   }
 
-  async updateMoviePage<T>(api: (params: T) => Promise<TMDBResponse>, params: T) {
+  async updateMoviePage<Params>(api: (params: Params) => Promise<MoviesResponse>, params: Params) {
+    if (this.state.loading) return;
     try {
-      dom.show('#skeleton-list');
-      const { results, total_pages } = await api(params);
-      dom.hide('#skeleton-list');
-      if (this.pageNumber >= total_pages || this.pageNumber >= MAXIMUM_PAGE) dom.hide('#load-more');
+      const { results, total_pages } = await this.makeDecorated(api)(params);
+      const newMovies = this.movieService.cleansingMovies(results);
+      if (this.state.pageNumber >= total_pages || this.state.pageNumber >= MAXIMUM_PAGE) {
+        dom.hide('#load-sensor');
+      }
 
-      this.pageNumber += 1;
-      const newMovies = movieService.resultsToMovies(results);
-      movieService.concatMovies(newMovies);
+      this.state.pageNumber += 1;
+      this.movieService.concatMovies(newMovies);
       dom.renderMovieListItem(newMovies);
+      window.scrollTo({ top: window.scrollY - 40 });
     } catch {
       dom.renderErrorPage();
     }
+  }
+
+  makeDecorated<Params>(api: (params: Params) => Promise<MoviesResponse>) {
+    return async (params: Params) => {
+      dom.show('#skeleton-list');
+      this.state.loading = true;
+      const { results, total_pages } = await api(params);
+      dom.hide('#skeleton-list');
+      this.state.loading = false;
+
+      return { results, total_pages };
+    };
   }
 }
 
