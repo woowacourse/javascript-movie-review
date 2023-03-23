@@ -8,7 +8,7 @@ class MovieDetail extends HTMLElement {
     this.innerHTML = "";
   }
 
-  render(movie: Movie) {
+  render(movie: Movie, movieScore = "0") {
     this.innerHTML = /* html */ `
       <div class="detail-header">
         <h2>${movie.title}</h2>
@@ -30,7 +30,9 @@ class MovieDetail extends HTMLElement {
               ? movie.overview
               : "줄거리가 준비되지 않았습니다."
           }</p>
-          <movie-score class="detail-score"/>
+          <movie-score class="detail-score" movie-id="${
+            movie.id
+          }" movie-score="${movieScore}"/>
          </div>
       </div>
     `;

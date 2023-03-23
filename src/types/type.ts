@@ -23,7 +23,7 @@ export interface Genre {
 
 export interface CustomEvent {
   eventType: string;
-  data?: string | null;
+  data?: any;
 }
 
 export interface ResponseData {

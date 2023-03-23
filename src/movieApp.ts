@@ -11,6 +11,7 @@ import type { Movie, ResponseData } from "./types/type";
 import { errorHandler } from "./utils/errorHandler";
 import CustomModal from "./components/CustomModal";
 import MovieDetail from "./components/MovieDetail";
+import { getLocalStorage, setLocalStorage } from "./utils/localStorage";
 
 const movieApp = {
   currentPageNumber: 1,
@@ -39,14 +40,42 @@ const movieApp = {
       "clickMovieDetail",
       ({ detail }: CustomEventInit) => this.renderModal(detail)
     );
+    $("custom-modal")?.addEventListener(
+      "setMovieScore",
+      ({ detail }: CustomEventInit) => this.setMovieScore(detail)
+    );
   },
 
   renderModal(movieID: string) {
     const modal = <CustomModal>$("custom-modal");
     const movieDetail = <MovieDetail>$("movie-detail");
 
-    movieDetail.render(movieHandler.getMovie(Number(movieID)));
+    const original = getLocalStorage("moviesScore") ?? [];
+    const existMovie = original.find(
+      (movie: { movieId: string; score: string }) => movie.movieId === movieID
+    );
+
+    movieDetail.render(
+      movieHandler.getMovie(Number(movieID)),
+      existMovie?.score
+    );
+
     modal.openModal();
+  },
+
+  setMovieScore({ movieId, score }: { movieId: string; score: string }) {
+    const original = getLocalStorage("moviesScore") ?? [];
+    const existMovie = original.find(
+      (movie: { movieId: string; score: string }) => movie.movieId === movieId
+    );
+
+    if (score === "0") return;
+    if (existMovie) {
+      existMovie.score = score;
+      setLocalStorage("moviesScore", [...original]);
+    } else {
+      setLocalStorage("moviesScore", [...original, { movieId, score }]);
+    }
   },
 
   async setMovieGenres() {

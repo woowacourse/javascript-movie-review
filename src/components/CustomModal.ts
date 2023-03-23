@@ -1,4 +1,4 @@
-import { $ } from "../utils/dom";
+import { $, dispatchCustomEvent } from "../utils/dom";
 
 class CustomModal extends HTMLElement {
   constructor() {
@@ -40,6 +40,21 @@ class CustomModal extends HTMLElement {
     const modal = this.querySelector<HTMLDialogElement>(".modal");
 
     modal?.close();
+
+    const movieScore = $("movie-score", this);
+
+    if (movieScore) {
+      const score = movieScore.getAttribute("movie-score");
+      const movieId = movieScore.getAttribute("movie-id");
+
+      dispatchCustomEvent(this, {
+        eventType: "setMovieScore",
+        data: {
+          movieId,
+          score,
+        },
+      });
+    }
   }
 }
 

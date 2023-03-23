@@ -11,7 +11,9 @@ class MovieScore extends HTMLElement {
     this.addEvent();
   }
 
-  render(score = "0") {
+  render() {
+    const score = this.getAttribute("movie-score") ?? "0";
+
     this.innerHTML = /* html */ `
         <span id="detail-score-title">내 별점</span> 
         <span id="detail-score-image">
@@ -41,8 +43,9 @@ class MovieScore extends HTMLElement {
 
   onClickScoreImage(event: Event) {
     if (event.target instanceof HTMLImageElement) {
-      const score = event.target.dataset.score;
-      this.render(score);
+      const score = <string>event.target.dataset.score;
+      this.setAttribute("movie-score", score);
+      this.render();
       this.addEvent();
     }
   }
