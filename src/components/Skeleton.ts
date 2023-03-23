@@ -6,7 +6,7 @@ class Skeleton extends HTMLElement {
   }
 
   makeSkeletonItem(): string {
-    return `
+    return /*html*/ `
       <li>
         <a>
           <div class="item-card">
@@ -19,7 +19,7 @@ class Skeleton extends HTMLElement {
   }
 
   render(): void {
-    this.innerHTML = `
+    this.innerHTML = /*html*/ `
     <ul class="item-list">
     ${this.makeSkeletonItem().repeat(20)}
     </ul>

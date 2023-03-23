@@ -9,7 +9,7 @@ class SearchInput extends HTMLElement {
   }
 
   render(): void {
-    this.innerHTML = `
+    this.innerHTML = /*html*/ `
     <label for="search-input-tag">
       <form id="search-form-box" class="search-box"> 
       <input id="search-input-tag" type="text" required maxlength=50 placeholder="검색" />

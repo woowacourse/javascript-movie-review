@@ -47,15 +47,15 @@ class MoviesContainer extends HTMLElement {
   }
 
   renderContainer(): void {
-    this.innerHTML = `
+    this.innerHTML = /*html*/ `
     <main class="item-container">
-    <section class="item-view">
-    <h2 id="movie-container-title">지금 인기 있는 영화</h2>
-    <ul id="movie-list-wrapper" class="item-list">
-    <skeleton-item id="skeleton-container"></skeleton-item>
-    </ul>
-    <common-button id="more-button" class="hide-button" text="더보기" color="primary"></common-button>
-    </section>
+      <section class="item-view">
+        <h2 id="movie-container-title">지금 인기 있는 영화</h2>
+        <ul id="movie-list-wrapper" class="item-list">
+          <skeleton-item id="skeleton-container"></skeleton-item>
+        </ul>
+        <common-button id="more-button" class="hide-button" text="더보기" color="primary"></common-button>
+      </section>
     </main>`;
   }
 

@@ -16,7 +16,7 @@ class Image extends HTMLElement {
 
     const URL = imgUrl !== EMPTY ? `https://image.tmdb.org/t/p/w${width}${imgUrl}` : DEFAULT_IMAGE;
 
-    this.innerHTML = `
+    this.innerHTML = /*html*/ `
       <img
         class="movie-image skeleton"
         src="${URL}"

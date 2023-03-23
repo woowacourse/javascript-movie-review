@@ -13,7 +13,7 @@ class MovieListItem extends HTMLElement {
     const title = this.getAttribute('title');
     const score = this.getAttribute('score');
 
-    this.innerHTML = `
+    this.innerHTML = /*html*/ `
     <li>
       <a>
         <div class="item-card">

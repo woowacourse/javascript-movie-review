@@ -1,4 +1,4 @@
-header {
+.movie-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13,11 +13,6 @@ header {
   z-index: 1;
 }
 
-header h1 {
+.movie-logo {
   cursor: pointer;
-  user-select: none;
-  font-size: 2rem;
-  font-weight: bold;
-  letter-spacing: -0.1rem;
-  color: var(--red);
 }

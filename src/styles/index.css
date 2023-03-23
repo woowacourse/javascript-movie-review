@@ -2,19 +2,27 @@
 
 :root {
   --white: #ffffff;
-  --black: #222222;
+  --black: #111111;
   --silver: #aaaaaa;
   --gray: #f0f0f0;
   --red: #f33f3f;
+  --black-60: #00000099;
+  --modal-black: #212122;
+  --modal-white: #f1f1f1;
+  --gray-darken: #383839;
+  --gray-shadow: #f1f1f140;
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  font-size: 10px;
+}
+
 body {
   padding-bottom: 48px;
-  font-size: 14px;
   color: var(--white);
   background-color: var(--black);
 }
