@@ -1,5 +1,5 @@
 import { App } from "./App";
-import "../templates/reset.css";
-import "../templates/common.css";
+import "../src/styles/reset.css";
+import "../src/styles/common.css";
 
 const app = new App();

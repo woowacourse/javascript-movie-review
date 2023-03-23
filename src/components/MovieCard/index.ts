@@ -1,5 +1,5 @@
 import { Movie } from "../../types";
-import starImg from "../../../templates/star_filled.png";
+import starImg from "../../assets/star_filled.png";
 
 class MovieCard {
   static render(movie: Movie) {
