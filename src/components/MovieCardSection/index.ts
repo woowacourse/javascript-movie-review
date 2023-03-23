@@ -24,6 +24,7 @@ const MovieCardSection = {
   },
 
   setEvent(movies: Movies, getMovies: GetMovies) {
+    MovieCardList.setEvent();
     LoadMoreButton.setEvent(movies, getMovies);
   },
 

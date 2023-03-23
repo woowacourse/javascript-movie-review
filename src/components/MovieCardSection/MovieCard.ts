@@ -8,13 +8,13 @@ const MovieCard = {
   template() {
     return `
       <li>
-        <a href="#">
+        <button type="button" class="item-card-button">
           <div class="item-card">
             <div class="${CLASS.ITEM_THUMBNAIL} ${CLASS.SKELETON}"></div>
             <p class="${CLASS.ITEM_TITLE} ${CLASS.SKELETON}"></p>
             <p class="${CLASS.ITEM_SCORE} ${CLASS.SKELETON}"></p>
           </div>
-        </a>
+        </button>
       </li>
     `;
   },
@@ -35,7 +35,9 @@ const MovieCard = {
   },
 
   paint(target: HTMLLIElement, item: AppMovie) {
-    const { title, posterPath, rating } = item;
+    const { id, title, posterPath, rating } = item;
+
+    target.dataset.id = id.toString();
 
     const itemThumbnail = target.querySelector<HTMLDivElement>(`.${CLASS.ITEM_THUMBNAIL}`);
     const itemTitle = target.querySelector<HTMLParagraphElement>(`.${CLASS.ITEM_TITLE}`);

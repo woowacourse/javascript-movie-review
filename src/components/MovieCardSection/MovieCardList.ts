@@ -1,4 +1,5 @@
 import MovieCard from './MovieCard';
+import MovieDetailModal from '../MovieDetailModal';
 
 import { DEFAULT_LIST_LENGTH } from '../../constants';
 import { CLASS } from '../../constants/selector';
@@ -15,6 +16,22 @@ const MovieCardList = {
 
   skeletonItems() {
     return MovieCard.template().repeat(DEFAULT_LIST_LENGTH);
+  },
+
+  setEvent() {
+    const movieCardList = $<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
+
+    movieCardList.addEventListener('click', (event) => {
+      if (!(event.target instanceof HTMLElement)) return;
+
+      const movieItem = event.target.closest('li');
+      const movieId = movieItem?.dataset.id;
+
+      if (!movieId) return;
+
+      MovieDetailModal.open(movieId);
+      MovieDetailModal.setEvent();
+    });
   },
 
   renderSkeletonItems(isCurrentQuery: boolean) {

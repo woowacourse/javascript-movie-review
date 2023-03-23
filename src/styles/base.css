@@ -3,7 +3,7 @@
 }
 
 body {
-  font-size: 14px;
+  font-size: 16px;
   background-color: #222222;
   color: #fff;
 }
@@ -23,4 +23,13 @@ button {
 
 .hide {
   display: none;
+}
+
+.modal-background {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.35);
 }
