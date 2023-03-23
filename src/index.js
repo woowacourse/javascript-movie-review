@@ -7,7 +7,7 @@ import stateRender from './renderer/StateRender';
 
 new App(document.getElementById('app'));
 
-window.addEventListener('hashchange', () => {
+window.addEventListener('popstate', () => {
   // hashChange가 발생한다면 -> url 변화가 있다면 modal을 닫는지 아닌지 확인
   modal.closeModalWhenHashEmpty();
 

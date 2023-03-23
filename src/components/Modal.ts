@@ -25,14 +25,19 @@ class Modal {
     this.#$modal?.classList.add('modal--open');
   }
 
-  close() {
+  close(isBack = false) {
     this.#$modal?.classList.remove('modal--open');
+    if (isBack) {
+      history.back();
+      return;
+    }
     history.pushState('', '', '/');
   }
 
   closeModalWhenHashEmpty() {
     const isModalOpen = document.querySelector('.modal--open') ? true : false;
-    if (location.hash === '' && isModalOpen) this.close();
+
+    if (location.hash === '' && isModalOpen) this.close(true);
   }
 }
 
