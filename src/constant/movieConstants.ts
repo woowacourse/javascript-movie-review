@@ -9,11 +9,11 @@ export const ImgSrc: Readonly<Constant> = {
 export const RATE_RANGE: number = 2;
 
 export const RateCaption: Readonly<Constant> = {
-  "1": "별로에요",
-  "2": "그저 그래요",
-  "3": "괜찮아요",
-  "4": "좋아요",
-  "5": "훌륭해요",
+  "1": "최악이예요",
+  "2": "별로예요",
+  "3": "보통이에요",
+  "4": "재미있어요",
+  "5": "명작이에요",
 };
 
 export const STORAGE_KEY: string = "user_rate";
