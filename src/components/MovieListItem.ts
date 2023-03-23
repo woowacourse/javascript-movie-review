@@ -1,7 +1,7 @@
 import './MovieListItem.css';
 import STAR_FILLED from '../image/star-filled.png';
 import { $ } from '../utils/common';
-import { ModalHTMLInfo } from './Modal';
+import { HTMLModalElement } from './Modal';
 
 class MovieListItem extends HTMLElement {
   connectedCallback() {
@@ -34,7 +34,7 @@ class MovieListItem extends HTMLElement {
 
   setClickEvent() {
     this.querySelector('li')?.addEventListener('click', () => {
-      const modal = $('movie-modal') as ModalHTMLInfo;
+      const modal = $('movie-modal') as HTMLModalElement;
 
       const id = this.id;
       const title = this.getAttribute('title') || '';

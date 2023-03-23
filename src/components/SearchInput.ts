@@ -1,5 +1,5 @@
 import { $ } from '../utils/common';
-import { MovieConatainerInformation } from './MoviesContainer';
+import { HTMLMovieContainerElement } from './MoviesContainer';
 import './SearchInput.css';
 
 class SearchInput extends HTMLElement {
@@ -23,7 +23,7 @@ class SearchInput extends HTMLElement {
     $('#search-form-box')?.addEventListener('submit', event => {
       event.preventDefault();
       const searchInputTag = $('#search-input-tag') as HTMLInputElement;
-      const movieContainer = $('movies-container') as MovieConatainerInformation;
+      const movieContainer = $('movies-container') as HTMLMovieContainerElement;
 
       const word = searchInputTag.value.trim();
       if (word === '') return;

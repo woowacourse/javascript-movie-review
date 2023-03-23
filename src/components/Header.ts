@@ -1,6 +1,6 @@
 import './Header.css';
 import { $ } from '../utils/common';
-import { MovieConatainerInformation } from './MoviesContainer';
+import { HTMLMovieContainerElement } from './MoviesContainer';
 import LOGO from '../image/logo.png';
 
 class Header extends HTMLElement {
@@ -19,7 +19,7 @@ class Header extends HTMLElement {
 
   setLogoClickEvent() {
     $('#logo')?.addEventListener('click', () => {
-      const movieContainer = $('movies-container') as MovieConatainerInformation;
+      const movieContainer = $('movies-container') as HTMLMovieContainerElement;
 
       movieContainer.setSearchWord('');
     });

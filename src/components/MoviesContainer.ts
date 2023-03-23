@@ -2,7 +2,7 @@ import './MoviesContainer.css';
 import Movie, { MovieInformation } from '../domain/Movie';
 import { $, getErrorMessage } from '../utils/common';
 
-export interface MovieConatainerInformation extends HTMLElement {
+export interface HTMLMovieContainerElement extends HTMLElement {
   reset: () => void;
   setSearchWord: (searchWord: string) => void;
   setErrorMessage: (errorMessage: string) => void;

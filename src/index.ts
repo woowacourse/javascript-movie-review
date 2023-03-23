@@ -1,10 +1,10 @@
 import './styles/index.css';
 import './components/index';
 import { $ } from './utils/common';
-import { MovieConatainerInformation } from './components/MoviesContainer';
+import { HTMLMovieContainerElement } from './components/MoviesContainer';
 
 const setMovieSiteUrl = (): void => {
-  const movieContainer = $('movies-container') as MovieConatainerInformation;
+  const movieContainer = $('movies-container') as HTMLMovieContainerElement;
 
   const path = window.location.hash.replace('#', '');
   const URL = new URLSearchParams(path);
@@ -18,7 +18,7 @@ const setMovieSiteUrl = (): void => {
 };
 
 const setDisconnectedError = () => {
-  const movieContainer = $('movies-container') as MovieConatainerInformation;
+  const movieContainer = $('movies-container') as HTMLMovieContainerElement;
 
   movieContainer.reset();
   $('#more-button')?.classList.add('hide-button');

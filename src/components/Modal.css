@@ -124,3 +124,29 @@
 .modal-number-score {
   margin-right: 12px;
 }
+
+.modal-description {
+  height: 320px;
+  overflow-y: auto;
+}
+
+.modal-category-skeleton {
+  width: 60px;
+  height: 20px;
+  border-radius: 8px;
+  background: linear-gradient(-90deg, var(--silver), var(--gray), var(--silver), var(--gray));
+  background-size: 400%;
+  animation: skeleton-animation 5s infinite ease-out;
+}
+
+@keyframes skeleton-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

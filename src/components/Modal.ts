@@ -3,8 +3,9 @@ import STAR_FILLED from '../image/star-filled.png';
 import STAR_EMPTY from '../image/star-empty.png';
 import { $ } from '../utils/common';
 import { MovieInfo } from '../types/type';
+import Movie from '../domain/Movie';
 
-export interface ModalHTMLInfo extends HTMLElement {
+export interface HTMLModalElement extends HTMLElement {
   connectedCallback: () => void;
   setModalAttributes: ({ id, title, imgUrl, score, description }: MovieInfo) => void;
   openModal: () => void;
@@ -21,15 +22,15 @@ class Modal extends HTMLElement {
 
   connectedCallback(): void {
     this.render();
+    this.detailFetchEvent();
     this.setModalCloseEvent();
   }
 
   render(): void {
-    const category = this.getAttribute('category');
+    const category = this.getAttribute('category') || '';
     const myScore = this.getAttribute('my-score') || '0';
-    const { id, title, imgUrl, score, description } = this.#detailMovieInfo;
+    const { title, imgUrl, score, description } = this.#detailMovieInfo;
 
-    console.log(id, title, imgUrl, description);
     const fillStarCount = Math.round(Number(myScore)) / 2;
     const emptyStarCount = 5 - fillStarCount;
 
@@ -53,7 +54,7 @@ class Modal extends HTMLElement {
                     <div class="modal-main-content">
                         <div>
                             <div class="modal-main-category-score">
-                                <div>${category}</div>
+                                <div id="modal-category" class="modal-category-skeleton">${category}</div>
                                 <div class="modal-score">
                                     ${score !== 0 ? `<img src="${STAR_FILLED}">` : `<img src="${STAR_EMPTY}">`}
                                     <span>${score}<span>
@@ -117,8 +118,15 @@ class Modal extends HTMLElement {
     return '최고의 영화!';
   }
 
-  static get observedAttributes() {
-    return ['id'];
+  async detailFetchEvent() {
+    const modalCategory = $('#modal-category') as HTMLDivElement;
+    const id = this.#detailMovieInfo.id;
+    const movieDetail = await new Movie().parsedDetailResult(id);
+    modalCategory.classList.remove('modal-category-skeleton');
+
+    const categories = movieDetail.category.map(item => item.name);
+
+    modalCategory.innerText = categories.join(', ');
   }
 }
 

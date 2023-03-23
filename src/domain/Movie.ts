@@ -1,13 +1,13 @@
 import { request } from '../utils/common';
-import { MovieInfo, ParsedMovieResult } from '../types/type';
-import { ApiMovieResult, ApiResponseResult } from '../apis/tmdbType';
-import { getPopularUrl, getSearchUrl } from '../apis/tmdb';
+import { MovieDetailInfo, MovieInfo, ParsedMovieResult } from '../types/type';
+import { MovieListResult, ApiMovieListResult, MovieDetailResult } from '../apis/tmdbType';
+import { getDetailUrl, getPopularUrl, getSearchUrl } from '../apis/tmdb';
 
 export interface MovieInformation {
   movieResult: ParsedMovieResult;
   update: (word: string) => Promise<void>;
   handleParsing: (word: string) => Promise<ParsedMovieResult>;
-  parseFetchedMovies: (fetchedMovies: ApiMovieResult[]) => MovieInfo[];
+  parseMovieList: (fetchedMovies: MovieListResult[]) => MovieInfo[];
   resetPageIndex: () => void;
 }
 
@@ -28,7 +28,7 @@ class Movie {
     const url =
       word === '' ? getPopularUrl({ pageIndex: this.#pageIndex }) : getSearchUrl({ pageIndex: this.#pageIndex, word });
 
-    const apiFetchingData = await request<ApiResponseResult>(url);
+    const apiFetchingData = await request<ApiMovieListResult>(url);
 
     const fetchedMovies = apiFetchingData.results;
 
@@ -36,7 +36,7 @@ class Movie {
       this.#pageIndex += 1;
     }
 
-    const movies = this.parseFetchedMovies(fetchedMovies);
+    const movies = this.parseMovieList(fetchedMovies);
 
     return {
       isLastPage: apiFetchingData.total_pages === this.#pageIndex,
@@ -44,8 +44,17 @@ class Movie {
     };
   }
 
-  parseFetchedMovies(fetchedMovies: ApiMovieResult[]): MovieInfo[] {
-    return fetchedMovies.map((movie: ApiMovieResult) => {
+  async parsedDetailResult(id: number): Promise<MovieDetailInfo> {
+    const url = getDetailUrl({ id });
+
+    const fetchedData = await request<MovieDetailResult>(url);
+    const movieDetail = this.parseMovieDatail(fetchedData);
+
+    return movieDetail;
+  }
+
+  parseMovieList(fetchedMovies: MovieListResult[]): MovieInfo[] {
+    return fetchedMovies.map((movie: MovieListResult) => {
       return {
         id: movie.id,
         title: movie.title,
@@ -54,6 +63,12 @@ class Movie {
         description: movie.overview,
       };
     });
+  }
+
+  parseMovieDatail(fetchedMovie: MovieDetailResult): MovieDetailInfo {
+    return {
+      category: fetchedMovie.genres,
+    };
   }
 
   resetPageIndex(): void {
