@@ -43,6 +43,7 @@ class MovieList {
           ? await this.movieAPI.getSearchedMovieData(this.searchQuery, this.currentPage)
           : await this.movieAPI.getPopularMovieData(this.currentPage);
 
+      this.currentPage += 1;
       this.movies.push(...movies);
       EventEmitter.emit(MOVIE_LIST_LOADED, { movies, searchQuery: this.searchQuery });
     } catch (error) {
