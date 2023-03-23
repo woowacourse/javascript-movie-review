@@ -26,24 +26,22 @@ class MovieDetail extends HTMLElement {
               ${movie.vote_average}
             </span>
           </div>
-          <p class="detail-overview">${movie.overview}</p>
+          <p class="detail-overview">${
+            movie.overview !== ""
+              ? movie.overview
+              : "줄거리가 준비되지 않았습니다."
+          }</p>
           <movie-score class="detail-score"/>
          </div>
       </div>
     `;
   }
 
-  // closeModal() {
-  //   $(".modal").close();
-  // }
+  closeModal() {
+    const modal = this.querySelector<HTMLDialogElement>(".modal");
 
-  // handleRestaurantDelete() {
-  //   dispatchCustomEvent($(".restaurant-list-container"), {
-  //     eventType: "deleteRestaurant",
-  //     data: this.restaurant.restaurantID,
-  //   });
-  //   this.closeModal();
-  // }
+    modal?.close();
+  }
 }
 
 interface MovieDetail {
