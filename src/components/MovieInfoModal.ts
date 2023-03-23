@@ -1,10 +1,18 @@
+import RatingBar from './RatingBar';
 import { StorageMovieType } from '../types';
 import { IMAGE_URL } from '../constants';
+import { $, $$ } from '../utils/domSelector';
+
+type MovieInfoModalType = {
+  parentElement: HTMLElement;
+  onRatingRequestEvent: CallableFunction;
+};
 
 class MovieInfoModal {
-  private $modal: HTMLElement;
+  private onRatingRequestEvent;
+  private $modal;
 
-  constructor(parentElement: HTMLElement) {
+  constructor({ parentElement, onRatingRequestEvent }: MovieInfoModalType) {
     this.$modal = document.createElement('div');
     this.$modal.classList.add('information-modal-wrapper');
     this.$modal.setAttribute('hidden', '');
@@ -12,14 +20,20 @@ class MovieInfoModal {
     parentElement.appendChild(this.$modal);
     this.setCloseListeners();
     this.setBrowserBackListeners();
+    this.onRatingRequestEvent = onRatingRequestEvent;
   }
 
   openInfoModalWithInfo(movieInfo: StorageMovieType) {
-    console.log(movieInfo);
     this.$modal.innerHTML = this.getTemplate(movieInfo);
+    console.log($$('.information-modal-my-rating'));
+    this.renderRatingBar(movieInfo.id);
     this.$modal.removeAttribute('hidden');
 
     history.pushState({ isModalOpen: true }, '');
+  }
+
+  private getUserMovieRating(rating: number) {
+    return this.onRatingRequestEvent(rating);
   }
 
   closeInfoModal() {
@@ -60,6 +74,23 @@ class MovieInfoModal {
     };
   }
 
+  private renderRatingBar(id: number) {
+    const rating = this.getUserMovieRating(id);
+
+    new RatingBar({
+      parentElement: $('.information-modal-my-rating'),
+      id: id,
+      startRating: rating, // 임시 값 조정
+      ratingInfos: [
+        { rating: 2, alias: '최악이에요' },
+        { rating: 4, alias: '별로에요' },
+        { rating: 6, alias: '보통이에요' },
+        { rating: 8, alias: '재밌어요' },
+        { rating: 10, alias: '명작이에요' },
+      ],
+    });
+  }
+
   private getTemplate({
     title,
     posterPath,
@@ -87,12 +118,7 @@ class MovieInfoModal {
         <div class="information-modal-content"
           >${this.getOverview(overview)}</div
         >
-        <div class="information-modal-my-rating">
-          <div class="user-rating-title">내 별점</div>
-          <input class="user-rating-bar" type="range" min="2" max="10" step="2" />
-          <div class="modal-text">6</div>
-          <div class="modal-text">보통이에요</div>
-        </div>
+        <div class="information-modal-my-rating"></div>
       </div>`;
   }
 
