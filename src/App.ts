@@ -12,7 +12,7 @@ interface State {
   loading: boolean;
 }
 
-type VoteMap = Record<string, string>;
+type VoteMap = Record<string, number>;
 
 class App {
   voteMapStorage;
@@ -76,7 +76,7 @@ class App {
     const { id } = (<CustomEvent>e).detail;
 
     const movie = this.movieService.findMovie(id);
-    const myVote = this.voteMapStorage.getValue()[id] ?? '0';
+    const myVote = this.voteMapStorage.getValue()[id] ?? 0;
 
     if (movie) dom.renderMovieDetailBox(movie, myVote);
     dom.show('.modal');

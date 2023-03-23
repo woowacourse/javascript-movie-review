@@ -38,21 +38,21 @@ export const resetSearchBox = () => {
   if ($searchBox instanceof HTMLFormElement) $searchBox.reset();
 };
 
-export const renderMovieDetailBox = (movie: Movie, myVote: string) => {
-  const $modal = $('.modal');
-  if (!$modal) return;
+export const renderMovieDetailBox = (movie: Movie, myVote: number) => {
+  const $movieDetail = $('movie-detail');
+  if (!$movieDetail) return;
 
   const { id, title, posterPath, voteAverage, genreString, overview } = movie;
-  $modal.innerHTML = /* html */ `
-    <movie-detail-box
+  $movieDetail.outerHTML = /* html */ `
+    <movie-detail
       id="${id}"
-      title="${title}" 
-      poster-path="${posterPath}" 
-      vote-average="${voteAverage}" 
-      genreString="${genreString}" 
+      title="${title}"
+      poster-path="${posterPath}"
+      vote-average="${voteAverage}"
+      genreString="${genreString}"
       overview="${overview}"
       my-vote="${myVote}"
-    ></movie-detail-box>
+    ></movie-detail>
   `;
 };
 
