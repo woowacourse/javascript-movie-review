@@ -9,7 +9,6 @@ class MovieDetail extends HTMLElement {
   }
 
   render(movie: Movie) {
-    console.log(movie);
     this.innerHTML = /* html */ `
       <div class="detail-header">
         <h2>${movie.title}</h2>
@@ -28,17 +27,7 @@ class MovieDetail extends HTMLElement {
             </span>
           </div>
           <p class="detail-overview">${movie.overview}</p>
-          <div class="detail-score">
-            <span id="detail-score-title">내 별점</span> 
-            <span>
-            <img src="${StartEmpty}" class="star" alt="별점" />
-            <img src="${StartEmpty}" class="star" alt="별점" />
-            <img src="${StartEmpty}" class="star" alt="별점" />
-            <img src="${StartEmpty}" class="star" alt="별점" />
-            <img src="${StartEmpty}" class="star" alt="별점" />
-            </span>
-            <span id="detail-score-description">6 보통이에요</span>
-          </div>
+          <movie-score class="detail-score"/>
          </div>
       </div>
     `;
@@ -46,14 +35,6 @@ class MovieDetail extends HTMLElement {
 
   // closeModal() {
   //   $(".modal").close();
-  // }
-
-  // handleFavoriteClick() {
-  //   dispatchCustomEvent($(".restaurant-list-container"), {
-  //     eventType: "changeRestaurantFavorite",
-  //     data: this.restaurant.restaurantID,
-  //   });
-  //   this.render(this.restaurant);
   // }
 
   // handleRestaurantDelete() {

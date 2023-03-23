@@ -8,6 +8,7 @@ import MovieList from "../src/components/MovieList";
 import MovieListContainer from "../src/components/MovieListContainer";
 import CustomModal from "../src/components/CustomModal";
 import MovieDetail from "../src/components/MovieDetail";
+import MovieScore from "./components/MovieScore";
 
 import movieApp from "./movieApp";
 

@@ -82,6 +82,8 @@ button {
 }
 
 .star {
+  width: 24px;
+  height: 24px;
   margin-right: 4px;
   transform: translateY(5px);
 }
@@ -323,6 +325,7 @@ movie-detail {
 .detail-score img {
   margin: 0;
   vertical-align: center;
+  cursor: pointer;
 }
 
 #detail-score-title {
