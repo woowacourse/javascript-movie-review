@@ -1,5 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
 
+:root {
+  --background-color: #222;
+  --primary-color: #f33f3f;
+}
+
 * {
   box-sizing: border-box !important;
 }
@@ -7,7 +12,7 @@
 body {
   font-family: "Noto Sans KR", sans-serif;
   font-size: 14px;
-  background-color: #222222;
+  background-color: var(--background-color);
   color: #fff;
   /* hidden scroll */
   -ms-overflow-style: none;
@@ -133,7 +138,7 @@ button.btn {
 }
 
 button.primary {
-  background: #f33f3f;
+  background: var(--primary-color);
 }
 
 .item-card .skeleton {
@@ -159,7 +164,6 @@ header {
   width: 100%;
   min-width: 1200px;
   height: 72px;
-  background-color: #222;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -176,7 +180,6 @@ header h1 {
   user-select: none;
   font-weight: bold;
   letter-spacing: -0.1rem;
-  color: #f33f3f;
 }
 
 header > .search-box {
