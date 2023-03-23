@@ -28,9 +28,11 @@ export class App extends Component {
         try {
           validator.checkKeyword(searchedKeyword);
 
-          if (store.state.isPopular) store.setState({ isPopular: false, keyword: searchedKeyword });
+          if (store.state.isPopular) store.setState({ isPopular: false });
 
+          store.setState({ keyword: searchedKeyword });
           renderSkeletonList();
+
           store.setState({ page: 1 });
         } catch (err) {
           alert(err);
