@@ -1,22 +1,31 @@
-import { ratingComment } from '../constants';
 import { Movie } from '../movies.type';
 import store from '../store';
-import { setLocalStorage } from '../util/LocalStorage';
+import Rate from './Rate';
 
 /* eslint camelcase: ["error", {ignoreDestructuring: true}] */
 class DetailModal {
+  modal: HTMLDialogElement;
+
   constructor(private readonly movie: Movie, private readonly rate?: string) {
+    this.modal = document.querySelector('.modal') as HTMLDialogElement;
+    this.modal.replaceChildren();
     this.init();
   }
 
+  // modal과 detail을 나누고. modal을 붙이되, 내용인 detail을 새로 갈아끼워준다.
   private template = ({ id, title, poster_path, overview, vote_average, genre_ids }: Movie) => `
-      <div class="modal"> 
           <div class="modal-backdrop"></div>
           <div class="modal-container" id="${id}">
-              <p class="modal-title">${title} <button class="close-button"></button></p>
+              <div class="title-wrapper">
+                  <p class="modal-title">${title} 
+                  </p>
+                  <button class="close-button">
+                      <img src="assets/close.png" />
+                  </button>
+              </div>
               <div class="modal-card">
                   <img
-                    class="modal-thumbnail"
+                    class="modal-thumbnail skeleton"
                     src="https://image.tmdb.org/t/p/w220_and_h330_face${poster_path}"
                     loading="lazy"
                     alt="${title}"
@@ -29,31 +38,10 @@ class DetailModal {
                           <p class="modal-score"><img src="assets/star_filled.png" alt="별점" /> ${vote_average}</p>
                           <p class="modal-overview">${overview}</p>
                       </div>
-                      <div class="user-score">
-                          <div class="star-wrapper">
-                          <p>내 별점</p> 
-                              <span class="star">
-                                  <img src="assets/star_empty.png" alt="별점" />
-                                  <img src="assets/star_empty.png" alt="별점" />
-                                  <img src="assets/star_empty.png" alt="별점" />
-                                  <img src="assets/star_empty.png" alt="별점" />
-                                  <img src="assets/star_empty.png" alt="별점" />
-                                  <span>
-                                      <img src="assets/star_filled.png" alt="별점" />
-                                      <img src="assets/star_filled.png" alt="별점" />
-                                      <img src="assets/star_filled.png" alt="별점" />
-                                      <img src="assets/star_filled.png" alt="별점" />
-                                      <img src="assets/star_filled.png" alt="별점" />
-                                  </span>
-                                  <input type="range" value="2" step="2" min="2" max="10">
-                              </span>
-                          </div>
-                          <p class="rating-text"></p>
-                      </div>
+                      <div class="user-score"></div>
                   </div>
               </div>
           </div>
-      </div>
       `;
 
   init() {
@@ -62,51 +50,21 @@ class DetailModal {
   }
 
   render(movie: Movie) {
-    document.querySelector('main')?.insertAdjacentHTML('afterend', this.template(movie));
-    this.renderStar();
-  }
-
-  renderStar() {
-    if (this.rate) {
-      (document.querySelector('.star span') as HTMLImageElement).style.width = `${
-        Number(this.rate) * 10
-      }%`;
-
-      (document.querySelector('.rating-text') as HTMLParagraphElement).textContent =
-        this.ratingText(this.rate);
-    }
+    (this.modal as HTMLDialogElement).insertAdjacentHTML('beforeend', this.template(movie));
+    document.querySelector('.user-score')?.insertAdjacentHTML('beforeend', Rate.template);
+    if (this.rate) Rate.renderStar(this.rate);
   }
 
   addEvent() {
     document.querySelector('.modal-backdrop')?.addEventListener('click', this.closeModal);
-    document.querySelector('.modal-button')?.addEventListener('click', this.closeModal);
-    const starInput = document.querySelector('.star input');
-    const starSpan = document.querySelector('.star span');
-    starInput?.addEventListener('input', () => {
-      (starSpan as HTMLImageElement).style.width = `${
-        Number((starInput as HTMLInputElement).value) * 10
-      }%`;
-      this.saveRate();
-      (document.querySelector('.rating-text') as HTMLParagraphElement).textContent =
-        this.ratingText((document.querySelector('.star input') as HTMLInputElement)?.value);
-    });
+    document.querySelector('.close-button')?.addEventListener('click', this.closeModal);
+    Rate.listener((this.movie as Movie).id);
   }
 
   closeModal = () => {
-    const modal: HTMLDivElement = document.querySelector('.modal')!;
-    modal.remove();
+    const modal = this.modal as HTMLDialogElement;
+    modal.close();
   };
-
-  saveRate() {
-    setLocalStorage(
-      String(this.movie.id),
-      JSON.stringify((document.querySelector('.star input') as HTMLInputElement)?.value),
-    );
-  }
-
-  ratingText(rate: string) {
-    return window.outerWidth > 480 ? rate + ' ' + ratingComment[Number(rate)] : rate;
-  }
 }
 
 export default DetailModal;

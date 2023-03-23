@@ -1,7 +1,14 @@
 import './assets/common.css';
+import Modal from './components/Modal';
 import { MovieList } from './components/MovieList';
+import { POPULAR_MOVIES, SEARCH_RESULT } from './constants';
 import MovieAPI, { TMDBGenres } from './MovieAPI';
 import store from './store';
+
+const init = () => {
+  const modal = new Modal();
+  modal.init();
+};
 
 const popularFetchFn = (page: number) => MovieAPI.getPopularMovies(page);
 
@@ -10,10 +17,10 @@ function assignMovieList(movieList: MovieList) {
   (document.querySelector('.search-box') as HTMLFormElement).reset();
 }
 
-assignMovieList(new MovieList(popularFetchFn, '지금 인기있는 영화'));
+assignMovieList(new MovieList(popularFetchFn, POPULAR_MOVIES));
 
 document.querySelector('.logo')?.addEventListener('click', () => {
-  assignMovieList(new MovieList(popularFetchFn, '지금 인기있는 영화'));
+  assignMovieList(new MovieList(popularFetchFn, POPULAR_MOVIES));
   store.initializeList();
 });
 
@@ -25,9 +32,9 @@ document.querySelector('.search-box')?.addEventListener('submit', (event) => {
   if (window.outerWidth <= 480 && !query) {
     document.querySelector('.search-box')?.classList.add('active');
   }
-  if (window.outerWidth > 480 || query) {
+  if ((window.outerWidth > 480 && query) || query) {
     const searchFetchFn = (page: number) => MovieAPI.getSearchMovies(query, page);
-    assignMovieList(new MovieList(searchFetchFn, `"${query}" 검색결과`));
+    assignMovieList(new MovieList(searchFetchFn, SEARCH_RESULT(query)));
   }
 });
 
@@ -42,3 +49,5 @@ response.then((res) => {
     store.setGenres(genre.id, genre.name);
   });
 });
+
+init();
