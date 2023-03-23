@@ -3,6 +3,7 @@ import starEmpty from '../images/star_empty.png';
 import { IMovieItemProps } from '../types/movie';
 import modal from './Modal';
 import stateRender from '../renderer/StateRender';
+import { removeSkeletonAfterImageLoad } from '../utils/eventCallback';
 
 class MovieCard {
   #$li: HTMLElement;
@@ -61,14 +62,7 @@ class MovieCard {
     const $image = this.#$li.querySelector<HTMLImageElement>('img');
     if (!$image) return;
 
-    $image.addEventListener('load', (e) => {
-      if (!(e.currentTarget instanceof HTMLImageElement)) return;
-      const { currentTarget } = e;
-
-      if (!currentTarget.complete) return;
-
-      currentTarget.classList.remove('skeleton');
-    });
+    $image.addEventListener('load', removeSkeletonAfterImageLoad);
   }
 }
 

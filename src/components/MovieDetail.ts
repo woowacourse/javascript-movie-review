@@ -5,6 +5,7 @@ import starEmpty from '../images/star_empty.png';
 import { IMovieDetailItem } from '../types/movie';
 import modal from './Modal';
 import { STAR_DESCRIPTION } from '../utils/constants';
+import { removeSkeletonAfterImageLoad } from '../utils/eventCallback';
 
 class MovieDetail {
   #$detainContainer: HTMLDivElement;
@@ -102,17 +103,7 @@ class MovieDetail {
   #loadImageEventListener() {
     const $image = this.#$detainContainer.querySelector<HTMLImageElement>('img');
     if (!$image) return;
-    $image.addEventListener(
-      'load',
-      (e) => {
-        if (!(e.currentTarget instanceof HTMLImageElement)) return;
-        const { currentTarget } = e;
-        if (!currentTarget.complete) return;
-
-        currentTarget.classList.remove('skeleton');
-      },
-      { once: true }
-    );
+    $image.addEventListener('load', removeSkeletonAfterImageLoad, { once: true });
   }
 }
 
