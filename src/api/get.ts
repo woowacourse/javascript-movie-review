@@ -1,37 +1,12 @@
 import MovieHandler from '../domain/MovieHandler';
-import { Movie } from '../type/Movie';
+import { Movie, DetailMovie } from '../type/Movie';
+import { FaildResponse, MovieAPIMetaData, DetailMovieAPIData } from './types';
 
-// TMDB API interface
-export interface MovieAPIMetaData {
-  page: number;
-  results: MovieAPIData[];
-  total_pages: number;
-  total_results: number;
-}
+const BASE_URL = 'https://api.themoviedb.org/3';
 
-export interface MovieAPIData {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
-
-// TMDB Faild response - https://www.themoviedb.org/documentation/api/status-codes
-export interface FaildResponse {
-  status_code: number;
-  status_message: string;
-  success: false;
-}
+// fetch Functions type
+export type FetchMovieData = () => Promise<FaildData | MovieMetadata>;
+export type FetchDetailMovieData = (movieId: string) => Promise<FaildData | DetailMovieData>;
 
 export type FaildData = {
   isOk: false;
@@ -46,9 +21,9 @@ export type MovieMetadata = {
   totalPages: number;
 };
 
-export type FetchMovieData = () => Promise<FaildData | MovieMetadata>;
-
-const BASE_URL = 'https://api.themoviedb.org/3';
+export type DetailMovieData = DetailMovie & {
+  isOk: true;
+};
 
 export const popularMovieDataFetchFuncGenerator = () => {
   let currentPage = 1;
@@ -83,7 +58,7 @@ export const popularMovieDataFetchFuncGenerator = () => {
 export const searchedMovieDataFetchFuncGenerator = (query: string) => {
   let currentPage = 1;
 
-  const getSearchedMovieData = async () => {
+  const getSearchedMovieData: FetchMovieData = async () => {
     const url = `
     ${BASE_URL}/search/movie?api_key=${process.env.API_KEY}&language=ko-KR&page=${currentPage}&query=${query}`;
 
