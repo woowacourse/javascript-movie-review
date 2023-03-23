@@ -5,7 +5,7 @@ export default class SkeletonList extends HTMLElement {
     this.innerHTML =
       /*html*/
       `<ul class="item-list">
-          ${SKELETON.LIST.repeat(20)}
+          ${SKELETON.ITEM.repeat(20)}
         </ul>
         `;
   }

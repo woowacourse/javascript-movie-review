@@ -16,6 +16,10 @@ export default class App {
   async initRender() {
     this.#movieList = [];
     this.#page = 1;
+    this.renderMovieList();
+  }
+
+  async renderMovieList() {
     this.render();
     this.toggleSkeletonList();
     await this.addMovieList();
@@ -24,16 +28,15 @@ export default class App {
   }
 
   render() {
-    if (null) return;
-
     const itemView = $(".item-view");
 
-    itemView.innerHTML = `
-    <card-list header='${
+    const listTitle =
       this.#listState === LIST_STATE.POPULAR
         ? "지금 인기 있는 영화"
-        : `"${this.#movieName}" 검색 결과`
-    }
+        : `"${this.#movieName}" 검색 결과`;
+
+    itemView.innerHTML = `
+    <card-list header='${listTitle}
     '></card-list>
     <more-button></more-button>
     `;
@@ -55,11 +58,12 @@ export default class App {
         this.#listState = LIST_STATE.POPULAR;
         this.initRender();
       } else {
-        this.renderSearchedMovies(event.detail);
+        this.renderMovieList(event.detail);
       }
     });
 
     document.addEventListener("click-home-button", () => {
+      this.#listState = LIST_STATE.POPULAR;
       this.initRender();
     });
   }
@@ -67,12 +71,11 @@ export default class App {
   async appendMovieList() {
     this.#page += 1;
     this.#movieList = [];
-    if (this.#listState === LIST_STATE.POPULAR) {
-      await this.addMovieList();
-    }
-    if (this.#listState === LIST_STATE.SEARCHED) {
-      await this.addMovieList();
-    }
+
+    this.#listState === LIST_STATE.POPULAR
+      ? await this.addMovieList()
+      : await this.addMovieList();
+
     this.toggleSkeletonList();
     this.mountMovieList();
   }
@@ -84,21 +87,13 @@ export default class App {
         : await getSearchedMovies(this.#movieName, this.#page);
 
     const result = fetchedData.results;
-    result.forEach((item) => {
-      this.#movieList.push({
-        title: item.title,
-        poster: item.poster_path,
-        rating: item.vote_average,
-      });
-    });
-  }
+    const newMovieList = result.map((item) => ({
+      title: item.title,
+      poster: item.poster_path,
+      rating: item.vote_average,
+    }));
 
-  async renderSearchedMovies() {
-    this.render();
-    this.toggleSkeletonList();
-    await this.addMovieList();
-    this.toggleSkeletonList();
-    this.mountMovieList();
+    this.#movieList = [...this.#movieList, ...newMovieList];
   }
 
   mountMovieList() {

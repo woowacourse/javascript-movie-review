@@ -4,7 +4,7 @@ export const LIST_STATE = {
 };
 
 export const SKELETON = {
-  LIST: ` <li>
+  ITEM: ` <li>
            <a href="#">
              <div class="item-card">
              <div class="item-thumbnail skeleton"></div>

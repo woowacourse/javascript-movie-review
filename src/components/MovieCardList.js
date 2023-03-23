@@ -12,13 +12,11 @@ export default class MovieCardList extends HTMLElement {
         <h2>${this.header}</h2>
         <ul id="movie-list" class="item-list">
         </ul>
-        <skeleton-list class="none"></skeleton-list> 
+        <skeleton-list class="none"></skeleton-list>
         `;
   }
 
   setMovieList(movieList) {
-    if (null) return;
-
     this.#movieList = movieList;
     const moreButtonElement = $("more-button");
     if (this.#movieList.length < 20) moreButtonElement.classList.toggle("none");

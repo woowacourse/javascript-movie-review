@@ -1,4 +1,5 @@
 import { $ } from "../utils/Dom";
+import App from "../App";
 
 export default class MovieSearch extends HTMLElement {
   connectedCallback() {
@@ -23,6 +24,7 @@ export default class MovieSearch extends HTMLElement {
 
   createSearchMovieEvent() {
     const movieName = $("input").value;
+
     this.dispatchEvent(
       new CustomEvent("search-movie", { bubbles: true, detail: movieName })
     );
