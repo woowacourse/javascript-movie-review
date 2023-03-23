@@ -15,6 +15,7 @@ class CustomModal extends HTMLElement {
       <dialog class="modal">
         <div class="modal-backdrop"></div>
         <div class="modal-container">
+          <button id="close-button">X</button>
           <movie-detail></movie-detail>
         </div>
       </dialog>`;
@@ -22,6 +23,9 @@ class CustomModal extends HTMLElement {
 
   addEvent() {
     $(".modal-backdrop", this)?.addEventListener("click", () =>
+      this.closeModal()
+    );
+    $("#close-button", this)?.addEventListener("click", () =>
       this.closeModal()
     );
   }

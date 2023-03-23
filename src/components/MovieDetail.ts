@@ -12,7 +12,6 @@ class MovieDetail extends HTMLElement {
     this.innerHTML = /* html */ `
       <div class="detail-header">
         <h2>${movie.title}</h2>
-        <button id="close-button">X</button>
       </div>
       <div class="detail-content">
         <img src="https://image.tmdb.org/t/p/original/${movie.poster_path}" />
