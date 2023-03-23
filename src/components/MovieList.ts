@@ -1,6 +1,7 @@
 import { TMDBErrorResponse, TMDBResponse } from '../MovieAPI';
 import { Movie } from '../movies.type';
 import store from '../store';
+import { infiniteScroll } from '../util/InfiniteScroll';
 import { getLocalStorage } from '../util/LocalStorage';
 import DetailModal from './DetailModal';
 import ErrorPopup from './ErrorPopup';
@@ -23,27 +24,28 @@ export class MovieList {
       <ul class="item-list"></ul>
       <h3>결과가 없습니다</h3>
     `;
+
     this.init();
   }
 
   async init() {
     await this.nextPage();
     this.showModal();
-    this.infiniteScroll();
+    infiniteScroll('li:nth-last-child(5)', this.nextPage);
   }
 
   render() {
     return this.section;
   }
 
-  private createSkeletons() {
+  private createSkeletons = () => {
     if (this.isFinished) return;
 
     const skeleton = new Skeleton();
     [...Array(20)].forEach(() => {
       this.section.querySelector('ul')?.insertAdjacentHTML('beforeend', skeleton.render());
     });
-  }
+  };
 
   private async load() {
     if (this.isFinished) return;
@@ -99,51 +101,30 @@ export class MovieList {
     });
   }
 
-  private removeSkeleton() {
+  private removeSkeleton = () => {
     this.section
       .querySelectorAll<HTMLLIElement>('ul > li.skeleton')
       .forEach(($skeleton: HTMLLIElement) => {
         $skeleton.remove();
       });
-  }
+  };
 
-  async nextPage() {
+  nextPage = async () => {
     this.createSkeletons();
     await this.load();
-  }
+  };
 
   showModal() {
     document.querySelector('.item-view')?.addEventListener('click', (e) => {
       const id = (e.target as HTMLLIElement).closest('.item-card')?.id;
       if (id) {
+        (document.querySelector('.modal') as HTMLDialogElement).showModal();
         const rate = getLocalStorage(String(id));
         return typeof rate === 'object'
-          ? new DetailModal(store.getMovie(Number(id))!)
-          : new DetailModal(store.getMovie(Number(id))!, rate);
+          ? new DetailModal(store.getMovie(Number(id)) as Movie)
+          : new DetailModal(store.getMovie(Number(id)) as Movie, rate);
       }
       return null;
     });
-  }
-
-  infiniteScroll() {
-    const $start = document.querySelector('ul')?.lastElementChild;
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          this.nextPage().then(() => {
-            const $li = document.querySelector('ul')?.lastElementChild;
-            io.unobserve($li!);
-            io.observe($li!);
-          });
-        });
-      },
-      {
-        threshold: 0,
-      },
-    );
-
-    io.observe($start!);
   }
 }
