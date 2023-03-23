@@ -17,7 +17,6 @@ class App {
   }
 
   private loadMovieData() {
-    MovieList.getMovieGenre();
     MovieList.getMovieData();
   }
 
