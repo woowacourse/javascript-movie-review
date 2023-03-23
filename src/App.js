@@ -14,6 +14,7 @@ class App {
     return `
       <header></header>
       <main></main>
+      <div class="modal"></div>
     `;
   }
 
