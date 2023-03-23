@@ -81,6 +81,10 @@ class MovieItemModal extends CustomElement {
         this.closeModal();
       }
     });
+
+    window.addEventListener("popstate", () => {
+      this.closeModal();
+    });
   }
 
   closeModal() {

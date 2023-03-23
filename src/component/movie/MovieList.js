@@ -65,7 +65,11 @@ class MovieList extends CustomElement {
 
   openItemModal() {
     $(".item-list").addEventListener("click", (e) => {
+      e.preventDefault();
+      history.pushState({}, "", "#");
+
       const movieId = e.target.closest("movie-item")?.id;
+
       if (movieId) {
         MovieManager.openItemModal(Number(movieId));
       }
