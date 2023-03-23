@@ -2,10 +2,10 @@ import { Component } from './core/Component';
 
 import { Header } from './components/Header';
 import { MainPage } from './components/MainPage';
-
-import { store } from './store';
 import { renderMoreSkeletonList, renderSkeletonList } from './components/MovieList';
 
+import { store } from './store';
+import validator from './validation/validator';
 export class App extends Component {
   template() {
     return `
@@ -23,15 +23,21 @@ export class App extends Component {
     $el.querySelector('.search-box').addEventListener('submit', (event: Event) => {
       event.preventDefault();
       if (event.target instanceof HTMLFormElement) {
-        if (store.state.isPopular) store.setState({ isPopular: false });
-
         const searchedKeyword = event.target['keyword'].value;
 
-        store.setState({ keyword: searchedKeyword });
+        try {
+          validator.checkKeyword(searchedKeyword);
 
-        renderSkeletonList();
+          if (store.state.isPopular) store.setState({ isPopular: false, keyword: searchedKeyword });
 
-        store.setState({ page: 1 });
+          renderSkeletonList();
+          store.setState({ page: 1 });
+        } catch (err) {
+          alert(err);
+
+          event.target['keyword'].value = '';
+          event.target['keyword'].focus();
+        }
       }
     });
 
