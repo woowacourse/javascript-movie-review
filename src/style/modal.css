@@ -70,7 +70,6 @@
 /*  */
 
 .movie-detail-thumbnail {
-  border-radius: 8px;
   width: 292px;
   height: 433px;
   /* background-size: contain; */
@@ -129,4 +128,23 @@
 .movie-detail-title.skeleton {
   max-width: 360px;
   min-width: 360px;
+}
+
+/*  */
+
+.voted-star-container {
+  width: 135px;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(5, 1fr);
+  column-gap: 2px;
+}
+
+.vote-star {
+  cursor: pointer;
+}
+
+.vote-star:hover {
+  color: red;
 }
