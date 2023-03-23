@@ -29,6 +29,39 @@ class Modal {
     this.$target.insertAdjacentHTML("beforeend", this.template());
   }
 
+  renderStars(rating: number) {
+    let stars = "";
+    for (let i = 1; i <= 5; i++) {
+      stars += `<img data-value="${i * 2}" src="${
+        i * 2 <= rating ? FilledStarIcon : EmptyStarIcon
+      }" alt="star">`;
+    }
+    return stars;
+  }
+
+  updateStars(stars: Array<HTMLImageElement>, rating: number) {
+    stars.forEach((star, i) => {
+      star.src = i * 2 + 2 <= rating ? FilledStarIcon : EmptyStarIcon;
+    });
+  }
+
+  getScoreComment(rating: number) {
+    switch (rating) {
+      case 2:
+        return "최악이예요";
+      case 4:
+        return "별로예오";
+      case 6:
+        return "보통이에요";
+      case 8:
+        return "재미있어요";
+      case 10:
+        return "명작이에요";
+      default:
+        return "";
+    }
+  }
+
   updateContent(movie: IMovie) {
     const $modalContent = this.$target.querySelector(".modal-content");
 
