@@ -1,4 +1,5 @@
 import './assets/common.css';
+import Header from './components/Header';
 import Modal from './components/Modal';
 import { MovieList } from './components/MovieList';
 import { POPULAR_MOVIES, SEARCH_RESULT } from './constants';
@@ -7,8 +8,12 @@ import store from './store';
 
 const init = () => {
   const modal = new Modal();
+  const header = new Header();
+  header.render();
   modal.init();
 };
+
+init();
 
 const popularFetchFn = (page: number) => MovieAPI.getPopularMovies(page);
 
@@ -49,5 +54,3 @@ response.then((res) => {
     store.setGenres(genre.id, genre.name);
   });
 });
-
-init();
