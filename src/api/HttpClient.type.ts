@@ -21,15 +21,20 @@ export type APISpec = {
   };
 };
 
-export type GetPath<GenericAPISpec extends APISpec> =
-  GenericAPISpec['endpoint'] extends `${HTTPMethod} /${infer U}` ? `/${U}` : never;
+export type GetPath<Endpoint extends APISpec['endpoint']> =
+  Endpoint extends `${HTTPMethod} /${infer U}` ? `/${U}` : never;
 
-export type GetHTTPMethod<GenericAPISpec extends APISpec> =
-  GenericAPISpec['endpoint'] extends `${infer U} /${string}` ? U : never;
+export type GetHTTPMethod<Endpoint extends APISpec['endpoint']> =
+  Endpoint extends `${infer U} /${string}` ? U : never;
 
 export type GetParams<GenericAPISpec extends APISpec> = GenericAPISpec['params'];
 
-export type ExtractHTTPMethod<
+export type ExtractByEndpoint<
+  GenericAPISpec extends APISpec,
+  Endpoint extends APISpec['endpoint'],
+> = Extract<GenericAPISpec, { endpoint: Endpoint }>;
+
+export type ExtractByHTTPMethod<
   GenericAPISpec extends APISpec,
   GenericHTTPMethod extends HTTPMethod,
 > = Extract<GenericAPISpec, { endpoint: `${GenericHTTPMethod} /${string}` }>;

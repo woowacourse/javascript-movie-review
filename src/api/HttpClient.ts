@@ -1,6 +1,7 @@
 import {
   APISpec,
-  ExtractHTTPMethod as ExtractByHTTPMethod,
+  ExtractByEndpoint,
+  ExtractByHTTPMethod,
   GetParams,
   GetPath,
   GetSuccess,
@@ -32,10 +33,13 @@ export abstract class HttpClient<GenericAPISpec extends APISpec> {
     } as GenericHTTPResponse;
   }
 
-  async get<GETAPISpec extends ExtractByHTTPMethod<GenericAPISpec, 'GET'>>(
-    path: GetPath<GETAPISpec>,
-    params?: GetParams<GETAPISpec>,
-  ): Promise<GETAPISpec['response']> {
+  async get<
+    GETAPISpec extends ExtractByHTTPMethod<GenericAPISpec, 'GET'>,
+    Path extends GetPath<GETAPISpec['endpoint']>,
+  >(
+    path: Path,
+    params?: GetParams<ExtractByEndpoint<GETAPISpec, `GET ${Path}`>>,
+  ): Promise<ExtractByEndpoint<GETAPISpec, `GET ${Path}`>['response']> {
     const url = this.getURL(path);
     Object.entries(params ?? {}).forEach(([key, value]) =>
       url.searchParams.set(key, String(value)),
@@ -44,19 +48,25 @@ export abstract class HttpClient<GenericAPISpec extends APISpec> {
     return this.fetch(url, { method: 'GET' });
   }
 
-  async post<POSTAPISpec extends ExtractByHTTPMethod<GenericAPISpec, 'POST'>>(
-    path: GetPath<POSTAPISpec>,
+  async post<
+    POSTAPISpec extends ExtractByHTTPMethod<GenericAPISpec, 'POST'>,
+    Path extends GetPath<POSTAPISpec['endpoint']>,
+  >(
+    path: Path,
     init?: Omit<RequestInit, 'method'>,
-  ): Promise<POSTAPISpec['response']> {
+  ): Promise<ExtractByEndpoint<POSTAPISpec, `POST ${Path}`>['response']> {
     const url = this.getURL(path);
 
     return this.fetch(url, { method: 'POST', ...init });
   }
 
-  async put<PUTAPISpec extends ExtractByHTTPMethod<GenericAPISpec, 'PUT'>>(
-    path: GetPath<PUTAPISpec>,
+  async put<
+    PUTAPISpec extends ExtractByHTTPMethod<GenericAPISpec, 'PUT'>,
+    Path extends GetPath<PUTAPISpec['endpoint']>,
+  >(
+    path: Path,
     init?: Omit<RequestInit, 'method'>,
-  ): Promise<PUTAPISpec['response']> {
+  ): Promise<ExtractByEndpoint<PUTAPISpec, `PUT ${Path}`>['response']> {
     const url = this.getURL(path);
 
     return this.fetch(url, { method: 'PUT', ...init });
