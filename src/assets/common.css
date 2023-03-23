@@ -91,6 +91,13 @@ main {
 .item-card {
   display: flex;
   flex-direction: column;
+  transform: scale(1);
+  transition: transform 0.2s cubic-bezier(0.65, 0.05, 0.36, 1);
+  cursor: pointer;
+}
+
+.item-card:hover {
+  transform: scale(1.05);
 }
 
 .item-thumbnail {
