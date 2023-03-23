@@ -1,13 +1,15 @@
 .item-card {
   display: flex;
-  width: 180px;
+  width: 182px;
   flex-direction: column;
 }
 
 .item-thumbnail {
   border-radius: 8px;
-  height: 270px;
-  background-size: contain;
+  height: 359px;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
 }
 
 .item-title {
@@ -50,15 +52,38 @@ button.primary {
   background: #f33f3f;
 }
 
-@media screen and (max-width: 420px) {
+/* Tablet */
+@media (max-width: 1024px) {
   .item-thumbnail {
-    width: 90vw;
-    height: 135vw;
+    height: 359px;
+    aspect-ratio: 182 / 359;
   }
 
   .item-title {
-    margin-top: 16px;
-    font-size: 1.8rem;
-    font-weight: bold;
+    font-size: 1.1rem;
+  }
+
+  .item-score {
+    font-size: 1.1rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .item-card {
+    width: 140px;
+  }
+
+  .item-thumbnail {
+    height: 248px;
+    aspect-ratio: 140 / 248;
+  }
+
+  .item-title {
+    font-size: 1rem;
+  }
+
+  .item-score {
+    font-size: 1rem;
   }
 }

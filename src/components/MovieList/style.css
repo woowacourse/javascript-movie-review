@@ -17,16 +17,34 @@
   margin-top: 48px;
 }
 
-/* https://andrew.hedges.name/experiments/aspect_ratio/ */
+.invisible {
+  display: none;
+}
 
 .item-list {
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   grid-column-gap: 50px;
   grid-row-gap: 48px;
 }
 
-.invisible {
-  display: none;
+/* Desktop */
+@media (min-width: 1025px) {
+  .item-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .item-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .item-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
