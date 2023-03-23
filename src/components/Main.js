@@ -23,7 +23,7 @@ class Main {
     }
 
     if (!this.#observer) {
-      this.#observer = new IntersectionObserver(this.#showMoreMoviesCallback.bind(this), { threshold: 0.5 });
+      this.#observer = new IntersectionObserver(this.#showMoreMoviesCallback.bind(this), { threshold: 0.2 });
       await this.#manager.searchMovieList(query);
     }
 
@@ -46,7 +46,7 @@ class Main {
     this.#list.appendChild(movieListFragment);
 
     if (!this.#manager.isLastPage()) {
-      this.#observer.observe($('li.movie-info:nth-last-child(10)', this.#list));
+      this.#observer.observe($('li.movie-info:nth-last-child(6)', this.#list));
     }
   }
 
@@ -64,7 +64,7 @@ class Main {
   }
 
   async #showMoreMoviesCallback (entries) {
-    if (entries[0].intersectionRatio > 0.5) {
+    if (entries[0].intersectionRatio > 0.2) {
       this.#element.dispatchEvent(new CustomEvent('searchPending', { bubbles: true }));
       await this.#manager.getMoreMovieList();
       this.#element.dispatchEvent(new CustomEvent('searchFullfilled', { bubbles: true }));
