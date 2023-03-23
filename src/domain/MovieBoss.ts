@@ -8,9 +8,14 @@ import { Movie } from "../type/movieType";
 
 class MovieBoss {
   private subscribers: MovieElement[] = [];
+  private modalSubscribers: MovieElement | undefined;
 
   subscribe(element: MovieElement) {
     this.subscribers.push(element);
+  }
+
+  subscribeModal(element: MovieElement) {
+    this.modalSubscribers = element;
   }
 
   publish(movies: Movie[], isShowMore: boolean = false) {
@@ -32,6 +37,10 @@ class MovieBoss {
 
   isLastPage() {
     return MovieModel.isLastPage();
+  }
+
+  deliverModal(movie: Movie) {
+    this.modalSubscribers?.rerender(movie);
   }
 
   async initMovies() {

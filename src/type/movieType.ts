@@ -18,5 +18,8 @@ export interface ApiMovieItem {
 export interface Movie {
   title: string;
   src: string;
-  starRate: number;
+  voteAverage: number;
+  id: number;
+  detail: string;
+  genre_ids: [];
 }
