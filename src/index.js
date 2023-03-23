@@ -32,3 +32,8 @@ EventBus.subscribe('searchFullfilled', main.render.bind(main));
 EventBus.subscribe('searchPending', skeleton.show.bind(skeleton));
 EventBus.subscribe('searchFullfilled', skeleton.hide.bind(skeleton));
 EventBus.subscribe('summaryClick', modal.catchMovieIdEvent.bind(modal));
+
+const scrollButton = $('button#scroll-to-top');
+scrollButton.addEventListener('click', () => {
+  $('html').scrollTo({ top: 0, behavior: 'smooth' });
+});

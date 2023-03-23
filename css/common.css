@@ -189,3 +189,21 @@ dialog#movie-modal::backdrop {
 #skeleton-container[data-hidden='true'] {
   display: none;
 }
+
+#scroll-to-top {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+
+  align-content: center;
+
+  width: 55px;
+  height: 55px;
+    
+  background-color: #f33f3f;
+}
+
+#scroll-to-top img {
+  width: 32px;
+  height: 32px;
+}
