@@ -30,9 +30,9 @@ class MovieList extends CustomElement {
   makeMovieItems(movies) {
     return movies
       .map((movie) => {
-        const { title, src, starRate } = movie;
+        const { title, src, voteAverage, id, detail, genre_ids } = movie;
         return `
-          <movie-item title='${title}' vote_average=${starRate} src=${src}>
+          <movie-item id=${id} title='${title}' vote_average=${voteAverage} src=${src} detail='${detail}' genre_ids=${genre_ids}>
           </movie-item>
           `;
       })

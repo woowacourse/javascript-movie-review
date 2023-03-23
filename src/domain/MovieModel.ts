@@ -21,7 +21,10 @@ class MovieModel {
       return {
         title: result.title,
         src: result.poster_path,
-        starRate: Number(result.vote_average.toFixed(1)),
+        voteAverage: Number(result.vote_average.toFixed(1)),
+        id: result.id,
+        detail: result.overview,
+        genre_ids: result.genre_ids,
       };
     });
   }
