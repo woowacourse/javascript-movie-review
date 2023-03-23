@@ -61,10 +61,6 @@ class MovieDetailModal extends HTMLElement {
         dialog.close();
       });
     });
-
-    window.addEventListener("popstate", () => {
-      dialog.close();
-    });
   }
 
   openModal() {
