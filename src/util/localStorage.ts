@@ -3,5 +3,9 @@ export const saveData = <T>(key: string, data: T) => {
 };
 
 export const getData = (key: string) => {
-  return JSON.parse(localStorage.getItem(key) || "");
+  const data = localStorage.getItem(key);
+
+  if (data) {
+    return JSON.parse(data);
+  }
 };
