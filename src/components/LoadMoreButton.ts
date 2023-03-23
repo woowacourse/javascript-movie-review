@@ -10,18 +10,11 @@ class LoadMoreButton {
       </button>`;
   }
 
-  enable() {
+  changeStateAccordingTo(isLastPage: boolean) {
     const $loadMoreButton = $<HTMLButtonElement>('#load-more-button');
 
-    $loadMoreButton.disabled = false;
-    $loadMoreButton.textContent = this.name;
-  }
-
-  disable() {
-    const $loadMoreButton = $<HTMLButtonElement>('#load-more-button');
-
-    $loadMoreButton.disabled = true;
-    $loadMoreButton.textContent = 'There are no more movies to load.';
+    $loadMoreButton.disabled = isLastPage ? true : false;
+    $loadMoreButton.textContent = isLastPage ? 'There are no more movies to load.' : this.name;
   }
 
   addClickEventHandler() {

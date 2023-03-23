@@ -1,11 +1,11 @@
 import { $ } from '../utils/domSelector';
-import MovieFetcher from '../domains/MovieFetcher';
-import MovieList from './MovieList';
-import LoadMoreButton from './LoadMoreButton';
-import errorItem from './errorItem';
-import handleError from '../handleError';
-import EventBroker from '../EventBroker';
 import { MOVIE_LIST_TITLE } from '../constants';
+import errorItem from './errorItem';
+import MovieList from './MovieList';
+import EventBroker from '../EventBroker';
+import handleError from '../handleError';
+import MovieFetcher from '../domains/MovieFetcher';
+import LoadMoreButton from './LoadMoreButton';
 
 class MovieListAndButtonContainer {
   private $container = $<HTMLElement>('.item-view');
@@ -13,16 +13,16 @@ class MovieListAndButtonContainer {
   private movieFetcher = new MovieFetcher();
   private loadMoreButton = new LoadMoreButton();
   private isSearchMovieList = false;
-  private searchKeyword = '';
+  private keyword = '';
 
   constructor() {
     this.renderMovieListTitle(this.movieList.getListTitleTemplate());
     this.updateMovieList();
     this.renderLoadMoreButton(this.loadMoreButton.getTemplate());
 
-    this.loadMoreButton.addClickEventHandler();
     this.addUpdateMovieListEventHandler();
     this.addAppendMovieListEventHandler();
+    this.loadMoreButton.addClickEventHandler();
   }
 
   private renderMovieListTitle(listTitleTemplate: string) {
@@ -45,15 +45,17 @@ class MovieListAndButtonContainer {
     this.movieList.removeSkeletonItems();
 
     if (handleError(statusCode, statusMessage)) return;
-    if (isLastPage) this.loadMoreButton.disable();
+
+    this.loadMoreButton.changeStateAccordingTo(isLastPage);
+
     if (isLastPage && movieList.length === 0) {
       this.movieList.renderNoResult(errorItem(isLastPage));
       return;
     }
 
+    if (this.isSearchMovieList && keyword) this.keyword = keyword;
+
     this.movieList.renderContents(movieList);
-    if (this.isSearchMovieList && keyword) this.searchKeyword = keyword;
-    if (!isLastPage) this.loadMoreButton.enable();
   }
 
   private async appendMovieList() {
@@ -61,20 +63,16 @@ class MovieListAndButtonContainer {
     this.movieList.renderSkeletonItems();
 
     const { statusCode, statusMessage, movieList, isLastPage } = this.isSearchMovieList
-      ? await this.movieFetcher.fetchMovieList(this.searchKeyword)
+      ? await this.movieFetcher.fetchMovieList(this.keyword)
       : await this.movieFetcher.fetchMovieList();
 
     this.movieList.removeSkeletonItems();
 
     if (handleError(statusCode, statusMessage)) return;
-    if (this.isSearchMovieList) {
-      this.movieList.setTitle(MOVIE_LIST_TITLE.SEARCH(this.searchKeyword));
-    }
+    if (this.isSearchMovieList) this.movieList.setTitle(MOVIE_LIST_TITLE.SEARCH(this.keyword));
 
     this.movieList.renderNextContents(movieList);
-
-    if (isLastPage) this.loadMoreButton.disable();
-    if (!isLastPage) this.loadMoreButton.enable();
+    this.loadMoreButton.changeStateAccordingTo(isLastPage);
   }
 
   private addUpdateMovieListEventHandler() {
