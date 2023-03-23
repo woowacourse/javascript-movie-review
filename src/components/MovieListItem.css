@@ -1,3 +1,7 @@
+.moive-item-container {
+  cursor: pointer;
+}
+
 .item-card {
   display: flex;
   flex-direction: column;

@@ -1,21 +1,45 @@
 import './Modal.css';
 import STAR_FILLED from '../image/star-filled.png';
+import STAR_EMPTY from '../image/star-empty.png';
 import { $ } from '../utils/common';
+import { MovieInfo } from '../types/type';
+
+export interface ModalHTMLInfo extends HTMLElement {
+  connectedCallback: () => void;
+  setModalAttributes: ({ id, title, imgUrl, score, description }: MovieInfo) => void;
+  openModal: () => void;
+}
 
 class Modal extends HTMLElement {
-  connectedCallback() {
+  #detailMovieInfo: MovieInfo = {
+    id: 0,
+    title: '',
+    imgUrl: '',
+    score: 0,
+    description: '',
+  };
+
+  connectedCallback(): void {
     this.render();
     this.setModalCloseEvent();
   }
 
-  render() {
+  render(): void {
+    const category = this.getAttribute('category');
+    const myScore = this.getAttribute('my-score') || '0';
+    const { id, title, imgUrl, score, description } = this.#detailMovieInfo;
+
+    console.log(id, title, imgUrl, description);
+    const fillStarCount = Math.round(Number(myScore)) / 2;
+    const emptyStarCount = 5 - fillStarCount;
+
     this.innerHTML = /*html*/ `
-        <dialog id="modal" class="modal-wrapper" open>
+        <dialog id="modal" class="modal-wrapper">
             <div id="modal-background" class="modal-background"></div> 
             <div class="modal">
                 <header class="modal-header">
                     <div></div>
-                    <div class="modal-header-title">해리 포터 20주년: 리턴 투 호그와트</div>
+                    <div class="modal-header-title">${title}</div>
                     <div id="modal-close-button" class="mocal-cancle">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="modal-cancle-content">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -24,32 +48,29 @@ class Modal extends HTMLElement {
                 </header>
                 <main class="modal-main">
                     <div class="modal-main-image-container">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/40/Clifton_Down_darkness.jpg">
+                        <movie-image imgUrl="${imgUrl}" title="${title}" width="300"></movie-image>
                     </div>
                     <div class="modal-main-content">
                         <div>
                             <div class="modal-main-category-score">
-                                <div>액션, 코미디, 범죄</div>
+                                <div>${category}</div>
                                 <div class="modal-score">
-                                    <img src="${STAR_FILLED}">
-                                    <span>8.1<span>
+                                    ${score !== 0 ? `<img src="${STAR_FILLED}">` : `<img src="${STAR_EMPTY}">`}
+                                    <span>${score}<span>
                                 </div>
                             </div>
                             <p class="modal-description">
-                            해리 포터 영화 시리즈가 다룬 주제들을 챕터로 나누어 다루었으며, 배우들의 영화 촬영장에서의 에피소드들과 감독들의 설명이 이어졌다. DVD 코멘터리와 비슷한 구성이지만, 영화에 참여하기까지의 일련의 오디션 과정과 시리즈가 끝난 후의 배우들의 커리어 등에 대해서 광범위하게 다루고 있다. 또한 세상을 떠난 배우들에 대한 기억들을 회상하는 시간도 가졌다.
+                            ${description}
                             </p>
                         </div>
                         <div class="modal-my-score-wrapper">
                             <span class="modal-my-score">내 별점</span>
                             <div class="modal-star-score">
-                                <img src="${STAR_FILLED}">
-                                <img src="${STAR_FILLED}">
-                                <img src="${STAR_FILLED}">
-                                <img src="${STAR_FILLED}">
-                                <img src="${STAR_FILLED}">
+                                ${`<img src="${STAR_FILLED}">`.repeat(fillStarCount)}
+                                ${`<img src="${STAR_EMPTY}">`.repeat(emptyStarCount)}
                             </div>
-                            <span class="modal-number-score">6</span>
-                            <span class="modal-comment">보통이에요</span>
+                            <span class="modal-number-score">${myScore}</span>
+                            <span class="modal-comment">${this.getScoreComment(myScore)}</span>
                         </div>
                     </div>
                 </main>
@@ -58,7 +79,7 @@ class Modal extends HTMLElement {
      `;
   }
 
-  setModalCloseEvent() {
+  setModalCloseEvent(): void {
     window.addEventListener('keydown', event => {
       if (event.code === 'Escape') {
         this.closeModal();
@@ -70,10 +91,34 @@ class Modal extends HTMLElement {
     $('#modal-close-button')?.addEventListener('click', () => this.closeModal());
   }
 
-  closeModal() {
+  openModal(): void {
+    const modal = $('#modal') as HTMLDialogElement;
+    $('body')?.classList.add('overflow-hidden');
+    modal.showModal();
+  }
+
+  closeModal(): void {
     const modal = $('#modal') as HTMLDialogElement;
     $('body')?.classList.remove('overflow-hidden');
     modal.close();
+  }
+
+  setModalAttributes({ id, title, imgUrl, score, description }: MovieInfo): void {
+    this.#detailMovieInfo = { id, title, imgUrl, score, description };
+  }
+
+  getScoreComment(score: string): string {
+    const myScore = Number(score);
+    if (myScore === 0) return '아직 안 봤어요';
+    if (myScore <= 2) return '최악이에요!';
+    if (myScore <= 4) return '재미 없었어요';
+    if (myScore <= 6) return '보통이에요';
+    if (myScore <= 8) return '재밌게 봤어요';
+    return '최고의 영화!';
+  }
+
+  static get observedAttributes() {
+    return ['id'];
   }
 }
 

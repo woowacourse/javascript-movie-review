@@ -3,6 +3,7 @@ export interface MovieInfo {
   title: string;
   imgUrl: string;
   score: number;
+  description: string;
 }
 
 export interface ParsedMovieResult {

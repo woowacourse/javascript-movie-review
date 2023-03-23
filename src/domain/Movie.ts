@@ -51,6 +51,7 @@ class Movie {
         title: movie.title,
         imgUrl: movie.poster_path,
         score: movie.vote_average,
+        description: movie.overview,
       };
     });
   }

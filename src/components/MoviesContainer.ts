@@ -84,7 +84,7 @@ class MoviesContainer extends HTMLElement {
     }
 
     const movieListTemplate = movieList.movies.reduce((acc, curr) => {
-      return (acc += `<movie-item id="${curr.id}" title="${curr.title}" imgUrl="${curr.imgUrl}" score="${curr.score}"></movie-item>`);
+      return (acc += `<movie-item id="${curr.id}" title="${curr.title}" imgUrl="${curr.imgUrl}" score="${curr.score}" description="${curr.description}"></movie-item>`);
     }, '');
 
     $('#skeleton-container')?.insertAdjacentHTML('beforebegin', movieListTemplate);
