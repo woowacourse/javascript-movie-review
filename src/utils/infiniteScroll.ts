@@ -14,14 +14,17 @@ export default class InfiniteScroll {
   }
 
   ioCallback(entries: any, io: IntersectionObserver) {
-    entries.forEach((entry: any) => {
+    entries.forEach(async (entry: any) => {
       if (entry.isIntersecting) {
         io.unobserve(entry.target);
 
-        if (movies.getIsSearched()) movies.searchMovies(movies.getQuery());
-        else movies.popularMovies();
-
-        this.subscribeItem(this.target, io);
+        if (movies.getIsSearched()) {
+          await movies.searchMovies(movies.getQuery());
+          this.subscribeItem(this.target, io);
+        } else {
+          await movies.popularMovies();
+          this.subscribeItem(this.target, io);
+        }
 
         console.log('iocall');
       }
