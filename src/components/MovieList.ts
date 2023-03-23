@@ -36,7 +36,7 @@ export async function renderSkeletonList() {
 
 export async function renderMoreSkeletonList() {
   const { page, keyword, isPopular } = store.state;
-  const nextPage = page + 1;
+  const nextPage = (page as number) + 1;
 
   const parentElem = $('.item-list') as HTMLElement;
   parentElem.insertAdjacentHTML('beforeend', MovieListSkeleton());

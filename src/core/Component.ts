@@ -4,7 +4,7 @@ export class Component {
   state: any;
   $el;
 
-  constructor($el: any) {
+  constructor($el: HTMLElement | null) {
     this.$el = $el;
     this.setup();
   }
