@@ -481,3 +481,38 @@ dialog::backdrop {
   font-size: 16px;
   font-weight: 700;
 }
+
+.vote {
+  display: flex;
+}
+
+.star {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: url('./star_empty.png');
+  background-size: contain;
+
+  transition: scale 0.2s, drop-shadow 0.2s;
+}
+
+.star:hover ~ .star {
+  background: url('./star_empty.png');
+  background-size: contain;
+}
+
+.star.active,
+.star:has(~ .active) {
+  filter: drop-shadow(0 0 0px);
+  background: url('./star_filled.png');
+  background-size: contain;
+  transform: scale(1);
+}
+
+.star:hover,
+.star:has(~ .star:hover) {
+  filter: drop-shadow(0 0 12px rgba(255, 255, 63, 0.5));
+  background: url('./star_filled.png');
+  background-size: contain;
+  transform: scale(1.1);
+}
