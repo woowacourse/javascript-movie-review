@@ -1,3 +1,4 @@
+import '../../css/movie-container.css';
 import { getMoreMovieList } from '../domains/movieApi';
 import { proxy } from '../domains/proxy';
 import { $ } from '../utils/dom';

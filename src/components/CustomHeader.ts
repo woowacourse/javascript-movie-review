@@ -1,3 +1,4 @@
+import '../../css/custom-header.css';
 import { proxy } from '../domains/proxy';
 import { $ } from '../utils/dom';
 import { getFormData } from '../utils/form';
