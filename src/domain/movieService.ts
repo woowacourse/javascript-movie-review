@@ -1,4 +1,4 @@
-import { MovieData } from '../api/movies';
+import { MovieData } from './remotes/movies';
 
 export interface Movie {
   id: MovieData['id'];

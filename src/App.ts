@@ -8,7 +8,7 @@ import {
   showScrollObserver,
 } from './dom';
 
-import { fetchPopularMovies, fetchSearchedMovies } from './api/movies';
+import { fetchPopularMovies, fetchSearchedMovies } from './domain/remotes/movies';
 import movieService, { Movie } from './domain/movieService';
 import { $ } from './utils/domUtils';
 import { handleError } from './utils/errorHandler';

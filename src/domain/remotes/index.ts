@@ -1,7 +1,7 @@
 import { MoviesResponse } from './movies';
 import { MovieDetailResponse } from './movieDetail';
 
-import { getErrorMessageByStatusCode } from '../utils/errorHandler';
+import { getErrorMessageByStatusCode } from '../../utils/errorHandler';
 
 type ValidResponse = MoviesResponse | MovieDetailResponse;
 type Request = <T extends ValidResponse>(path: string) => Promise<T>;
