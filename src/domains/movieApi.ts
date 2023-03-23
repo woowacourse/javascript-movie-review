@@ -1,11 +1,11 @@
 import { MovieRoot } from '../types/movieApi';
 
 const getPopularMovieRequestUrl = (page: number) => {
-  return `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}&language=ko-KR&page=${page}`;
+  return `https://ornate-swan-ce5a5e.netlify.app/tmdb/movie/popular?language=ko-KR&page=${page}`;
 };
 
 const getSearchMovieRequestUrl = (query: string, page: number) => {
-  return `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY}&language=ko-KR&query=${query}&page=${page}&include_adult=false`;
+  return `https://ornate-swan-ce5a5e.netlify.app/tmdb/search/movie?language=ko-KR&query=${query}&page=${page}&include_adult=false`;
 };
 
 const fetchMovieList = async (query: string, currentPage: number): Promise<MovieRoot> => {
