@@ -1,3 +1,7 @@
+body.fix {
+  overflow: hidden;
+}
+
 .hide {
   display: none;
 }
