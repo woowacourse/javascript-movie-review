@@ -15,16 +15,14 @@ class MovieContainer extends HTMLElement {
     this.addEventListener('click', this.moreButtonClickHandler);
   }
 
-  private moreButtonClickHandler(event: Event) {
+  private async moreButtonClickHandler(event: Event) {
     const target = event.target;
 
     if (target instanceof HTMLButtonElement && target.ariaLabel === '더 보기') {
-      proxy.movie.currentPage += 1;
-
-      getMoreMovieList(proxy.movie.query, proxy.movie.currentPage).then(movieRoot => {
-        const movieResults = movieRoot.results;
-        proxy.movie.list += generateMovieListTemplate(movieResults);
-      });
+      const movieRoot = await getMoreMovieList(proxy.movie.query, proxy.movie.currentPage + 1);
+      proxy.movie.currentPage = movieRoot.page;
+      const movieResults = movieRoot.results;
+      proxy.movie.list += generateMovieListTemplate(movieResults);
     }
   }
 

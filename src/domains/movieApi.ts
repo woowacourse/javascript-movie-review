@@ -1,5 +1,4 @@
-import { generateMovieListTemplate } from '../components/templates/movieList';
-import { MovieResult, MovieRoot } from '../types/movieApi';
+import { MovieRoot } from '../types/movieApi';
 
 const getPopularMovieRequestUrl = (page: number) => {
   return `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}&language=ko-KR&page=${page}`;
