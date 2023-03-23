@@ -75,6 +75,7 @@ export class MovieDatail {
   close() {
     const closeButton = $(".modal__close-btn") as HTMLElement;
     closeButton.addEventListener("click", this.remove);
+    document.addEventListener("keyup", this.remove);
   }
 
   selectGenre() {
