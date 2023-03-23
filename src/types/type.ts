@@ -16,3 +16,8 @@ export interface ParsedMovieResult {
   isLastPage: boolean;
   movies: MovieInfo[];
 }
+
+export interface MovieScoreInfo {
+  id: number;
+  score: number;
+}

@@ -2,7 +2,7 @@ import './Modal.css';
 import STAR_FILLED from '../image/star-filled.png';
 import STAR_EMPTY from '../image/star-empty.png';
 import { $ } from '../utils/common';
-import { MovieInfo } from '../types/type';
+import { MovieInfo, MovieScoreInfo } from '../types/type';
 import Movie from '../domain/Movie';
 
 export interface HTMLModalElement extends HTMLElement {
@@ -24,6 +24,8 @@ class Modal extends HTMLElement {
     this.render();
     this.detailFetchEvent();
     this.setModalCloseEvent();
+    this.setStarClickEvent();
+    // this.renderStar();
   }
 
   render(): void {
@@ -66,12 +68,12 @@ class Modal extends HTMLElement {
                         </div>
                         <div class="modal-my-score-wrapper">
                             <span class="modal-my-score">내 별점</span>
-                            <div class="modal-star-score">
-                                ${`<img src="${STAR_FILLED}">`.repeat(fillStarCount)}
-                                ${`<img src="${STAR_EMPTY}">`.repeat(emptyStarCount)}
+                            <div id="modal-star-score" class="modal-star-score">
+                                ${`<img class="modal-star" src="${STAR_FILLED}">`.repeat(fillStarCount)}
+                                ${`<img class="modal-star" src="${STAR_EMPTY}">`.repeat(emptyStarCount)}
                             </div>
-                            <span class="modal-number-score">${myScore}</span>
-                            <span class="modal-comment">${this.getScoreComment(myScore)}</span>
+                            <span id="modal-my-score" class="modal-number-score"></span>
+                            <span id="modal-my-comment" class="modal-comment"></span>
                         </div>
                     </div>
                 </main>
@@ -110,23 +112,79 @@ class Modal extends HTMLElement {
 
   getScoreComment(score: string): string {
     const myScore = Number(score);
-    if (myScore === 0) return '아직 안 봤어요';
-    if (myScore <= 2) return '최악이에요!';
-    if (myScore <= 4) return '재미 없었어요';
+    if (myScore === 0) return '영화를 평가해주세요 !';
+    if (myScore <= 2) return '최악이예요';
+    if (myScore <= 4) return '별로예요';
     if (myScore <= 6) return '보통이에요';
-    if (myScore <= 8) return '재밌게 봤어요';
-    return '최고의 영화!';
+    if (myScore <= 8) return '재미있어요';
+    return '명작이에요';
   }
 
   async detailFetchEvent() {
     const modalCategory = $('#modal-category') as HTMLDivElement;
     const id = this.#detailMovieInfo.id;
+
+    if (id === 0) return;
+
     const movieDetail = await new Movie().parsedDetailResult(id);
     modalCategory.classList.remove('modal-category-skeleton');
 
     const categories = movieDetail.category.map(item => item.name);
 
     modalCategory.innerText = categories.join(', ');
+  }
+
+  renderStar() {
+    const stars = this.querySelectorAll('.modal-star') as NodeListOf<HTMLImageElement>;
+
+    const id = this.#detailMovieInfo.id;
+    const movieScore: MovieScoreInfo[] = JSON.parse(localStorage.getItem('movieScore') || '[]');
+    const modalMyScore = $('#modal-my-score') as HTMLSpanElement;
+    const modalMyComment = $('#modal-my-comment') as HTMLSpanElement;
+
+    const movie = movieScore.find((item: MovieScoreInfo) => item.id === id);
+    const score = movie?.id || 0;
+
+    modalMyScore.innerText = score.toString();
+    modalMyComment.innerText = this.getScoreComment(score.toString());
+
+    const starIndex = score / 2 - 1;
+
+    stars.forEach((imgItem, imgIndex) => {
+      if (imgIndex <= starIndex) {
+        imgItem.src = STAR_FILLED;
+        return;
+      }
+      imgItem.src = STAR_EMPTY;
+    });
+  }
+
+  setStarClickEvent() {
+    const stars = this.querySelectorAll('.modal-star') as NodeListOf<HTMLImageElement>;
+
+    stars.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        const id = this.#detailMovieInfo.id;
+
+        const movieScore = JSON.parse(localStorage.getItem('movieScore') || '[]');
+
+        const findIndex = movieScore.findIndex((item: MovieScoreInfo) => item.id === id);
+
+        const updatedMovieScore = movieScore.splice(findIndex, 1, { id, score: (Number(index) + 1) * 2 });
+
+        localStorage.setItem('movieScore', JSON.stringify(updatedMovieScore));
+
+        stars.forEach((imgItem, imgIndex) => {
+          if (imgIndex <= index) {
+            imgItem.src = STAR_FILLED;
+            return;
+          }
+          imgItem.src = STAR_EMPTY;
+        });
+
+        // this.renderStar();
+      });
+    });
   }
 }
 

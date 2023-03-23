@@ -130,6 +130,11 @@
   overflow-y: auto;
 }
 
+.modal-star {
+  margin: 0 2px;
+  cursor: pointer;
+}
+
 .modal-category-skeleton {
   width: 60px;
   height: 20px;
