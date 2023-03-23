@@ -1,4 +1,3 @@
-// import Movie from './domain/Movie';
 import './styles/reset.css';
 import './styles/common.css';
 
