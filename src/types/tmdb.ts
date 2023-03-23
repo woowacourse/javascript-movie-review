@@ -1,4 +1,4 @@
-export interface TMDBResponseResult {
+export interface MoviesResponseResult {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -15,9 +15,18 @@ export interface TMDBResponseResult {
   vote_count: number;
 }
 
-export interface TMDBResponse {
+export interface MoviesResponse {
   page: number;
-  results: TMDBResponseResult[];
+  results: MoviesResponseResult[];
   total_pages: number;
   total_results: number;
+}
+
+export interface GenresResponse {
+  genres: Genre[];
+}
+
+export interface Genre {
+  id: number;
+  name: string;
 }
