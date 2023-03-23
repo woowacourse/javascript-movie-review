@@ -1,10 +1,10 @@
+import MovieList from "../domain/MovieList";
+import InvalidMessage from "./InvalidMessage";
 import { HTTPError } from "../api/HTTPError";
 import { StarEmpty, StarFilled } from "../assets";
 import { POSTER_BASE_URL, SCORE_COMMENT } from "../constants";
-import MovieList from "../domain/MovieList";
 import { MovieDetail } from "../types/movie";
 import { $, $$ } from "../utils/domSelector";
-import InvalidMessage from "./InvalidMessage";
 
 const MovieModal = {
   loadMovieDetail: async () => {
@@ -54,7 +54,7 @@ const MovieModal = {
             </div>
             <div class="modal-score-box">
               <p class="bold">내 별점</p>
-              <div id="star-count" class="star-count"></div>
+              <a href="" id="star-count" class="star-count"></a>
             </div>
           </div>
         </div>
@@ -112,8 +112,8 @@ const MovieModal = {
     });
 
     $$<HTMLImageElement>(".modal-score").forEach((star) => {
-      star.addEventListener("click", () => {
-        console.log(44);
+      star.addEventListener("click", (event) => {
+        event.preventDefault();
         MovieModal.onClickStar(Number(star.id));
       });
     });
