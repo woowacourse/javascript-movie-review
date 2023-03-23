@@ -1,35 +1,41 @@
 import { Movie } from '../type/Movie';
 
 import FilledStar from '../assets/star_filled.png';
+import Component from '../type/Component';
 
-export default class MovieCard {
-  $element;
+type HandlerCallback = {
+  onClickCard: () => void;
+};
 
-  constructor($parent: Element) {
-    this.$element = document.createElement('li');
+export default class MovieCard implements Component {
+  private $element = document.createElement('li');
 
+  constructor($parent: Element, private handlerCallback: HandlerCallback) {
     $parent.insertAdjacentElement('beforeend', this.$element);
   }
 
   render(movie: Movie) {
     this.$element.innerHTML = this.template(movie);
+    this.setEvent();
   }
 
   template(movie: Movie) {
     const { id, title, posterPath, voteAverage } = movie;
 
-    return /* html */ `    
-      <a href="#">
-        <div id=${id} class="item-card">          
-          <img    
-          class="item-thumbnail"
-          src="https://image.tmdb.org/t/p/w220_and_h330_face${posterPath}"
-          loading="lazy"
-          alt=${title}
-          />
-          <p class="item-title">${title}</p>
-          <p class="item-score"><img src=${FilledStar} alt="별점" /> ${voteAverage}</p>
-        </div>
-      </a>`;
+    return /* html */ `
+    <div id=${id} class="item-card">          
+      <img    
+      class="item-thumbnail"
+      src="https://image.tmdb.org/t/p/w220_and_h330_face${posterPath}"
+      loading="lazy"
+      alt=${title}
+      />
+      <p class="item-title">${title}</p>
+      <p class="item-score"><img src=${FilledStar} alt="별점" /> ${voteAverage}</p>
+    </div>`;
+  }
+
+  setEvent() {
+    this.$element.addEventListener('click', this.handlerCallback.onClickCard.bind(this));
   }
 }

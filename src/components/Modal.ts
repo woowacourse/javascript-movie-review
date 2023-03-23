@@ -3,7 +3,7 @@ import Component from '../type/Component';
 export default class Modal implements Component {
   private $element;
 
-  constructor($parent: Element) {
+  constructor($parent: Element, private childComponent: new ($parent: Element) => any) {
     this.$element = document.createElement('div');
     this.$element.id = 'modal';
     this.$element.className = 'modal hide';
@@ -14,6 +14,7 @@ export default class Modal implements Component {
   render() {
     this.$element.innerHTML = this.template();
     this.setEvent();
+    this.renderContent();
   }
 
   template() {
@@ -23,4 +24,15 @@ export default class Modal implements Component {
   }
 
   setEvent() {}
+
+  renderContent() {
+    const $container = this.$element.querySelector('.modal-container');
+    if (!$container) return;
+
+    new this.childComponent($container).render();
+  }
+
+  openModal() {
+    this.$element.classList.remove('hide');
+  }
 }

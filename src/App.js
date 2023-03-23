@@ -1,5 +1,8 @@
 import Header from './components/Header';
 import MovieList from './components/MovieList';
+import MovieCard from './components/MovieCard';
+import DetailMovieCard from './components/DetailMovieCard';
+import Modal from './components/Modal';
 
 import { popularMovieDataFetchFuncGenerator, searchedMovieDataFetchFuncGenerator } from './api/get';
 
@@ -10,6 +13,7 @@ export default class App {
 
   #header;
   #movieList;
+  #modal;
 
   constructor() {
     this.#getMovieMetaData = popularMovieDataFetchFuncGenerator();
@@ -18,7 +22,12 @@ export default class App {
       onClickMainLogo: this.renderPopularMovieList.bind(this),
       onSubmitSearchForm: this.renderSearchedMovieList.bind(this),
     });
-    this.#movieList = new MovieList($('main'), { onClickMoreButton: this.renderMovieList.bind(this) });
+
+    this.#modal = new Modal($('#app'), DetailMovieCard);
+    this.#movieList = new MovieList($('main'), {
+      onClickMoreButton: this.renderMovieList.bind(this),
+      onClickCard: this.#modal.openModal.bind(this.#modal),
+    });
 
     this.initialRender();
   }
@@ -28,6 +37,7 @@ export default class App {
     this.#movieList.render();
     this.#movieList.showSkeletonList();
     this.#movieList.renderListContent(await this.#getMovieMetaData());
+    this.#modal.render();
   }
 
   async renderPopularMovieList() {

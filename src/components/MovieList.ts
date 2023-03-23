@@ -26,6 +26,7 @@ const errorTemplate = (statusCode: number, statusMessage: string) => {
 
 type HandlerCallback = {
   onClickMoreButton: () => void;
+  onClickCard: () => void;
 };
 
 export default class MovieList implements Component {
@@ -87,10 +88,11 @@ export default class MovieList implements Component {
   }
 
   renderMovieCards(movieList: Movie[]) {
-    movieList.forEach((movie) => {
-      const $ul = this.$element.querySelector('.item-list');
+    const $ul = this.$element.querySelector('.item-list');
+    if (!$ul) return;
 
-      if ($ul) new MovieCard($ul).render(movie);
+    movieList.forEach((movie) => {
+      const item = new MovieCard($ul, { onClickCard: this.handlerCallback.onClickCard }).render(movie);
     });
   }
 
