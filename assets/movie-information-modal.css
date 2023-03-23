@@ -138,10 +138,6 @@
   padding: 10px;
 }
 
-.user-rating-bar {
-  display: flex;
-  flex-direction: row-reverse;
-}
 .rating-title {
   font-weight: 600;
 }
@@ -152,4 +148,27 @@
 
 .modal-text.no-data {
   color: var(--modal-light-gray);
+}
+
+.user-rating-bar {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.user-rating-bar input[type='radio'] {
+  appearance: none;
+  margin: 0;
+  padding: 0 4px 0 4px;
+  cursor: pointer;
+}
+
+.user-rating-bar input[type='radio']::before {
+  content: url('./rating_star_empty.png');
+}
+
+.user-rating-bar input[type='radio']:hover ~ input::before,
+.user-rating-bar input[type='radio']:checked ~ input::before,
+.user-rating-bar input[type='radio']:hover::before,
+.user-rating-bar input[type='radio']:checked::before {
+  content: url('./rating_star_filled.png');
 }
