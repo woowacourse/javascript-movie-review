@@ -275,27 +275,34 @@ header .search-box > #search-button {
   }
 }
 
-dialog {
+.modal {
+  position: absolute;
+  top: 0;
+}
+
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  cursor: pointer;
+}
+
+.modal-content {
+  display: flex;
   width: 800px;
   height: 500px;
+  padding: 36px;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
   background-color: #1a1a1a;
   color: white;
   border: 0;
   border-radius: 16px;
-  padding: 0;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px, rgba(0, 0, 0, 0.25) 0px 8px 16px;
-}
-
-dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
-  cursor: pointer;
-}
-
-.information {
-  display: flex;
-  padding: 36px;
-  width: 100%;
-  height: 100%;
 }
 
 .information-content {
@@ -319,20 +326,20 @@ dialog::backdrop {
   overflow: scroll;
 }
 
-.information-modal h3 {
+.modal-content h3 {
   font-size: 30px;
   font-weight: bold;
   margin-top: 6px;
   margin-bottom: 18px;
 }
 
-.information-modal h6 {
+.modal-content h6 {
   margin-bottom: 14px;
   font-size: 16px;
   font-weight: bold;
 }
 
-.information-modal p {
+.modal-content p {
   font-size: 14px;
   line-height: 1.5;
   color: whitesmoke;

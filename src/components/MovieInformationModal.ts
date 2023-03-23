@@ -6,13 +6,13 @@ import MovieList from '../domain/MovieList';
 
 class MovieInformationModal {
   private static instance: MovieInformationModal;
-  private informationModal: HTMLDialogElement;
+  private modal: HTMLDivElement;
   private informationContainer: HTMLDivElement;
 
   constructor() {
     $<HTMLElement>('main').insertAdjacentHTML('beforeend', this.template());
     this.init();
-    this.informationModal = $<HTMLDialogElement>('.information-modal');
+    this.modal = $<HTMLDivElement>('.modal');
     this.informationContainer = $<HTMLDivElement>('.information-content');
     this.addCloseModalEventListener();
     this.addBrowserBackButtonEventListener();
@@ -28,12 +28,13 @@ class MovieInformationModal {
 
   private template() {
     return `
-      <dialog class="information-modal">
-        <div class="information">
+      <div class="modal hide">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
           <div class="information-content"></div>
           <img src="${CloseButton}" alt="" class="close-button" />
         </div>
-      </dialog>
+      </div>
     `;
   }
 
@@ -59,7 +60,7 @@ class MovieInformationModal {
 
     this.informationContainer.dataset.movieId = String(movie.id);
     document.body.classList.add('hide-overflow');
-    this.informationModal.showModal();
+    this.modal.classList.remove('hide');
   }
 
   private closeModal() {
@@ -72,14 +73,17 @@ class MovieInformationModal {
     }
 
     document.body.classList.remove('hide-overflow');
-    this.informationModal.close();
+    this.modal.classList.add('hide');
   }
 
   private addCloseModalEventListener() {
-    this.informationModal.addEventListener('click', (event) => {
+    this.modal.addEventListener('click', (event) => {
       const target = event.target as HTMLElement;
 
-      if (target === event.currentTarget || target.classList.contains('close-button')) {
+      if (
+        target.classList.contains('modal-backdrop') ||
+        target.classList.contains('close-button')
+      ) {
         this.closeModal();
       }
     });
