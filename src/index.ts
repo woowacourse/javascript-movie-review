@@ -25,7 +25,7 @@ const App = {
   },
 
   initState() {
-    getPopularMovieList(proxy.movie.currentPage).then(movieRoot => {
+    getPopularMovieList().then(movieRoot => {
       const movieResults = movieRoot.results;
       proxy.movie.totalPages = movieRoot.total_pages;
       proxy.movie.list = generateMovieListTemplate(movieResults);

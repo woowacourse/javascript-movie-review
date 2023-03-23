@@ -15,8 +15,8 @@ const fetchMovieList = async (query: string, currentPage: number): Promise<Movie
   return await result.json();
 };
 
-export const getPopularMovieList = async (page: number): Promise<MovieRoot> => {
-  return await fetchMovieList('', page);
+export const getPopularMovieList = async (): Promise<MovieRoot> => {
+  return await fetchMovieList('', 1);
 };
 
 export const searchMovieList = async (query: string, page: number): Promise<MovieRoot> => {

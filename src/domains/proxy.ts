@@ -21,8 +21,8 @@ const handleQuery = (target: MovieProxy, props: string, value: string) => {
 
   target[props] = value;
 
+  proxy.movie.currentPage = 1;
   searchMovieList(proxy.movie.query, proxy.movie.currentPage).then(movieRoot => {
-    proxy.movie.currentPage = movieRoot.page;
     const movieResults = movieRoot.results;
     proxy.movie.totalPages = movieRoot.total_pages;
     proxy.movie.list = generateMovieListTemplate(movieResults);

@@ -26,6 +26,13 @@ export const generateMovieListTemplate = (movieList: MovieResult[]) => {
     .map(movie => generateMovieItemTemplate({ src: movie.poster_path, title: movie.title, score: movie.vote_average }))
     .join('');
 
+  if (!movieItemTemplateList) {
+    /* html */
+    return `
+			<h2 class="empty-movie-message">찾을 수 없는 영화 이름입니다 🥲</h2>
+		`;
+  }
+
   /* html */
   return `
 		<ul class="item-list">
