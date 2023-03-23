@@ -1,10 +1,11 @@
+import { MOVIE_LIST_TITLE } from '../constants';
 import { Movie } from '../types';
 import { $, $$ } from '../utils/domSelector';
 import movieItem from './movieItem';
 import skeletonItem from './skeletonItem';
 
 class MovieList {
-  getListTitleTemplate(listTitle: string) {
+  getListTitleTemplate(listTitle: string = MOVIE_LIST_TITLE.POPULARITY) {
     return `
       <h2 id="movie-list-title">${listTitle}</h2>
       <ul class="item-list"></ul>`;

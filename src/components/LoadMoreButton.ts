@@ -1,5 +1,5 @@
 import { $ } from '../utils/domSelector';
-
+import EventBroker from '../EventBroker';
 class LoadMoreButton {
   private name = 'Load More';
 
@@ -24,11 +24,11 @@ class LoadMoreButton {
     $loadMoreButton.textContent = 'There are no more movies to load.';
   }
 
-  addClickEventHandler(onClickLoadMoreButton: () => void) {
+  addClickEventHandler() {
     const $loadMoreButton = $<HTMLButtonElement>('#load-more-button');
 
     $loadMoreButton.addEventListener('click', () => {
-      onClickLoadMoreButton();
+      EventBroker.dispatchEvent(new CustomEvent('appendMovieListEvent'));
     });
   }
 }

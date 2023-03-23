@@ -1,3 +1,5 @@
+type UpdateMovieListEvent = CustomEvent<{ keyword: string }>;
+type AppendMovieListEvent = CustomEvent<{ keyword: string }>;
 export interface Movie {
   title: string;
   posterPath: string;
