@@ -20,8 +20,8 @@ class MovieContainer extends CustomElement {
           <h2 class='movie-container-title'>지금 인기 있는 영화</h2>
           <movie-list></movie-list>
           <movie-list-skeleton></movie-list-skeleton>
-          <movie-item-modal></movie-item-modal>
         </section>
+        <movie-item-modal></movie-item-modal>
     `;
   }
 
