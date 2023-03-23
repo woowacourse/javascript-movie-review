@@ -3,7 +3,7 @@ import { Movie } from "../type";
 import { fetchMovies } from "./movieApi";
 import Store from "./Store";
 
-interface MovieResult {
+interface MovieApiResponse {
   poster_path: string;
   title: string;
   vote_average: number;
@@ -30,7 +30,7 @@ const urlBuilder = (keyword?: string) => {
   );
 }
 
-const convertApiResponseToMovieList = (results: MovieResult[]): Movie[] => {
+const convertApiResponseToMovieList = (results: MovieApiResponse[]): Movie[] => {
   return results.map((movie) => {
     return {
       poster: movie.poster_path,
