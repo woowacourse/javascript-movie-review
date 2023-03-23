@@ -379,6 +379,27 @@ dialog::backdrop {
   max-width: 800px;
 }
 
+.detail-view.fade {
+  animation: detail-view-fade 0.2s;
+}
+
+.detail-view.fade.dispose {
+  animation: detail-view-fade 0.05s;
+  animation-direction: reverse;
+}
+
+@keyframes detail-view-fade {
+  from {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 .detail-view > hr {
   border-color: rgba(241, 241, 241, 0.25);
   margin: 0;

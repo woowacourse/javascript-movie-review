@@ -1,11 +1,14 @@
 import { Movie } from '../domain/movie.type';
 import { Subject } from '../states/Subject';
 import { $context } from '../utils/selector';
+import { VoteInput } from './VoteInput';
 
 export class MovieDetailDialog {
   private readonly $root = document.createElement('dialog');
 
   private readonly $ = $context(this.$root);
+
+  private readonly $vote = new VoteInput();
 
   constructor(private readonly movieSubject: Subject<Movie>) {
     this.$root.innerHTML = `
@@ -24,27 +27,26 @@ export class MovieDetailDialog {
             <p class="detail-overview"></p>
 
             <form class="detail-vote">
-              <label>내 별점</label>
-              <input type="range">
+              <label>내 평점</label>
             </form>
           </div>
         </section>
       </article>
     `.trim();
 
-    this.$root.addEventListener('close', () => {
-      this.onClose();
+    this.$('.detail-view').classList.add('fade');
+    this.$('.detail-view').addEventListener('animationend', () => {
+      this.$('.detail-view').classList.remove('fade');
     });
 
-    this.$root.addEventListener('click', () => {
-      this.close();
-    });
+    this.$root.addEventListener('click', () => this.close());
+    this.$('article').addEventListener('click', (event) => event.stopPropagation());
 
     this.$root.addEventListener('keydown', (event) => {
       if (event.key === 'Backspace') this.close();
     });
 
-    this.$('article').addEventListener('click', (event) => event.stopPropagation());
+    this.$('.detail-vote').append(this.$vote.getRoot());
 
     this.movieSubject.subscribe((movie) => {
       this.$<HTMLHeadingElement>('.detail-header > h1').innerText = movie.title;
@@ -54,8 +56,16 @@ export class MovieDetailDialog {
       this.$<HTMLParagraphElement>('.detail-overview').innerText = movie.overview;
     });
 
-    window.addEventListener('popstate', () => {
-      this.$root.close();
+    window.addEventListener('popstate', () => this.dispose());
+
+    this.$('form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      this.close();
+    });
+
+    this.$root.addEventListener('close', (event) => {
+      event.preventDefault();
+      this.close();
     });
   }
 
@@ -66,11 +76,14 @@ export class MovieDetailDialog {
   }
 
   close() {
-    this.onClose();
     window.history.back();
+    this.dispose();
   }
 
-  private onClose() {
-    this.$root.parentElement?.removeChild(this.$root);
+  dispose() {
+    this.$('.detail-view').addEventListener('animationend', (event) => {
+      this.$root.remove();
+    });
+    this.$('.detail-view').classList.add('fade', 'dispose');
   }
 }
