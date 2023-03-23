@@ -17,7 +17,9 @@ class MovieItem {
   }
 
   convertToImgUrl(imgSrc: string) {
-    return `${imageUrl}${imgSrc}`;
+    const imgUrl = `${imageUrl}${imgSrc}`;
+    this.#movieInfo.posterSrc = imgUrl;
+    return imgUrl;
   }
 
   template() {
