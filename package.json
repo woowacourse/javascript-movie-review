@@ -2,7 +2,7 @@
   "name": "javascript-movie-review",
   "version": "1.0.0",
   "description": "우아한테크코스 레벨1 영화관 미션 저장소",
-  "main": "src/index.js",
+  "main": "src/index.ts",
   "private": "true",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,7 +10,11 @@
     "start": "webpack serve",
     "build": "webpack --mode=development",
     "test-unit": "jest",
-    "test-e2e": "cypress open"
+    "test-e2e": "cypress open",
+    "lint:fix": "eslint --fix './src/**/*.{js,jsx,ts,tsx}'",
+    "prettier:fix": "prettier --write './src/**/*.{js,jsx,ts,tsx}'",
+    "check-conflict-formatting-rules": "npx eslint-config-prettier './src/**/*.{js,jsx,ts,tsx}'",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -36,9 +40,15 @@
     "cypress": "^12.3.0",
     "dotenv-webpack": "^8.0.1",
     "eslint": "^8.35.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
+    "husky": "^8.0.3",
     "jest": "^29.3.1",
     "jest-environment-jsdom": "^29.5.0",
+    "lint-staged": "^13.2.0",
     "prettier": "^2.8.4",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.4.2",
@@ -46,5 +56,15 @@
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1"
+  },
+  "lint-staged": {
+    "./src/**/*.{js,jsx,ts,tsx}": [
+      "npm run check-conflict-formatting-rules",
+      "npm run prettier:fix",
+      "npm run lint:fix"
+    ]
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.1"
   }
 }
