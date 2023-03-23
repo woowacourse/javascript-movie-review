@@ -35,6 +35,8 @@
 .modal-content {
     display: flex;
     flex-direction: column;
+    position: relative;
+
 }
 
 .modal-content h2 {
@@ -100,4 +102,40 @@
     .right {
         margin-top: 16px;
     }
+}
+
+/*close button*/
+.close-button {
+    position: absolute;
+    top:  10px;
+    right: 10px;
+    border-radius: 50%;
+    padding: 0.5em;
+    width: 36px;
+    height: 36px;
+    border: 2px solid #383839;
+    color: #F1F1F1;
+    background-color: #383839;
+    z-index: 10;
+}
+
+
+.close-button::before,
+.close-button::after {
+    content: "";
+    position: absolute;
+    background-color: #F1F1F1;
+    width: 3px;
+    height: 50%;
+    top: 50%;
+    left: 50%;
+    transform-origin: center;
+}
+
+.close-button::before {
+    transform: translateX(-50%) translateY(-50%) rotate(45deg);
+}
+
+.close-button::after {
+    transform: translateX(-50%) translateY(-50%) rotate(-45deg);
 }

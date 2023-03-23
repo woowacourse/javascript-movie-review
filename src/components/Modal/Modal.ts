@@ -21,10 +21,11 @@ class Modal {
     return `
       <div class="modal modal-invisible">
         <div>
-            <div class="modal-backdrop"></div>
+        <div class="modal-backdrop"></div>
         <div class="modal-container">
             <div class="modal-content">
             </div>
+            <button class="close-button"></button>
         </div>
         </div>
       </div>
@@ -137,11 +138,23 @@ class Modal {
   }
 
   setEvent() {
+    const $modal = $(".modal", this.$target);
     const $modalBackdrop = $(".modal-backdrop", this.$target);
+    const $closeButton = $(".close-button", this.$target);
 
     if ($modalBackdrop instanceof HTMLDivElement) {
-      $modalBackdrop.addEventListener("click", () => {
-        this.hide();
+      $modalBackdrop.addEventListener("click", this.hide);
+    }
+
+    if ($closeButton) {
+      $closeButton.addEventListener("click", this.hide);
+    }
+
+    if ($modal) {
+      window.addEventListener("keydown", (e: KeyboardEvent) => {
+        if (e.keyCode === 27) {
+          this.hide();
+        }
       });
     }
   }
