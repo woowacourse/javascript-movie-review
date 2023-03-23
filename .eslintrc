@@ -1,11 +1,14 @@
 {
-  "rules": {},
   "env": {
+    "browser": true,
     "es6": true,
     "node": true
   },
   "parserOptions": {
     "ecmaVersion": "latest"
   },
-  "extends": ["eslint:recommended", "plugin:prettier/recommended"]
+  "extends": ["eslint:recommended", "airbnb-base", "plugin:prettier/recommended"],
+  "rules": {
+    "prettier/prettier": ["error", { "singleQuote": true, "endOfLine": "auto" }]
+  }
 }

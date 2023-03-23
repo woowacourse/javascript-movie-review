@@ -18,15 +18,22 @@ button {
 }
 
 #app {
-  padding-bottom: 48px;
+  height: 100vh;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+}
+
+main {
+  flex-grow: 1;
 }
 
 *:focus {
   outline: none;
-}
-.item-view,
-.item-test {
-  width: 100%;
 }
 
 .item-view {
@@ -34,6 +41,7 @@ button {
   flex-direction: column;
   justify-content: center;
   width: 1200px;
+  height: 100%;
   margin: 0 auto;
 }
 
@@ -45,12 +53,36 @@ button {
 
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
+.item-list-layout {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+
+  padding: 48px 0;
+}
+
+.item-list-layout > h1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .item-list {
   display: grid;
-  margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
   grid-column-gap: 160px;
-  grid-row-gap: 48px;
+}
+
+.item--movie,
+.item--skeleton {
+  height: 370px;
+
+  margin: 24px 0;
 }
 
 .item-card {
@@ -83,7 +115,7 @@ button {
 .item-title.skeleton::after,
 .item-score.skeleton::after {
   font-size: 0;
-  content: "loading";
+  content: 'loading';
 }
 
 .full-width {
@@ -99,6 +131,7 @@ button.btn {
   border-radius: 8px;
   height: 30px;
   color: #fff;
+  margin-bottom: 48px;
 }
 
 button.primary {
@@ -131,7 +164,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 8px 20px;
   border-bottom: 1px solid white;
   margin-bottom: 48px;
 }
@@ -151,14 +184,14 @@ header > .search-box {
   border-radius: 4px;
 }
 
-header .search-box > input {
+header .search-box > form > input {
   border: 0;
 }
 
-header .search-box > .search-button {
+header .search-box > form > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
-  background: url("./search_button.png") transparent no-repeat 0 1px;
+  background: url('./search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
 }
