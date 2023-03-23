@@ -17,7 +17,6 @@ class MovieItem extends HTMLElement {
     const voteAverage = this.getAttribute("vote_average");
 
     this.innerHTML = /* html */ `
-      <a href="#">
         <div class="item-card">
           <img
             class="item-thumbnail skeleton"
@@ -32,7 +31,6 @@ class MovieItem extends HTMLElement {
           <p class="item-title">${title}</p>
           <p class="item-score"><img src="${StarFilled}" class="star" alt="별점" />${voteAverage}</p>
         </div>
-      </a>
     `;
   }
 

@@ -19,16 +19,20 @@ class MovieListContainer extends HTMLElement {
       </h2>
       <movie-list class="item-list hidden"></movie-list>
       ${this.getSkeletonUITemplate()}
-      <button id="more-button" class="btn primary full-width">더 보기</button>
+      <div class="scroll-area"></div>
     `;
   }
 
   addEvent() {
-    $("button", this)?.addEventListener("click", () => {
-      dispatchCustomEvent(this, {
-        eventType: "fetchMovieData",
-        data: this.getAttribute("type"),
-      });
+    const observer = new IntersectionObserver(this.handleIntersect);
+    observer.observe(<Element>$(".scroll-area", this));
+  }
+
+  handleIntersect() {
+    const container = <HTMLElement>$("movie-list-container");
+    dispatchCustomEvent(container, {
+      eventType: "fetchMovieData",
+      data: container.getAttribute("type"),
     });
   }
 
@@ -39,7 +43,7 @@ class MovieListContainer extends HTMLElement {
   }
 
   removeLoadMovieButton() {
-    $("button", this)?.classList.add("hidden");
+    $(".scroll-area", this)?.classList.add("hidden");
   }
 
   displayErrorUI(errorMessage: string) {
