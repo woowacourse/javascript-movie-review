@@ -17,12 +17,20 @@
   user-select: none;
 }
 
-.item-view .empty-movie-message {
-  text-align: center;
-  margin-top: 200px;
-  font-size: 4rem;
+.item-view .empty-movie-list-container {
+  margin-top: 50px;
+}
+
+.item-view .empty-movie-list-container h3 {
+  padding: 10px;
+  font-size: 1.5rem;
   font-weight: bold;
   user-select: none;
+}
+
+.item-view .empty-movie-list-container p {
+  padding: 5px 0 0 10px;
+  font-size: 1rem;
 }
 
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
