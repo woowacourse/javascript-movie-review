@@ -8,8 +8,8 @@ class MovieModal {
   private _node!: HTMLElement;
   private body = document.querySelector('body') as HTMLBodyElement;
 
-  constructor() {
-    this.createTemplate();
+  constructor(movieId: number) {
+    this.createTemplate(movieId);
     this.initEventListener();
     this.body.classList.add('overflow-hidden');
   }
@@ -18,7 +18,7 @@ class MovieModal {
     return this._node;
   }
 
-  createTemplate() {
+  createTemplate(movieId: number) {
     this._node = document.createElement('div');
     this._node.classList.add('modal');
 
@@ -45,7 +45,7 @@ class MovieModal {
       `
     );
 
-    this._node.querySelector('.movie-detail-info')?.insertAdjacentElement('beforeend', new VoteMovie().node);
+    this._node.querySelector('.movie-detail-info')?.insertAdjacentElement('beforeend', new VoteMovie(movieId).node);
   }
 
   updateMovieDetail(movieDetail: MovieDetail) {

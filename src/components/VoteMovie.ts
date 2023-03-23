@@ -1,5 +1,6 @@
 import starEmpty from '../asset/star_empty.png';
 import starFilled from '../asset/star_filled.png';
+import handleLocalStorage from '../libs/handleLocalStorage';
 
 class VoteMovie {
   private _node!: HTMLElement;
@@ -13,8 +14,12 @@ class VoteMovie {
     '명작이에요',
   ] as const;
   private score: (typeof this.scores)[number] = 0;
+  private movieId: number | null = null;
 
-  constructor() {
+  constructor(movieId: number) {
+    this.score = handleLocalStorage.getMovieStar(movieId) as 0 | 1 | 2 | 3 | 4 | 5;
+    this.movieId = movieId;
+
     this.createTemplate();
     this.insertStar(this.score);
     this.initEventHandler();
@@ -81,10 +86,10 @@ class VoteMovie {
 
     const $votedResult = document.querySelector<HTMLDivElement>('.voted-result');
 
-    if (!$votedResult) return;
+    if (!$votedResult || !this.movieId) return;
 
     const starCount = Number(star.dataset.starCount) as 1 | 2 | 3 | 4 | 5;
-
+    handleLocalStorage.setMovieStar(this.movieId, starCount);
     this.score = starCount;
     this.insertStar(this.score);
     $votedResult.innerHTML = this.calculateVotedResult();
