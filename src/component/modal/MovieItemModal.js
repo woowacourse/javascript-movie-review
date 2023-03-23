@@ -17,10 +17,11 @@ class MovieItemModal extends CustomElement {
   }
 
   template(movieInfo) {
-    const { title, starRate, src, id, genres, description } = movieInfo;
+    const { title, starRate, src, genres, description } = movieInfo;
 
     return `
-    <dialog class="item-modal-container">
+    <div class="backdrop" ></div>
+    <div class="item-modal-container">
       <div class="item-modal-header">
         <div class='item-modal-title'>${title}</div>
         <button class="item-modal-close-button button" type="button">X</button>
@@ -44,7 +45,7 @@ class MovieItemModal extends CustomElement {
           </div>
         </div>
       </div>
-    </dialog>
+    </div>
     `;
   }
 
@@ -62,7 +63,6 @@ class MovieItemModal extends CustomElement {
       this.rerenderUserRate(rate);
     }
 
-    $(".item-modal-container").showModal();
     this.setEvent();
   }
 

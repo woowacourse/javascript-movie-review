@@ -8,8 +8,8 @@ class MovieHeader extends CustomElement {
       <a href='.'>
         <h1> <img src="./image/logo.png" alt="MovieList logo" /></h1>
       </a>
-      <search-input class="search-box"></search-input>
-      <search-button hidden></search-button>
+      <search-input class="search-box" hidden></search-input>
+      <search-button></search-button>
       `;
   }
 }
