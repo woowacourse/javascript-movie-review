@@ -1,5 +1,5 @@
 import { Movie } from '../type/Movie';
-import { MovieAPIData } from '../api/get';
+import { MovieAPIData, Genre } from '../api/types';
 
 const MovieHandler = {
   convertMovieList(moviesData: MovieAPIData[]) {
@@ -17,6 +17,10 @@ const MovieHandler = {
     });
 
     return movieList;
+  },
+
+  convertGenreList(genres: Genre[]) {
+    return genres.map((genre) => genre.name).join(', ');
   },
 };
 
