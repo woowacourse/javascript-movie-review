@@ -52,9 +52,6 @@ const MovieApp = {
 
     movieHandler.addMovies(movies.results);
 
-    if (movies.results.length < ConstantsNumber.ROAD_IMAGE_NUMBER)
-      this.$container.hiddenLoadMovieButton();
-
     movieList.render(movieHandler.movies);
   },
 
@@ -87,9 +84,6 @@ const MovieApp = {
     const movies = await this.fetchMovieData(() =>
       mostPopular(this.currentPageNumber++)
     );
-
-    if (this.currentPageNumber > ConstantsNumber.PAGE_MAX_NUMBER)
-      this.$container.hiddenLoadMovieButton();
 
     this.loadMovieData(movies);
   },

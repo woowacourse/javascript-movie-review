@@ -20,17 +20,22 @@ class MovieListContainer extends HTMLElement {
     this.innerHTML = /* html */ `
         <h2>${title}</h2>
         <movie-list class="item-list"></movie-list>
-        <button id="more-button" class="btn primary full-width">더 보기</button>
       `;
     this.addEvent();
   }
 
   addEvent() {
-    $("button", this)?.addEventListener("click", () => {
-      dispatchCustomEvent(this, {
-        eventType: "fetchMovieData",
-        data: this.contentTypeAttribute,
-      });
+    window.addEventListener("scroll", () => {
+      const windowHeight = window.innerHeight;
+      const fullHeight = document.body.scrollHeight;
+      const currentPosition = window.pageYOffset;
+
+      if (currentPosition + windowHeight >= fullHeight) {
+        dispatchCustomEvent(this, {
+          eventType: "fetchMovieData",
+          data: "popular",
+        });
+      }
     });
 
     $("movie-list")?.addEventListener("click", (event) => {
@@ -51,10 +56,6 @@ class MovieListContainer extends HTMLElement {
   changeTitle(query: string) {
     this.setAttribute("content-type", "search");
     this.render(query);
-  }
-
-  hiddenLoadMovieButton() {
-    $("button", this)?.classList.add("hidden");
   }
 
   displayErrorUI(message: string) {
