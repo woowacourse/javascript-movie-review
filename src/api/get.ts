@@ -84,3 +84,23 @@ export const searchedMovieDataFetchFuncGenerator = (query: string) => {
 
   return getSearchedMovieData;
 };
+
+export const getDetailMovieData: FetchDetailMovieData = async (movieId: string) => {
+  const url = `${BASE_URL}/movie/${movieId}?api_key=${process.env.API_KEY}&language=ko-KR`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    const data: FaildResponse = await response.json();
+    const { status_code: statusCode, status_message: statusMessage } = data;
+
+    return { isOk: response.ok, statusCode, statusMessage };
+  }
+
+  const data: DetailMovieAPIData = await response.json();
+
+  const { id, title, poster_path: posterPath, vote_average: voteAverage } = data;
+  const genres = MovieHandler.convertGenreList(data.genres);
+
+  return { isOk: response.ok, id, title, posterPath, voteAverage, genres };
+};
