@@ -242,3 +242,42 @@ movie-list-title {
   padding: 15px 30px;
   border-radius: 10px;
 }
+
+modal-component {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+
+  overflow: none;
+  background-color: rgba(0, 0, 0, 0.6);
+  /* body.style.overflow = hidden */
+}
+
+.modal-body {
+  background-color: #222222;
+  color: white;
+  padding: 0 32px;
+}
+
+.content-header {
+  display: flex;
+}
+
+.content-body {
+  display: flex;
+}
+
+.movie-detail-header {
+  display: flex;
+}
+
+body {
+  overflow: hidden;
+}
