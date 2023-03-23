@@ -1,5 +1,5 @@
 import { StarFilled, AddSkeleton, ErrorNoAvailable } from "../../images";
-import { $ } from "../utils/dom";
+import { $, dispatchCustomEvent } from "../utils/dom";
 
 class MovieItem extends HTMLElement {
   constructor() {
@@ -43,6 +43,7 @@ class MovieItem extends HTMLElement {
     $(".item-thumbnail", this)?.addEventListener("error", () =>
       this.loadErrorImage()
     );
+    this.addEventListener("click", () => this.onClickMovieDetail());
   }
 
   removeSkeletonUI() {
@@ -55,6 +56,17 @@ class MovieItem extends HTMLElement {
       targetImage.classList.remove("skeleton");
       targetImage.src = `${ErrorNoAvailable}`;
     }
+  }
+
+  onClickMovieDetail() {
+    const target = document.querySelector<HTMLImageElement>(
+      "movie-list-container"
+    );
+    if (target)
+      dispatchCustomEvent(target, {
+        eventType: "clickMovieDetail",
+        data: this.getAttribute("movieID"),
+      });
   }
 }
 

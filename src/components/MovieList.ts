@@ -14,6 +14,7 @@ class MovieList extends HTMLElement {
               .map(
                 (movie) => /* html */ `
                   <movie-item
+                    movieID="${movie.id}"
                     poster-path="${movie.poster_path}"
                     title="${movie.title}"
                     vote_average="${movie.vote_average}"
