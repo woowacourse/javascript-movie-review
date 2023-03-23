@@ -31,3 +31,8 @@ export type Genre = {
   id: number;
   name: string;
 };
+
+export interface Modal {
+  id: number;
+  index: number;
+}

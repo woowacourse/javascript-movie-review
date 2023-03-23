@@ -1,5 +1,7 @@
+import { getSavedData } from "./../utils/localStorage";
 import { StarFilled, StarEmpty } from "../../images";
 import { $, $$ } from "../utils/dom";
+import { saveData } from "../utils/localStorage";
 
 class Vote extends HTMLElement {
   constructor() {
@@ -8,7 +10,6 @@ class Vote extends HTMLElement {
 
   connectedCallback() {
     this.render();
-    this.addEvent();
   }
 
   render() {
@@ -16,40 +17,42 @@ class Vote extends HTMLElement {
       <div class="user-vote">
         <span class="vote-title">내 별점</span>
         <div class="vote-stars">
-          <img class="star-icon" data-order="1" src="${StarEmpty}" alt="start-empty" />
-          <img class="star-icon" data-order="2" src="${StarEmpty}" alt="start-empty" />
-          <img class="star-icon" data-order="3" src="${StarEmpty}" alt="start-empty" />
-          <img class="star-icon" data-order="4" src="${StarEmpty}" alt="start-empty" />
-          <img class="star-icon" data-order="5" src="${StarEmpty}" alt="start-empty" />
+          <img class="star-icon" data-order="1" src="${StarEmpty}" alt="start" />
+          <img class="star-icon" data-order="2" src="${StarEmpty}" alt="start" />
+          <img class="star-icon" data-order="3" src="${StarEmpty}" alt="start" />
+          <img class="star-icon" data-order="4" src="${StarEmpty}" alt="start" />
+          <img class="star-icon" data-order="5" src="${StarEmpty}" alt="start" />
         </div>
         <span class="vote-score">0</span>
         <span class="vote-message">별점을 눌러주세요</span>
       </div>`;
+
+    this.judgeProcess();
   }
 
-  addEvent() {
-    const id = this.getAttribute("modal-id");
+  judgeProcess() {
+    const id = Number(this.getAttribute("modal-id"));
+    const order = getSavedData("modalData")[id];
 
+    if (order) {
+      this.renderScoreAndMessage(order);
+    }
+    this.addClickStarEvent();
+  }
+
+  addClickStarEvent() {
     $(".vote-stars")?.addEventListener("click", (event) => {
-      this.onHandleVoteData(event);
-    });
-  }
+      const id = Number(this.getAttribute("modal-id"));
+      const target = <HTMLElement>event.target;
+      const order = Number(
+        (<HTMLElement>target.closest(".star-icon"))?.dataset.order
+      );
 
-  onHandleVoteData(event: Event) {
-    const target = <HTMLElement>event.target;
-    const order = Number(
-      (<HTMLElement>target.closest(".star-icon"))?.dataset.order
-    );
+      if (!id) return;
+      if (!order) return;
 
-    if (!order) return;
-
-    this.renderStar(order);
-    this.renderScoreAndMessage(order);
-  }
-
-  renderStar(order: number) {
-    $$(".star-icon")?.forEach((star, index) => {
-      (<HTMLImageElement>star).src = index < order ? StarFilled : StarEmpty;
+      this.renderScoreAndMessage(order);
+      this.saveUserOrder(id, order);
     });
   }
 
@@ -60,25 +63,33 @@ class Vote extends HTMLElement {
 
     if ($voteScore) $voteScore.textContent = String(order * 2);
     if ($voteMessage) $voteMessage.textContent = message;
+
+    this.renderStar(order);
   }
 
-  showMessage(score: number) {
+  renderStar(order: number) {
+    $$(".star-icon")?.forEach((star, index) => {
+      (<HTMLImageElement>star).src = index < order ? StarFilled : StarEmpty;
+    });
+  }
+
+  showMessage(order: number) {
     let message = "";
 
-    switch (score) {
-      case 2:
+    switch (order) {
+      case 1:
         message = "최악이예요";
         break;
-      case 4:
+      case 2:
         message = "별로예요";
         break;
-      case 6:
+      case 3:
         message = "보통이에요";
         break;
-      case 8:
+      case 4:
         message = "재미있어요";
         break;
-      case 10:
+      case 5:
         message = "명작이에요";
         break;
       default:
@@ -86,6 +97,15 @@ class Vote extends HTMLElement {
         break;
     }
     return message;
+  }
+
+  saveUserOrder(id: number, order: number) {
+    const userData = {
+      ...getSavedData("modalData"),
+      [id]: order,
+    };
+
+    saveData("modalData", userData);
   }
 }
 

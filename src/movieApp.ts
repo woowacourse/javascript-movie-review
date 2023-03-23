@@ -37,6 +37,12 @@ const MovieApp = {
       "searchMovieData",
       ({ detail }: CustomEventInit) => this.searchMovieData(detail)
     );
+    $("movie-vote")?.addEventListener(
+      "voteStarIndex",
+      ({ detail }: CustomEventInit) => {
+        this.onHandleModal(detail);
+      }
+    );
   },
 
   async loadMovieData(movies: ResponseData | undefined) {

@@ -326,20 +326,20 @@ movie-list:has(.not-search) {
 movie-vote {
   display: inline-block;
   margin: 10px;
-  transform: translateY(8px);
-}
-
-.user-vote-star {
-  cursor: pointer;
-  width: 32px;
-  height: 32px;
 }
 
 .vote-review {
   margin-left: 10px;
 }
 
+.vote-stars {
+  display: inline-block;
+  margin: 0 10px;
+  transform: translateY(8px);
+}
+
 .star-icon {
+  cursor: pointer;
   width: 30px;
   height: 30px;
 }
