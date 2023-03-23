@@ -42,18 +42,6 @@ export class MovieDatail {
               <div class="modal__description">
                 ${this._overView}
               </div>
-              <section class="score">
-                <strong class="my-score">내 별점</strong>
-                <div class="score__img-wrapper">
-                  <img src="/star_filled.png" />
-                  <img src="/star_filled.png" />
-                  <img src="/star_filled.png" />
-                  <img src="/star_filled.png" />
-                  <img src="/star_filled.png" />
-                </div>
-                <strong class="score__count">6</strong>
-                <strong class="score__comment">보통이에요</strong>
-              </section>
             </article>
           </main>
         </section>
@@ -61,7 +49,7 @@ export class MovieDatail {
   }
 
   render() {
-    const body = $("body") as HTMLBodyElement;
+    const body = $("body") as HTMLElement;
     body.insertAdjacentHTML("afterbegin", this.create());
   }
 
