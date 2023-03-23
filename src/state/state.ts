@@ -1,7 +1,7 @@
-import { CustomProxy } from '../types/proxy';
+import { Movie } from '../types/movie';
 
-export const movie = { list: '', query: '', currentPage: 1, totalPages: 1 };
+export const movie: Movie = { list: [''], query: '', currentPage: 1, totalPages: 1, isClicked: false };
 
-export const proxy: CustomProxy = {
-  movie: { list: '', query: '', currentPage: 1, totalPages: 1 },
+export const proxy: { movie: Movie } = {
+  movie: { list: [''], query: '', currentPage: 1, totalPages: 1, isClicked: false },
 };

@@ -1,6 +1,6 @@
 import '../css/reset.css';
 import '../css/common.css';
-import { proxy } from './state/state';
+import { movie, proxy } from './state/state';
 import { initProxy } from './domains/proxy';
 import { getPopularMovieList } from './domains/movieApi';
 import { generateMovieListTemplate } from './components/templates/movieList';
@@ -18,14 +18,14 @@ const App = {
     customElements.define('custom-header', CustomHeader);
     customElements.define('movie-container', MovieContainer);
     CustomHeader.render();
-    MovieContainer.initRender();
+    MovieContainer.render();
   },
 
   initState() {
     getPopularMovieList().then(movieRoot => {
       const movieResults = movieRoot.results;
-      proxy.movie.totalPages = movieRoot.total_pages;
-      proxy.movie.list = generateMovieListTemplate(movieResults);
+      movie.totalPages = movieRoot.total_pages;
+      proxy.movie.list = [generateMovieListTemplate(movieResults)];
     });
   },
 };

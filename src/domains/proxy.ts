@@ -2,16 +2,17 @@ import MovieContainer from '../components/MovieContainer';
 import { movie, proxy } from '../state/state';
 import { MovieProxy } from '../types/proxy';
 
-const handleList = (target: MovieProxy, props: string, value: string) => {
+const handleList = (target: MovieProxy, props: string, value: string[]) => {
   target[props] = value;
-  MovieContainer.renderContents(value);
+  const movieListTemplate = value.join('');
+  MovieContainer.renderContents(movieListTemplate);
 
   return true;
 };
 
 const movieProxyHandler = {
-  set: (target: MovieProxy, props: string, value: string | number) => {
-    if (props === 'list' && typeof value === 'string') {
+  set: (target: MovieProxy, props: string, value: string[]) => {
+    if (typeof value === typeof ['']) {
       return handleList(target, props, value);
     }
 

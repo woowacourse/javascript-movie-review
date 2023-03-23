@@ -1,5 +1,5 @@
 import '../../css/custom-header.css';
-import { $ } from '../utils/dom';
+import { $, $$ } from '../utils/dom';
 import { proxy } from '../state/state';
 import { movie } from '../state/state';
 import { getFormData } from '../utils/form';
@@ -40,6 +40,7 @@ class CustomHeader extends HTMLElement {
     if (formData instanceof Object) {
       const queryValue = Object.fromEntries(formData);
       const value = queryValue['search-input'] as string;
+
       if (movie.query === value) {
         return;
       }
@@ -51,9 +52,10 @@ class CustomHeader extends HTMLElement {
 
   private storeSearchedMovieList() {
     movie.currentPage = 1;
+
     searchMovieList(movie.query, movie.currentPage).then(movieRoot => {
       movie.totalPages = movieRoot.total_pages;
-      proxy.movie.list = generateMovieListTemplate(movieRoot.results);
+      proxy.movie.list = [generateMovieListTemplate(movieRoot.results)];
     });
   }
 

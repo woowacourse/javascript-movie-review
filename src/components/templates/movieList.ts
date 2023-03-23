@@ -26,22 +26,32 @@ export const generateMovieListTemplate = (movieList: MovieResult[]) => {
     .map(movie => generateMovieItemTemplate({ src: movie.poster_path, title: movie.title, score: movie.vote_average }))
     .join('');
 
-  if (!movieItemTemplateList) {
+  return (
+    movieItemTemplateList ||
     /* html */
-    return `
+    `
 			<div class="empty-movie-list-container">
 				<h3>찾을 수 없는 영화 이름입니다 🥲</h3>
 				<p>단어의 철자가 정확한지 확인해 보세요.</p>
 				<p>검색어의 단어 수를 줄이거나, 보다 일반적인 검색어로 다시 검색해 보세요.</p>
 				<p>두 단어 이상의 검색어인 경우, 띄어쓰기를 확인해보세요.</p>
 			</div>
-		`;
-  }
+		`
+  );
+};
 
+const skeletonItem =
   /* html */
-  return `
-		<ul class="item-list">
-			${movieItemTemplateList}
-		</ul>
+  `
+		<li>
+			<a href="#">
+				<div class="item-card">
+					<div class="item-thumbnail skeleton"></div>
+				</div>
+			</a>
+		</li>
 	`;
+
+export const generateSkeletonItemList = () => {
+  return Array.from({ length: 20 }, () => skeletonItem).join('');
 };
