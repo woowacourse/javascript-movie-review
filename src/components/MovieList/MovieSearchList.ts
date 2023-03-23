@@ -1,3 +1,4 @@
+import { cache } from '../../utils/cache';
 import MovieList from './abstract/MovieList';
 
 export default class MovieSearchList extends MovieList {
@@ -20,6 +21,8 @@ export default class MovieSearchList extends MovieList {
     if (!this.state.getValue('isSearched')) return;
 
     this.searchFirstQuery(query);
+
+    cache.popularPage.add(this.state.getValue('popularPage'));
 
     this.state.setValue('isLoading', true);
     this.state.setValue('movies', []);

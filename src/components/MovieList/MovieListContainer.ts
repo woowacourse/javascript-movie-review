@@ -1,9 +1,14 @@
+import { subscribeStateInfo } from './../atoms/Observer';
 import Component from '../core/Component';
 
 // components
 import MovieItem from '../MovieItem';
 import MoviePopularList from './MoviePopularList';
 import MovieSearchList from './MovieSearchList';
+
+// utils
+import { scrollHook } from '../../utils/infiniteScroll';
+import { cache } from '../../utils/cache';
 
 type MovieListProps = {
   $target: HTMLElement;
@@ -39,5 +44,19 @@ export default class MovieListContainer extends Component {
 
   render() {
     this.$target.insertAdjacentHTML('beforeend', this.template());
+
+    this.setEvent();
+  }
+
+  setEvent() {
+    if (
+      cache.popularPage.has(this.state.getValue('popularPage')) ||
+      cache.searchPage.has(this.state.getValue('searchPage'))
+    )
+      return;
+
+    if (!(this.$target.lastElementChild instanceof Element)) return;
+
+    scrollHook(() => this.fetchData()).observe(this.$target.lastElementChild);
   }
 }

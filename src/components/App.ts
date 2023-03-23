@@ -38,7 +38,6 @@ export default class App {
         <h2 class="movie-list-title"></h2>
         <ul class="item-list movie-container"></ul>
         <ul class="item-list skeleton-container"></ul>
-        <button class="btn primary full-width"></button>
         </section>
       </main>
     `;
@@ -73,24 +72,17 @@ export default class App {
       components: { search: this.components.searchMovieList },
     });
 
-    this.components.seeMore = new SeeMore({
-      $target: $('.btn'),
-      components: { movieList: this.components.movieListContainer },
-    });
-
     this.components.skeleton = new Skeleton($('.skeleton-container'));
   }
 
   mounted() {
     this.makeComponent();
 
-    const { header, movieListContainer, title, seeMore, skeleton } =
-      this.components;
+    const { header, movieListContainer, title, skeleton } = this.components;
 
     header?.render().setEvent();
     title?.render();
     movieListContainer?.fetchData();
-    seeMore?.render().setEvent();
     skeleton?.render();
   }
 }
