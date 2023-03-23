@@ -12,7 +12,7 @@ export class App {
   constructor() {
     const $header = $("header");
     const $movieList = $(".item-list");
-    const $modal = $(".modal");
+    const $modal = $(".modal-content");
 
     this.#header = new Header(
       $header,

@@ -38,10 +38,27 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 
   height: 60px;
 
   border-bottom: 1px solid #f1f1f1;
+}
+
+.modal-header--text {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.x-button {
+  width: 36px;
+  height: 36px;
+
+  position: absolute;
+  top: 12px;
+  right: 22px;
+
+  cursor: pointer;
 }
 
 .modal-content {
@@ -73,15 +90,39 @@
 .modal-movie-detail {
   width: 438px;
   height: 433px;
+
+  position: relative;
 }
 
 .modal-movie-genre {
   display: flex;
   align-items: center;
   gap: 10px;
+
+  margin-bottom: 10px;
 }
 
 .modal-movie-genre > span {
   display: flex;
   align-items: center;
+}
+
+.modal-detail--text {
+  font-size: 16px;
+}
+
+.modal-star-rate {
+  width: 438px;
+  height: 64px;
+  padding: 0 16px;
+  position: absolute;
+  bottom: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  border-radius: 16px;
+  background-color: #383839;
+  font-weight: bold;
 }
