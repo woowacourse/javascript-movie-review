@@ -57,8 +57,8 @@ class MovieList {
     const { type, searchKeyword } = this.#props;
     const $titleForMovieContents = this.$target.querySelector(".search-title");
 
-    if ($titleForMovieContents instanceof HTMLHeadElement) {
-      $titleForMovieContents.innerText =
+    if ($titleForMovieContents) {
+      $titleForMovieContents.textContent =
         title || (type === "popular" ? "지금 인기있는 영화" : `"${searchKeyword}" 검색결과`);
     }
   }
