@@ -1,6 +1,5 @@
 header {
   width: 100%;
-  /* min-width: 1200px; */
   height: 72px;
   background-color: #222;
   display: flex;
@@ -36,4 +35,66 @@ header .search-box > .search-button {
   text-indent: -1000rem;
   background: url("../../images/search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+.input-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.search-icon {
+  display: none;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  background-image: url("../../images/search_button.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+
+@media screen and (max-width: 767px) {
+  .search-input {
+    width: 0;
+    height: 100%;
+    padding: 0;
+    visibility: hidden;
+    transition: width 0.3s ease-in-out, padding 0.3s ease-in-out;
+  }
+
+  .search-box {
+    width: 32px;
+  }
+
+  .search-button {
+    display: none;
+  }
+
+  .search-icon {
+    display: block;
+    right: -348%;
+  }
+
+  .input-wrapper.expanded {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 2;
+  }
+
+  .input-wrapper.expanded .search-input {
+    width: 93%;
+    height: 50px;
+    margin-top: 10px;
+    padding: 4px 8px;
+    visibility: visible;
+    border-radius: 8px;
+  }
 }
