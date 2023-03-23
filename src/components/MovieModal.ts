@@ -2,14 +2,20 @@ import MovieSummary from "../type/MovieInfo";
 import { $ } from "../util/querySelector";
 
 const modalTemplate = `
-<div class="modal-header">
+<section class="modal-header">
   <h1></h1>
   <button type="button" class="modal-close">&times;</button>
-</div>
-<div class="movie-poster"></div>
-<div class="movie-info">
-</div>
-  `.trim();
+</section>
+<section class="movie-poster"></section>
+<section class="movie-info">
+  <div>
+    <span class="genres"></span>
+    <span class="rating"></span>
+  </div>
+  <p class="overview"></p>
+  <div class="star"></div>
+</section>
+`.trim();
 
 class MovieModal {
   private readonly element;
@@ -23,7 +29,22 @@ class MovieModal {
   }
 
   render(info?: MovieSummary) {
-    if (info) $('h1', this.element).textContent = info.genreList.join(', ');
+    if (!info) return this.element;
+
+    const { title, genreList, overview, posterPath, voteAverage } = info;
+
+    $('h1', this.element).textContent = title;
+    $('.genres', this.element).textContent = genreList.join(', ');
+    $('.rating', this.element).innerHTML = 
+      `<img class="rating-icon" src="./assets/star_filled.png" alt="별점">${voteAverage.toFixed(1).toString()}`
+    $('.overview', this.element).textContent = overview;
+    $('.movie-poster', this.element).innerHTML = '<div class="item-thumbnail skeleton"></div>';
+
+    const poster = document.createElement('img');
+    poster.addEventListener('load', () => $('.skeleton', this.element).replaceWith(poster));
+    poster.setAttribute('src', `https://image.tmdb.org/t/p/w500${posterPath}`);
+    poster.setAttribute('alt', `영화 '${title}'의 포스터 사진`);
+
     return this.element;
   }
 

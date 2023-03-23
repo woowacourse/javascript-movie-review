@@ -102,7 +102,8 @@ button.primary {
   background: #f33f3f;
 }
 
-.item-card .skeleton {
+.item-card .skeleton,
+.movie-poster .skeleton {
   background: linear-gradient(-90deg, #aaaaaa, #f0f0f0, #aaaaaa, #f0f0f0);
   background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
