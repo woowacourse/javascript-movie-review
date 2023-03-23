@@ -1,6 +1,7 @@
 import { MovieData } from '../api/movies';
 
 export interface Movie {
+  id: MovieData['id'];
   title: MovieData['title'];
   posterPath: MovieData['poster_path'];
   voteAverage: MovieData['vote_average'];
@@ -15,7 +16,8 @@ const movieService: MovieService = {
   movies: [],
 
   resultsToMovies(results) {
-    return results.map(({ title, poster_path, vote_average }) => ({
+    return results.map(({ id, title, poster_path, vote_average }) => ({
+      id,
       title,
       posterPath: poster_path,
       voteAverage: vote_average,

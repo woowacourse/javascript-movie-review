@@ -40,8 +40,9 @@ export const renderList = (movies: Movie[]) => {
     'beforeend',
     /* html */ ` ${movies
       .map(
-        ({ title, posterPath, voteAverage }) => /* html */ `
-            <movie-list-item 
+        ({ id, title, posterPath, voteAverage }) => /* html */ `
+            <movie-list-item
+              data-id="${id}" 
               title="${title}" 
               poster-path="${posterPath}" 
               vote-average="${voteAverage}"
