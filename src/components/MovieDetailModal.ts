@@ -1,11 +1,12 @@
 import CustomModal from './common/CustomModal';
 import DefaultPoster from '../../images/default_poster.png';
 
-import { STAR_FILLED_ICON } from '../icons';
+import { STAR_EMPTY_ICON_LARGE, STAR_FILLED_ICON } from '../icons';
 
 import { $ } from '../utils/domUtils';
 
 import { MovieDetailResponse } from '../domain/remotes/movieDetail';
+import { MODAL_SKELETON_TEMPLATE } from '../constants';
 
 class MovieDetailModal extends HTMLElement {
   render(movieDetail: MovieDetailResponse) {
@@ -37,18 +38,23 @@ class MovieDetailModal extends HTMLElement {
           <p class="overview">${overview === '' ? '등록된 줄거리가 없습니다.' : overview}</p>
           <section class="vote">
             <p class="my-vote">내 별점</p>
+            <div class="icon-container">
+              ${STAR_EMPTY_ICON_LARGE.repeat(5)}
+            </div>
           </section>
         </section>
       </div>
     `;
 
     this.bindEvents();
-    const $customModal = $('custom-modal') as CustomModal;
-    $customModal.openModal();
   }
 
   bindEvents() {
     $('.modal-close-button')?.addEventListener('click', () => this.handleCloseButtonClick());
+  }
+
+  showSkeleton() {
+    this.innerHTML = MODAL_SKELETON_TEMPLATE;
   }
 
   handleCloseButtonClick() {

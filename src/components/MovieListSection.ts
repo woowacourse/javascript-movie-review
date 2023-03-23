@@ -1,10 +1,10 @@
 import MovieDetailModal from './MovieDetailModal';
 
+import CustomModal from './common/CustomModal';
+
 import { SKELETON_TEMPLATE } from '../constants';
 
 import { $, dispatchCustomEvent } from '../utils/domUtils';
-
-import { fetchMovieDetail, MovieDetailResponse } from '../domain/remotes/movieDetail';
 
 class MovieListSection extends HTMLElement {
   constructor() {
@@ -28,7 +28,7 @@ class MovieListSection extends HTMLElement {
     });
   }
 
-  async handleListItemClick(e: Event) {
+  handleListItemClick(e: Event) {
     e.preventDefault();
 
     const $target = e.target as HTMLElement;
@@ -37,20 +37,26 @@ class MovieListSection extends HTMLElement {
     if (!$movieListItem) return;
 
     const id = $movieListItem.dataset.id;
-    const movieDetail = await fetchMovieDetail(Number(id));
 
-    this.renderMovieDetailModal(movieDetail);
+    this.renderMovieDetailModal(Number(id));
   }
 
-  renderMovieDetailModal(movieDetail: MovieDetailResponse) {
+  renderMovieDetailModal(movieId: number) {
     const $modalContainer = $('.modal-container');
-
     if (!$modalContainer) return;
-
     $modalContainer.innerHTML = `<movie-detail-modal></movie-detail-modal>`;
 
+    const $customModal = $('custom-modal') as CustomModal;
+    $customModal.openModal();
+
+    this.fetchMovieDetail(movieId);
+  }
+
+  async fetchMovieDetail(movieId: number) {
     const $movieDetailModal = $('movie-detail-modal') as MovieDetailModal;
-    $movieDetailModal.render(movieDetail);
+    $movieDetailModal.showSkeleton();
+    // const movieDetail = await fetchMovieDetail(movieId);
+    // $movieDetailModal.render(movieDetail);
   }
 }
 
