@@ -36,9 +36,12 @@ custom-header .search-input {
 }
 
 custom-header .search-button {
-  width: 14px;
   border: 0;
-  text-indent: -1000rem;
-  background: url('../src/assets/search_button.png') transparent no-repeat 0 1px;
+  margin-top: 1px;
+  background: transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+custom-header .search-button img {
+  width: 14px;
 }
