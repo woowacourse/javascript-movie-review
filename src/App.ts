@@ -44,17 +44,6 @@ class App {
 
     stateRender.renderPopularMovies();
   }
-
-  renderMoreInfo() {
-    const states = stateRender.getMovieState();
-    const { nextPage, category, query } = states;
-    if (category === 'popular') {
-      stateRender.renderPopularMovies(nextPage);
-      return;
-    }
-
-    stateRender.renderSearchedMovies(query, nextPage);
-  }
 }
 
 export default App;

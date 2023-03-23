@@ -1,5 +1,6 @@
 import MovieCard from './MovieCard';
 import stateRender from '../renderer/StateRender';
+import { createInfiniteScrollObserver } from '../utils/observer';
 
 class MovieList {
   #$ul = document.createElement('ul');
@@ -31,6 +32,9 @@ class MovieList {
     for (const child of template) {
       this.#$ul.insertAdjacentElement('beforeend', child);
     }
+
+    const $lastChild = this.#$ul.lastElementChild;
+    if ($lastChild) createInfiniteScrollObserver($lastChild);
 
     $target.insertAdjacentElement('beforeend', this.#$ul);
   }

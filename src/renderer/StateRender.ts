@@ -116,6 +116,23 @@ class StateRender {
     } catch (error) {}
   }
 
+  renderMoreMovieList() {
+    const states = this.getMovieState();
+    const { nextPage, category, query } = states;
+
+    if (nextPage === -1) {
+      console.log('마지막 페이지입니다.');
+      return;
+    }
+
+    if (category === 'popular') {
+      this.renderPopularMovies(nextPage);
+      return;
+    }
+
+    this.renderSearchedMovies(query, nextPage);
+  }
+
   #renderWholeComponent() {
     this.#listTitleRender();
     this.#movieListRender();
@@ -138,6 +155,7 @@ class StateRender {
   }
 
   #setMovies({ results, total_pages, page }: IMovieHandleProps<IMovieItemProps>) {
+    console.log(total_pages, page, '@');
     this.#movieState.results = results;
     this.#movieState.nextPage = total_pages === page ? -1 : page + 1;
     this.#movieState.error = '';
