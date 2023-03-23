@@ -20,7 +20,7 @@ const Movie = assemble<MovieProps>((props) => {
 
   const $events: Event[] = [];
   const $template = getElement(`
-      <li class="item--movie" data=id=${id}>
+      <li class="item--movie" data-id=${id}>
         <a href="#">
           <div class="item-card movie">
             ${
@@ -36,7 +36,7 @@ const Movie = assemble<MovieProps>((props) => {
             <p class="item-score"><img src="./star_filled.png" alt="별점" />${vote_average}</p>
           </div>
         </a>
-    </li>
+      </li>
   `);
 
   return [$template, $events];
