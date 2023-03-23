@@ -12,7 +12,7 @@ export default class MovieCard extends HTMLElement {
   }
 
   get movieId() {
-    return this.getAttribute("movieId");
+    return Number(this.getAttribute("movieId"));
   }
 
   connectedCallback() {
@@ -55,7 +55,7 @@ export default class MovieCard extends HTMLElement {
         new CustomEvent("send-my-rating", {
           bubbles: true,
           detail: {
-            movieId: Number(this.movieId),
+            movieId: this.movieId,
             movieTitle: this.movieTitle,
           },
         })

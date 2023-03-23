@@ -1,10 +1,15 @@
 import { getMovieDetail } from "../utils/fetch";
 
 export default class MovieModal extends HTMLElement {
-  #state = {
+  #state: {
+    poster: string;
+    rating: number;
+    overview: string;
+    comment: string;
+    genre: string;
+  } = {
     poster: "",
     rating: 0,
-    myRating: 0,
     overview: "",
     comment: "",
     genre: "",
@@ -22,36 +27,24 @@ export default class MovieModal extends HTMLElement {
     return Number(this.getAttribute("my-rating"));
   }
 
-  static get observedAttributes() {
-    return ["movie-id", "my-rating"];
-  }
-
-  async attributeChangedCallback() {
-    if (this.movieId) {
-      await this.getDetail();
-    }
-    this.render();
-    this.setEvent();
-    this.setState({ myRating: this.myRating });
-  }
-
-  connectedCallback() {
+  async connectedCallback() {
+    await this.getDetail();
     this.render();
     this.setEvent();
   }
 
   render() {
-    const { poster, rating, myRating, overview, comment, genre } = this.#state;
+    const { poster, rating, overview, genre } = this.#state;
     this.innerHTML = /*html*/ `
         <div class="modal">
             <div class="modal-content">
                 <button class="exit-button">X</button>
                 <h2>${this.movieTitle}</h2>
                 <div class="w-full h-full flex align-center justify-between p-32">
-                  <img class="modal-image skeleton" src='https://image.tmdb.org/t/p/w220_and_h330_face${poster}'/>
+                  <img class="modal-image skeleton" src='https://image.tmdb.org/t/p/original${poster}'/>
                   <div class="w-full h-full flex flex-column p-16 relative">
                     <div class="w-full flex align-center skeleton">
-                      <p class="mr-16">${genre}</p>
+                      <p class="mr-16 hidden">${genre}</p>
                       <div class="flex align-center">
                         <img class="star-filled mr-4 hidden" alt="별점" />
                         <p class="skeleton">${rating}</p>
@@ -60,27 +53,9 @@ export default class MovieModal extends HTMLElement {
                     <p class="mt-16 skeleton">${
                       overview ? overview : '" 제공된 줄거리가 없습니다. "'
                     }</p>
-                    <div class="rating-box flex align-center  skeleton">
-                      <p class="mr-16">내 별점</p>
-                      <img class="star-${
-                        myRating >= 2 ? "filled" : "empty"
-                      } mr-4" alt="별점" />
-                      <img class="star-${
-                        myRating >= 4 ? "filled" : "empty"
-                      } mr-4" alt="별점" />
-                      <img class="star-${
-                        myRating >= 6 ? "filled" : "empty"
-                      } mr-4" alt="별점" />
-                      <img class="star-${
-                        myRating >= 8 ? "filled" : "empty"
-                      } mr-4" alt="별점" />
-                      <img class="star-${
-                        myRating >= 10 ? "filled" : "empty"
-                      } mr-4" alt="별점" />
-                      <h4 class="ml-12 mr-12">${myRating}</h4>
-                      <h4>${comment}</h4>
-                    </div>
-                  </div>
+                    <rating-box my-rating="${this.myRating}" movie-id="${
+      this.movieId
+    }"></rating-box>
                 </div>
             </div> 
         </div>
@@ -88,29 +63,12 @@ export default class MovieModal extends HTMLElement {
   }
 
   setEvent() {
-    const $stars = this.querySelectorAll(".rating-box img");
-
     this.addEventListener("click", this.exitModal);
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
         this.remove();
-        this.dispatchEvent(
-          new CustomEvent("set-my-rating", {
-            bubbles: true,
-            detail: { movieId: this.movieId, myRating: this.#state.myRating },
-          })
-        );
       }
-    });
-
-    $stars?.forEach((star, index) => {
-      star.addEventListener("click", (event) => {
-        this.setState({ myRating: (index + 1) * 2 });
-        this.changeComment();
-        this.render();
-        this.setEvent();
-      });
     });
 
     const $skeletonList = this.querySelectorAll(".skeleton");
@@ -129,21 +87,6 @@ export default class MovieModal extends HTMLElement {
     if (event.target === $exitButton || event.target === this) {
       this.remove();
     }
-
-    this.dispatchEvent(
-      new CustomEvent("set-my-rating", {
-        bubbles: true,
-        detail: { movieId: this.movieId, myRating: this.#state.myRating },
-      })
-    );
-  }
-
-  changeComment() {
-    if (this.#state.myRating === 2) this.#state.comment = "최악이예요";
-    if (this.#state.myRating === 4) this.#state.comment = "별로예요";
-    if (this.#state.myRating === 6) this.#state.comment = "보통이에요";
-    if (this.#state.myRating === 8) this.#state.comment = "재미있어요";
-    if (this.#state.myRating === 10) this.#state.comment = "명작이에요";
   }
 
   async getDetail() {

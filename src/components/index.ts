@@ -5,6 +5,7 @@ import MovieHeader from "./MovieHeader";
 import MovieSearch from "./MovieSearch";
 import SkeletonList from "./SkeletonList";
 import MovieModal from "./MovieModal";
+import RatingBox from "./RatingBox";
 
 export {
   MovieCardList,
@@ -14,4 +15,5 @@ export {
   MovieSearch,
   SkeletonList,
   MovieModal,
+  RatingBox,
 };
