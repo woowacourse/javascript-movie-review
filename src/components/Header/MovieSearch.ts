@@ -1,6 +1,8 @@
 import Header from '.';
 import MovieCardSection from '../MovieCardSection';
+import MobileSearchBox from './MobileSearchButton';
 
+import { searchButtonImage } from '../../assets/images';
 import { SEARCH_ERROR_MESSAGE } from '../../constants/message';
 import { ID } from '../../constants/selector';
 import { $ } from '../../utils/dom';
@@ -14,9 +16,12 @@ const MovieSearch = {
       <div class="search-box">
         <form id=${ID.MOVIE_SEARCH_FORM}>
           <input type="search" name="search-query" placeholder="검색" />
-          <button class="search-button">검색</button>
+          <button class="search-button">
+            <img src=${searchButtonImage} alt="영화 검색" />
+          </button>
         </form>
       </div>
+      ${MobileSearchBox.template()}
     `;
   },
 
