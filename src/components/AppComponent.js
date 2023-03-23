@@ -22,9 +22,7 @@ export default class AppComponent extends CustomComponent {
     this.#$movieListTitle = this.querySelector("movie-list-title");
     this.#$searchInput = this.querySelector("input");
 
-    this.popularListInit();
-    await this.renderListByData(ACTION.POPULAR);
-    this.loadIntersectionObserver(ACTION.POPULAR);
+    await this.popularListInit();
   }
 
   async loadIntersectionObserver(type) {
@@ -124,38 +122,31 @@ export default class AppComponent extends CustomComponent {
     this.loadIntersectionObserver(ACTION.SEARCH);
   }
 
-  popularListInit() {
+  async popularListInit() {
     this.#nextPage = 1;
 
     this.#$searchInput.value = "";
     this.#$movieListTitle.setTitle(TITLE.POPULAR);
     this.#$movieList.initialPage();
-  }
 
-  async popularListAction() {
-    this.popularListInit();
     await this.renderListByData(ACTION.POPULAR);
-  }
-
-  async searchListAction() {
-    await this.searchListInit();
-    await this.renderListByData(ACTION.SEARCH);
+    this.loadIntersectionObserver(ACTION.POPULAR);
   }
 
   async checkEventAction(e) {
     switch (e.target.dataset.action) {
       // 로고 눌렀을 때 액션
       case ACTION.POPULAR:
-        this.popularListAction();
+        await this.popularListInit();
         break;
       // 검색했을 때 액션
       case ACTION.SEARCH:
         // 검색 값이 없을 때 전체 리스트 보여줌.
         if (!this.#$searchInput.value) {
-          this.popularListAction();
+          await this.popularListInit();
           return;
         }
-        this.searchListAction();
+        await this.searchListInit();
         break;
     }
   }
@@ -171,12 +162,12 @@ export default class AppComponent extends CustomComponent {
         e.preventDefault();
 
         if (!this.#$searchInput.value) {
-          this.popularListAction();
+          await this.popularListInit();
           return;
         }
 
         this.querySelector("app-header").hideSearch();
-        this.searchListAction();
+        await this.searchListInit();
       }
     });
 
