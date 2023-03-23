@@ -1,19 +1,19 @@
-export enum REQUEST_MOVIES {
-  POPULARITY = 'popularity',
-  SEARCH = 'search',
-}
+export const REQUEST_MOVIES = {
+  POPULARITY: 'popularity',
+  SEARCH: 'search',
+};
 
-export enum UPDATE_TYPE {
-  OVERWRITE = 'overwrite',
-  APPEND = 'append',
-}
+export const UPDATE_TYPE = {
+  OVERWRITE: 'overwrite',
+  APPEND: 'append',
+};
 
-export enum IMAGE_URL {
-  BASE = 'https://image.tmdb.org/t/p/original',
-  ALTERNATIVE = './assets/no_image.png',
-  NO_RESULT = './assets/no_result.png',
-  ERROR_RESULT = './assets/error_result.png',
-}
+export const IMAGE_URL = {
+  BASE: 'https://image.tmdb.org/t/p/original',
+  ALTERNATIVE: './assets/no_image.png',
+  NO_RESULT: './assets/no_result.png',
+  ERROR_RESULT: './assets/error_result.png',
+};
 
 export const API_URL = {
   BASE: 'https://api.themoviedb.org/3/',
