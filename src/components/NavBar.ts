@@ -8,6 +8,7 @@ class NavBar {
   constructor() {
     $<HTMLDivElement>('#app').insertAdjacentHTML('afterbegin', this.template());
     this.addEventListenerToSearchInput();
+    this.addEventListenerToSearchBox();
   }
 
   static getInstance(): NavBar {
@@ -45,6 +46,17 @@ class NavBar {
       );
       MovieList.init(searchQuery);
       MovieList.getMovieData();
+    });
+  }
+
+  addEventListenerToSearchBox() {
+    $<HTMLFormElement>('#search-button').addEventListener('click', (event) => {
+      const target = event.target as HTMLButtonElement;
+
+      if (window.innerWidth <= 600) {
+        const form = target.closest('.search-box') as HTMLFormElement;
+        form.classList.toggle('search-box--expand');
+      }
     });
   }
 }

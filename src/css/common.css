@@ -144,7 +144,6 @@ button.primary:active {
 
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #141414;
   display: flex;
@@ -209,70 +208,6 @@ header .search-box > #search-button {
 
 .item-thumbnail {
   background-color: #232323;
-}
-
-@media screen and (max-width: 1280px) {
-  .item-list {
-    margin: 56px 0;
-    grid-template-columns: repeat(4, 180px);
-    grid-column-gap: 36px;
-    grid-row-gap: 56px;
-  }
-
-  .item-thumbnail {
-    width: 180px;
-    height: 270px;
-  }
-}
-
-@media screen and (max-width: 960px) {
-  .item-list {
-    grid-template-columns: repeat(3, 200px);
-  }
-
-  .item-thumbnail {
-    width: 200px;
-    height: 300px;
-  }
-}
-
-@media screen and (max-width: 720px) {
-  .item-list {
-    margin: 48px 0;
-    grid-template-columns: repeat(2, 250px);
-    grid-row-gap: 48px;
-  }
-
-  .item-thumbnail {
-    width: 250px;
-    height: 375px;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .item-view h2 {
-    font-size: 1.6rem;
-  }
-
-  .item-list {
-    margin: 36px 0;
-    grid-template-columns: repeat(2, 150px);
-    grid-column-gap: 24px;
-    grid-row-gap: 36px;
-  }
-
-  .item-thumbnail {
-    width: 150px;
-    height: 225px;
-  }
-
-  .item-title {
-    font-size: 1rem;
-  }
-
-  .item-score {
-    font-size: 0.9rem;
-  }
 }
 
 .modal {
@@ -468,5 +403,108 @@ header .search-box > #search-button {
   100% {
     bottom: -74px;
     opacity: 0;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .item-list {
+    margin: 56px 0;
+    grid-template-columns: repeat(4, 180px);
+    grid-column-gap: 36px;
+    grid-row-gap: 56px;
+  }
+
+  .item-thumbnail {
+    width: 180px;
+    height: 270px;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .item-list {
+    grid-template-columns: repeat(3, 200px);
+  }
+
+  .item-thumbnail {
+    width: 200px;
+    height: 300px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .item-list {
+    margin: 48px 0;
+    grid-template-columns: repeat(2, 250px);
+    grid-row-gap: 48px;
+  }
+
+  .item-thumbnail {
+    width: 250px;
+    height: 375px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .item-view h2 {
+    font-size: 1.6rem;
+  }
+
+  .item-list {
+    margin: 36px 0;
+    grid-template-columns: repeat(1, 280px);
+    grid-column-gap: 24px;
+    grid-row-gap: 36px;
+  }
+
+  .item-thumbnail {
+    width: 280px;
+    height: 420px;
+  }
+
+  .item-title {
+    font-size: 1rem;
+  }
+
+  .item-score {
+    font-size: 0.9rem;
+  }
+
+  header {
+    position: relative;
+  }
+
+  .search-box {
+    position: absolute;
+    right: 20px;
+    width: 35px;
+    height: 35px;
+    transition: width 0.2s;
+    background-color: transparent !important;
+  }
+
+  #search-input {
+    position: absolute;
+    width: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in 0.1s;
+  }
+
+  #search-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+
+  .search-box--expand {
+    width: calc(100vw - 40px);
+    background-color: #232323 !important;
+  }
+
+  .search-box--expand #search-input {
+    position: relative;
+    min-width: calc(100vw - 74px);
+    opacity: 1;
+    pointer-events: all;
   }
 }
