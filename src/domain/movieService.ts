@@ -1,4 +1,4 @@
-import { MovieData } from '../api';
+import { MovieData } from '../api/movies';
 
 export interface Movie {
   title: MovieData['title'];
