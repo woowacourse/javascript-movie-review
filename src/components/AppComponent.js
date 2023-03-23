@@ -37,7 +37,10 @@ export default class AppComponent extends CustomComponent {
       .then((res) => {
         const data = transData(res);
         this.#$movieList.renderPageSuccess(data.results);
+
         this.#nextPage += 1;
+        this.#totalPage = data.totalPage;
+
         this.changeButtonDisplayByPage();
       })
       .catch(() => {
@@ -46,7 +49,7 @@ export default class AppComponent extends CustomComponent {
   }
 
   changeButtonDisplayByPage() {
-    if (this.#totalPage < this.#nextPage) {
+    if (this.#totalPage <= this.#nextPage) {
       this.querySelector("more-button").classList.add("hide");
       return;
     }
