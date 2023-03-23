@@ -16,16 +16,15 @@ const SearchBox = () => {
 
   const handleEvent = () => {
     const searchInput = document.querySelector(".search-input");
+    let timer: ReturnType<typeof setTimeout>;
+
     searchInput?.addEventListener("keyup", (e) => {
       e.preventDefault();
 
-      let timer;
-      if (timer) {
-        clearTimeout(timer);
-      }
-      timer = setTimeout(function () {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
         onKeyup(e);
-      }, 200);
+      }, 500);
     });
   };
 
@@ -41,17 +40,17 @@ const SearchBox = () => {
   };
 
   const updateKeyword = (newWord: string) => {
-    const keywordElement = document.querySelector(
-      ".search-input"
-    ) as HTMLInputElement;
-    keywordElement.value = newWord;
+    const keywordElement = document.querySelector(".search-input");
+    if (keywordElement instanceof HTMLInputElement) {
+      keywordElement.value = newWord;
+    }
   };
 
   const getKeyword = () => {
-    const keywordElement = document.querySelector(
-      ".search-input"
-    ) as HTMLInputElement;
-    return keywordElement.value;
+    const keywordElement = document.querySelector(".search-input");
+    if (keywordElement instanceof HTMLInputElement) return keywordElement.value;
+
+    return "";
   };
 
   render();
