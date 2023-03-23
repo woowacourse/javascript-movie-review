@@ -33,7 +33,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -46,9 +46,11 @@ button {
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .item-list {
+  width: 100%;
   display: grid;
+  justify-content: center;
   margin: 48px 0;
-  grid-template-columns: repeat(5, 180px);
+  grid-template-columns: repeat(1, 180px);
   grid-column-gap: 76px;
   grid-row-gap: 48px;
 }
@@ -178,4 +180,28 @@ header .search-box > .search-button {
 
 #no-result > p {
   margin-bottom: 10px;
+}
+
+@media screen and (min-width: 576px) {
+  .item-list {
+    grid-template-columns: repeat(2, 180px);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .item-list {
+    grid-template-columns: repeat(4, 180px);
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .item-list {
+    grid-template-columns: repeat(5, 180px);
+  }
 }
