@@ -1,3 +1,5 @@
+import { MovieDetail, MovieDetailResponse } from "../types";
+
 const API_END_POINT = "https://api.themoviedb.org/3";
 
 const request = async (url: string) => {
@@ -12,6 +14,19 @@ const request = async (url: string) => {
   }
 };
 
+export const convertMovieDetail = (
+  movieDetail: MovieDetailResponse
+): MovieDetail => {
+  return {
+    id: movieDetail.id,
+    poster_path: movieDetail.poster_path,
+    title: movieDetail.title,
+    vote_average: movieDetail.vote_average,
+    genre: movieDetail.genres.map((data) => data.name),
+    overview: movieDetail.overview,
+  };
+};
+
 export const fetchPopularMovies = (page: number) => {
   const url = `${API_END_POINT}/movie/popular?api_key=${process.env.API_KEY}&language=ko&page=${page}`;
 
@@ -24,4 +39,12 @@ export const fetchSearchMovies = (page: number, keyword: string) => {
   }&language=ko&page=${page}&query=${encodeURI(keyword)}`;
 
   return request(url);
+};
+
+export const fetchMovieDetailById = async (movieId: number) => {
+  const url = `${API_END_POINT}/movie/${movieId}?api_key=${process.env.API_KEY}&language=ko`;
+  const response = await request(url);
+  const movieDetail = convertMovieDetail(response);
+
+  return movieDetail;
 };

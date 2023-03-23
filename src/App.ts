@@ -1,4 +1,5 @@
 import { Header } from "./components/Header";
+import { Modal } from "./components/Modal";
 import { MovieList } from "./components/MovieList";
 import { Movie } from "./types";
 import { $ } from "./utils/selector";
@@ -6,10 +7,12 @@ import { $ } from "./utils/selector";
 export class App {
   #header;
   #movieList;
+  #modal;
 
   constructor() {
     const $header = $("header");
     const $movieList = $(".item-list");
+    const $modal = $(".modal");
 
     this.#header = new Header(
       $header,
@@ -19,17 +22,22 @@ export class App {
 
     this.#movieList = new MovieList($movieList);
 
+    this.#modal = new Modal($modal);
+
     this.bindEvent();
   }
 
   bindEvent() {
     window.addEventListener("popstate", () => {
-      const selectedMovieId = Number(window.location.hash.replace("#", ""));
+      const hashString = window.location.hash.replace("#", "");
+      const selectedMovieId = Number(hashString);
 
-      this.#movieList.getMovieInfo(
-        selectedMovieId,
-        this.onClickMovieCard.bind(this)
-      );
+      if (hashString !== "") {
+        this.onClickMovieCard(selectedMovieId);
+        return;
+      }
+
+      this.#modal.close();
     });
   }
 
@@ -51,7 +59,7 @@ export class App {
       this.#movieList.changeShowTarget("popular");
   }
 
-  onClickMovieCard(movie: Movie) {
-    console.log(movie);
+  onClickMovieCard(movieId: number) {
+    this.#modal.open(movieId);
   }
 }

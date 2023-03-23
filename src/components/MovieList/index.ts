@@ -1,4 +1,4 @@
-import "./movieList.css";
+import "./index.css";
 
 import { Movie, MovieResponse } from "../../types";
 
