@@ -121,7 +121,7 @@ class Modal {
   }
 
   show() {
-    const $modal = this.$target.querySelector(".modal");
+    const $modal = $(".modal", this.$target);
 
     if ($modal instanceof HTMLDivElement) {
       $modal.classList.remove("modal-invisible");
@@ -129,7 +129,7 @@ class Modal {
   }
 
   hide() {
-    const $modal = this.$target.querySelector(".modal");
+    const $modal = $(".modal", this.$target);
 
     if ($modal instanceof HTMLDivElement) {
       $modal.classList.add("modal-invisible");
@@ -137,11 +137,62 @@ class Modal {
   }
 
   setEvent() {
-    const $modalBackdrop = this.$target.querySelector(".modal-backdrop");
+    const $modalBackdrop = $(".modal-backdrop", this.$target);
 
     if ($modalBackdrop instanceof HTMLDivElement) {
       $modalBackdrop.addEventListener("click", () => {
         this.hide();
+      });
+    }
+  }
+
+  bindEvents() {
+    const $userRateContainer = $(".user-rate-container", this.$target);
+
+    if ($userRateContainer) {
+      $userRateContainer.addEventListener("mouseover", (e) => {
+        if (e.target instanceof HTMLImageElement) {
+          const rating = parseInt(e.target.dataset.value ?? "0", 10);
+          const stars: Array<HTMLImageElement> = Array.from($$("img", $userRateContainer));
+          const scoreElement = $(".score", $userRateContainer);
+          const ratingCommentElement = $(".score-comment", $userRateContainer);
+
+          this.updateStars(stars, rating);
+
+          if (scoreElement && ratingCommentElement) {
+            scoreElement.textContent = rating.toString();
+            ratingCommentElement.textContent = this.getScoreComment(rating);
+          }
+        }
+      });
+
+      $userRateContainer.addEventListener("mouseout", (e) => {
+        const movieId = (e.currentTarget as HTMLElement)?.dataset.movieId ?? "";
+
+        const ratings: IRatings = getRatings() as IRatings;
+
+        const storedRating = ratings[movieId] || 0;
+
+        const scoreElement = $(".score", $userRateContainer);
+        if (scoreElement) {
+          scoreElement.textContent = storedRating ? storedRating.toString() : "";
+        }
+      });
+
+      $userRateContainer.addEventListener("click", (e) => {
+        if (e.target instanceof HTMLImageElement) {
+          const movieId = (e.currentTarget as HTMLElement)?.dataset.movieId ?? "";
+          const value = e.target.dataset.value ?? "0";
+
+          if (movieId) {
+            const ratings: IRatings = getRatings() as IRatings;
+
+            ratings[movieId] = value;
+
+            setLocalStorageItem("ratings", ratings);
+            this.updateRating(movieId, +value);
+          }
+        }
       });
     }
   }
