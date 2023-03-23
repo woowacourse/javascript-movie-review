@@ -4,7 +4,7 @@ import { getPopularMovies, getSearchMovie, IMovie } from '../api/api';
 
 import { $, $$ } from '../utils';
 
-import { MovieListSkeleton } from './MovieListSkeleton';
+import { deleteSkeletonList, MovieListSkeleton } from './MovieListSkeleton';
 import { MovieItem } from './MovieItem';
 
 import { renderViewMoreButton } from './ViewMoreButton';
@@ -90,10 +90,4 @@ export async function renderMoreMovieList(moreResults: IMovie[]) {
     'beforeend',
     `${moreResults.map((movie) => MovieItem(movie)).join('')}`
   );
-}
-
-export function deleteSkeletonList() {
-  const skeletonList = $$('.skeleton-item');
-
-  skeletonList?.forEach((item) => item.remove());
 }

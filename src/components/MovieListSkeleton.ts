@@ -1,3 +1,5 @@
+import { $$ } from '../utils';
+
 export function MovieListSkeleton() {
   const template = `
     <li class="skeleton-item">
@@ -11,4 +13,10 @@ export function MovieListSkeleton() {
     </li>`;
 
   return `${template.repeat(20)}`;
+}
+
+export function deleteSkeletonList() {
+  const skeletonList = $$('.skeleton-item');
+
+  skeletonList?.forEach((item) => item.remove());
 }
