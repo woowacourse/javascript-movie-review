@@ -30,7 +30,7 @@ export default class MovieList extends HTMLElement {
             </ul>`
         : `<no-results-message></no-results-message>`
       }
-      <button id="more-button" class="btn primary full-width">더 보기</button>
+      <div id="loading-trigger" ></div>
     </section>
     `;
   }
