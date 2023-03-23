@@ -1,12 +1,9 @@
 import { MovieItemType } from '../type/movie';
 import { $ } from '../utils/domHelper';
-import InfiniteScroll from '../utils/infiniteScroll';
 
 import movies from '../domain/Movies';
 
 export default class MovieList extends HTMLElement {
-  infiniteScroll: any;
-
   constructor() {
     super();
 
@@ -15,8 +12,6 @@ export default class MovieList extends HTMLElement {
 
     this.render();
     this.skeletonItemRender();
-
-    this.infiniteScroll = new InfiniteScroll();
   }
 
   render() {
@@ -48,7 +43,7 @@ export default class MovieList extends HTMLElement {
       this.movieItemTemplate(popularMovies) || ''
     );
 
-    this.infiniteScroll.setItem($('.movie-container').lastElementChild, true);
+    this.seeMoreMovie();
   }
 
   movieItemTemplate(popularMovies?: MovieItemType[]) {
@@ -58,5 +53,24 @@ export default class MovieList extends HTMLElement {
           `<movie-item id="${id}" poster-path="${poster_path}" title="${title}" vote-average="${vote_average}"></movie-item>`
       )
       .join('');
+  }
+
+  seeMoreMovie() {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry: any) => {
+        if (entry.isIntersecting) {
+          io.unobserve(entry.target);
+
+          if (movies.getIsSearched() && !movies.getIsEnd()) {
+            movies.searchMovies(movies.getQuery());
+          }
+          if (!movies.getIsSearched() && !movies.getIsEnd()) {
+            movies.popularMovies();
+          }
+        }
+      });
+    });
+
+    io.observe($('.movie-container').lastElementChild as HTMLElement);
   }
 }

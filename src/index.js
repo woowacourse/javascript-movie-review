@@ -8,7 +8,6 @@ import Title from './components/Title';
 import MovieList from './components/MovieList';
 import MovieItem from './components/MovieItem';
 import SkeletonItem from './components/SkeletonItem';
-import SeeMore from './components/SeeMore';
 
 customElements.define('movie-header', Header);
 customElements.define('movie-title', Title);
