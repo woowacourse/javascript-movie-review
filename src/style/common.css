@@ -34,11 +34,24 @@ button {
 }
 
 .item-view {
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
   margin: 0 auto;
+  max-width: 1200px;
+}
+
+@media screen and (max-width: 1023px) {
+  .item-view {
+    max-width: 680px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .item-view {
+    max-width: 400px;
+  }
 }
 
 .item-view h2 {
@@ -48,25 +61,62 @@ button {
   margin-bottom: 48px;
 }
 
+@media screen and (max-width: 1023px) {
+  .item-view h2 {
+    font-size: 1.5rem;
+  }
+}
+
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .item-list {
   display: grid;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  grid-template-columns: repeat(4, auto);
+  grid-column-gap: 80px;
   grid-row-gap: 48px;
+  justify-items: center;
+}
+
+@media screen and (max-width: 1023px) {
+  .item-list {
+    grid-template-columns: repeat(3, auto);
+    grid-column-gap: 40px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .item-list {
+    grid-template-columns: repeat(2, auto);
+    grid-column-gap: 20px;
+  }
 }
 
 .item-card {
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  max-width: 240px;
+  min-width: 240px;
+}
+
+@media screen and (max-width: 1023px) {
+  .item-card {
+    max-width: 200px;
+    min-width: 200px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .item-card {
+    max-width: 180px;
+    min-width: 180px;
+  }
 }
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
-  height: 270px;
+  width: 100%;
+  height: auto;
   background-size: contain;
 }
 
@@ -151,7 +201,6 @@ button.primary {
 
 .header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;

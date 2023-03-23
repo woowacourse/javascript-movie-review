@@ -19,22 +19,20 @@ class MovieCard {
   createTemplate() {
     this._node = document.createElement('li');
 
-    this._node.innerHTML = `<a>
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <img
-            id="item-thumbnail"
-            class="item-thumbnail hidden"
-            src="${this.movieData.posterPath}"
-            alt="${this.movieData.title}"
-          />
-          <p class="item-title">${this.movieData.title}</p>
-          <div class="item-score">
-            <img src="${starFilled}" alt="별점" />
-            <p>${this.movieData.voteAverage}</p>
-          </div>
+    this._node.innerHTML = `<div class="item-card">
+        <div class="item-thumbnail skeleton"></div>
+        <img
+          id="item-thumbnail"
+          class="item-thumbnail hidden"
+          src="${this.movieData.posterPath}"
+          alt="${this.movieData.title}"
+        />
+        <p class="item-title">${this.movieData.title}</p>
+        <div class="item-score">
+          <img src="${starFilled}" alt="별점" />
+          <p>${this.movieData.voteAverage}</p>
         </div>
-      </a>
+      </div>
     `;
   }
 
@@ -69,7 +67,7 @@ class MovieCard {
       handleImageLoadError(thumbnail);
     });
 
-    this._node.addEventListener('click', this.clickMovieCard.bind(this));
+    this._node.querySelector('.item-card')?.addEventListener('click', this.clickMovieCard.bind(this));
   }
 }
 
