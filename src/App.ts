@@ -20,6 +20,7 @@ export default class App {
         <movie-list></movie-list>
         </section>
       </main>
+      <detail-modal></detail-modal>
     `;
   }
 }
