@@ -15,7 +15,6 @@ class MovieList {
     if (!MovieList.instance) {
       MovieList.instance = new MovieList();
     }
-    localStorage.setItem("stars", JSON.stringify([{ id: 315162, count: 3 }]));
 
     return MovieList.instance;
   }
@@ -86,21 +85,39 @@ class MovieList {
       : await this.getPopularMovieData();
   }
 
-  // addStarCount(starCount: number) {
-  //   const stars = this.getStars();
-  //   localStorage.setItem(
-  //     "stars",
-  //     JSON.stringify([...stars, { id: 677179, starCount: 3 }])
-  //   );
-  // }
-
   getStars() {
-    const stars = JSON.parse(localStorage.getItem("stars") as string);
+    return JSON.parse(localStorage.getItem("stars") as string) ?? [];
+  }
+
+  saveStar(count: number) {
+    const stars = this.getStars();
     const star = stars.filter((star: Star) => star.id === this.currentMovieId);
 
-    if (star.length != 0) return star[0].count;
+    star.length == 0 ? this.addStar(count) : this.modifyStar(count);
+  }
 
-    return 0;
+  getStarCount() {
+    const stars = this.getStars();
+    const star = stars.filter((star: Star) => star.id === this.currentMovieId);
+
+    return star.length != 0 ? star[0].count : 0;
+  }
+
+  modifyStar(count: number) {
+    const stars = this.getStars();
+    const modifiedStars = stars.map((star: Star) => {
+      if (star.id === this.currentMovieId) {
+        star.count = count;
+      }
+      return star;
+    });
+    localStorage.setItem("stars", JSON.stringify(modifiedStars));
+  }
+
+  addStar(count: number) {
+    const stars = this.getStars();
+    const star = { id: this.currentMovieId, count: count };
+    localStorage.setItem("stars", JSON.stringify([...stars, star]));
   }
 }
 

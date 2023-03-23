@@ -10,8 +10,8 @@ const MovieModal = {
   loadMovieDetail: async () => {
     try {
       const movieDetail = await MovieList.getDetailedMovieData();
-      const starCount = MovieList.getStars();
-      console.log(starCount);
+      const starCount = MovieList.getStarCount();
+
       MovieModal.render(movieDetail);
       MovieModal.renderStar(starCount);
       MovieModal.bindClickEvent();
@@ -86,7 +86,7 @@ const MovieModal = {
         )
         .join("")
     }
-    <p class="normal">${score}</p>
+    <p id="score" class="normal">${score}</p>
     <p class="normal">${SCORE_COMMENT[score]}</p>
     `;
 
@@ -98,18 +98,22 @@ const MovieModal = {
     $<HTMLDivElement>("#modal-backdrop").addEventListener(
       "click",
       (event: Event) => {
-        if (event.target == $<HTMLDivElement>("#modal-backdrop"))
+        if (event.target == $<HTMLDivElement>("#modal-backdrop")) {
+          console.log(22);
           MovieModal.close();
+        }
       }
     );
 
     $<HTMLDivElement>(".modal-close").addEventListener("click", (event) => {
       event.stopPropagation();
+      console.log(33);
       MovieModal.close();
     });
 
     $$<HTMLImageElement>(".modal-score").forEach((star) => {
       star.addEventListener("click", () => {
+        console.log(44);
         MovieModal.onClickStar(Number(star.id));
       });
     });
@@ -117,7 +121,7 @@ const MovieModal = {
 
   bindPressEvent: () => {
     window.addEventListener(
-      "keyup",
+      "keydown",
       (event) => {
         if (event.code == "Backspace") {
           MovieModal.close();
@@ -134,13 +138,19 @@ const MovieModal = {
     };
   },
 
-  close: async () => {
-    $<HTMLDivElement>("#modal-backdrop").remove();
-  },
-
   onClickStar: async (starId: number) => {
     MovieModal.renderStar(starId);
     MovieModal.bindClickEvent();
+    MovieModal.bindPressEvent();
+    MovieModal.bindGoBack();
+  },
+
+  close: async () => {
+    const score = $<HTMLElement>("#score").innerText;
+    if (score != "0") {
+      MovieList.saveStar(Number(score) / 2);
+    }
+    $<HTMLDivElement>("#modal-backdrop").remove();
   },
 };
 
