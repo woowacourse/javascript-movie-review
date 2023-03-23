@@ -409,3 +409,19 @@ dialog::backdrop {
 .secondary-text {
   color: #757575 !important;
 }
+
+.star-clicked {
+  animation: starAnimation 0.2s ease-in-out;
+}
+
+@keyframes starAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

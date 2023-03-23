@@ -87,6 +87,15 @@ class UserMovieVote {
     });
   }
 
+  private addStarClickedInteraction(starIndex: string) {
+    const tempStar = $<HTMLImageElement>(`.temp-star[data-star-index="${starIndex}"]`);
+    tempStar.classList.add('star-clicked');
+
+    setTimeout(() => {
+      tempStar.classList.remove('star-clicked');
+    }, 200);
+  }
+
   private addUserStarEventListener() {
     this.userVoteStars.addEventListener('mouseenter', () => {
       this.temporaryVoteStars.classList.remove('hide');
@@ -108,6 +117,8 @@ class UserMovieVote {
       const target = event.target as HTMLElement;
 
       if (!target.classList.contains('user-vote-star')) return;
+
+      this.addStarClickedInteraction(target.dataset.starIndex!);
 
       const movieId = Number($<HTMLDivElement>('.information-content').dataset.movieId);
       const userVote = (Number(target.dataset.starIndex) + 1) * VOTE_SCORE_AND_STAR_RATIO;
