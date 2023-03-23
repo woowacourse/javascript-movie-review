@@ -221,3 +221,7 @@ header .search-box > .search-button {
   color: red;
   overflow: hidden;
 }
+
+.btn.primary.full-width {
+  opacity: 0;
+}

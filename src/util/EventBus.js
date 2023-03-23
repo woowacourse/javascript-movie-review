@@ -10,7 +10,6 @@ const EventBus = {
       eventManager[eventName] = [];
       document.addEventListener(eventName, notify);
     }
-
     eventManager[eventName].push(callback);
   },
 };

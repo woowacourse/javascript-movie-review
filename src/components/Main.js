@@ -49,12 +49,12 @@ class Main {
     this.#element.innerHTML = `
     <h2>${query === '' ? '지금 인기 있는 영화' : `"${query}" 검색 결과`}</h2>
     <ul class="item-list"> </ul>
-    ${
-      this.#manager.isLastPage()
-        ? ''
-        : '<button class="btn primary full-width">더 보기</button>'
-    }
+    
     `;
+
+    if (this.#manager.isLastPage()) {
+      $('.btn.primary.full-width').classList.add('hidden');
+    }
 
     if (movieListData.length) {
       movieListData.forEach((data) => {
@@ -69,12 +69,13 @@ class Main {
   }
 
   #requestMovieListEvent() {
+    const observer = new IntersectionObserver(async (e) => {
+      this.renderSkeleton(this.#element);
+      await this.#manager.getMoreMovieList();
+      this.render();
+    });
+    observer.observe($('.btn.primary.full-width'));
     this.#element.addEventListener('click', async (e) => {
-      if (e.target.tagName === 'BUTTON') {
-        this.renderSkeleton(this.#element);
-        await this.#manager.getMoreMovieList();
-        this.render();
-      }
       if (e.target.tagName === 'IMG') {
         const movieData = this.#manager.getMovieData(e.target.alt);
         const movieStar = this.#manager.getStarData()[movieData.id];
