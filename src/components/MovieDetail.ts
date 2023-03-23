@@ -3,20 +3,15 @@ import { $ } from "../utils/selector";
 
 export class MovieDatail {
   private _title: string;
-  private _genre: number[];
+  private _genres: any;
   private _overView: string;
   private _posterPath: string;
   private _voteAverage: number;
 
-  constructor({
-    genre_ids,
-    overview,
-    poster_path,
-    title,
-    vote_average,
-  }: TotalMovieInfoType) {
+  constructor({ genres, overview, poster_path, title, vote_average }: any) {
+    console.log(genres);
     this._title = title;
-    this._genre = genre_ids;
+    this._genres = genres;
     this._overView = overview;
     this._posterPath = poster_path;
     this._voteAverage = vote_average;
@@ -40,7 +35,7 @@ export class MovieDatail {
             </article>
             <article class="modal__info">
               <div class="modal__info-title-wrapper">
-                <h4 class="modal__genre">${this._genre.join("")}</h4>
+                <h4 class="modal__genre">${this.selectGenre()}</h4>
                 <img class="star" src="/star_filled.png" />
                 <strong class="modal__score">${this._voteAverage}</strong>
               </div>
@@ -80,5 +75,11 @@ export class MovieDatail {
   close() {
     const closeButton = $(".modal__close-btn") as HTMLElement;
     closeButton.addEventListener("click", this.remove);
+  }
+
+  selectGenre() {
+    return this._genres.map((item: any) => {
+      return item.name;
+    });
   }
 }
