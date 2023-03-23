@@ -76,6 +76,12 @@ button {
 .item-score {
   margin-top: 16px;
   font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+
+.item-score > img {
+  padding-right: 5px;
 }
 
 .item-score::after {
@@ -328,7 +334,8 @@ mobile-search-button {
   }
 
   .item-modal-close-button {
-    left: 87%;
+    position: unset;
+    margin: 10px 0;
   }
 
   .item-modal-thumbnail {

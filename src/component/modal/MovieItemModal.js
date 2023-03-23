@@ -29,7 +29,8 @@ class MovieItemModal extends CustomElement {
       <div class="item-modal-content">
         <img class="item-modal-thumbnail" src=${src} alt=${title} />
         <div class="item-modal-detail">
-          <div class="item-modal-genre">${genres} <div><img src=${ImgSrc.FULL_STAR}/>${starRate}</div></div>
+          <div class="item-modal-genre">${genres} </div>
+          <div class="item-score"><img src=${ImgSrc.FULL_STAR}/>${starRate}</div>
           <div class="item-modal-description">${description}</div>
           <div class="item-modal-user-rate">
             <span>내 별점</span>
