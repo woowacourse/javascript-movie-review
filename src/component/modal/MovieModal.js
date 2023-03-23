@@ -12,8 +12,7 @@ class MovieModal extends CustomElement {
     return `
       <div class="modal modal-open">
         <div class="modal-backdrop"></div> 
-        <div class="modal-container">
-        </div>
+        <div class="modal-container"></div>
       </div>
     `;
   }

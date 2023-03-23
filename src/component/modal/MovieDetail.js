@@ -1,5 +1,6 @@
 import { $ } from "../../util/dom";
 import CustomElement from "../basic/CustomElement";
+import "./MovieStar";
 
 class MovieDetail extends CustomElement {
   template() {
@@ -26,17 +27,7 @@ class MovieDetail extends CustomElement {
           <p>${voteAverage}</p>
         </div>
         <div class="detail text-body">${detail}</div>
-        <div class="user-rate">
-          <p class="user-rate-title">내 별점</p>
-          <div class="rate-container">
-            <img class="rate" src="./image/star_filled.png" alt="별점" />
-            <img class="rate" src="./image/star_filled.png" alt="별점" />
-            <img class="rate" src="./image/star_filled.png" alt="별점" />
-            <img class="rate" src="./image/star_filled.png" alt="별점" />
-            <img class="rate" src="./image/star_filled.png" alt="별점" />
-          </div>
-          <p class="user-rate-title">10점: 명작이에요</p>
-        </div>
+        <movie-star id=${id}></movie-star>
       </section>
     </section>
     `;

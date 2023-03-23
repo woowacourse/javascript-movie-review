@@ -32,10 +32,11 @@ class MovieItem extends CustomElement {
           src= ${this.#movie.src}
           alt=${this.#movie.title}
         />
-      <p class="item-title">${this.#movie.title}</p>
-      <p class="item-score"><img src="./image/star_filled.png" alt="별점" />${
-        this.#movie.voteAverage
-      }</p>
+        <p class="item-title">${this.#movie.title}</p>
+        <p class="item-score">
+        <img src="./image/star_filled.png" alt="별점" />
+        ${this.#movie.voteAverage}
+        </p>
       </div>
   `;
   }
@@ -51,7 +52,7 @@ class MovieItem extends CustomElement {
 
       $(".modal-open").classList.remove("modal");
       this.closest("body").classList.add("scroll");
-    }); //리펙터링 필요함~~ 관심사분리!
+    });
   }
 }
 
