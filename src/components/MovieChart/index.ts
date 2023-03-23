@@ -2,7 +2,8 @@ import { assemble, Event } from '../../core';
 import { $, getElement } from './../../utils/common/domHelper';
 import { MovieListComponent, SkeletonMovieListComponent } from './action';
 import { useMovieChart } from '../../hooks/useMovieChart';
-import { LAST_PAGE, NO_RESULT } from '../../constants';
+import { NO_RESULT } from '../../constants';
+import { observer } from '../../utils/common/observer';
 
 export interface MovieChartProps {
   keyword: string;
@@ -10,6 +11,13 @@ export interface MovieChartProps {
 
 const MovieChart = assemble<MovieChartProps>(({ keyword }) => {
   const { chartInfo, movieList, isLoading, fetchMore } = useMovieChart(keyword);
+  const needMoreFetch = Boolean(!isLoading && chartInfo?.page !== chartInfo?.total_pages && movieList.length);
+
+  observer('.fetch-more-line', {
+    onIntersect() {
+      if (!isLoading && needMoreFetch) fetchMore(keyword);
+    },
+  });
 
   const $events: Event[] = [
     {
@@ -19,9 +27,7 @@ const MovieChart = assemble<MovieChartProps>(({ keyword }) => {
       },
     },
   ];
-
-  const noResult = !isLoading && !chartInfo.total_results;
-  const needMoreBtn = Boolean(!isLoading && chartInfo.page !== chartInfo.total_pages && movieList.length);
+  const noResult = !isLoading && !chartInfo?.total_results;
   const $template = getElement(`
     <main>
       <section class="item-view">
@@ -35,14 +41,6 @@ const MovieChart = assemble<MovieChartProps>(({ keyword }) => {
           </fragment>
           ${noResult ? `<h1>${NO_RESULT}</h1>` : ''}
         </div>
-        ${
-          needMoreBtn
-            ? `<button class="btn primary full-width">
-                더 보기
-              </button>`
-            : ''
-        }
-        
       </section>
       </main>
       `);
@@ -51,3 +49,11 @@ const MovieChart = assemble<MovieChartProps>(({ keyword }) => {
 });
 
 export { MovieChart };
+
+// ${
+//   needMoreBtn
+//     ? `<button class="btn primary full-width">
+//         더 보기
+//       </button>`
+//     : ''
+// }
