@@ -39,7 +39,6 @@ export default class AppComponent extends CustomComponent {
 
       if (entry[0].isIntersecting && this.checkHasNextPage()) {
         this.#intersectionObserver.unobserve(ioTarget);
-        this.#$movieList.appendNewPage();
         this.renderListByData(type).then((res) => {
           if (res) {
             const newLastChild = this.#$movieList.querySelector(
@@ -52,7 +51,12 @@ export default class AppComponent extends CustomComponent {
       }
     });
 
-    this.#intersectionObserver.observe(lastChild);
+    if (lastChild) {
+      this.#intersectionObserver.observe(lastChild);
+      return;
+    }
+
+    this.#intersectionObserver.disconnect();
   }
 
   async fetchAPI(actionType) {
@@ -76,6 +80,8 @@ export default class AppComponent extends CustomComponent {
   }
 
   async renderListByData(actionType) {
+    this.#$movieList.appendNewPage();
+
     const result = await this.fetchAPI(actionType)
       .then(async (res) => {
         if (!res.ok) {
@@ -90,6 +96,7 @@ export default class AppComponent extends CustomComponent {
         this.#totalPage = data.total_pages;
 
         const movieItems = transformMovieItemsType(data.results);
+        console.log(movieItems);
         this.#$movieList.renderPageSuccess(movieItems);
 
         this.#nextPage += 1;
@@ -141,6 +148,12 @@ export default class AppComponent extends CustomComponent {
     }
   }
 
+  async popularListAction() {
+    this.popularListInit();
+    await this.renderListByData(ACTION.POPULAR);
+    this.loadIntersectionObserver(ACTION.POPULAR);
+  }
+
   async checkEventAction(e) {
     switch (e.target.dataset.action) {
       case "hide_search":
@@ -154,9 +167,7 @@ export default class AppComponent extends CustomComponent {
         this.querySelector(".hide-all").style.display = "block";
         break;
       case ACTION.POPULAR:
-        this.popularListInit();
-        await this.renderListByData(ACTION.POPULAR);
-        this.loadIntersectionObserver(ACTION.POPULAR);
+        this.popularListAction();
         break;
       // 검색했을 때 액션
       case ACTION.SEARCH:
@@ -165,9 +176,7 @@ export default class AppComponent extends CustomComponent {
           return;
         }
         if (!this.#$searchInput.value) {
-          this.popularListInit();
-          await this.renderListByData(ACTION.POPULAR);
-          this.loadIntersectionObserver(ACTION.POPULAR);
+          this.popularListAction();
           return;
         }
         this.hideSearch();
@@ -187,11 +196,8 @@ export default class AppComponent extends CustomComponent {
     this.addEventListener("keyup", async (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
-
         if (!this.#$searchInput.value) {
-          this.popularListInit();
-          await this.renderListByData(ACTION.POPULAR);
-          this.loadIntersectionObserver(ACTION.POPULAR);
+          this.popularListAction();
           return;
         }
 
@@ -202,42 +208,21 @@ export default class AppComponent extends CustomComponent {
       }
     });
 
-    this.addEventListener("DOMContentLoaded", () => {
-      this.addEventListener("click", (e) => {
-        const target = e.target.closest("a");
-        if (!(target instanceof HTMLAnchorElement)) return;
+    this.defaultRoutingEvent();
+  }
 
-        e.preventDefault();
-        navigate(target.href);
-      });
-
+  defaultRoutingEvent() {
+    window.addEventListener("DOMContentLoaded", () => {
       App();
     });
 
-    window.addEventListener("popstate", (e) => {
-      const state = e.state;
-      if (state) {
-        const modal = document.createElement("movie-modal");
-
-        Object.keys(state).forEach((key) => {
-          modal.setAttribute(key, state[key]);
-        });
-
-        this.append(modal);
-
-        setTimeout(() => {
-          modal.style.opacity = 1;
-        });
-      } else {
-        navigate("/");
-      }
-
+    window.addEventListener("popstate", () => {
       App();
     });
   }
 
   template() {
-    return `
+    return /*html*/ `
         <div id="app">
             <app-header></app-header>
             <main>

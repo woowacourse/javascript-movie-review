@@ -3,7 +3,7 @@ import LogoImg from "../../templates/logo.png";
 
 export default class HeaderComponent extends CustomComponent {
   template() {
-    return `
+    return /*html*/ `
           <h1 class="header-logo"><img src=${LogoImg} alt="MovieList 로고" data-action='popular'/></h1>
           <div class="search-box">
             <input type="text" placeholder="검색" />

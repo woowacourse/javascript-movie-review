@@ -1,7 +1,6 @@
 import CustomComponent from "../../abstracts/CustomComponent";
-import StarEmptyImg from "../../../templates/star_empty.png";
 import StarFilledImg from "../../../templates/star_filled.png";
-import { navigate, pushNavigate } from "../../util/Router";
+import { pushNavigate } from "../../util/Router";
 
 export default class MovieComponent extends CustomComponent {
   constructor() {
@@ -15,6 +14,7 @@ export default class MovieComponent extends CustomComponent {
         vote_average: 0,
         overview: "",
       },
+      isLoading: true,
     };
   }
 
@@ -23,6 +23,25 @@ export default class MovieComponent extends CustomComponent {
       e.preventDefault();
       pushNavigate(`/movie/${this.state.movie.id}`);
     });
+
+    this.renderMovieItem();
+  }
+
+  renderMovieItem() {
+    const skeleton = document.createElement("div");
+    skeleton.className = "item-thumbnail skeleton";
+
+    this.querySelector(".item-card").prepend(skeleton);
+
+    const thumbnail = this.querySelector("img.item-thumbnail");
+    thumbnail.classList.add("hide");
+
+    this.querySelector("img.item-thumbnail").addEventListener("load", (e) => {
+      if (thumbnail.complete) {
+        skeleton.remove();
+        this.querySelector("img.item-thumbnail").classList.remove("hide");
+      }
+    });
   }
 
   template() {
@@ -30,9 +49,7 @@ export default class MovieComponent extends CustomComponent {
       id: this.getAttribute("id"),
       title: this.getAttribute("title"),
       poster_path: this.getAttribute("poster_path"),
-      genre_ids: this.getAttribute("genre_ids"),
       vote_average: this.getAttribute("vote_average"),
-      overview: this.getAttribute("overview"),
     };
 
     const title = this.state.movie.title;
