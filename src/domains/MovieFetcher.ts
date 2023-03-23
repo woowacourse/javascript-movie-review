@@ -46,7 +46,6 @@ class MovieFetcher {
         isLastPage: this.currentPage === result.totalPages ? true : false,
       };
     } catch (error) {
-      if (error instanceof Error) console.log(error);
       return {
         statusCode: undefined,
         statusMessage: 'Not valid error',
