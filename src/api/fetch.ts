@@ -14,6 +14,13 @@ export const getSearchMovies = async (query: string, pageNumber: number) => {
   return result;
 };
 
+export const getMovieGenres = async () => {
+  const fetchURL = `${URL.GET_MOVIE_GENRES}`;
+  const result = await fetchWithValidation(fetchURL);
+
+  return result;
+};
+
 const fetchWithValidation = async (url: string) => {
   const response = await fetch(url);
   const result = await response.json();

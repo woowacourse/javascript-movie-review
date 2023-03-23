@@ -1,10 +1,16 @@
-import { getMostPopularMovies, getSearchMovies } from "./api/fetch";
+import {
+  getMostPopularMovies,
+  getSearchMovies,
+  getMovieGenres,
+} from "./api/fetch";
 import movieHandler from "./domain/movieHandler";
 import { $ } from "./utils/dom";
 import MovieListContainer from "../src/components/MovieListContainer";
 import MovieList from "./components/MovieList";
 import type { Movie, ResponseData } from "./types/type";
 import { errorHandler } from "./utils/errorHandler";
+import CustomModal from "./components/CustomModal";
+import MovieDetail from "./components/MovieDetail";
 
 const movieApp = {
   currentPageNumber: 1,
@@ -13,6 +19,7 @@ const movieApp = {
 
   init() {
     this.addEvent();
+    this.setMovieGenres();
     this.getPopularMovieData();
   },
 
@@ -28,6 +35,23 @@ const movieApp = {
       "searchMovieData",
       ({ detail }: CustomEventInit) => this.searchMovieData(detail)
     );
+    $("movie-list-container")?.addEventListener(
+      "clickMovieDetail",
+      ({ detail }: CustomEventInit) => this.renderModal(detail)
+    );
+  },
+
+  renderModal(movieID: string) {
+    const modal = <CustomModal>$("custom-modal");
+    const movieDetail = <MovieDetail>$("movie-detail");
+
+    movieDetail.render(movieHandler.getMovie(Number(movieID)));
+    modal.openModal();
+  },
+
+  async setMovieGenres() {
+    const genres = await getMovieGenres();
+    movieHandler.setGenres(genres.genres);
   },
 
   renderMovieList(movies: ResponseData | undefined) {
