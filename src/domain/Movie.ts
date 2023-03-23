@@ -32,13 +32,13 @@ class Movie {
 
   constructor(movieData: IMovieApiData) {
     this.movieData = {
-      id: movieData.id,
-      title: movieData.original_title,
+      id: movieData.id.toString(),
+      title: movieData.title,
       posterSrc: movieData.poster_path,
       voteAverage: movieData.vote_average,
       genre: movieData.genre_ids.map((movieId) => genresById[movieId.toString()]).join(", "),
       overview: movieData.overview,
-      userRate: 6,
+      userRate: null,
     };
   }
 
