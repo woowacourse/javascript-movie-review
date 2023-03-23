@@ -1,7 +1,7 @@
 import { movieApi } from "../domain/movieApi";
 import { $ } from "../utils/selector";
-import MovieList from "./MovieList";
 import { MOVIE_COUNT_IN_ONE_PAGE } from "../constants";
+import MovieList from "./MovieList";
 
 export const updateMovies = () => {
   $<MovieList>("#movie-list").renderMovies();
@@ -10,26 +10,28 @@ export const updateMovies = () => {
 };
 
 const observeMovieIntersection = () => {
-  const options = {
-    threshold: 0.2,
-  };
-
   const observer = new IntersectionObserver((entries, observer) => {
     entries.forEach((entry) => {
-      if (entry.intersectionRatio <= 0) return;
-      if (!entry.isIntersecting) return;
-
-      const currentPage = Number(movieApi.urlParams.get("page"));
-      if (currentPage === movieApi.totalPage) return;
+      if (isStoppingObservation(entry)) return;
 
       loadMoreMovies().then(() => {
         observer.unobserve(entry.target);
         observer.observe(entry.target);
       });
     });
-  }, options);
+  });
 
   observer.observe($(".item-list > li:nth-last-child(3)"));
+};
+
+const isStoppingObservation = (entry: IntersectionObserverEntry) => {
+  const currentPage = Number(movieApi.urlParams.get("page"));
+
+  return (
+    entry.intersectionRatio <= 0 ||
+    !entry.isIntersecting ||
+    currentPage === movieApi.totalPage
+  );
 };
 
 const loadMoreMovies = async () => {
