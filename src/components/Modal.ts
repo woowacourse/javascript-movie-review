@@ -1,33 +1,29 @@
 class Modal {
-  #$modal: HTMLDivElement | null;
-  #$modalContainer: HTMLDivElement | null;
+  #$dialog: HTMLDialogElement | null;
   #$modalDrop: HTMLDivElement | null;
 
   constructor() {
-    this.#$modal = document.querySelector('.modal');
+    this.#$dialog = document.querySelector<HTMLDialogElement>('#modal');
     this.#$modalDrop = document.querySelector('.modal-backdrop');
-    this.#$modalContainer = document.querySelector('.modal-container');
 
     this.#$modalDrop?.addEventListener('click', () => this.close());
   }
 
-  getModalContainer() {
-    return this.#$modalContainer;
-  }
-
-  clearModalContainer() {
-    if (!this.#$modalContainer) return;
-
-    this.#$modalContainer.innerHTML = '';
+  getDialog() {
+    return this.#$dialog;
   }
 
   open() {
-    this.#$modal?.classList.add('modal--open');
-    document.body.classList.add('scroll-lock');
+    if (!this.#$dialog) return;
+    if (typeof this.#$dialog.showModal === 'function') {
+      this.#$dialog.showModal();
+      document.body.classList.add('scroll-lock');
+    }
   }
 
   close(isBack = false) {
-    this.#$modal?.classList.remove('modal--open');
+    if (!this.#$dialog) return;
+    this.#$dialog.close();
     document.body.classList.remove('scroll-lock');
     if (isBack) {
       history.back();

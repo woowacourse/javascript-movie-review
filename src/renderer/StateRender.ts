@@ -97,12 +97,11 @@ class StateRender {
   }
 
   async renderMovieDetail(movieId: number, $target: HTMLElement) {
-    if ($target.classList.contains('modal-container')) modal.clearModalContainer();
-
     const currentMovieInfos = parseLocalStorage<Array<IMovieDetailItem>>({
       key: 'movieList',
       data: [],
     });
+
     const currentItem = this.#movieDetail.isExistCurrentMovieDetail(currentMovieInfos, movieId);
     if (currentItem) {
       this.#movieDetail.render(currentItem, $target);

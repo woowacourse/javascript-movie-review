@@ -25,6 +25,7 @@ class MovieDetail {
 
   constructor() {
     this.#$detainContainer = document.createElement('div');
+    this.#$detainContainer.className = 'movie-detail-container';
     this.#movieState = initialMovieState;
 
     this.#initialEventListener();
@@ -85,7 +86,9 @@ class MovieDetail {
   #initialEventListener() {
     this.#$detainContainer.addEventListener('click', (e) => {
       if (!(e.target instanceof HTMLElement)) return;
-      if (e.target.classList.contains('close-button')) modal.close();
+      if (e.target.classList.contains('close-button')) {
+        modal.close();
+      }
     });
 
     this.#$detainContainer.addEventListener('input', (e) => {
