@@ -208,8 +208,40 @@ dialog#movie-modal::backdrop {
   height: 32px;
 }
 
+.star {
+  position: relative;
+
+  width: 550px;
+  height: 100px;
+}
+
+.star input {
+  position: absolute;
+  left: 0;
+
+  width: 500px;
+  height: 100%;
+
+  opacity: 0;
+  cursor: pointer;
+}
+
+.star span {
+  display: flex;
+
+  position: absolute;
+  left: 40px;
+
+  width: 500px;
+  height: 100px;
+
+  pointer-events: none;
+}
+
 img.rating-img {
   content: url('../assets/star_empty.png');
+
+  width: 100px;
 }
 
 img.rating-img[data-filled="true"] {

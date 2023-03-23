@@ -28,11 +28,13 @@ class StarRating {
 
     this.element.innerHTML = `
     <input type="range" class="star-range" value="${this.rating}" step="${SCORE_STEP}" min="${SCORE_MIN}" max="${SCORE_MAX}">
-    <img class="rating-img">
-    <img class="rating-img">
-    <img class="rating-img">
-    <img class="rating-img">
-    <img class="rating-img">
+    <span class="rating-images">
+      <img class="rating-img">
+      <img class="rating-img">
+      <img class="rating-img">
+      <img class="rating-img">
+      <img class="rating-img">
+    </span>
     `.trim();
 
     this.renderStars();
@@ -49,14 +51,14 @@ class StarRating {
 
   private renderStars() {
     this.element
-        .querySelectorAll(`img.rating-img:nth-child(n+${this.rating / SCORE_STEP + 2}`)
+        .querySelectorAll(`img.rating-img:nth-child(n+${this.rating / SCORE_STEP + 1}`)
         .forEach((img) => {
           (img as HTMLElement).dataset.filled = 'false';
           (img as HTMLImageElement).alt = '채워지지 않은 별점';
         });
       
     this.element
-      .querySelectorAll(`img.rating-img:nth-child(-n+${this.rating / SCORE_STEP + 1})`)
+      .querySelectorAll(`img.rating-img:nth-child(-n+${this.rating / SCORE_STEP})`)
       .forEach((img) => {
         (img as HTMLElement).dataset.filled = 'true';
         (img as HTMLImageElement).alt = '채워진 별점';
