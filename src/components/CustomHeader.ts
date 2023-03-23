@@ -1,8 +1,11 @@
 import '../../css/custom-header.css';
-import { proxy } from '../domains/proxy';
 import { $ } from '../utils/dom';
+import { proxy } from '../state/state';
+import { movie } from '../state/state';
 import { getFormData } from '../utils/form';
 import { customHeaderTemplate } from './templates/customHeader';
+import { generateMovieListTemplate } from './templates/movieList';
+import { searchMovieList } from '../domains/movieApi';
 
 class CustomHeader extends HTMLElement {
   constructor() {
@@ -36,8 +39,22 @@ class CustomHeader extends HTMLElement {
 
     if (formData instanceof Object) {
       const queryValue = Object.fromEntries(formData);
-      proxy.movie.query = queryValue['search-input'] as string;
+      const value = queryValue['search-input'] as string;
+      if (movie.query === value) {
+        return;
+      }
+
+      movie.query = value;
+      this.storeSearchedMovieList();
     }
+  }
+
+  private storeSearchedMovieList() {
+    movie.currentPage = 1;
+    searchMovieList(movie.query, movie.currentPage).then(movieRoot => {
+      movie.totalPages = movieRoot.total_pages;
+      proxy.movie.list = generateMovieListTemplate(movieRoot.results);
+    });
   }
 
   static render() {

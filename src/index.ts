@@ -1,18 +1,15 @@
 import '../css/reset.css';
 import '../css/common.css';
-import { initProxy, proxy } from './domains/proxy';
+import { proxy } from './state/state';
+import { initProxy } from './domains/proxy';
+import { getPopularMovieList } from './domains/movieApi';
 import { generateMovieListTemplate } from './components/templates/movieList';
 import MovieContainer from './components/MovieContainer';
 import CustomHeader from './components/CustomHeader';
-import { getPopularMovieList } from './domains/movieApi';
 
 const App = {
-  state: {
-    movie: { list: '', query: '', currentPage: 1, totalPages: 1 },
-  },
-
   init() {
-    initProxy(this.state);
+    initProxy();
     this.initRender();
     this.initState();
   },

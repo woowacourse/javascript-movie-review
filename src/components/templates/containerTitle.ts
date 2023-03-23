@@ -1,8 +1,7 @@
-import { proxy } from '../../domains/proxy';
+import { movie } from '../../state/state';
 
-export const generateContainerTitleTemplate = (query: string) => {
+export const containerTitleTemplate =
   /* html */
-  return `
-		<h2>${query ? `"${query}" 검색 결과` : '지금 인기 있는 영화'}</h2>
+  `
+		<h2>${movie.query ? `"${movie.query}" 검색 결과` : '지금 인기 있는 영화'}</h2>
 	`;
-};
