@@ -1,4 +1,3 @@
-import { IMovie } from './api/api.js';
 import { observable } from './core/observer.js';
 
 export type stateType = {
@@ -10,6 +9,7 @@ export const store = {
     page: 1,
     keyword: '검색 결과',
     isPopular: true,
+    isContentEnd: false,
   }),
 
   setState(newState: stateType) {

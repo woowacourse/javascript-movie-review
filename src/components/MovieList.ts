@@ -2,12 +2,10 @@ import { store } from '../store';
 
 import { getPopularMovies, getSearchMovie, IMovie } from '../api/api';
 
-import { $, $$ } from '../utils';
+import { $ } from '../utils';
 
 import { deleteSkeletonList, MovieListSkeleton } from './MovieListSkeleton';
 import { MovieItem } from './MovieItem';
-
-import { renderViewMoreButton } from './ViewMoreButton';
 
 export function MovieList() {
   return `
@@ -32,7 +30,8 @@ export async function renderSkeletonList() {
   const { results } = await getSearchMovie(keyword, page);
 
   renderSearchMovieList(results);
-  renderViewMoreButton(results.length < 20);
+
+  store.setState({ isContentEnd: true });
 }
 
 export async function renderMoreSkeletonList() {
