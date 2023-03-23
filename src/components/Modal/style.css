@@ -23,20 +23,22 @@
     position: fixed;
     top: 50%;
     left: 50%;
-    width: 50%;
-    max-height: 88vh;
-    padding: 32px 16px;
+    width: 740px;
+    height: 544px;
+    padding: 20px 0;
     border-radius: 8px;
     background: #212122;
-    overflow-y: auto;
+    overflow-y: hidden;
     transform: translate(-50%, -50%);
+    box-sizing: border-box;
 }
 
 .modal-content {
     display: flex;
     flex-direction: column;
     position: relative;
-
+    padding: 5px 1px;
+    box-sizing: border-box;
 }
 
 .modal-content h2 {
@@ -47,17 +49,94 @@
 .flex-container {
     display: flex;
     justify-content: space-between;
+    padding: 20px 15px;
 }
 
-.left,
-.right {
+.modal-head {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 25px;
+    text-align: center;
+    border-bottom: 1px solid rgba(241, 241, 241, 0.32)
+}
+
+.modal-head h2 {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+}
+
+.modal-left-container,
+.modal-right-container {
     flex: 1;
     margin: 0 8px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+}
+
+.modal-left-container {
+    flex: none;
+    margin: 0 8px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    width: 280px;
+}
+
+
+.modal-right-container {
+    position: relative;
+}
+
+.modal-image {
+    width: 280px;
+    height: 420px;
+}
+
+.category-container {
+    display: flex;
+    margin-bottom: 16px;
 }
 
 .user-rate-container {
     display: flex;
     align-items: center;
+    position: absolute;
+    bottom: 5px;
+    margin-top: 150px;
+    padding: 16px;
+    width: 370px;
+    height: 80px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    background: rgba(56, 56, 57, 1);
+    border-radius: 16px;
+}
+
+.modal-genre {
+    margin-right: 10px;
+}
+
+.rating-header {
+    margin-right: 13px;
+}
+
+.modal-overview {
+    max-height: 264px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+}
+
+.score {
+    margin-right: 13px;
 }
 
 .user-rate-container img {

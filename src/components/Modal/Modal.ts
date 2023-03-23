@@ -79,16 +79,20 @@ class Modal {
       const stars = this.renderStars(+storedRating);
 
       $modalContent.innerHTML = `
-      <h2>${movie.title}</h2>
+      <div class="modal-head"><h2>${movie.title}</h2></div>
       <div class="flex-container">
-        <div class="left">
-          <img src="${movie.posterSrc || NotFoundImageIcon}" alt="${movie.title} poster">
+        <div class="modal-left-container">
+          <img class="modal-image" src="${movie.posterSrc || NotFoundImageIcon}" alt="${
+        movie.title
+      } poster">
         </div>
-        <div class="right">
-          <p>${movie.genre}</p>
-          <img src="${FilledStarIcon}" alt="rating star">
-          <p>${movie.voteAverage}</p>
-          <p>${movie.overview}</p>
+        <div class="modal-right-container">
+          <div class="category-container">
+            <p class="modal-genre">${movie.genre}</p>
+            <img src="${FilledStarIcon}" alt="rating star">
+            <p>${movie.voteAverage}</p>
+          </div>
+          <p class="modal-overview">${movie.overview || "Sorry, there's no movie overview :("}</p>
           <div class="user-rate-container" data-movie-id="${movie.id}">
             <span class="rating-header">내 별점</span>
             ${stars}
