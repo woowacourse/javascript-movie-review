@@ -1,8 +1,4 @@
-import { MovieType, GenreType } from '../types';
-
-type StorageMovieType = MovieType & {
-  convertedGenres: string[];
-};
+import { MovieType, GenreType, StorageMovieType } from '../types';
 
 class MovieStorage {
   private genres = new Map<number, string>();
@@ -11,7 +7,6 @@ class MovieStorage {
   setGenres(genres: GenreType[]) {
     console.log(genres);
     genres.forEach(({ id, name }) => {
-      console.log(id, 'is', name);
       this.genres.set(id, name);
     });
   }
