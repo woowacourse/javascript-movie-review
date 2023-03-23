@@ -1,22 +1,14 @@
 import ListTitle from '../components/ListTitle';
 import modal from '../components/Modal';
-import MoreButton from '../components/MoreButton';
 import MovieDetail from '../components/MovieDetail';
 import MovieList from '../components/MovieList';
 import { Skeleton } from '../components/Skeleton';
 import WholeScreenMessageAlert from '../components/WholeScreenMessageAlert';
 import Movie, { initialMovieStats } from '../domain/Movie';
-import {
-  IMovieDetailItem,
-  IMovieHandleProps,
-  IMovieItemProps,
-  IMovieProps,
-  IMovieState,
-} from '../types/movie';
+import { IMovieDetailItem, IMovieHandleProps, IMovieItemProps, IMovieState } from '../types/movie';
 import { parseLocalStorage } from '../utils/localStorage';
 
 interface StateRenderProps {
-  moreButton: MoreButton;
   listTitle: ListTitle;
   skeleton: Skeleton;
   movieList: MovieList;
@@ -25,7 +17,6 @@ interface StateRenderProps {
 }
 
 class StateRender {
-  #moreButton!: MoreButton;
   #listTitle!: ListTitle;
   #skeleton!: Skeleton;
   #movieList!: MovieList;
@@ -40,25 +31,12 @@ class StateRender {
     this.#movieState = initialMovieStats;
   }
 
-  initialize({
-    moreButton,
-    listTitle,
-    skeleton,
-    movieList,
-    movieDetail,
-    itemViewSection,
-  }: StateRenderProps) {
-    this.#moreButton = moreButton;
+  initialize({ listTitle, skeleton, movieList, movieDetail, itemViewSection }: StateRenderProps) {
     this.#listTitle = listTitle;
     this.#skeleton = skeleton;
     this.#movieList = movieList;
     this.#movieDetail = movieDetail;
     this.#itemViewSection = itemViewSection;
-  }
-
-  #excuteMoreButtonVisible() {
-    const { nextPage } = this.#movieState;
-    nextPage === -1 ? this.#moreButton.hide() : this.#moreButton.show();
   }
 
   #listTitleRender() {
@@ -73,7 +51,6 @@ class StateRender {
   #movieListRender() {
     this.#skeleton.removeSkeleton();
     this.#movieList.render(this.#itemViewSection);
-    this.#moreButton.render(this.#itemViewSection);
   }
 
   #apiErrorRender(value: any) {
@@ -142,7 +119,6 @@ class StateRender {
   #renderWholeComponent() {
     this.#listTitleRender();
     this.#movieListRender();
-    this.#excuteMoreButtonVisible();
   }
 
   #setPopularProperty() {

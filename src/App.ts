@@ -1,7 +1,6 @@
 import Header from './components/Header';
 import ListTitle from './components/ListTitle';
 import MovieList from './components/MovieList';
-import MoreButton from './components/MoreButton';
 import { Skeleton } from './components/Skeleton';
 import stateRender from './renderer/StateRender';
 import MovieDetail from './components/MovieDetail';
@@ -12,7 +11,6 @@ class App {
 
   listTitle: ListTitle;
   movieList: MovieList;
-  moreButton: MoreButton;
   skeleton: Skeleton;
   movieDetail: MovieDetail;
 
@@ -24,14 +22,12 @@ class App {
     this.listTitle = new ListTitle();
     this.skeleton = new Skeleton(this.$itemView);
     this.movieList = new MovieList();
-    this.moreButton = new MoreButton();
     this.movieDetail = new MovieDetail();
 
     stateRender.initialize({
       listTitle: this.listTitle,
       skeleton: this.skeleton,
       movieList: this.movieList,
-      moreButton: this.moreButton,
       movieDetail: this.movieDetail,
       itemViewSection: this.$itemView,
     });
@@ -47,6 +43,17 @@ class App {
     this.skeleton.attachSkeleton();
 
     stateRender.renderPopularMovies();
+  }
+
+  renderMoreInfo() {
+    const states = stateRender.getMovieState();
+    const { nextPage, category, query } = states;
+    if (category === 'popular') {
+      stateRender.renderPopularMovies(nextPage);
+      return;
+    }
+
+    stateRender.renderSearchedMovies(query, nextPage);
   }
 }
 

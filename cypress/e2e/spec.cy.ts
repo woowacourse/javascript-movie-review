@@ -47,22 +47,6 @@ describe('영화 리뷰 어플리케이션을 테스트한다.', () => {
       .each((li) => {
         cy.wrap(li).get('.item-title').should('contain.text', query);
       });
-
-    // 더보기 버튼 클릭
-    cy.get('.more-button').click();
-
-    // 추가로 load 된 데이터들이 query를 포함하는지 확인
-    cy.get('.item-list')
-      .children()
-      .each((li) => {
-        cy.wrap(li).get('.item-title').should('contain.text', query);
-      });
-
-    // 기존에 있던 값 + 추가로 불려와진 값의 총 길이가 40 이하인지 확인
-    cy.get('.item-list').children().should('have.length.lessThan', 40);
-
-    // 더이상 불러올 데이터가 없을 때 더보기 버튼 숨김 확인
-    cy.get('.more-button').should('not.be.visible');
   });
 
   it('query를 가진 영화를 검색을 했다가 로고를 클릭하면 인기있는 영화 데이터를 가져온다.', () => {
