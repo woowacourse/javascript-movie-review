@@ -4,12 +4,13 @@ const store: Store = Store.getInstance();
 
 export const fetchMovies = async (url: string) => {
   try {
-    const response = await fetch(url).then((data) => data.json());
-    if (store.getPage() === response.page) {
-      return response;
+    const response = await fetch(url);
+    const data = await response.json();
+    if (store.getPage() === data.page) {
+      return data;
     }
     else {
-      throw new Error(response.status_message);
+      throw new Error(data.status_message);
     }
 
   } catch (error) {
