@@ -1,4 +1,4 @@
-import { cache } from '../../utils/cache';
+import { cacheHook } from '../../utils/cache';
 import MovieList from './abstract/MovieList';
 
 export default class MoviePopularList extends MovieList {
@@ -11,9 +11,11 @@ export default class MoviePopularList extends MovieList {
   }
 
   async getPopularMovies() {
+    const { popular } = cacheHook;
+
     if (this.state.getValue('isSearched')) return;
 
-    cache.popularPage.add(this.state.getValue('popularPage'));
+    popular.store(this.state.getValue('popularPage'));
 
     this.state.setValue('isLoading', true);
     this.state.setValue('movies', []);

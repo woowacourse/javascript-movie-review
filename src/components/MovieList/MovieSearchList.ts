@@ -1,5 +1,7 @@
-import { cache } from '../../utils/cache';
 import MovieList from './abstract/MovieList';
+
+// utils
+import { cacheHook } from '../../utils/cache';
 
 export default class MovieSearchList extends MovieList {
   constructor($target: HTMLElement) {
@@ -11,18 +13,24 @@ export default class MovieSearchList extends MovieList {
   }
 
   searchFirstQuery(query: string) {
-    if (this.state.getValue('query') !== query) {
-      this.state.setValue('searchPage', 1);
-      this.state.setValue('query', query);
-    }
+    const { search } = cacheHook;
+
+    if (this.state.getValue('query') === query) return;
+
+    this.state.setValue('searchPage', 1);
+    this.state.setValue('query', query);
+
+    search.reset();
   }
 
   async getSearchMovies(query: string) {
+    const { search } = cacheHook;
+
     if (!this.state.getValue('isSearched')) return;
 
     this.searchFirstQuery(query);
 
-    cache.popularPage.add(this.state.getValue('popularPage'));
+    search.store(this.state.getValue('searchPage'));
 
     this.state.setValue('isLoading', true);
     this.state.setValue('movies', []);
