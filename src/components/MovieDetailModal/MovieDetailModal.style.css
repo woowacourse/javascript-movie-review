@@ -1,6 +1,7 @@
 .modal-content {
   position: fixed;
   bottom: 0;
+  width: 100%;
   border-radius: 8px 8px 0px 0px;
   background: #212122;
 }
@@ -115,6 +116,7 @@
 
   .movie-detail-content {
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
     justify-content: space-between;
     padding: 0 0 0 32px;

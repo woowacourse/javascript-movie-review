@@ -17,7 +17,10 @@ const MovieDetailModal = {
         </div>
         <div class="movie-details">
           <div class="movie-detail-poster">
-            <img src="${MovieDetailModal.handlePosterImage(movieDetail.posterPath)}" alt=${movieDetail.title} />
+            <img
+              src="${MovieDetailModal.handlePosterImage(movieDetail.posterPath)}"
+              alt=${movieDetail.title}
+            />
           </div>
           <div class="movie-detail-content">
             <div class="movie-detail-info">
