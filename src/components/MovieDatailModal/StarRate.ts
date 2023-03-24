@@ -1,7 +1,5 @@
 import { starEmptyImage, starFilledImage } from '../../assets/images';
-import type Movies from '../../domain/Movies';
-
-const SCORE_MESSAGE = ['별점 매기기', '최악이에요', '별로에요', '보통이에요', '재미있어요', '명작이에요'];
+import { SCORE_MESSAGE } from '../../constants';
 
 const StarRate = {
   template() {
@@ -20,51 +18,41 @@ const StarRate = {
     `;
   },
   paint(id: string) {
-    const score = localStorage.getItem(id);
     const starRateBox = document.querySelector('#star-rate-box') as HTMLDivElement;
+    const starRateMessage = document.querySelector('#star-rate-message') as HTMLDivElement;
+
+    const score = Number(localStorage.getItem(id));
     starRateBox.dataset.id = id;
-    const stars = document.querySelectorAll('#star-rate-box img') as NodeListOf<HTMLImageElement>;
-    const starRateMessage = document.querySelector('#star-rate-message') as HTMLDivElement;
-    if (score === null) {
-      stars.forEach((star) => star.setAttribute('src', starEmptyImage));
-      starRateMessage.innerText = SCORE_MESSAGE[0];
-    } else {
-      stars.forEach((star, index) => {
-        const a = Number(star.dataset.rate);
-        if (score) {
-          if (Number(score) >= a) {
-            star.setAttribute('src', starFilledImage);
-          }
-          if (Number(score) < a) {
-            star.setAttribute('src', starEmptyImage);
-          }
-        }
-        starRateMessage.innerText = String(Number(score) * 2) + ' ' + SCORE_MESSAGE[Number(score)];
-      });
-    }
+
+    StarRate.fillStar(score);
+
+    starRateMessage.innerText = `${score * 2} ${SCORE_MESSAGE[score]}`;
   },
-  setEvent(movies: Movies, target: HTMLElement) {
-    const starRateBox = target.querySelector('#star-rate-box') as HTMLElement;
-    const stars = document.querySelectorAll('#star-rate-box img') as NodeListOf<HTMLImageElement>;
-    const starRateMessage = document.querySelector('#star-rate-message') as HTMLDivElement;
+  setEvent(target: HTMLElement) {
+    const starRateBox = target.querySelector('#star-rate-box') as HTMLDivElement;
+    const starRateMessage = target.querySelector('#star-rate-message') as HTMLDivElement;
+
     starRateBox.addEventListener('click', (event) => {
       const targetElement = event.target;
+
       if (targetElement instanceof HTMLImageElement) {
-        const score = targetElement.dataset.rate as string;
-        stars.forEach((star) => {
-          const a = star.dataset.rate;
-          if (a) {
-            if (score >= a) {
-              star.setAttribute('src', starFilledImage);
-            }
-            if (score < a) {
-              star.setAttribute('src', starEmptyImage);
-            }
-          }
-          starRateMessage.innerText = String(Number(score) * 2) + ' ' + SCORE_MESSAGE[Number(score)];
-        });
+        const score = Number(targetElement.dataset.rate);
         const id = starRateBox.dataset.id as string;
-        localStorage.setItem(id, score);
+        StarRate.fillStar(score);
+        localStorage.setItem(id, String(score));
+        starRateMessage.innerText = `${score * 2} ${SCORE_MESSAGE[score]}`;
+      }
+    });
+  },
+  fillStar(score: number) {
+    const stars = document.querySelectorAll('#star-rate-box img') as NodeListOf<HTMLImageElement>;
+    stars.forEach((star) => {
+      const clickedScore = Number(star.dataset.rate);
+      if (score >= clickedScore) {
+        star.setAttribute('src', starFilledImage);
+      }
+      if (score < clickedScore) {
+        star.setAttribute('src', starEmptyImage);
       }
     });
   },

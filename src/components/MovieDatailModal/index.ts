@@ -3,7 +3,6 @@ import { CLASS } from '../../constants/selector';
 import './MovieDetailModal.style.css';
 import { IMAGE_URL } from '../../constants';
 import StarRate from './StarRate';
-import Movies from '../../domain/Movies';
 import type { MovieDetail } from '../../types/movie';
 
 const MovieDetailModal = {
@@ -38,8 +37,8 @@ const MovieDetailModal = {
       </dialog>
     `;
   },
-  setEvent(movies: Movies, target: HTMLElement) {
-    StarRate.setEvent(movies, target);
+  setEvent(target: HTMLElement) {
+    StarRate.setEvent(target);
   },
   open(data: MovieDetail) {
     const modal = document.querySelector<HTMLDialogElement>('dialog');
