@@ -2,6 +2,8 @@
   display: flex;
   width: 180px;
   flex-direction: column;
+
+  cursor: pointer;
 }
 
 .item-thumbnail {
