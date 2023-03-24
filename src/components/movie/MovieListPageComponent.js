@@ -27,6 +27,8 @@ export default class MovieListPageComponent extends CustomComponent {
               .map((movieItem) => {
                 return `
                   <movie-item
+                    data-action="detail"
+                    data-movie-id="${movieItem.id}"
                     title="${movieItem.title}"
                     vote_average="${movieItem.vote_average}"
                     poster_path="${movieItem.poster_path}">

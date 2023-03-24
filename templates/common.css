@@ -244,7 +244,7 @@ movie-list-title {
 }
 
 modal-component {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
 
@@ -263,6 +263,8 @@ modal-component {
 .modal-body {
   background-color: #222222;
   color: white;
+  min-width: 740px;
+  max-width: 826px;
   padding: 0 32px;
 }
 
@@ -278,10 +280,6 @@ modal-component {
   display: flex;
 }
 
-body {
-  /* overflow: hidden; */
-}
-
 up-scroll-button button {
   position: fixed;
   font-size: 2rem;
@@ -293,4 +291,8 @@ up-scroll-button button {
   border-radius: 100px;
   bottom: 8px;
   right: 16px;
+}
+
+.item-card {
+  pointer-events: none;
 }

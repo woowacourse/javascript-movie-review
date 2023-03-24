@@ -3,11 +3,19 @@ import HeaderComponent from "./AppHeaderComponent";
 import MovieListComponent from "./movie/MovieListComponent";
 import MoreButtonComponent from "./element/MoreButtonComponent";
 import TitleComponent from "./element/TitleComponent";
+import ModalComponent from "./ModalComponent";
+
 import UpScrollButtonComponent from "./element/UpScrollButtonComponent";
 import transformMovieItemsType from "../util/MovieList";
-import { ACTION, SEARCH_WARNING, TITLE } from "../constants/constants";
+import {
+  ACTION,
+  REQUEST_URL,
+  SEARCH_WARNING,
+  TITLE,
+} from "../constants/constants";
 import { getRequest, transData } from "../api/handler";
 import { urlByActionType } from "../api/url";
+import { API_KEY } from "../constants/key";
 
 export default class AppComponent extends CustomComponent {
   #nextPage = 1;
@@ -107,6 +115,23 @@ export default class AppComponent extends CustomComponent {
         case "up-scroll":
           window.scroll({ top: 0, behavior: "smooth" });
           break;
+        case "detail":
+          const movieId = e.target.dataset.movieId;
+          getRequest(
+            `${REQUEST_URL}/movie/${movieId}?api_key=${API_KEY}&language=ko-KR`
+          )
+            .then((res) => {
+              const modal = document.querySelector("modal-component");
+              // 모달에게 상태를 넘겨주고
+              modal.setAttribute("data-item", JSON.stringify(res));
+              // 모달을 띄운다.
+              modal.style.display = "flex";
+              document.body.style.overflow = "hidden";
+            })
+            .catch((err) => {
+              // 에러 문구를 출력한다.
+            });
+          break;
       }
     });
 
@@ -146,7 +171,6 @@ export default class AppComponent extends CustomComponent {
       upScrollBtn.classList.remove("hide");
       return;
     }
-
     upScrollBtn.classList.add("hide");
   }
 
