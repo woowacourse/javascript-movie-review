@@ -1,6 +1,16 @@
-describe("영화 리뷰 애플리케이션 e2e 테스트", () => {
+describe("영화 리뷰 애플리케이션 popular 영화 테스트", () => {
   beforeEach(() => {
+    cy.intercept(
+      {
+        method: "GET",
+        url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
+      },
+      { fixture: "movie-popular.json" }
+    ).as("getPopularMovies");
+
     cy.visit("localhost:8080");
+
+    cy.wait("@getPopularMovies");
   });
 
   it("처음 사이트를 방문하면 헤더, 영화 리스트 컨테이너, 더보기 버튼을 렌더링 해야한다.", () => {
@@ -49,5 +59,10 @@ describe("영화 리뷰 애플리케이션 e2e 테스트", () => {
     cy.get(".search-box").submit();
 
     cy.get(".search-title").should("contain", '"해리포터10"에 대한 검색 결과가 없습니다 :(');
+  });
+
+  it("영화를 눌렀을 때 모달이 보여야 한다.", () => {
+    cy.get(".item-card").first().scrollIntoView().click({ force: true }); // `force: true` option can be used to click even if the element is hidden from view
+    cy.get(".modal-container").should("be.visible");
   });
 });
