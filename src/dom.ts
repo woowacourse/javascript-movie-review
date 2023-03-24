@@ -1,4 +1,4 @@
-import { SKELETON_TEMPLATE } from './constants';
+import { SKELETON_TEMPLATE } from './domain/constants';
 
 import { Movie } from './domain/movieService';
 import { $ } from './utils/domUtils';

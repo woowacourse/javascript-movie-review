@@ -1,4 +1,4 @@
-import { POPULAR_TITLE } from '../constants';
+import { POPULAR_TITLE } from '../domain/constants';
 import { changeTitle, resetSearchBox } from '../dom';
 import { LOGO } from '../icons';
 

@@ -1,4 +1,4 @@
-import { MAX_MOVIES_PER_PAGE } from './constants';
+import { MAX_MOVIES_PER_PAGE } from './domain/constants';
 import {
   clearList,
   renderList,
