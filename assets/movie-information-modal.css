@@ -4,7 +4,7 @@
   --modal-light-gray: #ababab;
   --modal-transparent-black: #000000bb;
   --modal-pink: #ff4646;
-  color: white;
+  --modal-white: #eeeeee;
   font-family: 'Pretendard';
 }
 
@@ -28,7 +28,6 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 826px;
-  height: 577px;
   margin: 0 0 auto;
   background-color: var(--modal-dark-gray);
   grid-template-areas:
@@ -48,6 +47,9 @@
   font-weight: 600;
   line-height: 60px;
   text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .modal-close-button {
@@ -58,7 +60,7 @@
   position: absolute;
   top: 10px;
   right: 32px;
-  padding: none;
+  padding: 0;
   border: none;
   transition: 0.3s;
 }
@@ -87,7 +89,7 @@
   right: 7.5px;
   width: 25px;
   height: 3px;
-  background-color: white;
+  background-color: #eeeeee;
   transition: 0.3s;
 }
 
@@ -121,7 +123,7 @@
 .user-rating-bar-wrapper {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 8px;
   font-size: 20px;
 }
 
@@ -171,4 +173,78 @@
 .user-rating-bar input[type='radio']:hover::before,
 .user-rating-bar input[type='radio']:checked::before {
   content: url('./rating_star_filled.png');
+}
+
+/* 반응형 */
+@media (max-width: 870px) {
+  .information-modal {
+    width: 756px;
+    grid-template-columns: 356px 400px;
+  }
+
+  .information-modal-my-rating {
+    font-size: 16px;
+  }
+
+  .information-modal-genre-rating,
+  .information-modal-content,
+  .information-modal-my-rating,
+  .user-rating-bar-wrapper {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 760px) {
+  .modal-image {
+    width: 100%;
+  }
+
+  .information-modal {
+    width: 100%;
+    grid-template-columns: auto 400px;
+  }
+}
+
+@media (max-width: 620px) {
+  .modal-image {
+    display: none;
+  }
+
+  .information-modal-title {
+    font-size: 20px;
+    padding-right: 85px;
+  }
+
+  .information-modal-genre-rating,
+  .information-modal-content,
+  .information-modal-my-rating {
+    margin-left: 32px;
+  }
+
+  .information-modal-wrapper {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .information-modal-wrapper[hidden] {
+    display: none;
+  }
+
+  .information-modal {
+    width: 100%;
+    grid-template-columns: 0 100%;
+    top: 100%;
+    transform: translate(-50%, -100%);
+  }
+}
+
+@media (max-width: 620px) {
+  .rating-title,
+  .user-rating-alias {
+    display: none;
+  }
+
+  .information-modal-my-rating {
+    justify-content: center;
+  }
 }
