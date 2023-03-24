@@ -1,12 +1,22 @@
 import CustomComponent from "../../abstracts/CustomComponent";
 import StarFilledImg from "../../../templates/star_filled.png";
 import StarEmptyImg from "../../../templates/star_empty.png";
+import { VOTE_TEXT_BY_SCORE } from "../../constants/constants";
 
 export default class SelectVoteScoreComponent extends CustomComponent {
   state = {
-    movie_id: null,
+    movie_id: "",
     vote_star: 0,
   };
+
+  static get observedAttributes() {
+    return ["movie-id"];
+  }
+
+  attributeChangedCallback() {
+    this.render();
+    this.handleEvent();
+  }
 
   render() {
     super.render();
@@ -43,17 +53,9 @@ export default class SelectVoteScoreComponent extends CustomComponent {
 
     this.state.vote_star = star * 2;
 
-    const textObject = {
-      2: "최악이예요",
-      4: "별로예요",
-      6: "보통이에요",
-      8: "재미있어요",
-      10: "명작이에요",
-    };
-
     this.querySelector("#movie-modal-score").textContent = this.state.vote_star;
     this.querySelector("#movie-modal-score-desc").textContent =
-      textObject[this.state.vote_star];
+      VOTE_TEXT_BY_SCORE[this.state.vote_star];
   }
 
   template() {
