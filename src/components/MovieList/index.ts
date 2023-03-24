@@ -18,16 +18,19 @@ export default class MovieList extends HTMLElement {
   renderMovies() {
     this.innerHTML = `
     <section class="item-view">
-      ${this.store.getMovies().length > 0
-        ? `<h2>${this.store.getLastKeyword() === ""
-          ? "지금 인기 있는 영화"
-          : `"${this.store.getLastKeyword()}" 검색 결과`
-        }</h2>
-            <ul class="item-list">
-              ${this.store.getMovies()
-          .map((movie) => `<movie-item id="moive-${movie.id}"></movie-item>`)
-          .join("")}
-            </ul>`
+      ${this.store.getMovies().length > 0 ? `
+        <div class="sub-title">
+          <h2>
+        ${this.store.getLastKeyword() === "" ?
+          "지금 인기 있는 영화" : `"${this.store.getLastKeyword()}" 검색 결과`
+        }
+          </h2>
+        </div>
+        <ul class="item-list">
+          ${this.store.getMovies().map((movie) =>
+          `<movie-item id="moive-${movie.id}"></movie-item>`
+        ).join("")}
+        </ul>`
         : `<no-results-message></no-results-message>`
       }
       <div id="loading-trigger" ></div>

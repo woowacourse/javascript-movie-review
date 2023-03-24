@@ -11,8 +11,10 @@ export default class Header extends HTMLElement {
 
   render() {
     this.innerHTML = `
-    <header>
-      <h1><img id="logo" src="./assets/logo.png" alt="MovieList 로고" /></h1>
+    <header class="d-flex justify-content-between">
+      <div>
+        <h1><img id="logo" src="./assets/logo.png" alt="MovieList 로고" /></h1>
+      </div>
       <form id="search-bar" class="search-box">
         <input type="text" placeholder="검색" name="search-bar"/>
         <button class="search-button">검색</button>

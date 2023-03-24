@@ -132,7 +132,6 @@ button.primary {
 }
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -168,6 +167,11 @@ header .search-box > .search-button {
   text-indent: -1000rem;
   background: url("../assets/search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+.sub-title {
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 #no-result {
