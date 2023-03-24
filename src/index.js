@@ -1,6 +1,6 @@
 import { $ } from './utils/domHelper';
-import '../templates/reset.css';
-import '../templates/common.css';
+import '../reset.css';
+import '../common.css';
 
 import App from './App';
 import Header from './components/Header';
