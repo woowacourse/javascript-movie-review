@@ -25,7 +25,7 @@ class UserMovieVote {
     this.messageContainer = $<HTMLDivElement>('.modal-message-container');
     this.voteMessage = $<HTMLParagraphElement>('.vote-message');
     this.voteInfo = $<HTMLParagraphElement>('.vote-info');
-    this.addUserStarEventListener();
+    this.addEventListenerToUserStars();
   }
 
   static getInstance(): UserMovieVote {
@@ -108,7 +108,7 @@ class UserMovieVote {
     this.messageContainer.insertAdjacentHTML('beforeend', template);
   }
 
-  private addUserStarEventListener() {
+  private addShowAndHideStarsOnHoverEventListener() {
     this.userVoteStars.addEventListener('mouseenter', () => {
       this.temporaryVoteStars.classList.remove('hide');
     });
@@ -124,7 +124,9 @@ class UserMovieVote {
         this.updateUserVoteStars('.temp-star', Number(target.dataset.starIndex));
       }
     });
+  }
 
+  private addUpdateStarsOnClickEventListener() {
     this.userVoteStars.addEventListener('click', (event) => {
       const target = event.target as HTMLElement;
 
@@ -140,6 +142,11 @@ class UserMovieVote {
         MovieList.updateUserVote(movieId, userVote);
       }
     });
+  }
+
+  private addEventListenerToUserStars() {
+    this.addShowAndHideStarsOnHoverEventListener();
+    this.addUpdateStarsOnClickEventListener();
   }
 }
 
