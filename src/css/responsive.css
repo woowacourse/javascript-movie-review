@@ -110,7 +110,7 @@
     height: 324px;
   }
 
-  .box .detail .vote-area .vote-description {
+  .box .detail .vote-area .vote-message {
     display: none;
   }
 }
