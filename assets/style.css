@@ -96,6 +96,13 @@ button {
   background-size: contain;
 }
 
+.item-card img:hover {
+  object-fit: cover;
+  transition: all 0.2s linear;
+  transform: scale(1.02);
+  box-shadow: 0px 0px 10px 3px #808080;
+}
+
 .item-title {
   display: -webkit-box;
   margin-top: 16px;
@@ -264,8 +271,16 @@ header .search-box > .search-button {
 
 #movie-detail-modal-close-button {
   position: absolute;
-  top: 45px;
+  top: 42px;
   right: 24px;
+
+  font-size: 1.2rem;
+  width: 36px;
+  height: 36px;
+  color: rgba(241, 241, 241, 1);
+  background-color: rgba(56, 56, 57, 1);
+  border-radius: 50%;
+  border: none;
 }
 
 .movie-info {
@@ -298,13 +313,14 @@ header .search-box > .search-button {
 
 .genre-vote-average-container {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 5px;
   margin-bottom: 10px;
 }
 
 .star-rating-container {
   display: flex;
+  flex-wrap: nowrap;
   gap: 5px;
   align-items: center;
   margin-top: auto;
@@ -312,4 +328,18 @@ header .search-box > .search-button {
   height: 64px;
   border-radius: 16px;
   background-color: rgba(56, 56, 57, 1);
+}
+
+.star-image {
+  width: 20px;
+  height: 20px;
+}
+
+.star-rating-image {
+  width: 25px;
+  height: 25px;
+}
+
+.star-rating-caption {
+  font-weight: bold;
 }

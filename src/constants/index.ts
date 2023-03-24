@@ -34,3 +34,8 @@ export const MOVIE_LIST_TITLE = {
   POPULARITY: 'Popular movies',
   SEARCH: (keyword: string) => `Search Results of "${keyword}"`,
 };
+
+export const STAR_RATING = {
+  PER_SCORE: 2,
+  CAPTION: ['Worst', 'Not good', 'Average', 'Fun', 'Masterpiece'],
+};
