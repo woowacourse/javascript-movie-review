@@ -66,7 +66,7 @@ export class MovieListItem {
     this.$<HTMLParagraphElement>('.item-title').innerText = movie.title;
     this.$<HTMLParagraphElement>('.item-score').innerHTML = `
       <img src="assets/star_filled.png" alt="별점" />
-      <span>${movie.voteAverage}</span>
+      <span>${movie.voteAverage.toFixed(1)}</span>
     `.trim();
 
     this.$('a').addEventListener('click', (event) => {

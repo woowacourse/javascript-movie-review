@@ -60,7 +60,7 @@ export class MovieDetailDialog {
         'img',
       ).src = `https://image.tmdb.org/t/p/w220_and_h330_face${movie.posterPath}`;
       this.$<HTMLParagraphElement>('.detail-overview').innerText = movie.overview;
-      this.$<HTMLDivElement>('.detail-vote').innerText = String(movie.voteAverage);
+      this.$<HTMLDivElement>('.detail-vote').innerText = String(movie.voteAverage.toFixed(1));
 
       if (label === 'fulfilled') {
         this.$<HTMLHeadingElement>('.detail-genres').innerText = movie.genres.join(', ');
