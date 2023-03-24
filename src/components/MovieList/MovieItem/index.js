@@ -22,8 +22,8 @@ class MovieItem {
     const { id, title, posterSrc, voteAverage } = this.#movieInfo;
 
     return `
-    <li data-id=${id}>
-      <div class="item-card">
+    <li>
+      <div class="item-card" data-id=${id}>
         <img
           class="item-thumbnail"
           src=${posterSrc ? this.convertToImgUrl(posterSrc) : NotFoundImageIcon}

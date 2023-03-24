@@ -139,10 +139,10 @@ class MovieList {
     });
 
     this.$target.querySelector(".item-list").addEventListener("click", (event) => {
-      const $li = event.target.closest("li");
-      if (!$li) return;
+      const $itemCard = event.target.closest(".item-card");
+      if (!$itemCard) return;
 
-      const id = $li.dataset.id;
+      const id = $itemCard.dataset.id;
       Modal.openMovieDetail(id);
     });
   }
