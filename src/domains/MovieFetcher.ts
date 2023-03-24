@@ -11,16 +11,25 @@ const changingKeyPairs: Record<string, string> = {
 type RequestModeType = 'popularity' | 'search' | 'genre';
 
 class MovieFetcher {
-  #currentPage = 1;
-  #requestMode: RequestModeType = 'popularity';
-  #previousKeyword = '';
+  private currentPage = 1;
+  private requestMode: RequestModeType = 'popularity';
+  private previousKeyword = '';
+  private failedToFetch = false;
 
   resetPage() {
-    this.#currentPage = 1;
+    this.currentPage = 1;
   }
 
   setRequestMode(mode: RequestModeType) {
-    this.#requestMode = mode;
+    this.requestMode = mode;
+  }
+
+  getFailedToFetchStatus() {
+    return this.failedToFetch;
+  }
+
+  resetFailedToFetchStatus() {
+    this.failedToFetch = false;
   }
 
   /**
@@ -32,10 +41,10 @@ class MovieFetcher {
    * @throws - Fetch가 실패한 경우 에러가 발생할 수 있습니다.
    */
   private async fetchDataFromApi(keyword: string = ''): Promise<Response> {
-    if (keyword !== '') this.#previousKeyword = keyword;
-    const finalKeyword = keyword === '' ? this.#previousKeyword : keyword;
+    if (keyword !== '') this.previousKeyword = keyword;
+    const finalKeyword = keyword === '' ? this.previousKeyword : keyword;
 
-    const response = await fetch(API_URL[this.#requestMode](this.#currentPage, finalKeyword));
+    const response = await fetch(API_URL[this.requestMode](this.currentPage, finalKeyword));
     return response;
   }
 
@@ -51,6 +60,8 @@ class MovieFetcher {
   }
 
   async getMovieData<T extends FetchResponseType>(keyword: string = ''): Promise<T> {
+    this.failedToFetch = true;
+
     try {
       const response = await this.fetchDataFromApi(keyword);
 
@@ -64,9 +75,9 @@ class MovieFetcher {
 
       const responseText = JSON.parse(await response.text());
       const rawData: Record<string, unknown>[] =
-        this.#requestMode === 'genre' ? responseText.genres : responseText.results;
+        this.requestMode === 'genre' ? responseText.genres : responseText.results;
       const trimmedData =
-        this.#requestMode === 'genre'
+        this.requestMode === 'genre'
           ? this.trimData<GenreType[]>(rawData, changingKeyPairs)
           : this.trimData<MovieType[]>(rawData, changingKeyPairs);
 
@@ -74,10 +85,11 @@ class MovieFetcher {
         return { result: 'NO_RESULT' } as T;
       }
 
-      if (this.#requestMode !== 'genre') {
-        this.#currentPage += 1;
+      if (this.requestMode !== 'genre') {
+        this.currentPage += 1;
       }
 
+      this.failedToFetch = false;
       return { result: 'OK', fetchedData: trimmedData } as T;
     } catch (error) {
       return { result: 'FETCH_CRASHED', errorMessage: UNKNOWN_ERROR_MESSAGE } as T;
