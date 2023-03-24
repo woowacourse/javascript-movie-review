@@ -28,9 +28,9 @@ export const renderMoviePage = (title: string) => {
   if ($page) $page.innerHTML = /* html */ `<movie-page title='${title}'></movie-page>`;
 };
 
-export const renderErrorPage = () => {
+export const renderErrorPage = (statusCode: number) => {
   const $page = $('#page');
-  if ($page) $page.innerHTML = /* html */ `<error-page></error-page>`;
+  if ($page) $page.innerHTML = /* html */ `<error-page status-code="${statusCode}"></error-page>`;
 };
 
 export const resetSearchBox = () => {

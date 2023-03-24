@@ -112,8 +112,8 @@ class App {
       this.movieService.concatMovies(newMovies);
       dom.renderMovieListItem(newMovies);
       window.scrollTo({ top: window.scrollY - 40 });
-    } catch {
-      dom.renderErrorPage();
+    } catch (response) {
+      if (response instanceof Response) dom.renderErrorPage(response.status);
     }
   }
 
