@@ -1,5 +1,6 @@
 import { DetailModalType } from '../type/movie';
 import { MOVIE_APP_IMG_PATH } from '../constant';
+import { $ } from '../utils/domHelper';
 
 import movies from '../domain/Movies';
 
@@ -27,10 +28,12 @@ export default class DetailModal extends HTMLElement {
         <div class="movie-modal-header">
           <h2>${title}</h2>
         </div>
-        <img class="close-modal-button" src="${MOVIE_APP_IMG_PATH.cancelButton}" alt="닫기" />
+        <form method="dialog">
+          <button class="close-modal-button"></button>
+        </form>
         <div class="movie-modal-detail">
-          <div class="movie-modal-image-container skeleton">
-            <img src="https://image.tmdb.org/t/p/original${poster_path}" alt="포스터" />
+          <div class="movie-modal-image-container">
+            <img class="skeleton" src="https://image.tmdb.org/t/p/original${poster_path}" alt="포스터" />
           </div>  
           <div class="movie-modal-description-container">
             <div class="movie-modal-overview">
@@ -57,4 +60,6 @@ export default class DetailModal extends HTMLElement {
       </div>
     </dialog>`;
   }
+
+  connectedCallback() {}
 }

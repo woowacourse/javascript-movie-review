@@ -200,7 +200,13 @@ dialog {
   right: 0;
   top: 0;
 
+  width: 36px;
+  height: 36px;
+
   margin-top: 8px;
+
+  border: 0;
+  background: url('./templates/cancel_button.png') transparent;
 }
 
 .movie-modal-image-container {
