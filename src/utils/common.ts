@@ -28,9 +28,19 @@ export const parsedFechedMovies = (fetchedMovies: ApiMovieProps[]) => {
         title: movie.title,
         imgUrl: movie.poster_path,
         score: movie.vote_average,
+        description: movie.overview,
+        genre: movie.genre_ids,
       };
     });
   } catch {
     throw new Error('데이터 구조가 변경되었습니다!');
   }
+};
+
+export const setMyScore = (id: string, score: string) => {
+  if (window.localStorage.getItem(id) === null) {
+    return window.localStorage.setItem(id, score);
+  }
+
+  window.localStorage.setItem(id, score);
 };

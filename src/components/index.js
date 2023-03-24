@@ -5,3 +5,4 @@ import Button from './Button/Button';
 import Skeleton from './Skeleton/Skeleton';
 import MovieListItem from './MovieListItem/MovieListItem';
 import Modal from './Modal/Modal';
+import ScoreBox from './ScoreBox/ScoreBox';

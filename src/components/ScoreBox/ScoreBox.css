@@ -1,0 +1,25 @@
+.my-favorite-score-box {
+  display: flex;
+  padding: 10px;
+}
+
+.my-favorite-score-box > div {
+  margin-left: 10px;
+}
+
+.my-favorite-score-box > p {
+  margin-top: 6px;
+  margin-left: 10px;
+}
+
+.my-score-text {
+  font-weight: 700;
+}
+
+.star {
+  margin-left: 10px;
+}
+
+.star-icon {
+  cursor: pointer;
+}
