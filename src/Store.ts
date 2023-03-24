@@ -22,12 +22,12 @@ class Store {
         page: this.page,
         query: value,
       }).then((data) => {
-        if (data) this.setMovieData(data);
+        this.setMovieData(data);
       });
       return;
     }
     await fetchMovies('/movie/popular', { page: this.page }).then((data) => {
-      if (data) this.setMovieData(data);
+      this.setMovieData(data);
     });
   }
 
@@ -37,8 +37,10 @@ class Store {
   }
 
   setMovieData(data: MovieList) {
-    this.movieList = data?.movies;
-    this.totalPage = data?.totalPages;
+    if (!data) return;
+    const { movies, totalPages } = data;
+    this.movieList = this.movieList.concat(movies);
+    this.totalPage = totalPages;
   }
 
   get movieListValue() {
@@ -51,6 +53,10 @@ class Store {
 
   setInitSearchWord() {
     this.searchWord = '';
+  }
+
+  initMovieList() {
+    this.movieList = [];
   }
 }
 

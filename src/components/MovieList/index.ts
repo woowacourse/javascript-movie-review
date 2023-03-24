@@ -12,16 +12,16 @@ export class MovieList extends HTMLElement {
     this.$movieItems = $<HTMLUListElement>('.item-list');
   }
 
+  setIntersection(handler: CallableFunction) {
+    const target = $<HTMLUListElement>('ul', this).lastElementChild;
+    handler(target);
+  }
+
   setTitle(title: string) {
     $<HTMLHeadingElement>('.title', this).innerText = title;
   }
 
   renderMovies(movieList: readonly Movie[]) {
-    this.insertMovieList(movieList);
-  }
-
-  renderSearchedMovies(movieList: readonly Movie[]) {
-    this.$movieItems.replaceChildren();
     this.insertMovieList(movieList);
   }
 

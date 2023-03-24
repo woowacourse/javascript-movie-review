@@ -27,7 +27,7 @@ export const fetchMovies = async (params: string, options: Options): Promise<Mov
     }
 
     const data: MovieDataResponse = await res.json();
-    const movies: Movie[] = data.results.map((result: MovieResults) => ({
+    const movies: readonly Movie[] = data.results.map((result: MovieResults) => ({
       id: result.id,
       title: result.title,
       posterPath: result.poster_path,
