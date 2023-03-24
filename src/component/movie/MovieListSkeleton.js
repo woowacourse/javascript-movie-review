@@ -3,7 +3,7 @@ import CustomElement from "../basic/CustomElement";
 
 class MovieListSkeleton extends CustomElement {
   connectedCallback() {
-    MovieManager.subscribeSkeleton(this);
+    MovieManager.subscribe(this.rerender.bind(this));
   }
 
   template() {
@@ -28,12 +28,13 @@ class MovieListSkeleton extends CustomElement {
   `.repeat(20);
   }
 
-  remove() {
-    this.replaceChildren();
-  }
+  rerender({ status }) {
+    if (status === "loading") {
+      this.render();
+      return;
+    }
 
-  show() {
-    this.render();
+    this.replaceChildren();
   }
 }
 

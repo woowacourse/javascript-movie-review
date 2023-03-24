@@ -10,7 +10,7 @@ class MovieContainer extends CustomElement {
 
   connectedCallback() {
     super.connectedCallback();
-    MovieManager.subscribe(this);
+    MovieManager.subscribe(this.rerender.bind(this));
     MovieManager.showMovies();
   }
 
@@ -25,7 +25,14 @@ class MovieContainer extends CustomElement {
     `;
   }
 
-  rerender({ searchWord }) {
+  rerender(state) {
+    if (state.status === "failure") {
+      this.replaceChildren();
+      return;
+    }
+
+    const { searchWord } = state.data;
+
     if (this.#searchWord !== searchWord) {
       this.#searchWord = searchWord;
 

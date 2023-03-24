@@ -13,7 +13,7 @@ class MovieItemModal extends CustomElement {
   id = null;
 
   connectedCallback() {
-    MovieManager.subscribeModal(this);
+    MovieManager.subscribe(this.popUp.bind(this));
   }
 
   template(movieInfo) {
@@ -55,17 +55,19 @@ class MovieItemModal extends CustomElement {
     this.setRateEvent();
   }
 
-  popUp(movieInfo) {
-    this.id = movieInfo.id;
-    this.insertAdjacentHTML("beforeend", this.template(movieInfo));
+  popUp(state) {
+    if (state.status === "success" && state.data.id) {
+      this.id = state.data.id;
+      this.insertAdjacentHTML("beforeend", this.template(state.data));
 
-    const rate = getData(USER_RATE_STORAGE_KEY)?.[this.id];
+      const rate = getData(USER_RATE_STORAGE_KEY)?.[this.id];
 
-    if (rate) {
-      this.rerenderUserRate(rate);
+      if (rate) {
+        this.rerenderUserRate(rate);
+      }
+
+      this.setEvent();
     }
-
-    this.setEvent();
   }
 
   setCloseEvent() {

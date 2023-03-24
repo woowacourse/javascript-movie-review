@@ -32,6 +32,17 @@ export interface MovieAppData {
   isShowMore: boolean;
 }
 
+export interface Error {
+  error: number;
+  errorMessage: string;
+}
+
+export interface State {
+  status: "loading" | "success" | "failure";
+  data: MovieAppData | {};
+  error: Error | {};
+}
+
 export interface MovieGenreApi {
   id: number;
   name: string;
