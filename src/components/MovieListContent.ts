@@ -10,7 +10,7 @@ import { HTTPError } from "../api/HTTPError";
 const MovieListContent = {
   loadMovies: async (searchKey?: string) => {
     try {
-      MovieListContainer.show();
+      MovieListContainer.showTitle();
 
       if (searchKey) {
         $<HTMLElement>(
@@ -22,10 +22,6 @@ const MovieListContent = {
       const movies = await MovieList.getMovieData();
       MovieListContent.render(movies);
       MovieItem.bindClickEvent();
-
-      if (movies.length < MOVIE_MAX_COUNT) {
-        MovieListContainer.hideButton();
-      }
 
       if (searchKey && !movies.length) {
         MovieListContainer.hideTitle();

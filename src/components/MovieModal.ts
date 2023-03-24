@@ -14,6 +14,7 @@ const MovieModal = {
 
       MovieModal.render(movieDetail);
       MovieModal.renderStar(starCount);
+      console.log(starCount);
       MovieModal.bindClickEvent();
       MovieModal.bindPressEvent();
       MovieModal.bindGoBack();
@@ -50,7 +51,7 @@ const MovieModal = {
                 <img class="modal-icon" src="${StarFilled}" alt="별점"/>
                 <p class="modal-text">${movie.vote_average}</p>
               </div>
-              <p class="modal-text">${movie.overview}</p>
+              <p class="modal-text modal-overview">${movie.overview}</p>
             </div>
             <div class="modal-score-box">
               <p class="bold">내 별점</p>
@@ -66,6 +67,7 @@ const MovieModal = {
 
   renderStar: (starCount: number) => {
     const score = starCount * 2;
+    console.log("? ", score);
     const template = `
     ${
       [...Array(starCount)]
@@ -90,6 +92,7 @@ const MovieModal = {
     `;
 
     $<HTMLElement>("#star-count").replaceChildren();
+    console.log(88);
     $<HTMLElement>("#star-count").insertAdjacentHTML("afterbegin", template);
   },
 
@@ -98,7 +101,6 @@ const MovieModal = {
       "click",
       (event: Event) => {
         if (event.target == $<HTMLDivElement>("#modal-backdrop")) {
-          console.log(22);
           MovieModal.close();
         }
       }
@@ -106,7 +108,6 @@ const MovieModal = {
 
     $<HTMLDivElement>(".modal-close").addEventListener("click", (event) => {
       event.stopPropagation();
-      console.log(33);
       MovieModal.close();
     });
 

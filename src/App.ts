@@ -20,7 +20,7 @@ class App {
 
   initEvents() {
     NavBar.bindSubmitEvent();
-    MovieListContainer.bindClickEvent();
+    MovieListContainer.setScrollObserver();
   }
 }
 
