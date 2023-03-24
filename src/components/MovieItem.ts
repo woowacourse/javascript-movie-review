@@ -2,7 +2,7 @@ import { StarFilled } from "../assets";
 import { POSTER_BASE_URL } from "../constants";
 import MovieList from "../domain/MovieList";
 import { Movie } from "../types/movie";
-import { $$ } from "../utils/domSelector";
+import { $, $$ } from "../utils/domSelector";
 import MovieModal from "./MovieModal";
 
 const MovieItem = {
@@ -14,15 +14,15 @@ const MovieItem = {
           ${
             movie.poster_path
               ? `<img
-              class="item-thumbnail"
+              class="item-thumbnail skeleton"
               src="${POSTER_BASE_URL}${movie.poster_path}"
               loading="lazy"
               alt="${movie.title}"
             />`
-              : `<div class="item-thumbnail placeholder-thumbnail"></div>`
+              : `<div id="item-thumbnail" class="item-thumbnail placeholder-thumbnail skeleton"></div>`
           }
-            <p class="item-title">${movie.title}</p>
-            <p class="item-score"><img src="${StarFilled}" alt="별점" />${
+            <p id="item-title" class="item-title skeleton">${movie.title}</p>
+            <p id="item-score" class="item-score skeleton"><img src="${StarFilled}" alt="별점" />${
       movie.vote_average
     }</p>
         </div>
@@ -42,6 +42,16 @@ const MovieItem = {
   onClickMovieItem: async (movieId: number) => {
     MovieList.setCurrentMovieId(movieId);
     MovieModal.loadMovieDetail();
+  },
+
+  removeSkeleton: () => {
+    $$<HTMLElement>(".item-card").forEach((item) => {
+      item.childNodes.forEach((child) => {
+        if (child instanceof HTMLElement) {
+          child.classList.remove("skeleton");
+        }
+      });
+    });
   },
 };
 

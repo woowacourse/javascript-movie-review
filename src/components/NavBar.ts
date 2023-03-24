@@ -1,7 +1,7 @@
-import MovieListContent from "./MovieListContent";
 import MovieList from "../domain/MovieList";
 import { Logo } from "../assets";
 import { $ } from "../utils/domSelector";
+import MovieListContainer from "./MovieListContainer";
 
 const NavBar = {
   render: () => {
@@ -30,7 +30,7 @@ const NavBar = {
 
     MovieList.init(inputElement.value);
 
-    MovieListContent.loadMovies(inputElement.value);
+    MovieListContainer.onSearch(inputElement.value);
   },
 };
 
