@@ -101,6 +101,7 @@
 
 .category-container {
     display: flex;
+    align-items: center;
     margin-bottom: 16px;
 }
 
@@ -130,9 +131,12 @@
 }
 
 .modal-overview {
-    max-height: 264px;
+    height: 264px;
+    padding: 5px;
     overflow-y: auto;
     white-space: pre-wrap;
+    background: rgba(56, 56, 57, 1);
+    border-radius: 16px;
 }
 
 .score {

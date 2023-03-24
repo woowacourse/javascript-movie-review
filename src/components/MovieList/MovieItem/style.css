@@ -2,7 +2,13 @@
   display: flex;
   width: 182px;
   flex-direction: column;
+  transition: transform 0.3s;
 }
+
+.item-card:hover {
+  transform: scale(1.05);
+}
+
 
 .item-thumbnail {
   border-radius: 8px;
@@ -19,7 +25,9 @@
 }
 
 .item-score {
-  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
   font-size: 1.2rem;
 }
 

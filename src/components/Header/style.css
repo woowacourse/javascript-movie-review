@@ -56,6 +56,9 @@ header .search-box > .search-button {
   transform: translateY(-50%);
 }
 
+.search-input {
+  border: none
+}
 
 @media screen and (max-width: 767px) {
   .search-input {
@@ -76,7 +79,8 @@ header .search-box > .search-button {
 
   .search-icon {
     display: block;
-    right: -348%;
+    position: absolute;
+    right: -19px;
   }
 
   .input-wrapper.expanded {
