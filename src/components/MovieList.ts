@@ -1,4 +1,5 @@
 import type { Movie } from "../types/type";
+import { HTMLTag } from "../utils/constants";
 
 class MovieList extends HTMLElement {
   constructor() {
@@ -8,7 +9,7 @@ class MovieList extends HTMLElement {
   //prettier-ignore
   renderMovies(movies: Movie[]) {
     if (movies.length === 0)
-      return `<p class="not-search">해당 검색 결과가 없습니다</p>`;
+      return `${HTMLTag.NO_SEARCH_TAG}`;
     return movies.map((movie) => /* html */ `
         <movie-item
           id="${movie.id}"

@@ -1,5 +1,6 @@
 import { dispatchCustomEvent } from "./../utils/dom";
 import { $ } from "../utils/dom";
+import { Word } from "../utils/constants";
 
 class MovieListContainer extends HTMLElement {
   constructor() {
@@ -14,8 +15,8 @@ class MovieListContainer extends HTMLElement {
     const contentType = this.contentTypeAttribute;
     const title =
       contentType === "popular"
-        ? "지금 인기 있는 영화"
-        : `"${query}" 검색 결과`;
+        ? `${Word.TITLE_POPULAR}`
+        : `"${query}" ${Word.TITLE_SEARCH}`;
 
     this.innerHTML = /* html */ `
         <h2>${title}</h2>

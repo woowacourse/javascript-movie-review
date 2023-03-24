@@ -28,11 +28,9 @@ class MovieHeader extends HTMLElement {
     const mobileButton = <HTMLElement>$(".mini-search-box");
     const searchBox = <HTMLElement>$(".search-box");
 
-    if (mobileButton === null) return;
+    if (!mobileButton) return;
 
     mobileButton.addEventListener("click", () => {
-      console.log("hi");
-
       mobileButton.style.display = "none";
       searchBox.style.display = "block";
     });
