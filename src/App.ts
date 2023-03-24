@@ -2,15 +2,17 @@ import Header from './components/Header';
 import MovieCardSection from './components/MovieCardSection';
 
 import Movies from './domain/Movies';
+import RatedMovies from './domain/RatedMovies';
 import { convertToAppMovies } from './domain/util';
 
 import { getPopularMovies, getSearchedMovies } from './api';
-import { MAX_PAGE } from './constants';
+import { MAX_PAGE, MOVIE_STORAGE_ID } from './constants';
 import { DEFAULT_ERROR_MESSAGE, isCustomErrorMessage } from './constants/message';
 import { ID } from './constants/selector';
 import { $ } from './utils/dom';
 
 import type { AppMovie } from './types/movie';
+import ratedMovieStates from './states/ratedMovies';
 
 interface ConvertingMovies {
   list: AppMovie[];
@@ -48,6 +50,10 @@ class App {
   setEvent() {
     Header.setEvent(this.#movies, this.getMovies);
     MovieCardSection.setEvent(this.#movies, this.getMovies);
+
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem(MOVIE_STORAGE_ID, JSON.stringify(ratedMovieStates.getList()));
+    });
   }
 
   async getMovies(query: string = '') {

@@ -7,6 +7,7 @@ import { CLASS } from '../../constants/selector';
 import type { AppMovie } from '../../types/movie';
 
 export interface MovieDetail {
+  id: number;
   title: string;
   genres: string[];
   posterPath: string | null;
@@ -68,10 +69,17 @@ const MovieCard = {
 
   async getMovieDetail(movieId: string): Promise<MovieDetail | undefined> {
     try {
-      const { title, genres: rawGenres, poster_path: posterPath, overview, vote_average: voteAverage } = await getMovieDetailApi(movieId);
+      const {
+        id,
+        title,
+        genres: rawGenres,
+        poster_path: posterPath,
+        overview,
+        vote_average: voteAverage,
+      } = await getMovieDetailApi(movieId);
       const genres = rawGenres.map((genre) => genre.name);
 
-      return { title, genres, posterPath, overview, rating: voteAverage };
+      return { id, title, genres, posterPath, overview, rating: voteAverage };
     } catch (error) {
       if (isCustomErrorMessage(error)) {
         alert(error.error);

@@ -1,12 +1,20 @@
 import { starEmptyImage, starFilledImage } from '../../assets/images';
 
 const UserRatingButton = {
-  template(score: string, desc: string, index: number, imagePath: string = starEmptyImage) {
+  template(score: string, desc: string, initScore: string) {
     return `
-      <button type="button" value=${score} data-rating-desc=${desc} data-index=${index}>
-        <img src=${imagePath} alt="${score}점" />
+      <button type="button" value=${score} data-rating-desc=${desc}>
+        <img src=${UserRatingButton.initImagePath(score, initScore)} alt="${score}점" />
       </button>
     `;
+  },
+
+  initImagePath(score: string, initScore: string) {
+    if (Number(score) <= Number(initScore)) {
+      return starFilledImage;
+    }
+
+    return starEmptyImage;
   },
 
   toggleStarImage(target: HTMLButtonElement, isFilled: boolean) {

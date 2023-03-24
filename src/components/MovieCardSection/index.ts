@@ -8,6 +8,7 @@ import { CLASS } from '../../constants/selector';
 import { $ } from '../../utils/dom';
 
 import type Movies from '../../domain/Movies';
+import type RatedMovies from '../../domain/RatedMovies';
 import type { GetMovies } from '../../App';
 
 import './MovieCardSection.style.css';

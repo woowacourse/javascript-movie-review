@@ -5,8 +5,8 @@ import { DEFAULT_LIST_LENGTH } from '../../constants';
 import { CLASS } from '../../constants/selector';
 import { $ } from '../../utils/dom';
 
+import type RatedMovies from '../../domain/RatedMovies';
 import type { AppMovie } from '../../types/movie';
-import { getMovieDetailApi } from '../../api';
 
 const MovieCardList = {
   template() {

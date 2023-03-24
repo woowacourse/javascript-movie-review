@@ -1,15 +1,16 @@
 import UserRatingButtonList from './UserRatingButtonList';
 
 import { $ } from '../../utils/dom';
+import type { RatedMovie } from '../../types/domain';
 
 const UserRating = {
-  template() {
+  template({ score, desc }: RatedMovie) {
     return `
       <div class="user-rating-container">
         <p>내 별점</p>
-        ${UserRatingButtonList.template()}
-        <p class="user-rating-score"></p>
-        <p class="user-rating-desc">별점 매기기</p>
+        ${UserRatingButtonList.template(score)}
+        <p class="user-rating-score">${score}</p>
+        <p class="user-rating-desc">${desc}</p>
       </div>
     `;
   },

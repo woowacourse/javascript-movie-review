@@ -5,15 +5,18 @@ import { posterNotFoundImage, starFilledImage } from '../../assets/images';
 import { IMAGE_URL } from '../../constants';
 import { CLASS } from '../../constants/selector';
 import { $ } from '../../utils/dom';
+
 import type { MovieDetail } from '../MovieCardSection/MovieCard';
+import type { RatedMovie } from '../../types/domain';
 
 import './MovieDetailModal.style.css';
+import ratedMovieStates from '../../states/ratedMovies';
 
 const MovieDetailModal = {
   template(movieDetail: MovieDetail) {
     return `
       <div class="modal-background"></div>
-      <div class="modal-content">
+      <div class="modal-content" data-movie-id=${movieDetail.id}>
         <div class="modal-header">
           <h2>${movieDetail.title}</h2>
           <button type="button" class="modal-close-button">X</button>
@@ -38,7 +41,7 @@ const MovieDetailModal = {
                 ${movieDetail.overview}
               </p>
             </div>
-            ${UserRating.template()}
+            ${UserRating.template(ratedMovieStates.find(movieDetail.id))}
           </div>
         </div>
       </div>
@@ -74,6 +77,9 @@ const MovieDetailModal = {
   close() {
     const modalRoot = $<HTMLDivElement>('#modal-root');
 
+    const ratedMovie = MovieDetailModal.createRatedMovie();
+    ratedMovieStates.add(ratedMovie);
+
     modalRoot.classList.add(CLASS.HIDE);
     modalRoot.innerHTML = '';
     MovieDetailModal.removeEvent();
@@ -81,6 +87,24 @@ const MovieDetailModal = {
 
   handlePosterImage(path: string | null) {
     return path === null ? posterNotFoundImage : IMAGE_URL + path;
+  },
+
+  createRatedMovie(): RatedMovie {
+    const {
+      dataset: { movieId },
+    } = $<HTMLDivElement>('.modal-content');
+    const score = $<HTMLParagraphElement>('.user-rating-score').innerText;
+    const desc = $<HTMLParagraphElement>('.user-rating-desc').innerText;
+
+    if (!movieId) {
+      throw new Error(`${movieId} not found`);
+    }
+
+    return { id: Number(movieId), score, desc };
+  },
+
+  findTargetMovieRating(movieId: number) {
+    const movie = ratedMovieStates.find(movieId);
   },
 };
 
