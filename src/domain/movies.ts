@@ -1,4 +1,4 @@
-import { removeMoreButton, renderMovieList, renderSkeletons } from "../components/MovieList/movieListHandler";
+import { removeMoreButton, renderMovieList, dummySkeletons } from "../components/MovieList/movieListHandler";
 import { Movie } from "../type";
 import { $ } from "../utils/selector";
 import { fetchMovies } from "./movieApi";
@@ -23,7 +23,7 @@ export const checkIntersectionObserverEntries = (intersectionObserverEntries: In
 }
 
 const loadNextPage = () => {
-  $(".item-list").insertAdjacentHTML("beforeend", renderSkeletons());
+  $(".item-list").insertAdjacentHTML("beforeend", dummySkeletons());
   store.nextPage();
 
   if (store.getLastKeyword() === "") {
@@ -46,10 +46,10 @@ export const updateMovies = async (keyword?: string) => {
 
 const dispatchMovieEvents = () => {
   store.getMovies().forEach((movie) => {
-    const customEvent = new CustomEvent('movieItemEvent', { detail: movie });
-    const customElement = document.getElementById(`moive-${movie.id}`);
-    if (customElement instanceof HTMLElement) {
-      customElement.dispatchEvent(customEvent);
+    const movieItemEvent = new CustomEvent('movieItemEvent', { detail: movie });
+    const movieItem = document.getElementById(`moive-${movie.id}`);
+    if (movieItem instanceof HTMLElement) {
+      movieItem.dispatchEvent(movieItemEvent);
     }
   });
 }

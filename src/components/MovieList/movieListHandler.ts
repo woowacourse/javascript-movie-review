@@ -19,6 +19,6 @@ export const removeMoreButton = () => {
   $("#loading-trigger").remove();
 };
 
-export const renderSkeletons = () => {
+export const dummySkeletons = () => {
   return "<movie-skeleton></movie-skeleton>".repeat(20);
 };

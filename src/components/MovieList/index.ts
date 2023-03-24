@@ -1,6 +1,5 @@
 import Store from "../../domain/Store";
-import { Movie } from "../../type";
-import { renderSkeletons } from "./movieListHandler";
+import { dummySkeletons } from "./movieListHandler";
 
 export default class MovieList extends HTMLElement {
   private store: Store;
@@ -9,15 +8,17 @@ export default class MovieList extends HTMLElement {
     this.store = Store.getInstance();
     this.innerHTML = `
     <section class="item-view">
-      <h2>지금 인기 있는 영화</h2>
-      <ul class="item-list">${renderSkeletons()}</ul>
-    </section>
-    `;
+      <div class="sub-title">
+        <h2>지금 인기 있는 영화</h2>
+      </div>
+      <ul class="item-list">${dummySkeletons()}</ul>
+    < /section>
+      `;
   }
 
   renderMovies() {
     this.innerHTML = `
-    <section class="item-view">
+    <section class="item-view" >
       ${this.store.getMovies().length > 0 ? `
         <div class="sub-title">
           <h2>
@@ -33,7 +34,7 @@ export default class MovieList extends HTMLElement {
         </ul>`
         : `<no-results-message></no-results-message>`
       }
-      <div id="loading-trigger" ></div>
+      <div id="loading-trigger" > </div>
     </section>
     `;
   }
