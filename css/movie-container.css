@@ -18,7 +18,8 @@
 }
 
 .item-view .empty-movie-list-container {
-  margin-top: 50px;
+  width: fit-content;
+  height: fit-content;
 }
 
 .item-view .empty-movie-list-container h3 {

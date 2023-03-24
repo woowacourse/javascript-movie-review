@@ -3,7 +3,6 @@ export interface Movie {
   query: string;
   currentPage: number;
   totalPages: number;
-  isClicked: boolean;
 }
 
 export interface MoveItem {
