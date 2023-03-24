@@ -3,6 +3,7 @@ import HeaderComponent from "./AppHeaderComponent";
 import MovieListComponent from "./movie/MovieListComponent";
 import MoreButtonComponent from "./element/MoreButtonComponent";
 import TitleComponent from "./element/TitleComponent";
+import UpScrollButtonComponent from "./element/UpScrollButtonComponent";
 import transformMovieItemsType from "../util/MovieList";
 import { ACTION, SEARCH_WARNING, TITLE } from "../constants/constants";
 import { getRequest, transData } from "../api/handler";
@@ -103,6 +104,9 @@ export default class AppComponent extends CustomComponent {
           this.#$movieList.appendNewPage();
           this.getMovieData(ACTION.SEARCH);
           break;
+        case "up-scroll":
+          window.scroll({ top: 0, behavior: "smooth" });
+          break;
       }
     });
 
@@ -122,6 +126,7 @@ export default class AppComponent extends CustomComponent {
     });
 
     window.addEventListener("scroll", () => {
+      this.toggleUpScrollButton();
       if (!this.#scrollThrottleId) {
         this.#scrollThrottleId = setTimeout(() => {
           if (this.getBoundingClientRect().bottom - window.innerHeight < 150) {
@@ -132,6 +137,17 @@ export default class AppComponent extends CustomComponent {
         }, 1000);
       }
     });
+  }
+
+  toggleUpScrollButton() {
+    const header = document.querySelector("app-header");
+    const upScrollBtn = document.querySelector("up-scroll-button");
+    if (header.getBoundingClientRect().bottom < 0) {
+      upScrollBtn.classList.remove("hide");
+      return;
+    }
+
+    upScrollBtn.classList.add("hide");
   }
 
   template() {
@@ -145,6 +161,7 @@ export default class AppComponent extends CustomComponent {
                     <more-button></more-button>
                 </section>
             </main>
+            <up-scroll-button class="hide"></up-scroll-button>
         </div>
         `;
   }
