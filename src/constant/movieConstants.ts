@@ -1,4 +1,4 @@
-import { Constant } from "../type/movieType";
+import { Constant, State } from "../type/movieType";
 
 export const ImgSrc: Readonly<Constant> = {
   NO_IMG: "./image/no_image.jpg",
@@ -17,3 +17,9 @@ export const RateCaption: Readonly<Constant> = {
 };
 
 export const USER_RATE_STORAGE_KEY: string = "user_rate";
+
+export const apiStatus: Readonly<Constant> = {
+  LOADING: "loading",
+  SUCCESS: "success",
+  FAILURE: "failure",
+};

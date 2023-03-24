@@ -1,3 +1,4 @@
+import { apiStatus } from "../../constant/movieConstants";
 import MovieManager from "../../domain/MovieManager";
 import CustomElement from "../basic/CustomElement";
 
@@ -29,7 +30,7 @@ class MovieListSkeleton extends CustomElement {
   }
 
   rerender({ status }) {
-    if (status === "loading") {
+    if (status === apiStatus.LOADING) {
       this.render();
       return;
     }

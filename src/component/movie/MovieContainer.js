@@ -4,6 +4,7 @@ import { $ } from "../../util/dom";
 import "./MovieList";
 import "./MovieListSkeleton";
 import "../modal/MovieItemModal";
+import { apiStatus } from "../../constant/movieConstants";
 
 class MovieContainer extends CustomElement {
   #searchWord = "";
@@ -26,7 +27,7 @@ class MovieContainer extends CustomElement {
   }
 
   rerender(state) {
-    if (state.status === "failure") {
+    if (state.status === apiStatus.FAILURE) {
       this.replaceChildren();
       return;
     }

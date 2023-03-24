@@ -1,12 +1,12 @@
 import Movie from "./Movie";
-import { CustomElement } from "../type/componentType";
-import { MovieAppData, State } from "../type/movieType";
+import { State, Status } from "../type/movieType";
+import { apiStatus } from "../constant/movieConstants";
 
 type Subscriber = (state: State) => void;
 
 class MovieManager {
   private state: State = {
-    status: "loading",
+    status: <Status>apiStatus.LOADING,
     data: {},
     error: {},
   };
@@ -27,30 +27,30 @@ class MovieManager {
   }
 
   async showMovies(searchWord: string = "") {
-    this.setNewState({ status: "loading" });
+    this.setNewState({ status: apiStatus.LOADING });
     this.publish(this.state);
 
     const movieAppData = await Movie.getMovies(searchWord);
 
     if (movieAppData.error) {
-      this.setNewState({ status: "failure", error: movieAppData });
+      this.setNewState({ status: apiStatus.FAILURE, error: movieAppData });
     } else {
-      this.setNewState({ status: "success", data: movieAppData });
+      this.setNewState({ status: apiStatus.SUCCESS, data: movieAppData });
     }
 
     this.publish(this.state);
   }
 
   async showMoreMovies() {
-    this.setNewState({ status: "loading" });
+    this.setNewState({ status: apiStatus.LOADING });
     this.publish(this.state);
 
     const movieAppData = await Movie.getMoreMovies();
 
     if (movieAppData.error) {
-      this.setNewState({ status: "failure", error: movieAppData });
+      this.setNewState({ status: apiStatus.FAILURE, error: movieAppData });
     } else {
-      this.setNewState({ status: "success", data: movieAppData });
+      this.setNewState({ status: apiStatus.SUCCESS, data: movieAppData });
     }
 
     this.publish(this.state);

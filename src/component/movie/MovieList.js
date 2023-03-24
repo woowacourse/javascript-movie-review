@@ -3,6 +3,7 @@ import { $ } from "../../util/dom";
 import MovieManager from "../../domain/MovieManager";
 import "../movie/MovieItem";
 import "./MovieEmpty";
+import { apiStatus } from "../../constant/movieConstants";
 
 class MovieList extends CustomElement {
   connectedCallback() {
@@ -23,7 +24,7 @@ class MovieList extends CustomElement {
   }
 
   rerender(state) {
-    if (state.status === "success" && state.data.movies) {
+    if (state.status === apiStatus.SUCCESS && state.data.movies) {
       const { isShowMore, movies, page, totalPages } = state.data;
 
       const movieItemsTemplate = movies.length

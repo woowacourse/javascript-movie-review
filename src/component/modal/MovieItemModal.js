@@ -1,4 +1,5 @@
 import {
+  apiStatus,
   ImgSrc,
   RateCaption,
   RATE_RANGE,
@@ -56,7 +57,7 @@ class MovieItemModal extends CustomElement {
   }
 
   popUp(state) {
-    if (state.status === "success" && state.data.id) {
+    if (state.status === apiStatus.SUCCESS && state.data.id) {
       this.id = state.data.id;
       this.insertAdjacentHTML("beforeend", this.template(state.data));
 

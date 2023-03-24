@@ -38,10 +38,12 @@ export interface Error {
 }
 
 export interface State {
-  status: "loading" | "success" | "failure";
+  status: Status;
   data: MovieAppData | {};
   error: Error | {};
 }
+
+export type Status = "loading" | "success" | "failure";
 
 export interface MovieGenreApi {
   id: number;
