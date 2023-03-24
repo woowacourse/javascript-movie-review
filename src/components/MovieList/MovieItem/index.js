@@ -9,7 +9,7 @@ class MovieItem {
 
   constructor($target, movie) {
     this.$target = $target;
-    this.#movieInfo = movie.getMovieData();
+    this.#movieInfo = movie.getMovieInfo();
 
     this.render();
   }

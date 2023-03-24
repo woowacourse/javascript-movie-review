@@ -1,32 +1,10 @@
-interface IMovie {
-  id: number;
-  title: string;
-  posterSrc: string | null;
-  voteAverage: number;
-}
-
-interface IMovieApiData {
-  adult: boolean;
-  backdrop_path: string | null;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string | null;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
+import { MovieApiData, MovieInfo } from "./types";
 
 class Movie {
-  private movieData: IMovie;
+  private movieInfo: MovieInfo;
 
-  constructor(movieData: IMovieApiData) {
-    this.movieData = {
+  constructor(movieData: MovieApiData) {
+    this.movieInfo = {
       id: movieData.id,
       title: movieData.title,
       posterSrc: movieData.poster_path,
@@ -34,8 +12,8 @@ class Movie {
     };
   }
 
-  getMovieData() {
-    return this.movieData;
+  getMovieInfo() {
+    return this.movieInfo;
   }
 }
 
