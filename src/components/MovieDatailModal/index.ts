@@ -4,32 +4,35 @@ import './MovieDetailModal.style.css';
 import { IMAGE_URL } from '../../constants';
 import StarRate from './StarRate';
 import Movies from '../../domain/Movies';
+import type { MovieDetail } from '../../types/movie';
 
 const MovieDetailModal = {
   template() {
     return `
-      <dialog id="movie-detail-modal">
+      <dialog>
         <div class="modal-backdrop"></div>
-        <button id="movie-detail-close">X</button>
-        <h2 id="movie-detail-title"></h2>
-        <div id="movie-detail-main">
-          <img
-            class="${CLASS.SKELETON}"
-            src=""
-            onerror="this.src='${posterNotFoundImage}'"
-            loading="lazy"
-            alt=""
-          />
-          <div id="movie-detail">
-            <div id="movie-detail-text">
-              <div id="movie-detail-genre-rate">
-                <div id="movie-detail-genres"></div>
-                <img src=${starFilledImage} alt="별점" />
-                <div id="movie-detail-rate"></div>
+        <div id="movie-detail-modal">
+          <button id="movie-detail-close">X</button>
+          <h2 id="movie-detail-title"></h2>
+          <div id="movie-detail-main">
+            <img
+              class="${CLASS.SKELETON}"
+              src=""
+              onerror="this.src='${posterNotFoundImage}'"
+              loading="lazy"
+              alt=""
+            />
+            <div id="movie-detail">
+              <div id="movie-detail-text">
+                <div id="movie-detail-genre-rate">
+                  <div id="movie-detail-genres"></div>
+                  <img src=${starFilledImage} alt="별점" />
+                  <div id="movie-detail-rate"></div>
+                </div>
+                <p id="movie-detail-overview"></p>
               </div>
-              <p id="movie-detail-overview"></p>
+              ${StarRate.template()}
             </div>
-            ${StarRate.template()}
           </div>
         </div>
       </dialog>
@@ -38,7 +41,7 @@ const MovieDetailModal = {
   setEvent(movies: Movies, target: HTMLElement) {
     StarRate.setEvent(movies, target);
   },
-  open(data: any) {
+  open(data: MovieDetail) {
     const modal = document.querySelector<HTMLDialogElement>('dialog');
     const title = modal?.querySelector('h2') as HTMLElement;
     title.innerHTML = data.title as string;
