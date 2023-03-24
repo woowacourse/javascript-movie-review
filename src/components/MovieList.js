@@ -11,15 +11,17 @@ class MovieList {
 
   init() {
     this.$ul.classList = "item-list";
-    this.$ul.innerHTML = "";
+    this.$ul.innerHTML = `<li>나 아이템</li>`;
   }
 
   render($target) {
     // $target === $itemView
-    $target.insertAdjacentHTML("beforeend", this.$ul);
+    $target.insertAdjacentElement("beforeend", this.$ul);
   }
 
   addMovies() {}
 
   bindEvent() {}
 }
+
+export default MovieList;

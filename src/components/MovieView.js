@@ -1,22 +1,30 @@
+import MovieList from "./MovieList";
+import MovieListTitle from "./MovieListTitle";
+
 class MovieView {
   $itemView = document.createElement("section");
+  movieListTitle;
+  movieList;
 
   constructor($target) {
-    this.init();
+    this.init($target);
 
     this.render($target);
   }
 
-  init() {
+  init($target) {
     this.$itemView.classList = "item-view";
 
-    // new Header($target);
-    // new MovieList($target);
+    // this.movieListTitle = new MovieListTitle($target);
+    // this.movieList = new MovieList($target);
+    this.movieListTitle = new MovieListTitle($target);
+    this.movieList = new MovieList($target);
   }
 
   render($target) {
     // $target === $main
-    $target.insertAdjacentHTML("afterbegin", this.$itemView);
+    $target.insertAdjacentElement("afterbegin", this.$itemView);
+    console.log($target);
   }
 }
 

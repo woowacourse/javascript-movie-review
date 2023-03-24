@@ -14,7 +14,7 @@ class MovieListTitle {
 
   render($target) {
     // $target === item-view
-    $target.insertAdjacentHTML("afterbegin", this.$movieListTitle);
+    $target.insertAdjacentElement("afterbegin", this.$movieListTitle);
   }
 
   changeInnerText(query) {

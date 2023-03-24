@@ -1,4 +1,4 @@
-class MovieListTitle {
+class Header {
   $header = document.createElement("header");
 
   constructor($target) {
@@ -11,12 +11,13 @@ class MovieListTitle {
 
   init() {
     this.$header.classList = "";
-    this.$header.innerHTML = this.getTemplate();
+    // this.$header.innerHTML = this.getTemplate();
+    this.$header.innerHTML = "<div>오케이</div>";
   }
 
   render($target) {
     // $target === $app
-    $target.insertAdjacentHTML("afterbegin", this.$header);
+    $target.insertAdjacentElement("afterbegin", this.$header);
   }
 
   bindEvent() {}
@@ -33,4 +34,4 @@ class MovieListTitle {
   }
 }
 
-export default MovieListTitle;
+export default Header;

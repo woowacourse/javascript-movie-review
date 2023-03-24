@@ -9,7 +9,8 @@ class MovieDetail {
 
   init(movie) {
     this.$dialog.classList = "";
-    this.$dialog.innerHTML = this.getTemplate(movie);
+    // this.$dialog.innerHTML = this.getTemplate(movie);
+    this.$dialog.innerHTML = "<div>나 아이템</div>";
   }
 
   render($target) {
