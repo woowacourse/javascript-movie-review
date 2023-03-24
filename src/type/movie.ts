@@ -37,4 +37,13 @@ export type FetchingMovieType = {
 export type MovieSubscriberType = {
   movies: ((value?: MovieItemType[]) => void)[];
   loading: (() => void)[];
+  detail: ((value?: object) => void)[];
+};
+
+export type DetailModalType = {
+  title: string;
+  poster_path: string;
+  genres: object[];
+  vote_average: number;
+  overview: string;
 };
