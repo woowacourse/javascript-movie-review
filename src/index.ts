@@ -1,15 +1,9 @@
-import { TMDBClient } from './api/clients/TMDBClient';
-import { TMDBLanguage } from './api/clients/TMDBClient.type';
+import { api } from './api';
 import './assets/common.css';
 import { MovieList } from './components/MovieList';
 import { SearchBox } from './components/SearchBox';
-import { NewMovie } from './states/NewMovie';
+import { NewMovieSubject } from './states/domain/NewMovieSubject';
 import { $ } from './utils/selector';
-
-const client = new TMDBClient({
-  apiKey: process.env.TMDB_API_KEY!,
-  language: navigator.language as TMDBLanguage,
-});
 
 function assignMovieList(movieList: MovieList) {
   $('main').replaceChildren(movieList.getRoot());
@@ -18,7 +12,7 @@ function assignMovieList(movieList: MovieList) {
 assignMovieList(
   new MovieList({
     title: '지금 인기있는 영화',
-    newMovie: new NewMovie((page) => client.getPopularMovies({ page })),
+    newMovie$: new NewMovieSubject((page) => api.getPopularMovies({ page })),
   }),
 );
 
@@ -26,7 +20,7 @@ $('.logo').addEventListener('click', () => {
   assignMovieList(
     new MovieList({
       title: '지금 인기있는 영화',
-      newMovie: new NewMovie((page) => client.getPopularMovies({ page })),
+      newMovie$: new NewMovieSubject((page) => api.getPopularMovies({ page })),
     }),
   );
 });
@@ -42,7 +36,7 @@ $('.search-box').addEventListener('submit', (event) => {
   assignMovieList(
     new MovieList({
       title: `"${query}" 검색결과`,
-      newMovie: new NewMovie((page) => client.searchMovies({ query, page })),
+      newMovie$: new NewMovieSubject((page) => api.searchMovies({ query, page })),
     }),
   );
 });
