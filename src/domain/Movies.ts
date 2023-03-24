@@ -4,7 +4,6 @@ import {
   getApiSearchMovie,
 } from './api';
 import { MovieItemType, DetailModalType } from '../type/movie';
-import { ERROR_MESSAGE } from '../constant';
 
 import Observable from './Observable';
 import alertFetchStatus from '../validation/alertFetchStatus';
@@ -29,7 +28,7 @@ class Movies extends Observable {
   getTitle() {
     return this.isSearched
       ? `"${this.query}" 검색 결과`
-      : '가장 인기 있는 영화';
+      : '지금 인기 있는 영화';
   }
 
   getIsSearched() {
