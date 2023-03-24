@@ -29,8 +29,6 @@ class Header {
   }
 
   clickLogoIcon(event: Event) {
-    console.log(event.target);
-
     const target = event.target as HTMLDivElement;
 
     if (!target.matches('.search-box')) return;
