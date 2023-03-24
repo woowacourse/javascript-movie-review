@@ -1,7 +1,7 @@
 import Header from '../components/Header';
 import MovieList from '../components/MovieList';
 import MovieFetcher from '../domains/MovieFetcher';
-import LoadMoreButton from '../components/LoadMoreButton';
+import FooterMessage from '../components/FooterMessage';
 
 type MovieType = {
   title: string;
@@ -41,7 +41,7 @@ type ViewBundleType = {
   header: Header;
   movieList: MovieList;
   movieFetcher: MovieFetcher;
-  loadMoreButton: LoadMoreButton;
+  footerMessage: FooterMessage;
 };
 
 export {
