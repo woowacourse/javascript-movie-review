@@ -235,6 +235,7 @@ dialog#movie-modal::backdrop {
   right: 0;
 
   width: 7%;
+  margin-right: 10px;
 
   border: none;
   background: none;
@@ -261,7 +262,7 @@ dialog#movie-modal::backdrop {
 #movie-modal .skeleton {
   width: 100%;
   max-width: 500px;
-  height: 100%;
+  height: 33vh;
   max-height: 750px;
 }
 
@@ -270,7 +271,7 @@ dialog#movie-modal::backdrop {
 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
 
   margin: 48px;
 
@@ -332,7 +333,7 @@ dialog#movie-modal::backdrop {
 
   padding: 20px;
   margin: 0 auto;
-  width: 70%;
+  width: 100%;
 
   border-radius: 16px;
   background-color: #383838;
@@ -381,6 +382,13 @@ img.rating-img[data-filled="true"] {
   content: url('../assets/star_filled.png');
 }
 
+@media screen and (max-width: 1000px) {
+  .star {
+    padding: 10px;
+    font-size: 1rem;
+  }
+}
+
 @media screen and (max-width: 834px) {
   body {
     background-color: hotpink;
@@ -388,6 +396,106 @@ img.rating-img[data-filled="true"] {
 
   .movie-info {
     margin: 20px 24px;
+  }
+
+  .modal-header {
+    margin: 0;
+  }
+
+  #movie-modal .movie-info {
+    margin: 100px 24px;
+  }
+
+  #movie-modal .overview {
+    max-height: 350px;
+  }
+
+  .star {
+    padding: 5px;
+    font-size: 0.8rem;
+  }
+
+  .star-container input {
+    width: 120px;
+    height: 24px;
+  }
+  
+  .star-container span {
+    left: 10px;
+  
+    width: 120px;
+    height: 100%;
+  }
+  
+  img.rating-img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media screen and (max-width: 630px) {
+  body{
+    background-color: violet;
+  }
+
+  .star {
+    grid-template-columns: 25% 60% 15%;
+    padding: 5px;
+    font-size: 1rem;
+  }
+
+  .star-container input {
+    width: 160px;
+    height: 32px;
+  }
+  
+  .star-container span {
+    left: 12.5px;
+  
+    width: 160px;
+    height: 100%;
+  }
+
+  #movie-modal .rating-message {
+    display: none;
+  }
+  
+  img.rating-img {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  body{
+    background-color: crimson;
+  }
+
+  .star {
+    grid-template-columns: 25% 68% 7%;
+    padding: 5px;
+    font-size: 0.8rem;
+  }
+
+  .star-container input {
+    width: 120px;
+    height: 24px;
+  }
+  
+  .star-container span {
+    left: 10px;
+  
+    width: 120px;
+    height: 100%;
+  }
+
+  #movie-modal .rating-message {
+    display: none;
+  }
+  
+  img.rating-img {
+    width: 24px;
+    height: 24px;
   }
 }
 
@@ -446,9 +554,34 @@ img.rating-img[data-filled="true"] {
   .item-card {  
     width: 140px;
   }
+
+  #movie-modal {
+    margin-top: 50vh;
+
+    width: 100%;
+    max-width: 100%;
+
+    min-height: 50vh;
+    height: 50vh;
+    max-height: 50vh;
+  }
+
+  .modal-header {
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
+
+  #movie-modal .modal-body {
+    max-height: 35vh;
+  }
+
+  #movie-modal .movie-info {
+    flex: auto;
+    justify-content: flex-start;
+    margin: 12px;
+  }
   
-  .item-card > img,
-  .movie-info .skeleton {
+  .item-card > img {
     width: 140px;
     height: 220px;
   }
@@ -462,5 +595,36 @@ img.rating-img[data-filled="true"] {
   .item-score {
     margin-top: 8px;
     font-size: 1rem;
+  }
+
+  #movie-modal .movie-poster {
+    display: none;
+  }
+
+  .star {
+    grid-template-columns: 25% 65% 10%;
+    padding: 5px;
+    font-size: 0.8rem;
+  }
+
+  .star-container input {
+    width: 120px;
+    height: 24px;
+  }
+  
+  .star-container span {
+    left: 10px;
+  
+    width: 120px;
+    height: 100%;
+  }
+
+  #movie-modal .rating-message {
+    display: none;
+  }
+  
+  img.rating-img {
+    width: 24px;
+    height: 24px;
   }
 }
