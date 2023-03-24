@@ -24,8 +24,8 @@
 .item-list {
   display: grid;
   width: 100%;
-  grid-column-gap: 50px;
-  grid-row-gap: 48px;
+  /*grid-column-gap: 50px;*/
+  grid-row-gap: 15px;
 }
 
 /* Desktop */

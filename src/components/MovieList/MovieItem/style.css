@@ -6,7 +6,7 @@
 
 .item-thumbnail {
   border-radius: 8px;
-  height: 359px;
+  height: 260px;
   width: 100%;
   background-size: cover;
   background-position: center;
@@ -55,7 +55,7 @@ button.primary {
 /* Tablet */
 @media (max-width: 1024px) {
   .item-thumbnail {
-    height: 359px;
+    height: 260px;
     aspect-ratio: 182 / 359;
   }
 
@@ -75,7 +75,7 @@ button.primary {
   }
 
   .item-thumbnail {
-    height: 248px;
+    height: 228px;
     aspect-ratio: 140 / 248;
   }
 
