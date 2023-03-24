@@ -36,6 +36,10 @@ const Modal = {
     const $modalBackground = document.querySelector(".modal-background");
 
     $modalBackground.addEventListener("click", this.close);
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      this.close();
+    });
   },
 };
 

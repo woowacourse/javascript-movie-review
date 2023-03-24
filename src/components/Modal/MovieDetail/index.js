@@ -49,6 +49,7 @@ const MovieDetailModal = {
     const $modalContainer = document.querySelector(".modal-container");
     const movieDetail = await this.getMovieDetail(id);
     $modalContainer.innerHTML = this.template(movieDetail);
+    this.setEvent();
   },
 
   async getMovieDetail(id) {
@@ -61,6 +62,15 @@ const MovieDetailModal = {
 
   convertToImgUrl(imgSrc) {
     return `${imageUrl}${imgSrc}`;
+  },
+
+  setEvent() {
+    const $closeButton = document.querySelector(".close-button");
+
+    $closeButton.addEventListener("click", (event) => {
+      const $modal = event.target.closest(".modal");
+      $modal.classList.remove("modal-open");
+    });
   },
 };
 
