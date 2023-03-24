@@ -19,7 +19,7 @@
   line-height: 60px;
 }
 
-.modal-header > button {
+.modal-close-button {
   position: absolute;
   top: 50%;
   right: 0;

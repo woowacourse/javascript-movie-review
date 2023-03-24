@@ -16,7 +16,7 @@ const MovieDetailModal = {
       <div class="modal-content">
         <div class="modal-header">
           <h2>${movieDetail.title}</h2>
-          <button type="button">X</button>
+          <button type="button" class="modal-close-button">X</button>
         </div>
         <div class="movie-details">
           <div class="movie-detail-poster">
@@ -47,8 +47,10 @@ const MovieDetailModal = {
 
   setEvent() {
     const modalBackground = $<HTMLDivElement>('.modal-background');
+    const modalCloseButton = $<HTMLButtonElement>('.modal-close-button');
 
     modalBackground.addEventListener('click', MovieDetailModal.close);
+    modalCloseButton.addEventListener('click', MovieDetailModal.close);
     window.addEventListener('keydown', MovieDetailModal.onKeydownEscape);
 
     UserRatingButtonList.setEvent();
