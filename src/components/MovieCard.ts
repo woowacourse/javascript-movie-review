@@ -19,7 +19,9 @@ class MovieCard {
   createTemplate() {
     this._node = document.createElement('li');
 
-    this._node.innerHTML = `<div class="item-card">
+    this._node.insertAdjacentHTML(
+      'afterbegin',
+      `<div class="item-card">
         <div class="item-thumbnail skeleton"></div>
         <img
           id="item-thumbnail"
@@ -33,7 +35,8 @@ class MovieCard {
           <p>${this.movieData.voteAverage}</p>
         </div>
       </div>
-    `;
+    `
+    );
   }
 
   updateMovie(props: MovieItem) {

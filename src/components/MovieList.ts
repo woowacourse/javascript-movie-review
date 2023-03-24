@@ -37,13 +37,16 @@ class MovieList {
   }
 
   paintMovieLayout() {
-    this._node.innerHTML = `
+    this._node.insertAdjacentHTML(
+      'afterbegin',
+      `
       <section class="item-view">
         <h2 id="list-name">지금 인기있는 영화</h2>
         <ul class="item-list movie-list hidden"></ul>
         <div class="load-more-position hidden"></div>
       </section>
-    `;
+    `
+    );
   }
 
   removeSkeleton() {
