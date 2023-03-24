@@ -25,7 +25,16 @@ export default class Modal implements Component {
     <div class="modal-container"></div>`;
   }
 
-  setEvent() {}
+  setEvent() {
+    this.bindBackdropClickEvent();
+  }
+
+  bindBackdropClickEvent() {
+    const $modalBackdrop = this.$element.querySelector('.modal-backdrop');
+    if (!$modalBackdrop) return;
+
+    $modalBackdrop.addEventListener('click', this.closeModal.bind(this));
+  }
 
   renderContent(detailMovieData: DetailMovie) {
     const $container = this.$element.querySelector('.modal-container');

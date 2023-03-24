@@ -3,7 +3,7 @@ import starIcon from '../assets/star_filled.png';
 
 export default class DetailMovieCard {
   render($target: Element, detailMovie: DetailMovie) {
-    $target.insertAdjacentHTML('beforeend', this.template(detailMovie));
+    $target.innerHTML = this.template(detailMovie);
     this.setEvent();
   }
 
