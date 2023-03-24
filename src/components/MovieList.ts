@@ -81,13 +81,11 @@ export default class MovieList implements Component {
   getSkeletonCardsHTML(count: number) {
     const skeletonCardHTML = `
     <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
+      <div class="item-card">
+        <div class="item-thumbnail skeleton"></div>
+        <div class="item-title skeleton"></div>
+        <div class="item-score skeleton"></div>
+      </div>
     </li>`;
 
     return skeletonCardHTML.repeat(count);

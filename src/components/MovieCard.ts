@@ -19,21 +19,19 @@ export default class MovieCard implements Component {
   }
 
   template() {
-    const { id, title, posterPath, voteAverage } = this.#movie;
+    const { title, posterPath, voteAverage } = this.#movie;
 
     return /* html */ `
-    <a href="#">
-      <div class="item-card">
-        <img
-        class="item-thumbnail"
-        src="https://image.tmdb.org/t/p/w220_and_h330_face${posterPath}"
-        loading="lazy"
-        alt=${title}
-        />
-        <p class="item-title">${title}</p>
-        <p class="item-score"><img src=${FilledStar} alt="별점" /> ${voteAverage}</p>
-      </div>
-    </a>
+    <div class="item-card">
+      <img
+      class="item-thumbnail"
+      src="https://image.tmdb.org/t/p/w220_and_h330_face${posterPath}"
+      loading="lazy"
+      alt=${title}
+      />
+      <p class="item-title">${title}</p>
+      <p class="item-score"><img src=${FilledStar} alt="별점" /> ${voteAverage}</p>
+    </div>
     `;
   }
 }
