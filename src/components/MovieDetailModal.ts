@@ -1,5 +1,6 @@
 import { StarFilled } from "../../images";
 import type { Genre, Movie } from "../types/type";
+import { Word } from "../utils/constants";
 import { $ } from "../utils/dom";
 
 class MovieDetailModal extends HTMLElement {
@@ -14,9 +15,7 @@ class MovieDetailModal extends HTMLElement {
       .filter((genre: Genre) => genre_ids?.includes(genre.id))
       .map((genre: Genre) => genre.name);
 
-    const movieOverView = overview
-      ? overview
-      : "영화 내용이 등록되지 않았습니다";
+    const movieOverView = overview ? overview : `${Word.OVERVIEW_EMPTY}`;
 
     this.innerHTML = /* html */ `
       <dialog>

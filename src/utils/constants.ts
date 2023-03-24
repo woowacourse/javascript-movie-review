@@ -18,6 +18,7 @@ export const HTMLTag: Readonly<{ [key: string]: string }> = {
 export const Word: Readonly<{ [key: string]: string }> = {
   TITLE_POPULAR: "지금 인기 있는 영화",
   TITLE_SEARCH: "검색 결과",
+  OVERVIEW_EMPTY: "영화 내용이 등록되지 않았습니다",
 };
 
 export const ConstantsNumber: Readonly<{ [key: string]: number }> = {
