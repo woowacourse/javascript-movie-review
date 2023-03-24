@@ -28,3 +28,15 @@
 .item-score::after {
   margin-left: 8px;
 }
+
+/* Phone */
+@media (min-width: 320px) and (max-width: 420px) {
+  .item-thumbnail {
+    width: 140px;
+    height: 220px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 421px) and (max-width: 900px) {
+}
