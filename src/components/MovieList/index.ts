@@ -42,6 +42,23 @@ class MovieList {
     this.#movies.reset(results);
 
     this.renderMovieList(total_pages);
+    this.onclickMovie();
+  }
+
+  onclickMovie() {
+    $(".item-list").addEventListener("click", (e: Event) => {
+      this.#movies.getList().forEach((movie) => {
+        const clickedLi = e.target as HTMLElement;
+        const closestLi = clickedLi.closest("li");
+
+        if (closestLi && closestLi.dataset.id) {
+          const movieId = parseInt(closestLi.dataset.id, 10);
+          if (movieId === movie.id) {
+            return movie;
+          }
+        }
+      });
+    });
   }
 
   async reset(state: showType, searchKeyword?: string) {

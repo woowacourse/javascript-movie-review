@@ -4,7 +4,7 @@ import starImg from "../../assets/star_filled.png";
 class MovieCard {
   static render(movie: Movie) {
     return /*html*/ `
-      <li>
+      <li data-id="${movie.id}" class="movie">
           <div class="item-card">
             <img
               class="item-thumbnail skeleton"
