@@ -15,10 +15,18 @@ const showModal = () => {
 
     await getMovieDetail(Number(target.id));
 
+    $<HTMLDivElement>(`#filled-stars`).style.width = `${
+      Number(localStorage.getItem(target.id))
+        ? Number(localStorage.getItem(target.id)) * 10
+        : 0
+    }%`;
+
     $<HTMLDialogElement>("#movie-detail").showModal();
 
     const bodyStyle = $<HTMLBodyElement>("body").style;
     bodyStyle.overflow = "hidden";
+
+    handleUserRatings();
   });
 };
 
@@ -43,4 +51,19 @@ const isClosing = (className: string) => {
       (section) => section === className
     ).length
   );
+};
+
+const handleUserRatings = () => {
+  $("#user-ratings-input").addEventListener("input", (event) => {
+    const target = event.target;
+
+    if (!(target instanceof HTMLInputElement)) return;
+
+    $<HTMLDivElement>(`#filled-stars`).style.width = `${
+      Number(target.value) * 10
+    }%`;
+
+    const movieId = target.className.replace("-ratings", "");
+    localStorage.setItem(movieId, target.value);
+  });
 };

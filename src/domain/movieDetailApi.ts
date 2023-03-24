@@ -31,5 +31,6 @@ const convertApiResponseToMovieList = (results: any): any => {
     ratings: results.vote_average,
     overview: results.overview,
     genres: results.genres.map((genre: any) => genre.name).join(", "),
+    id: results.id,
   };
 };

@@ -42,11 +42,13 @@ export default class MovieDetailModal extends HTMLElement {
                     )}
                   </div>
                   <input
+                    id="user-ratings-input"
+                    class="${movie.id}-ratings"
                     type="range"
                     value="1"
-                    step="1"
+                    step="2"
                     min="0"
-                    max="5"
+                    max="10"
                   />
                 </div>
               </section>

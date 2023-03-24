@@ -346,14 +346,16 @@ header .search-box > .search-button {
   height: 100%;
   position: absolute;
   left: 0;
+  top: 0;
   opacity: 0;
   cursor: pointer;
 }
 
 #filled-stars {
-  width: 0;
-  left: 0;
   position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
   overflow: hidden;
   pointer-events: none;
 }
