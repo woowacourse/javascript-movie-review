@@ -108,8 +108,8 @@ class MovieList {
     if (error.message === "Response Error") {
       return ERROR_MESSAGE.RESPONSE;
     }
-    if (error.message === "Network Error") {
-      return ERROR_MESSAGE.NETWORK;
+    if (error.message === "Offline Error") {
+      return ERROR_MESSAGE.OFFLINE;
     }
     return ERROR_MESSAGE.DEFAULT;
   }
