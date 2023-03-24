@@ -250,6 +250,10 @@ header h1 {
   color: #f33f3f;
 }
 
+.header-layout img {
+  z-index: 10;
+}
+
 .search-box {
   display: flex;
   min-height: 34px;
