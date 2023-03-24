@@ -110,6 +110,7 @@
 
 .modal-detail--text {
   font-size: 16px;
+  line-height: 1.4;
 }
 
 .modal-star-rate {
@@ -119,7 +120,7 @@
 
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 7px;
 
   border-radius: 16px;
   background-color: #383839;
@@ -156,6 +157,10 @@
 
   .modal-star-rate {
     width: 385px;
+  }
+
+  .modal-detail--text {
+    font-size: 14px;
   }
 }
 
