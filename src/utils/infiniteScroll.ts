@@ -1,4 +1,4 @@
-import { $$ } from "./selector";
+import { $, $$ } from "./selector";
 
 export const loadDataByInfiniteScroll = async (
   target: HTMLElement,
@@ -15,7 +15,11 @@ export const loadDataByInfiniteScroll = async (
       observer.unobserve(target);
     }
 
-    $$(".item-card").length >= 20 && (await renderMovies());
+    if ($$(".item-card").length >= 20) {
+      const currentTitle = $("h2") as HTMLElement;
+      currentTitle.remove();
+      await renderMovies();
+    }
     observer.observe(target);
   };
 
