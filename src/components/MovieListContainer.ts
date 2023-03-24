@@ -20,33 +20,13 @@ class MovieListContainer extends HTMLElement {
     this.innerHTML = /* html */ `
         <h2>${title}</h2>
         <movie-list class="item-list"></movie-list>
+        <div class="list-bottom"></div>
       `;
     this.addEvent();
   }
 
   addEvent() {
-    let isThrottled = false;
-
-    window.addEventListener("scroll", () => {
-      const windowHeight = window.innerHeight;
-      const fullHeight = document.body.scrollHeight;
-      const currentPosition = window.pageYOffset;
-
-      if (!isThrottled && currentPosition + windowHeight >= fullHeight) {
-        this.stopScrolling();
-
-        dispatchCustomEvent(this, {
-          eventType: "fetchMovieData",
-          data: this.contentTypeAttribute,
-        });
-
-        isThrottled = true;
-
-        setTimeout(() => {
-          isThrottled = false;
-        }, 2000);
-      }
-    });
+    this.scrollingEvent();
 
     $("movie-list")?.addEventListener("click", (event) => {
       event.preventDefault();
@@ -63,13 +43,28 @@ class MovieListContainer extends HTMLElement {
     });
   }
 
+  scrollingEvent() {
+    const observer = new IntersectionObserver((entries) => {
+      const $listBottom = entries[0];
+      if ($listBottom.isIntersecting) {
+        dispatchCustomEvent(this, {
+          eventType: "fetchMovieData",
+          data: this.contentTypeAttribute,
+        });
+      }
+    });
+
+    const $listBottom = $(".list-bottom");
+    if ($listBottom) observer.observe($listBottom);
+  }
+
+  hiddenListBottom() {
+    $(".list-bottom")?.classList.add("hidden");
+  }
+
   changeTitle(query: string) {
     this.setAttribute("content-type", "search");
     this.render(query);
-  }
-
-  stopScrolling() {
-    window.removeEventListener("scroll", this.addEvent);
   }
 
   displayErrorUI(message: string) {
