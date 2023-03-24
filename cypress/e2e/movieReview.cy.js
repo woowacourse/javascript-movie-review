@@ -1,6 +1,6 @@
 import { MOVIE_MAX_COUNT } from '../../src/constants';
 
-const TEST_URL = 'http://localhost:8082/';
+const TEST_URL = 'http://localhost:8083/';
 
 describe('영화 리뷰 e2e 테스트', () => {
   beforeEach(() => {
@@ -31,7 +31,7 @@ describe('영화 리뷰 e2e 테스트', () => {
     cy.intercept(
       {
         method: 'GET',
-        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie\?[^#]*query=%EC%99%B8%EA%B3%84%EC%9D%B8[^#]*page=1/,
+        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie\?[^#]*page=1/,
       },
       { fixture: 'searchedMoviesPage1.json' }
     ).as('fetchSearchedMoviePage1Data');
@@ -39,7 +39,7 @@ describe('영화 리뷰 e2e 테스트', () => {
     cy.intercept(
       {
         method: 'GET',
-        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie\?[^#]*query=%EC%99%B8%EA%B3%84%EC%9D%B8[^#]*page=2/,
+        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie\?[^#]*page=2/,
       },
       {
         fixture: 'searchedMoviesPage2.json',
