@@ -61,15 +61,15 @@ main {
   grid-row-gap: 64px;
 }
 
-.item-list > hr {
+.item-list > .item-slider {
   display: none;
 }
 
-.item-list > hr ~ * {
+.item-list > .item-slider ~ * {
   display: none;
 }
 
-.item-list:has(.item-list > hr:last-child) ~ button {
+.item-list:has(.item-slider:last-child) ~ button {
   display: none;
 }
 
@@ -80,11 +80,11 @@ main {
   color: rgba(255, 255, 255, 0.3);
 }
 
-.item-list:has(.item-list > hr:first-child) ~ h3 {
+.item-list:has(.item-slider:first-child) ~ h3 {
   display: initial;
 }
 
-.item-list:has(.item-list > hr:last-child) ~ .item-last-notice {
+.item-list:has(.item-slider:last-child) ~ .item-last-notice {
   display: initial;
 }
 
@@ -303,7 +303,7 @@ header .search-box > .search-button {
 @media only screen and (min-width: 0px) {
   /* 390px */
   body {
-    background-color: red;
+    /* background-color: red; */
   }
 
   .item-list {
@@ -316,11 +316,23 @@ header .search-box > .search-button {
     font-size: 16px;
     line-height: 24px;
   }
+
+  dialog {
+    align-items: flex-end !important;
+  }
+
+  .detail-content > img {
+    display: none !important;
+  }
+
+  .detail-view {
+    max-width: 100% !important;
+  }
 }
 
 @media only screen and (min-width: 834px) {
   body {
-    background-color: blue;
+    /* background-color: blue; */
   }
 
   .item-list {
@@ -341,11 +353,23 @@ header .search-box > .search-button {
   .search-box > input {
     opacity: 1;
   }
+
+  dialog {
+    align-items: center !important;
+  }
+
+  .detail-content > img {
+    display: initial !important;
+  }
+
+  .detail-view {
+    max-width: 800px !important;
+  }
 }
 
 @media only screen and (min-width: 1280px) {
   body {
-    background-color: yellow;
+    /* background-color: yellow; */
   }
 
   .item-list {
@@ -356,9 +380,12 @@ header .search-box > .search-button {
 
 dialog {
   padding: 0;
+  margin: 0;
   border: none;
-  width: unset;
-  height: unset;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100%;
+  max-height: 100%;
   background: unset;
 
   display: flex;
@@ -453,18 +480,56 @@ dialog::backdrop {
 
 .detail-content > img {
   width: 300px;
+  align-self: flex-start;
+}
+
+.detail-metadata {
+  font-size: 16px;
+  font-weight: 400;
 
   display: flex;
-  flex-direction: column;
+  gap: 16px;
+}
+
+.detail-genres {
+  display: flex;
+  align-items: center;
+}
+
+.detail-vote {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.detail-vote::before {
+  content: '';
+
+  width: 24px;
+  height: 24px;
+
+  background: url('./star_filled.png');
+  background-size: contain;
 }
 
 .detail-overview {
   font-size: 16px;
-  font-weight: 400px;
+  font-weight: 400;
   line-height: 24px;
+
+  padding-bottom: 32px;
+  margin: 16px 0;
+
+  max-height: 320px;
+  overflow-y: auto;
 }
 
-.detail-vote {
+.detail-overview:empty::after {
+  content: '등록된 줄거리가 없습니다';
+  color: rgb(192, 192, 192);
+}
+
+.detail-my-vote {
   width: 100%;
   margin-top: auto;
 
@@ -477,7 +542,7 @@ dialog::backdrop {
   border-radius: 16px;
 }
 
-.detail-vote > label {
+.detail-my-vote > label {
   font-size: 16px;
   font-weight: 700;
 }
