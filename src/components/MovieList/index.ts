@@ -40,10 +40,20 @@ export class MovieList extends HTMLElement {
   }
 
   createMovieItemTemplate(movie: Movie) {
-    const { title, posterPath, voteAverage } = movie;
+    const { id, title, posterPath, voteAverage } = movie;
     this.$movieItems.insertAdjacentHTML(
       'beforeend',
-      `<movie-item title=${`"${title}"`} poster=${posterPath} vote=${voteAverage}></movie-item>`,
+      `<movie-item title=${`"${title}"`} poster=${posterPath} vote=${voteAverage} id=${id}></movie-item>`,
     );
+  }
+
+  addMovieModalHandler(handler: CallableFunction) {
+    this.addEventListener('click', (e: Event) => {
+      if (!(e.target instanceof HTMLElement)) return;
+      const target = e.target.closest('movie-item');
+      if (!target) return;
+      const id = Number(target?.getAttribute('id'));
+      handler(id);
+    });
   }
 }

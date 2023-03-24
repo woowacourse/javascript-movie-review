@@ -1,4 +1,4 @@
-import { fetchMovies } from './fetch';
+import { fetchMovie, fetchMovies } from './fetch';
 import { Movie, MovieList } from './types';
 
 class Store {
@@ -29,6 +29,11 @@ class Store {
     await fetchMovies('/movie/popular', { page: this.page }).then((data) => {
       if (data) this.setMovieData(data);
     });
+  }
+
+  async getMovie(id: number) {
+    const data = await fetchMovie(`/movie/${id}`);
+    return data;
   }
 
   setMovieData(data: MovieList) {

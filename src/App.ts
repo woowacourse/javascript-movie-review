@@ -1,5 +1,6 @@
 import { Header } from './components/Header';
 import { MovieList } from './components/MovieList';
+import MovieModal from './components/MovieModal';
 import { SeeMoreButton } from './components/SeeMoreButton';
 import { Skeleton } from './components/Skeleton';
 import Store from './Store';
@@ -9,6 +10,7 @@ class App {
   $movieList: MovieList;
   $seeMoreButton: SeeMoreButton;
   $header: Header;
+  $movieModal: MovieModal;
   store: Store;
   skeleton: Skeleton;
 
@@ -16,6 +18,7 @@ class App {
     this.$movieList = $<MovieList>('movie-list');
     this.$seeMoreButton = $<SeeMoreButton>('more-button');
     this.$header = $<Header>('movie-header');
+    this.$movieModal = $<MovieModal>('movie-modal');
     this.skeleton = new Skeleton();
     this.store = new Store();
 
@@ -24,6 +27,7 @@ class App {
     this.$seeMoreButton.addMoreButtonHandler(this.moreButtonHandler.bind(this));
     this.$header.addSearchHandler(this.searchHandler.bind(this));
     this.$header.addClickLogoHandler(this.initializeMovieList.bind(this));
+    this.$movieList.addMovieModalHandler(this.movieModalHandler.bind(this));
   }
 
   initializeMovieList() {
@@ -53,6 +57,13 @@ class App {
       if (this.store.totalPage === 1 || this.store.totalPage === 0) this.removeButton();
       this.$movieList.renderSearchedMovies(this.store.movieListValue);
     });
+  }
+
+  movieModalHandler(id: number) {
+    this.store
+      .getMovie(id)
+      .then((data) => this.$movieModal.render(data))
+      .then(() => this.$movieModal.open());
   }
 
   removeButton() {

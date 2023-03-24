@@ -1,22 +1,19 @@
-<div class="modal-container">
-  <dialog class="modal">
+<div class="modal-container hidden">
+  <div class="modal">
     <div class="movie-title-wrapper">
-      <div class="movie-title">제목</div>
+      <div class="movie-title">{title}</div>
       <div class="modal-close-button">
         <img src="/src/assets/close.png" />
       </div>
     </div>
     <div class="movie-modal-wrapper">
-      <img
-        src="https://image.tmdb.org/t/p/w500/gOnmaxHo0412UVr1QM5Nekv1xPi.jpg"
-        class="movie-poster"
-      />
+      <img src="https://image.tmdb.org/t/p/w500/{posterPath}" class="movie-poster" />
       <div class="genre-rating-wrapper">
         <div>
-          <p>장르</p>
-          <div class="rating"><img src="/src/assets/star_filled.png" />8.1</div>
+          <p>{genre}</p>
+          <div class="rating"><img src="/src/assets/star_filled.png" />{voteAverage}</div>
         </div>
-        <p>내용</p>
+        <p>{overview}</p>
       </div>
       <div class="rating-box">
         <p>내 별점</p>
@@ -45,5 +42,5 @@
         <p class="my-rating">평점을 남겨보세요.</p>
       </div>
     </div>
-  </dialog>
+  </div>
 </div>
