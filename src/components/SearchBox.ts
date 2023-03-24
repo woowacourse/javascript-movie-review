@@ -21,7 +21,7 @@ class SearchBox extends HTMLElement {
   }
 
   addEvent() {
-    $("form", this)?.addEventListener("submit", (event) => {
+    $("form")?.addEventListener("submit", (event) => {
       this.onSubmitForm(event);
     });
   }
