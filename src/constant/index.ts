@@ -32,11 +32,11 @@ const STAR_CONDITION: StarConditionType = {
 };
 
 const STAR_MENT: StarMentType = {
-  1: '최악이에요.',
-  2: '별로예요.',
-  3: '보통이에요.',
-  4: '볼만해요.',
-  5: '최고예요.',
+  1: '최악',
+  2: '별로',
+  3: '보통',
+  4: '준수',
+  5: '최고',
 };
 
 export { MOVIE_APP_IMG_PATH, ERROR_MESSAGE, STAR_CONDITION, STAR_MENT };
