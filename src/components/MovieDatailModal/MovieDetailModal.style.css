@@ -1,7 +1,7 @@
 dialog {
   border: none;
   background: none;
-  width: 90%;
+  max-width: 980px;
 }
 
 #movie-detail-modal {
@@ -46,6 +46,7 @@ dialog {
 
 #movie-detail-main > img {
   width: 290px;
+  margin-left: 32px;
 }
 
 #movie-detail {
@@ -84,6 +85,12 @@ dialog {
   font-weight: 700;
 }
 
+#movie-detail-overview {
+  max-height: 180px;
+  line-height: 16px;
+  overflow: scroll;
+}
+
 #star-rate-message {
   min-width: 120px;
   font-size: 16px;
@@ -98,10 +105,10 @@ dialog {
   min-width: 40px;
   min-height: 40px;
   padding: 2px;
+  transform: translateY(-1px);
 }
 
 .modal-backdrop {
-  display: none;
   position: fixed;
   top: 0;
   right: 0;
@@ -116,7 +123,7 @@ dialog {
   dialog {
     width: 80%;
     height: 420px;
-    min-width: 612px;
+    min-width: 642px;
   }
   #movie-detail-modal {
     height: 420px;
@@ -150,12 +157,14 @@ dialog {
     width: 100%;
     min-width: 398px;
   }
+  dialog:modal {
+    max-width: 100%;
+  }
   #movie-detail-modal {
     width: 100%;
     min-width: 398px;
   }
   #movie-detail-main {
-    margin: 12px 0;
     height: 100%;
   }
   #movie-detail-main > img {

@@ -3,6 +3,10 @@
   width: 1200px;
 }
 
+.movie-section-title {
+  margin: auto;
+}
+
 .item-view {
   display: flex;
   flex-direction: column;
@@ -30,6 +34,7 @@
 .item-card {
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .item-thumbnail {
