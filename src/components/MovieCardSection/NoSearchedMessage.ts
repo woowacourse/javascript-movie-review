@@ -5,7 +5,7 @@ const NoSearchedMessage = {
     return `
       <div class="${CLASS.MESSAGE} ${CLASS.HIDE}">
         <p class="message-title">🔎 검색 결과가 없습니다. 🔎</p>
-        <p class="message-paragraph">검색 값이 올바른지 확인해주세요.</p>
+        <p class="message-paragraph">검색어가 올바른지 확인해주세요.</p>
       </div>
     `;
   },

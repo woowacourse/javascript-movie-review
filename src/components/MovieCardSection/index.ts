@@ -1,5 +1,4 @@
 import './MovieCardSection.style.css';
-
 import LoadMoreButton from './LoadMoreButton';
 import MovieCardList from './MovieCardList';
 import MovieSectionTitle from './MovieSectionTitle';
