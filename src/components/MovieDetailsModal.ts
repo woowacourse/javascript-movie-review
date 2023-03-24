@@ -3,6 +3,7 @@ import { Movie } from '../type/Movie';
 import { UserDataHandler } from '../domain/UserDataHandler';
 import FilledStar from '../assets/star_filled.png';
 import '../css/modal.css';
+import MovieHandler from '../domain/MovieHandler';
 
 export default class MovieDetailsModal implements Component {
   $element: Element;
@@ -38,7 +39,7 @@ export default class MovieDetailsModal implements Component {
   }
 
   template() {
-    const { title, posterPath, voteAverage, overview } = this.#movie;
+    const { title, posterPath, voteAverage, overview, genreIDs } = this.#movie;
 
     return /* html */ `
       <div class="modal-title">${title}</div>
@@ -47,7 +48,7 @@ export default class MovieDetailsModal implements Component {
       class="item-thumbnail"
       src="https://image.tmdb.org/t/p/w220_and_h330_face${posterPath}"
       />
-      <p class="movie-genre">액션, 코미디, 범죄</p>
+      <p class="movie-genre">${MovieHandler.getGenres(genreIDs)}</p>
       <div class="movie-score">
         <img src=${FilledStar}/>
         <span>${voteAverage}</span>

@@ -4,8 +4,6 @@ import { Movie } from '../type/Movie';
 import { Component } from '../type/Component';
 import { popularMovieDataFetchFuncGenerator, searchedMovieDataFetchFuncGenerator } from '../api/get';
 
-type options = 'popular' | 'search';
-
 const HEADER_TEMPLATE = {
   POPULAR: '지금 인기 있는 영화',
   SEARCH: (query: string) => `"${query}" 검색 결과`,

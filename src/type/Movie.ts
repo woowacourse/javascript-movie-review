@@ -4,4 +4,5 @@ export interface Movie {
   posterPath: string;
   voteAverage: number;
   overview: string;
+  genreIDs: number[];
 }
