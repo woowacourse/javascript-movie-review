@@ -1,6 +1,5 @@
 import Header from './components/Header';
 import MovieList from './components/MovieList';
-import DetailMovieCard from './components/DetailMovieCard';
 import Modal from './components/Modal';
 
 import { popularMovieDataFetchFuncGenerator, searchedMovieDataFetchFuncGenerator, getDetailMovieData } from './api/get';
@@ -15,6 +14,8 @@ export default class App {
   #modal;
 
   constructor() {
+    this.bindESCKeyDownEvent();
+
     this.#getMovieMetaData = popularMovieDataFetchFuncGenerator();
 
     this.#header = new Header($('#app'), {
@@ -79,5 +80,12 @@ export default class App {
 
   assignSearchedMovieDataFetchFunc(query) {
     this.#getMovieMetaData = searchedMovieDataFetchFuncGenerator(query);
+  }
+
+  bindESCKeyDownEvent() {
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      this.#modal.closeModal();
+    });
   }
 }
