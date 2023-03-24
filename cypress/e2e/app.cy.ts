@@ -30,26 +30,33 @@ describe('Movielist 앱 테스트', () => {
     });
   });
 
-  context('리스트가 20개일 때 더보기 버튼을 누르면', () => {
+  context('스크롤을 끝까지 내리면', () => {
     beforeEach(() => {
       cy.mockPopularMovies(20);
-      cy.get('movie-list-item').should('have.length', 20);
-      cy.get('#load-more').click();
+      cy.scrollTo('bottom');
     });
 
-    it('40개가 된다.', () => {
+    it('영화 목록이 40개가 된다.', () => {
       cy.get('movie-list-item').should('have.length', 40);
     });
   });
 
-  context('더보기 버튼을 눌렀을 때 20개 미만의 영화가 추가되면', () => {
+  context('404 에러가 발생하면', () => {
     beforeEach(() => {
-      cy.mockPopularMovies(10);
-      cy.get('#load-more').click();
+      cy.intercept(
+        {
+          method: 'GET',
+          url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
+        },
+        {
+          statusCode: 404,
+        }
+      ).as('getPopularMovies');
+      cy.get('header h1').click();
     });
 
-    it('더보기 버튼이 화면에 보이지 않아야 한다.', () => {
-      cy.get('#load-more').should('not.be.visible');
+    it('에러 페이지가 보인다.', () => {
+      cy.contains('페이지를 가져오지 못했어요');
     });
   });
 });
