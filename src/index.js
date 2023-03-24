@@ -49,7 +49,7 @@ window.addEventListener('beforeunload', () => {
 });
 
 window.addEventListener('load', async () => {
-  const myRatings = JSON.parse(LocalStorage.getItem('myRatings'));
+  const myRatings = JSON.parse(LocalStorage.getItem('myRatings') || '{}');
 
   Object.entries(myRatings).forEach(([movieId, rating]) => {
     ratingManager.setRating(Number(movieId), rating);
