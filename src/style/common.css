@@ -169,7 +169,7 @@ header .search-box > .search-button {
 }
 
 /* dialog */
-dialog {
+.movie-detail-modal {
   display: flex;
   flex-direction: column;
   width: 826px;
@@ -257,6 +257,7 @@ dialog {
 .movie-detail-modal-user-vote > #user-vote-star-span > img {
   vertical-align: -20%;
   cursor: pointer;
+  margin: 0 -1px;
 }
 
 .movie-detail-modal-user-vote > #user-vote-star-amount {
@@ -276,6 +277,14 @@ dialog {
     grid-column-gap: 10vw;
     grid-row-gap: 48px;
   }
+
+  .movie-detail-modal {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    height: 50%;
+    background-color: #212122;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -285,5 +294,27 @@ dialog {
     grid-template-columns: repeat(2, 160px);
     grid-column-gap: 10vw;
     grid-row-gap: 48px;
+  }
+
+  .movie-detail-modal-thumbnail {
+    display: none;
+  }
+
+  .movie-detail-modal-description {
+    margin-left: 0;
+  }
+
+  .movie-detail-modal-user-vote > #user-vote-star-description {
+    display: none;
+  }
+
+  .movie-detail-modal {
+    margin: 0;
+    margin-top: auto;
+    min-width: 100vw;
+  }
+  .movie-detail-modal-user-vote {
+    justify-content: center;
+    margin-top: 16px;
   }
 }

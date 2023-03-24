@@ -72,7 +72,7 @@ export default class MovieDetailModal {
 
   getStarDescription(starRate: number) {
     return {
-      0: '별점을 등록해주세요',
+      0: '평가해주세요',
       2: '최악이예요',
       4: '별로예요',
       6: '보통이에요',
