@@ -58,10 +58,9 @@ class MovieModal extends HTMLElement {
 
   close() {
     const $modalContainer = $<HTMLDivElement>('.modal-container', this);
-
     window.addEventListener('keyup', (e) => {
       if (e.key === 'Escape') {
-        $modalContainer.classList.add('hidden');
+        this.closeModal();
       }
     });
 
@@ -70,9 +69,15 @@ class MovieModal extends HTMLElement {
       const target = e.target.closest('div');
       if (!target) return;
       if (target.className === 'modal-close-button' || target.className === 'modal-container') {
-        $modalContainer.classList.add('hidden');
+        this.closeModal();
       }
     });
+  }
+
+  closeModal() {
+    const $modalContainer = $<HTMLDivElement>('.modal-container', this);
+    $modalContainer.classList.add('hidden');
+    localStorage.setItem(String(this.movieId), String(this.rating));
   }
 
   open() {
