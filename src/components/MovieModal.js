@@ -3,7 +3,6 @@ import { SCORE_DATA_TEXT } from '../util/constants';
 const MovieModal = (data, genreData, star) => {
   const imgDatas = ['', '', '', '', '']
     .map((element, index) => {
-      console.log((index + 1) * 2 === star);
       if ((index + 1) * 2 === star) return '<img class="active"/>';
       return '<img>';
     })
