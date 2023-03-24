@@ -36,14 +36,19 @@ class StarRating {
 
     this.element.innerHTML = `
     <p>내 별점</p>
-    <span class="rating-images">
-      <img class="rating-img">
-      <img class="rating-img">
-      <img class="rating-img">
-      <img class="rating-img">
-      <img class="rating-img">
-    </span>
-    <input type="range" class="star-range" value="${this.rating}" step="${SCORE_STEP}" min="${SCORE_MIN}" max="${SCORE_MAX}">
+    <div class="star-container">
+      <span class="rating-images">
+        <img class="rating-img">
+        <img class="rating-img">
+        <img class="rating-img">
+        <img class="rating-img">
+        <img class="rating-img">
+      </span>
+      <input type="range" class="star-range" 
+        value="${this.rating}" step="${SCORE_STEP}" min="${SCORE_MIN}" max="${SCORE_MAX}"
+      />
+    </div>
+    <span class="rating-number"></span>
     <span class="rating-message"></span>
     `.trim();
 
@@ -79,10 +84,8 @@ class StarRating {
         (img as HTMLImageElement).alt = '채워진 별점';
       });
 
-    const message = $('.rating-message', this.element);
-    message.replaceChildren();
-    message.insertAdjacentHTML('afterbegin', `<span>${this.rating.toString()}</span>`);
-    message.insertAdjacentHTML('beforeend', `<span>${RATING_MESSAGES[this.rating / SCORE_STEP]}</span>`);
+    ($('.rating-number', this.element) as HTMLElement).innerText = this.rating.toString();
+    ($('.rating-message', this.element) as HTMLElement).innerText = RATING_MESSAGES[this.rating / SCORE_STEP];
   }
 }
 

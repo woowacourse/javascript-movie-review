@@ -262,6 +262,7 @@ dialog#movie-modal::backdrop {
   width: 100%;
   max-width: 500px;
   height: 100%;
+  max-height: 750px;
 }
 
 #movie-modal .movie-info {
@@ -322,30 +323,46 @@ dialog#movie-modal::backdrop {
 }
 
 .star {
-  position: relative;
+  display: grid;
+  grid-template-columns: 15% 40% 5% 40%;
+  align-items: center;
 
-  height: 100px;
+  padding: 20px;
+  margin: 0 auto;
+  width: 70%;
+
+  border-radius: 16px;
+  background-color: #383838;
 }
 
-.star input {
-  position: absolute;
-  left: 0;
+.star > *:not(.star-container) {
+  text-align: center;
+}
 
-  width: 500px;
-  height: 100%;
+.star-container {
+  height: 40px;
+}
+
+.star-container input {
+  position: relative;
+  top: -32px;
+
+  width: 160px;
+  height: 32px;
 
   opacity: 0;
   cursor: pointer;
 }
 
-.star span {
+.star-container span {
   display: flex;
+  align-items: center;
 
-  position: absolute;
-  left: 40px;
+  position: relative;
+  left: 13px;
 
-  width: 500px;
-  height: 100px;
+  width: 160px;
+  height: 100%;
 
   pointer-events: none;
 }
@@ -353,7 +370,8 @@ dialog#movie-modal::backdrop {
 img.rating-img {
   content: url('../assets/star_empty.png');
 
-  width: 100px;
+  width: 32px;
+  height: 32px;
 }
 
 img.rating-img[data-filled="true"] {
