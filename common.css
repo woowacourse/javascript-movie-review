@@ -48,8 +48,8 @@ button {
 .item-list {
   display: grid;
   margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-column-gap: 40px;
   grid-row-gap: 48px;
 }
 
@@ -72,8 +72,14 @@ button {
 }
 
 .item-score {
+  display: flex;
+  align-items: center;
+
   margin-top: 16px;
   font-size: 1.2rem;
+}
+.item-score img {
+  margin-right: 8px;
 }
 
 .item-score::after {
@@ -126,7 +132,6 @@ button.primary {
 
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -185,7 +190,7 @@ dialog {
   justify-content: center;
   align-items: center;
 
-  height: 60px;
+  height: 80px;
 
   border-bottom: 1px solid #555556;
 }
@@ -203,7 +208,7 @@ dialog {
   width: 36px;
   height: 36px;
 
-  margin-top: 8px;
+  margin-top: 16px;
 
   border: 0;
   background: url('./templates/cancel_button.png') transparent;
@@ -237,6 +242,8 @@ dialog {
 
 .movie-modal-overview p {
   line-height: 150%;
+
+  opacity: 60%;
 }
 
 .movie-modal-genre {
@@ -248,6 +255,8 @@ dialog {
 
 .movie-modal-genre span:first-child {
   margin-right: 12px;
+
+  /* opacity: 60%; */
 }
 
 .movie-modal-genre img {
@@ -269,4 +278,59 @@ dialog {
 
 .star-container {
   margin: 0 12px;
+}
+
+@media (max-width: 1199px) {
+  .item-list {
+    grid-template-columns: repeat(4, 180px);
+    grid-column-gap: 6vw;
+  }
+
+  .item-view {
+    width: 890px;
+  }
+}
+
+@media (max-width: 899px) {
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+  }
+
+  .item-view {
+    width: 620px;
+  }
+}
+
+@media (max-width: 679px) {
+  .item-list {
+    grid-template-columns: repeat(2, 180px);
+  }
+
+  .item-view {
+    width: 382px;
+  }
+}
+
+@media (max-width: 430px) {
+  .item-list {
+    grid-template-columns: repeat(2, 140px);
+    grid-column-gap: 36px;
+  }
+
+  .item-view {
+    width: 320px;
+  }
+
+  .item-title {
+    font-size: 16px;
+  }
+
+  .item-score {
+    font-size: 16px;
+  }
+
+  .item-thumbnail {
+    width: 140px;
+    height: 220px;
+  }
 }
