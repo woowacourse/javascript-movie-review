@@ -85,7 +85,7 @@ const MovieApp = {
 
   async getPopularMovieData() {
     const movies = await this.fetchMovieData(() =>
-      mostPopular(this.currentPageNumber)
+      mostPopular(this.currentPageNumber++)
     );
 
     if (this.currentPageNumber > ConstantsNumber.PAGE_MAX_NUMBER)
