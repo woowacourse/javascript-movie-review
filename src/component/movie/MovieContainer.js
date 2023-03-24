@@ -2,7 +2,6 @@ import CustomElement from "../basic/CustomElement";
 import SearchTitleBoss from "../../domain/SearchTitleBoss";
 import { $ } from "../../util/dom";
 import "./MovieList";
-import "./ShowMoreButton";
 import "./MovieListSkeleton";
 
 class MovieContainer extends CustomElement {
@@ -17,7 +16,6 @@ class MovieContainer extends CustomElement {
           <h2 class="movie-container-title">지금 인기 있는 영화</h2>
           <movie-list></movie-list>
           <movie-list-skeleton></movie-list-skeleton>
-          <show-more-button></show-more-button>
         </section>
     `;
   }
