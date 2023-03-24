@@ -14,8 +14,9 @@ class MovieInformationModal {
     this.init();
     this.modal = $<HTMLDivElement>('.modal');
     this.informationContainer = $<HTMLDivElement>('.information-content');
-    this.addCloseModalEventListener();
-    this.addBrowserBackButtonEventListener();
+    this.addClickEventListenerToCloseModal();
+    this.addKeyDownEventListenerToCloseModal();
+    this.addEventListenerToBrowserBackButton();
   }
 
   static getInstance(): MovieInformationModal {
@@ -28,7 +29,7 @@ class MovieInformationModal {
 
   private template() {
     return `
-      <div class="modal hide">
+      <div class="modal hide" tabindex="0">
         <div class="modal-backdrop"></div>
         <div class="modal-content">
           <div class="information-content"></div>
@@ -62,6 +63,7 @@ class MovieInformationModal {
     this.informationContainer.dataset.movieId = String(movie.id);
     document.body.classList.add('hide-overflow');
     this.modal.classList.remove('hide');
+    this.modal.focus();
   }
 
   private closeModal(isBackButton: boolean = false) {
@@ -86,7 +88,7 @@ class MovieInformationModal {
     this.modal.classList.add('hide');
   }
 
-  private addCloseModalEventListener() {
+  private addClickEventListenerToCloseModal() {
     this.modal.addEventListener('click', (event) => {
       const target = event.target as HTMLElement;
 
@@ -99,7 +101,15 @@ class MovieInformationModal {
     });
   }
 
-  private addBrowserBackButtonEventListener() {
+  private addKeyDownEventListenerToCloseModal() {
+    this.modal.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        this.closeModal();
+      }
+    });
+  }
+
+  private addEventListenerToBrowserBackButton() {
     window.addEventListener('popstate', (event) => {
       if (!event.state) return;
 
