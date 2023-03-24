@@ -41,6 +41,25 @@ describe('Movielist 앱 테스트', () => {
     });
   });
 
+  context('401 에러가 발생하면', () => {
+    beforeEach(() => {
+      cy.intercept(
+        {
+          method: 'GET',
+          url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
+        },
+        {
+          statusCode: 401,
+        }
+      ).as('getPopularMovies');
+      cy.get('header h1').click();
+    });
+
+    it('"인증되지 않았어요" 메세지를 포함한다.', () => {
+      cy.contains('인증되지 않았어요');
+    });
+  });
+
   context('404 에러가 발생하면', () => {
     beforeEach(() => {
       cy.intercept(
@@ -55,8 +74,27 @@ describe('Movielist 앱 테스트', () => {
       cy.get('header h1').click();
     });
 
-    it('에러 페이지가 보인다.', () => {
-      cy.contains('페이지를 가져오지 못했어요');
+    it('"예전에 있었지만 사라진 페이지일 수도 있어요" 메세지를 포함한다.', () => {
+      cy.contains('예전에 있었지만 사라진 페이지일 수도 있어요');
+    });
+  });
+
+  context('500 에러가 발생하면', () => {
+    beforeEach(() => {
+      cy.intercept(
+        {
+          method: 'GET',
+          url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
+        },
+        {
+          statusCode: 500,
+        }
+      ).as('getPopularMovies');
+      cy.get('header h1').click();
+    });
+
+    it('"서버에 문제가 생겼어요" 메세지를 포함한다.', () => {
+      cy.contains('서버에 문제가 생겼어요');
     });
   });
 });
