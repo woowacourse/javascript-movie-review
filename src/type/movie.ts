@@ -43,7 +43,7 @@ export type MovieSubscriberType = {
 export type DetailModalType = {
   title: string;
   poster_path: string;
-  genres: object[];
+  genres: string;
   vote_average: number;
   overview: string;
 };

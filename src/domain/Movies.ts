@@ -94,25 +94,18 @@ class Movies extends Observable {
 
   async detailMovies(id: number) {
     const { movieItem, status } = await getApiDetailMovie(id);
-    const detailMovie = movieItem;
 
     if (alertFetchStatus(status)) return;
 
-    const {
-      title,
-      poster_path,
-      genres,
-      vote_average,
-      overview,
-    }: DetailModalType = detailMovie;
+    const detailMovie = {
+      title: movieItem.title,
+      poster_path: movieItem.poster_path,
+      genres: movieItem.genres.map((genre: any) => genre.name).join(', '),
+      vote_average: movieItem.vote_average,
+      overview: movieItem.overview,
+    };
 
-    this.notify('detail', {
-      title,
-      poster_path,
-      genres,
-      vote_average,
-      overview,
-    });
+    this.notify('detail', detailMovie);
   }
 }
 

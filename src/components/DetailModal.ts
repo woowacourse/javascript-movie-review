@@ -17,7 +17,7 @@ export default class DetailModal extends HTMLElement {
     { title, poster_path, genres, vote_average, overview }: any = {
       title: '',
       poster_path: '',
-      genres: [],
+      genres: '',
       vote_average: 0,
       overview: '',
     }
@@ -38,7 +38,7 @@ export default class DetailModal extends HTMLElement {
           <div class="movie-modal-description-container">
             <div class="movie-modal-overview">
               <div class="movie-modal-genre">
-                <span>스릴러,공포,코미디</span>
+                <span>${genres}</span>
                 <img src="${MOVIE_APP_IMG_PATH.starFilled}" alt="별점" />
                 <span>${vote_average}</span>
               </div>  
