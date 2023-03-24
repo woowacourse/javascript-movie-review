@@ -26,12 +26,14 @@
   .modal-body_left {
     width: 292px;
     height: 433px;
-    margin: 30px 30px;
+    margin: 30px 30px 30px 10px;
   }
   .modal-body_right {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 490px;
+    width: 100%;
   }
   .modal-body_right_genreAndstar {
     display: flex;
@@ -60,14 +62,14 @@
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
-
+    width: 100%;
     letter-spacing: 0.5px;
 
     color: #f1f1f1;
   }
 
   .modal-body_right_userStar {
-    width: 438px;
+    width: 100%;
     height: 64px;
 
     display: flex;
@@ -102,10 +104,31 @@
     margin-top: 5px;
     color: #f1f1f1;
   }
+  @media screen and (max-width: 740px) {
+    .modal-header > p {
+      font-family: 'Roboto';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+    }
+    .modal-body_left {
+      display: none;
+    }
+
+    .modal-right-comment {
+      display: none;
+    }
+    .modal-body_right_userStar {
+      justify-content: space-evenly;
+    }
+  }
 </style>
 
 <div class="modal-information" id="{id}">
-  <div class="modal-header"><p>{title}</p></div>
+  <div class="modal-header">
+    <p>{title}</p>
+  </div>
   <div class="modal-body">
     <img class="modal-body_left" src="https://image.tmdb.org/t/p/w500{poster_path}" alt="{title}" />
     <div class="modal-body_right">

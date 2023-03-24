@@ -10,6 +10,16 @@
   dialog::backdrop {
     background: rgba(0, 0, 0, 0.35);
   }
+
+  @media screen and (max-width: 740px) {
+    dialog {
+      position: fixed;
+      top: auto;
+      margin: 0;
+      width: 100%;
+      max-width: 740px;
+    }
+  }
 </style>
 
 <dialog class="modal"></dialog>
