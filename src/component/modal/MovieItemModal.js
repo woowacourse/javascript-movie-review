@@ -97,7 +97,7 @@ class MovieItemModal extends CustomElement {
       }
 
       this.rerenderUserRate(targetRate);
-      this.saveUserRate(targetRate);
+      saveData(USER_RATE_STORAGE_KEY, { [this.id]: targetRate });
     });
   }
 
@@ -114,15 +114,6 @@ class MovieItemModal extends CustomElement {
     $$(".user-rate-star").forEach(($star, index) => {
       $star.src = index < rate ? ImgSrc.FULL_STAR : ImgSrc.EMPTY_STAR;
     });
-  }
-
-  saveUserRate(rate) {
-    const newData = {
-      ...getData(USER_RATE_STORAGE_KEY),
-      [this.id]: rate,
-    };
-
-    saveData(USER_RATE_STORAGE_KEY, newData);
   }
 }
 
