@@ -5,7 +5,7 @@ class MovieStar extends CustomElement {
   template() {
     const src = this.getAttribute("starSrc");
     const starSrc = src.split(",");
-    console.log(starSrc);
+
     return `
       <div class="user-rate">
         <p class="user-rate-title">내 별점</p>

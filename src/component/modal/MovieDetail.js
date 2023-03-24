@@ -10,7 +10,7 @@ class MovieDetail extends CustomElement {
     const src = this.getAttribute("src");
     const voteAverage = this.getAttribute("voteAverage");
     const detail = this.getAttribute("detail");
-    const genre_ids = this.getAttribute("genre_ids");
+    const genres = this.getAttribute("genres");
 
     return `
     <section class="modal-head">
@@ -23,7 +23,7 @@ class MovieDetail extends CustomElement {
       <img class="modal-img skeleton" src=${src} />
       <section class="modal-detail">
         <div class="title text-body">
-          <p>${genre_ids}</p>
+          <p>${genres}</p>
           <img class="detail-star" src="./image/star_filled.png" alt="별점" />
           <p>${voteAverage}</p>
         </div>

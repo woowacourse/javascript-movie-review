@@ -18,8 +18,12 @@ class MovieModal extends CustomElement {
   }
 
   rerender(movie) {
+    const src =
+      movie.src === "null"
+        ? "./image/noImg.jpeg"
+        : `https://image.tmdb.org/t/p/w220_and_h330_face${movie.src}`;
     const temp = `
-    <movie-detail id=${movie.id} title='${movie.title}' voteAverage=${movie.voteAverage} src=${movie.src} detail='${movie.detail}' genre_ids=${movie.genre_ids}>
+    <movie-detail id=${movie.id} title='${movie.title}' voteAverage=${movie.voteAverage} src=${src} detail='${movie.detail}' genres=${movie.genres}>
     </movie-detail>
     `;
 

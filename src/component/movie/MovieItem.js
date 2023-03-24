@@ -3,23 +3,11 @@ import { $ } from "../../util/dom";
 import CustomElement from "../basic/CustomElement";
 
 class MovieItem extends CustomElement {
-  #movie = {
-    id: null,
-    title: "",
-    src: "",
-    voteAverage: "",
-    detail: "",
-    genre_ids: [],
-  };
-
   template() {
-    this.#movie.id = this.getAttribute("id");
-    this.#movie.title = this.getAttribute("title");
-    this.#movie.voteAverage = this.getAttribute("vote_average");
-    this.#movie.detail = this.getAttribute("detail");
-    this.#movie.genre_ids = this.getAttribute("genre_ids");
+    const title = this.getAttribute("title");
+    const voteAverage = this.getAttribute("vote_average");
     const img = this.getAttribute("src");
-    this.#movie.src =
+    const src =
       img === "null"
         ? "./image/noImg.jpeg"
         : `https://image.tmdb.org/t/p/w220_and_h330_face${img}`;
@@ -29,13 +17,13 @@ class MovieItem extends CustomElement {
         <img
           class="item-thumbnail skeleton"
           loading="lazy"
-          src= ${this.#movie.src}
-          alt=${this.#movie.title}
+          src= ${src}
+          alt=${title}
         />
-        <p class="item-title">${this.#movie.title}</p>
+        <p class="item-title">${title}</p>
         <p class="item-score">
         <img src="./image/star_filled.png" alt="별점" />
-        ${this.#movie.voteAverage}
+        ${voteAverage}
         </p>
       </div>
   `;
@@ -48,7 +36,8 @@ class MovieItem extends CustomElement {
     });
 
     this.addEventListener("click", () => {
-      MovieBoss.deliverModal(this.#movie);
+      const id = this.getAttribute("id");
+      MovieBoss.deliverMoviesModal(id);
 
       $(".modal-open").classList.remove("modal");
       this.closest("body").classList.add("scroll");
