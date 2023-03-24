@@ -1,3 +1,3 @@
 # javascript-movie-review
 
-FE 5기 레벨1 영화관 미션
+## [배포 링크](https://kyw0716.github.io/javascript-movie-review/)
