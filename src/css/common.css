@@ -440,6 +440,10 @@ header .search-box > #search-button {
     width: 222px;
     height: 328px;
   }
+
+  .modal-content h3 {
+    font-size: 24px;
+  }
 }
 
 @media screen and (max-width: 720px) {
