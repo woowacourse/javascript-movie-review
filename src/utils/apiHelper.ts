@@ -14,7 +14,7 @@ export const makeParams = <T extends Object>(query: T) => {
 
 export const getApiData = async <T>(
   url: string,
-  params: string
+  params?: string
 ): Promise<T> => {
   const fetchingData = await fetch(url + params);
 
