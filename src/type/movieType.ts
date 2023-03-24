@@ -20,6 +20,13 @@ export interface Movie {
   src: string;
   voteAverage: number;
   id: number;
-  detail: string;
-  genre_ids: [];
+}
+
+export interface MovieModal {
+  genres: [{ id: number; name: string }];
+  id: number;
+  overview: string;
+  poster_path: string;
+  title: string;
+  vote_average: number;
 }
