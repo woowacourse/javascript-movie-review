@@ -18,10 +18,6 @@ button {
   cursor: pointer;
 }
 
-#app {
-  padding-bottom: 48px;
-}
-
 *:focus {
   outline: none;
 }
@@ -55,9 +51,19 @@ button {
   grid-row-gap: 48px;
 }
 
-.item-card {
+.item-card,
+.item-thumbnail {
   display: flex;
   flex-direction: column;
+  transition: 0.3s;
+}
+
+.item-card:hover {
+  cursor: pointer;
+}
+
+.item-card:hover .item-thumbnail {
+  box-shadow: 0px 0px 30px rgba(255, 0, 0, 0.4);
 }
 
 .item-thumbnail {
@@ -179,14 +185,32 @@ header .search-box > .search-button {
   background-size: contain;
 }
 
-.show-more-button-wrapper {
+.footer-message-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  background: linear-gradient(to bottom, transparent, #7d090944);
+}
+
+.footer-message-wrapper[hidden] {
+  display: none;
+}
+
+.status-message-icon {
+  width: 25px;
+}
+
+.status-message {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.button-error-message {
-  font-size: 16px;
+.status-message-content {
+  font-size: 18px;
   text-align: center;
   color: #ff6e6e;
 }
@@ -200,11 +224,16 @@ header .search-box > .search-button {
   justify-content: space-evenly;
 }
 
+.show-more-button {
+  width: 150px;
+}
+
 /* 반응형 */
 @media (max-width: 1250px) {
   .item-view {
     width: 900px;
   }
+
   .item-list {
     grid-template-columns: repeat(3, 180px);
   }
@@ -214,6 +243,7 @@ header .search-box > .search-button {
   .item-view {
     width: 700px;
   }
+
   .item-list {
     gap: 70px;
   }
@@ -223,6 +253,7 @@ header .search-box > .search-button {
   .item-view {
     width: 500px;
   }
+
   .item-list {
     grid-template-columns: repeat(2, 180px);
   }
