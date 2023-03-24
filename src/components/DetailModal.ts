@@ -1,5 +1,7 @@
-import movies from '../domain/Movies';
 import { DetailModalType } from '../type/movie';
+import { MOVIE_APP_IMG_PATH } from '../constant';
+
+import movies from '../domain/Movies';
 
 export default class DetailModal extends HTMLElement {
   constructor() {
@@ -21,23 +23,34 @@ export default class DetailModal extends HTMLElement {
   ) {
     this.innerHTML = `
     <dialog class="movie-modal">
-      <div>
-        <div>
+      <div class="movie-modal-container">
+        <div class="movie-modal-header">
           <h2>${title}</h2>
-          <img src="" alt="닫기" />
         </div>
-        <div>
-          <img src="https://image.tmdb.org/t/p/original${poster_path}" alt="포스터" />
-          <div>
-            <span>${genres}</span>
-            <img src="" alt="별점" />
-            <span>${vote_average}</span>
-            <p>${overview}</p>
-            <div>
+        <img class="close-modal-button" src="${MOVIE_APP_IMG_PATH.cancelButton}" alt="닫기" />
+        <div class="movie-modal-detail">
+          <div class="movie-modal-image-container skeleton">
+            <img src="https://image.tmdb.org/t/p/original${poster_path}" alt="포스터" />
+          </div>  
+          <div class="movie-modal-description-container">
+            <div class="movie-modal-overview">
+              <div class="movie-modal-genre">
+                <span>스릴러,공포,코미디</span>
+                <img src="${MOVIE_APP_IMG_PATH.starFilled}" alt="별점" />
+                <span>${vote_average}</span>
+              </div>  
+              <p>${overview}</p>
+            </div>
+            <div class="my-evaluation">
               <span>내 별점</span>
-              <img src="" alt="나의 별점" />
-              <span>6</span>
-              <span>보통이에요</span>
+              <div class="star-container">
+                <img src="${MOVIE_APP_IMG_PATH.starEmpty}" alt="나의 별점" />
+                <img src="${MOVIE_APP_IMG_PATH.starEmpty}" alt="나의 별점" />
+                <img src="${MOVIE_APP_IMG_PATH.starEmpty}" alt="나의 별점" />
+                <img src="${MOVIE_APP_IMG_PATH.starEmpty}" alt="나의 별점" />
+                <img src="${MOVIE_APP_IMG_PATH.starEmpty}" alt="나의 별점" />
+              </div>
+              <span>6 보통이에요</span>
             </div>
           </div>
         </div>

@@ -3,6 +3,7 @@ import searchButton from '../../templates/search_button.png';
 import starEmpty from '../../templates/star_empty.png';
 import starFilled from '../../templates/star_filled.png';
 import posterEmpty from '../../templates/poster_empty.png';
+import cancelButton from '../../templates/cancel_button.png';
 
 const MOVIE_APP_IMG_PATH = {
   logo,
@@ -10,6 +11,7 @@ const MOVIE_APP_IMG_PATH = {
   starEmpty,
   starFilled,
   posterEmpty,
+  cancelButton,
 };
 
 const ERROR_MESSAGE = {
