@@ -5,6 +5,7 @@ import fetchJson from './domain/fetchJson';
 import getAPI from './domain/getAPI';
 import { dataProcessors } from './domain/processMovieData';
 import render from './render';
+import openModal from './render/modal';
 
 class App {
   private fetchStandard: FetchStandard = { page: 1, type: FetchType.Popular };
@@ -86,25 +87,16 @@ class App {
       detail: { movieId },
     } = event as Event & { detail: { movieId: number } };
 
-    const app = document.querySelector('#app');
+    render.openModal(movieId);
 
-    if (!app) return;
-
-    const movieModal = new MovieModal(movieId);
-    app.insertAdjacentElement('beforeend', movieModal.node);
-
-    const api = `https://api.themoviedb.org/3/movie/${movieId}?api_key=0329916a6096551557f3f4edc9e82c57&language=ko-KR`;
-    const movieDetailJson = await fetchJson<FetchedMovieDetailJson>(api);
+    const movieDetailJson = await fetchJson<FetchedMovieDetailJson>(getAPI.detailMovie(movieId));
     const movieDetail = dataProcessors.processMovieDetailData(movieDetailJson);
-    movieModal.updateMovieDetail(movieDetail);
+
+    render.updateModal(movieDetail);
   }
 
   closeMovieModal() {
-    const $modal = document.querySelector('.modal');
-
-    if (!$modal) return;
-
-    $modal.remove();
+    render.closeModal();
   }
 
   initEventHandler() {
