@@ -56,7 +56,7 @@ async function searchList(keyword: string) {
 }
 
 export const Router = async () => {
-  const hash = window.location.pathname;
+  const hash = location.pathname;
   const parts = hash.split("/");
 
   parts.forEach((el, index, arr) => (el === "" ? arr.splice(index, 1) : null));
@@ -80,6 +80,8 @@ export const Router = async () => {
 };
 
 export const navigate = (url: string) => {
-  window.history.pushState(null, "", url);
-  Router();
+  if (decodeURI(location.pathname) !== url) {
+    history.pushState(null, "", url);
+    Router();
+  }
 };

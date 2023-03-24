@@ -45,9 +45,8 @@ export default class AppComponent extends CustomComponent {
     });
 
     // 검색시 엔터 눌렀을 때 액션
-    this.addEventListener("keyup", async (e) => {
+    this.addEventListener("keypress", async (e) => {
       if (e.key === "Enter") {
-        e.preventDefault();
         await this.searchEventAction();
       }
     });
