@@ -20,7 +20,7 @@ abstract class MovieFetcher {
     };
   }
 
-  fetchNextMovies(): Promise<any> {
+  fetchNextMovies(): Promise<MovieItem[]> {
     this.params.page = String(Number(this.params.page) + 1);
 
     return fetchJson(this.#createSearchURL(this.params), this.#processMovieData.bind(this));
