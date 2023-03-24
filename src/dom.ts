@@ -1,3 +1,5 @@
+import { SKELETON_TEMPLATE } from './constants';
+
 import { Movie } from './domain/movieService';
 import { $ } from './utils/domUtils';
 
@@ -5,9 +7,15 @@ export const hide = (selector: string) => $(selector)?.classList.add('hide');
 
 export const show = (selector: string) => $(selector)?.classList.remove('hide');
 
-export const hideSkeleton = () => hide('#skeleton-list');
+export const hideSkeleton = () => {
+  const $skeletonItems = document.querySelectorAll('.skeleton-item');
 
-export const showSkeleton = () => show('#skeleton-list');
+  $skeletonItems.forEach(($skeleton) => $skeleton.remove());
+};
+
+export const showSkeleton = () => {
+  $('.item-list')?.insertAdjacentHTML('beforeend', SKELETON_TEMPLATE);
+};
 
 export const hideScrollObserver = () => hide('#scroll-observer');
 

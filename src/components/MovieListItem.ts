@@ -5,13 +5,14 @@ import DefaultPoster from '../../images/default_poster.png';
 class MovieListItem extends HTMLElement {
   constructor() {
     super();
+
     const imgSrc = this.getAttribute('poster-path');
     this.innerHTML = /* html */ `
       <li>
         <a href="#">
           <div class="item-card">
             <img
-              class="item-thumbnail"
+              class="item-thumbnail skeleton"
               src=${
                 imgSrc === 'null'
                   ? DefaultPoster
