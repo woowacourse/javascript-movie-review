@@ -1,5 +1,7 @@
+import { COMMENT } from "../constant/setting";
+
 export default class RatingBox extends HTMLElement {
-  #state = { myRating: 0, comment: "별점은 매겨주세요." };
+  #state = { myRating: 0 };
 
   get myRating() {
     return Number(this.getAttribute("my-rating"));
@@ -16,7 +18,7 @@ export default class RatingBox extends HTMLElement {
   }
 
   render() {
-    const { myRating, comment } = this.#state;
+    const { myRating } = this.#state;
 
     this.innerHTML = `
       <div class="rating-box flex align-center">
@@ -37,7 +39,7 @@ export default class RatingBox extends HTMLElement {
           myRating >= 10 ? "filled" : "empty"
         } mr-4" alt="별점" />
         <h4 class="ml-12 mr-12">${myRating}</h4>
-        <h4 class="comment">${comment}</h4>
+        <h4 class="comment">${COMMENT[myRating]}</h4>
       </div>
         `;
   }
@@ -46,8 +48,9 @@ export default class RatingBox extends HTMLElement {
     const $stars = this.querySelectorAll("img");
     $stars?.forEach((star, index) => {
       star.addEventListener("click", () => {
-        this.setState({ myRating: (index + 1) * 2 });
-        this.changeComment();
+        this.setState({
+          myRating: (index + 1) * 2,
+        });
         this.render();
         this.setEvent();
         this.dispatchEvent(
@@ -58,14 +61,6 @@ export default class RatingBox extends HTMLElement {
         );
       });
     });
-  }
-
-  changeComment() {
-    if (this.#state.myRating === 2) this.#state.comment = "최악이예요";
-    if (this.#state.myRating === 4) this.#state.comment = "별로예요";
-    if (this.#state.myRating === 6) this.#state.comment = "보통이에요";
-    if (this.#state.myRating === 8) this.#state.comment = "재미있어요";
-    if (this.#state.myRating === 10) this.#state.comment = "명작이에요";
   }
 
   setState(newState: object) {

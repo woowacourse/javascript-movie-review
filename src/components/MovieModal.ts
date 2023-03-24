@@ -1,5 +1,6 @@
 import { getMovieDetail } from "../utils/fetch";
 import NoImage from "../assets/image/no_image.png";
+import { RESPONSE_NULL } from "../constant/error";
 
 export default class MovieModal extends HTMLElement {
   #state = {
@@ -45,14 +46,16 @@ export default class MovieModal extends HTMLElement {
                   }'/>
                   <div class="w-full h-full flex flex-column px-16 relative">
                     <div class="w-full flex align-center skeleton">
-                      <p class="mr-16 hidden">${genre}</p>
+                      <p class="mr-16 hidden">${
+                        genre ? genre : RESPONSE_NULL.GENRE
+                      }</p>
                       <div class="flex align-center">
                         <img class="star-filled mr-4 hidden" alt="별점" />
                         <p>${rating}</p>
                       </div>
                     </div>
                     <p class="overview skeleton">
-                    ${overview ? overview : '" 제공된 줄거리가 없습니다. "'}
+                    ${overview ? overview : RESPONSE_NULL.OVERVIEW}
                     </p>
                     <rating-box 
                     my-rating="${this.myRating}" 
@@ -93,7 +96,6 @@ export default class MovieModal extends HTMLElement {
   }
 
   async getDetail() {
-    if (!this.movieId) throw new Error("movie_id가 존재하지 않습니다.");
     const fetchedData = await getMovieDetail(Number(this.movieId));
     const { poster_path, overview, vote_average, genres } = fetchedData;
     this.setState({

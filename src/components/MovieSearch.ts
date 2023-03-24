@@ -1,3 +1,4 @@
+import { BREAKPOINT_SMALL } from "../constant/setting";
 import { $ } from "../utils/Dom";
 
 export default class MovieSearch extends HTMLElement {
@@ -33,7 +34,10 @@ export default class MovieSearch extends HTMLElement {
     const $moreButton = $("more-button") as HTMLElement;
     const $homeButtom = $(".home-button") as HTMLElement;
 
-    if (window.innerWidth < 410 && !$searchInput.className.includes("change")) {
+    if (
+      window.innerWidth < BREAKPOINT_SMALL &&
+      !$searchInput.className.includes("change")
+    ) {
       $searchInput.classList.add("change");
       $homeButtom.style.display = "none";
       return;

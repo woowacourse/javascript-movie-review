@@ -1,20 +1,15 @@
 import { API, TMDB_BASE_URL } from "../constant/api";
+import { RESPONSE_ERROR } from "../constant/error";
 
-const fetchAPI = async (url: string) => {
+const fetchAPI = async (url: string): Promise<any> => {
   const response = await fetch(url, { method: "GET" });
-  if (response.status === 200) {
-    return await response.json();
-  }
-  if (response.status === 401) {
-    throw new Error(`${response.status} API KEY가 잘못되었습니다.`);
-  }
-  if (response.status === 422) {
-    throw new Error(`${response.status} Page가 잘못되었습니다.`);
-  }
-  if (response.status === 404) {
-    throw new Error(`${response.status} 페이지를 찾을 수 없습니다.`);
-  }
-  throw new Error(`${response.status}`);
+
+  const { status } = response;
+  if (status === 200) return await response.json();
+
+  const responseError = RESPONSE_ERROR[status];
+  if (!responseError) throw new Error(`${status}`);
+  throw new Error(responseError);
 };
 
 export const getPopularMovies = async (
