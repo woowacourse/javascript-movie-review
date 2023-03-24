@@ -23,13 +23,8 @@ describe('영화 검색 기능 테스트', () => {
 
     interceptFetch('movie-search-result-page2.json');
 
-    cy.get('section.item-view')
-      .children('button')
-      .click();
+    cy.scrollTo('bottom', { duration: 500 });
 
-    movieCountEqualsTo(32);
-
-    cy.get('section.item-view')
-      .should('not.contain', '더 보기');
+    movieCountEqualsTo(33);
   });
 });
