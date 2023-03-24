@@ -46,6 +46,10 @@
   padding: 16px;
 }
 
+.px-16 {
+  padding: 0px 16px;
+}
+
 .p-32 {
   padding: 32px;
 }
@@ -81,4 +85,5 @@
 .change {
   display: block;
   width: 300px;
+  transition: width 2s;
 }

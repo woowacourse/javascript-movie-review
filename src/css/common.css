@@ -76,22 +76,22 @@ button {
   grid-row-gap: 48px;
 }
 
-@media (max-width: 1280px) {
+@media screen and (max-width: 1280px) {
   .item-list {
     grid-template-columns: repeat(4, 220px);
   }
 }
 
-@media (max-width: 1024px) {
+@media screen and (max-width: 1024px) {
   .item-list {
     grid-template-columns: repeat(3, 220px);
     grid-column-gap: calc((100vw - 700px) / 3);
   }
 }
 
-@media (max-width: 780px) {
+@media screen and (max-width: 780px) {
   .item-list {
-    grid-template-columns: repeat(2, 220px);
+    grid-template-columns: repeat(2, 180px);
     grid-column-gap: calc((100vw - 400px) / 2);
   }
 
@@ -103,14 +103,14 @@ button {
   }
 }
 
-@media (max-width: 480px) {
+@media screen and (max-width: 480px) {
   .item-list {
     grid-template-columns: repeat(2, 180px);
     grid-column-gap: 10px;
   }
 }
 
-@media (max-width: 410px) {
+@media screen and (max-width: 410px) {
   .search-input {
     display: none;
   }
@@ -219,7 +219,7 @@ header {
   display: flex;
 }
 
-.search-box > input {
+.search-input {
   border: 0;
 }
 
@@ -244,14 +244,14 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed; /* 스크롤에 따라 움직이지 않도록 고정 */
-  z-index: 1; /* 다른 요소보다 위에 위치하도록 설정 */
+  position: fixed;
+  z-index: 1;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto; /* 스크롤이 필요한 경우 스크롤바를 보여줌 */
-  background-color: rgba(0, 0, 0, 0.6); /* 배경색과 투명도 조절 */
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .modal-content {
@@ -268,7 +268,7 @@ header {
 
 .modal-header {
   width: 100%;
-  height: 60px;
+  min-height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -279,6 +279,12 @@ header {
   min-width: 292px;
   max-width: 292px;
   height: 100%;
+}
+
+.overview {
+  margin-top: 16px;
+  overflow: hidden;
+  max-height: 320px;
 }
 
 .rating-box {

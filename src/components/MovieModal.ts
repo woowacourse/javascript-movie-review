@@ -43,7 +43,7 @@ export default class MovieModal extends HTMLElement {
                       ? `https://image.tmdb.org/t/p/original${poster}`
                       : NoImage
                   }'/>
-                  <div class="w-full h-full flex flex-column p-16 relative">
+                  <div class="w-full h-full flex flex-column px-16 relative">
                     <div class="w-full flex align-center skeleton">
                       <p class="mr-16 hidden">${genre}</p>
                       <div class="flex align-center">
@@ -51,7 +51,7 @@ export default class MovieModal extends HTMLElement {
                         <p>${rating}</p>
                       </div>
                     </div>
-                    <p class="mt-16 truncate skeleton">
+                    <p class="overview skeleton">
                     ${overview ? overview : '" 제공된 줄거리가 없습니다. "'}
                     </p>
                     <rating-box 

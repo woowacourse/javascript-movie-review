@@ -23,14 +23,8 @@ export default class MovieSearch extends HTMLElement {
       this.createSearchMovieEvent();
     });
 
-    let debounce: any;
     $searchInput.addEventListener("keyup", (event) => {
       if (event.key === "Enter") this.createSearchMovieEvent();
-      if (!debounce)
-        debounce = setTimeout(() => {
-          debounce = null;
-          this.createSearchMovieEvent();
-        }, 500);
     });
   }
 
@@ -44,6 +38,7 @@ export default class MovieSearch extends HTMLElement {
       $homeButtom.style.display = "none";
       return;
     }
+
     this.dispatchEvent(
       new CustomEvent("search-movie", {
         bubbles: true,
@@ -51,6 +46,9 @@ export default class MovieSearch extends HTMLElement {
       })
     );
     $moreButton?.classList.add("hidden");
+
+    $searchInput.classList.remove("change");
+    $homeButtom.style.display = "block";
   }
 }
 

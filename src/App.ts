@@ -53,12 +53,12 @@ export default class App {
         throttle = setTimeout(() => {
           throttle = null;
           const scrollPosition = window.pageYOffset + window.innerHeight;
-          const documentHeight = document.body.offsetHeight - 0.5;
+          const documentHeight = document.body.offsetHeight - 20;
 
           if (scrollPosition >= documentHeight) {
             this.appendMovieList();
           }
-        }, 2000);
+        }, 1000);
     });
 
     document.addEventListener(

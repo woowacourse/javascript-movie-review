@@ -6,7 +6,7 @@ export default class MovieHeader extends HTMLElement {
 
   render() {
     this.innerHTML = /*html*/ `
-  <header>
+  <header class="flex justify-between">
     <img class='home-button'/>
     <movie-search></movie-search>
   </header>`;
