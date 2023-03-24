@@ -2,8 +2,9 @@ import Header from './components/Header';
 import ListTitle from './components/ListTitle';
 import MovieList from './components/MovieList';
 import { Skeleton } from './components/Skeleton';
-import stateRender from './renderer/StateRender';
 import MovieDetail from './components/MovieDetail';
+import RemoteControl from './components/RemoteControl';
+import stateRender from './renderer/StateRender';
 
 class App {
   $main = document.createElement('main');
@@ -16,7 +17,7 @@ class App {
 
   constructor($target: HTMLElement) {
     new Header($target);
-
+    new RemoteControl().render($target);
     this.$itemView.className = 'item-view';
 
     this.listTitle = new ListTitle();
