@@ -178,6 +178,13 @@
   min-width: 360px;
 }
 
+@media screen and (max-width: 1023px) {
+  .movie-detail-title.skeleton {
+    max-width: 200px;
+    min-width: 200px;
+  }
+}
+
 /*  */
 
 .voted-star-container {

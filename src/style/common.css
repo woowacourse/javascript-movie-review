@@ -116,8 +116,20 @@ button {
 .item-thumbnail {
   border-radius: 8px;
   width: 100%;
-  height: auto;
+  min-height: 360px;
   background-size: contain;
+}
+
+@media screen and (max-width: 1023px) {
+  .item-thumbnail {
+    min-height: 300px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .item-card {
+    min-height: 270px;
+  }
 }
 
 .item-title {
