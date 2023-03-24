@@ -1,5 +1,9 @@
-import { getApiPopularMovie, getApiSearchMovie } from './api';
-import { MovieItemType } from '../type/movie';
+import {
+  getApiDetailMovie,
+  getApiPopularMovie,
+  getApiSearchMovie,
+} from './api';
+import { MovieItemType, DetailModalType } from '../type/movie';
 import { ERROR_MESSAGE } from '../constant';
 
 import Observable from './Observable';
@@ -86,6 +90,29 @@ class Movies extends Observable {
     this.searchPage++;
     this.isSearched = true;
     this.notify('movies', refineMovies);
+  }
+
+  async detailMovies(id: number) {
+    const { movieItem, status } = await getApiDetailMovie(id);
+    const detailMovie = movieItem;
+
+    if (alertFetchStatus(status)) return;
+
+    const {
+      title,
+      poster_path,
+      genres,
+      vote_average,
+      overview,
+    }: DetailModalType = detailMovie;
+
+    this.notify('detail', {
+      title,
+      poster_path,
+      genres,
+      vote_average,
+      overview,
+    });
   }
 }
 
