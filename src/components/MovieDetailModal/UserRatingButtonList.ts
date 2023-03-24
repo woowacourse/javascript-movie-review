@@ -1,27 +1,14 @@
 import UserRating from './UserRating';
+import UserRatingButton from './UserRatingButton';
 
-import { starEmptyImage } from '../../assets/images';
 import { $ } from '../../utils/dom';
+import { USER_RATING_MESSAGE } from '../../constants/message';
 
 const UserRatingButtonList = {
   template() {
     return `
       <div class="user-rating-buttons">
-        <button type="button" value="2" data-rating-desc="최악이예요">
-          <img src=${starEmptyImage} alt="별점" />
-        </button>
-        <button type="button" value="4" data-rating-desc="별로예요">
-          <img src=${starEmptyImage} alt="별점" />
-        </button>
-        <button type="button" value="6" data-rating-desc="보통이에요">
-          <img src=${starEmptyImage} alt="별점" />
-        </button>
-        <button type="button" value="8" data-rating-desc="재미있어요">
-          <img src=${starEmptyImage} alt="별점" />
-        </button>
-        <button type="button" value="10" data-rating-desc="명작이에요">
-          <img src=${starEmptyImage} alt="별점" />
-        </button>
+        ${USER_RATING_MESSAGE.map(({ score, desc }, index) => UserRatingButton.template(score, desc, index)).join('')}
       </div>
     `;
   },
@@ -31,14 +18,26 @@ const UserRatingButtonList = {
 
     userRatingButtons.addEventListener('click', (event) => {
       if (!(event.target instanceof HTMLElement)) return;
+      if (event.target instanceof HTMLDivElement) return;
 
-      const ratingButton = event.target.closest('button');
-      const ratingScore = ratingButton?.value;
-      const ratingDesc = ratingButton?.dataset.ratingDesc;
+      const { value: score, dataset } = event.target.closest('button') as HTMLButtonElement;
+      const { ratingDesc, index } = dataset;
 
-      if (!ratingScore || !ratingDesc) return;
+      if (!ratingDesc || !index) return;
 
-      UserRating.renderRating(ratingScore, ratingDesc);
+      UserRatingButtonList.render(Number(index));
+      UserRating.renderRating(score, ratingDesc);
+    });
+  },
+
+  render(targetIndex: number) {
+    const userRatingButtons = $<HTMLDivElement>('.user-rating-buttons');
+
+    [...userRatingButtons.children].forEach((child, index) => {
+      if (child instanceof HTMLButtonElement) {
+        const isFilled = index <= targetIndex;
+        UserRatingButton.toggleStarImage(child, isFilled);
+      }
     });
   },
 };

@@ -26,3 +26,31 @@ export const getErrorMessage = (status: number) => FETCH_ERROR_MESSAGE[status] ?
 
 export const isCustomErrorMessage = (message: any): message is CustomErrorMessage =>
   typeof message === 'object' && 'error' in message && 'desc' in message;
+
+interface UserRatingMessage {
+  score: string;
+  desc: string;
+}
+
+export const USER_RATING_MESSAGE: readonly UserRatingMessage[] = [
+  {
+    score: '2',
+    desc: '최악이예요',
+  },
+  {
+    score: '4',
+    desc: '별로예요',
+  },
+  {
+    score: '6',
+    desc: '보통이에요',
+  },
+  {
+    score: '8',
+    desc: '재미있어요',
+  },
+  {
+    score: '10',
+    desc: '명작이에요',
+  },
+];
