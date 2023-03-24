@@ -25,7 +25,6 @@ const skeleton = new MovieSkeleton($('#skeleton-container'));
 skeleton.render(SKELETON_ITEM_COUNT);
 
 const main = new Main($('.item-view'), listManager);
-main.render();
 
 const modal = new MovieModal($('#movie-modal'));
 
@@ -57,4 +56,5 @@ window.addEventListener('load', async () => {
   });
 
   await GenreMap.fetch();
+  main.render();
 });
