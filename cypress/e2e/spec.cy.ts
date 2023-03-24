@@ -41,8 +41,10 @@ describe("영화 리뷰 웹 테스트", () => {
     });
   });
 
-  it("더보기 버튼 클릭시 다음 페이지 정보가 렌더링 된다.", () => {
-    cy.get(".btn").click();
+  it.only("영화 목록을 마지막 요소까지 스크롤시 다음 페이지 정보가 렌더링 된다.", () => {
+    cy.scrollTo("bottom");
+
+    cy.get(".skeleton-container").should("be.visible");
 
     cy.wait("@getPopularMoviesPage2").then((interception) => {
       const movieItems = interception.response?.body.results;
