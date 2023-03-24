@@ -1,4 +1,4 @@
-import { popularUrl, searchUrl } from "../constants/urls";
+import { detailUrl, popularUrl, searchUrl } from "../constants/urls";
 import fetchApi from "../utils/fetchApi";
 
 const fetchApiWithValidation = async (url) => {
@@ -22,6 +22,12 @@ export const fetchMovieListWithKeyword = async (pageNumber, keyword) => {
 
 export const fetchPopularMovieList = async (pageNumber) => {
   const url = `${popularUrl}?api_key=${process.env.WEBPACK_API_KEY}&language=ko&page=${pageNumber}`;
+
+  return await fetchApiWithValidation(url);
+};
+
+export const fetchMovieDetail = async (id) => {
+  const url = `${detailUrl}/${id}?api_key=${process.env.WEBPACK_API_KEY}&language=ko`;
 
   return await fetchApiWithValidation(url);
 };
