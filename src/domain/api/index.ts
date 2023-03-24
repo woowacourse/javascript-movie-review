@@ -1,8 +1,8 @@
 import { FetchingMovieType } from '../../type/movie';
 
 const API_KEY = process.env.API_KEY;
-const popularUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US`;
-const searchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US`;
+const popularUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=KO`;
+const searchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=KO`;
 const detailUrl = `https://api.themoviedb.org/3/movie`;
 
 export const getApiPopularMovie = async (
@@ -32,7 +32,7 @@ export const getApiSearchMovie = async (
 
 export const getApiDetailMovie = async (id: number): Promise<any> => {
   const fetchingData = await fetch(
-    `${detailUrl}/${id}?api_key=${API_KEY}&language=en-US`
+    `${detailUrl}/${id}?api_key=${API_KEY}&language=KO`
   );
 
   const status = fetchingData.status;
