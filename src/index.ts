@@ -54,3 +54,15 @@ response.then((res) => {
     store.setGenres(genre.id, genre.name);
   });
 });
+
+const scrollToTop = () => {
+  window.scrollTo(0, 0);
+};
+
+document.querySelector('.scroll-to-top')?.addEventListener('click', scrollToTop);
+
+window.onload = () => {
+  setTimeout(() => {
+    scrollToTop();
+  }, 100);
+};

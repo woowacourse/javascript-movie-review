@@ -46,6 +46,7 @@ class DetailModal {
 
   init() {
     this.render(this.movie);
+    document.body.style.overflow = 'hidden';
     this.addEvent();
   }
 
@@ -63,6 +64,7 @@ class DetailModal {
 
   closeModal = () => {
     const modal = this.modal as HTMLDialogElement;
+    document.body.style.removeProperty('overflow');
     modal.close();
   };
 }
