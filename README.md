@@ -45,9 +45,11 @@ FE 5기 레벨1 영화관 미션
 export const API_KEY = "사용할 API 키";
 ```
 
+배포된 사이트에서는 자동으로 설정되어 있습니다.
+
 ## e2e 테스트 방법
 
 1. npm run start로 local server 구동(포트 8081 고정)
 2. npm run test-e2e로 cypress 구동
 3. E2E-Testing -> Start E2E Testing in Chrome 클릭
-4. cypress 창이 뜨면 movie-e2e.cy.ts 클릭
+4. cypress 창이 뜨면 movie-e2e-2th.cy.ts 클릭
