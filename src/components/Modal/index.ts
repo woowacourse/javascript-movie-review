@@ -22,6 +22,32 @@ export class Modal {
     this.bindEvent();
   }
 
+  bindEvent() {
+    $(".modal-backdrop").addEventListener("click", () => {
+      this.close();
+    });
+
+    $(".x-button").addEventListener("click", () => {
+      this.close();
+    });
+
+    window.addEventListener("keydown", (event: KeyboardEvent) => {
+      if (event.key === "Escape") this.close();
+    });
+
+    $(".modal-content").addEventListener("click", (event: Event) => {
+      if (!(event.target instanceof HTMLImageElement)) return;
+      if (event.target.className !== "star-rate-select-img") return;
+
+      const movieId = Number(event.target.dataset.movieId);
+      const starRate = Number(event.target.dataset.starRate) + 1;
+
+      this.renderStars(movieId, starRate);
+
+      setStarRateToStorage(movieId, starRate);
+    });
+  }
+
   open(movieId: number) {
     const modalSection = $(".modal-section");
 
@@ -56,32 +82,6 @@ export class Modal {
 
     window.location.hash = "";
     window.scrollTo(0, topPosition);
-  }
-
-  bindEvent() {
-    $(".modal-backdrop").addEventListener("click", () => {
-      this.close();
-    });
-
-    $(".x-button").addEventListener("click", () => {
-      this.close();
-    });
-
-    window.addEventListener("keydown", (event: KeyboardEvent) => {
-      if (event.key === "Escape") this.close();
-    });
-
-    $(".modal-content").addEventListener("click", (event: Event) => {
-      if (!(event.target instanceof HTMLImageElement)) return;
-      if (event.target.className !== "star-rate-select-img") return;
-
-      const movieId = Number(event.target.dataset.movieId);
-      const starRate = Number(event.target.dataset.starRate) + 1;
-
-      this.renderStars(movieId, starRate);
-
-      setStarRateToStorage(movieId, starRate);
-    });
   }
 
   render(movie: MovieDetail, movieId: number) {
