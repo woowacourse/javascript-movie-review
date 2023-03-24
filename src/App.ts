@@ -25,7 +25,7 @@ class App {
       history.replaceState(
         { isList: true, searchQuery: '', timestamp: new Date().getTime() },
         '',
-        '/'
+        ''
       );
     });
   }
