@@ -1,4 +1,4 @@
-export const getStarRateById = (movieId: number) => {
+export const getStarRateFromStorage = (movieId: number) => {
   const storageData = localStorage.getItem("starRate");
 
   if (storageData) {
@@ -10,7 +10,7 @@ export const getStarRateById = (movieId: number) => {
   return 0;
 };
 
-export const setStarRateById = (movieId: number, starRate: number) => {
+export const setStarRateToStorage = (movieId: number, starRate: number) => {
   const storageData = localStorage.getItem("starRate");
 
   if (storageData) {
