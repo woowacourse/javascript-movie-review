@@ -1,4 +1,8 @@
-import { MovieItemType, MovieSubscriberType } from '../type/movie';
+import {
+  DetailModalType,
+  MovieItemType,
+  MovieSubscriberType,
+} from '../type/movie';
 
 export default class Observable {
   private observer: MovieSubscriberType;
@@ -7,6 +11,7 @@ export default class Observable {
     this.observer = {
       movies: [],
       loading: [],
+      detail: [],
     };
   }
 
@@ -17,7 +22,7 @@ export default class Observable {
     this.observer[key].push(method);
   }
 
-  notify(key: keyof MovieSubscriberType, newData?: MovieItemType[]) {
+  notify(key: keyof MovieSubscriberType, newData?: any) {
     this.observer[key].forEach((method) => method(newData));
   }
 }
