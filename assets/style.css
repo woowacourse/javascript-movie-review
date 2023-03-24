@@ -251,10 +251,10 @@ header .search-box > .search-button {
 
   display: -webkit-box;
   text-align: center;
-  overflow: hidden;
+  overflow-x: auto;
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
 }
 
 .movie-title-container {
