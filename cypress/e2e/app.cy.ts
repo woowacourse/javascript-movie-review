@@ -77,4 +77,41 @@ describe("영화 리뷰 애플리케이션 popular 영화 테스트", () => {
     cy.get("body").click(0, 0);
     cy.get(".modal-container").should("not.be.visible");
   });
+
+  it("모달이 열려있을 때 별점을 등록 가능해야 한다.", () => {
+    cy.get(".item-card").first().scrollIntoView().click({ force: true });
+    cy.get(".user-rate-container img").first().click();
+    cy.get(".score").should("have.text", "2");
+    cy.get(".score-comment").should("have.text", "최악이예요");
+  });
+
+  it("모달이 열려있을 때 별점을 등록 후 다시 진입 시 남긴 별점이 있어야 한다..", () => {
+    cy.get(".item-card").first().scrollIntoView().click({ force: true });
+    cy.get(".user-rate-container img").first().click();
+    cy.get(".score").should("have.text", "2");
+    cy.get(".score-comment").should("have.text", "최악이예요");
+    cy.get("body").click(0, 0);
+    cy.get(".item-card").first().scrollIntoView().click({ force: true });
+    cy.get(".score").should("have.text", "2");
+    cy.get(".score-comment").should("have.text", "최악이예요");
+  });
+
+  it("등록한 별점과 같은 별점을 누르면 별점 등록이 초기화 되어야 한다.", () => {
+    cy.get(".item-card").first().scrollIntoView().click({ force: true });
+    cy.get(".user-rate-container img").first().click();
+    cy.get(".score").should("have.text", "2");
+    cy.get(".score-comment").should("have.text", "최악이예요");
+    cy.get(".user-rate-container img").first().click();
+    cy.get(".score-comment").should("not.have.text", "최악이예요");
+  });
+
+  it("등록한 별점과 다른 별점을 누르면 별점이 바뀌어야 한다.", () => {
+    cy.get(".item-card").first().scrollIntoView().click({ force: true });
+    cy.get(".user-rate-container img").first().click();
+    cy.get(".score").should("have.text", "2");
+    cy.get(".score-comment").should("have.text", "최악이예요");
+    cy.get(".user-rate-container img").eq(3).click();
+    cy.get(".score").should("have.text", "8");
+    cy.get(".score-comment").should("have.text", "재미있어요");
+  });
 });
