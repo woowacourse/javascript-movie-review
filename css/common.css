@@ -71,6 +71,13 @@ button {
   background-size: contain;
 }
 
+.item-thumbnails {
+  border-radius: 8px;
+  width: 182px;
+  height: 273px;
+  background-size: contain;
+}
+
 .item-title {
   margin-top: 16px;
   font-size: 1.2rem;
@@ -279,21 +286,18 @@ header .search-box > .search-button {
   content-visibility: hidden;
 }
 
-/* 클릭되어 있는 별(.active)과 특정 이미지 뒤에 (.active)가 있으면 스스로 빛난다 */
 .star-box img.active,
 .star-box img:has(~ img.active) {
   background: url('../assets/star_filled.png');
   background-size: contain;
 }
 
-/* :hover 과 특정 이미지 기준으로 뒤에 :hover 가 있으면 빛난다 */
 .star-box img:hover,
 .star-box img:has(~ img:hover) {
   background: url('../assets/star_filled.png');
   background-size: contain;
 }
 
-/* :hover 뒤의 모든 이미지는 끈다 */
 .star-box img:hover ~ img {
   background: url('../assets/star_empty.png');
   background-size: contain;
@@ -306,7 +310,6 @@ header .search-box > .search-button {
     justify-content: center;
     align-items: center;
     width: 834px;
-    /* margin: 0 auto; */
   }
 
   .modal {
@@ -364,6 +367,13 @@ header .search-box > .search-button {
     justify-content: center;
     align-items: center;
     width: 390px;
+  }
+
+  .item-thumbnails {
+    border-radius: 8px;
+    width: 140px;
+    height: 220px;
+    background-size: contain;
   }
 
   header {
