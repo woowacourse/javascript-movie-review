@@ -79,11 +79,6 @@ class Movies {
     this.#page -= 1;
   }
 
-  getById(id: string) {
-    const a = getMovieById(id);
-    console.log(a);
-  }
-
   getQuery() {
     return this.#query;
   }
