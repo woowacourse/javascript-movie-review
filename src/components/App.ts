@@ -4,8 +4,9 @@ import Title from './Title';
 import MoviePopularList from './MovieList/MoviePopularList';
 import MovieSearchList from './MovieList/MovieSearchList';
 import MovieListContainer from './MovieList/MovieListContainer';
-import SeeMore from './SeeMore';
 import Skeleton from './MovieList/Skeleton';
+import MovieItemModal from './MovieList/MovieDetail';
+import MovieDetail from './MovieList/MovieDetail';
 
 import { $ } from '../utils/domHelper';
 
@@ -15,8 +16,9 @@ type ComponentType = {
   popularMovieList?: MoviePopularList;
   searchMovieList?: MovieSearchList;
   title?: Title;
-  seeMore?: SeeMore;
   skeleton?: Skeleton;
+  modal?: MovieItemModal;
+  detail?: MovieDetail;
 };
 
 export default class App {
@@ -39,6 +41,7 @@ export default class App {
         <ul class="item-list movie-container"></ul>
         <ul class="item-list skeleton-container"></ul>
         </section>
+        <div class="modal-container"></div>
       </main>
     `;
   }
@@ -59,11 +62,14 @@ export default class App {
       $('.movie-container')
     );
 
+    this.components.detail = new MovieDetail($('.modal-container'));
+
     this.components.movieListContainer = new MovieListContainer({
       $target: $('.movie-container'),
       components: {
         popular: this.components.popularMovieList,
         search: this.components.searchMovieList,
+        detail: this.components.detail,
       },
     });
 
@@ -78,11 +84,12 @@ export default class App {
   mounted() {
     this.makeComponent();
 
-    const { header, movieListContainer, title, skeleton } = this.components;
+    const { header, movieListContainer, title, skeleton, modal } =
+      this.components;
 
     header?.render().setEvent();
     title?.render();
-    movieListContainer?.fetchData();
+    movieListContainer?.fetchData().setEvent();
     skeleton?.render();
   }
 }
