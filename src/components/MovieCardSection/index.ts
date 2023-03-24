@@ -3,13 +3,14 @@ import MovieCardList from './MovieCardList';
 import MovieSectionTitle from './MovieSectionTitle';
 import ErrorMessage from './ErrorMessage';
 
-import { CustomErrorMessage, SEARCH_ERROR_MESSAGE } from '../../constants/message';
-import { CLASS } from '../../constants/selector';
-import { $ } from '../../utils/dom';
+import { convertToAppMovies } from '../../domain/util';
 
-import type Movies from '../../domain/Movies';
-import type RatedMovies from '../../domain/RatedMovies';
-import type { GetMovies } from '../../App';
+import { getPopularMovies, getSearchedMovies } from '../../api';
+import { MAX_PAGE } from '../../constants';
+import { CustomErrorMessage, DEFAULT_ERROR_MESSAGE, isCustomErrorMessage, SEARCH_ERROR_MESSAGE } from '../../constants/message';
+import { CLASS } from '../../constants/selector';
+import movieStates from '../../states/movies';
+import { $ } from '../../utils/dom';
 
 import './MovieCardSection.style.css';
 
@@ -24,18 +25,18 @@ const MovieCardSection = {
     `;
   },
 
-  setEvent(movies: Movies, getMovies: GetMovies) {
+  setEvent() {
     MovieCardList.setEvent();
-    LoadMoreButton.setEvent(movies, getMovies);
+    LoadMoreButton.setEvent();
   },
 
-  async render(movies: Movies, getMovies: GetMovies, query: string = '') {
-    MovieCardSection.renderInit(query, movies);
+  async render(query: string = '') {
+    MovieCardSection.renderInit(query);
 
-    const newMovies = await getMovies(query);
+    const newMovies = await MovieCardSection.getMovies(query);
 
     if (!newMovies) {
-      movies.previousPage();
+      movieStates.previousPage();
       MovieCardList.removeSkeleton();
       return;
     }
@@ -44,14 +45,14 @@ const MovieCardSection = {
       return MovieCardSection.renderErrorMessage(SEARCH_ERROR_MESSAGE.NO_RESULT);
     }
 
-    MovieCardList.paint(newMovies.list, movies.getPage());
-    LoadMoreButton.handleVisibility(movies.isLastPage(newMovies.totalPages));
+    MovieCardList.paint(newMovies.list, movieStates.getPage());
+    LoadMoreButton.handleVisibility(movieStates.isLastPage(newMovies.totalPages));
   },
 
-  renderInit(query: string, movies: Movies) {
+  renderInit(query: string) {
     MovieCardSection.removeErrorMessage();
     MovieCardSection.renderTitle(query);
-    MovieCardList.renderSkeletonItems(movies.isCurrentQuery(query));
+    MovieCardList.renderSkeletonItems(movieStates.isCurrentQuery(query));
   },
 
   renderTitle(query: string) {
@@ -73,6 +74,34 @@ const MovieCardSection = {
     const itemView = $<HTMLElement>(`.${CLASS.ITEM_VIEW}`);
 
     ErrorMessage.remove(itemView);
+  },
+
+  async getMovies(query: string) {
+    try {
+      if (!movieStates.isCurrentQuery(query)) {
+        movieStates.reset(query);
+      }
+
+      movieStates.getQuery();
+      movieStates.addPage();
+
+      const { results, total_pages: totalPages } =
+        query === '' ? await getPopularMovies(movieStates.getPage()) : await getSearchedMovies(query, movieStates.getPage());
+      const movies = convertToAppMovies(results);
+
+      movieStates.add(movies);
+
+      return { list: movies, totalPages: Math.min(MAX_PAGE, totalPages) };
+    } catch (error) {
+      if (isCustomErrorMessage(error)) {
+        MovieCardSection.renderErrorMessage(error);
+        return;
+      }
+
+      if (error instanceof Error) {
+        MovieCardSection.renderErrorMessage(DEFAULT_ERROR_MESSAGE);
+      }
+    }
   },
 };
 

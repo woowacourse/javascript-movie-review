@@ -102,10 +102,6 @@ const MovieDetailModal = {
 
     return { id: Number(movieId), score, desc };
   },
-
-  findTargetMovieRating(movieId: number) {
-    const movie = ratedMovieStates.find(movieId);
-  },
 };
 
 export default MovieDetailModal;

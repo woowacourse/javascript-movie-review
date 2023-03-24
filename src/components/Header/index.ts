@@ -1,14 +1,11 @@
 import MovieSearch from './MovieSearch';
+import MobileSearchBox from './MobileSearchButton';
 import Tooltip from '../common/Tooltip';
 
 import { logoImage } from '../../assets/images';
 import { $ } from '../../utils/dom';
 
-import type Movies from '../../domain/Movies';
-import type { GetMovies } from '../../App';
-
 import './Header.style.css';
-import MobileSearchBox from './MobileSearchButton';
 
 const Header = {
   template() {
@@ -25,8 +22,8 @@ const Header = {
     `;
   },
 
-  setEvent(movies: Movies, getMovies: GetMovies) {
-    MovieSearch.setEvent(movies, getMovies);
+  setEvent() {
+    MovieSearch.setEvent();
     MobileSearchBox.setEvent();
   },
 

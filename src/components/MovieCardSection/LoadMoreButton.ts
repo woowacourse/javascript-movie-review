@@ -1,21 +1,19 @@
 import MovieCardSection from '.';
 
 import { ID } from '../../constants/selector';
+import movieStates from '../../states/movies';
 import { $ } from '../../utils/dom';
-
-import type Movies from '../../domain/Movies';
-import type { GetMovies } from '../../App';
 
 const LoadMoreButton = {
   template() {
     return `<button id=${ID.LOAD_MORE_BUTTON} class="btn primary full-width">더 보기</button>`;
   },
 
-  setEvent(movies: Movies, getMovies: GetMovies) {
+  setEvent() {
     const button = $<HTMLButtonElement>(`#${ID.LOAD_MORE_BUTTON}`);
 
     button.addEventListener('click', () => {
-      MovieCardSection.render(movies, getMovies, movies.getQuery());
+      MovieCardSection.render(movieStates.getQuery());
     });
   },
 

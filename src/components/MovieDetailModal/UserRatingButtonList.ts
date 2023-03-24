@@ -18,7 +18,6 @@ const UserRatingButtonList = {
 
     userRatingButtons.addEventListener('click', (event) => {
       if (!(event.target instanceof HTMLElement)) return;
-      if (event.target instanceof HTMLDivElement) return;
 
       const {
         value: score,

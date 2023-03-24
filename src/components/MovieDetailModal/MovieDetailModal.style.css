@@ -79,6 +79,10 @@
   margin-left: 12px;
 }
 
+.user-rating-buttons {
+  display: flex;
+}
+
 .user-rating-buttons > button {
   padding: 0;
   background: transparent;

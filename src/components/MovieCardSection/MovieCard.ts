@@ -1,7 +1,5 @@
-import { getMovieDetailApi } from '../../api';
 import { posterNotFoundImage, starFilledImage } from '../../assets/images';
 import { IMAGE_URL } from '../../constants';
-import { isCustomErrorMessage } from '../../constants/message';
 import { CLASS } from '../../constants/selector';
 
 import type { AppMovie } from '../../types/movie';

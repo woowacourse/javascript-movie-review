@@ -5,10 +5,8 @@ import MobileSearchBox from './MobileSearchButton';
 import { searchButtonImage } from '../../assets/images';
 import { SEARCH_ERROR_MESSAGE } from '../../constants/message';
 import { ID } from '../../constants/selector';
+import movieStates from '../../states/movies';
 import { $ } from '../../utils/dom';
-
-import type { GetMovies } from '../../App';
-import type Movies from '../../domain/Movies';
 
 const MovieSearch = {
   template() {
@@ -25,7 +23,7 @@ const MovieSearch = {
     `;
   },
 
-  setEvent(movies: Movies, getMovies: GetMovies) {
+  setEvent() {
     const movieSearchForm = $<HTMLFormElement>(`#${ID.MOVIE_SEARCH_FORM}`);
     const movieSearchInput = $('input[name="search-query"]');
 
@@ -41,12 +39,12 @@ const MovieSearch = {
         return Header.renderTooltip(SEARCH_ERROR_MESSAGE.EMPTY.error);
       }
 
-      if (movies.isCurrentQuery(query)) {
+      if (movieStates.isCurrentQuery(query)) {
         return Header.renderTooltip(SEARCH_ERROR_MESSAGE.EQUAL.error);
       }
 
       Header.removeTooltip();
-      MovieCardSection.render(movies, getMovies, query);
+      MovieCardSection.render(query);
     });
 
     movieSearchInput.addEventListener('focus', () => {

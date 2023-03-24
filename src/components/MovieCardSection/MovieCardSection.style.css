@@ -129,6 +129,10 @@ button.primary {
   font-size: 20px;
 }
 
+#scroll-observer {
+  height: 60px;
+}
+
 @media (min-width: 440px) {
   .item-list {
     grid-template-columns: repeat(3, 180px);
