@@ -81,7 +81,7 @@ class VoteMovie {
     this.insertStar(this.score);
   }
 
-  toggelVoteStar(event: Event) {
+  toggleVoteStar(event: Event) {
     const star = event.target as HTMLImageElement;
 
     if (!star.matches('.vote-star')) return;
@@ -124,7 +124,7 @@ class VoteMovie {
 
     $votedStarContainer.addEventListener('mousemove', this.hoverStarIcon.bind(this));
     $votedStarContainer.addEventListener('mouseleave', this.leaveStarIcon.bind(this));
-    $votedStarContainer.addEventListener('click', this.toggelVoteStar.bind(this));
+    $votedStarContainer.addEventListener('click', this.toggleVoteStar.bind(this));
   }
 }
 

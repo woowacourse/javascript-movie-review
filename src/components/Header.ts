@@ -19,10 +19,13 @@ class Header {
   createTemplate() {
     this._node = document.createElement('header');
     this._node.classList.add('header', 'header-between');
-    this._node.insertAdjacentHTML('afterbegin', `<h1><img src="${logoImage}" alt="MovieList 로고" /></h1>`);
+    this._node.insertAdjacentHTML(
+      'afterbegin',
+      `<div class="header-layout"><h1><img src="${logoImage}" alt="MovieList 로고" /></h1></div>`
+    );
 
     const searchBox = new SearchBox();
-    this._node.insertAdjacentElement('beforeend', searchBox.node);
+    this._node.querySelector('.header-layout')?.insertAdjacentElement('beforeend', searchBox.node);
   }
 
   clickLogoIcon() {
@@ -31,32 +34,8 @@ class Header {
     $searchInput.value = '';
   }
 
-  mouseEnterSearchIcon() {
-    const logoIcons = this._node.querySelectorAll('img');
-
-    logoIcons.forEach(logoIcon => logoIcon.remove());
-    this._node.classList.remove('header-between');
-    this._node.classList.add('header-end');
-  }
-
-  mouseLeaveSearchIcon() {
-    setTimeout(() => {
-      this.$logoContainer.insertAdjacentHTML('afterbegin', `<img src="${logoImage}" alt="MovieList 로고" />`);
-      this._node.classList.add('header-between');
-      this._node.classList.remove('header-end');
-
-      const logoIcons = this._node.querySelectorAll('img');
-      if (logoIcons.length > 1)
-        logoIcons.forEach((logoIcon, idx) => {
-          if (idx > 0) logoIcon.remove();
-        });
-    }, 500);
-  }
-
   initEventHandler() {
     this.$logoContainer.addEventListener('click', this.clickLogoIcon.bind(this));
-    this._node.addEventListener('enterSearchIcon', this.mouseEnterSearchIcon.bind(this));
-    this._node.addEventListener('leaveSearchIcon', this.mouseLeaveSearchIcon.bind(this));
   }
 }
 
