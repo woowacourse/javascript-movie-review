@@ -40,8 +40,7 @@ class App {
 
   composeNode(): this {
     this.node.appendChild(this.children.header.node);
-    this.node.appendChild(this.children.movieList.node);
-
+    this.node.appendChild(document.createElement('main').appendChild(this.children.movieList.node));
     return this;
   }
 
