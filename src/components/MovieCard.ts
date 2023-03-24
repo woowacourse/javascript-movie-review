@@ -18,10 +18,9 @@ class MovieCard {
       if (!$dialog) return;
 
       if (typeof $dialog.showModal === 'function') {
+        await stateRender.renderMovieDetail(movie.id, $dialog);
         $dialog.showModal();
       }
-
-      stateRender.renderMovieDetail(movie.id, $dialog);
     });
 
     this.render();

@@ -77,6 +77,8 @@ class MovieDetail {
   }
 
   render(movie: IMovieDetailItem, $target: HTMLElement) {
+    if (movie.movieId === this.#movieState.movieId) return;
+
     this.#movieState = { ...movie };
     this.#$detainContainer.innerHTML = this.#template(movie);
     this.#loadImageEventListener();
