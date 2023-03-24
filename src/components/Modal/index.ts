@@ -73,6 +73,7 @@ export class Modal {
 
     $(".modal-content").addEventListener("click", (event: Event) => {
       if (!(event.target instanceof HTMLImageElement)) return;
+      if (event.target.className !== "star-rate-select-img") return;
 
       const movieId = Number(event.target.dataset.movieId);
       const starRate = Number(event.target.dataset.starRate) + 1;
