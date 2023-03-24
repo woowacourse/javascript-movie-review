@@ -3,8 +3,12 @@ import MovieListTitle from "./MovieListTitle";
 
 class MovieView {
   $itemView = document.createElement("section");
+
   movieListTitle;
+
   movieList;
+
+  category;
 
   constructor($target) {
     this.init();
@@ -15,12 +19,13 @@ class MovieView {
   init() {
     this.$itemView.classList = "item-view";
 
+    this.category = "popular";
+
     this.movieListTitle = new MovieListTitle(this.$itemView);
     this.movieList = new MovieList(this.$itemView);
   }
 
   render($target) {
-    // $target === $main
     $target.insertAdjacentElement("afterbegin", this.$itemView);
   }
 }

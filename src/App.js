@@ -16,7 +16,6 @@ class App {
   }
 
   render($target) {
-    // $target === $app
     $target.insertAdjacentElement("beforeend", this.$main);
   }
 }

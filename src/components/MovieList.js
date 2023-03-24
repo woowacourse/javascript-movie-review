@@ -2,6 +2,7 @@ import SkeletonCards from "./skeletonCards";
 
 class MovieList {
   $ul = document.createElement("ul");
+
   skeletons;
 
   constructor($target) {
