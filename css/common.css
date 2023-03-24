@@ -185,7 +185,7 @@ header .search-box > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
-  background: url("../assets/search_button.png") transparent no-repeat 0 1px;
+  background: url(../assets/search_button.png) transparent no-repeat 0 1px;
   background-size: contain;
 }
 
@@ -372,14 +372,14 @@ dialog#movie-modal::backdrop {
 }
 
 img.rating-img {
-  content: url('../assets/star_empty.png');
+  content: url(../assets/star_empty.png);
 
   width: 32px;
   height: 32px;
 }
 
 img.rating-img[data-filled="true"] {
-  content: url('../assets/star_filled.png');
+  content: url(../assets/star_filled.png);
 }
 
 @media screen and (max-width: 1000px) {
