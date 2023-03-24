@@ -4,16 +4,38 @@
 title: 프로그램 구조
 ---
 classDiagram
-  MovieManager <|-- Header
-  MovieManager <|--|> Main
-  Main --|> MovieSkeleton
-  Main --|> Movie
+  MovieListManager <|-- Header
+  MovieListManager <|-- Main
+  Main --|> MovieSummaryItem
   document --|> EventBus : CustomEvent를 버스에 전달
   EventBus --|> Main : 구독한 이벤트 발생 시 전달
   Main --|> EventBus : 특정 이벤트를 구독
-  Header --|> document : 특정 상황에서 CustomEvent 생성
+  Header --|> document : CustomEvent 생성
+  MovieSummaryItem --|> document
+  EventBus --|> MovieModal
+  MovieModal --|> EventBus
+  StarRating --|> RatingManager
+  StarRating --|> EventBus
+  EventBus --|> StarRating
+  Main --|> document
+  MovieSkeleton --|> EventBus
+  EventBus --|> MovieSkeleton
 
-  class MovieManager {
+  class StarRating {
+    <<component>>
+  }
+
+  class RatingManager {
+    <<domain>>
+
+    영화 id별로 별점을 저장
+  }
+
+  class MovieModal {
+    <<component>>
+  } 
+
+  class MovieListManager {
     <<domain>>
 
     현재 영화 목록 저장
@@ -40,7 +62,7 @@ classDiagram
     <<component>>
   }
 
-  class Movie {
+  class MovieSummaryItem {
     <<component>>
   }
 ```
