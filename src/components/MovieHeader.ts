@@ -1,4 +1,4 @@
-import { Logo } from "../../images";
+import { Logo, Search } from "../../images";
 import { $ } from "../utils/dom";
 
 class MovieHeader extends HTMLElement {
@@ -15,6 +15,7 @@ class MovieHeader extends HTMLElement {
     this.innerHTML = /* html */ `
     <header>
     <p class="title-logo"><img src="${Logo}" alt="MovieList" /></p>
+    <button class="mini-search-box"><img class="search-icon" src="${Search}"/></button>
     <search-box class="search-box"></search-box>
   </header>`;
   }
@@ -22,6 +23,18 @@ class MovieHeader extends HTMLElement {
   addEvent() {
     $(".title-logo")?.addEventListener("click", () => {
       location.reload();
+    });
+
+    const mobileButton = <HTMLElement>$(".mini-search-box");
+    const searchBox = <HTMLElement>$(".search-box");
+
+    if (mobileButton === null) return;
+
+    mobileButton.addEventListener("click", () => {
+      console.log("hi");
+
+      mobileButton.style.display = "none";
+      searchBox.style.display = "block";
     });
   }
 }

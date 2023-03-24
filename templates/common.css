@@ -174,6 +174,20 @@ header .search-box .search-button {
   background-size: contain;
 }
 
+.mini-search-box {
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.search-icon {
+  width: 20px;
+  height: 20px;
+}
+
 .hidden {
   display: none;
 }
@@ -312,7 +326,6 @@ movie-list:has(.not-search) {
 
 .vote-container {
   position: absolute;
-  width: 400px;
   height: 64px;
   top: 365px;
 
@@ -350,6 +363,10 @@ movie-vote {
   height: 30px;
 }
 
+.mini-search-box {
+  display: none;
+}
+
 @media screen and (min-width: 768px) and (max-width: 1023px) {
   .item-list {
     grid-template-columns: repeat(3, 180px);
@@ -367,6 +384,10 @@ movie-vote {
 }
 
 @media screen and (max-width: 767px) {
+  .search-box {
+    display: none;
+  }
+
   .item-list {
     grid-template-columns: repeat(2, 180px);
   }
@@ -392,5 +413,9 @@ movie-vote {
 
   .vote-container {
     width: 100%;
+  }
+
+  .mini-search-box {
+    display: block;
   }
 }
