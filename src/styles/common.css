@@ -1,10 +1,17 @@
+:root {
+  --light-black--: #222222;
+  --red--: #f33f3f;
+  --font--white--: #f1f1f1;
+  --white--: #fff;
+}
+
 * {
   box-sizing: border-box !important;
 }
 
 body {
   font-size: 14px;
-  background-color: #222222;
+  background-color: var(--light-black--);
   color: #fff;
 }
 
@@ -24,6 +31,7 @@ button {
 *:focus {
   outline: none;
 }
+
 .item-view,
 .item-test {
   width: 100%;
@@ -33,7 +41,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  max-width: 912px;
   margin: 0 auto;
 }
 
@@ -65,7 +73,7 @@ button {
   display: grid;
   margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  grid-column-gap: 64px;
   grid-row-gap: 48px;
 }
 
@@ -124,7 +132,7 @@ button.btn {
 }
 
 button.primary {
-  background: #f33f3f;
+  background: var(--red--);
 }
 
 .hidden {
@@ -156,9 +164,8 @@ button.primary {
 }
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
-  background-color: #222;
+  background-color: var(--light-black--);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -173,7 +180,7 @@ header h1 {
   font-size: 2rem;
   font-weight: bold;
   letter-spacing: -0.1rem;
-  color: #f33f3f;
+  color: var(--red--);
 }
 
 header > .search-box {
@@ -215,7 +222,7 @@ header .search-box > .search-button {
 }
 
 .remote-container > button:hover {
-  background: #f33f3f;
+  background: var(--red--);
 }
 
 #modal {
@@ -246,4 +253,140 @@ header .search-box > .search-button {
   border-radius: 8px;
   background: #212122;
   transform: translate(-50%, -50%);
+}
+
+@media screen and (max-width: 916px) and (min-width: 391px) {
+  body {
+    font-size: 11.5px;
+  }
+
+  .item-view {
+    max-width: 670px;
+  }
+
+  .item-list {
+    display: grid;
+    margin: 36px 0;
+    grid-template-columns: repeat(3, 180px);
+    grid-column-gap: 64px;
+    grid-row-gap: 55px;
+  }
+}
+
+@media screen and (max-width: 670px) {
+  body {
+    font-size: 11.5px;
+  }
+
+  .item-view {
+    max-width: 376px;
+  }
+
+  header {
+    justify-content: end;
+    position: relative;
+  }
+
+  header h1 {
+    position: absolute;
+    left: 20px;
+
+    cursor: pointer;
+    user-select: none;
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: -0.1rem;
+    color: var(--red--);
+  }
+
+  header > .search-box {
+    position: relative;
+
+    width: 28px;
+    height: 32px;
+
+    background: #fff;
+    padding: 8px;
+    border-radius: 4px;
+
+    z-index: 1;
+  }
+
+  header .search-box > input {
+    position: absolute;
+    left: 0;
+
+    width: 0;
+
+    border: 0;
+    background: unset;
+  }
+
+  header .search-box > input:focus {
+    width: 100%;
+  }
+  header .search-box:has(input:focus) {
+    width: 100%;
+  }
+  header .search-box:not(:has(input:placeholder-shown)),
+  header .search-box > input:not(:placeholder-shown) {
+    width: 100%;
+  }
+
+  header .search-box > .search-button {
+    position: absolute;
+    right: 7px;
+
+    width: 14px;
+    border: 0;
+    text-indent: -1000rem;
+    background: url('../images/search_button.png') transparent no-repeat 0 1px;
+    background-size: contain;
+  }
+
+  .item-list {
+    display: grid;
+    margin: 36px 0;
+    grid-template-columns: repeat(2, 140px);
+    grid-column-gap: 64px;
+    grid-row-gap: 55px;
+  }
+
+  .item-thumbnail {
+    border-radius: 8px;
+    width: 140px;
+    height: 220px;
+    background-size: contain;
+  }
+
+  .item-title {
+    margin-top: 16px;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .item-score {
+    margin-top: 16px;
+    font-size: 1.2rem;
+  }
+
+  .remote-container {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .remote-container > button {
+    width: 30px;
+    height: 50px;
+
+    border: none;
+    background: black;
+
+    font-size: 20px;
+    color: white;
+  }
 }

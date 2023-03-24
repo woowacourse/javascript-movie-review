@@ -40,8 +40,10 @@ class Header {
   }
 
   #checkSearchWordValidation(value: string, query: string) {
+    if (!this.#$searchBox) return true;
+
     if (value.length === 0) {
-      alert('1글자 이상 입력해 주셔야 합니다.');
+      this.#$searchBox.querySelector<HTMLInputElement>('input')?.focus();
       return true;
     }
 
