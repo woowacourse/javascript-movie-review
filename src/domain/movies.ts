@@ -5,6 +5,7 @@ import { fetchMovies } from "./movieApi";
 import Store from "./Store";
 
 interface MovieResult {
+  id: string;
   poster_path: string;
   title: string;
   vote_average: number;
@@ -31,7 +32,19 @@ export const updateMovies = async (keyword?: string) => {
   store.setTotalPage(total_pages);
   store.appendMovies(convertApiResponseToMovieList(results));
   renderMovieList();
+  dispatchMovieEvents();
+
   if (store.getPage() === store.getTotalPage()) removeMoreButton();
+}
+
+const dispatchMovieEvents = () => {
+  store.getMovies().forEach((movie) => {
+    const customEvent = new CustomEvent('movieItemEvent', { detail: movie });
+    const customElement = document.getElementById(`moive-${movie.id}`);
+    if (customElement instanceof HTMLElement) {
+      customElement.dispatchEvent(customEvent);
+    }
+  });
 }
 
 const urlBuilder = (keyword?: string) => {
@@ -45,6 +58,7 @@ const urlBuilder = (keyword?: string) => {
 const convertApiResponseToMovieList = (results: MovieResult[]): Movie[] => {
   return results.map((movie) => {
     return {
+      id: movie.id,
       poster: movie.poster_path,
       title: movie.title,
       ratings: movie.vote_average,
