@@ -47,3 +47,21 @@ export type DetailModalType = {
   vote_average: number;
   overview: string;
 };
+
+export type StarConditionType = {
+  1: boolean[];
+  2: boolean[];
+  3: boolean[];
+  4: boolean[];
+  5: boolean[];
+};
+
+export type StarMentType = {
+  1: string;
+  2: string;
+  3: string;
+  4: string;
+  5: string;
+};
+
+export type StarKeyType = 1 | 2 | 3 | 4 | 5;
