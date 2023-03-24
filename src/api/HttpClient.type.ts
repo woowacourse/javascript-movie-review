@@ -14,7 +14,7 @@ export type HTTPResponse<Status extends HTTPStatus = HTTPStatus, Data = unknown>
 
 export type APISpec = {
   endpoint: `${HTTPMethod} /${string}`;
-  params: Record<string, string | number | boolean>;
+  params?: Record<string, string | number | boolean>;
   response: {
     status: number;
     data: unknown;
