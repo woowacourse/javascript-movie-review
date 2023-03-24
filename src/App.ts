@@ -1,8 +1,7 @@
 import Header from './components/Header';
 import MovieCardSection from './components/MovieCardSection';
 import MovieCardList from './components/MovieCardSection/MovieCardList';
-import MovieDetailModal from './components/MovieDatailModal';
-import StarRate from './components/MovieDatailModal/StarRate';
+import MovieDetailModal from './components/MovieDetailModal';
 import { ERROR_MESSAGE } from './constants';
 import { ID } from './constants/selector';
 import Movies from './domain/Movies';
@@ -55,7 +54,7 @@ class App {
   setEvent() {
     Header.setEvent(this.#movies, this.#app);
     MovieCardSection.setEvent(this.#movies, this.#app);
-    StarRate.setEvent(this.#app);
+    MovieDetailModal.setEvent(this.#app);
   }
 }
 

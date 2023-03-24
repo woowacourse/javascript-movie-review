@@ -17,17 +17,6 @@ const StarRate = {
       </div>
     `;
   },
-  paint(id: string) {
-    const starRateBox = document.querySelector('#star-rate-box') as HTMLDivElement;
-    const starRateMessage = document.querySelector('#star-rate-message') as HTMLDivElement;
-
-    const score = Number(localStorage.getItem(id));
-    starRateBox.dataset.id = id;
-
-    StarRate.fillStar(score);
-
-    starRateMessage.innerText = `${score * 2} ${SCORE_MESSAGE[score]}`;
-  },
   setEvent(target: HTMLElement) {
     const starRateBox = target.querySelector('#star-rate-box') as HTMLDivElement;
     const starRateMessage = target.querySelector('#star-rate-message') as HTMLDivElement;
@@ -43,6 +32,17 @@ const StarRate = {
         starRateMessage.innerText = `${score * 2} ${SCORE_MESSAGE[score]}`;
       }
     });
+  },
+  paint(id: string) {
+    const starRateBox = document.querySelector('#star-rate-box') as HTMLDivElement;
+    const starRateMessage = document.querySelector('#star-rate-message') as HTMLDivElement;
+
+    const score = Number(localStorage.getItem(id));
+    starRateBox.dataset.id = id;
+
+    StarRate.fillStar(score);
+
+    starRateMessage.innerText = `${score * 2} ${SCORE_MESSAGE[score]}`;
   },
   fillStar(score: number) {
     const stars = document.querySelectorAll('#star-rate-box img') as NodeListOf<HTMLImageElement>;

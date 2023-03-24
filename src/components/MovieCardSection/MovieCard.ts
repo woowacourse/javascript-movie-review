@@ -3,8 +3,8 @@ import { posterNotFoundImage, starFilledImage } from '../../assets/images';
 import { IMAGE_URL } from '../../constants';
 import { CLASS } from '../../constants/selector';
 import type { Movie } from '../../types/movie';
-import MovieDetailModal from '../MovieDatailModal';
-import StarRate from '../MovieDatailModal/StarRate';
+import MovieDetailModal from '../MovieDetailModal';
+import StarRate from '../MovieDetailModal/StarRate';
 
 const MovieCard = {
   template() {
@@ -35,12 +35,14 @@ const MovieCard = {
   paint(target: HTMLLIElement, item: Movie) {
     const { id, title, poster_path: path, vote_average: score } = item;
     target.dataset.id = String(id);
-    const itemThumbnail = target.querySelector<HTMLDivElement>(`.${CLASS.ITEM_THUMBNAIL}`);
-    const itemTitle = target.querySelector<HTMLParagraphElement>(`.${CLASS.ITEM_TITLE}`);
-    const itemScore = target.querySelector<HTMLParagraphElement>(`.${CLASS.ITEM_SCORE}`);
 
+    const itemThumbnail = target.querySelector<HTMLDivElement>(`.${CLASS.ITEM_THUMBNAIL}`);
     itemThumbnail?.insertAdjacentHTML('beforeend', MovieCard.imageTemplate(path, title));
+
+    const itemTitle = target.querySelector<HTMLParagraphElement>(`.${CLASS.ITEM_TITLE}`);
     itemTitle?.insertAdjacentText('beforeend', title);
+
+    const itemScore = target.querySelector<HTMLParagraphElement>(`.${CLASS.ITEM_SCORE}`);
     itemScore?.insertAdjacentHTML('beforeend', MovieCard.scoreTemplate(score));
 
     itemThumbnail?.classList.remove(CLASS.SKELETON);
