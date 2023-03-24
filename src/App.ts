@@ -1,5 +1,4 @@
 import MovieListContainer from "./components/MovieListContainer";
-import MovieListContent from "./components/MovieListContent";
 import NavBar from "./components/NavBar";
 import { $ } from "./utils/domSelector";
 
@@ -7,7 +6,6 @@ class App {
   constructor() {
     this.render();
     this.initEvents();
-    MovieListContent.loadMovies();
   }
 
   async render() {

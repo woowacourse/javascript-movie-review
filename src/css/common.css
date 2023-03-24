@@ -154,80 +154,6 @@ header .search-box > #search-button {
   background-size: contain;
 }
 
-@media only screen and (min-width: 800px) and (max-width: 1199px) {
-  .item-view {
-    width: 800px;
-  }
-
-  .item-list {
-    grid-template-columns: repeat(3, 180px);
-  }
-}
-
-@media only screen and (min-width: 450px) and (max-width: 799px) {
-  .item-view {
-    width: 400px;
-  }
-
-  .item-list {
-    grid-template-columns: repeat(2, 180px);
-  }
-}
-
-@media only screen and (max-width: 500px) {
-  header {
-    width: 400px;
-  }
-
-  .item-view {
-    width: 250px;
-    margin-left: 2.5rem;
-  }
-
-  .item-list {
-    grid-template-columns: repeat(2, 180px);
-    grid-row-gap: 30px;
-  }
-
-  .item-thumbnail {
-    width: 140px;
-    height: 220px;
-  }
-
-  .item-title {
-    font-size: 16px;
-    width: 140px;
-  }
-
-  .item-score {
-    font-size: 16px;
-  }
-
-  header > .search-box {
-    display: flex;
-    justify-content: space-between;
-    width: 35px;
-    position: absolute;
-    right: 5px;
-    top: 20px;
-  }
-
-  header .search-box > input {
-    width: 0px;
-  }
-
-  header > .search-box:hover {
-    width: 340px;
-  }
-
-  header > .search-box:hover > input {
-    transition: all 0.7s ease;
-    width: 200px;
-  }
-}
-
-/* https://andrew.hedges.name/experiments/aspect_ratio/ */
-
 .error-message {
   position: absolute;
   top: 50%;
@@ -306,8 +232,8 @@ header .search-box > #search-button {
 }
 
 .modal-poster {
-  width: 30%;
-  height: 50%;
+  max-width: 35%;
+  max-height: 45%;
 }
 
 .modal-sub-container {
@@ -319,14 +245,19 @@ header .search-box > #search-button {
 .modal-text {
   font-size: 16px;
   line-height: 24px;
-  height: 100%;
+}
+
+.modal-overview {
+  max-height: 300px;
+  overflow: scroll;
+  margin-bottom: 30px;
 }
 
 .modal-info-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-left: 30px;
+  margin-left: 20px;
   width: 100%;
 }
 
@@ -385,5 +316,95 @@ header .search-box > #search-button {
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+
+@media only screen and (min-width: 800px) and (max-width: 1199px) {
+  .item-view {
+    width: 800px;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+  }
+}
+
+@media only screen and (min-width: 450px) and (max-width: 799px) {
+  .item-view {
+    width: 400px;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(2, 180px);
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .modal-poster {
+    display: none;
+  }
+
+  .movie-modal {
+    transform: translate(-50%, 0%);
+  }
+
+  .modal-overview {
+    max-height: 100px;
+  }
+
+  .modal-info-container {
+    margin-left: 0px;
+  }
+}
+
+@media only screen and (max-width: 449px) {
+  header {
+    width: 400px;
+  }
+
+  .item-view {
+    width: 250px;
+    margin-left: 2.5rem;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(2, 180px);
+    grid-row-gap: 30px;
+  }
+
+  .item-thumbnail {
+    width: 140px;
+    height: 220px;
+  }
+
+  .item-title {
+    font-size: 16px;
+    width: 140px;
+  }
+
+  .item-score {
+    font-size: 16px;
+  }
+
+  header > .search-box {
+    display: flex;
+    justify-content: space-between;
+    width: 35px;
+    position: absolute;
+    right: 5px;
+    top: 20px;
+  }
+
+  header .search-box > input {
+    width: 0px;
+  }
+
+  header > .search-box:hover {
+    width: 340px;
+  }
+
+  header > .search-box:hover > input {
+    transition: all 0.7s ease;
+    width: 200px;
   }
 }
