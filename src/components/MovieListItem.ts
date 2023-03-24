@@ -1,14 +1,24 @@
+import { api } from '../api';
 import { Movie } from '../domain/movie.type';
-import { OfPromise, Subject } from '../states/Subject';
+import { MovieDetailSubject } from '../states/domain/MovieDetailSubject';
+import { PromiseStateSubject } from '../states/PromiseStateSubject';
 import { $context } from '../utils/selector';
 import { MovieDetailDialog } from './MovieDetailDialog';
 
-class MovieListItem {
+export type MovieListItemProps = {
+  movie$: PromiseStateSubject<Movie | null>;
+};
+
+export class MovieListItem {
   private readonly $root = document.createElement('li');
 
   private readonly $ = $context(this.$root);
 
-  constructor(private readonly movie: Subject<OfPromise<Movie | null>>) {
+  private readonly movie$: PromiseStateSubject<Movie | null>;
+
+  constructor({ movie$ }: MovieListItemProps) {
+    this.movie$ = movie$;
+
     this.$root.innerHTML = `
       <a>
         <div class="item-card">
@@ -18,14 +28,13 @@ class MovieListItem {
         </div>
       </a>`.trim();
 
-    this.movie.subscribe((_movie) => {
-      if (_movie.state === 'fulfilled') {
-        const { resolved } = _movie;
-        if (resolved === null) {
+    this.movie$.subscribe(({ label, value: movie }) => {
+      if (label === 'fulfilled') {
+        if (movie === null) {
           this.onFulfilledButNull();
           return;
         }
-        this.onFulfilled(resolved);
+        this.onFulfilled(movie);
       }
     });
   }
@@ -62,11 +71,9 @@ class MovieListItem {
 
     this.$('a').addEventListener('click', (event) => {
       event.preventDefault();
-      const movieSubject = new Subject<Movie>();
-      movieSubject.next(movie);
-      new MovieDetailDialog(movieSubject).open();
+      const movieDetail$ = new MovieDetailSubject(api);
+      movieDetail$.fetch(movie);
+      new MovieDetailDialog({ movieDetail$ }).open();
     });
   }
 }
-
-export default MovieListItem;

@@ -1,11 +1,11 @@
-import { NewMovie } from '../states/NewMovie';
+import { NewMovieSubject } from '../states/domain/NewMovieSubject';
 import { $context } from '../utils/selector';
-import MovieListItem from './MovieListItem';
+import { MovieListItem } from './MovieListItem';
 import { Toast } from './Toast';
 
 export type MovieListProps = {
   title: string;
-  newMovie: NewMovie;
+  newMovie$: NewMovieSubject;
   autoNextPage?: boolean;
 };
 
@@ -16,16 +16,16 @@ export class MovieList {
 
   private readonly title: string;
 
-  private readonly newMovie: NewMovie;
+  private readonly newMovie$: NewMovieSubject;
 
-  constructor({ title, newMovie, autoNextPage = true }: MovieListProps) {
+  constructor({ title, newMovie$, autoNextPage = true }: MovieListProps) {
     this.title = title;
-    this.newMovie = newMovie;
+    this.newMovie$ = newMovie$;
 
     this.$root.classList.add('item-view');
     this.$root.innerHTML = `
       <h2>${this.title}</h2>
-      <ul class="item-list"><hr></ul>
+      <ul class="item-list"><hr class="item-slider"></ul>
       <button class="btn primary full-width">더 보기</button>
       <h3>결과가 없습니다</h3>
     `.trim();
@@ -34,11 +34,11 @@ export class MovieList {
       this.nextPage();
     });
 
-    this.newMovie.subscribe((movieSubject) => {
-      this.$('ul').append(new MovieListItem(movieSubject).getRoot());
+    this.newMovie$.subscribe((movie$) => {
+      this.$('ul').append(new MovieListItem({ movie$ }).getRoot());
     });
-    this.newMovie.subscribeError((error) => Toast.create(error.message));
-    this.newMovie.fetchNextPage().then(() => this.nextPage());
+    this.newMovie$.subscribeError((error) => Toast.create(error.message));
+    this.newMovie$.fetchNextPage().then(() => this.nextPage());
 
     if (autoNextPage) {
       new IntersectionObserver(
@@ -58,7 +58,7 @@ export class MovieList {
   }
 
   private nextPage() {
-    this.newMovie.fetchNextPage();
+    this.newMovie$.fetchNextPage();
 
     const $hr = this.$('ul > hr');
     const $anchor: HTMLElement = Array(20)

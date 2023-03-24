@@ -1,7 +1,10 @@
-import { Movie } from '../domain/movie.type';
-import { Subject } from '../states/Subject';
+import { MovieDetailSubject } from '../states/domain/MovieDetailSubject';
 import { $context } from '../utils/selector';
 import { VoteInput } from './VoteInput';
+
+export type MovieDetailDialogProps = {
+  movieDetail$: MovieDetailSubject;
+};
 
 export class MovieDetailDialog {
   private readonly $root = document.createElement('dialog');
@@ -10,7 +13,7 @@ export class MovieDetailDialog {
 
   private readonly $vote = new VoteInput();
 
-  constructor(private readonly movieSubject: Subject<Movie>) {
+  constructor({ movieDetail$ }: MovieDetailDialogProps) {
     this.$root.innerHTML = `
       <article class="detail-view">
         <form class="detail-header" method="dialog">
@@ -23,10 +26,13 @@ export class MovieDetailDialog {
           <img src="">
 
           <div>
-            <h2 class="detail-genres"></h2>
+            <h2 class="detail-metadata">
+              <div class="detail-genres"></div>
+              <div class="detail-vote"></div>
+            </h2>
             <p class="detail-overview"></p>
 
-            <form class="detail-vote">
+            <form class="detail-my-vote">
               <label>내 평점</label>
             </form>
           </div>
@@ -46,14 +52,19 @@ export class MovieDetailDialog {
       if (event.key === 'Backspace') this.close();
     });
 
-    this.$('.detail-vote').append(this.$vote.getRoot());
+    this.$('.detail-my-vote').append(this.$vote.getRoot());
 
-    this.movieSubject.subscribe((movie) => {
+    movieDetail$.subscribe(({ label, value: movie }) => {
       this.$<HTMLHeadingElement>('.detail-header > h1').innerText = movie.title;
       this.$<HTMLImageElement>(
         'img',
       ).src = `https://image.tmdb.org/t/p/w220_and_h330_face${movie.posterPath}`;
       this.$<HTMLParagraphElement>('.detail-overview').innerText = movie.overview;
+      this.$<HTMLDivElement>('.detail-vote').innerText = String(movie.voteAverage);
+
+      if (label === 'fulfilled') {
+        this.$<HTMLHeadingElement>('.detail-genres').innerText = movie.genres.join(', ');
+      }
     });
 
     window.addEventListener('popstate', () => this.dispose());
