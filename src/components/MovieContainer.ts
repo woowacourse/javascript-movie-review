@@ -10,11 +10,29 @@ class MovieContainer extends HTMLElement {
     super();
   }
 
-  connectedCallback() {}
+  connectedCallback() {
+    this.addEventListener('click', this.handleMovieClick);
+  }
+
+  private handleMovieClick(event: Event) {
+    const target = event.target;
+
+    if (target instanceof HTMLLIElement) {
+      this.openModal();
+    }
+  }
+
+  private openModal() {
+    const modal = $<HTMLElement>('.modal');
+
+    if (modal instanceof HTMLElement) {
+      modal.classList.add('modal--open');
+    }
+  }
 
   static render() {
-    const container = $<HTMLDivElement>('#app');
-    if (container instanceof HTMLDivElement && container.closest('body')) {
+    const container = $<HTMLElement>('main');
+    if (container instanceof HTMLElement && container.closest('body')) {
       container.insertAdjacentHTML('beforeend', movieContainerTemplate);
       this.renderContainerTitle();
     }

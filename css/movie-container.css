@@ -47,6 +47,7 @@
 .item-card {
   display: flex;
   flex-direction: column;
+  pointer-events: none;
 }
 
 .item-thumbnail {

@@ -7,6 +7,8 @@ import { generateMovieListTemplate } from './components/templates/movieList';
 import MovieContainer from './components/MovieContainer';
 import CustomHeader from './components/CustomHeader';
 import { initObserver } from './domains/observer';
+import MovieModal from './components/MovieModal';
+import Main from './components/Main';
 
 const App = {
   init() {
@@ -18,9 +20,15 @@ const App = {
 
   initRender() {
     customElements.define('custom-header', CustomHeader);
-    customElements.define('movie-container', MovieContainer);
     CustomHeader.render();
+
+    Main.render();
+
+    customElements.define('movie-container', MovieContainer);
     MovieContainer.render();
+
+    customElements.define('movie-modal', MovieModal);
+    MovieModal.render();
   },
 
   async initState() {
