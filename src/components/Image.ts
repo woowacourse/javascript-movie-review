@@ -18,7 +18,7 @@ class Image extends HTMLElement {
 
     this.innerHTML = /*html*/ `
       <img
-        class="movie-image skeleton"
+        class="movie-image skeleton-image"
         src="${URL}"
         loading="lazy"
         alt="${title}"
@@ -27,7 +27,7 @@ class Image extends HTMLElement {
 
   setLoadingEvent() {
     this.querySelector('img')?.addEventListener('load', () => {
-      this.querySelector('img')?.classList.remove('skeleton');
+      this.querySelector('img')?.classList.remove('skeleton-image');
     });
   }
 }

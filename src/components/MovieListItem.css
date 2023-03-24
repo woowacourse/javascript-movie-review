@@ -1,4 +1,5 @@
 .moive-item-container {
+  max-width: 183px;
   cursor: pointer;
 }
 
@@ -8,16 +9,44 @@
 }
 
 .item-title {
-  margin-top: 16px;
+  margin: 1.9rem 0;
   font-size: 1.8rem;
   font-weight: bold;
+  line-height: 2.7rem;
 }
 
 .item-score {
-  margin-top: 16px;
+  display: flex;
+  align-items: center;
   font-size: 1.8rem;
 }
 
 .item-score::after {
   margin-left: 8px;
+}
+
+.movie-list-image-wrapper {
+  width: 183px;
+  height: 273px;
+}
+
+@media (max-width: 375px) {
+  .moive-item-container {
+    max-width: 140px;
+  }
+
+  .item-title {
+    margin: 0.8rem 0;
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+  }
+
+  .item-score {
+    font-size: 1.6rem;
+  }
+
+  .movie-list-image-wrapper {
+    width: 140px;
+    height: 220px;
+  }
 }

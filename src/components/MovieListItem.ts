@@ -21,12 +21,12 @@ class MovieListItem extends HTMLElement {
     <li id="${id}" class="moive-item-container">
       <a>
         <div class="item-card">
-          <movie-image imgUrl="${imgUrl}" title="${title}" width="200"></movie-image>
+            <movie-image imgUrl="${imgUrl}" title="${title}" width="200" class="movie-list-image-wrapper"></movie-image>
           <p class="item-title">${title}</p>
-          <p class="item-score">
-            ${score?.slice(SLICE_START, SLICE_END)}
+          <div class="item-score">
+            <span>${score?.slice(SLICE_START, SLICE_END)}</span>
             <img src="${STAR_FILLED}" alt="별점" />
-          </p>
+          </div>
         </div>
       </a>
     </li>`;

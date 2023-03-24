@@ -10,7 +10,7 @@ class Button extends HTMLElement {
     const color = this.getAttribute('color');
 
     this.innerHTML = /*html*/ `
-      <button class="btn ${color} full-width">${text}</button>
+      <button class="btn ${color}">${text}</button>
     `;
   }
 }

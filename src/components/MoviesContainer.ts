@@ -49,12 +49,14 @@ class MoviesContainer extends HTMLElement {
   renderContainer(): void {
     this.innerHTML = /*html*/ `
     <main class="item-container">
-      <section class="item-view">
-        <h2 id="movie-container-title">지금 인기 있는 영화</h2>
+    <section class="item-view">
+        <h2 id="movie-container-title" class="movie-list-title">지금 인기 있는 영화</h2>
         <ul id="movie-list-wrapper" class="item-list">
-          <skeleton-item id="skeleton-container"></skeleton-item>
         </ul>
-        <common-button id="more-button" class="hide-button" text="더보기" color="primary"></common-button>
+        <skeleton-item id="skeleton-container"></skeleton-item>
+        <div class="more-button-wrapper">
+          <common-button id="more-button" class="hide-button" text="더보기" color="primary"></common-button>
+        </div>  
       </section>
     </main>`;
   }
@@ -87,7 +89,7 @@ class MoviesContainer extends HTMLElement {
       return (acc += `<movie-item id="${curr.id}" title="${curr.title}" imgUrl="${curr.imgUrl}" score="${curr.score}" description="${curr.description}"></movie-item>`);
     }, '');
 
-    $('#skeleton-container')?.insertAdjacentHTML('beforebegin', movieListTemplate);
+    $('#movie-list-wrapper')?.insertAdjacentHTML('beforeend', movieListTemplate);
   }
 
   toggleVisibleButton(): void {
@@ -135,7 +137,8 @@ class MoviesContainer extends HTMLElement {
     const movieListWrapper = $('#movie-list-wrapper') as HTMLElement;
 
     this.#isFatching = false;
-    movieListWrapper.innerHTML = `<skeleton-item id="skeleton-container"></skeleton-item>`;
+    // movieListWrapper.innerHTML = `<skeleton-item id="skeleton-container"></skeleton-item>`;
+    movieListWrapper.innerHTML = ``;
 
     if ($('#no-result-message')) {
       $('#no-result-message')?.remove();
