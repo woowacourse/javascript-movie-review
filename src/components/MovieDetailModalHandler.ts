@@ -1,3 +1,4 @@
+import { getMovieDetail } from "../domain/movieDetailApi";
 import { $ } from "../utils/selector";
 
 export const handleModal = () => {
@@ -6,14 +7,18 @@ export const handleModal = () => {
 };
 
 const showModal = () => {
-  $(".item-list").addEventListener("click", (event) => {
+  $(".item-list").addEventListener("click", async (event) => {
     const target = event.target;
 
     if (!(target instanceof HTMLImageElement)) return;
     if (target.alt === "별점") return;
 
+    await getMovieDetail(Number(target.id));
+
     $<HTMLDialogElement>("#movie-detail").showModal();
-    preventScroll();
+
+    const bodyStyle = $<HTMLBodyElement>("body").style;
+    bodyStyle.overflow = "hidden";
   });
 };
 
@@ -25,7 +30,9 @@ const closeModal = () => {
 
     if (isClosing(target.className)) {
       $<HTMLDialogElement>("#movie-detail").close();
-      preventScroll();
+
+      const bodyStyle = $<HTMLBodyElement>("body").style;
+      bodyStyle.overflow = "visible";
     }
   });
 };
@@ -36,14 +43,4 @@ const isClosing = (className: string) => {
       (section) => section === className
     ).length
   );
-};
-
-const preventScroll = () => {
-  const bodyStyle = $<HTMLBodyElement>("body").style;
-
-  if (bodyStyle.overflow === "hidden") {
-    bodyStyle.overflow = "visible";
-  } else {
-    bodyStyle.overflow = "hidden";
-  }
 };

@@ -60,6 +60,7 @@ const convertApiResponseToMovieList = (
       poster: movie.poster_path,
       title: movie.title,
       ratings: movie.vote_average,
+      id: movie.id
     };
   });
 };

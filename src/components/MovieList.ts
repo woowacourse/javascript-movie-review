@@ -42,6 +42,7 @@ export default class MovieList extends HTMLElement {
     <li>
       <div class="item-card">
         <img
+          id="${movie.id}"
           class="item-thumbnail skeleton"
           src="https://image.tmdb.org/t/p/w500/${movie.poster}"
           onerror="
