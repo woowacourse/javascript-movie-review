@@ -37,9 +37,21 @@ class MovieModal extends HTMLElement {
   }
 
   close() {
-    const $closeButton = $<HTMLButtonElement>('.modal-close-button', this);
-    $closeButton.addEventListener('click', () => {
-      $<HTMLDivElement>('.modal-container', this).classList.add('hidden');
+    const $modalContainer = $<HTMLDivElement>('.modal-container', this);
+
+    window.addEventListener('keyup', (e) => {
+      if (e.key === 'Escape') {
+        $modalContainer.classList.add('hidden');
+      }
+    });
+
+    $modalContainer.addEventListener('click', (e) => {
+      if (!(e.target instanceof HTMLElement)) return;
+      const target = e.target.closest('div');
+      if (!target) return;
+      if (target.className === 'modal-close-button' || target.className === 'modal-container') {
+        $modalContainer.classList.add('hidden');
+      }
     });
   }
 
