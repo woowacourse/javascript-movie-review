@@ -87,11 +87,9 @@ class MovieModal {
     window.addEventListener('popstate', () => {
       if (!this.element.open) {
         this.element.showModal();
-        // ($('body') as HTMLElement).style.overflow = 'hidden';
       }
       else {
         this.element.close();
-        // ($('body') as HTMLElement).style.overflow = 'auto';
       }
     });
   }

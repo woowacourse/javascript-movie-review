@@ -201,9 +201,9 @@ header .search-box > .search-button {
   padding: 32px 16px;
 
   border-radius: 8px 8px 0 0;
-  background: black;
+  background: #000000;
 
-  color: white;
+  color: #ffffff;
   border: none;
 }
 
@@ -390,10 +390,6 @@ img.rating-img[data-filled="true"] {
 }
 
 @media screen and (max-width: 834px) {
-  body {
-    background-color: hotpink;
-  }
-
   .movie-info {
     margin: 20px 24px;
   }
@@ -434,10 +430,6 @@ img.rating-img[data-filled="true"] {
 }
 
 @media screen and (max-width: 630px) {
-  body{
-    background-color: violet;
-  }
-
   .star {
     grid-template-columns: 25% 60% 15%;
     padding: 5px;
@@ -467,10 +459,6 @@ img.rating-img[data-filled="true"] {
 }
 
 @media screen and (max-width: 550px) {
-  body{
-    background-color: crimson;
-  }
-
   .star {
     grid-template-columns: 25% 68% 7%;
     padding: 5px;
@@ -533,10 +521,6 @@ img.rating-img[data-filled="true"] {
 
   header > .search-box:hover > input {
     width: 100%;
-  }
-
-  body {
-    background-color: skyblue;
   }
 
   .item-list {
