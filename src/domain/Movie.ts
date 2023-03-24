@@ -1,4 +1,4 @@
-import { MovieApiData, MovieInfo } from "./types";
+import { MovieApiData, MovieInfo } from "./types/movie";
 
 class Movie {
   private movieInfo: MovieInfo;

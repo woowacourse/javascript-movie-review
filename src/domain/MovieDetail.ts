@@ -1,15 +1,15 @@
-import { MovieApiData, MovieDetailInfo } from "./types";
+import { MovieDetailApiData, MovieDetailInfo } from "./types/movieDetail";
 
 class MovieDetail {
   private movieDetailInfo: MovieDetailInfo;
 
-  constructor(movieData: MovieApiData, myVote: number) {
+  constructor(movieData: MovieDetailApiData, myVote: number) {
     this.movieDetailInfo = {
       id: movieData.id,
       title: movieData.title,
       posterSrc: movieData.poster_path,
       voteAverage: movieData.vote_average,
-      genreIds: movieData.genre_ids,
+      genres: movieData.genres,
       overview: movieData.overview,
       myVote: myVote,
     };
