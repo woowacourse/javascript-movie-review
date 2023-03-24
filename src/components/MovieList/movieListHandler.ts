@@ -1,6 +1,6 @@
 import { $ } from "../../utils/selector";
 import MovieList from ".";
-import { loadNextPage } from "../../domain/movies";
+import { checkIntersectionObserverEntries } from "../../domain/movies";
 
 export const renderMovieList = () => {
   const movieList = $("#movie-list") as MovieList;
@@ -11,13 +11,7 @@ export const renderMovieList = () => {
 
 const handleInfinityScroll = () => {
   const loadingTrigger = document.getElementById('loading-trigger');
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) { loadNextPage(); }
-    });
-  });
-
+  const observer = new IntersectionObserver(checkIntersectionObserverEntries);
   observer.observe(loadingTrigger as Element);
 }
 

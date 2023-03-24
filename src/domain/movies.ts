@@ -15,7 +15,14 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 const API_KEY = process.env.API_KEY;
 const store: Store = Store.getInstance();
 
-export const loadNextPage = () => {
+export const checkIntersectionObserverEntries = (intersectionObserverEntries: IntersectionObserverEntry[]) => {
+  const isElementVisible = intersectionObserverEntries[0].isIntersecting; // 옵저빙을 하나만 했으므로 굳이 배열을 돌리지 않습니다.
+  if (isElementVisible) {
+    loadNextPage();
+  }
+}
+
+const loadNextPage = () => {
   $(".item-list").insertAdjacentHTML("beforeend", renderSkeletons());
   store.nextPage();
 
