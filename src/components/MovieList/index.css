@@ -32,10 +32,6 @@
   flex-direction: column;
 }
 
-.item-card:hover {
-  transform: scale(1.1);
-}
-
 .item-thumbnail {
   border-radius: 8px;
   width: 180px;

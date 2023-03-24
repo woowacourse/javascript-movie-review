@@ -108,32 +108,54 @@ export class Modal {
   getMovieDetailTemplate(movie: MovieDetail, starRate: number) {
     return /*html */ `
         <div class="modal-image-container">
-            <img 
+        ${
+          movie.poster_path
+            ? /*html */
+              `<img 
                 class="modal-image skeleton" 
-                src="https://image.tmdb.org/t/p/w220_and_h330_face/${
-                  movie.poster_path
-                }" 
+                src="https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}" 
                 alt="${movie.title} 포스터" 
-            />
+              />`
+            : /*html */
+              `<div 
+                class="modal-image center" 
+                style="
+                      background-color:white; 
+                      color:black; 
+                      display:flex; 
+                      justify-content:center; 
+                      align-items:center; 
+                      font-weight:600; 
+                      font-size:24px;
+                      border-radius: 16px;
+                    "
+              >
+                <span>No Image</span>
+              </div>`
+        }
         </div>
         <div class="modal-detail-container">
             <div class="modal-movie-detail">
                 <p class="modal-movie-genre modal-detail--text">
-                    ${movie.genre.join(" ")} 
-                    <span>
-                    <img 
-                        src="${filledStarImg}" 
-                        alt="별점 ${movie.vote_average}" 
-                    />
-                    ${movie.vote_average.toFixed(1)}
-                    </span>
+                  ${
+                    movie.genre.length === 0
+                      ? `장르 정보 없음`
+                      : movie.genre.join(" ")
+                  } 
+                  <span>
+                  <img 
+                      src="${filledStarImg}" 
+                      alt="별점 ${movie.vote_average}" 
+                  />
+                  ${movie.vote_average.toFixed(1)}
+                  </span>
                 </p>
                 <p class="modal-movie-description modal-detail--text">
-                    ${movie.overview ? movie.overview : ""}
+                  ${movie.overview ? movie.overview : "상세 정보 없음"}
                 </p>
             </div>
             <div class="modal-star-rate modal-detail--text">
-                ${this.getStarSelectContainerTemplate(movie.id, starRate)}
+              ${this.getStarSelectContainerTemplate(movie.id, starRate)}
             </div>
         </div>
     `;
@@ -143,9 +165,9 @@ export class Modal {
     const imgArray = this.getStarTemplate(movieId, starRate);
 
     return /*html*/ `
-      내 별점
+      <span>내 별점</span>
       <span class="star-select-container">
-          ${imgArray.join("")}
+        ${imgArray.join("")}
       </span>
       <span>${starRate}</span>
       <span class="star-rate-desc">${STAR_RATE_STRING[starRate]}</span>
@@ -159,9 +181,9 @@ export class Modal {
         `<img 
           src="${starRate > i ? filledStarImg : emptyStarImg}" 
           alt="별점" 
-          class="star-rate-select-img"
-          data-movie-id="${movieId}"
-          data-star-rate="${i}"
+          class="star-rate-select-img" 
+          data-movie-id="${movieId}" 
+          data-star-rate="${i}" 
         />`
     );
   }
