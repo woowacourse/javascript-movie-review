@@ -1,5 +1,8 @@
+import SkeletonCards from "./skeletonCards";
+
 class MovieList {
   $ul = document.createElement("ul");
+  skeletons;
 
   constructor($target) {
     this.init();
@@ -11,7 +14,8 @@ class MovieList {
 
   init() {
     this.$ul.classList = "item-list";
-    this.$ul.innerHTML = `<li>나 아이템</li>`;
+
+    this.skeletons = new SkeletonCards(this.$ul);
   }
 
   render($target) {
@@ -19,7 +23,7 @@ class MovieList {
     $target.insertAdjacentElement("beforeend", this.$ul);
   }
 
-  addMovies() {}
+  insertMovies() {}
 
   bindEvent() {}
 }

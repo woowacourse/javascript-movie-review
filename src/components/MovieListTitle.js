@@ -13,7 +13,7 @@ class MovieListTitle {
   }
 
   render($target) {
-    // $target === item-view
+    // $target === itemView
     $target.insertAdjacentElement("afterbegin", this.$movieListTitle);
   }
 

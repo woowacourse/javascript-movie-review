@@ -7,24 +7,21 @@ class MovieView {
   movieList;
 
   constructor($target) {
-    this.init($target);
+    this.init();
 
     this.render($target);
   }
 
-  init($target) {
+  init() {
     this.$itemView.classList = "item-view";
 
-    // this.movieListTitle = new MovieListTitle($target);
-    // this.movieList = new MovieList($target);
-    this.movieListTitle = new MovieListTitle($target);
-    this.movieList = new MovieList($target);
+    this.movieListTitle = new MovieListTitle(this.$itemView);
+    this.movieList = new MovieList(this.$itemView);
   }
 
   render($target) {
     // $target === $main
     $target.insertAdjacentElement("afterbegin", this.$itemView);
-    console.log($target);
   }
 }
 

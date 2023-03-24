@@ -1,3 +1,5 @@
+import logo from "../../templates/logo.png";
+
 class Header {
   $header = document.createElement("header");
 
@@ -11,8 +13,7 @@ class Header {
 
   init() {
     this.$header.classList = "";
-    // this.$header.innerHTML = this.getTemplate();
-    this.$header.innerHTML = "<div>오케이</div>";
+    this.$header.innerHTML = this.getTemplate();
   }
 
   render($target) {
@@ -24,11 +25,11 @@ class Header {
 
   getTemplate() {
     const template = `
-        <h1><img src="./logo.png" alt="MovieList 로고" /></h1>
-        <div class="search-box">
-          <input type="text" placeholder="검색" />
-          <button class="search-button">검색</button>
-        </div>`;
+      <h1><img src=${logo} alt="MovieList 로고" /></h1>
+      <div class="search-box">
+        <input type="text" placeholder="검색" />
+        <button class="search-button">검색</button>
+      </div>`;
 
     return template;
   }

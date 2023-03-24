@@ -45,12 +45,21 @@ button {
 
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
-.item-list {
+.item-list,
+.skeleton-cards {
   display: grid;
   margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
   grid-column-gap: 160px;
   grid-row-gap: 48px;
+}
+
+.skeleton-cards {
+  margin-top: 0;
+}
+
+.hidden {
+  display: none;
 }
 
 .item-card {
