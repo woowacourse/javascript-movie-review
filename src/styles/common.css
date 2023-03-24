@@ -150,7 +150,6 @@ header .search-box > .search-button {
   top: 50%;
   left: 50%;
   width: 800px;
-  height: 500px;
   background-color: #212122;
   border-radius: 8px;
   box-shadow: 0 2px 3px 0 rgba(35, 35, 35, 0.15);
@@ -183,33 +182,27 @@ header .search-box > .search-button {
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   padding: 12px 28px;
   color: #f1f1f1;
   font-size: 16px;
 }
 
 .movie-description {
+  margin-top: 20px;
   line-height: 24px;
 }
 
-.movie-detail :nth-child(1) {
-  margin-bottom: 20px;
-}
-
 .movie-thumbnail {
-  width: 240px;
-  height: 380px;
   background-color: #232323;
   background-size: contain;
   border-radius: 10px;
 }
+
 .movie-rate {
-  position: absolute;
-  bottom: 80px;
   display: flex;
   align-items: center;
   padding: 14px 18px;
-  width: 80%;
   height: 60px;
   background: #383839;
   border-radius: 16px;
