@@ -22,7 +22,7 @@ export class MovieList {
     this.section.innerHTML = `
       <h2>${this.title}</h2>
       <ul class="item-list"></ul>
-      <h3>결과가 없습니다</h3>
+      <h3>입력하신 검색어 ${this.title}와 일치하는 결과가 없습니다.</h3>
     `;
 
     this.init();
@@ -31,7 +31,11 @@ export class MovieList {
   async init() {
     await this.nextPage();
     this.showModal();
-    infiniteScroll('li:nth-last-child(5)', this.nextPage);
+    try {
+      infiniteScroll('li:nth-last-child(5)', this.nextPage);
+    } catch (e) {
+      console.log('텅');
+    }
   }
 
   render() {
@@ -95,7 +99,7 @@ export class MovieList {
       $div.insertAdjacentElement('beforeend', movieListItem.render());
 
       ($div.childNodes[0] as HTMLElement).setAttribute('page', String(page));
-      const $skeleton = this.section.querySelector('ul > li.skeleton')!;
+      const $skeleton = this.section.querySelector('ul > li.skeleton') as HTMLLIElement;
       $skeleton.after($div.childNodes[0]);
       $skeleton.remove();
     });

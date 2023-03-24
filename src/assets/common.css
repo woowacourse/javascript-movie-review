@@ -190,16 +190,12 @@ header .search-box > .search-button {
 
 ul.item-list ~ h3 {
   display: none;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.6);
   text-align: center;
   font-size: 2rem;
 }
 
-ul.item-list:has(hr:first-child) ~ h3 {
-  display: initial;
-}
-
-ul:has(hr:last-child) ~ .item-last-notice {
+ul.item-list:not(:has(:first-child)) ~ h3 {
   display: initial;
 }
 
