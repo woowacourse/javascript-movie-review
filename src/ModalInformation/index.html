@@ -28,6 +28,11 @@
     height: 433px;
     margin: 30px 30px;
   }
+  .modal-body_right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
   .modal-body_right_genreAndstar {
     display: flex;
     color: #f1f1f1;
@@ -57,7 +62,44 @@
     line-height: 24px;
 
     letter-spacing: 0.5px;
-    
+
+    color: #f1f1f1;
+  }
+
+  .modal-body_right_userStar {
+    width: 438px;
+    height: 64px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 16px;
+    gap: 12px;
+
+    background: #383839;
+    border-radius: 16px;
+    margin-bottom: 30px;
+
+    color: #f1f1f1;
+  }
+  .my_star {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+
+    margin-top: 1px;
+  }
+  .modal-right-score,
+  .modal-right-comment {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+
+    margin-top: 5px;
     color: #f1f1f1;
   }
 </style>
@@ -76,7 +118,18 @@
         <p class="modal-body_right_overview">{overview}</p>
       </div>
       <div class="modal-body_right_bottom">
-        <div class="modal-body_right_userStar"></div>
+        <div class="modal-body_right_userStar">
+          <p class="my_star">내 별점</p>
+          <div class="modal-right-starts">
+            <img id="stars-1" src="{star1}" alt="빈 별" />
+            <img id="stars-2" src="{star2}" alt="빈 별" />
+            <img id="stars-3" src="{star3}" alt="빈 별" />
+            <img id="stars-4" src="{star4}" alt="빈 별" />
+            <img id="stars-5" src="{star5}" alt="빈 별" />
+          </div>
+          <p class="modal-right-score">{score}</p>
+          <p class="modal-right-comment">{comment}</p>
+        </div>
       </div>
     </div>
   </div>

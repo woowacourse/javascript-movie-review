@@ -51,7 +51,11 @@ export class MovieList extends HTMLElement {
     return newGenre;
   }
 
-  modalHandler(open: CallableFunction, setInformationToModal: CallableFunction) {
+  modalHandler(
+    open: CallableFunction,
+    setInformationToModal: CallableFunction,
+    eventBind: CallableFunction,
+  ) {
     const a = this.querySelector('ul');
 
     a?.addEventListener('click', (e: Event) => {
@@ -60,6 +64,7 @@ export class MovieList extends HTMLElement {
 
       if (targetParent.id) open();
       setInformationToModal(targetParent);
+      eventBind();
     });
   }
 }

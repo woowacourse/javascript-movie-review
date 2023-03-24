@@ -32,6 +32,7 @@ class App {
     this.$movieList.modalHandler(
       this.modal.show.bind(this),
       this.modalInformation.setInformationToModal.bind(this),
+      this.modalInformation.eventBind.bind(this),
     );
   }
 
