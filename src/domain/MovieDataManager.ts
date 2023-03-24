@@ -1,21 +1,12 @@
 import {
   CurrentTab,
-  MovieInfoType,
   ResponseInfo,
   TotalMovieInfoType,
 } from "../@types/movieDataType";
-import { getKeywordData } from "../api/keywordSearch";
-import { getMovieData } from "../api/movieList";
 import { DATA } from "../constants/data";
 import { $ } from "../utils/selector";
 
 class MovieDataManager {
-  // private _popularMovies: MovieInfoType[] = [];
-  // private _searchMovies: MovieInfoType[] = [];
-  private _movieDatas: any = {
-    popular: {},
-    search: {},
-  };
   private _currentTab = CurrentTab.POPULAR;
   private _currentPage: number = DATA.INIT_PAGE;
 
@@ -39,14 +30,6 @@ class MovieDataManager {
     itemList.innerHTML = "";
     title.remove();
     this._currentPage = DATA.INIT_PAGE;
-  }
-
-  addPopularMovieData(movieData: TotalMovieInfoType) {
-    this._movieDatas.popular[movieData.id] = movieData;
-  }
-
-  addKeywordData(movieData: TotalMovieInfoType) {
-    this._movieDatas.search[movieData.id] = movieData;
   }
 
   updatePage() {
