@@ -29,6 +29,7 @@ export default class Modal implements Component {
 
   setEvent() {
     this.bindBackdropClickEvent();
+    this.bindCloseButtonClickEvent();
   }
 
   bindBackdropClickEvent() {
@@ -41,11 +42,22 @@ export default class Modal implements Component {
     });
   }
 
+  bindCloseButtonClickEvent() {
+    const $modalCloseButton = this.$element.querySelector('.modal-close-button');
+    if (!$modalCloseButton) return;
+
+    $modalCloseButton.addEventListener('click', () => {
+      this.clearContent();
+      this.closeModal();
+    });
+  }
+
   renderContent(detailMovieData: DetailMovie) {
     const $container = this.$element.querySelector('.modal-container');
     if (!$container) return;
 
     this.openModal();
+
     new DetailMovieCard().render($container, detailMovieData);
   }
 
