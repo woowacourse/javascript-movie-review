@@ -1,13 +1,14 @@
-import { fetchMoviesByKeyword, fetchPopularMovies, GetMoviesByKeywordRes, GetPopularMoviesRes, waitFor } from '../apis';
+import { fetchMoviesByKeyword, fetchPopularMovies, waitFor } from '../apis/movieChart';
 import { INITIAL_PAGE, PAGE } from '../constants';
 import { useEffect, useState } from '../core';
+import { MovieChart } from '../domain/MovieChart';
 
 type DefaultFetchAction = (callback: (args: any) => Promise<void>) => (args?: any | undefined) => Promise<void>;
 
 let page: number;
 function useMovieChart(keyword: string) {
-  const [chartInfo, setChartInfo] = useState<GetPopularMoviesRes | GetMoviesByKeywordRes>();
-  const [movieList, setMovieList] = useState<(typeof chartInfo)['results']>([]);
+  const [movieChart, setMovieChart] = useState<MovieChart>();
+  const [movieList, setMovieList] = useState<MovieChart['movieChartInfo']['results']>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const defaultFetchAction: DefaultFetchAction =
@@ -18,10 +19,13 @@ function useMovieChart(keyword: string) {
       setIsLoading(false);
     };
 
-  const updateMovieData = (data: GetPopularMoviesRes | GetMoviesByKeywordRes) => {
-    setChartInfo(data);
+  const updateMovieData = (movieChart: MovieChart) => {
+    const {
+      movieChartInfo: { results },
+    } = movieChart;
+    setMovieChart(movieChart);
 
-    page === INITIAL_PAGE ? setMovieList(data.results) : setMovieList([...movieList, ...data.results]);
+    page === INITIAL_PAGE ? setMovieList(results) : setMovieList([...movieList, ...results]);
     page += PAGE;
   };
 
@@ -50,7 +54,7 @@ function useMovieChart(keyword: string) {
     fetchMore(keyword);
   }, [keyword]);
 
-  return { chartInfo, movieList, isLoading, fetchMore };
+  return { movieChart, movieList, isLoading, fetchMore };
 }
 
 export { useMovieChart };

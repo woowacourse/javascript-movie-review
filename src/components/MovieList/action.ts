@@ -3,7 +3,7 @@ import { absorb } from '../../core';
 
 const MovieListActions = () => {
   const MovieComponent = (props: MovieProps) => {
-    absorb(`#Movie-${props.info.id}`, Movie(props));
+    absorb(`#Movie-${props.movieInfo.id}`, Movie(props));
   };
   return { MovieComponent };
 };

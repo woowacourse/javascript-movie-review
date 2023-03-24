@@ -1,11 +1,11 @@
+import { RemoteMovieInfoByKeyword, RemotePopularMovieInfo } from '../../apis/movieChart.type';
 import { assemble, Event } from '../../core';
+import { Movie } from '../../domain/Movie';
 import { getElement } from './../../utils/common/domHelper';
 import { MovieComponent } from './action';
-import { MovieInfo, MovieInfoByKeyword } from '../../apis';
-import { NO_RESULT } from '../../constants';
 
 export interface MovieListProps {
-  movieList: MovieInfo[] | MovieInfoByKeyword[];
+  movieList: Movie[];
 }
 
 const MovieList = assemble<MovieListProps>((props) => {
@@ -16,9 +16,9 @@ const MovieList = assemble<MovieListProps>((props) => {
         <ul class="item-list">
         ${movieList
           .map(
-            (info) => `
-          <fragment id="Movie-${info.id}">
-            ${MovieComponent({ info })}
+            ({ movieInfo }) => `
+          <fragment id="Movie-${movieInfo.id}">
+            ${MovieComponent({ movieInfo })}
           </fragment>`
           )
           .join('')}

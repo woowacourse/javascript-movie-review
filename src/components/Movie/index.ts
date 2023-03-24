@@ -1,14 +1,14 @@
-import { MovieInfo, MovieInfoByKeyword } from '../../apis';
 import { assemble, Event, useEffect, useState } from '../../core';
+import { MovieInfo } from '../../domain/Movie';
 import { getElement } from './../../utils/common/domHelper';
 
 export interface MovieProps {
-  info: MovieInfo | MovieInfoByKeyword;
+  movieInfo: MovieInfo;
 }
 
 const Movie = assemble<MovieProps>((props) => {
   const {
-    info: { poster_path, title, vote_average, id },
+    movieInfo: { poster_path, title, vote_average, id },
   } = props;
   const [isLoading, setIsLoading] = useState(true);
 
