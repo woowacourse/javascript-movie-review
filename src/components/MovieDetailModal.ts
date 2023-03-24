@@ -8,6 +8,7 @@ class MovieDetailModal {
 
   constructor() {
     this.addClickMovieEventHandler();
+    this.addClickCloseButtonEventHandler();
   }
 
   private getTemplate(movieDetail: MovieDetail) {
@@ -60,6 +61,13 @@ class MovieDetailModal {
 
       this.render(movieDetail);
       this.$element.showModal();
+    });
+  }
+
+  private addClickCloseButtonEventHandler() {
+    this.$element.addEventListener('click', (event) => {
+      if (!(event.target instanceof HTMLButtonElement)) return;
+      if (event.target.id === 'movie-detail-modal-close-button') this.$element.close();
     });
   }
 }
