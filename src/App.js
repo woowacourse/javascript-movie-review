@@ -85,6 +85,7 @@ export default class App {
   bindESCKeyDownEvent() {
     document.addEventListener('keydown', (e) => {
       if (e.key !== 'Escape') return;
+      this.#modal.clearContent();
       this.#modal.closeModal();
     });
   }

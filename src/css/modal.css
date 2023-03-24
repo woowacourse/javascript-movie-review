@@ -9,10 +9,27 @@
 }
 
 .modal-container {
+  z-index: 1;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 
   border-radius: 8px;
+}
+
+.modal-close-button {
+  z-index: 2;
+  position: absolute;
+  top: 8px;
+  right: 16px;
+
+  width: 36px;
+  height: 36px;
+
+  color: #fff;
+  background-color: #383839;
+
+  border: none;
+  border-radius: 50%;
 }

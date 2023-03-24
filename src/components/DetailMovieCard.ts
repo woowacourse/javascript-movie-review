@@ -3,7 +3,7 @@ import starIcon from '../assets/star_filled.png';
 
 export default class DetailMovieCard {
   render($target: Element, detailMovie: DetailMovie) {
-    $target.innerHTML = this.template(detailMovie);
+    $target.insertAdjacentHTML('beforeend', this.template(detailMovie));
     this.setEvent();
   }
 
@@ -15,7 +15,6 @@ export default class DetailMovieCard {
     <section id="${id}" class="movie-detail-view">
     <div class="movie-title-wrap">
       <h1 class="movie-title">${title}</h1>
-      <button class="modal-close-button">✖</button>
     </div>
     <div class="movie-content-container">
       <div class="movie-img-wrap">

@@ -21,8 +21,10 @@ export default class Modal implements Component {
 
   template() {
     return /* html */ `
-    <div class="modal-backdrop"></div>
-    <div class="modal-container"></div>`;
+    <div class="modal-backdrop"></div>    
+    <div class="modal-container">
+      <button class="modal-close-button">✖</button>
+    </div>`;
   }
 
   setEvent() {
@@ -33,7 +35,10 @@ export default class Modal implements Component {
     const $modalBackdrop = this.$element.querySelector('.modal-backdrop');
     if (!$modalBackdrop) return;
 
-    $modalBackdrop.addEventListener('click', this.closeModal.bind(this));
+    $modalBackdrop.addEventListener('click', () => {
+      this.clearContent();
+      this.closeModal();
+    });
   }
 
   renderContent(detailMovieData: DetailMovie) {
@@ -54,5 +59,12 @@ export default class Modal implements Component {
 
   closeModal() {
     this.$element.classList.add('hide');
+  }
+
+  clearContent() {
+    const $container = this.$element.querySelector('.modal-container');
+    if (!$container) return;
+
+    $container.lastChild?.remove();
   }
 }

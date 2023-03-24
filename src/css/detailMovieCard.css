@@ -28,21 +28,6 @@
   text-align: center;
 }
 
-.modal-close-button {
-  position: absolute;
-  top: 12px;
-  right: 32px;
-
-  width: 36px;
-  height: 36px;
-
-  color: #fff;
-  background-color: #383839;
-
-  border: none;
-  border-radius: 50%;
-}
-
 .movie-content-container {
   display: flex;
   flex-direction: row;
