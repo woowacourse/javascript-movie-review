@@ -62,7 +62,7 @@ class MovieDetailBox extends HTMLElement {
   };
 
   onClick = (e: Event) => {
-    if (e.target && !this.querySelector('.box')?.contains(<Node>e.target)) this.close();
+    if (e.target instanceof HTMLElement && !e.target.closest('.box')) this.close();
   };
 
   close = () => {
