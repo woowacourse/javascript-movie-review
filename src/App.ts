@@ -40,7 +40,7 @@ class App {
     this.$movieList.setTitle('지금 인기 있는 영화');
     this.store.setInitSearchWord();
     this.$seeMoreButton.attach();
-
+    this.$seeMoreButton.addMoreButtonHandler(this.moreButtonHandler.bind(this));
     this.store.allocateData().then(() => {
       this.skeleton.removeSkeleton();
       this.$movieList.renderMovies(this.store.movieListValue, this.store.genre);
@@ -48,9 +48,7 @@ class App {
   }
 
   async moreButtonHandler() {
-    this.skeleton.attachSkeleton();
     this.store.allocateData(this.store.searchWord).then(() => {
-      this.skeleton.moreButtonRemoveSkeleton();
       this.$movieList.renderMovies(this.store.movieListValue, this.store.genre);
     });
     if (this.store.page === this.store.totalPage) this.removeButton();
