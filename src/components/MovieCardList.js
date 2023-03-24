@@ -1,10 +1,10 @@
-import { $ } from "../utils/Dom";
-
+import { $ } from '../utils/Dom';
+import { MOVIE_LiST_ITEM } from '../constant/variables';
 export default class MovieCardList extends HTMLElement {
   #movieList = [];
 
   get header() {
-    return this.getAttribute("header");
+    return this.getAttribute('header');
   }
 
   connectedCallback() {
@@ -18,22 +18,23 @@ export default class MovieCardList extends HTMLElement {
 
   setMovieList(movieList) {
     this.#movieList = movieList;
-    const moreButtonElement = $("more-button");
-    if (this.#movieList.length < 20) moreButtonElement.classList.toggle("none");
+    const moreButtonElement = $('more-button');
+    if (this.#movieList.length < MOVIE_LiST_ITEM.MAX_NUMBER)
+      moreButtonElement.classList.toggle('none');
 
-    const movieListElement = $("#movie-list");
+    const movieListElement = $('#movie-list');
     this.#movieList.forEach((item) => {
       movieListElement.insertAdjacentHTML(
-        "beforeend",
-        `<movie-card title='${item.title}' poster='${item.poster}' rating='${item.rating}'></movie-card>`
+        'beforeend',
+        `<movie-card title='${item.title}' poster='${item.poster}' rating='${item.rating}'></movie-card>`,
       );
     });
   }
 
   toggleSkeletonList() {
-    const $skeletonList = $("skeleton-list");
-    $skeletonList.classList.toggle("none");
+    const $skeletonList = $('skeleton-list');
+    $skeletonList.classList.toggle('none');
   }
 }
 
-customElements.define("card-list", MovieCardList);
+customElements.define('card-list', MovieCardList);
