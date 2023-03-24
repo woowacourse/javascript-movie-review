@@ -6,14 +6,18 @@ const modalTemplate = `
   <h1></h1>
   <button type="button" class="modal-close">&times;</button>
 </section>
-<section class="movie-poster"></section>
-<section class="movie-info">
-  <div>
-    <span class="genres"></span>
-    <span class="rating"></span>
+<section class="modal-body">
+  <div class="movie-poster"></div>
+  <div class="movie-info">
+    <div>
+      <span class="genres"></span>
+      <span class="rating"></span>
+    </div>
+    <p class="overview"></p>
+    <div class="star"></div>
   </div>
-  <p class="overview"></p>
-  <div class="star"></div>
+</section>
+
 </section>
 `.trim();
 
@@ -83,11 +87,11 @@ class MovieModal {
     window.addEventListener('popstate', () => {
       if (!this.element.open) {
         this.element.showModal();
-        ($('body') as HTMLElement).style.overflow = 'hidden';
+        // ($('body') as HTMLElement).style.overflow = 'hidden';
       }
       else {
         this.element.close();
-        ($('body') as HTMLElement).style.overflow = 'auto';
+        // ($('body') as HTMLElement).style.overflow = 'auto';
       }
     });
   }

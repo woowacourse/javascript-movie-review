@@ -52,7 +52,7 @@ main {
   justify-content: center;
   flex-flow: row wrap;
 
-  margin: 24px 0 0 0;
+  margin-top: 24px;
 }
 
 .movie-info {
@@ -190,12 +190,13 @@ header .search-box > .search-button {
 }
 
 #movie-modal {
-  min-width: 70vh;
-  min-height: 50vh;
-  max-height: 90vh;
+  flex-direction: column;
+  justify-content: space-between;
 
-  width: 200px;
-  height: 200px;
+  min-width: 85vw;
+  max-width: 90vw;
+  min-height: 80vh;
+  max-height: 90vh;
 
   padding: 32px 16px;
 
@@ -206,8 +207,92 @@ header .search-box > .search-button {
   border: none;
 }
 
+#movie-modal[open] {
+  display: flex;
+}
+
 dialog#movie-modal::backdrop {
   background: rgba(0, 0, 0, 0.45);
+}
+
+.modal-header {
+  margin-bottom: 24px;
+
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+.modal-header h1 {
+  display: inline-block;
+
+  margin: 0 auto 24px auto;
+
+  font-size: 2rem;
+}
+
+.modal-close {
+  position: absolute;
+  right: 0;
+
+  width: 7%;
+
+  border: none;
+  background: none;
+  color: white;
+  font-size: 2rem;
+}
+
+.modal-body {
+  flex: 12345;
+  display: flex;
+}
+
+#movie-modal .movie-poster {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+#movie-modal .movie-poster img{
+  width: 100%;
+  max-width: 500px;
+}
+
+#movie-modal .skeleton {
+  width: 100%;
+  max-width: 500px;
+  height: 100%;
+}
+
+#movie-modal .movie-info {
+  flex: 2;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  margin: 48px;
+
+  cursor: default;
+  font-size: 1.2rem;
+  line-height: 2rem;
+}
+
+#movie-modal .movie-info div:first-child {
+  display: flex;
+}
+
+#movie-modal .movie-info span:first-child {
+  margin-right: 18px;
+}
+
+#movie-modal .overview {
+  margin: 24px 0;
+}
+
+#movie-modal .rating {
+  display: inline-flex;
+  align-items: center;
 }
 
 #skeleton-container {
