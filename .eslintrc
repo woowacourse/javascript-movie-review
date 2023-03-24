@@ -19,6 +19,7 @@
   ],
   "rules": {
     "class-methods-use-this": "off",
-    "no-use-before-define": "off"
+    "no-use-before-define": "off",
+    "no-shadow": "off"
   }
 }
