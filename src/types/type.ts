@@ -14,15 +14,3 @@ export interface ApiMovieProps {
   vote_average: number;
   vote_count: number;
 }
-
-export interface Movie {
-  id: number;
-  title: string;
-  imgUrl: string;
-  score: number;
-}
-
-export interface MoviesState {
-  isLastPage: boolean;
-  movies: Movie[];
-}

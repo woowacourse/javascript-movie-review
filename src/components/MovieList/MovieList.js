@@ -1,10 +1,9 @@
 import './MovieList.css';
 import { $, parsedFechedMovies, request } from '../../utils/common';
-import Movies from '../../domain/Movies';
 
 class MovieList extends HTMLElement {
   #pageIndex = 1;
-  #movies = new Movies();
+  #moviesData;
   #searchWord = new Proxy(
     { value: '' },
     {
@@ -48,7 +47,7 @@ class MovieList extends HTMLElement {
 
   async updateMovieList() {
     try {
-      this.#movies.update(await this.getMoviesFromApi(this.#searchWord.value));
+      await this.getMoviesFromApi(this.#searchWord.value);
       this.hideSkeletonItem();
 
       this.renderMovieList();
@@ -72,7 +71,7 @@ class MovieList extends HTMLElement {
 
     const movies = parsedFechedMovies(fetchedMovies);
 
-    return {
+    this.#moviesData = {
       isLastPage: apiFetchingData.total_pages === this.#pageIndex,
       movies,
     };
@@ -91,14 +90,12 @@ class MovieList extends HTMLElement {
   }
 
   renderMovieList() {
-    const movieResultState = this.#movies.movieResultState;
-
-    if (movieResultState.movies.length === 0) {
+    if (this.#moviesData.movies.length === 0) {
       this.showNoResult();
       return;
     }
 
-    $('#first-skeleton').insertAdjacentHTML('beforebegin', this.makeMovieListTemplate(movieResultState.movies));
+    $('#first-skeleton').insertAdjacentHTML('beforebegin', this.makeMovieListTemplate(this.#moviesData.movies));
   }
 
   showNoResult() {
@@ -109,17 +106,17 @@ class MovieList extends HTMLElement {
     $('.item-list').appendChild(noResultMessage);
   }
 
-  makeMovieListTemplate(movieList) {
-    return movieList.reduce((acc, curr) => {
+  makeMovieListTemplate() {
+    return this.#moviesData.movies.reduce((acc, curr) => {
       return (
         acc +
-        `<movie-item id="${curr.id}" title="${curr.title}" imgUrl="${curr.imgUrl}" score="${curr.score}"></movie-item>`
+        `<movie-item id="${curr.id}" title="${curr.title}" imgUrl="${curr.imgUrl}" score="${curr.score}"  genre="${curr.genre}" description="${curr.description}"></movie-item>`
       );
     }, '');
   }
 
   toggleVisibleButton() {
-    if (this.#movies.movieResultState.isLastPage) {
+    if (this.#moviesData.isLastPage) {
       $('#more-button').classList.add('hide-button');
       return;
     }
