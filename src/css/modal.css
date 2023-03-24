@@ -37,8 +37,8 @@
 .modal-close-button {
   position: absolute;
   left: calc(100% - 64px);
-  width: 36px;
-  height: 36px;
+  background: none;
+  border: 0;
 }
 
 .detail-container {
@@ -110,6 +110,12 @@
 .skeleton::after {
   font-size: 0;
   content: 'loading';
+}
+
+.modal-title.skeleton {
+  max-width: 300px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 p.skeleton {

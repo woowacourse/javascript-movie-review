@@ -1,3 +1,5 @@
+import { MODAL_CLOSE_ICON } from './icons';
+
 export const MAX_MOVIES_PER_PAGE = 20;
 
 export const POPULAR_TITLE = '지금 인기 있는 영화';
@@ -15,7 +17,10 @@ export const SKELETON_TEMPLATE = /* html */ `
   `.repeat(MAX_MOVIES_PER_PAGE);
 
 export const MODAL_SKELETON_TEMPLATE = /* html */ `
-  <header class="modal-header"></header>
+  <header class="modal-header">
+    <h2 class="modal-title skeleton"></h2>
+    <button class="modal-close-button">${MODAL_CLOSE_ICON}</button>
+  </header>
   <div class="detail-container">
     <figure class="modal-thumbnail-wrapper">
       <img class="modal-thumbnail skeleton" alt="" />

@@ -1,7 +1,7 @@
 import CustomModal from './common/CustomModal';
 import DefaultPoster from '../../images/default_poster.png';
 
-import { STAR_EMPTY_ICON_LARGE, STAR_FILLED_ICON } from '../icons';
+import { MODAL_CLOSE_ICON, STAR_EMPTY_ICON_LARGE, STAR_FILLED_ICON } from '../icons';
 
 import { $ } from '../utils/domUtils';
 
@@ -15,12 +15,12 @@ class MovieDetailModal extends HTMLElement {
     this.innerHTML = /* html */ `
       <header class="modal-header">
         <h3 class="modal-title">${title}</h3>
-        <button class="modal-close-button">X</button>
+        <button class="modal-close-button">${MODAL_CLOSE_ICON}</button>
       </header>
       <div class="detail-container">
         <figure class="modal-thumbnail-wrapper">
           <img
-          class="modal-thumbnail"
+          class="modal-thumbnail skeleton"
           src=${
             poster_path === 'null'
               ? DefaultPoster
