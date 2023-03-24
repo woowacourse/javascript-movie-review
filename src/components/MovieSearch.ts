@@ -9,7 +9,7 @@ export default class MovieSearch extends HTMLElement {
   render() {
     this.innerHTML = /*html*/ `
          <div class="search-box">
-          <input type="text" placeholder="검색" />
+          <input class="search-input" type="text" placeholder="검색" />
           <button class="search-button">검색</button>
          </div>
         `;
@@ -37,14 +37,20 @@ export default class MovieSearch extends HTMLElement {
   createSearchMovieEvent() {
     const $searchInput = this.querySelector("input") as HTMLInputElement;
     const $moreButton = $("more-button") as HTMLElement;
+    const $homeButtom = $(".home-button") as HTMLElement;
 
+    if (window.innerWidth < 410 && !$searchInput.className.includes("change")) {
+      $searchInput.classList.add("change");
+      $homeButtom.style.display = "none";
+      return;
+    }
     this.dispatchEvent(
       new CustomEvent("search-movie", {
         bubbles: true,
         detail: { movieName: $searchInput.value },
       })
     );
-    $moreButton.classList.add("hidden");
+    $moreButton?.classList.add("hidden");
   }
 }
 

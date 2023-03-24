@@ -77,3 +77,8 @@
 .truncate {
   overflow: hidden;
 }
+
+.change {
+  display: block;
+  width: 300px;
+}

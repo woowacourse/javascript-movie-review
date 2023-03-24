@@ -61,21 +61,59 @@ button {
 }
 
 .item-view {
+  width: 100%;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  width: 1200px;
-  margin: 0 auto;
 }
 
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .item-list {
   display: grid;
-  margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  margin: 48px 0px;
+  grid-template-columns: repeat(4, 220px);
+  grid-column-gap: calc((100vw - 900px) / 4);
   grid-row-gap: 48px;
+}
+
+@media (max-width: 1280px) {
+  .item-list {
+    grid-template-columns: repeat(4, 220px);
+  }
+}
+
+@media (max-width: 1024px) {
+  .item-list {
+    grid-template-columns: repeat(3, 220px);
+    grid-column-gap: calc((100vw - 700px) / 3);
+  }
+}
+
+@media (max-width: 780px) {
+  .item-list {
+    grid-template-columns: repeat(2, 220px);
+    grid-column-gap: calc((100vw - 400px) / 2);
+  }
+
+  .modal-image {
+    display: none;
+  }
+  .comment {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .item-list {
+    grid-template-columns: repeat(2, 180px);
+    grid-column-gap: 10px;
+  }
+}
+
+@media (max-width: 410px) {
+  .search-input {
+    display: none;
+  }
 }
 
 .item-card {
@@ -159,7 +197,7 @@ button.primary {
 
 header {
   width: 100%;
-  min-width: 1200px;
+  min-width: 300px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -178,6 +216,7 @@ header {
   background: #fff;
   padding: 8px;
   border-radius: 4px;
+  display: flex;
 }
 
 .search-box > input {

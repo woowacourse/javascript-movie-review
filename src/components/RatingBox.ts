@@ -37,7 +37,7 @@ export default class RatingBox extends HTMLElement {
           myRating >= 10 ? "filled" : "empty"
         } mr-4" alt="별점" />
         <h4 class="ml-12 mr-12">${myRating}</h4>
-        <h4>${comment}</h4>
+        <h4 class="comment">${comment}</h4>
       </div>
         `;
   }
