@@ -1,8 +1,11 @@
+import UserRating from './UserRating';
+import UserRatingButtonList from './UserRatingButtonList';
+
 import { posterNotFoundImage, starFilledImage } from '../../assets/images';
 import { IMAGE_URL } from '../../constants';
 import { CLASS } from '../../constants/selector';
 import { $ } from '../../utils/dom';
-import { MovieDetail } from '../MovieCardSection/MovieCard';
+import type { MovieDetail } from '../MovieCardSection/MovieCard';
 
 import './MovieDetailModal.style.css';
 
@@ -35,18 +38,7 @@ const MovieDetailModal = {
                 ${movieDetail.overview}
               </p>
             </div>
-            <div class="user-rating-container">
-              <p>내 별점</p>
-              <div class="user-rating-buttons">
-                <button type="button"><img src=${starFilledImage} alt="별점" /></button>
-                <button type="button"><img src=${starFilledImage} alt="별점" /></button>
-                <button type="button"><img src=${starFilledImage} alt="별점" /></button>
-                <button type="button"><img src=${starFilledImage} alt="별점" /></button>
-                <button type="button"><img src=${starFilledImage} alt="별점" /></button>
-              </div>
-              <p>6</p>
-              <p class="user-rating-desc">보통이에요</p>
-            </div>
+            ${UserRating.template()}
           </div>
         </div>
       </div>
@@ -58,6 +50,8 @@ const MovieDetailModal = {
 
     modalBackground.addEventListener('click', MovieDetailModal.close);
     window.addEventListener('keydown', MovieDetailModal.onKeydownEscape);
+
+    UserRatingButtonList.setEvent();
   },
 
   removeEvent() {
