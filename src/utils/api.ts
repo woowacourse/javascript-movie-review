@@ -10,7 +10,7 @@ const request = async (url: string, method: string) => {
     }
     return response.json();
   } catch (error: any) {
-    if (error.message === "failed to fetch") {
+    if (error.message === "Failed to fetch") {
       alert("네트워크 연결이 끊어졌습니다.");
     } else {
       alert(error.message);
