@@ -5,7 +5,6 @@ class MovieCard {
   static render(movie: Movie) {
     return /*html*/ `
       <li>
-        <a href="#">
           <div class="item-card">
             <img
               class="item-thumbnail skeleton"
@@ -16,7 +15,6 @@ class MovieCard {
             <p class="item-title">${movie.title}</p>
             <p class="item-score"><img src="${starImg}" alt="별점" />${movie.vote_average}</p>
           </div>
-        </a>
       </li>
     `;
   }
