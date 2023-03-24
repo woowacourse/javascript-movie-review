@@ -25,16 +25,26 @@ class MovieListContainer extends HTMLElement {
   }
 
   addEvent() {
+    let isThrottled = false;
+
     window.addEventListener("scroll", () => {
       const windowHeight = window.innerHeight;
       const fullHeight = document.body.scrollHeight;
       const currentPosition = window.pageYOffset;
 
-      if (currentPosition + windowHeight >= fullHeight) {
+      if (!isThrottled && currentPosition + windowHeight >= fullHeight) {
+        this.stopScrolling();
+
         dispatchCustomEvent(this, {
           eventType: "fetchMovieData",
-          data: "popular",
+          data: this.contentTypeAttribute,
         });
+
+        isThrottled = true;
+
+        setTimeout(() => {
+          isThrottled = false;
+        }, 2000);
       }
     });
 
@@ -56,6 +66,10 @@ class MovieListContainer extends HTMLElement {
   changeTitle(query: string) {
     this.setAttribute("content-type", "search");
     this.render(query);
+  }
+
+  stopScrolling() {
+    window.removeEventListener("scroll", this.addEvent);
   }
 
   displayErrorUI(message: string) {

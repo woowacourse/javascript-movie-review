@@ -9,7 +9,7 @@ export const FetchUrl: Readonly<{ [key: string]: string }> = {
 
 export const ConstantsNumber: Readonly<{ [key: string]: number }> = {
   PAGE_MIN_NUMBER: 1,
-  PAGE_MAX_NUMBER: 50,
+  PAGE_MAX_NUMBER: 500,
   ROAD_IMAGE_NUMBER: 20,
 };
 
