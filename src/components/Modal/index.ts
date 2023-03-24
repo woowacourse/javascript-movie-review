@@ -6,7 +6,10 @@ import filledStarImg from "../../../templates/star_filled.png";
 import emptyStarImg from "../../../templates/star_empty.png";
 import xButton from "../../../templates/xButton.png";
 import { $ } from "../../utils/selector";
-import { getStarRateById, setStarRateById } from "../../utils/storage";
+import {
+  getStarRateFromStorage,
+  setStarRateToStorage,
+} from "../../utils/storage";
 
 export class Modal {
   #$target;
@@ -76,7 +79,7 @@ export class Modal {
 
       this.renderStars(movieId, starRate);
 
-      setStarRateById(movieId, starRate);
+      setStarRateToStorage(movieId, starRate);
     });
   }
 
@@ -87,7 +90,7 @@ export class Modal {
 
     this.#$target.innerHTML = this.getMovieDetailTemplate(
       movie,
-      getStarRateById(movieId)
+      getStarRateFromStorage(movieId)
     );
   }
 
@@ -136,25 +139,30 @@ export class Modal {
   }
 
   getStarSelectContainerTemplate(movieId: number, starRate: number) {
-    const imgArray = new Array(5).fill("").map(
-      (_, index) =>
-        `<img 
-          src="${starRate > index ? filledStarImg : emptyStarImg}" 
-          alt="별점" 
-          class="star-rate-select"
-          data-movie-id="${movieId}"
-          data-star-rate="${index}"
-        />`
-    );
+    const imgArray = this.getStarTemplate(movieId, starRate);
 
     return /*html*/ `
-        내 별점
-        <span class="star-select-container">
-            ${imgArray.join("")}
-        </span>
-        <span>${starRate}</span>
-        <span class="star-rate-desc">${STAR_RATE_STRING[starRate]}</span>
+      내 별점
+      <span class="star-select-container">
+          ${imgArray.join("")}
+      </span>
+      <span>${starRate}</span>
+      <span class="star-rate-desc">${STAR_RATE_STRING[starRate]}</span>
     `;
+  }
+
+  getStarTemplate(movieId: number, starRate: number) {
+    return Array.from(
+      { length: 5 },
+      (_, i) =>
+        `<img 
+          src="${starRate > i ? filledStarImg : emptyStarImg}" 
+          alt="별점" 
+          class="star-rate-select-img"
+          data-movie-id="${movieId}"
+          data-star-rate="${i}"
+        />`
+    );
   }
 }
 

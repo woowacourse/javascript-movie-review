@@ -126,8 +126,16 @@
   font-weight: bold;
 }
 
-.star-rate-select {
+.star-rate-select-img {
+  width: 32px;
+  height: 32px;
+
   cursor: pointer;
+}
+
+.star-select-container {
+  display: flex;
+  gap: 5px;
 }
 
 @media screen and (max-width: 1220px) {
