@@ -1,11 +1,13 @@
 import MovieContainer from '../components/MovieContainer';
 import { movie, proxy } from '../state/state';
 import { MovieProxy } from '../types/proxy';
+import { updateObserveTarget } from './observer';
 
 const handleList = (target: MovieProxy, props: string, value: string[]) => {
   target[props] = value;
   const movieListTemplate = value.join('');
   MovieContainer.renderContents(movieListTemplate);
+  updateObserveTarget();
 
   return true;
 };

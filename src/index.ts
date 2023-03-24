@@ -6,12 +6,14 @@ import { getPopularMovieList } from './domains/movieApi';
 import { generateMovieListTemplate } from './components/templates/movieList';
 import MovieContainer from './components/MovieContainer';
 import CustomHeader from './components/CustomHeader';
+import { initObserver, updateObserveTarget } from './domains/observer';
 
 const App = {
   init() {
-    initProxy();
     this.initRender();
+    initProxy();
     this.initState();
+    initObserver();
   },
 
   initRender() {

@@ -1,34 +1,17 @@
 import '../../css/movie-container.css';
 import { $ } from '../utils/dom';
-import { proxy } from '../state/state';
 import { movie } from '../state/state';
 import { generateContainerTitleTemplate } from './templates/containerTitle';
-import { generateMoreButtonTemplate } from './templates/moreButton';
 import { movieContainerTemplate } from './templates/movieContainer';
-import { generateMovieListTemplate } from './templates/movieList';
-import { getMoreMovieList } from '../domains/movieApi';
 
 class MovieContainer extends HTMLElement {
+  viewportObserver: null | IntersectionObserver = null;
+
   constructor() {
     super();
   }
 
-  connectedCallback() {
-    this.addEventListener('click', this.moreButtonClickHandler);
-  }
-
-  private async moreButtonClickHandler(event: Event) {
-    const target = event.target;
-
-    if (target instanceof HTMLButtonElement && target.ariaLabel === '더 보기' && !movie.isClicked) {
-      movie.isClicked = true;
-      getMoreMovieList(movie.query, movie.currentPage + 1).then(root => {
-        movie.currentPage = root.page;
-        proxy.movie.list = [generateMovieListTemplate(root.results)];
-        movie.isClicked = false;
-      });
-    }
-  }
+  connectedCallback() {}
 
   static render() {
     const container = $<HTMLDivElement>('#app');
@@ -43,7 +26,6 @@ class MovieContainer extends HTMLElement {
 
     if (container instanceof HTMLUListElement) {
       this.renderMovieList(container, movieList);
-      this.renderMoreButton();
     }
   }
 
@@ -52,14 +34,6 @@ class MovieContainer extends HTMLElement {
       container.innerHTML = movieList;
     } else {
       container.insertAdjacentHTML('beforeend', movieList);
-    }
-  }
-
-  static renderMoreButton() {
-    const container = $<HTMLDivElement>('#more-button-container');
-
-    if (container instanceof HTMLDivElement) {
-      container.innerHTML = generateMoreButtonTemplate();
     }
   }
 

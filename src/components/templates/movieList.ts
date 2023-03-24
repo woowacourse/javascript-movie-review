@@ -6,7 +6,6 @@ const generateMovieItemTemplate = ({ src, title, score }: MoveItem): string =>
   /* html */
   `
 		<li>
-		<a href="#">
 		  <div class="item-card">
 		    <img
 		      class="item-thumbnail skeleton"
@@ -17,7 +16,6 @@ const generateMovieItemTemplate = ({ src, title, score }: MoveItem): string =>
 		    <p class="item-title">${title}</p>
 		    <p class="item-score"><img src="${IMAGES.STAR_FILLED}" alt="별점" /> ${score}</p>
 		  </div>
-		</a>
 		</li>
 	`;
 
@@ -38,20 +36,4 @@ export const generateMovieListTemplate = (movieList: MovieResult[]) => {
 			</div>
 		`
   );
-};
-
-const skeletonItem =
-  /* html */
-  `
-		<li>
-			<a href="#">
-				<div class="item-card">
-					<div class="item-thumbnail skeleton"></div>
-				</div>
-			</a>
-		</li>
-	`;
-
-export const generateSkeletonItemList = () => {
-  return Array.from({ length: 20 }, () => skeletonItem).join('');
 };
