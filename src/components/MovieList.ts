@@ -35,19 +35,19 @@ export default class MovieList extends HTMLElement {
     </ul>`;
   }
 
-  movieItemRender(popularMovies?: MovieItemType[]) {
+  movieItemRender(movies?: MovieItemType[]) {
     $('.skeleton-container').remove();
 
     $('.movie-container').insertAdjacentHTML(
       'beforeend',
-      this.movieItemTemplate(popularMovies) || ''
+      this.movieItemTemplate(movies) || ''
     );
 
     this.seeMoreMovie();
   }
 
-  movieItemTemplate(popularMovies?: MovieItemType[]) {
-    return popularMovies
+  movieItemTemplate(movies?: MovieItemType[]) {
+    return movies
       ?.map(
         ({ id, poster_path, title, vote_average }: MovieItemType) =>
           `<movie-item id="${id}" poster-path="${poster_path}" title="${title}" vote-average="${vote_average}"></movie-item>`
