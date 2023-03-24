@@ -132,7 +132,7 @@ class MovieModal {
     if (!$backButton || !$modalBackdrop) return;
 
     window.addEventListener('keydown', (event: KeyboardEvent) => {
-      if (event.key === 'Backspace' || event.key === 'Escape') this.closeModal();
+      if (event.key === 'Escape') this.closeModal();
     });
 
     $backButton.addEventListener('click', this.closeModal.bind(this));
