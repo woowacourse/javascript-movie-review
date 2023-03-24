@@ -1,4 +1,5 @@
 import { Movie } from "../../type";
+import MovieModal from "../MovieModal";
 
 export default class MovieItem extends HTMLElement {
   private movie: Movie = {
@@ -13,6 +14,10 @@ export default class MovieItem extends HTMLElement {
       this.movie = event.detail;
       this.render();
     });
+    this.addEventListener('click', () => {
+      const el = document.getElementById('movie-modal') as MovieModal;
+      el.open(this.movie.title);
+    })
   }
 
   render() {
