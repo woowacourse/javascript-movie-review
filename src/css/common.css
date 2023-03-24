@@ -254,7 +254,7 @@ main {
 }
 
 .information-image {
-  width: 290px;
+  min-width: 290px;
   height: 428px;
   background-color: #232323;
   background-size: contain;
@@ -444,7 +444,7 @@ main {
   }
 
   .information-image {
-    width: 222px;
+    min-width: 222px;
     height: 328px;
   }
 
