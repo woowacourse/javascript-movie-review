@@ -13,6 +13,8 @@ export const IMAGE_URL = {
   ALTERNATIVE: './assets/no_image.png',
   NO_RESULT: './assets/no_result.png',
   ERROR_RESULT: './assets/error_result.png',
+  STAR_EMPTY: './assets/star_empty.png',
+  STAR_FILLED: './assets/star_filled.png',
 };
 
 export const API_URL = {
@@ -22,6 +24,9 @@ export const API_URL = {
   },
   SEARCH_MOVIES: (currentPage: number, keyword: string) => {
     return `search/movie?api_key=${process.env.API_KEY}&language=en-US&query=${keyword}&page=${currentPage}&include_adult=false`;
+  },
+  MOVIE_DETAIL: (movieId: number) => {
+    return `movie/${movieId}?api_key=${process.env.API_KEY}&language=en-US`;
   },
 };
 

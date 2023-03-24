@@ -1,4 +1,5 @@
 import { MOVIE_LIST_TITLE } from '../constants';
+import EventBroker from '../EventBroker';
 import { Movie } from '../types';
 import { $, $$ } from '../utils/domSelector';
 import movieItem from './movieItem';
@@ -8,7 +9,7 @@ class MovieList {
   getListTitleTemplate(listTitle: string = MOVIE_LIST_TITLE.POPULARITY) {
     return `
       <h2 id="movie-list-title">${listTitle}</h2>
-      <ul class="item-list"></ul>`;
+      <ul class="item-list" id="movie-list"></ul>`;
   }
 
   setTitle(listTitle: string) {
@@ -17,26 +18,40 @@ class MovieList {
 
   renderSkeletonItems(count: number = 20) {
     const skeletonItems = skeletonItem().repeat(count);
-    $('.item-list').insertAdjacentHTML('beforeend', skeletonItems);
+    $('#movie-list').insertAdjacentHTML('beforeend', skeletonItems);
   }
 
   removeSkeletonItems() {
-    $$('.item-list .skeleton-item').forEach((skeletonItem) => {
+    $$('#movie-list .skeleton-item').forEach((skeletonItem) => {
       skeletonItem.remove();
     });
   }
 
   renderContents(movieInfoList: Movie[]) {
-    $('.item-list').innerHTML = movieInfoList.map(movieItem).join('');
+    $('#movie-list').innerHTML = movieInfoList.map(movieItem).join('');
   }
 
   renderNextContents(movieInfoList: Movie[]) {
     const itemListContents = movieInfoList.map((movieInfo) => movieItem(movieInfo)).join('');
-    $('.item-list').insertAdjacentHTML('beforeend', itemListContents);
+    $('#movie-list').insertAdjacentHTML('beforeend', itemListContents);
   }
 
   renderNoResult(errorItemTemplate: string) {
-    $('.item-list').innerHTML = errorItemTemplate;
+    $('#movie-list').innerHTML = errorItemTemplate;
+  }
+
+  addClickEventHandler() {
+    $('#movie-list').addEventListener('click', (event) => {
+      if (!(event.target instanceof HTMLElement)) return;
+
+      const movieId = event.target.closest('.item-card')?.getAttribute('data-id');
+
+      if (!movieId) return;
+
+      const clickMovieEvent = new CustomEvent('clickMovieEvent', { detail: { movieId: movieId } });
+
+      EventBroker.dispatchEvent(clickMovieEvent);
+    });
   }
 }
 

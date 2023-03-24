@@ -76,6 +76,7 @@ class MovieFetcher {
   convertToMovieList(rawMovieList: RawMovie[]) {
     const movieList = rawMovieList.map(
       (rawMovie): Movie => ({
+        id: rawMovie.id,
         title: rawMovie.title,
         posterPath: rawMovie.poster_path,
         voteAverage: rawMovie.vote_average,

@@ -22,6 +22,7 @@ class MovieListAndButtonContainer {
 
     this.addUpdateMovieListEventHandler();
     this.addAppendMovieListEventHandler();
+    this.movieList.addClickEventHandler();
     this.loadMoreButton.addClickEventHandler();
   }
 

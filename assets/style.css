@@ -8,6 +8,15 @@ body {
   color: #fff;
 }
 
+/* Colors *****************************************/
+:root {
+  --grey-100: #ffffff;
+  --grey-200: #d0d5dd;
+  --grey-300: #667085;
+  --grey-400: #344054;
+  --grey-500: #000000;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -195,4 +204,19 @@ header .search-box > .search-button {
   font-size: 1.8rem;
   font-weight: bold;
   color: rgb(178, 178, 178);
+}
+
+.modal-container {
+  position: fixed;
+  width: 800px;
+  height: 600px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 16px 16px;
+
+  border-radius: 8px 8px 8px 8px;
+  background: var(--grey-100);
+
+  overflow-y: auto;
 }

@@ -31,9 +31,7 @@ class Header {
       const keyword = String(formData.get('keyword'));
 
       const updateMovieListEvent = new CustomEvent('updateMovieListEvent', {
-        detail: {
-          keyword: keyword,
-        },
+        detail: { keyword: keyword },
       });
 
       EventBroker.dispatchEvent(updateMovieListEvent);
