@@ -1,5 +1,5 @@
-import { TMDBErrorResponse, TMDBResponse } from '../MovieAPI';
 import { Movie } from '../movies.type';
+import { TMDBErrorResponse, TMDBResponse } from '../response.type';
 import store from '../store';
 import { infiniteScroll } from '../util/InfiniteScroll';
 import { getLocalStorage } from '../util/LocalStorage';

@@ -3,7 +3,8 @@ import Header from './components/Header';
 import Modal from './components/Modal';
 import { MovieList } from './components/MovieList';
 import { POPULAR_MOVIES, SEARCH_RESULT } from './constants';
-import MovieAPI, { TMDBGenres } from './MovieAPI';
+import MovieAPI from './MovieAPI';
+import { TMDBGenres } from './response.type';
 import store from './store';
 
 const init = () => {
