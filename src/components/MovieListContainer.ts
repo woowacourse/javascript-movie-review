@@ -1,4 +1,4 @@
-import { $, dispatchCustomEvent } from "./../utils/dom";
+import { $ } from "./../utils/dom";
 
 class MovieListContainer extends HTMLElement {
   constructor() {
@@ -7,7 +7,6 @@ class MovieListContainer extends HTMLElement {
 
   connectedCallback() {
     this.render();
-    this.addEvent();
   }
 
   render(query?: string) {
@@ -15,31 +14,27 @@ class MovieListContainer extends HTMLElement {
 
     this.innerHTML = /* html */ `
       <h2>
-        ${type === "popular" ? "지금 인기 있는 영화" : `"${query}" 검색 결과`}
+        ${type === "popular" ? "지금 인기있는 영화" : `"${query}" 검색 결과`}
       </h2>
       <movie-list class="item-list hidden"></movie-list>
-      ${this.getSkeletonUITemplate()}
-      <div class="scroll-area"></div>
+      <ul class="skeleton-list">
+        ${`<li>
+          <a href="#">
+            <div class="item-card">
+              <div class="item-thumbnail skeleton"></div>
+              <div class="item-title skeleton"></div>
+              <div class="item-score skeleton"></div>
+            </div>
+          </a>
+        </li>`.repeat(20)}
+      </ul>
+      <observed-area></observed-area>
     `;
-  }
-
-  addEvent() {
-    const observer = new IntersectionObserver(this.handleIntersect);
-    observer.observe(<Element>$(".scroll-area", this));
-  }
-
-  handleIntersect() {
-    const container = <HTMLElement>$("movie-list-container");
-    dispatchCustomEvent(container, {
-      eventType: "fetchMovieData",
-      data: container.getAttribute("type"),
-    });
   }
 
   changeTitle(query?: string) {
     this.setAttribute("type", "search");
     this.render(query);
-    this.addEvent();
   }
 
   removeLoadMovieButton() {
@@ -52,22 +47,6 @@ class MovieListContainer extends HTMLElement {
       <p>${errorMessage}</p>
       <p>페이지를 새로 고침하거나 네트워크 상태를 확인 후 나중에 다시 시도해주세요.</p>
     </div>
-    `;
-  }
-
-  getSkeletonUITemplate() {
-    return /* html */ `
-      <ul class="skeleton-list">
-        ${`<li>
-          <a href="#">
-            <div class="item-card">
-              <div class="item-thumbnail skeleton"></div>
-              <div class="item-title skeleton"></div>
-              <div class="item-score skeleton"></div>
-            </div>
-          </a>
-        </li>`.repeat(20)}
-      </ul>
     `;
   }
 

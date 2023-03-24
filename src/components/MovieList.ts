@@ -6,23 +6,24 @@ class MovieList extends HTMLElement {
   }
 
   render(movies: Movie[]) {
+    if (movies.length === 0) {
+      this.innerHTML = `<p class="not-search">해당 검색 결과가 없습니다</p>`;
+      return;
+    }
     this.insertAdjacentHTML(
       "beforeend",
-      `${
-        movies.length !== 0
-          ? movies
-              .map(
-                (movie) => /* html */ `
-                  <movie-item
-                    movieID="${movie.id}"
-                    poster-path="${movie.poster_path}"
-                    title="${movie.title}"
-                    vote_average="${movie.vote_average}"
-                  ></movie-item>`
-              )
-              .join("")
-          : '<p class="not-search">해당 검색 결과가 없습니다</p>'
-      }`
+      `${movies
+        .map(
+          (movie) => /* html */ `
+            <movie-item
+              movieID="${movie.id}"
+              poster-path="${movie.poster_path}"
+              title="${movie.title}"
+              vote_average="${movie.vote_average}"
+            ></movie-item>`
+        )
+        .join("")}
+        `
     );
   }
 }

@@ -18,10 +18,9 @@ const movieApp = {
   query: "",
   $container: <MovieListContainer>$("movie-list-container"),
 
-  init() {
+  async init() {
     this.addEvent();
-    this.setMovieGenres();
-    this.getPopularMovieData();
+    await this.setMovie();
   },
 
   addEvent() {
@@ -40,7 +39,7 @@ const movieApp = {
       "clickMovieDetail",
       ({ detail }: CustomEventInit) => this.renderModal(detail)
     );
-    $("custom-modal")?.addEventListener(
+    $("movie-detail")?.addEventListener(
       "setMovieScore",
       ({ detail }: CustomEventInit) => this.setMovieScore(detail)
     );
@@ -78,9 +77,11 @@ const movieApp = {
     }
   },
 
-  async setMovieGenres() {
+  async setMovie() {
     const genres = await getMovieGenres();
+
     movieHandler.setGenres(genres.genres);
+    await this.getPopularMovieData();
   },
 
   renderMovieList(movies: ResponseData | undefined) {
@@ -107,8 +108,6 @@ const movieApp = {
   },
 
   async fetchMovieData(fetchFunction: () => Promise<ResponseData>) {
-    const movieList = <MovieList>$("movie-list");
-
     this.$container.showSkeletonUI();
     try {
       const movies = await fetchFunction();

@@ -1,5 +1,5 @@
 import { StarFilled, StartEmpty } from "../../images";
-import { $ } from "../utils/dom";
+import { $, dispatchCustomEvent } from "../utils/dom";
 
 class MovieScore extends HTMLElement {
   constructor() {
@@ -15,8 +15,8 @@ class MovieScore extends HTMLElement {
     const score = this.getAttribute("movie-score") ?? "0";
 
     this.innerHTML = /* html */ `
-        <span id="detail-score-title">내 별점</span> 
-        <span id="detail-score-image">
+        <div id="detail-score-title">내 별점</div> 
+        <div id="detail-score-image">
             ${Array.from({ length: 5 })
               .map((_, index) => {
                 return /* html */ `
@@ -28,10 +28,10 @@ class MovieScore extends HTMLElement {
             `;
               })
               .join("")}
-        </span>
-        <span id="detail-score-description">
+        </div>
+        <div id="detail-score-description">
           ${this.getScoreMessage(score)}
-        </span>
+        </div>
      `;
   }
 
@@ -44,6 +44,14 @@ class MovieScore extends HTMLElement {
   onClickScoreImage(event: Event) {
     if (event.target instanceof HTMLImageElement) {
       const score = <string>event.target.dataset.score;
+
+      dispatchCustomEvent(<HTMLElement>$("movie-detail"), {
+        eventType: "setMovieScore",
+        data: {
+          movieId: this.getAttribute("movie-id"),
+          score,
+        },
+      });
       this.setAttribute("movie-score", score);
       this.render();
       this.addEvent();
@@ -53,7 +61,7 @@ class MovieScore extends HTMLElement {
   getScoreMessage(score: string) {
     switch (score) {
       case "0":
-        return "";
+        return "별점 매기기";
       case "2":
         return "2 최악이예요";
       case "4":
