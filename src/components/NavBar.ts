@@ -22,7 +22,7 @@ class NavBar {
   template() {
     return `
       <header>
-        <h1><a href=""><img src="${Logo}" alt="MovieList 로고" /></a></h1>
+        <h1><a href="/"><img src="${Logo}" alt="MovieList 로고" /></a></h1>
         <form class="search-box">
           <input id="search-input" name="search-input" type="text" placeholder="검색" />
           <button id="search-button">검색</button>
