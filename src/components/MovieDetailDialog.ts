@@ -1,6 +1,7 @@
+import { votes$ } from '../states';
 import { MovieDetailSubject } from '../states/domain/MovieDetailSubject';
 import { $context } from '../utils/selector';
-import { VoteInput } from './VoteInput';
+import { MovieMyVote } from './MovieMyVote';
 
 export type MovieDetailDialogProps = {
   movieDetail$: MovieDetailSubject;
@@ -11,7 +12,9 @@ export class MovieDetailDialog {
 
   private readonly $ = $context(this.$root);
 
-  private readonly $vote = new VoteInput();
+  private readonly votes$ = votes$;
+
+  private $vote: MovieMyVote | null = null;
 
   constructor({ movieDetail$ }: MovieDetailDialogProps) {
     this.$root.innerHTML = `
@@ -52,7 +55,19 @@ export class MovieDetailDialog {
       if (event.key === 'Backspace') this.close();
     });
 
-    this.$('.detail-my-vote').append(this.$vote.getRoot());
+    movieDetail$.subscribe(({ label, value: movie }) => {
+      if (this.$vote === null) {
+        this.$vote = new MovieMyVote({ movieId: movie.id });
+        this.$('.detail-my-vote').append(this.$vote.getRoot());
+      }
+
+      this.$vote.getRoot().addEventListener('change', () => {
+        const value = this.$vote!.getValue();
+        if (value !== null) {
+          this.votes$.nextVote({ movieId: movie.id, value });
+        }
+      });
+    });
 
     movieDetail$.subscribe(({ label, value: movie }) => {
       this.$<HTMLHeadingElement>('.detail-header > h1').innerText = movie.title;
