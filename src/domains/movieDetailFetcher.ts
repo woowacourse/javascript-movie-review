@@ -51,14 +51,20 @@ const movieDetailFetcher = {
   convertToMovieDetail(rawMovieDetail: RawMovieDetail | undefined): MovieDetail | undefined {
     if (!rawMovieDetail) return undefined;
     const genres = rawMovieDetail.genres.map((genre) => genre.name);
+    const posterPath = rawMovieDetail.poster_path
+      ? IMAGE_URL.BASE + rawMovieDetail.poster_path
+      : IMAGE_URL.ALTERNATIVE;
+    const overview = rawMovieDetail.overview
+      ? rawMovieDetail.overview
+      : 'This is a movie with no plot information.';
 
     const movieDetail = {
       id: rawMovieDetail.id,
       title: rawMovieDetail.title,
-      posterPath: IMAGE_URL.BASE + rawMovieDetail.poster_path,
+      posterPath: posterPath,
       voteAverage: rawMovieDetail.vote_average,
       genres: genres,
-      overview: rawMovieDetail.overview,
+      overview: overview,
       starRating: { imagePath: IMAGE_URL.STAR_EMPTY, score: 0, coment: "It's normal" },
     };
 

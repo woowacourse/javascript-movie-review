@@ -272,12 +272,6 @@ header .search-box > .search-button {
   display: flex;
   margin: 24px;
 }
-
-.movie-info-detail {
-  display: flex;
-  flex-direction: column;
-}
-
 .movie-info .skeleton {
   background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
   background-size: 400%;
@@ -290,6 +284,16 @@ header .search-box > .search-button {
   width: 292px;
   height: 433px;
   margin-right: 32px;
+}
+
+.movie-info-detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-overview {
+  height: 310px;
+  overflow: auto;
 }
 
 .genre-vote-average-container {
