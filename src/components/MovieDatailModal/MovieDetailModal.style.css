@@ -1,9 +1,15 @@
+dialog {
+  border: none;
+  background: none;
+  width: 90%;
+}
+
 #movie-detail-modal {
   padding: 0;
   display: flex;
   position: relative;
   flex-direction: column;
-  width: 70%;
+  width: 100%;
   min-width: 896px;
   height: 572px;
   background: #212122;
@@ -107,9 +113,14 @@
 }
 
 @media screen and (max-width: 1000px) {
+  dialog {
+    width: 80%;
+    height: 420px;
+    min-width: 612px;
+  }
   #movie-detail-modal {
     height: 420px;
-    width: 80%;
+    width: 100%;
     min-width: 612px;
   }
   #movie-detail-main > img {
@@ -131,13 +142,15 @@
 }
 
 @media screen and (max-width: 600px) {
-  body {
-    overflow: hidden;
-  }
-  #movie-detail-modal {
+  dialog {
     right: 0;
     bottom: 0;
     margin: auto 0 0 0;
+    padding: 0;
+    width: 100%;
+    min-width: 398px;
+  }
+  #movie-detail-modal {
     width: 100%;
     min-width: 398px;
   }
