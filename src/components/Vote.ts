@@ -14,7 +14,6 @@ class Vote extends HTMLElement {
 
   render() {
     this.innerHTML = /* html */ `
-      <div class="user-vote">
         <span class="vote-title">내 별점</span>
         <div class="vote-stars">
           <img class="star-icon" data-order="1" src="${StarEmpty}" alt="start" />
@@ -25,7 +24,7 @@ class Vote extends HTMLElement {
         </div>
         <span class="vote-score">0</span>
         <span class="vote-message">별점을 눌러주세요</span>
-      </div>`;
+      `;
 
     this.judgeProcess();
   }
