@@ -14,13 +14,14 @@ class MovieDetailModal {
     const { title, posterPath, genres, voteAverage, overview, starRating } = movieDetail;
 
     return `
-    <div class="modal-container">
-      <h2 class="movie-title">${title}</h2>
-      <button type="button" id="movie-detail-modal-close-button">X</button>
-
+    <div class="modal-container text-body">
+      <div class="movie-title-container">
+        <h2 class="movie-title text-subtitle">${title}</h2>
+        <button type="button" id="movie-detail-modal-close-button">X</button>
+      </div>
       <div class="movie-info">
         <img src="${posterPath}" alt="${title} Poster Image" class="poster-image" />
-        <div class=movie-info-detail> 
+        <div class="movie-info-detail"> 
           <div class="genre-vote-average-container">
             <p>${genres}</p>
             <img src="./assets/star_filled.png" alt="Star Image" class="star-image" />
