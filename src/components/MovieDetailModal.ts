@@ -160,7 +160,7 @@ class MovieDetailModal extends HTMLElement {
       case 10:
         return '명작이에요';
       default:
-        return '평가를 남겨주세요';
+        return '별점 남기기';
     }
   }
 }

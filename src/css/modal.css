@@ -15,6 +15,7 @@
   width: 826px;
   height: 577px;
   background: #212122;
+  border-radius: 8px;
 }
 
 .modal-header {
@@ -51,13 +52,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 292px;
   height: 433px;
   margin-right: 32px;
+  transform: translate(-9999px, -9999px);
 }
 
 .modal-thumbnail {
-  width: 292px;
-  height: 433px;
+  width: 100%;
+  height: 100%;
 }
 
 .movie-detail {
@@ -83,6 +86,7 @@
 
 .vote {
   display: flex;
+  justify-content: center;
   align-items: center;
   margin-top: auto;
   height: 64px;
@@ -144,5 +148,74 @@ p.skeleton {
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .modal-container {
+    width: 740px;
+    height: 544px;
+  }
+
+  .modal-thumbnail-wrapper {
+    height: 400px;
+  }
+
+  .modal-thumbnail {
+    width: 260px;
+    height: 400px;
+  }
+
+  .movie-detail {
+    height: 400px;
+  }
+
+  .overview {
+    height: 280px;
+  }
+
+  .modal-title {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .modal-container {
+    top: 100%;
+    left: 0;
+    transform: translate(0, -100%);
+    width: 100%;
+  }
+
+  .detail-container {
+    justify-content: center;
+  }
+
+  .modal-thumbnail-wrapper {
+    width: 1px;
+    height: 1px;
+    margin: 0;
+  }
+
+  .overview {
+    margin-bottom: 16px;
+  }
+
+  .vote .review {
+    display: none;
+  }
+
+  .modal-title {
+    font-size: 18px;
+  }
+
+  .modal-title.skeleton {
+    max-width: 200px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .modal-thumbnail-wrapper {
+    transform: translate(0, 0);
   }
 }
