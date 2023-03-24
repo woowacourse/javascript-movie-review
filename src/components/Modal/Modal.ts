@@ -203,9 +203,14 @@ class Modal {
 
           if (movieId) {
             const ratings: IRatings = getRatings() as IRatings;
+            if (ratings[movieId] === value) {
+              delete ratings[movieId];
+              setLocalStorageItem("ratings", ratings);
+              this.updateRating(movieId, 0);
 
+              return;
+            }
             ratings[movieId] = value;
-
             setLocalStorageItem("ratings", ratings);
             this.updateRating(movieId, +value);
           }
