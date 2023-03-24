@@ -104,7 +104,6 @@ class MovieList {
   callback(entries: IntersectionObserverEntry[]) {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        console.log('loading!!');
         this._node.dispatchEvent(new CustomEvent('seeMoreMovie', { bubbles: true }));
       }
     });
