@@ -43,34 +43,32 @@ const MovieDetailModal = {
   },
   open(data: MovieDetail) {
     const modal = document.querySelector<HTMLDialogElement>('dialog');
-    const title = modal?.querySelector('h2') as HTMLElement;
-    title.innerHTML = data.title as string;
-    const overview = modal?.querySelector('#movie-detail-overview') as HTMLElement;
-    if (data.overview === '') {
-      overview.innerHTML = 'overview가 존재하지 않습니다.';
-    } else {
-      overview.innerHTML = data.overview;
-    }
-    const poster = modal?.querySelector('img') as HTMLImageElement;
+    if (modal === null) return;
+
+    MovieDetailModal.paint(data, modal);
+    modal.showModal();
+  },
+  paint(data: MovieDetail, modal: HTMLDialogElement) {
+    const title = modal.querySelector('h2') as HTMLHeadElement;
+    title.innerHTML = data.title;
+
+    const closeButton = modal.querySelector('#movie-detail-close') as HTMLButtonElement;
+    closeButton.addEventListener('click', () => modal.close());
+
+    const poster = modal.querySelector('img') as HTMLImageElement;
     poster.src = IMAGE_URL + data.poster_path;
-    const genres = modal?.querySelector('#movie-detail-genres') as HTMLElement;
-    genres.innerHTML = data.genres
-      .map((genre: any) => {
-        return genre.name;
-      })
-      .join(', ');
-    const rate = modal?.querySelector('#movie-detail-rate') as HTMLElement;
+
+    const genres = modal.querySelector('#movie-detail-genres') as HTMLDivElement;
+    genres.innerHTML = data.genres.map((genre) => genre.name).join(', ');
+
+    const rate = modal.querySelector('#movie-detail-rate') as HTMLDivElement;
     rate.innerText = data.vote_average.toFixed(1);
 
-    const backdrop = modal?.querySelector('.modal-backdrop') as HTMLElement;
-    backdrop.style.display = 'block';
-    modal?.showModal();
+    const overview = modal.querySelector('#movie-detail-overview') as HTMLParagraphElement;
+    overview.innerText = data.overview !== '' ? data.overview : 'overview가 존재하지 않습니다.';
 
-    const closeButton = document.querySelector('#movie-detail-close') as HTMLElement;
-    closeButton.addEventListener('click', () => {
-      backdrop.style.display = 'none';
-      modal?.close();
-    });
+    const backdrop = modal.querySelector('.modal-backdrop') as HTMLDivElement;
+    backdrop.addEventListener('click', () => modal.close());
   },
 };
 
