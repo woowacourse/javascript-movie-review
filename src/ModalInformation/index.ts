@@ -71,6 +71,12 @@ export class ModalInformation extends HTMLElement {
       const id = document.querySelector('.modal-information')!.id;
       localStorage.setItem(id, '10');
     });
+
+    document
+      .querySelector('.modal-close')
+      ?.addEventListener('click', () =>
+        (document.querySelector('.modal') as HTMLDialogElement).close(),
+      );
   }
 
   setInformationToModal = (target: HTMLTextAreaElement) => {

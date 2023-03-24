@@ -20,6 +20,11 @@
 
     border-bottom: 1px solid rgba(241, 241, 241, 0.25);
   }
+  .modal-close {
+    position: absolute;
+    right: 15px;
+    top: 20px;
+  }
   .modal-body {
     display: flex;
   }
@@ -128,6 +133,7 @@
 <div class="modal-information" id="{id}">
   <div class="modal-header">
     <p>{title}</p>
+    <img class="modal-close" src="/src/assets/close.png" alt="nothing" />
   </div>
   <div class="modal-body">
     <img class="modal-body_left" src="https://image.tmdb.org/t/p/w500{poster_path}" alt="{title}" />
