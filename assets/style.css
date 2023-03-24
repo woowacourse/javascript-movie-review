@@ -278,6 +278,13 @@ header .search-box > .search-button {
   flex-direction: column;
 }
 
+.movie-info .skeleton {
+  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background-size: 400%;
+  animation: skeleton-animation 5s infinite ease-out;
+  border-radius: 8px;
+}
+
 .poster-image {
   border-radius: 8px;
   width: 292px;

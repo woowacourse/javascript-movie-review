@@ -20,7 +20,7 @@ class MovieDetailModal {
         <button type="button" id="movie-detail-modal-close-button">X</button>
       </div>
       <div class="movie-info">
-        <img src="${posterPath}" alt="${title} Poster Image" class="poster-image" />
+        <img src="${posterPath}" alt="${title} Poster Image" class="poster-image skeleton" />
         <div class="movie-info-detail"> 
           <div class="genre-vote-average-container">
             <p>${genres}</p>
