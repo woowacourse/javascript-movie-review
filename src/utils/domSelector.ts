@@ -5,7 +5,8 @@ const $ = (selector: string, target?: HTMLElement): HTMLElement => {
     ? target.querySelector(selector)
     : document.querySelector(selector);
 
-  if (!($selectedElement instanceof HTMLElement)) throw new Error(ERROR_ELEMENT_NOT_FOUND);
+  if (!($selectedElement instanceof HTMLElement))
+    throw new Error(`${ERROR_ELEMENT_NOT_FOUND} - "${selector}"`);
 
   return $selectedElement;
 };
