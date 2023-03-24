@@ -7,17 +7,15 @@ const movieItem = ({ id, title, posterPath, voteAverage }: Movie) => {
 
   return `
     <li>
-      <a href="#">
-        <div class="item-card" data-id="${id}">
-          <img
-            class="item-thumbnail skeleton"
-            src="${imageUrl}"
-            loading="lazy"
-            alt="${title}" />
-          <p class="item-title">${title}</p>
-          <p class="item-score"><img src="./assets/star_filled.png" alt="별점" /> ${voteAverage}</p>
-        </div>
-      </a>
+      <div class="item-card" data-id="${id}">
+        <img
+          class="item-thumbnail skeleton"
+          src="${imageUrl}"
+          loading="lazy"
+          alt="${title}" />
+        <p class="item-title">${title}</p>
+        <p class="item-score"><img src="./assets/star_filled.png" alt="별점" /> ${voteAverage}</p>
+      </div>
     </li>`;
 };
 
