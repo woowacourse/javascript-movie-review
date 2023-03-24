@@ -1,8 +1,6 @@
-import getMovieById from '../api/getMovieById';
 import getPopularMovies from '../api/getPopularMovies';
 import getSearchedMovies from '../api/getSearchedMovies';
 import { ERROR_MESSAGE, MAX_PAGE } from '../constants';
-import type { Rate } from '../types/movie';
 
 class Movies {
   #query: string;

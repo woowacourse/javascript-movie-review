@@ -16,28 +16,12 @@ const LoadMoreButton = {
 
     return button?.classList.remove('hide');
   },
-  scroll(movies: Movies, target: HTMLElement) {
+  autoClick(movies: Movies, target: HTMLElement) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(async (entry) => {
           if (entry.isIntersecting) {
-            try {
-              MovieCardList.renderMoreItems();
-              const newMovies = movies.getQuery() ? await movies.addSearch() : await movies.addPopular();
-
-              if (newMovies === ERROR_MESSAGE.DATA_LOAD) {
-                throw new Error(newMovies);
-              }
-
-              MovieCardList.paint(newMovies, movies.getPage());
-              LoadMoreButton.handleVisibility(movies.isLastPage());
-            } catch (error) {
-              if (error instanceof Error) {
-                movies.previousPage();
-                MovieCardList.removeSkeleton();
-                alert(error.message);
-              }
-            }
+            await LoadMoreButton.clickEvent(movies);
           }
         });
       },
@@ -46,6 +30,25 @@ const LoadMoreButton = {
 
     const button = target.querySelector(`#${ID.LOAD_MORE_BUTTON}`) as HTMLButtonElement;
     observer.observe(button);
+  },
+  async clickEvent(movies: Movies) {
+    try {
+      MovieCardList.renderMoreItems();
+      const newMovies = movies.getQuery() ? await movies.addSearch() : await movies.addPopular();
+
+      if (newMovies === ERROR_MESSAGE.DATA_LOAD) {
+        throw new Error(newMovies);
+      }
+
+      MovieCardList.paint(newMovies, movies.getPage());
+      LoadMoreButton.handleVisibility(movies.isLastPage());
+    } catch (error) {
+      if (error instanceof Error) {
+        movies.previousPage();
+        MovieCardList.removeSkeleton();
+        alert(error.message);
+      }
+    }
   },
 };
 

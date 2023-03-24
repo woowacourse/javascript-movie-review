@@ -19,7 +19,7 @@ const MovieCardSection = {
     `;
   },
   setEvent(movies: Movies, target: HTMLElement) {
-    LoadMoreButton.scroll(movies, target);
+    LoadMoreButton.autoClick(movies, target);
   },
   render(query: string = '') {
     MovieCardSection.renderEmpty(false);
