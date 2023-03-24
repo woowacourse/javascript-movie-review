@@ -94,9 +94,17 @@
   display: grid;
   grid-template-rows: auto 1fr auto;
   row-gap: 18px;
+  max-height: 441.5px;
 }
 
 @media screen and (max-width: 1023px) {
+  .movie-detail-info {
+    max-height: 371px;
+    min-height: 100%;
+  }
+}
+
+@media screen and (max-width: 600px) {
   .movie-detail-info {
     min-height: 100%;
   }
@@ -142,6 +150,8 @@
 .movie-detail-overview {
   line-height: 24px;
   letter-spacing: 0.5px;
+  max-height: 100%;
+  overflow: auto;
 }
 
 .movie-detail-voteContainer {
