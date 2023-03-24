@@ -6,6 +6,7 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 export const getGenres = async (): Promise<GenresResponse> => {
   const response = await fetch(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=ko-KR);`);
 
+  if (!response.ok) return Promise.reject(response);
   return response.json();
 };
 
@@ -17,6 +18,7 @@ export const getPopularMovies = async (params: PopularParams): Promise<MoviesRes
     `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${params.page}`
   );
 
+  if (!response.ok) return Promise.reject(response);
   return response.json();
 };
 
@@ -29,5 +31,6 @@ export const getSearchMovies = async (params: SearchParams): Promise<MoviesRespo
     `${BASE_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${params.query}&page=${params.page}`
   );
 
+  if (!response.ok) return Promise.reject(response);
   return response.json();
 };
