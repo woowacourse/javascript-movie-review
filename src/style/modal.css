@@ -18,6 +18,13 @@
   align-items: center;
 }
 
+@media screen and (max-width: 600px) {
+  .modal-backdrop {
+    display: grid;
+    align-items: flex-end;
+  }
+}
+
 .modal-layout {
   width: 740px;
   border-radius: 8px;
@@ -31,6 +38,12 @@
   .modal-layout {
     width: 390px;
     height: 500px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .modal-layout {
+    min-width: 100vw;
   }
 }
 
