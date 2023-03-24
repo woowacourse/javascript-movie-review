@@ -23,3 +23,9 @@
 .star-icon {
   cursor: pointer;
 }
+
+@media (max-width: 767px){
+  .score-feeling-text {
+    display: none;
+  }
+}
