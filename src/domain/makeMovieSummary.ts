@@ -16,7 +16,7 @@ const makeMovieSummary = (tmdbInfo: tmdbMovieSummary): MovieSummary => ({
   title: tmdbInfo.title || '등록된 제목이 없습니다.',
   voteAverage: tmdbInfo.vote_average || 0,
   overview: tmdbInfo.overview || '등록된 줄거리가 없습니다.',
-  genreList: (tmdbInfo.genre_ids ? tmdbInfo.genre_ids.map((id) => GenreMap.idToGenre(id)) : ['등록된 장르가 없습니다.']),
+  genreList: (tmdbInfo.genre_ids?.length ? tmdbInfo.genre_ids.map((id) => GenreMap.idToGenre(id)) : ['등록된 장르가 없습니다.']),
 });
 
 export default makeMovieSummary;
