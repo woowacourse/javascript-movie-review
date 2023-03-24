@@ -1,9 +1,7 @@
 .skeleton-container {
   display: none;
   width: 100%;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  grid-column-gap: 50px;
-  grid-row-gap: 48px;
+  grid-row-gap: 15px;
 }
 
 .item-card .skeleton {
@@ -26,5 +24,26 @@
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  .skeleton-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .skeleton-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .skeleton-container {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
