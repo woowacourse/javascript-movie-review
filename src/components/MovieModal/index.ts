@@ -53,7 +53,8 @@ class MovieModal extends HTMLElement {
 
   creatRatingTemplate() {
     const mark = $(`label[for=star${this.rating}`, this).getAttribute('title');
-    $('.my-rating', this).textContent = `${this.rating * 2}점 - ${mark}`;
+    $('.my-score', this).textContent = `${this.rating * 2}점`;
+    $('.my-rating', this).textContent = `- ${mark}`;
   }
 
   close() {

@@ -65,6 +65,14 @@ fieldset {
   grid-row: 1/3;
 }
 
+.overview {
+  overflow: scroll;
+}
+
+.overview::-webkit-scrollbar {
+  display: none;
+}
+
 /* 별점 css */
 
 .genre-rating-wrapper {
@@ -120,4 +128,59 @@ fieldset {
 
 .hidden {
   display: none;
+}
+
+/* Phone */
+@media (min-width: 320px) and (max-width: 420px) {
+  .modal-container {
+    align-items: flex-end;
+  }
+
+  .movie-modal-wrapper {
+    flex: auto;
+    grid-template-columns: none;
+    padding: 32px;
+  }
+
+  .modal {
+    height: 60%;
+  }
+
+  .movie-poster {
+    display: none;
+  }
+
+  .genre-rating-wrapper {
+    display: block;
+  }
+
+  .overview {
+    height: 200px;
+  }
+
+  .my-rating {
+    display: none;
+  }
+
+  .rating-box {
+    bottom: 0;
+  }
+}
+
+/* Tablet */
+@media (min-width: 421px) and (max-width: 900px) {
+  .modal {
+    width: calc(100% - 80px);
+    height: 544px;
+  }
+
+  .movie-poster {
+    width: 200px;
+    height: 340px;
+  }
+
+  .movie-modal-wrapper {
+    grid-column-gap: 20px;
+    grid-template-columns: 1fr 2fr;
+  }
 }
