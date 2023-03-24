@@ -1,7 +1,7 @@
 type UpdateMovieListEvent = CustomEvent<{ keyword: string }>;
 type AppendMovieListEvent = CustomEvent<{ keyword: string }>;
 type ClickMovieEvent = CustomEvent<{ movieId: string }>;
-type StarRating = { imagePath: string = ''; score: number = 0; coment: string = '' };
+type StarRating = { imagePath: string = ''; score: number = 0; caption: string = '' };
 
 export interface Movie {
   id: number;

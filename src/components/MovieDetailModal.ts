@@ -40,7 +40,7 @@ class MovieDetailModal {
               <img src="${starRating.imagePath}" alt="Star Image" class="star-image" />
             </div>
             <p class="star-rating-score">${starRating.score}</p>
-            <p class="star-rating-coment">${starRating.coment}</p>
+            <p class="star-rating-caption">${starRating.caption}</p>
           </div>
         </div>
       </div>

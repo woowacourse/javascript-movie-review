@@ -65,7 +65,7 @@ const movieDetailFetcher = {
       voteAverage: rawMovieDetail.vote_average,
       genres: genres,
       overview: overview,
-      starRating: { imagePath: IMAGE_URL.STAR_EMPTY, score: 0, coment: "It's normal" },
+      starRating: { imagePath: IMAGE_URL.STAR_EMPTY, score: 0, caption: "It's normal" },
     };
 
     return movieDetail;
