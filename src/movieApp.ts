@@ -122,7 +122,7 @@ const MovieApp = {
     const selectedMovie = movieHandler.getSelectedMovie(id);
     const genreList = await genre();
 
-    movieDetailModal?.render(selectedMovie, genreList);
+    movieDetailModal?.render(selectedMovie, genreList["genres"]);
     movieDetailModal.openModal();
   },
 };

@@ -8,10 +8,10 @@ class MovieDetailModal extends HTMLElement {
     super();
   }
 
-  render(movie: Movie, genres: any) {
+  render(movie: Movie, genres: Array<Genre>) {
     const { id, title, poster_path, genre_ids, vote_average, overview } = movie;
 
-    const selectedGenres = genres["genres"]
+    const selectedGenres = genres
       .filter((genre: Genre) => genre_ids?.includes(genre.id))
       .map((genre: Genre) => genre.name);
 
