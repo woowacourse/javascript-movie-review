@@ -41,7 +41,6 @@ class MovieBoss {
 
   async deliverMoviesModal(id: string) {
     const movie = await MovieModel.updateMovieModal(id);
-    console.log(movie);
     this.modalSubscribers?.rerender(movie);
   }
 

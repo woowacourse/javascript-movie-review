@@ -38,9 +38,6 @@ class MovieItem extends CustomElement {
     this.addEventListener("click", () => {
       const id = this.getAttribute("id");
       MovieBoss.deliverMoviesModal(id);
-
-      $(".modal-open").classList.remove("modal");
-      this.closest("body").classList.add("scroll");
     });
   }
 }

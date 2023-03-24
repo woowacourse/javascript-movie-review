@@ -5,7 +5,8 @@ import "./MovieStar";
 class MovieDetail extends CustomElement {
   template() {
     const id = this.getAttribute("id");
-    const starSrc = this.toStarSrc();
+    const rate = localStorage.getItem(id);
+    const starSrc = this.toStarSrc(rate);
     const title = this.getAttribute("title");
     const src = this.getAttribute("src");
     const voteAverage = this.getAttribute("voteAverage");
@@ -20,7 +21,7 @@ class MovieDetail extends CustomElement {
     </section>
     <hr />
     <section class="modal-main">
-      <img class="modal-img skeleton" src=${src} />
+      <img class="modal-img skeleton" loading="lazy" src=${src} alt=${title} />
       <section class="modal-detail">
         <div class="title text-body">
           <p>${genres}</p>
@@ -28,14 +29,14 @@ class MovieDetail extends CustomElement {
           <p>${voteAverage}</p>
         </div>
         <div class="detail text-body">${detail}</div>
-        <movie-star id=${id} starSrc=${starSrc}></movie-star>
+        <movie-star id=${id} starSrc=${starSrc} rate=${rate}></movie-star>
       </section>
     </section>
     `;
   }
 
-  toStarSrc() {
-    const fill = parseInt(localStorage.getItem(this.getAttribute("id")));
+  toStarSrc(rate) {
+    const fill = parseInt(rate);
 
     const starSrc = Array.from({ length: 5 }, (v, i) => {
       if (i < fill) return "./image/star_filled.png";

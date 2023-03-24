@@ -18,6 +18,7 @@ class MovieModal extends CustomElement {
   }
 
   rerender(movie) {
+    this.showModal();
     const src =
       movie.src === "null"
         ? "./image/noImg.jpeg"
@@ -28,6 +29,11 @@ class MovieModal extends CustomElement {
     `;
 
     $(".modal-container").innerHTML = temp;
+  }
+
+  showModal() {
+    $(".modal-open").classList.remove("modal");
+    this.closest("body").classList.add("scroll");
   }
 }
 customElements.define("movie-modal", MovieModal);
