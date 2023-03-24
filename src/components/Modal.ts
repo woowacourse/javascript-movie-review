@@ -16,15 +16,16 @@ class Modal {
   open() {
     if (!this.#$dialog) return;
     if (typeof this.#$dialog.showModal === 'function') {
-      this.#$dialog.showModal();
       document.body.classList.add('scroll-lock');
+      this.#$dialog.showModal();
     }
   }
 
   close(isBack = false) {
     if (!this.#$dialog) return;
-    this.#$dialog.close();
     document.body.classList.remove('scroll-lock');
+    this.#$dialog.close();
+
     if (isBack) {
       history.back();
       return;

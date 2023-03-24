@@ -14,13 +14,11 @@ class MovieCard {
     this.#movie = movie;
 
     this.#$li.addEventListener('click', async () => {
-      const $dialog = document.querySelector<HTMLDialogElement>('#modal');
-      if (!$dialog) return;
+      const $dialog = modal.getDialog();
+      if (!($dialog instanceof HTMLElement)) return;
 
-      if (typeof $dialog.showModal === 'function') {
-        await stateRender.renderMovieDetail(movie.id, $dialog);
-        $dialog.showModal();
-      }
+      await stateRender.renderMovieDetail(movie.id, $dialog);
+      modal.open();
     });
 
     this.render();

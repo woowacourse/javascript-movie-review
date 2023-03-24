@@ -5,7 +5,7 @@
 .header-container {
   position: relative;
 
-  padding: 18px 0;
+  padding: 18px 60px;
   border-bottom: 1px solid #f1f1f1;
 }
 
@@ -134,4 +134,67 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
+}
+
+@media screen and (max-width: 916px) and (min-width: 391px) {
+  .content-container > img {
+    max-width: 292px;
+    max-height: 433px;
+
+    width: 45.8%;
+    height: 93%;
+  }
+
+  .content-info-container {
+    width: 384px;
+    font-size: 16px;
+  }
+
+  .vote-container {
+    gap: 6.67px;
+  }
+}
+
+@media screen and (max-width: 391px) {
+  #modal {
+    width: 100%;
+    max-height: 485px;
+    font-size: 16px;
+    margin: 0;
+    background: 0;
+  }
+
+  .movie-detail-container {
+    position: fixed;
+    bottom: 0;
+    background: var(--light-black--);
+    border: 8px;
+  }
+
+  .close-button {
+    top: 12px;
+    right: 16px;
+  }
+
+  .content-info-container {
+    width: 326px;
+    margin: 0;
+    overflow-x: none;
+  }
+  .content-info-container > textarea {
+    height: 192px;
+    min-height: 100px;
+  }
+  .content-container > img {
+    display: none;
+    background-size: contain;
+  }
+
+  .vote-container {
+    margin: 32px 0 0 0;
+  }
+
+  .description {
+    display: none;
+  }
 }

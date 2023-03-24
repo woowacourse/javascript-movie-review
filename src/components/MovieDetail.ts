@@ -32,6 +32,7 @@ class MovieDetail {
   }
 
   #template({ title, overview, voteAverage, genres, posterPath, myStarScore }: IMovieDetailItem) {
+    const score = myStarScore ?? 0;
     return `  
     <div class="header-container">
       <p class="movie-title">${title}</p>
@@ -63,10 +64,12 @@ class MovieDetail {
           <span class="star-title">내 별점</span>
           <span class="star">
            ${this.#starImage(starEmpty)}
-            <span style="width:${(myStarScore ?? 0) * 10}%"> ${this.#starImage(starFilled)}</span>
-            <input class="star-input" type="range" value=${myStarScore} step="2" min="0" max="10">
+            <span style="width:${(score ?? 0) * 10}%"> ${this.#starImage(starFilled)}</span>
+            <input class="star-input" type="range" value=${score} step="2" min="0" max="10">
           </span>
-          <span class="star-description">${STAR_DESCRIPTION[myStarScore ?? 0]}</span>      
+          <span class="star-description">${score ? `${score}점 ` : ''} 
+          <span class="description">    ${STAR_DESCRIPTION[score ?? 0]}</span>
+      </span>      
         </div>
       </div>  
     </div>`;
@@ -113,9 +116,9 @@ class MovieDetail {
 
     if (!starSpan || !starDescription) return;
     this.#movieState.myStarScore = value;
-
-    starSpan.style.width = `${this.#movieState.myStarScore * 10}%`;
-    starDescription.innerText = `${STAR_DESCRIPTION[this.#movieState.myStarScore]}`;
+    starSpan.style.width = `${value * 10}%`;
+    starDescription.innerHTML = `${value ? `${value}점 ` : ''} 
+    <span class="description">${STAR_DESCRIPTION[value ?? 0]}</span>`;
   }
 
   #saveMovieScoreInLocalStorage() {

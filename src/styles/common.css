@@ -226,19 +226,26 @@ header .search-box > .search-button {
 }
 
 #modal {
+  width: 827px;
+  height: 566px;
+
   border: none;
   padding: 0;
   background: #212122;
   border-radius: 8px;
 }
 
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+
 .modal-backdrop {
   position: fixed;
+  cursor: pointer;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
   z-index: -1;
 }
 
@@ -270,6 +277,11 @@ header .search-box > .search-button {
     grid-template-columns: repeat(3, 180px);
     grid-column-gap: 64px;
     grid-row-gap: 55px;
+  }
+
+  #modal {
+    width: 740px;
+    height: 544px;
   }
 }
 
