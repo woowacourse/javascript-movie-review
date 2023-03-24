@@ -1,10 +1,10 @@
-import { subscribeStateInfo } from './../atoms/Observer';
 import Component from '../core/Component';
 
 // components
 import MovieItem from '../MovieItem';
 import MoviePopularList from './MoviePopularList';
 import MovieSearchList from './MovieSearchList';
+import MovieDetail from './MovieDetail';
 
 // utils
 import { scrollHook } from '../../utils/infiniteScroll';
@@ -15,6 +15,7 @@ type MovieListProps = {
   components: {
     popular: MoviePopularList;
     search: MovieSearchList;
+    detail: MovieDetail;
   };
 };
 
@@ -33,6 +34,8 @@ export default class MovieListContainer extends Component {
   fetchData() {
     this.components.popular.emit();
     this.components.search.emit(this.state.getValue('query'));
+
+    return this;
   }
 
   template() {
@@ -45,10 +48,10 @@ export default class MovieListContainer extends Component {
   render() {
     this.$target.insertAdjacentHTML('beforeend', this.template());
 
-    this.setEvent();
+    this.setInfinityScrollEvent();
   }
 
-  setEvent() {
+  setInfinityScrollEvent() {
     if (
       cache.popularPage.has(this.state.getValue('popularPage')) ||
       cache.searchPage.has(this.state.getValue('searchPage'))
@@ -58,5 +61,23 @@ export default class MovieListContainer extends Component {
     if (!(this.$target.lastElementChild instanceof Element)) return;
 
     scrollHook(() => this.fetchData()).observe(this.$target.lastElementChild);
+  }
+
+  addEvent(eventTarget: Element) {
+    const targetId = Number(eventTarget.closest('li')?.id);
+
+    this.components.detail.emit(`movie/${targetId}`);
+  }
+
+  setEvent() {
+    this.$target.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      if (e.target instanceof HTMLElement && e.target.closest('li')) {
+        this.addEvent(e.target);
+      }
+    });
+
+    return this;
   }
 }
