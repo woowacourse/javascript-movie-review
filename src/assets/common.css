@@ -251,6 +251,20 @@ header .search-box > .search-button {
   background-size: contain;
 }
 
+header .search-box > .search-reset-button {
+  z-index: 1;
+  border: 0;
+  background: unset;
+  font-size: 16px;
+  color: rgb(160, 160, 160);
+  margin-right: 16px;
+  padding: 4px;
+}
+
+header .search-box > input:placeholder-shown ~ .search-reset-button {
+  display: none;
+}
+
 #toast-container {
   position: fixed;
   bottom: 140px;

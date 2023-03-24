@@ -10,6 +10,7 @@ export class SearchBox {
     this.$root.innerHTML = `
       <input type="text" name="search-text" placeholder="검색" />
       <button class="search-button">검색</button>
+      <button type="reset" class="search-reset-button">✕</button>
     `.trim();
 
     this.$('button').addEventListener('click', (event) => {
