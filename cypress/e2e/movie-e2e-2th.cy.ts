@@ -66,7 +66,10 @@ describe("무한 스크롤 확인", () => {
     cy.scrollTo("bottom");
     cy.scrollTo("bottom");
 
-    cy.get("movie-list").children().should("have.length", 40);
+    cy.get("movie-list")
+      .find(".movie-item-list")
+      .children()
+      .should("have.length", 40);
   });
 
   it("전쟁을 검색하고 리스트에서 아래로 스크롤 내리면 리스트가 추가된다.", () => {
@@ -79,7 +82,10 @@ describe("무한 스크롤 확인", () => {
           cy.scrollTo("bottom");
           cy.scrollTo("bottom");
 
-          cy.get("movie-list").children().should("have.length", 40);
+          cy.get("movie-list")
+            .find(".movie-item-list")
+            .children()
+            .should("have.length", 40);
           cy.get("p.item-title").contains(/전\s*쟁/);
         });
       });
@@ -101,7 +107,10 @@ describe("반응형 확인", () => {
         cy.scrollTo("bottom");
         cy.scrollTo("bottom");
 
-        cy.get("movie-list").children().should("have.length", 40);
+        cy.get("movie-list")
+          .find(".movie-item-list")
+          .children()
+          .should("have.length", 40);
         cy.get("p.item-title").contains(/전\s*쟁/);
       });
   });
