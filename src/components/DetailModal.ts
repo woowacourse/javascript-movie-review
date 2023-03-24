@@ -6,10 +6,12 @@ import movies from '../domain/Movies';
 
 export default class DetailModal extends HTMLElement {
   private movieId: number;
+  private starMent: string;
 
   constructor() {
     super();
     this.movieId = 0;
+    this.starMent = '0점';
 
     movies.subscribe('detail', this.render.bind(this));
 
@@ -53,13 +55,9 @@ export default class DetailModal extends HTMLElement {
             <div class="my-evaluation">
               <span>내 별점</span>
               <div class="star-container">
-                <img class="star-item" id="1" src="${MOVIE_APP_IMG_PATH.starEmpty}" alt="나의 별점" />
-                <img class="star-item" id="2" src="${MOVIE_APP_IMG_PATH.starEmpty}" alt="나의 별점" />
-                <img class="star-item" id="3" src="${MOVIE_APP_IMG_PATH.starEmpty}" alt="나의 별점" />
-                <img class="star-item" id="4" src="${MOVIE_APP_IMG_PATH.starEmpty}" alt="나의 별점" />
-                <img class="star-item" id="5" src="${MOVIE_APP_IMG_PATH.starEmpty}" alt="나의 별점" />
+              ${this.initStarContainer()}
               </div>
-              <span class="star-evaluation-ment">6 보통이에요</span>
+              <span class="star-evaluation-ment">${this.starMent}</span>
             </div>
           </div>
         </div>
@@ -70,30 +68,49 @@ export default class DetailModal extends HTMLElement {
     this.setEvent();
   }
 
-  renderStarContainer(filled: any, imageTags: any) {
-    const starFilled = filled as 1 | 2 | 3 | 4 | 5;
+  renderStarContainer(evaluation: number) {
+    const starFilled = evaluation as 1 | 2 | 3 | 4 | 5;
+    const imageTags = [...$$('.star-item')] as HTMLImageElement[];
 
-    STAR_CONDITION[starFilled].forEach((isfilled: boolean, idx: number) => {
-      if (isfilled) imageTags[idx].src = MOVIE_APP_IMG_PATH.starFilled;
-      else imageTags[idx].src = MOVIE_APP_IMG_PATH.starEmpty;
-    });
+    const starImages = STAR_CONDITION[starFilled]
+      .map((isfilled: boolean, idx: number) => {
+        if (isfilled) imageTags[idx].src = MOVIE_APP_IMG_PATH.starFilled;
+        else imageTags[idx].src = MOVIE_APP_IMG_PATH.starEmpty;
 
-    $('.star-evaluation-ment').textContent = `${filled * 2}점 ${
+        return isfilled
+          ? `<img class="star-item" id="${idx + 1}" src="${
+              MOVIE_APP_IMG_PATH.starFilled
+            }" alt="나의 별점" />`
+          : `<img class="star-item" id="${idx + 1}" src="${
+              MOVIE_APP_IMG_PATH.starEmpty
+            }" alt="나의 별점" />`;
+      })
+      .join('');
+
+    $('.star-evaluation-ment').textContent = `${starFilled * 2}점 ${
       STAR_MENT[starFilled]
     }`;
+
+    this.starMent = `${starFilled * 2}점 ${STAR_MENT[starFilled]}`;
+
+    return starImages;
   }
 
   initStarContainer() {
-    return `
-    <div class="star-container">
-      <img src="${MOVIE_APP_IMG_PATH.starEmpty}" alt="나의 별점" />
-      <img src="${MOVIE_APP_IMG_PATH.starEmpty}" alt="나의 별점" />
-      <img src="${MOVIE_APP_IMG_PATH.starEmpty}" alt="나의 별점" />
-      <img src="${MOVIE_APP_IMG_PATH.starEmpty}" alt="나의 별점" />
-      <img src="${MOVIE_APP_IMG_PATH.starEmpty}" alt="나의 별점" />
-    </div>
-    <span>0점</span>
-    `;
+    const storaged = localStorage.getItem(String(this.movieId));
+
+    if (storaged !== null) return this.renderStarContainer(Number(storaged));
+    else {
+      this.starMent = '0점';
+
+      return `
+      <img class="star-item" id="1" src="${MOVIE_APP_IMG_PATH.starEmpty}" alt="나의 별점" />
+      <img class="star-item" id="2" src="${MOVIE_APP_IMG_PATH.starEmpty}" alt="나의 별점" />
+      <img class="star-item" id="3" src="${MOVIE_APP_IMG_PATH.starEmpty}" alt="나의 별점" />
+      <img class="star-item" id="4" src="${MOVIE_APP_IMG_PATH.starEmpty}" alt="나의 별점" />
+      <img class="star-item" id="5" src="${MOVIE_APP_IMG_PATH.starEmpty}" alt="나의 별점" />
+      `;
+    }
   }
 
   setEvent() {
@@ -112,6 +129,6 @@ export default class DetailModal extends HTMLElement {
   getMyEvaluation() {
     const evaluation = localStorage.getItem(String(this.movieId));
 
-    this.renderStarContainer(evaluation, [...$$('.star-item')]);
+    this.renderStarContainer(Number(evaluation));
   }
 }
