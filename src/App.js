@@ -1,6 +1,6 @@
-import { LIST_STATE } from "./constant/variables";
-import { $ } from "./utils/Dom";
-import { getPopularMovies, getSearchedMovies } from "./utils/fetch";
+import { LIST_STATE } from './constant/variables';
+import { $ } from './utils/Dom';
+import { getPopularMovies, getSearchedMovies } from './utils/fetch';
 
 export default class App {
   #movieList;
@@ -28,33 +28,32 @@ export default class App {
   }
 
   render() {
-    const itemView = $(".item-view");
+    const itemView = $('.item-view');
 
     const listTitle =
       this.#listState === LIST_STATE.POPULAR
-        ? "지금 인기 있는 영화"
-        : `"${this.#movieName}" 검색 결과`;
+        ? '지금 인기 있는 영화'
+        : `"${this.#movieName.replace("'", '')}" 검색 결과`;
 
     itemView.innerHTML = `
-    <card-list header='${listTitle}
-    '></card-list>
+    <card-list header='${listTitle}'></card-list>
     <more-button></more-button>
     `;
   }
 
   async setEvent() {
-    document.addEventListener("click-more-button", () => {
+    document.addEventListener('click-more-button', () => {
       this.toggleSkeletonList();
       this.appendMovieList();
     });
 
-    document.addEventListener("search-movie", (event) => {
+    document.addEventListener('search-movie', (event) => {
       this.#listState = LIST_STATE.SEARCHED;
       this.#page = 1;
       this.#movieList = [];
       this.#movieName = event.detail;
 
-      if (event.detail === "") {
+      if (event.detail === '') {
         this.#listState = LIST_STATE.POPULAR;
         this.initRender();
       } else {
@@ -62,7 +61,7 @@ export default class App {
       }
     });
 
-    document.addEventListener("click-home-button", () => {
+    document.addEventListener('click-home-button', () => {
       this.#listState = LIST_STATE.POPULAR;
       this.initRender();
     });
@@ -97,10 +96,10 @@ export default class App {
   }
 
   mountMovieList() {
-    $("card-list")?.setMovieList(this.#movieList);
+    $('card-list')?.setMovieList(this.#movieList);
   }
 
   toggleSkeletonList() {
-    $("card-list").toggleSkeletonList();
+    $('card-list').toggleSkeletonList();
   }
 }
