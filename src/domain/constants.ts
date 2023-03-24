@@ -1,6 +1,10 @@
-import { MODAL_CLOSE_ICON } from './icons';
+import { MODAL_CLOSE_ICON } from '../icons';
 
 export const MAX_MOVIES_PER_PAGE = 20;
+
+export const VOTE_ICON_COUNT = 5;
+
+export const VOTE_SCORE_LOCAL_STORAGE_KEY = 'voteScore';
 
 export const POPULAR_TITLE = '지금 인기 있는 영화';
 
