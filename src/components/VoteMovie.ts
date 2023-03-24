@@ -2,6 +2,8 @@ import starEmpty from '../asset/star_empty.png';
 import starFilled from '../asset/star_filled.png';
 import handleLocalStorage from '../libs/handleLocalStorage';
 
+type Score = VoteMovie['scores'][number];
+
 class VoteMovie {
   private _node!: HTMLElement;
   private scores = [0, 1, 2, 3, 4, 5] as const;
@@ -13,11 +15,11 @@ class VoteMovie {
     '재미있어요',
     '명작이에요',
   ] as const;
-  private score: (typeof this.scores)[number] = 0;
+  private score: Score = 0;
   private movieId: number | null = null;
 
   constructor(movieId: number) {
-    this.score = handleLocalStorage.getMovieStar(movieId) as 0 | 1 | 2 | 3 | 4 | 5;
+    this.score = handleLocalStorage.getMovieStar(movieId) as Score;
     this.movieId = movieId;
 
     this.createTemplate();
@@ -71,7 +73,7 @@ class VoteMovie {
 
     if (!star.matches('.vote-star')) return;
 
-    const hoverStarCount = Number(star.dataset.starCount) as 1 | 2 | 3 | 4 | 5;
+    const hoverStarCount = Number(star.dataset.starCount) as Score;
     this.insertStar(hoverStarCount);
   }
 
@@ -84,7 +86,7 @@ class VoteMovie {
 
     if (!star.matches('.vote-star')) return;
 
-    const starCount = Number(star.dataset.starCount) as 1 | 2 | 3 | 4 | 5;
+    const starCount = Number(star.dataset.starCount) as Score;
 
     if (this.score === starCount) {
       this.cancelVoteStar();
@@ -93,7 +95,7 @@ class VoteMovie {
     }
   }
 
-  registerVoteStar(starCount: 1 | 2 | 3 | 4 | 5) {
+  registerVoteStar(starCount: Score) {
     const $votedResult = document.querySelector<HTMLDivElement>('.voted-result');
 
     if (!$votedResult || !this.movieId) return;
