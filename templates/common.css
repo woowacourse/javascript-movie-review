@@ -276,11 +276,16 @@ movie-list-title {
   width: 100%;
 }
 
+movie-list {
+  width: 100%;
+  height: 100%;
+}
+
 more-button {
   width: 100%;
 }
 
-movie-list {
+movie-list .movie-item-list {
   display: grid;
   margin: 48px 0;
   grid-template-columns: repeat(4, 1fr);
@@ -571,7 +576,7 @@ select-vote-score > h2 {
 }
 
 @media only screen and (max-width: 1220px) {
-  movie-list {
+  movie-list .movie-item-list {
     grid-template-columns: repeat(3, 1fr);
     grid-column-gap: 120px;
     grid-row-gap: 55px;
@@ -608,7 +613,7 @@ select-vote-score > h2 {
   }
 }
 @media only screen and (max-width: 800px) {
-  movie-list {
+  movie-list .movie-item-list {
     grid-template-columns: repeat(2, 1fr);
     grid-column-gap: 46px;
   }
