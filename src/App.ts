@@ -26,7 +26,6 @@ class App {
 
     setTimeout(() => this.initializeMovieList(), 500);
 
-    this.$seeMoreButton.addMoreButtonHandler(this.moreButtonHandler.bind(this));
     this.$header.addSearchHandler(this.searchHandler.bind(this));
     this.$header.addClickLogoHandler(this.initializeMovieList.bind(this));
     this.$movieList.modalHandler(
@@ -40,11 +39,10 @@ class App {
     this.store.setInitPage(0);
     this.$movieList.setTitle('지금 인기 있는 영화');
     this.store.setInitSearchWord();
-    this.$seeMoreButton.attach();
-    this.$seeMoreButton.addMoreButtonHandler(this.moreButtonHandler.bind(this));
     this.store.allocateData().then(() => {
       this.skeleton.removeSkeleton();
       this.$movieList.renderMovies(this.store.movieListValue, this.store.genre);
+      this.$seeMoreButton.addMoreButtonHandler(this.moreButtonHandler.bind(this));
     });
   }
 
@@ -52,25 +50,18 @@ class App {
     this.store.allocateData(this.store.searchWord).then(() => {
       this.$movieList.renderMovies(this.store.movieListValue, this.store.genre);
     });
-    if (this.store.page === this.store.totalPage) this.removeButton();
   }
 
   searchHandler(value: string) {
     this.skeleton.searchSkeleton();
-    this.$seeMoreButton.attach();
     this.store.setInitPage(0);
     this.$movieList.setTitle(`"${value}"에 대한 검색 결과`);
 
     this.store.allocateData(value).then(() => {
       setTimeout(() => {
-        if (this.store.totalPage === 1 || this.store.totalPage === 0) this.removeButton();
         this.$movieList.renderSearchedMovies(this.store.movieListValue, this.store.genre);
       }, 500);
     });
-  }
-
-  removeButton() {
-    this.$seeMoreButton.remove();
   }
 }
 

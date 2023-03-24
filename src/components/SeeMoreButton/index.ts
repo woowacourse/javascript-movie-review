@@ -4,7 +4,7 @@ export class SeeMoreButton extends HTMLElement {
   $li: HTMLElement;
   constructor() {
     super();
-    this.$li = document.querySelector('.btn')!;
+    this.$li = document.querySelector('.ul')!;
   }
 
   connectedCallback() {
@@ -12,7 +12,7 @@ export class SeeMoreButton extends HTMLElement {
   }
 
   addMoreButtonHandler = (moreButtonHandler: CallableFunction) => {
-    this.$li = document.querySelector('.btn')!;
+    this.$li = document.querySelector('ul')!.querySelector('movie-item:last-of-type')!;
     const io = new IntersectionObserver(
       (entry) => {
         const ioTarget = entry[0].target;
@@ -20,24 +20,17 @@ export class SeeMoreButton extends HTMLElement {
         if (entry[0].isIntersecting) {
           io.unobserve(this.$li);
           moreButtonHandler();
-          this.$li = document.querySelector('.btn')!;
+          this.$li = document.querySelector('ul')!.querySelector('movie-item:last-of-type')!;
 
           io.observe(this.$li);
         }
       },
       {
-        threshold: 0.7,
+        threshold: 1,
+        rootMargin: '-50px 0px',
       },
     );
 
     io.observe(this.$li);
   };
-
-  remove() {
-    this.querySelector('.btn')?.classList.remove('btn');
-  }
-
-  attach() {
-    this.querySelector('.infinite')?.classList.add('btn');
-  }
 }
