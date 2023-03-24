@@ -20,6 +20,14 @@ classDiagram
   Main --|> document
   MovieSkeleton --|> EventBus
   EventBus --|> MovieSkeleton
+  MovieModal --|> GenreMap
+
+  class GenreMap {
+    <<domain>>
+    최초 접속 시 장르 id를 string으로 바꾸는 map 생성
+
+    .장르id를 string으로 변경()
+  }
 
   class StarRating {
     <<component>>
@@ -29,6 +37,9 @@ classDiagram
     <<domain>>
 
     영화 id별로 별점을 저장
+
+    .별점 저장()
+    .별점 조회()
   }
 
   class MovieModal {
