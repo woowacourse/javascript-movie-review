@@ -20,7 +20,7 @@ const MovieCard = {
       <li>
         <button type="button" class="item-card-button">
           <div class="item-card">
-            <div class="${CLASS.ITEM_THUMBNAIL} ${CLASS.SKELETON}"></div>
+            <div class="item-thumbnail-container ${CLASS.SKELETON}"></div>
             <p class="${CLASS.ITEM_TITLE} ${CLASS.SKELETON}"></p>
             <p class="${CLASS.ITEM_SCORE} ${CLASS.SKELETON}"></p>
           </div>
@@ -32,7 +32,7 @@ const MovieCard = {
   imageTemplate(path: string | null, title: string) {
     return `
       <img
-        class="${CLASS.ITEM_THUMBNAIL} ${CLASS.SKELETON}"
+        class="${CLASS.ITEM_THUMBNAIL}"
         src="${MovieCard.handlePosterImage(path)}"
         loading="lazy"
         alt="${title}"
@@ -49,7 +49,7 @@ const MovieCard = {
 
     target.dataset.id = id.toString();
 
-    const itemThumbnail = target.querySelector<HTMLDivElement>(`.${CLASS.ITEM_THUMBNAIL}`);
+    const itemThumbnail = target.querySelector<HTMLDivElement>('.item-thumbnail-container');
     const itemTitle = target.querySelector<HTMLParagraphElement>(`.${CLASS.ITEM_TITLE}`);
     const itemScore = target.querySelector<HTMLParagraphElement>(`.${CLASS.ITEM_SCORE}`);
 

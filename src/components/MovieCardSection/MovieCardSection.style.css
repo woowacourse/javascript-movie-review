@@ -44,6 +44,12 @@
   flex-direction: column;
 }
 
+.item-thumbnail-container {
+  border-radius: 8px;
+  width: 140px;
+  height: 210px;
+}
+
 .item-thumbnail {
   border-radius: 8px;
   width: 140px;
@@ -126,6 +132,11 @@ button.primary {
 @media (min-width: 440px) {
   .item-list {
     grid-template-columns: repeat(3, 180px);
+  }
+
+  .item-thumbnail-container {
+    width: 180px;
+    height: 270px;
   }
 
   .item-thumbnail {
