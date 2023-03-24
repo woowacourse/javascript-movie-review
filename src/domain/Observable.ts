@@ -17,7 +17,7 @@ export default class Observable {
 
   subscribe(
     key: keyof MovieSubscriberType,
-    method: (value?: MovieItemType[]) => void
+    method: (value?: MovieItemType[] | DetailModalType) => void
   ) {
     this.observer[key].push(method);
   }

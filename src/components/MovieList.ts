@@ -35,7 +35,7 @@ export default class MovieList extends HTMLElement {
     </ul>`;
   }
 
-  movieItemRender(movies?: MovieItemType[]) {
+  movieItemRender(movies?: any) {
     $('.skeleton-container').remove();
 
     $('.movie-container').insertAdjacentHTML(

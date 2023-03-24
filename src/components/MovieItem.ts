@@ -1,4 +1,5 @@
 import { MOVIE_APP_IMG_PATH } from '../constant/index';
+import movies from '../domain/Movies';
 import { $ } from '../utils/domHelper';
 
 export default class MovieItem extends HTMLElement {
@@ -30,7 +31,9 @@ export default class MovieItem extends HTMLElement {
   }
 
   connectedCallback() {
-    this.addEventListener('click', () => {
+    this.addEventListener('click', async () => {
+      await movies.detailMovies(Number(this.getAttribute('id')));
+
       const detailModal = $('.movie-modal') as HTMLDialogElement;
       detailModal.showModal();
     });
