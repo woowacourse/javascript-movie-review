@@ -1,10 +1,11 @@
-import { MoviesResponse } from '../api/interfaces/MoviesAPI';
-import { Movie } from '../domain/movie.type';
-import { OfPromise, Subject } from './Subject';
+import { MoviesResponse } from '../../api/interfaces/MoviesAPI';
+import { Movie } from '../../domain/movie.type';
+import { PromiseStateSubject } from '../PromiseStateSubject';
+import { Subject } from '../Subject';
 
 export type MoviesFetchFn = (page: number) => Promise<MoviesResponse>;
 
-export class NewMovie extends Subject<Subject<OfPromise<Movie | null>>> {
+export class NewMovieSubject extends Subject<PromiseStateSubject<Movie | null>> {
   private page = 1;
 
   private isFinished = false;
@@ -32,8 +33,10 @@ export class NewMovie extends Subject<Subject<OfPromise<Movie | null>>> {
     );
 
     promises.forEach((_promise) => {
-      const movieSubject = Subject.ofPromise<Movie | null>(_promise);
-      this.next(movieSubject);
+      const movie$ = new PromiseStateSubject<Movie | null>();
+      movie$.nextPromise(_promise);
+
+      this.next(movie$);
     });
 
     try {

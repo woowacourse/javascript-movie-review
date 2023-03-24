@@ -35,24 +35,4 @@ export class Subject<State, GenericError extends Error = Error> {
   subscribeError(subscriber: Subscriber<GenericError>) {
     this.errorSubscribers.push(subscriber);
   }
-
-  static ofPromise<Resolved, Rejected extends Error = Error>(
-    promise: Promise<Resolved>,
-  ): Subject<OfPromise<Resolved>, Rejected> {
-    const subject = new Subject<OfPromise<Resolved>, Rejected>();
-    subject.next({
-      state: 'pending',
-    });
-
-    promise
-      .then((resolved) =>
-        subject.next({
-          state: 'fulfilled',
-          resolved,
-        }),
-      )
-      .catch((rejected) => subject.error(rejected));
-
-    return subject;
-  }
 }
