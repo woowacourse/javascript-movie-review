@@ -1,7 +1,27 @@
 import template from './index.html';
 export class Header extends HTMLElement {
-  connectedCallback() {
+  #$logo: HTMLElement;
+  #$secondSearch: HTMLElement;
+  #$originalSearch: HTMLElement;
+
+  constructor() {
+    super();
     this.innerHTML = template;
+    this.#$logo = this.querySelector('h1')!;
+    this.#$originalSearch = this.querySelector('.search-box')!;
+    this.#$secondSearch = this.querySelector('.search-box-second')!;
+  }
+
+  connectedCallback() {
+    this.eventBind();
+  }
+
+  eventBind() {
+    this.#$secondSearch.addEventListener('click', () => {
+      this.#$logo.style.display = 'none';
+      this.#$originalSearch.style.display = 'block';
+      this.#$secondSearch.style.display = 'none';
+    });
   }
 
   addSearchHandler(searchHandler: CallableFunction) {
@@ -15,6 +35,10 @@ export class Header extends HTMLElement {
       }
       searchHandler(value);
       e.currentTarget.value = '';
+
+      this.#$logo.style.display = 'block';
+      this.#$originalSearch.style.display = 'none';
+      this.#$secondSearch.style.display = 'block';
     });
   }
 
