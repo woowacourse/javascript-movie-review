@@ -23,6 +23,7 @@ export interface MovieResults {
 }
 
 export interface Movie {
+  id: number;
   title: string;
   posterPath: string;
   voteAverage: number;

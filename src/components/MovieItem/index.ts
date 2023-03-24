@@ -13,7 +13,8 @@ export class MovieItem extends HTMLElement {
     this.innerHTML = template
       .replace('{poster_path}', this.getAttribute('poster') ?? '')
       .replaceAll('{title}', this.getAttribute('title') ?? '')
-      .replace('{vote_average}', this.getAttribute('vote') ?? '');
+      .replace('{vote_average}', this.getAttribute('vote') ?? '')
+      .replace('{id}', this.getAttribute('id') ?? '');
   }
 
   skeletonHandler() {
