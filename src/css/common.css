@@ -190,11 +190,13 @@ header .search-box > #search-button {
 main {
   position: relative;
   top: 119px;
+  width: 100vw;
+  min-height: calc(100vh - 119px);
 }
 
 .error-message {
   position: absolute;
-  top: 50%;
+  top: calc(50% - 58px);
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
