@@ -4,6 +4,7 @@ import Component from '../types/component';
 import { FetchType } from '../types/fetcherType';
 import { Movie, MovieItem } from '../types/movie';
 import { NULL_SEARCH_RESULT_MESSAGE } from '../constants/messages';
+import { POPULAR_LIST_NAME } from '../constants/listNames';
 
 class MovieList implements Component {
   readonly node: HTMLElement;
@@ -26,7 +27,7 @@ class MovieList implements Component {
 
   composeNode(): this {
     this.node.innerHTML = `
-      <h2 id="list-name">지금 인기있는 영화</h2>
+      <h2 id="list-name">${POPULAR_LIST_NAME}</h2>
       <ul class="item-list movie-list hidden"></ul>
       <ul class="item-list skeleton-list">${skeletonTemplate()}</ul>
       
