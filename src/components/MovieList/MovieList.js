@@ -28,7 +28,6 @@ class MovieList extends HTMLElement {
   connectedCallback() {
     this.renderContainer();
     this.updateMovieList();
-    this.setButtonEvent();
   }
 
   renderContainer() {
@@ -40,7 +39,6 @@ class MovieList extends HTMLElement {
           <skeleton-item id="first-skeleton"></skeleton-item>
           ${'<skeleton-item></skeleton-item>'.repeat(19)}
         </ul>
-        <common-button id="more-button" class="hide-button" text="더보기" color="primary"></common-button>
       </section>
     </main>`;
   }
@@ -48,13 +46,31 @@ class MovieList extends HTMLElement {
   async updateMovieList() {
     try {
       await this.getMoviesFromApi(this.#searchWord.value);
-      this.hideSkeletonItem();
 
+      this.hideSkeletonItem();
       this.renderMovieList();
-      this.toggleVisibleButton();
+
+      const observer = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              observer.unobserve(entry.target);
+
+              if (this.#moviesData.isInPageRange) {
+                this.updateMovieList();
+              }
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      const parentsOfTarget = $('.item-list');
+      const target = parentsOfTarget.children[parentsOfTarget.children.length - 21];
+
+      observer.observe(target);
     } catch (error) {
       $('h2').innerText = error.message;
-      $('#more-button').classList.add('hide-button');
 
       this.hideSkeletonItem();
     }
@@ -65,14 +81,14 @@ class MovieList extends HTMLElement {
 
     const fetchedMovies = apiFetchingData.results;
 
-    if (apiFetchingData.total_pages > this.#pageIndex) {
+    if (apiFetchingData.total_pages >= this.#pageIndex) {
       this.#pageIndex += 1;
     }
 
     const movies = parsedFechedMovies(fetchedMovies);
 
     this.#moviesData = {
-      isLastPage: apiFetchingData.total_pages === this.#pageIndex,
+      isInPageRange: apiFetchingData.total_pages >= this.#pageIndex,
       movies,
     };
   }
@@ -113,25 +129,6 @@ class MovieList extends HTMLElement {
         `<movie-item id="${curr.id}" title="${curr.title}" imgUrl="${curr.imgUrl}" score="${curr.score}"  genre="${curr.genre}" description="${curr.description}"></movie-item>`
       );
     }, '');
-  }
-
-  toggleVisibleButton() {
-    if (this.#moviesData.isLastPage) {
-      $('#more-button').classList.add('hide-button');
-      return;
-    }
-
-    $('#more-button').classList.remove('hide-button');
-  }
-
-  setButtonEvent() {
-    $('#more-button').addEventListener('click', () => {
-      document.querySelectorAll('skeleton-item').forEach(node => {
-        node.classList.remove('skeleton-hide');
-      });
-
-      this.updateMovieList();
-    });
   }
 
   resetMovieItem() {
