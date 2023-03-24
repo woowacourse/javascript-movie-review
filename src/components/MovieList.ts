@@ -22,7 +22,7 @@ class MovieList implements Component {
     this.node = document.createElement('section');
     this.node.classList.add('item-view');
 
-    this.composeNode().setElements().addEvents();
+    this.composeNode().setElements().addEvents().observeMovieList();
   }
 
   composeNode(): this {
@@ -151,14 +151,32 @@ class MovieList implements Component {
   }
 
   #handleClickMoreButton(): void {
-    if (this.loadMoreButton.disabled) return;
-
     this.node.dispatchEvent(new CustomEvent('click-more-button', { bubbles: true }));
-    this.loadMoreButton.disabled = true;
+    //   this.loadMoreButton.disabled = true;
 
-    setTimeout(() => {
-      this.loadMoreButton.disabled = false;
-    }, 2000);
+    //   setTimeout(() => {
+    //     this.loadMoreButton.disabled = false;
+    //   }, 500);
+  }
+
+  observeMovieList(): this {
+    const options = {
+      root: null,
+      rootMargin: '30%',
+      threshold: 0.3,
+    };
+
+    const observer = new IntersectionObserver(this.#handleIntersect.bind(this), options);
+
+    observer.observe(this.loadMoreButton);
+
+    return this;
+  }
+
+  #handleIntersect(entries: IntersectionObserverEntry[]): void {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) this.loadMoreButton.click();
+    });
   }
 }
 
