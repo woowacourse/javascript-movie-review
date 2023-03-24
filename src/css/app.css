@@ -48,7 +48,20 @@ header {
   align-items: center;
 }
 
+@keyframes landing {
+  from {
+    margin-bottom: 200px;
+  }
+
+  to {
+    margin-bottom: 0;
+  }
+}
+
 .header-container h1 {
+  animation-duration: 1s;
+  animation-name: landing;
+
   cursor: pointer;
   user-select: none;
 
@@ -59,6 +72,9 @@ header {
 }
 
 .header-container .search-box {
+  animation-duration: 1s;
+  animation-name: landing;
+
   height: 44px;
   padding: 8px 12px;
   border-radius: 4px;
