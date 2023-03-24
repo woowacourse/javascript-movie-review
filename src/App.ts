@@ -8,6 +8,7 @@ import './components/UserMovieVote';
 import './components/InvalidMessage';
 import { saveToLocalStorage } from './utils/localStorage';
 import MovieList from './domain/MovieList';
+import { PAGE_BASE_URL } from './constants';
 
 class App {
   constructor() {
@@ -25,7 +26,7 @@ class App {
       history.replaceState(
         { isList: true, searchQuery: '', timestamp: new Date().getTime() },
         '',
-        ''
+        PAGE_BASE_URL
       );
     });
   }

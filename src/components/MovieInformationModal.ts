@@ -1,5 +1,5 @@
 import { Movie } from '../types/movie';
-import { MOVIE_RETRIEVED } from '../constants';
+import { MOVIE_RETRIEVED, PAGE_BASE_URL } from '../constants';
 import { $ } from '../utils/domSelector';
 import { CloseButton } from '../assets';
 import MovieList from '../domain/MovieList';
@@ -48,15 +48,13 @@ class MovieInformationModal {
   }
 
   private openModal(movie: Movie, searchQuery: string, isBackButton: boolean = false) {
-    const queryParams = searchQuery
-      ? `/search?q=${searchQuery}&id=${movie.id}`
-      : `/?id=${movie.id}`;
+    const queryParams = searchQuery ? `search?q=${searchQuery}&id=${movie.id}` : `?id=${movie.id}`;
 
     if (!isBackButton) {
       history.pushState(
         { showModal: true, movieId: movie.id, searchQuery, timestamp: new Date().getTime() },
         '',
-        queryParams
+        PAGE_BASE_URL + queryParams
       );
     }
 
@@ -68,9 +66,7 @@ class MovieInformationModal {
 
   private closeModal(isBackButton: boolean = false) {
     if (!isBackButton) {
-      const queryParams = history.state.searchQuery
-        ? `/search?q=${history.state.searchQuery}`
-        : `/`;
+      const queryParams = history.state.searchQuery ? `search?q=${history.state.searchQuery}` : ``;
 
       history.pushState(
         {
@@ -80,7 +76,7 @@ class MovieInformationModal {
           timestamp: new Date().getTime(),
         },
         '',
-        queryParams
+        PAGE_BASE_URL + queryParams
       );
     }
 

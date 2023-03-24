@@ -1,5 +1,7 @@
 const MOVIE_MAX_COUNT = 20;
 
+const PAGE_BASE_URL = window.location.origin + window.location.pathname;
+
 const POSTER_BASE_URL = 'https://www.themoviedb.org/t/p/original';
 const API_BASE_URL = 'https://api.themoviedb.org/3/';
 
@@ -16,6 +18,7 @@ const MOVIE_USER_VOTE_UPDATED = 'movieUserVoteUpdated';
 const LOCAL_STORAGE_KEY = 'userMovies';
 
 export {
+  PAGE_BASE_URL,
   POSTER_BASE_URL,
   API_BASE_URL,
   MOVIE_MAX_COUNT,
