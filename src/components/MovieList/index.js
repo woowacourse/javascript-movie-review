@@ -1,5 +1,6 @@
 import { fetchMovieListWithKeyword, fetchPopularMovieList } from "../../apis";
 import { LIST_TYPE } from "../../constants/common";
+import { ERROR_MESSAGE } from "../../constants/errorMessage";
 import Movie from "../../domain/Movie";
 import Modal from "../Modal";
 import "./index.css";
@@ -93,10 +94,24 @@ class MovieList {
         return await fetchMovieListWithKeyword(this.#page, searchKeyword);
       }
     } catch (error) {
-      this.renderErrorMessage(error.message);
+      const message = this.getErrorMessage(error);
+      this.renderErrorMessage(message);
       this.toggleMoreButton();
       return false;
     }
+  }
+
+  getErrorMessage(error) {
+    if (error.message === "API Error") {
+      return ERROR_MESSAGE.API[error.code] || ERROR_MESSAGE.API_DEFAULT;
+    }
+    if (error.message === "Response Error") {
+      return ERROR_MESSAGE.RESPONSE;
+    }
+    if (error.message === "Network Error") {
+      return ERROR_MESSAGE.NETWORK;
+    }
+    return ERROR_MESSAGE.DEFAULT;
   }
 
   isExistMovie(movieData) {
