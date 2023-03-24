@@ -60,7 +60,9 @@
 
 .movie-detail-desc {
   margin-top: 16px;
+  height: 180px;
   line-height: 1.5;
+  overflow-y: auto;
 }
 
 .user-rating-container {

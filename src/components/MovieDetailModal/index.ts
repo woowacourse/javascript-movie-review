@@ -4,13 +4,13 @@ import UserRatingButtonList from './UserRatingButtonList';
 import { posterNotFoundImage, starFilledImage } from '../../assets/images';
 import { IMAGE_URL } from '../../constants';
 import { CLASS } from '../../constants/selector';
+import ratedMovieStates from '../../states/ratedMovies';
 import { $ } from '../../utils/dom';
 
 import type { MovieDetail } from '../MovieCardSection/MovieCard';
 import type { RatedMovie } from '../../types/domain';
 
 import './MovieDetailModal.style.css';
-import ratedMovieStates from '../../states/ratedMovies';
 
 const MovieDetailModal = {
   template(movieDetail: MovieDetail) {
