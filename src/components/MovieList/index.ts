@@ -1,6 +1,6 @@
 import "./index.css";
 
-import { Movie, MovieResponse } from "../../types";
+import { MovieResponse } from "../../types";
 
 import { Movies } from "../../domain/Movies";
 import { fetchPopularMovies, fetchSearchMovies } from "../../utils/api";
@@ -144,9 +144,5 @@ export class MovieList {
 
   activateScrollFetch() {
     $(".btn").removeAttribute("hidden");
-  }
-
-  getMovieInfo(id: number, handleClickMovieCard: (movieInfo: Movie) => void) {
-    handleClickMovieCard(this.#movies.getMovieInfoById(id));
   }
 }
