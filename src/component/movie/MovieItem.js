@@ -1,4 +1,5 @@
 import { ImgSrc } from "../../constant/movieConstants";
+import { $ } from "../../util/dom";
 import CustomElement from "../basic/CustomElement";
 
 class MovieItem extends CustomElement {
@@ -10,7 +11,7 @@ class MovieItem extends CustomElement {
     return `
         <div class="item-card">
           <img
-            class="item-thumbnail"
+            class="item-thumbnail skeleton"
             loading="lazy"
             src= ${src}
             alt=${title}
@@ -19,6 +20,13 @@ class MovieItem extends CustomElement {
           <p class="item-score"><img src=${ImgSrc.FULL_STAR} alt="별점" />${voteAverage}</p>
         </div>
   `;
+  }
+
+  setEvent() {
+    const $image = $(".item-thumbnail");
+    $image.addEventListener("load", () => {
+      $image.classList.remove("skeleton");
+    });
   }
 }
 

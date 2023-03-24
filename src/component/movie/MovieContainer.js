@@ -30,7 +30,7 @@ class MovieContainer extends CustomElement {
       this.#searchWord = searchWord;
 
       $(".movie-container-title").innerText = searchWord
-        ? `'${searchWord}'검색 결과`
+        ? `'${searchWord}' 검색 결과`
         : "지금 인기 있는 영화";
     }
   }
