@@ -66,31 +66,6 @@ const MovieCard = {
   handlePosterImage(path: string | null) {
     return path === null ? posterNotFoundImage : IMAGE_URL + path;
   },
-
-  async getMovieDetail(movieId: string): Promise<MovieDetail | undefined> {
-    try {
-      const {
-        id,
-        title,
-        genres: rawGenres,
-        poster_path: posterPath,
-        overview,
-        vote_average: voteAverage,
-      } = await getMovieDetailApi(movieId);
-      const genres = rawGenres.map((genre) => genre.name);
-
-      return { id, title, genres, posterPath, overview, rating: voteAverage };
-    } catch (error) {
-      if (isCustomErrorMessage(error)) {
-        alert(error.error);
-        return;
-      }
-
-      if (error instanceof Error) {
-        alert(error.message);
-      }
-    }
-  },
 };
 
 export default MovieCard;

@@ -1,11 +1,14 @@
 import MovieCard from './MovieCard';
 import MovieDetailModal from '../MovieDetailModal';
 
+import { getMovieDetailApi } from '../../api';
 import { DEFAULT_LIST_LENGTH } from '../../constants';
+import { isCustomErrorMessage } from '../../constants/message';
 import { CLASS } from '../../constants/selector';
 import { $ } from '../../utils/dom';
 
 import type { AppMovie } from '../../types/movie';
+import type { MovieDetail } from './MovieCard';
 
 const MovieCardList = {
   template() {
@@ -29,13 +32,38 @@ const MovieCardList = {
 
       if (!movieId) return;
 
-      const movieDetail = await MovieCard.getMovieDetail(movieId);
+      const movieDetail = await MovieCardList.getMovieDetail(movieId);
 
       if (!movieDetail) return;
 
       MovieDetailModal.open(movieDetail);
       MovieDetailModal.setEvent();
     });
+  },
+
+  async getMovieDetail(movieId: string): Promise<MovieDetail | undefined> {
+    try {
+      const {
+        id,
+        title,
+        genres: rawGenres,
+        poster_path: posterPath,
+        overview,
+        vote_average: voteAverage,
+      } = await getMovieDetailApi(movieId);
+      const genres = rawGenres.map((genre) => genre.name);
+
+      return { id, title, genres, posterPath, overview, rating: voteAverage };
+    } catch (error) {
+      if (isCustomErrorMessage(error)) {
+        alert(error.error);
+        return;
+      }
+
+      if (error instanceof Error) {
+        alert(error.message);
+      }
+    }
   },
 
   renderSkeletonItems(isCurrentQuery: boolean) {
