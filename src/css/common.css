@@ -144,6 +144,7 @@ button.primary:active {
 }
 
 header {
+  position: fixed;
   width: 100%;
   height: 72px;
   background-color: #141414;
@@ -153,6 +154,7 @@ header {
   padding: 0 20px;
   border-bottom: 1px solid #383838;
   margin-bottom: 48px;
+  z-index: 2;
 }
 
 header h1 {
@@ -183,6 +185,11 @@ header .search-box > #search-button {
   text-indent: -1000rem;
   background: url('../assets/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+main {
+  position: relative;
+  top: 119px;
 }
 
 .error-message {
@@ -496,10 +503,6 @@ header .search-box > #search-button {
 
   .item-score {
     font-size: 0.9rem;
-  }
-
-  header {
-    position: relative;
   }
 
   .search-box {
