@@ -35,7 +35,7 @@ class MovieListAndButtonContainer {
   }
 
   private async updateMovieList(keyword?: string) {
-    this.isSearchMovieList = typeof keyword === 'string' ? true : false;
+    this.isSearchMovieList = typeof keyword === 'string';
     this.movieFetcher.resetPage();
     this.movieList.renderSkeletonItems();
 
@@ -49,12 +49,15 @@ class MovieListAndButtonContainer {
 
     this.loadMoreButton.changeStateAccordingTo(isLastPage);
 
+    if (this.isSearchMovieList && typeof keyword === 'string') {
+      this.keyword = keyword;
+      this.movieList.setTitle(MOVIE_LIST_TITLE.SEARCH(keyword));
+    }
+
     if (isLastPage && movieList.length === 0) {
       this.movieList.renderNoResult(errorItem(isLastPage));
       return;
     }
-
-    if (this.isSearchMovieList && keyword) this.keyword = keyword;
 
     this.movieList.renderContents(movieList);
   }
