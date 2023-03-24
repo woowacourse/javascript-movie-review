@@ -25,7 +25,7 @@ class Modal extends HTMLElement {
     this.detailFetchEvent();
     this.setModalCloseEvent();
     this.setStarClickEvent();
-    // this.renderStar();
+    this.renderStar();
   }
 
   render(): void {
@@ -138,12 +138,13 @@ class Modal extends HTMLElement {
     const stars = this.querySelectorAll('.modal-star') as NodeListOf<HTMLImageElement>;
 
     const id = this.#detailMovieInfo.id;
+
     const movieScore: MovieScoreInfo[] = JSON.parse(localStorage.getItem('movieScore') || '[]');
     const modalMyScore = $('#modal-my-score') as HTMLSpanElement;
     const modalMyComment = $('#modal-my-comment') as HTMLSpanElement;
 
     const movie = movieScore.find((item: MovieScoreInfo) => item.id === id);
-    const score = movie?.id || 0;
+    const score = movie?.score || 0;
 
     modalMyScore.innerText = score.toString();
     modalMyComment.innerText = this.getScoreComment(score.toString());
@@ -164,27 +165,29 @@ class Modal extends HTMLElement {
 
     stars.forEach((item, index) => {
       item.addEventListener('click', () => {
-        const id = this.#detailMovieInfo.id;
-
-        const movieScore = JSON.parse(localStorage.getItem('movieScore') || '[]');
-
-        const findIndex = movieScore.findIndex((item: MovieScoreInfo) => item.id === id);
-
-        const updatedMovieScore = movieScore.splice(findIndex, 1, { id, score: (Number(index) + 1) * 2 });
-
-        localStorage.setItem('movieScore', JSON.stringify(updatedMovieScore));
-
-        stars.forEach((imgItem, imgIndex) => {
-          if (imgIndex <= index) {
-            imgItem.src = STAR_FILLED;
-            return;
-          }
-          imgItem.src = STAR_EMPTY;
-        });
-
-        // this.renderStar();
+        const score = (Number(index) + 1) * 2;
+        this.setMovieScore(score);
+        this.renderStar();
       });
     });
+  }
+
+  setMovieScore(score: number): void {
+    const id = this.#detailMovieInfo.id;
+
+    const movieScore = JSON.parse(localStorage.getItem('movieScore') || '[]');
+
+    const findIndex = movieScore.findIndex((item: MovieScoreInfo) => item.id === id);
+
+    if (findIndex === -1) {
+      const updatedMovieScore = [...movieScore, { id, score }];
+      localStorage.setItem('movieScore', JSON.stringify(updatedMovieScore));
+      return;
+    }
+
+    const updatedMovieScore = movieScore;
+    updatedMovieScore.splice(findIndex, 1, { id, score });
+    localStorage.setItem('movieScore', JSON.stringify(updatedMovieScore));
   }
 }
 
