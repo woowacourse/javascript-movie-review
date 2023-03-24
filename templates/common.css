@@ -33,8 +33,9 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 0 32px;
 }
 
 .item-view h2 {
@@ -49,7 +50,7 @@ button {
   display: grid;
   margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  justify-content: space-between;
   grid-row-gap: 48px;
 }
 
@@ -133,9 +134,9 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -342,4 +343,16 @@ movie-vote {
   cursor: pointer;
   width: 30px;
   height: 30px;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .item-list {
+    grid-template-columns: repeat(2, 180px);
+  }
 }
