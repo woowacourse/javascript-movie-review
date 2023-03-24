@@ -26,11 +26,13 @@ const NO_RESULT_TEMPLATE = /* html */ `
 export default class MovieList implements Component {
   $element;
   #getMovieMetaData;
+  #renderModal;
 
-  constructor($parent: Element) {
+  constructor($parent: Element, renderModal: (movie: Movie) => void) {
     this.$element = document.createElement('section');
     this.$element.className = 'item-view';
     this.#getMovieMetaData = popularMovieDataFetchFuncGenerator();
+    this.#renderModal = renderModal;
 
     $parent.insertAdjacentElement('beforeend', this.$element);
   }
@@ -72,7 +74,7 @@ export default class MovieList implements Component {
     fragment.appendChild($tempList);
 
     movieList.forEach((movie) => {
-      new MovieCard($tempList, movie).render();
+      new MovieCard($tempList, movie, this.#renderModal).render();
     });
 
     (<HTMLUListElement>this.$element.querySelector('.item-list')).replaceChildren(...$tempList.childNodes);

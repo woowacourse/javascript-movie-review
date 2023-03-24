@@ -11,16 +11,20 @@ export default class MovieDetailsModal implements Component {
 
   constructor($parent: Element, movie: Movie) {
     this.$element = document.createElement('div');
-    this.$element.classList.add('modal-container', 'modal', 'modal--open');
+    this.$element.classList.add('modal-container');
     this.$element.id = movie.id.toString();
     this.#movie = movie;
     this.#userScore = UserDataHandler.loadUserScore(movie.id) || 0;
 
     const $backdrop = document.createElement('div');
-    $backdrop.classList.add('modal-backdrop');
+    $backdrop.classList.add('modal-backdrop', 'modal');
 
     $parent.insertAdjacentElement('beforeend', $backdrop);
     $backdrop.insertAdjacentElement('beforeend', this.$element);
+  }
+
+  set movie(movie: Movie) {
+    this.#movie = movie;
   }
 
   get movieID() {
@@ -30,6 +34,7 @@ export default class MovieDetailsModal implements Component {
   render() {
     this.$element.innerHTML = this.template();
     this.setEvent();
+    this.show();
   }
 
   template() {
@@ -77,10 +82,10 @@ export default class MovieDetailsModal implements Component {
   }
 
   hide() {
-    (<HTMLDivElement>this.$element.closest('.modal-backdrop')).classList.add('hide');
+    (<HTMLDivElement>this.$element.closest('.modal-backdrop')).classList.remove('modal--open');
   }
 
   show() {
-    (<HTMLDivElement>this.$element.closest('.modal-backdrop')).classList.remove('hide');
+    (<HTMLDivElement>this.$element.closest('.modal-backdrop')).classList.add('modal--open');
   }
 }
