@@ -19,7 +19,7 @@ class MovieListContainer extends HTMLElement {
         : `"${query}" ${Word.TITLE_SEARCH}`;
 
     this.innerHTML = /* html */ `
-        <h2>${title}</h2>
+        <h2 class="movie-title">${title}</h2>
         <movie-list class="item-list"></movie-list>
         <div class="list-bottom"></div>
       `;

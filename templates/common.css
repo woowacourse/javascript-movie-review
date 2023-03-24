@@ -45,6 +45,9 @@ button {
 }
 
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
+.movie-title {
+  line-height: 1.2;
+}
 
 .item-list {
   display: grid;
@@ -75,6 +78,18 @@ button {
   margin-top: 24px;
   font-size: 1.2rem;
   font-weight: bold;
+
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: box;
+  margin-top: 1px;
+  max-height: 80px;
+  overflow: hidden;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
 
 .item-score {
@@ -267,6 +282,11 @@ movie-list:has(.not-search) {
   font-size: 20px;
   line-height: 24px;
   letter-spacing: 0.15px;
+
+  max-width: 600px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .modal-close-button {
