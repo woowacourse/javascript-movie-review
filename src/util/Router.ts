@@ -1,13 +1,18 @@
 import { MovieDetails } from "../abstracts/type";
+import AppComponent from "../components/AppComponent";
+import AppHeaderComponent from "../components/AppHeaderComponent";
+import MovieModalComponent from "../components/modal/MovieModalComponent";
 import { ANIMATED_TIME } from "../constants/constants";
 import { fetchMovieDetails } from "./Api";
+import MovieListComponent from "../components/movie/MovieListComponent";
 
 const routes = {
-  "": app,
+  "/": app,
   "/movie/:id": movieDetail,
+  "/search/:keyword": searchList,
 };
 
-function app() {
+const closeModal = () => {
   const modal = document.querySelector("movie-modal") as HTMLElement;
 
   if (modal) {
@@ -16,15 +21,18 @@ function app() {
       modal.remove();
     }, ANIMATED_TIME.MODAL);
   }
+};
+
+async function app() {
+  closeModal();
+
+  const list = document.querySelector("movie-list") as MovieListComponent;
+  await list.popularListInit();
 }
 
 async function movieDetail(id: string) {
-  const modal = document.createElement("movie-modal");
-
-  const detailData: MovieDetails = await fetchMovieDetails(id);
-  Object.entries(detailData).forEach(([key, value]) => {
-    modal.setAttribute(key, String(value));
-  });
+  const modal = document.createElement("movie-modal") as MovieModalComponent;
+  modal.loadMovieDetail(id);
 
   const app = document.querySelector("#app") as HTMLDivElement;
   app.append(modal);
@@ -32,6 +40,19 @@ async function movieDetail(id: string) {
   setTimeout(() => {
     modal.classList.add("fadein");
   });
+}
+
+async function searchList(keyword: string) {
+  closeModal();
+
+  const app = document.querySelector("app-component") as AppComponent;
+  const list = app.querySelector("movie-list") as MovieListComponent;
+  if (list) {
+    const header = app.querySelector("app-header") as AppHeaderComponent;
+    header.hideSearch();
+    list.setSearchKeyword(decodeURI(keyword));
+    list.searchListInit();
+  }
 }
 
 export const Router = async () => {
