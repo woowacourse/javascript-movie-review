@@ -1,12 +1,14 @@
 import { movieApi } from "../domain/movieApi";
 import { $ } from "../utils/selector";
 import { MOVIE_COUNT_IN_ONE_PAGE } from "../constants";
+import { handleModal } from "./MovieDetailModalHandler";
 import MovieList from "./MovieList";
 
 export const updateMovies = () => {
   $<MovieList>("#movie-list").renderMovies();
 
   observeMovieIntersection();
+  handleModal();
 };
 
 const observeMovieIntersection = () => {
