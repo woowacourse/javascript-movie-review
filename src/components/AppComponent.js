@@ -14,6 +14,7 @@ export default class AppComponent extends CustomComponent {
   #$movieList;
   #$movieListTitle;
   #$searchInput;
+  #scrollThrottleId;
 
   render() {
     super.render();
@@ -117,6 +118,18 @@ export default class AppComponent extends CustomComponent {
         this.searchListInit();
         this.getMovieData(ACTION.SEARCH);
         this.changeMoreButtonAction(ACTION.MORE_SEARCH);
+      }
+    });
+
+    window.addEventListener("scroll", () => {
+      if (!this.#scrollThrottleId) {
+        this.#scrollThrottleId = setTimeout(() => {
+          if (this.getBoundingClientRect().bottom - window.innerHeight < 150) {
+            this.#$movieList.appendNewPage();
+            this.getMovieData(ACTION.POPULAR);
+          }
+          this.#scrollThrottleId = null;
+        }, 1000);
       }
     });
   }
