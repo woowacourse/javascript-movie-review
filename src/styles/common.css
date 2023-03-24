@@ -30,6 +30,18 @@ button {
 
 main {
   flex-grow: 1;
+  height: 100vh;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+}
+
+main {
+  flex-grow: 1;
 }
 
 *:focus {
@@ -41,6 +53,7 @@ main {
   flex-direction: column;
   justify-content: center;
   width: 1200px;
+  height: 100%;
   height: 100%;
   margin: 0 auto;
 }
@@ -72,10 +85,36 @@ main {
   transform: translate(-50%, -50%);
 }
 
+.item-list-layout {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+
+  padding: 48px 0;
+}
+
+.item-list-layout > h1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .item-list {
   display: grid;
   grid-template-columns: repeat(4, 180px);
   grid-column-gap: 160px;
+}
+
+.item--movie,
+.item--skeleton {
+  height: 370px;
+
+  margin: 24px 0;
 }
 
 .item--movie,
@@ -115,6 +154,7 @@ main {
 .item-title.skeleton::after,
 .item-score.skeleton::after {
   font-size: 0;
+  content: 'loading';
   content: 'loading';
 }
 
@@ -168,6 +208,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 8px 20px;
   padding: 8px 20px;
   border-bottom: 1px solid white;
   margin-bottom: 48px;
