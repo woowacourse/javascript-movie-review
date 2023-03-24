@@ -1,5 +1,6 @@
-import "../templates/reset.css";
-import "../templates/common.css";
+import "./css/reset.css";
+import "./css/common.css";
+import "./css/responsive.css";
 
 import MovieHeader from "./components/header/MovieHeader";
 import SearchBox from "./components/header/SearchBox";

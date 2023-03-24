@@ -15,23 +15,18 @@ class ObservedArea extends HTMLElement {
   }
 
   addEvent() {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            this.handleIntersect();
-          }
-        });
-      },
-      {
-        threshold: 0.9,
-      }
-    );
-    observer.observe(document.querySelector(".scroll-area") as HTMLElement);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) this.handleIntersect();
+      });
+    });
+
+    observer.observe(<HTMLElement>$(".scroll-area"));
   }
 
   handleIntersect() {
     const container = <HTMLElement>$("movie-list-container");
+
     dispatchCustomEvent(container, {
       eventType: "fetchMovieData",
       data: container.getAttribute("type"),

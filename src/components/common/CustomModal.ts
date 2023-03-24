@@ -1,4 +1,4 @@
-import { $, dispatchCustomEvent } from "../../utils/dom";
+import { $ } from "../../utils/dom";
 
 class CustomModal extends HTMLElement {
   constructor() {

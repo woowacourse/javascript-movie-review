@@ -44,34 +44,6 @@ button {
   user-select: none;
 }
 
-@media (min-width: 1024px) and (max-width: 1279px) {
-  .item-view {
-    width: 920px;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-  .item-view {
-    width: 674px;
-  }
-}
-
-@media screen and (min-width: 360px) and (max-width: 767px) {
-  .item-view {
-    width: 316px;
-  }
-}
-
-@media (max-width: 359px) {
-  .item-view {
-    width: 280px;
-  }
-
-  header img {
-    width: 80px;
-  }
-}
-
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 /* 무비 리스트 */
@@ -163,46 +135,6 @@ button.primary {
   }
 }
 
-@media (min-width: 1024px) and (max-width: 1279px) {
-  .item-list,
-  .skeleton-list {
-    grid-template-columns: repeat(4, 182px);
-    grid-column-gap: 64px;
-    grid-row-gap: 64px;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-  .item-list,
-  .skeleton-list {
-    grid-template-columns: repeat(3, 182px);
-    grid-column-gap: 64px;
-    grid-row-gap: 56px;
-  }
-}
-
-@media (min-width: 360px) and (max-width: 767px) {
-  .item-list,
-  .skeleton-list {
-    grid-template-columns: repeat(2, 140px);
-    grid-column-gap: 36px;
-    grid-row-gap: 58px;
-  }
-
-  .item-thumbnail {
-    width: 140px;
-    height: 220px;
-  }
-}
-
-@media (max-width: 359px) {
-  .item-list,
-  .skeleton-list {
-    grid-template-columns: repeat(1, 182px);
-    justify-content: center;
-  }
-}
-
 /* 헤더 */
 
 header {
@@ -243,7 +175,7 @@ header .search-box .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
-  background: url("../images/search_button.png") transparent no-repeat 0 1px;
+  background: url("../../images/search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
 }
 
@@ -260,63 +192,6 @@ header .search-box .search-button {
 
 #mobile-search-button > img {
   width: 14px;
-}
-
-@media (min-width: 1024px) and (max-width: 1279px) {
-  header {
-    min-width: 920px;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-  header {
-    min-width: 674px;
-  }
-}
-
-@media (min-width: 390px) and (max-width: 767px) {
-  header {
-    min-width: 316px;
-  }
-
-  header > .search-box {
-    width: 176px;
-  }
-
-  header .search-box input {
-    width: 142px;
-  }
-
-  search-box {
-    display: none;
-  }
-
-  #mobile-search-button {
-    display: block;
-  }
-}
-
-@media (max-width: 389px) {
-  header {
-    min-width: 280px;
-  }
-
-  header > .search-box {
-    width: 150px;
-    min-width: 150px;
-  }
-
-  header .search-box input {
-    width: 116px;
-  }
-
-  search-box {
-    display: none;
-  }
-
-  #mobile-search-button {
-    display: block;
-  }
 }
 
 /* 기타 */
@@ -530,53 +405,4 @@ movie-detail {
 
 #detail-score-description {
   margin-left: 8px;
-}
-
-@media (max-width: 767px) {
-  .modal {
-    width: 100%;
-    background: transparent;
-    border: none;
-  }
-
-  .modal-container {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-
-    border-radius: 10px;
-    background-color: #212122;
-    color: white;
-  }
-
-  .detail-content > img {
-    display: none;
-  }
-  .detail-description {
-    margin: 0;
-  }
-
-  .item-view h2 {
-    font-size: 1.5rem;
-    text-align: center;
-  }
-
-  .detail-score {
-    flex-direction: column;
-    align-items: flex-start;
-    min-width: 170px;
-    align-self: center;
-    width: 100%;
-  }
-
-  .detail-header > h2 {
-    font-size: 18px;
-  }
-
-  #detail-score-title {
-    margin: 0 0 6px 2px;
-  }
-  #detail-score-description {
-    margin: 6px 0 0 2px;
-  }
 }
