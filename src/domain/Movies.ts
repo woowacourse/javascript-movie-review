@@ -98,6 +98,7 @@ class Movies extends Observable {
     if (alertFetchStatus(status)) return;
 
     const detailMovie = {
+      id: movieItem.id,
       title: movieItem.title,
       poster_path: movieItem.poster_path,
       genres: movieItem.genres.map((genre: any) => genre.name).join(', '),
