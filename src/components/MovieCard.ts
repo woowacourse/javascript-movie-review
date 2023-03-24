@@ -4,7 +4,7 @@ import FilledStar from '../assets/star_filled.png';
 import Component from '../type/Component';
 
 type HandlerCallback = {
-  onClickCard: () => void;
+  onClickCard: (movieId: string) => void;
 };
 
 export default class MovieCard implements Component {
@@ -36,6 +36,16 @@ export default class MovieCard implements Component {
   }
 
   setEvent() {
-    this.$element.addEventListener('click', this.handlerCallback.onClickCard.bind(this));
+    this.$element.addEventListener('click', this.onClickCard.bind(this));
+  }
+
+  onClickCard(e: MouseEvent) {
+    const target = e.target as Element;
+    const $li = target.closest('.item-card');
+    if (!$li) return;
+
+    const movieId = $li.id;
+
+    this.handlerCallback.onClickCard(movieId);
   }
 }

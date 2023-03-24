@@ -1,9 +1,12 @@
+import DetailMovieCard from './DetailMovieCard';
+
 import Component from '../type/Component';
+import { DetailMovie } from '../type/Movie';
 
 export default class Modal implements Component {
   private $element;
 
-  constructor($parent: Element, private childComponent: new ($parent: Element) => any) {
+  constructor($parent: Element) {
     this.$element = document.createElement('div');
     this.$element.id = 'modal';
     this.$element.className = 'modal hide';
@@ -14,7 +17,6 @@ export default class Modal implements Component {
   render() {
     this.$element.innerHTML = this.template();
     this.setEvent();
-    this.renderContent();
   }
 
   template() {
@@ -25,14 +27,23 @@ export default class Modal implements Component {
 
   setEvent() {}
 
-  renderContent() {
+  renderContent(detailMovieData: DetailMovie) {
     const $container = this.$element.querySelector('.modal-container');
     if (!$container) return;
 
-    new this.childComponent($container).render();
+    this.openModal();
+    new DetailMovieCard().render($container, detailMovieData);
+  }
+
+  renderErrorTemplate(statusCode: number, statusMessage: string) {
+    this.openModal();
   }
 
   openModal() {
     this.$element.classList.remove('hide');
+  }
+
+  closeModal() {
+    this.$element.classList.add('hide');
   }
 }

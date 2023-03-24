@@ -1,10 +1,9 @@
 import Header from './components/Header';
 import MovieList from './components/MovieList';
-import MovieCard from './components/MovieCard';
 import DetailMovieCard from './components/DetailMovieCard';
 import Modal from './components/Modal';
 
-import { popularMovieDataFetchFuncGenerator, searchedMovieDataFetchFuncGenerator } from './api/get';
+import { popularMovieDataFetchFuncGenerator, searchedMovieDataFetchFuncGenerator, getDetailMovieData } from './api/get';
 
 import { $ } from './utils';
 
@@ -23,10 +22,10 @@ export default class App {
       onSubmitSearchForm: this.renderSearchedMovieList.bind(this),
     });
 
-    this.#modal = new Modal($('#app'), DetailMovieCard);
+    this.#modal = new Modal($('#app'));
     this.#movieList = new MovieList($('main'), {
       onClickMoreButton: this.renderMovieList.bind(this),
-      onClickCard: this.#modal.openModal.bind(this.#modal),
+      onClickCard: this.renderModalContent.bind(this),
     });
 
     this.initialRender();
@@ -57,6 +56,21 @@ export default class App {
   async renderMovieList() {
     this.#movieList.showSkeletonList();
     this.#movieList.renderListContent(await this.#getMovieMetaData());
+  }
+
+  async renderModalContent(movieId) {
+    const detailMovieData = await getDetailMovieData(movieId);
+
+    if (!detailMovieData.isOk) {
+      const { statusCode, statusMessage } = detailMovieData;
+      this.#modal.renderErrorTemplate(statusCode, statusMessage);
+
+      return;
+    }
+
+    const { id, title, posterPath, voteAverage, overview, genres } = detailMovieData;
+
+    this.#modal.renderContent({ id, title, posterPath, voteAverage, overview, genres });
   }
 
   assignPopularMovieDataFetchFunc() {
