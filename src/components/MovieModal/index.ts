@@ -4,8 +4,13 @@ import { $ } from '../../utils/dom';
 import { DetailMovie } from '../../types';
 
 class MovieModal extends HTMLElement {
+  movieId: number;
+  rating: number;
+
   constructor() {
     super();
+    this.movieId = 0;
+    this.rating = 0;
   }
 
   connectedCallback() {
@@ -13,8 +18,9 @@ class MovieModal extends HTMLElement {
   }
 
   render(movie: DetailMovie) {
-    const { title, voteAverage, overview, genres, posterPath } = movie;
+    const { id, title, voteAverage, overview, genres, posterPath } = movie;
     const genre = genres.map((genre) => genre.name).join(', ');
+    this.movieId = id;
     this.innerHTML = template
       .replace('{title}', title)
       .replace('{genre}', genre)
@@ -22,18 +28,32 @@ class MovieModal extends HTMLElement {
       .replace('{voteAverage}', String(voteAverage))
       .replace('{posterPath}', posterPath);
 
+    this.initModal();
     this.rateMovie();
     this.close();
+  }
+
+  initModal() {
+    this.rating = Number(localStorage.getItem(String(this.movieId)));
+    if (this.rating !== 0) {
+      const input = $<HTMLInputElement>(`input[id=star${this.rating}]`, this);
+      input.checked = true;
+      this.creatRatingTemplate();
+    }
   }
 
   rateMovie() {
     const ratingWrapper = $<HTMLDivElement>('.rating-item-wrapper', this);
     ratingWrapper.addEventListener('click', (e: Event) => {
       if (!(e.target instanceof HTMLInputElement)) return;
-      const rating = Number(e.target.value);
-      const mark = $(`label[for=star${rating}`, this).getAttribute('title');
-      $('.my-rating', this).textContent = `${rating * 2}점 - ${mark}`;
+      this.rating = Number(e.target.value);
+      this.creatRatingTemplate();
     });
+  }
+
+  creatRatingTemplate() {
+    const mark = $(`label[for=star${this.rating}`, this).getAttribute('title');
+    $('.my-rating', this).textContent = `${this.rating * 2}점 - ${mark}`;
   }
 
   close() {
