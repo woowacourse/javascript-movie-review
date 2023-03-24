@@ -4,7 +4,7 @@ import { $, $$ } from '../utils/dom';
 import { getMoreMovieList } from './movieApi';
 
 const options = {
-  root: $('.item-list'),
+  root: $<HTMLUListElement>('.item-list'),
   rootMargin: '0px',
   threshold: 1,
 };

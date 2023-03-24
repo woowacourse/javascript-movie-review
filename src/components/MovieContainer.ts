@@ -5,8 +5,6 @@ import { generateContainerTitleTemplate } from './templates/containerTitle';
 import { movieContainerTemplate } from './templates/movieContainer';
 
 class MovieContainer extends HTMLElement {
-  viewportObserver: null | IntersectionObserver = null;
-
   constructor() {
     super();
   }
