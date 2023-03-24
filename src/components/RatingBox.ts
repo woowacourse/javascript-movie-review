@@ -19,7 +19,7 @@ export default class RatingBox extends HTMLElement {
     const { myRating, comment } = this.#state;
 
     this.innerHTML = `
-        <div class="rating-box flex align-center">
+      <div class="rating-box flex align-center">
         <p class="mr-16">내 별점</p>
         <img class="star-${
           myRating >= 2 ? "filled" : "empty"
@@ -39,7 +39,6 @@ export default class RatingBox extends HTMLElement {
         <h4 class="ml-12 mr-12">${myRating}</h4>
         <h4>${comment}</h4>
       </div>
-    </div>
         `;
   }
 

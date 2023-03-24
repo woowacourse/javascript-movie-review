@@ -141,6 +141,10 @@ button.primary {
   color: transparent;
 }
 
+.skeleton * {
+  color: transparent;
+}
+
 @keyframes skeleton-animation {
   0% {
     background-position: 0% 50%;
@@ -221,20 +225,21 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 18px;
 }
 
-.exit-button {
-  position: absolute;
-  right: 32px;
-  border-radius: 9999px;
-  border: none;
-  background: #383839;
+.modal-header {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid rgba(241, 241, 241, 0.25);
 }
 
 .modal-image {
   min-width: 292px;
-  height: 433px;
+  max-width: 292px;
+  height: 100%;
 }
 
 .rating-box {
@@ -244,4 +249,39 @@ header {
   padding: 16px;
   position: absolute;
   bottom: 0;
+}
+
+/*exit button*/
+.exit-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border-radius: 50%;
+  padding: 0.5em;
+  width: 36px;
+  height: 36px;
+  border: 2px solid #383839;
+  color: #f1f1f1;
+  background-color: #383839;
+  z-index: 10;
+}
+
+.exit-button::before,
+.exit-button::after {
+  content: "";
+  position: absolute;
+  background-color: #f1f1f1;
+  width: 3px;
+  height: 50%;
+  top: 50%;
+  left: 50%;
+  transform-origin: center;
+}
+
+.exit-button::before {
+  transform: translateX(-50%) translateY(-50%) rotate(45deg);
+}
+
+.exit-button::after {
+  transform: translateX(-50%) translateY(-50%) rotate(-45deg);
 }

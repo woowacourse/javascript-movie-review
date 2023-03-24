@@ -50,6 +50,10 @@
   padding: 32px;
 }
 
+.p-48 {
+  padding: 48px;
+}
+
 .mr-12 {
   margin-right: 12px;
 }
@@ -68,4 +72,8 @@
 
 .mr-4 {
   margin-right: 4px;
+}
+
+.truncate {
+  overflow: hidden;
 }

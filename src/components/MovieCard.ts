@@ -1,3 +1,4 @@
+import NoImage from "../assets/image/no_image.png";
 export default class MovieCard extends HTMLElement {
   get movieTitle() {
     return this.getAttribute("movieTitle");
@@ -27,11 +28,17 @@ export default class MovieCard extends HTMLElement {
        <div class="item-card">
          <img
            class="item-thumbnail skeleton"
-           src="https://image.tmdb.org/t/p/w220_and_h330_face${this.poster}"
+           src='${
+             this.poster === "null"
+               ? NoImage
+               : `https://image.tmdb.org/t/p/w220_and_h330_face${this.poster}`
+           }'
            alt="${this.movieTitle}"
          />
          <p class="item-title skeleton">${this.movieTitle}</p>
-         <p class="item-score skeleton">${this.rating}<img class="star-filled hidden" alt="별점" /></p>
+         <p class="item-score skeleton">${
+           this.rating
+         }<img class="star-filled hidden" alt="별점" /></p>
        </div>
      </a>
    </li>

@@ -1,13 +1,8 @@
 import { getMovieDetail } from "../utils/fetch";
+import NoImage from "../assets/image/no_image.png";
 
 export default class MovieModal extends HTMLElement {
-  #state: {
-    poster: string;
-    rating: number;
-    overview: string;
-    comment: string;
-    genre: string;
-  } = {
+  #state = {
     poster: "",
     rating: 0,
     overview: "",
@@ -36,29 +31,37 @@ export default class MovieModal extends HTMLElement {
   render() {
     const { poster, rating, overview, genre } = this.#state;
     this.innerHTML = /*html*/ `
-        <div class="modal">
-            <div class="modal-content">
-                <button class="exit-button">X</button>
-                <h2>${this.movieTitle}</h2>
+            <div class="modal">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button class="exit-button">X</button>
+                  <h2>${this.movieTitle}</h2>
+                </div>
                 <div class="w-full h-full flex align-center justify-between p-32">
-                  <img class="modal-image skeleton" src='https://image.tmdb.org/t/p/original${poster}'/>
+                  <img class="modal-image skeleton" src='${
+                    poster
+                      ? `https://image.tmdb.org/t/p/original${poster}`
+                      : NoImage
+                  }'/>
                   <div class="w-full h-full flex flex-column p-16 relative">
                     <div class="w-full flex align-center skeleton">
                       <p class="mr-16 hidden">${genre}</p>
                       <div class="flex align-center">
                         <img class="star-filled mr-4 hidden" alt="별점" />
-                        <p class="skeleton">${rating}</p>
+                        <p>${rating}</p>
                       </div>
                     </div>
-                    <p class="mt-16 skeleton">${
-                      overview ? overview : '" 제공된 줄거리가 없습니다. "'
-                    }</p>
-                    <rating-box my-rating="${this.myRating}" movie-id="${
-      this.movieId
-    }"></rating-box>
+                    <p class="mt-16 truncate skeleton">
+                    ${overview ? overview : '" 제공된 줄거리가 없습니다. "'}
+                    </p>
+                    <rating-box 
+                    my-rating="${this.myRating}" 
+                    movie-id="${this.movieId}">
+                    </rating-box>
+                  </div>
                 </div>
-            </div> 
-        </div>
+              </div> 
+            </div>
             `;
   }
 

@@ -3,7 +3,6 @@ import {
   TOGGLE_SKELETON,
 } from "../constant/setting";
 import { $ } from "../utils/Dom";
-import MoreButton from "./MoreButton";
 import SkeletonList from "./SkeletonList";
 
 export default class MovieCardList extends HTMLElement {
@@ -17,7 +16,7 @@ export default class MovieCardList extends HTMLElement {
 
   render() {
     this.innerHTML = /*html*/ `
-        <h2>${this.header}</h2>
+        <h1>${this.header}</h1>
         <ul id="movie-list" class="item-list">
         </ul>
         <skeleton-list class="hidden"></skeleton-list> 
