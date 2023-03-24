@@ -5,12 +5,12 @@ import {
 } from "./api/fetch";
 import movieHandler from "./domain/movieHandler";
 import { $ } from "./utils/dom";
-import MovieListContainer from "../src/components/MovieListContainer";
-import MovieList from "./components/MovieList";
+import MovieListContainer from "./components/movie/MovieListContainer";
+import MovieList from "./components/movie/MovieList";
 import type { Movie, ResponseData } from "./types/type";
 import { errorHandler } from "./utils/errorHandler";
-import CustomModal from "./components/CustomModal";
-import MovieDetail from "./components/MovieDetail";
+import CustomModal from "./components/common/CustomModal";
+import MovieDetail from "./components/movie/MovieDetail";
 import { getLocalStorage, setLocalStorage } from "./utils/localStorage";
 
 const movieApp = {

@@ -1,5 +1,5 @@
-import { Logo, Search } from "../../images";
-import { $, dispatchCustomEvent } from "../utils/dom";
+import { Logo, Search } from "../../../images";
+import { $, dispatchCustomEvent } from "../../utils/dom";
 
 class MovieHeader extends HTMLElement {
   constructor() {

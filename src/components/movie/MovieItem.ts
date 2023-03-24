@@ -1,5 +1,5 @@
-import { StarFilled, AddSkeleton, ErrorNoAvailable } from "../../images";
-import { $, dispatchCustomEvent } from "../utils/dom";
+import { StarFilled, AddSkeleton, ErrorNoAvailable } from "../../../images";
+import { $, dispatchCustomEvent } from "../../utils/dom";
 
 class MovieItem extends HTMLElement {
   constructor() {

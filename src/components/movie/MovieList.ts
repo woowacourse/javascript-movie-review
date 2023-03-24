@@ -1,4 +1,4 @@
-import type { Movie } from "../types/type";
+import type { Movie } from "../../types/type";
 
 class MovieList extends HTMLElement {
   constructor() {

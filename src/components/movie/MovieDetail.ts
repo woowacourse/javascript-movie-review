@@ -1,6 +1,6 @@
-import { StarFilled, StartEmpty } from "../../images";
-import { Movie } from "../types/type";
-import { $ } from "../utils/dom";
+import { StarFilled, StartEmpty } from "../../../images";
+import { Movie } from "../../types/type";
+import { $ } from "../../utils/dom";
 
 class MovieDetail extends HTMLElement {
   constructor() {

@@ -1,5 +1,5 @@
-import { StarFilled, StartEmpty } from "../../images";
-import { $, dispatchCustomEvent } from "../utils/dom";
+import { StarFilled, StartEmpty } from "../../../images";
+import { $, dispatchCustomEvent } from "../../utils/dom";
 
 class MovieScore extends HTMLElement {
   constructor() {
