@@ -23,10 +23,12 @@ const MovieDetailModal = {
         alt=${title}
         />
         <div class="detail-contents">
-          <p class="detail-genre-score">${genres.map(
-            (genre) => genre.name
-          )} <img class="detail-star" src=${StarIcon} alt="별점" /> ${voteAverage}</p>
-          <p class="detail-overview">${overview || "영화에 대한 줄거리가 존재하지 않습니다."}</p>
+          <div class="detail-info">
+            <p class="detail-genre-score">${genres.map(
+              (genre) => genre.name
+            )} <img class="detail-star" src=${StarIcon} alt="별점" /> ${voteAverage}</p>
+            <p class="detail-overview">${overview || "영화에 대한 줄거리가 존재하지 않습니다."}</p>
+          </div>
           <div class="my-vote-container">
             <span class="my-vote-title">내 별점</span>
             <div class="my-vote-star-container">
