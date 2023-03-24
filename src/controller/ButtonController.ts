@@ -5,11 +5,11 @@ class ButtonController {
   private header;
   private movieList;
   private movieFetcher;
-  private loadMoreButton;
+  private footerMessage;
   private onFetchAndUpdateMovieList;
 
   constructor(
-    { header, movieList, movieFetcher, loadMoreButton }: ViewBundleType,
+    { header, movieList, movieFetcher, footerMessage }: ViewBundleType,
     onFetchAndUpdateMovieList: (updateMode: string, keyword?: string) => void,
   ) {
     EventBus.setEvent('loadMoreItems', this.onClickLoadMoreButton);
@@ -17,9 +17,9 @@ class ButtonController {
     this.header = header;
     this.movieList = movieList;
     this.movieFetcher = movieFetcher;
-    this.loadMoreButton = loadMoreButton;
+    this.footerMessage = footerMessage;
 
-    this.loadMoreButton.addClickEventHandler(this.onClickLoadMoreButton);
+    this.footerMessage.addClickEventHandler(this.onClickLoadMoreButton);
     this.header.addClickEventHandler(this.onClickSearchButton);
     this.onFetchAndUpdateMovieList = onFetchAndUpdateMovieList;
   }
@@ -31,7 +31,7 @@ class ButtonController {
   onClickSearchButton = (keyword: string) => {
     this.movieList.setTitle(`"${keyword}" 검색 결과 🔍`);
     this.movieFetcher.setRequestMode('search');
-    this.loadMoreButton.enableButton();
+    this.movieFetcher.resetFailedToFetchStatus();
     this.onFetchAndUpdateMovieList('overwrite', keyword);
   };
 }

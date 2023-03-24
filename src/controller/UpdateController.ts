@@ -5,12 +5,12 @@ import { ERROR_IMAGE_PATH } from '../constants';
 class UpdateController {
   private movieList;
   private movieFetcher;
-  private loadMoreButton;
+  private footerMessage;
 
-  constructor({ movieList, movieFetcher, loadMoreButton }: ViewBundleType) {
+  constructor({ movieList, movieFetcher, footerMessage }: ViewBundleType) {
     this.movieList = movieList;
     this.movieFetcher = movieFetcher;
-    this.loadMoreButton = loadMoreButton;
+    this.footerMessage = footerMessage;
 
     this.initMovies();
   }
@@ -32,6 +32,12 @@ class UpdateController {
   }
 
   async fetchAndUpdateMovieList(updateMode: string, keyword: string = '') {
+    if (this.movieFetcher.getFailedToFetchStatus()) {
+      return;
+    }
+
+    this.footerMessage.showLoadingMessage('멋진 영화들을 가져오는 중...');
+
     if (updateMode === 'overwrite') {
       this.movieList.clearItems();
       this.movieFetcher.resetPage();
@@ -50,9 +56,9 @@ class UpdateController {
           message: errorMessage!,
         });
 
-        this.loadMoreButton.disableButtonWithErrorMessage('');
+        this.footerMessage.hideMessage();
       } else {
-        this.loadMoreButton.disableButtonWithErrorMessage(errorMessage!);
+        this.footerMessage.showErrorMessage(errorMessage!);
       }
     }
 
@@ -64,15 +70,16 @@ class UpdateController {
           message: '혹시 오타가 있지는 않나요?',
         });
 
-        this.loadMoreButton.disableButtonWithErrorMessage('');
+        this.footerMessage.hideMessage();
       } else {
-        this.loadMoreButton.disableButtonWithErrorMessage('더 이상 불러올 영화가 없어요. 😞');
+        this.footerMessage.showErrorMessage('더 이상 불러올 영화가 없어요. 😞');
       }
     }
 
     if (fetchedData) {
       MovieStorage.addMovies(fetchedData);
       this.movieList.renderContents(fetchedData);
+      this.footerMessage.hideMessage();
     }
 
     this.movieList.removeSkeletonItems();
