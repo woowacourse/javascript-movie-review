@@ -50,13 +50,12 @@ class CustomHeader extends HTMLElement {
     }
   }
 
-  private storeSearchedMovieList() {
+  private async storeSearchedMovieList() {
     movie.currentPage = 1;
 
-    searchMovieList(movie.query, movie.currentPage).then(movieRoot => {
-      movie.totalPages = movieRoot.total_pages;
-      proxy.movie.list = [generateMovieListTemplate(movieRoot.results)];
-    });
+    const root = await searchMovieList(movie.query, movie.currentPage);
+    movie.totalPages = root.total_pages;
+    proxy.movie.list = [generateMovieListTemplate(root.results)];
   }
 
   static render() {

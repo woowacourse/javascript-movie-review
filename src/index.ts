@@ -23,12 +23,11 @@ const App = {
     MovieContainer.render();
   },
 
-  initState() {
-    getPopularMovieList().then(movieRoot => {
-      const movieResults = movieRoot.results;
-      movie.totalPages = movieRoot.total_pages;
-      proxy.movie.list = [generateMovieListTemplate(movieResults)];
-    });
+  async initState() {
+    const root = await getPopularMovieList();
+    const movieResults = root.results;
+    movie.totalPages = root.total_pages;
+    proxy.movie.list = [generateMovieListTemplate(movieResults)];
   },
 };
 
