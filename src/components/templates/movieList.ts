@@ -2,10 +2,10 @@ import { IMAGES } from '../../assets/images';
 import { MoveItem } from '../../types/movie';
 import { MovieResult } from '../../types/movieApi';
 
-const generateMovieItemTemplate = ({ src, title, score }: MoveItem): string =>
+const generateMovieItemTemplate = ({ id, src, title, score }: MoveItem): string =>
   /* html */
   `
-		<li>
+		<li id="${id}">
 		  <div class="item-card">
 		    <img
 		      class="item-thumbnail skeleton"
@@ -21,7 +21,14 @@ const generateMovieItemTemplate = ({ src, title, score }: MoveItem): string =>
 
 export const generateMovieListTemplate = (movieList: MovieResult[]) => {
   const movieItemTemplateList = movieList
-    .map(movie => generateMovieItemTemplate({ src: movie.poster_path, title: movie.title, score: movie.vote_average }))
+    .map(movie =>
+      generateMovieItemTemplate({
+        id: movie.id,
+        src: movie.poster_path,
+        title: movie.title,
+        score: movie.vote_average,
+      })
+    )
     .join('');
 
   return movieItemTemplateList;

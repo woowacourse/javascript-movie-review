@@ -12,7 +12,7 @@
 - [x] MovieItem 클릭이 감지되면 Modal 보이게 하기
 - [x] backdrop 클릭이 감지되면 Modal 숨기기
 - [x] X 클릭/ESC 클릭이 감지되면 Modal 숨기기
-- [ ] 상세 정보 렌더링
+- [x] 상세 정보 렌더링
 
 ### 별점 매기기
 

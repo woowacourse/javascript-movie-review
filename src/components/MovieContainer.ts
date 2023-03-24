@@ -4,6 +4,8 @@ import { movie } from '../state/state';
 import { generateContainerTitleTemplate } from './templates/containerTitle';
 import { movieContainerTemplate } from './templates/movieContainer';
 import { emptyMessageTemplate } from './templates/emptyMessage';
+import { movieModalContainerTemplate } from './templates/movieModalContainerTemplate';
+import { getMovieDetails } from '../domains/movieApi';
 
 class MovieContainer extends HTMLElement {
   constructor() {
@@ -14,10 +16,11 @@ class MovieContainer extends HTMLElement {
     this.addEventListener('click', this.handleMovieClick);
   }
 
-  private handleMovieClick(event: Event) {
+  private async handleMovieClick(event: Event) {
     const target = event.target;
 
     if (target instanceof HTMLLIElement) {
+      await this.renderModalContents(target);
       this.openModal();
     }
   }
@@ -25,8 +28,22 @@ class MovieContainer extends HTMLElement {
   private openModal() {
     const modal = $<HTMLElement>('.modal');
 
-    if (modal instanceof HTMLElement) {
-      modal.classList.add('modal--open');
+    if (modal instanceof HTMLElement) modal.classList.add('modal--open');
+  }
+
+  private async renderModalContents(target: HTMLLIElement) {
+    const container = $<HTMLDivElement>('.modal-container');
+
+    if (container instanceof HTMLDivElement) {
+      const movieDetailsRoot = await getMovieDetails(target.id);
+      const movieDetails = {
+        title: movieDetailsRoot.title,
+        src: movieDetailsRoot.poster_path,
+        genre: movieDetailsRoot.genres.map(genre => genre.name),
+        score: movieDetailsRoot.vote_average,
+        overview: movieDetailsRoot.overview,
+      };
+      container.innerHTML = movieModalContainerTemplate(movieDetails);
     }
   }
 

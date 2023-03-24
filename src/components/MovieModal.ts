@@ -1,3 +1,4 @@
+import '../../css/movie-container.css';
 import '../../css/modal.css';
 import { $ } from '../utils/dom';
 import { movieModalTemplate } from './templates/movieModalTemplate';
@@ -12,7 +13,7 @@ class MovieModal extends HTMLElement {
     document.addEventListener('keydown', this.handleModalKeydown.bind(this));
   }
 
-  handleModalClick(event: Event) {
+  private handleModalClick(event: Event) {
     const target = event.target;
 
     if (
@@ -22,10 +23,14 @@ class MovieModal extends HTMLElement {
       (target instanceof HTMLButtonElement && target.ariaLabel === 'escape')
     ) {
       this.classList.remove('modal--open');
+      const container = this.querySelector('.modal-container');
+      if (container instanceof HTMLDivElement) {
+        container.innerHTML = '';
+      }
     }
   }
 
-  handleModalKeydown(keyboardEvent: KeyboardEvent) {
+  private handleModalKeydown(keyboardEvent: KeyboardEvent) {
     const keycode = keyboardEvent.key;
 
     if (keycode === 'Escape' && this.classList.contains('modal--open')) {

@@ -5,6 +5,9 @@
 
 html,
 body,
+custom-header,
+movie-container,
+movie-modal,
 div,
 span,
 applet,
@@ -98,7 +101,7 @@ details,
 figcaption,
 figure,
 footer,
-header,
+custom-header,
 hgroup,
 menu,
 nav,
@@ -120,7 +123,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 table {
