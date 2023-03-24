@@ -171,6 +171,8 @@ header .search-box > .search-button {
 
 /* dialog */
 dialog {
+  display: flex;
+  flex-direction: column;
   width: 826px;
   height: 577px;
   background-color: #212122;
@@ -200,12 +202,16 @@ dialog {
 
 .movie-detail-modal-main {
   display: flex;
-  height: 90%;
   padding: 36px 32px;
+}
+
+.movie-detail-modal-thumbnail {
+  flex: 1;
 }
 
 .movie-detail-modal-thumbnail > img {
   height: 100%;
+  width: 100%;
 }
 
 .movie-detail-modal-genre-vote {
@@ -218,7 +224,7 @@ dialog {
 }
 
 .movie-detail-modal-description {
-  flex: 1;
+  flex: 1.5;
   display: flex;
   height: 100%;
   flex-direction: column;
@@ -251,6 +257,7 @@ dialog {
 
 .movie-detail-modal-user-vote > #user-vote-star-span > img {
   vertical-align: -20%;
+  cursor: pointer;
 }
 
 .movie-detail-modal-user-vote > #user-vote-star-amount {

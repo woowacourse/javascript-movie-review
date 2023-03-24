@@ -8,11 +8,13 @@ import { Movie } from './service/types';
 interface Store {
   keyword: string;
   page: number;
+  userMoiveVoteValues: {};
 }
 
 export const Store: Store = {
   keyword: '',
   page: 1,
+  userMoiveVoteValues: JSON.parse(localStorage.getItem('userMovieVoteValues') ?? '{}'),
 };
 
 class App {

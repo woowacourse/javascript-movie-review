@@ -68,7 +68,7 @@ export default class MovieList {
     io.observe(this.$moreMovieButton);
 
     // 모달 이벤트
-    this.$movieItemList?.addEventListener('click', (e) => {
+    this.$movieItemList.addEventListener('click', (e) => {
       if (!(e.target instanceof HTMLElement)) return;
       const $itemCard = e.target.closest('.js-item-card');
       if (
