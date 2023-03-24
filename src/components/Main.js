@@ -1,5 +1,5 @@
 import { SCORE_DATA_TEXT } from '../util/constants';
-import { $ } from '../util/querySelector';
+import { $, $$ } from '../util/querySelector';
 import { MovieItem } from './MovieItem';
 import movieModal from './MovieModal';
 import movieSkeleton from './MovieSkeleton';
@@ -119,19 +119,28 @@ class Main {
   }
 
   #drawStar() {
-    $('.star input').addEventListener('input', (e) => {
-      const nowStarData = $('.star input');
-      $('.star span').style.width = `${e.target.value * 20}%`;
-      $('#star-data').textContent = `${nowStarData.value * 2}`;
-      $('#star-text').textContent = SCORE_DATA_TEXT[nowStarData.value * 2];
+    const starbox = $('.star-box');
+    starbox.addEventListener('click', (e) => {
+      $$('img', starbox).forEach((element, index) => {
+        element.classList.remove('active');
+        if (element === e.target) {
+          $('#star-data').textContent = (index + 1) * 2;
+          $('#star-text').textContent = SCORE_DATA_TEXT[(index + 1) * 2];
+          e.target.classList.add('active');
+        }
+      });
     });
   }
 
   #saveStarData() {
-    const resultStar = Number($('#star-data').textContent);
-    const movieName = $('#movie-name').textContent;
-    const movieId = this.#manager.getMovieData(movieName).id;
-    this.#manager.setStarData(movieId, resultStar);
+    const starbox = $('.star-box .active');
+    $$('img', $('.star-box')).forEach((element, index) => {
+      if (starbox === element) {
+        const movieName = $('#movie-name').textContent;
+        const movieId = this.#manager.getMovieData(movieName).id;
+        this.#manager.setStarData(movieId, (index + 1) * 2);
+      }
+    });
   }
 }
 
