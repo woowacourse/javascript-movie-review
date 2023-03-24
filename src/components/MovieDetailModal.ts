@@ -8,6 +8,7 @@ class MovieDetailModal {
 
   constructor() {
     this.addClickMovieEventHandler();
+    this.addBackdropClickEventHandler();
     this.addClickCloseButtonEventHandler();
   }
 
@@ -68,6 +69,14 @@ class MovieDetailModal {
     this.$element.addEventListener('click', (event) => {
       if (!(event.target instanceof HTMLButtonElement)) return;
       if (event.target.id === 'movie-detail-modal-close-button') this.$element.close();
+    });
+  }
+
+  private addBackdropClickEventHandler() {
+    this.$element.addEventListener('click', (event) => {
+      if (event.target instanceof HTMLDialogElement && event.target.nodeName === 'DIALOG') {
+        event.target.close();
+      }
     });
   }
 }
