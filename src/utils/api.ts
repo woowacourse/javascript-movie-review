@@ -9,8 +9,12 @@ const request = async (url: string) => {
     if (response.ok) {
       return response.json();
     }
+
+    throw new Error(`${response.status}`);
   } catch (error: any) {
-    alert("정보를 가져오는 중 에러가 발생했습니다!");
+    if (error.message === "Failed to fatch")
+      return alert("네트워크 연결이 종료되었습니다.");
+    alert(`${error.message} 에러가 발생했습니다!`);
   }
 };
 
