@@ -16,6 +16,10 @@ export type TMDBMovie = {
   overview: string;
 };
 
+export type TMDBMovieDetail = TMDBMovie & {
+  genres: Array<{ id: number; name: string }>;
+};
+
 export type TMDBErrorResponse<Status extends HTTPStatus = 400> = HTTPResponse<
   Status,
   {
@@ -32,4 +36,9 @@ export type TMDBMoviesResponse<Status extends HTTPStatus = 200> = HTTPResponse<
     total_results: number;
     results: TMDBMovie[];
   }
+>;
+
+export type TMDBMovieResponse<Status extends HTTPStatus = 200> = HTTPResponse<
+  Status,
+  TMDBMovieDetail
 >;

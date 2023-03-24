@@ -1,7 +1,7 @@
 import { Movie } from '../../domain/movie.type';
 import { HttpClient } from '../HttpClient';
 import { ClientError } from '../HttpClientError';
-import { MoviesAPI, MoviesResponse, PaginatedParams } from '../interfaces/MoviesAPI';
+import { MovieResponse, MoviesAPI, MoviesResponse, PaginatedParams } from '../interfaces/MoviesAPI';
 import { TMDBAPISpec } from './TMDBClient.api';
 import { TMDBClientProps, TMDBLanguage, TMDBMovie } from './TMDBClient.type';
 
@@ -65,6 +65,21 @@ export class TMDBClient extends HttpClient<TMDBAPISpec> implements MoviesAPI {
       page: response.data.page,
       totalMovies: response.data.total_results,
       totalPages: response.data.total_pages,
+    };
+  }
+
+  async getMovie({ id }: { id: string }): Promise<MovieResponse> {
+    const numericId = Number(id);
+    const response = await this.get(`/3/movie/${numericId}`);
+
+    if (!this.isSuccess(response)) {
+      throw new ClientError(response.data.status_message);
+    }
+
+    return {
+      ...this.parseMovie(response.data),
+
+      genres: response.data.genres.map(({ name }) => name),
     };
   }
 }

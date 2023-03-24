@@ -5,3 +5,7 @@ export type Movie = {
   posterPath: string;
   overview: string;
 };
+
+export type MovieDetail = Movie & {
+  genres: string[];
+};
