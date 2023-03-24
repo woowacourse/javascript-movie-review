@@ -3,9 +3,11 @@
 }
 
 body {
+  position: relative;
   font-size: 14px;
   background-color: #222222;
   color: #fff;
+  min-height: 1000px;
 }
 
 a {
@@ -234,6 +236,8 @@ header.modal__header {
   position: absolute;
   top: 27px;
   right: 32px;
+
+  cursor: pointer;
 }
 
 .modal__main {
@@ -273,10 +277,6 @@ header.modal__header {
   font-size: 16px;
   line-height: 24px;
   letter-spacing: 0.5px;
-}
-
-.star {
-  margin-left: 18px;
 }
 
 .modal__score {
@@ -328,7 +328,12 @@ header.modal__header {
   display: flex;
   justify-content: space-between;
 
-  margin: 0 15px;
+  margin: 0 13px;
+}
+
+.star-img {
+  width: 24px;
+  /* margin-right: 5px; */
 }
 
 .score__count {
@@ -341,4 +346,14 @@ header.modal__header {
 
 .score__comment {
   margin-left: 12px;
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+
+.scroll-target {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
 }
