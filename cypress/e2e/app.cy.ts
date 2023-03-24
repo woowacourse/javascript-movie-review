@@ -62,7 +62,19 @@ describe("영화 리뷰 애플리케이션 popular 영화 테스트", () => {
   });
 
   it("영화를 눌렀을 때 모달이 보여야 한다.", () => {
-    cy.get(".item-card").first().scrollIntoView().click({ force: true }); // `force: true` option can be used to click even if the element is hidden from view
+    cy.get(".item-card").first().scrollIntoView().click({ force: true });
     cy.get(".modal-container").should("be.visible");
+  });
+
+  it("모달의 우측 상단에 위치한 닫기 버튼을 눌렀을 때 모달이 닫혀야 한다.", () => {
+    cy.get(".item-card").first().scrollIntoView().click({ force: true });
+    cy.get(".close-button").click();
+    cy.get(".modal-container").should("not.be.visible");
+  });
+
+  it("모달이 열려있을 때 바깥 영역을 누르면 모달이 닫혀야 한다.", () => {
+    cy.get(".item-card").first().scrollIntoView().click({ force: true });
+    cy.get("body").click(0, 0);
+    cy.get(".modal-container").should("not.be.visible");
   });
 });
