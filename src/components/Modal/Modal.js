@@ -1,50 +1,73 @@
 import './Modal.css';
-import StarFilled from '../../image/star_filled.png';
+import starFilled from '../../image/star_filled.png';
+import { getGenre } from '../../data/genre';
+import { $ } from '../../utils/common';
 
 class Modal extends HTMLElement {
   connectedCallback() {
-    this.render();
+    this.render({ id: '', title: '', imgUrl: '', score: '', genre: [12, 53], description: '' });
   }
 
-  render() {
+  render(movieInfo) {
+    this.replaceChildren();
+
     this.innerHTML = `
       <div class="modal modal--open">
         <div class="modal-backdrop"></div>
         <div class="modal-container">
           <div class="modal-header">
-            <h2>해리 포터 20주년: 리턴 투 호그와트</h2>
+            <h2>${movieInfo.title}</h2>
             <button class="modal-button">X</button>
           </div>
           <div class="modal-contents">
-            <img class="contents-image" src="https://image.tmdb.org/t/p/w300/rKgvctIuPXyuqOzCQ16VGdnHxKx.jpg">
+            <div class="contents-image contents-image-skeleton">
+              ${
+                movieInfo.imgUrl === ''
+                  ? `<img class="contents-image">`
+                  : `<img class="contents-image" src="https://image.tmdb.org/t/p/w300${movieInfo.imgUrl}">`
+              }
+            </div>  
             <div class="contents-info">
               <div class="contents-info-top">
                 <div class="info-header">
-                  <p>액션, 코미디, 범죄</p>
-                  <img src="${StarFilled}" alt="별점" />
-                  <p>8.1</p>
+                <p>${movieInfo.genre.reduce((acc, curr, index) => {
+                  if (index === movieInfo.genre.length - 1) return acc + getGenre[curr];
+                  return acc + getGenre[curr] + ', ';
+                }, '')}</p>
+                  <img src="${starFilled}" alt="별점" />
+                  <p>${movieInfo.score}</p>
                 </div>  
-                <p>해리 포터 영화 시리즈가 다룬 주제들을 챕터로 나누어 다루었으며, 배우들의 영화 촬영장에서의 에피소드들과 감독들의 설명이 이어졌다. DVD 코멘터리와 비슷한 구성이지만, 영화에 참여하기까지의 일련의 오디션 과정과 시리즈가 끝난 후의 배우들의 커리어 등에 대해서 광범위하게 다루고 있다. 또한 세상을 떠난 배우들에 대한 기억들을 회상하는 시간도 가졌다.</p>
+                ${
+                  movieInfo.description === ''
+                    ? `<p>줄거리가 제공되지 않는 영화입니다 😭😭😭😭😭😭😭😭</p>`
+                    : `<p>${movieInfo.description}</p>`
+                }
               </div>
               <div class="contents-info-bottom">
-                <div class="my-favorite-score-box">
-                  <p class="my-score-text">내 별점</p>
-                  <div>
-                    <img src="${StarFilled}" alt="별점" />
-                    <img src="${StarFilled}" alt="별점" />
-                    <img src="${StarFilled}" alt="별점" />
-                    <img src="${StarFilled}" alt="별점" />
-                    <img src="${StarFilled}" alt="별점" />
-                  </div>
-                  <p>10</p>
-                  <p class="score-feeling-text">명작이에요</p>
-                </div>
+                <score-box id="${movieInfo.id}"></score-box>
               </div>
             </div>
           </div>
         </div>
       </div>
     `;
+
+    this.setClickExitEvent();
+    this.setKeyExitEvent();
+  }
+
+  setClickExitEvent() {
+    $('.modal-button').addEventListener('click', () => {
+      $('.modal').classList.add('modal--open');
+    });
+  }
+
+  setKeyExitEvent() {
+    window.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        return $('.modal').classList.add('modal--open');
+      }
+    });
   }
 }
 

@@ -1,3 +1,7 @@
+.modal--open {
+  display: none;
+}
+
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -53,7 +57,6 @@
 .modal-contents {
   display: flex;
   justify-content: space-between;
-
   padding: 40px 50px;
 
   font-size: 16px;
@@ -63,10 +66,35 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 100%;
 
   margin-left: 30px;
 
   line-height: 24px;
+}
+
+.contents-image {
+  width: 300px;
+  height: 450px;
+}
+
+.contents-image-skeleton {
+  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background-size: 400%;
+  animation: skeleton-animation 5s infinite ease-out;
+  border-radius: 8px;
+}
+
+@keyframes skeleton-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .info-header {
@@ -91,22 +119,4 @@
   font-size: 16px;
 
   background-color: var(--modal-button-color);
-}
-
-.my-favorite-score-box {
-  display: flex;
-  padding: 10px;
-}
-
-.my-favorite-score-box > div {
-  margin-left: 10px;
-}
-
-.my-favorite-score-box > p {
-  margin-top: 6px;
-  margin-left: 10px;
-}
-
-.my-score-text {
-  font-weight: 700;
 }
