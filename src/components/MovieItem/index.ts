@@ -16,7 +16,7 @@ export default class MovieItem extends HTMLElement {
     });
     this.addEventListener('click', () => {
       const el = document.getElementById('movie-modal') as MovieModal;
-      el.open(this.movie.title);
+      el.open(this.movie);
     })
   }
 

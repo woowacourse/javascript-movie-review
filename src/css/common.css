@@ -187,6 +187,10 @@ header .search-box > .search-button {
   margin-bottom: 10px;
 }
 
+.modal-img {
+  width: 292px;
+}
+
 @media screen and (max-width: 576px) {
   .header-pc {
     display: none;

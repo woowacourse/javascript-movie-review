@@ -15,7 +15,8 @@
   margin: 15% auto;
   padding: 16px;
   border: 1px solid #888;
-  min-width: 300px;
+  width: 100%;
+  max-width: 900px;
   height: 500px;
 }
 
