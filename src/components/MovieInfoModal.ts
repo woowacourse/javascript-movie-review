@@ -80,7 +80,7 @@ class MovieInfoModal {
     new RatingBar({
       parentElement: $('.information-modal-my-rating'),
       id: id,
-      startRating: rating, // 임시 값 조정
+      startRating: rating,
       ratingInfos: [
         { rating: 2, alias: '최악이에요' },
         { rating: 4, alias: '별로에요' },
