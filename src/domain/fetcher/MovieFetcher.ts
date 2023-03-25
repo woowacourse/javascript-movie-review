@@ -44,6 +44,7 @@ abstract class MovieFetcher {
       title: result.title,
       posterPath: `${MOVIE_IMAGE_URL}/${result.poster_path}`,
       voteAverage: result.vote_average,
+      id: result.id,
     }));
 
     this.params.page = String(page);
