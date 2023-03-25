@@ -1,11 +1,12 @@
-import { NewMovieSubject } from '../states/domain/NewMovieSubject';
+import { MoviesSubject } from '../states/domain/MoviesSubject';
+import { MovieSubject } from '../states/domain/MovieSubject';
 import { $context } from '../utils/selector';
 import { MovieListItem } from './MovieListItem';
 import { Toast } from './Toast';
 
 export type MovieListProps = {
   title: string;
-  newMovie$: NewMovieSubject;
+  movies$: MoviesSubject;
   autoNextPage?: boolean;
 };
 
@@ -16,11 +17,11 @@ export class MovieList {
 
   private readonly title: string;
 
-  private readonly newMovie$: NewMovieSubject;
+  private readonly movies$: MoviesSubject;
 
-  constructor({ title, newMovie$, autoNextPage = true }: MovieListProps) {
+  constructor({ title, movies$, autoNextPage = true }: MovieListProps) {
     this.title = title;
-    this.newMovie$ = newMovie$;
+    this.movies$ = movies$;
 
     this.$root.classList.add('item-view');
     this.$root.innerHTML = `
@@ -34,11 +35,15 @@ export class MovieList {
       this.nextPage();
     });
 
-    this.newMovie$.subscribe((movie$) => {
-      this.$('ul').append(new MovieListItem({ movie$ }).getRoot());
+    this.movies$.subscribe((movies$) => {
+      [...Array(20)].forEach((_, index) => {
+        const movie$ = MovieSubject.fromMovies$(movies$, index);
+        this.$('ul').append(new MovieListItem({ movie$: movie$ }).getRoot());
+      });
     });
-    this.newMovie$.subscribeError((error) => Toast.create(error.message));
-    this.newMovie$.fetchNextPage().then(() => this.nextPage());
+
+    this.movies$.subscribeError((error) => Toast.create(error.message));
+    this.movies$.fetchNextPage().then(() => this.nextPage());
 
     if (autoNextPage) {
       new IntersectionObserver(
@@ -58,7 +63,7 @@ export class MovieList {
   }
 
   private nextPage() {
-    this.newMovie$.fetchNextPage();
+    this.movies$.fetchNextPage();
 
     const $hr = this.$('ul > hr');
     const $anchor: HTMLElement = Array(20)

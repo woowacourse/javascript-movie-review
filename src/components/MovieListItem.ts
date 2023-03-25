@@ -1,12 +1,12 @@
 import { api } from '../api';
 import { Movie } from '../domain/movie.type';
 import { MovieDetailSubject } from '../states/domain/MovieDetailSubject';
-import { PromiseStateSubject } from '../states/PromiseStateSubject';
+import { MovieSubject } from '../states/domain/MovieSubject';
 import { $context } from '../utils/selector';
 import { MovieDetailDialog } from './MovieDetailDialog';
 
 export type MovieListItemProps = {
-  movie$: PromiseStateSubject<Movie | null>;
+  movie$: MovieSubject;
 };
 
 export class MovieListItem {
@@ -14,7 +14,7 @@ export class MovieListItem {
 
   private readonly $ = $context(this.$root);
 
-  private readonly movie$: PromiseStateSubject<Movie | null>;
+  private readonly movie$: MovieSubject;
 
   constructor({ movie$ }: MovieListItemProps) {
     this.movie$ = movie$;
@@ -72,7 +72,7 @@ export class MovieListItem {
     this.$('a').addEventListener('click', (event) => {
       event.preventDefault();
       const movieDetail$ = new MovieDetailSubject(api);
-      movieDetail$.fetch(movie);
+      movieDetail$.fetchMovieDetail(movie);
       new MovieDetailDialog({ movieDetail$ }).open();
     });
   }

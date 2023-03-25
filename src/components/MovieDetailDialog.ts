@@ -56,6 +56,8 @@ export class MovieDetailDialog {
     });
 
     movieDetail$.subscribe(({ label, value: movie }) => {
+      if (label === 'rejected') return;
+
       if (this.$vote === null) {
         this.$vote = new MovieMyVote({ movieId: movie.id });
         this.$('.detail-my-vote').append(this.$vote.getRoot());
@@ -70,6 +72,8 @@ export class MovieDetailDialog {
     });
 
     movieDetail$.subscribe(({ label, value: movie }) => {
+      if (label === 'rejected') return;
+
       this.$<HTMLHeadingElement>('.detail-header > h1').innerText = movie.title;
       this.$<HTMLImageElement>(
         'img',
