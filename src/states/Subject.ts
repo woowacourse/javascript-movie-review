@@ -1,13 +1,8 @@
 export type Subscriber<State> = (state: State) => void;
 
-export type OfPromise<Resolved> =
-  | {
-      state: 'pending';
-    }
-  | {
-      state: 'fulfilled';
-      resolved: Resolved;
-    };
+export type SubscriberOf<GenericSubject> = GenericSubject extends Subject<infer State>
+  ? State
+  : never;
 
 export class Subject<State, GenericError extends Error = Error> {
   protected state: State | null = null;
