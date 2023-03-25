@@ -6,7 +6,7 @@ export const movieModalContainerTemplate = ({ title, src, genre, score, overview
   return `
 		<div class="modal-header">
 			<h2 class="item-title">${title}</h2>
-			<button type="button" class="escape-button" aria-label="escape">X</button>
+			<button type="button" class="escape-button" aria-label="score">X</button>
 		</div>
 		<div class="modal-body">
 			<div class="item-poster">
@@ -26,9 +26,13 @@ export const movieModalContainerTemplate = ({ title, src, genre, score, overview
 					<p class="item-plot">${overview}</p>
 				</div>
 				<div class="self-grade">
-					<p>내 별점</p>
-					<p>⭐️⭐️⭐️⭐️⭐️</p>
-					<p>6 보통이예요</p>
+					<p class="score-title">내 별점</p>
+					<img class="score-image" id="1" src="${IMAGES.STAR_EMPTY}" aria-label="score"/>
+					<img class="score-image" id="2" src="${IMAGES.STAR_EMPTY}" aria-label="score"/>
+					<img class="score-image" id="3" src="${IMAGES.STAR_EMPTY}" aria-label="score"/>
+					<img class="score-image" id="4" src="${IMAGES.STAR_EMPTY}" aria-label="score"/>
+					<img class="score-image" id="5" src="${IMAGES.STAR_EMPTY}" aria-label="score"/>
+					<p>별을 클릭해 영화를 평가해 주세요<p>
 				</div>
 			</div>
 		</div>

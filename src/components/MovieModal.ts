@@ -2,6 +2,7 @@ import '../../css/movie-container.css';
 import '../../css/modal.css';
 import { $ } from '../utils/dom';
 import { movieModalTemplate } from './templates/movieModalTemplate';
+import { generateSelfGradeTemplate } from './templates/selfGradeTemplate';
 
 class MovieModal extends HTMLElement {
   constructor() {
@@ -28,6 +29,10 @@ class MovieModal extends HTMLElement {
         container.innerHTML = '';
       }
     }
+
+    if (target instanceof HTMLImageElement && target.ariaLabel === 'score') {
+      this.gradeMovie(target);
+    }
   }
 
   private handleModalKeydown(keyboardEvent: KeyboardEvent) {
@@ -35,6 +40,15 @@ class MovieModal extends HTMLElement {
 
     if (keycode === 'Escape' && this.classList.contains('modal--open')) {
       this.classList.remove('modal--open');
+    }
+  }
+
+  private gradeMovie(target: HTMLImageElement) {
+    const container = $<HTMLDivElement>('.self-grade');
+
+    if (container instanceof HTMLDivElement) {
+      const scoreTemplate = generateSelfGradeTemplate(Number(target.id));
+      container.innerHTML = scoreTemplate;
     }
   }
 

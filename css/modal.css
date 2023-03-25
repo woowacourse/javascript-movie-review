@@ -21,11 +21,13 @@
 }
 
 .modal-container {
-  width: 70%;
-  height: 60%;
+  width: 60%;
+  height: 80%;
 
   border-radius: 8px;
   background: #212122;
+
+  letter-spacing: 0.5px;
 }
 
 .modal-header {
@@ -90,9 +92,16 @@
 }
 
 .plot {
-  letter-spacing: 0.5px;
 }
 
 .self-grade {
   display: flex;
+  align-items: center;
+  width: 100%;
+  height: 15%;
+
+  padding: 3%;
+
+  background: #383839;
+  border-radius: 8px;
 }
