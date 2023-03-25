@@ -5,44 +5,48 @@ import { Movie } from './type/Movie';
 import { $ } from './utils';
 
 export default class App {
-  #header;
-  #movieList;
-  #movieDetailsModal?: MovieDetailsModal;
+  #components: {
+    header: Header;
+    movieList: MovieList;
+    movieDetailsModal?: MovieDetailsModal;
+  };
 
   constructor() {
-    this.#header = new Header(<Element>$('#app'), {
-      renderPopularMovieList: this.renderPopularMovieList.bind(this),
-      renderSearchedMovieList: this.renderSearchedMovieList.bind(this),
-    });
-    this.#movieList = new MovieList(<Element>$('main'), this.renderDetailsModal.bind(this));
+    this.#components = {
+      header: new Header(<Element>$('#app'), {
+        renderPopularMovieList: this.renderPopularMovieList.bind(this),
+        renderSearchedMovieList: this.renderSearchedMovieList.bind(this),
+      }),
+      movieList: new MovieList(<Element>$('main'), this.renderDetailsModal.bind(this)),
+    };
 
     this.initialRender();
   }
 
   initialRender() {
-    this.#header.render();
-    this.#movieList.render();
-    this.#movieList.load();
+    this.#components.header.render();
+    this.#components.movieList.render();
+    this.#components.movieList.load();
   }
 
   renderPopularMovieList() {
-    this.#movieList.setPopularMovieDataFetchFunc();
-    this.#movieList.render();
-    this.#movieList.load();
+    this.#components.movieList.setPopularMovieDataFetchFunc();
+    this.#components.movieList.render();
+    this.#components.movieList.load();
   }
 
   renderSearchedMovieList(query: string) {
-    this.#movieList.setSearchedMovieDataFetchFunc(query);
-    this.#movieList.render(query);
-    this.#movieList.load();
+    this.#components.movieList.setSearchedMovieDataFetchFunc(query);
+    this.#components.movieList.render(query);
+    this.#components.movieList.load();
   }
 
   renderDetailsModal(movie: Movie) {
-    if (!this.#movieDetailsModal) {
-      this.#movieDetailsModal = new MovieDetailsModal(<Element>$('#app'), movie);
+    if (!this.#components.movieDetailsModal) {
+      this.#components.movieDetailsModal = new MovieDetailsModal(<Element>$('#app'), movie);
     }
 
-    this.#movieDetailsModal.movie = movie;
-    this.#movieDetailsModal.render();
+    this.#components.movieDetailsModal.movie = movie;
+    this.#components.movieDetailsModal.render();
   }
 }
