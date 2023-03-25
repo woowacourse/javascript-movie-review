@@ -12,8 +12,8 @@ export default class MovieModal extends HTMLElement {
       <div class="modal-content">
         <div class="d-flex justify-content-between">
           <div></div>
-          <div><h2>${movie.title}</h2></div>
-          <div>x</div>
+          <div><h2 id="modal-title">${movie.title}</h2></div>
+          <button id="modal-close-button">X</button>
         </div>
         <hr>
         <div class="d-flex justify-content-between">

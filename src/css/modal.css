@@ -28,3 +28,22 @@
 .modal--open {
   display: block;
 }
+
+#modal-title {
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.15000000596046448px;
+  text-align: center;
+}
+
+#modal-close-button {
+  border-radius: 50%;
+  border: none;
+  width: 36px;
+  height: 36px;
+  font-size: 1rem;
+  color: #f1f1f1;
+  background-color: #383839;
+}
