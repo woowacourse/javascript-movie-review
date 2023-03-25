@@ -7,7 +7,7 @@ export class MovieDetailSubject extends PromiseStateSubject<MovieDetail, Movie> 
     super();
   }
 
-  async fetch(movie: Movie) {
-    this.nextPromise(this.api.getMovie({ id: movie.id }), movie);
+  async fetchMovieDetail(movie: Movie) {
+    this.fetch(() => this.api.getMovie({ id: movie.id }), movie);
   }
 }
