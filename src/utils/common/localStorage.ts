@@ -1,4 +1,4 @@
-export function addData(data: unknown, id: string = 'mock') {
+export function addData(data: unknown, id: string = 'my_votes') {
   localStorage.setItem(id, JSON.stringify(data));
 }
 
