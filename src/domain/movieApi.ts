@@ -1,5 +1,5 @@
 import { ApiData, MovieApiResponse, Movie } from "../type";
-import { movieStore } from "./movieStore";
+import { movieStore } from "../movieStore";
 import { API, PATH } from "../constants";
 const { URL: API_URL, LANGUAGE } = API;
 const { POPULAR_MOVIE } = PATH;
@@ -60,7 +60,7 @@ const convertApiResponseToMovieList = (
       poster: movie.poster_path,
       title: movie.title,
       ratings: movie.vote_average,
-      id: movie.id
+      id: movie.id,
     };
   });
 };

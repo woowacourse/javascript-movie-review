@@ -1,5 +1,5 @@
-import { updateMovies } from "../components/movieListHandler";
-import { Movie } from "../type";
+import { updateMovies } from "./components/movieList/movieListHandler";
+import { Movie } from "./type";
 
 export const movieStore = {
   movies: Array<Movie>(),

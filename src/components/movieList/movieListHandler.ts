@@ -1,9 +1,9 @@
-import { movieApi } from "../domain/movieApi";
-import { $ } from "../utils/selector";
-import { MOVIE_COUNT_IN_ONE_PAGE } from "../constants";
-import { handleModal } from "./MovieDetailModalHandler";
-import { backToTop } from "./TopButtonHandler";
-import MovieList from "./MovieList";
+import { movieApi } from "../../domain/movieApi";
+import { $ } from "../../utils/selector";
+import { MOVIE_COUNT_IN_ONE_PAGE } from "../../constants";
+import { handleModal } from "../movieDetailModal/movieDetailModalHandler";
+import { backToTop } from "../../components/topButton/topButtonHandler";
+import MovieList from ".";
 
 export const updateMovies = () => {
   $<MovieList>("#movie-list").renderMovies();

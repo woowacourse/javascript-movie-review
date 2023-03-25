@@ -1,4 +1,4 @@
-import MovieDetailModal from "../components/MovieDetailModal";
+import MovieDetailModal from "../components/movieDetailModal";
 import { API } from "../constants";
 import { MovieDetail, MovieDetailApiResponse } from "../type";
 import { $ } from "../utils/selector";

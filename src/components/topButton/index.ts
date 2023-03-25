@@ -1,5 +1,3 @@
-import { backToTop } from "./TopButtonHandler";
-
 export default class TopButton extends HTMLElement {
   constructor() {
     super();

@@ -1,4 +1,4 @@
-import { $ } from "../utils/selector";
+import { $ } from "../../utils/selector";
 
 export const backToTop = () => {
   $("#top-button").addEventListener("click", (event) => {
@@ -18,7 +18,7 @@ export const backToTop = () => {
     { threshold: 1.0 }
   );
 
-  if ($(".item-list").childElementCount >= 36) {
-    observer.observe($(".item-list > li:nth-child(36)"));
+  if ($(".item-list").childElementCount >= 26) {
+    observer.observe($(".item-list > li:nth-child(26)"));
   }
 };

@@ -1,5 +1,5 @@
-import { RATING_MESSAGES } from "../constants";
-import { MovieDetail } from "../type";
+import { RATING_MESSAGES } from "../../constants";
+import { MovieDetail } from "../../type";
 
 export default class MovieDetailModal extends HTMLElement {
   constructor() {

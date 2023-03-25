@@ -1,6 +1,6 @@
-import { getMovieDetail } from "../domain/movieDetailApi";
-import { $ } from "../utils/selector";
-import { RATING_MESSAGES } from "../constants";
+import { getMovieDetail } from "../../domain/movieDetailApi";
+import { $ } from "../../utils/selector";
+import { RATING_MESSAGES } from "../../constants";
 
 export const handleModal = () => {
   showModal();

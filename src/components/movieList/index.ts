@@ -1,8 +1,8 @@
-import { movieApi } from "../domain/movieApi";
-import { movieStore } from "../domain/movieStore";
-import { Movie } from "../type";
+import { movieApi } from "../../domain/movieApi";
+import { movieStore } from "../../movieStore";
+import { Movie } from "../../type";
 import { makeSkeletons } from "./movieListHandler";
-import { PATH } from "../constants";
+import { PATH } from "../../constants";
 const { POPULAR_MOVIE } = PATH;
 
 export default class MovieList extends HTMLElement {

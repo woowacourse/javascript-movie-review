@@ -1,7 +1,7 @@
-import { $ } from "../utils/selector";
-import { movieApi } from "../domain/movieApi";
-import { PATH } from "../constants";
-import { movieStore } from "../domain/movieStore";
+import { $ } from "../../utils/selector";
+import { movieApi } from "../../domain/movieApi";
+import { PATH } from "../../constants";
+import { movieStore } from "../../movieStore";
 const { SEARCHED_MOVIE } = PATH;
 
 export const initSearchBox = () => {
