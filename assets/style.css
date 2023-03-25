@@ -88,6 +88,12 @@ button {
   margin-top: 16px;
   font-size: 1.2rem;
   font-weight: bold;
+  white-space: normal;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .item-score {
@@ -170,7 +176,7 @@ header h1 {
 
 header > .search-box {
   background: #fff;
-  padding: 8px;
+  padding: 8px 12px 8px 8px;
   border-radius: 4px;
 }
 
@@ -257,5 +263,22 @@ header .search-box > .search-button {
 
   .item-list {
     grid-template-columns: repeat(2, 180px);
+  }
+}
+
+@media (max-width: 450px) {
+  #search-input {
+    width: 0;
+    padding: 0;
+    transition: 0.3s;
+  }
+
+  header h1 {
+    width: 0;
+  }
+
+  .search-box:hover > #search-input {
+    width: 300px;
+    flex: 0 0 100%;
   }
 }
