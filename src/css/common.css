@@ -400,7 +400,6 @@ header .search-box > .search-button {
 
 #top-button-icon {
   text-align: center;
-  /* line-height: 50px; */
   font-size: 40px;
 }
 
@@ -465,12 +464,17 @@ header .search-box > .search-button {
     font-size: 14px;
   }
 
+  /* Top button */
   #top-button.active {
     bottom: 28px;
   }
 }
 
 @media screen and (max-width: 662px) {
+  #movie-detail .modal {
+    width: 100%;
+  }
+
   .item-view {
     width: 390px;
     margin: 0 auto;

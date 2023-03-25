@@ -18,3 +18,5 @@ export const RATING_MESSAGES: Record<string, string> = {
   "8": "재밌어요",
   "10": "명작이에요",
 };
+
+export const NO_OVERVIEW = "영화사에서 제공받은 줄거리가 없습니다.";
