@@ -1,10 +1,10 @@
 import Header from './components/Header';
 import MovieDetailModal from './components/MovieDetailModal';
-import MovieListAndButtonContainer from './components/MovieListAndButtonContainer';
+import MovieListContainer from './components/MovieListContainer';
 
 class App {
   private header = new Header();
-  private movieListAndButtonContainer = new MovieListAndButtonContainer();
+  private movieListContainer = new MovieListContainer();
   private movieDetailModal = new MovieDetailModal();
 }
 

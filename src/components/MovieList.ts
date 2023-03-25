@@ -9,7 +9,8 @@ class MovieList {
   getListTitleTemplate(listTitle: string = MOVIE_LIST_TITLE.POPULARITY) {
     return `
       <h2 id="movie-list-title">${listTitle}</h2>
-      <ul class="item-list" id="movie-list"></ul>`;
+      <ul class="item-list" id="movie-list"></ul>
+      <p class="scroll-target"></p>`;
   }
 
   setTitle(listTitle: string) {

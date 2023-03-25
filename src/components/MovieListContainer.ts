@@ -1,37 +1,34 @@
 import { $ } from '../utils/domSelector';
-import { MOVIE_LIST_TITLE } from '../constants';
+import { CAPTION, MOVIE_LIST_TITLE } from '../constants';
 import errorItem from './errorItem';
 import MovieList from './MovieList';
 import EventBroker from '../EventBroker';
 import handleError from '../handleError';
 import MovieFetcher from '../domains/MovieFetcher';
-import LoadMoreButton from './LoadMoreButton';
+import ListEndObserver from './ListEndObserver';
 
-class MovieListAndButtonContainer {
+class MovieListContainer {
   private $container = $<HTMLElement>('.item-view');
   private movieList = new MovieList();
   private movieFetcher = new MovieFetcher();
-  private loadMoreButton = new LoadMoreButton();
+  private $scrollTarget;
+  private listEndObserver;
   private isSearchMovieList = false;
   private keyword = '';
 
   constructor() {
     this.renderMovieListTitle(this.movieList.getListTitleTemplate());
+    this.$scrollTarget = $<HTMLParagraphElement>('.scroll-target');
+    this.listEndObserver = new ListEndObserver(this.$scrollTarget);
     this.updateMovieList();
-    this.renderLoadMoreButton(this.loadMoreButton.getTemplate());
 
     this.addUpdateMovieListEventHandler();
     this.addAppendMovieListEventHandler();
     this.movieList.addClickEventHandler();
-    this.loadMoreButton.addClickEventHandler();
   }
 
   private renderMovieListTitle(listTitleTemplate: string) {
     this.$container.insertAdjacentHTML('beforeend', listTitleTemplate);
-  }
-
-  private renderLoadMoreButton(buttonTemplate: string) {
-    this.$container.insertAdjacentHTML('beforeend', buttonTemplate);
   }
 
   private async updateMovieList(keyword?: string) {
@@ -47,7 +44,7 @@ class MovieListAndButtonContainer {
 
     if (handleError(statusCode, statusMessage)) return;
 
-    this.loadMoreButton.changeStateAccordingTo(isLastPage);
+    this.$scrollTarget.textContent = isLastPage ? CAPTION.LAST_PAGE : '';
 
     if (this.isSearchMovieList && typeof keyword === 'string') {
       this.keyword = keyword;
@@ -76,7 +73,7 @@ class MovieListAndButtonContainer {
     if (this.isSearchMovieList) this.movieList.setTitle(MOVIE_LIST_TITLE.SEARCH(this.keyword));
 
     this.movieList.renderNextContents(movieList);
-    this.loadMoreButton.changeStateAccordingTo(isLastPage);
+    this.$scrollTarget.textContent = isLastPage ? CAPTION.LAST_PAGE : '';
   }
 
   private addUpdateMovieListEventHandler() {
@@ -92,4 +89,4 @@ class MovieListAndButtonContainer {
   }
 }
 
-export default MovieListAndButtonContainer;
+export default MovieListContainer;

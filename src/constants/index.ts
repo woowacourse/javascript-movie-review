@@ -39,3 +39,7 @@ export const STAR_RATING = {
   PER_SCORE: 2,
   CAPTION: ['Worst', 'Not good', 'Average', 'Fun', 'Masterpiece'],
 };
+
+export const CAPTION = {
+  LAST_PAGE: 'There are no more movies to load.',
+};

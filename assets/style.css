@@ -83,6 +83,14 @@ button {
   grid-row-gap: 48px;
 }
 
+.scroll-target {
+  font-size: 1.2rem;
+  font-weight: 600;
+  user-select: none;
+  text-align: center;
+  color: var(--grey-300);
+}
+
 .item-card {
   display: flex;
   flex-direction: column;
@@ -179,6 +187,7 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
   width: 100%;
   min-width: 1200px;
