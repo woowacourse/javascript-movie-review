@@ -1,0 +1,193 @@
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+
+dialog {
+  padding: 0;
+  margin: 0;
+  border: none;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100%;
+  max-height: 100%;
+  background: unset;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.detail-view {
+  background: #212122;
+  color: #f1f1f1;
+  border-radius: 8px;
+
+  width: 100%;
+  max-width: 100%;
+}
+
+.detail-view.fade {
+  animation: detail-view-fade 0.2s;
+}
+
+.detail-view.fade.dispose {
+  animation: detail-view-fade 0.05s;
+  animation-direction: reverse;
+}
+
+@keyframes detail-view-fade {
+  from {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.detail-view > hr {
+  border-color: rgba(241, 241, 241, 0.25);
+  margin: 0;
+}
+
+.detail-header {
+  position: relative;
+  padding: 18px 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-header > h1 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.detail-header > .detail-close-button {
+  position: absolute;
+  right: 32px;
+}
+
+.detail-close-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: url('../assets/close.svg') #383839 no-repeat center center;
+  background-size: 16px;
+}
+
+.detail-content {
+  flex: 1;
+
+  padding: 36px 32px;
+  margin-bottom: 16px;
+
+  display: flex;
+  gap: 32px;
+}
+
+.detail-content > *:last-child {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-content > img {
+  width: 300px;
+  align-self: flex-start;
+
+  display: none;
+}
+
+.detail-metadata {
+  font-size: 16px;
+  font-weight: 400;
+
+  display: flex;
+  gap: 16px;
+}
+
+.detail-genres {
+  display: flex;
+  align-items: center;
+}
+
+.detail-vote {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.detail-vote::before {
+  content: '';
+
+  width: 24px;
+  height: 24px;
+
+  background: url('../assets/star_filled.png') no-repeat;
+  background-size: contain;
+}
+
+.detail-overview {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+
+  padding-bottom: 32px;
+  margin: 16px 0;
+
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.detail-overview:empty::after {
+  content: '등록된 줄거리가 없습니다';
+  color: rgb(192, 192, 192);
+}
+
+.detail-my-vote {
+  width: 100%;
+  margin-top: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  padding: 20px 16px;
+  background: #383839;
+  border-radius: 16px;
+}
+
+.detail-my-vote > label {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+@media only screen and (min-width: 834px) {
+  dialog {
+    align-items: center !important;
+  }
+
+  .detail-view {
+    max-width: 800px !important;
+  }
+
+  .detail-content > img {
+    display: initial !important;
+  }
+
+  .detail-my-vote {
+    justify-content: flex-start;
+  }
+}
