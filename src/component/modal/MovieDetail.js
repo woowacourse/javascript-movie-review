@@ -23,13 +23,15 @@ class MovieDetail extends CustomElement {
     <section class="modal-main">
       <img class="modal-img skeleton" loading="lazy" src=${src} alt=${title} />
       <section class="modal-detail">
+      <span>
         <div class="detail-info text-body">
           <p>${genres}</p>
           <img class="detail-star" src="./image/star_filled.png" alt="별점" />
           <p>${voteAverage}</p>
         </div>
         <div class="detail text-body">${detail}</div>
-        <movie-star id=${id} starSrc=${starSrc} rate=${rate}></movie-star>
+      </span>
+      <movie-star id=${id} starSrc=${starSrc} rate=${rate}></movie-star>
       </section>
     </section>
     `;
