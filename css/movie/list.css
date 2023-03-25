@@ -1,7 +1,30 @@
+movie-list {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
 .item-list {
   display: grid;
-  margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
-  grid-row-gap: 48px;
+  margin: 48px 10%;
+  width: 100%;
+  grid-template-columns: repeat(4, minmax(180px, auto));
+  grid-row-gap: 64px;
+}
+
+@media only screen and (max-width: 1219px) {
+  .item-list {
+    margin: 48px 15%;
+    grid-template-columns: 1fr 1fr 0fr;
+    grid-column-gap: 64px;
+    grid-row-gap: 55px;
+  }
+}
+@media only screen and (max-width: 820px) {
+  .item-list {
+    margin: 48px 20%;
+    grid-template-columns: 1fr 0fr;
+    grid-column-gap: 36px;
+    grid-row-gap: 32px;
+  }
 }

@@ -6,7 +6,7 @@
 }
 
 .item-thumbnail {
-  border-radius: 8px;
+  border-radius: 15px;
   width: 180px;
   height: 270px;
   background-size: contain;
@@ -19,4 +19,16 @@
 
 .item-score::after {
   margin-left: 8px;
+}
+
+@media only screen and (max-width: 820px) {
+  .item-thumbnail {
+    width: 140px;
+    height: 220px;
+  }
+
+  .item-score {
+    margin-top: 8px;
+    font-size: 1rem;
+  }
 }

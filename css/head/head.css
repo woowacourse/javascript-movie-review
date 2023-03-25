@@ -1,7 +1,6 @@
 movie-head {
   position: fixed;
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: var(--main-background);
   display: flex;
