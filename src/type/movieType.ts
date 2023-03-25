@@ -54,6 +54,6 @@ export interface Genre {
   [key: number]: string;
 }
 
-export interface Constant {
+export type Constant = Readonly<{
   [key: string]: string;
-}
+}>;
