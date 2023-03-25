@@ -52,7 +52,7 @@ main {
   }
 }
 
-@media (max-width: 390px) {
+@media (max-width: 420px) {
   .item-view {
     padding: 0 29px;
   }
@@ -113,20 +113,26 @@ main {
   height: 100%;
 }
 
-@media (max-width: 390px) {
+@media (min-width: 820px) {
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+  }
+}
+
+@media (max-width: 420px) {
   .item-list {
     grid-template-columns: repeat(auto-fit, 140px);
     grid-column-gap: 36px;
   }
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 1340px) {
   .item-list {
     grid-template-columns: repeat(4, 180px);
   }
 }
 
-@media (min-width: 1920px) {
+@media (min-width: 1820px) {
   .item-list {
     grid-template-columns: repeat(5, 180px);
   }
@@ -139,7 +145,7 @@ main {
   margin: 24px 0;
 }
 
-@media (max-width: 390px) {
+@media (max-width: 420px) {
   .item--movie,
   .item--skeleton {
     height: 300px;
@@ -288,7 +294,7 @@ header .search-box > form > .search-button {
   display: flex;
   flex-direction: column;
 
-  width: 64vw;
+  width: 66vw;
 
   border-radius: 8px;
   background: #212122;
@@ -296,11 +302,24 @@ header .search-box > form > .search-button {
 
 @media (max-width: 1024px) {
   .movie-overview-modal {
-    width: 80vw;
+    width: 85vw;
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 420px) {
+  .movie-overview-modal {
+    top: auto;
+    left: 0;
+    bottom: 0;
+
+    width: 100vw;
+    height: 60vh;
+
+    transform: none;
+
+    padding-bottom: 36px;
+  }
+
   .movie-overview-modal__poster {
     display: none;
   }
@@ -330,6 +349,12 @@ header .search-box > form > .search-button {
   border-bottom: 1px solid rgba(241, 241, 241, 0.25);
 }
 
+@media (max-width: 420px) {
+  .movie-overview-modal__header {
+    padding: 0 32px;
+  }
+}
+
 .movie-overview-modal__title {
   width: 100%;
 
@@ -343,6 +368,14 @@ header .search-box > form > .search-button {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+@media (max-width: 420px) {
+  .movie-overview-modal__title {
+    padding: 0;
+    text-align: left;
+  }
+}
+
 .movie-overview-modal__close-btn {
   position: absolute;
   width: 36px;
@@ -365,9 +398,22 @@ header .search-box > form > .search-button {
   padding: 36px;
 }
 
+@media (max-width: 420px) {
+  .movie-overview-modal__body {
+    padding: 36px 0 0 0;
+  }
+}
+
 .movie-overview-modal__left-aside {
   width: 40%;
 }
+
+@media (max-width: 420px) {
+  .movie-overview-modal__left-aside {
+    width: 0;
+  }
+}
+
 .movie-overview-modal__poster {
   width: 100%;
   max-height: 100%;
@@ -378,6 +424,14 @@ header .search-box > form > .search-button {
   flex-direction: column;
   width: 60%;
   margin-left: 36px;
+}
+
+@media (max-width: 420px) {
+  .movie-overview-modal__right-aside {
+    width: 100%;
+    margin: 0;
+    padding: 0 32px;
+  }
 }
 .movie-overview-modal__subInfo {
   display: flex;
