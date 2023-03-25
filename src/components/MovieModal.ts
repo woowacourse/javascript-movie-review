@@ -24,10 +24,6 @@ class MovieModal extends HTMLElement {
       (target instanceof HTMLButtonElement && target.ariaLabel === 'escape')
     ) {
       this.classList.remove('modal--open');
-      const container = this.querySelector('.modal-container');
-      if (container instanceof HTMLDivElement) {
-        container.innerHTML = '';
-      }
     }
 
     if (target instanceof HTMLImageElement && target.ariaLabel === 'score') {
@@ -47,8 +43,7 @@ class MovieModal extends HTMLElement {
     const container = $<HTMLDivElement>('.self-grade');
 
     if (container instanceof HTMLDivElement) {
-      const scoreTemplate = generateSelfGradeTemplate(Number(target.id));
-      container.innerHTML = scoreTemplate;
+      container.innerHTML = generateSelfGradeTemplate(Number(target.id));
     }
   }
 

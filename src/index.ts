@@ -13,8 +13,10 @@ import Main from './components/Main';
 const App = {
   init() {
     this.initRender();
+
     initProxy();
     this.initState();
+
     initObserver();
   },
 

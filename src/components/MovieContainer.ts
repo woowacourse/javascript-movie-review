@@ -76,11 +76,7 @@ class MovieContainer extends HTMLElement {
     const emptyMovieListContainer = $<HTMLDivElement>('.empty-movie-list-container');
 
     if (emptyMovieListContainer instanceof HTMLDivElement) {
-      if (!movieList) {
-        emptyMovieListContainer.innerHTML = emptyMessageTemplate;
-      } else {
-        emptyMovieListContainer.innerHTML = '';
-      }
+      emptyMovieListContainer.innerHTML = movieList ? '' : emptyMessageTemplate;
     }
   }
 
@@ -89,9 +85,11 @@ class MovieContainer extends HTMLElement {
 
     if (movie.currentPage === 1) {
       container.innerHTML = movieList;
-    } else {
-      container.insertAdjacentHTML('beforeend', movieList);
+
+      return;
     }
+
+    container.insertAdjacentHTML('beforeend', movieList);
   }
 }
 

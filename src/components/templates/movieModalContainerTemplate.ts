@@ -20,7 +20,7 @@ export const movieModalContainerTemplate = ({ title, src, genre, score, overview
 			<div class="item-info">
 				<div class="item-genre-score-plot">
 					<div class="item-genre-score">
-						<p class="item-genre">${genre.join(' ')}</p>
+						<p class="item-genre">${genre && genre.join(' ')}</p>
 						<p class="item-score"><img src="${IMAGES.STAR_FILLED}" alt="별점" />${score}</p>
 					</div>
 					<p class="item-plot">${overview}</p>
@@ -32,7 +32,7 @@ export const movieModalContainerTemplate = ({ title, src, genre, score, overview
 					<img class="score-image" id="3" src="${IMAGES.STAR_EMPTY}" aria-label="score"/>
 					<img class="score-image" id="4" src="${IMAGES.STAR_EMPTY}" aria-label="score"/>
 					<img class="score-image" id="5" src="${IMAGES.STAR_EMPTY}" aria-label="score"/>
-					<p>별을 클릭해 영화를 평가해 주세요<p>
+					<p class="score-message">별을 클릭해 영화를 평가해 주세요<p>
 				</div>
 			</div>
 		</div>

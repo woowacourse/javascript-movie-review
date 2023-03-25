@@ -1,7 +1,7 @@
-import { generateMovieListTemplate } from '../components/templates/movieList';
-import { movie, observer, proxy } from '../state/state';
 import { $, $$ } from '../utils/dom';
+import { movie, observer, proxy } from '../state/state';
 import { getMoreMovieList } from './movieApi';
+import { generateMovieListTemplate } from '../components/templates/movieList';
 
 const options = {
   root: $<HTMLUListElement>('.item-list'),

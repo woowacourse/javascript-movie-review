@@ -39,7 +39,7 @@ class CustomHeader extends HTMLElement {
 
     if (formData instanceof Object) {
       const queryValue = Object.fromEntries(formData);
-      const value = queryValue['search-input'] as string;
+      const value = queryValue['search-input'];
 
       if (movie.query === value) {
         return;
@@ -61,7 +61,7 @@ class CustomHeader extends HTMLElement {
   static render() {
     const container = $<HTMLDivElement>('#app');
 
-    if (container instanceof HTMLDivElement && container.closest('body')) {
+    if (container instanceof HTMLDivElement) {
       container.insertAdjacentHTML('beforeend', customHeaderTemplate);
     }
   }
