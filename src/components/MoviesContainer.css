@@ -31,10 +31,6 @@
   user-select: none;
 }
 
-.hide-button {
-  display: none;
-}
-
 .no-result {
   display: flex;
   justify-content: space-between;
@@ -48,7 +44,7 @@
 .more-button-wrapper {
   margin-top: 70px;
   width: 100%;
-  height: 30px;
+  height: 100px;
 }
 
 @media (max-width: 768px) {

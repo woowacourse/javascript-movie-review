@@ -44,18 +44,19 @@ class MoviesContainer extends HTMLElement {
   connectedCallback(): void {
     this.renderContainer();
     this.setButtonEvent();
+    this.setInfiniteScrollEvent();
   }
 
   renderContainer(): void {
     this.innerHTML = /*html*/ `
-    <main class="item-container">
+    <main id="movie-container" class="item-container">
     <section class="item-view">
         <h2 id="movie-container-title" class="movie-list-title">지금 인기 있는 영화</h2>
         <ul id="movie-list-wrapper" class="item-list">
         </ul>
         <skeleton-item id="skeleton-container"></skeleton-item>
-        <div class="more-button-wrapper">
-          <common-button id="more-button" class="hide-button" text="더보기" color="primary"></common-button>
+        <div id="more-button-container" class="more-button-wrapper">
+          <common-button id="more-button" text="" color="darken"></common-button>
         </div>  
       </section>
     </main>`;
@@ -68,7 +69,6 @@ class MoviesContainer extends HTMLElement {
       $('#skeleton-container')?.classList.add('skeleton-hide');
 
       this.renderMovieList();
-      this.toggleVisibleButton();
       this.#isFatching = false;
     } catch (error) {
       this.setErrorMessage(getErrorMessage(error));
@@ -90,15 +90,6 @@ class MoviesContainer extends HTMLElement {
     }, '');
 
     $('#movie-list-wrapper')?.insertAdjacentHTML('beforeend', movieListTemplate);
-  }
-
-  toggleVisibleButton(): void {
-    if (this.#movies.movieResult.isLastPage) {
-      $('#more-button')?.classList.add('hide-button');
-      return;
-    }
-
-    $('#more-button')?.classList.remove('hide-button');
   }
 
   showNoResult(): void {
@@ -131,6 +122,28 @@ class MoviesContainer extends HTMLElement {
 
       this.updateMovieList();
     });
+  }
+
+  setInfiniteScrollEvent() {
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.5,
+    };
+
+    const movieList = $('#more-button') as HTMLButtonElement;
+
+    const io = new IntersectionObserver((entry, observer) => {
+      if (entry[0].isIntersecting) {
+        if (this.#isFatching) return;
+        this.#isFatching = true;
+        $('#skeleton-container')?.classList.remove('skeleton-hide');
+
+        this.updateMovieList();
+      }
+    }, options);
+
+    io.observe(movieList);
   }
 
   reset(): void {

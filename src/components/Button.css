@@ -7,5 +7,9 @@
 }
 
 .primary {
-  background: var(--red);
+  background-color: var(--red);
+}
+
+.darken {
+  background-color: var(--black);
 }
