@@ -1,5 +1,5 @@
 import { removeMoreButton, renderMovieList, dummySkeletons } from "../components/MovieList/movieListHandler";
-import { findGenreNameById } from "../genres";
+import { findGenreNameById } from "./genres";
 import { Movie } from "../type";
 import { $ } from "../utils/selector";
 import { fetchMovies } from "./movieApi";
