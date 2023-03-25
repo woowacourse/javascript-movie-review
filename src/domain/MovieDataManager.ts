@@ -28,7 +28,7 @@ class MovieDataManager {
     const title = $("h2") as HTMLElement;
 
     itemList.innerHTML = "";
-    title.remove();
+    title?.remove();
     this._currentPage = MOVIE_DATA.INIT_PAGE;
   }
 
