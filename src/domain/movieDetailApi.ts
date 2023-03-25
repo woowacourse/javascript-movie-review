@@ -1,6 +1,6 @@
 import MovieDetailModal from "../components/MovieDetailModal";
 import { API } from "../constants";
-import { MovieDetail } from "../type";
+import { MovieDetail, MovieDetailApiResponse } from "../type";
 import { $ } from "../utils/selector";
 const { URL: API_URL, LANGUAGE } = API;
 
@@ -30,7 +30,7 @@ const buildMovieDetailUrl = (id: number) => {
 };
 
 const convertApiResponseToMovieDetail = (
-  results: any,
+  results: MovieDetailApiResponse,
   userRatings: string
 ): MovieDetail => {
   return {
@@ -38,7 +38,7 @@ const convertApiResponseToMovieDetail = (
     title: results.title,
     ratings: results.vote_average,
     overview: results.overview,
-    genres: results.genres.map((genre: any) => genre.name).join(", "),
+    genres: results.genres.map((genre) => genre.name).join(", "),
     id: results.id,
     userRatings: userRatings,
   };

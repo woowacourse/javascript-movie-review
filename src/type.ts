@@ -16,15 +16,16 @@ export interface ApiData {
   success: boolean;
   status_message: string | undefined;
   total_pages: number;
-  results: MovieApiResponse[];
+  results: Array<MovieApiResponse>;
 }
 
-export interface MovieDetail {
-  poster: string;
-  title: string;
-  ratings: number;
+export interface MovieDetail extends Movie {
   overview: string;
   genres: string;
-  id: number;
   userRatings: string;
+}
+
+export interface MovieDetailApiResponse extends MovieApiResponse {
+  overview: string;
+  genres: Array<{ id: number; name: string }>;
 }
