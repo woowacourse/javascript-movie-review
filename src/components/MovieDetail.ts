@@ -1,13 +1,20 @@
+import { DetailInfo, genres } from "../@types/movieDataType";
 import { $ } from "../utils/selector";
 
 export class MovieDatail {
   private _title: string;
-  private _genres: any;
+  private _genres: genres[];
   private _overView: string;
   private _posterPath: string;
   private _voteAverage: number;
 
-  constructor({ genres, overview, poster_path, title, vote_average }: any) {
+  constructor({
+    genres,
+    overview,
+    poster_path,
+    title,
+    vote_average,
+  }: DetailInfo) {
     console.log(genres);
     this._title = title;
     this._genres = genres;
@@ -70,7 +77,7 @@ export class MovieDatail {
   }
 
   selectGenre() {
-    return this._genres.map((item: any) => {
+    return this._genres.map((item: genres) => {
       return item.name;
     });
   }

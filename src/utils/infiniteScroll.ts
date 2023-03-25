@@ -2,7 +2,7 @@ import { $, $$ } from "./selector";
 
 export const loadDataByInfiniteScroll = async (
   target: HTMLElement,
-  renderMovies: any
+  renderMovies: () => void
 ) => {
   const callback = async (
     entries: IntersectionObserverEntry[],

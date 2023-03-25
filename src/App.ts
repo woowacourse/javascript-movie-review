@@ -1,4 +1,9 @@
-import { CurrentTab, TotalMovieInfo } from "./@types/movieDataType";
+import {
+  CurrentTab,
+  DetailInfo,
+  MovieInfo,
+  TotalMovieInfo,
+} from "./@types/movieDataType";
 import { getKeywordData } from "./api/keywordSearch";
 import { getMovieDetail } from "./api/movieDetail";
 import { getMovieData } from "./api/movieList";
@@ -19,13 +24,13 @@ export const App = async () => {
   const movieItemList = new MovieItemList();
   const searchBox = new SearchBox();
 
-  const renderMovieDetail = async (movieData: any) => {
+  const renderMovieDetail = async (movieData: DetailInfo) => {
     const targetMovie = document.getElementById(
       String(movieData.id)
     ) as HTMLElement;
     try {
       const detailData = await getMovieDetail(movieData.id);
-      targetMovie.addEventListener("clickMovieItem", (e) => {
+      targetMovie.addEventListener("clickMovieItem", () => {
         new MovieDatail(detailData);
         new StarInput(movieData.id);
       });
@@ -34,7 +39,7 @@ export const App = async () => {
     }
   };
 
-  const generateMovieItemElement = (movieInfo: TotalMovieInfo[]) => {
+  const generateMovieItemElement = (movieInfo: DetailInfo[]) => {
     movieInfo.forEach((item) => {
       new MovieItem(item, item.id);
       renderMovieDetail(item);

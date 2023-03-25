@@ -21,6 +21,17 @@ export interface TotalMovieInfo {
   vote_count: number;
 }
 
+export interface genres {
+  id: number;
+  name: string;
+}
+
+export interface DetailInfo extends MovieInfo {
+  id: number;
+  genres: genres[];
+  overview: string;
+}
+
 export enum CurrentTab {
   POPULAR = "popular",
   SEARCH = "search",
