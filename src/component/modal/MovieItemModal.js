@@ -11,7 +11,7 @@ import { getData, saveData } from "../../util/localStorage";
 import CustomElement from "../basic/CustomElement";
 
 class MovieItemModal extends CustomElement {
-  id = null;
+  #movieId = null;
 
   connectedCallback() {
     MovieManager.subscribe(this.popUp.bind(this));
@@ -58,16 +58,18 @@ class MovieItemModal extends CustomElement {
 
   popUp(state) {
     if (state.status === apiStatus.SUCCESS && state.data.id) {
-      this.id = state.data.id;
+      this.#movieId = state.data.id;
       this.insertAdjacentHTML("beforeend", this.template(state.data));
-
-      const rate = getData(USER_RATE_STORAGE_KEY)?.[this.id];
-
-      if (rate) {
-        this.rerenderUserRate(rate);
-      }
-
+      this.rerenderSavedUserRate(this.#movieId);
       this.setEvent();
+    }
+  }
+
+  rerenderSavedUserRate(id) {
+    const rate = getData(USER_RATE_STORAGE_KEY)?.[id];
+
+    if (rate) {
+      this.rerenderUserRate(rate);
     }
   }
 
@@ -93,23 +95,22 @@ class MovieItemModal extends CustomElement {
 
   setRateEvent() {
     $(".user-rate-stars").addEventListener("click", (e) => {
-      const targetRate = e.target.closest(".user-rate-star")?.dataset.value;
+      const targetRate = Number(
+        e.target.closest(".user-rate-star")?.dataset.value
+      );
 
       if (!targetRate) {
         return;
       }
 
       this.rerenderUserRate(targetRate);
-      saveData(USER_RATE_STORAGE_KEY, { [this.id]: targetRate });
+      saveData(USER_RATE_STORAGE_KEY, { [this.#movieId]: targetRate });
     });
   }
 
   rerenderUserRate(rate) {
-    const rateNumber = Number(rate) * RATE_RANGE;
-    const rateCaption = RateCaption[rate];
-
-    $(".user-rate-number").innerText = rateNumber;
-    $(".user-rate-caption").innerText = rateCaption;
+    $(".user-rate-number").innerText = rate * RATE_RANGE;
+    $(".user-rate-caption").innerText = RateCaption[rate];
     this.rerenderStars(rate);
   }
 
