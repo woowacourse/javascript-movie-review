@@ -15,7 +15,6 @@ export class SeeMoreButton extends HTMLElement {
     this.$li = document.querySelector('ul')!.querySelector('movie-item:last-of-type')!;
     const io = new IntersectionObserver(
       (entry) => {
-
         if (entry[0].isIntersecting) {
           io.unobserve(this.$li);
           moreButtonHandler();

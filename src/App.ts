@@ -47,6 +47,7 @@ class App {
   }
 
   async moreButtonHandler() {
+    if (this.store.page === this.store.totalPage) return;
     this.store.allocateData(this.store.searchWord).then(() => {
       this.$movieList.renderMovies(this.store.movieListValue, this.store.genre);
     });
@@ -60,6 +61,7 @@ class App {
     this.store.allocateData(value).then(() => {
       setTimeout(() => {
         this.$movieList.renderSearchedMovies(this.store.movieListValue, this.store.genre);
+        if (this.store.totalPage === 1 || this.store.totalPage === 0) return;
         this.$seeMoreButton.addMoreButtonHandler(this.moreButtonHandler.bind(this));
       }, 500);
     });
