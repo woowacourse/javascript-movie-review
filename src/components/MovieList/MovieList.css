@@ -1,3 +1,8 @@
+main {
+  width: 100%;
+  padding: 0 40px;
+}
+
 .item-view,
 .item-test {
   width: 100%;
@@ -5,9 +10,9 @@
 
 .item-list {
   display: grid;
+  justify-content: space-between;
   margin: 48px 0;
-  grid-template-columns: repeat(auto-fill, 180px);
-  grid-column-gap: 160px;
+  grid-template-columns: repeat(4, 180px);
   grid-row-gap: 48px;
 }
 
@@ -27,4 +32,17 @@
 
 .hide-button {
   display: none;
+}
+
+@media (max-width: 767px) {
+  .item-list {
+    justify-content: space-around;
+    grid-template-columns: repeat(2, 120px);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+  }
 }

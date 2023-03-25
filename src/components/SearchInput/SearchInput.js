@@ -5,14 +5,18 @@ class SearchInput extends HTMLElement {
   connectedCallback() {
     this.render();
     this.setSubmitEvent();
+    this.setClickEvent();
   }
 
   render() {
     this.innerHTML = `
-    <form class="search-box">
-      <input type="text" placeholder="검색" />
-      <button class="search-button">검색</button>
-    </form>
+    <div class="input-container">
+      <form class="search-box search-box-hide">
+        <input type="text" placeholder="검색"/>
+        <button class="search-button">검색</button>
+      </form>
+      <button class="search-single-button search-button-hide"></button>
+    </div>
     `;
   }
 
@@ -23,6 +27,13 @@ class SearchInput extends HTMLElement {
 
       $('movie-list').setSearchWord(word);
       $('input').value = '';
+    });
+  }
+
+  setClickEvent() {
+    $('.search-single-button').addEventListener('click', () => {
+      $('.search-single-button').classList.add('search-click-hide');
+      $('.search-box').classList.remove('search-box-hide');
     });
   }
 }

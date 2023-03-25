@@ -25,3 +25,22 @@
 .item-score::after {
   margin-left: 8px;
 }
+
+@media (max-width: 767px) {
+  li {
+    width: 120px;
+  }
+
+  movie-item {
+    width: 120px;
+  }
+
+  .item-card {
+    width: 120px;
+  }
+
+  .item-thumbnail {
+    width: 120px;
+    height: 220px;
+  }
+}
