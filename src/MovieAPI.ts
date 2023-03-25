@@ -2,8 +2,6 @@ import { TMDBGenres, TMDBResponse } from './response.type';
 import { MovieFetcher } from './util/MovieFetcher';
 
 class MovieAPI {
-  private static readonly BASE_URL = 'https://api.themoviedb.org/3';
-
   async getPopularMovies(page = 1): Promise<TMDBResponse> {
     return MovieFetcher.fetch(
       '/movie/popular',

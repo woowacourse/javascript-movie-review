@@ -31,11 +31,7 @@ export class MovieList {
   async init() {
     await this.nextPage();
     this.showModal();
-    try {
-      infiniteScroll('li:nth-last-child(5)', this.nextPage);
-    } catch (e) {
-      console.log('텅');
-    }
+    infiniteScroll('li:nth-last-child(5)', this.nextPage);
   }
 
   render() {
@@ -60,14 +56,12 @@ export class MovieList {
     try {
       const response: TMDBResponse = await this.fetchFn(page);
 
-      await new Promise((resolve) => {
-        setTimeout(resolve, 500);
-      });
-
       const movies = response.results;
       store.setMovies(movies);
       const totalPages = response.total_pages;
-
+      await new Promise((resolve) => {
+        setTimeout(resolve, 500);
+      });
       this.replaceSkeleton(page, movies);
       if (page < totalPages) return;
 

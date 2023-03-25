@@ -2,7 +2,6 @@ export const infiniteScroll = (target: string, fn: CallableFunction) => {
   const options = {
     threshold: 0.3,
   };
-
   const io = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;

@@ -28,8 +28,8 @@ class MovieListItem {
 
   render() {
     if (this.movie.poster_path)
-      document.querySelectorAll('.item-thumbnail')?.forEach((thumbnail) => {
-        thumbnail.classList.remove('skeleton');
+      document.querySelector('.item-thumbnail')?.addEventListener('load', (e) => {
+        (e.target as HTMLImageElement).classList.remove('skeleton');
       });
     this.li.innerHTML = this.template(this.movie);
     return this.li;
