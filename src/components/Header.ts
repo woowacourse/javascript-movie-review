@@ -1,5 +1,6 @@
 import logo from '../images/logo.png';
 import stateRender from '../renderer/StateRender';
+import { eventThrottle } from '../utils/throttle';
 
 class Header {
   #$header = document.createElement('header');
@@ -57,8 +58,7 @@ class Header {
     const { target } = e;
 
     if (target.dataset.type !== 'logo') return;
-
-    stateRender.renderPopularMovies();
+    eventThrottle(() => stateRender.renderPopularMovies.bind(stateRender)(), 2000)();
 
     if (this.#$searchBox instanceof HTMLFormElement) {
       this.#$searchBox.reset();
