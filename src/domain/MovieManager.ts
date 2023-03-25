@@ -21,8 +21,8 @@ class MovieManager {
     });
   }
 
-  setNewState<T>(state: T) {
-    this.state = { ...this.state, ...state };
+  setNewState<T>(newState: T) {
+    this.state = { ...this.state, ...newState };
     this.publish(this.state);
   }
 
