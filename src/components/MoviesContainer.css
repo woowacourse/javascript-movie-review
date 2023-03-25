@@ -22,6 +22,7 @@
 }
 
 .movie-list-title {
+  width: 100%;
   align-self: baseline;
   margin-bottom: 46px;
   font-size: 3.4rem;

@@ -1,6 +1,6 @@
 import './MovieListItem.css';
 import STAR_FILLED from '../image/star-filled.png';
-import { $ } from '../utils/common';
+import { $, sliceSting } from '../utils/common';
 import { HTMLModalElement } from './Modal';
 
 class MovieListItem extends HTMLElement {
@@ -14,7 +14,7 @@ class MovieListItem extends HTMLElement {
     const SLICE_END = 3;
     const id = this.id;
     const imgUrl = this.getAttribute('imgUrl');
-    const title = this.getAttribute('title');
+    const title = this.getAttribute('title') || '';
     const score = this.getAttribute('score');
 
     this.innerHTML = /*html*/ `
@@ -22,7 +22,7 @@ class MovieListItem extends HTMLElement {
       <a>
         <div class="item-card">
             <movie-image imgUrl="${imgUrl}" title="${title}" width="200" class="movie-list-image-wrapper"></movie-image>
-          <p class="item-title">${title}</p>
+          <p class="item-title">${sliceSting(title)}</p>
           <div class="item-score">
             <span>${score?.slice(SLICE_START, SLICE_END)}</span>
             <img src="${STAR_FILLED}" alt="별점" />

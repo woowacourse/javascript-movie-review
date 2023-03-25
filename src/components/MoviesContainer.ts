@@ -1,6 +1,6 @@
 import './MoviesContainer.css';
 import Movie, { MovieInformation } from '../domain/Movie';
-import { $, getErrorMessage } from '../utils/common';
+import { $, getErrorMessage, sliceSting } from '../utils/common';
 
 export interface HTMLMovieContainerElement extends HTMLElement {
   reset: () => void;
@@ -155,7 +155,7 @@ class MoviesContainer extends HTMLElement {
       return;
     }
 
-    movieContainerTitle.innerText = `"${word}" 검색 결과`;
+    movieContainerTitle.innerText = `"${sliceSting(word)}" 검색 결과`;
   }
 
   updateQueries(word: string) {

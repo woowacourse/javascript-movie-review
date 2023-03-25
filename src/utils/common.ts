@@ -33,3 +33,12 @@ export const convertQuerystring = (params: Record<string, string>): string => {
 
   return URLParams.toString();
 };
+
+export const sliceSting = (word: string) => {
+  const LIMIT = 27;
+  if (word.length > LIMIT) {
+    return `${word.slice(0, LIMIT)}···`;
+  }
+
+  return word;
+};

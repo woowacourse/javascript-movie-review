@@ -1,7 +1,7 @@
 import './Modal.css';
 import STAR_FILLED from '../image/star-filled.png';
 import STAR_EMPTY from '../image/star-empty.png';
-import { $ } from '../utils/common';
+import { $, sliceSting } from '../utils/common';
 import { MovieInfo, MovieScoreInfo } from '../types/type';
 import Movie from '../domain/Movie';
 
@@ -42,7 +42,7 @@ class Modal extends HTMLElement {
             <div class="modal">
                 <header class="modal-header">
                     <div></div>
-                    <div class="modal-header-title">${title}</div>
+                    <div class="modal-header-title" title="${title}">${sliceSting(title)}</div>
                     <div id="modal-close-button" class="mocal-cancle">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="modal-cancle-content">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />

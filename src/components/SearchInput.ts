@@ -15,7 +15,7 @@ class SearchInput extends HTMLElement {
     this.innerHTML = /*html*/ `
     <label for="search-input-tag" id="search-label" class="search-input-label">
       <form id="search-form-box" class="search-box"> 
-        <input id="search-input-tag" class="search-input-text" type="text" required maxlength=50 placeholder="검색" />
+        <input id="search-input-tag" class="search-input-text" type="text" required maxlength=300 placeholder="검색" />
         <button id="search-form-button" type="submit" title="검색" alt="검색" class="search-button">검색</button>
       </form>
     </label>
