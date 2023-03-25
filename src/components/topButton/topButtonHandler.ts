@@ -7,16 +7,13 @@ export const backToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.intersectionRatio <= 0) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.intersectionRatio <= 0) return;
 
-        if (entry.isIntersecting) $("#top-button").classList.toggle("active");
-      });
-    },
-    { threshold: 1.0 }
-  );
+      if (entry.isIntersecting) $("#top-button").classList.toggle("active");
+    });
+  });
 
   if ($(".item-list").childElementCount >= 26) {
     observer.observe($(".item-list > li:nth-child(26)"));
