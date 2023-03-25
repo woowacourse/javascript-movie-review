@@ -21,7 +21,7 @@ export class MovieDatail {
 
   create() {
     return `
-        <div class="modal-bg"></div>
+        <div class="modal-bg">
         <section class="modal">
           <header class="modal__header">
             <h3 class="modal__title">${this._title}</h3>
@@ -45,19 +45,23 @@ export class MovieDatail {
             </article>
           </main>
         </section>
+        </div>
         `;
   }
 
   render() {
     const body = $("body") as HTMLElement;
     body.insertAdjacentHTML("afterbegin", this.create());
+    body.classList.add("no-scroll");
   }
 
   remove() {
     const detailModal = $(".modal") as HTMLElement;
     const modalBg = $(".modal-bg") as HTMLElement;
+    const body = $("body") as HTMLElement;
     detailModal.remove();
     modalBg.remove();
+    body.classList.remove("no-scroll");
   }
 
   close() {

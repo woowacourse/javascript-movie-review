@@ -79,6 +79,8 @@ button {
 .item-card {
   display: flex;
   flex-direction: column;
+
+  cursor: pointer;
 }
 
 .item-thumbnail {
@@ -373,6 +375,9 @@ header.modal__header {
   position: absolute;
   bottom: 0;
   text-align: center;
+
+  height: 1px;
+  width: 100%;
 }
 
 button.hidden {
