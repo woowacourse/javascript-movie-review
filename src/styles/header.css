@@ -9,7 +9,9 @@ header {
   padding: 0 20px;
   border-bottom: 1px solid white;
   margin-bottom: 48px;
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 header > .logo {
