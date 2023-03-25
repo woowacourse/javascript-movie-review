@@ -44,7 +44,7 @@ class MovieList extends CustomElement {
       .map((movie) => {
         const { title, src, starRate, id } = movie;
         return `
-          <movie-item id=${id} title='${title}' vote_average=${starRate} src=${src}>
+          <movie-item data-id=${id} title='${title}' vote_average=${starRate} src=${src}>
           </movie-item>
           `;
       })
@@ -70,7 +70,7 @@ class MovieList extends CustomElement {
 
   setModalOpenEvent() {
     $(".item-list").addEventListener("click", (e) => {
-      const movieId = e.target.closest("movie-item")?.id;
+      const movieId = e.target.closest("movie-item")?.dataset.id;
 
       if (movieId) {
         MovieManager.openItemModal(Number(movieId));
