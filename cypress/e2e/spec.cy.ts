@@ -12,7 +12,7 @@ describe('1. 무한 스크롤 기능 테스트', () => {
     cy.visit('/');
   });
 
-  it.skip('스크롤을 아래로 내리면, 영화가 추가로 불러와져야 한다.', () => {
+  it('스크롤을 아래로 내리면, 영화가 추가로 불러와져야 한다.', () => {
     Array.from({ length: 10 }).forEach(() => {
       cy.scrollTo(0, 9999999, { duration: 500 });
       cy.wait(1000);
@@ -21,7 +21,7 @@ describe('1. 무한 스크롤 기능 테스트', () => {
     cy.get('.item-list').children().should('have.length', 220);
   });
 
-  it.skip('검색 후, 스크롤을 아래로 내리면, 영화가 추가로 불러와져야 한다.', () => {
+  it('검색 후, 스크롤을 아래로 내리면, 영화가 추가로 불러와져야 한다.', () => {
     cy.get('#search-input').type('검색어');
     cy.get('#search-button').click();
 
@@ -35,8 +35,8 @@ describe('1. 무한 스크롤 기능 테스트', () => {
   });
 });
 
-describe.skip('2. 검색 예외 테스트', () => {
-  it.skip('검색 결과가 없는 경우, 영화 목록 없이 안내 메시지를 보여주어야 하며, 스크롤을 하더라도 추가로 검색하지 않아야 한다.', () => {
+describe('2. 검색 예외 테스트', () => {
+  it('검색 결과가 없는 경우, 영화 목록 없이 안내 메시지를 보여주어야 하며, 스크롤을 하더라도 추가로 검색하지 않아야 한다.', () => {
     cy.intercept(
       {
         url: /https:\/\/wzrabbit-movie-review.netlify.app\/.netlify\/functions\/(popularMovies|searchMovies).*/,
@@ -61,7 +61,7 @@ describe.skip('2. 검색 예외 테스트', () => {
     });
   });
 
-  it.skip('요청 중 오류가 발생했을 경우, 에러 메시지를 사용자에게 보여주어야 한다.', () => {
+  it('요청 중 오류가 발생했을 경우, 에러 메시지를 사용자에게 보여주어야 한다.', () => {
     cy.intercept(
       {
         url: /https:\/\/wzrabbit-movie-review.netlify.app\/.netlify\/functions\/(popularMovies|searchMovies).*/,
@@ -89,6 +89,8 @@ describe.skip('2. 검색 예외 테스트', () => {
       },
       { fixture: 'insufficientMovies.json' },
     );
+
+    cy.visit('/');
 
     cy.get('.error-image').should('not.exist');
     cy.get('.item-card').should('exist');
@@ -134,7 +136,7 @@ describe('3. 모달 기능 테스트', () => {
     cy.wait(3000);
   });
 
-  it.skip('영화 항목을 클릭할 경우, 영화에 대한 정보를 보여주어야 한다.', () => {
+  it('영화 항목을 클릭할 경우, 영화에 대한 정보를 보여주어야 한다.', () => {
     cy.get('.information-modal-wrapper').should('have.attr', 'hidden');
     cy.get('.item-card').eq(0).click();
     cy.get('.information-modal-wrapper').should('not.have.attr', 'hidden');
@@ -144,7 +146,7 @@ describe('3. 모달 기능 테스트', () => {
     cy.get('.information-modal-content').should('have.text', '첫 번째 영화에 대한 설명.');
   });
 
-  it.skip('Escape 키를 누르거나, X 버튼을 누르거나, 빈 공간을 누르면 모달이 닫혀야 한다.', () => {
+  it('Escape 키를 누르거나, X 버튼을 누르거나, 빈 공간을 누르면 모달이 닫혀야 한다.', () => {
     cy.get('.item-card').eq(0).click();
     cy.get('.information-modal-wrapper').should('not.have.attr', 'hidden');
     cy.get('.modal-close-button').click();
