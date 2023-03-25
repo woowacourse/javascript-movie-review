@@ -250,6 +250,15 @@ header {
   padding: 0px 16px;
 }
 
+.genre {
+  margin-right: 16px;
+  max-width: 380px;
+  max-height: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .overview {
   margin-top: 16px;
   overflow: scroll;
@@ -348,6 +357,10 @@ header {
 }
 
 @media screen and (max-width: 480px) {
+  .genre {
+    max-width: 200px;
+  }
+
   .comment {
     display: none;
   }

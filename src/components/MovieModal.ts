@@ -47,7 +47,7 @@ export default class MovieModal extends HTMLElement {
                   <div class="modal-essential">
                     <section class="detail-info">
                       <div class="w-full flex align-center skeleton">
-                        <p class="mr-16 hidden">${
+                        <p class="genre hidden">${
                           genre ? genre : RESPONSE_NULL.GENRE
                         }</p>
                         <div class="flex align-center">
