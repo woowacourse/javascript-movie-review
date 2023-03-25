@@ -4,6 +4,7 @@ import STAR_EMPTY from '../image/star-empty.png';
 import { $, sliceSting } from '../utils/common';
 import { MovieInfo, MovieScoreInfo } from '../types/type';
 import Movie from '../domain/Movie';
+import { HTMLMovieListItemElement } from './MovieListItem';
 
 export interface HTMLModalElement extends HTMLElement {
   connectedCallback: () => void;
@@ -169,14 +170,14 @@ class Modal extends HTMLElement {
         const score = (Number(index) + 1) * 2;
         this.setMovieScore(score);
         this.renderStar();
+        this.updateReviewedElement();
       });
     });
   }
 
   setMovieScore(score: number): void {
     const id = this.#detailMovieInfo.id;
-
-    const movieScore = JSON.parse(localStorage.getItem('movieScore') || '[]');
+    const movieScore: MovieScoreInfo[] = JSON.parse(localStorage.getItem('movieScore') || '[]');
 
     const findIndex = movieScore.findIndex((item: MovieScoreInfo) => item.id === id);
 
@@ -189,6 +190,13 @@ class Modal extends HTMLElement {
     const updatedMovieScore = movieScore;
     updatedMovieScore.splice(findIndex, 1, { id, score });
     localStorage.setItem('movieScore', JSON.stringify(updatedMovieScore));
+  }
+
+  updateReviewedElement() {
+    const id = this.#detailMovieInfo.id;
+    const movieItem = $(`#id${id}`) as HTMLMovieListItemElement;
+
+    movieItem.updateReviewedElement();
   }
 }
 
