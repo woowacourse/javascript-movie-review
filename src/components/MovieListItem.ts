@@ -48,9 +48,6 @@ export class MovieListItem {
   }
 
   onFulfilled(movie: Movie) {
-    // this.$root.setAttribute('id', movie.id);
-    // this.$('a').setAttribute('href', `#${movie.id}`);
-
     this.$('.item-thumbnail').innerHTML = `
       <img
         class="loading"
