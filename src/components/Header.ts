@@ -34,6 +34,7 @@ class Header {
         detail: { keyword: keyword },
       });
 
+      event.target.reset();
       EventBroker.dispatchEvent(updateMovieListEvent);
     });
   }

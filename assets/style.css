@@ -21,6 +21,13 @@ button {
   cursor: pointer;
 }
 
+input::-webkit-search-decoration,
+input::-webkit-search-cancel-button,
+input::-webkit-search-results-button,
+input::-webkit-search-results-decoration {
+  display: none;
+}
+
 /* Typography *************************************/
 .text-title {
   font-size: 3.2rem;
@@ -212,8 +219,10 @@ header h1 {
 }
 
 header > .search-box {
+  position: relative;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   width: 30%;
   background: rgba(241, 241, 241, 1);
@@ -228,7 +237,14 @@ header .search-box > input {
 }
 
 header .search-box > .search-button {
-  width: 14px;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  right: 8px;
+  z-index: 1;
+
+  width: 15px;
+  height: 15px;
   border: 0;
   text-indent: -1000rem;
   background: url('./search_button.png') transparent no-repeat 0 1px;
@@ -437,5 +453,58 @@ header .search-box > .search-button {
   .poster-image,
   .star-rating-container > .star-rating-caption {
     display: none;
+  }
+
+  header {
+    position: relative;
+  }
+
+  header > .search-box {
+    position: absolute;
+    right: 20px;
+    justify-content: flex-end;
+
+    width: 35px;
+    height: 35px;
+
+    padding: 0;
+
+    background-color: rgb(47, 47, 47);
+    transition: width 0.7s ease;
+  }
+
+  header > .search-box:hover,
+  header > .search-box:focus,
+  header > .search-box:active {
+    width: calc(100% - 40px);
+  }
+
+  header .search-box > input {
+    position: absolute;
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    padding: 0 10px;
+    opacity: 0;
+    background-color: rgb(47, 47, 47);
+    color: rgba(241, 241, 241, 1);
+
+    transition: all 0.55s ease;
+  }
+
+  header .search-box > input:hover,
+  header .search-box > input:focus,
+  header .search-box > input:active {
+    opacity: 1;
+    width: 100%;
+  }
+
+  header .search-box > .search-button {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translate(0, -50%);
+    background: url('./search_button_w.png') transparent no-repeat 0 1px;
+    background-size: contain;
   }
 }
