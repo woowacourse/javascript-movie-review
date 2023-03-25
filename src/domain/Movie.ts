@@ -13,14 +13,16 @@ class Movie {
     isShowMore: false,
   };
 
-  getMovie(id: number) {
+  private setNewData<T>(newData: T) {
+    this.data = { ...this.data, ...newData };
+  }
+
+  getMovie(id: number): MovieItem | undefined {
     return this.data.movies.find((movie) => movie.id === id);
   }
 
   async getMovies(query: string = "") {
-    this.data.page = 1;
-    this.data.searchWord = query;
-    this.data.isShowMore = false;
+    this.setNewData({ page: 1, searchWord: query, isShowMore: false });
 
     const apiData = await this.getApiData();
 
@@ -28,15 +30,16 @@ class Movie {
       return apiData;
     }
 
-    this.data.movies = this.formMovies(apiData.results);
-    this.data.totalPages = apiData.total_pages;
+    this.setNewData({
+      movies: this.formMovies(apiData.results),
+      totalPages: apiData.total_pages,
+    });
 
     return this.data;
   }
 
   async getMoreMovies() {
-    this.data.page += 1;
-    this.data.isShowMore = true;
+    this.setNewData({ page: this.data.page + 1, isShowMore: true });
 
     const apiData = await this.getApiData();
 
@@ -45,8 +48,10 @@ class Movie {
     }
 
     const moreMovies = this.formMovies(apiData.results);
-    this.data.movies = [...this.data.movies, ...moreMovies];
-    this.data.totalPages = apiData.total_pages;
+    this.setNewData({
+      movies: [...this.data.movies, ...moreMovies],
+      totalPages: apiData.total_pages,
+    });
 
     return { ...this.data, movies: moreMovies };
   }
