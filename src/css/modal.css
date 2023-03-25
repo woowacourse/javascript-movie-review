@@ -51,3 +51,8 @@
   letter-spacing: 0.5px;
   text-align: left;
 }
+
+.user-rating {
+  background: #383839;
+  border-radius: 16px;
+}

@@ -10,6 +10,7 @@ import { updateMovies } from "./domain/movies";
 import MovieItem from "./components/MovieItem";
 import MovieModal from "./components/MovieModal";
 import HeaderMobile from "./components/headers/HeaderMobile";
+import UserRating from "./components/UserRating";
 
 updateMovies();
 
@@ -18,5 +19,6 @@ customElements.define("header-mobile", HeaderMobile);
 customElements.define("movie-list", MovieList);
 customElements.define("movie-item", MovieItem);
 customElements.define("movie-modal", MovieModal);
+customElements.define('user-rating', UserRating);
 customElements.define("no-results-message", NoResultsMessage);
 customElements.define("movie-skeleton", Skeleton);

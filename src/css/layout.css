@@ -23,6 +23,11 @@
   margin-right: 8px;
 }
 
+.mx-2 {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
 .mx-3 {
   margin-left: 24px;
   margin-right: 24px;
@@ -43,4 +48,8 @@
 
 .m-3 {
   margin: 24px;
+}
+
+.p-3 {
+  padding: 24px;
 }

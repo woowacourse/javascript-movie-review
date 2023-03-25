@@ -42,17 +42,7 @@ export default class MovieModal extends HTMLElement {
             <div class="my-1 modal-overview">
               <div>${movie.overview}</div>
             </div>
-            <div>
-              <div>
-                내 별점
-              </div>
-              <div>
-                별별별별별
-              </div>
-              <div>
-                점수 보통이에요
-              </div>
-            </div>
+            <user-rating movie-id="${movie.id}"></user-rating>
           </div>
         </div>
       </div>
