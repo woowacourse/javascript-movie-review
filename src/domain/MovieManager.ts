@@ -1,8 +1,6 @@
 import Movie from "./Movie";
-import { State, Status } from "../type/movieType";
+import { State, Status, Subscriber } from "../type/movieType";
 import { apiStatus } from "../constant/movieConstants";
-
-type Subscriber = (state: State) => void;
 
 class MovieManager {
   private state: State = {
@@ -30,10 +28,10 @@ class MovieManager {
     this.setNewState({ status: apiStatus.LOADING });
 
     const movieAppData = await Movie.getMovies(searchWord);
-    const newState = movieAppData.error
-      ? { status: apiStatus.FAILURE, data: movieAppData }
-      : { status: apiStatus.SUCCESS, data: movieAppData };
-
+    const newState = {
+      status: movieAppData.error ? apiStatus.FAILURE : apiStatus.SUCCESS,
+      data: movieAppData,
+    };
     this.setNewState(newState);
   }
 
@@ -41,9 +39,10 @@ class MovieManager {
     this.setNewState({ status: apiStatus.LOADING });
 
     const movieAppData = await Movie.getMoreMovies();
-    const newState = movieAppData.error
-      ? { status: apiStatus.FAILURE, data: movieAppData }
-      : { status: apiStatus.SUCCESS, data: movieAppData };
+    const newState = {
+      status: movieAppData.error ? apiStatus.FAILURE : apiStatus.SUCCESS,
+      data: movieAppData,
+    };
 
     this.setNewState(newState);
   }

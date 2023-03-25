@@ -42,6 +42,8 @@ export interface State {
   data: MovieAppData | MovieItem | Error | {};
 }
 
+export type Subscriber = (state: State) => void;
+
 export type Status = "loading" | "success" | "failure";
 
 export interface MovieGenreApi {
