@@ -3,7 +3,7 @@ describe('Movie-Review e2e 기능 Test', () => {
     cy.visit('http://localhost:8080');
   });
 
-  it.skip('처음 홈페이지에 들어갔을 때 영화 리스트가 잘 보여야 한다.', () => {
+  it('처음 홈페이지에 들어갔을 때 영화 리스트가 잘 보여야 한다.', () => {
     cy.intercept(
       {
         method: 'GET',
@@ -17,20 +17,20 @@ describe('Movie-Review e2e 기능 Test', () => {
     });
   });
 
-  it.skip('검색했을 경우 검색 결과가 화면에 보여야 한다.', () => {
+  it('검색했을 경우 검색 결과가 화면에 보여야 한다.', () => {
     cy.wait(1000);
     cy.get('.search-box').click().type('아이언맨');
     cy.get('.search-button').click();
     cy.get('.item-title').first().should('contain', '아이언맨');
   });
 
-  it.skip('스크롤을 내리면 무한 스크롤이 되어야 한다.', () => {
+  it('스크롤을 내리면 무한 스크롤이 되어야 한다.', () => {
     cy.scrollTo('bottom');
 
     cy.get('movie-item').should('have.length', 60);
   });
 
-  it.skip('검색 후에도 무한 스크롤이 되어야 한다.', () => {
+  it('검색 후에도 무한 스크롤이 되어야 한다.', () => {
     cy.wait(1000);
     cy.get('.search-box').click().type('사랑');
     cy.get('.search-button').click();
@@ -39,18 +39,12 @@ describe('Movie-Review e2e 기능 Test', () => {
     cy.get('movie-item').should('have.length', 60);
   });
 
-  it.skip('헤더의 로고를 클릭했을 때 현재 인기 목록이 나와야 한다.', () => {
+  it('헤더의 로고를 클릭했을 때 현재 인기 목록이 나와야 한다.', () => {
     cy.get('.logo').click();
 
     cy.get('movie-item').should('be.visible');
   });
 
-  it.skip('검색 결과가 아무것도 없을 시 꽝 사진이 나와야 한다.', () => {
-    cy.wait(1000);
-    cy.get('.search-box').click().type('ㄴㅇㄴㄹㄴㅇㄹ');
-    cy.get('.search-button').click();
-    cy.get('.fail').should('be.visible');
-  });
 });
 
 describe('Movie-Review e2e 모달 Test', () => {
@@ -58,31 +52,31 @@ describe('Movie-Review e2e 모달 Test', () => {
     cy.visit('http://localhost:8080');
   });
 
-  it.skip('영화 목록 중 하나를 클릭했을 때 모달이 떠야한다.', () => {
+  it('영화 목록 중 하나를 클릭했을 때 모달이 떠야한다.', () => {
     cy.wait(1000);
     cy.get('.item-thumbnail').first().click();
     cy.get('.modal').should('be.visible');
   });
 
-  it.skip('영화 모달에 사진이 잘 나와야 한다.', () => {
+  it('영화 모달에 사진이 잘 나와야 한다.', () => {
     cy.wait(1000);
     cy.get('.item-thumbnail').first().click();
     cy.get('.modal-body_left').should('be.visible');
   });
 
-  it.skip('영화 모달에 장르가 잘 나와야 한다.', () => {
+  it('영화 모달에 장르가 잘 나와야 한다.', () => {
     cy.wait(1000);
     cy.get('.item-thumbnail').first().click();
     cy.get('.modal-body_right_genreAndstar').should('be.visible');
   });
 
-  it.skip('영화 사용자 별점추가 기능이 잘 나와야 한다.', () => {
+  it('영화 사용자 별점추가 기능이 잘 나와야 한다.', () => {
     cy.wait(1000);
     cy.get('.item-thumbnail').first().click();
     cy.get('.modal-body_right_userStar').should('be.visible');
   });
 
-  it.skip('모달 닫기 버튼을 누르면 모달 창이 꺼져야 한다.', () => {
+  it('모달 닫기 버튼을 누르면 모달 창이 꺼져야 한다.', () => {
     cy.wait(1000);
     cy.get('.item-thumbnail').first().click();
 

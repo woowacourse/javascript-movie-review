@@ -1,4 +1,9 @@
 <style>
+  .text {
+    font-family: 'Roboto';
+    font-style: normal;
+    line-height: 24px;
+  }
   .modal-information {
     display: flex;
     flex-direction: column;
@@ -12,11 +17,8 @@
 
     color: #f1f1f1;
     letter-spacing: 0.15px;
-    font-family: 'Roboto';
-    font-style: normal;
     font-weight: 600;
     font-size: 20px;
-    line-height: 24px;
 
     border-bottom: 1px solid rgba(241, 241, 241, 0.25);
   }
@@ -47,11 +49,8 @@
   .modal-body_right_genre {
     margin-top: 30px;
 
-    font-family: 'Roboto';
-    font-style: normal;
     font-weight: 400;
     font-size: 16px;
-    line-height: 24px;
     letter-spacing: 0.5px;
   }
   .modal-body_right_star {
@@ -62,11 +61,8 @@
     margin-top: 35px;
   }
   .modal-body_right_overview {
-    font-family: 'Roboto';
-    font-style: normal;
     font-weight: 400;
     font-size: 16px;
-    line-height: 24px;
     width: 100%;
     letter-spacing: 0.5px;
 
@@ -90,21 +86,15 @@
     color: #f1f1f1;
   }
   .my_star {
-    font-family: 'Roboto';
-    font-style: normal;
     font-weight: 700;
     font-size: 16px;
-    line-height: 24px;
 
     margin-top: 1px;
   }
   .modal-right-score,
   .modal-right-comment {
-    font-family: 'Roboto';
-    font-style: normal;
     font-weight: 400;
     font-size: 16px;
-    line-height: 24px;
 
     margin-top: 5px;
     color: #f1f1f1;
@@ -131,7 +121,7 @@
 </style>
 
 <div class="modal-information" id="{id}">
-  <div class="modal-header">
+  <div class="modal-header text">
     <p>{title}</p>
     <img class="modal-close" src="/src/assets/close.png" alt="nothing" />
   </div>
@@ -140,15 +130,15 @@
     <div class="modal-body_right">
       <div class="modal-body_right_top">
         <div class="modal-body_right_genreAndstar">
-          <p class="modal-body_right_genre">{genre}</p>
+          <p class="modal-body_right_genre text">{genre}</p>
           <img class="modal-body_right_star" src="/src/assets/star_filled.png" alt="별점" />
           <p class="modal-body_right_rate">{vote_average}</p>
         </div>
-        <p class="modal-body_right_overview">{overview}</p>
+        <p class="modal-body_right_overview text">{overview}</p>
       </div>
       <div class="modal-body_right_bottom">
         <div class="modal-body_right_userStar">
-          <p class="my_star">내 별점</p>
+          <p class="my_star text">내 별점</p>
           <div class="modal-right-stars">
             <img id="stars-1" src="{star1}" alt="빈 별" />
             <img id="stars-2" src="{star2}" alt="빈 별" />
@@ -157,7 +147,7 @@
             <img id="stars-5" src="{star5}" alt="빈 별" />
           </div>
           <p class="modal-right-score">{score}</p>
-          <p class="modal-right-comment">{comment}</p>
+          <p class="modal-right-comment text">{comment}</p>
         </div>
       </div>
     </div>

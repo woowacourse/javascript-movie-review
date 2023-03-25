@@ -57,9 +57,9 @@ export class MovieList extends HTMLElement {
     setInformationToModal: CallableFunction,
     eventBind: CallableFunction,
   ) {
-    const a = this.querySelector('ul');
+    const tag = this.querySelector('ul');
 
-    a?.addEventListener('click', (e: Event) => {
+    tag?.addEventListener('click', (e: Event) => {
       const target = e.target as HTMLTextAreaElement;
       const targetParent = target.parentElement as HTMLTextAreaElement;
 

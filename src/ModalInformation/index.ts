@@ -11,7 +11,20 @@ export class ModalInformation extends HTMLElement {
     this.$modal = document.querySelector('.modal')!;
   }
 
-  eventBind() {
+  eventBind = () => {
+    this.firstStarEvent();
+    this.secondStarEvent();
+    this.thirdStarEvent();
+    this.fourthStarEvent();
+    this.fifthStarEvent();
+    document
+      .querySelector('.modal-close')
+      ?.addEventListener('click', () =>
+        (document.querySelector('.modal') as HTMLDialogElement).close(),
+      );
+  };
+
+  firstStarEvent() {
     document.querySelector('#stars-1')?.addEventListener('click', () => {
       document.querySelector('#stars-1')?.setAttribute('src', fillStar);
       document.querySelector('#stars-2')?.setAttribute('src', emptyStar);
@@ -23,7 +36,9 @@ export class ModalInformation extends HTMLElement {
       const id = document.querySelector('.modal-information')!.id;
       localStorage.setItem(id, '2');
     });
+  }
 
+  secondStarEvent() {
     document.querySelector('#stars-2')?.addEventListener('click', () => {
       document.querySelector('#stars-1')?.setAttribute('src', fillStar);
       document.querySelector('#stars-2')?.setAttribute('src', fillStar);
@@ -35,7 +50,9 @@ export class ModalInformation extends HTMLElement {
       const id = document.querySelector('.modal-information')!.id;
       localStorage.setItem(id, '4');
     });
+  }
 
+  thirdStarEvent() {
     document.querySelector('#stars-3')?.addEventListener('click', () => {
       document.querySelector('#stars-1')?.setAttribute('src', fillStar);
       document.querySelector('#stars-2')?.setAttribute('src', fillStar);
@@ -47,7 +64,9 @@ export class ModalInformation extends HTMLElement {
       const id = document.querySelector('.modal-information')!.id;
       localStorage.setItem(id, '6');
     });
+  }
 
+  fourthStarEvent() {
     document.querySelector('#stars-4')?.addEventListener('click', () => {
       document.querySelector('#stars-1')?.setAttribute('src', fillStar);
       document.querySelector('#stars-2')?.setAttribute('src', fillStar);
@@ -59,7 +78,9 @@ export class ModalInformation extends HTMLElement {
       const id = document.querySelector('.modal-information')!.id;
       localStorage.setItem(id, '8');
     });
+  }
 
+  fifthStarEvent() {
     document.querySelector('#stars-5')?.addEventListener('click', () => {
       document.querySelector('#stars-1')?.setAttribute('src', fillStar);
       document.querySelector('#stars-2')?.setAttribute('src', fillStar);
@@ -71,12 +92,6 @@ export class ModalInformation extends HTMLElement {
       const id = document.querySelector('.modal-information')!.id;
       localStorage.setItem(id, '10');
     });
-
-    document
-      .querySelector('.modal-close')
-      ?.addEventListener('click', () =>
-        (document.querySelector('.modal') as HTMLDialogElement).close(),
-      );
   }
 
   setInformationToModal = (target: HTMLTextAreaElement) => {
@@ -113,11 +128,11 @@ export class ModalInformation extends HTMLElement {
       .replace('{star3}', Number(score) >= 6 ? fillStar : emptyStar)
       .replace('{star4}', Number(score) >= 8 ? fillStar : emptyStar)
       .replace('{star5}', Number(score) >= 10 ? fillStar : emptyStar)
-      .replace('{score}', this.getScore(Number(score)))
-      .replace('{comment}', this.getComment(Number(score)));
+      .replace('{score}', this.#getScore(Number(score)))
+      .replace('{comment}', this.#getComment(Number(score)));
   }
 
-  getScore(number: number) {
+  #getScore(number: number) {
     if (number === 2) return '2';
     if (number === 4) return '4';
     if (number === 6) return '6';
@@ -126,7 +141,7 @@ export class ModalInformation extends HTMLElement {
     return '';
   }
 
-  getComment(number: number) {
+  #getComment(number: number) {
     if (number === 2) return '최악이예요';
     if (number === 4) return '별로예요';
     if (number === 6) return '보통이에요';
