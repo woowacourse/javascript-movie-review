@@ -296,6 +296,7 @@ ul.item-list:not(:has(:first-child)) ~ h3 {
 
 .modal-info {
   display: flex;
+  width: 100%;
   flex-direction: column;
   justify-content: space-between;
   margin-left: 30px;
@@ -318,6 +319,7 @@ ul.item-list:not(:has(:first-child)) ~ h3 {
 
 .modal-genre-score {
   display: grid;
+
   place-items: center;
   grid-template-rows: 2fr;
   font-size: 2rem;
@@ -360,6 +362,12 @@ ul.item-list:not(:has(:first-child)) ~ h3 {
 
 .modal-overview::-webkit-scrollbar {
   display: none;
+}
+
+.modal-overview:empty::after {
+  font-size: 1.8rem;
+  color: rgba(241, 241, 241, 0.6);
+  content: '등록된 줄거리가 없습니다.';
 }
 
 .star-wrapper {
@@ -533,7 +541,7 @@ ul.item-list:not(:has(:first-child)) ~ h3 {
 
   .modal-overview {
     width: 100%;
-    height: 250px;
+    height: 180px;
     overflow: scroll;
   }
 
@@ -558,6 +566,11 @@ ul.item-list:not(:has(:first-child)) ~ h3 {
     width: 140px;
     height: 20px;
     margin-bottom: 48px;
+  }
+
+  .scroll-to-top {
+    width: 60px;
+    height: 60px;
   }
 }
 
@@ -584,6 +597,10 @@ ul.item-list:not(:has(:first-child)) ~ h3 {
     display: grid;
     grid-template-columns: repeat(3, 150px);
   }
+  .scroll-to-top {
+    width: 80px;
+    height: 80px;
+  }
 }
 
 @media (min-width: 840px) and (max-width: 1200px) {
@@ -596,8 +613,8 @@ ul.item-list:not(:has(:first-child)) ~ h3 {
     width: 80%;
   }
   .modal-thumbnail {
-    width: 200px;
-    height: 300px;
+    width: 250px;
+    height: 450px;
   }
 
   .item-list {

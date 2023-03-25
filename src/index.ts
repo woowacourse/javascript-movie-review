@@ -2,6 +2,7 @@ import './assets/common.css';
 import Header from './components/Header';
 import Modal from './components/Modal';
 import { MovieList } from './components/MovieList';
+import { TopButton } from './components/TopButton';
 import { POPULAR_MOVIES, SEARCH_RESULT } from './constants';
 import MovieAPI from './MovieAPI';
 import { TMDBGenres } from './response.type';
@@ -10,8 +11,10 @@ import store from './store';
 const init = () => {
   const modal = new Modal();
   const header = new Header();
+
   header.render();
   modal.init();
+  TopButton.render();
 };
 
 init();
@@ -35,10 +38,10 @@ document.querySelector('.search-box')?.addEventListener('submit', (event) => {
   const formData = Object.fromEntries(new FormData(event.target as HTMLFormElement).entries());
   const query = formData['search-text'] as string;
 
-  if (window.outerWidth <= 480 && !query) {
+  if (window.innerWidth <= 480 && !query) {
     document.querySelector('.search-box')?.classList.add('active');
   }
-  if ((window.outerWidth > 480 && query) || query) {
+  if ((window.innerWidth > 480 && query) || query) {
     const searchFetchFn = (page: number) => MovieAPI.getSearchMovies(query, page);
     assignMovieList(new MovieList(searchFetchFn, SEARCH_RESULT(query)));
   }

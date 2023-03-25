@@ -51,7 +51,7 @@ const Rate = {
     }
   },
   ratingText(rate: string) {
-    return window.outerWidth > 480 ? rate + ' ' + ratingComment[Number(rate)] : rate;
+    return window.innerWidth > 480 ? rate + ' ' + ratingComment[Number(rate)] : rate;
   },
 };
 
