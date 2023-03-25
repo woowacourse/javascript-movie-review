@@ -125,9 +125,17 @@
   align-items: center;
 }
 
+.my-vote-star {
+  cursor: pointer;
+}
+
 @media screen and (max-width: 800px) {
   .my-vote-desc {
     display: none;
+  }
+
+  .my-vote-container {
+    justify-content: center;
   }
 }
 
@@ -142,9 +150,5 @@
 
   .detail-overview {
     max-height: 220px;
-  }
-
-  .my-vote-container {
-    justify-content: center;
   }
 }
