@@ -11,12 +11,15 @@ export class ErrorComment {
 
   create() {
     return `
+        <img src="/bear.png" class="empty-data-image"/>
         <div class="error">${ERROR_MESSAGE[this._errorCode]}</div>
         `;
   }
 
   render() {
     const itemList = $(".item-list") as HTMLElement;
+    const title = $("h2") as HTMLElement;
+    title.remove();
     itemList.innerHTML = this.create();
   }
 }

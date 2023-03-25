@@ -231,18 +231,11 @@ header .search-box > .search-button {
 
 .error {
   position: absolute;
-  top: 170px;
-  left: 10%;
-  width: 100%;
-  font-size: 50px;
-}
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
-.empty-data {
-  position: absolute;
-  top: 170px;
-  left: 10%;
-  width: 100%;
-  font-size: 50px;
+  font-size: 30px;
 }
 
 /* modal */
@@ -457,6 +450,28 @@ header.modal__header {
 
   height: 1px;
   width: 100%;
+}
+
+.empty-data {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* width: 100%; */
+  font-size: 30px;
+}
+
+.empty-data-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150px;
+  height: 150px;
+}
+
+.keyword {
+  color: red;
 }
 
 button.hidden {

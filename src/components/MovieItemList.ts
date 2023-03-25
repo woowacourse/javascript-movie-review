@@ -24,9 +24,11 @@ export default class MovieItemList {
     container.innerHTML = this.create();
   }
 
-  renderNoData() {
+  renderNoData(keyword: string) {
     const itemList = $(".item-list") as HTMLElement;
-    itemList.innerHTML = `<div class="empty-data">검색 결과가 존재하지 않습니다.</div>`;
+    const title = $("h2") as HTMLElement;
+    title.remove();
+    itemList.innerHTML = `<img class="empty-data-image" src="/bear.png"/><div class="empty-data"><strong class="keyword">${keyword}</strong>에 대한 검색 결과가 존재하지 않습니다.</div>`;
   }
 
   renderTitle(titleText: string) {
