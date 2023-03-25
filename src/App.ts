@@ -10,6 +10,7 @@ export default class App {
     movieList: MovieList;
     movieDetailsModal?: MovieDetailsModal;
   };
+  #timer: NodeJS.Timeout | null;
 
   constructor() {
     this.#components = {
@@ -19,6 +20,7 @@ export default class App {
       }),
       movieList: new MovieList(<Element>$('main'), this.renderDetailsModal.bind(this)),
     };
+    this.#timer = null;
 
     this.initialRender();
   }
@@ -27,6 +29,8 @@ export default class App {
     this.#components.header.render();
     this.#components.movieList.render();
     this.#components.movieList.load();
+
+    window.addEventListener('scroll', this.infiniteScroll.bind(this), { passive: true });
   }
 
   renderPopularMovieList() {
@@ -48,5 +52,16 @@ export default class App {
 
     this.#components.movieDetailsModal.movie = movie;
     this.#components.movieDetailsModal.render();
+  }
+
+  infiniteScroll() {
+    const padding = 50;
+    if (window.scrollY + window.innerHeight + padding < document.body.scrollHeight || this.#timer) return;
+
+    this.#timer = setTimeout(() => {
+      this.#timer = null;
+
+      this.#components.movieList.load();
+    }, 500);
   }
 }

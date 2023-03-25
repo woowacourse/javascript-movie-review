@@ -25,27 +25,32 @@ export default class MovieList implements Component {
   $element;
   #getMovieMetaData;
   #renderModal;
+  #isLastPage;
 
   constructor($parent: Element, renderModal: (movie: Movie) => void) {
     this.$element = document.createElement('section');
     this.$element.className = 'item-view';
     this.#getMovieMetaData = popularMovieDataFetchFuncGenerator();
     this.#renderModal = renderModal;
+    this.#isLastPage = false;
 
     $parent.insertAdjacentElement('beforeend', this.$element);
   }
 
   setPopularMovieDataFetchFunc() {
     this.#getMovieMetaData = popularMovieDataFetchFuncGenerator();
+
+    this.#isLastPage = false;
   }
 
   setSearchedMovieDataFetchFunc(query: string) {
     this.#getMovieMetaData = searchedMovieDataFetchFuncGenerator(query);
+
+    this.#isLastPage = false;
   }
 
   render(query?: string) {
     this.$element.innerHTML = this.template(query);
-    this.setEvent();
   }
 
   template(query?: string) {
@@ -54,8 +59,7 @@ export default class MovieList implements Component {
     <ul class="item-list"></ul> 
     <ul class="skeleton-item-list item-list hide">
       ${this.getSkeletonCardsHTML(20)}
-    </ul>
-    <button id="more-button" class="btn primary full-width">더 보기</button>`;
+    </ul>`;
   }
 
   renderMovieCards(movieList: Movie[]) {
@@ -99,11 +103,9 @@ export default class MovieList implements Component {
     (<HTMLUListElement>this.$element.querySelector('.skeleton-item-list')).classList.add('hide');
   }
 
-  setEvent() {
-    (<HTMLButtonElement>this.$element.querySelector('#more-button')).addEventListener('click', this.load.bind(this));
-  }
-
   async load() {
+    if (this.#isLastPage) return;
+
     this.showSkeletonList();
     const data = await this.#getMovieMetaData();
 
@@ -114,18 +116,10 @@ export default class MovieList implements Component {
       return;
     }
 
-    this.isLastPage(data.page, data.totalPages) && this.hideMoreButton();
+    this.#isLastPage = (data.page === data.totalPages);
 
     this.hideSkeletonList();
-
+    
     this.renderMovieCards(data.movieList);
-  }
-
-  isLastPage(page: number, totalPages: number) {
-    return page === totalPages;
-  }
-
-  hideMoreButton() {
-    (<HTMLButtonElement>this.$element.querySelector('#more-button')).classList.add('hide');
   }
 }
