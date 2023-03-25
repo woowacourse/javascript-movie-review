@@ -21,12 +21,12 @@
 
 <table>
   <tr>
-    <td align="center" width="130px">
+    <td align="center" width="150px">
       <a href="https://github.com/HyeryongChoi" target="_blank">
         <img src="https://avatars.githubusercontent.com/u/24777828?v=4" alt="첵스(최혜령) 프로필" />
       </a>
     </td>
-    <td align="center" width="130px">
+    <td align="center" width="150px">
       <a href="https://github.com/wzrabbit" target="_blank">
         <img src="https://avatars.githubusercontent.com/u/87642422?v=4" alt="요술토끼(김의천) 프로필" />
       </a>
