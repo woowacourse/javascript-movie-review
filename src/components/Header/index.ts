@@ -18,12 +18,20 @@ export class Header extends HTMLElement {
       }
       searchHandler(value);
     });
+
+    const $searchButton = $<HTMLButtonElement>('.search-button', this);
+    $searchButton.addEventListener('click', () => {
+      $<HTMLDivElement>('.search-box', this).classList.add('show');
+      $input.classList.add('show');
+    });
   }
 
   addClickLogoHandler(handler: CallableFunction) {
     const $logo = $<HTMLImageElement>('.movie-logo');
     $logo?.addEventListener('click', () => {
       $<HTMLInputElement>('input', this).value = '';
+      $<HTMLDivElement>('.search-box', this).classList.remove('show');
+      $<HTMLInputElement>('input', this).classList.remove('show');
       handler();
     });
   }
