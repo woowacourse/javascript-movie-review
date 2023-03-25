@@ -56,18 +56,18 @@ export interface GenreAPIData {
 const SCHEME = 'https';
 const HOST = 'api.themoviedb.org';
 const PATHS = { POPULAR: '/3/movie/popular', SEARCH: '/3/search/movie', GENRE: '/3/genre/movie/list' };
-const QUERY = (page?: number, searchQuery?: string) =>
-  `api_key=${process.env.API_KEY}&language=ko-KR` +
-  (page ? `&page=${page}` : '') +
-  (searchQuery ? `&query=${searchQuery}` : '');
+const DEFAULT_QUERY = `api_key=${process.env.API_KEY}&language=ko-KR`;
 
 export const popularMovieDataFetchFuncGenerator = () => {
   let currentPage = 1;
 
   const getPopularMovieData = async () => {
-    const url = `${SCHEME}://${HOST}/${PATHS.POPULAR}?${QUERY(currentPage)}`;
-    const response = await fetch(url);
+    const queryString = new URLSearchParams(DEFAULT_QUERY);
+    queryString.append('page', currentPage.toString());
 
+    const url = `${SCHEME}://${HOST}/${PATHS.POPULAR}?${queryString}`;
+    const response = await fetch(url);
+    
     if (!response.ok) {
       const result: FailedResponse = await response.json();
       const data: FailedFetchingData = {
@@ -99,7 +99,11 @@ export const searchedMovieDataFetchFuncGenerator = (query: string) => {
   let currentPage = 1;
 
   const getSearchedMovieData = async () => {
-    const url = `${SCHEME}://${HOST}/${PATHS.SEARCH}?${QUERY(currentPage, query)}`;
+    const queryString = new URLSearchParams(DEFAULT_QUERY);
+    queryString.append('page', currentPage.toString());
+    queryString.append('query', query);
+
+    const url = `${SCHEME}://${HOST}/${PATHS.SEARCH}?${queryString}`;
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -130,7 +134,7 @@ export const searchedMovieDataFetchFuncGenerator = (query: string) => {
 };
 
 export const getGenreAPIData = async () => {
-  const url = `${SCHEME}://${HOST}/${PATHS.GENRE}?${QUERY()}`;
+  const url = `${SCHEME}://${HOST}/${PATHS.GENRE}?${DEFAULT_QUERY}`;
   const response = await fetch(url);
 
   const result: GenreAPIMetadata = await response.json();
