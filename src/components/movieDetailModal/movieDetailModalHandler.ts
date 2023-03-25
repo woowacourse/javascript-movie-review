@@ -15,11 +15,9 @@ const showModal = () => {
 
     await getMovieDetail(Number(target.id));
 
-    $<HTMLDivElement>(`#filled-stars`).style.width = `${
-      localStorage.getItem(target.id)
-        ? Number(localStorage.getItem(target.id)) * 10
-        : 0
-    }%`;
+    const userRatings = localStorage.getItem(target.id);
+    const ratings = `${userRatings ? Number(userRatings) * 10 : 0}%`;
+    $<HTMLDivElement>(`#filled-stars`).style.width = ratings;
 
     $<HTMLDialogElement>("#movie-detail").showModal();
 
@@ -66,10 +64,10 @@ const handleUserRatings = () => {
     const movieId = target.className.replace("-ratings", "");
     localStorage.setItem(movieId, target.value);
 
-    const rating = localStorage.getItem(movieId);
-    $(".rating").textContent = `${rating}`;
+    const ratings = localStorage.getItem(movieId);
+    $(".user-ratings").textContent = `${ratings}`;
 
-    const message = RATING_MESSAGES[rating ? rating : "0"];
+    const message = RATING_MESSAGES[ratings ? ratings : "0"];
     $(".message").textContent = `${message}`;
   });
 };

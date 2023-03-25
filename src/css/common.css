@@ -332,7 +332,7 @@ header .search-box > .search-button {
   padding-bottom: 2px;
 }
 
-#user-ratings {
+#user-ratings-section {
   display: flex;
   align-items: center;
   position: absolute;
@@ -344,7 +344,7 @@ header .search-box > .search-button {
   border-radius: 16px;
 }
 
-#user-ratings > h3 {
+#user-ratings-section > h3 {
   margin-right: 12px;
   padding-bottom: 2px;
 }
@@ -378,8 +378,8 @@ header .search-box > .search-button {
   pointer-events: none;
 }
 
-#user-ratings > p,
-#user-ratings > span {
+#user-ratings-section > p,
+#user-ratings-section > span {
   padding-left: 12px;
   font-size: 16px;
 }
@@ -459,12 +459,12 @@ header .search-box > .search-button {
     width: 740px;
   }
 
-  #user-ratings {
+  #user-ratings-section {
     height: 54px;
     padding: 0 14px;
   }
 
-  #user-ratings > h3 {
+  #user-ratings-section > h3 {
     margin-right: 6px;
     padding-bottom: 2px;
     text-align: center;
@@ -472,8 +472,8 @@ header .search-box > .search-button {
     line-height: 1.4;
   }
 
-  #user-ratings > p,
-  #user-ratings > span {
+  #user-ratings-section > p,
+  #user-ratings-section > span {
     padding-left: 8px;
     font-size: 14px;
   }
@@ -563,15 +563,15 @@ header .search-box > .search-button {
     display: none;
   }
 
-  #user-ratings {
+  #user-ratings-section {
     justify-content: center;
   }
-  #user-ratings > h3 {
+  #user-ratings-section > h3 {
     margin-right: 14px;
   }
 
-  #user-ratings > p,
-  #user-ratings > span {
+  #user-ratings-section > p,
+  #user-ratings-section > span {
     padding-left: 14px;
   }
 

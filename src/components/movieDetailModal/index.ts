@@ -33,7 +33,7 @@ export default class MovieDetailModal extends HTMLElement {
               <p class="overview">${
                 movie.overview === "" ? NO_OVERVIEW : movie.overview
               }</p>
-              <section id="user-ratings">
+              <section id="user-ratings-section">
                 <h3>내 별점</h3>
                 <div class="ratings">
                   <div class="stars">
@@ -56,7 +56,7 @@ export default class MovieDetailModal extends HTMLElement {
                     max="10"
                   />
                 </div>
-                <span class="rating">${movie.userRatings}</span>
+                <span class="user-ratings">${movie.userRatings}</span>
                 <p class="message">${RATING_MESSAGES[movie.userRatings]}</p>
               </section>
             </article>
