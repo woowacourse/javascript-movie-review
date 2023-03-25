@@ -62,5 +62,9 @@ style.replace(`
       opacity: 0;
     }
   }
-  
+  @media (min-width: 320px) and (max-width: 420px) {
+    .error-modal {
+      width:fit-content;
+    }
+  }
 `);
