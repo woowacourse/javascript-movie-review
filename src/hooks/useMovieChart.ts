@@ -1,4 +1,4 @@
-import { MovieInfo } from './../domain/Movie';
+import { MovieInfo, MyVote } from './../domain/Movie';
 import { fetchMoviesByKeyword, fetchPopularMovies, waitFor } from '../apis/movieChart';
 import { INITIAL_PAGE, PAGE } from '../constants/movieChart';
 import { CallbackEvent, useEffect, useState } from '../core';
@@ -54,8 +54,7 @@ function useMovieChart(keyword: string) {
   };
 
   const fetchMore = (keyword: string) => {
-    if (keyword) getMoviesByKeyword(keyword);
-    else getPopularMovies();
+    keyword ? getMoviesByKeyword(keyword) : getPopularMovies();
   };
 
   const onClickMovie = (e: CallbackEvent) => {
@@ -68,15 +67,33 @@ function useMovieChart(keyword: string) {
       openModal(focusedMovie);
     }
   };
+
+  const setMyVote = (vote: MyVote) => {
+    const updatedMovieList = movieList.map((movie) => {
+      if (movie.getMovieId() === vote.id) {
+        movie.setMovieVote(vote);
+      }
+
+      return movie;
+    });
+    const currentFocusedMovie = getMovieInfo(Number(focusedMovie?.id));
+    const updatedMovie = updatedMovieList.find((movie) => movie.getMovieId() === currentFocusedMovie?.getMovieId());
+
+    if (updatedMovie) openModal(updatedMovie);
+    setMovieList(updatedMovieList);
+  };
+
   useEffect(() => {
     page = INITIAL_PAGE;
 
     fetchMore(keyword);
   }, [keyword]);
 
+  useEffect(() => {}, [movieList]);
+
   return {
     values: { movieChart, movieList, isLoading, focusedMovie },
-    handlers: { closeModal, openModal, fetchMore, onClickMovie },
+    handlers: { closeModal, openModal, fetchMore, onClickMovie, setMyVote },
   };
 }
 

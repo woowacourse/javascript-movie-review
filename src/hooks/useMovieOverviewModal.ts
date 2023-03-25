@@ -27,10 +27,10 @@ function useMovieOverviewModal(initial: boolean) {
 
   const focusMovie = (movie: Movie) => {
     const {
-      movieInfo: { genre_ids, my_vote, overview, title, poster_path, vote_average },
+      movieInfo: { id, genre_ids, my_vote, overview, title, poster_path, vote_average },
     } = movie;
 
-    setFocusMovie({ genres: parseGenres(genre_ids), my_vote, overview, title, poster_path, vote_average });
+    setFocusMovie({ genres: parseGenres(genre_ids), id, my_vote, overview, title, poster_path, vote_average });
   };
 
   const fetchGenres = async () => {

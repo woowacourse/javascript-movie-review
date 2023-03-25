@@ -1,27 +1,39 @@
 import { MY_VOTE } from '../../constants/movieChart';
 import { assemble, Event } from '../../core';
-import { MovieInfo } from '../../domain/Movie';
-import { $, getElement } from './../../utils/common/domHelper';
+import { MovieInfo, MyVote } from '../../domain/Movie';
+import { $, getClosest, getElement } from './../../utils/common/domHelper';
 
 export interface MovieOverview
-  extends Pick<MovieInfo, 'title' | 'vote_average' | 'overview' | 'poster_path' | 'my_vote'> {
+  extends Pick<MovieInfo, 'id' | 'title' | 'vote_average' | 'overview' | 'poster_path' | 'my_vote'> {
   genres: string[];
 }
 export interface MovieOverviewModalProps {
   focusedMovie: MovieOverview;
   closeModal: VoidFunction;
+  setMyVote(vote: MyVote): void;
 }
 
 const MovieOverviewModal = assemble((props: MovieOverviewModalProps) => {
   const {
-    focusedMovie: { title, overview, vote_average, my_vote, genres, poster_path },
+    focusedMovie: { id, title, overview, vote_average, my_vote, genres, poster_path },
     closeModal,
+    setMyVote,
   } = props;
+
   const $events: Event[] = [
     {
       event: 'click',
       callback(e) {
         if (e.target === $('.modal-backdrop') || e.target === $('.movie-overview-modal__close-btn')) closeModal();
+      },
+    },
+    {
+      event: 'click',
+      callback(e) {
+        const score = getClosest(e.target, '.vote-star')?.dataset.score;
+        if (score) {
+          setMyVote({ id, my_vote: Number(score) });
+        }
       },
     },
   ];
@@ -69,17 +81,16 @@ const MovieOverviewModal = assemble((props: MovieOverviewModalProps) => {
 export { MovieOverviewModal };
 
 const getStarByMyVote = (my_vote: number) => {
-  const filled = my_vote / 3;
+  const filled = my_vote / 2;
   const empty = 5 - filled;
 
-  return (
-    Array.from(Array(filled))
-      .map(() => `<img src="./star_filled.png" alt="별점"/>`)
-      .join('') +
-    Array.from(Array(empty))
-      .map(() => `<img src="./star_empty.png" alt="별점"/>`)
-      .join('')
-  );
+  return Array.from(Array(5))
+    .map((_, i) => {
+      if (i < filled) return `<img class='vote-star' src="./star_filled.png" alt="별점" data-score=${(i + 1) * 2} />`;
+
+      return `<img class='vote-star' src="./star_empty.png" alt="별점" data-score=${(i + 1) * 2} />`;
+    })
+    .join('');
 };
 
 const parseMyVote = (my_vote: number) => {

@@ -12,7 +12,7 @@ export interface MovieChartProps {
 const MovieChart = assemble<MovieChartProps>(({ keyword }) => {
   const {
     values: { movieChart, movieList, isLoading, focusedMovie },
-    handlers: { fetchMore, closeModal, onClickMovie },
+    handlers: { fetchMore, closeModal, onClickMovie, setMyVote },
   } = useMovieChart(keyword);
   const needMoreFetch = !isLoading && movieChart?.movieChartInfo.page !== movieChart?.movieChartInfo.total_pages;
   const noResult = !isLoading && !movieChart?.movieChartInfo.total_results;
@@ -50,6 +50,7 @@ const MovieChart = assemble<MovieChartProps>(({ keyword }) => {
             ? MovieOverviewModalComponent({
                 focusedMovie,
                 closeModal,
+                setMyVote,
               })
             : ''
         }

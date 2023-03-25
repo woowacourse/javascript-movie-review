@@ -12,7 +12,6 @@ export class MovieChart implements IMovieChart {
   movieChartInfo: MovieChartInfo;
 
   constructor(movieChartInfo: GetPopularMoviesRes | GetMoviesByKeywordRes) {
-    console.log(movieChartInfo);
     this.movieChartInfo = {
       ...movieChartInfo,
       results: movieChartInfo.results.map((movieInfo) => new Movie(movieInfo)),
