@@ -45,7 +45,7 @@ class MovieView {
       return;
     }
 
-    this.MovieList.insertMovies(movies);
+    this.movieList.insertMovies(movies);
   }
 }
 

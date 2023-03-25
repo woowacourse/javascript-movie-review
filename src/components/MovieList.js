@@ -11,12 +11,12 @@ class MovieList {
     this.init();
 
     this.render($target);
+
+    this.skeletonCards = new SkeletonCards(this.$ul);
   }
 
   init() {
     this.$ul.classList = "item-list";
-
-    this.skeletonCards = new SkeletonCards(this.$ul);
   }
 
   render($target) {
@@ -26,13 +26,17 @@ class MovieList {
   insertMovies(movies) {
     const movieLi = this.getMovieLi(movies);
 
-    this.skeletonCards.$ul.insertAdjacentHTML("beforebegin", movieLi);
+    this.$ul.insertAdjacentHTML("beforeend", movieLi);
+
+    this.skeletonCards.hide();
   }
 
   switchMovies(movies) {
     const movieLi = this.getMovieLi(movies);
 
     this.$ul.innerHTML = movieLi;
+
+    this.skeletonCards.hide();
   }
 
   getMovieLi(movies) {

@@ -47,7 +47,7 @@ class App {
     if (target.id !== "logo") return;
 
     // const { isError, data } = await this.movie.getPopularMovies(1);
-    const { isError, data } = await this.movie.findMovies("코난", 1);
+    const { isError, data } = await this.movie.findMovies("코난", 2);
     if (isError) return;
 
     this.movieView.updateMovieListTitle();

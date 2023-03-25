@@ -10,11 +10,12 @@ class SkeletonCards {
   init() {
     this.$ul.classList = "skeleton-cards";
 
-    this.$ul.insertAdjacentHTML("beforeend", this.getTemplate());
+    // this.$ul.insertAdjacentHTML("beforeend", this.getTemplate());
+    this.$ul.innerHTML = this.getTemplate();
   }
 
   render($target) {
-    $target.insertAdjacentElement("beforeend", this.$ul);
+    $target.insertAdjacentElement("afterend", this.$ul);
   }
 
   getTemplate() {
