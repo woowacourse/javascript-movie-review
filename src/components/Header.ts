@@ -11,7 +11,7 @@ class Header extends HTMLElement {
 
   render() {
     this.innerHTML = /*html*/ `
-    <header class="movie-header">
+    <header id="movie-header-bar" class="movie-header">
       <h1 id="logo" class="movie-logo"><img src="${LOGO}" alt="MovieList 로고" /></h1>
       <search-input></search-input>
     </header>`;

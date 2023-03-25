@@ -15,3 +15,9 @@
 .movie-logo {
   cursor: pointer;
 }
+
+@media (max-width: 375px) {
+  .header-center {
+    justify-content: center !important;
+  }
+}

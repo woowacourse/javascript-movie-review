@@ -47,3 +47,7 @@ button {
 .overflow-hidden {
   overflow: hidden;
 }
+
+.hide {
+  display: none !important;
+}
