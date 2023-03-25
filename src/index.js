@@ -6,6 +6,8 @@ import SearchBox from "../src/components/SearchBox";
 import MovieItem from "../src/components/MovieItem";
 import MovieList from "../src/components/MovieList";
 import MovieListContainer from "../src/components/MovieListContainer";
+import MovieDetailModal from "../src/components/MovieDetailModal";
+import Vote from "./components/Vote";
 
 import MovieApp from "./movieApp";
 

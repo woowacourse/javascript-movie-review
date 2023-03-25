@@ -1,4 +1,4 @@
-import { mostPopular, search } from "./fetch";
+import { mostPopular, search, genre } from "./fetch";
 import movieHandler from "./domain/movieHandler";
 import { $ } from "./utils/dom";
 import MovieListContainer from "./components/MovieListContainer";
@@ -6,6 +6,7 @@ import MovieList from "./components/MovieList";
 import type { ResponseData } from "./types/type";
 import { ConstantsNumber } from "./utils/constants";
 import { onHandleCatchError, onHandleStatusError } from "./utils/errorHandler";
+import MovieDetailModal from "./components/MovieDetailModal";
 
 const MovieApp = {
   currentPageNumber: ConstantsNumber.PAGE_MIN_NUMBER,
@@ -26,9 +27,21 @@ const MovieApp = {
           ? this.getPopularMovieData()
           : this.getSearchMovieData()
     );
+    $("movie-list-container")?.addEventListener(
+      "openMovieDetail",
+      ({ detail }: CustomEventInit) => {
+        this.onHandleModal(detail);
+      }
+    );
     $("search-box")?.addEventListener(
       "searchMovieData",
       ({ detail }: CustomEventInit) => this.searchMovieData(detail)
+    );
+    $("movie-vote")?.addEventListener(
+      "voteStarIndex",
+      ({ detail }: CustomEventInit) => {
+        this.onHandleModal(detail);
+      }
     );
   },
 
@@ -40,7 +53,7 @@ const MovieApp = {
     movieHandler.addMovies(movies.results);
 
     if (movies.results.length < ConstantsNumber.ROAD_IMAGE_NUMBER)
-      this.$container.hiddenLoadMovieButton();
+      this.$container.hiddenListBottom();
 
     movieList.render(movieHandler.movies);
   },
@@ -57,16 +70,16 @@ const MovieApp = {
 
       return movies;
     } catch (error) {
-      if (error instanceof Error) {
-        const errorData = JSON.parse(error.message);
-        const statusCode = errorData.status_code;
+      if (!(error instanceof Error)) throw error;
 
-        const message = statusCode
-          ? onHandleStatusError(statusCode)
-          : onHandleCatchError(error.message);
+      const errorData = JSON.parse(error.message);
+      const statusCode = errorData.status_code;
 
-        this.$container.displayErrorUI(message);
-      }
+      const message = statusCode
+        ? onHandleStatusError(statusCode)
+        : onHandleCatchError(error.message);
+
+      this.$container.displayErrorUI(message);
     }
   },
 
@@ -76,7 +89,7 @@ const MovieApp = {
     );
 
     if (this.currentPageNumber > ConstantsNumber.PAGE_MAX_NUMBER)
-      this.$container.hiddenLoadMovieButton();
+      this.$container.hiddenListBottom();
 
     this.loadMovieData(movies);
   },
@@ -102,6 +115,15 @@ const MovieApp = {
     );
 
     this.loadMovieData(movies);
+  },
+
+  async onHandleModal(id: number) {
+    const movieDetailModal = <MovieDetailModal>$("movie-detail-modal");
+    const selectedMovie = movieHandler.getSelectedMovie(id);
+    const genreList = await genre();
+
+    movieDetailModal?.render(selectedMovie, genreList["genres"]);
+    movieDetailModal.openModal();
   },
 };
 

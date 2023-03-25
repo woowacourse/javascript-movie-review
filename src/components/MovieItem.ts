@@ -1,4 +1,5 @@
 import { StarFilled, AddSkeleton } from "../../images";
+import { Url } from "../utils/constants";
 
 class MovieItem extends HTMLElement {
   constructor() {
@@ -14,9 +15,9 @@ class MovieItem extends HTMLElement {
     const title = this.getAttribute("title");
     const voteAverage = this.getAttribute("vote_average");
     const imageUrl =
-      posterPath !== "null"
-        ? `https://image.tmdb.org/t/p/original/${posterPath}`
-        : `${AddSkeleton}`;
+      posterPath === "null"
+        ? `${AddSkeleton}`
+        : `${Url.IMAGE_URL}${posterPath}`;
 
     this.innerHTML = /* html */ `
       <a href="#">

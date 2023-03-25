@@ -1,42 +1,71 @@
 import { dispatchCustomEvent } from "./../utils/dom";
 import { $ } from "../utils/dom";
+import { Word } from "../utils/constants";
 
 class MovieListContainer extends HTMLElement {
   constructor() {
     super();
   }
 
+  get contentTypeAttribute() {
+    return this.getAttribute("content-type");
+  }
+
   render(query?: string) {
-    const contentType = this.getAttribute("contenttype");
+    const contentType = this.contentTypeAttribute;
+    const title =
+      contentType === "popular"
+        ? `${Word.TITLE_POPULAR}`
+        : `"${query}" ${Word.TITLE_SEARCH}`;
 
     this.innerHTML = /* html */ `
-        <h2>${
-          contentType === "popular"
-            ? "지금 인기 있는 영화"
-            : `"${query}" 검색 결과`
-        }</h2>
+        <h2 class="movie-title">${title}</h2>
         <movie-list class="item-list"></movie-list>
-        <button id="more-button" class="btn primary full-width">더 보기</button>
+        <div class="list-bottom"></div>
       `;
     this.addEvent();
   }
 
   addEvent() {
-    $("button", this)?.addEventListener("click", () => {
-      dispatchCustomEvent(this, {
-        eventType: "fetchMovieData",
-        data: this.getAttribute("contentType"),
-      });
+    this.scrollingEvent();
+
+    $("movie-list")?.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      const target = <HTMLElement>event.target;
+      const id = target.closest<HTMLElement>("movie-item")?.id;
+
+      if (id) {
+        dispatchCustomEvent(this, {
+          eventType: "openMovieDetail",
+          data: id,
+        });
+      }
     });
   }
 
-  changeTitle(query: string) {
-    this.setAttribute("contentType", "search");
-    this.render(query);
+  scrollingEvent() {
+    const observer = new IntersectionObserver((entries) => {
+      const $listBottom = entries[0];
+      if ($listBottom.isIntersecting) {
+        dispatchCustomEvent(this, {
+          eventType: "fetchMovieData",
+          data: this.contentTypeAttribute,
+        });
+      }
+    });
+
+    const $listBottom = $(".list-bottom");
+    if ($listBottom) observer.observe($listBottom);
   }
 
-  hiddenLoadMovieButton() {
-    $("button", this)?.classList.add("hidden");
+  hiddenListBottom() {
+    $(".list-bottom")?.classList.add("hidden");
+  }
+
+  changeTitle(query: string) {
+    this.setAttribute("content-type", "search");
+    this.render(query);
   }
 
   displayErrorUI(message: string) {
