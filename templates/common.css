@@ -26,10 +26,6 @@ button {
 *:focus {
   outline: none;
 }
-.item-view,
-.item-test {
-  /* width: 100%; */
-}
 
 .item-view {
   display: flex;
@@ -149,8 +145,6 @@ button.primary {
   }
 }
 header {
-  /* width: 100%; */
-  /* min-width: 1200px; */
   height: 72px;
   background-color: #222;
   display: flex;
@@ -386,7 +380,6 @@ header.modal__header {
 
 .star-img {
   width: 24px;
-  /* margin-right: 5px; */
 }
 
 .score__count {
@@ -457,7 +450,6 @@ header.modal__header {
   top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* width: 100%; */
   font-size: 30px;
 }
 
