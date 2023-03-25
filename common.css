@@ -309,6 +309,20 @@ dialog {
   .item-view {
     width: 382px;
   }
+
+  .movie-modal-header {
+    height: 60px;
+  }
+
+  .movie-modal-image-container {
+    width: 44vw;
+  }
+
+  .movie-modal-image-container img {
+    display: block;
+    width: 44vw;
+    object-fit: cover;
+  }
 }
 
 @media (max-width: 430px) {
@@ -332,5 +346,43 @@ dialog {
   .item-thumbnail {
     width: 140px;
     height: 220px;
+  }
+
+  dialog {
+    position: sticky;
+    bottom: 0;
+  }
+
+  .movie-modal-header {
+    height: 60px;
+  }
+
+  .movie-modal-header h2 {
+    font-size: 20px;
+  }
+
+  .close-modal-button {
+    margin-top: 8px;
+  }
+
+  .movie-modal-image-container {
+    display: none;
+  }
+
+  .movie-modal-overview p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+  }
+
+  .my-evaluation {
+    justify-content: center;
+
+    height: 56px;
+
+    margin-top: 16px;
   }
 }
