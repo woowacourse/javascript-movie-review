@@ -1,43 +1,32 @@
 import { MovieInterface, PageStatusType } from './utils/type';
 import { MovieItem } from './components/MovieItem';
 import PageData from './data/PageData';
-import { $, $$, toggleMoreButton } from './utils';
+import { $, $$ } from './utils';
 import { SkeletonMovieItem } from './components/SkeletonMovieItem';
-import { Validation, renderError } from './Validation';
 
-type callPlaceType = 'popular' | 'search' | 'more';
 type keywordType = string | null;
 
-export async function showMovieList(callPlace: callPlaceType, keyword: keywordType) {
-  try {
-    await tryShowMovieList(callPlace, keyword);
-  } catch (error) {
-    if (error instanceof Error) renderError(String(error.message));
-  }
+export function resetMovieList() {
+  const movieListElem = $('.item-list') as HTMLElement;
+  movieListElem.innerHTML = '';
 }
 
-async function tryShowMovieList(callPlace: callPlaceType, keyword: keywordType) {
-  const PageStatus = PageData.getPageStatus();
+export async function showMovieList() {
+  // try {
+  await tryShowMovieList();
+  // } catch (error) {
+  // if (error instanceof Error) renderError(String(error.message));
+  // }
+}
+
+async function tryShowMovieList() {
   renderSkeleton();
 
-  if (callPlace === 'popular') {
-    await PageData.usePopularMovie().then(({ values }) => renderMovieList(values.results));
-    changePageHeader('popular', null);
-    return;
-  }
-  if (callPlace === 'search' && keyword !== null) {
-    Validation.inputText(keyword);
-    changePageHeader('search', keyword);
-    await PageData.useSearchedMovie(keyword).then(({ values }) => renderMovieList(values.results));
-  }
-  if (callPlace === 'more' && PageStatus === 'popular') {
-    await PageData.usePopularMovie().then(({ values }) => renderAddMovieList(values.results));
-  }
-  if (callPlace === 'more' && PageStatus === 'search') {
-    await PageData.useSearchedMovie(PageData.getRecentKeyword()).then(({ values }) => {
-      renderAddMovieList(values.results);
-    });
-  }
+  const keyword = PageData.getRecentKeyword();
+  const { values } = await PageData.useMovie(keyword);
+  PageData.setTotalPage(values.total_pages);
+
+  renderMovieList(values.results);
 
   deleteSkeleton();
 }
@@ -53,25 +42,15 @@ export function deleteSkeleton() {
 }
 
 export async function renderMovieList(results: MovieInterface[]) {
-  toggleMoreButton(results);
-
-  const parentElem = $('.item-list') as HTMLElement;
-  parentElem.innerHTML = `
-    ${results.map((movie) => MovieItem(movie)).join('')}
-    `;
-}
-
-export async function renderAddMovieList(results: MovieInterface[]) {
-  toggleMoreButton(results);
-
   const parentElem = $('.item-list') as HTMLElement;
   parentElem.insertAdjacentHTML(
     'beforeend',
     `${results.map((movie) => MovieItem(movie)).join('')}`
   );
+  PageData.plusPage();
 }
 
-function changePageHeader(pageStatus: PageStatusType, keyword: keywordType) {
+export function changePageHeader(pageStatus: PageStatusType, keyword: keywordType) {
   const pageHeaderElem = $('.page-header') as HTMLElement;
 
   let text = '지금 인기 있는 영화';
