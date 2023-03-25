@@ -24,11 +24,11 @@ class MovieManager {
 
   setNewState<T>(state: T) {
     this.state = { ...this.state, ...state };
+    this.publish(this.state);
   }
 
   async showMovies(searchWord: string = "") {
     this.setNewState({ status: apiStatus.LOADING });
-    this.publish(this.state);
 
     const movieAppData = await Movie.getMovies(searchWord);
 
@@ -37,13 +37,10 @@ class MovieManager {
     } else {
       this.setNewState({ status: apiStatus.SUCCESS, data: movieAppData });
     }
-
-    this.publish(this.state);
   }
 
   async showMoreMovies() {
     this.setNewState({ status: apiStatus.LOADING });
-    this.publish(this.state);
 
     const movieAppData = await Movie.getMoreMovies();
 
@@ -52,14 +49,11 @@ class MovieManager {
     } else {
       this.setNewState({ status: apiStatus.SUCCESS, data: movieAppData });
     }
-
-    this.publish(this.state);
   }
 
   openItemModal(id: number) {
     const movieData = Movie.getMovie(id);
     this.setNewState({ data: movieData });
-    this.publish(this.state);
   }
 }
 
