@@ -354,6 +354,13 @@ header .search-box > .search-button {
   height: 30rem;
   text-align: justify;
   overflow: auto;
+
+  -ms-overflow-style: none; /* 익스플로러, 앳지 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+
+.movie-overview::-webkit-scrollbar {
+  display: none; /* 크롬, 사파리, 오페라 */
 }
 
 .genre-vote-average-container {
