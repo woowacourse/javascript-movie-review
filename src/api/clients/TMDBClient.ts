@@ -1,6 +1,6 @@
 import { Movie } from '../../domain/movie.type';
+import { HttpClientError } from '../errors/HttpClientError';
 import { HttpClient } from '../HttpClient';
-import { ClientError } from '../HttpClientError';
 import { MovieResponse, MoviesAPI, MoviesResponse, PaginatedParams } from '../interfaces/MoviesAPI';
 import { TMDBAPISpec } from './TMDBClient.api';
 import { TMDBClientProps, TMDBLanguage, TMDBMovie } from './TMDBClient.type';
@@ -42,7 +42,7 @@ export class TMDBClient extends HttpClient<TMDBAPISpec> implements MoviesAPI {
     const response = await this.get('/3/movie/popular', params);
 
     if (!this.isSuccess(response)) {
-      throw new ClientError(response.data.status_message);
+      throw new HttpClientError(response.data.status_message);
     }
 
     return {
@@ -57,7 +57,7 @@ export class TMDBClient extends HttpClient<TMDBAPISpec> implements MoviesAPI {
     const response = await this.get('/3/search/movie', params);
 
     if (!this.isSuccess(response)) {
-      throw new ClientError(response.data.status_message);
+      throw new HttpClientError(response.data.status_message);
     }
 
     return {
@@ -73,7 +73,7 @@ export class TMDBClient extends HttpClient<TMDBAPISpec> implements MoviesAPI {
     const response = await this.get(`/3/movie/${numericId}`);
 
     if (!this.isSuccess(response)) {
-      throw new ClientError(response.data.status_message);
+      throw new HttpClientError(response.data.status_message);
     }
 
     return {

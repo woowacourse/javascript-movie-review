@@ -1,3 +1,4 @@
+import { HttpClientNetworkError } from './errors/HttpClientNetworkError';
 import {
   APISpec,
   ExtractByEndpoint,
@@ -5,13 +6,13 @@ import {
   GetParams,
   GetPath,
   GetSuccess,
-  HTTPResponse,
+  HttpResponse,
 } from './HttpClient.type';
 
 export abstract class HttpClient<GenericAPISpec extends APISpec> {
   constructor(protected readonly base: string) {}
 
-  isSuccess<GenericHTTPResponse extends HTTPResponse>(
+  isSuccess<GenericHTTPResponse extends HttpResponse>(
     response: GenericHTTPResponse,
   ): response is GetSuccess<GenericHTTPResponse> {
     return response.ok;
@@ -21,16 +22,21 @@ export abstract class HttpClient<GenericAPISpec extends APISpec> {
     return new URL(path, this.base);
   }
 
-  async fetch<GenericHTTPResponse extends HTTPResponse>(
+  async fetch<GenericHTTPResponse extends HttpResponse>(
     url: URL,
     init?: RequestInit,
   ): Promise<GenericHTTPResponse> {
-    const res = await fetch(url, init);
-    return {
-      status: res.status,
-      ok: res.ok,
-      data: await res.json(),
-    } as GenericHTTPResponse;
+    try {
+      const res = await fetch(url, init);
+
+      return {
+        status: res.status,
+        ok: res.ok,
+        data: await res.json(),
+      } as GenericHTTPResponse;
+    } catch (error) {
+      throw new HttpClientNetworkError();
+    }
   }
 
   async get<

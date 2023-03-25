@@ -1,19 +1,19 @@
-export type HTTPMethod = 'GET' | 'POST' | 'PUT';
+export type HttpMethod = 'GET' | 'POST' | 'PUT';
 
-export type HTTPStatus = 200 | 400 | 401 | 403 | 404;
+export type HttpStatus = 200 | 400 | 401 | 403 | 404;
 
-export type HTTPStatusOK = 200;
+export type HttpStatusOK = 200;
 
-export type HTTPStatusFailure = Exclude<HTTPStatus, HTTPStatusOK>;
+export type HttpStatusFailure = Exclude<HttpStatus, HttpStatusOK>;
 
-export type HTTPResponse<Status extends HTTPStatus = HTTPStatus, Data = unknown> = {
+export type HttpResponse<Status extends HttpStatus = HttpStatus, Data = unknown> = {
   status: Status;
   ok: boolean;
   data: Data;
 };
 
 export type APISpec = {
-  endpoint: `${HTTPMethod} /${string}`;
+  endpoint: `${HttpMethod} /${string}`;
   params?: Record<string, string | number | boolean>;
   response: {
     status: number;
@@ -22,7 +22,7 @@ export type APISpec = {
 };
 
 export type GetPath<Endpoint extends APISpec['endpoint']> =
-  Endpoint extends `${HTTPMethod} /${infer U}` ? `/${U}` : never;
+  Endpoint extends `${HttpMethod} /${infer U}` ? `/${U}` : never;
 
 export type GetHTTPMethod<Endpoint extends APISpec['endpoint']> =
   Endpoint extends `${infer U} /${string}` ? U : never;
@@ -36,9 +36,9 @@ export type ExtractByEndpoint<
 
 export type ExtractByHTTPMethod<
   GenericAPISpec extends APISpec,
-  GenericHTTPMethod extends HTTPMethod,
+  GenericHTTPMethod extends HttpMethod,
 > = Extract<GenericAPISpec, { endpoint: `${GenericHTTPMethod} /${string}` }>;
 
-export type GetSuccess<Response> = Extract<Response, { status: HTTPStatusOK }>;
+export type GetSuccess<Response> = Extract<Response, { status: HttpStatusOK }>;
 
-export type GetFailure<Response> = Extract<Response, { status: HTTPStatusFailure }>;
+export type GetFailure<Response> = Extract<Response, { status: HttpStatusFailure }>;

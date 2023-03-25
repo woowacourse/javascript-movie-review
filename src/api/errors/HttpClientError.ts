@@ -1,4 +1,4 @@
-export class ClientError extends Error {
+export class HttpClientError extends Error {
   constructor(message: string) {
     super(message);
   }
