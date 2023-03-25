@@ -1,9 +1,4 @@
-import {
-  CurrentTab,
-  DetailInfo,
-  MovieInfo,
-  TotalMovieInfo,
-} from "./@types/movieDataType";
+import { CurrentTab, DetailInfo, TotalMovieInfo } from "./@types/movieDataType";
 import { getKeywordData } from "./api/keywordSearch";
 import { getMovieDetail } from "./api/movieDetail";
 import { getMovieData } from "./api/movieList";
@@ -24,12 +19,21 @@ export const App = async () => {
   const movieItemList = new MovieItemList();
   const searchBox = new SearchBox();
 
+  const generateMovieItemElement = (movieInfo: DetailInfo[]) => {
+    movieInfo.forEach((item) => {
+      new MovieItem(item, item.id);
+      renderMovieDetail(item);
+    });
+  };
+
   const renderMovieDetail = async (movieData: DetailInfo) => {
     const targetMovie = document.getElementById(
       String(movieData.id)
     ) as HTMLElement;
+
     try {
       const detailData = await getMovieDetail(movieData.id);
+
       targetMovie.addEventListener("clickMovieItem", () => {
         new MovieDatail(detailData);
         new StarInput(movieData.id);
@@ -39,23 +43,18 @@ export const App = async () => {
     }
   };
 
-  const generateMovieItemElement = (movieInfo: DetailInfo[]) => {
-    movieInfo.forEach((item) => {
-      new MovieItem(item, item.id);
-      renderMovieDetail(item);
-    });
-  };
-
   const renderMovieList = async () => {
     movieItemList.renderTitle(
       movieItemList.getTitle(movieDataManager.getCurrentTab())
     );
     movieDataManager.updatePage();
+
     try {
       const response = await getMovieData(movieDataManager.getCurrenPage());
+      const movieDatas = response?.results;
+
       movieDataManager.checkIsLastPage(response) &&
         $(".scroll-target")?.remove();
-      const movieDatas = response?.results;
       generateMovieItemElement(movieDatas);
     } catch (e) {
       new ErrorComment(Number(e));
@@ -68,14 +67,16 @@ export const App = async () => {
         movieItemList.getTitle(movieDataManager.getCurrentTab())
     );
     movieDataManager.updatePage();
+
     try {
       const response = await getKeywordData(
         movieDataManager.getCurrenPage(),
         searchBox.getKeyword()
       );
+      const movieDatas = response?.results;
+
       movieDataManager.checkIsLastPage(response) &&
         $(".scroll-target")?.remove();
-      const movieDatas = response?.results;
       if (checkIsEmptyData(movieDatas)) {
         return;
       }
@@ -90,6 +91,7 @@ export const App = async () => {
       await renderMovieList();
       return;
     }
+
     if (movieDataManager.getCurrentTab() === CurrentTab.SEARCH) {
       await renderSearchList();
       return;
@@ -110,13 +112,14 @@ export const App = async () => {
     }
   };
 
-  $(".search-input")?.addEventListener("completeInput", (e) => {
+  const target = document.querySelector(".scroll-target") as HTMLElement;
+  (await loadDataByInfiniteScroll(target, renderMovies)).observe(target);
+
+  renderMovies();
+
+  $(".search-input")?.addEventListener("completeInput", () => {
     checkKeywordEmpty();
     movieDataManager.convertTab(CurrentTab.SEARCH);
-    renderMovies();
-  });
-
-  $(".primary")?.addEventListener("clickMoreButton", () => {
     renderMovies();
   });
 
@@ -133,9 +136,4 @@ export const App = async () => {
   $(".ch-logo")?.addEventListener("mouseleave", () => {
     $(".ch-box")?.classList.add("hidden");
   });
-
-  renderMovies();
-
-  const target = document.querySelector(".scroll-target") as HTMLElement;
-  (await loadDataByInfiniteScroll(target, renderMovies)).observe(target);
 };
