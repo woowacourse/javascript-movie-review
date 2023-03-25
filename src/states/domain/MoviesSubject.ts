@@ -33,6 +33,8 @@ export class MoviesSubject extends Subject<PaginatedMoviesSubject> {
       undefined,
     );
 
+    paginatedMovies$.subscribeError((error) => this.error(error));
+
     this.next(paginatedMovies$);
   }
 }
