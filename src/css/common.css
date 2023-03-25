@@ -183,7 +183,7 @@ header {
   border: 0;
 }
 
-.search-box > .search-button {
+.search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
@@ -365,6 +365,7 @@ header {
 }
 
 ::-webkit-scrollbar {
+  display: none;
   width: 5px;
 }
 

@@ -84,6 +84,5 @@
 
 .change {
   display: block;
-  width: 300px;
-  transition: width 2s;
+  width: 294px;
 }
