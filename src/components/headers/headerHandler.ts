@@ -1,4 +1,3 @@
-import { executeEventListener } from "../../utils/eventListener";
 import { $ } from "../../utils/selector";
 import { updateMovies } from "../../domain/movies";
 import Store from "../../domain/Store";
