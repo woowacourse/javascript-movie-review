@@ -1,7 +1,7 @@
 import PageData from '../data/PageData';
 import { getFormFields } from '../utils/formData';
 import { $, Event } from '../utils/index';
-import { showMovieList } from '../showMovieList';
+import { changePageHeader, resetMovieList, showMovieList } from '../showMovieList';
 
 export function Search() {
   Event.addEvent('submit', '#search-movie-box', async (event) => {
@@ -11,13 +11,13 @@ export function Search() {
 
     PageData.changePageStatus('search');
     PageData.resetPage();
-
-    formEl.reset();
-    showMovieList('search', String(formData.keyword));
+    changePageHeader('search', String(formData.keyword));
+    resetMovieList();
+    PageData.setRecentKeyword(String(formData.keyword));
+    showMovieList();
+    console.log('dd');
   });
 
-  // Q. 말씀주신대로 label로 감쌌습니다!
-  // 리더기 사용을 위해서 label을 붙이는게 좋다고 판단하여 넣었지만 label안에 text가 없어도 괜찮은 건지 궁금합니다.
   return `
         <form class="search-box" id="search-movie-box">
           <label>

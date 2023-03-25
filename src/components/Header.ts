@@ -2,13 +2,17 @@ import { Search } from './Search';
 import logo from '../assets/logo.png';
 import { Event } from '../utils';
 import PageData from '../data/PageData';
-import { showMovieList } from '../showMovieList';
+import { changePageHeader, resetMovieList, showMovieList } from '../showMovieList';
 
 export function Header() {
   Event.addEvent('click', '#logo-img', async () => {
     PageData.changePageStatus('popular');
     PageData.resetPage();
-    showMovieList('popular', null);
+    changePageHeader('popular', null);
+    resetMovieList();
+    PageData.setRecentKeyword(null);
+    showMovieList();
+    console.log('ss');
   });
 
   return `
