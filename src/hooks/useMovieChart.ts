@@ -13,7 +13,7 @@ function useMovieChart(keyword: string) {
   const [movieChart, setMovieChart] = useState<MovieChart | null>(null);
   const [movieList, setMovieList] = useState<MovieChart['movieChartInfo']['results']>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { focusedMovie, closeModal, openModal } = useMovieOverviewModal(false);
+  const { isOpen, focusedMovie, closeModal, openModal } = useMovieOverviewModal(false);
 
   const defaultFetchAction: DefaultFetchAction =
     <T>(callback: (args: T) => Promise<void>) =>
@@ -92,7 +92,7 @@ function useMovieChart(keyword: string) {
   useEffect(() => {}, [movieList]);
 
   return {
-    values: { movieChart, movieList, isLoading, focusedMovie },
+    values: { movieChart, movieList, isLoading, focusedMovie, isOpen },
     handlers: { closeModal, openModal, fetchMore, onClickMovie, setMyVote },
   };
 }

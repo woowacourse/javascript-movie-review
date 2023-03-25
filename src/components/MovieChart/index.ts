@@ -11,7 +11,7 @@ export interface MovieChartProps {
 
 const MovieChart = assemble<MovieChartProps>(({ keyword }) => {
   const {
-    values: { movieChart, movieList, isLoading, focusedMovie },
+    values: { movieChart, movieList, isLoading, focusedMovie, isOpen },
     handlers: { fetchMore, closeModal, onClickMovie, setMyVote },
   } = useMovieChart(keyword);
   const needMoreFetch = !isLoading && movieChart?.movieChartInfo.page !== movieChart?.movieChartInfo.total_pages;
@@ -46,7 +46,7 @@ const MovieChart = assemble<MovieChartProps>(({ keyword }) => {
       </section>
       <fragment id="MovieOverviewModal">
         ${
-          focusedMovie
+          isOpen && focusedMovie
             ? MovieOverviewModalComponent({
                 focusedMovie,
                 closeModal,
