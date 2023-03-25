@@ -179,6 +179,84 @@ li {
   list-style: none;
 }
 
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.modal-container {
+  position: fixed;
+  top: 50px;
+  left: 150px;
+  width: 70%;
+  height: 550px;
+
+  padding: 10px 30px 20px 30px;
+  border-radius: 8px 8px 0px 0px;
+  background-color: #222;
+  color: #f1f1f1;
+
+  display: grid;
+  grid-template-areas:
+    'header header header'
+    'poster   main   main'
+    'poster footer footer';
+}
+
+.modal-container header {
+  display: flex;
+  justify-content: center;
+
+  grid-area: header;
+}
+
+.poster {
+  grid-area: poster;
+}
+
+.poster img {
+  width: 200px;
+  background-size: contain;
+}
+
+.movie-info {
+  grid-area: main;
+  margin: 0px 20px 0px 40px;
+}
+
+.movie-star {
+  grid-area: footer;
+  margin-left: 40px;
+  margin-bottom: 40px;
+  padding: 10px;
+
+  background-color: #383839;
+  border-radius: 15px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-close-btn {
+  position: absolute;
+  left: 92.03%;
+  right: 5.54%;
+  top: 3.86%;
+  bottom: 92.83%;
+
+  border-radius: 15px;
+  color: #f1f1f1;
+  background-color: #383839;
+  height: 30px;
+  width: 30px;
+}
+
 .view-more-button {
   display: inline-block;
 }

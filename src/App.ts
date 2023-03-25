@@ -6,13 +6,23 @@ import { renderMoreSkeletonList, renderSkeletonList } from './components/MovieLi
 
 import { store } from './store';
 import validator from './validation/validator';
+import { $ } from './utils';
+import { Modal, renderMovieDetail } from './components/MovieDetail';
 export class App extends Component {
   template() {
     return `
         ${Header()}
         ${MainPage()}
+        ${Modal()}
       `;
   }
+
+  render() {
+    this.$el.innerHTML = this.template();
+    const $modal = $('.modal') as HTMLDialogElement;
+    $modal.close();
+  }
+
   setEvent() {
     const { $el } = this;
 
@@ -45,6 +55,15 @@ export class App extends Component {
 
     $el.querySelector('.view-more-button').addEventListener('click', () => {
       renderMoreSkeletonList();
+    });
+
+    $el.querySelector('.item-list').addEventListener('click', (e) => {
+      const $modal = $('.modal') as HTMLDialogElement;
+      if (e.target instanceof HTMLImageElement || e.target instanceof HTMLParagraphElement) {
+        $modal.show();
+        const clickedMovieId = e.target.id;
+        renderMovieDetail(clickedMovieId, $modal);
+      }
     });
   }
 }

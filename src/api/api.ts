@@ -2,10 +2,15 @@
 
 const BASE_PATH = 'https://api.themoviedb.org/3';
 
+export interface IMovieGenre {
+  id: number;
+  name: string;
+}
 export interface IMovie {
   id: number;
   backdrop_path: string;
   poster_path: string;
+  genres: IMovieGenre[];
   title: string;
   overview: string;
   vote_average: number;
@@ -62,6 +67,27 @@ export const getSearchMovie = async (keyword: string, page: number): Promise<IMo
     const movies: IMovie[] = data.results;
 
     return movies;
+  } catch (error) {
+    if (error instanceof Error) {
+      alert(error.message);
+    }
+  }
+};
+
+export const getMovieDetail = async (movieId: string): Promise<IMovie> => {
+  try {
+    const response = await fetch(
+      `${BASE_PATH}/movie/${movieId}?api_key=${process.env.API_KEY}&language=ko-KR`
+    );
+    if (!response.ok) {
+      const error: ErrorResponse = await response.json();
+
+      throw new Error(error.status_message);
+    }
+
+    const data: IMovie = await response.json();
+
+    return data;
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message);
