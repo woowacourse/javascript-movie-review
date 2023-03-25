@@ -3,21 +3,30 @@ import { PageStatusType } from '../utils/type';
 
 class PageData {
   #moviePage: number;
-  #recentKeyword: string;
+  #totalPage: number;
+  #recentKeyword: string | null;
   #pageStatus: PageStatusType;
+  #observer: IntersectionObserver | undefined;
 
   constructor() {
     this.#moviePage = 1;
-    this.#recentKeyword = '';
+    this.#totalPage = Infinity;
+    this.#recentKeyword = null;
     this.#pageStatus = 'popular';
   }
 
   plusPage() {
     this.#moviePage++;
   }
+
   resetPage() {
     this.#moviePage = 1;
   }
+
+  getMoviePage() {
+    return this.#moviePage;
+  }
+
   changePageStatus(callPage: PageStatusType) {
     this.#pageStatus = callPage;
   }
@@ -25,25 +34,46 @@ class PageData {
   getPageStatus() {
     return this.#pageStatus;
   }
+  setRecentKeyword(keyword: string | null) {
+    this.#recentKeyword = keyword;
+  }
+
   getRecentKeyword() {
     return this.#recentKeyword;
   }
 
-  async usePopularMovie() {
-    const { page, results } = await getMovies(this.#moviePage);
-
-    return {
-      values: { page, results },
-    };
+  setTotalPage(totalPage: number) {
+    this.#totalPage = totalPage;
   }
 
-  async useSearchedMovie(keyword: string) {
-    const { page, results } = await getSearchMovie(keyword, this.#moviePage);
+  async useMovie(keyword: string | null) {
+    if (keyword === null) {
+      // const { page, results, total_pages } = await gethMovie();
+
+      const { page, results, total_pages } = await getMovies(this.#moviePage);
+
+      return { values: { page, results, total_pages } };
+    }
+
+    // const { page, results, total_pages } = await getSearchMovie();
+    const { page, results, total_pages } = await getSearchMovie(keyword, this.#moviePage);
     this.#recentKeyword = keyword;
 
     return {
-      values: { page, results },
+      values: { page, results, total_pages },
     };
+  }
+
+  setObserver(callback: Function, elem: HTMLElement) {
+    this.#observer = new IntersectionObserver((entries: any) => {
+      if (entries[0].isIntersecting && this.#moviePage <= this.#totalPage) {
+        console.log(this.#moviePage, this.#totalPage);
+        callback();
+      }
+      return;
+    });
+
+    this.#observer.observe(elem);
   }
 }
 
