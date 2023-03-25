@@ -4,6 +4,8 @@ import Modal from './components/Modal';
 
 import { popularMovieDataFetchFuncGenerator, searchedMovieDataFetchFuncGenerator, getDetailMovieData } from './api/get';
 
+import { personalVoteHandler } from './index';
+
 import { $ } from './utils';
 
 export default class App {
@@ -22,7 +24,6 @@ export default class App {
       onClickMainLogo: this.renderPopularMovieList.bind(this),
       onSubmitSearchForm: this.renderSearchedMovieList.bind(this),
     });
-
     this.#modal = new Modal($('#app'));
     this.#movieList = new MovieList($('main'), {
       onClickMoreButton: this.renderMovieList.bind(this),
@@ -70,8 +71,9 @@ export default class App {
     }
 
     const { id, title, posterPath, voteAverage, overview, genres } = detailMovieData;
+    const starCount = personalVoteHandler.getStarCountById(movieId);
 
-    this.#modal.renderContent({ id, title, posterPath, voteAverage, overview, genres });
+    this.#modal.renderContent({ id, title, posterPath, voteAverage, overview, genres }, starCount);
   }
 
   assignPopularMovieDataFetchFunc() {

@@ -2,6 +2,7 @@ import DetailMovieCard from './DetailMovieCard';
 
 import Component from '../type/Component';
 import { DetailMovie } from '../type/Movie';
+import { StarCount } from '../domain/PersonalVoteHandler';
 
 export default class Modal implements Component {
   private $element;
@@ -24,6 +25,7 @@ export default class Modal implements Component {
     <div class="modal-backdrop"></div>    
     <div class="modal-container">
       <button class="modal-close-button">✖</button>
+
     </div>`;
   }
 
@@ -52,13 +54,13 @@ export default class Modal implements Component {
     });
   }
 
-  renderContent(detailMovieData: DetailMovie) {
+  renderContent(detailMovieData: DetailMovie, starCount: StarCount) {
+    this.openModal();
     const $container = this.$element.querySelector('.modal-container');
     if (!$container) return;
 
-    this.openModal();
-
-    new DetailMovieCard().render($container, detailMovieData);
+    const detailMovieCard = new DetailMovieCard($container);
+    detailMovieCard.render(detailMovieData, starCount);
   }
 
   renderErrorTemplate(statusCode: number, statusMessage: string) {
