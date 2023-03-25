@@ -2,6 +2,7 @@ export type MovieItem = {
   title: string;
   posterPath: string;
   voteAverage: number;
+  id: number;
 };
 
 export type Movie = {
