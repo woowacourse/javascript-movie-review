@@ -19,8 +19,8 @@ export const loadDataByInfiniteScroll = async (
       const currentTitle = $("h2") as HTMLElement;
       currentTitle.remove();
       await renderMovies();
+      observer.observe(target);
     }
-    observer.observe(target);
   };
 
   const observer = new IntersectionObserver(callback);

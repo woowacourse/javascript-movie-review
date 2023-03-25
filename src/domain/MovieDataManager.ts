@@ -42,7 +42,7 @@ class MovieDataManager {
       : "의 검색결과";
   }
 
-  checkDataPage(response: ResponseInfo) {
+  checkIsLastPage(response: ResponseInfo) {
     return response?.total_pages === response?.page;
   }
 
