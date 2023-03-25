@@ -26,8 +26,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 826px;
-  height: 577px;
+
   background: rgba(33, 33, 34, 1);
   padding: 20px;
   border: 1px;
@@ -126,6 +125,7 @@
   width: 24px;
   height: 24px;
   overflow: hidden;
+  cursor: pointer;
   background: url('../assets/star_filled.png');
 }
 

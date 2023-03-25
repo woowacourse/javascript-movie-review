@@ -1,18 +1,20 @@
-const LOCAL_STORAGE_KEYS = { USER_SCORE_MAP: 'userScoreMap' };
+import { UserScoreList } from '../type/Movie';
+
+const LOCAL_STORAGE_KEYS = { USER_SCORE_MAP: 'userScoreList' };
 
 const item = localStorage.getItem(LOCAL_STORAGE_KEYS.USER_SCORE_MAP);
-const userScoreMap: Map<number, number> = item ? JSON.parse(item) : new Map();
+const userScoreList: UserScoreList = item ? JSON.parse(item) : {};
 
 const UserDataHandler = {
   saveUserScore(id: number, userScore: number) {
-    userScoreMap.set(id, userScore);
+    userScoreList[id] = userScore;
 
-    localStorage.setItem('userScoreMap', JSON.stringify(userScoreMap));
+    localStorage.setItem(LOCAL_STORAGE_KEYS.USER_SCORE_MAP, JSON.stringify(userScoreList));
   },
 
   loadUserScore(id: number) {
-    return userScoreMap.get(id) || null;
+    return userScoreList[id] || null;
   },
 };
 
-export { LOCAL_STORAGE_KEYS, UserDataHandler };
+export default UserDataHandler;

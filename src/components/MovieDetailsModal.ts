@@ -1,6 +1,6 @@
 import { Component } from '../type/Component';
 import { Movie } from '../type/Movie';
-import { UserDataHandler } from '../domain/UserDataHandler';
+import UserDataHandler from '../domain/UserDataHandler';
 import FilledStar from '../assets/star_filled.png';
 import '../css/modal.css';
 import MovieHandler from '../domain/MovieHandler';
@@ -13,7 +13,6 @@ export default class MovieDetailsModal implements Component {
   constructor($parent: Element, movie: Movie) {
     this.$element = document.createElement('div');
     this.$element.classList.add('modal-container');
-    this.$element.id = movie.id.toString();
     this.#movie = movie;
     this.#userScore = UserDataHandler.loadUserScore(movie.id) || 0;
 
@@ -57,15 +56,15 @@ export default class MovieDetailsModal implements Component {
       <div class="movie-user-rating">
         <p>내 별점</p>
         <div class="rating">
-          <input type="radio" id="rating1" name="rating" value="1" >
+          <input type="radio" id="rating1" name="rating" value="2" >
           <label for="rating1"></label>
-          <input type="radio" id="rating2" name="rating" value="2" >
+          <input type="radio" id="rating2" name="rating" value="4" >
           <label for="rating2"></label>
-          <input type="radio" id="rating3" name="rating" value="3" >
+          <input type="radio" id="rating3" name="rating" value="6" >
           <label for="rating3"></label>
-          <input type="radio" id="rating4" name="rating" value="4" >
+          <input type="radio" id="rating4" name="rating" value="8" >
           <label for="rating4"></label>
-          <input type="radio" id="rating5" name="rating" value="5" >
+          <input type="radio" id="rating5" name="rating" value="10" >
           <label for="rating5"></label>
         </div>
         <p>5</p>
@@ -75,11 +74,18 @@ export default class MovieDetailsModal implements Component {
   }
 
   setEvent() {
-    (<HTMLButtonElement>this.$element.querySelector('.button--close')).addEventListener('click', this.hide.bind(this));
-    (<HTMLDivElement>this.$element.closest('.modal-backdrop')).addEventListener('click', (e) => {
-      e.target === this.$element.closest('.modal-backdrop') && this.hide();
+    (<HTMLButtonElement>this.$element.querySelector('.button--close')).addEventListener('click', this.hide.bind(this), {
+      once: true,
     });
-    document.addEventListener('keydown', (e) => (e.key === 'Escape' || e.key === 'Esc') && this.hide());
+
+    document.addEventListener('keydown', this.onEscKeyDown.bind(this), {
+      once: true,
+    });
+
+    const radios = this.$element.querySelectorAll('input[type=radio][name="rating"]');
+    radios.forEach((radio) => {
+      radio.addEventListener('change', this.onChangeUserScore.bind(this));
+    });
   }
 
   hide() {
@@ -87,6 +93,29 @@ export default class MovieDetailsModal implements Component {
   }
 
   show() {
+    this.loadUserScore();
+
     (<HTMLDivElement>this.$element.closest('.modal-backdrop')).classList.add('modal--open');
+  }
+
+  onEscKeyDown(e: KeyboardEvent) {
+    (e.key === 'Escape' || e.key === 'Esc') && this.hide();
+  }
+
+  onChangeUserScore(e: Event) {
+    this.#userScore = +(<HTMLInputElement>e.target).value;
+    this.saveUserScore();
+  }
+
+  saveUserScore() {
+    UserDataHandler.saveUserScore(this.#movie.id, this.#userScore);
+  }
+
+  loadUserScore() {
+    const score = UserDataHandler.loadUserScore(this.#movie.id);
+    if (score) {
+      const id = score / 2;
+      (<HTMLInputElement>this.$element.querySelector(`#rating${id}`)).checked = true;
+    }
   }
 }
