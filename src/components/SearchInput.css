@@ -25,7 +25,7 @@
   display: none;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 420px) {
   .search-input-label {
     display: none;
   }

@@ -9,7 +9,7 @@
 }
 
 .item-title {
-  margin: 1.9rem 0;
+  margin: 19px 0;
   font-size: 1.8rem;
   font-weight: bold;
   line-height: 2.7rem;
@@ -30,13 +30,13 @@
   height: 273px;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 420px) {
   .moive-item-container {
     max-width: 140px;
   }
 
   .item-title {
-    margin: 0.8rem 0;
+    margin: 8px 0;
     font-size: 1.6rem;
     line-height: 2.4rem;
   }

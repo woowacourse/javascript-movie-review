@@ -49,7 +49,7 @@
   }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 420px) {
   .item-card .skeleton {
     width: 140px;
   }

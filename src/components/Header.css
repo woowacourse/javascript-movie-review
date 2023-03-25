@@ -16,7 +16,7 @@
   cursor: pointer;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 420px) {
   .header-center {
     justify-content: center !important;
   }

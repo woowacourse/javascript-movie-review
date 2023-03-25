@@ -70,7 +70,7 @@
   }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 420px) {
   .item-container {
     padding: 0 20px 60px 20px;
   }
