@@ -22,7 +22,7 @@ export default class RatingBox extends HTMLElement {
 
     this.innerHTML = `
       <div class="rating-box flex align-center">
-        <p class="mr-16">내 별점</p>
+        <p>내 별점</p>
         <img class="star-${
           myRating >= 2 ? "filled" : "empty"
         } mr-4" alt="별점" />
@@ -38,7 +38,7 @@ export default class RatingBox extends HTMLElement {
         <img class="star-${
           myRating >= 10 ? "filled" : "empty"
         } mr-4" alt="별점" />
-        <h4 class="ml-12 mr-12">${myRating}</h4>
+        <h4 class="rating-count">${myRating}</h4>
         <h4 class="comment">${COMMENT[myRating]}</h4>
       </div>
         `;

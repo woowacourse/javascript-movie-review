@@ -261,6 +261,13 @@ header {
   padding: 16px;
 }
 
+.rating-box > p {
+  margin-right: 16px;
+}
+
+.raiting-count {
+  margin: 0px 12px;
+}
 /*exit button*/
 .exit-button {
   position: absolute;
@@ -365,6 +372,15 @@ header {
 
   .movie-list {
     display: none;
+  }
+
+  .rating-box > p {
+    font-size: small;
+    margin-right: 8px;
+  }
+
+  .raiting-count {
+    margin: 0px 8px;
   }
 }
 
