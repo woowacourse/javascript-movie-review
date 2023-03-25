@@ -6,19 +6,16 @@ type MovieItemConstructorType = {
   parentElement: HTMLElement;
   skeleton: Element;
   movieInfo: MovieType;
-  fetchId: string;
 };
 
 class MovieItem {
   private $parentElement;
   private $skeleton;
   private $item!: HTMLElement;
-  private fetchId;
 
-  constructor({ parentElement, skeleton, movieInfo, fetchId }: MovieItemConstructorType) {
+  constructor({ parentElement, skeleton, movieInfo }: MovieItemConstructorType) {
     this.$parentElement = parentElement;
     this.$skeleton = skeleton;
-    this.fetchId = fetchId;
     this.createElement(movieInfo);
     this.replaceSkeletonWhenLoaded();
   }
