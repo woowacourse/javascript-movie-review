@@ -28,7 +28,7 @@ const Movie = assemble<MovieProps>((props) => {
                 ? `<div class="item-thumbnail skeleton"></div>`
                 : `<img
                     class="item-thumbnail"
-                    src=https://image.tmdb.org/t/p/w200/${poster_path}
+                    src=https://image.tmdb.org/t/p/w400/${poster_path}
                     loading="lazy"
                     alt=${title} />`
             }
