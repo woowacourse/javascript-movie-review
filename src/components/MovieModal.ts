@@ -45,18 +45,20 @@ export default class MovieModal extends HTMLElement {
                       : NoImage
                   }'/>
                   <div class="modal-essential">
-                    <div class="w-full flex align-center skeleton">
-                      <p class="mr-16 hidden">${
-                        genre ? genre : RESPONSE_NULL.GENRE
-                      }</p>
-                      <div class="flex align-center">
-                        <img class="star-filled mr-4 hidden" alt="별점" />
-                        <p>${rating}</p>
+                    <section class="detail-info">
+                      <div class="w-full flex align-center skeleton">
+                        <p class="mr-16 hidden">${
+                          genre ? genre : RESPONSE_NULL.GENRE
+                        }</p>
+                        <div class="flex align-center">
+                          <img class="star-filled mr-4 hidden" alt="별점" />
+                          <p>${rating}</p>
+                        </div>
                       </div>
-                    </div>
-                    <p class="overview skeleton">
-                    ${overview ? overview : RESPONSE_NULL.OVERVIEW}
-                    </p>
+                      <p class="overview skeleton">
+                      ${overview ? overview : RESPONSE_NULL.OVERVIEW}
+                      </p>
+                    </section>
                     <rating-box 
                     my-rating="${this.myRating}" 
                     movie-id="${this.movieId}">
