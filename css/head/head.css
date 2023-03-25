@@ -1,0 +1,40 @@
+movie-head {
+  position: fixed;
+  width: 100%;
+  min-width: 1200px;
+  height: 72px;
+  background-color: var(--main-background);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--white);
+  margin-bottom: 48px;
+}
+
+movie-head h1 {
+  cursor: pointer;
+  user-select: none;
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: -0.1rem;
+  color: var(--rose-pink);
+}
+
+movie-head > .search-box {
+  background: var(--white);
+  padding: 8px;
+  border-radius: 4px;
+}
+
+movie-head .search-box > input {
+  border: 0;
+}
+
+movie-head .search-box > .search-button {
+  width: 14px;
+  border: 0;
+  text-indent: -1000rem;
+  background: url("../../image/search_button.png") transparent no-repeat 0 1px;
+  background-size: contain;
+}

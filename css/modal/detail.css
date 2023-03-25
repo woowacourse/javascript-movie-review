@@ -1,28 +1,9 @@
-:root {
-  --gray-black: #212122;
-  --gray-gray: #383839;
-}
-
-hr {
-  margin: 0;
-}
-
 .modal-head {
   display: flex;
 
   padding: 18px 32px 18px 32px;
   justify-content: space-between;
   margin: 0;
-}
-
-.text-title {
-  padding-top: 6px;
-
-  font: normal 600 20px/24px "Roboto";
-}
-
-.text-body {
-  font: normal 400 16px/24px "Roboto";
 }
 
 .close-btn {
@@ -61,7 +42,7 @@ hr {
   height: 400px;
 }
 
-.title {
+.detail-info {
   display: flex;
   flex-direction: row;
 
@@ -85,44 +66,14 @@ hr {
 }
 
 .detail::-webkit-scrollbar-thumb {
-  background-color: #2f3542;
+  background-color: var(--scroll-blue);
   border-radius: 10px;
   background-clip: padding-box;
   border: 2px solid transparent;
 }
 
 .detail::-webkit-scrollbar-track {
-  background-color: grey;
+  background-color: var(--scroll-gray);
   border-radius: 10px;
-  box-shadow: inset 0px 0px 5px white;
-}
-
-.user-rate {
-  display: flex;
-  flex-direction: row;
-
-  padding: 16px;
-  gap: 12px;
-
-  width: 100%;
-  height: 64px;
-
-  background: #383839;
-  border-radius: 16px;
-}
-
-.user-rate-title {
-  padding-top: 6px;
-
-  font: normal 700 16px/24px "Roboto";
-}
-
-.rate-container {
-  display: flex;
-  flex-direction: row;
-}
-
-.rate {
-  width: 32px;
-  height: 32px;
+  box-shadow: inset 0px 0px 5px var(--white);
 }

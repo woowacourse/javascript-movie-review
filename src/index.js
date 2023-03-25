@@ -1,7 +1,4 @@
-import "../css/reset.css";
-import "../css/common.css";
-import "../css/modal.css";
-import "../css/detail.css";
+import "../css/style.css";
 
 import "./component/head/MovieHeader";
 import "./component/error/ErrorContainer";

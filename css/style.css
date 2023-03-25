@@ -1,0 +1,63 @@
+@import url("./common/reset.css");
+@import url("./common/text.css");
+
+@import url("./error/error.css");
+
+@import url("./head/head.css");
+
+@import url("./modal/detail.css");
+@import url("./modal/modal.css");
+@import url("./modal/star.css");
+
+@import url("./movie/container.css");
+@import url("./movie/item.css");
+@import url("./movie/list.css");
+@import url("./movie/skeleton.css");
+
+:root {
+  --white: #fff;
+  --black: #00000099;
+  --gray-black: #212122;
+  --gray-gray: #383839;
+  --rose-pink: #f33f3f;
+  --main-background: #222222;
+  --scroll-blue: #2f3542;
+  --scroll-gray: #808080;
+  --skeleton-gray: #aaa;
+  --skeleton-white: #f0f0f0;
+}
+
+* {
+  box-sizing: border-box !important;
+}
+
+body {
+  font-size: 14px;
+  background-color: var(--main-background);
+  color: var(--white);
+}
+
+body.scroll {
+  overflow: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+hr {
+  margin: 0;
+}
+
+#app {
+  padding-bottom: 48px;
+}
+
+*:focus {
+  outline: none;
+}

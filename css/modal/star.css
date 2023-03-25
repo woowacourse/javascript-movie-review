@@ -1,0 +1,23 @@
+.user-rate {
+  display: flex;
+  flex-direction: row;
+
+  padding: 16px;
+  gap: 12px;
+
+  width: 100%;
+  height: 64px;
+
+  background: #383839;
+  border-radius: 16px;
+}
+
+.rate-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.rate {
+  width: 32px;
+  height: 32px;
+}
