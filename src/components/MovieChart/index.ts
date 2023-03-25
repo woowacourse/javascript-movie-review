@@ -1,8 +1,8 @@
 import { assemble, Event } from '../../core';
-import { $, getElement } from './../../utils/common/domHelper';
-import { MovieListComponent, SkeletonMovieListComponent } from './action';
+import { getElement } from './../../utils/common/domHelper';
+import { MovieListComponent, MovieOverviewModalComponent, SkeletonMovieListComponent } from './action';
 import { useMovieChart } from '../../hooks/useMovieChart';
-import { NO_RESULT } from '../../constants';
+import { NO_RESULT } from '../../constants/movieChart';
 import { observer } from '../../utils/common/observer';
 
 export interface MovieChartProps {
@@ -10,8 +10,12 @@ export interface MovieChartProps {
 }
 
 const MovieChart = assemble<MovieChartProps>(({ keyword }) => {
-  const { chartInfo, movieList, isLoading, fetchMore } = useMovieChart(keyword);
-  const needMoreFetch = Boolean(!isLoading && chartInfo?.page !== chartInfo?.total_pages && movieList.length);
+  const {
+    values: { movieChart, movieList, isLoading, focusedMovie },
+    handlers: { fetchMore, closeModal, onClickMovie },
+  } = useMovieChart(keyword);
+  const needMoreFetch = !isLoading && movieChart?.movieChartInfo.page !== movieChart?.movieChartInfo.total_pages;
+  const noResult = !isLoading && !movieChart?.movieChartInfo.total_results;
 
   observer('.fetch-more-line', {
     onIntersect() {
@@ -22,12 +26,10 @@ const MovieChart = assemble<MovieChartProps>(({ keyword }) => {
   const $events: Event[] = [
     {
       event: 'click',
-      callback(e) {
-        e.target === $('.btn.primary') && fetchMore(keyword);
-      },
+      callback: onClickMovie,
     },
   ];
-  const noResult = !isLoading && !chartInfo?.total_results;
+
   const $template = getElement(`
     <main>
       <section class="item-view">
@@ -42,18 +44,20 @@ const MovieChart = assemble<MovieChartProps>(({ keyword }) => {
           ${noResult ? `<h1>${NO_RESULT}</h1>` : ''}
         </div>
       </section>
-      </main>
+      <fragment id="MovieOverviewModal">
+        ${
+          focusedMovie
+            ? MovieOverviewModalComponent({
+                focusedMovie,
+                closeModal,
+              })
+            : ''
+        }
+      </fragment>
+    </main>
       `);
 
   return [$template, $events];
 });
 
 export { MovieChart };
-
-// ${
-//   needMoreBtn
-//     ? `<button class="btn primary full-width">
-//         더 보기
-//       </button>`
-//     : ''
-// }

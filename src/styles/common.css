@@ -35,17 +35,6 @@ main {
   width: 100%;
 }
 
-.app-container {
-  display: flex;
-  flex-direction: column;
-
-  height: 100%;
-}
-
-main {
-  flex-grow: 1;
-}
-
 *:focus {
   outline: none;
 }
@@ -54,9 +43,9 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
   height: 100%;
-  height: 100%;
+
+  padding: 0 134px;
   margin: 0 auto;
 }
 
@@ -108,9 +97,9 @@ main {
 
 .item-list {
   display: grid;
+  justify-content: space-between;
   grid-template-columns: repeat(4, 180px);
   grid-column-gap: 160px;
-
   width: 100%;
 }
 
@@ -239,6 +228,13 @@ header .search-box > form > .search-button {
   background-size: contain;
 }
 
+.movie-overview-modal-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
 .movie-overview-modal {
   position: fixed;
   top: 50%;
@@ -249,8 +245,21 @@ header .search-box > form > .search-button {
   flex-direction: column;
 
   width: 64vw;
-  height: 60vh;
+
+  border-radius: 8px;
   background: #212122;
+}
+
+@media (max-width: 1024px) {
+  .movie-overview-modal {
+    width: 80vw;
+  }
+}
+
+@media (max-width: 400px) {
+  .movie-overview-modal__poster {
+    display: none;
+  }
 }
 
 .modal-backdrop {
@@ -265,6 +274,8 @@ header .search-box > form > .search-button {
 }
 
 .movie-overview-modal__header {
+  position: relative;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -272,21 +283,19 @@ header .search-box > form > .search-button {
   width: 100%;
   height: 60px;
 
-  padding: 0 12px;
-
   border-bottom: 1px solid rgba(241, 241, 241, 0.25);
 }
 
 .movie-overview-modal__title {
-  margin-left: auto;
   font-size: 20px;
   font-weight: 600;
 }
 .movie-overview-modal__close-btn {
+  position: absolute;
   width: 36px;
   height: 36px;
 
-  margin-left: auto;
+  right: 12px;
 
   border: none;
   border-radius: 50%;
@@ -306,6 +315,10 @@ header .search-box > form > .search-button {
 .movie-overview-modal__left-aside {
   width: 40%;
 }
+.movie-overview-modal__poster {
+  width: 100%;
+  max-height: 100%;
+}
 
 .movie-overview-modal__right-aside {
   display: flex;
@@ -315,6 +328,19 @@ header .search-box > form > .search-button {
 }
 .movie-overview-modal__subInfo {
   display: flex;
+  align-items: center;
+  height: 20px;
+}
+
+.movie-overview-modal__subInfo > div {
+  display: flex;
+  align-items: center;
+  margin-left: 16px;
+  gap: 5px;
+}
+
+.movie-overview-modal__subInfo img {
+  height: 20px;
 }
 
 .movie-overview-modal__overview {
@@ -331,8 +357,14 @@ header .search-box > form > .search-button {
 
   height: 64px;
 
+  margin-top: 16px;
   padding: 0 16px;
 
   border-radius: 16px;
   background: #383839;
+}
+
+.movie-overview-modal__my-vote-container > span,
+div {
+  flex-shrink: 0;
 }

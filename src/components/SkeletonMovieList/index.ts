@@ -1,4 +1,4 @@
-import { DUMMY_AMOUNT } from '../../constants';
+import { DUMMY_AMOUNT } from '../../constants/movieChart';
 import { assemble, Event } from '../../core';
 import { getElement } from './../../utils/common/domHelper';
 import { SkeletonMovieComponent } from './action';

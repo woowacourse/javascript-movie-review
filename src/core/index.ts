@@ -3,8 +3,9 @@ import { Props, UnPack } from '../types/common';
 import { debounce } from '../utils/common/debounce';
 import { $ } from '../utils/common/domHelper';
 
+export type CallbackEvent = HTMLElementEventMap[keyof HTMLElementEventMap];
 export interface EventCallback {
-  (e: HTMLElementEventMap[keyof HTMLElementEventMap]): void;
+  (e: CallbackEvent): void;
 }
 export interface Event {
   event: keyof HTMLElementEventMap;

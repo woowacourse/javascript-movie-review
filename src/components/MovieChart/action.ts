@@ -1,6 +1,7 @@
 import { MovieList, MovieListProps } from '../MovieList';
 import { SkeletonMovieList } from '../SkeletonMovieList';
 import { absorb } from '../../core';
+import { MovieOverviewModal, MovieOverviewModalProps } from '../MovieOverviewModal';
 
 const MovieChartActions = () => {
   const MovieListComponent = (props: MovieListProps) => {
@@ -10,7 +11,11 @@ const MovieChartActions = () => {
   const SkeletonMovieListComponent = () => {
     absorb('#SkeletonList', SkeletonMovieList({}));
   };
-  return { MovieListComponent, SkeletonMovieListComponent };
+
+  const MovieOverviewModalComponent = (props: MovieOverviewModalProps) => {
+    absorb(`#MovieOverviewModal`, MovieOverviewModal(props));
+  };
+  return { MovieListComponent, SkeletonMovieListComponent, MovieOverviewModalComponent };
 };
 
-export const { MovieListComponent, SkeletonMovieListComponent } = MovieChartActions();
+export const { MovieListComponent, SkeletonMovieListComponent, MovieOverviewModalComponent } = MovieChartActions();

@@ -15,6 +15,18 @@ export const getElement = (template: string) => {
   return root.firstElementChild;
 };
 
+export const isHTMLElement = (target: Element): target is HTMLElement => target instanceof HTMLElement;
+
+export const getClosest = (target: Element | EventTarget | null, selector: string) => {
+  if (!(target instanceof Element)) return null;
+
+  const parent = target.closest(selector);
+  if (!parent) return null;
+  if (!isHTMLElement(parent)) return null;
+
+  return parent;
+};
+
 export const replaceComponent = (element: Element | null, component: Element | null) => {
   if (element && component) {
     element.replaceWith(component);
