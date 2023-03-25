@@ -195,6 +195,7 @@ li {
   /* position: fixed; */
   /* bottom: 0; */
   width: 100%;
+  color: rgba(0, 0, 0, 0);
 }
 
 /* 모달 css */
@@ -293,10 +294,6 @@ dialog::backdrop {
     font-size: 1rem;
   }
 
-  header .search-box > label > input {
-    display: none;
-  }
-
   dialog {
     border-radius: 16px 16px 0 0;
     margin-bottom: 0;
@@ -304,13 +301,13 @@ dialog::backdrop {
     width: 100%;
   }
 
-  .modal-movie-poster {
-    display: none;
-  }
-
   .item-thumbnail,
   .skeleton > .item-thumbnail {
     width: 112px;
     height: 178px;
+  }
+
+  .hidden {
+    display: none;
   }
 }
