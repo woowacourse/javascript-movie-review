@@ -20,6 +20,8 @@ export class Movie {
 
   setMovieVote(payload: MyVote) {
     setMyVote(payload);
+
+    this.movieInfo.my_vote = payload.my_vote;
   }
 }
 
@@ -32,6 +34,17 @@ const getMyVote = (id: number) => {
 
 const setMyVote = ({ id, my_vote }: Pick<MovieInfo, 'id' | 'my_vote'>) => {
   const myVotes = getData('my_votes', []);
+  const vote = getMyVote(id);
 
-  addData([...myVotes, { [id]: my_vote }]);
+  if (vote) {
+    const updatedMyVotes = myVotes.map((vote: MyVote) => {
+      if (vote.id === id) vote.my_vote = my_vote;
+
+      return vote;
+    });
+
+    addData(updatedMyVotes);
+  } else {
+    addData([...myVotes, { id, my_vote }]);
+  }
 };
