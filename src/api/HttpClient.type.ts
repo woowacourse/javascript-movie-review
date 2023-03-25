@@ -1,12 +1,6 @@
 export type HttpMethod = 'GET' | 'POST' | 'PUT';
 
-export type HttpStatus = 200 | 400 | 401 | 403 | 404;
-
-export type HttpStatusOK = 200;
-
-export type HttpStatusFailure = Exclude<HttpStatus, HttpStatusOK>;
-
-export type HttpResponse<Status extends HttpStatus = HttpStatus, Data = unknown> = {
+export type HttpResponse<Status extends number = number, Data = unknown> = {
   status: Status;
   ok: boolean;
   data: Data;
@@ -38,7 +32,3 @@ export type ExtractByHttpMethod<
   GenericAPISpec extends APISpec,
   GenericHTTPMethod extends HttpMethod,
 > = Extract<GenericAPISpec, { endpoint: `${GenericHTTPMethod} /${string}` }>;
-
-export type GetSuccess<Response> = Extract<Response, { status: HttpStatusOK }>;
-
-export type GetFailure<Response> = Extract<Response, { status: HttpStatusFailure }>;

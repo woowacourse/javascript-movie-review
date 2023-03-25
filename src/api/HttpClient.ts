@@ -5,18 +5,11 @@ import {
   ExtractByHttpMethod,
   GetParams,
   GetPath,
-  GetSuccess,
   HttpResponse,
 } from './HttpClient.type';
 
 export abstract class HttpClient<GenericAPISpec extends APISpec> {
   constructor(protected readonly base: string) {}
-
-  isSuccess<GenericHTTPResponse extends HttpResponse>(
-    response: GenericHTTPResponse,
-  ): response is GetSuccess<GenericHTTPResponse> {
-    return response.ok;
-  }
 
   getURL(path: string): URL {
     return new URL(path, this.base);

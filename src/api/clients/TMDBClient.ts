@@ -41,7 +41,7 @@ export class TMDBClient extends HttpClient<TMDBAPISpec> implements MoviesAPI {
   async getPopularMovies(params: PaginatedParams): Promise<MoviesResponse> {
     const response = await this.get('/3/movie/popular', params);
 
-    if (!this.isSuccess(response)) {
+    if (response.status !== 200) {
       throw new HttpClientError(response.data.status_message);
     }
 
@@ -56,7 +56,7 @@ export class TMDBClient extends HttpClient<TMDBAPISpec> implements MoviesAPI {
   async searchMovies(params: PaginatedParams<{ query: string }>): Promise<MoviesResponse> {
     const response = await this.get('/3/search/movie', params);
 
-    if (!this.isSuccess(response)) {
+    if (response.status !== 200) {
       throw new HttpClientError(response.data.status_message);
     }
 
@@ -72,7 +72,7 @@ export class TMDBClient extends HttpClient<TMDBAPISpec> implements MoviesAPI {
     const numericId = Number(id);
     const response = await this.get(`/3/movie/${numericId}`);
 
-    if (!this.isSuccess(response)) {
+    if (response.status !== 200) {
       throw new HttpClientError(response.data.status_message);
     }
 
