@@ -33,6 +33,7 @@ class MovieDetail {
 
   #template({ title, overview, voteAverage, genres, posterPath, myStarScore }: IMovieDetailItem) {
     const score = myStarScore ?? 0;
+
     return `  
     <div class="header-container">
       <p class="movie-title">${title}</p>
@@ -58,25 +59,30 @@ class MovieDetail {
             }" alt="별점" /> ${voteAverage?.toFixed(1)}
           </p>
         </div>
-        <textarea readonly>${overview ?? ''}</textarea>
+        <textarea readonly>${overview ?? '줄거리가 없습니다.'}</textarea>
 
         <div class="vote-container">
           <span class="star-title">내 별점</span>
-          <span class="star">
-           ${this.#starImage(starEmpty)}
-            <span style="width:${(score ?? 0) * 10}%"> ${this.#starImage(starFilled)}</span>
-            <input class="star-input" type="range" value=${score} step="2" min="0" max="10">
-          </span>
+          <div class=star-box">
+            ${this.getActiveStarLabel(score)}
+          </div>
           <span class="star-description">${score ? `${score}점 ` : ''} 
-          <span class="description">    ${STAR_DESCRIPTION[score ?? 0]}</span>
+          <span class="description">${STAR_DESCRIPTION[score ?? 0]}</span>
       </span>      
         </div>
       </div>  
     </div>`;
   }
 
-  #starImage(path: string) {
-    return `<img src=${path}/>`.repeat(5);
+  getActiveStarLabel(score: number) {
+    const labelMap = Array.from({ length: 5 }, (_, index) => {
+      const value = (index + 1) * 2;
+      return `<label class="star ${
+        value === score ? 'star-active' : ''
+      }"><input value="${value}"/></label>`;
+    });
+
+    return labelMap.join('');
   }
 
   render(movie: IMovieDetailItem, $target: HTMLElement) {
@@ -91,16 +97,15 @@ class MovieDetail {
   #initialEventListener() {
     this.#$detainContainer.addEventListener('click', (e) => {
       if (!(e.target instanceof HTMLElement)) return;
-      if (e.target.classList.contains('close-button')) {
-        modal.close();
+      if (e.target.classList.contains('close-button')) modal.close();
+      if (e.target instanceof HTMLLabelElement) {
+        const $stars = document.querySelectorAll('.star');
+        $stars.forEach((element) => element.classList.remove('star-active'));
+        e.target.classList.add('star-active');
+        const score = e.target.querySelector('input')?.value ?? 0;
+        this.#changeStarState(Number(score));
+        this.#saveMovieScoreInLocalStorage();
       }
-    });
-
-    this.#$detainContainer.addEventListener('input', (e) => {
-      if (!(e.target instanceof HTMLInputElement)) return;
-      if (!e.target.classList.contains('star-input')) return;
-      this.#changeStarState(Number(e.target.value));
-      this.#saveMovieScoreInLocalStorage();
     });
   }
 
@@ -111,12 +116,10 @@ class MovieDetail {
   }
 
   #changeStarState(value: number) {
-    const starSpan = document.querySelector<HTMLSpanElement>('.star > span');
     const starDescription = document.querySelector<HTMLSpanElement>('.star-description');
 
-    if (!starSpan || !starDescription) return;
+    if (!starDescription) return;
     this.#movieState.myStarScore = value;
-    starSpan.style.width = `${value * 10}%`;
     starDescription.innerHTML = `${value ? `${value}점 ` : ''} 
     <span class="description">${STAR_DESCRIPTION[value ?? 0]}</span>`;
   }

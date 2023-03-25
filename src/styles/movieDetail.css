@@ -53,6 +53,8 @@
 .content-info-container {
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
+
   row-gap: 16px;
 
   width: 438px;
@@ -99,33 +101,36 @@
   line-height: 24px;
 }
 
+.star-box {
+  display: flex;
+}
+
 .star {
-  position: relative;
-  font-size: 2rem;
-
-  overflow: hidden;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: url('../images/star_empty.png') no-repeat;
+  background-size: contain;
+  content-visibility: hidden;
 }
 
-.star img {
-  width: 26.67px;
-  height: 25.53px;
-}
-
-.star input {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  opacity: 0;
+.star :hover {
   cursor: pointer;
 }
 
-.star span {
-  width: 0;
-  position: absolute;
-  left: 0;
-  overflow: hidden;
-  pointer-events: none;
+.star.star-active,
+.star:has(~ .star.star-active) {
+  background: url('../images/star_filled.png');
+  background-size: contain;
+}
+.star:hover,
+.star:has(~ .star:hover) {
+  background: url('../images/star_filled.png');
+  background-size: contain;
+}
+.star:hover ~ .star {
+  background: url('../images/star_empty.png');
+  background-size: contain;
 }
 
 .star-description {
@@ -136,7 +141,7 @@
   line-height: 24px;
 }
 
-@media screen and (max-width: 916px) and (min-width: 391px) {
+@media screen and (max-width: 916px) and (min-width: 756px) {
   .content-container > img {
     max-width: 292px;
     max-height: 433px;
@@ -155,7 +160,7 @@
   }
 }
 
-@media screen and (max-width: 391px) {
+@media screen and (max-width: 755px) {
   #modal {
     width: 100%;
     max-height: 485px;
@@ -164,9 +169,16 @@
     background: 0;
   }
 
+  .content-container {
+    justify-content: center;
+  }
+
   .movie-detail-container {
     position: fixed;
     bottom: 0;
+
+    width: 100%;
+
     background: var(--light-black--);
     border: 8px;
   }
@@ -178,20 +190,16 @@
 
   .content-info-container {
     width: 326px;
+    justify-content: space-between;
     margin: 0;
     overflow-x: none;
   }
   .content-info-container > textarea {
-    height: 192px;
-    min-height: 100px;
+    min-height: 120px;
   }
   .content-container > img {
     display: none;
     background-size: contain;
-  }
-
-  .vote-container {
-    margin: 32px 0 0 0;
   }
 
   .description {

@@ -262,7 +262,7 @@ dialog::backdrop {
   transform: translate(-50%, -50%);
 }
 
-@media screen and (max-width: 916px) and (min-width: 391px) {
+@media screen and (max-width: 916px) and (min-width: 671px) {
   body {
     font-size: 11.5px;
   }
