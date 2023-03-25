@@ -88,7 +88,7 @@ button {
   font-weight: 600;
   user-select: none;
   text-align: center;
-  color: var(--grey-300);
+  color: rgb(178, 178, 178);
 }
 
 .item-card {
