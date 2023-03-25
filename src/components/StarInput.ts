@@ -17,12 +17,12 @@ export class StarInput {
   create() {
     return `
             <section class="score" id=${this._id}>
-            ${this.getCountedStar()}
+            ${this.getInputScore()}
             </section>
         `;
   }
 
-  getCountedStar() {
+  getInputScore() {
     return (
       `<strong class="my-score">내 별점</strong><div class="score__img-wrapper">` +
       Array.from({ length: 5 })
@@ -47,7 +47,7 @@ export class StarInput {
   rerenderStarImages() {
     const scoreBox = $(".score") as HTMLElement;
     scoreBox.innerHTML = "";
-    scoreBox.innerHTML = this.getCountedStar();
+    scoreBox.innerHTML = this.getInputScore();
   }
 
   updateScore(score: number) {
@@ -75,6 +75,7 @@ export class StarInput {
   save() {
     setLocalstorage<Number, Number>(this._id, this._score);
   }
+
   getPrevScore() {
     return getLocalstorage<Number>(this._id);
   }

@@ -16,10 +16,14 @@ export class ErrorComment {
         `;
   }
 
-  render() {
-    const itemList = $(".item-list") as HTMLElement;
+  removeTitle() {
     const title = $("h2") as HTMLElement;
     title.remove();
+  }
+
+  render() {
+    this.removeTitle();
+    const itemList = $(".item-list") as HTMLElement;
     itemList.innerHTML = this.create();
   }
 }

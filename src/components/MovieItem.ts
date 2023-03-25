@@ -11,7 +11,7 @@ export class MovieItem {
     this._posterPath = movieInfo.poster_path;
     this._voteAverage = movieInfo.vote_average;
     this.render(id);
-    this.handleClick(id);
+    this.handleEvent(id);
   }
 
   create(id: number) {
@@ -35,7 +35,7 @@ export class MovieItem {
     $(".item-list")?.insertAdjacentHTML("beforeend", this.create(id));
   }
 
-  handleClick(id: number) {
+  handleEvent(id: number) {
     const targetMovie = document.getElementById(String(id)) as HTMLElement;
     targetMovie.addEventListener("click", () => this.onClick(id));
   }

@@ -1,4 +1,3 @@
-import { MovieInfo, TotalMovieInfo } from "../@types/movieDataType";
 import { $ } from "../utils/selector";
 
 export class MovieDatail {
