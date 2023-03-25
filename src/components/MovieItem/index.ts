@@ -19,7 +19,7 @@ export default class MovieItem extends HTMLElement {
     this.addEventListener('click', () => {
       const el = document.getElementById('movie-modal') as MovieModal;
       el.open(this.movie);
-    })
+    });
   }
 
   render() {
@@ -45,6 +45,6 @@ export default class MovieItem extends HTMLElement {
         </div>
       </a>
     </li>
-    `
+    `;
   }
 }
