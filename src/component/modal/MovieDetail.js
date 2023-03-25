@@ -16,14 +16,14 @@ class MovieDetail extends CustomElement {
     return `
     <section class="modal-head">
       <span></span>
-      <h3 class="text-title">${title}</h1>
-      <div class="close-btn text-title">X</div>
+      <h3 class="detail-title">${title}</h1>
+      <div class="close-btn detail-title">X</div>
     </section>
     <hr />
     <section class="modal-main">
       <img class="modal-img skeleton" loading="lazy" src=${src} alt=${title} />
       <section class="modal-detail">
-        <div class="title text-body">
+        <div class="detail-info text-body">
           <p>${genres}</p>
           <img class="detail-star" src="./image/star_filled.png" alt="별점" />
           <p>${voteAverage}</p>
@@ -50,7 +50,7 @@ class MovieDetail extends CustomElement {
     $(".close-btn").addEventListener("click", this.hideModal);
 
     window.addEventListener("keyup", (e) => {
-      if ($(".modal-open").classList.contains("modal")) return;
+      if (!$(".modal").classList.contains("modal-open")) return;
       if (e.key === "Escape") {
         this.hideModal();
       }
@@ -58,8 +58,8 @@ class MovieDetail extends CustomElement {
   }
 
   hideModal() {
-    $(".modal-open").classList.add("modal");
-    $(".modal-open").closest("body").classList.remove("scroll");
+    $(".modal").classList.remove("modal-open");
+    $(".modal").closest("body").classList.remove("scroll");
   }
 }
 

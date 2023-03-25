@@ -11,7 +11,7 @@ class ErrorContainer extends CustomElement {
 
   template() {
     return `
-        <section class="item-view error-message">
+        <section class="error-message">
         </section>
     `;
   }
@@ -23,7 +23,7 @@ class ErrorContainer extends CustomElement {
     const errorMessage = this.makeErrorMessage(errorCode);
 
     $(".error-message").innerHTML = `
-      <h2 class='movie-container-title'>오류가 발생 했습니다.</h2>
+      <h2 class='text-title'>오류가 발생 했습니다.</h2>
 
       <div>
        ${errorMessage}

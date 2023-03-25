@@ -10,7 +10,7 @@ class MovieModal extends CustomElement {
   }
   template() {
     return `
-      <div class="modal modal-open">
+      <div class="modal">
         <div class="modal-backdrop"></div> 
         <div class="modal-container"></div>
       </div>
@@ -32,7 +32,7 @@ class MovieModal extends CustomElement {
   }
 
   showModal() {
-    $(".modal-open").classList.remove("modal");
+    $(".modal").classList.add("modal-open");
     this.closest("body").classList.add("scroll");
   }
 }
