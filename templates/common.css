@@ -171,6 +171,7 @@ header h1 {
 }
 
 header > .search-box {
+  width: 30%;
   background: #fff;
   padding: 8px;
   border-radius: 4px;
@@ -183,11 +184,49 @@ header .search-box > input {
 header .search-box > .search-button {
   width: 14px;
   height: 14px;
-  /* border: 0; */
-  /* text-indent: -1000rem; */
-  /* background: url("./search_button.png") transparent no-repeat 0 1px; */
-  /* background-color: black; */
-  /* background-size: contain; */
+
+  float: right;
+}
+
+@media (max-width: 768px) {
+  header .search-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 30px;
+    height: 30px;
+    padding: 0;
+
+    background: #fff;
+    border-radius: 4px;
+  }
+
+  header .search-box > input {
+    width: 0;
+    height: 0;
+  }
+
+  header .search-box > .search-button {
+    width: 14px;
+    height: 14px;
+  }
+
+  header .search-box.clicked {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    width: 30%;
+    background: #fff;
+    padding: 8px;
+    border-radius: 4px;
+  }
+
+  header .search-box > input.clicked {
+    width: 320px;
+    height: 24px;
+  }
 }
 
 .error {

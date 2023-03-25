@@ -28,12 +28,21 @@ export default class SearchBox {
   handleEvent() {
     const searchInput = $(".search-input");
     const searchButton = $(".search-button");
+    const searchBox = $(".search-box");
 
     searchInput?.addEventListener("keyup", (e: any) => {
       this.updateKeyword(e.target.value);
       e.keyCode === 13 && this.onCompleteSearch(e);
     });
     searchButton?.addEventListener("click", (e: Event) => {
+      const target = e.target as HTMLElement;
+
+      if (target.parentElement?.clientWidth === 30) {
+        searchBox?.classList.add("clicked");
+        searchInput?.classList.add("clicked");
+        return;
+      }
+
       this.onCompleteSearch(e);
     });
   }
