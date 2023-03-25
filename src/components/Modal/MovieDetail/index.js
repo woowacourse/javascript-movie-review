@@ -88,18 +88,18 @@ const MovieDetailModal = {
 
   async getMovieDetail(id) {
     const movieDetailData = await fetchMovieDetail(id);
-    const myVote = this.getMyVote(id);
+    const myVote = this.getMyVoteFromLocalStorage(id);
     const movieDetail = new MovieDetail(movieDetailData, myVote);
 
     return movieDetail;
   },
 
-  getMyVote(id) {
+  getMyVoteFromLocalStorage(id) {
     const myVoteList = JSON.parse(localStorage.getItem("myVote")) || {};
     return myVoteList[id] || 0;
   },
 
-  setMyVote(id, score) {
+  setMyVoteToLocalStorage(id, score) {
     const myVoteList = JSON.parse(localStorage.getItem("myVote")) || {};
     myVoteList[id] = score;
     localStorage.setItem("myVote", JSON.stringify(myVoteList));
@@ -133,7 +133,7 @@ const MovieDetailModal = {
 
       this.renderMyVote(score);
       this.setEventOnclickVoteStar(id);
-      this.setMyVote(id, score);
+      this.setMyVoteToLocalStorage(id, score);
     });
   },
 };
