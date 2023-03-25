@@ -1,3 +1,4 @@
+import { CurrentTab } from "../@types/movieDataType";
 import { $, $$ } from "../utils/selector";
 
 export default class MovieItemList {
@@ -33,5 +34,11 @@ export default class MovieItemList {
     const titleSection = document.createElement("h2");
     titleSection.textContent = titleText;
     itemView.prepend(titleSection);
+  }
+
+  getTitle(currentTab: CurrentTab) {
+    return currentTab === CurrentTab.POPULAR
+      ? "지금 인기있는 영화"
+      : "의 검색결과";
   }
 }

@@ -36,12 +36,6 @@ class MovieDataManager {
     this._currentPage++;
   }
 
-  getTitle() {
-    return this._currentTab === CurrentTab.POPULAR
-      ? "지금 인기있는 영화"
-      : "의 검색결과";
-  }
-
   checkIsLastPage(response: ResponseInfo) {
     return response?.total_pages === response?.page;
   }
