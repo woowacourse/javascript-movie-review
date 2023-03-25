@@ -14,4 +14,5 @@ export const CLASS = {
   SKELETON: 'skeleton',
   MESSAGE: 'message',
   HIDE: 'hide',
+  ITEM_CARD: 'item-card',
 };
