@@ -36,6 +36,7 @@ class UpdateController {
       return;
     }
 
+    const randomFetchId = crypto.randomUUID();
     this.footerMessage.showLoadingMessage('멋진 영화들을 가져오는 중...');
 
     if (updateMode === 'overwrite') {
@@ -43,7 +44,7 @@ class UpdateController {
       this.movieFetcher.resetPage();
     }
 
-    this.movieList.renderSkeletonItems();
+    this.movieList.renderSkeletonItems(randomFetchId);
 
     const { result, errorMessage, fetchedData }: MovieFetchResponseType =
       await this.movieFetcher.getMovieData<MovieFetchResponseType>(keyword);
@@ -78,11 +79,11 @@ class UpdateController {
 
     if (fetchedData) {
       MovieStorage.addMovies(fetchedData);
-      this.movieList.renderContents(fetchedData);
+      this.movieList.renderContents(fetchedData, randomFetchId);
       this.footerMessage.hideMessage();
     }
 
-    this.movieList.removeSkeletonItems();
+    this.movieList.removeSkeletonItemsByFetchId(randomFetchId);
   }
 }
 

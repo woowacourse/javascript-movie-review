@@ -50,30 +50,39 @@ class MovieList {
     $('.item-list', this.$element).innerHTML = '';
   }
 
-  renderSkeletonItems(count: number = 20) {
-    const skeletonItems = skeletonItem().repeat(count);
+  renderSkeletonItems(fetchId: string, count: number = 20) {
+    const skeletonItems = skeletonItem(fetchId).repeat(count);
     $('.item-list', this.$element).insertAdjacentHTML('beforeend', skeletonItems);
   }
 
-  removeSkeletonItems() {
-    $$('.skeleton-item:not(.occupied)', this.$element).forEach((skeleton) => {
-      skeleton.remove();
-    });
+  removeSkeletonItemsByFetchId(fetchId: string) {
+    $$(`.skeleton-item[data-fetch-id='${fetchId}']:not(.occupied)`, this.$element).forEach(
+      (skeleton) => {
+        skeleton.remove();
+      },
+    );
   }
 
-  renderContents(movieInfoList: MovieType[]) {
+  renderContents(movieInfoList: MovieType[], fetchId: string) {
     const skeletons = $$('.skeleton-item', this.$element);
 
     movieInfoList.forEach((movieInfo, index) => {
-      skeletons[index].classList.add('occupied');
-      const movieItem = new MovieItem({
-        parentElement: $('.item-list', this.$element),
-        skeleton: skeletons[index],
-        movieInfo: movieInfo,
-      });
+      const $skeleton = skeletons[index];
 
-      if (index === movieInfoList.length - 1) {
-        this.loadMoreObserver.selectObservingElement(movieItem.getItemElement());
+      if ($skeleton instanceof HTMLElement) {
+        $skeleton.classList.add('occupied');
+        $skeleton.setAttribute('data-fetch-id', fetchId);
+
+        const movieItem = new MovieItem({
+          parentElement: $('.item-list', this.$element),
+          skeleton: $skeleton,
+          movieInfo: movieInfo,
+          fetchId: fetchId,
+        });
+
+        if (index === movieInfoList.length - 1) {
+          this.loadMoreObserver.selectObservingElement(movieItem.getItemElement());
+        }
       }
     });
   }
@@ -84,8 +93,8 @@ class MovieList {
 
       const selectedCard = event.target.closest('.item-card');
 
-      if (selectedCard) {
-        const movieItemId = Number(selectedCard.getAttribute('movie-id'));
+      if (selectedCard instanceof HTMLElement) {
+        const movieItemId = Number(selectedCard.dataset.movieId);
         EventBus.triggerEvent('openInfoModal', [movieItemId]);
       }
     });
