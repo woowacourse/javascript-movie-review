@@ -17,7 +17,7 @@
   border: 1px solid #888;
   width: 100%;
   max-width: 900px;
-  height: 500px;
+  border-radius: 8px;
 }
 
 .modal--open {
