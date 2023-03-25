@@ -12,6 +12,7 @@ class MovieDetailModal {
     this.addBackdropClickEventHandler();
     this.addClickCloseButtonEventHandler();
     this.addClickStarRatingEventHandler();
+    this.addESCKeyDownEventHandler();
   }
 
   private getTemplate(movieDetail: MovieDetail) {
@@ -71,6 +72,7 @@ class MovieDetailModal {
 
       this.render(movieDetail);
       this.$element.showModal();
+      document.body.style.overflow = 'hidden';
     });
   }
 
@@ -78,6 +80,7 @@ class MovieDetailModal {
     this.$element.addEventListener('click', (event) => {
       if (event.target instanceof HTMLDialogElement && event.target.nodeName === 'DIALOG') {
         event.target.close();
+        document.body.style.overflow = 'auto';
       }
     });
   }
@@ -85,7 +88,21 @@ class MovieDetailModal {
   private addClickCloseButtonEventHandler() {
     this.$element.addEventListener('click', (event) => {
       if (!(event.target instanceof HTMLButtonElement)) return;
-      if (event.target.id === 'movie-detail-modal-close-button') this.$element.close();
+      if (!(event.target.id === 'movie-detail-modal-close-button')) return;
+
+      this.$element.close();
+      document.body.style.overflow = 'auto';
+    });
+  }
+
+  private addESCKeyDownEventHandler() {
+    this.$element.addEventListener('keydown', (event) => {
+      event.preventDefault();
+
+      if (!this.$element.open) return;
+
+      this.$element.close();
+      document.body.style.overflow = 'auto';
     });
   }
 
