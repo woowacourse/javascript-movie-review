@@ -40,20 +40,17 @@ describe('E2E 테스트', () => {
     cy.visit('/');
   });
 
-  it('접속했을 때 스켈레톤을 보여준 뒤 영화 목록을 보여준다. 더 보기 버튼을 클릭하면 새로운 영화들이 더 표시된다.', () => {
+  it('접속했을 때 스켈레톤을 보여준 뒤 영화 목록을 보여준다. 스크롤을 내리면 새로운 영화들이 더 표시된다.', () => {
     cy.get('.skeleton').should('be.visible');
     cy.get('.item-list').within(() => {
       cy.get('.item-title').first().contains('슬픈 고양이: 끝내주는 모험').should('be.visible');
-      cy.get('li:visible').should('have.length', 20);
     });
 
-    cy.get('button').contains('더 보기').click();
-    cy.get('button').contains('더 보기').click();
-    cy.get('button').contains('더 보기').click();
+    cy.scrollTo('bottom');
+    cy.scrollTo('bottom');
 
     cy.get('.item-list').within(() => {
       cy.get('li:visible').last().find('.item-title').contains('아발론').should('be.visible');
-      cy.get('li:visible').should('have.length', 80);
     });
   });
 
@@ -61,11 +58,11 @@ describe('E2E 테스트', () => {
     cy.get('input[placeholder="검색"]').type('코난{enter}');
 
     cy.get('.item-view').within(() => {
-      cy.get('li:visible').should('have.length', 20);
       cy.get('li:visible').first().find('.item-title').contains('코난: 블랙의 시대');
 
-      cy.get('button').contains('더 보기').click();
-      cy.get('button').contains('더 보기').click();
+      cy.scrollTo('bottom');
+      cy.scrollTo('bottom');
+      cy.scrollTo('bottom');
 
       cy.get('li:visible').last().contains('명탐정 코난 용가리 고메라 vs 가면 사나이');
       cy.get('button').contains('더 보기').should('not.be.visible');
@@ -97,7 +94,8 @@ describe('E2E 테스트', () => {
       },
     );
 
-    cy.get('button').contains('더 보기').click();
+    cy.scrollTo('bottom');
+
     cy.get('.toast').contains('The resource you requested could not be found');
   });
 });
