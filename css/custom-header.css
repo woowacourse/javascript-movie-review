@@ -1,29 +1,26 @@
 custom-header {
-  width: 100%;
-  min-width: 1200px;
-  height: 72px;
-  background-color: #222;
   display: flex;
+  width: 100%;
+  height: 10%;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 2%;
   border-bottom: 1px solid white;
-  margin-bottom: 48px;
+  background-color: #222;
 }
 
 custom-header h1 {
   cursor: pointer;
   user-select: none;
-  font-size: 2rem;
+  font-size: 1rem;
   font-weight: bold;
-  letter-spacing: -0.1rem;
   color: #f33f3f;
 }
 
 custom-header > .search-box {
-  background: #fff;
-  padding: 8px;
+  padding: 1%;
   border-radius: 4px;
+  background: #fff;
 }
 
 custom-header .search-box > input {
@@ -32,14 +29,11 @@ custom-header .search-box > input {
 
 custom-header .search-input {
   border: none;
-  border-radius: 4px;
 }
 
 custom-header .search-button {
   border: 0;
-  margin-top: 1px;
   background: transparent no-repeat 0 1px;
-  background-size: contain;
 }
 
 custom-header .search-button img {

@@ -21,6 +21,7 @@ export const generateSelfGradeTemplate = (movieId: string) => {
   return `
 		<p class="score-title">내 별점</p>
 		${scoreImageTemplate}
+		<p class="score">${clickedId * 2}<p>
 		<p class="score-message">${scoreMessageTemplate[clickedId]}<p>
 	`;
 };

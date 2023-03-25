@@ -21,10 +21,11 @@ export const movieModalContainerTemplate = ({ id, title, src, genre, score, over
 			<div class="item-info">
 				<div class="item-genre-score-plot">
 					<div class="item-genre-score">
-						<p class="item-genre">${genre && genre.join(' ')}</p>
-						<p class="item-score"><img src="${IMAGES.STAR_FILLED}" alt="별점" />${score}</p>
+						<p class="item-genre">${genre && genre.join(', ')}</p>
+						<img class="item-score-image" src="${IMAGES.STAR_FILLED}" alt="별점" />
+						<p class="item-score">${score}</p>
 					</div>
-					<p class="item-plot">${overview}</p>
+					<p class="item-overview">${overview}</p>
 				</div>
 				<div class="self-grade">
 					${generateSelfGradeTemplate(id)}
