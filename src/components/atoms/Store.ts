@@ -9,6 +9,7 @@ export type StateType = {
   query: string;
   isLoading: boolean;
   movieDetail: MovieDetailType | null;
+  star: number;
 };
 
 export const state: StateType = {
@@ -20,4 +21,5 @@ export const state: StateType = {
   query: '',
   isLoading: true,
   movieDetail: null,
+  star: 0,
 };
