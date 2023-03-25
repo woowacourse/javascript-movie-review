@@ -43,6 +43,7 @@ button {
   font-size: 2rem;
   font-weight: bold;
   user-select: none;
+  margin-left: 10%;
 }
 
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
