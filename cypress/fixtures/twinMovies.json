@@ -1,0 +1,39 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/a2tys4sD7xzVaogPntGsT1ypVoT.jpg",
+      "genre_ids": [1, 2, 3, 999999999, 500000],
+      "id": 804150,
+      "original_language": "en",
+      "original_title": "Cocaine Bear",
+      "overview": "첫 번째 영화에 대한 설명.",
+      "popularity": 3778.499,
+      "poster_path": "/gOnmaxHo0412UVr1QM5Nekv1xPi.jpg",
+      "release_date": "2023-02-22",
+      "title": "첫 번째 영화",
+      "video": false,
+      "vote_average": 6.5,
+      "vote_count": 426
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/jr8tSoJGj33XLgFBy6lmZhpGQNu.jpg",
+      "genre_ids": [1, 1234],
+      "id": 315162,
+      "original_language": "en",
+      "original_title": "이 영화의 제목은 엄청나게 깁니다. 영화 제목을 설마 끝까지 다 보여주지는 않겠지요. 적당히 잘라서 보여줘야 합니다. 영화 제목이 무지하게 긺에도 불구하고 제목을 끝까지 보여준다는 것은 제목이 모달 밖을 벗어났다는 것을 의미합니다. 제목이 끝까지 보이면 절대로 안 되겠죠. 적당히 잘라야 된다는 의미입니다. 이 내용은 보이지 말아야 합니다.",
+      "overview": "",
+      "popularity": 1819.763,
+      "poster_path": "/rKgvctIuPXyuqOzCQ16VGdnHxKx.jpg",
+      "release_date": "2022-12-07",
+      "title": "이 영화의 제목은 엄청나게 깁니다. 영화 제목을 설마 끝까지 다 보여주지는 않겠지요. 적당히 잘라서 보여줘야 합니다. 영화 제목이 무지하게 긺에도 불구하고 제목을 끝까지 보여준다는 것은 제목이 모달 밖을 벗어났다는 것을 의미합니다. 제목이 끝까지 보이면 절대로 안 되겠죠. 적당히 잘라야 된다는 의미입니다. 이 내용은 보이지 말아야 합니다.",
+      "video": false,
+      "vote_average": 8.3,
+      "vote_count": 4803
+    }
+  ],
+  "total_pages": 1,
+  "total_results": 2
+}
