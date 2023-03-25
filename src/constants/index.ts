@@ -22,6 +22,17 @@ const ERROR_MESSAGE: Record<number, string> = {
 
 const UNKNOWN_ERROR_MESSAGE = '죄송합니다. 문제가 발생하여 영화 정보를 가져오지 못 했습니다.';
 
+const ERROR_LAYOUT_MESSAGE = {
+  noResultTitle: '구석구석 뒤져봤지만, 영화를 못 찾았어요.',
+  noResultContent: '혹시 오타가 있지는 않나요?',
+  errorTitle: '앗! 문제가 발생했습니다.',
+};
+
+const FOOTER_MESSAGE = {
+  loading: '멋진 영화들을 더 가져오는 중...✨',
+  noMoreMovies: '더 이상 불러올 영화가 없어요. 😞',
+};
+
 const ERROR_IMAGE_PATH = {
   noSearchResults: './assets/no_results.png',
   error: './assets/error_results.png',
@@ -29,4 +40,12 @@ const ERROR_IMAGE_PATH = {
   errorOnShowMore: './assets/footer_error_results.png',
 };
 
-export { API_URL, ERROR_MESSAGE, IMAGE_URL, UNKNOWN_ERROR_MESSAGE, ERROR_IMAGE_PATH };
+export {
+  API_URL,
+  ERROR_MESSAGE,
+  IMAGE_URL,
+  ERROR_LAYOUT_MESSAGE,
+  UNKNOWN_ERROR_MESSAGE,
+  FOOTER_MESSAGE,
+  ERROR_IMAGE_PATH,
+};

@@ -1,6 +1,6 @@
 import MovieStorage from '../domains/MovieStorage';
 import { GenreFetchResponseType, MovieFetchResponseType, ViewBundleType } from '../types';
-import { ERROR_IMAGE_PATH } from '../constants';
+import { FOOTER_MESSAGE, ERROR_IMAGE_PATH, ERROR_LAYOUT_MESSAGE } from '../../src/constants';
 
 class UpdateController {
   private movieList;
@@ -37,7 +37,7 @@ class UpdateController {
     }
 
     const randomFetchId = crypto.randomUUID();
-    this.footerMessage.showLoadingMessage('멋진 영화들을 가져오는 중...');
+    this.footerMessage.showLoadingMessage(FOOTER_MESSAGE.loading);
 
     if (updateMode === 'overwrite') {
       this.movieList.clearItems();
@@ -53,7 +53,7 @@ class UpdateController {
       if (updateMode === 'overwrite') {
         this.movieList.showErrorMessage({
           image: ERROR_IMAGE_PATH.error,
-          title: '앗! 문제가 발생했습니다.',
+          title: ERROR_LAYOUT_MESSAGE.errorTitle,
           message: errorMessage!,
         });
 
@@ -67,13 +67,13 @@ class UpdateController {
       if (updateMode === 'overwrite') {
         this.movieList.showErrorMessage({
           image: ERROR_IMAGE_PATH.noSearchResults,
-          title: '구석구석 뒤져봤지만, 영화를 못 찾았어요.',
-          message: '혹시 오타가 있지는 않나요?',
+          title: ERROR_LAYOUT_MESSAGE.noResultTitle,
+          message: ERROR_LAYOUT_MESSAGE.noResultContent,
         });
 
         this.footerMessage.hideMessage();
       } else {
-        this.footerMessage.showErrorMessage('더 이상 불러올 영화가 없어요. 😞');
+        this.footerMessage.showErrorMessage(FOOTER_MESSAGE.noMoreMovies);
       }
     }
 
