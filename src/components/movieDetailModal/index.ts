@@ -57,9 +57,7 @@ export default class MovieDetailModal extends HTMLElement {
                   />
                 </div>
                 <span class="rating">${movie.userRatings}</span>
-                <p class="message none-display">${
-                  RATING_MESSAGES[movie.userRatings]
-                }</p>
+                <p class="message">${RATING_MESSAGES[movie.userRatings]}</p>
               </section>
             </article>
           </div>

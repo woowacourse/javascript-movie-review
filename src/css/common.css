@@ -294,6 +294,7 @@ header .search-box > .search-button {
   flex: 1.4;
   height: calc(100% - 32px);
   margin: 0 32px 30px 0;
+  cursor: default;
 }
 
 #detail {

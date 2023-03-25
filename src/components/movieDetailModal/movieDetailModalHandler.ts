@@ -11,13 +11,12 @@ const showModal = () => {
   $(".item-list").addEventListener("click", async (event) => {
     const target = event.target;
 
-    if (!(target instanceof HTMLImageElement)) return;
-    if (target.alt === "별점") return;
+    if (!(target instanceof HTMLImageElement) || target.alt === "별점") return;
 
     await getMovieDetail(Number(target.id));
 
     $<HTMLDivElement>(`#filled-stars`).style.width = `${
-      Number(localStorage.getItem(target.id))
+      localStorage.getItem(target.id)
         ? Number(localStorage.getItem(target.id)) * 10
         : 0
     }%`;
