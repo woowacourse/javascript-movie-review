@@ -154,7 +154,7 @@ header h1 {
 
 header > .search-box {
   background: #fff;
-  padding: 8px;
+  padding: 8px 16px;
   border-radius: 4px;
 }
 
@@ -188,7 +188,7 @@ header .search-box > .search-button {
 }
 
 @media screen and (max-width: 576px) {
-  .header-basic {
+  .header-pc {
     display: none;
   }
   .header-mobile {
@@ -200,7 +200,7 @@ header .search-box > .search-button {
   .item-list {
     grid-template-columns: repeat(2, 180px);
   }
-  .header-basic {
+  .header-pc {
     display: block;
   }
   .header-mobile {
