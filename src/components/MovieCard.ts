@@ -9,7 +9,6 @@ export default class MovieCard implements Component {
 
   constructor($parent: Element, movie: Movie, renderModal: (movie: Movie) => void) {
     this.$element = document.createElement('li');
-    this.$element.id = movie.id.toString();
     this.#movie = movie;
     this.#renderModal = renderModal;
 
