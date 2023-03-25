@@ -49,26 +49,7 @@ class MovieList extends HTMLElement {
 
       this.hideSkeletonItem();
       this.renderMovieList();
-
-      const observer = new IntersectionObserver(
-        (entries, observer) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              observer.unobserve(entry.target);
-
-              if (this.#moviesData.isInPageRange) {
-                this.updateMovieList();
-              }
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-
-      const parentsOfTarget = $('.item-list');
-      const target = parentsOfTarget.children[parentsOfTarget.children.length - 21];
-
-      observer.observe(target);
+      this.observeMovieItem();
     } catch (error) {
       $('h2').innerText = error.message;
 
@@ -129,6 +110,28 @@ class MovieList extends HTMLElement {
         `<movie-item id="${curr.id}" title="${curr.title}" imgUrl="${curr.imgUrl}" score="${curr.score}"  genre="${curr.genre}" description="${curr.description}"></movie-item>`
       );
     }, '');
+  }
+
+  observeMovieItem() {
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            observer.unobserve(entry.target);
+
+            if (this.#moviesData.isInPageRange) {
+              this.updateMovieList();
+            }
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const parentsOfTarget = $('.item-list');
+    const target = parentsOfTarget.children[parentsOfTarget.children.length - 21];
+
+    observer.observe(target);
   }
 
   resetMovieItem() {
