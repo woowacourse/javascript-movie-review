@@ -225,12 +225,14 @@ header {
 }
 
 .modal-header {
+  padding: 0px 40px;
   width: 100%;
-  min-height: 60px;
+  height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-bottom: 1px solid rgba(241, 241, 241, 0.25);
+  overflow: scroll;
 }
 
 .modal-image {
@@ -259,14 +261,16 @@ header {
   background-color: #383839;
   width: 100%;
   padding: 16px;
+  min-width: 250px;
 }
 
 .rating-box > p {
   margin-right: 16px;
 }
 
-.raiting-count {
-  margin: 0px 12px;
+.rating-count {
+  margin-left: 12px;
+  margin-right: 12px;
 }
 /*exit button*/
 .exit-button {
@@ -341,13 +345,13 @@ header {
   .modal-image {
     display: none;
   }
-
-  .comment {
-    display: none;
-  }
 }
 
 @media screen and (max-width: 480px) {
+  .comment {
+    display: none;
+  }
+
   .item-list {
     grid-template-columns: repeat(2, 170px);
     grid-column-gap: 20px;
@@ -379,8 +383,9 @@ header {
     margin-right: 8px;
   }
 
-  .raiting-count {
-    margin: 0px 8px;
+  .rating-count {
+    margin-left: 8px;
+    margin-right: 0px;
   }
 }
 
