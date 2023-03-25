@@ -8,7 +8,7 @@ import { ModalInformation } from './ModalInformation';
 import App from './App';
 
 import '../reset.css';
-import '../global.css';
+import '../common.css';
 
 customElements.define('movie-header', Header);
 customElements.define('movie-list', MovieList);
