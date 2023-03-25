@@ -1,29 +1,3 @@
-* {
-  box-sizing: border-box !important;
-}
-
-body {
-  font-size: 14px;
-  background-color: #222222;
-  color: #fff;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button {
-  cursor: pointer;
-}
-
-#app {
-  padding-bottom: 48px;
-}
-
-*:focus {
-  outline: none;
-}
 .item-view,
 .item-test {
   width: 100%;
@@ -83,7 +57,7 @@ button {
 .item-title.skeleton::after,
 .item-score.skeleton::after {
   font-size: 0;
-  content: "loading";
+  content: 'loading';
 }
 
 .full-width {
@@ -108,7 +82,7 @@ button.primary {
 .item-card .skeleton {
   background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
   background-size: 400%;
-  animation: skeleton-animation 5s infinite ease-out;
+  animation: skeleton-animation 1s infinite ease-out;
   border-radius: 8px;
 }
 
@@ -123,42 +97,17 @@ button.primary {
     background-position: 0% 50%;
   }
 }
-header {
-  width: 100%;
-  min-width: 1200px;
-  height: 72px;
-  background-color: #222;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-  border-bottom: 1px solid white;
-  margin-bottom: 48px;
+
+.message {
+  margin: 48px auto;
+  text-align: center;
 }
 
-header h1 {
-  cursor: pointer;
-  user-select: none;
-  font-size: 2rem;
-  font-weight: bold;
-  letter-spacing: -0.1rem;
-  color: #f33f3f;
+.message-title {
+  font-size: 36px;
+  padding: 20px;
 }
 
-header > .search-box {
-  background: #fff;
-  padding: 8px;
-  border-radius: 4px;
-}
-
-header .search-box > input {
-  border: 0;
-}
-
-header .search-box > .search-button {
-  width: 14px;
-  border: 0;
-  text-indent: -1000rem;
-  background: url("./search_button.png") transparent no-repeat 0 1px;
-  background-size: contain;
+.message-desc {
+  font-size: 20px;
 }
