@@ -1,6 +1,7 @@
+import Movie from "./domain/Movie";
+
 import Header from "./components/Header";
 import MovieView from "./components/MovieView";
-import Movie from "./domain/Movie";
 
 class App {
   $main = document.createElement("main");
@@ -24,6 +25,8 @@ class App {
 
     this.header = new Header($target);
     this.movieView = new MovieView(this.$main);
+
+    this.renderPopularMovies(1);
   }
 
   render($target) {
@@ -31,33 +34,43 @@ class App {
   }
 
   bindEvent($target) {
-    $target.addEventListener(
-      "click",
-      this.renderPopularMoviesIfLogoClicked.bind(this)
-    );
-    $target.addEventListener(
-      "submit",
-      this.renderSearchedMoviesByQuery.bind(this)
-    );
+    $target.addEventListener("click", this.onClickHandler.bind(this));
+    $target.addEventListener("submit", this.onSubmitHandler.bind(this));
   }
 
-  async renderPopularMoviesIfLogoClicked(e) {
+  onClickHandler(e) {
     const { target } = e;
 
     if (target.id !== "logo") return;
 
-    // const { isError, data } = await this.movie.getPopularMovies(1);
-    const { isError, data } = await this.movie.findMovies("코난", 2);
+    this.renderPopularMovies(1);
+  }
+
+  async renderPopularMovies(page) {
+    this.movieView.appearSkeleton();
+
+    const { isError, data } = await this.movie.getPopularMovies(page);
     if (isError) return;
 
     this.movieView.updateMovieListTitle();
     this.movieView.addMovies(data);
   }
 
-  renderSearchedMoviesByQuery(e) {
+  onSubmitHandler(e) {
     e.preventDefault();
 
-    this.movieView.updateMovieListTitle();
+    this.movieView.appearSkeleton();
+
+    const query = e.target[0].value;
+
+    this.renderFoundMovies(query, 1);
+  }
+
+  async renderFoundMovies(query, page) {
+    const { isError, data } = await this.movie.getFoundMovies(query, page);
+    if (isError) return;
+
+    this.movieView.updateMovieListTitle(query);
     this.movieView.addMovies(data);
   }
 }

@@ -27,6 +27,10 @@ class MovieView {
     $target.insertAdjacentElement("afterbegin", this.$itemView);
   }
 
+  appearSkeleton() {
+    this.movieList.appearSkeleton();
+  }
+
   updateMovieListTitle(query) {
     if (query) {
       this.movieListTitle.changeInnerText(`"${query}" 검색 결과`);
@@ -38,7 +42,6 @@ class MovieView {
   }
 
   addMovies({ page, results: movies, total_pages }) {
-    console.log(page, movies, total_pages);
     if (page === 1) {
       this.movieList.switchMovies(movies);
 

@@ -38,7 +38,7 @@ class Movie {
     return movieList;
   }
 
-  async findMovies(query, page) {
+  async getFoundMovies(query, page) {
     const foundedMovies = await fetchData(
       `${BASE_URL}/search/movie?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&query=${query}&page=${page}`
     );

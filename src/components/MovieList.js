@@ -74,6 +74,10 @@ class MovieList {
 
     return template;
   }
+
+  appearSkeleton() {
+    this.skeletonCards.appear();
+  }
 }
 
 export default MovieList;
