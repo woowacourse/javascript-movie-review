@@ -38,3 +38,11 @@ button {
   width: 100vw;
   height: 100vh;
 }
+
+header .search-box-second > .search-button {
+  width: 14px;
+  border: 0;
+  text-indent: -1000rem;
+  background: url('./assets/search_button.png') transparent no-repeat 0 1px;
+  background-size: contain;
+}
