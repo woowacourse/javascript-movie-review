@@ -287,7 +287,7 @@ mobile-search-button {
 
 /* Tablet */
 
-@media (min-width: 581px) and (max-width: 1140px) {
+@media (min-width: 751px) and (max-width: 1140px) {
   .item-list {
     grid-template-columns: repeat(3, 180px);
   }
@@ -298,7 +298,7 @@ mobile-search-button {
 }
 
 /* Mobile */
-@media (min-width: 320px) and (max-width: 580px) {
+@media (min-width: 320px) and (max-width: 750px) {
   search-input {
     display: none;
   }
