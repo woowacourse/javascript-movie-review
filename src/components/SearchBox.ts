@@ -13,7 +13,7 @@ export default class SearchBox {
   create() {
     return `
           <input type="text" placeholder="검색" class="search-input"/>
-          <button class="search-button">검색</button>
+          <img class="search-button" src="/search_button.png"/>
         `;
   }
 
@@ -27,18 +27,21 @@ export default class SearchBox {
 
   handleEvent() {
     const searchInput = $(".search-input");
+    const searchButton = $(".search-button");
 
     searchInput?.addEventListener("keyup", (e: any) => {
-      e.keyCode === 13 && this.onKeyup(e);
+      this.updateKeyword(e.target.value);
+      e.keyCode === 13 && this.onCompleteSearch(e);
+    });
+    searchButton?.addEventListener("click", (e: Event) => {
+      this.onCompleteSearch(e);
     });
   }
 
-  onKeyup(e: Event) {
-    const target = e.target as HTMLInputElement;
-    const event = new CustomEvent("searchInputChange");
+  onCompleteSearch(e: Event) {
+    const event = new CustomEvent("completeInput");
     const searchInput = $(".search-input") as HTMLInputElement;
 
-    this.updateKeyword(target.value);
     searchInput.dispatchEvent(event);
   }
 
