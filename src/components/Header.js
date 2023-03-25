@@ -7,8 +7,6 @@ class Header {
     this.init();
 
     this.render($target);
-
-    this.bindEvent();
   }
 
   init() {
@@ -20,20 +18,9 @@ class Header {
     $target.insertAdjacentElement("afterbegin", this.$header);
   }
 
-  bindEvent() {
-    this.$header.addEventListener("click", this.onClickHeader);
-    this.$header.addEventListener("submit", this.renderSearchedMovies);
-  }
-
-  onClickHeader({ target }) {}
-
-  renderSearchedMovies(e) {
-    e.preventDefault();
-  }
-
   getTemplate() {
     const template = `
-      <h1><img src=${logo} alt="MovieList 로고" /></h1>
+      <h1><img id="logo" src=${logo} alt="MovieList 로고" /></h1>
       <form class="search-box">
         <input type="text" placeholder="검색" />
         <button class="search-button">검색</button>

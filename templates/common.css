@@ -171,3 +171,15 @@ header .search-box > .search-button {
   background: url("./search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
 }
+
+.no-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: white;
+
+  color: black;
+  font-weight: 600;
+  font-size: 24px;
+}

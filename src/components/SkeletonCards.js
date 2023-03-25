@@ -19,7 +19,7 @@ class SkeletonCards {
 
   getTemplate() {
     const skeleton = `
-      <li> 
+      <li>
         <a href="#"> 
           <div class="item-card"> 
             <div class="item-thumbnail skeleton"></div> 

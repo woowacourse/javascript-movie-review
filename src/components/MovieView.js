@@ -8,8 +8,6 @@ class MovieView {
 
   movieList;
 
-  category;
-
   constructor($target) {
     this.init();
 
@@ -27,6 +25,27 @@ class MovieView {
 
   render($target) {
     $target.insertAdjacentElement("afterbegin", this.$itemView);
+  }
+
+  updateMovieListTitle(query) {
+    if (query) {
+      this.movieListTitle.changeInnerText(`"${query}" 검색 결과`);
+
+      return;
+    }
+
+    this.movieListTitle.changeInnerText("지금 인기 있는 영화");
+  }
+
+  addMovies({ page, results: movies, total_pages }) {
+    console.log(page, movies, total_pages);
+    if (page === 1) {
+      this.movieList.switchMovies(movies);
+
+      return;
+    }
+
+    this.MovieList.insertMovies(movies);
   }
 }
 
