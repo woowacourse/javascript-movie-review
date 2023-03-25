@@ -3,6 +3,7 @@ import '../../css/modal.css';
 import { $ } from '../utils/dom';
 import { movieModalTemplate } from './templates/movieModalTemplate';
 import { generateSelfGradeTemplate } from './templates/selfGradeTemplate';
+import { setMovieSelfScore } from '../domains/localStorage';
 
 class MovieModal extends HTMLElement {
   constructor() {
@@ -40,10 +41,12 @@ class MovieModal extends HTMLElement {
   }
 
   private gradeMovie(target: HTMLImageElement) {
+    const modalHeader = $<HTMLDivElement>('.modal-header');
     const container = $<HTMLDivElement>('.self-grade');
 
-    if (container instanceof HTMLDivElement) {
-      container.innerHTML = generateSelfGradeTemplate(Number(target.id));
+    if (modalHeader instanceof HTMLDivElement && container instanceof HTMLDivElement) {
+      setMovieSelfScore(modalHeader.id, target.id);
+      container.innerHTML = generateSelfGradeTemplate(modalHeader.id);
     }
   }
 

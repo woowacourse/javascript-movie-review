@@ -1,10 +1,11 @@
 import { IMAGES } from '../../assets/images';
 import { MovieDetail } from '../../types/movie';
+import { generateSelfGradeTemplate } from './selfGradeTemplate';
 
-export const movieModalContainerTemplate = ({ title, src, genre, score, overview }: MovieDetail) => {
+export const movieModalContainerTemplate = ({ id, title, src, genre, score, overview }: MovieDetail) => {
   /* html */
   return `
-		<div class="modal-header">
+		<div class="modal-header" id="${id}">
 			<h2 class="item-title">${title}</h2>
 			<button type="button" class="escape-button" aria-label="score">X</button>
 		</div>
@@ -26,13 +27,7 @@ export const movieModalContainerTemplate = ({ title, src, genre, score, overview
 					<p class="item-plot">${overview}</p>
 				</div>
 				<div class="self-grade">
-					<p class="score-title">내 별점</p>
-					<img class="score-image" id="1" src="${IMAGES.STAR_EMPTY}" aria-label="score"/>
-					<img class="score-image" id="2" src="${IMAGES.STAR_EMPTY}" aria-label="score"/>
-					<img class="score-image" id="3" src="${IMAGES.STAR_EMPTY}" aria-label="score"/>
-					<img class="score-image" id="4" src="${IMAGES.STAR_EMPTY}" aria-label="score"/>
-					<img class="score-image" id="5" src="${IMAGES.STAR_EMPTY}" aria-label="score"/>
-					<p class="score-message">별을 클릭해 영화를 평가해 주세요<p>
+					${generateSelfGradeTemplate(id)}
 				</div>
 			</div>
 		</div>

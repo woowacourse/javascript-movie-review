@@ -13,8 +13,9 @@ export interface MoveItem {
 }
 
 export interface MovieDetail {
-  src: string;
+  id: string;
   title: string;
+  src: string;
   score: number;
   genre: string[];
   overview: string;
