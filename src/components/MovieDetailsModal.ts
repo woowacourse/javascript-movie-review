@@ -33,6 +33,7 @@ export default class MovieDetailsModal implements Component {
 
   render() {
     this.$element.innerHTML = this.template();
+    this.loadUserScore();
     this.setEvent();
     this.show();
   }
@@ -47,7 +48,7 @@ export default class MovieDetailsModal implements Component {
       class="item-thumbnail"
       src="https://image.tmdb.org/t/p/w220_and_h330_face${posterPath}"
       />
-      <p class="movie-genre">${MovieHandler.getGenres(genreIDs)}</p>
+      <p class="movie-genre">${MovieHandler.getGenres(genreIDs).join(', ')}</p>
       <div class="movie-score">
         <img src=${FilledStar}/>
         <span>${voteAverage}</span>
@@ -93,8 +94,6 @@ export default class MovieDetailsModal implements Component {
   }
 
   show() {
-    this.loadUserScore();
-
     (<HTMLDivElement>this.$element.closest('.modal-backdrop')).classList.add('modal--open');
   }
 
