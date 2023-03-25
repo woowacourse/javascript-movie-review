@@ -1,61 +1,83 @@
-import {
-  CurrentTab,
-  MovieInfoType,
-  ResponseInfo,
-  TotalMovieInfoType,
-} from "./@types/movieDataType";
-import MoreButton from "./components/moreButton";
+import { CurrentTab, TotalMovieInfo } from "./@types/movieDataType";
+import { getKeywordData } from "./api/keywordSearch";
+import { getMovieDetail } from "./api/movieDetail";
+import { getMovieData } from "./api/movieList";
+import { ErrorComment } from "./components/ErrorComment";
+import { MovieDatail } from "./components/MovieDetail";
 import { MovieItem } from "./components/MovieItem";
 import MovieItemList from "./components/MovieItemList";
 import SearchBox from "./components/SearchBox";
-import { DATA } from "./constants/data";
+import { StarInput } from "./components/StarInput";
+import { MOVIE_DATA } from "./constants/data";
 import { KEYWORD } from "./constants/keyword";
 import MovieDataManager from "./domain/MovieDataManager";
+import { loadDataByInfiniteScroll } from "./utils/infiniteScroll";
 import { $ } from "./utils/selector";
 
 export const App = async () => {
   const movieDataManager = new MovieDataManager();
   const movieItemList = new MovieItemList();
   const searchBox = new SearchBox();
-  const moreButton = new MoreButton();
 
-  const generateMovieItemElement = (movieInfo: MovieInfoType[]) => {
-    const movieElement = movieInfo?.map((movie) => {
-      return MovieItem(movie);
+  const renderMovieDetail = async (movieData: any) => {
+    const targetMovie = document.getElementById(
+      String(movieData.id)
+    ) as HTMLElement;
+    try {
+      const detailData = await getMovieDetail(movieData.id);
+      targetMovie.addEventListener("clickMovieItem", (e) => {
+        new MovieDatail(detailData);
+        new StarInput(movieData.id);
+      });
+    } catch (e) {
+      new ErrorComment(Number(e));
+    }
+  };
+
+  const generateMovieItemElement = (movieInfo: TotalMovieInfo[]) => {
+    movieInfo.forEach((item) => {
+      new MovieItem(item, item.id);
+      renderMovieDetail(item);
     });
-
-    return movieElement;
   };
 
   const renderMovieList = async () => {
-    movieItemList.renderTitle(movieDataManager.getTitle());
-    const response = await movieDataManager.getData(KEYWORD.BLANK);
-    checkIsLastData(response);
-    const movieDatas = response?.results;
-    const movieItems = generateMovieItemElement(movieDatas);
-
-    movieItems?.map((movie: string) => {
-      movieItemList.addMovies(movie);
-    });
-    moreButton.show();
+    movieItemList.renderTitle(
+      movieItemList.getTitle(movieDataManager.getCurrentTab())
+    );
+    movieDataManager.updatePage();
+    try {
+      const response = await getMovieData(movieDataManager.getCurrenPage());
+      movieDataManager.checkIsLastPage(response) &&
+        $(".scroll-target")?.remove();
+      const movieDatas = response?.results;
+      generateMovieItemElement(movieDatas);
+    } catch (e) {
+      new ErrorComment(Number(e));
+    }
   };
 
   const renderSearchList = async () => {
     movieItemList.renderTitle(
-      searchBox.getKeyword() + movieDataManager.getTitle()
+      searchBox.getKeyword() +
+        movieItemList.getTitle(movieDataManager.getCurrentTab())
     );
-    const response = await movieDataManager.getData(searchBox.getKeyword());
-    checkIsLastData(response);
-    const movieDatas = response?.results;
-    if (checkIsEmptyData(movieDatas)) {
-      return;
+    movieDataManager.updatePage();
+    try {
+      const response = await getKeywordData(
+        movieDataManager.getCurrenPage(),
+        searchBox.getKeyword()
+      );
+      movieDataManager.checkIsLastPage(response) &&
+        $(".scroll-target")?.remove();
+      const movieDatas = response?.results;
+      if (checkIsEmptyData(movieDatas)) {
+        return;
+      }
+      generateMovieItemElement(movieDatas);
+    } catch (e) {
+      new ErrorComment(Number(e));
     }
-    const movieItems = generateMovieItemElement(movieDatas);
-
-    movieItems?.map((movie: string) => {
-      movieItemList.addMovies(movie);
-    });
-    moreButton.show();
   };
 
   const renderMovies = async () => {
@@ -69,27 +91,21 @@ export const App = async () => {
     }
   };
 
-  const checkIsLastData = (response: ResponseInfo) => {
-    movieDataManager.checkDataPage(response) && moreButton.hide();
-  };
-
-  const checkIsEmptyData = (results: TotalMovieInfoType[]) => {
-    if (movieDataManager.checkDataAmount(results) === DATA.EMPTY) {
-      moreButton.hide();
-      movieItemList.renderNoData();
+  const checkIsEmptyData = (results: TotalMovieInfo[]) => {
+    if (movieDataManager.checkDataAmount(results) === MOVIE_DATA.EMPTY) {
+      movieItemList.renderNoData(searchBox.getKeyword());
       return true;
     }
   };
 
   const checkKeywordEmpty = () => {
     if (searchBox.getKeyword() === KEYWORD.BLANK) {
-      moreButton.hide();
-      movieItemList.renderNoData();
+      movieItemList.renderNoData(searchBox.getKeyword());
       return true;
     }
   };
 
-  $(".search-input")?.addEventListener("searchInputChange", (e) => {
+  $(".search-input")?.addEventListener("completeInput", (e) => {
     checkKeywordEmpty();
     movieDataManager.convertTab(CurrentTab.SEARCH);
     renderMovies();
@@ -105,5 +121,16 @@ export const App = async () => {
     renderMovies();
   });
 
+  $(".ch-logo")?.addEventListener("mouseenter", () => {
+    $(".ch-box")?.classList.remove("hidden");
+  });
+
+  $(".ch-logo")?.addEventListener("mouseleave", () => {
+    $(".ch-box")?.classList.add("hidden");
+  });
+
   renderMovies();
+
+  const target = document.querySelector(".scroll-target") as HTMLElement;
+  (await loadDataByInfiniteScroll(target, renderMovies)).observe(target);
 };
