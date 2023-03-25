@@ -33,39 +33,51 @@ export const onClickLogo = () => {
   })
 };
 
-export const onClickMobileSearchButtonOpen = () => {
-  $("#search-form-mobile").addEventListener("click", (event) => {
-    $('#logo-mobile').classList.add('display-none');
-    $('#search-input-mobile').classList.remove('display-none');
-    $("#search-form-mobile").classList.add('w-100');
-  });
+export const onClickMobileLogo = () => {
+  $("#logo-mobile").addEventListener("click", () => {
+    store.resetMoviesAndPages();
+    store.setLastKeyword("");
 
+    updateMovies();
+  })
+};
+
+export const onClickMobileSearchButton = () => {
+  $("#search-button-mobile").addEventListener("click", openMobileSearchForm)
+  mobileSearchInputEnterListener();
 }
 
-export const mobileSearchInputEnterListener = () => {
+const openMobileSearchForm = () => {
+  $('#logo-mobile').classList.add('display-none');
+  $('#search-input-mobile').classList.remove('display-none');
+  $("#search-form-mobile").classList.add('w-100');
+  $("#search-button-mobile").removeEventListener("click", openMobileSearchForm);
+  $("#search-button-mobile").addEventListener("click", () => {
+    const input = $('#search-input-mobile') as HTMLInputElement;
+    const keyword = input.value;
+    searchMovieByKeyword(keyword);
+    closeMobileSearchForm();
+    onClickMobileSearchButton();
+  })
+}
+
+const mobileSearchInputEnterListener = () => {
   const input = $('#search-input-mobile') as HTMLInputElement;
   input.addEventListener("keydown", (event: KeyboardEvent) => {
     if (event.key === "Enter") {
       event.preventDefault();
       const keyword = input.value;
       searchMovieByKeyword(keyword);
+      closeMobileSearchForm();
+      onClickMobileSearchButton();
     }
   });
-  input.addEventListener('focusout', () => {
-    console.log('focusout!');
-    $('#logo-mobile').classList.remove('display-none');
-    $('#search-input-mobile').classList.add('display-none');
-    $("#search-form-mobile").classList.remove('w-100');
-    ($('#search-input-mobile') as HTMLInputElement).value = ''
-  })
 }
 
-export const mobileSearchButtonListener = () => {
-  $('#search-button-mobile').addEventListener('click', () => {
-    const input = $('#search-input-mobile') as HTMLInputElement;
-    const keyword = input.value;
-    if (keyword !== '') {
-      searchMovieByKeyword(keyword);
-    }
-  })
+const closeMobileSearchForm = () => {
+  $('#logo-mobile').classList.remove('display-none');
+  $('#search-input-mobile').classList.add('display-none');
+  $("#search-form-mobile").classList.remove('w-100');
+  const input = $('#search-input-mobile') as HTMLInputElement;
+  input.value = ''
 }

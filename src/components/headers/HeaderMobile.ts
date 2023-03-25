@@ -1,14 +1,13 @@
-import { onSubmitSearchBox, onClickLogo, onClickMobileSearchButtonOpen, mobileSearchInputEnterListener, mobileSearchButtonListener } from "./headerHandler";
+import { onClickMobileLogo, onClickMobileSearchButton } from "./headerHandler";
 
 export default class HeaderMobile extends HTMLElement {
   constructor() {
     super();
     this.render();
 
-    mobileSearchInputEnterListener();
-    mobileSearchButtonListener();
-    onClickLogo();
-    onClickMobileSearchButtonOpen();
+
+    onClickMobileLogo();
+    onClickMobileSearchButton();
   }
 
   render() {
