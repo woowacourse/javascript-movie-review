@@ -210,7 +210,6 @@ header {
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
   background-color: rgba(0, 0, 0, 0.6);
 }
 
@@ -241,9 +240,18 @@ header {
   height: 100%;
 }
 
+.modal-essential {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 16px;
+  position: relative;
+}
+
 .overview {
   margin-top: 16px;
-  overflow: hidden;
+  overflow: scroll;
   max-height: 320px;
 }
 
@@ -309,6 +317,14 @@ header {
     align-items: end;
   }
 
+  .modal-content {
+    max-height: 485px;
+  }
+
+  .overview {
+    max-height: 250px;
+  }
+
   .item-list {
     grid-template-columns: repeat(2, 180px);
     grid-column-gap: calc((100vw - 400px) / 2);
@@ -334,4 +350,24 @@ header {
   .search-input {
     display: none;
   }
+}
+
+::-webkit-scrollbar {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #4d4c4c;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 20px;
 }

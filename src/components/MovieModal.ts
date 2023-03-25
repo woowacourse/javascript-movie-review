@@ -44,7 +44,7 @@ export default class MovieModal extends HTMLElement {
                       ? `https://image.tmdb.org/t/p/original${poster}`
                       : NoImage
                   }'/>
-                  <div class="w-full h-full flex flex-column px-16 relative">
+                  <div class="modal-essential">
                     <div class="w-full flex align-center skeleton">
                       <p class="mr-16 hidden">${
                         genre ? genre : RESPONSE_NULL.GENRE
