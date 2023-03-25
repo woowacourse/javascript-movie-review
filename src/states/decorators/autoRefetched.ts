@@ -3,7 +3,7 @@ import { PromiseStateSubject } from '../PromiseStateSubject';
 
 export const autoRefetched = <GenericSubject extends PromiseStateSubject<any, any>>(
   subject: GenericSubject,
-) => {
+): typeof subject => {
   let isSufferingFromNetwork = false;
 
   window.addEventListener('online', () => {
