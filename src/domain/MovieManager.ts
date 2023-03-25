@@ -8,7 +8,6 @@ class MovieManager {
   private state: State = {
     status: <Status>apiStatus.LOADING,
     data: {},
-    error: {},
   };
   private subscribers: Subscriber[] = [];
 
@@ -31,29 +30,27 @@ class MovieManager {
     this.setNewState({ status: apiStatus.LOADING });
 
     const movieAppData = await Movie.getMovies(searchWord);
+    const newState = movieAppData.error
+      ? { status: apiStatus.FAILURE, data: movieAppData }
+      : { status: apiStatus.SUCCESS, data: movieAppData };
 
-    if (movieAppData.error) {
-      this.setNewState({ status: apiStatus.FAILURE, error: movieAppData });
-    } else {
-      this.setNewState({ status: apiStatus.SUCCESS, data: movieAppData });
-    }
+    this.setNewState(newState);
   }
 
   async showMoreMovies() {
     this.setNewState({ status: apiStatus.LOADING });
 
     const movieAppData = await Movie.getMoreMovies();
+    const newState = movieAppData.error
+      ? { status: apiStatus.FAILURE, data: movieAppData }
+      : { status: apiStatus.SUCCESS, data: movieAppData };
 
-    if (movieAppData.error) {
-      this.setNewState({ status: apiStatus.FAILURE, error: movieAppData });
-    } else {
-      this.setNewState({ status: apiStatus.SUCCESS, data: movieAppData });
-    }
+    this.setNewState(newState);
   }
 
   openItemModal(id: number) {
-    const movieData = Movie.getMovie(id);
-    this.setNewState({ data: movieData });
+    const modalMovieData = Movie.getMovie(id);
+    this.setNewState({ data: modalMovieData });
   }
 }
 

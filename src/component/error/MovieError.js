@@ -1,3 +1,4 @@
+import { apiStatus } from "../../constant/movieConstants";
 import MovieManager from "../../domain/MovieManager";
 import { $ } from "../../util/dom";
 import CustomElement from "../basic/CustomElement";
@@ -17,9 +18,9 @@ class MovieError extends CustomElement {
   }
 
   rerender(state) {
-    if (state.status === "failure") {
+    if (state.status === apiStatus.FAILURE) {
       super.render();
-      $(".error-message").innerText = state.error.errorMessage;
+      $(".error-message").innerText = state.data.errorMessage;
     }
   }
 }

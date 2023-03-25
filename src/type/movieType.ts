@@ -39,8 +39,7 @@ export interface Error {
 
 export interface State {
   status: Status;
-  data: MovieAppData | {};
-  error: Error | {};
+  data: MovieAppData | MovieItem | Error | {};
 }
 
 export type Status = "loading" | "success" | "failure";
