@@ -2,40 +2,14 @@
   box-sizing: border-box !important;
 }
 
+html {
+  font-size: 62.5%;
+}
+
 body {
-  font-size: 14px;
-  background-color: #222222;
+  font-size: 62.5%;
+  background-color: rgba(17, 17, 17, 1);
   color: #fff;
-}
-
-/* Colors *****************************************/
-:root {
-  --grey-100: #ffffff;
-  --grey-200: #d0d5dd;
-  --grey-300: #667085;
-  --grey-400: #344054;
-  --grey-500: #000000;
-}
-
-/* Typography *************************************/
-.text-title {
-  font-size: 20px;
-  line-height: 24px;
-  font-weight: 600;
-}
-
-.text-subtitle {
-  font-size: 18px;
-  line-height: 28px;
-  font-weight: 600;
-  color: rgba(241, 241, 241, 1);
-}
-
-.text-body {
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-  color: rgba(241, 241, 241, 1);
 }
 
 a {
@@ -47,13 +21,36 @@ button {
   cursor: pointer;
 }
 
+/* Typography *************************************/
+.text-title {
+  font-size: 3.2rem;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.text-subtitle {
+  font-size: 2.4rem;
+  font-weight: 600;
+  line-height: 28px;
+  color: rgba(241, 241, 241, 1);
+}
+
+.text-body {
+  font-size: 1.8rem;
+  line-height: 24px;
+  font-weight: 400;
+  color: rgba(241, 241, 241, 1);
+}
+
 #app {
+  width: 100%;
   padding-bottom: 48px;
 }
 
 *:focus {
   outline: none;
 }
+
 .item-view,
 .item-test {
   width: 100%;
@@ -63,12 +60,13 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  align-items: center;
   margin: 0 auto;
 }
 
 .item-view h2 {
-  font-size: 2rem;
+  width: 83.3%;
+  font-size: 3.2rem;
   font-weight: bold;
   user-select: none;
 }
@@ -76,10 +74,13 @@ button {
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .item-list {
+  width: 83.3%;
   display: grid;
   margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+
+  /* item-list의 width기준 */
+  grid-template-columns: repeat(4, calc(80% / 4));
+  grid-column-gap: calc(20% / 3);
   grid-row-gap: 48px;
 }
 
@@ -98,9 +99,9 @@ button {
 }
 
 .item-thumbnail {
+  width: 100%;
+  height: 150%;
   border-radius: 8px;
-  width: 180px;
-  height: 270px;
   background-size: contain;
 }
 
@@ -108,13 +109,13 @@ button {
   object-fit: cover;
   transition: all 0.2s linear;
   transform: scale(1.02);
-  box-shadow: 0px 0px 10px 3px #808080;
+  box-shadow: 0 0 10px 3px #808080;
 }
 
 .item-title {
   display: -webkit-box;
   margin-top: 16px;
-  font-size: 1.2rem;
+  font-size: 1.8rem;
   font-weight: bold;
 
   overflow: hidden;
@@ -127,7 +128,7 @@ button {
   display: flex;
   align-items: center;
   margin-top: 16px;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
 }
 
 .item-score > img {
@@ -190,9 +191,8 @@ button.primary {
 
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
-  background-color: #222;
+  background-color: rgba(17, 17, 17, 1);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -205,19 +205,25 @@ header {
 header h1 {
   cursor: pointer;
   user-select: none;
-  font-size: 2rem;
+  font-size: 3.2rem;
   font-weight: bold;
   letter-spacing: -0.1rem;
   color: #f33f3f;
 }
 
 header > .search-box {
-  background: #fff;
-  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+
+  width: 30%;
+  background: rgba(241, 241, 241, 1);
   border-radius: 4px;
+  padding: 8px;
 }
 
 header .search-box > input {
+  width: 80%;
+  background: rgba(241, 241, 241, 1);
   border: 0;
 }
 
@@ -239,7 +245,7 @@ header .search-box > .search-button {
 }
 
 #error-item > p {
-  font-size: 1.8rem;
+  font-size: 2.4rem;
   font-weight: bold;
   color: rgb(178, 178, 178);
 }
@@ -249,8 +255,8 @@ header .search-box > .search-button {
   flex-direction: column;
   justify-content: center;
   position: fixed;
-  width: 800px;
-  height: 600px;
+  width: 80rem;
+  height: 60rem;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -261,8 +267,6 @@ header .search-box > .search-button {
 }
 
 .modal-container h2 {
-  font-size: 1.6rem;
-  font-weight: bold;
   user-select: none;
 
   display: -webkit-box;
@@ -281,16 +285,19 @@ header .search-box > .search-button {
 }
 
 .movie-title-container {
-  padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 15%;
   border-bottom: 1px solid #fff;
 }
 
 #movie-detail-modal-close-button {
   position: absolute;
-  top: 42px;
+  top: 4%;
   right: 24px;
 
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   width: 36px;
   height: 36px;
   color: rgba(241, 241, 241, 1);
@@ -300,9 +307,11 @@ header .search-box > .search-button {
 }
 
 .movie-info {
+  height: 85%;
   display: flex;
-  margin: 24px;
+  padding: 24px;
 }
+
 .movie-info .skeleton {
   background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
   background-size: 400%;
@@ -312,8 +321,8 @@ header .search-box > .search-button {
 
 .poster-image {
   border-radius: 8px;
-  width: 292px;
-  height: 433px;
+  width: 100%;
+  height: 100%;
   margin-right: 32px;
 }
 
@@ -323,7 +332,7 @@ header .search-box > .search-button {
 }
 
 .movie-overview {
-  height: 310px;
+  height: 31rem;
   overflow: auto;
 }
 
@@ -340,10 +349,16 @@ header .search-box > .search-button {
   gap: 5px;
   align-items: center;
   margin-top: auto;
-  padding: 16px;
+  padding: 10px;
   height: 64px;
   border-radius: 16px;
   background-color: rgba(56, 56, 57, 1);
+}
+
+.star-rating-container > .star-container {
+  width: 35%;
+  display: flex;
+  justify-content: center;
 }
 
 .star-image {
@@ -354,8 +369,49 @@ header .search-box > .search-button {
 .star-rating-image {
   width: 25px;
   height: 25px;
+  flex-shrink: 1;
 }
 
 .star-rating-caption {
   font-weight: bold;
+}
+
+/* 태블릿 */
+@media screen and (max-width: 992px) {
+  .item-list {
+    /* item-list의 width기준 */
+    grid-template-columns: repeat(3, calc(80% / 3));
+    grid-column-gap: 10%;
+  }
+}
+
+/* 모바일 */
+@media screen and (max-width: 768px) {
+  .item-list {
+    /* item-list의 width기준 */
+    grid-template-columns: repeat(1, 100%);
+    grid-column-gap: 0;
+  }
+
+  .modal-container {
+    left: 0;
+    bottom: 0;
+    top: auto;
+    width: 100vw;
+    height: 65vh;
+    transform: none;
+
+    border-radius: 8px 8px 0 0;
+  }
+
+  .star-rating-container {
+    padding: 0;
+    gap: 15px;
+    justify-content: center;
+  }
+
+  .poster-image,
+  .star-rating-container > .star-rating-caption {
+    display: none;
+  }
 }
