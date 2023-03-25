@@ -1,5 +1,4 @@
 import { api } from './api';
-import './assets/common.css';
 import { MovieList } from './components/MovieList';
 import { SearchBox } from './components/SearchBox';
 import { currentMovies$ } from './states';
