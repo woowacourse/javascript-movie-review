@@ -1,5 +1,6 @@
 import MovieDetailModal from "../components/MovieDetailModal";
 import { API } from "../constants";
+import { MovieDetail } from "../type";
 import { $ } from "../utils/selector";
 const { URL: API_URL, LANGUAGE } = API;
 
@@ -10,8 +11,12 @@ export const getMovieDetail = async (id: number) => {
     response.json()
   );
 
+  const userRatings = localStorage.getItem(movieDetailApi.id)
+    ? `${localStorage.getItem(movieDetailApi.id)}`
+    : "0";
+
   $<MovieDetailModal>("#modal").renderMovieDetail(
-    convertApiResponseToMovieList(movieDetailApi)
+    convertApiResponseToMovieDetail(movieDetailApi, userRatings)
   );
 };
 
@@ -24,7 +29,10 @@ const buildMovieDetailUrl = (id: number) => {
   return `${url}?${urlParams}`;
 };
 
-const convertApiResponseToMovieList = (results: any): any => {
+const convertApiResponseToMovieDetail = (
+  results: any,
+  userRatings: string
+): MovieDetail => {
   return {
     poster: results.poster_path,
     title: results.title,
@@ -32,5 +40,6 @@ const convertApiResponseToMovieList = (results: any): any => {
     overview: results.overview,
     genres: results.genres.map((genre: any) => genre.name).join(", "),
     id: results.id,
+    userRatings: userRatings,
   };
 };

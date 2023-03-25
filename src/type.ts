@@ -18,3 +18,13 @@ export interface ApiData {
   total_pages: number;
   results: MovieApiResponse[];
 }
+
+export interface MovieDetail {
+  poster: string;
+  title: string;
+  ratings: number;
+  overview: string;
+  genres: string;
+  id: number;
+  userRatings: string;
+}

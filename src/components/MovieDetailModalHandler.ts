@@ -1,5 +1,6 @@
 import { getMovieDetail } from "../domain/movieDetailApi";
 import { $ } from "../utils/selector";
+import { RATING_MESSAGES } from "../constants";
 
 export const handleModal = () => {
   showModal();
@@ -65,5 +66,11 @@ const handleUserRatings = () => {
 
     const movieId = target.className.replace("-ratings", "");
     localStorage.setItem(movieId, target.value);
+
+    const rating = localStorage.getItem(movieId);
+    $(".rating").textContent = `${rating}`;
+
+    const message = RATING_MESSAGES[rating ? rating : "0"];
+    $(".message").textContent = `${message}`;
   });
 };
