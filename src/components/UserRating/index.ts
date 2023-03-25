@@ -12,7 +12,7 @@ export default class UserRating extends HTMLElement {
   }
 
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-    const ratingBackUp = localStorage.ge
+    const ratingBackUp = localStorage.getItem(newValue);
     this.movieId = newValue;
     this.rating = ratingBackUp ? Number(ratingBackUp) : 0;
     this.render();
