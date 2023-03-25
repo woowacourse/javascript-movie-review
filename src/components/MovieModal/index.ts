@@ -44,7 +44,7 @@ export default class MovieModal extends HTMLElement {
                 <div>${movie.overview}</div>
               </div> 
             </div>
-            <user-rating movie-id="${movie.id}"></user-rating>
+            <user-rating class="w-100" movie-id="${movie.id}"></user-rating>
           </div>
         </div>
       </div>
