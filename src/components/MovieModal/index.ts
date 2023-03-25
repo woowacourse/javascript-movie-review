@@ -24,23 +24,25 @@ export default class MovieModal extends HTMLElement {
               class="modal-img"
             >
           </div>
-          <div class="mx-3">
-            <div class="d-flex align-items-center">
-              <div>
-              ${movie.genres.join(', ')}
-              </div>
-              <div class="d-flex align-items-center mx-1">
-                <img
-                  src="./assets/star_${movie.ratings > 0 ? "filled" : "empty"}.png"
-                  alt="별점"
-                />
-                <div class="mx-1">
-                  ${movie.ratings}
+          <div class="mx-3 d-flex align-content-between flex-wrap">
+            <div>
+              <div class="d-flex align-items-center">
+                <div>
+                ${movie.genres.join(', ')}
+                </div>
+                <div class="d-flex align-items-center mx-1">
+                  <img
+                    src="./assets/star_${movie.ratings > 0 ? "filled" : "empty"}.png"
+                    alt="별점"
+                  />
+                  <div class="mx-1">
+                    ${movie.ratings}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="my-1 modal-overview">
-              <div>${movie.overview}</div>
+              <div class="my-1 modal-overview">
+                <div>${movie.overview}</div>
+              </div> 
             </div>
             <user-rating movie-id="${movie.id}"></user-rating>
           </div>
