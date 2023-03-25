@@ -19,6 +19,11 @@
   height: 500px;
 }
 
+.modal-dialog-centered {
+  display: flex;
+  align-items: center;
+}
+
 .modal--open {
   display: block;
 }

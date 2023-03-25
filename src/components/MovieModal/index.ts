@@ -5,7 +5,7 @@ export default class MovieModal extends HTMLElement {
   }
   render(child: string) {
     this.innerHTML = `
-    <div class="modal">
+    <div class="modal modal-dialog-centered">
       <div class="modal-content">
         ${child}
       </div>
