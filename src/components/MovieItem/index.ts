@@ -4,6 +4,8 @@ import MovieModal from "../MovieModal";
 export default class MovieItem extends HTMLElement {
   private movie: Movie = {
     id: "",
+    genres: [],
+    overview: "",
     poster: "",
     title: "",
     ratings: 0

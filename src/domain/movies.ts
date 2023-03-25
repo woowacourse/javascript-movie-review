@@ -1,4 +1,5 @@
 import { removeMoreButton, renderMovieList, dummySkeletons } from "../components/MovieList/movieListHandler";
+import { findGenreNameById } from "../genres";
 import { Movie } from "../type";
 import { $ } from "../utils/selector";
 import { fetchMovies } from "./movieApi";
@@ -6,7 +7,9 @@ import Store from "./Store";
 
 interface MovieResult {
   id: string;
+  genre_ids: number[];
   poster_path: string;
+  overview: string;
   title: string;
   vote_average: number;
 }
@@ -66,9 +69,15 @@ const convertApiResponseToMovieList = (results: MovieResult[]): Movie[] => {
   return results.map((movie) => {
     return {
       id: movie.id,
+      genres: convertGenreIdsToGenres(movie.genre_ids),
+      overview: movie.overview,
       poster: movie.poster_path,
       title: movie.title,
       ratings: movie.vote_average,
     };
   });
 };
+
+const convertGenreIdsToGenres = (numbers: number[]): string[] => {
+  return numbers.map((number) => findGenreNameById(number));
+}

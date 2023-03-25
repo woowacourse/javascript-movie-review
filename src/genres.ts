@@ -76,3 +76,11 @@ const genres = [
     "name": "서부"
   }
 ];
+
+export const findGenreNameById = (id: number) => {
+  const genre = genres.find((g) => g.id === id);
+  if (genre) {
+    return genre.name;
+  }
+  return "error";
+}
