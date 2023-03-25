@@ -23,10 +23,6 @@ export class PromiseStateSubject<
 
   defaultValue?: DefaultValue;
 
-  constructor() {
-    super();
-  }
-
   fetch(fetchFn: () => Promise<Fulfilled>, defaultValue: DefaultValue) {
     this.fetchFn = fetchFn;
     this.defaultValue = defaultValue;
