@@ -367,7 +367,7 @@ header.modal__header {
   position: absolute;
   display: flex;
   align-items: center;
-  bottom: 48px;
+  bottom: 28px;
 
   width: 384px;
   height: 64px;
@@ -406,6 +406,44 @@ header.modal__header {
 
 .score__comment {
   margin-left: 12px;
+}
+
+@media (max-width: 768px) {
+  .modal {
+    width: 390px;
+  }
+
+  header.modal__header {
+    width: 390px;
+  }
+
+  .modal__poster {
+    width: 0;
+    padding-right: 0;
+  }
+
+  .modal__poster-img {
+    width: 0;
+  }
+
+  .score {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 28px;
+
+    width: 326px;
+    height: 64px;
+    padding: 0;
+    background: #383839;
+    border-radius: 16px;
+  }
+
+  .score__comment {
+    display: none;
+    width: 0;
+  }
 }
 
 .no-scroll {
