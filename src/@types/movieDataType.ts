@@ -1,10 +1,10 @@
-export interface MovieInfoType {
+export interface MovieInfo {
   title: string;
   poster_path: string;
   vote_average: number;
 }
 
-export interface TotalMovieInfoType {
+export interface TotalMovieInfo {
   audult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -28,7 +28,7 @@ export enum CurrentTab {
 
 export interface ResponseInfo {
   page: number;
-  results: TotalMovieInfoType[];
+  results: TotalMovieInfo[];
   total_pages: number;
   total_results: number;
 }

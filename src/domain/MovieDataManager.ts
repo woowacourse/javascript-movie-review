@@ -1,7 +1,7 @@
 import {
   CurrentTab,
   ResponseInfo,
-  TotalMovieInfoType,
+  TotalMovieInfo,
 } from "../@types/movieDataType";
 import { MOVIE_DATA } from "../constants/data";
 import { $ } from "../utils/selector";
@@ -40,7 +40,7 @@ class MovieDataManager {
     return response?.total_pages === response?.page;
   }
 
-  checkDataAmount(results: TotalMovieInfoType[]) {
+  checkDataAmount(results: TotalMovieInfo[]) {
     return results?.length;
   }
 }

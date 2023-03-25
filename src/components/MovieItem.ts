@@ -1,4 +1,4 @@
-import { MovieInfoType } from "../@types/movieDataType";
+import { MovieInfo } from "../@types/movieDataType";
 import { $ } from "../utils/selector";
 
 export class MovieItem {
@@ -6,7 +6,7 @@ export class MovieItem {
   private _posterPath: string;
   private _voteAverage: number;
 
-  constructor(movieInfo: MovieInfoType, id: number) {
+  constructor(movieInfo: MovieInfo, id: number) {
     this._title = movieInfo.title;
     this._posterPath = movieInfo.poster_path;
     this._voteAverage = movieInfo.vote_average;
@@ -27,7 +27,7 @@ export class MovieItem {
           <p class="item-title">${this._title}</p>
           <p class="item-score"><img src="./star_filled.png" alt="별점" /> ${this._voteAverage}</p>
         </div>
-</li>
+    </li>
     `;
   }
 
