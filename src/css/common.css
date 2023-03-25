@@ -44,6 +44,11 @@ movie-item {
 *:focus {
   outline: none;
 }
+
+.none-display {
+  display: none;
+}
+
 .item-view,
 .item-test {
   width: 100%;
@@ -182,10 +187,18 @@ header {
 }
 
 header h1 {
-  cursor: pointer;
   user-select: none;
   font-weight: bold;
   letter-spacing: -0.1rem;
+}
+
+button.logo {
+  top: 18px;
+  background: transparent;
+  padding: 0;
+  font-size: 34px;
+  color: var(--primary-color);
+  border: 0;
 }
 
 header > .search-box {
@@ -510,7 +523,7 @@ header .search-box > .search-button {
     margin-bottom: 40px;
   }
 
-  #logo {
+  .logo {
     position: absolute;
     top: 26px;
     z-index: 0;

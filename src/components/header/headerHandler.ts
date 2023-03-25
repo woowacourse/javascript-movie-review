@@ -17,17 +17,30 @@ export const initSearchBox = () => {
       movieApi.urlParams.set("query", keyword);
       resetMoviesAndPages();
       movieApi.showMovies(SEARCHED_MOVIE, keyword);
+
+      toggleLogo();
     }
   });
 };
 
 export const initLogo = () => {
-  $("#logo").addEventListener("click", () => {
+  $("button.logo").addEventListener("click", () => {
     resetMoviesAndPages();
     $<HTMLFormElement>(".search-box").reset();
 
     movieApi.showMovies();
+    toggleLogo();
   });
+};
+
+const toggleLogo = () => {
+  if (movieApi.url.pathname.includes(PATH.POPULAR_MOVIE)) {
+    $("button.logo").classList.add("none-display");
+    $("img.logo").classList.remove("none-display");
+  } else {
+    $("button.logo").classList.remove("none-display");
+    $("img.logo").classList.add("none-display");
+  }
 };
 
 const resetMoviesAndPages = () => {
