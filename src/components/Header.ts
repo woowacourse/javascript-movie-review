@@ -13,7 +13,7 @@ class Header {
     const template = `      
       <h1><a href="./"><img src="./assets/logo.png" alt="MovieList 로고" /></a></h1>
       <form class="search-box" id="search-form">
-        <input type="search" id="search-input" name="keyword" placeholder="Search" />
+        <input type="search" id="search-input" name="keyword" placeholder="Search" pattern=".{1,250}" required title="1 to 250 characters" />
         <button type="submit" class="search-button" id="search-button">검색</button>
       </form>`;
 
