@@ -92,7 +92,23 @@
   font-weight: 700;
 }
 
+.movie-vote-button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .movie-vote-button-container button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
   background-color: transparent;
+
+  padding: 0 2px;
   border: none;
+}
+
+.movie-vote-button-container img {
+  vertical-align: bottom;
 }
