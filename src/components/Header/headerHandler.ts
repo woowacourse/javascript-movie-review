@@ -6,10 +6,8 @@ import Store from "../../domain/Store";
 const store: Store = Store.getInstance();
 
 export const onSubmitSearchBox = () => {
-  executeEventListener($(".search-box"), {
-    type: "submit",
-    prevent: true
-  }, (event) => {
+  $(".search-box").addEventListener("submit", (event) => {
+    event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
     const keyword = String(formData.get("search-bar"));
 
@@ -23,13 +21,10 @@ export const onSubmitSearchBox = () => {
 };
 
 export const onClickLogo = () => {
-  executeEventListener($("#logo"), {
-    type: "click",
-    prevent: true
-  }, () => {
+  $("#logo").addEventListener("click", () => {
     store.resetMoviesAndPages();
     store.setLastKeyword("");
 
     updateMovies();
-  });
+  })
 };
