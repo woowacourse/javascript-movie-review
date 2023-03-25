@@ -1,5 +1,6 @@
 import { votes$ } from '../states';
 import { MovieDetailSubject } from '../states/domain/MovieDetailSubject';
+import { SubscriberOf } from '../states/Subject';
 import { $context } from '../utils/selector';
 import { MovieMyVote } from './MovieMyVote';
 
@@ -43,6 +44,11 @@ export class MovieDetailDialog {
       </article>
     `.trim();
 
+    this.initEventHandlers();
+    movieDetail$.subscribe((state) => this.onMovieDetailChange(state));
+  }
+
+  private initEventHandlers() {
     this.$('.detail-view').classList.add('fade');
     this.$('.detail-view').addEventListener('animationend', () => {
       this.$('.detail-view').classList.remove('fade');
@@ -53,37 +59,6 @@ export class MovieDetailDialog {
 
     this.$root.addEventListener('keydown', (event) => {
       if (event.key === 'Backspace') this.close();
-    });
-
-    movieDetail$.subscribe(({ label, value: movie }) => {
-      if (label === 'rejected') return;
-
-      if (this.$vote === null) {
-        this.$vote = new MovieMyVote({ movieId: movie.id });
-        this.$('.detail-my-vote').append(this.$vote.getRoot());
-      }
-
-      this.$vote.getRoot().addEventListener('change', () => {
-        const value = this.$vote!.getValue();
-        if (value !== null) {
-          this.votes$.nextVote({ movieId: movie.id, value });
-        }
-      });
-    });
-
-    movieDetail$.subscribe(({ label, value: movie }) => {
-      if (label === 'rejected') return;
-
-      this.$<HTMLHeadingElement>('.detail-header > h1').innerText = movie.title;
-      this.$<HTMLImageElement>(
-        'img',
-      ).src = `https://image.tmdb.org/t/p/w220_and_h330_face${movie.posterPath}`;
-      this.$<HTMLParagraphElement>('.detail-overview').innerText = movie.overview;
-      this.$<HTMLDivElement>('.detail-vote').innerText = String(movie.voteAverage.toFixed(1));
-
-      if (label === 'fulfilled') {
-        this.$<HTMLHeadingElement>('.detail-genres').innerText = movie.genres.join(', ');
-      }
     });
 
     window.addEventListener('popstate', () => this.dispose());
@@ -99,6 +74,35 @@ export class MovieDetailDialog {
     });
   }
 
+  private onMovieDetailChange({ label, value: movie }: SubscriberOf<MovieDetailSubject>) {
+    if (label === 'rejected') return;
+
+    // $root 에 대한 처리
+    this.$<HTMLHeadingElement>('.detail-header > h1').innerText = movie.title;
+    this.$<HTMLImageElement>(
+      'img',
+    ).src = `https://image.tmdb.org/t/p/w220_and_h330_face${movie.posterPath}`;
+    this.$<HTMLParagraphElement>('.detail-overview').innerText = movie.overview;
+    this.$<HTMLDivElement>('.detail-vote').innerText = String(movie.voteAverage.toFixed(1));
+
+    if (label === 'fulfilled') {
+      this.$<HTMLHeadingElement>('.detail-genres').innerText = movie.genres.join(', ');
+    }
+
+    // $vote 컴포넌트에 대한 처리
+    if (this.$vote === null) {
+      this.$vote = new MovieMyVote({ movieId: movie.id });
+      this.$('.detail-my-vote').append(this.$vote.getRoot());
+    }
+
+    this.$vote.getRoot().addEventListener('change', () => {
+      const value = this.$vote!.getValue();
+      if (value !== null) {
+        this.votes$.nextVote({ movieId: movie.id, value });
+      }
+    });
+  }
+
   open() {
     document.body.append(this.$root);
     this.$root.showModal();
@@ -111,9 +115,7 @@ export class MovieDetailDialog {
   }
 
   dispose() {
-    this.$('.detail-view').addEventListener('animationend', (event) => {
-      this.$root.remove();
-    });
+    this.$('.detail-view').addEventListener('animationend', () => this.$root.remove());
     this.$('.detail-view').classList.add('fade', 'dispose');
   }
 }
