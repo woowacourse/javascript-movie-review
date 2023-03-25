@@ -150,7 +150,6 @@ class MoviesContainer extends HTMLElement {
     const movieListWrapper = $('#movie-list-wrapper') as HTMLElement;
 
     this.#isFatching = false;
-    // movieListWrapper.innerHTML = `<skeleton-item id="skeleton-container"></skeleton-item>`;
     movieListWrapper.innerHTML = ``;
 
     if ($('#no-result-message')) {

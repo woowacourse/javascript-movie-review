@@ -6,6 +6,7 @@ import MovieListItem from './MovieListItem';
 import Skeleton from './Skeleton';
 import Image from './Image';
 import Modal from './Modal';
+import MovieScore from './movieScore';
 
 customElements.define('movie-header', Header);
 customElements.define('search-input', SearchInput);
@@ -15,3 +16,4 @@ customElements.define('movie-item', MovieListItem);
 customElements.define('movie-image', Image);
 customElements.define('skeleton-item', Skeleton);
 customElements.define('movie-modal', Modal);
+customElements.define('movie-score', MovieScore);

@@ -42,3 +42,10 @@ export const sliceSting = (word: string) => {
 
   return word;
 };
+
+export const sliceScore = (score: string) => {
+  const SLICE_START = 0;
+  const SLICE_END = 3;
+
+  return score.slice(SLICE_START, SLICE_END);
+};

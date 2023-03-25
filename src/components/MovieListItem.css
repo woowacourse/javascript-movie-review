@@ -15,19 +15,19 @@
   line-height: 2.7rem;
 }
 
-.item-score {
-  display: flex;
-  align-items: center;
-  font-size: 1.8rem;
-}
-
-.item-score::after {
-  margin-left: 8px;
-}
-
 .movie-list-image-wrapper {
   width: 183px;
   height: 273px;
+}
+
+.item-score-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-check {
+  font-size: 2rem;
 }
 
 @media (max-width: 420px) {

@@ -84,15 +84,8 @@
   margin-bottom: 16px;
 }
 
-.modal-score {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.modal-score-wrapper {
   margin-left: 18px;
-}
-
-.modal-score span {
-  margin-left: 6px;
 }
 
 .modal-description {

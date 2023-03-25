@@ -29,7 +29,6 @@ class Modal extends HTMLElement {
   }
 
   render(): void {
-    const category = this.getAttribute('category') || '';
     const myScore = this.getAttribute('my-score') || '0';
     const { title, imgUrl, score, description } = this.#detailMovieInfo;
 
@@ -56,11 +55,8 @@ class Modal extends HTMLElement {
                     <div class="modal-main-content">
                         <div>
                             <div class="modal-main-category-score">
-                                <div id="modal-category" class="modal-category-skeleton">${category}</div>
-                                <div class="modal-score">
-                                    ${score !== 0 ? `<img src="${STAR_FILLED}">` : `<img src="${STAR_EMPTY}">`}
-                                    <span>${score}<span>
-                                </div>
+                                <div id="modal-category" class="modal-category-skeleton"></div>
+                                <movie-score score="${score}" class="modal-score-wrapper"></movie-score>
                             </div>
                             <p class="modal-description">
                             ${description}
@@ -130,6 +126,11 @@ class Modal extends HTMLElement {
     modalCategory.classList.remove('modal-category-skeleton');
 
     const categories = movieDetail.category.map(item => item.name);
+
+    if (categories.length === 0) {
+      modalCategory.innerText = '카테고리 없음';
+      return;
+    }
 
     modalCategory.innerText = categories.join(', ');
   }
