@@ -34,7 +34,7 @@ class MovieList {
     }
 
     const $lastChild = this.#$ul.lastElementChild;
-    if ($lastChild) createInfiniteScrollObserver($lastChild);
+    if ($lastChild && this.#$ul.childElementCount >= 20) createInfiniteScrollObserver($lastChild);
 
     $target.insertAdjacentElement('beforeend', this.#$ul);
   }
