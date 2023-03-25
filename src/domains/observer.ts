@@ -2,6 +2,7 @@ import { $, $$ } from '../utils/dom';
 import { movie, observer, proxy } from '../state/state';
 import { getMoreMovieList } from './movieApi';
 import { generateMovieListTemplate } from '../components/templates/movieList';
+import { isMovieRoot } from '../types/typeGuards';
 
 const options = {
   root: $<HTMLUListElement>('.item-list'),
@@ -14,8 +15,10 @@ const callback = async (entries: IntersectionObserverEntry[], observer: Intersec
 
   observer.disconnect();
   const root = await getMoreMovieList(movie.query, movie.currentPage + 1);
-  movie.currentPage = root.page;
-  proxy.movie.list = [generateMovieListTemplate(root.results)];
+  if (isMovieRoot(root)) {
+    movie.currentPage = root.page;
+    proxy.movie.list = [generateMovieListTemplate(root.results)];
+  }
 };
 
 export const initObserver = () => {

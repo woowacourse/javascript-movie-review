@@ -6,6 +6,7 @@ import { movieContainerTemplate } from './templates/movieContainer';
 import { emptyMessageTemplate } from './templates/emptyMessage';
 import { movieModalContainerTemplate } from './templates/movieModalContainerTemplate';
 import { getMovieDetails } from '../domains/movieApi';
+import { isMovieDetailRoot } from '../types/typeGuards';
 
 class MovieContainer extends HTMLElement {
   constructor() {
@@ -36,14 +37,16 @@ class MovieContainer extends HTMLElement {
 
     if (container instanceof HTMLDivElement) {
       const movieDetailsRoot = await getMovieDetails(target.id);
-      const movieDetails = {
-        title: movieDetailsRoot.title,
-        src: movieDetailsRoot.poster_path,
-        genre: movieDetailsRoot.genres.map(genre => genre.name),
-        score: movieDetailsRoot.vote_average,
-        overview: movieDetailsRoot.overview,
-      };
-      container.innerHTML = movieModalContainerTemplate(movieDetails);
+      if (isMovieDetailRoot(movieDetailsRoot)) {
+        const movieDetails = {
+          title: movieDetailsRoot.title,
+          src: movieDetailsRoot.poster_path,
+          genre: movieDetailsRoot.genres.map(genre => genre.name),
+          score: movieDetailsRoot.vote_average,
+          overview: movieDetailsRoot.overview,
+        };
+        container.innerHTML = movieModalContainerTemplate(movieDetails);
+      }
     }
   }
 

@@ -6,6 +6,7 @@ import { getFormData } from '../utils/form';
 import { customHeaderTemplate } from './templates/customHeader';
 import { generateMovieListTemplate } from './templates/movieList';
 import { searchMovieList } from '../domains/movieApi';
+import { isMovieRoot } from '../types/typeGuards';
 
 class CustomHeader extends HTMLElement {
   constructor() {
@@ -54,8 +55,10 @@ class CustomHeader extends HTMLElement {
     movie.currentPage = 1;
 
     const root = await searchMovieList(movie.query, movie.currentPage);
-    movie.totalPages = root.total_pages;
-    proxy.movie.list = [generateMovieListTemplate(root.results)];
+    if (isMovieRoot(root)) {
+      movie.totalPages = root.total_pages;
+      proxy.movie.list = [generateMovieListTemplate(root.results)];
+    }
   }
 
   static render() {

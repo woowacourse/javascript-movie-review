@@ -9,6 +9,7 @@ import CustomHeader from './components/CustomHeader';
 import { initObserver } from './domains/observer';
 import MovieModal from './components/MovieModal';
 import Main from './components/Main';
+import { isMovieRoot } from './types/typeGuards';
 
 const App = {
   init() {
@@ -35,9 +36,12 @@ const App = {
 
   async initState() {
     const root = await getPopularMovieList();
-    const movieResults = root.results;
-    movie.totalPages = root.total_pages;
-    proxy.movie.list = [generateMovieListTemplate(movieResults)];
+
+    if (isMovieRoot(root)) {
+      const movieResults = root.results;
+      movie.totalPages = root.total_pages;
+      proxy.movie.list = [generateMovieListTemplate(movieResults)];
+    }
   },
 };
 
