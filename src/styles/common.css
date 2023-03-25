@@ -40,13 +40,22 @@ main {
 }
 
 .item-view {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   height: 100%;
 
   padding: 0 134px;
   margin: 0 auto;
+}
+
+@media (max-width: 834px) {
+  .item-view {
+    padding: 0 40px;
+  }
+}
+
+@media (max-width: 390px) {
+  .item-view {
+    padding: 0 29px;
+  }
 }
 
 .item-view h2 {
@@ -98,17 +107,29 @@ main {
 .item-list {
   display: grid;
   justify-content: space-between;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  grid-template-columns: repeat(auto-fit, 180px);
+  grid-column-gap: 64px;
   width: 100%;
   height: 100%;
 }
 
-.item--movie,
-.item--skeleton {
-  height: 370px;
+@media (max-width: 390px) {
+  .item-list {
+    grid-template-columns: repeat(auto-fit, 140px);
+    grid-column-gap: 36px;
+  }
+}
 
-  margin: 24px 0;
+@media (min-width: 1440px) {
+  .item-list {
+    grid-template-columns: repeat(4, 180px);
+  }
+}
+
+@media (min-width: 1920px) {
+  .item-list {
+    grid-template-columns: repeat(5, 180px);
+  }
 }
 
 .item--movie,
@@ -116,6 +137,15 @@ main {
   height: 370px;
 
   margin: 24px 0;
+}
+
+@media (max-width: 390px) {
+  .item--movie,
+  .item--skeleton {
+    height: 300px;
+
+    margin: 12px 0;
+  }
 }
 
 .item--movie > a {
@@ -134,13 +164,12 @@ main {
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
-  height: 270px;
+  width: 100%;
+  aspect-ratio: 180 / 270;
   background-size: contain;
 }
 
 .item-title {
-  flex-grow: 1;
   margin-top: 16px;
 
   font-size: 1.2rem;
@@ -205,8 +234,7 @@ button.primary {
   }
 }
 header {
-  width: 100%;
-  min-width: 1200px;
+  width: 100vw;
   height: 72px;
   background-color: #222;
   display: flex;
