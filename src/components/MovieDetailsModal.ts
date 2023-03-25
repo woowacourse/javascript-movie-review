@@ -5,6 +5,15 @@ import FilledStar from '../assets/star_filled.png';
 import '../css/modal.css';
 import MovieHandler from '../domain/MovieHandler';
 
+const RATING_COMMENTS: { [rating: string]: string } = {
+  0: '선택해 주세요',
+  2: '최악이에요',
+  4: '별로에요',
+  6: '보통이에요',
+  8: '재밌어요',
+  10: '최고에요',
+};
+
 export default class MovieDetailsModal implements Component {
   $element: Element;
   #movie: Movie;
@@ -68,8 +77,8 @@ export default class MovieDetailsModal implements Component {
           <input type="radio" id="rating5" name="rating" value="10" >
           <label for="rating5"></label>
         </div>
-        <p>5</p>
-        <p>모르겠어요</p>
+        <p id="rating-number">0</p>
+        <p id="rating-comment">${RATING_COMMENTS[0]}</p>
       </div>
   `;
   }
@@ -103,6 +112,11 @@ export default class MovieDetailsModal implements Component {
 
   onChangeUserScore(e: Event) {
     this.#userScore = +(<HTMLInputElement>e.target).value;
+
+    (<HTMLParagraphElement>this.$element.querySelector('#rating-number')).textContent = this.#userScore.toString();
+    (<HTMLParagraphElement>this.$element.querySelector('#rating-comment')).textContent =
+      RATING_COMMENTS[this.#userScore];
+
     this.saveUserScore();
   }
 
@@ -113,8 +127,11 @@ export default class MovieDetailsModal implements Component {
   loadUserScore() {
     const score = UserDataHandler.loadUserScore(this.#movie.id);
     if (score) {
-      const id = score / 2;
-      (<HTMLInputElement>this.$element.querySelector(`#rating${id}`)).checked = true;
+      this.#userScore = score;
+
+      (<HTMLInputElement>this.$element.querySelector(`#rating${score / 2}`)).checked = true;
+      (<HTMLParagraphElement>this.$element.querySelector('#rating-number')).textContent = score.toString();
+      (<HTMLParagraphElement>this.$element.querySelector('#rating-comment')).textContent = RATING_COMMENTS[score];
     }
   }
 }
