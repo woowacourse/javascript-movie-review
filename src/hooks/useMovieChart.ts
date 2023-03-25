@@ -1,15 +1,19 @@
+import { MovieInfo } from './../domain/Movie';
 import { fetchMoviesByKeyword, fetchPopularMovies, waitFor } from '../apis/movieChart';
-import { INITIAL_PAGE, PAGE } from '../constants';
-import { useEffect, useState } from '../core';
+import { INITIAL_PAGE, PAGE } from '../constants/movieChart';
+import { CallbackEvent, useEffect, useState } from '../core';
 import { MovieChart } from '../domain/MovieChart';
+import { getClosest } from '../utils/common/domHelper';
+import { useMovieOverviewModal } from './useMovieOverviewModal';
 
 type DefaultFetchAction = (callback: (args: any) => Promise<void>) => (args?: any | undefined) => Promise<void>;
 
 let page: number;
 function useMovieChart(keyword: string) {
-  const [movieChart, setMovieChart] = useState<MovieChart>();
+  const [movieChart, setMovieChart] = useState<MovieChart | null>(null);
   const [movieList, setMovieList] = useState<MovieChart['movieChartInfo']['results']>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { focusedMovie, closeModal, openModal } = useMovieOverviewModal(false);
 
   const defaultFetchAction: DefaultFetchAction =
     <T>(callback: (args: T) => Promise<void>) =>
@@ -43,18 +47,37 @@ function useMovieChart(keyword: string) {
     updateMovieData(data);
   });
 
+  const getMovieInfo = (id: MovieInfo['id']) => {
+    const [movie] = movieList.filter((movie) => movie.getMovieId() === id);
+
+    return movie ?? null;
+  };
+
   const fetchMore = (keyword: string) => {
     if (keyword) getMoviesByKeyword(keyword);
     else getPopularMovies();
   };
 
+  const onClickMovie = (e: CallbackEvent) => {
+    e.preventDefault();
+    const movieId = getClosest(e.target, '.item--movie')?.dataset.id;
+
+    if (movieId) {
+      const focusedMovie = getMovieInfo(Number(movieId));
+
+      openModal(focusedMovie);
+    }
+  };
   useEffect(() => {
     page = INITIAL_PAGE;
 
     fetchMore(keyword);
   }, [keyword]);
 
-  return { movieChart, movieList, isLoading, fetchMore };
+  return {
+    values: { movieChart, movieList, isLoading, focusedMovie },
+    handlers: { closeModal, openModal, fetchMore, onClickMovie },
+  };
 }
 
 export { useMovieChart };
