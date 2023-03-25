@@ -16,6 +16,9 @@ export default class MovieItem extends HTMLElement {
       this.movie = event.detail;
       this.render();
     });
+    this.addEventListener('mouseover', () => {
+      this.style.cursor = 'pointer';
+    });
     this.addEventListener('click', () => {
       const el = document.getElementById('movie-modal') as MovieModal;
       el.open(this.movie);
@@ -25,7 +28,6 @@ export default class MovieItem extends HTMLElement {
   render() {
     this.innerHTML = `
     <li>
-      <a href="#">
         <div class="item-card">
           <img
             class="item-thumbnail"
@@ -43,7 +45,6 @@ export default class MovieItem extends HTMLElement {
       }.png" alt="별점" /> ${this.movie.ratings.toFixed(1)}
           </p>
         </div>
-      </a>
     </li>
     `;
   }

@@ -34,12 +34,12 @@ export default class MovieModal extends HTMLElement {
                   src="./assets/star_${movie.ratings > 0 ? "filled" : "empty"}.png"
                   alt="별점"
                 />
-                <div>
+                <div class="mx-1">
                   ${movie.ratings}
                 </div>
               </div>
             </div>
-            <div class="my-1">
+            <div class="my-1 modal-overview">
               <div>${movie.overview}</div>
             </div>
             <div>
@@ -62,9 +62,11 @@ export default class MovieModal extends HTMLElement {
   open(newMovie: Movie) {
     this.render(newMovie);
     onClickModalCloseButton();
-    this.children[0].classList.add('modal--open')
+    this.children[0].classList.add('modal--open');
+    document.body.style.overflow = 'hidden';
   }
   close() {
-    this.children[0].classList.remove('modal--open')
+    this.children[0].classList.remove('modal--open');
+    document.body.style.overflow = 'auto';
   }
 }
