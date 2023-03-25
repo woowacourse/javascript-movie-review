@@ -1,6 +1,7 @@
 import "./css/reset.css";
 import "./css/common.css";
 import "./css/modal.css";
+import "./css/layout.css";
 import HeaderPc from "./components/headers/HeaderPc";
 import MovieList from "./components/MovieList";
 import NoResultsMessage from "./components/NoResultsMessage";

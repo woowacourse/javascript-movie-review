@@ -1,3 +1,12 @@
 .w-100 {
   width: 100%;
 }
+.display-none {
+  display: none;
+}
+.d-flex {
+  display: flex;
+}
+.justify-content-between {
+  justify-content: space-between;
+}
