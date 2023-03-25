@@ -21,6 +21,7 @@
 }
 
 .user-rate-title {
+  min-width: 52px;
   padding-top: 6px;
 
   font: normal 700 16px/24px "Roboto";

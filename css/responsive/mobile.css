@@ -49,4 +49,38 @@
     grid-column-gap: 36px;
     grid-row-gap: 32px;
   }
+
+  .modal-container {
+    position: absolute;
+    bottom: 0;
+    transform: translate(-50%, -0%);
+
+    min-width: 390px;
+    width: 100%;
+    height: auto;
+
+    background: var(--gray-black);
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .modal-main {
+    justify-content: center;
+  }
+
+  .modal-img {
+    display: none;
+  }
+  .rate-result {
+    min-width: 0px !important;
+    max-width: 20px !important;
+    padding-top: 6px;
+
+    overflow: hidden;
+    font: normal 700 16px/24px "Roboto";
+  }
+
+  .user-rate {
+    justify-content: center;
+  }
 }
