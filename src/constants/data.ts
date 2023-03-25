@@ -1,6 +1,6 @@
 import { ScoreComment } from "../@types/movieDataType";
 
-export const DATA = {
+export const MOVIE_DATA = {
   EMPTY: 0,
   INIT_PAGE: 0,
 };

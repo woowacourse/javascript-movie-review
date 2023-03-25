@@ -3,12 +3,12 @@ import {
   ResponseInfo,
   TotalMovieInfoType,
 } from "../@types/movieDataType";
-import { DATA } from "../constants/data";
+import { MOVIE_DATA } from "../constants/data";
 import { $ } from "../utils/selector";
 
 class MovieDataManager {
   private _currentTab = CurrentTab.POPULAR;
-  private _currentPage: number = DATA.INIT_PAGE;
+  private _currentPage: number = MOVIE_DATA.INIT_PAGE;
 
   getCurrentTab() {
     return this._currentTab;
@@ -29,7 +29,7 @@ class MovieDataManager {
 
     itemList.innerHTML = "";
     title.remove();
-    this._currentPage = DATA.INIT_PAGE;
+    this._currentPage = MOVIE_DATA.INIT_PAGE;
   }
 
   updatePage() {
