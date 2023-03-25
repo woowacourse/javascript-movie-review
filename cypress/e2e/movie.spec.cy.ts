@@ -22,6 +22,8 @@ describe("영화관 앱 테스트.", () => {
   };
 
   beforeEach(() => {
+    cy.viewport(1200, 945);
+
     const [movieUrl, popularMovies] = interceptor(
       () => buildMovieUrl(POPULAR_MOVIE),
       "popular-movies.json"
@@ -73,8 +75,11 @@ describe("영화관 앱 테스트.", () => {
     });
   });
 
-  it("로고를 클릭하면 처음 화면으로 이동한다.", () => {
-    cy.get("#logo").click();
+  it("검색 페이지에서 홈 버튼을 클릭하면 처음 화면으로 이동한다.", () => {
+    cy.get("input[name='search-bar']").type("고양이");
+    cy.get("#search-bar").submit();
+
+    cy.get("button.logo").click();
 
     cy.wait("@getPopularMovies");
 
