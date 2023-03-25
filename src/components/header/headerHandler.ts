@@ -1,6 +1,6 @@
 import { $ } from "../../utils/selector";
 import { movieApi } from "../../domain/movieApi";
-import { PATH } from "../../constants";
+import { MOBILE_VIEWPORT, PATH } from "../../constants";
 import { movieStore } from "../../movieStore";
 const { SEARCHED_MOVIE } = PATH;
 
@@ -33,22 +33,6 @@ export const initLogo = () => {
   });
 };
 
-const toggleLogo = () => {
-  if (movieApi.url.pathname.includes(PATH.POPULAR_MOVIE)) {
-    $("button.logo").classList.add("none-display");
-    $("img.logo").classList.remove("none-display");
-  } else {
-    $("button.logo").classList.remove("none-display");
-    $("img.logo").classList.add("none-display");
-  }
-};
-
-const resetMoviesAndPages = () => {
-  movieStore.movies = [];
-  movieApi.urlParams.set("page", "1");
-  movieApi.totalPage = 2;
-};
-
 const handleMobileSearchBox = (event: Event) => {
   if (!(event.target instanceof HTMLFormElement)) return;
   if (getComputedStyle(event.target).zIndex !== "1") return;
@@ -67,13 +51,29 @@ const restoreMobileSearchBox = (
   searchBox: HTMLFormElement
 ) => {
   searchBox.addEventListener("mouseleave", () => {
-    if (window.innerWidth > 390) return;
+    if (window.innerWidth > MOBILE_VIEWPORT) return;
 
     window.addEventListener("resize", () => {
-      if (window.innerWidth <= 390) return searchBox.reset();
+      if (window.innerWidth <= MOBILE_VIEWPORT) return searchBox.reset();
     });
 
     inputBox.classList.remove("extended");
     searchBox.reset();
   });
+};
+
+const resetMoviesAndPages = () => {
+  movieStore.movies = [];
+  movieApi.urlParams.set("page", "1");
+  movieApi.totalPage = 2;
+};
+
+const toggleLogo = () => {
+  if (movieApi.url.pathname.includes(PATH.POPULAR_MOVIE)) {
+    $("button.logo").classList.add("none-display");
+    $("img.logo").classList.remove("none-display");
+  } else {
+    $("button.logo").classList.remove("none-display");
+    $("img.logo").classList.add("none-display");
+  }
 };

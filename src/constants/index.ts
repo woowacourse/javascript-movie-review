@@ -20,3 +20,5 @@ export const RATING_MESSAGES: Record<string, string> = {
 };
 
 export const NO_OVERVIEW = "영화사에서 제공받은 줄거리가 없습니다.";
+
+export const MOBILE_VIEWPORT = 662;
