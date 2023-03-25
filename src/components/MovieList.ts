@@ -31,6 +31,22 @@ export class MovieList {
       <h3>결과가 없습니다</h3>
     `.trim();
 
+    this.initEventHandlers();
+
+    if (autoNextPage) {
+      new IntersectionObserver(
+        () => {
+          this.nextPage(); // NOTE: 두 번씩 호출되나 의도된 동작
+        },
+        {
+          threshold: 0,
+          rootMargin: '1200px 0px',
+        },
+      ).observe(this.$('button'));
+    }
+  }
+
+  private initEventHandlers() {
     this.$('button').addEventListener('click', () => {
       this.nextPage();
     });
@@ -44,18 +60,6 @@ export class MovieList {
 
     this.movies$.subscribeError((error) => Toast.create(error.message));
     this.movies$.fetchNextPage().then(() => this.nextPage());
-
-    if (autoNextPage) {
-      new IntersectionObserver(
-        () => {
-          this.nextPage(); // NOTE: 두 번씩 호출되나 의도된 동작
-        },
-        {
-          threshold: 0,
-          rootMargin: '1200px 0px',
-        },
-      ).observe(this.$('button'));
-    }
   }
 
   getRoot() {
