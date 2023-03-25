@@ -34,7 +34,7 @@ export type ExtractByEndpoint<
   Endpoint extends APISpec['endpoint'],
 > = Extract<GenericAPISpec, { endpoint: Endpoint }>;
 
-export type ExtractByHTTPMethod<
+export type ExtractByHttpMethod<
   GenericAPISpec extends APISpec,
   GenericHTTPMethod extends HttpMethod,
 > = Extract<GenericAPISpec, { endpoint: `${GenericHTTPMethod} /${string}` }>;

@@ -2,7 +2,7 @@ import { HttpClientNetworkError } from './errors/HttpClientNetworkError';
 import {
   APISpec,
   ExtractByEndpoint,
-  ExtractByHTTPMethod,
+  ExtractByHttpMethod,
   GetParams,
   GetPath,
   GetSuccess,
@@ -40,7 +40,7 @@ export abstract class HttpClient<GenericAPISpec extends APISpec> {
   }
 
   async get<
-    GETAPISpec extends ExtractByHTTPMethod<GenericAPISpec, 'GET'>,
+    GETAPISpec extends ExtractByHttpMethod<GenericAPISpec, 'GET'>,
     Path extends GetPath<GETAPISpec['endpoint']>,
   >(
     path: Path,
@@ -55,7 +55,7 @@ export abstract class HttpClient<GenericAPISpec extends APISpec> {
   }
 
   async post<
-    POSTAPISpec extends ExtractByHTTPMethod<GenericAPISpec, 'POST'>,
+    POSTAPISpec extends ExtractByHttpMethod<GenericAPISpec, 'POST'>,
     Path extends GetPath<POSTAPISpec['endpoint']>,
   >(
     path: Path,
@@ -67,7 +67,7 @@ export abstract class HttpClient<GenericAPISpec extends APISpec> {
   }
 
   async put<
-    PUTAPISpec extends ExtractByHTTPMethod<GenericAPISpec, 'PUT'>,
+    PUTAPISpec extends ExtractByHttpMethod<GenericAPISpec, 'PUT'>,
     Path extends GetPath<PUTAPISpec['endpoint']>,
   >(
     path: Path,
