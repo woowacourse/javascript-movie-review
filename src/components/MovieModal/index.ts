@@ -10,7 +10,6 @@ export default class MovieModal extends HTMLElement {
     this.innerHTML = `
     <div class="modal modal-dialog-centered">
       <div class="modal-content">
-      ${JSON.stringify(movie)}
         <div class="d-flex justify-content-between">
           <div></div>
           <div><h2>${movie.title}</h2></div>
@@ -25,7 +24,28 @@ export default class MovieModal extends HTMLElement {
             >
           </div>
           <div>
-          
+            <div>
+              <div>
+              ${movie.genres}
+              </div>
+              <div>
+              ${movie.ratings}
+              </div>
+            </div>
+            <div>
+              <div>${movie.overview}</div>
+            </div>
+            <div>
+              <div>
+                내 별점
+              </div>
+              <div>
+                별별별별별
+              </div>
+              <div>
+                점수 보통이에요
+              </div>
+            </div>
           </div>
         </div>
       </div>
