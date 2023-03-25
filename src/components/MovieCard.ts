@@ -1,6 +1,7 @@
 import NULL_IMAGE from '../constants/nullImage';
 import Component from '../types/component';
 import { MovieItem } from '../types/movie';
+import MovieDetailModal from './MovieDetailModal';
 
 class MovieCard implements Component {
   readonly node: HTMLElement;
@@ -54,8 +55,16 @@ class MovieCard implements Component {
   addEvents(): this {
     this.thumbnail.addEventListener('load', this.#handleLoadImage.bind(this));
     this.thumbnail.addEventListener('error', this.#handleNullImage.bind(this));
+    this.thumbnail.addEventListener('click', this.#handleClickImage.bind(this));
 
     return this;
+  }
+
+  #handleClickImage(): void {
+    const movieDetailModal = new MovieDetailModal();
+    movieDetailModal.showModal();
+
+    document.querySelector('#app')?.insertAdjacentElement('afterbegin', movieDetailModal.node);
   }
 
   #handleLoadImage(): void {
