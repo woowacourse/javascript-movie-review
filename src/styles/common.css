@@ -266,10 +266,15 @@ header > .search-box {
   border-radius: 4px;
 }
 
-header .search-box > form > input {
+.search-input {
   border: 0;
 }
 
+@media (max-width: 420px) {
+  .search-input.hidden {
+    display: none;
+  }
+}
 header .search-box > form > .search-button {
   width: 14px;
   border: 0;
