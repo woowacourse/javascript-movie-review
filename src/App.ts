@@ -44,15 +44,15 @@ export const App = async () => {
   };
 
   const renderMovieList = async () => {
-    movieItemList.renderTitle(
-      movieItemList.getTitle(movieDataManager.getCurrentTab())
-    );
     movieDataManager.updatePage();
 
     try {
       const response = await getMovieData(movieDataManager.getCurrenPage());
       const movieDatas = response?.results;
 
+      movieItemList.renderTitle(
+        movieItemList.getTitle(movieDataManager.getCurrentTab())
+      );
       movieDataManager.checkIsLastPage(response) &&
         $(".scroll-target")?.remove();
       generateMovieItemElement(movieDatas);
@@ -62,10 +62,6 @@ export const App = async () => {
   };
 
   const renderSearchList = async () => {
-    movieItemList.renderTitle(
-      searchBox.getKeyword() +
-        movieItemList.getTitle(movieDataManager.getCurrentTab())
-    );
     movieDataManager.updatePage();
 
     try {
@@ -75,6 +71,10 @@ export const App = async () => {
       );
       const movieDatas = response?.results;
 
+      movieItemList.renderTitle(
+        searchBox.getKeyword() +
+          movieItemList.getTitle(movieDataManager.getCurrentTab())
+      );
       movieDataManager.checkIsLastPage(response) &&
         $(".scroll-target")?.remove();
       if (checkIsEmptyData(movieDatas)) {
@@ -124,9 +124,7 @@ export const App = async () => {
   });
 
   $(".logo")?.addEventListener("click", () => {
-    movieDataManager.convertTab(CurrentTab.POPULAR);
-    searchBox.resetInput();
-    renderMovies();
+    window.location.reload();
   });
 
   $(".ch-logo")?.addEventListener("mouseenter", () => {
