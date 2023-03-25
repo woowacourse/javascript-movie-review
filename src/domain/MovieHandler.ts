@@ -1,10 +1,11 @@
-import { Movie } from '../type/Movie';
+import { GenreList, Movie } from '../type/Movie';
 import { MovieAPIData, getGenreAPIData } from '../api/get';
 
-const genreList: Map<number, string> = new Map();
+const genreList: GenreList = {};
+
 getGenreAPIData().then((genres) => {
   genres.forEach((genre) => {
-    genreList.set(genre.id, genre.name);
+    genreList[genre.id] = genre.name;
   });
 });
 
@@ -29,7 +30,7 @@ const MovieHandler = {
   },
 
   getGenres(genreIDs: number[]) {
-    return genreIDs.map((id) => genreList.get(id)).join(', ');
+    return genreIDs.map((id) => genreList[id]).join(', ');
   },
 };
 

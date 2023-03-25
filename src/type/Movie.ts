@@ -6,3 +6,11 @@ export interface Movie {
   overview: string;
   genreIDs: number[];
 }
+
+export interface GenreList {
+  [id: number]: string;
+}
+
+export interface UserScoreList {
+  [id: number]: number;
+}
