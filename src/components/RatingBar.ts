@@ -1,5 +1,5 @@
 import { $, $$ } from '../utils/domSelector';
-import EventBus from '../EventBus';
+import EventDispatcher from '../EventDispatcher';
 
 type RatingBarType = {
   parentElement: HTMLElement;
@@ -68,7 +68,7 @@ class RatingBar {
           $ratingScore.innerText = rating;
           $ratingAlias.innerHTML = this.getAliasByRating(Number(rating));
 
-          EventBus.triggerEvent('setUserRating', [this.id, Number(rating)]);
+          EventDispatcher.dispatchEvent('setUserRating', [this.id, Number(rating)]);
         });
       }
     });

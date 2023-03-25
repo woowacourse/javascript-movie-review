@@ -1,13 +1,13 @@
-class EventBus {
+class EventDispatcher {
   private events: Record<string, CallableFunction> = {};
 
   setEvent(command: string, event: CallableFunction) {
     this.events[command] = event;
   }
 
-  triggerEvent(command: string, parameters?: unknown[]) {
+  dispatchEvent(command: string, parameters?: unknown[]) {
     parameters ? this.events[command](...parameters) : this.events[command]();
   }
 }
 
-export default new EventBus();
+export default new EventDispatcher();

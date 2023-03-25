@@ -1,4 +1,4 @@
-import EventBus from '../EventBus';
+import EventDispatcher from '../EventDispatcher';
 
 class LoadMoreObserver {
   private $observer!: IntersectionObserver;
@@ -10,7 +10,7 @@ class LoadMoreObserver {
   private setObserver() {
     this.$observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        entry.intersectionRatio > 0 && EventBus.triggerEvent('loadMoreItems');
+        entry.intersectionRatio > 0 && EventDispatcher.dispatchEvent('loadMoreItems');
       });
     });
   }

@@ -1,4 +1,4 @@
-import EventBus from '../EventBus';
+import EventDispatcher from '../EventDispatcher';
 import { ViewBundleType } from '../types';
 
 class ButtonController {
@@ -12,7 +12,7 @@ class ButtonController {
     { header, movieList, movieFetcher, footerMessage }: ViewBundleType,
     onFetchAndUpdateMovieList: (updateMode: string, keyword?: string) => void,
   ) {
-    EventBus.setEvent('loadMoreItems', this.onClickLoadMoreButton);
+    EventDispatcher.setEvent('loadMoreItems', this.onClickLoadMoreButton);
 
     this.header = header;
     this.movieList = movieList;

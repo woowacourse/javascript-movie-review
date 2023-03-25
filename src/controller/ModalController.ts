@@ -1,6 +1,6 @@
 import MovieStorage from '../domains/MovieStorage';
 import MovieInfoModal from '../components/MovieInfoModal';
-import EventBus from '../EventBus';
+import EventDispatcher from '../EventDispatcher';
 import ratingLocalStorage from '../domains/RatingLocalStorage';
 import { $ } from '../utils/domSelector';
 
@@ -8,8 +8,8 @@ class ModalController {
   private movieInfoModal: MovieInfoModal;
 
   constructor() {
-    EventBus.setEvent('openInfoModal', this.openInfoModalWithMovieId);
-    EventBus.setEvent('setUserRating', this.setUserMovieRating);
+    EventDispatcher.setEvent('openInfoModal', this.openInfoModalWithMovieId);
+    EventDispatcher.setEvent('setUserRating', this.setUserMovieRating);
     this.movieInfoModal = new MovieInfoModal({
       parentElement: $('#app'),
       onRatingRequestEvent: this.getUserMovieRating,

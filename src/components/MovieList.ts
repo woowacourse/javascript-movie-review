@@ -4,7 +4,7 @@ import MovieItem from './MovieItem';
 import skeletonItem from './skeletonItem';
 import errorLayout from './errorLayout';
 import LoadMoreObserver from './LoadMoreObserver';
-import EventBus from '../EventBus';
+import EventDispatcher from '../EventDispatcher';
 
 type ErrorLayoutConstructorType = {
   image: string;
@@ -94,7 +94,7 @@ class MovieList {
 
       if (selectedCard instanceof HTMLElement) {
         const movieItemId = Number(selectedCard.dataset.movieId);
-        EventBus.triggerEvent('openInfoModal', [movieItemId]);
+        EventDispatcher.dispatchEvent('openInfoModal', [movieItemId]);
       }
     });
   }
