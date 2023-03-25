@@ -1,16 +1,24 @@
 import MovieStorage from '../domains/MovieStorage';
+import EventDispatcher from '../EventDispatcher';
 import { GenreFetchResponseType, MovieFetchResponseType, ViewBundleType } from '../types';
-import { FOOTER_MESSAGE, ERROR_IMAGE_PATH, ERROR_LAYOUT_MESSAGE } from '../../src/constants';
+import { FOOTER_MESSAGE, ERROR_IMAGE_PATH, ERROR_LAYOUT_MESSAGE } from '../constants';
 
-class UpdateController {
+class MovieUpdateController {
+  private header;
   private movieList;
   private movieFetcher;
   private footerMessage;
 
-  constructor({ movieList, movieFetcher, footerMessage }: ViewBundleType) {
+  constructor({ header, movieList, movieFetcher, footerMessage }: ViewBundleType) {
+    EventDispatcher.setEvent('loadMoreItems', this.onClickLoadMoreButton);
+
+    this.header = header;
     this.movieList = movieList;
     this.movieFetcher = movieFetcher;
     this.footerMessage = footerMessage;
+
+    this.footerMessage.addClickEventHandler(this.onClickLoadMoreButton);
+    this.header.addClickEventHandler(this.onClickSearchButton);
 
     this.initMovies();
   }
@@ -31,6 +39,16 @@ class UpdateController {
     this.fetchAndUpdateMovieList('overwrite');
   }
 
+  onClickLoadMoreButton = () => {
+    this.fetchAndUpdateMovieList('append');
+  };
+
+  onClickSearchButton = (keyword: string) => {
+    this.movieList.setTitle(`"${keyword}" 검색 결과 🔍`);
+    this.movieFetcher.setRequestMode('search');
+    this.movieFetcher.resetFailedToFetchStatus();
+    this.fetchAndUpdateMovieList('overwrite', keyword);
+  };
   async fetchAndUpdateMovieList(updateMode: string, keyword: string = '') {
     if (this.movieFetcher.getFailedToFetchStatus()) {
       return;
@@ -87,4 +105,4 @@ class UpdateController {
   }
 }
 
-export default UpdateController;
+export default MovieUpdateController;

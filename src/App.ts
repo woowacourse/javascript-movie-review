@@ -2,16 +2,14 @@ import Header from './components/Header';
 import MovieList from './components/MovieList';
 import MovieFetcher from './domains/MovieFetcher';
 import FooterMessage from './components/FooterMessage';
-import UpdateController from './controller/UpdateController';
-import ButtonController from './controller/ButtonController';
+import MovieUpdateController from './controller/MovieUpdateController';
 import ModalController from './controller/ModalController';
 import { ViewBundleType } from './types';
 import { $ } from './utils/domSelector';
 
 class App {
-  private updateController!: UpdateController;
-  private buttonController!: ButtonController;
-  private modalController!: ModalController;
+  private movieUpdateController: MovieUpdateController;
+  private modalController: ModalController;
   private components: ViewBundleType = {
     header: new Header($('header')),
     movieList: new MovieList({
@@ -23,17 +21,8 @@ class App {
   };
 
   constructor() {
-    this.updateController = new UpdateController(this.components);
-    this.buttonController = new ButtonController(
-      this.components,
-      (updateMode: string, keyword: string = '') =>
-        this.#onFetchAndUpdateMovieList(updateMode, keyword),
-    );
+    this.movieUpdateController = new MovieUpdateController(this.components);
     this.modalController = new ModalController();
-  }
-
-  #onFetchAndUpdateMovieList(updateMode: string, keyword: string = '') {
-    this.updateController.fetchAndUpdateMovieList(updateMode, keyword);
   }
 }
 
