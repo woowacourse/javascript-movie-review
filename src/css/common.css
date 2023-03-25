@@ -130,6 +130,7 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
   width: 100%;
   height: 72px;
@@ -186,9 +187,24 @@ header .search-box > .search-button {
   margin-bottom: 10px;
 }
 
+@media screen and (max-width: 576px) {
+  .header-basic {
+    display: none;
+  }
+  .header-mobile {
+    display: block;
+  }
+}
+
 @media screen and (min-width: 576px) {
   .item-list {
     grid-template-columns: repeat(2, 180px);
+  }
+  .header-basic {
+    display: block;
+  }
+  .header-mobile {
+    display: none;
   }
 }
 
