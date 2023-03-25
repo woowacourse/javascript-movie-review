@@ -1,7 +1,7 @@
 import EventDispatcher from '../EventDispatcher';
 
 class LoadMoreObserver {
-  private $observer!: IntersectionObserver;
+  private $observer;
 
   constructor() {
     this.$observer = new IntersectionObserver((entries) => {
