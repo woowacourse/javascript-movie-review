@@ -477,3 +477,36 @@ header.modal__header {
 button.hidden {
   display: none;
 }
+
+.ch-logo {
+  position: sticky;
+  float: right;
+  bottom: 20px;
+  right: 20px;
+
+  width: 4%;
+  height: 4%;
+}
+
+.ch-box {
+  position: sticky;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: right;
+  bottom: 70px;
+  right: 10px;
+
+  width: 220px;
+  height: 40px;
+
+  background-color: white;
+  border-radius: 10px;
+
+  color: #222;
+  font-size: 15p요;
+}
+
+.hidden {
+  display: none;
+}
