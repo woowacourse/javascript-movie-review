@@ -3,6 +3,7 @@
 }
 
 body {
+  /* width: 100vw; */
   font-size: 14px;
   background-color: #222222;
   color: #fff;
@@ -15,6 +16,11 @@ a {
 
 button {
   cursor: pointer;
+}
+
+dialog {
+  padding: 0;
+  background-color: #212122;
 }
 
 #app {
@@ -33,7 +39,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -49,7 +55,7 @@ button {
   display: grid;
   margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  justify-content: space-between;
   grid-row-gap: 48px;
 }
 
@@ -125,7 +131,6 @@ button.primary {
 }
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -156,11 +161,158 @@ header .search-box > input {
 }
 
 header .search-box > .search-button {
-  width: 14px;
+  width: 24px;
+  height: 14px;
   border: 0;
+  color: black;
   text-indent: -1000rem;
-  background: url("./search_button.png") transparent no-repeat 0 1px;
+  background: url("./logo.png") transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+/*모달*/
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.modal-content {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 826px;
+  height: 577px;
+  background: #212122;
+  color: #f1f1f1;
+  border-radius: 8px;
+}
+
+.modal-header {
+  display: flex;
+  box-sizing: border-box;
+
+  position: relative;
+  height: 60px;
+
+  align-items: center;
+  padding: 20px 24px;
+  background: #212122;
+  border-bottom: 1px solid rgba(241, 241, 241, 0.25);
+}
+
+.modal-title {
+  margin: auto;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.15px;
+
+  color: #f1f1f1;
+}
+
+.modal-close {
+  width: 36px;
+  height: 36px;
+  color: #f1f1f1;
+  background-color: #222;
+
+  border-radius: 50%;
+  border: #212122;
+}
+
+.modal-info-container {
+  position: relative;
+  display: flex;
+  margin-top: 48px;
+  margin-left: 32px;
+  margin-right: 32px;
+}
+
+.modal-poster {
+  background-color: aqua;
+  height: 433px;
+  width: 292px;
+}
+
+.modal-info {
+  width: 422px;
+  margin-left: 36px;
+}
+
+.modal-genre-rating-container {
+  display: flex;
+  width: auto;
+  height: 24px;
+
+  margin-bottom: 12px;
+
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.5px;
+
+  color: #f1f1f1;
+}
+
+.modal-poster > img {
+  height: 100%;
+  width: 100%;
+}
+
+.modal-genre-rating-container > .modal-genre {
+  margin-right: 24px;
+}
+
+.modal-rating {
+  width: 24px;
+  height: 24px;
+
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.5px;
+
+  color: #f1f1f1;
+}
+
+.modal-rating > img {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.modal-description {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  /* identical to box height, or 150% */
+
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.5px;
+
+  color: #f1f1f1;
 }
 
 .hidden {
@@ -175,4 +327,26 @@ header .search-box > .search-button {
   align-items: center;
   font-weight: 600;
   font-size: 24px;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .item-list {
+    grid-template-columns: repeat(2, 180px);
+  }
+
+  .modal-content {
+    left: inherit;
+    bottom: 0;
+    transform: none;
+  }
+
+  .modal-poster {
+    display: none;
+  }
 }
