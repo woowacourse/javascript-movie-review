@@ -1,7 +1,7 @@
 import MovieCard from './MovieCard';
 import skeletonTemplate from './Skeleton';
 import Component from '../types/component';
-import { FetchType } from '../types/fetcherType';
+
 import { Movie, MovieItem } from '../types/movie';
 import { NULL_SEARCH_RESULT_MESSAGE } from '../constants/messages';
 import { POPULAR_LIST_NAME } from '../constants/listNames';
@@ -167,7 +167,6 @@ class MovieList implements Component {
     };
 
     const observer = new IntersectionObserver(this.#handleIntersect.bind(this), options);
-
     observer.observe(this.loadMoreButton);
 
     return this;

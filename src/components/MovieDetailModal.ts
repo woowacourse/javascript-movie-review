@@ -1,4 +1,5 @@
 import Component from '../types/component';
+import MovieDetail from '../types/MovieDetail';
 
 const STAR_COUNT_MAP: { [score: number]: string } = {
   2: '최악이예요',
@@ -18,9 +19,12 @@ class MovieDetailModal {
   private rating: number;
   private ratingMessage!: HTMLParagraphElement;
 
-  constructor() {
+  private movieDetail: MovieDetail;
+
+  constructor(movieDetail: MovieDetail) {
     this.node = document.createElement('div');
     this.node.classList.add('modal-container');
+    this.movieDetail = movieDetail;
 
     this.composeNode().setElements().addEvents();
 
@@ -40,7 +44,7 @@ class MovieDetailModal {
       <div class='backdrop'></div>
       <dialog class="modal">
       <div class="modal-header">
-        <h2>모달창 제목</h2>
+        <h2>${this.movieDetail.title}</h2>
         <button>
           <div class="close close-button" type="reset">
             <img src="./close_button">
@@ -48,9 +52,9 @@ class MovieDetailModal {
         </button>
       </div>
       <div class="modal-body">
-        <div class="modal-image">
+        <div class="modal-image" >
           <img
-            src="https://www.ibric.org/upload/geditor/202102/0.04581200_1612885177.jpg"
+            src="${this.movieDetail.posterPath}"
             alt="이미지 설명"
             width="292"
             height="433"
@@ -59,11 +63,11 @@ class MovieDetailModal {
         <div class="modal-info">
           <div class="modal-rating">
             <h3>평점</h3>
-            <p>평점 내용</p>
+            <p>${this.movieDetail.voteAverage}</p>
           </div>
           <div class="modal-description">
             <h3>설명</h3>
-            <p>설명 내용</p>
+            <p>${this.movieDetail.overview}</p>
           </div>
           <div class="modal-my-rating">
             <p>내 별점</p>

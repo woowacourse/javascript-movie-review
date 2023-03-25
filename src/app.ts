@@ -4,6 +4,7 @@ import MovieFetcher from './domain/fetcher/MovieFetcher';
 import { POPULAR_LIST_NAME, SEARCH_LIST_NAME_SUFFIX } from './constants/listNames';
 import PopularMovieFetcher from './domain/fetcher/PopularMovieFetcher';
 import SearchMovieFetcher from './domain/fetcher/SearchMovieFetcher';
+import fetchJson from './domain/fetchJson';
 
 class App {
   readonly node: HTMLElement;

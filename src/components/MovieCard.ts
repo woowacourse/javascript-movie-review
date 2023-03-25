@@ -1,6 +1,8 @@
 import NULL_IMAGE from '../constants/nullImage';
+import MovieDetailFetcher from '../domain/fetcher/MovieDetailFetcher';
 import Component from '../types/component';
 import { MovieItem } from '../types/movie';
+import MovieDetail from '../types/MovieDetail';
 import MovieDetailModal from './MovieDetailModal';
 
 class MovieCard implements Component {
@@ -8,29 +10,30 @@ class MovieCard implements Component {
   private thumbnail!: HTMLImageElement;
   private thumbnailSkeleton!: HTMLDivElement;
 
-  private movieItemDetails: MovieItem;
+  private movieItem: MovieItem;
 
-  constructor(movieItemDetails: MovieItem) {
+  constructor(movieItem: MovieItem) {
     this.node = document.createElement('li');
-    this.movieItemDetails = movieItemDetails;
+    this.movieItem = movieItem;
 
     this.composeNode().setElements().addEvents();
   }
 
   composeNode(): this {
     this.node.innerHTML = `<a>
-        <div class="item-card">
+        <div class="item-card"">
           <div class="item-thumbnail skeleton"></div>
           <img
+            data-id="${this.movieItem.id}"
             id="item-thumbnail"
             class="item-thumbnail hidden"
-            src="${this.movieItemDetails.posterPath}"
-            alt=${this.movieItemDetails.title}
+            src="${this.movieItem.posterPath}"
+            alt=${this.movieItem.title}
           />
-          <p class="item-title">${this.movieItemDetails.title}</p>
+          <p class="item-title">${this.movieItem.title}</p>
           <div class="item-score">
             <img src="./star_filled.png" alt="별점" />
-            <p>${this.movieItemDetails.voteAverage}</p>
+            <p>${this.movieItem.voteAverage}</p>
           </div>
         </div>
       </a>
@@ -60,9 +63,15 @@ class MovieCard implements Component {
     return this;
   }
 
-  #handleClickImage(): void {
-    const movieDetailModal = new MovieDetailModal();
-    movieDetailModal.showModal();
+  async #handleClickImage(event: Event) {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+
+    const id = Number(target.dataset.id);
+    if (!id) return;
+
+    const movieDetails: MovieDetail = await new MovieDetailFetcher(id).fetchMovie();
+    const movieDetailModal = new MovieDetailModal(movieDetails);
 
     document.querySelector('#app')?.insertAdjacentElement('afterbegin', movieDetailModal.node);
   }
