@@ -28,14 +28,14 @@ button {
 }
 .item-view,
 .item-test {
-  width: 100%;
+  /* width: 100%; */
 }
 
 .item-view {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  /* width: 1200px; */
   margin: 0 auto;
 }
 
@@ -51,8 +51,28 @@ button {
   display: grid;
   margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  justify-content: space-around;
   grid-row-gap: 48px;
+}
+
+@media (max-width: 1024px) {
+  .item-list {
+    display: grid;
+    margin: 48px 0;
+    grid-template-columns: repeat(3, 180px);
+    justify-content: space-around;
+    grid-row-gap: 48px;
+  }
+}
+
+@media (max-width: 768px) {
+  .item-list {
+    display: grid;
+    margin: 48px 0;
+    grid-template-columns: repeat(2, 180px);
+    justify-content: space-around;
+    grid-row-gap: 48px;
+  }
 }
 
 .item-card {
@@ -126,8 +146,8 @@ button.primary {
   }
 }
 header {
-  width: 100%;
-  min-width: 1200px;
+  /* width: 100%; */
+  /* min-width: 1200px; */
   height: 72px;
   background-color: #222;
   display: flex;
@@ -163,10 +183,6 @@ header .search-box > .search-button {
   text-indent: -1000rem;
   background: url("./search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
-}
-
-.hidden {
-  display: none;
 }
 
 .error {
@@ -356,4 +372,8 @@ header.modal__header {
   position: absolute;
   bottom: 0;
   text-align: center;
+}
+
+button.hidden {
+  display: none;
 }
