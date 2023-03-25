@@ -22,7 +22,7 @@ export const getMoreMovieList = async (
   query: FormDataEntryValue,
   nextPage: number
 ): Promise<MovieRoot | MovieDetailRoot> => {
-  const url = query ? requestUrl.getPopularMovie(nextPage) : requestUrl.getSearchMovie(query, nextPage);
+  const url = query ? requestUrl.getSearchMovie(query, nextPage) : requestUrl.getPopularMovie(nextPage);
 
   return await fetchMovieList(url);
 };
