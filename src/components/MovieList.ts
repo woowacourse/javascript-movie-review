@@ -77,7 +77,6 @@ class MovieList {
           parentElement: $('.item-list', this.$element),
           skeleton: $skeleton,
           movieInfo: movieInfo,
-          fetchId: fetchId,
         });
 
         if (index === movieInfoList.length - 1) {
