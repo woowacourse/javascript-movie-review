@@ -14,6 +14,10 @@
   grid-row-gap: 48px;
 }
 
+.empty {
+  width: calc(100vw - 200px);
+}
+
 /* Phone */
 @media (min-width: 320px) and (max-width: 420px) {
   .item-list {
@@ -21,6 +25,10 @@
     justify-content: center;
     width: 100%;
     grid-column-gap: 20px;
+  }
+
+  .empty {
+    width: calc(100vw - 80px);
   }
 }
 

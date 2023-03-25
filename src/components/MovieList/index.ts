@@ -33,9 +33,16 @@ export class MovieList extends HTMLElement {
   }
 
   createEmptyTemplate() {
+    if (window.innerWidth < 900) {
+      this.$movieItems.insertAdjacentHTML(
+        'beforeend',
+        `<img class="empty" src="./assets/mobile_empty.jpeg"/>`,
+      );
+      return;
+    }
     this.$movieItems.insertAdjacentHTML(
       'beforeend',
-      `<img src="./assets/empty.png" width="1200px"/>`,
+      `<img class="empty"  src="./assets/empty.png" />`,
     );
   }
 

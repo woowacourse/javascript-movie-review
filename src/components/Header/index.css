@@ -61,7 +61,7 @@
 
   .search-box > input.show {
     display: initial;
-    animation: slide-in 1s ease forwards;
+    animation: slide-in 0.5s ease forwards;
   }
 }
 
