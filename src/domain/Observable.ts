@@ -11,7 +11,10 @@ export default class Observable {
     this.observer = {
       movies: [],
       loading: [],
+      unloading: [],
       detail: [],
+      error: [],
+      noSearched: [],
     };
   }
 

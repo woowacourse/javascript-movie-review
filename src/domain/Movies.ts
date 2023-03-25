@@ -6,7 +6,6 @@ import {
 import { MovieItemType, DetailModalType } from '../type/movie';
 
 import Observable from './Observable';
-import alertFetchStatus from '../validation/alertFetchStatus';
 
 class Movies extends Observable {
   private popularPage = 1;
@@ -45,7 +44,10 @@ class Movies extends Observable {
     const { movieList, status } = await getApiPopularMovie(this.popularPage);
     const popularMovies = movieList;
 
-    if (alertFetchStatus(status)) return;
+    if (!this.isConnected(status)) {
+      this.notify('unloading');
+      return;
+    }
 
     const refineMovies = popularMovies?.results.map(
       ({ id, poster_path, title, vote_average }: MovieItemType) => {
@@ -74,7 +76,15 @@ class Movies extends Observable {
     );
     const searchMovies = movieList;
 
-    if (alertFetchStatus(status)) return;
+    if (!this.isConnected(status)) {
+      this.notify('unloading');
+      return;
+    }
+    if (searchMovies.results.length === 0) {
+      this.notify('noSearched');
+      this.notify('unloading');
+      return;
+    }
 
     const refineMovies = searchMovies?.results?.map(
       ({ id, poster_path, title, vote_average }: MovieItemType) => {
@@ -94,7 +104,10 @@ class Movies extends Observable {
   async detailMovies(id: number) {
     const { movieItem, status } = await getApiDetailMovie(id);
 
-    if (alertFetchStatus(status)) return;
+    if (!this.isConnected(status)) {
+      this.notify('unloading');
+      return;
+    }
 
     const detailMovie = {
       id: movieItem.id,
@@ -106,6 +119,17 @@ class Movies extends Observable {
     };
 
     this.notify('detail', detailMovie);
+  }
+
+  isConnected(status: number) {
+    if (status >= 500) {
+      this.notify('error');
+      return false;
+    } else if (status >= 400) {
+      this.notify('error');
+      return false;
+    }
+    return true;
   }
 }
 

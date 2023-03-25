@@ -9,6 +9,7 @@ export default class MovieList extends HTMLElement {
 
     movies.subscribe('movies', this.movieItemRender.bind(this));
     movies.subscribe('loading', this.skeletonItemRender.bind(this));
+    movies.subscribe('unloading', this.render.bind(this));
 
     this.render();
     this.skeletonItemRender();
