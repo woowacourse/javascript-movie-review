@@ -91,8 +91,9 @@ export default class MovieModal extends HTMLElement {
 
   exitModal(event: Event) {
     const $exitButton = this.querySelector(".exit-button");
+    const $modal = this.querySelector(".modal");
     event.stopPropagation();
-    if (event.target === $exitButton || event.target === this) {
+    if (event.target === $exitButton || event.target === $modal) {
       this.remove();
     }
   }

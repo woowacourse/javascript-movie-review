@@ -83,8 +83,7 @@ button {
 
 .item-thumbnail {
   border-radius: 8px;
-  min-width: 180px;
-  min-height: 270px;
+  min-width: 150px;
   background-size: contain;
 }
 
@@ -343,13 +342,28 @@ header {
 
 @media screen and (max-width: 480px) {
   .item-list {
-    grid-template-columns: repeat(2, 180px);
-    grid-column-gap: 10px;
+    grid-template-columns: repeat(2, 170px);
+    grid-column-gap: 20px;
   }
 }
 
 @media screen and (max-width: 410px) {
+  .item-list {
+    grid-template-columns: repeat(2, 150px);
+    grid-column-gap: 15px;
+  }
+
   .search-input {
+    display: none;
+  }
+
+  card-list > h1 {
+    font-size: 25px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .movie-list {
     display: none;
   }
 }
