@@ -12,6 +12,7 @@ module.exports = {
     static: "./dist",
     open: true,
     historyApiFallback: true,
+    port: 8081,
   },
   output: {
     publicPath: "/",
