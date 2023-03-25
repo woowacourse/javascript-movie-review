@@ -2,6 +2,7 @@ import { movieApi } from "../domain/movieApi";
 import { $ } from "../utils/selector";
 import { MOVIE_COUNT_IN_ONE_PAGE } from "../constants";
 import { handleModal } from "./MovieDetailModalHandler";
+import { backToTop } from "./TopButtonHandler";
 import MovieList from "./MovieList";
 
 export const updateMovies = () => {
@@ -9,6 +10,8 @@ export const updateMovies = () => {
 
   observeMovieIntersection();
   handleModal();
+
+  backToTop();
 };
 
 const observeMovieIntersection = () => {
@@ -22,6 +25,9 @@ const observeMovieIntersection = () => {
       });
     });
   });
+
+  const moviesOrNoResult = $(".item-view").lastElementChild;
+  if (moviesOrNoResult && moviesOrNoResult.className !== "item-list") return;
 
   observer.observe($(".item-list > li:nth-last-child(3)"));
 };

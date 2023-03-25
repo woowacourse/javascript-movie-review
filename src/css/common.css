@@ -66,7 +66,7 @@ movie-item {
 
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
-.item-list {
+ul.item-list {
   display: grid;
   margin: 48px 0;
   grid-template-columns: repeat(5, 200px);
@@ -305,6 +305,10 @@ header .search-box > .search-button {
   margin-bottom: 16px;
 }
 
+#detail .item-genres {
+  padding-bottom: 2px;
+}
+
 #detail .item-score {
   margin: 0;
   margin-left: 18px;
@@ -366,6 +370,40 @@ header .search-box > .search-button {
   font-size: 16px;
 }
 
+/* Top button */
+#top-button {
+  position: fixed;
+  right: 3%;
+  bottom: 0;
+  width: 50px;
+  height: 50px;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  color: var(--modal-color);
+  background: var(--modal-background-color);
+  border: 3.5px solid var(--modal-background-color);
+  border-radius: 50%;
+  opacity: 0;
+  transition: 0.7s ease;
+}
+
+#top-button.active {
+  opacity: 1;
+  bottom: 34px;
+  cursor: pointer;
+}
+
+#top-button > button {
+  border-radius: 50%;
+}
+
+#top-button-icon {
+  text-align: center;
+  /* line-height: 50px; */
+  font-size: 40px;
+}
+
 @media screen and (max-width: 834px) {
   .item-view {
     width: auto;
@@ -378,7 +416,7 @@ header .search-box > .search-button {
     font-size: 28px;
   }
 
-  .item-list {
+  ul.item-list {
     width: 100%;
     margin: 36px auto;
     justify-content: center;
@@ -392,6 +430,11 @@ header .search-box > .search-button {
 
   #no-result {
     padding: 0 30px;
+  }
+
+  #no-result > p,
+  #no-result > ul {
+    padding-left: 18px;
   }
 
   #movie-detail {
@@ -416,6 +459,10 @@ header .search-box > .search-button {
     padding-left: 8px;
     font-size: 14px;
   }
+
+  #top-button.active {
+    bottom: 28px;
+  }
 }
 
 @media screen and (max-width: 390px) {
@@ -429,7 +476,7 @@ header .search-box > .search-button {
     font-size: 20px;
   }
 
-  .item-list {
+  ul.item-list {
     margin: 30px auto;
     grid-template-columns: repeat(2, 150px);
     grid-column-gap: 40px;
@@ -475,7 +522,8 @@ header .search-box > .search-button {
     opacity: 1;
   }
 
-  #no-result > h2 {
+  #no-result > p,
+  #no-result > ul {
     padding: 0;
   }
   #movie-detail h2 {
@@ -504,7 +552,16 @@ header .search-box > .search-button {
     padding-left: 14px;
   }
 
-  .none-display {
+  .message {
     display: none;
+  }
+
+  /* Top button */
+  #top-button {
+    right: 1.6%;
+  }
+
+  #top-button.active {
+    bottom: 18px;
   }
 }
