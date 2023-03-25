@@ -28,7 +28,6 @@ const ratingLocalStorage = {
     ratingData[movieId] = rating;
 
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(ratingData));
-    console.log('OK local storage', movieId);
   },
 
   clearRating() {

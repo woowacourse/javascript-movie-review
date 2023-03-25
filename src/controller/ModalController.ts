@@ -29,7 +29,6 @@ class ModalController {
   }
 
   getUserMovieRating(movieId: number) {
-    console.log('ok we will give rating');
     return ratingLocalStorage.getMovieRating(movieId);
   }
 }

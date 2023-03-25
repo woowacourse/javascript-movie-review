@@ -33,7 +33,6 @@ class MovieItem {
       <p class="item-score"><img src="./assets/star_filled.png" alt="별점" /> ${voteAverage}</p>`;
 
     this.$item.setAttribute('data-movie-id', id.toString());
-    console.log(this.$item.dataset.movieId);
   }
 
   private replaceSkeletonWhenLoaded() {

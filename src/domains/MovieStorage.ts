@@ -5,7 +5,6 @@ class MovieStorage {
   private movies = new Map<number, StorageMovieType>();
 
   setGenres(genres: GenreType[]) {
-    console.log(genres);
     genres.forEach(({ id, name }) => {
       this.genres.set(id, name);
     });
@@ -13,7 +12,6 @@ class MovieStorage {
 
   addMovies(movies: MovieType[]) {
     movies.forEach((movie) => {
-      console.log(movie.genreIds);
       this.movies.set(movie.id, {
         ...movie,
         convertedGenres: this.getConvertedGenres(movie.genreIds),

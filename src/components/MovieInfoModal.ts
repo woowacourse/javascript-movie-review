@@ -25,7 +25,6 @@ class MovieInfoModal {
 
   openInfoModalWithInfo(movieInfo: StorageMovieType) {
     this.$modal.innerHTML = this.getTemplate(movieInfo);
-    console.log($$('.information-modal-my-rating'));
     this.renderRatingBar(movieInfo.id);
     this.$modal.removeAttribute('hidden');
 
