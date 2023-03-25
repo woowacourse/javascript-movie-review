@@ -1,4 +1,3 @@
-import { ErrorComment } from "../components/ErrorComment";
 import { PATH } from "../constants/path";
 import { Validator } from "./Validator";
 
@@ -13,7 +12,6 @@ export const getMovieDetail = async (movieId: number) => {
     const data = await response.json();
     return data;
   } catch ({ message }) {
-    const errorComment = new ErrorComment(Number(message));
-    errorComment.render();
+    throw message;
   }
 };

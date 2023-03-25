@@ -6,6 +6,7 @@ export class ErrorComment {
 
   constructor(errorCode: number) {
     this._errorCode = errorCode;
+    this.render();
   }
 
   create() {
