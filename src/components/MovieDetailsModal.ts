@@ -55,7 +55,7 @@ export default class MovieDetailsModal implements Component {
       <button type="button" class="button--close"></button>
       <img class="movie-poster"
       class="item-thumbnail"
-      src="https://image.tmdb.org/t/p/w220_and_h330_face${posterPath}"
+      src="https://image.tmdb.org/t/p/w500${posterPath}"
       />
       <p class="movie-genre">${MovieHandler.getGenres(genreIDs).join(', ')}</p>
       <div class="movie-score">
