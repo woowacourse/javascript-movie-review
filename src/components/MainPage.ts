@@ -1,5 +1,4 @@
 import { PageHeader } from './PageHeader';
-import { ViewMoreButton } from './ViewMoreButton';
 
 export function MainPage() {
   return `
@@ -7,7 +6,6 @@ export function MainPage() {
         ${PageHeader()}
         <ul class="item-list">
         </ul>
-        ${ViewMoreButton()}
     </section>
     `;
 }
