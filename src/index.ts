@@ -3,11 +3,14 @@ import './assets/common.css';
 import { MovieList } from './components/MovieList';
 import { SearchBox } from './components/SearchBox';
 import { currentMovies$ } from './states';
+import { autoRefetched } from './states/decorators/autoRefetched';
 import { MoviesSubject } from './states/domain/MoviesSubject';
 import { $ } from './utils/selector';
 
 currentMovies$.subscribe(({ title, movies$ }) => {
   $('main').replaceChildren(new MovieList({ title, movies$ }).getRoot());
+
+  movies$.subscribe((paginatedMovies$) => autoRefetched(paginatedMovies$));
 });
 
 currentMovies$.next({
