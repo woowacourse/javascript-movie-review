@@ -262,6 +262,13 @@ header .search-box > .search-button {
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
+
+  -ms-overflow-style: none; /* 익스플로러, 앳지 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+
+.modal-container h2::-webkit-scrollbar {
+  display: none; /* 크롬, 사파리, 오페라 */
 }
 
 .movie-title-container {
