@@ -23,8 +23,8 @@ export class MoviesSubject extends Subject<PaginatedMoviesSubject> {
       this.isFinished = true;
     }
 
-    const movies$ = new PaginatedMoviesSubject();
-    movies$.fetch(
+    const paginatedMovies$ = new PaginatedMoviesSubject();
+    paginatedMovies$.fetch(
       () =>
         this.fetchFn(page).then((response) => {
           this.totalPage = response.totalPages;
@@ -33,6 +33,6 @@ export class MoviesSubject extends Subject<PaginatedMoviesSubject> {
       undefined,
     );
 
-    this.next(movies$);
+    this.next(paginatedMovies$);
   }
 }
