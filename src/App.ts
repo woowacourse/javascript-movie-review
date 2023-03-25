@@ -60,6 +60,7 @@ class App {
     this.store.allocateData(value).then(() => {
       setTimeout(() => {
         this.$movieList.renderSearchedMovies(this.store.movieListValue, this.store.genre);
+        this.$seeMoreButton.addMoreButtonHandler(this.moreButtonHandler.bind(this));
       }, 500);
     });
   }

@@ -28,7 +28,7 @@ export class MovieList extends HTMLElement {
     if (movieList.length === 0) {
       this.#$movieItems?.insertAdjacentHTML(
         'beforeend',
-        `<img src="./assets/empty.png" style="position: absolute; top: 50%;
+        `<img src="./assets/empty.png" class="fail" style="position: absolute; top: 50%;
         left: 50%; width:90vw; transform: translateX(-50%) translateY(-50%);"/>`,
       );
     }
