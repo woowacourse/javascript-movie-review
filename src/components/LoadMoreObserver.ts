@@ -4,10 +4,6 @@ class LoadMoreObserver {
   private $observer!: IntersectionObserver;
 
   constructor() {
-    this.setObserver();
-  }
-
-  private setObserver() {
     this.$observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         entry.intersectionRatio > 0 && EventDispatcher.dispatchEvent('loadMoreItems');

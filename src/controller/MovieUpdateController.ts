@@ -67,17 +67,17 @@ class MovieUpdateController {
     const { result, errorMessage, fetchedData }: MovieFetchResponseType =
       await this.movieFetcher.getMovieData<MovieFetchResponseType>(keyword);
 
-    if (result === 'FAILED' || result === 'FETCH_CRASHED') {
+    if ((result === 'FAILED' || result === 'FETCH_CRASHED') && errorMessage) {
       if (updateMode === 'overwrite') {
         this.movieList.showErrorMessage({
           image: ERROR_IMAGE_PATH.error,
           title: ERROR_LAYOUT_MESSAGE.errorTitle,
-          message: errorMessage!,
+          message: errorMessage,
         });
 
         this.footerMessage.hideMessage();
       } else {
-        this.footerMessage.showErrorMessage(errorMessage!);
+        this.footerMessage.showErrorMessage(errorMessage);
       }
     }
 

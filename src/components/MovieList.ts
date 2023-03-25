@@ -19,7 +19,7 @@ type MovieListConstructorType = {
 
 class MovieList {
   private $parentElement;
-  private $element!: HTMLElement;
+  private $element: HTMLElement = document.createElement('div');
   private loadMoreObserver = new LoadMoreObserver();
 
   constructor({ parentElement, listTitle }: MovieListConstructorType) {
@@ -29,8 +29,6 @@ class MovieList {
   }
 
   private render(listTitle: string) {
-    this.$element = document.createElement('div');
-
     this.$element.innerHTML = `
       <h2>${listTitle}</h2>
       <ul class="item-list"></ul>`;

@@ -1,7 +1,7 @@
 import RatingBar from './RatingBar';
 import { StorageMovieType } from '../types';
 import { IMAGE_URL } from '../constants';
-import { $, $$ } from '../utils/domSelector';
+import { $ } from '../utils/domSelector';
 
 type MovieInfoModalType = {
   parentElement: HTMLElement;
