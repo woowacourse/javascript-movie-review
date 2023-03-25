@@ -10,7 +10,6 @@ export const getMovieDetail = async (movieId: number) => {
       throw new Error(`${response.json}`);
     }
     const data = await response.json();
-    console.log(data);
     return data;
   } catch ({ message }) {
     throw message;
