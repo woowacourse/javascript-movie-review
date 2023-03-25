@@ -1,3 +1,4 @@
+import { GENRES } from './../constants/movieChart';
 import { MakeOptional } from '../types/common';
 
 export interface CommonMoviesResult {
@@ -31,3 +32,12 @@ export interface GetMoviesByKeywordRes extends CommonMoviesResult {
 }
 
 export type RemoteMovieInfoByKeyword = MakeOptional<RemotePopularMovieInfo, 'backdrop_path' | 'poster_path'>;
+
+export interface RemoteMovieGenre {
+  id: number;
+  name: keyof typeof GENRES;
+}
+
+export interface GetMovieGenres {
+  genres: RemoteMovieGenre[];
+}

@@ -1,8 +1,6 @@
-import { MyVote } from '../domain/Movie';
 import { MovieChart } from '../domain/MovieChart';
 import { handleStatusCode } from '../validation/errorHandler';
 import { CustomError } from '../validation/errors';
-import { GetMoviesByKeywordRes, GetPopularMoviesRes } from './movieChart.type';
 
 const REDIRECT_SERVER_HOST = 'https://ornate-swan-ce5a5e.netlify.app';
 
@@ -26,8 +24,6 @@ export const fetchMoviesByKeyword = (keyword: string, page?: number): Promise<Mo
 export const fetchPopularMovies = (page: number = 1): Promise<MovieChart> => {
   return fetchQuery(`tmdb/movie/popular?page=${page}&language=ko`).then((movieChart) => new MovieChart(movieChart));
 };
-
-export const fetchMovieVote = (payload: MyVote) => {};
 
 export const waitFor = async <T>(
   promise: Promise<T>,
