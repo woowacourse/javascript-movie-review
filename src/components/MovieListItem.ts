@@ -38,12 +38,13 @@ class MovieListItem extends HTMLElement {
     this.querySelector('li')?.addEventListener('click', () => {
       const modal = $('movie-modal') as HTMLModalElement;
 
-      const movieId = this.getAttribute('movieId');
+      const movieId = this.getAttribute('movieId') || '';
       const title = this.getAttribute('title') || '';
       const imgUrl = this.getAttribute('imgUrl') || '';
       const score = this.getAttribute('score') || '';
       const description = this.getAttribute('description') || '';
 
+      this.updateQueries(movieId);
       modal.setModalAttributes({
         id: Number(movieId),
         title,
@@ -51,7 +52,7 @@ class MovieListItem extends HTMLElement {
         score: Number(sliceScore(score)),
         description,
       });
-      modal.connectedCallback();
+      modal.updateDetailModal();
       modal.openModal();
     });
   }
@@ -68,6 +69,14 @@ class MovieListItem extends HTMLElement {
     }
 
     this.querySelector('.item-check')?.classList.remove('hide');
+  }
+
+  updateQueries(movieId: string) {
+    if (movieId === '') {
+      window.location.hash = '';
+      return;
+    }
+    window.location.hash = `?id=${movieId}`;
   }
 }
 

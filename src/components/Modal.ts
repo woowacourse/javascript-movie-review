@@ -8,6 +8,7 @@ import { HTMLMovieListItemElement } from './MovieListItem';
 
 export interface HTMLModalElement extends HTMLElement {
   connectedCallback: () => void;
+  updateDetailModal: () => void;
   setModalAttributes: ({ id, title, imgUrl, score, description }: MovieInfo) => void;
   openModal: () => void;
 }
@@ -22,11 +23,15 @@ class Modal extends HTMLElement {
   };
 
   connectedCallback(): void {
+    this.setEscModalCloseEvent();
+  }
+
+  updateDetailModal() {
     this.render();
-    this.detailFetchEvent();
-    this.setModalCloseEvent();
-    this.setStarClickEvent();
     this.renderStar();
+    this.detailFetchEvent();
+    this.setStarClickEvent();
+    this.setModalCloseEvent();
   }
 
   render(): void {
@@ -79,13 +84,15 @@ class Modal extends HTMLElement {
      `;
   }
 
-  setModalCloseEvent(): void {
+  setEscModalCloseEvent() {
     window.addEventListener('keydown', event => {
       if (event.code === 'Escape') {
         this.closeModal();
       }
     });
+  }
 
+  setModalCloseEvent(): void {
     $('#modal-background')?.addEventListener('click', () => this.closeModal());
 
     $('#modal-close-button')?.addEventListener('click', () => this.closeModal());
@@ -100,7 +107,16 @@ class Modal extends HTMLElement {
   closeModal(): void {
     const modal = $('#modal') as HTMLDialogElement;
     $('body')?.classList.remove('overflow-hidden');
+    const path = window.location.hash.replace('#', '');
+    const URL = new URLSearchParams(path);
+    const word = URL.get('id');
     modal.close();
+
+    console.log(word);
+    if (word) {
+      window.history.back();
+      return;
+    }
   }
 
   setModalAttributes({ id, title, imgUrl, score, description }: MovieInfo): void {
