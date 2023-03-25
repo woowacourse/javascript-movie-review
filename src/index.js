@@ -5,6 +5,7 @@ import { SeeMoreButton } from './components/SeeMoreButton';
 import { Skeleton } from './components/Skeleton';
 import ErrorModal from './components/ErrorModal';
 import MovieModal from './components/MovieModal';
+import GotoTopButton from './components/GotoTopButton';
 import App from './App';
 
 import '../reset.css';
@@ -17,5 +18,6 @@ customElements.define('more-button', SeeMoreButton);
 customElements.define('movie-skeleton', Skeleton);
 customElements.define('error-modal', ErrorModal);
 customElements.define('movie-modal', MovieModal);
+customElements.define('top-button', GotoTopButton);
 
 const app = new App();

@@ -1,3 +1,4 @@
+import GotoTopButton from './components/GotoTopButton';
 import { Header } from './components/Header';
 import { MovieList } from './components/MovieList';
 import MovieModal from './components/MovieModal';
@@ -10,6 +11,7 @@ class App {
   $movieList: MovieList;
   $header: Header;
   $movieModal: MovieModal;
+  $topButton: GotoTopButton;
   store: Store;
   skeleton: Skeleton;
   observer: IntersectionObserver;
@@ -18,6 +20,7 @@ class App {
     this.$movieList = $<MovieList>('movie-list');
     this.$header = $<Header>('movie-header');
     this.$movieModal = $<MovieModal>('movie-modal');
+    this.$topButton = $<GotoTopButton>('top-button');
     this.skeleton = new Skeleton();
     this.store = new Store();
 
@@ -64,6 +67,7 @@ class App {
 
   infinityScrollHandler(target: Element) {
     this.observer.observe(target);
+    this.$topButton.handleTopButtonVisibility();
     if (this.store.page === this.store.totalPage) this.observer.unobserve(target);
   }
 }
