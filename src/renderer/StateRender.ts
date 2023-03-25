@@ -53,9 +53,9 @@ class StateRender {
     this.#movieList.render(this.#itemViewSection);
   }
 
-  #apiErrorRender(value: any) {
-    this.#itemViewSection.innerHTML = '';
-    this.#itemViewSection.insertAdjacentElement('beforeend', WholeScreenMessageAlert(value));
+  #apiErrorRender(value: string, $target: HTMLElement) {
+    $target.innerHTML = '';
+    $target.insertAdjacentElement('beforeend', WholeScreenMessageAlert(value));
   }
 
   async renderPopularMovies(curPage = 1) {
@@ -71,7 +71,7 @@ class StateRender {
       this.#renderWholeComponent();
     } catch (error) {
       if (error instanceof Error) {
-        this.#apiErrorRender(error.message);
+        this.#apiErrorRender(error.message, this.#itemViewSection);
       }
     }
   }
@@ -91,7 +91,7 @@ class StateRender {
       this.#renderWholeComponent();
     } catch (error) {
       if (error instanceof Error) {
-        this.#apiErrorRender(error.message);
+        this.#apiErrorRender(error.message, this.#itemViewSection);
       }
     }
   }
@@ -112,7 +112,11 @@ class StateRender {
       const movieDetail = await this.#movie.getMovieDetails({ movieId });
 
       this.#movieDetail.render(movieDetail, $target);
-    } catch (error) {}
+    } catch (error) {
+      if (error instanceof Error) {
+        this.#apiErrorRender(error.message, $target);
+      }
+    }
   }
 
   renderMoreMovieList() {
@@ -120,7 +124,7 @@ class StateRender {
     const { nextPage, category, query } = states;
 
     if (nextPage === -1) {
-      console.log('마지막 페이지입니다.');
+      alert('마지막 페이지입니다.');
       return;
     }
 
