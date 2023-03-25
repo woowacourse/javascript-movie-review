@@ -55,3 +55,9 @@
     height: 18px;
   }
 }
+
+@media (max-width: 340px) {
+  .search-box {
+    width: 290px;
+  }
+}
