@@ -1,6 +1,7 @@
 import starFilled from '../assets/star_filled.png';
 import starEmpty from '../assets/star_empty.png';
 import { Genre, GetMovieDetailResponse } from '../service/types';
+import { getUserMovieVoteValue, setUserMovieVoteValues } from '../db/userMovieVoteValues';
 
 export default class MovieDetailModal {
   movieDetail: GetMovieDetailResponse;
@@ -12,9 +13,7 @@ export default class MovieDetailModal {
 
   constructor($parent: HTMLElement, movieDetail: GetMovieDetailResponse) {
     this.movieDetail = movieDetail;
-    this.starRate = Number(
-      JSON.parse(localStorage.getItem('userMovieVoteValues') ?? '{}')[this.movieDetail.id] ?? 0,
-    );
+    this.starRate = Number(getUserMovieVoteValue(this.movieDetail.id) ?? 0);
 
     this.$parent = $parent;
     this.$parent.insertAdjacentHTML('beforeend', this.template());
@@ -121,12 +120,6 @@ export default class MovieDetailModal {
 
   close() {
     this.$modal.remove();
-    localStorage.setItem(
-      'userMovieVoteValues',
-      JSON.stringify({
-        ...JSON.parse(localStorage.getItem('userMovieVoteValues') ?? '{}'),
-        [this.movieDetail.id]: this.starRate,
-      }),
-    );
+    setUserMovieVoteValues(this.movieDetail.id, this.starRate);
   }
 }
