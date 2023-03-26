@@ -307,10 +307,31 @@ header .search-box > .search-button {
   line-height: 1.8;
   font-size: 16px;
   margin-top: 14px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  padding-right: 20px;
+  overflow: auto;
+  word-break: keep-all;
+  white-space: break-spaces;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 10;
+}
+
+/* Scroll bar */
+#detail .overview::-webkit-scrollbar {
+  width: 5px;
+}
+#detail .overview::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+}
+#detail .overview::-webkit-scrollbar-track {
+  background: var(--modal-button-background);
+}
+#detail .overview::-webkit-scrollbar-button:start:decrement,
+#detail .overview::-webkit-scrollbar-button:end:increment {
+  display: block;
+
+  height: 6px;
+
+  background: var(--modal-button-background);
 }
 
 #detail > #genre-and-score {
@@ -341,6 +362,7 @@ header .search-box > .search-button {
   height: 64px;
   padding: 0 16px;
   background: #383839;
+  font-size: 16px;
   border-radius: 16px;
 }
 
@@ -381,7 +403,6 @@ header .search-box > .search-button {
 #user-ratings-section > p,
 #user-ratings-section > span {
   padding-left: 12px;
-  font-size: 16px;
 }
 
 /* Top button */
