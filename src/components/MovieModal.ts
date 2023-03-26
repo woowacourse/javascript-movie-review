@@ -57,40 +57,45 @@ class MovieModal {
     this.render(event.detail.info);
   }
 
+  private closeModal() {
+    history.back();
+  }
+
+  private isEventsPositionModalBackdrop = (event: MouseEvent) => {
+    const modalPosition = this.element.getBoundingClientRect();
+
+    if (
+      modalPosition.left > event.clientX ||
+      modalPosition.right < event.clientX ||
+      modalPosition.top > event.clientY ||
+      modalPosition.bottom < event.clientY
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
+  private isModalCloseKey (key: string) {
+    return ['Escape', 'Esc', 'Backspace'].includes(key);
+  }
+
   private addCloseEvent() {
-    $('.modal-close', this.element).addEventListener('click', () => history.back());
+    $('.modal-close', this.element).addEventListener('click', this.closeModal);
 
     this.element.addEventListener('click', (event) => {
-      const modalPosition = this.element.getBoundingClientRect();
-
-      if (
-        modalPosition.left > event.clientX ||
-        modalPosition.right < event.clientX ||
-        modalPosition.top > event.clientY ||
-        modalPosition.bottom < event.clientY
-      ) {
-        history.back();
-      }
+      if (this.isEventsPositionModalBackdrop(event)) this.closeModal();
     });
 
     this.element.addEventListener('cancel', (event) => event.preventDefault());
 
     window.addEventListener('keyup', (event) => {
-      if (
-        this.element.open &&
-        ['Escape', 'Esc', 'Backspace'].includes(event.key)
-       ) {
-        history.back();
-       }
+      if (this.element.open && this.isModalCloseKey(event.key)) this.closeModal();
     });
 
     window.addEventListener('popstate', () => {
-      if (!this.element.open) {
-        this.element.showModal();
-      }
-      else {
-        this.element.close();
-      }
+      if (!this.element.open) this.element.showModal();
+      else this.element.close();
     });
   }
 
