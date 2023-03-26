@@ -1,6 +1,8 @@
 const MOVIE_MAX_COUNT = 20;
 
-const PAGE_BASE_URL = window.location.origin + window.location.pathname;
+const PAGE_BASE_URL = window.location.origin.includes('localhost')
+  ? `${window.location.origin}/`
+  : window.location.origin + window.location.pathname;
 
 const POSTER_BASE_URL = 'https://www.themoviedb.org/t/p/original';
 const API_BASE_URL = 'https://api.themoviedb.org/3/';

@@ -122,7 +122,7 @@ class MovieInformationModal {
 
   private closeModal(isBackButton: boolean = false) {
     if (!isBackButton) {
-      const queryParams = history.state.searchQuery ? `search?q=${history.state.searchQuery}` : ``;
+      const queryParams = history.state.searchQuery ? `search?q=${history.state.searchQuery}` : '';
 
       history.pushState(
         {

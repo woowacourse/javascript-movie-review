@@ -12,13 +12,8 @@ import { PAGE_BASE_URL } from './constants';
 
 class App {
   constructor() {
-    this.loadMovieData();
     this.addInitialPageLoadEventListener();
     this.addSaveToLocalStorageEventListener();
-  }
-
-  private loadMovieData() {
-    MovieList.getMovieData();
   }
 
   private addInitialPageLoadEventListener() {
@@ -29,8 +24,14 @@ class App {
           '',
           PAGE_BASE_URL
         );
+
+        this.loadMovieData();
       }
     });
+  }
+
+  private loadMovieData() {
+    MovieList.getMovieData();
   }
 
   private addSaveToLocalStorageEventListener() {
