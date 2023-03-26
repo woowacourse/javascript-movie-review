@@ -219,18 +219,18 @@ class Modal {
     if ($userRateContainer) {
       $userRateContainer.addEventListener("mouseover", (e) => {
         if (this.#isAlreadyRated) return;
-        if (e.target instanceof HTMLImageElement) {
-          const rating = parseInt(e.target.dataset.value ?? "0", 10);
-          const stars: Array<HTMLImageElement> = Array.from($$("img", $userRateContainer));
-          const scoreElement = $(".score", $userRateContainer);
-          const ratingCommentElement = $(".score-comment", $userRateContainer);
+        if (!(e.target instanceof HTMLImageElement)) return;
 
-          this.updateStarsAndComments(stars, rating, scoreElement, ratingCommentElement);
+        const rating = parseInt(e.target.dataset.value ?? "0", 10);
+        const stars: Array<HTMLImageElement> = Array.from($$("img", $userRateContainer));
+        const scoreElement = $(".score", $userRateContainer);
+        const ratingCommentElement = $(".score-comment", $userRateContainer);
 
-          if (scoreElement && ratingCommentElement) {
-            scoreElement.textContent = rating.toString();
-            ratingCommentElement.textContent = this.getScoreComment(rating);
-          }
+        this.updateStarsAndComments(stars, rating, scoreElement, ratingCommentElement);
+
+        if (scoreElement && ratingCommentElement) {
+          scoreElement.textContent = rating.toString();
+          ratingCommentElement.textContent = this.getScoreComment(rating);
         }
       });
 
