@@ -25,7 +25,6 @@ export default class Modal implements Component {
     <div class="modal-backdrop"></div>    
     <div class="modal-container">
       <button class="modal-close-button">✖</button>
-
     </div>`;
   }
 

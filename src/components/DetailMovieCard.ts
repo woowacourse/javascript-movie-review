@@ -25,7 +25,7 @@ export default class DetailMovieCard {
   constructor(private $parent: Element) {}
 
   render(detailMovieData: DetailMovie, starCount: StarCount) {
-    this.$parent.innerHTML = this.template(detailMovieData, starCount);
+    this.$parent.insertAdjacentHTML('beforeend', this.template(detailMovieData, starCount));
     this.setEvent();
   }
 
