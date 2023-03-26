@@ -1,5 +1,6 @@
-import Component from '../types/component';
-import MovieDetail from '../types/MovieDetail';
+import Component from '../../types/component';
+import MovieDetail from '../../types/MovieDetail';
+import MovieDetailHeader from './MovieDetailHeader';
 
 const STAR_COUNT_MAP: { [score: number]: string } = {
   0: '평가해주세요',
@@ -10,8 +11,10 @@ const STAR_COUNT_MAP: { [score: number]: string } = {
   10: '명작이에요',
 };
 
-class MovieDetailModal {
+class MovieDetailModal implements Component {
   readonly node: HTMLElement;
+  private children: { [key: string]: Component } = {};
+
   private modal!: HTMLDialogElement;
   private backdrop!: HTMLDivElement;
   private closeButton!: HTMLButtonElement;
@@ -30,21 +33,13 @@ class MovieDetailModal {
     const ratingMap = JSON.parse(localStorage.getItem('rating') || '{}');
     this.rating = Number(ratingMap?.[movieDetail.id]) || 0;
 
-    this.composeNode().setElements().addEvents();
+    this.setChildren().composeNode().setElements().addEvents().showModal();
   }
 
   composeNode(): this {
     this.node.innerHTML = `
       <div class='backdrop'></div>
       <dialog class="modal">
-      <div class="modal-header">
-        <h2>${this.movieDetail.title}</h2>
-        <button>
-          <div class="close close-button" type="reset">
-            <img src="./close_button">
-          </div>
-        </button>
-      </div>
       <div class="modal-body">
         <div class="modal-image" >
           <img
@@ -66,14 +61,17 @@ class MovieDetailModal {
             <div class="rating-stars">
             ${this.starsTemplate()}
             </div>
-            <p class="rating-message"><span class="rating">${this.rating}</span><span class="rating-word">${
-      STAR_COUNT_MAP[this.rating]
-    }</span></p>
+            <p class="rating-message"><span class="rating">${
+              this.rating === 0 ? '' : this.rating
+            }</span><span class="rating-word">${STAR_COUNT_MAP[this.rating]}</span></p>
           </div>
         </div>
       </div> 
       </dialog>
       `;
+
+    this.node.querySelector('.modal')?.insertAdjacentElement('afterbegin', this.children.header.node);
+
     return this;
   }
 
@@ -85,6 +83,14 @@ class MovieDetailModal {
       }
       return `<img class="star" data-index=${index} src="./star_empty.png" alt="별점"/>`;
     }).join('');
+  }
+
+  setChildren(): this {
+    this.children.header = new MovieDetailHeader(this.movieDetail.title, {
+      onClose: this.#closeModal.bind(this),
+    });
+
+    return this;
   }
 
   setElements(): this {
@@ -99,9 +105,9 @@ class MovieDetailModal {
   }
 
   addEvents(): this {
-    this.backdrop.addEventListener('click', this.hideModal.bind(this));
-    this.modal.addEventListener('cancel', this.hideModal.bind(this));
-    this.closeButton.addEventListener('click', this.hideModal.bind(this));
+    this.backdrop.addEventListener('click', this.#closeModal.bind(this));
+    this.modal.addEventListener('cancel', this.#closeModal.bind(this));
+
     this.starContainer.addEventListener('click', this.#handleClickStar.bind(this));
     this.starContainer.addEventListener('mouseover', this.#handleHoverStar.bind(this));
     this.starContainer.addEventListener('mouseleave', this.#handleLeaveStar.bind(this));
@@ -125,9 +131,9 @@ class MovieDetailModal {
       }
     });
 
-    this.ratingMessage.innerHTML = `<span class="rating">${String(rating)}</span><span class="rating-word">${
-      STAR_COUNT_MAP[rating]
-    }</span>`;
+    this.ratingMessage.innerHTML = `<span class="rating">${
+      rating === 0 ? '' : rating
+    }</span><span class="rating-word">${STAR_COUNT_MAP[rating]}</span>`;
 
     const ratingMap = JSON.parse(localStorage.getItem('rating') || '{}');
     ratingMap[this.movieDetail.id] = rating;
@@ -160,14 +166,18 @@ class MovieDetailModal {
     });
   }
 
-  hideModal() {
-    this.node.remove();
+  #closeModal() {
     document.body.style.overflow = 'auto';
+    this.node.remove();
+
+    return this;
   }
 
   showModal() {
     this.modal.setAttribute('open', 'true');
     document.body.style.overflow = 'hidden';
+
+    return this;
   }
 }
 

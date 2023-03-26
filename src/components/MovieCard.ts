@@ -3,7 +3,7 @@ import MovieDetailFetcher from '../domain/fetcher/MovieDetailFetcher';
 import Component from '../types/component';
 import { MovieItem } from '../types/movie';
 import MovieDetail from '../types/MovieDetail';
-import MovieDetailModal from './MovieDetailModal';
+import MovieDetailModal from './MovieDetail/MovieDetailModal';
 
 class MovieCard implements Component {
   readonly node: HTMLElement;
