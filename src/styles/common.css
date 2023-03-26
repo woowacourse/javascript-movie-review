@@ -266,6 +266,7 @@ button.btn {
 }
 
 button.primary {
+  visibility: hidden;
   background: #f33f3f;
 }
 
