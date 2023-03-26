@@ -1,5 +1,5 @@
 import { DetailInfoType } from "../@types/movieType";
-
+import filledStar from "../../templates/star_filled.png";
 const MovieDetailModal = (movieDetailData: DetailInfoType) => {
   const { title, posterPath, voteAverage, genres, overview } = movieDetailData
 
@@ -29,9 +29,22 @@ const MovieDetailModal = (movieDetailData: DetailInfoType) => {
               <p class="modal-description">
                 ${overview}
               </p>
+              <div class="my-score-container">
+                <div class="my-score">내 별점</div>
+                <div class="stars">
+                  <img class="star" src="./star_filled.png" />
+                  <img class="star" src="./star_filled.png" />
+                  <img class="star" src="./star_filled.png" />
+                  <img class="star" src="./star_filled.png" />
+                  <img class="star" src="./star_filled.png" />                    
+                </div>
+                <div class="score-number">6</div>
+                <div class="score-text">보통이에요</div>
+              </div>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
+      </div>
     `;
   };
 

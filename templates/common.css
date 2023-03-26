@@ -9,6 +9,10 @@ body {
   color: #fff;
 }
 
+main {
+  min-height: 1000px;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -53,6 +57,7 @@ dialog {
 
 .item-list {
   display: grid;
+  height: 110%;
   margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
   justify-content: space-between;
@@ -108,9 +113,10 @@ button.btn {
 }
 
 button.primary {
-  background: #f33f3f;
+  background: #222222;
 }
 
+.modal-poster .skeleton,
 .item-card .skeleton {
   background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
   background-size: 400%;
@@ -129,6 +135,7 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
   width: 100%;
   height: 72px;
@@ -240,7 +247,6 @@ header .search-box > .search-button {
 }
 
 .modal-poster {
-  background-color: aqua;
   height: 433px;
   width: 292px;
 }
@@ -315,6 +321,19 @@ header .search-box > .search-button {
   color: #f1f1f1;
 }
 
+.my-score-container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  border-radius: 16px;
+  background-color: #383839;
+  height: 64px;
+  width: inherit;
+  bottom: 0px;
+  padding: 16px;
+  gap: 12px;
+}
+
 .hidden {
   display: none;
 }
@@ -341,12 +360,30 @@ header .search-box > .search-button {
   }
 
   .modal-content {
+    height: 485px;
     left: inherit;
     bottom: 0;
     transform: none;
   }
 
   .modal-poster {
+    display: none;
+  }
+
+  .modal-info-container {
+    justify-content: center;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  .modal-info {
+    margin-left: 0px;
+  }
+  .my-score-container {
+    margin-top: 16px;
+    bottom: initial;
+  }
+  .scroe-text {
     display: none;
   }
 }
