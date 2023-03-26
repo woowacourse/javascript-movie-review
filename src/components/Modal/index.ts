@@ -1,5 +1,6 @@
 import { MovieDetailResponse } from "../../types";
 import { fetchMovieDetail } from "../../utils/api";
+import { $ } from "../../utils/selector";
 import { MovieDetail } from "../MovieDetail";
 
 class Modal {
@@ -17,12 +18,37 @@ class Modal {
   }
 
   async renderMovieDetail(movieId: number) {
-    this.#$target.classList.toggle("hidden");
+    this.#$target.classList.remove("hidden");
+    this.#$target.classList.add("show");
     const movieDetail: MovieDetailResponse = await fetchMovieDetail(movieId);
-    this.#$target.innerHTML = `${MovieDetail.render(movieDetail)}`;
+    const movieDetailMarkup = MovieDetail.render(movieDetail);
+    const movieDetailElement = document.createElement("div");
+    movieDetailElement.innerHTML = movieDetailMarkup;
+
+    $(".modal-container").insertAdjacentElement(
+      "afterbegin",
+      movieDetailElement
+    );
+
+    this.closeModal(movieDetailElement);
   }
 
-  closeModal() {}
+  closeModal(movieDetailElement: Element) {
+    const hideModal = () => {
+      this.#$target.classList.add("hidden");
+      this.#$target.classList.remove("show");
+      movieDetailElement.remove();
+    };
+
+    $(".modal-backdrop")?.addEventListener("click", hideModal);
+    $(".close-button")?.addEventListener("click", hideModal);
+    document.addEventListener("keydown", (event) => {
+      if (event.code === "Escape") {
+        event.preventDefault();
+        hideModal();
+      }
+    });
+  }
 }
 
 export { Modal };

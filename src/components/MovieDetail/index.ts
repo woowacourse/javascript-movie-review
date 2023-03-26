@@ -1,5 +1,6 @@
 import { MovieDetailResponse } from "../../types";
-import starImg from "../../assets/star_filled.png";
+import starImgFilled from "../../assets/star_filled.png";
+import starImgEmpty from "../../assets/star_empty.png";
 
 class MovieDetail {
   static render(movieDetail: MovieDetailResponse) {
@@ -8,8 +9,7 @@ class MovieDetail {
 
     const genreNames = genres.map((genre) => genre.name).join(", ");
 
-    return /*html */ `<div class="modal-backdrop"></div>
-        <div class="modal-container">
+    return /*html */ `
           <div class="modal-header">
             <p class="movie-title">${title}</p>
           </div>
@@ -24,18 +24,28 @@ class MovieDetail {
                 <div>
                   <span>${genreNames}</span>
                   <span class="movie-score">
-                    <img src="${starImg}" />${vote_average}
+                    <img src="${starImgFilled}" /> ${vote_average}
                   </span>
                 </div>
                 <p class="movie-description">   
                   ${overview}
                 </p>
               </div>
-              <div class="movie-rate">내 별점</div>
+              <div class="movie-rate">내 별점
+                <div class="movie-stars">
+                  <img src="${starImgEmpty}" />
+                  <img src="${starImgEmpty}" />
+                  <img src="${starImgEmpty}" />
+                  <img src="${starImgEmpty}" />
+                  <img src="${starImgEmpty}" />
+                </div>
+                <div class="movie-comment">
+                    6 / 보통이에요
+                </div>
+              </div>
             </div>
           </div>
-          <button class="close-button">X</button>
-        </div>`;
+          `;
   }
 }
 
