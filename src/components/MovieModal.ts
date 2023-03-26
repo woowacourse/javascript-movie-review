@@ -17,8 +17,6 @@ const modalTemplate = `
     <div class="star"></div>
   </div>
 </section>
-
-</section>
 `.trim();
 
 class MovieModal {
