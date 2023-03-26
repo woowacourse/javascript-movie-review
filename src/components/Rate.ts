@@ -25,31 +25,27 @@ const Rate = {
   saveRate(id: number) {
     setLocalStorage(
       String(id),
-      JSON.stringify((document.querySelector('.star input') as HTMLInputElement)?.value),
+      JSON.stringify((<HTMLInputElement>document.querySelector('.star input')).value),
     );
   },
+
   listener(id: number) {
-    const starInput = document.querySelector('.star input');
-    const starSpan = document.querySelector('.star span');
+    const starInput = <HTMLInputElement>document.querySelector('.star input');
+    const starSpan = <HTMLImageElement>document.querySelector('.star span');
+    const ratingText = <HTMLParagraphElement>document.querySelector('.rating-text');
     starInput?.addEventListener('input', () => {
-      (starSpan as HTMLImageElement).style.width = `${
-        Number((starInput as HTMLInputElement).value) * 10
-      }%`;
+      starSpan.style.width = `${Number(starInput.value) * 10}%`;
       Rate.saveRate(id);
-      (document.querySelector('.rating-text') as HTMLParagraphElement).textContent =
-        this.ratingText((document.querySelector('.star input') as HTMLInputElement)?.value);
+      ratingText.textContent = this.ratingText(starInput.value);
     });
   },
-  renderStar(rate: string) {
-    if (rate) {
-      (document.querySelector('.star span') as HTMLImageElement).style.width = `${
-        Number(rate) * 10
-      }%`;
 
-      (document.querySelector('.rating-text') as HTMLParagraphElement).textContent =
-        this.ratingText(rate);
-    }
+  renderStar(rate: string) {
+    (<HTMLImageElement>document.querySelector('.star span')).style.width = `${Number(rate) * 10}%`;
+    (<HTMLParagraphElement>document.querySelector('.rating-text')).textContent =
+      this.ratingText(rate);
   },
+
   ratingText(rate: string) {
     return window.innerWidth > 480 ? rate + ' ' + ratingComment[Number(rate)] : rate;
   },
