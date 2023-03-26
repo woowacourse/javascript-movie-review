@@ -39,7 +39,22 @@ const MovieItemList = (currentTab: string, keyword: string = '') => {
       ?.insertAdjacentElement("afterbegin", container);
   };
 
+  const bindEvent = () => {
+    const ul = document.querySelector(".item-list");
+    if (!ul) return;
+
+    ul.addEventListener("click", (e: Event) => {
+      const movieCard = (e.target as HTMLElement).closest("a");
+      if (!movieCard) return;
+
+      const eventId = movieCard.hash.substring(1);
+      const event = new CustomEvent("movieItemClicked", { detail: { movieId: eventId } });
+      document.dispatchEvent(event);
+    });
+  };
+
   render();
+  bindEvent();
 
   return {
     render,

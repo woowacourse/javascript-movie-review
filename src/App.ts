@@ -1,5 +1,6 @@
 import { getCurrentResult } from "./api/keywordSearch";
 import { getPopularMovie } from "./api/movieList";
+import MovieDetailModal from "./components/MovieDetailModal";
 import MovieItemList from "./components/MovieItemList";
 import SearchBox from "./components/SearchBox";
 import { generateElement } from "./domain/MovieDataManager";
@@ -82,5 +83,17 @@ export const App = async () => {
   document
     .querySelector(".search-input")
     ?.addEventListener("searchButtonClicked", onSearchButtonClicked);
+
+  const onMovieItemClicked = async (e: Event) => {
+    if (!(e instanceof CustomEvent)) return;
+
+    const movieId = e.detail.movieId;
+    MovieDetailModal();
+    console.log(e.detail.movieId);
+  }
+
+  document
+    .addEventListener("movieItemClicked", onMovieItemClicked);
+
   return;
 };
