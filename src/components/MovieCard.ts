@@ -70,10 +70,13 @@ class MovieCard implements Component {
     const id = Number(target.dataset.id);
     if (!id) return;
 
-    const movieDetails: MovieDetail = await new MovieDetailFetcher(id).fetchMovie();
-    const movieDetailModal = new MovieDetailModal(movieDetails);
-
-    document.querySelector('#app')?.insertAdjacentElement('afterbegin', movieDetailModal.node);
+    try {
+      const movieDetails: MovieDetail = await new MovieDetailFetcher(id).fetchMovie();
+      const movieDetailModal = new MovieDetailModal(movieDetails);
+      document.querySelector('#app')?.insertAdjacentElement('afterbegin', movieDetailModal.node);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   #handleLoadImage(): void {
