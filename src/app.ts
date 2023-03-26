@@ -52,17 +52,20 @@ class App {
 
     this.fetchStandard = { page: 1, type: FetchType.Search, keyword };
 
+    window.scrollTo({ top: 0, left: 0 });
     render.setupSearchMovie(this.fetchStandard);
 
     this.loadMovieList();
   }
 
   moveHome() {
-    this.fetchStandard = { page: 1, type: FetchType.Popular };
+    if (this.fetchStandard.type === FetchType.Search) {
+      this.fetchStandard = { page: 1, type: FetchType.Popular };
+      render.setupPopularMovie(this.fetchStandard);
+      this.loadMovieList();
+    }
 
-    render.setupPopularMovie(this.fetchStandard);
-
-    this.loadMovieList();
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }
 
   initLoad() {
@@ -86,6 +89,7 @@ class App {
     const app = document.querySelector('#app');
 
     if (!app) return;
+
     const movieModal = new MovieModal(movieId);
     app.insertAdjacentElement('beforeend', movieModal.node);
 
