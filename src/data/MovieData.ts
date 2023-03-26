@@ -1,3 +1,4 @@
+import { localData } from '../utils/localData';
 import { MovieInterface, ScoreType } from '../utils/type';
 
 interface UserScoreInterface {
@@ -11,12 +12,8 @@ class MovieData {
 
   constructor() {
     this.#currentMovieList = [];
-    this.#userScoreMovieList = new Map();
+    this.#userScoreMovieList = localData.getStarData();
   }
-
-  // setMovieData(MovieList: MovieInterface[]) {
-  //   this.#currentMovieList = MovieList;
-  // }
 
   addMovieData(MovieList: MovieInterface[]) {
     this.#currentMovieList = [...this.#currentMovieList, ...MovieList];
@@ -33,7 +30,7 @@ class MovieData {
   giveUserScore(id: number, score: ScoreType) {
     this.#userScoreMovieList.set(id, score);
 
-    console.log(this.#userScoreMovieList);
+    localData.setStarDate(this.#userScoreMovieList);
   }
 
   findUserScore(id: number) {
