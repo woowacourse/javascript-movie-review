@@ -541,7 +541,7 @@ header .search-box > .search-button {
   }
 
   header .search-input.extended {
-    width: 312px;
+    width: 180px;
     opacity: 1;
   }
 
@@ -607,5 +607,9 @@ header .search-box > .search-button {
   .item-thumbnail {
     width: 326px;
     height: 485.7px;
+  }
+
+  header .search-input.extended {
+    width: 312px;
   }
 }
