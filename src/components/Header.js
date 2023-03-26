@@ -22,11 +22,17 @@ class Header {
     const template = `
       <h1><img id="logo" src=${logo} alt="MovieList 로고" /></h1>
       <form class="search-box">
-        <input type="text" placeholder="검색" />
+        <input class="search-input" type="text" placeholder="검색" />
         <button class="search-button">검색</button>
       </form>`;
 
     return template;
+  }
+
+  getQuery() {
+    const $input = document.querySelector(".search-input");
+
+    return $input.value;
   }
 }
 
