@@ -48,6 +48,7 @@ button {
 .item-card {
   display: flex;
   flex-direction: column;
+  pointer-events: none;
 }
 
 .item-thumbnail {
@@ -293,6 +294,15 @@ up-scroll-button button {
   right: 16px;
 }
 
-.item-card {
-  pointer-events: none;
+.modal-close-button {
+  background-color: #383839;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 36px;
+  color: white;
+}
+
+movie-item {
+  cursor: pointer;
 }

@@ -43,7 +43,7 @@ export default class ModalComponent extends CustomComponent {
             <div class="modal-body">
             <div class="content-header">
                 <h3>영화 이름</h3>
-                <button data-action="modal-close">닫기 버튼</button>
+                <button class="modal-close-button" data-action="modal-close">X</button>
             </div>
             <div class="content-body">
               <img alt="영화 포스터 이미지">
