@@ -23,7 +23,6 @@ const popularFetchFn = (page: number) => MovieAPI.getPopularMovies(page);
 
 function assignMovieList(movieList: MovieList) {
   document.querySelector('main')?.replaceChildren(movieList.render());
-  (document.querySelector('.search-box') as HTMLFormElement).reset();
 }
 
 assignMovieList(new MovieList(popularFetchFn, POPULAR_MOVIES));
@@ -47,8 +46,11 @@ document.querySelector('.search-box')?.addEventListener('submit', (event) => {
   }
 });
 
-document.querySelector('.search-box')?.addEventListener('mouseleave', () => {
-  document.querySelector('.search-box')?.classList.remove('active');
+const searchBox = <HTMLFormElement>document.querySelector('.search-box');
+searchBox.addEventListener('mouseleave', () => {
+  if (!searchBox.classList.contains('active')) return;
+  searchBox.classList.remove('active');
+  searchBox.reset();
 });
 
 const response: Promise<TMDBGenres> = MovieAPI.getGenreList();
