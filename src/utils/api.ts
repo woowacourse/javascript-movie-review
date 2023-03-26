@@ -32,4 +32,10 @@ const fetchSearchMovies = (page: number, keyword: string) => {
   return request(url, defaultMethodOption);
 };
 
-export { fetchPopularMovies, fetchSearchMovies };
+const fetchMovieDetail = (id: number) => {
+  const url = `${API_END_POINT}/movie/${id}?api_key=${process.env.API_KEY}&language=ko`;
+
+  return request(url, defaultMethodOption);
+};
+
+export { fetchPopularMovies, fetchSearchMovies, fetchMovieDetail };
