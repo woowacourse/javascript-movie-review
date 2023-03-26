@@ -25,7 +25,7 @@ class MoviesContainer extends HTMLElement {
 
       set: (target: SearchWord, property: 'value', value: string) => {
         window.scrollTo(0, 0);
-        console.log(value);
+
         if (target[property] === value) return false;
 
         target[property] = value;
@@ -42,7 +42,6 @@ class MoviesContainer extends HTMLElement {
 
   connectedCallback(): void {
     this.renderContainer();
-    this.setButtonEvent();
     this.setInfiniteScrollEvent();
   }
 
@@ -63,11 +62,15 @@ class MoviesContainer extends HTMLElement {
 
   async updateMovieList(): Promise<void> {
     try {
+      this.#isFatching = true;
       await this.#movies.update(this.#searchWord.value);
-
+      this.renderMovieList();
       $('#skeleton-container')?.classList.add('skeleton-hide');
 
-      this.renderMovieList();
+      if (this.#movies.movieResult.isLastPage) {
+        return;
+      }
+
       this.#isFatching = false;
     } catch (error) {
       this.setErrorMessage(getErrorMessage(error));
@@ -113,21 +116,11 @@ class MoviesContainer extends HTMLElement {
     movieContainerTitle.insertAdjacentElement('afterend', noResultContainer);
   }
 
-  setButtonEvent(): void {
-    $('#more-button')?.addEventListener('click', () => {
-      if (this.#isFatching) return;
-      this.#isFatching = true;
-      $('#skeleton-container')?.classList.remove('skeleton-hide');
-
-      this.updateMovieList();
-    });
-  }
-
   setInfiniteScrollEvent() {
     const options = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.5,
+      threshold: 0.8,
     };
 
     const movieList = $('#more-button') as HTMLButtonElement;
@@ -135,9 +128,8 @@ class MoviesContainer extends HTMLElement {
     const io = new IntersectionObserver((entry, observer) => {
       if (entry[0].isIntersecting) {
         if (this.#isFatching) return;
-        this.#isFatching = true;
         $('#skeleton-container')?.classList.remove('skeleton-hide');
-
+        this.#isFatching = true;
         this.updateMovieList();
       }
     }, options);
@@ -148,7 +140,6 @@ class MoviesContainer extends HTMLElement {
   reset(): void {
     const movieListWrapper = $('#movie-list-wrapper') as HTMLElement;
 
-    this.#isFatching = false;
     movieListWrapper.innerHTML = ``;
 
     if ($('#no-result-message')) {
@@ -170,6 +161,7 @@ class MoviesContainer extends HTMLElement {
   }
 
   setSearchWord(searchWord: string): void {
+    if (this.#searchWord.value === searchWord) return;
     this.#searchWord.value = searchWord;
   }
 

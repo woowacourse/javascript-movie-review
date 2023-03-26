@@ -36,7 +36,6 @@ class SearchInput extends HTMLElement {
 
       window.location.hash = `?q=${word}`;
 
-      movieContainer.setSearchWord(word);
       searchInputTag.value = '';
       searchInputTag.blur();
     });

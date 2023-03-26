@@ -1,7 +1,7 @@
 import './Modal.css';
 import STAR_FILLED from '../image/star-filled.png';
 import STAR_EMPTY from '../image/star-empty.png';
-import { $, sliceSting } from '../utils/common';
+import { $, getErrorMessage, sliceSting } from '../utils/common';
 import { MovieDetailInfo, MovieInfo, MovieScoreInfo } from '../types/type';
 import Movie from '../domain/Movie';
 import { HTMLMovieListItemElement } from './MovieListItem';
@@ -11,6 +11,7 @@ export interface HTMLModalElement extends HTMLElement {
   updateDetailModal: () => void;
   setModalAttributes: ({ id, title, imgUrl, score, description }: MovieInfo) => void;
   openModal: () => void;
+  closeModal: () => void;
   setMovieId: (id: string) => void;
 }
 
@@ -217,11 +218,14 @@ class Modal extends HTMLElement {
   async setMovieId(id: string) {
     if (!id) return;
 
-    const movieDetail = await new Movie().parsedDetailResult(Number(id));
+    try {
+      const movieDetail = await new Movie().parsedDetailResult(Number(id));
 
-    this.#detailMovieInfo = movieDetail;
-    console.log(this.#detailMovieInfo);
-    this.updateDetailModal();
+      this.#detailMovieInfo = movieDetail;
+      this.updateDetailModal();
+    } catch (error) {
+      this.closeModal();
+    }
   }
 
   updateReviewedElement() {

@@ -6,11 +6,16 @@ import { HTMLModalElement } from './components/Modal';
 
 const setMovieSiteUrl = (isFirstStart: boolean): void => {
   const movieContainer = $('movies-container') as HTMLMovieContainerElement;
+  const modal = $('#modal') as HTMLDialogElement;
 
   const path = window.location.hash.replace('#', '');
   const URL = new URLSearchParams(path);
   const searchWord = URL.get('q');
   const detailMovieId = URL.get('id');
+
+  if (!detailMovieId) {
+    modal.close();
+  }
 
   if (searchWord && !detailMovieId) {
     movieContainer.setSearchWord(searchWord);
@@ -34,9 +39,7 @@ const setMovieSiteUrl = (isFirstStart: boolean): void => {
     return;
   }
 
-  if (isFirstStart) {
-    movieContainer.setSearchWord('');
-  }
+  movieContainer.setSearchWord('');
 };
 
 const setStartDetailModalEvent = (detailMovieId: string) => {
