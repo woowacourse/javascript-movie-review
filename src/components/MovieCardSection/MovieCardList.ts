@@ -3,7 +3,7 @@ import MovieDetailModal from '../MovieDetailModal';
 import Modal from '../common/Modal';
 import ErrorMessage from '../common/ErrorMessage';
 
-import { getMovieDetailApi } from '../../api';
+import MovieApi from '../../api';
 import { DEFAULT_LIST_LENGTH } from '../../constants';
 import { DEFAULT_ERROR_MESSAGE, isCustomErrorMessage } from '../../constants/message';
 import { CLASS } from '../../constants/selector';
@@ -39,7 +39,6 @@ const MovieCardList = {
       if (!movieDetail) return;
 
       MovieDetailModal.open(movieDetail);
-      MovieDetailModal.setEvent();
     });
   },
 
@@ -52,7 +51,7 @@ const MovieCardList = {
         poster_path: posterPath,
         overview: rawOverview,
         vote_average: voteAverage,
-      } = await getMovieDetailApi(movieId);
+      } = await MovieApi.getMovieDetail(movieId);
       const genres = rawGenres.map((genre) => genre.name);
       const overview = rawOverview === '' ? null : rawOverview;
 

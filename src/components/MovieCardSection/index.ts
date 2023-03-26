@@ -4,7 +4,7 @@ import ScrollObserver from './ScrollObserver';
 
 import { convertToAppMovies } from '../../domain/util';
 
-import { getPopularMovies, getSearchedMovies } from '../../api';
+import MovieApi from '../../api';
 import { CustomErrorMessage, DEFAULT_ERROR_MESSAGE, isCustomErrorMessage, SEARCH_ERROR_MESSAGE } from '../../constants/message';
 import { CLASS } from '../../constants/selector';
 import movieStates from '../../states/movies';
@@ -85,8 +85,8 @@ const MovieCardSection = {
 
       const { results, total_pages: totalPages } =
         query === ''
-          ? await getPopularMovies(movieStates.getPage())
-          : await getSearchedMovies(movieStates.getQuery(), movieStates.getPage());
+          ? await MovieApi.getPopularMovies({ page: movieStates.getPage() })
+          : await MovieApi.getSearchedMovies({ query: movieStates.getQuery(), page: movieStates.getPage() });
       const movies = convertToAppMovies(results);
 
       movieStates.add(movies);
