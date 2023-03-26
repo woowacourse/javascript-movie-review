@@ -28,7 +28,7 @@ export default class UserRating extends HTMLElement {
     <div class="d-flex justify-content-center user-rating align-items-center p-3">
       <div>내 별점</div>
       <div class="mx-2">${this.starIcons(this.rating)}</div>
-      <div>${this.rating}</div>
+      <div>${this.rating * 2}</div>
       <div class="rating-description mx-1">${this.ratingDescription(this.rating)}</div>
     </div>
     `;
