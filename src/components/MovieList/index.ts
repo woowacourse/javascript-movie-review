@@ -16,7 +16,7 @@ export default class MovieList extends HTMLElement {
       `;
   }
 
-  renderMovies() {
+  render() {
     this.innerHTML = `
     <section class="item-view" >
       ${this.store.getMovies().length > 0 ? `

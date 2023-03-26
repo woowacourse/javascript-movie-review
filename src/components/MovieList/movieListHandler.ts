@@ -4,7 +4,7 @@ import { checkIntersectionObserverEntries } from "../../domain/movies";
 
 export const renderMovieList = () => {
   const movieList = $("#movie-list") as MovieList;
-  movieList.renderMovies();
+  movieList.render();
 
   handleInfinityScroll();
 };
