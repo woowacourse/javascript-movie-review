@@ -56,14 +56,18 @@ export default class MovieList {
     `;
   }
 
+  async requestAndRenderMovieCards(getMovieRequest: () => Promise<MoviesResponse>) {
+    this.showSkeleton();
+    const { results, total_pages } = await getMovieRequest();
+    this.removeSkeleton();
+    this.renderMovieCards(results, total_pages);
+  }
+
   bindEvent(getMovieRequest: () => Promise<MoviesResponse>) {
     // 무한스크롤 이벤트
     const handleMoreMovieButton = async () => {
       Store.page += 1;
-      this.showSkeleton();
-      const { results, total_pages } = await getMovieRequest();
-      this.removeSkeleton();
-      this.renderMovieCards(results, total_pages);
+      await this.requestAndRenderMovieCards(getMovieRequest);
     };
 
     this.io = new IntersectionObserver(

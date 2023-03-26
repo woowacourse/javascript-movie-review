@@ -33,10 +33,7 @@ class App {
     );
     this.movieList.bindEvent(() => getPopularMovies({ page: Store.page }));
 
-    this.movieList.showSkeleton();
-    const { results, total_pages } = await getPopularMovies({ page: 1 });
-    this.movieList.removeSkeleton();
-    this.movieList.renderMovieCards(results, total_pages);
+    this.movieList.requestAndRenderMovieCards(() => getPopularMovies({ page: 1 }));
   }
 
   onSubmitSearch(results: Movie[], totalPages: number) {
