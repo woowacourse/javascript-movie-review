@@ -9,7 +9,7 @@ export interface MovieDetail {
   title: string;
   genres: string[];
   posterPath: string | null;
-  overview: string;
+  overview: string | null;
   rating: number;
 }
 

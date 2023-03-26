@@ -48,10 +48,11 @@ const MovieCardList = {
         title,
         genres: rawGenres,
         poster_path: posterPath,
-        overview,
+        overview: rawOverview,
         vote_average: voteAverage,
       } = await getMovieDetailApi(movieId);
       const genres = rawGenres.map((genre) => genre.name);
+      const overview = rawOverview === '' ? null : rawOverview;
 
       return { id, title, genres, posterPath, overview, rating: voteAverage };
     } catch (error) {

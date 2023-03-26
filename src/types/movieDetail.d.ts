@@ -9,7 +9,7 @@ export interface MovieDetailAPIResponse {
   imdb_id: string | null;
   original_language: string;
   original_title: string;
-  overview: string;
+  overview: string | null;
   popularity: number;
   poster_path: string | null;
   production_companies: ProductionCompany[];

@@ -38,7 +38,7 @@ const MovieDetailModal = {
                 <p>${movieDetail.rating.toFixed(1)}</p>
               </div>
               <p class="movie-detail-desc">
-                ${movieDetail.overview}
+                ${movieDetail.overview ?? '현재 제공된 줄거리가 없습니다.'}
               </p>
             </div>
             ${UserRating.template(ratedMovieStates.find(movieDetail.id))}
