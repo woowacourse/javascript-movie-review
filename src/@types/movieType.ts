@@ -1,7 +1,18 @@
 export interface CoreInfoType {
+  id: number;
   title: string;
   posterPath: string;
   voteAverage: number;
+}
+
+export interface genres {
+  id: number;
+  name: string;
+}
+
+export interface DetailInfoType extends CoreInfoType {
+  genres: genres[];
+  overview: string;
 }
 
 export interface TotalMovieInfoType {

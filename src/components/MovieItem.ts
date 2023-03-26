@@ -1,7 +1,7 @@
 import { CoreInfoType } from "../@types/movieType";
 
 export const MovieItem = (movieInfo: CoreInfoType) => {
-  const { title, posterPath, voteAverage } = movieInfo;
+  const { id, title, posterPath, voteAverage } = movieInfo;
 
   const thumbnail = posterPath
     ? `
@@ -18,7 +18,7 @@ export const MovieItem = (movieInfo: CoreInfoType) => {
 
   return `
     <li>
-      <a href="#">
+      <a href="#${id}">
         <div class="item-card">
           ${thumbnail}
           <p class="item-title ">${title}</p>

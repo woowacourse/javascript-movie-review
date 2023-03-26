@@ -3,10 +3,11 @@ import { MovieItem } from "../components/MovieItem";
 
 export const convertMovieData = (movieItems: TotalMovieInfoType[]) => {
   return movieItems.map((item) => {
+    const id = item.id;
     const title = item.title;
     const posterPath = item.poster_path;
     const voteAverage = item.vote_average;
-    return { title, posterPath, voteAverage };
+    return { id, title, posterPath, voteAverage };
   });
 };
 
