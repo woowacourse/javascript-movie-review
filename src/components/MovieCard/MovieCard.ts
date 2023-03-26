@@ -1,7 +1,9 @@
-import { Movie } from '../type/Movie';
+import { Movie } from '../../type/Movie';
 
-import FilledStar from '../assets/star_filled.png';
-import Component from '../type/Component';
+import FilledStar from '../../assets/star_filled.png';
+import Component from '../../type/Component';
+
+import './movieCard.css';
 
 type HandlerCallback = {
   onClickCard: (movieId: string) => void;

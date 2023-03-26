@@ -1,12 +1,14 @@
-import { personalVoteHandler } from '../index';
+import { personalVoteHandler } from '../../index';
 
-import { DetailMovie } from '../type/Movie';
+import { DetailMovie } from '../../type/Movie';
 
-import { $ } from '../utils';
+import { $ } from '../../utils';
 
-import filledStarIcon from '../assets/star_filled.png';
-import emptyStarIcon from '../assets/star_empty.png';
-import { StarCount } from '../domain/PersonalVoteHandler';
+import filledStarIcon from '../../assets/star_filled.png';
+import emptyStarIcon from '../../assets/star_empty.png';
+import { StarCount } from '../../domain/PersonalVoteHandler';
+
+import './detailMovieCard.css';
 
 const voteScoreText = {
   0: '이 영화는...🤔',

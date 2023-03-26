@@ -1,12 +1,14 @@
-import MovieCard from './MovieCard';
+import MovieCard from '../MovieCard/MovieCard';
 
-import Component from '../type/Component';
-import { Movie } from '../type/Movie';
-import { MovieMetadata, FaildData } from '../api/get';
+import Component from '../../type/Component';
+import { Movie } from '../../type/Movie';
+import { MovieMetadata, FaildData } from '../../api/get';
 
-import { observerOptionMaker } from '../utils';
+import { observerOptionMaker } from '../../utils';
 
-import errorImg from '../assets/error.jpg';
+import errorImg from '../../assets/error.jpg';
+
+import './movieList.css';
 
 const headerTemplate = {
   popular: '지금 인기 있는 영화',

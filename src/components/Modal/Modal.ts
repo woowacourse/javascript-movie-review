@@ -1,10 +1,12 @@
-import DetailMovieCard from './DetailMovieCard';
+import DetailMovieCard from '../DetailMovieCard/DetailMovieCard';
 
-import Component from '../type/Component';
-import { DetailMovie } from '../type/Movie';
-import { StarCount } from '../domain/PersonalVoteHandler';
+import Component from '../../type/Component';
+import { DetailMovie } from '../../type/Movie';
+import { StarCount } from '../../domain/PersonalVoteHandler';
 
-import errorImg from '../assets/error.jpg';
+import errorImg from '../../assets/error.jpg';
+
+import './modal.css';
 
 const errorTemplate = (statusCode: number, statusMessage: string) => {
   return `

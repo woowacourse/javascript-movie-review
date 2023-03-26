@@ -1,5 +1,7 @@
-import logo from '../assets/logo.png';
-import Component from '../type/Component';
+import logo from '../../assets/logo.png';
+import Component from '../../type/Component';
+
+import './header.css';
 
 type HandlerCallback = {
   onClickMainLogo: () => void;
