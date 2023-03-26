@@ -265,3 +265,7 @@ header .search-box > .search-button {
   overflow: hidden;
   pointer-events: none;
 }
+
+.movie-score-star {
+  width: 12px;
+}
