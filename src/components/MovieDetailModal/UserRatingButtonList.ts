@@ -34,7 +34,7 @@ const UserRatingButtonList = {
       UserRatingButtonList.render(Number(score));
       UserRating.renderRating(score, desc);
 
-      ratedMovieStates.add({ id: Number(movieId), score, desc });
+      ratedMovieStates.update({ id: Number(movieId), score, desc });
     });
   },
 

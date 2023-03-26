@@ -17,14 +17,18 @@ class RatedMovies {
     return this.#list;
   }
 
-  add(newMovie: RatedMovie) {
+  update(newMovie: RatedMovie) {
     const isInclude = this.find(newMovie.id) !== DEFAULT_RATING;
 
-    if (isInclude) {
-      this.updateTargetMovie(newMovie);
+    if (!isInclude) {
+      this.add(newMovie);
       return;
     }
 
+    this.#list = this.#list.map((movie) => (movie.id === newMovie.id ? { ...movie, score: newMovie.score, desc: newMovie.desc } : movie));
+  }
+
+  add(newMovie: RatedMovie) {
     this.#list = [...this.#list, newMovie];
   }
 
@@ -34,10 +38,6 @@ class RatedMovies {
     if (!targetMovie) return DEFAULT_RATING;
 
     return targetMovie;
-  }
-
-  updateTargetMovie(newMovie: RatedMovie) {
-    this.#list = this.#list.map((movie) => (movie.id === newMovie.id ? { ...movie, score: newMovie.score, desc: newMovie.desc } : movie));
   }
 }
 
