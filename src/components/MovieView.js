@@ -42,6 +42,10 @@ class MovieView {
   }
 
   addMovies({ page, results: movies, total_pages }) {
+    if (page > total_pages) {
+      this.movieList.hideSkeleton();
+    }
+
     if (page === 1) {
       this.movieList.switchMovies(movies);
 

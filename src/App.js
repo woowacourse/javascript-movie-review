@@ -19,7 +19,7 @@ class App {
 
   page;
 
-  loading;
+  isLoading;
 
   constructor($target) {
     this.init($target);
@@ -36,7 +36,7 @@ class App {
     this.movieView = new MovieView(this.$main);
 
     this.page = pageCounter(0);
-    this.loading = true;
+    this.isLoading = true;
 
     this.renderPopularMovies(this.page());
   }
@@ -53,16 +53,16 @@ class App {
   }
 
   onScrollHandler() {
-    if (this.loading) return;
+    if (this.isLoading) return;
 
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
     if (clientHeight < Math.round(scrollHeight - scrollTop)) return;
 
-    this.loading = true;
+    this.isLoading = true;
 
     const query = this.header.getQuery();
     if (query) {
-      renderFoundMovies(query, this.page());
+      this.renderFoundMovies(query, this.page());
 
       return;
     }
@@ -72,50 +72,46 @@ class App {
 
   onClickHandler({ target }) {
     if (target.id === "logo") {
-      if (this.loading) return;
+      if (this.isLoading) return;
 
       this.page = pageCounter(0);
 
-      this.loading = true;
+      this.isLoading = true;
       this.renderPopularMovies(this.page());
     }
   }
 
   onSubmitHandler(e) {
     e.preventDefault();
-    if (this.loading) return;
+    if (this.isLoading) return;
 
     const query = e.target[0].value;
     if (!query) return alert("검색어를 입력 하세요");
 
     this.page = pageCounter(0);
 
-    this.loading = true;
+    this.isLoading = true;
     this.renderFoundMovies(query, this.page());
   }
 
   async renderPopularMovies(page) {
-    this.movieView.appearSkeleton();
-
     const { isError, data } = await this.movie.getPopularMovies(page);
     if (isError) return;
 
     this.movieView.updateMovieListTitle();
     this.movieView.addMovies(data);
 
-    this.loading = false;
+    this.isLoading = false;
   }
 
   async renderFoundMovies(query, page) {
-    this.movieView.appearSkeleton();
-
     const { isError, data } = await this.movie.getFoundMovies(query, page);
     if (isError) return;
 
     this.movieView.updateMovieListTitle(query);
     this.movieView.addMovies(data);
 
-    this.loading = false;
+    this.isLoading = false;
   }
 }
 
