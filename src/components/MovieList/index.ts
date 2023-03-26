@@ -32,11 +32,10 @@ class MovieList {
     this.init();
 
     $(".btn").addEventListener("click", this.onClickMoreButton.bind(this));
-    $(".item-list").addEventListener("click", (event: Event) => {
-      const clickedLi = event.target as HTMLElement;
-      const closestLi = clickedLi.closest("li");
+    $(".item-list").addEventListener("click", (event) => {
+      const closestLi = (event.target as HTMLElement).closest("li");
 
-      if (closestLi && closestLi.dataset.id) {
+      if (closestLi?.dataset.id) {
         const movieId = parseInt(closestLi.dataset.id, 10);
         onClickMovie(movieId);
       }
