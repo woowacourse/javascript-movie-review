@@ -24,7 +24,9 @@ export default class MovieDetailModal extends HTMLElement {
               loading="lazy" alt="${movie.title}">
             <article id="detail">
               <div id="genre-and-score">
-                <h3 class="item-genres">${movie.genres}</h3>
+                <h3 class="item-genres">${
+                  movie.genres ? movie.genres : "장르 없음"
+                }</h3>
                 <p class="item-score">
                   <img src="./assets/star_filled.png" alt="별점" />
                   <span>${movie.ratings.toFixed(1)}</span>
