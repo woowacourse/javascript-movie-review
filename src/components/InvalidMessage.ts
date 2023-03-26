@@ -12,7 +12,7 @@ class InvalidMessage {
   private messageContainer: HTMLDivElement;
 
   private constructor() {
-    this.init();
+    this.initMovieListEvents();
     this.messageContainer = $<HTMLDivElement>('.error-message');
   }
 
@@ -24,7 +24,7 @@ class InvalidMessage {
     return InvalidMessage.instance;
   }
 
-  private init() {
+  private initMovieListEvents() {
     MovieList.on(MOVIE_LIST_RESET, () => {
       this.clear();
     });

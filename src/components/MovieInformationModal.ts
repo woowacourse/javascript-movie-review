@@ -10,10 +10,12 @@ class MovieInformationModal {
   private informationContainer: HTMLDivElement;
 
   constructor() {
-    $<HTMLElement>('main').insertAdjacentHTML('beforeend', this.template());
-    this.init();
+    this.render();
+    this.initMovieListEvents();
+
     this.modal = $<HTMLDivElement>('.modal');
     this.informationContainer = $<HTMLDivElement>('.information-content');
+
     this.addClickEventListenerToCloseModal();
     this.addKeyDownEventListenerToCloseModal();
     this.addEventListenerToBrowserBackButton();
@@ -25,6 +27,10 @@ class MovieInformationModal {
     }
 
     return MovieInformationModal.instance;
+  }
+
+  private render() {
+    $<HTMLElement>('main').insertAdjacentHTML('beforeend', this.template());
   }
 
   private template() {
@@ -40,7 +46,7 @@ class MovieInformationModal {
     `;
   }
 
-  private init() {
+  private initMovieListEvents() {
     MovieList.on(MOVIE_RETRIEVED, (event: CustomEvent<MovieRetrievedEventData>) => {
       const { movie, searchQuery, isBackButton } = event.detail;
       this.openModal(movie, searchQuery, isBackButton);

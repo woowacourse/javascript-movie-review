@@ -19,13 +19,16 @@ class UserMovieVote {
   private voteInfo: HTMLParagraphElement;
 
   constructor() {
-    this.init();
+    this.initMovieListEvents();
+
     this.temporaryVoteStars = $<HTMLDivElement>('.vote-stars--temp');
     this.userVoteStars = $<HTMLDivElement>('.vote-stars');
     this.renderUserVoteStars();
+
     this.messageContainer = $<HTMLDivElement>('.modal-message-container');
     this.voteMessage = $<HTMLParagraphElement>('.vote-message');
     this.voteInfo = $<HTMLParagraphElement>('.vote-info');
+
     this.addEventListenerToUserStars();
   }
 
@@ -37,7 +40,7 @@ class UserMovieVote {
     return UserMovieVote.instance;
   }
 
-  private init() {
+  private initMovieListEvents() {
     MovieList.on(MOVIE_RETRIEVED, (event: CustomEvent<MovieRetrievedEventData>) => {
       const { movie } = event.detail;
       this.updateUserVote(movie.userVote);

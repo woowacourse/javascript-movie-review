@@ -1,9 +1,9 @@
 import { Movie, MovieRetrievedEventData } from '../types/movie';
 import { MOVIE_RETRIEVED, POSTER_BASE_URL } from '../constants';
+import { EMPTY_OVERVIEW_MESSAGE } from '../constants/ui';
 import { EmptyStar, FilledStar } from '../assets';
 import { $ } from '../utils/domSelector';
 import MovieList from '../domain/MovieList';
-import { EMPTY_OVERVIEW_MESSAGE } from '../constants/ui';
 
 class MovieInformationContent {
   private static instance: MovieInformationContent;
@@ -14,8 +14,9 @@ class MovieInformationContent {
   private overview: HTMLParagraphElement;
 
   constructor() {
-    $<HTMLDivElement>('.information-content').insertAdjacentHTML('beforeend', this.template());
-    this.init();
+    this.render();
+    this.initMovieListEvent();
+
     this.image = $<HTMLImageElement>('.information-image');
     this.title = $<HTMLHeadingElement>('.information-title');
     this.metaInfo = $<HTMLParagraphElement>('.information-meta-info');
@@ -29,6 +30,10 @@ class MovieInformationContent {
     }
 
     return MovieInformationContent.instance;
+  }
+
+  private render() {
+    $<HTMLDivElement>('.information-content').insertAdjacentHTML('beforeend', this.template());
   }
 
   private template() {
@@ -52,14 +57,14 @@ class MovieInformationContent {
       </div>`;
   }
 
-  private init() {
+  private initMovieListEvent() {
     MovieList.on(MOVIE_RETRIEVED, (event: CustomEvent<MovieRetrievedEventData>) => {
       const { movie } = event.detail;
-      this.render(movie);
+      this.renderContent(movie);
     });
   }
 
-  render(movie: Movie) {
+  private renderContent(movie: Movie) {
     this.renderTitle(movie.title);
     this.renderPosterImage(movie.title, movie.posterPath);
     this.renderMetaInfo(movie.releaseDate, movie.genres);

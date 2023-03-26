@@ -10,10 +10,12 @@ class MovieListContainer {
   private shouldScroll: boolean = true;
 
   private constructor() {
-    $<HTMLElement>('main').insertAdjacentHTML('beforeend', this.template());
-    this.init();
+    this.render();
+    this.initMovieListEvents();
+
     this.listContainer = $<HTMLDivElement>('.item-view');
     this.itemList = $<HTMLUListElement>('.item-list');
+
     this.addEventListenerToScroll();
     this.addEventListenerToMovieItems();
     this.addBrowserBackButtonEventListener();
@@ -27,6 +29,10 @@ class MovieListContainer {
     return MovieListContainer.instance;
   }
 
+  private render() {
+    $<HTMLElement>('main').insertAdjacentHTML('beforeend', this.template());
+  }
+
   private template() {
     return `
       <section class="item-view">
@@ -37,7 +43,7 @@ class MovieListContainer {
     `;
   }
 
-  private init() {
+  private initMovieListEvents() {
     MovieList.on(MOVIE_LIST_RESET, this.showListContainer.bind(this));
     MovieList.on(MOVIE_LIST_LOADING, this.disableScroll.bind(this));
     MovieList.on(MOVIE_LIST_LOADED, this.enableScroll.bind(this));

@@ -17,7 +17,7 @@ class MovieListContent {
   private itemList: HTMLUListElement;
 
   private constructor() {
-    this.init();
+    this.initMovieListEvents();
     this.itemList = $<HTMLUListElement>('.item-list');
   }
 
@@ -29,7 +29,7 @@ class MovieListContent {
     return MovieListContent.instance;
   }
 
-  private init() {
+  private initMovieListEvents() {
     MovieList.on(MOVIE_LIST_RESET, this.clearListContent.bind(this));
     MovieList.on(MOVIE_LIST_LOADING, this.renderSkeleton.bind(this));
     MovieList.on(MOVIE_LIST_LOADED, (event: CustomEvent<MovieLoadedEventData>) => {

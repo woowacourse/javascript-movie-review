@@ -7,7 +7,7 @@ class NavBar {
   private static instance: NavBar;
 
   constructor() {
-    $<HTMLDivElement>('#app').insertAdjacentHTML('afterbegin', this.template());
+    this.render();
     this.addEventListenerToSearchInput();
     this.addEventListenerToSearchBox();
   }
@@ -20,7 +20,11 @@ class NavBar {
     return NavBar.instance;
   }
 
-  template() {
+  private render() {
+    $<HTMLDivElement>('#app').insertAdjacentHTML('afterbegin', this.template());
+  }
+
+  private template() {
     return `
       <header>
         <h1><a href="${PAGE_BASE_URL}"><img src="${Logo}" alt="MovieList 로고" /></a></h1>
@@ -31,7 +35,7 @@ class NavBar {
       </header>`;
   }
 
-  addEventListenerToSearchInput() {
+  private addEventListenerToSearchInput() {
     $<HTMLFormElement>('.search-box').addEventListener('submit', (event) => {
       event.preventDefault();
       const target = event.target as HTMLFormElement;
@@ -50,7 +54,7 @@ class NavBar {
     });
   }
 
-  addEventListenerToSearchBox() {
+  private addEventListenerToSearchBox() {
     $<HTMLFormElement>('#search-button').addEventListener('click', (event) => {
       const target = event.target as HTMLButtonElement;
 

@@ -9,7 +9,7 @@ class MovieTitle {
   private title: HTMLHeadingElement;
 
   private constructor() {
-    this.init();
+    this.initMovieListEvents();
     this.title = $<HTMLHeadingElement>('#movie-list-title');
   }
 
@@ -21,7 +21,7 @@ class MovieTitle {
     return MovieTitle.instance;
   }
 
-  private init() {
+  private initMovieListEvents() {
     MovieList.on(MOVIE_LIST_RESET, (event: CustomEvent<MovieResetEventData>) => {
       const { searchQuery } = event.detail;
       this.render(searchQuery);
