@@ -131,7 +131,7 @@ class MovieList {
     const handleIntersection: IntersectionObserverCallback = (entries) => {
       entries.forEach(async (entry) => {
         if (entry.isIntersecting) {
-          throttledRenderMovieList();
+          await throttledRenderMovieList();
         }
       });
     };
