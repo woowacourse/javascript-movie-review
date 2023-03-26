@@ -75,8 +75,8 @@ button {
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
-  height: 270px;
+  width: 100%;
+  height: 100%;
   background-size: contain;
   cursor: pointer;
 }
@@ -140,6 +140,7 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
   width: 100%;
   height: 72px;
@@ -179,34 +180,31 @@ header .search-box > .search-button {
   background-size: contain;
 }
 
-@media (max-width: 992px) {
-}
-
-@media (max-width: 768px) {
-  header {
-    height: 60px;
-    background-color: #222;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    border-bottom: 1px solid white;
-    margin-bottom: 24px;
-  }
-
+@media (max-width: 1023px) {
   .item-view {
-    padding: 16px;
+    padding: 32px;
   }
 
   .item-list {
     display: grid;
     justify-content: space-around;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
 
     grid-column-gap: 24px;
   }
+}
+
+@media (max-width: 768px) {
+  .item-view {
+    padding: 16px;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
   .item-thumbnail {
-    width: 100%;
+    width: 90%;
   }
 }
 

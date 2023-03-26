@@ -70,13 +70,13 @@
 
 .movie-genre {
   grid-row: 3 / 4;
-  grid-column: 5 / 6;
+  grid-column: 5 / 7;
   margin-top: 6px;
 }
 
 .movie-score {
   grid-row: 3 / 4;
-  grid-column: 6 / 7;
+  grid-column: 7 / 8;
 }
 
 .movie-score img {
@@ -134,24 +134,25 @@
   background: url('../assets/star_empty.png');
 }
 
+@media (max-width: 1023px) {
+  .modal-container {
+    padding: 12px;
+    width: 90%;
+    height: 60%;
+  }
+}
 
 @media (max-width: 768px) {
   .modal-container {
-    position: fixed;
-    display: grid;
-    grid-template-rows: repeat(8, 1fr);
-    grid-template-columns: repeat(2, 1fr);
-
     top: unset;
     left: unset;
     bottom: 0;
     transform: unset;
     height: 60%;
-  
+
     padding: 30px;
     border: 1px;
     width: 100%;
-    border-radius: 8px 8px 0px 0px;
   }
 
   .movie-poster {
@@ -159,33 +160,22 @@
   }
 
   .movie-genre {
-    grid-row: 3 / 4;
-    grid-column: 5 / 7;
+    grid-row: 2 / 3;
+    grid-column: 1 / 4;
   }
 
   .movie-score {
-    grid-row: 3 / 4;
-    grid-column: 7 / 8;
+    grid-row: 2 / 3;
+    grid-column: 4 / 6;
   }
 
   .movie-overview {
-    grid-row: 4 / 8;
-    grid-column: 5 / 11;
-    padding-right: 18px;
-    line-height: 24px;
+    grid-row: 3 / 8;
+    grid-column: 1 / 11;
   }
 
   .movie-user-rating {
-    gap: 10px;
-  
-    grid-row: 8 / 10;
-    grid-column: 5 / 11;
-  
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    background-color: #383839;
-    border-radius: 12px;
+    grid-row: 9 / 11;
+    grid-column: 1 / 11;
   }
-
 }
