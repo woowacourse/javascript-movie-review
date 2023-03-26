@@ -13,8 +13,8 @@ class Store {
     this.movieList = [...this.movieList, ...movies];
   }
 
-  getMovie(id: number): Movie | undefined {
-    return this.movieList.find((movie) => movie.id === id);
+  getMovie(id: number): Movie {
+    return this.movieList.find((movie) => movie.id === id)!;
   }
 
   setGenres(id: number, name: string) {

@@ -115,12 +115,13 @@ export class MovieList {
   showModal() {
     document.querySelector('.item-view')?.addEventListener('click', (e) => {
       const id = (e.target as HTMLLIElement).closest('.item-card')?.id;
+      const numberId = Number(id);
       if (id) {
         (document.querySelector('.modal') as HTMLDialogElement).showModal();
-        const rate = getLocalStorage(String(id));
+        const rate = getLocalStorage(id);
         return typeof rate === 'object'
-          ? new DetailModal(store.getMovie(Number(id)) as Movie)
-          : new DetailModal(store.getMovie(Number(id)) as Movie, rate);
+          ? new DetailModal(store.getMovie(numberId))
+          : new DetailModal(store.getMovie(numberId), rate);
       }
       return null;
     });
