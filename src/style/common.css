@@ -148,7 +148,7 @@ button.primary {
 
 .header {
   width: 100%;
-  min-width: 1200px;
+  min-width: 300px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -388,5 +388,25 @@ body {
 
   .item-title {
     font-size: 1rem;
+  }
+
+  .search-input {
+    padding: 0;
+    width: 0px;
+    transition: width 0.2s ease-in-out;
+  }
+
+  .search-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .search-box:hover .search-input {
+    width: 150px;
+  }
+
+  .search-input:focus {
+    width: 150px;
   }
 }
