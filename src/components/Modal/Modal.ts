@@ -84,11 +84,7 @@ class Modal {
       const storedRating = ratings[movie.id] || 0;
       const stars = this.renderStars(+storedRating);
 
-      if (!storedRating) {
-        this.#isAlreadyRated = false;
-      } else {
-        this.#isAlreadyRated = true;
-      }
+      this.#isAlreadyRated = !!storedRating;
 
       $modalContent.innerHTML = `
     <div class="modal-head"><h2>${movie.title}</h2></div>
@@ -214,6 +210,7 @@ class Modal {
 
     if ($userRateContainer) {
       $userRateContainer.addEventListener("mouseover", (e) => {
+        if (this.#isAlreadyRated) return;
         if (e.target instanceof HTMLImageElement) {
           const rating = parseInt(e.target.dataset.value ?? "0", 10);
           const stars: Array<HTMLImageElement> = Array.from($$("img", $userRateContainer));
@@ -230,15 +227,20 @@ class Modal {
       });
 
       $userRateContainer.addEventListener("mouseout", (e) => {
+        if (this.#isAlreadyRated) return;
         const movieId = (e.currentTarget as HTMLElement)?.dataset.movieId ?? "";
+        const ratingCommentElement = $(".score-comment", $userRateContainer);
 
         const ratings: IRatings = getRatings() as IRatings;
+        const stars: Array<HTMLImageElement> = Array.from($$("img", $userRateContainer));
+        this.updateStars(stars, 0);
 
         const storedRating = ratings[movieId] || 0;
 
         const scoreElement = $(".score", $userRateContainer);
-        if (scoreElement) {
+        if (scoreElement && ratingCommentElement) {
           scoreElement.textContent = storedRating ? storedRating.toString() : "";
+          ratingCommentElement.textContent = this.getScoreComment(+storedRating);
         }
       });
 
