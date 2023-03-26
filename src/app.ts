@@ -95,11 +95,20 @@ class App {
     movieModal.updateMovieDetail(movieDetail);
   }
 
+  closeMovieModal() {
+    const $modal = document.querySelector('.modal');
+
+    if (!$modal) return;
+
+    $modal.remove();
+  }
+
   initEventHandler() {
     document.addEventListener('seeMoreMovie', this.loadMoreMovies.bind(this));
     document.addEventListener('searchMovies', this.searchMovies.bind(this));
     document.addEventListener('moveHome', this.moveHome.bind(this));
     document.addEventListener('openMovieModal', this.openMovieModal.bind(this));
+    document.addEventListener('closeMovieModal', this.closeMovieModal.bind(this));
   }
 }
 

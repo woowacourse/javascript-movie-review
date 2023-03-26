@@ -1,15 +1,17 @@
+import VoteMovie from './VoteMovie';
+import { Genre } from '../types/fetchJsonType';
 import { MovieDetail } from '../types/movieType';
-import starEmpty from '../asset/star_empty.png';
 import starFilled from '../asset/star_filled.png';
 import handleImageLoadError from '../libs/handleImageLoadError';
 
 class MovieModal {
   private _node!: HTMLElement;
-  private movieDetail: MovieDetail | null = null;
+  private body = document.querySelector('body') as HTMLBodyElement;
 
   constructor() {
     this.createTemplate();
-    this.toggleBodyOverflow();
+    this.initEventListener();
+    this.body.classList.add('overflow-hidden');
   }
 
   get node(): HTMLElement {
@@ -23,12 +25,11 @@ class MovieModal {
     this._node.insertAdjacentHTML(
       'afterbegin',
       /*html*/ `
-      <div class="modal-backdrop"></div>
-      <div class="modal-container">
+      <div class="modal-backdrop">
         <div class="modal-layout">
           <div class="movie-detail-top">
             <div class="movie-detail-title skeleton"></div>
-            <div class="back-button"><div>x</div></div>
+            <div class="back-button"><div>𝘅</div></div>
           </div>
           <div class="movie-detail-contents">
             <div class="movie-detail-image">
@@ -37,85 +38,64 @@ class MovieModal {
             <div class="movie-detail-info">
               <div class="movie-detail-genres-grade skeleton"></div>
               <div class="movie-detail-overview skeleton"></div>
-              <div class="movie-detail-voteContainer">
-                <div>내 별점</div>
-                <div>
-                  <img src="${starEmpty}" alt="별점" />
-                  <img src="${starEmpty}" alt="별점" />
-                  <img src="${starEmpty}" alt="별점" />
-                  <img src="${starEmpty}" alt="별점" />
-                  <img src="${starEmpty}" alt="별점" />
-                </div>
-                <div>이 영화 어떠나요?</div>
-              </div>
             </div>
           </div>
         </div>
       </div>
       `
     );
-  }
 
-  toggleBodyOverflow() {
-    const $body = document.querySelector('body');
-
-    if (!$body) return;
-
-    $body.classList.toggle('overflow-hidden');
+    this._node.querySelector('.movie-detail-info')?.insertAdjacentElement('beforeend', new VoteMovie().node);
   }
 
   updateMovieDetail(movieDetail: MovieDetail) {
-    this.movieDetail = movieDetail;
+    const { title, voteAverage, genres, overview, posterPath } = movieDetail;
 
-    if (!this.movieDetail) return;
-
-    this.updateMovieTitle();
-    this.updateMovieOverview();
-    this.updateMovieThumbnail();
-    this.updateMovieGenresAndGrade();
+    this.updateMovieTitle(title);
+    this.updateMovieOverview(overview);
+    this.updateMovieThumbnail(posterPath, title);
+    this.updateMovieGenresAndGrade(genres, voteAverage);
   }
 
-  updateMovieGenresAndGrade() {
+  updateMovieGenresAndGrade(genres: Genre[], voteAverage: number) {
     const $movieGenresAndGradeContainer = document.querySelector<HTMLDivElement>('.movie-detail-genres-grade');
 
-    if (!$movieGenresAndGradeContainer || !this.movieDetail) return;
+    if (!$movieGenresAndGradeContainer) return;
 
-    const genres = this.movieDetail.genres.map(genre => genre.name).join(', ');
+    const movieGenres = genres.map(genre => genre.name).join(', ');
 
     $movieGenresAndGradeContainer.classList.remove('skeleton');
     $movieGenresAndGradeContainer.insertAdjacentHTML(
       'afterbegin',
-      `
-      <div>${genres}</div>
-      <div class="movie-detail-grade"><img src="${starFilled}" alt="별점" /> ${this.movieDetail.voteAverage}</div>
+      /*html*/ `
+      <div>${movieGenres}</div>
+      <div class="movie-detail-grade"><img src="${starFilled}" alt="별점" /> ${voteAverage}</div>
     `
     );
   }
 
-  updateMovieTitle() {
+  updateMovieTitle(title: string) {
     const $movieTitle = document.querySelector<HTMLDivElement>('.movie-detail-title');
 
-    if (!$movieTitle || !this.movieDetail) return;
+    if (!$movieTitle) return;
 
     $movieTitle.classList.remove('skeleton');
-    $movieTitle.innerText = this.movieDetail.title;
+    $movieTitle.innerText = title;
   }
 
-  updateMovieOverview() {
+  updateMovieOverview(overview: string) {
     const $movieOverview = document.querySelector<HTMLDivElement>('.movie-detail-overview');
 
-    if (!$movieOverview || !this.movieDetail) return;
-
-    const overview = this.movieDetail.overview === '' ? '해당 콘텐츠의 줄거리가 없습니다.' : this.movieDetail.overview;
+    if (!$movieOverview) return;
 
     $movieOverview.classList.remove('skeleton');
-    $movieOverview.innerText = overview;
+    $movieOverview.innerText = overview === '' ? '해당 콘텐츠의 줄거리가 없습니다.' : overview;
   }
 
-  updateMovieThumbnail() {
+  updateMovieThumbnail(posterPath: string, title: string) {
     const $thumbnailSkeleton = this._node.querySelector<HTMLDivElement>('.thumbnail-skeleton');
     const $movieThumbnailContainer = document.querySelector('.movie-detail-image');
-    const $thumbnail = this.createMovieThumbnail();
+    const $thumbnail = this.createMovieThumbnail(posterPath, title);
 
     if (!$movieThumbnailContainer || !$thumbnail || !$thumbnailSkeleton) return;
 
@@ -125,21 +105,43 @@ class MovieModal {
     this.addThumbnailEventListener($thumbnail);
   }
 
+  createMovieThumbnail(posterPath: string, title: string) {
+    const $thumbnail = document.createElement('img');
+    $thumbnail.classList.add('movie-detail-thumbnail');
+    $thumbnail.src = `${posterPath}`;
+    $thumbnail.alt = `${title}`;
+
+    return $thumbnail;
+  }
+
   addThumbnailEventListener($thumbnail: HTMLImageElement) {
     $thumbnail.addEventListener('error', () => {
       handleImageLoadError($thumbnail);
     });
   }
 
-  createMovieThumbnail() {
-    if (!this.movieDetail) return;
+  closeModal() {
+    this.body.classList.remove('overflow-hidden');
+    this._node.dispatchEvent(new CustomEvent('closeMovieModal', { bubbles: true }));
+  }
 
-    const $thumbnail = document.createElement('img');
-    $thumbnail.classList.add('movie-detail-thumbnail');
-    $thumbnail.src = `${this.movieDetail.posterPath}`;
-    $thumbnail.alt = `${this.movieDetail.title}`;
+  initEventListener() {
+    const $backButton = this._node.querySelector('.back-button');
+    const $modalBackdrop = this._node.querySelector('.modal-backdrop');
 
-    return $thumbnail;
+    if (!$backButton || !$modalBackdrop) return;
+
+    window.addEventListener('keydown', (event: KeyboardEvent) => {
+      if (event.key === 'Backspace' || event.key === 'Escape') this.closeModal();
+    });
+
+    $backButton.addEventListener('click', this.closeModal.bind(this));
+    $modalBackdrop.addEventListener('click', (event: Event) => {
+      const target = event.target as HTMLElement;
+      if (!target.matches('.modal-backdrop')) return;
+
+      this.closeModal.bind(this)();
+    });
   }
 }
 
