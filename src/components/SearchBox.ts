@@ -1,8 +1,12 @@
+import { SCREEN_WIDTH } from '../constant/constant';
+
 class SearchBox {
   private _node!: HTMLElement;
+  private $input!: HTMLInputElement;
 
   constructor() {
     this.createTemplate();
+    this.$input = this._node.querySelector<HTMLInputElement>('input') as HTMLInputElement;
     this.initEventHandler();
   }
 
@@ -17,31 +21,71 @@ class SearchBox {
     this._node.insertAdjacentHTML(
       'afterbegin',
       /*html*/ `
-      <input type="text" placeholder="검색" />
+      <input class="" type="text" placeholder="검색" />
       <button class="search-button">검색</button>
       `
     );
   }
 
-  initEventHandler() {
-    const input = this._node.querySelector<HTMLInputElement>('input');
-    const button = this._node.querySelector<HTMLButtonElement>('.search-button');
+  toggleInputUI() {
+    const width = window.innerWidth;
 
-    if (!input || !button) return;
+    if (width < SCREEN_WIDTH) this.$input.classList.add('hidden');
+    else {
+      this.$input.classList.remove('hidden');
+      this.$input.classList.remove('width-zero');
+      this._node.classList.remove('width-zero');
+    }
+  }
 
-    input.addEventListener('keypress', (event: KeyboardEvent) => {
-      if (event.key !== 'Enter') return;
+  mouseEnterSearchIcon() {
+    const width = window.innerWidth;
 
-      this.dispatchSearchEvent(input.value);
-    });
+    if (width > SCREEN_WIDTH) return;
 
-    button.addEventListener('click', () => {
-      this.dispatchSearchEvent(input.value);
-    });
+    this.$input.focus();
+
+    this.$input.classList.remove('hidden');
+    this.$input.classList.add('width-full');
+    this.$input.classList.remove('width-zero');
+    this._node.classList.add('width-full');
+    this._node.classList.remove('width-zero');
+    this._node.dispatchEvent(new CustomEvent('enterSearchIcon', { bubbles: true }));
+  }
+
+  mouseLeaveSearchIcon() {
+    const width = window.innerWidth;
+
+    if (width > SCREEN_WIDTH) return;
+
+    this.$input.classList.add('hidden');
+    this.$input.classList.add('width-zero');
+    this.$input.classList.remove('width-full');
+    this._node.classList.add('width-zero');
+    this._node.classList.remove('width-full');
+    this._node.dispatchEvent(new CustomEvent('leaveSearchIcon', { bubbles: true }));
   }
 
   dispatchSearchEvent(keyword: string): void {
     this._node.dispatchEvent(new CustomEvent('searchMovies', { bubbles: true, detail: { keyword } }));
+  }
+
+  initEventHandler() {
+    const button = this._node.querySelector<HTMLButtonElement>('.search-button');
+
+    if (!button) return;
+
+    this.$input.addEventListener('keypress', (event: KeyboardEvent) => {
+      if (event.key !== 'Enter') return;
+      this.dispatchSearchEvent(this.$input.value);
+    });
+    button.addEventListener('click', () => {
+      this.dispatchSearchEvent(this.$input.value);
+    });
+    this._node.addEventListener('mouseenter', this.mouseEnterSearchIcon.bind(this));
+    this._node.addEventListener('mouseleave', this.mouseLeaveSearchIcon.bind(this));
+    window.addEventListener('resize', this.toggleInputUI.bind(this));
+    window.addEventListener('load', this.toggleInputUI.bind(this));
   }
 }
 

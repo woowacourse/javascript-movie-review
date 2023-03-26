@@ -90,7 +90,7 @@ class MovieList {
     if (type === FetchType.Popular) {
       this.listName.innerText = '지금 인기있는 영화';
     } else {
-      this.listName.innerText = `${keyword} 검색 결과`;
+      this.listName.innerText = `"${keyword}" 검색 결과`;
     }
   }
 

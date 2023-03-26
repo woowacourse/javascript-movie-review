@@ -8,6 +8,10 @@ body {
   color: #fff;
 }
 
+main {
+  padding-top: 120px;
+}
+
 .overflow-hidden {
   overflow: hidden;
 }
@@ -114,8 +118,20 @@ button {
 .item-thumbnail {
   border-radius: 8px;
   width: 100%;
-  height: auto;
+  min-height: 360px;
   background-size: contain;
+}
+
+@media screen and (max-width: 1023px) {
+  .item-thumbnail {
+    min-height: 300px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .item-card {
+    min-height: 270px;
+  }
 }
 
 .item-title {
@@ -198,15 +214,23 @@ button.primary {
 }
 
 .header {
+  position: fixed;
   width: 100%;
   height: 72px;
   background-color: #222;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 0 20px;
   border-bottom: 1px solid white;
   margin-bottom: 48px;
+}
+
+.header-between {
+  justify-content: space-between;
+}
+
+.header-end {
+  justify-content: flex-end;
 }
 
 header h1 {
@@ -222,6 +246,10 @@ header > .search-box {
   background: #fff;
   padding: 8px;
   border-radius: 4px;
+  display: flex;
+  position: relative;
+  min-height: 34px;
+  min-width: 30px;
 }
 
 header .search-box > input {
@@ -229,6 +257,8 @@ header .search-box > input {
 }
 
 header .search-box > .search-button {
+  position: absolute;
+  right: 8px;
   width: 14px;
   border: 0;
   text-indent: -1000rem;
@@ -238,4 +268,32 @@ header .search-box > .search-button {
 
 .hidden {
   display: none;
+}
+
+.width-full {
+  width: 0%;
+  animation: search-in-animation 1s ease forwards;
+}
+
+.width-zero {
+  width: 100%;
+  animation: search-out-animation 1s ease forwards;
+}
+
+@keyframes search-in-animation {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes search-out-animation {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
 }

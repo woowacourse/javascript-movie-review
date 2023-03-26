@@ -18,9 +18,15 @@
   align-items: center;
 }
 
+@media screen and (max-width: 600px) {
+  .modal-backdrop {
+    display: grid;
+    align-items: flex-end;
+  }
+}
+
 .modal-layout {
   width: 740px;
-  height: 577px;
   border-radius: 8px;
   background-color: #212122;
   max-height: 100%;
@@ -32,6 +38,12 @@
   .modal-layout {
     width: 390px;
     height: 500px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .modal-layout {
+    min-width: 100vw;
   }
 }
 
@@ -90,7 +102,8 @@
 
 .movie-detail-thumbnail {
   width: 292px;
-  height: 100%;
+  height: auto;
+  min-height: 435px;
 }
 
 @media screen and (max-width: 1023px) {
@@ -172,6 +185,13 @@
 .movie-detail-title.skeleton {
   max-width: 360px;
   min-width: 360px;
+}
+
+@media screen and (max-width: 1023px) {
+  .movie-detail-title.skeleton {
+    max-width: 200px;
+    min-width: 200px;
+  }
 }
 
 .voted-star-container {

@@ -58,8 +58,6 @@ class MovieCard {
     if (!thumbnail || !thumbnailSkeleton) return;
 
     thumbnail.addEventListener('load', () => {
-      if (!thumbnail.complete) return;
-
       this.completeLoadImage(thumbnail, thumbnailSkeleton);
     });
 
