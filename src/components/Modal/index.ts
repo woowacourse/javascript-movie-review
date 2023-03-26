@@ -13,7 +13,7 @@ class Modal {
   render() {
     this.#$target.innerHTML = /*html*/ `<div class="modal-backdrop"></div>
     <div class="modal-container">
-      <button class="close-button">X</button>
+      <div class="close-button"></div>
     </div>`;
   }
 
