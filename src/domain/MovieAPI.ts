@@ -34,7 +34,7 @@ class MovieAPI {
   }
 
   private processData(moviesData: MovieDataResult[]) {
-    const movies: Movie[] = moviesData.map((movie: MovieDataResult) => ({
+    const movies = moviesData.map<Movie>((movie: MovieDataResult) => ({
       id: movie.id,
       title: movie.title,
       genres: this.convertMovieGenreId(movie.genreIds),
