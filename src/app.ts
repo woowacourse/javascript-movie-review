@@ -1,6 +1,5 @@
 import { FetchedMovieDetailJson, FetchedMovieJson } from './types/fetchJsonType';
 import { FetchStandard, FetchType } from './types/fetchType';
-import MovieModal from './components/MovieModal';
 import fetchJson from './domains/fetchJson';
 import getAPI from './domains/getAPI';
 import { dataProcessors } from './domains/processMovieData';
@@ -86,25 +85,16 @@ class App {
       detail: { movieId },
     } = event as Event & { detail: { movieId: number } };
 
-    const app = document.querySelector('#app');
+    render.openModal(movieId);
 
-    if (!app) return;
-
-    const movieModal = new MovieModal(movieId);
-    app.insertAdjacentElement('beforeend', movieModal.node);
-
-    const api = `https://api.themoviedb.org/3/movie/${movieId}?api_key=7346e1b315e7e7c5dc1e70459156cce2&language=ko-KR`;
-    const movieDetailJson = await fetchJson<FetchedMovieDetailJson>(api);
+    const movieDetailJson = await fetchJson<FetchedMovieDetailJson>(getAPI.detailMovie(movieId));
     const movieDetail = dataProcessors.processMovieDetailData(movieDetailJson);
-    movieModal.updateMovieDetail(movieDetail);
+
+    render.updateModal(movieDetail);
   }
 
   closeMovieModal() {
-    const $modal = document.querySelector('.modal');
-
-    if (!$modal) return;
-
-    $modal.remove();
+    render.closeModal();
   }
 
   initEventHandler() {
