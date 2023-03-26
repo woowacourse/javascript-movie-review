@@ -32,9 +32,9 @@ main {
 }
 
 .item-view {
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   width: 1200px;
   height: 100%;
   margin: 0 auto;
@@ -44,6 +44,11 @@ main {
   font-size: 2rem;
   font-weight: bold;
   user-select: none;
+}
+
+.observe-target {
+  position: absolute;
+  bottom: 0;
 }
 
 .error-container {
