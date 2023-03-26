@@ -90,9 +90,6 @@ export default class MovieDetailModal {
     this.$userVoteStarSpan.addEventListener('click', (e) => {
       if (!(e.target instanceof HTMLImageElement)) return;
 
-      console.log(this.movieDetail.id);
-      console.log(e.target.dataset.rate);
-
       this.starRate = Number(e.target.dataset.rate);
       const $movieDetailModalUserVote = this.$modal.querySelector(
         '.movie-detail-modal-user-vote',

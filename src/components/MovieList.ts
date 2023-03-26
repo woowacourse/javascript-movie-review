@@ -5,6 +5,8 @@ import MovieCard from './MovieCard';
 import MovieDetailModal from './MovieDetailModal';
 
 export default class MovieList {
+  io: any;
+  handleClickMovieCard = (e: Event) => {};
   $parent: HTMLElement;
   renderMode: 'popular' | 'search';
   $title: HTMLHeadElement;
@@ -64,17 +66,17 @@ export default class MovieList {
       this.renderMovieCards(results, total_pages);
     };
 
-    const io = new IntersectionObserver(
+    this.io = new IntersectionObserver(
       (entries, observer) => {
         if (!entries[0].isIntersecting) return;
         handleMoreMovieButton();
       },
       { rootMargin: '100%' },
     );
-    io.observe(this.$moreMovieButton);
+    this.io.observe(this.$moreMovieButton);
 
     // 모달 이벤트
-    this.$movieItemList.addEventListener('click', (e) => {
+    this.handleClickMovieCard = (e: Event) => {
       if (!(e.target instanceof HTMLElement)) return;
       const $itemCard = e.target.closest('.js-item-card');
       if (
@@ -91,7 +93,9 @@ export default class MovieList {
 
         $detailModal.show();
       });
-    });
+    };
+
+    this.$movieItemList.addEventListener('click', this.handleClickMovieCard);
   }
 
   renderTitle(title: string) {
@@ -108,6 +112,8 @@ export default class MovieList {
   }
 
   removeMovieCards() {
+    this.io.unobserve(this.$moreMovieButton);
+    this.$movieItemList.removeEventListener('click', this.handleClickMovieCard);
     this.$movieItemList.innerHTML = '';
   }
 
