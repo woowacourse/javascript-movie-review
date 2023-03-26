@@ -24,8 +24,13 @@
 .item-list {
   display: grid;
   width: 100%;
-  /*grid-column-gap: 50px;*/
   grid-row-gap: 15px;
+}
+
+.item-list li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Desktop */
