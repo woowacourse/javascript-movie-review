@@ -45,13 +45,8 @@ class Header {
     };
 
     const isChildOfInputWrapper = (element: HTMLElement) => {
-      while (element) {
-        if (element === $inputWrapper) {
-          return true;
-        }
-        element = element.parentElement as HTMLElement;
-      }
-      return false;
+      if (!$inputWrapper) return false;
+      return $inputWrapper.contains(element);
     };
 
     const handleClick = (e: MouseEvent) => {
