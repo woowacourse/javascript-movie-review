@@ -7,41 +7,54 @@ import NotFoundImageIcon from "../../../images/not_found_image.png";
 import { imageUrl } from "../../../constants/urls";
 
 const MovieDetailModal = {
+  skeletonTeplate() {
+    return `
+    <div class="detail-header"></div>
+    <div class="detail-body">
+      <div class="detail-image detail-skeleton"></div>
+      <div class="detail-contents">
+        <div class="detail-info">
+          <div class="detail-genre-score detail-skeleton"></div>
+          <div class="detail-overview detail-skeleton"></div>
+        </div>
+        <div class="my-vote-container detail-skeleton"></div>
+      </div>
+    </div>
+    `;
+  },
+
   template(movieDetail) {
     const { title, posterSrc, voteAverage, genres, overview, myVote } =
       movieDetail.getMovieDetailInfo();
 
     return `
-    <div class="movie-detail">
-      <div class="detail-header">
-        <div class="detail-title">${title}</div>
-        <button class="close-button" />
-      </div>
-      <div class="detail-body">
-        <img
-        class="detail-image"
-        src=${posterSrc ? this.convertToImgUrl(posterSrc) : NotFoundImageIcon}
-        alt=${title}
-        />
-        <div class="detail-contents">
-          <div class="detail-info">
-            <p class="detail-genre-score">${genres.map(
-              (genre) => genre.name
-            )} <img class="detail-star" src=${StarIcon} alt="별점" /> ${voteAverage}</p>
-            <p class="detail-overview">${overview || "영화에 대한 줄거리가 존재하지 않습니다."}</p>
-          </div>
-          <div class="my-vote-container">
-              ${this.myVoteTemplate(myVote)}
-          </div>
+    <div class="detail-header">
+      <div class="detail-title">${title}</div>
+      <button class="close-button" />
+    </div>
+    <div class="detail-body">
+      <img
+      class="detail-image"
+      src=${posterSrc ? this.convertToImgUrl(posterSrc) : NotFoundImageIcon}
+      alt=${title}
+      />
+      <div class="detail-contents">
+        <div class="detail-info">
+          <p class="detail-genre-score">${genres.map(
+            (genre) => genre.name
+          )} <img class="detail-star" src=${StarIcon} alt="별점" /> ${voteAverage}</p>
+          <p class="detail-overview">${overview || "영화에 대한 줄거리가 존재하지 않습니다."}</p>
+        </div>
+        <div class="my-vote-container">
+            ${this.myVoteTemplate(myVote)}
         </div>
       </div>
     </div>
     `;
   },
 
-  myVoteTemplate(score) {
-    const voteDesc = {
-      0: "",
+  myVoteTemplate(myScore) {
+    const voteComments = {
       2: "최악이에요",
       4: "별로에요",
       6: "보통이에요",
@@ -52,29 +65,24 @@ const MovieDetailModal = {
     return `
     <span class="my-vote-title">내 별점</span>
     <div class="my-vote-star-container">
-      <img class="my-vote-star" src=${
-        score >= 2 ? StarIcon : EmeptyStarIcon
-      } alt="별점" data-score=2 />
-      <img class="my-vote-star" src=${
-        score >= 4 ? StarIcon : EmeptyStarIcon
-      } alt="별점" data-score=4 />
-      <img class="my-vote-star" src=${
-        score >= 6 ? StarIcon : EmeptyStarIcon
-      } alt="별점" data-score=6 />
-      <img class="my-vote-star" src=${
-        score >= 8 ? StarIcon : EmeptyStarIcon
-      } alt="별점" data-score=8 />
-      <img class="my-vote-star" src=${
-        score >= 10 ? StarIcon : EmeptyStarIcon
-      } alt="별점" data-score=10 />
+      ${Object.keys(voteComments)
+        .map(
+          (voteScore) =>
+            `<img class="my-vote-star" src=${
+              myScore >= Number(voteScore) ? StarIcon : EmeptyStarIcon
+            } alt="별점" data-score=${voteScore} />`
+        )
+        .join("")}
     </div>
-    <span class="my-vote-score">${score || ""}</span>
-    <span class="my-vote-desc">${voteDesc[score]}</span>
+    <span class="my-vote-score">${myScore || ""}</span>
+    <span class="my-vote-comment">${voteComments[myScore] || ""}</span>
     `;
   },
 
   async render(id) {
     const $modalContainer = document.querySelector(".modal-container");
+
+    $modalContainer.innerHTML = this.skeletonTeplate();
     const movieDetail = await this.getMovieDetail(id);
     $modalContainer.innerHTML = this.template(movieDetail);
     this.setEvent(id);
@@ -124,7 +132,7 @@ const MovieDetailModal = {
   },
 
   setEventOnclickVoteStar(id) {
-    const $myVoteStarContainer = document.querySelector(".my-vote-star-container");
+    const $myVoteStarContainer = document.querySelector(".my-vote-container");
 
     $myVoteStarContainer.addEventListener("click", (event) => {
       const $star = event.target.closest(".my-vote-star");
@@ -132,7 +140,6 @@ const MovieDetailModal = {
       const score = $star.dataset.score;
 
       this.renderMyVote(score);
-      this.setEventOnclickVoteStar(id);
       this.setMyVoteToLocalStorage(id, score);
     });
   },
