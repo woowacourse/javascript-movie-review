@@ -65,8 +65,8 @@ button {
 
   .item-list,
   .skeleton-cards {
-    grid-template-columns: repeat(3, 1fr);
-    grid-column-gap: 160px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 80px;
   }
 }
 
@@ -99,6 +99,12 @@ button {
   flex-direction: column;
 
   width: 100%;
+
+  transition: transform 0.2s ease-in-out;
+}
+
+.item-card:hover {
+  transform: scale(1.05);
 }
 
 .item-thumbnail {
@@ -107,16 +113,6 @@ button {
   height: calc(with * 5 / 6);
   background-size: contain;
 }
-
-/* @media screen and (max-width: 419px) {
-  .item-card {
-    width: 150px;
-  }
-
-  .item-thumbnail {
-    height: calc(270px * 5 / 6);
-  }
-} */
 
 .item-title {
   margin-top: 16px;
