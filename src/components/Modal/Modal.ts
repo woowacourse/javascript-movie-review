@@ -51,12 +51,6 @@ class Modal {
     return stars;
   }
 
-  updateStars(stars: Array<HTMLImageElement>, rating: number) {
-    stars.forEach((star, i) => {
-      star.src = i * 2 + 2 <= rating ? FilledStarIcon : EmptyStarIcon;
-    });
-  }
-
   getScoreComment(rating: number) {
     switch (rating) {
       case 2:
@@ -119,6 +113,22 @@ class Modal {
     this.toggleReRateButtonVisibility();
   }
 
+  updateStarsAndComments(
+    stars: Array<HTMLImageElement>,
+    rating: number,
+    scoreElement: Element | null,
+    ratingCommentElement: Element | null
+  ) {
+    stars.forEach((star, i) => {
+      star.src = i * 2 + 2 <= rating ? FilledStarIcon : EmptyStarIcon;
+    });
+
+    if (!scoreElement || !ratingCommentElement) return;
+
+    scoreElement.textContent = rating ? rating.toString() : "";
+    ratingCommentElement.textContent = rating ? this.getScoreComment(rating) : "";
+  }
+
   updateRating(movieId: string, rating: number) {
     const $userRateContainer = $(".user-rate-container", this.$target);
     if (!$userRateContainer) return;
@@ -130,9 +140,7 @@ class Modal {
     if (!ratingCommentElement) return;
 
     const stars: Array<HTMLImageElement> = Array.from($$("img", $userRateContainer));
-    this.updateStars(stars, rating);
-    scoreElement.textContent = rating ? rating.toString() : "";
-    ratingCommentElement.textContent = rating ? this.getScoreComment(rating) : "";
+    this.updateStarsAndComments(stars, rating, scoreElement, ratingCommentElement);
   }
 
   show() {
@@ -217,7 +225,7 @@ class Modal {
           const scoreElement = $(".score", $userRateContainer);
           const ratingCommentElement = $(".score-comment", $userRateContainer);
 
-          this.updateStars(stars, rating);
+          this.updateStarsAndComments(stars, rating, scoreElement, ratingCommentElement);
 
           if (scoreElement && ratingCommentElement) {
             scoreElement.textContent = rating.toString();
@@ -230,14 +238,14 @@ class Modal {
         if (this.#isAlreadyRated) return;
         const movieId = (e.currentTarget as HTMLElement)?.dataset.movieId ?? "";
         const ratingCommentElement = $(".score-comment", $userRateContainer);
-
         const ratings: IRatings = getRatings() as IRatings;
         const stars: Array<HTMLImageElement> = Array.from($$("img", $userRateContainer));
-        this.updateStars(stars, 0);
+        const scoreElement = $(".score", $userRateContainer);
+
+        this.updateStarsAndComments(stars, 0, scoreElement, ratingCommentElement);
 
         const storedRating = ratings[movieId] || 0;
 
-        const scoreElement = $(".score", $userRateContainer);
         if (scoreElement && ratingCommentElement) {
           scoreElement.textContent = storedRating ? storedRating.toString() : "";
           ratingCommentElement.textContent = this.getScoreComment(+storedRating);
