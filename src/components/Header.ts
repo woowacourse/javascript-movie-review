@@ -22,7 +22,7 @@ export default class Header implements Component {
 
   render() {
     this.$element.innerHTML = this.template();
-    if (window.outerWidth <= MOBILE_WIDTH) this.setEventForMobile();
+    if (window.innerWidth <= MOBILE_WIDTH) this.setEventForMobile();
     this.setEvent();
   }
 
@@ -48,7 +48,7 @@ export default class Header implements Component {
 
   setEventForMobile() {
     this.hideSearchInput();
-    
+
     (<HTMLButtonElement>this.$element.querySelector('.search-button')).addEventListener(
       'click',
       this.onClickSearchButton.bind(this),
@@ -69,6 +69,7 @@ export default class Header implements Component {
     e.preventDefault();
 
     this.showSearchInput();
+    (<HTMLInputElement>this.$element.querySelector('input[name="query"]')).focus();
   }
 
   onClickMainLogo() {
