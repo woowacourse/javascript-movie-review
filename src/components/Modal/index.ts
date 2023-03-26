@@ -1,3 +1,7 @@
+import { MovieDetailResponse } from "../../types";
+import { fetchMovieDetail } from "../../utils/api";
+import { MovieDetail } from "../MovieDetail";
+
 class Modal {
   #$target;
   constructor($target: Element) {
@@ -11,6 +15,14 @@ class Modal {
       <button class="close-button">X</button>
     </div>`;
   }
+
+  async renderMovieDetail(movieId: number) {
+    this.#$target.classList.toggle("hidden");
+    const movieDetail: MovieDetailResponse = await fetchMovieDetail(movieId);
+    this.#$target.innerHTML = `${MovieDetail.render(movieDetail)}`;
+  }
+
+  closeModal() {}
 }
 
 export { Modal };

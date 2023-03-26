@@ -26,12 +26,21 @@ class MovieList {
 
   #$skeletonContainer = getSkeletonContainer();
 
-  constructor($target: Element) {
+  constructor($target: Element, onClickMovie: (movieId: number) => void) {
     this.#$target = $target;
     this.renderSkeleton();
     this.init();
 
     $(".btn").addEventListener("click", this.onClickMoreButton.bind(this));
+    $(".item-list").addEventListener("click", (event: Event) => {
+      const clickedLi = event.target as HTMLElement;
+      const closestLi = clickedLi.closest("li");
+
+      if (closestLi && closestLi.dataset.id) {
+        const movieId = parseInt(closestLi.dataset.id, 10);
+        onClickMovie(movieId);
+      }
+    });
   }
 
   async init() {
@@ -42,23 +51,6 @@ class MovieList {
     this.#movies.reset(results);
 
     this.renderMovieList(total_pages);
-    this.onclickMovie();
-  }
-
-  onclickMovie() {
-    $(".item-list").addEventListener("click", (e: Event) => {
-      this.#movies.getList().forEach((movie) => {
-        const clickedLi = e.target as HTMLElement;
-        const closestLi = clickedLi.closest("li");
-
-        if (closestLi && closestLi.dataset.id) {
-          const movieId = parseInt(closestLi.dataset.id, 10);
-          if (movieId === movie.id) {
-            return movie;
-          }
-        }
-      });
-    });
   }
 
   async reset(state: showType, searchKeyword?: string) {

@@ -135,6 +135,14 @@ header .search-box > .search-button {
   margin-top: 48px;
 }
 
+.hidden {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
 .modal-backdrop {
   position: fixed;
   top: 0;
