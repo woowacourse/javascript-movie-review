@@ -5,6 +5,11 @@ import { HTMLMovieContainerElement } from './components/MoviesContainer';
 import { HTMLModalElement } from './components/Modal';
 
 const setMovieSiteUrl = (isFirstStart: boolean): void => {
+  if (!navigator.onLine) {
+    setDisconnectedError();
+    return;
+  }
+
   const movieContainer = $('movies-container') as HTMLMovieContainerElement;
   const modal = $('#modal') as HTMLDialogElement;
 
@@ -43,13 +48,6 @@ const setMovieSiteUrl = (isFirstStart: boolean): void => {
   movieContainer.setSearchWord('');
 };
 
-const setStartDetailModalEvent = (detailMovieId: string) => {
-  const movieContainer = $('movies-container') as HTMLMovieContainerElement;
-
-  movieContainer.setSearchWord('');
-  setDetailModal(detailMovieId);
-};
-
 const setDetailModalEvent = (detailMovieId: string) => {
   setDetailModal(detailMovieId);
 };
@@ -60,6 +58,7 @@ const setDisconnectedError = () => {
   movieContainer.reset();
   $('#more-button')?.classList.add('hide-button');
   $('#skeleton-container')?.classList.add('skeleton-hide');
+
   movieContainer.setErrorMessage('인터넷 연결이 끊겼습니다.');
 };
 

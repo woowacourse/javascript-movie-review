@@ -73,6 +73,8 @@ class Movie {
       score: fetchedMovie.vote_average,
       description: fetchedMovie.overview,
       categories: fetchedMovie.genres.map(genre => genre.name).join(', '),
+      releaseDate: fetchedMovie.release_date,
+      runningTime: fetchedMovie.runtime,
     };
   }
 

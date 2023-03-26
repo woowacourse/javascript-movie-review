@@ -74,7 +74,6 @@ class MoviesContainer extends HTMLElement {
       this.#isFatching = false;
     } catch (error) {
       this.setErrorMessage(getErrorMessage(error));
-      $('#more-button')?.classList.add('hide-button');
       $('#skeleton-container')?.classList.add('skeleton-hide');
     }
   }

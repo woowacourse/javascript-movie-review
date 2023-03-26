@@ -1,7 +1,7 @@
 import './Modal.css';
 import STAR_FILLED from '../image/star-filled.png';
 import STAR_EMPTY from '../image/star-empty.png';
-import { $, getErrorMessage, sliceSting } from '../utils/common';
+import { $, sliceScore, sliceSting } from '../utils/common';
 import { MovieDetailInfo, MovieInfo, MovieScoreInfo } from '../types/type';
 import Movie from '../domain/Movie';
 import { HTMLMovieListItemElement } from './MovieListItem';
@@ -23,6 +23,8 @@ class Modal extends HTMLElement {
     score: 0,
     description: '',
     categories: '',
+    runningTime: 0,
+    releaseDate: '',
   };
 
   connectedCallback(): void {
@@ -40,11 +42,16 @@ class Modal extends HTMLElement {
   }
 
   render(): void {
-    const myScore = this.getAttribute('my-score') || '0';
-    const { id, title, imgUrl, score, description, categories } = this.#detailMovieInfo;
+    const STAR_COUNT = 5;
+    const { title, imgUrl, score, description, categories, releaseDate, runningTime } = this.#detailMovieInfo;
 
-    const fillStarCount = Math.round(Number(myScore)) / 2;
-    const emptyStarCount = 5 - fillStarCount;
+    const slicedScore = sliceScore(score.toFixed(1));
+
+    const releaseDateText = releaseDate ? releaseDate.replace(/-/g, '/') : '';
+
+    const hour = (runningTime / 60).toFixed(0) !== '0' ? `${(runningTime / 60).toFixed(0)}시간` : '';
+    const minute = runningTime % 60 !== 0 ? `${runningTime % 60}분` : '';
+    const runningTimeText = runningTime !== 0 ? `${hour} ${minute}` : '';
 
     this.innerHTML = /*html*/ `
         <dialog id="modal" class="modal-wrapper">
@@ -67,7 +74,11 @@ class Modal extends HTMLElement {
                         <div>
                             <div class="modal-main-category-score">
                                 <div id="modal-category" class="modal-category-skeleton">${categories}</div>
-                                <movie-score score="${score}" class="modal-score-wrapper"></movie-score>
+                                <movie-score score="${slicedScore}" class="modal-score-wrapper"></movie-score>
+                            </div>
+                            <div class="modal-main-date-time">
+                              <div class="modal-date" title="개봉일">${releaseDateText}</div>
+                              <div class="modal-running-time" title="상영 시간">${runningTimeText}</div>
                             </div>
                             <p class="modal-description">
                             ${description}
@@ -76,8 +87,7 @@ class Modal extends HTMLElement {
                         <div class="modal-my-score-wrapper">
                             <span class="modal-my-score">내 별점</span>
                             <div id="modal-star-score" class="modal-star-score">
-                                ${`<img class="modal-star" src="${STAR_FILLED}">`.repeat(fillStarCount)}
-                                ${`<img class="modal-star" src="${STAR_EMPTY}">`.repeat(emptyStarCount)}
+                                ${`<img class="modal-star" src="${STAR_EMPTY}">`.repeat(STAR_COUNT)}
                             </div>
                             <span id="modal-my-score" class="modal-number-score"></span>
                             <span id="modal-my-comment" class="modal-comment"></span>
@@ -123,10 +133,6 @@ class Modal extends HTMLElement {
       return;
     }
     window.location.hash = ' ';
-  }
-
-  setModalAttributes({ id, title, imgUrl, score, description, categories }: MovieDetailInfo): void {
-    this.#detailMovieInfo = { id, title, imgUrl, score, description, categories };
   }
 
   getScoreComment(score: string): string {

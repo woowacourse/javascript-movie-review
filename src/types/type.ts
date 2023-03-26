@@ -10,6 +10,8 @@ export interface MovieInfo {
 
 export interface MovieDetailInfo extends MovieInfo {
   categories: string;
+  releaseDate: string;
+  runningTime: number;
 }
 
 export interface ParsedMovieResult {
