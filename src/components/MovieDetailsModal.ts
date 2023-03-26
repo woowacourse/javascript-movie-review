@@ -36,10 +36,6 @@ export default class MovieDetailsModal implements Component {
     this.#movie = movie;
   }
 
-  get movieID() {
-    return this.#movie.id;
-  }
-
   render() {
     this.$element.innerHTML = this.template();
     this.loadUserScore();
