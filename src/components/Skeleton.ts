@@ -5,7 +5,7 @@ export class Skeleton {
   constructor($listItems: HTMLElement) {
     this.#$movieItems = $listItems;
     this.#$container = document.createElement('ul');
-    this.#$container.className = 'item-list';
+    this.#$container.className = 'item-list skeleton-container';
     this.#$container.innerHTML = this.#template();
   }
 
