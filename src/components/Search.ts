@@ -9,19 +9,23 @@ export function Search() {
   Event.addEvent('submit', '#search-movie-box', async (event) => {
     event.preventDefault();
 
-    if (checkExistInput()) {
-      const formEl = $('#search-movie-box') as HTMLFormElement;
-      const formData = getFormFields(formEl);
-      formEl.reset();
+    if (matchMedia('screen and (max-width: 480px)').matches) {
+      if (!checkExistInput()) return;
+    }
 
-      PageData.changePageStatus('search');
-      PageData.resetPage();
-      changePageHeader('search', String(formData.keyword));
-      resetMovieList();
-      PageData.setRecentKeyword(String(formData.keyword));
-      showMovieList();
-      MovieData.resetMovieData();
+    const formEl = $('#search-movie-box') as HTMLFormElement;
+    const formData = getFormFields(formEl);
+    formEl.reset();
 
+    PageData.changePageStatus('search');
+    PageData.resetPage();
+    changePageHeader('search', String(formData.keyword));
+    resetMovieList();
+    PageData.setRecentKeyword(String(formData.keyword));
+    showMovieList();
+    MovieData.resetMovieData();
+
+    if (matchMedia('screen and (max-width: 480px)').matches) {
       checkExistLogo();
     }
   });
@@ -43,7 +47,6 @@ function checkExistInput() {
   if (inputElem.classList.contains('hidden')) {
     toggle(inputElem, 'hidden');
     toggle(logoImg, 'hidden');
-
     return false;
   }
   return true;
