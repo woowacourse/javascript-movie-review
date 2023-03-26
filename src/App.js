@@ -26,7 +26,7 @@ export default class App {
     });
     this.#modal = new Modal($('#app'));
     this.#movieList = new MovieList($('main'), {
-      onClickMoreButton: this.renderMovieList.bind(this),
+      onObserveElement: this.renderMovieList.bind(this),
       onClickCard: this.renderModalContent.bind(this),
     });
 

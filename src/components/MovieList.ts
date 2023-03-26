@@ -1,10 +1,12 @@
 import MovieCard from './MovieCard';
 
+import Component from '../type/Component';
 import { Movie } from '../type/Movie';
 import { MovieMetadata, FaildData } from '../api/get';
 
+import { observerOptionMaker } from '../utils';
+
 import errorImg from '../assets/error.jpg';
-import Component from '../type/Component';
 
 const headerTemplate = {
   popular: '지금 인기 있는 영화',
@@ -25,12 +27,16 @@ const errorTemplate = (statusCode: number, statusMessage: string) => {
 };
 
 type HandlerCallback = {
-  onClickMoreButton: () => void;
+  onObserveElement: () => void;
   onClickCard: (movieId: string) => void;
 };
 
 export default class MovieList implements Component {
   private $element;
+  private observer = new IntersectionObserver((entries) => {
+    if (!entries[0].isIntersecting) return;
+    this.handlerCallback.onObserveElement();
+  }, observerOptionMaker('1200px 0px', 0));
 
   constructor($parent: Element, private handlerCallback: HandlerCallback) {
     this.$element = document.createElement('section');
@@ -53,14 +59,25 @@ export default class MovieList implements Component {
     <ul class="skeleton-item-list item-list hide">
       ${this.getSkeletonCardsHTML(20)}
     </ul>
-    <button id="more-button" class="btn primary full-width">더 보기</button>`;
+    <div id="observe-target" class="observe-target"></div>`;
   }
 
   setEvent() {
-    const moreButton = this.$element.querySelector('#more-button');
-    if (!(moreButton instanceof HTMLButtonElement)) return;
+    this.observe();
+  }
 
-    moreButton.addEventListener('click', this.handlerCallback.onClickMoreButton.bind(this));
+  observe() {
+    const $observeTarget = this.$element.querySelector('#observe-target');
+    if (!($observeTarget instanceof HTMLDivElement)) return;
+
+    this.observer.observe($observeTarget);
+  }
+
+  unObserve() {
+    const $observeTarget = this.$element.querySelector('#observe-target');
+    if (!($observeTarget instanceof HTMLDivElement)) return;
+
+    this.observer.unobserve($observeTarget);
   }
 
   renderListContent(movieMetaData: MovieMetadata | FaildData) {
@@ -76,7 +93,7 @@ export default class MovieList implements Component {
     const { movieList, page, totalPages } = movieMetaData;
 
     if (this.isLastPage(page, totalPages)) {
-      this.hideMoreButton();
+      this.unObserve();
     }
 
     this.hideSkeletonList();
