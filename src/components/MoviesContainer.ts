@@ -45,6 +45,7 @@ class MoviesContainer extends HTMLElement {
     this.renderContainer();
     this.setButtonEvent();
     this.setInfiniteScrollEvent();
+    this.#searchWord.value = '';
   }
 
   renderContainer(): void {

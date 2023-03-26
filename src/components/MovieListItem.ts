@@ -1,6 +1,5 @@
 import './MovieListItem.css';
-import { $, sliceScore, sliceSting } from '../utils/common';
-import { HTMLModalElement } from './Modal';
+import { sliceScore, sliceSting } from '../utils/common';
 import { MovieScoreInfo } from '../types/type';
 
 export interface HTMLMovieListItemElement extends HTMLElement {
@@ -36,24 +35,9 @@ class MovieListItem extends HTMLElement {
 
   setClickEvent() {
     this.querySelector('li')?.addEventListener('click', () => {
-      const modal = $('movie-modal') as HTMLModalElement;
-
       const movieId = this.getAttribute('movieId') || '';
-      const title = this.getAttribute('title') || '';
-      const imgUrl = this.getAttribute('imgUrl') || '';
-      const score = this.getAttribute('score') || '';
-      const description = this.getAttribute('description') || '';
 
       this.updateQueries(movieId);
-      modal.setModalAttributes({
-        id: Number(movieId),
-        title,
-        imgUrl,
-        score: Number(sliceScore(score)),
-        description,
-      });
-      modal.updateDetailModal();
-      modal.openModal();
     });
   }
 

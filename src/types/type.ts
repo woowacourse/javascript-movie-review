@@ -8,8 +8,8 @@ export interface MovieInfo {
   description: string;
 }
 
-export interface MovieDetailInfo {
-  category: MovieDetailResult['genres'];
+export interface MovieDetailInfo extends MovieInfo {
+  categories: string;
 }
 
 export interface ParsedMovieResult {

@@ -67,7 +67,12 @@ class Movie {
 
   parseMovieDatail(fetchedMovie: MovieDetailResult): MovieDetailInfo {
     return {
-      category: fetchedMovie.genres,
+      id: fetchedMovie.id,
+      title: fetchedMovie.title,
+      imgUrl: fetchedMovie.poster_path,
+      score: fetchedMovie.vote_average,
+      description: fetchedMovie.overview,
+      categories: fetchedMovie.genres.map(genre => genre.name).join(', '),
     };
   }
 

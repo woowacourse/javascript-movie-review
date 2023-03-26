@@ -2,7 +2,7 @@ import './Modal.css';
 import STAR_FILLED from '../image/star-filled.png';
 import STAR_EMPTY from '../image/star-empty.png';
 import { $, sliceSting } from '../utils/common';
-import { MovieInfo, MovieScoreInfo } from '../types/type';
+import { MovieDetailInfo, MovieInfo, MovieScoreInfo } from '../types/type';
 import Movie from '../domain/Movie';
 import { HTMLMovieListItemElement } from './MovieListItem';
 
@@ -11,32 +11,35 @@ export interface HTMLModalElement extends HTMLElement {
   updateDetailModal: () => void;
   setModalAttributes: ({ id, title, imgUrl, score, description }: MovieInfo) => void;
   openModal: () => void;
+  setMovieId: (id: string) => void;
 }
 
 class Modal extends HTMLElement {
-  #detailMovieInfo: MovieInfo = {
+  #detailMovieInfo: MovieDetailInfo = {
     id: 0,
     title: '',
     imgUrl: '',
     score: 0,
     description: '',
+    categories: '',
   };
 
   connectedCallback(): void {
+    this.render(this.#detailMovieInfo);
     this.setEscModalCloseEvent();
   }
 
-  updateDetailModal() {
-    this.render();
+  updateDetailModal(movieInfo: MovieDetailInfo) {
+    this.render(movieInfo);
     this.renderStar();
     this.detailFetchEvent();
     this.setStarClickEvent();
     this.setModalCloseEvent();
   }
 
-  render(): void {
+  render(movieInfo: MovieDetailInfo): void {
     const myScore = this.getAttribute('my-score') || '0';
-    const { title, imgUrl, score, description } = this.#detailMovieInfo;
+    const { id, title, imgUrl, score, description, categories } = movieInfo;
 
     const fillStarCount = Math.round(Number(myScore)) / 2;
     const emptyStarCount = 5 - fillStarCount;
@@ -61,7 +64,7 @@ class Modal extends HTMLElement {
                     <div class="modal-main-content">
                         <div>
                             <div class="modal-main-category-score">
-                                <div id="modal-category" class="modal-category-skeleton"></div>
+                                <div id="modal-category" class="modal-category-skeleton">${categories}</div>
                                 <movie-score score="${score}" class="modal-score-wrapper"></movie-score>
                             </div>
                             <p class="modal-description">
@@ -119,8 +122,8 @@ class Modal extends HTMLElement {
     }
   }
 
-  setModalAttributes({ id, title, imgUrl, score, description }: MovieInfo): void {
-    this.#detailMovieInfo = { id, title, imgUrl, score, description };
+  setModalAttributes({ id, title, imgUrl, score, description, categories }: MovieDetailInfo): void {
+    this.#detailMovieInfo = { id, title, imgUrl, score, description, categories };
   }
 
   getScoreComment(score: string): string {
@@ -142,14 +145,14 @@ class Modal extends HTMLElement {
     const movieDetail = await new Movie().parsedDetailResult(id);
     modalCategory.classList.remove('modal-category-skeleton');
 
-    const categories = movieDetail.category.map(item => item.name);
+    const categories = movieDetail.categories;
 
     if (categories.length === 0) {
       modalCategory.innerText = '카테고리 없음';
       return;
     }
 
-    modalCategory.innerText = categories.join(', ');
+    modalCategory.innerText = categories;
   }
 
   renderStar() {
@@ -206,6 +209,14 @@ class Modal extends HTMLElement {
     const updatedMovieScore = movieScore;
     updatedMovieScore.splice(findIndex, 1, { id, score });
     localStorage.setItem('movieScore', JSON.stringify(updatedMovieScore));
+  }
+
+  async setMovieId(id: string) {
+    if (!id) return;
+
+    const movieDetail = await new Movie().parsedDetailResult(Number(id));
+    this.#detailMovieInfo = movieDetail;
+    this.updateDetailModal(movieDetail);
   }
 
   updateReviewedElement() {
