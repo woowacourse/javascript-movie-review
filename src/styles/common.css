@@ -227,7 +227,7 @@ header .search-box > .search-button {
 
 #modal {
   width: 827px;
-  height: 566px;
+  max-height: 592px;
 
   border: none;
   padding: 0;
@@ -281,7 +281,7 @@ dialog::backdrop {
 
   #modal {
     width: 740px;
-    height: 544px;
+    height: 580px;
   }
 }
 
