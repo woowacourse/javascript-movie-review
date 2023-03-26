@@ -30,6 +30,8 @@
 .item-card {
   display: flex;
   flex-direction: column;
+
+  cursor: pointer;
 }
 
 .item-thumbnail {
