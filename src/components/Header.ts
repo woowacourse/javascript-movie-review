@@ -54,10 +54,9 @@ class Header {
   }
 
   #onClickEvent(e: Event) {
-    if (!(e.target instanceof HTMLElement)) return;
+    if (!(e.target instanceof HTMLImageElement)) return;
     const { target } = e;
-
-    if (target.dataset.type !== 'logo') return;
+    if (target.id !== 'logo') return;
     eventThrottle(() => stateRender.renderPopularMovies.bind(stateRender)(), 2000)();
 
     if (this.#$searchBox instanceof HTMLFormElement) {
@@ -66,10 +65,10 @@ class Header {
   }
 
   #template() {
-    return `<h1><img src="${logo}" alt="MovieList 로고" data-type="logo" /></h1>
+    return `<h1><img id = "logo"src="${logo}" alt="MovieList 로고"/></h1>
       <form class="search-box">
         <input type="text" placeholder="검색" class="search-input" />
-        <button data-type="search" class="search-button">검색</button>
+        <button class="search-button">검색</button>
       </form>`;
   }
 }
