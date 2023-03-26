@@ -45,13 +45,13 @@ class DetailModal {
       `;
 
   init() {
-    this.render(this.movie);
+    this.render();
     document.body.style.overflow = 'hidden';
     this.addEvent();
   }
 
-  render(movie: Movie) {
-    (this.modal as HTMLDialogElement).insertAdjacentHTML('beforeend', this.template(movie));
+  render() {
+    (this.modal as HTMLDialogElement).insertAdjacentHTML('beforeend', this.template(this.movie));
     document.querySelector('.user-score')?.insertAdjacentHTML('beforeend', Rate.template);
     if (this.rate) Rate.renderStar(this.rate);
   }
