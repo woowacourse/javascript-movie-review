@@ -1,12 +1,11 @@
-import LoadMoreButton from './LoadMoreButton';
 import MovieCardList from './MovieCardList';
 import MovieSectionTitle from './MovieSectionTitle';
 import ErrorMessage from './ErrorMessage';
+import ScrollObserver from './ScrollObserver';
 
 import { convertToAppMovies } from '../../domain/util';
 
 import { getPopularMovies, getSearchedMovies } from '../../api';
-import { MAX_PAGE } from '../../constants';
 import { CustomErrorMessage, DEFAULT_ERROR_MESSAGE, isCustomErrorMessage, SEARCH_ERROR_MESSAGE } from '../../constants/message';
 import { CLASS } from '../../constants/selector';
 import movieStates from '../../states/movies';
@@ -15,19 +14,20 @@ import { $ } from '../../utils/dom';
 import './MovieCardSection.style.css';
 
 const MovieCardSection = {
+  observer: ScrollObserver.createObserver(),
+
   template() {
     return `
       <section class=${CLASS.ITEM_VIEW}>
         ${MovieSectionTitle.template()}
         ${MovieCardList.template()}
-        ${LoadMoreButton.template()}
+        ${ScrollObserver.template()}
       </section>
     `;
   },
 
   setEvent() {
     MovieCardList.setEvent();
-    LoadMoreButton.setEvent();
   },
 
   async render(query: string = '') {
@@ -41,12 +41,12 @@ const MovieCardSection = {
       return;
     }
 
-    if (newMovies.list.length === 0) {
+    if (newMovies.length === 0) {
       return MovieCardSection.renderErrorMessage(SEARCH_ERROR_MESSAGE.NO_RESULT);
     }
 
-    MovieCardList.paint(newMovies.list, movieStates.getPage());
-    LoadMoreButton.handleVisibility(movieStates.isLastPage(newMovies.totalPages));
+    MovieCardList.paint(newMovies, movieStates.getPage());
+    ScrollObserver.connect(MovieCardSection.observer);
   },
 
   renderInit(query: string) {
@@ -66,7 +66,6 @@ const MovieCardSection = {
     const itemView = $<HTMLElement>(`.${CLASS.ITEM_VIEW}`);
 
     MovieCardList.handleVisibility(true);
-    LoadMoreButton.handleVisibility(true);
     ErrorMessage.render(itemView, errorMessage);
   },
 
@@ -82,16 +81,18 @@ const MovieCardSection = {
         movieStates.reset(query);
       }
 
-      movieStates.getQuery();
       movieStates.addPage();
 
       const { results, total_pages: totalPages } =
-        query === '' ? await getPopularMovies(movieStates.getPage()) : await getSearchedMovies(query, movieStates.getPage());
+        query === ''
+          ? await getPopularMovies(movieStates.getPage())
+          : await getSearchedMovies(movieStates.getQuery(), movieStates.getPage());
       const movies = convertToAppMovies(results);
 
       movieStates.add(movies);
+      movieStates.setTotalPages(totalPages);
 
-      return { list: movies, totalPages: Math.min(MAX_PAGE, totalPages) };
+      return movies;
     } catch (error) {
       if (isCustomErrorMessage(error)) {
         MovieCardSection.renderErrorMessage(error);

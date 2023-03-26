@@ -1,3 +1,4 @@
+import { MAX_PAGE } from '../constants';
 import type { AppMovie } from '../types/movie';
 
 class Movies {
@@ -5,11 +6,14 @@ class Movies {
 
   #page: number;
 
+  #totalPages: number;
+
   #movies: AppMovie[];
 
   constructor(query: string = '') {
     this.#query = query;
     this.#page = 0;
+    this.#totalPages = MAX_PAGE;
     this.#movies = [];
   }
 
@@ -21,6 +25,10 @@ class Movies {
     return this.#query;
   }
 
+  setTotalPages(totalPages: number) {
+    this.#totalPages = Math.min(totalPages, this.#totalPages);
+  }
+
   add(movies: AppMovie[]) {
     this.#movies = [...this.#movies, ...movies];
   }
@@ -29,8 +37,8 @@ class Movies {
     return currentQuery === this.#query;
   }
 
-  isLastPage(totalPages: number) {
-    return this.#page === totalPages;
+  isPageInRange() {
+    return this.#page < this.#totalPages;
   }
 
   addPage() {
@@ -44,6 +52,7 @@ class Movies {
   reset(query: string) {
     this.#page = 0;
     this.#query = query;
+    this.#totalPages = MAX_PAGE;
     this.#movies = [];
   }
 }
