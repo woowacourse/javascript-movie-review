@@ -1,5 +1,3 @@
-import { MovieApiType } from '../type/movie';
-
 type CacheType = {
   popularPage: Set<number>;
   searchPage: Set<number>;
@@ -21,7 +19,7 @@ export const cacheHook = {
     },
 
     has: (page: number) => {
-      cache.popularPage.has(page);
+      return cache.popularPage.has(page);
     },
   },
 
@@ -32,6 +30,10 @@ export const cacheHook = {
 
     store: (page: number) => {
       cache.searchPage.add(page);
+    },
+
+    has: (page: number) => {
+      return cache.searchPage.has(page);
     },
   },
 };

@@ -1,5 +1,6 @@
-import { cacheHook } from '../../utils/cache';
 import MovieList from './abstract/MovieList';
+
+import { cacheHook } from '../../utils/cache';
 
 export default class MoviePopularList extends MovieList {
   constructor($target: HTMLElement) {
@@ -18,7 +19,6 @@ export default class MoviePopularList extends MovieList {
     popular.store(this.state.getValue('popularPage'));
 
     this.state.setValue('isLoading', true);
-    this.state.setValue('movies', []);
     this.state.emit();
 
     const movieData = await this.getMoviesData('movie/popular', 'popularPage');
@@ -29,6 +29,8 @@ export default class MoviePopularList extends MovieList {
     this.state.setValue('popularPage', currentPage + 1);
     this.state.setValue('isLoading', false);
     this.state.emit();
+
+    this.state.setValue('movies', []);
   }
 
   emit() {

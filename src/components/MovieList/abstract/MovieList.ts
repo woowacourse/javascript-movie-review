@@ -37,10 +37,11 @@ export default abstract class MovieList extends Component {
   }
 
   async getMovieDetailData(router: string) {
-    const { title, vote_average, poster_path, overview, genres } =
+    const { id, title, vote_average, poster_path, overview, genres } =
       await getApiData<MovieDetailApiType>(makeURL(router));
 
     return {
+      id,
       title,
       voteAverage: vote_average,
       poster_path: poster_path,

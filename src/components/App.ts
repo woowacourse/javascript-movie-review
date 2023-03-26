@@ -8,6 +8,7 @@ import Skeleton from './MovieList/Skeleton';
 import MovieItemModal from './MovieList/MovieDetail';
 import MovieDetail from './MovieList/MovieDetail';
 
+// utils
 import { $ } from '../utils/domHelper';
 
 type ComponentType = {
@@ -37,18 +38,13 @@ export default class App {
       <header></header>
       <main>
         <section class="item-view">
-        <h2 class="movie-list-title"></h2>
-        <ul class="item-list movie-container"></ul>
-        <ul class="item-list skeleton-container"></ul>
+          <h2 class="movie-list-title"></h2>
+          <ul class="item-list movie-container"></ul>
+          <ul class="item-list skeleton-container"></ul>
         </section>
         <div class="modal-container"></div>
       </main>
     `;
-  }
-
-  render() {
-    this.$target.innerHTML = this.template();
-    this.mounted();
   }
 
   makeComponent() {
@@ -81,15 +77,21 @@ export default class App {
     this.components.skeleton = new Skeleton($('.skeleton-container'));
   }
 
+  render() {
+    this.$target.innerHTML = this.template();
+    this.mounted();
+  }
+
   mounted() {
     this.makeComponent();
 
-    const { header, movieListContainer, title, skeleton, modal } =
+    const { header, movieListContainer, title, skeleton, detail } =
       this.components;
 
     header?.render().setEvent();
     title?.render();
     movieListContainer?.fetchData().setEvent();
     skeleton?.render();
+    detail?.setEvent();
   }
 }

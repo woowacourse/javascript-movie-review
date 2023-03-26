@@ -8,7 +8,7 @@ import MovieDetail from './MovieDetail';
 
 // utils
 import { scrollHook } from '../../utils/infiniteScroll';
-import { cache } from '../../utils/cache';
+import { cache, cacheHook } from '../../utils/cache';
 
 type MovieListProps = {
   $target: HTMLElement;
@@ -46,15 +46,21 @@ export default class MovieListContainer extends Component {
   }
 
   render() {
+    const { popular } = cacheHook;
+
+    if (popular.has(this.state.getValue('popularPage'))) return;
+
     this.$target.insertAdjacentHTML('beforeend', this.template());
 
     this.setInfinityScrollEvent();
   }
 
   setInfinityScrollEvent() {
+    const { popular, search } = cacheHook;
+
     if (
-      cache.popularPage.has(this.state.getValue('popularPage')) ||
-      cache.searchPage.has(this.state.getValue('searchPage'))
+      popular.has(this.state.getValue('popularPage')) ||
+      search.has(this.state.getValue('searchPage'))
     )
       return;
 
