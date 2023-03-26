@@ -65,7 +65,7 @@ class MovieList {
   }
 
   getMovieInformation(movieId: number, isBackButton: boolean = false) {
-    const [movie] = this.movies.filter((movie) => movie.id === movieId);
+    const movie = this.movies.find((movie) => movie.id === movieId)!;
 
     EventEmitter.emit<MovieRetrievedEventData>(MOVIE_RETRIEVED, {
       movie,
