@@ -43,7 +43,7 @@ class VoteMovie {
   }
 
   calculateVotedResult() {
-    const score = this.score >= 1 ? this.score * 2 : -1;
+    const score = this.score > 0 ? this.score * 2 : '';
     return `<span>${score}</span><span class="voted-result-content">${this.voteResults[this.score]}<span>`;
   }
 
@@ -79,18 +79,38 @@ class VoteMovie {
     this.insertStar(this.score);
   }
 
-  voteStar(event: Event) {
+  toggleVoteStar(event: Event) {
     const star = event.target as HTMLImageElement;
 
     if (!star.matches('.vote-star')) return;
 
+    const starCount = Number(star.dataset.starCount) as 1 | 2 | 3 | 4 | 5;
+
+    if (this.score === starCount) {
+      this.cancelVoteStar();
+    } else {
+      this.registerVoteStar(starCount);
+    }
+  }
+
+  registerVoteStar(starCount: 1 | 2 | 3 | 4 | 5) {
     const $votedResult = document.querySelector<HTMLDivElement>('.voted-result');
 
     if (!$votedResult || !this.movieId) return;
 
-    const starCount = Number(star.dataset.starCount) as 1 | 2 | 3 | 4 | 5;
     handleLocalStorage.setMovieStar(this.movieId, starCount);
     this.score = starCount;
+    this.insertStar(this.score);
+    $votedResult.innerHTML = this.calculateVotedResult();
+  }
+
+  cancelVoteStar() {
+    const $votedResult = document.querySelector<HTMLDivElement>('.voted-result');
+
+    if (!$votedResult || !this.movieId) return;
+
+    handleLocalStorage.setMovieStar(this.movieId, 0);
+    this.score = 0;
     this.insertStar(this.score);
     $votedResult.innerHTML = this.calculateVotedResult();
   }
@@ -102,7 +122,7 @@ class VoteMovie {
 
     $votedStarContainer.addEventListener('mousemove', this.hoverStarIcon.bind(this));
     $votedStarContainer.addEventListener('mouseleave', this.leaveStarIcon.bind(this));
-    $votedStarContainer.addEventListener('click', this.voteStar.bind(this));
+    $votedStarContainer.addEventListener('click', this.toggleVoteStar.bind(this));
   }
 }
 
