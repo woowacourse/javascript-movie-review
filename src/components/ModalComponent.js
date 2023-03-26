@@ -38,15 +38,7 @@ export default class ModalComponent extends CustomComponent {
       }
     });
 
-    window.addEventListener("keyup", (e) => {
-      if (e.key === "Esc") {
-        this.style.display = "none";
-        document.body.style.overflow = "visible";
-      }
-    });
-
     const customRateContainer = document.querySelector(".custom-rate");
-
     customRateContainer.addEventListener("click", (e) => {
       if (!e.target.dataset.actionRate) return;
 
@@ -55,6 +47,15 @@ export default class ModalComponent extends CustomComponent {
       this.changeRate(rate);
       localStorage.setItem(`movie_rate_${modalBody.dataset.movieId}`, rate);
     });
+
+    // const mainPosterImg = document.querySelector(".main-poster-img");
+    // mainPosterImg.addEventListener("load", () => {
+    //   console.log("lodad!!");
+    //   const skeleton = document.querySelector(
+    //     ".modal-content-body .item-thumbnail"
+    //   );
+    //   skeleton.remove();
+    // });
   }
 
   changeRate(rate) {
@@ -110,6 +111,7 @@ export default class ModalComponent extends CustomComponent {
             </div>
             <div class="modal-content-body side-padding">
               <img class="main-poster-img" alt="영화 포스터 이미지">
+              <div class="item-thumbnail skeleton"></div>
               <div class="movie-details">
               <section>
                 <div class="movie-detail-header">

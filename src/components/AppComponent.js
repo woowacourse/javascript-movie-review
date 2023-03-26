@@ -126,9 +126,8 @@ export default class AppComponent extends CustomComponent {
           )
             .then((res) => {
               const modal = document.querySelector("modal-component");
-              // 모달에게 상태를 넘겨주고
               modal.setAttribute("data-item", JSON.stringify(res));
-              // 모달을 띄운다.
+
               modal.style.display = "flex";
               document.body.style.overflow = "hidden";
             })
@@ -151,6 +150,14 @@ export default class AppComponent extends CustomComponent {
         this.searchListInit();
         this.getMovieData(ACTION.SEARCH);
         this.changeMoreButtonAction(ACTION.MORE_SEARCH);
+      }
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        const modalComponent = document.querySelector("modal-component");
+        modalComponent.style.display = "none";
+        document.body.style.overflow = "visible";
       }
     });
 
