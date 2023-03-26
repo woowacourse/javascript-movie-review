@@ -37,3 +37,7 @@ export const GENRE: { [key: number]: string } = {
   10752: '전쟁',
   37: '서부',
 };
+
+export const localStorageDataName = {
+  userStar: 'userStar',
+};
