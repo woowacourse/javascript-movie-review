@@ -22,7 +22,7 @@ class MovieDetailHeader implements Component {
     <h2>${this.movieTitle}</h2>
     <button>
       <div class="close close-button" type="reset">
-        <img src="./close_button">
+        <img src="./close_button.png">
       </div>
     </button>
     `;

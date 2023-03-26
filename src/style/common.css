@@ -233,15 +233,23 @@ body {
 
 .modal-header {
   width: 100%;
-  margin: 10px;
-  height: 60px;
+
+  padding: 16px;
+  height: 120px;
   display: flex;
-  font-size: 20px;
+  justify-content: center;
+  align-items: center;
   line-height: 24px;
   font-weight: 600;
   border-bottom: 1px solid rgba(241, 241, 241, 0.25);
 
   align-items: center;
+}
+
+.modal-header button {
+  cursor: pointer;
+  background: #212122;
+  border: none;
 }
 
 .modal-body {
