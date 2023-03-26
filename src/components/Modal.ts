@@ -4,6 +4,19 @@ import Component from '../type/Component';
 import { DetailMovie } from '../type/Movie';
 import { StarCount } from '../domain/PersonalVoteHandler';
 
+import errorImg from '../assets/error.jpg';
+
+const errorTemplate = (statusCode: number, statusMessage: string) => {
+  return `
+  <div class="error-container">
+    <h1 class="error-heading">죄송합니다. 상세 정보를 불러올 수 없습니다.</h1>
+    <p>관리자에게 문의해주세요.</p>
+    <p class="error-code">error code: ${statusCode}</p>
+    <p class="error-message">${statusMessage}</p>
+    <img class="error-img" src=${errorImg} alt="error-img" />
+  </div>`;
+};
+
 export default class Modal implements Component {
   private $element;
 
@@ -64,6 +77,10 @@ export default class Modal implements Component {
 
   renderErrorTemplate(statusCode: number, statusMessage: string) {
     this.openModal();
+    const $container = this.$element.querySelector('.modal-container');
+    if (!$container) return;
+
+    $container.insertAdjacentHTML('beforeend', errorTemplate(statusCode, statusMessage));
   }
 
   openModal() {

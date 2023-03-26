@@ -17,8 +17,10 @@ button {
   cursor: pointer;
 }
 
-#app {
-  padding-bottom: 48px;
+main {
+  display: flex;
+
+  padding: 48px 0;
 }
 
 *:focus {
@@ -34,6 +36,7 @@ button {
   flex-direction: column;
   justify-content: center;
   width: 1200px;
+  height: 100%;
   margin: 0 auto;
 }
 
@@ -46,6 +49,9 @@ button {
 .error-container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  width: 90%;
+  height: 100%;
   align-self: center;
 }
 
@@ -65,7 +71,7 @@ button {
 }
 
 .error-container .error-img {
-  height: 60vh;
+  width: 100%;
 }
 
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
@@ -160,7 +166,6 @@ header {
   align-items: center;
   padding: 0 20px;
   border-bottom: 1px solid white;
-  margin-bottom: 48px;
 }
 
 header h1 {
