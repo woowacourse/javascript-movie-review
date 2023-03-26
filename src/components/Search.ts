@@ -3,6 +3,7 @@ import { getFormFields } from '../utils/formData';
 import { $, Event } from '../utils/index';
 import { changePageHeader, resetMovieList, showMovieList } from '../showMovieList';
 import { toggle } from '../utils/toggle';
+import MovieData from '../data/MovieData';
 
 export function Search() {
   Event.addEvent('submit', '#search-movie-box', async (event) => {
@@ -19,6 +20,7 @@ export function Search() {
       resetMovieList();
       PageData.setRecentKeyword(String(formData.keyword));
       showMovieList();
+      MovieData.resetMovieData();
 
       checkExistLogo();
     }
