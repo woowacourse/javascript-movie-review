@@ -14,6 +14,7 @@ const setMovieSiteUrl = (isFirstStart: boolean): void => {
   const detailMovieId = URL.get('id');
 
   if (!detailMovieId) {
+    $('body')?.classList.remove('overflow-hidden');
     modal.close();
   }
 
