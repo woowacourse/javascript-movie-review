@@ -303,7 +303,7 @@ header .search-box > .search-button {
   background-size: contain;
 }
 
-@media (max-width: 834px) {
+@media (max-width: 916px) and (min-width: 671px) {
   .item-view {
     display: flex;
     flex-direction: column;
@@ -360,7 +360,7 @@ header .search-box > .search-button {
   }
 }
 
-@media (max-width: 390px) {
+@media (max-width: 670px) {
   .item-view {
     display: flex;
     flex-direction: column;
