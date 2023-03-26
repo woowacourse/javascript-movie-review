@@ -86,7 +86,7 @@ class App {
     const app = document.querySelector('#app');
 
     if (!app) return;
-    const movieModal = new MovieModal();
+    const movieModal = new MovieModal(movieId);
     app.insertAdjacentElement('beforeend', movieModal.node);
 
     const api = `https://api.themoviedb.org/3/movie/${movieId}?api_key=7346e1b315e7e7c5dc1e70459156cce2&language=ko-KR`;
