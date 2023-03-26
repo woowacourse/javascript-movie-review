@@ -92,7 +92,6 @@ class MovieDetailMyRating implements Component {
     const target = event.target as HTMLImageElement;
     const targetIndex = target.dataset.index;
 
-    console.log(targetIndex, 'targetIndex');
     if (!targetIndex) return;
 
     this.stars.forEach((star, index) => {
