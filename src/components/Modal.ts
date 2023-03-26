@@ -114,7 +114,6 @@ class Modal extends HTMLElement {
     $('body')?.classList.remove('overflow-hidden');
     const path = window.location.hash.replace('#', '');
     const URL = new URLSearchParams(path);
-    const word = URL.get('id');
 
     const query = URL.get('q');
 
@@ -123,7 +122,7 @@ class Modal extends HTMLElement {
       window.location.hash = `?q=${query}`;
       return;
     }
-    window.location.hash = '';
+    window.location.hash = ' ';
   }
 
   setModalAttributes({ id, title, imgUrl, score, description, categories }: MovieDetailInfo): void {
