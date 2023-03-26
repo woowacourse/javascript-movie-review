@@ -60,6 +60,9 @@
   margin-top: 16px;
   font-size: 1.2rem;
   font-weight: bold;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .item-score {

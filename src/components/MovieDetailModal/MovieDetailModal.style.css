@@ -8,15 +8,17 @@
 
 .modal-header {
   position: relative;
-  height: 60px;
-  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  min-height: 60px;
+  padding: 10px 32px;
   border-bottom: 1px solid rgba(241, 241, 241, 0.25);
 }
 
 .modal-header > h2 {
   font-size: 18px;
   font-weight: 600;
-  line-height: 60px;
+  line-height: 1.5;
 }
 
 .modal-close-button {
@@ -101,10 +103,6 @@
     width: calc(100vw - 100px);
     border-radius: 8px;
     transform: translate(-50%, -50%);
-  }
-
-  .modal-header > h2 {
-    text-align: center;
   }
 
   .movie-details {
