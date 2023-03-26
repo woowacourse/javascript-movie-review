@@ -200,25 +200,28 @@ li {
 
 /* 모달 css */
 dialog {
+  font-size: medium;
   height: 577px;
   width: 50%;
   background-color: #212122;
-  font-size: 10px;
   color: white;
   border-radius: 8px;
   border: 0;
 }
 
-.modal-movie-name {
+.modal-movie-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  font-size: large;
+  font-size: x-large;
   padding: 3%;
   height: 55px;
 }
 
 .modal-movie-detail {
   display: flex;
-  height: 500px;
+  height: 480px;
   flex-direction: row;
   justify-content: space-between;
   border-top: 0.5px solid gray;
@@ -233,8 +236,7 @@ dialog {
   width: 55%;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 12% 72% 12%;
-  gap: 2%;
+  grid-template-rows: 10% 74% 12%;
 }
 
 .modal-close {
@@ -247,12 +249,25 @@ dialog {
   position: absolute;
   right: 5%;
 }
+.modal-movie-category {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  /* gap: 5%; */
+}
 
-.modal-movie-category-star {
+.modal-movie-category > img {
+  margin: 0 1% 0 5%;
+  /* gap: 5%; */
+}
+
+.modal-movie-star {
   border-radius: 16px;
   background-color: #383839;
   font-size: small;
   display: flex;
+  align-items: center;
+  padding: 0 5% 0 5%;
 }
 
 dialog::backdrop {
