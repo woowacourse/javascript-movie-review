@@ -22,7 +22,7 @@
 
 .item-list {
   display: grid;
-  margin: 48px 0;
+  margin: 48px 0 0 0;
   grid-template-columns: repeat(2, 140px);
   justify-content: space-between;
   grid-row-gap: 48px;
