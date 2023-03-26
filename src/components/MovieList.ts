@@ -64,7 +64,13 @@ export default class MovieList {
       this.renderMovieCards(results, total_pages);
     };
 
-    const io = new IntersectionObserver(handleMoreMovieButton, { rootMargin: '100%' });
+    const io = new IntersectionObserver(
+      (entries, observer) => {
+        if (!entries[0].isIntersecting) return;
+        handleMoreMovieButton();
+      },
+      { rootMargin: '100%' },
+    );
     io.observe(this.$moreMovieButton);
 
     // 모달 이벤트
