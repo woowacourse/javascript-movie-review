@@ -4,6 +4,12 @@
   grid-row-gap: 15px;
 }
 
+.skeleton-container li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .item-card .skeleton {
   background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
   background-size: 400%;
