@@ -30,7 +30,6 @@ class MovieList {
     this.#$target = $target;
     this.renderSkeleton();
     this.init();
-
     $(".btn").addEventListener("click", this.onClickMoreButton.bind(this));
     $(".item-list").addEventListener("click", (event) => {
       const closestLi = (event.target as HTMLElement).closest("li");
@@ -50,6 +49,7 @@ class MovieList {
     this.#movies.reset(results);
 
     this.renderMovieList(total_pages);
+    this.infiniteScroll();
   }
 
   async reset(state: showType, searchKeyword?: string) {
@@ -103,6 +103,20 @@ class MovieList {
     this.#movies.add(movieList);
 
     if (this.#state.page === total_pages) this.hideMoreButton();
+  }
+
+  infiniteScroll() {
+    const options = {
+      rootMargin: "0px 0px 150px 0px",
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        this.onClickMoreButton();
+      }
+    }, options);
+
+    observer.observe($(".btn"));
   }
 
   async onClickMoreButton() {
