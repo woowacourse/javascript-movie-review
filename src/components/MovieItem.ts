@@ -27,26 +27,6 @@ class MovieItem {
       </li>`;
   }
 
-  private posterImageTemplate(title: string, imagePath: string) {
-    return imagePath
-      ? `
-        <img
-          class="item-thumbnail"
-          src="${POSTER_BASE_URL}${imagePath}"
-          loading="lazy"
-          alt="${title}"
-        />`
-      : `<div class="item-thumbnail"></div>`;
-  }
-
-  private scoreTemplate(voteAverage: number) {
-    return `
-      <img src="${
-        voteAverage ? FilledStar : EmptyStar
-      }" class="vote-average-star" alt="별점" />${voteAverage}
-    `;
-  }
-
   render(target: HTMLElement, movie: Movie) {
     const itemLink = target.closest('.item-link') as HTMLAnchorElement;
     itemLink.href = `?id=${movie.id}`;
@@ -65,6 +45,26 @@ class MovieItem {
     const itemScore = $('.item-score', target);
     itemScore.classList.remove('skeleton');
     itemScore.insertAdjacentHTML('beforeend', this.scoreTemplate(movie.voteAverage));
+  }
+
+  private posterImageTemplate(title: string, imagePath: string) {
+    return imagePath
+      ? `
+        <img
+          class="item-thumbnail"
+          src="${POSTER_BASE_URL}${imagePath}"
+          loading="lazy"
+          alt="${title}"
+        />`
+      : `<div class="item-thumbnail"></div>`;
+  }
+
+  private scoreTemplate(voteAverage: number) {
+    return `
+      <img src="${
+        voteAverage ? FilledStar : EmptyStar
+      }" class="vote-average-star" alt="별점" />${voteAverage}
+    `;
   }
 }
 

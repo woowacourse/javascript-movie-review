@@ -35,16 +35,6 @@ class InvalidMessage {
     });
   }
 
-  render(type: InvalidMessageType, message?: string) {
-    const heading = INVALID_MESSAGE[type].HEADING;
-    const template = `
-      <h3>${typeof heading === 'function' && message ? heading(message) : heading}</h3>
-      <p>${INVALID_MESSAGE[type].CONTENT}</p>`;
-
-    this.messageContainer.insertAdjacentHTML('beforeend', template);
-    this.messageContainer.classList.remove('hide');
-  }
-
   private clear() {
     this.messageContainer.textContent = '';
   }
@@ -55,6 +45,16 @@ class InvalidMessage {
     if (error instanceof HTTPError) {
       this.render(HTTP_ERROR_CODE[error.statusCode]);
     }
+  }
+
+  render(type: InvalidMessageType, message?: string) {
+    const heading = INVALID_MESSAGE[type].HEADING;
+    const template = `
+      <h3>${typeof heading === 'function' && message ? heading(message) : heading}</h3>
+      <p>${INVALID_MESSAGE[type].CONTENT}</p>`;
+
+    this.messageContainer.insertAdjacentHTML('beforeend', template);
+    this.messageContainer.classList.remove('hide');
   }
 }
 

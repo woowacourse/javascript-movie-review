@@ -33,20 +33,6 @@ class MovieAPI {
     return movies;
   }
 
-  private convertMovieGenreId(genreIds: number[]) {
-    const selectedGenres = this.movieGenres.filter((genre) => genreIds.includes(genre.id));
-
-    return selectedGenres.map((genre) => genre.name);
-  }
-
-  private getUserMovieVote(movieId: number) {
-    if (!this.userMovies.length) return 0;
-
-    const movie = this.userMovies.filter((movie) => movie.id === movieId)[0];
-
-    return movie ? movie.userVote : 0;
-  }
-
   private processData(moviesData: MovieDataResult[]) {
     const movies: Movie[] = moviesData.map((movie: MovieDataResult) => ({
       id: movie.id,
@@ -60,6 +46,20 @@ class MovieAPI {
     }));
 
     return movies;
+  }
+
+  private convertMovieGenreId(genreIds: number[]) {
+    const selectedGenres = this.movieGenres.filter((genre) => genreIds.includes(genre.id));
+
+    return selectedGenres.map((genre) => genre.name);
+  }
+
+  private getUserMovieVote(movieId: number) {
+    if (!this.userMovies.length) return 0;
+
+    const movie = this.userMovies.filter((movie) => movie.id === movieId)[0];
+
+    return movie ? movie.userVote : 0;
   }
 }
 

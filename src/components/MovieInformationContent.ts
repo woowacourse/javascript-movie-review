@@ -59,13 +59,21 @@ class MovieInformationContent {
     });
   }
 
-  private renderPosterImage(title: string, imagePath: string) {
-    this.image.src = `${POSTER_BASE_URL}${imagePath}`;
-    this.image.alt = title;
+  render(movie: Movie) {
+    this.renderTitle(movie.title);
+    this.renderPosterImage(movie.title, movie.posterPath);
+    this.renderMetaInfo(movie.releaseDate, movie.genres);
+    this.renderVoteAverage(movie.voteAverage);
+    this.renderOverview(movie.overview);
   }
 
   private renderTitle(title: string) {
     this.title.textContent = title;
+  }
+
+  private renderPosterImage(title: string, imagePath: string) {
+    this.image.src = `${POSTER_BASE_URL}${imagePath}`;
+    this.image.alt = title;
   }
 
   private renderMetaInfo(releaseDate: string, genres: string[]) {
@@ -92,14 +100,6 @@ class MovieInformationContent {
 
     this.overview.textContent = EMPTY_OVERVIEW_MESSAGE;
     this.overview.classList.add('secondary-text');
-  }
-
-  render(movie: Movie) {
-    this.renderTitle(movie.title);
-    this.renderPosterImage(movie.title, movie.posterPath);
-    this.renderMetaInfo(movie.releaseDate, movie.genres);
-    this.renderVoteAverage(movie.voteAverage);
-    this.renderOverview(movie.overview);
   }
 }
 

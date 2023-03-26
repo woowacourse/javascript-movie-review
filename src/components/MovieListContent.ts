@@ -38,6 +38,14 @@ class MovieListContent {
     });
   }
 
+  private clearListContent() {
+    this.itemList.replaceChildren();
+  }
+
+  private renderSkeleton() {
+    this.itemList.insertAdjacentHTML('beforeend', MovieItem.template().repeat(MOVIE_MAX_COUNT));
+  }
+
   private async loadMovies(movies: Movie[], searchQuery: string) {
     if (movies.length !== MOVIE_MAX_COUNT) {
       MovieListContainer.disableScroll();
@@ -52,10 +60,6 @@ class MovieListContent {
     this.renderMovies(movies);
   }
 
-  private renderSkeleton() {
-    this.itemList.insertAdjacentHTML('beforeend', MovieItem.template().repeat(MOVIE_MAX_COUNT));
-  }
-
   private renderMovies(movies: Movie[]) {
     const items = $$<HTMLUListElement>('.item-card');
     const lastPageItems = items.slice(-MOVIE_MAX_COUNT);
@@ -66,10 +70,6 @@ class MovieListContent {
     itemsToRemove.forEach((item) => {
       item.closest('li')?.remove();
     });
-  }
-
-  private clearListContent() {
-    this.itemList.replaceChildren();
   }
 }
 

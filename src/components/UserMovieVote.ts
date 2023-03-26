@@ -49,30 +49,6 @@ class UserMovieVote {
     });
   }
 
-  private userVoteStarsTemplate(className: string, userVoteCount: number = 0) {
-    const filledStars: string[] = Array(userVoteCount).fill(FilledStar);
-    const emptyStars: string[] = Array(STAR_MAX_COUNT - userVoteCount).fill(EmptyStar);
-    const stars = [...filledStars, ...emptyStars];
-
-    return stars
-      .map((star, index) => {
-        return `
-          <img src="${star}" class="${className}" alt="별점" data-star-index="${index}" />`;
-      })
-      .join('');
-  }
-
-  private renderUserVoteStars() {
-    this.temporaryVoteStars.insertAdjacentHTML(
-      'beforeend',
-      this.userVoteStarsTemplate('temp-star')
-    );
-    this.userVoteStars.insertAdjacentHTML(
-      'beforeend',
-      this.userVoteStarsTemplate('user-vote-star')
-    );
-  }
-
   private updateUserVote(userVote: UserScores) {
     const userVoteCount = userVote / VOTE_SCORE_AND_STAR_RATIO;
 
@@ -93,20 +69,33 @@ class UserMovieVote {
     });
   }
 
-  private addStarClickedInteraction(starIndex: string) {
-    const tempStar = $<HTMLImageElement>(`.temp-star[data-star-index="${starIndex}"]`);
-    tempStar.classList.add('star-clicked');
-
-    setTimeout(() => {
-      tempStar.classList.remove('star-clicked');
-    }, 200);
+  private renderUserVoteStars() {
+    this.temporaryVoteStars.insertAdjacentHTML(
+      'beforeend',
+      this.userVoteStarsTemplate('temp-star')
+    );
+    this.userVoteStars.insertAdjacentHTML(
+      'beforeend',
+      this.userVoteStarsTemplate('user-vote-star')
+    );
   }
 
-  private renderVotedMessage() {
-    const template = `<div class="voted">평가가 완료되었습니다.</div>`;
+  private userVoteStarsTemplate(className: string, userVoteCount: number = 0) {
+    const filledStars: string[] = Array(userVoteCount).fill(FilledStar);
+    const emptyStars: string[] = Array(STAR_MAX_COUNT - userVoteCount).fill(EmptyStar);
+    const stars = [...filledStars, ...emptyStars];
 
-    this.messageContainer.replaceChildren();
-    this.messageContainer.insertAdjacentHTML('beforeend', template);
+    return stars
+      .map((star, index) => {
+        return `
+          <img src="${star}" class="${className}" alt="별점" data-star-index="${index}" />`;
+      })
+      .join('');
+  }
+
+  private addEventListenerToUserStars() {
+    this.addShowAndHideStarsOnHoverEventListener();
+    this.addUpdateStarsOnClickEventListener();
   }
 
   private addShowAndHideStarsOnHoverEventListener() {
@@ -146,9 +135,20 @@ class UserMovieVote {
     });
   }
 
-  private addEventListenerToUserStars() {
-    this.addShowAndHideStarsOnHoverEventListener();
-    this.addUpdateStarsOnClickEventListener();
+  private addStarClickedInteraction(starIndex: string) {
+    const tempStar = $<HTMLImageElement>(`.temp-star[data-star-index="${starIndex}"]`);
+    tempStar.classList.add('star-clicked');
+
+    setTimeout(() => {
+      tempStar.classList.remove('star-clicked');
+    }, 200);
+  }
+
+  private renderVotedMessage() {
+    const template = `<div class="voted">평가가 완료되었습니다.</div>`;
+
+    this.messageContainer.replaceChildren();
+    this.messageContainer.insertAdjacentHTML('beforeend', template);
   }
 }
 

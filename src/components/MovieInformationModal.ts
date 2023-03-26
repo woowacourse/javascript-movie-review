@@ -47,6 +47,41 @@ class MovieInformationModal {
     });
   }
 
+  private addClickEventListenerToCloseModal() {
+    this.modal.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+
+      if (
+        target.classList.contains('modal-backdrop') ||
+        target.classList.contains('close-button')
+      ) {
+        this.closeModal();
+      }
+    });
+  }
+
+  private addKeyDownEventListenerToCloseModal() {
+    this.modal.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        this.closeModal();
+      }
+    });
+  }
+
+  private addEventListenerToBrowserBackButton() {
+    window.addEventListener('popstate', (event) => {
+      if (!event.state) return;
+
+      if (event.state.showModal) {
+        MovieList.getMovieInformation(event.state.movieId, true);
+      }
+
+      if (!event.state.showModal) {
+        this.closeModal(true);
+      }
+    });
+  }
+
   private openModal(movie: Movie, searchQuery: string, isBackButton: boolean = false) {
     const queryParams = searchQuery ? `search?q=${searchQuery}&id=${movie.id}` : `?id=${movie.id}`;
 
@@ -82,41 +117,6 @@ class MovieInformationModal {
 
     document.body.classList.remove('hide-overflow');
     this.modal.classList.add('hide');
-  }
-
-  private addClickEventListenerToCloseModal() {
-    this.modal.addEventListener('click', (event) => {
-      const target = event.target as HTMLElement;
-
-      if (
-        target.classList.contains('modal-backdrop') ||
-        target.classList.contains('close-button')
-      ) {
-        this.closeModal();
-      }
-    });
-  }
-
-  private addKeyDownEventListenerToCloseModal() {
-    this.modal.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') {
-        this.closeModal();
-      }
-    });
-  }
-
-  private addEventListenerToBrowserBackButton() {
-    window.addEventListener('popstate', (event) => {
-      if (!event.state) return;
-
-      if (event.state.showModal) {
-        MovieList.getMovieInformation(event.state.movieId, true);
-      }
-
-      if (!event.state.showModal) {
-        this.closeModal(true);
-      }
-    });
   }
 }
 

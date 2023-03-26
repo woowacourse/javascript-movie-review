@@ -43,6 +43,22 @@ class MovieListContainer {
     MovieList.on(MOVIE_LIST_LOADED, this.enableScroll.bind(this));
   }
 
+  showListContainer() {
+    this.listContainer.classList.remove('hide');
+  }
+
+  hideListContainer() {
+    this.listContainer.classList.add('hide');
+  }
+
+  disableScroll() {
+    this.shouldScroll = false;
+  }
+
+  enableScroll() {
+    this.shouldScroll = true;
+  }
+
   private addEventListenerToScroll() {
     window.addEventListener('scroll', () => {
       if (!this.shouldScroll) return;
@@ -81,22 +97,6 @@ class MovieListContainer {
         MovieList.getMovieData();
       }
     });
-  }
-
-  showListContainer() {
-    this.listContainer.classList.remove('hide');
-  }
-
-  hideListContainer() {
-    this.listContainer.classList.add('hide');
-  }
-
-  disableScroll() {
-    this.shouldScroll = false;
-  }
-
-  enableScroll() {
-    this.shouldScroll = true;
   }
 }
 
