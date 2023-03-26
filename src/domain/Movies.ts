@@ -1,5 +1,5 @@
 import { MAX_PAGE } from '../constants';
-import type { AppMovie } from '../types/movie';
+import type { AppMovie } from '../types/domain';
 
 class Movies {
   #query: string;

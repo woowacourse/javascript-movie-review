@@ -1,5 +1,7 @@
 import MovieCard from './MovieCard';
 import MovieDetailModal from '../MovieDetailModal';
+import Modal from '../common/Modal';
+import ErrorMessage from '../common/ErrorMessage';
 
 import { getMovieDetailApi } from '../../api';
 import { DEFAULT_LIST_LENGTH } from '../../constants';
@@ -7,10 +9,8 @@ import { DEFAULT_ERROR_MESSAGE, isCustomErrorMessage } from '../../constants/mes
 import { CLASS } from '../../constants/selector';
 import { $ } from '../../utils/dom';
 
-import type { AppMovie } from '../../types/movie';
+import type { AppMovie } from '../../types/domain';
 import type { MovieDetail } from './MovieCard';
-import Modal from '../common/Modal';
-import ErrorMessage from '../common/ErrorMessage';
 
 const MovieCardList = {
   template() {

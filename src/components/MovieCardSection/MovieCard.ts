@@ -2,7 +2,7 @@ import { posterNotFoundImage, starFilledImage } from '../../assets/images';
 import { IMAGE_URL } from '../../constants';
 import { CLASS } from '../../constants/selector';
 
-import type { AppMovie } from '../../types/movie';
+import type { AppMovie } from '../../types/domain';
 
 export interface MovieDetail {
   id: number;
