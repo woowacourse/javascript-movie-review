@@ -8,6 +8,7 @@ export default class MovieDetailModal {
   $parent: HTMLElement;
   $modal: HTMLDialogElement;
   $closeButton: HTMLButtonElement;
+  $movieDetailModalUserVote: HTMLDivElement;
   $userVoteStarSpan: HTMLSpanElement;
   starRate: number;
 
@@ -21,6 +22,9 @@ export default class MovieDetailModal {
     this.$closeButton = this.$modal.querySelector(
       '.movie-detail-modal-close-button',
     ) as HTMLButtonElement;
+    this.$movieDetailModalUserVote = this.$modal.querySelector(
+      '.movie-detail-modal-user-vote',
+    ) as HTMLDivElement;
     this.$userVoteStarSpan = this.$modal.querySelector('#user-vote-star-span') as HTMLSpanElement;
   }
 
@@ -86,15 +90,12 @@ export default class MovieDetailModal {
       this.close();
     });
 
-    this.$userVoteStarSpan.addEventListener('click', (e) => {
+    this.$movieDetailModalUserVote.addEventListener('click', (e) => {
       if (!(e.target instanceof HTMLImageElement)) return;
 
       this.starRate = Number(e.target.dataset.rate);
-      const $movieDetailModalUserVote = this.$modal.querySelector(
-        '.movie-detail-modal-user-vote',
-      ) as HTMLDivElement;
 
-      $movieDetailModalUserVote.innerHTML = `
+      this.$movieDetailModalUserVote.innerHTML = `
       <span id="user-vote-title">내 별점</span>
       <span id="user-vote-star-span">
         <img data-rate="2" src="${this.starRate >= 2 ? starFilled : starEmpty}" alt="별점"/>
