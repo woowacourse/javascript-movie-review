@@ -34,7 +34,7 @@ class Main {
     const movieListFragment = document.createDocumentFragment();
     const movieList = this.#manager.getMovieList();
 
-    if (!movieList.length && this.#manager.getCurrentPage() === 1) {
+    if (!movieList.length) {
       const noSearchResult = document.createElement('p');
       noSearchResult.textContent = '검색 결과가 없습니다.';
 
