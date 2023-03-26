@@ -1,36 +1,39 @@
-import { TMDBClient } from './api/clients/TMDBClient';
-import './assets/common.css';
+import { api } from './api';
 import { MovieList } from './components/MovieList';
-import { NewMovie } from './states/NewMovie';
+import { SearchBox } from './components/SearchBox';
+import { currentMovies$ } from './states';
+import { autoRefetched } from './states/decorators/autoRefetched';
+import { MoviesSubject } from './states/domain/MoviesSubject';
+import { $ } from './utils/selector';
 
-const client = new TMDBClient({
-  apiKey: process.env.TMDB_API_KEY!,
+currentMovies$.subscribe(({ title, movies$ }) => {
+  $('main').replaceChildren(new MovieList({ title, movies$ }).getRoot());
+
+  movies$.subscribe((paginatedMovies$) => autoRefetched(paginatedMovies$));
 });
 
-function assignMovieList(movieList: MovieList) {
-  document.querySelector('main')!.replaceChildren(movieList.render());
-}
-
-assignMovieList(
-  new MovieList('지금 인기있는 영화', new NewMovie((page) => client.getPopularMovies({ page }))),
-);
-
-document.querySelector('.logo')!.addEventListener('click', () => {
-  assignMovieList(
-    new MovieList('지금 인기있는 영화', new NewMovie((page) => client.getPopularMovies({ page }))),
-  );
+currentMovies$.next({
+  title: '지금 인기있는 영화',
+  movies$: new MoviesSubject((page) => api.getPopularMovies({ page })),
 });
 
-document.querySelector('.search-box')!.addEventListener('submit', (event) => {
+$('.logo').addEventListener('click', () => {
+  currentMovies$.next({
+    title: '지금 인기있는 영화',
+    movies$: new MoviesSubject((page) => api.getPopularMovies({ page })),
+  });
+});
+
+$('header').append(new SearchBox().getRoot());
+
+$('.search-box').addEventListener('submit', (event) => {
   event.preventDefault();
 
   const formData = Object.fromEntries(new FormData(event.target as HTMLFormElement).entries());
   const query = formData['search-text'] as string;
 
-  assignMovieList(
-    new MovieList(
-      `"${query}" 검색결과`,
-      new NewMovie((page) => client.searchMovies({ query, page })),
-    ),
-  );
+  currentMovies$.next({
+    title: `"${query}" 검색결과`,
+    movies$: new MoviesSubject((page) => api.searchMovies({ query, page })),
+  });
 });

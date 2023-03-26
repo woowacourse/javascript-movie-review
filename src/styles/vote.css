@@ -1,0 +1,58 @@
+.vote {
+  display: flex;
+  align-items: center;
+
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.vote-value,
+.vote-text {
+  margin-left: 16px;
+}
+
+.vote-text {
+  display: none;
+}
+
+.star {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: url('../assets/star_empty.png') no-repeat;
+  background-size: contain;
+  cursor: pointer;
+
+  transition: scale 0.2s, drop-shadow 0.2s;
+}
+
+.star > input[type='radio'] {
+  display: none;
+}
+
+.star:has(~ .star.active),
+.star.active,
+.star:hover,
+.star:has(~ .star:hover) {
+  background: url('../assets/star_filled.png') no-repeat;
+  background-size: contain;
+}
+
+.star:hover,
+.star:has(~ .star:hover) {
+  filter: drop-shadow(0 0 12px rgba(255, 255, 63, 0.5));
+  transform: scale(1);
+}
+
+.star:hover ~ .star {
+  filter: drop-shadow(0 0 0px);
+  background: url('../assets/star_empty.png') no-repeat;
+  background-size: contain;
+  transform: scale(1);
+}
+
+@media only screen and (min-width: 834px) {
+  .vote-text {
+    display: initial;
+  }
+}

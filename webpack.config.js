@@ -27,7 +27,10 @@ module.exports = {
       systemvars: true,
     }),
     new CopyPlugin({
-      patterns: [{ from: 'src/assets', to: 'assets' }],
+      patterns: [
+        { from: 'src/assets', to: 'assets' },
+        { from: 'src/styles', to: 'styles' },
+      ],
     }),
   ],
   module: {
@@ -36,10 +39,6 @@ module.exports = {
         test: /\.(js|mjs|ts)$/i,
         exclude: /node_modules/,
         use: { loader: 'ts-loader' },
-      },
-      {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
       },
     ],
   },

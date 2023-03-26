@@ -1,25 +1,36 @@
+import { $ } from '../utils/selector';
+
+export type ToastProps = {
+  message: string;
+  duration?: number;
+};
+
 export class Toast {
-  private element = document.createElement('div');
+  private readonly $root = document.createElement('div');
 
-  constructor(private readonly message: string) {
-    this.element.innerText = this.message;
-    this.element.classList.add('toast');
+  constructor({ message, duration = 4000 }: ToastProps) {
+    this.$root.innerText = message;
+    this.$root.classList.add('toast', 'fade');
 
-    setTimeout(() => {
-      this.element.classList.add('fade-out');
+    this.$root.addEventListener('animationend', () => {
+      this.$root.classList.remove('fade');
+
       setTimeout(() => {
-        this.element.remove();
-      }, 1000);
-    }, 5000);
+        this.$root.classList.add('fade', 'dispose');
+        this.$root.addEventListener('animationend', () => {
+          this.$root.remove();
+        });
+      }, duration);
+    });
   }
 
-  static create(message: string) {
-    const toast = new Toast(message);
-    document.querySelector('#toast-container')!.append(toast.render());
+  getRoot() {
+    return this.$root;
+  }
+
+  static create(message: string, duration?: number) {
+    const toast = new Toast({ message, duration });
+    $('#toast-container').append(toast.getRoot());
     return toast;
-  }
-
-  render() {
-    return this.element;
   }
 }

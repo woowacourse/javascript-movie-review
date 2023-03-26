@@ -1,41 +1,75 @@
-import { NewMovie } from '../states/NewMovie';
-import MovieListItem from './MovieListItem';
+import { MoviesSubject } from '../states/domain/MoviesSubject';
+import { MovieSubject } from '../states/domain/MovieSubject';
+import { $context } from '../utils/selector';
+import { MovieListItem } from './MovieListItem';
 import { Toast } from './Toast';
 
-export class MovieList {
-  private section = document.createElement('section');
+export type MovieListProps = {
+  title: string;
+  movies$: MoviesSubject;
+  autoNextPage?: boolean;
+};
 
-  constructor(private readonly title: string, private readonly newMovie: NewMovie) {
-    this.section.classList.add('item-view');
-    this.section.innerHTML = `
+export class MovieList {
+  private readonly $root = document.createElement('section');
+
+  private readonly $ = $context(this.$root);
+
+  private readonly title: string;
+
+  private readonly movies$: MoviesSubject;
+
+  constructor({ title, movies$, autoNextPage = true }: MovieListProps) {
+    this.title = title;
+    this.movies$ = movies$;
+
+    this.$root.classList.add('item-view');
+    this.$root.innerHTML = `
       <h2>${this.title}</h2>
-      <ul class="item-list"><hr></ul>
+      <ul class="item-list"><hr class="item-slider"></ul>
       <button class="btn primary full-width">더 보기</button>
       <h3>결과가 없습니다</h3>
     `.trim();
 
-    this.section.querySelector('button')!.addEventListener('click', () => {
+    this.initEventHandlers();
+
+    if (autoNextPage) {
+      new IntersectionObserver(
+        () => {
+          this.nextPage(); // NOTE: 두 번씩 호출되나 의도된 동작
+        },
+        {
+          threshold: 0,
+          rootMargin: '1200px 0px',
+        },
+      ).observe(this.$('button'));
+    }
+  }
+
+  private initEventHandlers() {
+    this.$('button').addEventListener('click', () => {
       this.nextPage();
     });
 
-    this.newMovie.subscribe((movieSubject) => {
-      this.section.querySelector('ul')!.append(new MovieListItem(movieSubject).render());
+    this.movies$.subscribe((movies$) => {
+      [...Array(20)].forEach((_, index) => {
+        const movie$ = MovieSubject.fromMovies$(movies$, index);
+        this.$('ul').append(new MovieListItem({ movie$: movie$ }).getRoot());
+      });
     });
 
-    this.newMovie.subscribeError((error) => Toast.create(error.message));
-
-    this.newMovie.fetchNextPage().then(() => this.nextPage());
+    this.movies$.subscribeError((error) => Toast.create(error.message));
+    this.movies$.fetchNextPage().then(() => this.nextPage());
   }
 
-  render() {
-    return this.section;
+  getRoot() {
+    return this.$root;
   }
 
   private nextPage() {
-    this.newMovie.fetchNextPage();
+    this.movies$.fetchNextPage();
 
-    const $hr = this.section.querySelector('ul > hr')!;
-
+    const $hr = this.$('ul > hr');
     const $anchor: HTMLElement = Array(20)
       .fill(undefined)
       .reduce((acc) => acc?.nextSibling ?? acc, $hr);

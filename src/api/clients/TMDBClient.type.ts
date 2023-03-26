@@ -1,4 +1,4 @@
-import { HTTPResponse, HTTPStatus } from '../Client.type';
+import { HttpResponse } from '../HttpClient.type';
 
 export type TMDBClientProps = {
   apiKey: string;
@@ -13,9 +13,14 @@ export type TMDBMovie = {
   title: string;
   vote_average: number;
   poster_path: string;
+  overview: string;
 };
 
-export type TMDBErrorResponse<Status extends HTTPStatus = 400> = HTTPResponse<
+export type TMDBMovieDetail = TMDBMovie & {
+  genres: Array<{ id: number; name: string }>;
+};
+
+export type TMDBErrorResponse<Status extends number = 400> = HttpResponse<
   Status,
   {
     status_message: string;
@@ -23,7 +28,7 @@ export type TMDBErrorResponse<Status extends HTTPStatus = 400> = HTTPResponse<
   }
 >;
 
-export type TMDBMoviesResponse<Status extends HTTPStatus = 200> = HTTPResponse<
+export type TMDBMoviesResponse<Status extends number = 200> = HttpResponse<
   Status,
   {
     page: number;
@@ -32,3 +37,5 @@ export type TMDBMoviesResponse<Status extends HTTPStatus = 200> = HTTPResponse<
     results: TMDBMovie[];
   }
 >;
+
+export type TMDBMovieResponse<Status extends number = 200> = HttpResponse<Status, TMDBMovieDetail>;

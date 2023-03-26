@@ -1,11 +1,11 @@
 import { Movie } from '../../domain/movie.type';
-import { Client } from '../Client';
-import { ClientError } from '../ClientError';
-import { MoviesAPI, MoviesResponse, PaginatedParams } from '../interfaces/MoviesAPI';
+import { HttpClientError } from '../errors/HttpClientError';
+import { HttpClient } from '../HttpClient';
+import { MovieResponse, MoviesAPI, MoviesResponse, PaginatedParams } from '../interfaces/MoviesAPI';
 import { TMDBAPISpec } from './TMDBClient.api';
 import { TMDBClientProps, TMDBLanguage, TMDBMovie } from './TMDBClient.type';
 
-export class TMDBClient extends Client<TMDBAPISpec> implements MoviesAPI {
+export class TMDBClient extends HttpClient<TMDBAPISpec> implements MoviesAPI {
   apiKey: string;
 
   language: TMDBLanguage;
@@ -34,14 +34,15 @@ export class TMDBClient extends Client<TMDBAPISpec> implements MoviesAPI {
       title: movie.title,
       voteAverage: movie.vote_average,
       posterPath: movie.poster_path,
+      overview: movie.overview,
     };
   }
 
   async getPopularMovies(params: PaginatedParams): Promise<MoviesResponse> {
     const response = await this.get('/3/movie/popular', params);
 
-    if (!this.isSuccess(response)) {
-      throw new ClientError(response.data.status_message);
+    if (response.status !== 200) {
+      throw new HttpClientError(response.data.status_message);
     }
 
     return {
@@ -55,8 +56,8 @@ export class TMDBClient extends Client<TMDBAPISpec> implements MoviesAPI {
   async searchMovies(params: PaginatedParams<{ query: string }>): Promise<MoviesResponse> {
     const response = await this.get('/3/search/movie', params);
 
-    if (!this.isSuccess(response)) {
-      throw new ClientError(response.data.status_message);
+    if (response.status !== 200) {
+      throw new HttpClientError(response.data.status_message);
     }
 
     return {
@@ -64,6 +65,21 @@ export class TMDBClient extends Client<TMDBAPISpec> implements MoviesAPI {
       page: response.data.page,
       totalMovies: response.data.total_results,
       totalPages: response.data.total_pages,
+    };
+  }
+
+  async getMovie({ id }: { id: string }): Promise<MovieResponse> {
+    const numericId = Number(id);
+    const response = await this.get(`/3/movie/${numericId}`);
+
+    if (response.status !== 200) {
+      throw new HttpClientError(response.data.status_message);
+    }
+
+    return {
+      ...this.parseMovie(response.data),
+
+      genres: response.data.genres.map(({ name }) => name),
     };
   }
 }
