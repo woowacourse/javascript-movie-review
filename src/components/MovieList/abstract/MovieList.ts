@@ -26,6 +26,8 @@ export default abstract class MovieList extends Component {
       params
     );
 
+    console.log(movieData);
+
     return {
       movieList: movieData.results.map(
         ({ id, poster_path, title, vote_average }) => {
