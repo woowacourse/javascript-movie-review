@@ -25,21 +25,22 @@ class Modal extends HTMLElement {
   };
 
   connectedCallback(): void {
-    this.render(this.#detailMovieInfo);
+    this.render();
     this.setEscModalCloseEvent();
   }
 
-  updateDetailModal(movieInfo: MovieDetailInfo) {
-    this.render(movieInfo);
+  updateDetailModal() {
+    this.render();
     this.renderStar();
     this.detailFetchEvent();
     this.setStarClickEvent();
     this.setModalCloseEvent();
+    this.openModal();
   }
 
-  render(movieInfo: MovieDetailInfo): void {
+  render(): void {
     const myScore = this.getAttribute('my-score') || '0';
-    const { id, title, imgUrl, score, description, categories } = movieInfo;
+    const { id, title, imgUrl, score, description, categories } = this.#detailMovieInfo;
 
     const fillStarCount = Math.round(Number(myScore)) / 2;
     const emptyStarCount = 5 - fillStarCount;
@@ -113,13 +114,15 @@ class Modal extends HTMLElement {
     const path = window.location.hash.replace('#', '');
     const URL = new URLSearchParams(path);
     const word = URL.get('id');
-    modal.close();
 
-    console.log(word);
-    if (word) {
-      window.history.back();
+    const query = URL.get('q');
+
+    modal.close();
+    if (query) {
+      window.location.hash = `?q=${query}`;
       return;
     }
+    window.location.hash = '';
   }
 
   setModalAttributes({ id, title, imgUrl, score, description, categories }: MovieDetailInfo): void {
@@ -215,8 +218,10 @@ class Modal extends HTMLElement {
     if (!id) return;
 
     const movieDetail = await new Movie().parsedDetailResult(Number(id));
+
     this.#detailMovieInfo = movieDetail;
-    this.updateDetailModal(movieDetail);
+    console.log(this.#detailMovieInfo);
+    this.updateDetailModal();
   }
 
   updateReviewedElement() {

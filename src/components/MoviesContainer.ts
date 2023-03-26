@@ -25,14 +25,13 @@ class MoviesContainer extends HTMLElement {
 
       set: (target: SearchWord, property: 'value', value: string) => {
         window.scrollTo(0, 0);
-
+        console.log(value);
         if (target[property] === value) return false;
 
         target[property] = value;
 
         this.reset();
         this.updateTitle(value);
-        this.updateQueries(value);
         this.updateMovieList();
 
         return true;
@@ -45,7 +44,6 @@ class MoviesContainer extends HTMLElement {
     this.renderContainer();
     this.setButtonEvent();
     this.setInfiniteScrollEvent();
-    this.#searchWord.value = '';
   }
 
   renderContainer(): void {
@@ -169,14 +167,6 @@ class MoviesContainer extends HTMLElement {
     }
 
     movieContainerTitle.innerText = `"${sliceSting(word)}" 검색 결과`;
-  }
-
-  updateQueries(word: string) {
-    if (word === '') {
-      window.location.hash = '';
-      return;
-    }
-    window.location.hash = `?q=${word}`;
   }
 
   setSearchWord(searchWord: string): void {

@@ -34,6 +34,8 @@ class SearchInput extends HTMLElement {
       const word = searchInputTag.value.trim();
       if (word === '') return;
 
+      window.location.hash = `?q=${word}`;
+
       movieContainer.setSearchWord(word);
       searchInputTag.value = '';
       searchInputTag.blur();

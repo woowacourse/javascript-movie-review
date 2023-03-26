@@ -56,11 +56,15 @@ class MovieListItem extends HTMLElement {
   }
 
   updateQueries(movieId: string) {
+    const path = window.location.hash.replace('#', '');
+    const URL = new URLSearchParams(path);
+    const searchWord = URL.get('q');
+    const searchURL = searchWord ? `q=${searchWord}&` : '';
     if (movieId === '') {
-      window.location.hash = '';
+      window.location.hash = `${searchURL}`;
       return;
     }
-    window.location.hash = `?id=${movieId}`;
+    window.location.hash = `?${searchURL}id=${movieId}`;
   }
 }
 

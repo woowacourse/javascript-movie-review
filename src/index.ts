@@ -4,7 +4,7 @@ import { $ } from './utils/common';
 import { HTMLMovieContainerElement } from './components/MoviesContainer';
 import { HTMLModalElement } from './components/Modal';
 
-const setMovieSiteUrl = (): void => {
+const setMovieSiteUrl = (isFirstStart: boolean): void => {
   const movieContainer = $('movies-container') as HTMLMovieContainerElement;
 
   const path = window.location.hash.replace('#', '');
@@ -12,16 +12,42 @@ const setMovieSiteUrl = (): void => {
   const searchWord = URL.get('q');
   const detailMovieId = URL.get('id');
 
-  console.log(detailMovieId, searchWord);
-  if (searchWord) {
+  if (searchWord && !detailMovieId) {
     movieContainer.setSearchWord(searchWord);
     return;
   }
 
-  if (detailMovieId) {
-    setDetailModal(detailMovieId);
+  if (detailMovieId && isFirstStart && searchWord) {
+    movieContainer.setSearchWord(searchWord);
+    setDetailModalEvent(detailMovieId);
     return;
   }
+
+  if (detailMovieId && isFirstStart) {
+    movieContainer.setSearchWord('');
+    setDetailModalEvent(detailMovieId);
+    return;
+  }
+
+  if (detailMovieId) {
+    setDetailModalEvent(detailMovieId);
+    return;
+  }
+
+  if (isFirstStart) {
+    movieContainer.setSearchWord('');
+  }
+};
+
+const setStartDetailModalEvent = (detailMovieId: string) => {
+  const movieContainer = $('movies-container') as HTMLMovieContainerElement;
+
+  movieContainer.setSearchWord('');
+  setDetailModal(detailMovieId);
+};
+
+const setDetailModalEvent = (detailMovieId: string) => {
+  setDetailModal(detailMovieId);
 };
 
 const setDisconnectedError = () => {
@@ -33,14 +59,16 @@ const setDisconnectedError = () => {
   movieContainer.setErrorMessage('인터넷 연결이 끊겼습니다.');
 };
 
-const setDetailModal = async (id: string) => {
+const setDetailModal = (id: string) => {
   const modal = $('movie-modal') as HTMLModalElement;
   modal.setMovieId(id);
-  modal.openModal();
 };
+
+const IS_FIRST_START = true;
+const IS_NOT_FIRST_START = false;
 
 window.addEventListener('offline', setDisconnectedError);
 
-window.addEventListener('DOMContentLoaded', setMovieSiteUrl);
+window.addEventListener('load', () => setMovieSiteUrl(IS_FIRST_START));
 
-window.addEventListener('hashchange', setMovieSiteUrl);
+window.addEventListener('hashchange', () => setMovieSiteUrl(IS_NOT_FIRST_START));

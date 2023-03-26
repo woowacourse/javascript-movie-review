@@ -21,7 +21,10 @@ class Header extends HTMLElement {
     $('#logo')?.addEventListener('click', () => {
       const movieContainer = $('movies-container') as HTMLMovieContainerElement;
 
+      if (window.location.hash === '') return;
+
       movieContainer.setSearchWord('');
+      window.location.hash = '';
     });
   }
 }
