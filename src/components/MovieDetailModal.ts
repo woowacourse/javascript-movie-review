@@ -26,6 +26,9 @@ export async function renderMovieDetail(movieId: string, parentEl: HTMLElement) 
   const rating_star = $('.rating-star') as HTMLSpanElement;
   const rating_input = $('.rating input') as HTMLInputElement;
 
+  const currentRate = rateData.getMovieRate(movieId);
+  if (currentRate) rating_star.style.width = `${currentRate * 10}%`;
+
   rating_input?.addEventListener('input', (event) => {
     const rating_number = rating_input.value;
     const rating_detail = RATE_DETAIL[rating_number];
@@ -42,7 +45,6 @@ export async function renderMovieDetail(movieId: string, parentEl: HTMLElement) 
   });
 
   $('.modal-close-btn')?.addEventListener('click', () => {
-    console.log('hi');
     if (rateData.clickedMovie !== null) rateData.setMovieRate();
     closeModal();
   });

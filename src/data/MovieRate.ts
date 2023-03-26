@@ -19,7 +19,7 @@ export class MovieRate {
 
   setMovieRate() {
     const resultFound = this.#ratedMovies.find((movie) => movie.id === this.clickedMovie.id);
-    console.log(resultFound);
+
     if (resultFound) {
       resultFound.rate = this.clickedMovie.rate;
     } else {
@@ -27,12 +27,14 @@ export class MovieRate {
     }
 
     updateData('rate', this.#ratedMovies);
+    this.clickedMovie = null;
   }
 
   getMovieRate(movieId: string) {
     const resultFound = this.#ratedMovies.find((movie) => movie.id === movieId);
+    if (resultFound) return resultFound.rate;
 
-    return resultFound;
+    return;
   }
 
   getMovieRates() {
