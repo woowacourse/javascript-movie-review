@@ -11,12 +11,12 @@ export function ItemList() {
     const targetMovie = MovieData.findMovie(Number(targetId)) ?? null;
     const targetUSerScore = MovieData.findUserScore(Number(targetId));
 
-    infoDialogElem.children[0].children[0].textContent = targetMovie?.title ?? null;
-    infoDialogElem.children[1].innerHTML = printMovieDetail(
-      targetMovie!,
-      targetUSerScore?.movieScore
-    );
-    console.log(infoDialogElem.children);
+    // infoDialogElem.children[0].children[0].textContent = targetMovie?.title ?? null;
+    // infoDialogElem.children[1].innerHTML = printMovieDetail(
+    //   targetMovie!,
+    //   targetUSerScore?.movieScore
+    // );
+    printMovieDetail(infoDialogElem, targetMovie!, targetUSerScore?.movieScore);
 
     infoDialogElem.showModal();
   });
