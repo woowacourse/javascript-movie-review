@@ -7,7 +7,7 @@ import { renderMoreSkeletonList, renderSkeletonList } from './components/MovieLi
 import { store } from './store';
 import validator from './validation/validator';
 import { $ } from './utils';
-import { Modal, renderMovieDetail } from './components/MovieDetail';
+import { Modal, renderMovieDetail } from './components/MovieDetailModal';
 export class App extends Component {
   template() {
     return `
@@ -52,10 +52,11 @@ export class App extends Component {
         }
       }
     });
-
+    /*
     $el.querySelector('.view-more-button').addEventListener('click', () => {
       renderMoreSkeletonList();
     });
+    */
 
     $el.querySelector('.item-list').addEventListener('click', (e) => {
       const $modal = $('.modal') as HTMLDialogElement;
@@ -65,5 +66,14 @@ export class App extends Component {
         renderMovieDetail(clickedMovieId, $modal);
       }
     });
+
+    window.onscroll = function (e) {
+      // console.log(window.innerHeight, window.scrollY, document.body.offsetHeight);
+      if (!store.state.isContentEnd) {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+          renderMoreSkeletonList();
+        }
+      }
+    };
   }
 }
