@@ -6,6 +6,7 @@ import NotFoundImageIcon from "../../images/not_found_image.png";
 import { $, $$ } from "../../utils/querySelelctor";
 import { getRatings, setLocalStorageItem } from "../../utils/localStorageUtils";
 import { IRatings } from "../../types/IRatings";
+import showToastWithMessage from "../../utils/showToastWithMessage";
 
 class Modal {
   $target: HTMLDivElement;

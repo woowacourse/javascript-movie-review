@@ -25,3 +25,24 @@ button {
 *:focus {
     outline: none;
 }
+
+#notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #3d3d3d;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 40px;
+    opacity: 0;
+    transform: translateY(50%);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 99;
+}
+
+#notification.show {
+    opacity: 1;
+    transform: translateY(0%);
+}
+

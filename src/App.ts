@@ -17,6 +17,7 @@ class App {
     return `
       <header></header>
       <main></main>
+      <div id="notification"></div>
     `;
   }
 
