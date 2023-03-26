@@ -325,7 +325,7 @@ header .search-box > .search-button {
   }
 
   .movie-detail-modal-user-vote > #user-vote-star-description {
-    display: hidden;
+    display: none;
   }
 
   .movie-detail-modal {
