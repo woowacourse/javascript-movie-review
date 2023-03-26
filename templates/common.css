@@ -134,7 +134,6 @@ button.primary {
 }
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -156,12 +155,34 @@ header h1 {
 
 header > .search-box {
   background: #fff;
-  padding: 8px;
+  padding: 8px 10px;
   border-radius: 4px;
 }
 
 header .search-box > input {
   border: 0;
+}
+
+@media screen and (max-width: 390px) {
+  header .search-box > input:not(:focus) {
+    position: absolute;
+    width: 16px;
+
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  header > .search-box:has(input:focus) {
+    width: 100%;
+  }
+
+  header:has(input:focus) > h1 {
+    display: none;
+  }
+
+  header .search-box > input:focus {
+    width: calc(100% - 18px);
+  }
 }
 
 header .search-box > .search-button {
@@ -170,6 +191,12 @@ header .search-box > .search-button {
   text-indent: -1000rem;
   background: url("./search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+@media screen and (max-width: 390px) {
+  .search-button {
+    z-index: 1;
+  }
 }
 
 .no-image {
@@ -182,4 +209,11 @@ header .search-box > .search-button {
   color: black;
   font-weight: 600;
   font-size: 24px;
+}
+
+@media screen and (min-width: 835px) {
+}
+@media screen and (min-width: 391px) and (max-width: 834px) {
+}
+@media screen and (max-width: 390px) {
 }

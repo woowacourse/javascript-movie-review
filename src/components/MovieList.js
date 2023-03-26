@@ -27,16 +27,12 @@ class MovieList {
     const movieLi = this.getMovieLi(movies);
 
     this.$ul.insertAdjacentHTML("beforeend", movieLi);
-
-    this.skeletonCards.hide();
   }
 
   switchMovies(movies) {
     const movieLi = this.getMovieLi(movies);
 
     this.$ul.innerHTML = movieLi;
-
-    this.skeletonCards.hide();
   }
 
   getMovieLi(movies) {
@@ -77,6 +73,10 @@ class MovieList {
 
   appearSkeleton() {
     this.skeletonCards.appear();
+  }
+
+  hideSkeleton() {
+    this.skeletonCards.hide();
   }
 }
 

@@ -3,6 +3,8 @@ import logo from "../../templates/logo.png";
 class Header {
   $header = document.createElement("header");
 
+  query;
+
   constructor($target) {
     this.init();
 
@@ -24,7 +26,8 @@ class Header {
       <form class="search-box">
         <input class="search-input" type="text" placeholder="검색" />
         <button class="search-button">검색</button>
-      </form>`;
+      </form>
+      `;
 
     return template;
   }
@@ -33,6 +36,12 @@ class Header {
     const $input = document.querySelector(".search-input");
 
     return $input.value;
+  }
+
+  clearQuery() {
+    const $input = document.querySelector(".search-input");
+
+    $input.value = "";
   }
 }
 

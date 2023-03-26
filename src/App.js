@@ -36,7 +36,6 @@ class App {
     this.movieView = new MovieView(this.$main);
 
     this.page = pageCounter(0);
-    this.isLoading = true;
 
     this.renderPopularMovies(this.page());
   }
@@ -58,8 +57,6 @@ class App {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
     if (clientHeight < Math.round(scrollHeight - scrollTop)) return;
 
-    this.isLoading = true;
-
     const query = this.header.getQuery();
     if (query) {
       this.renderFoundMovies(query, this.page());
@@ -71,14 +68,13 @@ class App {
   }
 
   onClickHandler({ target }) {
-    if (target.id === "logo") {
-      if (this.isLoading) return;
+    if (target.id !== "logo" || this.isLoading) return;
 
-      this.page = pageCounter(0);
+    this.header.clearQuery();
 
-      this.isLoading = true;
-      this.renderPopularMovies(this.page());
-    }
+    this.page = pageCounter(0);
+
+    this.renderPopularMovies(this.page());
   }
 
   onSubmitHandler(e) {
@@ -90,27 +86,34 @@ class App {
 
     this.page = pageCounter(0);
 
-    this.isLoading = true;
     this.renderFoundMovies(query, this.page());
   }
 
   async renderPopularMovies(page) {
+    this.isLoading = true;
+    this.movieView.appearSkeleton();
+
     const { isError, data } = await this.movie.getPopularMovies(page);
-    if (isError) return;
+    if (!isError) {
+      this.movieView.updateMovieListTitle();
+      this.movieView.addMovies(data);
+    }
 
-    this.movieView.updateMovieListTitle();
-    this.movieView.addMovies(data);
-
+    this.movieView.hideSkeleton();
     this.isLoading = false;
   }
 
   async renderFoundMovies(query, page) {
+    this.isLoading = true;
+    this.movieView.appearSkeleton();
+
     const { isError, data } = await this.movie.getFoundMovies(query, page);
-    if (isError) return;
+    if (!isError) {
+      this.movieView.updateMovieListTitle(query);
+      this.movieView.addMovies(data);
+    }
 
-    this.movieView.updateMovieListTitle(query);
-    this.movieView.addMovies(data);
-
+    this.movieView.hideSkeleton();
     this.isLoading = false;
   }
 }

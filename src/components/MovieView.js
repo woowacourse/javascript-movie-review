@@ -31,6 +31,10 @@ class MovieView {
     this.movieList.appearSkeleton();
   }
 
+  hideSkeleton() {
+    this.movieList.hideSkeleton();
+  }
+
   updateMovieListTitle(query) {
     if (query) {
       this.movieListTitle.changeInnerText(`"${query}" 검색 결과`);
@@ -42,8 +46,8 @@ class MovieView {
   }
 
   addMovies({ page, results: movies, total_pages }) {
-    if (page > total_pages) {
-      this.movieList.hideSkeleton();
+    if (page === total_pages) {
+      // TODO Scroll 이벤트 비활성화
     }
 
     if (page === 1) {
