@@ -5,6 +5,7 @@ import { Skeleton } from './components/Skeleton';
 import { Modal } from './components/Modal';
 import { ModalInformation } from './ModalInformation';
 import Store from './Store';
+import { STRING } from './utils/Constant';
 
 class App {
   $header: Header;
@@ -37,7 +38,7 @@ class App {
 
   initializeMovieList() {
     this.store.setInitPage(0);
-    this.$movieList.setTitle('지금 인기 있는 영화');
+    this.$movieList.setTitle(STRING.POPULAR_MOVIE);
     this.store.setInitSearchWord();
     this.store.allocateData().then(() => {
       this.skeleton.removeSkeleton();
@@ -56,7 +57,7 @@ class App {
   searchHandler(value: string) {
     this.skeleton.searchSkeleton();
     this.store.setInitPage(0);
-    this.$movieList.setTitle(`"${value}"에 대한 검색 결과`);
+    this.$movieList.setTitle(`"${value}"${STRING.SEARCH_RESULT}`);
 
     this.store.allocateData(value).then(() => {
       setTimeout(() => {

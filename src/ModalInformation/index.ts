@@ -1,4 +1,5 @@
 import template from './index.html';
+import { STRING, NUMBER } from '../utils/Constant';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fillStar = require('../assets/star_filled.png');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -117,12 +118,12 @@ export class ModalInformation extends HTMLElement {
   render(informationArray: Array<string | null>) {
     const score = localStorage.getItem(informationArray[0] ?? '') ?? '0';
     this.innerHTML = template
-      .replace('{id}', informationArray[0] ?? '알 수 없음')
-      .replace('{title}', informationArray[1] ?? '알 수 없음')
-      .replace('{poster_path}', informationArray[2] ?? '알 수 없음')
-      .replace('{vote_average}', informationArray[3] ?? '알 수 없음')
-      .replace('{genre}', informationArray[4] ?? '알 수 없음')
-      .replace('{overview}', informationArray[5] ?? '알 수 없음')
+      .replace('{id}', informationArray[0] ?? STRING.UNKNOWN)
+      .replace('{title}', informationArray[1] ?? STRING.UNKNOWN)
+      .replace('{poster_path}', informationArray[2] ?? STRING.UNKNOWN)
+      .replace('{vote_average}', informationArray[3] ?? STRING.UNKNOWN)
+      .replace('{genre}', informationArray[4] ?? STRING.UNKNOWN)
+      .replace('{overview}', informationArray[5] ?? STRING.UNKNOWN)
       .replace('{star1}', Number(score) >= 2 ? fillStar : emptyStar)
       .replace('{star2}', Number(score) >= 4 ? fillStar : emptyStar)
       .replace('{star3}', Number(score) >= 6 ? fillStar : emptyStar)
@@ -133,20 +134,20 @@ export class ModalInformation extends HTMLElement {
   }
 
   #getScore(number: number) {
-    if (number === 2) return '2';
-    if (number === 4) return '4';
-    if (number === 6) return '6';
-    if (number === 8) return '8';
-    if (number === 10) return '10';
+    if (number === 2) return NUMBER.FIFTH_STAR;
+    if (number === 4) return NUMBER.SECOND_STAR;
+    if (number === 6) return NUMBER.THIRD_STAR;
+    if (number === 8) return NUMBER.FOURTH_STAR;
+    if (number === 10) return NUMBER.FIFTH_STAR;
     return '';
   }
 
   #getComment(number: number) {
-    if (number === 2) return '최악이예요';
-    if (number === 4) return '별로예요';
-    if (number === 6) return '보통이에요';
-    if (number === 8) return '재미있어요';
-    if (number === 10) return '명작이에요';
+    if (number === 2) return STRING.BAD;
+    if (number === 4) return STRING.NOT_GOOD;
+    if (number === 6) return STRING.NORMAL;
+    if (number === 8) return STRING.GOOD;
+    if (number === 10) return STRING.EXCELLENT;
     return '';
   }
 

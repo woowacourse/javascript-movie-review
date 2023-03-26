@@ -1,4 +1,5 @@
 import template from './index.html';
+import { STRING } from '../../utils/Constant';
 
 export class MovieItem extends HTMLElement {
   connectedCallback() {
@@ -9,10 +10,10 @@ export class MovieItem extends HTMLElement {
 
   #render() {
     this.innerHTML = template
-      .replace('{id}', this.getAttribute('id') ?? '알 수 없음')
-      .replace('{poster_path}', this.getAttribute('poster') ?? '알 수 없음')
-      .replaceAll('{title}', this.getAttribute('title') ?? '알 수 없음')
-      .replace('{vote_average}', this.getAttribute('vote') ?? '알 수 없음');
+      .replace('{id}', this.getAttribute('id') ?? STRING.UNKNOWN)
+      .replace('{poster_path}', this.getAttribute('poster') ?? STRING.UNKNOWN)
+      .replaceAll('{title}', this.getAttribute('title') ?? STRING.UNKNOWN)
+      .replace('{vote_average}', this.getAttribute('vote') ?? STRING.UNKNOWN);
   }
 
   imageSkeletonHandler() {

@@ -1,8 +1,9 @@
 import { FailedResponse } from './types';
 import { ErrorAlert } from './UI/errorAlert';
+import { BASE_URL } from './utils/Constant';
 
 export const getAPIUrl = (params: string, page = 1, query = '') =>
-  `https://api.themoviedb.org/3${params}?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&page=${page}&query=${query}`;
+  `${BASE_URL}3${params}?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&page=${page}&query=${query}`;
 
 export const fetchMovies = async (params: string, page = 1, query = '') => {
   const API_URL = getAPIUrl(params, page, query);
@@ -20,7 +21,7 @@ export const fetchMovies = async (params: string, page = 1, query = '') => {
 };
 
 export const getGenreAPIUrl = () =>
-  `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR`;
+  `${BASE_URL}3/genre/movie/list?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR`;
 
 export const fetchGenre = async () => {
   const API_URL = getGenreAPIUrl();

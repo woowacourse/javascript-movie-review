@@ -1,4 +1,5 @@
 import template from './index.html';
+import { STRING } from '../../utils/Constant';
 export class Header extends HTMLElement {
   #$logo: HTMLElement;
   #$secondSearch: HTMLElement;
@@ -30,7 +31,7 @@ export class Header extends HTMLElement {
       if (!(e.currentTarget instanceof HTMLInputElement)) return;
       const { value } = e.currentTarget;
       if (value.trim() === '') {
-        alert('검색어를 입력해주세요.');
+        alert(STRING.INPUT_SEARCH);
         return;
       }
       searchHandler(value);
