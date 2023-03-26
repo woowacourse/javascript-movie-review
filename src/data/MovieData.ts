@@ -7,11 +7,11 @@ interface UserScoreInterface {
 
 class MovieData {
   #currentMovieList: MovieInterface[];
-  #userScoreMovieList: UserScoreInterface[];
+  #userScoreMovieList: Map<number, ScoreType>;
 
   constructor() {
     this.#currentMovieList = [];
-    this.#userScoreMovieList = [];
+    this.#userScoreMovieList = new Map();
   }
 
   // setMovieData(MovieList: MovieInterface[]) {
@@ -20,7 +20,6 @@ class MovieData {
 
   addMovieData(MovieList: MovieInterface[]) {
     this.#currentMovieList = [...this.#currentMovieList, ...MovieList];
-    console.log(this.#currentMovieList);
   }
 
   resetMovieData() {
@@ -32,16 +31,13 @@ class MovieData {
   }
 
   giveUserScore(id: number, score: ScoreType) {
-    const userScore = {
-      movieId: id,
-      movieScore: score,
-    };
+    this.#userScoreMovieList.set(id, score);
 
-    this.#userScoreMovieList.push(userScore);
+    console.log(this.#userScoreMovieList);
   }
 
   findUserScore(id: number) {
-    return this.#userScoreMovieList.find((elem) => elem.movieId === id);
+    return this.#userScoreMovieList.get(id) === undefined ? 0 : this.#userScoreMovieList.get(id);
   }
 }
 
