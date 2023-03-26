@@ -45,11 +45,11 @@ export function printMovieDetail(
 
   elem.children[0].children[0].textContent = movie.title;
   elem.children[1].children[0].setAttribute('src', makePosterImagePath(poster_path));
-  elem.children[1].children[1].children[0].innerHTML = `<div class="modal-movie-category">
+  elem.children[1].children[1].children[0].innerHTML = `
       ${genre_ids.map((id) => GENRE[id]).join(', ')}
       <img src="${vote_average === 0 ? star_empty : star_filled}" alt="별점" />
       ${vote_average}
-    </div>`;
+    `;
   elem.children[1].children[1].children[1].textContent = `${
     overview === '' ? '해당 영화의 줄거리 정보가 없습니다.' : overview
   }`;
