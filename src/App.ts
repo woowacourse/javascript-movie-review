@@ -23,11 +23,13 @@ class App {
 
   private addInitialPageLoadEventListener() {
     window.addEventListener('load', () => {
-      history.replaceState(
-        { isList: true, searchQuery: '', timestamp: new Date().getTime() },
-        '',
-        PAGE_BASE_URL
-      );
+      if (!history.state) {
+        history.replaceState(
+          { isList: true, searchQuery: '', timestamp: new Date().getTime() },
+          '',
+          PAGE_BASE_URL
+        );
+      }
     });
   }
 

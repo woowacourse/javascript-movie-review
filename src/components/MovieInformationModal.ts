@@ -1,5 +1,5 @@
-import { Movie, MovieRetrievedEventData } from '../types/movie';
-import { MOVIE_RETRIEVED, PAGE_BASE_URL } from '../constants';
+import { Movie, MovieLoadedEventData, MovieRetrievedEventData } from '../types/movie';
+import { MOVIE_LIST_LOADED, MOVIE_RETRIEVED, PAGE_BASE_URL } from '../constants';
 import { $ } from '../utils/domSelector';
 import { CloseButton } from '../assets';
 import MovieList from '../domain/MovieList';
@@ -19,6 +19,7 @@ class MovieInformationModal {
     this.addClickEventListenerToCloseModal();
     this.addKeyDownEventListenerToCloseModal();
     this.addEventListenerToBrowserBackButton();
+    this.addEventListenerToBrowserReloadButton();
   }
 
   static getInstance(): MovieInformationModal {
@@ -83,6 +84,20 @@ class MovieInformationModal {
       }
 
       if (!event.state.showModal) {
+        this.closeModal(true);
+      }
+    });
+  }
+
+  private addEventListenerToBrowserReloadButton() {
+    window.addEventListener('load', () => {
+      if (!history.state) return;
+
+      if (history.state.showModal) {
+        MovieList.getMovieInformation(history.state.movieId, true);
+      }
+
+      if (!history.state.showModal) {
         this.closeModal(true);
       }
     });

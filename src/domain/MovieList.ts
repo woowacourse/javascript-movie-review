@@ -64,7 +64,20 @@ class MovieList {
     }
   }
 
-  getMovieInformation(movieId: number, isBackButton: boolean = false) {
+  async getMovieInformation(movieId: number, isBackButton: boolean = false) {
+    const moviesLoaded = this.movies.length > 0;
+
+    if (!moviesLoaded) {
+      await new Promise<void>((resolve) => {
+        const intervalId = setInterval(() => {
+          if (this.movies.length > 0) {
+            clearInterval(intervalId);
+            resolve();
+          }
+        }, 100);
+      });
+    }
+
     const movie = this.movies.find((movie) => movie.id === movieId)!;
 
     EventEmitter.emit<MovieRetrievedEventData>(MOVIE_RETRIEVED, {
