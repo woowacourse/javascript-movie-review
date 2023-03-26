@@ -174,7 +174,7 @@ class Modal {
 
     if ($modal) {
       window.addEventListener("keydown", (e: KeyboardEvent) => {
-        if (e.keyCode === 27) {
+        if (e.key === "Escape") {
           this.hide();
         }
       });
