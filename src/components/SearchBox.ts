@@ -3,10 +3,12 @@ import { SCREEN_WIDTH } from '../constant/constant';
 class SearchBox {
   private _node!: HTMLElement;
   private $input!: HTMLInputElement;
+  private $searchBoxLayout!: HTMLDivElement;
 
   constructor() {
     this.createTemplate();
-    this.$input = this._node.querySelector<HTMLInputElement>('input') as HTMLInputElement;
+    this.$input = this._node.querySelector('.search-input') as HTMLInputElement;
+    this.$searchBoxLayout = this._node.querySelector('.search-box-layout') as HTMLDivElement;
     this.initEventHandler();
   }
 
@@ -21,8 +23,10 @@ class SearchBox {
     this._node.insertAdjacentHTML(
       'afterbegin',
       /*html*/ `
-      <input class="" type="text" placeholder="검색" />
-      <button class="search-button">검색</button>
+      <div class="search-box-layout">
+        <input class="search-input" type="text" placeholder="검색" />
+        <button class="search-button">검색</button>
+      </div>
       `
     );
   }
@@ -33,8 +37,7 @@ class SearchBox {
     if (width < SCREEN_WIDTH) this.$input.classList.add('hidden');
     else {
       this.$input.classList.remove('hidden');
-      this.$input.classList.remove('width-zero');
-      this._node.classList.remove('width-zero');
+      this.$searchBoxLayout.classList.remove('width-zero');
     }
   }
 
@@ -46,10 +49,10 @@ class SearchBox {
     this.$input.focus();
 
     this.$input.classList.remove('hidden');
+    this.$searchBoxLayout.classList.add('width-full');
     this.$input.classList.add('width-full');
+    this.$searchBoxLayout.classList.remove('width-zero');
     this.$input.classList.remove('width-zero');
-    this._node.classList.add('width-full');
-    this._node.classList.remove('width-zero');
     this._node.dispatchEvent(new CustomEvent('enterSearchIcon', { bubbles: true }));
   }
 
@@ -58,11 +61,10 @@ class SearchBox {
 
     if (width > SCREEN_WIDTH) return;
 
-    this.$input.classList.add('hidden');
-    this.$input.classList.add('width-zero');
+    this.$searchBoxLayout.classList.remove('width-full');
     this.$input.classList.remove('width-full');
-    this._node.classList.add('width-zero');
-    this._node.classList.remove('width-full');
+    this.$searchBoxLayout.classList.add('width-zero');
+    this.$input.classList.add('width-zero');
     this._node.dispatchEvent(new CustomEvent('leaveSearchIcon', { bubbles: true }));
   }
 
@@ -87,8 +89,8 @@ class SearchBox {
       this.dispatchSearchEvent(this.$input.value);
     });
     button.addEventListener('click', this.clickSearchButton.bind(this));
-    this._node.addEventListener('mouseenter', this.mouseEnterSearchIcon.bind(this));
-    this._node.addEventListener('mouseleave', this.mouseLeaveSearchIcon.bind(this));
+    this.$searchBoxLayout.addEventListener('mouseenter', this.mouseEnterSearchIcon.bind(this));
+    this.$searchBoxLayout.addEventListener('mouseleave', this.mouseLeaveSearchIcon.bind(this));
     window.addEventListener('resize', this.toggleInputUI.bind(this));
     window.addEventListener('load', this.toggleInputUI.bind(this));
   }

@@ -225,6 +225,11 @@ button.primary {
   margin-bottom: 48px;
 }
 
+.header-layout {
+  position: relative;
+  width: 100%;
+}
+
 .header-between {
   justify-content: space-between;
 }
@@ -242,22 +247,40 @@ header h1 {
   color: #f33f3f;
 }
 
-header > .search-box {
+.search-box {
+  display: flex;
+  min-height: 34px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.search-box-layout {
   background: #fff;
   padding: 8px;
   border-radius: 4px;
-  display: flex;
-  position: relative;
-  min-height: 34px;
+  min-width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
   min-width: 30px;
 }
 
-header .search-box > input {
+.search-input {
   border: 0;
+  min-width: 30px;
 }
 
-header .search-box > .search-button {
-  position: absolute;
+@media screen and (max-width: 600px) {
+  .search-input {
+    width: 0;
+  }
+}
+
+.search-button {
   right: 8px;
   width: 14px;
   border: 0;
@@ -271,29 +294,29 @@ header .search-box > .search-button {
 }
 
 .width-full {
-  width: 0%;
+  min-width: 0%;
   animation: search-in-animation 1s ease forwards;
 }
 
 .width-zero {
-  width: 100%;
+  min-width: 100%;
   animation: search-out-animation 1s ease forwards;
 }
 
 @keyframes search-in-animation {
   0% {
-    width: 0%;
+    min-width: 0%;
   }
   100% {
-    width: 100%;
+    min-width: 100%;
   }
 }
 
 @keyframes search-out-animation {
   0% {
-    width: 100%;
+    min-width: 100%;
   }
   100% {
-    width: 0%;
+    min-width: 0%;
   }
 }
