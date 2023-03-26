@@ -55,7 +55,8 @@ main {
   margin-top: 24px;
 }
 
-.movie-info {
+.movie-info,
+li.skeleton {
   margin: 24px 80px;
 }
 
@@ -390,7 +391,8 @@ img.rating-img[data-filled="true"] {
 }
 
 @media screen and (max-width: 834px) {
-  .movie-info {
+  .movie-info,
+  li.skeleton {
     margin: 20px 24px;
   }
 
@@ -531,7 +533,8 @@ img.rating-img[data-filled="true"] {
     margin: 24px 0;
   }
   
-  .movie-info {
+  .movie-info ,
+  li.skeleton {
     margin: 16px 10px;
   }
   
@@ -565,7 +568,8 @@ img.rating-img[data-filled="true"] {
     margin: 12px;
   }
   
-  .item-card > img {
+  .item-card > img,
+  .item-thumbnail.skeleton {
     width: 140px;
     height: 220px;
   }
