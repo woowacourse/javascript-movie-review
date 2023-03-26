@@ -203,8 +203,24 @@ header .search-box > .search-button {
 
   .item-list {
     grid-template-columns: repeat(2, 1fr);
+    overflow-y: hidden;
+
+    grid-row-gap: 32px;
+    grid-column-gap: 0px;
   }
 
+  .item-list li {
+    width: 160px;
+  }
+
+   .item-thumbnail {
+    width: 140px;
+    height: 200px;
+  }
+  
+  .item-title {
+    width: 140px;
+  } 
 }
 
 .hide {
