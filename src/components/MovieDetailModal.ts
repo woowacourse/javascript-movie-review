@@ -41,16 +41,21 @@ const MovieDetailModal = (movieDetailData: DetailInfoType) => {
 
     document.querySelector("main")?.appendChild(movieDetailModal);
     movieDetailModal.showModal();
+
+    bindEvent(movieDetailModal);
   };
 
-  const bindEvent = () => {
-    const movieDetailModal = document.querySelector("dialog");
-    document.querySelector(".modal-close")?.addEventListener('click', () => {
+  const bindEvent = (movieDetailModal: HTMLDialogElement) => {
+    const onCloseClick = () => {
       movieDetailModal?.close();
-    })
+      movieDetailModal.removeEventListener('click', onCloseClick);
+    }
+
+    movieDetailModal.querySelector(".modal-close")?.addEventListener('click', onCloseClick);
+    movieDetailModal.querySelector(".modal-backdrop")?.addEventListener('click', onCloseClick)
   }
+
   render();
-  bindEvent();
 }
 
 export default MovieDetailModal;
