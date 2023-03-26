@@ -253,28 +253,28 @@ class Modal {
       });
 
       $userRateContainer.addEventListener("click", (e) => {
-        if (e.target instanceof HTMLImageElement) {
-          const movieId = (e.currentTarget as HTMLElement)?.dataset.movieId ?? "";
-          const value = e.target.dataset.value ?? "0";
+        if (!(e.target instanceof HTMLImageElement)) return;
 
-          if (movieId) {
-            const ratings: IRatings = getRatings() as IRatings;
-            if (ratings[movieId] === value) {
-              delete ratings[movieId];
-              setLocalStorageItem("ratings", ratings);
-              showToastWithMessage("성공적으로 별점이 초기화되었습니다. ❌");
-              this.#isAlreadyRated = false;
-              this.toggleReRateButtonVisibility();
-              this.updateRating(movieId, 0);
-            } else {
-              ratings[movieId] = value;
-              setLocalStorageItem("ratings", ratings);
-              this.updateRating(movieId, +value);
-              this.#isAlreadyRated = true;
-              showToastWithMessage("성공적으로 별점이 등록되었습니다. 🫡");
-              this.toggleReRateButtonVisibility();
-            }
-          }
+        const movieId = (e.currentTarget as HTMLElement)?.dataset.movieId ?? "";
+        const value = e.target.dataset.value ?? "0";
+
+        if (!movieId) return;
+
+        const ratings: IRatings = getRatings() as IRatings;
+        if (ratings[movieId] === value) {
+          delete ratings[movieId];
+          setLocalStorageItem("ratings", ratings);
+          showToastWithMessage("성공적으로 별점이 초기화되었습니다. ❌");
+          this.#isAlreadyRated = false;
+          this.toggleReRateButtonVisibility();
+          this.updateRating(movieId, 0);
+        } else {
+          ratings[movieId] = value;
+          setLocalStorageItem("ratings", ratings);
+          this.updateRating(movieId, +value);
+          this.#isAlreadyRated = true;
+          showToastWithMessage("성공적으로 별점이 등록되었습니다. 🫡");
+          this.toggleReRateButtonVisibility();
         }
       });
     }
