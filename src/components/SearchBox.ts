@@ -70,6 +70,13 @@ class SearchBox {
     this._node.dispatchEvent(new CustomEvent('searchMovies', { bubbles: true, detail: { keyword } }));
   }
 
+  clickSearchButton() {
+    const width = window.innerWidth;
+
+    if (width > SCREEN_WIDTH) this.dispatchSearchEvent(this.$input.value);
+    else this.mouseEnterSearchIcon();
+  }
+
   initEventHandler() {
     const button = this._node.querySelector<HTMLButtonElement>('.search-button');
 
@@ -79,9 +86,7 @@ class SearchBox {
       if (event.key !== 'Enter') return;
       this.dispatchSearchEvent(this.$input.value);
     });
-    button.addEventListener('click', () => {
-      this.dispatchSearchEvent(this.$input.value);
-    });
+    button.addEventListener('click', this.clickSearchButton.bind(this));
     this._node.addEventListener('mouseenter', this.mouseEnterSearchIcon.bind(this));
     this._node.addEventListener('mouseleave', this.mouseLeaveSearchIcon.bind(this));
     window.addEventListener('resize', this.toggleInputUI.bind(this));
