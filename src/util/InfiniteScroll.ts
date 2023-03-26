@@ -8,11 +8,11 @@ export const infiniteScroll = (target: string, fn: CallableFunction) => {
       fn().then(() => {
         const eventTarget = document.querySelector(target);
         io.disconnect();
-        io.observe(eventTarget!);
+        if (eventTarget) io.observe(eventTarget);
       });
     });
   }, options);
   const last = document.querySelector(target);
 
-  io.observe(last!);
+  if (last) io.observe(last);
 };

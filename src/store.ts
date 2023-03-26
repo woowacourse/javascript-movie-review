@@ -1,9 +1,9 @@
 import { Movie } from './movies.type';
 
 class Store {
-  movieList: Movie[] = [];
+  private movieList: Movie[] = [];
 
-  genreList = new Map<number, string>();
+  private genreList = new Map<number, string>();
 
   initializeList() {
     this.movieList = [];
