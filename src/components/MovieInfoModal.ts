@@ -54,8 +54,6 @@ export function printMovieDetail(
     overview === '' ? '해당 영화의 줄거리 정보가 없습니다.' : overview
   }`;
   elem.children[1].children[1].children[2].className = `modal-movie-star-area ${id}`;
-  console.log(elem.children[1].children[1].children[2].children[0]);
 
-  elem.children[1].children[1].children[2].children[0].innerHTML = showStar(targetUSerScore);
   elem.children[1].children[1].children[2].children[1].textContent = `${scoreText}`;
 }
