@@ -44,4 +44,39 @@ interface MovieGenre {
   name: string;
 }
 
-export { MovieData, MovieDataResult, Movie, MovieFetchFunction, MovieGenreData, MovieGenre };
+interface MovieLoadedEventData {
+  movies: Movie[];
+  searchQuery: string;
+}
+
+interface MovieResetEventData {
+  searchQuery: string;
+}
+
+interface MovieErrorEventData {
+  error: Error;
+}
+
+interface MovieRetrievedEventData {
+  movie: Movie;
+  searchQuery: string;
+  isBackButton: boolean;
+}
+
+interface MovieUserVoteUpdateEventData {
+  userVote: number;
+}
+
+export {
+  MovieData,
+  MovieDataResult,
+  Movie,
+  MovieFetchFunction,
+  MovieGenreData,
+  MovieGenre,
+  MovieLoadedEventData,
+  MovieResetEventData,
+  MovieErrorEventData,
+  MovieRetrievedEventData,
+  MovieUserVoteUpdateEventData,
+};

@@ -1,4 +1,4 @@
-import { Movie } from '../types/movie';
+import { Movie, MovieLoadedEventData } from '../types/movie';
 import {
   MOVIE_LIST_LOADED,
   MOVIE_LIST_LOADING,
@@ -32,8 +32,8 @@ class MovieListContent {
   private init() {
     MovieList.on(MOVIE_LIST_RESET, this.clearListContent.bind(this));
     MovieList.on(MOVIE_LIST_LOADING, this.renderSkeleton.bind(this));
-    MovieList.on(MOVIE_LIST_LOADED, (event) => {
-      const { movies, searchQuery } = (event as CustomEvent).detail;
+    MovieList.on(MOVIE_LIST_LOADED, (event: CustomEvent<MovieLoadedEventData>) => {
+      const { movies, searchQuery } = event.detail;
       this.loadMovies(movies, searchQuery);
     });
   }

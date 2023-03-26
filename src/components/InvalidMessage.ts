@@ -1,8 +1,9 @@
-import HTTPError from '../api/HTTPError';
-import { MOVIE_LIST_ERROR } from '../constants';
-import { HTTP_ERROR_CODE, INVALID_MESSAGE } from '../constants/invalidMessage';
+import { MovieErrorEventData } from '../types/movie';
 import { InvalidMessageType } from '../types/ui';
+import { MOVIE_LIST_ERROR, MOVIE_LIST_RESET } from '../constants';
+import { HTTP_ERROR_CODE, INVALID_MESSAGE } from '../constants/invalidMessage';
 import { $ } from '../utils/domSelector';
+import HTTPError from '../api/HTTPError';
 import MovieListContainer from './MovieListContainer';
 import MovieList from '../domain/MovieList';
 
@@ -24,12 +25,12 @@ class InvalidMessage {
   }
 
   private init() {
-    MovieList.on('movieListReset', () => {
+    MovieList.on(MOVIE_LIST_RESET, () => {
       this.clear();
     });
 
-    MovieList.on(MOVIE_LIST_ERROR, (event) => {
-      const { error } = (event as CustomEvent).detail;
+    MovieList.on(MOVIE_LIST_ERROR, (event: CustomEvent<MovieErrorEventData>) => {
+      const { error } = event.detail;
       this.handleError(error);
     });
   }

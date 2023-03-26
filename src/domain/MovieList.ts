@@ -1,4 +1,11 @@
-import { Movie } from '../types/movie';
+import {
+  Movie,
+  MovieErrorEventData,
+  MovieLoadedEventData,
+  MovieResetEventData,
+  MovieRetrievedEventData,
+  MovieUserVoteUpdateEventData,
+} from '../types/movie';
 import {
   MOVIE_LIST_ERROR,
   MOVIE_LIST_LOADED,
@@ -31,7 +38,7 @@ class MovieList {
     this.movies = [];
     this.currentPage = 1;
     this.searchQuery = searchQuery;
-    EventEmitter.emit(MOVIE_LIST_RESET, searchQuery);
+    EventEmitter.emit<MovieResetEventData>(MOVIE_LIST_RESET, { searchQuery });
   }
 
   async getMovieData() {
@@ -45,16 +52,25 @@ class MovieList {
 
       this.currentPage += 1;
       this.movies.push(...movies);
-      EventEmitter.emit(MOVIE_LIST_LOADED, { movies, searchQuery: this.searchQuery });
+      EventEmitter.emit<MovieLoadedEventData>(MOVIE_LIST_LOADED, {
+        movies,
+        searchQuery: this.searchQuery,
+      });
     } catch (error) {
-      EventEmitter.emit(MOVIE_LIST_ERROR, { error });
+      if (error instanceof Error) {
+        EventEmitter.emit<MovieErrorEventData>(MOVIE_LIST_ERROR, { error });
+      }
     }
   }
 
   getMovieInformation(movieId: number, isBackButton: boolean = false) {
     const [movie] = this.movies.filter((movie) => movie.id === movieId);
 
-    EventEmitter.emit(MOVIE_RETRIEVED, { movie, searchQuery: this.searchQuery, isBackButton });
+    EventEmitter.emit<MovieRetrievedEventData>(MOVIE_RETRIEVED, {
+      movie,
+      searchQuery: this.searchQuery,
+      isBackButton,
+    });
   }
 
   getUserMovies() {
@@ -78,10 +94,10 @@ class MovieList {
       this.userMovies.push(movie);
     }
 
-    EventEmitter.emit(MOVIE_USER_VOTE_UPDATED, { userVote: userVote });
+    EventEmitter.emit<MovieUserVoteUpdateEventData>(MOVIE_USER_VOTE_UPDATED, { userVote });
   }
 
-  on(eventName: string, callback: EventListenerOrEventListenerObject) {
+  on<T>(eventName: string, callback: (event: CustomEvent<T>) => void) {
     EventEmitter.on(eventName, callback);
   }
 }

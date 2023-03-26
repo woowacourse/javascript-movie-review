@@ -8,6 +8,7 @@ import {
 import { EmptyStar, FilledStar } from '../assets';
 import { $, $$ } from '../utils/domSelector';
 import MovieList from '../domain/MovieList';
+import { MovieRetrievedEventData, MovieUserVoteUpdateEventData } from '../types/movie';
 
 class UserMovieVote {
   private static instance: UserMovieVote;
@@ -37,13 +38,13 @@ class UserMovieVote {
   }
 
   private init() {
-    MovieList.on(MOVIE_RETRIEVED, (event) => {
-      const { movie } = (event as CustomEvent).detail;
+    MovieList.on(MOVIE_RETRIEVED, (event: CustomEvent<MovieRetrievedEventData>) => {
+      const { movie } = event.detail;
       this.updateUserVote(movie.userVote);
     });
 
-    MovieList.on(MOVIE_USER_VOTE_UPDATED, (event) => {
-      const { userVote } = (event as CustomEvent).detail;
+    MovieList.on(MOVIE_USER_VOTE_UPDATED, (event: CustomEvent<MovieUserVoteUpdateEventData>) => {
+      const { userVote } = event.detail;
       this.updateUserVote(userVote);
     });
   }

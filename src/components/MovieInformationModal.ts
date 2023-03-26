@@ -1,4 +1,4 @@
-import { Movie } from '../types/movie';
+import { Movie, MovieRetrievedEventData } from '../types/movie';
 import { MOVIE_RETRIEVED, PAGE_BASE_URL } from '../constants';
 import { $ } from '../utils/domSelector';
 import { CloseButton } from '../assets';
@@ -41,8 +41,8 @@ class MovieInformationModal {
   }
 
   private init() {
-    MovieList.on(MOVIE_RETRIEVED, (event) => {
-      const { movie, searchQuery, isBackButton } = (event as CustomEvent).detail;
+    MovieList.on(MOVIE_RETRIEVED, (event: CustomEvent<MovieRetrievedEventData>) => {
+      const { movie, searchQuery, isBackButton } = event.detail;
       this.openModal(movie, searchQuery, isBackButton);
     });
   }

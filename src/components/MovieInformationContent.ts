@@ -1,4 +1,4 @@
-import { Movie } from '../types/movie';
+import { Movie, MovieRetrievedEventData } from '../types/movie';
 import { MOVIE_RETRIEVED, POSTER_BASE_URL } from '../constants';
 import { EmptyStar, FilledStar } from '../assets';
 import { $ } from '../utils/domSelector';
@@ -53,8 +53,8 @@ class MovieInformationContent {
   }
 
   private init() {
-    MovieList.on(MOVIE_RETRIEVED, (event) => {
-      const { movie } = (event as CustomEvent).detail;
+    MovieList.on(MOVIE_RETRIEVED, (event: CustomEvent<MovieRetrievedEventData>) => {
+      const { movie } = event.detail;
       this.render(movie);
     });
   }

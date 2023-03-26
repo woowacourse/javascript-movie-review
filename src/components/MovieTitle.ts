@@ -2,6 +2,7 @@ import { $ } from '../utils/domSelector';
 import { MOVIE_LIST_RESET } from '../constants';
 import { MOVIE_LIST_MAIN_TITLE } from '../constants/ui';
 import MovieList from '../domain/MovieList';
+import { MovieResetEventData } from '../types/movie';
 
 class MovieTitle {
   private static instance: MovieTitle;
@@ -21,8 +22,8 @@ class MovieTitle {
   }
 
   private init() {
-    MovieList.on(MOVIE_LIST_RESET, (event) => {
-      const searchQuery = (event as CustomEvent).detail;
+    MovieList.on(MOVIE_LIST_RESET, (event: CustomEvent<MovieResetEventData>) => {
+      const { searchQuery } = event.detail;
       this.render(searchQuery);
     });
   }
