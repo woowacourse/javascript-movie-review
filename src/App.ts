@@ -23,20 +23,17 @@ export class App {
 
     this.#modal = new Modal($modal);
 
-    this.bindEvent();
+    this.bindEvent($movieList);
   }
 
-  bindEvent() {
-    window.addEventListener("popstate", () => {
-      const hashString = window.location.hash.replace("#", "");
-      const selectedMovieId = Number(hashString);
+  bindEvent($movieList: Element) {
+    $movieList.addEventListener("click", (event: Event) => {
+      if (!(event.target instanceof HTMLElement)) return;
 
-      if (hashString !== "") {
-        this.onClickMovieCard(selectedMovieId);
-        return;
-      }
+      const movieCard = event.target.closest("li");
+      const movieId = movieCard?.dataset.movieId;
 
-      this.#modal.close();
+      if (movieId) this.onClickMovieCard(Number(movieId));
     });
   }
 
@@ -59,6 +56,6 @@ export class App {
   }
 
   onClickMovieCard(movieId: number) {
-    this.#modal.open(movieId);
+    this.#modal.open(movieId, "movieDetail");
   }
 }

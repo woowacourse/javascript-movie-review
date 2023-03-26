@@ -6,8 +6,7 @@ export const getMovieCardTemplate = (movie: Movie) => {
   return (
     /*html*/
     `
-      <li>
-        <a href="#${movie.id}">
+      <li data-movie-id="${movie.id}">
           <div class="item-card">
             ${
               movie.poster_path
@@ -31,7 +30,6 @@ export const getMovieCardTemplate = (movie: Movie) => {
               ${movie.vote_average}
             </p>
           </div>
-        </a>
       </li>
     `
   );
