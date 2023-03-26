@@ -1,6 +1,6 @@
 import { moreButton } from "./moreButton";
 
-const MovieItemList = (currentTab: string) => {
+const MovieItemList = (currentTab: string, keyword: string = '') => {
   const create = () => {
     return `<ul class="item-list"></ul>
     ${moreButton()}
@@ -33,7 +33,7 @@ const MovieItemList = (currentTab: string) => {
     container.insertAdjacentElement("afterbegin", currentTabElement);
 
     if (currentTab == "POPULAR") currentTabElement.innerHTML = "인기 있는 영화";
-    if (currentTab == "SEARCH") currentTabElement.innerHTML = "검색 결과";
+    if (currentTab == "SEARCH") currentTabElement.innerHTML = `${keyword} 검색 결과`;
     document
       .querySelector("main")
       ?.insertAdjacentElement("afterbegin", container);

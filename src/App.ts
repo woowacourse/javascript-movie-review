@@ -40,7 +40,7 @@ export const App = async () => {
     searchMovieCurrentPage = currentSearchMovieData.currentPage;
 
     const searchResultElement = generateElement(results);
-    const movieItemList = MovieItemList("SEARCH");
+    const movieItemList = MovieItemList("SEARCH", searchBox.getKeyword());
     movieItemList.addMovies(
       searchResultElement,
       total_pages,
