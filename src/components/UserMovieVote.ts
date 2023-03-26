@@ -1,3 +1,4 @@
+import { MovieRetrievedEventData, MovieUserVoteUpdateEventData, UserScores } from '../types/movie';
 import { MOVIE_RETRIEVED, MOVIE_USER_VOTE_UPDATED } from '../constants';
 import {
   MAX_VOTE_SCORE,
@@ -8,7 +9,6 @@ import {
 import { EmptyStar, FilledStar } from '../assets';
 import { $, $$ } from '../utils/domSelector';
 import MovieList from '../domain/MovieList';
-import { MovieRetrievedEventData, MovieUserVoteUpdateEventData } from '../types/movie';
 
 class UserMovieVote {
   private static instance: UserMovieVote;
@@ -73,7 +73,7 @@ class UserMovieVote {
     );
   }
 
-  private updateUserVote(userVote: number) {
+  private updateUserVote(userVote: UserScores) {
     const userVoteCount = userVote / VOTE_SCORE_AND_STAR_RATIO;
 
     this.updateUserVoteStars('.user-vote-star', userVoteCount - 1);
@@ -137,7 +137,8 @@ class UserMovieVote {
       this.renderVotedMessage();
 
       const movieId = Number($<HTMLDivElement>('.information-content').dataset.movieId);
-      const userVote = (Number(target.dataset.starIndex) + 1) * VOTE_SCORE_AND_STAR_RATIO;
+      const userVote = ((Number(target.dataset.starIndex) + 1) *
+        VOTE_SCORE_AND_STAR_RATIO) as UserScores;
 
       if (movieId) {
         MovieList.updateUserVote(movieId, userVote);

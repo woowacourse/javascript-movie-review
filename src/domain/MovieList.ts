@@ -5,6 +5,7 @@ import {
   MovieResetEventData,
   MovieRetrievedEventData,
   MovieUserVoteUpdateEventData,
+  UserScores,
 } from '../types/movie';
 import {
   MOVIE_LIST_ERROR,
@@ -77,7 +78,7 @@ class MovieList {
     return [...this.userMovies];
   }
 
-  updateUserVote(movieId: number, userVote: number) {
+  updateUserVote(movieId: number, userVote: UserScores) {
     const hasMovie = this.userMovies.find((movie) => movie.id === movieId);
 
     if (hasMovie) {
