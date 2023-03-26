@@ -3,12 +3,14 @@ import MovieDetailModal from '../MovieDetailModal';
 
 import { getMovieDetailApi } from '../../api';
 import { DEFAULT_LIST_LENGTH } from '../../constants';
-import { isCustomErrorMessage } from '../../constants/message';
+import { DEFAULT_ERROR_MESSAGE, isCustomErrorMessage } from '../../constants/message';
 import { CLASS } from '../../constants/selector';
 import { $ } from '../../utils/dom';
 
 import type { AppMovie } from '../../types/movie';
 import type { MovieDetail } from './MovieCard';
+import Modal from '../common/Modal';
+import ErrorMessage from '../common/ErrorMessage';
 
 const MovieCardList = {
   template() {
@@ -57,12 +59,12 @@ const MovieCardList = {
       return { id, title, genres, posterPath, overview, rating: voteAverage };
     } catch (error) {
       if (isCustomErrorMessage(error)) {
-        alert(error.error);
+        Modal.open(ErrorMessage.template(error));
         return;
       }
 
       if (error instanceof Error) {
-        alert(error.message);
+        Modal.open(ErrorMessage.template(DEFAULT_ERROR_MESSAGE));
       }
     }
   },

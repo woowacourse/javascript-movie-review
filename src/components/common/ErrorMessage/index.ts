@@ -1,5 +1,7 @@
-import { CustomErrorMessage } from '../../constants/message';
-import { CLASS } from '../../constants/selector';
+import { CLASS } from '../../../constants/selector';
+import type { CustomErrorMessage } from '../../../constants/message';
+
+import './ErrorMessage.style.css';
 
 const ErrorMessage = {
   template(errorMessage: CustomErrorMessage) {
