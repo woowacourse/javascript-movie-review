@@ -14,7 +14,7 @@ class SearchBox implements Component {
 
   composeNode(): this {
     this.node.innerHTML = `
-      <input type="text" placeholder="검색" />
+      <input class="search-input" type="text" placeholder="검색" />
       <button class="search-button">검색</button>
       `;
 
