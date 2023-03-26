@@ -34,9 +34,8 @@ const GenreMap = {
   
     await fetch(GENRE_LIST_URL)
       .then((res) => res.json())
-      .then((json) => json.genres)
-      .then((list) => list.forEach(
-          (genreInfo: { id: number, name: string}) => map.set(genreInfo.id, genreInfo.name)
+      .then((json) => json.genres.forEach(
+        (genreInfo: { id: number, name: string }) => map.set(genreInfo.id, genreInfo.name)
       ))
       .catch(() => setFixedGenreMap());
   },
