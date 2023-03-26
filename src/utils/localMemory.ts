@@ -33,7 +33,7 @@ export const localMemoryVoteHook = {
   },
 
   setVote: (id: number, voteValue: number) => {
-    const memory = localMemory.getData(String(id));
+    const memory = localMemory.getData(MOVIE_LOCAL_STORAGE_KEY);
 
     const dataSet = {
       voteId: id,
