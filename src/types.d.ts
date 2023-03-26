@@ -22,4 +22,13 @@ interface Movie {
   vote_average: number;
 }
 
-export { MovieResponse, Movie };
+interface MovieDetailResponse {
+  id: number;
+  title: string;
+  genres: { id: number; name: string }[];
+  overview: string;
+  poster_path: string;
+  vote_average: number;
+}
+
+export { MovieResponse, Movie, MovieDetailResponse };
