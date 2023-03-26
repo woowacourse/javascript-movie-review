@@ -80,7 +80,7 @@ class Header {
 
       if (!searchInput) return;
 
-      const searchValue = searchInput.value;
+      const searchValue = searchInput.value.trim();
       renderMovieList("search", searchValue);
       searchInput.blur();
 
