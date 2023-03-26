@@ -13,6 +13,8 @@ class GenreMatcher {
     const url = movieGenreListUrl();
     const genreList = await request(url).then((data) => data.genres);
 
+    this.matcher = {};
+
     genreList.forEach(({ id, name }: MovieGenreApi) => {
       this.matcher[id] = name;
     });
