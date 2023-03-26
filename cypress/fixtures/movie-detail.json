@@ -1,0 +1,78 @@
+{
+  "adult": false,
+  "backdrop_path": "/ouB7hwclG7QI3INoYJHaZL4vOaa.jpg",
+  "belongs_to_collection": {
+    "id": 94602,
+    "name": "장화신은 고양이 시리즈",
+    "poster_path": "/anHwj9IupRoRZZ98WTBvHpTiE6A.jpg",
+    "backdrop_path": "/feU1DWV5zMWxXUHJyAIk3dHRQ9c.jpg"
+  },
+  "budget": 90000000,
+  "genres": [
+    {
+      "id": 16,
+      "name": "애니메이션"
+    },
+    {
+      "id": 12,
+      "name": "모험"
+    },
+    {
+      "id": 35,
+      "name": "코미디"
+    },
+    {
+      "id": 10751,
+      "name": "가족"
+    }
+  ],
+  "homepage": "",
+  "id": 315162,
+  "imdb_id": "tt3915174",
+  "original_language": "en",
+  "original_title": "Puss in Boots: The Last Wish",
+  "overview": "아홉 개의 목숨 중 단 하나의 목숨만 남은 장화신은 고양이.  마지막 남은 목숨을 지키기 위해 히어로의 삶 대신 반려묘의 삶을 선택한 그에게 찾아온 마지막 기회, 바로 소원을 들어주는 소원별이 있는 곳을 알려주는 지도!  잃어버린 목숨을 되찾고 다시 히어로가 되기를 꿈꾸는 장화신은 고양이는 뜻밖에 동료가 된 앙숙 파트너 '키티 말랑손', 그저 친구들과 함께라면 모든 게 행복한 강아지 '페로'와 함께 소원별을 찾기 위해 길을 떠난다.  그리고 소원별을 노리는 또 다른 빌런들과 마주치게 되는데…",
+  "popularity": 1819.763,
+  "poster_path": "/rKgvctIuPXyuqOzCQ16VGdnHxKx.jpg",
+  "production_companies": [
+    {
+      "id": 521,
+      "logo_path": "/kP7t6RwGz2AvvTkvnI1uteEwHet.png",
+      "name": "DreamWorks Animation",
+      "origin_country": "US"
+    },
+    {
+      "id": 33,
+      "logo_path": "/8lvHyhjr8oUKOOy2dKXoALWKdp0.png",
+      "name": "Universal Pictures",
+      "origin_country": "US"
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "US",
+      "name": "United States of America"
+    }
+  ],
+  "release_date": "2022-12-07",
+  "revenue": 463087575,
+  "runtime": 103,
+  "spoken_languages": [
+    {
+      "english_name": "English",
+      "iso_639_1": "en",
+      "name": "English"
+    },
+    {
+      "english_name": "Spanish",
+      "iso_639_1": "es",
+      "name": "Español"
+    }
+  ],
+  "status": "Released",
+  "tagline": "새해를 여는 끝내주는 모험이 시작된다!",
+  "title": "장화신은 고양이: 끝내주는 모험",
+  "video": false,
+  "vote_average": 8.329,
+  "vote_count": 4812
+}
