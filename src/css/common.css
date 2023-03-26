@@ -3,9 +3,13 @@
 }
 
 body {
-  font-size: 14px;
+  font-size: 15px;
   background-color: #222222;
   color: #fff;
+}
+
+p {
+  font-size: 16px;
 }
 
 a {
@@ -33,7 +37,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -55,8 +59,6 @@ button {
   font-weight: 700;
   margin-bottom: 30px;
 }
-
-/* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .item-list {
   display: grid;
@@ -140,7 +142,6 @@ button.primary {
 }
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -176,6 +177,37 @@ header .search-box > .search-button {
   text-indent: -1000rem;
   background: url('../assets/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+@media (max-width: 992px) {
+}
+
+@media (max-width: 768px) {
+  header {
+    height: 60px;
+    background-color: #222;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    border-bottom: 1px solid white;
+    margin-bottom: 24px;
+  }
+
+  .item-view {
+    padding: 16px;
+  }
+
+  .item-list {
+    display: grid;
+    justify-content: space-around;
+    grid-template-columns: repeat(2, 1fr);
+
+    grid-column-gap: 24px;
+  }
+
+  .item-thumbnail {
+    width: 100%;
+  }
 }
 
 .hide {

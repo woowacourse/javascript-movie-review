@@ -133,3 +133,59 @@
 .rating input:hover ~ input + label {
   background: url('../assets/star_empty.png');
 }
+
+
+@media (max-width: 768px) {
+  .modal-container {
+    position: fixed;
+    display: grid;
+    grid-template-rows: repeat(8, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+
+    top: unset;
+    left: unset;
+    bottom: 0;
+    transform: unset;
+    height: 60%;
+  
+    padding: 30px;
+    border: 1px;
+    width: 100%;
+    border-radius: 8px 8px 0px 0px;
+  }
+
+  .movie-poster {
+    display: none;
+  }
+
+  .movie-genre {
+    grid-row: 3 / 4;
+    grid-column: 5 / 7;
+  }
+
+  .movie-score {
+    grid-row: 3 / 4;
+    grid-column: 7 / 8;
+  }
+
+  .movie-overview {
+    grid-row: 4 / 8;
+    grid-column: 5 / 11;
+    padding-right: 18px;
+    line-height: 24px;
+  }
+
+  .movie-user-rating {
+    gap: 10px;
+  
+    grid-row: 8 / 10;
+    grid-column: 5 / 11;
+  
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #383839;
+    border-radius: 12px;
+  }
+
+}
