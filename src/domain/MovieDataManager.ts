@@ -11,6 +11,17 @@ export const convertMovieData = (movieItems: TotalMovieInfoType[]) => {
   });
 };
 
+export const convertToMovieDetailData = (movieItem: TotalMovieInfoType) => {
+  const id = movieItem.id;
+  const title = movieItem.title;
+  const posterPath = movieItem.poster_path;
+  const voteAverage = movieItem.vote_average;
+  const genres = movieItem.genres?.map(genre => genre.name);
+  const overview = movieItem.overview;
+
+  return { id, title, posterPath, voteAverage, genres, overview };
+};
+
 export const generateElement = (movieData: TotalMovieInfoType[]) => {
   const movieElement = convertMovieData(movieData)
     .map((item) => MovieItem(item))

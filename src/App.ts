@@ -1,9 +1,10 @@
 import { getCurrentResult } from "./api/keywordSearch";
+import { getMovieDetail } from "./api/movieDetail";
 import { getPopularMovie } from "./api/movieList";
 import MovieDetailModal from "./components/MovieDetailModal";
 import MovieItemList from "./components/MovieItemList";
 import SearchBox from "./components/SearchBox";
-import { generateElement } from "./domain/MovieDataManager";
+import { convertToMovieDetailData, generateElement } from "./domain/MovieDataManager";
 
 export const App = async () => {
   const searchBox = SearchBox();
@@ -88,8 +89,8 @@ export const App = async () => {
     if (!(e instanceof CustomEvent)) return;
 
     const movieId = e.detail.movieId;
-    MovieDetailModal();
-    console.log(e.detail.movieId);
+    const movieDetailData = convertToMovieDetailData(await getMovieDetail(movieId));
+    MovieDetailModal(movieDetailData);
   }
 
   document

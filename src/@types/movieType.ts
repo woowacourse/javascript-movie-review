@@ -11,7 +11,7 @@ export interface genres {
 }
 
 export interface DetailInfoType extends CoreInfoType {
-  genres: genres[];
+  genres: string[];
   overview: string;
 }
 
@@ -19,6 +19,7 @@ export interface TotalMovieInfoType {
   audult: boolean;
   backdrop_path: string;
   genre_ids: number[];
+  genres: genres[];
   id: number;
   original_language: string;
   original_title: string;
