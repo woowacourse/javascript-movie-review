@@ -13,7 +13,7 @@ export function ItemList() {
     const targetUSerScore = MovieData.findUserScore(targetId);
 
     printMovieDetail(infoDialogElem, targetMovie!, targetUSerScore);
-    showStar(MovieData.findUserScore(targetId));
+    showStar(targetUSerScore);
 
     infoDialogElem.showModal();
   });
