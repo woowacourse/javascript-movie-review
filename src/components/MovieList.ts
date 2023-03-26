@@ -65,7 +65,7 @@ export default class MovieList {
 
   bindEvent(getMovieRequest: () => Promise<MoviesResponse>) {
     // 무한스크롤 이벤트
-    const handleMoreMovieButton = async () => {
+    const handleMoreMovie = async () => {
       Store.page += 1;
       await this.requestAndRenderMovieCards(getMovieRequest);
     };
@@ -73,7 +73,7 @@ export default class MovieList {
     this.io = new IntersectionObserver(
       (entries, observer) => {
         if (!entries[0].isIntersecting) return;
-        handleMoreMovieButton();
+        handleMoreMovie();
       },
       { rootMargin: '100%' },
     );
