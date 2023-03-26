@@ -27,7 +27,6 @@ class MovieDetailModal implements Component {
       <div class='backdrop'></div>
       <dialog class="modal">
         <div class="modal-body">
-        <div class="modal-info">
         </div>
       </div> 
       </dialog>
@@ -38,8 +37,12 @@ class MovieDetailModal implements Component {
 
   structContent(): this {
     this.modal.insertAdjacentElement('afterbegin', this.children.header.node);
-    this.modalBody.insertAdjacentElement('afterbegin', this.children.image.node);
-    this.modalInfo.append(this.children.rating.node, this.children.description.node, this.children.myRating.node);
+    this.modalBody.append(
+      this.children.image.node,
+      this.children.rating.node,
+      this.children.description.node,
+      this.children.myRating.node
+    );
 
     return this;
   }
@@ -62,14 +65,12 @@ class MovieDetailModal implements Component {
     const modal = this.node.querySelector<HTMLDialogElement>('dialog');
     const backdrop = this.node.querySelector<HTMLDivElement>('.backdrop');
     const modalBody = this.node.querySelector<HTMLDivElement>('.modal-body');
-    const modalInfo = this.node.querySelector<HTMLDivElement>('.modal-info');
 
-    if (!modal || !backdrop || !modalBody || !modalInfo) return this;
+    if (!modal || !backdrop || !modalBody) return this;
 
     this.modal = modal;
     this.backdrop = backdrop;
     this.modalBody = modalBody;
-    this.modalInfo = modalInfo;
 
     return this;
   }

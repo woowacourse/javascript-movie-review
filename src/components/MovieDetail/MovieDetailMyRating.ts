@@ -24,7 +24,7 @@ class MovieDetailMyRating implements Component {
 
   composeNode(): this {
     this.node.innerHTML = `
-      <p>내 별점</p>
+      <p class="rating-title">내 별점</p>
       <div class="rating-stars">${this.starsTemplate()}</div>
       <p class="rating-message">${this.ratingMessageTemplate()}</p>
     `;

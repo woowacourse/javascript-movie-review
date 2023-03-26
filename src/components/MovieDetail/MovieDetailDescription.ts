@@ -6,7 +6,7 @@ class MovieDetailDescription implements Component {
 
   constructor(overview: string) {
     this.node = document.createElement('div');
-    this.node.classList.add('modal-image');
+    this.node.classList.add('modal-description');
     this.overview = overview;
 
     this.composeNode();
