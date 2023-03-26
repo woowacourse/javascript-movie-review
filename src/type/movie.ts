@@ -83,6 +83,7 @@ export type MovieDetailApiType = {
 };
 
 export type MovieDetailType = {
+  id: number;
   title: string;
   voteAverage: number;
   poster_path: string | null;
