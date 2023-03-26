@@ -181,14 +181,12 @@ header .search-box > .search-button {
   background-size: contain;
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1279px) {
   .item-view {
     padding: 32px;
   }
 
   .item-list {
-    display: grid;
-    justify-content: space-around;
     grid-template-columns: repeat(3, 1fr);
 
     grid-column-gap: 24px;
