@@ -16,7 +16,7 @@ export default class HeaderPc extends HTMLElement {
         <h1><img id="logo" src="./assets/logo.png" alt="MovieList 로고" /></h1>
       </div>
       <form id="search-bar" class="search-box">
-        <input type="text" placeholder="검색" name="search-bar"/>
+        <input id="search-input-pc" type="text" placeholder="검색" name="search-bar"/>
         <button class="search-button">검색</button>
       </form>
     </header>
