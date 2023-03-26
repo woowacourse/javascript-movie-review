@@ -132,7 +132,7 @@ export default class AppComponent extends CustomComponent {
               document.body.style.overflow = "hidden";
             })
             .catch((err) => {
-              // 에러 문구를 출력한다.
+              alert("에러가 발생했습니다. 잠시 후에 다시 시도해주세요.");
             });
           break;
       }
@@ -179,6 +179,7 @@ export default class AppComponent extends CustomComponent {
   toggleUpScrollButton() {
     const header = document.querySelector("app-header");
     const upScrollBtn = document.querySelector("up-scroll-button");
+
     if (header.getBoundingClientRect().bottom < 0) {
       upScrollBtn.classList.remove("hide");
       return;
