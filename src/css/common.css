@@ -495,14 +495,14 @@ header .search-box > .search-button {
   }
 
   .item-view h2 {
-    padding-left: 5px;
+    padding-left: 0;
     font-size: 20px;
   }
 
   ul.item-list {
     margin: 30px auto;
     grid-template-columns: repeat(2, 170px);
-    grid-column-gap: 40px;
+    grid-column-gap: 20px;
   }
 
   .item-thumbnail {
