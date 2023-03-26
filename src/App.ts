@@ -22,9 +22,6 @@ export const App = async () => {
     popularMovieCurrentPage = currentPage;
     const movieElement = generateElement(results);
     movieItemList.addMovies(movieElement, total_pages, popularMovieCurrentPage);
-
-    const moreButton = document.querySelector(".primary");
-    moreButton?.addEventListener("click", showPopularMovies);
   };
 
   await showPopularMovies();
@@ -49,25 +46,33 @@ export const App = async () => {
       searchMovieCurrentPage
     );
 
-    const moreButton = document.querySelector(".primary");
-    moreButton?.addEventListener("click", async () => {
-      const currentSearchMovieData = await getCurrentResult(
-        searchBox.getKeyword(),
-        searchMovieCurrentPage
-      );
-      if (!currentSearchMovieData) return;
+    const moreButton = document.querySelector(".primary")!;
+    const io = new IntersectionObserver(async (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          (async () => {
+            const currentSearchMovieData = await getCurrentResult(
+              searchBox.getKeyword(),
+              searchMovieCurrentPage
+            );
+            if (!currentSearchMovieData) return;
 
-      const { results } = currentSearchMovieData.data;
-      const page = currentSearchMovieData.currentPage;
-      searchMovieCurrentPage = page;
+            const { results } = currentSearchMovieData.data;
+            const page = currentSearchMovieData.currentPage;
+            searchMovieCurrentPage = page;
 
-      const searchResultElement = generateElement(results);
-      movieItemList.addMovies(
-        searchResultElement,
-        total_pages,
-        searchMovieCurrentPage
-      );
-    });
+            const searchResultElement = generateElement(results);
+            movieItemList.addMovies(
+              searchResultElement,
+              total_pages,
+              searchMovieCurrentPage
+            );
+            return
+          })();
+        };
+      }, option);
+    })
+    io.observe(moreButton);
   };
 
   const onSearchButtonClicked = async (e: Event) => {
@@ -95,6 +100,19 @@ export const App = async () => {
 
   document
     .addEventListener("movieItemClicked", onMovieItemClicked);
+
+  const option = {};
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        showPopularMovies()
+        return
+      }
+    });
+  }, option);
+
+  const moreBtn = document.querySelector('.primary')!;
+  io.observe(moreBtn);
 
   return;
 };
