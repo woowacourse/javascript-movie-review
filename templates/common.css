@@ -287,23 +287,33 @@ modal-component {
 }
 
 .movie-details {
-  margin-left: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0 30px;
 }
 
 .modal-content-body {
   display: flex;
-  margin-top: 24px;
+  margin: 36px 0;
 }
 
 .movie-detail-header {
   display: flex;
   align-items: center;
+  padding-bottom: 16px;
 }
 
 .movie-detail-genre {
   margin-right: 5px;
 }
 
+.movie-detail-description {
+  line-height: 160%;
+}
+
+.select-rate-score {
+}
 up-scroll-button button {
   position: fixed;
   font-size: 2rem;
@@ -338,7 +348,24 @@ movie-item {
 .custom-rate {
   display: flex;
   align-items: center;
+  border-radius: 10px;
+  padding: 16px 0;
   background-color: #383839;
+}
+
+.custom-rate h4 {
+  margin: 0 1rem;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.select-rate-score {
+  margin: 0 0.5rem;
+  font-weight: 400;
+}
+
+.select-rate-text {
+  margin-right: 2rem;
 }
 
 .rate-button {
@@ -346,6 +373,16 @@ movie-item {
   border: none;
 }
 
+.rate-button:hover {
+  transform: scale(1.2);
+}
+
 .rate-button img {
   pointer-events: none;
+}
+
+@media (max-width: 820px) {
+  .main-poster-img {
+    display: none;
+  }
 }

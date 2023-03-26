@@ -19,7 +19,7 @@ export default class ModalComponent extends CustomComponent {
     img.src = `https://image.tmdb.org/t/p/w220_and_h330_face${item.poster_path}`;
     img.alt = `별점 ${item.vote_average}`;
     genre.innerText = item.genres.map((genre) => genre.name).join(", ");
-    desciption.innerText = item.overview;
+    desciption.innerText = item.overview || "줄거리가 작성되지 않습니다.";
     voteAverage.innerText = item.vote_average;
     console.log(item.id);
     modalBody.setAttribute("data-movie-id", item.id);
@@ -59,32 +59,32 @@ export default class ModalComponent extends CustomComponent {
 
   changeRate(rate) {
     const selectRateParagraph = document.querySelector(".select-rate-text");
-    const selectRate = document.querySelector(".select-rate");
+    const selectRateScore = document.querySelector(".select-rate-score");
     const buttons = document.querySelectorAll(".custom-rate .rate-button");
 
     switch (rate) {
       case 0:
-        selectRate.innerText = "";
+        selectRateScore.innerText = "";
         selectRateParagraph.innerText = "별점을 매겨주세요.";
         break;
       case 2:
-        selectRate.innerText = "2";
+        selectRateScore.innerText = "2";
         selectRateParagraph.innerText = "최악이에요";
         break;
       case 4:
-        selectRate.innerText = "4";
+        selectRateScore.innerText = "4";
         selectRateParagraph.innerText = "별로에요";
         break;
       case 6:
-        selectRate.innerText = "6";
+        selectRateScore.innerText = "6";
         selectRateParagraph.innerText = "보통이에요";
         break;
       case 8:
-        selectRate.innerText = "8";
+        selectRateScore.innerText = "8";
         selectRateParagraph.innerText = "재미있어요";
         break;
       case 10:
-        selectRate.innerText = "10";
+        selectRateScore.innerText = "10";
         selectRateParagraph.innerText = "명작이에요";
         break;
       default:
@@ -109,22 +109,24 @@ export default class ModalComponent extends CustomComponent {
                 <button class="modal-close-button" data-action="modal-close">X</button>
             </div>
             <div class="modal-content-body side-padding">
-              <img alt="영화 포스터 이미지">
+              <img class="main-poster-img" alt="영화 포스터 이미지">
               <div class="movie-details">
-              <div class="movie-detail-header">
-                <p class="movie-detail-genre"></p>
-                <img src=${StarFilledImg} />
-                <div class="movie-detail-vote-average"></div>
-              </div>
-              <div class="movie-detail-description"></div>
+              <section>
+                <div class="movie-detail-header">
+                  <p class="movie-detail-genre"></p>
+                  <img src=${StarFilledImg} />
+                  <div class="movie-detail-vote-average"></div>
+                </div>
+                <div class="movie-detail-description"></div>
+              </section>
               <div class="custom-rate">
-                <p>내 별점</p>
+                <h4>내 별점</h4>
                 <button class="rate-button" data-action-rate="2"><img src=${StarEmptyImg}></button>
                 <button class="rate-button" data-action-rate="4"><img src=${StarEmptyImg}></button>
                 <button class="rate-button" data-action-rate="6"><img src=${StarEmptyImg}></button>
                 <button class="rate-button" data-action-rate="8"><img src=${StarEmptyImg}></button>
                 <button class="rate-button" data-action-rate="10"><img src=${StarEmptyImg}></button>
-                <p class="select-rate"></p>
+                <p class="select-rate-score"></p>
                 <p class="select-rate-text">별점을 매겨주세요.</p>
               </div>
             </div>
