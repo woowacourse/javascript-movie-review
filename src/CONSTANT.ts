@@ -6,12 +6,11 @@ export const ERROR_MESSAGE = {
 };
 
 export const USER_SCORE_TEXT = {
-  0: '최악이에요',
-  2: '완전 재미없어요',
-  4: '재미없어요',
-  6: '보통이에요!',
-  8: '재미있어요!',
-  10: '완전 재미있어요!',
+  2: '최악이에요',
+  4: '별로에요',
+  6: '보통이에요',
+  8: '재미있어요',
+  10: '명작이에요',
 };
 
 export const GENRE: { [key: number]: string } = {
