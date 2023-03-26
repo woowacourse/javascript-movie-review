@@ -35,7 +35,7 @@ export default class MovieDetailModal {
     <dialog class='movie-detail-modal'>
       <div class="movie-detail-modal-title-container">
         <span class='movie-detail-modal-title'>${title}</span>
-        <button class='movie-detail-modal-close-button'>X</button>
+        <button class='movie-detail-modal-close-button'></button>
       </div>
       <div class='movie-detail-modal-main'>
         <div class="movie-detail-modal-thumbnail">

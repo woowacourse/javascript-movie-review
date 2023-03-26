@@ -203,6 +203,13 @@ header .search-box > .search-button {
 .movie-detail-modal-close-button {
   position: absolute;
   right: 0;
+  bottom: 15px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: url('../assets/close.svg') #383839 no-repeat center;
+  background-size: 16px;
 }
 
 .movie-detail-modal-main {
