@@ -27,6 +27,7 @@ const Modal = {
   open(content: string) {
     const modalRoot = $<HTMLDivElement>('#modal-root');
 
+    document.body.style.overflow = 'hidden';
     modalRoot.classList.remove(CLASS.HIDE);
     modalRoot.insertAdjacentHTML('beforeend', Modal.template(content));
     Modal.setEvent();
@@ -35,6 +36,7 @@ const Modal = {
   close() {
     const modalRoot = $<HTMLDivElement>('#modal-root');
 
+    document.body.style.overflow = 'auto';
     modalRoot.classList.add(CLASS.HIDE);
     modalRoot.innerHTML = '';
     Modal.removeEvent();
