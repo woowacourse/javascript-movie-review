@@ -10,9 +10,13 @@ import showToastWithMessage from "../../utils/showToastWithMessage";
 
 class Modal {
   $target: HTMLDivElement;
+  #movie: IMovie | null;
+  #isAlreadyRated: boolean;
 
   constructor(target: HTMLDivElement) {
     this.$target = target;
+    this.#movie = null;
+    this.#isAlreadyRated = true;
 
     this.render();
     this.setEvent();
@@ -72,6 +76,7 @@ class Modal {
 
   updateContent(movie: IMovie) {
     const $modalContent = $(".modal-content", this.$target);
+    this.#movie = movie;
 
     if ($modalContent instanceof HTMLDivElement) {
       const ratings: IRatings = getRatings() as IRatings;
@@ -79,35 +84,43 @@ class Modal {
       const storedRating = ratings[movie.id] || 0;
       const stars = this.renderStars(+storedRating);
 
+      if (!storedRating) {
+        this.#isAlreadyRated = false;
+      } else {
+        this.#isAlreadyRated = true;
+      }
+
       $modalContent.innerHTML = `
-      <div class="modal-head"><h2>${movie.title}</h2></div>
-      <div class="flex-container">
-        <div class="modal-left-container">
-          <img class="modal-image" src="${movie.posterSrc || NotFoundImageIcon}" alt="${
+    <div class="modal-head"><h2>${movie.title}</h2></div>
+    <div class="flex-container">
+      <div class="modal-left-container">
+        <img class="modal-image" src="${movie.posterSrc || NotFoundImageIcon}" alt="${
         movie.title
       } poster">
+      </div>
+      <div class="modal-right-container">
+        <div class="category-container">
+          <p class="modal-genre">${movie.genre}</p>
+          <img src="${FilledStarIcon}" alt="rating star">
+          <p>${movie.voteAverage}</p>
         </div>
-        <div class="modal-right-container">
-          <div class="category-container">
-            <p class="modal-genre">${movie.genre}</p>
-            <img src="${FilledStarIcon}" alt="rating star">
-            <p>${movie.voteAverage}</p>
-          </div>
-          <p class="modal-overview">${movie.overview || "Sorry, there's no movie overview :("}</p>
-          <div class="user-rate-container" data-movie-id="${movie.id}">
-            <span class="rating-header">내 별점</span>
-            ${stars}
-            <span class="score">${storedRating ? storedRating : ""}</span>
-            <span class="score-comment">${
-              storedRating ? this.getScoreComment(+storedRating) : ""
-            }</span>
-          </div>
+        <p class="modal-overview">${movie.overview || "Sorry, there's no movie overview :("}</p>
+        <div class="user-rate-container" data-movie-id="${movie.id}">
+          <span class="rating-header">내 별점</span>
+          ${stars}
+          <span class="score">${storedRating ? storedRating : ""}</span>
+          <span class="score-comment">${
+            storedRating ? this.getScoreComment(+storedRating) : ""
+          }</span>
+          <button class="re-rate-button hidden">초기화</button>
         </div>
       </div>
-    `;
+    </div>
+  `;
     }
 
     this.bindEvents();
+    this.toggleReRateButtonVisibility();
   }
 
   updateRating(movieId: string, rating: number) {
@@ -164,8 +177,40 @@ class Modal {
     }
   }
 
+  toggleReRateButtonVisibility() {
+    const $reRateButton = $(".re-rate-button", this.$target);
+    if ($reRateButton instanceof HTMLButtonElement) {
+      if (this.#isAlreadyRated) {
+        $reRateButton.classList.remove("hidden");
+      } else {
+        $reRateButton.classList.add("hidden");
+      }
+    }
+  }
+
   bindEvents() {
     const $userRateContainer = $(".user-rate-container", this.$target);
+    const $reRateButton = $(".re-rate-button", this.$target);
+
+    if ($reRateButton) {
+      $reRateButton.addEventListener("click", (e) => {
+        showToastWithMessage("성공적으로 별점이 초기화되었습니다.");
+
+        if (e.target instanceof HTMLButtonElement) {
+          const movieId = this.#movie?.id;
+
+          if (movieId) {
+            const ratings: IRatings = getRatings() as IRatings;
+            delete ratings[movieId];
+            setLocalStorageItem("ratings", ratings);
+            this.updateRating(movieId, 0);
+
+            this.#isAlreadyRated = false;
+            this.toggleReRateButtonVisibility();
+          }
+        }
+      });
+    }
 
     if ($userRateContainer) {
       $userRateContainer.addEventListener("mouseover", (e) => {
@@ -208,12 +253,13 @@ class Modal {
               delete ratings[movieId];
               setLocalStorageItem("ratings", ratings);
               this.updateRating(movieId, 0);
-
-              return;
+            } else {
+              ratings[movieId] = value;
+              setLocalStorageItem("ratings", ratings);
+              this.updateRating(movieId, +value);
+              this.#isAlreadyRated = true;
+              this.toggleReRateButtonVisibility();
             }
-            ratings[movieId] = value;
-            setLocalStorageItem("ratings", ratings);
-            this.updateRating(movieId, +value);
           }
         }
       });

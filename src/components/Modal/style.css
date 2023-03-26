@@ -112,7 +112,7 @@
     bottom: 5px;
     margin-top: 150px;
     padding: 16px;
-    width: 370px;
+    width: 100%;
     height: 80px;
     font-size: 16px;
     font-weight: 600;
@@ -120,6 +120,20 @@
     letter-spacing: 0.5px;
     background: rgba(56, 56, 57, 1);
     border-radius: 16px;
+}
+
+.re-rate-button {
+    position: absolute;
+    right: 10px;
+    width: 70px;
+    height: 30px;
+    color: white;
+    background: rgba(56, 56, 57, 1);
+    border-radius: 16px;
+}
+
+.hidden {
+    display: none;
 }
 
 .modal-genre {
@@ -139,10 +153,6 @@
     border-radius: 16px;
 }
 
-.score {
-    margin-right: 13px;
-}
-
 .user-rate-container img {
     width: 24px;
     height: 24px;
@@ -150,7 +160,6 @@
 }
 
 .user-rate-container .score {
-    margin-left: 8px;
     color: #ffffff;
 }
 
@@ -209,6 +218,10 @@
         min-height: 160px;
         max-height: 160px;
     }
+
+    .user-rate-container {
+        font-size: 14px
+    }
 }
 
 /* Mobile */
@@ -247,8 +260,7 @@
     .user-rate-container {
         position: static;
         margin-top: 16px;
-        margin-bottom: 16px;
-        width: 90%
+        font-size: 14px
     }
 }
 
