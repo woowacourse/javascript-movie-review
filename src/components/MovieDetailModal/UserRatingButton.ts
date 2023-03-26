@@ -3,7 +3,7 @@ import { starEmptyImage, starFilledImage } from '../../assets/images';
 const UserRatingButton = {
   template(score: string, desc: string, initScore: string) {
     return `
-      <button type="button" value=${score} data-rating-desc=${desc}>
+      <button type="button" value=${score} data-desc=${desc}>
         <img src=${UserRatingButton.initImagePath(score, initScore)} alt="${score}점" />
       </button>
     `;
