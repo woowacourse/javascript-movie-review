@@ -8,7 +8,6 @@ export default class MovieList {
   io: any;
   handleClickMovieCard = (e: Event) => {};
   $parent: HTMLElement;
-  renderMode: 'popular' | 'search';
   $title: HTMLHeadElement;
   $movieItemList: HTMLUListElement;
   $moreMovieButton: HTMLButtonElement;
@@ -17,7 +16,6 @@ export default class MovieList {
 
   constructor($parent: HTMLElement) {
     this.$parent = $parent;
-    this.renderMode = 'popular';
 
     this.$parent.insertAdjacentHTML('beforeend', this.template());
     this.$title = this.$parent.querySelector('#js-movie-list-title') as HTMLHeadElement;
