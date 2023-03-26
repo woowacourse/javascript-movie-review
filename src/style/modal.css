@@ -138,6 +138,25 @@
   font-size: 14px;
 }
 
+@media screen and (max-width: 1023px) {
+  .movie-detail-voteContainer {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.voted-result {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 10px;
+}
+
+@media screen and (max-width: 1023px) {
+  .voted-result-content {
+    display: none;
+  }
+}
+
 .item-score::after {
   margin-left: 8px;
 }

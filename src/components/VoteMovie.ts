@@ -37,14 +37,14 @@ class VoteMovie {
       'afterbegin',
       ` <div>내 별점</div>
         <div class="voted-star-container">
-
         </div>
         <div class="voted-result">${this.calculateVotedResult()}</div>`
     );
   }
 
   calculateVotedResult() {
-    return this.voteResults[this.score];
+    const score = this.score >= 1 ? this.score * 2 : -1;
+    return `<span>${score}</span><span class="voted-result-content">${this.voteResults[this.score]}<span>`;
   }
 
   insertStar(hoverStarCount: number) {
