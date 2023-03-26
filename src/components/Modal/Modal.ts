@@ -190,7 +190,7 @@ class Modal {
 
     if ($reRateButton) {
       $reRateButton.addEventListener("click", (e) => {
-        showToastWithMessage("성공적으로 별점이 초기화되었습니다.");
+        showToastWithMessage("성공적으로 별점이 초기화되었습니다. ❌");
 
         if (e.target instanceof HTMLButtonElement) {
           const movieId = this.#movie?.id;
@@ -254,12 +254,16 @@ class Modal {
             if (ratings[movieId] === value) {
               delete ratings[movieId];
               setLocalStorageItem("ratings", ratings);
+              showToastWithMessage("성공적으로 별점이 초기화되었습니다. ❌");
+              this.#isAlreadyRated = false;
+              this.toggleReRateButtonVisibility();
               this.updateRating(movieId, 0);
             } else {
               ratings[movieId] = value;
               setLocalStorageItem("ratings", ratings);
               this.updateRating(movieId, +value);
               this.#isAlreadyRated = true;
+              showToastWithMessage("성공적으로 별점이 등록되었습니다. 🫡");
               this.toggleReRateButtonVisibility();
             }
           }
