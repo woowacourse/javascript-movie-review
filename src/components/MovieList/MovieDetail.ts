@@ -76,8 +76,15 @@ export default class MovieDetail extends MovieList {
                     )
                     .join('')}
                 </div>
-                <div class="my-scope-text mg-l-1rem">
-                  ${VoteMessage[this.state.getValue('star') / 2]}
+                <div class="mg-l-1rem">
+                  <span>${
+                    this.state.getValue('star') === 0
+                      ? ''
+                      : this.state.getValue('star')
+                  }</span>
+                  <span class="my-scope-text">${
+                    VoteMessage[this.state.getValue('star') / 2]
+                  }</span>
                 </div>
               </div>
             </div>
