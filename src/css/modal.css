@@ -88,6 +88,7 @@
   grid-column: 5 / 11;
   padding-right: 18px;
   line-height: 24px;
+  overflow: auto;
 }
 
 .movie-user-rating {

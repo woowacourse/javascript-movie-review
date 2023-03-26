@@ -163,6 +163,7 @@ header h1 {
 }
 
 header > .search-box {
+  display: flex;
   background: #fff;
   padding: 8px;
   border-radius: 4px;
