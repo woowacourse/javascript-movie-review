@@ -32,9 +32,9 @@ class DetailModal {
                   />
                   <div class="modal-info">
                       <div class="modal-genre-score">
-                          <p class="modal-genres">${genre_ids.map((genreId) => {
-                            return ' ' + store.getGenres(genreId);
-                          })}</p>
+                          <p class="modal-genres">${genre_ids
+                            .map((genreId) => store.getGenres(genreId))
+                            .join(', ')}</p>
                           <p class="modal-score"><img src="assets/star_filled.png" alt="별점" /> ${vote_average}</p>
                           <p class="modal-overview">${overview}</p>
                       </div>
