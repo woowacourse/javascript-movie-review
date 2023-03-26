@@ -122,7 +122,7 @@ button.primary {
   height: 60px;
 }
 
-@media (min-width: 440px) {
+@media (min-width: 580px) {
   .item-list {
     grid-template-columns: repeat(3, 180px);
   }
