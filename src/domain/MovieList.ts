@@ -90,7 +90,7 @@ class MovieList {
     }
 
     if (!hasMovie) {
-      const movie = this.movies.filter((movie) => movie.id === movieId)[0];
+      const movie = this.movies.find((movie) => movie.id === movieId)!;
       movie.userVote = userVote;
       this.userMovies.push(movie);
     }
