@@ -1,5 +1,6 @@
 import { MovieItem } from '../types/movieType';
 import starFilled from '../asset/star_filled.png';
+import handleImageLoadError from '../libs/handleImageLoadError';
 
 class MovieCard {
   private _node!: HTMLElement;
@@ -18,7 +19,7 @@ class MovieCard {
   createTemplate() {
     this._node = document.createElement('li');
 
-    this._node.innerHTML = /*html*/ `<a>
+    this._node.innerHTML = `<a>
         <div class="item-card">
           <div class="item-thumbnail skeleton"></div>
           <img
@@ -46,9 +47,10 @@ class MovieCard {
     thumbnail.classList.remove('hidden');
   }
 
-  errorLoadImage(thumbnail: HTMLImageElement) {
-    thumbnail.src =
-      'http://dino-typing.com/data/file/dino_color/2038718610_IfTXhGvO_20f04c8989c435c3a4912831703adb190be75c97.png';
+  clickMovieCard() {
+    this._node.dispatchEvent(
+      new CustomEvent('openMovieModal', { bubbles: true, detail: { movieId: this.movieData.id } })
+    );
   }
 
   initEventHandler() {
@@ -64,8 +66,10 @@ class MovieCard {
     });
 
     thumbnail.addEventListener('error', () => {
-      this.errorLoadImage(thumbnail);
+      handleImageLoadError(thumbnail);
     });
+
+    this._node.addEventListener('click', this.clickMovieCard.bind(this));
   }
 }
 

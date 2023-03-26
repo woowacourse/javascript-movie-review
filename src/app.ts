@@ -1,5 +1,6 @@
-import { FetchedMovieJson } from './types/fetchJsonType';
+import { FetchedMovieDetailJson, FetchedMovieJson } from './types/fetchJsonType';
 import { FetchStandard, FetchType } from './types/fetchType';
+import MovieModal from './components/MovieModal';
 import fetchJson from './domains/fetchJson';
 import getAPI from './domains/getAPI';
 import { dataProcessors } from './domains/processMovieData';
@@ -77,10 +78,28 @@ class App {
     return dataProcessors.processMovieData(moviesJson);
   }
 
+  async openMovieModal(event: Event) {
+    const {
+      detail: { movieId },
+    } = event as Event & { detail: { movieId: number } };
+
+    const app = document.querySelector('#app');
+
+    if (!app) return;
+    const movieModal = new MovieModal();
+    app.insertAdjacentElement('beforeend', movieModal.node);
+
+    const api = `https://api.themoviedb.org/3/movie/${movieId}?api_key=7346e1b315e7e7c5dc1e70459156cce2&language=ko-KR`;
+    const movieDetailJson = await fetchJson<FetchedMovieDetailJson>(api);
+    const movieDetail = dataProcessors.processMovieDetailData(movieDetailJson);
+    movieModal.updateMovieDetail(movieDetail);
+  }
+
   initEventHandler() {
     document.addEventListener('seeMoreMovie', this.loadMoreMovies.bind(this));
     document.addEventListener('searchMovies', this.searchMovies.bind(this));
     document.addEventListener('moveHome', this.moveHome.bind(this));
+    document.addEventListener('openMovieModal', this.openMovieModal.bind(this));
   }
 }
 
