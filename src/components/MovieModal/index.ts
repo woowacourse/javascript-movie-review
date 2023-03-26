@@ -18,10 +18,10 @@ export default class MovieModal extends HTMLElement {
         </div>
         <hr>
         <div class="d-flex justify-content-between m-3">
-          <div class="mx-2">
+          <div>
             <img
               src="https://image.tmdb.org/t/p/w500/${movie.poster}"
-              class="modal-img"
+              class="modal-img mx-2"
             >
           </div>
           <div class="mx-3 d-flex align-content-between flex-wrap">

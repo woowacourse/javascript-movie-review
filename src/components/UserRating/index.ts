@@ -45,7 +45,7 @@ export default class UserRating extends HTMLElement {
       <div>내 별점</div>
       <div class="mx-2">${starIcons}</div>
       <div>${this.rating}</div>
-      <div class="rating-description"> ${this.ratingDescription(this.rating)}</div>
+      <div class="rating-description mx-1">${this.ratingDescription(this.rating)}</div>
     </div>
     `;
 
