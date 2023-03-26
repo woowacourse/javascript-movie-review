@@ -81,8 +81,8 @@ class Modal {
     if ($modalContent instanceof HTMLDivElement) {
       const ratings: IRatings = getRatings() as IRatings;
 
-      const storedRating = ratings[movie.id] || 0;
-      const stars = this.renderStars(+storedRating);
+      const storedRating = ratings[movie.id] || "0";
+      const stars = this.renderStars(parseInt(storedRating, 10));
 
       this.#isAlreadyRated = !!storedRating;
 
@@ -106,7 +106,7 @@ class Modal {
           ${stars}
           <span class="score">${storedRating ? storedRating : ""}</span>
           <span class="score-comment">${
-            storedRating ? this.getScoreComment(+storedRating) : ""
+            storedRating ? this.getScoreComment(parseInt(storedRating, 10)) : ""
           }</span>
           <button class="re-rate-button hidden">초기화</button>
         </div>
@@ -235,12 +235,12 @@ class Modal {
         const stars: Array<HTMLImageElement> = Array.from($$("img", $userRateContainer));
         this.updateStars(stars, 0);
 
-        const storedRating = ratings[movieId] || 0;
+        const storedRating = ratings[movieId] || "0";
 
         const scoreElement = $(".score", $userRateContainer);
         if (scoreElement && ratingCommentElement) {
           scoreElement.textContent = storedRating ? storedRating.toString() : "";
-          ratingCommentElement.textContent = this.getScoreComment(+storedRating);
+          ratingCommentElement.textContent = this.getScoreComment(parseInt(storedRating, 10));
         }
       });
 
