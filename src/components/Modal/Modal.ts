@@ -24,14 +24,15 @@ class Modal {
 
   template() {
     return `
-      <div class="modal modal-invisible">
-        <div>
-        <div class="modal-backdrop"></div>
-        <div class="modal-container">
+      <div class="modal-wrapper">
+        <div class="modal modal-invisible">
+          <div class="modal-backdrop"></div>
+          <div class="modal-container">
             <div class="modal-content">
+              <!-- Your modal content here -->
             </div>
             <button class="close-button"></button>
-        </div>
+          </div>
         </div>
       </div>
     `;
