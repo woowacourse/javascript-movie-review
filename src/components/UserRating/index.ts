@@ -27,7 +27,6 @@ export default class UserRating extends HTMLElement {
   onClickStar() {
     this.querySelectorAll<HTMLImageElement>(".rating-star").forEach(starImg => {
       starImg.addEventListener("click", () => {
-        console.log(`별점 ${starImg.dataset.rating}이(가) 클릭되었습니다!`);
         this.rating = Number(starImg.dataset.rating);
         this.setRatings(this.movieId, this.rating);
         this.render();
@@ -42,10 +41,11 @@ export default class UserRating extends HTMLElement {
     }).join('');
 
     this.innerHTML = `
-    <div class="d-flex justify-content-center user-rating p-3">
+    <div class="d-flex justify-content-center user-rating align-items-center p-3">
       <div>내 별점</div>
       <div class="mx-2">${starIcons}</div>
-      <div>${this.rating} ${this.ratingDescription(this.rating)}</div>
+      <div>${this.rating}</div>
+      <div class="rating-description"> ${this.ratingDescription(this.rating)}</div>
     </div>
     `;
 

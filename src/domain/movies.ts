@@ -5,7 +5,7 @@ import { $ } from "../utils/selector";
 import { fetchMovies } from "./movieApi";
 import Store from "./Store";
 
-interface MovieResult {
+interface MovieApiResponseResult {
   id: string;
   genre_ids: number[];
   poster_path: string;
@@ -65,7 +65,7 @@ const urlBuilder = (keyword?: string) => {
   );
 }
 
-const convertApiResponseToMovieList = (results: MovieResult[]): Movie[] => {
+const convertApiResponseToMovieList = (results: MovieApiResponseResult[]): Movie[] => {
   return results.map((movie) => {
     return {
       id: movie.id,
