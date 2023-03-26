@@ -43,7 +43,14 @@ const MovieDetailModal = (movieDetailData: DetailInfoType) => {
     movieDetailModal.showModal();
   };
 
+  const bindEvent = () => {
+    const movieDetailModal = document.querySelector("dialog");
+    document.querySelector(".modal-close")?.addEventListener('click', () => {
+      movieDetailModal?.close();
+    })
+  }
   render();
+  bindEvent();
 }
 
 export default MovieDetailModal;
