@@ -288,6 +288,26 @@ header .search-box > .search-button {
 }
 
 @media screen and (max-width: 480px) {
+  .search-box {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .search-box > input:not(:focus):placeholder-shown {
+    width: 0;
+    padding: 0;
+  }
+
+  .search-box:has(input:focus),
+  .search-box:has(input:not(:placeholder-shown)) {
+    position: absolute;
+    width: 90%;
+  }
+
+  .search-box:has(input:focus) > input {
+    width: 100%;
+  }
+
   .item-list {
     display: grid;
     margin: 48px 0;
@@ -305,7 +325,7 @@ header .search-box > .search-button {
   }
 
   .movie-detail-modal-user-vote > #user-vote-star-description {
-    display: none;
+    display: hidden;
   }
 
   .movie-detail-modal {

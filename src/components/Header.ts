@@ -16,8 +16,8 @@ export default class Header {
       <header>
         <h1><a href="/"><img src="${logo}" alt="MovieList 로고" /></a></h1>
         <form class="search-box">
-          <input id="js-search-input" type="text" name="keyword" placeholder="검색" />
-          <button class="search-button">검색</button>
+          <input id="js-search-input" class="search-input" type="text" name="keyword" placeholder="검색" required/>
+          <button id="js-search-button" class="search-button">검색</button>
         </form>
       </header>
     `;
@@ -28,10 +28,12 @@ export default class Header {
     showSkeleton: () => void,
     onSubmitSearch: (results: Movie[], totalPages: number) => void,
   ) {
-    const searchBox = this.$parent.querySelector('.search-box');
+    const $searchBox = this.$parent.querySelector('.search-box') as HTMLFormElement;
 
     const handleSubmitSearch = async (event: Event) => {
       event.preventDefault();
+      const $searchInput = this.$parent.querySelector('#js-search-input') as HTMLInputElement;
+      if ($searchInput.value.length === 0) return;
 
       showSkeleton();
 
@@ -45,6 +47,15 @@ export default class Header {
       onSubmitSearch(results, total_pages);
     };
 
-    searchBox?.addEventListener('submit', handleSubmitSearch);
+    $searchBox?.addEventListener('submit', handleSubmitSearch);
+
+    const $searchInput = this.$parent.querySelector('#js-search-input') as HTMLInputElement;
+    const $searchButton = this.$parent.querySelector('#js-search-button') as HTMLButtonElement;
+
+    $searchButton?.addEventListener('click', (e) => {
+      if ($searchInput.value.length === 0) {
+        $searchInput.focus();
+      }
+    });
   }
 }
