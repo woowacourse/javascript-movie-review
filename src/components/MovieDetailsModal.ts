@@ -56,10 +56,10 @@ export default class MovieDetailsModal implements Component {
       <img class="movie-poster"
       class="item-thumbnail"
       src="https://image.tmdb.org/t/p/w500${posterPath}"
-      />
+      >
       <p class="movie-genre">${MovieHandler.getGenres(genreIDs).join(', ')}</p>
       <div class="movie-score">
-        <img src=${FilledStar}/>
+        <img src=${FilledStar}>
         <span>${voteAverage}</span>
       </div>
       <p class="movie-overview">${overview}</p>
