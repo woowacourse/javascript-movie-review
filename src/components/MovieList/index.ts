@@ -3,11 +3,13 @@ import { Movie } from '../../types';
 
 export class MovieList extends HTMLElement {
   #$movieItems: HTMLElement;
+  $li: HTMLElement;
 
   constructor() {
     super();
     this.innerHTML = template;
     this.#$movieItems = this.querySelector('.item-list')!;
+    this.$li = document.querySelector('.ul')!;
   }
 
   setTitle(title: string) {
@@ -68,4 +70,28 @@ export class MovieList extends HTMLElement {
       eventBind();
     });
   }
+
+  infiniteScroll = (moreButtonHandler: CallableFunction) => {
+    this.$li = this.querySelector('movie-item:last-of-type')!;
+    const io = new IntersectionObserver(
+      (entry) => {
+        if (entry[0].isIntersecting) {
+          io.unobserve(this.$li);
+          moreButtonHandler();
+          setTimeout(() => {
+            this.$li = this.querySelector('movie-item:last-child')!;
+            console.log(this.querySelectorAll('movie-item').length);
+            console.log(this.$li);
+            io.observe(this.$li);
+          }, 1000);
+        }
+      },
+      {
+        threshold: 1,
+        rootMargin: '-50px 0px',
+      },
+    );
+
+    io.observe(this.$li);
+  };
 }
