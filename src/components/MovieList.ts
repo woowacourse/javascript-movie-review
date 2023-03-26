@@ -37,13 +37,16 @@ class MovieList {
   }
 
   paintMovieLayout() {
-    this._node.innerHTML = /*html*/ `
+    this._node.insertAdjacentHTML(
+      'afterbegin',
+      /*html*/ `
       <section class="item-view">
         <h2 id="list-name">지금 인기있는 영화</h2>
         <ul class="item-list movie-list hidden"></ul>
         <div class="load-more-position hidden"></div>
       </section>
-    `;
+    `
+    );
   }
 
   removeSkeleton() {
@@ -82,7 +85,10 @@ class MovieList {
   }
 
   showErrorMessage() {
-    this.movieList.insertAdjacentHTML('afterend', '<div class="empty-message">요청이 불안정합니다.</div>');
+    this.movieList.insertAdjacentHTML(
+      'afterend',
+      '<div class="empty-message">요청이 불안정합니다. 크론에게 문의해주세요.</div>'
+    );
   }
 
   setListName(type: FetchType, keyword?: string) {
