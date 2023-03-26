@@ -9,7 +9,7 @@ export default class MovieModal extends HTMLElement {
 
   render(movie: Movie) {
     this.innerHTML = `
-    <div class="modal align-items-center">
+    <div class="modal">
       <div class="modal-content modal-font">
         <div class="d-flex justify-content-between align-items-center">
           <div></div>
@@ -46,7 +46,7 @@ export default class MovieModal extends HTMLElement {
                   </div>
                 </div>
               </div>
-              <div class="my-1 modal-overview">
+              <div class="modal-overview">
                 <div>${movie.overview}</div>
               </div> 
             </div>
