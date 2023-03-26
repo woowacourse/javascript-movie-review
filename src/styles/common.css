@@ -192,16 +192,13 @@ li {
 }
 
 #InfiniteLine {
-  /* position: fixed; */
-  /* bottom: 0; */
   width: 100%;
   color: rgba(0, 0, 0, 0);
 }
 
 /* 모달 css */
-dialog {
+.modal-movie-info {
   font-size: medium;
-  height: 577px;
   width: 50%;
   background-color: #212122;
   color: white;
@@ -221,7 +218,7 @@ dialog {
 
 .modal-movie-detail {
   display: flex;
-  height: 480px;
+  height: auto;
   flex-direction: row;
   justify-content: space-between;
   border-top: 0.5px solid gray;
@@ -230,13 +227,14 @@ dialog {
 
 .modal-movie-poster {
   width: 40%;
+  height: fit-content;
 }
 
 .modal-movie-detail-text {
   width: 55%;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 10% 74% 12%;
+  grid-template-rows: 10% auto 12%;
 }
 
 .modal-close {
@@ -256,12 +254,16 @@ dialog {
   /* gap: 5%; */
 }
 
+.modal-movie-story {
+  max-height: 80%;
+}
+
 .modal-movie-category > img {
   margin: 0 1% 0 5%;
   /* gap: 5%; */
 }
 
-.modal-movie-star {
+.modal-movie-star-area {
   border-radius: 16px;
   background-color: #383839;
   font-size: small;
@@ -270,16 +272,24 @@ dialog {
   padding: 0 5% 0 5%;
 }
 
-dialog::backdrop {
+.modal-movie-star {
+  margin: 0 5% 0 5%;
+}
+
+.modal-movie-info::backdrop {
   background: rgba(0, 0, 0, 0.5);
 }
 
 /* 반응형 웹 */
 /* 탭 세로 */
-@media (min-width: 412px) and (max-width: 991px) {
+@media (min-width: 481px) and (max-width: 991px) {
   .item-list {
     grid-template-columns: repeat(3, 1fr);
     width: 100%;
+  }
+
+  .modal-movie-info {
+    width: 80%;
   }
 
   .item-thumbnail,
@@ -287,29 +297,36 @@ dialog::backdrop {
     width: 150px;
     height: 248px;
   }
+
+  .modal-movie-poster {
+    width: 40%;
+  }
 }
 
 /* 모바일 */
-@media (max-width: 412px) {
+@media (max-width: 480px) {
   .item-list {
     grid-template-columns: repeat(2, 1fr);
     width: 100%;
   }
 
+  .modal-movie-detail-text {
+    width: 100%;
+  }
   header {
     margin-bottom: 0px;
   }
 
   .item-view h2 {
-    font-size: 1.5rem;
+    font-size: medium;
   }
 
   .item-title,
   .item-score {
-    font-size: 1rem;
+    font-size: small;
   }
 
-  dialog {
+  .modal-movie-info {
     border-radius: 16px 16px 0 0;
     margin-bottom: 0;
 
@@ -320,6 +337,10 @@ dialog::backdrop {
   .skeleton > .item-thumbnail {
     width: 112px;
     height: 178px;
+  }
+
+  .modal-movie-poster {
+    display: none;
   }
 
   .hidden {
