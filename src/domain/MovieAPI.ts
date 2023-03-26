@@ -57,9 +57,9 @@ class MovieAPI {
   private getUserMovieVote(movieId: number) {
     if (!this.userMovies.length) return 0;
 
-    const movie = this.userMovies.filter((movie) => movie.id === movieId)[0];
+    const movie = this.userMovies.find((movie) => movie.id === movieId);
 
-    return movie ? movie.userVote : 0;
+    return movie?.userVote ?? 0;
   }
 }
 
