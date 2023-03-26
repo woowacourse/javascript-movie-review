@@ -18,8 +18,6 @@ class Modal {
   }
 
   async renderMovieDetail(movieId: number) {
-    this.#$target.classList.remove("hidden");
-    this.#$target.classList.add("show");
     const movieDetail: MovieDetailResponse = await fetchMovieDetail(movieId);
     const movieDetailMarkup = MovieDetail.render(movieDetail);
     const movieDetailElement = document.createElement("div");
@@ -29,6 +27,8 @@ class Modal {
       "afterbegin",
       movieDetailElement
     );
+    this.#$target.classList.remove("hidden");
+    this.#$target.classList.add("show");
 
     this.closeModal(movieDetailElement);
   }

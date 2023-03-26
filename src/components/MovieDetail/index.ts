@@ -14,11 +14,13 @@ class MovieDetail {
             <p class="movie-title">${title}</p>
           </div>
           <div class="movie-card">
-            <img
-              src="https://image.tmdb.org/t/p/w220_and_h330_face/${poster_path}"
-              class="movie-thumbnail skeleton"
-              loading="lazy"
-            />
+            <div class="movie-thumbnail">
+              <img
+                src="https://image.tmdb.org/t/p/w220_and_h330_face/${poster_path}"
+                class="movie-thumbnail skeleton"
+                loading="lazy"
+               />
+            </div>
             <div class="movie-detail">
               <div>
                 <div>
