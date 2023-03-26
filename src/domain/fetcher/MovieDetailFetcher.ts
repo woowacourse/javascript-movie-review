@@ -28,8 +28,9 @@ export default class MovieDetailFetcher {
     return url.toString();
   }
 
-  #processMovieData({ title, overview, poster_path, vote_average, genres }: FetchedMovieItemJson): MovieDetail {
+  #processMovieData({ id, title, overview, poster_path, vote_average, genres }: FetchedMovieItemJson): MovieDetail {
     return {
+      id,
       title,
       overview,
       genres: genres.map(genre => genre.name),

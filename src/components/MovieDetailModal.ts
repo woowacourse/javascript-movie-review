@@ -2,6 +2,7 @@ import Component from '../types/component';
 import MovieDetail from '../types/MovieDetail';
 
 const STAR_COUNT_MAP: { [score: number]: string } = {
+  0: '평가해주세요',
   2: '최악이예요',
   4: '별로예요',
   6: '보통이에요',
@@ -26,17 +27,10 @@ class MovieDetailModal {
     this.node.classList.add('modal-container');
     this.movieDetail = movieDetail;
 
+    const ratingMap = JSON.parse(localStorage.getItem('rating') || '{}');
+    this.rating = Number(ratingMap?.[movieDetail.id]) || 0;
+
     this.composeNode().setElements().addEvents();
-
-    this.rating = this.setRatings();
-  }
-
-  setRatings(): number {
-    return this.stars.reduce((count, star) => {
-      if (star.classList.contains('filled')) return count + 1;
-
-      return count * 2;
-    }, 0);
   }
 
   composeNode(): this {
@@ -56,8 +50,6 @@ class MovieDetailModal {
           <img
             src="${this.movieDetail.posterPath}"
             alt="이미지 설명"
-            width="292"
-            height="433"
           />
         </div>
         <div class="modal-info">
@@ -72,19 +64,27 @@ class MovieDetailModal {
           <div class="modal-my-rating">
             <p>내 별점</p>
             <div class="rating-stars">
-              <img data-index=0 src="./star_empty.png" class="star" />
-              <img data-index=1 src="./star_empty.png" class="star" />
-              <img data-index=2 src="./star_empty.png" class="star" />
-              <img data-index=3 src="./star_empty.png" class="star" />
-              <img data-index=4 src="./star_empty.png" class="star" />
+            ${this.starsTemplate()}
             </div>
-            <p class="rating-message"><span class="rating">6</span><span class="rating-word">보통이에요.</span></p>
+            <p class="rating-message"><span class="rating">${this.rating}</span><span class="rating-word">${
+      STAR_COUNT_MAP[this.rating]
+    }</span></p>
           </div>
         </div>
       </div> 
       </dialog>
       `;
     return this;
+  }
+
+  starsTemplate(): string {
+    const count = this.rating / 2;
+    return Array.from({ length: 5 }, (_, index) => {
+      if (index < count) {
+        return `<img class="star data-index=${index} filled" src="./star_filled.png" alt="별점"/>`;
+      }
+      return `<img class="star" data-index=${index} src="./star_empty.png" alt="별점"/>`;
+    }).join('');
   }
 
   setElements(): this {
@@ -113,7 +113,6 @@ class MovieDetailModal {
     const target = event.target as HTMLImageElement;
     const targetIndex = Number(target.dataset.index);
     let rating = 0;
-    if (!targetIndex) return;
 
     this.stars.forEach((star, index) => {
       if (index <= targetIndex) {
@@ -129,6 +128,10 @@ class MovieDetailModal {
     this.ratingMessage.innerHTML = `<span class="rating">${String(rating)}</span><span class="rating-word">${
       STAR_COUNT_MAP[rating]
     }</span>`;
+
+    const ratingMap = JSON.parse(localStorage.getItem('rating') || '{}');
+    ratingMap[this.movieDetail.id] = rating;
+    localStorage.setItem('rating', JSON.stringify(ratingMap));
 
     this.rating = rating;
   }
@@ -169,3 +172,5 @@ class MovieDetailModal {
 }
 
 export default MovieDetailModal;
+
+// <img data-index=0 src="./star_empty.png" class="star" />
