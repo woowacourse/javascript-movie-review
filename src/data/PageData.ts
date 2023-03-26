@@ -1,5 +1,6 @@
 import { getMovies, getSearchMovie } from './api';
 import { PageStatusType } from '../utils/type';
+import MovieData from './MovieData';
 
 class PageData {
   #moviePage: number;
@@ -52,12 +53,16 @@ class PageData {
 
       const { page, results, total_pages } = await getMovies(this.#moviePage);
 
+      MovieData.addMovieData(results);
+
       return { values: { page, results, total_pages } };
     }
 
     // const { page, results, total_pages } = await getSearchMovie();
     const { page, results, total_pages } = await getSearchMovie(keyword, this.#moviePage);
     this.#recentKeyword = keyword;
+
+    MovieData.addMovieData(results);
 
     return {
       values: { page, results, total_pages },
@@ -67,7 +72,6 @@ class PageData {
   setObserver(callback: Function, elem: HTMLElement) {
     this.#observer = new IntersectionObserver((entries: any) => {
       if (entries[0].isIntersecting && this.#moviePage <= this.#totalPage) {
-        console.log(this.#moviePage, this.#totalPage);
         callback();
       }
       return;
