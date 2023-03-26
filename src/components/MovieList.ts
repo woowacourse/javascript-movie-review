@@ -30,7 +30,7 @@ export async function renderSkeletonList() {
   const results = await getSearchMovie(keyword, page);
   renderSearchMovieList(results);
 
-  store.setState({ isContentEnd: true });
+  if (results.length < 20) store.setState({ isContentEnd: true });
 }
 
 export async function renderPopularMovieList(movies: IMovie[]) {
