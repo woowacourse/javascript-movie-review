@@ -1,6 +1,7 @@
 import DefaultPoster from '../../../assets/default_poster.png';
 import { STAR_FILLED } from '../../../assets/svg';
 import { hide } from '../../dom';
+import { $ } from '../../utils/domUtils';
 
 class MovieDetailBox extends HTMLElement {
   constructor() {
@@ -62,7 +63,14 @@ class MovieDetailBox extends HTMLElement {
   };
 
   onClick = (e: Event) => {
-    if (e.target instanceof HTMLElement && !e.target.closest('.box')) this.close();
+    const $box = $('.box');
+    if (
+      $box instanceof HTMLElement &&
+      this.contains(<Node>e.target) &&
+      !$box.contains(<Node>e.target)
+    ) {
+      this.close();
+    }
   };
 
   close = () => {
