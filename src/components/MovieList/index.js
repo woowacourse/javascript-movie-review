@@ -30,7 +30,7 @@ class MovieList {
             <ul class="skeleton-container"></ul>
             <div class="error-container"></div>
           </div>
-          <button class="more btn primary full-width">더 보기</button>
+          <div class="scroll-trigger"></div>
         </section>
       `;
   }
@@ -138,11 +138,23 @@ class MovieList {
     $skeletonContainer.classList.remove("visible");
   }
 
-  setEvent() {
-    this.$target.querySelector(".more").addEventListener("click", () => {
-      this.renderMovieList();
-    });
+  setInfinityScroll() {
+    const $scrollTrigger = this.$target.querySelector(".scroll-trigger");
+    const io = new IntersectionObserver(
+      (entry) => {
+        if (!entry[0].isIntersecting) return;
 
+        this.renderMovieList();
+      },
+      {
+        threshold: 0,
+      }
+    );
+
+    io.observe($scrollTrigger);
+  }
+
+  setEvent() {
     this.$target.querySelector(".item-list").addEventListener("click", (event) => {
       const $itemCard = event.target.closest(".item-card");
       if (!$itemCard) return;
@@ -150,6 +162,8 @@ class MovieList {
       const id = $itemCard.dataset.id;
       Modal.openMovieDetail(id);
     });
+
+    this.setInfinityScroll();
   }
 }
 
