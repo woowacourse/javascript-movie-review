@@ -1,6 +1,8 @@
 import './Modal.css';
 import Movie from '../domain/Movie';
-import { $, convertHourAndMinute, getHashURLParams, setHashURL, sliceScore, sliceSting } from '../utils/common';
+import userMovieScore from '../domain/userMovieScore';
+import { $, convertHourAndMinute } from '../utils/common';
+import { setHashURL, sliceScore, sliceSting } from '../utils/domain';
 import STAR_FILLED from '../image/star-filled.png';
 import STAR_EMPTY from '../image/star-empty.png';
 import { HTMLMovieListItemElement } from './MovieListItem';
@@ -35,8 +37,9 @@ class Modal extends HTMLElement {
 
   updateDetailModal(): void {
     this.render();
+    $('#modal-category')?.classList.remove('modal-category-skeleton');
     this.renderStar();
-    this.detailFetchEvent();
+    this.renderScoreText();
     this.setStarClickEvent();
     this.setCloseModalEvent();
     this.openModal();
@@ -46,6 +49,7 @@ class Modal extends HTMLElement {
     const STAR_COUNT = 5;
     const { title, imgUrl, score, description, categories, releaseDate, runningTime } = this.#detailMovieInfo;
 
+    const categoriesText = categories !== '' ? categories : '카테고리 없음';
     const slicedScore = sliceScore(score.toFixed(1));
     const releaseDateText = releaseDate ? releaseDate.replace(/-/g, '/') : '';
     const runningTimeText = convertHourAndMinute(runningTime);
@@ -70,7 +74,7 @@ class Modal extends HTMLElement {
                     <div class="modal-main-content">
                         <div>
                             <div class="modal-main-category-score">
-                                <div id="modal-category" class="modal-category-skeleton" title="카테고리">${categories}</div>
+                                <div id="modal-category" class="modal-category-skeleton" title="카테고리">${categoriesText}</div>
                                 <movie-score score="${slicedScore}" class="modal-score-wrapper"></movie-score>
                             </div>
                             <div class="modal-main-date-time">
@@ -131,39 +135,10 @@ class Modal extends HTMLElement {
     return SCORE_COMMENT[myScore];
   }
 
-  async detailFetchEvent() {
-    const modalCategory = $('#modal-category') as HTMLDivElement;
-    const id = this.#detailMovieInfo.id;
-
-    if (id === 0) return;
-
-    const movieDetail = await new Movie().parsedDetailResult(id);
-    modalCategory.classList.remove('modal-category-skeleton');
-
-    const categories = movieDetail.categories;
-
-    if (categories.length === 0) {
-      modalCategory.innerText = '카테고리 없음';
-      return;
-    }
-
-    modalCategory.innerText = categories;
-  }
-
   renderStar() {
     const stars = this.querySelectorAll('.modal-star') as NodeListOf<HTMLImageElement>;
 
-    const id = this.#detailMovieInfo.id;
-
-    const movieScore: MovieScoreInfo[] = JSON.parse(localStorage.getItem('movieScore') || '[]');
-    const modalMyScore = $('#modal-my-score') as HTMLSpanElement;
-    const modalMyComment = $('#modal-my-comment') as HTMLSpanElement;
-
-    const movie = movieScore.find((item: MovieScoreInfo) => item.id === id);
-    const score = movie?.score || 0;
-
-    modalMyScore.innerText = score.toString();
-    modalMyComment.innerText = this.getScoreComment(score.toString());
+    const score = userMovieScore.getScore(this.#detailMovieInfo.id);
 
     const starIndex = score / 2 - 1;
 
@@ -176,6 +151,17 @@ class Modal extends HTMLElement {
     });
   }
 
+  renderScoreText() {
+    const modalMyScore = $('#modal-my-score') as HTMLSpanElement;
+    const modalMyComment = $('#modal-my-comment') as HTMLSpanElement;
+
+    const score = userMovieScore.getScore(this.#detailMovieInfo.id);
+
+    console.log(score);
+    modalMyScore.innerText = score.toString();
+    modalMyComment.innerText = this.getScoreComment(score.toString());
+  }
+
   setStarClickEvent() {
     const stars = this.querySelectorAll('.modal-star') as NodeListOf<HTMLImageElement>;
 
@@ -184,42 +170,34 @@ class Modal extends HTMLElement {
         const score = (Number(index) + 1) * 2;
         this.setMovieScore(score);
         this.renderStar();
-        this.updateReviewedElement();
+        this.updateMovieItemReviewed();
       });
     });
   }
 
   setMovieScore(score: number): void {
     const id = this.#detailMovieInfo.id;
-    const movieScore: MovieScoreInfo[] = JSON.parse(localStorage.getItem('movieScore') || '[]');
 
-    const findIndex = movieScore.findIndex((item: MovieScoreInfo) => item.id === id);
-
-    if (findIndex === -1) {
-      const updatedMovieScore = [...movieScore, { id, score }];
-      localStorage.setItem('movieScore', JSON.stringify(updatedMovieScore));
-      return;
-    }
-
-    const updatedMovieScore = movieScore;
-    updatedMovieScore.splice(findIndex, 1, { id, score });
-    localStorage.setItem('movieScore', JSON.stringify(updatedMovieScore));
+    userMovieScore.setLocalStorage({ id, score });
   }
 
-  async setMovieId(id: string) {
+  setMovieId(id: string) {
     if (!id) return;
 
     try {
-      const movieDetail = await new Movie().parsedDetailResult(Number(id));
-
-      this.#detailMovieInfo = movieDetail;
-      this.updateDetailModal();
+      this.renderDetailModal(id);
     } catch (error) {
       this.closeModal();
     }
   }
 
-  updateReviewedElement() {
+  async renderDetailModal(id: string) {
+    const movieDetail = Movie.parsedDetailResult(Number(id));
+    this.#detailMovieInfo = await movieDetail;
+    this.updateDetailModal();
+  }
+
+  updateMovieItemReviewed() {
     const id = this.#detailMovieInfo.id;
     const movieItem = $(`#id${id}`) as HTMLMovieListItemElement;
 

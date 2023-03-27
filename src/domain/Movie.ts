@@ -44,11 +44,11 @@ class Movie {
     };
   }
 
-  async parsedDetailResult(id: number): Promise<MovieDetailInfo> {
+  static async parsedDetailResult(id: number): Promise<MovieDetailInfo> {
     const url = getDetailUrl({ id });
 
     const fetchedData = await request<MovieDetailResult>(url);
-    const movieDetail = this.parseMovieDatail(fetchedData);
+    const movieDetail = Movie.parseMovieDatail(fetchedData);
 
     return movieDetail;
   }
@@ -65,7 +65,7 @@ class Movie {
     });
   }
 
-  parseMovieDatail(fetchedMovie: MovieDetailResult): MovieDetailInfo {
+  static parseMovieDatail(fetchedMovie: MovieDetailResult): MovieDetailInfo {
     return {
       id: fetchedMovie.id,
       title: fetchedMovie.title,
