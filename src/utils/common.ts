@@ -35,22 +35,6 @@ export const convertQuerystring = (params: Record<string, string>): string => {
   return URLParams.toString();
 };
 
-export const sliceSting = (word: string): string => {
-  const LIMIT = 27;
-  if (word.length > LIMIT) {
-    return `${word.slice(0, LIMIT)}···`;
-  }
-
-  return word;
-};
-
-export const sliceScore = (score: string): string => {
-  const SLICE_START = 0;
-  const SLICE_END = 3;
-
-  return score.slice(SLICE_START, SLICE_END);
-};
-
 export const convertHourAndMinute = (minute: number): string => {
   const hour = minute / 60;
   const remainingMinutes = minute % 60;
@@ -63,25 +47,4 @@ export const convertHourAndMinute = (minute: number): string => {
   }
 
   return `${hourText} ${minuteText}`;
-};
-
-export const getHashURLParams = (): { searchWord: string | null; movieId: string | null } => {
-  const path = window.location.hash.replace('#', '');
-  const URL = new URLSearchParams(path);
-
-  const searchWord = URL.get('q');
-  const movieId = URL.get('id');
-
-  return { searchWord, movieId };
-};
-
-export const setHashURL = (): void => {
-  const { searchWord } = getHashURLParams();
-
-  if (searchWord) {
-    window.location.hash = `?q=${searchWord}`;
-    return;
-  }
-
-  window.location.hash = ' ';
 };

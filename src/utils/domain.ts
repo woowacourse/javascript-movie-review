@@ -32,5 +32,5 @@ export const setHashURL = (): void => {
     return;
   }
 
-  window.location.hash = ' ';
+  window.location.hash = ' ㄴ';
 };

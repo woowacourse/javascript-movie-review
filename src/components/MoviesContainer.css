@@ -16,15 +16,15 @@
 
 .item-view {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: baseline;
+  flex-direction: column;
   margin: 0 auto;
 }
 
 .movie-list-title {
-  width: 100%;
   align-self: baseline;
+  width: 100%;
   margin-bottom: 46px;
   font-size: 3.4rem;
   font-weight: bold;
@@ -42,9 +42,9 @@
 }
 
 .more-button-wrapper {
-  margin-top: 70px;
   width: 100%;
   height: 30px;
+  margin-top: 70px;
 }
 
 @media (max-width: 768px) {
