@@ -23,6 +23,10 @@ export const fetchPopularMovies = (page: number = 1): Promise<GetPopularMoviesRe
   return fetchQuery(`tmdb/movie/popular?page=${page}&language=ko`);
 };
 
+export const fetchGenreList = () => {
+  return fetchQuery(`tmdb/genre/movie/list?language=ko`);
+};
+
 export const waitFor = async <T>(promise: Promise<T>): Promise<[T, null] | [undefined, Error]> => {
   try {
     const data = await promise;
