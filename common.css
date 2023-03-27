@@ -58,10 +58,14 @@ button {
   flex-direction: column;
 
   cursor: pointer;
+
+  transition: 0.1s all;
 }
 
 .item-card:hover {
   transform: scale(1.1);
+
+  transition: 0.1s all;
 }
 
 .item-thumbnail {
@@ -183,6 +187,8 @@ dialog {
   background-color: rgba(17, 17, 17, 1);
   border: 0;
   border-radius: 8px;
+
+  padding: 0;
 }
 
 dialog::backdrop {
@@ -193,6 +199,8 @@ dialog::backdrop {
   position: relative;
 
   color: rgba(241, 241, 241, 1);
+
+  padding: 12px;
 }
 
 .movie-modal-header {
@@ -218,7 +226,7 @@ dialog::backdrop {
   width: 36px;
   height: 36px;
 
-  margin-top: 16px;
+  margin: 32px 16px 0 0;
 
   border: 0;
   background: url('./templates/cancel_button.png') transparent;

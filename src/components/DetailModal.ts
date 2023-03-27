@@ -36,10 +36,10 @@ export default class DetailModal extends HTMLElement {
       <div class="movie-modal-container">
         <div class="movie-modal-header">
           <h2>${title}</h2>
+          <form method="dialog">
+            <button class="close-modal-button"></button>
+          </form>
         </div>
-        <form method="dialog">
-          <button class="close-modal-button"></button>
-        </form>
         <div class="movie-modal-detail">
           <div class="movie-modal-image-container">
             <img class="skeleton" src="https://image.tmdb.org/t/p/original${poster_path}" alt="포스터" />
