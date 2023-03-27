@@ -26,9 +26,11 @@ const movieHandler: MovieHandler = {
         poster_path: movie.poster_path,
         overview: movie.overview,
         genre_ids: movie.genre_ids,
-        genres: movie.genre_ids.map(
-          (genreID) => this.genres.find((genre) => genre.id === genreID)?.name
-        ),
+        genres: movie.genre_ids.map((genreID) => {
+          const genre = this.genres.find((genre) => genre.id === genreID);
+
+          return genre ? genre.name : "";
+        }),
       };
     });
     this.movies = [...this.movies, ...newMovies];

@@ -13,7 +13,7 @@ export interface Movie {
   vote_count?: number;
   video?: boolean;
   release_date?: string;
-  genres: (string | undefined)[];
+  genres: string[];
 }
 
 export interface Genre {
