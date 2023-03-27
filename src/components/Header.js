@@ -1,53 +1,47 @@
-import Store from '../Store';
-
 import logo from '../../templates/logo.png';
 
 class Header {
   $header = document.createElement('header');
 
+  query;
+
   constructor($target) {
-    $target.insertAdjacentElement('beforeend', this.$header);
+    this.init();
 
-    this.render();
-    this.bindEvent();
+    this.render($target);
   }
 
-  render() {
-    this.$header.innerHTML = this.template();
+  init() {
+    this.$header.classList = '';
+    this.$header.innerHTML = this.getTemplate();
   }
 
-  bindEvent() {
-    this.$header.addEventListener('click', this.onClickEvent);
-    this.$header.querySelector('.search-box').addEventListener('submit', this.onSubmitEvent);
+  render($target) {
+    $target.insertAdjacentElement('afterbegin', this.$header);
   }
 
-  async onSubmitEvent(e) {
-    e.preventDefault();
-    const { currentTarget } = e;
-    const { value } = currentTarget.querySelector('input');
-
-    if (value.length === 0) {
-      alert('1글자 이상 입력해 주셔야 합니다.');
-
-      return;
-    }
-
-    Store.updateSearchedMoviesByQuery(value);
-  }
-
-  onClickEvent({ target }) {
-    if (target.id !== 'logo') return;
-
-    Store.updatePopularMovies();
-    document.querySelector('.search-box').reset();
-  }
-
-  template() {
-    return `<h1><img id="logo" src="${logo}" alt="MovieList 로고" /></h1>
+  getTemplate() {
+    const template = `
+      <h1><img id="logo" src=${logo} alt="MovieList 로고" /></h1>
       <form class="search-box">
-        <input type="text" placeholder="검색" class="search-input" />
-        <button data-type="search" class="search-button">검색</button>
-      </form>`;
+        <input class="search-input" type="text" placeholder="검색" />
+        <button class="search-button">검색</button>
+      </form>
+      `;
+
+    return template;
+  }
+
+  getQuery() {
+    const $input = document.querySelector('.search-input');
+
+    return $input.value;
+  }
+
+  clearQuery() {
+    const $input = document.querySelector('.search-input');
+
+    $input.value = '';
   }
 }
 

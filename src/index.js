@@ -3,4 +3,6 @@ import '../templates/common.css';
 
 import App from './App';
 
-new App(document.getElementById('app'));
+const $app = document.querySelector('#app');
+
+new App($app);
