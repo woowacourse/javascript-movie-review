@@ -13,86 +13,30 @@ export class ModalInformation extends HTMLElement {
   }
 
   eventBind = () => {
-    this.firstStarEvent();
-    this.secondStarEvent();
-    this.thirdStarEvent();
-    this.fourthStarEvent();
-    this.fifthStarEvent();
-    document
-      .querySelector('.modal-close')
-      ?.addEventListener('click', () =>
-        (document.querySelector('.modal') as HTMLDialogElement).close(),
-      );
+    this.starEvent();
+    document.querySelector('.modal-close')?.addEventListener('click', () => {
+      const modal = document.querySelector('.modal');
+      if (!(modal instanceof HTMLDialogElement)) throw new Error(STRING.NOT_FIND_ELEMENT);
+      modal.close();
+    });
   };
 
-  firstStarEvent() {
-    document.querySelector('#stars-1')?.addEventListener('click', () => {
-      document.querySelector('#stars-1')?.setAttribute('src', fillStar);
-      document.querySelector('#stars-2')?.setAttribute('src', emptyStar);
-      document.querySelector('#stars-3')?.setAttribute('src', emptyStar);
-      document.querySelector('#stars-4')?.setAttribute('src', emptyStar);
-      document.querySelector('#stars-5')?.setAttribute('src', emptyStar);
-      document.querySelector('.modal-right-score')!.textContent = '2';
-      document.querySelector('.modal-right-comment')!.textContent = '최악이예요';
-      const id = document.querySelector('.modal-information')!.id;
-      localStorage.setItem(id, '2');
-    });
-  }
-
-  secondStarEvent() {
-    document.querySelector('#stars-2')?.addEventListener('click', () => {
-      document.querySelector('#stars-1')?.setAttribute('src', fillStar);
-      document.querySelector('#stars-2')?.setAttribute('src', fillStar);
-      document.querySelector('#stars-3')?.setAttribute('src', emptyStar);
-      document.querySelector('#stars-4')?.setAttribute('src', emptyStar);
-      document.querySelector('#stars-5')?.setAttribute('src', emptyStar);
-      document.querySelector('.modal-right-score')!.textContent = '4';
-      document.querySelector('.modal-right-comment')!.textContent = '별로예요';
-      const id = document.querySelector('.modal-information')!.id;
-      localStorage.setItem(id, '4');
-    });
-  }
-
-  thirdStarEvent() {
-    document.querySelector('#stars-3')?.addEventListener('click', () => {
-      document.querySelector('#stars-1')?.setAttribute('src', fillStar);
-      document.querySelector('#stars-2')?.setAttribute('src', fillStar);
-      document.querySelector('#stars-3')?.setAttribute('src', fillStar);
-      document.querySelector('#stars-4')?.setAttribute('src', emptyStar);
-      document.querySelector('#stars-5')?.setAttribute('src', emptyStar);
-      document.querySelector('.modal-right-score')!.textContent = '6';
-      document.querySelector('.modal-right-comment')!.textContent = '보통이에요';
-      const id = document.querySelector('.modal-information')!.id;
-      localStorage.setItem(id, '6');
-    });
-  }
-
-  fourthStarEvent() {
-    document.querySelector('#stars-4')?.addEventListener('click', () => {
-      document.querySelector('#stars-1')?.setAttribute('src', fillStar);
-      document.querySelector('#stars-2')?.setAttribute('src', fillStar);
-      document.querySelector('#stars-3')?.setAttribute('src', fillStar);
-      document.querySelector('#stars-4')?.setAttribute('src', fillStar);
-      document.querySelector('#stars-5')?.setAttribute('src', emptyStar);
-      document.querySelector('.modal-right-score')!.textContent = '8';
-      document.querySelector('.modal-right-comment')!.textContent = '재미있어요';
-      const id = document.querySelector('.modal-information')!.id;
-      localStorage.setItem(id, '8');
-    });
-  }
-
-  fifthStarEvent() {
-    document.querySelector('#stars-5')?.addEventListener('click', () => {
-      document.querySelector('#stars-1')?.setAttribute('src', fillStar);
-      document.querySelector('#stars-2')?.setAttribute('src', fillStar);
-      document.querySelector('#stars-3')?.setAttribute('src', fillStar);
-      document.querySelector('#stars-4')?.setAttribute('src', fillStar);
-      document.querySelector('#stars-5')?.setAttribute('src', fillStar);
-      document.querySelector('.modal-right-score')!.textContent = '10';
-      document.querySelector('.modal-right-comment')!.textContent = '명작이에요';
-      const id = document.querySelector('.modal-information')!.id;
-      localStorage.setItem(id, '10');
-    });
+  private starEvent() {
+    const score = ['2', '4', '6', '8', '10'];
+    const comment = ['최악이예요', '별로예요', '보통이에요', '재미있어요', '명작이에요'];
+    for (let starEvent = 1; starEvent <= 5; starEvent++) {
+      document.querySelector(`#stars-${starEvent}`)?.addEventListener('click', () => {
+        for (let star = 1; star <= 5; star++) {
+          if (starEvent >= star)
+            document.querySelector(`#stars-${star}`)?.setAttribute('src', fillStar);
+          else document.querySelector(`#stars-${star}`)?.setAttribute('src', emptyStar);
+        }
+        document.querySelector('.modal-right-score')!.textContent = score[starEvent - 1];
+        document.querySelector('.modal-right-comment')!.textContent = comment[starEvent - 1];
+        const id = document.querySelector('.modal-information')!.id;
+        localStorage.setItem(id, score[starEvent - 1]);
+      });
+    }
   }
 
   setInformationToModal = (target: HTMLTextAreaElement) => {
@@ -134,7 +78,7 @@ export class ModalInformation extends HTMLElement {
   }
 
   private getScore(number: number) {
-    if (number === 2) return NUMBER.FIFTH_STAR;
+    if (number === 2) return NUMBER.FIRST_STAR;
     if (number === 4) return NUMBER.SECOND_STAR;
     if (number === 6) return NUMBER.THIRD_STAR;
     if (number === 8) return NUMBER.FOURTH_STAR;
