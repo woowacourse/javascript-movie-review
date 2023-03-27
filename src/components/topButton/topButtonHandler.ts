@@ -7,13 +7,16 @@ export const backToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
-  const observer = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting) {
-      $("#top-button").classList.remove("active");
-    } else {
-      $("#top-button").classList.add("active");
-    }
-  });
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        $("#top-button").classList.remove("active");
+      } else {
+        $("#top-button").classList.add("active");
+      }
+    },
+    { rootMargin: "1700px 0px 0px 0px" }
+  );
 
   observer.observe($("header"));
 };
