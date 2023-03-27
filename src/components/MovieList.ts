@@ -152,11 +152,6 @@ class MovieList implements Component {
 
   #handleClickMoreButton(): void {
     this.node.dispatchEvent(new CustomEvent('click-more-button', { bubbles: true }));
-    //   this.loadMoreButton.disabled = true;
-
-    //   setTimeout(() => {
-    //     this.loadMoreButton.disabled = false;
-    //   }, 500);
   }
 
   observeMovieList(): this {

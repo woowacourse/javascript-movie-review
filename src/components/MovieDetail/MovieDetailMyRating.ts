@@ -1,4 +1,5 @@
 import COMMENT_BY_RATING from '../../constants/ratingComments';
+import movieRatingStore from '../../domain/storage/movieRatingStore';
 import Component from '../../types/component';
 
 class MovieDetailMyRating implements Component {
@@ -15,9 +16,7 @@ class MovieDetailMyRating implements Component {
     this.node.classList.add('modal-my-rating');
 
     this.id = id;
-
-    const ratingMap = JSON.parse(localStorage.getItem('rating') || '{}');
-    this.rating = Number(ratingMap?.[id]) || 0;
+    this.rating = movieRatingStore.getMovieRating(id);
 
     this.composeNode().setElements().addEvents();
   }
@@ -35,7 +34,7 @@ class MovieDetailMyRating implements Component {
     const count = this.rating / 2;
     return Array.from({ length: 5 }, (_, index) => {
       if (index < count) {
-        return `<img class="star" data-index=${index} filled" src="./star_filled.png" alt="별점"/>`;
+        return `<img class="star" data-index=${index} src="./star_filled.png" alt="별점"/>`;
       }
       return `<img class="star" data-index=${index} src="./star_empty.png" alt="별점"/>`;
     }).join('');
@@ -66,51 +65,41 @@ class MovieDetailMyRating implements Component {
   #handleClickStar(event: MouseEvent) {
     const target = event.target as HTMLImageElement;
     const targetIndex = Number(target.dataset.index);
-    let rating = 0;
 
-    this.stars.forEach((star, index) => {
-      if (index <= targetIndex) {
-        star.src = './star_filled.png';
-        star.classList.add('filled');
-        rating += 2;
-      } else {
-        star.src = './star_empty.png';
-        star.classList.remove('filled');
-      }
-    });
-
-    this.rating = rating;
+    this.rating = this.#changeStars(targetIndex);
 
     this.ratingMessage.innerHTML = this.ratingMessageTemplate();
 
-    const ratingStorage = JSON.parse(localStorage.getItem('rating') || '{}');
-    ratingStorage[this.id] = this.rating;
-    localStorage.setItem('rating', JSON.stringify(ratingStorage));
+    movieRatingStore.setMovieRating(this.id, this.rating);
   }
 
   #handleHoverStar(event: MouseEvent) {
     const target = event.target as HTMLImageElement;
-    const targetIndex = target.dataset.index;
+    console.log(target.dataset.index, 'target.dataset.index');
+    const targetIndex = Number(target.dataset.index);
+    console.log(targetIndex);
 
-    if (!targetIndex) return;
+    if (targetIndex === null) return;
 
-    this.stars.forEach((star, index) => {
-      if (index <= Number(targetIndex)) {
-        star.src = './star_filled.png';
-      } else {
-        star.src = './star_empty.png';
-      }
-    });
+    this.#changeStars(targetIndex);
   }
 
   #handleLeaveStar() {
+    this.#changeStars(this.rating / 2 - 1);
+  }
+
+  #changeStars(targetIndex: number): number {
+    let rating = 0;
     this.stars.forEach((star, index) => {
-      if (index < this.rating / 2) {
+      if (index <= targetIndex) {
         star.src = './star_filled.png';
+        rating += 2;
       } else {
         star.src = './star_empty.png';
       }
     });
+
+    return rating;
   }
 }
 
