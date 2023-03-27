@@ -46,7 +46,9 @@ export default class MovieCard extends HTMLElement {
   }
 
   setEvent() {
-    const $moiveImage = this.querySelector("img");
+    const $moiveImage = this.querySelector(
+      ".item-thumbnail"
+    ) as HTMLImageElement;
     const $skeletonList = this.querySelectorAll(".skeleton");
     const $star = this.querySelector(".star-filled");
     $moiveImage?.addEventListener("load", () => {

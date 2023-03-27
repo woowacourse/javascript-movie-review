@@ -23,19 +23,19 @@ export default class RatingBox extends HTMLElement {
     this.innerHTML = `
       <div class="rating-box flex align-center">
         <p>내 별점</p>
-        <img class="star-${
+        <img class="star star-${
           myRating >= 2 ? "filled" : "empty"
         } mr-4" alt="별점" />
-        <img class="star-${
+        <img class="star star-${
           myRating >= 4 ? "filled" : "empty"
         } mr-4" alt="별점" />
-        <img class="star-${
+        <img class="star star-${
           myRating >= 6 ? "filled" : "empty"
         } mr-4" alt="별점" />
-        <img class="star-${
+        <img class="star star-${
           myRating >= 8 ? "filled" : "empty"
         } mr-4" alt="별점" />
-        <img class="star-${
+        <img class="star star-${
           myRating >= 10 ? "filled" : "empty"
         } mr-4" alt="별점" />
         <h4 class="rating-count">${myRating}</h4>
@@ -45,7 +45,7 @@ export default class RatingBox extends HTMLElement {
   }
 
   setEvent() {
-    const $stars = this.querySelectorAll("img");
+    const $stars = this.querySelectorAll(".star");
     $stars?.forEach((star, index) => {
       star.addEventListener("click", () => {
         this.setState({
