@@ -26,7 +26,6 @@ export type FetchedMovieJson = {
 export type FetchedMovieDetailJson = {
   adult: boolean;
   backdrop_path: string;
-  belongs_to_collection: any;
   budget: number;
   genres: Genre[];
   homepage: string;
@@ -58,7 +57,7 @@ export type Genre = {
 
 export type ProductionCompany = {
   id: number;
-  logo_path: any;
+  logo_path?: string;
   name: string;
   origin_country: string;
 };
