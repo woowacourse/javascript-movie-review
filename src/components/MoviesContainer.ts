@@ -62,23 +62,33 @@ class MoviesContainer extends HTMLElement {
     </main>`;
   }
 
-  async updateMovieList(): Promise<void> {
+  updateMovieList(): void {
     try {
-      this.#isFatching = true;
-      await this.#movies.update(this.#searchWord.value);
-      this.renderMovieList();
-      this.toggleVisibleButton();
-      $('#skeleton-container')?.classList.add('skeleton-hide');
-
-      if (this.#movies.movieResult.isLastPage) {
-        return;
-      }
-
-      this.#isFatching = false;
+      this.updateAndRenderMovieList();
     } catch (error) {
-      this.setErrorMessage(getErrorMessage(error));
-      $('#skeleton-container')?.classList.add('skeleton-hide');
+      this.renderError(error);
     }
+  }
+
+  async updateAndRenderMovieList(): Promise<void> {
+    this.#isFatching = true;
+    await this.#movies.update(this.#searchWord.value);
+    this.renderMovieList();
+    this.toggleVisibleButton();
+    $('#skeleton-container')?.classList.add('skeleton-hide');
+
+    if (this.#movies.movieResult.isLastPage) {
+      return;
+    }
+
+    this.#isFatching = false;
+  }
+
+  renderError(error: unknown) {
+    const errorMessage = getErrorMessage(error);
+
+    this.setErrorMessage(errorMessage);
+    $('#skeleton-container')?.classList.add('skeleton-hide');
   }
 
   toggleVisibleButton(): void {
@@ -100,9 +110,7 @@ class MoviesContainer extends HTMLElement {
       this.#isFatching = true;
 
       window.scrollTo(0, bodyHeight - MOVE_SCROLL_HEIGHT);
-      $('#skeleton-container')?.classList.remove('skeleton-hide');
-
-      this.updateMovieList();
+      this.startFetchMovieList();
     });
   }
 
@@ -155,19 +163,22 @@ class MoviesContainer extends HTMLElement {
     const io = new IntersectionObserver((entry, observer) => {
       if (entry[0].isIntersecting) {
         if (this.#isFatching) return;
-        $('#skeleton-container')?.classList.remove('skeleton-hide');
-        this.#isFatching = true;
-        this.updateMovieList();
+        this.startFetchMovieList();
       }
     }, options);
 
     io.observe(movieList);
   }
 
+  startFetchMovieList() {
+    $('#skeleton-container')?.classList.remove('skeleton-hide');
+    this.updateMovieList();
+  }
+
   reset(): void {
     const movieListWrapper = $('#movie-list-wrapper') as HTMLElement;
 
-    movieListWrapper.innerHTML = ``;
+    movieListWrapper.innerHTML = '';
 
     if ($('#no-result-message')) {
       $('#no-result-message')?.remove();
@@ -179,17 +190,19 @@ class MoviesContainer extends HTMLElement {
   updateTitle(word: string): void {
     const movieContainerTitle = $('#movie-container-title') as HTMLElement;
 
+    movieContainerTitle.innerText = this.getMovieContainerTitle(word);
+  }
+
+  getMovieContainerTitle(word: string): string {
     if (word === '') {
-      movieContainerTitle.innerText = '지금 인기 있는 영화';
-      return;
+      return '지금 인기 있는 영화';
     }
 
-    movieContainerTitle.innerText = `"${sliceSting(word)}" 검색 결과`;
+    return `"${sliceSting(word)}" 검색 결과`;
   }
 
   setSearchWord(searchWord: string): void {
     if (this.#searchWord.value === searchWord) {
-      console.log('hi');
       window.scrollTo(0, 0);
       return;
     }
