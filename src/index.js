@@ -5,6 +5,7 @@ import MovieList from './components/MovieList';
 import { RENDER_MODE } from './constants';
 import Modal from './components/Modal';
 import RatingService from './service/RatingService';
+import { getLocalStorage, setLocalStorage } from './utils/localStroage';
 
 export const Store = {
   keyword: '',
@@ -12,7 +13,7 @@ export const Store = {
   lastPage: Infinity,
 };
 
-export const ratingService = new RatingService({});
+export const ratingService = new RatingService(getLocalStorage('rating') ?? {});
 
 class App {
   constructor() {
@@ -43,3 +44,13 @@ class App {
 }
 
 new App();
+
+window.addEventListener('beforeunload', () => {
+  const rating = ratingService.getRating();
+
+  if (Object.keys(rating).length > 0) setLocalStorage('rating', rating);
+});
+
+window.addEventListener('storage', (event) => {
+  if (!event.newValue) ratingService.clear();
+});
