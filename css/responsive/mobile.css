@@ -66,7 +66,7 @@
   }
 
   .modal-container {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     transform: translate(-50%, -0%);
 
@@ -79,8 +79,12 @@
     text-align: center;
   }
 
+  .detail {
+    max-height: 150px;
+  }
+
   .modal-detail {
-    height: 350px;
+    max-height: 300px;
   }
 
   .modal-main {
