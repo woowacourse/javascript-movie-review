@@ -1,4 +1,4 @@
-import { Movie, MovieLoadedEventData, MovieRetrievedEventData } from '../types/movie';
+import { Movie, MovieLoadedEventData, MovieRetrievedEventData, MovieState } from '../types/movie';
 import { MOVIE_LIST_LOADED, MOVIE_RETRIEVED, PAGE_BASE_URL } from '../constants';
 import { $ } from '../utils/domSelector';
 import { CloseButton } from '../assets';
@@ -77,30 +77,26 @@ class MovieInformationModal {
 
   private addEventListenerToBrowserBackButton() {
     window.addEventListener('popstate', (event) => {
-      if (!event.state) return;
-
-      if (event.state.showModal) {
-        MovieList.getMovieInformation(event.state.movieId, true);
-      }
-
-      if (!event.state.showModal) {
-        this.closeModal(true);
-      }
+      this.loadOrPopStateEventHandler(event.state);
     });
   }
 
   private addEventListenerToBrowserReloadButton() {
     window.addEventListener('load', () => {
-      if (!history.state) return;
-
-      if (history.state.showModal) {
-        MovieList.getMovieInformation(history.state.movieId, true);
-      }
-
-      if (!history.state.showModal) {
-        this.closeModal(true);
-      }
+      this.loadOrPopStateEventHandler(history.state);
     });
+  }
+
+  private loadOrPopStateEventHandler(state: MovieState | null) {
+    if (!state) return;
+
+    if (state.showModal) {
+      MovieList.getMovieInformation(history.state.movieId!, true);
+    }
+
+    if (!state.showModal) {
+      this.closeModal(true);
+    }
   }
 
   private openModal(movie: Movie, searchQuery: string, isBackButton: boolean = false) {

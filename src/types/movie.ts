@@ -71,6 +71,14 @@ interface MovieUserVoteUpdateEventData {
   userVote: UserScores;
 }
 
+interface MovieState {
+  isList?: boolean;
+  showModal?: boolean;
+  searchQuery?: string;
+  movieId?: number;
+  timestamp: number;
+}
+
 export {
   MovieData,
   MovieDataResult,
@@ -84,4 +92,5 @@ export {
   MovieErrorEventData,
   MovieRetrievedEventData,
   MovieUserVoteUpdateEventData,
+  MovieState,
 };
