@@ -30,21 +30,21 @@ export class MovieList {
   async init() {
     await this.nextPage();
     this.showModal();
-    this.infiniteScroll('li:nth-last-child(5)', this.nextPage);
+    this.infiniteScroll();
   }
 
   render() {
     return this.section;
   }
 
-  private createSkeletons = () => {
+  private createSkeletons() {
     if (this.isFinished) return;
 
     const skeleton = new Skeleton();
     [...Array(20)].forEach(() => {
       this.section.querySelector('ul')?.insertAdjacentHTML('beforeend', skeleton.render());
     });
-  };
+  }
 
   private async load() {
     if (this.isFinished) return;
@@ -98,18 +98,18 @@ export class MovieList {
     });
   }
 
-  private removeSkeleton = () => {
+  private removeSkeleton() {
     this.section
       .querySelectorAll<HTMLLIElement>('ul > li.skeleton')
       .forEach(($skeleton: HTMLLIElement) => {
         $skeleton.remove();
       });
-  };
+  }
 
-  nextPage = async () => {
+  async nextPage() {
     this.createSkeletons();
     await this.load();
-  };
+  }
 
   showModal() {
     document.querySelector('.item-view')?.addEventListener('click', (e) => {
@@ -126,7 +126,7 @@ export class MovieList {
     });
   }
 
-  infiniteScroll(target: string, fn: CallableFunction) {
+  infiniteScroll() {
     const options = {
       threshold: 0.3,
     };
@@ -134,14 +134,14 @@ export class MovieList {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         if (this.isFinished) return;
-        fn().then(() => {
-          const eventTarget = document.querySelector(target);
+        this.nextPage().then(() => {
+          const eventTarget = document.querySelector('li:nth-last-child(5)');
           io.disconnect();
           if (eventTarget) io.observe(eventTarget);
         });
       });
     }, options);
-    const last = document.querySelector(target);
+    const last = document.querySelector('li:nth-last-child(5)');
 
     if (last) io.observe(last);
   }
