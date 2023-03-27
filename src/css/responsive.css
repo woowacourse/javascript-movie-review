@@ -10,7 +10,6 @@
   .item-list {
     grid-template-columns: repeat(3, 180px);
     grid-column-gap: 80px;
-    grid-row-gap: 48px;
   }
 
   .box {
@@ -76,7 +75,6 @@
   .item-list {
     grid-template-columns: repeat(2, 140px);
     grid-column-gap: 60px;
-    grid-row-gap: 48px;
   }
 
   .item-list .item-thumbnail {
