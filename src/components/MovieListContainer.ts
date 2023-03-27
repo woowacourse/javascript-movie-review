@@ -52,7 +52,6 @@ const MovieListContainer = {
 
       MovieListContainer.showTitle();
       MovieListContainer.renderMovieItem(searchKey);
-      MovieItem.removeSkeleton();
     } catch (error) {
       if (error instanceof HTTPError) {
         InvalidMessage.renderErrorMessage(error.statusCode);
