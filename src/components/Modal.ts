@@ -1,3 +1,5 @@
+import BodyController from '../utils/bodyController';
+
 class Modal {
   private $dialog: HTMLDialogElement | null;
   private $modalDrop: HTMLDivElement | null;
@@ -20,14 +22,15 @@ class Modal {
   open() {
     if (!this.$dialog) return;
     if (typeof this.$dialog.showModal === 'function') {
-      document.body.classList.add('scroll-lock');
+      BodyController().addClass('scroll-lock');
       this.$dialog.showModal();
     }
   }
 
   close(isBack = false) {
     if (!this.$dialog) return;
-    document.body.classList.remove('scroll-lock');
+    BodyController().removeClass('scroll-lock');
+
     this.$dialog.close();
 
     if (isBack) {
