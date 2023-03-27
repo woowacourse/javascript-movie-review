@@ -14,7 +14,7 @@ const fetchAPI = async (url: string): Promise<any> => {
 
 export const getPopularMovies = async (
   page: number
-): Promise<movieListResponse> => {
+): Promise<MovieListResponse> => {
   const url = `${TMDB_BASE_URL}${API.GET_POPULAR}?api_key=${process.env.API_KEY}&language=ko-KR&page=${page}`;
   const response = await fetchAPI(url);
 
@@ -24,7 +24,7 @@ export const getPopularMovies = async (
 export const getSearchedMovies = async (
   movieName: string,
   page: number
-): Promise<movieListResponse> => {
+): Promise<MovieListResponse> => {
   const url = `${TMDB_BASE_URL}${API.SEARCH_MOVIES}?api_key=${process.env.API_KEY}&language=ko-KR&query=${movieName}&page=${page}&include_adult=false`;
   const response = await fetchAPI(url);
 
@@ -33,7 +33,7 @@ export const getSearchedMovies = async (
 
 export const getMovieDetail = async (
   movieId: number
-): Promise<movieDetailResponse> => {
+): Promise<MovieDetailResponse> => {
   const url = `${TMDB_BASE_URL}${API.SEARCH_MOVIE_DETAIL}/${movieId}?api_key=${process.env.API_KEY}&language=ko-KR`;
   const response = await fetchAPI(url);
 

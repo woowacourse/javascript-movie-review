@@ -1,7 +1,7 @@
 import NoImage from "../assets/image/no_image.png";
 export default class MovieCard extends HTMLElement {
   get movieTitle() {
-    return this.getAttribute("movieTitle");
+    return this.getAttribute("movie-title");
   }
 
   get rating() {
@@ -13,7 +13,7 @@ export default class MovieCard extends HTMLElement {
   }
 
   get movieId() {
-    return Number(this.getAttribute("movieId"));
+    return Number(this.getAttribute("movie-id"));
   }
 
   connectedCallback() {

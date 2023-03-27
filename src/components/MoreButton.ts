@@ -1,5 +1,3 @@
-import { $ } from "../utils/Dom";
-
 export default class MoreButton extends HTMLElement {
   get length(): number {
     return Number(this.getAttribute("length"));
@@ -14,7 +12,7 @@ export default class MoreButton extends HTMLElement {
     return ["length"];
   }
 
-  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+  attributeChangedCallback() {
     this.toggleMoreButton();
   }
 

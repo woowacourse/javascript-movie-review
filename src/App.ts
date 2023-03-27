@@ -9,8 +9,8 @@ import { getPopularMovies, getSearchedMovies } from "./utils/fetch";
 import { requestLocalStorage } from "./utils/localstorage";
 
 export default class App {
-  #state: appState;
-  #myRating: myRating;
+  #state: AppState;
+  #myRating: MyRating;
 
   constructor() {
     this.#state = {
@@ -147,8 +147,8 @@ export default class App {
     this.mountMovieList();
   }
 
-  getMovieListFromFetchedData(fetchedData: movieListResponse) {
-    return fetchedData.results.map((item: movieData) => {
+  getMovieListFromFetchedData(fetchedData: MovieListResponse) {
+    return fetchedData.results.map((item: MovieData) => {
       const { title, poster_path, vote_average, id } = item;
       return {
         title,
