@@ -16,3 +16,9 @@
 .visible {
   display: grid;
 }
+
+@media screen and (max-width: 420px) {
+  .skeleton-container {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+}
