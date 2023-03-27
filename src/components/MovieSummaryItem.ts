@@ -37,6 +37,7 @@ class MovieSummaryItem {
     const posterImage = document.createElement('img');
 
     posterImage.addEventListener('load', () => skeletonImage.replaceWith(posterImage));
+    posterImage.addEventListener('error', () => posterImage.setAttribute('src', './assets/image_error.jpg'));
 
     posterImage.setAttribute('src', `https://image.tmdb.org/t/p/w500${posterPath}`);
     posterImage.setAttribute('alt', `영화 ${title} 포스터 사진`);
