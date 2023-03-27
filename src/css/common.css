@@ -408,10 +408,11 @@ header .search-box > #search-button {
   header > .search-box {
     display: flex;
     justify-content: space-between;
-    width: 35px;
     position: absolute;
-    right: 25px;
     top: 20px;
+    right: 25px;
+
+    width: 35px;
   }
 
   header .search-box > input {
