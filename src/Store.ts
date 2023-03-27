@@ -1,6 +1,6 @@
 import { fetchMovies, fetchGenre } from './fetch';
 import { Movie, MovieList } from './types';
-
+import { ErrorAlert } from './UI/errorAlert';
 class Store {
   movieList: Movie[];
   page: number;
@@ -18,24 +18,31 @@ class Store {
   }
 
   async getGenreStandard() {
-    await fetchGenre().then((data) => {
-      this.genre = data;
-    });
+    try {
+      await fetchGenre().then((data) => {
+        this.genre = data;
+      });
+    } catch (error) {
+      if (error instanceof Error) ErrorAlert(error.message);
+    }
   }
 
   async allocateData(value?: string) {
-    this.page++;
-
-    if (value) {
-      this.searchWord = value;
-      await fetchMovies('/search/movie', this.page, value).then((data) => {
+    try {
+      this.page++;
+      if (value) {
+        this.searchWord = value;
+        await fetchMovies('/search/movie', this.page, value).then((data) => {
+          if (data) this.setMovieData(data);
+        });
+        return;
+      }
+      await fetchMovies('/movie/popular', this.page).then((data) => {
         if (data) this.setMovieData(data);
       });
-      return;
+    } catch (error) {
+      if (error instanceof Error) ErrorAlert(error.message);
     }
-    await fetchMovies('/movie/popular', this.page).then((data) => {
-      if (data) this.setMovieData(data);
-    });
   }
 
   setMovieData(data: MovieList) {
