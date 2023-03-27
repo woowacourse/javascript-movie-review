@@ -144,6 +144,10 @@ header {
   flex-direction: column;
 }
 
+.item-card:hover {
+  cursor: pointer;
+}
+
 .item-list > :last-child {
   margin-bottom: 48px;
 }
@@ -361,6 +365,10 @@ button.primary {
 
 .box .detail .vote-area .star-area {
   margin-left: 14px;
+}
+
+.box .detail .vote-area .star:hover {
+  cursor: pointer;
 }
 
 .box .detail .vote-area .star + .star {
