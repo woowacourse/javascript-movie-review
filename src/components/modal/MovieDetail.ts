@@ -22,11 +22,11 @@ class MovieDetailBox extends HTMLElement {
           </section>
           <section class="body">
             <img 
-              class="poster" 
+              class="poster skeleton" 
               src=${
                 posterPath === 'null'
                   ? DefaultPoster
-                  : `https://image.tmdb.org/t/p/w220_and_h330_face${posterPath}`
+                  : `https://image.tmdb.org/t/p/original${posterPath}`
               }
             />
             <div class="detail">
@@ -55,6 +55,7 @@ class MovieDetailBox extends HTMLElement {
     document.addEventListener('keydown', this.onKeyDown);
     this.addEventListener('click', this.onClick);
     this.querySelector('#close')?.addEventListener('click', this.close);
+    this.querySelector('.poster')?.addEventListener('load', this.onLoad);
   }
 
   onKeyDown = (e: Event) => {
@@ -76,6 +77,10 @@ class MovieDetailBox extends HTMLElement {
   close = () => {
     hide('.modal');
     document.body.classList.remove('fix');
+  };
+
+  onLoad = () => {
+    this.querySelector('.poster')?.classList.remove('skeleton');
   };
 }
 

@@ -16,9 +16,7 @@ class MovieListItem extends HTMLElement {
           <img
             class="item-thumbnail skeleton"
             src=${
-              posterPath === 'null'
-                ? DefaultPoster
-                : `https://image.tmdb.org/t/p/w220_and_h330_face${posterPath}`
+              posterPath === 'null' ? DefaultPoster : `https://image.tmdb.org/t/p/w500${posterPath}`
             }
             loading="lazy"
             alt="${this.getAttribute('title')}"
