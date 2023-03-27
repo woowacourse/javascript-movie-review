@@ -66,7 +66,7 @@ export default class MovieList extends HTMLElement {
             movies.searchMovies(movies.getQuery());
           }
           if (!movies.getIsSearched() && !movies.getIsEnd()) {
-            movies.popularMovies();
+            movies.getPopularMovies();
           }
         }
       });

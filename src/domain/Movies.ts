@@ -17,7 +17,7 @@ class Movies extends Observable {
   constructor() {
     super();
 
-    this.popularMovies();
+    this.getPopularMovies();
   }
 
   getIsEnd() {
@@ -38,7 +38,7 @@ class Movies extends Observable {
     return this.query;
   }
 
-  async popularMovies() {
+  async getPopularMovies() {
     this.notify('loading');
 
     const { movieList, status } = await getApiPopularMovie(this.popularPage);
@@ -103,7 +103,7 @@ class Movies extends Observable {
     this.notify('movies', refineMovies);
   }
 
-  async detailMovies(id: number) {
+  async getDetailMovie(id: number) {
     const { movieItem, status } = await getApiDetailMovie(id);
 
     if (!this.isSuccessToGetMovieList(status)) {
