@@ -22,6 +22,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './index.html',
     }),
+    new HtmlWebpackPlugin({
+      filename: '404.html',
+      template: './404.html',
+      inject: false,
+    }),
     new DotEnv(),
   ],
   module: {
