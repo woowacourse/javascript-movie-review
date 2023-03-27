@@ -5,7 +5,7 @@ export const BASE_URL = 'https://api.themoviedb.org/3/';
 const POPULAR_PATH = 'movie/popular?';
 const SEARCH_PATH = 'search/movie?';
 
-const detailPath = (id: number) => `/movie/${id}?`;
+const detailPath = (id: number): string => `/movie/${id}?`;
 
 const BASE_PARAMS = {
   api_key: process.env.API_KEY as string,
@@ -24,7 +24,7 @@ export const getPopularUrl = ({ pageIndex }: PopularParams): string => {
   return getFetchURL({ baseUrl: BASE_URL, path: POPULAR_PATH, query: popularQueries });
 };
 
-const popularParams = ({ pageIndex }: PopularParams) => {
+const popularParams = ({ pageIndex }: PopularParams): { page: string } => {
   return {
     page: pageIndex.toString(),
   };

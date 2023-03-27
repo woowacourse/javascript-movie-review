@@ -7,7 +7,7 @@ const userMovieScore = {
     return JSON.parse(localStorage.getItem(MOVIE_SCORE_KEY) || '[]');
   },
 
-  getScore: (id: number) => {
+  getScore: (id: number): number => {
     const movieScore: MovieScoreInfo[] = userMovieScore.getLocalStorage();
     const movie = movieScore.find((item: MovieScoreInfo) => item.id === id);
 
@@ -18,7 +18,7 @@ const userMovieScore = {
     return movie.score;
   },
 
-  setLocalStorage: (userScore: MovieScoreInfo) => {
+  setLocalStorage: (userScore: MovieScoreInfo): void => {
     const movieScore: MovieScoreInfo[] = userMovieScore.getLocalStorage();
 
     const findIndex = movieScore.findIndex((item: MovieScoreInfo) => item.id === userScore.id);
@@ -34,7 +34,7 @@ const userMovieScore = {
     localStorage.setItem(MOVIE_SCORE_KEY, JSON.stringify(updatedMovieScore));
   },
 
-  getIsReviewed: (id: string) => {
+  getIsReviewed: (id: string): boolean => {
     const movieScore: MovieScoreInfo[] = JSON.parse(localStorage.getItem(MOVIE_SCORE_KEY) || '[]');
 
     return movieScore.some(movie => movie.id === Number(id));

@@ -39,7 +39,7 @@ class SearchInput extends HTMLElement {
     });
   }
 
-  setInputBlurEvent() {
+  setInputBlurEvent(): void {
     const searchInput = $('#search-form-box') as HTMLInputElement;
     searchInput.addEventListener('focusout', event => {
       if (event.relatedTarget !== null) return;
@@ -56,7 +56,7 @@ class SearchInput extends HTMLElement {
     });
   }
 
-  toggleVisibleSearchBar() {
+  toggleVisibleSearchBar(): void {
     $('#logo')?.classList.toggle('hide');
     $('#search-label')?.classList.toggle('visible');
     $('#search-label')?.classList.toggle('search-full');

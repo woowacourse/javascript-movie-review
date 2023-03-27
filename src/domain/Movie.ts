@@ -6,13 +6,14 @@ import { getDetailUrl, getPopularUrl, getSearchUrl } from '../apis/tmdb';
 export interface MovieInformation {
   movieResult: ParsedMovieResult;
   update: (word: string) => Promise<void>;
-  handleParsing: (word: string) => Promise<ParsedMovieResult>;
+  getParsedMovieList: (word: string) => Promise<ParsedMovieResult>;
   parseMovieList: (fetchedMovies: MovieListResult[]) => MovieInfo[];
   resetPageIndex: () => void;
 }
 
 class Movie {
   #parsedMovieResult: ParsedMovieResult = { isLastPage: true, movies: [] };
+
   #pageIndex: number = 1;
 
   get movieResult(): ParsedMovieResult {
@@ -20,16 +21,14 @@ class Movie {
   }
 
   async update(word: string = ''): Promise<void> {
-    const movies = await this.handleParsing(word);
-    this.#parsedMovieResult = movies;
+    this.#parsedMovieResult = await this.getParsedMovieList(word);
   }
 
-  async handleParsing(word: string): Promise<ParsedMovieResult> {
+  async getParsedMovieList(word: string): Promise<ParsedMovieResult> {
     const url =
       word === '' ? getPopularUrl({ pageIndex: this.#pageIndex }) : getSearchUrl({ pageIndex: this.#pageIndex, word });
 
     const apiFetchingData = await request<ApiMovieListResult>(url);
-
     const fetchedMovies = apiFetchingData.results;
 
     if (apiFetchingData.total_pages > this.#pageIndex) {
@@ -44,15 +43,6 @@ class Movie {
     };
   }
 
-  static async parsedDetailResult(id: number): Promise<MovieDetailInfo> {
-    const url = getDetailUrl({ id });
-
-    const fetchedData = await request<MovieDetailResult>(url);
-    const movieDetail = Movie.parseMovieDatail(fetchedData);
-
-    return movieDetail;
-  }
-
   parseMovieList(fetchedMovies: MovieListResult[]): MovieInfo[] {
     return fetchedMovies.map((movie: MovieListResult) => {
       return {
@@ -63,6 +53,15 @@ class Movie {
         description: movie.overview,
       };
     });
+  }
+
+  static async getParsedDetailResult(id: number): Promise<MovieDetailInfo> {
+    const url = getDetailUrl({ id });
+
+    const fetchedData = await request<MovieDetailResult>(url);
+    const movieDetail = Movie.parseMovieDatail(fetchedData);
+
+    return movieDetail;
   }
 
   static parseMovieDatail(fetchedMovie: MovieDetailResult): MovieDetailInfo {

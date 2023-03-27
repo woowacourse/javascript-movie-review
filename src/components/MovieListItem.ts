@@ -7,13 +7,13 @@ export interface HTMLMovieListItemElement extends HTMLElement {
 }
 
 class MovieListItem extends HTMLElement {
-  connectedCallback() {
+  connectedCallback(): void {
     this.render();
     this.setClickEvent();
     this.updateReviewedElement();
   }
 
-  render() {
+  render(): void {
     const imgUrl = this.getAttribute('imgUrl');
     const title = this.getAttribute('title') || '';
     const score = this.getAttribute('score') || '';
@@ -33,7 +33,7 @@ class MovieListItem extends HTMLElement {
     </li>`;
   }
 
-  setClickEvent() {
+  setClickEvent(): void {
     this.querySelector('li')?.addEventListener('click', () => {
       const movieId = this.getAttribute('movieId') || '';
 
@@ -41,7 +41,7 @@ class MovieListItem extends HTMLElement {
     });
   }
 
-  updateQueries(movieId: string) {
+  updateQueries(movieId: string): void {
     const { searchWord } = getHashURLParams();
 
     const searchURL = searchWord ? `q=${searchWord}&` : '';
@@ -52,7 +52,7 @@ class MovieListItem extends HTMLElement {
     window.location.hash = `?${searchURL}id=${movieId}`;
   }
 
-  updateReviewedElement() {
+  updateReviewedElement(): void {
     const movieId = this.getAttribute('movieId') || '';
 
     const isReview = userMovieScore.getIsReviewed(movieId);

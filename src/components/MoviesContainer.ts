@@ -71,7 +71,7 @@ class MoviesContainer extends HTMLElement {
     this.#isFatching = false;
   }
 
-  renderError(error: unknown) {
+  renderError(error: unknown): void {
     const errorMessage = getErrorMessage(error);
 
     this.setErrorMessage(errorMessage);
@@ -113,7 +113,7 @@ class MoviesContainer extends HTMLElement {
     });
   }
 
-  setInfiniteScrollEvent() {
+  setInfiniteScrollEvent(): void {
     const options = {
       root: null,
       rootMargin: '0px',

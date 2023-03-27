@@ -108,7 +108,7 @@ class Modal extends HTMLElement {
      `;
   }
 
-  renderStar() {
+  renderStar(): void {
     const stars = this.querySelectorAll('.modal-star') as NodeListOf<HTMLImageElement>;
 
     const score = userMovieScore.getScore(this.#detailMovieInfo.id);
@@ -124,7 +124,7 @@ class Modal extends HTMLElement {
     });
   }
 
-  renderScoreText() {
+  renderScoreText(): void {
     const modalMyScore = $('#modal-my-score') as HTMLSpanElement;
     const modalMyComment = $('#modal-my-comment') as HTMLSpanElement;
 
@@ -140,7 +140,7 @@ class Modal extends HTMLElement {
     return SCORE_COMMENT[myScore];
   }
 
-  setStarClickEvent() {
+  setStarClickEvent(): void {
     const stars = this.querySelectorAll('.modal-star') as NodeListOf<HTMLImageElement>;
 
     stars.forEach((item, index) => {
@@ -160,7 +160,7 @@ class Modal extends HTMLElement {
     userMovieScore.setLocalStorage({ id, score });
   }
 
-  updateMovieItemReviewed() {
+  updateMovieItemReviewed(): void {
     const id = this.#detailMovieInfo.id;
     const movieItem = $(`#id${id}`) as HTMLMovieListItemElement;
 
@@ -188,7 +188,7 @@ class Modal extends HTMLElement {
     modal.showModal();
   }
 
-  setMovieId(id: string) {
+  setMovieId(id: string): void {
     if (!id) return;
 
     try {
@@ -198,8 +198,8 @@ class Modal extends HTMLElement {
     }
   }
 
-  async renderDetailModal(id: string) {
-    const movieDetail = Movie.parsedDetailResult(Number(id));
+  async renderDetailModal(id: string): Promise<void> {
+    const movieDetail = Movie.getParsedDetailResult(Number(id));
     this.#detailMovieInfo = await movieDetail;
     this.updateDetailModal();
   }
