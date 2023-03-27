@@ -49,6 +49,7 @@ class App {
     this.state.pageCategory = 'home';
     this.initMoviePage(POPULAR_TITLE);
     this.updateMoviePage(getPopularMovies, { page: this.state.pageNumber });
+    dom.resetSearchBox();
   };
 
   onSearch = (e: Event) => {
@@ -95,7 +96,6 @@ class App {
     this.state.pageNumber = 1;
     this.movieService.resetMovies();
 
-    dom.resetSearchBox();
     dom.renderMoviePage(title);
   }
 
