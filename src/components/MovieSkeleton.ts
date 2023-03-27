@@ -42,6 +42,12 @@ class MovieSkeleton {
   hide() {
     this.element.dataset.hidden = 'true';
   }
+
+  static getSingleSkeletonNode() {
+    const skeleton = skeletonTemplate.cloneNode(true) as HTMLElement;
+    skeleton.dataset.hidden = 'false';
+    return skeleton;
+  }
 }
 
 export default MovieSkeleton;

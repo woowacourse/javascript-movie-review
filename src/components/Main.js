@@ -1,5 +1,6 @@
 import Movie from './MovieSummaryItem';
 import { $ } from '../util/querySelector';
+import MovieSkeleton from './MovieSkeleton';
 
 class Main {
   #element;
@@ -43,11 +44,38 @@ class Main {
 
     movieList.forEach((movieInfo) => movieListFragment.appendChild(new Movie(movieInfo).render()));
 
+    this.#removeSkeletonAtListEnd();
+
     this.#list.appendChild(movieListFragment);
 
     if (!this.#manager.isLastPage()) {
       this.#observer.observe($('li.movie-info:nth-last-child(6)', this.#list));
     }
+
+    if (!this.#manager.isLastPage() && movieList.length) {
+      this.#addSkeletonToListEnd();
+    }
+  }
+
+  #removeSkeletonAtListEnd () {
+    this.#element.querySelectorAll('li.skeleton').forEach((skeleton) => skeleton.remove());
+  }
+
+  #addSkeletonToListEnd () {
+    const listWidth = $('ul.item-list', this.#element).offsetWidth;
+    const item = $('li.movie-info', this.#element);
+    const itemWidth = item.offsetWidth;
+    const itemMarginLeft = parseInt(window.getComputedStyle(item).marginLeft, 10);
+    const itemMarginRight = parseInt(window.getComputedStyle(item).marginRight, 10);
+
+    const MaxItemCountInRow = Math.floor(listWidth / (itemWidth + itemMarginLeft + itemMarginRight));
+    const lastRowItemCount = (this.#manager.getCurrentPage() * 20) % MaxItemCountInRow;
+    const skeletonCount = lastRowItemCount ? MaxItemCountInRow - lastRowItemCount : 0;
+
+    for (let i = 0; i < skeletonCount; i += 1) {
+      this.#list.appendChild(MovieSkeleton.getSingleSkeletonNode());
+    }
+    console.log(MaxItemCountInRow, lastRowItemCount, skeletonCount);
   }
 
   #initializeElement () {
