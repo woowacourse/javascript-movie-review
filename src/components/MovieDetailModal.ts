@@ -26,7 +26,7 @@ class MovieDetailModal extends HTMLElement {
     this.innerHTML = /* html */ `
       <header class="modal-header">
         <h3 class="modal-title">${title}</h3>
-        <button class="modal-close-button">${MODAL_CLOSE_ICON}</button>
+        <button class="modal-close-button" aria-label="영화 상세 정보 모달 닫기">${MODAL_CLOSE_ICON}</button>
       </header>
       <div class="detail-container">
         <figure class="modal-thumbnail-wrapper">
