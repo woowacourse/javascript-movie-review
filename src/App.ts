@@ -1,4 +1,8 @@
-import { CurrentTab, DetailInfo, TotalMovieInfo } from "./@types/movieDataType";
+import {
+  CurrentTab,
+  MovieDetailInfo,
+  TotalMovieInfo,
+} from "./@types/movieDataType";
 import { getKeywordData } from "./api/keywordSearch";
 import { getMovieDetail } from "./api/movieDetail";
 import { getMovieData } from "./api/movieList";
@@ -12,21 +16,21 @@ import { MOVIE_DATA } from "./constants/data";
 import { KEYWORD } from "./constants/keyword";
 import MovieDataManager from "./domain/MovieDataManager";
 import { loadDataByInfiniteScroll } from "./utils/infiniteScroll";
-import { $ } from "./utils/selector";
+import { $, $$ } from "./utils/selector";
 
 export const App = async () => {
   const movieDataManager = new MovieDataManager();
   const movieItemList = new MovieItemList();
   const searchBox = new SearchBox();
 
-  const generateMovieItemElement = (movieInfo: DetailInfo[]) => {
+  const generateMovieItemElement = (movieInfo: MovieDetailInfo[]) => {
     movieInfo.forEach((item) => {
       new MovieItem(item, item.id);
       renderMovieDetail(item);
     });
   };
 
-  const renderMovieDetail = async (movieData: DetailInfo) => {
+  const renderMovieDetail = async (movieData: MovieDetailInfo) => {
     const targetMovie = document.getElementById(
       String(movieData.id)
     ) as HTMLElement;
@@ -112,8 +116,18 @@ export const App = async () => {
     }
   };
 
+  const renderScrollData = () => {
+    if ($$(".item-card").length >= 20) {
+      const currentTitle = $("h2") as HTMLElement;
+      currentTitle.remove();
+      renderMovies();
+      return true;
+    }
+    return false;
+  };
+
   const target = document.querySelector(".scroll-target") as HTMLElement;
-  (await loadDataByInfiniteScroll(target, renderMovies)).observe(target);
+  (await loadDataByInfiniteScroll(target, renderScrollData)).observe(target);
 
   renderMovies();
 
@@ -125,13 +139,5 @@ export const App = async () => {
 
   $(".logo")?.addEventListener("click", () => {
     window.location.reload();
-  });
-
-  $(".ch-logo")?.addEventListener("mouseenter", () => {
-    $(".ch-box")?.classList.remove("hidden");
-  });
-
-  $(".ch-logo")?.addEventListener("mouseleave", () => {
-    $(".ch-box")?.classList.add("hidden");
   });
 };

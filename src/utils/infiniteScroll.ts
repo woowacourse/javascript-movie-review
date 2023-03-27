@@ -2,7 +2,7 @@ import { $, $$ } from "./selector";
 
 export const loadDataByInfiniteScroll = async (
   target: HTMLElement,
-  renderMovies: () => void
+  renderMovies: () => boolean
 ) => {
   const callback = async (
     entries: IntersectionObserverEntry[],
@@ -15,12 +15,7 @@ export const loadDataByInfiniteScroll = async (
       observer.unobserve(target);
     }
 
-    if ($$(".item-card").length >= 20) {
-      const currentTitle = $("h2") as HTMLElement;
-      currentTitle.remove();
-      await renderMovies();
-      observer.observe(target);
-    }
+    renderMovies() && observer.observe(target);
   };
 
   const observer = new IntersectionObserver(callback);
