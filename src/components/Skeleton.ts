@@ -1,15 +1,15 @@
 export class Skeleton {
-  #$container: HTMLElement;
-  #$movieItems: HTMLElement;
+  private $container: HTMLElement;
+  private $movieItems: HTMLElement;
 
   constructor($listItems: HTMLElement) {
-    this.#$movieItems = $listItems;
-    this.#$container = document.createElement('ul');
-    this.#$container.className = 'item-list skeleton-container';
-    this.#$container.innerHTML = this.#template();
+    this.$movieItems = $listItems;
+    this.$container = document.createElement('ul');
+    this.$container.className = 'item-list skeleton-container';
+    this.$container.innerHTML = this.template();
   }
 
-  #template() {
+  private template() {
     return `<li>
     <div class="item-card">
       <div class="item-thumbnail skeleton"></div>
@@ -20,11 +20,10 @@ export class Skeleton {
   }
 
   attachSkeleton() {
-    this.#$movieItems.insertAdjacentElement('beforeend', this.#$container);
+    this.$movieItems.insertAdjacentElement('beforeend', this.$container);
   }
 
   removeSkeleton() {
-    while (this.#$container.firstChild) this.#$container.removeChild(this.#$container.firstChild);
-    this.#$container.remove();
+    this.$container.remove();
   }
 }

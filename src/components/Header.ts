@@ -3,30 +3,30 @@ import stateRender from '../renderer/StateRender';
 import { eventThrottle } from '../utils/throttle';
 
 class Header {
-  #$header = document.createElement('header');
-  #$searchBox: HTMLFormElement | null;
+  private $header = document.createElement('header');
+  private $searchBox: HTMLFormElement | null;
 
   constructor($target: HTMLElement) {
     this.init($target);
 
-    this.#$header.addEventListener('click', this.#onClickEvent.bind(this));
+    this.$header.addEventListener('click', this.onClickEvent.bind(this));
 
-    this.#$searchBox = this.#$header.querySelector('.search-box');
-    if (!(this.#$searchBox instanceof HTMLFormElement)) return;
+    this.$searchBox = this.$header.querySelector('.search-box');
+    if (!(this.$searchBox instanceof HTMLFormElement)) return;
 
-    this.#$searchBox.addEventListener('submit', this.#onSubmitEvent.bind(this));
+    this.$searchBox.addEventListener('submit', this.onSubmitEvent.bind(this));
   }
 
   init($target: HTMLElement) {
-    $target.insertAdjacentElement('beforeend', this.#$header);
-    this.render(this.#$header);
+    $target.insertAdjacentElement('beforeend', this.$header);
+    this.render(this.$header);
   }
 
   render($target: HTMLElement) {
-    $target.innerHTML = this.#template();
+    $target.innerHTML = this.template();
   }
 
-  async #onSubmitEvent(e: SubmitEvent) {
+  private async onSubmitEvent(e: SubmitEvent) {
     e.preventDefault();
     if (!(e.currentTarget instanceof HTMLElement)) return;
 
@@ -35,16 +35,16 @@ class Header {
 
     const query = stateRender.getMovieState().query ?? '';
 
-    if (this.#checkSearchWordValidation(value, query)) return;
+    if (this.checkSearchWordValidation(value, query)) return;
 
     stateRender.renderSearchedMovies(value);
   }
 
-  #checkSearchWordValidation(value: string, query: string) {
-    if (!this.#$searchBox) return true;
+  private checkSearchWordValidation(value: string, query: string) {
+    if (!this.$searchBox) return true;
 
     if (value.length === 0) {
-      this.#$searchBox.querySelector<HTMLInputElement>('input')?.focus();
+      this.$searchBox.querySelector<HTMLInputElement>('input')?.focus();
       return true;
     }
 
@@ -53,18 +53,18 @@ class Header {
     return false;
   }
 
-  #onClickEvent(e: Event) {
+  private onClickEvent(e: Event) {
     if (!(e.target instanceof HTMLImageElement)) return;
     const { target } = e;
     if (target.id !== 'logo') return;
     eventThrottle(() => stateRender.renderPopularMovies(), 2000)();
 
-    if (this.#$searchBox instanceof HTMLFormElement) {
-      this.#$searchBox.reset();
+    if (this.$searchBox instanceof HTMLFormElement) {
+      this.$searchBox.reset();
     }
   }
 
-  #template() {
+  private template() {
     return `<h1><img id = "logo"src="${logo}" alt="MovieList 로고"/></h1>
       <form class="search-box">
         <input type="text" placeholder="검색" class="search-input" />

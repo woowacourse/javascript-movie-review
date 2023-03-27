@@ -3,24 +3,24 @@ import stateRender from '../renderer/StateRender';
 import { createInfiniteScrollObserver } from '../utils/observer';
 
 class MovieList {
-  #$ul = document.createElement('ul');
+  private $ul = document.createElement('ul');
 
   constructor() {
-    this.#$ul.className = 'item-list';
+    this.$ul.className = 'item-list';
   }
 
-  #template() {
+  private template() {
     const { results, query } = stateRender.getMovieState();
 
     if (!results.length) {
-      return this.#movieListErrorTemplate(`입력하신 "${query}"(와)과 일치하는 결과가 없습니다.`);
+      return this.movieListErrorTemplate(`입력하신 "${query}"(와)과 일치하는 결과가 없습니다.`);
     }
 
     return results.map((movie) => new MovieCard(movie).getCardNode());
   }
 
   render($target: HTMLElement) {
-    const template = this.#template();
+    const template = this.template();
     this.removeAlertContainer($target);
 
     if (template instanceof HTMLDivElement) {
@@ -30,13 +30,13 @@ class MovieList {
     }
 
     for (const child of template) {
-      this.#$ul.insertAdjacentElement('beforeend', child);
+      this.$ul.insertAdjacentElement('beforeend', child);
     }
 
-    const $lastChild = this.#$ul.lastElementChild;
-    if ($lastChild && this.#$ul.childElementCount >= 20) createInfiniteScrollObserver($lastChild);
+    const $lastChild = this.$ul.lastElementChild;
+    if ($lastChild && this.$ul.childElementCount >= 20) createInfiniteScrollObserver($lastChild);
 
-    $target.insertAdjacentElement('beforeend', this.#$ul);
+    $target.insertAdjacentElement('beforeend', this.$ul);
   }
 
   removeAlertContainer($target: HTMLElement) {
@@ -45,10 +45,10 @@ class MovieList {
   }
 
   removeCurentCategory() {
-    while (this.#$ul.firstChild) this.#$ul.removeChild(this.#$ul.firstChild);
+    while (this.$ul.firstChild) this.$ul.removeChild(this.$ul.firstChild);
   }
 
-  #movieListErrorTemplate(message: string) {
+  private movieListErrorTemplate(message: string) {
     const $container = document.createElement('div');
     $container.className = 'alert-container';
     $container.innerHTML = ` 

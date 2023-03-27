@@ -20,18 +20,25 @@ const initialMovieState: IMovieDetailItem = {
 };
 
 class MovieDetail {
-  #$detainContainer: HTMLDivElement;
-  #movieState: IMovieDetailItem;
+  private $detainContainer: HTMLDivElement;
+  private movieState: IMovieDetailItem;
 
   constructor() {
-    this.#$detainContainer = document.createElement('div');
-    this.#$detainContainer.className = 'movie-detail-container';
-    this.#movieState = initialMovieState;
+    this.$detainContainer = document.createElement('div');
+    this.$detainContainer.className = 'movie-detail-container';
+    this.movieState = initialMovieState;
 
-    this.#initialEventListener();
+    this.initialEventListener();
   }
 
-  #template({ title, overview, voteAverage, genres, posterPath, myStarScore }: IMovieDetailItem) {
+  private template({
+    title,
+    overview,
+    voteAverage,
+    genres,
+    posterPath,
+    myStarScore,
+  }: IMovieDetailItem) {
     const score = myStarScore ?? 0;
 
     return `  
@@ -86,16 +93,16 @@ class MovieDetail {
   }
 
   render(movie: IMovieDetailItem, $target: HTMLElement) {
-    if (movie.movieId === this.#movieState.movieId) return;
+    if (movie.movieId === this.movieState.movieId) return;
 
-    this.#movieState = { ...movie };
-    this.#$detainContainer.innerHTML = this.#template(movie);
-    this.#loadImageEventListener();
-    $target.insertAdjacentElement('beforeend', this.#$detainContainer);
+    this.movieState = { ...movie };
+    this.$detainContainer.innerHTML = this.template(movie);
+    this.loadImageEventListener();
+    $target.insertAdjacentElement('beforeend', this.$detainContainer);
   }
 
-  #initialEventListener() {
-    this.#$detainContainer.addEventListener('click', (e) => {
+  private initialEventListener() {
+    this.$detainContainer.addEventListener('click', (e) => {
       if (!(e.target instanceof HTMLElement)) return;
       if (e.target.classList.contains('close-button')) modal.close();
       if (e.target instanceof HTMLLabelElement) {
@@ -103,35 +110,35 @@ class MovieDetail {
         $stars.forEach((element) => element.classList.remove('star-active'));
         e.target.classList.add('star-active');
         const score = e.target.querySelector('input')?.value ?? 0;
-        this.#changeStarState(Number(score));
-        this.#saveMovieScoreInLocalStorage();
+        this.changeStarState(Number(score));
+        this.saveMovieScoreInLocalStorage();
       }
     });
   }
 
-  #loadImageEventListener() {
-    const $image = this.#$detainContainer.querySelector<HTMLImageElement>('img');
+  private loadImageEventListener() {
+    const $image = this.$detainContainer.querySelector<HTMLImageElement>('img');
     if (!$image) return;
     $image.addEventListener('load', removeSkeletonAfterImageLoad, { once: true });
   }
 
-  #changeStarState(value: number) {
+  private changeStarState(value: number) {
     const starDescription = document.querySelector<HTMLSpanElement>('.star-description');
 
     if (!starDescription) return;
-    this.#movieState.myStarScore = value;
+    this.movieState.myStarScore = value;
     starDescription.innerHTML = `${value ? `${value}점 ` : ''} 
     <span class="description">${STAR_DESCRIPTION[value ?? 0]}</span>`;
   }
 
-  #saveMovieScoreInLocalStorage() {
-    const movieState = this.#movieState;
+  private saveMovieScoreInLocalStorage() {
+    const movieState = this.movieState;
     const currentMovieInfos = parseLocalStorage<Array<IMovieDetailItem>>({
       key: 'movieList',
       data: [],
     });
 
-    const { movieId } = this.#movieState;
+    const { movieId } = this.movieState;
 
     const data = this.isExistCurrentMovieDetail(currentMovieInfos, movieId)
       ? currentMovieInfos.map((movieInfo) =>

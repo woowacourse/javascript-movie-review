@@ -7,14 +7,14 @@ import stateRender from '../renderer/StateRender';
 import { removeSkeletonAfterImageLoad } from '../utils/eventCallback';
 
 class MovieCard {
-  #$li: HTMLElement;
-  #movie: IMovieItemProps;
+  private $li: HTMLElement;
+  private movie: IMovieItemProps;
 
   constructor(movie: IMovieItemProps) {
-    this.#$li = document.createElement('li');
-    this.#movie = movie;
+    this.$li = document.createElement('li');
+    this.movie = movie;
 
-    this.#$li.addEventListener('click', async () => {
+    this.$li.addEventListener('click', async () => {
       const $dialog = modal.getDialog();
       if (!($dialog instanceof HTMLElement)) return;
 
@@ -23,11 +23,11 @@ class MovieCard {
     });
 
     this.render();
-    this.#initialEventListener();
+    this.initialEventListener();
   }
 
-  #template() {
-    const { posterPath, title, voteAverage, id } = this.#movie;
+  private template() {
+    const { posterPath, title, voteAverage, id } = this.movie;
 
     return `
       <a href="#/${id}">
@@ -52,15 +52,15 @@ class MovieCard {
   }
 
   render() {
-    this.#$li.innerHTML = this.#template();
+    this.$li.innerHTML = this.template();
   }
 
   getCardNode() {
-    return this.#$li;
+    return this.$li;
   }
 
-  #initialEventListener() {
-    const $image = this.#$li.querySelector<HTMLImageElement>('img');
+  private initialEventListener() {
+    const $image = this.$li.querySelector<HTMLImageElement>('img');
     if (!$image) return;
 
     $image.addEventListener('load', removeSkeletonAfterImageLoad);

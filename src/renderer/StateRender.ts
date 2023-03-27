@@ -17,81 +17,80 @@ interface StateRenderProps {
 }
 
 class StateRender {
-  #listTitle!: ListTitle;
-  #skeleton!: Skeleton;
-  #movieList!: MovieList;
-  #movieDetail!: MovieDetail;
-  #itemViewSection!: HTMLElement;
+  private listTitle!: ListTitle;
+  private skeleton!: Skeleton;
+  private movieList!: MovieList;
+  private movieDetail!: MovieDetail;
+  private itemViewSection!: HTMLElement;
 
-  #movie: Movie;
-  #movieState: IMovieState;
+  private movie: Movie;
+  private movieState: IMovieState;
 
   constructor() {
-    this.#movie = new Movie();
-    this.#movieState = initialMovieStats;
+    this.movie = new Movie();
+    this.movieState = initialMovieStats;
   }
 
   initialize({ listTitle, skeleton, movieList, movieDetail, itemViewSection }: StateRenderProps) {
-    this.#listTitle = listTitle;
-    this.#skeleton = skeleton;
-    this.#movieList = movieList;
-    this.#movieDetail = movieDetail;
-    this.#itemViewSection = itemViewSection;
+    this.listTitle = listTitle;
+    this.skeleton = skeleton;
+    this.movieList = movieList;
+    this.movieDetail = movieDetail;
+    this.itemViewSection = itemViewSection;
   }
 
-  #listTitleRender() {
-    this.#listTitle.render(this.#itemViewSection);
+  private listTitleRender() {
+    this.listTitle.render(this.itemViewSection);
   }
 
-  #skeletonRenderAndClearMovieList() {
-    this.#skeleton.attachSkeleton();
-    this.#movieList.removeCurentCategory();
+  private skeletonRenderAndClearMovieList() {
+    this.skeleton.attachSkeleton();
+    this.movieList.removeCurentCategory();
   }
 
-  #movieListRender() {
-    this.#skeleton.removeSkeleton();
-    this.#movieList.render(this.#itemViewSection);
+  private movieListRender() {
+    this.skeleton.removeSkeleton();
+    this.movieList.render(this.itemViewSection);
   }
 
-  #apiErrorRender(value: string, $target: HTMLElement) {
+  private apiErrorRender(value: string, $target: HTMLElement) {
     $target.innerHTML = '';
     $target.insertAdjacentElement('beforeend', WholeScreenMessageAlert(value));
   }
 
   async renderPopularMovies(curPage = 1) {
     try {
-      const { results, total_pages, page } = await this.#movie.getPopularMovies({
+      const { results, total_pages, page } = await this.movie.getPopularMovies({
         curPage,
       });
 
-      if (curPage === 1) this.#skeletonRenderAndClearMovieList();
+      if (curPage === 1) this.skeletonRenderAndClearMovieList();
 
-      this.#setPopularProperty();
-      this.#setMovies({ results, total_pages, page });
-      this.#renderWholeComponent();
+      this.setPopularProperty();
+      this.setMovies({ results, total_pages, page });
+      this.renderWholeComponent();
     } catch (error) {
       if (error instanceof Error) {
-        this.#apiErrorRender(error.message, this.#itemViewSection);
+        this.apiErrorRender(error.message, this.itemViewSection);
       }
     }
   }
 
   async renderSearchedMovies(query: string, curPage = 1) {
     try {
-      const { results, total_pages, page } = await this.#movie.getFindMovies({
+      const { results, total_pages, page } = await this.movie.getFindMovies({
         query,
         curPage,
       });
 
-      if (this.#movieState.query !== query || curPage === 1)
-        this.#skeletonRenderAndClearMovieList();
+      if (this.movieState.query !== query || curPage === 1) this.skeletonRenderAndClearMovieList();
 
-      this.#setSearchProperty(query);
-      this.#setMovies({ results, total_pages, page });
-      this.#renderWholeComponent();
+      this.setSearchProperty(query);
+      this.setMovies({ results, total_pages, page });
+      this.renderWholeComponent();
     } catch (error) {
       if (error instanceof Error) {
-        this.#apiErrorRender(error.message, this.#itemViewSection);
+        this.apiErrorRender(error.message, this.itemViewSection);
       }
     }
   }
@@ -102,19 +101,19 @@ class StateRender {
       data: [],
     });
 
-    const currentItem = this.#movieDetail.isExistCurrentMovieDetail(currentMovieInfos, movieId);
+    const currentItem = this.movieDetail.isExistCurrentMovieDetail(currentMovieInfos, movieId);
     if (currentItem) {
-      this.#movieDetail.render(currentItem, $target);
+      this.movieDetail.render(currentItem, $target);
       return;
     }
 
     try {
-      const movieDetail = await this.#movie.getMovieDetails({ movieId });
+      const movieDetail = await this.movie.getMovieDetails({ movieId });
 
-      this.#movieDetail.render(movieDetail, $target);
+      this.movieDetail.render(movieDetail, $target);
     } catch (error) {
       if (error instanceof Error) {
-        this.#apiErrorRender(error.message, $target);
+        this.apiErrorRender(error.message, $target);
       }
     }
   }
@@ -136,36 +135,36 @@ class StateRender {
     this.renderSearchedMovies(query, nextPage);
   }
 
-  #renderWholeComponent() {
-    this.#listTitleRender();
-    this.#movieListRender();
+  private renderWholeComponent() {
+    this.listTitleRender();
+    this.movieListRender();
   }
 
-  #setPopularProperty() {
-    this.#movieState.query = '';
-    if (this.#movieState.category === 'search') {
-      this.#movieState.category = 'popular';
-      this.#movieState.nextPage = 1;
+  private setPopularProperty() {
+    this.movieState.query = '';
+    if (this.movieState.category === 'search') {
+      this.movieState.category = 'popular';
+      this.movieState.nextPage = 1;
     }
   }
 
-  #setSearchProperty(query: string) {
-    this.#movieState.query = query;
-    if (this.#movieState.category === 'popular') {
-      this.#movieState.category = 'search';
-      this.#movieState.nextPage = 1;
+  private setSearchProperty(query: string) {
+    this.movieState.query = query;
+    if (this.movieState.category === 'popular') {
+      this.movieState.category = 'search';
+      this.movieState.nextPage = 1;
     }
   }
 
-  #setMovies({ results, total_pages, page }: IMovieHandleProps<IMovieItemProps>) {
-    this.#movieState.results = results;
-    this.#movieState.nextPage = total_pages === page ? -1 : page + 1;
-    this.#movieState.error = '';
+  private setMovies({ results, total_pages, page }: IMovieHandleProps<IMovieItemProps>) {
+    this.movieState.results = results;
+    this.movieState.nextPage = total_pages === page ? -1 : page + 1;
+    this.movieState.error = '';
   }
 
   getMovieState() {
     return {
-      ...this.#movieState,
+      ...this.movieState,
     };
   }
 }

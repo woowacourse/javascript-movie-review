@@ -7,13 +7,13 @@ import RemoteControl from './components/RemoteControl';
 import stateRender from './renderer/StateRender';
 
 class App {
-  $main = document.createElement('main');
-  $itemView = document.createElement('section');
+  private $main = document.createElement('main');
+  private $itemView = document.createElement('section');
 
-  listTitle: ListTitle;
-  movieList: MovieList;
-  skeleton: Skeleton;
-  movieDetail: MovieDetail;
+  private listTitle: ListTitle;
+  private movieList: MovieList;
+  private skeleton: Skeleton;
+  private movieDetail: MovieDetail;
 
   constructor($target: HTMLElement) {
     new Header($target);

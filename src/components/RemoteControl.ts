@@ -1,5 +1,5 @@
-class TopButton {
-  $remoteContainer: HTMLDivElement;
+class RemoteContainer {
+  private $remoteContainer: HTMLDivElement;
 
   constructor() {
     this.$remoteContainer = document.createElement('div');
@@ -23,7 +23,7 @@ class TopButton {
     $target.insertAdjacentElement('beforeend', this.$remoteContainer);
   }
 
-  remoteControlHandler(e: MouseEvent) {
+  private remoteControlHandler(e: MouseEvent) {
     if (!(e.target instanceof HTMLButtonElement)) return;
     if (e.target.classList.contains('top-button')) {
       window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
@@ -35,4 +35,4 @@ class TopButton {
   }
 }
 
-export default TopButton;
+export default RemoteContainer;
