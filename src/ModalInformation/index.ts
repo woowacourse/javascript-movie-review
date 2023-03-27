@@ -129,11 +129,11 @@ export class ModalInformation extends HTMLElement {
       .replace('{star3}', Number(score) >= 6 ? fillStar : emptyStar)
       .replace('{star4}', Number(score) >= 8 ? fillStar : emptyStar)
       .replace('{star5}', Number(score) >= 10 ? fillStar : emptyStar)
-      .replace('{score}', this.#getScore(Number(score)))
-      .replace('{comment}', this.#getComment(Number(score)));
+      .replace('{score}', this.getScore(Number(score)))
+      .replace('{comment}', this.getComment(Number(score)));
   }
 
-  #getScore(number: number) {
+  private getScore(number: number) {
     if (number === 2) return NUMBER.FIFTH_STAR;
     if (number === 4) return NUMBER.SECOND_STAR;
     if (number === 6) return NUMBER.THIRD_STAR;
@@ -142,7 +142,7 @@ export class ModalInformation extends HTMLElement {
     return '';
   }
 
-  #getComment(number: number) {
+  private getComment(number: number) {
     if (number === 2) return STRING.BAD;
     if (number === 4) return STRING.NOT_GOOD;
     if (number === 6) return STRING.NORMAL;

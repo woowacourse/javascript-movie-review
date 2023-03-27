@@ -4,11 +4,11 @@ import { STRING } from '../../utils/Constant';
 export class MovieItem extends HTMLElement {
   connectedCallback() {
     this.innerHTML = template;
-    this.#render();
-    this.#imageSkeletonHandler();
+    this.render();
+    this.imageSkeletonHandler();
   }
 
-  #render() {
+  private render() {
     this.innerHTML = template
       .replace('{id}', this.getAttribute('id') ?? STRING.UNKNOWN)
       .replace('{poster_path}', this.getAttribute('poster') ?? STRING.UNKNOWN)
@@ -16,7 +16,7 @@ export class MovieItem extends HTMLElement {
       .replace('{vote_average}', this.getAttribute('vote') ?? STRING.UNKNOWN);
   }
 
-  #imageSkeletonHandler() {
+  private imageSkeletonHandler() {
     const movieImg = this.querySelector('img');
     const skeleton = this.querySelector('.skeleton');
 

@@ -18,15 +18,15 @@ export class MovieList extends HTMLElement {
   }
 
   renderMovies(movieList: Movie[], genre: Array<{ id: number; name: string }>) {
-    this.#insertMovieList(movieList, genre);
+    this.insertMovieList(movieList, genre);
   }
 
   renderSearchedMovies(movieList: Movie[], genre: Array<{ id: number; name: string }>) {
     this.#$movieItems.replaceChildren();
-    this.#insertMovieList(movieList, genre);
+    this.insertMovieList(movieList, genre);
   }
 
-  #insertMovieList(movieList: Movie[], genre: Array<{ id: number; name: string }>) {
+  private insertMovieList(movieList: Movie[], genre: Array<{ id: number; name: string }>) {
     if (movieList.length === 0) {
       this.#$movieItems?.insertAdjacentHTML(
         'beforeend',
