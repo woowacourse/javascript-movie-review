@@ -58,6 +58,7 @@ class Main {
   }
 
   #removeSkeletonAtListEnd () {
+    console.log('removed', this.#element.querySelectorAll('li.skeleton').length);
     this.#element.querySelectorAll('li.skeleton').forEach((skeleton) => skeleton.remove());
   }
 
@@ -69,13 +70,13 @@ class Main {
     const itemMarginRight = parseInt(window.getComputedStyle(item).marginRight, 10);
 
     const MaxItemCountInRow = Math.floor(listWidth / (itemWidth + itemMarginLeft + itemMarginRight));
-    const lastRowItemCount = (this.#manager.getCurrentPage() * 20) % MaxItemCountInRow;
+    const lastRowItemCount = (this.#list.querySelectorAll('ul.item-list li').length) % MaxItemCountInRow;
     const skeletonCount = lastRowItemCount ? MaxItemCountInRow - lastRowItemCount : 0;
 
     for (let i = 0; i < skeletonCount; i += 1) {
       this.#list.appendChild(MovieSkeleton.getSingleSkeletonNode());
     }
-    console.log(MaxItemCountInRow, lastRowItemCount, skeletonCount);
+    console.log('added', skeletonCount);
   }
 
   #initializeElement () {
