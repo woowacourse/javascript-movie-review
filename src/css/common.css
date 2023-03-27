@@ -8,6 +8,10 @@ body {
   color: #fff;
 }
 
+body.no-scroll {
+  overflow: hidden;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -35,9 +39,9 @@ button {
   flex-direction: column;
   justify-content: center;
 
-  transition: all 0.5s;
   width: 1100px;
   margin: 0 auto;
+  transition: all 0.5s;
 }
 
 .item-view h2 {
@@ -115,15 +119,17 @@ button.primary {
 }
 
 header {
-  width: 100%;
-  height: 72px;
-  background-color: #222;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  width: 100%;
+  height: 72px;
+
   padding: 0 30px;
-  border-bottom: 1px solid white;
   margin-bottom: 48px;
+  background-color: #222;
+  border-bottom: 1px solid white;
 }
 
 header h1 {
@@ -189,13 +195,13 @@ header .search-box > #search-button {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
 
   max-width: 826px;
   min-width: 327px;
   max-height: 577px;
 
   background-color: #212122;
+  transform: translate(-50%, -50%);
 }
 
 .modal-container {
@@ -210,8 +216,9 @@ header .search-box > #search-button {
   position: absolute;
   width: 36px;
   height: 36px;
-  right: 10px;
   top: 12px;
+  right: 10px;
+
   border-radius: 50%;
   border: 0;
 
@@ -224,9 +231,11 @@ header .search-box > #search-button {
   display: flex;
   justify-content: center;
   align-items: center;
+
   width: 100%;
-  border-bottom: 1px solid rgba(241, 241, 241, 0.25);
   height: 60px;
+
+  border-bottom: 1px solid rgba(241, 241, 241, 0.25);
   font-weight: 600;
   font-size: 20px;
 }
@@ -257,8 +266,9 @@ header .search-box > #search-button {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-left: 20px;
+
   width: 100%;
+  margin-left: 20px;
 }
 
 .info-header {
@@ -290,13 +300,13 @@ header .search-box > #search-button {
   font-weight: 400;
 }
 
-.modal-score-box > div > p.bold {
+.modal-score-box > p.bold {
   font-weight: 700;
   font-size: 16px;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
 }
 
-.modal-score-box > div > p.normal {
+.modal-score-box > a > p.normal {
   font-weight: 400;
   margin-left: 0.7rem;
 }
@@ -359,17 +369,24 @@ header .search-box > #search-button {
 
 @media only screen and (max-width: 449px) {
   header {
-    width: 400px;
+    width: 100vw;
   }
 
   .item-view {
-    width: 250px;
-    margin-left: 2.5rem;
+    width: auto;
+  }
+
+  .item-view h2 {
+    margin-left: 2rem;
   }
 
   .item-list {
     grid-template-columns: repeat(2, 180px);
     grid-row-gap: 30px;
+  }
+
+  .item-card {
+    align-items: center;
   }
 
   .item-thumbnail {
@@ -384,6 +401,8 @@ header .search-box > #search-button {
 
   .item-score {
     font-size: 16px;
+    align-self: start;
+    margin-left: 1.2rem;
   }
 
   header > .search-box {
@@ -391,7 +410,7 @@ header .search-box > #search-button {
     justify-content: space-between;
     width: 35px;
     position: absolute;
-    right: 5px;
+    right: 25px;
     top: 20px;
   }
 
@@ -400,11 +419,15 @@ header .search-box > #search-button {
   }
 
   header > .search-box:hover {
-    width: 340px;
+    width: 365px;
   }
 
   header > .search-box:hover > input {
     transition: all 0.7s ease;
     width: 200px;
+  }
+
+  .modal-score-box > a > p.normal {
+    display: none;
   }
 }
