@@ -1,3 +1,4 @@
+import { set } from 'cypress/types/lodash';
 import { fetchMoviesByKeyword, fetchPopularMovies, waitFor } from '../apis';
 import { INITIAL_PAGE, PAGE } from '../constants';
 import { useEffect, useState } from '../core';
@@ -9,7 +10,8 @@ function useMovieChart(keyword: string) {
   const [chartInfo, setChartInfo] = useState<GetPopularMoviesRes | GetMoviesByKeywordRes>();
   const [movieList, setMovieList] = useState<(typeof chartInfo)['results']>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [subtitle, setSubtitle] = useState<string>('지금 인기 있는 영화');
+  const [subtitle, setSubtitle] = useState<string>('');
+  const [isLastPage, setIsLastPage] = useState<boolean>(false);
 
   const defaultFetchAction: DefaultFetchAction =
     <T>(callback: (args: T) => Promise<void>) =>
@@ -22,6 +24,7 @@ function useMovieChart(keyword: string) {
   const updateMovieData = (data: GetPopularMoviesRes | GetMoviesByKeywordRes) => {
     setChartInfo(data);
 
+    if (data.total_pages === page) setIsLastPage(true);
     page === INITIAL_PAGE ? setMovieList(data.results) : setMovieList([...movieList, ...data.results]);
     page += PAGE;
   };
@@ -47,12 +50,13 @@ function useMovieChart(keyword: string) {
 
   useEffect(() => {
     page = INITIAL_PAGE;
+    setIsLastPage(false);
 
     keyword ? setSubtitle(`"${keyword}"검색 결과`) : setSubtitle('지금 인기 있는 영화');
     fetchMore(keyword);
   }, [keyword]);
 
-  return { chartInfo, movieList, isLoading, subtitle, fetchMore };
+  return { chartInfo, movieList, isLoading, subtitle, isLastPage, fetchMore };
 }
 
 export { useMovieChart };
