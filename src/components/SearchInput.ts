@@ -57,7 +57,7 @@ class SearchInput extends HTMLElement {
   }
 
   toggleVisibleSearchBar(): void {
-    $('#logo')?.classList.toggle('hide');
+    $('#logo')?.classList.toggle('hide-logo');
     $('#search-label')?.classList.toggle('visible');
     $('#search-label')?.classList.toggle('search-full');
     $('#movie-header-bar')?.classList.toggle('header-center');

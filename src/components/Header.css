@@ -21,4 +21,8 @@
   .header-center {
     justify-content: center !important;
   }
+
+  .hide-logo {
+    display: none !important;
+  }
 }
