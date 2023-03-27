@@ -1,13 +1,15 @@
 import { $ } from "../../utils/dom";
 
 class CustomModal extends HTMLElement {
+  modal;
+
   constructor() {
     super();
-  }
 
-  connectedCallback() {
     this.render();
     this.addEvent();
+
+    this.modal = <HTMLDialogElement>this.querySelector(".modal");
   }
 
   render() {
@@ -31,15 +33,11 @@ class CustomModal extends HTMLElement {
   }
 
   openModal() {
-    const modal = this.querySelector<HTMLDialogElement>(".modal");
-
-    modal?.showModal();
+    this.modal.showModal();
   }
 
   closeModal() {
-    const modal = this.querySelector<HTMLDialogElement>(".modal");
-
-    modal?.close();
+    this.modal.close();
   }
 }
 
