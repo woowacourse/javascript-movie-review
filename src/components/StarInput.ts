@@ -1,4 +1,4 @@
-import { SCORE_COMMENT } from "../constants/data";
+import { MOVIE_SCORE, SCORE_COMMENT, SCORE_BOARD } from "../constants/data";
 import { getLocalstorage, setLocalstorage } from "../utils/localStorage";
 import { $ } from "../utils/selector";
 
@@ -8,8 +8,7 @@ export class StarInput {
 
   constructor(id: number) {
     this._id = id;
-    this._score =
-      getLocalstorage(this._id) !== null ? getLocalstorage(this._id) : -1;
+    this._score = this.getPrevScore();
     this.render();
     this.handleEvent();
   }
@@ -32,10 +31,8 @@ export class StarInput {
             : `<img src="/star_empty.png" class="star-img" id=${idx} />`;
         })
         .join("") +
-      `</div><strong class="score__count">${(this._score + 1) * 2}</strong>
-      <strong class="score__comment">${
-        SCORE_COMMENT[(this._score + 1) * 2]
-      }</strong>`
+      `</div><strong class="score__count">${SCORE_BOARD[this._score]}</strong>
+      <strong class="score__comment">${SCORE_COMMENT[this._score]}</strong>`
     );
   }
 
@@ -77,6 +74,7 @@ export class StarInput {
   }
 
   getPrevScore() {
-    return getLocalstorage<Number>(this._id);
+    const prevScore = getLocalstorage<Number>(this._id);
+    return prevScore !== null ? prevScore : -1;
   }
 }
