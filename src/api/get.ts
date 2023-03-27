@@ -32,6 +32,7 @@ export const popularMovieDataFetchFuncGenerator = () => {
     const url = `
     ${BASE_URL}/movie/popular?api_key=${process.env.API_KEY}&language=ko-KR&page=${currentPage}`;
 
+    currentPage += 1;
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -41,8 +42,6 @@ export const popularMovieDataFetchFuncGenerator = () => {
 
       return { isOk: response.ok, statusCode, statusMessage };
     }
-
-    currentPage += 1;
 
     const data: MovieAPIMetaData = await response.json();
 
@@ -62,6 +61,7 @@ export const searchedMovieDataFetchFuncGenerator = (query: string) => {
     const url = `
     ${BASE_URL}/search/movie?api_key=${process.env.API_KEY}&language=ko-KR&page=${currentPage}&query=${query}`;
 
+    currentPage += 1;
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -71,8 +71,6 @@ export const searchedMovieDataFetchFuncGenerator = (query: string) => {
 
       return { isOk: response.ok, statusCode, statusMessage };
     }
-
-    currentPage += 1;
 
     const data: MovieAPIMetaData = await response.json();
 
