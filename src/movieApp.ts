@@ -61,16 +61,16 @@ const movieApp = {
   setMovieScore({ movieId, score }: Score) {
     if (score === "0") return;
 
-    const movieScores = getLocalStorage("moviesScore") ?? [];
-    const foundMovie = movieScores.find(
+    const moviesScore = getLocalStorage("moviesScore") ?? [];
+    const foundMovie = moviesScore.find(
       (movie: Score) => movie.movieId === movieId
     );
 
     if (foundMovie) {
       foundMovie.score = score;
-      setLocalStorage("moviesScore", [...movieScores]);
+      setLocalStorage("moviesScore", [...moviesScore]);
     } else {
-      setLocalStorage("moviesScore", [...movieScores, { movieId, score }]);
+      setLocalStorage("moviesScore", [...moviesScore, { movieId, score }]);
     }
   },
 
