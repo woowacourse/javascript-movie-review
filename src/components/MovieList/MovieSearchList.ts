@@ -44,11 +44,23 @@ export default class MovieSearchList extends MovieList {
 
     const currentPage = this.getCurrentPage('searchPage');
 
+    if (!movieData) {
+      this.state.setValue('isError', true);
+      this.state.setValue('isLoading', false);
+      this.state.emit();
+
+      this.state.setValue('movies', []);
+
+      return;
+    }
+
+    this.state.setValue('isError', false);
     this.state.setValue('movies', movieData.movieList);
     this.state.setValue('isEnd', movieData.total_page === currentPage);
     this.state.setValue('searchPage', currentPage + 1);
     this.state.setValue('isLoading', false);
     this.state.emit();
+    this.state.setValue('movies', []);
 
     return this;
   }

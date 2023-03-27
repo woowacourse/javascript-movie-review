@@ -26,21 +26,27 @@ export default abstract class MovieList extends Component {
       params
     );
 
-    console.log(movieData);
+    if (!movieData || movieData.results.length === 0) return null;
 
     return {
-      movieList: movieData.results.map(
+      movieList: movieData?.results.map(
         ({ id, poster_path, title, vote_average }) => {
           return { id, poster_path, title, vote_average };
         }
       ),
-      total_page: movieData.total_pages,
+      total_page: movieData?.total_pages,
     };
   }
 
   async getMovieDetailData(router: string) {
+    const movieDetailData = await getApiData<MovieDetailApiType>(
+      makeURL(router)
+    );
+
+    if (!movieDetailData) return null;
+
     const { id, title, vote_average, poster_path, overview, genres } =
-      await getApiData<MovieDetailApiType>(makeURL(router));
+      movieDetailData;
 
     return {
       id,

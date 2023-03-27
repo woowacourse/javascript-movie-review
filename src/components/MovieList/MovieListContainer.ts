@@ -50,6 +50,12 @@ export default class MovieListContainer extends Component {
 
     if (popular.has(this.state.getValue('popularPage'))) return;
 
+    if (this.state.getValue('isError')) {
+      this.$target.innerHTML = `<div class="error-message"> 요청하신 정보를 찾을 수 없습니다. </div>`;
+
+      return;
+    }
+
     this.$target.insertAdjacentHTML('beforeend', this.template());
 
     this.setInfinityScrollEvent();

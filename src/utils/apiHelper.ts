@@ -15,8 +15,10 @@ export const makeParams = <T extends Object>(query: T) => {
 export const getApiData = async <T>(
   url: string,
   params?: string
-): Promise<T> => {
+): Promise<T | null> => {
   const fetchingData = await fetch(url + params);
+
+  if (fetchingData.status !== 200) return null;
 
   return fetchingData.json();
 };
