@@ -110,8 +110,9 @@ class App {
 
       this.state.pageNumber += 1;
       this.movieService.concatMovies(newMovies);
+      const prevY = window.scrollY;
       dom.renderMovieListItem(newMovies);
-      window.scrollTo({ top: window.scrollY - 40 });
+      window.scrollTo({ top: prevY });
     } catch (response) {
       if (response instanceof Response) dom.renderErrorPage(response.status);
     }
