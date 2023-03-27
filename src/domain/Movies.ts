@@ -44,7 +44,8 @@ class Movies extends Observable {
     const { movieList, status } = await getApiPopularMovie(this.popularPage);
     const popularMovies = movieList;
 
-    if (!this.isConnected(status)) {
+    if (!this.isSuccessToGetMovieList(status)) {
+      this.notify('error');
       this.notify('unloading');
       return;
     }
@@ -76,7 +77,8 @@ class Movies extends Observable {
     );
     const searchMovies = movieList;
 
-    if (!this.isConnected(status)) {
+    if (!this.isSuccessToGetMovieList(status)) {
+      this.notify('error');
       this.notify('unloading');
       return;
     }
@@ -104,7 +106,8 @@ class Movies extends Observable {
   async detailMovies(id: number) {
     const { movieItem, status } = await getApiDetailMovie(id);
 
-    if (!this.isConnected(status)) {
+    if (!this.isSuccessToGetMovieList(status)) {
+      this.notify('error');
       this.notify('unloading');
       return;
     }
@@ -121,12 +124,10 @@ class Movies extends Observable {
     this.notify('detail', detailMovie);
   }
 
-  isConnected(status: number) {
+  isSuccessToGetMovieList(status: number) {
     if (status >= 500) {
-      this.notify('error');
       return false;
     } else if (status >= 400) {
-      this.notify('error');
       return false;
     }
     return true;
