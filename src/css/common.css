@@ -261,6 +261,7 @@ header {
 }
 
 .overview {
+  padding-right: 16px;
   margin-top: 16px;
   overflow: scroll;
   max-height: 320px;
@@ -414,21 +415,14 @@ header {
 
 ::-webkit-scrollbar {
   background-color: transparent;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
+  border-radius: 20px;
   background-color: #4d4c4c;
 }
 
 ::-webkit-scrollbar-corner {
   background-color: transparent;
-}
-
-::-webkit-scrollbar {
-  /* display: none; */
-  width: 5px;
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 20px;
 }
