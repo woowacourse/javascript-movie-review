@@ -56,6 +56,6 @@ export class App {
   }
 
   onClickMovieCard(movieId: number) {
-    this.#modal.open(movieId, "movieDetail");
+    this.#modal.open("movieDetail", movieId);
   }
 }

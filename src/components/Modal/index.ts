@@ -2,7 +2,6 @@ import "./index.css";
 
 import xButton from "../../../templates/xButton.png";
 
-import { fetchMovieDetailById } from "../../utils/api";
 import { $ } from "../../utils/selector";
 import { MovieDetailModal } from "./MovieDetailModal";
 
@@ -31,25 +30,29 @@ export class Modal {
     });
   }
 
-  open(movieId: number, modalType: "movieDetail" | string) {
+  open(modalType: "movieDetail" | string, movieId: number | undefined) {
     const modalSection = $(".modal-section");
 
-    if (modalType === "movieDetail")
-      fetchMovieDetailById(movieId).then((movieDetail) => {
-        this.#$movieDetail.render(movieDetail, movieId);
-
+    if (modalType === "movieDetail" && movieId)
+      return this.#$movieDetail.render(movieId).then(() => {
         if (modalSection instanceof HTMLElement)
           modalSection.style.display = "block";
       });
+
+    if (modalSection instanceof HTMLElement)
+      modalSection.style.display = "block";
   }
 
   close() {
-    const modalSection = $(".modal-section");
-    const modalHeader = $(".modal-header--text");
+    const $modalSection = $(".modal-section");
+    const $modalHeader = $(".modal-header--text");
+    const $modalContent = $(".modal-content");
 
-    if (modalSection instanceof HTMLElement)
-      modalSection.style.display = "none";
+    if ($modalSection instanceof HTMLElement)
+      $modalSection.style.display = "none";
 
-    if (modalHeader instanceof HTMLElement) modalHeader.textContent = "";
+    if ($modalHeader instanceof HTMLElement) $modalHeader.textContent = "";
+
+    if ($modalContent instanceof HTMLElement) $modalContent.innerHTML = "";
   }
 }

@@ -10,6 +10,7 @@ import { $ } from "../../../utils/selector";
 import { renderStars } from "./StarSelect";
 import { getImageContainerTemplate } from "./Image";
 import { getDescriptionTemplate } from "./Description";
+import { fetchMovieDetailById } from "../../../utils/api";
 
 export class MovieDetailModal {
   #$target;
@@ -35,13 +36,14 @@ export class MovieDetailModal {
     });
   }
 
-  render(movie: MovieDetail, movieId: number) {
+  async render(movieId: number) {
+    const movieDetail = await fetchMovieDetailById(movieId);
     const header = $(".modal-header--text");
 
-    if (header instanceof HTMLElement) header.textContent = movie.title;
+    if (header instanceof HTMLElement) header.textContent = movieDetail.title;
 
     this.#$target.innerHTML = this.getMovieDetailTemplate(
-      movie,
+      movieDetail,
       getStarRateFromStorage(movieId)
     );
   }
