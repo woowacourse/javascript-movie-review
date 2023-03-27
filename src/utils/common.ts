@@ -12,18 +12,19 @@ export const request = async <T>(url: string): Promise<T> => {
   return response.json();
 };
 
-export const createUniqueId = () => {
+export const createUniqueId = (): string => {
   return 'id' + Math.random().toString(16).slice(2);
 };
 
-export const getErrorMessage = (error: unknown) => {
+export const getErrorMessage = (error: unknown): string => {
   if (error instanceof Error) return error.message;
   return String(error);
 };
 
 export const getFetchURL = ({ baseUrl, path, query }: GetFetchURLParams): string => `${baseUrl}${path}${query}`;
 
-export const getQueries = ({ baseQueries, optionQueries }: GetQueriesParams) => `${baseQueries}&${optionQueries}`;
+export const getQueries = ({ baseQueries, optionQueries }: GetQueriesParams): string =>
+  `${baseQueries}&${optionQueries}`;
 
 export const convertQuerystring = (params: Record<string, string>): string => {
   const URLParams = new URLSearchParams();
@@ -34,7 +35,7 @@ export const convertQuerystring = (params: Record<string, string>): string => {
   return URLParams.toString();
 };
 
-export const sliceSting = (word: string) => {
+export const sliceSting = (word: string): string => {
   const LIMIT = 27;
   if (word.length > LIMIT) {
     return `${word.slice(0, LIMIT)}···`;
@@ -43,9 +44,44 @@ export const sliceSting = (word: string) => {
   return word;
 };
 
-export const sliceScore = (score: string) => {
+export const sliceScore = (score: string): string => {
   const SLICE_START = 0;
   const SLICE_END = 3;
 
   return score.slice(SLICE_START, SLICE_END);
+};
+
+export const convertHourAndMinute = (minute: number): string => {
+  const hour = minute / 60;
+  const remainingMinutes = minute % 60;
+
+  const hourText = hour.toFixed(0) !== '0' ? `${hour.toFixed(0)}시간` : '';
+  const minuteText = remainingMinutes !== 0 ? `${remainingMinutes}분` : '';
+
+  if (minute === 0) {
+    return '';
+  }
+
+  return `${hourText} ${minuteText}`;
+};
+
+export const getHashURLParams = (): { searchWord: string | null; movieId: string | null } => {
+  const path = window.location.hash.replace('#', '');
+  const URL = new URLSearchParams(path);
+
+  const searchWord = URL.get('q');
+  const movieId = URL.get('id');
+
+  return { searchWord, movieId };
+};
+
+export const setHashURL = (): void => {
+  const { searchWord } = getHashURLParams();
+
+  if (searchWord) {
+    window.location.hash = `?q=${searchWord}`;
+    return;
+  }
+
+  window.location.hash = ' ';
 };

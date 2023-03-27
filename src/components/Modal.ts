@@ -1,10 +1,11 @@
 import './Modal.css';
+import Movie from '../domain/Movie';
+import { $, convertHourAndMinute, getHashURLParams, setHashURL, sliceScore, sliceSting } from '../utils/common';
 import STAR_FILLED from '../image/star-filled.png';
 import STAR_EMPTY from '../image/star-empty.png';
-import { $, sliceScore, sliceSting } from '../utils/common';
-import { MovieDetailInfo, MovieInfo, MovieScoreInfo } from '../types/type';
-import Movie from '../domain/Movie';
 import { HTMLMovieListItemElement } from './MovieListItem';
+import { MovieDetailInfo, MovieInfo, MovieScoreInfo } from '../types/type';
+import { SCORE_COMMENT, SCROLL_HIDDEN_CLASSNAME } from '../constants';
 
 export interface HTMLModalElement extends HTMLElement {
   connectedCallback: () => void;
@@ -29,15 +30,15 @@ class Modal extends HTMLElement {
 
   connectedCallback(): void {
     this.render();
-    this.setEscModalCloseEvent();
+    this.setCloseModalKeydownEvent();
   }
 
-  updateDetailModal() {
+  updateDetailModal(): void {
     this.render();
     this.renderStar();
     this.detailFetchEvent();
     this.setStarClickEvent();
-    this.setModalCloseEvent();
+    this.setCloseModalEvent();
     this.openModal();
   }
 
@@ -46,12 +47,8 @@ class Modal extends HTMLElement {
     const { title, imgUrl, score, description, categories, releaseDate, runningTime } = this.#detailMovieInfo;
 
     const slicedScore = sliceScore(score.toFixed(1));
-
     const releaseDateText = releaseDate ? releaseDate.replace(/-/g, '/') : '';
-
-    const hour = (runningTime / 60).toFixed(0) !== '0' ? `${(runningTime / 60).toFixed(0)}시간` : '';
-    const minute = runningTime % 60 !== 0 ? `${runningTime % 60}분` : '';
-    const runningTimeText = runningTime !== 0 ? `${hour} ${minute}` : '';
+    const runningTimeText = convertHourAndMinute(runningTime);
 
     this.innerHTML = /*html*/ `
         <dialog id="modal" class="modal-wrapper">
@@ -73,7 +70,7 @@ class Modal extends HTMLElement {
                     <div class="modal-main-content">
                         <div>
                             <div class="modal-main-category-score">
-                                <div id="modal-category" class="modal-category-skeleton">${categories}</div>
+                                <div id="modal-category" class="modal-category-skeleton" title="카테고리">${categories}</div>
                                 <movie-score score="${slicedScore}" class="modal-score-wrapper"></movie-score>
                             </div>
                             <div class="modal-main-date-time">
@@ -99,7 +96,7 @@ class Modal extends HTMLElement {
      `;
   }
 
-  setEscModalCloseEvent() {
+  setCloseModalKeydownEvent(): void {
     window.addEventListener('keydown', event => {
       if (event.code === 'Escape') {
         this.closeModal();
@@ -107,7 +104,7 @@ class Modal extends HTMLElement {
     });
   }
 
-  setModalCloseEvent(): void {
+  setCloseModalEvent(): void {
     $('#modal-background')?.addEventListener('click', () => this.closeModal());
 
     $('#modal-close-button')?.addEventListener('click', () => this.closeModal());
@@ -115,34 +112,23 @@ class Modal extends HTMLElement {
 
   openModal(): void {
     const modal = $('#modal') as HTMLDialogElement;
-    $('body')?.classList.add('overflow-hidden');
+
+    $('body')?.classList.add(SCROLL_HIDDEN_CLASSNAME);
     modal.showModal();
   }
 
   closeModal(): void {
     const modal = $('#modal') as HTMLDialogElement;
-    $('body')?.classList.remove('overflow-hidden');
-    const path = window.location.hash.replace('#', '');
-    const URL = new URLSearchParams(path);
 
-    const query = URL.get('q');
-
+    $('body')?.classList.remove(SCROLL_HIDDEN_CLASSNAME);
     modal.close();
-    if (query) {
-      window.location.hash = `?q=${query}`;
-      return;
-    }
-    window.location.hash = ' ';
+    setHashURL();
   }
 
   getScoreComment(score: string): string {
-    const myScore = Number(score);
-    if (myScore === 0) return '영화를 평가해주세요 !';
-    if (myScore <= 2) return '최악이예요';
-    if (myScore <= 4) return '별로예요';
-    if (myScore <= 6) return '보통이에요';
-    if (myScore <= 8) return '재미있어요';
-    return '명작이에요';
+    const myScore = Number(score) / 2;
+
+    return SCORE_COMMENT[myScore];
   }
 
   async detailFetchEvent() {

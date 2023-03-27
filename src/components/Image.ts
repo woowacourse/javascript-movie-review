@@ -2,12 +2,12 @@ import './Image.css';
 import DEFAULT_IMAGE from '../image/default-movie-image.png';
 
 class Image extends HTMLElement {
-  connectedCallback() {
+  connectedCallback(): void {
     this.render();
     this.setLoadingEvent();
   }
 
-  async render() {
+  render(): void {
     const EMPTY = 'null';
 
     const imgUrl = this.getAttribute('imgUrl');
@@ -22,10 +22,11 @@ class Image extends HTMLElement {
         src="${URL}"
         loading="lazy"
         alt="${title}"
+        title="${title}"
       />`;
   }
 
-  setLoadingEvent() {
+  setLoadingEvent(): void {
     this.querySelector('img')?.addEventListener('load', () => {
       this.querySelector('img')?.classList.remove('skeleton-image');
     });

@@ -55,7 +55,7 @@ class MoviesContainer extends HTMLElement {
         </ul>
         <skeleton-item id="skeleton-container"></skeleton-item>
         <div id="more-button-container" class="more-button-wrapper">
-          <common-button id="more-button" class="hide" text="더보기" color="primary"></common-button>
+          <common-button id="more-button" class="hide" text="더 보기" color="primary"></common-button>
         </div>  
       </section>
     </main>`;
@@ -187,7 +187,11 @@ class MoviesContainer extends HTMLElement {
   }
 
   setSearchWord(searchWord: string): void {
-    if (this.#searchWord.value === searchWord) return;
+    if (this.#searchWord.value === searchWord) {
+      console.log('hi');
+      window.scrollTo(0, 0);
+      return;
+    }
     this.#searchWord.value = searchWord;
   }
 

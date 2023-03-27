@@ -3,6 +3,7 @@ import './components/index';
 import { $ } from './utils/common';
 import { HTMLMovieContainerElement } from './components/MoviesContainer';
 import { HTMLModalElement } from './components/Modal';
+import { SCROLL_HIDDEN_CLASSNAME } from './constants';
 
 const setMovieSiteUrl = (isFirstStart: boolean): void => {
   if (!navigator.onLine) {
@@ -19,7 +20,7 @@ const setMovieSiteUrl = (isFirstStart: boolean): void => {
   const detailMovieId = URL.get('id');
 
   if (!detailMovieId) {
-    $('body')?.classList.remove('overflow-hidden');
+    $('body')?.classList.remove(SCROLL_HIDDEN_CLASSNAME);
     modal.close();
   }
 

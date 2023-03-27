@@ -45,7 +45,7 @@ button {
   width: 100%;
 }
 
-.overflow-hidden {
+.scroll-hidden {
   overflow: hidden;
 }
 
