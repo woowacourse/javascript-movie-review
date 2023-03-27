@@ -102,18 +102,27 @@ class MovieDetail {
   }
 
   private initialEventListener() {
-    this.$detainContainer.addEventListener('click', (e) => {
-      if (!(e.target instanceof HTMLElement)) return;
-      if (e.target.classList.contains('close-button')) modal.close();
-      if (e.target instanceof HTMLLabelElement) {
-        const $stars = document.querySelectorAll('.star');
-        $stars.forEach((element) => element.classList.remove('star-active'));
-        e.target.classList.add('star-active');
-        const score = e.target.querySelector('input')?.value ?? 0;
+    this.$detainContainer.addEventListener('click', (event) => {
+      const { target } = event;
+
+      if (target instanceof HTMLButtonElement) {
+        target.classList.contains('close-button') ? modal.close() : null;
+      }
+
+      if (target instanceof HTMLLabelElement) {
+        this.addStarActive(target);
+
+        const score = target.querySelector('input')?.value ?? 0;
         this.changeStarState(Number(score));
         this.saveMovieScoreInLocalStorage();
       }
     });
+  }
+
+  private addStarActive($target: HTMLLabelElement) {
+    const $stars = document.querySelectorAll('.star');
+    $stars.forEach((element) => element.classList.remove('star-active'));
+    $target.classList.add('star-active');
   }
 
   private loadImageEventListener() {
@@ -132,6 +141,11 @@ class MovieDetail {
   }
 
   private saveMovieScoreInLocalStorage() {
+    const data = this.getLocalStorageAppendData();
+    stringifyLocalStorage<Array<IMovieDetailItem>>({ key: 'movieList', data });
+  }
+
+  private getLocalStorageAppendData() {
     const movieState = this.movieState;
     const currentMovieInfos = parseLocalStorage<Array<IMovieDetailItem>>({
       key: 'movieList',
@@ -140,12 +154,11 @@ class MovieDetail {
 
     const { movieId } = this.movieState;
 
-    const data = this.isExistCurrentMovieDetail(currentMovieInfos, movieId)
+    return this.isExistCurrentMovieDetail(currentMovieInfos, movieId)
       ? currentMovieInfos.map((movieInfo) =>
-          movieInfo.movieId === movieState.movieId ? { ...movieState } : movieInfo
+          movieInfo.movieId === movieId ? { ...movieState } : movieInfo
         )
       : [...currentMovieInfos, { ...movieState }];
-    stringifyLocalStorage<Array<IMovieDetailItem>>({ key: 'movieList', data });
   }
 
   isExistCurrentMovieDetail(movies: Array<IMovieDetailItem>, id: IMovieDetailItem['movieId']) {
