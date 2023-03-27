@@ -1,4 +1,3 @@
-
 import { $ } from "../../utils/selector";
 
 export const backToTop = () => {
