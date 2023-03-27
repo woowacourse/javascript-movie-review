@@ -1,3 +1,4 @@
+import { types } from '@babel/core';
 import { MakeOptional } from '../common';
 
 interface CommonMoviesResult {
@@ -31,4 +32,11 @@ export interface MovieInfo {
 
 export interface GetMoviesByKeywordRes extends CommonMoviesResult {
   results: MovieInfoByKeyword[];
+}
+export interface Genres {
+  genres: Genre[];
+}
+export interface Genre {
+  id: number;
+  name: string;
 }
