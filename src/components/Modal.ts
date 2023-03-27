@@ -1,30 +1,34 @@
 class Modal {
-  #$dialog: HTMLDialogElement | null;
-  #$modalDrop: HTMLDivElement | null;
+  private $dialog: HTMLDialogElement | null;
+  private $modalDrop: HTMLDivElement | null;
 
   constructor() {
-    this.#$dialog = document.querySelector<HTMLDialogElement>('#modal');
-    this.#$modalDrop = document.querySelector('.modal-backdrop');
+    this.$dialog = document.querySelector<HTMLDialogElement>('#modal');
+    this.$modalDrop = document.querySelector('.modal-backdrop');
 
-    this.#$modalDrop?.addEventListener('click', () => this.close());
+    this.$modalDrop?.addEventListener('click', () => this.close());
+    window.addEventListener('keyup', (event) => {
+      if (event.defaultPrevented) return;
+      if (event.key === 'Escape') this.close();
+    });
   }
 
   getDialog() {
-    return this.#$dialog;
+    return this.$dialog;
   }
 
   open() {
-    if (!this.#$dialog) return;
-    if (typeof this.#$dialog.showModal === 'function') {
+    if (!this.$dialog) return;
+    if (typeof this.$dialog.showModal === 'function') {
       document.body.classList.add('scroll-lock');
-      this.#$dialog.showModal();
+      this.$dialog.showModal();
     }
   }
 
   close(isBack = false) {
-    if (!this.#$dialog) return;
+    if (!this.$dialog) return;
     document.body.classList.remove('scroll-lock');
-    this.#$dialog.close();
+    this.$dialog.close();
 
     if (isBack) {
       history.back();
