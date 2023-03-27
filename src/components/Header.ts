@@ -1,6 +1,6 @@
 import { Store } from '..';
 import logo from '../assets/logo.png';
-import { searchMovies } from '../service/movie';
+import { getPopularMovies, searchMovies } from '../service/movie';
 import { Movie } from '../service/types';
 
 export default class Header {
@@ -14,7 +14,7 @@ export default class Header {
   template() {
     return `
       <header>
-        <h1><a href="/"><img src="${logo}" alt="MovieList 로고" /></a></h1>
+        <h1 id='logo'><img src="${logo}" alt="MovieList 로고" /></h1>
         <form class="search-box">
           <input id="js-search-input" class="search-input" type="text" name="keyword" placeholder="검색" required/>
           <button id="js-search-button" class="search-button">검색</button>
@@ -27,6 +27,7 @@ export default class Header {
     removeSkeleton: () => void,
     showSkeleton: () => void,
     onSubmitSearch: (results: Movie[], totalPages: number) => void,
+    onClickLogo: () => void,
   ) {
     const $searchBox = this.$parent.querySelector('.search-box') as HTMLFormElement;
 
@@ -56,6 +57,12 @@ export default class Header {
       if ($searchInput.value.length === 0) {
         $searchInput.focus();
       }
+    });
+
+    // 로고 클릭 시 인기있는영화 보여주도록
+    const $logo = this.$parent.querySelector('#logo') as HTMLHeadingElement;
+    $logo.addEventListener('click', async () => {
+      onClickLogo();
     });
   }
 }

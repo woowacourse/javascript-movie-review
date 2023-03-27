@@ -30,6 +30,7 @@ class App {
       this.movieList.showSkeleton.bind(this.movieList),
       this.movieList.removeSkeleton.bind(this.movieList),
       this.onSubmitSearch.bind(this),
+      this.onClickLogo.bind(this),
     );
     this.movieList.bindEvent(() => getPopularMovies({ page: Store.page }));
 
@@ -48,6 +49,12 @@ class App {
         query: Store.keyword,
       }),
     );
+  }
+
+  async onClickLogo() {
+    const { results, total_pages } = await getPopularMovies({ page: 1 });
+    this.movieList.renderMovieCards(results, total_pages);
+    this.movieList.renderTitle(`지금 인기 있는 영화`);
   }
 }
 
