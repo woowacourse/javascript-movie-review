@@ -1,4 +1,5 @@
 import star_filled from "../../templates/star_filled.png";
+import star_empty from "../../templates/star_empty.png";
 
 class MovieDetail {
   $modal = document.createElement("div");
@@ -7,6 +8,8 @@ class MovieDetail {
     this.init();
 
     this.render($target);
+
+    this.bindEvent();
   }
 
   init() {
@@ -17,11 +20,23 @@ class MovieDetail {
     $target.insertAdjacentElement("afterbegin", this.$modal);
   }
 
+  bindEvent() {
+    window.onkeyup = ({ keyCode }) => {
+      if (keyCode === 27 || keyCode === 8) {
+        this.close();
+      }
+    };
+  }
+
   open(movie) {
     this.$modal.id = movie.id;
     this.$modal.classList.remove("hidden");
 
     this.$modal.innerHTML = this.getTemplate(movie);
+  }
+
+  close() {
+    this.$modal.classList.add("hidden");
   }
 
   getTemplate({ genres, title, overview, poster_path, vote_average }) {
@@ -57,10 +72,25 @@ class MovieDetail {
               </div>
               <p class="movie-detail-overview">${overview}</p>
             </div>
-            <div>별점</div>
+            <div class="movie-assessment">
+              <div>
+                <span>내 별점</span>
+              </div>
+              <div>
+                <img src=${star_empty} alt=${star_empty}/>
+                <img src=${star_empty} alt=${star_empty}/>
+                <img src=${star_empty} alt=${star_empty}/>
+                <img src=${star_empty} alt=${star_empty}/>
+                <img src=${star_empty} alt=${star_empty}/>
+              </div>
+              <div>
+                <span>0</span>
+              </div>
+            </div>
           </div>
         </div>
-      </div>`;
+      </div>
+      <div class="movie-detail-modal-background"></div>`;
 
     return template;
   }
