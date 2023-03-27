@@ -26,6 +26,15 @@ class MovieDetail {
         this.close();
       }
     };
+
+    this.$modal.addEventListener("click", ({ target }) => {
+      if (
+        target.className === "movie-detail-close-button" ||
+        target.className === "movie-detail-modal-background"
+      ) {
+        this.close();
+      }
+    });
   }
 
   open(movie) {

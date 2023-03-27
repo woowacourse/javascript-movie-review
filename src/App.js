@@ -90,7 +90,6 @@ class App {
 
       const { data, isError } = await this.movie.getMovieDetail(id);
       if (isError) return;
-      console.log(data);
 
       this.movieDetail.open(data);
     }
