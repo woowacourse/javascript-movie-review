@@ -13,38 +13,38 @@ type Score = 0 | 2 | 4 | 6 | 8 | 10;
 
 type ToggleSkeleton = keyof TOGGLE_SKELETON;
 
-type AppState = {
+type RatingBoxState = { myRating: Score };
+
+interface AppState {
   page: number;
   listState: ListState;
   movieList: MovieList;
   movieName: string;
-};
+}
 
-type MovieModalState = {
+interface MovieModalState {
   poster: string;
   rating: number;
   overview: string;
   comment: string;
   genre: string;
-};
+}
 
-type RatingBoxState = { myRating: Score };
-
-type MovieInfo = {
+interface MovieInfo {
   title: string;
   poster: string;
   rating: string;
   movieId: number;
-};
+}
 
-type MovieListResponse = {
+interface MovieListResponse {
   page: number;
   results: MovieData[];
   total_pages: number;
   total_results: number;
-};
+}
 
-type MovieData = {
+interface MovieData {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -59,9 +59,9 @@ type MovieData = {
   video: boolean;
   vote_average: number;
   vote_count: number;
-};
+}
 
-type MovieDetailResponse = {
+interface MovieDetailResponse {
   adult: boolean;
   backdrop_path: string;
   belongs_to_collection: {
@@ -101,4 +101,4 @@ type MovieDetailResponse = {
   video: false;
   vote_average: number;
   vote_count: number;
-};
+}
