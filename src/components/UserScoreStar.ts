@@ -12,10 +12,9 @@ export function scoreStars() {
     if (targetImgElem === null) return;
 
     const starNumber = (Number(targetImgElem.id.split('-')[2]) * 2) as ScoreType;
-
-    const starArea = $('.modal-movie-star-area') as HTMLElement;
     showStar(starNumber);
 
+    const starArea = $('.modal-movie-star-area') as HTMLElement;
     const scoreText = starNumber ? starNumber + ' ' + USER_SCORE_TEXT[starNumber] : '';
     starArea.children[1].textContent = `${scoreText}`;
   });
@@ -41,8 +40,6 @@ export function scoreStars() {
     </div>
     `;
 }
-
-function transStarColor() {}
 
 export function showStar(score: ScoreType) {
   if (score === undefined) return;

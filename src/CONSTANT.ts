@@ -14,8 +14,6 @@ export const USER_SCORE_TEXT = {
 };
 
 export const GENRE: { [key: number]: string } = {
-  // 시간되면 API로 장르 가지고 와서 만들기
-  // 만약 API 사이트에서 장르 ID를 바꾸면 문제가 될 수 있기에 끌어오는게 더 안정
   28: '액션',
   12: '모험',
   16: '애니메이션',

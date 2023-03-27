@@ -24,10 +24,6 @@ class PageData {
     this.#moviePage = 1;
   }
 
-  getMoviePage() {
-    return this.#moviePage;
-  }
-
   changePageStatus(callPage: PageStatusType) {
     this.#pageStatus = callPage;
   }
@@ -35,6 +31,7 @@ class PageData {
   getPageStatus() {
     return this.#pageStatus;
   }
+
   setRecentKeyword(keyword: string | null) {
     this.#recentKeyword = keyword;
   }
@@ -47,10 +44,8 @@ class PageData {
     this.#totalPage = totalPage;
   }
 
-  async useMovie(keyword: string | null) {
-    if (keyword === null) {
-      // const { page, results, total_pages } = await gethMovie();
-
+  async useMovie() {
+    if (this.#recentKeyword === null) {
       const { page, results, total_pages } = await getMovies(this.#moviePage);
 
       MovieData.addMovieData(results);
@@ -58,15 +53,14 @@ class PageData {
       return { values: { page, results, total_pages } };
     }
 
-    // const { page, results, total_pages } = await getSearchMovie();
-    const { page, results, total_pages } = await getSearchMovie(keyword, this.#moviePage);
-    this.#recentKeyword = keyword;
+    const { page, results, total_pages } = await getSearchMovie(
+      this.#recentKeyword,
+      this.#moviePage
+    );
 
     MovieData.addMovieData(results);
 
-    return {
-      values: { page, results, total_pages },
-    };
+    return { values: { page, results, total_pages } };
   }
 
   setObserver(callback: Function, elem: HTMLElement) {

@@ -3,7 +3,7 @@ import star_empty from '../assets/star_empty.png';
 import { makePosterImagePath } from '../utils/makePosterImagePath';
 import { MovieInterface, ScoreType } from '../utils/type';
 import { $, Event } from '../utils/index';
-import { scoreStars, showStar } from './UserScoreStar';
+import { scoreStars } from './UserScoreStar';
 import { GENRE, USER_SCORE_TEXT } from '../CONSTANT';
 
 export function MovieInfoModal() {

@@ -7,13 +7,12 @@ export function ItemList() {
   Event.addEvent('click', '.item-list', (event) => {
     const target = event.target as HTMLElement;
     const targetId = Number(target.closest('li')?.id);
+    const targetMovie = MovieData.findMovie(targetId) ?? null;
+    const targetUserScore = MovieData.findUserScore(targetId);
     const infoDialogElem = $('.modal-movie-info') as HTMLDialogElement;
 
-    const targetMovie = MovieData.findMovie(targetId) ?? null;
-    const targetUSerScore = MovieData.findUserScore(targetId);
-
-    printMovieDetail(infoDialogElem, targetMovie!, targetUSerScore);
-    showStar(targetUSerScore);
+    printMovieDetail(infoDialogElem, targetMovie!, targetUserScore);
+    showStar(targetUserScore);
 
     infoDialogElem.showModal();
   });

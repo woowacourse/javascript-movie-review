@@ -11,9 +11,6 @@ export const render = (template: string) => {
   const bodyElem = $('#app') as HTMLElement;
   bodyElem.innerHTML = template;
   Event.setAllEvents();
-  const dialogElem = $('dialog') as HTMLDialogElement;
-  // dialogElem.showModal();
-  // dialogElem.close();
 };
 
 const events: IEvent[] = [];
