@@ -2,14 +2,18 @@
   display: flex;
   flex-direction: column;
 
+  width: 100%;
+  height: 100%;
+
   cursor: pointer;
 }
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
+  width: 100%;
   height: 270px;
-  background-size: contain;
+  background-color: #aaa;
+  border-radius: 8px;
 }
 
 .item-title {
@@ -19,8 +23,16 @@
 }
 
 .item-score {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
   margin-top: 16px;
   font-size: 1.2rem;
+}
+
+.item-score img {
+  margin-right: 6px;
 }
 
 .item-score::after {
@@ -54,4 +66,25 @@
 
 .hide {
   display: none;
+}
+
+@media (max-width: 780px) {
+  .item-thumbnail {
+    height: 210px;
+  }
+
+  .item-title {
+    font-size: 1rem;
+  }
+
+  .item-score {
+    font-size: 1rem;
+  }
+
+  .item-score img {
+    width: 20px;
+    height: 20px;
+
+    margin-right: 4px;
+  }
 }

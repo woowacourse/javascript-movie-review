@@ -8,6 +8,20 @@ body {
   color: #fff;
 }
 
+#app {
+  width: 100%;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  padding: 48px 0;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -15,12 +29,6 @@ a {
 
 button {
   cursor: pointer;
-}
-
-main {
-  display: flex;
-
-  padding: 48px 0;
 }
 
 *:focus {
