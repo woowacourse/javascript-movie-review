@@ -61,7 +61,7 @@ export default class Header {
 
     // 로고 클릭 시 인기있는영화 보여주도록
     const $logo = this.$parent.querySelector('#logo') as HTMLHeadingElement;
-    $logo.addEventListener('click', async () => {
+    $logo.addEventListener('click', () => {
       onClickLogo();
     });
   }

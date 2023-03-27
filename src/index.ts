@@ -52,9 +52,17 @@ class App {
   }
 
   async onClickLogo() {
+    Store.page = 1;
+    this.movieList.removeMovieCards();
+
+    this.movieList.renderTitle(`지금 인기 있는 영화`);
     const { results, total_pages } = await getPopularMovies({ page: 1 });
     this.movieList.renderMovieCards(results, total_pages);
-    this.movieList.renderTitle(`지금 인기 있는 영화`);
+    this.movieList.bindEvent(() =>
+      getPopularMovies({
+        page: Store.page,
+      }),
+    );
   }
 }
 
