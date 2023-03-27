@@ -1,5 +1,4 @@
 import ListTitle from '../components/ListTitle';
-import modal from '../components/Modal';
 import MovieDetail from '../components/MovieDetail';
 import MovieList from '../components/MovieList';
 import { Skeleton } from '../components/Skeleton';
