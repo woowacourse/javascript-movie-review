@@ -18,7 +18,7 @@ class MovieListContainer {
 
     this.addEventListenerToScroll();
     this.addEventListenerToMovieItems();
-    this.addBrowserBackButtonEventListener();
+    this.addEventListenerToBrowserBackButton();
     this.addEventListenerToBrowserReloadButton();
   }
 
@@ -95,7 +95,7 @@ class MovieListContainer {
     });
   }
 
-  private addBrowserBackButtonEventListener() {
+  private addEventListenerToBrowserBackButton() {
     window.addEventListener('popstate', (event) => {
       if (!event.state) return;
 
