@@ -1,12 +1,13 @@
 import starEmpty from '../asset/star_empty.png';
 import starFilled from '../asset/star_filled.png';
+import { RATING } from '../constant/constant';
 import handleLocalStorage from '../libs/handleLocalStorage';
 
 type Score = VoteMovie['scores'][number];
 
 class VoteMovie {
   private _node!: HTMLElement;
-  private scores = [0, 1, 2, 3, 4, 5] as const;
+  private scores = [RATING.DEFAULT, RATING.WORST, RATING.BAD, RATING.AVERAGE, RATING.FUN, RATING.MASTERPIECE] as const;
   private voteResults = [
     '이 영화 어떤가요?',
     '최악이예요',
