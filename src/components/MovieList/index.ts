@@ -45,13 +45,9 @@ export class MovieList extends HTMLElement {
   }
 
   matchGenre(genre: Array<{ id: number; name: string }>, genre_ids: number[]) {
-    const newGenre: string[] = [];
-    genre.forEach((itemGenre: { id: number; name: string }) => {
-      genre_ids.forEach((id: number) => {
-        if (itemGenre.id === id) newGenre.push(itemGenre.name);
-      });
-    });
-    return newGenre;
+    return genre
+      .filter((itemGenre) => genre_ids.includes(itemGenre.id))
+      .map((itemGenre) => itemGenre.name);
   }
 
   modalHandler(
