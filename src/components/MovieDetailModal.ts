@@ -35,7 +35,7 @@ class MovieDetailModal extends HTMLElement {
           src=${
             poster_path === 'null'
               ? DefaultPoster
-              : `https://image.tmdb.org/t/p/w220_and_h330_face${poster_path}`
+              : `https://image.tmdb.org/t/p/w500/${poster_path}`
           }
           loading="lazy"
           alt="${title}"

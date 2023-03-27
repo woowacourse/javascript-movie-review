@@ -16,7 +16,7 @@ class MovieListItem extends HTMLElement {
               src=${
                 imgSrc === 'null'
                   ? DefaultPoster
-                  : `https://image.tmdb.org/t/p/w220_and_h330_face${imgSrc}`
+                  : `https://image.tmdb.org/t/p/w300_and_h450_face${imgSrc}`
               }
               loading="lazy"
               alt="${this.getAttribute('title')}"
