@@ -12,9 +12,7 @@ class DetailModal {
     this.init();
   }
 
-  // modal과 detail을 나누고. modal을 붙이되, 내용인 detail을 새로 갈아끼워준다.
   private template = ({ id, title, poster_path, overview, vote_average, genre_ids }: Movie) => `
-          <div class="modal-backdrop"></div>
           <div class="modal-container" id="${id}">
               <div class="title-wrapper">
                   <p class="modal-title">${title} 
@@ -57,15 +55,13 @@ class DetailModal {
   }
 
   addEvent() {
-    document.querySelector('.modal-backdrop')?.addEventListener('click', this.closeModal);
     document.querySelector('.close-button')?.addEventListener('click', this.closeModal);
     Rate.listener((this.movie as Movie).id);
   }
 
   closeModal = () => {
-    const modal = this.modal as HTMLDialogElement;
     document.body.style.removeProperty('overflow');
-    modal.close();
+    this.modal.close();
   };
 }
 

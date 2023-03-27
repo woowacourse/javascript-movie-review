@@ -13,7 +13,6 @@ const init = () => {
   const header = new Header();
 
   header.render();
-  modal.init();
   TopButton.render();
 };
 
