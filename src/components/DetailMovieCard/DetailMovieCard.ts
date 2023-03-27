@@ -93,7 +93,7 @@ export default class DetailMovieCard {
   voteScoreTemplate(starCount: StarCount) {
     const score = (starCount * 2) as StarScore;
     const scoreText = voteScoreText[score];
-    return `<span class="movie-vote-score">${score}점 - ${scoreText}</span>`;
+    return `<span class="movie-vote-score">${score}점</span><span>- ${scoreText}</span>`;
   }
 
   bindVoteButtonClickEvent() {
