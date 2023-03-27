@@ -29,18 +29,7 @@ const MovieDetailModal = (movieDetailData: DetailInfoType) => {
               <p class="modal-description">
                 ${overview}
               </p>
-              <div class="my-score-container">
-                <div class="my-score">내 별점</div>
-                <div class="stars">
-                  <img class="star" src="./star_filled.png" />
-                  <img class="star" src="./star_filled.png" />
-                  <img class="star" src="./star_filled.png" />
-                  <img class="star" src="./star_filled.png" />
-                  <img class="star" src="./star_filled.png" />                    
-                </div>
-                <div class="score-number">6</div>
-                <div class="score-text">보통이에요</div>
-              </div>
+              
             </div>
           </div>
         </section>
@@ -62,11 +51,20 @@ const MovieDetailModal = (movieDetailData: DetailInfoType) => {
     const onCloseClick = () => {
       movieDetailModal?.close();
       movieDetailModal.removeEventListener('click', onCloseClick);
-    }
+      movieDetailModal.remove();
+    };
+
+    const onKeydown = (e: KeyboardEvent) => {
+      if (e.keyCode === 27) {
+        onCloseClick();
+        document.removeEventListener('keydown', onKeydown);
+      }
+    };
 
     movieDetailModal.querySelector(".modal-close")?.addEventListener('click', onCloseClick);
-    movieDetailModal.querySelector(".modal-backdrop")?.addEventListener('click', onCloseClick)
-  }
+    movieDetailModal.querySelector(".modal-backdrop")?.addEventListener('click', onCloseClick);
+    document.addEventListener('keydown', onKeydown);
+  };
 
   render();
 }
