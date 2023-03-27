@@ -32,7 +32,7 @@ export default class DetailModal extends HTMLElement {
     this.movieId = id;
 
     this.innerHTML = `
-    <dialog class="movie-modal">
+    <dialog id="modal" class="movie-modal">
       <div class="movie-modal-container">
         <div class="movie-modal-header">
           <h2>${title}</h2>
@@ -63,9 +63,9 @@ export default class DetailModal extends HTMLElement {
           </div>
         </div>
       </div>
-    </dialog>`;
+    </dialog>
+    `;
 
-    console.log('render');
     this.setEvent();
   }
 
@@ -118,6 +118,9 @@ export default class DetailModal extends HTMLElement {
     $('.star-container').addEventListener('click', (event) => {
       this.setMyEvaluation(event);
     });
+    this.addEventListener('click', (event) => {
+      this.closeModal(event);
+    });
   }
 
   setMyEvaluation(event: Event) {
@@ -134,5 +137,14 @@ export default class DetailModal extends HTMLElement {
     const evaluation = loadMovieRating(String(this.movieId));
 
     this.renderStarContainer(Number(evaluation) as StarKeyType);
+  }
+
+  closeModal(event: Event) {
+    if (
+      event.target instanceof HTMLDialogElement &&
+      event.target.id === 'modal'
+    ) {
+      event.target.close();
+    }
   }
 }
