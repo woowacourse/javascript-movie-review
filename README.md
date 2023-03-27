@@ -4,7 +4,7 @@
 
 ## 웹 배포 사이트
 
-<a href="https://gilpop8663.github.io/javascript-movie-review/" target="_blanck">배포 바로가기</a>
+<a href="https://gilpop8663.github.io/javascript-movie-review/" target="_blank">배포 바로가기</a>
 
 ## 📌 실행 방법
 
@@ -16,10 +16,10 @@
 cd javascript-movie-review
 ```
 
-3. step1의 브런치로 이동
+3. step2의 브런치로 이동
 
 ```
-git checkout step1
+git checkout step2
 ```
 
 4. dependency 다운로드
