@@ -14,7 +14,6 @@ class MovieList extends CustomElement {
   template() {
     return `
     <ul class="item-list"></ul>
-    <div id="end-page"></div>
     `;
   }
 
@@ -40,17 +39,6 @@ class MovieList extends CustomElement {
           `;
       })
       .join("");
-  }
-
-  setEvent() {
-    const io = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        MovieBoss.showMoreMovies();
-      }
-    });
-
-    const endPage = $("#end-page");
-    io.observe(endPage);
   }
 }
 
