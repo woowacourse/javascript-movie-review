@@ -20,7 +20,6 @@ class MovieListContainer {
     this.addEventListenerToScroll();
     this.addEventListenerToMovieItems();
     this.addEventListenerToBrowserBackButton();
-    this.addEventListenerToBrowserReloadButton();
   }
 
   static getInstance(): MovieListContainer {
@@ -105,17 +104,6 @@ class MovieListContainer {
 
       if (event.state.isList) {
         MovieList.init(event.state.searchQuery);
-        MovieList.getMovieData();
-      }
-    });
-  }
-
-  private addEventListenerToBrowserReloadButton() {
-    window.addEventListener('load', () => {
-      if (!history.state) return;
-
-      if (history.state.isList) {
-        MovieList.init(history.state.searchQuery);
         MovieList.getMovieData();
       }
     });

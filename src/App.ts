@@ -19,8 +19,7 @@ class App {
   private addInitialPageLoadEventListener() {
     window.addEventListener('load', () => {
       if (history.state) {
-        console.log('!!!');
-        MovieList.getMovieData();
+        this.loadMovies(history.state.searchQuery);
       }
 
       if (!history.state) {
@@ -35,12 +34,14 @@ class App {
           PAGE_BASE_URL + queryParams
         );
 
-        console.log('333');
-
-        MovieList.init(searchQuery);
-        MovieList.getMovieData();
+        this.loadMovies(searchQuery);
       }
     });
+  }
+
+  private loadMovies(searchQuery: string) {
+    MovieList.init(searchQuery);
+    MovieList.getMovieData();
   }
 
   private addSaveToLocalStorageEventListener() {
