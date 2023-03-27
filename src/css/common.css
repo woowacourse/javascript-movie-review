@@ -83,7 +83,8 @@ button {
 
 .item-thumbnail {
   border-radius: 8px;
-  min-width: 150px;
+  min-height: 330px;
+  min-width: 220px;
   background-size: contain;
 }
 
@@ -330,6 +331,11 @@ header {
 }
 
 @media screen and (max-width: 780px) {
+  .item-thumbnail {
+    min-height: 270px;
+    min-width: 180px;
+  }
+
   .modal {
     align-items: end;
   }
@@ -357,6 +363,11 @@ header {
 }
 
 @media screen and (max-width: 480px) {
+  .item-thumbnail {
+    min-height: 225px;
+    min-width: 150px;
+  }
+
   .genre {
     max-width: 200px;
   }
