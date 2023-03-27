@@ -31,7 +31,6 @@ const MovieItem = {
   },
 
   bindClickEvent: () => {
-    console.log("bind");
     $$<HTMLDivElement>(".movie-item").forEach((movieItem: HTMLDivElement) => {
       movieItem.addEventListener("click", (event) => {
         event.preventDefault();

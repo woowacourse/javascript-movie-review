@@ -84,8 +84,15 @@ class MovieList {
       : await this.getPopularMovieData();
   }
 
-  getStars() {
+  private getStars() {
     return JSON.parse(localStorage.getItem("stars") as string) ?? [];
+  }
+
+  getStarCount() {
+    const stars = this.getStars();
+    const star = stars.filter((star: Star) => star.id === this.currentMovieId);
+
+    return star.length == 0 ? 0 : star[0].count;
   }
 
   saveStar(count: number) {
@@ -95,14 +102,7 @@ class MovieList {
     star.length == 0 ? this.addStar(count) : this.modifyStar(count);
   }
 
-  getStarCount() {
-    const stars = this.getStars();
-    const star = stars.filter((star: Star) => star.id === this.currentMovieId);
-
-    return star.length != 0 ? star[0].count : 0;
-  }
-
-  modifyStar(count: number) {
+  private modifyStar(count: number) {
     const stars = this.getStars();
     const modifiedStars = stars.map((star: Star) => {
       if (star.id === this.currentMovieId) {
@@ -110,12 +110,14 @@ class MovieList {
       }
       return star;
     });
+
     localStorage.setItem("stars", JSON.stringify(modifiedStars));
   }
 
-  addStar(count: number) {
+  private addStar(count: number) {
     const stars = this.getStars();
     const star = { id: this.currentMovieId, count: count };
+
     localStorage.setItem("stars", JSON.stringify([...stars, star]));
   }
 }

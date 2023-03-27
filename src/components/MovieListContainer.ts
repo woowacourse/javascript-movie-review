@@ -11,6 +11,7 @@ const MovieListContainer = {
       <section class="item-view">
         <h2 id="movie-list-title">지금 인기 있는 영화</h2>
         <ul class="item-list"></ul>
+        <div id="modal"></div>
         <div id="movie-list-end"></div>
       </section>
     `;
@@ -44,7 +45,6 @@ const MovieListContainer = {
 
   onSearch: async (searchKey: string) => {
     try {
-      console.log(111);
       $<HTMLElement>(
         "#movie-list-title"
       ).textContent = `"${searchKey}" 검색 결과`;

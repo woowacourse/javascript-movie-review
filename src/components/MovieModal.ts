@@ -12,12 +12,9 @@ const MovieModal = {
       const movieDetail = await MovieList.getDetailedMovieData();
       const starCount = MovieList.getStarCount();
 
-      console.log("star: ", starCount);
       MovieModal.render(movieDetail);
       MovieModal.renderStar(starCount);
-      MovieModal.bindClickEvent();
-      MovieModal.bindPressEvent();
-      MovieModal.bindGoBack();
+      MovieModal.initEvents();
       $<HTMLDivElement>("body").classList.add("no-scroll");
     } catch (error) {
       if (error instanceof HTTPError) {
@@ -63,7 +60,13 @@ const MovieModal = {
       </div>
     `;
 
-    $<HTMLElement>(".item-view").insertAdjacentHTML("beforeend", template);
+    $<HTMLDivElement>("#modal").innerHTML = template;
+  },
+
+  initEvents: () => {
+    MovieModal.bindClickEvent();
+    MovieModal.bindPressEvent();
+    MovieModal.bindGoBack();
   },
 
   renderStar: (starCount: number) => {
@@ -94,11 +97,9 @@ const MovieModal = {
 
     $<HTMLElement>("#star-count").replaceChildren();
     $<HTMLElement>("#star-count").insertAdjacentHTML("afterbegin", template);
-    console.log("renderstar");
   },
 
   bindClickEvent: () => {
-    console.log(1);
     $<HTMLDivElement>("#modal-backdrop").addEventListener(
       "click",
       (event: Event) => {
@@ -116,13 +117,13 @@ const MovieModal = {
     $$<HTMLImageElement>(".modal-score").forEach((star) => {
       star.addEventListener("click", (event) => {
         event.preventDefault();
-        MovieModal.onClickStar(Number(star.id));
+        MovieModal.renderStar(Number(star.id));
+        MovieModal.initEvents();
       });
     });
   },
 
   bindPressEvent: () => {
-    console.log(2);
     window.addEventListener(
       "keydown",
       (event) => {
@@ -149,13 +150,6 @@ const MovieModal = {
     window.onpopstate = function () {
       MovieModal.close();
     };
-  },
-
-  onClickStar: async (starId: number) => {
-    MovieModal.renderStar(starId);
-    MovieModal.bindClickEvent();
-    MovieModal.bindPressEvent();
-    MovieModal.bindGoBack();
   },
 
   close: async () => {
