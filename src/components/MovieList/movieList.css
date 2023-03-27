@@ -37,10 +37,6 @@
   bottom: 0;
 }
 
-.hide {
-  display: none;
-}
-
 @media (max-width: 1279px) {
   .item-list {
     display: grid;
@@ -67,4 +63,9 @@
 
     margin: 48px 0;
   }
+}
+
+/* 항상 최하단에 있어야함... */
+.hide {
+  display: none;
 }
