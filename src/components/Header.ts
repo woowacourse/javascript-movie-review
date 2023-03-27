@@ -2,18 +2,19 @@ import { Search } from './Search';
 import logo from '../assets/logo.png';
 import { Event } from '../utils';
 import PageData from '../data/PageData';
-import { changePageHeader, resetMovieList, showMovieList } from '../showMovieList';
+import { resetMovieList, showMovieList } from '../showMovieList';
 import MovieData from '../data/MovieData';
 
 export function Header() {
   Event.addEvent('click', '#logo-img', async () => {
     PageData.changePageStatus('popular');
     PageData.resetPage();
-    changePageHeader('popular', null);
-    resetMovieList();
     PageData.setRecentKeyword(null);
-    showMovieList();
+
+    resetMovieList();
     MovieData.resetMovieData();
+
+    showMovieList();
   });
 
   return `

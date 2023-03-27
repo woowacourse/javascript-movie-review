@@ -1,10 +1,9 @@
-import { MovieInterface, PageStatusType } from './utils/type';
+import { MovieInterface } from './utils/type';
 import { MovieItem } from './components/MovieItem';
 import PageData from './data/PageData';
 import { $, $$ } from './utils';
 import { SkeletonMovieItem } from './components/SkeletonMovieItem';
-
-type keywordType = string | null;
+import { renderError } from './Validation';
 
 export function resetMovieList() {
   const movieListElem = $('.item-list') as HTMLElement;
@@ -12,20 +11,20 @@ export function resetMovieList() {
 }
 
 export async function showMovieList() {
-  // try {
-  await tryShowMovieList();
-  // } catch (error) {
-  // if (error instanceof Error) renderError(String(error.message));
-  // }
+  try {
+    await tryShowMovieList();
+  } catch (error) {
+    if (error instanceof Error) renderError(String(error.message));
+  }
 }
 
 async function tryShowMovieList() {
   renderSkeleton();
 
-  const keyword = PageData.getRecentKeyword();
-  const { values } = await PageData.useMovie(keyword);
+  const { values } = await PageData.useMovie();
   PageData.setTotalPage(values.total_pages);
 
+  changePageHeader();
   renderMovieList(values.results);
 
   deleteSkeleton();
@@ -50,11 +49,11 @@ export async function renderMovieList(results: MovieInterface[]) {
   PageData.plusPage();
 }
 
-export function changePageHeader(pageStatus: PageStatusType, keyword: keywordType) {
+function changePageHeader() {
   const pageHeaderElem = $('.page-header') as HTMLElement;
 
   let text = '지금 인기 있는 영화';
-  if (pageStatus !== 'popular') text = `"${keyword}" 검색 결과`;
+  if (PageData.getPageStatus() !== 'popular') text = `"${PageData.getRecentKeyword()}" 검색 결과`;
 
   pageHeaderElem.innerText = text;
 }
