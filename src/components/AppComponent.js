@@ -34,7 +34,7 @@ export default class AppComponent extends CustomComponent {
     this.#$movieList = this.querySelector("movie-list");
     this.#$movieListTitle = this.querySelector("movie-list-title");
     this.#$searchInput = this.querySelector("input");
-    this.#actionType = ACTION.MORE_POPULAR;
+    this.#actionType = ACTION.POPULAR;
 
     this.popularListInit();
     this.getMovieData(ACTION.POPULAR);
