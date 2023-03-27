@@ -1,6 +1,7 @@
 import { StarKeyType } from '../type/movie';
 import { MOVIE_APP_IMG_PATH, STAR_CONDITION, STAR_MENT } from '../constant';
 import { $, $$ } from '../utils/domHelper';
+import { saveMovieRating, loadMovieRating } from '../utils/useLocalStorage';
 
 import movies from '../domain/Movies';
 
@@ -123,14 +124,14 @@ export default class DetailModal extends HTMLElement {
     const img = event.target;
 
     if (img instanceof HTMLElement) {
-      localStorage.setItem(String(this.movieId), img.id);
+      saveMovieRating(String(this.movieId), img.id);
     }
 
     this.getMyEvaluation();
   }
 
   getMyEvaluation() {
-    const evaluation = localStorage.getItem(String(this.movieId));
+    const evaluation = loadMovieRating(String(this.movieId));
 
     this.renderStarContainer(Number(evaluation) as StarKeyType);
   }
