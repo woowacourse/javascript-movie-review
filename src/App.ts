@@ -18,19 +18,25 @@ class App {
 
   private addInitialPageLoadEventListener() {
     window.addEventListener('load', () => {
-      if (!history.state) {
-        history.replaceState(
-          { isList: true, searchQuery: '', timestamp: new Date().getTime() },
-          '',
-          PAGE_BASE_URL
-        );
+      if (history.state) return;
 
-        this.loadMovieData();
-      }
+      const url = new URL(window.location.href);
+      const params = new URLSearchParams(url.search);
+      const searchQuery = params.get('q');
+      const queryParams = searchQuery ? `search?q=${searchQuery}` : '';
+
+      history.replaceState(
+        { isList: true, searchQuery, timestamp: new Date().getTime() },
+        '',
+        PAGE_BASE_URL + queryParams
+      );
+
+      this.loadMovieData(searchQuery ?? '');
     });
   }
 
-  private loadMovieData() {
+  private loadMovieData(searchQuery: string) {
+    MovieList.init(searchQuery);
     MovieList.getMovieData();
   }
 
