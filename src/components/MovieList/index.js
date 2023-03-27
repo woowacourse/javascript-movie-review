@@ -96,7 +96,8 @@ class MovieList {
     } catch (error) {
       const message = getErrorMessage(error);
       this.renderErrorMessage(message);
-      this.toggleMoreButton();
+      this.closeSkeletonContainer();
+      document.querySelector(".scroll-trigger").remove();
       return false;
     }
   }
