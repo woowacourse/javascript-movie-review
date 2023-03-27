@@ -1,5 +1,13 @@
-export function ErrorPage(errorMessage: string) {
+import { store } from '../store';
+
+export function ErrorPage() {
   return `
-        <div id="error-container">${errorMessage}</div>
+        <div class="error-item-list">${store.state.errorMessage}</div>
     `;
+}
+
+export function ErrorModal() {
+  return `
+        <div class="error-container">${store.state.errorMessage}</div>
+  `;
 }

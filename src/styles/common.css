@@ -56,6 +56,10 @@ button {
   grid-row-gap: 50px;
 }
 
+.error-item-list {
+  width: 500px;
+}
+
 .item-card {
   display: flex;
   flex-direction: column;
@@ -184,7 +188,8 @@ li {
   background: rgba(0, 0, 0, 0.35);
 }
 
-.modal-container {
+.modal-container,
+.error-container {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -337,6 +342,10 @@ li {
 
   .item-list li {
     width: 160px;
+  }
+
+  .error-item-list {
+    width: 300px;
   }
 
   .item-thumbnail {

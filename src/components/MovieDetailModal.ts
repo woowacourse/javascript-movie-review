@@ -8,6 +8,7 @@ import { fixDecimal } from '../utils/fixDecimal';
 import { RATE_DETAIL } from '../constants/constants';
 import { MovieRate } from '../data/MovieRate';
 import { getData } from '../utils/localStorage';
+import { ErrorModal, ErrorPage } from './ErrorPage';
 
 const rateData = new MovieRate(getData('rate'));
 
@@ -21,29 +22,39 @@ export function Modal() {
 
 export async function renderMovieDetail(movieId: string, parentEl: HTMLElement) {
   const clickedMovieDetail = await getMovieDetail(movieId);
-  parentEl.insertAdjacentHTML('beforeend', MovieDetail(clickedMovieDetail));
 
-  const rating_star = $('.rating-star') as HTMLSpanElement;
-  const rating_input = $('.rating input') as HTMLInputElement;
+  if (clickedMovieDetail) {
+    parentEl.insertAdjacentHTML('beforeend', MovieDetail(clickedMovieDetail));
 
-  const currentRate = rateData.getMovieRate(movieId);
-  if (currentRate) rating_star.style.width = `${currentRate * 10}%`;
+    const rating_star = $('.rating-star') as HTMLSpanElement;
+    const rating_input = $('.rating input') as HTMLInputElement;
 
-  rating_input?.addEventListener('input', (event) => {
-    const rating_number = rating_input.value;
-    const rating_detail = RATE_DETAIL[rating_number];
+    const currentRate = rateData.getMovieRate(movieId);
+    if (currentRate) rating_star.style.width = `${currentRate * 10}%`;
 
-    rating_star.style.width = `${Number(rating_number) * 10}%`;
-    $('#rate-result').textContent = `${rating_number} ${rating_detail}`;
+    rating_input?.addEventListener('input', (event) => {
+      const rating_number = rating_input.value;
+      const rating_detail = RATE_DETAIL[rating_number];
 
-    if (rating_number === '0' && rating_detail === undefined) {
-      $('#rate-result').textContent = '';
-    }
+      rating_star.style.width = `${Number(rating_number) * 10}%`;
+      $('#rate-result').textContent = `${rating_number} ${rating_detail}`;
 
-    if (event.target instanceof HTMLInputElement)
-      rateData.setClickedMovie(event.target.id, Number(rating_number));
-  });
+      if (rating_number === '0' && rating_detail === undefined) {
+        $('#rate-result').textContent = '';
+      }
 
+      if (event.target instanceof HTMLInputElement)
+        rateData.setClickedMovie(event.target.id, Number(rating_number));
+    });
+    setModalCloseEvent();
+    return;
+  }
+
+  parentEl.insertAdjacentHTML('beforeend', ErrorModal());
+  setModalCloseEvent();
+}
+
+function setModalCloseEvent() {
   $('.modal-close-btn')?.addEventListener('click', () => {
     if (rateData.clickedMovie !== null) rateData.setMovieRate();
     closeModal();
@@ -54,14 +65,15 @@ export async function renderMovieDetail(movieId: string, parentEl: HTMLElement) 
             closeModal();
         }
     });
-*/
-  function closeModal() {
-    const $modalContainer = $('.modal-container') as HTMLDivElement;
-    $modalContainer.remove();
+  */
+}
 
-    const $modal = $('.modal') as HTMLDialogElement;
-    $modal.close();
-  }
+function closeModal() {
+  const $modalContainer = $('.modal-container') as HTMLDivElement;
+  $modalContainer.remove();
+
+  const $modal = $('.modal') as HTMLDialogElement;
+  $modal.close();
 }
 
 export function MovieDetail({ id, title, poster_path, genres, vote_average, overview }: IMovie) {

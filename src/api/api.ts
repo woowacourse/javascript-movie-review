@@ -1,5 +1,7 @@
 //import { API_KEY } from '../../apiKey.js';
 
+import { store } from '../store';
+
 const BASE_PATH = 'https://api.themoviedb.org/3';
 
 export interface IMovieGenre {
@@ -47,6 +49,7 @@ export const getPopularMovies = async (page: number): Promise<IMovie[]> => {
     return movies;
   } catch (error) {
     if (error instanceof Error) {
+      store.setState({ errorMessage: error.message });
       alert(error.message);
     }
   }
@@ -69,6 +72,7 @@ export const getSearchMovie = async (keyword: string, page: number): Promise<IMo
     return movies;
   } catch (error) {
     if (error instanceof Error) {
+      store.setState({ errorMessage: error.message });
       alert(error.message);
     }
   }
@@ -90,6 +94,7 @@ export const getMovieDetail = async (movieId: string): Promise<IMovie> => {
     return data;
   } catch (error) {
     if (error instanceof Error) {
+      store.setState({ errorMessage: error.message });
       alert(error.message);
     }
   }
