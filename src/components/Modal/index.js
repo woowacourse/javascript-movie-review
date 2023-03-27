@@ -24,12 +24,14 @@ const Modal = {
     }
 
     $modal.classList.add("modal-open");
+    document.body.style.overflow = "hidden";
   },
 
   close() {
     const $modal = document.querySelector(".modal");
 
     $modal.classList.remove("modal-open");
+    document.body.style.overflow = "unset";
   },
 
   setEvent() {
