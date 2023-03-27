@@ -124,25 +124,11 @@ const MovieModal = {
   },
 
   bindPressEvent: () => {
-    window.addEventListener(
-      "keydown",
-      (event) => {
-        if (event.code == "Backspace") {
-          MovieModal.close();
-        }
-      },
-      { once: true }
-    );
-
-    window.addEventListener(
-      "keydown",
-      (event) => {
-        if (event.code == "escape") {
-          MovieModal.close();
-        }
-      },
-      { once: true }
-    );
+    window.addEventListener("keydown", (event) => {
+      if (event.code == "Backspace" || event.code == "Escape") {
+        MovieModal.close();
+      }
+    });
   },
 
   bindGoBack: () => {
