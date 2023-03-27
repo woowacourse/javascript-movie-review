@@ -10,18 +10,18 @@ class MovieService {
     this.movies = [];
   }
 
-  cleansingMovies(results: MoviesResponseResult[]): Movie[] {
+  generateMovies(results: MoviesResponseResult[]): Movie[] {
     return results.map(({ id, title, poster_path, vote_average, genre_ids, overview }) => ({
       id,
       title,
       posterPath: poster_path,
       voteAverage: vote_average,
-      genreString: this.cleansingGenreIds(genre_ids),
+      genreString: this.generateGenreString(genre_ids),
       overview,
     }));
   }
 
-  cleansingGenreIds(genre_ids: MoviesResponseResult['genre_ids']): string {
+  generateGenreString(genre_ids: MoviesResponseResult['genre_ids']): string {
     return genre_ids.map((genre_id) => this.genreMap[genre_id]).join(', ');
   }
 
