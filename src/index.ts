@@ -1,4 +1,5 @@
 import './css/reset.css';
+import './css/animation.css';
 import './css/app.css';
 import './css/util.css';
 import './css/responsive.css';
