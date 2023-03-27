@@ -1,4 +1,4 @@
-import { DetailModalType, StarKeyType } from '../type/movie';
+import { StarKeyType } from '../type/movie';
 import { MOVIE_APP_IMG_PATH, STAR_CONDITION, STAR_MENT } from '../constant';
 import { $, $$ } from '../utils/domHelper';
 
@@ -68,11 +68,10 @@ export default class DetailModal extends HTMLElement {
     this.setEvent();
   }
 
-  renderStarContainer(evaluation: number) {
-    const starFilled = evaluation as 1 | 2 | 3 | 4 | 5;
+  renderStarContainer(evaluation: StarKeyType) {
     const imageTags = [...$$('.star-item')] as HTMLImageElement[];
 
-    const starImages = STAR_CONDITION[starFilled]
+    const starImages = STAR_CONDITION[evaluation]
       .map((isfilled: boolean, idx: number) => {
         if (isfilled) imageTags[idx].src = MOVIE_APP_IMG_PATH.starFilled;
         else imageTags[idx].src = MOVIE_APP_IMG_PATH.starEmpty;
@@ -87,11 +86,11 @@ export default class DetailModal extends HTMLElement {
       })
       .join('');
 
-    $('.star-evaluation-ment').textContent = `${starFilled * 2}점 ${
-      STAR_MENT[starFilled]
+    $('.star-evaluation-ment').textContent = `${evaluation * 2}점 ${
+      STAR_MENT[evaluation]
     }`;
 
-    this.starMent = `${starFilled * 2}점 ${STAR_MENT[starFilled]}`;
+    this.starMent = `${evaluation * 2}점 ${STAR_MENT[evaluation]}`;
 
     return starImages;
   }
@@ -99,7 +98,8 @@ export default class DetailModal extends HTMLElement {
   initStarContainer() {
     const storaged = localStorage.getItem(String(this.movieId));
 
-    if (storaged !== null) return this.renderStarContainer(Number(storaged));
+    if (storaged !== null)
+      return this.renderStarContainer(Number(storaged) as StarKeyType);
     else {
       this.starMent = '0점';
 
@@ -120,8 +120,11 @@ export default class DetailModal extends HTMLElement {
   }
 
   setMyEvaluation(event: Event) {
-    const img = event.target as HTMLElement;
-    localStorage.setItem(String(this.movieId), img.id);
+    const img = event.target;
+
+    if (img instanceof HTMLElement) {
+      localStorage.setItem(String(this.movieId), img.id);
+    }
 
     this.getMyEvaluation();
   }
@@ -129,6 +132,6 @@ export default class DetailModal extends HTMLElement {
   getMyEvaluation() {
     const evaluation = localStorage.getItem(String(this.movieId));
 
-    this.renderStarContainer(Number(evaluation));
+    this.renderStarContainer(Number(evaluation) as StarKeyType);
   }
 }

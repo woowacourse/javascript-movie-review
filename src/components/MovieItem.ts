@@ -33,9 +33,9 @@ export default class MovieItem extends HTMLElement {
   connectedCallback() {
     this.addEventListener('click', async () => {
       await movies.getDetailMovie(Number(this.getAttribute('id')));
+      const detailModal = $('.movie-modal');
 
-      const detailModal = $('.movie-modal') as HTMLDialogElement;
-      detailModal.showModal();
+      if (detailModal instanceof HTMLDialogElement) detailModal.showModal();
     });
   }
 }

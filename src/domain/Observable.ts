@@ -1,5 +1,5 @@
 import {
-  DetailModalType,
+  MovieDetailType,
   MovieItemType,
   MovieSubscriberType,
 } from '../type/movie';
@@ -20,7 +20,7 @@ export default class Observable {
 
   subscribe(
     key: keyof MovieSubscriberType,
-    method: (value?: MovieItemType[] | DetailModalType) => void
+    method: (value?: MovieItemType[] | MovieDetailType) => void
   ) {
     this.observer[key].push(method);
   }

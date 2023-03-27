@@ -1,4 +1,4 @@
-import { FetchingMovieType } from '../../type/movie';
+import { FetchingDetailOfMovieType, FetchingMovieType } from '../../type/movie';
 
 const API_KEY = process.env.API_KEY;
 const popularUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=KO`;
@@ -21,7 +21,7 @@ export const getApiSearchMovie = async (
   page: number
 ): Promise<FetchingMovieType> => {
   const fetchingData = await fetch(
-    `${searchUrl}&query=${query}&page=${page}&include_adult=false`
+    `${searchUrl}s&query=${query}&page=${page}&include_adult=false`
   );
 
   const status = fetchingData.status;
@@ -30,7 +30,9 @@ export const getApiSearchMovie = async (
   return { movieList, status };
 };
 
-export const getApiDetailMovie = async (id: number): Promise<any> => {
+export const getApiDetailMovie = async (
+  id: number
+): Promise<FetchingDetailOfMovieType> => {
   const fetchingData = await fetch(
     `${detailUrl}/${id}?api_key=${API_KEY}&language=KO`
   );

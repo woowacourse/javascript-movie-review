@@ -58,7 +58,7 @@ export default class MovieList extends HTMLElement {
 
   seeMoreMovie() {
     const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry: any) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           io.unobserve(entry.target);
 
@@ -72,6 +72,7 @@ export default class MovieList extends HTMLElement {
       });
     });
 
-    io.observe($('.movie-container').lastElementChild as HTMLElement);
+    const newSubject = $('.movie-container').lastElementChild;
+    if (newSubject instanceof HTMLElement) io.observe(newSubject);
   }
 }

@@ -29,8 +29,27 @@ export type MovieItemType = {
   vote_average: number;
 };
 
+export type MovieDetailType = {
+  id: number;
+  title: string;
+  genres: GenreType[];
+  overview: string;
+  poster_path: string;
+  vote_average: number;
+};
+
+export type GenreType = {
+  id: number;
+  name: string;
+};
+
 export type FetchingMovieType = {
   movieList: MovieListApiType;
+  status: number;
+};
+
+export type FetchingDetailOfMovieType = {
+  movieItem: MovieDetailType;
   status: number;
 };
 
@@ -43,13 +62,7 @@ export type MovieSubscriberType = {
   noSearched: (() => void)[];
 };
 
-export type DetailModalType = {
-  title: string;
-  poster_path: string;
-  genres: string;
-  vote_average: number;
-  overview: string;
-};
+export type StarKeyType = 1 | 2 | 3 | 4 | 5;
 
 export type StarConditionType = {
   1: boolean[];
@@ -66,5 +79,3 @@ export type StarMentType = {
   4: string;
   5: string;
 };
-
-export type StarKeyType = 1 | 2 | 3 | 4 | 5;

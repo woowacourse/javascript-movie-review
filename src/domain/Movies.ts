@@ -3,7 +3,7 @@ import {
   getApiPopularMovie,
   getApiSearchMovie,
 } from './api';
-import { MovieItemType, DetailModalType } from '../type/movie';
+import { MovieItemType, GenreType } from '../type/movie';
 
 import Observable from './Observable';
 
@@ -116,7 +116,7 @@ class Movies extends Observable {
       id: movieItem.id,
       title: movieItem.title,
       poster_path: movieItem.poster_path,
-      genres: movieItem.genres.map((genre: any) => genre.name).join(', '),
+      genres: movieItem.genres.map((genre: GenreType) => genre.name).join(', '),
       vote_average: movieItem.vote_average,
       overview: movieItem.overview,
     };
