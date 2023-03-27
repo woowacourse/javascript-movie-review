@@ -21,7 +21,6 @@ export default class ModalComponent extends CustomComponent {
     genre.innerText = item.genres.map((genre) => genre.name).join(", ");
     desciption.innerText = item.overview || "줄거리가 작성되지 않습니다.";
     voteAverage.innerText = item.vote_average;
-    console.log(item.id);
     modalBody.setAttribute("data-movie-id", item.id);
 
     const rate = Number(localStorage.getItem(`movie_rate_${item.id}`));
@@ -47,15 +46,6 @@ export default class ModalComponent extends CustomComponent {
       this.changeRate(rate);
       localStorage.setItem(`movie_rate_${modalBody.dataset.movieId}`, rate);
     });
-
-    // const mainPosterImg = document.querySelector(".main-poster-img");
-    // mainPosterImg.addEventListener("load", () => {
-    //   console.log("lodad!!");
-    //   const skeleton = document.querySelector(
-    //     ".modal-content-body .item-thumbnail"
-    //   );
-    //   skeleton.remove();
-    // });
   }
 
   changeRate(rate) {
