@@ -79,6 +79,10 @@
     text-align: center;
   }
 
+  .modal-detail {
+    height: 350px;
+  }
+
   .modal-main {
     justify-content: center;
   }
