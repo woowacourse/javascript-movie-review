@@ -1,6 +1,5 @@
 //import { API_KEY } from '../../apiKey.js';
 
-<<<<<<< HEAD
 import { store } from '../store';
 
 const BASE_PATH = 'https://api.themoviedb.org/3';
@@ -9,18 +8,11 @@ export interface IMovieGenre {
   id: number;
   name: string;
 }
-=======
-const BASE_PATH = 'https://api.themoviedb.org/3';
-
->>>>>>> fa33fb01648a0dceb841473ad808bd0d9b6b0790
 export interface IMovie {
   id: number;
   backdrop_path: string;
   poster_path: string;
-<<<<<<< HEAD
   genres: IMovieGenre[];
-=======
->>>>>>> fa33fb01648a0dceb841473ad808bd0d9b6b0790
   title: string;
   overview: string;
   vote_average: number;
@@ -57,10 +49,7 @@ export const getPopularMovies = async (page: number): Promise<IMovie[]> => {
     return movies;
   } catch (error) {
     if (error instanceof Error) {
-<<<<<<< HEAD
       store.setState({ errorMessage: error.message });
-=======
->>>>>>> fa33fb01648a0dceb841473ad808bd0d9b6b0790
       alert(error.message);
     }
   }
@@ -83,7 +72,6 @@ export const getSearchMovie = async (keyword: string, page: number): Promise<IMo
     return movies;
   } catch (error) {
     if (error instanceof Error) {
-<<<<<<< HEAD
       store.setState({ errorMessage: error.message });
       alert(error.message);
     }
@@ -107,8 +95,6 @@ export const getMovieDetail = async (movieId: string): Promise<IMovie> => {
   } catch (error) {
     if (error instanceof Error) {
       store.setState({ errorMessage: error.message });
-=======
->>>>>>> fa33fb01648a0dceb841473ad808bd0d9b6b0790
       alert(error.message);
     }
   }
