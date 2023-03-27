@@ -93,7 +93,7 @@ dialog::-webkit-scrollbar {
 #movie-detail-overview {
   max-height: 180px;
   line-height: 16px;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 #star-rate-message {
