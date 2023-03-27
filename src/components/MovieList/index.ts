@@ -76,8 +76,6 @@ export class MovieList extends HTMLElement {
           moreButtonHandler();
           setTimeout(() => {
             this.#$li = this.querySelector('movie-item:last-child')!;
-            console.log(this.querySelectorAll('movie-item').length);
-            console.log(this.#$li);
             io.observe(this.#$li);
           }, 500);
         }

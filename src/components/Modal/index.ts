@@ -15,7 +15,6 @@ export class Modal extends HTMLElement {
 
   show = () => {
     const modal = document.querySelector('.modal');
-    console.log(modal);
     if (!(modal instanceof HTMLDialogElement)) throw new Error(STRING.NOT_FIND_ELEMENT);
     modal.showModal();
   };
