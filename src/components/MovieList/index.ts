@@ -8,8 +8,8 @@ export class MovieList extends HTMLElement {
   constructor() {
     super();
     this.innerHTML = template;
-    this.#$movieItems = this.querySelector('.item-list')!;
-    this.#$li = document.querySelector('.ul')!;
+    this.#$movieItems = <HTMLDivElement>this.querySelector('.item-list');
+    this.#$li = <HTMLUListElement>document.querySelector('.ul');
   }
 
   setTitle(title: string) {
