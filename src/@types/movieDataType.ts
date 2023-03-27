@@ -21,14 +21,14 @@ export interface TotalMovieInfo {
   vote_count: number;
 }
 
-export interface genres {
+export interface Genre {
   id: number;
   name: string;
 }
 
-export interface DetailInfo extends MovieInfo {
+export interface MovieDetailInfo extends MovieInfo {
   id: number;
-  genres: genres[];
+  genres: Genre[];
   overview: string;
 }
 
@@ -50,4 +50,12 @@ export interface ErrorType {
 
 export interface ScoreComment {
   [key: string]: string;
+}
+
+export interface MovieScore {
+  [key: string]: number;
+}
+
+export interface ScoreBoard {
+  [key: number]: number;
 }

@@ -1,7 +1,7 @@
 import { MovieDetailInfo, Genre } from "../@types/movieDataType";
 import { $ } from "../utils/selector";
 
-export class MovieDatail {
+export class MovieDatailModal {
   private _title: string;
   private _genres: Genre[];
   private _overView: string;
@@ -72,7 +72,9 @@ export class MovieDatail {
   close() {
     const closeButton = $(".modal__close-btn") as HTMLElement;
     closeButton.addEventListener("click", this.remove);
-    document.addEventListener("keyup", this.remove);
+    document.addEventListener("keyup", (e) => {
+      e.key === "Escape" && this.remove();
+    });
   }
 
   selectGenre() {
