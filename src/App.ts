@@ -1,6 +1,5 @@
 import { Header } from './components/Header';
 import { MovieList } from './components/MovieList';
-import { SeeMoreButton } from './components/SeeMoreButton';
 import { Skeleton } from './components/Skeleton';
 import { Modal } from './components/Modal';
 import { ModalInformation } from './ModalInformation';
@@ -10,7 +9,6 @@ import { STRING } from './utils/Constant';
 class App {
   $header: Header;
   $movieList: MovieList;
-  $seeMoreButton: SeeMoreButton;
   store: Store;
   skeleton: Skeleton;
   modal: Modal;
@@ -18,7 +16,6 @@ class App {
 
   constructor() {
     this.$movieList = document.querySelector('movie-list')!;
-    this.$seeMoreButton = document.querySelector('more-button')!;
     this.$header = document.querySelector('movie-header')!;
     this.skeleton = new Skeleton();
     this.store = new Store();
