@@ -34,6 +34,19 @@ export class MovieDetailModal {
 
       setStarRateToStorage(movieId, starRate);
     });
+
+    $(".modal-content").addEventListener("mouseover", (event: Event) => {
+      if (!(event.target instanceof HTMLImageElement)) return;
+      if (event.target.className !== "star-rate-select-img") return;
+
+      const movieId = Number(event.target.dataset.movieId);
+      const starRate = Number(event.target.dataset.starRate) + 1;
+
+      if (getStarRateFromStorage(movieId) !== starRate) {
+        this.#$StarSelectContainer.renderStars(movieId, starRate);
+        setStarRateToStorage(movieId, starRate);
+      }
+    });
   }
 
   render(movie: MovieDetail, movieId: number) {

@@ -17,13 +17,13 @@ export class StarSelectContainer {
     const imgArray = this.getStarTemplate(movieId, starRate);
 
     return /*html*/ `
-          <span>내 별점</span>
-          <span class="star-select-container">
-            ${imgArray.join("")}
-          </span>
-          <span>${starRate * 2}점</span>
-          <span class="star-rate-desc">${STAR_RATE_STRING[starRate]}</span>
-        `;
+      <span>내 별점</span>
+      <span class="star-select-container">
+        ${imgArray.join("")}
+      </span>
+      <span>${starRate * 2}점</span>
+      <span class="star-rate-desc">${STAR_RATE_STRING[starRate]}</span>
+    `;
   }
 
   getStarTemplate(movieId: number, starRate: number) {
