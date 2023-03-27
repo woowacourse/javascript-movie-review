@@ -179,6 +179,10 @@ dialog {
   border-radius: 8px;
 }
 
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
 .movie-modal-container {
   position: relative;
 
