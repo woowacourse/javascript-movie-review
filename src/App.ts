@@ -7,7 +7,7 @@ import { getKeywordData } from "./api/keywordSearch";
 import { getMovieDetail } from "./api/movieDetail";
 import { getMovieData } from "./api/movieList";
 import { ErrorComment } from "./components/ErrorComment";
-import { MovieDatail } from "./components/MovieDetail";
+import { MovieDatailModal } from "./components/MovieDetail";
 import { MovieItem } from "./components/MovieItem";
 import MovieItemList from "./components/MovieItemList";
 import SearchBox from "./components/SearchBox";
@@ -39,7 +39,7 @@ export const App = async () => {
       const detailData = await getMovieDetail(movieData.id);
 
       targetMovie.addEventListener("clickMovieItem", () => {
-        new MovieDatail(detailData);
+        new MovieDatailModal(detailData);
         new StarInput(movieData.id);
       });
     } catch (e) {
