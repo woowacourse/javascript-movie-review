@@ -1,9 +1,9 @@
 export const requestLocalStorage = {
-  setMyRating: (item: { movieId: number; score: number }[]): void => {
+  setMyRating: (item: MyRating): void => {
     localStorage.setItem("myRating", JSON.stringify(item));
   },
 
-  getMyRating: (): { movieId: number; score: number }[] | [] => {
+  getMyRating: (): MyRating => {
     const item = localStorage.getItem("myRating");
     if (item) return JSON.parse(item);
     return [];

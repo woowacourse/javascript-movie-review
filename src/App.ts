@@ -123,7 +123,7 @@ export default class App {
     this.#myRating = this.#myRating.filter(
       ({ movieId }) => movieId !== detail.movieId
     );
-    this.#myRating.push({ movieId: detail.movieId, score: detail.myRating });
+    this.#myRating.push({ movieId: detail.movieId, myRating: detail.myRating });
   };
 
   sendMyRating = ({ detail }: CustomEvent) => {
@@ -134,7 +134,7 @@ export default class App {
     $app?.insertAdjacentHTML(
       "afterbegin",
       `<movie-modal 
-      my-rating="${targetObject ? targetObject.score : 0}"
+      my-rating="${targetObject ? targetObject.myRating : 0}"
       movie-id="${detail.movieId}"
       movie-title="${detail.movieTitle}"
       ></movie-modal>`

@@ -3,20 +3,32 @@ declare module "*.png" {
   export default value;
 }
 
-type MovieList = movieInfo[];
+type MovieList = MovieInfo[];
 
 type ListState = keyof LIST_STATE;
 
-type MyRating = { movieId: number; score: number }[];
+type MyRating = { movieId: number; myRating: Score }[];
+
+type Score = 0 | 2 | 4 | 6 | 8 | 10;
 
 type ToggleSkeleton = keyof TOGGLE_SKELETON;
 
 type AppState = {
   page: number;
-  listState: listState;
+  listState: ListState;
   movieList: MovieList;
   movieName: string;
 };
+
+type MovieModalState = {
+  poster: string;
+  rating: number;
+  overview: string;
+  comment: string;
+  genre: string;
+};
+
+type RatingBoxState = { myRating: Score };
 
 type MovieInfo = {
   title: string;
@@ -27,7 +39,7 @@ type MovieInfo = {
 
 type MovieListResponse = {
   page: number;
-  results: movieData[];
+  results: MovieData[];
   total_pages: number;
   total_results: number;
 };

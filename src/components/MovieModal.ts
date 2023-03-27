@@ -3,7 +3,7 @@ import NoImage from "../assets/image/no_image.png";
 import { RESPONSE_NULL } from "../constant/error";
 
 export default class MovieModal extends HTMLElement {
-  #state = {
+  #state: MovieModalState = {
     poster: "",
     rating: 0,
     overview: "",

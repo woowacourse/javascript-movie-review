@@ -1,7 +1,7 @@
 import { COMMENT } from "../constant/setting";
 
 export default class RatingBox extends HTMLElement {
-  #state = { myRating: 0 };
+  #state: RatingBoxState = { myRating: 0 };
 
   get myRating() {
     return Number(this.getAttribute("my-rating"));
@@ -12,7 +12,7 @@ export default class RatingBox extends HTMLElement {
   }
 
   connectedCallback() {
-    this.#state.myRating = this.myRating;
+    this.setState({ myRating: this.myRating });
     this.render();
     this.setEvent();
   }
