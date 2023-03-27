@@ -157,7 +157,6 @@ class Modal extends HTMLElement {
 
     const score = userMovieScore.getScore(this.#detailMovieInfo.id);
 
-    console.log(score);
     modalMyScore.innerText = score.toString();
     modalMyComment.innerText = this.getScoreComment(score.toString());
   }

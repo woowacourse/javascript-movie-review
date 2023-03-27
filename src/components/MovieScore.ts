@@ -8,11 +8,11 @@ class MovieScore extends HTMLElement {
   }
 
   render(): void {
-    const score = Number(this.getAttribute('score'));
+    const score = this.getAttribute('score');
 
     this.innerHTML = /*html*/ `
     <div class="modal-score">
-        ${score !== 0 ? `<img src="${STAR_FILLED}">` : `<img src="${STAR_EMPTY}">`}
+        ${score !== '0' ? `<img src="${STAR_FILLED}">` : `<img src="${STAR_EMPTY}">`}
         <span>${score}<span>
     </div>
     `;

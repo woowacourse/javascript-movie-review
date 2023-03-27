@@ -203,7 +203,6 @@ class MoviesContainer extends HTMLElement {
 
   setSearchWord(searchWord: string): void {
     if (this.#searchWord.value === searchWord) {
-      window.scrollTo(0, 0);
       return;
     }
     this.#searchWord.value = searchWord;
