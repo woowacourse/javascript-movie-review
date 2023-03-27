@@ -1,5 +1,3 @@
-import { MovieDetailResult } from '../apis/tmdbType';
-
 export interface MovieInfo {
   id: number;
   title: string;

@@ -1,59 +1,64 @@
 import './styles/index.css';
 import './components/index';
+import { getHashURLParams } from './utils/domain';
 import { $ } from './utils/common';
-import { HTMLMovieContainerElement } from './components/MoviesContainer';
 import { HTMLModalElement } from './components/Modal';
+import { HTMLMovieContainerElement } from './components/MoviesContainer';
 import { SCROLL_HIDDEN_CLASSNAME } from './constants';
 
-const setMovieSiteUrl = (isFirstStart: boolean): void => {
+const setMovieSiteUrl = (): void => {
+  const movieContainer = $('movies-container') as HTMLMovieContainerElement;
+  const modal = $('#modal') as HTMLDialogElement;
+
+  const { searchWord, movieId } = getHashURLParams();
+
   if (!navigator.onLine) {
     setDisconnectedError();
     return;
   }
 
-  const movieContainer = $('movies-container') as HTMLMovieContainerElement;
-  const modal = $('#modal') as HTMLDialogElement;
-
-  const path = window.location.hash.replace('#', '');
-  const URL = new URLSearchParams(path);
-  const searchWord = URL.get('q');
-  const detailMovieId = URL.get('id');
-
-  if (!detailMovieId) {
+  if (!movieId) {
     $('body')?.classList.remove(SCROLL_HIDDEN_CLASSNAME);
     modal.close();
   }
 
-  if (searchWord && !detailMovieId) {
+  if (searchWord && !movieId) {
     movieContainer.setSearchWord(searchWord);
     return;
   }
 
-  if (detailMovieId && isFirstStart && searchWord) {
-    movieContainer.setSearchWord(searchWord);
-    setDetailModalEvent(detailMovieId);
-    return;
-  }
-
-  if (detailMovieId && isFirstStart) {
-    movieContainer.setSearchWord('');
-    setDetailModalEvent(detailMovieId);
-    return;
-  }
-
-  if (detailMovieId) {
-    setDetailModalEvent(detailMovieId);
+  if (movieId) {
+    setDetailModalEvent(movieId);
     return;
   }
 
   movieContainer.setSearchWord('');
 };
 
-const setDetailModalEvent = (detailMovieId: string) => {
-  setDetailModal(detailMovieId);
+const setStartMovieSiteUrl = () => {
+  const movieContainer = $('movies-container') as HTMLMovieContainerElement;
+  const { searchWord, movieId } = getHashURLParams();
+
+  if (movieId && searchWord) {
+    movieContainer.setSearchWord(searchWord);
+    setDetailModalEvent(movieId);
+    return;
+  }
+
+  if (movieId) {
+    setDetailModalEvent(movieId);
+  }
+
+  movieContainer.setSearchWord('');
 };
 
-const setDisconnectedError = () => {
+const setDetailModalEvent = (detailMovieId: string): void => {
+  const modal = $('movie-modal') as HTMLModalElement;
+
+  modal.setMovieId(detailMovieId);
+};
+
+const setDisconnectedError = (): void => {
   const movieContainer = $('movies-container') as HTMLMovieContainerElement;
 
   movieContainer.reset();
@@ -63,16 +68,8 @@ const setDisconnectedError = () => {
   movieContainer.setErrorMessage('인터넷 연결이 끊겼습니다.');
 };
 
-const setDetailModal = (id: string) => {
-  const modal = $('movie-modal') as HTMLModalElement;
-  modal.setMovieId(id);
-};
-
-const IS_FIRST_START = true;
-const IS_NOT_FIRST_START = false;
-
 window.addEventListener('offline', setDisconnectedError);
 
-window.addEventListener('load', () => setMovieSiteUrl(IS_FIRST_START));
+window.addEventListener('load', setStartMovieSiteUrl);
 
-window.addEventListener('hashchange', () => setMovieSiteUrl(IS_NOT_FIRST_START));
+window.addEventListener('hashchange', setMovieSiteUrl);
