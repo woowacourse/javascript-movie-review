@@ -2,6 +2,10 @@
   box-sizing: border-box !important;
 }
 
+html {
+  font-size: 62.5%;
+}
+
 body {
   font-size: 14px;
   background-color: #222222;
@@ -9,7 +13,6 @@ body {
 }
 
 main {
-  /* margin-top: 72px; */
   padding-top: 120px;
 }
 
@@ -60,7 +63,7 @@ button {
 }
 
 .item-view h2 {
-  font-size: 2rem;
+  font-size: 32px;
   font-weight: bold;
   user-select: none;
   margin-bottom: 48px;
@@ -68,11 +71,9 @@ button {
 
 @media screen and (max-width: 1023px) {
   .item-view h2 {
-    font-size: 1.5rem;
+    font-size: 24px;
   }
 }
-
-/* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .item-list {
   display: grid;
@@ -139,14 +140,14 @@ button {
 
 .item-title {
   margin-top: 16px;
-  font-size: 1.2rem;
+  font-size: 18px;
   font-weight: bold;
   line-height: 140%;
 }
 
 .item-score {
   margin-top: 16px;
-  font-size: 1.2rem;
+  font-size: 18px;
   display: flex;
   align-items: center;
 }
@@ -160,7 +161,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 24px;
 }
 
 .item-score img {
@@ -244,14 +245,10 @@ button.primary {
 header h1 {
   cursor: pointer;
   user-select: none;
-  font-size: 2rem;
+  font-size: 32px;
   font-weight: bold;
-  letter-spacing: -0.1rem;
+  letter-spacing: -1.6px;
   color: #f33f3f;
-}
-
-.header-layout img {
-  z-index: 10;
 }
 
 .search-box {
@@ -291,7 +288,7 @@ header h1 {
   right: 8px;
   width: 14px;
   border: 0;
-  text-indent: -1000rem;
+  text-indent: -1000px;
   background: url('../asset/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
 }

@@ -47,8 +47,6 @@
   }
 }
 
-/*  */
-
 .movie-detail-top {
   position: relative;
   padding: 18px 32px;
@@ -64,7 +62,7 @@
   margin: auto 0;
   width: 36px;
   height: 36px;
-  font-size: 1.5rem;
+  font-size: 24px;
   border-radius: 18px;
   color: #f1f1f1;
   background-color: #383839;
@@ -110,8 +108,6 @@
   }
 }
 
-/*  */
-
 .movie-detail-thumbnail {
   width: 292px;
   height: auto;
@@ -125,7 +121,7 @@
 }
 
 .movie-detail-title {
-  font-size: 1.2rem;
+  font-size: 18px;
   font-weight: bold;
   line-height: 140%;
   text-align: center;
@@ -208,8 +204,6 @@
   }
 }
 
-/*  */
-
 .voted-star-container {
   width: 135px;
   display: grid;
@@ -221,8 +215,4 @@
 
 .vote-star {
   cursor: pointer;
-}
-
-.vote-star:hover {
-  color: red;
 }

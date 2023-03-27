@@ -103,3 +103,4 @@
 - [x] refactor: api키 숨기기
 - [x] refactor: 별점 점수 계산하기
   - 기존엔 리턴값이 숫자, 문자열이 모두 나타남. 이를 숫자로 통일
+- [x] refactor: css 주석 제거 및 px단위 통일
