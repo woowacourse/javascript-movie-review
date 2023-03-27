@@ -17,16 +17,13 @@ const LoadMoreButton = {
     return button?.classList.remove('hide');
   },
   autoClick(movies: Movies, target: HTMLElement) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(async (entry) => {
-          if (entry.isIntersecting) {
-            await LoadMoreButton.clickEvent(movies);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(async (entry) => {
+        if (entry.isIntersecting) {
+          await LoadMoreButton.clickEvent(movies);
+        }
+      });
+    });
 
     const button = target.querySelector(`#${ID.LOAD_MORE_BUTTON}`) as HTMLButtonElement;
     observer.observe(button);
