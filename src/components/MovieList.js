@@ -1,7 +1,8 @@
 import { Store } from '..';
 import { RENDER_MODE } from '../constants';
-import { getPopularMovies, searchMovies } from '../service/movie';
+import { getPopularMovies, searchMovies, getMovieById } from '../service/movie';
 import MovieCard from './MovieCard';
+import MovieInfo from './MovieInfo';
 
 export default class MovieList {
   constructor($parent) {
@@ -58,6 +59,20 @@ export default class MovieList {
         </a>
       </li>
     `;
+  }
+
+  bindEvent(insertModalContent) {
+    this.$movieItemList.addEventListener('click', async (event) => {
+      const movieCard = event.target.closest('.item-card');
+      if (!movieCard) return;
+
+      const id = movieCard.getAttribute('data-id');
+      const movie = await getMovieById(id);
+
+      const movieInfo = new MovieInfo();
+      insertModalContent(movieInfo.template(movie));
+      movieInfo.bindEvent();
+    });
   }
 
   async renderNewContent() {
