@@ -94,6 +94,11 @@
   .modal-img {
     display: none;
   }
+
+  .user-rate {
+    margin-bottom: 15px;
+  }
+
   .rate-result {
     min-width: 0px !important;
     max-width: 20px !important;
