@@ -44,7 +44,7 @@ class MovieDetailModal extends HTMLElement {
         <section class="movie-detail">
           <div class="flex align-center">
             <p>${genres.map((genre) => genre.name).join(', ')}</p>
-            <p class="vote-average">${STAR_FILLED_ICON} ${vote_average}</p>
+            <p class="vote-average">${STAR_FILLED_ICON} ${vote_average.toFixed(1)}</p>
           </div>
           <p class="overview">${overview === '' ? '등록된 줄거리가 없습니다.' : overview}</p>
           <section class="vote">
