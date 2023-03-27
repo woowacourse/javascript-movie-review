@@ -1,12 +1,12 @@
 import { FetchedMovieDetailJson, FetchedMovieJson } from './types/fetchJsonType';
-import { FetchStandard, FetchType } from './types/fetchType';
+import { MovieFetchInfo, FetchType } from './types/fetchType';
 import fetchJson from './domains/fetchJson';
 import getAPI from './domains/getAPI';
 import { dataProcessors } from './domains/processMovieData';
 import render from './render';
 
 class App {
-  private fetchStandard: FetchStandard = { page: 1, type: FetchType.Popular };
+  private movieFetchInfo: MovieFetchInfo = { page: 1, type: FetchType.Popular };
 
   constructor() {
     this.initEventHandler();
@@ -14,7 +14,7 @@ class App {
   }
 
   loadMovieList() {
-    const isPopularMovieList = this.fetchStandard.type === FetchType.Popular;
+    const isPopularMovieList = this.movieFetchInfo.type === FetchType.Popular;
 
     try {
       if (isPopularMovieList) this.loadPopularMovieList();
@@ -25,19 +25,21 @@ class App {
   }
 
   async loadPopularMovieList() {
-    const movieData = await this.getMovieData(getAPI.popularMovie(this.fetchStandard.page));
-    render.updateMovieList(movieData, this.fetchStandard);
+    const movieData = await this.getMovieData(getAPI.popularMovie(this.movieFetchInfo.page));
+    render.updateMovieList(movieData, this.movieFetchInfo);
   }
 
   async loadSearchedMovieList() {
-    if (this.fetchStandard.type === FetchType.Popular) return;
+    if (this.movieFetchInfo.type === FetchType.Popular) return;
 
-    const movieData = await this.getMovieData(getAPI.searchMovie(this.fetchStandard.keyword!, this.fetchStandard.page));
-    render.updateMovieList(movieData, this.fetchStandard);
+    const movieData = await this.getMovieData(
+      getAPI.searchMovie(this.movieFetchInfo.keyword!, this.movieFetchInfo.page)
+    );
+    render.updateMovieList(movieData, this.movieFetchInfo);
   }
 
   loadMoreMovies() {
-    this.fetchStandard.page += 1;
+    this.movieFetchInfo.page += 1;
 
     render.createSkeleton();
 
@@ -49,18 +51,18 @@ class App {
       detail: { keyword },
     } = event as Event & { detail: { keyword: string } };
 
-    this.fetchStandard = { page: 1, type: FetchType.Search, keyword };
+    this.movieFetchInfo = { page: 1, type: FetchType.Search, keyword };
 
     window.scrollTo({ top: 0, left: 0 });
-    render.setupSearchMovie(this.fetchStandard);
+    render.setupSearchMovie(this.movieFetchInfo);
 
     this.loadMovieList();
   }
 
   moveHome() {
-    if (this.fetchStandard.type === FetchType.Search) {
-      this.fetchStandard = { page: 1, type: FetchType.Popular };
-      render.setupPopularMovie(this.fetchStandard);
+    if (this.movieFetchInfo.type === FetchType.Search) {
+      this.movieFetchInfo = { page: 1, type: FetchType.Popular };
+      render.setupPopularMovie(this.movieFetchInfo);
       this.loadMovieList();
     }
 

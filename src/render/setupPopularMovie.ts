@@ -1,8 +1,8 @@
-import { FetchStandard } from '../types/fetchType';
+import { MovieFetchInfo } from '../types/fetchType';
 import movieList from '../components/MovieList';
 
-export default (fetchStandard: FetchStandard) => {
-  movieList.setListName(fetchStandard.type);
+export default (movieFetchInfo: MovieFetchInfo) => {
+  movieList.setListName(movieFetchInfo.type);
   movieList.cleanMovieList();
   movieList.createSkeleton();
 };

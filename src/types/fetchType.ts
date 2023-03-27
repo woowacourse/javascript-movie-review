@@ -14,4 +14,4 @@ export type SearchFetchType = {
   keyword: string;
 };
 
-export type FetchStandard = PopularFetchType | SearchFetchType;
+export type MovieFetchInfo = PopularFetchType | SearchFetchType;
