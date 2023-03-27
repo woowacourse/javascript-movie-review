@@ -12,25 +12,23 @@ class MovieScore extends HTMLElement {
   }
 
   render() {
-    const score = this.getAttribute("movie-score") ?? "0";
+    const movieScore = Number(this.getAttribute("movie-score")) ?? 0;
+    const scores = [2, 4, 6, 8, 10];
 
     this.innerHTML = /* html */ `
         <div id="detail-score-title">내 별점</div> 
         <div id="detail-score-image">
-            ${Array.from({ length: 5 })
-              .map((_, index) => {
-                return /* html */ `
-              <img class="star" src="${
-                Number(score) < (index + 1) * 2 ? StartEmpty : StarFilled
-              }" class="star" alt="별점 ${(index + 1) * 2}" data-score="${
-                  (index + 1) * 2
-                }"/>
-            `;
-              })
-              .join("")}
+          ${scores
+            .map((score) => {
+              return /* html */ `
+                <img class="star" src="${
+                  movieScore < score ? StartEmpty : StarFilled
+                }" class="star" alt="별점 ${score}" data-score="${score}"/>`;
+            })
+            .join("")}    
         </div>
         <div id="detail-score-description">
-          ${this.getScoreMessage(score)}
+          ${this.getScoreMessage(movieScore)}
         </div>
      `;
   }
@@ -58,19 +56,19 @@ class MovieScore extends HTMLElement {
     }
   }
 
-  getScoreMessage(score: string) {
+  getScoreMessage(score: number) {
     switch (score) {
-      case "0":
+      case 0:
         return "별점 매기기";
-      case "2":
+      case 2:
         return "2 최악이예요";
-      case "4":
+      case 4:
         return "4 별로예요";
-      case "6":
+      case 6:
         return "6 보통이에요";
-      case "8":
+      case 8:
         return "8 재미있어요";
-      case "10":
+      case 10:
         return "10 명작이에요";
     }
   }
