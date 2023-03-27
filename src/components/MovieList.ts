@@ -1,7 +1,6 @@
 import { Movie } from '../movies.type';
 import { TMDBErrorResponse, TMDBResponse } from '../response.type';
 import store from '../store';
-import { infiniteScroll } from '../util/InfiniteScroll';
 import { getLocalStorage } from '../util/LocalStorage';
 import DetailModal from './DetailModal';
 import ErrorPopup from './ErrorPopup';
@@ -31,7 +30,7 @@ export class MovieList {
   async init() {
     await this.nextPage();
     this.showModal();
-    infiniteScroll('li:nth-last-child(5)', this.nextPage);
+    this.infiniteScroll('li:nth-last-child(5)', this.nextPage);
   }
 
   render() {
@@ -125,5 +124,25 @@ export class MovieList {
       }
       return null;
     });
+  }
+
+  infiniteScroll(target: string, fn: CallableFunction) {
+    const options = {
+      threshold: 0.3,
+    };
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        if (this.isFinished) return;
+        fn().then(() => {
+          const eventTarget = document.querySelector(target);
+          io.disconnect();
+          if (eventTarget) io.observe(eventTarget);
+        });
+      });
+    }, options);
+    const last = document.querySelector(target);
+
+    if (last) io.observe(last);
   }
 }
