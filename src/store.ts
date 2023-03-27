@@ -13,7 +13,7 @@ class Store {
     this.movieList = [...this.movieList, ...movies];
   }
 
-  getMovie(id: number): Movie {
+  getMovie(id: number) {
     return this.movieList.find((movie) => movie.id === id)!;
   }
 

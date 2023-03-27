@@ -119,8 +119,8 @@ export class MovieList {
         (document.querySelector('.modal') as HTMLDialogElement).showModal();
         const rate = getLocalStorage(id);
         return typeof rate === 'object'
-          ? new DetailModal(store.getMovie(numberId))
-          : new DetailModal(store.getMovie(numberId), rate);
+          ? new DetailModal(<Movie>store.getMovie(numberId))
+          : new DetailModal(<Movie>store.getMovie(numberId), rate);
       }
       return null;
     });
