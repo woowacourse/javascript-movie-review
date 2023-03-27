@@ -18,8 +18,6 @@ class App {
 
   private addInitialPageLoadEventListener() {
     window.addEventListener('load', () => {
-      console.log(history.state, '!!');
-
       if (history.state) return;
 
       const url = new URL(window.location.href);
