@@ -44,10 +44,7 @@ class MovieModal {
 
     const poster = document.createElement('img');
     poster.addEventListener('load', () => $('.skeleton', this.element).replaceWith(poster));
-    poster.addEventListener('error', () => {
-      poster.setAttribute('src', './assets/image_error.jpg');
-      // $('.skeleton', this.element).replaceWith(poster);
-    });
+    poster.addEventListener('error', () => poster.setAttribute('src', './assets/image_error.jpg'));
     poster.setAttribute('src', `https://image.tmdb.org/t/p/w500${posterPath}`);
     poster.setAttribute('alt', `영화 '${title}'의 포스터 사진`);
 
