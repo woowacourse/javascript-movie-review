@@ -46,7 +46,7 @@ class MovieScore extends HTMLElement {
       dispatchCustomEvent(<HTMLElement>$("movie-detail"), {
         eventType: "setMovieScore",
         data: {
-          movieId: this.getAttribute("movie-id"),
+          movieId: <string>this.getAttribute("movie-id"),
           score,
         },
       });

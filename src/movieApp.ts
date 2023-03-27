@@ -7,7 +7,7 @@ import movieHandler from "./domain/movieHandler";
 import { $ } from "./utils/dom";
 import MovieListContainer from "./components/movie/MovieListContainer";
 import MovieList from "./components/movie/MovieList";
-import type { Movie, ResponseData } from "./types/type";
+import type { ResponseData, Score } from "./types/type";
 import { errorHandler } from "./utils/errorHandler";
 import CustomModal from "./components/common/CustomModal";
 import MovieDetail from "./components/movie/MovieDetail";
@@ -62,10 +62,10 @@ const movieApp = {
     modal.openModal();
   },
 
-  setMovieScore({ movieId, score }: { movieId: string; score: string }) {
+  setMovieScore({ movieId, score }: Score) {
     const original = getLocalStorage("moviesScore") ?? [];
     const existMovie = original.find(
-      (movie: { movieId: string; score: string }) => movie.movieId === movieId
+      (movie: Score) => movie.movieId === movieId
     );
 
     if (score === "0") return;

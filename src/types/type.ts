@@ -21,9 +21,14 @@ export interface Genre {
   name: string;
 }
 
+export interface Score {
+  movieId: string;
+  score: string;
+}
+
 export interface CustomEvent {
   eventType: string;
-  data?: any;
+  data?: string | Score | null;
 }
 
 export interface ResponseData {
