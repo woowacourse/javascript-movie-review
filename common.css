@@ -56,6 +56,12 @@ button {
 .item-card {
   display: flex;
   flex-direction: column;
+
+  cursor: pointer;
+}
+
+.item-card:hover {
+  transform: scale(1.1);
 }
 
 .item-thumbnail {
@@ -259,8 +265,6 @@ dialog::backdrop {
 
 .movie-modal-genre span:first-child {
   margin-right: 12px;
-
-  /* opacity: 60%; */
 }
 
 .movie-modal-genre img {
@@ -282,6 +286,10 @@ dialog::backdrop {
 
 .star-container {
   margin: 0 12px;
+}
+
+.star-item {
+  cursor: pointer;
 }
 
 @media (max-width: 1199px) {
