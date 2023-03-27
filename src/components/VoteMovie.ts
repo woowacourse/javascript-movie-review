@@ -45,8 +45,10 @@ class VoteMovie {
   }
 
   calculateVotedResult() {
-    const score = this.score > 0 ? this.score * 2 : '';
-    return `<span>${score}</span><span class="voted-result-content">${this.voteResults[this.score]}<span>`;
+    const score = this.score * 2;
+    return `<span>${!score ? '' : score}</span><span class="voted-result-content">${
+      this.voteResults[this.score]
+    }<span>`;
   }
 
   insertStar(hoverStarCount: number) {
