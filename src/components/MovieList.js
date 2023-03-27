@@ -22,22 +22,14 @@ export default class MovieList {
     this.render();
     this.selectDom();
     this.mount().then(() => {
-      this.io.observe(document.querySelector('#js-movie-list').lastElementChild);
+      this.io.observe(this.$detectingScroll);
     });
   }
 
   handleIntersect(entries, io) {
-    entries.forEach(async (entry) => {
-      if (entry.isIntersecting) {
-        // TODO: console.log 삭제
-        console.log(`[무한스크롤] page:${Store.page}`);
-
-        io.unobserve(entry.target);
-        await this.renderNewContent();
-
-        if (Store.page < Store.lastPage) {
-          io.observe(document.querySelector('#js-movie-list').lastElementChild);
-        }
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && Store.page < Store.lastPage) {
+        this.renderNewContent();
       }
     });
   }
@@ -48,6 +40,7 @@ export default class MovieList {
         <section class="item-view">
           <h2 id="js-movie-list-title">지금 인기 있는 영화</h2>
           <ul id="js-movie-list" class="item-list"></ul>
+          <div id="js-detecting-scroll"></div>
         </section>
       </main>
     `;
@@ -65,10 +58,6 @@ export default class MovieList {
         </a>
       </li>
     `;
-  }
-
-  observeLastItem() {
-    this.io.observe(document.querySelector('#js-movie-list').lastElementChild);
   }
 
   async renderNewContent() {
@@ -92,9 +81,7 @@ export default class MovieList {
   selectDom() {
     this.$title = this.$parent.querySelector('#js-movie-list-title');
     this.$movieItemList = this.$parent.querySelector('#js-movie-list');
-    this.$moreMovieButton = this.$parent.querySelector('#js-more-movie-button');
-    this.$lastPageNotify = this.$parent.querySelector('#js-last-page-notify');
-    this.$skeletonDiv = this.$parent.querySelector('#js-movie-list-skeleton');
+    this.$detectingScroll = this.$parent.querySelector('#js-detecting-scroll');
   }
 
   renderTitle(title) {
