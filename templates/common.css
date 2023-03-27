@@ -426,6 +426,16 @@ movie-list {
     grid-template-columns: repeat(2, 180px);
     place-items: center;
   }
+
+  .select-rate-text {
+    display: none;
+  }
+
+  .custom-rate h4 {
+    margin: 0 0 0 10px;
+    font-size: 14px;
+    font-weight: 500;
+  }
 }
 
 @media (max-width: 520px) {
