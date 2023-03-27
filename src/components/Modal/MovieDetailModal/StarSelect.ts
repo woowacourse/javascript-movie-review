@@ -2,7 +2,7 @@ import filledStarImg from "../../../../templates/star_filled.png";
 import emptyStarImg from "../../../../templates/star_empty.png";
 import { $ } from "../../../utils/selector";
 
-export class StarSelectContainer {
+export class StarSelect {
   renderStars(movieId: number, starRate: number) {
     const starRateContainer = $(".modal-star-rate");
 
