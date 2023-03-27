@@ -1,18 +1,11 @@
-import { MovieDetail } from "../../../types";
+import type { MovieDetail } from "../../../types";
 
 import filledStarImg from "../../../../templates/star_filled.png";
 
-import { StarSelect } from "./StarSelect";
+import { getStarSelectContainerTemplate } from "./StarSelect";
 
-export class Description {
-  #$StarSelectContainer;
-
-  constructor() {
-    this.#$StarSelectContainer = new StarSelect();
-  }
-
-  getDescriptionTemplate(movie: MovieDetail, starRate: number) {
-    return /*html*/ `
+export function getDescriptionTemplate(movie: MovieDetail, starRate: number) {
+  return /*html*/ `
         <div class="modal-detail-container">
             <div class="modal-movie-detail">
                 <p class="modal-movie-genre modal-detail--text">
@@ -34,12 +27,8 @@ export class Description {
                 </p>
             </div>
             <div class="modal-star-rate modal-detail--text">
-                ${this.#$StarSelectContainer.getStarSelectContainerTemplate(
-                  movie.id,
-                  starRate
-                )}
+                ${getStarSelectContainerTemplate(movie.id, starRate)}
             </div>
         </div>
     `;
-  }
 }

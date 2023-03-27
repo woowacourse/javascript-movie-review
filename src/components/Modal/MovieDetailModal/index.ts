@@ -1,28 +1,21 @@
 import "./index.css";
 
-import { MovieDetail } from "../../../types";
+import type { MovieDetail } from "../../../types";
 
 import {
   getStarRateFromStorage,
   setStarRateToStorage,
 } from "../../../utils/storage";
 import { $ } from "../../../utils/selector";
-import { StarSelect } from "./StarSelect";
-import { Image } from "./Image";
-import { Description } from "./Description";
+import { renderStars } from "./StarSelect";
+import { getImageContainerTemplate } from "./Image";
+import { getDescriptionTemplate } from "./Description";
 
 export class MovieDetailModal {
   #$target;
 
-  #$StarSelectContainer;
-  #$ImageContainer;
-  #$Description;
-
   constructor($target: Element) {
     this.#$target = $target;
-    this.#$StarSelectContainer = new StarSelect();
-    this.#$ImageContainer = new Image();
-    this.#$Description = new Description();
 
     this.bindEvent();
   }
@@ -36,7 +29,7 @@ export class MovieDetailModal {
       const starRate = Number(event.target.dataset.starRate) + 1;
 
       if (getStarRateFromStorage(movieId) !== starRate) {
-        this.#$StarSelectContainer.renderStars(movieId, starRate);
+        renderStars(movieId, starRate);
         setStarRateToStorage(movieId, starRate);
       }
     });
@@ -55,11 +48,8 @@ export class MovieDetailModal {
 
   getMovieDetailTemplate(movie: MovieDetail, starRate: number) {
     return /*html */ `
-        ${this.#$ImageContainer.getImageContainerTemplate(
-          movie.poster_path,
-          movie.title
-        )}
-        ${this.#$Description.getDescriptionTemplate(movie, starRate)}
+        ${getImageContainerTemplate(movie.poster_path, movie.title)}
+        ${getDescriptionTemplate(movie, starRate)}
     `;
   }
 }

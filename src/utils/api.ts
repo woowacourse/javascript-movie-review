@@ -1,4 +1,4 @@
-import { MovieDetail, MovieDetailResponse } from "../types";
+import type { MovieDetail, MovieDetailResponse } from "../types";
 
 const API_END_POINT = "https://api.themoviedb.org/3";
 

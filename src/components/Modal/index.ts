@@ -1,7 +1,8 @@
 import "./index.css";
 
-import { fetchMovieDetailById } from "../../utils/api";
 import xButton from "../../../templates/xButton.png";
+
+import { fetchMovieDetailById } from "../../utils/api";
 import { $ } from "../../utils/selector";
 import { MovieDetailModal } from "./MovieDetailModal";
 

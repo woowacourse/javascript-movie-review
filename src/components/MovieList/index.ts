@@ -1,6 +1,6 @@
 import "./index.css";
 
-import { MovieResponse } from "../../types";
+import type { MovieResponse } from "../../types";
 
 import { Movies } from "../../domain/Movies";
 import { fetchPopularMovies, fetchSearchMovies } from "../../utils/api";

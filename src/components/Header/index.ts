@@ -1,6 +1,7 @@
 import "./index.css";
 
 import logoImage from "../../../templates/logo.png";
+
 import { $ } from "../../utils/selector";
 
 export class Header {
