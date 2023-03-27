@@ -61,7 +61,7 @@ class SearchInput extends HTMLElement {
     $('#search-label')?.classList.toggle('visible');
     $('#search-label')?.classList.toggle('search-full');
     $('#movie-header-bar')?.classList.toggle('header-center');
-    $('#small-search-box')?.classList.toggle('hide');
+    $('#small-search-box')?.classList.toggle('hide-logo');
   }
 }
 

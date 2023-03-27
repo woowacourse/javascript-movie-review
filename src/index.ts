@@ -62,6 +62,7 @@ const setDisconnectedError = (): void => {
   const movieContainer = $('movies-container') as HTMLMovieContainerElement;
 
   movieContainer.reset();
+  $('#more-button')?.classList.add('hide');
   $('#more-button')?.classList.add('hide-button');
   $('#skeleton-container')?.classList.add('skeleton-hide');
 
