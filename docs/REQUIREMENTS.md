@@ -100,4 +100,4 @@
 
 - [x] refactor: api에서 불러온 데이터의 타입에서 any 제거
 - [x] refactor: 모바일 길이를 의미하는 600 상수화
-- [ ] refactor: api키 숨기기
+- [x] refactor: api키 숨기기
