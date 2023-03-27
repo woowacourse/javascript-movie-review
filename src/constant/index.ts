@@ -16,11 +16,9 @@ const MOVIE_APP_IMG_PATH = {
 };
 
 const ERROR_MESSAGE = {
-  noResponse:
-    '서버에서 영화 정보를 가져올 수 없습니다. 잠시 후 재접속을 시도해주세요.',
-  wrongRequset: '잘못된 요청 방식입니다. 정상적인 주소를 입력해주세요.',
   unableAccess:
     '네트워크가 불안정하거나 서버 점검중일 수 있습니다. 잠시 후 재접속을 시도해주세요.',
+  noResult: '찾으시는 영화 목록이 없습니다.',
 };
 
 const STAR_CONDITION: StarConditionType = {

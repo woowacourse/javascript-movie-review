@@ -1,4 +1,4 @@
-import { $ } from '../utils/domHelper';
+import { ERROR_MESSAGE } from '../constant';
 import movies from '../domain/Movies';
 
 export default class Title extends HTMLElement {
@@ -17,10 +17,10 @@ export default class Title extends HTMLElement {
   }
 
   errorRender() {
-    this.innerHTML = `<h2 class="error-title">네트워크 연결이 불안정 합니다. 잠시 후 다시 시도해주세요.</h2>`;
+    this.innerHTML = `<h2 class="error-title">${ERROR_MESSAGE.unableAccess}</h2>`;
   }
 
   noSearchedRender() {
-    this.innerHTML = `<h2 class="no-searched-title">찾으시는 영화 목록이 없습니다.</h2>`;
+    this.innerHTML = `<h2 class="no-searched-title">${ERROR_MESSAGE.noResult}</h2>`;
   }
 }
