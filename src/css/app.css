@@ -157,7 +157,7 @@ header {
 }
 
 .item-thumbnail {
-  transition: all 0.5s;
+  transition: transform 0.5s;
 
   width: 210px;
   height: 315px;
