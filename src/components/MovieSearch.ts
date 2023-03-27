@@ -17,6 +17,7 @@ export default class MovieSearch extends HTMLElement {
   }
 
   setEvent() {
+    const $header = $("header") as HTMLElement;
     const $searchButton = this.querySelector(".search-button") as HTMLElement;
     const $searchInput = this.querySelector("input") as HTMLElement;
     const $homeButtom = $(".home-button") as HTMLElement;
@@ -34,6 +35,7 @@ export default class MovieSearch extends HTMLElement {
       if (documentWidth > BREAKPOINT_SMALL) {
         $searchInput.classList.remove("change");
         $homeButtom.style.display = "block";
+        $header.style.justifyContent = "space-between";
       }
     });
   }
@@ -44,6 +46,7 @@ export default class MovieSearch extends HTMLElement {
     ) as HTMLInputElement;
     const $moreButton = $("more-button") as HTMLElement;
     const $homeButtom = $(".home-button") as HTMLElement;
+    const $header = $("header") as HTMLElement;
 
     if (
       window.innerWidth < BREAKPOINT_SMALL &&
@@ -51,7 +54,7 @@ export default class MovieSearch extends HTMLElement {
     ) {
       $searchInput.classList.add("change");
       $homeButtom.style.display = "none";
-      console.log($homeButtom.style);
+      $header.style.justifyContent = "center";
       return;
     }
 
@@ -65,6 +68,7 @@ export default class MovieSearch extends HTMLElement {
 
     $searchInput.classList.remove("change");
     $homeButtom.style.display = "block";
+    $header.style.justifyContent = "space-between";
   }
 }
 
