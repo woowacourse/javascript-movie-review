@@ -19,6 +19,7 @@ export default class MovieSearch extends HTMLElement {
   setEvent() {
     const $searchButton = this.querySelector(".search-button") as HTMLElement;
     const $searchInput = this.querySelector("input") as HTMLElement;
+    const $homeButtom = $(".home-button") as HTMLElement;
 
     $searchButton.addEventListener("click", () => {
       this.createSearchMovieEvent();
@@ -27,10 +28,20 @@ export default class MovieSearch extends HTMLElement {
     $searchInput.addEventListener("keyup", (event) => {
       if (event.key === "Enter") this.createSearchMovieEvent();
     });
+
+    window.addEventListener("resize", () => {
+      const documentWidth = document.body.offsetWidth;
+      if (documentWidth > BREAKPOINT_SMALL) {
+        $searchInput.classList.remove("change");
+        $homeButtom.style.display = "block";
+      }
+    });
   }
 
   createSearchMovieEvent() {
-    const $searchInput = this.querySelector("input") as HTMLInputElement;
+    const $searchInput = this.querySelector(
+      ".search-input"
+    ) as HTMLInputElement;
     const $moreButton = $("more-button") as HTMLElement;
     const $homeButtom = $(".home-button") as HTMLElement;
 
@@ -40,6 +51,7 @@ export default class MovieSearch extends HTMLElement {
     ) {
       $searchInput.classList.add("change");
       $homeButtom.style.display = "none";
+      console.log($homeButtom.style);
       return;
     }
 
