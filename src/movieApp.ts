@@ -12,6 +12,7 @@ import { errorHandler } from "./utils/errorHandler";
 import CustomModal from "./components/common/CustomModal";
 import MovieDetail from "./components/movie/MovieDetail";
 import { getLocalStorage, setLocalStorage } from "./utils/localStorage";
+import ObservedArea from "./components/common/ObservedArea";
 
 const movieApp = {
   currentPageNumber: 1,
@@ -87,12 +88,14 @@ const movieApp = {
 
   renderMovieList(movies: ResponseData | undefined) {
     const movieList = <MovieList>$("movie-list");
+    const observedArea = <ObservedArea>$("observed-area");
 
     if (!movies) return;
 
     const newMovies = movieHandler.addMovies(movies.results);
 
-    if (movies.results.length < 20) this.$container.removeLoadMovieButton();
+    if (movies.results.length < 20)
+      observedArea.endObserving(<HTMLElement>$(".scroll-area"));
 
     this.$container.hideSkeletonUI();
     movieList.render(newMovies);
@@ -124,11 +127,14 @@ const movieApp = {
   },
 
   async getPopularMovieData() {
+    const observedArea = <ObservedArea>$("observed-area");
+
     const movies = await this.fetchMovieData(() =>
       getMostPopularMovies(this.currentPageNumber++)
     );
 
-    if (this.currentPageNumber > 500) this.$container.removeLoadMovieButton();
+    if (this.currentPageNumber > 500)
+      observedArea.endObserving(<HTMLElement>$(".scroll-area"));
 
     this.renderMovieList(movies);
   },

@@ -37,10 +37,6 @@ class MovieListContainer extends HTMLElement {
     this.render(query);
   }
 
-  removeLoadMovieButton() {
-    $(".scroll-area", this)?.classList.add("hidden");
-  }
-
   displayErrorUI(errorMessage: string) {
     this.innerHTML = `
     <div class="error-container">

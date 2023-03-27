@@ -1,27 +1,38 @@
 import { dispatchCustomEvent, $ } from "../../utils/dom";
 
 class ObservedArea extends HTMLElement {
+  observer;
+
   constructor() {
     super();
+
+    this.observer = this.createObserver();
   }
 
   connectedCallback() {
     this.render();
-    this.addEvent();
+    this.startObserving(<HTMLElement>$(".scroll-area"));
   }
 
   render() {
     this.innerHTML = `<div class="scroll-area"></div>`;
   }
 
-  addEvent() {
+  createObserver() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) this.handleIntersect();
       });
     });
+    return observer;
+  }
 
-    observer.observe(<HTMLElement>$(".scroll-area"));
+  startObserving(element: HTMLElement) {
+    this.observer.observe(element);
+  }
+
+  endObserving(element: HTMLElement) {
+    this.observer.unobserve(element);
   }
 
   handleIntersect() {
