@@ -315,6 +315,17 @@ header .search-box > .search-button {
   .movie-img {
     display: none;
   }
+
+  .modal {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .modal-content {
+    width: 100%;
+    top: 100% !important;
+    transform: translate(-50%, -100%) !important;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -354,11 +365,21 @@ header .search-box > .search-button {
     width: 90vw;
   }
 
+  .search-box input:hover {
+    width: 90vw;
+  }
+
   .my-scope-text {
     display: none;
   }
 
   .movie-img {
     display: none;
+  }
+
+  .modal-content {
+    width: 100%;
+    top: 100% !important;
+    transform: translate(-50%, -100%) !important;
   }
 }
