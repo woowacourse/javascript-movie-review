@@ -26,6 +26,7 @@ export default class AppComponent extends CustomComponent {
   #$movieListTitle;
   #$searchInput;
   #scrollThrottleId;
+  #actionType;
 
   render() {
     super.render();
@@ -33,6 +34,7 @@ export default class AppComponent extends CustomComponent {
     this.#$movieList = this.querySelector("movie-list");
     this.#$movieListTitle = this.querySelector("movie-list-title");
     this.#$searchInput = this.querySelector("input");
+    this.#actionType = ACTION.MORE_POPULAR;
 
     this.popularListInit();
     this.getMovieData(ACTION.POPULAR);
@@ -98,7 +100,8 @@ export default class AppComponent extends CustomComponent {
       switch (e.target.dataset.action) {
         case ACTION.POPULAR:
           this.popularListInit();
-          this.getMovieData(ACTION.POPULAR);
+          this.#actionType = ACTION.POPULAR;
+          this.getMovieData(this.#actionType);
           this.changeMoreButtonAction(ACTION.MORE_POPULAR);
           break;
         case ACTION.SEARCH:
@@ -107,16 +110,17 @@ export default class AppComponent extends CustomComponent {
             return;
           }
           this.searchListInit();
-          this.getMovieData(ACTION.SEARCH);
+          this.#actionType = ACTION.SEARCH;
+          this.getMovieData(this.#actionType);
           this.changeMoreButtonAction(ACTION.MORE_SEARCH);
           break;
         case ACTION.MORE_POPULAR:
           this.#$movieList.appendNewPage();
-          this.getMovieData(ACTION.POPULAR);
+          this.getMovieData(this.#actionType);
           break;
         case ACTION.MORE_SEARCH:
           this.#$movieList.appendNewPage();
-          this.getMovieData(ACTION.SEARCH);
+          this.getMovieData(this.#actionType);
           break;
         case ACTION.UP_SCROLL:
           window.scroll({ top: 0, behavior: "smooth" });
@@ -150,7 +154,8 @@ export default class AppComponent extends CustomComponent {
         }
 
         this.searchListInit();
-        this.getMovieData(ACTION.SEARCH);
+        this.#actionType = ACTION.SEARCH;
+        this.getMovieData(this.#actionType);
         this.changeMoreButtonAction(ACTION.MORE_SEARCH);
       }
     });
@@ -176,7 +181,7 @@ export default class AppComponent extends CustomComponent {
             SCROLL_INVOKE_GAP
           ) {
             this.#$movieList.appendNewPage();
-            this.getMovieData(ACTION.POPULAR);
+            this.getMovieData(this.#actionType);
           }
           this.#scrollThrottleId = null;
         }, 1000);
