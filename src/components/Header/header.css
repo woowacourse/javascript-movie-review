@@ -1,6 +1,5 @@
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -30,9 +29,37 @@ header .search-box > input {
 }
 
 header .search-box > .search-button {
-  width: 14px;
+  width: 18px;
   border: 0;
   text-indent: -1000rem;
   background: url('../../assets/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+@media (max-width: 390px) {
+  header {
+    position: relative;
+  }
+
+  .search-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    position: absolute;
+    right: 20px;
+  }
+
+  .search-box > input {
+    width: 0;
+    padding: 0;
+  }
+
+  .search-box > input:focus {
+    width: calc(100% - 16px);
+  }
+
+  .search-box:has(input:focus) {
+    width: calc(100% - 40px);
+  }
 }
