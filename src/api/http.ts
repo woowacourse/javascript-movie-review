@@ -1,6 +1,7 @@
+import { ITMDBFetchedError } from '../domain/Movie';
 import { MESSAGE, statusCodeToErrorMessage } from './statusCode';
 
-export const fetchData = async <T>(url: string): Promise<T> => {
+export const TMDBFetcher = async <T>(url: string): Promise<T> => {
   if (!navigator.onLine) {
     throw new Error(MESSAGE.OFFLINE);
   }
@@ -10,7 +11,8 @@ export const fetchData = async <T>(url: string): Promise<T> => {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(statusCodeToErrorMessage(data.success_code));
+    const errorData: ITMDBFetchedError = data;
+    throw new Error(statusCodeToErrorMessage(errorData.status_code));
   }
 
   return data;

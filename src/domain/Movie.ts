@@ -1,4 +1,4 @@
-import { fetchData } from '../api/http';
+import { TMDBFetcher } from '../api/http';
 import { TMDB_MOVIE_BASE_URL } from '../utils/constants';
 import {
   IMovieDetail,
@@ -17,7 +17,7 @@ interface IFindMovieFetchProps extends IMovieFetchProps {
   query: string;
 }
 
-export interface IFetchedError {
+export interface ITMDBFetchedError {
   success: boolean;
   status_code: number;
   status_message: string;
@@ -42,7 +42,7 @@ class Movie {
     curPage = 1,
   }: IMovieFetchProps): Promise<IMovieHandleProps<IMovieItemProps>> {
     this.urlParams.set('page', `${curPage}`);
-    const { results, total_pages, page } = await fetchData<IMovieHandleProps<IMovieProps>>(
+    const { results, total_pages, page } = await TMDBFetcher<IMovieHandleProps<IMovieProps>>(
       `${TMDB_MOVIE_BASE_URL}/movie/popular?${this.urlParams.toString()}`
     );
 
@@ -69,7 +69,7 @@ class Movie {
     this.urlParams.set('page', `${curPage}`);
     this.urlParams.set('query', `${query}`);
 
-    const { results, total_pages, page } = await fetchData<IMovieHandleProps<IMovieProps>>(
+    const { results, total_pages, page } = await TMDBFetcher<IMovieHandleProps<IMovieProps>>(
       `${TMDB_MOVIE_BASE_URL}/search/movie?${this.urlParams.toString()}`
     );
 
@@ -89,7 +89,7 @@ class Movie {
   }
 
   async getMovieDetails({ movieId }: { movieId: number }): Promise<IMovieDetailItem> {
-    const { genres, overview, title, vote_average, poster_path } = await fetchData<IMovieDetail>(
+    const { genres, overview, title, vote_average, poster_path } = await TMDBFetcher<IMovieDetail>(
       `${TMDB_MOVIE_BASE_URL}/movie/${movieId}?${this.urlParams.toString()}`
     );
 
