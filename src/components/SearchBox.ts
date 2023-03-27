@@ -34,9 +34,10 @@ export default class SearchBox {
     const searchButton = $(".search-button");
     const searchBox = $(".search-box");
 
-    searchInput?.addEventListener("keyup", (e: any) => {
-      this.updateKeyword(e.target.value);
-      e.keyCode === 13 && this.onCompleteSearch();
+    window?.addEventListener("keyup", (e) => {
+      const target = e.target as HTMLInputElement;
+      this.updateKeyword(target?.value);
+      target === searchInput && e.key === "Enter" && this.onCompleteSearch();
     });
 
     searchButton?.addEventListener("click", (e: Event) => {
