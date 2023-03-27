@@ -1,7 +1,7 @@
 import Header from '../components/Header';
 import movieList from '../components/MovieList';
 
-export default () => {
+const init = () => {
   const app = document.querySelector('#app');
 
   if (!app) return;
@@ -9,3 +9,5 @@ export default () => {
   app.insertAdjacentElement('afterbegin', new Header().node);
   app.insertAdjacentElement('beforeend', movieList.node);
 };
+
+export default init;
