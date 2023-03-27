@@ -1,5 +1,6 @@
 import { Header } from "./components/Header";
 import { Modal } from "./components/Modal";
+import { MovieDetail } from "./components/MovieDetail";
 import { MovieList } from "./components/MovieList";
 import { $ } from "./utils/selector";
 

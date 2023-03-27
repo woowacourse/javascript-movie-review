@@ -19,7 +19,7 @@ class Modal {
 
   async renderMovieDetail(movieId: number) {
     const movieDetail: MovieDetailResponse = await fetchMovieDetail(movieId);
-    const movieDetailMarkup = MovieDetail.render(movieDetail);
+    const movieDetailMarkup = MovieDetail.render(movieDetail, 0);
     const movieDetailElement = document.createElement("div");
     movieDetailElement.innerHTML = movieDetailMarkup;
 
@@ -27,6 +27,7 @@ class Modal {
       "afterbegin",
       movieDetailElement
     );
+
     this.#$target.classList.remove("hidden");
     this.#$target.classList.add("show");
 
@@ -40,8 +41,8 @@ class Modal {
       movieDetailElement.remove();
     };
 
-    $(".modal-backdrop")?.addEventListener("click", hideModal);
-    $(".close-button")?.addEventListener("click", hideModal);
+    $(".modal-backdrop").addEventListener("click", hideModal);
+    $(".close-button").addEventListener("click", hideModal);
     document.addEventListener("keydown", (event) => {
       if (event.code === "Escape") {
         event.preventDefault();
