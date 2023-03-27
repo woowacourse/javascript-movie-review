@@ -3,16 +3,23 @@ import { Component } from './core/Component';
 import { Header } from './components/Header';
 import { MainPage } from './components/MainPage';
 import { renderMoreSkeletonList, renderSkeletonList } from './components/MovieList';
+<<<<<<< HEAD
 import { Modal, renderMovieDetail } from './components/MovieDetailModal';
 
 import { store } from './store';
 import validator from './validation/validator';
 import { $ } from './utils';
+=======
+
+import { store } from './store';
+import validator from './validation/validator';
+>>>>>>> fa33fb01648a0dceb841473ad808bd0d9b6b0790
 export class App extends Component {
   template() {
     return `
         ${Header()}
         ${MainPage()}
+<<<<<<< HEAD
         ${Modal()}
       `;
   }
@@ -31,15 +38,23 @@ export class App extends Component {
   }
 
   setLogoClickEvent() {
+=======
+      `;
+  }
+  setEvent() {
+>>>>>>> fa33fb01648a0dceb841473ad808bd0d9b6b0790
     const { $el } = this;
 
     $el.querySelector('#home-logo').addEventListener('click', () => {
       window.location.href = '/';
     });
+<<<<<<< HEAD
   }
 
   setSearchSumbitEvent() {
     const { $el } = this;
+=======
+>>>>>>> fa33fb01648a0dceb841473ad808bd0d9b6b0790
 
     $el.querySelector('.search-box').addEventListener('submit', (event: Event) => {
       event.preventDefault();
@@ -63,6 +78,7 @@ export class App extends Component {
         }
       }
     });
+<<<<<<< HEAD
   }
 
   setMovieItemClickEvent() {
@@ -86,4 +102,11 @@ export class App extends Component {
       }
     };
   }
+=======
+
+    $el.querySelector('.view-more-button').addEventListener('click', () => {
+      renderMoreSkeletonList();
+    });
+  }
+>>>>>>> fa33fb01648a0dceb841473ad808bd0d9b6b0790
 }

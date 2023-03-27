@@ -10,7 +10,11 @@
     "start": "webpack serve",
     "build": "webpack --mode=development",
     "test-unit": "jest",
-    "test-e2e": "cypress open"
+    "test-e2e": "cypress open",
+    "lint:fix": "eslint --fix './src/**/*.{js,jsx,ts,tsx}'",
+    "prettier:fix": "prettier --write './src/**/*.{js,jsx,ts,tsx}'",
+    "check-conflict-formatting-rules": "npx eslint-config-prettier './src/**/*.{js,jsx,ts,tsx}'",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -53,6 +57,16 @@
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1"
   },
+<<<<<<< HEAD
+=======
+  "lint-staged": {
+    "./src/**/*.{js,jsx,ts,tsx}": [
+      "npm run check-conflict-formatting-rules",
+      "npm run prettier:fix",
+      "npm run lint:fix"
+    ]
+  },
+>>>>>>> fa33fb01648a0dceb841473ad808bd0d9b6b0790
   "dependencies": {
     "node-fetch": "^3.3.1"
   }

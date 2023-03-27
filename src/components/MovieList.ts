@@ -6,7 +6,10 @@ import { $ } from '../utils';
 
 import { deleteSkeletonList, MovieListSkeleton } from './MovieListSkeleton';
 import { MovieItem } from './MovieItem';
+<<<<<<< HEAD
 import { ErrorPage } from './ErrorPage';
+=======
+>>>>>>> fa33fb01648a0dceb841473ad808bd0d9b6b0790
 
 export function MovieList() {
   return `
@@ -23,6 +26,7 @@ export async function renderSkeletonList() {
 
   if (isPopular) {
     const results = await getPopularMovies(page);
+<<<<<<< HEAD
 
     if (results) {
       renderPopularMovieList(results);
@@ -30,10 +34,15 @@ export async function renderSkeletonList() {
     }
 
     $parentElem.innerHTML = ErrorPage();
+=======
+    renderPopularMovieList(results);
+
+>>>>>>> fa33fb01648a0dceb841473ad808bd0d9b6b0790
     return;
   }
 
   const results = await getSearchMovie(keyword, page);
+<<<<<<< HEAD
 
   if (results) {
     renderSearchMovieList(results);
@@ -43,6 +52,11 @@ export async function renderSkeletonList() {
 
   $parentElem.innerHTML = ErrorPage();
   return;
+=======
+  renderSearchMovieList(results);
+
+  store.setState({ isContentEnd: true });
+>>>>>>> fa33fb01648a0dceb841473ad808bd0d9b6b0790
 }
 
 export async function renderPopularMovieList(movies: IMovie[]) {

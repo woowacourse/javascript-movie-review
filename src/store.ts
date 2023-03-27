@@ -10,7 +10,10 @@ export const store = {
     keyword: '검색 결과',
     isPopular: true,
     isContentEnd: false,
+<<<<<<< HEAD
     errorMessage: 'no error',
+=======
+>>>>>>> fa33fb01648a0dceb841473ad808bd0d9b6b0790
   }),
 
   setState(newState: stateType) {
