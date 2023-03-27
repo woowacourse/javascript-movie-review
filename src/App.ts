@@ -102,7 +102,7 @@ class App {
   async updateMoviePage<Params>(api: (params: Params) => Promise<MoviesResponse>, params: Params) {
     if (this.state.loading) return;
     try {
-      const { results, total_pages } = await this.makeDecorated(api)(params);
+      const { results, total_pages } = await this.apiWithSkeleton(api)(params);
       const newMovies = this.movieService.cleansingMovies(results);
       if (this.state.pageNumber >= total_pages || this.state.pageNumber >= MAXIMUM_PAGE) {
         dom.hide('#load-sensor');
@@ -118,11 +118,13 @@ class App {
     }
   }
 
-  makeDecorated<Params>(api: (params: Params) => Promise<MoviesResponse>) {
+  apiWithSkeleton<Params>(api: (params: Params) => Promise<MoviesResponse>) {
     return async (params: Params) => {
       dom.show('#skeleton-list');
       this.state.loading = true;
+
       const { results, total_pages } = await api(params);
+
       dom.hide('#skeleton-list');
       this.state.loading = false;
 
