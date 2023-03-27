@@ -31,7 +31,7 @@ class MovieList implements Component {
       <ul class="item-list movie-list hidden"></ul>
       <ul class="item-list skeleton-list">${skeletonTemplate()}</ul>
       
-      <button class="btn primary full-width hidden">더 보기</button>`;
+      <button class="load-more-button btn primary full-width">더 보기</button>`;
 
     return this;
   }
@@ -66,17 +66,17 @@ class MovieList implements Component {
     return this;
   }
 
-  showButton(): this {
-    this.loadMoreButton.classList.remove('hidden');
+  // showButton(): this {
+  //   this.loadMoreButton.classList.remove('hidden');
 
-    return this;
-  }
+  //   return this;
+  // }
 
-  hideButton(): this {
-    this.loadMoreButton.classList.add('hidden');
+  // hideButton(): this {
+  //   this.loadMoreButton.classList.add('hidden');
 
-    return this;
-  }
+  //   return this;
+  // }
 
   showMovieList(): this {
     this.movieList.classList.remove('hidden');
@@ -92,14 +92,14 @@ class MovieList implements Component {
 
   updateMovieList(movieDetails: MovieItem[], isLastPage: Boolean): this {
     if (movieDetails.length === 0) {
-      this.hideSkeleton().hideButton().showMessage(NULL_SEARCH_RESULT_MESSAGE);
+      this.hideSkeleton().showMessage(NULL_SEARCH_RESULT_MESSAGE);
       return this;
     }
 
     this.hideSkeleton().showMovieList();
     this.movieList.append(this.createMovieCards(movieDetails));
 
-    isLastPage ? this.hideButton() : this.showButton();
+    this.loadMoreButton.disabled = isLastPage ? true : false;
 
     return this;
   }
@@ -157,8 +157,8 @@ class MovieList implements Component {
   observeMovieList(): this {
     const options = {
       root: null,
-      rootMargin: '30%',
-      threshold: 0.3,
+      rootMargin: '50%',
+      threshold: 0.2,
     };
 
     const observer = new IntersectionObserver(this.#handleIntersect.bind(this), options);

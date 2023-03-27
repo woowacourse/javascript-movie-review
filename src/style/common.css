@@ -160,6 +160,10 @@ button.primary {
   margin-bottom: 48px;
 }
 
+.load-more-button {
+  opacity: 0;
+}
+
 header h1 {
   cursor: pointer;
   user-select: none;
