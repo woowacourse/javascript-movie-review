@@ -38,7 +38,7 @@ export default class MovieItem extends HTMLElement {
             "
             loading="lazy"
             alt="${this.movie.title}"
-          />
+          >
           <p class="item-title">${this.movie.title}</p>
           <p class="item-score">
             <img src="./assets/star_${this.movie.ratings > 0 ? "filled" : "empty"

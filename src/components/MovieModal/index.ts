@@ -19,22 +19,22 @@ export default class MovieModal extends HTMLElement {
         <hr>
         <div class="d-flex justify-content-between m-3">
           <div>
-            <img
-              src="https://image.tmdb.org/t/p/w500/${movie.poster}"
-              class="modal-img mx-2 skeleton"
-              onerror="
-                this.style.border='1px solid #e2e2e2';
-                this.src='https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg';
-              "
-              loading="lazy"
-              alt="${movie.title}"
-            >
+          <img
+            class="modal-img mx-2 skeleton"
+            src="https://image.tmdb.org/t/p/w500/${movie.poster}"
+            onerror="
+              this.style.border='1px solid #e2e2e2';
+              this.src='https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg';
+            "
+            loading="lazy"
+            alt="${movie.title}"
+          >
           </div>
           <div class="mx-3 d-flex align-content-between flex-wrap">
             <div>
               <div class="d-flex align-items-center">
                 <div>
-                ${movie.genres.join(', ')}
+                ${movie.genres.length > 0 ? movie.genres.join(', ') : '장르미상'}
                 </div>
                 <div class="d-flex align-items-center mx-1">
                   <img
@@ -47,7 +47,7 @@ export default class MovieModal extends HTMLElement {
                 </div>
               </div>
               <div class="modal-overview">
-                <div>${movie.overview}</div>
+                <div>${movie.overview.length > 0 ? movie.overview : '줄거리가 없습니다.'}</div>
               </div> 
             </div>
             <user-rating class="w-100" movie-id="${movie.id}"></user-rating>
