@@ -66,18 +66,6 @@ class MovieList implements Component {
     return this;
   }
 
-  // showButton(): this {
-  //   this.loadMoreButton.classList.remove('hidden');
-
-  //   return this;
-  // }
-
-  // hideButton(): this {
-  //   this.loadMoreButton.classList.add('hidden');
-
-  //   return this;
-  // }
-
   showMovieList(): this {
     this.movieList.classList.remove('hidden');
 
