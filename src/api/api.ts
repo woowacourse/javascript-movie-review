@@ -1,4 +1,4 @@
-//import { API_KEY } from '../../apiKey.js';
+import { API_KEY } from '../../apiKey.js';
 
 import { store } from '../store';
 
@@ -34,7 +34,7 @@ export interface ErrorResponse {
 export const getPopularMovies = async (page: number): Promise<IMovie[]> => {
   try {
     const response = await fetch(
-      `${BASE_PATH}/movie/popular?api_key=${process.env.API_KEY}&language=ko-KR&page=${page}`
+      `${BASE_PATH}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${page}`
     );
 
     if (!response.ok) {
@@ -58,7 +58,7 @@ export const getPopularMovies = async (page: number): Promise<IMovie[]> => {
 export const getSearchMovie = async (keyword: string, page: number): Promise<IMovie[]> => {
   try {
     const response = await fetch(
-      `${BASE_PATH}/search/movie?api_key=${process.env.API_KEY}&language=ko-KR&query=${keyword}&page=${page}`
+      `${BASE_PATH}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${keyword}&page=${page}`
     );
     if (!response.ok) {
       const error: ErrorResponse = await response.json();
@@ -80,9 +80,7 @@ export const getSearchMovie = async (keyword: string, page: number): Promise<IMo
 
 export const getMovieDetail = async (movieId: string): Promise<IMovie> => {
   try {
-    const response = await fetch(
-      `${BASE_PATH}/movie/${movieId}?api_key=${process.env.API_KEY}&language=ko-KR`
-    );
+    const response = await fetch(`${BASE_PATH}/movie/${movieId}?api_key=${API_KEY}&language=ko-KR`);
     if (!response.ok) {
       const error: ErrorResponse = await response.json();
 
