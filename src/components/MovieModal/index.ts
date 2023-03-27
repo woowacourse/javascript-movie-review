@@ -21,7 +21,7 @@ export default class MovieModal extends HTMLElement {
           <div>
             <img
               src="https://image.tmdb.org/t/p/w500/${movie.poster}"
-              class="modal-img mx-2"
+              class="modal-img mx-2 skeleton"
               onerror="
                 this.style.border='1px solid #e2e2e2';
                 this.src='https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg';
