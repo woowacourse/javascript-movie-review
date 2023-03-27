@@ -102,7 +102,7 @@ export function MovieDetail({ id, title, poster_path, genres, vote_average, over
 export function MovieRatingBox(movieId: number) {
   let rateMessage;
   const currentRate = rateData.getMovieRate(String(movieId));
-  // console.log(currentRate);
+
   if (currentRate) rateMessage = RATE_DETAIL[String(currentRate)];
   else rateMessage = '';
 
