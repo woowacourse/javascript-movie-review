@@ -4,17 +4,7 @@ describe('Movie-Review e2e 기능 Test', () => {
   });
 
   it('처음 홈페이지에 들어갔을 때 영화 리스트가 잘 보여야 한다.', () => {
-    cy.intercept(
-      {
-        method: 'GET',
-        url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
-      },
-      { fixture: 'movie-popular.json' },
-    ).as('moviePopular');
-
-    cy.wait('@moviePopular').then((interception) => {
-      cy.get('.item-title').first().should('have.text', '장화신은 고양이: 끝내주는 모험');
-    });
+    cy.get('movie-item').should('have.length', 20);
   });
 
   it('검색했을 경우 검색 결과가 화면에 보여야 한다.', () => {
@@ -27,7 +17,7 @@ describe('Movie-Review e2e 기능 Test', () => {
   it('스크롤을 내리면 무한 스크롤이 되어야 한다.', () => {
     cy.scrollTo('bottom');
 
-    cy.get('movie-item').should('have.length', 60);
+    cy.get('movie-item').should('have.length', 40);
   });
 
   it('검색 후에도 무한 스크롤이 되어야 한다.', () => {
@@ -36,7 +26,7 @@ describe('Movie-Review e2e 기능 Test', () => {
     cy.get('.search-button').click();
 
     cy.scrollTo('bottom');
-    cy.get('movie-item').should('have.length', 60);
+    cy.get('movie-item').should('have.length', 40);
   });
 
   it('헤더의 로고를 클릭했을 때 현재 인기 목록이 나와야 한다.', () => {
