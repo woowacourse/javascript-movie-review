@@ -49,31 +49,28 @@ const movieApp = {
     const modal = <CustomModal>$("custom-modal");
     const movieDetail = <MovieDetail>$("movie-detail");
 
-    const original = getLocalStorage("moviesScore") ?? [];
-    const existMovie = original.find(
+    const { score } = getLocalStorage("moviesScore")?.find(
       (movie: { movieId: string; score: string }) => movie.movieId === movieID
     );
 
-    movieDetail.render(
-      movieHandler.getMovie(Number(movieID)),
-      existMovie?.score
-    );
+    movieDetail.render(movieHandler.getMovie(Number(movieID)), score);
 
     modal.openModal();
   },
 
   setMovieScore({ movieId, score }: Score) {
-    const original = getLocalStorage("moviesScore") ?? [];
-    const existMovie = original.find(
+    if (score === "0") return;
+
+    const movieScores = getLocalStorage("moviesScore") ?? [];
+    const foundMovie = movieScores.find(
       (movie: Score) => movie.movieId === movieId
     );
 
-    if (score === "0") return;
-    if (existMovie) {
-      existMovie.score = score;
-      setLocalStorage("moviesScore", [...original]);
+    if (foundMovie) {
+      foundMovie.score = score;
+      setLocalStorage("moviesScore", [...movieScores]);
     } else {
-      setLocalStorage("moviesScore", [...original, { movieId, score }]);
+      setLocalStorage("moviesScore", [...movieScores, { movieId, score }]);
     }
   },
 
