@@ -5,7 +5,7 @@ export class MovieItem extends HTMLElement {
   connectedCallback() {
     this.innerHTML = template;
     this.#render();
-    this.imageSkeletonHandler();
+    this.#imageSkeletonHandler();
   }
 
   #render() {
@@ -16,7 +16,7 @@ export class MovieItem extends HTMLElement {
       .replace('{vote_average}', this.getAttribute('vote') ?? STRING.UNKNOWN);
   }
 
-  imageSkeletonHandler() {
+  #imageSkeletonHandler() {
     const movieImg = this.querySelector('img');
     const skeleton = this.querySelector('.skeleton');
 

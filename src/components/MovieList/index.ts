@@ -3,13 +3,13 @@ import { Movie } from '../../types';
 
 export class MovieList extends HTMLElement {
   #$movieItems: HTMLElement;
-  $li: HTMLElement;
+  #$li: HTMLElement;
 
   constructor() {
     super();
     this.innerHTML = template;
     this.#$movieItems = this.querySelector('.item-list')!;
-    this.$li = document.querySelector('.ul')!;
+    this.#$li = document.querySelector('.ul')!;
   }
 
   setTitle(title: string) {
@@ -72,18 +72,18 @@ export class MovieList extends HTMLElement {
   }
 
   infiniteScroll = (moreButtonHandler: CallableFunction) => {
-    this.$li = this.querySelector('movie-item:last-of-type')!;
+    this.#$li = this.querySelector('movie-item:last-of-type')!;
     const io = new IntersectionObserver(
       (entry) => {
         if (entry[0].isIntersecting) {
-          io.unobserve(this.$li);
+          io.unobserve(this.#$li);
           moreButtonHandler();
           setTimeout(() => {
-            this.$li = this.querySelector('movie-item:last-child')!;
+            this.#$li = this.querySelector('movie-item:last-child')!;
             console.log(this.querySelectorAll('movie-item').length);
-            console.log(this.$li);
-            io.observe(this.$li);
-          }, 1000);
+            console.log(this.#$li);
+            io.observe(this.#$li);
+          }, 500);
         }
       },
       {
@@ -92,6 +92,6 @@ export class MovieList extends HTMLElement {
       },
     );
 
-    io.observe(this.$li);
+    io.observe(this.#$li);
   };
 }

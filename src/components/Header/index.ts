@@ -14,10 +14,10 @@ export class Header extends HTMLElement {
   }
 
   connectedCallback() {
-    this.eventBind();
+    this.#eventBind();
   }
 
-  eventBind() {
+  #eventBind() {
     this.#$secondSearch.addEventListener('click', () => {
       this.#$logo.style.display = 'none';
       this.#$originalSearch.style.display = 'block';
