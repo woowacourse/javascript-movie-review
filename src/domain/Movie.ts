@@ -32,11 +32,18 @@ export const initialMovieStats: IMovieState = {
 };
 
 class Movie {
+  private urlParams: URLSearchParams;
+
+  constructor() {
+    this.urlParams = new URLSearchParams(`api_key=${process.env.MOVIE_API_KEY}&language=ko-KR`);
+  }
+
   async getPopularMovies({
     curPage = 1,
   }: IMovieFetchProps): Promise<IMovieHandleProps<IMovieItemProps>> {
+    this.urlParams.set('page', `${curPage}`);
     const { results, total_pages, page } = await fetchData<IMovieHandleProps<IMovieProps>>(
-      `${TMDB_MOVIE_BASE_URL}/movie/popular?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&page=${curPage}`
+      `${TMDB_MOVIE_BASE_URL}/movie/popular?${this.urlParams.toString()}`
     );
 
     const movleList = results.map((currentMovie) => ({
@@ -45,6 +52,8 @@ class Movie {
       posterPath: currentMovie.poster_path,
       voteAverage: currentMovie.vote_average,
     }));
+
+    this.urlParams.delete('page');
 
     return {
       results: movleList,
@@ -57,8 +66,11 @@ class Movie {
     query,
     curPage = 1,
   }: IFindMovieFetchProps): Promise<IMovieHandleProps<IMovieItemProps>> {
+    this.urlParams.set('page', `${curPage}`);
+    this.urlParams.set('query', `${query}`);
+
     const { results, total_pages, page } = await fetchData<IMovieHandleProps<IMovieProps>>(
-      `${TMDB_MOVIE_BASE_URL}/search/movie?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&query=${query}&page=${curPage}`
+      `${TMDB_MOVIE_BASE_URL}/search/movie?${this.urlParams.toString()}`
     );
 
     const movieList = results.map((currentMovie) => ({
@@ -67,7 +79,8 @@ class Movie {
       posterPath: currentMovie.poster_path,
       voteAverage: currentMovie.vote_average,
     }));
-
+    this.urlParams.delete('page');
+    this.urlParams.delete('query');
     return {
       results: movieList,
       total_pages,
@@ -77,7 +90,7 @@ class Movie {
 
   async getMovieDetails({ movieId }: { movieId: number }): Promise<IMovieDetailItem> {
     const { genres, overview, title, vote_average, poster_path } = await fetchData<IMovieDetail>(
-      `${TMDB_MOVIE_BASE_URL}/movie/${movieId}?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR`
+      `${TMDB_MOVIE_BASE_URL}/movie/${movieId}?${this.urlParams.toString()}`
     );
 
     const movieDetails = {
