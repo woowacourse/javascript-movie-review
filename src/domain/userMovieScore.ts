@@ -31,6 +31,11 @@ const userMovieScore = {
     updatedMovieScore.splice(findIndex, 1, userScore);
     localStorage.setItem(MOVIE_SCORE_KEY, JSON.stringify(updatedMovieScore));
   },
+  getIsReviewed: (id: string) => {
+    const movieScore: MovieScoreInfo[] = JSON.parse(localStorage.getItem(MOVIE_SCORE_KEY) || '[]');
+
+    return movieScore.some(movie => movie.id === Number(id));
+  },
 };
 
 export default userMovieScore;

@@ -1,6 +1,7 @@
 import './MoviesContainer.css';
 import Movie, { MovieInformation } from '../domain/Movie';
-import { $, getErrorMessage, sliceSting } from '../utils/common';
+import { $, getErrorMessage } from '../utils/common';
+import { sliceSting } from '../utils/domain';
 
 export interface HTMLMovieContainerElement extends HTMLElement {
   reset: () => void;

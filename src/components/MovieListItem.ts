@@ -1,6 +1,6 @@
 import './MovieListItem.css';
-import { sliceScore, sliceSting } from '../utils/common';
-import { MovieScoreInfo } from '../types/type';
+import userMovieScore from '../domain/userMovieScore';
+import { getHashURLParams, sliceScore, sliceSting } from '../utils/domain';
 
 export interface HTMLMovieListItemElement extends HTMLElement {
   updateReviewedElement: () => void;
@@ -42,10 +42,9 @@ class MovieListItem extends HTMLElement {
   }
 
   updateReviewedElement() {
-    const movieId = this.getAttribute('movieId');
-    const movieScore: MovieScoreInfo[] = JSON.parse(localStorage.getItem('movieScore') || '[]');
+    const movieId = this.getAttribute('movieId') || '';
 
-    const isReview = movieScore.some(movie => movie.id === Number(movieId));
+    const isReview = userMovieScore.getIsReviewed(movieId);
 
     if (!isReview) {
       this.querySelector('.item-check')?.classList.add('hide');
@@ -56,9 +55,8 @@ class MovieListItem extends HTMLElement {
   }
 
   updateQueries(movieId: string) {
-    const path = window.location.hash.replace('#', '');
-    const URL = new URLSearchParams(path);
-    const searchWord = URL.get('q');
+    const { searchWord } = getHashURLParams();
+
     const searchURL = searchWord ? `q=${searchWord}&` : '';
     if (movieId === '') {
       window.location.hash = `${searchURL}`;

@@ -170,6 +170,7 @@ class Modal extends HTMLElement {
         const score = (Number(index) + 1) * 2;
         this.setMovieScore(score);
         this.renderStar();
+        this.renderScoreText();
         this.updateMovieItemReviewed();
       });
     });
