@@ -44,7 +44,7 @@
 .more-button-wrapper {
   margin-top: 70px;
   width: 100%;
-  height: 100px;
+  height: 30px;
 }
 
 @media (max-width: 768px) {

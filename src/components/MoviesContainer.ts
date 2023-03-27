@@ -42,6 +42,7 @@ class MoviesContainer extends HTMLElement {
 
   connectedCallback(): void {
     this.renderContainer();
+    this.setButtonEvent();
     this.setInfiniteScrollEvent();
   }
 
@@ -54,7 +55,7 @@ class MoviesContainer extends HTMLElement {
         </ul>
         <skeleton-item id="skeleton-container"></skeleton-item>
         <div id="more-button-container" class="more-button-wrapper">
-          <common-button id="more-button" text="" color="darken"></common-button>
+          <common-button id="more-button" class="hide" text="더보기" color="primary"></common-button>
         </div>  
       </section>
     </main>`;
@@ -65,6 +66,7 @@ class MoviesContainer extends HTMLElement {
       this.#isFatching = true;
       await this.#movies.update(this.#searchWord.value);
       this.renderMovieList();
+      this.toggleVisibleButton();
       $('#skeleton-container')?.classList.add('skeleton-hide');
 
       if (this.#movies.movieResult.isLastPage) {
@@ -76,6 +78,31 @@ class MoviesContainer extends HTMLElement {
       this.setErrorMessage(getErrorMessage(error));
       $('#skeleton-container')?.classList.add('skeleton-hide');
     }
+  }
+
+  toggleVisibleButton(): void {
+    if (this.#movies.movieResult.isLastPage) {
+      $('#more-button')?.classList.add('hide');
+      return;
+    }
+
+    $('#more-button')?.classList.remove('hide');
+  }
+
+  setButtonEvent(): void {
+    $('#more-button')?.addEventListener('click', () => {
+      if (this.#isFatching) return;
+      const bodyElement = $('body') as HTMLBodyElement;
+      const bodyHeight = bodyElement.scrollHeight;
+      const MOVE_SCROLL_HEIGHT = 1000;
+
+      this.#isFatching = true;
+
+      window.scrollTo(0, bodyHeight - MOVE_SCROLL_HEIGHT);
+      $('#skeleton-container')?.classList.remove('skeleton-hide');
+
+      this.updateMovieList();
+    });
   }
 
   renderMovieList(): void {
@@ -119,7 +146,7 @@ class MoviesContainer extends HTMLElement {
     const options = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.8,
+      threshold: 0.1,
     };
 
     const movieList = $('#more-button') as HTMLButtonElement;
