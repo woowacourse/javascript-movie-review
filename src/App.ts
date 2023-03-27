@@ -18,11 +18,13 @@ class App {
 
   private addInitialPageLoadEventListener() {
     window.addEventListener('load', () => {
+      console.log(history.state, '!!');
+
       if (history.state) return;
 
       const url = new URL(window.location.href);
       const params = new URLSearchParams(url.search);
-      const searchQuery = params.get('q');
+      const searchQuery = params.get('q') ?? '';
       const queryParams = searchQuery ? `search?q=${searchQuery}` : '';
 
       history.replaceState(
@@ -31,7 +33,7 @@ class App {
         PAGE_BASE_URL + queryParams
       );
 
-      this.loadMovieData(searchQuery ?? '');
+      this.loadMovieData(searchQuery);
     });
   }
 

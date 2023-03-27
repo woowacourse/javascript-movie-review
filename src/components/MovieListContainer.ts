@@ -2,6 +2,7 @@ import { $ } from '../utils/domSelector';
 import { MOVIE_LIST_LOADED, MOVIE_LIST_LOADING, MOVIE_LIST_RESET } from '../constants';
 import { SCROLL_OFFSET } from '../constants/ui';
 import MovieList from '../domain/MovieList';
+import { UpArrow } from '../assets';
 
 class MovieListContainer {
   private static instance: MovieListContainer;
@@ -41,6 +42,9 @@ class MovieListContainer {
         <ul class="item-list"></ul>
       </section>
       <div class="error-message hide"></div>
+      <a class="top-button" href="#">
+        <img src="${UpArrow}" alt="move to top arrow" />
+      </a>
     `;
   }
 
