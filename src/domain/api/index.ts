@@ -7,7 +7,7 @@ export const getApiPopularMovie = async (
   page: number
 ): Promise<FetchingMovieType> => {
   const fetchingData = await fetch(
-    `${BASE_URL}movie/popular?api_key=${API_KEY}&language=KO&page=${page}`
+    `${BASE_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=${page}`
   );
 
   const status = fetchingData.status;
@@ -21,7 +21,7 @@ export const getApiSearchMovie = async (
   page: number
 ): Promise<FetchingMovieType> => {
   const fetchingData = await fetch(
-    `${BASE_URL}search/movie?api_key=${API_KEY}&language=KO&query=${query}&page=${page}&include_adult=false`
+    `${BASE_URL}search/movie?api_key=${API_KEY}&language=en-US&query=${query}&page=${page}&include_adult=false`
   );
 
   const status = fetchingData.status;
@@ -34,7 +34,7 @@ export const getApiDetailMovie = async (
   id: number
 ): Promise<FetchingDetailOfMovieType> => {
   const fetchingData = await fetch(
-    `${BASE_URL}movie/${id}?api_key=${API_KEY}&language=KO`
+    `${BASE_URL}movie/${id}?api_key=${API_KEY}&language=en-US`
   );
 
   const status = fetchingData.status;
