@@ -1,8 +1,8 @@
 import MovieList from "../domain/MovieList";
 import MovieItem from "./MovieItem";
-import { Movie } from "../types/movie";
-import { $, $$ } from "../utils/domSelector";
 import InvalidMessage from "./InvalidMessage";
+import { Movie } from "../types/movie";
+import { $ } from "../utils/domSelector";
 import { HTTPError } from "../api/HTTPError";
 
 const MovieListContainer = {
@@ -32,33 +32,25 @@ const MovieListContainer = {
     }
   },
 
-  setScrollObserver() {
-    const observer = new IntersectionObserver(
-      () => {
-        this.onScroll();
-        MovieItem.removeSkeleton();
-      },
-      {
-        root: document.querySelector("#scrollArea"),
-      }
-    );
-
-    observer.observe($<HTMLDivElement>("#movie-list-end"));
-  },
-
   onScroll: () => {
-    MovieListContainer.renderMovieItem();
+    try {
+      MovieListContainer.renderMovieItem();
+    } catch (error) {
+      if (error instanceof HTTPError) {
+        InvalidMessage.renderErrorMessage(error.statusCode);
+      }
+    }
   },
 
   onSearch: async (searchKey: string) => {
     try {
-      MovieListContainer.showTitle();
-
+      console.log(111);
       $<HTMLElement>(
         "#movie-list-title"
       ).textContent = `"${searchKey}" 검색 결과`;
       $<HTMLElement>(".item-list").replaceChildren();
 
+      MovieListContainer.showTitle();
       MovieListContainer.renderMovieItem(searchKey);
       MovieItem.removeSkeleton();
     } catch (error) {

@@ -1,9 +1,9 @@
+import MovieModal from "./MovieModal";
+import MovieList from "../domain/MovieList";
 import { StarFilled } from "../assets";
 import { POSTER_BASE_URL } from "../constants";
-import MovieList from "../domain/MovieList";
 import { Movie } from "../types/movie";
-import { $, $$ } from "../utils/domSelector";
-import MovieModal from "./MovieModal";
+import { $$ } from "../utils/domSelector";
 
 const MovieItem = {
   render: (movie: Movie) => {
@@ -31,6 +31,7 @@ const MovieItem = {
   },
 
   bindClickEvent: () => {
+    console.log("bind");
     $$<HTMLDivElement>(".movie-item").forEach((movieItem: HTMLDivElement) => {
       movieItem.addEventListener("click", (event) => {
         event.preventDefault();
@@ -39,13 +40,13 @@ const MovieItem = {
     });
   },
 
-  onClickMovieItem: async (movieId: number) => {
+  onClickMovieItem: (movieId: number) => {
     MovieList.setCurrentMovieId(movieId);
     MovieModal.loadMovieDetail();
   },
 
   removeSkeleton: () => {
-    $$<HTMLElement>(".item-card").forEach((item) => {
+    $$<HTMLDivElement>(".item-card").forEach((item) => {
       item.childNodes.forEach((child) => {
         if (child instanceof HTMLElement) {
           child.classList.remove("skeleton");

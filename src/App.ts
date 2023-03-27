@@ -1,3 +1,4 @@
+import MovieItem from "./components/MovieItem";
 import MovieListContainer from "./components/MovieListContainer";
 import NavBar from "./components/NavBar";
 import { $ } from "./utils/domSelector";
@@ -5,6 +6,7 @@ import { $ } from "./utils/domSelector";
 class App {
   constructor() {
     this.render();
+    this.setScrollObserver();
     this.initEvents();
   }
 
@@ -18,7 +20,22 @@ class App {
 
   initEvents() {
     NavBar.bindSubmitEvent();
-    MovieListContainer.setScrollObserver();
+  }
+
+  setScrollObserver() {
+    const observer = new IntersectionObserver(
+      (entry) => {
+        if (entry[0].isIntersecting) {
+          MovieListContainer.onScroll();
+        }
+        MovieItem.removeSkeleton();
+      },
+      {
+        root: document.querySelector("#scrollArea"),
+      }
+    );
+
+    observer.observe($<HTMLDivElement>("#movie-list-end"));
   }
 }
 

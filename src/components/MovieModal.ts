@@ -12,12 +12,13 @@ const MovieModal = {
       const movieDetail = await MovieList.getDetailedMovieData();
       const starCount = MovieList.getStarCount();
 
+      console.log("star: ", starCount);
       MovieModal.render(movieDetail);
       MovieModal.renderStar(starCount);
-      console.log(starCount);
       MovieModal.bindClickEvent();
       MovieModal.bindPressEvent();
       MovieModal.bindGoBack();
+      $<HTMLDivElement>("body").classList.add("no-scroll");
     } catch (error) {
       if (error instanceof HTTPError) {
         InvalidMessage.renderErrorMessage(error.statusCode);
@@ -67,7 +68,7 @@ const MovieModal = {
 
   renderStar: (starCount: number) => {
     const score = starCount * 2;
-    console.log("? ", score);
+
     const template = `
     ${
       [...Array(starCount)]
@@ -92,11 +93,12 @@ const MovieModal = {
     `;
 
     $<HTMLElement>("#star-count").replaceChildren();
-    console.log(88);
     $<HTMLElement>("#star-count").insertAdjacentHTML("afterbegin", template);
+    console.log("renderstar");
   },
 
   bindClickEvent: () => {
+    console.log(1);
     $<HTMLDivElement>("#modal-backdrop").addEventListener(
       "click",
       (event: Event) => {
@@ -120,10 +122,21 @@ const MovieModal = {
   },
 
   bindPressEvent: () => {
+    console.log(2);
     window.addEventListener(
       "keydown",
       (event) => {
         if (event.code == "Backspace") {
+          MovieModal.close();
+        }
+      },
+      { once: true }
+    );
+
+    window.addEventListener(
+      "keydown",
+      (event) => {
+        if (event.code == "escape") {
           MovieModal.close();
         }
       },
@@ -151,6 +164,7 @@ const MovieModal = {
       MovieList.saveStar(Number(score) / 2);
     }
     $<HTMLDivElement>("#modal-backdrop").remove();
+    $<HTMLDivElement>("body").classList.remove("no-scroll");
   },
 };
 

@@ -30,7 +30,6 @@ class MovieList {
 
   setCurrentMovieId(newMovieId: number) {
     this.currentMovieId = newMovieId;
-    console.log(this.currentMovieId);
   }
 
   private async getPopularMovieData(): Promise<Movie[]> {
