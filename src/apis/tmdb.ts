@@ -13,19 +13,6 @@ const BASE_PARAMS = {
   include_adult: 'false',
 };
 
-const popularParams = ({ pageIndex }: PopularParams) => {
-  return {
-    page: pageIndex.toString(),
-  };
-};
-
-const searchParams = ({ word, pageIndex }: SearchParams) => {
-  return {
-    query: word,
-    page: pageIndex.toString(),
-  };
-};
-
 const baseQueriesString = convertQuerystring(BASE_PARAMS);
 
 export const getPopularUrl = ({ pageIndex }: PopularParams): string => {
@@ -37,6 +24,12 @@ export const getPopularUrl = ({ pageIndex }: PopularParams): string => {
   return getFetchURL({ baseUrl: BASE_URL, path: POPULAR_PATH, query: popularQueries });
 };
 
+const popularParams = ({ pageIndex }: PopularParams) => {
+  return {
+    page: pageIndex.toString(),
+  };
+};
+
 export const getSearchUrl = ({ pageIndex, word }: SearchParams): string => {
   const params = searchParams({ pageIndex, word });
   const searchQueriesString = convertQuerystring(params);
@@ -44,6 +37,13 @@ export const getSearchUrl = ({ pageIndex, word }: SearchParams): string => {
   const searchQuries = getQueries({ baseQueries: baseQueriesString, optionQueries: searchQueriesString });
 
   return getFetchURL({ baseUrl: BASE_URL, path: SEARCH_PATH, query: searchQuries });
+};
+
+const searchParams = ({ word, pageIndex }: SearchParams) => {
+  return {
+    query: word,
+    page: pageIndex.toString(),
+  };
 };
 
 export const getDetailUrl = ({ id }: DetailParams): string => {

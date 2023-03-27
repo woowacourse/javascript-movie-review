@@ -1,12 +1,12 @@
 import Header from './Header';
-import MoviesContainer from './MoviesContainer';
 import SearchInput from './SearchInput';
-import Button from './Button';
+import MoviesContainer from './MoviesContainer';
 import MovieListItem from './MovieListItem';
-import Skeleton from './Skeleton';
-import Image from './Image';
 import Modal from './Modal';
 import MovieScore from './MovieScore';
+import Image from './Image';
+import Button from './Button';
+import Skeleton from './Skeleton';
 
 customElements.define('movie-header', Header);
 customElements.define('search-input', SearchInput);

@@ -39,20 +39,20 @@ class SearchInput extends HTMLElement {
     });
   }
 
+  setInputBlurEvent() {
+    const searchInput = $('#search-form-box') as HTMLInputElement;
+    searchInput.addEventListener('focusout', event => {
+      if (event.relatedTarget !== null) return;
+      this.toggleVisibleSearchBar();
+    });
+  }
+
   setSearchBoxClickEvent(): void {
     const searchInput = $('#search-input-tag') as HTMLInputElement;
     $('#small-search-box')?.addEventListener('click', event => {
       event.preventDefault();
       this.toggleVisibleSearchBar();
       searchInput.focus();
-    });
-  }
-
-  setInputBlurEvent() {
-    const searchInput = $('#search-form-box') as HTMLInputElement;
-    searchInput.addEventListener('focusout', event => {
-      if (event.relatedTarget !== null) return;
-      this.toggleVisibleSearchBar();
     });
   }
 

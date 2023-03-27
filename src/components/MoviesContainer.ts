@@ -17,6 +17,7 @@ const DEFAULT_VALUE = 'default_movie_search_title';
 
 class MoviesContainer extends HTMLElement {
   #movies: MovieInformation = new Movie();
+
   #searchWord: SearchWord = new Proxy(
     { value: DEFAULT_VALUE },
     {
@@ -39,27 +40,13 @@ class MoviesContainer extends HTMLElement {
       },
     }
   );
+
   #isFatching: boolean = false;
 
   connectedCallback(): void {
     this.renderContainer();
     this.setButtonEvent();
     this.setInfiniteScrollEvent();
-  }
-
-  renderContainer(): void {
-    this.innerHTML = /*html*/ `
-    <main id="movie-container" class="item-container">
-    <section class="item-view">
-        <h2 id="movie-container-title" class="movie-list-title">지금 인기 있는 영화</h2>
-        <ul id="movie-list-wrapper" class="item-list">
-        </ul>
-        <skeleton-item id="skeleton-container"></skeleton-item>
-        <div id="more-button-container" class="more-button-wrapper">
-          <common-button id="more-button" class="hide" text="더 보기" color="primary"></common-button>
-        </div>  
-      </section>
-    </main>`;
   }
 
   updateMovieList(): void {
@@ -91,13 +78,25 @@ class MoviesContainer extends HTMLElement {
     $('#skeleton-container')?.classList.add('skeleton-hide');
   }
 
-  toggleVisibleButton(): void {
-    if (this.#movies.movieResult.isLastPage) {
-      $('#more-button')?.classList.add('hide');
-      return;
-    }
+  setErrorMessage(errorMessage: string): void {
+    const movieContainerTitle = $('#movie-container-title') as HTMLElement;
 
-    $('#more-button')?.classList.remove('hide');
+    movieContainerTitle.innerText = errorMessage;
+  }
+
+  renderContainer(): void {
+    this.innerHTML = /*html*/ `
+    <main id="movie-container" class="item-container">
+    <section class="item-view">
+        <h2 id="movie-container-title" class="movie-list-title">지금 인기 있는 영화</h2>
+        <ul id="movie-list-wrapper" class="item-list">
+        </ul>
+        <skeleton-item id="skeleton-container"></skeleton-item>
+        <div id="more-button-container" class="more-button-wrapper">
+          <common-button id="more-button" class="hide" text="더 보기" color="primary"></common-button>
+        </div>  
+      </section>
+    </main>`;
   }
 
   setButtonEvent(): void {
@@ -112,6 +111,39 @@ class MoviesContainer extends HTMLElement {
       window.scrollTo(0, bodyHeight - MOVE_SCROLL_HEIGHT);
       this.startFetchMovieList();
     });
+  }
+
+  setInfiniteScrollEvent() {
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1,
+    };
+
+    const movieList = $('#more-button') as HTMLButtonElement;
+
+    const io = new IntersectionObserver(entry => {
+      if (entry[0].isIntersecting) {
+        if (this.#isFatching) return;
+        this.startFetchMovieList();
+      }
+    }, options);
+
+    io.observe(movieList);
+  }
+
+  startFetchMovieList() {
+    $('#skeleton-container')?.classList.remove('skeleton-hide');
+    this.updateMovieList();
+  }
+
+  toggleVisibleButton(): void {
+    if (this.#movies.movieResult.isLastPage) {
+      $('#more-button')?.classList.add('hide');
+      return;
+    }
+
+    $('#more-button')?.classList.remove('hide');
   }
 
   renderMovieList(): void {
@@ -151,42 +183,6 @@ class MoviesContainer extends HTMLElement {
     movieContainerTitle.insertAdjacentElement('afterend', noResultContainer);
   }
 
-  setInfiniteScrollEvent() {
-    const options = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.1,
-    };
-
-    const movieList = $('#more-button') as HTMLButtonElement;
-
-    const io = new IntersectionObserver((entry, observer) => {
-      if (entry[0].isIntersecting) {
-        if (this.#isFatching) return;
-        this.startFetchMovieList();
-      }
-    }, options);
-
-    io.observe(movieList);
-  }
-
-  startFetchMovieList() {
-    $('#skeleton-container')?.classList.remove('skeleton-hide');
-    this.updateMovieList();
-  }
-
-  reset(): void {
-    const movieListWrapper = $('#movie-list-wrapper') as HTMLElement;
-
-    movieListWrapper.innerHTML = '';
-
-    if ($('#no-result-message')) {
-      $('#no-result-message')?.remove();
-    }
-
-    this.#movies.resetPageIndex();
-  }
-
   updateTitle(word: string): void {
     const movieContainerTitle = $('#movie-container-title') as HTMLElement;
 
@@ -201,17 +197,23 @@ class MoviesContainer extends HTMLElement {
     return `"${sliceSting(word)}" 검색 결과`;
   }
 
+  reset(): void {
+    const movieListWrapper = $('#movie-list-wrapper') as HTMLElement;
+
+    movieListWrapper.innerHTML = '';
+
+    if ($('#no-result-message')) {
+      $('#no-result-message')?.remove();
+    }
+
+    this.#movies.resetPageIndex();
+  }
+
   setSearchWord(searchWord: string): void {
     if (this.#searchWord.value === searchWord) {
       return;
     }
     this.#searchWord.value = searchWord;
-  }
-
-  setErrorMessage(errorMessage: string): void {
-    const movieContainerTitle = $('#movie-container-title') as HTMLElement;
-
-    movieContainerTitle.innerText = errorMessage;
   }
 }
 

@@ -41,6 +41,17 @@ class MovieListItem extends HTMLElement {
     });
   }
 
+  updateQueries(movieId: string) {
+    const { searchWord } = getHashURLParams();
+
+    const searchURL = searchWord ? `q=${searchWord}&` : '';
+    if (movieId === '') {
+      window.location.hash = `${searchURL}`;
+      return;
+    }
+    window.location.hash = `?${searchURL}id=${movieId}`;
+  }
+
   updateReviewedElement() {
     const movieId = this.getAttribute('movieId') || '';
 
@@ -52,17 +63,6 @@ class MovieListItem extends HTMLElement {
     }
 
     this.querySelector('.item-check')?.classList.remove('hide');
-  }
-
-  updateQueries(movieId: string) {
-    const { searchWord } = getHashURLParams();
-
-    const searchURL = searchWord ? `q=${searchWord}&` : '';
-    if (movieId === '') {
-      window.location.hash = `${searchURL}`;
-      return;
-    }
-    window.location.hash = `?${searchURL}id=${movieId}`;
   }
 }
 

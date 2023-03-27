@@ -6,7 +6,7 @@ import { setHashURL, sliceScore, sliceSting } from '../utils/domain';
 import STAR_FILLED from '../image/star-filled.png';
 import STAR_EMPTY from '../image/star-empty.png';
 import { HTMLMovieListItemElement } from './MovieListItem';
-import { MovieDetailInfo, MovieInfo, MovieScoreInfo } from '../types/type';
+import { MovieDetailInfo, MovieInfo } from '../types/type';
 import { SCORE_COMMENT, SCROLL_HIDDEN_CLASSNAME } from '../constants';
 
 export interface HTMLModalElement extends HTMLElement {
@@ -33,6 +33,14 @@ class Modal extends HTMLElement {
   connectedCallback(): void {
     this.render();
     this.setCloseModalKeydownEvent();
+  }
+
+  setCloseModalKeydownEvent(): void {
+    window.addEventListener('keydown', event => {
+      if (event.code === 'Escape') {
+        this.closeModal();
+      }
+    });
   }
 
   updateDetailModal(): void {
@@ -100,41 +108,6 @@ class Modal extends HTMLElement {
      `;
   }
 
-  setCloseModalKeydownEvent(): void {
-    window.addEventListener('keydown', event => {
-      if (event.code === 'Escape') {
-        this.closeModal();
-      }
-    });
-  }
-
-  setCloseModalEvent(): void {
-    $('#modal-background')?.addEventListener('click', () => this.closeModal());
-
-    $('#modal-close-button')?.addEventListener('click', () => this.closeModal());
-  }
-
-  openModal(): void {
-    const modal = $('#modal') as HTMLDialogElement;
-
-    $('body')?.classList.add(SCROLL_HIDDEN_CLASSNAME);
-    modal.showModal();
-  }
-
-  closeModal(): void {
-    const modal = $('#modal') as HTMLDialogElement;
-
-    $('body')?.classList.remove(SCROLL_HIDDEN_CLASSNAME);
-    modal.close();
-    setHashURL();
-  }
-
-  getScoreComment(score: string): string {
-    const myScore = Number(score) / 2;
-
-    return SCORE_COMMENT[myScore];
-  }
-
   renderStar() {
     const stars = this.querySelectorAll('.modal-star') as NodeListOf<HTMLImageElement>;
 
@@ -161,6 +134,12 @@ class Modal extends HTMLElement {
     modalMyComment.innerText = this.getScoreComment(score.toString());
   }
 
+  getScoreComment(score: string): string {
+    const myScore = Number(score) / 2;
+
+    return SCORE_COMMENT[myScore];
+  }
+
   setStarClickEvent() {
     const stars = this.querySelectorAll('.modal-star') as NodeListOf<HTMLImageElement>;
 
@@ -181,6 +160,34 @@ class Modal extends HTMLElement {
     userMovieScore.setLocalStorage({ id, score });
   }
 
+  updateMovieItemReviewed() {
+    const id = this.#detailMovieInfo.id;
+    const movieItem = $(`#id${id}`) as HTMLMovieListItemElement;
+
+    movieItem.updateReviewedElement();
+  }
+
+  setCloseModalEvent(): void {
+    $('#modal-background')?.addEventListener('click', () => this.closeModal());
+
+    $('#modal-close-button')?.addEventListener('click', () => this.closeModal());
+  }
+
+  closeModal(): void {
+    const modal = $('#modal') as HTMLDialogElement;
+
+    $('body')?.classList.remove(SCROLL_HIDDEN_CLASSNAME);
+    modal.close();
+    setHashURL();
+  }
+
+  openModal(): void {
+    const modal = $('#modal') as HTMLDialogElement;
+
+    $('body')?.classList.add(SCROLL_HIDDEN_CLASSNAME);
+    modal.showModal();
+  }
+
   setMovieId(id: string) {
     if (!id) return;
 
@@ -195,13 +202,6 @@ class Modal extends HTMLElement {
     const movieDetail = Movie.parsedDetailResult(Number(id));
     this.#detailMovieInfo = await movieDetail;
     this.updateDetailModal();
-  }
-
-  updateMovieItemReviewed() {
-    const id = this.#detailMovieInfo.id;
-    const movieItem = $(`#id${id}`) as HTMLMovieListItemElement;
-
-    movieItem.updateReviewedElement();
   }
 }
 

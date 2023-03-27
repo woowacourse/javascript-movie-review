@@ -18,10 +18,7 @@ class Header extends HTMLElement {
 
   setLogoClickEvent(): void {
     $('#logo')?.addEventListener('click', () => {
-      if (window.location.hash === '') {
-        window.scrollTo(0, 0);
-      }
-
+      window.scrollTo(0, 0);
       window.location.hash = '';
     });
   }

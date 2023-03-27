@@ -5,6 +5,14 @@ class Skeleton extends HTMLElement {
     this.render();
   }
 
+  render(): void {
+    this.innerHTML = /*html*/ `
+      <ul class="item-list skeleton-list">
+        ${this.makeSkeletonItem().repeat(20)}
+      </ul>
+    `;
+  }
+
   makeSkeletonItem(): string {
     return /*html*/ `
       <li class="skeleton-item">
@@ -14,14 +22,6 @@ class Skeleton extends HTMLElement {
             <div class="skeleton-score skeleton"></div>
           </div>
       </li>`;
-  }
-
-  render(): void {
-    this.innerHTML = /*html*/ `
-      <ul class="item-list skeleton-list">
-        ${this.makeSkeletonItem().repeat(20)}
-      </ul>
-    `;
   }
 }
 
