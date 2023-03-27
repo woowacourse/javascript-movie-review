@@ -17,7 +17,7 @@ export default class HeaderPc extends HTMLElement {
       </div>
       <form id="search-bar" class="search-box">
         <input id="search-input-pc" type="text" placeholder="검색" name="search-bar"/>
-        <buttont id="search-button-pc" class="search-button">검색</button>
+        <button id="search-button-pc" class="search-button">검색</button>
       </form>
     </header>
     `;
