@@ -71,7 +71,7 @@ export function MovieDetail({ id, title, poster_path, genres, vote_average, over
                 <h2 class="modal-title text-title">${title}</h2>
                 <button class="modal-close-btn">X</button>
             </header>
-            <div id="poster">
+            <div class="poster">
                 <img src=${makeImagePath(poster_path)} style="width: 200px;" loading="lazy">
             </div>
             <div class="movie-info">
