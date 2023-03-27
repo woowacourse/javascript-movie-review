@@ -1,30 +1,41 @@
-import { API, TMDB_BASE_URL } from "../constant/api";
+import { API, TMDB_BASE_URL } from '../constant/api';
+import { RESPONSE_ERROR } from '../constant/error';
 
-export const getPopularMovies = async (page: number) => {
-  const response = await fetch(
-    `${TMDB_BASE_URL}${API.GET_POPULAR}?api_key=${process.env.API_KEY}&language=ko-KR&page=${page}`,
-    {
-      method: "GET",
-    }
-  );
+const fetchAPI = async (url: string): Promise<any> => {
+  const response = await fetch(url, { method: 'GET' });
 
-  if (response.ok) return response.json();
+  const { status } = response;
+  if (status === 200) return await response.json();
 
-  const errorMessage = `인기 영화 가져오기, 페이지: ${page}\n\n서버에서 오류가 발생했습니다.`;
-  alert(errorMessage);
+  const responseError = RESPONSE_ERROR[status];
+  if (!responseError) throw new Error(`${status}`);
+  throw new Error(responseError);
 };
 
-export const getSearchedMovies = async (movieName: string, page: number) => {
-  const response = await fetch(
-    `${TMDB_BASE_URL}${API.SEARCH_MOVIES}?api_key=${process.env.API_KEY}&language=ko-KR&query=${movieName}&page=${page}&include_adult=false`,
-    {
-      method: "GET",
-    }
-  );
+export const getPopularMovies = async (
+  page: number,
+): Promise<MovieListResponse> => {
+  const url = `${TMDB_BASE_URL}${API.GET_POPULAR}?api_key=${process.env.API_KEY}&language=ko-KR&page=${page}`;
+  const response = await fetchAPI(url);
 
-  if (response.ok) return response.json();
+  return response;
+};
 
-  const errorMessage = `검색어: ${movieName}, 페이지: ${page}\n\n서버에서 오류가 발생했습니다.`;
-  alert(errorMessage);
-  throw new Error(errorMessage);
+export const getSearchedMovies = async (
+  movieName: string,
+  page: number,
+): Promise<MovieListResponse> => {
+  const url = `${TMDB_BASE_URL}${API.SEARCH_MOVIES}?api_key=${process.env.API_KEY}&language=ko-KR&query=${movieName}&page=${page}&include_adult=false`;
+  const response = await fetchAPI(url);
+
+  return response;
+};
+
+export const getMovieDetail = async (
+  movieId: number,
+): Promise<MovieDetailResponse> => {
+  const url = `${TMDB_BASE_URL}${API.SEARCH_MOVIE_DETAIL}/${movieId}?api_key=${process.env.API_KEY}&language=ko-KR`;
+  const response = await fetchAPI(url);
+
+  return response;
 };
