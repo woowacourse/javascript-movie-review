@@ -10,6 +10,7 @@ export const STRING = {
   NORMAL: '보통이에요',
   GOOD: '재미있어요',
   EXCELLENT: '명작이에요',
+  NOT_FIND_ELEMENT: '해당 요소를 찾을 수 없습니다.',
 };
 
 export const NUMBER = {

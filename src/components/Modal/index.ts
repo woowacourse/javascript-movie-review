@@ -1,4 +1,5 @@
 import template from './index.html';
+import { STRING } from '../../utils/Constant';
 
 export class Modal extends HTMLElement {
   constructor() {
@@ -6,11 +7,16 @@ export class Modal extends HTMLElement {
     this.innerHTML = template;
   }
 
-  close() {
-    (document.querySelector('.modal') as HTMLDialogElement).close();
-  }
+  close = () => {
+    const modal = document.querySelector('.modal');
+    if (!(modal instanceof HTMLDialogElement)) throw new Error(STRING.NOT_FIND_ELEMENT);
+    modal.close();
+  };
 
-  show() {
-    (document.querySelector('.modal') as HTMLDialogElement).showModal();
-  }
+  show = () => {
+    const modal = document.querySelector('.modal');
+    console.log(modal);
+    if (!(modal instanceof HTMLDialogElement)) throw new Error(STRING.NOT_FIND_ELEMENT);
+    modal.showModal();
+  };
 }
