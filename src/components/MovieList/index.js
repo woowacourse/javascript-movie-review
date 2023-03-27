@@ -68,9 +68,9 @@ class MovieList {
   async renderMovieList() {
     const $itemList = this.$target.querySelector(".item-list");
 
-    this.toggleSkeletonContainerVisibility();
+    this.openSkeletonContainer();
     const fetchedMovieData = await this.fetchMovieList();
-    this.toggleSkeletonContainerVisibility();
+    this.closeSkeletonContainer();
     if (!fetchedMovieData) return;
 
     if (!this.isExistMovie(fetchedMovieData)) {
@@ -128,9 +128,14 @@ class MovieList {
     $loadMoreButton.classList.toggle("invisible");
   }
 
-  toggleSkeletonContainerVisibility() {
+  openSkeletonContainer() {
     const $skeletonContainer = this.$target.querySelector(".skeleton-container");
-    $skeletonContainer.classList.toggle("visible");
+    $skeletonContainer.classList.add("visible");
+  }
+
+  closeSkeletonContainer() {
+    const $skeletonContainer = this.$target.querySelector(".skeleton-container");
+    $skeletonContainer.classList.remove("visible");
   }
 
   setEvent() {
