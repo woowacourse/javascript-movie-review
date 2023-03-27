@@ -7,7 +7,6 @@ import { IMovieDetailItem } from '../types/movie';
 import modal from './Modal';
 import { STAR_DESCRIPTION } from '../utils/constants';
 import { removeSkeletonAfterImageLoad } from '../utils/eventCallback';
-import { eventThrottle } from '../utils/throttle';
 import { parseLocalStorage, stringifyLocalStorage } from '../utils/localStorage';
 
 const initialMovieState: IMovieDetailItem = {

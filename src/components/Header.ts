@@ -57,7 +57,7 @@ class Header {
     if (!(e.target instanceof HTMLImageElement)) return;
     const { target } = e;
     if (target.id !== 'logo') return;
-    eventThrottle(() => stateRender.renderPopularMovies.bind(stateRender)(), 2000)();
+    eventThrottle(() => stateRender.renderPopularMovies(), 2000)();
 
     if (this.#$searchBox instanceof HTMLFormElement) {
       this.#$searchBox.reset();
