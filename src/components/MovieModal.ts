@@ -71,6 +71,17 @@ export default class MovieModal extends HTMLElement {
   }
 
   setEvent() {
+    const $overview = this.querySelector(".overview");
+    const $skeletonList = this.querySelectorAll(".skeleton");
+    const $hiddenList = this.querySelectorAll(".hidden");
+    const $image = this.querySelector(".modal-image") as HTMLImageElement;
+
+    this.addEventListener("wheel", (event) => {
+      if (event.target !== $overview) {
+        event.preventDefault();
+      }
+    });
+
     this.addEventListener("click", this.exitModal);
 
     document.addEventListener("keydown", (event) => {
@@ -79,9 +90,6 @@ export default class MovieModal extends HTMLElement {
       }
     });
 
-    const $skeletonList = this.querySelectorAll(".skeleton");
-    const $hiddenList = this.querySelectorAll(".hidden");
-    const $image = this.querySelector(".modal-image") as HTMLImageElement;
     $image?.addEventListener("load", () => {
       if (!$image.complete) return;
       $skeletonList.forEach((element) => element.classList.remove("skeleton"));
