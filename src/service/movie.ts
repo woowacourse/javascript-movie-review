@@ -31,7 +31,7 @@ const request = (uri: string) => {
   });
 };
 
-const getPopularMovies = async ({ page }: Popular): Promise<Movie[]> => {
+export const getPopularMovies = async ({ page }: Popular): Promise<Movie[]> => {
   const query = `page=${page}&region=KR&language=ko-KR`;
   const response = await request(`/movie/popular?${query}`);
   const movies = await response.json();
@@ -39,7 +39,7 @@ const getPopularMovies = async ({ page }: Popular): Promise<Movie[]> => {
   return movies;
 };
 
-const searchMovies = async ({ text, page }: { text: string; page: number }) => {
+export const searchMovies = async ({ text, page }: { text: string; page: number }) => {
   const query = `query=${text}&page=${page}&language=ko-KR&region=KR`;
   const response = await request(`/search/movie?${query}`);
   const movies = await response.json();
@@ -47,4 +47,10 @@ const searchMovies = async ({ text, page }: { text: string; page: number }) => {
   return movies;
 };
 
-export { getPopularMovies, searchMovies };
+export const getMovieById = async (id: string) => {
+  const query = `language=ko-KR`;
+  const response = await request(`/movie/${id}?${query}`);
+  const movie = response.json();
+
+  return movie;
+};
