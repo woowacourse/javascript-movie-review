@@ -43,8 +43,8 @@ header .search-box > .search-button {
   }
 }
 
-@media screen and (max-width: 768px) {
-  header .search-box > input {
+@media screen and (max-width: 640px) {
+  header .search-box > input:not(:focus) {
     display: none;
   }
 

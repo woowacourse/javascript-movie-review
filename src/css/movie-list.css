@@ -100,12 +100,12 @@
 
   .item-list {
     grid-template-columns: repeat(3, 180px);
-    column-gap: 100px;
+    column-gap: 48px;
     row-gap: 36px;
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 640px) {
   .item-list {
     grid-template-columns: repeat(2, 140px);
     column-gap: 48px;

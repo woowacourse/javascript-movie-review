@@ -25,6 +25,7 @@ class MovieHeader extends HTMLElement {
     }
 
     $('.title')?.addEventListener('click', () => this.handleLogoClick());
+    $('.search-button')?.addEventListener('click', (e) => this.handleSearchButtonClick(e));
   }
 
   handleSubmit(e: SubmitEvent) {
@@ -50,6 +51,17 @@ class MovieHeader extends HTMLElement {
     changeTitle(POPULAR_TITLE);
     resetSearchBox();
     dispatchCustomEvent(this, 'home');
+  }
+
+  handleSearchButtonClick(e: Event) {
+    const $searchInput = $('#search-input');
+    if (!($searchInput instanceof HTMLInputElement)) return;
+
+    if ($searchInput.style.display === '' && $searchInput.value === '') {
+      $searchInput.style.display = 'inline';
+      $searchInput.focus();
+      e.preventDefault();
+    }
   }
 }
 
