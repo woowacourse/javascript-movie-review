@@ -2,6 +2,7 @@ import Movie from "./domain/Movie";
 
 import Header from "./components/Header";
 import MovieView from "./components/MovieView";
+import MovieDetail from "./components/MovieDetail";
 
 const pageCounter = (firstPage) => {
   let page = firstPage;
@@ -16,6 +17,8 @@ class App {
   header;
 
   movieView;
+
+  movieDetail;
 
   page;
 
@@ -34,6 +37,7 @@ class App {
 
     this.header = new Header($target);
     this.movieView = new MovieView(this.$main);
+    this.movieDetail = new MovieDetail($target);
 
     this.page = pageCounter(0);
 
@@ -57,6 +61,7 @@ class App {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
     if (clientHeight < Math.round(scrollHeight - scrollTop)) return;
 
+    this.isLoading = true;
     const query = this.header.getQuery();
     if (query) {
       this.renderFoundMovies(query, this.page());
@@ -67,14 +72,28 @@ class App {
     this.renderPopularMovies(this.page());
   }
 
-  onClickHandler({ target }) {
-    if (target.id !== "logo" || this.isLoading) return;
+  async onClickHandler({ target }) {
+    if (target.id === "logo") {
+      if (this.isLoading) return;
 
-    this.header.clearQuery();
+      this.header.clearQuery();
 
-    this.page = pageCounter(0);
+      this.page = pageCounter(0);
 
-    this.renderPopularMovies(this.page());
+      this.renderPopularMovies(this.page());
+
+      return;
+    }
+
+    if (target.closest(".item")) {
+      const { id } = target.closest(".item");
+
+      const { data, isError } = await this.movie.getMovieDetail(id);
+      if (isError) return;
+      console.log(data);
+
+      this.movieDetail.open(data);
+    }
   }
 
   onSubmitHandler(e) {

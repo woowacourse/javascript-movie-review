@@ -43,10 +43,10 @@ class MovieList {
     return movieLi;
   }
 
-  getMovieItemTemplate({ title, vote_average, poster_path }) {
+  getMovieItemTemplate({ id, title, vote_average, poster_path }) {
     const template = `
-      <li>
-        <a href="#">
+      <li id=${id} class="item">
+        <a href="#${id}">
           <div class="item-card">
             ${
               poster_path

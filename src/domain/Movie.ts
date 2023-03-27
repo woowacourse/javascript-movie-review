@@ -18,6 +18,14 @@ class Movie {
 
     return foundedMovies;
   }
+
+  async getMovieDetail(id: string) {
+    const detail = await fetchData(
+      `${BASE_URL}/movie/${id}?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR`
+    );
+
+    return detail;
+  }
 }
 
 export default Movie;
