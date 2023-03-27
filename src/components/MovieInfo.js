@@ -37,7 +37,7 @@ export default class MovieInfo {
               ${this.ratingTemplate(10)}
             </div>
             <span id="js-my_rating" class="movie-my_rating"></span>
-            <span id="js-my_rating-text" class="movie-my_rating">별점을 입력해주세요</span>
+            <span id="js-my_rating-text" class="movie-my_rating">클릭해주세요</span>
           </menu>
         </div>
       `,
