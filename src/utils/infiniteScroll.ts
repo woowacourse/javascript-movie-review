@@ -1,5 +1,3 @@
-import { $, $$ } from "./selector";
-
 export const loadDataByInfiniteScroll = async (
   target: HTMLElement,
   renderMovies: () => boolean
