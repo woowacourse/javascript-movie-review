@@ -13,8 +13,6 @@ cd javascript-movie-review
 
 ### step1
 
-서버 실행
-
 ```
 git checkout -b step1
 git pull origin step1
@@ -22,7 +20,16 @@ npm ci
 npm run start
 ```
 
-E2E 테스트
+### step2
+
+```
+git checkout -b step2
+git pull origin step2
+npm ci
+npm run start
+```
+
+### E2E 테스트
 
 ```
 (서버가 실행된 상태에서)
