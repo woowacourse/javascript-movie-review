@@ -288,7 +288,7 @@ header h1 {
   right: 8px;
   width: 14px;
   border: 0;
-  text-indent: -1000px;
+  text-indent: -100000px;
   background: url('../asset/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
 }
