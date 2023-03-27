@@ -1,3 +1,5 @@
+import { MOBILE_WIDTH } from '../libs/constant';
+
 class SearchBox {
   private _node!: HTMLElement;
   private $input!: HTMLInputElement;
@@ -32,7 +34,7 @@ class SearchBox {
   toggleInputUI() {
     const width = window.innerWidth;
 
-    if (width < 600) this.$input.classList.add('hidden');
+    if (width < MOBILE_WIDTH) this.$input.classList.add('hidden');
     else {
       this.$input.classList.remove('hidden');
       this.$searchBoxLayout.classList.remove('width-zero');
@@ -42,7 +44,7 @@ class SearchBox {
   mouseEnterSearchIcon() {
     const width = window.innerWidth;
 
-    if (width > 600) return;
+    if (width > MOBILE_WIDTH) return;
 
     this.$input.focus();
 
@@ -57,7 +59,7 @@ class SearchBox {
   mouseLeaveSearchIcon() {
     const width = window.innerWidth;
 
-    if (width > 600) return;
+    if (width > MOBILE_WIDTH) return;
 
     this.$searchBoxLayout.classList.remove('width-full');
     this.$input.classList.remove('width-full');
@@ -73,7 +75,7 @@ class SearchBox {
   clickSearchButton() {
     const width = window.innerWidth;
 
-    if (width > 600) this.dispatchSearchEvent(this.$input.value);
+    if (width > MOBILE_WIDTH) this.dispatchSearchEvent(this.$input.value);
     else this.mouseEnterSearchIcon();
   }
 
