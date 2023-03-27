@@ -21,6 +21,7 @@ const movieApp = {
   async init() {
     this.addEvent();
     await this.setMovie();
+    await this.getPopularMovieData();
   },
 
   addEvent() {
@@ -49,11 +50,15 @@ const movieApp = {
     const modal = <CustomModal>$("custom-modal");
     const movieDetail = <MovieDetail>$("movie-detail");
 
-    const { score } = getLocalStorage("moviesScore")?.find(
-      (movie: { movieId: string; score: string }) => movie.movieId === movieID
+    const moviesScore = getLocalStorage("moviesScore") ?? [];
+    const foundMovie = moviesScore.find(
+      (movie: Score) => movie.movieId === movieID
     );
 
-    movieDetail.render(movieHandler.getMovie(Number(movieID)), score);
+    movieDetail.render(
+      movieHandler.getMovie(Number(movieID)),
+      foundMovie?.score
+    );
 
     modal.openModal();
   },
@@ -78,7 +83,6 @@ const movieApp = {
     const genres = await getMovieGenres();
 
     movieHandler.setGenres(genres.genres);
-    await this.getPopularMovieData();
   },
 
   renderMovieList(movies: ResponseData | undefined) {
