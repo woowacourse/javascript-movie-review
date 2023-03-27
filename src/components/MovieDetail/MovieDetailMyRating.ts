@@ -75,9 +75,7 @@ class MovieDetailMyRating implements Component {
 
   #handleHoverStar(event: MouseEvent) {
     const target = event.target as HTMLImageElement;
-    console.log(target.dataset.index, 'target.dataset.index');
     const targetIndex = Number(target.dataset.index);
-    console.log(targetIndex);
 
     if (targetIndex === null) return;
 
