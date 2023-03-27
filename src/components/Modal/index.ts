@@ -3,6 +3,7 @@ import { assemble, Event } from '../../core';
 import { getElement, $, replaceComponent } from './../../utils/common/domHelper';
 import { useState, useEffect } from '../../core';
 import { useModal } from '../../hooks/useModal';
+import { VOTE_NULL } from '../../constants';
 
 export interface ModalProps {
   modalData: MovieInfo | MovieInfoByKeyword;
@@ -59,7 +60,7 @@ const Modal = assemble<ModalProps>(({ handleIsVisibleModal, modalData }) => {
   function getMyVote(id: number) {
     const index = myVotes.findIndex((vote) => vote.id === id);
 
-    if (index === -1) return -1;
+    if (index === -1) return VOTE_NULL;
     return myVotes[index].vote;
   }
 
@@ -110,7 +111,7 @@ const Modal = assemble<ModalProps>(({ handleIsVisibleModal, modalData }) => {
                   <img data=6 src="./${myVote < 6 ? 'star_empty.png' : 'star_filled.png'}"/>
                   <img data=8 src="./${myVote < 8 ? 'star_empty.png' : 'star_filled.png'}"/>
                   <img data=10 src="./${myVote < 10 ? 'star_empty.png' : 'star_filled.png'}"/>
-                  <p>${myVote === -1 ? '' : myVote} ${getCommentByVote(myVote)}<p/> 
+                  <p>${myVote === VOTE_NULL ? '' : myVote} ${getCommentByVote(myVote)}<p/> 
               </div>
             </div>
           </div>
