@@ -46,7 +46,7 @@ class Movie {
       `${TMDB_MOVIE_BASE_URL}/movie/popular?${this.urlParams.toString()}`
     );
 
-    const movleList = results.map((currentMovie) => ({
+    const movieList = results.map((currentMovie) => ({
       id: currentMovie.id,
       title: currentMovie.title,
       posterPath: currentMovie.poster_path,
@@ -56,7 +56,7 @@ class Movie {
     this.urlParams.delete('page');
 
     return {
-      results: movleList,
+      results: movieList,
       total_pages,
       page,
     };
