@@ -29,6 +29,7 @@
   grid-template-columns: repeat(4, 180px);
   grid-column-gap: 160px;
   grid-row-gap: 48px;
+  transition: all 0.5s ease;
 }
 
 .item-card {
@@ -79,6 +80,7 @@
   }
   .item-list {
     grid-template-columns: repeat(3, 180px);
+    grid-column-gap: 120px;
   }
 }
 
@@ -88,6 +90,7 @@
   }
   .item-list {
     grid-template-columns: repeat(2, 180px);
+    grid-column-gap: 100px;
   }
 }
 

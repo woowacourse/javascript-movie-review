@@ -111,6 +111,7 @@ dialog::-webkit-scrollbar {
   min-height: 40px;
   padding: 2px;
   transform: translateY(-1px);
+  cursor: pointer;
 }
 
 .modal-backdrop {
