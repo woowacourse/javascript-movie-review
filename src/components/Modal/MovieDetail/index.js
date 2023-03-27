@@ -5,6 +5,7 @@ import StarIcon from "../../../images/star_filled.png";
 import EmeptyStarIcon from "../../../images/star_empty.png";
 import NotFoundImageIcon from "../../../images/not_found_image.png";
 import { imageUrl } from "../../../constants/urls";
+import getErrorMessage from "../../../apis/getErrorMessage";
 
 const MovieDetailModal = {
   skeletonTeplate() {
@@ -84,6 +85,8 @@ const MovieDetailModal = {
 
     $modalContainer.innerHTML = this.skeletonTeplate();
     const movieDetail = await this.getMovieDetail(id);
+    if (!movieDetail) return;
+
     $modalContainer.innerHTML = this.template(movieDetail);
     this.setEvent(id);
   },
@@ -94,12 +97,32 @@ const MovieDetailModal = {
     $myVoteContainer.innerHTML = this.myVoteTemplate(score);
   },
 
-  async getMovieDetail(id) {
-    const movieDetailData = await fetchMovieDetail(id);
-    const myVote = this.getMyVoteFromLocalStorage(id);
-    const movieDetail = new MovieDetail(movieDetailData, myVote);
+  renderErrorMessage(message) {
+    const $modalContainer = document.querySelector(".modal-container");
 
-    return movieDetail;
+    const messageTemplate = `
+    <div class="detail-error-container">
+      <h3 class="detail-error-title">영화 목록을 불러오는데 문제가 발생했습니다 :(</h2>
+      <p class="detail-error-message">[실패 사유]</p>
+      <p class="detail-error-message">${message}</p>
+    </div>
+    `;
+
+    $modalContainer.innerHTML = messageTemplate;
+  },
+
+  async getMovieDetail(id) {
+    try {
+      const movieDetailData = await fetchMovieDetail(id);
+      const myVote = this.getMyVoteFromLocalStorage(id);
+      const movieDetail = new MovieDetail(movieDetailData, myVote);
+
+      return movieDetail;
+    } catch (error) {
+      const message = getErrorMessage(error);
+      this.renderErrorMessage(message);
+      return false;
+    }
   },
 
   getMyVoteFromLocalStorage(id) {
