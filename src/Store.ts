@@ -32,9 +32,8 @@ class Store {
       this.page++;
       if (value) {
         this.searchWord = value;
-        fetchMovies('/search/movie', this.page, value).then((data) => {
-          if (data) this.setMovieData(data);
-        });
+        const data = await fetchMovies('/search/movie', this.page, value);
+        if (data) this.setMovieData(data);
         return;
       }
       const data = await fetchMovies('/movie/popular', this.page);

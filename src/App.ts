@@ -22,7 +22,7 @@ class App {
     this.modal = new Modal();
     this.modalInformation = new ModalInformation();
 
-    setTimeout(() => this.initializeMovieList(), 500);
+    this.initializeMovieList();
 
     this.$header.addSearchHandler(this.searchHandler.bind(this));
     this.$header.addClickLogoHandler(this.initializeMovieList.bind(this));
@@ -57,11 +57,9 @@ class App {
     this.$movieList.setTitle(`"${value}"${STRING.SEARCH_RESULT}`);
 
     this.store.allocateData(value).then(() => {
-      setTimeout(() => {
-        this.$movieList.renderSearchedMovies(this.store.movieListValue, this.store.genre);
-        if (this.store.totalPage === 1 || this.store.totalPage === 0) return;
-        this.$movieList.infiniteScroll(this.infiniteScrollHandler.bind(this));
-      }, 500);
+      this.$movieList.renderSearchedMovies(this.store.movieListValue, this.store.genre);
+      if (this.store.totalPage === 1 || this.store.totalPage === 0) return;
+      this.$movieList.infiniteScroll(this.infiniteScrollHandler.bind(this));
     });
   }
 }
