@@ -128,6 +128,7 @@ const MovieDetailModal = {
     $closeButton.addEventListener("click", (event) => {
       const $modal = event.target.closest(".modal");
       $modal.classList.remove("modal-open");
+      document.body.style.overflow = "unset";
     });
   },
 
