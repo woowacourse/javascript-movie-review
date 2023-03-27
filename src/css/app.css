@@ -48,19 +48,9 @@ header {
   align-items: center;
 }
 
-@keyframes landing {
-  from {
-    margin-bottom: 200px;
-  }
-
-  to {
-    margin-bottom: 0;
-  }
-}
-
 .header-container h1 {
   animation-duration: 1s;
-  animation-name: landing;
+  animation-name: landing-animation;
 
   cursor: pointer;
   user-select: none;
@@ -73,7 +63,7 @@ header {
 
 .header-container .search-box {
   animation-duration: 1s;
-  animation-name: landing;
+  animation-name: landing-animation;
 
   height: 44px;
   padding: 8px 12px;
@@ -211,24 +201,7 @@ button.primary {
 }
 
 .item-card .skeleton {
-  animation: skeleton-animation 5s infinite ease-out;
-
   border-radius: 8px;
-
-  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
-  background-size: 400%;
-}
-
-@keyframes skeleton-animation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
 }
 
 .error-view {
