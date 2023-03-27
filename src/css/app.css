@@ -134,8 +134,8 @@ header {
 
 .item-list {
   display: grid;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  grid-template-columns: repeat(4, 210px);
+  grid-column-gap: 120px;
   grid-row-gap: 48px;
 }
 
@@ -159,8 +159,8 @@ header {
 .item-thumbnail {
   transition: all 0.5s;
 
-  width: 180px;
-  height: 270px;
+  width: 210px;
+  height: 315px;
   border-radius: 8px;
 
   background-size: contain;

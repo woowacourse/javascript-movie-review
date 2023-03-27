@@ -12,6 +12,11 @@
     grid-column-gap: 80px;
   }
 
+  .item-list .item-thumbnail {
+    width: 180px;
+    height: 270px;
+  }
+
   .box {
     width: 740px;
     height: 550px;
