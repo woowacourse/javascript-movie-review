@@ -5,12 +5,12 @@ import { useState } from '../../core';
 
 export interface MovieProps {
   info: MovieInfo | MovieInfoByKeyword;
+  handleModalData(modalData: MovieInfo | MovieInfoByKeyword): void;
+  handleIsVisibleModal(isVisible: boolean): void;
 }
 
-const Movie = assemble<MovieProps>((props) => {
-  const {
-    info: { poster_path, title, vote_average, id },
-  } = props;
+const Movie = assemble<MovieProps>(({ info, handleModalData, handleIsVisibleModal }) => {
+  const { poster_path, title, vote_average, id } = info;
 
   const $events: Event[] = [
     {
@@ -18,7 +18,11 @@ const Movie = assemble<MovieProps>((props) => {
       callback(e) {
         e.preventDefault();
 
-        // history.pushState({ poster_path, title, vote_average, id }, '', `#${id}`);
+        history.state ?? history.pushState('modal', '', `info`);
+        history.replaceState('modal', '', `info`);
+
+        handleModalData(info);
+        handleIsVisibleModal(true);
         if ($(`li[data="id=${id}"]`)) console.log($(`li[data="id=${id}"]`));
       },
     },
