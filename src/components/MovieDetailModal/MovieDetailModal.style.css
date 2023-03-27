@@ -2,6 +2,11 @@ dialog {
   border: none;
   background: none;
   max-width: 980px;
+  -ms-overflow-style: none;
+}
+
+dialog::-webkit-scrollbar {
+  display: none;
 }
 
 #movie-detail-modal {
