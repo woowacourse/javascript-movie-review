@@ -1,5 +1,5 @@
 class MovieListTitle {
-  $movieListTitle = document.createElement("h2");
+  $movieListTitle = document.createElement('h2');
 
   constructor($target) {
     this.init();
@@ -8,12 +8,11 @@ class MovieListTitle {
   }
 
   init() {
-    this.$movieListTitle.classList = "";
-    this.$movieListTitle.innerText = "지금 인기 있는 영화";
+    this.$movieListTitle.innerText = '지금 인기 있는 영화';
   }
 
   render($target) {
-    $target.insertAdjacentElement("afterbegin", this.$movieListTitle);
+    $target.insertAdjacentElement('afterbegin', this.$movieListTitle);
   }
 
   changeInnerText(listTitle) {

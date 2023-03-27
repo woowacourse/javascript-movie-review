@@ -1,6 +1,6 @@
-import { fetchData } from "../http";
+import { fetchData } from '../http';
 
-const BASE_URL = "https://api.themoviedb.org/3";
+const BASE_URL = 'https://api.themoviedb.org/3';
 
 class Movie {
   async getPopularMovies(page: number) {

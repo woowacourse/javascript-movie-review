@@ -1,8 +1,8 @@
-import MovieList from "./MovieList";
-import MovieListTitle from "./MovieListTitle";
+import MovieList from './MovieList';
+import MovieListTitle from './MovieListTitle';
 
 class MovieView {
-  $itemView = document.createElement("section");
+  $itemView = document.createElement('section');
 
   movieListTitle;
 
@@ -15,16 +15,16 @@ class MovieView {
   }
 
   init() {
-    this.$itemView.classList = "item-view";
+    this.$itemView.classList = 'item-view';
 
-    this.category = "popular";
+    this.category = 'popular';
 
     this.movieListTitle = new MovieListTitle(this.$itemView);
     this.movieList = new MovieList(this.$itemView);
   }
 
   render($target) {
-    $target.insertAdjacentElement("afterbegin", this.$itemView);
+    $target.insertAdjacentElement('afterbegin', this.$itemView);
   }
 
   appearSkeleton() {
@@ -42,7 +42,7 @@ class MovieView {
       return;
     }
 
-    this.movieListTitle.changeInnerText("지금 인기 있는 영화");
+    this.movieListTitle.changeInnerText('지금 인기 있는 영화');
   }
 
   addMovies({ page, results: movies, total_pages }) {

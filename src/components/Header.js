@@ -1,7 +1,7 @@
-import logo from "../../templates/logo.png";
+import logo from '../../templates/logo.png';
 
 class Header {
-  $header = document.createElement("header");
+  $header = document.createElement('header');
 
   query;
 
@@ -12,12 +12,12 @@ class Header {
   }
 
   init() {
-    this.$header.classList = "";
+    this.$header.classList = '';
     this.$header.innerHTML = this.getTemplate();
   }
 
   render($target) {
-    $target.insertAdjacentElement("afterbegin", this.$header);
+    $target.insertAdjacentElement('afterbegin', this.$header);
   }
 
   getTemplate() {
@@ -33,15 +33,15 @@ class Header {
   }
 
   getQuery() {
-    const $input = document.querySelector(".search-input");
+    const $input = document.querySelector('.search-input');
 
     return $input.value;
   }
 
   clearQuery() {
-    const $input = document.querySelector(".search-input");
+    const $input = document.querySelector('.search-input');
 
-    $input.value = "";
+    $input.value = '';
   }
 }
 

@@ -1,8 +1,8 @@
-import Movie from "./domain/Movie";
+import Movie from './domain/Movie';
 
-import Header from "./components/Header";
-import MovieView from "./components/MovieView";
-import MovieDetail from "./components/MovieDetail";
+import Header from './components/Header';
+import MovieView from './components/MovieView';
+import MovieDetail from './components/MovieDetail';
 
 const pageCounter = (firstPage) => {
   let page = firstPage;
@@ -10,7 +10,7 @@ const pageCounter = (firstPage) => {
 };
 
 class App {
-  $main = document.createElement("main");
+  $main = document.createElement('main');
 
   movie;
 
@@ -45,14 +45,14 @@ class App {
   }
 
   render($target) {
-    $target.insertAdjacentElement("beforeend", this.$main);
+    $target.insertAdjacentElement('beforeend', this.$main);
   }
 
   bindEvent($target) {
-    $target.addEventListener("click", this.onClickHandler.bind(this));
-    $target.addEventListener("submit", this.onSubmitHandler.bind(this));
+    $target.addEventListener('click', this.onClickHandler.bind(this));
+    $target.addEventListener('submit', this.onSubmitHandler.bind(this));
 
-    window.addEventListener("scroll", this.onScrollHandler.bind(this));
+    window.addEventListener('scroll', this.onScrollHandler.bind(this));
   }
 
   onScrollHandler() {
@@ -73,7 +73,7 @@ class App {
   }
 
   async onClickHandler({ target }) {
-    if (target.id === "logo") {
+    if (target.id === 'logo') {
       if (this.isLoading) return;
 
       this.header.clearQuery();
@@ -85,8 +85,8 @@ class App {
       return;
     }
 
-    if (target.closest(".item")) {
-      const { id } = target.closest(".item");
+    if (target.closest('.item')) {
+      const { id } = target.closest('.item');
 
       const { data, isError } = await this.movie.getMovieDetail(id);
       if (isError) return;
@@ -100,7 +100,7 @@ class App {
     if (this.isLoading) return;
 
     const query = e.target[0].value;
-    if (!query) return alert("검색어를 입력 하세요");
+    if (!query) return alert('검색어를 입력 하세요');
 
     this.page = pageCounter(0);
 

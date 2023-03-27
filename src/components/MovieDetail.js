@@ -1,8 +1,8 @@
-import star_filled from "../../templates/star_filled.png";
-import star_empty from "../../templates/star_empty.png";
+import star_filled from '../../templates/star_filled.png';
+import star_empty from '../../templates/star_empty.png';
 
 class MovieDetail {
-  $modal = document.createElement("div");
+  $modal = document.createElement('div');
 
   constructor($target) {
     this.init();
@@ -13,11 +13,11 @@ class MovieDetail {
   }
 
   init() {
-    this.$modal.classList = "movie-detail-modal hidden";
+    this.$modal.classList = 'movie-detail-modal hidden';
   }
 
   render($target) {
-    $target.insertAdjacentElement("afterbegin", this.$modal);
+    $target.insertAdjacentElement('afterbegin', this.$modal);
   }
 
   bindEvent() {
@@ -27,10 +27,10 @@ class MovieDetail {
       }
     };
 
-    this.$modal.addEventListener("click", ({ target }) => {
+    this.$modal.addEventListener('click', ({ target }) => {
       if (
-        target.className === "movie-detail-close-button" ||
-        target.className === "movie-detail-modal-background"
+        target.className === 'movie-detail-close-button' ||
+        target.className === 'movie-detail-modal-background'
       ) {
         this.close();
       }
@@ -39,13 +39,13 @@ class MovieDetail {
 
   open(movie) {
     this.$modal.id = movie.id;
-    this.$modal.classList.remove("hidden");
+    this.$modal.classList.remove('hidden');
 
     this.$modal.innerHTML = this.getTemplate(movie);
   }
 
   close() {
-    this.$modal.classList.add("hidden");
+    this.$modal.classList.add('hidden');
   }
 
   getTemplate({ genres, title, overview, poster_path, vote_average }) {
@@ -73,7 +73,7 @@ class MovieDetail {
               <div class="movie-detail-genres-vote">
                 <div class="movie-detail-genres">${genres
                   .map((genres) => genres.name)
-                  .join(", ")}</div>
+                  .join(', ')}</div>
                 <div class="movie-detail-vote">
                   <img src=${star_filled} alt=${star_filled}/>
                   <span>${vote_average.toFixed(1)}</span>

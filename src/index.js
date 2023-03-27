@@ -1,8 +1,8 @@
-import "../templates/reset.css";
-import "../templates/common.css";
+import '../templates/reset.css';
+import '../templates/common.css';
 
-import App from "./App";
+import App from './App';
 
-const $app = document.querySelector("#app");
+const $app = document.querySelector('#app');
 
 new App($app);

@@ -1,9 +1,9 @@
-import starFilled from "../../templates/star_filled.png";
+import starFilled from '../../templates/star_filled.png';
 
-import SkeletonCards from "./skeletonCards";
+import SkeletonCards from './skeletonCards';
 
 class MovieList {
-  $ul = document.createElement("ul");
+  $ul = document.createElement('ul');
 
   skeletonCards;
 
@@ -16,17 +16,17 @@ class MovieList {
   }
 
   init() {
-    this.$ul.classList = "item-list";
+    this.$ul.classList = 'item-list';
   }
 
   render($target) {
-    $target.insertAdjacentElement("beforeend", this.$ul);
+    $target.insertAdjacentElement('beforeend', this.$ul);
   }
 
   insertMovies(movies) {
     const movieLi = this.getMovieLi(movies);
 
-    this.$ul.insertAdjacentHTML("beforeend", movieLi);
+    this.$ul.insertAdjacentHTML('beforeend', movieLi);
   }
 
   switchMovies(movies) {
@@ -38,7 +38,7 @@ class MovieList {
   getMovieLi(movies) {
     const movieLi = movies.reduce((li, movie) => {
       return li + this.getMovieItemTemplate(movie);
-    }, "");
+    }, '');
 
     return movieLi;
   }

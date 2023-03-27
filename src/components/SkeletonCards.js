@@ -1,5 +1,5 @@
 class SkeletonCards {
-  $ul = document.createElement("ul");
+  $ul = document.createElement('ul');
 
   constructor($target) {
     this.init();
@@ -8,13 +8,13 @@ class SkeletonCards {
   }
 
   init() {
-    this.$ul.classList = "skeleton-cards";
+    this.$ul.classList = 'skeleton-cards';
 
     this.$ul.innerHTML = this.getTemplate();
   }
 
   render($target) {
-    $target.insertAdjacentElement("afterend", this.$ul);
+    $target.insertAdjacentElement('afterend', this.$ul);
   }
 
   getTemplate() {
@@ -33,11 +33,11 @@ class SkeletonCards {
   }
 
   appear() {
-    this.$ul.classList.remove("hidden");
+    this.$ul.classList.remove('hidden');
   }
 
   hide() {
-    this.$ul.classList.add("hidden");
+    this.$ul.classList.add('hidden');
   }
 }
 
