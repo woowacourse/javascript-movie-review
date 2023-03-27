@@ -43,8 +43,8 @@ export default class Header implements Component {
     const queryInput = e.target.elements.namedItem('query');
     if (!(queryInput instanceof HTMLInputElement)) return;
 
-    e.target.reset();
     this.handlerCallback.onSubmitSearchForm(queryInput.value);
+    e.target.reset();
   }
 
   onClickMainLogo() {
