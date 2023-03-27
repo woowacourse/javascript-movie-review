@@ -1,3 +1,4 @@
+
 import { $ } from "../../utils/selector";
 
 export const backToTop = () => {
@@ -8,14 +9,12 @@ export const backToTop = () => {
   });
 
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.intersectionRatio <= 0) return;
-
-      if (entry.isIntersecting) $("#top-button").classList.toggle("active");
-    });
+    if (entries[0].isIntersecting) {
+      $("#top-button").classList.remove("active");
+    } else {
+      $("#top-button").classList.add("active");
+    }
   });
 
-  if ($(".item-list").childElementCount >= 26) {
-    observer.observe($(".item-list > li:nth-child(26)"));
-  }
+  observer.observe($("header"));
 };
