@@ -26,7 +26,7 @@ export default class Header implements Component {
     return `    
     <h1><img class="main-logo" src=${logo} alt="MovieList 로고"/></h1>
     <form class="search-box">
-      <input name="query" type="text" placeholder="검색" />
+      <input name="query" type="text" placeholder="검색" required/>
       <button class="search-button">검색</button>
     </form>`;
   }
@@ -43,6 +43,7 @@ export default class Header implements Component {
     const queryInput = e.target.elements.namedItem('query');
     if (!(queryInput instanceof HTMLInputElement)) return;
 
+    e.target.reset();
     this.handlerCallback.onSubmitSearchForm(queryInput.value);
   }
 
