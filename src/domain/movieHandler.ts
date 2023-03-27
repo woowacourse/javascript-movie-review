@@ -22,7 +22,7 @@ const movieHandler: MovieHandler = {
       return {
         id: movie.id,
         title: movie.title,
-        vote_average: movie.vote_average,
+        vote_average: Number(movie.vote_average.toFixed(1)),
         poster_path: movie.poster_path,
         overview: movie.overview,
         genre_ids: movie.genre_ids,

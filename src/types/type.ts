@@ -9,7 +9,7 @@ export interface Movie {
   original_language?: string;
   original_title?: string;
   overview: string;
-  vote_average?: number;
+  vote_average: number;
   vote_count?: number;
   video?: boolean;
   release_date?: string;
