@@ -1,23 +1,21 @@
 main {
-  width: 100%;
-  height: 100%;
-}
-
-.item-view,
-.item-test {
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
 }
 
 .item-view {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0 auto;
-  padding: 2%;
+
+  width: 100vw;
+
+  padding: 48px 10%;
 }
 
 .item-view h2 {
   margin-bottom: 30px;
+
   font-size: 2rem;
   font-weight: bold;
   user-select: none;
@@ -29,14 +27,16 @@ main {
 }
 
 .item-view .empty-movie-list-container h3 {
-  padding: 5%;
+  padding: 5% 0;
+
   font-size: 1.5rem;
   font-weight: bold;
   user-select: none;
 }
 
 .item-view .empty-movie-list-container p {
-  padding: 5%;
+  padding: 10px 0;
+
   font-size: 1rem;
 }
 
@@ -44,27 +44,32 @@ main {
 
 .item-list {
   display: grid;
-  width: 100%;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  grid-column-gap: 100px;
+  grid-column-gap: 80px;
   grid-row-gap: 48px;
+
+  width: 100%;
 }
 
 .item-card {
   display: flex;
   flex-direction: column;
+
   pointer-events: none;
 }
 
 .item-thumbnail {
-  border-radius: 8px;
   width: 100%;
   height: 100%;
+
+  border-radius: 8px;
+
   background-size: contain;
 }
 
 .item-title {
   margin-top: 10%;
+
   font-size: 1.2rem;
   font-weight: bold;
 }
@@ -82,10 +87,6 @@ main {
 .item-score.skeleton::after {
   font-size: 0;
   content: 'loading';
-}
-
-button.primary {
-  background: #f33f3f;
 }
 
 .item-card .skeleton {

@@ -1,5 +1,5 @@
 import '../../css/custom-header.css';
-import { $, $$ } from '../utils/dom';
+import { $ } from '../utils/dom';
 import { proxy } from '../state/state';
 import { movie } from '../state/state';
 import { getFormData } from '../utils/form';
@@ -14,24 +14,44 @@ class CustomHeader extends HTMLElement {
   }
 
   connectedCallback() {
-    this.addEventListener('click', this.logoClickHandler);
-    this.addEventListener('submit', this.searchBoxSubmitHandler);
+    this.addEventListener('click', this.clickHandler);
+    this.addEventListener('submit', this.submitHandler);
   }
 
-  private logoClickHandler(event: Event) {
+  private clickHandler(event: Event) {
     const target = event.target;
 
-    if (target instanceof HTMLImageElement && target.id === 'logo') {
-      window.location.reload();
+    if (window.innerWidth <= 575 && target instanceof HTMLButtonElement && target.ariaLabel === '검색창 열기') {
+      this.toggleMobileUi(target);
     }
   }
 
-  private searchBoxSubmitHandler(event: Event) {
+  private submitHandler(event: Event) {
     event.preventDefault();
     const target = event.target;
 
-    if (target instanceof HTMLFormElement && target.className === 'search-box') {
+    if (target instanceof HTMLFormElement) {
       this.updateQuery(event);
+
+      if (window.innerWidth <= 575) this.toggleMobileUi();
+    }
+  }
+
+  private toggleMobileUi(mobileButtonContainer = $<HTMLButtonElement>('.mobile-button')) {
+    const headerContainer = $<HTMLElement>('custom-header');
+    const logoContainer = $<HTMLHeadingElement>('h1');
+    const searchBoxContainer = $<HTMLFormElement>('.search-box');
+
+    if (
+      mobileButtonContainer instanceof HTMLButtonElement &&
+      headerContainer instanceof HTMLElement &&
+      logoContainer instanceof HTMLHeadingElement &&
+      searchBoxContainer instanceof HTMLFormElement
+    ) {
+      headerContainer.classList.toggle('mobile-header');
+      mobileButtonContainer.classList.toggle('mobile-button--open');
+      logoContainer.classList.toggle('logo--close');
+      searchBoxContainer.classList.toggle('search-box--open');
     }
   }
 

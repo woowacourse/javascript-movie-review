@@ -7,7 +7,7 @@ export const movieModalContainerTemplate = ({ id, title, src, genre, score, over
   return `
 		<div class="modal-header" id="${id}">
 			<h2 class="item-title">${title}</h2>
-			<button type="button" class="escape-button" aria-label="score">X</button>
+			<button type="button" class="escape-button" aria-label="escape">✕</button>
 		</div>
 		<div class="modal-body">
 			<div class="item-poster">
@@ -19,7 +19,7 @@ export const movieModalContainerTemplate = ({ id, title, src, genre, score, over
 				/>
 			</div>
 			<div class="item-info">
-				<div class="item-genre-score-plot">
+				<div class="item-genre-score-overview">
 					<div class="item-genre-score">
 						<p class="item-genre">${genre && genre.join(', ')}</p>
 						<img class="item-score-image" src="${IMAGES.STAR_FILLED}" alt="별점" />
