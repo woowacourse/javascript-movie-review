@@ -1,29 +1,17 @@
-import { style } from './errorModalStyle';
+import './index.css';
 import template from './index.html';
+import { $ } from '../../utils/dom';
 
 class ErrorModal extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-    this.assertShadowRoot();
-    this.shadowRoot.adoptedStyleSheets = [style];
-  }
-
-  assertShadowRoot(): asserts this is { shadowRoot: ShadowRoot } {
-    if (!this.shadowRoot) throw new Error();
-  }
-
   connectedCallback() {
-    this.assertShadowRoot();
-    this.shadowRoot.innerHTML = template;
+    this.innerHTML = template;
   }
 
   render(message: string) {
-    this.assertShadowRoot();
-    this.shadowRoot.innerHTML = template.replace('{message}', message);
-    this.shadowRoot.querySelector('.error-modal')?.classList.remove('hidden');
+    this.innerHTML = template.replace('{message}', message);
+    $<HTMLDivElement>('.error-modal', this).classList.remove('hide');
     setTimeout(() => {
-      this.shadowRoot!.querySelector('.error-modal')?.classList.add('hidden');
+      $<HTMLDivElement>('.error-modal', this).classList.add('hide');
     }, 3000);
   }
 }

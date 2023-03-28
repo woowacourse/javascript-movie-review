@@ -1,0 +1,34 @@
+.error-modal {
+  position: fixed;
+  top: 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 120px;
+  background: #fff;
+  padding: 0 40px;
+  box-shadow: 5px 5px 3px #666;
+  border-top: 5px solid red;
+
+  transition: visibility 1s;
+  animation: fade-in 1s linear;
+  -webkit-animation: fade-in 1s linear;
+}
+
+.message {
+  font-size: 24px;
+  font-weight: bold;
+  color: #000;
+}
+
+.hide {
+  animation: fade-out 1s linear;
+  -webkit-animation: fade-out 1s linear;
+  visibility: hidden;
+}
+
+@media (min-width: 320px) and (max-width: 420px) {
+  .error-modal {
+    width: fit-content;
+  }
+}
