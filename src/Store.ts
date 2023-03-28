@@ -25,11 +25,11 @@ class Store {
     return data;
   }
 
-  setInitPage(value: number) {
-    this.page = value;
+  initPage() {
+    this.page = 0;
   }
 
-  setInitSearchWord() {
+  initSearchWord() {
     this.searchWord = '';
   }
 }

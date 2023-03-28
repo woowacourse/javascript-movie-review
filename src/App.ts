@@ -33,10 +33,10 @@ class App {
   }
 
   initializeMovieList() {
-    this.store.setInitPage(0);
+    this.store.initPage();
     this.$movieList.initMovieList();
     this.$movieList.setTitle('지금 인기 있는 영화');
-    this.store.setInitSearchWord();
+    this.store.initSearchWord();
     this.fetchMovies();
   }
 
@@ -56,7 +56,7 @@ class App {
   searchHandler(value: string) {
     this.skeleton.attachSkeleton();
 
-    this.store.setInitPage(0);
+    this.store.initPage();
     this.$movieList.initMovieList();
     this.$movieList.setTitle(`"${value}"에 대한 검색 결과`);
 
