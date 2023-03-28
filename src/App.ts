@@ -36,6 +36,7 @@ class App {
 
   async init() {
     window.addEventListener('offline', this.onOffline);
+    window.addEventListener('online', this.onHome);
     document.body.addEventListener('home', this.onHome);
     document.body.addEventListener('search', this.onSearch);
     document.body.addEventListener('loadMore', this.onLoadMore);
