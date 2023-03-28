@@ -1,7 +1,7 @@
 import { SKELETON_TEMPLATE } from './domain/constants';
-
-import { Movie } from './domain/movieService';
 import { $ } from './utils/domUtils';
+
+import { Movie } from './domain/remotes/movies';
 
 export const hide = (selector: string) => $(selector)?.classList.add('hide');
 

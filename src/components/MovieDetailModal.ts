@@ -11,7 +11,7 @@ import {
 import { $ } from '../utils/domUtils';
 import { setLocalStorage, getLocalStorage } from '../utils/localStorage';
 
-import { MovieDetailResponse } from '../domain/remotes/movieDetail';
+import { MovieDetail } from '../domain/remotes/movieDetail';
 
 type VoteScoreInfo = Record<number, number> | null;
 
@@ -23,8 +23,8 @@ export default class MovieDetailModal extends HTMLElement {
     $('.modal-close-button')?.addEventListener('click', () => this.handleCloseButtonClick());
   }
 
-  render(movieDetail: MovieDetailResponse) {
-    const { id, title, genres, overview, poster_path, vote_average } = movieDetail;
+  render(movieDetail: MovieDetail) {
+    const { id, title, genres, overview, posterPath, voteAverage } = movieDetail;
 
     this.init(id);
     this.innerHTML = /* html */ `
@@ -37,9 +37,7 @@ export default class MovieDetailModal extends HTMLElement {
           <img
           class="modal-thumbnail skeleton"
           src=${
-            poster_path === 'null'
-              ? DefaultPoster
-              : `https://image.tmdb.org/t/p/w500/${poster_path}`
+            posterPath === 'null' ? DefaultPoster : `https://image.tmdb.org/t/p/w500/${posterPath}`
           }
           loading="lazy"
           alt="${title}"
@@ -48,7 +46,7 @@ export default class MovieDetailModal extends HTMLElement {
         <section class="movie-detail">
           <div class="flex align-center">
             <p>${genres.map((genre) => genre.name).join(', ')}</p>
-            <p class="vote-average">${STAR_FILLED_ICON} ${vote_average.toFixed(1)}</p>
+            <p class="vote-average">${STAR_FILLED_ICON} ${voteAverage.toFixed(1)}</p>
           </div>
           <p class="overview">${overview === '' ? '등록된 줄거리가 없습니다.' : overview}</p>
           <section class="vote">
