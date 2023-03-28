@@ -51,6 +51,7 @@ fieldset {
   background-color: #383839;
   width: 36px;
   height: 36px;
+  padding: 8px;
 }
 
 .movie-modal-wrapper {

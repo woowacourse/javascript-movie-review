@@ -67,7 +67,7 @@ class MovieModal extends HTMLElement {
 
     $modalContainer.addEventListener('click', (e) => {
       if (!(e.target instanceof HTMLElement)) return;
-      const target = e.target.closest('div');
+      const target = e.target;
       if (!target) return;
       if (target.className === 'modal-close-button' || target.className === 'modal-container') {
         this.closeModal();
