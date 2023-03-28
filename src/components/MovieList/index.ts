@@ -5,11 +5,17 @@ import { $ } from '../../utils/dom';
 
 export class MovieList extends HTMLElement {
   $movieItems: HTMLElement;
+  movieList: readonly Movie[];
 
   constructor() {
     super();
     this.innerHTML = template;
+    this.movieList = [];
     this.$movieItems = $<HTMLUListElement>('.item-list');
+  }
+
+  initMovieList() {
+    this.movieList = [];
   }
 
   setIntersection(handler: CallableFunction) {
@@ -21,15 +27,16 @@ export class MovieList extends HTMLElement {
     $<HTMLHeadingElement>('.title', this).innerText = title;
   }
 
-  renderMovies(movieList: readonly Movie[]) {
-    this.insertMovieList(movieList);
+  renderMovies(movies: readonly Movie[]) {
+    this.movieList = this.movieList.concat(movies);
+    this.insertMovieList();
   }
 
-  insertMovieList(movieList: readonly Movie[]) {
-    if (movieList.length === 0) {
+  insertMovieList() {
+    if (this.movieList.length === 0) {
       this.createEmptyTemplate();
     }
-    movieList.map((movie: Movie) => this.createMovieItemTemplate(movie));
+    this.movieList.map((movie: Movie) => this.createMovieItemTemplate(movie));
   }
 
   createEmptyTemplate() {

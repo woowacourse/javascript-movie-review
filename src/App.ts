@@ -34,7 +34,7 @@ class App {
 
   initializeMovieList() {
     this.store.setInitPage(0);
-    this.store.initMovieList();
+    this.$movieList.initMovieList();
     this.$movieList.setTitle('지금 인기 있는 영화');
     this.store.setInitSearchWord();
     this.fetchMovies();
@@ -43,8 +43,13 @@ class App {
   fetchMovies(value = '') {
     this.store
       .getMovieList(value || this.store.searchWord)
-      .then(() => this.skeleton.removeSkeleton())
-      .then(() => this.$movieList.renderMovies(this.store.movieListValue))
+      .then((data) => {
+        this.skeleton.removeSkeleton();
+        return data;
+      })
+      .then((data) => {
+        this.$movieList.renderMovies(data);
+      })
       .then(() => this.$movieList.setIntersection(this.infinityScrollHandler.bind(this)));
   }
 
@@ -52,7 +57,7 @@ class App {
     this.skeleton.attachSkeleton();
 
     this.store.setInitPage(0);
-    this.store.initMovieList();
+    this.$movieList.initMovieList();
     this.$movieList.setTitle(`"${value}"에 대한 검색 결과`);
 
     this.fetchMovies(value);
@@ -68,7 +73,7 @@ class App {
   infinityScrollHandler(target: Element) {
     this.observer.observe(target);
     this.$topButton.handleTopButtonVisibility();
-    if (this.store.page === this.store.totalPage) this.observer.unobserve(target);
+    if (this.store.page === this.store.totalPages) this.observer.unobserve(target);
   }
 }
 
