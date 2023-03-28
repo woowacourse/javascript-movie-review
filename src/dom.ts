@@ -6,7 +6,10 @@ export const hide = (selectors: string) => $(selectors)?.classList.add('hide');
 export const show = (selectors: string) => $(selectors)?.classList.remove('hide');
 
 export const renderMovieListItem = (movies: Movie[]) => {
-  $('.item-list')?.insertAdjacentHTML(
+  const $itemList = $('.item-list');
+  if (!$itemList) return;
+
+  $itemList.insertAdjacentHTML(
     'beforeend',
     movies
       .map(
@@ -21,6 +24,15 @@ export const renderMovieListItem = (movies: Movie[]) => {
       )
       .join('')
   );
+};
+
+export const renderEmptyList = () => {
+  const $itemList = $('.item-list');
+  if (!$itemList) return;
+
+  $itemList.innerHTML = /* html */ `
+    <p class="message">검색 결과가 없습니다.</p>
+  `;
 };
 
 export const renderMoviePage = (title: string) => {

@@ -4,6 +4,7 @@ import * as dom from './dom';
 import { getGenres, getPopularMovies, getSearchMovies } from './api';
 import { MAXIMUM_PAGE, POPULAR_TITLE } from './constants';
 import CustomStorage from './utils/CustomStorage';
+import { Movie } from './types/domain';
 
 interface State {
   pageNumber: number;
@@ -109,16 +110,12 @@ class App {
     if (this.state.loading) return;
     try {
       const { results, total_pages } = await this.apiWithSkeleton(api)(params);
-      const newMovies = this.movieService.generateMovies(results);
       if (this.state.pageNumber >= total_pages || this.state.pageNumber >= MAXIMUM_PAGE) {
         dom.hide('#load-sensor');
       }
 
       this.state.pageNumber += 1;
-      this.movieService.concatMovies(newMovies);
-      const prevY = window.scrollY;
-      dom.renderMovieListItem(newMovies);
-      window.scrollTo({ top: prevY });
+      this.handleNewMovies(this.movieService.generateMovies(results));
     } catch (response) {
       if (response instanceof Response) dom.renderErrorPage(response.status);
     }
@@ -136,6 +133,18 @@ class App {
 
       return { results, total_pages };
     };
+  }
+
+  handleNewMovies(newMovies: Movie[]) {
+    if (this.state.pageCategory === 'search' && newMovies.length === 0) {
+      dom.renderEmptyList();
+      return;
+    }
+
+    this.movieService.concatMovies(newMovies);
+    const prevY = window.scrollY;
+    dom.renderMovieListItem(newMovies);
+    window.scrollTo({ top: prevY });
   }
 }
 

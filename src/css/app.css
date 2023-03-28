@@ -356,3 +356,7 @@ button.primary {
   font-size: 16px;
   color: #f1f1f1;
 }
+
+.message {
+  font-size: 20px;
+}
