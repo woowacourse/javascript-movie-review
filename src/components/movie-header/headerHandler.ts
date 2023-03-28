@@ -16,7 +16,7 @@ export const readSearchInputKeyword = () => {
 
 export const onClickLogo = () => {
   const store: Store = Store.getInstance();
-  $("#logo").addEventListener("click", () => {
+  $("#logo").addEventListener("click", function resetApp() {
     store.resetMoviesAndPages();
     store.setLastKeyword("");
 
@@ -25,32 +25,34 @@ export const onClickLogo = () => {
 };
 
 export const onClickSearchFormTrigger = () => {
-  $("#search-form-trigger").addEventListener("click", () => {
+  $("#search-form-trigger").addEventListener("click", function openSearchForm() {
     $('#logo').classList.add('display-none');
     $('#search-form-trigger').remove();
     ($('#search-box') as HTMLElement).style.width = '100%';
+    ($('#search-form') as HTMLElement).style.display = 'flex';
     ($('#search-form') as HTMLElement).style.width = '100%';
     ($('#search-input') as HTMLElement).style.width = '100%';
-    ($('#search-form') as HTMLElement).style.display = 'flex';
   })
 }
 
 export const onClickSearchButton = () => {
-  $('#search-button').addEventListener('click', () => {
-    const keyword = readSearchInputKeyword();
-    searchMovieByKeyword(keyword);
-    getHeaderInstance().init();
+  $('#search-button').addEventListener('click', function submitKeyword() {
+    searchMoviesAndResetHeader();
   });
 }
 
 export const searchInputEnterListener = () => {
   const input = $('#search-input') as HTMLInputElement;
-  input.addEventListener("keydown", (event) => {
+  input.addEventListener("keydown", function submitKeyword(event) {
     if (event.key === "Enter") {
-      const keyword = readSearchInputKeyword();
-      searchMovieByKeyword(keyword);
-      getHeaderInstance().init();
+      searchMoviesAndResetHeader();
     }
   })
+}
+
+const searchMoviesAndResetHeader = () => {
+  const keyword = readSearchInputKeyword();
+  searchMovieByKeyword(keyword);
+  getHeaderInstance().init();
 }
 
