@@ -1,4 +1,4 @@
-import { DetailMovie, Movie, MovieDataResponse, MovieList, MovieResults, Options } from './types';
+import { DetailMovie, Movie, MovieDataResponse, MovieList, Options } from './types';
 import { request } from './utils/request';
 
 export const getAPIUrl = (params: string, options?: Options) =>
@@ -10,7 +10,7 @@ export const fetchMovies = async (params: string, options: Options): Promise<Mov
   const API_URL = getAPIUrl(params, options);
 
   const data: MovieDataResponse = await request(API_URL);
-  const movies: readonly Movie[] = data.results.map((result: MovieResults) => ({
+  const movies: readonly Movie[] = data.results.map((result) => ({
     id: result.id,
     title: result.title,
     posterPath: result.poster_path,
