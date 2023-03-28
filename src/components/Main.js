@@ -83,15 +83,12 @@ class Main {
     this.#element.addEventListener('click', async (e) => {
       if (e.target.tagName === 'IMG') {
         const movieData = this.#manager.getMovieData(e.target.alt);
+        const movieGenres = this.#manager.getGenreData();
         const movieRate = this.#manager.getStarData()[movieData.id];
-        $('.modal').innerHTML = movieModal(
-          movieData,
-          this.#manager.getGenreData(),
-          movieRate
-        );
+        $('.modal').innerHTML = movieModal(movieData, movieGenres, movieRate);
         $('.modal').classList.remove('hidden');
         $('.modal-background').classList.remove('hidden');
-        this.#drawStar();
+        this.#renderStar();
       }
     });
   }
@@ -112,10 +109,8 @@ class Main {
       $('.modal-background').classList.add('hidden');
     });
     document.addEventListener('keyup', (e) => {
-      if (
-        (e.key === 'Escape' || e.key === 'Backspace') &&
-        !$('.modal.hidden')
-      ) {
+      const isModalOpen = !$('.modal.hidden');
+      if ((e.key === 'Escape' || e.key === 'Backspace') && isModalOpen) {
         $('.modal-container').remove();
         $('.modal').classList.add('hidden');
         $('.modal-background').classList.add('hidden');
@@ -123,14 +118,15 @@ class Main {
     });
   }
 
-  #drawStar() {
+  #renderStar() {
     const starbox = $('.star-box');
     starbox.addEventListener('click', (e) => {
-      $$('img', starbox).forEach((element, index) => {
-        element.classList.remove('active');
-        if (element === e.target) {
-          $('#star-data').textContent = (index + 1) * 2;
-          $('#star-text').textContent = SCORE_DATA_TEXT[(index + 1) * 2];
+      $$('img', starbox).forEach((starImage, index) => {
+        starImage.classList.remove('active');
+        if (starImage === e.target) {
+          const movieScore = (index + 1) * 2;
+          $('#star-data').textContent = movieScore;
+          $('#star-text').textContent = SCORE_DATA_TEXT[movieScore];
           e.target.classList.add('active');
         }
       });
