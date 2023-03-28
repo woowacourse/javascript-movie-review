@@ -1,3 +1,5 @@
+import { USER_SCORES } from '../constants/ui';
+
 interface MovieData {
   page: number;
   results: MovieDataResult[];
@@ -25,10 +27,70 @@ interface MovieDataResult {
 interface Movie {
   id: number;
   title: string;
+  genres: string[];
+  releaseDate: string;
   voteAverage: number;
+  userVote: UserScores;
+  overview: string;
   posterPath: string;
 }
 
 type MovieFetchFunction = () => Promise<MovieDataResult[]>;
 
-export { MovieData, MovieDataResult, Movie, MovieFetchFunction };
+type UserScores = (typeof USER_SCORES)[number];
+
+interface MovieGenreData {
+  genres: MovieGenre[];
+}
+
+interface MovieGenre {
+  id: number;
+  name: string;
+}
+
+interface MovieLoadedEventData {
+  movies: Movie[];
+  searchQuery: string;
+}
+
+interface MovieResetEventData {
+  searchQuery: string;
+}
+
+interface MovieErrorEventData {
+  error: Error;
+}
+
+interface MovieRetrievedEventData {
+  movie: Movie;
+  searchQuery: string;
+  isBackButton: boolean;
+}
+
+interface MovieUserVoteUpdateEventData {
+  userVote: UserScores;
+}
+
+interface MovieState {
+  isList?: boolean;
+  showModal?: boolean;
+  searchQuery?: string;
+  movieId?: number;
+  timestamp: number;
+}
+
+export {
+  MovieData,
+  MovieDataResult,
+  Movie,
+  MovieFetchFunction,
+  MovieGenreData,
+  MovieGenre,
+  UserScores,
+  MovieLoadedEventData,
+  MovieResetEventData,
+  MovieErrorEventData,
+  MovieRetrievedEventData,
+  MovieUserVoteUpdateEventData,
+  MovieState,
+};

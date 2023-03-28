@@ -25,6 +25,7 @@ button {
 *:focus {
   outline: none;
 }
+
 .item-view,
 .item-test {
   width: 100%;
@@ -143,8 +144,8 @@ button.primary:active {
 }
 
 header {
+  position: fixed;
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #141414;
   display: flex;
@@ -153,6 +154,7 @@ header {
   padding: 0 20px;
   border-bottom: 1px solid #383838;
   margin-bottom: 48px;
+  z-index: 2;
 }
 
 header h1 {
@@ -185,9 +187,16 @@ header .search-box > #search-button {
   background-size: contain;
 }
 
+main {
+  position: relative;
+  top: 119px;
+  width: 100vw;
+  min-height: calc(100vh - 119px);
+}
+
 .error-message {
   position: absolute;
-  top: 50%;
+  top: calc(50% - 58px);
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
@@ -211,6 +220,372 @@ header .search-box > #search-button {
   background-color: #232323;
 }
 
+.modal {
+  position: fixed;
+  top: 0;
+  z-index: 3;
+}
+
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  cursor: pointer;
+}
+
+.modal-content {
+  display: flex;
+  width: 800px;
+  height: 500px;
+  padding: 36px;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background-color: #1a1a1a;
+  color: white;
+  border: 0;
+  border-radius: 16px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px, rgba(0, 0, 0, 0.25) 0px 8px 16px;
+}
+
+.modal-message-container {
+  position: relative;
+  z-index: 10;
+}
+
+.information-content {
+  width: calc(100% - 16px);
+  display: flex;
+}
+
+.information-image {
+  min-width: 290px;
+  height: 428px;
+  background-color: #232323;
+  background-size: contain;
+  border-radius: 10px;
+}
+
+.information-container {
+  margin-left: 36px;
+  padding-right: 20px;
+  margin-right: 8px;
+  width: 100%;
+  overflow: auto;
+}
+
+.modal-content h3 {
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 6px;
+  margin-bottom: 18px;
+}
+
+.modal-content h6 {
+  margin-bottom: 14px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.modal-content p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: whitesmoke;
+}
+
+.information-vote-average-rate {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.information-user-vote {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vote-stars,
+.vote-stars--temp {
+  display: flex;
+  gap: 4px;
+}
+
+.vote-stars {
+  cursor: pointer;
+}
+
+.vote-stars--temp {
+  position: absolute;
+  pointer-events: none;
+}
+
+.vote-stars img {
+  width: 32px;
+}
+
+.vote-stars--temp img {
+  width: 32px;
+}
+
+.hr {
+  margin: 24px 0;
+  border-bottom: 1px solid #383838;
+}
+
+.close-button {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.margin-bottom-6 {
+  margin-bottom: 6px;
+}
+
+.hide-overflow {
+  overflow: hidden;
+}
+
+.vote-average-star {
+  width: 24px;
+}
+
+.vote-message,
+.vote-info {
+  margin-top: 3px;
+}
+
+.vote-info {
+  color: #757575 !important;
+}
+
 .hide {
   display: none;
+}
+
+.secondary-text {
+  color: #757575 !important;
+}
+
+.star-clicked {
+  animation: starAnimation 0.2s ease-in-out;
+}
+
+@keyframes starAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.top-button {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  background-color: #171717;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 11px 2px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: background-color 0.2s ease-in;
+}
+
+.top-button:hover {
+  background-color: #232323;
+}
+
+.voted {
+  position: fixed;
+  bottom: -74px;
+  margin: 20px;
+  padding: 20px;
+  width: 300px;
+
+  background-color: #232323;
+  opacity: 0;
+
+  border-radius: 10px;
+
+  animation: votedAnimation 2s ease-in-out;
+}
+
+@keyframes votedAnimation {
+  0% {
+    bottom: -74px;
+    opacity: 0;
+  }
+  25% {
+    bottom: 0;
+    opacity: 1;
+  }
+  75% {
+    bottom: 0;
+    opacity: 1;
+  }
+  100% {
+    bottom: -74px;
+    opacity: 0;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .item-list {
+    margin: 56px 0;
+    grid-template-columns: repeat(4, 180px);
+    grid-column-gap: 36px;
+    grid-row-gap: 56px;
+  }
+
+  .item-thumbnail {
+    width: 180px;
+    height: 270px;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .item-list {
+    grid-template-columns: repeat(3, 200px);
+  }
+
+  .item-thumbnail {
+    width: 200px;
+    height: 300px;
+  }
+
+  .modal-content {
+    width: 660px;
+    height: 400px;
+  }
+
+  .information-image {
+    min-width: 222px;
+    height: 328px;
+  }
+
+  .modal-content h3 {
+    font-size: 24px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .item-list {
+    margin: 48px 0;
+    grid-template-columns: repeat(2, 250px);
+    grid-row-gap: 48px;
+  }
+
+  .item-thumbnail {
+    width: 250px;
+    height: 375px;
+  }
+
+  .modal-content {
+    width: 560px;
+    height: 400px;
+    padding: 28px;
+  }
+
+  .information-image {
+    display: none;
+  }
+
+  .information-container {
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .item-view h2 {
+    font-size: 1.6rem;
+  }
+
+  .item-list {
+    margin: 36px 0;
+    grid-template-columns: repeat(1, 280px);
+    grid-column-gap: 24px;
+    grid-row-gap: 36px;
+  }
+
+  .item-thumbnail {
+    width: 280px;
+    height: 420px;
+  }
+
+  .item-title {
+    font-size: 1rem;
+  }
+
+  .item-score {
+    font-size: 0.9rem;
+  }
+
+  .search-box {
+    position: absolute;
+    right: 20px;
+    width: 35px;
+    height: 35px;
+    transition: width 0.2s;
+    background-color: transparent !important;
+  }
+
+  #search-input {
+    position: absolute;
+    width: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in 0.1s;
+  }
+
+  #search-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+
+  .search-box--expand {
+    width: calc(100vw - 40px);
+    background-color: #232323 !important;
+  }
+
+  .search-box--expand #search-input {
+    position: relative;
+    min-width: calc(100vw - 74px);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal-content {
+    width: 100vw;
+    padding: 24px;
+    top: initial;
+    left: initial;
+    bottom: 0;
+    height: 500px;
+    transform: none;
+  }
+
+  .information-image {
+    display: none;
+  }
+
+  .information-container {
+    margin-left: 0;
+    margin-right: 4px;
+    padding-right: 16px;
+  }
 }

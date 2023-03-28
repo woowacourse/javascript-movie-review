@@ -13,12 +13,12 @@ class EventEmitter extends EventTarget {
     return EventEmitter.instance;
   }
 
-  on(eventName: string, callback: EventListenerOrEventListenerObject) {
-    this.addEventListener(eventName, callback);
+  on<T>(eventName: string, callback: (event: CustomEvent<T>) => void) {
+    this.addEventListener(eventName, callback as EventListener);
   }
 
-  emit(eventName: string, data?: any) {
-    const event = new CustomEvent(eventName, { detail: data });
+  emit<T>(eventName: string, data?: T) {
+    const event = new CustomEvent<T>(eventName, { detail: data });
     this.dispatchEvent(event);
   }
 }

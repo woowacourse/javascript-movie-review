@@ -1,0 +1,72 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #121212;
+}
+
+header {
+  position: fixed;
+  width: 100%;
+  height: 72px;
+  background-color: #141414;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid #383838;
+  margin-bottom: 48px;
+  z-index: 2;
+}
+
+header h1 {
+  cursor: pointer;
+  user-select: none;
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: -0.1rem;
+  color: #f33f3f;
+}
+
+#page-not-found-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  width: 100vw;
+  height: calc(100vh - 71px);
+}
+
+#page-not-found-error h1 {
+  font-size: 108px;
+  font-weight: 500;
+  margin: 0;
+  margin-bottom: 40px;
+}
+
+#page-not-found-error h3 {
+  font-size: 30px;
+  font-weight: 500;
+
+  margin: 0;
+  margin-bottom: 20px;
+}
+
+#page-not-found-error p {
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: center;
+  margin: 0;
+}
+
+.home-redirect-button {
+  margin-top: 36px;
+  padding: 10px 20px;
+  background-color: #f33f3f;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  width: 300px;
+  text-align: center;
+  text-decoration: none;
+}

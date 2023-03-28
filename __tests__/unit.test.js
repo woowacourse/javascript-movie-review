@@ -6,7 +6,7 @@ import {
   MOVIE_LIST_LOADED,
 } from '../src/constants';
 import MovieList from '../src/domain/MovieList';
-import { fetchPopularMovieData, fetchSearchedMovieData } from '../src/api/movieAPI';
+import { fetchPopularMovieData, fetchSearchedMovieData } from '../src/api/fetchMovieAPI';
 import HTTPError from '../src/api/HTTPError';
 
 jest.mock('../src/api/movieAPI');

@@ -17,7 +17,7 @@ class MovieItem {
   template() {
     return `
       <li>
-        <a href="#">
+        <a href="" class="item-link">
           <div class="item-card">
             <div class="item-thumbnail skeleton"></div>
             <p class="item-title skeleton"></p>
@@ -25,6 +25,26 @@ class MovieItem {
           </div>
         </a>
       </li>`;
+  }
+
+  render(target: HTMLElement, movie: Movie) {
+    const itemLink = target.closest('.item-link') as HTMLAnchorElement;
+    itemLink.href = `?id=${movie.id}`;
+
+    const itemThumbnail = $('.item-thumbnail', target);
+    itemThumbnail.classList.remove('skeleton');
+    itemThumbnail.insertAdjacentHTML(
+      'beforeend',
+      this.posterImageTemplate(movie.title, movie.posterPath)
+    );
+
+    const itemTitle = $('.item-title', target);
+    itemTitle.classList.remove('skeleton');
+    itemTitle.textContent = movie.title;
+
+    const itemScore = $('.item-score', target);
+    itemScore.classList.remove('skeleton');
+    itemScore.insertAdjacentHTML('beforeend', this.scoreTemplate(movie.voteAverage));
   }
 
   private posterImageTemplate(title: string, imagePath: string) {
@@ -41,25 +61,10 @@ class MovieItem {
 
   private scoreTemplate(voteAverage: number) {
     return `
-      <img src="${voteAverage ? FilledStar : EmptyStar}" alt="별점" />${voteAverage}
+      <img src="${
+        voteAverage ? FilledStar : EmptyStar
+      }" class="vote-average-star" alt="별점" />${voteAverage}
     `;
-  }
-
-  render(target: HTMLElement, movie: Movie) {
-    const itemThumbnail = $('.item-thumbnail', target);
-    itemThumbnail.classList.remove('skeleton');
-    itemThumbnail.insertAdjacentHTML(
-      'beforeend',
-      this.posterImageTemplate(movie.title, movie.posterPath)
-    );
-
-    const itemTitle = $('.item-title', target);
-    itemTitle.classList.remove('skeleton');
-    itemTitle.textContent = movie.title;
-
-    const itemScore = $('.item-score', target);
-    itemScore.classList.remove('skeleton');
-    itemScore.insertAdjacentHTML('beforeend', this.scoreTemplate(movie.voteAverage));
   }
 }
 

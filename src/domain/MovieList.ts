@@ -1,17 +1,31 @@
-import { Movie, MovieDataResult, MovieFetchFunction } from '../types/movie';
+import {
+  Movie,
+  MovieErrorEventData,
+  MovieLoadedEventData,
+  MovieResetEventData,
+  MovieRetrievedEventData,
+  MovieUserVoteUpdateEventData,
+  UserScores,
+} from '../types/movie';
 import {
   MOVIE_LIST_ERROR,
   MOVIE_LIST_LOADED,
   MOVIE_LIST_LOADING,
   MOVIE_LIST_RESET,
+  MOVIE_RETRIEVED,
+  MOVIE_USER_VOTE_UPDATED,
 } from '../constants';
+import { userMovies } from './userMovies';
 import EventEmitter from '../utils/EventEmitter';
-import { fetchPopularMovieData, fetchSearchedMovieData } from '../api/movieAPI';
+import MovieAPI from './MovieAPI';
 
 class MovieList {
   private static instance: MovieList;
-  private currentPage: number = 1;
-  private searchQuery: string = '';
+  private userMovies: Movie[] = userMovies;
+  private movieAPI = new MovieAPI(userMovies);
+  private movies: Movie[] = [];
+  private currentPage = 1;
+  private searchQuery = '';
 
   static getInstance(): MovieList {
     if (!MovieList.instance) {
@@ -22,35 +36,10 @@ class MovieList {
   }
 
   init(searchQuery: string = '') {
+    this.movies = [];
     this.currentPage = 1;
     this.searchQuery = searchQuery;
-    EventEmitter.emit(MOVIE_LIST_RESET, searchQuery);
-  }
-
-  private increaseCurrentPage() {
-    this.currentPage += 1;
-  }
-
-  private async processMovieData(fetchFunction: MovieFetchFunction): Promise<Movie[]> {
-    const moviesData: MovieDataResult[] = await fetchFunction();
-    this.increaseCurrentPage();
-
-    const movies: Movie[] = moviesData.map((movie: MovieDataResult) => ({
-      id: movie.id,
-      title: movie.title,
-      voteAverage: Math.round(movie.voteAverage * 10) / 10,
-      posterPath: movie.posterPath,
-    }));
-
-    return movies;
-  }
-
-  private async getPopularMovieData(): Promise<Movie[]> {
-    return this.processMovieData(() => fetchPopularMovieData(this.currentPage));
-  }
-
-  private async getSearchedMovieData(): Promise<Movie[]> {
-    return this.processMovieData(() => fetchSearchedMovieData(this.searchQuery, this.currentPage));
+    EventEmitter.emit<MovieResetEventData>(MOVIE_LIST_RESET, { searchQuery });
   }
 
   async getMovieData() {
@@ -59,16 +48,70 @@ class MovieList {
     try {
       const movies =
         this.searchQuery !== ''
-          ? await this.getSearchedMovieData()
-          : await this.getPopularMovieData();
+          ? await this.movieAPI.getSearchedMovieData(this.searchQuery, this.currentPage)
+          : await this.movieAPI.getPopularMovieData(this.currentPage);
 
-      EventEmitter.emit(MOVIE_LIST_LOADED, { movies, searchQuery: this.searchQuery });
+      this.currentPage += 1;
+      this.movies.push(...movies);
+      EventEmitter.emit<MovieLoadedEventData>(MOVIE_LIST_LOADED, {
+        movies,
+        searchQuery: this.searchQuery,
+      });
     } catch (error) {
-      EventEmitter.emit(MOVIE_LIST_ERROR, { error });
+      if (error instanceof Error) {
+        EventEmitter.emit<MovieErrorEventData>(MOVIE_LIST_ERROR, { error });
+      }
     }
   }
 
-  on(eventName: string, callback: EventListenerOrEventListenerObject) {
+  async getMovieInformation(movieId: number, isBackButton: boolean = false) {
+    const moviesLoaded = this.movies.length > 0;
+
+    if (!moviesLoaded) {
+      await new Promise<void>((resolve) => {
+        const intervalId = setInterval(() => {
+          if (this.movies.length > 0) {
+            clearInterval(intervalId);
+            resolve();
+          }
+        }, 100);
+      });
+    }
+
+    const movie = this.movies.find((movie) => movie.id === movieId)!;
+
+    EventEmitter.emit<MovieRetrievedEventData>(MOVIE_RETRIEVED, {
+      movie,
+      searchQuery: this.searchQuery,
+      isBackButton,
+    });
+  }
+
+  getUserMovies() {
+    return [...this.userMovies];
+  }
+
+  updateUserVote(movieId: number, userVote: UserScores) {
+    const hasMovie = this.userMovies.find((movie) => movie.id === movieId);
+
+    if (hasMovie) {
+      this.userMovies = this.userMovies.map((movie: Movie) => {
+        if (movie.id === movieId) movie.userVote = userVote;
+
+        return movie;
+      });
+    }
+
+    if (!hasMovie) {
+      const movie = this.movies.find((movie) => movie.id === movieId)!;
+      movie.userVote = userVote;
+      this.userMovies.push(movie);
+    }
+
+    EventEmitter.emit<MovieUserVoteUpdateEventData>(MOVIE_USER_VOTE_UPDATED, { userVote });
+  }
+
+  on<T>(eventName: string, callback: (event: CustomEvent<T>) => void) {
     EventEmitter.on(eventName, callback);
   }
 }

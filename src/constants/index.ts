@@ -1,5 +1,9 @@
 const MOVIE_MAX_COUNT = 20;
 
+const PAGE_BASE_URL = window.location.origin.includes('localhost')
+  ? `${window.location.origin}/`
+  : window.location.origin + window.location.pathname;
+
 const POSTER_BASE_URL = 'https://www.themoviedb.org/t/p/original';
 const API_BASE_URL = 'https://api.themoviedb.org/3/';
 
@@ -10,8 +14,13 @@ const MOVIE_LIST_RESET = 'movieListReset';
 const MOVIE_LIST_LOADING = 'movieListLoading';
 const MOVIE_LIST_LOADED = 'movieListLoaded';
 const MOVIE_LIST_ERROR = 'movieListError';
+const MOVIE_RETRIEVED = 'movieRetrieved';
+const MOVIE_USER_VOTE_UPDATED = 'movieUserVoteUpdated';
+
+const LOCAL_STORAGE_KEY = 'userMovies';
 
 export {
+  PAGE_BASE_URL,
   POSTER_BASE_URL,
   API_BASE_URL,
   MOVIE_MAX_COUNT,
@@ -21,4 +30,7 @@ export {
   MOVIE_LIST_LOADING,
   MOVIE_LIST_LOADED,
   MOVIE_LIST_ERROR,
+  MOVIE_RETRIEVED,
+  MOVIE_USER_VOTE_UPDATED,
+  LOCAL_STORAGE_KEY,
 };

@@ -1,4 +1,4 @@
-import { Movie } from '../types/movie';
+import { Movie, MovieLoadedEventData } from '../types/movie';
 import {
   MOVIE_LIST_LOADED,
   MOVIE_LIST_LOADING,
@@ -17,7 +17,7 @@ class MovieListContent {
   private itemList: HTMLUListElement;
 
   private constructor() {
-    this.init();
+    this.initMovieListEvents();
     this.itemList = $<HTMLUListElement>('.item-list');
   }
 
@@ -29,22 +29,26 @@ class MovieListContent {
     return MovieListContent.instance;
   }
 
-  private init() {
-    MovieList.on(MOVIE_LIST_RESET, this.clearListContent);
-
-    MovieList.on(MOVIE_LIST_LOADING, this.renderSkeleton);
-
-    MovieList.on(MOVIE_LIST_LOADED, (event) => {
-      const { movies, searchQuery } = (event as CustomEvent).detail;
+  private initMovieListEvents() {
+    MovieList.on(MOVIE_LIST_RESET, this.clearListContent.bind(this));
+    MovieList.on(MOVIE_LIST_LOADING, this.renderSkeleton.bind(this));
+    MovieList.on(MOVIE_LIST_LOADED, (event: CustomEvent<MovieLoadedEventData>) => {
+      const { movies, searchQuery } = event.detail;
       this.loadMovies(movies, searchQuery);
     });
   }
 
-  private async loadMovies(movies: Movie[], searchQuery: string) {
-    MovieListContainer.showMoreButton();
+  private clearListContent() {
+    this.itemList.replaceChildren();
+  }
 
-    if (movies.length !== 20) {
-      MovieListContainer.hideMoreButton();
+  private renderSkeleton() {
+    this.itemList.insertAdjacentHTML('beforeend', MovieItem.template().repeat(MOVIE_MAX_COUNT));
+  }
+
+  private async loadMovies(movies: Movie[], searchQuery: string) {
+    if (movies.length !== MOVIE_MAX_COUNT) {
+      MovieListContainer.disableScroll();
     }
 
     if (searchQuery && !movies.length) {
@@ -56,26 +60,17 @@ class MovieListContent {
     this.renderMovies(movies);
   }
 
-  private renderSkeleton = () => {
-    this.itemList.insertAdjacentHTML('beforeend', MovieItem.template().repeat(MOVIE_MAX_COUNT));
-  };
-
-  renderMovies(movies: Movie[]) {
+  private renderMovies(movies: Movie[]) {
     const items = $$<HTMLUListElement>('.item-card');
-    const extraItems = MOVIE_MAX_COUNT - movies.length;
+    const lastPageItems = items.slice(-MOVIE_MAX_COUNT);
+    const itemsToRender = lastPageItems.slice(0, movies.length);
+    const itemsToRemove = lastPageItems.slice(movies.length);
 
-    items.splice(items.length - extraItems).forEach((element) => {
-      element.remove();
-    });
-
-    items.slice(-movies.length).forEach((child, key) => {
-      MovieItem.render(child, movies[key]);
+    itemsToRender.forEach((child, key) => MovieItem.render(child, movies[key]));
+    itemsToRemove.forEach((item) => {
+      item.closest('li')?.remove();
     });
   }
-
-  private clearListContent = () => {
-    this.itemList.replaceChildren();
-  };
 }
 
 export default MovieListContent.getInstance();

@@ -1,18 +1,25 @@
 import { $ } from '../utils/domSelector';
-import { MOVIE_LIST_LOADING, MOVIE_LIST_RESET } from '../constants';
+import { MOVIE_LIST_LOADED, MOVIE_LIST_LOADING, MOVIE_LIST_RESET } from '../constants';
+import { SCROLL_OFFSET } from '../constants/ui';
 import MovieList from '../domain/MovieList';
+import { UpArrow } from '../assets';
 
 class MovieListContainer {
   private static instance: MovieListContainer;
   private listContainer: HTMLDivElement;
-  private moreButton: HTMLButtonElement;
+  private itemList: HTMLUListElement;
+  private shouldScroll: boolean = true;
 
   private constructor() {
-    $<HTMLElement>('main').insertAdjacentHTML('beforeend', this.template());
-    this.init();
+    this.render();
+    this.initMovieListEvents();
+
     this.listContainer = $<HTMLDivElement>('.item-view');
-    this.moreButton = $<HTMLButtonElement>('#more-button');
-    this.addEventToMoreButton();
+    this.itemList = $<HTMLUListElement>('.item-list');
+
+    this.addEventListenerToScroll();
+    this.addEventListenerToMovieItems();
+    this.addEventListenerToBrowserBackButton();
   }
 
   static getInstance(): MovieListContainer {
@@ -23,31 +30,27 @@ class MovieListContainer {
     return MovieListContainer.instance;
   }
 
+  private render() {
+    $<HTMLElement>('main').insertAdjacentHTML('beforeend', this.template());
+  }
+
   private template() {
     return `
       <section class="item-view">
         <h2 id="movie-list-title">지금 인기 있는 영화</h2>
         <ul class="item-list"></ul>
-        <button id="more-button" class="btn primary full-width">더 보기</button>
       </section>
       <div class="error-message hide"></div>
+      <a class="top-button" href="#">
+        <img src="${UpArrow}" alt="move to top arrow" />
+      </a>
     `;
   }
 
-  private init() {
-    MovieList.on(MOVIE_LIST_RESET, () => {
-      this.showListContainer();
-    });
-
-    MovieList.on(MOVIE_LIST_LOADING, () => {
-      this.hideMoreButton();
-    });
-  }
-
-  private addEventToMoreButton() {
-    this.moreButton.addEventListener('click', () => {
-      MovieList.getMovieData();
-    });
+  private initMovieListEvents() {
+    MovieList.on(MOVIE_LIST_RESET, this.showListContainer.bind(this));
+    MovieList.on(MOVIE_LIST_LOADING, this.disableScroll.bind(this));
+    MovieList.on(MOVIE_LIST_LOADED, this.enableScroll.bind(this));
   }
 
   showListContainer() {
@@ -58,12 +61,52 @@ class MovieListContainer {
     this.listContainer.classList.add('hide');
   }
 
-  showMoreButton() {
-    this.moreButton.classList.remove('hide');
+  disableScroll() {
+    this.shouldScroll = false;
   }
 
-  hideMoreButton() {
-    this.moreButton.classList.add('hide');
+  enableScroll() {
+    this.shouldScroll = true;
+  }
+
+  private addEventListenerToScroll() {
+    window.addEventListener('scroll', () => {
+      if (!this.shouldScroll) return;
+
+      const endOfPage =
+        window.innerHeight + window.scrollY + SCROLL_OFFSET >= document.body.offsetHeight;
+
+      if (endOfPage) {
+        MovieList.getMovieData();
+      }
+    });
+  }
+
+  private addEventListenerToMovieItems() {
+    this.itemList.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      const itemLink = target.closest('a');
+
+      if (itemLink instanceof HTMLAnchorElement) {
+        event.preventDefault();
+
+        const url = new URL(itemLink.href);
+        const params = new URLSearchParams(url.search);
+        const movieId = params.get('id');
+        MovieList.getMovieInformation(Number(movieId));
+      }
+    });
+  }
+
+  private addEventListenerToBrowserBackButton() {
+    window.addEventListener('popstate', (event) => {
+      if (!event.state) return;
+
+      if (event.state.isList) {
+        MovieList.init(event.state.searchQuery);
+        MovieList.getMovieData();
+      }
+    });
   }
 }
 
