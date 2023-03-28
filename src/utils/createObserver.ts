@@ -1,11 +1,11 @@
-const createObserver = (callback: () => void, threshold = 0) => {
+const createObserver = (callback: () => void) => {
   return new IntersectionObserver(
     (entries) => {
       entries.forEach(({ isIntersecting }) => {
         if (isIntersecting) callback();
       });
     },
-    { threshold }
+    { rootMargin: '0px 0px 500px 0px' }
   );
 };
 
