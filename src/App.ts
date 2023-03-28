@@ -1,3 +1,4 @@
+import ErrorModal from './components/ErrorModal';
 import GotoTopButton from './components/GotoTopButton';
 import Header from './components/Header';
 import MovieList from './components/MovieList';
@@ -12,6 +13,7 @@ class App {
   $header: Header;
   $movieModal: MovieModal;
   $topButton: GotoTopButton;
+  $errorModal: ErrorModal;
   store: Store;
   skeleton: Skeleton;
   observer: IntersectionObserver;
@@ -21,6 +23,7 @@ class App {
     this.$header = $<Header>('movie-header');
     this.$movieModal = $<MovieModal>('movie-modal');
     this.$topButton = $<GotoTopButton>('top-button');
+    this.$errorModal = $<ErrorModal>('error-modal');
     this.skeleton = new Skeleton();
     this.store = new Store();
 
@@ -48,7 +51,7 @@ class App {
       this.$movieList.setIntersection(this.infinityScrollHandler.bind(this));
     } catch (error) {
       if (!(error instanceof Error)) return;
-      throw new Error(error.message);
+      this.$errorModal.render(error.message);
     }
   }
 
@@ -69,7 +72,7 @@ class App {
       this.$movieModal.open();
     } catch (error) {
       if (!(error instanceof Error)) return;
-      throw new Error(error.message);
+      this.$errorModal.render(error.message);
     }
   }
 
