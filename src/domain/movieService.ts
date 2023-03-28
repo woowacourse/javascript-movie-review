@@ -15,7 +15,7 @@ class MovieService {
       id,
       title,
       posterPath: poster_path,
-      voteAverage: vote_average,
+      voteAverage: vote_average.toFixed(1),
       genreString: this.generateGenreString(genre_ids),
       overview,
     }));
