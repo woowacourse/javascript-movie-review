@@ -2,7 +2,7 @@ import {
   getMostPopularMovies,
   getSearchMovies,
   getMovieGenres,
-} from "./api/fetch";
+} from "./api/movieFetch";
 import movieHandler from "./domain/movieHandler";
 import { $ } from "./utils/dom";
 import MovieListContainer from "./components/movie/MovieListContainer";
