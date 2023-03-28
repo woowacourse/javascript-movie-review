@@ -1,7 +1,7 @@
 import ListTitle from '../components/ListTitle';
 import MovieDetail from '../components/MovieDetail';
 import MovieList from '../components/MovieList';
-import { Skeleton } from '../components/Skeleton';
+import Skeleton from '../components/Skeleton';
 import WholeScreenMessageAlert from '../components/WholeScreenMessageAlert';
 import Movie, { initialMovieStats } from '../domain/Movie';
 import { IMovieDetailItem, IMovieHandleProps, IMovieItemProps, IMovieState } from '../types/movie';
@@ -16,6 +16,16 @@ interface StateRenderProps {
 }
 
 class StateRender {
+  // 렌더에서, 렌더링 하는 부분들만 없애보자. 그리고, 렌더링 하는 부분들을 customEvent로 등록해서 처리해보자.
+  /**
+   * custom event로 등록되어서 렌더링 되는 부분들
+   * 1. 새로 검색 및 popular 추가
+   * 2. 더보기 버튼 구현
+   * 3. 상세보기 구현
+   * 4. 각각의 렌더링이 발생했을 때 skeleton이 같이 들어가야 함.
+   * 5. skeleton이 발생하는 조건은 StateRender 내부의 상태값에 따라 다름.
+   *
+   */
   private listTitle!: ListTitle;
   private skeleton!: Skeleton;
   private movieList!: MovieList;
@@ -38,9 +48,9 @@ class StateRender {
     this.itemViewSection = itemViewSection;
   }
 
-  private listTitleRender() {
-    this.listTitle.render(this.itemViewSection);
-  }
+  // private listTitleRender() {
+  //   this.listTitle.render(this.itemViewSection,'');
+  // }
 
   private skeletonRenderAndClearMovieList() {
     this.skeleton.attachSkeleton();
@@ -67,7 +77,7 @@ class StateRender {
 
       this.setPopularProperty();
       this.setMovies({ results, total_pages, page });
-      this.renderWholeComponent();
+      // this.renderWholeComponent();
     } catch (error) {
       if (error instanceof Error) {
         this.apiErrorRender(error.message, this.itemViewSection);
@@ -82,11 +92,11 @@ class StateRender {
         curPage,
       });
 
-      if (this.movieState.query !== query || curPage === 1) this.skeletonRenderAndClearMovieList();
+      // if (this.movieState.query !== query || curPage === 1) this.skeletonRenderAndClearMovieList();
 
       this.setSearchProperty(query);
       this.setMovies({ results, total_pages, page });
-      this.renderWholeComponent();
+      // this.renderWholeComponent();
     } catch (error) {
       if (error instanceof Error) {
         this.apiErrorRender(error.message, this.itemViewSection);
@@ -134,10 +144,10 @@ class StateRender {
     this.renderSearchedMovies(query, nextPage);
   }
 
-  private renderWholeComponent() {
-    this.listTitleRender();
-    this.movieListRender();
-  }
+  // private renderWholeComponent() {
+  //   this.listTitleRender();
+  //   this.movieListRender();
+  // }
 
   private setPopularProperty() {
     this.movieState.query = '';

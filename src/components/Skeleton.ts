@@ -1,5 +1,5 @@
-export class Skeleton {
-  private $container: HTMLElement;
+export default class Skeleton {
+  private $container: HTMLUListElement;
   private $movieItems: HTMLElement;
 
   constructor($listItems: HTMLElement) {
@@ -21,6 +21,10 @@ export class Skeleton {
 
   attachSkeleton() {
     this.$movieItems.insertAdjacentElement('beforeend', this.$container);
+  }
+
+  getSkeletonContainer(): HTMLUListElement {
+    return this.$container;
   }
 
   removeSkeleton() {

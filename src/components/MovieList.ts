@@ -1,12 +1,18 @@
 import MovieCard from './MovieCard';
+import Skeleton from './Skeleton';
 import stateRender from '../renderer/StateRender';
 import { createInfiniteScrollObserver } from '../utils/observer';
+import EventBroker from '../EventBroker';
 
 class MovieList {
   private $ul = document.createElement('ul');
+  private $target: HTMLElement;
+  private skeleton: Skeleton;
 
-  constructor() {
+  constructor($target: HTMLElement) {
+    this.$target = $target;
     this.$ul.className = 'item-list';
+    this.skeleton = new Skeleton($target);
   }
 
   private template() {

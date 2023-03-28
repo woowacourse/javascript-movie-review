@@ -1,3 +1,4 @@
+import EventBroker from '../EventBroker';
 import logo from '../images/logo.png';
 import stateRender from '../renderer/StateRender';
 import { $ } from '../utils/dom';
@@ -31,13 +32,18 @@ class Header {
     if (!(e.currentTarget instanceof HTMLElement)) return;
 
     const { currentTarget } = e;
-    const { value } = $<HTMLInputElement>('.search-input');
+    const { value } = $<HTMLInputElement>('.search-input', currentTarget);
 
     const query = stateRender.getMovieState().query ?? '';
 
     if (this.checkSearchWordValidation(value, query)) return;
 
-    stateRender.renderSearchedMovies(value);
+    const updateMovieListEvent = new CustomEvent('updateMovieListEvent', {
+      detail: { keyword: value },
+    });
+
+    EventBroker.dispatchEvent(updateMovieListEvent);
+    // stateRender.renderSearchedMovies(value);/
   }
 
   private checkSearchWordValidation(value: string, query: string) {

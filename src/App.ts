@@ -1,15 +1,17 @@
 import Header from './components/Header';
 import ListTitle from './components/ListTitle';
 import MovieList from './components/MovieList';
-import { Skeleton } from './components/Skeleton';
+import Skeleton from './components/Skeleton';
 import MovieDetail from './components/MovieDetail';
 import RemoteControl from './components/RemoteControl';
 import stateRender from './renderer/StateRender';
+import ItemView from './components/ItemView';
 
 class App {
   private $main = document.createElement('main');
   private $itemView = document.createElement('section');
 
+  private itemViw: ItemView;
   private listTitle: ListTitle;
   private movieList: MovieList;
   private skeleton: Skeleton;
@@ -18,11 +20,11 @@ class App {
   constructor($target: HTMLElement) {
     new Header($target);
     new RemoteControl().render($target);
-    this.$itemView.className = 'item-view';
+    this.itemViw = new ItemView();
 
     this.listTitle = new ListTitle();
     this.skeleton = new Skeleton(this.$itemView);
-    this.movieList = new MovieList();
+    this.movieList = new MovieList(this.$itemView);
     this.movieDetail = new MovieDetail();
 
     stateRender.initialize({
@@ -33,9 +35,8 @@ class App {
       itemViewSection: this.$itemView,
     });
 
-    this.initialRender();
-
-    this.$main.insertAdjacentElement('beforeend', this.$itemView);
+    this.itemViw.initialsSetting();
+    this.itemViw.render(this.$main);
     $target.insertAdjacentElement('beforeend', this.$main);
   }
 
