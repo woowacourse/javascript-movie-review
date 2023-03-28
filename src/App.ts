@@ -1,9 +1,9 @@
 import ErrorModal from './components/ErrorModal';
 import GotoTopButton from './components/GotoTopButton';
-import { Header } from './components/Header';
-import { MovieList } from './components/MovieList';
+import Header from './components/Header';
+import MovieList from './components/MovieList';
 import MovieModal from './components/MovieModal';
-import { Skeleton } from './components/Skeleton';
+import Skeleton from './components/Skeleton';
 import Store from './Store';
 import { $ } from './utils/dom';
 import { infinityScroll } from './utils/infinityScroll';

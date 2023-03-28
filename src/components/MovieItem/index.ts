@@ -2,7 +2,7 @@ import './index.css';
 import template from './index.html';
 import { $ } from '../../utils/dom';
 
-export class MovieItem extends HTMLElement {
+class MovieItem extends HTMLElement {
   connectedCallback() {
     this.innerHTML = template;
     this.render();
@@ -30,3 +30,5 @@ export class MovieItem extends HTMLElement {
     skeleton.remove();
   }
 }
+
+export default MovieItem;

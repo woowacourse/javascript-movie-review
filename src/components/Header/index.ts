@@ -2,7 +2,7 @@ import './index.css';
 import template from './index.html';
 import { $ } from '../../utils/dom';
 
-export class Header extends HTMLElement {
+class Header extends HTMLElement {
   connectedCallback() {
     this.innerHTML = template;
   }
@@ -36,3 +36,5 @@ export class Header extends HTMLElement {
     });
   }
 }
+
+export default Header;

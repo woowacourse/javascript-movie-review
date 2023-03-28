@@ -3,7 +3,7 @@ import template from './index.html';
 import { Movie } from '../../types';
 import { $ } from '../../utils/dom';
 
-export class MovieList extends HTMLElement {
+class MovieList extends HTMLElement {
   $movieItems: HTMLElement;
   movieList: readonly Movie[];
 
@@ -71,3 +71,5 @@ export class MovieList extends HTMLElement {
     });
   }
 }
+
+export default MovieList;
