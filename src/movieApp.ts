@@ -21,7 +21,7 @@ const movieApp = {
 
   async init() {
     this.addEvent();
-    await this.setMovie();
+    await this.setMovieGenres();
     await this.getPopularMovieData();
   },
 
@@ -80,7 +80,7 @@ const movieApp = {
     }
   },
 
-  async setMovie() {
+  async setMovieGenres() {
     const genres = await getMovieGenres();
 
     movieHandler.setGenres(genres.genres);
