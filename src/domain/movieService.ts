@@ -1,15 +1,15 @@
-import { MovieData } from './remotes/movies';
+import { MovieResponse } from './remotes/movies';
 
 export interface Movie {
-  id: MovieData['id'];
-  title: MovieData['title'];
-  posterPath: MovieData['poster_path'];
-  voteAverage: MovieData['vote_average'];
+  id: MovieResponse['id'];
+  title: MovieResponse['title'];
+  posterPath: MovieResponse['poster_path'];
+  voteAverage: MovieResponse['vote_average'];
 }
 
 interface MovieService {
   movies: Movie[];
-  resultsToMovies: (results: MovieData[]) => Movie[];
+  resultsToMovies: (results: MovieResponse[]) => Movie[];
 }
 
 const movieService: MovieService = {
