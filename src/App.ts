@@ -21,6 +21,7 @@ export default class App {
         </section>
       </main>
       <detail-modal></detail-modal>
+      <back-to-top></back-to-top>
     `;
   }
 }

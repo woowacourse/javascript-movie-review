@@ -4,6 +4,7 @@ import starEmpty from '../../templates/star_empty.png';
 import starFilled from '../../templates/star_filled.png';
 import posterEmpty from '../../templates/poster_empty.png';
 import cancelButton from '../../templates/cancel_button.png';
+import backToTop from '../../templates/back_to_top.png';
 import { StarConditionType, StarMentType } from '../type/movie';
 
 const MOVIE_APP_IMG_PATH = {
@@ -13,6 +14,7 @@ const MOVIE_APP_IMG_PATH = {
   starFilled,
   posterEmpty,
   cancelButton,
+  backToTop,
 };
 
 const ERROR_MESSAGE = {

@@ -300,6 +300,17 @@ dialog::backdrop {
   cursor: pointer;
 }
 
+.back-to-top {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+
+  margin: 24px;
+
+  border: 0;
+  background-color: transparent;
+}
+
 @media (max-width: 1199px) {
   .item-list {
     grid-template-columns: repeat(4, 180px);
@@ -382,7 +393,7 @@ dialog::backdrop {
   }
 
   .close-modal-button {
-    margin-top: 8px;
+    margin: 16px 8px 0 0;
   }
 
   .movie-modal-image-container {
@@ -390,12 +401,9 @@ dialog::backdrop {
   }
 
   .movie-modal-overview p {
-    text-overflow: ellipsis;
-    overflow: hidden;
-
-    display: -webkit-box;
-    -webkit-line-clamp: 6;
-    -webkit-box-orient: vertical;
+    width: 80vw;
+    height: 40vw;
+    overflow: scroll;
   }
 
   .my-evaluation {
