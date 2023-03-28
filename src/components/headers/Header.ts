@@ -6,18 +6,24 @@ import { searchMovieByKeyword } from "./headerHandler";
 export default class Header extends HTMLElement {
   constructor() {
     super();
+    this.init();
+  }
+
+  init() {
     this.render();
     this.onClickLogo();
     this.onClickSearchFormTrigger();
     this.onClickSearchButton();
     this.searchInputEnterListener();
   }
+
   searchInputEnterListener() {
     const input = $('#search-input') as HTMLInputElement;
     input.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         const keyword = this.readSearchInputKeyword();
         searchMovieByKeyword(keyword);
+        this.init();
       }
     })
   }
@@ -36,6 +42,7 @@ export default class Header extends HTMLElement {
     $('#search-button').addEventListener('click', () => {
       const keyword = this.readSearchInputKeyword();
       searchMovieByKeyword(keyword);
+      this.init();
     });
   }
 
@@ -45,6 +52,17 @@ export default class Header extends HTMLElement {
     return keyword;
   }
 
+  onClickSearchFormTrigger() {
+    $("#search-form-trigger").addEventListener("click", () => {
+      $('#logo').classList.add('display-none');
+      $('#search-form-trigger').remove();
+      ($('#search-box') as HTMLElement).style.width = '100%';
+      ($('#search-form') as HTMLElement).style.width = '100%';
+      ($('#search-input') as HTMLElement).style.width = '100%';
+      ($('#search-form') as HTMLElement).style.display = 'flex';
+    })
+  }
+
   render() {
     this.innerHTML = `
     <header id="header" class="d-flex justify-content-between">
@@ -52,13 +70,14 @@ export default class Header extends HTMLElement {
         <h1><img id="logo" src="./assets/logo.png" alt="MovieList 로고" /></h1>
       </div>
       
-      <div class="search-box d-flex justify-content-between">
-        <div id="search-form" class="search-box">
+      <div id="search-box" class="search-box d-flex justify-content-between">
+        <div id="search-form" class="search-box d-flex justify-content-between">
           <input
             id="search-input" 
             type="text" 
             placeholder="검색" 
             name="search-bar" 
+            class=""
           />
           <button 
             id="search-button" 
@@ -73,9 +92,4 @@ export default class Header extends HTMLElement {
     `;
   }
 
-  onClickSearchFormTrigger() {
-    $("#search-form-trigger").addEventListener("click", () => {
-      console.log(`I'm Clicked`)
-    })
-  }
 }

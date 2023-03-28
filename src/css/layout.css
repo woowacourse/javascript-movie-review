@@ -6,6 +6,10 @@
   display: none;
 }
 
+.display-block {
+  display: block;
+}
+
 .d-flex {
   display: flex;
 }
