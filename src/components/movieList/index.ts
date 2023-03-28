@@ -8,33 +8,40 @@ const { POPULAR_MOVIE } = PATH;
 export default class MovieList extends HTMLElement {
   constructor() {
     super();
-    this.innerHTML = `
-    <section class="item-view">
-      <h2>지금 인기 있는 영화</h2>
-      <ul class="item-list">${makeSkeletons()}</ul>
-    </section>
-    `;
+    this.insertAdjacentHTML(
+      "beforeend",
+      `
+        <section class="item-view">
+          <h2>지금 인기 있는 영화</h2>
+          <ul class="item-list">${makeSkeletons()}</ul>
+        </section>
+      `
+    );
   }
 
   renderMovies() {
-    this.innerHTML = `
-    <section class="item-view">
-      ${
-        movieStore.movies.length > 0
-          ? `<h2>${
-              movieApi.url.pathname.includes(POPULAR_MOVIE)
-                ? "지금 인기 있는 영화"
-                : `"${movieApi.urlParams.get("query")}" 검색 결과`
-            }</h2>
-            <ul class="item-list">
-              ${movieStore.movies
-                .map((movie) => this.renderMovie(movie))
-                .join("")}
-            </ul>`
-          : `<no-results-message></no-results-message>`
-      }
-    </section>
-    `;
+    this.replaceChildren();
+    this.insertAdjacentHTML(
+      "beforeend",
+      `
+        <section class="item-view">
+          ${
+            movieStore.movies.length > 0
+              ? `<h2>${
+                  movieApi.url.pathname.includes(POPULAR_MOVIE)
+                    ? "지금 인기 있는 영화"
+                    : `"${movieApi.urlParams.get("query")}" 검색 결과`
+                }</h2>
+                <ul class="item-list">
+                  ${movieStore.movies
+                    .map((movie) => this.renderMovie(movie))
+                    .join("")}
+                </ul>`
+              : `<no-results-message></no-results-message>`
+          }
+        </section>
+      `
+    );
   }
 
   renderMovie(movie: Movie) {
