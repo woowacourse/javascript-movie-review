@@ -9,17 +9,24 @@ class MovieDetail {
   static render(movieDetail: MovieDetailResponse) {
     const { id, title, genres, overview, poster_path, vote_average } =
       movieDetail;
+
     const genreNames = genres.map((genre) => genre.name).join(", ");
+
+    const storedRatingStr = localStorage.getItem(id.toString());
+    const storedRating = storedRatingStr
+      ? JSON.parse(storedRatingStr)
+      : { rating: 0, label: "" };
 
     const stars = [1, 2, 3, 4, 5]
       .map(
         (index) => /*html*/ `
-      <img
-        src="${starImgEmpty}"
-        class="movie-stars"
-        data-index="${index}"
-      />
-    `
+    <img
+      src="${index <= storedRating.rating ? starImgFilled : starImgEmpty}"
+      class="movie-stars"
+      data-id="${id}"
+      data-index="${index}"
+    />
+  `
       )
       .join("");
 
@@ -44,15 +51,16 @@ class MovieDetail {
               </span>
             </div>
             <p class="movie-description">
-              ${overview}
+              ${overview ? overview : "등록된 줄거리가 없습니다."}
             </p>
           </div>
-          <div data-id="${id}" class="movie-rate">
+          <div class="movie-rate">
             <p class="movie-rate-title">내 별점</p>
             <div class="movie-star-wrap">
             ${stars}
             </div>
-            <p class="rate-comment">나의 점수는?</p>
+            <p class="rating">${storedRating.rating * 2}점</p>
+            <p class="rate-comment"> ${storedRating.label}</p>
           </div>
         </div>
       </div>
@@ -65,12 +73,13 @@ class MovieDetail {
     starElements.forEach((star) => {
       star.addEventListener("click", () => {
         const index = parseInt(star.getAttribute("data-index")!);
-        this.fillStars(index);
+        const movieId = parseInt(star.getAttribute("data-id")!);
+        this.fillStars(index, movieId);
       });
     });
   }
 
-  static fillStars(index: number) {
+  static fillStars(index: number, movieId: number) {
     const starElements = $$(".movie-stars");
 
     starElements.forEach((star, i) => {
@@ -91,7 +100,16 @@ class MovieDetail {
 
     const ratingLabel = ratingLabels[index - 1];
 
-    $(".rate-comment").innerHTML = `${index * 2}점 ${ratingLabel}`;
+    const storedRatingStr = localStorage.getItem(movieId.toString());
+    const storedRating = storedRatingStr
+      ? JSON.parse(storedRatingStr)
+      : { rating: 0, label: "" };
+    const currentRating = { rating: index, label: ratingLabel };
+    const newRating = { ...storedRating, ...currentRating };
+
+    $(".rating").innerHTML = `${newRating.rating * 2}점`;
+    $(".rate-comment").innerHTML = `${newRating.label}`;
+    localStorage.setItem(movieId.toString(), JSON.stringify(newRating));
   }
 }
 
