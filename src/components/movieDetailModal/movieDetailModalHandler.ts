@@ -8,9 +8,7 @@ export const handleModal = () => {
 };
 
 const showModal = () => {
-  $(".item-list").addEventListener("click", async (event) => {
-    const target = event.target;
-
+  $(".item-list").addEventListener("click", async ({ target }) => {
     if (!(target instanceof HTMLImageElement) || target.alt === "별점") return;
 
     await getMovieDetail(Number(target.id));
