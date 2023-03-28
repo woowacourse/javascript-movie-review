@@ -39,7 +39,7 @@ class MovieItem extends HTMLElement {
       this.removeSkeletonUI()
     );
     $(".item-thumbnail", this)?.addEventListener("error", () =>
-      this.loadErrorImage()
+      this.handleImageLoadError()
     );
     this.addEventListener("click", () => this.onClickMovieDetail());
   }
@@ -48,11 +48,11 @@ class MovieItem extends HTMLElement {
     $(".item-thumbnail", this)?.classList.remove("skeleton");
   }
 
-  loadErrorImage() {
+  handleImageLoadError() {
     const targetImage = this.querySelector<HTMLImageElement>(".item-thumbnail");
     if (targetImage) {
       targetImage.classList.remove("skeleton");
-      targetImage.src = `${ErrorNoAvailable}`;
+      targetImage.classList.add("load-error");
     }
   }
 

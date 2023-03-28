@@ -204,6 +204,10 @@ header .search-box .search-button {
   display: block !important;
 }
 
+.load-error {
+  background-color: #aaa;
+}
+
 .error-container {
   margin-top: 4rem;
   display: flex;
