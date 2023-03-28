@@ -62,3 +62,7 @@ export const renderMyVoteArea = (id: string, myVote: string) => {
 
   $voteArea.outerHTML = /* html */ `<vote-area id="${id}" my-vote="${myVote}"></vote-area>`;
 };
+
+export const fixBodyScroll = () => {
+  document.body.classList.add('fix');
+};

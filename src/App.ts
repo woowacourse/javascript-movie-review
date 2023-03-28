@@ -87,7 +87,7 @@ class App {
 
     if (movie) dom.renderMovieDetailBox(movie, myVote);
     dom.show('.modal');
-    document.body.classList.add('fix');
+    dom.fixBodyScroll();
   };
 
   onVote = (e: Event) => {
