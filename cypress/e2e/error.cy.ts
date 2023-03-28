@@ -8,10 +8,10 @@ describe("오류 테스트", () => {
       { statusCode: 404 }
     ).as("getPopularMovies");
 
-    cy.visit("http://localhost:8080/");
+    cy.visit("http://localhost:8081/");
 
     cy.wait("@getPopularMovies").then((interception) => {
-      cy.get(".error-image").should("be.visible");
+      cy.get(".error-container").should("be.visible");
     });
   });
 });
