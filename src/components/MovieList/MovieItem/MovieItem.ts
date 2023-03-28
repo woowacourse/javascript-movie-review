@@ -13,10 +13,13 @@ class MovieItem {
     this.#movieInfo = movie.getMovieData();
 
     this.render();
+    this.setEvent();
   }
 
   convertToImgUrl(imgSrc: string) {
-    return `${imageUrl}${imgSrc}`;
+    const imgUrl = `${imageUrl}${imgSrc}`;
+    this.#movieInfo.posterSrc = imgUrl;
+    return imgUrl;
   }
 
   template() {
@@ -33,7 +36,7 @@ class MovieItem {
             alt=${title}
           />
           <p class="item-title">${title}</p>
-          <p class="item-score"><img src=${StarIcon} alt="별점" /> ${voteAverage}</p>
+          <p class="item-score"><img src=${StarIcon} alt="별점" /> <span>${voteAverage}</span></p>
         </div>
       </a>
     </li>
@@ -42,6 +45,24 @@ class MovieItem {
 
   render() {
     this.$target.insertAdjacentHTML("beforeend", this.template());
+  }
+
+  setEvent() {
+    const $movieItem = this.$target.querySelector("li:last-child");
+
+    if (!$movieItem) return;
+
+    $movieItem.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.$target.dispatchEvent(
+        new CustomEvent("movieItemClick", {
+          detail: {
+            movie: this.#movieInfo,
+          },
+          bubbles: true,
+        })
+      );
+    });
   }
 }
 

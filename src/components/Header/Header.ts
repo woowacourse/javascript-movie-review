@@ -19,16 +19,43 @@ class Header {
 
   template() {
     return `
-    <h1 class="logo"><img src=${Logo} alt="MovieList 로고" /></h1>
-    <form class="search-box">
+  <h1 class="logo"><img src=${Logo} alt="MovieList 로고" /></h1>
+  <form class="search-box">
+    <div class="input-wrapper">
       <input class="search-input" type="text" placeholder="검색" />
-      <button class="search-button">검색</button>
-    </form>
-  `;
+      <div class="search-icon"></div>
+    </div>
+    <button class="search-button">검색</button>
+  </form>
+`;
   }
 
   render() {
     this.$target.innerHTML = this.template();
+  }
+
+  detectToCloseMobileExpandedModal() {
+    const $inputWrapper = this.$target.querySelector(".input-wrapper");
+
+    const shrinkToOriginal = () => {
+      if ($inputWrapper) {
+        $inputWrapper.classList.remove("expanded");
+      }
+      window.removeEventListener("click", handleClick);
+    };
+
+    const isChildOfInputWrapper = (element: HTMLElement) => {
+      if (!$inputWrapper) return false;
+      return $inputWrapper.contains(element);
+    };
+
+    const handleClick = (e: MouseEvent) => {
+      if (e.target instanceof HTMLElement && !isChildOfInputWrapper(e.target)) {
+        shrinkToOriginal();
+      }
+    };
+
+    window.addEventListener("click", handleClick);
   }
 
   setEvents() {
@@ -48,13 +75,28 @@ class Header {
 
       if (!searchInput) return;
 
-      const searchValue = searchInput.value;
+      const searchValue = searchInput.value.trim();
       renderMovieList("search", searchValue);
+      searchInput.blur();
+
+      if ($inputWrapper) {
+        $inputWrapper.classList.remove("expanded");
+      }
     });
 
     if ($logo) {
       $logo.addEventListener("click", () => {
         renderMovieList("popular");
+      });
+    }
+
+    const $inputWrapper = this.$target.querySelector(".input-wrapper");
+    const $searchIcon = this.$target.querySelector(".search-icon");
+
+    if ($inputWrapper && $searchIcon) {
+      $searchIcon.addEventListener("click", () => {
+        $inputWrapper.classList.toggle("expanded");
+        this.detectToCloseMobileExpandedModal();
       });
     }
   }

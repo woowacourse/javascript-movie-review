@@ -1,7 +1,13 @@
+import genresById from "../data/genres";
+
 export interface IMovie {
+  id: string;
   title: string;
   posterSrc: string | null;
   voteAverage: number;
+  genre: string;
+  overview: string;
+  userRate: number | null;
 }
 
 interface IMovieApiData {
@@ -26,9 +32,13 @@ class Movie {
 
   constructor(movieData: IMovieApiData) {
     this.movieData = {
+      id: movieData.id.toString(),
       title: movieData.title,
       posterSrc: movieData.poster_path,
       voteAverage: movieData.vote_average,
+      genre: movieData.genre_ids.map((movieId) => genresById[movieId.toString()]).join(", "),
+      overview: movieData.overview,
+      userRate: null,
     };
   }
 

@@ -1,24 +1,29 @@
 import { fetchMovieListWithKeyword, fetchPopularMovieList } from "../../apis/apis";
-import Movie from "../../domain/Movie";
+import Movie, { IMovie } from "../../domain/Movie";
 import "./style.css";
 import MovieItem from "./MovieItem/MovieItem";
 import SkeletonList from "./SkeletonList/SkeletonContainer";
 import { IMoviesResponseData } from "../../types/IMovieResponseData";
+import throttle from "../../utils/throttle";
+import Modal from "../Modal/Modal";
 
 interface IMovieListProps {
   type: string;
   searchKeyword: string;
+  modal: Modal;
 }
 
 class MovieList {
   $target: HTMLElement;
   #props: IMovieListProps;
   #page: number;
+  #observer: IntersectionObserver | null;
 
   constructor($target: HTMLElement, props: IMovieListProps) {
     this.$target = $target;
     this.#props = props;
     this.#page = 1;
+    this.#observer = null;
 
     this.render();
     this.setEvent();
@@ -30,7 +35,6 @@ class MovieList {
           <h2 class="search-title"></h2>
           <ul class="item-list"></ul>
           <ul class="skeleton-container"></ul>
-          <button class="more btn primary full-width">더 보기</button>
         </section>
       `;
   }
@@ -45,6 +49,7 @@ class MovieList {
 
       this.renderTitle();
       this.renderMovieList();
+      this.setupIntersectionObserver();
     }
   }
 
@@ -52,11 +57,9 @@ class MovieList {
     const { type, searchKeyword } = this.#props;
     const $titleForMovieContents = this.$target.querySelector(".search-title");
 
-    if ($titleForMovieContents instanceof HTMLHeadElement) {
-      const text =
+    if ($titleForMovieContents) {
+      $titleForMovieContents.textContent =
         title || (type === "popular" ? "지금 인기있는 영화" : `"${searchKeyword}" 검색결과`);
-
-      $titleForMovieContents.innerText = text;
     }
   }
 
@@ -74,11 +77,16 @@ class MovieList {
       this.renderTitle(`"${searchKeyword}"에 대한 검색 결과가 없습니다 :(`);
       return;
     }
-    if (this.isLastPage(fetchedMovieData)) this.toggleMoreButton();
+
+    if (this.isLastPage(fetchedMovieData)) {
+      this.disconnectObserver();
+    }
 
     const movies = fetchedMovieData.results.map((movieData) => new Movie(movieData));
     movies.forEach((movie) => new MovieItem($itemList, movie));
     this.#page += 1;
+
+    this.setupIntersectionObserver();
   }
 
   async fetchMovieList() {
@@ -92,7 +100,6 @@ class MovieList {
       }
     } catch (e) {
       this.renderTitle("영화 리스트를 불러오는데 실패 했습니다 :(");
-      this.toggleMoreButton();
     }
   }
 
@@ -104,14 +111,6 @@ class MovieList {
     return movieData.total_pages === this.#page;
   }
 
-  toggleMoreButton() {
-    const $loadMoreButton = this.$target.querySelector(".more");
-
-    if ($loadMoreButton) {
-      $loadMoreButton.classList.toggle("invisible");
-    }
-  }
-
   toggleSkeletonContainerVisibility() {
     const $skeletonContainer = this.$target.querySelector(".skeleton-container");
 
@@ -120,15 +119,60 @@ class MovieList {
     }
   }
 
-  setEvent() {
-    const $moreButton = this.$target.querySelector(".more");
+  setupIntersectionObserver() {
+    const options = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 1.0,
+    };
 
-    if ($moreButton) {
-      $moreButton.addEventListener("click", () => {
-        this.renderMovieList();
+    const throttledRenderMovieList = throttle(this.renderMovieList.bind(this), 1000);
+
+    const handleIntersection: IntersectionObserverCallback = (entries) => {
+      entries.forEach(async (entry) => {
+        if (entry.isIntersecting) {
+          await throttledRenderMovieList();
+        }
       });
+    };
+
+    if (this.#observer) {
+      this.#observer.disconnect();
     }
+
+    this.#observer = new IntersectionObserver(handleIntersection, options);
+    const $itemList = this.$target.querySelector(".item-list");
+
+    if ($itemList instanceof HTMLUListElement) {
+      const $lastItem = $itemList.lastElementChild;
+
+      if ($lastItem) {
+        this.#observer.observe($lastItem);
+      }
+    }
+  }
+
+  disconnectObserver() {
+    if (this.#observer) {
+      this.#observer.disconnect();
+      this.#observer = null;
+    }
+  }
+
+  setEvent() {
+    this.$target.addEventListener("movieItemClick", (event) => {
+      const { movie } = event.detail;
+      this.#props.modal.updateContent(movie);
+      this.#props.modal.show();
+    });
   }
 }
 
+declare global {
+  interface HTMLElementEventMap {
+    movieItemClick: CustomEvent<{
+      movie: IMovie;
+    }>;
+  }
+}
 export default MovieList;

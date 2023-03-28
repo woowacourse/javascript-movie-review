@@ -1,13 +1,21 @@
 .item-card {
   display: flex;
-  width: 180px;
+  width: 182px;
   flex-direction: column;
+  transition: transform 0.3s;
 }
+
+.item-card:hover {
+  transform: scale(1.05);
+}
+
 
 .item-thumbnail {
   border-radius: 8px;
-  height: 270px;
-  background-size: contain;
+  height: 260px;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
 }
 
 .item-title {
@@ -17,7 +25,9 @@
 }
 
 .item-score {
-  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
   font-size: 1.2rem;
 }
 
@@ -50,15 +60,38 @@ button.primary {
   background: #f33f3f;
 }
 
-@media screen and (max-width: 420px) {
+/* Tablet */
+@media (max-width: 1024px) {
   .item-thumbnail {
-    width: 90vw;
-    height: 135vw;
+    height: 260px;
+    aspect-ratio: 182 / 359;
   }
 
   .item-title {
-    margin-top: 16px;
-    font-size: 1.8rem;
-    font-weight: bold;
+    font-size: 1.1rem;
+  }
+
+  .item-score {
+    font-size: 1.1rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .item-card {
+    width: 140px;
+  }
+
+  .item-thumbnail {
+    height: 228px;
+    aspect-ratio: 140 / 248;
+  }
+
+  .item-title {
+    font-size: 1rem;
+  }
+
+  .item-score {
+    font-size: 1rem;
   }
 }
