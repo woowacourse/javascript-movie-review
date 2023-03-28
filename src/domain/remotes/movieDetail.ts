@@ -83,7 +83,7 @@ const createMovieDetail = (movieDetailResponse: MovieDetailResponse): MovieDetai
   };
 };
 
-const isInvalidMovieDetailResponse = (movieDetailResponse: MovieDetailResponse): boolean => {
+const isInvalidMovieDetailResponse = (movieDetailResponse: MovieDetailResponse) => {
   const { id, title, genres, overview, poster_path, vote_average } = movieDetailResponse;
 
   return (
