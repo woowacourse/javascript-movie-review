@@ -1,5 +1,8 @@
-import { TMDBErrorResponse, TMDBResponse } from '../MovieAPI';
 import { Movie } from '../movies.type';
+import { TMDBErrorResponse, TMDBResponse } from '../response.type';
+import store from '../store';
+import { getLocalStorage } from '../util/LocalStorage';
+import DetailModal from './DetailModal';
 import ErrorPopup from './ErrorPopup';
 import MovieListItem from './MovieListItem';
 import Skeleton from './Skeleton';
@@ -17,21 +20,17 @@ export class MovieList {
     this.section.classList.add('item-view');
     this.section.innerHTML = `
       <h2>${this.title}</h2>
-      <ul class="item-list"><hr></ul>
-      <button class="btn primary full-width">더 보기</button>
-      <h3>결과가 없습니다</h3>
+      <ul class="item-list"></ul>
+      <h3>입력하신 검색어 ${this.title}와 일치하는 결과가 없습니다.</h3>
     `;
-    this.init();
 
-    this.section.querySelector('button')?.addEventListener('click', (event) => {
-      this.nextPage();
-    });
+    this.init();
   }
 
   async init() {
     await this.nextPage();
-    this.createSkeletons();
-    this.load();
+    this.showModal();
+    this.infiniteScroll();
   }
 
   render() {
@@ -56,13 +55,12 @@ export class MovieList {
     try {
       const response: TMDBResponse = await this.fetchFn(page);
 
+      const movies = response.results;
+      store.setMovies(movies);
+      const totalPages = response.total_pages;
       await new Promise((resolve) => {
         setTimeout(resolve, 500);
       });
-
-      const movies = response.results;
-      const totalPages = response.total_pages;
-
       this.replaceSkeleton(page, movies);
       if (page < totalPages) return;
 
@@ -89,12 +87,12 @@ export class MovieList {
 
   private replaceSkeleton(page: number, movies: Movie[]) {
     movies.forEach((movie: Movie) => {
-      const movieListItem = new MovieListItem();
+      const movieListItem = new MovieListItem(movie);
       const $div = document.createElement('div');
-      $div.innerHTML = movieListItem.render(movie);
+      $div.insertAdjacentElement('beforeend', movieListItem.render());
 
       ($div.childNodes[0] as HTMLElement).setAttribute('page', String(page));
-      const $skeleton = this.section.querySelector('ul > li.skeleton')!;
+      const $skeleton = this.section.querySelector('ul > li.skeleton') as HTMLLIElement;
       $skeleton.after($div.childNodes[0]);
       $skeleton.remove();
     });
@@ -108,19 +106,43 @@ export class MovieList {
       });
   }
 
-  private reveal() {
-    const $hr = this.section.querySelector('ul > hr')!;
-
-    const $anchor: HTMLElement = Array(20)
-      .fill(undefined)
-      .reduce((acc) => acc?.nextSibling ?? acc, $hr);
-
-    $anchor?.after($hr);
-  }
-
   async nextPage() {
     this.createSkeletons();
-    this.reveal();
     await this.load();
+  }
+
+  showModal() {
+    document.querySelector('.item-view')?.addEventListener('click', (e) => {
+      const id = (e.target as HTMLLIElement).closest('.item-card')?.id;
+      const numberId = Number(id);
+      if (id) {
+        (document.querySelector('.modal') as HTMLDialogElement).showModal();
+        const rate = getLocalStorage(id);
+        return typeof rate === 'object'
+          ? new DetailModal(<Movie>store.getMovie(numberId))
+          : new DetailModal(<Movie>store.getMovie(numberId), rate);
+      }
+      return null;
+    });
+  }
+
+  infiniteScroll() {
+    const options = {
+      threshold: 0.3,
+    };
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        if (this.isFinished) return;
+        this.nextPage().then(() => {
+          const eventTarget = document.querySelector('li:nth-last-child(5)');
+          io.disconnect();
+          if (eventTarget) io.observe(eventTarget);
+        });
+      });
+    }, options);
+    const last = document.querySelector('li:nth-last-child(5)');
+
+    if (last) io.observe(last);
   }
 }

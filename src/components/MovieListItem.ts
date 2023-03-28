@@ -1,23 +1,38 @@
 import { Movie } from '../movies.type';
 
 class MovieListItem {
-  private template = (movie: Movie) => `<li>
-    <a href="#">
-      <div class="item-card">
+  constructor(private readonly movie: Movie) {}
+
+  private li = document.createElement('li');
+
+  private template = (movie: Movie) => `
+    <a>
+      <div class="item-card" id="${movie.id}">
         <img
-          class="item-thumbnail"
-          src="https://image.tmdb.org/t/p/w220_and_h330_face${movie.poster_path}"
+          class="item-thumbnail skeleton"
+          src="${
+            movie.poster_path
+              ? 'https://image.tmdb.org/t/p/w220_and_h330_face' + movie.poster_path
+              : 'assets/no_image.png'
+          }"
           loading="lazy"
           alt="${movie.title}"
         />
         <p class="item-title">${movie.title}</p>
-        <p class="item-score"><img src="assets/star_filled.png" alt="별점" /> ${movie.vote_average}</p>
+        <p class="item-score">${
+          movie.vote_average
+        }<img src="assets/star_filled.png" alt="별점" /> </p>
       </div>
     </a>
-  </li>`;
+`;
 
-  render(movie: Movie) {
-    return this.template(movie);
+  render() {
+    if (this.movie.poster_path)
+      document.querySelector('.item-thumbnail')?.addEventListener('load', (e) => {
+        (e.target as HTMLImageElement).classList.remove('skeleton');
+      });
+    this.li.innerHTML = this.template(this.movie);
+    return this.li;
   }
 }
 
