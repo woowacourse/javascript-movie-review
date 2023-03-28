@@ -1,5 +1,4 @@
-import stateRender from '../renderer/StateRender';
-import { eventThrottle } from './throttle';
+import EventBroker from '../EventBroker';
 
 export function createInfiniteScrollObserver(target: Element) {
   const observer = new IntersectionObserver(closeObserverAndReConnectCallback, { threshold: 0.5 });
@@ -8,12 +7,10 @@ export function createInfiniteScrollObserver(target: Element) {
 }
 
 function closeObserverAndReConnectCallback(entries: Array<any>, io: any) {
-  const renderThrottle = eventThrottle(stateRender.renderMoreMovieList.bind(stateRender), 1000);
-
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
       io.unobserve(entry.target);
-      renderThrottle();
+      EventBroker.dispatchEvent(new CustomEvent('appendMovieListEvent'));
     }
   });
 }

@@ -8,11 +8,13 @@ import { IMovieDetailItem, IMovieHandleProps, IMovieItemProps, IMovieState } fro
 import { parseLocalStorage } from '../utils/localStorage';
 
 interface StateRenderProps {
-  listTitle: ListTitle;
-  skeleton: Skeleton;
-  movieList: MovieList;
   movieDetail: MovieDetail;
   itemViewSection: HTMLElement;
+}
+
+interface TMDBAPIParams {
+  query?: string;
+  curPage?: number;
 }
 
 class StateRender {
@@ -26,9 +28,7 @@ class StateRender {
    * 5. skeleton이 발생하는 조건은 StateRender 내부의 상태값에 따라 다름.
    *
    */
-  private listTitle!: ListTitle;
-  private skeleton!: Skeleton;
-  private movieList!: MovieList;
+
   private movieDetail!: MovieDetail;
   private itemViewSection!: HTMLElement;
 
@@ -40,26 +40,9 @@ class StateRender {
     this.movieState = initialMovieStats;
   }
 
-  initialize({ listTitle, skeleton, movieList, movieDetail, itemViewSection }: StateRenderProps) {
-    this.listTitle = listTitle;
-    this.skeleton = skeleton;
-    this.movieList = movieList;
+  initialize({ movieDetail, itemViewSection }: StateRenderProps) {
     this.movieDetail = movieDetail;
     this.itemViewSection = itemViewSection;
-  }
-
-  // private listTitleRender() {
-  //   this.listTitle.render(this.itemViewSection,'');
-  // }
-
-  private skeletonRenderAndClearMovieList() {
-    this.skeleton.attachSkeleton();
-    this.movieList.removeCurentCategory();
-  }
-
-  private movieListRender() {
-    this.skeleton.removeSkeleton();
-    this.movieList.render(this.itemViewSection);
   }
 
   private apiErrorRender(value: string, $target: HTMLElement) {
@@ -67,17 +50,14 @@ class StateRender {
     $target.insertAdjacentElement('beforeend', WholeScreenMessageAlert(value));
   }
 
-  async renderPopularMovies(curPage = 1) {
+  async renderPopularMovies({ curPage = 1 }: TMDBAPIParams) {
     try {
       const { results, total_pages, page } = await this.movie.getPopularMovies({
         curPage,
       });
 
-      if (curPage === 1) this.skeletonRenderAndClearMovieList();
-
       this.setPopularProperty();
       this.setMovies({ results, total_pages, page });
-      // this.renderWholeComponent();
     } catch (error) {
       if (error instanceof Error) {
         this.apiErrorRender(error.message, this.itemViewSection);
@@ -85,18 +65,15 @@ class StateRender {
     }
   }
 
-  async renderSearchedMovies(query: string, curPage = 1) {
+  async renderSearchedMovies({ query = '', curPage = 1 }: TMDBAPIParams) {
     try {
       const { results, total_pages, page } = await this.movie.getFindMovies({
         query,
         curPage,
       });
 
-      // if (this.movieState.query !== query || curPage === 1) this.skeletonRenderAndClearMovieList();
-
       this.setSearchProperty(query);
       this.setMovies({ results, total_pages, page });
-      // this.renderWholeComponent();
     } catch (error) {
       if (error instanceof Error) {
         this.apiErrorRender(error.message, this.itemViewSection);
@@ -137,17 +114,12 @@ class StateRender {
     }
 
     if (category === 'popular') {
-      this.renderPopularMovies(nextPage);
+      this.renderPopularMovies({ curPage: nextPage });
       return;
     }
 
-    this.renderSearchedMovies(query, nextPage);
+    this.renderSearchedMovies({ query, curPage: nextPage });
   }
-
-  // private renderWholeComponent() {
-  //   this.listTitleRender();
-  //   this.movieListRender();
-  // }
 
   private setPopularProperty() {
     this.movieState.query = '';

@@ -19,10 +19,11 @@ class ItemView {
     this.movieList = new MovieList(this.$itemView);
 
     this.addMovieListEventHandler();
+    this.appendMovieList();
   }
 
   initialsSetting() {
-    this.updateItemView('');
+    this.updateMovieList({});
   }
 
   render($target: HTMLElement) {
@@ -33,22 +34,34 @@ class ItemView {
     EventBroker.addEventListener('updateMovieListEvent', async (event) => {
       const { keyword } = event.detail;
 
-      this.updateItemView(keyword);
+      this.updateMovieList({ keyword });
     });
   }
 
-  private updateItemView(keyword: string) {
-    const { query, nextPage } = stateRender.getMovieState();
-
-    if (query !== keyword || nextPage === 2) this.skeletonRenderAndClearMovieList();
+  private updateMovieList({ keyword = '', nextPage = 1 }: { keyword?: string; nextPage?: number }) {
+    const { query } = stateRender.getMovieState();
+    if (query !== keyword || nextPage === 1) this.skeletonRenderAndClearMovieList();
 
     new Promise((resolve) =>
       resolve(
         keyword === ''
-          ? stateRender.renderPopularMovies()
-          : stateRender.renderSearchedMovies(keyword)
+          ? stateRender.renderPopularMovies({ curPage: nextPage })
+          : stateRender.renderSearchedMovies({ query: keyword, curPage: nextPage })
       )
     ).then(this.renderWholeComponent.bind(this));
+  }
+
+  private appendMovieList() {
+    EventBroker.addEventListener('appendMovieListEvent', () => {
+      const { nextPage, query } = stateRender.getMovieState();
+
+      if (nextPage === -1) {
+        alert('마지막 페이지입니다.');
+        return;
+      }
+
+      this.updateMovieList({ keyword: query, nextPage });
+    });
   }
 
   private skeletonRenderAndClearMovieList() {

@@ -12,9 +12,6 @@ class App {
   private $itemView = document.createElement('section');
 
   private itemViw: ItemView;
-  private listTitle: ListTitle;
-  private movieList: MovieList;
-  private skeleton: Skeleton;
   private movieDetail: MovieDetail;
 
   constructor($target: HTMLElement) {
@@ -22,15 +19,9 @@ class App {
     new RemoteControl().render($target);
     this.itemViw = new ItemView();
 
-    this.listTitle = new ListTitle();
-    this.skeleton = new Skeleton(this.$itemView);
-    this.movieList = new MovieList(this.$itemView);
     this.movieDetail = new MovieDetail();
 
     stateRender.initialize({
-      listTitle: this.listTitle,
-      skeleton: this.skeleton,
-      movieList: this.movieList,
       movieDetail: this.movieDetail,
       itemViewSection: this.$itemView,
     });
@@ -40,12 +31,12 @@ class App {
     $target.insertAdjacentElement('beforeend', this.$main);
   }
 
-  initialRender() {
-    this.listTitle.render(this.$itemView);
-    this.skeleton.attachSkeleton();
+  // initialRender() {
+  //   this.listTitle.render(this.$itemView);
+  //   this.skeleton.attachSkeleton();
 
-    stateRender.renderPopularMovies();
-  }
+  //   stateRender.renderPopularMovies();
+  // }
 }
 
 export default App;

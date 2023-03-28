@@ -2,7 +2,6 @@ import MovieCard from './MovieCard';
 import Skeleton from './Skeleton';
 import stateRender from '../renderer/StateRender';
 import { createInfiniteScrollObserver } from '../utils/observer';
-import EventBroker from '../EventBroker';
 
 class MovieList {
   private $ul = document.createElement('ul');
