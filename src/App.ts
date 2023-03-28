@@ -35,6 +35,7 @@ class App {
   }
 
   async init() {
+    window.addEventListener('offline', this.onOffline);
     document.body.addEventListener('home', this.onHome);
     document.body.addEventListener('search', this.onSearch);
     document.body.addEventListener('loadMore', this.onLoadMore);
@@ -44,6 +45,10 @@ class App {
     const { genres } = await getGenres();
     this.movieService = new MovieService(genres);
   }
+
+  onOffline = () => {
+    dom.renderErrorPage(400);
+  };
 
   onHome = () => {
     this.state.pageCategory = 'home';
@@ -103,7 +108,7 @@ class App {
     if (this.state.loading) return;
     try {
       const { results, total_pages } = await this.apiWithSkeleton(api)(params);
-      const newMovies = this.movieService.cleansingMovies(results);
+      const newMovies = this.movieService.generateMovies(results);
       if (this.state.pageNumber >= total_pages || this.state.pageNumber >= MAXIMUM_PAGE) {
         dom.hide('#load-sensor');
       }
