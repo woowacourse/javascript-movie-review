@@ -12,9 +12,13 @@ export default class SearchBox {
 
   create() {
     return `
-          <input type="text" placeholder="검색" class="search-input"/>
-          <button class="search-button">검색</button>
-        `;
+    <input type="text" placeholder="검색" class="search-input"/>
+    <img class="search-button" src="/search_button.png"/>
+    `;
+  }
+
+  getKeyword() {
+    return this._keyword;
   }
 
   render() {
@@ -27,27 +31,37 @@ export default class SearchBox {
 
   handleEvent() {
     const searchInput = $(".search-input");
+    const searchButton = $(".search-button");
+    const searchBox = $(".search-box");
 
-    searchInput?.addEventListener("keyup", (e: any) => {
-      e.keyCode === 13 && this.onKeyup(e);
+    window?.addEventListener("keyup", (e) => {
+      const target = e.target as HTMLInputElement;
+      this.updateKeyword(target?.value);
+      target === searchInput && e.key === "Enter" && this.onCompleteSearch();
+    });
+
+    searchButton?.addEventListener("click", (e: Event) => {
+      const target = e.target as HTMLElement;
+
+      if (target.parentElement?.clientWidth === 30) {
+        searchBox?.classList.add("clicked");
+        searchInput?.classList.add("clicked");
+        return;
+      }
+
+      this.onCompleteSearch();
     });
   }
 
-  onKeyup(e: Event) {
-    const target = e.target as HTMLInputElement;
-    const event = new CustomEvent("searchInputChange");
+  onCompleteSearch() {
+    const event = new CustomEvent("completeInput");
     const searchInput = $(".search-input") as HTMLInputElement;
 
-    this.updateKeyword(target.value);
     searchInput.dispatchEvent(event);
   }
 
   updateKeyword(newWord: string) {
     this._keyword = newWord;
-  }
-
-  getKeyword() {
-    return this._keyword;
   }
 
   resetInput() {

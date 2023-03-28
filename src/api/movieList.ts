@@ -13,7 +13,6 @@ export const getMovieData = async (page: number) => {
     const data = await response.json();
     return data;
   } catch ({ message }) {
-    const errorComment = new ErrorComment(Number(message));
-    errorComment.render();
+    throw message;
   }
 };

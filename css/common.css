@@ -1,0 +1,122 @@
+* {
+  box-sizing: border-box !important;
+}
+
+body {
+  position: relative;
+  font-size: 14px;
+  background-color: #222222;
+  color: #fff;
+  min-height: 1000px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+#app {
+  padding-bottom: 48px;
+}
+
+*:focus {
+  outline: none;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.last-item {
+  margin-top: 48px;
+}
+
+button.btn {
+  border: 0;
+  border-radius: 8px;
+  height: 30px;
+  color: #fff;
+}
+
+button.primary {
+  background: #f33f3f;
+}
+
+header {
+  height: 72px;
+  background-color: #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid white;
+  margin-bottom: 48px;
+}
+
+header h1 {
+  cursor: pointer;
+  user-select: none;
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: -0.1rem;
+  color: #f33f3f;
+}
+
+.error {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  font-size: 30px;
+}
+
+.scroll-target {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+
+  height: 1px;
+  width: 100%;
+}
+
+button.hidden {
+  display: none;
+}
+
+.ch-logo {
+  position: sticky;
+  float: right;
+  bottom: 20px;
+  right: 20px;
+
+  width: 4%;
+  height: 4%;
+}
+
+.ch-box {
+  position: sticky;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: right;
+  bottom: 70px;
+  right: 10px;
+
+  width: 220px;
+  height: 40px;
+
+  background-color: white;
+  border-radius: 10px;
+
+  color: #222;
+  font-size: 15p요;
+}
+
+.hidden {
+  display: none;
+}

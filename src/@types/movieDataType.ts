@@ -1,10 +1,10 @@
-export interface MovieInfoType {
+export interface MovieInfo {
   title: string;
   poster_path: string;
   vote_average: number;
 }
 
-export interface TotalMovieInfoType {
+export interface TotalMovieInfo {
   audult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -21,6 +21,17 @@ export interface TotalMovieInfoType {
   vote_count: number;
 }
 
+export interface Genre {
+  id: number;
+  name: string;
+}
+
+export interface MovieDetailInfo extends MovieInfo {
+  id: number;
+  genres: Genre[];
+  overview: string;
+}
+
 export enum CurrentTab {
   POPULAR = "popular",
   SEARCH = "search",
@@ -28,11 +39,23 @@ export enum CurrentTab {
 
 export interface ResponseInfo {
   page: number;
-  results: TotalMovieInfoType[];
+  results: TotalMovieInfo[];
   total_pages: number;
   total_results: number;
 }
 
 export interface ErrorType {
   [key: number]: string;
+}
+
+export interface ScoreComment {
+  [key: string]: string;
+}
+
+export interface MovieScore {
+  [key: string]: number;
+}
+
+export interface ScoreBoard {
+  [key: number]: number;
 }

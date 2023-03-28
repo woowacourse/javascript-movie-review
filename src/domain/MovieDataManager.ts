@@ -1,19 +1,14 @@
 import {
   CurrentTab,
-  MovieInfoType,
   ResponseInfo,
-  TotalMovieInfoType,
+  TotalMovieInfo,
 } from "../@types/movieDataType";
-import { getKeywordData } from "../api/keywordSearch";
-import { getMovieData } from "../api/movieList";
-import { DATA } from "../constants/data";
+import { MOVIE_DATA } from "../constants/data";
 import { $ } from "../utils/selector";
 
 class MovieDataManager {
-  private _popularMovies: MovieInfoType[] = [];
-  private _searchMovies: MovieInfoType[] = [];
   private _currentTab = CurrentTab.POPULAR;
-  private _currentPage: number = DATA.INIT_PAGE;
+  private _currentPage: number = MOVIE_DATA.INIT_PAGE;
 
   getCurrentTab() {
     return this._currentTab;
@@ -33,36 +28,19 @@ class MovieDataManager {
     const title = $("h2") as HTMLElement;
 
     itemList.innerHTML = "";
-    title.remove();
-    this._currentPage = DATA.INIT_PAGE;
+    title?.remove();
+    this._currentPage = MOVIE_DATA.INIT_PAGE;
   }
 
-  async getData(keyword: string) {
+  updatePage() {
     this._currentPage++;
-
-    if (this._currentTab === CurrentTab.POPULAR) {
-      const data = await getMovieData(this._currentPage);
-      this._popularMovies.push(data);
-      return data;
-    }
-    if (this._currentTab === CurrentTab.SEARCH) {
-      const data = await getKeywordData(this._currentPage, keyword);
-      this._searchMovies.push(data);
-      return data;
-    }
   }
 
-  getTitle() {
-    return this._currentTab === CurrentTab.POPULAR
-      ? "지금 인기있는 영화"
-      : "의 검색결과";
-  }
-
-  checkDataPage(response: ResponseInfo) {
+  checkIsLastPage(response: ResponseInfo) {
     return response?.total_pages === response?.page;
   }
 
-  checkDataAmount(results: TotalMovieInfoType[]) {
+  checkDataAmount(results: TotalMovieInfo[]) {
     return results?.length;
   }
 }
