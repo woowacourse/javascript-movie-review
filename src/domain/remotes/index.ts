@@ -1,11 +1,8 @@
 import { BASE_URL, QUERY_PARAMS } from './constants';
-import { MoviesResponse } from './movies';
-import { MovieDetailResponse } from './movieDetail';
 
 import { getErrorMessageByStatusCode } from '../../utils/errorHandler';
 
-type ValidResponse = MoviesResponse | MovieDetailResponse;
-type Request = <T extends ValidResponse>(path: string, params: typeof QUERY_PARAMS) => Promise<T>;
+type Request = <T>(path: string, params: typeof QUERY_PARAMS) => Promise<T>;
 
 export const request: Request = async (path, params) => {
   const url = new URL(path, BASE_URL);
