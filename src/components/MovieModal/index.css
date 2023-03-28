@@ -127,10 +127,6 @@ fieldset {
   background: url('/src/assets/star_filled.png');
 }
 
-.hidden {
-  display: none;
-}
-
 /* Phone */
 @media (min-width: 320px) and (max-width: 420px) {
   .modal-container {

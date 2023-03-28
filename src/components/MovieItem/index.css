@@ -3,10 +3,6 @@
   flex-direction: column;
 }
 
-.hidden {
-  display: none;
-}
-
 .item-thumbnail {
   border-radius: 8px;
   width: 180px;

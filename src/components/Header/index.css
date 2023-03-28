@@ -38,15 +38,6 @@
   background-size: contain;
 }
 
-@keyframes slide-in {
-  from {
-    width: 0;
-  }
-  to {
-    width: 140px;
-  }
-}
-
 /* Phone */
 @media (min-width: 320px) and (max-width: 420px) {
   .movie-header {

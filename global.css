@@ -38,3 +38,16 @@ input:focus {
   animation: skeleton-animation 5s infinite ease-out;
   border-radius: 8px;
 }
+
+.hidden {
+  display: none;
+}
+
+@keyframes slide-in {
+  from {
+    width: 0;
+  }
+  to {
+    width: 140px;
+  }
+}
