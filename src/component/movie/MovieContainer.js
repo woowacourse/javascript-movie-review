@@ -5,10 +5,9 @@ import "./MovieList";
 import "./MovieListSkeleton";
 import "../modal/MovieItemModal";
 import { apiStatus } from "../../constant/movieConstants";
+import { getMatchString } from "../../util/regularExpression";
 
 class MovieContainer extends CustomElement {
-  #searchWord = "";
-
   connectedCallback() {
     super.connectedCallback();
     MovieManager.subscribe(this.rerender.bind(this));
@@ -32,12 +31,16 @@ class MovieContainer extends CustomElement {
       return;
     }
 
+    const $movieContainerTitle = $(".movie-container-title");
+
+    const currentSearchWord = getMatchString(
+      $movieContainerTitle.innerText,
+      /'(.*?)'/
+    );
     const { searchWord } = state.data;
 
-    if (this.#searchWord !== searchWord) {
-      this.#searchWord = searchWord;
-
-      $(".movie-container-title").innerText = searchWord
+    if (currentSearchWord !== searchWord) {
+      $movieContainerTitle.innerText = searchWord
         ? `'${searchWord}' 검색 결과`
         : "지금 인기 있는 영화";
     }
