@@ -1,3 +1,4 @@
+const RATING_DESCRIPTION = ["평가하기", "최악이예요", "별로예요", "보통이에요", "재미있어요", "명작이에요"]
 export default class UserRating extends HTMLElement {
 
   private movieId = "";
@@ -29,7 +30,7 @@ export default class UserRating extends HTMLElement {
       <div>내 별점</div>
       <div class="mx-2">${this.starIcons(this.rating)}</div>
       <div id="rating-point">${this.rating * 2}</div>
-      <div class="rating-description mx-1">${this.ratingDescription(this.rating)}</div>
+      <div class="rating-description mx-1">${RATING_DESCRIPTION[this.rating]}</div>
     </div>
     `;
 
@@ -54,25 +55,6 @@ export default class UserRating extends HTMLElement {
         alt="별점" 
         data-rating="${i + 1}"
       />`).join('');
-  }
-
-  ratingDescription(rating: number) {
-    if (rating === 1) {
-      return "최악이예요";
-    }
-    if (rating === 2) {
-      return "별로예요";
-    }
-    if (rating === 3) {
-      return "보통이에요";
-    }
-    if (rating === 4) {
-      return "재미있어요";
-    }
-    if (rating === 5) {
-      return "명작이에요";
-    }
-    return "평가하기";
   }
 
 }

@@ -1,6 +1,6 @@
 import { $ } from "../../utils/selector";
-import MovieList from ".";
 import { checkIntersectionObserverEntries } from "../../domain/movies";
+import MovieList from "../MovieItem";
 
 export const renderMovieList = () => {
   const movieList = $("#movie-list") as MovieList;
