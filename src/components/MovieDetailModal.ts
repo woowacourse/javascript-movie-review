@@ -54,7 +54,14 @@ export default class MovieDetailModal extends HTMLElement {
           <section class="vote">
             <p class="my-vote">내 별점</p>
             <div class="icon-container">
-              ${STAR_ICON_LARGE.repeat(VOTE_ICON_COUNT)}
+              ${Array(VOTE_ICON_COUNT)
+                .fill(0)
+                .map((_, index) => {
+                  return `<i class="vote-icon" data-vote-score="${
+                    (index + 1) * 2
+                  }">${STAR_ICON_LARGE}</i>`;
+                })
+                .join('')}
             </div>
             <p class="score">${this.#voteScore}</p>
             <p class="review">${this.getOneLineReview(this.#voteScore)}</p>
@@ -99,15 +106,12 @@ export default class MovieDetailModal extends HTMLElement {
 
   handleVoteIconClick(e: Event) {
     const $target = e.target as HTMLElement;
-    const $voteIcon = $target.closest('.vote-icon') as SVGElement;
+    const $voteIcon = $target.closest('.vote-icon') as HTMLElement;
 
     if (!$voteIcon) return;
 
-    const $voteIcons = $target.closest('.icon-container')?.querySelectorAll('.vote-icon');
-    const voteIconIndex = [...$voteIcons!].findIndex((icon) => icon === $voteIcon);
-    const voteScore = voteIconIndex * 2 + 2;
+    const voteScore = Number($voteIcon.dataset.voteScore);
 
-    this.#voteScore = voteScore;
     this.updateVoteScore(voteScore);
   }
 
@@ -116,16 +120,17 @@ export default class MovieDetailModal extends HTMLElement {
   }
 
   updateVoteScore(voteScore: number) {
+    this.#voteScore = voteScore;
     this.fillVoteIcons(voteScore);
     $('.score')!.textContent = `${voteScore}`;
     $('.review')!.textContent = this.getOneLineReview(voteScore);
   }
 
   fillVoteIcons(voteScore: number) {
-    const $voteIcons = $('.icon-container')?.querySelectorAll('.vote-icon');
+    const $icons = $('.icon-container')?.querySelectorAll('.star');
     const maxVoteIconIndex = voteScore / 2 - 1;
 
-    $voteIcons?.forEach((icon, index) => {
+    $icons?.forEach((icon, index) => {
       if (index <= maxVoteIconIndex) {
         icon.classList.add('filled');
       } else {

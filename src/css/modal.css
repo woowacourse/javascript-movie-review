@@ -108,7 +108,7 @@
   cursor: pointer;
 }
 
-.vote-icon.filled > path {
+.star.filled > path {
   fill: #ffc700;
 }
 
