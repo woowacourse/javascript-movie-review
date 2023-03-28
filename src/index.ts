@@ -9,7 +9,7 @@ import { updateMovies } from "./domain/movies";
 import MovieItem from "./components/MovieItem";
 import MovieModal from "./components/MovieModal";
 import UserRating from "./components/UserRating";
-import Header from "./components/headers/Header";
+import Header from "./components/Header";
 
 updateMovies();
 

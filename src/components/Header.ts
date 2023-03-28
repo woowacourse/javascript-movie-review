@@ -1,7 +1,6 @@
-import { updateMovies } from "../../domain/movies";
-import Store from "../../domain/Store";
-import { $ } from "../../utils/selector";
-import { searchMovieByKeyword } from "./headerHandler";
+import { searchMovieByKeyword, updateMovies } from "../domain/movies";
+import Store from "../domain/Store";
+import { $ } from "../utils/selector";
 
 export default class Header extends HTMLElement {
   constructor() {
