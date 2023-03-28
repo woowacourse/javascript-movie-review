@@ -5,6 +5,7 @@ import Component from '../types/component';
 import { Movie, MovieItem } from '../types/movie';
 import { NULL_SEARCH_RESULT_MESSAGE } from '../constants/messages';
 import { POPULAR_LIST_NAME } from '../constants/listNames';
+import ErrorModal from './MovieDetail/ErrorModal';
 
 class MovieList implements Component {
   readonly node: HTMLElement;
@@ -93,6 +94,7 @@ class MovieList implements Component {
   updateMovieList(movieDetails: MovieItem[], isLastPage: Boolean): this {
     if (movieDetails.length === 0) {
       this.hideSkeleton().hideMoreButton().showMessage(NULL_SEARCH_RESULT_MESSAGE);
+      new ErrorModal(NULL_SEARCH_RESULT_MESSAGE).show();
       return this;
     }
 

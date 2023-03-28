@@ -384,6 +384,35 @@ img[src='./star_filled.png'] {
   background: #383839;
 }
 
+.error-modal {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  width: 70%;
+  height: 64px;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  z-index: 999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.error-modal > p {
+  font-size: 18px;
+}
+
+.error-modal > button {
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+  color: white;
+}
+
 /* 반응형 */
 @media screen and (max-width: 1070px) {
   .item-view {
