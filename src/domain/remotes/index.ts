@@ -8,16 +8,13 @@ export const request: Request = async (path, params) => {
   const url = new URL(path, BASE_URL);
   url.search = createSearchParams(url, params);
 
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(getErrorMessageByStatusCode(response.status));
-    }
+  const response = await fetch(url);
 
-    return response.json();
-  } catch (error) {
-    throw error;
+  if (!response.ok) {
+    throw new Error(getErrorMessageByStatusCode(response.status));
   }
+
+  return response.json();
 };
 
 const createSearchParams = (url: URL, params: Record<string, string>) => {
