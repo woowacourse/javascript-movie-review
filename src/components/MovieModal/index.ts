@@ -79,10 +79,12 @@ class MovieModal extends HTMLElement {
     const $modalContainer = $<HTMLDivElement>('.modal-container', this);
     $modalContainer.classList.add('hidden');
     localStorage.setItem(String(this.movieId), String(this.rating));
+    document.body.style.overflow = 'auto';
   }
 
   open() {
     $<HTMLDivElement>('.modal-container', this).classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
   }
 }
 export default MovieModal;
