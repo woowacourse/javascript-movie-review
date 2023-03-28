@@ -1,12 +1,11 @@
 import MovieDetailModal from './MovieDetailModal';
-
 import CustomModal from './common/CustomModal';
 
 import { $, dispatchCustomEvent } from '../utils/domUtils';
 
 import { fetchMovieDetail } from '../domain/remotes/movieDetail';
 
-class MovieListSection extends HTMLElement {
+export default class MovieListSection extends HTMLElement {
   constructor() {
     super();
     this.innerHTML = /* html */ `
@@ -57,4 +56,4 @@ class MovieListSection extends HTMLElement {
   }
 }
 
-export default MovieListSection;
+customElements.define('movie-list-section', MovieListSection);

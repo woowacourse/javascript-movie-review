@@ -1,6 +1,6 @@
 import { $ } from '../../utils/domUtils';
 
-class CustomModal extends HTMLElement {
+export default class CustomModal extends HTMLElement {
   constructor() {
     super();
 
@@ -35,4 +35,4 @@ class CustomModal extends HTMLElement {
   }
 }
 
-export default CustomModal;
+customElements.define('custom-modal', CustomModal);

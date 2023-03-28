@@ -2,7 +2,7 @@ import { STAR_FILLED_ICON } from '../icons';
 
 import DefaultPoster from '../../images/default_poster.png';
 
-class MovieListItem extends HTMLElement {
+export default class MovieListItem extends HTMLElement {
   constructor() {
     super();
 
@@ -32,4 +32,4 @@ class MovieListItem extends HTMLElement {
   }
 }
 
-export default MovieListItem;
+customElements.define('movie-list-item', MovieListItem);

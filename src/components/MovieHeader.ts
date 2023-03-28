@@ -1,10 +1,10 @@
-import { POPULAR_TITLE } from '../domain/constants';
 import { changeTitle, resetSearchBox } from '../dom';
 import { LOGO } from '../icons';
 
+import { POPULAR_TITLE } from '../domain/constants';
 import { $, dispatchCustomEvent, isFormElement } from '../utils/domUtils';
 
-class MovieHeader extends HTMLElement {
+export default class MovieHeader extends HTMLElement {
   constructor() {
     super();
     this.innerHTML = /* html */ `
@@ -65,4 +65,4 @@ class MovieHeader extends HTMLElement {
   }
 }
 
-export default MovieHeader;
+customElements.define('movie-header', MovieHeader);

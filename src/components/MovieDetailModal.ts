@@ -15,9 +15,13 @@ import { MovieDetailResponse } from '../domain/remotes/movieDetail';
 
 type VoteScoreInfo = Record<number, number> | null;
 
-class MovieDetailModal extends HTMLElement {
+export default class MovieDetailModal extends HTMLElement {
   #movieId = 0;
   #voteScore = 0;
+
+  connectedCallback() {
+    $('.modal-close-button')?.addEventListener('click', () => this.handleCloseButtonClick());
+  }
 
   render(movieDetail: MovieDetailResponse) {
     const { id, title, genres, overview, poster_path, vote_average } = movieDetail;
@@ -165,4 +169,4 @@ class MovieDetailModal extends HTMLElement {
   }
 }
 
-export default MovieDetailModal;
+customElements.define('movie-detail-modal', MovieDetailModal);
