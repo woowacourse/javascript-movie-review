@@ -1,3 +1,4 @@
+import ErrorModal from './components/ErrorModal';
 import GotoTopButton from './components/GotoTopButton';
 import { Header } from './components/Header';
 import { MovieList } from './components/MovieList';
@@ -12,6 +13,7 @@ class App {
   $header: Header;
   $movieModal: MovieModal;
   $topButton: GotoTopButton;
+  $errorModal: ErrorModal;
   store: Store;
   skeleton: Skeleton;
   observer: IntersectionObserver;
@@ -21,6 +23,7 @@ class App {
     this.$header = $<Header>('movie-header');
     this.$movieModal = $<MovieModal>('movie-modal');
     this.$topButton = $<GotoTopButton>('top-button');
+    this.$errorModal = $<ErrorModal>('error-modal');
     this.skeleton = new Skeleton();
     this.store = new Store();
 
@@ -40,17 +43,16 @@ class App {
     this.fetchMovies();
   }
 
-  fetchMovies(value = '') {
-    this.store
-      .getMovieList(value || this.store.searchWord)
-      .then((data) => {
-        this.skeleton.removeSkeleton();
-        return data;
-      })
-      .then((data) => {
-        this.$movieList.renderMovies(data);
-      })
-      .then(() => this.$movieList.setIntersection(this.infinityScrollHandler.bind(this)));
+  async fetchMovies(value = '') {
+    try {
+      const movieList = await this.store.getMovieList(value || this.store.searchWord);
+      this.skeleton.removeSkeleton();
+      this.$movieList.renderMovies(movieList);
+      this.$movieList.setIntersection(this.infinityScrollHandler.bind(this));
+    } catch (error) {
+      if (!(error instanceof Error)) return;
+      this.$errorModal.render(error.message);
+    }
   }
 
   searchHandler(value: string) {
@@ -63,11 +65,15 @@ class App {
     this.fetchMovies(value);
   }
 
-  movieModalHandler(id: number) {
-    this.store
-      .getMovie(id)
-      .then((data) => this.$movieModal.render(data))
-      .then(() => this.$movieModal.open());
+  async movieModalHandler(id: number) {
+    try {
+      const movie = await this.store.getMovie(id);
+      this.$movieModal.render(movie);
+      this.$movieModal.open();
+    } catch (error) {
+      if (!(error instanceof Error)) return;
+      this.$errorModal.render(error.message);
+    }
   }
 
   infinityScrollHandler(target: Element) {
