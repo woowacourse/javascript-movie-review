@@ -30,8 +30,6 @@ class App {
     };
 
     this.init();
-    this.initMoviePage(POPULAR_TITLE);
-    this.updateMoviePage(getPopularMovies, { page: this.state.pageNumber });
   }
 
   async init() {
@@ -45,6 +43,8 @@ class App {
 
     const { genres } = await getGenres();
     this.movieService = new MovieService(genres);
+    this.initMoviePage(POPULAR_TITLE);
+    this.updateMoviePage(getPopularMovies, { page: this.state.pageNumber });
   }
 
   onOffline = () => {
