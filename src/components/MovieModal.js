@@ -1,7 +1,7 @@
 import { SCORE_DATA_TEXT } from '../util/constants';
 
-const MovieModal = (data, genreData, star) => {
-  const rate = star !== undefined ? star : 0;
+const MovieModal = (movieData, genreData, starData) => {
+  const rate = starData !== undefined ? starData : 0;
   const imgDatas = ['', '', '', '', '']
     .map((element, index) => {
       const compareRate = (index + 1) * 2;
@@ -11,10 +11,10 @@ const MovieModal = (data, genreData, star) => {
     .join('');
 
   const poster =
-    data.poster_path === null
+    movieData.poster_path === null
       ? './assets/no_image.png'
-      : `https://image.tmdb.org/t/p/w500${data.poster_path}`;
-  const genres = data.genre_ids
+      : `https://image.tmdb.org/t/p/w500${movieData.poster_path}`;
+  const genres = movieData.genre_ids
     .map((id) => {
       return genreData[id];
     })
@@ -23,14 +23,12 @@ const MovieModal = (data, genreData, star) => {
   return `
         <div class="modal-container">
             <div class="modal-header">
-                <span id="movie-name">${data.title}</span>
+                <span id="movie-name">${movieData.title}</span>
                 <button>X</button>
             </div>
         
             <div class="modal-body">
-                <img class="modal-item-thumbnail" src=${poster} alt="${
-    data.title
-  }" />
+                <img class="modal-item-thumbnail" src=${poster} alt="${movieData.title}" />
                 <div class="movie-datas">
                     <div id="movie-data-frame">
                         <div id="movie-data-1">
@@ -40,11 +38,11 @@ const MovieModal = (data, genreData, star) => {
                                     <img src="./assets/star_filled.png" alt="별점" />
                                 </span>
                                     <span id="modal-star-average">
-                                        ${data.vote_average}
+                                        ${movieData.vote_average}
                                     </span>
                                 </span>
                             </div>
-                        <div class="data-overview">${data.overview}</div>
+                        <div class="data-overview">${movieData.overview}</div>
                     </div>
                     <div class="review-container">
                         <div class="review-datas">
@@ -54,9 +52,7 @@ const MovieModal = (data, genreData, star) => {
                         </div>
                         <div class="movie-star-result">
                             <span id="star-data">${rate}</span>
-                        <span id="star-text">${
-                          !rate ? '' : SCORE_DATA_TEXT[rate]
-                        }</span>
+                        <span id="star-text">${SCORE_DATA_TEXT[rate]}</span>
                         </div>
                     </div>
                 </div>

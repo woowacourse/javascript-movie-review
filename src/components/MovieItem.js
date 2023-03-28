@@ -29,8 +29,9 @@ export const MovieItem = (element, data) => {
 
   element.appendChild(renderList);
   $('img', element.lastElementChild).addEventListener('load', (e) => {
+    const currendNode = e.target.parentNode;
     e.target.classList.remove('hidden');
-    $('.skeleton', e.target.parentNode).remove();
+    $('.skeleton', currendNode).remove();
   });
 };
 
