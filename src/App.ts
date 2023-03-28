@@ -2,7 +2,7 @@ import MovieCardList from "./components/MovieCardList";
 import {
   LIST_STATE,
   LIST_HEADING,
-  MAX_MOVIE_QUANTITY_PER_PAGE,
+  SINGLE_PAGE_MAX_MOVIE_QUANTITY,
 } from "./constant/setting";
 import { $ } from "./utils/Dom";
 import { getPopularMovies, getSearchedMovies } from "./utils/fetch";
@@ -45,12 +45,12 @@ export default class App {
   }
 
   setEvent() {
-    let throttle: any;
+    let throttle: null | number | undefined;
 
     window.addEventListener("scroll", () => {
-      if (this.#state.movieList.length < MAX_MOVIE_QUANTITY_PER_PAGE) return;
+      if (this.#state.movieList.length < SINGLE_PAGE_MAX_MOVIE_QUANTITY) return;
       if (!throttle)
-        throttle = setTimeout(() => {
+        throttle = +setTimeout(() => {
           throttle = null;
           const scrollPosition = window.pageYOffset + window.innerHeight;
           const documentHeight = document.body.offsetHeight - 20;

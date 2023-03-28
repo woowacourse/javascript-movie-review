@@ -1,4 +1,4 @@
-import { COMMENT } from "../constant/setting";
+import { COMMENT, SINGLE_STAR_SCORE } from "../constant/setting";
 
 export default class RatingBox extends HTMLElement {
   #state: RatingBoxState = { myRating: 0 };
@@ -46,12 +46,12 @@ export default class RatingBox extends HTMLElement {
 
   setEvent() {
     const $stars = this.querySelectorAll(".star");
+
     $stars?.forEach((star, index) => {
       star.addEventListener("click", () => {
         this.setState({
-          myRating: (index + 1) * 2,
+          myRating: (index + 1) * SINGLE_STAR_SCORE,
         });
-        this.render();
         this.setEvent();
         this.dispatchEvent(
           new CustomEvent("set-my-rating", {
@@ -65,6 +65,7 @@ export default class RatingBox extends HTMLElement {
 
   setState(newState: object) {
     this.#state = { ...this.#state, ...newState };
+    this.render();
   }
 }
 

@@ -14,9 +14,11 @@ export const TOGGLE_SKELETON = {
   HIDDEN: "hidden",
 } as const;
 
+export const SINGLE_STAR_SCORE = 2;
+
 export const SKELETON_REPEAT_TIME = 20;
 
-export const MAX_MOVIE_QUANTITY_PER_PAGE = 20;
+export const SINGLE_PAGE_MAX_MOVIE_QUANTITY = 20;
 
 export const BREAKPOINT_SMALL = 410;
 
