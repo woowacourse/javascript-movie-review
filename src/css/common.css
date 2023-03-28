@@ -565,7 +565,7 @@ header .search-box > .search-button {
     transition: all 0.8s ease;
   }
 
-  header .search-input.extended {
+  header .search-input:focus.extended {
     width: 180px;
     opacity: 1;
   }
@@ -634,7 +634,7 @@ header .search-box > .search-button {
     height: 485.7px;
   }
 
-  header .search-input.extended {
+  header .search-input:focus.extended {
     width: 312px;
   }
 }

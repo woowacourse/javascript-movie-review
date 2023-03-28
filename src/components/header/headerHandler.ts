@@ -1,6 +1,6 @@
 import { $ } from "../../utils/selector";
 import { movieApi } from "../../domain/movieApi";
-import { MOBILE_VIEWPORT, PATH } from "../../constants";
+import { PATH } from "../../constants";
 import { movieStore } from "../../movieStore";
 const { SEARCHED_MOVIE } = PATH;
 
@@ -11,8 +11,10 @@ export const initSearchBox = () => {
     if (event.target instanceof HTMLFormElement) {
       const formData = new FormData(event.target);
       const keyword = String(formData.get("search-bar")).trim();
+      $<HTMLInputElement>(".search-input").focus();
 
-      if (keyword.length < 1) return handleMobileSearchBox(event);
+      if (keyword.length < 1 || keyword === movieApi.urlParams.get("query"))
+        return;
 
       movieApi.urlParams.set("query", keyword);
       resetMoviesAndPages();
@@ -30,35 +32,6 @@ export const initLogo = () => {
 
     movieApi.showMovies();
     toggleLogo();
-  });
-};
-
-const handleMobileSearchBox = (event: Event) => {
-  if (!(event.target instanceof HTMLFormElement)) return;
-  if (getComputedStyle(event.target).zIndex !== "1") return;
-
-  const inputBox = event.target.firstElementChild;
-
-  if (inputBox instanceof HTMLInputElement) {
-    inputBox.classList.add("extended");
-
-    restoreMobileSearchBox(inputBox, event.target);
-  }
-};
-
-const restoreMobileSearchBox = (
-  inputBox: HTMLInputElement,
-  searchBox: HTMLFormElement
-) => {
-  searchBox.addEventListener("mouseleave", () => {
-    if (window.innerWidth > MOBILE_VIEWPORT) return;
-
-    window.addEventListener("resize", () => {
-      if (window.innerWidth <= MOBILE_VIEWPORT) return searchBox.reset();
-    });
-
-    inputBox.classList.remove("extended");
-    searchBox.reset();
   });
 };
 

@@ -19,7 +19,7 @@ export default class Header extends HTMLElement {
             <button class="logo none-display"><i class="bi bi-house-fill"></i></button>
           </h1>
           <form id="search-bar" class="search-box">
-            <input type="text" placeholder="검색" name="search-bar" class="search-input"/>
+            <input type="text" placeholder="검색" name="search-bar" class="search-input extended"/>
             <button class="search-button">검색</button>
           </form>
         </header>
