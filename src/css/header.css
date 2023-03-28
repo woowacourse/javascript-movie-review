@@ -10,7 +10,7 @@
   margin-bottom: 48px;
 }
 
-header h1 {
+.header .title {
   cursor: pointer;
   user-select: none;
   font-size: 2rem;
@@ -19,17 +19,17 @@ header h1 {
   color: #f33f3f;
 }
 
-header > .search-box {
+.header > .search-box {
   background: #fff;
   padding: 8px;
   border-radius: 4px;
 }
 
-header .search-box > input {
+.header .search-box > #search-input {
   border: 0;
 }
 
-header .search-box > .search-button {
+.header .search-box > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
@@ -38,17 +38,17 @@ header .search-box > .search-button {
 }
 
 @media screen and (max-width: 1200px) {
-  header {
+  .header {
     min-width: 100%;
   }
 }
 
 @media screen and (max-width: 640px) {
-  header .search-box > input:not(:focus) {
+  .header .search-box > #search-input:not(:focus) {
     display: none;
   }
 
-  header .search-box > .search-button {
+  .header .search-box > .search-button {
     width: 24px;
     height: 20px;
     background-position: center;

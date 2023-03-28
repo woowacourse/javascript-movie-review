@@ -11,7 +11,7 @@
   margin: 0 auto;
 }
 
-.item-view h2 {
+.item-view #movie-list-title {
   font-size: 2rem;
   font-weight: bold;
   user-select: none;
