@@ -78,13 +78,25 @@ class MovieList implements Component {
     return this;
   }
 
+  showMoreButton(): this {
+    this.loadMoreButton.classList.remove('hidden');
+
+    return this;
+  }
+
+  hideMoreButton(): this {
+    this.loadMoreButton.classList.add('hidden');
+
+    return this;
+  }
+
   updateMovieList(movieDetails: MovieItem[], isLastPage: Boolean): this {
     if (movieDetails.length === 0) {
-      this.hideSkeleton().showMessage(NULL_SEARCH_RESULT_MESSAGE);
+      this.hideSkeleton().hideMoreButton().showMessage(NULL_SEARCH_RESULT_MESSAGE);
       return this;
     }
 
-    this.hideSkeleton().showMovieList();
+    this.hideSkeleton().showMovieList().showMoreButton();
     this.movieList.append(this.createMovieCards(movieDetails));
 
     this.loadMoreButton.disabled = isLastPage ? true : false;
