@@ -37,7 +37,7 @@ class Header {
       event.preventDefault();
       const inputData = $('#search-input');
       if (inputData.value === '') {
-        return inputData.focus();
+        inputData.focus();
       }
 
       const searchData = $('#search-input').value;
