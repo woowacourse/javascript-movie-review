@@ -2,12 +2,12 @@ import "./css/reset.css";
 import "./css/common.css";
 import "./css/modal.css";
 import "./css/layout.css";
-import MovieList from "./components/MovieList";
+import MovieList from "./components/movie-list/MovieList";
 import NoResultsMessage from "./components/NoResultsMessage";
 import Skeleton from "./components/Skeleton";
 import { updateMovies } from "./domain/movies";
-import MovieItem from "./components/MovieItem";
-import MovieModal from "./components/MovieModal";
+import MovieItem from "./components/movie-item/MovieItem";
+import MovieModal from "./components/movie-modal/MovieModal";
 import UserRating from "./components/UserRating";
 import Header from "./components/movie-header/Header";
 

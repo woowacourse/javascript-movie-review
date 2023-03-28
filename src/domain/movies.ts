@@ -1,4 +1,4 @@
-import { removeMoreButton, renderMovieList, dummySkeletons } from "../components/MovieList/movieListHandler";
+import { removeMoreButton, renderMovieList, dummySkeletons } from "../components/movie-list/movieListHandler";
 import { findGenreNameById } from "./genres";
 import { Movie } from "../type";
 import { $ } from "../utils/selector";

@@ -1,4 +1,4 @@
-import MovieModal from ".";
+import MovieModal from "./MovieModal";
 import { $ } from "../../utils/selector"
 
 export const onClickModalCloseButton = () => {

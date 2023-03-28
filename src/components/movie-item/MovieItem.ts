@@ -1,5 +1,5 @@
 import { Movie } from "../../type";
-import MovieModal from "../MovieModal";
+import MovieModal from "../movie-modal/MovieModal";
 
 export default class MovieItem extends HTMLElement {
   private movie: Movie = {
