@@ -1,9 +1,11 @@
 import { SCORE_DATA_TEXT } from '../util/constants';
 
 const MovieModal = (data, genreData, star) => {
+  const rate = star !== undefined ? star : 0;
   const imgDatas = ['', '', '', '', '']
     .map((element, index) => {
-      if ((index + 1) * 2 === star) return '<img class="active"/>';
+      const compareRate = (index + 1) * 2;
+      if (compareRate === rate) return '<img class="active"/>';
       return '<img>';
     })
     .join('');
@@ -51,9 +53,9 @@ const MovieModal = (data, genreData, star) => {
                             <span class="star-box">${imgDatas}</span>
                         </div>
                         <div class="movie-star-result">
-                            <span id="star-data">${star}</span>
+                            <span id="star-data">${rate}</span>
                         <span id="star-text">${
-                          !star ? '' : SCORE_DATA_TEXT[star]
+                          !rate ? '' : SCORE_DATA_TEXT[rate]
                         }</span>
                         </div>
                     </div>

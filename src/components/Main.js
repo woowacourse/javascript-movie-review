@@ -57,9 +57,11 @@ class Main {
     }
 
     if (movieListData.length) {
+      const fragment = new DocumentFragment();
       movieListData.forEach((data) => {
-        MovieItem($('ul', this.#element), data);
+        MovieItem(fragment, data);
       });
+      $('ul.item-list').appendChild(fragment);
     } else {
       const tempElement = document.createElement('div');
       tempElement.className = 'temp';
@@ -69,20 +71,23 @@ class Main {
   }
 
   #requestMovieListEvent() {
-    const observer = new IntersectionObserver(async (e) => {
-      this.renderSkeleton(this.#element);
-      await this.#manager.getMoreMovieList();
-      this.render();
+    const observer = new IntersectionObserver(async (entries) => {
+      const isIntersecting = entries.some((e) => e.isIntersecting);
+      if (isIntersecting) {
+        this.renderSkeleton(this.#element);
+        await this.#manager.getMoreMovieList();
+        this.render();
+      }
     });
     observer.observe($('.btn.primary.full-width'));
     this.#element.addEventListener('click', async (e) => {
       if (e.target.tagName === 'IMG') {
         const movieData = this.#manager.getMovieData(e.target.alt);
-        const movieStar = this.#manager.getStarData()[movieData.id];
+        const movieRate = this.#manager.getStarData()[movieData.id];
         $('.modal').innerHTML = movieModal(
           movieData,
           this.#manager.getGenreData(),
-          !movieStar ? 0 : movieStar
+          movieRate
         );
         $('.modal').classList.remove('hidden');
         $('.modal-background').classList.remove('hidden');

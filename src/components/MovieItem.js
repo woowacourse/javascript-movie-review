@@ -23,11 +23,11 @@ export const MovieItem = (element, data) => {
   </li>
   `;
 
-  const tempElement = document.createElement('div');
-  tempElement.className = 'temp';
+  const domParser = new DOMParser();
+  const renderList = domParser.parseFromString(renderData, 'text/html').body
+    .firstElementChild;
 
-  $('ul.item-list').appendChild(tempElement);
-  $('.temp').outerHTML = renderData;
+  element.appendChild(renderList);
   $('img', element.lastElementChild).addEventListener('load', (e) => {
     e.target.classList.remove('hidden');
     $('.skeleton', e.target.parentNode).remove();
