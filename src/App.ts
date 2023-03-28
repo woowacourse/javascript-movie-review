@@ -8,8 +8,7 @@ import {
   showScrollObserver,
 } from './dom';
 
-import { fetchPopularMovies, fetchSearchedMovies } from './domain/remotes/movies';
-import movieService, { Movie } from './domain/movieService';
+import { fetchPopularMovies, fetchSearchedMovies, Movie } from './domain/remotes/movies';
 import { $ } from './utils/domUtils';
 import { handleError } from './utils/errorHandler';
 import { bindObserver } from './utils/intersectionObserver';
@@ -64,7 +63,7 @@ const App = {
       showSkeleton();
       const popularMovies = await fetchPopularMovies(this.currentPage);
       hideSkeleton();
-      this.updatePage(movieService.resultsToMovies(popularMovies));
+      this.updatePage(popularMovies);
     } catch (error) {
       if (error instanceof Error) {
         handleError(error);
@@ -79,7 +78,7 @@ const App = {
       showSkeleton();
       const searchedMovies = await fetchSearchedMovies(this.query, this.currentPage);
       hideSkeleton();
-      this.updatePage(movieService.resultsToMovies(searchedMovies));
+      this.updatePage(searchedMovies);
     } catch (error) {
       if (error instanceof Error) {
         handleError(error);

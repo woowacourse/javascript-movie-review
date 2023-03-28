@@ -1,7 +1,7 @@
 import { QUERY_PARAMS } from './constants';
 import { request } from './index';
 
-export interface MovieDetailResponse {
+interface MovieDetailResponse {
   adult: boolean;
   backdrop_path: string;
   belongs_to_collection: any;
@@ -29,6 +29,15 @@ export interface MovieDetailResponse {
   vote_count: number;
 }
 
+export interface MovieDetail {
+  id: MovieDetailResponse['id'];
+  title: MovieDetailResponse['title'];
+  genres: MovieDetailResponse['genres'];
+  overview: MovieDetailResponse['overview'];
+  posterPath: MovieDetailResponse['poster_path'];
+  voteAverage: MovieDetailResponse['vote_average'];
+}
+
 interface Genre {
   id: number;
   name: string;
@@ -51,8 +60,38 @@ interface SpokenLanguage {
   name: string;
 }
 
-export const fetchMovieDetail = async (id: number): Promise<MovieDetailResponse> => {
-  const movieDetail = await request<MovieDetailResponse>(`movie/${id}`, QUERY_PARAMS);
+export const fetchMovieDetail = async (id: number): Promise<MovieDetail> => {
+  const response = await request<MovieDetailResponse>(`movie/${id}`, QUERY_PARAMS);
 
-  return movieDetail;
+  return createMovieDetail(response);
+};
+
+const createMovieDetail = (movieDetailResponse: MovieDetailResponse): MovieDetail => {
+  if (isInvalidMovieDetailResponse(movieDetailResponse)) {
+    throw new Error('유효하지 않은 데이터입니다.');
+  }
+
+  const { id, title, genres, overview, poster_path, vote_average } = movieDetailResponse;
+
+  return {
+    id,
+    title,
+    genres,
+    overview,
+    posterPath: poster_path,
+    voteAverage: vote_average,
+  };
+};
+
+const isInvalidMovieDetailResponse = (movieDetailResponse: MovieDetailResponse): boolean => {
+  const { id, title, genres, overview, poster_path, vote_average } = movieDetailResponse;
+
+  return (
+    typeof id !== 'number' ||
+    typeof title !== 'string' ||
+    !Array.isArray(genres) ||
+    typeof overview !== 'string' ||
+    typeof poster_path !== 'string' ||
+    typeof vote_average !== 'number'
+  );
 };
