@@ -191,6 +191,7 @@ header .search-box > .search-button {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 100%;
   padding: 12px 28px;
   color: #f1f1f1;
   font-size: 16px;
@@ -218,16 +219,25 @@ header .search-box > .search-button {
 .movie-rate {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 14px 18px;
+  justify-content: flex-start;
+  padding: 14px 10px;
   width: 100%;
   height: 50px;
   background: #383839;
   border-radius: 16px;
 }
 
+.movie-rate-title {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.movie-star-wrap {
+  margin-right: 20px;
+}
+
 .movie-stars {
-  margin: 0 20px;
+  cursor: pointer;
 }
 
 .close-button {

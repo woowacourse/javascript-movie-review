@@ -19,14 +19,14 @@ class Modal {
 
   async renderMovieDetail(movieId: number) {
     const movieDetail: MovieDetailResponse = await fetchMovieDetail(movieId);
-    const movieDetailMarkup = MovieDetail.render(movieDetail, 0);
+    const movieDetailMarkup = MovieDetail.render(movieDetail);
     const movieDetailElement = document.createElement("div");
     movieDetailElement.innerHTML = movieDetailMarkup;
-
     $(".modal-container").insertAdjacentElement(
       "afterbegin",
       movieDetailElement
     );
+    MovieDetail.onClickStars();
 
     this.#$target.classList.remove("hidden");
     this.#$target.classList.add("show");
