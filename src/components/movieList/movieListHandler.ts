@@ -29,7 +29,7 @@ const observeMovieIntersection = () => {
   const moviesOrNoResult = $(".item-view").lastElementChild;
   if (moviesOrNoResult && moviesOrNoResult.className !== "item-list") return;
 
-  observer.observe($(".item-list > li:nth-last-child(3)"));
+  observer.observe($(".item-list > li:last-child"));
 };
 
 const isStoppingObservation = (entry: IntersectionObserverEntry) => {
