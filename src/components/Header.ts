@@ -1,18 +1,18 @@
 import logo from '../images/logo.png';
 import stateRender from '../renderer/StateRender';
+import { $ } from '../utils/dom';
 import { eventThrottle } from '../utils/throttle';
 
 class Header {
   private $header = document.createElement('header');
-  private $searchBox: HTMLFormElement | null;
+  private $searchBox: HTMLFormElement;
 
   constructor($target: HTMLElement) {
     this.init($target);
 
     this.$header.addEventListener('click', this.onClickEvent.bind(this));
 
-    this.$searchBox = this.$header.querySelector('.search-box');
-    if (!(this.$searchBox instanceof HTMLFormElement)) return;
+    this.$searchBox = $<HTMLFormElement>('.search-box');
 
     this.$searchBox.addEventListener('submit', this.onSubmitEvent.bind(this));
   }
@@ -31,7 +31,7 @@ class Header {
     if (!(e.currentTarget instanceof HTMLElement)) return;
 
     const { currentTarget } = e;
-    const { value } = currentTarget.querySelector('input') as HTMLInputElement;
+    const { value } = $<HTMLInputElement>('.search-input');
 
     const query = stateRender.getMovieState().query ?? '';
 
@@ -41,10 +41,8 @@ class Header {
   }
 
   private checkSearchWordValidation(value: string, query: string) {
-    if (!this.$searchBox) return true;
-
     if (value.length === 0) {
-      this.$searchBox.querySelector<HTMLInputElement>('input')?.focus();
+      $<HTMLInputElement>('.search-input').focus();
       return true;
     }
 
@@ -55,13 +53,13 @@ class Header {
 
   private onClickEvent(e: Event) {
     if (!(e.target instanceof HTMLImageElement)) return;
+
     const { target } = e;
     if (target.id !== 'logo') return;
+
     eventThrottle(() => stateRender.renderPopularMovies(), 2000)();
 
-    if (this.$searchBox instanceof HTMLFormElement) {
-      this.$searchBox.reset();
-    }
+    this.$searchBox.reset();
   }
 
   private template() {

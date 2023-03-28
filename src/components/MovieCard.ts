@@ -5,6 +5,7 @@ import { IMovieItemProps } from '../types/movie';
 import modal from './Modal';
 import stateRender from '../renderer/StateRender';
 import { removeSkeletonAfterImageLoad } from '../utils/eventCallback';
+import { $ } from '../utils/dom';
 
 class MovieCard {
   private $li: HTMLElement;
@@ -16,7 +17,6 @@ class MovieCard {
 
     this.$li.addEventListener('click', async () => {
       const $dialog = modal.getDialog();
-      if (!($dialog instanceof HTMLElement)) return;
 
       await stateRender.renderMovieDetail(movie.id, $dialog);
       modal.open();
@@ -60,8 +60,7 @@ class MovieCard {
   }
 
   private initialEventListener() {
-    const $image = this.$li.querySelector<HTMLImageElement>('img');
-    if (!$image) return;
+    const $image = $<HTMLImageElement>('.item-thumbnail', this.$li);
 
     $image.addEventListener('load', removeSkeletonAfterImageLoad);
   }

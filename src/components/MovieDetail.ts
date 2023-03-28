@@ -8,6 +8,7 @@ import modal from './Modal';
 import { STAR_DESCRIPTION } from '../utils/constants';
 import { removeSkeletonAfterImageLoad } from '../utils/eventCallback';
 import { parseLocalStorage, stringifyLocalStorage } from '../utils/localStorage';
+import { $ } from '../utils/dom';
 
 const initialMovieState: IMovieDetailItem = {
   title: '',
@@ -112,7 +113,7 @@ class MovieDetail {
       if (target instanceof HTMLLabelElement) {
         this.addStarActive(target);
 
-        const score = target.querySelector('input')?.value ?? 0;
+        const score = $<HTMLInputElement>('input', target).value ?? 0;
         this.changeStarState(Number(score));
         this.saveMovieScoreInLocalStorage();
       }
@@ -126,13 +127,13 @@ class MovieDetail {
   }
 
   private loadImageEventListener() {
-    const $image = this.$detainContainer.querySelector<HTMLImageElement>('img');
-    if (!$image) return;
+    const $image = $<HTMLImageElement>('.content-container > img', this.$detainContainer);
+
     $image.addEventListener('load', removeSkeletonAfterImageLoad, { once: true });
   }
 
   private changeStarState(value: number) {
-    const starDescription = document.querySelector<HTMLSpanElement>('.star-description');
+    const starDescription = $<HTMLSpanElement>('.star-description');
 
     if (!starDescription) return;
     this.movieState.myStarScore = value;

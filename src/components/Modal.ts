@@ -1,12 +1,13 @@
 import BodyController from '../utils/bodyController';
+import { $ } from '../utils/dom';
 
 class Modal {
-  private $dialog: HTMLDialogElement | null;
-  private $modalDrop: HTMLDivElement | null;
+  private $dialog: HTMLDialogElement;
+  private $modalDrop: HTMLDivElement;
 
   constructor() {
-    this.$dialog = document.querySelector<HTMLDialogElement>('#modal');
-    this.$modalDrop = document.querySelector('.modal-backdrop');
+    this.$dialog = $<HTMLDialogElement>('#modal');
+    this.$modalDrop = $<HTMLDivElement>('.modal-backdrop');
 
     this.$modalDrop?.addEventListener('click', () => this.close());
     window.addEventListener('keyup', (event) => {
@@ -20,15 +21,11 @@ class Modal {
   }
 
   open() {
-    if (!this.$dialog) return;
-    if (typeof this.$dialog.showModal === 'function') {
-      BodyController().addClass('scroll-lock');
-      this.$dialog.showModal();
-    }
+    BodyController().addClass('scroll-lock');
+    this.$dialog.showModal();
   }
 
   close(isBack = false) {
-    if (!this.$dialog) return;
     BodyController().removeClass('scroll-lock');
 
     this.$dialog.close();
