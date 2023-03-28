@@ -1,33 +1,56 @@
-import { URL } from "./url";
+import {
+  NetworkError,
+  ServerError,
+  ServerResponseTypeError,
+} from "./fetchError";
 
-export const getMostPopularMovies = async (pageNumber: number) => {
-  const fetchURL = `${URL.GET_POPULAR_MOVIES}&page=${pageNumber}`;
-  const result = await fetchWithValidation(fetchURL);
+export const fetchWithValidation = async (url: string) => {
+  try {
+    const response = await fetch(url);
 
-  return result;
-};
+    if (!response.ok) {
+      const statusCode = response.status;
 
-export const getSearchMovies = async (query: string, pageNumber: number) => {
-  const fetchURL = `${URL.GET_SEARCH_MOVIES}&page=${pageNumber}&query=${query}`;
-  const result = await fetchWithValidation(fetchURL);
+      if (statusCode >= 400 && statusCode < 500)
+        throw new ServerError(getErrorMessage(statusCode), statusCode);
 
-  return result;
-};
+      if (statusCode >= 500 && statusCode < 600)
+        throw new ServerError(getErrorMessage(statusCode), statusCode);
 
-export const getMovieGenres = async () => {
-  const fetchURL = `${URL.GET_MOVIE_GENRES}`;
-  const result = await fetchWithValidation(fetchURL);
+      throw new ServerError("예기치 못한 에러가 발생하였습니다.", statusCode);
+    }
 
-  return result;
-};
+    const result = await response.json();
 
-const fetchWithValidation = async (url: string) => {
-  const response = await fetch(url);
-  const result = await response.json();
+    if (typeof result !== "object")
+      throw new ServerResponseTypeError("서버 응답 오류가 발생하였습니다.");
 
-  if (!response.ok) {
-    throw new Error(response.status.toString());
+    return result;
+  } catch (error) {
+    if (
+      error instanceof ServerResponseTypeError ||
+      error instanceof ServerError
+    )
+      throw error;
+
+    if (error instanceof TypeError)
+      throw new NetworkError("네트워크 오류가 발생하였습니다.");
+
+    throw new Error("예기치 못한 오류가 발생하였습니다.");
   }
+};
 
-  return result;
+const getErrorMessage = (status: number) => {
+  switch (true) {
+    case status === 401:
+      return "접근 권한이 없습니다.";
+    case status === 404:
+      return "요청한 리소스를 찾을 수 없습니다.";
+    case status >= 400 && status < 500:
+      return "클라이언트 오류가 발생하였습니다";
+    case status >= 500 && status < 600:
+      return "서버 오류가 발생하였습니다.";
+    default:
+      return "알 수 없는 오류가 발생했습니다.";
+  }
 };
