@@ -1,14 +1,14 @@
-import { POPULAR_TITLE } from '../constants';
 import { changeTitle, resetSearchBox } from '../dom';
 import { LOGO } from '../icons';
 
+import { POPULAR_TITLE } from '../domain/constants';
 import { $, dispatchCustomEvent, isFormElement } from '../utils/domUtils';
 
-class MovieHeader extends HTMLElement {
+export default class MovieHeader extends HTMLElement {
   constructor() {
     super();
     this.innerHTML = /* html */ `
-      <header>
+      <header class="header">
         <h1 class="title" aria-label="Movielist 로고">${LOGO}</h1>
         <form class="search-box">
           <input id="search-input" type="text" placeholder="검색" required />
@@ -25,6 +25,7 @@ class MovieHeader extends HTMLElement {
     }
 
     $('.title')?.addEventListener('click', () => this.handleLogoClick());
+    $('.search-button')?.addEventListener('click', (e) => this.handleSearchButtonClick(e));
   }
 
   handleSubmit(e: SubmitEvent) {
@@ -51,6 +52,17 @@ class MovieHeader extends HTMLElement {
     resetSearchBox();
     dispatchCustomEvent(this, 'home');
   }
+
+  handleSearchButtonClick(e: Event) {
+    const $searchInput = $('#search-input');
+    if (!($searchInput instanceof HTMLInputElement)) return;
+
+    if ($searchInput.style.display === '' && $searchInput.value === '') {
+      $searchInput.style.display = 'inline';
+      $searchInput.focus();
+      e.preventDefault();
+    }
+  }
 }
 
-export default MovieHeader;
+customElements.define('movie-header', MovieHeader);

@@ -1,17 +1,25 @@
-import { Movie } from './domain/movieService';
+import { SKELETON_TEMPLATE } from './domain/constants';
 import { $ } from './utils/domUtils';
+
+import { Movie } from './domain/remotes/movies';
 
 export const hide = (selector: string) => $(selector)?.classList.add('hide');
 
 export const show = (selector: string) => $(selector)?.classList.remove('hide');
 
-export const hideSkeleton = () => hide('#skeleton-list');
+export const hideSkeleton = () => {
+  const $skeletonItems = document.querySelectorAll('.skeleton-item');
 
-export const showSkeleton = () => show('#skeleton-list');
+  $skeletonItems.forEach(($skeleton) => $skeleton.remove());
+};
 
-export const hideLoadMoreButton = () => hide('#load-more');
+export const showSkeleton = () => {
+  $('.item-list')?.insertAdjacentHTML('beforeend', SKELETON_TEMPLATE);
+};
 
-export const showLoadMoreButton = () => show('#load-more');
+export const hideScrollObserver = () => hide('#scroll-observer');
+
+export const showScrollObserver = () => show('#scroll-observer');
 
 export const changeTitle = (title: string) => {
   const $title = $('#movie-list-title');
@@ -40,8 +48,9 @@ export const renderList = (movies: Movie[]) => {
     'beforeend',
     /* html */ ` ${movies
       .map(
-        ({ title, posterPath, voteAverage }) => /* html */ `
-            <movie-list-item 
+        ({ id, title, posterPath, voteAverage }) => /* html */ `
+            <movie-list-item
+              data-id="${id}" 
               title="${title}" 
               poster-path="${posterPath}" 
               vote-average="${voteAverage}"

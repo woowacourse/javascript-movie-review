@@ -1,4 +1,4 @@
-import { MAX_MOVIES_PER_PAGE } from '../../src/constants';
+import { MAX_MOVIES_PER_PAGE } from '../../src/domain/constants';
 
 const mockPopularMovies = (movieCount: number) => {
   cy.intercept(
