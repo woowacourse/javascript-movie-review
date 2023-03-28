@@ -31,7 +31,7 @@ class MovieListManager {
   }
 
   getMovieList() {
-    return this.#list.map((movie) => ({ ...movie }));
+    return this.#list.map((movie) => movie);
   }
 
   getGenreData() {
