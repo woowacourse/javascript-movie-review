@@ -1,3 +1,4 @@
+import { QUERY_PARAMS } from './constants';
 import { request } from './index';
 
 export interface MoviesResponse {
@@ -25,13 +26,16 @@ export interface MovieResponse {
 }
 
 export const fetchPopularMovies = async (page: number): Promise<MovieResponse[]> => {
-  const { results } = await request<MoviesResponse>(`movie/popular?page=${page}`);
+  const { results } = await request<MoviesResponse>(`movie/popular?page=${page}`, QUERY_PARAMS);
 
   return results;
 };
 
 export const fetchSearchedMovies = async (query: string, page = 1): Promise<MovieResponse[]> => {
-  const { results } = await request<MoviesResponse>(`search/movie?query=${query}&page=${page}`);
+  const { results } = await request<MoviesResponse>(
+    `search/movie?query=${query}&page=${page}`,
+    QUERY_PARAMS
+  );
 
   return results;
 };

@@ -1,20 +1,13 @@
+import { BASE_URL, QUERY_PARAMS } from './constants';
 import { MoviesResponse } from './movies';
 import { MovieDetailResponse } from './movieDetail';
 
 import { getErrorMessageByStatusCode } from '../../utils/errorHandler';
 
 type ValidResponse = MoviesResponse | MovieDetailResponse;
-type Request = <T extends ValidResponse>(path: string) => Promise<T>;
+type Request = <T extends ValidResponse>(path: string, params: typeof QUERY_PARAMS) => Promise<T>;
 
-const API_KEY = process.env.API_KEY;
-const BASE_URL = 'https://api.themoviedb.org/3/';
-
-const params = {
-  api_key: API_KEY ?? '',
-  language: 'ko-KR',
-};
-
-export const request: Request = async (path) => {
+export const request: Request = async (path, params) => {
   const url = new URL(path, BASE_URL);
   url.search = createSearchParams(url, params);
 

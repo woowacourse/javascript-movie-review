@@ -1,3 +1,4 @@
+import { QUERY_PARAMS } from './constants';
 import { request } from './index';
 
 export interface MovieDetailResponse {
@@ -51,7 +52,7 @@ interface SpokenLanguage {
 }
 
 export const fetchMovieDetail = async (id: number): Promise<MovieDetailResponse> => {
-  const movieDetail = await request<MovieDetailResponse>(`movie/${id}`);
+  const movieDetail = await request<MovieDetailResponse>(`movie/${id}`, QUERY_PARAMS);
 
   return movieDetail;
 };
