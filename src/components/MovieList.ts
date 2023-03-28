@@ -8,37 +8,16 @@ export default class MovieList extends HTMLElement {
     super();
 
     movies.subscribe('movies', this.movieItemRender.bind(this));
-    movies.subscribe('loading', this.skeletonItemRender.bind(this));
     movies.subscribe('unloading', this.render.bind(this));
 
     this.render();
-    this.skeletonItemRender();
   }
 
   render() {
     this.innerHTML = `<ul class="item-list movie-container"></ul>`;
   }
 
-  skeletonItemRender() {
-    $('.movie-container').insertAdjacentHTML(
-      'beforeend',
-      this.skeletonItemTemplate()
-    );
-  }
-
-  skeletonItemTemplate() {
-    return `
-    <ul class="item-list skeleton-container">
-    ${new Array(20)
-      .fill('')
-      .map(() => `<skeleton-item></skeleton-item>`)
-      .join('')}
-    </ul>`;
-  }
-
   movieItemRender(movies?: any) {
-    $('.skeleton-container').remove();
-
     $('.movie-container').insertAdjacentHTML(
       'beforeend',
       this.movieItemTemplate(movies) || ''
