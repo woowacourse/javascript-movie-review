@@ -43,7 +43,6 @@ class Header {
     });
 
     EventBroker.dispatchEvent(updateMovieListEvent);
-    // stateRender.renderSearchedMovies(value);/
   }
 
   private checkSearchWordValidation(value: string, query: string) {
@@ -63,8 +62,11 @@ class Header {
     const { target } = e;
     if (target.id !== 'logo') return;
 
-    eventThrottle(() => stateRender.renderPopularMovies(), 2000)();
+    const updateMovieListEvent = new CustomEvent('updateMovieListEvent', {
+      detail: { keyword: '' },
+    });
 
+    EventBroker.dispatchEvent(updateMovieListEvent);
     this.$searchBox.reset();
   }
 
