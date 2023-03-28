@@ -228,7 +228,7 @@ header .search-box > .search-button {
 }
 
 .movie-rate-title {
-  margin-left: 20px;
+  margin-left: 12px;
   margin-right: 20px;
 }
 
@@ -238,6 +238,10 @@ header .search-box > .search-button {
 
 .movie-stars {
   cursor: pointer;
+}
+
+.rating {
+  margin-right: 10px;
 }
 
 .close-button {
@@ -332,20 +336,19 @@ button.primary {
   }
 
   .modal-container {
-    position: fixed;
-    bottom: 0;
     width: 100%;
     background-color: #212122;
     border-radius: 8px;
     box-shadow: 0 2px 3px 0 rgba(35, 35, 35, 0.15);
-    transform: translateX(-50%) translateY(0%);
+    transform: translateX(-50%) translateY(-50%);
   }
+
   .movie-detail {
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 12px 28px;
+    padding: 12px 10px;
     color: #f1f1f1;
     font-size: 16px;
   }
@@ -374,5 +377,13 @@ button.primary {
     height: 50px;
     background: #383839;
     border-radius: 16px;
+  }
+
+  .rate-question {
+    display: none;
+  }
+
+  .rate-comment {
+    display: none;
   }
 }
