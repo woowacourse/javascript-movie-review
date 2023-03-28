@@ -13,7 +13,7 @@ export const onSubmitSearchBox = () => {
   });
 };
 
-const searchMovieByKeyword = (keyword: string) => {
+export const searchMovieByKeyword = (keyword: string) => {
 
   if (keyword === "") return;
 

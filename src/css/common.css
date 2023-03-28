@@ -197,11 +197,12 @@ header .search-box > .search-button {
   margin-bottom: 100px;
 }
 
+/* !! 모바일 기준 : 가로 576px !! */
 @media screen and (max-width: 576px) {
-  .header-pc {
+  #search-form {
     display: none;
   }
-  .header-mobile {
+  #search-form-trigger {
     display: block;
   }
   .rating-description {
@@ -210,14 +211,14 @@ header .search-box > .search-button {
 }
 
 @media screen and (min-width: 576px) {
-  .item-list {
-    grid-template-columns: repeat(2, 180px);
-  }
-  .header-pc {
+  #search-form {
     display: block;
   }
-  .header-mobile {
+  #search-form-trigger {
     display: none;
+  }
+  .item-list {
+    grid-template-columns: repeat(2, 180px);
   }
 }
 
