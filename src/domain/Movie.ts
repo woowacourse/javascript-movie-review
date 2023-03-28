@@ -1,4 +1,10 @@
-import { ApiMovieItem, MovieAppData, MovieItem } from "../type/movieType";
+import {
+  ApiError,
+  ApiMovie,
+  ApiMovieItem,
+  MovieAppData,
+  MovieItem,
+} from "../type/movieType";
 import { request } from "../util/apiRequest";
 import { popularMovieUrl, searchMovieUrl } from "./movieUrl";
 import GenreMatcher from "./GenreMatcher";
@@ -6,6 +12,7 @@ import { ImgSrc } from "../constant/movieConstants";
 
 class Movie {
   private data: MovieAppData = {
+    status: "fulfilled",
     movies: [],
     searchWord: "",
     page: 1,
@@ -26,7 +33,7 @@ class Movie {
 
     const apiData = await this.getApiData();
 
-    if (apiData.error) {
+    if (apiData.status === "rejected") {
       return apiData;
     }
 
@@ -43,7 +50,7 @@ class Movie {
 
     const apiData = await this.getApiData();
 
-    if (apiData.error) {
+    if (apiData.status === "rejected") {
       return apiData;
     }
 
@@ -82,7 +89,7 @@ class Movie {
       : popularMovieUrl(this.data.page);
   }
 
-  private async getApiData() {
+  private async getApiData(): Promise<ApiError | ApiMovie> {
     const url = this.makeUrl();
     const apiData = await request(url);
     return apiData;

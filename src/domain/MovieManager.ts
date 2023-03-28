@@ -19,7 +19,7 @@ class MovieManager {
     });
   }
 
-  setNewState<T>(newState: T) {
+  private setNewState<T>(newState: T) {
     this.state = { ...this.state, ...newState };
     this.publish(this.state);
   }
@@ -29,7 +29,10 @@ class MovieManager {
 
     const movieAppData = await Movie.getMovies(searchWord);
     const newState = {
-      status: movieAppData.error ? apiStatus.FAILURE : apiStatus.SUCCESS,
+      status:
+        movieAppData.status === "rejected"
+          ? apiStatus.FAILURE
+          : apiStatus.SUCCESS,
       data: movieAppData,
     };
     this.setNewState(newState);
@@ -40,7 +43,10 @@ class MovieManager {
 
     const movieAppData = await Movie.getMoreMovies();
     const newState = {
-      status: movieAppData.error ? apiStatus.FAILURE : apiStatus.SUCCESS,
+      status:
+        movieAppData.status === "rejected"
+          ? apiStatus.FAILURE
+          : apiStatus.SUCCESS,
       data: movieAppData,
     };
 

@@ -25,6 +25,7 @@ export interface MovieItem {
 }
 
 export interface MovieAppData {
+  status: "fulfilled";
   movies: MovieItem[];
   searchWord: string;
   page: number;
@@ -32,7 +33,16 @@ export interface MovieAppData {
   isShowMore: boolean;
 }
 
-export interface Error {
+export interface ApiMovie {
+  status: "fulfilled";
+  page: number;
+  total_pages: number;
+  results: ApiMovieItem[];
+  total_results: number;
+}
+
+export interface ApiError {
+  status: "rejected";
   error: number;
   errorMessage: string;
 }
