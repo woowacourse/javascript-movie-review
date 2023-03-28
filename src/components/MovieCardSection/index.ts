@@ -1,5 +1,4 @@
 import './MovieCardSection.style.css';
-
 import LoadMoreButton from './LoadMoreButton';
 import MovieCardList from './MovieCardList';
 import MovieSectionTitle from './MovieSectionTitle';
@@ -19,8 +18,7 @@ const MovieCardSection = {
     `;
   },
   setEvent(movies: Movies, target: HTMLElement) {
-    const itemView = target.querySelector(`.${CLASS.ITEM_VIEW}`) as HTMLElement;
-    LoadMoreButton.setEvent(movies, itemView);
+    LoadMoreButton.autoClick(movies, target);
   },
   render(query: string = '') {
     MovieCardSection.renderEmpty(false);

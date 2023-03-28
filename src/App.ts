@@ -1,10 +1,11 @@
 import Header from './components/Header';
 import MovieCardSection from './components/MovieCardSection';
 import MovieCardList from './components/MovieCardSection/MovieCardList';
+import MovieDetailModal from './components/MovieDetailModal';
 import { ERROR_MESSAGE } from './constants';
 import { ID } from './constants/selector';
 import Movies from './domain/Movies';
-import type { Movie, ErrorMessage } from './types/movie';
+import type { Movie } from './types/movie';
 
 class App {
   #app: HTMLDivElement;
@@ -41,6 +42,7 @@ class App {
       ${Header.template()}
       <main>
         ${MovieCardSection.template()}
+        ${MovieDetailModal.template()}
       </main>
     `;
   }
@@ -52,6 +54,7 @@ class App {
   setEvent() {
     Header.setEvent(this.#movies, this.#app);
     MovieCardSection.setEvent(this.#movies, this.#app);
+    MovieDetailModal.setEvent(this.#app);
   }
 }
 

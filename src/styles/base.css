@@ -1,3 +1,7 @@
+html {
+  width: 100%;
+}
+
 * {
   box-sizing: border-box !important;
 }
@@ -27,4 +31,8 @@ button {
 
 .hide {
   display: none !important;
+}
+
+p > img {
+  transform: translateY(4px);
 }
