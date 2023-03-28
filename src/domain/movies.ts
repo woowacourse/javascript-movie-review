@@ -1,7 +1,6 @@
-import { removeMoreButton, renderMovieList, dummySkeletons } from "../components/movie-list/movieListHandler";
+import { removeMoreButton, renderMovieList } from "../components/movie-list/movieListHandler";
 import { findGenreNameById } from "./genres";
 import { Movie } from "../type";
-import { $ } from "../utils/selector";
 import { fetchMovies } from "./movieApi";
 import Store from "./Store";
 
@@ -26,24 +25,6 @@ export const searchMovieByKeyword = (keyword: string) => {
   store.setLastKeyword(keyword);
 
   updateMovies(keyword);
-}
-
-export const checkIntersectionObserverEntries = (intersectionObserverEntries: IntersectionObserverEntry[]) => {
-  const isElementVisible = intersectionObserverEntries[0].isIntersecting; // 옵저빙을 하나만 했으므로 굳이 배열을 돌리지 않습니다.
-  if (isElementVisible) {
-    loadNextPage();
-  }
-}
-
-const loadNextPage = () => {
-  $(".item-list").insertAdjacentHTML("beforeend", dummySkeletons());
-  store.nextPage();
-
-  if (store.getLastKeyword() === "") {
-    updateMovies();
-  } else {
-    updateMovies(store.getLastKeyword());
-  }
 }
 
 export const updateMovies = async (keyword?: string) => {
