@@ -193,10 +193,12 @@ header {
 }
 
 .star-filled {
+  margin-right: 4px;
   content: url("../assets/image/star_filled.png");
 }
 
 .star-empty {
+  margin-right: 4px;
   content: url("../assets/image/star_empty.png");
 }
 
