@@ -74,9 +74,10 @@ class MovieItemModal extends CustomElement {
   }
 
   setCloseEvent() {
-    $(".item-modal-close-button").addEventListener("click", () => {
-      this.closeModal();
-    });
+    [$(".item-modal-close-button"), $(".backdrop")].forEach(($element) => {
+      $element.addEventListener("click", () => {
+        this.closeModal();
+      });
 
     $(".backdrop").addEventListener("click", () => {
       this.closeModal();
