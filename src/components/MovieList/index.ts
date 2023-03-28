@@ -59,7 +59,7 @@ export class MovieList extends HTMLElement {
       if (!(e.target instanceof HTMLElement)) return;
       const target = e.target.closest('movie-item');
       if (!target) return;
-      const id = Number(target?.getAttribute('id'));
+      const id = Number(target.getAttribute('id'));
       handler(id);
     });
   }
