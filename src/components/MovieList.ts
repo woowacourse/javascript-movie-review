@@ -1,53 +1,57 @@
 import { MovieItemType } from '../type/movie';
 import { $ } from '../utils/domHelper';
 
-import MovieItem from './MovieItem';
 import movies from '../domain/Movies';
 
-export default class MovieList {
-  private $target;
+export default class MovieList extends HTMLElement {
+  constructor() {
+    super();
 
-  constructor($parentTarget: HTMLElement) {
-    $parentTarget.insertAdjacentHTML('beforeend', this.initTemplate());
-    this.$target = $('.item-list');
+    movies.subscribe('movies', this.movieItemRender.bind(this));
+    movies.subscribe('unloading', this.render.bind(this));
 
-    movies.subscribe('movies', this.render.bind(this));
-    movies.subscribe('loading', this.skeletonRender.bind(this));
+    this.render();
   }
 
-  initTemplate() {
-    return `
-      <ul class="item-list movie-container"></ul>
-    `;
+  render() {
+    this.innerHTML = `<ul class="item-list movie-container"></ul>`;
   }
 
-  skeletonTemplate() {
-    return `
-    <ul class="item-list skeleton-container">
-    ${new Array(20)
-      .fill('')
-      .map(() => new MovieItem().skeletonTemplate())
-      .join('')}
-      </ul>
-      `;
-  }
-
-  skeletonRender() {
-    this.$target.insertAdjacentHTML('beforeend', this.skeletonTemplate());
-  }
-
-  render(popularMovies?: MovieItemType[]) {
-    $('.skeleton-container').remove();
-
-    this.$target.insertAdjacentHTML(
+  movieItemRender(movies?: MovieItemType[]) {
+    $('.movie-container').insertAdjacentHTML(
       'beforeend',
-      this.template(popularMovies) || ''
+      this.movieItemTemplate(movies) || ''
     );
+
+    this.seeMoreMovie();
   }
 
-  template(popularMovies?: MovieItemType[]) {
-    return popularMovies
-      ?.map((movie: MovieItemType) => new MovieItem().template(movie))
+  movieItemTemplate(movies?: MovieItemType[]) {
+    return movies
+      ?.map(
+        ({ id, poster_path, title, vote_average }: MovieItemType) =>
+          `<movie-item id="${id}" poster-path="${poster_path}" title="${title}" vote-average="${vote_average}"></movie-item>`
+      )
       .join('');
+  }
+
+  seeMoreMovie() {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          io.unobserve(entry.target);
+
+          if (movies.getIsSearched() && !movies.getIsEnd()) {
+            movies.searchMovies(movies.getQuery());
+          }
+          if (!movies.getIsSearched() && !movies.getIsEnd()) {
+            movies.getPopularMovies();
+          }
+        }
+      });
+    });
+
+    const newSubject = $('.movie-container').lastElementChild;
+    if (newSubject instanceof HTMLElement) io.observe(newSubject);
   }
 }

@@ -1,37 +1,41 @@
 import { MOVIE_APP_IMG_PATH } from '../constant/index';
-import { MovieItemType } from '../type/movie';
+import movies from '../domain/Movies';
+import { $ } from '../utils/domHelper';
 
-export default class MovieItem {
-  template({ id, poster_path, title, vote_average }: MovieItemType) {
-    return `
-    <li id="${id}">
-      <a href="#">
-        <div class="item-card">
-          <img
-          class="item-thumbnail skeleton"
-          src="https://image.tmdb.org/t/p/original${poster_path}"
-          onerror=this.src="${MOVIE_APP_IMG_PATH.posterEmpty}"
-          loading="lazy"
-          />
-          <p class="item-title">${title}</p>
-          <p class="item-score"><img src="${MOVIE_APP_IMG_PATH.starFilled}" alt="별점" /> ${vote_average}</p>
-        </div>
-      </a>
+export default class MovieItem extends HTMLElement {
+  constructor() {
+    super();
+
+    this.render();
+  }
+
+  render() {
+    this.innerHTML = `
+    <li class="movie-item" id="${this.getAttribute('id')}">
+      <div class="item-card">
+        <img
+        class="item-thumbnail skeleton"
+        src="https://image.tmdb.org/t/p/original${this.getAttribute(
+          'poster-path'
+        )}"
+        onerror=this.src="${MOVIE_APP_IMG_PATH.posterEmpty}"
+        loading="lazy"
+        />
+        <p class="item-title">${this.getAttribute('title')}</p>
+        <p class="item-score"><img src="${
+          MOVIE_APP_IMG_PATH.starFilled
+        }" alt="별점" /> ${this.getAttribute('vote-average')}</p>
+      </div>
     </li>
     `;
   }
 
-  skeletonTemplate() {
-    return `
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>
-    `;
+  connectedCallback() {
+    this.addEventListener('click', async () => {
+      await movies.getDetailMovie(Number(this.getAttribute('id')));
+      const detailModal = $('.movie-modal');
+
+      if (detailModal instanceof HTMLDialogElement) detailModal.showModal();
+    });
   }
 }
