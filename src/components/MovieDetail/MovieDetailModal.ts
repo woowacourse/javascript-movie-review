@@ -82,11 +82,9 @@ class MovieDetailModal implements Component {
     return this;
   }
 
-  #closeModal() {
+  #closeModal(): void {
     document.body.style.overflow = 'auto';
     this.node.remove();
-
-    return this;
   }
 
   showModal() {

@@ -11,7 +11,7 @@ const movieRatingStore = {
     return ratingMap?.[id]?.rating || 0;
   },
 
-  setMovieRating(id: number, rating: MovieRating) {
+  setMovieRating(id: number, rating: MovieRating): void {
     const ratingMap = JSON.parse(localStorage.getItem('rating') || '{}');
     ratingMap[id] = { rating };
     localStorage.setItem('rating', JSON.stringify(ratingMap));
