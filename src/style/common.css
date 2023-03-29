@@ -386,6 +386,7 @@ img[src='./star_filled.png'] {
 
 .error-modal {
   position: fixed;
+  max-width: 700px;
   top: 30px;
   left: 50%;
   width: 70%;
