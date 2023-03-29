@@ -3,8 +3,6 @@ import Movie from '../domain/Movie';
 import userMovieScore from '../domain/userMovieScore';
 import { $, convertHourAndMinute } from '../utils/common';
 import { setHashURL, sliceScore, sliceSting } from '../utils/domain';
-import STAR_FILLED from '../image/star-filled.png';
-import STAR_EMPTY from '../image/star-empty.png';
 import { HTMLMovieListItemElement } from './MovieListItem';
 import { MovieDetailInfo, MovieInfo } from '../types/type';
 import { SCORE_COMMENT, SCROLL_HIDDEN_CLASSNAME } from '../constants';
@@ -54,7 +52,6 @@ class Modal extends HTMLElement {
   }
 
   render(): void {
-    const STAR_COUNT = 5;
     const { title, imgUrl, score, description, categories, releaseDate, runningTime } = this.#detailMovieInfo;
 
     const categoriesText = categories !== '' ? categories : '카테고리 없음';
@@ -95,8 +92,12 @@ class Modal extends HTMLElement {
                         </div>
                         <div class="modal-my-score-wrapper">
                             <span class="modal-my-score">내 별점</span>
-                            <div id="modal-star-score" class="modal-star-score">
-                                ${`<img class="modal-star" src="${STAR_EMPTY}">`.repeat(STAR_COUNT)}
+                            <div class="modal-score-container">
+                              <input class="star-input-radio" type="radio" value="2">
+                              <input class="star-input-radio" type="radio" value="4">
+                              <input class="star-input-radio" type="radio" value="6">
+                              <input class="star-input-radio" type="radio" value="8">
+                              <input class="star-input-radio" type="radio" value="10">
                             </div>
                             <span id="modal-my-score" class="modal-number-score"></span>
                             <span id="modal-my-comment" class="modal-comment"></span>
@@ -109,18 +110,18 @@ class Modal extends HTMLElement {
   }
 
   renderStar(): void {
-    const stars = this.querySelectorAll('.modal-star') as NodeListOf<HTMLImageElement>;
+    const starInputs = this.querySelectorAll('.star-input-radio') as NodeListOf<HTMLInputElement>;
 
     const score = userMovieScore.getScore(this.#detailMovieInfo.id);
 
-    const starIndex = score / 2 - 1;
+    const targetIndex = score / 2 - 1;
 
-    stars.forEach((imgItem, imgIndex) => {
-      if (imgIndex <= starIndex) {
-        imgItem.src = STAR_FILLED;
+    starInputs.forEach((element, starIndex) => {
+      if (starIndex > targetIndex) {
+        element.checked = false;
         return;
       }
-      imgItem.src = STAR_EMPTY;
+      element.checked = true;
     });
   }
 
@@ -141,23 +142,23 @@ class Modal extends HTMLElement {
   }
 
   setStarClickEvent(): void {
-    const stars = this.querySelectorAll('.modal-star') as NodeListOf<HTMLImageElement>;
+    const container = $('.modal-score-container') as HTMLDivElement;
 
-    stars.forEach((item, index) => {
-      item.addEventListener('click', () => {
-        const score = (Number(index) + 1) * 2;
-        this.setMovieScore(score);
-        this.renderStar();
-        this.renderScoreText();
-        this.updateMovieItemReviewed();
-      });
+    container.addEventListener('click', event => {
+      const target = event.target as HTMLInputElement;
+      if (target.localName !== 'input') return;
+      const score = Number(target.value);
+      this.setMovieScore(score);
+      this.renderStar();
+      this.renderScoreText();
+      this.updateMovieItemReviewed();
     });
   }
 
   setMovieScore(score: number): void {
     const id = this.#detailMovieInfo.id;
 
-    userMovieScore.setLocalStorage({ id, score });
+    userMovieScore.setUserData({ id, score });
   }
 
   updateMovieItemReviewed(): void {

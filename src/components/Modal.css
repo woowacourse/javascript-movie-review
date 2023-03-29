@@ -144,6 +144,29 @@
   margin-right: 10px;
 }
 
+.modal-score-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  bottom: 4px;
+  margin: 0 8px;
+}
+
+.star-input-radio {
+  vertical-align: middle;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  background: url('../image/star-empty.png');
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.star-input-radio:checked {
+  background: url('../image/star-filled.png');
+}
+
 @keyframes skeleton-animation {
   0% {
     background-position: 0% 50%;
