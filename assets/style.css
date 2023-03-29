@@ -389,20 +389,23 @@ header .search-box > .search-button {
 
 .star-rating-container {
   display: flex;
-  flex-wrap: nowrap;
-  gap: 5px;
-  align-items: center;
-  margin-top: auto;
-  padding: 10px;
   height: 64px;
+
+  gap: 10px;
+  margin-top: auto;
+  padding: 15px;
+
+  align-items: center;
+
   border-radius: 16px;
   background-color: rgba(56, 56, 57, 1);
 }
 
 .star-rating-container > .star-container {
-  width: 35%;
   display: flex;
   justify-content: center;
+
+  gap: 4px;
 }
 
 .star-image {
@@ -410,13 +413,22 @@ header .search-box > .search-button {
   height: 20px;
 }
 
+.star-rating-container > p:first-child {
+  width: 76px;
+}
+
 .star-rating-image {
   width: 25px;
   height: 25px;
-  flex-shrink: 1;
+  cursor: pointer;
+}
+
+.star-rating-score {
+  width: 20px;
 }
 
 .star-rating-caption {
+  width: 100px;
   font-weight: bold;
 }
 
@@ -438,6 +450,20 @@ header .search-box > .search-button {
 
   .star-rating-container > p:first-child {
     font-size: 1.4rem;
+    width: 59px;
+  }
+
+  .star-rating-image {
+    width: 23px;
+    height: 23px;
+  }
+
+  .star-rating-score {
+    width: 18px;
+  }
+
+  .star-rating-caption {
+    width: 80px;
   }
 }
 

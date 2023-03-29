@@ -33,7 +33,7 @@ class MovieDetailModal {
           </div>
           <p class="movie-overview">${overview}</p>
           <div class="star-rating-container">
-            <p>My Star Rating</p>
+            <p>My Rating</p>
             <div class="star-container">
               <img src="${starRating.imagePath}" alt="Star Image" class="star-rating-image" data-value="1"/>
               <img src="${starRating.imagePath}" alt="Star Image" class="star-rating-image" data-value="2"/>
