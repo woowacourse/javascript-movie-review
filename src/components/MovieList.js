@@ -1,18 +1,14 @@
 import starFilled from '../../templates/star_filled.png';
 
-import SkeletonCards from './skeletonCards';
-
 class MovieList {
   $ul = document.createElement('ul');
-
-  skeletonCards;
 
   constructor($target) {
     this.init();
 
     this.render($target);
 
-    this.skeletonCards = new SkeletonCards(this.$ul);
+    this.bindEvent();
   }
 
   init() {
@@ -21,6 +17,16 @@ class MovieList {
 
   render($target) {
     $target.insertAdjacentElement('beforeend', this.$ul);
+  }
+
+  bindEvent() {
+    this.$ul.addEventListener('click', ({ target }) => {
+      if (!target.closest('.item')) return;
+
+      const { id } = target.closest('.item');
+
+      document.dispatchEvent(new CustomEvent('showMovieDetail', { detail: { id } }));
+    });
   }
 
   insertMovies(movies) {
@@ -69,14 +75,6 @@ class MovieList {
       </li>`;
 
     return template;
-  }
-
-  appearSkeleton() {
-    this.skeletonCards.appear();
-  }
-
-  hideSkeleton() {
-    this.skeletonCards.hide();
   }
 }
 

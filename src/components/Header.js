@@ -3,8 +3,6 @@ import logo from '../../templates/logo.png';
 class Header {
   $header = document.createElement('header');
 
-  query;
-
   constructor($target) {
     this.init();
 
@@ -14,12 +12,34 @@ class Header {
   }
 
   init() {
-    this.$header.classList = '';
     this.$header.innerHTML = this.getTemplate();
   }
 
   render($target) {
     $target.insertAdjacentElement('afterbegin', this.$header);
+  }
+
+  bindEvent() {
+    this.$header.addEventListener('click', ({ target }) => {
+      if (target.id !== 'logo') return;
+      this.clearQuery();
+
+      document.dispatchEvent(new CustomEvent('renderMovies', { detail: { query: null, page: 1 } }));
+    });
+
+    this.$header.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const query = e.target[0].value;
+
+      document.dispatchEvent(new CustomEvent('renderMovies', { detail: { query, page: 1 } }));
+    });
+  }
+
+  clearQuery() {
+    const $input = document.querySelector('.search-input');
+
+    $input.value = '';
   }
 
   getTemplate() {
@@ -32,26 +52,6 @@ class Header {
       `;
 
     return template;
-  }
-
-  bindEvent() {
-    this.$header.addEventListener('click', ({ target }) => {
-      if (target.id !== 'logo') return;
-
-      document.dispatchEvent(new CustomEvent('renderMovies', { detail: { query: null, page: 1 } }));
-    });
-  }
-
-  getQuery() {
-    const $input = document.querySelector('.search-input');
-
-    return $input.value;
-  }
-
-  clearQuery() {
-    const $input = document.querySelector('.search-input');
-
-    $input.value = '';
   }
 }
 

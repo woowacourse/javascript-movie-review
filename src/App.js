@@ -14,13 +14,12 @@ class App {
 
   movie;
 
-  header;
-
   movieView;
 
   movieDetail;
 
   page;
+  query = null;
 
   isLoading;
 
@@ -29,15 +28,17 @@ class App {
 
     this.render($target);
 
-    this.bindEvent($target);
+    this.bindEvent();
   }
 
   init($target) {
     this.movie = new Movie();
 
-    this.header = new Header($target);
+    new Header($target);
     this.movieView = new MovieView(this.$main);
     this.movieDetail = new MovieDetail($target);
+
+    this.page = pageCounter(1);
 
     this.updateMovieView();
   }
@@ -46,91 +47,34 @@ class App {
     $target.insertAdjacentElement('beforeend', this.$main);
   }
 
-  bindEvent($target) {
-    // $target.addEventListener('click', this.onClickHandler.bind(this));
-    // $target.addEventListener('submit', this.onSubmitHandler.bind(this));
+  bindEvent() {
+    document.addEventListener('renderMovies', ({ detail: { query, page } }) => {
+      this.query = query;
+      if (page === 1) this.page = pageCounter(0);
 
-    window.addEventListener('scroll', this.onScrollHandler.bind(this));
+      this.updateMovieView();
+    });
 
-    document.addEventListener('renderMovies', ({ detail: { query, page } }) =>
-      this.updateMovieView(query, page)
-    );
-  }
-
-  async updateMovieView(query = null, page = 1) {
-    const { isError, data } = await this.movie.getMovies(query, page);
-    if (isError) return;
-
-    document.dispatchEvent(new CustomEvent('updateMovieListTitle', { detail: { query } }));
-    this.movieView.addMovies(data);
-  }
-
-  onScrollHandler() {
-    if (this.isLoading) return;
-
-    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-    if (clientHeight < Math.round(scrollHeight - scrollTop)) return;
-
-    this.isLoading = true;
-    const query = this.header.getQuery();
-    if (query) {
-      this.renderFoundMovies(query, this.page());
-
-      return;
-    }
-
-    this.renderPopularMovies(this.page());
-  }
-
-  async onClickHandler({ target }) {
-    if (target.closest('.item')) {
-      const { id } = target.closest('.item');
-
-      const { data, isError } = await this.movie.getMovieDetail(id);
+    document.addEventListener('showMovieDetail', async ({ detail: { id } }) => {
+      const { data, isError } = await this.movie.getMovieById(id);
       if (isError) return;
 
       this.movieDetail.open(data);
-    }
+    });
   }
 
-  onSubmitHandler(e) {
-    e.preventDefault();
-    if (this.isLoading) return;
+  async updateMovieView() {
+    this.movieView.showSkeleton();
 
-    const query = e.target[0].value;
-    if (!query) return alert('검색어를 입력 하세요');
-
-    this.page = pageCounter(0);
-
-    this.renderFoundMovies(query, this.page());
-  }
-
-  async renderPopularMovies(page) {
-    this.isLoading = true;
-    this.movieView.appearSkeleton();
-
-    const { isError, data } = await this.movie.getPopularMovies(page);
+    const { isError, data } = await this.movie.getMovies(this.query, this.page());
     if (!isError) {
-      document.dispatchEvent(new CustomEvent('updateMovieListTitle', { detail: { query: null } }));
+      document.dispatchEvent(
+        new CustomEvent('updateMovieListTitle', { detail: { query: this.query } })
+      );
       this.movieView.addMovies(data);
     }
 
     this.movieView.hideSkeleton();
-    this.isLoading = false;
-  }
-
-  async renderFoundMovies(query, page) {
-    this.isLoading = true;
-    this.movieView.appearSkeleton();
-
-    const { isError, data } = await this.movie.getFoundMovies(query, page);
-    if (!isError) {
-      document.dispatchEvent(new CustomEvent('updateMovieListTitle', { detail: { query } }));
-      this.movieView.addMovies(data);
-    }
-
-    this.movieView.hideSkeleton();
-    this.isLoading = false;
   }
 }
 

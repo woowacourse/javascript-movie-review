@@ -32,7 +32,7 @@ class SkeletonCards {
     return skeleton;
   }
 
-  appear() {
+  show() {
     this.$ul.classList.remove('hidden');
   }
 

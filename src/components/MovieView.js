@@ -1,5 +1,6 @@
 import MovieList from './MovieList';
 import MovieListTitle from './MovieListTitle';
+import SkeletonCards from './SkeletonCards';
 
 class MovieView {
   $itemView = document.createElement('section');
@@ -8,29 +9,47 @@ class MovieView {
 
   movieList;
 
+  skeletonCards;
+
   constructor($target) {
     this.init();
 
     this.render($target);
+
+    this.bindEvent();
   }
 
   init() {
     this.$itemView.classList = 'item-view';
 
-    this.movieListTitle = new MovieListTitle(this.$itemView);
+    new MovieListTitle(this.$itemView);
     this.movieList = new MovieList(this.$itemView);
+    this.skeletonCards = new SkeletonCards(this.$itemView);
   }
 
   render($target) {
     $target.insertAdjacentElement('afterbegin', this.$itemView);
   }
 
-  appearSkeleton() {
-    this.movieList.appearSkeleton();
+  bindEvent() {
+    window.addEventListener('scroll', this.onScrollHandler);
+  }
+
+  onScrollHandler() {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    if (clientHeight < Math.round(scrollHeight - scrollTop)) return;
+
+    document.dispatchEvent(
+      new CustomEvent('renderMovies', { detail: { query: null, page: null } })
+    );
+  }
+
+  showSkeleton() {
+    this.skeletonCards.show();
   }
 
   hideSkeleton() {
-    this.movieList.hideSkeleton();
+    this.skeletonCards.hide();
   }
 
   addMovies({ page, results: movies, total_pages }) {
