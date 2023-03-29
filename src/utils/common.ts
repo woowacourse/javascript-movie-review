@@ -1,4 +1,4 @@
-import { ApiMovieProps } from './../types/type';
+import { ApiMovieProps, MyScore } from './../types/type';
 
 export const $ = (selector: string) => document.querySelector(selector);
 
@@ -38,13 +38,36 @@ export const parsedFechedMovies = (fetchedMovies: ApiMovieProps[]) => {
 };
 
 export const setMyScore = (id: string, score: string) => {
-  if (window.localStorage.getItem(id) === null) {
-    return window.localStorage.setItem(id, score);
+  const myScores: MyScore[] = JSON.parse(window.localStorage.getItem('myScore'));
+
+  if (!myScores.find(info => info.id === id)) {
+    myScores.push({ id, score });
+
+    return window.localStorage.setItem('myScore', JSON.stringify(myScores));
   }
 
-  window.localStorage.setItem(id, score);
+  window.localStorage.setItem(
+    'myScore',
+    JSON.stringify(
+      myScores.map(info => {
+        if (info.id === id) {
+          info.score = score;
+          return info;
+        }
+        return info;
+      })
+    )
+  );
 };
 
 export const getMyScore = (id: string) => {
-  return window.localStorage.getItem(id);
+  const myScore: MyScore | undefined = JSON.parse(window.localStorage.getItem('myScore')).find(
+    (info: MyScore) => info.id === id
+  );
+
+  if (!myScore) {
+    return '0';
+  }
+
+  return myScore.score;
 };

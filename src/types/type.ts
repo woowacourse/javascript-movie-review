@@ -14,3 +14,8 @@ export interface ApiMovieProps {
   vote_average: number;
   vote_count: number;
 }
+
+export interface MyScore {
+  id: string;
+  score: string;
+}
