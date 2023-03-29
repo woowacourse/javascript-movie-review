@@ -30,21 +30,6 @@ class App {
     this.render($target);
 
     this.bindEvent($target);
-
-    document.addEventListener('renderMovies', async ({ detail: { query, page } }) => {
-      if (query) {
-        const { isError, data } = await this.movie.getFoundMovies(query, page);
-        this.movieView.updateMovieListTitle();
-        this.movieView.addMovies(data);
-
-        return;
-      }
-
-      const { isError, data } = await this.movie.getPopularMovies(page);
-      this.movieView.updateMovieListTitle(query);
-      this.movieView.addMovies(data);
-      this.renderPopularMovies;
-    });
   }
 
   init($target) {
@@ -54,9 +39,7 @@ class App {
     this.movieView = new MovieView(this.$main);
     this.movieDetail = new MovieDetail($target);
 
-    this.page = pageCounter(0);
-
-    this.renderPopularMovies(this.page());
+    this.updateMovieView();
   }
 
   render($target) {
@@ -64,10 +47,22 @@ class App {
   }
 
   bindEvent($target) {
-    $target.addEventListener('click', this.onClickHandler.bind(this));
-    $target.addEventListener('submit', this.onSubmitHandler.bind(this));
+    // $target.addEventListener('click', this.onClickHandler.bind(this));
+    // $target.addEventListener('submit', this.onSubmitHandler.bind(this));
 
     window.addEventListener('scroll', this.onScrollHandler.bind(this));
+
+    document.addEventListener('renderMovies', ({ detail: { query, page } }) =>
+      this.updateMovieView(query, page)
+    );
+  }
+
+  async updateMovieView(query = null, page = 1) {
+    const { isError, data } = await this.movie.getMovies(query, page);
+    if (isError) return;
+
+    document.dispatchEvent(new CustomEvent('updateMovieListTitle', { detail: { query } }));
+    this.movieView.addMovies(data);
   }
 
   onScrollHandler() {
@@ -88,18 +83,6 @@ class App {
   }
 
   async onClickHandler({ target }) {
-    if (target.id === 'logo') {
-      if (this.isLoading) return;
-
-      this.header.clearQuery();
-
-      this.page = pageCounter(0);
-
-      this.renderPopularMovies(this.page());
-
-      return;
-    }
-
     if (target.closest('.item')) {
       const { id } = target.closest('.item');
 

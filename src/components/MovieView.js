@@ -17,8 +17,6 @@ class MovieView {
   init() {
     this.$itemView.classList = 'item-view';
 
-    this.category = 'popular';
-
     this.movieListTitle = new MovieListTitle(this.$itemView);
     this.movieList = new MovieList(this.$itemView);
   }
@@ -33,16 +31,6 @@ class MovieView {
 
   hideSkeleton() {
     this.movieList.hideSkeleton();
-  }
-
-  updateMovieListTitle(query) {
-    if (query) {
-      this.movieListTitle.changeInnerText(`"${query}" 검색 결과`);
-
-      return;
-    }
-
-    this.movieListTitle.changeInnerText('지금 인기 있는 영화');
   }
 
   addMovies({ page, results: movies, total_pages }) {
