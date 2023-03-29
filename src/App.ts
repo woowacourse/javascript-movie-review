@@ -6,8 +6,8 @@ import { $ } from "./utils/domSelector";
 class App {
   constructor() {
     this.render();
-    this.setScrollObserver();
     this.initEvents();
+    this.setScrollObserver();
   }
 
   async render() {
@@ -26,7 +26,9 @@ class App {
   setScrollObserver() {
     const observer = new IntersectionObserver(
       (entry) => {
-        if (entry[0].isIntersecting) {
+        const [targetElement] = entry;
+
+        if (targetElement.isIntersecting) {
           MovieListContainer.onScroll();
         }
         MovieItem.removeSkeleton();
