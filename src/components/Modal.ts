@@ -47,6 +47,7 @@ class Modal extends HTMLElement {
     this.renderStar();
     this.renderScoreText();
     this.setStarClickEvent();
+    this.setStarHoverEvent();
     this.setCloseModalEvent();
     this.openModal();
   }
@@ -110,11 +111,15 @@ class Modal extends HTMLElement {
   }
 
   renderStar(): void {
-    const starInputs = this.querySelectorAll('.star-input-radio') as NodeListOf<HTMLInputElement>;
-
     const score = userMovieScore.getScore(this.#detailMovieInfo.id);
 
+    this.updateRenderStar(score);
+  }
+
+  updateRenderStar(score: number): void {
     const targetIndex = score / 2 - 1;
+
+    const starInputs = this.querySelectorAll('.star-input-radio') as NodeListOf<HTMLInputElement>;
 
     starInputs.forEach((element, starIndex) => {
       if (starIndex > targetIndex) {
@@ -152,6 +157,21 @@ class Modal extends HTMLElement {
       this.renderStar();
       this.renderScoreText();
       this.updateMovieItemReviewed();
+    });
+  }
+
+  setStarHoverEvent(): void {
+    const container = $('.modal-score-container') as HTMLDivElement;
+
+    container.addEventListener('mouseover', event => {
+      const target = event.target as HTMLInputElement;
+      if (target.localName !== 'input') return;
+      const score = Number(target.value);
+      this.updateRenderStar(score);
+    });
+
+    container.addEventListener('mouseout', () => {
+      this.renderStar();
     });
   }
 
