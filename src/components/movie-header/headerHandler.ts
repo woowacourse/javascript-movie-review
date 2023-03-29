@@ -2,12 +2,6 @@ import { searchMovieByKeyword, updateMovies } from "../../domain/movies";
 import Store from "../../domain/Store";
 import { $ } from "../../utils/selector";
 
-export const readSearchInputKeyword = () => {
-  const input = $('#search-input') as HTMLInputElement;
-  const keyword = input.value;
-  return keyword;
-}
-
 export const onClickLogo = () => {
   const store: Store = Store.getInstance();
   $("#logo").addEventListener("click", function resetApp() {
@@ -42,6 +36,12 @@ export const searchInputEnterListener = () => {
       searchMoviesAndResetHeader();
     }
   })
+}
+
+export const readSearchInputKeyword = () => {
+  const input = $('#search-input') as HTMLInputElement;
+  const keyword = input.value;
+  return keyword;
 }
 
 const searchMoviesAndResetHeader = () => {
