@@ -3,26 +3,18 @@
 }
 
 html {
-  width: 100vw;
-  height: 100vh;
   font-size: 100%;
   overflow: auto;
 }
 
 body {
-  width: 100%;
-  height: 100%;
+  position: fixed;
+
+  width: 100vw;
+  height: 100vh;
   font-size: 1rem;
   background-color: #222222;
   color: #fff;
-
-  -ms-overflow-style: none; /* 인터넷 익스플로러 */
-  scrollbar-width: none; /* 파이어폭스 */
-}
-
-/* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
-body::-webkit-scrollbar {
-  display: none;
 }
 
 a {
@@ -37,7 +29,6 @@ button {
 #app {
   width: 100%;
   height: 100%;
-  padding-bottom: 10%;
 }
 
 *:focus {
