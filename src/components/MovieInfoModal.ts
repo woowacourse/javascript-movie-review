@@ -4,8 +4,9 @@ import { makePosterImagePath } from '../utils/makePosterImagePath';
 import { MovieInterface, ScoreType } from '../utils/type';
 import { $, Event } from '../utils/index';
 import { scoreStars, showStar } from './scoreStar';
-import { GENRE, SCORE, SCORE_TEXT } from '../CONSTANT';
+import { SCORE, SCORE_TEXT } from '../CONSTANT';
 import MovieData from '../data/movieData';
+import genreData from '../data/genreData';
 
 export function movieInfoModal() {
   Event.addEvent('click', '.modal-movie-info', (event) => {
@@ -48,6 +49,7 @@ export function printMovieDetail(movie: MovieInterface, targetUSerScore: ScoreTy
   const modalElem = $('.modal-movie-info') as HTMLDialogElement;
   const { poster_path, genre_ids, vote_average, overview, id, title } = movie;
   const scoreText = targetUSerScore ? targetUSerScore + ' ' + SCORE_TEXT[targetUSerScore] : '';
+  const genreText = genreData.getMovieGenreText(genre_ids);
 
   modalElem.innerText = '';
 
@@ -61,7 +63,7 @@ export function printMovieDetail(movie: MovieInterface, targetUSerScore: ScoreTy
       <img src="${makePosterImagePath(poster_path)}" class="modal-movie-poster" alt="poster">
       <div class="modal-movie-detail-text">
         <div class="modal-movie-category">
-          ${genre_ids.map((id) => GENRE[id]).join(', ')}
+          ${genreText}
           <img src="${vote_average === 0 ? star_empty : star_filled}" alt="별점" />
           ${vote_average}
         </div>
