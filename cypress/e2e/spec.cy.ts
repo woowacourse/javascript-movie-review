@@ -36,6 +36,14 @@ describe('영화 리뷰 미션 - E2E 테스트', () => {
       { fixture: 'search/요술토끼/page-1.json' },
     );
 
+    const movieId = '315162';
+    cy.intercept(
+      {
+        url: `https://api.themoviedb.org/3/movie/${movieId}?*`,
+      },
+      { fixture: `movieId/${movieId}.json` },
+    );
+
     cy.visit('/');
   });
 
