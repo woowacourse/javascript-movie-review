@@ -18,7 +18,7 @@ class MovieDetailImage implements Component {
     this.node.innerHTML = `
     <img
       src="${this.posterPath}"
-      alt="${this.title} 설명"
+      alt="영화 제목이 ${this.title}인 포스터 사진"
     />
     `;
 
