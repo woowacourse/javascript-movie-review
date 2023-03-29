@@ -1,6 +1,8 @@
 import './MovieList.css';
 import { $, parsedFechedMovies, request } from '../../utils/common';
 
+const SKELETON_COUNT = 21;
+
 class MovieList extends HTMLElement {
   #pageIndex = 1;
   #movies;
@@ -131,7 +133,7 @@ class MovieList extends HTMLElement {
     );
 
     const parentsOfTarget = $('.item-list');
-    const target = parentsOfTarget.children[parentsOfTarget.children.length - 21];
+    const target = parentsOfTarget.children[parentsOfTarget.children.length - SKELETON_COUNT];
 
     observer.observe(target);
   }
