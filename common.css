@@ -407,6 +407,10 @@ dialog::backdrop {
     bottom: 0;
   }
 
+  .item-card:hover {
+    transform: scale(1);
+  }
+
   .movie-modal-header {
     height: 60px;
   }
@@ -426,14 +430,19 @@ dialog::backdrop {
   .movie-modal-overview p {
     width: 80vw;
     height: 40vw;
-    overflow: scroll;
+    overflow: auto;
   }
 
   .my-evaluation {
+    flex-direction: row;
     justify-content: center;
 
     height: 56px;
 
     margin-top: 16px;
+  }
+
+  .my-evaluation span {
+    margin: 0;
   }
 }
