@@ -16,4 +16,4 @@ export interface MovieListInterface {
 }
 
 export type PageStatusType = 'popular' | 'search';
-export type ScoreType = undefined | 0 | 2 | 4 | 6 | 8 | 10;
+export type ScoreType = 0 | 2 | 4 | 6 | 8 | 10;

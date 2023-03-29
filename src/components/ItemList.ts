@@ -8,7 +8,7 @@ export function ItemList() {
     const target = event.target as HTMLElement;
     const targetId = Number(target.closest('li')?.id);
     const targetMovie = MovieData.findMovie(targetId) ?? null;
-    const targetUserScore = MovieData.findUserScore(targetId);
+    const targetUserScore = MovieData.findUserScore(targetId) ?? 0;
     const infoDialogElem = $('.modal-movie-info') as HTMLDialogElement;
 
     printMovieDetail(infoDialogElem, targetMovie!, targetUserScore);

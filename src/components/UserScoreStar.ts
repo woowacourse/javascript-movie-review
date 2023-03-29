@@ -42,7 +42,6 @@ export function scoreStars() {
 }
 
 export function showStar(score: ScoreType) {
-  if (score === undefined) return;
   const stars = $('.modal-movie-star') as HTMLElement;
   for (let i = 0; i <= 4; i++) {
     if (i < score / 2) {

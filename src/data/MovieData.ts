@@ -34,7 +34,7 @@ class MovieData {
   }
 
   findUserScore(id: number) {
-    return this.#userScoreMovieList.get(id) === undefined ? 0 : this.#userScoreMovieList.get(id);
+    return this.#userScoreMovieList.get(id) == undefined ? 0 : this.#userScoreMovieList.get(id);
   }
 }
 
