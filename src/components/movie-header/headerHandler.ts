@@ -1,12 +1,6 @@
 import { searchMovieByKeyword, updateMovies } from "../../domain/movies";
 import Store from "../../domain/Store";
 import { $ } from "../../utils/selector";
-import Header from "./Header";
-
-export const getHeaderInstance = () => {
-  const header: Header = Header.getInstance();
-  return header;
-}
 
 export const readSearchInputKeyword = () => {
   const input = $('#search-input') as HTMLInputElement;

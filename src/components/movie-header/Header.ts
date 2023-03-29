@@ -2,8 +2,6 @@ import { onClickLogo, onClickSearchButton, onClickSearchFormTrigger, searchInput
 
 export default class Header extends HTMLElement {
 
-  private static instance: Header;
-
   constructor() {
     super();
     this.render();
@@ -11,14 +9,6 @@ export default class Header extends HTMLElement {
     onClickSearchFormTrigger();
     onClickSearchButton();
     searchInputEnterListener();
-  }
-
-  public static getInstance(): Header {
-    if (!Header.instance) {
-      Header.instance = new Header();
-    }
-
-    return Header.instance;
   }
 
   render() {
