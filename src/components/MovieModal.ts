@@ -67,12 +67,6 @@ const MovieModal = {
     $<HTMLDivElement>("#modal").innerHTML = template;
   },
 
-  initEvents: () => {
-    MovieModal.bindClickEvent();
-    MovieModal.bindPressEvent();
-    MovieModal.bindGoBack();
-  },
-
   renderStar: (starCount: number) => {
     const score = starCount * 2;
 
@@ -89,13 +83,13 @@ const MovieModal = {
   },
 
   getStarTemplate: (starCount: number, option: "filled" | "empty") => {
-    return [...Array(option == "filled" ? starCount : 5 - starCount)]
+    return [...Array(option === "filled" ? starCount : 5 - starCount)]
       .map(
         (_, index) =>
           `<img id="${
-            option == "filled" ? index + 1 : starCount + index + 1
+            option === "filled" ? index + 1 : starCount + index + 1
           }" class="modal-score" src="${
-            option == "filled" ? StarFilled : StarEmpty
+            option === "filled" ? StarFilled : StarEmpty
           }" alt="별점"/>`
       )
       .join("");
@@ -147,6 +141,12 @@ const MovieModal = {
     }
     $<HTMLDivElement>("#modal-backdrop").remove();
     $<HTMLDivElement>("body").classList.remove("no-scroll");
+  },
+
+  initEvents: () => {
+    MovieModal.bindClickEvent();
+    MovieModal.bindPressEvent();
+    MovieModal.bindGoBack();
   },
 };
 
