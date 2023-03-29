@@ -9,6 +9,8 @@ class Header {
     this.init();
 
     this.render($target);
+
+    this.bindEvent();
   }
 
   init() {
@@ -30,6 +32,14 @@ class Header {
       `;
 
     return template;
+  }
+
+  bindEvent() {
+    this.$header.addEventListener('click', ({ target }) => {
+      if (target.id !== 'logo') return;
+
+      document.dispatchEvent(new CustomEvent('renderMovies', { detail: { query: null, page: 1 } }));
+    });
   }
 
   getQuery() {

@@ -30,6 +30,21 @@ class App {
     this.render($target);
 
     this.bindEvent($target);
+
+    document.addEventListener('renderMovies', async ({ detail: { query, page } }) => {
+      if (query) {
+        const { isError, data } = await this.movie.getFoundMovies(query, page);
+        this.movieView.updateMovieListTitle();
+        this.movieView.addMovies(data);
+
+        return;
+      }
+
+      const { isError, data } = await this.movie.getPopularMovies(page);
+      this.movieView.updateMovieListTitle(query);
+      this.movieView.addMovies(data);
+      this.renderPopularMovies;
+    });
   }
 
   init($target) {
@@ -113,7 +128,7 @@ class App {
 
     const { isError, data } = await this.movie.getPopularMovies(page);
     if (!isError) {
-      this.movieView.updateMovieListTitle();
+      document.dispatchEvent(new CustomEvent('updateMovieListTitle', { detail: { query: null } }));
       this.movieView.addMovies(data);
     }
 
@@ -127,7 +142,7 @@ class App {
 
     const { isError, data } = await this.movie.getFoundMovies(query, page);
     if (!isError) {
-      this.movieView.updateMovieListTitle(query);
+      document.dispatchEvent(new CustomEvent('updateMovieListTitle', { detail: { query } }));
       this.movieView.addMovies(data);
     }
 

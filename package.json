@@ -10,7 +10,9 @@
     "start": "webpack serve",
     "build": "webpack --mode=development",
     "test-unit": "jest",
-    "test-e2e": "cypress open"
+    "test-e2e": "cypress open",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
@@ -20,7 +22,7 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/woowacourse-projects/javascript-movie-review/issues"
+    "url": "https://evencoding.github.io/javascript-movie-review/"
   },
   "homepage": "https://github.com/woowacourse-projects/javascript-movie-review#readme",
   "devDependencies": {
