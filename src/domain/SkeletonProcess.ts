@@ -1,6 +1,6 @@
 import { SkeletonElement } from "../type/componentType";
 
-class SkeletonBoss {
+class SkeletonProcess {
   private subscriber: SkeletonElement | undefined;
 
   subscribe(element: SkeletonElement) {
@@ -16,4 +16,4 @@ class SkeletonBoss {
   }
 }
 
-export default new SkeletonBoss();
+export default new SkeletonProcess();

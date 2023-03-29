@@ -1,5 +1,5 @@
 import CustomElement from "../basic/CustomElement";
-import ErrorBoss from "../../domain/ErrorBoss";
+import ErrorBoss from "../../domain/ErrorProcess";
 import { ERROR } from "../../abstract/constants";
 import { $ } from "../../util/dom";
 

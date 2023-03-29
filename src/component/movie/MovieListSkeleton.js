@@ -1,11 +1,11 @@
-import SkeletonBoss from "../../domain/SkeletonBoss";
+import SkeletonProcess from "../../domain/SkeletonProcess";
 import { $ } from "../../util/dom";
 import CustomElement from "../basic/CustomElement";
 
 class MovieListSkeleton extends CustomElement {
   connectedCallback() {
     super.connectedCallback();
-    SkeletonBoss.subscribe(this);
+    SkeletonProcess.subscribe(this);
   }
 
   template() {

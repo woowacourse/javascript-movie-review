@@ -1,15 +1,15 @@
 import { CustomElement } from "../type/componentType";
 
-class ErrorBoss {
+class SearchTitleProcess {
   private subscriber: CustomElement | undefined;
 
   subscribe(element: CustomElement) {
     this.subscriber = element;
   }
 
-  publish(errorCode: string) {
-    this.subscriber?.rerender(errorCode);
+  publish(searchWord: string) {
+    if (this.subscriber) this.subscriber.rerender(searchWord);
   }
 }
 
-export default new ErrorBoss();
+export default new SearchTitleProcess();
