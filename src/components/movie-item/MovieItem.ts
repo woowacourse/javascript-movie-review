@@ -2,6 +2,7 @@ import { Movie } from "../../type";
 import MovieModal from "../movie-modal/MovieModal";
 
 export default class MovieItem extends HTMLElement {
+
   private movie: Movie = {
     id: "",
     genres: [],
@@ -30,7 +31,6 @@ export default class MovieItem extends HTMLElement {
     this.addEventListener('mouseover', this.handleMouseOver);
     this.addEventListener('click', this.handleClick);
   }
-
 
   render() {
     this.innerHTML = `

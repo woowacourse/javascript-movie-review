@@ -55,7 +55,7 @@ export default class MovieModal extends HTMLElement {
         </div>
       </div>
     </div>
-    `
+    `;
   }
   open(newMovie: Movie) {
     this.render(newMovie);
