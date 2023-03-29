@@ -1,4 +1,4 @@
-import { ApiMovieItem, Movie, MovieModal } from "../type/movieType";
+import { ApiMovieItem, Movie, ApiMovieDetail } from "../type/movieType";
 import { modalUrl, popularUrl, request, searchUrl } from "../util/api";
 
 class MovieModel {
@@ -27,7 +27,7 @@ class MovieModel {
     });
   }
 
-  toDetail(result: MovieModal) {
+  toDetail(result: ApiMovieDetail) {
     const genre = result.genres
       .map((genre) => {
         return genre.name;

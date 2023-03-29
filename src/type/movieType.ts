@@ -22,11 +22,13 @@ export interface Movie {
   id: number;
 }
 
-export interface MovieModal {
-  genres: [{ id: number; name: string }];
+export interface ApiMovieDetail {
+  genres: genre;
   id: number;
   overview: string;
   poster_path: string;
   title: string;
   vote_average: number;
 }
+
+type genre = [{ id: number; name: string }];
