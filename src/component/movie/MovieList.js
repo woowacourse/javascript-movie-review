@@ -1,7 +1,7 @@
 import CustomElement from "../basic/CustomElement";
-import { $ } from "../../util/dom";
 import MovieBoss from "../../domain/MovieBoss";
-import "../movie/MovieItem";
+import { $ } from "../../util/dom";
+import "./MovieItem";
 import "./MovieEmpty";
 
 class MovieList extends CustomElement {
@@ -32,9 +32,9 @@ class MovieList extends CustomElement {
   makeMovieItems(movies) {
     return movies
       .map((movie) => {
-        const { title, src, voteAverage, id, detail, genre_ids } = movie;
+        const { title, src, voteAverage, id } = movie;
         return `
-          <movie-item id=${id} title='${title}' vote_average=${voteAverage} src=${src} detail='${detail}' genre_ids=${genre_ids}>
+          <movie-item id=${id} title='${title}' vote_average=${voteAverage} src=${src}>
           </movie-item>
           `;
       })

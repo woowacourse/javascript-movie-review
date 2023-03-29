@@ -8,7 +8,7 @@ class MovieItem extends CustomElement {
     const title = this.getAttribute("title");
     const voteAverage = this.getAttribute("vote_average");
     const img = this.getAttribute("src");
-    const src = img === "null" ? IMG.NO_IMG : IMG.FRAME + movie.src;
+    const src = img === "null" ? IMG.NO_IMG : IMG.FRAME + img;
 
     return `
       <div class="item-card">
