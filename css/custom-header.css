@@ -42,8 +42,7 @@ custom-header {
   padding: 0;
 
   border: none;
-  border-radius: 8px;
-  background: #fff;
+  background: transparent;
 }
 
 .search-button {
