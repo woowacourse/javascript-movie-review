@@ -37,7 +37,7 @@ export const MOVIE_LIST_TITLE = {
 
 export const STAR_RATING = {
   PER_SCORE: 2,
-  CAPTION: ['Worst', 'Not good', 'Average', 'Fun', 'Masterpiece'],
+  CAPTION: ['Please Rate', 'Worst', 'Not good', 'Average', 'Fun', 'Masterpiece'],
 };
 
 export const CAPTION = {

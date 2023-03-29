@@ -51,14 +51,15 @@ class MovieDetailModal {
 
   private render(movieDetail: MovieDetail) {
     const template = this.getTemplate(movieDetail);
-    const starCountJSON = localStorage.getItem(String(movieDetail.id));
-
     this.$element.innerHTML = template;
+    this.renderStarRating(this.getStarCount(movieDetail.id));
+  }
 
-    if (!starCountJSON) return;
-    const starCount = JSON.parse(starCountJSON);
+  private getStarCount(movieId: number) {
+    const starCountJSON = localStorage.getItem(String(movieId));
 
-    this.renderStarRating(starCount);
+    if (!starCountJSON) return 0;
+    return Number(JSON.parse(starCountJSON));
   }
 
   private addClickMovieEventHandler() {
@@ -109,7 +110,7 @@ class MovieDetailModal {
 
   renderStarRating(starCount: number) {
     const score = starCount * STAR_RATING.PER_SCORE;
-    const caption = STAR_RATING.CAPTION[starCount - 1];
+    const caption = STAR_RATING.CAPTION[starCount];
 
     $$('.star-rating-image').forEach(($star, index) => {
       if (!($star instanceof HTMLImageElement)) return;
