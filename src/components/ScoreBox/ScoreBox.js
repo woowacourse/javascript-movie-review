@@ -13,18 +13,13 @@ class ScoreBox extends HTMLElement {
   }
 
   render(score) {
+    this.replaceChildren();
     this.innerHTML = `
     <div class="my-favorite-score-box">
       <p class="my-score-text">내 별점</p>  
       ${score !== null ? this.scoreBoxTemplate(score) : this.scoreBoxTemplate('0')}
     </div>
     `;
-  }
-
-  reRender(score) {
-    this.replaceChildren();
-
-    this.render(score);
   }
 
   setClickEvent() {
@@ -34,7 +29,7 @@ class ScoreBox extends HTMLElement {
       if (e.target.classList.value === 'star-icon') {
         const score = e.target.id;
         setMyScore(movieId, score);
-        this.reRender(score);
+        this.render(score);
       }
     });
   }
