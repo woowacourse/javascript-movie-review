@@ -76,31 +76,29 @@ const MovieModal = {
   renderStar: (starCount: number) => {
     const score = starCount * 2;
 
-    const template = `
-    ${
-      [...Array(starCount)]
-        .map(
-          (_, index) =>
-            `<img id="${
-              index + 1
-            }" class="modal-score" src="${StarFilled}" alt="별점"/>`
-        )
-        .join("") +
-      [...Array(5 - starCount)]
-        .map(
-          (_, index) =>
-            `<img id="${
-              starCount + index + 1
-            }" class="modal-score" src="${StarEmpty}" alt="별점"/>`
-        )
-        .join("")
+    const template = `${
+      MovieModal.getStarTemplate(starCount, "filled") +
+      MovieModal.getStarTemplate(starCount, "empty")
     }
-    <p id="score" class="normal">${score}</p>
-    <p class="normal">${SCORE_COMMENT[score]}</p>
+      <p id="score" class="normal">${score}</p>
+      <p class="normal">${SCORE_COMMENT[score]}</p>
     `;
 
     $<HTMLElement>("#star-count").replaceChildren();
     $<HTMLElement>("#star-count").insertAdjacentHTML("afterbegin", template);
+  },
+
+  getStarTemplate: (starCount: number, option: "filled" | "empty") => {
+    return [...Array(option == "filled" ? starCount : 5 - starCount)]
+      .map(
+        (_, index) =>
+          `<img id="${
+            option == "filled" ? index + 1 : starCount + index + 1
+          }" class="modal-score" src="${
+            option == "filled" ? StarFilled : StarEmpty
+          }" alt="별점"/>`
+      )
+      .join("");
   },
 
   bindClickEvent: () => {
