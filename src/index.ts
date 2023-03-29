@@ -8,7 +8,7 @@ import Skeleton from "./components/Skeleton";
 import { updateMovies } from "./domain/movies";
 import MovieItem from "./components/movie-item/MovieItem";
 import MovieModal from "./components/movie-modal/MovieModal";
-import UserRating from "./components/UserRating";
+import UserRating from "./components/user-rating/UserRating";
 import Header from "./components/movie-header/Header";
 
 updateMovies();
