@@ -1,5 +1,5 @@
-export const setMovieSelfScore = (movieId: string, score: string | number) => {
-  window.localStorage.setItem(movieId, String(score));
+export const setMovieSelfScore = (movieId: string, score: string) => {
+  window.localStorage.setItem(movieId, score);
 };
 
 export const getMovieSelfScore = (movieId: string) => {

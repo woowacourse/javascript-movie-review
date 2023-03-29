@@ -49,7 +49,7 @@ class MovieContainer extends HTMLElement {
         };
 
         if (!getMovieSelfScore(target.id)) {
-          setMovieSelfScore(target.id, 0);
+          setMovieSelfScore(target.id, String(0));
         }
 
         container.innerHTML = movieModalContainerTemplate(movieDetails);
