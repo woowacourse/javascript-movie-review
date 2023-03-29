@@ -504,8 +504,8 @@ header .search-box > .search-button {
 
     color: transparent;
     background-color: rgb(47, 47, 47);
-
     transition: all 0.7s ease-in-out;
+    pointer-events: none;
   }
 
   header .search-box > input:focus {
