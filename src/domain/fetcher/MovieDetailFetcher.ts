@@ -1,3 +1,4 @@
+import { NO_API_KEY } from '../../constants/messages';
 import { MOVIE_IMAGE_URL } from '../../constants/movieURLs';
 import { FetchedMovieItemJson } from '../../types/fetchedMovie';
 import MovieDetail from '../../types/MovieDetail';
@@ -12,6 +13,8 @@ export default class MovieDetailFetcher {
   };
 
   constructor(id: number) {
+    if (!this.params.api_key) throw new Error(NO_API_KEY);
+
     this.base = `${this.base}/${id}`;
   }
 
