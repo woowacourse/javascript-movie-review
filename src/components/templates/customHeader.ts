@@ -5,7 +5,7 @@ export const customHeaderTemplate =
   `
 		<custom-header>
 			<h1>
-				<a href="/">
+				<a href="/javascript-movie-review/">
 					<img class="logo" id="logo" src=${IMAGES.LOGO} alt="MovieList 로고" />
 				</a>
 			</h1>
