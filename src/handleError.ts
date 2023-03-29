@@ -1,6 +1,6 @@
 import { STATUS_CODE } from './constants/apiStatusCode';
 
-const handleError = (statusCode: number | undefined, statusMessage: string) => {
+const handleError = (statusCode: number = 0, statusMessage: string) => {
   try {
     if (statusCode !== STATUS_CODE.SUCCESS) throw new Error(statusMessage);
 
