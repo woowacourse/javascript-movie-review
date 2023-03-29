@@ -17,7 +17,7 @@ class MovieDetail extends CustomElement {
     <section class="modal-head">
       <span></span>
       <h3 class="detail-title">${title}</h1>
-      <div class="close-btn detail-title">X</div>
+      <div id="close-btn" class="detail-title">X</div>
     </section>
     <hr />
     <section class="modal-main">
@@ -46,22 +46,6 @@ class MovieDetail extends CustomElement {
     });
 
     return starSrc;
-  }
-
-  setEvent() {
-    $(".close-btn").addEventListener("click", this.hideModal);
-
-    window.addEventListener("keyup", (e) => {
-      if (!$(".modal").classList.contains("modal-open")) return;
-      if (e.key === "Escape") {
-        this.hideModal();
-      }
-    });
-  }
-
-  hideModal() {
-    $(".modal").classList.remove("modal-open");
-    $(".modal").closest("body").classList.remove("scroll");
   }
 }
 
