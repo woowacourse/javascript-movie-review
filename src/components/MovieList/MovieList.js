@@ -116,12 +116,14 @@ class MovieList extends HTMLElement {
     const observer = new IntersectionObserver(
       (entries, observer) => {
         entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            observer.unobserve(entry.target);
+          if (!entry.isIntersecting) {
+            return;
+          }
 
-            if (this.#movies.isInPageRange) {
-              this.updateMovieList();
-            }
+          observer.unobserve(entry.target);
+
+          if (this.#movies.isInPageRange) {
+            this.updateMovieList();
           }
         });
       },
