@@ -4,9 +4,11 @@ const movieRatingStore = {
   getMovieRating(id: number): MovieRating {
     const ratingMap = JSON.parse(localStorage.getItem('movieMyRating') || '{}');
 
-    const rating = ratingMap?.[id]?.rating || 0;
+    if (ratingMap?.[id]?.rating in [0, 2, 4, 6, 8, 10]) {
+      throw new Error('local storage 저장소에 영화 평점 관련하여 잘못된 데이터가 있습니다.');
+    }
 
-    return rating;
+    return ratingMap?.[id]?.rating || 0;
   },
 
   setMovieRating(id: number, rating: MovieRating) {
