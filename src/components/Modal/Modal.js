@@ -54,6 +54,7 @@ class Modal extends HTMLElement {
 
     this.setClickExitEvent();
     this.setKeyExitEvent();
+    this.setDimmedClickEvent();
   }
 
   setClickExitEvent() {
@@ -67,6 +68,12 @@ class Modal extends HTMLElement {
       if (e.key === 'Escape') {
         return $('.modal').classList.add('modal--open');
       }
+    });
+  }
+
+  setDimmedClickEvent() {
+    $('.modal-backdrop').addEventListener('click', e => {
+      $('.modal').classList.add('modal--open');
     });
   }
 }
