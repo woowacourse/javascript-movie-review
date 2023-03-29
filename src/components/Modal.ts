@@ -93,7 +93,7 @@ class Modal extends HTMLElement {
                         </div>
                         <div class="modal-my-score-wrapper">
                             <span class="modal-my-score">내 별점</span>
-                            <div class="modal-score-container">
+                            <div id="modal-star-container" class="modal-score-container">
                               <input class="star-input-radio" type="radio" value="2">
                               <input class="star-input-radio" type="radio" value="4">
                               <input class="star-input-radio" type="radio" value="6">
@@ -161,7 +161,7 @@ class Modal extends HTMLElement {
   }
 
   setStarHoverEvent(): void {
-    const container = $('.modal-score-container') as HTMLDivElement;
+    const container = $('#modal-star-container') as HTMLDivElement;
 
     container.addEventListener('mouseover', event => {
       const target = event.target as HTMLInputElement;
