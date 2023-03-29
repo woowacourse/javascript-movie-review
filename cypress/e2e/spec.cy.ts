@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 describe('영화 리뷰 미션 - E2E 테스트', () => {
   beforeEach(() => {
     Array.from({ length: 3 }, (v, i) => i + 1).forEach((page) => {
