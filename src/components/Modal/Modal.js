@@ -72,7 +72,7 @@ class Modal extends HTMLElement {
   }
 
   setDimmedClickEvent() {
-    $('.modal-backdrop').addEventListener('click', e => {
+    $('.modal-backdrop').addEventListener('click', () => {
       $('.modal').classList.add('modal--open');
     });
   }
