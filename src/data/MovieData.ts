@@ -15,8 +15,8 @@ class MovieData {
     this.#userScoreMovieList = localData.getScoreData();
   }
 
-  addMovieData(MovieList: MovieInterface[]) {
-    this.#currentMovieList = [...this.#currentMovieList, ...MovieList];
+  addMovieData(movieList: MovieInterface[]) {
+    this.#currentMovieList = [...this.#currentMovieList, ...movieList];
   }
 
   resetMovieData() {

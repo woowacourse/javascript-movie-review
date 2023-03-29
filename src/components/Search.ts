@@ -1,11 +1,11 @@
-import PageData from '../data/PageData';
+import PageData from '../data/pageData';
 import { getFormFields } from '../utils/formData';
 import { $, Event } from '../utils/index';
 import { resetMovieList, showMovieList } from '../showMovieList';
 import { toggle } from '../utils/toggle';
-import MovieData from '../data/MovieData';
+import MovieData from '../data/movieData';
 
-export function Search() {
+export function search() {
   Event.addEvent('submit', '#search-movie-box', async (event) => {
     event.preventDefault();
 

@@ -1,11 +1,11 @@
-import { ItemList } from './ItemList';
-import { PageHeader } from './PageHeader';
+import { itemList } from './itemList';
+import { pageHeader } from './pageHeader';
 
-export function MainPage() {
+export function mainPage() {
   return `
     <section class="item-view">
-        ${PageHeader()}
-        ${ItemList()}
+        ${pageHeader()}
+        ${itemList()}
     </section>
     `;
 }

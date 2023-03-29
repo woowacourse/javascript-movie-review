@@ -1,7 +1,7 @@
 import { ERROR_MESSAGE } from './CONSTANT';
 import { $ } from './utils';
 
-export const Validation = {
+export const validation = {
   inputText(text: string) {
     const textArray = text.split('').filter((elem) => elem !== ' ');
 

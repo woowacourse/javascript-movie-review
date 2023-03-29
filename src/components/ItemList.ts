@@ -1,9 +1,8 @@
 import { $, Event } from '../utils/index';
-import MovieData from '../data/MovieData';
-import { printMovieDetail } from './MovieInfoModal';
-import { showStar } from './ScoreStar';
+import MovieData from '../data/movieData';
+import { printMovieDetail } from './movieInfoModal';
 
-export function ItemList() {
+export function itemList() {
   Event.addEvent('click', '.item-list', (event) => {
     const target = event.target as HTMLElement;
     const targetId = Number(target.closest('li')?.id);

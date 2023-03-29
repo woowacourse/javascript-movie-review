@@ -1,10 +1,10 @@
 import { $, render } from '../utils';
-import { Header } from './Header';
-import { MainPage } from './MainPage';
+import { header } from './header';
+import { mainPage } from './mainPage';
 import { showMovieList } from '../showMovieList';
-import { MovieInfoModal } from './MovieInfoModal';
-import { InfiniteScrollLine } from './InfiniteScrollLine';
-import PageData from '../data/PageData';
+import { movieInfoModal } from './movieInfoModal';
+import { infiniteScrollLine } from './infiniteScrollLine';
+import PageData from '../data/pageData';
 
 export class App {
   #observer?: IntersectionObserver;
@@ -20,10 +20,10 @@ export class App {
 
   firstTemplate() {
     return `
-    ${Header()}
-    ${MainPage()}
-    ${MovieInfoModal()}
-    ${InfiniteScrollLine()}
+    ${header()}
+    ${mainPage()}
+    ${movieInfoModal()}
+    ${infiniteScrollLine()}
   `;
   }
 

@@ -1,9 +1,9 @@
 import { MovieInterface } from './utils/type';
-import { MovieItem } from './components/MovieItem';
-import PageData from './data/PageData';
+import { movieItem } from './components/movieItem';
+import PageData from './data/pageData';
 import { $, $$ } from './utils';
-import { SkeletonMovieItem } from './components/SkeletonMovieItem';
-import { renderError } from './Validation';
+import { skeletonMovieItem } from './components/skeletonMovieItem';
+import { renderError } from './validation';
 
 export function resetMovieList() {
   const movieListElem = $('.item-list') as HTMLElement;
@@ -32,7 +32,7 @@ async function tryShowMovieList() {
 
 export function renderSkeleton() {
   const parentElem = $('.item-list') as HTMLElement;
-  parentElem.insertAdjacentHTML('beforeend', SkeletonMovieItem());
+  parentElem.insertAdjacentHTML('beforeend', skeletonMovieItem());
 }
 
 export function deleteSkeleton() {
@@ -44,7 +44,7 @@ export async function renderMovieList(results: MovieInterface[]) {
   const parentElem = $('.item-list') as HTMLElement;
   parentElem.insertAdjacentHTML(
     'beforeend',
-    `${results.map((movie) => MovieItem(movie)).join('')}`
+    `${results.map((movie) => movieItem(movie)).join('')}`
   );
   PageData.plusCurrentPage();
 }

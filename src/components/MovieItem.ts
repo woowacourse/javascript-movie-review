@@ -3,7 +3,7 @@ import star_empty from '../assets/star_empty.png';
 import { MovieInterface } from '../utils/type';
 import { makePosterImagePath } from '../utils/makePosterImagePath';
 
-export function MovieItem({ id, poster_path, title, vote_average }: MovieInterface) {
+export function movieItem({ id, poster_path, title, vote_average }: MovieInterface) {
   return `
   <li id=${id}>
         <a href="#$">

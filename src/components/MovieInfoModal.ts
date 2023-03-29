@@ -3,11 +3,11 @@ import star_empty from '../assets/star_empty.png';
 import { makePosterImagePath } from '../utils/makePosterImagePath';
 import { MovieInterface, ScoreType } from '../utils/type';
 import { $, Event } from '../utils/index';
-import { ScoreStars, showStar } from './ScoreStar';
+import { scoreStars, showStar } from './scoreStar';
 import { GENRE, USER_SCORE_TEXT } from '../CONSTANT';
-import MovieData from '../data/MovieData';
+import MovieData from '../data/movieData';
 
-export function MovieInfoModal() {
+export function movieInfoModal() {
   Event.addEvent('click', '.modal-movie-info', (event) => {
     const target = event.target as HTMLElement;
 
@@ -69,7 +69,7 @@ export function printMovieDetail(movie: MovieInterface, targetUSerScore: ScoreTy
           overview === '' ? '해당 영화의 줄거리 정보가 없습니다.' : overview
         }</p>
         <div class="modal-movie-score-area ${id}"> 내 별점 
-          ${ScoreStars()}
+          ${scoreStars()}
           <span class="modal-movie-score-text">${scoreText}</span>
         </div>
       </div>

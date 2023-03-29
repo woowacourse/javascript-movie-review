@@ -1,6 +1,6 @@
 import { getMovies, getSearchMovie } from './api';
 import { PageStatusType } from '../utils/type';
-import MovieData from './MovieData';
+import MovieData from './movieData';
 
 class PageData {
   #currentPage: number;

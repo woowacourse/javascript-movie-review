@@ -3,7 +3,7 @@ import star_filled from '../assets/star_filled.png';
 import { ScoreType } from '../utils/type';
 import { $ } from '../utils/index';
 
-export function ScoreStars() {
+export function scoreStars() {
   return `
     <div class="modal-movie-score">
       <img id="star-index-1" class="score" src="${star_empty}" alt="빈 별" />
