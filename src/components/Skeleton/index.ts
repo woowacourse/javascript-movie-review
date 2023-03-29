@@ -2,7 +2,7 @@ import './index.css';
 import template from './index.html';
 import { $ } from '../../utils/dom';
 
-export class Skeleton extends HTMLElement {
+class Skeleton extends HTMLElement {
   $movieItems: HTMLElement;
 
   constructor() {
@@ -21,3 +21,5 @@ export class Skeleton extends HTMLElement {
     this.$movieItems.replaceChildren();
   }
 }
+
+export default Skeleton;

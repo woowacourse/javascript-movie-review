@@ -37,3 +37,30 @@
   background: url('/src/assets/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
 }
+
+/* Phone */
+@media (min-width: 320px) and (max-width: 420px) {
+  .movie-header {
+    width: 100%;
+    min-width: 320px;
+    max-width: 420px;
+  }
+
+  .search-box > input {
+    display: none;
+  }
+
+  .search-box > input.show {
+    display: initial;
+    animation: slide-in 0.5s ease forwards;
+  }
+}
+
+/* Tablet */
+@media (min-width: 421px) and (max-width: 900px) {
+  .movie-header {
+    width: 100%;
+    min-width: 421px;
+    max-width: 900px;
+  }
+}

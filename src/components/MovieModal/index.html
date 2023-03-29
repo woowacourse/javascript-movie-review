@@ -1,0 +1,46 @@
+<div class="modal-container hidden">
+  <div class="modal">
+    <div class="movie-title-wrapper">
+      <div class="movie-title">{title}</div>
+
+      <img src="/src/assets/close.png" class="modal-close-button" />
+    </div>
+    <div class="movie-modal-wrapper">
+      <img src="https://image.tmdb.org/t/p/w500/{posterPath}" class="movie-poster" />
+      <div class="genre-rating-wrapper">
+        <div>
+          <p>{genre}</p>
+          <div class="rating"><img src="/src/assets/star_filled.png" />{voteAverage}</div>
+        </div>
+        <p class="overview">{overview}</p>
+      </div>
+      <div class="rating-box">
+        <p>내 별점</p>
+        <fieldset class="rating-item-wrapper">
+          <input type="radio" id="star5" name="rating" value="5" /><label
+            for="star5"
+            title="명작이에요"
+          ></label>
+          <input type="radio" id="star4" name="rating" value="4" /><label
+            for="star4"
+            title="재미있어요"
+          ></label>
+          <input type="radio" id="star3" name="rating" value="3" /><label
+            for="star3"
+            title=" 보통이에요"
+          ></label>
+          <input type="radio" id="star2" name="rating" value="2" /><label
+            for="star2"
+            title="별로예요"
+          ></label>
+          <input type="radio" id="star1" name="rating" value="1" /><label
+            for="star1"
+            title="최악이예요"
+          ></label>
+        </fieldset>
+        <p class="my-score"></p>
+        <p class="my-rating">평점을 남겨보세요.</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -23,6 +23,7 @@ export interface MovieResults {
 }
 
 export interface Movie {
+  id: number;
   title: string;
   posterPath: string;
   voteAverage: number;
@@ -42,4 +43,18 @@ export interface FailedResponse {
 export interface Options {
   page: number;
   query?: string;
+}
+
+export interface DetailMovie {
+  id: number;
+  title: string;
+  voteAverage: number;
+  posterPath: string;
+  genres: Genre[];
+  overview: string;
+}
+
+export interface Genre {
+  id: number;
+  name: string;
 }
