@@ -44,3 +44,7 @@ export const setMyScore = (id: string, score: string) => {
 
   window.localStorage.setItem(id, score);
 };
+
+export const getMyScore = (id: string) => {
+  return window.localStorage.getItem(id);
+};

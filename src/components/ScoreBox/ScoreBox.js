@@ -1,12 +1,12 @@
 import './ScoreBox.css';
 import filledStar from '../../image/star_filled.png';
 import emptyStar from '../../image/star_empty.png';
-import { setMyScore } from '../../utils/common';
+import { setMyScore, getMyScore } from '../../utils/common';
 
 class ScoreBox extends HTMLElement {
   connectedCallback() {
     const id = this.getAttribute('id');
-    const score = window.localStorage.getItem(id);
+    const score = getMyScore(id);
 
     this.render(score);
     this.setClickEvent();
