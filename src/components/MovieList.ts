@@ -2,10 +2,9 @@ import MovieCard from './MovieCard';
 import skeletonTemplate from './Skeleton';
 import Component from '../types/component';
 
-import { Movie, MovieItem } from '../types/movie';
+import { MovieItem } from '../types/movie';
 import { NULL_SEARCH_RESULT_MESSAGE } from '../constants/messages';
 import { POPULAR_LIST_NAME } from '../constants/listNames';
-import ToastModal from './ToastModal';
 
 class MovieList implements Component {
   readonly node: HTMLElement;

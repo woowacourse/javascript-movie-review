@@ -1,7 +1,8 @@
+import fetchJson from '../fetchJson';
+
 import { MOVIE_IMAGE_URL } from '../../constants/movieURLs';
 import { FetchedMovieJson } from '../../types/fetchedMovie';
 import { MovieItem } from '../../types/movie';
-import fetchJson from '../fetchJson';
 
 abstract class MovieFetcher {
   protected abstract base: string;

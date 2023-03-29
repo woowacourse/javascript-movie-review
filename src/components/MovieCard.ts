@@ -1,11 +1,11 @@
-import { NETWORK_ERROR_MESSAGE } from '../constants/messages';
 import NULL_IMAGE from '../constants/nullImage';
 import MovieDetailFetcher from '../domain/fetcher/MovieDetailFetcher';
 import Component from '../types/component';
-import { MovieItem } from '../types/movie';
 import MovieDetail from '../types/MovieDetail';
 import MovieDetailModal from './MovieDetail/MovieDetailModal';
-import ToastModal from './ToastModal';
+
+import { MovieItem } from '../types/movie';
+import { NETWORK_ERROR_MESSAGE } from '../constants/messages';
 
 class MovieCard implements Component {
   readonly node: HTMLElement;

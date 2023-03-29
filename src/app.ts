@@ -4,8 +4,9 @@ import MovieFetcher from './domain/fetcher/MovieFetcher';
 import { POPULAR_LIST_NAME, SEARCH_LIST_NAME_SUFFIX } from './constants/listNames';
 import PopularMovieFetcher from './domain/fetcher/PopularMovieFetcher';
 import SearchMovieFetcher from './domain/fetcher/SearchMovieFetcher';
-import ToastModal from './components/ToastModal';
+
 import { NETWORK_ERROR_MESSAGE } from './constants/messages';
+import ToastModal from './components/toastModal';
 class App {
   readonly node: HTMLElement;
   private children;
