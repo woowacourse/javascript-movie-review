@@ -3,7 +3,7 @@ import { $, parsedFechedMovies, request } from '../../utils/common';
 
 class MovieList extends HTMLElement {
   #pageIndex = 1;
-  #moviesData;
+  #movies;
   #searchWord = new Proxy(
     { value: '' },
     {
@@ -68,7 +68,7 @@ class MovieList extends HTMLElement {
 
     const movies = parsedFechedMovies(fetchedMovies);
 
-    this.#moviesData = {
+    this.#movies = {
       isInPageRange: apiFetchingData.total_pages >= this.#pageIndex,
       movies,
     };
@@ -87,12 +87,12 @@ class MovieList extends HTMLElement {
   }
 
   renderMovieList() {
-    if (this.#moviesData.movies.length === 0) {
+    if (this.#movies.movies.length === 0) {
       this.showNoResult();
       return;
     }
 
-    $('#first-skeleton').insertAdjacentHTML('beforebegin', this.makeMovieListTemplate(this.#moviesData.movies));
+    $('#first-skeleton').insertAdjacentHTML('beforebegin', this.makeMovieListTemplate(this.#movies.movies));
   }
 
   showNoResult() {
@@ -104,7 +104,7 @@ class MovieList extends HTMLElement {
   }
 
   makeMovieListTemplate() {
-    return this.#moviesData.movies.reduce((acc, curr) => {
+    return this.#movies.movies.reduce((acc, curr) => {
       return (
         acc +
         `<movie-item id="${curr.id}" title="${curr.title}" imgUrl="${curr.imgUrl}" score="${curr.score}"  genre="${curr.genre}" description="${curr.description}"></movie-item>`
@@ -119,7 +119,7 @@ class MovieList extends HTMLElement {
           if (entry.isIntersecting) {
             observer.unobserve(entry.target);
 
-            if (this.#moviesData.isInPageRange) {
+            if (this.#movies.isInPageRange) {
               this.updateMovieList();
             }
           }
