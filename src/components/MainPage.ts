@@ -1,11 +1,11 @@
-import { itemList } from './itemList';
+import { movieItemList } from './movieItemList';
 import { pageHeader } from './pageHeader';
 
 export function mainPage() {
   return `
     <section class="item-view">
         ${pageHeader()}
-        ${itemList()}
+        ${movieItemList()}
     </section>
     `;
 }
