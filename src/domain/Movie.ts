@@ -1,7 +1,13 @@
-import { fetchData } from '../api/http';
-import { statusCodeToErrorMessage } from '../api/statusCode';
+import { TMDBFetcher } from '../api/http';
 import { TMDB_MOVIE_BASE_URL } from '../utils/constants';
-import { IMovieHandleProps, IMovieItemProps, IMovieProps, IMovieState } from '../types/movie';
+import {
+  IMovieDetail,
+  IMovieDetailItem,
+  IMovieHandleProps,
+  IMovieItemProps,
+  IMovieProps,
+  IMovieState,
+} from '../types/movie';
 
 interface IMovieFetchProps {
   curPage: number;
@@ -11,7 +17,7 @@ interface IFindMovieFetchProps extends IMovieFetchProps {
   query: string;
 }
 
-export interface IFetchedError {
+export interface ITMDBFetchedError {
   success: boolean;
   status_code: number;
   status_message: string;
@@ -25,28 +31,41 @@ export const initialMovieStats: IMovieState = {
   error: '',
 };
 
-class Movie {
-  #movieState: IMovieState;
+export const initialMovieDetailState: IMovieDetailItem = {
+  title: '',
+  overview: null,
+  voteAverage: 0,
+  movieId: -1,
+  genres: [],
+  posterPath: null,
+};
 
-  constructor(initialMovieState: IMovieState) {
-    this.#movieState = initialMovieState;
+class Movie {
+  private urlParams: URLSearchParams;
+
+  constructor() {
+    this.urlParams = new URLSearchParams(`api_key=${process.env.MOVIE_API_KEY}&language=ko-KR`);
   }
 
   async getPopularMovies({
     curPage = 1,
   }: IMovieFetchProps): Promise<IMovieHandleProps<IMovieItemProps>> {
-    const { results, total_pages, page } = await fetchData<IMovieHandleProps<IMovieProps>>(
-      `${TMDB_MOVIE_BASE_URL}/movie/popular?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&page=${curPage}`
+    this.urlParams.set('page', `${curPage}`);
+    const { results, total_pages, page } = await TMDBFetcher<IMovieHandleProps<IMovieProps>>(
+      `${TMDB_MOVIE_BASE_URL}/movie/popular?${this.urlParams.toString()}`
     );
 
-    const movleList = results.map((currentMovie) => ({
+    const movieList = results.map((currentMovie) => ({
+      id: currentMovie.id,
       title: currentMovie.title,
       posterPath: currentMovie.poster_path,
       voteAverage: currentMovie.vote_average,
     }));
 
+    this.urlParams.delete('page');
+
     return {
-      results: movleList,
+      results: movieList,
       total_pages,
       page,
     };
@@ -56,16 +75,21 @@ class Movie {
     query,
     curPage = 1,
   }: IFindMovieFetchProps): Promise<IMovieHandleProps<IMovieItemProps>> {
-    const { results, total_pages, page } = await fetchData<IMovieHandleProps<IMovieProps>>(
-      `${TMDB_MOVIE_BASE_URL}/search/movie?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&query=${query}&page=${curPage}`
+    this.urlParams.set('page', `${curPage}`);
+    this.urlParams.set('query', `${query}`);
+
+    const { results, total_pages, page } = await TMDBFetcher<IMovieHandleProps<IMovieProps>>(
+      `${TMDB_MOVIE_BASE_URL}/search/movie?${this.urlParams.toString()}`
     );
 
     const movieList = results.map((currentMovie) => ({
+      id: currentMovie.id,
       title: currentMovie.title,
       posterPath: currentMovie.poster_path,
       voteAverage: currentMovie.vote_average,
     }));
-
+    this.urlParams.delete('page');
+    this.urlParams.delete('query');
     return {
       results: movieList,
       total_pages,
@@ -73,54 +97,21 @@ class Movie {
     };
   }
 
-  async renderPopularMovies(curPage = 1) {
-    try {
-      const { results, total_pages, page } = await this.getPopularMovies({
-        curPage,
-      });
+  async getMovieDetails({ movieId }: { movieId: number }): Promise<IMovieDetailItem> {
+    const { genres, overview, title, vote_average, poster_path } = await TMDBFetcher<IMovieDetail>(
+      `${TMDB_MOVIE_BASE_URL}/movie/${movieId}?${this.urlParams.toString()}`
+    );
 
-      this.#movieState.query = '';
-
-      if (this.#movieState.category === 'search') {
-        this.#movieState.category = 'popular';
-        this.#movieState.nextPage = 1;
-      }
-
-      this.#setMovies({ results, total_pages, page });
-    } catch (error) {
-      this.#movieState.error = error as string;
-    }
-  }
-
-  async renderSearchedMovies(query: string, curPage = 1) {
-    try {
-      const { results, total_pages, page } = await this.getFindMovies({
-        query,
-        curPage,
-      });
-
-      this.#movieState.query = query;
-      if (this.#movieState.category === 'popular') {
-        this.#movieState.category = 'search';
-        this.#movieState.nextPage = 1;
-      }
-
-      this.#setMovies({ results, total_pages, page });
-    } catch (error) {
-      this.#movieState.error = error as string;
-    }
-  }
-
-  #setMovies({ results, total_pages, page }: IMovieHandleProps<IMovieItemProps>) {
-    this.#movieState.results = results;
-    this.#movieState.nextPage = total_pages === page ? -1 : page + 1;
-    this.#movieState.error = '';
-  }
-
-  getMovieStates() {
-    return {
-      ...this.#movieState,
+    const movieDetails = {
+      title,
+      overview,
+      voteAverage: vote_average,
+      movieId,
+      genres: genres.map(({ name }) => name),
+      posterPath: poster_path,
     };
+
+    return movieDetails;
   }
 }
 

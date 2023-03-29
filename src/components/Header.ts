@@ -1,18 +1,18 @@
+import EventBroker from '../EventBroker';
 import logo from '../images/logo.png';
-import { Store } from '../Store';
-import { eventThrottle } from '../utils/throttle';
+import movieState from '../domain/MovieStates';
+import { $ } from '../utils/dom';
 
 class Header {
-  $header = document.createElement('header');
-  $searchBox: HTMLFormElement | null;
+  private $header = document.createElement('header');
+  private $searchBox: HTMLFormElement;
 
   constructor($target: HTMLElement) {
     this.init($target);
 
     this.$header.addEventListener('click', this.onClickEvent.bind(this));
 
-    this.$searchBox = this.$header.querySelector('.search-box');
-    if (!(this.$searchBox instanceof HTMLFormElement)) return;
+    this.$searchBox = $<HTMLFormElement>('.search-box');
 
     this.$searchBox.addEventListener('submit', this.onSubmitEvent.bind(this));
   }
@@ -26,49 +26,54 @@ class Header {
     $target.innerHTML = this.template();
   }
 
-  async onSubmitEvent(e: SubmitEvent) {
+  private async onSubmitEvent(e: SubmitEvent) {
     e.preventDefault();
     if (!(e.currentTarget instanceof HTMLElement)) return;
 
     const { currentTarget } = e;
-    const { value } = currentTarget.querySelector('input') as HTMLInputElement;
+    const { value } = $<HTMLInputElement>('.search-input', currentTarget);
 
-    const query = Store.get('movieStates')?.getMovieStates().query ?? '';
+    const query = movieState.getMovieState().query ?? '';
 
     if (this.checkSearchWordValidation(value, query)) return;
 
-    Store.get('movieStates')?.renderSearchedMovies(value);
+    const updateMovieListEvent = new CustomEvent('updateMovieListEvent', {
+      detail: { keyword: value },
+    });
+
+    EventBroker.dispatchEvent(updateMovieListEvent);
   }
 
-  checkSearchWordValidation(value: string, query: string) {
+  private checkSearchWordValidation(value: string, query: string) {
     if (value.length === 0) {
-      alert('1글자 이상 입력해 주셔야 합니다.');
+      $<HTMLInputElement>('.search-input').focus();
       return true;
     }
-    console.log(value, query, '@@');
+
     if (value === query) return true;
 
     return false;
   }
 
-  onClickEvent(e: Event) {
-    if (!(e.target instanceof HTMLElement)) return;
+  private onClickEvent(e: Event) {
+    if (!(e.target instanceof HTMLImageElement)) return;
+
     const { target } = e;
+    if (target.id !== 'logo') return;
 
-    if (target.dataset.type !== 'logo') return;
+    const updateMovieListEvent = new CustomEvent('updateMovieListEvent', {
+      detail: { keyword: '' },
+    });
 
-    Store.get('movieStates')?.renderPopularMovies();
-
-    if (this.$searchBox instanceof HTMLFormElement) {
-      this.$searchBox.reset();
-    }
+    EventBroker.dispatchEvent(updateMovieListEvent);
+    this.$searchBox.reset();
   }
 
-  template() {
-    return `<h1><img src="${logo}" alt="MovieList 로고" data-type="logo" /></h1>
+  private template() {
+    return `<h1><img id = "logo"src="${logo}" alt="MovieList 로고"/></h1>
       <form class="search-box">
         <input type="text" placeholder="검색" class="search-input" />
-        <button data-type="search" class="search-button">검색</button>
+        <button class="search-button">검색</button>
       </form>`;
   }
 }

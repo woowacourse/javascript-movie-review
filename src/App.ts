@@ -1,103 +1,22 @@
-import { Store } from './Store';
-
 import Header from './components/Header';
-import ListTitle from './components/ListTitle';
-import MovieList from './components/MovieList';
-import MoreButton from './components/MoreButton';
-import WholeScreenMessageAlert from './components/WholeScreenMessageAlert';
-import Movie, { initialMovieStats } from './domain/Movie';
-import { Skeleton } from './components/Skeleton';
+import MovieDetail from './components/MovieDetail';
+import RemoteControl from './components/RemoteControl';
+import ItemView from './components/ItemView';
 
 class App {
-  $main = document.createElement('main');
-  $itemView = document.createElement('section');
+  private $main = document.createElement('main');
 
-  listTitle: ListTitle;
-  movieList: MovieList;
-  moreButton: MoreButton;
-  skeleton: Skeleton;
+  private itemViw: ItemView;
 
   constructor($target: HTMLElement) {
-    this.setStoreMovieState();
-
     new Header($target);
+    new RemoteControl().render($target);
+    this.itemViw = new ItemView();
+    new MovieDetail();
 
-    this.$itemView.className = 'item-view';
-
-    this.listTitle = new ListTitle();
-    this.skeleton = new Skeleton(this.$itemView);
-    this.movieList = new MovieList();
-    this.moreButton = new MoreButton();
-
-    this.initialRender();
-
-    this.$main.insertAdjacentElement('beforeend', this.$itemView);
+    this.itemViw.initialsSetting();
+    this.itemViw.render(this.$main);
     $target.insertAdjacentElement('beforeend', this.$main);
-  }
-
-  setStoreMovieState() {
-    const movieStateProxy = new Proxy<any>(initialMovieStats, {
-      set: (target, props, value) => {
-        if (props === 'query' && target['query'] !== value) this.skeletonRenderAndClearMovieList();
-
-        target[props] = value;
-
-        switch (props) {
-          case 'nextPage': {
-            value === -1 ? this.moreButton.hide() : this.moreButton.show();
-            break;
-          }
-
-          case 'category': {
-            if (!this.listTitle) break;
-
-            this.listTitle.render(this.$itemView);
-            break;
-          }
-
-          case 'results': {
-            this.movieListRender();
-            break;
-          }
-
-          case 'error': {
-            this.apiErrorRender(value);
-            break;
-          }
-          default:
-        }
-
-        return true;
-      },
-    });
-
-    Store.set('movieStates', new Movie(movieStateProxy));
-  }
-
-  initialRender() {
-    this.listTitle.render(this.$itemView);
-    this.skeleton.attachSkeleton();
-    Store.get('movieStates')?.renderPopularMovies();
-  }
-
-  skeletonRenderAndClearMovieList() {
-    this.skeleton.attachSkeleton();
-    this.movieList.removeCurentCategory();
-  }
-
-  movieListRender() {
-    if (!this.movieList || !this.moreButton) return;
-
-    this.skeleton.removeSkeleton();
-    this.movieList.render(this.$itemView);
-    this.moreButton.render(this.$itemView);
-  }
-
-  apiErrorRender(value: any) {
-    if (!value.length) return;
-
-    this.$itemView.innerHTML = '';
-    this.$itemView.insertAdjacentElement('beforeend', WholeScreenMessageAlert(value));
   }
 }
 

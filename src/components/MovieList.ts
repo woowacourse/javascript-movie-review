@@ -1,25 +1,24 @@
 import MovieCard from './MovieCard';
-import { Store } from '../Store';
-import WholeScreenMessageAlert from './WholeScreenMessageAlert';
+import movieState from '../domain/MovieStates';
+import { createInfiniteScrollObserver } from '../utils/observer';
+import EventBroker from '../EventBroker';
 
 class MovieList {
-  $ul = document.createElement('ul');
+  private $ul = document.createElement('ul');
 
   constructor() {
     this.$ul.className = 'item-list';
+    this.addClickEventListener();
   }
 
-  template() {
-    const movies = Store.get('movieStates')?.getMovieStates();
-    if (!movies) return WholeScreenMessageAlert('알 수 없는 에러');
+  private template() {
+    const { results, query } = movieState.getMovieState();
 
-    if (!movies.results.length) {
-      return this.movieListErrorTemplate(
-        `입력하신 "${movies?.query}"(와)과 일치하는 결과가 없습니다.`
-      );
+    if (!results.length) {
+      return this.movieListErrorTemplate(`입력하신 "${query}"(와)과 일치하는 결과가 없습니다.`);
     }
 
-    return movies.results.map((movie) => new MovieCard(movie).$li);
+    return results.map((movie) => new MovieCard(movie).getCardNode());
   }
 
   render($target: HTMLElement) {
@@ -36,10 +35,13 @@ class MovieList {
       this.$ul.insertAdjacentElement('beforeend', child);
     }
 
+    const $lastChild = this.$ul.lastElementChild;
+    if ($lastChild && this.$ul.childElementCount >= 20) createInfiniteScrollObserver($lastChild);
+
     $target.insertAdjacentElement('beforeend', this.$ul);
   }
 
-  removeAlertContainer($target: HTMLElement) {
+  private removeAlertContainer($target: HTMLElement) {
     const $alertContainer = $target.querySelector('.alert-container');
     if ($alertContainer) $target.removeChild($alertContainer);
   }
@@ -48,7 +50,7 @@ class MovieList {
     while (this.$ul.firstChild) this.$ul.removeChild(this.$ul.firstChild);
   }
 
-  movieListErrorTemplate(message: string) {
+  private movieListErrorTemplate(message: string) {
     const $container = document.createElement('div');
     $container.className = 'alert-container';
     $container.innerHTML = ` 
@@ -60,6 +62,20 @@ class MovieList {
     `;
 
     return $container;
+  }
+
+  private addClickEventListener() {
+    this.$ul.addEventListener('click', (e: MouseEvent) => {
+      const { target } = e;
+      if (!(target instanceof HTMLElement)) return;
+      const $li = target.closest('li');
+      const movieId = $li?.dataset.movieId ?? '';
+
+      const detailMovieEvent = new CustomEvent('detailMovieEvent', {
+        detail: { movieId },
+      });
+      EventBroker.dispatchEvent(detailMovieEvent);
+    });
   }
 }
 
