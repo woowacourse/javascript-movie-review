@@ -1,4 +1,4 @@
-class ErrorModal {
+class ToastModal {
   private node: HTMLDivElement;
   private closeButton!: HTMLButtonElement;
   private timer!: NodeJS.Timeout;
@@ -10,9 +10,9 @@ class ErrorModal {
     this.composeNode(errorMessage).setElements().automaticClose().addEvent();
   }
 
-  composeNode(errorMessage: string): this {
+  composeNode(message: string): this {
     this.node.innerHTML = `
-      <p>${errorMessage}</p>
+      <p>${message}</p>
       <button>닫기</button>
     `;
 
@@ -53,4 +53,4 @@ class ErrorModal {
   }
 }
 
-export default ErrorModal;
+export default ToastModal;
