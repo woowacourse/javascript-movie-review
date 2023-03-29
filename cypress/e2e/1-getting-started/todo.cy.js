@@ -107,14 +107,14 @@ describe('영화리뷰 e2e 테스트', () => {
   it('인기 목록에서 영화 아이템 클릭하면 해당 영화 모달 창 열기', () => {
     cy.visit('http://localhost:8080/');
 
-    cy.get('#804150').click();
+    cy.get('[data-id=804150]').click();
     cy.get('.modal-movie-info').should('be.visible');
   });
 
   it('모달창에서 닫기 버튼 누르면 모달창 닫기', () => {
     cy.visit('http://localhost:8080/');
 
-    cy.get('#804150').click();
+    cy.get('[data-id=804150]').click();
     cy.get('.modal-close').click();
     cy.get('.modal-movie-info').should('not.be.visible');
   });
@@ -122,9 +122,9 @@ describe('영화리뷰 e2e 테스트', () => {
   it('모달창에서 별점 위에 마우스를 두면 옆 텍스트 변화', () => {
     cy.visit('http://localhost:8080/#$');
 
-    cy.get('#804150').click();
+    cy.get('[data-id=804150]').click();
     cy.get('#star-index-5').trigger('mouseover');
-    cy.get('.modal-movie-star-text').contains('10 명작이에요');
+    cy.get('.modal-movie-score-text').contains('10 명작이에요');
   });
 
   it('검색하고 모달창에서 닫기 버튼 누르면 모달창 닫기', () => {
@@ -133,7 +133,7 @@ describe('영화리뷰 e2e 테스트', () => {
     cy.get('#search-movie-box > label > input').type('해리');
     cy.get('#search-movie-box > label > button').click();
 
-    cy.get('#671').click();
+    cy.get('[data-id=671]').click();
     cy.get('.modal-close').click();
     cy.get('.modal-movie-info').should('not.be.visible');
   });
@@ -144,8 +144,8 @@ describe('영화리뷰 e2e 테스트', () => {
     cy.get('#search-movie-box > label > input').type('해리');
     cy.get('#search-movie-box > label > button').click();
 
-    cy.get('#671').click();
+    cy.get('[data-id=671]').click();
     cy.get('#star-index-5').trigger('mouseover');
-    cy.get('.modal-movie-star-text').contains('10 명작이에요');
+    cy.get('.modal-movie-score-text').contains('10 명작이에요');
   });
 });
