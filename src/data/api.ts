@@ -21,3 +21,10 @@ export const getSearchMovie: getSearchMoviesType = async (keyword, page) => {
   validation.api(response.status);
   return response.json();
 };
+
+export const getMovieGenre = async () => {
+  const response = await fetch(`${BASE_PATH}/genre/movie/list?api_key=${API_KEY}&language=ko-KR`);
+  validation.api(response.status);
+
+  return response.json();
+};
