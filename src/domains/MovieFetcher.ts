@@ -23,8 +23,8 @@ class MovieFetcher {
     try {
       const apiUrl =
         typeof keyword === 'string'
-          ? API_URL.BASE + API_URL.SEARCH_MOVIES(this.currentPage, keyword)
-          : API_URL.BASE + API_URL.POPULAR_MOVIES(this.currentPage);
+          ? `${API_URL.BASE}${API_URL.SEARCH_MOVIES(this.currentPage, keyword)}`
+          : `${API_URL.BASE}${API_URL.POPULAR_MOVIES(this.currentPage)}`;
       const response = await fetch(apiUrl);
       const result = await this.parse(response);
 

@@ -11,7 +11,7 @@ import {
 const movieDetailFetcher = {
   async fetchMovieDetail(id: number): Promise<FetchMovieDetailResult> {
     try {
-      const apiUrl = API_URL.BASE + API_URL.MOVIE_DETAIL(id);
+      const apiUrl = `${API_URL.BASE}${API_URL.MOVIE_DETAIL(id)}`;
       const response = await fetch(apiUrl);
       const result = await this.parse(response);
       const movieDetail = this.convertToMovieDetail(result.rawMovieDetail);
@@ -23,9 +23,7 @@ const movieDetailFetcher = {
       };
     } catch (error) {
       return {
-        statusCode: undefined,
         statusMessage: 'Not valid error',
-        movieDetail: undefined,
       };
     }
   },
@@ -53,7 +51,7 @@ const movieDetailFetcher = {
     if (!rawMovieDetail) return undefined;
     const genres = rawMovieDetail.genres.map((genre) => genre.name);
     const posterPath = rawMovieDetail.poster_path
-      ? IMAGE_URL.BASE + rawMovieDetail.poster_path
+      ? `${IMAGE_URL.BASE}${rawMovieDetail.poster_path}`
       : IMAGE_URL.ALTERNATIVE;
     const overview = rawMovieDetail.overview
       ? rawMovieDetail.overview
