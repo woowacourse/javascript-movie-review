@@ -11,19 +11,26 @@ export default class MovieItem extends HTMLElement {
     ratings: 0
   };
 
+  private handleMovieItemEvent = (event: CustomEventInit) => {
+    this.movie = event.detail;
+    this.render();
+  };
+
+  private handleMouseOver = () => {
+    this.style.cursor = 'pointer';
+  };
+
+  private handleClick = () => {
+    const movieModal = document.getElementById('movie-modal') as MovieModal;
+    movieModal.open(this.movie);
+  };
+
   connectedCallback() {
-    this.addEventListener('movieItemEvent', (event: CustomEventInit) => {
-      this.movie = event.detail;
-      this.render();
-    });
-    this.addEventListener('mouseover', () => {
-      this.style.cursor = 'pointer';
-    });
-    this.addEventListener('click', () => {
-      const movieModal = document.getElementById('movie-modal') as MovieModal;
-      movieModal.open(this.movie);
-    });
+    this.addEventListener('movieItemEvent', this.handleMovieItemEvent);
+    this.addEventListener('mouseover', this.handleMouseOver);
+    this.addEventListener('click', this.handleClick);
   }
+
 
   render() {
     this.innerHTML = `
