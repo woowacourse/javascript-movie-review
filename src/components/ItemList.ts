@@ -1,7 +1,7 @@
 import { $, Event } from '../utils/index';
 import MovieData from '../data/MovieData';
 import { printMovieDetail } from './MovieInfoModal';
-import { showStar } from './UserScoreStar';
+import { showStar } from './ScoreStar';
 
 export function ItemList() {
   Event.addEvent('click', '.item-list', (event) => {

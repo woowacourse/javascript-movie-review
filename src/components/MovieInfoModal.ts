@@ -3,7 +3,7 @@ import star_empty from '../assets/star_empty.png';
 import { makePosterImagePath } from '../utils/makePosterImagePath';
 import { MovieInterface, ScoreType } from '../utils/type';
 import { $, Event } from '../utils/index';
-import { scoreStars } from './UserScoreStar';
+import { ScoreStars } from './ScoreStar';
 import { GENRE, USER_SCORE_TEXT } from '../CONSTANT';
 
 export function MovieInfoModal() {
@@ -25,9 +25,9 @@ export function MovieInfoModal() {
           <img src="" alt="별점" />
         </div>
         <P class="modal-movie-story"></p>
-        <div class="modal-movie-star-area"> 내 별점 
-          ${scoreStars()}
-          <span class="modal-movie-star-text"></span>
+        <div class="modal-movie-score-area"> 내 별점 
+          ${ScoreStars()}
+          <span class="modal-movie-score-text"></span>
         </div>
       </div>
     </div>
@@ -53,7 +53,7 @@ export function printMovieDetail(
   elem.children[1].children[1].children[1].textContent = `${
     overview === '' ? '해당 영화의 줄거리 정보가 없습니다.' : overview
   }`;
-  elem.children[1].children[1].children[2].className = `modal-movie-star-area ${id}`;
+  elem.children[1].children[1].children[2].className = `modal-movie-score-area ${id}`;
 
   elem.children[1].children[1].children[2].children[1].textContent = `${scoreText}`;
 }

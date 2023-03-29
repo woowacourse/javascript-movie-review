@@ -5,8 +5,8 @@ import { $, Event } from '../utils/index';
 import { USER_SCORE_TEXT } from '../CONSTANT';
 import MovieData from '../data/MovieData';
 
-export function scoreStars() {
-  Event.addEvent('mouseover', '.modal-movie-star', (event) => {
+export function ScoreStars() {
+  Event.addEvent('mouseover', '.modal-movie-score', (event) => {
     const target = event.target as HTMLElement;
     const targetImgElem = target.closest('img') as HTMLImageElement;
     if (targetImgElem === null) return;
@@ -14,12 +14,12 @@ export function scoreStars() {
     const starNumber = (Number(targetImgElem.id.split('-')[2]) * 2) as ScoreType;
     showStar(starNumber);
 
-    const starArea = $('.modal-movie-star-area') as HTMLElement;
+    const starArea = $('.modal-movie-score-area') as HTMLElement;
     const scoreText = starNumber ? starNumber + ' ' + USER_SCORE_TEXT[starNumber] : '';
     starArea.children[1].textContent = `${scoreText}`;
   });
 
-  Event.addEvent('click', '.modal-movie-star', (event) => {
+  Event.addEvent('click', '.modal-movie-score', (event) => {
     const target = event.target as HTMLElement;
     const targetImgElem = target.closest('img') as HTMLImageElement;
     if (targetImgElem === null) return;
@@ -31,7 +31,7 @@ export function scoreStars() {
   });
 
   return `
-    <div class="modal-movie-star">
+    <div class="modal-movie-score">
       <img id="star-index-1" src="${star_empty}" alt="빈 별" />
       <img id="star-index-2" src="${star_empty}" alt="빈 별" />
       <img id="star-index-3" src="${star_empty}" alt="빈 별" />
@@ -42,7 +42,7 @@ export function scoreStars() {
 }
 
 export function showStar(score: ScoreType) {
-  const stars = $('.modal-movie-star') as HTMLElement;
+  const stars = $('.modal-movie-score') as HTMLElement;
   for (let i = 0; i <= 4; i++) {
     if (i < score / 2) {
       stars.children[i].setAttribute('src', star_filled);

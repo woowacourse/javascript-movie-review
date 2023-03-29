@@ -263,7 +263,7 @@ li {
   /* gap: 5%; */
 }
 
-.modal-movie-star-area {
+.modal-movie-score-area {
   border-radius: 16px;
   background-color: #383839;
   font-size: small;
@@ -272,7 +272,7 @@ li {
   padding: 0 5% 0 5%;
 }
 
-.modal-movie-star {
+.modal-movie-score {
   margin: 0 5% 0 5%;
 }
 

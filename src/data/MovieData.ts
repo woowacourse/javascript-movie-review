@@ -12,7 +12,7 @@ class MovieData {
 
   constructor() {
     this.#currentMovieList = [];
-    this.#userScoreMovieList = localData.getStarData();
+    this.#userScoreMovieList = localData.getScoreData();
   }
 
   addMovieData(MovieList: MovieInterface[]) {
@@ -30,7 +30,7 @@ class MovieData {
   giveUserScore(id: number, score: ScoreType) {
     this.#userScoreMovieList.set(id, score);
 
-    localData.setStarDate(this.#userScoreMovieList);
+    localData.setScoreDate(this.#userScoreMovieList);
   }
 
   findUserScore(id: number) {
