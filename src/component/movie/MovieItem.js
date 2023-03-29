@@ -1,29 +1,29 @@
-import { $ } from "../../util/dom";
 import CustomElement from "../basic/CustomElement";
+import MovieProcessor from "../../domain/MovieProcessor";
+import { IMG } from "../../abstract/constants";
+import { $ } from "../../util/dom";
 
 class MovieItem extends CustomElement {
   template() {
     const title = this.getAttribute("title");
-    const src = this.getAttribute("src");
     const voteAverage = this.getAttribute("vote_average");
-    const img =
-      src === "null"
-        ? "./image/noImg.jpeg"
-        : `https://image.tmdb.org/t/p/w220_and_h330_face${src}`;
+    const img = this.getAttribute("src");
+    const src = img === "null" ? IMG.NO_IMG : IMG.FRAME + img;
 
     return `
-      <a href="#">
-        <div class="item-card">
-          <img
-            class="item-thumbnail skeleton"
-            loading="lazy"
-            src= ${img}
-            alt=${title}
-          />
-          <p class="item-title">${title}</p>
-          <p class="item-score"><img src="./image/star_filled.png" alt="별점" />${voteAverage}</p>
-        </div>
-      </a>
+      <div class="item-card">
+        <img
+          class="item-thumbnail skeleton"
+          loading="lazy"
+          src= ${src}
+          alt=${title}
+        />
+        <p class="item-title">${title}</p>
+        <p class="item-score">
+        <img src=${IMG.STAR_FILLED} alt="별점" />
+        ${voteAverage}
+        </p>
+      </div>
   `;
   }
 
@@ -31,6 +31,11 @@ class MovieItem extends CustomElement {
     const image = $(".item-thumbnail");
     image.addEventListener("load", () => {
       image.classList.remove("skeleton");
+    });
+
+    this.addEventListener("click", () => {
+      const id = this.getAttribute("id");
+      MovieProcessor.deliverMoviesModal(id);
     });
   }
 }

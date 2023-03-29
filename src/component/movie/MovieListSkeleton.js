@@ -1,23 +1,21 @@
-import SkeletonStore from "../../domain/SkeletonStore";
+import SkeletonProcessor from "../../domain/SkeletonProcessor";
 import { $ } from "../../util/dom";
 import CustomElement from "../basic/CustomElement";
 
 class MovieListSkeleton extends CustomElement {
   connectedCallback() {
     super.connectedCallback();
-    SkeletonStore.subscribe(this);
+    SkeletonProcessor.subscribe(this);
   }
 
   template() {
     const temp = ` 
       <li>
-        <a href="#">
-          <div class="item-card">
-            <div class="item-thumbnail skeleton"></div>
-            <div class="item-title skeleton"></div>
-            <div class="item-score skeleton"></div>
-          </div>
-        </a>
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
       </li>`;
 
     return `

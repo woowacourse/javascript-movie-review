@@ -1,0 +1,13 @@
+movie-list {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.item-list {
+  display: grid;
+  margin: 48px 10%;
+  width: 100%;
+  grid-template-columns: repeat(4, minmax(180px, auto));
+  grid-row-gap: 64px;
+}

@@ -1,6 +1,6 @@
 import { CustomElement } from "../type/componentType";
 
-class SearchTitleStore {
+class SearchTitleProcessor {
   private subscriber: CustomElement | undefined;
 
   subscribe(element: CustomElement) {
@@ -12,4 +12,4 @@ class SearchTitleStore {
   }
 }
 
-export default new SearchTitleStore();
+export default new SearchTitleProcessor();

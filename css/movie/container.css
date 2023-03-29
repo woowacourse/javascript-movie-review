@@ -1,0 +1,33 @@
+.item-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 1280px;
+  margin: 0 auto;
+}
+
+.item-view h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  user-select: none;
+}
+
+@media only screen and (max-width: 1219px) {
+  .item-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: auto;
+    margin: 0 auto;
+  }
+}
+
+@media only screen and (max-width: 820px) {
+  .item-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: auto;
+    margin: 0 auto;
+  }
+}

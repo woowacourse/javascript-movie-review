@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap");
+
+.text-title {
+  font: normal 900 32px/36px "Roboto";
+}
+
+.text-subtitle {
+  padding-top: 15px;
+
+  font: normal 600 18px/28px "Roboto";
+}
+
+.text-body {
+  font: normal 400 16px/24px "Roboto";
+}
+
+.detail-title {
+  padding-top: 6px;
+
+  font: normal 600 20px/24px "Roboto";
+}
+
+.user-rate-title {
+  min-width: 52px;
+  padding-top: 6px;
+
+  font: normal 700 16px/24px "Roboto";
+}
+
+.item-title {
+  margin-top: 16px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  width: 180px;
+}

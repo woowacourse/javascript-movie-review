@@ -1,20 +1,25 @@
 import MovieModel from "./MovieModel";
-import SearchStore from "./SearchTitleStore";
-import SkeletonStore from "./SkeletonStore";
-import ErrorStore from "./ErrorStore";
+import SearchTitleProcessor from "./SearchTitleProcessor";
+import SkeletonProcessor from "./SkeletonProcessor";
+import ErrorProcessor from "./ErrorProcessor";
 import { MovieValidation } from "./MovieValidation";
 import { MovieElement } from "../type/componentType";
 import { Movie } from "../type/movieType";
 
-class MovieStore {
+class MovieProcessor {
   private subscribers: MovieElement[] = [];
+  private modalSubscribers: MovieElement | undefined;
 
   subscribe(element: MovieElement) {
     this.subscribers.push(element);
   }
 
+  subscribeModal(element: MovieElement) {
+    this.modalSubscribers = element;
+  }
+
   publish(movies: Movie[], isShowMore: boolean = false) {
-    SkeletonStore.removeSkeleton();
+    SkeletonProcessor.removeSkeleton();
     this.subscribers.forEach((subscriber) => {
       subscriber.rerender(movies, isShowMore);
     });
@@ -25,13 +30,18 @@ class MovieStore {
       MovieValidation(MovieModel.getStatusCode());
     } catch (e) {
       const message = e instanceof Error ? e.message : "";
-      SkeletonStore.removeSkeleton();
-      ErrorStore.publish(message);
+      SkeletonProcessor.removeSkeleton();
+      ErrorProcessor.publish(message);
     }
   }
 
   isLastPage() {
     return MovieModel.isLastPage();
+  }
+
+  async deliverMoviesModal(id: string) {
+    const movie = await MovieModel.updateMovieModal(id);
+    this.modalSubscribers?.rerender(movie);
   }
 
   async initMovies() {
@@ -44,8 +54,8 @@ class MovieStore {
   }
 
   async searchMovies(searchWord: string) {
-    SkeletonStore.publish();
-    SearchStore.publish(searchWord);
+    SkeletonProcessor.publish();
+    SearchTitleProcessor.publish(searchWord);
 
     await MovieModel.updateMovies(searchWord);
 
@@ -56,7 +66,7 @@ class MovieStore {
   }
 
   async showMoreMovies() {
-    SkeletonStore.publish();
+    SkeletonProcessor.publish();
 
     await MovieModel.updateMoreMovies();
 
@@ -67,4 +77,4 @@ class MovieStore {
   }
 }
 
-export default new MovieStore();
+export default new MovieProcessor();

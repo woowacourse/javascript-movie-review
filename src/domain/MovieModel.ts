@@ -1,5 +1,5 @@
-import { ApiMovieItem, Movie } from "../type/movieType";
-import { popularUrl, request, searchUrl } from "../util/api";
+import { ApiMovieItem, Movie, ApiMovieDetail } from "../type/movieType";
+import { modalUrl, popularUrl, request, searchUrl } from "../util/api";
 
 class MovieModel {
   private movies: Movie[] = [];
@@ -21,9 +21,26 @@ class MovieModel {
       return {
         title: result.title,
         src: result.poster_path,
-        starRate: Number(result.vote_average.toFixed(1)),
+        voteAverage: Number(result.vote_average.toFixed(1)),
+        id: result.id,
       };
     });
+  }
+
+  toDetail(result: ApiMovieDetail) {
+    const genre = result.genres
+      .map((genre) => {
+        return genre.name;
+      })
+      .join(",");
+    return {
+      title: result.title,
+      src: result.poster_path,
+      voteAverage: Number(result.vote_average.toFixed(1)),
+      id: result.id,
+      detail: result.overview,
+      genres: genre,
+    };
   }
 
   increasePage() {
@@ -34,6 +51,16 @@ class MovieModel {
     return this.page === this.totalPages;
   }
 
+  async updateMovieModal(id: string) {
+    const url = modalUrl(id);
+    const data = await request(url);
+    if (data.status_code) {
+      this.statusCode = data.status_code;
+      return;
+    }
+    return this.toDetail(data);
+  }
+
   async updateMovies(query: string = "") {
     this.page = 1;
     this.searchWord = query;
@@ -41,6 +68,7 @@ class MovieModel {
     const url = this.searchWord
       ? searchUrl(this.searchWord, this.page)
       : popularUrl(this.page);
+
     const data = await request(url);
     this.totalPages = data.total_pages;
     if (data.status_code) {
@@ -57,6 +85,7 @@ class MovieModel {
     const url = this.searchWord
       ? searchUrl(this.searchWord, this.page)
       : popularUrl(this.page);
+
     const data = await request(url);
     if (data.status_code) {
       this.statusCode = data.status_code;

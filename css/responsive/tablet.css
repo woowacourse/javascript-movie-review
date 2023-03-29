@@ -1,0 +1,18 @@
+@media only screen and (max-width: 1219px) {
+  .item-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: auto;
+    margin: 0 auto;
+  }
+
+  .item-list {
+    display: grid;
+    margin: 48px 15%;
+    width: 100%;
+    grid-template-columns: 1fr 1fr 0fr;
+    grid-column-gap: 64px;
+    grid-row-gap: 55px;
+  }
+}

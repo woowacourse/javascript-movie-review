@@ -1,14 +1,18 @@
 import CustomElement from "../basic/CustomElement";
-import { $ } from "../../util/dom";
-import MovieStore from "../../domain/MovieStore";
-import "../movie/MovieItem";
+import MovieProcessor from "../../domain/MovieProcessor";
+import { $, $$ } from "../../util/dom";
+import "./MovieItem";
 import "./MovieEmpty";
 
 class MovieList extends CustomElement {
+  #io;
   connectedCallback() {
     super.connectedCallback();
-    MovieStore.subscribe(this);
-    MovieStore.initMovies();
+    MovieProcessor.subscribe(this);
+    MovieProcessor.initMovies().then(() => {
+      const last = this.observeLastItem();
+      if (last) this.#io.observe(last);
+    });
   }
 
   template() {
@@ -30,13 +34,32 @@ class MovieList extends CustomElement {
   makeMovieItems(movies) {
     return movies
       .map((movie) => {
-        const { title, src, starRate } = movie;
+        const { title, src, voteAverage, id } = movie;
         return `
-          <movie-item title='${title}' vote_average=${starRate} src=${src}>
+          <movie-item id=${id} title='${title}' vote_average=${voteAverage} src=${src}>
           </movie-item>
           `;
       })
       .join("");
+  }
+
+  setEvent() {
+    this.#io = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        this.#io.unobserve(entries[0].target);
+        setTimeout(() => {
+          MovieProcessor.showMoreMovies();
+          const endItem = this.observeLastItem();
+          this.#io.observe(endItem);
+        }, 1000);
+      }
+    });
+  }
+
+  observeLastItem() {
+    const items = $$("movie-item");
+    const endItem = items[items.length - 1];
+    return endItem;
   }
 }
 

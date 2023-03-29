@@ -1,0 +1,22 @@
+.item-card {
+  display: flex;
+  flex-direction: column;
+
+  cursor: pointer;
+}
+
+.item-thumbnail {
+  border-radius: 15px;
+  width: 180px;
+  height: 270px;
+  background-size: contain;
+}
+
+.item-score {
+  margin-top: 16px;
+  font-size: 1.2rem;
+}
+
+.item-score::after {
+  margin-left: 8px;
+}
