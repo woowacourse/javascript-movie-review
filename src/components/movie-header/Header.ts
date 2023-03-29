@@ -6,7 +6,11 @@ export default class Header extends HTMLElement {
 
   constructor() {
     super();
-    this.init();
+    this.render();
+    onClickLogo();
+    onClickSearchFormTrigger();
+    onClickSearchButton();
+    searchInputEnterListener();
   }
 
   public static getInstance(): Header {
@@ -15,14 +19,6 @@ export default class Header extends HTMLElement {
     }
 
     return Header.instance;
-  }
-
-  init() {
-    this.render();
-    onClickLogo();
-    onClickSearchFormTrigger();
-    onClickSearchButton();
-    searchInputEnterListener();
   }
 
   render() {

@@ -53,6 +53,5 @@ export const searchInputEnterListener = () => {
 const searchMoviesAndResetHeader = () => {
   const keyword = readSearchInputKeyword();
   searchMovieByKeyword(keyword);
-  getHeaderInstance().init();
+  $('#movie-header').innerHTML = '<movie-header></movie-header>';
 }
-
