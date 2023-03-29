@@ -1,5 +1,6 @@
 import EventBroker from '../EventBroker';
-import stateRender from '../renderer/StateRender';
+import movieState, { TMDBAPIParams } from '../domain/MovieStates';
+import ErrorContainer from './ErrorContainer';
 import ListTitle from './ListTitle';
 import MovieList from './MovieList';
 import Skeleton from './Skeleton';
@@ -9,6 +10,7 @@ class ItemView {
   private listTitle: ListTitle;
   private movieList: MovieList;
   private skeleton: Skeleton;
+  private errorContainer: ErrorContainer;
 
   constructor() {
     this.$itemView = document.createElement('section');
@@ -17,6 +19,7 @@ class ItemView {
     this.listTitle = new ListTitle();
     this.skeleton = new Skeleton(this.$itemView);
     this.movieList = new MovieList();
+    this.errorContainer = new ErrorContainer();
 
     this.addUpdateMovieListEventHandler();
     this.addAppendMovieList();
@@ -34,33 +37,40 @@ class ItemView {
     EventBroker.addEventListener('updateMovieListEvent', async (event) => {
       const { keyword } = event.detail;
 
-      this.updateMovieList({ keyword });
+      this.updateMovieList({ query: keyword });
     });
   }
 
-  private updateMovieList({ keyword = '', nextPage = 1 }: { keyword?: string; nextPage?: number }) {
-    const { query } = stateRender.getMovieState();
-    if (query !== keyword || nextPage === 1) this.skeletonRenderAndClearMovieList();
+  private async updateMovieList({ query = '', curPage = 1 }: TMDBAPIParams) {
+    const { query: movieQuery } = movieState.getMovieState();
+    if (movieQuery !== query || curPage === 1) this.skeletonRenderAndClearMovieList();
 
-    new Promise((resolve) =>
-      resolve(
-        keyword === ''
-          ? stateRender.renderPopularMovies({ curPage: nextPage })
-          : stateRender.renderSearchedMovies({ query: keyword, curPage: nextPage })
-      )
-    ).then(this.renderWholeComponent.bind(this));
+    try {
+      if (query === '') {
+        await movieState.getPopularMovies({ curPage });
+      } else {
+        await movieState.getSearchedMovies({ query, curPage });
+      }
+
+      this.renderWholeComponent.bind(this)();
+    } catch (error) {
+      if (error instanceof Error) {
+        this.skeleton.removeSkeleton();
+        this.errorContainer.render(this.$itemView, error.message);
+      }
+    }
   }
 
   private addAppendMovieList() {
     EventBroker.addEventListener('appendMovieListEvent', () => {
-      const { nextPage, query } = stateRender.getMovieState();
+      const { nextPage, query } = movieState.getMovieState();
 
       if (nextPage === -1) {
         alert('마지막 페이지입니다.');
         return;
       }
 
-      this.updateMovieList({ keyword: query, nextPage });
+      this.updateMovieList({ query, curPage: nextPage });
     });
   }
 

@@ -1,5 +1,4 @@
-import EventBroker from '../EventBroker';
-import stateRender from '../renderer/StateRender';
+import movieState from '../domain/MovieStates';
 
 class ListTitle {
   private $h2 = document.createElement('h2');
@@ -9,7 +8,7 @@ class ListTitle {
   }
 
   render($target: HTMLElement) {
-    const { category, query } = stateRender.getMovieState();
+    const { category, query } = movieState.getMovieState();
 
     this.$h2.innerText = category === 'search' ? `"${query}" 검색 결과` : '지금 인기있는 영화';
 

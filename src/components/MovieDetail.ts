@@ -10,16 +10,18 @@ import { removeSkeletonAfterImageLoad } from '../utils/eventCallback';
 import { parseLocalStorage, stringifyLocalStorage } from '../utils/localStorage';
 import { $ } from '../utils/dom';
 import EventBroker from '../EventBroker';
-import stateRender from '../renderer/StateRender';
+import movieState from '../domain/MovieStates';
+import ErrorContainer from './ErrorContainer';
 
 class MovieDetail {
   private $detailContainer: HTMLDivElement;
   private movieState: IMovieDetailItem;
-
+  private errorContainer: ErrorContainer;
   constructor() {
     this.$detailContainer = document.createElement('div');
     this.$detailContainer.className = 'movie-detail-container';
-    this.movieState = stateRender.getMovieDetails();
+    this.movieState = movieState.getMovieDetails();
+    this.errorContainer = new ErrorContainer();
 
     this.addDetailMovieEventListener();
     this.initialEventListener();
@@ -184,13 +186,21 @@ class MovieDetail {
       const movieId = Number(event.detail.movieId);
       const $dialog = modal.getDialog();
 
-      if (!this.cacheRender(movieId, $dialog)) {
-        await stateRender.renderMovieDetail(movieId, $dialog);
-        const movieDetailState = stateRender.getMovieDetails();
-        this.render(movieDetailState, $dialog);
+      if (this.cacheRender(movieId, $dialog)) {
+        return;
       }
+      try {
+        await movieState.getMovieDetail(movieId);
 
-      modal.open();
+        const movieDetailState = movieState.getMovieDetails();
+        this.render(movieDetailState, $dialog);
+      } catch (error) {
+        if (error instanceof Error) {
+          this.errorContainer.render($dialog, error.message);
+        }
+      } finally {
+        modal.open();
+      }
     });
   }
 }

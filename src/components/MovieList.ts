@@ -1,5 +1,5 @@
 import MovieCard from './MovieCard';
-import stateRender from '../renderer/StateRender';
+import movieState from '../domain/MovieStates';
 import { createInfiniteScrollObserver } from '../utils/observer';
 import EventBroker from '../EventBroker';
 
@@ -12,7 +12,7 @@ class MovieList {
   }
 
   private template() {
-    const { results, query } = stateRender.getMovieState();
+    const { results, query } = movieState.getMovieState();
 
     if (!results.length) {
       return this.movieListErrorTemplate(`입력하신 "${query}"(와)과 일치하는 결과가 없습니다.`);

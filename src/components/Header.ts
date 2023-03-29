@@ -1,6 +1,6 @@
 import EventBroker from '../EventBroker';
 import logo from '../images/logo.png';
-import stateRender from '../renderer/StateRender';
+import movieState from '../domain/MovieStates';
 import { $ } from '../utils/dom';
 
 class Header {
@@ -33,7 +33,7 @@ class Header {
     const { currentTarget } = e;
     const { value } = $<HTMLInputElement>('.search-input', currentTarget);
 
-    const query = stateRender.getMovieState().query ?? '';
+    const query = movieState.getMovieState().query ?? '';
 
     if (this.checkSearchWordValidation(value, query)) return;
 
