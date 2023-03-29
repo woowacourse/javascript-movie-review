@@ -16,7 +16,7 @@ class ScoreBox extends HTMLElement {
     this.innerHTML = `
     <div class="my-favorite-score-box">
       <p class="my-score-text">내 별점</p>  
-      ${score ? this.scoreBoxTemplate(score) : this.scoreBoxTemplate('0')}
+      ${score !== null ? this.scoreBoxTemplate(score) : this.scoreBoxTemplate('0')}
     </div>
     `;
   }
