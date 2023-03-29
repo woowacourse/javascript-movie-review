@@ -11,7 +11,8 @@ movie-list-skeleton {
 }
 
 .item-card.skeleton,
-.item-thumbnail.skeleton {
+.item-thumbnail.skeleton,
+.modal-img.skeleton {
   background: linear-gradient(
     -90deg,
     var(--skeleton-gray),
