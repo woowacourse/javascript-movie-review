@@ -1,9 +1,11 @@
+import { NETWORK_ERROR_MESSAGE } from '../constants/messages';
 import NULL_IMAGE from '../constants/nullImage';
 import MovieDetailFetcher from '../domain/fetcher/MovieDetailFetcher';
 import Component from '../types/component';
 import { MovieItem } from '../types/movie';
 import MovieDetail from '../types/MovieDetail';
 import MovieDetailModal from './MovieDetail/MovieDetailModal';
+import ToastModal from './MovieDetail/toastModal';
 
 class MovieCard implements Component {
   readonly node: HTMLElement;
@@ -75,7 +77,7 @@ class MovieCard implements Component {
       const movieDetailModal = new MovieDetailModal(movieDetails);
       document.querySelector('#app')?.insertAdjacentElement('afterbegin', movieDetailModal.node);
     } catch (error) {
-      console.error(error);
+      if (error instanceof Error) new ToastModal(NETWORK_ERROR_MESSAGE).show();
     }
   }
 

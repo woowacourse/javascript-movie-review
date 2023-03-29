@@ -4,7 +4,7 @@ import MovieFetcher from './domain/fetcher/MovieFetcher';
 import { POPULAR_LIST_NAME, SEARCH_LIST_NAME_SUFFIX } from './constants/listNames';
 import PopularMovieFetcher from './domain/fetcher/PopularMovieFetcher';
 import SearchMovieFetcher from './domain/fetcher/SearchMovieFetcher';
-import ErrorModal from './components/MovieDetail/ErrorModal';
+import ToastModal from './components/MovieDetail/toastModal';
 class App {
   readonly node: HTMLElement;
   private children;
@@ -34,7 +34,7 @@ class App {
 
       if (!(error instanceof Error)) return;
 
-      new ErrorModal(error.message).show();
+      new ToastModal(error.message).show();
     }
   }
 
