@@ -1,5 +1,6 @@
 import { updateMovies } from "../../domain/movies";
 import Store from "../../domain/Store";
+import { observeIntersection } from "../../utils/observeIntersection";
 import { $ } from "../../utils/selector";
 import MovieList from "./MovieList";
 
@@ -14,17 +15,9 @@ export const renderMovieList = () => {
 
 const handleInfinityScroll = () => {
   const loadingTrigger = document.getElementById('loading-trigger');
-  const observer = new IntersectionObserver(checkIntersectionObserverEntries);
-  observer.observe(loadingTrigger as Element);
+  observeIntersection(loadingTrigger as HTMLElement, loadNextPage);
 }
 
-
-export const checkIntersectionObserverEntries = (intersectionObserverEntries: IntersectionObserverEntry[]) => {
-  const isElementVisible = intersectionObserverEntries[0].isIntersecting; // 옵저빙을 하나만 했으므로 굳이 배열을 돌리지 않습니다.
-  if (isElementVisible) {
-    loadNextPage();
-  }
-}
 
 const loadNextPage = () => {
   $(".item-list").insertAdjacentHTML("beforeend", dummySkeletons());
