@@ -1,5 +1,4 @@
 import MovieCard from './MovieCard';
-import Skeleton from './Skeleton';
 import stateRender from '../renderer/StateRender';
 import { createInfiniteScrollObserver } from '../utils/observer';
 import EventBroker from '../EventBroker';
@@ -42,7 +41,7 @@ class MovieList {
     $target.insertAdjacentElement('beforeend', this.$ul);
   }
 
-  removeAlertContainer($target: HTMLElement) {
+  private removeAlertContainer($target: HTMLElement) {
     const $alertContainer = $target.querySelector('.alert-container');
     if ($alertContainer) $target.removeChild($alertContainer);
   }

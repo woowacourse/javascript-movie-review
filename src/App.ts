@@ -9,16 +9,14 @@ class App {
   private $itemView = document.createElement('section');
 
   private itemViw: ItemView;
-  private movieDetail: MovieDetail;
 
   constructor($target: HTMLElement) {
     new Header($target);
     new RemoteControl().render($target);
     this.itemViw = new ItemView();
-    this.movieDetail = new MovieDetail();
+    new MovieDetail();
 
     stateRender.initialize({
-      movieDetail: this.movieDetail,
       itemViewSection: this.$itemView,
     });
 
@@ -26,13 +24,6 @@ class App {
     this.itemViw.render(this.$main);
     $target.insertAdjacentElement('beforeend', this.$main);
   }
-
-  // initialRender() {
-  //   this.listTitle.render(this.$itemView);
-  //   this.skeleton.attachSkeleton();
-
-  //   stateRender.renderPopularMovies();
-  // }
 }
 
 export default App;

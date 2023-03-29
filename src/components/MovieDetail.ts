@@ -12,16 +12,6 @@ import { $ } from '../utils/dom';
 import EventBroker from '../EventBroker';
 import stateRender from '../renderer/StateRender';
 
-const initialMovieState: IMovieDetailItem = {
-  title: '',
-  overview: null,
-  voteAverage: 0,
-  movieId: -1,
-  genres: [],
-  posterPath: null,
-  myStarScore: 0,
-};
-
 class MovieDetail {
   private $detailContainer: HTMLDivElement;
   private movieState: IMovieDetailItem;
@@ -29,7 +19,7 @@ class MovieDetail {
   constructor() {
     this.$detailContainer = document.createElement('div');
     this.$detailContainer.className = 'movie-detail-container';
-    this.movieState = initialMovieState;
+    this.movieState = stateRender.getMovieDetails();
 
     this.addDetailMovieEventListener();
     this.initialEventListener();
@@ -85,7 +75,7 @@ class MovieDetail {
     </div>`;
   }
 
-  getActiveStarLabel(score: number) {
+  private getActiveStarLabel(score: number) {
     const labelMap = Array.from({ length: 5 }, (_, index) => {
       const value = (index + 1) * 2;
       return `<label class="star ${
@@ -157,15 +147,17 @@ class MovieDetail {
     });
 
     const { movieId } = this.movieState;
+    const movieDetail = this.isExistCurrentMovieDetailInLocalStorage(currentMovieInfos, movieId);
 
-    return this.isExistCurrentMovieDetail(currentMovieInfos, movieId)
-      ? currentMovieInfos.map((movieInfo) =>
-          movieInfo.movieId === movieId ? { ...movieState } : movieInfo
-        )
+    return movieDetail
+      ? currentMovieInfos.map((movie) => (movie.movieId === movieId ? { ...movieState } : movie))
       : [...currentMovieInfos, { ...movieState }];
   }
 
-  isExistCurrentMovieDetail(movies: Array<IMovieDetailItem>, id: IMovieDetailItem['movieId']) {
+  private isExistCurrentMovieDetailInLocalStorage(
+    movies: Array<IMovieDetailItem>,
+    id: IMovieDetailItem['movieId']
+  ) {
     const currentItem = movies.find(({ movieId }) => movieId === id);
 
     return currentItem;
@@ -177,7 +169,7 @@ class MovieDetail {
       data: [],
     });
 
-    const currentItem = this.isExistCurrentMovieDetail(currentMovieInfos, movieId);
+    const currentItem = this.isExistCurrentMovieDetailInLocalStorage(currentMovieInfos, movieId);
 
     if (currentItem) {
       this.render(currentItem, $target);

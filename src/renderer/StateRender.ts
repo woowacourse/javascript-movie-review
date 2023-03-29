@@ -1,14 +1,8 @@
-import ListTitle from '../components/ListTitle';
-import MovieDetail from '../components/MovieDetail';
-import MovieList from '../components/MovieList';
-import Skeleton from '../components/Skeleton';
 import WholeScreenMessageAlert from '../components/WholeScreenMessageAlert';
 import Movie, { initialMovieDetailState, initialMovieStats } from '../domain/Movie';
 import { IMovieDetailItem, IMovieHandleProps, IMovieItemProps, IMovieState } from '../types/movie';
-import { parseLocalStorage } from '../utils/localStorage';
 
 interface StateRenderProps {
-  movieDetail: MovieDetail;
   itemViewSection: HTMLElement;
 }
 
@@ -18,18 +12,6 @@ interface TMDBAPIParams {
 }
 
 class StateRender {
-  // 렌더에서, 렌더링 하는 부분들만 없애보자. 그리고, 렌더링 하는 부분들을 customEvent로 등록해서 처리해보자.
-  /**
-   * custom event로 등록되어서 렌더링 되는 부분들
-   * 1. 새로 검색 및 popular 추가
-   * 2. 더보기 버튼 구현
-   * 3. 상세보기 구현
-   * 4. 각각의 렌더링이 발생했을 때 skeleton이 같이 들어가야 함.
-   * 5. skeleton이 발생하는 조건은 StateRender 내부의 상태값에 따라 다름.
-   *
-   */
-
-  private movieDetail!: MovieDetail;
   private itemViewSection!: HTMLElement;
 
   private movie: Movie;
@@ -42,8 +24,7 @@ class StateRender {
     this.movieDetailState = initialMovieDetailState;
   }
 
-  initialize({ movieDetail, itemViewSection }: StateRenderProps) {
-    this.movieDetail = movieDetail;
+  initialize({ itemViewSection }: StateRenderProps) {
     this.itemViewSection = itemViewSection;
   }
 
@@ -93,23 +74,6 @@ class StateRender {
         this.apiErrorRender(error.message, $target);
       }
     }
-  }
-
-  renderMoreMovieList() {
-    const states = this.getMovieState();
-    const { nextPage, category, query } = states;
-
-    if (nextPage === -1) {
-      alert('마지막 페이지입니다.');
-      return;
-    }
-
-    if (category === 'popular') {
-      this.renderPopularMovies({ curPage: nextPage });
-      return;
-    }
-
-    this.renderSearchedMovies({ query, curPage: nextPage });
   }
 
   private setPopularProperty() {

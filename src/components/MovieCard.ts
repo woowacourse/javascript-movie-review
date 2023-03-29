@@ -1,9 +1,7 @@
 import starFilled from '../images/star_filled.png';
 import starEmpty from '../images/star_empty.png';
 import noImage from '../images/no_img.png';
-import { IMovieDetailItem, IMovieItemProps } from '../types/movie';
-import modal from './Modal';
-import stateRender from '../renderer/StateRender';
+import { IMovieItemProps } from '../types/movie';
 import { removeSkeletonAfterImageLoad } from '../utils/eventCallback';
 import { $ } from '../utils/dom';
 
@@ -15,13 +13,6 @@ class MovieCard {
     this.$li = document.createElement('li');
     this.$li.setAttribute('data-movie-id', `${movie.id}`);
     this.movie = movie;
-
-    // this.$li.addEventListener('click', async () => {
-    //   const $dialog = modal.getDialog();
-
-    //   await stateRender.renderMovieDetail(movie.id, $dialog);
-    //   modal.open();
-    // });
 
     this.render();
     this.initialEventListener();

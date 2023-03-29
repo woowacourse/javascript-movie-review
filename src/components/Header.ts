@@ -2,7 +2,6 @@ import EventBroker from '../EventBroker';
 import logo from '../images/logo.png';
 import stateRender from '../renderer/StateRender';
 import { $ } from '../utils/dom';
-import { eventThrottle } from '../utils/throttle';
 
 class Header {
   private $header = document.createElement('header');
