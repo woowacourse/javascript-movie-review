@@ -89,7 +89,7 @@ input::-webkit-search-results-decoration {
   display: grid;
   margin: 48px 0;
 
-  /* item-list의 width기준 */
+  /* item-list(전체화면의 80%)의 width기준 */
   grid-template-columns: repeat(4, calc(80% / 4));
   grid-column-gap: calc(20% / 3);
   grid-row-gap: 48px;
@@ -111,7 +111,8 @@ input::-webkit-search-results-decoration {
 
 .item-thumbnail {
   width: 100%;
-  height: 150%;
+  min-width: 159px;
+  aspect-ratio: auto 2 / 3;
   border-radius: 8px;
   background-size: contain;
 }
@@ -420,11 +421,15 @@ header .search-box > .search-button {
 }
 
 /* 태블릿 */
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 991px) {
   .item-list {
     /* item-list의 width기준 */
     grid-template-columns: repeat(3, calc(80% / 3));
     grid-column-gap: 10%;
+  }
+
+  .item-thumbnail {
+    min-width: 164px;
   }
 
   .modal-container {
@@ -442,6 +447,10 @@ header .search-box > .search-button {
     /* item-list의 width기준 */
     grid-template-columns: repeat(1, 100%);
     grid-column-gap: 0;
+  }
+
+  .item-thumbnail {
+    min-width: 224px;
   }
 
   .modal-container {
