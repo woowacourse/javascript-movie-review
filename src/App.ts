@@ -13,32 +13,46 @@ export class App {
     const $movieList = $(".item-list");
     const $modal = $(".modal-content");
 
-    this.#header = new Header(
-      $header,
-      this.onSubmitSearchKeyword.bind(this),
-      this.onClickLogoImage.bind(this)
-    );
+    this.#header = new Header($header);
 
     this.#movieList = new MovieList($movieList);
 
     this.#modal = new Modal($modal);
 
-    this.bindEvent($movieList);
+    this.bindEvent($movieList, $header);
   }
 
-  bindEvent($movieList: Element) {
-    $movieList.addEventListener("click", (event: Event) => {
-      if (!(event.target instanceof HTMLElement)) return;
+  bindEvent($movieList: Element, $header: Element) {
+    $movieList.addEventListener("click", ({ target }) => {
+      if (!(target instanceof HTMLElement)) return;
 
-      const movieCard = event.target.closest("li");
+      const movieCard = target.closest("li");
       const movieId = movieCard?.dataset.movieId;
 
       if (movieId) this.onClickMovieCard(Number(movieId));
+    });
+
+    $header.addEventListener("click", ({ target }) => {
+      if (!(target instanceof HTMLImageElement)) return;
+
+      this.onClickLogoImage();
+    });
+
+    $header.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      this.onSubmitSearchKeyword(this.#header.getInputValue());
+
+      if (event.target instanceof HTMLFormElement) event.target.reset();
     });
   }
 
   onSubmitSearchKeyword(serachKeyword: string) {
     const subTitle = $(".sub-title");
+
+    if (serachKeyword === "") return alert("검색값을 입력해주세요.");
+    if (serachKeyword.trim().length === 0)
+      return alert("올바른 검색어를 입력해주세요.");
 
     subTitle.innerHTML = `"${serachKeyword}" 검색 결과`;
 
