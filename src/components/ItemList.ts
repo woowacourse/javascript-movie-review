@@ -11,8 +11,7 @@ export function ItemList() {
     const targetUserScore = MovieData.findUserScore(targetId) ?? 0;
     const infoDialogElem = $('.modal-movie-info') as HTMLDialogElement;
 
-    printMovieDetail(infoDialogElem, targetMovie!, targetUserScore);
-    showStar(targetUserScore);
+    printMovieDetail(targetMovie!, targetUserScore);
 
     infoDialogElem.showModal();
   });
