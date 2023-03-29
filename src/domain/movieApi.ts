@@ -10,12 +10,13 @@ export const fetchMovies = async (url: string) => {
       return data;
     }
     else {
-      console.log(response);
-      console.log(data);
       throw new Error(data.status_message);
     }
 
   } catch (error) {
-    if (error instanceof Error) return console.log(error.message);
+    if (error instanceof Error) {
+      console.warn(error.message);
+      return { results: [], total_pages: 0 }
+    }
   }
 };
