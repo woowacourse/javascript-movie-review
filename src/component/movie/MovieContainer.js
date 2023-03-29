@@ -16,7 +16,6 @@ class MovieContainer extends CustomElement {
         <section class="item-view">
           <h2>지금 인기 있는 영화</h2>
           <movie-list></movie-list>
-          <div id="end-page" hidden></div>
           <movie-list-skeleton></movie-list-skeleton>
         </section>
     `;
@@ -24,17 +23,6 @@ class MovieContainer extends CustomElement {
 
   rerender(searchWord) {
     $(".item-view h2").innerText = `'${searchWord}' 검색 결과`;
-  }
-
-  setEvent() {
-    const io = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        MovieBoss.showMoreMovies();
-      }
-    });
-
-    const endPage = $("#end-page");
-    io.observe(endPage);
   }
 }
 

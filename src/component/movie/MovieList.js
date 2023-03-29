@@ -1,14 +1,18 @@
 import CustomElement from "../basic/CustomElement";
 import MovieBoss from "../../domain/MovieBoss";
-import { $ } from "../../util/dom";
+import { $, $$ } from "../../util/dom";
 import "./MovieItem";
 import "./MovieEmpty";
 
 class MovieList extends CustomElement {
+  #io;
   connectedCallback() {
     super.connectedCallback();
     MovieBoss.subscribe(this);
-    MovieBoss.initMovies();
+    MovieBoss.initMovies().then(() => {
+      const last = this.observeLastItem();
+      if (last) this.#io.observe(last);
+    });
   }
 
   template() {
@@ -25,8 +29,6 @@ class MovieList extends CustomElement {
     isShowMore
       ? $(".item-list").insertAdjacentHTML("beforeend", movieItemsTemplate)
       : ($(".item-list").innerHTML = movieItemsTemplate);
-
-    $("#end-page").hidden = MovieBoss.isLastPage();
   }
 
   makeMovieItems(movies) {
@@ -39,6 +41,25 @@ class MovieList extends CustomElement {
           `;
       })
       .join("");
+  }
+
+  setEvent() {
+    this.#io = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        this.#io.unobserve(entries[0].target);
+        setTimeout(() => {
+          MovieBoss.showMoreMovies();
+          const endItem = this.observeLastItem();
+          this.#io.observe(endItem);
+        }, 1000);
+      }
+    });
+  }
+
+  observeLastItem() {
+    const items = $$("movie-item");
+    const endItem = items[items.length - 1];
+    return endItem;
   }
 }
 
