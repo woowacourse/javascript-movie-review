@@ -5,7 +5,12 @@ export const ERROR_MESSAGE = {
   HTTP_500: '현재 페이지를 실행할 수 없습니다.\n 잠시후 다시 시도해주세요.😥',
 };
 
-export const USER_SCORE_TEXT = {
+export const SCORE = {
+  FULL_SCORE: 10,
+  UNIT: 2,
+};
+
+export const SCORE_TEXT = {
   2: '최악이에요',
   4: '별로에요',
   6: '보통이에요',

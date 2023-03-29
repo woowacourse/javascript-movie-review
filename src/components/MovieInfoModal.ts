@@ -4,7 +4,7 @@ import { makePosterImagePath } from '../utils/makePosterImagePath';
 import { MovieInterface, ScoreType } from '../utils/type';
 import { $, Event } from '../utils/index';
 import { scoreStars, showStar } from './scoreStar';
-import { GENRE, USER_SCORE_TEXT } from '../CONSTANT';
+import { GENRE, SCORE, SCORE_TEXT } from '../CONSTANT';
 import MovieData from '../data/movieData';
 
 export function movieInfoModal() {
@@ -18,10 +18,10 @@ export function movieInfoModal() {
     }
 
     if (target.classList.contains('score')) {
-      const starNumber = (Number(target.id.split('-')[2]) * 2) as ScoreType;
+      const score = (Number(target.id.split('-')[2]) * SCORE.UNIT) as ScoreType;
       const targetId = Number(target.parentElement?.parentElement?.classList[1]);
 
-      MovieData.giveUserScore(targetId, starNumber);
+      MovieData.giveUserScore(targetId, score);
     }
   });
 
@@ -30,11 +30,11 @@ export function movieInfoModal() {
     const targetImgElem = target.closest('img') as HTMLImageElement;
     if (targetImgElem === null) return;
 
-    const starNumber = (Number(targetImgElem.id.split('-')[2]) * 2) as ScoreType;
-    showStar(starNumber);
+    const score = (Number(targetImgElem.id.split('-')[2]) * SCORE.UNIT) as ScoreType;
+    showStar(score);
 
     const starArea = $('.modal-movie-score-area') as HTMLElement;
-    const scoreText = starNumber ? starNumber + ' ' + USER_SCORE_TEXT[starNumber] : '';
+    const scoreText = score ? score + ' ' + SCORE_TEXT[score] : '';
     starArea.children[1].textContent = `${scoreText}`;
   });
 
@@ -47,7 +47,7 @@ export function movieInfoModal() {
 export function printMovieDetail(movie: MovieInterface, targetUSerScore: ScoreType) {
   const modalElem = $('.modal-movie-info') as HTMLDialogElement;
   const { poster_path, genre_ids, vote_average, overview, id, title } = movie;
-  const scoreText = targetUSerScore ? targetUSerScore + ' ' + USER_SCORE_TEXT[targetUSerScore] : '';
+  const scoreText = targetUSerScore ? targetUSerScore + ' ' + SCORE_TEXT[targetUSerScore] : '';
 
   modalElem.innerText = '';
 

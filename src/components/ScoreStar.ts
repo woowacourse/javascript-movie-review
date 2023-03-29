@@ -2,6 +2,7 @@ import star_empty from '../assets/star_empty.png';
 import star_filled from '../assets/star_filled.png';
 import { ScoreType } from '../utils/type';
 import { $ } from '../utils/index';
+import { SCORE } from '../CONSTANT';
 
 export function scoreStars() {
   return `
@@ -17,8 +18,8 @@ export function scoreStars() {
 
 export function showStar(score: ScoreType) {
   const stars = $('.modal-movie-score') as HTMLElement;
-  for (let i = 0; i <= 4; i++) {
-    if (i < score / 2) {
+  for (let i = 0; i < SCORE.FULL_SCORE / SCORE.UNIT; i++) {
+    if (i < score / SCORE.UNIT) {
       stars.children[i].setAttribute('src', star_filled);
       stars.children[i].setAttribute('alt', '채워진 별');
     } else {
