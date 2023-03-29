@@ -34,7 +34,6 @@ class SearchInput extends HTMLElement {
 
       window.location.hash = `?q=${word}`;
 
-      searchInputTag.value = '';
       searchInputTag.blur();
     });
   }
