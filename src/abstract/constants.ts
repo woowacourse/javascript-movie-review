@@ -8,4 +8,7 @@ export const ERROR = {
 export const IMG = {
   FRAME: "https://image.tmdb.org/t/p/w220_and_h330_face",
   NO_IMG: "./image/noImg.jpeg",
+  LOGO: "./image/logo.png",
+  STAR_FILLED: "./image/star_filled.png",
+  STAR_EMPTY: "./image/star_empty.png",
 } as const;

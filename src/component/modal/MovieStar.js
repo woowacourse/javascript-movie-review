@@ -1,5 +1,6 @@
-import { $, $$ } from "../../util/dom";
 import CustomElement from "../basic/CustomElement";
+import { IMG } from "../../abstract/constants";
+import { $, $$ } from "../../util/dom";
 
 class MovieStar extends CustomElement {
   template() {
@@ -36,7 +37,7 @@ class MovieStar extends CustomElement {
   }
 
   changeRate(element) {
-    element.setAttribute("src", "./image/star_filled.png");
+    element.setAttribute("src", IMG.STAR_FILLED);
 
     this.fillStar(element);
     this.emptyStar(element);
@@ -56,12 +57,12 @@ class MovieStar extends CustomElement {
 
   fillStar(element) {
     while ((element = element.previousElementSibling))
-      element.setAttribute("src", "./image/star_filled.png");
+      element.setAttribute("src", IMG.STAR_FILLED);
   }
 
   emptyStar(element) {
     while ((element = element.nextElementSibling))
-      element.setAttribute("src", "./image/star_empty.png");
+      element.setAttribute("src", IMG.STAR_EMPTY);
   }
 }
 

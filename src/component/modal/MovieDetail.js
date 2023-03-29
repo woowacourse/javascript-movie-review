@@ -1,5 +1,5 @@
-import { $ } from "../../util/dom";
 import CustomElement from "../basic/CustomElement";
+import { IMG } from "../../abstract/constants";
 import "./MovieStar";
 
 class MovieDetail extends CustomElement {
@@ -26,7 +26,7 @@ class MovieDetail extends CustomElement {
       <span>
         <div class="detail-info text-body">
           <p>${genres}</p>
-          <img class="detail-star" src="./image/star_filled.png" alt="별점" />
+          <img class="detail-star" src=${IMG.STAR_FILLED} alt="별점" />
           <p>${voteAverage}</p>
         </div>
         <div class="detail text-body">${detail}</div>
@@ -41,8 +41,8 @@ class MovieDetail extends CustomElement {
     const fill = parseInt(rate);
 
     const starSrc = Array.from({ length: 5 }, (v, i) => {
-      if (i < fill) return "./image/star_filled.png";
-      return "./image/star_empty.png";
+      if (i < fill) return IMG.STAR_FILLED;
+      return IMG.STAR_EMPTY;
     });
 
     return starSrc;

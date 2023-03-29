@@ -20,7 +20,7 @@ class MovieModal extends CustomElement {
 
   rerender(movie) {
     this.showModal();
-    const src = movie.src === "null" ? IMG.NO_IMG : `${IMG.FRAME}${movie.src}`;
+    const src = movie.src === "null" ? IMG.NO_IMG : IMG.FRAME + movie.src;
 
     const temp = `
     <movie-detail id=${movie.id} title='${movie.title}' voteAverage=${movie.voteAverage} src=${src} detail='${movie.detail}' genres=${movie.genres}>
