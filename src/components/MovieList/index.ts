@@ -2,8 +2,7 @@ import "./index.css";
 
 import type { MovieResponse } from "../../types";
 
-import { Movies } from "../../domain/Movies";
-import { fetchPopularMovies, fetchSearchMovies } from "../../utils/api";
+import { getURL, request } from "../../utils/api";
 import { $ } from "../../utils/selector";
 import {
   deleteSkeletonContainer,
@@ -14,7 +13,7 @@ import { getMovieCardTemplate } from "./MovieCard";
 
 type showType = "popular" | "search";
 
-interface State {
+export interface State {
   showState: showType;
   searchKeyword: string;
   page: number;
@@ -29,113 +28,82 @@ export class MovieList {
     page: 1,
   };
 
-  #movies: Movies = new Movies([]);
-
   constructor($target: Element) {
     this.#$target = $target;
 
     this.init();
   }
 
-  init() {
+  async init() {
     this.#$target.insertAdjacentElement("afterend", getSkeletonContainer());
 
-    fetchPopularMovies(this.#state.page)
-      .then((response) => {
-        const { results, total_pages } = response;
+    try {
+      const { results, total_pages } = await request(
+        getURL({ state: this.#state })
+      );
 
-        this.#movies.reset(results);
-        this.render(results, total_pages);
+      this.render(results, total_pages);
 
-        new IntersectionObserver(this.fetchNextPage.bind(this)).observe(
-          $(".btn")
-        );
-      })
-      .catch(() => {
-        deleteSkeletonContainer();
-      });
+      new IntersectionObserver(this.fetchNextPage.bind(this)).observe(
+        $(".btn")
+      );
+    } catch {
+      deleteSkeletonContainer();
+    }
   }
 
   render(movieList: MovieResponse[], total_pages: number) {
     deleteSkeletonContainer();
 
-    if (this.#state.page !== 1) this.#movies.add(movieList);
-
     this.#$target.insertAdjacentHTML(
       "beforeend",
-      `${this.#movies
-        .getCurrentList()
-        .map((movie) => getMovieCardTemplate(movie))
-        .join("")}
+      `${movieList.map((movie) => getMovieCardTemplate(movie)).join("")}
       `
     );
 
     if (this.#state.page === total_pages) this.deactivateScrollFetch();
+
+    if (this.#state.page === 1 && movieList.length === 0) {
+      const subTitle = $(".sub-title");
+
+      subTitle.innerHTML = "검색 결과 없음";
+    }
   }
 
-  changeShowTarget(state: showType, searchKeyword?: string) {
+  async changeShowTarget(state: showType, searchKeyword?: string) {
     this.#$target.innerHTML = ``;
-    this.#state = { ...this.#state, showState: state, page: 1 };
+    this.#state = {
+      ...this.#state,
+      showState: state,
+      page: 1,
+      searchKeyword: searchKeyword ?? "",
+    };
 
     this.activateScrollFetch();
     showSkeletonContainer();
 
-    if (state === "popular") {
-      fetchPopularMovies(this.#state.page)
-        .then((response) => {
-          const { results, total_pages } = response;
+    const { results, total_pages } = await request(
+      getURL({ state: this.#state })
+    );
 
-          this.#movies.reset(results);
-          this.render(results, total_pages);
-        })
-        .catch(() => {
-          deleteSkeletonContainer();
-        });
+    this.render(results, total_pages);
 
-      return;
-    }
-
-    if (searchKeyword) {
-      this.#state = { ...this.#state, searchKeyword: searchKeyword };
-
-      fetchSearchMovies(this.#state.page, this.#state.searchKeyword)
-        .then((response) => {
-          const { results, total_pages } = response;
-
-          this.#movies.reset(results);
-          this.render(results, total_pages);
-        })
-        .catch(() => {
-          deleteSkeletonContainer();
-        });
-    }
+    deleteSkeletonContainer();
   }
 
-  fetchNextPage() {
+  async fetchNextPage() {
     this.#state.page += 1;
     showSkeletonContainer();
 
-    if (this.#state.showState === "popular")
-      fetchPopularMovies(this.#state.page)
-        .then((response) => {
-          const { results, total_pages } = response;
+    try {
+      const { results, total_pages } = await request(
+        getURL({ state: this.#state })
+      );
 
-          this.render(results, total_pages);
-        })
-        .catch(() => {
-          deleteSkeletonContainer();
-        });
-
-    if (this.#state.showState === "search")
-      fetchSearchMovies(this.#state.page, this.#state.searchKeyword)
-        .then((response) => {
-          const { results, total_pages } = response;
-
-          this.render(results, total_pages);
-        })
-        .catch(() => {
-          deleteSkeletonContainer();
-        });
+      this.render(results, total_pages);
+    } catch {
+      deleteSkeletonContainer();
+    }
   }
 
   deactivateScrollFetch() {

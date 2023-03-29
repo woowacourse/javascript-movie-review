@@ -19,7 +19,17 @@ export const getMovieCardTemplate = (movie: Movie) => {
                   />
                 `
                 : /*html */ `
-                <div class="item-thumbnail center" style="background-color:white; color:black; display:flex; justify-content:center; align-items:center; font-weight:600; font-size:24px">
+                <div 
+                  class="item-thumbnail center" 
+                  style="
+                    background-color:white; 
+                    color:black; 
+                    display:flex; 
+                    justify-content:center; 
+                    align-items:center; 
+                    font-weight:600; 
+                    font-size:24px
+                ">
                   <span>No Image</span>
                 </div>
                 `

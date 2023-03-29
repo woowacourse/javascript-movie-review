@@ -1,8 +1,15 @@
 import type { MovieDetail, MovieDetailResponse } from "../types";
 
+import { State } from "../components/MovieList";
+
+interface UrlParam {
+  state?: State;
+  movieId?: number;
+}
+
 const API_END_POINT = "https://api.themoviedb.org/3";
 
-const request = async (url: string) => {
+export const request = async (url: string) => {
   try {
     const response = await fetch(url);
 
@@ -12,10 +19,29 @@ const request = async (url: string) => {
 
     throw new Error(`${response.status}`);
   } catch (error: any) {
-    if (error.message === "Failed to fatch")
+    if (error.message === "Failed to fetch")
       return alert("네트워크 연결이 종료되었습니다.");
+
     alert(`${error.message} 에러가 발생했습니다!`);
   }
+};
+
+export const getURL = (urlParam: UrlParam) => {
+  if (urlParam.movieId)
+    return `${API_END_POINT}/movie/${urlParam.movieId}?api_key=${process.env.API_KEY}&language=ko`;
+
+  if (urlParam.state) {
+    if (urlParam.state.showState === "popular")
+      return `${API_END_POINT}/movie/popular?api_key=${process.env.API_KEY}&language=ko&page=${urlParam.state.page}`;
+    if (urlParam.state.showState === "search")
+      return `${API_END_POINT}/search/movie?api_key=${
+        process.env.API_KEY
+      }&language=ko&page=${urlParam.state.page}&query=${encodeURI(
+        urlParam.state.searchKeyword
+      )}`;
+  }
+
+  throw new Error("url을 만들기 위한 올바른 인자값이 전달되지 않았습니다.");
 };
 
 export const convertMovieDetail = (
@@ -29,26 +55,4 @@ export const convertMovieDetail = (
     genre: movieDetail.genres.map((data) => data.name),
     overview: movieDetail.overview,
   };
-};
-
-export const fetchPopularMovies = (page: number) => {
-  const url = `${API_END_POINT}/movie/popular?api_key=${process.env.API_KEY}&language=ko&page=${page}`;
-
-  return request(url);
-};
-
-export const fetchSearchMovies = (page: number, keyword: string) => {
-  const url = `${API_END_POINT}/search/movie?api_key=${
-    process.env.API_KEY
-  }&language=ko&page=${page}&query=${encodeURI(keyword)}`;
-
-  return request(url);
-};
-
-export const fetchMovieDetailById = async (movieId: number) => {
-  const url = `${API_END_POINT}/movie/${movieId}?api_key=${process.env.API_KEY}&language=ko`;
-  const response = await request(url);
-  const movieDetail = convertMovieDetail(response);
-
-  return movieDetail;
 };
