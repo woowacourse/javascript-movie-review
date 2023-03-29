@@ -224,30 +224,21 @@ header h1 {
 }
 
 header > .search-box {
-  position: relative;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 
-  width: 30%;
   background: rgba(241, 241, 241, 1);
   border-radius: 4px;
   padding: 8px;
 }
 
 header .search-box > input {
-  width: 80%;
   background: rgba(241, 241, 241, 1);
   border: 0;
+  padding: 0;
 }
 
 header .search-box > .search-button {
-  position: absolute;
-  top: 50%;
-  transform: translate(0, -50%);
-  right: 8px;
-  z-index: 1;
-
   width: 15px;
   height: 15px;
   border: 0;
@@ -501,55 +492,29 @@ header .search-box > .search-button {
     display: none;
   }
 
-  header {
-    position: relative;
-  }
-
   header > .search-box {
     position: absolute;
     right: 20px;
-    justify-content: flex-end;
-
-    width: 35px;
-    height: 35px;
-
-    padding: 0;
-
     background-color: rgb(47, 47, 47);
-    transition: width 0.7s ease;
-  }
-
-  header > .search-box:hover,
-  header > .search-box:focus,
-  header > .search-box:active {
-    width: calc(100% - 40px);
   }
 
   header .search-box > input {
-    position: absolute;
-    border-radius: 8px;
-    width: 100%;
-    height: 100%;
-    padding: 0 10px;
+    width: 0;
     opacity: 0;
-    background-color: rgb(47, 47, 47);
-    color: rgba(241, 241, 241, 1);
 
-    transition: all 0.55s ease;
+    color: transparent;
+    background-color: rgb(47, 47, 47);
+
+    transition: all 0.7s ease-in-out;
   }
 
-  header .search-box > input:hover,
-  header .search-box > input:focus,
-  header .search-box > input:active {
+  header .search-box > input:focus {
     opacity: 1;
-    width: 100%;
+    color: rgba(241, 241, 241, 1);
+    width: calc(100vw - 71px);
   }
 
   header .search-box > .search-button {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translate(0, -50%);
     background: url('./search_button_w.png') transparent no-repeat 0 1px;
     background-size: contain;
   }
