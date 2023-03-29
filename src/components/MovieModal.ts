@@ -44,7 +44,7 @@ class MovieModal extends HTMLElement {
     const modalHeader = $<HTMLDivElement>('.modal-header');
     const container = $<HTMLDivElement>('.self-grade');
 
-    if (modalHeader instanceof HTMLDivElement && container instanceof HTMLDivElement) {
+    if (modalHeader && container) {
       setMovieSelfScore(modalHeader.id, target.id);
       container.innerHTML = generateSelfGradeTemplate(modalHeader.id);
     }
@@ -53,7 +53,7 @@ class MovieModal extends HTMLElement {
   static render() {
     const container = $<HTMLElement>('main');
 
-    if (container instanceof HTMLElement) {
+    if (container) {
       container.insertAdjacentHTML('beforeend', movieModalTemplate);
     }
   }
