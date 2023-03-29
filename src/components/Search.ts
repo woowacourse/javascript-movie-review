@@ -46,8 +46,8 @@ function checkExistInput() {
   const logoImg = $('.logo-img') as HTMLImageElement;
 
   if (inputElem.classList.contains('hidden')) {
-    toggle(inputElem, 'hidden');
-    toggle(logoImg, 'hidden');
+    toggle.off(inputElem, 'hidden');
+    toggle.on(logoImg, 'hidden');
     return false;
   }
   return true;
@@ -58,7 +58,7 @@ function checkExistLogo() {
   const inputElem = $('.search-input') as HTMLInputElement;
 
   if (logoImg.classList.contains('hidden')) {
-    toggle(logoImg, 'hidden');
-    toggle(inputElem, 'hidden');
+    toggle.off(logoImg, 'hidden');
+    toggle.on(inputElem, 'hidden');
   }
 }
