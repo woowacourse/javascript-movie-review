@@ -119,7 +119,7 @@ const movieApp = {
       return movies;
     } catch (error) {
       if (error instanceof Error) {
-        const errorMessage = errorHandler(error.message);
+        const errorMessage = error.message;
 
         this.$container.displayErrorUI(errorMessage);
       }
