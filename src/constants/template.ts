@@ -1,5 +1,5 @@
 export const scoreMessageTemplate = Object.freeze([
-  '영화를 평가해 주세요',
+  '평가해 주세요',
   '최악이예요',
   '별로예요',
   '보통이예요',

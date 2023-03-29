@@ -23,9 +23,6 @@
 
 .modal-container {
   width: 70vw;
-  height: 85vh;
-
-  padding: 10px;
 
   border-radius: 8px;
   background: #212122;
@@ -40,6 +37,8 @@
 
   width: 100%;
   height: 60px;
+
+  padding: 10px;
 
   border-bottom: solid 1px rgba(241, 241, 241, 0.25);
 }
@@ -72,20 +71,14 @@
   align-items: center;
 
   width: 100%;
-  height: 90%;
+  height: auto;
 
-  padding: 40px;
+  padding: 30px 0;
 }
 
 .modal-body .item-poster {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: auto;
-  max-width: 40%;
-  height: auto;
-  min-height: 100%;
+  width: 35%;
+  height: 100%;
 }
 
 .item-poster .item-thumbnail {
@@ -97,31 +90,24 @@
   background-size: contain;
 }
 
-.modal-body .item-info {
+.item-info {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
-  width: auto;
-  max-width: 50%;
+  width: 55%;
   height: 100%;
 }
 
-.item-genre-score-overview {
-  height: auto;
-  min-height: 85%;
-}
-
-.modal-body .item-genre-score {
+.item-genre-score {
   display: flex;
+
+  height: 20px;
 
   margin: 0 0 5% 0;
 }
 
 .item-genre {
-  width: auto;
-  max-width: 300px;
-
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -130,10 +116,7 @@
 }
 
 .item-score-image {
-  width: 20px;
-  height: 20px;
-
-  margin: 0 2% 0 5%;
+  margin: 0 5px 0 20px;
 }
 
 .item-genre-score > .item-score {
@@ -143,9 +126,6 @@
 }
 
 .item-overview {
-  height: auto;
-  max-height: 85%;
-
   font-size: 1rem;
   line-height: 1.5;
 
@@ -155,49 +135,46 @@
 
 .self-grade {
   display: flex;
+  justify-content: center;
   align-items: center;
 
-  width: auto;
-  height: 60px;
-
-  padding: 10px;
+  width: 100%;
+  height: 80px;
 
   background: #383839;
   border-radius: 8px;
 }
 
 .self-grade > .score-title {
-  width: auto;
-  max-width: 60px;
+  width: 60px;
 
-  margin-right: 15px;
-
+  font-size: 1rem;
   font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+}
+
+.self-grade .score-image {
+  width: 35px;
+  height: 35px;
 }
 
 .self-grade > .score {
-  width: auto;
-  max-width: 20px;
+  width: 30px;
 
-  margin: 0 15px;
+  font-size: 1rem;
+  text-align: center;
   white-space: nowrap;
   overflow: hidden;
 }
 
 .self-grade > .score-message {
-  width: auto;
-  max-width: 200px;
-
+  font-size: 1rem;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-/* Mobile */
-@media (max-width: 575px) {
+@media screen and (max-width: 840px) {
   .modal-container {
     position: absolute;
     bottom: 0;
@@ -206,24 +183,26 @@
   }
 
   .modal-header > .item-title {
-    padding: 0 0 0 30px;
+    padding: 0 20px;
     text-align: start;
   }
 
   .modal-body {
-    display: block;
     width: 100%;
+    height: 100%;
+
+    padding: 30px;
   }
 
-  .modal-body .item-poster {
+  .item-poster {
     display: none;
   }
 
-  .modal-body .item-info {
-    justify-content: space-around;
+  .item-info {
+    justify-content: space-between;
 
-    max-width: 100%;
-    min-height: 100%;
+    width: 100%;
+    height: 100%;
   }
 
   .self-grade {
