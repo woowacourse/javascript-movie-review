@@ -6,6 +6,7 @@ import { $ } from '../utils';
 
 import { deleteSkeletonList, MovieListSkeleton } from './MovieListSkeleton';
 import { MovieItem } from './MovieItem';
+import { ErrorPage } from './ErrorPage';
 
 export function MovieList() {
   return `
@@ -22,15 +23,26 @@ export async function renderSkeletonList() {
 
   if (isPopular) {
     const results = await getPopularMovies(page);
-    renderPopularMovieList(results);
 
+    if (results) {
+      renderPopularMovieList(results);
+      return;
+    }
+
+    $parentElem.innerHTML = ErrorPage();
     return;
   }
 
   const results = await getSearchMovie(keyword, page);
-  renderSearchMovieList(results);
 
-  store.setState({ isContentEnd: true });
+  if (results) {
+    renderSearchMovieList(results);
+    if (results.length < 20) store.setState({ isContentEnd: true });
+    return;
+  }
+
+  $parentElem.innerHTML = ErrorPage();
+  return;
 }
 
 export async function renderPopularMovieList(movies: IMovie[]) {

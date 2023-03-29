@@ -14,3 +14,11 @@ export const ERROR_MESSAGE = Object.freeze({
   CLINET_401: '유효한 API key가 필요합니다. (Invalid API key: You must be granted a valid key)',
   SERVER: '서버에 문제가 발생했습니다.',
 });
+
+export const RATE_DETAIL = Object({
+  2: '최악이예요',
+  4: '별로예요',
+  6: '보통이에요',
+  8: '재미있어요',
+  10: '명작이에요',
+});
