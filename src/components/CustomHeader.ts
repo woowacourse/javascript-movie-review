@@ -77,7 +77,7 @@ class CustomHeader extends HTMLElement {
     const root = await searchMovieList(movie.query, movie.currentPage);
     if (isMovieRoot(root)) {
       movie.totalPages = root.total_pages;
-      proxy.movie.list = [generateMovieListTemplate(root.results)];
+      proxy.movie.list = generateMovieListTemplate(root.results);
     }
   }
 

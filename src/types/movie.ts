@@ -1,5 +1,5 @@
 export interface Movie {
-  list: string[];
+  list: string;
   query: FormDataEntryValue;
   currentPage: number;
   totalPages: number;

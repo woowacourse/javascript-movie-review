@@ -40,7 +40,7 @@ const App = {
     if (isMovieRoot(root)) {
       const movieResults = root.results;
       movie.totalPages = root.total_pages;
-      proxy.movie.list = [generateMovieListTemplate(movieResults)];
+      proxy.movie.list = generateMovieListTemplate(movieResults);
     }
   },
 };

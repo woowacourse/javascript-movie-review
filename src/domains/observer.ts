@@ -17,7 +17,7 @@ const callback = async (entries: IntersectionObserverEntry[], observer: Intersec
   const root = await getMoreMovieList(movie.query, movie.currentPage + 1);
   if (isMovieRoot(root)) {
     movie.currentPage = root.page;
-    proxy.movie.list = [generateMovieListTemplate(root.results)];
+    proxy.movie.list = generateMovieListTemplate(root.results);
   }
 };
 
