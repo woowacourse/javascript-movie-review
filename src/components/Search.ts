@@ -18,7 +18,7 @@ export function Search() {
     formEl.reset();
 
     PageData.changePageStatus('search');
-    PageData.resetPage();
+    PageData.resetCurrentPage();
     PageData.setRecentKeyword(String(formData.keyword));
 
     resetMovieList();

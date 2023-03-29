@@ -46,7 +46,7 @@ export async function renderMovieList(results: MovieInterface[]) {
     'beforeend',
     `${results.map((movie) => MovieItem(movie)).join('')}`
   );
-  PageData.plusPage();
+  PageData.plusCurrentPage();
 }
 
 function changePageHeader() {

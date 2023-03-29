@@ -17,7 +17,6 @@ export function ScoreStars() {
 
 export function showStar(score: ScoreType) {
   const stars = $('.modal-movie-score') as HTMLElement;
-  console.log('a', score);
   for (let i = 0; i <= 4; i++) {
     if (i < score / 2) {
       stars.children[i].setAttribute('src', star_filled);

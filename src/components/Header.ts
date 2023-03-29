@@ -8,7 +8,7 @@ import MovieData from '../data/MovieData';
 export function Header() {
   Event.addEvent('click', '#logo-img', async () => {
     PageData.changePageStatus('popular');
-    PageData.resetPage();
+    PageData.resetCurrentPage();
     PageData.setRecentKeyword(null);
 
     resetMovieList();
