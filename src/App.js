@@ -15,13 +15,11 @@ class App {
   movie;
 
   movieView;
-
   movieDetail;
 
   page;
   query = null;
-
-  isLoading;
+  isLoading = false;
 
   constructor($target) {
     this.init($target);
@@ -48,10 +46,14 @@ class App {
   }
 
   bindEvent() {
-    document.addEventListener('renderMovies', ({ detail: { query, page } }) => {
+    document.addEventListener('renderMovies', ({ detail: { query } }) => {
       this.query = query;
-      if (page === 1) this.page = pageCounter(0);
+      this.page = pageCounter(0);
 
+      this.updateMovieView();
+    });
+
+    document.addEventListener('renderMoreMovies', () => {
       this.updateMovieView();
     });
 

@@ -6,9 +6,7 @@ class MovieView {
   $itemView = document.createElement('section');
 
   movieListTitle;
-
   movieList;
-
   skeletonCards;
 
   constructor($target) {
@@ -39,9 +37,15 @@ class MovieView {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
     if (clientHeight < Math.round(scrollHeight - scrollTop)) return;
 
-    document.dispatchEvent(
-      new CustomEvent('renderMovies', { detail: { query: null, page: null } })
-    );
+    document.dispatchEvent(new CustomEvent('renderMoreMovies'));
+  }
+
+  addMovies({ page, results: movies }) {
+    if (page === 1) {
+      return this.movieList.switchMovies(movies);
+    }
+
+    this.movieList.insertMovies(movies);
   }
 
   showSkeleton() {
@@ -50,20 +54,6 @@ class MovieView {
 
   hideSkeleton() {
     this.skeletonCards.hide();
-  }
-
-  addMovies({ page, results: movies, total_pages }) {
-    if (page === total_pages) {
-      // TODO Scroll 이벤트 비활성화
-    }
-
-    if (page === 1) {
-      this.movieList.switchMovies(movies);
-
-      return;
-    }
-
-    this.movieList.insertMovies(movies);
   }
 }
 

@@ -24,7 +24,7 @@ class Header {
       if (target.id !== 'logo') return;
       this.clearQuery();
 
-      document.dispatchEvent(new CustomEvent('renderMovies', { detail: { query: null, page: 1 } }));
+      document.dispatchEvent(new CustomEvent('renderMovies', { detail: { query: null } }));
     });
 
     this.$header.addEventListener('submit', (e) => {
@@ -32,7 +32,7 @@ class Header {
 
       const query = e.target[0].value;
 
-      document.dispatchEvent(new CustomEvent('renderMovies', { detail: { query, page: 1 } }));
+      document.dispatchEvent(new CustomEvent('renderMovies', { detail: { query } }));
     });
   }
 

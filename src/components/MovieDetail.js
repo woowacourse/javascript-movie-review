@@ -27,10 +27,10 @@ class MovieDetail {
       }
     };
 
-    this.$modal.addEventListener('click', ({ target }) => {
+    this.$modal.addEventListener('click', ({ target: { className } }) => {
       if (
-        target.className === 'movie-detail-close-button' ||
-        target.className === 'movie-detail-modal-background'
+        className === 'movie-detail-close-button' ||
+        className === 'movie-detail-modal-background'
       ) {
         this.close();
       }
