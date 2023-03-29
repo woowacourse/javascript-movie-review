@@ -49,7 +49,11 @@ const MovieModal = {
                 <img class="modal-icon" src="${StarFilled}" alt="별점"/>
                 <p class="modal-text">${movie.vote_average}</p>
               </div>
-              <p class="modal-text modal-overview">${movie.overview}</p>
+              <p class="modal-text modal-overview">${
+                movie.overview
+                  ? movie.overview
+                  : "줄거리가 존재하지 않는 영화입니다."
+              }</p>
             </div>
             <div class="modal-score-box">
               <p class="bold">내 별점</p>
