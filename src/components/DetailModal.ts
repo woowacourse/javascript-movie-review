@@ -1,4 +1,4 @@
-import { StarKeyType } from '../type/movie';
+import { MovieDetailStringGenreType, StarKeyType } from '../type/movie';
 import { MOVIE_APP_IMG_PATH, STAR_CONDITION, STAR_MENT } from '../constant';
 import { $, $$ } from '../utils/domHelper';
 import { saveMovieRating, loadMovieRating } from '../utils/useLocalStorage';
@@ -20,7 +20,14 @@ export default class DetailModal extends HTMLElement {
   }
 
   render(
-    { id, title, poster_path, genres, vote_average, overview }: any = {
+    {
+      id,
+      title,
+      poster_path,
+      genres,
+      vote_average,
+      overview,
+    }: MovieDetailStringGenreType = {
       id: 0,
       title: '',
       poster_path: '',

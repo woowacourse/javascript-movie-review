@@ -38,6 +38,15 @@ export type MovieDetailType = {
   vote_average: number;
 };
 
+export type MovieDetailStringGenreType = {
+  id: number;
+  title: string;
+  genres: string;
+  overview: string;
+  poster_path: string;
+  vote_average: number;
+};
+
 export type GenreType = {
   id: number;
   name: string;

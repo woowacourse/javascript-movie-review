@@ -18,10 +18,7 @@ export default class Observable {
     };
   }
 
-  subscribe(
-    key: keyof MovieSubscriberType,
-    method: (value?: MovieItemType[] | MovieDetailType) => void
-  ) {
+  subscribe(key: keyof MovieSubscriberType, method: (value?: any) => void) {
     this.observer[key].push(method);
   }
 

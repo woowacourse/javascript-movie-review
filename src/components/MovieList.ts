@@ -17,7 +17,7 @@ export default class MovieList extends HTMLElement {
     this.innerHTML = `<ul class="item-list movie-container"></ul>`;
   }
 
-  movieItemRender(movies?: any) {
+  movieItemRender(movies?: MovieItemType[]) {
     $('.movie-container').insertAdjacentHTML(
       'beforeend',
       this.movieItemTemplate(movies) || ''
