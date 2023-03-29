@@ -6,7 +6,8 @@ import { MOVIE_IMAGE_URL } from '../../constants/movieURLs';
 import { FetchedMovieItemJson } from '../../types/fetchedMovie';
 
 export default class MovieDetailFetcher {
-  base = `https://api.themoviedb.org/3/movie`;
+  static base = `https://api.themoviedb.org/3/movie`;
+  id: number;
   params = {
     api_key: process.env.API_KEY as string,
     language: 'ko-KR',
@@ -15,7 +16,7 @@ export default class MovieDetailFetcher {
   constructor(id: number) {
     if (!this.params.api_key) throw new Error(NO_API_KEY);
 
-    this.base = `${this.base}/${id}`;
+    this.id = id;
   }
 
   fetchMovie(): Promise<MovieDetail> {
@@ -23,7 +24,7 @@ export default class MovieDetailFetcher {
   }
 
   #createURL(params: { [param: string]: string }): string {
-    const url = new URL(this.base);
+    const url = new URL(`${MovieDetailFetcher.base}/${this.id}`);
     Object.entries(params).forEach(([param, value]) => {
       url.searchParams.append(param, value);
     });

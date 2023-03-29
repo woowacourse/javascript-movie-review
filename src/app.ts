@@ -6,7 +6,7 @@ import PopularMovieFetcher from './domain/fetcher/PopularMovieFetcher';
 import SearchMovieFetcher from './domain/fetcher/SearchMovieFetcher';
 
 import { NETWORK_ERROR_MESSAGE } from './constants/messages';
-import ToastModal from './components/toastModal';
+import ToastModal from './components/ToastModal';
 class App {
   readonly node: HTMLElement;
   private children;
