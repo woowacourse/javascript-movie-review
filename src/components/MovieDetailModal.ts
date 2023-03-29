@@ -85,7 +85,7 @@ class MovieDetailModal {
   private addClickCloseButtonEventHandler() {
     this.$element.addEventListener('click', (event) => {
       if (!(event.target instanceof HTMLButtonElement)) return;
-      if (!(event.target.id === 'movie-detail-modal-close-button')) return;
+      if (!event.target.matches('#movie-detail-modal-close-button')) return;
 
       this.$element.close();
     });
