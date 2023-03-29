@@ -7,6 +7,8 @@ import { InfiniteScrollLine } from './InfiniteScrollLine';
 import PageData from '../data/PageData';
 
 export class App {
+  #observer?: IntersectionObserver;
+
   constructor() {
     this.play();
   }
@@ -27,6 +29,14 @@ export class App {
 
   setObserver() {
     const line = $('#InfiniteLine') as HTMLElement;
-    PageData.setObserver(showMovieList, line);
+
+    this.#observer = new IntersectionObserver((entries: any) => {
+      if (entries[0].isIntersecting && PageData.moreTotalPageThanCurrentPage()) {
+        showMovieList();
+      }
+      return;
+    });
+
+    this.#observer.observe(line);
   }
 }

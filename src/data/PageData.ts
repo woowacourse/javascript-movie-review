@@ -3,25 +3,24 @@ import { PageStatusType } from '../utils/type';
 import MovieData from './MovieData';
 
 class PageData {
-  #moviePage: number;
+  #currentPage: number;
   #totalPage: number;
   #recentKeyword: string | null;
   #pageStatus: PageStatusType;
-  #observer: IntersectionObserver | undefined;
 
   constructor() {
-    this.#moviePage = 1;
+    this.#currentPage = 1;
     this.#totalPage = Infinity;
     this.#recentKeyword = null;
     this.#pageStatus = 'popular';
   }
 
-  plusPage() {
-    this.#moviePage++;
+  plusCurrentPage() {
+    this.#currentPage++;
   }
 
-  resetPage() {
-    this.#moviePage = 1;
+  resetCurrentPage() {
+    this.#currentPage = 1;
   }
 
   changePageStatus(callPage: PageStatusType) {
@@ -44,9 +43,13 @@ class PageData {
     this.#totalPage = totalPage;
   }
 
+  moreTotalPageThanCurrentPage() {
+    return this.#currentPage <= this.#totalPage;
+  }
+
   async useMovie() {
     if (this.#recentKeyword === null) {
-      const { page, results, total_pages } = await getMovies(this.#moviePage);
+      const { page, results, total_pages } = await getMovies(this.#currentPage);
 
       MovieData.addMovieData(results);
 
@@ -55,23 +58,12 @@ class PageData {
 
     const { page, results, total_pages } = await getSearchMovie(
       this.#recentKeyword,
-      this.#moviePage
+      this.#currentPage
     );
 
     MovieData.addMovieData(results);
 
     return { values: { page, results, total_pages } };
-  }
-
-  setObserver(callback: Function, elem: HTMLElement) {
-    this.#observer = new IntersectionObserver((entries: any) => {
-      if (entries[0].isIntersecting && this.#moviePage <= this.#totalPage) {
-        callback();
-      }
-      return;
-    });
-
-    this.#observer.observe(elem);
   }
 }
 
