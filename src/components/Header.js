@@ -35,6 +35,10 @@ class Header {
 
     this.#element.addEventListener('submit', async (event) => {
       event.preventDefault();
+      const inputData = $('#search-input');
+      if (inputData.value === '') {
+        inputData.focus();
+      }
 
       const searchData = $('#search-input').value;
       this.#element.dispatchEvent(

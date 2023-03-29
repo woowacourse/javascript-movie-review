@@ -1,6 +1,8 @@
-import { $ } from '../util/querySelector';
+import { SCORE_DATA_TEXT } from '../util/constants';
+import { $, $$ } from '../util/querySelector';
 import { MovieItem } from './MovieItem';
-import MovieSkeleton from './MovieSkeleton';
+import movieModal from './MovieModal';
+import movieSkeleton from './MovieSkeleton';
 
 const SKELETON_ITEM_COUNT = 20;
 
@@ -13,7 +15,7 @@ class Main {
     this.#manager = manager;
 
     this.#requestMovieListEvent();
-
+    this.#addModalEvent();
     this.#element.innerHTML = `
     <h2></h2>
     <ul class="item-list"></ul>
@@ -28,7 +30,7 @@ class Main {
     $('ul', element).appendChild(document.createElement('div'));
 
     const skeletonElement = $('ul', element).lastElementChild;
-    skeletonElement.outerHTML = MovieSkeleton().repeat(SKELETON_ITEM_COUNT);
+    skeletonElement.outerHTML = movieSkeleton().repeat(SKELETON_ITEM_COUNT);
   }
 
   async render() {
@@ -46,27 +48,98 @@ class Main {
 
     this.#element.innerHTML = `
     <h2>${query === '' ? '지금 인기 있는 영화' : `"${query}" 검색 결과`}</h2>
-    <ul class="item-list">
-    ${
-      movieListData.length
-        ? movieListData.map((movieInfo) => MovieItem(movieInfo)).join('\n')
-        : '<p>검색 결과가 없습니다.</p>'
-    }
-    </ul>
-    ${
-      this.#manager.isLastPage()
-        ? ''
-        : '<button class="btn primary full-width">더 보기</button>'
-    }
+    <ul class="item-list"> </ul>
+    
     `;
+
+    if (this.#manager.isLastPage()) {
+      $('.btn.primary.full-width').classList.add('hidden');
+    }
+
+    if (movieListData.length) {
+      const fragment = new DocumentFragment();
+      movieListData.forEach((data) => {
+        MovieItem(fragment, data);
+      });
+      $('ul.item-list').appendChild(fragment);
+    } else {
+      const tempElement = document.createElement('div');
+      tempElement.className = 'temp';
+      $('ul.item-list').appendChild(tempElement);
+      $('.temp').outerHTML = '<p>검색 결과가 없습니다.</p>';
+    }
   }
 
   #requestMovieListEvent() {
-    this.#element.addEventListener('click', async (e) => {
-      if (e.target.tagName === 'BUTTON') {
+    const observer = new IntersectionObserver(async (entries) => {
+      const isIntersecting = entries.some((e) => e.isIntersecting);
+      if (isIntersecting) {
         this.renderSkeleton(this.#element);
         await this.#manager.getMoreMovieList();
         this.render();
+      }
+    });
+    observer.observe($('.btn.primary.full-width'));
+    this.#element.addEventListener('click', async (e) => {
+      if (e.target.tagName === 'IMG') {
+        const movieData = this.#manager.getMovieData(e.target.alt);
+        const movieGenres = this.#manager.getGenreData();
+        const movieRate = this.#manager.getStarData()[movieData.id];
+        $('.modal').innerHTML = movieModal(movieData, movieGenres, movieRate);
+        $('.modal').classList.remove('hidden');
+        $('.modal-background').classList.remove('hidden');
+        this.#renderStar();
+      }
+    });
+  }
+
+  #addModalEvent() {
+    $('.modal').addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON') {
+        this.#saveStarData();
+        $('.modal-container').remove();
+        $('.modal').classList.add('hidden');
+        $('.modal-background').classList.add('hidden');
+      }
+    });
+    $('.modal-background').addEventListener('click', () => {
+      this.#saveStarData();
+      $('.modal-container').remove();
+      $('.modal').classList.add('hidden');
+      $('.modal-background').classList.add('hidden');
+    });
+    document.addEventListener('keyup', (e) => {
+      const isModalOpen = !$('.modal.hidden');
+      if ((e.key === 'Escape' || e.key === 'Backspace') && isModalOpen) {
+        $('.modal-container').remove();
+        $('.modal').classList.add('hidden');
+        $('.modal-background').classList.add('hidden');
+      }
+    });
+  }
+
+  #renderStar() {
+    const starbox = $('.star-box');
+    starbox.addEventListener('click', (e) => {
+      $$('img', starbox).forEach((starImage, index) => {
+        starImage.classList.remove('active');
+        if (starImage === e.target) {
+          const movieScore = (index + 1) * 2;
+          $('#star-data').textContent = movieScore;
+          $('#star-text').textContent = SCORE_DATA_TEXT[movieScore];
+          e.target.classList.add('active');
+        }
+      });
+    });
+  }
+
+  #saveStarData() {
+    const starbox = $('.star-box .active');
+    $$('img', $('.star-box')).forEach((element, index) => {
+      if (starbox === element) {
+        const movieName = $('#movie-name').textContent;
+        const movieId = this.#manager.getMovieData(movieName).id;
+        this.#manager.setStarData(movieId, (index + 1) * 2);
       }
     });
   }
