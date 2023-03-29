@@ -186,10 +186,9 @@ class MovieDetail {
       const movieId = Number(event.detail.movieId);
       const $dialog = modal.getDialog();
 
-      if (this.cacheRender(movieId, $dialog)) {
-        return;
-      }
       try {
+        if (this.cacheRender(movieId, $dialog)) return;
+
         await movieState.getMovieDetail(movieId);
 
         const movieDetailState = movieState.getMovieDetails();
