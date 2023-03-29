@@ -5,7 +5,7 @@ import { printMovieDetail } from './movieInfoModal';
 export function itemList() {
   Event.addEvent('click', '.item-list', (event) => {
     const target = event.target as HTMLElement;
-    const targetId = Number(target.closest('li')?.id);
+    const targetId = Number(target.closest('li')?.dataset['id']);
     const targetMovie = MovieData.findMovie(targetId) ?? null;
     const targetUserScore = MovieData.findUserScore(targetId) ?? 0;
     const infoDialogElem = $('.modal-movie-info') as HTMLDialogElement;

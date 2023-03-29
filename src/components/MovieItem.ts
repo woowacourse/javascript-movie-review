@@ -5,7 +5,7 @@ import { makePosterImagePath } from '../utils/makePosterImagePath';
 
 export function movieItem({ id, poster_path, title, vote_average }: MovieInterface) {
   return `
-  <li id=${id}>
+  <li data-id=${id}>
         <a href="#$">
             <div class="item-card">
                 <img
