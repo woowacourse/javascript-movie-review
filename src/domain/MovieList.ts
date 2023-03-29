@@ -90,16 +90,18 @@ class MovieList {
 
   getStarCount() {
     const stars = this.getStars();
-    const star = stars.filter((star: Star) => star.id === this.currentMovieId);
+    const currentMovieStar = stars.find(
+      (star: Star) => star.id === this.currentMovieId
+    );
 
-    return star.length == 0 ? 0 : star[0].count;
+    return !currentMovieStar ? 0 : currentMovieStar.count;
   }
 
   saveStar(count: number) {
     const stars = this.getStars();
     const star = stars.filter((star: Star) => star.id === this.currentMovieId);
 
-    star.length == 0 ? this.addStar(count) : this.modifyStar(count);
+    star.length === 0 ? this.addStar(count) : this.modifyStar(count);
   }
 
   private modifyStar(count: number) {
