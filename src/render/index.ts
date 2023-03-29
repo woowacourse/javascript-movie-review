@@ -1,5 +1,6 @@
 import apiError from './apiError';
 import init from './init';
+import modal from './modal';
 import setupPopularMovie from './setupPopularMovie';
 import setupSearchMovie from './setupSearchMovie';
 import skeleton from './skeleton';
@@ -12,4 +13,7 @@ export default {
   setupSearchMovie,
   setupPopularMovie,
   createSkeleton: skeleton.create,
+  openModal: modal.open,
+  updateModal: modal.update,
+  closeModal: modal.close,
 };

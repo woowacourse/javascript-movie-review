@@ -23,7 +23,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './index.html',
     }),
-    new DotEnv(),
+    new DotEnv({
+      systemvars: true,
+    }),
   ],
   module: {
     rules: [

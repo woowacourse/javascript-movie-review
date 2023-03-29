@@ -1,11 +1,12 @@
+import { dataProcessors } from '../domain/processMovieData';
+
 export type MovieItem = {
   title: string;
   posterPath: string;
   voteAverage: number;
+  id: number;
 };
 
-export type Movie = {
-  page: number;
-  movies: MovieItem[];
-  totalPages: number;
-};
+export type Movie = ReturnType<typeof dataProcessors.processMovieData>;
+
+export type MovieDetail = ReturnType<typeof dataProcessors.processMovieDetailData>;

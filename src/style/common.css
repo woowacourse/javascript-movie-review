@@ -2,10 +2,22 @@
   box-sizing: border-box !important;
 }
 
+html {
+  font-size: 62.5%;
+}
+
 body {
   font-size: 14px;
   background-color: #222222;
   color: #fff;
+}
+
+main {
+  padding-top: 120px;
+}
+
+.overflow-hidden {
+  overflow: hidden;
 }
 
 a {
@@ -30,51 +42,112 @@ button {
 }
 
 .item-view {
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
   margin: 0 auto;
+  max-width: 1200px;
+}
+
+@media screen and (max-width: 1023px) {
+  .item-view {
+    max-width: 680px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .item-view {
+    max-width: 400px;
+  }
 }
 
 .item-view h2 {
-  font-size: 2rem;
+  font-size: 32px;
   font-weight: bold;
   user-select: none;
   margin-bottom: 48px;
 }
 
-/* https://andrew.hedges.name/experiments/aspect_ratio/ */
+@media screen and (max-width: 1023px) {
+  .item-view h2 {
+    font-size: 24px;
+  }
+}
 
 .item-list {
   display: grid;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  grid-template-columns: repeat(4, auto);
+  grid-column-gap: 80px;
   grid-row-gap: 48px;
+  justify-items: center;
+}
+
+@media screen and (max-width: 1023px) {
+  .item-list {
+    grid-template-columns: repeat(3, auto);
+    grid-column-gap: 40px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .item-list {
+    grid-template-columns: repeat(2, auto);
+    grid-column-gap: 20px;
+  }
 }
 
 .item-card {
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+  max-width: 240px;
+  min-width: 240px;
+}
+
+@media screen and (max-width: 1023px) {
+  .item-card {
+    max-width: 200px;
+    min-width: 200px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .item-card {
+    max-width: 180px;
+    min-width: 180px;
+  }
 }
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
-  height: 270px;
+  width: 100%;
+  min-height: 360px;
   background-size: contain;
+}
+
+@media screen and (max-width: 1023px) {
+  .item-thumbnail {
+    min-height: 300px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .item-card {
+    min-height: 270px;
+  }
 }
 
 .item-title {
   margin-top: 16px;
-  font-size: 1.2rem;
+  font-size: 18px;
   font-weight: bold;
   line-height: 140%;
 }
 
 .item-score {
   margin-top: 16px;
-  font-size: 1.2rem;
+  font-size: 18px;
   display: flex;
   align-items: center;
 }
@@ -88,7 +161,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 24px;
 }
 
 .item-score img {
@@ -125,7 +198,7 @@ button.primary {
   background: #f33f3f;
 }
 
-.item-card .skeleton {
+.skeleton {
   background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
   background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
@@ -145,45 +218,109 @@ button.primary {
 }
 
 .header {
+  position: fixed;
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 0 20px;
   border-bottom: 1px solid white;
   margin-bottom: 48px;
 }
 
+.header-layout {
+  position: relative;
+  width: 100%;
+}
+
+.header-between {
+  justify-content: space-between;
+}
+
+.header-end {
+  justify-content: flex-end;
+}
+
 header h1 {
   cursor: pointer;
   user-select: none;
-  font-size: 2rem;
+  font-size: 32px;
   font-weight: bold;
-  letter-spacing: -0.1rem;
+  letter-spacing: -1.6px;
   color: #f33f3f;
 }
 
-header > .search-box {
+.search-box {
+  display: flex;
+  min-height: 34px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.search-box-layout {
   background: #fff;
   padding: 8px;
   border-radius: 4px;
+  min-width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  min-width: 30px;
 }
 
-header .search-box > input {
+.search-input {
   border: 0;
+  min-width: 30px;
 }
 
-header .search-box > .search-button {
+@media screen and (max-width: 600px) {
+  .search-input {
+    width: 0;
+  }
+}
+
+.search-button {
+  right: 8px;
   width: 14px;
   border: 0;
-  text-indent: -1000rem;
+  text-indent: -100000px;
   background: url('../asset/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
 }
 
 .hidden {
   display: none;
+}
+
+.width-full {
+  min-width: 0%;
+  animation: search-in-animation 1s ease forwards;
+}
+
+.width-zero {
+  min-width: 100%;
+  animation: search-out-animation 1s ease forwards;
+}
+
+@keyframes search-in-animation {
+  0% {
+    min-width: 0%;
+  }
+  100% {
+    min-width: 100%;
+  }
+}
+
+@keyframes search-out-animation {
+  0% {
+    min-width: 100%;
+  }
+  100% {
+    min-width: 0%;
+  }
 }

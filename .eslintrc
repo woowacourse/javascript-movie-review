@@ -12,7 +12,9 @@
           "caseInsensitive": true
         }
       }
-    ]
+    ],
+    "no-unused-vars": "off",
+    "no-undef": "off"
   },
   "env": {
     "es6": true,

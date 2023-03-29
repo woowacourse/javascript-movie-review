@@ -3,9 +3,12 @@ import logoImage from '../asset/logo.png';
 
 class Header {
   private _node!: HTMLElement;
+  private $logoContainer!: HTMLDivElement;
 
   constructor() {
     this.createTemplate();
+    this.$logoContainer = this._node.querySelector('h1') as HTMLDivElement;
+
     this.initEventHandler();
   }
 
@@ -15,23 +18,28 @@ class Header {
 
   createTemplate() {
     this._node = document.createElement('header');
-    this._node.classList.add('header');
-    this._node.insertAdjacentHTML('afterbegin', `<h1><img src="${logoImage}" alt="MovieList 로고" /></h1>`);
+    this._node.classList.add('header', 'header-between');
+    this._node.insertAdjacentHTML(
+      'afterbegin',
+      `<h1 class="header-layout"><img src="${logoImage}" alt="MovieList 로고" /></h1>`
+    );
 
     const searchBox = new SearchBox();
-    this._node.insertAdjacentElement('beforeend', searchBox.node);
+    this._node.querySelector('.header-layout')?.insertAdjacentElement('beforeend', searchBox.node);
   }
 
-  clickLogoIcon() {
-    this._node.dispatchEvent(new Event('moveHome', { bubbles: true }));
+  clickLogoIcon(event: Event) {
+    const target = event.target as HTMLDivElement;
+
+    if (!target.matches('.search-box')) return;
+
+    this._node.dispatchEvent(new CustomEvent('moveHome', { bubbles: true }));
+    const $searchInput = this._node.querySelector('input') as HTMLInputElement;
+    $searchInput.value = '';
   }
 
   initEventHandler() {
-    const logoIcon = this._node.querySelector('h1');
-
-    if (!logoIcon) return;
-
-    logoIcon.addEventListener('click', this.clickLogoIcon.bind(this));
+    this.$logoContainer.addEventListener('click', this.clickLogoIcon.bind(this));
   }
 }
 

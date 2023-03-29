@@ -6,16 +6,15 @@ import { MovieItem } from '../@types/movieType';
 class MovieList {
   private _node!: HTMLElement;
   private movieList!: HTMLUListElement;
-  private loadMoreButton!: HTMLButtonElement;
+  private loadMorePosition!: HTMLDivElement;
   private listName!: HTMLElement;
 
   constructor() {
     this.createTemplate();
-    this.initEventHandler();
-
     this.movieList = this._node.querySelector('.movie-list') as HTMLUListElement;
-    this.loadMoreButton = this._node.querySelector('.btn') as HTMLButtonElement;
+    this.loadMorePosition = this._node.querySelector('.load-more-position') as HTMLDivElement;
     this.listName = this._node.querySelector('#list-name') as HTMLElement;
+    this.initEventHandler();
   }
 
   get node(): HTMLElement {
@@ -33,18 +32,21 @@ class MovieList {
     skeletonListContainer.className = 'item-list skeleton-list';
     skeletonListContainer.innerHTML = skeletonTemplate(20);
 
-    this.loadMoreButton.classList.add('hidden');
+    this.loadMorePosition.classList.add('hidden');
     this._node.querySelector('.item-view')?.insertAdjacentElement('beforeend', skeletonListContainer);
   }
 
   paintMovieLayout() {
-    this._node.innerHTML = `
+    this._node.insertAdjacentHTML(
+      'afterbegin',
+      `
       <section class="item-view">
         <h2 id="list-name">지금 인기있는 영화</h2>
         <ul class="item-list movie-list hidden"></ul>
-        <button class="btn primary full-width hidden">더 보기</button>
+        <div class="load-more-position hidden"></div>
       </section>
-    `;
+    `
+    );
   }
 
   removeSkeleton() {
@@ -60,14 +62,14 @@ class MovieList {
     this.removeSkeleton();
 
     this.movieList.classList.remove('hidden');
-    this.loadMoreButton.classList.remove('hidden');
+    this.loadMorePosition.classList.remove('hidden');
 
     movieData.forEach(movie => {
       const movieItem = new MovieCard(movie);
       this.movieList.insertAdjacentElement('beforeend', movieItem.node);
     });
 
-    if (isLastPage) this.loadMoreButton.classList.add('hidden');
+    if (isLastPage) this.loadMorePosition.classList.add('hidden');
   }
 
   showEmptyMessage(isEmpty: boolean) {
@@ -93,7 +95,7 @@ class MovieList {
     if (type === FetchType.Popular) {
       this.listName.innerText = '지금 인기있는 영화';
     } else {
-      this.listName.innerText = `${keyword} 검색 결과`;
+      this.listName.innerText = `"${keyword}" 검색 결과`;
     }
   }
 
@@ -102,14 +104,17 @@ class MovieList {
     this.deleteEmptyMessage();
   }
 
-  initEventHandler() {
-    const button = this._node.querySelector('button');
-
-    if (!button) return;
-
-    button.addEventListener('click', () => {
-      this._node.dispatchEvent(new CustomEvent('seeMoreMovie', { bubbles: true }));
+  callback(entries: IntersectionObserverEntry[]) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        this._node.dispatchEvent(new CustomEvent('seeMoreMovie', { bubbles: true }));
+      }
     });
+  }
+
+  initEventHandler() {
+    const observer = new IntersectionObserver(this.callback.bind(this), { threshold: 0 });
+    observer.observe(this.loadMorePosition);
   }
 }
 

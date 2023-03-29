@@ -1,5 +1,6 @@
 import { MovieItem } from '../@types/movieType';
 import starFilled from '../asset/star_filled.png';
+import handleImageLoadError from '../libs/handleImageLoadError';
 
 class MovieCard {
   private _node!: HTMLElement;
@@ -18,23 +19,24 @@ class MovieCard {
   createTemplate() {
     this._node = document.createElement('li');
 
-    this._node.innerHTML = `<a>
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <img
-            id="item-thumbnail"
-            class="item-thumbnail hidden"
-            src="${this.movieData.posterPath}"
-            alt="${this.movieData.title}"
-          />
-          <p class="item-title">${this.movieData.title}</p>
-          <div class="item-score">
-            <img src="${starFilled}" alt="별점" />
-            <p>${this.movieData.voteAverage}</p>
-          </div>
+    this._node.insertAdjacentHTML(
+      'afterbegin',
+      `<div class="item-card">
+        <div class="item-thumbnail skeleton"></div>
+        <img
+          id="item-thumbnail"
+          class="item-thumbnail hidden"
+          src="${this.movieData.posterPath}"
+          alt="${this.movieData.title}"
+        />
+        <p class="item-title">${this.movieData.title}</p>
+        <div class="item-score">
+          <img src="${starFilled}" alt="별점" />
+          <p>${this.movieData.voteAverage}</p>
         </div>
-      </a>
-    `;
+      </div>
+    `
+    );
   }
 
   updateMovie(props: MovieItem) {
@@ -46,9 +48,10 @@ class MovieCard {
     thumbnail.classList.remove('hidden');
   }
 
-  errorLoadImage(thumbnail: HTMLImageElement) {
-    thumbnail.src =
-      'https://user-images.githubusercontent.com/112997662/223046479-306cc6a7-7024-4616-b28e-be2f2878d2f0.png';
+  clickMovieCard() {
+    this._node.dispatchEvent(
+      new CustomEvent('openMovieModal', { bubbles: true, detail: { movieId: this.movieData.id } })
+    );
   }
 
   initEventHandler() {
@@ -58,14 +61,14 @@ class MovieCard {
     if (!thumbnail || !thumbnailSkeleton) return;
 
     thumbnail.addEventListener('load', () => {
-      if (!thumbnail.complete) return;
-
       this.completeLoadImage(thumbnail, thumbnailSkeleton);
     });
 
     thumbnail.addEventListener('error', () => {
-      this.errorLoadImage(thumbnail);
+      handleImageLoadError(thumbnail);
     });
+
+    this._node.querySelector('.item-card')?.addEventListener('click', this.clickMovieCard.bind(this));
   }
 }
 

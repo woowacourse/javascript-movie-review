@@ -1,9 +1,11 @@
-import { FetchedMovieJson } from './@types/fetchJsonType';
+import { FetchedMovieDetailJson, FetchedMovieJson } from './@types/fetchJsonType';
 import { FetchStandard, FetchType } from './@types/fetchType';
+import MovieModal from './components/MovieModal';
 import fetchJson from './domain/fetchJson';
 import getAPI from './domain/getAPI';
 import { dataProcessors } from './domain/processMovieData';
 import render from './render';
+import openModal from './render/modal';
 
 class App {
   private fetchStandard: FetchStandard = { page: 1, type: FetchType.Popular };
@@ -51,17 +53,20 @@ class App {
 
     this.fetchStandard = { page: 1, type: FetchType.Search, keyword };
 
+    window.scrollTo({ top: 0, left: 0 });
     render.setupSearchMovie(this.fetchStandard);
 
     this.loadMovieList();
   }
 
   moveHome() {
-    this.fetchStandard = { page: 1, type: FetchType.Popular };
+    if (this.fetchStandard.type === FetchType.Search) {
+      this.fetchStandard = { page: 1, type: FetchType.Popular };
+      render.setupPopularMovie(this.fetchStandard);
+      this.loadMovieList();
+    }
 
-    render.setupPopularMovie(this.fetchStandard);
-
-    this.loadMovieList();
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }
 
   initLoad() {
@@ -77,10 +82,29 @@ class App {
     return dataProcessors.processMovieData(moviesJson);
   }
 
+  async openMovieModal(event: Event) {
+    const {
+      detail: { movieId },
+    } = event as Event & { detail: { movieId: number } };
+
+    render.openModal(movieId);
+
+    const movieDetailJson = await fetchJson<FetchedMovieDetailJson>(getAPI.detailMovie(movieId));
+    const movieDetail = dataProcessors.processMovieDetailData(movieDetailJson);
+
+    render.updateModal(movieDetail);
+  }
+
+  closeMovieModal() {
+    render.closeModal();
+  }
+
   initEventHandler() {
     document.addEventListener('seeMoreMovie', this.loadMoreMovies.bind(this));
     document.addEventListener('searchMovies', this.searchMovies.bind(this));
     document.addEventListener('moveHome', this.moveHome.bind(this));
+    document.addEventListener('openMovieModal', this.openMovieModal.bind(this));
+    document.addEventListener('closeMovieModal', this.closeMovieModal.bind(this));
   }
 }
 
