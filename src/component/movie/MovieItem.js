@@ -1,5 +1,5 @@
 import CustomElement from "../basic/CustomElement";
-import MovieProcess from "../../domain/MovieProcess";
+import MovieProcessor from "../../domain/MovieProcessor";
 import { IMG } from "../../abstract/constants";
 import { $ } from "../../util/dom";
 
@@ -35,7 +35,7 @@ class MovieItem extends CustomElement {
 
     this.addEventListener("click", () => {
       const id = this.getAttribute("id");
-      MovieProcess.deliverMoviesModal(id);
+      MovieProcessor.deliverMoviesModal(id);
     });
   }
 }

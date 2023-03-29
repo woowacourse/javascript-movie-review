@@ -1,12 +1,12 @@
 import CustomElement from "../basic/CustomElement";
-import ErrorBoss from "../../domain/ErrorProcess";
+import ErrorProcessor from "../../domain/ErrorProcessor";
 import { ERROR } from "../../abstract/constants";
 import { $ } from "../../util/dom";
 
 class ErrorContainer extends CustomElement {
   connectedCallback() {
     super.connectedCallback();
-    ErrorBoss.subscribe(this);
+    ErrorProcessor.subscribe(this);
   }
 
   template() {

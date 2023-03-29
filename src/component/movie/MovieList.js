@@ -1,5 +1,5 @@
 import CustomElement from "../basic/CustomElement";
-import MovieProcess from "../../domain/MovieProcess";
+import MovieProcessor from "../../domain/MovieProcessor";
 import { $, $$ } from "../../util/dom";
 import "./MovieItem";
 import "./MovieEmpty";
@@ -8,8 +8,8 @@ class MovieList extends CustomElement {
   #io;
   connectedCallback() {
     super.connectedCallback();
-    MovieProcess.subscribe(this);
-    MovieProcess.initMovies().then(() => {
+    MovieProcessor.subscribe(this);
+    MovieProcessor.initMovies().then(() => {
       const last = this.observeLastItem();
       if (last) this.#io.observe(last);
     });
@@ -48,7 +48,7 @@ class MovieList extends CustomElement {
       if (entries[0].isIntersecting) {
         this.#io.unobserve(entries[0].target);
         setTimeout(() => {
-          MovieProcess.showMoreMovies();
+          MovieProcessor.showMoreMovies();
           const endItem = this.observeLastItem();
           this.#io.observe(endItem);
         }, 1000);

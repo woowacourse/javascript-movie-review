@@ -1,5 +1,5 @@
 import CustomElement from "../basic/CustomElement";
-import MovieProcess from "../../domain/MovieProcess";
+import MovieProcessor from "../../domain/MovieProcessor";
 import { $ } from "../../util/dom";
 import { IMG } from "../../abstract/constants";
 import "./MovieDetail";
@@ -7,7 +7,7 @@ import "./MovieDetail";
 class MovieModal extends CustomElement {
   connectedCallback() {
     super.connectedCallback();
-    MovieProcess.subscribeModal(this);
+    MovieProcessor.subscribeModal(this);
   }
   template() {
     return `
