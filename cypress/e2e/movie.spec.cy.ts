@@ -16,9 +16,9 @@ describe("영화관 앱 테스트.", () => {
   });
 
   it("키워드를 검색하면 해당 키워드가 포함된 영화 목록을 보여준다.", () => {
-    cy.get("#search-input-pc").type("고양이");
+    cy.get("#search-input").type("고양이");
     cy.wait(1000);
-    cy.get("#search-bar").submit();
+    cy.get("#search-button").click();
     cy.wait(1000);
     cy.get(".item-list > movie-item > li").each((li: HTMLElement) => {
       expect(li).to.contain.text("고양이");
@@ -26,9 +26,9 @@ describe("영화관 앱 테스트.", () => {
   });
 
   it("로고를 클릭하면 처음 화면으로 이동한다.", () => {
-    cy.get("#search-input-pc").type("고양이");
+    cy.get("#search-input").type("고양이");
     cy.wait(1000);
-    cy.get("#search-bar").submit();
+    cy.get("#search-button").click();
     cy.wait(1000);
     cy.get("#logo").click();
     cy.get(".sub-title > h2").should("contain.text", "지금 인기 있는 영화");
