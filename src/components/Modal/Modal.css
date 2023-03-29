@@ -26,7 +26,7 @@
   background: var(--modal-background-color);
 }
 
-.modal-header > h2 {
+.modal-header > .modal-header-title {
   width: 100%;
   height: 10%;
 

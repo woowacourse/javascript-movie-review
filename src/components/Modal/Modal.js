@@ -16,7 +16,7 @@ class Modal extends HTMLElement {
         <div class="modal-backdrop"></div>
         <div class="modal-container">
           <div class="modal-header">
-            <h2>${movieInfo.title}</h2>
+            <h2 class="modal-header-title">${movieInfo.title}</h2>
             <button class="modal-button">X</button>
           </div>
           <div class="modal-contents">
