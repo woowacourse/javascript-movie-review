@@ -10,3 +10,5 @@ export type Movie = {
   movies: MovieItem[];
   totalPages: number;
 };
+
+export type MovieRating = 0 | 2 | 4 | 6 | 8;

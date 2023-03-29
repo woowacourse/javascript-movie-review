@@ -1,12 +1,13 @@
 import COMMENT_BY_RATING from '../../constants/ratingComments';
 import movieRatingStore from '../../domain/storage/movieRatingStore';
 import Component from '../../types/component';
+import { MovieRating } from '../../types/movie';
 
 class MovieDetailMyRating implements Component {
   readonly node: HTMLElement;
 
   readonly id: number;
-  private rating: number;
+  private rating: MovieRating;
   private starContainer!: HTMLDivElement;
   private stars!: HTMLImageElement[];
   private ratingMessage!: HTMLParagraphElement;
@@ -86,8 +87,8 @@ class MovieDetailMyRating implements Component {
     this.#changeStars(this.rating / 2 - 1);
   }
 
-  #changeStars(targetIndex: number): number {
-    let rating = 0;
+  #changeStars(targetIndex: number): MovieRating {
+    let rating: MovieRating = 0;
     this.stars.forEach((star, index) => {
       if (index <= targetIndex) {
         star.src = './star_filled.png';
