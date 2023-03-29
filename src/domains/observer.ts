@@ -26,8 +26,7 @@ export const initObserver = () => {
 };
 
 export const updateObserveTarget = () => {
-  const movieList = [...$$<HTMLLIElement>('li')];
-  const target = movieList.pop();
+  const target = $<HTMLLIElement>('li:last-child');
 
   if (target instanceof HTMLLIElement && observer.viewport && movie.currentPage != movie.totalPages) {
     observer.viewport.observe(target);
