@@ -1,10 +1,17 @@
+movie-list-skeleton {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
 .item-title.skeleton::after,
 .item-score.skeleton::after {
   font-size: 0;
   content: "loading";
 }
 
-.item-card.skeleton {
+.item-card.skeleton,
+.item-thumbnail.skeleton {
   background: linear-gradient(
     -90deg,
     var(--skeleton-gray),

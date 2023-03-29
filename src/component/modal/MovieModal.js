@@ -1,7 +1,8 @@
 import CustomElement from "../basic/CustomElement";
 import MovieBoss from "../../domain/MovieBoss";
-import "./MovieDetail";
 import { $ } from "../../util/dom";
+import { IMG } from "../../abstract/constants";
+import "./MovieDetail";
 
 class MovieModal extends CustomElement {
   connectedCallback() {
@@ -19,10 +20,7 @@ class MovieModal extends CustomElement {
 
   rerender(movie) {
     this.showModal();
-    const src =
-      movie.src === "null"
-        ? "./image/noImg.jpeg"
-        : `https://image.tmdb.org/t/p/w220_and_h330_face${movie.src}`;
+    const src = movie.src === "null" ? IMG.NO_IMG : `${IMG.FRAME}${movie.src}`;
 
     const temp = `
     <movie-detail id=${movie.id} title='${movie.title}' voteAverage=${movie.voteAverage} src=${src} detail='${movie.detail}' genres=${movie.genres}>
