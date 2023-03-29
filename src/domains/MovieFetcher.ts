@@ -56,8 +56,12 @@ class MovieFetcher {
   }
 
   async parse(response: Response): Promise<ResponseParsedData> {
-    const { status_code, errors, total_pages, results }: APIMovieResponseData =
-      await response.json();
+    const {
+      status_code,
+      errors = ['Not Valid Error'],
+      total_pages = 0,
+      results = [],
+    }: APIMovieResponseData = await response.json();
 
     if (results) {
       return {

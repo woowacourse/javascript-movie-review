@@ -41,7 +41,8 @@ const movieDetailFetcher = {
       };
     }
 
-    const { status_code, errors }: APIMovieDetailResponseData = await response.json();
+    const { status_code, errors = ['Not Valid Error'] }: APIMovieDetailResponseData =
+      await response.json();
 
     if (!status_code) return { statusCode: undefined, statusMessage: errors[0] };
 

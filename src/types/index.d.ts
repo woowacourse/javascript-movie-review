@@ -29,45 +29,45 @@ export interface RawMovieDetail extends RawMovie {
 }
 
 export interface FetchMoviesResult {
-  statusCode: number | undefined = undefined;
+  statusCode?: number;
   statusMessage: string;
-  movieList: MovieType[] = [];
-  isLastPage: boolean = false;
+  movieList: MovieType[];
+  isLastPage: boolean;
 }
 
 export interface FetchMovieDetailResult {
-  statusCode: number | undefined = undefined;
+  statusCode?: number;
   statusMessage: string;
-  movieDetail: MovieDetail | undefined;
+  movieDetail?: MovieDetail;
 }
 
 export interface APIMovieResponseData {
   // fetch 성공한 경우(response.ok===true)
-  total_pages: number = 0;
-  results?: APIMovieType[] = [];
+  total_pages?: number;
+  results?: APIMovieType[];
 
   // fetch 실패(response.ok===false)한 경우(API상태코드가 나오는 경우)
   success?: boolean;
   status_code?: number;
-  status_message: string = '';
+  status_message?: string;
 
   // fetch 실패(response.ok===false)한 경우(API상태코드가 안 나오는 경우 - ex. 현재 페이지가 최대값 보다 클 경우)
-  errors: string[] = ['Not Valid Error'];
+  errors?: string[];
 }
 
 export interface APIMovieDetailResponseData {
   success?: boolean;
   status_code?: number;
-  status_message: string = '';
-  errors: string[] = ['Not Valid Error'];
+  status_message: string;
+  errors: string[];
 
-  rawMovieDetail?: RawMovieDetail = undefined;
+  rawMovieDetail?: RawMovieDetail;
 }
 
 export interface ResponseParsedData {
-  statusCode: number | undefined;
+  statusCode?: number;
   statusMessage: string;
   totalPages?: number;
   rawMovieList?: APIMovieType[];
-  rawMovieDetail?: RawMovieDetail | undefined;
+  rawMovieDetail?: RawMovieDetail;
 }
