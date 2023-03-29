@@ -51,6 +51,13 @@ button {
   user-select: none;
 }
 
+.alert-container {
+  min-width: 827px;
+  min-height: 592px;
+
+  color: var(--font--white--);
+}
+
 .alert-message {
   margin: 24px auto;
 }

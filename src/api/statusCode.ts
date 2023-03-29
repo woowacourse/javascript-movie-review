@@ -1,5 +1,5 @@
 export const MESSAGE = {
-  OFFLINE: '인터넷이 연결되지 않았씁니다',
+  OFFLINE: '인터넷이 연결되지 않았습니다.',
   SESSION_EXPIRE: '세션이 만료되었습니다.',
   SERVICE_OFFLINE: '서비스는 일시적으로 오프라인 상태입니다.',
   SERVER_PROBLEM: '서버에 문제가 발생했습니다.',
