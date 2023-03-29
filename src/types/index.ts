@@ -1,7 +1,7 @@
-type UpdateMovieListEvent = CustomEvent<{ keyword: string }>;
-type AppendMovieListEvent = CustomEvent<{ keyword: string }>;
-type ClickMovieEvent = CustomEvent<{ movieId: string }>;
-type StarRating = { imagePath: string = ''; score: number = 0; caption: string = '' };
+export type UpdateMovieListEvent = CustomEvent<{ keyword: string }>;
+export type AppendMovieListEvent = CustomEvent<{ keyword: string }>;
+export type ClickMovieEvent = CustomEvent<{ movieId: string }>;
+type StarRating = { imagePath: string; score: number; caption: string };
 
 export interface Movie {
   id: number;
@@ -31,7 +31,7 @@ export interface RawMovieDetail extends RawMovie {
 export interface FetchMoviesResult {
   statusCode?: number;
   statusMessage: string;
-  movieList: MovieType[];
+  movieList: Movie[];
   isLastPage: boolean;
 }
 
@@ -44,7 +44,7 @@ export interface FetchMovieDetailResult {
 export interface APIMovieResponseData {
   // fetch 성공한 경우(response.ok===true)
   total_pages?: number;
-  results?: APIMovieType[];
+  results?: RawMovie[];
 
   // fetch 실패(response.ok===false)한 경우(API상태코드가 나오는 경우)
   success?: boolean;
@@ -68,6 +68,6 @@ export interface ResponseParsedData {
   statusCode?: number;
   statusMessage: string;
   totalPages?: number;
-  rawMovieList?: APIMovieType[];
+  rawMovieList?: RawMovie[];
   rawMovieDetail?: RawMovieDetail;
 }
