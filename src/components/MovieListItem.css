@@ -5,7 +5,9 @@
 
 .item-card {
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
+  height: 400px;
 }
 
 .item-title {
@@ -31,6 +33,13 @@
 }
 
 @media (max-width: 420px) {
+  .item-card {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 310px;
+  }
+
   .moive-item-container {
     max-width: 140px;
   }

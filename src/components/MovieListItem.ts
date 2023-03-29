@@ -19,18 +19,20 @@ class MovieListItem extends HTMLElement {
     const score = this.getAttribute('score') || '';
 
     this.innerHTML = /*html*/ `
-    <li class="moive-item-container">
-      <a>
+      <li class="moive-item-container">
         <div class="item-card">
+          <div class="item-title-score-wrapper">
+            <div class="movie-list-image-wrapper">
             <movie-image imgUrl="${imgUrl}" title="${title}" width="200" class="movie-list-image-wrapper"></movie-image>
-          <p class="item-title">${sliceSting(title)}</p>
+            </div>
+            <p class="item-title">${sliceSting(title)}</p>
+          </div>
           <div class="item-score-container">
             <movie-score score="${sliceScore(score)}"></movie-score>
             <div class="item-check" title="내가 평가한 영화">✅</div>
           </div>
         </div>
-      </a>
-    </li>`;
+      </li>`;
   }
 
   setClickEvent(): void {
