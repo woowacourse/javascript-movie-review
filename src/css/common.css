@@ -317,6 +317,21 @@ header .search-box > #search-button {
   margin-left: 1rem;
 }
 
+.scroll-up {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  bottom: 1rem;
+  right: 1rem;
+
+  border-radius: 50%;
+  border: 0;
+
+  font-size: 21px;
+  color: #f1f1f1;
+  background: #383839;
+}
+
 @keyframes skeleton-animation {
   0% {
     background-position: 0% 50%;

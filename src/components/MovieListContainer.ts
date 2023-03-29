@@ -13,8 +13,15 @@ const MovieListContainer = {
         <ul class="item-list"></ul>
         <div id="modal"></div>
         <div id="movie-list-end"></div>
+        <button class="scroll-up">↑</button>
       </section>
     `;
+  },
+
+  bindClickEvent: () => {
+    $<HTMLButtonElement>(".scroll-up").addEventListener("click", () => {
+      window.scrollTo(0, 0);
+    });
   },
 
   renderMovieItem: async (searchKey?: string) => {
