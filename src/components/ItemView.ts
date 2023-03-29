@@ -16,10 +16,10 @@ class ItemView {
 
     this.listTitle = new ListTitle();
     this.skeleton = new Skeleton(this.$itemView);
-    this.movieList = new MovieList(this.$itemView);
+    this.movieList = new MovieList();
 
-    this.addMovieListEventHandler();
-    this.appendMovieList();
+    this.addUpdateMovieListEventHandler();
+    this.addAppendMovieList();
   }
 
   initialsSetting() {
@@ -30,7 +30,7 @@ class ItemView {
     $target.insertAdjacentElement('beforeend', this.$itemView);
   }
 
-  private addMovieListEventHandler() {
+  private addUpdateMovieListEventHandler() {
     EventBroker.addEventListener('updateMovieListEvent', async (event) => {
       const { keyword } = event.detail;
 
@@ -51,7 +51,7 @@ class ItemView {
     ).then(this.renderWholeComponent.bind(this));
   }
 
-  private appendMovieList() {
+  private addAppendMovieList() {
     EventBroker.addEventListener('appendMovieListEvent', () => {
       const { nextPage, query } = stateRender.getMovieState();
 

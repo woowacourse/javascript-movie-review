@@ -2,16 +2,14 @@ import MovieCard from './MovieCard';
 import Skeleton from './Skeleton';
 import stateRender from '../renderer/StateRender';
 import { createInfiniteScrollObserver } from '../utils/observer';
+import EventBroker from '../EventBroker';
 
 class MovieList {
   private $ul = document.createElement('ul');
-  private $target: HTMLElement;
-  private skeleton: Skeleton;
 
-  constructor($target: HTMLElement) {
-    this.$target = $target;
+  constructor() {
     this.$ul.className = 'item-list';
-    this.skeleton = new Skeleton($target);
+    this.addClickEventListener();
   }
 
   private template() {
@@ -65,6 +63,20 @@ class MovieList {
     `;
 
     return $container;
+  }
+
+  private addClickEventListener() {
+    this.$ul.addEventListener('click', (e: MouseEvent) => {
+      const { target } = e;
+      if (!(target instanceof HTMLElement)) return;
+      const $li = target.closest('li');
+      const movieId = $li?.dataset.movieId ?? '';
+
+      const detailMovieEvent = new CustomEvent('detailMovieEvent', {
+        detail: { movieId },
+      });
+      EventBroker.dispatchEvent(detailMovieEvent);
+    });
   }
 }
 

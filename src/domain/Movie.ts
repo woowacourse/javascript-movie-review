@@ -31,6 +31,15 @@ export const initialMovieStats: IMovieState = {
   error: '',
 };
 
+export const initialMovieDetailState: IMovieDetailItem = {
+  title: '',
+  overview: null,
+  voteAverage: 0,
+  movieId: -1,
+  genres: [],
+  posterPath: null,
+};
+
 class Movie {
   private urlParams: URLSearchParams;
 

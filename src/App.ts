@@ -1,7 +1,4 @@
 import Header from './components/Header';
-import ListTitle from './components/ListTitle';
-import MovieList from './components/MovieList';
-import Skeleton from './components/Skeleton';
 import MovieDetail from './components/MovieDetail';
 import RemoteControl from './components/RemoteControl';
 import stateRender from './renderer/StateRender';
@@ -18,7 +15,6 @@ class App {
     new Header($target);
     new RemoteControl().render($target);
     this.itemViw = new ItemView();
-
     this.movieDetail = new MovieDetail();
 
     stateRender.initialize({

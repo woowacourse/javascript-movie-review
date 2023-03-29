@@ -9,6 +9,8 @@ import { STAR_DESCRIPTION } from '../utils/constants';
 import { removeSkeletonAfterImageLoad } from '../utils/eventCallback';
 import { parseLocalStorage, stringifyLocalStorage } from '../utils/localStorage';
 import { $ } from '../utils/dom';
+import EventBroker from '../EventBroker';
+import stateRender from '../renderer/StateRender';
 
 const initialMovieState: IMovieDetailItem = {
   title: '',
@@ -21,14 +23,15 @@ const initialMovieState: IMovieDetailItem = {
 };
 
 class MovieDetail {
-  private $detainContainer: HTMLDivElement;
+  private $detailContainer: HTMLDivElement;
   private movieState: IMovieDetailItem;
 
   constructor() {
-    this.$detainContainer = document.createElement('div');
-    this.$detainContainer.className = 'movie-detail-container';
+    this.$detailContainer = document.createElement('div');
+    this.$detailContainer.className = 'movie-detail-container';
     this.movieState = initialMovieState;
 
+    this.addDetailMovieEventListener();
     this.initialEventListener();
   }
 
@@ -97,13 +100,13 @@ class MovieDetail {
     if (movie.movieId === this.movieState.movieId) return;
 
     this.movieState = { ...movie };
-    this.$detainContainer.innerHTML = this.template(movie);
+    this.$detailContainer.innerHTML = this.template(movie);
     this.loadImageEventListener();
-    $target.insertAdjacentElement('beforeend', this.$detainContainer);
+    $target.insertAdjacentElement('beforeend', this.$detailContainer);
   }
 
   private initialEventListener() {
-    this.$detainContainer.addEventListener('click', (event) => {
+    this.$detailContainer.addEventListener('click', (event) => {
       const { target } = event;
 
       if (target instanceof HTMLButtonElement) {
@@ -127,7 +130,7 @@ class MovieDetail {
   }
 
   private loadImageEventListener() {
-    const $image = $<HTMLImageElement>('.content-container > img', this.$detainContainer);
+    const $image = $<HTMLImageElement>('.content-container > img', this.$detailContainer);
 
     $image.addEventListener('load', removeSkeletonAfterImageLoad, { once: true });
   }
@@ -166,6 +169,37 @@ class MovieDetail {
     const currentItem = movies.find(({ movieId }) => movieId === id);
 
     return currentItem;
+  }
+
+  private cacheRender(movieId: number, $target: HTMLElement) {
+    const currentMovieInfos = parseLocalStorage<Array<IMovieDetailItem>>({
+      key: 'movieList',
+      data: [],
+    });
+
+    const currentItem = this.isExistCurrentMovieDetail(currentMovieInfos, movieId);
+
+    if (currentItem) {
+      this.render(currentItem, $target);
+      return true;
+    }
+
+    return false;
+  }
+
+  private addDetailMovieEventListener() {
+    EventBroker.addEventListener('detailMovieEvent', async (event) => {
+      const movieId = Number(event.detail.movieId);
+      const $dialog = modal.getDialog();
+
+      if (!this.cacheRender(movieId, $dialog)) {
+        await stateRender.renderMovieDetail(movieId, $dialog);
+        const movieDetailState = stateRender.getMovieDetails();
+        this.render(movieDetailState, $dialog);
+      }
+
+      modal.open();
+    });
   }
 }
 

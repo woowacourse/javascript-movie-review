@@ -3,7 +3,7 @@ import MovieDetail from '../components/MovieDetail';
 import MovieList from '../components/MovieList';
 import Skeleton from '../components/Skeleton';
 import WholeScreenMessageAlert from '../components/WholeScreenMessageAlert';
-import Movie, { initialMovieStats } from '../domain/Movie';
+import Movie, { initialMovieDetailState, initialMovieStats } from '../domain/Movie';
 import { IMovieDetailItem, IMovieHandleProps, IMovieItemProps, IMovieState } from '../types/movie';
 import { parseLocalStorage } from '../utils/localStorage';
 
@@ -34,10 +34,12 @@ class StateRender {
 
   private movie: Movie;
   private movieState: IMovieState;
+  private movieDetailState: IMovieDetailItem;
 
   constructor() {
     this.movie = new Movie();
     this.movieState = initialMovieStats;
+    this.movieDetailState = initialMovieDetailState;
   }
 
   initialize({ movieDetail, itemViewSection }: StateRenderProps) {
@@ -82,21 +84,10 @@ class StateRender {
   }
 
   async renderMovieDetail(movieId: number, $target: HTMLElement) {
-    const currentMovieInfos = parseLocalStorage<Array<IMovieDetailItem>>({
-      key: 'movieList',
-      data: [],
-    });
-
-    const currentItem = this.movieDetail.isExistCurrentMovieDetail(currentMovieInfos, movieId);
-    if (currentItem) {
-      this.movieDetail.render(currentItem, $target);
-      return;
-    }
-
     try {
       const movieDetail = await this.movie.getMovieDetails({ movieId });
 
-      this.movieDetail.render(movieDetail, $target);
+      this.setDetailMovieItems(movieDetail);
     } catch (error) {
       if (error instanceof Error) {
         this.apiErrorRender(error.message, $target);
@@ -141,6 +132,14 @@ class StateRender {
     this.movieState.results = results;
     this.movieState.nextPage = total_pages === page ? -1 : page + 1;
     this.movieState.error = '';
+  }
+
+  private setDetailMovieItems(movieInfos: IMovieDetailItem) {
+    this.movieDetailState = { ...movieInfos };
+  }
+
+  getMovieDetails() {
+    return { ...this.movieDetailState };
   }
 
   getMovieState() {
