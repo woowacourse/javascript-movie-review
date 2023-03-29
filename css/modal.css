@@ -174,7 +174,7 @@
   overflow: hidden;
 }
 
-@media screen and (max-width: 840px) {
+@media (max-width: 767px) {
   .modal-container {
     position: absolute;
     bottom: 0;

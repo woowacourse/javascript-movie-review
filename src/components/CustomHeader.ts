@@ -9,6 +9,8 @@ import { searchMovieList } from '../domains/movieApi';
 import { isMovieRoot } from '../types/typeGuards';
 
 class CustomHeader extends HTMLElement {
+  throttle: null | NodeJS.Timeout = null;
+
   constructor() {
     super();
   }
@@ -16,13 +18,14 @@ class CustomHeader extends HTMLElement {
   connectedCallback() {
     this.addEventListener('click', this.clickHandler);
     this.addEventListener('submit', this.submitHandler);
+    window.addEventListener('resize', this.resizeHandler.bind(this));
   }
 
   private clickHandler(event: Event) {
     const target = event.target;
 
-    if (window.innerWidth <= 575 && target instanceof HTMLButtonElement && target.ariaLabel === '검색창 열기') {
-      this.toggleMobileUi(target);
+    if (target instanceof HTMLButtonElement && target.ariaLabel === '검색창 열기') {
+      this.openMobileSearchBox(target);
     }
   }
 
@@ -33,25 +36,42 @@ class CustomHeader extends HTMLElement {
     if (target instanceof HTMLFormElement) {
       this.updateQuery(event);
 
-      if (window.innerWidth <= 575) this.toggleMobileUi();
+      this.closeMobileSearchBox();
     }
   }
 
-  private toggleMobileUi(mobileButtonContainer = $<HTMLButtonElement>('.mobile-button')) {
+  private resizeHandler() {
+    if (!this.throttle && window.innerWidth >= 576) {
+      this.throttle = setTimeout(() => {
+        this.closeMobileSearchBox();
+        this.throttle = null;
+      }, 100);
+    }
+  }
+
+  private openMobileSearchBox(mobileButtonContainer = $<HTMLButtonElement>('.mobile-button')) {
     const headerContainer = $<HTMLElement>('custom-header');
     const logoContainer = $<HTMLHeadingElement>('h1');
     const searchBoxContainer = $<HTMLFormElement>('.search-box');
 
-    if (
-      mobileButtonContainer instanceof HTMLButtonElement &&
-      headerContainer instanceof HTMLElement &&
-      logoContainer instanceof HTMLHeadingElement &&
-      searchBoxContainer instanceof HTMLFormElement
-    ) {
-      headerContainer.classList.toggle('mobile-header');
-      mobileButtonContainer.classList.toggle('mobile-button--open');
-      logoContainer.classList.toggle('logo--close');
-      searchBoxContainer.classList.toggle('search-box--open');
+    if (mobileButtonContainer && headerContainer && logoContainer && searchBoxContainer) {
+      mobileButtonContainer.classList.remove('mobile-button--open');
+      headerContainer.classList.add('mobile-header');
+      logoContainer.classList.add('logo--close');
+      searchBoxContainer.classList.add('search-box--open');
+    }
+  }
+
+  private closeMobileSearchBox(mobileButtonContainer = $<HTMLButtonElement>('.mobile-button')) {
+    const headerContainer = $<HTMLElement>('custom-header');
+    const logoContainer = $<HTMLHeadingElement>('h1');
+    const searchBoxContainer = $<HTMLFormElement>('.search-box');
+
+    if (mobileButtonContainer && headerContainer && logoContainer && searchBoxContainer) {
+      mobileButtonContainer.classList.add('mobile-button--open');
+      headerContainer.classList.remove('mobile-header');
+      logoContainer.classList.remove('logo--close');
+      searchBoxContainer.classList.remove('search-box--open');
     }
   }
 
