@@ -1,11 +1,11 @@
 import NULL_IMAGE from '../constants/nullImage';
-import MovieDetailFetcher from '../domain/fetcher/MovieDetailFetcher';
 import Component from '../types/component';
 import MovieDetail from '../types/MovieDetail';
 import MovieDetailModal from './MovieDetail/MovieDetailModal';
 
 import { MovieItem } from '../types/movie';
 import { NETWORK_ERROR_MESSAGE } from '../constants/messages';
+import MovieDetailFetcher from '../domain/fetcher/MovieDetailFetcher';
 
 class MovieCard implements Component {
   readonly node: HTMLElement;
@@ -73,8 +73,7 @@ class MovieCard implements Component {
     if (!id) return;
 
     try {
-      const movieDetails: MovieDetail = await new MovieDetailFetcher(id).fetchMovie();
-      const movieDetailModal = new MovieDetailModal(movieDetails);
+      const movieDetailModal = new MovieDetailModal(await MovieDetailFetcher.fetchMovie(id));
       document.querySelector('#app')?.insertAdjacentElement('afterbegin', movieDetailModal.node);
     } catch (error) {
       if (!(error instanceof Error)) return;
