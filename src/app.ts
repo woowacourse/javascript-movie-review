@@ -4,7 +4,8 @@ import MovieFetcher from './domain/fetcher/MovieFetcher';
 import { POPULAR_LIST_NAME, SEARCH_LIST_NAME_SUFFIX } from './constants/listNames';
 import PopularMovieFetcher from './domain/fetcher/PopularMovieFetcher';
 import SearchMovieFetcher from './domain/fetcher/SearchMovieFetcher';
-import ToastModal from './components/MovieDetail/toastModal';
+import ToastModal from './components/ToastModal';
+import { NETWORK_ERROR_MESSAGE } from './constants/messages';
 class App {
   readonly node: HTMLElement;
   private children;
@@ -16,6 +17,7 @@ class App {
     this.children = {
       header: new Header(),
       movieList: new MovieList(),
+      toastModal: new ToastModal(),
     };
 
     this.movieFetcher = new PopularMovieFetcher();
@@ -34,12 +36,12 @@ class App {
 
       if (!(error instanceof Error)) return;
 
-      new ToastModal(error.message).show();
+      this.children.toastModal.show(NETWORK_ERROR_MESSAGE);
     }
   }
 
   composeNode(): this {
-    this.node.appendChild(this.children.header.node);
+    this.node.append(this.children.header.node, this.children.toastModal.node);
     this.node.appendChild(document.createElement('main').appendChild(this.children.movieList.node));
     return this;
   }
@@ -56,10 +58,15 @@ class App {
     this.#renderMovies();
   }
 
+  #handleShowToast({ detail }: any) {
+    this.children.toastModal.show(detail);
+  }
+
   addEvents() {
     document.addEventListener('submit-search', this.#handleSubmitSearch.bind(this));
     document.addEventListener('click-more-button', this.#renderMovies.bind(this));
     document.addEventListener('click-logo', this.#handleClickLogo.bind(this));
+    document.addEventListener('show-toast', this.#handleShowToast.bind(this));
 
     return this;
   }

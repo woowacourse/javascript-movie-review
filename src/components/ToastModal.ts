@@ -1,18 +1,20 @@
 class ToastModal {
-  private node: HTMLDivElement;
+  readonly node: HTMLDivElement;
   private closeButton!: HTMLButtonElement;
   private timer!: NodeJS.Timeout;
+  private messageBox!: HTMLParagraphElement;
 
-  constructor(errorMessage: string) {
+  constructor() {
     this.node = document.createElement('div');
     this.node.classList.add('error-modal');
+    this.node.style.display = 'none';
 
-    this.composeNode(errorMessage).setElements().automaticClose().addEvent();
+    this.composeNode().setElements().closeAutomatically().addEvent();
   }
 
-  composeNode(message: string): this {
+  composeNode(): this {
     this.node.innerHTML = `
-      <p>${message}</p>
+      <p></p>
       <button>닫기</button>
     `;
 
@@ -21,9 +23,11 @@ class ToastModal {
 
   setElements(): this {
     const closeButton = this.node.querySelector<HTMLButtonElement>('button');
-    if (!closeButton) return this;
+    const messageBox = this.node.querySelector<HTMLParagraphElement>('p');
+    if (!closeButton || !messageBox) return this;
 
     this.closeButton = closeButton;
+    this.messageBox = messageBox;
 
     return this;
   }
@@ -40,13 +44,20 @@ class ToastModal {
     this.node.remove();
   }
 
-  show() {
-    document.body.append(this.node);
+  show(message: string) {
+    this.messageBox.innerText = message;
+
+    this.node.style.display = 'flex';
+    this.closeAutomatically();
   }
 
-  automaticClose(): this {
+  hide() {
+    this.node.style.display = 'none';
+  }
+
+  closeAutomatically(): this {
     this.timer = setTimeout(() => {
-      this.node.remove();
+      this.hide();
     }, 3000);
 
     return this;

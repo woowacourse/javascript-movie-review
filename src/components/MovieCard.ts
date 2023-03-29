@@ -5,7 +5,7 @@ import Component from '../types/component';
 import { MovieItem } from '../types/movie';
 import MovieDetail from '../types/MovieDetail';
 import MovieDetailModal from './MovieDetail/MovieDetailModal';
-import ToastModal from './MovieDetail/toastModal';
+import ToastModal from './ToastModal';
 
 class MovieCard implements Component {
   readonly node: HTMLElement;
@@ -77,7 +77,9 @@ class MovieCard implements Component {
       const movieDetailModal = new MovieDetailModal(movieDetails);
       document.querySelector('#app')?.insertAdjacentElement('afterbegin', movieDetailModal.node);
     } catch (error) {
-      if (error instanceof Error) new ToastModal(NETWORK_ERROR_MESSAGE).show();
+      if (!(error instanceof Error)) return;
+
+      this.node.dispatchEvent(new CustomEvent('show-toast', { detail: NETWORK_ERROR_MESSAGE, bubbles: true }));
     }
   }
 

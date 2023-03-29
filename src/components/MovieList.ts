@@ -5,7 +5,7 @@ import Component from '../types/component';
 import { Movie, MovieItem } from '../types/movie';
 import { NULL_SEARCH_RESULT_MESSAGE } from '../constants/messages';
 import { POPULAR_LIST_NAME } from '../constants/listNames';
-import ToastModal from './MovieDetail/toastModal';
+import ToastModal from './ToastModal';
 
 class MovieList implements Component {
   readonly node: HTMLElement;
@@ -94,7 +94,7 @@ class MovieList implements Component {
   updateMovieList(movieDetails: MovieItem[], isLastPage: Boolean): this {
     if (movieDetails.length === 0) {
       this.hideSkeleton().hideMoreButton();
-      new ToastModal(NULL_SEARCH_RESULT_MESSAGE).show();
+      this.node.dispatchEvent(new CustomEvent('show-toast', { detail: NULL_SEARCH_RESULT_MESSAGE, bubbles: true }));
       return this;
     }
 
