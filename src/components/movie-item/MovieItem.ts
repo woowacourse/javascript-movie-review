@@ -20,8 +20,8 @@ export default class MovieItem extends HTMLElement {
       this.style.cursor = 'pointer';
     });
     this.addEventListener('click', () => {
-      const el = document.getElementById('movie-modal') as MovieModal;
-      el.open(this.movie);
+      const movieModal = document.getElementById('movie-modal') as MovieModal;
+      movieModal.open(this.movie);
     });
   }
 
@@ -41,8 +41,8 @@ export default class MovieItem extends HTMLElement {
           >
           <p class="item-title">${this.movie.title}</p>
           <p class="item-score">
-            <img src="./assets/star_${this.movie.ratings > 0 ? "filled" : "empty"
-      }.png" alt="별점" /> ${this.movie.ratings.toFixed(1)}
+            <img src="./assets/star_${this.movie.ratings > 0 ? "filled" : "empty"}.png" alt="별점" />
+            ${this.movie.ratings.toFixed(1)}
           </p>
         </div>
     </li>
