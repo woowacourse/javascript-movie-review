@@ -20,7 +20,7 @@ const MovieHandler = {
   },
 
   convertGenreList(genres: Genre[]) {
-    return genres.map((genre) => genre.name).join(', ');
+    return genres.map((genre) => genre.name);
   },
 };
 

@@ -47,7 +47,7 @@ export default class DetailMovieCard {
       <div class="movie-info-container">
         <div class="movie-info-text-container">
           <div>
-            <span class="movie-info-genre">${genres}</span>
+            <span class="movie-info-genre">${genres.join(', ')}</span>
             <img src=${filledStarIcon} alt="star-icon" />
             <span class="movie-info-score">${voteAverage.toFixed(1)}</span>
           </div>
