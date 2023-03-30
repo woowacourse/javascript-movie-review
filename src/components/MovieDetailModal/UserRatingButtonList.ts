@@ -9,7 +9,7 @@ const UserRatingButtonList = {
   template(initScore: string) {
     return `
       <div class="user-rating-buttons">
-        ${USER_RATING_MESSAGE.map(({ score, desc }) => UserRatingButton.template(score, desc, initScore)).join('')}
+        ${USER_RATING_MESSAGE.map((message) => UserRatingButton.template(message, initScore)).join('')}
       </div>
     `;
   },
