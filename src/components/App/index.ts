@@ -15,7 +15,7 @@ const App = assemble(() => {
       <div class="app-container">
         <fragment id="Header">${HeaderComponent({ handleKeyword })}</fragment>
         <fragment id="MovieChart">${MovieChartComponent({ keyword })}</fragment>
-        <div class='fetch-more-line' />    
+        <div class='fetch-more-line'></div>    
       </div>
     `
   );
