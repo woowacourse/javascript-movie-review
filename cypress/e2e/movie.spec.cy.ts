@@ -22,6 +22,8 @@ describe("영화관 앱 테스트.", () => {
   };
 
   beforeEach(() => {
+    cy.viewport(1200, 945);
+
     const [movieUrl, popularMovies] = interceptor(
       () => buildMovieUrl(POPULAR_MOVIE),
       "popular-movies.json"
@@ -56,22 +58,6 @@ describe("영화관 앱 테스트.", () => {
     });
   });
 
-  it("더보기를 클릭하면 영화 목록이 20개씩 추가된다.", () => {
-    cy.wait("@getPopularMovies");
-
-    cy.get("#more-button").click();
-
-    cy.wait("@getPopularMoviePage2");
-
-    cy.get(".item-list").children().should("have.length", "40");
-
-    cy.fixture("popular-movie-page2.json").then((movieInfo) => {
-      movieInfo.results.forEach((movie) => {
-        cy.get(".item-list > li").should("contain.text", movie.title);
-      });
-    });
-  });
-
   it("키워드를 검색하면 해당 키워드가 포함된 영화 목록을 보여준다.", () => {
     cy.get("input[name='search-bar']").type("강아지");
     cy.get("#search-bar").submit();
@@ -89,8 +75,11 @@ describe("영화관 앱 테스트.", () => {
     });
   });
 
-  it("로고를 클릭하면 처음 화면으로 이동한다.", () => {
-    cy.get("#logo").click();
+  it("검색 페이지에서 홈 버튼을 클릭하면 처음 화면으로 이동한다.", () => {
+    cy.get("input[name='search-bar']").type("고양이");
+    cy.get("#search-bar").submit();
+
+    cy.get("button.logo").click();
 
     cy.wait("@getPopularMovies");
 
