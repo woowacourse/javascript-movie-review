@@ -56,8 +56,9 @@ class App {
     this.movieList.removeMovieCards();
 
     this.movieList.renderTitle(`지금 인기 있는 영화`);
-    const { results, total_pages } = await getPopularMovies({ page: 1 });
-    this.movieList.renderMovieCards(results, total_pages);
+
+    this.movieList.requestAndRenderMovieCards(() => getPopularMovies({ page: 1 }));
+
     this.movieList.bindEvent(() =>
       getPopularMovies({
         page: Store.page,
