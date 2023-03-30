@@ -34,7 +34,7 @@ const Modal = assemble<ModalProps>(({ handleIsVisibleModal, modalData }) => {
       callback(e) {
         e.preventDefault();
 
-        if (e.target === $('.exit-button')) {
+        if (e.target === $('.exit-button') || e.target === $('.modal-backdrop')) {
           history.back();
         }
 
