@@ -1,14 +1,15 @@
 const storage = {
-  setLocalStorage<T>(key: string, data: T) {
+  setLocalStorage(key: string, data: Parameters<JSON['stringify']>[0]) {
     localStorage.setItem(key, JSON.stringify(data));
   },
 
-  getLocalStorage(key: string) {
+  getLocalStorage<T>(key: string) {
     const data = localStorage.getItem(key);
-
     if (!data) return;
 
-    return JSON.parse(data);
+    const parsedData: T = JSON.parse(data);
+
+    return parsedData;
   },
 };
 

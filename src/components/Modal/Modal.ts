@@ -19,10 +19,14 @@ const errorTemplate = (statusCode: number, statusMessage: string) => {
   </div>`;
 };
 
+type HandlerCallback = {
+  onClickVoteButton: (movieId: string, starCount: StarCount) => void;
+};
+
 export default class Modal implements Component {
   private $element;
 
-  constructor($parent: Element) {
+  constructor($parent: Element, private handlerCallback: HandlerCallback) {
     this.$element = document.createElement('div');
     this.$element.id = 'modal';
     this.$element.className = 'modal hide';
@@ -73,7 +77,9 @@ export default class Modal implements Component {
     const $container = this.$element.querySelector('.modal-container');
     if (!$container) return;
 
-    const detailMovieCard = new DetailMovieCard($container);
+    const detailMovieCard = new DetailMovieCard($container, {
+      onClickVoteButton: this.handlerCallback.onClickVoteButton.bind(this),
+    });
     detailMovieCard.render(detailMovieData, starCount);
   }
 

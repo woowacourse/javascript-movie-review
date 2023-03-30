@@ -1,5 +1,3 @@
-import { personalVoteHandler } from '../../index';
-
 import { DetailMovie } from '../../type/Movie';
 
 import { $ } from '../../utils';
@@ -23,8 +21,12 @@ type StarScore = keyof typeof voteScoreText;
 
 const STAR_BUTTON_COUNT = 5;
 
+type HandlerCallback = {
+  onClickVoteButton: (movieId: string, starCount: StarCount) => void;
+};
+
 export default class DetailMovieCard {
-  constructor(private $parent: Element) {}
+  constructor(private $parent: Element, private handlerCallback: HandlerCallback) {}
 
   render(detailMovieData: DetailMovie, starCount: StarCount) {
     this.$parent.insertAdjacentHTML('beforeend', this.template(detailMovieData, starCount));
@@ -112,7 +114,7 @@ export default class DetailMovieCard {
       if (!$movieDetailView) return;
       const movieId = $movieDetailView.id;
 
-      personalVoteHandler.updatePersonalVoteData(movieId, starCount);
+      this.handlerCallback.onClickVoteButton(movieId, starCount);
 
       $movieVoteContainer.innerHTML = this.voteContainerTemplate(starCount);
     });

@@ -1,14 +1,14 @@
 import Header from './components/Header/Header';
 import MovieList from './components/MovieList/MovieList';
 import Modal from './components/Modal/Modal';
-
 import { popularMovieDataFetchFuncGenerator, searchedMovieDataFetchFuncGenerator, getDetailMovieData } from './api/get';
-
-import { personalVoteHandler } from './index';
-
-import { $ } from './utils';
+import PersonalVoteHandler from './domain/PersonalVoteHandler';
+import { $, storage } from './utils';
+import { PERSONAL_VOTE_KEY } from './constants/storageKey';
 
 export default class App {
+  #personalVoteHandler;
+
   #getMovieMetaData;
 
   #header;
@@ -17,6 +17,10 @@ export default class App {
 
   constructor() {
     this.bindESCKeyDownEvent();
+    this.bindWindowUnloadEvent();
+
+    const personalVoteData = storage.getLocalStorage(PERSONAL_VOTE_KEY);
+    this.#personalVoteHandler = new PersonalVoteHandler(personalVoteData);
 
     this.#getMovieMetaData = popularMovieDataFetchFuncGenerator();
 
@@ -24,7 +28,9 @@ export default class App {
       onClickMainLogo: this.renderPopularMovieList.bind(this),
       onSubmitSearchForm: this.renderSearchedMovieList.bind(this),
     });
-    this.#modal = new Modal($('#app'));
+    this.#modal = new Modal($('#app'), {
+      onClickVoteButton: this.#personalVoteHandler.updatePersonalVoteData.bind(this.#personalVoteHandler),
+    });
     this.#movieList = new MovieList($('main'), {
       onObserveElement: this.renderMovieList.bind(this),
       onClickCard: this.renderModalContent.bind(this),
@@ -71,7 +77,7 @@ export default class App {
     }
 
     const { id, title, posterPath, voteAverage, overview, genres } = detailMovieData;
-    const starCount = personalVoteHandler.getStarCountById(movieId);
+    const starCount = this.#personalVoteHandler.getStarCountById(movieId);
 
     this.#modal.renderContent({ id, title, posterPath, voteAverage, overview, genres }, starCount);
   }
@@ -89,6 +95,12 @@ export default class App {
       if (e.key !== 'Escape') return;
       this.#modal.clearContent();
       this.#modal.closeModal();
+    });
+  }
+
+  bindWindowUnloadEvent() {
+    window.addEventListener('beforeunload', () => {
+      storage.setLocalStorage(PERSONAL_VOTE_KEY, this.#personalVoteHandler.getPersonalVoteData());
     });
   }
 }
