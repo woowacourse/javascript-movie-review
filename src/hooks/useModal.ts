@@ -2,7 +2,9 @@ import { join } from 'cypress/types/bluebird';
 import { fetchGenreList, waitFor } from '../apis';
 import { useEffect, useState } from '../core';
 import { Genres } from '../types/api';
-type DefaultFetchAction = (callback: (args: any) => Promise<void>) => (args?: any | undefined) => Promise<void>;
+interface DefaultFetchAction {
+  (callback: (args: any) => Promise<void>): (args?: any | undefined) => Promise<void>;
+}
 interface Vote {
   id: number;
   vote: number;
