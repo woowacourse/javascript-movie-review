@@ -173,7 +173,7 @@ header .search-box > .search-button {
   border: 0;
   color: black;
   text-indent: -1000rem;
-  background: url("./logo.png") transparent no-repeat 0 1px;
+  background: url("../src/img/search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
 }
 
