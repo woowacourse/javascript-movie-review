@@ -3,7 +3,7 @@ import ErrorImg from "../../../templates/error.png";
 
 export default class ErrorComponent extends CustomComponent {
   template() {
-    return `
+    return /*html*/ `
             <div class="error-title">
                 <img src=${ErrorImg} alt="error_icon" width="100" height="100">
                 <h1>오류</h1>
