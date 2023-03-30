@@ -62,7 +62,6 @@ export default class MovieList {
   }
 
   bindEvent(getMovieRequest: () => Promise<MoviesResponse>) {
-    // 무한스크롤 이벤트
     const handleMoreMovie = async () => {
       Store.page += 1;
       await this.requestAndRenderMovieCards(getMovieRequest);
@@ -77,7 +76,6 @@ export default class MovieList {
     );
     this.io.observe(this.$moreMovieButton);
 
-    // 모달 이벤트
     this.handleClickMovieCard = (e: Event) => {
       if (!(e.target instanceof HTMLElement)) return;
       const $itemCard = e.target.closest('.js-item-card');
@@ -88,7 +86,7 @@ export default class MovieList {
         !$itemCard.dataset.id
       )
         return;
-      // 각 카드에 맞게 api 요청 후 모달 창 띄우기
+
       getMovieDetail({ movie_id: Number($itemCard.dataset.id) }).then((movieDetail) => {
         const $detailModal = new MovieDetailModal(this.$parent, movieDetail);
         $detailModal.bindEvent();
