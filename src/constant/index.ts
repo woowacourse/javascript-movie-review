@@ -10,7 +10,7 @@ const MOVIE_APP_IMG_PATH = Object.freeze({
   starFilled,
 });
 
-const MOVIE_LOCAL_STORAGE_KEY = 'MOVIE_APP';
+const MOVIE_LOCAL_STORAGE_KEY = 'MOVIE_APP' as const;
 
 const VoteMessage = Object.freeze([
   '본인의 점수를 매겨주세요!!',
