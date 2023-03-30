@@ -458,3 +458,13 @@ header .search-box > .search-button {
     display: none;
   }
 }
+
+.error-message {
+  position: absolute;
+  left: 30px;
+
+  font-size: 28px;
+  font-weight: 600;
+
+  opacity: 0.6;
+}

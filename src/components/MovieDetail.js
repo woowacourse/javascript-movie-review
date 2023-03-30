@@ -39,12 +39,13 @@ class MovieDetail {
     });
 
     this.$modal.addEventListener('click', ({ target }) => {
-      const { id: score, className } = target;
+      const { id, className } = target;
+
       if (className !== 'star') return;
 
       const $stars = document.querySelectorAll(`.${className}`);
       [...$stars].forEach(($star, index) => {
-        if (index < Number(score)) {
+        if (index < Number(id)) {
           $star.src = star_filled;
           $star.alt = star_filled;
         } else {
@@ -53,13 +54,13 @@ class MovieDetail {
         }
       });
 
-      document.querySelector('.review-score').innerText = score * 2;
-      document.querySelector('.review-message').innerText = REVIEW_SCORE_MESSAGE[score * 2] || '';
+      document.querySelector('.review-score').innerText = id * 2;
+      document.querySelector('.review-message').innerText = REVIEW_SCORE_MESSAGE[id * 2] || '';
 
       const movieId = this.$modal.id;
 
       document.dispatchEvent(
-        new CustomEvent(CUSTOM_EVENT.UPDATE_REVIEW_SCORE, { detail: { movieId, score } })
+        new CustomEvent(CUSTOM_EVENT.UPDATE_REVIEW_SCORE, { detail: { movieId, score: id * 2 } })
       );
     });
   }
@@ -117,7 +118,7 @@ class MovieDetail {
                   const id = index + 1;
 
                   const starImg =
-                    id <= reviewScore
+                    id <= reviewScore / 2
                       ? `<img id=${id} class="star" src=${star_filled} alt=${star_filled}/>`
                       : `<img id=${id} class="star" src=${star_empty} alt=${star_empty}/>`;
 
@@ -125,7 +126,7 @@ class MovieDetail {
                 }, '')}
               </div>
               <div>
-                <span class="review-score">${reviewScore * 2}</span>
+                <span class="review-score">${reviewScore}</span>
                 <span class="review-message">${REVIEW_SCORE_MESSAGE[reviewScore] || ''}</span>
               </div>
             </div>

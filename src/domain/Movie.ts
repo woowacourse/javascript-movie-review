@@ -1,14 +1,18 @@
 import { fetchData } from '../http';
 
-const BASE_URL = 'https://api.themoviedb.org/3';
+const BASE_URL = 'https://api.themoviedb.org/3/';
 
 class Movie {
   async getMovies(query: string | null, page: number) {
-    if (query) {
-      return this.getFoundMovies(query, page);
-    }
+    try {
+      if (query) {
+        return await this.getFoundMovies(query, page);
+      }
 
-    return this.getPopularMovies(page);
+      return await this.getPopularMovies(page);
+    } catch (e) {
+      return e;
+    }
   }
 
   async getPopularMovies(page: number) {
