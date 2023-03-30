@@ -1,14 +1,17 @@
+import { Movie } from '../service/types';
+import { StarRate } from './types';
+
 const key = 'userMovieVoteValues';
 
-const getUserMovieVoteValues = (): {} => {
+const getUserMovieVoteValues = (): Record<Movie['id'], StarRate> => {
   return JSON.parse(localStorage.getItem(key) ?? '{}');
 };
 
-const getUserMovieVoteValue = (id: number): number => {
-  return JSON.parse(localStorage.getItem('userMovieVoteValues') ?? '{}')[id];
+const getUserMovieVoteValue = (id: Movie['id']): StarRate => {
+  return getUserMovieVoteValues()[id];
 };
 
-const setUserMovieVoteValues = (id: number, starRate: number) => {
+const setUserMovieVoteValues = (id: Movie['id'], starRate: StarRate) => {
   localStorage.setItem(
     key,
     JSON.stringify({
