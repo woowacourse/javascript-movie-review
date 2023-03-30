@@ -1,4 +1,5 @@
 import { useState } from '../core';
+import { body, html } from '../utils/common/domHelper';
 
 function useModal(initial: boolean): [Boolean, VoidFunction, VoidFunction] {
   const [isOpen, setIsOpen] = useState(initial);
@@ -9,13 +10,17 @@ function useModal(initial: boolean): [Boolean, VoidFunction, VoidFunction] {
 
   const openModal = () => {
     setIsOpen(true);
-    document.body.style.overflowY = 'hidden';
+
+    body.style.overflowY = 'hidden';
+    html.style.overflowY = 'hidden';
     window.addEventListener('keydown', onKeyDownEscape);
   };
 
   const closeModal = () => {
     setIsOpen(false);
-    document.body.style.overflowY = 'auto';
+
+    body.style.overflowY = 'auto';
+    html.style.overflowY = 'auto';
     window.removeEventListener('keydown', onKeyDownEscape);
   };
 

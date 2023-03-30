@@ -8,6 +8,9 @@ export const $ = (selector: string, parentNode: ParentNode | null = document) =>
 export const $$ = (selector: string, parentNode: ParentNode | null = document) =>
   parentNode?.querySelectorAll(selector) ?? null;
 
+export const html = $('html') as HTMLElement;
+export const body = $('body') as HTMLElement;
+
 export const getElement = (template: string) => {
   const root = document.createElement('div');
   root.innerHTML = template;
