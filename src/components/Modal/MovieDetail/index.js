@@ -7,7 +7,17 @@ import NotFoundImageIcon from "../../../images/not_found_image.png";
 import { imageUrl } from "../../../constants/urls";
 
 const MovieDetailModal = {
-  skeletonTeplate() {
+  async init(id) {
+    this.renderSkeleton();
+
+    const movieDetail = await this.getMovieDetail(id);
+    if (!movieDetail) return;
+    this.renderMovieDetail(movieDetail);
+
+    this.setEvent(id);
+  },
+
+  skeletonTemplate() {
     return `
     <div class="detail-header"></div>
     <div class="detail-body">
@@ -23,7 +33,7 @@ const MovieDetailModal = {
     `;
   },
 
-  template(movieDetail) {
+  movieDetailTemplate(movieDetail) {
     const { title, posterSrc, voteAverage, genres, overview, myVote } =
       movieDetail.getMovieDetailInfo();
 
@@ -79,15 +89,16 @@ const MovieDetailModal = {
     `;
   },
 
-  async render(id) {
+  renderSkeleton() {
     const $modalContainer = document.querySelector(".modal-container");
 
-    $modalContainer.innerHTML = this.skeletonTeplate();
-    const movieDetail = await this.getMovieDetail(id);
-    if (!movieDetail) return;
+    $modalContainer.innerHTML = this.skeletonTemplate();
+  },
 
-    $modalContainer.innerHTML = this.template(movieDetail);
-    this.setEvent(id);
+  async renderMovieDetail(movieDetail) {
+    const $modalContainer = document.querySelector(".modal-container");
+
+    $modalContainer.innerHTML = this.movieDetailTemplate(movieDetail);
   },
 
   renderMyVote(score) {

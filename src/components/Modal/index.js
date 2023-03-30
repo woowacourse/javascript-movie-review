@@ -2,10 +2,10 @@ import "./index.css";
 import MovieDetailModal from "./MovieDetail";
 
 const Modal = {
-  openMovieDetail(movie) {
+  openMovieDetail(movieId) {
     this.open();
 
-    MovieDetailModal.render(movie);
+    MovieDetailModal.init(movieId);
   },
 
   template() {
