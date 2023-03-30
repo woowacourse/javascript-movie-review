@@ -4,7 +4,7 @@ const skeletonTemplate = (repetition: number = 20): string => {
        <div class="item-card">
          <div class="item-thumbnail skeleton"></div>
          <div class="item-title skeleton"></div>
-         <div class="item-score skeleton"></div>
+         <div class="item-title skeleton"></div>
        </div>
      </a>
    </li>`;

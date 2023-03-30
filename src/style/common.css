@@ -6,6 +6,7 @@ body {
   font-size: 14px;
   background-color: #222222;
   color: #fff;
+  min-width: 350px;
 }
 
 a {
@@ -33,7 +34,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  max-width: 912px;
   margin: 0 auto;
 }
 
@@ -44,14 +45,13 @@ button {
   margin-bottom: 48px;
 }
 
-/* https://andrew.hedges.name/experiments/aspect_ratio/ */
-
 .item-list {
   display: grid;
   grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  grid-column-gap: 64px;
   grid-row-gap: 48px;
   margin-bottom: 48px;
+  margin: auto;
 }
 
 .item-card {
@@ -81,7 +81,6 @@ button {
 }
 
 .message {
-  position: fixed;
   top: 72px;
   bottom: 0;
   left: 0;
@@ -147,7 +146,7 @@ button.primary {
 
 .header {
   width: 100%;
-  min-width: 1200px;
+  min-width: 300px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -156,6 +155,10 @@ button.primary {
   padding: 0 20px;
   border-bottom: 1px solid white;
   margin-bottom: 48px;
+}
+
+.load-more-button {
+  opacity: 0;
 }
 
 header h1 {
@@ -187,4 +190,360 @@ header .search-box > .search-button {
 
 .hidden {
   display: none;
+}
+
+body {
+  font-family: sans-serif;
+}
+
+/* 모달 */
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.modal {
+  width: 90%;
+  max-width: 800px;
+  height: 577px;
+  background-color: #212122;
+  border: none;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  border-radius: 8px;
+
+  padding: 0;
+  padding-bottom: 32px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.modal-header {
+  width: 100%;
+
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 24px;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(241, 241, 241, 0.25);
+
+  align-items: center;
+}
+
+.modal-header button {
+  cursor: pointer;
+  background: #212122;
+  border: none;
+}
+
+.modal-body {
+  width: 100%;
+
+  flex: 1;
+  display: grid;
+
+  grid-column: 32px;
+  grid-template-columns: 1fr 1.5fr;
+  grid-template-rows: 32px 3fr 1fr;
+  grid-template-areas:
+    'image rating'
+    'image description'
+    'image myRating';
+
+  justify-content: flex-start;
+  padding: 32px;
+}
+
+.modal-image {
+  grid-area: image;
+}
+
+.modal-image img {
+  width: 100%;
+}
+.modal-rating {
+  width: 90%;
+  margin: auto;
+  min-width: 200px;
+
+  grid-area: rating;
+  display: flex;
+  margin-left: 32px;
+}
+
+.modal-description {
+  width: 90%;
+  min-width: 200px;
+
+  margin: 0 auto;
+  margin-left: 32px;
+
+  grid-area: description;
+  line-height: 1.2;
+}
+
+.modal-my-rating {
+  width: 70%;
+  max-width: 400px;
+  min-width: 200px;
+  grid-area: myRating;
+  margin: auto;
+  margin-left: 32px;
+
+  display: flex;
+  align-items: center;
+}
+
+.rating-message {
+  text-align: left;
+}
+
+img[src='./star_filled.png'] {
+  width: 16px;
+  height: 16px;
+}
+
+.modal-header h2 {
+  font-size: 24px;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+}
+
+.modal-rating p {
+  display: block;
+  padding-right: 16px;
+}
+
+.modal-rating,
+.modal-description,
+.modal-my-rating {
+  margin-bottom: 24px;
+}
+
+.modal-my-rating {
+  background: #383839;
+  border-radius: 16px;
+  width: 438px;
+  height: 64px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+
+  padding: 0 16px;
+}
+
+.modal-rating p,
+.modal-description p,
+.modal-my-rating p {
+  font-size: 16px;
+  margin: 0;
+}
+
+.modal-my-rating > .rating-title {
+  font-weight: 700;
+}
+
+.modal-my-rating span {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.rating-stars .star {
+  width: 26px;
+  height: 26px;
+}
+
+.close-button {
+  margin-left: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+
+  border-radius: 50%;
+  background: #383839;
+}
+
+.error-modal {
+  position: fixed;
+  max-width: 700px;
+  top: 30px;
+  left: 50%;
+  width: 70%;
+  height: 64px;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  z-index: 999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.error-modal > p {
+  font-size: 18px;
+}
+
+.error-modal > button {
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+  color: white;
+}
+
+/* 반응형 */
+@media screen and (max-width: 1070px) {
+  .item-view {
+    max-width: 668px;
+    width: 90%;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+
+    grid-row-gap: 32px;
+  }
+}
+
+@media screen and (max-width: 780px) {
+  .item-view {
+    width: 90%;
+  }
+  .item-list {
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    grid-column-gap: 64px;
+    grid-row-gap: 36px;
+  }
+
+  .item-thumbnail {
+    width: 100%;
+    height: fit-content;
+  }
+
+  .item-card {
+    height: fit-content;
+  }
+
+  .item-thumbnail.skeleton {
+    padding-left: 100%;
+    padding-top: 150%;
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .item-title {
+    font-size: 1rem;
+  }
+  .item-view {
+    max-width: 400px;
+    width: 90%;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    max-width: 400px;
+    width: 100%;
+    grid-column-gap: 36px;
+    grid-row-gap: 36px;
+  }
+
+  .item-thumbnail {
+    width: 100%;
+    height: fit-content;
+  }
+
+  .item-title {
+    font-size: 1rem;
+  }
+
+  .search-input {
+    padding: 0;
+    width: 0px;
+    transition: width 0.2s ease-in-out;
+  }
+
+  .search-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .search-box:hover .search-input {
+    width: 150px;
+  }
+
+  .search-input:focus {
+    width: 150px;
+  }
+
+  .modal .modal-image {
+    display: none;
+  }
+
+  .modal {
+    min-width: 300px;
+    display: block;
+    position: fixed;
+    z-index: 1;
+    top: initial;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 50%;
+
+    border-radius: 8px 8px 0 0;
+  }
+
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+  }
+
+  .modal-description {
+    flex: 1;
+  }
+
+  .modal-my-rating {
+    margin: auto;
+    margin-bottom: 32px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .modal-my-rating .rating-message {
+    display: none;
+  }
+
+  .modal-my-rating {
+    width: 100%;
+  }
 }

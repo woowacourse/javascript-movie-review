@@ -1,9 +1,10 @@
 import MovieCard from './MovieCard';
 import skeletonTemplate from './Skeleton';
 import Component from '../types/component';
-import { FetchType } from '../types/fetcherType';
-import { Movie, MovieItem } from '../types/movie';
+
+import { MovieItem } from '../types/movie';
 import { NULL_SEARCH_RESULT_MESSAGE } from '../constants/messages';
+import { POPULAR_LIST_NAME } from '../constants/listNames';
 
 class MovieList implements Component {
   readonly node: HTMLElement;
@@ -21,16 +22,16 @@ class MovieList implements Component {
     this.node = document.createElement('section');
     this.node.classList.add('item-view');
 
-    this.composeNode().setElements().addEvents();
+    this.composeNode().setElements().addEvents().observeMovieList();
   }
 
   composeNode(): this {
     this.node.innerHTML = `
-      <h2 id="list-name">지금 인기있는 영화</h2>
+      <h2 id="list-name">${POPULAR_LIST_NAME}</h2>
       <ul class="item-list movie-list hidden"></ul>
       <ul class="item-list skeleton-list">${skeletonTemplate()}</ul>
       
-      <button class="btn primary full-width hidden">더 보기</button>`;
+      <button class="load-more-button btn primary full-width">더 보기</button>`;
 
     return this;
   }
@@ -65,18 +66,6 @@ class MovieList implements Component {
     return this;
   }
 
-  showButton(): this {
-    this.loadMoreButton.classList.remove('hidden');
-
-    return this;
-  }
-
-  hideButton(): this {
-    this.loadMoreButton.classList.add('hidden');
-
-    return this;
-  }
-
   showMovieList(): this {
     this.movieList.classList.remove('hidden');
 
@@ -89,16 +78,29 @@ class MovieList implements Component {
     return this;
   }
 
+  showMoreButton(): this {
+    this.loadMoreButton.classList.remove('hidden');
+
+    return this;
+  }
+
+  hideMoreButton(): this {
+    this.loadMoreButton.classList.add('hidden');
+
+    return this;
+  }
+
   updateMovieList(movieDetails: MovieItem[], isLastPage: Boolean): this {
     if (movieDetails.length === 0) {
-      this.hideSkeleton().hideButton().showMessage(NULL_SEARCH_RESULT_MESSAGE);
+      this.hideSkeleton().hideMoreButton();
+      this.node.dispatchEvent(new CustomEvent('show-toast', { detail: NULL_SEARCH_RESULT_MESSAGE, bubbles: true }));
       return this;
     }
 
-    this.hideSkeleton().showMovieList();
+    this.hideSkeleton().showMovieList().showMoreButton();
     this.movieList.append(this.createMovieCards(movieDetails));
 
-    isLastPage ? this.hideButton() : this.showButton();
+    this.loadMoreButton.disabled = isLastPage ? true : false;
 
     return this;
   }
@@ -150,14 +152,26 @@ class MovieList implements Component {
   }
 
   #handleClickMoreButton(): void {
-    if (this.loadMoreButton.disabled) return;
-
     this.node.dispatchEvent(new CustomEvent('click-more-button', { bubbles: true }));
-    this.loadMoreButton.disabled = true;
+  }
 
-    setTimeout(() => {
-      this.loadMoreButton.disabled = false;
-    }, 2000);
+  observeMovieList(): this {
+    const options = {
+      root: null,
+      rootMargin: '50%',
+      threshold: 0.2,
+    };
+
+    const observer = new IntersectionObserver(this.#handleIntersect.bind(this), options);
+    observer.observe(this.loadMoreButton);
+
+    return this;
+  }
+
+  #handleIntersect(entries: IntersectionObserverEntry[]): void {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) this.loadMoreButton.click();
+    });
   }
 }
 

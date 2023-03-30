@@ -14,7 +14,7 @@ class SearchBox implements Component {
 
   composeNode(): this {
     this.node.innerHTML = `
-      <input type="text" placeholder="검색" />
+      <input class="search-input" type="text" placeholder="검색" />
       <button class="search-button">검색</button>
       `;
 
@@ -36,40 +36,24 @@ class SearchBox implements Component {
   }
 
   addEvents(): this {
-    let enabled = { value: true };
-
-    this.searchInput.addEventListener('keypress', this.#handleKeyEnter(enabled).bind(this));
-    this.searchButton.addEventListener('click', this.#handleClickSearch(enabled).bind(this));
+    this.searchInput.addEventListener('keypress', this.#handleKeyEnter.bind(this));
+    this.searchButton.addEventListener('click', this.#handleClickSearch.bind(this));
 
     return this;
   }
 
-  #handleKeyEnter(enabled: { value: boolean }) {
-    return (event: KeyboardEvent) => {
-      if (event.key !== 'Enter') return;
+  #handleKeyEnter(event: KeyboardEvent): void {
+    if (event.key !== 'Enter') return;
 
-      if (enabled.value) {
-        enabled.value = false;
-        this.dispatchSearchEvent(this.searchInput.value);
-        this.searchInput.value = '';
-        setTimeout(() => {
-          enabled.value = true;
-        }, 2000);
-      }
-    };
+    this.dispatchSearchEvent(this.searchInput.value);
+    this.searchInput.value = '';
+    this.searchInput.blur();
   }
 
-  #handleClickSearch(enabled: { value: boolean }) {
-    return () => {
-      if (enabled.value) {
-        enabled.value = false;
-        this.dispatchSearchEvent(this.searchInput.value);
-        this.searchInput.value = '';
-        setTimeout(() => {
-          enabled.value = true;
-        }, 2000);
-      }
-    };
+  #handleClickSearch(): void {
+    this.dispatchSearchEvent(this.searchInput.value);
+    this.searchInput.value = '';
+    this.searchInput.blur();
   }
 
   dispatchSearchEvent(keyword: string): void {

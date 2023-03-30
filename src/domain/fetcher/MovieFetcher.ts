@@ -1,7 +1,8 @@
+import fetchJson from '../fetchJson';
+
 import { MOVIE_IMAGE_URL } from '../../constants/movieURLs';
 import { FetchedMovieJson } from '../../types/fetchedMovie';
 import { MovieItem } from '../../types/movie';
-import fetchJson from '../fetchJson';
 
 abstract class MovieFetcher {
   protected abstract base: string;
@@ -20,7 +21,7 @@ abstract class MovieFetcher {
     };
   }
 
-  fetchNextMovies(): Promise<any> {
+  fetchNextMovies(): Promise<MovieItem[]> {
     this.params.page = String(Number(this.params.page) + 1);
 
     return fetchJson(this.#createSearchURL(this.params), this.#processMovieData.bind(this));
@@ -44,6 +45,7 @@ abstract class MovieFetcher {
       title: result.title,
       posterPath: `${MOVIE_IMAGE_URL}/${result.poster_path}`,
       voteAverage: result.vote_average,
+      id: result.id,
     }));
 
     this.params.page = String(page);
