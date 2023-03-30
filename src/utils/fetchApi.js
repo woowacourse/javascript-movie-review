@@ -1,10 +1,19 @@
+import { APIError, OfflineError, ResponseError } from "../errors";
+
 const fetchApi = async (url) => {
-  if (!navigator.onLine) throw new Error("Offline Error");
+  if (!navigator.onLine) throw new OfflineError();
   try {
     const response = await fetch(url);
-    return response.json();
-  } catch (e) {
-    throw new Error("Response Error");
+    const json = response.json();
+    if (json.status_code) {
+      throw new APIError(json.status_code);
+    }
+    return json;
+  } catch (error) {
+    if (error.name === "API Error") {
+      throw new error();
+    }
+    throw new ResponseError();
   }
 };
 

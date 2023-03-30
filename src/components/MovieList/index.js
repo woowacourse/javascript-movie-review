@@ -1,5 +1,4 @@
 import { fetchMovieListWithKeyword, fetchPopularMovieList } from "../../apis";
-import getErrorMessage from "../../apis/getErrorMessage";
 import { LIST_TYPE } from "../../constants/common";
 import Movie from "../../domain/Movie";
 import Modal from "../Modal";
@@ -94,8 +93,7 @@ class MovieList {
         return await fetchMovieListWithKeyword(this.#page, searchKeyword);
       }
     } catch (error) {
-      const message = getErrorMessage(error);
-      this.renderErrorMessage(message);
+      this.renderErrorMessage(error.message);
       this.closeSkeletonContainer();
       document.querySelector(".scroll-trigger").remove();
       return false;

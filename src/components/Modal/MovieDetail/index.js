@@ -5,7 +5,6 @@ import StarIcon from "../../../images/star_filled.png";
 import EmeptyStarIcon from "../../../images/star_empty.png";
 import NotFoundImageIcon from "../../../images/not_found_image.png";
 import { imageUrl } from "../../../constants/urls";
-import getErrorMessage from "../../../apis/getErrorMessage";
 
 const MovieDetailModal = {
   skeletonTeplate() {
@@ -119,8 +118,7 @@ const MovieDetailModal = {
 
       return movieDetail;
     } catch (error) {
-      const message = getErrorMessage(error);
-      this.renderErrorMessage(message);
+      this.renderErrorMessage(error.message);
       return false;
     }
   },
