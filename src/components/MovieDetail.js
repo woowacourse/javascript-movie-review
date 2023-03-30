@@ -1,7 +1,7 @@
 import star_filled from '../../templates/star_filled.png';
 import star_empty from '../../templates/star_empty.png';
 
-import { CUSTOM_EVENT } from '../constants';
+import { CUSTOM_EVENT, REVIEW_SCORE_MESSAGE } from '../constants';
 
 class MovieDetail {
   $modal = document.createElement('div');
@@ -54,6 +54,7 @@ class MovieDetail {
       });
 
       document.querySelector('.review-score').innerText = score * 2;
+      document.querySelector('.review-message').innerText = REVIEW_SCORE_MESSAGE[score * 2] || '';
 
       const movieId = this.$modal.id;
 
@@ -125,6 +126,7 @@ class MovieDetail {
               </div>
               <div>
                 <span class="review-score">${reviewScore * 2}</span>
+                <span class="review-message">${REVIEW_SCORE_MESSAGE[reviewScore] || ''}</span>
               </div>
             </div>
           </div>

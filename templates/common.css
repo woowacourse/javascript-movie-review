@@ -438,3 +438,23 @@ header .search-box > .search-button {
 .star {
   cursor: pointer;
 }
+
+.nothing-found {
+  position: absolute;
+  left: 10%;
+
+  width: 100%;
+
+  font-size: 28px;
+  opacity: 0.6;
+}
+
+.review-message {
+  margin-left: 12px;
+}
+
+@media screen and (max-width: 826px) {
+  .review-message {
+    display: none;
+  }
+}

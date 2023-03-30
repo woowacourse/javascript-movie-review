@@ -37,6 +37,10 @@ class MovieList {
     this.$ul.insertAdjacentHTML('beforeend', movieLi);
   }
 
+  nothingFound() {
+    this.$ul.innerHTML = '<p class="nothing-found">해당하는 영화를 찾을 수 없습니다</p>';
+  }
+
   switchMovies(movies) {
     const movieLi = this.getMovieLi(movies);
 

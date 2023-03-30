@@ -40,6 +40,10 @@ class MovieView {
   }
 
   addMovies({ page, results: movies }) {
+    if (movies.length === 0) {
+      return this.movieList.nothingFound();
+    }
+
     if (page === 1) {
       return this.movieList.switchMovies(movies);
     }
