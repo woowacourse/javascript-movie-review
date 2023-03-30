@@ -1,16 +1,16 @@
 import './Button.css';
 
 class Button extends HTMLElement {
-  connectedCallback() {
+  connectedCallback(): void {
     this.render();
   }
 
-  render() {
+  render(): void {
     const text = this.getAttribute('text');
     const color = this.getAttribute('color');
 
-    this.innerHTML = `
-      <button class="btn ${color} full-width">${text}</button>
+    this.innerHTML = /*html*/ `
+      <button class="btn ${color}">${text}</button>
     `;
   }
 }

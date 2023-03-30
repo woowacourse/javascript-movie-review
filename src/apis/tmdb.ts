@@ -1,68 +1,53 @@
-import { BaseParams, SearchParams } from './tmdbType';
+import { convertQuerystring, getFetchURL, getQueries } from '../utils/common';
+import { DetailParams, PopularParams, SearchParams } from './tmdbType';
 
-const convertQuerystring = (params: Record<string, string>): string => {
-  const URLParams = new URLSearchParams();
-  Object.keys(params).forEach(key => {
-    URLParams.append(key, params[key]);
-  });
+export const BASE_URL = 'https://api.themoviedb.org/3/';
+const POPULAR_PATH = 'movie/popular?';
+const SEARCH_PATH = 'search/movie?';
 
-  return URLParams.toString();
+const detailPath = (id: number): string => `/movie/${id}?`;
+
+const BASE_PARAMS = {
+  api_key: process.env.API_KEY as string,
+  language: 'ko',
+  include_adult: 'false',
 };
 
-const getFetchURL =
-  (baseUrl: string) =>
-  (path: string) =>
-  (query: string): string =>
-    `${baseUrl}${path}${query}`;
+const baseQueriesString = convertQuerystring(BASE_PARAMS);
 
-const getQuerieURL =
-  (baseQueries: string) =>
-  (optionQueries: string): string =>
-    `${baseQueries}&${optionQueries}`;
+export const getPopularUrl = ({ pageIndex }: PopularParams): string => {
+  const params = popularParams({ pageIndex });
+  const popularQueriesString = convertQuerystring(params);
 
-const baseParams = (pageIndex: number) => {
+  const popularQueries = getQueries({ baseQueries: baseQueriesString, optionQueries: popularQueriesString });
+
+  return getFetchURL({ baseUrl: BASE_URL, path: POPULAR_PATH, query: popularQueries });
+};
+
+const popularParams = ({ pageIndex }: PopularParams): { page: string } => {
   return {
-    api_key: process.env.API_KEY as string,
-    language: 'ko',
-    include_adult: 'false',
     page: pageIndex.toString(),
   };
 };
 
-const searchParams = (word: string) => {
+export const getSearchUrl = ({ pageIndex, word }: SearchParams): string => {
+  const params = searchParams({ pageIndex, word });
+  const searchQueriesString = convertQuerystring(params);
+
+  const searchQuries = getQueries({ baseQueries: baseQueriesString, optionQueries: searchQueriesString });
+
+  return getFetchURL({ baseUrl: BASE_URL, path: SEARCH_PATH, query: searchQuries });
+};
+
+const searchParams = ({ word, pageIndex }: SearchParams) => {
   return {
     query: word,
+    page: pageIndex.toString(),
   };
 };
 
-export const BASE_URL = 'https://api.themoviedb.org/3/';
-const POPULAR_URL = 'movie/popular?';
-const SEARCH_URL = 'search/movie?';
+export const getDetailUrl = ({ id }: DetailParams): string => {
+  const detailQuries = getQueries({ baseQueries: baseQueriesString, optionQueries: '' });
 
-const baseUrl: (path: string) => (query: string) => string = getFetchURL(BASE_URL);
-const popularUrl: (query: string) => string = baseUrl(POPULAR_URL);
-const searchUrl: (query: string) => string = baseUrl(SEARCH_URL);
-
-export const getPopularUrl = ({ pageIndex }: BaseParams): string => {
-  const params = baseParams(pageIndex);
-
-  const baseQueriesString = convertQuerystring(params);
-  const baseQuires = getQuerieURL(baseQueriesString);
-
-  const popularQuries = baseQuires('');
-
-  return popularUrl(popularQuries);
-};
-
-export const getSearchUrl = ({ pageIndex, word }: SearchParams): string => {
-  const params = baseParams(pageIndex);
-
-  const baseQueriesString = convertQuerystring(params);
-  const baseQuires = getQuerieURL(baseQueriesString);
-
-  const searchValues = searchParams(word);
-  const searchQueriesString = convertQuerystring(searchValues);
-  const searchQuries = baseQuires(searchQueriesString);
-
-  return searchUrl(searchQuries);
+  return getFetchURL({ baseUrl: BASE_URL, path: detailPath(id), query: detailQuries });
 };

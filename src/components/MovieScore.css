@@ -1,0 +1,10 @@
+.modal-score {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-score span {
+  margin-left: 6px;
+  font-size: 1.6rem;
+}

@@ -1,10 +1,11 @@
 .item-title.skeleton::after,
-.item-score.skeleton::after {
+.skeleton-score.skeleton::after {
   font-size: 0;
   content: 'loading';
 }
 
 .item-card .skeleton {
+  width: 183px;
   border-radius: 8px;
   background: linear-gradient(-90deg, var(--silver), var(--gray), var(--silver), var(--gray));
   background-size: 400%;
@@ -12,10 +13,14 @@
 }
 
 .item-thumbnail {
-  width: 180px;
-  height: 270px;
+  width: 183px;
+  height: 273px;
   border-radius: 8px;
   background-size: contain;
+}
+
+.skeleton-score {
+  font-size: 1.8rem;
 }
 
 @keyframes skeleton-animation {
@@ -32,4 +37,29 @@
 
 .skeleton-hide {
   display: none;
+}
+
+.skeleton-list {
+  margin-top: 70px;
+}
+
+@media (max-width: 768px) {
+  .skeleton-list {
+    margin-top: 60px;
+  }
+}
+
+@media (max-width: 420px) {
+  .item-card .skeleton {
+    width: 140px;
+  }
+
+  .item-thumbnail {
+    width: 140px;
+    height: 220px;
+  }
+
+  .skeleton-list {
+    margin-top: 56px;
+  }
 }

@@ -1,27 +1,25 @@
 import './Header.css';
 import { $ } from '../utils/common';
-import { MovieConatainerInformation } from './MoviesContainer';
 import LOGO from '../image/logo.png';
 
 class Header extends HTMLElement {
-  connectedCallback() {
+  connectedCallback(): void {
     this.render();
     this.setLogoClickEvent();
   }
 
-  render() {
-    this.innerHTML = `
-    <header>
-      <h1 id="logo"><img src="${LOGO}" alt="MovieList 로고" /></h1>
+  render(): void {
+    this.innerHTML = /*html*/ `
+    <header id="movie-header-bar" class="movie-header">
+      <h1 id="logo" class="movie-logo"><img src="${LOGO}" alt="MovieList 로고" /></h1>
       <search-input></search-input>
     </header>`;
   }
 
-  setLogoClickEvent() {
+  setLogoClickEvent(): void {
     $('#logo')?.addEventListener('click', () => {
-      const movieContainer = $('movies-container') as MovieConatainerInformation;
-
-      movieContainer.setSearchWord('');
+      window.scrollTo(0, 0);
+      window.location.hash = '';
     });
   }
 }
