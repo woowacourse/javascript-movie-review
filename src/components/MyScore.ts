@@ -1,25 +1,17 @@
-import emptyStar from "../../templates/star_empty.png";
+import { SCORE_COMMENT, TOTAL_STAR_CNT } from "../constant/constant";
 
-export const SCORE_COMMENT: any = {
-  0: "별점을 입력해주세요",
-  2: "최악이예요",
-  4: "별로예요",
-  6: "보통이에요",
-  8: "재미있어요",
-  10: "명작이에요",
-};
-
-const MyScore = (target: any, movieId: number) => {
-  const score = (localStorage.getItem(String(movieId))) === null ? 0 : localStorage.getItem(String(movieId));
+const MyScore = (movieId: number) => {
+  const score: string = localStorage.getItem(String(movieId)) ?? "0";
 
   const create = () => {
-    console.log(emptyStar)
     return `
         <div class="my-score">내 별점</div>
         <div class="stars">
-        ${Array.from({ length: 5 }).map((_, index) => {
-      const IntScore = Number(score)
-      return index <= (IntScore / 2) - 1 ? `<img class="star" src="./star_filled.png" id=${index} />` : `<img class="star" src="./star_empty.png" id=${index} />`
+        ${Array.from({ length: TOTAL_STAR_CNT }).map((_, index) => {
+      const intScore = Number(score);
+      const filledStarCount = (intScore / 2) - 1;
+      return index <= filledStarCount ? `<img class="star" src="/star_filled.png" id=${index} />` :
+        `<img class="star" src="/star_empty.png" id=${index} />`
     }).join("")}
         </div>
         <div class="score-number">${score}</div>
@@ -28,12 +20,14 @@ const MyScore = (target: any, movieId: number) => {
   };
 
   const render = () => {
-    if (document.querySelector('.my-score-container')) {
-      return
-    }
+
     const myScore = document.createElement("div");
     myScore.classList.add("my-score-container");
     myScore.innerHTML = create();
+
+    const target = document.querySelector(".modal-info")
+    if (!target) return;
+
     target.appendChild(myScore);
 
     bindEvent()
@@ -43,45 +37,46 @@ const MyScore = (target: any, movieId: number) => {
     const starsList = document.querySelector(".stars");
     if (!starsList) return;
 
-    starsList.addEventListener("click", (e: any) => {
+    starsList.addEventListener("click", (e: Event) => {
       const target = e.target;
-      if (!target) return;
+      if (!(target instanceof HTMLElement)) return;
 
-      const index = Number(target.closest('.star').id)
+      const index = Number(target.closest('.star')?.id);
+      if (isNaN(index)) return;
+
       const newScore = `${(index + 1) * 2}`;
       updateInfo(index)
-      updateStar(index, Number(newScore))
-      localStorage.setItem(String(movieId), `${(index + 1) * 2
-        }`)
+      updateStar(Number(newScore))
+      localStorage.setItem(String(movieId), newScore)
+    });
 
-    })
 
   }
 
-  const updateInfo = (index: any) => {
+  const updateInfo = (index: number) => {
     const scoreNumber = document.querySelector('.score-number');
     const scoreText = document.querySelector('.score-text');
 
+    const newScore = `${(index + 1) * 2}`;
     if (!scoreNumber) return;
-    scoreNumber.textContent = `${(index + 1) * 2
-      }`;
+    scoreNumber.textContent = newScore;
 
     if (!scoreText) return;
-    const newScore = `${(index + 1) * 2}`;
     scoreText.textContent = `${SCORE_COMMENT[Number(newScore)]}`
   }
 
-  const updateStar = (index: number, newScore: number) => {
-    const stars = document.querySelectorAll(".star");
-    stars.forEach((star: any, starIndex: number) => {
-      if (starIndex <= (newScore / 2) - 1) {
-        star.src = "./star_filled.png"
+  const updateStar = (newScore: number) => {
+    const stars = document.querySelectorAll<HTMLImageElement>(".star");
+    stars.forEach((star, starIndex) => {
+      const filledStarCount = (newScore / 2) - 1;
+
+      if (starIndex <= filledStarCount) {
+        star.src = "./star_filled.png";
       } else {
-        star.src = "./star_empty.png"
+        star.src = "./star_empty.png";
       }
     });
   };
-
 
   render();
 }
