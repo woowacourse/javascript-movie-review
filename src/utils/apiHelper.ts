@@ -18,7 +18,7 @@ export const getApiData = async <T>(
 ): Promise<T | null> => {
   const fetchingData = await fetch(url + params);
 
-  if (fetchingData.status !== 200) return null;
+  if (!fetchingData.ok) return null;
 
   return fetchingData.json();
 };
