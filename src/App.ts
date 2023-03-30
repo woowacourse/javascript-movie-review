@@ -1,3 +1,4 @@
+import { MovieItemListType } from "./@types/movieType";
 import { getCurrentResult } from "./api/keywordSearch";
 import { getMovieDetail } from "./api/movieDetail";
 import { getPopularMovie } from "./api/movieList";
@@ -6,13 +7,14 @@ import MovieItemList from "./components/MovieItemList";
 import MyScore from "./components/MyScore";
 import SearchBox from "./components/SearchBox";
 import { convertToMovieDetailData, generateElement } from "./domain/MovieDataManager";
+import { CURRENT_TAB, MOVIE_DATA } from "./constant/constant";
 
-export const App = async () => {
+export const App = () => {
   const searchBox = SearchBox();
 
   const getMoreData = async (
     moreButton: Element,
-    movieItemList: any,
+    movieItemList: MovieItemListType,
     currentPage: number,
     getCurrentData: (page: number) => Promise<any>
   ) => {
@@ -36,45 +38,44 @@ export const App = async () => {
     io.observe(moreButton);
   };
 
-  const getMorePopularMovieResult = async (moreButton: Element, movieItemList: any) => {
-    let currentPage = 1;
+  const getMorePopularMovieResult = async (moreButton: Element, movieItemList: MovieItemListType) => {
     const getCurrentData = (page: number) => getPopularMovie(page);
-    await getMoreData(moreButton, movieItemList, currentPage, getCurrentData);
+    await getMoreData(moreButton, movieItemList, MOVIE_DATA.INITIAL_PAGE, getCurrentData);
   };
 
-  const getMoreSearchResult = async (moreButton: Element, movieItemList: any, keyword: string) => {
-    let currentPage = 1;
+  const getMoreSearchResult = async (moreButton: Element, movieItemList: MovieItemListType, keyword: string) => {
     const getCurrentData = (page: number) => getCurrentResult(keyword, page);
-    await getMoreData(moreButton, movieItemList, currentPage, getCurrentData);
+    await getMoreData(moreButton, movieItemList, MOVIE_DATA.INITIAL_PAGE, getCurrentData);
   };
 
   const showPopularMovies = async () => {
-    let popularMovieCurrentPage = 1;
-    const movieItemList = MovieItemList("POPULAR");
+    const movieItemList = MovieItemList(CURRENT_TAB.POPULAR);
 
-    const popularMovieData = await getPopularMovie(popularMovieCurrentPage);
+    const popularMovieData = await getPopularMovie(MOVIE_DATA.INITIAL_PAGE);
     if (!popularMovieData) return;
 
     const { results, total_pages } = popularMovieData.data;
     const currentPage = popularMovieData.currentPage;
 
-    popularMovieCurrentPage = currentPage;
+    const popularMovieCurrentPage = currentPage;
     const movieElement = generateElement(results);
     movieItemList.addMovies(movieElement, total_pages, popularMovieCurrentPage);
 
-    const moreButton = document.querySelector(".primary")!;
+    const moreButton = document.querySelector(".primary");
+    if (!moreButton) return;
+
     getMorePopularMovieResult(moreButton, movieItemList);
   };
 
   const showSearchResult = async () => {
     const keyword = searchBox.getKeyword();
-    const currentSearchMovieData = await getCurrentResult(keyword, 1);
+    const currentSearchMovieData = await getCurrentResult(keyword, MOVIE_DATA.INITIAL_PAGE);
     if (!currentSearchMovieData) return;
 
     const { results, total_pages } = currentSearchMovieData.data;
     const currentPage = currentSearchMovieData.currentPage;
     const searchResultElement = generateElement(results);
-    const movieItemList = MovieItemList("SEARCH", keyword);
+    const movieItemList = MovieItemList(CURRENT_TAB.SEARCH, keyword);
     movieItemList.addMovies(searchResultElement, total_pages, currentPage);
 
     const moreButton = document.querySelector(".primary")!;
@@ -99,10 +100,15 @@ export const App = async () => {
     const movieDetailData = convertToMovieDetailData(await getMovieDetail(movieId));
     MovieDetailModal(movieDetailData);
     const target = document.querySelector(".modal-info")
+    if (!target) return;
+
     MyScore(target, movieId);
   }
 
-  await showPopularMovies();
+  showPopularMovies();
+
+  document.querySelector(".logo")?.addEventListener("click", () =>
+    window.location.reload());
 
   document
     .querySelector(".search-input")
