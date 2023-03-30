@@ -11,25 +11,25 @@ const MovieChartActions = () => {
   const MovieListComponent = (props: MovieListProps) => {
     setComponentList(`#MovieList`, MovieList(props));
 
-    return '';
+    return;
   };
 
   const SkeletonMovieListComponent = () => {
     setComponentList(`#SkeletonList`, SkeletonMovieList({}));
 
-    return '';
+    return;
   };
 
   const ModalComponent = (props: ModalProps) => {
     setComponentList(`#Modal`, Modal(props));
 
-    return '';
+    return;
   };
 
   const ModalComponentNone = () => {
     setComponentList(`#Modal`, null);
 
-    return '';
+    return;
   };
   return { MovieListComponent, SkeletonMovieListComponent, ModalComponent, ModalComponentNone };
 };

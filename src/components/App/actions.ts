@@ -8,13 +8,13 @@ const AppActions = () => {
   const HeaderComponent = (props: HeaderProps) => {
     setComponentList('#Header', Header(props));
 
-    return '';
+    return;
   };
 
   const MovieChartComponent = (props: MovieChart) => {
     setComponentList('#MovieChart', MovieChart(props));
 
-    return '';
+    return;
   };
 
   return { HeaderComponent, MovieChartComponent };

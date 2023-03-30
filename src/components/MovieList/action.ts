@@ -7,7 +7,7 @@ const MovieListActions = () => {
   const MovieComponent = (props: MovieProps) => {
     setComponentList(`#Movie-${props.info.id}`, Movie(props));
 
-    return '';
+    return;
   };
   return { MovieComponent };
 };
