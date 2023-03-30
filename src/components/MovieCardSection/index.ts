@@ -12,6 +12,7 @@ import { $ } from '../../utils/dom';
 
 import './MovieCardSection.style.css';
 import ErrorMessage from '../common/ErrorMessage';
+import MovieCard from './MovieCard';
 
 const MovieCardSection = {
   observer: ScrollObserver.createObserver(),

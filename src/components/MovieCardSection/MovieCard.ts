@@ -49,23 +49,43 @@ const MovieCard = {
   paint(target: HTMLLIElement, item: AppMovie) {
     const { id, title, posterPath, rating } = item;
 
-    target.dataset.id = id.toString();
+    const itemThumbnail = target.querySelector<HTMLDivElement>('.item-thumbnail-container');
 
+    target.dataset.id = id.toString();
+    itemThumbnail?.insertAdjacentHTML('beforeend', MovieCard.imageTemplate(posterPath, title));
+
+    MovieCard.setEvent(target, title, rating);
+  },
+
+  handlePosterImage(path: string | null) {
+    return path === null ? posterNotFoundImage : IMAGE_URL + path;
+  },
+
+  setEvent(target: HTMLLIElement, title: string, rating: number) {
+    const posterImage = target.querySelector<HTMLImageElement>(`.${CLASS.ITEM_THUMBNAIL}`);
+
+    posterImage?.addEventListener('load', () => {
+      MovieCard.removeSkeleton(target);
+      MovieCard.paintMovieInfo(target, title, rating);
+    });
+  },
+
+  removeSkeleton(target: HTMLLIElement) {
     const itemThumbnail = target.querySelector<HTMLDivElement>('.item-thumbnail-container');
     const itemTitle = target.querySelector<HTMLParagraphElement>(`.${CLASS.ITEM_TITLE}`);
     const itemScore = target.querySelector<HTMLParagraphElement>(`.${CLASS.ITEM_SCORE}`);
-
-    itemThumbnail?.insertAdjacentHTML('beforeend', MovieCard.imageTemplate(posterPath, title));
-    itemTitle?.insertAdjacentText('beforeend', title);
-    itemScore?.insertAdjacentHTML('beforeend', MovieCard.scoreTemplate(rating));
 
     itemThumbnail?.classList.remove(CLASS.SKELETON);
     itemTitle?.classList.remove(CLASS.SKELETON);
     itemScore?.classList.remove(CLASS.SKELETON);
   },
 
-  handlePosterImage(path: string | null) {
-    return path === null ? posterNotFoundImage : IMAGE_URL + path;
+  paintMovieInfo(target: HTMLLIElement, title: string, rating: number) {
+    const itemTitle = target.querySelector<HTMLParagraphElement>(`.${CLASS.ITEM_TITLE}`);
+    const itemScore = target.querySelector<HTMLParagraphElement>(`.${CLASS.ITEM_SCORE}`);
+
+    itemTitle?.insertAdjacentText('beforeend', title);
+    itemScore?.insertAdjacentHTML('beforeend', MovieCard.scoreTemplate(rating));
   },
 };
 
