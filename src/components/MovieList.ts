@@ -26,6 +26,7 @@ export default class MovieList implements Component {
   #getMovieMetaData;
   #renderModal;
   #isLastPage;
+  #observer;
 
   constructor($parent: Element, renderModal: (movie: Movie) => void) {
     this.$element = document.createElement('section');
@@ -33,6 +34,7 @@ export default class MovieList implements Component {
     this.#getMovieMetaData = popularMovieDataFetchFuncGenerator();
     this.#renderModal = renderModal;
     this.#isLastPage = false;
+    this.#observer = new IntersectionObserver(this.infiniteScroll.bind(this), {threshold: 1});
 
     $parent.insertAdjacentElement('beforeend', this.$element);
   }
@@ -51,6 +53,8 @@ export default class MovieList implements Component {
 
   render(query?: string) {
     this.$element.innerHTML = this.template(query);
+
+    this.observeLastItem(this.#observer);
   }
 
   template(query?: string) {
@@ -59,7 +63,8 @@ export default class MovieList implements Component {
     <ul class="item-list"></ul> 
     <ul class="skeleton-item-list item-list hide">
       ${this.getSkeletonCardsHTML(20)}
-    </ul>`;
+    </ul>
+    <div id="end-list"></div>`;
   }
 
   renderMovieCards(movieList: Movie[]) {
@@ -121,5 +126,23 @@ export default class MovieList implements Component {
     this.hideSkeletonList();
     
     this.renderMovieCards(data.movieList);
+  }
+
+  observeLastItem(observer: IntersectionObserver) {
+    const lastItem = <Element>this.$element.querySelector('#end-list');
+
+    observer.observe(lastItem);
+  }
+
+  infiniteScroll(entries: IntersectionObserverEntry[], observer: IntersectionObserver) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        observer.unobserve(entry.target);
+
+        this.load();
+
+        this.observeLastItem(observer);
+      }
+    });
   }
 }
