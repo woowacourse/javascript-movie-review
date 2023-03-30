@@ -22,7 +22,7 @@ export const MovieItem = (movieInfo: CoreInfoType) => {
         <div class="item-card">
           ${thumbnail}
           <p class="item-title ">${title}</p>
-          <p class="item-score "><img src="./star_filled.png" alt="별점" /> ${voteAverage}</p>
+          <p class="item-score "><img src="/star_filled.png" alt="별점" /> ${voteAverage}</p>
         </div>
       </a>
     </li>

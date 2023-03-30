@@ -1,5 +1,4 @@
 import { DetailInfoType } from "../@types/movieType";
-import filledStar from "../../templates/star_filled.png";
 const MovieDetailModal = (movieDetailData: DetailInfoType) => {
   const { title, posterPath, voteAverage, genres, overview } = movieDetailData
 
