@@ -26,19 +26,16 @@ export default class App {
   initialRender() {
     this.#components.header.render();
     this.#components.movieList.render();
-    this.#components.movieList.load();
   }
 
   renderPopularMovieList() {
     this.#components.movieList.setPopularMovieDataFetchFunc();
     this.#components.movieList.render();
-    this.#components.movieList.load();
   }
 
   renderSearchedMovieList(query: string) {
     this.#components.movieList.setSearchedMovieDataFetchFunc(query);
     this.#components.movieList.render(query);
-    this.#components.movieList.load();
   }
 
   renderDetailsModal(movie: Movie) {

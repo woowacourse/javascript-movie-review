@@ -34,7 +34,7 @@ export default class MovieList implements Component {
     this.#getMovieMetaData = popularMovieDataFetchFuncGenerator();
     this.#renderModal = renderModal;
     this.#isLastPage = false;
-    this.#observer = new IntersectionObserver(this.infiniteScroll.bind(this), {threshold: 1});
+    this.#observer = new IntersectionObserver(this.infiniteScroll.bind(this), { threshold: 1 });
 
     $parent.insertAdjacentElement('beforeend', this.$element);
   }
@@ -53,6 +53,8 @@ export default class MovieList implements Component {
 
   render(query?: string) {
     this.$element.innerHTML = this.template(query);
+
+    this.load();
 
     this.observeLastItem(this.#observer);
   }
@@ -121,10 +123,10 @@ export default class MovieList implements Component {
       return;
     }
 
-    this.#isLastPage = (data.page === data.totalPages);
+    this.#isLastPage = data.page === data.totalPages;
 
     this.hideSkeletonList();
-    
+
     this.renderMovieCards(data.movieList);
   }
 
