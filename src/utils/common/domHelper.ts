@@ -15,8 +15,12 @@ export const getElement = (template: string) => {
   return root.firstElementChild;
 };
 
-export const replaceComponent = (element: Element | null, component: Element | null) => {
-  if (!element || !component || !element.parentNode) return;
-
-  element.replaceWith(component);
+export const replaceComponent = (rootComponent: Element, elemnetId: string, component: Element | null) => {
+  const element = $(elemnetId, rootComponent);
+  if (!element || !element.parentNode) return;
+  if (!component) {
+    element.parentNode.removeChild(element);
+    return;
+  }
+  element.parentNode.replaceChild(component, element);
 };

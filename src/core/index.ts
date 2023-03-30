@@ -24,6 +24,7 @@ interface Options<T = unknown> {
   componentList: [string, Element | null][];
   root: null | Element;
   rootComponent: null | ((props: Props<{}>) => Element | null);
+  postDOMTree: null | Element;
 }
 
 interface GetElement<T> {
@@ -42,6 +43,7 @@ function Core() {
     componentList: [],
     root: null,
     rootComponent: null,
+    postDOMTree: null,
   };
 
   function useState<S = undefined>(initialState?: S): [S, Dispatch<S>];
@@ -80,10 +82,11 @@ function Core() {
     const component = rootComponent?.({});
 
     if (!root || !component) return;
+    _replaceComponents(component);
     root.innerHTML = '';
     root.appendChild(component);
-    _replaceComponents();
 
+    options.postDOMTree = component;
     options.currentStateKey = 0;
     options.currentEffectsKey = 0;
 
@@ -95,10 +98,10 @@ function Core() {
     componentList.push([target, component]);
   };
 
-  const _replaceComponents = () => {
+  const _replaceComponents = (rootComponent: Element) => {
     const { componentList } = options;
     componentList.reverse().forEach(([target, component]) => {
-      replaceComponent($(target), component);
+      replaceComponent(rootComponent, target, component);
     });
 
     options.componentList = [];
@@ -107,6 +110,7 @@ function Core() {
   function render(rootComponent: Options['rootComponent'], root: Options['root']) {
     options.root = root;
     options.rootComponent = rootComponent;
+
     _render();
   }
 
