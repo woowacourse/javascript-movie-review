@@ -1,7 +1,7 @@
 import { assemble, Event, useState } from '../../core';
 import { getFormFields, isFormElement } from '../../utils/common/formData';
 import { isMobile } from '../../utils/common/responsive';
-import { getClosest, getElement, isHTMLElement, isHTMLInputElement } from './../../utils/common/domHelper';
+import { getClosest, getElement, isHTMLInputElement } from './../../utils/common/domHelper';
 import { $ } from './../../utils/common/domHelper';
 
 export interface HeaderProps {
@@ -10,6 +10,9 @@ export interface HeaderProps {
 
 const Header = assemble<HeaderProps>(({ handleKeyword }) => {
   const [keyword, setKeyword] = useState('');
+  const [isFirstLanding, setIsFirstLanding] = useState(true);
+  const mobileFirstLanding = isMobile && isFirstLanding;
+
   const $events: Event[] = [
     {
       event: 'submit',
@@ -19,15 +22,13 @@ const Header = assemble<HeaderProps>(({ handleKeyword }) => {
         const searchInput = $('.search-input');
 
         if (!isHTMLInputElement(searchInput) || !isFormElement(e.target)) return;
-        if (e.target === $('.search-form')) {
-          const fields = getFormFields(e.target, ['keyword']);
-          const keyword = fields['keyword'];
+        if (!(e.target === $('.search-form'))) return;
 
-          setKeyword(keyword);
-          handleKeyword(keyword);
+        const fields = getFormFields(e.target, ['keyword']);
+        const keyword = fields['keyword'];
 
-          searchInput.classList.add('hidden');
-        }
+        setKeyword(keyword);
+        handleKeyword(keyword);
       },
     },
     {
@@ -38,8 +39,7 @@ const Header = assemble<HeaderProps>(({ handleKeyword }) => {
         if (!getClosest(e.target, '.search-box')) return;
         if (!isHTMLInputElement(searchInput)) return;
 
-        searchInput.classList.remove('hidden');
-        searchInput.focus();
+        isFirstLanding && setIsFirstLanding(false);
       },
     },
   ];
@@ -49,8 +49,10 @@ const Header = assemble<HeaderProps>(({ handleKeyword }) => {
       <h1><a href="./"><img src="./logo.png" alt="MovieList 로고" /></a></h1>
       <div class="search-box">
         <form class="search-form">
-          <input class='search-input hidden' type="text" name="keyword" placeholder="검색" value="${keyword}" />
-          <button type=${isMobile ? 'button' : 'submit'} class="search-button">검색</button>
+          <input class='search-input ${mobileFirstLanding ? 'hidden' : ''}'
+          type="text" name="keyword" placeholder="검색" value="${keyword}" autofocus/>
+          <button type=${isFirstLanding ? 'button' : 'submit'} 
+          class="search-button">검색</button>
         </form>
       </div>
     </header>
