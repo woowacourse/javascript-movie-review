@@ -1,10 +1,15 @@
-import { Movie } from "../types/movie";
-import { fetchPopularMovieData, fetchSearchedMovieData } from "../api/index";
+import { Movie, MovieDetail, Star } from "../types/movie";
+import {
+  fetchDetailedMovieData,
+  fetchPopularMovieData,
+  fetchSearchedMovieData,
+} from "../api/index";
 
 class MovieList {
   private static instance: MovieList;
   private currentPage: number = 1;
   private searchKey: string = "";
+  private currentMovieId: number = 0;
 
   static getInstance(): MovieList {
     if (!MovieList.instance) {
@@ -23,8 +28,12 @@ class MovieList {
     this.currentPage += 1;
   }
 
+  setCurrentMovieId(newMovieId: number) {
+    this.currentMovieId = newMovieId;
+  }
+
   private async getPopularMovieData(): Promise<Movie[]> {
-    const moviesData: Movie[] = await fetchPopularMovieData(this.currentPage);
+    const moviesData = await fetchPopularMovieData(this.currentPage);
     this.increaseCurrentPage();
 
     const movies: Movie[] = moviesData.map((movie: Movie) => ({
@@ -38,7 +47,7 @@ class MovieList {
   }
 
   private async getSearchedMovieData(): Promise<Movie[]> {
-    const moviesData: Movie[] = await fetchSearchedMovieData(
+    const moviesData = await fetchSearchedMovieData(
       this.searchKey,
       this.currentPage
     );
@@ -54,10 +63,64 @@ class MovieList {
     return movies;
   }
 
+  async getDetailedMovieData(): Promise<MovieDetail> {
+    const movieData = await fetchDetailedMovieData(this.currentMovieId);
+
+    const movieDetail: MovieDetail = {
+      id: movieData.id,
+      title: movieData.title,
+      genres: movieData.genres,
+      overview: movieData.overview,
+      vote_average: Math.round(movieData.vote_average * 10) / 10,
+      poster_path: movieData.poster_path,
+    };
+
+    return movieDetail;
+  }
+
   async getMovieData(): Promise<Movie[]> {
     return this.searchKey !== ""
       ? await this.getSearchedMovieData()
       : await this.getPopularMovieData();
+  }
+
+  private getStars() {
+    return JSON.parse(localStorage.getItem("stars") as string) ?? [];
+  }
+
+  getStarCount() {
+    const stars = this.getStars();
+    const currentMovieStar = stars.find(
+      (star: Star) => star.id === this.currentMovieId
+    );
+
+    return !currentMovieStar ? 0 : currentMovieStar.count;
+  }
+
+  saveStar(count: number) {
+    const stars = this.getStars();
+    const star = stars.filter((star: Star) => star.id === this.currentMovieId);
+
+    star.length === 0 ? this.addStar(count) : this.modifyStar(count);
+  }
+
+  private modifyStar(count: number) {
+    const stars = this.getStars();
+    const modifiedStars = stars.map((star: Star) => {
+      if (star.id === this.currentMovieId) {
+        star.count = count;
+      }
+      return star;
+    });
+
+    localStorage.setItem("stars", JSON.stringify(modifiedStars));
+  }
+
+  private addStar(count: number) {
+    const stars = this.getStars();
+    const star = { id: this.currentMovieId, count: count };
+
+    localStorage.setItem("stars", JSON.stringify([...stars, star]));
   }
 }
 

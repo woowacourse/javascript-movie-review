@@ -8,7 +8,7 @@ const InvalidMessage = {
         <p>다른 키워드를 입력해 보세요.</p>
       </div>`;
 
-    $<HTMLElement>(".item-view").insertAdjacentHTML("afterbegin", template);
+    $<HTMLElement>(".item-list").insertAdjacentHTML("afterbegin", template);
   },
 
   renderErrorMessage: (statusCode: number) => {

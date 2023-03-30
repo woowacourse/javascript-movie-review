@@ -8,6 +8,10 @@ body {
   color: #fff;
 }
 
+body.no-scroll {
+  overflow: hidden;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -24,6 +28,7 @@ button {
 *:focus {
   outline: none;
 }
+
 .item-view,
 .item-test {
   width: 100%;
@@ -33,8 +38,10 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+
+  width: 1100px;
   margin: 0 auto;
+  transition: all 0.5s;
 }
 
 .item-view h2 {
@@ -43,14 +50,12 @@ button {
   user-select: none;
 }
 
-/* https://andrew.hedges.name/experiments/aspect_ratio/ */
-
 .item-list {
   display: grid;
   margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
   grid-row-gap: 48px;
+  justify-content: space-between;
 }
 
 .item-card {
@@ -59,6 +64,7 @@ button {
 }
 
 .item-thumbnail {
+  transition: all 0.5s;
   border-radius: 8px;
   width: 180px;
   height: 270px;
@@ -112,29 +118,18 @@ button.primary {
   border-radius: 8px;
 }
 
-@keyframes skeleton-animation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
 header {
-  width: 100%;
-  min-width: 1200px;
-  height: 72px;
-  background-color: #222;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
-  border-bottom: 1px solid white;
+
+  width: 100%;
+  height: 72px;
+
+  padding: 0 30px;
   margin-bottom: 48px;
+  background-color: #222;
+  border-bottom: 1px solid white;
 }
 
 header h1 {
@@ -150,6 +145,7 @@ header > .search-box {
   background: #fff;
   padding: 8px;
   border-radius: 4px;
+  transition: all 0.5s ease;
 }
 
 header .search-box > input {
@@ -183,4 +179,271 @@ header .search-box > #search-button {
 
 .placeholder-thumbnail {
   background-color: #3a3a3a;
+}
+
+.modal-backdrop {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.movie-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  max-width: 826px;
+  min-width: 327px;
+  max-height: 577px;
+
+  background-color: #212122;
+  transform: translate(-50%, -50%);
+}
+
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  top: 12px;
+  right: 10px;
+
+  border-radius: 50%;
+  border: 0;
+
+  font-size: 21px;
+  color: #f1f1f1;
+  background: #383839;
+}
+
+.modal-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 60px;
+
+  border-bottom: 1px solid rgba(241, 241, 241, 0.25);
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.modal-poster {
+  max-width: 35%;
+  max-height: 45%;
+}
+
+.modal-sub-container {
+  display: flex;
+  width: 90%;
+  margin: 30px;
+}
+
+.modal-text {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.modal-overview {
+  max-height: 300px;
+  overflow: scroll;
+  margin-bottom: 30px;
+}
+
+.modal-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  width: 100%;
+  margin-left: 20px;
+}
+
+.info-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.modal-score {
+  width: 26px;
+  height: 26px;
+  margin-right: 5px;
+}
+
+.modal-icon {
+  margin: 0 3px 0 15px;
+}
+
+.modal-score-box {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  height: 64px;
+
+  background: #383839;
+  border-radius: 16px;
+
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.modal-score-box > p.bold {
+  font-weight: 700;
+  font-size: 16px;
+  margin-right: 0.5rem;
+}
+
+.modal-score-box > a > p.normal {
+  font-weight: 400;
+  margin-left: 0.7rem;
+}
+
+.star-count {
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+}
+
+.scroll-up {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  bottom: 1rem;
+  right: 1rem;
+
+  border-radius: 50%;
+  border: 0;
+
+  font-size: 21px;
+  color: #f1f1f1;
+  background: #383839;
+}
+
+@keyframes skeleton-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@media only screen and (min-width: 800px) and (max-width: 1199px) {
+  .item-view {
+    width: 800px;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+  }
+}
+
+@media only screen and (min-width: 450px) and (max-width: 799px) {
+  .item-view {
+    width: 400px;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(2, 180px);
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .modal-poster {
+    display: none;
+  }
+
+  .movie-modal {
+    transform: translate(-50%, 0%);
+  }
+
+  .modal-overview {
+    max-height: 100px;
+  }
+
+  .modal-info-container {
+    margin-left: 0px;
+  }
+}
+
+@media only screen and (max-width: 449px) {
+  header {
+    width: 100vw;
+  }
+
+  .item-view {
+    width: auto;
+  }
+
+  .item-view h2 {
+    margin-left: 2rem;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(2, 180px);
+    grid-row-gap: 30px;
+  }
+
+  .item-card {
+    align-items: center;
+  }
+
+  .item-thumbnail {
+    width: 140px;
+    height: 220px;
+  }
+
+  .item-title {
+    font-size: 16px;
+    width: 140px;
+  }
+
+  .item-score {
+    font-size: 16px;
+    align-self: start;
+    margin-left: 1.2rem;
+  }
+
+  header > .search-box {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 20px;
+    right: 25px;
+
+    width: 35px;
+  }
+
+  header .search-box > input {
+    width: 0px;
+  }
+
+  header > .search-box:hover {
+    width: 365px;
+  }
+
+  header > .search-box:hover > input {
+    transition: all 0.7s ease;
+    width: 200px;
+  }
+
+  .modal-score-box > a > p.normal {
+    display: none;
+  }
 }

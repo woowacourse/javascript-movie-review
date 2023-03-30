@@ -1,5 +1,5 @@
+import MovieItem from "./components/MovieItem";
 import MovieListContainer from "./components/MovieListContainer";
-import MovieListContent from "./components/MovieListContent";
 import NavBar from "./components/NavBar";
 import { $ } from "./utils/domSelector";
 
@@ -7,7 +7,7 @@ class App {
   constructor() {
     this.render();
     this.initEvents();
-    MovieListContent.loadMovies();
+    this.setScrollObserver();
   }
 
   async render() {
@@ -19,8 +19,26 @@ class App {
   }
 
   initEvents() {
-    NavBar.onSubmit();
-    MovieListContainer.onClick();
+    NavBar.bindSubmitEvent();
+    MovieListContainer.bindClickEvent();
+  }
+
+  setScrollObserver() {
+    const observer = new IntersectionObserver(
+      (entry) => {
+        const [targetElement] = entry;
+
+        if (targetElement.isIntersecting) {
+          MovieListContainer.onScroll();
+        }
+        MovieItem.removeSkeleton();
+      },
+      {
+        root: document.querySelector("#scrollArea"),
+      }
+    );
+
+    observer.observe($<HTMLDivElement>("#movie-list-end"));
   }
 }
 
