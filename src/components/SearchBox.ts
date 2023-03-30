@@ -61,10 +61,13 @@ class SearchBox {
 
     if (width > SCREEN_MOBILE_WIDTH) return;
 
-    this.$searchBoxLayout.classList.remove('width-full');
-    this.$input.classList.remove('width-full');
-    this.$searchBoxLayout.classList.add('width-zero');
-    this.$input.classList.add('width-zero');
+    setTimeout(() => {
+      this.$searchBoxLayout.classList.remove('width-full');
+      this.$input.classList.remove('width-full');
+      this.$searchBoxLayout.classList.add('width-zero');
+      this.$input.classList.add('width-zero');
+    }, 500);
+
     this._node.dispatchEvent(new CustomEvent('leaveSearchIcon', { bubbles: true }));
   }
 
