@@ -87,7 +87,6 @@ const MovieCardSection = {
           : await MovieApi.getSearchedMovies({ query: movieStates.getQuery(), page: movieStates.getPage() });
       const movies = convertToAppMovies(results);
 
-      movieStates.add(movies);
       movieStates.setTotalPages(totalPages);
 
       return movies;
