@@ -47,10 +47,11 @@
 .item-thumbnail-container {
   border-radius: 8px;
   width: 140px;
-  height: 270px;
+  height: 210px;
 }
 
 .item-thumbnail {
+  width: 140px;
   border-radius: 8px;
   background-size: contain;
 }
