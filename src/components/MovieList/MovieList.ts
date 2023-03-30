@@ -56,7 +56,7 @@ export default class MovieList implements Component {
     const header = query ? headerTemplate.search(query) : headerTemplate.popular;
 
     return /* html */ `
-    <h2>${header}</h2>     
+    <h2 class="list-title">${header}</h2>     
     <ul class="item-list"></ul> 
     <ul class="skeleton-item-list item-list hide">
       ${this.getSkeletonCardsHTML(20)}

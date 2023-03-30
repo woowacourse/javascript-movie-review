@@ -15,7 +15,7 @@
   margin: 0 auto;
 }
 
-.item-view h2 {
+.item-view .list-title {
   font-size: 2rem;
   font-weight: bold;
   user-select: none;
@@ -65,7 +65,7 @@
     margin: 48px 0;
   }
 
-  .item-view h2 {
+  .item-view .list-title {
     font-size: 1.8rem;
   }
 }
