@@ -113,6 +113,7 @@
 
 .rating {
   display: flex;
+  flex-direction: row-reverse;
   margin-top: auto;
   margin-bottom: auto;
 }
@@ -127,12 +128,13 @@
   height: 24px;
   overflow: hidden;
   cursor: pointer;
-  background: url('../assets/star_filled.png');
+  background: url('../assets/star_empty.png');
 }
 
-.rating:not(:hover) input:checked ~ input + label,
-.rating input:hover ~ input + label {
-  background: url('../assets/star_empty.png');
+.rating input:checked ~ label,
+.rating label:hover,
+.rating label:hover ~ label {
+  background: url('../assets/star_filled.png');
 }
 
 @media (max-width: 1280px) {

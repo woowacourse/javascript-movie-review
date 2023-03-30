@@ -62,16 +62,17 @@ export default class MovieDetailsModal implements Component {
       <div class="movie-user-rating">
         <p>내 별점</p>
         <div class="rating">
-          <input type="radio" id="rating1" name="rating" value="2" >
-          <label for="rating1"></label>
-          <input type="radio" id="rating2" name="rating" value="4" >
-          <label for="rating2"></label>
-          <input type="radio" id="rating3" name="rating" value="6" >
-          <label for="rating3"></label>
-          <input type="radio" id="rating4" name="rating" value="8" >
-          <label for="rating4"></label>
           <input type="radio" id="rating5" name="rating" value="10" >
           <label for="rating5"></label>
+          <input type="radio" id="rating4" name="rating" value="8" >
+          <label for="rating4"></label>
+          <input type="radio" id="rating3" name="rating" value="6" >
+          <label for="rating3"></label>
+          <input type="radio" id="rating2" name="rating" value="4" >
+          <label for="rating2"></label>
+          <input type="radio" id="rating1" name="rating" value="2" >
+          <label for="rating1"></label>
+
         </div>
         <p id="rating-number">0</p>
         <p id="rating-comment">${RATING_COMMENTS[0]}</p>
