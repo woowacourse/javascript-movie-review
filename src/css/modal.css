@@ -135,7 +135,7 @@
   background: url('../assets/star_empty.png');
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1280px) {
   .modal-container {
     padding: 12px;
     width: 90%;

@@ -184,7 +184,7 @@ header .search-box > .search-button {
   background-size: contain;
 }
 
-@media (max-width: 1279px) {
+@media (max-width: 1280px) {
   .item-view {
     padding: 32px;
   }
