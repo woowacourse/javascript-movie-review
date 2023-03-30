@@ -25,26 +25,28 @@ const MovieSearch = {
   setEvent() {
     const movieSearchForm = $<HTMLFormElement>(`#${ID.MOVIE_SEARCH_FORM}`);
 
-    movieSearchForm.addEventListener('submit', (event) => {
-      event.preventDefault();
+    movieSearchForm.addEventListener('submit', MovieSearch.onSubmit);
+  },
 
-      if (!(event.target instanceof HTMLFormElement)) return;
+  onSubmit(event: SubmitEvent) {
+    event.preventDefault();
 
-      const searchInput: HTMLInputElement = event.target.q;
-      const query = searchInput.value;
+    if (!(event.target instanceof HTMLFormElement)) return;
 
-      if (query.trim().length === 0) {
-        MovieSearch.handleError(searchInput, SEARCH_ERROR_MESSAGE.EMPTY.error);
-        return;
-      }
+    const searchInput: HTMLInputElement = event.target.q;
+    const query = searchInput.value;
 
-      if (movieStates.isCurrentQuery(query)) {
-        MovieSearch.handleError(searchInput, SEARCH_ERROR_MESSAGE.EMPTY.error);
-        return;
-      }
+    if (query.trim().length === 0) {
+      MovieSearch.handleError(searchInput, SEARCH_ERROR_MESSAGE.EMPTY.error);
+      return;
+    }
 
-      MovieCardSection.render(query);
-    });
+    if (movieStates.isCurrentQuery(query)) {
+      MovieSearch.handleError(searchInput, SEARCH_ERROR_MESSAGE.EMPTY.error);
+      return;
+    }
+
+    MovieCardSection.render(query);
   },
 
   handleError(target: HTMLInputElement, message: string) {

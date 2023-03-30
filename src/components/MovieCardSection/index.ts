@@ -1,6 +1,7 @@
 import MovieCardList from './MovieCardList';
 import MovieSectionTitle from './MovieSectionTitle';
 import ScrollObserver from './ScrollObserver';
+import ErrorMessage from '../common/ErrorMessage';
 
 import { convertToAppMovies } from '../../domain/util';
 
@@ -11,8 +12,6 @@ import movieStates from '../../states/movies';
 import { $ } from '../../utils/dom';
 
 import './MovieCardSection.style.css';
-import ErrorMessage from '../common/ErrorMessage';
-import MovieCard from './MovieCard';
 
 const MovieCardSection = {
   observer: ScrollObserver.createObserver(),

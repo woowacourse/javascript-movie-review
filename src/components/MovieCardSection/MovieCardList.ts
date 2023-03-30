@@ -26,20 +26,22 @@ const MovieCardList = {
   setEvent() {
     const movieCardList = $<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
 
-    movieCardList.addEventListener('click', async (event) => {
-      if (!(event.target instanceof HTMLElement)) return;
+    movieCardList.addEventListener('click', MovieCardList.onClick);
+  },
 
-      const movieItem = event.target.closest('li');
-      const movieId = movieItem?.dataset.id;
+  async onClick(event: Event) {
+    if (!(event.target instanceof HTMLElement)) return;
 
-      if (!movieId) return;
+    const movieItem = event.target.closest('li');
+    const movieId = movieItem?.dataset.id;
 
-      const movieDetail = await MovieCardList.getMovieDetail(movieId);
+    if (!movieId) return;
 
-      if (!movieDetail) return;
+    const movieDetail = await MovieCardList.getMovieDetail(movieId);
 
-      MovieDetailModal.open(movieDetail);
-    });
+    if (!movieDetail) return;
+
+    MovieDetailModal.open(movieDetail);
   },
 
   async getMovieDetail(movieId: string): Promise<MovieDetail | undefined> {

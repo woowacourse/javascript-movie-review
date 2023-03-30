@@ -48,7 +48,6 @@ const MovieDetailModal = {
     const modalCloseButton = $<HTMLButtonElement>('.modal-close-button');
 
     modalCloseButton.addEventListener('click', Modal.close);
-
     UserRatingButtonList.setEvent();
   },
 

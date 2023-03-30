@@ -3,7 +3,6 @@ import UserRatingButton from './UserRatingButton';
 
 import { $ } from '../../utils/dom';
 import { USER_RATING_MESSAGE } from '../../constants/message';
-import MovieDetailModal from '.';
 import ratedMovieStates from '../../states/ratedMovies';
 
 const UserRatingButtonList = {
@@ -22,20 +21,24 @@ const UserRatingButtonList = {
     const userRatingButtons = $<HTMLDivElement>('.user-rating-buttons');
 
     userRatingButtons.addEventListener('click', (event) => {
-      if (!(event.target instanceof HTMLElement)) return;
-
-      const {
-        value: score,
-        dataset: { desc },
-      } = event.target.closest('button') as HTMLButtonElement;
-
-      if (!desc) return;
-
-      UserRatingButtonList.render(Number(score));
-      UserRating.renderRating(score, desc);
-
-      ratedMovieStates.update({ id: Number(movieId), score, desc });
+      UserRatingButtonList.onClick(event, movieId as string);
     });
+  },
+
+  onClick(event: Event, movieId: string) {
+    if (!(event.target instanceof HTMLElement)) return;
+
+    const {
+      value: score,
+      dataset: { desc },
+    } = event.target.closest('button') as HTMLButtonElement;
+
+    if (!desc) return;
+
+    UserRatingButtonList.render(Number(score));
+    UserRating.renderRating(score, desc);
+
+    ratedMovieStates.update({ id: Number(movieId), score, desc });
   },
 
   render(targetScore: number) {

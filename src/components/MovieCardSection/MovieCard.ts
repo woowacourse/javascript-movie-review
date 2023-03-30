@@ -71,13 +71,11 @@ const MovieCard = {
   },
 
   removeSkeleton(target: HTMLLIElement) {
-    const itemThumbnail = target.querySelector<HTMLDivElement>('.item-thumbnail-container');
-    const itemTitle = target.querySelector<HTMLParagraphElement>(`.${CLASS.ITEM_TITLE}`);
-    const itemScore = target.querySelector<HTMLParagraphElement>(`.${CLASS.ITEM_SCORE}`);
+    const skeletonContainers = target.querySelectorAll(`.${CLASS.SKELETON}`);
 
-    itemThumbnail?.classList.remove(CLASS.SKELETON);
-    itemTitle?.classList.remove(CLASS.SKELETON);
-    itemScore?.classList.remove(CLASS.SKELETON);
+    skeletonContainers.forEach((container) => {
+      container.classList.remove(CLASS.SKELETON);
+    });
   },
 
   paintMovieInfo(target: HTMLLIElement, title: string, rating: number) {
