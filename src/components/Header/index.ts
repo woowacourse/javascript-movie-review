@@ -1,7 +1,7 @@
 import { assemble, Event, useState } from '../../core';
 import { getFormFields, isFormElement } from '../../utils/common/formData';
 import { isMobile } from '../../utils/common/responsive';
-import { getClosest, getElement, isHTMLElement } from './../../utils/common/domHelper';
+import { getClosest, getElement, isHTMLElement, isHTMLInputElement } from './../../utils/common/domHelper';
 import { $ } from './../../utils/common/domHelper';
 
 export interface HeaderProps {
@@ -15,22 +15,31 @@ const Header = assemble<HeaderProps>(({ handleKeyword }) => {
       event: 'submit',
       callback(e) {
         e.preventDefault();
-        if (e.target && e.target === $('.search-form') && isFormElement(e.target)) {
-          const fields = getFormFields(e.target, ['keyword']);
 
-          setKeyword(fields['keyword']);
-          handleKeyword(fields['keyword']);
-          $('.search-input')?.classList.add('hidden');
+        const searchInput = $('.search-input');
+
+        if (!isHTMLInputElement(searchInput) || !isFormElement(e.target)) return;
+        if (e.target === $('.search-form')) {
+          const fields = getFormFields(e.target, ['keyword']);
+          const keyword = fields['keyword'];
+
+          setKeyword(keyword);
+          handleKeyword(keyword);
+
+          searchInput.classList.add('hidden');
         }
       },
     },
     {
       event: 'click',
       callback(e) {
-        if (getClosest(e.target, '.search-box')) {
-          $('.search-input')?.classList.remove('hidden');
-          ($('.search-input') as HTMLInputElement).focus();
-        }
+        const searchInput = $('.search-input');
+
+        if (!getClosest(e.target, '.search-box')) return;
+        if (!isHTMLInputElement(searchInput)) return;
+
+        searchInput.classList.remove('hidden');
+        searchInput.focus();
       },
     },
   ];

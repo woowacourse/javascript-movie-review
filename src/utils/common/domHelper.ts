@@ -15,7 +15,8 @@ export const getElement = (template: string) => {
   return root.firstElementChild;
 };
 
-export const isHTMLElement = (target: Element): target is HTMLElement => target instanceof HTMLElement;
+export const isHTMLElement = (target: unknown): target is HTMLElement => target instanceof HTMLElement;
+export const isHTMLInputElement = (target: unknown): target is HTMLInputElement => target instanceof HTMLInputElement;
 
 export const getClosest = (target: Element | EventTarget | null, selector: string) => {
   if (!(target instanceof Element)) return null;
