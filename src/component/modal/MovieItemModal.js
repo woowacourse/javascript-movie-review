@@ -7,7 +7,11 @@ import {
 } from "../../constant/movieConstants";
 import MovieManager from "../../domain/MovieManager";
 import { $, $$ } from "../../util/dom";
-import { getData, saveData } from "../../util/localStorage";
+import {
+  deleteItemData as deleteItemData,
+  getData,
+  saveData,
+} from "../../util/localStorage";
 import CustomElement from "../basic/CustomElement";
 
 class MovieItemModal extends CustomElement {
@@ -78,13 +82,10 @@ class MovieItemModal extends CustomElement {
       $element.addEventListener("click", () => {
         this.closeModal();
       });
-
-    $(".backdrop").addEventListener("click", () => {
-      this.closeModal();
     });
 
     window.addEventListener("keyup", (e) => {
-      if (e.key === "Escape") {
+      if (["Escape", "backspace"].includes(e.key)) {
         this.closeModal();
       }
     });
@@ -105,20 +106,34 @@ class MovieItemModal extends CustomElement {
       }
 
       this.rerenderUserRate(targetRate);
-      saveData(USER_RATE_STORAGE_KEY, { [this.#movieId]: targetRate });
     });
   }
 
   rerenderUserRate(rate) {
+    const selected = Number($(".user-rate-number").innerText) / RATE_RANGE;
+
+    if (selected === rate) {
+      this.resetUserRate();
+      return;
+    }
+
     $(".user-rate-number").innerText = rate * RATE_RANGE;
     $(".user-rate-caption").innerText = RateCaption[rate];
     this.rerenderStars(rate);
+    saveData(USER_RATE_STORAGE_KEY, { [this.#movieId]: rate });
   }
 
   rerenderStars(rate) {
     $$(".user-rate-star").forEach(($star, index) => {
       $star.src = index < rate ? ImgSrc.FULL_STAR : ImgSrc.EMPTY_STAR;
     });
+  }
+
+  resetUserRate() {
+    $(".user-rate-number").innerText = "";
+    $(".user-rate-caption").innerText = "";
+    this.rerenderStars(0);
+    deleteItemData(USER_RATE_STORAGE_KEY, this.#movieId);
   }
 }
 

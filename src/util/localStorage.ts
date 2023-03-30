@@ -15,3 +15,9 @@ export const getData = (key: string) => {
     return JSON.parse(data);
   }
 };
+
+export const deleteItemData = (key: string, itemId: string) => {
+  const originalData = getData(key);
+  delete originalData[itemId];
+  localStorage.setItem(key, JSON.stringify(originalData));
+};
