@@ -54,7 +54,7 @@ const MovieDetailModal = (movieDetailData: DetailInfoType) => {
     };
 
     const onKeydown = (e: KeyboardEvent) => {
-      if (e.keyCode === 27) {
+      if (e.code === "Escape") {
         onCloseClick();
         document.removeEventListener('keydown', onKeydown);
       }
