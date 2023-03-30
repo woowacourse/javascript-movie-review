@@ -13,24 +13,20 @@ export default class MovieSearchList extends MovieList {
   }
 
   searchFirstQuery(query: string) {
-    const { search } = cacheHook;
-
     if (this.state.getValue('query') === query) return;
 
     this.state.setValue('searchPage', 1);
     this.state.setValue('query', query);
 
-    search.reset();
+    cacheHook('searchPage').reset();
   }
 
   async getSearchMovies(query: string) {
-    const { search } = cacheHook;
-
     if (!this.state.getValue('isSearched')) return;
 
     this.searchFirstQuery(query);
 
-    search.store(this.state.getValue('searchPage'));
+    cacheHook('searchPage').store(this.state.getValue('searchPage'));
 
     this.state.setValue('isLoading', true);
     this.state.setValue('movies', []);

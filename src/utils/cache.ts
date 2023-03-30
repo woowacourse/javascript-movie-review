@@ -8,32 +8,18 @@ export const cache: CacheType = {
   searchPage: new Set(),
 };
 
-export const cacheHook = {
-  popular: {
+export const cacheHook = (page: 'searchPage' | 'popularPage') => {
+  return {
     reset: () => {
-      cache.popularPage = new Set();
+      cache[page] = new Set();
     },
 
-    store: (page: number) => {
-      cache.popularPage.add(page);
+    store: (targetPage: number) => {
+      cache[page].add(targetPage);
     },
 
-    has: (page: number) => {
-      return cache.popularPage.has(page);
+    has: (targetPage: number) => {
+      return cache[page].has(targetPage);
     },
-  },
-
-  search: {
-    reset: () => {
-      cache.searchPage = new Set();
-    },
-
-    store: (page: number) => {
-      cache.searchPage.add(page);
-    },
-
-    has: (page: number) => {
-      return cache.searchPage.has(page);
-    },
-  },
+  };
 };

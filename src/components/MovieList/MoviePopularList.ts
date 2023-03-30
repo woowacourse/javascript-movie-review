@@ -12,11 +12,9 @@ export default class MoviePopularList extends MovieList {
   }
 
   async getPopularMovies() {
-    const { popular } = cacheHook;
-
     if (this.state.getValue('isSearched')) return;
 
-    popular.store(this.state.getValue('popularPage'));
+    cacheHook('popularPage').store(this.state.getValue('popularPage'));
 
     this.state.setValue('isLoading', true);
     this.state.emit();

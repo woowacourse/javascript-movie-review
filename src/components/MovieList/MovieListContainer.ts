@@ -46,9 +46,11 @@ export default class MovieListContainer extends Component {
   }
 
   render() {
-    const { popular } = cacheHook;
-
-    if (popular.has(this.state.getValue('popularPage'))) return;
+    if (
+      cacheHook('popularPage').has(this.state.getValue('popularPage')) ||
+      cacheHook('searchPage').has(this.state.getValue('searchPage'))
+    )
+      return;
 
     if (this.state.getValue('isError')) {
       this.$target.innerHTML = `<div class="error-message"> 요청하신 정보를 찾을 수 없습니다. </div>`;
@@ -62,11 +64,9 @@ export default class MovieListContainer extends Component {
   }
 
   setInfinityScrollEvent() {
-    const { popular, search } = cacheHook;
-
     if (
-      popular.has(this.state.getValue('popularPage')) ||
-      search.has(this.state.getValue('searchPage'))
+      cacheHook('popularPage').has(this.state.getValue('popularPage')) ||
+      cacheHook('searchPage').has(this.state.getValue('searchPage'))
     )
       return;
 
