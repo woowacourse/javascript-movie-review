@@ -41,9 +41,17 @@ class MovieDetail {
       if (className !== 'star') return;
 
       const $stars = document.querySelectorAll(`.${className}`);
-      for (let i = 0; i < Number(score); i++) {
-        $stars[i].src = star_filled;
-      }
+      [...$stars].forEach(($star, index) => {
+        if (index < Number(score)) {
+          $star.src = star_filled;
+          $star.alt = star_filled;
+        } else {
+          $star.src = star_empty;
+          $star.alt = star_empty;
+        }
+      });
+
+      document.querySelector('.review-score').innerText = score * 2;
 
       const movieId = this.$modal.id;
 
@@ -112,7 +120,7 @@ class MovieDetail {
                 }, '')}
               </div>
               <div>
-                <span>0</span>
+                <span class="review-score">${reviewScore * 2}</span>
               </div>
             </div>
           </div>
