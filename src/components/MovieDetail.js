@@ -35,6 +35,20 @@ class MovieDetail {
         this.close();
       }
     });
+
+    this.$modal.addEventListener('click', ({ target }) => {
+      const { id: score, className } = target;
+      if (className !== 'star') return;
+
+      const $stars = document.querySelectorAll(`.${className}`);
+      for (let i = 0; i < Number(score); i++) {
+        $stars[i].src = star_filled;
+      }
+
+      const movieId = this.$modal.id;
+
+      document.dispatchEvent(new CustomEvent('updateReviewScore', { detail: { movieId, score } }));
+    });
   }
 
   open(movie) {
@@ -48,7 +62,7 @@ class MovieDetail {
     this.$modal.classList.add('hidden');
   }
 
-  getTemplate({ genres, title, overview, poster_path, vote_average }) {
+  getTemplate({ genres, title, overview, poster_path, vote_average, reviewScore }) {
     const template = `
       <div class="movie-detail">
         <div class="movie-detail-top">
@@ -86,11 +100,16 @@ class MovieDetail {
                 <span>내 별점</span>
               </div>
               <div>
-                <img src=${star_empty} alt=${star_empty}/>
-                <img src=${star_empty} alt=${star_empty}/>
-                <img src=${star_empty} alt=${star_empty}/>
-                <img src=${star_empty} alt=${star_empty}/>
-                <img src=${star_empty} alt=${star_empty}/>
+                ${Array.from({ length: 5 }).reduce((starImages, _, index) => {
+                  const id = index + 1;
+
+                  const starImg =
+                    id <= reviewScore
+                      ? `<img id=${id} class="star" src=${star_filled} alt=${star_filled}/>`
+                      : `<img id=${id} class="star" src=${star_empty} alt=${star_empty}/>`;
+
+                  return starImages + starImg;
+                }, '')}
               </div>
               <div>
                 <span>0</span>

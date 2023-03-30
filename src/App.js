@@ -3,6 +3,7 @@ import Movie from './domain/Movie';
 import Header from './components/Header';
 import MovieView from './components/MovieView';
 import MovieDetail from './components/MovieDetail';
+import store from './utils/localStorage';
 
 const pageCounter = (firstPage) => {
   let page = firstPage;
@@ -17,7 +18,9 @@ class App {
   movieView;
   movieDetail;
 
-  page;
+  reviewScore;
+
+  page = pageCounter(0);
   query = null;
   isLoading = false;
 
@@ -36,7 +39,7 @@ class App {
     this.movieView = new MovieView(this.$main);
     this.movieDetail = new MovieDetail($target);
 
-    this.page = pageCounter(1);
+    this.reviewScore = store.getLocalStorage('woowa-movie-review-app') || {};
 
     this.updateMovieView();
   }
@@ -61,11 +64,22 @@ class App {
       const { data, isError } = await this.movie.getMovieById(id);
       if (isError) return;
 
-      this.movieDetail.open(data);
+      const reviewScore = this.reviewScore[data.id] || 0;
+
+      this.movieDetail.open({ ...data, reviewScore });
+    });
+
+    document.addEventListener('updateReviewScore', ({ detail: { movieId, score } }) => {
+      this.reviewScore[movieId] = score;
+
+      store.setLocalStorage('woowa-movie-review-app', this.reviewScore);
     });
   }
 
   async updateMovieView() {
+    if (this.isLoading) return;
+
+    this.isLoading = true;
     this.movieView.showSkeleton();
 
     const { isError, data } = await this.movie.getMovies(this.query, this.page());
@@ -77,6 +91,7 @@ class App {
     }
 
     this.movieView.hideSkeleton();
+    this.isLoading = false;
   }
 }
 

@@ -434,3 +434,7 @@ header .search-box > .search-button {
 .movie-assessment > div:nth-child(2) {
   margin: 0 15px;
 }
+
+.star {
+  cursor: pointer;
+}
