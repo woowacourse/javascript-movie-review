@@ -11,7 +11,7 @@ import { CURRENT_TAB, MOVIE_DATA } from "./constant/constant";
 export const App = () => {
   const searchBox = SearchBox();
 
-  const getMoreData = async (
+  const loadMoreData = async (
     moreButton: Element,
     movieItemList: MovieItemListType,
     currentPage: number,
@@ -20,16 +20,27 @@ export const App = () => {
     const io = new IntersectionObserver(async (entries) => {
       entries.forEach(async entry => {
         if (entry.isIntersecting) {
-          try {
-            currentPage++;
-            const currentData = await getCurrentData(currentPage);
-            if (!currentData) return;
+          const MAX_RETRY = 3; // 최대 재시도 횟수
+          let currentRetry = 0; // 현재 재시도 횟수
+          while (true) {
+            try {
+              currentPage++;
+              const currentData = await getCurrentData(currentPage);
+              if (!currentData) {
+                throw new Error('데이터를 불러올 수 없습니다!!');
+              }
 
-            const { results, total_pages } = currentData.data;
-            const searchResultElement = generateElement(results);
-            movieItemList.addMovies(searchResultElement, total_pages, currentPage);
-          } catch (error) {
-            window.alert(error);
+              const { results, total_pages } = currentData.data;
+              const searchResultElement = generateElement(results);
+              movieItemList.addMovies(searchResultElement, total_pages, currentPage);
+              break;
+            } catch (error: any) {
+              if (currentRetry >= MAX_RETRY) {
+                window.alert(error.message);
+                break;
+              }
+              currentRetry++;
+            }
           }
         }
       })
@@ -37,14 +48,15 @@ export const App = () => {
     io.observe(moreButton);
   };
 
+
   const getMorePopularMovieResult = async (moreButton: Element, movieItemList: MovieItemListType) => {
-    const getCurrentData = (page: number) => getPopularMovie(page);
-    await getMoreData(moreButton, movieItemList, MOVIE_DATA.INITIAL_PAGE, getCurrentData);
+    const currentPopularMovieData = (page: number) => getPopularMovie(page);
+    await loadMoreData(moreButton, movieItemList, MOVIE_DATA.INITIAL_PAGE, currentPopularMovieData);
   };
 
   const getMoreSearchResult = async (moreButton: Element, movieItemList: MovieItemListType, keyword: string) => {
-    const getCurrentData = (page: number) => getCurrentResult(keyword, page);
-    await getMoreData(moreButton, movieItemList, MOVIE_DATA.INITIAL_PAGE, getCurrentData);
+    const CurrentSearchData = (page: number) => getCurrentResult(keyword, page);
+    await loadMoreData(moreButton, movieItemList, MOVIE_DATA.INITIAL_PAGE, CurrentSearchData);
   };
 
   const showPopularMovies = async () => {
