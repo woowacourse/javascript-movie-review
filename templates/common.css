@@ -374,6 +374,7 @@ movie-modal {
   background: #212122;
   width: auto;
   height: auto;
+  position: absolute;
 }
 
 .movie-modal-header {

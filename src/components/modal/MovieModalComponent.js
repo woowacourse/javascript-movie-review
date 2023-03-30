@@ -3,6 +3,7 @@ import SelectVoteScoreComponent from "./SelectVoteScoreComponent";
 import StarFilledImg from "../../../templates/star_filled.png";
 import ModalCloseButtonImg from "../../../templates/close.png";
 import { fetchMovieDetails } from "../../util/Api";
+import { ANIMATED_TIME } from "../../constants/constants";
 
 export default class MovieModalComponent extends CustomAsyncComponent {
   #state = {};
@@ -63,15 +64,21 @@ export default class MovieModalComponent extends CustomAsyncComponent {
     this.originVoteElement.classList.remove("fadeout");
   }
 
+  closeModal() {
+    this.style.opacity = "0";
+    setTimeout(() => {
+      this.remove();
+    }, ANIMATED_TIME.MODAL);
+  }
+
   handleEvent() {
     this.querySelector(".movie-modal-close").addEventListener("click", () => {
-      history.back();
+      this.closeModal();
     });
 
-    document.addEventListener("keyup", (e) => {
-      if (e.key === "Backspace") {
-        e.preventDefault();
-        history.back();
+    this.addEventListener("click", (e) => {
+      if (e.target === this) {
+        this.closeModal();
       }
     });
 

@@ -1,7 +1,6 @@
 import CustomComponent from "../../abstracts/CustomComponent";
+import MovieModalComponent from "../modal/MovieModalComponent";
 import StarFilledImg from "../../../templates/star_filled.png";
-import { navigate } from "../../util/Router";
-import { ROUTER } from "../../constants/constants";
 
 export default class MovieComponent extends CustomComponent {
   constructor() {
@@ -19,9 +18,17 @@ export default class MovieComponent extends CustomComponent {
   }
 
   handleEvent() {
-    this.addEventListener("click", (e) => {
-      e.preventDefault();
-      navigate(`/${ROUTER.MOVIE_DETAIL}/${this.state.movie.id}`);
+    this.addEventListener("click", () => {
+      const modal = document.createElement("movie-modal");
+
+      modal.loadMovieDetail(this.state.movie.id);
+
+      const app = document.querySelector("#app");
+      app.append(modal);
+
+      setTimeout(() => {
+        modal.classList.add("fadein");
+      });
     });
 
     this.renderMovieItem();

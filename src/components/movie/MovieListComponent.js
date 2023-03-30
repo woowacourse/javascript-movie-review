@@ -18,7 +18,6 @@ export default class MovieListComponent extends CustomComponent {
     super.render();
     this.#$movieListTitle = this.querySelector("movie-list-title");
     this.#$movieList = this.querySelector(".movie-item-list");
-    await this.popularListInit();
   }
 
   setSearchKeyword(keyword) {
@@ -40,6 +39,7 @@ export default class MovieListComponent extends CustomComponent {
   }
 
   async popularListInit() {
+    console.log("?");
     this.#nextPage = 1;
 
     document.querySelectorAll("input").forEach((el) => (el.value = ""));
