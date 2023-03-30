@@ -25,7 +25,14 @@ const MovieChartActions = () => {
 
     return '';
   };
-  return { MovieListComponent, SkeletonMovieListComponent, ModalComponent };
+
+  const ModalComponentNone = () => {
+    setComponentList(`#Modal`, null);
+
+    return '';
+  };
+  return { MovieListComponent, SkeletonMovieListComponent, ModalComponent, ModalComponentNone };
 };
 
-export const { MovieListComponent, SkeletonMovieListComponent, ModalComponent } = MovieChartActions();
+export const { MovieListComponent, SkeletonMovieListComponent, ModalComponent, ModalComponentNone } =
+  MovieChartActions();

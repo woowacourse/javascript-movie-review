@@ -1,6 +1,6 @@
 import { assemble, Event, useEffect, useState } from '../../core';
 import { $, getElement } from './../../utils/common/domHelper';
-import { MovieListComponent, SkeletonMovieListComponent, ModalComponent } from './action';
+import { MovieListComponent, SkeletonMovieListComponent, ModalComponent, ModalComponentNone } from './action';
 import { useMovieChart } from '../../hooks/useMovieChart';
 import { MovieProps } from '../Movie';
 import { MovieInfo, MovieInfoByKeyword } from '../../types/api';
@@ -53,13 +53,10 @@ const MovieChart = assemble<MovieChart>(({ keyword }) => {
         <fragment id='SkeletonList'>
         ${isLoading ? SkeletonMovieListComponent() : ''}
         </fragment>
-        <button class="btn primary full-width" ${chartInfo?.page === 500 ? 'disabled' : ''}>
-        ${
-          chartInfo?.page === 500 || movieList.length % 20 !== 0 || movieList.length === 0 ? '마지막 페이지' : '더 보기'
-        }
-        </button>
+        <div class="btn primary full-width" ${chartInfo?.page === 500 ? 'disabled' : ''}>
+        </div>
         <fragment id='Modal'>
-          ${isVisibleModal ? ModalComponent({ handleIsVisibleModal, modalData }) : ''}
+          ${isVisibleModal ? ModalComponent({ handleIsVisibleModal, modalData }) : ModalComponentNone()}
         </fragment>
       </section>
       </main>
