@@ -72,12 +72,20 @@ button {
 }
 
 .item-score {
-  margin-top: 16px;
+  margin: 4px 0 0 2px;
   font-size: 1.2rem;
 }
 
 .item-score::after {
   margin-left: 8px;
+}
+
+.item-score-container {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+
+  margin-top: 8px;
 }
 
 .item-title.skeleton::after,
@@ -125,7 +133,6 @@ button.primary {
 }
 header {
   width: 100%;
-  /* min-width: 1200px; */
   height: 72px;
   background-color: #222;
   display: flex;
@@ -188,7 +195,7 @@ body::-webkit-scrollbar {
   width: 650px;
   height: 350px;
 
-  border-radius: 8px 8px 0px 0px;
+  border-radius: 8px 8px 0 0;
   background: #222;
   transform: translateX(-50%) translateY(-50%);
 }
@@ -231,7 +238,7 @@ hr {
   display: flex;
   flex-direction: row;
 
-  padding: 16px 16px;
+  padding: 16px;
 }
 
 .modal-contents p {
@@ -273,7 +280,7 @@ hr {
   align-items: center;
 
   padding: 8px;
-  border-radius: 8px 8px 8px 8px;
+  border-radius: 8px;
 
   background-color: #3f3e3e;
 }
@@ -282,17 +289,22 @@ hr {
   padding: 0 5px;
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 1220px) {
+  .item-view {
+    width: 870px;
+    margin: 0 auto;
+  }
+
   .item-list {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 180px);
     overflow-y: hidden;
 
     grid-row-gap: 32px;
-    grid-column-gap: 0px;
+    grid-column-gap: 160px;
   }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 880px) {
   .search-box {
     width: 150px;
     margin-left: 8px;
@@ -303,22 +315,35 @@ hr {
     display: inline-block;
   }
 
-  .item-view {
-    padding: 0 0 0 32px;
+  .item-view h2 {
+    font-size: 1.7rem;
+    margin-left: calc(15% - 24px);
+  }
 
+  .item-view {
     width: 100%;
   }
 
   .item-list {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(160px, 1fr));
     overflow-y: hidden;
 
+    place-items: center;
+
     grid-row-gap: 32px;
-    grid-column-gap: 0px;
+    grid-column-gap: 0;
   }
 
   .item-list li {
-    width: 160px;
+    width: 140px;
+  }
+
+  .item-list li:nth-child(2n-1) {
+    margin-left: calc(20% - 32px);
+  }
+
+  .item-list li:nth-child(2n) {
+    margin-right: calc(20% - 32px);
   }
 
   .item-thumbnail {
@@ -328,6 +353,20 @@ hr {
 
   .item-title {
     width: 140px;
+    font-size: 16px;
+  }
+
+  .item-score-container {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+
+    margin-top: 8px;
+  }
+
+  .item-score {
+    margin: 4px 0 0 2px;
+    font-size: 1.1rem;
   }
 
   .modal-container {
