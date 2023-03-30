@@ -1,30 +1,42 @@
 import { fetchData } from '../http';
 
-const BASE_URL = 'https://api.themoviedb.org/3';
-
-interface PopularMovieProps {
-  curPage: number;
-}
-
-interface FindMovieProps extends PopularMovieProps {
-  query: string;
-}
+const BASE_URL = 'https://api.themoviedb.org/3/';
 
 class Movie {
-  async getPopularMovies({ curPage = 1 }: PopularMovieProps) {
+  async getMovies(query: string | null, page: number) {
+    try {
+      if (query) {
+        return await this.getFoundMovies(query, page);
+      }
+
+      return await this.getPopularMovies(page);
+    } catch (e) {
+      return e;
+    }
+  }
+
+  async getPopularMovies(page: number) {
     const movieList = await fetchData(
-      `${BASE_URL}/movie/popular?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&page=${curPage}`
+      `${BASE_URL}/movie/popular?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&page=${page}`
     );
 
     return movieList;
   }
 
-  async findMovies({ query, curPage = 1 }: FindMovieProps) {
+  async getFoundMovies(query: string, page: number) {
     const foundedMovies = await fetchData(
-      `${BASE_URL}/search/movie?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&query=${query}&page=${curPage}`
+      `${BASE_URL}/search/movie?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR&query=${query}&page=${page}`
     );
 
     return foundedMovies;
+  }
+
+  async getMovieById(id: string) {
+    const detail = await fetchData(
+      `${BASE_URL}/movie/${id}?api_key=${process.env.MOVIE_API_KEY}&language=ko-KR`
+    );
+
+    return detail;
   }
 }
 

@@ -1,53 +1,61 @@
-import Store from '../Store';
-
 import logo from '../../templates/logo.png';
+
+import { CUSTOM_EVENT } from '../constants';
 
 class Header {
   $header = document.createElement('header');
 
   constructor($target) {
-    $target.insertAdjacentElement('beforeend', this.$header);
+    this.init();
 
-    this.render();
+    this.render($target);
+
     this.bindEvent();
   }
 
-  render() {
-    this.$header.innerHTML = this.template();
+  init() {
+    this.$header.innerHTML = this.getTemplate();
+  }
+
+  render($target) {
+    $target.insertAdjacentElement('afterbegin', this.$header);
   }
 
   bindEvent() {
-    this.$header.addEventListener('click', this.onClickEvent);
-    this.$header.querySelector('.search-box').addEventListener('submit', this.onSubmitEvent);
+    this.$header.addEventListener('click', ({ target }) => {
+      if (target.id !== 'logo') return;
+      this.clearQuery();
+
+      document.dispatchEvent(
+        new CustomEvent(CUSTOM_EVENT.RENDER_MOVIES, { detail: { query: null } })
+      );
+    });
+
+    this.$header.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const { value: query } = document.querySelector('.search-input');
+
+      document.dispatchEvent(new CustomEvent(CUSTOM_EVENT.RENDER_MOVIES, { detail: { query } }));
+    });
   }
 
-  async onSubmitEvent(e) {
-    e.preventDefault();
-    const { currentTarget } = e;
-    const { value } = currentTarget.querySelector('input');
+  clearQuery() {
+    const $input = document.querySelector('.search-input');
 
-    if (value.length === 0) {
-      alert('1글자 이상 입력해 주셔야 합니다.');
-
-      return;
-    }
-
-    Store.updateSearchedMoviesByQuery(value);
+    $input.value = '';
   }
 
-  onClickEvent({ target }) {
-    if (target.id !== 'logo') return;
-
-    Store.updatePopularMovies();
-    document.querySelector('.search-box').reset();
-  }
-
-  template() {
-    return `<h1><img id="logo" src="${logo}" alt="MovieList 로고" /></h1>
+  getTemplate() {
+    const template = `
+      <h1><img id="logo" src=${logo} alt="MovieList 로고" /></h1>
       <form class="search-box">
-        <input type="text" placeholder="검색" class="search-input" />
-        <button data-type="search" class="search-button">검색</button>
-      </form>`;
+        <input class="search-input" type="text" placeholder="검색" />
+        <button class="search-button">검색</button>
+      </form>
+      `;
+
+    return template;
   }
 }
 

@@ -1,8 +1,8 @@
 import Header from './Header';
-import ItemList from './ItemList';
-import ListTitle from './ListTitle';
-import MoreButton from './MoreButton';
-import movieItem from './movieItem';
-import WholeScreenMessageAlert from './WholeScreenMessageAlert';
+import MovieView from './MovieView';
+import MovieListTitle from './MovieListTitle';
+import MovieList from './MovieList';
+import SkeletonCards from './SkeletonCards';
+import MovieDetail from './MovieDetail';
 
-export { Header, ItemList, ListTitle, MoreButton, movieItem, WholeScreenMessageAlert };
+export { Header, MovieView, MovieListTitle, MovieList, SkeletonCards, MovieDetail };
