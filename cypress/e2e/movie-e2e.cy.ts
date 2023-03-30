@@ -15,34 +15,6 @@ describe("인기 영화 목록 확인", () => {
   });
 });
 
-// 2단계에서 더보기 버튼 사라짐.
-// describe("인기 영화 더보기 확인", () => {
-//   it("끝 페이지에 도달했을 때, 더보기 버튼이 없어진다.", () => {
-//     cy.intercept(
-//       {
-//         method: "GET",
-//         url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
-//       },
-//       { fixture: "movie-popular.json" }
-//     ).as("getPopularMovies");
-
-//     cy.visit("http://localhost:8081/");
-//     cy.viewport(1920, 1080);
-
-//     cy.wait("@getPopularMovies").then(() => {
-//       cy.get("button[data-action='more_popular']").should("not.be.visible");
-//     });
-//   });
-//   it("인기 영화 페이지에서 더보기 클릭시 영화 목록이 추가된다.", () => {
-//     cy.visit("http://localhost:8081/");
-//     cy.viewport(1920, 1080);
-
-//     cy.get("button[data-action='more_popular']").click();
-
-//     cy.get("movie-list").find("movie-item").should("exist");
-//   });
-// });
-
 describe("검색 목록 확인", () => {
   beforeEach(() => {
     cy.visit("http://localhost:8081/");
@@ -80,29 +52,6 @@ describe("검색 목록 확인", () => {
       });
   });
 });
-
-// 2단게에서 더보기 버튼 사라짐.
-// describe("검색목록 더보기 확인", () => {
-//   it("검색결과 페이지에서 더보기 버튼 클릭시 검색목록이 추가된다. ", () => {
-//     cy.visit("http://localhost:8081/");
-//     cy.viewport(1920, 1080);
-
-//     cy.get(".search-box")
-//       .find("input")
-//       .type("전쟁{enter}")
-//       .then(() => {
-//         cy.get("button[data-action='more_search']").click();
-
-//         cy.get("movie-list-page").find("movie-item").should("exist");
-//         cy.get("movie-list-page").should("have.length", 2);
-//       })
-//       .then(() => {
-//         cy.get(".item-title").each(() => {
-//           cy.get("p.item-title").contains(/전\s*쟁/);
-//         });
-//       });
-//   });
-// });
 
 describe("네트워크 에러 확인", () => {
   it("네트워크 오류시 에러 화면이 뜬다.", () => {
