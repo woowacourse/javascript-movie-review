@@ -1,5 +1,7 @@
 import starFilled from '../../templates/star_filled.png';
 
+import { CUSTOM_EVENT } from '../constants';
+
 class MovieList {
   $ul = document.createElement('ul');
 
@@ -25,7 +27,7 @@ class MovieList {
 
       const { id } = target.closest('.item');
 
-      document.dispatchEvent(new CustomEvent('showMovieDetail', { detail: { id } }));
+      document.dispatchEvent(new CustomEvent(CUSTOM_EVENT.SHOW_MOVIE_DETAIL, { detail: { id } }));
     });
   }
 

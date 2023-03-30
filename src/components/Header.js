@@ -1,5 +1,7 @@
 import logo from '../../templates/logo.png';
 
+import { CUSTOM_EVENT } from '../constants';
+
 class Header {
   $header = document.createElement('header');
 
@@ -24,15 +26,17 @@ class Header {
       if (target.id !== 'logo') return;
       this.clearQuery();
 
-      document.dispatchEvent(new CustomEvent('renderMovies', { detail: { query: null } }));
+      document.dispatchEvent(
+        new CustomEvent(CUSTOM_EVENT.RENDER_MOVIES, { detail: { query: null } })
+      );
     });
 
     this.$header.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const query = e.target[0].value;
+      const { value: query } = document.querySelector('.search-input');
 
-      document.dispatchEvent(new CustomEvent('renderMovies', { detail: { query } }));
+      document.dispatchEvent(new CustomEvent(CUSTOM_EVENT.RENDER_MOVIES, { detail: { query } }));
     });
   }
 

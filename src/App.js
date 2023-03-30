@@ -1,9 +1,10 @@
 import Movie from './domain/Movie';
 
-import Header from './components/Header';
-import MovieView from './components/MovieView';
-import MovieDetail from './components/MovieDetail';
+import { Header, MovieView, MovieDetail } from './components';
+
 import store from './utils/localStorage';
+
+import { CUSTOM_EVENT, LOCAL_STORAGE_KEY } from './constants';
 
 const pageCounter = (firstPage) => {
   let page = firstPage;
@@ -39,7 +40,7 @@ class App {
     this.movieView = new MovieView(this.$main);
     this.movieDetail = new MovieDetail($target);
 
-    this.reviewScore = store.getLocalStorage('woowa-movie-review-app') || {};
+    this.reviewScore = store.getLocalStorage(LOCAL_STORAGE_KEY.APP) || {};
 
     this.updateMovieView();
   }
@@ -49,18 +50,18 @@ class App {
   }
 
   bindEvent() {
-    document.addEventListener('renderMovies', ({ detail: { query } }) => {
+    document.addEventListener(CUSTOM_EVENT.RENDER_MOVIES, ({ detail: { query } }) => {
       this.query = query;
       this.page = pageCounter(0);
 
       this.updateMovieView();
     });
 
-    document.addEventListener('renderMoreMovies', () => {
+    document.addEventListener(CUSTOM_EVENT.RENDER_MORE_MOVIES, () => {
       this.updateMovieView();
     });
 
-    document.addEventListener('showMovieDetail', async ({ detail: { id } }) => {
+    document.addEventListener(CUSTOM_EVENT.SHOW_MOVIE_DETAIL, async ({ detail: { id } }) => {
       const { data, isError } = await this.movie.getMovieById(id);
       if (isError) return;
 
@@ -69,11 +70,14 @@ class App {
       this.movieDetail.open({ ...data, reviewScore });
     });
 
-    document.addEventListener('updateReviewScore', ({ detail: { movieId, score } }) => {
-      this.reviewScore[movieId] = score;
+    document.addEventListener(
+      CUSTOM_EVENT.UPDATE_REVIEW_SCORE,
+      ({ detail: { movieId, score } }) => {
+        this.reviewScore[movieId] = score;
 
-      store.setLocalStorage('woowa-movie-review-app', this.reviewScore);
-    });
+        store.setLocalStorage(LOCAL_STORAGE_KEY.APP, this.reviewScore);
+      }
+    );
   }
 
   async updateMovieView() {
@@ -85,7 +89,7 @@ class App {
     const { isError, data } = await this.movie.getMovies(this.query, this.page());
     if (!isError) {
       document.dispatchEvent(
-        new CustomEvent('updateMovieListTitle', { detail: { query: this.query } })
+        new CustomEvent(CUSTOM_EVENT.UPDATE_MOVIE_LIST_TITLE, { detail: { query: this.query } })
       );
       this.movieView.addMovies(data);
     }

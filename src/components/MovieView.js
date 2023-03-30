@@ -1,6 +1,5 @@
-import MovieList from './MovieList';
-import MovieListTitle from './MovieListTitle';
-import SkeletonCards from './SkeletonCards';
+import { CUSTOM_EVENT } from '../constants';
+import { MovieList, MovieListTitle, SkeletonCards } from './';
 
 class MovieView {
   $itemView = document.createElement('section');
@@ -37,7 +36,7 @@ class MovieView {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
     if (clientHeight < Math.round(scrollHeight - scrollTop)) return;
 
-    document.dispatchEvent(new CustomEvent('renderMoreMovies'));
+    document.dispatchEvent(new CustomEvent(CUSTOM_EVENT.RENDER_MORE_MOVIES));
   }
 
   addMovies({ page, results: movies }) {

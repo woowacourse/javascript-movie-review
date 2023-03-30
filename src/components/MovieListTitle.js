@@ -1,3 +1,5 @@
+import { CUSTOM_EVENT } from '../constants';
+
 class MovieListTitle {
   $movieListTitle = document.createElement('h2');
 
@@ -18,7 +20,7 @@ class MovieListTitle {
   }
 
   bindEvent() {
-    document.addEventListener('updateMovieListTitle', ({ detail: { query } }) => {
+    document.addEventListener(CUSTOM_EVENT.UPDATE_MOVIE_LIST_TITLE, ({ detail: { query } }) => {
       if (query) {
         return this.changeInnerText(`"${query}" 검색 결과`);
       }

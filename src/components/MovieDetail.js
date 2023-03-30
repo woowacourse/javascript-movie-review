@@ -1,6 +1,8 @@
 import star_filled from '../../templates/star_filled.png';
 import star_empty from '../../templates/star_empty.png';
 
+import { CUSTOM_EVENT } from '../constants';
+
 class MovieDetail {
   $modal = document.createElement('div');
 
@@ -55,7 +57,9 @@ class MovieDetail {
 
       const movieId = this.$modal.id;
 
-      document.dispatchEvent(new CustomEvent('updateReviewScore', { detail: { movieId, score } }));
+      document.dispatchEvent(
+        new CustomEvent(CUSTOM_EVENT.UPDATE_REVIEW_SCORE, { detail: { movieId, score } })
+      );
     });
   }
 
