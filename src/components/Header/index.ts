@@ -1,9 +1,7 @@
 import MovieSearch from './MovieSearch';
 import MobileSearchBox from './MobileSearchButton';
-import Tooltip from '../common/Tooltip';
 
 import { logoImage } from '../../assets/images';
-import { $ } from '../../utils/dom';
 
 import './Header.style.css';
 
@@ -17,7 +15,6 @@ const Header = {
           </a>
         </h1>
         ${MovieSearch.template()}
-        <div class="search-tooltip"></div>
       </header>
     `;
   },
@@ -25,18 +22,6 @@ const Header = {
   setEvent() {
     MovieSearch.setEvent();
     MobileSearchBox.setEvent();
-  },
-
-  renderTooltip(message: string) {
-    const searchTooltip = $<HTMLDivElement>('.search-tooltip');
-
-    searchTooltip.innerHTML = Tooltip.template(message);
-  },
-
-  removeTooltip() {
-    const searchTooltip = $<HTMLDivElement>('.search-tooltip');
-
-    searchTooltip.innerHTML = '';
   },
 };
 
