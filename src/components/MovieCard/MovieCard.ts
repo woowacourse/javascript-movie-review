@@ -25,7 +25,7 @@ export default class MovieCard implements Component {
     const { id, title, posterPath, voteAverage } = movie;
 
     return /* html */ `
-    <div id=${id} class="item-card">          
+    <div data-id="${id}" class="item-card">          
       <img    
       class="item-thumbnail"
       src="https://image.tmdb.org/t/p/w220_and_h330_face${posterPath}"
@@ -43,10 +43,10 @@ export default class MovieCard implements Component {
 
   onClickCard(e: MouseEvent) {
     const target = e.target as Element;
-    const $li = target.closest('.item-card');
+    const $li = target.closest<HTMLLIElement>('.item-card');
     if (!$li) return;
 
-    const movieId = $li.id;
+    const movieId = $li.dataset.id as string;
 
     this.handlerCallback.onClickCard(movieId);
   }
