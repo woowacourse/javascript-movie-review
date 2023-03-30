@@ -37,8 +37,11 @@ const Movie = assemble<MovieProps>(({ info, handleModalData, handleIsVisibleModa
               loading="lazy"
               alt=${title}
             />
-            <p class="item-title">${title}</p>
-            <p class="item-score"><img src="./star_filled.png" alt="별점" />${vote_average}</p>
+              <p class="item-title">${title}</p>
+            <div class="item-score-container">
+              <img src="./star_filled.png" alt="별점" />
+              <p class="item-score">${vote_average}</p>
+            </div>
           </div>
         </a>
     </li>
