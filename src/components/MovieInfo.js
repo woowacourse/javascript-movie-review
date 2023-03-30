@@ -70,24 +70,29 @@ export default class MovieInfo {
       const inputs = ratingGroup.querySelectorAll('input');
       const input = Array.from(inputs).find((input) => input.value === rating);
       input.checked = true;
-      document.querySelector('#js-my_rating').textContent = rating;
-      document.querySelector('#js-my_rating-text').textContent =
-        RATING_TEXT[Math.floor((rating - 1) / 2)];
+
+      this.updateRatingUI(rating);
     }
 
-    ratingGroup.addEventListener('click', (event) => {
-      const label = event.target.closest('label');
-      if (!label) return;
+    ratingGroup.addEventListener('click', this.updateRating.bind(this));
+  }
 
-      const myRating = document.querySelector('#js-my_rating');
-      const myRatingText = document.querySelector('#js-my_rating-text');
-      const rating = label.getAttribute('aria-label');
-      const ratingText = RATING_TEXT[Math.floor((rating - 1) / 2)];
-      myRating.textContent = rating;
-      myRatingText.textContent = ratingText;
+  updateRating(event) {
+    const label = event.target.closest('label');
+    if (!label) return;
 
-      const id = document.querySelector('#js-movie-info').getAttribute('data-id');
-      ratingService.update(id, rating);
-    });
+    const rating = label.getAttribute('aria-label');
+    this.updateRatingUI(rating);
+
+    const id = document.querySelector('#js-movie-info').getAttribute('data-id');
+    ratingService.update(id, rating);
+  }
+
+  updateRatingUI(rating) {
+    if (!rating) return;
+
+    document.querySelector('#js-my_rating').textContent = rating;
+    document.querySelector('#js-my_rating-text').textContent =
+      RATING_TEXT[Math.floor((rating - 1) / 2)];
   }
 }
