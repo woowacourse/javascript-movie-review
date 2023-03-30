@@ -4,7 +4,6 @@ import { getMovieDetail } from "./api/movieDetail";
 import { getPopularMovie } from "./api/movieList";
 import MovieDetailModal from "./components/MovieDetailModal";
 import MovieItemList from "./components/MovieItemList";
-import MyScore from "./components/MyScore";
 import SearchBox from "./components/SearchBox";
 import { convertToMovieDetailData, generateElement } from "./domain/MovieDataManager";
 import { CURRENT_TAB, MOVIE_DATA } from "./constant/constant";
@@ -99,10 +98,6 @@ export const App = () => {
     const movieId = e.detail.movieId;
     const movieDetailData = convertToMovieDetailData(await getMovieDetail(movieId));
     MovieDetailModal(movieDetailData);
-    const target = document.querySelector(".modal-info")
-    if (!target) return;
-
-    MyScore(target, movieId);
   }
 
   showPopularMovies();

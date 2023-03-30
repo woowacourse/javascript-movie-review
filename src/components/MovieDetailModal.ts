@@ -1,6 +1,7 @@
 import { DetailInfoType } from "../@types/movieType";
+import MyScore from "./MyScore";
 const MovieDetailModal = (movieDetailData: DetailInfoType) => {
-  const { title, posterPath, voteAverage, genres, overview } = movieDetailData
+  const { id, title, posterPath, voteAverage, genres, overview } = movieDetailData
 
   const create = () => {
     return `
@@ -42,7 +43,7 @@ const MovieDetailModal = (movieDetailData: DetailInfoType) => {
 
     document.querySelector("main")?.appendChild(movieDetailModal);
     movieDetailModal.showModal();
-
+    MyScore(id);
     bindEvent(movieDetailModal);
   };
 
