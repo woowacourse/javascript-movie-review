@@ -130,7 +130,7 @@ const MovieDetailModal = {
       return movieDetail;
     } catch (error) {
       this.renderErrorMessage(error.message);
-      return false;
+      return null;
     }
   },
 
