@@ -1,13 +1,13 @@
 import { ERROR_CODE } from './../constants/errors';
 import { MovieChart } from '../domain/MovieChart';
-import { handleStatusCode } from '../validation/errorHandler';
+import { getValidateURL, handleStatusCode } from '../validation/errorHandler';
 import { CustomError } from '../validation/errors';
 import { GetMovieGenres, GetMoviesByKeywordRes, GetPopularMoviesRes } from './movieChart.type';
 
 const REDIRECT_SERVER_HOST = 'https://ornate-swan-ce5a5e.netlify.app';
 
 const fetchQuery = async <T>(path: string, init?: RequestInit): Promise<T> => {
-  const url = new URL(path, REDIRECT_SERVER_HOST);
+  const url = getValidateURL(path, REDIRECT_SERVER_HOST);
 
   const response = await fetch(url, init);
   const body = await response.json();

@@ -26,3 +26,15 @@ const getErrorCodeByStatus = (status: number): keyof ErrorCode => {
       return ERROR_CODE.UNEXPECTED_ERROR;
   }
 };
+
+export const getValidateURL = (path: string | URL, base?: string | URL) => {
+  try {
+    return new URL(path, base);
+  } catch (error) {
+    if (error instanceof TypeError) {
+      throw new CustomError({ code: ERROR_CODE.WRONG_URL_FORMAT, payload: { path, base } }, { value: { path, base } });
+    }
+
+    throw new CustomError({ code: ERROR_CODE.UNEXPECTED_ERROR });
+  }
+};
