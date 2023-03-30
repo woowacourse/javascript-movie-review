@@ -12,7 +12,7 @@ class Movies {
 
   constructor(query: string = '') {
     this.#query = query;
-    this.#page = 0;
+    this.#page = 1;
     this.#totalPages = MAX_PAGE;
     this.#movies = [];
   }
@@ -38,19 +38,15 @@ class Movies {
   }
 
   isPageInRange() {
-    return this.#page < this.#totalPages;
+    return this.#page <= this.#totalPages;
   }
 
   addPage() {
     this.#page += 1;
   }
 
-  previousPage() {
-    this.#page -= 1;
-  }
-
   reset(query: string) {
-    this.#page = 0;
+    this.#page = 1;
     this.#query = query;
     this.#totalPages = MAX_PAGE;
     this.#movies = [];

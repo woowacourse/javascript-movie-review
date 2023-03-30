@@ -83,7 +83,7 @@ const MovieCardList = {
     movieList.innerHTML = MovieCardList.skeletonItems();
   },
 
-  paint(movies: AppMovie[], page: number = 1) {
+  paint(movies: AppMovie[], page: number) {
     const movieList = $<HTMLUListElement>(`.${CLASS.ITEM_LIST}`);
     const startLine = (page - 1) * DEFAULT_LIST_LENGTH;
     const currentSkeletonItems = [...movieList.children].slice(startLine);

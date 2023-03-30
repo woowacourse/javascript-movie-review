@@ -36,7 +36,6 @@ const MovieCardSection = {
     const newMovies = await MovieCardSection.getMovies(query);
 
     if (!newMovies) {
-      movieStates.previousPage();
       MovieCardList.removeSkeleton();
       return;
     }
@@ -46,6 +45,7 @@ const MovieCardSection = {
     }
 
     MovieCardList.paint(newMovies, movieStates.getPage());
+    movieStates.addPage();
     ScrollObserver.connect(MovieCardSection.observer);
   },
 
@@ -80,8 +80,6 @@ const MovieCardSection = {
       if (!movieStates.isCurrentQuery(query)) {
         movieStates.reset(query);
       }
-
-      movieStates.addPage();
 
       const { results, total_pages: totalPages } =
         query === ''
