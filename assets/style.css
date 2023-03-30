@@ -1,3 +1,14 @@
+:root {
+  --dark-gray: #222222;
+  --white: #ffffff;
+  --dark-transparent-red: #7d090944;
+  --transparent-red: #ff000066;
+  --dark-red: #8e2222;
+  --primary-red: #f33f3f;
+  --dull-red: #a94444;
+  --light-red: #ff6e6e;
+}
+
 * {
   box-sizing: border-box !important;
   font-family: 'Pretendard';
@@ -5,8 +16,8 @@
 
 body {
   font-size: 14px;
-  background-color: #222222;
-  color: #fff;
+  background-color: var(--dark-gray);
+  color: var(--white);
 }
 
 a {
@@ -64,7 +75,7 @@ button {
 }
 
 .item-card:hover .item-thumbnail {
-  box-shadow: 0px 0px 30px rgba(255, 0, 0, 0.4);
+  box-shadow: 0px 0px 30px var(--dark-red);
 }
 
 .item-thumbnail {
@@ -127,15 +138,21 @@ button.btn {
   border: 0;
   border-radius: 8px;
   height: 30px;
-  color: #fff;
+  color: var(--white);
 }
 
 button.primary {
-  background: #f33f3f;
+  background: var(--dark-transparent-red);
 }
 
 .item-card .skeleton {
-  background: linear-gradient(-90deg, #8e2222, #a94444, #8e2222, #a94444);
+  background: linear-gradient(
+    -90deg,
+    var(--dark-red),
+    var(--dull-red),
+    var(--dark-red),
+    var(--dull-red)
+  );
   background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
   border-radius: 8px;
@@ -155,14 +172,14 @@ button.primary {
 header {
   width: 100%;
   height: 72px;
-  background-color: #222;
+  background-color: var(--dark-gray);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid #f33f3f;
+  border-bottom: 1px solid var(--primary-red);
   margin-bottom: 48px;
-  box-shadow: 0 0 50px #f33f3f90;
+  box-shadow: 0 0 50px var(--dark-red);
 }
 
 header h1 {
@@ -171,11 +188,11 @@ header h1 {
   font-size: 2rem;
   font-weight: bold;
   letter-spacing: -0.1rem;
-  color: #f33f3f;
+  color: var(--primary-red);
 }
 
 header > .search-box {
-  background: #fff;
+  background: var(--white);
   padding: 8px 12px 8px 8px;
   border-radius: 4px;
 }
@@ -199,7 +216,7 @@ header .search-box > .search-button {
   justify-content: center;
   align-items: center;
   height: 100px;
-  background: linear-gradient(to bottom, transparent, #7d090944);
+  background: linear-gradient(to bottom, transparent, var(--dark-transparent-red));
 }
 
 .footer-message-wrapper[hidden] {
@@ -219,7 +236,7 @@ header .search-box > .search-button {
 .status-message-content {
   font-size: 18px;
   text-align: center;
-  color: #ff6e6e;
+  color: var(--light-red);
 }
 
 .btn.primary[disabled] {

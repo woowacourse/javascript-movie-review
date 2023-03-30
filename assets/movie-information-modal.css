@@ -3,7 +3,7 @@
   --modal-gray: #383839;
   --modal-light-gray: #ababab;
   --modal-transparent-black: #000000bb;
-  --modal-pink: #ff4646;
+  --modal-primary-red: #ff4646;
   --modal-white: #eeeeee;
   font-family: 'Pretendard';
 }
@@ -66,8 +66,8 @@
 }
 
 .modal-close-button:hover {
-  background-color: var(--modal-pink);
-  box-shadow: 0 0 10px var(--modal-pink);
+  background-color: var(--modal-primary-red);
+  box-shadow: 0 0 10px var(--modal-primary-red);
 }
 
 .modal-close-button:hover .close-icon-stick {
@@ -166,6 +166,11 @@
 
 .user-rating-bar input[type='radio']::before {
   content: url('./rating_star_empty.png');
+}
+
+body header,
+body footer body :is(header, footer) {
+  color: red;
 }
 
 .user-rating-bar input[type='radio']:hover ~ input::before,
