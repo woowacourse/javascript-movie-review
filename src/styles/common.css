@@ -186,6 +186,10 @@ main {
   white-space: nowrap;
 }
 
+.item-title::-webkit-scrollbar {
+  appearance: none;
+}
+
 .item-score {
   margin-top: 16px;
   font-size: 1.2rem;
@@ -372,6 +376,10 @@ header .search-box > form > .search-button {
   overflow-x: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.movie-overview-modal__title::-webkit-scrollbar {
+  appearance: none;
 }
 
 @media (max-width: 420px) {
