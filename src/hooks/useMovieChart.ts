@@ -34,17 +34,22 @@ function useMovieChart(keyword: string) {
   };
 
   const getPopularMovies = defaultFetchAction(async () => {
-    const [data, error] = await waitFor(fetchPopularMovies(page));
-    if (error) throw new Error(JSON.stringify(error));
-
-    updateMovieData(data);
+    const [data, error] = await fetchPopularMovies(page, {
+      onError: (error) => {
+        alert(JSON.stringify(error.message));
+      },
+    });
+    if (!error) updateMovieData(data);
   });
 
   const getMoviesByKeyword = defaultFetchAction(async (keyword: string) => {
-    const [data, error] = await waitFor(fetchMoviesByKeyword(keyword, page));
-    if (error) throw new Error(JSON.stringify(error));
+    const [data, error] = await fetchMoviesByKeyword(keyword, page, {
+      onError: (error) => {
+        alert(JSON.stringify(error.message));
+      },
+    });
 
-    updateMovieData(data);
+    if (!error) updateMovieData(data);
   });
 
   const getMovieInfo = (id: MovieInfo['id']) => {

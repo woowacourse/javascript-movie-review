@@ -1,9 +1,16 @@
 import { ErrorCode, ERROR_CODE } from './../constants/errors';
 import { STATUS_CODE } from '../constants/errors';
+import { CustomError } from './errors';
 
 const { STATUS_400, STATUS_401, STATUS_403, STATUS_404, STATUS_500 } = STATUS_CODE;
 
-export const handleStatusCode = (status: number): keyof ErrorCode => {
+export const handleStatusCode = (status: number): never => {
+  const code = getErrorCodeByStatus(status);
+
+  throw new CustomError({ code });
+};
+
+const getErrorCodeByStatus = (status: number): keyof ErrorCode => {
   switch (status) {
     case STATUS_400:
       return ERROR_CODE.STATUS_400;

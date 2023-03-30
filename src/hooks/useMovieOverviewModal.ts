@@ -1,4 +1,4 @@
-import { fetchMovieGenres, waitFor } from '../apis';
+import { fetchMovieGenres } from '../apis/movieChart';
 import { RemoteMovieGenre } from '../apis/movieChart.type';
 import { MovieOverview } from '../components/MovieOverviewModal';
 import { GENRES } from '../constants/movieChart';
@@ -34,10 +34,13 @@ function useMovieOverviewModal(initial: boolean) {
   };
 
   const fetchGenres = async () => {
-    const [data, error] = await waitFor(fetchMovieGenres());
-    if (error) throw new Error(JSON.stringify(error));
+    const [data, error] = await fetchMovieGenres({
+      onError: (error) => {
+        alert(JSON.stringify(error.message));
+      },
+    });
 
-    setGenres(data.genres);
+    if (!error) setGenres(data.genres);
   };
 
   useEffect(() => {

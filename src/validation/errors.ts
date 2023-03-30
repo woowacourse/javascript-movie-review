@@ -16,9 +16,7 @@ const getValueByMessageType = (target: ERROR_MESSAGE_FORMAT, payload = {}): ERRO
   typeof target === 'function' ? target(payload) : target;
 
 const errorMessageGenerator = (code: unknown, payload = {}): ERROR_MESSAGE =>
-  isValidErrorCode(code)
-    ? getValueByMessageType(ERROR_MESSAGE[code], payload)
-    : (ERROR_MESSAGE.UNEXPECTED_ERROR as ERROR_MESSAGE);
+  isValidErrorCode(code) ? getValueByMessageType(ERROR_MESSAGE[code], payload) : ERROR_MESSAGE.UNEXPECTED_ERROR;
 
 const errorOptionsGenerator = (code: unknown, value: unknown) =>
   isValidErrorCode(code) ? { cause: { code, value } } : { cause: { code: ERROR_CODE.UNEXPECTED_ERROR, value: code } };
