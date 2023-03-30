@@ -17,7 +17,7 @@ export default class PersonalVoteHandler {
 
     if (!result) return 0;
 
-    return Number(result.starCount);
+    return result.starCount;
   }
 
   updatePersonalVoteData(movieId: string, starCount: StarCount) {
