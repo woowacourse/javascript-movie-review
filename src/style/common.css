@@ -17,10 +17,6 @@ button {
   cursor: pointer;
 }
 
-#app {
-  padding-bottom: 48px;
-}
-
 *:focus {
   outline: none;
 }
@@ -49,7 +45,7 @@ main {
 
 .item-list {
   display: grid;
-  margin: 48px 0;
+  margin: 48px 0 0 0;
   grid-template-columns: repeat(auto-fill, 180px);
   grid-column-gap: 5%;
   grid-row-gap: 48px;
@@ -228,9 +224,9 @@ body:has(dialog[open]) {
   display: grid;
   grid-template:
     'poster summary' 24px
-    'poster overview'
+    'poster overview' 357px
     'poster star_rating' 64px
-    / 292px;
+    / 292px 438px;
   gap: 0 32px;
 }
 
@@ -254,6 +250,7 @@ body:has(dialog[open]) {
 .movie-overview {
   grid-area: overview;
   margin-top: 16px;
+  overflow: scroll;
 }
 
 .movie-star_rating {
@@ -382,5 +379,34 @@ body:has(dialog[open]) {
 
   .movie-my_rating:last-of-type {
     display: none;
+  }
+}
+
+.detecting-scroll {
+  margin: 16px 0;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  margin: 16px 0;
+  width: 36px;
+  height: 36px;
+  border: 4px solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

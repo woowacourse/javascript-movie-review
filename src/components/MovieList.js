@@ -8,9 +8,7 @@ export default class MovieList {
   constructor($parent) {
     this.$parent = $parent;
     this.renderMode = RENDER_MODE.POPULAR;
-    this.io = new IntersectionObserver(this.handleIntersect.bind(this), {
-      threshold: 0,
-    });
+    this.io = new IntersectionObserver(this.handleIntersect.bind(this));
     this.FETCH_FUNCTION = {
       [RENDER_MODE.POPULAR]: getPopularMovies,
       [RENDER_MODE.SEARCH]: searchMovies,
@@ -19,6 +17,7 @@ export default class MovieList {
       [RENDER_MODE.POPULAR]: () => ({ page: Store.page }),
       [RENDER_MODE.SEARCH]: () => ({ page: Store.page, text: Store.keyword }),
     };
+    this.isLoading = false;
 
     this.render();
     this.selectDom();
@@ -28,8 +27,10 @@ export default class MovieList {
   }
 
   handleIntersect(entries, io) {
+    const isLastPage = Store.page === Store.lastPage;
+
     entries.forEach((entry) => {
-      if (entry.isIntersecting && Store.page < Store.lastPage) {
+      if (!this.isLoading && entry.isIntersecting && !isLastPage) {
         this.renderNewContent();
       }
     });
@@ -41,7 +42,7 @@ export default class MovieList {
         <section class="item-view">
           <h2 id="js-movie-list-title">지금 인기 있는 영화</h2>
           <ul id="js-movie-list" class="item-list"></ul>
-          <div id="js-detecting-scroll"></div>
+          <div id="js-detecting-scroll" class="detecting-scroll"></div>
         </section>
       </main>
     `;
@@ -58,6 +59,12 @@ export default class MovieList {
           </div>
         </a>
       </li>
+    `;
+  }
+
+  loadingTemplate() {
+    return `
+      <span class="loader"></span>
     `;
   }
 
@@ -116,10 +123,15 @@ export default class MovieList {
   }
 
   startLoading() {
-    this.$movieItemList.insertAdjacentHTML('beforeend', this.skeletonTemplate().repeat(20));
+    this.isLoading = true;
+    this.$movieItemList.insertAdjacentHTML('beforeend', this.skeletonTemplate().repeat(10));
+    this.$detectingScroll.insertAdjacentHTML('beforeend', this.loadingTemplate());
   }
 
   finishLoading() {
+    this.isLoading = false;
+    this.$detectingScroll.innerHTML = '';
+
     const $skeletonLists = this.$movieItemList.querySelectorAll('.skeleton-li');
 
     if ($skeletonLists.length > 0) {
