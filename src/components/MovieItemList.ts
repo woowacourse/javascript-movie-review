@@ -1,9 +1,10 @@
-import { moreButton } from "./moreButton";
+import { MovieItemListType } from "../@types/movieType";
+import { MoreButton } from "./moreButton";
 
-const MovieItemList = (currentTab: string, keyword: string = '') => {
+const MovieItemList = (currentTab: string, keyword = ''): MovieItemListType => {
   const create = () => {
     return `<ul class="item-list"></ul>
-    ${moreButton()}
+    ${MoreButton()}
     `;
   };
 
@@ -44,13 +45,17 @@ const MovieItemList = (currentTab: string, keyword: string = '') => {
     if (!ul) return;
 
     ul.addEventListener("click", (e: Event) => {
-      const movieCard = (e.target as HTMLElement).closest("a");
+      const target = e.target;
+      if (!(target instanceof HTMLElement)) return;
+
+      const movieCard = target.closest("a");
       if (!movieCard) return;
 
       const eventId = movieCard.hash.substring(1);
       const event = new CustomEvent("movieItemClicked", { detail: { movieId: eventId } });
       document.dispatchEvent(event);
     });
+
   };
 
   render();

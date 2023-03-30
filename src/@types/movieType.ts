@@ -5,7 +5,7 @@ export interface CoreInfoType {
   voteAverage: number;
 }
 
-export interface genres {
+export interface Genres {
   id: number;
   name: string;
 }
@@ -19,7 +19,7 @@ export interface TotalMovieInfoType {
   audult: boolean;
   backdrop_path: string;
   genre_ids: number[];
-  genres: genres[];
+  genres: Genres[];
   id: number;
   original_language: string;
   original_title: string;
@@ -31,4 +31,9 @@ export interface TotalMovieInfoType {
   video: boolean;
   vote_average: number;
   vote_count: number;
+}
+
+export interface MovieItemListType {
+  render: () => void;
+  addMovies: (movieInfos: string, totalPages: number, currentPage: number) => void;
 }
