@@ -1,4 +1,4 @@
-const BASE_URL = "https://api.themoviedb.org/3";
+import { URL } from "../constant/constant";
 
 class CustomError extends Error {
   response?: {
@@ -11,7 +11,7 @@ class CustomError extends Error {
 export const getPopularMovie = async (currentPage: number) => {
   try {
     const response = await fetch(
-      `${BASE_URL}/movie/popular?api_key=${process.env.API_KEY}&page=${currentPage}`
+      `${URL.BASE_URL}/movie/popular?api_key=${process.env.API_KEY}&page=${currentPage}`
     );
     const data = await response.json();
     currentPage++;

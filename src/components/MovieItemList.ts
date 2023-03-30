@@ -1,4 +1,5 @@
 import { MovieItemListType } from "../@types/movieType";
+import { CURRENT_TAB } from "../constant/constant";
 import { MoreButton } from "./moreButton";
 
 const MovieItemList = (currentTab: string, keyword = ''): MovieItemListType => {
@@ -33,8 +34,8 @@ const MovieItemList = (currentTab: string, keyword = ''): MovieItemListType => {
     container.innerHTML = create();
     container.insertAdjacentElement("afterbegin", currentTabElement);
 
-    if (currentTab == "POPULAR") currentTabElement.innerHTML = "인기 있는 영화";
-    if (currentTab == "SEARCH") currentTabElement.innerHTML = `${keyword} 검색 결과`;
+    if (currentTab == CURRENT_TAB.POPULAR) currentTabElement.innerHTML = "인기 있는 영화";
+    if (currentTab == CURRENT_TAB.SEARCH) currentTabElement.innerHTML = `${keyword} 검색 결과`;
     document
       .querySelector("main")
       ?.insertAdjacentElement("afterbegin", container);
