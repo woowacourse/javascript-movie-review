@@ -19,7 +19,7 @@ class MovieManager {
     });
   }
 
-  private setNewState<T>(newState: T) {
+  private setNewState(newState: Partial<State>) {
     this.state = { ...this.state, ...newState };
     this.publish(this.state);
   }

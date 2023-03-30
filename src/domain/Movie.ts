@@ -20,7 +20,7 @@ class Movie {
     isShowMore: false,
   };
 
-  private setNewData<T>(newData: T) {
+  private setNewData(newData: Partial<MovieAppData>) {
     this.data = { ...this.data, ...newData };
   }
 

@@ -48,7 +48,7 @@ export interface ApiError {
 }
 
 export interface State {
-  status: Status;
+  status: string;
   data: MovieAppData | MovieItem | Error | {};
 }
 
