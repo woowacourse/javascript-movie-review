@@ -21,7 +21,7 @@ const MovieCard = {
           <div class="item-card">
             <div class="item-thumbnail-container ${CLASS.SKELETON}"></div>
             <p class="${CLASS.ITEM_TITLE} ${CLASS.SKELETON}"></p>
-            <p class="${CLASS.ITEM_SCORE} ${CLASS.SKELETON}"></p>
+            <div class="${CLASS.ITEM_SCORE} ${CLASS.SKELETON}"></div>
           </div>
         </button>
       </li>
@@ -40,7 +40,10 @@ const MovieCard = {
   },
 
   scoreTemplate(score: number) {
-    return `<img src=${starFilledImage} alt="별점" /> ${score.toFixed(1)}`;
+    return `
+      <img src=${starFilledImage} alt="별점" />
+      <p>${score.toFixed(1)}</p>
+    `;
   },
 
   paint(target: HTMLLIElement, item: AppMovie) {

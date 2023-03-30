@@ -23,7 +23,7 @@
 .item-list {
   display: grid;
   margin: 48px 0 0 0;
-  grid-template-columns: repeat(2, 140px);
+  grid-template-columns: repeat(1, 140px);
   justify-content: space-between;
   grid-row-gap: 48px;
 }
@@ -66,7 +66,13 @@
 }
 
 .item-score {
+  display: flex;
+  align-items: center;
   margin-top: 16px;
+}
+
+.item-score > p {
+  margin-left: 12px;
   font-size: 1.2rem;
 }
 
@@ -120,6 +126,12 @@ button.primary {
 
 #scroll-observer {
   height: 60px;
+}
+
+@media (min-width: 340px) {
+  .item-list {
+    grid-template-columns: repeat(2, 140px);
+  }
 }
 
 @media (min-width: 580px) {
