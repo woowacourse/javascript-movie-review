@@ -4,6 +4,7 @@ class Modal {
 
     this.render();
     this.selectDom();
+    this.bindEvent();
   }
 
   template() {
@@ -34,6 +35,12 @@ class Modal {
     this.$title.textContent = title;
     this.$content.innerHTML = content;
     this.$container.showModal();
+  }
+
+  bindEvent() {
+    this.$container.addEventListener('click', (event) => {
+      if (event.target === this.$container) this.$container.close();
+    });
   }
 }
 
