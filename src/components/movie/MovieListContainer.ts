@@ -1,4 +1,4 @@
-import { $, dispatchCustomEvent } from "./../utils/dom";
+import { $ } from "../../utils/dom";
 
 class MovieListContainer extends HTMLElement {
   constructor() {
@@ -7,7 +7,6 @@ class MovieListContainer extends HTMLElement {
 
   connectedCallback() {
     this.render();
-    this.addEvent();
   }
 
   render(query?: string) {
@@ -15,44 +14,9 @@ class MovieListContainer extends HTMLElement {
 
     this.innerHTML = /* html */ `
       <h2>
-        ${type === "popular" ? "지금 인기 있는 영화" : `"${query}" 검색 결과`}
+        ${type === "popular" ? "지금 인기있는 영화" : `"${query}" 검색 결과`}
       </h2>
       <movie-list class="item-list hidden"></movie-list>
-      ${this.getSkeletonUITemplate()}
-      <button id="more-button" class="btn primary full-width">더 보기</button>
-    `;
-  }
-
-  addEvent() {
-    $("button", this)?.addEventListener("click", () => {
-      dispatchCustomEvent(this, {
-        eventType: "fetchMovieData",
-        data: this.getAttribute("type"),
-      });
-    });
-  }
-
-  changeTitle(query?: string) {
-    this.setAttribute("type", "search");
-    this.render(query);
-    this.addEvent();
-  }
-
-  removeLoadMovieButton() {
-    $("button", this)?.classList.add("hidden");
-  }
-
-  displayErrorUI(errorMessage: string) {
-    this.innerHTML = `
-    <div class="error-container">
-      <p>${errorMessage}</p>
-      <p>페이지를 새로 고침하거나 네트워크 상태를 확인 후 나중에 다시 시도해주세요.</p>
-    </div>
-    `;
-  }
-
-  getSkeletonUITemplate() {
-    return /* html */ `
       <ul class="skeleton-list">
         ${`<li>
           <a href="#">
@@ -64,6 +28,21 @@ class MovieListContainer extends HTMLElement {
           </a>
         </li>`.repeat(20)}
       </ul>
+      <observed-area></observed-area>
+    `;
+  }
+
+  changeTitle(query?: string) {
+    this.setAttribute("type", "search");
+    this.render(query);
+  }
+
+  displayErrorUI(errorMessage: string) {
+    this.innerHTML = `
+    <div class="error-container">
+      <p>${errorMessage}</p>
+      <p>페이지를 새로 고침하거나 네트워크 상태를 확인 후 나중에 다시 시도해주세요.</p>
+    </div>
     `;
   }
 

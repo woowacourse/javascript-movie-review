@@ -1,19 +1,28 @@
-import { getMostPopularMovies, getSearchMovies } from "./api/fetch";
+import {
+  getMostPopularMovies,
+  getSearchMovies,
+  getMovieGenres,
+} from "./api/movieFetch";
 import movieHandler from "./domain/movieHandler";
 import { $ } from "./utils/dom";
-import MovieListContainer from "../src/components/MovieListContainer";
-import MovieList from "./components/MovieList";
-import type { Movie, ResponseData } from "./types/type";
+import MovieListContainer from "./components/movie/MovieListContainer";
+import MovieList from "./components/movie/MovieList";
+import type { ResponseData, Score } from "./types/type";
 import { errorHandler } from "./utils/errorHandler";
+import CustomModal from "./components/common/CustomModal";
+import MovieDetail from "./components/movie/MovieDetail";
+import { getLocalStorage, setLocalStorage } from "./utils/localStorage";
+import ObservedArea from "./components/common/ObservedArea";
 
 const movieApp = {
   currentPageNumber: 1,
   query: "",
   $container: <MovieListContainer>$("movie-list-container"),
 
-  init() {
+  async init() {
     this.addEvent();
-    this.getPopularMovieData();
+    await this.setMovieGenres();
+    await this.getPopularMovieData();
   },
 
   addEvent() {
@@ -28,19 +37,68 @@ const movieApp = {
       "searchMovieData",
       ({ detail }: CustomEventInit) => this.searchMovieData(detail)
     );
+    $("movie-list-container")?.addEventListener(
+      "clickMovieDetail",
+      ({ detail }: CustomEventInit) => this.renderModal(detail)
+    );
+    $("movie-detail")?.addEventListener(
+      "setMovieScore",
+      ({ detail }: CustomEventInit) => this.setMovieScore(detail)
+    );
+  },
+
+  renderModal(movieID: string) {
+    const modal = <CustomModal>$("custom-modal");
+    const movieDetail = <MovieDetail>$("movie-detail");
+
+    const moviesScore = getLocalStorage("moviesScore") ?? [];
+    const foundMovie = moviesScore.find(
+      (movie: Score) => movie.movieId === movieID
+    );
+
+    movieDetail.render(
+      movieHandler.getMovie(Number(movieID)),
+      foundMovie?.score
+    );
+
+    modal.openModal();
+  },
+
+  setMovieScore({ movieId, score }: Score) {
+    if (score === "0") return;
+
+    const moviesScore = getLocalStorage("moviesScore") ?? [];
+    const foundMovie = moviesScore.find(
+      (movie: Score) => movie.movieId === movieId
+    );
+
+    if (foundMovie) {
+      foundMovie.score = score;
+      setLocalStorage("moviesScore", [...moviesScore]);
+    } else {
+      setLocalStorage("moviesScore", [...moviesScore, { movieId, score }]);
+    }
+  },
+
+  async setMovieGenres() {
+    const genres = await getMovieGenres();
+
+    movieHandler.setGenres(genres.genres);
   },
 
   renderMovieList(movies: ResponseData | undefined) {
     const movieList = <MovieList>$("movie-list");
+    const observedArea = <ObservedArea>$("observed-area");
 
     if (!movies) return;
 
-    movieHandler.addMovies(movies.results);
+    const newMovies = movieHandler.addMovies(movies.results);
 
-    if (movies.results.length < 20) this.$container.removeLoadMovieButton();
+    if (movies.results.length < 20)
+      observedArea.endObserving(<HTMLElement>$(".scroll-area"));
 
     this.$container.hideSkeletonUI();
-    movieList.render(movieHandler.movies);
+    movieList.render(newMovies);
   },
 
   searchMovieData(query: string) {
@@ -54,8 +112,6 @@ const movieApp = {
   },
 
   async fetchMovieData(fetchFunction: () => Promise<ResponseData>) {
-    const movieList = <MovieList>$("movie-list");
-
     this.$container.showSkeletonUI();
     try {
       const movies = await fetchFunction();
@@ -63,7 +119,7 @@ const movieApp = {
       return movies;
     } catch (error) {
       if (error instanceof Error) {
-        const errorMessage = errorHandler(error.message);
+        const errorMessage = error.message;
 
         this.$container.displayErrorUI(errorMessage);
       }
@@ -71,11 +127,14 @@ const movieApp = {
   },
 
   async getPopularMovieData() {
+    const observedArea = <ObservedArea>$("observed-area");
+
     const movies = await this.fetchMovieData(() =>
       getMostPopularMovies(this.currentPageNumber++)
     );
 
-    if (this.currentPageNumber > 500) this.$container.removeLoadMovieButton();
+    if (this.currentPageNumber > 500)
+      observedArea.endObserving(<HTMLElement>$(".scroll-area"));
 
     this.renderMovieList(movies);
   },

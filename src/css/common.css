@@ -1,0 +1,412 @@
+* {
+  box-sizing: border-box !important;
+}
+
+body {
+  font-size: 14px;
+  background-color: #222222;
+  color: #fff;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+#app {
+  padding-bottom: 48px;
+}
+
+*:focus {
+  outline: none;
+}
+
+.item-view,
+.item-test {
+  width: 100%;
+}
+
+.item-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.item-view h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  user-select: none;
+}
+
+/* https://andrew.hedges.name/experiments/aspect_ratio/ */
+
+/* 무비 리스트 */
+
+.item-list,
+.skeleton-list {
+  display: grid;
+  margin: 48px 0;
+  grid-template-columns: repeat(4, 180px);
+  grid-column-gap: 160px;
+  grid-row-gap: 48px;
+}
+
+.item-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-thumbnail {
+  border-radius: 8px;
+  width: 180px;
+  height: 270px;
+  background-size: contain;
+}
+
+.item-title {
+  margin-top: 16px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.item-score {
+  margin-top: 16px;
+  font-size: 1.2rem;
+}
+
+.item-score::after {
+  margin-left: 8px;
+}
+
+.star {
+  width: 28px;
+  height: 28x;
+  margin-right: 4px;
+  transform: translateY(5px);
+}
+
+.item-title.skeleton::after,
+.item-score.skeleton::after {
+  font-size: 0;
+  content: "loading";
+}
+
+.full-width {
+  width: 100%;
+}
+
+.last-item {
+  margin-top: 48px;
+}
+
+button.btn {
+  border: 0;
+  border-radius: 8px;
+  height: 45px;
+  color: #fff;
+}
+
+button.primary {
+  background: #f33f3f;
+}
+
+.item-card .skeleton {
+  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background-size: 400%;
+  animation: skeleton-animation 5s infinite ease-out;
+  border-radius: 8px;
+}
+
+@keyframes skeleton-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* 헤더 */
+
+header {
+  width: 100%;
+  min-width: 1200px;
+  height: 72px;
+  background-color: #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid white;
+  margin-bottom: 48px;
+}
+
+header h1 {
+  cursor: pointer;
+  user-select: none;
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: -0.1rem;
+  color: #f33f3f;
+}
+
+header > .search-box {
+  background: #fff;
+  padding: 8px;
+  border-radius: 4px;
+  width: 320px;
+}
+
+header .search-box input {
+  border: 0;
+  width: 280px;
+}
+
+header .search-box .search-button {
+  width: 14px;
+  border: 0;
+  text-indent: -1000rem;
+  background: url("../../images/search_button.png") transparent no-repeat 0 1px;
+  background-size: contain;
+}
+
+#mobile-search-button {
+  display: none;
+  background: #ffffff;
+  border: 1px solid #d0d5dd;
+
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  width: 36px;
+  height: 34px;
+}
+
+#mobile-search-button > img {
+  width: 14px;
+}
+
+/* 기타 */
+
+.hidden {
+  display: none !important;
+}
+
+.show {
+  display: block !important;
+}
+
+.load-error {
+  background-color: #aaa;
+}
+
+.error-container {
+  margin-top: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+}
+
+.error-container > p {
+  margin-top: 0.6rem;
+}
+
+.not-search {
+  margin-top: 10rem;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+movie-list:has(.not-search) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#logo-button {
+  background: transparent;
+  border: none;
+}
+
+movie-item {
+  cursor: pointer;
+}
+
+/* 모달 */
+
+.modal {
+  width: 80%;
+  height: 60%;
+  max-height: 460px;
+
+  padding: 0;
+  max-width: 1000px;
+  border-color: #212122;
+  border-radius: 12px;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.modal-container {
+  position: fixed;
+  width: 80%;
+  height: 60%;
+  max-width: 1000px;
+  max-height: 460px;
+
+  border-radius: 10px;
+  background-color: #212122;
+  color: white;
+}
+
+.modal-container img {
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 무비 디테일 */
+movie-detail {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 60px;
+  padding: 18px 64px 18px;
+
+  border-bottom: 1px solid rgba(241, 241, 241, 0.25);
+}
+
+.detail-header > h2 {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  display: -webkit-box;
+
+  padding-top: 8px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+#close-button {
+  position: absolute;
+  top: 12px;
+  right: 32px;
+  font-size: 20px;
+
+  border: none;
+  border-radius: 50%;
+
+  color: white;
+  background-color: #383839;
+
+  padding: 5px 10px;
+}
+
+.detail-content {
+  display: flex;
+  height: calc(100% - 60px);
+  padding: 36px 32px 48px 32px;
+}
+
+.detail-description {
+  display: flex;
+  flex-direction: column;
+  margin-left: 32px;
+  line-height: 18px;
+}
+
+.detail-genre-vote {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  flex: 0 0 34px;
+}
+
+.detail-genre-vote span {
+  line-height: 34px;
+}
+
+#detail-genre {
+  margin-right: 18px;
+}
+
+.detail-overview {
+  flex: 1;
+  overflow: auto;
+  margin-bottom: 20px;
+}
+
+.detail-overview::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+
+#purchased-lotto-container::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+#purchased-lotto-container::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.detail-score {
+  display: flex;
+  align-items: center;
+  background-color: #383839;
+  width: fit-content;
+  min-width: 310px;
+  padding: 16px;
+  border-radius: 16px;
+
+  flex: 0 0 36px;
+}
+
+.detail-score img {
+  margin: 0;
+  cursor: pointer;
+  transform: translateY(-1.5px);
+}
+
+#detail-score-image {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+#detail-score-title {
+  margin-right: 10px;
+}
+
+#detail-score-description {
+  margin-left: 8px;
+}

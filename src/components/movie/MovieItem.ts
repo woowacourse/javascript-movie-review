@@ -1,5 +1,5 @@
-import { StarFilled, AddSkeleton, ErrorNoAvailable } from "../../images";
-import { $ } from "../utils/dom";
+import { StarFilled, AddSkeleton, ErrorNoAvailable } from "../../../images";
+import { $, dispatchCustomEvent } from "../../utils/dom";
 
 class MovieItem extends HTMLElement {
   constructor() {
@@ -17,7 +17,6 @@ class MovieItem extends HTMLElement {
     const voteAverage = this.getAttribute("vote_average");
 
     this.innerHTML = /* html */ `
-      <a href="#">
         <div class="item-card">
           <img
             class="item-thumbnail skeleton"
@@ -32,7 +31,6 @@ class MovieItem extends HTMLElement {
           <p class="item-title">${title}</p>
           <p class="item-score"><img src="${StarFilled}" class="star" alt="별점" />${voteAverage}</p>
         </div>
-      </a>
     `;
   }
 
@@ -41,20 +39,32 @@ class MovieItem extends HTMLElement {
       this.removeSkeletonUI()
     );
     $(".item-thumbnail", this)?.addEventListener("error", () =>
-      this.loadErrorImage()
+      this.handleImageLoadError()
     );
+    this.addEventListener("click", () => this.onClickMovieDetail());
   }
 
   removeSkeletonUI() {
     $(".item-thumbnail", this)?.classList.remove("skeleton");
   }
 
-  loadErrorImage() {
+  handleImageLoadError() {
     const targetImage = this.querySelector<HTMLImageElement>(".item-thumbnail");
     if (targetImage) {
       targetImage.classList.remove("skeleton");
-      targetImage.src = `${ErrorNoAvailable}`;
+      targetImage.classList.add("load-error");
     }
+  }
+
+  onClickMovieDetail() {
+    const target = document.querySelector<HTMLImageElement>(
+      "movie-list-container"
+    );
+    if (target)
+      dispatchCustomEvent(target, {
+        eventType: "clickMovieDetail",
+        data: this.getAttribute("movieID"),
+      });
   }
 }
 
