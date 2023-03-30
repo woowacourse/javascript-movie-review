@@ -1,4 +1,4 @@
-export const delayHelper = () => {
+const delayHelper = () => {
   // 쓰로틀링과 디바운스를 체크하기 위한 변수를 만들어줍니다.
   let throttleCheck, debounceCheck;
 
@@ -29,3 +29,7 @@ export const delayHelper = () => {
     },
   };
 };
+
+const { debounce, throttle } = delayHelper();
+
+export { debounce, throttle };
