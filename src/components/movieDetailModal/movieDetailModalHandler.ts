@@ -19,9 +19,6 @@ const showModal = () => {
 
     $<HTMLDialogElement>("#movie-detail").showModal();
 
-    const bodyStyle = $<HTMLBodyElement>("body").style;
-    bodyStyle.overflow = "hidden";
-
     handleUserRatings();
   });
 };
@@ -34,9 +31,6 @@ const closeModal = () => {
 
     if (isClosing(target.className)) {
       $<HTMLDialogElement>("#movie-detail").close();
-
-      const bodyStyle = $<HTMLBodyElement>("body").style;
-      bodyStyle.overflow = "visible";
     }
   });
 };
