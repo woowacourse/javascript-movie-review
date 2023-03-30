@@ -3,7 +3,7 @@ import { assemble, Event } from '../../core';
 import { getElement, $, replaceComponent } from './../../utils/common/domHelper';
 import { useState, useEffect } from '../../core';
 import { useModal } from '../../hooks/useModal';
-import { VOTE_NULL } from '../../constants';
+import { VOTE_NULL, VOTE_LIST } from '../../constants';
 
 export interface ModalProps {
   modalData: MovieInfo | MovieInfoByKeyword;
@@ -106,11 +106,9 @@ const Modal = assemble<ModalProps>(({ handleIsVisibleModal, modalData }) => {
               
               <div class="myscore-container">
                 <p class="modal-myscore"> 내 별점<p>
-                  <img data=2 src="./${myVote < 2 ? 'star_empty.png' : 'star_filled.png'}"/>
-                  <img data=4 src="./${myVote < 4 ? 'star_empty.png' : 'star_filled.png'}"/>
-                  <img data=6 src="./${myVote < 6 ? 'star_empty.png' : 'star_filled.png'}"/>
-                  <img data=8 src="./${myVote < 8 ? 'star_empty.png' : 'star_filled.png'}"/>
-                  <img data=10 src="./${myVote < 10 ? 'star_empty.png' : 'star_filled.png'}"/>
+                  ${VOTE_LIST.map(
+                    (vote) => `<img data=${vote} src="./${myVote < vote ? 'star_empty.png' : 'star_filled.png'}"/>`
+                  ).join('')}
                   <p>${myVote === VOTE_NULL ? '' : myVote} ${getCommentByVote(myVote)}<p/> 
               </div>
             </div>
