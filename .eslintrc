@@ -17,8 +17,7 @@
     "plugin:prettier/recommended"
   ],
   "rules": {
-    "functional/no-let": "error",
-    "max-depth": ["error", 2],
+    "max-depth": ["error", 3],
     "max-params": ["error", 3],
     "class-methods-use-this": "off"
   },

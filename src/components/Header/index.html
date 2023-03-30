@@ -1,7 +1,6 @@
 <style>
   header {
     width: 100%;
-    min-width: 1200px;
     height: 72px;
     background-color: #222;
     display: flex;
@@ -31,19 +30,53 @@
     border: 0;
   }
 
-  header .search-box > .search-button {
-    width: 14px;
-    border: 0;
-    text-indent: -1000rem;
-    background: url('../../assets/search_button.png') transparent no-repeat 0 1px;
-    background-size: contain;
+  header > .search-box-second {
+    display: none;
+  }
+
+  @media screen and (max-width: 420px) {
+    header {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+    }
+    header > .search-box {
+      display: none;
+      padding: 13px !important;
+      border-radius: 10px !important;
+    }
+
+    header > .search-box-second {
+      display: block;
+      background: #fff;
+      padding: 8px;
+      border-radius: 4px;
+    }
+
+
+  }
+  @media screen and (min-width: 421px) {
+    header > h1 {
+      display: block !important;
+    }
+
+    header > .search-box {
+      display: block !important;
+    }
+
+    header > .search-box-second {
+      display: none !important;
+    }
   }
 </style>
 
 <header>
-  <h1><img src="/src/assets/logo.png" alt="MovieList 로고" /></h1>
+  <h1><img class="logo" src="/src/assets/logo.png" alt="MovieList 로고" /></h1>
   <div class="search-box">
     <input type="text" placeholder="검색" />
     <button class="search-button">검색</button>
+  </div>
+  <div class="search-box-second">
+    <button class="search-button-second">검색</button>
   </div>
 </header>

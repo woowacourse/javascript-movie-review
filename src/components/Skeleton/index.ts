@@ -1,11 +1,12 @@
 import template from './index.html';
+import { $$ } from '../../utils/Dom';
 
 export class Skeleton extends HTMLElement {
   #$movieItems: HTMLElement;
 
   constructor() {
     super();
-    this.#$movieItems = document.querySelector('.item-list')!;
+    this.#$movieItems = $$('.item-list', HTMLUListElement);
     this.innerHTML = template;
 
     this.attachSkeleton();
@@ -20,7 +21,7 @@ export class Skeleton extends HTMLElement {
   }
 
   moreButtonRemoveSkeleton() {
-    document.querySelector('.item-list .skeleton-list')?.remove();
+    $$('.skeleton-view', HTMLDivElement).remove();
   }
 
   removeSkeleton() {
