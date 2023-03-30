@@ -24,12 +24,12 @@ const MovieApi = {
   async getResponseData<T = MovieAPIResponse>(url: string) {
     const response = await fetch(url);
 
-    if (response.ok) {
-      const data: T = await response.json();
-      return data;
+    if (!response.ok) {
+      throw getErrorMessage(response.status);
     }
 
-    throw getErrorMessage(response.status);
+    const data: T = await response.json();
+    return data;
   },
 
   getPopularMovies(params: MovieApiParams) {
