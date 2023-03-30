@@ -34,17 +34,11 @@ const getMyVote = (id: number) => {
 
 const setMyVote = ({ id, my_vote }: Pick<MovieInfo, 'id' | 'my_vote'>) => {
   const myVotes = getData('my_votes', []);
-  const vote = getMyVote(id);
+  const existingVote = getMyVote(id);
 
-  if (vote) {
-    const updatedMyVotes = myVotes.map((vote: MyVote) => {
-      if (vote.id === id) vote.my_vote = my_vote;
+  const updatedMyVotes = existingVote
+    ? myVotes.map((vote: MyVote) => (vote.id === id ? { ...vote, my_vote } : vote))
+    : [...myVotes, { id, my_vote }];
 
-      return vote;
-    });
-
-    addData(updatedMyVotes);
-  } else {
-    addData([...myVotes, { id, my_vote }]);
-  }
+  addData(updatedMyVotes);
 };
