@@ -5,6 +5,7 @@ import { Modal } from './components/Modal';
 import { ModalInformation } from './ModalInformation';
 import Store from './Store';
 import { STRING } from './utils/Constant';
+import { $ } from './utils/Dom';
 
 class App {
   $header: Header;
@@ -46,9 +47,8 @@ class App {
 
   async infiniteScrollHandler() {
     if (this.store.page === this.store.totalPage) return;
-    this.store.allocateData(this.store.searchWord).then(() => {
-      this.$movieList.renderMovies(this.store.movieListValue, this.store.genre);
-    });
+    await this.store.allocateData(this.store.searchWord);
+    this.$movieList.renderMovies(this.store.movieListValue, this.store.genre);
   }
 
   searchHandler(value: string) {

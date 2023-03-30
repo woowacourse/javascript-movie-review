@@ -70,14 +70,12 @@ export class MovieList extends HTMLElement {
   infiniteScroll = (moreButtonHandler: CallableFunction) => {
     this.#$li = this.querySelector('movie-item:last-of-type')!;
     const io = new IntersectionObserver(
-      (entry) => {
+      async (entry) => {
         if (entry[0].isIntersecting) {
           io.unobserve(this.#$li);
-          moreButtonHandler();
-          setTimeout(() => {
-            this.#$li = this.querySelector('movie-item:last-child')!;
-            io.observe(this.#$li);
-          }, 500);
+          await moreButtonHandler();
+          this.#$li = this.querySelector('movie-item:last-child')!;
+          io.observe(this.#$li);
         }
       },
       {
