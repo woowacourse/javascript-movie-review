@@ -1,49 +1,36 @@
-import Movie from './Movie';
+import Movie from './MovieSummaryItem';
+import { $ } from '../util/querySelector';
 import MovieSkeleton from './MovieSkeleton';
-
-const SKELETON_ITEM_COUNT = 20;
-const skeleton = document.createDocumentFragment();
-for (let i = 0; i < SKELETON_ITEM_COUNT; i += 1) {
-  skeleton.appendChild(MovieSkeleton.makeNode());
-}
 
 class Main {
   #element;
   #manager;
   #title;
   #list;
-  #button;
+  #observer;
 
   constructor (element, manager) {
     this.#element = element;
     this.#manager = manager;
 
     this.#initializeElement();
-    this.#requestMovieListEvent();
-  }
-
-  renderSkeleton () {
-    const query = this.#manager.getQuery();
-
-    this.#title.textContent = query ? `"${query}" 검색 결과` : '지금 인기 있는 영화';
-    this.#list.appendChild(skeleton.cloneNode(true));
   }
 
   async render () {
-    const movie = new Movie();
     const query = this.#manager.getQuery();
 
-    if (query === '' && !this.#manager.getMovieList().length) {
-      this.renderSkeleton();
-      await this.#manager.searchMovieList('');
-    } else if (this.#manager.getCurrentPage() === 1) {
+    if (this.#manager.getCurrentPage() === 1) {
       this.#list.replaceChildren();
-      this.renderSkeleton();
+    }
+
+    if (!this.#observer) {
+      this.#observer = new IntersectionObserver(this.#showMoreMoviesCallback.bind(this), { threshold: 0.2 });
       await this.#manager.searchMovieList(query);
     }
 
+    this.#observer.disconnect();
+
     this.#title.textContent = query ? `"${query}" 검색 결과` : '지금 인기 있는 영화';
-    this.#list.replaceChildren();
 
     const movieListFragment = document.createDocumentFragment();
     const movieList = this.#manager.getMovieList();
@@ -55,15 +42,41 @@ class Main {
       movieListFragment.appendChild(noSearchResult);
     }
 
-    movieList.forEach((movieInfo) => movieListFragment.appendChild(movie.makeNode(movieInfo)));
+    movieList.forEach((movieInfo) => movieListFragment.appendChild(new Movie(movieInfo).render()));
+
+    this.#removeSkeletonAtListEnd();
 
     this.#list.appendChild(movieListFragment);
 
-    if (this.#manager.isLastPage()) {
-      this.#button.dataset.hidden = 'true';
-    } else {
-      this.#button.dataset.hidden = 'false';
+    if (!this.#manager.isLastPage()) {
+      this.#observer.observe($('li.movie-info:nth-last-child(6)', this.#list));
     }
+
+    if (!this.#manager.isLastPage() && movieList.length) {
+      this.#addSkeletonToListEnd();
+    }
+  }
+
+  #removeSkeletonAtListEnd () {
+    console.log('removed', this.#element.querySelectorAll('li.skeleton').length);
+    this.#element.querySelectorAll('li.skeleton').forEach((skeleton) => skeleton.remove());
+  }
+
+  #addSkeletonToListEnd () {
+    const listWidth = $('ul.item-list', this.#element).offsetWidth;
+    const item = $('li.movie-info', this.#element);
+    const itemWidth = item.offsetWidth;
+    const itemMarginLeft = parseInt(window.getComputedStyle(item).marginLeft, 10);
+    const itemMarginRight = parseInt(window.getComputedStyle(item).marginRight, 10);
+
+    const MaxItemCountInRow = Math.floor(listWidth / (itemWidth + itemMarginLeft + itemMarginRight));
+    const lastRowItemCount = (this.#list.querySelectorAll('ul.item-list li').length) % MaxItemCountInRow;
+    const skeletonCount = lastRowItemCount ? MaxItemCountInRow - lastRowItemCount : 0;
+
+    for (let i = 0; i < skeletonCount; i += 1) {
+      this.#list.appendChild(MovieSkeleton.getSingleSkeletonNode());
+    }
+    console.log('added', skeletonCount);
   }
 
   #initializeElement () {
@@ -72,27 +85,19 @@ class Main {
     const list = document.createElement('ul');
     list.setAttribute('class', 'item-list');
 
-    const button = document.createElement('button');
-    button.setAttribute('class', 'btn primary full-width');
-    button.textContent = '더 보기';
-
     this.#title = title;
     this.#list = list;
-    this.#button = button;
 
     this.#element.appendChild(title);
     this.#element.appendChild(list);
-    this.#element.appendChild(button);
   }
 
-  #requestMovieListEvent () {
-    this.#element.addEventListener('click', async (e) => {
-      if (e.target.tagName === 'BUTTON') {
-        this.renderSkeleton();
-        await this.#manager.getMoreMovieList();
-        this.render();
-      }
-    });
+  async #showMoreMoviesCallback (entries) {
+    if (entries[0].intersectionRatio > 0.2) {
+      this.#element.dispatchEvent(new CustomEvent('searchPending', { bubbles: true }));
+      await this.#manager.getMoreMovieList();
+      this.#element.dispatchEvent(new CustomEvent('searchFullfilled', { bubbles: true }));
+    }
   }
 }
 

@@ -10,13 +10,23 @@ body {
   color: #ffffff;
 }
 
-button {
+button,
+.movie-info {
   cursor: pointer;
 }
 
 *:focus {
   outline: none;
 }
+
+main {
+  display: flex;
+  flex-direction: column;
+  
+  align-items: center;
+  justify-content: center;
+}
+
 .item-view,
 .item-test {
   width: 100%;
@@ -26,7 +36,8 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  align-items: center;
+
   margin: 0 auto;
 }
 
@@ -36,22 +47,32 @@ button {
   user-select: none;
 }
 
-/* https://andrew.hedges.name/experiments/aspect_ratio/ */
-
 .item-list {
-  display: grid;
-  margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
-  grid-row-gap: 48px;
+  display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
+
+  margin-top: 24px;
+}
+
+.movie-info,
+li.skeleton {
+  margin: 24px 80px;
 }
 
 .item-card {
   display: flex;
   flex-direction: column;
 
+  width: 180px;
+
   color: inherit;
   text-decoration: none;
+}
+
+.item-card > img {
+  width: 180px;
+  height: 270px;
 }
 
 .item-thumbnail {
@@ -68,7 +89,12 @@ button {
 }
 
 .item-score {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+
   margin-top: 16px;
+
   font-size: 1.2rem;
 }
 
@@ -101,7 +127,8 @@ button.primary {
   background: #f33f3f;
 }
 
-.item-card .skeleton {
+.item-card .skeleton,
+.movie-poster .skeleton {
   background: linear-gradient(-90deg, #aaaaaa, #f0f0f0, #aaaaaa, #f0f0f0);
   background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
@@ -119,20 +146,24 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
-  width: 100%;
-  min-width: 1200px;
-  height: 72px;
-  background-color: #222222;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  
+  width: 100%;
+  height: 72px;
   padding: 0 20px;
+
+  background-color: #222222;
   border-bottom: 1px solid #ffffff;
   margin-bottom: 48px;
 }
 
 header h1 {
+  display: flex;
+
   cursor: pointer;
   user-select: none;
   font-size: 2rem;
@@ -155,10 +186,433 @@ header .search-box > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
-  background: url("../assets/search_button.png") transparent no-repeat 0 1px;
+  background: url(../assets/search_button.png) transparent no-repeat 0 1px;
   background-size: contain;
 }
 
-button[data-hidden='true'] {
+#movie-modal {
+  flex-direction: column;
+  justify-content: space-between;
+
+  min-width: 85vw;
+  max-width: 90vw;
+  min-height: 80vh;
+  max-height: 90vh;
+
+  padding: 32px 16px;
+
+  border-radius: 8px 8px 0 0;
+  background: #000000;
+
+  color: #ffffff;
+  border: none;
+}
+
+#movie-modal[open] {
+  display: flex;
+}
+
+dialog#movie-modal::backdrop {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.modal-header {
+  margin-bottom: 24px;
+
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+.modal-header h1 {
+  display: inline-block;
+
+  margin: 0 auto 24px auto;
+
+  font-size: 2rem;
+}
+
+.modal-close {
+  position: absolute;
+  right: 0;
+
+  width: 7%;
+  margin-right: 10px;
+
+  border: none;
+  background: none;
+  color: white;
+  font-size: 2rem;
+}
+
+.modal-body {
+  flex: 12345;
+  display: flex;
+}
+
+#movie-modal .movie-poster {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+#movie-modal .movie-poster img{
+  width: 100%;
+  max-width: 500px;
+}
+
+#movie-modal .skeleton {
+  width: 100%;
+  max-width: 500px;
+  height: 33vh;
+  max-height: 750px;
+}
+
+#movie-modal .movie-info {
+  flex: 2;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  margin: 48px;
+
+  cursor: default;
+  font-size: 1.2rem;
+  line-height: 2rem;
+}
+
+#movie-modal .movie-info div:first-child {
+  display: flex;
+}
+
+#movie-modal .movie-info span:first-child {
+  margin-right: 18px;
+}
+
+#movie-modal .overview {
+  margin: 24px 0;
+  max-height: 500px;
+
+  overflow: auto;
+}
+
+#movie-modal .rating {
+  display: inline-flex;
+  align-items: center;
+}
+
+#skeleton-container {
+  display: block;
+}
+
+#skeleton-container[data-hidden='true'] {
   display: none;
+}
+
+#scroll-to-top {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+
+  align-content: center;
+
+  width: 55px;
+  height: 55px;
+
+  background-color: #f33f3f;
+}
+
+#scroll-to-top img {
+  width: 32px;
+  height: 32px;
+}
+
+.star {
+  display: grid;
+  grid-template-columns: 15% 40% 5% 40%;
+  align-items: center;
+
+  padding: 20px;
+  margin: 0 auto;
+  width: 100%;
+
+  border-radius: 16px;
+  background-color: #383838;
+}
+
+.star > *:not(.star-container) {
+  text-align: center;
+}
+
+.star-container {
+  height: 40px;
+}
+
+.star-container input {
+  position: relative;
+  top: -32px;
+
+  width: 160px;
+  height: 32px;
+
+  opacity: 0;
+  cursor: pointer;
+}
+
+.star-container span {
+  display: flex;
+  align-items: center;
+
+  position: relative;
+  left: 13px;
+
+  width: 160px;
+  height: 100%;
+
+  pointer-events: none;
+}
+
+img.rating-img {
+  content: url(../assets/star_empty.png);
+
+  width: 32px;
+  height: 32px;
+}
+
+img.rating-img[data-filled="true"] {
+  content: url(../assets/star_filled.png);
+}
+
+@media screen and (max-width: 1000px) {
+  .star {
+    padding: 10px;
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 834px) {
+  .movie-info,
+  li.skeleton {
+    margin: 20px 24px;
+  }
+
+  .modal-header {
+    margin: 0;
+  }
+
+  #movie-modal .movie-info {
+    margin: 100px 24px;
+  }
+
+  #movie-modal .overview {
+    max-height: 350px;
+  }
+
+  .star {
+    padding: 5px;
+    font-size: 0.8rem;
+  }
+
+  .star-container input {
+    width: 120px;
+    height: 24px;
+  }
+  
+  .star-container span {
+    left: 10px;
+  
+    width: 120px;
+    height: 100%;
+  }
+  
+  img.rating-img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media screen and (max-width: 630px) {
+  .star {
+    grid-template-columns: 25% 60% 15%;
+    padding: 5px;
+    font-size: 1rem;
+  }
+
+  .star-container input {
+    width: 160px;
+    height: 32px;
+  }
+  
+  .star-container span {
+    left: 12.5px;
+  
+    width: 160px;
+    height: 100%;
+  }
+
+  #movie-modal .rating-message {
+    display: none;
+  }
+  
+  img.rating-img {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .star {
+    grid-template-columns: 25% 68% 7%;
+    padding: 5px;
+    font-size: 0.8rem;
+  }
+
+  .star-container input {
+    width: 120px;
+    height: 24px;
+  }
+  
+  .star-container span {
+    left: 10px;
+  
+    width: 120px;
+    height: 100%;
+  }
+
+  #movie-modal .rating-message {
+    display: none;
+  }
+  
+  img.rating-img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  header {
+    display: grid;
+    justify-content: space-between;
+    align-items: center;
+    grid-template: "title search" auto;
+  }
+
+  header h1 {
+    display: inline-flex;
+    grid-area: 1 / title / 1 / title;
+  }
+
+  header > .search-box {
+    display: flex;
+    justify-content: space-between;
+
+    grid-area: 1 / search / 1 / search;
+
+    width: 80px;
+  }
+
+  header > .search-box > input {
+    display: flex;
+    width: 40px;
+  }
+
+  header > .search-box:hover {
+    grid-area: 1 / title / 1 / search;
+    width: 100%;
+  }
+
+  header > .search-box:hover > input {
+    width: 100%;
+  }
+
+  .item-list {
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
+  
+    margin: 24px 0;
+  }
+  
+  .movie-info ,
+  li.skeleton {
+    margin: 16px 10px;
+  }
+  
+  .item-card {  
+    width: 140px;
+  }
+
+  #movie-modal {
+    margin-top: 50vh;
+
+    width: 100%;
+    max-width: 100%;
+
+    min-height: 50vh;
+    height: 50vh;
+    max-height: 50vh;
+  }
+
+  .modal-header {
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
+
+  #movie-modal .modal-body {
+    max-height: 35vh;
+  }
+
+  #movie-modal .movie-info {
+    flex: auto;
+    justify-content: flex-start;
+    margin: 12px;
+  }
+  
+  .item-card > img,
+  .item-thumbnail.skeleton {
+    width: 140px;
+    height: 220px;
+  }
+
+  .item-title {
+    margin-top: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  .item-score {
+    margin-top: 8px;
+    font-size: 1rem;
+  }
+
+  #movie-modal .movie-poster {
+    display: none;
+  }
+
+  .star {
+    grid-template-columns: 25% 65% 10%;
+    padding: 5px;
+    font-size: 0.8rem;
+  }
+
+  .star-container input {
+    width: 120px;
+    height: 24px;
+  }
+  
+  .star-container span {
+    left: 10px;
+  
+    width: 120px;
+    height: 100%;
+  }
+
+  #movie-modal .rating-message {
+    display: none;
+  }
+  
+  img.rating-img {
+    width: 24px;
+    height: 24px;
+  }
 }
