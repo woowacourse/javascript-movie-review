@@ -5,7 +5,6 @@ import { Modal } from './components/Modal';
 import { ModalInformation } from './ModalInformation';
 import Store from './Store';
 import { STRING } from './utils/Constant';
-import { $ } from './utils/Dom';
 
 class App {
   $header: Header;

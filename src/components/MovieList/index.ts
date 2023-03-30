@@ -2,6 +2,10 @@ import template from './index.html';
 import { Movie } from '../../types';
 import { $$ } from '../../utils/Dom';
 
+type Genre = {
+  id: number;
+  name: string;
+}[];
 export class MovieList extends HTMLElement {
   #$movieItems: HTMLElement;
   #$li: HTMLElement;
@@ -18,16 +22,16 @@ export class MovieList extends HTMLElement {
     if (pageTitle !== null) pageTitle.innerHTML = title;
   }
 
-  renderMovies(movieList: Movie[], genre: Array<{ id: number; name: string }>) {
+  renderMovies(movieList: Movie[], genre: Genre) {
     this.insertMovieList(movieList, genre);
   }
 
-  renderSearchedMovies(movieList: Movie[], genre: Array<{ id: number; name: string }>) {
+  renderSearchedMovies(movieList: Movie[], genre: Genre) {
     this.#$movieItems.replaceChildren();
     this.insertMovieList(movieList, genre);
   }
 
-  private insertMovieList(movieList: Movie[], genre: Array<{ id: number; name: string }>) {
+  private insertMovieList(movieList: Movie[], genre: Genre) {
     if (movieList.length === 0) {
       this.#$movieItems?.insertAdjacentHTML(
         'beforeend',
