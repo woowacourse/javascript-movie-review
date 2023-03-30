@@ -88,10 +88,7 @@ export default class MovieDetailsModal implements Component {
       once: true,
     });
 
-    const radios = this.$element.querySelectorAll('input[type=radio][name="rating"]');
-    radios.forEach((radio) => {
-      radio.addEventListener('change', this.onChangeUserScore.bind(this));
-    });
+    (<HTMLDivElement>this.$element.querySelector('.rating')).addEventListener('click', this.onClickRating.bind(this));
   }
 
   hide() {
@@ -106,7 +103,9 @@ export default class MovieDetailsModal implements Component {
     (e.key === 'Escape' || e.key === 'Esc') && this.hide();
   }
 
-  onChangeUserScore(e: Event) {
+  onClickRating(e: Event) {
+    if ((<Element>e.target).tagName !== 'INPUT') return;
+
     this.#userScore = +(<HTMLInputElement>e.target).value;
 
     (<HTMLParagraphElement>this.$element.querySelector('#rating-number')).textContent = this.#userScore.toString();
