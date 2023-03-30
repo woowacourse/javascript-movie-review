@@ -282,7 +282,7 @@ header .search-box > .search-button {
   font-size: 16px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1168px) {
   .item-list {
     display: grid;
     margin: 48px 0;
@@ -300,7 +300,7 @@ header .search-box > .search-button {
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 720px) {
   .search-box {
     display: flex;
     justify-content: space-between;
