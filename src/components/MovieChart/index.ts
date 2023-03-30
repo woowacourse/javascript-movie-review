@@ -16,6 +16,7 @@ const MovieChart = assemble<MovieChartProps>(({ keyword }) => {
   } = useMovieChart(keyword);
   const needMoreFetch = !isLoading && movieChart?.movieChartInfo.page !== movieChart?.movieChartInfo.total_pages;
   const noResult = !isLoading && !movieChart?.movieChartInfo.total_results;
+  const isModalReady = isOpen && focusedMovie;
 
   observer('.fetch-more-line', {
     onIntersect() {
@@ -46,7 +47,7 @@ const MovieChart = assemble<MovieChartProps>(({ keyword }) => {
       </section>
       <fragment id="MovieOverviewModal">
         ${
-          isOpen && focusedMovie
+          isModalReady
             ? MovieOverviewModalComponent({
                 focusedMovie,
                 closeModal,
