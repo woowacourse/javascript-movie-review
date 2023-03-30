@@ -1,5 +1,6 @@
 import template from './index.html';
 import { STRING } from '../../utils/Constant';
+import { $$ } from '../../utils/Dom';
 
 export class MovieItem extends HTMLElement {
   connectedCallback() {
@@ -17,8 +18,8 @@ export class MovieItem extends HTMLElement {
   }
 
   private imageSkeletonHandler() {
-    const movieImg = this.querySelector('img');
-    const skeleton = this.querySelector('.skeleton');
+    const movieImg = $$('img', HTMLImageElement, this);
+    const skeleton = $$('.skeleton', HTMLDivElement, this);
 
     movieImg?.addEventListener('load', () => {
       movieImg.classList.remove('hidden');

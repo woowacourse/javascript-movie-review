@@ -1,5 +1,5 @@
 import template from './index.html';
-import { STRING } from '../../utils/Constant';
+import { $$ } from '../../utils/Dom';
 
 export class Modal extends HTMLElement {
   constructor() {
@@ -8,14 +8,12 @@ export class Modal extends HTMLElement {
   }
 
   close = () => {
-    const modal = document.querySelector('.modal');
-    if (!(modal instanceof HTMLDialogElement)) throw new Error(STRING.NOT_FIND_ELEMENT);
+    const modal = $$('.modal', HTMLDialogElement);
     modal.close();
   };
 
   show = () => {
-    const modal = document.querySelector('.modal');
-    if (!(modal instanceof HTMLDialogElement)) throw new Error(STRING.NOT_FIND_ELEMENT);
+    const modal = $$('.modal', HTMLDialogElement);
     modal.showModal();
   };
 }

@@ -1,5 +1,6 @@
 import template from './index.html';
 import { Movie } from '../../types';
+import { $$ } from '../../utils/Dom';
 
 export class MovieList extends HTMLElement {
   #$movieItems: HTMLElement;
@@ -8,8 +9,8 @@ export class MovieList extends HTMLElement {
   constructor() {
     super();
     this.innerHTML = template;
-    this.#$movieItems = <HTMLDivElement>this.querySelector('.item-list');
-    this.#$li = <HTMLUListElement>document.querySelector('.ul');
+    this.#$movieItems = $$('.item-list', HTMLUListElement, this);
+    this.#$li = $$('ul', HTMLUListElement);
   }
 
   setTitle(title: string) {
@@ -68,13 +69,13 @@ export class MovieList extends HTMLElement {
   }
 
   infiniteScroll = (moreButtonHandler: CallableFunction) => {
-    this.#$li = this.querySelector('movie-item:last-of-type')!;
+    this.#$li = $$('movie-item:last-of-type', HTMLElement, this);
     const io = new IntersectionObserver(
       async (entry) => {
         if (entry[0].isIntersecting) {
           io.unobserve(this.#$li);
           await moreButtonHandler();
-          this.#$li = this.querySelector('movie-item:last-child')!;
+          this.#$li = $$('movie-item:last-of-type', HTMLElement, this);
           io.observe(this.#$li);
         }
       },

@@ -1,5 +1,6 @@
 import template from './index.html';
 import { STRING, NUMBER } from '../utils/Constant';
+import { $$ } from '../utils/Dom';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fillStar = require('../assets/star_filled.png');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -9,14 +10,13 @@ export class ModalInformation extends HTMLElement {
   $modal: HTMLElement;
   constructor() {
     super();
-    this.$modal = document.querySelector('.modal')!;
+    this.$modal = $$('.modal', HTMLDialogElement);
   }
 
   eventBind = () => {
     this.starEvent();
     document.querySelector('.modal-close')?.addEventListener('click', () => {
-      const modal = document.querySelector('.modal');
-      if (!(modal instanceof HTMLDialogElement)) throw new Error(STRING.NOT_FIND_ELEMENT);
+      const modal = $$('.modal', HTMLDialogElement);
       modal.close();
     });
   };
