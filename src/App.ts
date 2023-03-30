@@ -1,69 +1,150 @@
-import type { TMDBResponse } from './types/tmdb';
-import movieService from './domain/movieService';
+import type { MoviesResponse } from './types/tmdb';
+import MovieService from './domain/MovieService';
 import * as dom from './dom';
-import { $ } from './utils/domUtils';
-import { getPopularMovies, getSearchMovies } from './api';
+import { getGenres, getPopularMovies, getSearchMovies } from './api';
 import { MAXIMUM_PAGE, POPULAR_TITLE } from './constants';
+import CustomStorage from './utils/CustomStorage';
+import { Movie } from './types/domain';
 
-class App {
+interface State {
   pageNumber: number;
   pageCategory: 'home' | 'search';
   searchQuery: string;
+  loading: boolean;
+}
+
+type VoteMap = Record<string, number>;
+
+class App {
+  voteMapStorage;
+  movieService;
+  state: State;
 
   constructor() {
-    this.pageNumber = 1;
-    this.pageCategory = 'home';
-    this.searchQuery = '';
+    this.voteMapStorage = new CustomStorage<VoteMap>('voteMap', {});
+    this.movieService = new MovieService([]);
+    this.state = {
+      pageNumber: 1,
+      pageCategory: 'home',
+      searchQuery: '',
+      loading: false,
+    };
 
+    this.init();
+  }
+
+  async init() {
+    window.addEventListener('offline', this.onOffline);
+    window.addEventListener('online', this.onHome);
+    document.body.addEventListener('home', this.onHome);
+    document.body.addEventListener('search', this.onSearch);
+    document.body.addEventListener('loadMore', this.onLoadMore);
+    document.body.addEventListener('clickItem', this.onClickItem);
+    document.body.addEventListener('vote', this.onVote);
+
+    const { genres } = await getGenres();
+    this.movieService = new MovieService(genres);
     this.initMoviePage(POPULAR_TITLE);
-    this.bindEvents();
-    this.updateMoviePage(getPopularMovies, { page: this.pageNumber });
+    this.updateMoviePage(getPopularMovies, { page: this.state.pageNumber });
   }
 
-  bindEvents() {
-    $('movie-header')?.addEventListener('home', () => {
-      this.pageCategory = 'home';
-      this.initMoviePage(POPULAR_TITLE);
-      this.updateMoviePage(getPopularMovies, { page: this.pageNumber });
-    });
+  onOffline = () => {
+    dom.renderErrorPage(400);
+  };
 
-    $('movie-header')?.addEventListener('search', (e) => {
-      this.pageCategory = 'search';
-      this.searchQuery = (<CustomEvent>e).detail.query;
-      this.initMoviePage(`"${this.searchQuery}" 검색 결과`);
-      this.updateMoviePage(getSearchMovies, { query: this.searchQuery, page: this.pageNumber });
-    });
+  onHome = () => {
+    this.state.pageCategory = 'home';
+    this.initMoviePage(POPULAR_TITLE);
+    this.updateMoviePage(getPopularMovies, { page: this.state.pageNumber });
+    dom.resetSearchBox();
+  };
 
-    $('#page')?.addEventListener('loadMore', () => {
-      if (this.pageCategory === 'home') {
-        this.updateMoviePage(getPopularMovies, { page: this.pageNumber });
-      } else {
-        this.updateMoviePage(getSearchMovies, { query: this.searchQuery, page: this.pageNumber });
-      }
+  onSearch = (e: Event) => {
+    this.state.pageCategory = 'search';
+    this.state.searchQuery = (<CustomEvent>e).detail.query;
+    this.initMoviePage(`"${this.state.searchQuery}" 검색 결과`);
+    this.updateMoviePage(getSearchMovies, {
+      query: this.state.searchQuery,
+      page: this.state.pageNumber,
     });
-  }
+  };
+
+  onLoadMore = () => {
+    if (this.state.pageCategory === 'home') {
+      this.updateMoviePage(getPopularMovies, { page: this.state.pageNumber });
+    } else {
+      this.updateMoviePage(getSearchMovies, {
+        query: this.state.searchQuery,
+        page: this.state.pageNumber,
+      });
+    }
+  };
+
+  onClickItem = (e: Event) => {
+    const { id } = (<CustomEvent>e).detail;
+
+    const movie = this.movieService.findMovie(id);
+    const myVote = this.voteMapStorage.getValue()[id] ?? 0;
+
+    if (movie) dom.renderMovieDetailBox(movie, myVote);
+    dom.show('.modal');
+    dom.fixBodyScroll();
+  };
+
+  onVote = (e: Event) => {
+    const { id, myVote } = (<CustomEvent>e).detail;
+
+    this.voteMapStorage.setValue({ ...this.voteMapStorage.getValue(), [id]: myVote });
+    dom.renderMyVoteArea(id, myVote);
+  };
 
   initMoviePage(title: string) {
-    this.pageNumber = 1;
-    movieService.resetMovies();
-    dom.resetSearchBox();
+    window.scrollTo({ top: 0 });
+    this.state.pageNumber = 1;
+    this.movieService.resetMovies();
+
     dom.renderMoviePage(title);
   }
 
-  async updateMoviePage<T>(api: (params: T) => Promise<TMDBResponse>, params: T) {
+  async updateMoviePage<Params>(api: (params: Params) => Promise<MoviesResponse>, params: Params) {
+    if (this.state.loading) return;
     try {
-      dom.show('#skeleton-list');
-      const { results, total_pages } = await api(params);
-      dom.hide('#skeleton-list');
-      if (this.pageNumber >= total_pages || this.pageNumber >= MAXIMUM_PAGE) dom.hide('#load-more');
+      const { results, total_pages } = await this.apiWithSkeleton(api)(params);
+      if (this.state.pageNumber >= total_pages || this.state.pageNumber >= MAXIMUM_PAGE) {
+        dom.hide('#load-sensor');
+      }
 
-      this.pageNumber += 1;
-      const newMovies = movieService.resultsToMovies(results);
-      movieService.concatMovies(newMovies);
-      dom.renderMovieListItem(newMovies);
-    } catch {
-      dom.renderErrorPage();
+      this.state.pageNumber += 1;
+      this.handleNewMovies(this.movieService.generateMovies(results));
+    } catch (response) {
+      if (response instanceof Response) dom.renderErrorPage(response.status);
     }
+  }
+
+  apiWithSkeleton<Params>(api: (params: Params) => Promise<MoviesResponse>) {
+    return async (params: Params) => {
+      dom.show('#skeleton-list');
+      this.state.loading = true;
+
+      const { results, total_pages } = await api(params);
+
+      dom.hide('#skeleton-list');
+      this.state.loading = false;
+
+      return { results, total_pages };
+    };
+  }
+
+  handleNewMovies(newMovies: Movie[]) {
+    if (this.state.pageCategory === 'search' && newMovies.length === 0) {
+      dom.renderEmptyList();
+      return;
+    }
+
+    this.movieService.concatMovies(newMovies);
+    const prevY = window.scrollY;
+    dom.renderMovieListItem(newMovies);
+    window.scrollTo({ top: prevY });
   }
 }
 

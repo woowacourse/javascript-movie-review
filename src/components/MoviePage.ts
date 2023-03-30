@@ -1,3 +1,6 @@
+import createObserver from '../utils/createObserver';
+import { dispatchCustomEvent } from '../utils/domUtils';
+
 class MoviePage extends HTMLElement {
   constructor() {
     super();
@@ -11,20 +14,19 @@ class MoviePage extends HTMLElement {
         <h2 id="movie-list-title">${title}</h2>
         <ul class="item-list"></ul>
         <ul class="item-list" id="skeleton-list">
-          ${/* html */ `<skeleton-list-item></skeleton-list-item>`.repeat(20)}
+          ${/* html */ `<skeleton-list-item></skeleton-list-item>`.repeat(16)}
         </ul>
-        <button id="load-more" class="btn primary full-width">더 보기</button>
+        <div id="load-sensor"></div>
       </section>
     `;
   }
 
   connectedCallback() {
-    this.querySelector('#load-more')?.addEventListener('click', this.onClickLoadMore);
+    const $loadSensor = this.querySelector('#load-sensor');
+    if ($loadSensor) {
+      createObserver(() => dispatchCustomEvent(this, 'loadMore')).observe($loadSensor);
+    }
   }
-
-  onClickLoadMore = () => {
-    this.dispatchEvent(new CustomEvent('loadMore', { bubbles: true }));
-  };
 }
 
 export default MoviePage;

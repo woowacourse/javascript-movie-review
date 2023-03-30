@@ -1,4 +1,4 @@
-import { defineConfig } from "cypress";
+import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
@@ -6,4 +6,6 @@ export default defineConfig({
       // implement node event listeners here
     },
   },
+  viewportWidth: 1300,
+  viewportHeight: 800,
 });

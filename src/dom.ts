@@ -6,21 +6,33 @@ export const hide = (selectors: string) => $(selectors)?.classList.add('hide');
 export const show = (selectors: string) => $(selectors)?.classList.remove('hide');
 
 export const renderMovieListItem = (movies: Movie[]) => {
-  $('.item-list')?.insertAdjacentHTML(
+  const $itemList = $('.item-list');
+  if (!$itemList) return;
+
+  $itemList.insertAdjacentHTML(
     'beforeend',
-    /* html */ `${movies
+    movies
       .map(
-        ({ title, posterPath, voteAverage }) => /* html */ `
-            <movie-list-item 
-              title="${title}" 
-              poster-path="${posterPath}" 
-              vote-average="${voteAverage}"
-            ></movie-list-item>
-          `
+        ({ id, title, posterPath, voteAverage }) => /* html */ `
+          <movie-list-item 
+            id="${id}"
+            title="${title}" 
+            poster-path="${posterPath}" 
+            vote-average="${voteAverage}"
+          ></movie-list-item>
+        `
       )
-      .join('')}
-    `
+      .join('')
   );
+};
+
+export const renderEmptyList = () => {
+  const $itemList = $('.item-list');
+  if (!$itemList) return;
+
+  $itemList.innerHTML = /* html */ `
+    <p class="message">검색 결과가 없습니다.</p>
+  `;
 };
 
 export const renderMoviePage = (title: string) => {
@@ -28,12 +40,41 @@ export const renderMoviePage = (title: string) => {
   if ($page) $page.innerHTML = /* html */ `<movie-page title='${title}'></movie-page>`;
 };
 
-export const renderErrorPage = () => {
+export const renderErrorPage = (statusCode: number) => {
   const $page = $('#page');
-  if ($page) $page.innerHTML = /* html */ `<error-page></error-page>`;
+  if ($page) $page.innerHTML = /* html */ `<error-page status-code="${statusCode}"></error-page>`;
 };
 
 export const resetSearchBox = () => {
-  const searchBox = $('.search-box');
-  if (searchBox instanceof HTMLFormElement) searchBox.reset();
+  const $searchBox = $('.search-box');
+  if ($searchBox instanceof HTMLFormElement) $searchBox.reset();
+};
+
+export const renderMovieDetailBox = (movie: Movie, myVote: number) => {
+  const $movieDetail = $('movie-detail');
+  if (!$movieDetail) return;
+
+  const { id, title, posterPath, voteAverage, genreString, overview } = movie;
+  $movieDetail.outerHTML = /* html */ `
+    <movie-detail
+      id="${id}"
+      title="${title}"
+      poster-path="${posterPath}"
+      vote-average="${voteAverage}"
+      genreString="${genreString}"
+      overview="${overview}"
+      my-vote="${myVote}"
+    ></movie-detail>
+  `;
+};
+
+export const renderMyVoteArea = (id: string, myVote: string) => {
+  const $voteArea = $('.vote-area');
+  if (!$voteArea) return;
+
+  $voteArea.outerHTML = /* html */ `<vote-area id="${id}" my-vote="${myVote}"></vote-area>`;
+};
+
+export const fixBodyScroll = () => {
+  document.body.classList.add('fix');
 };

@@ -1,7 +1,10 @@
-import type { TMDBResponseResult } from './tmdb';
+import type { MoviesResponseResult } from './tmdb';
 
 export interface Movie {
-  title: TMDBResponseResult['title'];
-  posterPath: TMDBResponseResult['poster_path'];
-  voteAverage: TMDBResponseResult['vote_average'];
+  id: MoviesResponseResult['id'];
+  title: MoviesResponseResult['title'];
+  posterPath: MoviesResponseResult['poster_path'];
+  voteAverage: string;
+  genreString: string;
+  overview: MoviesResponseResult['overview'];
 }
