@@ -31,7 +31,7 @@ const Modal = {
     const $modal = document.querySelector(".modal");
 
     $modal.classList.remove("modal-open");
-    document.body.style.overflow = "unset";
+    document.body.style.removeProperty("overflow");
   },
 
   setEvent() {
