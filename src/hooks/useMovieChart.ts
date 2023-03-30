@@ -94,8 +94,6 @@ function useMovieChart(keyword: string) {
     fetchMore(keyword);
   }, [keyword]);
 
-  useEffect(() => {}, [movieList]);
-
   return {
     values: { movieChart, movieList, isLoading, focusedMovie, isOpen },
     handlers: { closeModal, openModal, fetchMore, onClickMovie, setMyVote },
