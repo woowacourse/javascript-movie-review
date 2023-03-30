@@ -4,8 +4,8 @@ import { MovieAPIData, getGenreAPIData } from '../api/get';
 const genreList: GenreList = {};
 
 getGenreAPIData().then((genres) => {
-  genres.forEach((genre) => {
-    genreList[genre.id] = genre.name;
+  genres.forEach(({ id, name }) => {
+    genreList[id] = name;
   });
 });
 
