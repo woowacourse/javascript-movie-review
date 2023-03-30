@@ -1,5 +1,4 @@
 import { SKELETON_REPEAT_TIME } from "../constant/setting";
-import { $ } from "../utils/Dom";
 
 export default class SkeletonList extends HTMLElement {
   connectedCallback() {

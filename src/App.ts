@@ -1,10 +1,16 @@
 import MovieCardList from "./components/MovieCardList";
-import { TOGGLE_SKELETON, LIST_STATE, LIST_HEADING } from "./constant/setting";
+import {
+  LIST_STATE,
+  LIST_HEADING,
+  SINGLE_PAGE_MAX_MOVIE_QUANTITY,
+} from "./constant/setting";
 import { $ } from "./utils/Dom";
 import { getPopularMovies, getSearchedMovies } from "./utils/fetch";
+import { requestLocalStorage } from "./utils/localstorage";
 
 export default class App {
-  #state: appState;
+  #state: AppState;
+  #myRating: MyRating;
 
   constructor() {
     this.#state = {
@@ -13,6 +19,7 @@ export default class App {
       movieList: [],
       movieName: "",
     };
+    this.#myRating = requestLocalStorage.getMyRating();
     this.init();
     this.setEvent();
   }
@@ -29,20 +36,29 @@ export default class App {
 
   render() {
     const itemView = $(".item-view");
-    const { listState, movieList, movieName } = this.#state;
+    const { listState, movieName } = this.#state;
 
     if (itemView instanceof HTMLElement)
       itemView.innerHTML = `
     <card-list header='${LIST_HEADING(listState, movieName)}'></card-list>
-    <more-button length='${movieList.length}'>
-    </more-button>
     `;
   }
 
   setEvent() {
-    document.addEventListener("click-more-button", () => {
-      this.toggleSkeletonList(TOGGLE_SKELETON.SHOW);
-      this.appendMovieList();
+    let throttle: null | number | undefined;
+
+    window.addEventListener("scroll", () => {
+      if (this.#state.movieList.length < SINGLE_PAGE_MAX_MOVIE_QUANTITY) return;
+      if (!throttle)
+        throttle = +setTimeout(() => {
+          throttle = null;
+          const scrollPosition = window.pageYOffset + window.innerHeight;
+          const documentHeight = document.body.offsetHeight - 20;
+
+          if (scrollPosition >= documentHeight) {
+            this.appendMovieList();
+          }
+        }, 1000);
     });
 
     document.addEventListener(
@@ -53,6 +69,20 @@ export default class App {
     document.addEventListener("click-home-button", () => {
       this.init();
     });
+
+    document.addEventListener(
+      "set-my-rating",
+      this.setMyRating as EventListener
+    );
+
+    document.addEventListener(
+      "send-my-rating",
+      this.sendMyRating as EventListener
+    );
+
+    window.addEventListener("beforeunload", () => {
+      requestLocalStorage.setMyRating(this.#myRating);
+    });
   }
 
   async appendMovieList() {
@@ -61,7 +91,6 @@ export default class App {
     this.setState({ page: page + 1 });
     await this.setMoviesList();
     this.setMoreButtonState();
-    this.toggleSkeletonList(TOGGLE_SKELETON.HIDDEN);
     this.mountMovieList();
   }
 
@@ -81,7 +110,7 @@ export default class App {
 
   searchMovieCallback = ({ detail }: CustomEvent) => {
     const { movieName } = detail;
-
+    if (!movieName) return this.init();
     this.setState({
       page: 1,
       listState: LIST_STATE.SEARCHED,
@@ -90,16 +119,36 @@ export default class App {
     this.renderSearchedMovies();
   };
 
+  setMyRating = ({ detail }: CustomEvent) => {
+    this.#myRating = this.#myRating.filter(
+      ({ movieId }) => movieId !== detail.movieId
+    );
+    this.#myRating.push({ movieId: detail.movieId, myRating: detail.myRating });
+  };
+
+  sendMyRating = ({ detail }: CustomEvent) => {
+    const $app = document.querySelector("#app");
+    const targetObject = this.#myRating.find(
+      ({ movieId }) => movieId === detail.movieId
+    );
+    $app?.insertAdjacentHTML(
+      "afterbegin",
+      `<movie-modal 
+      my-rating="${targetObject ? targetObject.myRating : 0}"
+      movie-id="${detail.movieId}"
+      movie-title="${detail.movieTitle}"
+      ></movie-modal>`
+    );
+  };
+
   async renderSearchedMovies() {
     this.render();
-    this.toggleSkeletonList(TOGGLE_SKELETON.SHOW);
     await this.setMoviesList();
-    this.toggleSkeletonList(TOGGLE_SKELETON.HIDDEN);
     this.mountMovieList();
   }
 
-  getMovieListFromFetchedData(fetchedData: parsedJson) {
-    return fetchedData.results.map((item: movieData) => {
+  getMovieListFromFetchedData(fetchedData: MovieListResponse) {
+    return fetchedData.results.map((item: MovieData) => {
       const { title, poster_path, vote_average, id } = item;
       return {
         title,
@@ -111,15 +160,9 @@ export default class App {
   }
 
   mountMovieList() {
+    const { movieList } = this.#state;
     const $cardList = $("card-list");
-    if ($cardList instanceof MovieCardList)
-      $cardList.setMovieList(this.#state.movieList);
-  }
-
-  toggleSkeletonList(method: toggleSkeleton) {
-    const $cardList = $("card-list");
-    if ($cardList instanceof MovieCardList)
-      $cardList.toggleSkeletonList(method);
+    if ($cardList instanceof MovieCardList) $cardList.setMovieList(movieList);
   }
 
   setMoreButtonState() {

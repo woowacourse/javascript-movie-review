@@ -1,6 +1,7 @@
+import NoImage from "../assets/image/no_image.png";
 export default class MovieCard extends HTMLElement {
   get movieTitle() {
-    return this.getAttribute("movieTitle");
+    return this.getAttribute("movie-title");
   }
 
   get rating() {
@@ -12,7 +13,7 @@ export default class MovieCard extends HTMLElement {
   }
 
   get movieId() {
-    return this.getAttribute("movieId");
+    return Number(this.getAttribute("movie-id"));
   }
 
   connectedCallback() {
@@ -25,14 +26,19 @@ export default class MovieCard extends HTMLElement {
   <li>
      <a href="#">
        <div class="item-card">
-         <div id='skeleton' class="item-thumbnail skeleton"></div>
          <img
-           class="item-thumbnail hidden"
-           src="https://image.tmdb.org/t/p/w220_and_h330_face${this.poster}"
+           class="item-thumbnail skeleton"
+           src='${
+             this.poster === "null"
+               ? NoImage
+               : `https://image.tmdb.org/t/p/w220_and_h330_face${this.poster}`
+           }'
            alt="${this.movieTitle}"
          />
-         <p class="item-title skeleton"></p>
-         <p class="item-score skeleton"></p>
+         <p class="item-title skeleton">${this.movieTitle}</p>
+         <p class="item-score skeleton">${
+           this.rating
+         }<img class="star-filled hidden" alt="별점" /></p>
        </div>
      </a>
    </li>
@@ -40,33 +46,30 @@ export default class MovieCard extends HTMLElement {
   }
 
   setEvent() {
-    const $moiveImage = this.querySelector("img");
-    if ($moiveImage instanceof HTMLImageElement) {
-      $moiveImage.addEventListener("load", () => {
-        this.keepSkeletonWhileImageLoading($moiveImage);
-      });
-    }
-  }
+    const $moiveImage = this.querySelector(
+      ".item-thumbnail"
+    ) as HTMLImageElement;
+    const $skeletonList = this.querySelectorAll(".skeleton");
+    const $star = this.querySelector(".star-filled");
+    $moiveImage?.addEventListener("load", () => {
+      if (!$moiveImage.complete) return;
 
-  keepSkeletonWhileImageLoading($moiveImage: HTMLImageElement) {
-    if (!$moiveImage.complete) return;
+      $skeletonList.forEach((element) => element.classList.remove("skeleton"));
+      $star?.classList.remove("hidden");
+    });
 
-    const $title = this.querySelector(".item-title");
-    const $rating = this.querySelector(".item-score");
-    const $skeleton = this.querySelector("#skeleton");
-
-    if (
-      $skeleton instanceof HTMLDivElement &&
-      $title instanceof HTMLParagraphElement &&
-      $rating instanceof HTMLParagraphElement
-    ) {
-      $skeleton.classList.add("hidden");
-      if (this.movieTitle) $title.innerText = this.movieTitle;
-      $title.classList.remove("skeleton");
-      $rating.innerHTML = `${this.rating}<img class="star-filled" alt="별점" />`;
-      $rating.classList.remove("skeleton");
-      $moiveImage.classList.remove("hidden");
-    }
+    this.addEventListener("click", (event) => {
+      event.preventDefault();
+      this.dispatchEvent(
+        new CustomEvent("send-my-rating", {
+          bubbles: true,
+          detail: {
+            movieId: this.movieId,
+            movieTitle: this.movieTitle,
+          },
+        })
+      );
+    });
   }
 }
 

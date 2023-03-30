@@ -1,3 +1,4 @@
+import { BREAKPOINT_SMALL } from "../constant/setting";
 import { $ } from "../utils/Dom";
 
 export default class MovieSearch extends HTMLElement {
@@ -9,15 +10,17 @@ export default class MovieSearch extends HTMLElement {
   render() {
     this.innerHTML = /*html*/ `
          <div class="search-box">
-          <input type="text" placeholder="검색" />
+          <input class="search-input" type="text" placeholder="검색" />
           <button class="search-button">검색</button>
          </div>
         `;
   }
 
   setEvent() {
+    const $header = $("header") as HTMLElement;
     const $searchButton = this.querySelector(".search-button") as HTMLElement;
     const $searchInput = this.querySelector("input") as HTMLElement;
+    const $homeButtom = $(".home-button") as HTMLElement;
 
     $searchButton.addEventListener("click", () => {
       this.createSearchMovieEvent();
@@ -26,25 +29,46 @@ export default class MovieSearch extends HTMLElement {
     $searchInput.addEventListener("keyup", (event) => {
       if (event.key === "Enter") this.createSearchMovieEvent();
     });
+
+    window.addEventListener("resize", () => {
+      const documentWidth = document.body.offsetWidth;
+      if (documentWidth > BREAKPOINT_SMALL) {
+        $searchInput.classList.remove("change");
+        $homeButtom.style.display = "block";
+        $header.style.justifyContent = "space-between";
+      }
+    });
   }
 
   createSearchMovieEvent() {
-    const $searchInput = this.querySelector("input") as HTMLInputElement;
+    const $searchInput = this.querySelector(
+      ".search-input"
+    ) as HTMLInputElement;
     const $moreButton = $("more-button") as HTMLElement;
+    const $homeButtom = $(".home-button") as HTMLElement;
+    const $header = $("header") as HTMLElement;
 
-    if ($searchInput.value) {
-      this.dispatchEvent(
-        new CustomEvent("search-movie", {
-          bubbles: true,
-          detail: { movieName: $searchInput.value },
-        })
-      );
-      $moreButton.classList.add("hidden");
+    if (
+      window.innerWidth < BREAKPOINT_SMALL &&
+      !$searchInput.className.includes("change")
+    ) {
+      $searchInput.classList.add("change");
+      $homeButtom.style.display = "none";
+      $header.style.justifyContent = "center";
+      return;
     }
 
-    if (!$searchInput.value) {
-      alert("검색어를 입력하시오");
-    }
+    this.dispatchEvent(
+      new CustomEvent("search-movie", {
+        bubbles: true,
+        detail: { movieName: $searchInput.value },
+      })
+    );
+    $moreButton?.classList.add("hidden");
+
+    $searchInput.classList.remove("change");
+    $homeButtom.style.display = "block";
+    $header.style.justifyContent = "space-between";
   }
 }
 
