@@ -24,9 +24,7 @@ const showModal = () => {
 };
 
 const closeModal = () => {
-  $("#modal").addEventListener("click", (event) => {
-    const target = event.target;
-
+  $("#modal").addEventListener("click", ({ target }) => {
     if (!(target instanceof HTMLElement)) return;
 
     if (isClosing(target.className)) {
@@ -44,22 +42,17 @@ const isClosing = (className: string) => {
 };
 
 const handleUserRatings = () => {
-  $("#user-ratings-input").addEventListener("input", (event) => {
-    const target = event.target;
-
+  $("#user-ratings-input").addEventListener("input", ({ target }) => {
     if (!(target instanceof HTMLInputElement)) return;
 
-    $<HTMLDivElement>(`#filled-stars`).style.width = `${
-      Number(target.value) * 10
-    }%`;
+    const ratings = target.value;
+    $<HTMLDivElement>(`#filled-stars`).style.width = `${Number(ratings) * 10}%`;
 
     const movieId = target.className.replace("-ratings", "");
-    localStorage.setItem(movieId, target.value);
-
-    const ratings = localStorage.getItem(movieId);
-    $(".user-ratings").textContent = `${ratings}`;
+    localStorage.setItem(movieId, ratings);
 
     const message = RATING_MESSAGES[ratings ? ratings : "0"];
     $(".message").textContent = `${message}`;
+    $(".user-ratings").textContent = `${ratings}`;
   });
 };
