@@ -48,11 +48,9 @@ class MovieList {
   }
 
   getMovieLi(movies) {
-    const movieLi = movies.reduce((li, movie) => {
+    return movies.reduce((li, movie) => {
       return li + this.getMovieItemTemplate(movie);
     }, '');
-
-    return movieLi;
   }
 
   getMovieItemTemplate({ id, title, vote_average, poster_path }) {
