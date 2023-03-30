@@ -78,12 +78,10 @@ export default class Header implements Component {
   }
 
   hideSearchInput() {
-    const $input = <HTMLInputElement>this.$element.querySelector('input[name="query"]');
-    $input.classList.add('hide');
+    (<HTMLInputElement>this.$element.querySelector('input[name="query"]')).classList.add('hide');
   }
 
   showSearchInput() {
-    const $input = <HTMLInputElement>this.$element.querySelector('input[name="query"]');
-    $input.classList.remove('hide');
+    (<HTMLInputElement>this.$element.querySelector('input[name="query"]')).classList.remove('hide');
   }
 }
