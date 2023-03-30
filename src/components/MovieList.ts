@@ -61,21 +61,18 @@ export default class MovieList {
     this.renderMovieCards(results, total_pages);
   }
 
-  bindEvent(getMovieRequest: () => Promise<MoviesResponse>) {
-    const handleMoreMovie = async () => {
-      Store.page += 1;
-      await this.requestAndRenderMovieCards(getMovieRequest);
-    };
-
+  private registerInfinteScrollEvent(observeTarget: Element, callback: () => void) {
     this.io = new IntersectionObserver(
-      (entries, observer) => {
+      (entries, _) => {
         if (!entries[0].isIntersecting) return;
-        handleMoreMovie();
+        callback();
       },
       { rootMargin: '100%' },
     );
-    this.io.observe(this.$moreMovieButton);
+    this.io.observe(observeTarget);
+  }
 
+  private registerMovieCardModalEvent() {
     this.handleClickMovieCard = (e: Event) => {
       if (!(e.target instanceof HTMLElement)) return;
       const $itemCard = e.target.closest('.js-item-card');
@@ -96,6 +93,16 @@ export default class MovieList {
     };
 
     this.$movieItemList.addEventListener('click', this.handleClickMovieCard);
+  }
+
+  bindEvent(getMovieRequest: () => Promise<MoviesResponse>) {
+    const handleMoreMovie = async () => {
+      Store.page += 1;
+      await this.requestAndRenderMovieCards(getMovieRequest);
+    };
+
+    this.registerInfinteScrollEvent(this.$moreMovieButton, handleMoreMovie);
+    this.registerMovieCardModalEvent();
   }
 
   renderTitle(title: string) {
