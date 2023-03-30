@@ -65,6 +65,8 @@ export const popularMovieDataFetchFuncGenerator = () => {
     const queryString = new URLSearchParams(DEFAULT_QUERY);
     queryString.append('page', currentPage.toString());
 
+    currentPage += 1;
+
     const url = `${SCHEME}${HOST}${PATHS.POPULAR}?${queryString}`;
     const response = await fetch(url);
 
@@ -76,10 +78,10 @@ export const popularMovieDataFetchFuncGenerator = () => {
         errorMessage: result.status_message,
       };
 
+      currentPage -= 1;
+
       return data;
     }
-
-    currentPage += 1;
 
     const result: MovieAPIMetadata = await response.json();
     const data: MovieMetaData = {
@@ -102,6 +104,8 @@ export const searchedMovieDataFetchFuncGenerator = (query: string) => {
     const queryString = new URLSearchParams(DEFAULT_QUERY);
     queryString.append('page', currentPage.toString());
     queryString.append('query', query);
+    
+    currentPage += 1;
 
     const url = `${SCHEME}${HOST}${PATHS.SEARCH}?${queryString}`;
     const response = await fetch(url);
@@ -114,10 +118,11 @@ export const searchedMovieDataFetchFuncGenerator = (query: string) => {
         errorMessage: result.status_message,
       };
 
+      currentPage -= 1;
+
       return data;
     }
 
-    currentPage += 1;
 
     const result: MovieAPIMetadata = await response.json();
     const data: MovieMetaData = {
