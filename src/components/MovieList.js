@@ -1,15 +1,39 @@
 import { Store } from '..';
 import { RENDER_MODE } from '../constants';
-import { getPopularMovies, searchMovies } from '../service/movie';
+import { getPopularMovies, searchMovies, getMovieById } from '../service/movie';
 import MovieCard from './MovieCard';
+import MovieInfo from './MovieInfo';
 
 export default class MovieList {
   constructor($parent) {
     this.$parent = $parent;
     this.renderMode = RENDER_MODE.POPULAR;
+    this.io = new IntersectionObserver(this.handleIntersect.bind(this));
+    this.FETCH_FUNCTION = {
+      [RENDER_MODE.POPULAR]: getPopularMovies,
+      [RENDER_MODE.SEARCH]: searchMovies,
+    };
+    this.getFetchOptions = {
+      [RENDER_MODE.POPULAR]: () => ({ page: Store.page }),
+      [RENDER_MODE.SEARCH]: () => ({ page: Store.page, text: Store.keyword }),
+    };
+    this.isLoading = false;
 
     this.render();
     this.selectDom();
+    this.mount().then(() => {
+      this.io.observe(this.$detectingScroll);
+    });
+  }
+
+  handleIntersect(entries, io) {
+    const isLastPage = Store.page === Store.lastPage;
+
+    entries.forEach((entry) => {
+      if (!this.isLoading && entry.isIntersecting && !isLastPage) {
+        this.renderNewContent();
+      }
+    });
   }
 
   template() {
@@ -18,9 +42,8 @@ export default class MovieList {
         <section class="item-view">
           <h2 id="js-movie-list-title">지금 인기 있는 영화</h2>
           <ul id="js-movie-list" class="item-list"></ul>
+          <div id="js-detecting-scroll" class="detecting-scroll"></div>
         </section>
-        <button id="js-more-movie-button" class="btn primary full-width">더 보기</button>
-        <p id='js-last-page-notify'>마지막 페이지입니다</p>
       </main>
     `;
   }
@@ -39,29 +62,38 @@ export default class MovieList {
     `;
   }
 
-  bindEvent() {
-    const handleMoreMovieButton = async () => {
-      Store.page += 1;
+  loadingTemplate() {
+    return `
+      <span class="loader"></span>
+    `;
+  }
 
-      if (this.renderMode === RENDER_MODE.POPULAR) {
-        this.toggleSkeleton();
-        const { results, total_pages } = await getPopularMovies({ page: Store.page });
-        this.toggleSkeleton();
-        this.renderMovieCards(results, total_pages);
-      }
+  bindEvent(insertModalContent) {
+    this.$movieItemList.addEventListener('click', async (event) => {
+      const movieCard = event.target.closest('.item-card');
+      if (!movieCard) return;
 
-      if (this.renderMode === RENDER_MODE.SEARCH) {
-        this.toggleSkeleton();
-        const { results, total_pages } = await searchMovies({
-          page: Store.page,
-          text: Store.keyword,
-        });
-        this.toggleSkeleton();
-        this.renderMovieCards(results, total_pages);
-      }
-    };
+      const id = movieCard.getAttribute('data-id');
+      const movie = await getMovieById(id);
 
-    this.$moreMovieButton?.addEventListener('click', handleMoreMovieButton);
+      const movieInfo = new MovieInfo();
+      insertModalContent(movieInfo.template(movie));
+      movieInfo.bindEvent();
+    });
+  }
+
+  async renderNewContent() {
+    Store.page += 1;
+
+    this.startLoading();
+
+    const fetchMovies = this.FETCH_FUNCTION[this.renderMode];
+    const { results, total_pages } = await fetchMovies(this.getFetchOptions[this.renderMode]());
+
+    Store.lastPage = total_pages;
+
+    this.finishLoading();
+    this.renderMovieCards(results);
   }
 
   render() {
@@ -71,46 +103,46 @@ export default class MovieList {
   selectDom() {
     this.$title = this.$parent.querySelector('#js-movie-list-title');
     this.$movieItemList = this.$parent.querySelector('#js-movie-list');
-    this.$moreMovieButton = this.$parent.querySelector('#js-more-movie-button');
-    this.$lastPageNotify = this.$parent.querySelector('#js-last-page-notify');
-    this.$skeletonDiv = this.$parent.querySelector('#js-movie-list-skeleton');
+    this.$detectingScroll = this.$parent.querySelector('#js-detecting-scroll');
   }
 
   renderTitle(title) {
     this.$title.textContent = title;
   }
 
-  renderMovieCards(results, totalPages) {
+  renderMovieCards(results) {
     const MovieCardshtml = results.reduce((html, movie) => {
       return html + new MovieCard().template(movie);
     }, '');
 
     this.$movieItemList.insertAdjacentHTML('beforeend', MovieCardshtml);
-
-    totalPages > Store.page ? this.showMoreMovieButton() : this.hideMoreMovieButton();
-  }
-
-  hideMoreMovieButton() {
-    this.$moreMovieButton.classList.add('hide');
-    this.$lastPageNotify.classList.remove('hide');
-  }
-
-  showMoreMovieButton() {
-    this.$moreMovieButton.classList.remove('hide');
-    this.$lastPageNotify.classList.add('hide');
   }
 
   removeMovieCards() {
     this.$movieItemList.innerHTML = '';
   }
 
-  toggleSkeleton() {
+  startLoading() {
+    this.isLoading = true;
+    this.$movieItemList.insertAdjacentHTML('beforeend', this.skeletonTemplate().repeat(10));
+    this.$detectingScroll.insertAdjacentHTML('beforeend', this.loadingTemplate());
+  }
+
+  finishLoading() {
+    this.isLoading = false;
+    this.$detectingScroll.innerHTML = '';
+
     const $skeletonLists = this.$movieItemList.querySelectorAll('.skeleton-li');
 
     if ($skeletonLists.length > 0) {
       $skeletonLists.forEach(($skeletonList) => $skeletonList.remove());
-    } else {
-      this.$movieItemList.insertAdjacentHTML('beforeend', this.skeletonTemplate().repeat(20));
     }
+  }
+
+  async mount() {
+    this.startLoading();
+    const { results, total_pages } = await getPopularMovies({ page: 1 });
+    this.finishLoading();
+    this.renderMovieCards(results, total_pages);
   }
 }

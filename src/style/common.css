@@ -17,10 +17,6 @@ button {
   cursor: pointer;
 }
 
-#app {
-  padding-bottom: 48px;
-}
-
 *:focus {
   outline: none;
 }
@@ -29,12 +25,14 @@ button {
   width: 100%;
 }
 
+main {
+  margin: 0 7%;
+}
+
 .item-view {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
-  margin: 0 auto;
 }
 
 .item-view h2 {
@@ -47,15 +45,17 @@ button {
 
 .item-list {
   display: grid;
-  margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  margin: 48px 0 0 0;
+  grid-template-columns: repeat(auto-fill, 180px);
+  grid-column-gap: 5%;
   grid-row-gap: 48px;
+  justify-content: space-between;
 }
 
 .item-card {
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .item-thumbnail {
@@ -126,7 +126,6 @@ button.primary {
 }
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -164,6 +163,250 @@ header .search-box > .search-button {
   background-size: contain;
 }
 
-.hide {
-  display: none;
+dialog {
+  padding: 0;
+  border: none;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  max-width: 826px;
+  background-color: #212122;
+  color: #f1f1f1;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 18px 32px;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  position: relative;
+  border-bottom: 1px solid rgba(241, 241, 241, 0.25);
+}
+
+.modal-close-button {
+  position: absolute;
+  right: 18px;
+  font-size: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #383839;
+  color: #f1f1f1;
+  border: none;
+}
+
+.modal-content {
+  width: 100%;
+  padding: 36px 32px;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+}
+
+.movie-info {
+  display: grid;
+  grid-template:
+    'poster summary' 24px
+    'poster overview' 357px
+    'poster star_rating' 64px
+    / 292px 438px;
+  gap: 0 32px;
+}
+
+.movie-poster {
+  grid-area: poster;
+  width: 292px;
+  height: 445px;
+}
+
+.movie-summary {
+  grid-area: summary;
+  display: flex;
+}
+
+.movie-vote_average {
+  display: flex;
+  align-items: center;
+  margin-left: 18px;
+}
+
+.movie-overview {
+  grid-area: overview;
+  margin-top: 16px;
+  overflow: scroll;
+}
+
+.movie-star_rating {
+  display: flex;
+  margin-top: 20px;
+  padding: 20px 16px;
+  align-items: center;
+  grid-area: star_rating;
+  background-color: #383839;
+  border-radius: 16px;
+}
+
+.movie-star {
+  margin-left: 14px;
+}
+
+.movie-my_rating {
+  margin-left: 8px;
+}
+
+.rating-group {
+  display: inline-flex;
+}
+
+.rating-icon {
+  pointer-events: none;
+}
+
+.rating-input {
+  position: absolute !important;
+  left: -9999px !important;
+}
+
+.rating-label {
+  cursor: pointer;
+  padding: 0 0.1em;
+  font-size: 1.5rem;
+}
+
+.rating-label--half {
+  padding-right: 0;
+  margin-right: -0.6em;
+  z-index: 2;
+}
+
+.rating-icon--star {
+  color: orange;
+}
+
+.rating-icon--none {
+  color: #eee;
+}
+
+.rating-input--none:checked + .rating-label .rating-icon--none {
+  color: red;
+}
+
+.rating-input:checked ~ .rating-label .rating-icon--star {
+  color: #ddd;
+}
+
+.rating-group:hover .rating-label .rating-icon--star,
+.rating-group:hover .rating-label--half .rating-icon--star {
+  color: orange;
+}
+
+/* make hovered input's following siblings grey on hover */
+.rating-input:hover ~ .rating-label .rating-icon--star,
+.rating-input:hover ~ .rating-label--half .rating-icon--star {
+  color: #ddd;
+}
+
+/* make none icon grey on rating group hover */
+.rating-group:hover .rating-input--none:not(:hover) + .rating-label .rating-icon--none {
+  color: #eee;
+}
+
+/* make none icon red on hover */
+.rating-input--none:hover + .rating-label .rating-icon--none {
+  color: red;
+}
+
+@media (max-width: 1024px) {
+  .item-list {
+    grid-column-gap: 5%;
+    grid-row-gap: 55px;
+  }
+}
+
+@media (max-width: 768px) {
+  .item-list {
+    grid-template-columns: repeat(auto-fill, 140px);
+    grid-column-gap: 36px;
+    grid-row-gap: 32px;
+    font-size: 16px;
+  }
+
+  .item-thumbnail {
+    width: 140px;
+    height: 220px;
+  }
+
+  .modal-form {
+    width: 356px;
+  }
+
+  .modal-close-button {
+    right: 10px;
+    font-size: 14px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .movie-info {
+    grid-template:
+      'summary' 24px
+      'overview'
+      'star_rating' 64px
+      / 292px;
+    gap: 0 32px;
+  }
+
+  .movie-poster {
+    display: none;
+  }
+
+  .movie-my_rating:last-of-type {
+    display: none;
+  }
+}
+
+.detecting-scroll {
+  margin: 16px 0;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  margin: 16px 0;
+  width: 36px;
+  height: 36px;
+  border: 4px solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
