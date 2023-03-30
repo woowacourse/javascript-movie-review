@@ -114,11 +114,11 @@ class App {
     this.isLoading = false;
   }
 
-  displayErrorMessage({ status_code }) {
+  displayErrorMessage({ status_code: statusCode }) {
     this.isError = true;
     this.$main.classList.add('hidden');
 
-    this.$main.insertAdjacentHTML('beforebegin', this.getErrorMessageTemplate(status_code));
+    this.$main.insertAdjacentHTML('beforebegin', this.getErrorMessageTemplate(statusCode));
   }
 
   removeErrorMessage() {
@@ -128,9 +128,9 @@ class App {
     document.querySelector('.error-message').remove();
   }
 
-  getErrorMessageTemplate(status_code) {
+  getErrorMessageTemplate(statusCode) {
     const errorDiv = `<div class="error-message">
-      <p>${statusCodeToErrorMessage(status_code)}</p>
+      <p>${statusCodeToErrorMessage(statusCode)}</p>
     </div>`;
 
     return errorDiv;
