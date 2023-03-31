@@ -11,6 +11,7 @@ export class Header {
     this.#$target = $target;
 
     this.render();
+    this.bindEvent();
   }
 
   render() {
@@ -21,6 +22,16 @@ export class Header {
             <button class="search-button">검색</button>
         </form>
     `;
+  }
+
+  bindEvent() {
+    const $searchInput = $(".search-input");
+
+    if (!($searchInput instanceof HTMLInputElement)) return;
+
+    $searchInput.addEventListener("click", function () {
+      this.select();
+    });
   }
 
   getInputValue() {

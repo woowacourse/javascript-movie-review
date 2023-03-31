@@ -42,8 +42,6 @@ export class App {
       event.preventDefault();
 
       this.onSubmitSearchKeyword(this.#header.getInputValue());
-
-      if (event.target instanceof HTMLFormElement) event.target.reset();
     });
   }
 
