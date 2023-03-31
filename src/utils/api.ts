@@ -19,10 +19,19 @@ export const request = async (url: string) => {
 
     throw new Error(`${response.status}`);
   } catch (error: any) {
-    if (error.message === "Failed to fetch")
-      return alert("네트워크 연결이 종료되었습니다.");
+    if (error.message === "Failed to fetch") {
+      alert("네트워크 연결이 종료되었습니다.");
+      return;
+    }
 
-    alert(`${error.message} 에러가 발생했습니다!`);
+    switch (error.message.slice(0, 1)) {
+      case "4":
+        alert("잘못된 요청입니다!");
+        break;
+      case "5":
+        alert("서버에서 오류가 발생했습니다.");
+        break;
+    }
   }
 };
 
