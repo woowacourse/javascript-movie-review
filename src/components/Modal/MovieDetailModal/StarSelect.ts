@@ -1,5 +1,5 @@
-import filledStarImg from "../../../../templates/star_filled.png";
-import emptyStarImg from "../../../../templates/star_empty.png";
+import filledStarImage from "../../../../templates/star_filled.png";
+import emptyStarImage from "../../../../templates/star_empty.png";
 
 import { $ } from "../../../utils/selector";
 
@@ -43,7 +43,7 @@ export function getStarTemplate(movieId: number, starRate: number) {
     { length: 5 },
     (_, i) =>
       `<img 
-            src="${starRate > i ? filledStarImg : emptyStarImg}" 
+            src="${starRate > i ? filledStarImage : emptyStarImage}" 
             alt="별점" 
             class="star-rate-select-img" 
             data-movie-id="${movieId}" 
