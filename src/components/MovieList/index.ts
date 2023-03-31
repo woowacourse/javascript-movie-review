@@ -114,12 +114,14 @@ class MovieList {
 
   infiniteScroll() {
     const options = {
-      rootMargin: "0px 0px 1000px 0px",
+      rootMargin: "0px 0px 500px 0px",
     };
 
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        this.onClickMoreButton();
+        setTimeout(() => {
+          this.onClickMoreButton();
+        }, 300);
       }
     }, options);
 
