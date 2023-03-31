@@ -57,7 +57,8 @@ const isMoviesType = (movies: unknown): movies is MovieType[] => {
     );
 
     const isArrayAllValid =
-      movie.genreIds && movie.genreIds.every((genreId) => typeof genreId === 'number');
+      Array.isArray(movie.genreIds) &&
+      movie.genreIds.every((genreId: unknown) => typeof genreId === 'number');
 
     return isStringAllValid && isNumberAllValid && isArrayAllValid;
   });
@@ -87,7 +88,6 @@ export {
   GenreType,
   FetchResponseType,
   FailResponseType,
-  FetchResponseType,
   ViewBundleType,
   isMoviesType,
   isGenresType,

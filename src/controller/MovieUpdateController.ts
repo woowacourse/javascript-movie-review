@@ -1,7 +1,12 @@
 import MovieStorage from '../domains/MovieStorage';
 import EventDispatcher from '../EventDispatcher';
-import { GenreFetchResponseType, MovieFetchResponseType, ViewBundleType } from '../types';
-import { FOOTER_MESSAGE, ERROR_IMAGE_PATH, ERROR_LAYOUT_MESSAGE } from '../constants';
+import { ViewBundleType } from '../types';
+import {
+  FOOTER_MESSAGE,
+  ERROR_IMAGE_PATH,
+  ERROR_LAYOUT_MESSAGE,
+  NO_RESULT_MESSAGE,
+} from '../constants';
 
 class MovieUpdateController {
   private header;
@@ -25,12 +30,12 @@ class MovieUpdateController {
 
   private async initMovies() {
     this.movieFetcher.setRequestMode('genre');
-    const genres = await this.movieFetcher.getMovieData<GenreFetchResponseType>();
+    const response = await this.movieFetcher.fetchGenreData();
 
-    if (genres.fetchedData) {
-      MovieStorage.setGenres(genres.fetchedData);
+    if (response.isSuccess) {
+      MovieStorage.setGenres(response.fetchedData);
     } else {
-      console.warn(
+      alert(
         '장르를 불러오는 데 실패했습니다. 장르가 제대로 표시되지 않을 것입니다. 새로고침을 해 주세요.',
       );
     }
@@ -49,6 +54,7 @@ class MovieUpdateController {
     this.movieFetcher.resetFailedToFetchStatus();
     this.fetchAndUpdateMovieList('overwrite', keyword);
   };
+
   async fetchAndUpdateMovieList(updateMode: string, keyword: string = '') {
     if (this.movieFetcher.getFailedToFetchStatus()) {
       return;
@@ -64,41 +70,38 @@ class MovieUpdateController {
 
     this.movieList.renderSkeletonItems(randomFetchId);
 
-    const { result, errorMessage, fetchedData }: MovieFetchResponseType =
-      await this.movieFetcher.getMovieData<MovieFetchResponseType>(keyword);
+    const response = await this.movieFetcher.fetchMovieData(keyword);
 
-    if ((result === 'FAILED' || result === 'FETCH_CRASHED') && errorMessage) {
-      if (updateMode === 'overwrite') {
-        this.movieList.showErrorMessage({
-          image: ERROR_IMAGE_PATH.error,
-          title: ERROR_LAYOUT_MESSAGE.errorTitle,
-          message: errorMessage,
-        });
-
-        this.footerMessage.hideMessage();
-      } else {
-        this.footerMessage.showErrorMessage(errorMessage);
-      }
-    }
-
-    if (result === 'NO_RESULT') {
-      if (updateMode === 'overwrite') {
-        this.movieList.showErrorMessage({
-          image: ERROR_IMAGE_PATH.noSearchResults,
-          title: ERROR_LAYOUT_MESSAGE.noResultTitle,
-          message: ERROR_LAYOUT_MESSAGE.noResultContent,
-        });
-
-        this.footerMessage.hideMessage();
-      } else {
-        this.footerMessage.showErrorMessage(FOOTER_MESSAGE.noMoreMovies);
-      }
-    }
-
-    if (fetchedData) {
-      MovieStorage.addMovies(fetchedData);
-      this.movieList.renderContents(fetchedData, randomFetchId);
+    if (response.isSuccess) {
+      MovieStorage.addMovies(response.fetchedData);
+      this.movieList.renderContents(response.fetchedData, randomFetchId);
       this.footerMessage.hideMessage();
+    } else {
+      if (response.errorMessage === NO_RESULT_MESSAGE) {
+        if (updateMode === 'overwrite') {
+          this.movieList.showErrorMessage({
+            image: ERROR_IMAGE_PATH.noSearchResults,
+            title: ERROR_LAYOUT_MESSAGE.noResultTitle,
+            message: ERROR_LAYOUT_MESSAGE.noResultContent,
+          });
+
+          this.footerMessage.hideMessage();
+        } else {
+          this.footerMessage.showErrorMessage(FOOTER_MESSAGE.noMoreMovies);
+        }
+      } else {
+        if (updateMode === 'overwrite') {
+          this.movieList.showErrorMessage({
+            image: ERROR_IMAGE_PATH.error,
+            title: ERROR_LAYOUT_MESSAGE.errorTitle,
+            message: response.errorMessage,
+          });
+
+          this.footerMessage.hideMessage();
+        } else {
+          this.footerMessage.showErrorMessage(response.errorMessage);
+        }
+      }
     }
 
     this.movieList.removeSkeletonItemsByFetchId(randomFetchId);
