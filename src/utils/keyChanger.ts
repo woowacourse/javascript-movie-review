@@ -1,4 +1,4 @@
-const KeyChanger = {
+const keyChanger = {
   change<T>(apiObject: Record<string, unknown>, keyPairs: Record<string, string>): T {
     const changedApiObject: Record<string, unknown> = {};
 
@@ -12,4 +12,4 @@ const KeyChanger = {
   },
 };
 
-export default KeyChanger;
+export default keyChanger;
