@@ -1,27 +1,9 @@
-import { httpStatus } from '../constants/httpStatusCode';
-import { ErrorHandler, GetMovieDetailResponse, GetRequest } from './types';
+import { ErrorResponse, GetMovieDetailResponse, GetRequest } from './types';
 import { GetMovieDetailRequest } from './types';
 import { GetPopularMoviesRequest, MoviesResponse, SearchMoviesRequest } from './types';
 
 const API_TOKEN = process.env.API_TOKEN;
 const BASE_URL = 'https://api.themoviedb.org/3';
-
-const handleStatusCode = (status: number) => {
-  switch (status) {
-    case httpStatus.BAD_REQUEST:
-      return '잘못된 요청입니다.';
-    case httpStatus.UNAUTHORIZED:
-      return '인증되지 않은 요청입니다.';
-    case httpStatus.FORBIDDEN:
-      return '접근이 거부되었습니다.';
-    case httpStatus.NOT_FOUND:
-      return '요청한 리소스를 찾을 수 없습니다.';
-    case httpStatus.INTERNAL_SERVER_ERROR:
-      return '서버 내부 오류가 발생했습니다.';
-    default:
-      return '알 수 없는 오류가 발생했습니다.';
-  }
-};
 
 const get = async ({ url, options, onError = alert }: GetRequest) => {
   try {
@@ -35,7 +17,8 @@ const get = async ({ url, options, onError = alert }: GetRequest) => {
     });
 
     if (!response.ok) {
-      throw new Error(`${handleStatusCode(response.status)}`);
+      const errorResponse: ErrorResponse = await response.json();
+      throw new Error(`${response.status} ${errorResponse.status_message}`);
     }
 
     const data = response.json();

@@ -103,6 +103,12 @@ interface SpokenLanguage {
 
 type ErrorHandler = (error: Error) => void;
 
+interface ErrorResponse {
+  status_code: number;
+  status_message: string;
+  success: boolean;
+}
+
 export {
   Movie,
   MoviesResponse,
@@ -112,4 +118,5 @@ export {
   GetMovieDetailRequest,
   GetMovieDetailResponse,
   ErrorHandler,
+  ErrorResponse,
 };
