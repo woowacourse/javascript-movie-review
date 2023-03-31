@@ -1,2 +1,3 @@
 export { default as $ } from './dom';
-export { default as getParsedData } from './getParsedData';
+export { default as storage } from './storage';
+export { default as observerOptionMaker } from './observerOptionMaker';

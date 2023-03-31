@@ -5,3 +5,8 @@ export interface Movie {
   posterPath: string;
   voteAverage: number;
 }
+
+export interface DetailMovie extends Movie {
+  genres: string[];
+  overview: string;
+}

@@ -1,0 +1,149 @@
+.movie-detail-view {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100%;
+
+  background: #212122;
+}
+
+.movie-title-wrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+
+  height: 60px;
+
+  border-bottom: 1px solid #f1f1f13c;
+}
+
+.movie-title {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: center;
+}
+
+.movie-content-container {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+
+  padding: 48px 32px;
+}
+
+.movie-img-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.movie-img {
+  width: 300px;
+  height: 430px;
+}
+
+.movie-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  width: 100%;
+  height: 100%;
+
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+}
+
+.movie-info-text-container {
+  display: flex;
+  flex-direction: column;
+
+  gap: 16px;
+}
+
+.movie-info-text-container img {
+  margin-left: 12px;
+  vertical-align: bottom;
+}
+
+.movie-vote-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+
+  width: 100%;
+  height: 64px;
+
+  padding: 20px 16px;
+  border-radius: 16px;
+  background-color: #383839;
+}
+
+.movie-vote-title {
+  font-weight: 700;
+}
+
+.movie-vote-button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.movie-vote-button-container button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  background-color: transparent;
+
+  padding: 0 2px;
+  border: none;
+}
+
+.movie-vote-button-container img {
+  vertical-align: bottom;
+}
+
+@media (max-width: 1279px) {
+  .movie-vote-container {
+    font-size: 14px;
+  }
+
+  .movie-content-container {
+    padding: 32px 20px;
+  }
+
+  .movie-img {
+    width: 280px;
+    height: 420px;
+  }
+
+  .movie-vote-button-container button img {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 780px) {
+  .movie-img-wrap {
+    display: none;
+  }
+
+  .movie-content-container {
+    height: 100%;
+  }
+
+  .movie-title {
+    font-size: 18px;
+  }
+
+  .movie-vote-score {
+    display: none;
+  }
+}
