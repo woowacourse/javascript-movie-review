@@ -13,16 +13,15 @@ export const getStarRateFromStorage = (movieId: number) => {
 export const setStarRateToStorage = (movieId: number, starRate: number) => {
   const storageData = localStorage.getItem("starRate");
 
-  if (storageData) {
-    const json = JSON.parse(storageData);
-
-    localStorage.setItem(
-      "starRate",
-      JSON.stringify({ ...json, [movieId]: starRate })
-    );
-
+  if (!storageData) {
+    localStorage.setItem("starRate", JSON.stringify({ [movieId]: starRate }));
     return;
   }
 
-  localStorage.setItem("starRate", JSON.stringify({ [movieId]: starRate }));
+  const json = JSON.parse(storageData);
+
+  localStorage.setItem(
+    "starRate",
+    JSON.stringify({ ...json, [movieId]: starRate })
+  );
 };
