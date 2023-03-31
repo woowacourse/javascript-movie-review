@@ -13,6 +13,7 @@ class Modal {
   render() {
     this.#$target.innerHTML = /*html*/ `<div class="modal-backdrop"></div>
     <div class="modal-container">
+    <div class="modal-contents"></div>
       <div class="close-button"></div>
     </div>`;
   }
@@ -20,25 +21,20 @@ class Modal {
   async renderMovieDetail(movieId: number) {
     const movieDetail: MovieDetailResponse = await fetchMovieDetail(movieId);
     const movieDetailMarkup = MovieDetail.render(movieDetail);
-    const movieDetailElement = document.createElement("div");
-    movieDetailElement.innerHTML = movieDetailMarkup;
-    $(".modal-container").insertAdjacentElement(
-      "afterbegin",
-      movieDetailElement
-    );
+    $(".modal-contents").innerHTML = movieDetailMarkup;
+
     MovieDetail.onClickStars();
 
     this.#$target.classList.remove("hidden");
     this.#$target.classList.add("show");
 
-    this.closeModal(movieDetailElement);
+    this.closeModal();
   }
 
-  closeModal(movieDetailElement: Element) {
+  closeModal() {
     const hideModal = () => {
       this.#$target.classList.add("hidden");
       this.#$target.classList.remove("show");
-      movieDetailElement.remove();
     };
 
     $(".modal-backdrop").addEventListener("click", hideModal);
