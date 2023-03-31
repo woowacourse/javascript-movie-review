@@ -94,6 +94,14 @@ header .search-box > .search-button {
   grid-row-gap: 48px;
 }
 
+.skeleton-list {
+  display: grid;
+  margin: 0px 30px 48px 30px;
+  grid-template-columns: repeat(4, 180px);
+  grid-column-gap: 36px;
+  grid-row-gap: 48px;
+}
+
 .item-card {
   display: flex;
   flex-direction: column;

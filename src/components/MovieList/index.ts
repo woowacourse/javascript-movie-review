@@ -64,7 +64,7 @@ class MovieList {
 
     this.#state = { ...this.#state, show: state, page: 1 };
     this.showMoreButton();
-    this.renderSkeleton();
+    this.removeSkeleton();
 
     if (state === "popular") {
       const response = await fetchPopularMovies(this.#state.page);
@@ -101,7 +101,7 @@ class MovieList {
   }
 
   renderNextMovies(movieList: MovieResponse[], total_pages: number) {
-    this.renderSkeleton();
+    this.removeSkeleton();
 
     this.#$target.insertAdjacentHTML(
       "beforeend",
@@ -151,11 +151,11 @@ class MovieList {
   }
 
   renderSkeleton() {
-    if (this.#$target.contains(this.#$skeletonContainer)) {
-      this.#$target.removeChild(this.#$skeletonContainer);
-    } else {
-      this.#$target.appendChild(this.#$skeletonContainer);
-    }
+    this.#$target.insertAdjacentElement("afterend", this.#$skeletonContainer);
+  }
+
+  removeSkeleton() {
+    $(".skeleton-list").remove();
   }
 
   hideMoreButton() {

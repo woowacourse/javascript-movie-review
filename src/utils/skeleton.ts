@@ -1,6 +1,6 @@
 const getSkeletonContainer = () => {
   const skeletonContainer = document.createElement("ul");
-  skeletonContainer.className = "item-list";
+  skeletonContainer.className = "skeleton-list";
 
   skeletonContainer.innerHTML = /*html*/ `
         <li>
