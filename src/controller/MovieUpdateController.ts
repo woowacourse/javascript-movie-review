@@ -59,7 +59,7 @@ class MovieUpdateController {
     this.fetchAndUpdateMovieList('overwrite', keyword);
   };
 
-  async fetchAndUpdateMovieList(updateMode: string, keyword: string = '') {
+  async fetchAndUpdateMovieList(updateMode: 'overwrite' | 'append', keyword: string = '') {
     if (this.movieFetcher.getFailedToFetchStatus()) {
       return;
     }
