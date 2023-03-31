@@ -3,9 +3,13 @@
 }
 
 body {
-  font-size: 14px;
+  font-size: 15px;
   background-color: #222222;
   color: #fff;
+}
+
+p {
+  font-size: 16px;
 }
 
 a {
@@ -33,7 +37,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -56,10 +60,9 @@ button {
   margin-bottom: 30px;
 }
 
-/* https://andrew.hedges.name/experiments/aspect_ratio/ */
-
 .item-list {
   display: grid;
+  justify-items: center;
   margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
   grid-column-gap: 160px;
@@ -73,18 +76,22 @@ button {
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
-  height: 270px;
+  width: 200px;
+  height: 300px;
   background-size: contain;
+  cursor: pointer;
 }
 
 .item-title {
+  width: 200px;
   margin-top: 16px;
   font-size: 1.2rem;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .item-score {
+  width: 200px;
   margin-top: 16px;
   font-size: 1.2rem;
 }
@@ -136,9 +143,9 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -159,6 +166,7 @@ header h1 {
 }
 
 header > .search-box {
+  display: flex;
   background: #fff;
   padding: 8px;
   border-radius: 4px;
@@ -174,6 +182,45 @@ header .search-box > .search-button {
   text-indent: -1000rem;
   background: url('../assets/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+@media (max-width: 1280px) {
+  .item-view {
+    padding: 32px;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(3, 1fr);
+
+    grid-column-gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .item-view {
+    padding: 16px;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(2, 1fr);
+    overflow-y: hidden;
+
+    grid-row-gap: 32px;
+    grid-column-gap: 0px;
+  }
+
+  .item-list li {
+    width: 160px;
+  }
+
+   .item-thumbnail {
+    width: 140px;
+    height: 200px;
+  }
+  
+  .item-title {
+    width: 140px;
+  } 
 }
 
 .hide {

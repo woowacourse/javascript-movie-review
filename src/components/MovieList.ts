@@ -4,8 +4,6 @@ import { Movie } from '../type/Movie';
 import { Component } from '../type/Component';
 import { popularMovieDataFetchFuncGenerator, searchedMovieDataFetchFuncGenerator } from '../api/get';
 
-type options = 'popular' | 'search';
-
 const HEADER_TEMPLATE = {
   POPULAR: '지금 인기 있는 영화',
   SEARCH: (query: string) => `"${query}" 검색 결과`,
@@ -14,7 +12,7 @@ const HEADER_TEMPLATE = {
 const ERROR_TEMPLATE = (errorCode: number) => /* html */ `
   <div class="error-container">
     <h1>죄송합니다. 영화 목록을 불러올 수 없습니다. 관리자에게 문의하세요. (error code: ${errorCode})</h1>
-    <img class="error-img" src=${errorImg} />
+    <img class="error-img" src=${errorImg} >
   </div>`;
 
 const NO_RESULT_TEMPLATE = /* html */ `
@@ -26,26 +24,39 @@ const NO_RESULT_TEMPLATE = /* html */ `
 export default class MovieList implements Component {
   $element;
   #getMovieMetaData;
+  #renderModal;
+  #isLastPage;
+  #observer;
 
-  constructor($parent: Element) {
+  constructor($parent: Element, renderModal: (movie: Movie) => void) {
     this.$element = document.createElement('section');
     this.$element.className = 'item-view';
     this.#getMovieMetaData = popularMovieDataFetchFuncGenerator();
+    this.#renderModal = renderModal;
+    this.#isLastPage = false;
+    this.#observer = new IntersectionObserver(this.infiniteScroll.bind(this), { threshold: 1 });
 
     $parent.insertAdjacentElement('beforeend', this.$element);
   }
 
   setPopularMovieDataFetchFunc() {
     this.#getMovieMetaData = popularMovieDataFetchFuncGenerator();
+
+    this.#isLastPage = false;
   }
 
   setSearchedMovieDataFetchFunc(query: string) {
     this.#getMovieMetaData = searchedMovieDataFetchFuncGenerator(query);
+
+    this.#isLastPage = false;
   }
 
   render(query?: string) {
     this.$element.innerHTML = this.template(query);
-    this.setEvent();
+
+    this.load();
+
+    this.observeLastItem(this.#observer);
   }
 
   template(query?: string) {
@@ -55,7 +66,7 @@ export default class MovieList implements Component {
     <ul class="skeleton-item-list item-list hide">
       ${this.getSkeletonCardsHTML(20)}
     </ul>
-    <button id="more-button" class="btn primary full-width">더 보기</button>`;
+    <div id="end-list"></div>`;
   }
 
   renderMovieCards(movieList: Movie[]) {
@@ -72,7 +83,7 @@ export default class MovieList implements Component {
     fragment.appendChild($tempList);
 
     movieList.forEach((movie) => {
-      new MovieCard($tempList, movie).render();
+      new MovieCard($tempList, movie, this.#renderModal).render();
     });
 
     (<HTMLUListElement>this.$element.querySelector('.item-list')).replaceChildren(...$tempList.childNodes);
@@ -81,13 +92,11 @@ export default class MovieList implements Component {
   getSkeletonCardsHTML(count: number) {
     const skeletonCardHTML = `
     <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
+      <div class="item-card">
+        <div class="item-thumbnail skeleton"></div>
+        <div class="item-title skeleton"></div>
+        <div class="item-score skeleton"></div>
+      </div>
     </li>`;
 
     return skeletonCardHTML.repeat(count);
@@ -101,11 +110,9 @@ export default class MovieList implements Component {
     (<HTMLUListElement>this.$element.querySelector('.skeleton-item-list')).classList.add('hide');
   }
 
-  setEvent() {
-    (<HTMLButtonElement>this.$element.querySelector('#more-button')).addEventListener('click', this.load.bind(this));
-  }
-
   async load() {
+    if (this.#isLastPage) return;
+
     this.showSkeletonList();
     const data = await this.#getMovieMetaData();
 
@@ -116,18 +123,28 @@ export default class MovieList implements Component {
       return;
     }
 
-    this.isLastPage(data.page, data.totalPages) && this.hideMoreButton();
+    this.#isLastPage = data.page === data.totalPages;
 
     this.hideSkeletonList();
 
     this.renderMovieCards(data.movieList);
   }
 
-  isLastPage(page: number, totalPages: number) {
-    return page === totalPages;
+  observeLastItem(observer: IntersectionObserver) {
+    const lastItem = <Element>this.$element.querySelector('#end-list');
+
+    observer.observe(lastItem);
   }
 
-  hideMoreButton() {
-    (<HTMLButtonElement>this.$element.querySelector('#more-button')).classList.add('hide');
+  infiniteScroll(entries: IntersectionObserverEntry[], observer: IntersectionObserver) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        observer.unobserve(entry.target);
+
+        this.load();
+
+        this.observeLastItem(observer);
+      }
+    });
   }
 }
