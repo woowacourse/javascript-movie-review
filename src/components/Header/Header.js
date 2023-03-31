@@ -17,11 +17,13 @@ class Header extends HTMLElement {
   }
 
   setLogoClickEvent() {
-    $('#logo').addEventListener('click', this.setWordToInitializing.bind(this));
+    $('#logo').addEventListener('click', this.initialize.bind(this));
   }
 
-  setWordToInitializing() {
+  initialize() {
     $('movie-list').setSearchWord('');
+    $('.search-box').classList.add('search-box-hide');
+    $('.search-single-button').classList.remove('search-click-hide');
   }
 }
 

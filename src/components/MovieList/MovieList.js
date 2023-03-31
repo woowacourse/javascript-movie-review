@@ -1,10 +1,11 @@
 import './MovieList.css';
 import { $, parsedFechedMovies, request } from '../../utils/common';
-import Movies from '../../domain/Movies';
+
+const SKELETON_COUNT = 21;
 
 class MovieList extends HTMLElement {
   #pageIndex = 1;
-  #movies = new Movies();
+  #movies;
   #searchWord = new Proxy(
     { value: '' },
     {
@@ -29,7 +30,6 @@ class MovieList extends HTMLElement {
   connectedCallback() {
     this.renderContainer();
     this.updateMovieList();
-    this.setButtonEvent();
   }
 
   renderContainer() {
@@ -41,21 +41,19 @@ class MovieList extends HTMLElement {
           <skeleton-item id="first-skeleton"></skeleton-item>
           ${'<skeleton-item></skeleton-item>'.repeat(19)}
         </ul>
-        <common-button id="more-button" class="hide-button" text="더보기" color="primary"></common-button>
       </section>
     </main>`;
   }
 
   async updateMovieList() {
     try {
-      this.#movies.update(await this.getMoviesFromApi(this.#searchWord.value));
-      this.hideSkeletonItem();
+      await this.getMoviesFromApi(this.#searchWord.value);
 
+      this.hideSkeletonItem();
       this.renderMovieList();
-      this.toggleVisibleButton();
+      this.observeMovieItem();
     } catch (error) {
       $('h2').innerText = error.message;
-      $('#more-button').classList.add('hide-button');
 
       this.hideSkeletonItem();
     }
@@ -66,14 +64,14 @@ class MovieList extends HTMLElement {
 
     const fetchedMovies = apiFetchingData.results;
 
-    if (apiFetchingData.total_pages > this.#pageIndex) {
+    if (apiFetchingData.total_pages >= this.#pageIndex) {
       this.#pageIndex += 1;
     }
 
     const movies = parsedFechedMovies(fetchedMovies);
 
-    return {
-      isLastPage: apiFetchingData.total_pages === this.#pageIndex,
+    this.#movies = {
+      isInPageRange: apiFetchingData.total_pages >= this.#pageIndex,
       movies,
     };
   }
@@ -91,14 +89,12 @@ class MovieList extends HTMLElement {
   }
 
   renderMovieList() {
-    const movieResultState = this.#movies.movieResultState;
-
-    if (movieResultState.movies.length === 0) {
+    if (this.#movies.movies.length === 0) {
       this.showNoResult();
       return;
     }
 
-    $('#first-skeleton').insertAdjacentHTML('beforebegin', this.makeMovieListTemplate(movieResultState.movies));
+    $('#first-skeleton').insertAdjacentHTML('beforebegin', this.makeMovieListTemplate(this.#movies.movies));
   }
 
   showNoResult() {
@@ -109,32 +105,37 @@ class MovieList extends HTMLElement {
     $('.item-list').appendChild(noResultMessage);
   }
 
-  makeMovieListTemplate(movieList) {
-    return movieList.reduce((acc, curr) => {
+  makeMovieListTemplate() {
+    return this.#movies.movies.reduce((acc, curr) => {
       return (
         acc +
-        `<movie-item id="${curr.id}" title="${curr.title}" imgUrl="${curr.imgUrl}" score="${curr.score}"></movie-item>`
+        `<movie-item id="${curr.id}" title="${curr.title}" imgUrl="${curr.imgUrl}" score="${curr.score}"  genre="${curr.genre}" description="${curr.description}"></movie-item>`
       );
     }, '');
   }
 
-  toggleVisibleButton() {
-    if (this.#movies.movieResultState.isLastPage) {
-      $('#more-button').classList.add('hide-button');
-      return;
-    }
+  observeMovieItem() {
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) {
+            return;
+          }
 
-    $('#more-button').classList.remove('hide-button');
-  }
+          observer.unobserve(entry.target);
 
-  setButtonEvent() {
-    $('#more-button').addEventListener('click', () => {
-      document.querySelectorAll('skeleton-item').forEach(node => {
-        node.classList.remove('skeleton-hide');
-      });
+          if (this.#movies.isInPageRange) {
+            this.updateMovieList();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-      this.updateMovieList();
-    });
+    const parentsOfTarget = $('.item-list');
+    const target = parentsOfTarget.children[parentsOfTarget.children.length - SKELETON_COUNT];
+
+    observer.observe(target);
   }
 
   resetMovieItem() {
