@@ -112,7 +112,7 @@ class MovieInfoModal {
           </div>
         <div class="information-modal-genre-rating">
           <div class="modal-text">${this.getArrangedGenres(convertedGenres)}</div>
-          <img src="../assets/rating_star_filled.png" />
+          <img src="./assets/rating_star_filled.png" />
           <div class="modal-text">${voteAverage}</div>
         </div>
         <div class="information-modal-content"
