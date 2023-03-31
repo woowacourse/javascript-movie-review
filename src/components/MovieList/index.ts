@@ -57,7 +57,7 @@ export class MovieList {
 
     this.#$target.insertAdjacentHTML(
       "beforeend",
-      `${movieList.map((movie) => getMovieCardTemplate(movie)).join("")}
+      `${movieList.map(getMovieCardTemplate).join("")}
       `
     );
 
