@@ -3,20 +3,36 @@ import { $, replaceComponent } from './../../utils/common/domHelper';
 import { MovieList, MovieListProps } from '../MovieList';
 import { SkeletonMovieList } from '../SkeletonMovieList';
 import { setComponentList } from '../../core';
+import { props } from 'cypress/types/bluebird';
+import { Modal, ModalProps } from '../Modal';
+import { MovieProps } from '../Movie';
 
 const MovieChartActions = () => {
   const MovieListComponent = (props: MovieListProps) => {
     setComponentList(`#MovieList`, MovieList(props));
 
-    return '';
+    return;
   };
 
   const SkeletonMovieListComponent = () => {
     setComponentList(`#SkeletonList`, SkeletonMovieList({}));
 
-    return '';
+    return;
   };
-  return { MovieListComponent, SkeletonMovieListComponent };
+
+  const ModalComponent = (props: ModalProps) => {
+    setComponentList(`#Modal`, Modal(props));
+
+    return;
+  };
+
+  const ModalComponentNone = () => {
+    setComponentList(`#Modal`, null);
+
+    return;
+  };
+  return { MovieListComponent, SkeletonMovieListComponent, ModalComponent, ModalComponentNone };
 };
 
-export const { MovieListComponent, SkeletonMovieListComponent } = MovieChartActions();
+export const { MovieListComponent, SkeletonMovieListComponent, ModalComponent, ModalComponentNone } =
+  MovieChartActions();

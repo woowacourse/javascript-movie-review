@@ -4,10 +4,12 @@ import { MovieComponent } from './action';
 import { MovieInfo, MovieInfoByKeyword } from '../../types/api';
 export interface MovieListProps {
   movieList: MovieInfo[] | MovieInfoByKeyword[];
+  handleModalData(modalData: MovieInfo): void;
+  handleIsVisibleModal(isVisible: boolean): void;
 }
 
 const MovieList = assemble<MovieListProps>((props) => {
-  const { movieList } = props;
+  const { handleModalData, handleIsVisibleModal, movieList } = props;
 
   const $events: Event[] = [];
   const $template = getElement(`
@@ -16,7 +18,7 @@ const MovieList = assemble<MovieListProps>((props) => {
           .map(
             (info) => `
           <fragment id="Movie-${info.id}">
-            ${MovieComponent({ info })}
+            ${MovieComponent({ handleModalData, handleIsVisibleModal, info })}
           </fragment>`
           )
           .join('')}

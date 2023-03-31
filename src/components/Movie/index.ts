@@ -5,12 +5,12 @@ import { useState } from '../../core';
 
 export interface MovieProps {
   info: MovieInfo | MovieInfoByKeyword;
+  handleModalData(modalData: MovieInfo | MovieInfoByKeyword): void;
+  handleIsVisibleModal(isVisible: boolean): void;
 }
 
-const Movie = assemble<MovieProps>((props) => {
-  const {
-    info: { poster_path, title, vote_average, id },
-  } = props;
+const Movie = assemble<MovieProps>(({ info, handleModalData, handleIsVisibleModal }) => {
+  const { poster_path, title, vote_average, id } = info;
 
   const $events: Event[] = [
     {
@@ -18,7 +18,11 @@ const Movie = assemble<MovieProps>((props) => {
       callback(e) {
         e.preventDefault();
 
-        // history.pushState({ poster_path, title, vote_average, id }, '', `#${id}`);
+        history.state ?? history.pushState('modal', '', `info`);
+        history.replaceState('modal', '', `info`);
+
+        handleModalData(info);
+        handleIsVisibleModal(true);
         if ($(`li[data="id=${id}"]`)) console.log($(`li[data="id=${id}"]`));
       },
     },
@@ -33,8 +37,11 @@ const Movie = assemble<MovieProps>((props) => {
               loading="lazy"
               alt=${title}
             />
-            <p class="item-title">${title}</p>
-            <p class="item-score"><img src="./star_filled.png" alt="별점" />${vote_average}</p>
+              <p class="item-title">${title}</p>
+            <div class="item-score-container">
+              <img src="./star_filled.png" alt="별점" />
+              <p class="item-score">${vote_average}</p>
+            </div>
           </div>
         </a>
     </li>
