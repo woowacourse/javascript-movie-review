@@ -21,10 +21,3 @@ export interface RawMovie {
   vote_average: number;
   vote_count: number;
 }
-
-export interface AppMovie {
-  id: number;
-  title: string;
-  posterPath: string | null;
-  rating: number;
-}

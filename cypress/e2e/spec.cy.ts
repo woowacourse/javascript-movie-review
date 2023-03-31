@@ -1,5 +1,4 @@
 import { CLASS, ID } from '../../src/constants/selector';
-import type { MovieAPIResponse } from '../../src/types/movie';
 
 describe('메인 화면 테스트', () => {
   beforeEach(() => {
@@ -129,51 +128,6 @@ describe('영화 검색 테스트', () => {
   });
 });
 
-describe('더보기 버튼 테스트', () => {
-  beforeEach(() => {
-    cy.intercept(
-      {
-        method: 'GET',
-        url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
-      },
-      { fixture: 'movie-popular-mock.json' }
-    ).as('getPopularMovies');
-
-    cy.visit('http://localhost:8080/');
-  });
-
-  it('더보기 버튼을 클릭하면 영화 리스트를 더 불러와 보여준다.', () => {
-    cy.get(`#${ID.LOAD_MORE_BUTTON}`).click();
-
-    cy.wait('@getPopularMovies').then((interception) => {
-      const movieItems = interception.response?.body.results;
-      expect(movieItems.length).to.equal(20);
-    });
-
-    cy.get(`.${CLASS.ITEM_LIST}`).children().should('have.length', 40);
-  });
-
-  it('불러온 페이지가 마지막 페이지면 더보기 버튼을 숨긴다.', () => {
-    cy.intercept(
-      {
-        method: 'GET',
-        url: /^https:\/\/api.themoviedb.org\/3\/search\/movie*/,
-      },
-      { fixture: 'movie-search-mock.json' }
-    ).as('getSearchedMovies');
-
-    cy.get(`#${ID.MOVIE_SEARCH_FORM} input`).type('해리포터');
-    cy.get(`#${ID.MOVIE_SEARCH_FORM}`).submit();
-
-    cy.wait('@getSearchedMovies').then((interception) => {
-      const movieItems: MovieAPIResponse = interception.response?.body;
-      expect(movieItems.total_pages).to.equal(1);
-    });
-
-    cy.get(`#${ID.LOAD_MORE_BUTTON}`).should('not.be.visible');
-  });
-});
-
 describe('요청 실패 테스트', () => {
   it('에러가 발생하면 리스트와 버튼을 숨긴다.', () => {
     cy.intercept(
@@ -187,7 +141,6 @@ describe('요청 실패 테스트', () => {
     cy.visit('http://localhost:8080/');
 
     cy.get(`.${CLASS.ITEM_LIST}`).should('not.be.visible');
-    cy.get(`#${ID.LOAD_MORE_BUTTON}`).should('not.be.visible');
   });
 
   it('400에러가 발생하면 "잘못된 요청입니다."를 보여준다.', () => {

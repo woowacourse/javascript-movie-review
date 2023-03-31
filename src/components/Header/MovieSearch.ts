@@ -1,52 +1,57 @@
-import Header from '.';
 import MovieCardSection from '../MovieCardSection';
+import MobileSearchBox from './MobileSearchButton';
 
+import { searchButtonImage } from '../../assets/images';
 import { SEARCH_ERROR_MESSAGE } from '../../constants/message';
 import { ID } from '../../constants/selector';
+import movieStates from '../../states/movies';
 import { $ } from '../../utils/dom';
-
-import type { GetMovies } from '../../App';
-import type Movies from '../../domain/Movies';
 
 const MovieSearch = {
   template() {
     return `
       <div class="search-box">
         <form id=${ID.MOVIE_SEARCH_FORM}>
-          <input type="search" name="search-query" placeholder="검색" />
-          <button class="search-button">검색</button>
+          <input type="search" name="q" placeholder="검색" />
+          <button class="search-button">
+            <img src=${searchButtonImage} alt="영화 검색" />
+          </button>
         </form>
       </div>
+      ${MobileSearchBox.template()}
     `;
   },
 
-  setEvent(movies: Movies, getMovies: GetMovies) {
+  setEvent() {
     const movieSearchForm = $<HTMLFormElement>(`#${ID.MOVIE_SEARCH_FORM}`);
-    const movieSearchInput = $('input[name="search-query"]');
 
-    movieSearchForm.addEventListener('submit', (event) => {
-      event.preventDefault();
+    movieSearchForm.addEventListener('submit', MovieSearch.onSubmit);
+  },
 
-      if (!(event.target instanceof HTMLFormElement)) return;
+  onSubmit(event: SubmitEvent) {
+    event.preventDefault();
 
-      const searchInput = event.target.querySelector('input[name="search-query"]') as HTMLInputElement;
-      const query = searchInput.value;
+    if (!(event.target instanceof HTMLFormElement)) return;
 
-      if (query.trim().length === 0) {
-        return Header.renderTooltip(SEARCH_ERROR_MESSAGE.EMPTY.error);
-      }
+    const searchInput: HTMLInputElement = event.target.q;
+    const query = searchInput.value;
 
-      if (movies.isCurrentQuery(query)) {
-        return Header.renderTooltip(SEARCH_ERROR_MESSAGE.EQUAL.error);
-      }
+    if (query.trim().length === 0) {
+      MovieSearch.handleError(searchInput, SEARCH_ERROR_MESSAGE.EMPTY.error);
+      return;
+    }
 
-      Header.removeTooltip();
-      MovieCardSection.render(movies, getMovies, query);
-    });
+    if (movieStates.isCurrentQuery(query)) {
+      MovieSearch.handleError(searchInput, SEARCH_ERROR_MESSAGE.EMPTY.error);
+      return;
+    }
 
-    movieSearchInput.addEventListener('focus', () => {
-      Header.removeTooltip();
-    });
+    MovieCardSection.render(query);
+  },
+
+  handleError(target: HTMLInputElement, message: string) {
+    alert(message);
+    target.focus();
   },
 };
 

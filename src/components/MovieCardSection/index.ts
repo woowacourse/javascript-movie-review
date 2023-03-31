@@ -1,55 +1,58 @@
-import LoadMoreButton from './LoadMoreButton';
 import MovieCardList from './MovieCardList';
 import MovieSectionTitle from './MovieSectionTitle';
-import ErrorMessage from './ErrorMessage';
+import ScrollObserver from './ScrollObserver';
+import ErrorMessage from '../common/ErrorMessage';
 
-import { CustomErrorMessage, SEARCH_ERROR_MESSAGE } from '../../constants/message';
+import { convertToAppMovies } from '../../domain/util';
+
+import MovieApi from '../../api';
+import { CustomErrorMessage, DEFAULT_ERROR_MESSAGE, isCustomErrorMessage, SEARCH_ERROR_MESSAGE } from '../../constants/message';
 import { CLASS } from '../../constants/selector';
+import movieStates from '../../states/movies';
 import { $ } from '../../utils/dom';
-
-import type Movies from '../../domain/Movies';
-import type { GetMovies } from '../../App';
 
 import './MovieCardSection.style.css';
 
 const MovieCardSection = {
+  observer: ScrollObserver.createObserver(),
+
   template() {
     return `
       <section class=${CLASS.ITEM_VIEW}>
         ${MovieSectionTitle.template()}
         ${MovieCardList.template()}
-        ${LoadMoreButton.template()}
+        ${ScrollObserver.template()}
       </section>
     `;
   },
 
-  setEvent(movies: Movies, getMovies: GetMovies) {
-    LoadMoreButton.setEvent(movies, getMovies);
+  setEvent() {
+    MovieCardList.setEvent();
   },
 
-  async render(movies: Movies, getMovies: GetMovies, query: string = '') {
-    MovieCardSection.renderInit(query, movies);
+  async render(query: string = '') {
+    MovieCardSection.renderInit(query);
 
-    const newMovies = await getMovies(query);
+    const newMovies = await MovieCardSection.getMovies(query);
 
     if (!newMovies) {
-      movies.previousPage();
       MovieCardList.removeSkeleton();
       return;
     }
 
-    if (newMovies.list.length === 0) {
+    if (newMovies.length === 0) {
       return MovieCardSection.renderErrorMessage(SEARCH_ERROR_MESSAGE.NO_RESULT);
     }
 
-    MovieCardList.paint(newMovies.list, movies.getPage());
-    LoadMoreButton.handleVisibility(movies.isLastPage(newMovies.totalPages));
+    MovieCardList.paint(newMovies, movieStates.getPage());
+    movieStates.addPage();
+    ScrollObserver.connect(MovieCardSection.observer);
   },
 
-  renderInit(query: string, movies: Movies) {
+  renderInit(query: string) {
     MovieCardSection.removeErrorMessage();
     MovieCardSection.renderTitle(query);
-    MovieCardList.renderSkeletonItems(movies.isCurrentQuery(query));
+    MovieCardList.renderSkeletonItems(movieStates.isCurrentQuery(query));
   },
 
   renderTitle(query: string) {
@@ -63,7 +66,6 @@ const MovieCardSection = {
     const itemView = $<HTMLElement>(`.${CLASS.ITEM_VIEW}`);
 
     MovieCardList.handleVisibility(true);
-    LoadMoreButton.handleVisibility(true);
     ErrorMessage.render(itemView, errorMessage);
   },
 
@@ -71,6 +73,33 @@ const MovieCardSection = {
     const itemView = $<HTMLElement>(`.${CLASS.ITEM_VIEW}`);
 
     ErrorMessage.remove(itemView);
+  },
+
+  async getMovies(query: string) {
+    try {
+      if (!movieStates.isCurrentQuery(query)) {
+        movieStates.reset(query);
+      }
+
+      const { results, total_pages: totalPages } =
+        query === ''
+          ? await MovieApi.getPopularMovies({ page: movieStates.getPage() })
+          : await MovieApi.getSearchedMovies({ query: movieStates.getQuery(), page: movieStates.getPage() });
+      const movies = convertToAppMovies(results);
+
+      movieStates.setTotalPages(totalPages);
+
+      return movies;
+    } catch (error) {
+      if (isCustomErrorMessage(error)) {
+        MovieCardSection.renderErrorMessage(error);
+        return;
+      }
+
+      if (error instanceof Error) {
+        MovieCardSection.renderErrorMessage(DEFAULT_ERROR_MESSAGE);
+      }
+    }
   },
 };
 
