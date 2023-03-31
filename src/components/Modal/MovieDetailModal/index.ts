@@ -23,11 +23,23 @@ export class MovieDetailModal {
 
   bindEvent() {
     $(".modal-content").addEventListener("mouseover", (event: Event) => {
-      if (!(event.target instanceof HTMLImageElement)) return;
-      if (event.target.className !== "star-rate-select-img") return;
+      if (
+        !(
+          event.target instanceof HTMLImageElement ||
+          event.target instanceof HTMLSpanElement
+        )
+      )
+        return;
+      if (
+        !(
+          event.target.className === "star-rate-select-img" ||
+          event.target.className === "select-zero-rate"
+        )
+      )
+        return;
 
       const movieId = Number(event.target.dataset.movieId);
-      const starRate = Number(event.target.dataset.starRate) + 1;
+      const starRate = Number(event.target.dataset.starRate);
 
       if (getStarRateFromStorage(movieId) !== starRate) {
         renderStars(movieId, starRate);

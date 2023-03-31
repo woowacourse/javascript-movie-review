@@ -29,7 +29,13 @@ export function getStarSelectContainerTemplate(
   const imgArray = getStarTemplate(movieId, starRate);
 
   return /*html*/ `
-      <span>내 별점</span>
+      <span 
+        class="select-zero-rate" 
+        data-movie-id="${movieId}" 
+        data-star-rate="0"
+      >
+        내 별점
+      </span>
       <span class="star-select-container">
         ${imgArray.join("")}
       </span>
@@ -47,7 +53,7 @@ export function getStarTemplate(movieId: number, starRate: number) {
             alt="별점" 
             class="star-rate-select-img" 
             data-movie-id="${movieId}" 
-            data-star-rate="${i}" 
+            data-star-rate="${i + 1}" 
         />`
   );
 }
