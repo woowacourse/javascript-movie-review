@@ -21,21 +21,15 @@ type GenreType = {
   name: string;
 };
 
-type BaseFetchResponseType = {
-  result: string;
-  status?: number;
-  errorMessage?: string;
+type FetchResponseType<T> = {
+  isSuccess: true;
+  fetchedData: T;
 };
 
-type MovieFetchResponseType = BaseFetchResponseType & {
-  fetchedData?: MovieType[];
+type FailResponseType = {
+  isSuccess: false;
+  errorMessage: string;
 };
-
-type GenreFetchResponseType = BaseFetchResponseType & {
-  fetchedData?: GenreType[];
-};
-
-type FetchResponseType = MovieFetchResponseType | GenreFetchResponseType;
 
 type ViewBundleType = {
   header: Header;
@@ -71,7 +65,7 @@ const isMoviesType = (movies: unknown): movies is MovieType[] => {
   return isMovies;
 };
 
-const isGenresType = (genres: unknown): genre is GenreType[] => {
+const isGenresType = (genres: unknown): genres is GenreType[] => {
   if (!Array.isArray(genres)) {
     return false;
   }
@@ -91,8 +85,10 @@ export {
   MovieType,
   StorageMovieType,
   GenreType,
-  MovieFetchResponseType,
-  GenreFetchResponseType,
+  FetchResponseType,
+  FailResponseType,
   FetchResponseType,
   ViewBundleType,
+  isMoviesType,
+  isGenresType,
 };
