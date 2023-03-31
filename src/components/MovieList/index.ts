@@ -61,7 +61,7 @@ export class MovieList {
       `
     );
 
-    if (this.#state.page === total_pages) this.deactivateScrollFetch();
+    if (this.#state.page === total_pages) this.hideMore();
 
     if (this.#state.page === 1 && movieList.length === 0) {
       const subTitle = $(".sub-title");
@@ -79,7 +79,7 @@ export class MovieList {
       searchKeyword: searchKeyword ?? "",
     };
 
-    this.activateScrollFetch();
+    this.showMore();
     showSkeletonContainer();
 
     const { results, total_pages } = await request(
@@ -106,11 +106,11 @@ export class MovieList {
     }
   }
 
-  deactivateScrollFetch() {
+  hideMore() {
     $(".btn").setAttribute("hidden", "");
   }
 
-  activateScrollFetch() {
+  showMore() {
     $(".btn").removeAttribute("hidden");
   }
 }
