@@ -30,7 +30,7 @@ export class Modal {
     });
   }
 
-  open(modalType: "movieDetail" | string, movieId: number | undefined) {
+  open(modalType: "movieDetail", movieId: number | undefined) {
     const modalSection = $(".modal-section");
 
     if (modalType === "movieDetail" && movieId)
