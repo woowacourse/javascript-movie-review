@@ -1,5 +1,5 @@
 const keyChanger = {
-  change<T>(apiObject: Record<string, unknown>, keyPairs: Record<string, string>): T {
+  change(apiObject: Record<string, unknown>, keyPairs: Record<string, string>) {
     const changedApiObject: Record<string, unknown> = {};
 
     Object.entries(apiObject).forEach(([key, value]: [string, unknown]) => {
@@ -8,7 +8,7 @@ const keyChanger = {
         : (changedApiObject[key] = value);
     });
 
-    return changedApiObject as T;
+    return changedApiObject;
   },
 };
 
