@@ -1,10 +1,16 @@
-interface GetPopularMoviesRequest {
+interface GetRequest {
+  url: string;
+  options?: RequestInit;
+  onError?: ErrorHandler;
+}
+
+interface GetPopularMoviesRequest extends Pick<GetRequest, 'onError'> {
   page: number;
   region?: string;
   language?: string;
 }
 
-interface SearchMoviesRequest {
+interface SearchMoviesRequest extends Pick<GetRequest, 'onError'> {
   query: string;
   page: number;
   language?: string;
@@ -38,7 +44,7 @@ interface MoviesResponse {
   total_results: number;
 }
 
-interface GetMovieDetailRequest {
+interface GetMovieDetailRequest extends Pick<GetRequest, 'onError'> {
   movie_id: number;
   language?: string;
   append_to_response?: string;
@@ -95,11 +101,15 @@ interface SpokenLanguage {
   name: string;
 }
 
+type ErrorHandler = (error: Error) => void;
+
 export {
   Movie,
   MoviesResponse,
+  GetRequest,
   GetPopularMoviesRequest,
   SearchMoviesRequest,
   GetMovieDetailRequest,
   GetMovieDetailResponse,
+  ErrorHandler,
 };

@@ -1,5 +1,5 @@
 import { httpStatus } from '../constants/httpStatusCode';
-import { GetMovieDetailResponse } from './types';
+import { ErrorHandler, GetMovieDetailResponse, GetRequest } from './types';
 import { GetMovieDetailRequest } from './types';
 import { GetPopularMoviesRequest, MoviesResponse, SearchMoviesRequest } from './types';
 
@@ -23,11 +23,7 @@ const handleStatusCode = (status: number) => {
   }
 };
 
-const handleCatchError = (error: Error) => {
-  alert(error);
-};
-
-const get = async (url: string, options?: RequestInit) => {
+const get = async ({ url, options, onError = alert }: GetRequest) => {
   try {
     if (!navigator.onLine) throw new Error('인터넷 연결 문제입니다. 네트워크를 확인해주세요.');
     const response = await fetch(url, {
@@ -46,7 +42,7 @@ const get = async (url: string, options?: RequestInit) => {
     return data;
   } catch (error) {
     if (error instanceof Error) {
-      handleCatchError(error);
+      onError(error);
     }
   }
 };
@@ -55,28 +51,34 @@ const getPopularMovies = async ({
   page,
   region = 'KR',
   language = 'ko-KR',
+  onError,
 }: GetPopularMoviesRequest): Promise<MoviesResponse> => {
   const params = `page=${page}&region=${region}&language=${language}`;
   const url = `${BASE_URL}/movie/popular?${params}`;
 
-  const movies = await get(url);
+  const movies = await get({ url, onError });
   return movies;
 };
 
-const searchMovies = async ({ query, page }: SearchMoviesRequest): Promise<MoviesResponse> => {
+const searchMovies = async ({
+  query,
+  page,
+  onError,
+}: SearchMoviesRequest): Promise<MoviesResponse> => {
   const params = `query=${query}&page=${page}&language=ko-KR&region=KR`;
   const url = `${BASE_URL}/search/movie?${params}`;
 
-  const movies = await get(url);
+  const movies = await get({ url, onError });
   return movies;
 };
 const getMovieDetail = async ({
   movie_id,
+  onError,
 }: GetMovieDetailRequest): Promise<GetMovieDetailResponse> => {
   const params = `language=ko-KR`;
   const url = `${BASE_URL}/movie/${movie_id}?${params}`;
 
-  const movieDetail = await get(url);
+  const movieDetail = await get({ url, onError });
   return movieDetail;
 };
 
