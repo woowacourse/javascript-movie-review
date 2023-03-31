@@ -1,14 +1,18 @@
 import { Header } from "./components/Header";
+import { Modal } from "./components/Modal";
+import { MovieDetail } from "./components/MovieDetail";
 import { MovieList } from "./components/MovieList";
 import { $ } from "./utils/selector";
 
 class App {
   #header;
   #movieList;
+  #modal;
 
   constructor() {
     const $header = $("header");
     const $movieList = $(".item-list");
+    const $modal = $(".modal");
 
     this.#header = new Header(
       $header,
@@ -16,7 +20,8 @@ class App {
       this.onClickLogoImage.bind(this)
     );
 
-    this.#movieList = new MovieList($movieList);
+    this.#movieList = new MovieList($movieList, this.onClickMovie.bind(this));
+    this.#modal = new Modal($modal);
   }
 
   onSubmitSearchKeyword(serachKeyword: string) {
@@ -32,6 +37,10 @@ class App {
     subTitle.innerHTML = `지금 인기 있는 영화`;
 
     if (this.#movieList instanceof MovieList) this.#movieList.reset("popular");
+  }
+
+  onClickMovie(movieId: number) {
+    this.#modal.renderMovieDetail(movieId);
   }
 }
 

@@ -10,7 +10,7 @@ const request = async (url: string, method: string) => {
     }
     return response.json();
   } catch (error: any) {
-    if (error.message === "failed to fetch") {
+    if (error.message === "Failed to fetch") {
       alert("네트워크 연결이 끊어졌습니다.");
     } else {
       alert(error.message);
@@ -32,4 +32,10 @@ const fetchSearchMovies = (page: number, keyword: string) => {
   return request(url, defaultMethodOption);
 };
 
-export { fetchPopularMovies, fetchSearchMovies };
+const fetchMovieDetail = (id: number) => {
+  const url = `${API_END_POINT}/movie/${id}?api_key=${process.env.API_KEY}&language=ko`;
+
+  return request(url, defaultMethodOption);
+};
+
+export { fetchPopularMovies, fetchSearchMovies, fetchMovieDetail };

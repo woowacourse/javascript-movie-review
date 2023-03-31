@@ -1,4 +1,4 @@
-import logoImage from "../../../templates/logo.png";
+import logoImage from "../../assets/logo.png";
 import { $ } from "../../utils/selector";
 
 class Header {
