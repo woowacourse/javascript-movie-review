@@ -4,6 +4,7 @@ import Header from './components/Header';
 import MovieList from './components/MovieList';
 import { getPopularMovies, searchMovies } from './service/movie';
 import { Movie } from './service/types';
+import { toast } from './components/Toast';
 
 interface Store {
   keyword: string;
@@ -30,13 +31,11 @@ class App {
       this.movieList.showSkeleton.bind(this.movieList),
       this.movieList.removeSkeleton.bind(this.movieList),
       this.onSubmitSearch.bind(this),
+      this.onClickLogo.bind(this),
     );
-    this.movieList.bindEvent(() => getPopularMovies({ page: Store.page }));
+    this.movieList.bindEvent(() => getPopularMovies({ page: Store.page, onError: toast }));
 
-    this.movieList.showSkeleton();
-    const { results, total_pages } = await getPopularMovies({ page: 1 });
-    this.movieList.removeSkeleton();
-    this.movieList.renderMovieCards(results, total_pages);
+    this.movieList.requestAndRenderMovieCards(() => getPopularMovies({ page: 1, onError: toast }));
   }
 
   onSubmitSearch(results: Movie[], totalPages: number) {
@@ -49,6 +48,23 @@ class App {
       searchMovies({
         page: Store.page,
         query: Store.keyword,
+        onError: toast,
+      }),
+    );
+  }
+
+  async onClickLogo() {
+    Store.page = 1;
+    this.movieList.removeMovieCards();
+
+    this.movieList.renderTitle(`지금 인기 있는 영화`);
+
+    this.movieList.requestAndRenderMovieCards(() => getPopularMovies({ page: 1 }));
+
+    this.movieList.bindEvent(() =>
+      getPopularMovies({
+        page: Store.page,
+        onError: toast,
       }),
     );
   }

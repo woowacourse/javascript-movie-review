@@ -1,11 +1,13 @@
 import { Store } from '..';
-import { getPopularMovies, searchMovies } from '../service/movie';
+import { getMovieDetail } from '../service/movie';
 import { Movie, MoviesResponse } from '../service/types';
 import MovieCard from './MovieCard';
+import MovieDetailModal from './MovieDetailModal';
 
 export default class MovieList {
+  io: any;
+  handleClickMovieCard = (e: Event) => {};
   $parent: HTMLElement;
-  renderMode: 'popular' | 'search';
   $title: HTMLHeadElement;
   $movieItemList: HTMLUListElement;
   $moreMovieButton: HTMLButtonElement;
@@ -14,7 +16,6 @@ export default class MovieList {
 
   constructor($parent: HTMLElement) {
     this.$parent = $parent;
-    this.renderMode = 'popular';
 
     this.$parent.insertAdjacentHTML('beforeend', this.template());
     this.$title = this.$parent.querySelector('#js-movie-list-title') as HTMLHeadElement;
@@ -44,27 +45,64 @@ export default class MovieList {
   skeletonTemplate() {
     return `
       <li class='skeleton-li'>
-        <a href="#">
-          <div class="item-card">
-            <div class="item-thumbnail skeleton"></div>
-            <div class="item-title skeleton"></div>
-            <div class="item-score skeleton"></div>
-          </div>
-        </a>
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
       </li>
     `;
   }
 
-  bindEvent(getMovieRequest: () => Promise<MoviesResponse>) {
-    const handleMoreMovieButton = async () => {
-      Store.page += 1;
-      this.showSkeleton();
-      const { results, total_pages } = await getMovieRequest();
-      this.removeSkeleton();
-      this.renderMovieCards(results, total_pages);
+  async requestAndRenderMovieCards(getMovieRequest: () => Promise<MoviesResponse>) {
+    this.showSkeleton();
+    const { results, total_pages } = await getMovieRequest();
+    this.removeSkeleton();
+    this.renderMovieCards(results, total_pages);
+  }
+
+  private registerInfinteScrollEvent(observeTarget: Element, callback: () => void) {
+    this.io = new IntersectionObserver(
+      (entries, _) => {
+        if (!entries[0].isIntersecting) return;
+        callback();
+      },
+      { rootMargin: '100%' },
+    );
+    this.io.observe(observeTarget);
+  }
+
+  private registerMovieCardModalEvent() {
+    this.handleClickMovieCard = (e: Event) => {
+      if (!(e.target instanceof HTMLElement)) return;
+      const $itemCard = e.target.closest('.js-item-card');
+      if (
+        !$itemCard ||
+        !this.$movieItemList.contains($itemCard) ||
+        !($itemCard instanceof HTMLElement) ||
+        !$itemCard.dataset.id
+      )
+        return;
+
+      getMovieDetail({ movie_id: Number($itemCard.dataset.id) }).then((movieDetail) => {
+        const $detailModal = new MovieDetailModal(this.$parent, movieDetail);
+        $detailModal.bindEvent();
+
+        $detailModal.show();
+      });
     };
 
-    this.$moreMovieButton?.addEventListener('click', handleMoreMovieButton);
+    this.$movieItemList.addEventListener('click', this.handleClickMovieCard);
+  }
+
+  bindEvent(getMovieRequest: () => Promise<MoviesResponse>) {
+    const handleMoreMovie = async () => {
+      Store.page += 1;
+      await this.requestAndRenderMovieCards(getMovieRequest);
+    };
+
+    this.registerInfinteScrollEvent(this.$moreMovieButton, handleMoreMovie);
+    this.registerMovieCardModalEvent();
   }
 
   renderTitle(title: string) {
@@ -81,6 +119,8 @@ export default class MovieList {
   }
 
   removeMovieCards() {
+    this.io.unobserve(this.$moreMovieButton);
+    this.$movieItemList.removeEventListener('click', this.handleClickMovieCard);
     this.$movieItemList.innerHTML = '';
   }
 

@@ -1,7 +1,8 @@
 import { Store } from '..';
 import logo from '../assets/logo.png';
-import { searchMovies } from '../service/movie';
+import { getPopularMovies, searchMovies } from '../service/movie';
 import { Movie } from '../service/types';
+import { toast } from './Toast';
 
 export default class Header {
   $parent: HTMLElement;
@@ -14,10 +15,10 @@ export default class Header {
   template() {
     return `
       <header>
-        <h1><a href="/"><img src="${logo}" alt="MovieList 로고" /></a></h1>
+        <h1 id='logo'><img src="${logo}" alt="MovieList 로고" /></h1>
         <form class="search-box">
-          <input id="js-search-input" type="text" name="keyword" placeholder="검색" />
-          <button class="search-button">검색</button>
+          <input id="js-search-input" class="search-input" type="text" name="keyword" placeholder="검색" required/>
+          <button id="js-search-button" class="search-button">검색</button>
         </form>
       </header>
     `;
@@ -27,16 +28,21 @@ export default class Header {
     removeSkeleton: () => void,
     showSkeleton: () => void,
     onSubmitSearch: (results: Movie[], totalPages: number) => void,
+    onClickLogo: () => void,
   ) {
-    const searchBox = this.$parent.querySelector('.search-box');
-
     const handleSubmitSearch = async (event: Event) => {
       event.preventDefault();
+      const $searchInput = this.$parent.querySelector('#js-search-input') as HTMLInputElement;
+      if ($searchInput.value.length === 0) return;
 
       showSkeleton();
 
       const keyword = new FormData(event.target as HTMLFormElement).get('keyword') as string;
-      const { results, total_pages } = await searchMovies({ query: keyword, page: 1 });
+      const { results, total_pages } = await searchMovies({
+        query: keyword,
+        page: 1,
+        onError: toast,
+      });
 
       Store.keyword = keyword;
 
@@ -44,7 +50,22 @@ export default class Header {
 
       onSubmitSearch(results, total_pages);
     };
+    const $searchBox = this.$parent.querySelector('.search-box') as HTMLFormElement;
+    $searchBox.addEventListener('submit', handleSubmitSearch);
 
-    searchBox?.addEventListener('submit', handleSubmitSearch);
+    const $searchInput = this.$parent.querySelector('#js-search-input') as HTMLInputElement;
+    const $searchButton = this.$parent.querySelector('#js-search-button') as HTMLButtonElement;
+
+    $searchButton?.addEventListener('click', (e) => {
+      if ($searchInput.value.length === 0) {
+        $searchInput.focus();
+      }
+    });
+
+    // 로고 클릭 시 인기있는영화 보여주도록
+    const $logo = this.$parent.querySelector('#logo') as HTMLHeadingElement;
+    $logo.addEventListener('click', () => {
+      onClickLogo();
+    });
   }
 }
