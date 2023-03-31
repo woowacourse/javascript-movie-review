@@ -4,8 +4,6 @@ import starImgEmpty from "../../assets/star_empty.png";
 import { $, $$ } from "../../utils/selector";
 
 class MovieDetail {
-  constructor() {}
-
   static render(movieDetail: MovieDetailResponse) {
     const { id, title, genres, overview, poster_path, vote_average } =
       movieDetail;
