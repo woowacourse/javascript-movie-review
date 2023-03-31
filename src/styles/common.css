@@ -316,6 +316,11 @@ button.primary {
     grid-template-columns: repeat(3, 200px);
     grid-column-gap: 36px;
   }
+  .skeleton-list {
+    grid-template-columns: repeat(3, 200px);
+    grid-column-gap: 36px;
+  }
+
   .item-thumbnail {
     width: 200px;
     height: 300px;
@@ -351,6 +356,10 @@ button.primary {
 
 @media screen and (max-width: 768px) {
   .item-list {
+    grid-template-columns: repeat(2, 140px);
+    grid-column-gap: 28px;
+  }
+  .skeleton-list {
     grid-template-columns: repeat(2, 140px);
     grid-column-gap: 28px;
   }
