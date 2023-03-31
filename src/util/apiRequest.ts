@@ -9,5 +9,5 @@ export const request = async (url: string) => {
     return handleHTTPError(response.status);
   }
 
-  return response.json();
+  return { type: "fulfilled", ...response.json() };
 };

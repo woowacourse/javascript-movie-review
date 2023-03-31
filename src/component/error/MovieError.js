@@ -1,10 +1,11 @@
+import { apiStatus } from "../../constant/movieConstants";
 import MovieManager from "../../domain/MovieManager";
 import { $ } from "../../util/dom";
 import CustomElement from "../basic/CustomElement";
 
 class MovieError extends CustomElement {
   connectedCallback() {
-    MovieManager.subscribeError(this);
+    MovieManager.subscribe(this.rerender.bind(this));
   }
 
   template() {
@@ -16,10 +17,11 @@ class MovieError extends CustomElement {
     `;
   }
 
-  rerender(errorMessage) {
-    $("movie-container").remove();
-    super.render();
-    $(".error-message").innerText = errorMessage;
+  rerender(state) {
+    if (state.status === apiStatus.FAILURE) {
+      super.render();
+      $(".error-message").innerText = state.data.errorMessage;
+    }
   }
 }
 

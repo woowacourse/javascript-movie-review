@@ -1,67 +1,61 @@
 import Movie from "./Movie";
-import { CustomElement } from "../type/componentType";
-import { MovieAppData } from "../type/movieType";
+import { State, Status, Subscriber } from "../type/movieType";
+import { apiStatus } from "../constant/movieConstants";
 
 class MovieManager {
-  private subscribers: CustomElement[] = [];
-  private skeletonSubscriber: CustomElement | undefined;
-  private errorSubscriber: CustomElement | undefined;
-  private errorType: string = "";
+  private state: State = {
+    status: <Status>apiStatus.LOADING,
+    data: {},
+  };
+  private subscribers: Subscriber[] = [];
 
-  subscribe(element: CustomElement) {
-    this.subscribers.push(element);
+  subscribe(subscriber: Subscriber) {
+    this.subscribers.push(subscriber);
   }
 
-  subscribeSkeleton(element: CustomElement) {
-    this.skeletonSubscriber = element;
-  }
-
-  subscribeError(element: CustomElement) {
-    this.errorSubscriber = element;
-  }
-
-  private publish(movieAppData: MovieAppData) {
+  private publish(state: State) {
     this.subscribers.forEach((subscriber) => {
-      subscriber.rerender(movieAppData);
+      subscriber(state);
     });
   }
 
-  private publishError(errorMessage: string) {
-    this.errorSubscriber?.rerender(errorMessage);
-  }
-
-  private hideSkeleton() {
-    this.skeletonSubscriber?.remove();
-  }
-
-  private showSkeleton() {
-    this.skeletonSubscriber?.show();
+  private setNewState(newState: Partial<State>) {
+    this.state = { ...this.state, ...newState };
+    this.publish(this.state);
   }
 
   async showMovies(searchWord: string = "") {
-    this.showSkeleton();
+    this.setNewState({ status: apiStatus.LOADING });
+
     const movieAppData = await Movie.getMovies(searchWord);
-
-    if (movieAppData.error) {
-      this.publishError(movieAppData.errorMessage);
-      return;
-    }
-
-    this.publish(movieAppData);
-    this.hideSkeleton();
+    const newState = {
+      status:
+        movieAppData.status === "rejected"
+          ? apiStatus.FAILURE
+          : apiStatus.SUCCESS,
+      data: movieAppData,
+    };
+    this.setNewState(newState);
   }
 
   async showMoreMovies() {
-    this.showSkeleton();
+    this.setNewState({ status: apiStatus.LOADING });
+
     const movieAppData = await Movie.getMoreMovies();
+    const newState = {
+      status:
+        movieAppData.status === "rejected"
+          ? apiStatus.FAILURE
+          : apiStatus.SUCCESS,
+      data: movieAppData,
+    };
 
-    if (movieAppData.error) {
-      this.publishError(movieAppData.errorMessage);
-      return;
-    }
+    this.setNewState(newState);
+  }
 
-    this.publish(movieAppData);
-    this.hideSkeleton();
+  openItemModal(id: number) {
+    const modalMovieData = Movie.getMovie(id);
+    this.setNewState({ data: modalMovieData });
   }
 }
 

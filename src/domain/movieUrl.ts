@@ -8,3 +8,7 @@ export const popularMovieUrl = (page: number) => {
 export const searchMovieUrl = (query: string, page: number) => {
   return `${BASE_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${query}&page=${page}&include_adult=false`;
 };
+
+export const movieGenreListUrl = () => {
+  return `${BASE_URL}/genre/movie/list?api_key=${API_KEY}`;
+};

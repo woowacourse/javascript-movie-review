@@ -20,12 +20,51 @@ export interface MovieItem {
   title: string;
   src: string;
   starRate: number;
+  genres: string;
+  description: string;
 }
 
 export interface MovieAppData {
+  status: "fulfilled";
   movies: MovieItem[];
   searchWord: string;
   page: number;
   totalPages: number;
   isShowMore: boolean;
 }
+
+export interface ApiMovie {
+  status: "fulfilled";
+  page: number;
+  total_pages: number;
+  results: ApiMovieItem[];
+  total_results: number;
+}
+
+export interface ApiError {
+  status: "rejected";
+  error: number;
+  errorMessage: string;
+}
+
+export interface State {
+  status: string;
+  data: MovieAppData | MovieItem | Error | {};
+}
+
+export type Subscriber = (state: State) => void;
+
+export type Status = "loading" | "success" | "failure";
+
+export interface MovieGenreApi {
+  id: number;
+  name: string;
+}
+
+export interface Genre {
+  [key: number]: string;
+}
+
+export type Constant = Readonly<{
+  [key: string]: string;
+}>;
