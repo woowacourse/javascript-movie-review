@@ -1,5 +1,3 @@
-import { MovieInterface } from '../utils/type';
-
 interface IEvent {
   targetSelector: string;
   event: keyof HTMLElementEventMap;
@@ -31,10 +29,3 @@ export const Event = {
     });
   },
 };
-
-export function toggleMoreButton(result: MovieInterface[]) {
-  const moreButton = $('.view-more-button') as HTMLElement;
-
-  if (result.length >= 20 && result.length > 0) return (moreButton.style.display = 'inline-block');
-  return (moreButton.style.display = 'none');
-}

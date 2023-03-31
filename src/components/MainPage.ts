@@ -1,13 +1,11 @@
-import { PageHeader } from './PageHeader';
-import { ViewMoreButton } from './ViewMoreButton';
+import { movieItemList } from './movieItemList';
+import { pageHeader } from './pageHeader';
 
-export function MainPage() {
+export function mainPage() {
   return `
     <section class="item-view">
-        ${PageHeader()}
-        <ul class="item-list">
-        </ul>
-        ${ViewMoreButton()}
+        ${pageHeader()}
+        ${movieItemList()}
     </section>
     `;
 }

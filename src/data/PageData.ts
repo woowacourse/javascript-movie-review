@@ -1,23 +1,28 @@
 import { getMovies, getSearchMovie } from './api';
 import { PageStatusType } from '../utils/type';
+import MovieData from './movieData';
 
 class PageData {
-  #moviePage: number;
-  #recentKeyword: string;
+  #currentPage: number;
+  #totalPage: number;
+  #recentKeyword: string | null;
   #pageStatus: PageStatusType;
 
   constructor() {
-    this.#moviePage = 1;
-    this.#recentKeyword = '';
+    this.#currentPage = 1;
+    this.#totalPage = Infinity;
+    this.#recentKeyword = null;
     this.#pageStatus = 'popular';
   }
 
-  plusPage() {
-    this.#moviePage++;
+  plusCurrentPage() {
+    this.#currentPage++;
   }
-  resetPage() {
-    this.#moviePage = 1;
+
+  resetCurrentPage() {
+    this.#currentPage = 1;
   }
+
   changePageStatus(callPage: PageStatusType) {
     this.#pageStatus = callPage;
   }
@@ -25,25 +30,40 @@ class PageData {
   getPageStatus() {
     return this.#pageStatus;
   }
+
+  setRecentKeyword(keyword: string | null) {
+    this.#recentKeyword = keyword;
+  }
+
   getRecentKeyword() {
     return this.#recentKeyword;
   }
 
-  async usePopularMovie() {
-    const { page, results } = await getMovies(this.#moviePage);
-
-    return {
-      values: { page, results },
-    };
+  setTotalPage(totalPage: number) {
+    this.#totalPage = totalPage;
   }
 
-  async useSearchedMovie(keyword: string) {
-    const { page, results } = await getSearchMovie(keyword, this.#moviePage);
-    this.#recentKeyword = keyword;
+  moreTotalPageThanCurrentPage() {
+    return this.#currentPage <= this.#totalPage;
+  }
 
-    return {
-      values: { page, results },
-    };
+  async useMovie() {
+    if (this.#recentKeyword === null) {
+      const { page, results, total_pages } = await getMovies(this.#currentPage);
+
+      MovieData.addMovieData(results);
+
+      return { values: { page, results, total_pages } };
+    }
+
+    const { page, results, total_pages } = await getSearchMovie(
+      this.#recentKeyword,
+      this.#currentPage
+    );
+
+    MovieData.addMovieData(results);
+
+    return { values: { page, results, total_pages } };
   }
 }
 

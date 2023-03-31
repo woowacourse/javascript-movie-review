@@ -5,6 +5,7 @@ export interface MovieInterface {
   title: string;
   overview: string;
   vote_average: number;
+  genre_ids: number[];
 }
 
 export interface MovieListInterface {
@@ -15,3 +16,4 @@ export interface MovieListInterface {
 }
 
 export type PageStatusType = 'popular' | 'search';
+export type ScoreType = 0 | 2 | 4 | 6 | 8 | 10;
