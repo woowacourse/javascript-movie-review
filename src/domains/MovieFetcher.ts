@@ -1,6 +1,13 @@
 import KeyChanger from '../utils/KeyChanger';
-import { MovieType, GenreType, FetchResponseType } from '../types';
-import { API_URL, ERROR_MESSAGE, UNKNOWN_ERROR_MESSAGE } from '../constants';
+import {
+  MovieType,
+  GenreType,
+  FetchResponseType,
+  FailResponseType,
+  isMoviesType,
+  isGenresType,
+} from '../types';
+import { API_URL, ERROR_MESSAGE, UNKNOWN_ERROR_MESSAGE, NO_RESULT_MESSAGE } from '../constants';
 
 const changingKeyPairs: Record<string, string> = {
   poster_path: 'posterPath',
@@ -48,51 +55,100 @@ class MovieFetcher {
     return response;
   }
 
-  private trimData<T>(
-    data: Record<string, unknown>[],
-    changingKeyPairs: Record<string, string>,
-  ): T {
-    const trimmedData = data.map(
-      (currentData: Record<string, unknown>) => <T>KeyChanger.change(currentData, changingKeyPairs),
+  private trimData(data: Record<string, unknown>[], changingKeyPairs: Record<string, string>) {
+    const trimmedData = data.map((currentData: Record<string, unknown>) =>
+      KeyChanger.change(currentData, changingKeyPairs),
     );
 
-    return trimmedData as T;
+    return trimmedData;
   }
 
-  async getMovieData<T extends FetchResponseType>(keyword: string = ''): Promise<T> {
-    this.failedToFetch = true;
+  async fetchMovieData(
+    keyword: string = '',
+  ): Promise<FetchResponseType<MovieType[]> | FailResponseType> {
+    try {
+      this.failedToFetch = true;
 
+      const response = await this.fetchDataFromApi(keyword);
+
+      if (!response.ok) {
+        return {
+          isSuccess: false,
+          errorMessage: ERROR_MESSAGE[response.status] || UNKNOWN_ERROR_MESSAGE,
+        };
+      }
+
+      const responseText = JSON.parse(await response.text());
+      const trimmedData = this.trimData(responseText.results, changingKeyPairs);
+
+      if (!isMoviesType(trimmedData)) {
+        return {
+          isSuccess: false,
+          errorMessage: UNKNOWN_ERROR_MESSAGE,
+        };
+      }
+
+      if (trimmedData.length === 0) {
+        return {
+          isSuccess: false,
+          errorMessage: NO_RESULT_MESSAGE,
+        };
+      }
+
+      this.currentPage += 1;
+      this.failedToFetch = false;
+
+      return {
+        isSuccess: true,
+        fetchedData: trimmedData,
+      };
+    } catch (error) {
+      return {
+        isSuccess: false,
+        errorMessage: UNKNOWN_ERROR_MESSAGE,
+      };
+    }
+  }
+
+  async fetchGenreData(
+    keyword: string = '',
+  ): Promise<FetchResponseType<GenreType[]> | FailResponseType> {
     try {
       const response = await this.fetchDataFromApi(keyword);
 
       if (!response.ok) {
         return {
-          result: 'FAILED',
-          status: response.status,
+          isSuccess: false,
           errorMessage: ERROR_MESSAGE[response.status] || UNKNOWN_ERROR_MESSAGE,
-        } as T;
+        };
       }
 
       const responseText = JSON.parse(await response.text());
-      const rawData: Record<string, unknown>[] =
-        this.requestMode === 'genre' ? responseText.genres : responseText.results;
-      const trimmedData =
-        this.requestMode === 'genre'
-          ? this.trimData<GenreType[]>(rawData, changingKeyPairs)
-          : this.trimData<MovieType[]>(rawData, changingKeyPairs);
+      const trimmedData = this.trimData(responseText.genres, changingKeyPairs);
+
+      if (!isGenresType(trimmedData)) {
+        return {
+          isSuccess: false,
+          errorMessage: UNKNOWN_ERROR_MESSAGE,
+        };
+      }
 
       if (trimmedData.length === 0) {
-        return { result: 'NO_RESULT' } as T;
+        return {
+          isSuccess: false,
+          errorMessage: NO_RESULT_MESSAGE,
+        };
       }
 
-      if (this.requestMode !== 'genre') {
-        this.currentPage += 1;
-      }
-
-      this.failedToFetch = false;
-      return { result: 'OK', fetchedData: trimmedData } as T;
+      return {
+        isSuccess: true,
+        fetchedData: trimmedData,
+      };
     } catch (error) {
-      return { result: 'FETCH_CRASHED', errorMessage: UNKNOWN_ERROR_MESSAGE } as T;
+      return {
+        isSuccess: false,
+        errorMessage: UNKNOWN_ERROR_MESSAGE,
+      };
     }
   }
 }
