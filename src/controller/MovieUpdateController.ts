@@ -25,10 +25,17 @@ class MovieUpdateController {
     this.footerMessage.addClickEventHandler(this.onClickLoadMoreButton);
     this.header.addClickEventHandler(this.onClickSearchButton);
 
-    this.initMovies();
+    this.loadGenresAndMoviesWhenStart();
   }
 
-  private async initMovies() {
+  private async loadGenresAndMoviesWhenStart() {
+    await this.loadMovieGenres();
+
+    this.movieFetcher.setRequestMode('popularity');
+    this.fetchAndUpdateMovieList('overwrite');
+  }
+
+  private async loadMovieGenres() {
     this.movieFetcher.setRequestMode('genre');
     const response = await this.movieFetcher.fetchGenreData();
 
@@ -39,9 +46,6 @@ class MovieUpdateController {
         '장르를 불러오는 데 실패했습니다. 장르가 제대로 표시되지 않을 것입니다. 새로고침을 해 주세요.',
       );
     }
-
-    this.movieFetcher.setRequestMode('popularity');
-    this.fetchAndUpdateMovieList('overwrite');
   }
 
   onClickLoadMoreButton = () => {
