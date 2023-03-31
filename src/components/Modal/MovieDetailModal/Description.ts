@@ -1,6 +1,6 @@
 import type { MovieDetail } from "../../../types";
 
-import filledStarImg from "../../../../templates/star_filled.png";
+import filledStarImage from "../../../../templates/star_filled.png";
 
 import { getStarSelectContainerTemplate } from "./StarSelect";
 
@@ -16,7 +16,7 @@ export function getDescriptionTemplate(movie: MovieDetail, starRate: number) {
                     } 
                 <span>
                 <img 
-                    src="${filledStarImg}" 
+                    src="${filledStarImage}" 
                     alt="별점 ${movie.vote_average}" 
                 />
                     ${movie.vote_average.toFixed(1)}

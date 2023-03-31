@@ -1,6 +1,6 @@
 import { Movie } from "../../types";
 
-import starImg from "../../../templates/star_filled.png";
+import starImage from "../../../templates/star_filled.png";
 
 export const getMovieCardTemplate = (movie: Movie) => {
   return (
@@ -36,7 +36,7 @@ export const getMovieCardTemplate = (movie: Movie) => {
             }
             <p class="item-title">${movie.title}</p>
             <p class="item-score">
-              <img src="${starImg}" alt="별점 ${movie.vote_average}" />
+              <img src="${starImage}" alt="별점 ${movie.vote_average}" />
               ${movie.vote_average}
             </p>
           </div>

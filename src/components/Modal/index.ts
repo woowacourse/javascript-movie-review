@@ -1,6 +1,6 @@
 import "./index.css";
 
-import xButton from "../../../templates/xButton.png";
+import xButtonImage from "../../../templates/xButton.png";
 
 import { $ } from "../../utils/selector";
 import { MovieDetailModal } from "./MovieDetailModal";
@@ -11,7 +11,7 @@ export class Modal {
   constructor($target: Element) {
     this.#$movieDetail = new MovieDetailModal($target);
 
-    ($(".x-button") as HTMLImageElement).src = xButton;
+    ($(".x-button") as HTMLImageElement).src = xButtonImage;
 
     this.bindEvent();
   }
