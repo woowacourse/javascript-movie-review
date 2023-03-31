@@ -1,13 +1,19 @@
-import { Movies } from "../../domain/Movies";
-import { Movie, MovieResponse } from "../../types";
-import { fetchPopularMovies, fetchSearchMovies } from "../../utils/api";
-import starImg from "../../../templates/star_filled.png";
+import "./index.css";
+
+import type { MovieResponse } from "../../types";
+
+import { getURL, request } from "../../utils/api";
 import { $ } from "../../utils/selector";
-import { getSkeletonContainer } from "../Skeleton";
+import {
+  deleteSkeletonContainer,
+  getSkeletonContainer,
+  showSkeletonContainer,
+} from "./Skeleton";
+import { getMovieCardTemplate } from "./MovieCard";
 
 type showType = "popular" | "search";
 
-interface State {
+export interface State {
   showState: showType;
   searchKeyword: string;
   page: number;
@@ -22,139 +28,89 @@ export class MovieList {
     page: 1,
   };
 
-  #movies: Movies = new Movies([]);
-
-  #$skeletonContainer = getSkeletonContainer();
-
   constructor($target: Element) {
     this.#$target = $target;
-    this.renderSkeleton();
 
-    fetchPopularMovies(this.#state.page)
-      .then((response) => {
-        const { results, total_pages } = response;
-        this.#movies.reset(results);
-        this.render(results, total_pages);
-      })
-      .catch(() => {
-        this.#$target.removeChild(this.#$skeletonContainer);
-      });
-
-    $(".btn").addEventListener("click", this.onClickMoreButton.bind(this));
+    this.init();
   }
 
-  getMovieCardTemplate(movie: Movie) {
-    return (
-      /*html*/
-      `
-      <li>
-        <a href="#">
-          <div class="item-card">
-            <img
-              class="item-thumbnail"
-              src="https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}"
-              loading="lazy"
-              alt="${movie.title}"
-            />
-            <p class="item-title">${movie.title}</p>
-            <p class="item-score"><img src="${starImg}" alt="별점 ${movie.vote_average}" />${movie.vote_average}</p>
-          </div>
-        </a>
-      </li>
-    `
-    );
+  async init() {
+    this.#$target.insertAdjacentElement("afterend", getSkeletonContainer());
+
+    try {
+      const { results, total_pages } = await request(
+        getURL({ state: this.#state })
+      );
+
+      this.render(results, total_pages);
+
+      new IntersectionObserver(this.fetchNextPage.bind(this)).observe(
+        $(".btn")
+      );
+    } catch {
+      deleteSkeletonContainer();
+    }
   }
 
   render(movieList: MovieResponse[], total_pages: number) {
-    this.#$target.removeChild(this.#$skeletonContainer);
-
-    if (this.#state.page !== 1) this.#movies.add(movieList);
+    deleteSkeletonContainer();
 
     this.#$target.insertAdjacentHTML(
       "beforeend",
-      `${this.#movies
-        .getCurrentList()
-        .map((movie) => this.getMovieCardTemplate(movie))
-        .join("")}`
+      `${movieList.map(getMovieCardTemplate).join("")}
+      `
     );
 
-    if (this.#state.page === total_pages) this.hideMoreButton();
+    if (this.#state.page === total_pages) this.hideMore();
+
+    if (this.#state.page === 1 && movieList.length === 0) {
+      const subTitle = $(".sub-title");
+
+      subTitle.innerHTML = "검색 결과 없음";
+    }
   }
 
-  reset(state: showType, searchKeyword?: string) {
+  async changeShowTarget(state: showType, searchKeyword?: string) {
     this.#$target.innerHTML = ``;
-    this.#state = { ...this.#state, showState: state, page: 1 };
+    this.#state = {
+      ...this.#state,
+      showState: state,
+      page: 1,
+      searchKeyword: searchKeyword ?? "",
+    };
 
-    this.showMoreButton();
-    this.renderSkeleton();
+    this.showMore();
+    showSkeletonContainer();
 
-    if (state === "popular") {
-      fetchPopularMovies(this.#state.page)
-        .then((response) => {
-          const { results, total_pages } = response;
+    const { results, total_pages } = await request(
+      getURL({ state: this.#state })
+    );
 
-          this.#movies.reset(results);
-          this.render(results, total_pages);
-        })
-        .catch(() => {
-          this.#$target.removeChild(this.#$skeletonContainer);
-        });
+    this.render(results, total_pages);
 
-      return;
-    }
-
-    if (searchKeyword) {
-      this.#state = { ...this.#state, searchKeyword: searchKeyword };
-
-      fetchSearchMovies(this.#state.page, this.#state.searchKeyword)
-        .then((response) => {
-          const { results, total_pages } = response;
-
-          this.#movies.reset(results);
-          this.render(results, total_pages);
-        })
-        .catch(() => {
-          this.#$target.removeChild(this.#$skeletonContainer);
-        });
-    }
+    deleteSkeletonContainer();
   }
 
-  onClickMoreButton() {
+  async fetchNextPage() {
     this.#state.page += 1;
-    this.renderSkeleton();
+    showSkeletonContainer();
 
-    if (this.#state.showState === "popular")
-      fetchPopularMovies(this.#state.page)
-        .then((response) => {
-          const { results, total_pages } = response;
+    try {
+      const { results, total_pages } = await request(
+        getURL({ state: this.#state })
+      );
 
-          this.render(results, total_pages);
-        })
-        .catch(() => {
-          this.#$target.removeChild(this.#$skeletonContainer);
-        });
-
-    if (this.#state.showState === "search")
-      fetchSearchMovies(this.#state.page, this.#state.searchKeyword)
-        .then((response) => {
-          const { results, total_pages } = response;
-
-          this.render(results, total_pages);
-        })
-        .catch(() => {
-          this.#$target.removeChild(this.#$skeletonContainer);
-        });
+      this.render(results, total_pages);
+    } catch {
+      deleteSkeletonContainer();
+    }
   }
 
-  renderSkeleton() {
-    this.#$target.appendChild(this.#$skeletonContainer);
-  }
-
-  hideMoreButton() {
+  hideMore() {
     $(".btn").setAttribute("hidden", "");
   }
 
-  showMoreButton() {
+  showMore() {
     $(".btn").removeAttribute("hidden");
   }
 }

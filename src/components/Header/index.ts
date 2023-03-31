@@ -1,37 +1,17 @@
+import "./index.css";
+
 import logoImage from "../../../templates/logo.png";
+
 import { $ } from "../../utils/selector";
 
 export class Header {
   #$target;
 
-  constructor(
-    $target: Element,
-    onSubmitSearchKeyword: (searchKeyword: string) => void,
-    onClickLogoImage: () => void
-  ) {
+  constructor($target: Element) {
     this.#$target = $target;
 
     this.render();
-
-    $(".search-box").addEventListener("submit", (event: Event) => {
-      event.preventDefault();
-
-      const $searchInput = $(".search-input");
-
-      if ($searchInput instanceof HTMLInputElement) {
-        const inputValue = $searchInput.value;
-
-        if (inputValue === "") return alert("검색값을 입력해주세요.");
-        if (inputValue.trim().length === 0)
-          return alert("올바른 검색어를 입력해주세요.");
-
-        onSubmitSearchKeyword(inputValue);
-      }
-
-      if (event.target instanceof HTMLFormElement) event.target.reset();
-    });
-
-    $(".logo").addEventListener("click", onClickLogoImage);
+    this.bindEvent();
   }
 
   render() {
@@ -42,5 +22,24 @@ export class Header {
             <button class="search-button">검색</button>
         </form>
     `;
+  }
+
+  bindEvent() {
+    const $searchInput = $(".search-input");
+
+    if (!($searchInput instanceof HTMLInputElement)) return;
+
+    $searchInput.addEventListener("click", function () {
+      this.select();
+    });
+  }
+
+  getInputValue() {
+    const $searchInput = $(".search-input");
+
+    if (!($searchInput instanceof HTMLInputElement))
+      throw new Error("입력창이 존재하지 않습니다.");
+
+    return $searchInput.value;
   }
 }
