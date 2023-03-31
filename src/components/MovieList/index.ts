@@ -30,12 +30,19 @@ class MovieList {
     this.#$target = $target;
     this.renderSkeleton();
     this.init();
+
     $(".btn").addEventListener("click", this.onClickMoreButton.bind(this));
     $(".item-list").addEventListener("click", (event) => {
       const closestLi = (event.target as HTMLElement).closest("li");
+      const clickedId = closestLi?.dataset.id;
 
-      if (closestLi?.dataset.id) {
-        const movieId = parseInt(closestLi.dataset.id, 10);
+      if (clickedId === "0" || clickedId === null || clickedId === undefined) {
+        throw new Error("유효하지 않은 id 값입니다.");
+      }
+
+      if (clickedId) {
+        const movieId = parseInt(clickedId, 10);
+
         onClickMovie(movieId);
       }
     });
