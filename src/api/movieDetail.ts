@@ -8,18 +8,14 @@ class CustomError extends Error {
   };
 }
 
-export const getCurrentResult = async (
-  keyword: string,
-  currentPage: number
-) => {
+export const getMovieDetail = async (id: number) => {
   try {
     const response = await fetch(
-      `${URL.BASE_URL}/search/movie?api_key=${process.env.API_KEY}&query=${keyword}&page=${currentPage}`
+      `${URL.BASE_URL}/movie/${id}?api_key=${process.env.API_KEY}&language=en-US`
     );
     const data = await response.json();
-    currentPage++;
 
-    return { data, currentPage };
+    return data;
   } catch (error: unknown) {
     if (error instanceof CustomError) {
       if (error.response && error.response.status >= 500) {

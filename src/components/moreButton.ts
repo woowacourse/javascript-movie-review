@@ -1,5 +1,5 @@
-export const moreButton = () => {
+export const MoreButton = () => {
   return `
-    <button class="btn primary full-width">더 보기</button>
+    <button class="btn primary full-width"></button>
     `;
 };

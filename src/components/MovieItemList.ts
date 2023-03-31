@@ -1,9 +1,11 @@
-import { moreButton } from "./moreButton";
+import { MovieItemListType } from "../@types/movieType";
+import { CURRENT_TAB } from "../constant/constant";
+import { MoreButton } from "./moreButton";
 
-const MovieItemList = (currentTab: string) => {
+const MovieItemList = (currentTab: string, keyword = ''): MovieItemListType => {
   const create = () => {
     return `<ul class="item-list"></ul>
-    ${moreButton()}
+    ${MoreButton()}
     `;
   };
 
@@ -32,14 +34,33 @@ const MovieItemList = (currentTab: string) => {
     container.innerHTML = create();
     container.insertAdjacentElement("afterbegin", currentTabElement);
 
-    if (currentTab == "POPULAR") currentTabElement.innerHTML = "인기 있는 영화";
-    if (currentTab == "SEARCH") currentTabElement.innerHTML = "검색 결과";
+    if (currentTab == CURRENT_TAB.POPULAR) currentTabElement.innerHTML = "인기 있는 영화";
+    if (currentTab == CURRENT_TAB.SEARCH) currentTabElement.innerHTML = `${keyword} 검색 결과`;
     document
       .querySelector("main")
       ?.insertAdjacentElement("afterbegin", container);
   };
 
+  const bindEvent = () => {
+    const ul = document.querySelector(".item-list");
+    if (!ul) return;
+
+    ul.addEventListener("click", (e: Event) => {
+      const target = e.target;
+      if (!(target instanceof HTMLElement)) return;
+
+      const movieCard = target.closest("a");
+      if (!movieCard) return;
+
+      const eventId = movieCard.hash.substring(1);
+      const event = new CustomEvent("movieItemClicked", { detail: { movieId: eventId } });
+      document.dispatchEvent(event);
+    });
+
+  };
+
   render();
+  bindEvent();
 
   return {
     render,
