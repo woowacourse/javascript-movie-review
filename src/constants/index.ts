@@ -22,6 +22,8 @@ const ERROR_MESSAGE: Record<number, string> = {
 
 const UNKNOWN_ERROR_MESSAGE = '죄송합니다. 문제가 발생하여 영화 정보를 가져오지 못 했습니다.';
 
+const NO_RESULT_MESSAGE = '검색 결과가 없습니다.';
+
 const ERROR_LAYOUT_MESSAGE = {
   noResultTitle: '구석구석 뒤져봤지만, 영화를 못 찾았어요.',
   noResultContent: '혹시 오타가 있지는 않나요?',
