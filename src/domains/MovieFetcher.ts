@@ -1,4 +1,4 @@
-import KeyChanger from '../utils/KeyChanger';
+import keyChanger from '../utils/keyChanger';
 import {
   MovieType,
   GenreType,
@@ -57,7 +57,7 @@ class MovieFetcher {
 
   private trimData(data: Record<string, unknown>[], changingKeyPairs: Record<string, string>) {
     const trimmedData = data.map((currentData: Record<string, unknown>) =>
-      KeyChanger.change(currentData, changingKeyPairs),
+      keyChanger.change(currentData, changingKeyPairs),
     );
 
     return trimmedData;
