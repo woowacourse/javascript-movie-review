@@ -43,3 +43,9 @@
   font-size: 18px;
   line-height: 24px;
 }
+
+@media screen and (max-width: 420px) {
+  .item-list {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+}

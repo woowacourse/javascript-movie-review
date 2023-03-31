@@ -9,7 +9,7 @@ class MovieItem {
 
   constructor($target, movie) {
     this.$target = $target;
-    this.#movieInfo = movie.getMovieData();
+    this.#movieInfo = movie.getMovieInfo();
 
     this.render();
   }
@@ -19,21 +19,19 @@ class MovieItem {
   }
 
   template() {
-    const { title, posterSrc, voteAverage } = this.#movieInfo;
+    const { id, title, posterSrc, voteAverage } = this.#movieInfo;
 
     return `
     <li>
-      <a href="#">
-        <div class="item-card">
-          <img
-            class="item-thumbnail"
-            src=${posterSrc ? this.convertToImgUrl(posterSrc) : NotFoundImageIcon}
-            alt=${title}
-          />
-          <p class="item-title">${title}</p>
-          <p class="item-score"><img src=${StarIcon} alt="별점" /> ${voteAverage}</p>
-        </div>
-      </a>
+      <div class="item-card" data-id=${id}>
+        <img
+          class="item-thumbnail"
+          src=${posterSrc ? this.convertToImgUrl(posterSrc) : NotFoundImageIcon}
+          alt=${title}
+        />
+        <p class="item-title">${title}</p>
+        <p class="item-score"><img src=${StarIcon} alt="별점" /> ${voteAverage}</p>
+      </div>
     </li>
   `;
   }

@@ -1,6 +1,7 @@
 import { fetchMovieListWithKeyword, fetchPopularMovieList } from "../../apis";
 import { LIST_TYPE } from "../../constants/common";
 import Movie from "../../domain/Movie";
+import Modal from "../Modal";
 import "./index.css";
 import MovieItem from "./MovieItem";
 import SkeletonList from "./SkeletonList";
@@ -28,7 +29,7 @@ class MovieList {
             <ul class="skeleton-container"></ul>
             <div class="error-container"></div>
           </div>
-          <button class="more btn primary full-width">더 보기</button>
+          <div class="scroll-trigger"></div>
         </section>
       `;
   }
@@ -53,12 +54,13 @@ class MovieList {
     $searchTitle.innerText = text;
   }
 
-  renderErrorMessage(message) {
+  renderErrorMessage(error) {
+    if (error.status_code && error.status_code === 22) return;
     const $errorContainer = this.$target.querySelector(".error-container");
     const messageTemplate = `
     <h3 class="error-title">영화 목록을 불러오는데 문제가 발생했습니다 :(</h2>
     <p class="error-message">[실패 사유]</p>
-    <p class="error-message">${message}</p>`;
+    <p class="error-message">${error.message}</p>`;
 
     $errorContainer.insertAdjacentHTML("beforeend", messageTemplate);
   }
@@ -66,16 +68,16 @@ class MovieList {
   async renderMovieList() {
     const $itemList = this.$target.querySelector(".item-list");
 
-    this.toggleSkeletonContainerVisibility();
+    this.openSkeletonContainer();
     const fetchedMovieData = await this.fetchMovieList();
-    this.toggleSkeletonContainerVisibility();
+    this.closeSkeletonContainer();
     if (!fetchedMovieData) return;
 
     if (!this.isExistMovie(fetchedMovieData)) {
       const { searchKeyword } = this.#props;
       this.renderTitle(`"${searchKeyword}"에 대한 검색 결과가 없습니다 :(`);
     }
-    if (this.isLastPage(fetchedMovieData)) this.toggleMoreButton();
+    if (this.isLastPage(fetchedMovieData)) document.querySelector(".scroll-trigger").remove();
 
     const movies = fetchedMovieData.results.map((movieData) => new Movie(movieData));
     movies.forEach((movie) => new MovieItem($itemList, movie));
@@ -92,8 +94,9 @@ class MovieList {
         return await fetchMovieListWithKeyword(this.#page, searchKeyword);
       }
     } catch (error) {
-      this.renderErrorMessage(error.message);
-      this.toggleMoreButton();
+      this.renderErrorMessage(error);
+      this.closeSkeletonContainer();
+      document.querySelector(".scroll-trigger").remove();
       return false;
     }
   }
@@ -112,15 +115,42 @@ class MovieList {
     $loadMoreButton.classList.toggle("invisible");
   }
 
-  toggleSkeletonContainerVisibility() {
+  openSkeletonContainer() {
     const $skeletonContainer = this.$target.querySelector(".skeleton-container");
-    $skeletonContainer.classList.toggle("visible");
+    $skeletonContainer.classList.add("visible");
+  }
+
+  closeSkeletonContainer() {
+    const $skeletonContainer = this.$target.querySelector(".skeleton-container");
+    $skeletonContainer.classList.remove("visible");
+  }
+
+  setInfinityScroll() {
+    const $scrollTrigger = this.$target.querySelector(".scroll-trigger");
+    const intersectionObserver = new IntersectionObserver(
+      (entry) => {
+        if (!entry[0].isIntersecting) return;
+
+        this.renderMovieList();
+      },
+      {
+        threshold: 0,
+      }
+    );
+
+    intersectionObserver.observe($scrollTrigger);
   }
 
   setEvent() {
-    this.$target.querySelector(".more").addEventListener("click", () => {
-      this.renderMovieList();
+    this.$target.querySelector(".item-list").addEventListener("click", (event) => {
+      const $itemCard = event.target.closest(".item-card");
+      if (!$itemCard) return;
+
+      const id = $itemCard.dataset.id;
+      Modal.openMovieDetail(id);
     });
+
+    this.setInfinityScroll();
   }
 }
 

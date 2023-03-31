@@ -1,0 +1,47 @@
+.modal {
+  display: none;
+}
+
+.modal-open {
+  display: block;
+}
+
+.modal-background {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+
+  max-width: 826px;
+
+  width: 90vw;
+  height: 577px;
+
+  background: #212122;
+  border-radius: 8px;
+
+  transform: translate(-50%, -50%);
+}
+
+@media screen and (max-width: 650px) {
+  .modal-container {
+    top: inherit;
+    bottom: 0;
+    left: 0;
+
+    height: 485px;
+    width: 100%;
+
+    border-radius: 8px 8px 0 0;
+    transform: none;
+  }
+}
