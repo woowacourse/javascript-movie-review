@@ -1,4 +1,4 @@
-import { MovieType, GenreType, StorageMovieType } from '../types';
+import type { MovieType, GenreType, StorageMovieType } from '../types';
 
 class MovieStorage {
   private genres = new Map<number, string>();

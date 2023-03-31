@@ -1,5 +1,5 @@
 import RatingBar from './RatingBar';
-import { StorageMovieType } from '../types';
+import type { StorageMovieType } from '../types';
 import { IMAGE_URL } from '../constants';
 import { $ } from '../utils/domSelector';
 

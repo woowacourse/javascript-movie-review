@@ -1,6 +1,6 @@
 import MovieStorage from '../domains/MovieStorage';
 import EventDispatcher from '../EventDispatcher';
-import { ViewBundleType } from '../types';
+import type { ViewBundleType } from '../types';
 import {
   FOOTER_MESSAGE,
   ERROR_IMAGE_PATH,

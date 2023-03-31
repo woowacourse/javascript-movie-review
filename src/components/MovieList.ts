@@ -1,4 +1,4 @@
-import { MovieType } from '../types';
+import type { MovieType } from '../types';
 import { $, $$ } from '../utils/domSelector';
 import MovieItem from './MovieItem';
 import skeletonItem from './skeletonItem';

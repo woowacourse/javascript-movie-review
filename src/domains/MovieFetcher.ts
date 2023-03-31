@@ -1,12 +1,6 @@
 import keyChanger from '../utils/keyChanger';
-import {
-  MovieType,
-  GenreType,
-  FetchResponseType,
-  FailResponseType,
-  isMoviesType,
-  isGenresType,
-} from '../types';
+import type { MovieType, GenreType, FetchResponseType, FailResponseType } from '../types';
+import { isMoviesType, isGenresType } from '../types';
 import { API_URL, ERROR_MESSAGE, UNKNOWN_ERROR_MESSAGE, NO_RESULT_MESSAGE } from '../constants';
 
 const changingKeyPairs: Record<string, string> = {

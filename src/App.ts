@@ -4,7 +4,7 @@ import MovieFetcher from './domains/MovieFetcher';
 import FooterMessage from './components/FooterMessage';
 import MovieUpdateController from './controller/MovieUpdateController';
 import ModalController from './controller/ModalController';
-import { ViewBundleType } from './types';
+import type { ViewBundleType } from './types';
 import { $ } from './utils/domSelector';
 
 class App {
