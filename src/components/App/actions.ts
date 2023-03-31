@@ -9,6 +9,8 @@ const AppActions = () => {
 
   const MovieChartComponent = (props: MovieChartProps) => {
     absorb('#MovieChart', MovieChart(props));
+
+    return ``;
   };
 
   return { HeaderComponent, MovieChartComponent };

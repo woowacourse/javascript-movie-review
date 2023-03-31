@@ -2,7 +2,7 @@ import { UnPack } from '../../types/common';
 
 export type FormFields<Keys extends string> = Record<Keys, string>;
 
-export const isFormElement = (target: EventTarget): target is HTMLFormElement => {
+export const isFormElement = (target: unknown): target is HTMLFormElement => {
   return target instanceof HTMLFormElement;
 };
 

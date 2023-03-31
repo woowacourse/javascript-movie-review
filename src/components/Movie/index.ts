@@ -1,14 +1,14 @@
-import { MovieInfo, MovieInfoByKeyword } from '../../apis';
 import { assemble, Event, useEffect, useState } from '../../core';
+import { MovieInfo } from '../../domain/Movie';
 import { getElement } from './../../utils/common/domHelper';
 
 export interface MovieProps {
-  info: MovieInfo | MovieInfoByKeyword;
+  movieInfo: MovieInfo;
 }
 
 const Movie = assemble<MovieProps>((props) => {
   const {
-    info: { poster_path, title, vote_average, id },
+    movieInfo: { poster_path, title, vote_average, id },
   } = props;
   const [isLoading, setIsLoading] = useState(true);
 
@@ -20,7 +20,7 @@ const Movie = assemble<MovieProps>((props) => {
 
   const $events: Event[] = [];
   const $template = getElement(`
-      <li class="item--movie" data=id=${id}>
+      <li class="item--movie" data-id=${id}>
         <a href="#">
           <div class="item-card movie">
             ${
@@ -28,7 +28,7 @@ const Movie = assemble<MovieProps>((props) => {
                 ? `<div class="item-thumbnail skeleton"></div>`
                 : `<img
                     class="item-thumbnail"
-                    src=https://image.tmdb.org/t/p/w200/${poster_path}
+                    src=https://image.tmdb.org/t/p/w400/${poster_path}
                     loading="lazy"
                     alt=${title} />`
             }
@@ -36,7 +36,7 @@ const Movie = assemble<MovieProps>((props) => {
             <p class="item-score"><img src="./star_filled.png" alt="별점" />${vote_average}</p>
           </div>
         </a>
-    </li>
+      </li>
   `);
 
   return [$template, $events];
