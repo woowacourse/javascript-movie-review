@@ -1,12 +1,13 @@
 import '../../css/movie-container.css';
 import { $ } from '../utils/dom';
-import { proxy } from '../state/state';
 import { movie } from '../state/state';
 import { generateContainerTitleTemplate } from './templates/containerTitle';
-import { generateMoreButtonTemplate } from './templates/moreButton';
 import { movieContainerTemplate } from './templates/movieContainer';
-import { generateMovieListTemplate } from './templates/movieList';
-import { getMoreMovieList } from '../domains/movieApi';
+import { emptyMessageTemplate } from './templates/emptyMessage';
+import { movieModalContainerTemplate } from './templates/movieModalContainerTemplate';
+import { getMovieDetails } from '../domains/movieApi';
+import { isMovieDetailRoot } from '../types/typeGuards';
+import { getMovieSelfScore, setMovieSelfScore } from '../domains/localStorage';
 
 class MovieContainer extends HTMLElement {
   constructor() {
@@ -14,25 +15,51 @@ class MovieContainer extends HTMLElement {
   }
 
   connectedCallback() {
-    this.addEventListener('click', this.moreButtonClickHandler);
+    this.addEventListener('click', this.handleMovieClick);
   }
 
-  private async moreButtonClickHandler(event: Event) {
+  private async handleMovieClick(event: Event) {
     const target = event.target;
 
-    if (target instanceof HTMLButtonElement && target.ariaLabel === '더 보기' && !movie.isClicked) {
-      movie.isClicked = true;
-      getMoreMovieList(movie.query, movie.currentPage + 1).then(root => {
-        movie.currentPage = root.page;
-        proxy.movie.list = [generateMovieListTemplate(root.results)];
-        movie.isClicked = false;
-      });
+    if (target instanceof HTMLLIElement) {
+      await this.renderModalContents(target);
+      this.openModal();
+    }
+  }
+
+  private openModal() {
+    const modal = $<HTMLElement>('.modal');
+
+    if (modal instanceof HTMLElement) modal.classList.add('modal--open');
+  }
+
+  private async renderModalContents(target: HTMLLIElement) {
+    const container = $<HTMLDivElement>('.modal-container');
+
+    if (container instanceof HTMLDivElement) {
+      const movieDetailsRoot = await getMovieDetails(target.id);
+      if (isMovieDetailRoot(movieDetailsRoot)) {
+        const movieDetails = {
+          id: target.id,
+          title: movieDetailsRoot.title,
+          src: movieDetailsRoot.poster_path,
+          genre: movieDetailsRoot.genres.map(genre => genre.name),
+          score: movieDetailsRoot.vote_average,
+          overview: movieDetailsRoot.overview,
+        };
+
+        if (!getMovieSelfScore(target.id)) {
+          setMovieSelfScore(target.id, String(0));
+        }
+
+        container.innerHTML = movieModalContainerTemplate(movieDetails);
+      }
     }
   }
 
   static render() {
-    const container = $<HTMLDivElement>('#app');
-    if (container instanceof HTMLDivElement && container.closest('body')) {
+    const container = $<HTMLElement>('main');
+    if (container instanceof HTMLElement && container.closest('body')) {
       container.insertAdjacentHTML('beforeend', movieContainerTemplate);
       this.renderContainerTitle();
     }
@@ -42,24 +69,8 @@ class MovieContainer extends HTMLElement {
     const container = $<HTMLElement>('.item-list');
 
     if (container instanceof HTMLUListElement) {
+      this.renderContainerTitle();
       this.renderMovieList(container, movieList);
-      this.renderMoreButton();
-    }
-  }
-
-  static renderMovieList(container: HTMLUListElement, movieList: string) {
-    if (movie.currentPage === 1) {
-      container.innerHTML = movieList;
-    } else {
-      container.insertAdjacentHTML('beforeend', movieList);
-    }
-  }
-
-  static renderMoreButton() {
-    const container = $<HTMLDivElement>('#more-button-container');
-
-    if (container instanceof HTMLDivElement) {
-      container.innerHTML = generateMoreButtonTemplate();
     }
   }
 
@@ -69,6 +80,26 @@ class MovieContainer extends HTMLElement {
     if (container instanceof HTMLHeadingElement) {
       container.innerHTML = generateContainerTitleTemplate();
     }
+  }
+
+  static renderEmptyMessage(movieList: string) {
+    const emptyMovieListContainer = $<HTMLDivElement>('.empty-movie-list-container');
+
+    if (emptyMovieListContainer instanceof HTMLDivElement) {
+      emptyMovieListContainer.innerHTML = movieList ? '' : emptyMessageTemplate;
+    }
+  }
+
+  static renderMovieList(container: HTMLUListElement, movieList: string) {
+    this.renderEmptyMessage(movieList);
+
+    if (movie.currentPage === 1) {
+      container.innerHTML = movieList;
+
+      return;
+    }
+
+    container.insertAdjacentHTML('beforeend', movieList);
   }
 }
 

@@ -2,8 +2,17 @@
   box-sizing: border-box !important;
 }
 
+html {
+  font-size: 100%;
+  overflow: auto;
+}
+
 body {
-  font-size: 14px;
+  position: fixed;
+
+  width: 100vw;
+  height: 100vh;
+  font-size: 1rem;
   background-color: #222222;
   color: #fff;
 }
@@ -18,7 +27,8 @@ button {
 }
 
 #app {
-  padding-bottom: 48px;
+  width: 100%;
+  height: 100%;
 }
 
 *:focus {

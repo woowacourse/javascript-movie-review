@@ -1,28 +1,38 @@
-import { MovieRoot } from '../types/movieApi';
+import { requestUrl } from '../constants/movieApi';
+import { MovieDetailRoot, MovieRoot } from '../types/movieApi';
 
-const getPopularMovieRequestUrl = (page: number) => {
-  return `https://ornate-swan-ce5a5e.netlify.app/tmdb/movie/popular?language=ko-KR&page=${page}`;
+const fetchMovieList = async (requestUrl: string): Promise<MovieRoot | MovieDetailRoot | null> => {
+  try {
+    return await (await fetch(requestUrl)).json();
+  } catch (error) {
+    console.error(error);
+
+    return null;
+  }
 };
 
-const getSearchMovieRequestUrl = (query: string, page: number) => {
-  return `https://ornate-swan-ce5a5e.netlify.app/tmdb/search/movie?language=ko-KR&query=${query}&page=${page}&include_adult=false`;
+export const getPopularMovieList = async (): Promise<MovieRoot | MovieDetailRoot | null> => {
+  return fetchMovieList(requestUrl.getPopularMovie(1));
 };
 
-const fetchMovieList = async (query: string, currentPage: number): Promise<MovieRoot> => {
-  const requestUrl = query ? getSearchMovieRequestUrl(query, currentPage) : getPopularMovieRequestUrl(currentPage);
-  const result = await fetch(requestUrl);
+export const searchMovieList = async (
+  query: FormDataEntryValue,
+  page: number
+): Promise<MovieRoot | MovieDetailRoot | null> => {
+  const url = query ? requestUrl.getSearchMovie(query, page) : requestUrl.getPopularMovie(page);
 
-  return await result.json();
+  return await fetchMovieList(url);
 };
 
-export const getPopularMovieList = async (): Promise<MovieRoot> => {
-  return await fetchMovieList('', 1);
+export const getMoreMovieList = async (
+  query: FormDataEntryValue,
+  nextPage: number
+): Promise<MovieRoot | MovieDetailRoot | null> => {
+  const url = query ? requestUrl.getSearchMovie(query, nextPage) : requestUrl.getPopularMovie(nextPage);
+
+  return await fetchMovieList(url);
 };
 
-export const searchMovieList = async (query: string, page: number): Promise<MovieRoot> => {
-  return await fetchMovieList(query, page);
-};
-
-export const getMoreMovieList = async (query: string, nextPage: number): Promise<MovieRoot> => {
-  return await fetchMovieList(query, nextPage);
+export const getMovieDetails = async (id: string): Promise<MovieRoot | MovieDetailRoot | null> => {
+  return await fetchMovieList(requestUrl.getMovieDetail(id));
 };
