@@ -1,0 +1,56 @@
+{
+  "adult": false,
+  "backdrop_path": "/a2tys4sD7xzVaogPntGsT1ypVoT.jpg",
+  "belongs_to_collection": null,
+  "budget": 35000000,
+  "genres": [
+    { "id": 53, "name": "스릴러" },
+    { "id": 35, "name": "코미디" },
+    { "id": 27, "name": "공포" },
+    { "id": 80, "name": "범죄" }
+  ],
+  "homepage": "",
+  "id": 804150,
+  "imdb_id": "tt14209916",
+  "original_language": "en",
+  "original_title": "Cocaine Bear",
+  "overview": "1985년 마약 밀매업자의 비행기 추락 사고로 인해 비행기에 실려있던 코카인이 조지아주 채터후치 국유림에 떨어지고 코카인을 손에 넣기 위한 마약상들과 관광객들이 코카인을 먹은 흑곰에 의해 처참하게 죽임을 당한다는 내용의 실화를 바탕으로 한 영화",
+  "popularity": 4435.857,
+  "poster_path": "/gOnmaxHo0412UVr1QM5Nekv1xPi.jpg",
+  "production_companies": [
+    {
+      "id": 33,
+      "logo_path": "/8lvHyhjr8oUKOOy2dKXoALWKdp0.png",
+      "name": "Universal Pictures",
+      "origin_country": "US"
+    },
+    {
+      "id": 12365,
+      "logo_path": null,
+      "name": "Brownstone Productions",
+      "origin_country": "US"
+    },
+    {
+      "id": 77973,
+      "logo_path": null,
+      "name": "Lord Miller Productions",
+      "origin_country": "US"
+    }
+  ],
+  "production_countries": [
+    { "iso_3166_1": "IE", "name": "Ireland" },
+    { "iso_3166_1": "US", "name": "United States of America" }
+  ],
+  "release_date": "2023-02-22",
+  "revenue": 70968453,
+  "runtime": 95,
+  "spoken_languages": [
+    { "english_name": "English", "iso_639_1": "en", "name": "English" }
+  ],
+  "status": "Released",
+  "tagline": "",
+  "title": "첫번째 테스트",
+  "video": false,
+  "vote_average": 6.554,
+  "vote_count": 493
+}

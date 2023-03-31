@@ -188,3 +188,23 @@ describe("네트워크 에러 확인", () => {
     });
   });
 });
+
+describe("영화 상세 정보(모달창)", () => {
+  beforeEach(() => {
+    cy.visit("http://localhost:8081/");
+    cy.viewport(1920, 1080);
+  });
+
+  it("영화 목록 중 하나를 선택하여 클릭하면 모달창이 화면에 뜬다.", () => {
+    cy.intercept(
+      {
+        method: "GET",
+        url: /^https:\/\/api.themoviedb.org\/3\/movie\/*/,
+      },
+      { fixture: "detail.json" }
+    );
+
+    cy.get("movie-item").first().click();
+    cy.get(".modal-body h3").should("contain", "첫번째 테스트");
+  });
+});

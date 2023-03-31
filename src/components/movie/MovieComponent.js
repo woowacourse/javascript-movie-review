@@ -9,7 +9,6 @@ export default class MovieComponent extends CustomComponent {
     const posterPath = this.getAttribute("poster_path");
 
     return `
-            <a>
               <div class="item-card">
                   <img
                     class="item-thumbnail"
@@ -20,7 +19,6 @@ export default class MovieComponent extends CustomComponent {
                   <h3 class="item-title">${title}</h3>
                   <p class="item-score"><img src=${StarFilledImg} alt="별점 ${voteAverage}" /> ${voteAverage}</p>
               </div>
-            </a>
         `;
   }
 }

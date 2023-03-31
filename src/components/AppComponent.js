@@ -3,10 +3,21 @@ import HeaderComponent from "./AppHeaderComponent";
 import MovieListComponent from "./movie/MovieListComponent";
 import MoreButtonComponent from "./element/MoreButtonComponent";
 import TitleComponent from "./element/TitleComponent";
+import ModalComponent from "./ModalComponent";
+
+import UpScrollButtonComponent from "./element/UpScrollButtonComponent";
 import transformMovieItemsType from "../util/MovieList";
-import { ACTION, SEARCH_WARNING, TITLE } from "../constants/constants";
+import {
+  ACTION,
+  ERROR_MESSAGE,
+  REQUEST_URL,
+  SCROLL_INVOKE_GAP,
+  SEARCH_WARNING,
+  TITLE,
+} from "../constants/constants";
 import { getRequest, transData } from "../api/handler";
 import { urlByActionType } from "../api/url";
+import { API_KEY } from "../constants/key";
 
 export default class AppComponent extends CustomComponent {
   #nextPage = 1;
@@ -14,6 +25,8 @@ export default class AppComponent extends CustomComponent {
   #$movieList;
   #$movieListTitle;
   #$searchInput;
+  #scrollThrottleId;
+  #actionType;
 
   render() {
     super.render();
@@ -21,6 +34,7 @@ export default class AppComponent extends CustomComponent {
     this.#$movieList = this.querySelector("movie-list");
     this.#$movieListTitle = this.querySelector("movie-list-title");
     this.#$searchInput = this.querySelector("input");
+    this.#actionType = ACTION.POPULAR;
 
     this.popularListInit();
     this.getMovieData(ACTION.POPULAR);
@@ -49,11 +63,15 @@ export default class AppComponent extends CustomComponent {
   }
 
   changeButtonDisplayByPage() {
-    if (this.#totalPage <= this.#nextPage) {
+    if (this.isEndOfPage()) {
       this.querySelector("more-button").classList.add("hide");
       return;
     }
     this.querySelector("more-button").classList.remove("hide");
+  }
+
+  isEndOfPage() {
+    return this.#totalPage <= this.#nextPage;
   }
 
   searchListInit() {
@@ -82,7 +100,8 @@ export default class AppComponent extends CustomComponent {
       switch (e.target.dataset.action) {
         case ACTION.POPULAR:
           this.popularListInit();
-          this.getMovieData(ACTION.POPULAR);
+          this.#actionType = ACTION.POPULAR;
+          this.getMovieData(this.#actionType);
           this.changeMoreButtonAction(ACTION.MORE_POPULAR);
           break;
         case ACTION.SEARCH:
@@ -91,16 +110,36 @@ export default class AppComponent extends CustomComponent {
             return;
           }
           this.searchListInit();
-          this.getMovieData(ACTION.SEARCH);
+          this.#actionType = ACTION.SEARCH;
+          this.getMovieData(this.#actionType);
           this.changeMoreButtonAction(ACTION.MORE_SEARCH);
           break;
         case ACTION.MORE_POPULAR:
           this.#$movieList.appendNewPage();
-          this.getMovieData(ACTION.POPULAR);
+          this.getMovieData(this.#actionType);
           break;
         case ACTION.MORE_SEARCH:
           this.#$movieList.appendNewPage();
-          this.getMovieData(ACTION.SEARCH);
+          this.getMovieData(this.#actionType);
+          break;
+        case ACTION.UP_SCROLL:
+          window.scroll({ top: 0, behavior: "smooth" });
+          break;
+        case ACTION.DETAIL:
+          const movieId = e.target.dataset.movieId;
+          getRequest(
+            `${REQUEST_URL}/movie/${movieId}?api_key=${API_KEY}&language=ko-KR`
+          )
+            .then((res) => {
+              const modal = document.querySelector("modal-component");
+              modal.setAttribute("data-item", JSON.stringify(res));
+
+              modal.style.display = "flex";
+              document.body.style.overflow = "hidden";
+            })
+            .catch(() => {
+              alert(ERROR_MESSAGE);
+            });
           break;
       }
     });
@@ -115,10 +154,50 @@ export default class AppComponent extends CustomComponent {
         }
 
         this.searchListInit();
-        this.getMovieData(ACTION.SEARCH);
+        this.#actionType = ACTION.SEARCH;
+        this.getMovieData(this.#actionType);
         this.changeMoreButtonAction(ACTION.MORE_SEARCH);
       }
     });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        const modalComponent = document.querySelector("modal-component");
+
+        modalComponent.style.display = "none";
+        document.body.style.overflow = "visible";
+      }
+    });
+
+    window.addEventListener("scroll", () => {
+      if (this.isEndOfPage()) return;
+
+      this.toggleUpScrollButton();
+
+      if (!this.#scrollThrottleId) {
+        this.#scrollThrottleId = setTimeout(() => {
+          if (
+            this.getBoundingClientRect().bottom - window.innerHeight <
+            SCROLL_INVOKE_GAP
+          ) {
+            this.#$movieList.appendNewPage();
+            this.getMovieData(this.#actionType);
+          }
+          this.#scrollThrottleId = null;
+        }, 1000);
+      }
+    });
+  }
+
+  toggleUpScrollButton() {
+    const header = document.querySelector("app-header");
+    const upScrollBtn = document.querySelector("up-scroll-button");
+
+    if (header.getBoundingClientRect().bottom < 0) {
+      upScrollBtn.classList.remove("hide");
+      return;
+    }
+    upScrollBtn.classList.add("hide");
   }
 
   template() {
@@ -132,6 +211,7 @@ export default class AppComponent extends CustomComponent {
                     <more-button></more-button>
                 </section>
             </main>
+            <up-scroll-button class="hide"></up-scroll-button>
         </div>
         `;
   }
