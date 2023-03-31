@@ -33,7 +33,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -46,9 +46,11 @@ button {
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .item-list {
+  width: 100%;
   display: grid;
+  justify-content: center;
   margin: 48px 0;
-  grid-template-columns: repeat(5, 180px);
+  grid-template-columns: repeat(1, 180px);
   grid-column-gap: 76px;
   grid-row-gap: 48px;
 }
@@ -128,9 +130,9 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -152,7 +154,7 @@ header h1 {
 
 header > .search-box {
   background: #fff;
-  padding: 8px;
+  padding: 8px 16px;
   border-radius: 4px;
 }
 
@@ -168,6 +170,11 @@ header .search-box > .search-button {
   background-size: contain;
 }
 
+.sub-title {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 #no-result {
   line-height: 2;
 }
@@ -178,4 +185,63 @@ header .search-box > .search-button {
 
 #no-result > p {
   margin-bottom: 10px;
+}
+
+.modal-img {
+  max-height: 300px;
+}
+
+.modal-overview {
+  width: 100%;
+  margin-top: 8px;
+  margin-bottom: 100px;
+}
+
+/* !! 모바일 기준 : 가로 576px !! */
+@media screen and (max-width: 576px) {
+  #search-form {
+    display: none;
+  }
+  #search-form-trigger {
+    display: block;
+  }
+  .rating-description {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 576px) {
+  #search-form {
+    display: block;
+  }
+  #search-form-trigger {
+    display: none;
+  }
+  .item-list {
+    grid-template-columns: repeat(2, 180px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .modal-img {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .item-list {
+    grid-template-columns: repeat(4, 180px);
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .item-list {
+    grid-template-columns: repeat(5, 180px);
+  }
 }
