@@ -4,6 +4,7 @@ import Header from './components/Header';
 import MovieList from './components/MovieList';
 import { getPopularMovies, searchMovies } from './service/movie';
 import { Movie } from './service/types';
+import { toast } from './components/Toast';
 
 interface Store {
   keyword: string;
@@ -32,9 +33,9 @@ class App {
       this.onSubmitSearch.bind(this),
       this.onClickLogo.bind(this),
     );
-    this.movieList.bindEvent(() => getPopularMovies({ page: Store.page }));
+    this.movieList.bindEvent(() => getPopularMovies({ page: Store.page, onError: toast }));
 
-    this.movieList.requestAndRenderMovieCards(() => getPopularMovies({ page: 1 }));
+    this.movieList.requestAndRenderMovieCards(() => getPopularMovies({ page: 1, onError: toast }));
   }
 
   onSubmitSearch(results: Movie[], totalPages: number) {
@@ -47,6 +48,7 @@ class App {
       searchMovies({
         page: Store.page,
         query: Store.keyword,
+        onError: toast,
       }),
     );
   }
@@ -62,6 +64,7 @@ class App {
     this.movieList.bindEvent(() =>
       getPopularMovies({
         page: Store.page,
+        onError: toast,
       }),
     );
   }

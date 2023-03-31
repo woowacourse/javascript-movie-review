@@ -2,6 +2,7 @@ import { Store } from '..';
 import logo from '../assets/logo.png';
 import { getPopularMovies, searchMovies } from '../service/movie';
 import { Movie } from '../service/types';
+import { toast } from './Toast';
 
 export default class Header {
   $parent: HTMLElement;
@@ -29,8 +30,6 @@ export default class Header {
     onSubmitSearch: (results: Movie[], totalPages: number) => void,
     onClickLogo: () => void,
   ) {
-    const $searchBox = this.$parent.querySelector('.search-box') as HTMLFormElement;
-
     const handleSubmitSearch = async (event: Event) => {
       event.preventDefault();
       const $searchInput = this.$parent.querySelector('#js-search-input') as HTMLInputElement;
@@ -39,7 +38,11 @@ export default class Header {
       showSkeleton();
 
       const keyword = new FormData(event.target as HTMLFormElement).get('keyword') as string;
-      const { results, total_pages } = await searchMovies({ query: keyword, page: 1 });
+      const { results, total_pages } = await searchMovies({
+        query: keyword,
+        page: 1,
+        onError: toast,
+      });
 
       Store.keyword = keyword;
 
@@ -47,8 +50,8 @@ export default class Header {
 
       onSubmitSearch(results, total_pages);
     };
-
-    $searchBox?.addEventListener('submit', handleSubmitSearch);
+    const $searchBox = this.$parent.querySelector('.search-box') as HTMLFormElement;
+    $searchBox.addEventListener('submit', handleSubmitSearch);
 
     const $searchInput = this.$parent.querySelector('#js-search-input') as HTMLInputElement;
     const $searchButton = this.$parent.querySelector('#js-search-button') as HTMLButtonElement;

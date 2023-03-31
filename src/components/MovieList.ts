@@ -1,5 +1,5 @@
 import { Store } from '..';
-import { getMovieDetail, getPopularMovies, searchMovies } from '../service/movie';
+import { getMovieDetail } from '../service/movie';
 import { Movie, MoviesResponse } from '../service/types';
 import MovieCard from './MovieCard';
 import MovieDetailModal from './MovieDetailModal';
