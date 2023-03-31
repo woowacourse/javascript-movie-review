@@ -2,10 +2,18 @@
   box-sizing: border-box !important;
 }
 
+html {
+  font-size: 62.5%;
+}
+
 body {
-  font-size: 14px;
-  background-color: #222222;
+  font-size: 62.5%;
+  background-color: rgba(17, 17, 17, 1);
   color: #fff;
+}
+
+body:has(dialog[open]) {
+  overflow: hidden;
 }
 
 a {
@@ -17,13 +25,43 @@ button {
   cursor: pointer;
 }
 
+input::-webkit-search-decoration,
+input::-webkit-search-cancel-button,
+input::-webkit-search-results-button,
+input::-webkit-search-results-decoration {
+  display: none;
+}
+
+/* Typography *************************************/
+.text-title {
+  font-size: 3.2rem;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.text-subtitle {
+  font-size: 2.4rem;
+  font-weight: 600;
+  line-height: 28px;
+  color: rgba(241, 241, 241, 1);
+}
+
+.text-body {
+  font-size: 1.8rem;
+  line-height: 24px;
+  font-weight: 400;
+  color: rgba(241, 241, 241, 1);
+}
+
 #app {
+  width: 100%;
   padding-bottom: 48px;
 }
 
 *:focus {
   outline: none;
 }
+
 .item-view,
 .item-test {
   width: 100%;
@@ -33,12 +71,13 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  align-items: center;
   margin: 0 auto;
 }
 
 .item-view h2 {
-  font-size: 2rem;
+  width: 83.3%;
+  font-size: 3.2rem;
   font-weight: bold;
   user-select: none;
 }
@@ -46,29 +85,49 @@ button {
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .item-list {
+  width: 83.3%;
   display: grid;
   margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+
+  /* item-list(전체화면의 80%)의 width기준 */
+  grid-template-columns: repeat(4, calc(80% / 4));
+  grid-column-gap: calc(20% / 3);
   grid-row-gap: 48px;
+}
+
+.scroll-target {
+  font-size: 1.2rem;
+  font-weight: 600;
+  user-select: none;
+  text-align: center;
+  color: rgb(178, 178, 178);
 }
 
 .item-card {
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .item-thumbnail {
+  width: 100%;
+  min-width: 159px;
+  aspect-ratio: auto 2 / 3;
   border-radius: 8px;
-  width: 180px;
-  height: 270px;
   background-size: contain;
+}
+
+.item-card img:hover {
+  object-fit: cover;
+  transition: all 0.2s linear;
+  transform: scale(1.02);
+  box-shadow: 0 0 10px 3px #808080;
 }
 
 .item-title {
   display: -webkit-box;
   margin-top: 16px;
-  font-size: 1.2rem;
+  font-size: 1.8rem;
   font-weight: bold;
 
   overflow: hidden;
@@ -81,7 +140,7 @@ button {
   display: flex;
   align-items: center;
   margin-top: 16px;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
 }
 
 .item-score > img {
@@ -141,11 +200,11 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
-  background-color: #222;
+  background-color: rgba(17, 17, 17, 1);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -158,24 +217,30 @@ header {
 header h1 {
   cursor: pointer;
   user-select: none;
-  font-size: 2rem;
+  font-size: 3.2rem;
   font-weight: bold;
   letter-spacing: -0.1rem;
   color: #f33f3f;
 }
 
 header > .search-box {
-  background: #fff;
-  padding: 8px;
+  display: flex;
+  align-items: center;
+
+  background: rgba(241, 241, 241, 1);
   border-radius: 4px;
+  padding: 8px;
 }
 
 header .search-box > input {
+  background: rgba(241, 241, 241, 1);
   border: 0;
+  padding: 0;
 }
 
 header .search-box > .search-button {
-  width: 14px;
+  width: 15px;
+  height: 15px;
   border: 0;
   text-indent: -1000rem;
   background: url('./search_button.png') transparent no-repeat 0 1px;
@@ -192,7 +257,265 @@ header .search-box > .search-button {
 }
 
 #error-item > p {
-  font-size: 1.8rem;
+  font-size: 2.4rem;
   font-weight: bold;
   color: rgb(178, 178, 178);
+}
+
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: fixed;
+  width: 80rem;
+  height: 60rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  border-radius: 8px;
+  background: #212122;
+  overflow-y: auto;
+}
+
+.modal-container h2 {
+  user-select: none;
+
+  display: -webkit-box;
+  text-align: center;
+  overflow-x: auto;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+
+  -ms-overflow-style: none; /* 익스플로러, 앳지 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+
+.modal-container h2::-webkit-scrollbar {
+  display: none; /* 크롬, 사파리, 오페라 */
+}
+
+.movie-title-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 15%;
+  border-bottom: 1px solid #fff;
+}
+
+#movie-detail-modal-close-button {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+
+  right: 24px;
+
+  font-size: 1.6rem;
+  width: 36px;
+  height: 36px;
+  color: rgba(241, 241, 241, 1);
+  background-color: rgba(56, 56, 57, 1);
+  border-radius: 50%;
+  border: none;
+}
+
+.movie-info {
+  height: 85%;
+  display: flex;
+  padding: 24px;
+}
+
+.movie-info .skeleton {
+  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background-size: 400%;
+  animation: skeleton-animation 5s infinite ease-out;
+  border-radius: 8px;
+}
+
+.poster-image {
+  border-radius: 8px;
+  height: 100%;
+  margin-right: 32px;
+}
+
+.movie-info-detail {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-overview {
+  height: 30rem;
+  text-align: justify;
+  overflow: auto;
+
+  -ms-overflow-style: none; /* 익스플로러, 앳지 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+
+.movie-overview::-webkit-scrollbar {
+  display: none; /* 크롬, 사파리, 오페라 */
+}
+
+.genre-vote-average-container {
+  display: flex;
+  align-items: stretch;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.genre-vote-average-container > p {
+  display: flex;
+  overflow-x: auto;
+
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+
+.genre-vote-average-container > p::-webkit-scrollbar {
+  display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}
+
+.star-rating-container {
+  display: flex;
+  height: 64px;
+
+  gap: 10px;
+  margin-top: auto;
+  padding: 15px;
+
+  align-items: center;
+
+  border-radius: 16px;
+  background-color: rgba(56, 56, 57, 1);
+}
+
+.star-rating-container > .star-container {
+  display: flex;
+  justify-content: center;
+
+  gap: 4px;
+}
+
+.star-image {
+  width: 20px;
+  height: 20px;
+}
+
+.star-rating-container > p:first-child {
+  width: 76px;
+}
+
+.star-rating-image {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.star-rating-score {
+  width: 20px;
+}
+
+.star-rating-caption {
+  width: 100px;
+  font-weight: bold;
+}
+
+/* 태블릿 */
+@media screen and (max-width: 991px) {
+  .item-list {
+    /* item-list의 width기준 */
+    grid-template-columns: repeat(3, calc(80% / 3));
+    grid-column-gap: 10%;
+  }
+
+  .item-thumbnail {
+    min-width: 164px;
+  }
+
+  .modal-container {
+    width: 75rem;
+  }
+
+  .star-rating-container > p:first-child {
+    font-size: 1.4rem;
+    width: 59px;
+  }
+
+  .star-rating-image {
+    width: 23px;
+    height: 23px;
+  }
+
+  .star-rating-score {
+    width: 18px;
+  }
+
+  .star-rating-caption {
+    width: 80px;
+  }
+}
+
+/* 모바일 */
+@media screen and (max-width: 767px) {
+  .item-list {
+    /* item-list의 width기준 */
+    grid-template-columns: repeat(1, 100%);
+    grid-column-gap: 0;
+  }
+
+  .item-thumbnail {
+    min-width: 224px;
+  }
+
+  .modal-container {
+    left: 0;
+    bottom: 0;
+    top: auto;
+    width: 100vw;
+    height: 65vh;
+    transform: none;
+
+    border-radius: 8px 8px 0 0;
+  }
+
+  .star-rating-container {
+    padding: 0;
+    gap: 15px;
+    justify-content: center;
+  }
+
+  .poster-image,
+  .star-rating-container > .star-rating-caption {
+    display: none;
+  }
+
+  header > .search-box {
+    position: absolute;
+    right: 20px;
+    background-color: rgb(47, 47, 47);
+  }
+
+  header .search-box > input {
+    width: 0;
+    opacity: 0;
+
+    color: transparent;
+    background-color: rgb(47, 47, 47);
+    transition: all 0.7s ease-in-out;
+    pointer-events: none;
+  }
+
+  header .search-box > input:focus {
+    opacity: 1;
+    color: rgba(241, 241, 241, 1);
+    width: calc(100vw - 71px);
+  }
+
+  header .search-box > .search-button {
+    background: url('./search_button_w.png') transparent no-repeat 0 1px;
+    background-size: contain;
+  }
 }

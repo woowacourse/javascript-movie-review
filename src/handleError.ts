@@ -1,18 +1,14 @@
-import { FETCH_SUCCESS } from './constants/constants';
-import { FetchStatusType } from './types';
+import { STATUS_CODE } from './constants/apiStatusCode';
 
-const handleError = (result: string, fetchStatus?: FetchStatusType) => {
+const handleError = (statusCode: number = 0, statusMessage: string) => {
   try {
-    if (result !== FETCH_SUCCESS && fetchStatus) {
-      throw new Error(`${fetchStatus.statusMessage}(${fetchStatus.statusCode})`);
-    }
+    if (statusCode !== STATUS_CODE.SUCCESS) throw new Error(statusMessage);
 
     return false;
   } catch (error) {
-    if (error instanceof Error) {
-      alert(error.message);
-      return true;
-    }
+    if (error instanceof Error) alert(error.message);
+
+    return true;
   }
 };
 
