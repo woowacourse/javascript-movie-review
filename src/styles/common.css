@@ -394,7 +394,7 @@ button.primary {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 14px 18px;
+    padding: 14px 12px;
     width: 100%;
     height: 50px;
     background: #383839;
