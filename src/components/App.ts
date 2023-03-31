@@ -4,9 +4,11 @@ import Title from './Title';
 import MoviePopularList from './MovieList/MoviePopularList';
 import MovieSearchList from './MovieList/MovieSearchList';
 import MovieListContainer from './MovieList/MovieListContainer';
-import SeeMore from './SeeMore';
 import Skeleton from './MovieList/Skeleton';
+import MovieItemModal from './MovieList/MovieDetail';
+import MovieDetail from './MovieList/MovieDetail';
 
+// utils
 import { $ } from '../utils/domHelper';
 
 type ComponentType = {
@@ -15,8 +17,9 @@ type ComponentType = {
   popularMovieList?: MoviePopularList;
   searchMovieList?: MovieSearchList;
   title?: Title;
-  seeMore?: SeeMore;
   skeleton?: Skeleton;
+  modal?: MovieItemModal;
+  detail?: MovieDetail;
 };
 
 export default class App {
@@ -35,18 +38,13 @@ export default class App {
       <header></header>
       <main>
         <section class="item-view">
-        <h2 class="movie-list-title"></h2>
-        <ul class="item-list movie-container"></ul>
-        <ul class="item-list skeleton-container"></ul>
-        <button class="btn primary full-width"></button>
+          <h2 class="movie-list-title"></h2>
+          <ul class="item-list movie-container"></ul>
+          <ul class="item-list skeleton-container"></ul>
         </section>
+        <div class="modal-container"></div>
       </main>
     `;
-  }
-
-  render() {
-    this.$target.innerHTML = this.template();
-    this.mounted();
   }
 
   makeComponent() {
@@ -60,11 +58,14 @@ export default class App {
       $('.movie-container')
     );
 
+    this.components.detail = new MovieDetail($('.modal-container'));
+
     this.components.movieListContainer = new MovieListContainer({
       $target: $('.movie-container'),
       components: {
         popular: this.components.popularMovieList,
         search: this.components.searchMovieList,
+        detail: this.components.detail,
       },
     });
 
@@ -73,24 +74,24 @@ export default class App {
       components: { search: this.components.searchMovieList },
     });
 
-    this.components.seeMore = new SeeMore({
-      $target: $('.btn'),
-      components: { movieList: this.components.movieListContainer },
-    });
-
     this.components.skeleton = new Skeleton($('.skeleton-container'));
+  }
+
+  render() {
+    this.$target.innerHTML = this.template();
+    this.mounted();
   }
 
   mounted() {
     this.makeComponent();
 
-    const { header, movieListContainer, title, seeMore, skeleton } =
+    const { header, movieListContainer, title, skeleton, detail } =
       this.components;
 
     header?.render().setEvent();
     title?.render();
-    movieListContainer?.fetchData();
-    seeMore?.render().setEvent();
+    movieListContainer?.fetchData().setEvent();
     skeleton?.render();
+    detail?.setEvent();
   }
 }

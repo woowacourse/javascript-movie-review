@@ -1,6 +1,6 @@
 import Component from '../../core/Component';
 
-import MovieListApiType from './../../../type/movie';
+import { MovieListApiType, MovieDetailApiType } from './../../../type/movie';
 import { makeURL, makeParams, getApiData } from './../../../utils/apiHelper';
 
 export default abstract class MovieList extends Component {
@@ -26,13 +26,35 @@ export default abstract class MovieList extends Component {
       params
     );
 
+    if (!movieData || movieData.results.length === 0) return null;
+
     return {
-      movieList: movieData.results.map(
+      movieList: movieData?.results.map(
         ({ id, poster_path, title, vote_average }) => {
           return { id, poster_path, title, vote_average };
         }
       ),
-      total_page: movieData.total_pages,
+      total_page: movieData?.total_pages,
+    };
+  }
+
+  async getMovieDetailData(router: string) {
+    const movieDetailData = await getApiData<MovieDetailApiType>(
+      makeURL(router)
+    );
+
+    if (!movieDetailData) return null;
+
+    const { id, title, vote_average, poster_path, overview, genres } =
+      movieDetailData;
+
+    return {
+      id,
+      title,
+      voteAverage: vote_average,
+      poster_path: poster_path,
+      overview,
+      genres,
     };
   }
 

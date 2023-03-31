@@ -1,4 +1,4 @@
-import { MovieListType } from '../../type/movie';
+import { MovieDetailType, MovieListType } from '../../type/movie';
 
 export type StateType = {
   movies: MovieListType;
@@ -6,16 +6,22 @@ export type StateType = {
   searchPage: number;
   isSearched: boolean;
   isEnd: boolean;
-  query: string;
   isLoading: boolean;
+  isError: boolean;
+  query: string;
+  movieDetail: MovieDetailType | null;
+  star: number;
 };
 
-export const state = {
+export const state: StateType = {
   movies: [],
   popularPage: 1,
   searchPage: 1,
   isSearched: false,
   isEnd: false,
-  query: '',
   isLoading: true,
+  isError: false,
+  query: '',
+  movieDetail: null,
+  star: 0,
 };
