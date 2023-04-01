@@ -1,15 +1,15 @@
 import Header from './components/Header';
 import MovieList from './components/MovieList';
 import MovieFetcher from './domains/MovieFetcher';
-import LoadMoreButton from './components/LoadMoreButton';
-import UpdateController from './controller/UpdateController';
-import ButtonController from './controller/ButtonController';
-import { ViewBundleType } from './types';
+import FooterMessage from './components/FooterMessage';
+import MovieUpdateController from './controller/MovieUpdateController';
+import ModalController from './controller/ModalController';
+import type { ViewBundleType } from './types';
 import { $ } from './utils/domSelector';
 
 class App {
-  private updateController!: UpdateController;
-  private buttonController!: ButtonController;
+  private movieUpdateController: MovieUpdateController;
+  private modalController: ModalController;
   private components: ViewBundleType = {
     header: new Header($('header')),
     movieList: new MovieList({
@@ -17,20 +17,12 @@ class App {
       listTitle: '지금 인기있는 영화 🎬',
     }),
     movieFetcher: new MovieFetcher(),
-    loadMoreButton: new LoadMoreButton({ parentElement: $('.item-view'), name: '더 보기' }),
+    footerMessage: new FooterMessage($('main')),
   };
 
   constructor() {
-    this.updateController = new UpdateController(this.components);
-    this.buttonController = new ButtonController(
-      this.components,
-      (updateMode: string, keyword: string = '') =>
-        this.#onFetchAndUpdateMovieList(updateMode, keyword),
-    );
-  }
-
-  #onFetchAndUpdateMovieList(updateMode: string, keyword: string = '') {
-    this.updateController.fetchAndUpdateMovieList(updateMode, keyword);
+    this.movieUpdateController = new MovieUpdateController(this.components);
+    this.modalController = new ModalController();
   }
 }
 

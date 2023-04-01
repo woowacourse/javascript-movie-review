@@ -1,6 +1,6 @@
-const skeletonItem = () => {
+const skeletonItem = (fetchId: string) => {
   return `
-    <li class="skeleton-item">
+    <li class="skeleton-item" data-fetch-id="${fetchId}">
       <a href="#">
         <div class="item-card">
           <div class="item-thumbnail skeleton"></div>

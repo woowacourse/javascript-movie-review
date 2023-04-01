@@ -1,5 +1,5 @@
-const KeyChanger = {
-  change<T>(apiObject: Record<string, unknown>, keyPairs: Record<string, string>): T {
+const keyChanger = {
+  change(apiObject: Record<string, unknown>, keyPairs: Record<string, string>) {
     const changedApiObject: Record<string, unknown> = {};
 
     Object.entries(apiObject).forEach(([key, value]: [string, unknown]) => {
@@ -8,8 +8,8 @@ const KeyChanger = {
         : (changedApiObject[key] = value);
     });
 
-    return changedApiObject as T;
+    return changedApiObject;
   },
 };
 
-export default KeyChanger;
+export default keyChanger;

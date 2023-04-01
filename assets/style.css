@@ -1,3 +1,14 @@
+:root {
+  --dark-gray: #222222;
+  --white: #ffffff;
+  --dark-transparent-red: #7d090944;
+  --transparent-red: #ff000066;
+  --dark-red: #8e2222;
+  --primary-red: #f33f3f;
+  --dull-red: #a94444;
+  --light-red: #ff6e6e;
+}
+
 * {
   box-sizing: border-box !important;
   font-family: 'Pretendard';
@@ -5,8 +16,8 @@
 
 body {
   font-size: 14px;
-  background-color: #222222;
-  color: #fff;
+  background-color: var(--dark-gray);
+  color: var(--white);
 }
 
 a {
@@ -16,10 +27,6 @@ a {
 
 button {
   cursor: pointer;
-}
-
-#app {
-  padding-bottom: 48px;
 }
 
 *:focus {
@@ -47,6 +54,7 @@ button {
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .item-list {
+  width: 100%;
   display: grid;
   margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
@@ -54,9 +62,20 @@ button {
   grid-row-gap: 48px;
 }
 
-.item-card {
+.item-card,
+.item-thumbnail {
   display: flex;
   flex-direction: column;
+  transition: 0.3s;
+}
+
+.item-card:hover {
+  transform: scale(1.07);
+  cursor: pointer;
+}
+
+.item-card:hover .item-thumbnail {
+  box-shadow: 0px 0px 30px var(--dark-red);
 }
 
 .item-thumbnail {
@@ -80,6 +99,12 @@ button {
   margin-top: 16px;
   font-size: 1.2rem;
   font-weight: bold;
+  white-space: normal;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .item-score {
@@ -113,15 +138,21 @@ button.btn {
   border: 0;
   border-radius: 8px;
   height: 30px;
-  color: #fff;
+  color: var(--white);
 }
 
 button.primary {
-  background: #f33f3f;
+  background: var(--dark-transparent-red);
 }
 
 .item-card .skeleton {
-  background: linear-gradient(-90deg, #8e2222, #a94444, #8e2222, #a94444);
+  background: linear-gradient(
+    -90deg,
+    var(--dark-red),
+    var(--dull-red),
+    var(--dark-red),
+    var(--dull-red)
+  );
   background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
   border-radius: 8px;
@@ -140,16 +171,15 @@ button.primary {
 }
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
-  background-color: #222;
+  background-color: var(--dark-gray);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid #f33f3f;
+  border-bottom: 1px solid var(--primary-red);
   margin-bottom: 48px;
-  box-shadow: 0 0 50px #f33f3f90;
+  box-shadow: 0 0 50px var(--dark-red);
 }
 
 header h1 {
@@ -158,12 +188,12 @@ header h1 {
   font-size: 2rem;
   font-weight: bold;
   letter-spacing: -0.1rem;
-  color: #f33f3f;
+  color: var(--primary-red);
 }
 
 header > .search-box {
-  background: #fff;
-  padding: 8px;
+  background: var(--white);
+  padding: 8px 12px 8px 8px;
   border-radius: 4px;
 }
 
@@ -179,19 +209,93 @@ header .search-box > .search-button {
   background-size: contain;
 }
 
-.show-more-button-wrapper {
+.footer-message-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  background: linear-gradient(to bottom, transparent, var(--dark-transparent-red));
+}
+
+.footer-message-wrapper[hidden] {
+  display: none;
+}
+
+.status-message-icon {
+  width: 25px;
+}
+
+.status-message {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.button-error-message {
-  font-size: 16px;
+.status-message-content {
+  font-size: 18px;
   text-align: center;
-  color: #ff6e6e;
+  color: var(--light-red);
 }
 
 .btn.primary[disabled] {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+.item-list {
+  justify-content: space-evenly;
+}
+
+.show-more-button {
+  width: 150px;
+}
+
+/* 반응형 */
+@media (max-width: 1250px) {
+  .item-view {
+    width: 900px;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+  }
+}
+
+@media (max-width: 900px) {
+  .item-view {
+    width: 700px;
+  }
+
+  .item-list {
+    gap: 70px;
+  }
+}
+
+@media (max-width: 750px) {
+  .item-view {
+    width: 500px;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(2, 180px);
+  }
+}
+
+@media (max-width: 450px) {
+  #search-input {
+    width: 0;
+    padding: 0;
+    transition: 0.3s;
+  }
+
+  header h1 {
+    width: 0;
+  }
+
+  .search-box:hover > #search-input {
+    width: 300px;
+    flex: 0 0 100%;
+  }
 }

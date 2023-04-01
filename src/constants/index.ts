@@ -1,9 +1,16 @@
-const API_URL = {
+const API_URL: Record<'popularity' | 'search' | 'genre', CallableFunction> = {
   popularity: (pageNo: number) =>
     `https://wzrabbit-movie-review.netlify.app/.netlify/functions/popularMovies?language=ko-KR&page=${pageNo}`,
   search: (pageNo: number, keyword: string) =>
     `https://wzrabbit-movie-review.netlify.app/.netlify/functions/searchMovies?language=ko-KR&page=${pageNo}&query=${keyword}`,
+  genre: () =>
+    `https://wzrabbit-movie-review.netlify.app/.netlify/functions/movieGenres?language=ko-KR`,
 };
+
+const IMAGE_URL = (posterPath: string | null) =>
+  posterPath ? `${IMAGE_BASE_URL}${posterPath}` : NO_IMAGE_URL;
+const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original';
+const NO_IMAGE_URL = '../../assets/no_image.png';
 
 const ERROR_MESSAGE: Record<number, string> = {
   400: '잘못된 요청입니다. 새로고침 후 다시 시도해 주세요. (400)',
@@ -15,9 +22,33 @@ const ERROR_MESSAGE: Record<number, string> = {
 
 const UNKNOWN_ERROR_MESSAGE = '죄송합니다. 문제가 발생하여 영화 정보를 가져오지 못 했습니다.';
 
+const NO_RESULT_MESSAGE = '검색 결과가 없습니다.';
+
+const ERROR_LAYOUT_MESSAGE = {
+  noResultTitle: '구석구석 뒤져봤지만, 영화를 못 찾았어요.',
+  noResultContent: '혹시 오타가 있지는 않나요?',
+  errorTitle: '앗! 문제가 발생했습니다.',
+};
+
+const FOOTER_MESSAGE = {
+  loading: '멋진 영화들을 더 가져오는 중...✨',
+  noMoreMovies: '더 이상 불러올 영화가 없어요. 😞',
+};
+
 const ERROR_IMAGE_PATH = {
   noSearchResults: './assets/no_results.png',
   error: './assets/error_results.png',
+  loading: './assets/footer_loading_circle.png',
+  errorOnShowMore: './assets/footer_error_results.png',
 };
 
-export { API_URL, ERROR_MESSAGE, UNKNOWN_ERROR_MESSAGE, ERROR_IMAGE_PATH };
+export {
+  API_URL,
+  ERROR_MESSAGE,
+  IMAGE_URL,
+  ERROR_LAYOUT_MESSAGE,
+  UNKNOWN_ERROR_MESSAGE,
+  FOOTER_MESSAGE,
+  ERROR_IMAGE_PATH,
+  NO_RESULT_MESSAGE,
+};

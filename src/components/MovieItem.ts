@@ -1,8 +1,6 @@
-import { MovieType } from '../types';
+import type { MovieType } from '../types';
 import { $ } from '../utils/domSelector';
-
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original';
-const NO_IMAGE_URL = '../../assets/no_image.png';
+import { IMAGE_URL } from '../constants';
 
 type MovieItemConstructorType = {
   parentElement: HTMLElement;
@@ -13,7 +11,7 @@ type MovieItemConstructorType = {
 class MovieItem {
   private $parentElement;
   private $skeleton;
-  private item!: HTMLElement;
+  private $item!: HTMLElement;
 
   constructor({ parentElement, skeleton, movieInfo }: MovieItemConstructorType) {
     this.$parentElement = parentElement;
@@ -22,29 +20,35 @@ class MovieItem {
     this.replaceSkeletonWhenLoaded();
   }
 
-  private createElement({ title, posterPath, voteAverage }: MovieType) {
-    const imageUrl = posterPath ? `${IMAGE_BASE_URL}${posterPath}` : NO_IMAGE_URL;
+  private createElement({ title, posterPath, id, voteAverage }: MovieType) {
+    this.$item = document.createElement('div');
+    this.$item.classList.add('item-card');
 
-    this.item = document.createElement('li');
-    this.item.innerHTML = `
-      <a href="#">
-        <div class="item-card">
-          <img
-            class="item-thumbnail"
-            src="${imageUrl}"
-            alt="${title}"/>
-          <p class="item-title ">${title}</p>
-          <p class="item-score"><img src="./assets/star_filled.png" alt="별점" /> ${voteAverage}</p>
-        </div>
-      </a>`;
+    this.$item.innerHTML = `
+      <img
+        class="item-thumbnail"
+        src="${IMAGE_URL(posterPath)}"
+        alt="${title}"/>
+      <p class="item-title">${title}</p>
+      <p class="item-score"><img src="./assets/star_filled.png" alt="별점" /> ${voteAverage}</p>`;
+
+    this.$item.setAttribute('data-movie-id', id.toString());
   }
 
   private replaceSkeletonWhenLoaded() {
-    const $imageElement = $('img', this.item);
+    const $imageElement = $('img', this.$item);
 
     $imageElement.addEventListener('load', () => {
-      this.$parentElement.replaceChild(this.item, this.$skeleton);
+      try {
+        if (this.$skeleton) {
+          this.$parentElement.replaceChild(this.$item, this.$skeleton);
+        }
+      } catch {}
     });
+  }
+
+  getItemElement() {
+    return this.$item;
   }
 }
 

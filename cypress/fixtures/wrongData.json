@@ -1,0 +1,4 @@
+{
+  "errors": ["This is a custom error, and we must handle this kind of errors"],
+  "success": false
+}
