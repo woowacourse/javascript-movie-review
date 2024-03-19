@@ -1,5 +1,5 @@
-import '../../templates/common.css';
 import '../../templates/reset.css';
+import '../../templates/common.css';
 
 export { default as SEARCH_BUTTON } from '../../templates/search_button.png';
 export { default as LOGO } from '../../templates/logo.png';
