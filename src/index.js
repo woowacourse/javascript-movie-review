@@ -8,4 +8,4 @@ import './images/star_filled.png';
 
 import AppController from './AppController';
 
-AppController.start()
+new AppController().start()
