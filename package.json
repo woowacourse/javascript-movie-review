@@ -9,7 +9,7 @@
     "watch": "webpack --watch",
     "start": "webpack serve",
     "build": "webpack --mode=development",
-    "test-unit": "jest",
+    "test-unit": "jest --watch",
     "test-e2e": "cypress open"
   },
   "repository": {
