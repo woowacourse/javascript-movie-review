@@ -1,5 +1,7 @@
 const getPopularMovieList = async ({ page }: { page: number }) => {
-  const popularMoviesUrl = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}&api_key=${process.env.API_KEY}`;
+  const url = "https://api.themoviedb.org/3/movie/popular";
+  const queryParams = `language=ko-KR&page=${page}&api_key=${process.env.API_KEY}`;
+  const popularMoviesUrl = `${url}?${queryParams}`;
 
   const res = await fetch(popularMoviesUrl);
   const popularMovieList = await res.json();
