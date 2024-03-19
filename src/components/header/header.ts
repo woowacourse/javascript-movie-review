@@ -1,11 +1,11 @@
 import logoPng from '../../images/logo.png';
 
-export function createHeader() {
-  const header = render();
+export function createHeader(inputSubmitHandle: () => void) {
+  const header = render(inputSubmitHandle);
   return header;
 }
 
-function render() {
+function render(inputSubmitHandle: any) {
   const header = document.createElement('header');
 
   const logo = document.createElement('h1');
@@ -28,6 +28,13 @@ function render() {
   searchBox.append(searchInput, searchButton);
 
   header.append(logo, searchBox);
+
+  if (inputSubmitHandle) {
+    searchBox.addEventListener('submit', (event: any) => {
+      event.preventDefault();
+      if (searchInput.value.trim() !== '') inputSubmitHandle(event, searchInput.value);
+    });
+  }
 
   return header;
 }

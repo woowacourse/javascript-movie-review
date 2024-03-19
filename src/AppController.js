@@ -5,8 +5,7 @@ import { LAST_PAGE } from "./constants/constant";
 async function fetchPopularMovieList(pageNumber) {
   const API_KEY = process.env.API_KEY;
   const BASE_URL = 'https://api.themoviedb.org/3';
-    const POPULAR_MOVIES_URL = `${BASE_URL}/movie/popular`;
-    const MOVIE_SEARCH_URL = `${BASE_URL}/search/movie`;
+  const POPULAR_MOVIES_URL = `${BASE_URL}/movie/popular`;
 
   const popularMovieUrl =
     POPULAR_MOVIES_URL +
@@ -18,28 +17,53 @@ async function fetchPopularMovieList(pageNumber) {
     });
   const response = await fetch(popularMovieUrl);
   const popularMovies = await response.json();
-  console.log(popularMovies)
+
+  return popularMovies;
+}
+
+async function fetchSearchMovieList(inputValue, pageNumber) {
+  const API_KEY = process.env.API_KEY;
+  const BASE_URL = 'https://api.themoviedb.org/3';
+  const MOVIE_SEARCH_URL = `${BASE_URL}/search/movie`;
+
+  const popularMovieUrl =
+    MOVIE_SEARCH_URL +
+    '?' +
+    new URLSearchParams({
+      query: inputValue,
+      api_key: process.env.API_KEY,
+      language: 'ko-KR',
+      page: pageNumber.toString(),
+    });
+  const response = await fetch(popularMovieUrl);
+  const popularMovies = await response.json();
 
   return popularMovies;
 }
 
 class AppController {
-  #currentPage
-  #lastPage;
+  #currentPage;
 
   constructor() {
     this.#currentPage = 1;
-    this.#lastPage = LAST_PAGE;
   }
   
   
   async start() {
     const app = document.querySelector('#app');
 
-    const header = createHeader();
+    const itemList = document.querySelector('.item-list');
+    
+    const header = createHeader(async(event, inputValue) => {
+      const movieList = await fetchSearchMovieList(inputValue, 1);
+      console.log(inputValue, movieList)
+      itemList.replaceChildren();
+      
+      this.updateMovieList(itemList, movieList.results);
+
+    });
     app.prepend(header);
 
-    const itemList = document.querySelector('.item-list');
 
     const movieList = await fetchPopularMovieList(this.#currentPage);
     this.updateMovieList(itemList, movieList.results);
@@ -49,12 +73,12 @@ class AppController {
     addButton.addEventListener('click', async () => {
       this.#currentPage += 1;
       const movieList = await fetchPopularMovieList(this.#currentPage);
-      if(this.#lastPage === this.#currentPage){
+      if(LAST_PAGE === this.#currentPage){
         const button = document.querySelector('.item-view > button');
         button.classList.add('none');     
       }
       this.updateMovieList(itemList, movieList.results);
-    })
+    });
   }
 
   updateMovieList(itemList = {}, result = []){
