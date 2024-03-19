@@ -1,3 +1,5 @@
+import { IMAGE_BASE_URL } from '../constants/config.js';
+
 export default function convertToPosterPath({ relativePath, width }) {
-  return `https://image.tmdb.org/t/p/w${width}${relativePath}`;
+  return `${IMAGE_BASE_URL}${width}${relativePath}`;
 }
