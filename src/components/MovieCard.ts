@@ -8,6 +8,11 @@ export default class MovieCard {
   constructor(movie: Movie) {
     this.#movie = movie;
 
+    this.#generateMovieItem();
+  }
+
+  /* eslint-disable max-lines-per-function */
+  #generateMovieItem() {
     const element = ` <a href="#">
        <div class="item-card">
          <img
