@@ -1,4 +1,5 @@
 {
+  "proseWrap": "never",
   "endOfLine": "auto",
   "useTabs": false,
   "tabWidth": 2,
@@ -7,6 +8,5 @@
   "bracketSpacing": true,
   "arrowParens": "always",
   "singleQuote": true,
-  "semi": true,
-  "proseWrap": "never"
+  "semi": true
 }
