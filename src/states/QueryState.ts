@@ -3,14 +3,19 @@ import Observable from "./abstract/Observable";
 type Query = string;
 
 export default class QueryState extends Observable {
-  private query: Query = "";
+  private query: Query;
 
-  public setQuery(query: Query): void {
+  constructor(query = "") {
+    super();
+    this.query = query;
+  }
+
+  public set(query: Query): void {
     this.query = query;
     this.notify();
   }
 
-  public getQuery(): Query {
+  public get(): Query {
     return this.query;
   }
 }
