@@ -12,6 +12,10 @@ export default abstract class BaseComponent {
     this.targetId = targetId;
   }
 
+  init() {
+    this.render();
+  }
+
   render() {
     const element = $(this.targetId);
 
