@@ -1,4 +1,5 @@
 import { $ } from "../../utils/dom";
+import Observer from "./Observer";
 
 export type HTMLTemplate = string;
 type ElementId = string;
@@ -6,10 +7,16 @@ interface BaseComponentProps {
   targetId: ElementId;
 }
 
-export default abstract class BaseComponent {
+export default abstract class BaseComponent extends Observer {
   private targetId: ElementId;
+
   constructor({ targetId }: BaseComponentProps) {
+    super();
     this.targetId = targetId;
+  }
+
+  update() {
+    this.init();
   }
 
   init() {
