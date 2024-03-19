@@ -2,7 +2,7 @@ import { $ } from "../../utils/dom";
 import Observer from "./Observer";
 
 export type HTMLTemplate = string;
-type ElementId = string;
+export type ElementId = string;
 interface BaseComponentProps {
   targetId: ElementId;
 }
