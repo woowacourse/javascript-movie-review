@@ -1,45 +1,47 @@
 import './MovieItem.css';
 import StarFilled from '../../statics/images/star_filled.png';
-import Movie from '../../types/movie';
 
-const createTitle = () => {
+const createTitle = (original_title: string) => {
   const $title = document.createElement('p');
   $title.classList.add('item-title');
-  $title.textContent = '앤트맨과 와스프: 퀀텀매니아';
+  $title.textContent = original_title;
   return $title;
 };
 
-const createScore = () => {
+const createScore = (vote_average: number) => {
   const $score = document.createElement('p');
   $score.classList.add('item-score');
 
   const $scoreImg = document.createElement('img');
   $scoreImg.src = StarFilled;
   $scoreImg.alt = '별점';
-  $score.textContent = '6.5';
+  $score.textContent = vote_average.toString();
   $score.appendChild($scoreImg);
 
   return $score;
 };
 
-const createThumbnail = () => {
+const createThumbnail = (original_title: string, poster_path: string) => {
   const $thumbnail = document.createElement('img');
   $thumbnail.classList.add('item-thumbnail');
-  $thumbnail.src =
-    'https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"';
+  $thumbnail.src = `https://image.tmdb.org/t/p/w220_and_h330_face${poster_path}`;
   $thumbnail.loading = 'lazy';
-  $thumbnail.alt = '앤트맨과 와스프: 퀀텀매니아';
+  $thumbnail.alt = original_title;
 
   return $thumbnail;
 };
 
-const createCard = () => {
+const createCard = ({
+  original_title,
+  poster_path,
+  vote_average,
+}: Pick<Movie, 'original_title' | 'poster_path' | 'vote_average'>) => {
   const $card = document.createElement('div');
   $card.classList.add('item-card');
 
-  const $thumbnail = createThumbnail();
-  const $title = createTitle();
-  const $score = createScore();
+  const $thumbnail = createThumbnail(original_title, poster_path);
+  const $title = createTitle(original_title);
+  const $score = createScore(vote_average);
 
   $card.appendChild($thumbnail);
   $card.appendChild($title);
@@ -48,11 +50,13 @@ const createCard = () => {
   return $card;
 };
 
-const createMovieItem = () => {
+const createMovieItem = (movie: Movie) => {
   const $li = document.createElement('li');
   const $anchor = document.createElement('a');
+  // TODO: 2단계때 사용
+  // $anchor.href = movie.id.toString();
   $anchor.href = '#';
-  const $card = createCard();
+  const $card = createCard(movie);
 
   $anchor.appendChild($card);
   $li.appendChild($anchor);
@@ -61,10 +65,9 @@ const createMovieItem = () => {
 };
 
 function MovieItem(movie: Movie) {
-  console.log(movie);
   return {
     render: () => {
-      const $movieItem = createMovieItem();
+      const $movieItem = createMovieItem(movie);
       return $movieItem;
     },
   };
