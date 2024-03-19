@@ -1,14 +1,13 @@
-import BaseComponent from '../BaseComponent';
 import Logo from '../../assets/logo.png';
 
-class Header extends BaseComponent {
+class Header {
   constructor() {
-    super();
+    this.render();
+    this.setEvent();
   }
 
   render() {
     const headerBox = document.createElement('header');
-
     headerBox.innerHTML = /* html */ `
     <h1><img src=${Logo} alt="MovieList 로고" /></h1>
     <div class="search-box">
@@ -17,7 +16,9 @@ class Header extends BaseComponent {
     </div>
     `;
 
-    super.mounted({ parentSelector: '#app', children: headerBox });
+    const parent = document.querySelector('#app');
+    if (!parent) return;
+    parent.prepend(headerBox);
   }
 
   setEvent(): void {}
