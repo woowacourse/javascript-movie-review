@@ -5,6 +5,7 @@ const Input = () => {
     type: "text",
     placeholder: "검색",
   };
+
   return createElementWithAttribute("input", InputAttribute);
 };
 
@@ -13,6 +14,7 @@ const Button = () => {
     class: "search-button",
   });
   $button.textContent = "검색";
+
   return $button;
 };
 
