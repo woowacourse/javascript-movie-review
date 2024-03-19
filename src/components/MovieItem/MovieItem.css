@@ -1,0 +1,39 @@
+.item-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-card .skeleton {
+  animation: skeleton-animation 5s infinite ease-out;
+  border-radius: 8px;
+  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background-size: 400%;
+}
+
+.item-thumbnail {
+  border-radius: 8px;
+  background-size: contain;
+  width: 180px;
+  height: 270px;
+}
+
+.item-title {
+  margin-top: 16px;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.item-score {
+  margin-top: 16px;
+  font-size: 1.2rem;
+}
+
+.item-score::after {
+  margin-left: 8px;
+}
+
+.item-title.skeleton::after,
+.item-score.skeleton::after {
+  content: 'loading';
+  font-size: 0;
+}
