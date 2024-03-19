@@ -1,11 +1,11 @@
-import setAttributeToElement from "../utils/setAttributeToElement";
+import createElementWithAttribute from "../utils/createElementWithAttribute";
 
 const Input = () => {
   const InputAttribute = {
     type: "text",
     placeholder: "검색",
   };
-  return setAttributeToElement(InputAttribute, document.createElement("input"));
+  return createElementWithAttribute("input", InputAttribute);
 };
 
 const Button = () => {
@@ -16,10 +16,9 @@ const Button = () => {
 };
 
 const SearchBox = () => {
-  const $searchBox = setAttributeToElement(
-    { class: "search-box" },
-    document.createElement("div"),
-  ) as HTMLDivElement;
+  const $searchBox = createElementWithAttribute("div", {
+    class: "search-box",
+  }) as HTMLDivElement;
   $searchBox.appendChild(Input() as HTMLInputElement);
   $searchBox.appendChild(Button() as HTMLButtonElement);
 

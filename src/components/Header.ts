@@ -1,5 +1,5 @@
 import LogoImg from "../../templates/logo.png";
-import setAttributeToElement from "../utils/setAttributeToElement";
+import createElementWithAttribute from "../utils/createElementWithAttribute";
 
 import SearchBox from "./SearchBox";
 
@@ -8,7 +8,7 @@ const Logo = () => {
     src: LogoImg,
     alt: "MovieList 로고",
   };
-  return setAttributeToElement(logoImgAttribute, document.createElement("img"));
+  return createElementWithAttribute("img", logoImgAttribute);
 };
 
 const Header = () => {
