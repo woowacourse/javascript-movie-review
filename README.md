@@ -18,12 +18,12 @@
 
 ### 컴포넌트
 
-- [] MovieReviewHeader
+- [x] MovieReviewHeader
 
   - 영화 리뷰 사이트의 헤더 컴포넌트
   - 영화 리뷰 로고와 영화 검색창을 가지고 있다.
 
-- [] MovieSearchInput
+- [x] MovieSearchInput
 
   - 영화 검색 컴포넌트
     - 엔터 키와 검색 버튼을 이용하여 검색할 수 있다.
