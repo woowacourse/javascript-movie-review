@@ -1,3 +1,4 @@
+import MoreButton from './components/MoreButton';
 import MovieCard from './components/MovieCard';
 import mockingData from './mock/mockingData';
 
@@ -10,5 +11,11 @@ export default class App {
 
       ulElement?.appendChild(card.element);
     });
+
+    const itemView = document.querySelector('section.item-view');
+
+    const moreBtn = new MoreButton();
+
+    itemView?.appendChild(moreBtn.element);
   }
 }
