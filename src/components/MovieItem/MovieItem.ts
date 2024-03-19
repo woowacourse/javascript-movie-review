@@ -1,3 +1,5 @@
+import './style.css';
+
 import StarFilled from '../imgs/star_filled.png';
 
 interface MovieItemsProps {

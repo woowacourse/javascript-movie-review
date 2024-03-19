@@ -1,4 +1,6 @@
-import Button from './Button';
+import './style.css';
+
+import Button from '../Button/Button';
 
 const MovieItems = {
   createElements() {

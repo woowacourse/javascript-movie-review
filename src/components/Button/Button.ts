@@ -1,3 +1,5 @@
+import './style.css';
+
 interface ButtonProps {
   className: string[];
   text: string;

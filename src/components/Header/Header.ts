@@ -1,4 +1,7 @@
-import Logo from '../imgs/logo.png';
+import './style.css';
+
+import SearchField from '../SearchField/SearchField';
+import Logo from '../../imgs/logo.png';
 
 const Header = {
   createElements() {
@@ -11,6 +14,9 @@ const Header = {
 
     h1.appendChild(img);
     header.appendChild(h1);
+
+    const searchField = SearchField.createElements();
+    header.appendChild(searchField);
     return header;
   },
 };

@@ -1,3 +1,6 @@
+import './style.css';
+import Button from '../Button/Button';
+
 const SearchField = {
   createElements() {
     const searchField = document.createElement('div');
@@ -7,14 +10,18 @@ const SearchField = {
     input.setAttribute('type', 'text');
     input.placeholder = '검색';
 
-    const button = document.createElement('button');
-    button.className = 'search-button';
-    button.textContent = '검색';
+    const button = Button.createElements({
+      className: ['search-button'],
+      text: '검색',
+      onClick: this.handleOnClick,
+    });
 
     searchField.appendChild(input);
     searchField.appendChild(button);
     return searchField;
   },
+
+  handleOnClick() {},
 };
 
 export default SearchField;
