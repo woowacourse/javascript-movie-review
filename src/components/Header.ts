@@ -14,7 +14,7 @@ const Logo = () => {
 const Header = () => {
   const $header = document.createElement("header");
   const $h1 = document.createElement("h1");
-  const $logo = Logo() as HTMLImageElement;
+  const $logo = Logo();
   $h1.appendChild($logo);
   $header.appendChild($h1);
   $header.appendChild(SearchBox());

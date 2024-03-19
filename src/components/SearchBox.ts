@@ -9,8 +9,9 @@ const Input = () => {
 };
 
 const Button = () => {
-  const $button = document.createElement("button");
-  $button.setAttribute("class", "search-button");
+  const $button = createElementWithAttribute("button", {
+    class: "search-button",
+  });
   $button.textContent = "검색";
   return $button;
 };
@@ -18,9 +19,9 @@ const Button = () => {
 const SearchBox = () => {
   const $searchBox = createElementWithAttribute("div", {
     class: "search-box",
-  }) as HTMLDivElement;
-  $searchBox.appendChild(Input() as HTMLInputElement);
-  $searchBox.appendChild(Button() as HTMLButtonElement);
+  });
+  $searchBox.appendChild(Input());
+  $searchBox.appendChild(Button());
 
   return $searchBox;
 };
