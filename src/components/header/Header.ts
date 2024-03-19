@@ -1,10 +1,13 @@
 import { dom } from '../../utils/dom';
 
+interface IHeaderProps {
+  imageSrc: string;
+}
 class Header {
   $target: HTMLElement;
   #imageSrc: string;
 
-  constructor(imageSrc: string) {
+  constructor({ imageSrc }: IHeaderProps) {
     this.$target = document.createElement('header');
     this.#imageSrc = imageSrc;
     this.render();
