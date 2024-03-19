@@ -1,4 +1,4 @@
-import convertToPosterUrl from '../util/convertToPosterUrl';
+import convertToPosterPath from '../util/convertToPosterPath';
 
 interface MovieData {
   id: number;
@@ -13,7 +13,7 @@ export default class Movie {
   constructor(movie: MovieData) {
     this.movie = {
       ...movie,
-      posterPath: convertToPosterUrl({ relativePath: movie.posterPath, width: 200 }),
+      posterPath: convertToPosterPath({ relativePath: movie.posterPath, width: 200 }),
     };
   }
 
