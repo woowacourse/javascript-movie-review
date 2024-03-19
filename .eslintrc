@@ -13,5 +13,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module",
   },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "extends": ["eslint:recommended", "plugin:prettier/recommended", "airbnb-base"],
 }
