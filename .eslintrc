@@ -1,11 +1,20 @@
 {
-  "rules": {},
   "env": {
     "es6": true,
-    "node": true
+    "node": true,
+    "browser": true
   },
-  "parserOptions": {
-    "ecmaVersion": "latest"
-  },
-  "extends": ["eslint:recommended", "plugin:prettier/recommended"]
+  "overrides": [
+    {
+      "env": {
+        "node": true,
+        "cypress": true
+      }
+    }
+  ],
+  "extends": ["eslint:recommended", "plugin:prettier/recommended", "plugin:@typescript-eslint/recommended"],
+  "rules": {
+    "max-depth": ["warn", 2],
+    "max-lines-per-function": ["warn", { "max": 20 }]
+  }
 }
