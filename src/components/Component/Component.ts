@@ -1,43 +1,20 @@
-import { CustomEventListener } from './Component.type';
-
 abstract class Component<T = {}> {
-  constructor() {
+  protected $element: HTMLElement;
+  protected props?: T;
+
+  constructor(element: HTMLElement, props?: T) {
+    this.$element = element;
+    this.props = props;
+
     this.render();
     this.setEvent();
   }
 
-  protected abstract render(props?: T): void;
-  protected abstract render(...args: unknown[]): void;
+  protected abstract render(): void;
+
+  protected abstract createComponent(): HTMLElement;
 
   protected setEvent() {}
-
-  protected querySelector<E extends Element>(selector: string, target: Element | Document = document) {
-    const element = target.querySelector<E>(selector);
-
-    if (!element) {
-      throw new Error('[ERROR] 요소를 찾을 수 없습니다.');
-    }
-
-    return element;
-  }
-
-  protected querySelectorAll<E extends Element>(selector: string, target: Element | Document = document) {
-    const element = target.querySelectorAll<E>(selector);
-
-    if (!element) {
-      throw new Error('[ERROR] 요소를 찾을 수 없습니다.');
-    }
-
-    return element;
-  }
-
-  protected on({ target, eventName, eventHandler }: CustomEventListener) {
-    target.addEventListener(eventName, eventHandler);
-  }
-
-  protected off({ target, eventName, eventHandler }: CustomEventListener) {
-    target.removeEventListener(eventName, eventHandler);
-  }
 }
 
 export default Component;
