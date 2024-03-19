@@ -1,5 +1,8 @@
 import "../templates/reset.css";
 import "../templates/common.css";
+import MovieClient from "./http/MoveClient";
+import { BASE_URL } from "./constants/movies";
+import { createElement } from "./utils/dom";
 // import App from "./App";
 import Header from "./components/Header";
 
@@ -20,9 +23,11 @@ import Header from "./components/Header";
 // new App(document.querySelector("#app"));
 
 const rootElement = document.querySelector("#app");
+const headerElement = createElement<HTMLDivElement>("header");
 
-const headerElement = document.createElement("header");
-const headerComponent = new Header(headerElement, {
+rootElement?.appendChild(headerElement);
+
+new Header(headerElement, {
   onLogoClick: () => {
     console.log("hello");
   },
@@ -30,16 +35,3 @@ const headerComponent = new Header(headerElement, {
     console.log("hello");
   },
 });
-
-rootElement?.appendChild(headerElement);
-
-/* 
-api 호출할 때, 몇번 째 페이지를 요청하고 있는지를 가지고 있어야 되지 않나??
-*/
-// fetch(url, options)
-//   .then((res) => res.json())
-//   .then((json) => (movieList = json))
-//   .catch((err) => console.error("error:" + err));
-
-import MovieClient from "./http/MoveClient";
-import { BASE_URL } from "./constants/movies";

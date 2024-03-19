@@ -1,21 +1,19 @@
-export default class Component<T = unknown> {
+export default class Component<T, K> {
   $target;
   state: any;
   props;
-  constructor($target: Element | null, props?: T) {
+  constructor($target: T, props?: K) {
     this.$target = $target;
     this.props = props;
-    this.render();
-    this.setEvent();
+    this.render(); // 1. render
+    this.setEvent(); // 2. props로 받은 이벤트를 주입하는 방식으로 ㅇㅋ?
   }
 
   protected getTemplate() {}
 
-  protected setEvent{}
+  protected setEvent() {}
 
-    protected render{}
-
-  comprotec ponentDidMount() {}
+  protected render() {}
 
   setState(newState: unknown) {
     this.state = newState;
