@@ -1,48 +1,38 @@
-import { BASE_URL, ENDPOINT, MOVIE_LIST_TYPE } from '../constant/config';
-import fetchAPI from '../api/fetchAPI';
-import generateQueryUrl from '../api/generateQueryUrl';
+import { MovieList } from '../interface/MovieList';
+import { MovieData } from '../interface/MovieData';
 import Movie from './Movie';
-import getEnvVariable from '../util/getEnvVariable';
-
-interface MovieListData {
-  total_pages: number;
-  results: { id: number; title: string; poster_path: string; vote_average: number; overview: string }[];
-}
-
-interface MoviePageData extends MovieListData {
-  pageNumber: number;
-}
-
-interface FetchMovieDataParams {
-  listType: MovieListType;
-  pageNumber: number;
-  searchKeyword: string;
-}
-
-type MovieListType = keyof typeof MOVIE_LIST_TYPE;
+const API_KEY = process.env.API_KEY;
+const BASE_URL = 'https://api.themoviedb.org/3';
+const POPULAR_MOVIES_URL = `${BASE_URL}/movie/popular`;
+const MOVIE_SEARCH_URL = `${BASE_URL}/search/movie`;
 
 class MovieService {
-  async fetchMovieData({ listType, pageNumber, searchKeyword = '' }: FetchMovieDataParams) {
-    const endpoint = listType === MOVIE_LIST_TYPE.search.type ? ENDPOINT.GET.MOVIE_SEARCH : ENDPOINT.GET.POPULAR_MOVIES;
+  private currentPageNumber: number = 1;
+  private options: object = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+    },
+  };
 
-    const queryUrl = generateQueryUrl({
-      baseUrl: BASE_URL,
-      endpoint,
-      query: {
-        api_key: getEnvVariable('API_KEY'),
+  async fetchPopularMovieList(pageNumber: number) {
+    // TODO: ! 지우기
+    const popularMovieUrl =
+      POPULAR_MOVIES_URL +
+      '?' +
+      new URLSearchParams({
+        api_key: process.env.API_KEY!,
         language: 'ko-KR',
-        page: pageNumber,
-        query: searchKeyword,
-      },
-    });
+        page: pageNumber.toString(),
+      });
 
-    const { total_pages, results } = await fetchAPI({ url: queryUrl, method: 'GET' });
-    return this.createMoviePageData({ total_pages, results, pageNumber });
-  }
+    const response = await fetch(popularMovieUrl);
+    const { total_pages, results } = await response.json();
 
-  createMoviePageData({ total_pages, results, pageNumber }: MoviePageData) {
+    // TODO: 타입 바꾸기
     const movieList: Movie[] = results.map(
-      (result) =>
+      (result: { id: number; title: string; poster_path: string; vote_average: number }) =>
         new Movie({
           id: result.id,
           title: result.title,
