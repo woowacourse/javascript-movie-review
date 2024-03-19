@@ -1,11 +1,22 @@
 {
-  "rules": {},
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "max-lines-per-function": ["error", 10],
+    "max-depth": ["error", 1]
+  },
   "env": {
     "es6": true,
     "node": true
   },
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
+    "project": "./tsconfig.json"
   },
-  "extends": ["eslint:recommended", "plugin:prettier/recommended"]
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "airbnb-typescript/base"
+  ]
 }
