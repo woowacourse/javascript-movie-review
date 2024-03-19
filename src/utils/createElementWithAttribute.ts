@@ -10,6 +10,7 @@ const createElementWithAttribute = (
   Object.entries(attribute).forEach(([key, value]) => {
     $element.setAttribute(key, value);
   });
+
   return $element;
 };
 export default createElementWithAttribute;

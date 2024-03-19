@@ -7,7 +7,7 @@ function App() {
 
   const $header = Header();
   $app?.prepend($header);
-  ItemView({ movieList, isShowMoreButton: true });
+  ItemView("지금 인기 있는 영화", movieList);
 }
 
 export default App;

@@ -28,6 +28,7 @@ const Score = (movie: Movie) => {
   });
   $score.appendChild($star);
   $score.appendChild(document.createTextNode(movie.vote_average.toString()));
+
   return $score;
 };
 
@@ -39,6 +40,7 @@ const Card = (movie: Movie) => {
   $card.appendChild($img);
   $card.appendChild($title);
   $card.appendChild($score);
+
   return $card;
 };
 
@@ -48,6 +50,7 @@ const ItemCard = (movie: Movie) => {
   const $card = Card(movie);
   $a.appendChild($card);
   $li.appendChild($a);
+
   return $li;
 };
 

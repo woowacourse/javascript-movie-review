@@ -105,6 +105,15 @@ button.primary {
   background: #f33f3f;
 }
 
+.more-button {
+  display: none;
+}
+
+.more-button.open {
+  display: block;
+  margin: 0 auto;
+}
+
 .item-card .skeleton {
   background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
   background-size: 400%;

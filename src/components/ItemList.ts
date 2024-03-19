@@ -3,12 +3,16 @@ import createElementWithAttribute from "../utils/createElementWithAttribute";
 
 import ItemCard from "./ItemCard";
 
-const ItemList = (movieList: Movie[]) => {
+// TODO: 검색결과 없음 컴포넌트?
+const ItemList = (movieList: Movie[] | undefined) => {
   const $ul = createElementWithAttribute("ul", {
     class: "item-list",
   });
-
-  movieList.map((movie) => $ul.appendChild(ItemCard(movie)));
+  if (!movieList) {
+    $ul.textContent = "검색 결과가 없습니다.";
+  } else {
+    movieList.map((movie) => $ul.appendChild(ItemCard(movie)));
+  }
 
   return $ul;
 };

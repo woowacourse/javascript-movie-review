@@ -3,37 +3,24 @@ import createElementWithAttribute from "../utils/createElementWithAttribute";
 
 import ItemList from "./ItemList";
 import MoreButton from "./MoreButton";
+import Title from "./Title";
 
-interface Props {
-  movieList: Movie[];
-  isShowMoreButton: boolean;
-}
-
-const addMoreButtonToSection = (
-  $section: HTMLElement,
-  isShowMoreButton: boolean,
-) => {
-  const $moreButton = MoreButton(isShowMoreButton);
-  if ($moreButton) {
-    $section.appendChild($moreButton);
-  }
-  return $section;
-};
-
-const makeSection = (movieList: Movie[], isShowMoreButton: boolean) => {
+const makeSection = (titleText: string, movieList: Movie[] | undefined) => {
   const $section = createElementWithAttribute("section", {
     class: "item-view",
   });
+  $section.appendChild(Title(titleText));
   $section.appendChild(ItemList(movieList));
 
-  return addMoreButtonToSection($section, isShowMoreButton);
+  return $section;
 };
 
-const ItemView = ({ movieList, isShowMoreButton }: Props) => {
+const ItemView = (titleText: string, movieList: Movie[] | undefined) => {
   const $main = document.querySelector("main");
 
-  const $section = makeSection(movieList, isShowMoreButton);
+  const $section = makeSection(titleText, movieList);
 
   $main?.appendChild($section);
+  MoreButton();
 };
 export default ItemView;

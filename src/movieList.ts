@@ -1,6 +1,6 @@
 import { Movie } from "./type/movie";
 
-const movieList: Movie[] = [
+const dummyMovieList: Movie[] = [
   {
     adult: false,
     backdrop_path: "/deLWkOLZmBNkm8p16igfapQyqeq.jpg",
@@ -337,4 +337,4 @@ const movieList: Movie[] = [
   },
 ];
 
-export default movieList;
+export default dummyMovieList;
