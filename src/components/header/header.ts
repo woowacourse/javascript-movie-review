@@ -1,3 +1,5 @@
+import logoPng from '../../images/logo.png';
+
 export function createHeader() {
   const header = render();
   return header;
@@ -8,11 +10,13 @@ function render() {
 
   const logo = document.createElement('h1');
   const logoImage = document.createElement('img');
-  logoImage.src = './logo.png';
+  logoImage.src = logoPng;
   logoImage.alt = 'MovieList 로고';
   logo.appendChild(logoImage);
 
   const searchBox = document.createElement('form');
+  searchBox.className = 'search-box';
+
   const searchInput = document.createElement('input');
   searchInput.placeholder = '검색';
 
@@ -20,6 +24,7 @@ function render() {
   searchButton.type = 'submit';
   searchButton.className = 'search-button';
   searchButton.textContent = '검색';
+
   searchBox.append(searchInput, searchButton);
 
   header.append(logo, searchBox);
