@@ -1,5 +1,6 @@
 import logoImg from '../assets/images/logo.png';
 import starImg from '../assets/images/star_empty.png';
+import getButton from './getButton';
 
 function getDummyItem() {
   return `
@@ -29,7 +30,7 @@ function getMain() {
           <ul class="item-list">
             ${Array.from({ length: 20 }, getDummyItem).join('')}
           </ul>
-          <button class="btn primary full-width">더 보기</button>
+            ${getButton()}
         </section>
       </main>
   `;
