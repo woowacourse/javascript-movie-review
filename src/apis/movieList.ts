@@ -1,9 +1,9 @@
 import { Movie, Path } from "../components/templates/composeMovieItems";
 
-const BASE_URL = "https://api.themoviedb.org/3/movie";
+const BASE_URL = "https://api.themoviedb.org/3";
 
-const POPULAR_MOVIE_LIST_PATH = "/popular";
-const SEARCH_MOVIE_LIST_PATH = "/search";
+const POPULAR_MOVIE_LIST_PATH = "/movie/popular";
+const SEARCH_MOVIE_LIST_PATH = "/search/movie";
 
 type DateString = string;
 
