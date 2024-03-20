@@ -3,6 +3,7 @@ import MovieService from '../domain/MovieService.ts';
 import createHeader from '../component/Header.js';
 import PageNumberManager from '../domain/pageNumberManager.ts';
 import { $ } from '../util/selector.js';
+import toast from '../component/toast/toast.js';
 
 export class App {
   #searchKeyword;
@@ -27,6 +28,15 @@ export class App {
   async init() {
     createHeader();
     $('form.search-box').addEventListener('clickSearchButton', () => this.makeSearchPage());
+    $('header > img.logo').addEventListener('logoClickEvent', () => {
+      this.#movieContainer.clearMovieList();
+      this.#movieContainer.pushMoreSkeletonList();
+      this.#movieContainer.setTitle('지금 인기 있는 영화');
+      this.#pageNumberManager.clear('popular');
+      this.#searchKeyword = '';
+
+      this.addMovieList();
+    });
     await this.addMovieList();
   }
 
@@ -61,7 +71,7 @@ export class App {
     this.#pageNumberManager.clear('search');
 
     this.setSearchKeyword();
-    if (this.#searchKeyword === '') return alert('입력하라고...');
+    if (this.#searchKeyword === '') return toast('검색어를 입력해주세요.');
 
     this.#movieContainer.clearMovieList();
     this.#movieContainer.pushMoreSkeletonList();

@@ -2,6 +2,7 @@ import { $ } from '../util/selector.js';
 import LogoImagePath from '../asset/logo.png';
 
 const SearchButtonClickEvent = new Event('clickSearchButton');
+const LogoClickEvent = new Event('logoClickEvent');
 
 function createHeader() {
   const header = renderHeader();
@@ -11,12 +12,17 @@ function createHeader() {
     event.preventDefault();
     event.target.dispatchEvent(SearchButtonClickEvent);
   });
+
+  header.querySelector('.logo').addEventListener('click', (event) => {
+    event.target.dispatchEvent(LogoClickEvent);
+  });
 }
 
 function renderHeader() {
   const header = document.createElement('header');
 
   const logo = document.createElement('img');
+  logo.classList.add('logo');
   logo.alt = 'MovieList 로고';
   logo.src = LogoImagePath;
 
