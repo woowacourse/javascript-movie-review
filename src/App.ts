@@ -2,17 +2,23 @@ import { Movie } from './index.d';
 import MoreButton from './components/MoreButton';
 import MovieCard from './components/MovieCard';
 import movieStore from './store/MovieStore';
+import SearchBox from './components/SearchBox';
+import searchMovieStore from './store/SearchMovieStore';
 
 export default class App {
   #movieStore;
 
+  #searchMovieStore;
+
   constructor() {
     this.#movieStore = movieStore;
+    this.#searchMovieStore = searchMovieStore;
   }
 
   async run() {
     this.#generateMovieList();
     this.#generateMoreButton();
+    this.#generateSearchBox();
   }
 
   async #generateMovieList() {
@@ -35,5 +41,12 @@ export default class App {
     });
 
     itemView?.appendChild(moreBtn.element);
+  }
+
+  #generateSearchBox() {
+    const header = document.querySelector('header');
+    const searchBox = new SearchBox();
+
+    header?.appendChild(searchBox.element);
   }
 }
