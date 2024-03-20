@@ -23,15 +23,24 @@ export default class MovieList extends APIClientComponent {
     const movieItemsTemplate = this.generateMovieItemsTemplate(data);
 
     return `
-    <h2>${query ? `"${query}" 검색결과` : "지금 인기 있는 영화"}</h2>
+      <h2>${query ? `"${query}" 검색결과` : "지금 인기 있는 영화"}</h2>
         <ul id="item-list" class="item-list">
-        ${movieItemsTemplate}
+        ${
+          data.length === 0
+            ? `<p>표시할 영화 정보가 없습니다. 🎬 </p>`
+            : movieItemsTemplate
+        }
         </ul>
-        <button id="watch-more-button" class="btn primary full-width">더 보기</button>
+        ${
+          data.length < 20
+            ? ""
+            : '<button id="watch-more-button" class="btn primary full-width">더 보기</button>'
+        }
     `;
   }
 
   async fetchInitialData() {
+    this.resetPage();
     return await this.fetchMovies(this.page, this.queryState.get());
   }
 
@@ -72,5 +81,9 @@ export default class MovieList extends APIClientComponent {
       : await getPopularMovieList(page);
 
     return movies;
+  }
+
+  private resetPage() {
+    this.page = 1;
   }
 }
