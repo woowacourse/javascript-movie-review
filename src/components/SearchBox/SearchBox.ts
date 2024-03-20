@@ -1,3 +1,6 @@
+import { BUTTON } from '../../constants/INFORMATION';
+import Button from '../Button/Button';
+
 const SearchBox = {
   create() {
     const searchBox = document.createElement('div');
@@ -21,12 +24,7 @@ const SearchBox = {
   },
 
   createSearchButton() {
-    const searchButton = document.createElement('Button');
-
-    searchButton.classList.add('search-button');
-    searchButton.textContent = '검색';
-
-    return searchButton;
+    return Button.create(BUTTON.search);
   },
 };
 
