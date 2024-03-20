@@ -1,5 +1,6 @@
-import { fetchPopularMovieList, fetchSearchMovieList } from '../../AppController';
+import { fetchPopularMovieList, fetchSearchMovieList } from '../../apis/fetchData';
 import { LAST_PAGE } from '../../constants/constant';
+import { completeMovieList, loadMovieList } from '../../domain/MovieService';
 
 export class MovieListWrapper {
   #currentPage;
@@ -15,24 +16,27 @@ export class MovieListWrapper {
   }
 
   async create() {
-    const title = document.querySelector('h2')!;
-    if (!title) return;
+    const section = document.querySelector('.item-view');
+    if (!section) return;
+    section.replaceChildren();
+
+    const title = document.createElement('h2');
     title.textContent = this.#title;
 
-    const ul = document.querySelector('.item-list')!;
-    if (!ul) return;
+    const ul = document.createElement('ul');
+    ul.className = 'item-list';
     ul.replaceChildren();
 
-    const lastPage = await this.updateMovieList();
-    const addButton = document.querySelector('.btn.primary.full-width')!;
+    const addButton = document.createElement('button');
+    addButton.className = 'btn primary full-width';
+    addButton.textContent = '더 보기';
+
+    section.append(title, ul, addButton);
+
+    await this.updateMovieList(addButton);
 
     addButton.addEventListener('click', async () => {
-      if (this.hasNextPage(lastPage)) {
-        this.plusCurrentPage();
-        await this.updateMovieList();
-      } else {
-        addButton.classList.add('none');
-      }
+      await this.updateMovieList(addButton);
     });
   }
 
@@ -47,15 +51,39 @@ export class MovieListWrapper {
     return true;
   }
 
-  async updateMovieList() {
+  async updateMovieList(addButton: any) {
     switch (this.#getName) {
       case 'popular':
-        console.log(this.#currentPage);
-        return await fetchPopularMovieList(this.#currentPage);
+        {
+          const liList = loadMovieList();
+          const data = await fetchPopularMovieList(this.#currentPage);
+          if (LAST_PAGE === this.#currentPage) {
+            addButton.classList.add('none');
+          }
+          this.plusCurrentPage();
+          completeMovieList(liList, data.results);
+        }
+        return;
       case 'search':
-        return await fetchSearchMovieList(this.#inputValue, this.#currentPage);
-      default:
-        return await fetchPopularMovieList(this.#currentPage);
+        {
+          const liList = loadMovieList();
+          const data = await fetchSearchMovieList(this.#inputValue, this.#currentPage);
+          if (data.total_pages === this.#currentPage) {
+            addButton.classList.add('none');
+          }
+          this.plusCurrentPage();
+          completeMovieList(liList, data.results);
+        }
+        return;
+      default: {
+        const liList = loadMovieList();
+        const data = await fetchPopularMovieList(this.#currentPage);
+        if (LAST_PAGE === this.#currentPage) {
+          addButton.classList.add('none');
+        }
+        this.plusCurrentPage();
+        completeMovieList(liList, data.results);
+      }
     }
   }
 }

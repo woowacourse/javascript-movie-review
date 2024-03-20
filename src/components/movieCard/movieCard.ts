@@ -2,6 +2,7 @@ import filledStar from '../../images/star_filled.png';
 
 export function showSkeleton() {
   const movieCard = document.createElement('li');
+  movieCard.className = 'skeleton';
   const link = document.createElement('a');
   link.href = '#';
 
@@ -25,6 +26,7 @@ export function showSkeleton() {
 }
 
 export function updateCard(li: any, movie: any) {
+  li.classList.toggle('skeleton');
   const thumbnail = li.querySelector('.item-thumbnail.skeleton');
   thumbnail.classList.toggle('skeleton');
   thumbnail.src = `https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}.jpg`;
