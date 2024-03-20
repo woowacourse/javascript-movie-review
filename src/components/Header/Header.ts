@@ -1,14 +1,13 @@
-import { LOGO } from '../../images';
 import './style.css';
 
 interface Props {
   imageSource: string;
 }
 
+// eslint-disable-next-line max-lines-per-function
 const createHeader = ({ imageSource }: Props) => {
   const header = document.createElement('header');
-
-  const text =
+  const templates =
     /* html */
     `
       <h1><img src=${imageSource} alt="MovieList 로고" /></h1>
@@ -17,7 +16,7 @@ const createHeader = ({ imageSource }: Props) => {
         <button class="search-button">검색</button>
       </div>
     `;
-  header.innerHTML = text;
+  header.innerHTML = templates;
   return header;
 };
 

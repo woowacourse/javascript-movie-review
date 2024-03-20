@@ -1,4 +1,5 @@
 import createHeader from './components/Header/Header';
+import createMovieContents from './components/MovieContents/MovieContents';
 import { LOGO } from './images/index';
 
 class MovieApp {
@@ -6,14 +7,17 @@ class MovieApp {
     this.init();
   }
 
-  init() {
+  async init() {
     const header = createHeader({
       imageSource: LOGO,
-      // onButtonClick: () => addingRestaurantModal.toggle(),
     });
 
+    const main = await createMovieContents();
+
     const container = document.querySelector('#app');
+
     container?.prepend(header);
+    container?.appendChild(main);
   }
 }
 
