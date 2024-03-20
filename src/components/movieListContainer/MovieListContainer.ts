@@ -3,7 +3,7 @@ import { IMovie } from '../../types/movie';
 import MovieItem from '../movieItem/MovieItem';
 
 class MovieListContainer {
-  $target;
+  $target: HTMLUListElement;
   page = 0;
 
   constructor() {
@@ -18,12 +18,7 @@ class MovieListContainer {
   }
 
   template() {
-    return /* html */ `
-      ${Array.from({ length: 20 })
-        .map(
-          () =>
-            ` 
-            <li>
+    return `<li>
               <a href="#">
                 <div class="item-card">
                 <div class="item-thumbnail skeleton"></div>
@@ -31,12 +26,7 @@ class MovieListContainer {
                 <div class="item-score skeleton"></div>
                 </div>
               </a>
-             </li>
-          `,
-        )
-        .join('')}
-
-    `;
+            </li>`.repeat(20);
   }
 
   async paint(movies: IMovie[]) {
@@ -46,7 +36,11 @@ class MovieListContainer {
 
   async attach() {
     this.page += 1;
+    this.$target.innerHTML += this.template();
     const movies = await this.fetchMovies();
+    Array.from({ length: 20 }).forEach(() => {
+      this.$target.removeChild(this.$target.lastChild!);
+    });
     this.$target.append(...movies.map(movie => new MovieItem(movie).$target));
   }
 
