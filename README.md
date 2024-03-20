@@ -7,8 +7,8 @@
 ## 도메인
 
 - [ ] API GET 구현
-  - [ ] API key request, respond 검증
-    - [ ] key respond의 success가 false일 경우 에러를 발생시킨다.
+  - [x] API key request, respond 검증
+    - [x] key respond의 success가 false일 경우 에러를 발생시킨다.
   - [ ] 영화 인기 순위 request interface 구현
   - [ ] 영화 검색 결과 request interface 구현
   - [ ] 영화 데이터 respond interface 구현
