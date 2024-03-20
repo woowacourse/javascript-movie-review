@@ -11,20 +11,34 @@ const options = {
 class MovieStore {
   #moviesData: any[];
 
+  #pageCount: number = 1;
+
   constructor() {
     this.#moviesData = [];
   }
 
   async getMovies() {
-    const data: Movie[] = await fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options)
+    const data: Movie[] = await fetch(
+      `https://api.themoviedb.org/3/movie/popular?language=ko&page=${this.#pageCount}`,
+      options,
+    )
       .then((response) => response.json())
       .then((response) => response.results)
       .catch((err) => console.error(err));
 
+    this.#pushNewData(data);
+
+    return data;
+  }
+
+  increasePageCount() {
+    this.#pageCount += 1;
+  }
+
+  #pushNewData(data: Movie[]) {
     if (data) {
       this.#moviesData.push(...data);
     }
-    // TODO:error
   }
 
   get movies() {

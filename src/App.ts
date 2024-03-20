@@ -18,8 +18,8 @@ export default class App {
   async #generateMovieList() {
     const ulElement = document.querySelector('ul.item-list');
 
-    await movieStore.getMovies();
-    this.#movieStore.movies.forEach((data: Movie) => {
+    const newData = await movieStore.getMovies();
+    newData.forEach((data: Movie) => {
       const card = new MovieCard(data);
 
       ulElement?.appendChild(card.element);
@@ -28,8 +28,11 @@ export default class App {
 
   #generateMoreButton() {
     const itemView = document.querySelector('section.item-view');
-
-    const moreBtn = new MoreButton();
+    const moreBtn = new MoreButton({
+      onClick: () => {
+        this.#generateMovieList();
+      },
+    });
 
     itemView?.appendChild(moreBtn.element);
   }
