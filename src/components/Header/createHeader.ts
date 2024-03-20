@@ -1,6 +1,10 @@
 import "./style.css";
 
+import CUSTOM_EVENT from "../../constants/event";
+import TMDBResponse from "../../types/TMDBResponse";
 import createElement from "../../utils/createElement";
+import createSearchBox from "../SearchBox/createSearchBox";
+import { fetchTargetMovie } from "../../apis/fetchMovie";
 import logo from "./logo.png";
 
 const createHeader = () => {
@@ -13,12 +17,9 @@ const createHeader = () => {
   });
   h1.append(img);
 
-  const div = createElement("div", { class: "search-box" });
-  const input = createElement("input", { type: "text", placeholder: "검색" });
-  const button = createElement("button", { class: "search-button" });
-  div.append(input, button);
+  const searchBox = createSearchBox(CUSTOM_EVENT.searchMovie, "검색");
 
-  header.append(h1, div);
+  header.append(h1, searchBox);
 
   return header;
 };

@@ -19,22 +19,3 @@ header h1 {
   letter-spacing: -0.1rem;
   color         : #f33f3f;
 }
-
-header>.search-box {
-  background   : #fff;
-  padding      : 8px;
-  border-radius: 4px;
-}
-
-header .search-box>input {
-  border: 0;
-}
-
-header .search-box>.search-button {
-  width          : 18px;
-  height         : 18px;
-  border         : 0;
-  text-indent    : -1000rem;
-  background     : url("./search_button.png") transparent no-repeat 0 1px;
-  background-size: contain;
-}
