@@ -1,5 +1,5 @@
 import { createElement } from '../../utils/dom/createElement/createElement';
-import Component from '../Component/Component';
+import Component from '../common/Component/Component';
 import MovieList from '../MovieList/MovieList';
 import MovieAPI from '../../apis/movie/movie';
 import { BaseResponse } from '../../apis/common/apiSchema.type';
@@ -74,7 +74,11 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
           this.renderNoResultImage($movieListContainer);
         }
       })
-      .catch((error) => console.error(console.log(error)));
+      .catch((error) => {
+        console.error(error.message);
+
+        this.openErrorFallbackModal();
+      });
   }
 
   private renderNoResultImage($movieListContainer: HTMLElement) {
@@ -86,6 +90,12 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     $movieListContainer.appendChild($fallbackImage);
 
     this.removeMoreButton();
+  }
+
+  private openErrorFallbackModal() {
+    const $modal = querySelector<HTMLDialogElement>('#error-fallback-modal');
+
+    $modal.showModal();
   }
 
   private createMoreButton() {

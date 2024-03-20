@@ -1,5 +1,5 @@
 import { createElement } from '../../utils/dom/createElement/createElement';
-import Component from '../Component/Component';
+import Component from '../common/Component/Component';
 
 class MovieListCardSkeleton extends Component {
   protected render() {

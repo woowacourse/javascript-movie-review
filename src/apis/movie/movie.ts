@@ -19,28 +19,24 @@ class MovieAPI {
   private static handleProcessStatusCode(response: Response) {
     switch (response.status) {
       case 401:
-        throw new Error('엑세스 토큰 에러');
+        throw new Error('API 키가 누락되었거나 잘못되었습니다.');
       case 403:
-        throw new Error('인증 에러');
+        throw new Error('사용자가 요청한 작업을 수행할 권한이 없습니다.');
+      case 404:
+        throw new Error('서버가 요청받은 리소스를 찾을 수 없습니다.');
     }
   }
 
   static async fetchMovieDetails<T>(page: number, type: FetchMovieType = 'popular'): Promise<T | undefined> {
-    try {
-      const queryString = createMovieURLParams(page, type === 'popular' ? '' : type).toString();
-      const requestUrl = MovieAPI.URL_MAP[type === 'popular' ? 'popular' : 'search'](queryString);
+    const queryString = createMovieURLParams(page, type === 'popular' ? '' : type).toString();
+    const requestUrl = MovieAPI.URL_MAP[type === 'popular' ? 'popular' : 'search'](queryString);
 
-      const response = await new ApiSchema(requestUrl).request();
+    const response = await new ApiSchema(requestUrl).request();
 
-      if (response) {
-        this.handleProcessStatusCode(response);
+    if (response) {
+      this.handleProcessStatusCode(response);
 
-        return response.json();
-      }
-    } catch (error: unknown | Error) {
-      if (error instanceof Error) {
-        alert(error.message);
-      }
+      return response.json();
     }
   }
 }

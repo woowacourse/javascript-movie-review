@@ -1,6 +1,8 @@
-import Component from './components/Component/Component';
+import Component from './components/common/Component/Component';
+import ErrorFallbackModal from './components/ErrorFallbackModal/ErrorFallbackModal';
 import MovieReviewBody from './components/MovieReviewBody/MovieReviewBody';
 import MovieReviewHeader from './components/MovieReviewHeader/MovieReviewHeader';
+import { createElement } from './utils/dom/createElement/createElement';
 
 class App extends Component {
   protected render() {
@@ -8,7 +10,7 @@ class App extends Component {
   }
 
   protected createComponent() {
-    const $app = document.createElement('div');
+    const $app = createElement({ tagName: 'div', attributeOptions: { id: 'app' } });
 
     const $main = document.createElement('main');
 
@@ -17,6 +19,8 @@ class App extends Component {
     new MovieReviewBody($main, { movieType: 'popular' });
 
     $app.appendChild($main);
+
+    new ErrorFallbackModal($app);
 
     return $app;
   }

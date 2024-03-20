@@ -1,4 +1,4 @@
-import Component from '../Component/Component';
+import Component from '../common/Component/Component';
 import MovieReviewBody from '../MovieReviewBody/MovieReviewBody';
 import { createElement } from '../../utils/dom/createElement/createElement';
 import { querySelector } from '../../utils/dom/selector';

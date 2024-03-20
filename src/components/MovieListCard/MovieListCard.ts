@@ -1,4 +1,4 @@
-import Component from '../Component/Component';
+import Component from '../common/Component/Component';
 
 import { FilledStar } from '../../assets';
 import { createElement } from '../../utils/dom/createElement/createElement';

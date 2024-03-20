@@ -1,4 +1,4 @@
-import Component from '../Component/Component';
+import Component from '../common/Component/Component';
 import MovieListCard from '../MovieListCard/MovieListCard';
 import { createElement } from '../../utils/dom/createElement/createElement';
 import { MovieListCardProps } from '../MovieListCard/MovieListCard.type';
