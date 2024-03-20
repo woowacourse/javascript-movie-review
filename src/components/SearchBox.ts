@@ -2,6 +2,7 @@
 import apiClient from "../model/APIClient";
 import dataStateStore from "../model/DataStateStore";
 import createElementWithAttribute from "../utils/createElementWithAttribute";
+import debouceFunc from "../utils/debouneFunc";
 import preventXSS from "../utils/preventXSS";
 
 import ItemView from "./ItemView";
@@ -28,7 +29,7 @@ const handleInputKeydown = (event: KeyboardEvent) => {
   if (!(target instanceof HTMLInputElement)) return;
 
   if (keyCode === 13) {
-    searchMovie();
+    debouceFunc(() => searchMovie());
   }
 };
 
@@ -53,7 +54,7 @@ const Button = () => {
   $button.textContent = "검색";
   $button.addEventListener("click", (event) => {
     event.stopPropagation();
-    searchMovie();
+    debouceFunc(() => searchMovie());
   });
 
   return $button;

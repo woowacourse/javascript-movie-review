@@ -47,6 +47,10 @@ const handleClickMoreButton = async (event: Event, listType: ListType) => {
 
   addItemsToMovieList(movieList);
   changeMoreButtonState(event, isShowMoreButton);
+
+  window.scrollTo(0, previousScrollPosition);
+};
+
 };
 
 const MoreButton = (listType: ListType) => {
