@@ -5,25 +5,41 @@ export default class MovieCard {
 
   #movie;
 
-  constructor(movie: Movie) {
-    this.#movie = movie;
-
-    this.#generateMovieItem();
+  constructor(movie?: Movie) {
+    if (movie) {
+      this.#movie = movie;
+      this.#generateMovieItem(this.#movie);
+    } else {
+      this.#generateSkeletonMovieItem();
+    }
   }
 
   /* eslint-disable max-lines-per-function */
-  #generateMovieItem() {
+  #generateMovieItem(movie: Movie) {
     const element = ` <a href="#">
        <div class="item-card">
          <img
            class="item-thumbnail"
-           src="https:image.tmdb.org/t/p/w220_and_h330_face${this.#movie.poster_path}"
+           src="https:image.tmdb.org/t/p/w220_and_h330_face${movie.poster_path}"
            loading="lazy"
-           alt="${this.#movie.title}"
+           alt="${movie.title}"
          />
-         <p class="item-title">${this.#movie.title}</p>
-         <p class="item-score">${this.#movie.vote_average}<img src="./images/star_filled.png" alt="별점" /></p>
+         <p class="item-title">${movie.title}</p>
+         <p class="item-score">${movie.vote_average}<img src="./images/star_filled.png" alt="별점" /></p>
        </div>
+     </a>`;
+
+    this.#liElement.innerHTML = element;
+  }
+
+  #generateSkeletonMovieItem() {
+    const element = /* html */ ` 
+    <a href="#">
+      <div class="item-card">
+        <div class="item-thumbnail skeleton"></div>
+        <div class="item-title skeleton"></div>
+        <div class="item-score skeleton"></div>
+      </div>
      </a>`;
 
     this.#liElement.innerHTML = element;

@@ -28,6 +28,10 @@ class MovieStore {
 
     this.#pushNewData(data);
 
+    // Skeleton UI 확인을 위한 강제 delay
+    const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    await delay(2000);
     return data;
   }
 
