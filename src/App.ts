@@ -1,17 +1,32 @@
+import { Movie } from './index.d';
 import MoreButton from './components/MoreButton';
 import MovieCard from './components/MovieCard';
-import mockingData from './mock/mockingData';
+import movieStore from './store/MovieStore';
 
 export default class App {
-  run() {
+  #movieStore;
+
+  constructor() {
+    this.#movieStore = movieStore;
+  }
+
+  async run() {
+    this.#generateMovieList();
+    this.#generateMoreButton();
+  }
+
+  async #generateMovieList() {
     const ulElement = document.querySelector('ul.item-list');
 
-    mockingData.forEach((movieData) => {
-      const card = new MovieCard(movieData);
+    await movieStore.getMovies();
+    this.#movieStore.movies.forEach((data: Movie) => {
+      const card = new MovieCard(data);
 
       ulElement?.appendChild(card.element);
     });
+  }
 
+  #generateMoreButton() {
     const itemView = document.querySelector('section.item-view');
 
     const moreBtn = new MoreButton();

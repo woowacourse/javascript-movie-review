@@ -1,4 +1,4 @@
-import { Movie } from '../mock/mockingData';
+import { Movie } from '../index.d';
 
 export default class MovieCard {
   #liElement = document.createElement('li');
