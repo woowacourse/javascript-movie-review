@@ -5,6 +5,7 @@ import { fetchPopularMovie, fetchTargetMovie } from "../../apis/fetchMovie";
 
 import createButton from "../Button/createButton";
 import createElement from "../../utils/createElement";
+import createSkeletonMoviePoster from "../MoviePoster/createSkeletonMoviePoster";
 
 type MoviePosterType = "popular" | "search";
 
@@ -52,16 +53,28 @@ class MoviePosterBoard {
     return seeMoreButton;
   }
 
-  #showSkeletonPosters() {}
+  #addSkeletonPosters() {
+    this.#ul.append(...this.#createSkeletons());
+  }
+
+  #deleteLast20Posters() {
+    Array.from({ length: 20 }).forEach(() => this.#ul.lastChild?.remove());
+  }
+
+  #createSkeletons() {
+    return Array.from({ length: 20 }).map(createSkeletonMoviePoster);
+  }
 
   #getSeeMoreButtonClickEvent(posterType: MoviePosterType, movieName?: string) {
     return async (event: Event) => {
+      this.#addSkeletonPosters();
       const fetchFunc =
         posterType === "popular" ? fetchPopularMovie : fetchTargetMovie;
       const TMDBResponse = await fetchFunc(this.page, movieName as string);
       if (!TMDBResponse) {
         throw new Error("에러발생");
       }
+      this.#deleteLast20Posters();
 
       if (this.page === TMDBResponse?.total_pages)
         this.#seeMoreButton.classList.add("display-none");

@@ -17,3 +17,5 @@ const createSkeletonMoviePoster = () => {
 
   return li;
 };
+
+export default createSkeletonMoviePoster;
