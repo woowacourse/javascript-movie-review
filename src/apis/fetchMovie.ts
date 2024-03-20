@@ -11,7 +11,7 @@ const options = {
 const isValidPage = (page: number) =>
   Number.isInteger(page) && 1 <= page && page <= 500;
 
-export const fetchFavoriteMovie = async (
+export const fetchPopularMovie = async (
   page: number
 ): Promise<TMDBResponse | null> => {
   if (!isValidPage(page)) return null;
@@ -25,8 +25,8 @@ export const fetchFavoriteMovie = async (
 };
 
 export const fetchTargetMovie = async (
-  movieName: string,
-  page: number
+  page: number,
+  movieName: string
 ): Promise<TMDBResponse | null> => {
   if (!isValidPage(page)) return null;
 
