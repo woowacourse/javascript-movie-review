@@ -28,9 +28,11 @@ class MovieListContainer {
     this.page += 1;
 
     const urlSearchParams = new URLSearchParams(window.location.search);
-    const mode = urlSearchParams.get('mode');
-    const title = urlSearchParams.get('title');
-    if (!title || !mode) return;
+    const modeParam = urlSearchParams.get('mode');
+    const titleParam = urlSearchParams.get('title');
+
+    const mode = modeParam ?? 'popular';
+    const title = titleParam ?? '';
 
     const movies = mode === 'search' ? await searchMoviesByTitle(title, this.page) : await getPopularMovies(this.page);
     this.$target.append(...movies.map(movie => new MovieItem(movie).$target));
