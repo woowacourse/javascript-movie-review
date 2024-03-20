@@ -11,11 +11,9 @@ async function fetchWrapper<T>({ url, accessToken }: FetchWrapperProps) {
       Authorization: `Bearer ${accessToken}`,
     },
   });
-
   if (!response.ok) {
     throw new Error(response.status + response.statusText);
   }
-
   return response.json() as T;
 }
 

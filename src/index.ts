@@ -7,4 +7,7 @@ import MovieItems from './components/MovieItems/MovieItems';
 const body = document.querySelector('body');
 
 body?.appendChild(Header.createElements());
-body?.appendChild(MovieItems.createElements());
+const movieItems = new MovieItems();
+body?.appendChild(movieItems.createElements());
+
+movieItems.getPopularMovies().then((movies) => movieItems.createMovieItem(movies));

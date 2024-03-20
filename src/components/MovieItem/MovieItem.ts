@@ -1,6 +1,7 @@
 import './style.css';
 
-import StarFilled from '../imgs/star_filled.png';
+import StarFilled from '../../imgs/star_filled.png';
+import { IMAGE_URL_PREFIX } from '../../constants/url';
 
 interface MovieItemsProps {
   backdrop_path: string;
@@ -10,18 +11,18 @@ interface MovieItemsProps {
 }
 
 const MovieItem = {
-  createElements({ backdrop_path, poster_path, title, vote_average }: MovieItemsProps) {
+  createElements({ poster_path, title, vote_average }: MovieItemsProps) {
     const li = document.createElement('li');
 
     const a = document.createElement('a');
-    a.setAttribute('href', backdrop_path);
+    a.setAttribute('href', '#');
 
     const div = document.createElement('div');
     div.classList.add('item-card');
 
     const img = document.createElement('img');
     img.classList.add('item-thumbnail');
-    img.setAttribute('src', poster_path);
+    img.setAttribute('src', IMAGE_URL_PREFIX + poster_path);
     img.setAttribute('alt', title);
     img.setAttribute('loading', 'lazy');
 
