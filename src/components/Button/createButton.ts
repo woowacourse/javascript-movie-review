@@ -10,6 +10,8 @@ const createButton = (
     content
   );
   if (onClickFunc) button.onclick = onClickFunc;
+
+  return button;
 };
 
 export default createButton;
