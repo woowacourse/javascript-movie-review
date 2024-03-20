@@ -42,6 +42,8 @@ class MovieContainer {
     const newMovieList = createMovieList(movieList);
 
     this.#skeletonList.forEach((skeletonItem, i) => {
+      if (i >= newMovieList.length) return skeletonItem.remove();
+
       this.#movieListContainer.replaceChild(newMovieList[i], skeletonItem);
     });
 
@@ -61,6 +63,10 @@ class MovieContainer {
   async initHandleClickMoreButton() {
     this.pushMoreSkeletonList();
     await this.#handleMoreButton();
+  }
+
+  setTitle(title) {
+    this.#sectionTitle.textContent = title;
   }
 }
 
