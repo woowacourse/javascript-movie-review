@@ -1,4 +1,5 @@
 import Logo from '../../assets/logo.png';
+import './Header.css';
 
 class Header {
   constructor() {

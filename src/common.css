@@ -27,13 +27,16 @@ button {
 .item-view,
 .item-test {
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .item-view {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -46,14 +49,18 @@ button {
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .item-list {
-  display: grid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  row-gap: 48px;
+  column-gap: 160px;
   margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
-  grid-row-gap: 48px;
+  flex-wrap: wrap;
 }
 
 .item-card {
+  width: 180px;
   display: flex;
   flex-direction: column;
 }
@@ -122,43 +129,4 @@ button.primary {
   100% {
     background-position: 0% 50%;
   }
-}
-header {
-  width: 100%;
-  min-width: 1200px;
-  height: 72px;
-  background-color: #222;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-  border-bottom: 1px solid white;
-  margin-bottom: 48px;
-}
-
-header h1 {
-  cursor: pointer;
-  user-select: none;
-  font-size: 2rem;
-  font-weight: bold;
-  letter-spacing: -0.1rem;
-  color: #f33f3f;
-}
-
-header > .search-box {
-  background: #fff;
-  padding: 8px;
-  border-radius: 4px;
-}
-
-header .search-box > input {
-  border: 0;
-}
-
-header .search-box > .search-button {
-  width: 14px;
-  border: 0;
-  text-indent: -1000rem;
-  background: url('./assets/search_button.png') transparent no-repeat 0 1px;
-  background-size: contain;
 }
