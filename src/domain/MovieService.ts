@@ -1,5 +1,3 @@
-import { MovieList } from '../interface/MovieList';
-import { MovieData } from '../interface/MovieData';
 import fetchDataFromUrl from '../util/fetchDataFromUrl';
 import Movie from './Movie';
 
