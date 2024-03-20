@@ -1,7 +1,7 @@
 import { POPULAR_MOVIES_URL, fetchData } from '.';
 import { MovieInfo, ResponseData, ResponseReject } from './api-type';
 
-export const getPopularMovieList = async (page: number): Promise<MovieInfo[] | void> => {
+export const getPopularMovieList = async (page = 1): Promise<MovieInfo[]> => {
   const url = `${POPULAR_MOVIES_URL}?language=ko-KR&page=${page}`;
 
   const response = await fetchData(url);
@@ -9,7 +9,7 @@ export const getPopularMovieList = async (page: number): Promise<MovieInfo[] | v
 
   if ('success' in data) {
     console.error(data.status_message);
-    return;
+    throw new Error(data.status_message);
   }
 
   return data.results;
