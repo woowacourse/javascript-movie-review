@@ -1,55 +1,51 @@
 import EventComponent from "./abstract/EventComponent";
 import QueryState from "../states/QueryState";
-import IMAGES from "../images";
+import { composeMovieItem } from "./templates/composeMovieItem";
+import MoviesState from "../states/MoviesState";
+import { getPopularMovieList } from "../apis/movieList";
 
 interface MovieListProps {
   targetId: string;
   queryState: QueryState;
+  moviesState: MoviesState;
 }
 
 export default class MovieList extends EventComponent {
   private queryState: QueryState;
+  private moviesState: MoviesState;
 
-  constructor({ targetId, queryState }: MovieListProps) {
+  constructor({ targetId, queryState, moviesState }: MovieListProps) {
     super({ targetId });
     this.queryState = queryState;
+    this.moviesState = moviesState;
   }
 
   getTemplate(): string {
+    const movieItemsTemplate = this.generateMovieItemsTemplate();
+
     return `
         <h2>지금 인기 있는 영화</h2>
         <ul class="item-list">
-          <li>
-            <a href="#">
-              <div class="item-card">
-                <img
-                  class="item-thumbnail"
-                  src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                  loading="lazy"
-                  alt="앤트맨과 와스프: 퀀텀매니아"
-                />
-                <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                <p class="item-score"><img src="${IMAGES.starFilled}" alt="별점" /> 6.5</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <div class="item-card">
-                <img
-                  class="item-thumbnail"
-                  src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                  loading="lazy"
-                  alt="앤트맨과 와스프: 퀀텀매니아"
-                />
-                <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                <p class="item-score"><img src="${IMAGES.starFilled}" alt="별점" /><span>6.5</span></p>
-              </div>
-            </a>
-          </li>
+        ${movieItemsTemplate}
         </ul>
         <button class="btn primary full-width">더 보기</button>
     `;
+  }
+
+  async fetchInitialMovies() {
+    const movies = await getPopularMovieList();
+
+    this.moviesState.set(movies);
+  }
+
+  private generateMovieItemsTemplate() {
+    const movies = this.moviesState.get();
+
+    const movieItemsTemplate = movies.reduce((movieListTemplate, movieInfo) => {
+      return movieListTemplate + composeMovieItem(movieInfo);
+    }, "");
+
+    return movieItemsTemplate;
   }
 
   setEvent(): void {}
