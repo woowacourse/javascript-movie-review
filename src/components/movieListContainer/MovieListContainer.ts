@@ -1,14 +1,18 @@
+import { getPopularMovies } from '../../apis/movie';
 import { IMovie } from '../../types/movie';
 import MovieItem from '../movieItem/MovieItem';
 
 class MovieListContainer {
   $target;
+  page = 1;
 
-  constructor(movies: IMovie[]) {
+  constructor() {
     this.$target = document.createElement('ul');
     this.$target.classList.add('item-list');
-
-    this.paint(movies);
+    (async () => {
+      const movies = await getPopularMovies(this.page);
+      this.paint(movies);
+    })();
   }
 
   paint(movies: IMovie[]) {
