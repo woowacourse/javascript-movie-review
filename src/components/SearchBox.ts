@@ -1,3 +1,15 @@
+const handleSearchClick = (event: MouseEvent) => {
+  const input = document.querySelector('.search-box > input');
+  if (!(input instanceof HTMLInputElement)) return;
+
+  event.target?.dispatchEvent(
+    new CustomEvent('search-click', {
+      bubbles: true,
+      detail: input.value,
+    }),
+  );
+};
+
 const SearchBox = () => {
   const searchBox = document.createElement('div');
   const searchInput = document.createElement('input');
@@ -12,6 +24,8 @@ const SearchBox = () => {
 
   searchBox.appendChild(searchInput);
   searchBox.appendChild(searchButton);
+
+  searchButton.addEventListener('click', (event) => handleSearchClick(event));
 
   return searchBox;
 };

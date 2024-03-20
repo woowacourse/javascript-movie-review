@@ -2,15 +2,31 @@ import { MovieInfo } from '../api/api-type';
 import { getPopularMovieList } from '../api/popularMovieList';
 import SkeletonItem from './SkeletonItem';
 import MovieItem from './MovieItem';
+import { getSearchMovieList } from '../api/searchMovieList';
 
 class MovieContainer {
   #page;
+  #query;
 
   constructor(element: HTMLElement) {
     this.#page = 1;
+    this.#query = '';
     this.#getTemplate(element);
     this.#setEvent();
     this.renderMovies();
+  }
+
+  render(query: string) {
+    this.initData(query);
+    this.#query ? this.renderSearchMovies() : this.renderMovies();
+  }
+
+  initData(query: string) {
+    const ul = document.querySelector('ul.item-list');
+    if (!(ul instanceof HTMLElement)) return;
+    this.#page = 1;
+    this.#query = query;
+    ul.innerHTML = '';
   }
 
   #getTemplate(element: HTMLElement) {
@@ -36,13 +52,39 @@ class MovieContainer {
 
   #setEvent() {
     document.querySelector('.btn')?.addEventListener('click', () => {
-      this.renderMovies();
+      this.#query ? this.renderSearchMovies() : this.renderMovies();
     });
   }
 
   async renderMovies() {
     this.#inputSkeleton();
+
     await this.#inputMovies();
+  }
+
+  async renderSearchMovies() {
+    this.#inputSkeleton();
+
+    await this.#inputSearchMovies(this.#query);
+  }
+
+  async #inputSearchMovies(query: string) {
+    const ul = document.querySelector('ul.item-list');
+    if (!(ul instanceof HTMLElement)) return;
+
+    const movieData = await this.#searchMovies(this.#page, query);
+
+    if (movieData && movieData.length < 20) {
+      document.querySelector('.btn')?.remove();
+    }
+
+    if (movieData) {
+      this.#createMovieItems(movieData).forEach((movieItem) => {
+        ul.appendChild(movieItem);
+      });
+      this.#removeSkeleton();
+      this.#page += 1;
+    }
   }
 
   #inputSkeleton() {
@@ -53,13 +95,18 @@ class MovieContainer {
   }
 
   #removeSkeleton() {
-    const skeletonItem = document.querySelector('.skeleton-item');
+    const skeletonItems = document.querySelectorAll('.skeleton-item');
 
-    skeletonItem?.remove();
+    skeletonItems.forEach((item) => item?.remove());
   }
 
   async #getMovies(page: number) {
     const movieData = await getPopularMovieList(page);
+    return movieData;
+  }
+
+  async #searchMovies(page: number, query: string) {
+    const movieData = await getSearchMovieList(query, page);
     return movieData;
   }
 
@@ -73,11 +120,17 @@ class MovieContainer {
 
     const movieData = await this.#getMovies(this.#page);
 
+    if (movieData && movieData.length < 20) {
+      document.querySelector('.btn')?.remove();
+    }
+
     if (movieData) {
       this.#createMovieItems(movieData).forEach((movieItem) => {
         ul.appendChild(movieItem);
-        this.#removeSkeleton();
       });
+
+      this.#removeSkeleton();
+
       this.#page += 1;
     }
   }
