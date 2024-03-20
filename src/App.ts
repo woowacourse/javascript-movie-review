@@ -1,19 +1,33 @@
 import Component from "./common/Component";
-
+import { $ } from "./utils/dom";
 import { createMovie } from "./components/Movie";
-import { createMovieList } from "./components/MoveList";
+import Header from "./components/Header";
+import MovieList from "./components/MoveList";
+import movieClient from "./http/MoveClient";
+import { BASE_URL } from "./constants/movies";
 
-// export default class App extends Component {
-//   render(): string {
-//     return /*html*/ `
-//     ${createHeader()}
-//   <main>
-//     <section class="item-view">
-//       <h2>지금 인기 있는 영화</h2>
-//       ${createMovieList(1)}
-//       <button class="btn primary full-width">더 보기</button>
-//     </section>
-//   </main>
-//         `;
-//   }
-// }
+export default class App extends Component<HTMLDivElement, {}> {
+  protected getTemplate(): string {
+    return /*html*/ `
+      <header></header>
+      <main>
+        <section class="item-view">
+        </section>
+      </main>
+    `;
+  }
+
+  protected createChild(): void {
+    const header = $<HTMLDivElement>("header");
+    const section = $<HTMLDivElement>(".item-view");
+
+    if (section) {
+      const movieList = new MovieList(section);
+      header &&
+        new Header(header, {
+          onLogoClick: movieList.handleResetMovieList.bind(movieList),
+          onSearchKeywordSubmit: movieList.handleSearchMovie.bind(movieList),
+        });
+    }
+  }
+}

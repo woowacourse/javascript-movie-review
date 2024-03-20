@@ -1,9 +1,10 @@
 import { MovieItem } from "../types/movies";
+import { starImage } from "../assets/image";
 
 export const createMovie = ({ id, title, imgPath, voteAverage }: MovieItem) => {
-  return /*html*/ `
-    
-    <li id="${id}">
+  const listItem = document.createElement("li");
+  listItem.innerHTML = /*html*/ `
+  <li id="${id}">
         <a href="#">
         <div class="item-card">
             <img
@@ -14,10 +15,13 @@ export const createMovie = ({ id, title, imgPath, voteAverage }: MovieItem) => {
             />
             <p class="item-title">${title}</p>
             <p class="item-score">
-            <img src="./star_filled.png" alt="별점" /> ${voteAverage}
+            <img src="${starImage}" alt="별점" /> ${voteAverage}
             </p>
         </div>
         </a>
     </li>
-    `;
+  
+  `;
+
+  return listItem;
 };
