@@ -1,3 +1,4 @@
+import { IMovie } from '../../types/movie';
 import MovieItem from '../movieItem/MovieItem';
 
 class MovieListContainer {
@@ -7,25 +8,16 @@ class MovieListContainer {
     this.$target = document.createElement('ul');
     this.$target.classList.add('item-list');
 
-    this.render();
     this.paint(movies);
-  }
-
-  template() {
-    return ``;
-  }
-
-  render() {
-    this.$target.innerHTML = this.template();
   }
 
   paint(movies: IMovie[]) {
     // 검색새로했을때 등
     this.$target.replaceChildren();
-    this.attatch(movies);
+    this.attach(movies);
   }
 
-  attatch(movies: IMovie[]) {
+  attach(movies: IMovie[]) {
     // 더보기 눌렀을때
     this.$target.append(...movies.map(movie => new MovieItem(movie).$target));
   }

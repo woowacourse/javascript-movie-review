@@ -1,3 +1,4 @@
+import { IMovie } from '../../types/movie';
 import { dom } from '../../utils/dom';
 
 class MovieItem {
@@ -34,7 +35,7 @@ class MovieItem {
     $image.setAttribute('src', movie.imageSrc);
     $image.setAttribute('alt', movie.title);
     $title.textContent = movie.title;
-    $score.textContent = movie.toString();
+    $score.textContent = movie.score.toString();
   }
 }
 

@@ -24,16 +24,14 @@ class App {
 
   render() {
     (async () => {
-      const test = await getPopularMovies(1);
-      const movieListContainer = new MovieListContainer(test);
-
+      const movies = await getPopularMovies(1);
+      const movieListContainer = new MovieListContainer(movies);
       const $section = dom.getElement<HTMLElement>(this.$target, '.movie-section');
       $section.appendChild(movieListContainer.$target);
     })();
 
     this.$target.innerHTML = this.template();
     const header = new Header({ imageSrc: './images/logo.png' });
-
     this.$target.prepend(header.$target);
   }
 }

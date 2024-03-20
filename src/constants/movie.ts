@@ -1,6 +1,7 @@
 import { TGenre } from '../types/movie';
 
 type TGenreId = Record<number, TGenre>;
+
 const genre: TGenreId = {
   28: 'Action',
   12: 'Adventure',
