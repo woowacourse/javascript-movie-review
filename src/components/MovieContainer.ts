@@ -13,7 +13,7 @@ class MovieContainer {
     this.#query = '';
     this.#getTemplate(element);
     this.#setEvent();
-    this.renderMovies();
+    this.render(this.#query);
   }
 
   render(query: string) {
@@ -23,7 +23,14 @@ class MovieContainer {
 
   initData(query: string) {
     const ul = document.querySelector('ul.item-list');
+    const subtitle = document.querySelector('.subtitle');
     if (!(ul instanceof HTMLElement)) return;
+    if (!(subtitle instanceof HTMLElement)) return;
+
+    query
+      ? (subtitle.textContent = `"${query}" 검색결과 입니다.`)
+      : (subtitle.textContent = '지금 인기 있는 영화');
+
     this.#page = 1;
     this.#query = query;
     ul.innerHTML = '';
@@ -36,12 +43,12 @@ class MovieContainer {
     const movieList = document.createElement('ul');
     const button = document.createElement('button');
 
+    h2.classList.add('subtitle');
     section.classList.add('item-view');
     movieList.classList.add('item-list');
     button.classList.add('btn', 'primary', 'full-width');
 
     button.textContent = '더 보기';
-    h2.textContent = '지금 인기 있는 영화';
 
     section.appendChild(h2);
     section.appendChild(movieList);
