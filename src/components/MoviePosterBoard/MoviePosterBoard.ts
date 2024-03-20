@@ -43,15 +43,16 @@ class MoviePosterBoard {
 
   #createSeeMoreButton(posterType: MoviePosterType, movieName?: string) {
     const seeMoreButton = createButton("더보기");
-    const seeMoreButtonClickEvent = this.#getSeeMoreButtonClickEvent(
-      posterType,
-      movieName
-    ).bind(this);
 
-    seeMoreButton?.addEventListener("click", seeMoreButtonClickEvent);
+    seeMoreButton?.addEventListener(
+      "click",
+      this.#getSeeMoreButtonClickEvent(posterType, movieName).bind(this)
+    );
 
     return seeMoreButton;
   }
+
+  #showSkeletonPosters() {}
 
   #getSeeMoreButtonClickEvent(posterType: MoviePosterType, movieName?: string) {
     return async (event: Event) => {
