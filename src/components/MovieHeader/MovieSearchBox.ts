@@ -1,39 +1,34 @@
 import generateSearchBox from "../common/generateSearchBox";
 
+export type SearchType = (query: string) => void;
+
 interface MovieSearchBoxProps {
-  search: (query: string) => void;
+  search: SearchType;
 }
 
 class MovieSearchBox {
-  $element;
-  query = "";
-  PLACEHOLDER = "검색";
+  private static PLACEHOLDER = "검색";
 
-  constructor({ search }: MovieSearchBoxProps) {
+  props;
+  $element;
+
+  constructor(props: MovieSearchBoxProps) {
+    this.props = props;
+
     this.$element = generateSearchBox({
-      placeholder: this.PLACEHOLDER,
-      buttonText: this.PLACEHOLDER,
-      onClickHandler: () => {
-        search(this.query);
-      },
-      onChangeHandler: (e: Event) => {
-        if (e.target === null) {
-          return;
-        }
-        if (!(e.target instanceof HTMLInputElement)) {
-          return;
-        }
-        this.query = e.target.value;
-      },
-      onKeyDownHandler: (e: Event) => {
-        if (!(e instanceof KeyboardEvent)) {
-          return;
-        }
-        if (e.key === "Enter") {
-          search(this.query);
-        }
-      },
+      placeholder: MovieSearchBox.PLACEHOLDER,
+      buttonText: MovieSearchBox.PLACEHOLDER,
+      onSubmitHandler: this.searchByQuery,
     });
+  }
+
+  private searchByQuery(e: Event) {
+    e.preventDefault();
+
+    if (e.target instanceof HTMLFormElement) {
+      const query = e.target["query"].value;
+      this.props.search(query);
+    }
   }
 }
 

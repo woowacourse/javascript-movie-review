@@ -2,18 +2,18 @@ import MovieHeader from "./MovieHeader/MovieHeader";
 import getMovieListByQuery from "../domain/getMovieListByQuery";
 
 class App {
-  private currentPage = 1;
+  private static FIRST_PAGE = 1;
+
+  private currentPage = App.FIRST_PAGE;
 
   constructor($root: HTMLElement) {
     $root.append(
-      new MovieHeader({ onSearchButtonClick: this.getSearchMovies.bind(this) })
-        .$element
+      new MovieHeader({ search: this.searchMovies.bind(this) }).$element
     );
   }
 
-  private async getSearchMovies(query: string) {
+  private async searchMovies(query: string) {
     const res = await getMovieListByQuery({ page: this.currentPage, query });
-    console.log(res);
   }
 }
 

@@ -3,41 +3,35 @@ import createElement from "../utils/createElement";
 interface Props {
   placeholder?: string;
   buttonText?: string;
-  onClickHandler: (e: Event) => void;
-  onChangeHandler: (e: Event) => void;
-  onKeyDownHandler: (e: Event) => void;
+  onSubmitHandler: (e: Event) => void;
 }
 
 const generateSearchBox = ({
   placeholder = "",
   buttonText = "",
-  onClickHandler,
-  onChangeHandler,
-  onKeyDownHandler,
+  onSubmitHandler,
 }: Props) => {
   const $input = createElement({
     tagName: "input",
-    attribute: { placeholder, type: "text" },
-    addEventListener: {
-      keydown: onKeyDownHandler,
-      change: onChangeHandler,
-    },
+    attribute: { placeholder, type: "text", name: "query" },
   });
 
   const $button = createElement({
     tagName: "button",
     attribute: { class: "search-button" },
-    addEventListener: { click: onClickHandler },
     children: [buttonText],
   });
 
-  const $div = createElement({
-    tagName: "div",
+  const $form = createElement({
+    tagName: "form",
     attribute: { class: "search-box" },
+    addEventListener: {
+      submit: onSubmitHandler,
+    },
     children: [$input, $button],
   });
 
-  return $div;
+  return $form;
 };
 
 export default generateSearchBox;
