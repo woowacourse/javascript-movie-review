@@ -13,6 +13,6 @@ FE 레벨1 영화관 미션
   - Header
     - [x] 검색창
   - Main
-    - [ ] Movie List
-    - [ ] Movie Item
+    - [x] Movie List
+    - [x] Movie Item
     - [ ] 더보기 버튼
