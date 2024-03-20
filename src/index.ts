@@ -22,5 +22,5 @@ document.addEventListener('GetMatchedMovies', (event) => {
   const { query } = event.detail;
 
   movieItems.resetMovieItems(query);
-  movieItems.showMore(query);
+  movieItems.showMore();
 });

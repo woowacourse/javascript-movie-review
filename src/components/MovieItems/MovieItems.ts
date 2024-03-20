@@ -15,6 +15,8 @@ class MovieItems {
 
   private template: HTMLElement;
 
+  private searchQuery?: string;
+
   constructor() {
     this.template = this.createFallback();
     this.currentPage = 0;
@@ -71,7 +73,6 @@ class MovieItems {
   async getMatchedMovies(query: string) {
     const movies = await MatchedMovies.list({ page: this.currentPage, query });
     this.checkLastPage(movies.total_pages);
-    console.log(movies);
     return movies.results;
   }
 
@@ -83,9 +84,14 @@ class MovieItems {
   }
 
   resetMovieItems(query?: string) {
+    this.searchQuery = query;
     const h2 = this.template?.querySelector('h2');
     if (!(h2 instanceof HTMLElement)) return;
     h2.textContent = `"${query}"검색 결과` ?? '지금 인기있는 영화';
+    this.removeMovieItems();
+  }
+
+  removeMovieItems() {
     const ul = this.template?.querySelector('ul');
     if (!(ul instanceof HTMLElement)) return;
     ul.innerHTML = '';
@@ -103,12 +109,12 @@ class MovieItems {
     this.template?.querySelector('ul')?.appendChild(fragment);
   }
 
-  showMore(query?: string) {
+  showMore() {
     this.currentPage += 1;
-    if (typeof query === 'undefined') {
+    if (this.searchQuery === undefined) {
       this.getPopularMovies().then((movies) => this.createMovieItem(movies));
     } else {
-      this.getMatchedMovies(query).then((movies) => this.createMovieItem(movies));
+      this.getMatchedMovies(this.searchQuery).then((movies) => this.createMovieItem(movies));
     }
   }
 }
