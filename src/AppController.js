@@ -1,92 +1,101 @@
 import { createHeader } from "./components/header/header";
-import { createMovieCard } from "./components/movieCard/movieCard";
+import { showSkeleton, updateCard } from "./components/movieCard/movieCard";
+import { MovieListWrapper } from "./components/movieListWrapper/MovieListWrapper";
 import { LAST_PAGE } from "./constants/constant";
 
-async function fetchPopularMovieList(pageNumber) {
-  const API_KEY = process.env.API_KEY;
-  const BASE_URL = 'https://api.themoviedb.org/3';
-  const POPULAR_MOVIES_URL = `${BASE_URL}/movie/popular`;
+export async function fetchPopularMovieList(pageNumber) {
+  const liList = loadMovieList();
 
-  const popularMovieUrl =
-    POPULAR_MOVIES_URL +
-    '?' +
-    new URLSearchParams({
-      api_key: process.env.API_KEY,
-      language: 'ko-KR',
-      page: pageNumber.toString(),
-    });
-  const response = await fetch(popularMovieUrl);
-  const popularMovies = await response.json();
+  try {
+    const API_KEY = process.env.API_KEY;
+    const BASE_URL = 'https://api.themoviedb.org/3';
+    const POPULAR_MOVIES_URL = `${BASE_URL}/movie/popular`;
+  
+    const popularMovieUrl =
+      POPULAR_MOVIES_URL +
+      '?' +
+      new URLSearchParams({
+        api_key: API_KEY,
+        language: 'ko-KR',
+        page: pageNumber.toString(),
+      });
 
-  return popularMovies;
+    const response = await fetch(popularMovieUrl);
+    const popularMovies = await response.json();
+
+    completeMovieList(liList, popularMovies.results);
+
+    return popularMovies.total_pages;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
 }
 
-async function fetchSearchMovieList(inputValue, pageNumber) {
-  const API_KEY = process.env.API_KEY;
-  const BASE_URL = 'https://api.themoviedb.org/3';
-  const MOVIE_SEARCH_URL = `${BASE_URL}/search/movie`;
 
-  const popularMovieUrl =
+export async function fetchSearchMovieList(inputValue, pageNumber) {
+  const liList = loadMovieList();
+
+  try {
+    const API_KEY = process.env.API_KEY;
+    const BASE_URL = 'https://api.themoviedb.org/3';
+    const MOVIE_SEARCH_URL = `${BASE_URL}/search/movie`;
+  
+    const searchMovieUrl =
     MOVIE_SEARCH_URL +
     '?' +
     new URLSearchParams({
       query: inputValue,
-      api_key: process.env.API_KEY,
+      api_key: API_KEY,
       language: 'ko-KR',
       page: pageNumber.toString(),
     });
-  const response = await fetch(popularMovieUrl);
-  const popularMovies = await response.json();
 
-  return popularMovies;
+    const response = await fetch(searchMovieUrl);
+    const searchMovies = await response.json();
+    console.log(searchMovies)
+
+    completeMovieList(liList, searchMovies.results);
+
+    return searchMovies.total_pages;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+
+function loadMovieList(){
+  const itemList = document.querySelector('.item-list');
+  const liList = Array.from({length: 20}, () => showSkeleton())
+  itemList.append(...liList);
+  return liList;
+}
+
+function completeMovieList(liList, movies){
+  movies.forEach((movie, index) => {
+    updateCard(liList[index], movie);
+  })
 }
 
 class AppController {
   #currentPage;
 
   constructor() {
-    this.#currentPage = 1;
+    this.#currentPage = new MovieListWrapper('지금 인기 있는 영화', 'popular');
+    
+
   }
-  
   
   async start() {
     const app = document.querySelector('#app');
 
     const itemList = document.querySelector('.item-list');
     
-    const header = createHeader(async(event, inputValue) => {
-      const movieList = await fetchSearchMovieList(inputValue, 1);
-      console.log(inputValue, movieList)
+    const header = createHeader((inputValue) => {
       itemList.replaceChildren();
-      
-      this.updateMovieList(itemList, movieList.results);
-
+      this.#currentPage = new MovieListWrapper(`"${inputValue} 검색 결과`, 'search', inputValue)
+      this.#currentPage.create();
     });
     app.prepend(header);
-
-
-    const movieList = await fetchPopularMovieList(this.#currentPage);
-    this.updateMovieList(itemList, movieList.results);
-
-    const addButton = document.querySelector('.btn.primary.full-width');
-
-    addButton.addEventListener('click', async () => {
-      this.#currentPage += 1;
-      const movieList = await fetchPopularMovieList(this.#currentPage);
-      if(LAST_PAGE === this.#currentPage){
-        const button = document.querySelector('.item-view > button');
-        button.classList.add('none');     
-      }
-      this.updateMovieList(itemList, movieList.results);
-    });
-  }
-
-  updateMovieList(itemList = {}, result = []){
-    result.forEach((movie) => {
-      const movieCard = createMovieCard({movie});
-      itemList.appendChild(movieCard);
-
-    })
+    this.#currentPage.create();
   }
 };
 
