@@ -26,7 +26,7 @@ export class App {
 
   async init() {
     createHeader();
-    $('.search-button').addEventListener('clickSearchButton', () => this.makeSearchPage());
+    $('form.search-box').addEventListener('clickSearchButton', () => this.makeSearchPage());
     await this.addMovieList();
   }
 
@@ -54,7 +54,7 @@ export class App {
   }
 
   setSearchKeyword() {
-    this.#searchKeyword = $('div.search-box > input').value;
+    this.#searchKeyword = $('form.search-box > input').value;
   }
 
   makeSearchPage() {

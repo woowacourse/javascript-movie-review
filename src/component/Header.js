@@ -7,8 +7,9 @@ function createHeader() {
   const header = renderHeader();
   $('#app').prepend(header);
 
-  header.querySelector('.search-button').addEventListener('click', (event) => {
-    event.currentTarget.dispatchEvent(SearchButtonClickEvent);
+  header.querySelector('form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    event.target.dispatchEvent(SearchButtonClickEvent);
   });
 }
 
@@ -28,7 +29,7 @@ function renderHeader() {
 }
 
 function renderSearchBox() {
-  const searchBox = document.createElement('div');
+  const searchBox = document.createElement('form');
 
   const input = document.createElement('input');
   input.placeholder = '검색';
@@ -36,6 +37,7 @@ function renderSearchBox() {
 
   const searchButton = document.createElement('button');
   searchButton.classList.add('search-button');
+  searchButton.type = 'submit';
   searchButton.innerText = '검색';
 
   searchBox.append(input, searchButton);
