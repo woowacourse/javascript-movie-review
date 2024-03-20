@@ -1,4 +1,6 @@
+import './style.css';
 import { MovieType } from '../../types/movie';
+import { STAR_FILLED } from '../../images';
 
 // eslint-disable-next-line max-lines-per-function
 const createMovieItem = (movie: MovieType) => {
@@ -9,12 +11,14 @@ const createMovieItem = (movie: MovieType) => {
       <div class="item-card">
         <img
           class="item-thumbnail"
-          src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
+          src="https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}"
           loading="lazy"
-          alt="앤트맨과 와스프: 퀀텀매니아"
+          alt="${movie.title}"
         />
-        <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-        <p class="item-score"><img src="./star_filled.png" alt="별점" /> 6.5</p>
+        <p class="item-title">${movie.title}</p>
+        <p class="item-score">${movie.vote_average.toFixed(
+          1,
+        )}<img src=${STAR_FILLED} alt="별점" /></p>
       </div>
     </a>
     `;
