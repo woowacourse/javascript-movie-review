@@ -38,6 +38,11 @@ export interface IMovieResponse {
   vote_count: number;
 }
 
+export interface ISearchResult {
+  movies: IMovie[];
+  totalPages: number;
+}
+
 export interface IMovie {
   id: number;
   title: string;

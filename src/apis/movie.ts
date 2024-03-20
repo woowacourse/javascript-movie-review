@@ -1,10 +1,10 @@
 import { genre } from '../constants/movie';
-import { IMovie, IMovieResponse } from '../types/movie';
+import { IMovie, IMovieResponse, ISearchResult } from '../types/movie';
 
 const BASE_URL = 'https://api.themoviedb.org';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p';
 
-export const getPopularMovies = async (page: number): Promise<IMovie[]> => {
+export const getPopularMovies = async (page: number): Promise<ISearchResult> => {
   const response = await fetch(BASE_URL + `/3/movie/popular?language=ko-KR&page=${page}`, {
     method: 'GET',
     headers: {
@@ -12,12 +12,12 @@ export const getPopularMovies = async (page: number): Promise<IMovie[]> => {
       accept: 'application/json',
     },
   });
-  const { results } = await response.json();
+  const { results, total_pages } = await response.json();
 
-  return results.map(parseMovieResponse);
+  return { movies: results.map(parseMovieResponse), totalPages: total_pages };
 };
 
-export const searchMoviesByTitle = async (title: string, page: number): Promise<IMovie[]> => {
+export const searchMoviesByTitle = async (title: string, page: number): Promise<ISearchResult> => {
   const response = await fetch(
     BASE_URL + `/3/search/movie?query=${title}&include_adult=false&language=en-US&page=${page}`,
     {
@@ -29,9 +29,9 @@ export const searchMoviesByTitle = async (title: string, page: number): Promise<
     },
   );
 
-  const { results } = await response.json();
+  const { results, total_pages } = await response.json();
 
-  return results.map(parseMovieResponse);
+  return { movies: results.map(parseMovieResponse), totalPages: total_pages };
 };
 
 const parseMovieResponse = (movieResponse: IMovieResponse): IMovie => {

@@ -173,3 +173,7 @@ header .search-box>.search-button {
   border: 0;
   background: url('./src/assets/images/search_button.png') transparent no-repeat 0 1px;
 }
+
+.hidden {
+  display: none;
+}
