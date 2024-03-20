@@ -1,4 +1,5 @@
 import { getPopularMovies } from '../../apis/movie';
+import { IMovie } from '../../types/movie';
 import MovieItem from '../movieItem/MovieItem';
 
 class MovieListContainer {
@@ -9,18 +10,21 @@ class MovieListContainer {
     this.$target = document.createElement('ul');
     this.$target.classList.add('item-list');
     (async () => {
-      await this.paint();
+      this.page += 1;
+      const movies = await getPopularMovies(this.page);
+      await this.paint(movies);
     })();
   }
 
-  async paint() {
-    // 검색 새로했을 때
+  // 맨 처음 생성할 때 -> 생성자에서 호출
+  // 검색했을 때 -> 검색어에 해당하는 데이터로 새로 그리기
+  async paint(movies: IMovie[]) {
     this.$target.replaceChildren();
-    await this.attach();
+    this.$target.append(...movies.map(movie => new MovieItem(movie).$target));
   }
 
+  // 더보기 눌렀을 때
   async attach() {
-    // 더보기 눌렀을 때
     this.page += 1;
     const movies = await getPopularMovies(this.page);
     this.$target.append(...movies.map(movie => new MovieItem(movie).$target));
