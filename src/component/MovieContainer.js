@@ -53,7 +53,7 @@ class MovieContainer {
   }
 
   toggleMoreButtonVisibility(hasNextPage) {
-    this.#moreButton.style.display = hasNextPage ? 'visible' : 'hidden';
+    this.#moreButton.style.visibility = hasNextPage ? 'visible' : 'hidden';
   }
 
   clearMovieList() {
