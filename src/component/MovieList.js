@@ -2,7 +2,7 @@ import { createMovieItem, createSkeletonMovieItem } from './MovieItem.js';
 
 const MAX_SINGLE_REQUEST_MOVIE_COUNT = 20;
 
-function createMovieList(movieList) {
+function createSkeletonMovieList(movieList) {
   const list = movieList || new Array(MAX_SINGLE_REQUEST_MOVIE_COUNT).fill();
 
   return list.map((movie) => {
@@ -15,4 +15,4 @@ function createMovieList(movieList) {
   });
 }
 
-export { createMovieList };
+export { createSkeletonMovieList };
