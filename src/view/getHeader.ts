@@ -1,4 +1,5 @@
 import logoImg from '../assets/images/logo.png';
+import { appendChildren } from '../utils/domUtil';
 
 function getLogo() {
   const logo = document.createElement('h1');
@@ -8,25 +9,44 @@ function getLogo() {
   logoImgElement.alt = 'MovieList 로고';
 
   logo.appendChild(logoImgElement);
+
   return logo;
+}
+
+function getSearchBoxInput() {
+  const inputTag = document.createElement('input');
+
+  const state = {
+    type: 'text',
+    placeholder: '검색',
+  };
+
+  Object.assign(inputTag, state);
+
+  return inputTag;
+}
+
+function getSearchBoxButton() {
+  const buttonTag = document.createElement('button');
+
+  const state = {
+    className: 'search-button',
+    innerText: '검색',
+  };
+
+  Object.assign(buttonTag, state);
+
+  return buttonTag;
 }
 
 function getSearchBox() {
   const searchBox = document.createElement('div');
-  const input = document.createElement('input');
-  const button = document.createElement('button');
+  const input = getSearchBoxInput();
+  const button = getSearchBoxButton();
 
   searchBox.classList.add('search-box');
 
-  input.type = 'text';
-  input.placeholder = '검색';
-
-  button.classList.add('search-button');
-  button.innerText = '검색';
-
-  searchBox.appendChild(input);
-  searchBox.appendChild(button);
-
+  appendChildren(searchBox, input, button);
   return searchBox;
 }
 
@@ -35,8 +55,7 @@ function getHeader() {
   const logo = getLogo();
   const searchBox = getSearchBox();
 
-  headerTag.appendChild(logo);
-  headerTag.appendChild(searchBox);
+  appendChildren(headerTag, logo, searchBox);
 
   return headerTag;
 }
