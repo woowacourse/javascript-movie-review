@@ -39,7 +39,23 @@ class MovieContainer {
     this.toggleMoreButtonVisibility();
   }
 
+  createEmptySearchResult() {
+    const emptySearchResult = document.createElement('h3');
+    emptySearchResult.classList.add('empty-search-result');
+    emptySearchResult.textContent = '검색 결과가 없습니다.';
+    return emptySearchResult;
+  }
+
+  setEmptySearchResult(listLength) {
+    if (listLength !== 0) $('h3.empty-search-result')?.remove();
+
+    if (listLength === 0 && !$('h3.empty-search-result'))
+      $('.item-view').insertBefore(this.createEmptySearchResult(), this.#movieListContainer);
+  }
+
   replaceSkeletonListToData({ movieList, hasNextPage }) {
+    this.setEmptySearchResult(movieList.length);
+
     this.#skeletonList.forEach((item, i) => {
       if (i >= movieList.length) return item.remove();
 
