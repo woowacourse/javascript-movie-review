@@ -56,6 +56,7 @@ class App {
         this.movieListContainer.page = 1;
 
         const $input = dom.getElement<HTMLInputElement>(this.$target, '#search-input');
+        if (!$input.value) return;
         const movies = await searchMoviesByTitle($input.value, this.movieListContainer.page);
 
         const $title = dom.getElement(this.$target, 'h2');
