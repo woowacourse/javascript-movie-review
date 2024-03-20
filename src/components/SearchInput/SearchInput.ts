@@ -46,6 +46,9 @@ const SearchInput = () => {
       $searchInput.dispatchEvent(
         new CustomEvent('popular', {
           bubbles: true,
+          detail: {
+            curType: 'search',
+          },
         }),
       );
     }

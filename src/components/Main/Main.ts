@@ -22,6 +22,8 @@ const fetchSearchMovies = async (params: Params) => {
     url: getURL(),
     options: COMMON_OPTIONS,
   });
+
+  const { page } = data;
   const movies = [...data.results].map(
     ({ id, title, vote_average, poster_path }) => ({
       id,
@@ -30,7 +32,7 @@ const fetchSearchMovies = async (params: Params) => {
       poster_path,
     }),
   );
-  return movies;
+  return { movies, page };
 };
 
 const fetchPopularMovies = async (params: Params) => {
@@ -43,6 +45,8 @@ const fetchPopularMovies = async (params: Params) => {
     url: getURL(),
     options: COMMON_OPTIONS,
   });
+
+  const { page } = data;
   const movies = [...data.results].map(
     ({ id, title, vote_average, poster_path }) => ({
       id,
@@ -51,16 +55,33 @@ const fetchPopularMovies = async (params: Params) => {
       poster_path,
     }),
   );
-  return movies;
+  return { movies, page };
 };
 
 const Main = () => {
   document.addEventListener('search', (e) => {
     const { detail } = e as CustomEvent;
+    if (detail.curType !== 'search') movieStore.setPage(1);
 
-    fetchSearchMovies({ query: detail.query })
-      .then((movies) => {
-        movieStore.setMovies(movies, () => renderMovieList('검색결과'));
+    fetchSearchMovies({ query: detail.query, page: movieStore.page })
+      .then(({ movies, page }) => {
+        if (page !== 1) {
+          movieStore.setMovies([...movieStore.movies, ...movies], () =>
+            renderMovieList({
+              title: `\"${detail.query}\" 검색 결과`,
+              type: 'search',
+            }),
+          );
+          movieStore.setPage(page + 1);
+        } else {
+          movieStore.setMovies(movies, () =>
+            renderMovieList({
+              title: `\"${detail.query}\" 검색 결과`,
+              type: 'search',
+            }),
+          );
+          movieStore.setPage(page + 1);
+        }
       })
       .catch(() => {
         const $ul = document.querySelector('.item-view ul') as HTMLElement;
@@ -71,12 +92,29 @@ const Main = () => {
       });
   });
 
-  document.addEventListener('popular', () => {
-    fetchPopularMovies({ page: 1 })
-      .then((movies) => {
-        movieStore.setMovies(movies, () =>
-          renderMovieList('지금 인기있는 영화'),
-        );
+  document.addEventListener('popular', (e) => {
+    const { detail } = e as CustomEvent;
+    if (detail.curType !== 'popular') movieStore.setPage(1);
+
+    fetchPopularMovies({ page: movieStore.page })
+      .then(({ movies, page }) => {
+        if (page !== 1) {
+          movieStore.setMovies([...movieStore.movies, ...movies], () =>
+            renderMovieList({
+              title: '지금 인기있는 영화',
+              type: 'popular',
+            }),
+          );
+          movieStore.setPage(page + 1);
+        } else {
+          movieStore.setMovies(movies, () =>
+            renderMovieList({
+              title: '지금 인기있는 영화',
+              type: 'popular',
+            }),
+          );
+          movieStore.setPage(page + 1);
+        }
       })
       .catch(() => {
         const $ul = document.querySelector('.item-view ul') as HTMLElement;
