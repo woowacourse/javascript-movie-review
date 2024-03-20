@@ -1,3 +1,5 @@
+// import { MovieListType } from '../types/movie';
+
 const httpRequest = {
   async fetchPopularMovies(page: number) {
     const response = await fetch(
@@ -7,7 +9,13 @@ const httpRequest = {
 
     const responseData = await response.json();
     const popularMovieList = responseData.results;
-    return popularMovieList;
+
+    const totalPages = responseData.total_pages;
+
+    const currentPages = responseData.page;
+    const isLastPage = totalPages === currentPages;
+
+    return { popularMovieList, isLastPage };
   },
 
   async fetchSearchedMovies(page: number, input: string) {
@@ -18,7 +26,13 @@ const httpRequest = {
 
     const responseData = await response.json();
     const searchedMovieList = responseData.results;
-    return searchedMovieList;
+
+    const totalPages = responseData.total_pages;
+
+    const currentPages = responseData.page;
+    const isLastPage = totalPages === currentPages;
+
+    return { searchedMovieList, isLastPage };
   },
 };
 

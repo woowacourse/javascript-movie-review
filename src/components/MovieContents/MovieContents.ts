@@ -1,4 +1,5 @@
 import Movie from '../../domain/Movie';
+import { MovieListType } from '../../types/movie';
 import createMovieItems from '../MovieItems/MovieItems';
 import createShowMoreButton from '../ShowMoreButton/ShowMoreButton';
 import './style.css';
@@ -15,20 +16,25 @@ const createMovieContents = {
 
     main.innerHTML = templates;
     const movie = new Movie();
-    const movieItems = await this.setMovieData(movie, type, input);
+    const { movieItems, isLastPage } = await this.setMovieData(movie, type, input);
     const showMoreButton = createShowMoreButton();
-
-    this.setEventListener(showMoreButton, movie, type, input);
     main.querySelector('.item-view')?.appendChild(movieItems);
-    main.querySelector('.item-view')?.appendChild(showMoreButton);
+    if (!isLastPage) {
+      // main.querySelector('.btn')?.remove();
+      main.querySelector('.item-view')?.appendChild(showMoreButton);
+      this.setEventListener(showMoreButton, movie, type, input);
+    } else {
+      main.querySelector('.btn')?.classList.add('button-close');
+    }
     return main;
   },
 
   async setMovieData(movie: Movie, type: string, input?: string) {
-    const movieList = await movie.handleMovieData(type, input);
-
+    const { movieList, isLastPage } = await movie.handleMovieData(type, input);
     const movieItems = createMovieItems(movieList);
-    return movieItems;
+    console.log('==', isLastPage);
+
+    return { movieItems, isLastPage };
   },
 
   setEventListener(showMoreButton: HTMLButtonElement, movie: Movie, type: string, input?: string) {
