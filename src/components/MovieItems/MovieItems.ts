@@ -70,6 +70,9 @@ class MovieItems {
     return movies.results;
   }
 
+  // createSkeleton, removeskeleton, ->> createmovies
+  // createMovie(값 x, className .skeleon) -> 값 o skeleton x
+
   async getMatchedMovies(query: string) {
     const movies = await MatchedMovies.list({ page: this.currentPage, query });
     this.checkLastPage(movies.total_pages);
@@ -93,7 +96,7 @@ class MovieItems {
     this.searchQuery = query;
     const h2 = this.template?.querySelector('h2');
     if (!(h2 instanceof HTMLElement)) return;
-    h2.textContent = `"${query}"검색 결과` ?? '지금 인기있는 영화';
+    h2.textContent = query ? `"${query}"검색 결과` : '지금 인기있는 영화';
     this.removeMovieItems();
   }
 
@@ -105,23 +108,43 @@ class MovieItems {
     this.isLast = false;
   }
 
-  createMovieItem(movies: ResponseMovieItem[]) {
+  createSkeletonMovieItem() {
     const fragment = document.createDocumentFragment();
-    movies.forEach((movie) => {
-      const { backdrop_path, poster_path, title, vote_average } = movie;
-      const item = MovieItem.createElements({ backdrop_path, poster_path, title, vote_average });
-      fragment.appendChild(item);
+    const skeletonItems = Array.from({ length: 20 }).map(() => {
+      const movieItem = new MovieItem();
+      fragment.appendChild(movieItem.getElement());
+      return movieItem;
     });
     this.template?.querySelector('ul')?.appendChild(fragment);
+    return skeletonItems;
+  }
+
+  createMovieItem(movies: ResponseMovieItem[], skeletonItems: MovieItem[]) {
+    movies.forEach((movie, index) => {
+      const { poster_path, title, vote_average } = movie;
+      skeletonItems[index].insertInfo({ poster_path, title, vote_average });
+    });
+    this.removeSkeletonMovieItem();
     this.changeShowMoreButton();
+  }
+
+  removeSkeletonMovieItem() {
+    const skeletons = this.template.querySelectorAll('.li-skeleton');
+    skeletons.forEach((skeleton) => {
+      skeleton.remove();
+    });
   }
 
   showMore() {
     this.currentPage += 1;
+    const skeletonItems = this.createSkeletonMovieItem();
+
     if (this.searchQuery === undefined) {
-      this.getPopularMovies().then((movies) => this.createMovieItem(movies));
+      this.getPopularMovies().then((movies) => this.createMovieItem(movies, skeletonItems));
     } else {
-      this.getMatchedMovies(this.searchQuery).then((movies) => this.createMovieItem(movies));
+      this.getMatchedMovies(this.searchQuery).then((movies) =>
+        this.createMovieItem(movies, skeletonItems),
+      );
     }
   }
 }

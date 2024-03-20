@@ -4,39 +4,40 @@ import StarFilled from '../../imgs/star_filled.png';
 import { IMAGE_URL_PREFIX } from '../../constants/url';
 
 interface MovieItemsProps {
-  backdrop_path: string;
   poster_path: string;
   title: string;
   vote_average: number;
 }
 
-const MovieItem = {
-  createElements({ poster_path, title, vote_average }: MovieItemsProps) {
+class MovieItem {
+  private template: HTMLElement;
+
+  constructor() {
+    this.template = this.createSkeleton();
+  }
+
+  createSkeleton() {
     const li = document.createElement('li');
+    li.classList.add('li-skeleton');
 
     const a = document.createElement('a');
     a.setAttribute('href', '#');
 
     const div = document.createElement('div');
-    div.classList.add('item-card');
+    div.classList.add('item-card', 'skeleton');
 
     const img = document.createElement('img');
-    img.classList.add('item-thumbnail');
-    img.setAttribute('src', IMAGE_URL_PREFIX + poster_path);
-    img.setAttribute('alt', title);
+    img.classList.add('item-thumbnail', 'skeleton');
     img.setAttribute('loading', 'lazy');
 
     const p1 = document.createElement('p');
-    p1.classList.add('item-title');
-    p1.textContent = title;
+    p1.classList.add('item-title', 'skeleton');
 
     const p2 = document.createElement('p');
-    p2.classList.add('item-score');
-    p2.textContent = `${vote_average}`;
+    p2.classList.add('item-score', 'skeleton');
 
     const starImg = document.createElement('img');
-    starImg.setAttribute('src', StarFilled);
-    starImg.setAttribute('alt', '별점');
+    starImg.classList.add('star-icon');
 
     p2.appendChild(starImg);
     div.appendChild(img);
@@ -46,7 +47,26 @@ const MovieItem = {
     li.appendChild(a);
 
     return li;
-  },
-};
+  }
+
+  insertInfo({ poster_path, title, vote_average }: MovieItemsProps) {
+    this.template.classList.remove('li-skeleton');
+    const div = this.template.querySelector('.item-card') as HTMLElement;
+    div.classList.remove('skeleton');
+    const img = this.template.querySelector('.item-thumbnail') as HTMLImageElement;
+    img.setAttribute('src', IMAGE_URL_PREFIX + poster_path);
+    img.setAttribute('alt', title);
+    const p1 = this.template.querySelector('.item-title') as HTMLElement;
+    p1.classList.remove('skeleton');
+    p1.textContent = title;
+    const p2 = this.template.querySelector('.item-score') as HTMLElement;
+    p2.classList.remove('skeleton');
+    p2.innerHTML = `${vote_average} <img src="${StarFilled}" alt="별점" class="star-icon">`;
+  }
+
+  getElement() {
+    return this.template;
+  }
+}
 
 export default MovieItem;

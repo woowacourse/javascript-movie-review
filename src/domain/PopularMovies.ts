@@ -13,6 +13,7 @@ const PopularMovies = {
       url: `${POPULAR_MOVIES}?${params}`,
       accessToken: process.env.ACCESS_TOKEN,
     });
+
     return popularMovies;
   },
 };

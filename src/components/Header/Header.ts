@@ -9,6 +9,7 @@ class Header {
   constructor() {
     this.template = this.createHeader();
     this.createElements();
+    this.setEventlistener();
   }
 
   createHeader() {
@@ -36,7 +37,17 @@ class Header {
     return this.template;
   }
 
-  onLogoClick() {}
+  setEventlistener() {
+    const logo = this.template.querySelector('img');
+    logo?.addEventListener('click', this.dispatchGetPopularMovie);
+  }
+
+  dispatchGetPopularMovie() {
+    const getPopularMoviesEvent = new CustomEvent('GetPopularMovies', {
+      bubbles: true,
+    });
+    document.dispatchEvent(getPopularMoviesEvent);
+  }
 }
 
 export default Header;
