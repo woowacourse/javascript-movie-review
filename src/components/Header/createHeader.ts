@@ -1,16 +1,25 @@
 import "./style.css";
 
 import CUSTOM_EVENT from "../../constants/event";
-import TMDBResponse from "../../types/TMDBResponse";
 import createElement from "../../utils/createElement";
 import createSearchBox from "../SearchBox/createSearchBox";
-import { fetchTargetMovie } from "../../apis/fetchMovie";
 import logo from "./logo.png";
+
+const handleClickLogo = () => {
+  document.dispatchEvent(
+    new CustomEvent(CUSTOM_EVENT.showPopularMovie, {
+      bubbles: true,
+    })
+  );
+};
 
 const createHeader = () => {
   const header = createElement("header");
 
   const h1 = createElement("h1");
+
+  h1.addEventListener("click", handleClickLogo);
+
   const img = createElement("img", {
     src: logo,
     alt: "MovieList 로고",
