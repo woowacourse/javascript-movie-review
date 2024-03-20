@@ -14,7 +14,7 @@ type UrlParamsType = {
   [key: string]: string | number;
 };
 
-interface MovieItemReturnType {
+export interface MovieItemReturnType {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -31,9 +31,9 @@ interface MovieItemReturnType {
   vote_count: number;
 }
 
-interface MovieAPIReturnType {
+export interface MovieAPIReturnType {
   page: number;
-  result: MovieItemReturnType[];
+  results: MovieItemReturnType[];
   total_pages: number;
   total_results: number;
 }
@@ -56,9 +56,9 @@ const APIService = {
     });
 
     const response = await fetch(popularMoviesUrl);
-    const popularMovies = await response.json();
+    const popularMovieResult = await response.json();
 
-    return popularMovies;
+    return popularMovieResult;
   },
 
   async fetchSearchMovies({ query, pageNumber = 1 }: SearchAPIParamsType): Promise<MovieAPIReturnType> {
@@ -68,9 +68,9 @@ const APIService = {
     });
 
     const response = await fetch(searchMoviesUrl);
-    const searchMovies = await response.json();
+    const searchMovieResult = await response.json();
 
-    return searchMovies;
+    return searchMovieResult;
   },
 };
 
