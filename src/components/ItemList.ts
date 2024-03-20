@@ -17,9 +17,7 @@ const ItemList = (movieList: Movie[] | undefined) => {
   if (!movieList || movieList.length === 0) {
     $ul.classList.add("no-item-list");
     $ul.appendChild(NoItem());
-  } else {
-    movieList.map((movie) => $ul.appendChild(ItemCard(movie)));
-  }
+  } else movieList.map((movie) => $ul.appendChild(ItemCard(movie)));
   return $ul;
 };
 export default ItemList;

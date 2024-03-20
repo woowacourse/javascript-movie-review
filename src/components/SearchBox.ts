@@ -1,6 +1,7 @@
 /* eslint-disable max-lines-per-function */
-import apiClient from "../model/APIClient";
+
 import dataStateStore from "../model/DataStateStore";
+import { handleGetSearchMovieData } from "../service/handleSkeletonAndAPI";
 import createElementWithAttribute from "../utils/createElementWithAttribute";
 import debouceFunc from "../utils/debouneFunc";
 import preventXSS from "../utils/preventXSS";
@@ -11,10 +12,10 @@ const searchMovie = async () => {
   const $searchInput = document.querySelector("#search-input");
   if (!($searchInput instanceof HTMLInputElement)) return;
   const title = preventXSS($searchInput.value);
-  await apiClient.getSearchMovieData(true, title);
+  await handleGetSearchMovieData(true, title);
   const $itemView = document.querySelector(".item-view");
   $itemView?.remove();
-  console.log(dataStateStore.movieData.movieList);
+
   ItemView(
     `"${title}" 검색 결과`,
     dataStateStore.movieData.movieList,

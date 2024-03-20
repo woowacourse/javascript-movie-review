@@ -1,6 +1,9 @@
 /* eslint-disable max-lines-per-function */
-import apiClient from "../model/APIClient";
 import dataStateStore from "../model/DataStateStore";
+import {
+  handleGetPopularMovieData,
+  handleGetSearchMovieData,
+} from "../service/handleSkeletonAndAPI";
 import { ListType, Movie } from "../type/movie";
 import createElementWithAttribute from "../utils/createElementWithAttribute";
 import debouceFunc from "../utils/debouneFunc";
@@ -16,7 +19,8 @@ const changeMoreButtonState = (event: Event, isShowMoreButton: boolean) => {
 };
 
 const addItemsToMovieList = (totalMovieList: Movie[]) => {
-  const $itemList = document.querySelector(".item-list");
+  const $itemList = document.querySelector(".item-view .item-list");
+
   if (!$itemList) return;
 
   const $newItemList = ItemList(totalMovieList);
@@ -35,17 +39,17 @@ const getSearchInputValue = () => {
 const getSearchMovieData = async () => {
   const title = getSearchInputValue();
   if (!title) return;
-  await apiClient.getSearchMovieData(false, title);
+  await handleGetSearchMovieData(false, title);
 };
 
 const hanldeMovieData = async (event: Event, listType: ListType) => {
-  const previousScrollPosition = window.scrollY;
-
   if (listType === "popular") {
-    await apiClient.getPopularMovieData(false);
+    await handleGetPopularMovieData();
   } else {
     await getSearchMovieData();
   }
+
+  const previousScrollPosition = window.scrollY;
 
   const { movieList, isShowMoreButton } = dataStateStore.movieData;
   addItemsToMovieList(movieList);

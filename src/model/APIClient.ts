@@ -37,10 +37,8 @@ class APIClient {
     else this.#currentPage += 1;
 
     const data = await this.fetchSearchMovie(title);
-    console.log(data);
 
     const isShowMoreButton = data.page < data.total_pages;
-    console.log(isShowMoreButton);
 
     dataStateStore.getTotalMovieData(
       { movieData: data.results, isShowMoreButton },
