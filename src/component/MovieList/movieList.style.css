@@ -17,12 +17,17 @@
   user-select: none;
 }
 
-/* https://andrew.hedges.name/experiments/aspect_ratio/ */
-
 .item-list {
   display: grid;
   margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
   grid-column-gap: 160px;
   grid-row-gap: 48px;
+}
+
+.max-page-info {
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+  color: white;
 }

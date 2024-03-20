@@ -17,14 +17,7 @@ class MovieReviewApp {
   }
 
   #renderMovieReviewMain() {
-    const mainElement = $("main");
-
     const movieList = new MovieList();
-    movieList.createMovieItems();
-
-    if (mainElement) {
-      mainElement.appendChild(movieList.createMovieList());
-    }
   }
 
   render() {
