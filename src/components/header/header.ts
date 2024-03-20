@@ -32,7 +32,7 @@ function render(inputSubmitHandle: any) {
   if (inputSubmitHandle) {
     searchBox.addEventListener('submit', (event: any) => {
       event.preventDefault();
-      if (searchInput.value.trim() !== '') inputSubmitHandle(event, searchInput.value);
+      if (searchInput.value.trim() !== '') inputSubmitHandle(searchInput.value);
     });
   }
 
