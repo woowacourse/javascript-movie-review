@@ -27,11 +27,12 @@ class UIFeedBackManager {
     }
   }
 
+  /* eslint-disable max-lines-per-function */
+  /* eslint-disable  max-depth */
   async fetchData(url: string, method = 'GET', body = null, headers = {}) {
     try {
       this.api.isLoading = true;
       this.onLoadingChanged(this.api.isLoading);
-
       const data = await this.api.sendRequest(url, method, body, headers);
 
       this.api.isLoading = false;
@@ -48,7 +49,6 @@ class UIFeedBackManager {
 
   resetMovieList(isLoading: boolean) {
     if (!isLoading) {
-      console.log('!isLoading');
       const skeletons = document.querySelectorAll('.skeleton');
       skeletons.forEach((skeleton) => {
         if (skeleton && skeleton.parentNode) skeleton.parentNode.removeChild(skeleton);
@@ -56,18 +56,21 @@ class UIFeedBackManager {
     }
   }
 
+  createSkeleton() {
+    const fragment = document.createDocumentFragment();
+    Array.from({ length: this.SKELETON_LENGTH }, () => {
+      const skeleton = Skeleton();
+      fragment.appendChild(skeleton);
+    });
+
+    return fragment;
+  }
+
   onLoadingChanged(isLoading: boolean) {
     const ul = document.querySelector('ul');
-
     if (isHTMLElement(ul) && isLoading) {
-      console.log('isLoading');
-      const fragment = document.createDocumentFragment();
-      Array.from({ length: this.SKELETON_LENGTH }, () => {
-        const skeleton = Skeleton();
-        fragment.appendChild(skeleton);
-      });
-
-      ul.appendChild(fragment);
+      const skeletonComponent = this.createSkeleton();
+      ul.appendChild(skeletonComponent);
     }
   }
 }
