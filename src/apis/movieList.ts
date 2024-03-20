@@ -1,4 +1,4 @@
-import { Movie, Path } from "../components/templates/composeMovieItem";
+import { Movie, Path } from "../components/templates/composeMovieItems";
 
 const BASE_URL = "https://api.themoviedb.org/3/movie";
 
