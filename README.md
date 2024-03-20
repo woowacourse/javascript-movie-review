@@ -26,12 +26,9 @@
 - 넷플릭스, 왓챠 type할때마다 밑에 있는 리스트가 re-render (더 후순위)
 
 # 예외 사항
-
-- 영화 제목이 2줄을 넘어갈 경우 `...`(text ellipsis)를 적용해 준다.
 - 인기있는 영화 API 요청을 보냈을 때, 잘못된 응답이 온 경우 error screen을 출력한다.
   - status code 별로 error screen을 다르게 출력한다. (후순위)
 - 영화 검색 API 요청을 보냈을 때, 잘못된 응답이 온 경우 error screen을 출력한다.
   - status code 별로 error screen을 다르게 출력한다. (후순위)
 - 검색 inputField 제한
-  - 한국어 영어 숫자만 가능
   - 최대 입력 길이 30자
