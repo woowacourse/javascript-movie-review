@@ -1,7 +1,7 @@
 type ElementTag = keyof HTMLElementTagNameMap;
 
-interface ElementOption<T extends HTMLElement> {
-  [prop: string]: any;
+interface ElementOption<T> {
+  [prop: string]: string;
 }
 
 function createElement<T extends HTMLElement>(tag: ElementTag, props: ElementOption<T> = {}): T {
