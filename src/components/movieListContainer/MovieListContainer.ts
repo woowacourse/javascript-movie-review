@@ -29,11 +29,8 @@ class MovieListContainer {
 
   async fetchMovies() {
     const urlSearchParams = new URLSearchParams(window.location.search);
-    const modeParam = urlSearchParams.get('mode');
-    const titleParam = urlSearchParams.get('title');
-
-    const mode = modeParam ?? 'popular';
-    const title = titleParam ?? '';
+    const mode = urlSearchParams.get('mode') ?? 'popular';
+    const title = urlSearchParams.get('title') ?? '';
 
     const movies = mode === 'search' ? await searchMoviesByTitle(title, this.page) : await getPopularMovies(this.page);
     return movies;

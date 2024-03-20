@@ -30,15 +30,26 @@ class App {
   }
 
   render() {
+    const header = this.#createHeader();
+
     const $title = dom.getElement(this.$target, 'h2');
     const urlSearchParams = new URLSearchParams(window.location.search);
-    const titleParam = urlSearchParams.get('title');
-
-    const title = titleParam ?? '';
+    const title = urlSearchParams.get('title') ?? '';
 
     $title.textContent = title ? `"${title}" 검색 결과` : '지금 인기 있는 영화';
+    const slotMovieList = dom.getElement(this.$target, '.slot-movie-list');
 
-    const header = new Header({
+    slotMovieList.replaceWith(this.movieListContainer.$target);
+    this.$target.prepend(header.$target);
+  }
+
+  setEvent() {
+    const $moreButton = dom.getElement<HTMLButtonElement>(this.$target, '#more-button');
+    $moreButton.addEventListener('click', this.handleClickMoreMovies.bind(this));
+  }
+
+  #createHeader() {
+    return new Header({
       imageSrc: './images/logo.png',
       onSubmit: async (e: SubmitEvent) => {
         e.preventDefault();
@@ -54,16 +65,6 @@ class App {
         history.pushState('', '', `?mode=search&title=${$input.value}`);
       },
     });
-
-    const slotMovieList = dom.getElement(this.$target, '.slot-movie-list');
-
-    slotMovieList.replaceWith(this.movieListContainer.$target);
-    this.$target.prepend(header.$target);
-  }
-
-  setEvent() {
-    const $moreButton = dom.getElement<HTMLButtonElement>(this.$target, '#more-button');
-    $moreButton.addEventListener('click', this.handleClickMoreMovies.bind(this));
   }
 
   handleClickMoreMovies() {
