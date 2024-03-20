@@ -37,3 +37,12 @@ export interface IMovieResponse {
   vote_average: number;
   vote_count: number;
 }
+
+export interface IMovie {
+  id: number;
+  title: string;
+  imageSrc: string;
+  score: number;
+  genre: TGenre[];
+  description: string;
+}
