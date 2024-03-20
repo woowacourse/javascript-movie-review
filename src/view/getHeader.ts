@@ -1,14 +1,48 @@
 import logoImg from '../assets/images/logo.png';
 
+interface ILogoParams {
+  imageFile: string;
+  imageAlt: string;
+}
+
+function getLogo({ imageFile, imageAlt }: ILogoParams) {
+  const logo = document.createElement('h1');
+  const logoImgElement = document.createElement('img');
+
+  logoImgElement.src = imageFile;
+  logoImgElement.alt = imageAlt;
+
+  logo.appendChild(logoImgElement);
+  return logo;
+}
+
+function getSearchBox() {
+  const searchBox = document.createElement('div');
+  const input = document.createElement('input');
+  const button = document.createElement('button');
+
+  searchBox.classList.add('search-box');
+
+  input.type = 'text';
+  input.placeholder = '검색';
+
+  button.classList.add('search-button');
+  button.innerText = '검색';
+
+  searchBox.appendChild(input);
+  searchBox.appendChild(button);
+
+  return searchBox;
+}
+
 function getHeader() {
   const headerTag = document.createElement('header');
-  headerTag.innerHTML = `
-    <h1><img src=${logoImg} alt="MovieList 로고" /></h1>
-    <div class="search-box">
-      <input type="text" placeholder="검색" />
-      <button class="search-button">검색</button>
-    </div>
-  `;
+  const logo = getLogo({ imageFile: logoImg, imageAlt: 'MovieList 로고' });
+  const searchBox = getSearchBox();
+
+  headerTag.appendChild(logo);
+  headerTag.appendChild(searchBox);
+
   return headerTag;
 }
 

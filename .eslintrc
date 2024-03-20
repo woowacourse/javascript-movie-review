@@ -1,7 +1,8 @@
 {
   "rules": {
     "max-depth": ["warn", 1],
-    "max-params": ["warn", 3]
+    "max-params": ["warn", 3],
+    "linebreak-style": "off"
   },
   "overrides": [
     {
@@ -11,10 +12,13 @@
   ],
   "env": {
     "es6": true,
-    "node": true
+    "node": true,
+    "browser": true
   },
   "parserOptions": {
     "ecmaVersion": "latest"
   },
-  "extends": ["prettier/recommend", "airbnb-base"]
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": ["prettier", "airbnb-base"]
 }

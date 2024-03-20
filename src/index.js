@@ -1,8 +1,8 @@
 import '../templates/reset.css';
 import '../templates/common.css';
 
-import getHeader from './view/getHeader';
-import getMain from './view/getMain';
+import getHeader from './view/getHeader.ts';
+import getMain from './view/getMain.ts';
 
 function renderHeader() {
   const header = getHeader();
