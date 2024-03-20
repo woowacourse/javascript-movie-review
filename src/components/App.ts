@@ -1,3 +1,4 @@
+import { searchMoviesByTitle } from '../apis/movie';
 import { dom } from '../utils/dom';
 import Header from './header/Header';
 import MovieListContainer from './movieListContainer/MovieListContainer';
@@ -29,7 +30,16 @@ class App {
   }
 
   render() {
-    const header = new Header({ imageSrc: './images/logo.png' });
+    const header = new Header({
+      imageSrc: './images/logo.png',
+      onSubmit: async (e: SubmitEvent) => {
+        e.preventDefault();
+        this.movieListContainer.page = 1;
+        const $input = dom.getElement<HTMLInputElement>(this.$target, '#search-input');
+        const movies = await searchMoviesByTitle($input.value, this.movieListContainer.page);
+        this.movieListContainer.paint(movies);
+      },
+    });
     const slotMovieList = dom.getElement(this.$target, '.slot-movie-list');
 
     slotMovieList.replaceWith(this.movieListContainer.$target);
