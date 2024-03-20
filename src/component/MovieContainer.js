@@ -1,6 +1,7 @@
 import { $ } from '../util/selector.js';
 import createButton from './Button.js';
-import { createMovieList } from './MovieList.js';
+import { injectMovieDataToItem } from './MovieItem.js';
+import { createSkeletonMovieList } from './MovieList.js';
 
 class MovieContainer {
   #movieListContainer;
@@ -27,7 +28,7 @@ class MovieContainer {
   }
 
   pushMoreSkeletonList() {
-    const skeletonMovieList = createMovieList();
+    const skeletonMovieList = createSkeletonMovieList();
 
     skeletonMovieList.forEach((skeletonMovie) => {
       this.#movieListContainer.appendChild(skeletonMovie);
@@ -39,12 +40,10 @@ class MovieContainer {
   }
 
   replaceSkeletonListToData({ movieList, hasNextPage }) {
-    const newMovieList = createMovieList(movieList);
+    this.#skeletonList.forEach((item, i) => {
+      if (i >= movieList.length) return item.remove();
 
-    this.#skeletonList.forEach((skeletonItem, i) => {
-      if (i >= newMovieList.length) return skeletonItem.remove();
-
-      this.#movieListContainer.replaceChild(newMovieList[i], skeletonItem);
+      injectMovieDataToItem({ item, movie: movieList[i].data });
     });
 
     this.toggleMoreButtonVisibility(hasNextPage);
