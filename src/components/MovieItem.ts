@@ -26,7 +26,7 @@ const MovieItem = ({ title, poster_path, vote_average }: MovieInfo) => {
   scoreImg.alt = '별점';
 
   itemScore.appendChild(scoreImg);
-  itemScore.textContent = vote_average.toFixed(1);
+  scoreImg.insertAdjacentText('afterend', vote_average.toFixed(1));
 
   itemCard.appendChild(thumbnail);
   itemCard.appendChild(movieTitle);
