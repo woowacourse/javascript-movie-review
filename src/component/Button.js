@@ -1,17 +1,9 @@
-function createButtonElement({ type, id, size, variant, textContent }) {
+function createButton({ type, size, variant, name }) {
   const button = document.createElement('button');
-  button.type = type;
-  button.id = id;
   button.classList.add('btn', size, variant);
-  button.textContent = textContent;
-  return button;
-}
+  button.textContent = name;
+  button.type = type;
 
-function createButton(options, eventType) {
-  const button = createButtonElement(options);
-  if (eventType) {
-    button.addEventListener(eventType.type, eventType.callbackFunction);
-  }
   return button;
 }
 
