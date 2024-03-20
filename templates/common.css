@@ -52,7 +52,13 @@ button {
   grid-column-gap: 160px;
   grid-row-gap: 48px;
 }
-
+.item-list.no-item-list {
+  display: block;
+  li {
+    font-size: 24px;
+    text-align: center;
+  }
+}
 .item-card {
   display: flex;
   flex-direction: column;
@@ -170,4 +176,10 @@ header .search-box > .search-button {
   text-indent: -1000rem;
   background: url("./search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+#no-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
