@@ -1,24 +1,61 @@
 import { MovieInfo } from '../api/api-type';
 import { getPopularMovieList } from '../api/popularMovieList';
+import SkeletonItem from './\bSkeletonItem';
 import MovieItem from './MovieItem';
 
 class MovieContainer {
   #page;
 
-  constructor() {
+  constructor(element: HTMLElement) {
     this.#page = 1;
+    this.#getTemplate(element);
+    this.renderMovies();
   }
 
-  async getMovies(page: number) {
+  async renderMovies() {
+    this.#inputSkeleton();
+    await this.#inputMovies();
+  }
+
+  async #getMovies(page: number) {
     const movieData = await getPopularMovieList(page);
     return movieData;
   }
 
-  createMovieItems(data: MovieInfo[]): HTMLElement[] {
+  #createMovieItems(data: MovieInfo[]): HTMLElement[] {
     return data.map((prop) => MovieItem(prop));
   }
 
-  async getTemplate() {
+  async #inputMovies() {
+    const ul = document.querySelector('ul.item-list');
+    if (!(ul instanceof HTMLElement)) return;
+
+    const movieData = await this.#getMovies(this.#page);
+
+    if (movieData) {
+      this.#createMovieItems(movieData).forEach((movieItem) => {
+        ul.appendChild(movieItem);
+        this.#removeSkeleton();
+      });
+    }
+  }
+
+  #inputSkeleton() {
+    const ul = document.querySelector('.item-list');
+    if (!(ul instanceof HTMLElement)) return;
+
+    Array.from({ length: 20 }).forEach(() =>
+      ul.insertAdjacentElement('afterbegin', SkeletonItem()),
+    );
+  }
+
+  #removeSkeleton() {
+    const skeletonItem = document.querySelector('.skeleton-item');
+
+    skeletonItem?.remove();
+  }
+
+  #getTemplate(element: HTMLElement) {
     const section = document.createElement('section');
 
     const h2 = document.createElement('h2');
@@ -36,12 +73,7 @@ class MovieContainer {
     section.appendChild(movieList);
     section.appendChild(button);
 
-    const movieData = await this.getMovies(this.#page);
-
-    this.createMovieItems(movieData).forEach((movieItem) => {
-      movieList.appendChild(movieItem);
-    });
-    return section;
+    element.appendChild(section);
   }
 }
 

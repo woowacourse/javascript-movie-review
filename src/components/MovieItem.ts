@@ -11,6 +11,7 @@ const MovieItem = ({ title, poster_path, vote_average }: MovieInfo) => {
   const itemScore = document.createElement('p');
   const scoreImg = document.createElement('img');
 
+  li.classList.add('movie-item');
   itemCard.classList.add('item-card');
   thumbnail.classList.add('item-thumbnail');
   movieTitle.classList.add('item-title');
