@@ -9,33 +9,28 @@ function getLogo() {
   logoImgElement.alt = 'MovieList 로고';
 
   logo.appendChild(logoImgElement);
-
   return logo;
 }
 
 function getSearchBoxInput() {
   const inputTag = document.createElement('input');
-
   const state = {
     type: 'text',
     placeholder: '검색',
   };
 
   Object.assign(inputTag, state);
-
   return inputTag;
 }
 
 function getSearchBoxButton() {
   const buttonTag = document.createElement('button');
-
   const state = {
     className: 'search-button',
     innerText: '검색',
   };
 
   Object.assign(buttonTag, state);
-
   return buttonTag;
 }
 
@@ -46,7 +41,7 @@ function getSearchBox() {
 
   searchBox.classList.add('search-box');
 
-  appendChildren(searchBox, input, button);
+  appendChildren(searchBox, [input, button]);
   return searchBox;
 }
 
@@ -55,7 +50,7 @@ function getHeader() {
   const logo = getLogo();
   const searchBox = getSearchBox();
 
-  appendChildren(headerTag, logo, searchBox);
+  appendChildren(headerTag, [logo, searchBox]);
 
   return headerTag;
 }

@@ -1,39 +1,79 @@
-import logoImg from '../assets/images/logo.png';
-import starImg from '../assets/images/star_empty.png';
+import { appendChildren } from '../utils/domUtil';
 import getButton from './getButton';
 
-function getDummyItem() {
-  return `
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src=${starImg} alt="별점" />6.5</p>
-                </div>
-              </a>
-            </li>
-  `;
+interface IMovieItemProps {
+  image: string;
+  title: string;
+  score: number;
+}
+
+const state = {
+  image: 'https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg',
+  title: 'hihi',
+  score: 6.5,
+};
+
+function getImage(props: IMovieItemProps) {
+  const img = document.createElement('img');
+  img.alt = props.title;
+  img.src = props.image;
+  img.loading = 'lazy';
+  return img;
+}
+
+function getTitleParagraph(title: string) {
+  const movieTitle = document.createElement('p');
+  movieTitle.innerText = title;
+  return movieTitle;
+}
+
+function getScoreParagraph(score: number) {
+  const movieScore = document.createElement('p');
+  movieScore.innerText = String(score);
+  return movieScore;
+}
+
+function getMovieItem(props: IMovieItemProps) {
+  const movieItem = document.createElement('li');
+  const movieItemLink = document.createElement('a');
+  const movieItemCard = document.createElement('div');
+  const movieItemImage = getImage(props);
+
+  movieItemCard.classList.add('item-card');
+  movieItemLink.appendChild(movieItemCard);
+  appendChildren(movieItemCard, [movieItemImage, getTitleParagraph(props.title), getScoreParagraph(props.score)]);
+  movieItem.appendChild(movieItemLink);
+
+  return movieItem;
+}
+
+function getMovieListContainer(listTitle: string) {
+  const movieListContainer = document.createElement('section');
+  const popularTitle = document.createElement('h2');
+  const movieList = document.createElement('ul');
+
+  movieListContainer.classList.add('item-view');
+  popularTitle.innerText = listTitle;
+  movieList.classList.add('item-list');
+
+  // TODO: fetch로 리팩토링
+  const movies = Array.from({ length: 20 }, () => getMovieItem(state)) as HTMLElement[];
+  movies.forEach((movieItem) => {
+    movieList.append(movieItem);
+  });
+
+  appendChildren(movieListContainer, [popularTitle, movieList]);
+  movieListContainer.appendChild(getButton());
+
+  return movieListContainer;
 }
 
 function getMain() {
   const mainTag = document.createElement('main');
-  mainTag.innerHTML = `
-      <main>
-        <section class="item-view">
-          <h2>지금 인기 있는 영화</h2>
-          <ul class="item-list">
-            ${Array.from({ length: 20 }, getDummyItem).join('')}
-          </ul>
-            ${getButton()}
-        </section>
-      </main>
-  `;
+  const movieListContainer = getMovieListContainer('지금 인기 있는 영화');
+
+  mainTag.appendChild(movieListContainer);
+
   return mainTag;
 }
 

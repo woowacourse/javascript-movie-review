@@ -2,7 +2,9 @@
   "rules": {
     "max-depth": ["warn", 1],
     "max-params": ["warn", 3],
-    "linebreak-style": "off"
+    "linebreak-style": "off",
+    "import/no-unresolved": "off",
+    "import/extensions": "off"
   },
   "overrides": [
     {
@@ -19,6 +21,6 @@
     "ecmaVersion": "latest"
   },
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "import"],
   "extends": ["prettier", "airbnb-base"]
 }
