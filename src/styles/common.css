@@ -200,3 +200,9 @@ header .search-box > .search-button {
 .remove-toast {
   animation: toast-animation 1s;
 }
+
+.movie-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

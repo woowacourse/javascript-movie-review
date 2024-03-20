@@ -7,6 +7,7 @@ import { MovieListCardProps } from '../MovieListCard/MovieListCard.type';
 import { querySelector } from '../../utils/dom/selector';
 import { on } from '../../utils/dom/eventListener/eventListener';
 import MovieListCardSkeleton from '../MovieListCardSkeleton/MovieListCardSkeleton';
+import { NoResultImage } from '../../assets';
 
 interface MovieReviewBodyProps {
   movieType: string;
@@ -38,7 +39,10 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
   }
 
   private createMovieListContainer() {
-    const $movieListContainer = createElement({ tagName: 'div', attributeOptions: { id: 'movie-list-container' } });
+    const $movieListContainer = createElement({
+      tagName: 'div',
+      attributeOptions: { id: 'movie-list-container', class: 'movie-list-container' },
+    });
 
     this.updateMovieList($movieListContainer);
 
@@ -62,12 +66,26 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
   private renderMovieList($movieListContainer: HTMLElement, $ul: HTMLElement) {
     MovieAPI.fetchMovieDetails<BaseResponse<MovieListCardProps[]>>(this.page, this.props?.movieType ?? '')
       .then((data) => {
-        if (data?.results) {
-          $ul.remove();
+        $ul.remove();
+
+        if (data && data.results.length > 0) {
           new MovieList($movieListContainer, { movieItemDetails: data?.results ?? [] });
+        } else {
+          this.renderNoResultImage($movieListContainer);
         }
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(console.log(error)));
+  }
+
+  private renderNoResultImage($movieListContainer: HTMLElement) {
+    const $fallbackImage = createElement({
+      tagName: 'img',
+      attributeOptions: { src: NoResultImage, alt: '검색 결과 없음 이미지', class: 'no-result-image' },
+    });
+
+    $movieListContainer.appendChild($fallbackImage);
+
+    this.removeMoreButton();
   }
 
   private createMoreButton() {
@@ -93,9 +111,13 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     this.updateMovieList($movieListContainer);
 
     if (this.page === 5) {
-      const $button = querySelector<HTMLButtonElement>('#more-button', this.$element);
-      $button.remove();
+      this.removeMoreButton();
     }
+  }
+
+  private removeMoreButton() {
+    const $button = querySelector<HTMLButtonElement>('#more-button', this.$element);
+    $button.remove();
   }
 }
 
