@@ -11,7 +11,6 @@ const movieList = new MovieList({
   targetId: "movie-list",
   queryState,
 });
-movieList.fetchInitialMovies();
 
 queryState.addObserver(movieList);
 

@@ -1,17 +1,16 @@
-import EventComponent from "./abstract/EventComponent";
-import QueryState from "../states/QueryState";
+import QueryState, { Query } from "../states/QueryState";
 import { Movie, composeMovieItems } from "./templates/composeMovieItems";
-import { getPopularMovieList } from "../apis/movieList";
+import { getPopularMovieList, getSearchMovieList } from "../apis/movieList";
 import { $ } from "../utils/dom";
+import APIClientComponent from "./abstract/APIClientComponent";
 
 interface MovieListProps {
   targetId: string;
   queryState: QueryState;
 }
 
-export default class MovieList extends EventComponent {
+export default class MovieList extends APIClientComponent {
   private queryState: QueryState;
-  private movies: Movie[] = [];
   private page = 1;
 
   constructor({ targetId, queryState }: MovieListProps) {
@@ -19,11 +18,12 @@ export default class MovieList extends EventComponent {
     this.queryState = queryState;
   }
 
-  getTemplate(): string {
-    const movieItemsTemplate = this.generateMovieItemsTemplate();
+  getTemplate(data: Movie[]): string {
+    const query = this.queryState.get();
+    const movieItemsTemplate = this.generateMovieItemsTemplate(data);
 
     return `
-        <h2>지금 인기 있는 영화</h2>
+    <h2>${query ? `"${query}" 검색결과` : "지금 인기 있는 영화"}</h2>
         <ul id="item-list" class="item-list">
         ${movieItemsTemplate}
         </ul>
@@ -31,20 +31,15 @@ export default class MovieList extends EventComponent {
     `;
   }
 
-  async fetchInitialMovies() {
-    const movies = await getPopularMovieList();
-
-    this.movies = movies;
-
-    this.init();
+  async fetchInitialData() {
+    return await this.fetchMovies(this.page, this.queryState.get());
   }
 
-  private generateMovieItemsTemplate() {
-    const movies = this.movies;
-
-    const movieItemsTemplate = composeMovieItems(movies);
-
-    return movieItemsTemplate;
+  setEvent(): void {
+    $("watch-more-button")?.addEventListener(
+      "click",
+      this.handleWatchMoreButtonClick.bind(this)
+    );
   }
 
   async handleWatchMoreButtonClick() {
@@ -59,16 +54,23 @@ export default class MovieList extends EventComponent {
     }
   }
 
+  private generateMovieItemsTemplate(movies: Movie[]) {
+    const movieItemsTemplate = composeMovieItems(movies);
+
+    return movieItemsTemplate;
+  }
+
   private async insertMovieItems(movies: Movie[]) {
     const movieItemsTemplate = composeMovieItems(movies);
 
     $("item-list")?.insertAdjacentHTML("beforeend", movieItemsTemplate);
   }
 
-  setEvent(): void {
-    $("watch-more-button")?.addEventListener(
-      "click",
-      this.handleWatchMoreButtonClick.bind(this)
-    );
+  private async fetchMovies(page: number, query?: Query) {
+    const movies = query
+      ? await getSearchMovieList(query, page)
+      : await getPopularMovieList(page);
+
+    return movies;
   }
 }
