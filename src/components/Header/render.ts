@@ -1,5 +1,6 @@
 import createElement from '../../utils/createElement';
 import headerLogo from '../../../templates/logo.png';
+import searchIconImage from '../../../templates/search_button.png';
 import isHTMLElement from '../../utils/isHTMLElement';
 
 const createHeaderContainer = () => {
@@ -12,10 +13,18 @@ const createHeaderContainer = () => {
   return headerContainer;
 };
 
+const createSearchButton = () => {
+  const searchButton = createElement('button', { className: 'search-button' });
+  const searchIcon = createElement('img', { src: searchIconImage });
+  searchButton.appendChild(searchIcon);
+
+  return searchButton;
+};
+
 const createSearchBar = () => {
   const searchBox = createElement('div', { className: 'search-box' });
   const input = createElement('input', { type: 'text', placeholder: '검색' });
-  const searchButton = createElement('button', { className: 'search-button' });
+  const searchButton = createSearchButton();
   searchBox.appendChild(input);
   searchBox.appendChild(searchButton);
 
