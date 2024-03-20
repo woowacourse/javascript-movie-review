@@ -1,5 +1,8 @@
 {
-  "rules": { "max-depth": ["warn", 1], "max-params": ["warn", 3] },
+  "rules": {
+    "max-depth": ["warn", 1],
+    "max-params": ["warn", 3]
+  },
   "overrides": [
     {
       "files": ["./src/**"],
@@ -13,5 +16,5 @@
   "parserOptions": {
     "ecmaVersion": "latest"
   },
-  "extends": ["prettier", "airbnb-base"]
+  "extends": ["prettier/recommend", "airbnb-base"]
 }
