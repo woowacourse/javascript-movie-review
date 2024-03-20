@@ -3,7 +3,8 @@
   flex-direction: column;
   justify-content: center;
   width: 1200px;
-  margin: 0 auto;
+  height: 100%;
+  margin: 0 auto 72px auto;
 }
 
 .item-view h2 {

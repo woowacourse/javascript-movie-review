@@ -33,16 +33,20 @@ class MovieItem {
     const p1 = document.createElement('p');
     p1.classList.add('item-title', 'skeleton');
 
+    const scoreContainer = document.createElement('div');
+    scoreContainer.classList.add('item-score-container');
+
     const p2 = document.createElement('p');
     p2.classList.add('item-score', 'skeleton');
 
     const starImg = document.createElement('img');
     starImg.classList.add('star-icon');
 
-    p2.appendChild(starImg);
+    scoreContainer.appendChild(p2);
+    scoreContainer.appendChild(starImg);
     div.appendChild(img);
     div.appendChild(p1);
-    div.appendChild(p2);
+    div.appendChild(scoreContainer);
     a.appendChild(div);
     li.appendChild(a);
 
@@ -61,7 +65,10 @@ class MovieItem {
     p1.textContent = title;
     const p2 = this.template.querySelector('.item-score') as HTMLElement;
     p2.classList.remove('skeleton');
-    p2.innerHTML = `${vote_average} <img src="${StarFilled}" alt="별점" class="star-icon">`;
+    p2.innerHTML = `${vote_average}`;
+    const starImage = this.template.querySelector('.star-icon') as HTMLImageElement;
+    starImage.setAttribute('src', StarFilled);
+    starImage.setAttribute('alt', '별점');
   }
 
   getElement() {

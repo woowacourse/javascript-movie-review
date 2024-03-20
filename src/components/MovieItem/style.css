@@ -17,12 +17,7 @@
 }
 
 .item-score {
-  margin-top: 16px;
   font-size: 1.2rem;
-}
-
-.item-score::after {
-  margin-left: 8px;
 }
 
 .item-title.skeleton::after,
@@ -37,6 +32,19 @@
   background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
   border-radius: 8px;
+}
+
+.item-score-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  margin-top: 16px;
+}
+
+.star-icon {
+  margin-left: 8px;
+  padding-top: 2px;
 }
 
 @keyframes skeleton-animation {
