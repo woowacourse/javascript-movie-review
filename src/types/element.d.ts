@@ -1,9 +1,4 @@
-type ElemetTag = 'header' | 'p' | 'div' | 'span' | 'h1' | 'img' | 'input' | 'button';
-
-export type ElementProps = {
-  tag: ElemetTag;
-  props: Partial<ElementOptionProps>;
-};
+type ElementTag = keyof HTMLElementTagNameMap;
 
 interface BasicOption {
   className?: string;
@@ -15,6 +10,11 @@ export interface DivOption extends BasicOption {}
 export interface ImgOption extends BasicOption {
   src: string;
   alt: string;
+  loading?: 'lazy';
+}
+
+export interface POption extends BasicOption {
+  textContent: string;
 }
 
 export interface InputOption extends BasicOption {
@@ -22,4 +22,4 @@ export interface InputOption extends BasicOption {
   placeholder?: string;
 }
 
-export type ElementOption = DivOption | ImgOption | InputOption;
+export type ElementOption = DivOption | ImgOption | InputOption | POption;
