@@ -35,9 +35,12 @@ class App {
       onSubmit: async (e: SubmitEvent) => {
         e.preventDefault();
         this.movieListContainer.page = 1;
+
         const $input = dom.getElement<HTMLInputElement>(this.$target, '#search-input');
         const movies = await searchMoviesByTitle($input.value, this.movieListContainer.page);
         this.movieListContainer.paint(movies);
+
+        history.pushState('', '', `?title=${$input.value}&page=${this.movieListContainer.page}`);
       },
     });
     const slotMovieList = dom.getElement(this.$target, '.slot-movie-list');
