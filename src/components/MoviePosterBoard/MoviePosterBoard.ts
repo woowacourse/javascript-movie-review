@@ -89,6 +89,11 @@ class MoviePosterBoard {
       });
 
       this.addMoviePoster(movieInfos);
+      if (!this.#ul.children.length) {
+        this.element
+          .querySelector("h2")
+          ?.replaceChildren(movieName + " 그런 건 없어용!~ 🌞");
+      }
     };
   }
 }
