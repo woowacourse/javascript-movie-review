@@ -46,7 +46,7 @@ function getSearchBox() {
 
   searchBox.classList.add('search-box');
 
-  appendChildren(searchBox, input, button);
+  appendChildren(searchBox, [input, button]);
   return searchBox;
 }
 
@@ -55,7 +55,7 @@ function getHeader() {
   const logo = getLogo();
   const searchBox = getSearchBox();
 
-  appendChildren(headerTag, logo, searchBox);
+  appendChildren(headerTag, [logo, searchBox]);
 
   return headerTag;
 }
