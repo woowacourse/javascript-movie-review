@@ -41,7 +41,7 @@ interface IMovie {
   id: number;
   title: string;
   imageSrc: string;
-  rating: number;
+  score: number;
   genre: TGenre;
   description: string;
 }
