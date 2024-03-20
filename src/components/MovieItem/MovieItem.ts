@@ -1,24 +1,33 @@
-import { Movie } from '@/types/movie';
 import Star from '../../assets/star_filled.png';
+import { POSTER_BASE_URL } from '../../consts/Api';
+import { Movie } from './../../types/movie';
 
-class MovieItem {
-  movie;
+const MovieItem = {
+  skeletonTemplate() {
+    const skeletonItemBox = document.createElement('li');
+    skeletonItemBox.innerHTML = /* html */ `
+    <li>
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>`;
 
-  constructor(movie: Movie) {
-    this.movie = movie;
-  }
+    return skeletonItemBox;
+  },
 
-  template() {
-    const POSTER_URL = 'https://image.tmdb.org/t/p/w220_and_h330_face/';
-
-    const { title, posterPath, voteAverage } = this.movie;
+  template(movie: Movie) {
+    const { title, posterPath, voteAverage } = movie;
     const itemBox = document.createElement('li');
     itemBox.innerHTML = /* html */ `
       <a href="#">
         <div class="item-card">
           <img
             class="item-thumbnail"
-            src=${POSTER_URL + posterPath}
+            src=${POSTER_BASE_URL + posterPath}
             loading="lazy"
             alt=${title}
           />
@@ -29,7 +38,39 @@ class MovieItem {
     `;
 
     return itemBox;
-  }
-}
+  },
+};
+
+// class MovieItem2 {
+//   movie: Movie | null;
+
+//   constructor() {
+//     this.movie = null;
+//   }
+
+//   skeletonTemplate() {}
+
+//   template(movie: Movie) {
+//     this.movie = movie;
+//     const { title, posterPath, voteAverage } = this.movie;
+//     const itemBox = document.createElement('li');
+//     itemBox.innerHTML = /* html */ `
+//       <a href="#">
+//         <div class="item-card">
+//           <img
+//             class="item-thumbnail"
+//             src=${POSTER_BASE_URL + posterPath}
+//             loading="lazy"
+//             alt=${title}
+//           />
+//           <p class="item-title">${title}</p>
+//           <p class="item-score"><img src=${Star} alt="별점" />${voteAverage}</p>
+//         </div>
+//       </a>
+//     `;
+
+//     return itemBox;
+//   }
+// }
 
 export default MovieItem;

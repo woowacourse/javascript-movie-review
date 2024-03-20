@@ -17,17 +17,13 @@ class MovieList {
   }
 
   set newList(movieList: Movie[]) {
-    if (!this.movieList) {
-      this.movieList = movieList;
-    } else {
-      this.movieList = [...this.movieList, ...movieList];
-    }
+    this.movieList = movieList;
   }
 
   rerender() {
     const skeletonBox = document.querySelector('#skeleton-box');
     if (!skeletonBox) return;
-    skeletonBox?.remove();
+    skeletonBox.remove();
     this.render();
   }
 

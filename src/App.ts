@@ -1,7 +1,7 @@
 import Header from '../src/components/Header/Header';
 import MovieList from '../src/components/MovieList/MovieList';
 import Button from './components/Button/Button';
-import APIService from './domain/services/APIService';
+import APIService, { MovieAPIReturnType } from './domain/services/APIService';
 
 class App {
   currentPage: number = 1;
@@ -33,31 +33,15 @@ class App {
     try {
       const popularMovieResult = await APIService.delayedFetchPopularMovies({ pageNumber: this.currentPage });
 
-      console.log('popularMovieResult', popularMovieResult);
       if (popularMovieResult) this.isLoading = false;
 
       this.totalPage = popularMovieResult.total_pages;
-      const popularMovieList = popularMovieResult.results.map(movie => ({
-        title: movie.title,
-        posterPath: movie.poster_path,
-        voteAverage: movie.vote_average,
-      }));
+      const popularMovieList = this.formatMovieList(popularMovieResult);
 
-      this.movieListInstance.newList = popularMovieList;
-      this.movieListInstance.rerender();
+      this.movieListInstance.newList = popularMovieList; //movie가 있는 상태
+      this.movieListInstance.rerender(); //기존의 스켈레톤을 remove하고 render => 무비가 있는 경우에는 렌더링
 
-      const moreButton = new Button({
-        text: '더보기',
-        clickEvent: () => {
-          this.showNextPage();
-        },
-      }).render();
-
-      const container = document.querySelector('.item-view');
-      if (!container) return;
-      container.append(moreButton);
-
-      // new MovieList({ movieList: popularMovieList, isLoading: false });
+      this.renderMoreButton();
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.log(error.message);
@@ -69,24 +53,23 @@ class App {
   }
 
   async showNextPage() {
-    const nextPage = this.currentPage + 1;
-    if (nextPage > this.totalPage) return;
-    const result = await APIService.fetchPopularMovies({ pageNumber: nextPage });
-
-    //TODO: util 로 분리
-    const popularMovieList = result.results.map(movie => ({
-      title: movie.title,
-      posterPath: movie.poster_path,
-      voteAverage: movie.vote_average,
-    }));
-
-    new MovieList({ movieList: popularMovieList, isLoading: false });
-
-    //TODO: button rerender로직으로 분리
     const existingButton = document.querySelector('.button');
     if (!existingButton) return;
     existingButton.remove();
 
+    this.movieListInstance.renderSkeleton();
+    const nextPage = this.currentPage + 1;
+    if (nextPage > this.totalPage) return;
+    const popularMovieResult = await APIService.delayedFetchPopularMovies({ pageNumber: nextPage });
+
+    const popularMovieList = this.formatMovieList(popularMovieResult);
+    this.movieListInstance.newList = popularMovieList;
+    this.movieListInstance.rerender();
+    this.renderMoreButton();
+    this.currentPage = nextPage;
+  }
+
+  renderMoreButton() {
     const moreButton = new Button({
       text: '더보기',
       clickEvent: () => {
@@ -98,8 +81,17 @@ class App {
     const container = document.querySelector('.item-view');
     if (!container) return;
     container.append(moreButton);
+  }
 
-    this.currentPage = nextPage;
+  formatMovieList(result: MovieAPIReturnType) {
+    const formattedMovieList = result.results.map(movie => ({
+      id: movie.id,
+      title: movie.title,
+      posterPath: movie.poster_path,
+      voteAverage: movie.vote_average,
+    }));
+
+    return formattedMovieList;
   }
 }
 
