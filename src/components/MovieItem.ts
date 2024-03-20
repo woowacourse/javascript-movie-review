@@ -1,31 +1,35 @@
-const MovieItem = () => {
+import { POSTER_BASE_URL } from '../api';
+import { MovieInfo } from '../api/api-type';
+import { STAR_FILLED } from '../resource';
+
+const MovieItem = ({ title, poster_path, vote_average }: MovieInfo) => {
   const li = document.createElement('li');
   const link = document.createElement('a');
   const itemCard = document.createElement('div');
   const thumbnail = document.createElement('img');
-  const title = document.createElement('p');
+  const movieTitle = document.createElement('p');
   const itemScore = document.createElement('p');
   const scoreImg = document.createElement('img');
 
   itemCard.classList.add('item-card');
   thumbnail.classList.add('item-thumbnail');
-  title.classList.add('item-title');
+  movieTitle.classList.add('item-title');
   itemScore.classList.add('item-score');
 
-  thumbnail.src = 'https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg';
+  thumbnail.src = `${POSTER_BASE_URL}${poster_path}`;
   thumbnail.setAttribute('loading', 'lazy');
-  thumbnail.setAttribute('alt', '앤트맨과 와스프: 퀀텀매니아');
+  thumbnail.setAttribute('alt', title);
 
-  title.textContent = '앤트맨과 와스프: 퀀텀매니아';
+  movieTitle.textContent = title;
 
-  scoreImg.src = './star_filled.png';
+  scoreImg.src = STAR_FILLED;
   scoreImg.alt = '별점';
 
   itemScore.appendChild(scoreImg);
-  itemScore.textContent = '6.5';
+  itemScore.textContent = vote_average.toFixed(1);
 
   itemCard.appendChild(thumbnail);
-  itemCard.appendChild(title);
+  itemCard.appendChild(movieTitle);
   itemCard.appendChild(itemScore);
 
   link.appendChild(itemCard);
@@ -35,18 +39,3 @@ const MovieItem = () => {
 };
 
 export default MovieItem;
-
-// <li>
-//     <a href="#">
-//         <div class="item-card">
-//         <img
-//             class="item-thumbnail"
-//             src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-//             loading="lazy"
-//             alt="앤트맨과 와스프: 퀀텀매니아"
-//         />
-//         <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-//         <p class="item-score"><img src="./star_filled.png" alt="별점" /> 6.5</p>
-//         </div>
-//     </a>
-// </li>
