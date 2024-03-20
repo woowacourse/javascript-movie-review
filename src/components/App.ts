@@ -21,7 +21,7 @@ class App {
     return `
     <main>
       <section class="item-view">
-        <h2>지금 인기 있는 영화</h2>
+        <h2 id="title">지금 인기 있는 영화</h2>
         <slot class="slot-movie-list"></slot>
         <button id="more-button" class="btn primary full-width">더 보기</button>
       </section>
@@ -30,6 +30,14 @@ class App {
   }
 
   render() {
+    const $title = dom.getElement(this.$target, 'h2');
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const titleParam = urlSearchParams.get('title');
+
+    const title = titleParam ?? '';
+
+    $title.textContent = title ? `"${title}" 검색 결과` : '지금 인기 있는 영화';
+
     const header = new Header({
       imageSrc: './images/logo.png',
       onSubmit: async (e: SubmitEvent) => {
@@ -38,11 +46,15 @@ class App {
 
         const $input = dom.getElement<HTMLInputElement>(this.$target, '#search-input');
         const movies = await searchMoviesByTitle($input.value, this.movieListContainer.page);
+
+        const $title = dom.getElement(this.$target, 'h2');
+        $title.textContent = `"${$input.value}" 검색 결과`;
         this.movieListContainer.paint(movies);
 
         history.pushState('', '', `?mode=search&title=${$input.value}`);
       },
     });
+
     const slotMovieList = dom.getElement(this.$target, '.slot-movie-list');
 
     slotMovieList.replaceWith(this.movieListContainer.$target);
