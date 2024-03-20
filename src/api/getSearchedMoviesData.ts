@@ -4,7 +4,7 @@ const API_KEY = process.env.API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 const MOVIE_SEARCH_URL = `${BASE_URL}/search/movie`;
 
-export const getRetrievedMoviesData = async (
+export const getSearchedMoviesData = async (
   currentPage: string,
   title: string
 ) => {
@@ -21,9 +21,9 @@ export const getRetrievedMoviesData = async (
     ).toString()}`;
 
     try {
-      const retrievedMovies = await getMovieData(searchMovieUrl);
-      if (retrievedMovies && retrievedMovies.results) {
-        return retrievedMovies.results;
+      const searchedMovies = await getMovieData(searchMovieUrl);
+      if (searchedMovies && searchedMovies.results) {
+        return searchedMovies.results;
       } else {
         throw new Error("영화 검색에 실패했습니다.");
       }

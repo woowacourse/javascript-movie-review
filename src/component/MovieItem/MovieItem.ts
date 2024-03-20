@@ -3,7 +3,7 @@ import { createElement } from "./../../utility/dom";
 import starFilledImg from "../../image/star_filled.png";
 
 class MovieItem {
-  readonly #moveItemInfo;
+  #moveItemInfo;
 
   constructor(movieItemInfo: IMovieItemData) {
     this.#moveItemInfo = movieItemInfo;
