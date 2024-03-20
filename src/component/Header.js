@@ -1,9 +1,15 @@
 import { $ } from '../util/selector.js';
 import LogoImagePath from '../asset/logo.png';
 
+const SearchButtonClickEvent = new Event('clickSearchButton');
+
 function createHeader() {
   const header = renderHeader();
   $('#app').prepend(header);
+
+  header.querySelector('.search-button').addEventListener('click', (event) => {
+    event.currentTarget.dispatchEvent(SearchButtonClickEvent);
+  });
 }
 
 function renderHeader() {
