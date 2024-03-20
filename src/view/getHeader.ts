@@ -1,16 +1,11 @@
 import logoImg from '../assets/images/logo.png';
 
-interface ILogoParams {
-  imageFile: string;
-  imageAlt: string;
-}
-
-function getLogo({ imageFile, imageAlt }: ILogoParams) {
+function getLogo() {
   const logo = document.createElement('h1');
   const logoImgElement = document.createElement('img');
 
-  logoImgElement.src = imageFile;
-  logoImgElement.alt = imageAlt;
+  logoImgElement.src = logoImg;
+  logoImgElement.alt = 'MovieList 로고';
 
   logo.appendChild(logoImgElement);
   return logo;
@@ -37,7 +32,7 @@ function getSearchBox() {
 
 function getHeader() {
   const headerTag = document.createElement('header');
-  const logo = getLogo({ imageFile: logoImg, imageAlt: 'MovieList 로고' });
+  const logo = getLogo();
   const searchBox = getSearchBox();
 
   headerTag.appendChild(logo);
