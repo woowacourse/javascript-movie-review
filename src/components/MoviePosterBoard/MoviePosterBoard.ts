@@ -1,6 +1,6 @@
 import "./style.css";
 
-import createMoviePoster, { MovieInfo } from "../moviePoster/createMoviePoster";
+import createMoviePoster, { MovieInfo } from "../MoviePoster/createMoviePoster";
 
 import createElement from "../../utils/createElement";
 
