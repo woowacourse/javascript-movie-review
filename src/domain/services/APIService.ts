@@ -50,6 +50,24 @@ const APIService = {
     return `${url}?${queryParams.toString()}`;
   },
 
+  async delayedFetchPopularMovies({ pageNumber = 1 }: PopularAPIParamsType): Promise<MovieAPIReturnType> {
+    return new Promise((resolve, reject) => {
+      setTimeout(async () => {
+        try {
+          const popularMoviesUrl = this.generateMovieApiUrl(API_URL.POPULAR_MOVIES, {
+            page: pageNumber,
+          });
+
+          const response = await fetch(popularMoviesUrl);
+          const popularMovieResult = await response.json();
+          resolve(popularMovieResult);
+        } catch (error) {
+          reject(error);
+        }
+      }, 3000); // 3초 뒤에 실행되도록 설정
+    });
+  },
+
   async fetchPopularMovies({ pageNumber = 1 }: PopularAPIParamsType): Promise<MovieAPIReturnType> {
     const popularMoviesUrl = this.generateMovieApiUrl(API_URL.POPULAR_MOVIES, {
       page: pageNumber,
