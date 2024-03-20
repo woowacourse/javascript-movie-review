@@ -78,9 +78,15 @@ class MovieItems {
 
   checkLastPage(totalPage: number) {
     if (this.currentPage >= totalPage) {
-      // 더보기 없애버림
       this.isLast = true;
     }
+  }
+
+  changeShowMoreButton() {
+    const button = this.template.querySelector('button');
+    if (!(button instanceof HTMLButtonElement)) return;
+    button.disabled = this.isLast;
+    button.textContent = this.isLast ? '더이상 불러올 목록이 없어요. :(' : '더 보기';
   }
 
   resetMovieItems(query?: string) {
@@ -107,6 +113,7 @@ class MovieItems {
       fragment.appendChild(item);
     });
     this.template?.querySelector('ul')?.appendChild(fragment);
+    this.changeShowMoreButton();
   }
 
   showMore() {

@@ -4,15 +4,17 @@ interface ButtonProps {
   className: string[];
   text: string;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 const Button = {
-  createElements({ className, text, onClick }: ButtonProps) {
+  createElements({ className, text, disabled, onClick }: ButtonProps) {
     const button = document.createElement('button');
     button.classList.add(...className);
     button.textContent = text;
 
     if (onClick) this.setEventListener(button, onClick);
+    if (disabled) button.disabled = disabled;
     return button;
   },
 
