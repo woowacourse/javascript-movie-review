@@ -12,7 +12,7 @@ class MovieApp {
       imageSource: LOGO,
     });
 
-    const main = await createMovieContents();
+    const main = await createMovieContents.execute();
 
     const container = document.querySelector('#app');
 

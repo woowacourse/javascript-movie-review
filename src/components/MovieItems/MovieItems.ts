@@ -1,6 +1,6 @@
+import './style.css';
 import { MovieListType, MovieType } from '../../types/movie';
 import createMovieItem from '../MovieItem/MovieItem';
-import './style.css';
 
 const createMovieItems = (movieList: MovieListType) => {
   const ul = document.createElement('ul');
@@ -10,8 +10,8 @@ const createMovieItems = (movieList: MovieListType) => {
     ul.appendChild(createMovieItem(movie));
   });
 
-  const movieContents = document.querySelector('.item-view');
-  movieContents?.appendChild(ul);
+  const showMoreButton = document.querySelector('.btn');
+  showMoreButton?.insertAdjacentElement('beforebegin', ul);
   return ul;
 };
 
