@@ -7,15 +7,19 @@ class MovieContainer {
   #sectionTitle;
   #skeletonList;
   #moreButton;
+  #handleMoreButton;
 
-  constructor(title) {
+  constructor({ title, handleMoreButton }) {
     this.#movieListContainer = $('ul.item-list');
 
     this.#sectionTitle = $('.item-view > h2');
     this.#sectionTitle.textContent = title;
+    this.#handleMoreButton = handleMoreButton;
 
     this.#moreButton = createButton({ size: 'full-width', variant: 'primary', name: '더 보기 ', type: 'button' });
     this.toggleMoreButtonVisibility();
+
+    this.#moreButton.addEventListener('click', () => this.initHandleClickMoreButton());
 
     $('section').append(this.#moreButton);
 
@@ -24,11 +28,10 @@ class MovieContainer {
 
   pushMoreSkeletonList() {
     const skeletonMovieList = createMovieList();
-    console.log(skeletonMovieList);
+
     skeletonMovieList.forEach((skeletonMovie) => {
       this.#movieListContainer.appendChild(skeletonMovie);
     });
-    // this.#movieListContainer.append(...skeletonMovieList);
 
     this.#skeletonList = skeletonMovieList;
 
@@ -38,9 +41,13 @@ class MovieContainer {
   replaceSkeletonListToData({ movieList, hasNextPage }) {
     const newMovieList = createMovieList(movieList);
 
-    this.#skeletonList.forEach((skeletonItem, i) => (skeletonItem = newMovieList[i]));
+    this.#skeletonList.forEach((skeletonItem, i) => {
+      this.#movieListContainer.replaceChild(newMovieList[i], skeletonItem);
+    });
 
     this.toggleMoreButtonVisibility(hasNextPage);
+
+    this.#skeletonList = [];
   }
 
   toggleMoreButtonVisibility(hasNextPage) {
@@ -49,6 +56,11 @@ class MovieContainer {
 
   clearMovieList() {
     this.#movieListContainer.replaceChildren();
+  }
+
+  async initHandleClickMoreButton() {
+    this.pushMoreSkeletonList();
+    await this.#handleMoreButton();
   }
 }
 
