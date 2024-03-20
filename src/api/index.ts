@@ -1,3 +1,7 @@
+import HttpError from '../error/HttpError';
+import ERROR_MESSAGE from '../constants/api/messages';
+
+/* eslint-disable max-depth */
 class TMDBApi {
   isLoading: boolean;
 
@@ -7,7 +11,7 @@ class TMDBApi {
 
   onLoadingChanged: (isLoading: boolean) => void;
 
-  onErrorChanged: (error: Error | null) => void;
+  onErrorChanged: (error: HttpError | null) => void;
 
   constructor() {
     this.isLoading = false;
@@ -35,17 +39,15 @@ class TMDBApi {
       this.activeHttpRequests = this.activeHttpRequests.filter((reqCtrl) => reqCtrl !== httpAbortCtrl);
 
       if (!res.ok) {
-        throw new Error('에러 발생!');
+        const error = new HttpError(ERROR_MESSAGE.FAIL_FETCH, res.status);
+        throw error;
       }
 
       this.setLoading(false);
       return await res.json();
     } catch (err) {
-      if (err instanceof Error) {
-        this.setError(err);
-        this.setLoading(false);
-        throw err;
-      }
+      this.setLoading(false);
+      throw err;
     }
   }
 
@@ -54,7 +56,7 @@ class TMDBApi {
     this.onLoadingChanged(isLoading);
   }
 
-  setError(error: Error) {
+  setError(error: HttpError) {
     this.error = error;
     this.onErrorChanged(error);
   }
