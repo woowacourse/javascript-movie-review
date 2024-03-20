@@ -1,4 +1,5 @@
 import { showSkeleton, updateCard } from '../components/movieCard/movieCard';
+import { Movie } from '../interface/Movie';
 
 export function loadMovieList() {
   const itemList = document.querySelector('.item-list');
@@ -14,5 +15,16 @@ export function completeMovieList(liList: any, movies: any) {
   });
   document.querySelectorAll('li.skeleton').forEach(element => {
     element.remove();
+  });
+}
+
+export function mapDataToMovies(movies: any): Movie[] {
+  return movies.results.map((data: any) => {
+    return {
+      id: data.id,
+      title: data.title,
+      poster_path: data.poster_path,
+      vote_average: data.vote_average,
+    };
   });
 }

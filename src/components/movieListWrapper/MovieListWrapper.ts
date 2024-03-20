@@ -56,33 +56,44 @@ export class MovieListWrapper {
       case 'popular':
         {
           const liList = loadMovieList();
-          const data = await fetchPopularMovieList(this.#currentPage);
-          if (LAST_PAGE === this.#currentPage) {
-            addButton.classList.add('none');
+
+          const result = await fetchPopularMovieList(this.#currentPage);
+          if (result) {
+            const [movies, totalPages] = result;
+            if (totalPages === this.#currentPage) {
+              addButton.classList.add('none');
+            }
+            this.plusCurrentPage();
+            completeMovieList(liList, movies);
           }
-          this.plusCurrentPage();
-          completeMovieList(liList, data.results);
         }
         return;
       case 'search':
         {
           const liList = loadMovieList();
-          const data = await fetchSearchMovieList(this.#inputValue, this.#currentPage);
-          if (data.total_pages === this.#currentPage) {
-            addButton.classList.add('none');
+          const result = await fetchSearchMovieList(this.#inputValue, this.#currentPage);
+          if (result) {
+            const [movies, totalPages] = result;
+            if (totalPages === this.#currentPage) {
+              addButton.classList.add('none');
+            }
+            this.plusCurrentPage();
+            completeMovieList(liList, movies);
           }
-          this.plusCurrentPage();
-          completeMovieList(liList, data.results);
         }
         return;
       default: {
         const liList = loadMovieList();
-        const data = await fetchPopularMovieList(this.#currentPage);
-        if (LAST_PAGE === this.#currentPage) {
-          addButton.classList.add('none');
+
+        const result = await fetchPopularMovieList(this.#currentPage);
+        if (result) {
+          const [movies, totalPages] = result;
+          if (totalPages === this.#currentPage) {
+            addButton.classList.add('none');
+          }
+          this.plusCurrentPage();
+          completeMovieList(liList, movies);
         }
-        this.plusCurrentPage();
-        completeMovieList(liList, data.results);
       }
     }
   }

@@ -1,3 +1,6 @@
+import toast from "../components/toast/toast";
+import { mapDataToMovies } from "../domain/MovieService";
+
 const API_KEY = process.env.API_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3';
 const POPULAR_MOVIES_URL = `${BASE_URL}/movie/popular`;
@@ -13,13 +16,12 @@ export async function fetchPopularMovieList(pageNumber) {
         language: 'ko-KR',
         page: pageNumber.toString(),
       });
-
     const response = await fetch(popularMovieUrl);
     const popularMovies = await response.json();
 
-    return popularMovies;
+    return [mapDataToMovies(popularMovies), popularMovies.total_pages];
   } catch (error) {
-    console.error('Error fetching data:', error);
+    toast(error.message);
   }
 }
 
@@ -37,9 +39,9 @@ export async function fetchSearchMovieList(inputValue, pageNumber) {
 
     const response = await fetch(searchMovieUrl);
     const searchMovies = await response.json();
-
-    return searchMovies;
+    
+    return [mapDataToMovies(searchMovies), searchMovies.total_pages];
   } catch (error) {
-    console.error('Error fetching data:', error);
+    toast(error.message);
   }
 }
