@@ -3,6 +3,7 @@ interface FetchWrapperProps {
   accessToken: string;
 }
 
+// eslint-disable-next-line max-lines-per-function
 async function fetchWrapper<T>({ url, accessToken }: FetchWrapperProps) {
   const response = await fetch(url, {
     method: 'GET',
@@ -12,7 +13,7 @@ async function fetchWrapper<T>({ url, accessToken }: FetchWrapperProps) {
     },
   });
   if (!response.ok) {
-    throw new Error(response.status + response.statusText);
+    throw new Error(`${response.status}`);
   }
   return response.json() as T;
 }

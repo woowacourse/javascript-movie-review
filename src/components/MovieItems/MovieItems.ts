@@ -7,6 +7,7 @@ import PopularMovies from '../../domain/PopularMovies';
 import { ResponseMovieItem } from '../../types/ResponseMovieItem';
 import MovieItem from '../MovieItem/MovieItem';
 import MatchedMovies from '../../domain/MatchedMovies';
+import Fallback from '../Fallback/Fallback';
 
 class MovieItems {
   private currentPage: number;
@@ -15,21 +16,17 @@ class MovieItems {
 
   private template: HTMLElement;
 
+  private fallback: Fallback;
+
   private searchQuery?: string;
 
   constructor() {
-    this.template = this.createFallback();
+    this.fallback = new Fallback();
+    this.template = this.fallback.getElement();
     this.currentPage = 0;
     this.isLast = false;
     this.createElements();
     this.showMore();
-  }
-
-  createFallback() {
-    const main = document.createElement('main');
-    main.classList.add('fall-back');
-    main.textContent = '영화가 없어요';
-    return main;
   }
 
   // 초기화 ctor -> createEl, getPopular(1),createMovieItem
@@ -138,14 +135,27 @@ class MovieItems {
   showMore() {
     this.currentPage += 1;
     const skeletonItems = this.createSkeletonMovieItem();
-
-    if (this.searchQuery === undefined) {
-      this.getPopularMovies().then((movies) => this.createMovieItem(movies, skeletonItems));
+    if (this.searchQuery) {
+      this.getMoreMatchedMovies(skeletonItems);
     } else {
-      this.getMatchedMovies(this.searchQuery).then((movies) =>
-        this.createMovieItem(movies, skeletonItems),
-      );
+      this.getMorePopularMovies(skeletonItems);
     }
+  }
+
+  private getMorePopularMovies(skeletonItems: MovieItem[]) {
+    this.getPopularMovies()
+      .then((movies) => this.createMovieItem(movies, skeletonItems))
+      .catch((error) => {
+        this.fallback.setFallbackMessage(error.message);
+        this.template.innerHTML = '';
+        this.template.appendChild(this.fallback.getElement());
+      });
+  }
+
+  private getMoreMatchedMovies(skeletonItems: MovieItem[]) {
+    this.getMatchedMovies(this.searchQuery ?? '').then((movies) =>
+      this.createMovieItem(movies, skeletonItems),
+    );
   }
 }
 
