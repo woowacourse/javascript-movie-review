@@ -1,13 +1,14 @@
 import MovieItem from "../MovieItem/MovieItem";
+import MoreMoviesButton from "../MoreMoviesButton/MoreMoviesButton";
 import { getMovieData } from "../../api/getMovieData";
 import { getPopularMoviesData } from "../../api/getPopularMoviesData";
 import { $, createElement } from "../../utility/dom";
 
 class MovieList {
-  #pageCount = "1";
+  #pageCount = 1;
 
   async createMovieItems() {
-    const data = await getPopularMoviesData(this.#pageCount);
+    const data = await getPopularMoviesData(this.#pageCount.toString());
     const ul = $(".item-list");
 
     data.forEach(({ title, poster_path, vote_average }: IMovieItemData) => {
@@ -30,6 +31,10 @@ class MovieList {
 
     movieListSection.appendChild(movieListTitle);
     movieListSection.appendChild(movieListUl);
+
+    const moreMoviesButton = MoreMoviesButton.createMoreMoviesButton();
+
+    movieListSection.appendChild(moreMoviesButton);
 
     return movieListSection;
   }
