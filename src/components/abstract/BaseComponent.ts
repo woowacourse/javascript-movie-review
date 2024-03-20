@@ -8,7 +8,7 @@ interface BaseComponentProps {
 }
 
 export default abstract class BaseComponent extends Observer {
-  private targetId: ElementId;
+  protected targetId: ElementId;
 
   constructor({ targetId }: BaseComponentProps) {
     super();
