@@ -9,11 +9,34 @@ class MovieListContainer {
   constructor() {
     this.$target = document.createElement('ul');
     this.$target.classList.add('item-list');
+    this.$target.innerHTML += this.template();
     (async () => {
       this.page += 1;
       const movies = await this.fetchMovies();
       await this.paint(movies);
     })();
+  }
+
+  template() {
+    return /* html */ `
+      ${Array.from({ length: 20 })
+        .map(
+          () =>
+            ` 
+            <li>
+              <a href="#">
+                <div class="item-card">
+                <div class="item-thumbnail skeleton"></div>
+                <div class="item-title skeleton"></div>
+                <div class="item-score skeleton"></div>
+                </div>
+              </a>
+             </li>
+          `,
+        )
+        .join('')}
+
+    `;
   }
 
   async paint(movies: IMovie[]) {

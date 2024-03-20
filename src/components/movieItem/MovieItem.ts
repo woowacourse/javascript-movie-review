@@ -14,14 +14,13 @@ class MovieItem {
     return `   
         <a href="#">
           <div class="item-card">
-            <img
-              class="item-thumbnail"
-              src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-              loading="lazy"
-              alt=""
-            />
-            <p class="item-title"></p>
-            <p class="item-score"><img src="./star_filled.png" alt="별점" /></p>
+          <img
+          class="item-thumbnail skeleton"
+          loading="lazy"
+          alt=""
+        />
+        <p class="item-title"></p>
+        <p class="item-score"><img src="./star_filled.png" alt="별점" /></p>
           </div>
         </a>
       `;
