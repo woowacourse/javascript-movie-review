@@ -145,6 +145,10 @@ header h1 {
   color: #f33f3f;
 }
 
+header > img.logo:hover {
+  cursor: pointer;
+}
+
 header > .search-box {
   background: #fff;
   padding: 8px;
