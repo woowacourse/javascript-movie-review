@@ -1,10 +1,20 @@
-const fetchData = async (url: string) => {
-  const response = await fetch(url, {
-    method: 'GET',
+import ErrorMessage from '../components/ErrorMessage/ErrorMessage';
+
+interface Props {
+  url: string;
+  options: {
+    method: string;
     headers: {
-      accept: 'application/json',
-      Authorization: `Bearer ${process.env.AUTHORIZATION_KEY}`,
-    },
+      accept: string;
+      Authorization: string;
+    };
+  };
+}
+
+const fetchData = async ({ url, options }: Props) => {
+  const response = await fetch(url, options).then((data) => {
+    if (!data.ok) ErrorMessage(data.status);
+    return data;
   });
   return response.json();
 };

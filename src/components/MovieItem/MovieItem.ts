@@ -1,10 +1,10 @@
 import './MovieItem.css';
 import StarFilled from '../../statics/images/star_filled.png';
 
-const createTitle = (original_title: string) => {
+const createTitle = (title: string) => {
   const $title = document.createElement('p');
   $title.classList.add('item-title');
-  $title.textContent = original_title;
+  $title.textContent = title;
   return $title;
 };
 
@@ -21,26 +21,26 @@ const createScore = (vote_average: number) => {
   return $score;
 };
 
-const createThumbnail = (original_title: string, poster_path: string) => {
+const createThumbnail = (title: string, poster_path: string) => {
   const $thumbnail = document.createElement('img');
   $thumbnail.classList.add('item-thumbnail');
   $thumbnail.src = `https://image.tmdb.org/t/p/w220_and_h330_face${poster_path}`;
   $thumbnail.loading = 'lazy';
-  $thumbnail.alt = original_title;
+  $thumbnail.alt = title;
 
   return $thumbnail;
 };
 
 const createCard = ({
-  original_title,
+  title,
   poster_path,
   vote_average,
-}: Pick<Movie, 'original_title' | 'poster_path' | 'vote_average'>) => {
+}: Pick<Movie, 'title' | 'poster_path' | 'vote_average'>) => {
   const $card = document.createElement('div');
   $card.classList.add('item-card');
 
-  const $thumbnail = createThumbnail(original_title, poster_path);
-  const $title = createTitle(original_title);
+  const $thumbnail = createThumbnail(title, poster_path);
+  const $title = createTitle(title);
   const $score = createScore(vote_average);
 
   $card.appendChild($thumbnail);
