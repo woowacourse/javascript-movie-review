@@ -12,10 +12,8 @@ class MovieApp {
       imageSource: LOGO,
     });
 
-    const main = await createMovieContents.execute();
-
+    const main = await createMovieContents.execute('popular', '');
     const container = document.querySelector('#app');
-
     container?.prepend(header);
     container?.appendChild(main);
   }

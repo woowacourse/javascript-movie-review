@@ -5,7 +5,7 @@ import './style.css';
 
 const createMovieContents = {
   // eslint-disable-next-line max-lines-per-function
-  async execute() {
+  async execute(type: string, input: string) {
     const main = document.createElement('main');
     const templates = /* html */ `
       <section class="item-view">
@@ -15,24 +15,25 @@ const createMovieContents = {
 
     main.innerHTML = templates;
     const movie = new Movie();
-    const movieItems = await this.setMovieData(movie);
+    const movieItems = await this.setMovieData(movie, type, input);
     const showMoreButton = createShowMoreButton();
 
-    this.setEventListener(showMoreButton, movie);
+    this.setEventListener(showMoreButton, movie, type, input);
     main.querySelector('.item-view')?.appendChild(movieItems);
     main.querySelector('.item-view')?.appendChild(showMoreButton);
     return main;
   },
 
-  async setMovieData(movie: Movie) {
-    const movieList = await movie.getMovieData();
+  async setMovieData(movie: Movie, type: string, input?: string) {
+    const movieList = await movie.handleMovieData(type, input);
+
     const movieItems = createMovieItems(movieList);
     return movieItems;
   },
 
-  setEventListener(showMoreButton: HTMLButtonElement, movie: Movie) {
+  setEventListener(showMoreButton: HTMLButtonElement, movie: Movie, type: string, input?: string) {
     showMoreButton.addEventListener('click', () => {
-      this.setMovieData(movie);
+      this.setMovieData(movie, type, input);
     });
     return showMoreButton;
   },

@@ -1,3 +1,4 @@
+import createMovieContents from '../MovieContents/MovieContents';
 import './style.css';
 
 interface Props {
@@ -11,12 +12,23 @@ const createHeader = ({ imageSource }: Props) => {
     /* html */
     `
       <h1><img src=${imageSource} alt="MovieList 로고" /></h1>
-      <div class="search-box">
-        <input type="text" placeholder="검색" />
-        <button class="search-button">검색</button>
-      </div>
+      <form class="search-box">
+        <input type="text" name="search" placeholder="검색" />
+        <button type="submit" class="search-button">검색</button>
+      </form>
     `;
   header.innerHTML = templates;
+
+  header.querySelector('.search-box')?.addEventListener('submit', async (e: Event) => {
+    e.preventDefault();
+
+    const form = e.target as HTMLFormElement;
+    const input = (form.elements.namedItem('search') as HTMLInputElement).value;
+    const movieContents = await createMovieContents.execute('search', input);
+
+    document.querySelector('main')?.remove();
+    document.querySelector('#app')?.appendChild(movieContents);
+  });
   return header;
 };
 
