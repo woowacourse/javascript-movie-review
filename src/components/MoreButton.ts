@@ -3,6 +3,7 @@ import apiClient from "../model/APIClient";
 import dataStateStore from "../model/DataStateStore";
 import { ListType, Movie } from "../type/movie";
 import createElementWithAttribute from "../utils/createElementWithAttribute";
+import debouceFunc from "../utils/debouneFunc";
 import preventXSS from "../utils/preventXSS";
 
 import ItemList from "./ItemList";
@@ -37,20 +38,26 @@ const getSearchMovieData = async () => {
   await apiClient.getSearchMovieData(false, title);
 };
 
-const handleClickMoreButton = async (event: Event, listType: ListType) => {
-  event.stopPropagation();
+const hanldeMovieData = async (event: Event, listType: ListType) => {
+  const previousScrollPosition = window.scrollY;
 
-  if (listType === "popular") await apiClient.getPopularMovieData(false);
-  else await getSearchMovieData();
+  if (listType === "popular") {
+    await apiClient.getPopularMovieData(false);
+  } else {
+    await getSearchMovieData();
+  }
 
   const { movieList, isShowMoreButton } = dataStateStore.movieData;
-
   addItemsToMovieList(movieList);
   changeMoreButtonState(event, isShowMoreButton);
 
   window.scrollTo(0, previousScrollPosition);
 };
 
+const handleClickMoreButton = async (event: Event, listType: ListType) => {
+  event.stopPropagation();
+
+  debouceFunc(() => hanldeMovieData(event, listType));
 };
 
 const MoreButton = (listType: ListType) => {
