@@ -26,7 +26,7 @@ const createMoviePoster = ({ title, imgSrc, rating }: MovieInfo) => {
     alt: "별점",
   });
 
-  scoreParagraph.append(starImg, rating.toString());
+  scoreParagraph.append(starImg, rating.toFixed(1));
   div.append(posterImg, titleParagraph, scoreParagraph);
   anchor.append(div);
   li.append(anchor);
