@@ -2,6 +2,7 @@ import MovieContainer from '../component/MovieContainer.js';
 import MovieService from '../domain/MovieService.ts';
 import createHeader from '../component/Header.js';
 import PageNumberManager from '../domain/pageNumberManager.ts';
+import { $ } from '../util/selector.js';
 
 export class App {
   #searchKeyword;
@@ -18,13 +19,14 @@ export class App {
 
     this.#movieService = new MovieService();
     this.#movieContainer = new MovieContainer({
-      title: '으어어',
+      title: '지금 인기 있는 영화',
       handleMoreButton: () => this.addMovieList(),
     });
   }
 
   async init() {
     createHeader();
+    $('.search-button').addEventListener('clickSearchButton', () => this.makeSearchPage());
     await this.addMovieList();
   }
 
@@ -35,7 +37,10 @@ export class App {
 
   async fetchMovieList() {
     if (this.#searchKeyword !== '') {
-      const movieList = await this.#movieService.fetchSearchResult(this.#pageNumberManager.get('search'));
+      const movieList = await this.#movieService.fetchSearchResult({
+        pageNumber: this.#pageNumberManager.get('search'),
+        query: this.#searchKeyword,
+      });
       this.#pageNumberManager.add('search');
       this.#pageNumberManager.clear('popular');
 
@@ -47,21 +52,20 @@ export class App {
 
     return movieList;
   }
+
+  setSearchKeyword() {
+    this.#searchKeyword = $('div.search-box > input').value;
+  }
+
+  makeSearchPage() {
+    this.#pageNumberManager.clear('search');
+
+    this.setSearchKeyword();
+    if (this.#searchKeyword === '') return alert('입력하라고...');
+
+    this.#movieContainer.clearMovieList();
+    this.#movieContainer.pushMoreSkeletonList();
+    this.#movieContainer.setTitle(`"${this.#searchKeyword}" 검색 결과`); // 검색어 넣기
+    this.addMovieList();
+  }
 }
-
-// export async function ss() {
-//   const movieContainer = new MovieContainer({
-//     title: '안녕 ㅋ',
-//     handleMoreButton: async () => {},
-//   });
-
-//   movieContainer.initHandleClickMoreButton(async () => {
-//     const data = await movieService.fetchPopularMovieList(1);
-//     movieContainer.replaceSkeletonListToData(data);
-//   });
-
-//   const movieService = new MovieService();
-
-//   const data = await movieService.fetchPopularMovieList(1);
-//   movieContainer.replaceSkeletonListToData(data);
-// }
