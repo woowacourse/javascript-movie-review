@@ -19,7 +19,8 @@ class SearchField {
   createElements() {
     const input = document.createElement('input');
     input.setAttribute('type', 'text');
-    input.placeholder = '검색';
+    input.maxLength = 30;
+    input.placeholder = '검색어를 입력하세요';
 
     const button = Button.createElements({
       className: ['search-button'],
@@ -42,13 +43,13 @@ class SearchField {
   }
 
   dispatchGetMatchedMovie() {
-    const input = this.template.querySelector('input');
+    const input = this.template.querySelector('input') as HTMLInputElement;
     const getMatchedMoviesEvent = new CustomEvent('GetMatchedMovies', {
-      detail: {
-        query: input?.value as string,
-      },
+      detail: { query: input.value as string },
       bubbles: true,
     });
+    input.value = '';
+    input.blur();
     document.dispatchEvent(getMatchedMoviesEvent);
   }
 
