@@ -17,6 +17,8 @@ class App {
     <main>
       <section class="item-view">
         <h2>지금 인기 있는 영화</h2>
+        <slot class="slot-movie-list"></slot>
+        <button class="btn primary full-width">더 보기</button>
       </section>
     </main>
     `;
@@ -26,9 +28,9 @@ class App {
     this.$target.innerHTML = this.template();
     const header = new Header({ imageSrc: './images/logo.png' });
     const movieListContainer = new MovieListContainer();
-    const $section = dom.getElement<HTMLElement>(this.$target, '.item-view');
 
-    $section.appendChild(movieListContainer.$target);
+    const slotMovieList = dom.getElement(this.$target, '.slot-movie-list');
+    slotMovieList.replaceWith(movieListContainer.$target);
     this.$target.prepend(header.$target);
   }
 }
