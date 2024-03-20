@@ -6,8 +6,21 @@ import MovieItems from './components/MovieItems/MovieItems';
 
 const body = document.querySelector('body');
 
-body?.appendChild(Header.createElements());
+const header = new Header();
 const movieItems = new MovieItems();
-body?.appendChild(movieItems.createElements());
 
-movieItems.getPopularMovies().then((movies) => movieItems.createMovieItem(movies));
+body?.appendChild(header.getElement());
+body?.appendChild(movieItems.getElement());
+
+document.addEventListener('GetPopularMovies', () => {
+  movieItems.resetMovieItems();
+  movieItems.showMore();
+});
+
+document.addEventListener('GetMatchedMovies', (event) => {
+  if (!(event instanceof CustomEvent)) return;
+  const { query } = event.detail;
+
+  movieItems.resetMovieItems(query);
+  movieItems.showMore(query);
+});

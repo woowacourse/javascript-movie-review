@@ -13,16 +13,33 @@ class MovieItems {
 
   private isLast: boolean;
 
-  private template: HTMLElement | undefined;
+  private template: HTMLElement;
 
   constructor() {
-    this.currentPage = 1;
+    this.template = this.createFallback();
+    this.currentPage = 0;
     this.isLast = false;
+    this.createElements();
+    this.showMore();
   }
+
+  createFallback() {
+    const main = document.createElement('main');
+    main.classList.add('fall-back');
+    main.textContent = '영화가 없어요';
+    return main;
+  }
+
+  // 초기화 ctor -> createEl, getPopular(1),createMovieItem
+  // showmorehandle -> getPopuilar(2), reateMovieItem;
 
   // 검색 -> event로 받든 어쨌든 받아
   // resetItems()
   // getMatched();
+
+  getElement() {
+    return this.template;
+  }
 
   createElements() {
     const main = document.createElement('main');
@@ -32,38 +49,30 @@ class MovieItems {
     const ul = document.createElement('ul');
     ul.classList.add('item-list');
 
-    h2.appendChild(ul);
     main.appendChild(h2);
+    main.appendChild(ul);
 
     const button = Button.createElements({
       className: ['btn', 'primary', 'full-width'],
       text: '더 보기',
-      onClick: this.handleOnClick,
+      onClick: this.showMore.bind(this),
     });
     main.appendChild(button);
 
     this.template = main;
-    return main;
-  }
-
-  handleOnClick() {
-    console.log('!');
   }
 
   async getPopularMovies() {
     const movies = await PopularMovies.list({ page: this.currentPage });
-    this.currentPage = movies.page;
-
     this.checkLastPage(movies.total_pages);
     return movies.results;
   }
 
   async getMatchedMovies(query: string) {
     const movies = await MatchedMovies.list({ page: this.currentPage, query });
-    this.currentPage = movies.page;
-
     this.checkLastPage(movies.total_pages);
-    return movies;
+    console.log(movies);
+    return movies.results;
   }
 
   checkLastPage(totalPage: number) {
@@ -73,14 +82,14 @@ class MovieItems {
     }
   }
 
-  removeMovieItems(query?: string) {
+  resetMovieItems(query?: string) {
     const h2 = this.template?.querySelector('h2');
     if (!(h2 instanceof HTMLElement)) return;
-    h2.textContent = query ?? '지금 인기있는 영화';
+    h2.textContent = `"${query}"검색 결과` ?? '지금 인기있는 영화';
     const ul = this.template?.querySelector('ul');
     if (!(ul instanceof HTMLElement)) return;
     ul.innerHTML = '';
-    this.currentPage = 1;
+    this.currentPage = 0;
     this.isLast = false;
   }
 
@@ -94,8 +103,13 @@ class MovieItems {
     this.template?.querySelector('ul')?.appendChild(fragment);
   }
 
-  rendetar() {
-    return this.template;
+  showMore(query?: string) {
+    this.currentPage += 1;
+    if (typeof query === 'undefined') {
+      this.getPopularMovies().then((movies) => this.createMovieItem(movies));
+    } else {
+      this.getMatchedMovies(query).then((movies) => this.createMovieItem(movies));
+    }
   }
 }
 
