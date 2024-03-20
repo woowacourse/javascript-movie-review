@@ -4,7 +4,7 @@
 
 body {
   font-size: 14px;
-  background-color: #222222;
+  background-color: #111111;
   color: #fff;
 }
 
@@ -83,7 +83,7 @@ button {
 .item-title.skeleton::after,
 .item-score.skeleton::after {
   font-size: 0;
-  content: "loading";
+  content: 'loading';
 }
 
 .full-width {
@@ -106,7 +106,8 @@ button.primary {
 }
 
 .item-card .skeleton {
-  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  /* background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0); */
+  background: linear-gradient(-90deg, #7d7d7d, #f0f0f0, #aaa, #f0f0f0);
   background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
   border-radius: 8px;
@@ -127,7 +128,7 @@ header {
   width: 100%;
   min-width: 1200px;
   height: 72px;
-  background-color: #222;
+  background-color: #111;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -159,6 +160,6 @@ header .search-box > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
-  background: url("./search_button.png") transparent no-repeat 0 1px;
+  background: url('./search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
 }
