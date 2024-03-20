@@ -6,38 +6,76 @@ import { BaseResponse } from '../../apis/common/apiSchema.type';
 import { MovieListCardProps } from '../MovieListCard/MovieListCard.type';
 import { querySelector } from '../../utils/dom/selector';
 import { on } from '../../utils/dom/eventListener/eventListener';
+import MovieListCardSkeleton from '../MovieListCardSkeleton/MovieListCardSkeleton';
 
 interface MovieReviewBodyProps {
   movieType: string;
 }
 
 class MovieReviewBody extends Component<MovieReviewBodyProps> {
-  private state: { page: number } = {
-    page: 1,
-  };
+  private page = 0;
 
   protected render() {
+    this.page = 1;
     this.$element.append(this.createComponent());
   }
 
-  private handleMoreButtonClick() {
-    this.state.page += 1;
+  protected createComponent() {
+    const $section = createElement({ tagName: 'section', attributeOptions: { class: 'item-view' } });
 
-    MovieAPI.fetchMovieDetails<BaseResponse<MovieListCardProps[]>>(this.state.page, this.props?.movieType ?? '')
+    $section.appendChild(this.createMovieTitle());
+    $section.appendChild(this.createMovieListContainer());
+    $section.appendChild(this.createMoreButton());
+
+    return $section;
+  }
+
+  private createMovieTitle() {
+    const movieTitleText =
+      this.props?.movieType === 'popular' ? '지금 인기 있는 영화' : `${this.props?.movieType} 검색 결과`;
+
+    return createElement({ tagName: 'h2', text: movieTitleText });
+  }
+
+  private createMovieListContainer() {
+    const $movieListContainer = createElement({ tagName: 'div', attributeOptions: { id: 'movie-list-container' } });
+
+    this.updateMovieList($movieListContainer);
+
+    return $movieListContainer;
+  }
+
+  private updateMovieList($movieListContainer: HTMLElement) {
+    const $ul = createElement({ tagName: 'ul', attributeOptions: { class: 'item-list' } });
+
+    this.renderSkeletonList($movieListContainer, $ul, 8);
+
+    this.renderMovieList($movieListContainer, $ul);
+  }
+
+  private renderSkeletonList($movieListContainer: HTMLElement, $ul: HTMLElement, length: number) {
+    Array.from({ length }, () => new MovieListCardSkeleton($ul));
+
+    $movieListContainer.append($ul);
+  }
+
+  private renderMovieList($movieListContainer: HTMLElement, $ul: HTMLElement) {
+    MovieAPI.fetchMovieDetails<BaseResponse<MovieListCardProps[]>>(this.page, this.props?.movieType ?? '')
       .then((data) => {
         if (data?.results) {
-          const $movieListContainer = querySelector<HTMLDivElement>('#movie-list-container');
+          $ul.remove();
           new MovieList($movieListContainer, { movieItemDetails: data?.results ?? [] });
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => console.error(error));
+  }
 
-    if (this.state.page === 5) {
-      const $button = querySelector<HTMLButtonElement>('#more-button', this.$element);
-      $button.remove();
-    }
+  private createMoreButton() {
+    return createElement({
+      tagName: 'button',
+      text: '더보기',
+      attributeOptions: { id: 'more-button', class: 'btn primary full-width' },
+    });
   }
 
   protected setEvent(): void {
@@ -48,36 +86,16 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     });
   }
 
-  protected createComponent() {
-    const $section = createElement({ tagName: 'section', attributeOptions: { class: 'item-view' } });
+  private handleMoreButtonClick() {
+    this.page += 1;
 
-    const movieTitleText =
-      this.props?.movieType === 'popular' ? '지금 인기 있는 영화' : `${this.props?.movieType} 검색 결과`;
-    const $movieTitle = createElement({ tagName: 'h2', text: movieTitleText });
-    $section.appendChild($movieTitle);
+    const $movieListContainer = querySelector<HTMLDivElement>('#movie-list-container');
+    this.updateMovieList($movieListContainer);
 
-    const $movieListContainer = createElement({ tagName: 'div', attributeOptions: { id: 'movie-list-container' } });
-
-    MovieAPI.fetchMovieDetails<BaseResponse<MovieListCardProps[]>>(1, this.props?.movieType ?? '')
-      .then((data) => {
-        // 스켈레톤 지우고
-        // ex) ~
-        new MovieList($movieListContainer, { movieItemDetails: data?.results ?? [] });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    $section.appendChild($movieListContainer);
-
-    const $button = createElement({
-      tagName: 'button',
-      text: '더보기',
-      attributeOptions: { id: 'more-button', class: 'btn primary full-width' },
-    });
-    $section.appendChild($button);
-
-    return $section;
+    if (this.page === 5) {
+      const $button = querySelector<HTMLButtonElement>('#more-button', this.$element);
+      $button.remove();
+    }
   }
 }
 
