@@ -3,26 +3,48 @@ import starImg from '../assets/images/star_empty.png';
 import { appendChildren } from '../utils/domUtil';
 import getButton from './getButton';
 
-function getDummyItem() {
+interface IMovieItemProps {
+  image: string;
+  title: string;
+  score: number;
+}
+
+// function getImage(props: Omit<IMovieItemProps, 'score'>) {
+function getImage(props: IMovieItemProps) {
+  const img = document.createElement('img');
+  img.src = props.image;
+  img.alt = props.title;
+  return img;
+}
+
+function getTitleParagraph(title: string) {
+  const paragraph = document.createElement('p');
+  paragraph.classList.add('item-title');
+  paragraph.textContent = title;
+}
+
+function getScoreParagraph() {
+  const paragraph = document.createElement('p');
+  const image = document.createElement('img');
+}
+
+function getMovieItem(props: IMovieItemProps) {
   const movieItem = document.createElement('li');
-  movieItem.innerHTML = '잘되나?';
+  const movieItemLink = document.createElement('a');
+  const movieItemCard = document.createElement('div');
+  const movieItemImage = getImage(props);
+  const movieTitle = document.createElement('p');
+  const movieScore = document.createElement('p');
+
+  movieItemCard.classList.add('item-card');
+
+  movieItemImage.src = 'https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg';
+
+  movieItemLink.appendChild(movieItemCard);
+  appendChildren(movieItemCard, [movieItemImage, movieTitle, movieScore]);
+  movieItem.appendChild(movieItemLink);
+
   return movieItem;
-  // return `
-  //           <li>
-  //             <a href="#">
-  //               <div class="item-card">
-  //                 <img
-  //                   class="item-thumbnail"
-  //                   src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-  //                   loading="lazy"
-  //                   alt="앤트맨과 와스프: 퀀텀매니아"
-  //                 />
-  //                 <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-  //                 <p class="item-score"><img src=${starImg} alt="별점" />6.5</p>
-  //               </div>
-  //             </a>
-  //           </li>
-  // `;
 }
 
 function getMovieListContainer(listTitle: string) {
@@ -34,7 +56,8 @@ function getMovieListContainer(listTitle: string) {
   popularTitle.innerText = listTitle;
   movieList.classList.add('item-list');
 
-  const movies = Array.from({ length: 20 }, getDummyItem) as HTMLElement[];
+  // TODO: fetch로 리팩토링
+  const movies = Array.from({ length: 20 }, getMovieItem) as HTMLElement[];
   movies.forEach((movieItem) => {
     movieList.append(movieItem);
   });

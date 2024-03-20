@@ -20,6 +20,6 @@ FE 레벨1 영화관 미션
 
 - ### UI Refactoring
 - [x] Header
-- [ ] Movie List
+- [x] Movie List
 - [ ] Movie Item
 - [ ] 더보기 버튼
