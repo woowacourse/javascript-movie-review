@@ -1,14 +1,14 @@
 import starFilled from "../../templates/star_filled.png";
+import { IMAGE_URL } from "../config";
 import { Movie } from "../type/movie";
 import createElementWithAttribute from "../utils/createElementWithAttribute";
 
-const tmdbImageUrl = "https://image.tmdb.org/t/p/";
 const posterSize = "w500";
 
 const MovieImg = (movie: Movie) =>
   createElementWithAttribute("img", {
     class: "item-thumbnail",
-    src: tmdbImageUrl + posterSize + movie.poster_path,
+    src: IMAGE_URL + posterSize + movie.poster_path,
     loading: "lazy",
     alt: movie.title,
   });
