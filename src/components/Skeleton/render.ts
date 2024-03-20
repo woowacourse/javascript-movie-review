@@ -12,7 +12,7 @@ const createSkeletonContent = () => {
 };
 
 export const renderSkeleton = () => {
-  const itemCard = createElement('div', { className: 'item-card' });
+  const itemCard = createElement('div', { className: 'item-card skeleton' });
   const skeletonContent = createSkeletonContent();
 
   itemCard.appendChild(skeletonContent);
