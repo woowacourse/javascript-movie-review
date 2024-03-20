@@ -1,5 +1,6 @@
 import Component from './components/Component/Component';
 import MovieReviewBody from './components/MovieReviewBody/MovieReviewBody';
+import MovieReviewHeader from './components/MovieReviewHeader/MovieReviewHeader';
 
 class App extends Component {
   protected render() {
@@ -11,7 +12,9 @@ class App extends Component {
 
     const $main = document.createElement('main');
 
-    new MovieReviewBody($main);
+    new MovieReviewHeader($main);
+
+    new MovieReviewBody($main, { movieType: 'popular' });
 
     $app.appendChild($main);
 

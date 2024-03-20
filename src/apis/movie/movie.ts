@@ -1,16 +1,18 @@
 import ApiSchema from '../common/apiSchema';
 import { FetchMovieType } from './movie.type';
 
-const createMovieURLParams = (page: number) =>
-  new URLSearchParams({
+const createMovieURLParams = (page: number, query?: string) => {
+  return new URLSearchParams({
+    ...(query && { query }),
     api_key: process.env.API_KEY,
     language: 'ko',
     page: String(page),
   });
+};
 
 class MovieAPI {
   static URL_MAP = {
-    popular: (queryString: string) => `${process.env.BASE_URL}/popular?${queryString}`,
+    popular: (queryString: string) => `${process.env.BASE_URL}/movie/popular?${queryString}`,
     search: (queryString: string) => `${process.env.BASE_URL}/search/movie?${queryString}`,
   } as const;
 
@@ -25,8 +27,8 @@ class MovieAPI {
 
   static async fetchMovieDetails<T>(page: number, type: FetchMovieType = 'popular'): Promise<T | undefined> {
     try {
-      const queryString = createMovieURLParams(page).toString();
-      const requestUrl = MovieAPI.URL_MAP[type](queryString);
+      const queryString = createMovieURLParams(page, type === 'popular' ? '' : type).toString();
+      const requestUrl = MovieAPI.URL_MAP[type === 'popular' ? 'popular' : 'search'](queryString);
 
       const response = await new ApiSchema(requestUrl).request();
 

@@ -7,7 +7,11 @@ import { MovieListCardProps } from '../MovieListCard/MovieListCard.type';
 import { querySelector } from '../../utils/dom/selector';
 import { on } from '../../utils/dom/eventListener/eventListener';
 
-class MovieReviewBody extends Component {
+interface MovieReviewBodyProps {
+  movieType: string;
+}
+
+class MovieReviewBody extends Component<MovieReviewBodyProps> {
   private state: { page: number } = {
     page: 1,
   };
@@ -19,7 +23,7 @@ class MovieReviewBody extends Component {
   private handleMoreButtonClick() {
     this.state.page += 1;
 
-    MovieAPI.fetchMovieDetails<BaseResponse<MovieListCardProps[]>>(this.state.page)
+    MovieAPI.fetchMovieDetails<BaseResponse<MovieListCardProps[]>>(this.state.page, this.props?.movieType ?? '')
       .then((data) => {
         if (data?.results) {
           const $movieListContainer = querySelector<HTMLDivElement>('#movie-list-container');
@@ -47,12 +51,14 @@ class MovieReviewBody extends Component {
   protected createComponent() {
     const $section = createElement({ tagName: 'section', attributeOptions: { class: 'item-view' } });
 
-    const $movieTitle = createElement({ tagName: 'h2', text: '지금 인기 있는 영화' });
+    const movieTitleText =
+      this.props?.movieType === 'popular' ? '지금 인기 있는 영화' : `${this.props?.movieType} 검색 결과`;
+    const $movieTitle = createElement({ tagName: 'h2', text: movieTitleText });
     $section.appendChild($movieTitle);
 
     const $movieListContainer = createElement({ tagName: 'div', attributeOptions: { id: 'movie-list-container' } });
 
-    MovieAPI.fetchMovieDetails<BaseResponse<MovieListCardProps[]>>(1)
+    MovieAPI.fetchMovieDetails<BaseResponse<MovieListCardProps[]>>(1, this.props?.movieType ?? '')
       .then((data) => {
         // 스켈레톤 지우고
         // ex) ~
