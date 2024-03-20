@@ -1,28 +1,28 @@
 import { getPopularMovies } from '../../apis/movie';
-import { IMovie } from '../../types/movie';
 import MovieItem from '../movieItem/MovieItem';
 
 class MovieListContainer {
   $target;
-  page = 1;
+  page = 0;
 
   constructor() {
     this.$target = document.createElement('ul');
     this.$target.classList.add('item-list');
     (async () => {
-      const movies = await getPopularMovies(this.page);
-      this.paint(movies);
+      await this.paint();
     })();
   }
 
-  paint(movies: IMovie[]) {
-    // 검색새로했을때 등
+  async paint() {
+    // 검색 새로했을 때
     this.$target.replaceChildren();
-    this.attach(movies);
+    await this.attach();
   }
 
-  attach(movies: IMovie[]) {
-    // 더보기 눌렀을때
+  async attach() {
+    // 더보기 눌렀을 때
+    this.page += 1;
+    const movies = await getPopularMovies(this.page);
     this.$target.append(...movies.map(movie => new MovieItem(movie).$target));
   }
 }
