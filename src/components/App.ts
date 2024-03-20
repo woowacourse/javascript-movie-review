@@ -40,7 +40,7 @@ class App {
         const movies = await searchMoviesByTitle($input.value, this.movieListContainer.page);
         this.movieListContainer.paint(movies);
 
-        history.pushState('', '', `?title=${$input.value}&page=${this.movieListContainer.page}`);
+        history.pushState('', '', `?mode=search&title=${$input.value}&page=${this.movieListContainer.page}`);
       },
     });
     const slotMovieList = dom.getElement(this.$target, '.slot-movie-list');

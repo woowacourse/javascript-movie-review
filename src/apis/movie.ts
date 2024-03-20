@@ -17,7 +17,7 @@ export const getPopularMovies = async (page: number): Promise<IMovie[]> => {
   return results.map(parseMovieResponse);
 };
 
-export const searchMoviesByTitle = async (title: string, page: number) => {
+export const searchMoviesByTitle = async (title: string, page: number): Promise<IMovie[]> => {
   const response = await fetch(
     BASE_URL + `/3/search/movie?query=${title}&include_adult=false&language=en-US&page=${page}`,
     {
