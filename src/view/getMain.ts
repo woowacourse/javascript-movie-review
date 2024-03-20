@@ -1,38 +1,41 @@
+import starFilledImage from '../assets/images/star_filled.png';
+import { POPULAR_MOVIES_URL } from '../constants/tmdbConstants';
 import { appendChildren } from '../utils/domUtil';
 import getButton from './getButton';
 
 interface IMovieItemProps {
-  image: string;
+  id: number;
+  poster_path: string;
   title: string;
-  score: number;
+  vote_average: number;
 }
-
-const state = {
-  image: 'https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg',
-  title: 'hihi',
-  score: 6.5,
-};
 
 function getImage(props: IMovieItemProps) {
   const img = document.createElement('img');
   img.alt = props.title;
-  img.src = props.image;
+  img.src = `https://image.tmdb.org/t/p/w500/${props.poster_path}`;
   img.loading = 'lazy';
   return img;
 }
 
 function getTitleParagraph(title: string) {
   const movieTitle = document.createElement('p');
+  movieTitle.classList.add('item-title');
   movieTitle.innerText = title;
   return movieTitle;
 }
 
 function getScoreParagraph(score: number) {
   const movieScore = document.createElement('p');
+  const starScore = document.createElement('img');
+  movieScore.classList.add('item-score');
   movieScore.innerText = String(score);
+  starScore.src = starFilledImage;
+  movieScore.appendChild(starScore);
   return movieScore;
 }
 
+// eslint-disable-next-line max-lines-per-function
 function getMovieItem(props: IMovieItemProps) {
   const movieItem = document.createElement('li');
   const movieItemLink = document.createElement('a');
@@ -41,13 +44,19 @@ function getMovieItem(props: IMovieItemProps) {
 
   movieItemCard.classList.add('item-card');
   movieItemLink.appendChild(movieItemCard);
-  appendChildren(movieItemCard, [movieItemImage, getTitleParagraph(props.title), getScoreParagraph(props.score)]);
+  // eslint-disable-next-line max-len
+  appendChildren(movieItemCard, [
+    movieItemImage,
+    getTitleParagraph(props.title),
+    getScoreParagraph(props.vote_average),
+  ]);
   movieItem.appendChild(movieItemLink);
 
   return movieItem;
 }
 
-function getMovieListContainer(listTitle: string) {
+// eslint-disable-next-line max-lines-per-function
+async function getMovieListContainer(listTitle: string) {
   const movieListContainer = document.createElement('section');
   const popularTitle = document.createElement('h2');
   const movieList = document.createElement('ul');
@@ -56,11 +65,21 @@ function getMovieListContainer(listTitle: string) {
   popularTitle.innerText = listTitle;
   movieList.classList.add('item-list');
 
-  // TODO: fetch로 리팩토링
-  const movies = Array.from({ length: 20 }, () => getMovieItem(state)) as HTMLElement[];
-  movies.forEach((movieItem) => {
-    movieList.append(movieItem);
-  });
+  const res = await (
+    await fetch(
+      `${POPULAR_MOVIES_URL}?${new URLSearchParams({
+        api_key: process.env.TMDB_API_KEY,
+        language: 'ko-KR',
+        page: '1',
+      })}`,
+    )
+  ).json();
+
+  const moviesData = res.results;
+  // eslint-disable-next-line max-len
+  const movieElements = moviesData.map((info: IMovieItemProps) => getMovieItem(info)) as HTMLElement[];
+
+  appendChildren(movieList, movieElements);
 
   appendChildren(movieListContainer, [popularTitle, movieList]);
   movieListContainer.appendChild(getButton());
@@ -68,9 +87,9 @@ function getMovieListContainer(listTitle: string) {
   return movieListContainer;
 }
 
-function getMain() {
+async function getMain() {
   const mainTag = document.createElement('main');
-  const movieListContainer = getMovieListContainer('지금 인기 있는 영화');
+  const movieListContainer = await getMovieListContainer('지금 인기 있는 영화');
 
   mainTag.appendChild(movieListContainer);
 

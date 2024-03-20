@@ -10,15 +10,15 @@ function renderHeader() {
   app.prepend(header);
 }
 
-function renderMain() {
-  const main = getMain();
+async function renderMain() {
+  const main = await getMain();
   const app = document.getElementById('app');
   app.appendChild(main);
 }
 
-function run() {
+async function run() {
   renderHeader();
-  renderMain();
+  await renderMain();
 }
 
 run();
