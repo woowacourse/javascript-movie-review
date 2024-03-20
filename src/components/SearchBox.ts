@@ -1,18 +1,24 @@
+/* eslint-disable max-lines-per-function */
+import apiClient from "../model/APIClient";
 import dataStateStore from "../model/DataStateStore";
 import createElementWithAttribute from "../utils/createElementWithAttribute";
 import preventXSS from "../utils/preventXSS";
 
 import ItemView from "./ItemView";
 
-const searchMovie = () => {
+const searchMovie = async () => {
   const $searchInput = document.querySelector("#search-input");
   if (!($searchInput instanceof HTMLInputElement)) return;
-
   const title = preventXSS($searchInput.value);
-  // TODO : 관련 기능 유틸로 빼기
+  await apiClient.getSearchMovieData(true, title);
   const $itemView = document.querySelector(".item-view");
   $itemView?.remove();
-  ItemView(`"${title}" 검색 결과`, dataStateStore.getFilteredMovieData(title));
+  console.log(dataStateStore.movieData.movieList);
+  ItemView(
+    `"${title}" 검색 결과`,
+    dataStateStore.movieData.movieList,
+    "search",
+  );
 };
 
 const handleInputKeydown = (event: KeyboardEvent) => {

@@ -8,7 +8,7 @@ import SearchBox from "./SearchBox";
 const handleClickToRefresh = () => {
   const $itemView = document.querySelector(".item-view");
   $itemView?.remove();
-  ItemView("지금 인기 있는 영화", dummyMovieList);
+  ItemView("지금 인기 있는 영화", dummyMovieList, "popular");
 };
 
 const Logo = () => {

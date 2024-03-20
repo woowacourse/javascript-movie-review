@@ -1,4 +1,3 @@
-import dummyMovieList from "../movieList";
 import { Movie } from "../type/movie";
 
 interface DataProps {
@@ -7,28 +6,23 @@ interface DataProps {
 }
 class DataStateStore {
   #movieList: Movie[] | undefined;
-
-  constructor() {
-    // TODO: 비동기 실행해서 초기 데이터 넣어주기
-    this.#movieList = dummyMovieList;
-  }
+  #isShowMorButton = true;
 
   getTotalMovieData(
     { movieData, isShowMoreButton }: DataProps,
-    isStack: boolean,
+    resetMovieList: boolean,
   ) {
-    if (!(this.#movieList && isStack)) this.#movieList = movieData;
+    if (!this.#movieList || resetMovieList) this.#movieList = movieData;
     else this.#movieList = this.#movieList.concat(movieData);
 
-    return {
-      totalMovieList: JSON.parse(JSON.stringify(this.#movieList)) as Movie[],
-      isShowMoreButton,
-    };
+    this.#isShowMorButton = isShowMoreButton;
   }
 
-  // TODO: api  구현 후 삭제 예정
-  getFilteredMovieData(text: string) {
-    return this.#movieList?.filter((movie) => movie.title.includes(text));
+  get movieData() {
+    return {
+      movieList: JSON.parse(JSON.stringify(this.#movieList)) as Movie[],
+      isShowMoreButton: this.#isShowMorButton,
+    };
   }
 }
 

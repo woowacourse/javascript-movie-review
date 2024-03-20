@@ -1,4 +1,4 @@
-import { Movie } from "../type/movie";
+import { ListType, Movie } from "../type/movie";
 import createElementWithAttribute from "../utils/createElementWithAttribute";
 
 import ItemList from "./ItemList";
@@ -15,12 +15,16 @@ const makeSection = (titleText: string, movieList: Movie[] | undefined) => {
   return $section;
 };
 
-const ItemView = (titleText: string, movieList: Movie[] | undefined) => {
+const ItemView = (
+  titleText: string,
+  movieList: Movie[] | undefined,
+  listType: ListType,
+) => {
   const $main = document.querySelector("main");
 
   const $section = makeSection(titleText, movieList);
 
   $main?.appendChild($section);
-  MoreButton();
+  MoreButton(listType);
 };
 export default ItemView;
