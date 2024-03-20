@@ -17,9 +17,6 @@ interface MoviePageData extends MovieListData {
 }
 
 class MovieService {
-  private currentPageNumber: number = 1;
-  private currentSearchPageNumber: number = 1;
-
   async fetchPopularMovieList(pageNumber: number) {
     // TODO: ! 지우기
     const { total_pages, results }: MovieListData = await fetchDataFromUrl(POPULAR_MOVIES_URL, {
@@ -28,18 +25,18 @@ class MovieService {
       page: pageNumber.toString(),
     });
 
-    return this.createMoviePageData({ total_pages, results, pageNumber: this.currentPageNumber });
+    return this.createMoviePageData({ total_pages, results, pageNumber });
   }
 
-  async fetchSearchResult(searchKeyword: string) {
+  async fetchSearchResult({ query, pageNumber }: { query: string; pageNumber: number }) {
     const { total_pages, results } = await fetchDataFromUrl(MOVIE_SEARCH_URL, {
       api_key: process.env.API_KEY!,
       language: 'ko-KR',
-      query: searchKeyword,
-      page: this.currentSearchPageNumber.toString(),
+      query,
+      page: pageNumber,
     });
 
-    return this.createMoviePageData({ total_pages, results, pageNumber: this.currentSearchPageNumber });
+    return this.createMoviePageData({ total_pages, results, pageNumber });
   }
 
   createMoviePageData({ total_pages, results, pageNumber }: MoviePageData) {
