@@ -19,13 +19,21 @@ const getMovieListDataByKeyword = async (keyword: string) => {
   addShowMoreButtonEventListener('search', keyword);
 };
 
+const validateAndLoadMovieList = (keyword: string) => {
+  if (!keyword.length) {
+    alert('검색어는 1글자 이상이어야 합니다..');
+    return;
+  }
+  removeHTMLElements('li');
+  getMovieListDataByKeyword(keyword);
+  updateMovieListBanner(keyword);
+};
+
 const formSubmitHandler = (event: Event) => {
   event.preventDefault();
   const input = document.querySelector('input');
   if (!input) return;
-  removeHTMLElements('li');
-  getMovieListDataByKeyword(input.value);
-  updateMovieListBanner(input.value);
+  validateAndLoadMovieList(input.value);
 
   input.value = '';
 };
