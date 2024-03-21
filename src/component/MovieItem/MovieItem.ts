@@ -1,53 +1,39 @@
-import { createElement } from "./../../utility/dom";
-
 import starFilledImg from "../../image/star_filled.png";
 
 class MovieItem {
-  #moveItemInfo;
+  #movieItemInfo;
 
   constructor(movieItemInfo: IMovieItemData) {
-    this.#moveItemInfo = movieItemInfo;
+    this.#movieItemInfo = movieItemInfo;
   }
 
-  createMovieItem() {
-    const li = createElement("li");
+  setMovieItemData(liElement: HTMLLIElement) {
+    const thumbnailElement = liElement.querySelector("img");
+    if (thumbnailElement) {
+      thumbnailElement.src = `https://image.tmdb.org/t/p/w220_and_h330_face${
+        this.#movieItemInfo.poster_path
+      }`;
+      thumbnailElement.alt = this.#movieItemInfo.title;
+    }
 
-    const article = createElement("article", {
-      class: "item-card",
-    });
+    const titleElement = liElement.querySelector("p");
+    if (titleElement) {
+      titleElement.textContent = this.#movieItemInfo.title;
+    }
 
-    const thumbnail = createElement("img", {
-      class: "item-thumbnail",
-      src: `https://image.tmdb.org/t/p/w220_and_h330_face${
-        this.#moveItemInfo.poster_path
-      }`,
-      loading: "lazy",
-      alt: this.#moveItemInfo.title,
-    });
+    const scoreElement = liElement.querySelector("span");
+    if (scoreElement) {
+      scoreElement.textContent = String(
+        this.#movieItemInfo.vote_average.toFixed(1)
+      );
+    }
 
-    const title = createElement("p", {
-      class: "item-title",
-    });
-    title.textContent = this.#moveItemInfo.title;
-
-    const scoreWrapper = createElement("div", {
-      class: "item-score-wrapper",
-    });
-
-    const score = createElement("span", {
-      class: "item-score",
-    });
-    score.textContent = Number(this.#moveItemInfo.vote_average).toFixed(1);
-
-    const starImg = createElement("img", { src: `${starFilledImg}` });
-
-    scoreWrapper.appendChild(score);
-    scoreWrapper.appendChild(starImg);
-    article.appendChild(thumbnail);
-    article.appendChild(title);
-    article.appendChild(scoreWrapper);
-    li.appendChild(article);
-    return li;
+    const starImgElement = liElement.querySelector(
+      ".item-filled-star"
+    ) as HTMLImageElement;
+    if (starImgElement) {
+      starImgElement.src = starFilledImg;
+    }
   }
 }
 
