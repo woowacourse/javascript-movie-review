@@ -1,9 +1,9 @@
 import SkeletonUI from "../SkeletonUI";
 import EventComponent from "./EventComponent";
 import APIError from "../../error/APIError";
+import { generateNetworkNotWorkingScreen } from "../templates/generateUnexpectedScreen";
 import { $ } from "../../utils/dom";
 import { runAsyncTryCatch } from "../../utils/runTryCatch";
-import IMAGES from "../../images";
 
 type FetchedData = Record<any, any> | Record<any, any>[];
 
@@ -63,7 +63,7 @@ export default abstract class APIClientComponent extends EventComponent {
 
     const errorTargetElement = $(this.targetId);
     if (errorTargetElement instanceof HTMLElement) {
-      errorTargetElement.innerHTML = `<div><img src='${IMAGES.workers}' /></div>`;
+      errorTargetElement.innerHTML = generateNetworkNotWorkingScreen();
     }
   }
 }

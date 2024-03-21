@@ -4,6 +4,8 @@ import QueryState from "../states/QueryState";
 import { $ } from "../utils/dom";
 import IMAGES from "../images";
 
+const MOVIE_QUERY_MAX_LENGTH = 500;
+
 interface MovieHeaderProps {
   targetId: ElementId;
   queryState: QueryState;
@@ -21,7 +23,7 @@ export default class MovieHeader extends EventComponent {
       <h1 id="movie-list-logo"><img src="${IMAGES.logo}" alt="MovieList 로고" /></h1>
       <div class="search-box">
           <form id="search-form">
-            <input name="search-query" type="text" placeholder="검색" />
+            <input name="search-query" type="text" placeholder="검색" maxLength="${MOVIE_QUERY_MAX_LENGTH}"/>
             <button class="search-button">검색</button>
           </form>
       </div>

@@ -166,3 +166,25 @@ header .search-box .search-button {
   background: url("../images/search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
 }
+
+.movie-list-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.unexpected-case-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.unexpected-case-image {
+  object-fit: cover;
+  width: 300px;
+}
+.unexpected-case-message {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-top: 0.5rem;
+}

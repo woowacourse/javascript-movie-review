@@ -4,9 +4,9 @@ import SkeletonUI from "../SkeletonUI";
 import QueryState, { Query } from "../../states/QueryState";
 import { Movie, generateMovieItems } from "../templates/generateMovieItems";
 import { generateMovieListSkeleton } from "../templates/generateMovieListSkeleton";
+import { generateEmptyMovieListScreen } from "../templates/generateUnexpectedScreen";
 import { getPopularMovieList, getSearchMovieList } from "../../apis/movieList";
 import { $ } from "../../utils/dom";
-import IMAGES from "../../images";
 
 interface MovieListProps {
   targetId: string;
@@ -30,11 +30,7 @@ export default class MovieList extends APIClientComponent {
         <ul id="item-list" class="item-list">
         ${
           data.length === 0
-            ? `<div>
-            <img src="${IMAGES.emptyMovieList}" />
-            <p>표시할 영화 정보가 없습니다.</p>
-            </div>
-              `
+            ? generateEmptyMovieListScreen()
             : movieItemsTemplate
         }
         </ul>

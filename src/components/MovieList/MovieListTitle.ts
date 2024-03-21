@@ -21,7 +21,9 @@ export default class MovieListTitle extends BaseComponent {
     const query = this.queryState.get();
 
     return `
-    <h2>${query ? `"${query}" 검색결과` : "지금 인기 있는 영화"}</h2>
+    <h2 class="movie-list-title">${
+      query ? `"${query}" 검색결과` : "지금 인기 있는 영화"
+    }</h2>
     `;
   }
 }
