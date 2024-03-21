@@ -30,15 +30,8 @@ class MovieList {
       class: "item-list",
     });
 
-    const moreMoviesButton = MoreMoviesButton.createMoreMoviesButton();
-
     this.#movieListSection.appendChild(movieListTitle);
     this.#movieListSection.appendChild(movieListUl);
-    this.#movieListSection.appendChild(moreMoviesButton);
-
-    moreMoviesButton.addEventListener("click", () =>
-      this.#handlePopularPageEnd()
-    );
   }
 
   async #createPopularMovieItems() {
@@ -48,6 +41,11 @@ class MovieList {
 
     setTimeout(() => {
       this.#updateMovieItemsWithData(data, liList);
+
+      const moreMoviesButton = this.#createMoreMoviesButton();
+      moreMoviesButton.addEventListener("click", () =>
+        this.#handlePopularPageEnd()
+      );
     }, 1000);
 
     this.#currentPage += 1;
@@ -89,15 +87,8 @@ class MovieList {
       class: "item-list",
     });
 
-    const moreMoviesButton = MoreMoviesButton.createMoreMoviesButton();
-
     this.#movieListSection.appendChild(movieListTitle);
     this.#movieListSection.appendChild(searchedMovieListUl);
-    this.#movieListSection.appendChild(moreMoviesButton);
-
-    moreMoviesButton.addEventListener("click", () =>
-      this.#createSearchedMovieList()
-    );
   }
 
   async #createSearchedMovieItems(titleInput: string) {
@@ -121,6 +112,13 @@ class MovieList {
 
   #handleSearchedPageEnd(data: IMovieItemData[]) {
     if (data.length === MAX_PAGE_PER_REQUEST) {
+      this.#removeMoreMoviesButton();
+
+      const moreMoviesButton = this.#createMoreMoviesButton();
+      moreMoviesButton.addEventListener("click", () =>
+        this.#createSearchedMovieList()
+      );
+
       this.#currentPage += 1;
       return;
     }
@@ -205,9 +203,16 @@ class MovieList {
     const maxPageInfoElement = createElement("p", {
       class: "max-page-info",
     });
-    maxPageInfoElement.textContent = "마지막 페이지에 도달하였습니다 🚀";
+    maxPageInfoElement.textContent = "목록의 끝에 도달했습니다 🚀";
 
     return maxPageInfoElement;
+  }
+
+  #createMoreMoviesButton() {
+    const moreMoviesButton = MoreMoviesButton.createMoreMoviesButton();
+    this.#movieListSection.appendChild(moreMoviesButton);
+
+    return moreMoviesButton;
   }
 
   #removeMoreMoviesButton() {
