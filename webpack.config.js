@@ -2,9 +2,11 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DotEnv = require('dotenv-webpack');
 
+const env = process.env.NODE_ENV === 'development' ? 'development' : 'production';
+
 module.exports = {
   entry: './src/index.ts',
-  mode: 'development',
+  mode: env,
   resolve: {
     extensions: ['.ts', '.js'],
   },
