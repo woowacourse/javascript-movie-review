@@ -1,12 +1,4 @@
-const getPopularURL = (page) =>
-  new RegExp(
-    `^https:\\/\\/api\\.themoviedb\\.org\\/3\\/movie\\/popular\\?.*page=${page}.*`,
-  );
-
-const getSearchURL = (page) =>
-  new RegExp(
-    `^https:\\/\\/api\\.themoviedb\\.org\\/3\\/search\\/movie\\?query=.*&include_adult=false&language=ko&page=${page}`,
-  );
+import { getPopularURL, getSearchURL } from "../utils/createURL";
 
 describe("검색창 테스트", () => {
   it("검색창에 영화 제목을 입력 후 '검색 아이콘 클릭'하면 검색 데이터가 나온다.", () => {
@@ -26,7 +18,7 @@ describe("검색창 테스트", () => {
       { fixture: "movie-search-page1.json" },
     ).as("getSearchMovies1");
 
-    cy.visit("http://localhost:8080/");
+    cy.visitMainPage();
 
     // API 호출
     cy.wait("@getPopularMovies1").then((intercept) => {

@@ -1,12 +1,4 @@
-const getPopularURL = (page) =>
-  new RegExp(
-    `^https:\\/\\/api\\.themoviedb\\.org\\/3\\/movie\\/popular\\?.*page=${page}.*`,
-  );
-
-const getSearchURL = (page) =>
-  new RegExp(
-    `^https:\\/\\/api\\.themoviedb\\.org\\/3\\/search\\/movie\\?query=.*&include_adult=false&language=ko&page=${page}`,
-  );
+import { getPopularURL, getSearchURL } from "../utils/createURL";
 
 describe("더보기 버튼 테스트", () => {
   describe("인기 영화 리스트안의 더보기 버튼 테스트", () => {
@@ -28,7 +20,7 @@ describe("더보기 버튼 테스트", () => {
         { fixture: "movie-popular-page2.json" },
       ).as("getPopularMovies2");
 
-      cy.visit("http://localhost:8080/");
+      cy.visitMainPage();
 
       cy.wait("@getPopularMovies1").then((intercept) => {
         cy.get("#more-button").click();
@@ -60,7 +52,7 @@ describe("더보기 버튼 테스트", () => {
         { fixture: "movie-popular-last-page.json" },
       ).as("getPopularMoviesLast");
 
-      cy.visit("http://localhost:8080/");
+      cy.visitMainPage();
 
       cy.wait("@getPopularMovies1").then((intercept) => {
         cy.get("#more-button").click();
@@ -102,7 +94,7 @@ describe("더보기 버튼 테스트", () => {
         { fixture: "movie-search-page2.json" },
       ).as("getSearchMovies2");
 
-      cy.visit("http://localhost:8080/");
+      cy.visitMainPage();
 
       cy.wait("@getPopularMovies").then((intercept) => {
         // 검색
@@ -150,7 +142,7 @@ describe("더보기 버튼 테스트", () => {
         { fixture: "movie-search-last-page.json" },
       ).as("getSearchMoviesLast");
 
-      cy.visit("http://localhost:8080/");
+      cy.visitMainPage();
       //검색
 
       cy.wait("@getPopularMovies").then((intercept) => {
