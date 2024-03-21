@@ -28,7 +28,6 @@ class MovieList {
   }
 
   render() {
-    console.log('aaaa');
     if (!this.movieList) return this.renderSkeleton();
     return this.renderMovieList();
   }
