@@ -3,7 +3,7 @@
     "import/extensions": ["off"],
     "no-await-in-loop": "off",
     "no-constant-condition": "off",
-    "max-lines-per-function": ["error", 10],
+    "max-lines-per-function": ["error", 12],
     "max-depth": ["error", 1],
     "no-console": "off",
     "class-methods-use-this": "off",
@@ -11,7 +11,7 @@
     "lines-between-class-members": [
       "error",
       "always",
-      { "exceptAfterSingleLine": true }
+      { "exceptAfterSingleLine": true },
     ],
     "sort-imports": [
       "error",
@@ -19,8 +19,8 @@
         "ignoreCase": true,
         "ignoreDeclarationSort": true,
         "ignoreMemberSort": false,
-        "allowSeparatedGroups": true
-      }
+        "allowSeparatedGroups": true,
+      },
     ],
     "import/order": [
       "error",
@@ -31,41 +31,41 @@
           "internal",
           "parent",
           "sibling",
-          "index"
+          "index",
         ],
         "pathGroups": [
           {
             "pattern": "next",
-            "group": "builtin"
+            "group": "builtin",
           },
           {
             "pattern": "react",
-            "group": "builtin"
+            "group": "builtin",
           },
           {
             "pattern": "@MyDesignSystem/**",
-            "group": "internal"
+            "group": "internal",
           },
           {
             "pattern": "src/**",
-            "group": "internal"
-          }
+            "group": "internal",
+          },
         ],
         "pathGroupsExcludedImportTypes": ["src/**", "@MyDesignSystem/**"],
         "alphabetize": {
           "order": "asc",
-          "caseInsensitive": true
-        }
-      }
-    ]
+          "caseInsensitive": true,
+        },
+      },
+    ],
   },
   "env": {
     "es6": true,
-    "node": true
+    "node": true,
   },
   "parserOptions": {
-    "ecmaVersion": "latest"
-  }, 
+    "ecmaVersion": "latest",
+  },
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
   "extends": [
@@ -74,14 +74,14 @@
     "prettier",
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
   ],
   "settings": {
     "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"]
+      "@typescript-eslint/parser": [".ts", ".tsx"],
     },
     "import/resolver": {
-      "typescript": {}
-    }
-  }
+      "typescript": {},
+    },
+  },
 }
