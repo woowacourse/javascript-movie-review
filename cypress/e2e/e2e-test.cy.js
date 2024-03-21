@@ -26,10 +26,52 @@ describe('영화 e2e 테스트', () => {
         url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular*/,
       },
       { fixture: 'movie-single-page.json' },
-    ).as('getPopularMovies');
+    );
 
     cy.visit('/');
 
     cy.contains('더 보기').should('have.css', 'visibility', 'hidden');
+  });
+
+  it('키워드로 검색하면 검색 페이지로 전환된다.', () => {
+    cy.intercept(
+      {
+        method: 'GET',
+        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie*/,
+      },
+      { fixture: 'movie-single-page.json' },
+    );
+
+    cy.visit('/');
+
+    cy.get('.search-box').get('input').type('쿵푸');
+    cy.get('.search-box').submit();
+
+    cy.get('h2').contains('쿵푸').should('exist');
+  });
+
+  it('키워드와 일치하는 영화가 없으면 검색 결과가 없다고 안내한다.', () => {
+    cy.intercept(
+      {
+        method: 'GET',
+        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie*/,
+      },
+      { fixture: 'movie-empty-search-result.json' },
+    );
+
+    cy.visit('/');
+
+    cy.get('.search-box').get('input').type('쿵푸');
+    cy.get('.search-box').submit();
+
+    cy.get('.empty-search-result').contains('검색 결과가 없습니다.').should('exist');
+  });
+
+  it('검색어를 입력하지 않으면 검색어가 없다고 안내한다.', () => {
+    cy.visit('/');
+
+    cy.get('.search-box').submit();
+
+    cy.get('.toast').contains('검색어를 입력해주세요.').should('exist');
   });
 });
