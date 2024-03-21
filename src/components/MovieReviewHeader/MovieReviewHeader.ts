@@ -15,9 +15,9 @@ class MovieReviewHeader extends Component {
     const $header = createElement({ tagName: 'header' });
 
     $header.innerHTML = /* html */ `
-      <h1>
+      <h1 id="movie-logo">
         <img src=${Logo} alt="MovieList 로고" />
-        </h1>
+      </h1>
       <form id="search-form" class="search-box">
         <input id="search-input" type="text" placeholder="검색" />
         <button id="search-button" class="search-button">검색</button>
@@ -29,8 +29,10 @@ class MovieReviewHeader extends Component {
 
   protected setEvent(): void {
     const $searchForm = querySelector<HTMLFormElement>('#search-form', this.$element);
+    const $movieLogo = querySelector<HTMLFormElement>('#movie-logo', this.$element);
 
     on({ target: $searchForm, eventName: 'submit', eventHandler: this.handleSubmitForm.bind(this) });
+    on({ target: $movieLogo, eventName: 'click', eventHandler: this.handleClickLogo });
   }
 
   private handleSubmitForm(event: Event) {
@@ -63,6 +65,10 @@ class MovieReviewHeader extends Component {
 
     const $main = querySelector<HTMLElement>('main');
     new MovieReviewBody($main, { movieType: movieName });
+  }
+
+  private handleClickLogo() {
+    window.location.reload();
   }
 }
 
