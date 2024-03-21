@@ -1,7 +1,7 @@
 import { MOVIE_SEARCH_URL, POPULAR_MOVIES_URL } from '../constant/config';
 import fetchDataFromUrl from '../util/fetchDataFromUrl';
 import Movie from './Movie';
-import getEnvVariable from './getEnvVariable';
+import getEnvVariable from '../util/getEnvVariable';
 
 interface MovieListData {
   total_pages: number;
