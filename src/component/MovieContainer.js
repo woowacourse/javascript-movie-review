@@ -2,6 +2,7 @@ import { $ } from '../util/selector.js';
 import createButton from './Button.js';
 import { injectMovieDataToItem } from './MovieItem.js';
 import { createSkeletonMovieList } from './MovieList.js';
+import createRetryButton from './RetryButton.js';
 
 class MovieContainer {
   #movieListContainer;
@@ -77,6 +78,18 @@ class MovieContainer {
 
   clearMovieList() {
     this.#movieListContainer.replaceChildren();
+  }
+
+  createRetryButton(handleRetryButton) {
+    const retryButton = createRetryButton();
+    $('.item-view').insertBefore(retryButton, $('ul.item-list'));
+
+    retryButton.addEventListener('retryButtonClickEvent', handleRetryButton);
+  }
+
+  removeRetryButton() {
+    const retryButton = $('.retry-button');
+    retryButton?.remove();
   }
 
   async initHandleClickMoreButton() {

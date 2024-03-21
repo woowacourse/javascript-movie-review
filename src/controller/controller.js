@@ -4,7 +4,7 @@ import createHeader from '../component/Header.js';
 import PageNumberManager from '../domain/pageNumberManager.ts';
 import { $ } from '../util/selector.js';
 import toast from '../component/toast/toast.js';
-import createRetryButton from '../component/RetryButton.js';
+import { RetryLimitError, retryLimiter } from '../util/retryLimiter.ts';
 
 export class App {
   #searchKeyword;
@@ -22,7 +22,7 @@ export class App {
     this.#movieService = new MovieService();
     this.#movieContainer = new MovieContainer({
       title: '지금 인기 있는 영화',
-      handleMoreButton: () => this.addMovieList(),
+      handleMoreButton: () => this.addMovieList(1),
     });
   }
 
@@ -36,42 +36,34 @@ export class App {
       this.#searchKeyword = '';
       $('form.search-box').reset();
 
-      this.addMovieList();
+      this.addMovieList(1);
     });
 
-    await this.addMovieList();
-  }
-
-  removeRetryButton() {
-    const retryButton = $('button.retry-button');
-    retryButton?.remove();
+    await this.addMovieList(1);
   }
 
   async addMovieList(tryCount) {
     try {
+      retryLimiter(tryCount);
+
       this.#movieContainer.pushMoreSkeletonList();
 
+      this.#movieContainer.removeRetryButton();
+
       const moviePageData = await this.fetchMoviePageData();
-      this.removeRetryButton();
 
       this.#movieContainer.replaceSkeletonListToData(moviePageData);
     } catch (error) {
+      if (error instanceof RetryLimitError) return toast(error);
+
       this.#movieContainer.removeSkeleton();
-      this.retryLimiter(tryCount);
 
-      const retryButton = createRetryButton();
-      $('.item-view').insertBefore(retryButton, $('ul.item-list'));
-
-      retryButton.addEventListener('retryButtonClickEvent', () => {
+      this.#movieContainer.createRetryButton(() => {
         this.addMovieList(tryCount + 1);
       });
 
       toast(error);
     }
-  }
-
-  retryLimiter(tryCount) {
-    if (tryCount >= 5) throw new Error('더 이상 요청할 수 없습니다.');
   }
 
   async fetchMoviePageData() {
