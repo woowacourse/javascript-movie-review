@@ -16,7 +16,7 @@ class ErrorFallbackModal extends Component {
     return /* html */ `
       <img id="warning-image" class="warning-image" src="${WarningImage}" alt="경고 이미지" />
       <div>시스템 오류가 발생했습니다. 다시 시작해 주세요.</div>
-      <button type="button" id="reload-button" class="btn primary"></button>
+      <button type="button" id="reload-button" class="btn primary">다시 시도하기</button>
     `;
   }
 
