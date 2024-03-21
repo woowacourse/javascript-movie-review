@@ -36,7 +36,7 @@ function getScoreParagraph(score: number) {
   const movieScore = document.createElement('p');
   const starScore = document.createElement('img');
   movieScore.classList.add('item-score');
-  movieScore.innerText = String(score);
+  movieScore.innerText = String(score.toFixed(1));
   starScore.src = starFilledImage;
   movieScore.appendChild(starScore);
   return movieScore;
@@ -134,9 +134,8 @@ function getMovieListSkeletonUI(listTitle: string) {
 async function replaceMain() {
   globalStateMethod.initializePage();
   const sectionTag = document.querySelector('section');
-  const movieListSkeletonUI = getMovieListSkeletonUI(
-    globalStateMethod.getQuery ? `"${globalStateMethod.getQuery}" 검색 결과` : '지금 인기 있는 영화',
-  );
+  const title = globalStateMethod.getQuery ? `"${globalStateMethod.getQuery()}" 검색 결과` : '지금 인기 있는 영화';
+  const movieListSkeletonUI = getMovieListSkeletonUI(title);
   sectionTag?.replaceWith(movieListSkeletonUI);
 
   const movieListContainer = await getMovieListContainer();
