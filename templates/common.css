@@ -146,17 +146,17 @@ header h1 {
   color: #f33f3f;
 }
 
-header > .search-box {
+header > .search-form {
   background: #fff;
   padding: 8px;
   border-radius: 4px;
 }
 
-header .search-box > input {
+header .search-form > input {
   border: 0;
 }
 
-header .search-box > .search-button {
+header .search-form > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
