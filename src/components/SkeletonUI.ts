@@ -15,7 +15,6 @@ export default class SkeletonUI {
       return;
     }
 
-    console.log(this.template);
     element.innerHTML = this.template;
   }
 

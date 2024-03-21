@@ -2,17 +2,29 @@ import "./styles/common.css";
 
 import MovieHeader from "./components/MovieHeader";
 import QueryState from "./states/QueryState";
-import MovieList from "./components/MovieList";
+import MovieListTitle from "./components/MovieList/MovieListTitle";
+import MovieList from "./components/MovieList/MovieList";
+import SkeletonUI from "./components/SkeletonUI";
+import { composeMovieListSkeleton } from "./components/templates/composeMovieListSkeleton";
 
 const queryState = new QueryState();
 
 const movieHeader = new MovieHeader({ targetId: "movie-header", queryState });
-const movieList = new MovieList({
-  targetId: "movie-list",
+const movieListTitle = new MovieListTitle({
+  targetId: "movie-list-header",
   queryState,
 });
 
-queryState.addObserver(movieList);
+const movieListSkeleton = new SkeletonUI(composeMovieListSkeleton());
+const movieListBody = new MovieList({
+  targetId: "movie-list",
+  queryState,
+  skeletonUI: movieListSkeleton,
+});
+
+queryState.addObserver(movieListTitle);
+queryState.addObserver(movieListBody);
 
 movieHeader.init();
-movieList.init();
+movieListTitle.init();
+movieListBody.init();

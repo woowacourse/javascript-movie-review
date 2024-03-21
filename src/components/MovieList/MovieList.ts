@@ -1,33 +1,39 @@
-import QueryState, { Query } from "../states/QueryState";
-import { Movie, composeMovieItems } from "./templates/composeMovieItems";
-import { getPopularMovieList, getSearchMovieList } from "../apis/movieList";
-import { $ } from "../utils/dom";
-import APIClientComponent from "./abstract/APIClientComponent";
+import QueryState, { Query } from "../../states/QueryState";
+import { Movie, composeMovieItems } from "../templates/composeMovieItems";
+import { getPopularMovieList, getSearchMovieList } from "../../apis/movieList";
+import { $ } from "../../utils/dom";
+import APIClientComponent from "../abstract/APIClientComponent";
+import IMAGES from "../../images";
+import { composeMovieListSkeleton } from "../templates/composeMovieListSkeleton";
+import SkeletonUI from "../SkeletonUI";
 
 interface MovieListProps {
   targetId: string;
   queryState: QueryState;
+  skeletonUI: SkeletonUI;
 }
 
 export default class MovieList extends APIClientComponent {
   private queryState: QueryState;
   private page = 1;
 
-  constructor({ targetId, queryState }: MovieListProps) {
-    super({ targetId });
+  constructor({ targetId, queryState, skeletonUI }: MovieListProps) {
+    super({ targetId, skeletonUI });
     this.queryState = queryState;
   }
 
   getTemplate(data: Movie[]): string {
-    const query = this.queryState.get();
     const movieItemsTemplate = this.generateMovieItemsTemplate(data);
 
     return `
-      <h2>${query ? `"${query}" 검색결과` : "지금 인기 있는 영화"}</h2>
         <ul id="item-list" class="item-list">
         ${
           data.length === 0
-            ? `<p>표시할 영화 정보가 없습니다. 🎬 </p>`
+            ? `<div>
+            <img src="${IMAGES.emptyMovieList}" />
+            <p>표시할 영화 정보가 없습니다.</p>
+            </div>
+              `
             : movieItemsTemplate
         }
         </ul>
@@ -54,7 +60,11 @@ export default class MovieList extends APIClientComponent {
   async handleWatchMoreButtonClick() {
     this.page += 1;
 
+    this.skeletonUI.insert("item-list", "afterend");
+
     const additionalMovies = await getPopularMovieList(this.page);
+
+    $("skeleton-movie-item-list")?.remove();
 
     this.insertMovieItems(additionalMovies);
 
@@ -85,5 +95,11 @@ export default class MovieList extends APIClientComponent {
 
   private resetPage() {
     this.page = 1;
+  }
+
+  getSkeletonTemplate() {
+    const movieListSkeleton = composeMovieListSkeleton();
+
+    return movieListSkeleton;
   }
 }
