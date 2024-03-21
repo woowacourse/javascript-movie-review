@@ -15,7 +15,7 @@ const MovieItems = {
     return movieItems;
   },
 
-  async replaceSkeletons(movieItems: HTMLUListElement, respondData: IRespondData) {
+  replaceSkeletons(movieItems: HTMLUListElement, respondData: IRespondData) {
     const itemCards = movieItems.querySelectorAll('li');
     itemCards.forEach((item, index) => this.replaceSkeleton(item, respondData.results[index]));
   },
