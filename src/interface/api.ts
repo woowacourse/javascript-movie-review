@@ -21,9 +21,3 @@ export interface ResponseMovie {
   vote_average: number;
   vote_count: number;
 }
-
-export interface QueryUrl {
-  baseUrl: string;
-  endpoint: string;
-  query: { [key: string]: string | number | boolean };
-}
