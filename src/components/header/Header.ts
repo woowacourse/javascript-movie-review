@@ -14,7 +14,7 @@ class Header {
     this.$target = document.createElement('header');
     this.#imageSrc = imageSrc;
     this.render();
-
+    console.log(process.env.NODE_ENV);
     const $form = dom.getElement<HTMLFormElement>(this.$target, 'form');
     if (onSubmit) $form.addEventListener('submit', onSubmit);
   }
@@ -22,7 +22,7 @@ class Header {
   template() {
     return /*html*/ `
       <h1>
-        <a href='${process.env.NODE_ENV === 'production' ? process.env.PUBLIC_PATH : '/'}'>
+        <a href='${process.env.NODE_ENV === 'development' ?  '/' : process.env.PUBLIC_PATH}'>
           <img src="./images/logo.png" alt="MovieList 로고" />
         </a>
       </h1>
