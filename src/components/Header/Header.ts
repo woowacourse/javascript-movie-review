@@ -21,13 +21,13 @@ const createHeader = ({ imageSource }: Props) => {
 
   header.querySelector('.search-box')?.addEventListener('submit', async (e: Event) => {
     e.preventDefault();
+    document.querySelector('main')?.remove();
 
     const form = e.target as HTMLFormElement;
     const input = (form.elements.namedItem('search') as HTMLInputElement).value;
-    const movieContents = await createMovieContents.execute();
+    const movieContents = await createMovieContents.execute(`"${input}" 검색 결과`);
     createMovieContents.renderMovieData({ type: 'search', input });
 
-    document.querySelector('main')?.remove();
     document.querySelector('#app')?.appendChild(movieContents);
   });
   return header;

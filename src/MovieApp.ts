@@ -14,7 +14,7 @@ class MovieApp {
     const header = createHeader({
       imageSource: LOGO,
     });
-    const main = await createMovieContents.execute();
+    const main = await createMovieContents.execute('지금 인기 있는 영화');
 
     container?.prepend(header);
     container?.appendChild(main);

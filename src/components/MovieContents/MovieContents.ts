@@ -5,11 +5,11 @@ import createShowMoreButton from '../ShowMoreButton/ShowMoreButton';
 import { PropsType } from '../../types/props';
 
 const createMovieContents = {
-  async execute() {
+  async execute(title:string) {
     const main = document.createElement('main');
     const templates = /* html */ `
       <section class="item-view">
-      <h2>지금 인기 있는 영화</h2>
+      <h2>${title}</h2>
       </section>
       `;
 

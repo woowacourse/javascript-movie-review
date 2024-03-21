@@ -63,7 +63,7 @@ class Movie {
         isLastPage,
       }))
       .catch((error) => {
-        errorMessage.apiError(error.statusCode);
+        errorMessage.apiError(error.statusCode, error.message);
         // console.error(error);
         return { movieList: [], isLastPage: true };
       });
