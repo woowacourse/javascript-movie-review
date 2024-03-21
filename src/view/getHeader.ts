@@ -1,8 +1,8 @@
 import logoImg from '../assets/images/logo.png';
 import { appendChildren } from '../utils/domUtil';
 import replaceMain from './getMain';
-import globalState from '../globalState';
 import { SEARCH_MOVIES_URL } from '../constants/tmdbConstants';
+import globalStateMethod from '../globalState';
 
 function getLogo() {
   const logo = document.createElement('h1');
@@ -17,8 +17,8 @@ function getLogo() {
 
 const submitEventHandler = (event: any) => {
   event.preventDefault();
-  globalState.query = event.target.searchContent.value;
-  globalState.url = SEARCH_MOVIES_URL;
+  globalStateMethod.setQuery(event.target.searchContent.value);
+  globalStateMethod.setUrl(SEARCH_MOVIES_URL);
 
   replaceMain();
 };
