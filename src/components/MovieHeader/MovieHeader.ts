@@ -2,6 +2,7 @@ import SearchBox from '../SearchBox/SearchBox';
 import { logo } from '../../resources';
 import ItemView from '../ItemView/ItemView';
 import SearchValidator from '../../domain/Validator/SearchValidator';
+import ToastPopup from '../ToastPopup/ToastPopup';
 
 const MovieHeader = {
   create() {
@@ -54,13 +55,13 @@ const MovieHeader = {
 
   showSearchMovies(searchBox: HTMLElement) {
     try {
-      const trimmedSearchInputText = searchBox?.querySelector('input')?.value.replace(/ +/g, ' ').trim();
+      const trimmedSearchInputText = searchBox?.querySelector('input')?.value.replace(/ +/g, ' ');
       if (trimmedSearchInputText) {
-        SearchValidator.validate(trimmedSearchInputText);
+        SearchValidator.validate(trimmedSearchInputText.trim());
+        this.createItemView(trimmedSearchInputText);
       }
-      this.createItemView(trimmedSearchInputText);
     } catch (e) {
-      if (e instanceof Error) console.log(e.message);
+      if (e instanceof Error) ToastPopup(e.message);
     }
   },
 };
