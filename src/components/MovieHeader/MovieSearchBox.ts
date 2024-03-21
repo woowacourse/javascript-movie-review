@@ -22,6 +22,12 @@ class MovieSearchBox {
     });
   }
 
+  clear() {
+    if (this.$element instanceof HTMLFormElement) {
+      this.$element.reset();
+    }
+  }
+
   private searchByQuery(e: Event) {
     e.preventDefault();
 

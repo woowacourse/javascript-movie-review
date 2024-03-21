@@ -27,13 +27,18 @@ class MovieHeader {
     const $h1 = createElement({
       tagName: "h1",
       children: [$logo],
-      addEventListener: { click: logoClickHandler },
+      addEventListener: {
+        click: () => {
+          searchBox.clear();
+          logoClickHandler();
+        },
+      },
     });
-    const $searchBox = new MovieSearchBox({
+    const searchBox = new MovieSearchBox({
       searchBoxSubmitHandler,
-    }).$element;
+    });
 
-    return generateHeader({ children: [$h1, $searchBox] });
+    return generateHeader({ children: [$h1, searchBox.$element] });
   }
 }
 
