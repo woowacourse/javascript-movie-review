@@ -1,6 +1,6 @@
 import { dataStateStore } from "../model";
 import { handleGetSearchMovieData } from "../service/handleSkeletonAndAPI";
-import { createElementWithAttribute, debouceFunc, preventXSS } from "../utils";
+import { createElementWithAttribute, debouceFunc } from "../utils";
 
 import ItemView from "./ItemView";
 
@@ -8,7 +8,7 @@ import ItemView from "./ItemView";
 const searchMovie = async () => {
   const $searchInput = document.querySelector("#search-input");
   if (!($searchInput instanceof HTMLInputElement)) return;
-  const title = preventXSS($searchInput.value);
+  const title = $searchInput.value;
   await handleGetSearchMovieData(title, true);
   const $itemView = document.querySelector(".item-view");
   $itemView?.remove();

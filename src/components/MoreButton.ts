@@ -4,7 +4,7 @@ import {
   handleGetSearchMovieData,
 } from "../service/handleSkeletonAndAPI";
 import { ListType, Movie } from "../type/movie";
-import { createElementWithAttribute, debouceFunc, preventXSS } from "../utils";
+import { createElementWithAttribute, debouceFunc } from "../utils";
 
 import ItemList from "./ItemList";
 
@@ -33,7 +33,7 @@ const getSearchInputValue = () => {
     return undefined;
   }
 
-  return preventXSS($searcInput.value);
+  return $searcInput.value;
 };
 
 const getSearchMovieData = async () => {
