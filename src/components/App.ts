@@ -53,17 +53,21 @@ class App {
       imageSrc: './images/logo.png',
       onSubmit: async (e: SubmitEvent) => {
         e.preventDefault();
-        this.movieListContainer.page = 1;
 
         const $input = dom.getElement<HTMLInputElement>(this.$target, '#search-input');
         if (!$input.value) return;
-        const { movies } = await searchMoviesByTitle($input.value, this.movieListContainer.page);
 
+        history.pushState('', '', `?mode=search&title=${$input.value}`);
+
+        this.movieListContainer.initPageNumber();
+        const { movies, totalPages } = await this.movieListContainer.fetchMovies(1);
         const $title = dom.getElement(this.$target, 'h2');
         $title.textContent = `"${$input.value}" 검색 결과`;
         this.movieListContainer.paint(movies);
 
-        history.pushState('', '', `?mode=search&title=${$input.value}`);
+        const $moreButton = dom.getElement(this.$target, '#more-button');
+        if (this.movieListContainer.page === totalPages) $moreButton.classList.add('hidden');
+        else $moreButton.classList.remove('hidden');
       },
     });
   }

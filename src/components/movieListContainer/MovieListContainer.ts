@@ -4,17 +4,19 @@ import { dom } from '../../utils/dom';
 import MovieItem from '../movieItem/MovieItem';
 
 class MovieListContainer {
-  $target: HTMLUListElement;
-  page = 0;
+  $target: HTMLUListElement = document.createElement('ul');
+  page = 1;
 
   constructor() {
-    this.$target = document.createElement('ul');
     this.$target.classList.add('item-list');
     this.$target.innerHTML += this.template();
     (async () => {
-      this.page += 1;
-      const { movies } = await this.fetchMovies();
+      const { movies, totalPages } = await this.fetchMovies(this.page);
       await this.paint(movies);
+
+      if (this.$target.parentElement === null) return;
+      const $moreButton = dom.getElement(this.$target.parentElement, '#more-button');
+      if (this.page === totalPages) $moreButton.classList.add('hidden');
     })();
   }
 
@@ -36,26 +38,31 @@ class MovieListContainer {
   }
 
   async attach() {
-    this.page += 1;
     this.$target.innerHTML += this.template();
-    const { movies, totalPages } = await this.fetchMovies();
+    const { movies, totalPages } = await this.fetchMovies(this.page);
     Array.from({ length: 20 }).forEach(() => {
       this.$target.removeChild(this.$target.lastChild!);
     });
     this.$target.append(...movies.map(movie => new MovieItem(movie).$target));
-    if (this.page === totalPages && this.$target.parentElement) {
-      const parent = dom.getElement(this.$target.parentElement, '#more-button');
-      parent.classList.add('hidden');
-    }
+
+    if (this.$target.parentElement === null) return;
+
+    const $moreButton = dom.getElement(this.$target.parentElement, '#more-button');
+    if (this.page === totalPages) $moreButton.classList.add('hidden');
+    this.page += 1;
   }
 
-  async fetchMovies() {
+  async fetchMovies(page: number) {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const mode = urlSearchParams.get('mode') ?? 'popular';
     const title = urlSearchParams.get('title') ?? '';
 
-    const movies = mode === 'search' ? await searchMoviesByTitle(title, this.page) : await getPopularMovies(this.page);
+    const movies = mode === 'search' ? await searchMoviesByTitle(title, page) : await getPopularMovies(this.page);
     return movies;
+  }
+
+  initPageNumber() {
+    this.page = 1;
   }
 }
 
