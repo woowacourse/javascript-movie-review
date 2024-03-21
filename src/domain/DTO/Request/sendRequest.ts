@@ -13,7 +13,7 @@ async function fetchPopularMovies(page: number) {
 
   const response = await fetch(popularMovieUrl);
   const popularMovies = await response.json();
-  console.log(popularMovies);
+
   return popularMovies;
 }
 
@@ -31,7 +31,7 @@ async function fetchSearchMovies(page: number, userInput: string) {
 
   const response = await fetch(popularMovieUrl);
   const popularMovies = await response.json();
-  console.log(popularMovies);
+
   return popularMovies;
 }
 
