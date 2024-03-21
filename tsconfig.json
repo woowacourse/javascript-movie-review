@@ -13,11 +13,7 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "noImplicitAny": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    }
+    "noImplicitAny": true
   },
   "include": ["src", "cypress"],
   "exclude": ["node_modules", "dist"]
