@@ -1,79 +1,157 @@
-import logoImg from '../assets/images/logo.png';
-import starImg from '../assets/images/star_empty.png';
+import fetchMovies from '../api/fetchFns';
+import starFilledImage from '../assets/images/star_filled.png';
+import globalStateMethod from '../globalState';
 import { appendChildren } from '../utils/domUtil';
 import getButton from './getButton';
 
 interface IMovieItemProps {
-  image: string;
+  id: number;
+  poster_path: string;
   title: string;
-  score: number;
+  vote_average: number;
 }
 
-// function getImage(props: Omit<IMovieItemProps, 'score'>) {
+interface ITMDBResponse {
+  page: number;
+  total_pages: number;
+  results: IMovieItemProps[];
+}
+
 function getImage(props: IMovieItemProps) {
   const img = document.createElement('img');
-  img.src = props.image;
   img.alt = props.title;
+  img.src = `https://image.tmdb.org/t/p/w500/${props.poster_path}`;
+  img.loading = 'lazy';
   return img;
 }
 
 function getTitleParagraph(title: string) {
-  const paragraph = document.createElement('p');
-  paragraph.classList.add('item-title');
-  paragraph.textContent = title;
+  const movieTitle = document.createElement('p');
+  movieTitle.classList.add('item-title');
+  movieTitle.innerText = title;
+  return movieTitle;
 }
 
-function getScoreParagraph() {
-  const paragraph = document.createElement('p');
-  const image = document.createElement('img');
+function getScoreParagraph(score: number) {
+  const movieScore = document.createElement('p');
+  const starScore = document.createElement('img');
+  movieScore.classList.add('item-score');
+  movieScore.innerText = String(score.toFixed(1));
+  starScore.src = starFilledImage;
+  movieScore.appendChild(starScore);
+  return movieScore;
 }
 
+// eslint-disable-next-line max-lines-per-function
 function getMovieItem(props: IMovieItemProps) {
   const movieItem = document.createElement('li');
   const movieItemLink = document.createElement('a');
   const movieItemCard = document.createElement('div');
   const movieItemImage = getImage(props);
-  const movieTitle = document.createElement('p');
-  const movieScore = document.createElement('p');
 
   movieItemCard.classList.add('item-card');
-
-  movieItemImage.src = 'https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg';
-
   movieItemLink.appendChild(movieItemCard);
-  appendChildren(movieItemCard, [movieItemImage, movieTitle, movieScore]);
+  appendChildren(movieItemCard, [
+    movieItemImage,
+    getTitleParagraph(props.title),
+    getScoreParagraph(props.vote_average),
+  ]);
   movieItem.appendChild(movieItemLink);
 
   return movieItem;
 }
 
-function getMovieListContainer(listTitle: string) {
+function checkPage(page: number, totalPages: number, button: HTMLElement | null) {
+  if (page === totalPages) {
+    button?.classList.add('hidden');
+  }
+}
+
+async function getMovieItems(button = document.getElementById('see-more-button')) {
+  const responseJson: ITMDBResponse = await fetchMovies({
+    url: globalStateMethod.getUrl(),
+    page: globalStateMethod.getPage(),
+    query: globalStateMethod.getQuery(),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('❌ 잠시후에 시도해주세요.');
+      }
+      return response.json();
+    })
+    .catch((error) => console.error(error.message));
+
+  checkPage(responseJson.page, responseJson.total_pages, button);
+
+  const moviesData = responseJson.results;
+  // eslint-disable-next-line max-len
+  const movieElements = moviesData.map((info: IMovieItemProps) => getMovieItem(info)) as HTMLElement[];
+  return movieElements;
+}
+
+// eslint-disable-next-line max-lines-per-function
+async function getMovieListContainer() {
   const movieListContainer = document.createElement('section');
   const popularTitle = document.createElement('h2');
   const movieList = document.createElement('ul');
 
   movieListContainer.classList.add('item-view');
-  popularTitle.innerText = listTitle;
+  const query = globalStateMethod.getQuery();
+  popularTitle.innerText = query ? `"${query}" 검색 결과` : '지금 인기 있는 영화';
   movieList.classList.add('item-list');
 
-  // TODO: fetch로 리팩토링
-  const movies = Array.from({ length: 20 }, getMovieItem) as HTMLElement[];
-  movies.forEach((movieItem) => {
-    movieList.append(movieItem);
-  });
-
+  const button = getButton();
+  const movieItems = await getMovieItems(button);
+  appendChildren(movieList, movieItems);
   appendChildren(movieListContainer, [popularTitle, movieList]);
+  movieListContainer.appendChild(button);
 
   return movieListContainer;
 }
 
-function getMain() {
-  const mainTag = document.createElement('main');
-  const movieListContainer = getMovieListContainer('지금 인기 있는 영화');
+function getMovieListSkeletonUI(listTitle: string) {
+  const section = document.createElement('section');
+  section.classList.add('item-view');
 
-  mainTag.appendChild(movieListContainer);
+  const title = document.createElement('h2');
+  title.innerText = listTitle;
 
-  return mainTag;
+  const movieList = document.createElement('ul');
+  movieList.classList.add('item-list');
+
+  const movieItemCardSkeleton = `
+              <li>
+              <a href="#">
+                <div class="item-card">
+                  <div class="item-thumbnail skeleton"></div>
+                  <div class="item-title skeleton"></div>
+                  <div class="item-score skeleton"></div>
+                </div>
+              </a>
+            </li>
+            `;
+
+  movieList.innerHTML = Array(20).fill(movieItemCardSkeleton).join('');
+  appendChildren(section, [title, movieList]);
+  return section;
 }
 
-export default getMain;
+async function replaceMain() {
+  globalStateMethod.initializePage();
+  const sectionTag = document.querySelector('section');
+  const title = globalStateMethod.getQuery ? `"${globalStateMethod.getQuery()}" 검색 결과` : '지금 인기 있는 영화';
+  const movieListSkeletonUI = getMovieListSkeletonUI(title);
+  sectionTag?.replaceWith(movieListSkeletonUI);
+
+  const movieListContainer = await getMovieListContainer();
+  movieListSkeletonUI?.replaceWith(movieListContainer);
+}
+
+export default replaceMain;
+
+export async function renderNewMovies() {
+  globalStateMethod.increasePage();
+  const movieList = document.querySelector('.item-list') as HTMLElement;
+  const newMovies = await getMovieItems();
+  appendChildren(movieList, newMovies);
+}

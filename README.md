@@ -21,5 +21,30 @@ FE 레벨1 영화관 미션
 - ### UI Refactoring
 - [x] Header
 - [x] Movie List
-- [ ] Movie Item
-- [ ] 더보기 버튼
+- [x] Movie Item
+- [x] 더보기 버튼
+
+### UI Logic
+
+- [x] 검색기능
+- [x] 더보기 기능
+
+### State
+
+- [x] 검색 버튼을 누르면
+  - page -> 1
+- [x] 더보기를 누르면
+  - page -> page + 1
+- [x] total Page랑 page가 같으면 더보기 삭제
+
+### others
+
+- [ ] 로고 눌렀을 시 새로고침
+- [ ] 추가 영화 스켈레톤UI 적용
+- [ ] 에러 핸들링
+- [x] 별점 반올림
+
+## cypress
+
+- [ ] 검색 기능 테스트
+- [ ] 더보기 테스트

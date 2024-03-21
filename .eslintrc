@@ -2,7 +2,10 @@
   "rules": {
     "max-depth": ["warn", 1],
     "max-params": ["warn", 3],
-    "linebreak-style": "off"
+    "linebreak-style": "off",
+    "import/no-unresolved": "off",
+    "import/extensions": "off",
+    "cypress/no-assigning-return-values": "off"
   },
   "overrides": [
     {
@@ -13,12 +16,13 @@
   "env": {
     "es6": true,
     "node": true,
-    "browser": true
+    "browser": true,
+    "cypress/globals": true
   },
   "parserOptions": {
     "ecmaVersion": "latest"
   },
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
-  "extends": ["prettier", "airbnb-base"]
+  "plugins": ["@typescript-eslint", "import", "cypress"],
+  "extends": ["prettier", "airbnb-base", "plugin:cypress/recommended"]
 }
