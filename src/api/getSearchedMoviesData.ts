@@ -25,11 +25,10 @@ export const getSearchedMoviesData = async (
       if (searchedMovies && searchedMovies.results) {
         return searchedMovies.results;
       } else {
-        throw new Error("영화 검색에 실패했습니다.");
+        throw new Error("서버에서 영화 데이터를 불러오는데 실패했습니다.");
       }
     } catch (error) {
-      console.error("영화 정보를 검색하는 중 오류 발생:", error);
-      return [];
+      throw new Error("네트워크 오류로 인해 영화 검색에 실패했습니다.");
     }
   }
 };

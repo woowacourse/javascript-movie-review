@@ -31,3 +31,15 @@
   font-weight: bold;
   color: white;
 }
+
+.section-error {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-message {
+  font-size: 25px;
+}

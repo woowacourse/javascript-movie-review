@@ -3,6 +3,7 @@ import MoreMoviesButton from "../MoreMoviesButton/MoreMoviesButton";
 import { getSearchedMoviesData } from "../../api/getSearchedMoviesData";
 import { getPopularMoviesData } from "../../api/getPopularMoviesData";
 import { $, $$, createElement } from "../../utility/dom";
+import hangsungImg from "../../image/wooteco-icon.png";
 
 const MAX_PAGE_PER_REQUEST = 20;
 const MAX_PAGE_COUNT = 50;
@@ -36,19 +37,25 @@ class MovieList {
 
   async #createPopularMovieItems() {
     const ul = $(".item-list");
-    const data = await getPopularMoviesData(this.#currentPage.toString());
-    const liList = this.#createEmptyMovieItems(data, ul);
 
-    setTimeout(() => {
-      this.#updateMovieItemsWithData(data, liList);
+    try {
+      const data = await getPopularMoviesData(this.#currentPage.toString());
 
-      const moreMoviesButton = this.#createMoreMoviesButton();
-      moreMoviesButton.addEventListener("click", () =>
-        this.#handlePopularPageEnd()
-      );
-    }, 1000);
+      const liList = this.#createEmptyMovieItems(data, ul);
 
-    this.#currentPage += 1;
+      setTimeout(() => {
+        this.#updateMovieItemsWithData(data, liList);
+
+        const moreMoviesButton = this.#createMoreMoviesButton();
+        moreMoviesButton.addEventListener("click", () =>
+          this.#handlePopularPageEnd()
+        );
+      }, 1000);
+
+      this.#currentPage += 1;
+    } catch (error) {
+      this.#handleError();
+    }
   }
 
   #handlePopularPageEnd() {
@@ -93,14 +100,19 @@ class MovieList {
 
   async #createSearchedMovieItems(titleInput: string) {
     const ul = $("ul");
-    const data = await this.#getSearchedMoviesData(titleInput);
-    const liList = this.#createEmptyMovieItems(data, ul);
 
-    setTimeout(() => {
-      this.#updateMovieItemsWithData(data, liList);
+    try {
+      const data = await this.#getSearchedMoviesData(titleInput);
+      const liList = this.#createEmptyMovieItems(data, ul);
 
-      this.#handleSearchedPageEnd(data);
-    }, 1000);
+      setTimeout(() => {
+        this.#updateMovieItemsWithData(data, liList);
+
+        this.#handleSearchedPageEnd(data);
+      }, 1000);
+    } catch (error) {
+      this.#handleError();
+    }
   }
 
   async #getSearchedMoviesData(titleInput: string) {
@@ -127,7 +139,7 @@ class MovieList {
     this.#displayMaxPageInfo();
   }
 
-  // 인기순 및 검색 리스트 공통 메서드
+  // NOTE: 인기순 및 검색 리스트 공통 메서드
   #createMovieItem() {
     const li = createElement("li");
     const article = createElement("article", {
@@ -226,6 +238,30 @@ class MovieList {
       skeletonElements.forEach((element) => {
         element.classList.remove("skeleton");
       });
+    }
+  }
+
+  #crateErrorUI(message: String) {
+    const mainElement = $("main");
+    if (mainElement) {
+      mainElement.innerHTML = `
+      <section class="section-error">
+        <img class="wooteco-icon" src="${hangsungImg}"></img>
+        <p class="error-message">${message}</p>
+      </section>
+    `;
+    }
+  }
+
+  async #handleError() {
+    try {
+      await getPopularMoviesData(String(this.#currentPage));
+      await getSearchedMoviesData(String(this.#currentPage), this.#title);
+    } catch (error) {
+      if (error instanceof Error) {
+        const errorMessage = error.message;
+        this.#crateErrorUI(errorMessage);
+      }
     }
   }
 }
