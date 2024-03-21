@@ -14,6 +14,7 @@ const BUTTON = {
 
 const CONTAINER_TITLE = {
   popular: '지금 인기 있는 영화',
+  searchResult: ' 검색 결과',
 };
 
 export { BUTTON, CONTAINER_TITLE };
