@@ -22,7 +22,7 @@ class Header {
   template() {
     return /*html*/ `
       <h1>
-        <a href='${process.env.NODE_ENV === 'production' ? process.env.PUBLIC_PATH : '/'}'>
+        <a href='/'>
           <img src="./images/logo.png" alt="MovieList 로고" />
         </a>
       </h1>
