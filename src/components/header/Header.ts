@@ -22,12 +22,13 @@ class Header {
   template() {
     return /*html*/ `
       <h1>
-        <a href='/'>
+        <a href='${process.env.NODE_ENV === 'production' ? process.env.PUBLIC_PATH : '/'}'>
           <img src="./images/logo.png" alt="MovieList 로고" />
         </a>
       </h1>
       <form class="search-box">
         <input id="search-input" type="text" placeholder="검색" />
+        
       </form>
 `;
   }
