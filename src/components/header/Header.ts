@@ -28,7 +28,6 @@ class Header {
       </h1>
       <form class="search-box">
         <input id="search-input" type="text" placeholder="검색" />
-        
       </form>
 `;
   }
