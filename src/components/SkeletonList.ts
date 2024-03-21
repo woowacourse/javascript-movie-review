@@ -45,7 +45,7 @@ const Skeleton = () => {
 
 const SkeletonListTitle = () => {
   const $title = document.createElement("h2");
-  $title.textContent = "Loading...";
+  $title.textContent = "로딩 중...";
 
   return $title;
 };
@@ -55,7 +55,7 @@ const SkeletonList = () => {
     class: "item-list skeleton-list",
   });
 
-  Array.from({ length: 8 }).forEach(() => {
+  Array.from({ length: 12 }).forEach(() => {
     $ul.appendChild(Skeleton());
   });
 

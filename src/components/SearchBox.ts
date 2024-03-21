@@ -10,10 +10,10 @@ const searchMovie = async () => {
   const $searchInput = document.querySelector("#search-input");
   if (!($searchInput instanceof HTMLInputElement)) return;
   const title = $searchInput.value;
-  await handleGetSearchMovieData(title, true);
+
   const $itemView = document.querySelector(".item-view");
   $itemView?.remove();
-
+  await handleGetSearchMovieData(title, true);
   ItemView(`"${title}" 검색 결과`, dataStateStore.movieData, "search");
 };
 
