@@ -45,7 +45,7 @@ class SearchField {
   dispatchGetMatchedMovie() {
     const input = this.template.querySelector('input') as HTMLInputElement;
     const getMatchedMoviesEvent = new CustomEvent('GetMatchedMovies', {
-      detail: { query: input.value as string },
+      detail: { query: input.value },
       bubbles: true,
     });
     input.value = '';

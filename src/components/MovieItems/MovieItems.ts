@@ -29,13 +29,6 @@ class MovieItems {
     this.showMore();
   }
 
-  // 초기화 ctor -> createEl, getPopular(1),createMovieItem
-  // showmorehandle -> getPopuilar(2), reateMovieItem;
-
-  // 검색 -> event로 받든 어쨌든 받아
-  // resetItems()
-  // getMatched();
-
   getElement() {
     return this.template;
   }
@@ -66,9 +59,6 @@ class MovieItems {
     this.checkLastPage(movies.total_pages);
     return movies.results;
   }
-
-  // createSkeleton, removeskeleton, ->> createmovies
-  // createMovie(값 x, className .skeleon) -> 값 o skeleton x
 
   async getMatchedMovies(query: string) {
     const movies = await MatchedMovies.list({ page: this.currentPage, query });
