@@ -43,11 +43,11 @@ export function updateCard(li: any, movie: Movie) {
 
   const score = li.querySelector('.item-score.skeleton');
   score.classList.toggle('skeleton');
+  score.textContent = movie.vote_average;
 
   const scoreImage = document.createElement('img');
   scoreImage.src = filledStar;
   scoreImage.alt = '별점';
-  score.textContent = movie.vote_average;
 
   score.appendChild(scoreImage);
 }
