@@ -5,8 +5,8 @@ import {
 } from '../../constants/requests';
 import movieStore from '../../stores/movieStore';
 import fetchData from '../../utils/fetchData';
-import renderMovieList from '../../utils/renderMovieList';
 import MovieList from '../MovieList/MovieList';
+import SkeletonMovieList from '../MovieList/SkeletonMovieList';
 
 interface Params {
   [key: string]: string | number | boolean;
@@ -59,27 +59,42 @@ const fetchPopularMovies = async (params: Params) => {
 };
 
 const Main = () => {
+  const $main = document.createElement('main');
+
   document.addEventListener('search', (e) => {
     const { detail } = e as CustomEvent;
     if (detail.curType !== 'search') movieStore.setPage(1);
 
+    const $prevMovieList = $main.querySelector('.item-view') as HTMLElement;
+    $main.removeChild($prevMovieList);
+    const $skeletonMovieList = SkeletonMovieList({
+      title: `\"${detail.query}\" 검색 결과`,
+    }).render();
+    $main.appendChild($skeletonMovieList);
+
     fetchSearchMovies({ query: detail.query, page: movieStore.page })
       .then(({ movies, page }) => {
         if (page !== 1) {
-          movieStore.setMovies([...movieStore.movies, ...movies], () =>
-            renderMovieList({
-              title: `\"${detail.query}\" 검색 결과`,
-              type: 'search',
-            }),
-          );
+          movieStore.setMovies([...movieStore.movies, ...movies], () => {
+            $main.removeChild($skeletonMovieList);
+            $main.appendChild(
+              MovieList({
+                title: `\"${detail.query}\" 검색 결과`,
+                type: 'search',
+              }).render(),
+            );
+          });
           movieStore.setPage(page + 1);
         } else {
-          movieStore.setMovies(movies, () =>
-            renderMovieList({
-              title: `\"${detail.query}\" 검색 결과`,
-              type: 'search',
-            }),
-          );
+          movieStore.setMovies(movies, () => {
+            $main.removeChild($skeletonMovieList);
+            $main.appendChild(
+              MovieList({
+                title: `\"${detail.query}\" 검색 결과`,
+                type: 'search',
+              }).render(),
+            );
+          });
           movieStore.setPage(page + 1);
         }
       })
@@ -96,23 +111,38 @@ const Main = () => {
     const { detail } = e as CustomEvent;
     if (detail.curType !== 'popular') movieStore.setPage(1);
 
+    const $prevMovieList = $main.querySelector('.item-view') as HTMLElement;
+    if ($prevMovieList) {
+      $main.removeChild($prevMovieList);
+    }
+    const $skeletonMovieList = SkeletonMovieList({
+      title: '지금 인기있는 영화',
+    }).render();
+    $main.appendChild($skeletonMovieList);
+
     fetchPopularMovies({ page: movieStore.page })
       .then(({ movies, page }) => {
         if (page !== 1) {
-          movieStore.setMovies([...movieStore.movies, ...movies], () =>
-            renderMovieList({
-              title: '지금 인기있는 영화',
-              type: 'popular',
-            }),
-          );
+          movieStore.setMovies([...movieStore.movies, ...movies], () => {
+            $main.removeChild($skeletonMovieList);
+            $main.appendChild(
+              MovieList({
+                title: '지금 인기있는 영화',
+                type: 'popular',
+              }).render(),
+            );
+          });
           movieStore.setPage(page + 1);
         } else {
-          movieStore.setMovies(movies, () =>
-            renderMovieList({
-              title: '지금 인기있는 영화',
-              type: 'popular',
-            }),
-          );
+          movieStore.setMovies(movies, () => {
+            $main.removeChild($skeletonMovieList);
+            $main.appendChild(
+              MovieList({
+                title: '지금 인기있는 영화',
+                type: 'popular',
+              }).render(),
+            );
+          });
           movieStore.setPage(page + 1);
         }
       })
@@ -125,13 +155,17 @@ const Main = () => {
       });
   });
 
+  document.dispatchEvent(
+    new CustomEvent('popular', {
+      bubbles: true,
+      detail: {
+        curType: 'popular',
+      },
+    }),
+  );
+
   return {
-    render: () => {
-      const $main = document.createElement('main');
-      const $movieList = MovieList().render();
-      $main.appendChild($movieList);
-      return $main;
-    },
+    render: () => $main,
   };
 };
 

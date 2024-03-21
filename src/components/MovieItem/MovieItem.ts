@@ -53,8 +53,6 @@ const createCard = ({
 const createMovieItem = (movie: Movie) => {
   const $li = document.createElement('li');
   const $anchor = document.createElement('a');
-  // TODO: 2단계때 사용
-  // $anchor.href = movie.id.toString();
   $anchor.href = '#';
   const $card = createCard(movie);
 

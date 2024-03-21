@@ -1,12 +1,13 @@
 import './MovieList.css';
-
+import movieStore from '../../stores/movieStore';
 import LoadMoreButton from '../LoadMoreButton/LoadMoreButton';
+import MovieItem from '../MovieItem/MovieItem';
 
 const getSearchQuery = ($title: HTMLElement) => {
   if ($title && $title.textContent) return $title.textContent.split('"')[1];
 };
 
-const MovieList = () => {
+const MovieList = ({ title, type }: { title: string; type: string }) => {
   const $section = document.createElement('section');
   const $title = document.createElement('h2');
   const $ul = document.createElement('ul');
@@ -15,9 +16,16 @@ const MovieList = () => {
   const render = () => {
     $section.classList.add('item-view');
 
-    $ul.classList.add('item-list');
+    $title.textContent = title;
 
-    $loadMoreBtn.setAttribute('list-type', 'popular');
+    // TODO: fragment로 최적화
+    $ul.classList.add('item-list');
+    movieStore.movies.forEach((movie) => {
+      const $movieItem = MovieItem(movie).render();
+      $ul.appendChild($movieItem);
+    });
+
+    $loadMoreBtn.setAttribute('list-type', type);
 
     $section.appendChild($title);
     $section.appendChild($ul);
@@ -27,8 +35,6 @@ const MovieList = () => {
   };
 
   $loadMoreBtn.addEventListener('click', () => {
-    const type = $loadMoreBtn.getAttribute('list-type');
-
     if (type === 'search') {
       $loadMoreBtn.dispatchEvent(
         new CustomEvent('search', {
@@ -51,15 +57,6 @@ const MovieList = () => {
       );
     }
   });
-
-  document.dispatchEvent(
-    new CustomEvent('popular', {
-      bubbles: true,
-      detail: {
-        curType: 'popular',
-      },
-    }),
-  );
 
   return {
     render,

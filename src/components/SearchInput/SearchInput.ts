@@ -16,7 +16,7 @@ const SearchInput = () => {
     $searchBtn.classList.add('search-button');
     $searchBtn.textContent = '검색';
 
-    $searchBox.innerHTML = ''; // Clear contents before appending
+    $searchBox.innerHTML = '';
 
     $searchBox.appendChild($searchInput);
     $searchBox.appendChild($searchBtn);
