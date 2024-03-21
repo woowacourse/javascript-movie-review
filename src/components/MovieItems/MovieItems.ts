@@ -2,7 +2,7 @@ import './style.css';
 import { MovieListType, MovieType } from '../../types/movie';
 import createMovieItem from '../MovieItem/MovieItem';
 
-const createMovieItems = (movieList: MovieListType) => {
+const createMovieItems = (movieList: MovieListType, isLastPage: boolean) => {
   const ul = document.createElement('ul');
   ul.classList.add('item-list');
 
@@ -12,6 +12,9 @@ const createMovieItems = (movieList: MovieListType) => {
 
   const showMoreButton = document.querySelector('.btn');
   showMoreButton?.insertAdjacentElement('beforebegin', ul);
+
+  if (isLastPage) showMoreButton?.remove();
+
   return ul;
 };
 

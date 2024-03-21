@@ -1,5 +1,5 @@
-import createMovieContents from '../MovieContents/MovieContents';
 import './style.css';
+import createMovieContents from '../MovieContents/MovieContents';
 
 interface Props {
   imageSource: string;
@@ -24,7 +24,8 @@ const createHeader = ({ imageSource }: Props) => {
 
     const form = e.target as HTMLFormElement;
     const input = (form.elements.namedItem('search') as HTMLInputElement).value;
-    const movieContents = await createMovieContents.execute('search', input);
+    const movieContents = await createMovieContents.execute();
+    createMovieContents.renderMovieData({ type: 'search', input });
 
     document.querySelector('main')?.remove();
     document.querySelector('#app')?.appendChild(movieContents);

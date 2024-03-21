@@ -1,4 +1,5 @@
 import httpRequest from '../api/httpRequest';
+// import errorMessage from '../error/errorMessage';
 import { MovieListType, MovieType } from '../types/movie';
 
 // interface a {
@@ -13,45 +14,30 @@ interface MovieData {
 class Movie {
   #page: number;
 
-  // #movieList: MovieListType = [];
-
   constructor() {
     this.#page = 0;
   }
 
-  // TODO : 리팩터링
-  // async getMovieData() {
-  //   this.updatePage();
-
-  //   const movieList = await httpRequest
-  //     .fetchPopularMovies(this.#page)
-  //     .then(({ popularMovieList, isLastPage }) => {
-  //       const popularMovie = popularMovieList.map((movie: MovieType) => ({
-  //         id: movie.id,
-  //         poster_path: movie.poster_path,
-  //         title: movie.title,
-  //         vote_average: movie.vote_average,
-  //       }));
-  //       return { popularMovie, isLastPage };
-  //     })
-  //     .catch((error) => console.error(error));
-  //   console.log(movieList);
-  //   return movieList;
-  // }
-
   async getMovieData(): Promise<MovieData> {
     this.updatePage();
 
-    const { popularMovieList, isLastPage } = await httpRequest.fetchPopularMovies(this.#page);
-
-    const movieList = popularMovieList.map((movie: MovieType) => ({
-      id: movie.id,
-      poster_path: movie.poster_path,
-      title: movie.title,
-      vote_average: movie.vote_average,
-    }));
-
-    return { movieList, isLastPage };
+    const movieList = await httpRequest
+      .fetchPopularMovies(this.#page)
+      .then(({ popularMovieList, isLastPage }) => ({
+        movieList: popularMovieList.map((movie: MovieType) => ({
+          id: movie.id,
+          poster_path: movie.poster_path,
+          title: movie.title,
+          vote_average: movie.vote_average,
+        })),
+        isLastPage,
+      }))
+      .catch((error) => {
+        console.error(error);
+        // errorMessage.apiError(error.statusCode);
+        return { movieList: [], isLastPage: true };
+      });
+    return movieList;
   }
 
   handleMovieData(type: string, input?: string) {
@@ -78,7 +64,7 @@ class Movie {
       }))
       .catch((error) => {
         console.error(error);
-        return { movieList: [], isLastPage: false };
+        return { movieList: [], isLastPage: true };
       });
     return movieList;
   }
