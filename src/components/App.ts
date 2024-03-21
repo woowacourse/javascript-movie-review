@@ -67,24 +67,53 @@ class App {
   }
 
   private async renderPopularMovieList() {
-    const res = await getPopularMovieList({ page: this.currentPage });
-    const movies = this.extractMovies(res.results);
-    setTimeout(() => {
-      this.movieMain.reRender(movies);
-    }, 500);
+    try {
+      const res = await getPopularMovieList({ page: this.currentPage });
+
+      if (this.currentPage === res.total_pages) {
+        this.movieMain.removeMovieMoreButton();
+      }
+
+      const movies = this.extractMovies(res.results);
+      setTimeout(() => {
+        this.movieMain.reRender(movies);
+      }, 500);
+    } catch (error) {
+      if (error instanceof Error) {
+        this.currentPage -= 1;
+        this.movieMain.renderMessage(error.message);
+        this.movieMain.reRender([]);
+      }
+    }
   }
 
   private async searchMovies(query: string) {
-    const res = await getMovieListByQuery({ page: this.currentPage, query });
-    const movies = this.extractMovies(res.results);
+    try {
+      const res = await getMovieListByQuery({ page: this.currentPage, query });
+      const movies = this.extractMovies(res.results);
+      if (!movies.length) {
+        this.renderNoResult("검색 결과가 없습니다.");
+      }
 
-    if (this.currentPage === res.total_pages) {
-      this.movieMain.removeMovieMoreButton();
+      if (this.currentPage === res.total_pages) {
+        this.movieMain.removeMovieMoreButton();
+      }
+
+      setTimeout(() => {
+        this.movieMain.reRender(movies);
+      }, 500);
+    } catch (error) {
+      if (error instanceof Error) {
+        this.currentPage -= 1;
+        this.renderNoResult(error.message);
+        this.movieMain.reRender([]);
+      }
     }
+  }
 
-    setTimeout(() => {
-      this.movieMain.reRender(movies);
-    }, 500);
+  private renderNoResult(message: string) {
+    this.movieMain.removeMovieMoreButton();
+    this.movieMain.renderMessage(message);
   }
 
   private extractMovies(movies: SearchMovieResult[] | PopularMovieResult[]) {

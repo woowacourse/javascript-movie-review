@@ -36,6 +36,10 @@ class MovieMain {
     this.movieListBox.removeMovieMoreButton();
   }
 
+  renderMessage(message: string) {
+    this.movieListBox.renderMessage(message);
+  }
+
   private replace(movieListBoxElement: HTMLElement) {
     this.$element.replaceChildren(movieListBoxElement);
   }

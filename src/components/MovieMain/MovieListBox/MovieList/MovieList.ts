@@ -3,11 +3,14 @@ import MovieItem, { Movie } from "./MovieItem";
 import createElement from "../../../utils/createElement";
 
 class MovieList {
+  private static MAX_ITEM_OF_PAGE = 20;
   $element;
   movieList;
 
   constructor() {
-    this.movieList = Array.from({ length: 20 }).map(() => new MovieItem());
+    this.movieList = Array.from({ length: MovieList.MAX_ITEM_OF_PAGE }).map(
+      () => new MovieItem()
+    );
     this.$element = this.generateMovieList();
   }
 
@@ -19,9 +22,8 @@ class MovieList {
     });
   }
 
-  //TODO: 20개가 전부 오지 않았을 경우 요소 remove
   reRender(movies: Movie[]) {
-    Array.from({ length: 20 }).forEach((_, index) => {
+    Array.from({ length: MovieList.MAX_ITEM_OF_PAGE }).forEach((_, index) => {
       const movieItem = this.movieList[index];
 
       if (index < movies.length) {
@@ -35,8 +37,40 @@ class MovieList {
   }
 
   appendSkeleton() {
-    this.movieList = Array.from({ length: 20 }).map(() => new MovieItem());
+    this.movieList = Array.from({ length: MovieList.MAX_ITEM_OF_PAGE }).map(
+      () => new MovieItem()
+    );
     this.$element.append(...this.movieList.map((item) => item.$element));
+  }
+
+  removeAllSkeleton() {
+    this.movieList.forEach((movieItem) => {
+      movieItem.$element.remove();
+    });
+  }
+
+  renderMessage(message: string) {
+    this.removeAllSkeleton();
+
+    const textInvalidResult = createElement({
+      tagName: "div",
+      attribute: {
+        class: "text-invalid-result",
+      },
+      children: [message],
+    });
+
+    this.$element.append(textInvalidResult);
+  }
+
+  removeMessage() {
+    const $lastChild = this.$element.lastChild;
+    if (!($lastChild instanceof HTMLElement)) {
+      return;
+    }
+    if ($lastChild.classList.contains("text-invalid-result")) {
+      $lastChild.remove();
+    }
   }
 }
 

@@ -1,3 +1,5 @@
+import validateResponse from "./validateResponse";
+
 const getMovieListByQuery = async ({
   page,
   query,
@@ -10,6 +12,8 @@ const getMovieListByQuery = async ({
   const moviesUrl = `${url}?${queryParams}`;
 
   const res = await fetch(moviesUrl);
+  validateResponse(res.status);
+
   const movieList = await res.json();
 
   return movieList;

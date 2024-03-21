@@ -23,6 +23,7 @@ class MovieListBox {
     this.movieList = new MovieList();
     this.button = new MovieMoreButton({
       onClickHandler: () => {
+        this.movieList.removeMessage();
         this.showMoreMovies();
         onMovieMoreButtonClick();
       },
@@ -36,6 +37,10 @@ class MovieListBox {
   reRender(movieList: Movie[]) {
     this.movieList.reRender(movieList);
     this.button.toggleDisabled();
+  }
+
+  renderMessage(message: string) {
+    this.movieList.renderMessage(message);
   }
 
   showMoreMovies() {

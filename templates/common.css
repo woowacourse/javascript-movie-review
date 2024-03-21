@@ -167,3 +167,12 @@ header .search-box > .search-button {
   background: url("./search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
 }
+
+.text-invalid-result {
+  color: #aaa;
+  font-size: 1.5rem;
+  grid-column-start: 1;
+  grid-column-end: 5;
+  text-align: center;
+  margin-top: 2rem;
+}
