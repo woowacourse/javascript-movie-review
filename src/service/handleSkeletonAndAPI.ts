@@ -27,6 +27,10 @@ const handleSkeletonAndAPI = async (apiFun: () => Promise<void>) => {
   removeSkeletonView($skeletonView);
 };
 
+export const handleGetPopularMovieData = async () => {
+  await handleSkeletonAndAPI(() => apiClient.getPopularMovieData(false));
+};
+
 export const handleGetSearchMovieData = async (
   title: string,
   isResetCurrentPage: boolean,
@@ -34,8 +38,4 @@ export const handleGetSearchMovieData = async (
   await handleSkeletonAndAPI(() =>
     apiClient.getSearchMovieData(isResetCurrentPage, title),
   );
-};
-
-export const handleGetPopularMovieData = async () => {
-  await handleSkeletonAndAPI(() => apiClient.getPopularMovieData(false));
 };

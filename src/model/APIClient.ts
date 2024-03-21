@@ -1,19 +1,28 @@
 import { BASE_URL, endpoint, options } from "../config";
+import { MAX_PAGE } from "../constants/system";
 
 import dataStateStore from "./DataStateStore";
 
 class APIClient {
   #currentPage = 1;
 
-  async getPopularMovieData(isResetCurrentPage: boolean) {
+  #isShowMoreButton = (totalPage: number) =>
+    this.#currentPage < totalPage && this.#currentPage <= MAX_PAGE;
+
+  #updateCurrentPage = (isResetCurrentPage: boolean) => {
     if (isResetCurrentPage) this.#currentPage = 1;
     else this.#currentPage += 1;
+  };
 
+  async getPopularMovieData(isResetCurrentPage: boolean) {
+    this.#updateCurrentPage(isResetCurrentPage);
     const data = await this.fetchPopuplarMovie();
-    const isShowMoreButton = data.page < data.total_pages;
 
     dataStateStore.getTotalMovieData(
-      { movieList: data.results, isShowMoreButton },
+      {
+        movieList: data.results,
+        isShowMoreButton: this.#isShowMoreButton(data.total_pages),
+      },
       isResetCurrentPage,
     );
   }
@@ -32,14 +41,14 @@ class APIClient {
   }
 
   async getSearchMovieData(isResetCurrentPage: boolean, title: string) {
-    if (isResetCurrentPage) this.#currentPage = 1;
-    else this.#currentPage += 1;
-
+    this.#updateCurrentPage(isResetCurrentPage);
     const data = await this.fetchSearchMovie(title);
-    const isShowMoreButton = data.page < data.total_pages;
 
     dataStateStore.getTotalMovieData(
-      { movieList: data.results, isShowMoreButton },
+      {
+        movieList: data.results,
+        isShowMoreButton: this.#isShowMoreButton(data.total_pages),
+      },
       isResetCurrentPage,
     );
   }

@@ -1,3 +1,4 @@
+import { ENTER_KEYCODE } from "../constants/system";
 import { dataStateStore } from "../model";
 import { handleGetSearchMovieData } from "../service/handleSkeletonAndAPI";
 import { createElementWithAttribute, debouceFunc } from "../utils";
@@ -22,7 +23,7 @@ const handleInputKeydown = (event: KeyboardEvent) => {
 
   if (!(target instanceof HTMLInputElement)) return;
 
-  if (keyCode === 13) {
+  if (keyCode === ENTER_KEYCODE) {
     debouceFunc(() => searchMovie());
   }
 };
