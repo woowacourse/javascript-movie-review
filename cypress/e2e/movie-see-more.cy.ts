@@ -1,4 +1,4 @@
-describe('API 테스트', () => {
+describe('더보기 버튼 테스트', () => {
   beforeEach(() => {
     cy.intercept(
       {
