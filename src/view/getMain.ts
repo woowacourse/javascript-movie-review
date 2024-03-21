@@ -42,7 +42,6 @@ function getScoreParagraph(score: number) {
   return movieScore;
 }
 
-// eslint-disable-next-line max-lines-per-function
 function getMovieItem(props: IMovieItemProps) {
   const movieItem = document.createElement('li');
   const movieItemLink = document.createElement('a');
@@ -84,12 +83,10 @@ async function getMovieItems(button = document.getElementById('see-more-button')
   checkPage(responseJson.page, responseJson.total_pages, button);
 
   const moviesData = responseJson.results;
-  // eslint-disable-next-line max-len
   const movieElements = moviesData.map((info: IMovieItemProps) => getMovieItem(info)) as HTMLElement[];
   return movieElements;
 }
 
-// eslint-disable-next-line max-lines-per-function
 async function getMovieListContainer() {
   const movieListContainer = document.createElement('section');
   const popularTitle = document.createElement('h2');
