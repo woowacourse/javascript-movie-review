@@ -10,18 +10,19 @@ const MovieItem = {
       <a href="#">
         <div class="item-card">
           <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
+          <div class="item-title skeleton"></div> 
           <div class="item-score skeleton"></div>
         </div>
       </a>
     </li>`;
-
     return skeletonItemBox;
   },
 
   template(movie: Movie) {
-    const { title, posterPath, voteAverage } = movie;
+    const { id, title, posterPath, voteAverage } = movie;
     const itemBox = document.createElement('li');
+    itemBox.setAttribute('data-movie-id', String(id));
+
     itemBox.innerHTML = /* html */ `
       <a href="#">
         <div class="item-card">

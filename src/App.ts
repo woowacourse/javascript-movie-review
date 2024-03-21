@@ -2,41 +2,47 @@ import Header from '../src/components/Header/Header';
 import MovieList from '../src/components/MovieList/MovieList';
 import Button from './components/Button/Button';
 import APIService, { MovieAPIReturnType } from './domain/services/APIService';
+import { formatMovieList } from './utils/formatList';
 
 class App {
   currentPage: number = 1;
   totalPage: number = 1;
-  isLoading: boolean = false;
+  itemViewBox = document.querySelector('.item-view');
   movieListBox = document.createElement('ul');
   movieListInstance: MovieList;
 
   constructor() {
     this.init();
-    this.movieListInstance = new MovieList({ isLoading: this.isLoading });
+    this.movieListInstance = new MovieList({ isLoading: true });
   }
 
   init() {
     new Header();
+    this.renderTitle();
 
     this.movieListBox.classList.add('item-list');
-    const itemViewBox = document.querySelector('.item-view');
-    if (!itemViewBox) return;
 
-    itemViewBox.append(this.movieListBox);
+    if (!this.itemViewBox) return;
+    this.itemViewBox.append(this.movieListBox);
 
-    this.render();
+    this.renderList();
   }
 
-  async render() {
-    this.isLoading = true;
+  renderTitle(query?: string) {
+    const title = document.createElement('h2');
+    if (!query) title.textContent = '지금 인기 있는 영화';
+    else title.textContent = `"${query}" 검색 결과`;
 
+    if (!this.itemViewBox) return;
+    this.itemViewBox.append(title);
+  }
+
+  async renderList() {
     try {
       const popularMovieResult = await APIService.delayedFetchPopularMovies({ pageNumber: this.currentPage });
 
-      if (popularMovieResult) this.isLoading = false;
-
       this.totalPage = popularMovieResult.total_pages;
-      const popularMovieList = this.formatMovieList(popularMovieResult);
+      const popularMovieList = formatMovieList(popularMovieResult);
 
       this.movieListInstance.newList = popularMovieList; //movie가 있는 상태
       this.movieListInstance.rerender(); //기존의 스켈레톤을 remove하고 render => 무비가 있는 경우에는 렌더링
@@ -62,7 +68,7 @@ class App {
     if (nextPage > this.totalPage) return;
     const popularMovieResult = await APIService.delayedFetchPopularMovies({ pageNumber: nextPage });
 
-    const popularMovieList = this.formatMovieList(popularMovieResult);
+    const popularMovieList = formatMovieList(popularMovieResult);
     this.movieListInstance.newList = popularMovieList;
     this.movieListInstance.rerender();
     this.renderMoreButton();
@@ -81,17 +87,6 @@ class App {
     const container = document.querySelector('.item-view');
     if (!container) return;
     container.append(moreButton);
-  }
-
-  formatMovieList(result: MovieAPIReturnType) {
-    const formattedMovieList = result.results.map(movie => ({
-      id: movie.id,
-      title: movie.title,
-      posterPath: movie.poster_path,
-      voteAverage: movie.vote_average,
-    }));
-
-    return formattedMovieList;
   }
 }
 
