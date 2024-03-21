@@ -2,8 +2,10 @@
   "rules": {
     "max-depth": ["warn", 1],
     "max-params": ["warn", 3],
-    "max-lines-per-function": ["warn", 10],
+    "max-lines-per-function": ["warn", 12],
     "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "class-methods-use-this": "off",
   },
   "env": {
     "es6": true,
@@ -16,5 +18,5 @@
   },
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
-  "extends": ["eslint:recommended", "plugin:prettier/recommended", "airbnb-base"],
+  "extends": ["eslint:recommended", "plugin:prettier/recommended", "airbnb-base", "plugin:cypress/recommended"],
 }
