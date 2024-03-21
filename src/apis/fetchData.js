@@ -16,8 +16,15 @@ export async function fetchPopularMovieList(pageNumber) {
         language: 'ko-KR',
         page: pageNumber.toString(),
       });
+      
     const response = await fetch(popularMovieUrl);
     const popularMovies = await response.json();
+
+    if(!response.ok){
+      if (popularMovies.status_code !== 1) {
+        throw new Error(popularMovies.status_message);
+      }
+    }
 
     return [mapDataToMovies(popularMovies), popularMovies.total_pages];
   } catch (error) {
@@ -36,9 +43,14 @@ export async function fetchSearchMovieList(inputValue, pageNumber) {
         language: 'ko-KR',
         page: pageNumber.toString(),
       });
-
     const response = await fetch(searchMovieUrl);
     const searchMovies = await response.json();
+
+    if(!response.ok){
+      if (searchMovies.status_code !== 1) {
+        throw new Error(searchMovies.status_message);
+      }
+    }
     
     return [mapDataToMovies(searchMovies), searchMovies.total_pages];
   } catch (error) {

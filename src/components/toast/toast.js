@@ -6,7 +6,7 @@ function toast(errorMessage) {
 
   document.querySelector("body").appendChild(toastElement);
 
-  setTimeout(() => toastElement.remove(), 2500);
+  setTimeout(() => toastElement.remove(), 4500);
 }
 
 export default toast;

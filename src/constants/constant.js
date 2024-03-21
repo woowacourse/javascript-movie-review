@@ -1,1 +1,1 @@
-export const LAST_PAGE = 5000;
+export const LAST_PAGE = 500;

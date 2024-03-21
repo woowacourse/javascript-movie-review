@@ -56,11 +56,10 @@ export class MovieListWrapper {
       case 'popular':
         {
           const liList = loadMovieList();
-
           const result = await fetchPopularMovieList(this.#currentPage);
           if (result) {
             const [movies, totalPages] = result;
-            if (totalPages === this.#currentPage) {
+            if (LAST_PAGE <= this.#currentPage) {
               addButton.classList.add('none');
             }
             this.plusCurrentPage();
@@ -70,15 +69,17 @@ export class MovieListWrapper {
         return;
       case 'search':
         {
-          const liList = loadMovieList();
           const result = await fetchSearchMovieList(this.#inputValue, this.#currentPage);
           if (result) {
+            const liList = loadMovieList();
             const [movies, totalPages] = result;
-            if (totalPages === this.#currentPage) {
+            if (Math.min(totalPages, LAST_PAGE) <= this.#currentPage) {
               addButton.classList.add('none');
             }
             this.plusCurrentPage();
             completeMovieList(liList, movies);
+          } else {
+            addButton.classList.add('none');
           }
         }
         return;
