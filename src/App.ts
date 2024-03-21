@@ -4,6 +4,7 @@ import MovieCard from './components/MovieCard';
 import movieStore from './store/MovieStore';
 import SearchBox from './components/SearchBox';
 import searchMovieStore from './store/SearchMovieStore';
+import ErrorPage from './components/ErrorPage';
 
 const SKELETON_UI_FIXED = 8; // 스켈레톤 UI 갯수
 type Tpage = 'popular' | 'search';
@@ -18,6 +19,7 @@ export default class App {
   }
 
   async #generateMovieList() {
+    this.#removePreviousError();
     const ulElement = document.querySelector('ul.item-list');
 
     if (ulElement) {
@@ -30,6 +32,7 @@ export default class App {
   }
 
   async #generateSearchMovieList() {
+    this.#removePreviousError();
     const ulElement = document.querySelector('ul.item-list');
 
     if (ulElement) {
@@ -37,6 +40,10 @@ export default class App {
       const newData = await searchMovieStore.searchMovies();
 
       this.#removeSkeletonUI();
+      if (newData.length === 0) {
+        const errorPage = new ErrorPage();
+        return;
+      }
       this.#appendMovieCard(newData, ulElement as HTMLElement);
     }
   }
@@ -91,6 +98,14 @@ export default class App {
     const moreButton = document.getElementById('more-button');
     if (moreButton) {
       moreButton.parentNode?.removeChild(moreButton);
+    }
+  }
+
+  #removePreviousError() {
+    const previousError = document.getElementById('error-page');
+
+    if (previousError) {
+      previousError.parentNode?.removeChild(previousError);
     }
   }
 
