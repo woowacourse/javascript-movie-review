@@ -1,17 +1,18 @@
 import { fetchPopularMovies, fetchSearchMovies } from '../../domain/DTO/Request/sendRequest';
-import { BUTTON } from '../../constants/INFORMATION';
+import { BUTTON, CONTAINER_TITLE } from '../../constants/INFORMATION';
 import Button from '../Button/Button';
 import MovieItems from '../MovieItems/MovieItems';
+import IRespondData from '../../interfaces/IRespondData';
 
 class ItemView {
   #page: number;
 
-  constructor(itemViewTitle: string = '지금 인기 있는 영화') {
+  constructor(search?: string) {
     this.#page = 0;
-    this.create(itemViewTitle);
+    this.create(search ? `"${search}"${CONTAINER_TITLE.searchResult}` : CONTAINER_TITLE.popular, search);
   }
 
-  async create(itemViewTitle: string) {
+  async create(itemViewTitle: string, search?: string) {
     const itemView = document.querySelector('.item-view');
 
     if (itemView) {
@@ -20,8 +21,8 @@ class ItemView {
       itemView.appendChild(this.createTitle(itemViewTitle));
       itemView.appendChild(button);
 
-      this.mountItems(button);
-      button.addEventListener('click', () => this.mountItems(button));
+      this.mountItems(button, search);
+      button.addEventListener('click', () => this.mountItems(button, search));
     }
     return itemView;
   }
@@ -36,11 +37,15 @@ class ItemView {
 
   async mountItems(button: HTMLElement, search?: string) {
     const skeleton = MovieItems.createSkeleton();
-    const movieListData = await this.getMovieListData(search);
+    const movieListData: IRespondData = await this.getMovieListData(search);
 
     button.insertAdjacentElement('beforebegin', skeleton);
 
     MovieItems.replaceSkeletons(skeleton, movieListData);
+
+    if (this.#page === movieListData.total_pages || this.#page === 500) {
+      button.remove();
+    }
   }
 
   async getMovieListData(search?: string) {
