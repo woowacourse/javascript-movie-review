@@ -2,7 +2,7 @@
   "name": "javascript-movie-review",
   "version": "1.0.0",
   "description": "우아한테크코스 레벨1 영화관 미션 저장소",
-  "main": "src/index.js",
+  "main": "src/index.ts",
   "private": "true",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/woowacourse-projects/javascript-movie-review/issues"
   },
-  "homepage": "https://github.com/woowacourse-projects/javascript-movie-review#readme",
+  "homepage": "https://rbgksqkr.github.io/javascript-movie-review/dist/",
   "devDependencies": {
     "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.20.2",
