@@ -60,6 +60,7 @@ class MovieItem {
     const img = this.template.querySelector('.item-thumbnail') as HTMLImageElement;
     img.setAttribute('src', IMAGE_URL_PREFIX + poster_path);
     img.setAttribute('alt', title);
+    img.classList.remove('skeleton');
     const p1 = this.template.querySelector('.item-title') as HTMLElement;
     p1.classList.remove('skeleton');
     p1.textContent = title;
