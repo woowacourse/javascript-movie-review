@@ -23,8 +23,6 @@ class MovieContainer {
     this.#moreButton.addEventListener('click', () => this.initHandleClickMoreButton());
 
     $('section').append(this.#moreButton);
-
-    this.pushMoreSkeletonList();
   }
 
   pushMoreSkeletonList() {
@@ -44,6 +42,12 @@ class MovieContainer {
     emptySearchResult.classList.add('empty-search-result');
     emptySearchResult.textContent = '검색 결과가 없습니다.';
     return emptySearchResult;
+  }
+
+  removeSkeleton() {
+    this.#skeletonList.forEach((skeleton) => {
+      skeleton.remove();
+    });
   }
 
   setEmptySearchResult(listLength) {
@@ -76,7 +80,6 @@ class MovieContainer {
   }
 
   async initHandleClickMoreButton() {
-    this.pushMoreSkeletonList();
     await this.#handleMoreButton();
   }
 
