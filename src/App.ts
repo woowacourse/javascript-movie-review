@@ -1,6 +1,6 @@
 import Component from "./common/Component";
 import { $ } from "./utils/dom";
-import { createMovie } from "./components/Movie";
+import { createMovieElement } from "./components/Movie";
 import Header from "./components/Header";
 import MovieList from "./components/MoveList";
 import movieClient from "./http/MoveClient";

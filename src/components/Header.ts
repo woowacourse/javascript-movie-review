@@ -7,17 +7,21 @@ interface HeaderProps {
   onLogoClick: () => void;
 }
 
-class Header extends Component<HTMLDivElement, HeaderProps> {
+class Header extends Component<HeaderProps> {
+  private formElement: HTMLFormElement | null = $<HTMLFormElement>("#search-form");
+
   protected getTemplate() {
     return /*html*/ `
-    <h1 id="logo"><img src="${logo}" alt="MovieList 로고" /></h1>
-    <div class="search-box">
-      <form id="search-form">
-        <input id="search-input" type="text" name="search-input" placeholder="검색" />
-        <button id="search-button" type="submit" class="search-button">검색</button>
-      </form>
-    </div>
+      <h1 id="logo"><img src="${logo}" alt="MovieList 로고" /></h1>
+      <div class="search-box">
+          <input id="search-input" type="text" name="search-input" placeholder="검색" required/>
+          <button id="search-button" type="submit" class="search-button">검색</button>
+      </div>
     `;
+  }
+
+  private resetSearchForm() {
+    this.formElement && this.formElement.reset();
   }
 
   protected setEvent(): void {
@@ -26,16 +30,22 @@ class Header extends Component<HTMLDivElement, HeaderProps> {
     const { onLogoClick, onSearchKeywordSubmit } = this.props;
 
     $<HTMLHeadingElement>("#logo")?.addEventListener("click", () => {
-      // e.preventDefault();
       onLogoClick();
+      this.resetSearchForm();
     });
 
-    const formElement = $<HTMLFormElement>("#search-form");
+    const inputElment = $<HTMLInputElement>("#search-input");
 
-    formElement?.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const formData = new FormData(formElement);
-      onSearchKeywordSubmit(formData.get("search-input") as string);
+    inputElment?.addEventListener("keydown", (e: KeyboardEvent) => {
+      if (!(e instanceof KeyboardEvent) || e.key !== "Enter") return;
+
+      onSearchKeywordSubmit(inputElment.value);
+    });
+
+    $<HTMLButtonElement>("#search-button")?.addEventListener("click", () => {
+      if (!inputElment) return;
+
+      onSearchKeywordSubmit(inputElment.value);
     });
   }
 }

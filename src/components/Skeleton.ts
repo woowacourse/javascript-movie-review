@@ -10,20 +10,20 @@ export const renderSkeleton = () => {
   const skeletonList = createElement<HTMLUListElement>("ul");
   skeletonList.id = "skeleton-list";
   skeletonList.className = "item-list";
-  skeletonList.innerHTML = getSkeletonUI(20);
+  skeletonList.innerHTML = getSkeletonUI();
 
   movieList && movieList.appendChild(skeletonList);
 };
 
-export const getSkeletonUI = (length: number) => {
+export const getSkeletonUI = (length: number = 20) => {
   return /*html*/ `
-      <li class="item-skeleton">
-        <a href="#">
-          <div class="item-card">
-            <div class="item-thumbnail skeleton"></div>
-            <div class="item-title skeleton"></div>
-            <div class="item-score skeleton"></div>
-          </div>
-        </a>
-      </li>`.repeat(length);
+    <li class="item-skeleton">
+      <a href="#">
+        <div class="item-card">
+          <div class="item-thumbnail skeleton"></div>
+          <div class="item-title skeleton"></div>
+          <div class="item-score skeleton"></div>
+        </div>
+      </a>
+    </li>`.repeat(length);
 };

@@ -1,25 +1,29 @@
 import Component from "../common/Component";
-import { $ } from "../utils/dom";
-import { starImage } from "../assets/image";
-import { createElement } from "../utils/dom";
+import { createMovieElement } from "./Movie";
+import { hideSkeleton, renderSkeleton } from "./Skeleton";
 import movieClient from "../http/MoveClient";
-import { getMovies } from "../http/MoveClient";
-import { createMovie } from "./Movie";
-import { MovieItem } from "../types/movies";
-import { hideSkeleton, renderSkeleton } from "../handlers/skeleton";
+import { $ } from "../utils/dom";
+import { FetchResponse, MovieItem } from "../types/movies";
+import { MAX_PAGE } from "../constants/movies";
 
-export default class MovieList extends Component<HTMLDivElement, {}> {
-  protected initializeState(): void {
-    this.state = { currentPage: 0, searchKeyword: "", renderType: "popular" };
+interface MovieListState {
+  currentPage: number;
+  searchKeyword: string;
+}
+
+export default class MovieList extends Component<{}, MovieListState> {
+  protected initializeState() {
+    this.state = { currentPage: 0, searchKeyword: "" };
   }
 
-  protected getTemplate(): string {
+  protected getTemplate() {
     return /*html*/ `
       <h2 id="main-text">지금 인기 있는 영화</h2>
       <div id="movie-list">
         <ul id="movie-list-container" class="item-list">
         </ul>
       </div>
+      <div id="empty-result" class="empty-result hidden"></div>
       <button id="next-button" class="btn primary full-width">더 보기</button>
     `;
   }
@@ -29,11 +33,37 @@ export default class MovieList extends Component<HTMLDivElement, {}> {
     this.handleRenderMovieList();
   }
 
-  private renderMovies(movies: any[]) {
+  private hideEmptyResult() {
+    const emptyResultContainer = $<HTMLDivElement>("#empty-result");
+    if (!emptyResultContainer) return;
+
+    emptyResultContainer.classList.add("hidden");
+    emptyResultContainer.innerText = "";
+  }
+
+  private renderEmptyResult() {
+    const emptyResultContainer = $<HTMLDivElement>("#empty-result");
+    if (!emptyResultContainer) return;
+
+    emptyResultContainer?.classList.remove("hidden");
+    const emptyText = `${this.state?.searchKeyword} 에 대한 검색 결과가 존재하지 않아요..😅\n정확한 검색어를 다시 입력해주세요`;
+    emptyResultContainer.innerText = emptyText;
+  }
+
+  private renderMovies(movies: MovieItem[]) {
     const movieList = $<HTMLUListElement>("#movie-list-container");
+    if (!movieList) return;
+
+    if (movies.length < 1) {
+      this.renderEmptyResult();
+      return;
+    }
+
+    this.hideEmptyResult();
     movies.forEach((movie) => {
-      const movieItem = createMovie({ id: 1, title: movie.title, imgPath: movie.backdrop_path, voteAverage: movie.vote_average });
-      movieList?.append(movieItem);
+      const { id, title, backdrop_path, vote_average } = movie;
+      const movieItem = createMovieElement({ id, title, backdrop_path, vote_average });
+      movieList.append(movieItem);
     });
   }
 
@@ -44,7 +74,7 @@ export default class MovieList extends Component<HTMLDivElement, {}> {
     if (text === "") {
       mainText.innerText = `지금 인기 있는 영화`;
     } else {
-      mainText.innerText = `${text} 검색 결과`;
+      mainText.innerText = `"${text}" 검색 결과`;
     }
   }
 
@@ -55,47 +85,65 @@ export default class MovieList extends Component<HTMLDivElement, {}> {
     movieList.innerHTML = "";
   }
 
+  private handleRenderMovieList() {
+    renderSkeleton();
+
+    this.getNextPage()
+      .then((res) => {
+        res && this.renderMovies(res.results);
+      })
+      .catch((error) => {
+        if (error instanceof Error) {
+          alert(error.message);
+        }
+      })
+      .finally(() => {
+        hideSkeleton();
+      });
+  }
+
+  private handleRemoveMoreButton() {
+    if (!this.state || this.state.currentPage < MAX_PAGE) return;
+
+    const $button = $<HTMLButtonElement>("#next-button");
+    $button && $button.remove();
+  }
+
+  private updateCurrentPage() {
+    if (!this.state) return;
+
+    this.setState({ ...this.state, currentPage: this.state.currentPage + 1 });
+    this.handleRemoveMoreButton();
+  }
+
+  private async getNextPage() {
+    this.updateCurrentPage();
+    if (!this.state) return;
+
+    const { currentPage, searchKeyword } = this.state;
+
+    return await movieClient.get<FetchResponse<MovieItem[]>>(currentPage, searchKeyword);
+  }
+
+  protected setEvent(): void {
+    const button = $<HTMLButtonElement>("#next-button");
+
+    button?.addEventListener("click", () => {
+      this.handleRenderMovieList();
+    });
+  }
+
   public handleSearchMovie(searchKeyword: string) {
     this.toggleMainText(searchKeyword);
-    this.setState({ currentPage: 0, searchKeyword: searchKeyword, renderType: "search" });
+    this.setState({ currentPage: 0, searchKeyword: searchKeyword });
     this.resetCurrentMovieList();
     this.handleRenderMovieList();
   }
 
   public handleResetMovieList() {
     this.toggleMainText();
-    this.setState({ currentPage: 0, searchKeyword: "", renderType: "popular" });
+    this.setState({ currentPage: 0, searchKeyword: "" });
     this.resetCurrentMovieList();
     this.handleRenderMovieList();
-  }
-
-  async handleRenderMovieList() {
-    renderSkeleton();
-    const data = await this.getNextPage();
-    hideSkeleton();
-    this.renderMovies(data.results);
-  }
-
-  protected setEvent(): void {
-    const button = $<HTMLButtonElement>("#next-button");
-    button?.addEventListener("click", () => {
-      this.handleRenderMovieList();
-    });
-  }
-
-  private async getNextPage() {
-    this.setState({ ...this.state, currentPage: this.state.currentPage + 1 });
-    const { currentPage, searchKeyword, renderType } = this.state;
-
-    console.log(currentPage, searchKeyword, renderType);
-    //      --url 'https://api.themoviedb.org/3/search/movie?query=%ED%95%B4%EB%A6%AC&include_adult=false&language=ko-KR&page=1' \
-
-    if (renderType === "popular") {
-      return await movieClient.fetch(`movie/${this.state.renderType}?language=ko-KR&page=${this.state.currentPage}`).then((res) => res.json());
-    } else if (renderType === "search") {
-      return await movieClient
-        .fetch(`search/movie?query=${searchKeyword}&include_adult=false&language=ko-KR&page=${currentPage}`)
-        .then((res) => res.json());
-    }
   }
 }
