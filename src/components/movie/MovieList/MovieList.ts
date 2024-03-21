@@ -6,6 +6,8 @@ import type { MovieDetail } from '../../../domain/Movie/Movie.type';
 
 import { createElement } from '../../../utils/dom/createElement/createElement';
 
+import './MovieList.css';
+
 interface MovieListProps {
   movieItemDetails: MovieDetail[];
 }

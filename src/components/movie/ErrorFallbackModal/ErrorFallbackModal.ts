@@ -9,6 +9,8 @@ import { ELEMENT_SELECTOR } from '../../../constants/selector';
 
 import { WarningImage } from '../../../assets';
 
+import './ErrorFallbackModal.css';
+
 class ErrorFallbackModal extends Component {
   protected render(): void {
     new Modal(this.$element, { id: 'error-fallback-modal', children: this.createComponent() });

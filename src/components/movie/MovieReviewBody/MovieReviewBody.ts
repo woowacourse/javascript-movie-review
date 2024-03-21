@@ -12,6 +12,8 @@ import { ELEMENT_SELECTOR } from '../../../constants/selector';
 
 import { NoResultImage } from '../../../assets';
 
+import './MovieReviewBody.css';
+
 interface MovieReviewBodyProps {
   movieType: string;
 }

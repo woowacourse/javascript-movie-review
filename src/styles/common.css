@@ -2,6 +2,10 @@
   box-sizing: border-box !important;
 }
 
+*:focus {
+  outline: none;
+}
+
 body {
   font-size: 14px;
   background-color: #222222;
@@ -17,90 +21,6 @@ button {
   cursor: pointer;
 }
 
-#app {
-  padding-bottom: 48px;
-}
-
-*:focus {
-  outline: none;
-}
-.item-view,
-.item-test {
-  width: 100%;
-}
-
-.item-view {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 1200px;
-  margin: 0 auto;
-}
-
-.item-view h2 {
-  font-size: 2rem;
-  font-weight: bold;
-  user-select: none;
-}
-
-/* https://andrew.hedges.name/experiments/aspect_ratio/ */
-
-.item-list {
-  display: grid;
-  margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
-  grid-row-gap: 48px;
-}
-
-.item-card {
-  display: flex;
-  flex-direction: column;
-}
-
-.item-thumbnail {
-  border-radius: 8px;
-  width: 180px;
-  height: 270px;
-  background-size: contain;
-}
-
-.item-title {
-  margin-top: 16px;
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-.item-score {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 16px;
-  font-size: 1.2rem;
-}
-
-.item-score > img {
-  padding-bottom: 4px;
-}
-
-.item-score::after {
-  margin-left: 8px;
-}
-
-.item-title.skeleton::after,
-.item-score.skeleton::after {
-  font-size: 0;
-  content: 'loading';
-}
-
-.full-width {
-  width: 100%;
-}
-
-.last-item {
-  margin-top: 48px;
-}
-
 button.btn {
   border: 0;
   border-radius: 8px;
@@ -113,145 +33,10 @@ button.primary {
   background: #f33f3f;
 }
 
-.item-card .skeleton {
-  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
-  background-size: 400%;
-  animation: skeleton-animation 5s infinite ease-out;
-  border-radius: 8px;
+#app {
+  padding-bottom: 48px;
 }
 
-@keyframes skeleton-animation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-header {
+.full-width {
   width: 100%;
-  min-width: 1200px;
-  height: 72px;
-  background-color: #222;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-  border-bottom: 1px solid white;
-  margin-bottom: 48px;
-}
-
-header h1 {
-  cursor: pointer;
-  user-select: none;
-  font-size: 2rem;
-  font-weight: bold;
-  letter-spacing: -0.1rem;
-  color: #f33f3f;
-}
-
-header > .search-box {
-  position: relative;
-
-  background: #fff;
-  padding: 8px;
-  border-radius: 4px;
-}
-
-header .search-box > input {
-  border: 0;
-}
-
-header .search-box > .search-button {
-  width: 14px;
-  border: 0;
-  text-indent: -1000rem;
-  background: url('../assets/images/search_button.png') transparent no-repeat 0 1px;
-  background-size: contain;
-}
-
-@keyframes toast-animation {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-.toast {
-  position: absolute;
-
-  top: 45px;
-  right: 0;
-
-  background: #f33f3f;
-  border-radius: 5px;
-  padding: 10px;
-  font-size: 14px;
-
-  white-space: nowrap;
-  word-break: break-all;
-}
-
-.remove-toast {
-  animation: toast-animation 1s;
-}
-
-.movie-list-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-dialog {
-  position: fixed;
-  min-width: 450px;
-  margin: auto;
-  border: none;
-  border-radius: 8px;
-}
-
-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.modal-container {
-  width: 500px;
-  height: 300px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  white-space: pre;
-  text-align: center;
-  line-height: 28px;
-  font-size: 24px;
-
-  padding: 24px 16px;
-
-  background: #ffffff;
-
-  /* Firefox & IE & Edge */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.warning-image {
-  width: 100px;
-}
-
-.modal-container > div {
-  margin: 20px 0px;
-}
-
-/* Chrome, Safari */
-.modal-container::-webkit-scrollbar {
-  display: none;
 }

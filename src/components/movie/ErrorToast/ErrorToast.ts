@@ -2,6 +2,8 @@ import Component from '../../common/Component/Component';
 
 import { createElement } from '../../../utils/dom/createElement/createElement';
 
+import './ErrorToast.css';
+
 interface ErrorToastProps {
   errorText: string;
 }

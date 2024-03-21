@@ -10,6 +10,8 @@ import { ELEMENT_SELECTOR } from '../../../constants/selector';
 
 import { Logo } from '../../../assets';
 
+import './MovieReviewHeader.css';
+
 class MovieReviewHeader extends Component {
   protected render() {
     this.$element.append(this.createComponent());
