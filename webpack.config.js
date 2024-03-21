@@ -3,9 +3,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DotEnv = require('dotenv-webpack');
 const webpack = require('webpack');
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
   entry: './src/index.ts',
-  mode: 'production',
+  mode: 'development',
   resolve: {
     extensions: ['.ts', '.js'],
   },
@@ -22,6 +24,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html',
+      publicPath: isProduction ? '/javascript-movie-review/dist/' : '.'
     }),
 
     new DotEnv(),
