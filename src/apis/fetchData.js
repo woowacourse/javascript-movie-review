@@ -1,10 +1,8 @@
 import toast from "../components/toast/toast";
+import { MOVIE_SEARCH_URL, POPULAR_MOVIES_URL } from "../constants/constant";
 import { mapDataToMovies } from "../domain/MovieService";
 
 const API_KEY = process.env.API_KEY;
-const BASE_URL = 'https://api.themoviedb.org/3';
-const POPULAR_MOVIES_URL = `${BASE_URL}/movie/popular`;
-const MOVIE_SEARCH_URL = `${BASE_URL}/search/movie`;
 
 export async function fetchPopularMovieList(pageNumber) {
   try {
