@@ -5,14 +5,14 @@ import { MovieItemProps } from '../../types/movie';
 import { BASE_IMAGE_URL, BASE_IMAGE_WIDTH } from '../../constants/api/api';
 
 const createItemScore = (vote_average: number) => {
-  const itemScore = createElement('p', {
+  const itemScoreContainer = createElement('div', { className: 'item-score-container' });
+  const itemScore = createElement('div', {
     className: 'item-score',
     textContent: formatToDecimalPlaces(vote_average, 1),
   });
   const starIcon = createElement('img', { src: starImg, alt: '별점' });
-  itemScore.appendChild(starIcon);
-
-  return itemScore;
+  [itemScore, starIcon].forEach((item) => itemScoreContainer.appendChild(item));
+  return itemScoreContainer;
 };
 
 const createItemImage = (poster_path: string, title: string) => {

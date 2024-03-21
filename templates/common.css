@@ -72,8 +72,23 @@ button {
 }
 
 .item-score {
-  margin-top: 16px;
   font-size: 1.2rem;
+  margin: 0;
+}
+
+.item-score {
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-score-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 7px;
 }
 
 .item-score::after {
