@@ -15,6 +15,7 @@ class Header {
     this.#imageSrc = imageSrc;
     this.render();
 
+    
     const $form = dom.getElement<HTMLFormElement>(this.$target, 'form');
     if (onSubmit) $form.addEventListener('submit', onSubmit);
   }
@@ -22,7 +23,7 @@ class Header {
   template() {
     return /*html*/ `
       <h1>
-        <a href='${process.env.NODE_ENV === 'development' ?  '/' : process.env.PUBLIC_PATH}'>
+        <a href='/'>
           <img src="./images/logo.png" alt="MovieList 로고" />
         </a>
       </h1>
