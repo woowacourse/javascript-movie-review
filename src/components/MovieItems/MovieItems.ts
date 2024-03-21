@@ -2,6 +2,7 @@ import OPTIONS from '../../constants/OPTIONS';
 import IRespondData from '../../interfaces/IRespondData';
 import IMovieData from '../../interfaces/IMovieData';
 import { starFilled } from '../../resources';
+import { MOVIE_POSTER_URL } from '../../constants/DTO';
 
 const MovieItems = {
   createSkeleton(): HTMLUListElement {
@@ -15,11 +16,14 @@ const MovieItems = {
   },
 
   replaceSkeletons(movieItems: HTMLUListElement, respondData: IRespondData) {
-    const itemCards = [...movieItems.querySelectorAll('li')];
+    const itemCards = movieItems.querySelectorAll('li');
     itemCards.forEach((item, index) => this.replaceSkeleton(item, respondData.results[index]));
   },
 
   replaceSkeleton(itemCard: HTMLElement, movieData: IMovieData) {
+    if (movieData === undefined) {
+      return itemCard.remove();
+    }
     this.replaceThumbnail(itemCard, movieData);
     this.replaceTitle(itemCard, movieData);
     this.replaceScore(itemCard, movieData);
@@ -30,7 +34,7 @@ const MovieItems = {
     const newThumbnail = document.createElement('img');
 
     newThumbnail.classList.add('item-thumbnail');
-    newThumbnail.src = `https://image.tmdb.org/t/p/w220_and_h330_face${movieData.poster_path}`;
+    newThumbnail.src = `${MOVIE_POSTER_URL}${movieData.poster_path}`;
     newThumbnail.loading = 'lazy';
     newThumbnail.alt = movieData.title;
 
