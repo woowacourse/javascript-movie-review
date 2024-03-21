@@ -17,7 +17,7 @@ describe('Fixture를 이용한 영화 검색 테스트', () => {
     cy.get('.search-box').submit();
 
     cy.wait('@getSearchMovies').then((interception) => {
-      // fixture data 검증 - 10개의 fixture data
+      // fixture data 검증 - 20개의 fixture data
       const searchMovies = interception.response?.body.results;
       expect(searchMovies.length).to.equal(20);
 
