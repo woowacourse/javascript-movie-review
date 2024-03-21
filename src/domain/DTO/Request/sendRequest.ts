@@ -19,7 +19,7 @@ async function fetchPopularMovies(page: number) {
 
 async function fetchSearchMovies(page: number, userInput: string) {
   const KEY = process.env.API_KEY;
-  const popularMovieUrl =
+  const movieSearchUrl =
     MOVIE_SEARCH_URL +
     '?' +
     new URLSearchParams({
@@ -29,10 +29,10 @@ async function fetchSearchMovies(page: number, userInput: string) {
       page: `${page}`,
     });
 
-  const response = await fetch(popularMovieUrl);
-  const popularMovies = await response.json();
+  const response = await fetch(movieSearchUrl);
+  const searchedMovies = await response.json();
 
-  return popularMovies;
+  return searchedMovies;
 }
 
 export { fetchPopularMovies, fetchSearchMovies };
