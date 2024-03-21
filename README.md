@@ -1,6 +1,19 @@
 # javascript-movie-review
 
-FE 레벨1 영화관 미션
+FE 레벨1 영화관 미션 
+
+<br>
+
+## 시연 영상
+
+![ezgif com-video-to-gif-converter](https://github.com/healim01/javascript-movie-review/assets/74346290/49546f9e-7206-4200-bd30-6c856b355ee4)
+
+<br>
+
+## 모듈 구조 
+![모듈구조](https://github.com/healim01/javascript-movie-review/assets/74346290/f0868b16-e84d-478d-b8d1-b427d79ce086)
+
+<br>
 
 ## 기능 목록
 
@@ -26,7 +39,6 @@ FE 레벨1 영화관 미션
 
 #### 검색 입력창
 
-- XSS 막는 기능
 - enter 키, 검색 아이콘 클릭 시 검색 진행
 
 #### 검색 결과에 따른 영화 리스트
