@@ -1,4 +1,5 @@
 import { genre } from '../constants/movie';
+import { handleError } from '../errors/error';
 import { IMovie, IMovieResponse, ISearchResult } from '../types/movie';
 
 const BASE_URL = 'https://api.themoviedb.org';
@@ -14,12 +15,9 @@ export const getPopularMovies = async (page: number): Promise<ISearchResult> => 
     },
   });
 
-  if (response.status === 400) throw new Error('[API ERROR] BAD_REQUEST');
-  if (response.status === 401) throw new Error('[API ERROR] NOT_AUTHORIZED');
-  if (response.status === 404) throw new Error('[API ERROR] NOT_FOUND');
-  if (response.status !== 200) throw new Error('[API ERROR] ERROR');
-
   const { results, total_pages } = await response.json();
+
+  handleError(response.status);
 
   return { movies: results.map(parseMovieResponse), totalPages: total_pages };
 };
@@ -34,12 +32,9 @@ export const searchMoviesByTitle = async (title: string, page: number): Promise<
     },
   });
 
-  if (response.status === 400) throw new Error('[API ERROR] BAD_REQUEST');
-  if (response.status === 401) throw new Error('[API ERROR] NOT_AUTHORIZED');
-  if (response.status === 404) throw new Error('[API ERROR] NOT_FOUND');
-  if (response.status !== 200) throw new Error('[API ERROR] ERROR');
-
   const { results, total_pages } = await response.json();
+
+  handleError(response.status);
 
   return { movies: results.map(parseMovieResponse), totalPages: total_pages };
 };

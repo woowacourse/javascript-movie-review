@@ -3,6 +3,7 @@ import { getPopularMovies, searchMoviesByTitle } from '../../apis/movie';
 import { IMovie } from '../../types/movie';
 import { dom } from '../../utils/dom';
 import MovieItem from '../movieItem/MovieItem';
+import { InvalidRequestError } from '../../errors/error';
 
 class MovieListContainer {
   $target: HTMLUListElement = document.createElement('ul');
@@ -12,12 +13,17 @@ class MovieListContainer {
     this.$target.classList.add('item-list');
     this.$target.innerHTML += this.template();
     (async () => {
-      const { movies, totalPages } = await this.fetchMovies(this.page);
-      await this.paint(movies);
+      try {
+        const { movies, totalPages } = await this.fetchMovies(this.page);
+        await this.paint(movies);
 
-      if (this.$target.parentElement === null) return;
-      const $moreButton = dom.getElement(this.$target.parentElement, '#more-button');
-      if (this.page === totalPages) $moreButton.classList.add('hidden');
+        if (this.$target.parentElement === null) return;
+        const $moreButton = dom.getElement(this.$target.parentElement, '#more-button');
+        if (this.page === totalPages) $moreButton.classList.add('hidden');
+      } catch (e) {
+        const target = e as InvalidRequestError;
+        this.handleErrorToast(target.message);
+      }
     })();
   }
 
@@ -64,6 +70,15 @@ class MovieListContainer {
 
   initPageNumber() {
     this.page = 1;
+  }
+
+  handleErrorToast(errorMessage: string) {
+    const $button = dom.getElement<HTMLButtonElement>(document.body, '#toast_btn');
+    const clickEvent = new CustomEvent('onToast', {
+      detail: errorMessage,
+      bubbles: true,
+    });
+    $button.dispatchEvent(clickEvent);
   }
 }
 
