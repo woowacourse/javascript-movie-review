@@ -9,14 +9,14 @@ module.exports = {
     extensions: ['.ts', '.js'],
   },
   devServer: {
-    static: './dist',
+    static: './public',
     open: true,
     historyApiFallback: true,
   },
   output: {
     publicPath: '/',
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'public'),
     clean: true,
   },
   plugins: [
