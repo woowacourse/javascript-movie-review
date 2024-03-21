@@ -31,9 +31,9 @@ class App {
   render() {
     const header = this.#createHeader();
     const button = this.#createMoreButton();
+
     const $section = dom.getElement<HTMLButtonElement>(this.$target, '.item-view');
     $section.appendChild(button.$target);
-
     const $title = dom.getElement(this.$target, 'h2');
     const urlSearchParams = new URLSearchParams(window.location.search);
     const title = urlSearchParams.get('title') ?? '';
@@ -63,8 +63,9 @@ class App {
         this.movieListContainer.paint(movies);
 
         const $moreButton = dom.getElement(this.$target, '#more-button');
+
         if (this.movieListContainer.page === totalPages) $moreButton.classList.add('hidden');
-        else $moreButton.classList.remove('hidden');
+        else if (this.movieListContainer.page !== totalPages) $moreButton.classList.remove('hidden');
       },
     });
   }

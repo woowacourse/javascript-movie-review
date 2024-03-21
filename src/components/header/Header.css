@@ -20,21 +20,25 @@ header h1 {
   color: #f33f3f;
 }
 
-header > .search-box {
+header>.search-box {
   display: flex;
   background: #fff;
   padding: 8px;
   border-radius: 4px;
 }
 
-header .search-box > input {
+header .search-box>input {
   border: 0;
 }
 
-header .search-box > .search-button {
+header .search-box>.search-button {
   display: flex;
   justify-content: center;
   align-items: center;
   border: 0;
   background: transparent no-repeat 0 1px;
+}
+
+.search-button-icon {
+  width: 14px;
 }

@@ -1,5 +1,6 @@
 import './Header.css';
 import { dom } from '../../utils/dom';
+import Button from '../common/button/Button';
 
 interface IHeaderProps {
   imageSrc: string;
@@ -27,15 +28,32 @@ class Header {
       </h1>
       <form class="search-box">
         <input id="search-input" type="text" placeholder="검색" />
-        <button class="search-button"><img width="14px" src='./images/search_button.png' /></button>
+        
       </form>
 `;
   }
 
   render() {
     this.$target.innerHTML += this.template();
+    const button = this.#createSearchButton();
+
+    const $form = dom.getElement(this.$target, '.search-box');
+    $form.appendChild(button.$target);
+
     const $image = dom.getElement<HTMLImageElement>(this.$target, 'h1 > a > img');
     $image.setAttribute('src', this.#imageSrc);
+  }
+
+  #createSearchButton() {
+    const childImage = document.createElement('img');
+    childImage.setAttribute('src', './images/search_button.png');
+    childImage.classList.add('search-button-icon');
+
+    return new Button({
+      id: 'search-button',
+      classNames: ['search-button'],
+      children: [childImage],
+    });
   }
 }
 
