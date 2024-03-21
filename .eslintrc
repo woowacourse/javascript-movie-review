@@ -4,7 +4,8 @@
     "max-params": ["warn", 3],
     "linebreak-style": "off",
     "import/no-unresolved": "off",
-    "import/extensions": "off"
+    "import/extensions": "off",
+    "cypress/no-assigning-return-values": "off"
   },
   "overrides": [
     {

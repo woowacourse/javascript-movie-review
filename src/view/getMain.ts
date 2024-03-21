@@ -75,11 +75,11 @@ async function getMovieItems(button = document.getElementById('see-more-button')
   })
     .then((response) => {
       if (!response.ok) {
-        throw new Error('❗');
+        throw new Error('❌ 잠시후에 시도해주세요.');
       }
       return response.json();
     })
-    .catch((error) => console.log(error.message));
+    .catch((error) => console.error(error.message));
 
   checkPage(responseJson.page, responseJson.total_pages, button);
 
