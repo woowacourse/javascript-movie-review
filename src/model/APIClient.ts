@@ -4,10 +4,10 @@ import { MAX_PAGE } from "../constants/system";
 import dataStateStore from "./DataStateStore";
 
 class APIClient {
-  #currentPage = 1;
+  #currentPage = 0;
 
-  #isShowMoreButton = (totalPage: number) =>
-    this.#currentPage < totalPage && this.#currentPage <= MAX_PAGE;
+  #isShowMoreButton = (page: number, totalPage: number) =>
+    page < totalPage && page <= MAX_PAGE;
 
   #updateCurrentPage = (isResetCurrentPage: boolean) => {
     if (isResetCurrentPage) this.#currentPage = 1;
@@ -21,7 +21,7 @@ class APIClient {
     dataStateStore.getTotalMovieData(
       {
         movieList: data.results,
-        isShowMoreButton: this.#isShowMoreButton(data.total_pages),
+        isShowMoreButton: this.#isShowMoreButton(data.page, data.total_pages),
       },
       isResetCurrentPage,
     );
@@ -47,7 +47,7 @@ class APIClient {
     dataStateStore.getTotalMovieData(
       {
         movieList: data.results,
-        isShowMoreButton: this.#isShowMoreButton(data.total_pages),
+        isShowMoreButton: this.#isShowMoreButton(data.page, data.total_pages),
       },
       isResetCurrentPage,
     );
