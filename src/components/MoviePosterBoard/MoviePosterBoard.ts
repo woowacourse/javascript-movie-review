@@ -3,11 +3,13 @@ import "./style.css";
 import createMoviePoster, { MovieInfo } from "../MoviePoster/createMoviePoster";
 import { fetchPopularMovie, fetchTargetMovie } from "../../apis/fetchMovie";
 
+import { $ } from "../../utils/selector";
 import createButton from "../Button/createButton";
 import createElement from "../../utils/createElement";
+import createNetworkFallback from "../NetworkErrorFallBack/createNetworkErrorFallback";
 import createSkeletonMoviePoster from "../MoviePoster/createSkeletonMoviePoster";
 
-type MoviePosterType = "popular" | "search";
+export type MoviePosterType = "popular" | "search";
 
 class MoviePosterBoard {
   element;
@@ -15,12 +17,9 @@ class MoviePosterBoard {
   #seeMoreButton;
   page: number;
 
-  constructor(
-    description: string,
-    posterType: MoviePosterType,
-    movieName?: string
-  ) {
+  constructor(posterType: MoviePosterType, movieName?: string) {
     this.page = 1;
+    const description = this.#createDescription(posterType, movieName);
     this.element = this.#createBasicElement(description);
     this.#ul = createElement("ul", { class: "item-list" });
     this.#seeMoreButton = this.#createSeeMoreButton(posterType, movieName);
@@ -65,14 +64,31 @@ class MoviePosterBoard {
     return Array.from({ length: 20 }).map(createSkeletonMoviePoster);
   }
 
+  #showNetworkFallbackComponent(
+    posterType: MoviePosterType,
+    movieName?: string
+  ) {
+    const networkErrorFallback = createNetworkFallback(posterType, movieName);
+    $("body>section")?.remove();
+    $("body")?.append(networkErrorFallback);
+  }
+
   #getSeeMoreButtonClickEvent(posterType: MoviePosterType, movieName?: string) {
     return async (event: Event) => {
       this.#addSkeletonPosters();
       const fetchFunc =
         posterType === "popular" ? fetchPopularMovie : fetchTargetMovie;
-      const TMDBResponse = await fetchFunc(this.page, movieName as string);
+
+      let TMDBResponse;
+
+      try {
+        TMDBResponse = await fetchFunc(this.page, movieName as string);
+      } catch (error) {
+        this.#showNetworkFallbackComponent(posterType, movieName);
+        return;
+      }
       if (!TMDBResponse) {
-        throw new Error("에러발생");
+        return;
       }
       this.#deleteLast20Posters();
 
@@ -95,6 +111,11 @@ class MoviePosterBoard {
           ?.replaceChildren(movieName + " 그런 건 없어용!~ 🌞");
       }
     };
+  }
+
+  #createDescription(posterType: MoviePosterType, name?: string) {
+    if (posterType === "search" && name) return `"${name}" 검색 결과`;
+    return "지금 인기있는 영화";
   }
 }
 
