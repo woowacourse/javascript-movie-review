@@ -9,8 +9,11 @@ import SearchBox from "./SearchBox";
 const handleClickToRefresh = async () => {
   const $itemView = document.querySelector(".item-view");
   $itemView?.remove();
-
-  await handleGetPopularMovieData();
+  const $searBox = document.querySelector("#search-input");
+  if ($searBox instanceof HTMLInputElement) {
+    $searBox.value = "";
+  }
+  await handleGetPopularMovieData(true);
 
   ItemView("지금 인기 있는 영화", dataStateStore.movieData, "popular");
 };
