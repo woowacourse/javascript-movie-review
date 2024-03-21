@@ -9,13 +9,15 @@ class MovieListBox {
   button;
 
   constructor({
+    title,
     onMovieMoreButtonClick,
   }: {
+    title: string;
     onMovieMoreButtonClick: () => void;
   }) {
     const $h2 = createElement({
       tagName: "h2",
-      children: ["지금 인기 있는 영화"],
+      children: [title],
     });
 
     this.movieList = new MovieList();
@@ -39,6 +41,10 @@ class MovieListBox {
   showMoreMovies() {
     this.button.toggleDisabled();
     this.movieList.appendSkeleton();
+  }
+
+  removeMovieMoreButton() {
+    this.button.removeMovieMoreButton();
   }
 
   private generateMovieListBox({ children }: { children: HTMLElement[] }) {

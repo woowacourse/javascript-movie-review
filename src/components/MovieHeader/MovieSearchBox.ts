@@ -3,7 +3,7 @@ import generateSearchBox from "../common/generateSearchBox";
 export type SearchType = (query: string) => void;
 
 interface MovieSearchBoxProps {
-  search: SearchType;
+  searchBoxSubmitHandler: SearchType;
 }
 
 class MovieSearchBox {
@@ -27,7 +27,7 @@ class MovieSearchBox {
 
     if (e.target instanceof HTMLFormElement) {
       const query = e.target["query"].value;
-      this.props.search(query);
+      this.props.searchBoxSubmitHandler(query);
     }
   }
 }

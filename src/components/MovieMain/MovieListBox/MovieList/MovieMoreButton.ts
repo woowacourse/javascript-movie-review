@@ -9,6 +9,22 @@ class MovieMoreButton {
     this.disabled = true;
   }
 
+  toggleDisabled() {
+    this.disabled = !this.disabled;
+    this.$element.classList.toggle("disabled");
+
+    if (this.disabled) {
+      this.$element.setAttribute("disabled", "disabled");
+      return;
+    }
+
+    this.$element.removeAttribute("disabled");
+  }
+
+  removeMovieMoreButton() {
+    this.$element.remove();
+  }
+
   private generateMovieMoreButton(onClickHandler: () => void) {
     return createElement({
       tagName: "button",
@@ -23,18 +39,6 @@ class MovieMoreButton {
       },
       children: ["더 보기"],
     });
-  }
-
-  toggleDisabled() {
-    this.disabled = !this.disabled;
-    this.$element.classList.toggle("disabled");
-
-    if (this.disabled) {
-      this.$element.setAttribute("disabled", "disabled");
-      return;
-    }
-
-    this.$element.removeAttribute("disabled");
   }
 }
 
