@@ -31,9 +31,11 @@ export class MovieListWrapper {
     addButton.className = 'btn primary full-width';
     addButton.textContent = '더 보기';
 
-    section.append(title, ul, addButton);
+    section.append(title, ul);
 
     await this.updateMovieList(addButton);
+
+    section.appendChild(addButton);
 
     addButton.addEventListener('click', async () => {
       await this.updateMovieList(addButton);
@@ -64,6 +66,8 @@ export class MovieListWrapper {
             }
             this.plusCurrentPage();
             completeMovieList(liList, movies);
+          } else {
+            addButton.classList.add('none');
           }
         }
         return;
@@ -85,7 +89,6 @@ export class MovieListWrapper {
         return;
       default: {
         const liList = loadMovieList();
-
         const result = await fetchPopularMovieList(this.#currentPage);
         if (result) {
           const [movies, totalPages] = result;
@@ -94,6 +97,8 @@ export class MovieListWrapper {
           }
           this.plusCurrentPage();
           completeMovieList(liList, movies);
+        } else {
+          addButton.classList.add('none');
         }
       }
     }
