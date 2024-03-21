@@ -1,5 +1,5 @@
-const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
 const DotEnv = require("dotenv-webpack");
 
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
     historyApiFallback: true,
   },
   output: {
-    publicPath: "/",
+    // publicPath: "/",
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
