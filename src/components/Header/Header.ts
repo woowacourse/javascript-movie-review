@@ -2,27 +2,45 @@ import Logo from '../../assets/logo.png';
 import SearchBox from '../SearchBox/SearchBox';
 import './Header.css';
 
+interface HeaderProp {
+  searchEvent: (query: string) => Promise<void>;
+  logoClickEvent: () => Promise<void>;
+}
 class Header {
-  constructor() {
+  headerBox = document.createElement('header');
+  header = document.createElement('h1');
+  headerImage = document.createElement('img');
+
+  searchEvent: (query: string) => Promise<void>;
+  logoClickEvent: () => Promise<void>;
+
+  constructor({ searchEvent, logoClickEvent }: HeaderProp) {
     this.render();
+    this.searchEvent = searchEvent;
+    this.logoClickEvent = logoClickEvent;
     this.setEvent();
   }
 
   render() {
-    const headerBox = document.createElement('header');
-    headerBox.innerHTML = /* html */ `
-    <h1><img src=${Logo} alt="MovieList 로고" /></h1>
-    `;
+    this.headerImage.setAttribute('src', Logo);
+    this.headerImage.setAttribute('alt', '로고 이미지');
 
-    const searchBox = new SearchBox().init();
-    headerBox.append(searchBox);
+    this.header.append(this.headerImage);
+    this.headerBox.append(this.header);
+
+    const searchBox = new SearchBox({ searchEvent: (query: string) => this.searchEvent(query) }).init();
+    this.headerBox.append(searchBox);
 
     const parent = document.querySelector('#app');
     if (!parent) return;
-    parent.prepend(headerBox);
+    parent.prepend(this.headerBox);
   }
 
-  setEvent(): void {}
+  setEvent() {
+    this.header.addEventListener('click', () => {
+      this.logoClickEvent();
+    });
+  }
 }
 
 export default Header;
