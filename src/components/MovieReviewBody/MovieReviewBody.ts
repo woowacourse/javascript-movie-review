@@ -34,7 +34,7 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
 
   private createMovieTitle() {
     const movieTitleText =
-      this.props?.movieType === 'popular' ? '지금 인기 있는 영화' : `${this.props?.movieType} 검색 결과`;
+      this.props?.movieType === 'popular' ? '지금 인기 있는 영화' : `"${this.props?.movieType}" 검색 결과`;
 
     return createElement({ tagName: 'h2', text: movieTitleText });
   }
