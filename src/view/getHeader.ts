@@ -12,6 +12,14 @@ function getLogo() {
   return logo;
 }
 
+const submitEventHandler = (event: any) => {
+  event.preventDefault();
+
+  const input = event.target;
+  const searchContent = input.parentElement.querySelector('input').value;
+  console.log(searchContent);
+};
+
 function getSearchBoxInput() {
   const inputTag = document.createElement('input');
   const state = {
@@ -28,9 +36,11 @@ function getSearchBoxButton() {
   const state = {
     className: 'search-button',
     innerText: '검색',
+    onclick: submitEventHandler,
   };
 
   Object.assign(buttonTag, state);
+
   return buttonTag;
 }
 
@@ -39,9 +49,8 @@ function getSearchBox() {
   const input = getSearchBoxInput();
   const button = getSearchBoxButton();
 
-  searchBox.classList.add('search-box');
-
   appendChildren(searchBox, [input, button]);
+
   return searchBox;
 }
 
