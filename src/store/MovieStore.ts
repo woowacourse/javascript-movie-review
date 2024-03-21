@@ -1,3 +1,4 @@
+import ErrorPage from '../components/ErrorPage';
 import { Movie } from '../index.d';
 
 const options = {
@@ -19,21 +20,36 @@ class MovieStore {
 
   /* eslint-disable max-lines-per-function */
   async getMovies() {
-    const data: Movie[] = await fetch(
+    // Skeleton UI 확인을 위한 강제 delay
+    await this.#delay();
+
+    const responseData: Movie[] = await fetch(
       `https://api.themoviedb.org/3/movie/popular?language=ko&page=${this.#pageCount}`,
       options,
     )
-      .then((response) => response.json())
+      .then(async (response) => {
+        if (!response.ok) {
+          new ErrorPage(String(response.status)).renderError();
+        }
+        const responseJSON = await response.json();
+
+        // 검색 결과가 없는 경우
+        if (String(response.status)[0] === '2' && responseJSON.results.length === 0) {
+          new ErrorPage(String(response.status)).renderError();
+        }
+        return responseJSON;
+      })
       .then((response) => response.results)
       .catch((err) => console.error(err));
 
-    this.#pushNewData(data);
+    this.#pushNewData(responseData);
 
-    // Skeleton UI 확인을 위한 강제 delay
+    return responseData;
+  }
+
+  async #delay() {
     const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
     await delay(2000);
-    return data;
   }
 
   increasePageCount() {
