@@ -15,7 +15,7 @@ abstract class Component<T = {}> {
 
   protected abstract render(): void;
 
-  protected abstract createComponent(): HTMLElement | HTMLElement[];
+  protected abstract createComponent(): HTMLElement | string;
 
   protected setEvent() {}
 }

@@ -3,7 +3,7 @@ import Component from '../Component/Component';
 
 interface ModalProps {
   id: string;
-  children?: HTMLElement[];
+  children?: string;
 }
 
 class Modal extends Component<ModalProps> {
@@ -11,14 +11,14 @@ class Modal extends Component<ModalProps> {
     this.$element.append(this.createComponent());
   }
 
-  protected createComponent(): HTMLElement {
+  protected createComponent() {
     const dialog = createElement({ tagName: 'dialog', attributeOptions: { id: this.props?.id ?? 'modal-dialog' } });
-    const modalContainer = createElement({ tagName: 'div', attributeOptions: { class: 'modal-container' } });
-    if (this.props?.children) {
-      modalContainer.append(...this.props.children);
-    }
 
-    dialog.append(modalContainer);
+    dialog.innerHTML = `
+      <div class='modal-container'>
+        ${this.props?.children}
+      </div>
+    `;
 
     return dialog;
   }
