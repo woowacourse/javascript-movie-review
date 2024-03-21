@@ -58,12 +58,11 @@ class App {
 
         this.movieListContainer.initPageNumber();
         const { movies, totalPages } = await this.movieListContainer.fetchMovies(1);
-        const $title = dom.getElement(this.$target, 'h2');
-        $title.textContent = `"${$input.value}" 검색 결과`;
+
+        this.renderTitle(movies.length, $input.value);
         this.movieListContainer.paint(movies);
 
         const $moreButton = dom.getElement(this.$target, '#more-button');
-
         if (this.movieListContainer.page === totalPages) $moreButton.classList.add('hidden');
         else if (this.movieListContainer.page !== totalPages) $moreButton.classList.remove('hidden');
       },
@@ -78,6 +77,12 @@ class App {
       children: [textNode],
       onClick: this.handleClickMoreMovies.bind(this),
     });
+  }
+
+  renderTitle(movieLength: number, text: string) {
+    const $title = dom.getElement(this.$target, 'h2');
+    $title.textContent = `"${text}" 검색 결과`;
+    if (movieLength === 0) $title.textContent = `"${text}" 검색 결과가 없습니다`;
   }
 
   handleClickMoreMovies() {
