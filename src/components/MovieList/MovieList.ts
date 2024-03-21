@@ -26,7 +26,6 @@ const MovieList = ({
 
     $title.textContent = title;
 
-    // TODO: fragment로 최적화
     $ul.classList.add('item-list');
     movieStore.movies.forEach((movie) => {
       const $movieItem = MovieItem(movie).render();

@@ -5,7 +5,7 @@ import {
 } from '../constants/requests';
 import fetchData from '../utils/fetchData';
 
-interface Params {
+export interface Params {
   [key: string]: string | number | boolean;
 }
 
