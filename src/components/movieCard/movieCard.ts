@@ -1,4 +1,6 @@
 import filledStar from '../../images/star_filled.png';
+import emptyPng from '../../images/empty_poster.png';
+import { Movie } from '../../interface/Movie';
 
 export function showSkeleton() {
   const movieCard = document.createElement('li');
@@ -25,11 +27,13 @@ export function showSkeleton() {
   return movieCard;
 }
 
-export function updateCard(li: any, movie: any) {
+export function updateCard(li: any, movie: Movie) {
   li.classList.toggle('skeleton');
   const thumbnail = li.querySelector('.item-thumbnail.skeleton');
   thumbnail.classList.toggle('skeleton');
-  thumbnail.src = `https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}.jpg`;
+  thumbnail.src = movie.poster_path
+    ? `https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}.jpg`
+    : emptyPng;
   thumbnail.loading = 'lazy';
   thumbnail.alt = movie.title;
 
