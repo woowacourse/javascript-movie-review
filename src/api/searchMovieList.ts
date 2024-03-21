@@ -1,5 +1,3 @@
-// query=%ED%95%B4%EB%A6%AC%ED%8F%AC%ED%84%B0&language=en-US&page=1
-
 import { MOVIE_SEARCH_URL, fetchData } from '.';
 import { MovieInfo, ResponseData, ResponseReject } from './api-type';
 

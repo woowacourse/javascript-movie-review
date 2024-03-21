@@ -164,5 +164,51 @@ header .search-box > .search-button {
 }
 
 .hidden {
+  /* visibility: hidden; */
   display: none;
+}
+
+@keyframes fadeOut {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  10%,
+  90% {
+    opacity: 1;
+  }
+}
+
+.alert-container {
+  position: fixed;
+  left: 30%;
+  bottom: 7%;
+
+  width: 40%;
+  height: 38px;
+
+  color: #000;
+  background: #ffffff;
+
+  box-shadow: 1px 1px 14.6px 3px #ea0202;
+  border-radius: 7px;
+
+  opacity: 0.9;
+
+  font-size: 1.25rem;
+  font-weight: 700;
+
+  animation: fadeOut 3s ease-in-out 0s infinite normal none running;
+}
+
+.alert-content {
+  height: 100%;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.alert-text {
+  text-align: center;
 }
