@@ -1,11 +1,17 @@
 import { Movie } from '../index.d';
 
+interface Props {
+  classes?: string[];
+  movie?: Movie;
+}
+
 export default class MovieCard {
   #liElement = document.createElement('li');
 
   #movie;
 
-  constructor(movie?: Movie) {
+  constructor({ classes, movie }: Props) {
+    if (classes) this.#liElement.classList.add(...classes);
     if (movie) {
       this.#movie = movie;
       this.#generateMovieItem(this.#movie);
@@ -16,7 +22,8 @@ export default class MovieCard {
 
   /* eslint-disable max-lines-per-function */
   #generateMovieItem(movie: Movie) {
-    const element = ` <a href="#">
+    const element = /* html */ ` 
+    <a href="#">
        <div class="item-card">
          <img
            class="item-thumbnail"

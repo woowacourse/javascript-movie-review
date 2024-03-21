@@ -53,8 +53,10 @@ export default class App {
   }
 
   #appendMovieCard(newData: Movie[], ulElement: HTMLElement) {
-    newData.forEach((data: Movie) => {
-      const card = new MovieCard(data);
+    newData.forEach((movieData: Movie) => {
+      const card = new MovieCard({
+        movie: movieData,
+      });
 
       ulElement?.appendChild(card.element);
     });
@@ -64,14 +66,16 @@ export default class App {
   #generateSkeletonUI(ulElement: HTMLElement) {
     this.#removeMoreButton();
     for (let i = 0; i < SKELETON_UI_FIXED; i++) {
-      const card = new MovieCard();
+      const card = new MovieCard({
+        classes: ['skeleton-container'],
+      });
 
       ulElement?.appendChild(card.element);
     }
   }
 
   #removeSkeletonUI() {
-    const skeletonElements = document.querySelectorAll('.skeleton');
+    const skeletonElements = document.querySelectorAll('.skeleton-container');
 
     if (skeletonElements) {
       skeletonElements.forEach((skeletonElement) => {
