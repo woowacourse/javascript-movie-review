@@ -1,6 +1,6 @@
 import { POSTER_BASE_URL } from '../api';
 import { MovieInfo } from '../api/api-type';
-import { STAR_FILLED } from '../resource';
+import { NO_IMAGE, STAR_FILLED } from '../resource';
 
 const MovieItem = ({ title, poster_path, vote_average }: MovieInfo) => {
   const li = document.createElement('li');
@@ -17,7 +17,8 @@ const MovieItem = ({ title, poster_path, vote_average }: MovieInfo) => {
   movieTitle.classList.add('item-title');
   itemScore.classList.add('item-score');
 
-  thumbnail.src = `${POSTER_BASE_URL}${poster_path}`;
+  poster_path ? (thumbnail.src = `${POSTER_BASE_URL}${poster_path}`) : (thumbnail.src = NO_IMAGE);
+
   thumbnail.setAttribute('loading', 'lazy');
   thumbnail.setAttribute('alt', title);
 
