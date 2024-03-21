@@ -4,38 +4,11 @@ import { createElement } from '../../utils/dom/createElement/createElement';
 import { querySelector } from '../../utils/dom/selector';
 import { on } from '../../utils/dom/eventListener/eventListener';
 import { Logo } from '../../assets';
+import ErrorToast from '../common/ErrorToast/ErrorToast';
 
-interface MovieReviewHeaderProps {
-  handleData: (name: string) => void;
-}
-
-class MovieReviewHeader extends Component<MovieReviewHeaderProps> {
+class MovieReviewHeader extends Component {
   protected render() {
     this.$element.append(this.createComponent());
-  }
-
-  protected setEvent(): void {
-    const $searchForm = querySelector<HTMLFormElement>('#search-form', this.$element);
-
-    on({ target: $searchForm, eventName: 'submit', eventHandler: this.handleSearchMovieResult.bind(this) });
-  }
-
-  private handleSearchMovieResult(event: Event) {
-    event.preventDefault();
-
-    const $searchForm = querySelector<HTMLFormElement>('#search-form', this.$element);
-
-    const $searchInput = querySelector<HTMLInputElement>('#search-input', this.$element);
-    const movieName = $searchInput.value;
-
-    if (movieName === '') {
-      this.renderErrorToast($searchForm, '아무것도 입력하지 않았습니다. 다시 입력해주세요.');
-      $searchInput.focus();
-      return;
-    }
-
-    this.renderMovieReviewBody(movieName);
-    $searchForm.reset();
   }
 
   protected createComponent() {
@@ -54,21 +27,34 @@ class MovieReviewHeader extends Component<MovieReviewHeaderProps> {
     return $header;
   }
 
-  private renderErrorToast($searchForm: HTMLElement, errorText: string) {
-    const errorToast = createElement({
-      tagName: 'div',
-      text: errorText,
-      attributeOptions: { class: 'toast' },
-    });
+  protected setEvent(): void {
+    const $searchForm = querySelector<HTMLFormElement>('#search-form', this.$element);
 
-    $searchForm.insertAdjacentElement('afterbegin', errorToast);
+    on({ target: $searchForm, eventName: 'submit', eventHandler: this.handleSubmitForm.bind(this) });
+  }
 
-    setTimeout(() => {
-      errorToast.classList.add('remove-toast');
-      setTimeout(() => {
-        $searchForm.removeChild(errorToast);
-      }, 1000);
-    }, 500);
+  private handleSubmitForm(event: Event) {
+    event.preventDefault();
+
+    const $searchForm = querySelector<HTMLFormElement>('#search-form', this.$element);
+    const $searchInput = querySelector<HTMLInputElement>('#search-input', this.$element);
+
+    this.handleMovieSearchResult($searchForm, $searchInput);
+
+    $searchForm.reset();
+  }
+
+  private handleMovieSearchResult($searchForm: HTMLElement, $searchInput: HTMLInputElement) {
+    const movieName = $searchInput.value;
+
+    if (movieName === '') {
+      new ErrorToast($searchForm, { errorText: '아무것도 입력하지 않았습니다. 다시 입력해주세요.' });
+
+      $searchInput.focus();
+      return;
+    }
+
+    this.renderMovieReviewBody(movieName);
   }
 
   private renderMovieReviewBody(movieName: string) {
