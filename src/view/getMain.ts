@@ -87,13 +87,40 @@ async function getMovieListContainer(listTitle: string) {
   return movieListContainer;
 }
 
-async function getMain() {
-  const mainTag = document.createElement('main');
-  const movieListContainer = await getMovieListContainer('지금 인기 있는 영화');
+function getMovieListSkeletonUI(listTitle: string) {
+  const section = document.createElement('section');
 
-  mainTag.appendChild(movieListContainer);
+  const title = document.createElement('h2');
+  title.innerText = listTitle;
 
-  return mainTag;
+  const movieList = document.createElement('ul');
+  movieList.classList.add('item-list');
+
+  const movieItemCardSkeleton = `
+              <li>
+              <a href="#">
+                <div class="item-card">
+                  <div class="item-thumbnail skeleton"></div>
+                  <div class="item-title skeleton"></div>
+                  <div class="item-score skeleton"></div>
+                </div>
+              </a>
+            </li>
+            `;
+
+  movieList.innerHTML = Array(20).fill(movieItemCardSkeleton).join('');
+  appendChildren(section, [title, movieList]);
+  return section;
 }
 
-export default getMain;
+async function replaceMain() {
+  const sectionTag = document.getElementById('movie-list-section');
+
+  const movieListSkeletonUI = getMovieListSkeletonUI('지금 인기 있는 영화');
+  sectionTag?.replaceWith(movieListSkeletonUI);
+
+  const movieListContainer = await getMovieListContainer('지금 인기 있는 영화');
+  movieListSkeletonUI?.replaceWith(movieListContainer);
+}
+
+export default replaceMain;

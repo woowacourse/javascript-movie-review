@@ -2,7 +2,7 @@ import '../templates/reset.css';
 import '../templates/common.css';
 
 import getHeader from './view/getHeader.ts';
-import getMain from './view/getMain.ts';
+import replaceMain from './view/getMain.ts';
 
 function renderHeader() {
   const header = getHeader();
@@ -11,9 +11,7 @@ function renderHeader() {
 }
 
 async function renderMain() {
-  const main = await getMain();
-  const app = document.getElementById('app');
-  app.appendChild(main);
+  await replaceMain();
 }
 
 async function run() {
