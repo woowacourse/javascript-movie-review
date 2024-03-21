@@ -1,5 +1,5 @@
+import fetchMovies, { IFetchParams } from '../api/fetchFns';
 import starFilledImage from '../assets/images/star_filled.png';
-import { POPULAR_MOVIES_URL } from '../constants/tmdbConstants';
 import { appendChildren } from '../utils/domUtil';
 import getButton from './getButton';
 
@@ -44,7 +44,6 @@ function getMovieItem(props: IMovieItemProps) {
 
   movieItemCard.classList.add('item-card');
   movieItemLink.appendChild(movieItemCard);
-  // eslint-disable-next-line max-len
   appendChildren(movieItemCard, [
     movieItemImage,
     getTitleParagraph(props.title),
@@ -56,24 +55,16 @@ function getMovieItem(props: IMovieItemProps) {
 }
 
 // eslint-disable-next-line max-lines-per-function
-async function getMovieListContainer(listTitle: string) {
+async function getMovieListContainer(fetchUrl: string, fetchParams: IFetchParams) {
   const movieListContainer = document.createElement('section');
   const popularTitle = document.createElement('h2');
   const movieList = document.createElement('ul');
 
   movieListContainer.classList.add('item-view');
-  popularTitle.innerText = listTitle;
+  popularTitle.innerText = fetchParams.query ? `"${fetchParams.query} 검색 결과"` : '지금 인기 있는 영화';
   movieList.classList.add('item-list');
 
-  const res = await (
-    await fetch(
-      `${POPULAR_MOVIES_URL}?${new URLSearchParams({
-        api_key: process.env.TMDB_API_KEY,
-        language: 'ko-KR',
-        page: '1',
-      })}`,
-    )
-  ).json();
+  const res = await (await fetchMovies(fetchUrl, fetchParams)).json();
 
   const moviesData = res.results;
   // eslint-disable-next-line max-len
@@ -89,6 +80,7 @@ async function getMovieListContainer(listTitle: string) {
 
 function getMovieListSkeletonUI(listTitle: string) {
   const section = document.createElement('section');
+  section.classList.add('item-view');
 
   const title = document.createElement('h2');
   title.innerText = listTitle;
@@ -113,13 +105,15 @@ function getMovieListSkeletonUI(listTitle: string) {
   return section;
 }
 
-async function replaceMain() {
-  const sectionTag = document.getElementById('movie-list-section');
+async function replaceMain(fetchUrl: string, fetchParams: IFetchParams) {
+  const sectionTag = document.querySelector('section');
 
-  const movieListSkeletonUI = getMovieListSkeletonUI('지금 인기 있는 영화');
+  const movieListSkeletonUI = getMovieListSkeletonUI(
+    fetchParams.query ? `"${fetchParams.query} 검색 결과"` : '지금 인기 있는 영화',
+  );
   sectionTag?.replaceWith(movieListSkeletonUI);
 
-  const movieListContainer = await getMovieListContainer('지금 인기 있는 영화');
+  const movieListContainer = await getMovieListContainer(fetchUrl, fetchParams);
   movieListSkeletonUI?.replaceWith(movieListContainer);
 }
 
