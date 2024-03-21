@@ -1,6 +1,7 @@
 import SearchBox from '../SearchBox/SearchBox';
 import { logo } from '../../resources';
 import ItemView from '../ItemView/ItemView';
+import SearchValidator from '../../domain/Validator/SearchValidator';
 
 const MovieHeader = {
   create() {
@@ -10,6 +11,8 @@ const MovieHeader = {
 
     header.appendChild(logoImgContainer);
     header.appendChild(searchBox);
+
+    this.setHandle(logoImgContainer, searchBox);
 
     document.getElementById('app')?.appendChild(header);
   },
@@ -22,15 +25,43 @@ const MovieHeader = {
     logoImg.setAttribute('alt', 'MovieList 로고');
 
     logoImgContainer.appendChild(logoImg);
-    logoImgContainer.addEventListener('click', () => this.showPopularMovies());
+
     return logoImgContainer;
   },
 
-  showPopularMovies() {
+  setHandle(logoImgContainer: HTMLElement, searchBox: HTMLElement) {
+    logoImgContainer.addEventListener('click', () => this.showPopularMovies(searchBox));
+    const searchButton = searchBox.querySelector('button');
+    if (searchButton) searchButton.addEventListener('click', () => this.showSearchMovies(searchBox));
+    searchBox.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') this.showSearchMovies(searchBox);
+    });
+  },
+
+  createItemView(inputText?: string) {
     const itemView = document.querySelector('.item-view');
     itemView?.replaceChildren();
 
-    new ItemView();
+    new ItemView(inputText);
+  },
+
+  showPopularMovies(searchBox: HTMLElement) {
+    const searchBoxInput = searchBox.querySelector('input');
+    if (searchBoxInput) searchBoxInput.value = '';
+
+    this.createItemView();
+  },
+
+  showSearchMovies(searchBox: HTMLElement) {
+    try {
+      const trimmedSearchInputText = searchBox?.querySelector('input')?.value.replace(/ +/g, ' ').trim();
+      if (trimmedSearchInputText) {
+        SearchValidator.validate(trimmedSearchInputText);
+      }
+      this.createItemView(trimmedSearchInputText);
+    } catch (e) {
+      if (e instanceof Error) console.log(e.message);
+    }
   },
 };
 
