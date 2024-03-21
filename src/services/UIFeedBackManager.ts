@@ -3,7 +3,7 @@ import HttpError from '../error/HttpError';
 import isHTMLElement from '../utils/isHTMLElement';
 import Skeleton from '../components/Skeleton/Skeleton';
 import { TMDBApi } from '../api/index';
-
+import removeHTMLElements from '../utils/removeHTMLElements';
 class UIFeedBackManager {
   api;
 
@@ -49,10 +49,7 @@ class UIFeedBackManager {
 
   resetMovieList(isLoading: boolean) {
     if (!isLoading) {
-      const skeletons = document.querySelectorAll('.skeleton');
-      skeletons.forEach((skeleton) => {
-        if (skeleton && skeleton.parentNode) skeleton.parentNode.removeChild(skeleton);
-      });
+      removeHTMLElements('.skeleton');
     }
   }
 
