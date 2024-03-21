@@ -81,9 +81,10 @@ class MovieContainer {
 
     const movieData = await this.#searchMovies(this.#page, query);
 
-    if (movieData && movieData.length < 20) {
-      document.querySelector('.btn')?.remove();
-    }
+    const viewMoreButton = document.querySelector('.btn');
+    movieData && movieData.length < 20
+      ? viewMoreButton?.classList.add('hidden')
+      : viewMoreButton?.classList.remove('hidden');
 
     if (movieData) {
       this.#createMovieItems(movieData).forEach((movieItem) => {
@@ -127,9 +128,10 @@ class MovieContainer {
 
     const movieData = await this.#getMovies(this.#page);
 
-    if (movieData && movieData.length < 20) {
-      document.querySelector('.btn')?.remove();
-    }
+    const viewMoreButton = document.querySelector('.btn');
+    movieData && movieData.length < 20
+      ? viewMoreButton?.classList.add('hidden')
+      : viewMoreButton?.classList.remove('hidden');
 
     if (movieData) {
       this.#createMovieItems(movieData).forEach((movieItem) => {
