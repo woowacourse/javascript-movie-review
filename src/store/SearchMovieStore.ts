@@ -89,6 +89,7 @@ class SearchMovieStore {
 
   set query(query: string) {
     this.#query = query;
+    this.#presentPage = 1;
   }
 }
 
