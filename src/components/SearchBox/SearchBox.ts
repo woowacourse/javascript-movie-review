@@ -18,6 +18,7 @@ class SearchBox {
     this.searchBox.classList.add('search-box');
     this.searchInput.setAttribute('type', 'text');
     this.searchInput.setAttribute('placeholder', '검색');
+    this.searchInput.required = true;
 
     this.searchButton.classList.add('search-button');
     this.searchButton.textContent = '검색';
@@ -29,7 +30,6 @@ class SearchBox {
   }
 
   setEvents(searchEvent: (query: string) => void) {
-    console.log('searchEvent', searchEvent);
     this.searchBox.addEventListener('submit', (e: Event) => {
       e.preventDefault();
 

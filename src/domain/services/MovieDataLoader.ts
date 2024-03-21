@@ -1,7 +1,21 @@
 import Button from '../../components/Button/Button';
 import MovieList from '../../components/MovieList/MovieList';
+import { NotFound } from '../../components/NotFound/NotFound';
+import Toast from '../../components/Toast/Toast';
+import { ERROR_MESSAGE } from '../../consts/error';
 import { formatMovieList } from '../../utils/formatList';
 import MovieFetchAPI from './MovieFetchAPI';
+
+type PopularAPIType = {
+  apiType: 'popular';
+};
+
+type SearchAPIType = {
+  apiType: 'search';
+  query: string;
+};
+
+type APIType = PopularAPIType | SearchAPIType;
 
 class MovieDataLoader {
   currentPage: number = 1;
@@ -15,6 +29,11 @@ class MovieDataLoader {
   }
 
   removeExistedList() {
+    const notFoundBox = document.querySelector('#not-found');
+    if (notFoundBox) {
+      notFoundBox.remove();
+    }
+
     const itemList = document.querySelector('.item-list');
     if (!itemList) return;
     itemList.replaceChildren();
@@ -27,10 +46,10 @@ class MovieDataLoader {
   }
 
   async renderFirstPage(props: APIType) {
-    this.removeExistedList();
-
-    this.currentPage = 1;
     try {
+      this.removeExistedList();
+
+      this.currentPage = 1;
       const movieResult = await this.fetchMovies(props);
       const formattedMovieList = formatMovieList(movieResult);
 
@@ -41,11 +60,11 @@ class MovieDataLoader {
       this.renderMoreButton(props);
     } catch (error: unknown) {
       if (error instanceof Error) {
-        console.log(error.message);
-      } else {
-        console.log('An unknown error occurred');
+        if (error.message === ERROR_MESSAGE.RESULTS_NOT_FOUND) {
+          return NotFound();
+        }
+        new Toast(error.message);
       }
-      // TODO: Error 처리
     }
   }
 
@@ -90,14 +109,3 @@ class MovieDataLoader {
 }
 
 export default MovieDataLoader;
-
-type PopularAPIType = {
-  apiType: 'popular';
-};
-
-type SearchAPIType = {
-  apiType: 'search';
-  query: string;
-};
-
-type APIType = PopularAPIType | SearchAPIType;
