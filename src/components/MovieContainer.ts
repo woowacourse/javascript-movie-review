@@ -5,6 +5,7 @@ import MovieItem from './MovieItem';
 import { getSearchMovieList } from '../api/searchMovieList';
 import { showAlert } from './Alert';
 import { NO_SEARCH } from '../resource';
+import ErrorPage from './ErrorPage';
 
 class MovieContainer {
   #page;
@@ -93,11 +94,11 @@ class MovieContainer {
     const movieData = await this.#searchMovies(this.#page, query);
 
     if (movieData && !movieData.length) {
-      ul.innerHTML = `<img src=${NO_SEARCH} class="no-search-img"/>`;
+      ul.innerHTML = `<img src=${NO_SEARCH} class="error"/>`;
     }
 
     const viewMoreButton = document.querySelector('.btn');
-    movieData && movieData.length < 20
+    !movieData || movieData.length < 20
       ? viewMoreButton?.classList.add('hidden')
       : viewMoreButton?.classList.remove('hidden');
 
@@ -124,13 +125,40 @@ class MovieContainer {
   }
 
   async #getMovies(page: number) {
-    const movieData = await getPopularMovieList(page);
-    return movieData;
+    try {
+      const movieData = await getPopularMovieList(page);
+      return movieData;
+    } catch (error) {
+      if (error instanceof Error) {
+        const [status, message] = error.message.split('-');
+        const ul = document.querySelector('ul.item-list');
+        if (!(ul instanceof HTMLElement)) return;
+
+        const viewMoreButton = document.querySelector('.btn') as HTMLElement;
+        viewMoreButton.classList.add('hidden');
+
+        ul.innerHTML = ErrorPage({ status, message }).outerHTML;
+      }
+    }
   }
 
   async #searchMovies(page: number, query: string) {
-    const movieData = await getSearchMovieList(query, page);
-    return movieData;
+    try {
+      const movieData = await getSearchMovieList(query, page);
+
+      return movieData;
+    } catch (error) {
+      if (error instanceof Error) {
+        this.#removeSkeleton();
+        const [status, message] = error.message.split('-');
+        const ul = document.querySelector('ul.item-list');
+        if (!(ul instanceof HTMLElement)) return;
+
+        const viewMoreButton = document.querySelector('.btn');
+        viewMoreButton?.classList.add('hidden');
+        ul.innerHTML = ErrorPage({ status, message }).outerHTML;
+      }
+    }
   }
 
   #createMovieItems(data: MovieInfo[]): HTMLElement[] {
@@ -144,7 +172,7 @@ class MovieContainer {
     const movieData = await this.#getMovies(this.#page);
 
     const viewMoreButton = document.querySelector('.btn');
-    movieData && movieData.length < 20
+    !movieData || movieData.length < 20
       ? viewMoreButton?.classList.add('hidden')
       : viewMoreButton?.classList.remove('hidden');
 

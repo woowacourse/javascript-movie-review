@@ -222,7 +222,7 @@ header .search-box > .search-button {
   text-align: center;
 }
 
-.no-search-img {
+.error {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -230,4 +230,14 @@ header .search-box > .search-button {
   filter: grayscale(100%);
 
   transform: translate(-50%, -50%);
+}
+
+.status-number {
+  margin-right: 1rem;
+  font-size: 2rem;
+  color: tomato;
+}
+
+.error-message {
+  font-size: 2rem;
 }
