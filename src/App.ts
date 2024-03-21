@@ -1,28 +1,25 @@
 import Header from '../src/components/Header/Header';
 import MovieList from '../src/components/MovieList/MovieList';
+import Toast from './components/Toast/Toast';
 import { TITLE } from './consts/message';
 import MovieDataLoader from './domain/services/MovieDataLoader';
 
 class App {
+  movieDataLoader = new MovieDataLoader();
   itemViewBox = document.querySelector('.item-view');
   movieListBox = document.createElement('ul');
-  movieListInstance: MovieList;
-  movieDataLoader = new MovieDataLoader();
   title = document.createElement('h2');
+  movieListInstance: MovieList;
 
   constructor() {
     this.init();
+    this.movieListBox.classList.add('item-list');
     this.movieListInstance = new MovieList({ isLoading: true });
   }
 
   async init() {
-    new Header({
-      searchEvent: (query: string) => this.renderSearchResult(query),
-      logoClickEvent: () => this.renderPopularResult(),
-    });
+    this.renderHeader();
     this.renderTitle();
-
-    this.movieListBox.classList.add('item-list');
 
     if (!this.itemViewBox) return;
     this.itemViewBox.append(this.movieListBox);
@@ -40,6 +37,13 @@ class App {
     this.removeTitle();
     this.renderTitle();
     await this.movieDataLoader.renderFirstPage({ apiType: 'popular' });
+  }
+
+  renderHeader() {
+    new Header({
+      searchEvent: (query: string) => this.renderSearchResult(query),
+      logoClickEvent: () => this.renderPopularResult(),
+    });
   }
 
   renderTitle(query?: string) {
