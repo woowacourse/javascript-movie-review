@@ -15,7 +15,8 @@ class Header {
     this.#imageSrc = imageSrc;
     this.render();
 
-    
+    console.log(process.env.NODE_ENV); 
+    console.log(process.env.PUBLIC_PATH);    
     const $form = dom.getElement<HTMLFormElement>(this.$target, 'form');
     if (onSubmit) $form.addEventListener('submit', onSubmit);
   }
