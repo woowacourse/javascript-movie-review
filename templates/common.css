@@ -162,3 +162,19 @@ header .search-box > .search-button {
   background: url("./search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
 }
+
+.empty-result {
+  width: 100%;
+  height: 50vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.2rem;
+  line-height: 24px;
+}
+
+.hidden {
+  display: none;
+}

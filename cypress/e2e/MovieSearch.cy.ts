@@ -1,15 +1,3 @@
-// TODO : cypress E2E 테스트
-
-// 1. 처음 방문할 경우 20개의 데이터를 요청하고, 영화 데이터가 보여진다.20개의 ✅
-
-// 2. 더보기 버튼을 클릭할 경우, 20개의 데이터가 추가된다. ✅
-
-// - 데이터 패칭이 완료되기 전, 20개의 스켈레톤 UI가 보여진다. (보류)
-
-// 3. 특정 키워드를 검색할 경우, 검색 키워드에 맞는 영화 데이터가 보여진다.20개의 ✅
-
-//
-
 describe("영화 검색 E2E 테스트", () => {
   beforeEach(() => {
     const POPULAR_REQUEST_URL = "https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=*";
