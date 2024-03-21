@@ -24,11 +24,11 @@ class Header {
     img.setAttribute('alt', 'MovieList 로고');
     h1.appendChild(img);
     this.template.appendChild(h1);
-    const searchField = this.createSerchField();
+    const searchField = this.createSearchField();
     this.template.appendChild(searchField);
   }
 
-  createSerchField() {
+  createSearchField() {
     const searchField = new SearchField();
     return searchField.getElement();
   }
