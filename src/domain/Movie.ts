@@ -1,5 +1,5 @@
 import httpRequest from '../api/httpRequest';
-// import errorMessage from '../error/errorMessage';
+import errorMessage from '../error/errorMessage';
 import { MovieListType, MovieType } from '../types/movie';
 
 // interface a {
@@ -33,8 +33,8 @@ class Movie {
         isLastPage,
       }))
       .catch((error) => {
-        console.error(error);
-        // errorMessage.apiError(error.statusCode);
+        // console.error(error);
+        errorMessage.apiError(error.statusCode);
         return { movieList: [], isLastPage: true };
       });
     return movieList;
@@ -63,7 +63,8 @@ class Movie {
         isLastPage,
       }))
       .catch((error) => {
-        console.error(error);
+        errorMessage.apiError(error.statusCode);
+        // console.error(error);
         return { movieList: [], isLastPage: true };
       });
     return movieList;
