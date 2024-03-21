@@ -2,7 +2,7 @@ interface Props {
   tagName: string;
   attribute?: Record<string, string>;
   addEventListener?: Record<string, (e: Event) => void>;
-  children?: HTMLElement[] | string[];
+  children?: (HTMLElement | string)[];
 }
 
 const createElement = ({

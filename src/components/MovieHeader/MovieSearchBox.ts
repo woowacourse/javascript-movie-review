@@ -18,7 +18,7 @@ class MovieSearchBox {
     this.$element = generateSearchBox({
       placeholder: MovieSearchBox.PLACEHOLDER,
       buttonText: MovieSearchBox.PLACEHOLDER,
-      onSubmitHandler: this.searchByQuery,
+      onSubmitHandler: this.searchByQuery.bind(this),
     });
   }
 
