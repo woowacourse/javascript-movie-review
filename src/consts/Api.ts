@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.themoviedb.org/3';
+const BASE_URL = process.env.BASE_URL;
 
 export const API_URL = {
   POPULAR_MOVIES: `${BASE_URL}/movie/popular`,
