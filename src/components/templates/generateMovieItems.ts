@@ -12,7 +12,7 @@ export interface Movie {
 
 const BASE_POSTER_URL = "https://image.tmdb.org/t/p/w220_and_h330_face";
 
-const composeMovieItem = (movie: Movie): HTMLTemplate => {
+const generateMovieItem = (movie: Movie): HTMLTemplate => {
   const { title, posterPath, voteAverage } = movie;
 
   return `
@@ -31,8 +31,8 @@ const composeMovieItem = (movie: Movie): HTMLTemplate => {
   `;
 };
 
-export const composeMovieItems = (movies: Movie[]) => {
+export const generateMovieItems = (movies: Movie[]) => {
   return movies.reduce((movieListTemplate, movieInfo) => {
-    return movieListTemplate + composeMovieItem(movieInfo);
+    return movieListTemplate + generateMovieItem(movieInfo);
   }, "");
 };
