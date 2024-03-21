@@ -1,6 +1,4 @@
-/* eslint-disable max-lines-per-function */
-
-import apiClient from "../model/APIClient";
+import { apiClient } from "../model";
 
 const toggleErrorView = (isShow: boolean) => {
   if (isShow) {
@@ -11,37 +9,33 @@ const toggleErrorView = (isShow: boolean) => {
   $errorView?.classList.toggle("on", isShow);
 };
 
-export const handleGetSearchMovieData = async (
-  isResetCurrentPage: boolean,
-  title: string,
-) => {
-  const $skeletonView = document.querySelector(".skeleton-view");
-
-  setTimeout(() => toggleErrorView(false), 1000);
-  try {
-    $skeletonView?.classList.add("on");
-    await apiClient.getSearchMovieData(isResetCurrentPage, title);
-    toggleErrorView(false);
-  } catch (error) {
-    toggleErrorView(true);
-  }
-
+const removeSkeletonView = ($skeletonView: Element) => {
   setTimeout(() => {
     $skeletonView?.classList.remove("on");
   }, 500);
 };
 
-export const handleGetPopularMovieData = async () => {
-  const $skeletonView = document.querySelector(".skeleton-view");
+const handleSkeletonAndAPI = async (apiFun: () => Promise<void>) => {
+  const $skeletonView = document.querySelector(".skeleton-view") as Element;
   try {
     $skeletonView?.classList.add("on");
-    await apiClient.getPopularMovieData(false);
+    await apiFun();
     toggleErrorView(false);
   } catch (error) {
     toggleErrorView(true);
   }
+  removeSkeletonView($skeletonView);
+};
 
-  setTimeout(() => {
-    $skeletonView?.classList.remove("on");
-  }, 500);
+export const handleGetSearchMovieData = async (
+  title: string,
+  isResetCurrentPage: boolean,
+) => {
+  await handleSkeletonAndAPI(() =>
+    apiClient.getSearchMovieData(isResetCurrentPage, title),
+  );
+};
+
+export const handleGetPopularMovieData = async () => {
+  await handleSkeletonAndAPI(() => apiClient.getPopularMovieData(false));
 };

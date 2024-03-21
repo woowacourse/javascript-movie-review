@@ -1,42 +1,16 @@
-import starFilled from "../../templates/star_filled.png";
-import { IMAGE_URL } from "../config";
 import { Movie } from "../type/movie";
-import createElementWithAttribute from "../utils/createElementWithAttribute";
+import { createElementWithAttribute } from "../utils";
 
-const posterSize = "w500";
-
-const MovieImg = (movie: Movie) =>
-  createElementWithAttribute("img", {
-    class: "item-thumbnail",
-    src: IMAGE_URL + posterSize + movie.poster_path,
-    loading: "lazy",
-    alt: movie.title,
-  });
-
-const MovieTitle = (movie: Movie) => {
-  const $title = createElementWithAttribute("p", { class: "item-title" });
-  $title.textContent = movie.title;
-
-  return $title;
-};
-
-const Score = (movie: Movie) => {
-  const $score = createElementWithAttribute("p", { class: "item-score" });
-  const $star = createElementWithAttribute("img", {
-    src: starFilled,
-    alt: "별점",
-  });
-  $score.appendChild($star);
-  $score.appendChild(document.createTextNode(movie.vote_average.toString()));
-
-  return $score;
-};
+import MovieImg from "./MovieImg";
+import MovieScore from "./MovieScore";
+import MovieTitle from "./MovieTitle";
 
 const Card = (movie: Movie) => {
   const $card = createElementWithAttribute("div", { class: "item-card" });
   const $img = MovieImg(movie);
   const $title = MovieTitle(movie);
-  const $score = Score(movie);
+  const $score = MovieScore(movie);
+
   $card.appendChild($img);
   $card.appendChild($title);
   $card.appendChild($score);
@@ -48,6 +22,7 @@ const ItemCard = (movie: Movie) => {
   const $li = document.createElement("li");
   const $a = document.createElement("a");
   const $card = Card(movie);
+
   $a.appendChild($card);
   $li.appendChild($a);
 

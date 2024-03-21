@@ -1,26 +1,19 @@
-/* eslint-disable max-lines-per-function */
-
-import dataStateStore from "../model/DataStateStore";
+import { dataStateStore } from "../model";
 import { handleGetSearchMovieData } from "../service/handleSkeletonAndAPI";
-import createElementWithAttribute from "../utils/createElementWithAttribute";
-import debouceFunc from "../utils/debouneFunc";
-import preventXSS from "../utils/preventXSS";
+import { createElementWithAttribute, debouceFunc, preventXSS } from "../utils";
 
 import ItemView from "./ItemView";
 
+// SearchBox event ----
 const searchMovie = async () => {
   const $searchInput = document.querySelector("#search-input");
   if (!($searchInput instanceof HTMLInputElement)) return;
   const title = preventXSS($searchInput.value);
-  await handleGetSearchMovieData(true, title);
+  await handleGetSearchMovieData(title, true);
   const $itemView = document.querySelector(".item-view");
   $itemView?.remove();
 
-  ItemView(
-    `"${title}" 검색 결과`,
-    dataStateStore.movieData.movieList,
-    "search",
-  );
+  ItemView(`"${title}" 검색 결과`, dataStateStore.movieData, "search");
 };
 
 const handleInputKeydown = (event: KeyboardEvent) => {
@@ -34,7 +27,18 @@ const handleInputKeydown = (event: KeyboardEvent) => {
   }
 };
 
-// TODO: input 관련 label 넣을 지 여부
+//--- SearchBox event
+// make SearchBox ---
+const Label = () => {
+  const $label = createElementWithAttribute("label", {
+    forId: "search-input",
+    class: "screen-only",
+  });
+  $label.textContent = "영화 검색";
+
+  return $label;
+};
+
 const Input = () => {
   const $input = createElementWithAttribute("input", {
     id: "search-input",
@@ -46,6 +50,15 @@ const Input = () => {
   }
 
   return $input;
+};
+
+const InputBox = () => {
+  const $div = document.createElement("div");
+
+  $div.appendChild(Label());
+  $div.appendChild(Input());
+
+  return $div;
 };
 
 const Button = () => {
@@ -65,7 +78,7 @@ const SearchBox = () => {
   const $searchBox = createElementWithAttribute("div", {
     class: "search-box",
   });
-  $searchBox.appendChild(Input());
+  $searchBox.appendChild(InputBox());
   $searchBox.appendChild(Button());
 
   return $searchBox;

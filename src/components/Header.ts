@@ -1,14 +1,18 @@
 import LogoImg from "../../templates/logo.png";
-import dummyMovieList from "../movieList";
-import createElementWithAttribute from "../utils/createElementWithAttribute";
+import { dataStateStore } from "../model";
+import { handleGetPopularMovieData } from "../service/handleSkeletonAndAPI";
+import { createElementWithAttribute } from "../utils";
 
 import ItemView from "./ItemView";
 import SearchBox from "./SearchBox";
 
-const handleClickToRefresh = () => {
+const handleClickToRefresh = async () => {
   const $itemView = document.querySelector(".item-view");
   $itemView?.remove();
-  ItemView("지금 인기 있는 영화", dummyMovieList, "popular");
+
+  await handleGetPopularMovieData();
+
+  ItemView("지금 인기 있는 영화", dataStateStore.movieData, "popular");
 };
 
 const Logo = () => {
@@ -17,6 +21,7 @@ const Logo = () => {
     alt: "MovieList 로고",
   };
   const $logo = createElementWithAttribute("img", logoImgAttribute);
+
   $logo.addEventListener("click", handleClickToRefresh);
 
   return $logo;
@@ -26,6 +31,7 @@ const Header = () => {
   const $header = document.createElement("header");
   const $h1 = document.createElement("h1");
   const $logo = Logo();
+
   $h1.appendChild($logo);
   $header.appendChild($h1);
   $header.appendChild(SearchBox());

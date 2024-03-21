@@ -1,5 +1,5 @@
-import { ListType, Movie } from "../type/movie";
-import createElementWithAttribute from "../utils/createElementWithAttribute";
+import { ListType, Movie, PartialMovieDataForItemView } from "../type/movie";
+import { createElementWithAttribute } from "../utils";
 
 import ItemList from "./ItemList";
 import MoreButton from "./MoreButton";
@@ -17,14 +17,13 @@ const makeSection = (titleText: string, movieList: Movie[] | undefined) => {
 
 const ItemView = (
   titleText: string,
-  movieList: Movie[] | undefined,
+  movieData: PartialMovieDataForItemView,
   listType: ListType,
 ) => {
   const $main = document.querySelector("main");
-
-  const $section = makeSection(titleText, movieList);
+  const $section = makeSection(titleText, movieData.movieList);
 
   $main?.appendChild($section);
-  MoreButton(listType);
+  MoreButton(listType, movieData.isShowMoreButton);
 };
 export default ItemView;

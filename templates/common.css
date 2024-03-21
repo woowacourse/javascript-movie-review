@@ -24,6 +24,11 @@ button {
 *:focus {
   outline: none;
 }
+.screen-only {
+  position: absolute;
+  top: -999px;
+  left: -999px;
+}
 .item-view,
 .skeleton-view .item-test {
   width: 100%;
@@ -183,12 +188,13 @@ header h1 {
 }
 
 header > .search-box {
+  display: flex;
   background: #fff;
   padding: 8px;
   border-radius: 4px;
 }
 
-header .search-box > input {
+header .search-box input {
   border: 0;
 }
 

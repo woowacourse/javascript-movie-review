@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { BASE_URL, endpoint, options } from "../config";
 
 import dataStateStore from "./DataStateStore";
@@ -11,10 +10,10 @@ class APIClient {
     else this.#currentPage += 1;
 
     const data = await this.fetchPopuplarMovie();
-
     const isShowMoreButton = data.page < data.total_pages;
+
     dataStateStore.getTotalMovieData(
-      { movieData: data.results, isShowMoreButton },
+      { movieList: data.results, isShowMoreButton },
       isResetCurrentPage,
     );
   }
@@ -37,11 +36,10 @@ class APIClient {
     else this.#currentPage += 1;
 
     const data = await this.fetchSearchMovie(title);
-
     const isShowMoreButton = data.page < data.total_pages;
 
     dataStateStore.getTotalMovieData(
-      { movieData: data.results, isShowMoreButton },
+      { movieList: data.results, isShowMoreButton },
       isResetCurrentPage,
     );
   }

@@ -1,19 +1,15 @@
-import { Movie } from "../type/movie";
+import { Movie, MovieData } from "../type/movie";
 
-interface DataProps {
-  movieData: Movie[];
-  isShowMoreButton: boolean;
-}
 class DataStateStore {
   #movieList: Movie[] | undefined;
   #isShowMorButton = true;
 
   getTotalMovieData(
-    { movieData, isShowMoreButton }: DataProps,
+    { movieList, isShowMoreButton }: MovieData,
     resetMovieList: boolean,
   ) {
-    if (!this.#movieList || resetMovieList) this.#movieList = movieData;
-    else this.#movieList = this.#movieList.concat(movieData);
+    if (!this.#movieList || resetMovieList) this.#movieList = movieList;
+    else this.#movieList = this.#movieList.concat(movieList);
 
     this.#isShowMorButton = isShowMoreButton;
   }

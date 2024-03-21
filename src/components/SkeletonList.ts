@@ -1,23 +1,34 @@
-/* eslint-disable max-lines-per-function */
-import createElementWithAttribute from "../utils/createElementWithAttribute";
+import { createElementWithAttribute } from "../utils";
 
-const SkeletonCard = () => {
-  const $card = createElementWithAttribute("div", { class: "item-card" });
+const SkeletonImg = ($card: HTMLElement) => {
   $card.appendChild(
     createElementWithAttribute("div", {
       class: "item-thumbnail skeleton",
     }),
   );
+};
+
+const SkeletonTitle = ($card: HTMLElement) => {
   $card.appendChild(
     createElementWithAttribute("div", {
       class: "item-title skeleton",
     }),
   );
+};
+
+const SkeletonScore = ($card: HTMLElement) => {
   $card.appendChild(
     createElementWithAttribute("div", {
       class: "item-score skeleton",
     }),
   );
+};
+
+const SkeletonCard = () => {
+  const $card = createElementWithAttribute("div", { class: "item-card" });
+  SkeletonImg($card);
+  SkeletonTitle($card);
+  SkeletonScore($card);
 
   return $card;
 };
@@ -32,13 +43,14 @@ const Skeleton = () => {
   return $skeleton;
 };
 
-const SkeletonList = () => {
-  const $main = document.querySelector("main");
-  const $section = createElementWithAttribute("section", {
-    class: "skeleton-view",
-  });
+const SkeletonListTitle = () => {
   const $title = document.createElement("h2");
   $title.textContent = "Loading...";
+
+  return $title;
+};
+
+const SkeletonList = () => {
   const $ul = createElementWithAttribute("ul", {
     class: "item-list skeleton-list",
   });
@@ -47,8 +59,17 @@ const SkeletonList = () => {
     $ul.appendChild(Skeleton());
   });
 
-  $section.appendChild($title);
-  $section.appendChild($ul);
+  return $ul;
+};
+
+const SkeletonView = () => {
+  const $main = document.querySelector("main");
+  const $section = createElementWithAttribute("section", {
+    class: "skeleton-view",
+  });
+
+  $section.appendChild(SkeletonListTitle());
+  $section.appendChild(SkeletonList());
   $main?.appendChild($section);
 };
-export default SkeletonList;
+export default SkeletonView;

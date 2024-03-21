@@ -15,4 +15,13 @@ export interface Movie {
   vote_count: number;
 }
 
+export interface MovieData {
+  movieList: Movie[];
+  isShowMoreButton: boolean;
+}
+
+export interface PartialMovieDataForItemView extends Partial<MovieData> {
+  isShowMoreButton: boolean;
+}
+
 export type ListType = "popular" | "search";
