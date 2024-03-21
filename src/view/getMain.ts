@@ -54,6 +54,15 @@ function getMovieItem(props: IMovieItemProps) {
   return movieItem;
 }
 
+async function getMovieLItems(fetchUrl: string, fetchParams: IFetchParams) {
+  const res = await (await fetchMovies(fetchUrl, fetchParams)).json();
+
+  const moviesData = res.results;
+  // eslint-disable-next-line max-len
+  const movieElements = moviesData.map((info: IMovieItemProps) => getMovieItem(info)) as HTMLElement[];
+  return movieElements;
+}
+
 // eslint-disable-next-line max-lines-per-function
 async function getMovieListContainer(fetchUrl: string, fetchParams: IFetchParams) {
   const movieListContainer = document.createElement('section');
@@ -64,14 +73,8 @@ async function getMovieListContainer(fetchUrl: string, fetchParams: IFetchParams
   popularTitle.innerText = fetchParams.query ? `"${fetchParams.query} 검색 결과"` : '지금 인기 있는 영화';
   movieList.classList.add('item-list');
 
-  const res = await (await fetchMovies(fetchUrl, fetchParams)).json();
-
-  const moviesData = res.results;
-  // eslint-disable-next-line max-len
-  const movieElements = moviesData.map((info: IMovieItemProps) => getMovieItem(info)) as HTMLElement[];
-
-  appendChildren(movieList, movieElements);
-
+  const movieItems = await getMovieLItems(fetchUrl, fetchParams);
+  appendChildren(movieList, movieItems);
   appendChildren(movieListContainer, [popularTitle, movieList]);
   movieListContainer.appendChild(getButton());
 
@@ -118,3 +121,10 @@ async function replaceMain(fetchUrl: string, fetchParams: IFetchParams) {
 }
 
 export default replaceMain;
+
+export async function renderNewMovies(fetchUrl: string, fetchParams: IFetchParams) {
+  const movieList = document.querySelector('.item-list') as HTMLElement;
+
+  const newMovies = await getMovieLItems(fetchUrl, fetchParams);
+  appendChildren(movieList, newMovies);
+}
