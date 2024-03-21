@@ -12,7 +12,7 @@ class ItemView {
     this.create(search ? `"${search}"${CONTAINER_TITLE.searchResult}` : CONTAINER_TITLE.popular, search);
   }
 
-  async create(itemViewTitle: string, search?: string) {
+  create(itemViewTitle: string, search?: string) {
     const itemView = document.querySelector('.item-view');
 
     if (itemView) {
@@ -37,10 +37,9 @@ class ItemView {
 
   async mountItems(button: HTMLElement, search?: string) {
     const skeleton = MovieItems.createSkeleton();
-    const movieListData: IRespondData = await this.getMovieListData(search);
-
     button.insertAdjacentElement('beforebegin', skeleton);
 
+    const movieListData: IRespondData = await this.getMovieListData(search);
     MovieItems.replaceSkeletons(skeleton, movieListData);
 
     if (this.#page === movieListData.total_pages || this.#page === 500) {
