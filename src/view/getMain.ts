@@ -68,17 +68,22 @@ function checkPage(page: number, totalPages: number, button: HTMLElement | null)
 }
 
 async function getMovieItems(button = document.getElementById('see-more-button')) {
-  const res: ITMDBResponse = await (
-    await fetchMovies({
-      url: globalStateMethod.getUrl(),
-      page: globalStateMethod.getPage(),
-      query: globalStateMethod.getQuery(),
+  const responseJson: ITMDBResponse = await fetchMovies({
+    url: globalStateMethod.getUrl(),
+    page: globalStateMethod.getPage(),
+    query: globalStateMethod.getQuery(),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('❗');
+      }
+      return response.json();
     })
-  ).json();
+    .catch((error) => console.log(error.message));
 
-  checkPage(res.page, res.total_pages, button);
+  checkPage(responseJson.page, responseJson.total_pages, button);
 
-  const moviesData = res.results;
+  const moviesData = responseJson.results;
   // eslint-disable-next-line max-len
   const movieElements = moviesData.map((info: IMovieItemProps) => getMovieItem(info)) as HTMLElement[];
   return movieElements;
