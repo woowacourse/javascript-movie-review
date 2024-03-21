@@ -1,5 +1,6 @@
 import '../templates/reset.css';
 import '../templates/common.css';
+import './css/style.css';
 
 import getHeader from './view/getHeader.ts';
 import replaceMain from './view/getMain.ts';

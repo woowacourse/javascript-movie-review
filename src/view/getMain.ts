@@ -11,6 +11,12 @@ interface IMovieItemProps {
   vote_average: number;
 }
 
+interface ITMDBResponse {
+  page: number;
+  total_pages: number;
+  results: IMovieItemProps[];
+}
+
 function getImage(props: IMovieItemProps) {
   const img = document.createElement('img');
   img.alt = props.title;
@@ -55,14 +61,22 @@ function getMovieItem(props: IMovieItemProps) {
   return movieItem;
 }
 
-async function getMovieItems() {
-  const res = await (
+function checkPage(page: number, totalPages: number, button: HTMLElement | null) {
+  if (page === totalPages) {
+    button?.classList.add('hidden');
+  }
+}
+
+async function getMovieItems(button = document.getElementById('see-more-button')) {
+  const res: ITMDBResponse = await (
     await fetchMovies({
       url: globalStateMethod.getUrl(),
       page: globalStateMethod.getPage(),
       query: globalStateMethod.getQuery(),
     })
   ).json();
+
+  checkPage(res.page, res.total_pages, button);
 
   const moviesData = res.results;
   // eslint-disable-next-line max-len
@@ -78,13 +92,14 @@ async function getMovieListContainer() {
 
   movieListContainer.classList.add('item-view');
   const query = globalStateMethod.getQuery();
-  popularTitle.innerText = query ? `"${query} 검색 결과"` : '지금 인기 있는 영화';
+  popularTitle.innerText = query ? `"${query}" 검색 결과` : '지금 인기 있는 영화';
   movieList.classList.add('item-list');
 
-  const movieItems = await getMovieItems();
+  const button = getButton();
+  const movieItems = await getMovieItems(button);
   appendChildren(movieList, movieItems);
   appendChildren(movieListContainer, [popularTitle, movieList]);
-  movieListContainer.appendChild(getButton());
+  movieListContainer.appendChild(button);
 
   return movieListContainer;
 }
@@ -117,17 +132,15 @@ function getMovieListSkeletonUI(listTitle: string) {
 }
 
 async function replaceMain() {
+  globalStateMethod.initializePage();
   const sectionTag = document.querySelector('section');
-
   const movieListSkeletonUI = getMovieListSkeletonUI(
-    globalStateMethod.getQuery ? `"${globalStateMethod.getQuery} 검색 결과"` : '지금 인기 있는 영화',
+    globalStateMethod.getQuery ? `"${globalStateMethod.getQuery}" 검색 결과` : '지금 인기 있는 영화',
   );
   sectionTag?.replaceWith(movieListSkeletonUI);
 
   const movieListContainer = await getMovieListContainer();
   movieListSkeletonUI?.replaceWith(movieListContainer);
-
-  globalStateMethod.initializePage();
 }
 
 export default replaceMain;
