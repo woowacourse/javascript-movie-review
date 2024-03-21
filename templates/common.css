@@ -164,7 +164,6 @@ header .search-box > .search-button {
 }
 
 .hidden {
-  /* visibility: hidden; */
   display: none;
 }
 
@@ -181,10 +180,13 @@ header .search-box > .search-button {
 
 .alert-container {
   position: fixed;
-  left: 30%;
-  bottom: 7%;
+  left: 50%;
+  bottom: 5%;
 
-  width: 40%;
+  transform: translate(-50%, -50%);
+
+  min-width: 40%;
+  max-width: 70%;
   height: 38px;
 
   color: #000;
@@ -194,6 +196,7 @@ header .search-box > .search-button {
   border-radius: 7px;
 
   opacity: 0.9;
+  padding: 0 1rem;
 
   font-size: 1.25rem;
   font-weight: 700;
@@ -210,5 +213,21 @@ header .search-box > .search-button {
 }
 
 .alert-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+
+  white-space: nowrap;
   text-align: center;
+}
+
+.no-search-img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  filter: grayscale(100%);
+
+  transform: translate(-50%, -50%);
 }

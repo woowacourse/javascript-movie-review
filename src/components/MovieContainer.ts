@@ -3,6 +3,8 @@ import { getPopularMovieList } from '../api/popularMovieList';
 import SkeletonItem from './SkeletonItem';
 import MovieItem from './MovieItem';
 import { getSearchMovieList } from '../api/searchMovieList';
+import { showAlert } from './Alert';
+import { NO_SEARCH } from '../resource';
 
 class MovieContainer {
   #page;
@@ -58,7 +60,16 @@ class MovieContainer {
   }
 
   #setEvent() {
-    document.querySelector('.btn')?.addEventListener('click', () => {
+    const moreButton = document.querySelector('.btn');
+    moreButton?.addEventListener('click', () => {
+      if (this.#page > 500) {
+        const viewMoreButton = document.querySelector('.btn');
+        viewMoreButton?.classList.add('hidden');
+
+        showAlert('마지막 페이지 입니다!');
+        return;
+      }
+
       this.#query ? this.renderSearchMovies() : this.renderMovies();
     });
   }
@@ -80,6 +91,10 @@ class MovieContainer {
     if (!(ul instanceof HTMLElement)) return;
 
     const movieData = await this.#searchMovies(this.#page, query);
+
+    if (movieData && !movieData.length) {
+      ul.innerHTML = `<img src=${NO_SEARCH} class="no-search-img"/>`;
+    }
 
     const viewMoreButton = document.querySelector('.btn');
     movieData && movieData.length < 20
