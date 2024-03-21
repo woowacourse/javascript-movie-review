@@ -1,3 +1,4 @@
+import './Header.css';
 import { dom } from '../../utils/dom';
 
 interface IHeaderProps {

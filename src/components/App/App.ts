@@ -1,7 +1,7 @@
-import { searchMoviesByTitle } from '../apis/movie';
-import { dom } from '../utils/dom';
-import Header from './header/Header';
-import MovieListContainer from './movieListContainer/MovieListContainer';
+import './App.css';
+import { dom } from '../../utils/dom';
+import Header from '../header/Header';
+import MovieListContainer from '../movieListContainer/MovieListContainer';
 
 class App {
   $target: HTMLElement;

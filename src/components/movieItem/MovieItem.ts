@@ -1,3 +1,5 @@
+import './MovieItem.css';
+
 import { IMovie } from '../../types/movie';
 import { dom } from '../../utils/dom';
 
@@ -20,8 +22,11 @@ class MovieItem {
           alt=""
         />
         <p class="item-title"></p>
-        <p class="item-score"><img src="./star_filled.png" alt="별점" /></p>
-          </div>
+        <div class="item-caption">
+          <p class="item-score"></p>
+          <img class="item-star-icon" src="./images/star_filled.png" alt="별점" />
+        </div>
+        </div>
         </a>
       `;
   }

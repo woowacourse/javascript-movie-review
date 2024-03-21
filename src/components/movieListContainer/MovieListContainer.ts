@@ -1,3 +1,4 @@
+import './MovieListContainer.css';
 import { getPopularMovies, searchMoviesByTitle } from '../../apis/movie';
 import { IMovie } from '../../types/movie';
 import { dom } from '../../utils/dom';
