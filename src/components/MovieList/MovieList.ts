@@ -7,7 +7,15 @@ const getSearchQuery = ($title: HTMLElement) => {
   if ($title && $title.textContent) return $title.textContent.split('"')[1];
 };
 
-const MovieList = ({ title, type }: { title: string; type: string }) => {
+const MovieList = ({
+  title,
+  type,
+  isLastPage,
+}: {
+  title: string;
+  type: string;
+  isLastPage: boolean;
+}) => {
   const $section = document.createElement('section');
   const $title = document.createElement('h2');
   const $ul = document.createElement('ul');
@@ -29,7 +37,7 @@ const MovieList = ({ title, type }: { title: string; type: string }) => {
 
     $section.appendChild($title);
     $section.appendChild($ul);
-    $section.appendChild($loadMoreBtn);
+    if (!isLastPage) $section.appendChild($loadMoreBtn);
 
     return $section;
   };

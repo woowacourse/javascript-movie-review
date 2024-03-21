@@ -23,7 +23,8 @@ const fetchSearchMovies = async (params: Params) => {
     options: COMMON_OPTIONS,
   });
 
-  const { page } = data;
+  const { page, total_pages } = data;
+  const isLastPage = page === total_pages;
   const movies = [...data.results].map(
     ({ id, title, vote_average, poster_path }) => ({
       id,
@@ -32,7 +33,7 @@ const fetchSearchMovies = async (params: Params) => {
       poster_path,
     }),
   );
-  return { movies, page };
+  return { movies, page, isLastPage };
 };
 
 const fetchPopularMovies = async (params: Params) => {
@@ -46,7 +47,8 @@ const fetchPopularMovies = async (params: Params) => {
     options: COMMON_OPTIONS,
   });
 
-  const { page } = data;
+  const { page, total_pages } = data;
+  const isLastPage = page === total_pages;
   const movies = [...data.results].map(
     ({ id, title, vote_average, poster_path }) => ({
       id,
@@ -55,7 +57,7 @@ const fetchPopularMovies = async (params: Params) => {
       poster_path,
     }),
   );
-  return { movies, page };
+  return { movies, page, isLastPage };
 };
 
 const Main = () => {
@@ -73,7 +75,7 @@ const Main = () => {
     $main.appendChild($skeletonMovieList);
 
     fetchSearchMovies({ query: detail.query, page: movieStore.page })
-      .then(({ movies, page }) => {
+      .then(({ movies, page, isLastPage }) => {
         if (page !== 1) {
           movieStore.setMovies([...movieStore.movies, ...movies], () => {
             $main.removeChild($skeletonMovieList);
@@ -81,6 +83,7 @@ const Main = () => {
               MovieList({
                 title: `\"${detail.query}\" 검색 결과`,
                 type: 'search',
+                isLastPage,
               }).render(),
             );
           });
@@ -92,6 +95,7 @@ const Main = () => {
               MovieList({
                 title: `\"${detail.query}\" 검색 결과`,
                 type: 'search',
+                isLastPage,
               }).render(),
             );
           });
@@ -121,7 +125,7 @@ const Main = () => {
     $main.appendChild($skeletonMovieList);
 
     fetchPopularMovies({ page: movieStore.page })
-      .then(({ movies, page }) => {
+      .then(({ movies, page, isLastPage }) => {
         if (page !== 1) {
           movieStore.setMovies([...movieStore.movies, ...movies], () => {
             $main.removeChild($skeletonMovieList);
@@ -129,6 +133,7 @@ const Main = () => {
               MovieList({
                 title: '지금 인기있는 영화',
                 type: 'popular',
+                isLastPage,
               }).render(),
             );
           });
@@ -140,6 +145,7 @@ const Main = () => {
               MovieList({
                 title: '지금 인기있는 영화',
                 type: 'popular',
+                isLastPage,
               }).render(),
             );
           });
