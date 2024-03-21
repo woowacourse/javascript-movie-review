@@ -1,8 +1,7 @@
 import filledStar from '../../images/star_filled.png';
 import emptyPng from '../../images/empty_poster.png';
-import { Movie } from '../../interface/Movie';
 
-export function showSkeleton() {
+export function renderSkeleton() {
   const movieCard = document.createElement('li');
   movieCard.className = 'skeleton';
   const link = document.createElement('a');
@@ -27,7 +26,7 @@ export function showSkeleton() {
   return movieCard;
 }
 
-export function updateCard(li: any, movie: Movie) {
+export function updateCard(li, movie) {
   li.classList.toggle('skeleton');
   const thumbnail = li.querySelector('.item-thumbnail.skeleton');
   thumbnail.classList.toggle('skeleton');

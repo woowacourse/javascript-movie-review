@@ -1,6 +1,5 @@
 import { createHeader } from "./components/header/header";
-import { showSkeleton, updateCard } from "./components/movieCard/movieCard";
-import { MovieListWrapper } from "./components/movieListWrapper/MovieListWrapper";
+import MovieListWrapper from "./components/movieListWrapper/MovieListWrapper";
 
 class AppController {
   #currentView ;
