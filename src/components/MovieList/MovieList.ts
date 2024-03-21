@@ -1,6 +1,6 @@
 import MovieItem from '../MovieItem/MovieItem';
 import { Movie } from './../../types/movie';
-
+import '../MovieList/MovieList.css';
 interface Props {
   movieList?: Movie[];
   isLoading: boolean;
@@ -28,6 +28,7 @@ class MovieList {
   }
 
   render() {
+    console.log('aaaa');
     if (!this.movieList) return this.renderSkeleton();
     return this.renderMovieList();
   }
