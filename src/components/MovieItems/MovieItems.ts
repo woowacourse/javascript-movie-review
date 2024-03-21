@@ -25,7 +25,8 @@ const createMovieItems = (movieList: MovieListType, isLastPage: boolean) => {
       ul.appendChild(createMovieItem(movie));
     });
   }
-
+  
+  // TODO: 버튼 리팩터링
   const showMoreButton = document.querySelector('.btn');
   showMoreButton?.insertAdjacentElement('beforebegin', ul);
 

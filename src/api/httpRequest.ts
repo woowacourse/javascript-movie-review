@@ -29,7 +29,7 @@ const httpRequest = {
         } catch (error) {
           reject(error);
         }
-      }, 3000);
+      }, 0); // skeleton UI 확인 => 3000
     });
   },
 
@@ -45,12 +45,14 @@ const httpRequest = {
             `https://api.themoviedb.org/3/search/movie?query=${input}&include_adult=false&language=ko-KR&page=${page}&api_key=${process.env.API_KEY}`,
           );
 
-          if (response.status !== 200)
-            throw new HTTPError(response.status, '검색된 영화가 없습니다.');
-          // throw new HTTPError(500); // 임의 에러 처리
-
           const responseData = await response.json();
           const searchedMovieList = responseData.results;
+
+          if (searchedMovieList.length === 0) {
+            document.querySelector('.item-list--skeleton')?.remove();
+            throw new HTTPError(response.status, '검색된 영화가 없습니다.');
+          }
+          // throw new HTTPError(500, '검색된 영화가 없습니다.'); // 임의 에러 처리
 
           const totalPages = responseData.total_pages;
 
@@ -61,7 +63,7 @@ const httpRequest = {
         } catch (error) {
           reject(error);
         }
-      }, 3000);
+      }, 0);
     });
   },
 };
