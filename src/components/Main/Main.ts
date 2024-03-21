@@ -23,9 +23,10 @@ const fetchSearchMovies = async (params: Params) => {
     options: COMMON_OPTIONS,
   });
 
-  const { page, total_pages } = data;
+  const { page, total_pages, results, total_results } = data;
   const isLastPage = page === total_pages;
-  const movies = [...data.results].map(
+  const isEmptyResults = total_results;
+  const movies = [...results].map(
     ({ id, title, vote_average, poster_path }) => ({
       id,
       title,
@@ -33,7 +34,7 @@ const fetchSearchMovies = async (params: Params) => {
       poster_path,
     }),
   );
-  return { movies, page, isLastPage };
+  return { movies, page, isLastPage, isEmptyResults };
 };
 
 const fetchPopularMovies = async (params: Params) => {
@@ -47,9 +48,9 @@ const fetchPopularMovies = async (params: Params) => {
     options: COMMON_OPTIONS,
   });
 
-  const { page, total_pages } = data;
+  const { page, total_pages, results } = data;
   const isLastPage = page === total_pages;
-  const movies = [...data.results].map(
+  const movies = [...results].map(
     ({ id, title, vote_average, poster_path }) => ({
       id,
       title,
@@ -75,7 +76,21 @@ const Main = () => {
     $main.appendChild($skeletonMovieList);
 
     fetchSearchMovies({ query: detail.query, page: movieStore.page })
-      .then(({ movies, page, isLastPage }) => {
+      .then(({ movies, page, isLastPage, isEmptyResults }) => {
+        if (!isEmptyResults) {
+          const $itemView = document.querySelector('.item-view');
+          const $skeletonUl = $skeletonMovieList.querySelector(
+            'ul',
+          ) as HTMLElement;
+          $skeletonMovieList.removeChild($skeletonUl);
+
+          const $searchResultsNotFound = document.createElement('p');
+          $searchResultsNotFound.classList.add('search-results-not-found');
+          $searchResultsNotFound.textContent = '검색 결과가 존재하지 않습니다.';
+
+          $itemView?.appendChild($searchResultsNotFound);
+          return;
+        }
         if (page !== 1) {
           movieStore.setMovies([...movieStore.movies, ...movies], () => {
             $main.removeChild($skeletonMovieList);

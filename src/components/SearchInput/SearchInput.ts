@@ -28,6 +28,7 @@ const SearchInput = () => {
     const { target } = e;
     const { key } = e as KeyboardEvent;
 
+    if (e.isComposing) return;
     if (key === 'Enter' && target instanceof HTMLInputElement) {
       $searchInput.dispatchEvent(
         new CustomEvent('search', {
