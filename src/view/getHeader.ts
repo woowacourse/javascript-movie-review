@@ -1,7 +1,8 @@
 import logoImg from '../assets/images/logo.png';
-import { SEARCH_MOVIES_URL } from '../constants/tmdbConstants';
 import { appendChildren } from '../utils/domUtil';
 import replaceMain from './getMain';
+import globalState from '../globalState';
+import { SEARCH_MOVIES_URL } from '../constants/tmdbConstants';
 
 function getLogo() {
   const logo = document.createElement('h1');
@@ -16,10 +17,10 @@ function getLogo() {
 
 const submitEventHandler = (event: any) => {
   event.preventDefault();
-  const query = event.target.searchContent.value;
+  globalState.query = event.target.searchContent.value;
+  globalState.url = SEARCH_MOVIES_URL;
 
-  // TODO: 검색어로 영화 fetch 및 replace
-  replaceMain(SEARCH_MOVIES_URL, { page: '1', query });
+  replaceMain();
 };
 
 function getSearchBoxInput() {

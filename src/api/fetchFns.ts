@@ -1,14 +1,19 @@
 export interface IFetchParams {
-  page: string;
+  url: string;
+  page: number;
   query?: string;
 }
 
-export default function fetchMovies(url: string, params: IFetchParams) {
+export default function fetchMovies(params: IFetchParams) {
   const searchParams = new URLSearchParams({
     api_key: process.env.TMDB_API_KEY,
     language: 'ko-KR',
-    ...params,
+    page: String(params.page),
   });
 
-  return fetch(`${url}?${searchParams}`);
+  if (params.query) {
+    searchParams.append('query', params.query);
+  }
+
+  return fetch(`${params.url}?${searchParams}`);
 }

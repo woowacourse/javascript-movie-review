@@ -1,5 +1,6 @@
-import fetchMovies, { IFetchParams } from '../api/fetchFns';
+import fetchMovies from '../api/fetchFns';
 import starFilledImage from '../assets/images/star_filled.png';
+import globalState from '../globalState';
 import { appendChildren } from '../utils/domUtil';
 import getButton from './getButton';
 
@@ -54,8 +55,8 @@ function getMovieItem(props: IMovieItemProps) {
   return movieItem;
 }
 
-async function getMovieLItems(fetchUrl: string, fetchParams: IFetchParams) {
-  const res = await (await fetchMovies(fetchUrl, fetchParams)).json();
+async function getMovieItems() {
+  const res = await (await fetchMovies(globalState)).json();
 
   const moviesData = res.results;
   // eslint-disable-next-line max-len
@@ -64,16 +65,16 @@ async function getMovieLItems(fetchUrl: string, fetchParams: IFetchParams) {
 }
 
 // eslint-disable-next-line max-lines-per-function
-async function getMovieListContainer(fetchUrl: string, fetchParams: IFetchParams) {
+async function getMovieListContainer() {
   const movieListContainer = document.createElement('section');
   const popularTitle = document.createElement('h2');
   const movieList = document.createElement('ul');
 
   movieListContainer.classList.add('item-view');
-  popularTitle.innerText = fetchParams.query ? `"${fetchParams.query} 검색 결과"` : '지금 인기 있는 영화';
+  popularTitle.innerText = globalState.query ? `"${globalState.query} 검색 결과"` : '지금 인기 있는 영화';
   movieList.classList.add('item-list');
 
-  const movieItems = await getMovieLItems(fetchUrl, fetchParams);
+  const movieItems = await getMovieItems();
   appendChildren(movieList, movieItems);
   appendChildren(movieListContainer, [popularTitle, movieList]);
   movieListContainer.appendChild(getButton());
@@ -108,23 +109,22 @@ function getMovieListSkeletonUI(listTitle: string) {
   return section;
 }
 
-async function replaceMain(fetchUrl: string, fetchParams: IFetchParams) {
+async function replaceMain() {
   const sectionTag = document.querySelector('section');
 
   const movieListSkeletonUI = getMovieListSkeletonUI(
-    fetchParams.query ? `"${fetchParams.query} 검색 결과"` : '지금 인기 있는 영화',
+    globalState.query ? `"${globalState.query} 검색 결과"` : '지금 인기 있는 영화',
   );
   sectionTag?.replaceWith(movieListSkeletonUI);
 
-  const movieListContainer = await getMovieListContainer(fetchUrl, fetchParams);
+  const movieListContainer = await getMovieListContainer();
   movieListSkeletonUI?.replaceWith(movieListContainer);
 }
 
 export default replaceMain;
 
-export async function renderNewMovies(fetchUrl: string, fetchParams: IFetchParams) {
+export async function renderNewMovies() {
   const movieList = document.querySelector('.item-list') as HTMLElement;
-
-  const newMovies = await getMovieLItems(fetchUrl, fetchParams);
+  const newMovies = await getMovieItems();
   appendChildren(movieList, newMovies);
 }

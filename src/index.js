@@ -3,7 +3,6 @@ import '../templates/common.css';
 
 import getHeader from './view/getHeader.ts';
 import replaceMain from './view/getMain.ts';
-import { POPULAR_MOVIES_URL } from './constants/tmdbConstants';
 
 function renderHeader() {
   const header = getHeader();
@@ -12,7 +11,7 @@ function renderHeader() {
 }
 
 async function renderMain() {
-  await replaceMain(POPULAR_MOVIES_URL, { page: 1 });
+  await replaceMain();
 }
 
 async function run() {
