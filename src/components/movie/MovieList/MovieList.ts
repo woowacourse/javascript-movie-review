@@ -1,10 +1,10 @@
-import Component from '../common/Component/Component';
+import Component from '../../common/Component/Component';
 
 import MovieListCard from '../MovieListCard/MovieListCard';
 
-import type { MovieDetail } from '../../domain/Movie/Movie.type';
+import type { MovieDetail } from '../../../domain/Movie/Movie.type';
 
-import { createElement } from '../../utils/dom/createElement/createElement';
+import { createElement } from '../../../utils/dom/createElement/createElement';
 
 interface MovieListProps {
   movieItemDetails: MovieDetail[];

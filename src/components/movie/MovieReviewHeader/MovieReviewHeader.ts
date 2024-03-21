@@ -1,12 +1,14 @@
-import Component from '../common/Component/Component';
+import Component from '../../common/Component/Component';
 import MovieReviewBody from '../MovieReviewBody/MovieReviewBody';
-import ErrorToast from '../common/ErrorToast/ErrorToast';
+import ErrorToast from '../ErrorToast/ErrorToast';
 
-import { createElement } from '../../utils/dom/createElement/createElement';
-import { querySelector } from '../../utils/dom/selector';
-import { on } from '../../utils/dom/eventListener/eventListener';
+import { createElement } from '../../../utils/dom/createElement/createElement';
+import { querySelector } from '../../../utils/dom/selector';
+import { on } from '../../../utils/dom/eventListener/eventListener';
 
-import { Logo } from '../../assets';
+import { ELEMENT_SELECTOR } from '../../../constants/selector';
+
+import { Logo } from '../../../assets';
 
 class MovieReviewHeader extends Component {
   protected render() {
@@ -30,8 +32,8 @@ class MovieReviewHeader extends Component {
   }
 
   protected setEvent(): void {
-    const $searchForm = querySelector<HTMLFormElement>('#search-form', this.$element);
-    const $movieLogo = querySelector<HTMLFormElement>('#movie-logo', this.$element);
+    const $searchForm = querySelector<HTMLFormElement>(ELEMENT_SELECTOR.searchform, this.$element);
+    const $movieLogo = querySelector<HTMLFormElement>(ELEMENT_SELECTOR.movieLogo, this.$element);
 
     on({ target: $searchForm, eventName: 'submit', eventHandler: this.handleSubmitForm.bind(this) });
     on({ target: $movieLogo, eventName: 'click', eventHandler: this.handleClickLogo });
@@ -40,8 +42,8 @@ class MovieReviewHeader extends Component {
   private handleSubmitForm(event: Event) {
     event.preventDefault();
 
-    const $searchForm = querySelector<HTMLFormElement>('#search-form', this.$element);
-    const $searchInput = querySelector<HTMLInputElement>('#search-input', this.$element);
+    const $searchForm = querySelector<HTMLFormElement>(ELEMENT_SELECTOR.searchform, this.$element);
+    const $searchInput = querySelector<HTMLInputElement>(ELEMENT_SELECTOR.searchInput, this.$element);
 
     this.handleMovieSearchResult($searchForm, $searchInput);
 
@@ -62,10 +64,10 @@ class MovieReviewHeader extends Component {
   }
 
   private renderMovieReviewBody(movieName: string) {
-    const $section = querySelector<HTMLElement>('.item-view');
+    const $section = querySelector<HTMLElement>(ELEMENT_SELECTOR.movieReviewSection);
     $section.remove();
 
-    const $main = querySelector<HTMLElement>('main');
+    const $main = querySelector<HTMLElement>(ELEMENT_SELECTOR.main);
     new MovieReviewBody($main, { movieType: movieName });
   }
 

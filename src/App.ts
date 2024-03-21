@@ -1,7 +1,7 @@
 import Component from './components/common/Component/Component';
-import MovieReviewHeader from './components/MovieReviewHeader/MovieReviewHeader';
-import MovieReviewBody from './components/MovieReviewBody/MovieReviewBody';
-import ErrorFallbackModal from './components/ErrorFallbackModal/ErrorFallbackModal';
+import MovieReviewHeader from './components/movie/MovieReviewHeader/MovieReviewHeader';
+import MovieReviewBody from './components/movie/MovieReviewBody/MovieReviewBody';
+import ErrorFallbackModal from './components/movie/ErrorFallbackModal/ErrorFallbackModal';
 
 import { createElement } from './utils/dom/createElement/createElement';
 

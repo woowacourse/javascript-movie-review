@@ -1,14 +1,16 @@
-import Component from '../common/Component/Component';
+import Component from '../../common/Component/Component';
 import MovieList from '../MovieList/MovieList';
 import MovieListCardSkeleton from '../MovieListCardSkeleton/MovieListCardSkeleton';
 
-import Movie from '../../domain/Movie/Movie';
+import Movie from '../../../domain/Movie/Movie';
 
-import { createElement } from '../../utils/dom/createElement/createElement';
-import { querySelector } from '../../utils/dom/selector';
-import { on } from '../../utils/dom/eventListener/eventListener';
+import { createElement } from '../../../utils/dom/createElement/createElement';
+import { querySelector } from '../../../utils/dom/selector';
+import { on } from '../../../utils/dom/eventListener/eventListener';
 
-import { NoResultImage } from '../../assets';
+import { ELEMENT_SELECTOR } from '../../../constants/selector';
+
+import { NoResultImage } from '../../../assets';
 
 interface MovieReviewBodyProps {
   movieType: string;
@@ -26,7 +28,10 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
   }
 
   protected createComponent() {
-    const $section = createElement({ tagName: 'section', attributeOptions: { class: 'item-view' } });
+    const $section = createElement({
+      tagName: 'section',
+      attributeOptions: { id: 'movie-review-section', class: 'item-view' },
+    });
 
     $section.appendChild(this.createMovieTitle());
     $section.appendChild(this.createMovieListContainer());
@@ -108,12 +113,12 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
   }
 
   private removeMoreButton() {
-    const $button = querySelector<HTMLButtonElement>('#more-button', this.$element);
+    const $button = querySelector<HTMLButtonElement>(ELEMENT_SELECTOR.moreButton, this.$element);
     $button.remove();
   }
 
   private openErrorFallbackModal() {
-    const $modal = querySelector<HTMLDialogElement>('#error-fallback-modal');
+    const $modal = querySelector<HTMLDialogElement>(ELEMENT_SELECTOR.errorFallBackModal);
 
     $modal.showModal();
   }
@@ -128,14 +133,14 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
 
   protected setEvent(): void {
     on({
-      target: querySelector<HTMLButtonElement>('#more-button', this.$element),
+      target: querySelector<HTMLButtonElement>(ELEMENT_SELECTOR.moreButton, this.$element),
       eventName: 'click',
       eventHandler: this.handleMoreButtonClick.bind(this),
     });
   }
 
   private handleMoreButtonClick() {
-    const $movieListContainer = querySelector<HTMLDivElement>('#movie-list-container');
+    const $movieListContainer = querySelector<HTMLDivElement>(ELEMENT_SELECTOR.movieListContainer);
     this.updateMovieList($movieListContainer);
 
     if (this?.movie && this.movie.isMaxPage()) {
