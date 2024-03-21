@@ -1,5 +1,8 @@
+import BaseComponent, {
+  ElementId,
+  HTMLTemplate,
+} from "../abstract/BaseComponent";
 import QueryState from "../../states/QueryState";
-import BaseComponent, { ElementId } from "../abstract/BaseComponent";
 
 interface MovieListTitleProps {
   targetId: ElementId;
@@ -14,7 +17,7 @@ export default class MovieListTitle extends BaseComponent {
     this.queryState = queryState;
   }
 
-  getTemplate(): string {
+  protected getTemplate(): HTMLTemplate {
     const query = this.queryState.get();
 
     return `

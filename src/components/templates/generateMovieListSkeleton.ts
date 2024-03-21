@@ -1,3 +1,5 @@
+import { HTMLTemplate } from "../abstract/BaseComponent";
+
 const MOVIE_ITEM_SKELETON = `
   <li>
     <a href="#">
@@ -10,7 +12,7 @@ const MOVIE_ITEM_SKELETON = `
   </li>
 `;
 
-export const generateMovieListSkeleton = (count: number = 20) => {
+export const generateMovieListSkeleton = (count: number = 20): HTMLTemplate => {
   return `
       <ul id="skeleton-movie-item-list" class="item-list">
       ${MOVIE_ITEM_SKELETON.repeat(count)}

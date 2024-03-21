@@ -1,5 +1,5 @@
-import { $ } from "../../utils/dom";
 import Observer from "./Observer";
+import { $ } from "../../utils/dom";
 
 export type HTMLTemplate = string;
 export type ElementId = string;
@@ -15,15 +15,15 @@ export default abstract class BaseComponent extends Observer {
     this.targetId = targetId;
   }
 
-  update() {
+  update(): void {
     this.init();
   }
 
-  init() {
+  init(): void {
     this.render();
   }
 
-  render() {
+  render(): void {
     const element = $(this.targetId);
 
     if (!element) {
@@ -33,5 +33,5 @@ export default abstract class BaseComponent extends Observer {
     element.innerHTML = this.getTemplate();
   }
 
-  abstract getTemplate(): HTMLTemplate;
+  protected abstract getTemplate(): HTMLTemplate;
 }

@@ -2,8 +2,8 @@ import SkeletonUI from "../SkeletonUI";
 import EventComponent from "./EventComponent";
 import APIError from "../../error/APIError";
 import { $ } from "../../utils/dom";
-import IMAGES from "../../images";
 import { runAsyncTryCatch } from "../../utils/runTryCatch";
+import IMAGES from "../../images";
 
 type FetchedData = Record<any, any> | Record<any, any>[];
 
@@ -19,7 +19,7 @@ export default abstract class APIClientComponent extends EventComponent {
     this.skeletonUI = skeletonUI;
   }
 
-  async init() {
+  async init(): Promise<void> {
     this.skeletonUI.render(this.targetId);
 
     await runAsyncTryCatch<void, void>({
@@ -32,11 +32,11 @@ export default abstract class APIClientComponent extends EventComponent {
     throw new Error("fetch method must be implemented");
   }
 
-  abstract override getTemplate(data?: FetchedData): string;
+  protected abstract override getTemplate(data?: FetchedData): string;
 
-  abstract setEvent(): void;
+  protected abstract setEvent(): void;
 
-  override render(data?: FetchedData) {
+  override render(data?: FetchedData): void {
     const element = $(this.targetId);
 
     if (!(element instanceof HTMLElement)) {
@@ -46,13 +46,13 @@ export default abstract class APIClientComponent extends EventComponent {
     element.innerHTML = this.getTemplate(data);
   }
 
-  private async composeUI() {
+  private async composeUI(): Promise<void> {
     const data = await this.fetchRenderData();
     this.render(data);
     this.setEvent();
   }
 
-  private handleError(error: unknown) {
+  private handleError(error: unknown): void {
     if (error instanceof APIError) {
       alert(error.message);
     } else if (error instanceof Error) {

@@ -1,11 +1,12 @@
+import APIClientComponent from "../abstract/APIClientComponent";
+import { HTMLTemplate } from "../abstract/BaseComponent";
+import SkeletonUI from "../SkeletonUI";
 import QueryState, { Query } from "../../states/QueryState";
 import { Movie, generateMovieItems } from "../templates/generateMovieItems";
+import { generateMovieListSkeleton } from "../templates/generateMovieListSkeleton";
 import { getPopularMovieList, getSearchMovieList } from "../../apis/movieList";
 import { $ } from "../../utils/dom";
-import APIClientComponent from "../abstract/APIClientComponent";
 import IMAGES from "../../images";
-import { generateMovieListSkeleton } from "../templates/generateMovieListSkeleton";
-import SkeletonUI from "../SkeletonUI";
 
 interface MovieListProps {
   targetId: string;
@@ -22,7 +23,7 @@ export default class MovieList extends APIClientComponent {
     this.queryState = queryState;
   }
 
-  getTemplate(data: Movie[]): string {
+  protected getTemplate(data: Movie[]): HTMLTemplate {
     const movieItemsTemplate = generateMovieItems(data);
 
     return `
@@ -53,14 +54,14 @@ export default class MovieList extends APIClientComponent {
     return movies;
   }
 
-  setEvent(): void {
+  protected setEvent(): void {
     $("watch-more-button")?.addEventListener(
       "click",
       this.handleWatchMoreButtonClick.bind(this)
     );
   }
 
-  async handleWatchMoreButtonClick() {
+  async handleWatchMoreButtonClick(): Promise<void> {
     this.page += 1;
 
     this.skeletonUI.insert("item-list", "afterend");
@@ -76,13 +77,13 @@ export default class MovieList extends APIClientComponent {
     }
   }
 
-  private async insertMovieItems(movies: Movie[]) {
+  private async insertMovieItems(movies: Movie[]): Promise<void> {
     const movieItemsTemplate = generateMovieItems(movies);
 
     $("item-list")?.insertAdjacentHTML("beforeend", movieItemsTemplate);
   }
 
-  private async fetchMovies(page: number, query?: Query) {
+  private async fetchMovies(page: number, query?: Query): Promise<Movie[]> {
     const movies = query
       ? await getSearchMovieList(query, page)
       : await getPopularMovieList(page);
@@ -90,11 +91,11 @@ export default class MovieList extends APIClientComponent {
     return movies;
   }
 
-  private resetPage() {
+  private resetPage(): void {
     this.page = 1;
   }
 
-  getSkeletonTemplate() {
+  getSkeletonTemplate(): HTMLTemplate {
     const movieListSkeleton = generateMovieListSkeleton();
 
     return movieListSkeleton;

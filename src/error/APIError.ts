@@ -15,6 +15,12 @@ const STATUS_CODE_TO_MESSAGE = {
   504: "Gateway Timeout: 게이트웨이 시간 초과가 발생했습니다. 잠시 후 다시 시도해주세요.",
 };
 
+const isStatusCode = (
+  statusCode: number
+): statusCode is keyof typeof STATUS_CODE_TO_MESSAGE => {
+  return Object.keys(STATUS_CODE_TO_MESSAGE).includes(String(statusCode));
+};
+
 export default class APIError extends Error {
   constructor(statusCode: number) {
     if (!isStatusCode(statusCode)) {
@@ -24,9 +30,3 @@ export default class APIError extends Error {
     super(STATUS_CODE_TO_MESSAGE[statusCode]);
   }
 }
-
-const isStatusCode = (
-  statusCode: number
-): statusCode is keyof typeof STATUS_CODE_TO_MESSAGE => {
-  return Object.keys(STATUS_CODE_TO_MESSAGE).includes(String(statusCode));
-};

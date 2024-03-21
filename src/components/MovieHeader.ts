@@ -16,7 +16,7 @@ export default class MovieHeader extends EventComponent {
     this.queryState = queryState;
   }
 
-  getTemplate(): HTMLTemplate {
+  protected getTemplate(): HTMLTemplate {
     return `
       <h1 id="movie-list-logo"><img src="${IMAGES.logo}" alt="MovieList 로고" /></h1>
       <div class="search-box">
@@ -28,21 +28,25 @@ export default class MovieHeader extends EventComponent {
   `;
   }
 
-  setEvent(): void {
-    const $form = $("search-form") as HTMLFormElement;
+  protected setEvent(): void {
+    const $form = $("search-form");
 
-    $form?.addEventListener("submit", (event) =>
-      this.handleSearchMovie(event, $form)
-    );
+    if ($form instanceof HTMLFormElement) {
+      $form.addEventListener("submit", (event) =>
+        this.handleSearchMovie(event, $form)
+      );
+    }
 
     $("movie-list-logo")?.addEventListener(
       "click",
       this.handleLogoClick.bind(this)
     );
-    $;
   }
 
-  async handleSearchMovie(event: Event, form: HTMLFormElement) {
+  private async handleSearchMovie(
+    event: Event,
+    form: HTMLFormElement
+  ): Promise<void> {
     event.preventDefault();
 
     const searchQuery = form["search-query"].value;
@@ -50,7 +54,7 @@ export default class MovieHeader extends EventComponent {
     this.queryState.set(searchQuery);
   }
 
-  handleLogoClick() {
+  private handleLogoClick(): void {
     this.queryState.set("");
 
     const $searchForm = $("search-form");
