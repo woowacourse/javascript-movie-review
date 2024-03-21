@@ -1,10 +1,10 @@
 import QueryState, { Query } from "../../states/QueryState";
-import { Movie, composeMovieItems } from "../templates/composeMovieItems";
+import { Movie, generateMovieItems } from "../templates/generateMovieItems";
 import { getPopularMovieList, getSearchMovieList } from "../../apis/movieList";
 import { $ } from "../../utils/dom";
 import APIClientComponent from "../abstract/APIClientComponent";
 import IMAGES from "../../images";
-import { composeMovieListSkeleton } from "../templates/composeMovieListSkeleton";
+import { generateMovieListSkeleton } from "../templates/generateMovieListSkeleton";
 import SkeletonUI from "../SkeletonUI";
 
 interface MovieListProps {
@@ -23,7 +23,7 @@ export default class MovieList extends APIClientComponent {
   }
 
   getTemplate(data: Movie[]): string {
-    const movieItemsTemplate = this.generateMovieItemsTemplate(data);
+    const movieItemsTemplate = generateMovieItems(data);
 
     return `
         <ul id="item-list" class="item-list">
@@ -45,9 +45,12 @@ export default class MovieList extends APIClientComponent {
     `;
   }
 
-  async fetchInitialData() {
+  async fetchRenderData(): Promise<Movie[]> {
     this.resetPage();
-    return await this.fetchMovies(this.page, this.queryState.get());
+
+    const movies = await this.fetchMovies(this.page, this.queryState.get());
+
+    return movies;
   }
 
   setEvent(): void {
@@ -73,14 +76,8 @@ export default class MovieList extends APIClientComponent {
     }
   }
 
-  private generateMovieItemsTemplate(movies: Movie[]) {
-    const movieItemsTemplate = composeMovieItems(movies);
-
-    return movieItemsTemplate;
-  }
-
   private async insertMovieItems(movies: Movie[]) {
-    const movieItemsTemplate = composeMovieItems(movies);
+    const movieItemsTemplate = generateMovieItems(movies);
 
     $("item-list")?.insertAdjacentHTML("beforeend", movieItemsTemplate);
   }
@@ -98,7 +95,7 @@ export default class MovieList extends APIClientComponent {
   }
 
   getSkeletonTemplate() {
-    const movieListSkeleton = composeMovieListSkeleton();
+    const movieListSkeleton = generateMovieListSkeleton();
 
     return movieListSkeleton;
   }

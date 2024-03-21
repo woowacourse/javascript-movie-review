@@ -1,4 +1,5 @@
-import { Movie, Path } from "../components/templates/composeMovieItems";
+import { Movie, Path } from "../components/templates/generateMovieItems";
+import APIError from "../error/APIError";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
@@ -12,7 +13,7 @@ interface MovieRawData {
   backdrop_path: Path;
   genre_ids: number[];
   id: number;
-  original_language: string; // TODO: union type 고려
+  original_language: string;
   original_title: string;
   overview: string;
   popularity: number;
@@ -44,6 +45,7 @@ export const getPopularMovieList = async (
       },
     }
   );
+
   const movieList = await response.json();
 
   return parseRawMovieList(movieList.results);
@@ -62,7 +64,12 @@ export const getSearchMovieList = async (
       },
     }
   );
+
   const movieList = await response.json();
 
-  return parseRawMovieList(movieList.results);
+  if (response.ok) {
+    return parseRawMovieList(movieList.results);
+  } else {
+    throw new APIError(response.status);
+  }
 };

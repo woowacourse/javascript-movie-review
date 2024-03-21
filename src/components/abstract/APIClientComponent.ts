@@ -1,6 +1,9 @@
-import { $ } from "../../utils/dom";
 import SkeletonUI from "../SkeletonUI";
 import EventComponent from "./EventComponent";
+import APIError from "../../error/APIError";
+import { $ } from "../../utils/dom";
+import IMAGES from "../../images";
+import { runAsyncTryCatch } from "../../utils/runTryCatch";
 
 type FetchedData = Record<any, any> | Record<any, any>[];
 
@@ -18,12 +21,14 @@ export default abstract class APIClientComponent extends EventComponent {
 
   async init() {
     this.skeletonUI.render(this.targetId);
-    const data = await this.fetchInitialData();
-    this.render(data);
-    this.setEvent();
+
+    await runAsyncTryCatch<void, void>({
+      tryBlock: this.composeUI.bind(this),
+      catchBlock: this.handleError.bind(this),
+    });
   }
 
-  async fetchInitialData(): Promise<FetchedData> {
+  async fetchRenderData(): Promise<FetchedData> {
     throw new Error("fetch method must be implemented");
   }
 
@@ -39,5 +44,26 @@ export default abstract class APIClientComponent extends EventComponent {
     }
 
     element.innerHTML = this.getTemplate(data);
+  }
+
+  private async composeUI() {
+    const data = await this.fetchRenderData();
+    this.render(data);
+    this.setEvent();
+  }
+
+  private handleError(error: unknown) {
+    if (error instanceof APIError) {
+      alert(error.message);
+    } else if (error instanceof Error) {
+      alert(
+        "네트워크가 원활하지 않습니다. 인터넷 연결 확인 후 다시 시도해주세요."
+      );
+    }
+
+    const errorTargetElement = $(this.targetId);
+    if (errorTargetElement instanceof HTMLElement) {
+      errorTargetElement.innerHTML = `<div><img src='${IMAGES.workers}' /></div>`;
+    }
   }
 }

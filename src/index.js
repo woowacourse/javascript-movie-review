@@ -5,7 +5,7 @@ import QueryState from "./states/QueryState";
 import MovieListTitle from "./components/MovieList/MovieListTitle";
 import MovieList from "./components/MovieList/MovieList";
 import SkeletonUI from "./components/SkeletonUI";
-import { composeMovieListSkeleton } from "./components/templates/composeMovieListSkeleton";
+import { generateMovieListSkeleton } from "./components/templates/generateMovieListSkeleton";
 
 const queryState = new QueryState();
 
@@ -15,7 +15,7 @@ const movieListTitle = new MovieListTitle({
   queryState,
 });
 
-const movieListSkeleton = new SkeletonUI(composeMovieListSkeleton());
+const movieListSkeleton = new SkeletonUI(generateMovieListSkeleton());
 const movieListBody = new MovieList({
   targetId: "movie-list",
   queryState,
