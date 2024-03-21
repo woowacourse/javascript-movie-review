@@ -1,4 +1,5 @@
-import { HTTPMethod } from './apiSchema.type';
+import type { HTTPMethod } from './apiSchema.type';
+
 import { isErrorStatusCode } from './apiSchema.util';
 
 class ApiSchema {

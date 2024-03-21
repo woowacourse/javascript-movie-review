@@ -1,10 +1,12 @@
 import Component from '../common/Component/Component';
 import MovieReviewBody from '../MovieReviewBody/MovieReviewBody';
+import ErrorToast from '../common/ErrorToast/ErrorToast';
+
 import { createElement } from '../../utils/dom/createElement/createElement';
 import { querySelector } from '../../utils/dom/selector';
 import { on } from '../../utils/dom/eventListener/eventListener';
+
 import { Logo } from '../../assets';
-import ErrorToast from '../common/ErrorToast/ErrorToast';
 
 class MovieReviewHeader extends Component {
   protected render() {

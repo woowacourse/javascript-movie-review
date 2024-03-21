@@ -1,11 +1,14 @@
-import { createElement } from '../../utils/dom/createElement/createElement';
 import Component from '../common/Component/Component';
 import MovieList from '../MovieList/MovieList';
+import MovieListCardSkeleton from '../MovieListCardSkeleton/MovieListCardSkeleton';
+
+import Movie from '../../domain/Movie/Movie';
+
+import { createElement } from '../../utils/dom/createElement/createElement';
 import { querySelector } from '../../utils/dom/selector';
 import { on } from '../../utils/dom/eventListener/eventListener';
-import MovieListCardSkeleton from '../MovieListCardSkeleton/MovieListCardSkeleton';
+
 import { NoResultImage } from '../../assets';
-import Movie from '../../domain/Movie/Movie';
 
 interface MovieReviewBodyProps {
   movieType: string;

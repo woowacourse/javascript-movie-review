@@ -1,5 +1,6 @@
-import { BaseResponse } from '../../apis/common/apiSchema.type';
 import MovieAPI from '../../apis/movie/movie';
+
+import { BaseResponse } from '../../apis/common/apiSchema.type';
 import { MovieDetail } from './Movie.type';
 
 class Movie {

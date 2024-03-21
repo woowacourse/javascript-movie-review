@@ -1,5 +1,6 @@
-import { createElement } from '../../../utils/dom/createElement/createElement';
 import Component from '../Component/Component';
+
+import { createElement } from '../../../utils/dom/createElement/createElement';
 
 interface ErrorToastProps {
   errorText: string;

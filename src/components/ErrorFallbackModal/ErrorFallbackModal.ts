@@ -1,9 +1,11 @@
-import { WarningImage } from '../../assets';
-import { createElement } from '../../utils/dom/createElement/createElement';
+import Component from '../common/Component/Component';
+
+import Modal from '../common/Modal/Modal';
+
 import { on } from '../../utils/dom/eventListener/eventListener';
 import { querySelector } from '../../utils/dom/selector';
-import Component from '../common/Component/Component';
-import Modal from '../common/Modal/Modal';
+
+import { WarningImage } from '../../assets';
 
 class ErrorFallbackModal extends Component {
   protected render(): void {

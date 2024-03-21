@@ -1,8 +1,10 @@
 import Component from '../common/Component/Component';
 
-import { FilledStar } from '../../assets';
+import type { MovieDetail } from '../../domain/Movie/Movie.type';
+
 import { createElement } from '../../utils/dom/createElement/createElement';
-import { MovieDetail } from '../../domain/Movie/Movie.type';
+
+import { FilledStar } from '../../assets';
 
 class MovieListCard extends Component<MovieDetail> {
   protected render() {

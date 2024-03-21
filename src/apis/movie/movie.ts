@@ -1,4 +1,5 @@
 import ApiSchema from '../common/apiSchema';
+
 import { isMovieErrorStatusCode } from './movie.util';
 
 class MovieAPI {
