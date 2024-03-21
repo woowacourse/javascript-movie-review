@@ -54,16 +54,19 @@ export class App {
 
       this.#movieContainer.replaceSkeletonListToData(moviePageData);
     } catch (error) {
-      if (error instanceof RetryLimitError) return toast(error);
-
-      this.#movieContainer.removeSkeleton();
-
-      this.#movieContainer.createRetryButton(() => {
-        this.addMovieList(tryCount + 1);
-      });
-
-      toast(error);
+      this.handleRetryAddMovieList(error, tryCount);
     }
+  }
+
+  handleRetryAddMovieList(error, tryCount) {
+    if (error instanceof RetryLimitError) return toast(error);
+
+    this.#movieContainer.removeSkeleton();
+    this.#movieContainer.createRetryButton(() => {
+      this.addMovieList(tryCount + 1);
+    });
+
+    toast(error);
   }
 
   async fetchMoviePageData() {
