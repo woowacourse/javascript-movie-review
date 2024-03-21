@@ -163,3 +163,25 @@ header .search-form > .search-button {
   background: url('./search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
 }
+
+.error-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.error-title {
+  font-size: 10rem;
+  color: #555;
+}
+
+.error-detail-container {
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.error-text {
+  padding: 10px;
+  text-align: center;
+}
