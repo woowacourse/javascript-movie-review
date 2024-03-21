@@ -2,9 +2,9 @@ import Component from '../common/Component/Component';
 
 import { FilledStar } from '../../assets';
 import { createElement } from '../../utils/dom/createElement/createElement';
-import { MovieListCardProps } from './MovieListCard.type';
+import { MovieDetail } from '../../domain/Movie/Movie.type';
 
-class MovieListCard extends Component<MovieListCardProps> {
+class MovieListCard extends Component<MovieDetail> {
   protected render() {
     this.$element.append(this.createComponent());
   }

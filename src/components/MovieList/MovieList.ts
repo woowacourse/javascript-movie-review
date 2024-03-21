@@ -1,11 +1,10 @@
 import Component from '../common/Component/Component';
 import MovieListCard from '../MovieListCard/MovieListCard';
 import { createElement } from '../../utils/dom/createElement/createElement';
-import { MovieListCardProps } from '../MovieListCard/MovieListCard.type';
-//TODO: 현재는 Props 타입으로 되어있지만 도메인 타입으로 수정해야 할듯!
+import { MovieDetail } from '../../domain/Movie/Movie.type';
 
 interface MovieListProps {
-  movieItemDetails: MovieListCardProps[];
+  movieItemDetails: MovieDetail[];
 }
 
 class MovieList extends Component<MovieListProps> {

@@ -1,6 +1,6 @@
 import { BaseResponse } from '../../apis/common/apiSchema.type';
 import MovieAPI from '../../apis/movie/movie';
-import { MovieListCardProps } from '../../components/MovieListCard/MovieListCard.type';
+import { MovieDetail } from './Movie.type';
 
 class Movie {
   static MAX_PAGE = 5;
@@ -22,12 +22,10 @@ class Movie {
     onSuccess,
     onError,
   }: {
-    onSuccess: (data: BaseResponse<MovieListCardProps[]> | undefined) => void;
+    onSuccess: (data: BaseResponse<MovieDetail[]> | undefined) => void;
     onError: (error: Error | unknown) => void;
   }) {
-    MovieAPI.fetchMovieDetails<BaseResponse<MovieListCardProps[]>>(this.page, this.movieType)
-      .then(onSuccess)
-      .catch(onError);
+    MovieAPI.fetchMovieDetails<BaseResponse<MovieDetail[]>>(this.page, this.movieType).then(onSuccess).catch(onError);
   }
 }
 
