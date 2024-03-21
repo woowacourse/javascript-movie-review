@@ -32,7 +32,7 @@ export default class MovieCard {
            alt="${movie.title}"
          />
          <p class="item-title">${movie.title}</p>
-         <p class="item-score">${movie.vote_average}<img src="./images/star_filled.png" alt="별점" /></p>
+         <p class="item-score">${movie.vote_average.toFixed(2)}<img src="./images/star_filled.png" alt="별점" class="star-start" /></p>
        </div>
      </a>`;
 

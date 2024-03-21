@@ -74,6 +74,13 @@ button {
 .item-score {
   margin-top: 16px;
   font-size: 1.2rem;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.star-start {
+  margin-left: 5px;
+  vertical-align: middle;
 }
 
 .item-score::after {
