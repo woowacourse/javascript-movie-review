@@ -1,6 +1,5 @@
 import filledStar from '../../images/star_filled.png';
 import emptyPng from '../../images/empty_poster.png';
-import { Movie } from '../../interface/Movie';
 
 export function renderSkeleton() {
   const movieCard = document.createElement('li');
