@@ -1,23 +1,24 @@
 import { createElement } from '../../utils/dom/createElement/createElement';
 import Component from '../common/Component/Component';
 import MovieList from '../MovieList/MovieList';
-import MovieAPI from '../../apis/movie/movie';
-import { BaseResponse } from '../../apis/common/apiSchema.type';
-import { MovieListCardProps } from '../MovieListCard/MovieListCard.type';
 import { querySelector } from '../../utils/dom/selector';
 import { on } from '../../utils/dom/eventListener/eventListener';
 import MovieListCardSkeleton from '../MovieListCardSkeleton/MovieListCardSkeleton';
 import { NoResultImage } from '../../assets';
+import Movie from '../../domain/Movie/Movie';
 
 interface MovieReviewBodyProps {
   movieType: string;
 }
 
 class MovieReviewBody extends Component<MovieReviewBodyProps> {
-  private page = 0;
+  private movie: Movie | undefined;
+
+  protected initializeState(): void {
+    this.movie = new Movie(1, this.props?.movieType ?? '');
+  }
 
   protected render() {
-    this.page = 1;
     this.$element.append(this.createComponent());
   }
 
@@ -64,8 +65,10 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
   }
 
   private renderMovieList($movieListContainer: HTMLElement, $ul: HTMLElement) {
-    MovieAPI.fetchMovieDetails<BaseResponse<MovieListCardProps[]>>(this.page, this.props?.movieType ?? '')
-      .then((data) => {
+    this.movie?.setPage(1);
+
+    this.movie?.fetchMovieDetails({
+      onSuccess: (data) => {
         $ul.remove();
 
         if (data && data.results.length > 0) {
@@ -73,23 +76,32 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
         } else {
           this.renderNoResultImage($movieListContainer);
         }
-      })
-      .catch((error) => {
-        console.error(error.message);
+      },
 
-        this.openErrorFallbackModal();
-      });
+      onError: (error) => {
+        if (error instanceof Error) {
+          console.error(error.message);
+
+          this.openErrorFallbackModal();
+        }
+      },
+    });
   }
 
   private renderNoResultImage($movieListContainer: HTMLElement) {
+    this.removeMoreButton();
+
     const $fallbackImage = createElement({
       tagName: 'img',
       attributeOptions: { src: NoResultImage, alt: '검색 결과 없음 이미지', class: 'no-result-image' },
     });
 
     $movieListContainer.appendChild($fallbackImage);
+  }
 
-    this.removeMoreButton();
+  private removeMoreButton() {
+    const $button = querySelector<HTMLButtonElement>('#more-button', this.$element);
+    $button.remove();
   }
 
   private openErrorFallbackModal() {
@@ -115,19 +127,12 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
   }
 
   private handleMoreButtonClick() {
-    this.page += 1;
-
     const $movieListContainer = querySelector<HTMLDivElement>('#movie-list-container');
     this.updateMovieList($movieListContainer);
 
-    if (this.page === 5) {
+    if (this?.movie && this.movie.isMaxPage()) {
       this.removeMoreButton();
     }
-  }
-
-  private removeMoreButton() {
-    const $button = querySelector<HTMLButtonElement>('#more-button', this.$element);
-    $button.remove();
   }
 }
 

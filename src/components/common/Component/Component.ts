@@ -6,9 +6,12 @@ abstract class Component<T = {}> {
     this.$element = element;
     this.props = props;
 
+    this.initializeState();
     this.render();
     this.setEvent();
   }
+
+  protected initializeState() {}
 
   protected abstract render(): void;
 
