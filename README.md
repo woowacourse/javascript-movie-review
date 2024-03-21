@@ -6,8 +6,8 @@ FE 레벨1 영화관 미션
 
 - ### Domain
 
-  - [ ] Movie Lists - Popular API 테스트
-  - [ ] Search - Movie API 테스트
+  - [x] Movie Lists - Popular API 테스트
+  - [x] Search - Movie API 테스트
 
 - ### UI
 
@@ -39,12 +39,12 @@ FE 레벨1 영화관 미션
 
 ### others
 
-- [ ] 로고 눌렀을 시 새로고침
-- [ ] 추가 영화 스켈레톤UI 적용
-- [ ] 에러 핸들링
+- [x] 로고 눌렀을 시 새로고침
+- [x] 추가 영화 스켈레톤UI 적용
+- [x] 에러 핸들링
 - [x] 별점 반올림
 
 ## cypress
 
-- [ ] 검색 기능 테스트
-- [ ] 더보기 테스트
+- [x] 검색 기능 테스트
+- [x] 더보기 테스트
