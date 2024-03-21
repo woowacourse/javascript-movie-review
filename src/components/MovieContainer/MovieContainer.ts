@@ -1,11 +1,11 @@
 import { MovieData } from '../../types/movie';
-import showMoreButtonEventHandler from '../ShowMoreButton/eventHandler';
+import { addShowMoreButtonEventListener } from '../ShowMoreButton/eventHandler';
 import { renderHandler } from './render';
 
 function MovieContainer(movieData: MovieData) {
   const { results } = movieData;
   renderHandler(results);
-  showMoreButtonEventHandler();
+  addShowMoreButtonEventListener();
 }
 
 export default MovieContainer;
