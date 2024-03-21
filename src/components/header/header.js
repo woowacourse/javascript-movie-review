@@ -1,3 +1,5 @@
+import logoPng from '../../images/logo.png';
+
 export function createHeader(inputSubmitHandle) {
   const header = render(inputSubmitHandle);
   return header;
@@ -8,7 +10,7 @@ function render(inputSubmitHandle) {
 
   const logo = document.createElement('h1');
   const logoImage = document.createElement('img');
-  logoImage.src = '../../images/logo.png';
+  logoImage.src = logoPng;
   logoImage.alt = 'MovieList 로고';
   logo.appendChild(logoImage);
 
