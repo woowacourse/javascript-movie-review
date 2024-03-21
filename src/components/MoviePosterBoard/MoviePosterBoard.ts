@@ -84,7 +84,7 @@ class MoviePosterBoard {
       try {
         TMDBResponse = await fetchFunc(this.page, movieName as string);
       } catch (error) {
-        this.#showNetworkFallbackComponent(posterType, movieName);
+        this.#fetchErrorHandler(posterType, movieName);
         return;
       }
       if (!TMDBResponse) {
@@ -111,6 +111,14 @@ class MoviePosterBoard {
           ?.replaceChildren(movieName + " 그런 건 없어용!~ 🌞");
       }
     };
+  }
+
+  #fetchErrorHandler(posterType: MoviePosterType, movieName?: string) {
+    if (this.page === 1)
+      return this.#showNetworkFallbackComponent(posterType, movieName);
+
+    alert("네트워크가 잘못되었어요.");
+    this.#deleteLast20Posters();
   }
 
   #createDescription(posterType: MoviePosterType, name?: string) {
