@@ -19,3 +19,5 @@ export type MovieItemProps = {
   vote_average: number;
   vote_count: number;
 };
+
+export type ShowMoreButtonOption = 'popular' | 'search';
