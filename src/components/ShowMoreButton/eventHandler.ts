@@ -15,7 +15,7 @@ const checkMaxPage = (pageNumber: number, eventTarget: EventTarget) => {
   }
 };
 
-const checkDataLength = (dataLength: number) => {
+export const checkDataLength = (dataLength: number) => {
   if (dataLength < DATA_LENGTH_PER_PAGE) removeHTMLElements('.btn');
 };
 
