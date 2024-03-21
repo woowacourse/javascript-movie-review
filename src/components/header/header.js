@@ -1,16 +1,14 @@
-import logoPng from '../../images/logo.png';
-
-export function createHeader(inputSubmitHandle: () => void) {
+export function createHeader(inputSubmitHandle) {
   const header = render(inputSubmitHandle);
   return header;
 }
 
-function render(inputSubmitHandle: any) {
+function render(inputSubmitHandle) {
   const header = document.createElement('header');
 
   const logo = document.createElement('h1');
   const logoImage = document.createElement('img');
-  logoImage.src = logoPng;
+  logoImage.src = '../../images/logo.png';
   logoImage.alt = 'MovieList 로고';
   logo.appendChild(logoImage);
 
@@ -30,7 +28,7 @@ function render(inputSubmitHandle: any) {
   header.append(logo, searchBox);
 
   if (inputSubmitHandle) {
-    searchBox.addEventListener('submit', (event: any) => {
+    searchBox.addEventListener('submit', (event) => {
       event.preventDefault();
       if (searchInput.value.trim() !== '') inputSubmitHandle(searchInput.value);
     });

@@ -2,13 +2,13 @@ import { fetchPopularMovieList, fetchSearchMovieList } from '../../apis/fetchDat
 import { LAST_PAGE } from '../../constants/constant';
 import { completeMovieList, loadMovieList } from '../../domain/MovieService';
 
-export class MovieListWrapper {
-  #currentPage;
-  #title;
-  #getName;
-  #inputValue;
+class MovieListWrapper {
+  #currentPage
+  #title
+  #getName
+  #inputValue
 
-  constructor(title: string, getName: string, inputValue = '') {
+  constructor(title, getName, inputValue = '') {
     this.#currentPage = 1;
     this.#title = title;
     this.#getName = getName;
@@ -46,14 +46,14 @@ export class MovieListWrapper {
     this.#currentPage += 1;
   }
 
-  hasNextPage(lastPage: number) {
+  hasNextPage(lastPage) {
     if (this.#currentPage === (lastPage < LAST_PAGE ? lastPage : LAST_PAGE)) {
       return false;
     }
     return true;
   }
 
-  async updateMovieList(addButton: any) {
+  async updateMovieList(addButton) {
     switch (this.#getName) {
       case 'popular':
         {
@@ -104,3 +104,5 @@ export class MovieListWrapper {
     }
   }
 }
+
+export default MovieListWrapper
