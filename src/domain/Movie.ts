@@ -2,11 +2,6 @@ import httpRequest from '../api/httpRequest';
 import errorMessage from '../error/errorMessage';
 import { MovieListType, MovieType } from '../types/movie';
 
-// interface a {
-//   movieList: MovieListType;
-//   isLastPage: boolean;
-// }
-
 interface MovieData {
   movieList: MovieListType;
   isLastPage: boolean;
@@ -64,7 +59,6 @@ class Movie {
       }))
       .catch((error) => {
         errorMessage.apiError(error.statusCode, error.message);
-        // console.error(error);
         return { movieList: [], isLastPage: true };
       });
     return movieList;

@@ -5,11 +5,28 @@ import createShowMoreButton from '../ShowMoreButton/ShowMoreButton';
 import { PropsType } from '../../types/props';
 
 const createMovieContents = {
-  async execute(title:string) {
+  async execute(title: string) {
     const main = document.createElement('main');
+    const repeatHtml = /* html */ `
+    <li>
+    <a href="#">
+      <div class="item-card">
+        <div class="item-thumbnail skeleton"></div>
+        <div class="item-title skeleton"></div>
+        <div class="item-score skeleton"></div>
+      </div>
+    </a>
+  </li>
+    `;
+    const skeleton = /* html */ `
+    <ul class="item-list item-list--skeleton">
+    ${repeatHtml.repeat(20)}
+  </ul>
+  `;
     const templates = /* html */ `
       <section class="item-view">
       <h2>${title}</h2>
+      ${skeleton}
       </section>
       `;
 
