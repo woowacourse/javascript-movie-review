@@ -1,4 +1,5 @@
 import Logo from '../../assets/logo.png';
+import SearchBox from '../SearchBox/SearchBox';
 import './Header.css';
 
 class Header {
@@ -11,11 +12,10 @@ class Header {
     const headerBox = document.createElement('header');
     headerBox.innerHTML = /* html */ `
     <h1><img src=${Logo} alt="MovieList 로고" /></h1>
-    <div class="search-box">
-      <input type="text" placeholder="검색" />
-      <button class="search-button">검색</button>
-    </div>
     `;
+
+    const searchBox = new SearchBox().init();
+    headerBox.append(searchBox);
 
     const parent = document.querySelector('#app');
     if (!parent) return;
