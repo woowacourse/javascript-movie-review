@@ -4,6 +4,7 @@ import createHeader from '../component/Header.js';
 import PageNumberManager from '../domain/pageNumberManager.ts';
 import { $ } from '../util/selector.js';
 import toast from '../component/toast/toast.js';
+import createRetryButton from '../component/RetryButton.js';
 
 export class App {
   #searchKeyword;
@@ -30,37 +31,67 @@ export class App {
     $('form.search-box').addEventListener('clickSearchButton', () => this.makeSearchPage());
     $('header > img.logo').addEventListener('logoClickEvent', () => {
       this.#movieContainer.clearMovieList();
-      this.#movieContainer.pushMoreSkeletonList();
       this.#movieContainer.setTitle('지금 인기 있는 영화');
       this.#pageNumberManager.clear('popular');
       this.#searchKeyword = '';
+      $('form.search-box').reset();
 
       this.addMovieList();
     });
+
     await this.addMovieList();
   }
 
-  async addMovieList() {
-    const movieList = await this.fetchMovieList();
-    this.#movieContainer.replaceSkeletonListToData(movieList);
+  removeRetryButton() {
+    const retryButton = $('button.retry-button');
+    retryButton?.remove();
   }
 
-  async fetchMovieList() {
-    if (this.#searchKeyword !== '') {
-      const movieList = await this.#movieService.fetchSearchResult({
-        pageNumber: this.#pageNumberManager.get('search'),
-        query: this.#searchKeyword,
+  async addMovieList(tryCount) {
+    try {
+      this.#movieContainer.pushMoreSkeletonList();
+
+      const moviePageData = await this.fetchMoviePageData();
+      this.removeRetryButton();
+
+      this.#movieContainer.replaceSkeletonListToData(moviePageData);
+    } catch (error) {
+      this.#movieContainer.removeSkeleton();
+      this.retryLimiter(tryCount);
+
+      const retryButton = createRetryButton();
+      $('.item-view').insertBefore(retryButton, $('ul.item-list'));
+
+      retryButton.addEventListener('retryButtonClickEvent', () => {
+        this.addMovieList(tryCount + 1);
       });
-      this.#pageNumberManager.add('search');
-      this.#pageNumberManager.clear('popular');
 
-      return movieList;
+      toast(error);
     }
-    const movieList = await this.#movieService.fetchPopularMovieList(this.#pageNumberManager.get('popular'));
-    this.#pageNumberManager.add('popular');
-    this.#pageNumberManager.clear('search');
+  }
 
-    return movieList;
+  retryLimiter(tryCount) {
+    if (tryCount >= 5) throw new Error('더 이상 요청할 수 없습니다.');
+  }
+
+  async fetchMoviePageData() {
+    const isSearching = this.#searchKeyword !== '';
+    const mode = isSearching ? 'search' : 'popular';
+    const otherMode = isSearching ? 'popular' : 'search';
+
+    const pageNumber = this.#pageNumberManager.get(mode);
+
+    const moviePageData = await (isSearching
+      ? this.#movieService.fetchSearchResult({
+          pageNumber,
+          query: this.#searchKeyword,
+        })
+      : this.#movieService.fetchPopularMovieList(pageNumber));
+
+    this.#pageNumberManager.add(mode);
+    this.#pageNumberManager.clear(otherMode);
+
+    return moviePageData;
   }
 
   setSearchKeyword() {
@@ -74,8 +105,8 @@ export class App {
     if (this.#searchKeyword === '') return toast('검색어를 입력해주세요.');
 
     this.#movieContainer.clearMovieList();
-    this.#movieContainer.pushMoreSkeletonList();
-    this.#movieContainer.setTitle(`"${this.#searchKeyword}" 검색 결과`); // 검색어 넣기
-    this.addMovieList();
+    this.#movieContainer.setTitle(`"${this.#searchKeyword}" 검색 결과`);
+
+    this.addMovieList(1);
   }
 }
