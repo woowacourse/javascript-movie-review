@@ -1,5 +1,6 @@
 import SearchBox from '../SearchBox/SearchBox';
 import { logo } from '../../resources';
+import ItemView from '../ItemView/ItemView';
 
 const MovieHeader = {
   create() {
@@ -12,6 +13,7 @@ const MovieHeader = {
 
     document.getElementById('app')?.appendChild(header);
   },
+
   createLogoImgContainer() {
     const logoImgContainer = document.createElement('h1');
     const logoImg = document.createElement('img');
@@ -20,19 +22,16 @@ const MovieHeader = {
     logoImg.setAttribute('alt', 'MovieList 로고');
 
     logoImgContainer.appendChild(logoImg);
-
+    logoImgContainer.addEventListener('click', () => this.showPopularMovies());
     return logoImgContainer;
   },
 
-  // TODO: eventListener 다는 함수 추가
+  showPopularMovies() {
+    const itemView = document.querySelector('.item-view');
+    itemView?.replaceChildren();
+
+    new ItemView();
+  },
 };
 
 export default MovieHeader;
-
-// <header>
-// <h1><img src="./logo.png" alt="MovieList 로고" /></h1>
-// <div class="search-box">
-//   <input type="text" placeholder="검색" />
-//   <button class="search-button">검색</button>
-// </div>
-// </header>
