@@ -69,13 +69,18 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
 
     this.movie?.fetchMovieDetails({
       onSuccess: (data) => {
+        if (!data) return;
+
         $ul.remove();
 
-        if (data && data.results.length > 0) {
-          new MovieList($movieListContainer, { movieItemDetails: data?.results ?? [] });
-        } else {
+        if (data.results.length === 0) {
           this.renderNoResultImage($movieListContainer);
+          return;
         }
+
+        if (data.results.length < 20) this.removeMoreButton();
+
+        new MovieList($movieListContainer, { movieItemDetails: data?.results ?? [] });
       },
 
       onError: (error) => {
