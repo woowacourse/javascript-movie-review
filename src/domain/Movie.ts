@@ -1,11 +1,5 @@
+import { MovieData } from '../interface/MovieData';
 import convertToPosterPath from '../util/convertToPosterPath';
-
-interface MovieData {
-  id: number;
-  title: string;
-  posterPath: string;
-  voteAverage: number;
-}
 
 export default class Movie {
   private movie: MovieData;
