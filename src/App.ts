@@ -19,6 +19,7 @@ export default class App {
   }
 
   async #generateMovieList() {
+    this.#changeTitle('지금 인기 있는 영화');
     this.#removePreviousError();
     const ulElement = document.querySelector('ul.item-list');
 
@@ -32,6 +33,7 @@ export default class App {
   }
 
   async #generateSearchMovieList() {
+    this.#changeTitle(`"${searchMovieStore.query}"  검색 결과`);
     this.#removePreviousError();
     const ulElement = document.querySelector('ul.item-list');
 
@@ -45,6 +47,13 @@ export default class App {
         return;
       }
       this.#appendMovieCard(newData, ulElement as HTMLElement);
+    }
+  }
+
+  #changeTitle(title: string) {
+    const h2Element = document.querySelector('h2');
+    if (h2Element) {
+      h2Element.textContent = title;
     }
   }
 
