@@ -17,6 +17,7 @@ class MovieStore {
     this.#moviesData = [];
   }
 
+  /* eslint-disable max-lines-per-function */
   async getMovies() {
     const data: Movie[] = await fetch(
       `https://api.themoviedb.org/3/movie/popular?language=ko&page=${this.#pageCount}`,

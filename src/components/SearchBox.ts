@@ -1,9 +1,14 @@
-import searchMovieStore from '../store/SearchMovieStore';
+interface Props {
+  onClick: (query: string) => void;
+}
 
 export default class SearchBox {
   #SearchBoxElement = document.createElement('div');
 
-  constructor() {
+  #onClick: Props['onClick'];
+
+  constructor({ onClick }: Props) {
+    this.#onClick = onClick;
     this.#SearchBoxElement.classList.add('search-box');
     this.#generateInput();
     this.#generateButton();
@@ -35,7 +40,7 @@ export default class SearchBox {
       const inputData = this.#SearchBoxElement.querySelector('input');
 
       if (inputData) {
-        searchMovieStore.searchMovies(inputData.value);
+        this.#onClick(inputData.value);
       }
     });
   }
@@ -43,7 +48,8 @@ export default class SearchBox {
   #addEnterEvent(input: HTMLInputElement) {
     input.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {
-        searchMovieStore.searchMovies(input.value);
+        event.preventDefault();
+        this.#onClick(input.value);
       }
     });
   }

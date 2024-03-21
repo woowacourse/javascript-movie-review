@@ -11,28 +11,42 @@ const searchOptions = {
 class SearchMovieStore {
   #searchMoviesData: any[];
 
-  #searchPageCount: number = 1;
+  #totalPages: number = 0;
+
+  #query: string = '';
+
+  #presentPage: number = 1;
 
   constructor() {
     this.#searchMoviesData = [];
   }
 
-  async searchMovies(query: string) {
-    const data: Movie[] = await fetch(
-      `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=ko&page=${this.#searchPageCount}`,
+  /* eslint-disable max-lines-per-function */
+  async searchMovies() {
+    const responseData: any = await fetch(
+      `https://api.themoviedb.org/3/search/movie?query=${this.#query}&include_adult=false&language=ko&page=${this.#presentPage}`,
       searchOptions,
     )
       .then((response) => response.json())
-      .then((response) => response.results)
+      .then((response) => response)
       .catch((err) => console.error(err));
 
-    this.#pushNewData(data);
+    const { results } = responseData;
+    console.log(results);
 
-    return data;
+    this.#totalPages = responseData.total_pages;
+
+    this.#pushNewData(results);
+
+    // Skeleton UI 확인을 위한 강제 delay
+    const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+    await delay(2000);
+
+    return results;
   }
 
   increasePageCount() {
-    this.#searchPageCount += 1;
+    this.#presentPage += 1;
   }
 
   #pushNewData(data: Movie[]) {
@@ -43,6 +57,22 @@ class SearchMovieStore {
 
   get movies() {
     return this.#searchMoviesData;
+  }
+
+  get totalPages() {
+    return this.#totalPages;
+  }
+
+  get presentPage() {
+    return this.#presentPage;
+  }
+
+  get query() {
+    return this.#query;
+  }
+
+  set query(query: string) {
+    this.#query = query;
   }
 }
 

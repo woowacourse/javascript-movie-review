@@ -1,5 +1,3 @@
-import movieStore from '../store/MovieStore';
-
 interface Props {
   onClick: () => void;
 }
@@ -11,6 +9,7 @@ export default class MoreButton {
 
   constructor({ onClick }: Props) {
     this.#onClick = onClick;
+    this.#buttonElement.id = 'more-button';
     this.#buttonElement.classList.add('btn', 'primary', 'full-width');
     this.#buttonElement.textContent = '더 보기';
     this.#addClickEvent();
@@ -18,7 +17,6 @@ export default class MoreButton {
 
   #addClickEvent() {
     this.#buttonElement.addEventListener('click', () => {
-      movieStore.increasePageCount();
       this.#onClick();
     });
   }
