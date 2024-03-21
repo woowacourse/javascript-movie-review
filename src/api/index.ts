@@ -6,15 +6,9 @@ import ERROR_MESSAGE from '../constants/api/messages';
 /* eslint-disable no-useless-catch */
 
 export class TMDBApi {
-  isLoading: boolean;
-
-  error: Error | null;
-
   activeHttpRequests: AbortController[] = [];
 
   constructor() {
-    this.isLoading = false;
-    this.error = null;
     this.activeHttpRequests = [];
   }
 
@@ -42,14 +36,6 @@ export class TMDBApi {
     } catch (err) {
       throw err;
     }
-  }
-
-  setError(error: HttpError) {
-    this.error = error;
-  }
-
-  clearError() {
-    this.error = null;
   }
 
   cleanup() {
