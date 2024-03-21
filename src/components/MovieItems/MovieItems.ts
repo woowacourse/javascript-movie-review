@@ -1,27 +1,69 @@
 import OPTIONS from '../../constants/OPTIONS';
+import IRespondData from '../../interfaces/IRespondData';
+import IMovieData from '../../interfaces/IMovieData';
+import { starFilled } from '../../resources';
 
 const MovieItems = {
-  create() {
-    const itemView = document.querySelector('.item-view');
+  createSkeleton(): HTMLUListElement {
     const movieItems = document.createElement('ul');
     movieItems.classList.add('item-list');
 
     [...Array(OPTIONS.movieItemCount)].forEach(() => {
       movieItems.appendChild(this.createMovieItemSkeleton());
     });
-
-    itemView?.appendChild(movieItems);
-    // if (fetch) const itemCards = movieItems.querySelectorAll('.item-card');
-    // itemCards.forEach((itemCard, index) => {
-    //   itemCard.replaceChildren();
-    //   itemCard.appendChild(this.create(informations[index]));
-    // });
+    return movieItems;
   },
 
-  // 전체 생성
-  // 해당 스켈레톤 제거
-  // 전체에 대한 itme-card 리스트 선택
-  //  정보 받은 스켈레톤 부분 생성 생성 메서드 추가
+  replaceSkeletons(movieItems: HTMLUListElement, respondData: IRespondData) {
+    const itemCards = [...movieItems.querySelectorAll('li')];
+    itemCards.forEach((item, index) => this.replaceSkeleton(item, respondData.results[index]));
+  },
+
+  replaceSkeleton(itemCard: HTMLElement, movieData: IMovieData) {
+    this.replaceThumbnail(itemCard, movieData);
+    this.replaceTitle(itemCard, movieData);
+    this.replaceScore(itemCard, movieData);
+  },
+
+  replaceThumbnail(itemCard: HTMLElement, movieData: IMovieData) {
+    const oldThumbnail = itemCard.querySelector('.item-thumbnail');
+    const newThumbnail = document.createElement('img');
+
+    newThumbnail.classList.add('item-thumbnail');
+    newThumbnail.src = `https://image.tmdb.org/t/p/w220_and_h330_face${movieData.poster_path}`;
+    newThumbnail.loading = 'lazy';
+    newThumbnail.alt = movieData.title;
+
+    oldThumbnail?.replaceWith(newThumbnail);
+  },
+
+  replaceTitle(itemCard: HTMLElement, movieData: IMovieData) {
+    const oldTitle = itemCard.querySelector('.item-title');
+    const newTitle = document.createElement('p');
+
+    newTitle.classList.add('item-title');
+    newTitle.textContent = movieData.title;
+
+    oldTitle?.replaceWith(newTitle);
+  },
+
+  replaceScore(itemCard: HTMLElement, movieData: IMovieData) {
+    const oldScore = itemCard.querySelector('.item-score');
+    const newScore = document.createElement('p');
+
+    newScore.classList.add('item-score');
+    newScore.textContent = `${movieData.vote_average.toFixed(1)} `;
+    newScore.appendChild(this.createStarElement());
+
+    oldScore?.replaceWith(newScore);
+  },
+
+  createStarElement(): HTMLElement {
+    const star = document.createElement('img');
+    star.setAttribute('src', starFilled);
+    star.alt = '별점';
+    return star;
+  },
 
   createMovieItemSkeleton() {
     const movieItem = document.createElement('li');
@@ -77,291 +119,3 @@ const MovieItems = {
 };
 
 export default MovieItems;
-/*
-<section class="item-view">
-          <h2>지금 인기 있는 영화</h2>
-          <ul class="item-list">
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src="./star_filled.png" alt="별점" /> 6.5</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src="./star_filled.png" alt="별점" />6.5</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src="./star_filled.png" alt="별점" />6.5</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src="./star_filled.png" alt="별점" />6.5</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src="./star_filled.png" alt="별점" />6.5</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src="./star_filled.png" alt="별점" />6.5</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src="./star_filled.png" alt="별점" />6.5</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src="./star_filled.png" alt="별점" />6.5</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src="./star_filled.png" alt="별점" />6.5</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src="./star_filled.png" alt="별점" />6.5</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src="./star_filled.png" alt="별점" />6.5</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src="./star_filled.png" alt="별점" />6.5</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src="./star_filled.png" alt="별점" />6.5</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src="./star_filled.png" alt="별점" />6.5</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src="./star_filled.png" alt="별점" />6.5</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src="./star_filled.png" alt="별점" />6.5</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src="./star_filled.png" alt="별점" />6.5</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src="./star_filled.png" alt="별점" />6.5</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src="./star_filled.png" alt="별점" />6.5</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <div class="item-card">
-                  <img
-                    class="item-thumbnail"
-                    src="https://image.tmdb.org/t/p/w220_and_h330_face/cw6jBnTauNmEEIIXcoNEyoQItG7.jpg"
-                    loading="lazy"
-                    alt="앤트맨과 와스프: 퀀텀매니아"
-                  />
-                  <p class="item-title">앤트맨과 와스프: 퀀텀매니아</p>
-                  <p class="item-score"><img src="./star_filled.png" alt="별점" />6.5</p>
-                </div>
-              </a>
-            </li>
-          </ul>
-          <button class="btn primary full-width">더 보기</button>
-        </section>
-*/
