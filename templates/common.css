@@ -75,6 +75,7 @@ button {
   border-radius: 8px;
   width: 180px;
   height: 270px;
+  object-fit: cover;
   background-size: contain;
 }
 
