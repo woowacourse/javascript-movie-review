@@ -145,6 +145,11 @@ header h1 {
   color: #f33f3f;
 }
 
+#home-button {
+  background-color: transparent;
+  border: none;
+}
+
 header > .search-box {
   background: #fff;
   padding: 8px;

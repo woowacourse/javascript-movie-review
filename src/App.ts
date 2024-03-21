@@ -13,8 +13,8 @@ export default class App {
 
   async run() {
     this.#generateMovieList();
-
     this.#generateSearchBox();
+    this.#addHomeButtonEvent();
   }
 
   async #generateMovieList() {
@@ -132,5 +132,31 @@ export default class App {
     });
 
     header?.appendChild(searchBox.element);
+  }
+
+  #addHomeButtonEvent() {
+    const homeButton = document.getElementById('home-button');
+
+    if (homeButton) {
+      homeButton.addEventListener('click', () => {
+        this.#pageType = 'popular';
+        this.#changeTitle('지금 인기 있는 영화');
+        this.#removePreviousError();
+        this.#removeMoreButton();
+        this.#renderAllMovieList();
+      });
+    }
+  }
+
+  #renderAllMovieList() {
+    const movieDatas = movieStore.movies;
+    if (!(movieDatas.length === 0)) {
+      const ulElement = document.querySelector('ul.item-list');
+
+      if (ulElement) {
+        ulElement.innerHTML = '';
+        this.#appendMovieCard(movieDatas, ulElement as HTMLElement);
+      }
+    }
   }
 }
