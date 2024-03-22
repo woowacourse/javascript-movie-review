@@ -22,7 +22,7 @@ describe('API 테스트', () => {
 
   });
 
-  it('영화 목록 API를 호출하면 한 번에 20개씩 목록에 나열되어야 한다', () => {
+  it('검색창에 해리 포터를 검색하면 영화 검색 API를 호출되어 영화 정보가 나열되어야 한다.', () => {
     const searchMovieUrl =
       movieApi.MOVIE_SEARCH_URL +
       '?' +
