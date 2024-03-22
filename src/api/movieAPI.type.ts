@@ -1,6 +1,3 @@
-import { API_URL } from './../../consts/Api';
-export const BASE_URL = 'https://api.themoviedb.org/3';
-
 export type SearchAPIParamsType = {
   query: string;
   pageNumber: number;
@@ -37,3 +34,14 @@ export interface MovieAPIReturnType {
   total_pages: number;
   total_results: number;
 }
+
+// export type PopularAPIType = {
+//   apiType: 'popular';
+// };
+
+// export type SearchAPIType = {
+//   apiType: 'search';
+//   query: string;
+// };
+
+// export type APIType = PopularAPIType | SearchAPIType;
