@@ -4,9 +4,9 @@ import StarFilled from '../../imgs/star_filled.png';
 import { IMAGE_URL_PREFIX } from '../../constants/url';
 
 interface MovieItemsProps {
-  poster_path: string;
+  poster: string;
   title: string;
-  vote_average: number;
+  voteAverage: number;
 }
 
 const template = /* html */ `
@@ -40,12 +40,10 @@ class MovieItem {
     return movieItem;
   }
 
-  setMovieInfo({ poster_path, title, vote_average }: MovieItemsProps) {
-    this.template
-      .querySelector('.item-thumbnail')
-      ?.setAttribute('src', IMAGE_URL_PREFIX + poster_path);
+  setMovieInfo({ poster, title, voteAverage }: MovieItemsProps) {
+    this.template.querySelector('.item-thumbnail')?.setAttribute('src', IMAGE_URL_PREFIX + poster);
     (this.template.querySelector('.item-title') as HTMLElement).textContent = title;
-    (this.template.querySelector('.item-score') as HTMLElement).textContent = `${vote_average}`;
+    (this.template.querySelector('.item-score') as HTMLElement).textContent = `${voteAverage}`;
     this.template.querySelector('.star-icon')?.setAttribute('src', StarFilled);
   }
 }

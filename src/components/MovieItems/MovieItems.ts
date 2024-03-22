@@ -3,12 +3,12 @@ import './style.css';
 
 import Button from '../Button/Button';
 
-import PopularMovies from '../../domain/PopularMovies';
-import { ResponseMovieItem } from '../../types/ResponseMovieItem';
+import PopularMovies from '../../api/PopularMovies';
 import MovieItem from '../MovieItem/MovieItem';
-import MatchedMovies from '../../domain/MatchedMovies';
+import MatchedMovies from '../../api/MatchedMovies';
 import Fallback from '../Fallback/Fallback';
 import Skeleton from '../Skeleton/Skeleton';
+import MovieInfo, { IMovieInfo } from '../../domainObject/MovieInfo';
 
 class MovieItems {
   private currentPage: number;
@@ -69,13 +69,13 @@ class MovieItems {
   async getPopularMovies() {
     const movies = await PopularMovies.list({ page: this.currentPage });
     this.checkLastPage(movies.total_pages);
-    return movies.results;
+    return movies.results.map((movie) => MovieInfo.get(movie));
   }
 
   async getMatchedMovies(query: string) {
     const movies = await MatchedMovies.list({ page: this.currentPage, query });
     this.checkLastPage(movies.total_pages);
-    return movies.results;
+    return movies.results.map((movie) => MovieInfo.get(movie));
   }
 
   checkLastPage(totalPage: number) {
@@ -139,7 +139,7 @@ class MovieItems {
       .catch((error) => this.showErrorFallback(error));
   }
 
-  private deleteSkeletonAndShowMovies(movies: ResponseMovieItem[], skeletonItems: Skeleton[]) {
+  private deleteSkeletonAndShowMovies(movies: IMovieInfo[], skeletonItems: Skeleton[]) {
     skeletonItems.forEach((skeleton) => skeleton.removeSkeleton());
     this.createMovieItem(movies);
   }
@@ -156,11 +156,11 @@ class MovieItems {
       .catch((error) => this.showErrorFallback(error));
   }
 
-  createMovieItem(movies: ResponseMovieItem[]) {
+  createMovieItem(movies: IMovieInfo[]) {
     const fragment = document.createDocumentFragment();
     movies.forEach((movie) => {
-      const { poster_path, title, vote_average } = movie;
-      fragment.appendChild(new MovieItem({ poster_path, title, vote_average }).element);
+      const { poster, title, voteAverage } = movie;
+      fragment.appendChild(new MovieItem({ poster, title, voteAverage }).element);
     });
 
     this.template?.querySelector('ul')?.appendChild(fragment);
