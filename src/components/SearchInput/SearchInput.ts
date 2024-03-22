@@ -13,6 +13,7 @@ const SearchInput = () => {
     $searchInput.type = 'text';
     $searchInput.placeholder = '검색';
 
+    $searchBtn.type = 'button';
     $searchBtn.classList.add('search-button');
     $searchBtn.textContent = '검색';
 
