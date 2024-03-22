@@ -74,8 +74,6 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
 
     this.movie?.fetchMovieDetails({
       onSuccess: (data) => {
-        if (!data) return;
-
         $ul.remove();
 
         if (data.results.length === 0) {
@@ -83,7 +81,7 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
           return;
         }
 
-        if (data.results.length < MOVIE.MAX_ITEM) this.removeMoreButton();
+        if (data.results.length < 20) this.removeMoreButton();
 
         new MovieList($movieListContainer, { movieItemDetails: data?.results ?? [] });
       },

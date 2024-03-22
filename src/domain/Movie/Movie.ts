@@ -25,7 +25,7 @@ class Movie {
     onSuccess,
     onError,
   }: {
-    onSuccess: (data: BaseResponse<MovieDetail[]> | undefined) => void;
+    onSuccess: (data: BaseResponse<MovieDetail[]>) => void;
     onError: (error: Error | unknown) => void;
   }) {
     MovieAPI.fetchMovieDetails<BaseResponse<MovieDetail[]>>(this.page, this.movieType).then(onSuccess).catch(onError);

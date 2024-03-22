@@ -32,15 +32,14 @@ class MovieAPI {
     throw new Error(MovieAPI.ERROR_MESSAGES_MAP[response.status]);
   }
 
-  static async fetchMovieDetails<T>(page: number, type: string): Promise<T | undefined> {
+  static async fetchMovieDetails<T>(page: number, type: string): Promise<T> {
     const requestType = type === 'popular' ? '' : type;
     const requestUrl = `${this.getAPIEndpoint(type)}?${MovieAPI.createMovieQueryString(page, requestType)}`;
 
     const response = await new ApiSchema(requestUrl).request();
 
-    if (!response) return;
-
     this.handleProcessStatusCode(response);
+
     return response.json();
   }
 }

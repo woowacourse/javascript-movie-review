@@ -1,5 +1,4 @@
 import type { HTTPMethod } from './apiSchema.type';
-
 import { isErrorStatusCode } from './apiSchema.util';
 
 class ApiSchema {
@@ -13,7 +12,7 @@ class ApiSchema {
     this.httpMethod = httpMethod;
   }
 
-  async request(): Promise<Response | undefined> {
+  async request() {
     const response = await fetch(this.url, { method: this.httpMethod });
 
     this.handleProcessStatusCode(response);
