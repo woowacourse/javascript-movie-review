@@ -26,7 +26,7 @@ const createThumbnail = (title: string, poster_path: string) => {
   $thumbnail.classList.add('item-thumbnail');
   $thumbnail.src = `https://image.tmdb.org/t/p/w220_and_h330_face${poster_path}`;
   $thumbnail.loading = 'lazy';
-  $thumbnail.alt = title;
+  $thumbnail.alt = `${title} 포스터`;
 
   return $thumbnail;
 };
