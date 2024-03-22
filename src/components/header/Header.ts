@@ -15,8 +15,6 @@ class Header {
     this.#imageSrc = imageSrc;
     this.render();
 
-    console.log(process.env.NODE_ENV); 
-    console.log(process.env.PUBLIC_PATH);    
     const $form = dom.getElement<HTMLFormElement>(this.$target, 'form');
     if (onSubmit) $form.addEventListener('submit', onSubmit);
   }
@@ -25,7 +23,7 @@ class Header {
     return /*html*/ `
       <h1>
         <a href=${process.env.NODE_ENV === 'production' ? process.env.PUBLIC_PATH :'/'}>
-          <img src="./images/logo.png" alt="MovieList 로고" />
+          <img src=${this.#imageSrc} alt="MovieList 로고" />
         </a>
       </h1>
       <form class="search-box">
