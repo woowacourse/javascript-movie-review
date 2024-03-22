@@ -26,7 +26,6 @@ const createItemImage = (poster_path: string, title: string) => {
   return image;
 };
 
-/* eslint-disable @typescript-eslint/naming-convention */
 export const createItemCardContent = (movieItem: MovieItemProps) => {
   const { poster_path, title, vote_average } = movieItem;
   const itemImage = createItemImage(poster_path, title);
