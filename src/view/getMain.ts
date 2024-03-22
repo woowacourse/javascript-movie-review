@@ -1,4 +1,4 @@
-import fetchMovies from '../api/fetchFns';
+import fetchMovies from '../api/fetchMovies';
 import starFilledImage from '../assets/images/star_filled.png';
 import globalStateMethod from '../globalState';
 import { appendChildren } from '../utils/domUtil';
@@ -42,96 +42,92 @@ function getScoreParagraph(score: number) {
   return movieScore;
 }
 
-// eslint-disable-next-line max-lines-per-function
+function getMovieItemCard(props: IMovieItemProps) {
+  const movieItemCard = document.createElement('div');
+  movieItemCard.classList.add('item-card');
+
+  const image = getImage(props);
+  const title = getTitleParagraph(props.title);
+  const score = getScoreParagraph(props.vote_average);
+  appendChildren(movieItemCard, [image, title, score]);
+  return movieItemCard;
+}
+
 function getMovieItem(props: IMovieItemProps) {
   const movieItem = document.createElement('li');
   const movieItemLink = document.createElement('a');
-  const movieItemCard = document.createElement('div');
-  const movieItemImage = getImage(props);
+  const movieItemCard = getMovieItemCard(props);
 
-  movieItemCard.classList.add('item-card');
   movieItemLink.appendChild(movieItemCard);
-  appendChildren(movieItemCard, [
-    movieItemImage,
-    getTitleParagraph(props.title),
-    getScoreParagraph(props.vote_average),
-  ]);
   movieItem.appendChild(movieItemLink);
-
   return movieItem;
 }
 
-function checkPage(page: number, totalPages: number, button: HTMLElement | null) {
-  if (page === totalPages) {
+function checkPage(responseJson: ITMDBResponse, button: HTMLElement | null) {
+  if (responseJson.page === responseJson.total_pages) {
     button?.classList.add('hidden');
   }
 }
 
 async function getMovieItems(button = document.getElementById('see-more-button')) {
-  const responseJson: ITMDBResponse = await fetchMovies({
-    url: globalStateMethod.getUrl(),
-    page: globalStateMethod.getPage(),
-    query: globalStateMethod.getQuery(),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('❌ 잠시후에 시도해주세요.');
-      }
-      return response.json();
-    })
-    .catch((error) => console.error(error.message));
+  const responseJson: ITMDBResponse = await fetchMovies();
 
-  checkPage(responseJson.page, responseJson.total_pages, button);
-
+  checkPage(responseJson, button);
   const moviesData = responseJson.results;
-  // eslint-disable-next-line max-len
   const movieElements = moviesData.map((info: IMovieItemProps) => getMovieItem(info)) as HTMLElement[];
   return movieElements;
 }
 
-// eslint-disable-next-line max-lines-per-function
+function getManTitle() {
+  const mainTitle = document.createElement('h2');
+  const query = globalStateMethod.getQuery();
+  mainTitle.innerText = query ? `"${query}" 검색 결과` : '지금 인기 있는 영화';
+  return mainTitle;
+}
+
+async function getMovieList(button?: HTMLButtonElement) {
+  const movieList = document.createElement('ul');
+  const movieItems = await getMovieItems(button);
+  movieList.classList.add('item-list');
+  appendChildren(movieList, movieItems);
+  return movieList;
+}
+
 async function getMovieListContainer() {
   const movieListContainer = document.createElement('section');
-  const popularTitle = document.createElement('h2');
-  const movieList = document.createElement('ul');
-
   movieListContainer.classList.add('item-view');
-  const query = globalStateMethod.getQuery();
-  popularTitle.innerText = query ? `"${query}" 검색 결과` : '지금 인기 있는 영화';
-  movieList.classList.add('item-list');
-
+  const mainTitle = getManTitle();
   const button = getButton();
-  const movieItems = await getMovieItems(button);
-  appendChildren(movieList, movieItems);
-  appendChildren(movieListContainer, [popularTitle, movieList]);
-  movieListContainer.appendChild(button);
+  const movieList = await getMovieList(button);
 
+  appendChildren(movieListContainer, [mainTitle, movieList, button]);
   return movieListContainer;
 }
 
-function getMovieListSkeletonUI(listTitle: string) {
-  const section = document.createElement('section');
-  section.classList.add('item-view');
+function getMovieItemCardSkeleton() {
+  const list = document.createElement('li');
+  list.innerHTML = `<a href="#">
+  <div class="item-card">
+    <div class="item-thumbnail skeleton"></div>
+    <div class="item-title skeleton"></div>
+    <div class="item-score skeleton"></div>
+  </div>`;
+  return list;
+}
 
-  const title = document.createElement('h2');
-  title.innerText = listTitle;
-
+function getSkeletonMovieList() {
   const movieList = document.createElement('ul');
   movieList.classList.add('item-list');
+  appendChildren(movieList, Array(20).fill(getMovieItemCardSkeleton()));
+  return movieList;
+}
 
-  const movieItemCardSkeleton = `
-              <li>
-              <a href="#">
-                <div class="item-card">
-                  <div class="item-thumbnail skeleton"></div>
-                  <div class="item-title skeleton"></div>
-                  <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>
-            `;
-
-  movieList.innerHTML = Array(20).fill(movieItemCardSkeleton).join('');
+function getSkeletonView(listTitle: string) {
+  const section = document.createElement('section');
+  section.classList.add('item-view');
+  const title = document.createElement('h2');
+  title.innerText = listTitle;
+  const movieList = getSkeletonMovieList();
   appendChildren(section, [title, movieList]);
   return section;
 }
@@ -140,11 +136,11 @@ async function replaceMain() {
   globalStateMethod.initializePage();
   const sectionTag = document.querySelector('section');
   const title = globalStateMethod.getQuery ? `"${globalStateMethod.getQuery()}" 검색 결과` : '지금 인기 있는 영화';
-  const movieListSkeletonUI = getMovieListSkeletonUI(title);
-  sectionTag?.replaceWith(movieListSkeletonUI);
+  const skeletonView = getSkeletonView(title);
+  sectionTag?.replaceWith(skeletonView);
 
   const movieListContainer = await getMovieListContainer();
-  movieListSkeletonUI?.replaceWith(movieListContainer);
+  skeletonView?.replaceWith(movieListContainer);
 }
 
 export default replaceMain;
