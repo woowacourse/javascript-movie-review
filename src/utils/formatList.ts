@@ -1,4 +1,4 @@
-import { MovieAPIReturnType } from '../domain/services/API.type';
+import { MovieAPIReturnType } from '../api/movieAPI.type';
 
 export const formatMovieList = (result: MovieAPIReturnType) => {
   const formattedMovieList = result.results.map(movie => ({

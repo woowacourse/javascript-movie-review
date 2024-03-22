@@ -4,7 +4,7 @@ import './Header.css';
 
 interface HeaderProp {
   searchEvent: (query: string) => Promise<void>;
-  logoClickEvent: () => Promise<void>;
+  movePopularListEvent: () => Promise<void>;
 }
 class Header {
   headerBox = document.createElement('header');
@@ -12,12 +12,12 @@ class Header {
   headerImage = document.createElement('img');
 
   searchEvent: (query: string) => Promise<void>;
-  logoClickEvent: () => Promise<void>;
+  movePopularListEvent: () => Promise<void>;
 
-  constructor({ searchEvent, logoClickEvent }: HeaderProp) {
+  constructor({ searchEvent, movePopularListEvent }: HeaderProp) {
     this.render();
     this.searchEvent = searchEvent;
-    this.logoClickEvent = logoClickEvent;
+    this.movePopularListEvent = movePopularListEvent;
     this.setEvent();
   }
 
@@ -38,7 +38,7 @@ class Header {
 
   setEvent() {
     this.header.addEventListener('click', () => {
-      this.logoClickEvent();
+      this.movePopularListEvent();
     });
   }
 }
