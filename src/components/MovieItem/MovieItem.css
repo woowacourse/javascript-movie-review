@@ -24,8 +24,15 @@
 }
 
 .item-score {
+  display: flex;
+  align-items: center;
   margin-top: 16px;
   font-size: 1.2rem;
+}
+
+.item-score img {
+  margin-bottom: 3px;
+  margin-left: 5px;
 }
 
 .item-score::after {

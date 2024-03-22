@@ -15,7 +15,7 @@ const createScore = (vote_average: number) => {
   const $scoreImg = document.createElement('img');
   $scoreImg.src = StarFilled;
   $scoreImg.alt = '별점';
-  $score.textContent = vote_average.toString();
+  $score.textContent = vote_average.toFixed(1).toString();
   $score.appendChild($scoreImg);
 
   return $score;
