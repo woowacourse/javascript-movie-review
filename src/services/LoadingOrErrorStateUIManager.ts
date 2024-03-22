@@ -47,8 +47,6 @@ class LoadingOrErrorStateUIManager {
       this.onLoadingChanged();
       const data = await this.api.sendRequest(url, { method, body, headers });
 
-      console.log(data);
-
       this.checkExistingData(data.results.length);
 
       this.isLoading = false;
