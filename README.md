@@ -71,9 +71,9 @@ npm run test-e2e
 ```bash
 src
  ┣ components
- ┃ ┣ ErrorMessage
- ┃ ┃ ┣ ErrorMessage.css
- ┃ ┃ ┗ ErrorMessage.ts
+ ┃ ┣ ShowErrorMessage
+ ┃ ┃ ┣ ShowErrorMessage.css
+ ┃ ┃ ┗ ShowErrorMessage.ts
  ┃ ┣ Header
  ┃ ┃ ┣ Header.css
  ┃ ┃ ┗ Header.ts

@@ -1,4 +1,4 @@
-import ErrorMessage from '../components/ErrorMessage/ErrorMessage';
+import ShowErrorMessage from '../components/ShowErrorMessage/ShowErrorMessage';
 
 interface Props {
   url: string;
@@ -13,7 +13,7 @@ interface Props {
 
 const fetchData = async ({ url, options }: Props) => {
   const response = await fetch(url, options).then((data) => {
-    if (!data.ok) ErrorMessage(data.status);
+    if (!data.ok) ShowErrorMessage(data.status);
     return data;
   });
   return response.json();

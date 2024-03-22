@@ -1,6 +1,6 @@
-import './ErrorMessage.css';
+import './ShowErrorMessage.css';
 
-const ErrorMessage = (status: number) => {
+const ShowErrorMessage = (status: number) => {
   const $itemView = document.querySelector('.item-view');
 
   const $errMsg = document.createElement('p');
@@ -14,4 +14,4 @@ const ErrorMessage = (status: number) => {
   $itemView?.appendChild($errMsg);
 };
 
-export default ErrorMessage;
+export default ShowErrorMessage;
