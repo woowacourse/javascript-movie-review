@@ -81,7 +81,7 @@ class MovieList {
       ).value;
 
       this.#title = titleInput;
-
+      this.#movieListSection.innerHTML = "";
       this.#renderSearchedMovieList(titleInput);
       this.#createSearchedMovieItems(titleInput);
     });
@@ -245,15 +245,28 @@ class MovieList {
     }
   }
 
-  #crateErrorUI(message: String) {
-    const mainElement = $("main");
-    if (mainElement) {
-      mainElement.innerHTML = `
-      <section class="section-error">
-        <img class="wooteco-icon" src="${hangsungImg}"></img>
-        <p class="error-message">${message}</p>
-      </section>
-    `;
+  #crateErrorUI(message: string) {
+    const sectionElement = $(".item-view");
+    const errorWrapper = createElement("div", {
+      class: "error-wrapper",
+    });
+    const imgElement = createElement("img", {
+      class: "wooteco-icon",
+      src: hangsungImg,
+    });
+    const textElement = createElement("p", {
+      class: "error-message",
+    });
+    textElement.textContent = message;
+
+    if (sectionElement) {
+      sectionElement.innerHTML = "";
+      sectionElement.appendChild(errorWrapper);
+    }
+
+    if (errorWrapper) {
+      errorWrapper.appendChild(imgElement);
+      errorWrapper.appendChild(textElement);
     }
   }
 

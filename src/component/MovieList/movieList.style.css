@@ -32,7 +32,7 @@
   color: white;
 }
 
-.section-error {
+.error-wrapper {
   height: 90vh;
   display: flex;
   flex-direction: column;
