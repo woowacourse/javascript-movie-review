@@ -3,19 +3,20 @@ import logoImg from "../../image/logo.png";
 
 const MovieReviewHeader = {
   createHeader() {
-    const logoWrapper = createElement("h1");
-    const img = createElement("img", {
-      class: "",
+    const headerElement = createElement("h1");
+    const linkElement = createElement("a", {
+      href: "/",
+    });
+    const logoElement = createElement("img", {
       src: `${logoImg}`,
       alt: "MovieList 로고",
     });
 
-    logoWrapper.appendChild(img);
+    headerElement.appendChild(linkElement);
+    linkElement.appendChild(logoElement);
 
-    return logoWrapper;
+    return headerElement;
   },
-
-  
 };
 
 export default MovieReviewHeader;
