@@ -104,13 +104,16 @@ class MovieList {
 
     try {
       const data = await this.#getSearchedMoviesData(titleInput);
-      const liList = this.#createEmptyMovieItems(data, ul);
+      if (data.length > 0) {
+        const liList = this.#createEmptyMovieItems(data, ul);
 
-      setTimeout(() => {
-        this.#updateMovieItemsWithData(data, liList);
-
-        this.#handleSearchedPageEnd(data);
-      }, 1000);
+        setTimeout(() => {
+          this.#updateMovieItemsWithData(data, liList);
+          this.#handleSearchedPageEnd(data);
+        }, 1000);
+      } else {
+        this.#crateErrorUI("검색 결과가 없어요!");
+      }
     } catch (error) {
       this.#handleError();
     }
