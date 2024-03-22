@@ -126,7 +126,8 @@ function getSkeletonView() {
   const section = document.createElement('section');
   section.classList.add('item-view');
   const title = document.createElement('h2');
-  title.innerText = globalStateMethod.getQuery ? `"${globalStateMethod.getQuery()}" 검색 결과` : '지금 인기 있는 영화';
+  const query = globalStateMethod.getQuery();
+  title.innerText = query ? `"${query}" 검색 결과` : '지금 인기 있는 영화';
   const movieList = getSkeletonMovieList();
   appendChildren(section, [title, movieList]);
   return section;
