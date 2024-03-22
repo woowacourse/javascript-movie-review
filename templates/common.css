@@ -141,10 +141,10 @@ button.primary {
   content: "loading";
 }
 
-.error-view {
+/* .error-view {
   display: none;
-}
-.error-view.on {
+} */
+.error-view {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -153,6 +153,16 @@ button.primary {
   height: 100vh;
   font-size: 1.2rem;
   font-weight: bold;
+}
+
+.error-view button {
+  margin-top: 32px;
+  border-radius: 10px;
+  padding: 12px 24px;
+}
+.error-view button:hover {
+  font-weight: bold;
+  color: #f33f3f;
 }
 
 @keyframes skeleton-animation {

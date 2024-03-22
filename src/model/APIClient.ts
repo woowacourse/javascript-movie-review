@@ -1,5 +1,5 @@
 import { BASE_URL, endpoint, options } from "../config";
-import { MAX_PAGE } from "../constants/system";
+import { API_ERROR_MESSAGE, MAX_PAGE } from "../constants";
 
 import dataStateStore from "./DataStateStore";
 
@@ -14,9 +14,80 @@ class APIClient {
     else this.#currentPage += 1;
   };
 
+  #makeErrorMessage(status: number) {
+    switch (status) {
+      case 400:
+        return API_ERROR_MESSAGE.notFound;
+      case 404:
+        return API_ERROR_MESSAGE.badRequest;
+      case 500:
+        return API_ERROR_MESSAGE.serverError;
+      default:
+        return API_ERROR_MESSAGE.default;
+    }
+  }
+
+  #checkAPIStatus(response: Response) {
+    if (!response.ok) {
+      const message = this.#makeErrorMessage(response.status);
+      throw new Error(message);
+    }
+  }
+
+  #checkInvalidJSON(error: unknown) {
+    if (!(error instanceof Error)) return;
+    if (error.message.includes("Unexpected end of JSON input")) {
+      return new Error(API_ERROR_MESSAGE.inValidJSON);
+    }
+
+    return error;
+  }
+
+  async fetchPopularMovie() {
+    const response = await fetch(
+      `${BASE_URL}/${endpoint.popularMovie(this.#currentPage)}`,
+      options,
+    );
+
+    return response;
+  }
+
+  async handleFetchPopularMovie() {
+    try {
+      const response = await this.fetchPopularMovie();
+      this.#checkAPIStatus(response);
+      return await response.json();
+    } catch (error) {
+      const apiError = this.#checkInvalidJSON(error);
+      return apiError;
+    }
+  }
+
+  async fetchSearchMovie(title: string) {
+    const response = await fetch(
+      `${BASE_URL}/${endpoint.searchMovie(title, this.#currentPage)}`,
+      options,
+    );
+
+    return response;
+  }
+
+  async handleFetchSearchMovie(title: string) {
+    try {
+      const response = await this.fetchSearchMovie(title);
+      this.#checkAPIStatus(response);
+      return await response.json();
+    } catch (error) {
+      const apiError = this.#checkInvalidJSON(error);
+      return apiError;
+    }
+  }
+
   async getPopularMovieData(isResetCurrentPage: boolean) {
     this.#updateCurrentPage(isResetCurrentPage);
-    const data = await this.fetchPopuplarMovie();
+    const data = await this.handleFetchPopularMovie();
+
+    if (data instanceof Error) throw new Error(data.message);
 
     dataStateStore.getTotalMovieData(
       {
@@ -25,24 +96,13 @@ class APIClient {
       },
       isResetCurrentPage,
     );
-  }
-
-  async fetchPopuplarMovie() {
-    try {
-      const response = await fetch(
-        `${BASE_URL}/${endpoint.popularMoive(this.#currentPage)}`,
-        options,
-      );
-      return await response.json();
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      return error;
-    }
   }
 
   async getSearchMovieData(isResetCurrentPage: boolean, title: string) {
     this.#updateCurrentPage(isResetCurrentPage);
-    const data = await this.fetchSearchMovie(title);
+    const data = await this.handleFetchSearchMovie(title);
+
+    if (data instanceof Error) throw new Error(data.message);
 
     dataStateStore.getTotalMovieData(
       {
@@ -52,20 +112,8 @@ class APIClient {
       isResetCurrentPage,
     );
   }
-
-  async fetchSearchMovie(title: string) {
-    try {
-      const response = await fetch(
-        `${BASE_URL}/${endpoint.searchMovie(title, this.#currentPage)}`,
-        options,
-      );
-      return await response.json();
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      return error;
-    }
-  }
 }
 
 const apiClient = new APIClient();
+
 export default apiClient;
