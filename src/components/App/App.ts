@@ -1,4 +1,6 @@
 import './App.css';
+
+import LOGO from '../../assets/images/logo.png';
 import { dom } from '../../utils/dom';
 import Header from '../header/Header';
 import MovieListContainer from '../movieListContainer/MovieListContainer';
@@ -63,7 +65,7 @@ class App {
 
   #createHeader() {
     return new Header({
-      imageSrc: './images/logo.png',
+      imageSrc: LOGO,
       onSubmit: async (e: SubmitEvent) => {
         e.preventDefault();
 

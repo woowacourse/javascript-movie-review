@@ -1,5 +1,6 @@
 import './MovieItem.css';
 
+import FILLED_STAR from '../../assets/images/star_filled.png';
 import { IMovie } from '../../types/movie';
 import { dom } from '../../utils/dom';
 
@@ -24,7 +25,7 @@ class MovieItem {
         <p class="item-title"></p>
         <div class="item-caption">
           <p class="item-score"></p>
-          <img class="item-star-icon" src="./images/star_filled.png" alt="별점" />
+          <img class="item-star-icon" src=${FILLED_STAR} alt="별점" />
         </div>
         </div>
         </a>

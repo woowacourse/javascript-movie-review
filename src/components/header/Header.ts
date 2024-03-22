@@ -1,4 +1,6 @@
 import './Header.css';
+
+import SEARCH_BUTTON_IMG from '../../assets/images/search_button.png';
 import { dom } from '../../utils/dom';
 import Button from '../common/button/Button';
 
@@ -46,7 +48,7 @@ class Header {
 
   #createSearchButton() {
     const childImage = document.createElement('img');
-    childImage.setAttribute('src', './images/search_button.png');
+    childImage.setAttribute('src', SEARCH_BUTTON_IMG);
     childImage.classList.add('search-button-icon');
 
     return new Button({
