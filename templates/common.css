@@ -17,6 +17,12 @@ button {
   cursor: pointer;
 }
 
+main {
+  height: auto;
+  min-height: 100vh;
+  margin-top: 8rem;
+}
+
 #app {
   padding-bottom: 48px;
 }
@@ -150,6 +156,8 @@ header {
   padding: 0 20px;
   border-bottom: 1px solid white;
   margin-bottom: 48px;
+  position: fixed;
+  top: 0;
 }
 
 header h1 {
