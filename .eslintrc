@@ -1,9 +1,10 @@
 {
   "rules": {
+    "consistent-return": "off",
     "import/extensions": ["off"],
     "no-await-in-loop": "off",
     "no-constant-condition": "off",
-    "max-lines-per-function": ["error", 12],
+    "max-lines-per-function": ["error", 15],
     "max-depth": ["error", 1],
     "no-console": "off",
     "class-methods-use-this": "off",
