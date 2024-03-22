@@ -1,7 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DotEnv = require('dotenv-webpack');
-const webpack = require('webpack');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -39,10 +38,6 @@ module.exports = {
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
