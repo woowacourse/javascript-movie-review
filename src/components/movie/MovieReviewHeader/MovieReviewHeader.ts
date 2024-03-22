@@ -1,15 +1,10 @@
 import Component from '../../common/Component/Component';
 import MovieReviewBody from '../MovieReviewBody/MovieReviewBody';
 import ErrorToast from '../ErrorToast/ErrorToast';
-
 import { createElement } from '../../../utils/dom/createElement/createElement';
 import { querySelector } from '../../../utils/dom/selector';
-import { on } from '../../../utils/dom/eventListener/eventListener';
-
-import { ELEMENT_SELECTOR } from '../../../constants/selector';
-
+import { ELEMENT_SELECTOR } from '../../../constants/Selector';
 import { Logo } from '../../../assets';
-
 import './MovieReviewHeader.css';
 
 class MovieReviewHeader extends Component {
@@ -37,8 +32,8 @@ class MovieReviewHeader extends Component {
     const $searchForm = querySelector<HTMLFormElement>(ELEMENT_SELECTOR.searchform, this.$element);
     const $movieLogo = querySelector<HTMLFormElement>(ELEMENT_SELECTOR.movieLogo, this.$element);
 
-    on({ target: $searchForm, eventName: 'submit', eventHandler: this.handleSubmitForm.bind(this) });
-    on({ target: $movieLogo, eventName: 'click', eventHandler: this.handleClickLogo });
+    $searchForm.addEventListener('submit', this.handleSubmitForm.bind(this));
+    $movieLogo.addEventListener('click', this.handleClickLogo);
   }
 
   private handleSubmitForm(event: Event) {

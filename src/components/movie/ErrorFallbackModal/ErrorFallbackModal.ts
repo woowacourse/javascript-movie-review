@@ -1,14 +1,8 @@
 import Component from '../../common/Component/Component';
-
 import Modal from '../../common/Modal/Modal';
-
-import { on } from '../../../utils/dom/eventListener/eventListener';
 import { querySelector } from '../../../utils/dom/selector';
-
-import { ELEMENT_SELECTOR } from '../../../constants/selector';
-
+import { ELEMENT_SELECTOR } from '../../../constants/Selector';
 import { WarningImage } from '../../../assets';
-
 import './ErrorFallbackModal.css';
 
 class ErrorFallbackModal extends Component {
@@ -25,8 +19,8 @@ class ErrorFallbackModal extends Component {
   }
 
   protected setEvent(): void {
-    const button = querySelector<HTMLButtonElement>(ELEMENT_SELECTOR.reloadButton, this.$element);
-    on({ target: button, eventName: 'click', eventHandler: this.handleClickReloadButton.bind(this) });
+    const $reloadButton = querySelector<HTMLButtonElement>(ELEMENT_SELECTOR.reloadButton, this.$element);
+    $reloadButton.addEventListener('click', this.handleClickReloadButton.bind(this));
   }
 
   private handleClickReloadButton() {

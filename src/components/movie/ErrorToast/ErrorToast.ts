@@ -1,6 +1,7 @@
 import Component from '../../common/Component/Component';
 
 import { createElement } from '../../../utils/dom/createElement/createElement';
+import { TOAST } from '../../../constants/Condition';
 
 import './ErrorToast.css';
 
@@ -18,8 +19,8 @@ class ErrorToast extends Component<ErrorToastProps> {
       errorToast.classList.add('remove-toast');
       setTimeout(() => {
         this.$element.removeChild(errorToast);
-      }, 600);
-    }, 500);
+      }, TOAST.POP_DOWN_TIME);
+    }, TOAST.POP_UP_TIME);
   }
 
   protected createComponent() {
