@@ -2,7 +2,7 @@ import logoImg from '../assets/images/logo.png';
 import { appendChildren } from '../utils/domUtil';
 import { replaceMain } from './main';
 import { SEARCH_MOVIES_URL } from '../constants/tmdbConstants';
-import globalStateMethod from '../globalState';
+import movieStateMethod from '../store/movieStore';
 
 function getLogo() {
   const logo = document.createElement('h1');
@@ -17,8 +17,8 @@ function getLogo() {
 
 const submitEventHandler = (event: any) => {
   event.preventDefault();
-  globalStateMethod.setQuery(event.target.searchContent.value);
-  globalStateMethod.setUrl(SEARCH_MOVIES_URL);
+  movieStateMethod.setQuery(event.target.searchContent.value);
+  movieStateMethod.setUrl(SEARCH_MOVIES_URL);
   replaceMain();
 };
 

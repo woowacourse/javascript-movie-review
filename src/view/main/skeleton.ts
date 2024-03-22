@@ -1,4 +1,4 @@
-import globalStateMethod from '../../globalState';
+import movieStateMethod from '../../store/movieStore';
 import { appendChildren } from '../../utils/domUtil';
 
 export function getMovieItemCardSkeleton() {
@@ -24,7 +24,7 @@ export function getSkeletonView() {
   const section = document.createElement('section');
   section.classList.add('item-view');
   const title = document.createElement('h2');
-  const query = globalStateMethod.getQuery();
+  const query = movieStateMethod.getQuery();
   title.innerText = query ? `"${query}" 검색 결과` : '지금 인기 있는 영화';
   const movieList = getSkeletonMovieList();
   appendChildren(section, [title, movieList]);

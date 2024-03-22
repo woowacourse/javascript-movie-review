@@ -1,4 +1,4 @@
-import globalStateMethod from '../globalState';
+import movieStateMethod from '../store/movieStore';
 
 export interface IFetchParams {
   url: string;
@@ -46,16 +46,18 @@ async function fetchMovies() {
     setTimeout(resolve, 3000);
   });
   return movieFetcher({
-    url: globalStateMethod.getUrl(),
-    page: globalStateMethod.getPage(),
-    query: globalStateMethod.getQuery(),
+    url: movieStateMethod.getUrl(),
+    page: movieStateMethod.getPage(),
+    query: movieStateMethod.getQuery(),
   })
     .then((response) => {
       handleError(response.status);
       return response.json();
     })
     .catch((error) => {
+      // eslint-disable-next-line no-alert
       alert(error.message);
+      // eslint-disable-next-line no-restricted-globals
       location.reload();
     });
 }

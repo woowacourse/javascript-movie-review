@@ -1,10 +1,10 @@
-import globalStateMethod from '../globalState';
+import movieStateMethod from '../store/movieStore';
 import { appendChildren, elementsReplaceWith } from '../utils/domUtil';
 import { getMovieListContainer, getMovieItems } from './main/movie';
 import { getSkeletonView, getMovieItemCardSkeleton } from './main/skeleton';
 
 export async function renderNewMovies() {
-  globalStateMethod.increasePage();
+  movieStateMethod.increasePage();
   const movieList = document.querySelector('.item-list') as HTMLElement;
   const skeletonItems = Array.from({ length: 20 }, () => getMovieItemCardSkeleton());
   appendChildren(movieList, skeletonItems);
@@ -13,7 +13,7 @@ export async function renderNewMovies() {
 }
 
 export async function replaceMain() {
-  globalStateMethod.initializePage();
+  movieStateMethod.initializePage();
   const sectionTag = document.querySelector('section');
   const skeletonView = getSkeletonView();
   sectionTag?.replaceWith(skeletonView);

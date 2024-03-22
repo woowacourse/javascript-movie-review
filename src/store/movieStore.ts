@@ -1,28 +1,30 @@
-import { POPULAR_MOVIES_URL } from './constants/tmdbConstants';
+import { POPULAR_MOVIES_URL } from '../constants/tmdbConstants';
 
-interface IGlobalState {
+interface IMovieState {
   url: string;
   page: number;
   query: string;
 }
 
-interface IGlobalStateMethod {
+interface IMovieStateMethod {
+  // eslint-disable-next-line no-unused-vars
   setUrl: (url: string) => void;
   getUrl: () => string;
   initializePage: () => void;
   increasePage: () => void;
   getPage: () => number;
+  // eslint-disable-next-line no-unused-vars
   setQuery: (query: string) => void;
   getQuery: () => string;
 }
 
-const globalState: IGlobalState = {
+const globalState: IMovieState = {
   url: POPULAR_MOVIES_URL,
   page: 1,
   query: '',
 };
 
-const globalStateMethod: IGlobalStateMethod = {
+const movieStateMethod: IMovieStateMethod = {
   setUrl: (url) => {
     globalState.url = url;
   },
@@ -40,4 +42,4 @@ const globalStateMethod: IGlobalStateMethod = {
   getQuery: () => globalState.query,
 };
 
-export default globalStateMethod;
+export default movieStateMethod;

@@ -1,9 +1,9 @@
 import fetchMovies from '../../api/fetchMovies';
 
-import globalStateMethod from '../../globalState';
 import starFilledImage from '../../assets/images/star_filled.png';
 import { appendChildren } from '../../utils/domUtil';
 import getSeeMoreButton from '../getSeeMoreButton';
+import movieStateMethod from '../../store/movieStore';
 
 interface IMovieItemProps {
   id: number;
@@ -81,7 +81,7 @@ export async function getMovieItems(button = document.getElementById('see-more-b
 
 function getMainTitle() {
   const mainTitle = document.createElement('h2');
-  const query = globalStateMethod.getQuery();
+  const query = movieStateMethod.getQuery();
   mainTitle.innerText = query ? `"${query}" 검색 결과` : '지금 인기 있는 영화';
   return mainTitle;
 }
