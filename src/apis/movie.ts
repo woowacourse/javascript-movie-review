@@ -10,7 +10,7 @@ export const getPopularMovies = async (page: number): Promise<ISearchResult> => 
   const response = await fetch(BASE_URL + fetchUrl, {
     method: 'GET',
     headers: {
-      Authorization: `Bearer ${process.env.API_KEY}`,
+      Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
       accept: 'application/json',
     },
   });
@@ -27,7 +27,7 @@ export const searchMoviesByTitle = async (title: string, page: number): Promise<
   const response = await fetch(BASE_URL + fetchUrl, {
     method: 'GET',
     headers: {
-      Authorization: `Bearer ${process.env.API_KEY}`,
+      Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
       accept: 'application/json',
     },
   });
