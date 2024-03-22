@@ -32,7 +32,6 @@ class LoadingOrErrorStateUIManager {
 
   onErrorChanged(error: HttpError | null) {
     if (error) {
-      console.log('onErrorChanged: ', error);
       const errorComponent = ErrorComponent(error.status);
 
       this.showErrorComponent(errorComponent);
@@ -46,7 +45,6 @@ class LoadingOrErrorStateUIManager {
       this.isLoading = true;
       this.onLoadingChanged();
       const data = await this.api.sendRequest(url, { method, body, headers });
-
       this.checkExistingData(data.results.length);
 
       this.isLoading = false;
@@ -67,12 +65,13 @@ class LoadingOrErrorStateUIManager {
   }
 
   checkExistingData(length: number) {
+    removeHTMLElements('.error-text');
     if (!length) {
       checkDataLength(length);
       const section = document.querySelector('.item-view');
       if (!section) return;
-      const h1 = createElement('h1', { textContent: '검색 결과가 존재하지 않습니다', className: 'error-text' });
-      section.appendChild(h1);
+      const errorText = createElement('p', { textContent: '검색 결과가 존재하지 않습니다', className: 'error-text' });
+      section.appendChild(errorText);
     }
   }
 

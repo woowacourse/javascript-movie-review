@@ -7,7 +7,7 @@ import getMovieListByKeywordAndUpdatedPageNumber from '../../services/getMovieLi
 
 const MAX_PAGE_NUMBER = 10;
 
-const DATA_LENGTH_PER_PAGE = 20;
+export const DATA_LENGTH_PER_PAGE = 20;
 
 const checkMaxPage = (pageNumber: number, eventTarget: EventTarget) => {
   if (pageNumber > MAX_PAGE_NUMBER && eventTarget instanceof Element) {
@@ -50,5 +50,3 @@ export const addShowMoreButtonEventListener = (option: ShowMoreButtonOption = 'p
   currentShowMoreEventHandler = showMoreButtonEventHandler(option, inputValue);
   showMoreButton.addEventListener('click', currentShowMoreEventHandler);
 };
-
-export default showMoreButtonEventHandler;
