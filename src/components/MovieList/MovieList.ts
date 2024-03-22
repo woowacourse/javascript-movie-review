@@ -1,13 +1,14 @@
 import MovieItem from '../MovieItem/MovieItem';
 import { Movie } from './../../types/movie';
 import '../MovieList/MovieList.css';
+
 interface Props {
-  movieList?: Movie[];
+  movieList: Movie[];
   isLoading: boolean;
 }
 
 class MovieList {
-  movieList?: Movie[];
+  movieList: Movie[];
   isLoading: boolean;
 
   constructor({ movieList, isLoading }: Props) {
@@ -20,6 +21,7 @@ class MovieList {
     this.movieList = movieList;
   }
 
+  //스켈레톤을 삭제하고 렌더링 하는 방식.
   rerender() {
     const skeletonBox = document.querySelector('#skeleton-box');
     if (!skeletonBox) return;
@@ -28,7 +30,7 @@ class MovieList {
   }
 
   render() {
-    if (!this.movieList) return this.renderSkeleton();
+    if (!this.movieList.length) return this.renderSkeleton();
     return this.renderMovieList();
   }
 

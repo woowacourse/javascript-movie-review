@@ -1,21 +1,7 @@
-import Button from '../../components/Button/Button';
 import MovieList from '../../components/MovieList/MovieList';
-import { NotFound } from '../../components/NotFound/NotFound';
-import Toast from '../../components/Toast/Toast';
-import { ERROR_MESSAGE } from '../../consts/error';
 import { formatMovieList } from '../../utils/formatList';
-import MovieFetchAPI from './MovieFetchAPI';
-
-type PopularAPIType = {
-  apiType: 'popular';
-};
-
-type SearchAPIType = {
-  apiType: 'search';
-  query: string;
-};
-
-type APIType = PopularAPIType | SearchAPIType;
+import MoreButton, { APIType } from '../../components/MoreButton/MoreButton';
+import movieAPI from '../../api/movie';
 
 class MovieDataLoader {
   currentPage: number = 1;
@@ -23,12 +9,18 @@ class MovieDataLoader {
   itemViewBox = document.querySelector('.item-view');
   movieListBox = document.createElement('ul');
   movieListInstance: MovieList;
+  moreButton = new MoreButton({
+    showNextPage: (apiType: APIType) => this.showNextPage(apiType),
+    apiType: { apiType: 'popular' },
+  });
 
   constructor() {
-    this.movieListInstance = new MovieList({ isLoading: true });
+    this.movieListInstance = new MovieList({ isLoading: true, movieList: [] });
   }
 
   removeExistedList() {
+    MoreButton.removeExistedButton();
+
     const notFoundBox = document.querySelector('#not-found');
     if (notFoundBox) {
       notFoundBox.remove();
@@ -38,73 +30,55 @@ class MovieDataLoader {
     if (!itemList) return;
     itemList.replaceChildren();
 
-    const existingButton = document.querySelector('.button');
-    if (!existingButton) return;
-    existingButton.remove();
-
     this.movieListInstance.renderSkeleton();
   }
-
+  //   //TODO: 도메인 객체 분리해서 formatMovieList 를 만들기: this.currentPage, ...params });
   async renderFirstPage(props: APIType) {
-    try {
-      this.removeExistedList();
+    // try {
+    this.removeExistedList();
 
-      this.currentPage = 1;
-      const movieResult = await this.fetchMovies(props);
-      const formattedMovieList = formatMovieList(movieResult);
+    this.currentPage = 1;
+    const movieResult = await this.selectAPIAndFetch(props);
+    const formattedMovieList = formatMovieList(movieResult);
 
-      this.totalPage = movieResult.total_pages;
-      this.movieListInstance.newList = formattedMovieList;
-      this.movieListInstance.rerender();
+    this.totalPage = movieResult.total_pages;
+    this.movieListInstance.newList = formattedMovieList;
+    this.movieListInstance.rerender();
 
-      this.renderMoreButton(props);
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        if (error.message === ERROR_MESSAGE.RESULTS_NOT_FOUND) {
-          return NotFound();
-        }
-        new Toast(error.message);
-      }
-    }
+    this.moreButton.render();
   }
 
-  async showNextPage(props: APIType) {
+  async showNextPage(apiType: APIType) {
+    MoreButton.removeExistedButton();
     this.currentPage++;
 
-    const existingButton = document.querySelector('.button');
-    if (!existingButton) return;
-    existingButton.remove();
-
     this.movieListInstance.renderSkeleton();
-    const movieResult = await this.fetchMovies(props);
+
+    const movieResult = await this.selectAPIAndFetch(apiType);
 
     const popularMovieList = formatMovieList(movieResult);
     this.movieListInstance.newList = popularMovieList;
     this.movieListInstance.rerender();
 
     if (this.currentPage === this.totalPage) return;
-    this.renderMoreButton(props);
+    this.moreButton.render();
   }
 
-  fetchMovies(props: APIType) {
+  async selectAPIAndFetch(props: APIType) {
+    // try {
     if (props.apiType === 'popular') {
-      return MovieFetchAPI.fetchPopularMovies({ pageNumber: this.currentPage });
+      return movieAPI.fetchPopularMovies({ pageNumber: this.currentPage });
     }
-    return MovieFetchAPI.fetchSearchMovies({ pageNumber: this.currentPage, query: props.query });
-  }
-
-  renderMoreButton(props: APIType) {
-    const moreButton = new Button({
-      text: '더보기',
-      clickEvent: () => {
-        this.showNextPage(props);
-      },
-      id: 'more-button',
-    }).render();
-
-    const container = document.querySelector('.item-view');
-    if (!container) return;
-    container.append(moreButton);
+    return movieAPI.fetchSearchMovies({ pageNumber: this.currentPage, query: props.query });
+    //TODO: 에러 처리 필요
+    // } catch (error: unknown) {
+    //   if (error instanceof Error) {
+    //     if (error.message === ERROR_MESSAGE.RESULTS_NOT_FOUND) {
+    //       return NotFound();
+    //     }
+    //     new Toast(error.message);
+    //   }
+    // }
   }
 }
 

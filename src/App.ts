@@ -1,6 +1,5 @@
 import Header from '../src/components/Header/Header';
 import MovieList from '../src/components/MovieList/MovieList';
-import Toast from './components/Toast/Toast';
 import { TITLE } from './consts/message';
 import MovieDataLoader from './domain/services/MovieDataLoader';
 
@@ -14,7 +13,7 @@ class App {
   constructor() {
     this.init();
     this.movieListBox.classList.add('item-list');
-    this.movieListInstance = new MovieList({ isLoading: true });
+    this.movieListInstance = new MovieList({ isLoading: true, movieList: [] });
   }
 
   async init() {
@@ -27,10 +26,38 @@ class App {
     await this.renderPopularResult();
   }
 
+  // fetchMovies({ props, currentPage }: { props: APIType; currentPage: number }) {
+  //   try {
+  //     if (props.apiType === 'popular') {
+  //       return movieAPI.fetchPopularMovies({ pageNumber: currentPage });
+  //     }
+  //     return movieAPI.fetchSearchMovies({ pageNumber: currentPage, query: props.query });
+  //   } catch (error: unknown) {
+  //     if (error instanceof Error) {
+  //       if (error.message === ERROR_MESSAGE.RESULTS_NOT_FOUND) {
+  //         return NotFound();
+  //       }
+  //       new Toast(error.message);
+  //     }
+  //   }
+  // }
+
+  // export type PopularAPIType = {
+  //   apiType: 'popular';
+  // };
+
+  // export type SearchAPIType = {
+  //   apiType: 'search';
+  //   query: string;
+  // };
+
   async renderSearchResult(query: string) {
     this.removeTitle();
     this.renderTitle(query);
-    await this.movieDataLoader.renderFirstPage({ apiType: 'search', query });
+    await this.movieDataLoader.renderFirstPage({
+      apiType: 'search',
+      query,
+    });
   }
 
   async renderPopularResult() {
@@ -42,7 +69,7 @@ class App {
   renderHeader() {
     new Header({
       searchEvent: (query: string) => this.renderSearchResult(query),
-      logoClickEvent: () => this.renderPopularResult(),
+      movePopularListEvent: () => this.renderPopularResult(),
     });
   }
 
