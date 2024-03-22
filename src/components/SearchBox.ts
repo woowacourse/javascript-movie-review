@@ -1,7 +1,7 @@
 import { ENTER_KEYCODE } from "../constants/system";
 import { dataStateStore } from "../model";
 import { handleGetSearchMovieData } from "../service/handleSkeletonAndAPI";
-import { createElementWithAttribute, debouceFunc } from "../utils";
+import { createElementWithAttribute, debounceFunc } from "../utils";
 
 import ItemView from "./ItemView";
 
@@ -24,7 +24,7 @@ const handleInputKeydown = (event: KeyboardEvent) => {
   if (!(target instanceof HTMLInputElement)) return;
 
   if (keyCode === ENTER_KEYCODE) {
-    debouceFunc(() => searchMovie());
+    debounceFunc(() => searchMovie());
   }
 };
 
@@ -69,7 +69,7 @@ const Button = () => {
   $button.textContent = "검색";
   $button.addEventListener("click", (event) => {
     event.stopPropagation();
-    debouceFunc(() => searchMovie());
+    debounceFunc(() => searchMovie());
   });
 
   return $button;

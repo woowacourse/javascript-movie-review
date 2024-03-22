@@ -9,9 +9,9 @@ import SearchBox from "./SearchBox";
 const handleClickToRefresh = async () => {
   const $itemView = document.querySelector(".item-view");
   $itemView?.remove();
-  const $searBox = document.querySelector("#search-input");
-  if ($searBox instanceof HTMLInputElement) {
-    $searBox.value = "";
+  const $searchBox = document.querySelector("#search-input");
+  if ($searchBox instanceof HTMLInputElement) {
+    $searchBox.value = "";
   }
   await handleGetPopularMovieData(true);
 

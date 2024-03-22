@@ -1,4 +1,4 @@
 import createElementWithAttribute from "./createElementWithAttribute";
-import debouceFunc from "./debouneFunc";
+import debounceFunc from "./debounceFunc";
 
-export { createElementWithAttribute, debouceFunc };
+export { createElementWithAttribute, debounceFunc };

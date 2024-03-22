@@ -16,7 +16,7 @@ class APIClient {
 
   async getPopularMovieData(isResetCurrentPage: boolean) {
     this.#updateCurrentPage(isResetCurrentPage);
-    const data = await this.fetchPopuplarMovie();
+    const data = await this.fetchPopularMovie();
 
     dataStateStore.getTotalMovieData(
       {
@@ -27,10 +27,10 @@ class APIClient {
     );
   }
 
-  async fetchPopuplarMovie() {
+  async fetchPopularMovie() {
     try {
       const response = await fetch(
-        `${BASE_URL}/${endpoint.popularMoive(this.#currentPage)}`,
+        `${BASE_URL}/${endpoint.popularMovie(this.#currentPage)}`,
         options,
       );
       return await response.json();

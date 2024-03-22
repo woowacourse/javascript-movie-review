@@ -4,7 +4,7 @@ import {
   handleGetSearchMovieData,
 } from "../service/handleSkeletonAndAPI";
 import { ListType, Movie } from "../type/movie";
-import { createElementWithAttribute, debouceFunc } from "../utils";
+import { createElementWithAttribute, debounceFunc } from "../utils";
 
 import ItemList from "./ItemList";
 
@@ -27,13 +27,13 @@ const addItemsToMovieList = (totalMovieList: Movie[]) => {
 };
 
 const getSearchInputValue = () => {
-  const $searcInput = document.querySelector("#search-input");
+  const $searchInput = document.querySelector("#search-input");
 
-  if (!($searcInput instanceof HTMLInputElement)) {
+  if (!($searchInput instanceof HTMLInputElement)) {
     return undefined;
   }
 
-  return $searcInput.value;
+  return $searchInput.value;
 };
 
 const getSearchMovieData = async () => {
@@ -44,7 +44,7 @@ const getSearchMovieData = async () => {
   await handleGetSearchMovieData(title, false);
 };
 
-const handleMovieDatastate = (event: Event) => {
+const handleMovieDataState = (event: Event) => {
   const previousScrollPosition = window.scrollY;
 
   const { movieList, isShowMoreButton } = dataStateStore.movieData;
@@ -55,20 +55,20 @@ const handleMovieDatastate = (event: Event) => {
   window.scrollTo(0, previousScrollPosition);
 };
 
-const hanldeMovieData = async (event: Event, listType: ListType) => {
+const handleMovieData = async (event: Event, listType: ListType) => {
   if (listType === "popular") {
     await handleGetPopularMovieData();
   } else {
     await getSearchMovieData();
   }
 
-  handleMovieDatastate(event);
+  handleMovieDataState(event);
 };
 
 const handleClickMoreButton = async (event: Event, listType: ListType) => {
   event.stopPropagation();
 
-  debouceFunc(() => hanldeMovieData(event, listType));
+  debounceFunc(() => handleMovieData(event, listType));
 };
 
 // MoreButton click event ---

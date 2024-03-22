@@ -15,7 +15,7 @@ export const options = {
 };
 
 export const endpoint = {
-  popularMoive: (page: number) => `movie/popular?language=ko&page=${page}`,
+  popularMovie: (page: number) => `movie/popular?language=ko&page=${page}`,
   searchMovie: (title: string, page: number) =>
     `search/movie?query=${title}}&include_adult=false&language=ko&page=${page}`,
 };
