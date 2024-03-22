@@ -29,29 +29,40 @@ class MovieItems {
     this.showMore();
   }
 
-  getElement() {
+  get element() {
     return this.template;
   }
 
   createElements() {
     const main = document.createElement('main');
     main.classList.add('item-view');
+
+    this.createH2Element(main);
+    this.createUlElement(main);
+    this.createMoreButton(main);
+
+    this.template = main;
+  }
+
+  createH2Element(main: HTMLElement) {
     const h2 = document.createElement('h2');
     h2.textContent = '지금 인기 있는 영화';
+    main.appendChild(h2);
+  }
+
+  createUlElement(main: HTMLElement) {
     const ul = document.createElement('ul');
     ul.classList.add('item-list');
-
-    main.appendChild(h2);
     main.appendChild(ul);
+  }
 
-    const button = Button.createElements({
+  createMoreButton(main: HTMLElement) {
+    const button = new Button({
       className: ['btn', 'primary', 'full-width'],
       text: '더 보기',
       onClick: this.showMore.bind(this),
     });
-    main.appendChild(button);
-
-    this.template = main;
+    main.appendChild(button.element);
   }
 
   async getPopularMovies() {
