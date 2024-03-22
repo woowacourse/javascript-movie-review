@@ -1,6 +1,6 @@
-import { renderNewMovies } from './getMain';
+import { renderNewMovies } from './main';
 
-function getButton() {
+function getSeeMoreButton() {
   const button = document.createElement('button');
   button.id = 'see-more-button';
   button.className = 'btn primary';
@@ -11,4 +11,4 @@ function getButton() {
   return button;
 }
 
-export default getButton;
+export default getSeeMoreButton;

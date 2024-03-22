@@ -1,6 +1,6 @@
 import logoImg from '../assets/images/logo.png';
 import { appendChildren } from '../utils/domUtil';
-import replaceMain from './getMain';
+import { replaceMain } from './main';
 import { SEARCH_MOVIES_URL } from '../constants/tmdbConstants';
 import globalStateMethod from '../globalState';
 
@@ -19,7 +19,6 @@ const submitEventHandler = (event: any) => {
   event.preventDefault();
   globalStateMethod.setQuery(event.target.searchContent.value);
   globalStateMethod.setUrl(SEARCH_MOVIES_URL);
-
   replaceMain();
 };
 
@@ -41,7 +40,6 @@ function getSearchBoxButton() {
     innerText: '검색',
   };
   Object.assign(buttonTag, state);
-
   return buttonTag;
 }
 
@@ -52,7 +50,6 @@ function getSearchBox() {
   searchBox.classList.add('search-box');
   searchBox.onsubmit = submitEventHandler;
   appendChildren(searchBox, [input, button]);
-
   return searchBox;
 }
 
@@ -61,7 +58,6 @@ function getHeader() {
   const logo = getLogo();
   const searchBox = getSearchBox();
   appendChildren(headerTag, [logo, searchBox]);
-
   return headerTag;
 }
 

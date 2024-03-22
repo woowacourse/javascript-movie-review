@@ -1,8 +1,9 @@
-import fetchMovies from '../api/fetchMovies';
-import starFilledImage from '../assets/images/star_filled.png';
-import globalStateMethod from '../globalState';
-import { appendChildren, elementsReplaceWith } from '../utils/domUtil';
-import getButton from './getButton';
+import fetchMovies from '../../api/fetchMovies';
+
+import globalStateMethod from '../../globalState';
+import starFilledImage from '../../assets/images/star_filled.png';
+import { appendChildren } from '../../utils/domUtil';
+import getSeeMoreButton from '../getSeeMoreButton';
 
 interface IMovieItemProps {
   id: number;
@@ -69,7 +70,7 @@ function checkPage(responseJson: ITMDBResponse, button: HTMLElement | null) {
   }
 }
 
-async function getMovieItems(button = document.getElementById('see-more-button')) {
+export async function getMovieItems(button = document.getElementById('see-more-button')) {
   const responseJson: ITMDBResponse = await fetchMovies();
 
   checkPage(responseJson, button);
@@ -93,62 +94,12 @@ async function getMovieList(button?: HTMLButtonElement) {
   return movieList;
 }
 
-async function getMovieListContainer() {
+export async function getMovieListContainer() {
   const movieListContainer = document.createElement('section');
   movieListContainer.classList.add('item-view');
   const mainTitle = getMainTitle();
-  const button = getButton();
+  const button = getSeeMoreButton();
   const movieList = await getMovieList(button);
   appendChildren(movieListContainer, [mainTitle, movieList, button]);
   return movieListContainer;
-}
-
-function getMovieItemCardSkeleton() {
-  const list = document.createElement('li');
-  list.innerHTML = `<a href="#">
-  <div class="item-card">
-    <div class="item-thumbnail skeleton"></div>
-    <div class="item-title skeleton"></div>
-    <div class="item-score skeleton"></div>
-  </div>`;
-  return list;
-}
-
-function getSkeletonMovieList() {
-  const movieList = document.createElement('ul');
-  movieList.classList.add('item-list');
-  const skeletonItems = Array.from({ length: 20 }, () => getMovieItemCardSkeleton());
-  appendChildren(movieList, skeletonItems);
-  return movieList;
-}
-
-function getSkeletonView() {
-  const section = document.createElement('section');
-  section.classList.add('item-view');
-  const title = document.createElement('h2');
-  const query = globalStateMethod.getQuery();
-  title.innerText = query ? `"${query}" 검색 결과` : '지금 인기 있는 영화';
-  const movieList = getSkeletonMovieList();
-  appendChildren(section, [title, movieList]);
-  return section;
-}
-
-async function replaceMain() {
-  globalStateMethod.initializePage();
-  const sectionTag = document.querySelector('section');
-  const skeletonView = getSkeletonView();
-  sectionTag?.replaceWith(skeletonView);
-  const movieListContainer = await getMovieListContainer();
-  skeletonView?.replaceWith(movieListContainer);
-}
-
-export default replaceMain;
-
-export async function renderNewMovies() {
-  globalStateMethod.increasePage();
-  const movieList = document.querySelector('.item-list') as HTMLElement;
-  const skeletonItems = Array.from({ length: 20 }, () => getMovieItemCardSkeleton());
-  appendChildren(movieList, skeletonItems);
-  const newMovies = await getMovieItems();
-  elementsReplaceWith(skeletonItems, newMovies);
 }
