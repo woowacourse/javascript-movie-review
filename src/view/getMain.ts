@@ -1,7 +1,7 @@
 import fetchMovies from '../api/fetchMovies';
 import starFilledImage from '../assets/images/star_filled.png';
 import globalStateMethod from '../globalState';
-import { appendChildren } from '../utils/domUtil';
+import { appendChildren, elementsReplaceWith } from '../utils/domUtil';
 import getButton from './getButton';
 
 interface IMovieItemProps {
@@ -78,7 +78,7 @@ async function getMovieItems(button = document.getElementById('see-more-button')
   return movieElements;
 }
 
-function getManTitle() {
+function getMainTitle() {
   const mainTitle = document.createElement('h2');
   const query = globalStateMethod.getQuery();
   mainTitle.innerText = query ? `"${query}" 검색 결과` : '지금 인기 있는 영화';
@@ -96,10 +96,9 @@ async function getMovieList(button?: HTMLButtonElement) {
 async function getMovieListContainer() {
   const movieListContainer = document.createElement('section');
   movieListContainer.classList.add('item-view');
-  const mainTitle = getManTitle();
+  const mainTitle = getMainTitle();
   const button = getButton();
   const movieList = await getMovieList(button);
-
   appendChildren(movieListContainer, [mainTitle, movieList, button]);
   return movieListContainer;
 }
@@ -118,15 +117,16 @@ function getMovieItemCardSkeleton() {
 function getSkeletonMovieList() {
   const movieList = document.createElement('ul');
   movieList.classList.add('item-list');
-  appendChildren(movieList, Array(20).fill(getMovieItemCardSkeleton()));
+  const skeletonItems = Array.from({ length: 20 }, () => getMovieItemCardSkeleton());
+  appendChildren(movieList, skeletonItems);
   return movieList;
 }
 
-function getSkeletonView(listTitle: string) {
+function getSkeletonView() {
   const section = document.createElement('section');
   section.classList.add('item-view');
   const title = document.createElement('h2');
-  title.innerText = listTitle;
+  title.innerText = globalStateMethod.getQuery ? `"${globalStateMethod.getQuery()}" 검색 결과` : '지금 인기 있는 영화';
   const movieList = getSkeletonMovieList();
   appendChildren(section, [title, movieList]);
   return section;
@@ -135,10 +135,8 @@ function getSkeletonView(listTitle: string) {
 async function replaceMain() {
   globalStateMethod.initializePage();
   const sectionTag = document.querySelector('section');
-  const title = globalStateMethod.getQuery ? `"${globalStateMethod.getQuery()}" 검색 결과` : '지금 인기 있는 영화';
-  const skeletonView = getSkeletonView(title);
+  const skeletonView = getSkeletonView();
   sectionTag?.replaceWith(skeletonView);
-
   const movieListContainer = await getMovieListContainer();
   skeletonView?.replaceWith(movieListContainer);
 }
@@ -148,6 +146,8 @@ export default replaceMain;
 export async function renderNewMovies() {
   globalStateMethod.increasePage();
   const movieList = document.querySelector('.item-list') as HTMLElement;
+  const skeletonItems = Array.from({ length: 20 }, () => getMovieItemCardSkeleton());
+  appendChildren(movieList, skeletonItems);
   const newMovies = await getMovieItems();
-  appendChildren(movieList, newMovies);
+  elementsReplaceWith(skeletonItems, newMovies);
 }
