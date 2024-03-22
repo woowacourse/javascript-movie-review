@@ -56,6 +56,7 @@ class MovieList {
     } catch (error) {
       this.#handleError();
     }
+    this.#removeMoreMoviesButton();
   }
 
   #handlePopularPageEnd() {
