@@ -1,28 +1,28 @@
+import ErrorView from "../components/ErrorView";
 import { apiClient } from "../model";
 
-const toggleErrorView = (isShow: boolean) => {
-  if (isShow) {
-    const $itemView = document.querySelector(".item-view");
-    $itemView?.remove();
+const showErrorView = (error: unknown) => {
+  if (error instanceof Error) {
+    document.querySelector(".item-view")?.remove();
+    ErrorView(error.message);
   }
-  const $errorView = document.querySelector(".error-view");
-  $errorView?.classList.toggle("on", isShow);
 };
 
 const removeSkeletonView = ($skeletonView: Element) => {
+  $skeletonView?.classList.remove("on");
   setTimeout(() => {
     $skeletonView?.classList.remove("on");
   }, 500);
 };
 
-const handleSkeletonAndAPI = async (apiFun: () => Promise<void>) => {
+const fetchDataWidthSkeleton = async (apiFun: () => Promise<void>) => {
   const $skeletonView = document.querySelector(".skeleton-view") as Element;
   try {
     $skeletonView?.classList.add("on");
     await apiFun();
-    toggleErrorView(false);
+    document.querySelector(".error-view")?.remove();
   } catch (error) {
-    toggleErrorView(true);
+    showErrorView(error);
   }
   removeSkeletonView($skeletonView);
 };
@@ -30,7 +30,7 @@ const handleSkeletonAndAPI = async (apiFun: () => Promise<void>) => {
 export const handleGetPopularMovieData = async (
   isResetCurrentPage: boolean = false,
 ) => {
-  await handleSkeletonAndAPI(() =>
+  await fetchDataWidthSkeleton(() =>
     apiClient.getPopularMovieData(isResetCurrentPage),
   );
 };
@@ -39,7 +39,7 @@ export const handleGetSearchMovieData = async (
   title: string,
   isResetCurrentPage: boolean,
 ) => {
-  await handleSkeletonAndAPI(() =>
+  await fetchDataWidthSkeleton(() =>
     apiClient.getSearchMovieData(isResetCurrentPage, title),
   );
 };

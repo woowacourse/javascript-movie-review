@@ -1,6 +1,6 @@
 import { ENTER_KEYCODE } from "../constants/system";
 import { dataStateStore } from "../model";
-import { handleGetSearchMovieData } from "../service/handleSkeletonAndAPI";
+import { handleGetSearchMovieData } from "../service/fetchDataWidthSkeleton";
 import { createElementWithAttribute, debouceFunc } from "../utils";
 
 import ItemView from "./ItemView";
@@ -10,10 +10,9 @@ const searchMovie = async () => {
   const $searchInput = document.querySelector("#search-input");
   if (!($searchInput instanceof HTMLInputElement)) return;
   const title = $searchInput.value;
-
+  await handleGetSearchMovieData(title, true);
   const $itemView = document.querySelector(".item-view");
   $itemView?.remove();
-  await handleGetSearchMovieData(title, true);
   ItemView(`"${title}" 검색 결과`, dataStateStore.movieData, "search");
 };
 
@@ -33,7 +32,7 @@ const handleInputKeydown = (event: KeyboardEvent) => {
 const Label = () => {
   const $label = createElementWithAttribute("label", {
     forId: "search-input",
-    class: "screen-only",
+    class: "screen-reader-only",
   });
   $label.textContent = "영화 검색";
 

@@ -2,7 +2,7 @@ import { dataStateStore } from "../model";
 import {
   handleGetPopularMovieData,
   handleGetSearchMovieData,
-} from "../service/handleSkeletonAndAPI";
+} from "../service/fetchDataWidthSkeleton";
 import { ListType, Movie } from "../type/movie";
 import { createElementWithAttribute, debouceFunc } from "../utils";
 

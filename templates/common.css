@@ -24,7 +24,7 @@ button {
 *:focus {
   outline: none;
 }
-.screen-only {
+.screen-reader-only {
   position: absolute;
   top: -999px;
   left: -999px;
