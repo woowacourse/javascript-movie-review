@@ -7,20 +7,22 @@ interface ButtonProps {
   disabled?: boolean;
 }
 
-const Button = {
-  createElements({ className, text, disabled, onClick }: ButtonProps) {
+class Button {
+  private template: HTMLButtonElement;
+
+  constructor({ className, text, onClick, disabled }: ButtonProps) {
     const button = document.createElement('button');
     button.classList.add(...className);
     button.textContent = text;
 
-    if (onClick) this.setEventListener(button, onClick);
+    if (onClick) button.addEventListener('click', onClick);
     if (disabled) button.disabled = disabled;
-    return button;
-  },
+    this.template = button;
+  }
 
-  setEventListener(button: HTMLButtonElement, onClick: () => void) {
-    button.addEventListener('click', onClick);
-  },
-};
+  get element() {
+    return this.template;
+  }
+}
 
 export default Button;

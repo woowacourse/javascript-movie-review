@@ -6,21 +6,23 @@ import MovieItems from './components/MovieItems/MovieItems';
 
 const body = document.querySelector('body');
 
-const header = new Header();
-const movieItems = new MovieItems();
-
-body?.appendChild(header.getElement());
-body?.appendChild(movieItems.getElement());
-
-document.addEventListener('GetPopularMovies', () => {
+const getPopularMovies = () => {
   movieItems.resetMovieItems();
   movieItems.showMore();
-});
+};
 
-document.addEventListener('GetMatchedMovies', (event) => {
-  if (!(event instanceof CustomEvent)) return;
-  const { query } = event.detail;
+const getMatchedMovies = (event: SubmitEvent) => {
+  event.preventDefault();
 
-  movieItems.resetMovieItems(query);
+  const formData = new FormData(event.target as HTMLFormElement);
+  const query = Array.from(formData.values())[0];
+
+  movieItems.resetMovieItems(query.toString());
   movieItems.showMore();
-});
+};
+
+const header = new Header({ onLogoClick: getPopularMovies, onSearch: getMatchedMovies });
+const movieItems = new MovieItems();
+
+body?.appendChild(header.element);
+body?.appendChild(movieItems.element);

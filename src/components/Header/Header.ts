@@ -2,14 +2,19 @@ import './style.css';
 
 import SearchField from '../SearchField/SearchField';
 import Logo from '../../imgs/logo.png';
+import Image from '../Image/Image';
+
+interface HeaderProps {
+  onLogoClick?: () => void;
+  onSearch?: (event: SubmitEvent) => void;
+}
 
 class Header {
   private template: HTMLElement;
 
-  constructor() {
+  constructor(props: HeaderProps) {
     this.template = this.createHeader();
-    this.createElements();
-    this.setEventlistener();
+    this.createElements(props);
   }
 
   createHeader() {
@@ -17,36 +22,25 @@ class Header {
     return header;
   }
 
-  createElements() {
+  createElements({ onLogoClick, onSearch }: HeaderProps) {
+    this.createLogoField(onLogoClick);
+    this.createSearchField(onSearch);
+  }
+
+  createLogoField(onLogoClick?: () => void) {
     const h1 = document.createElement('h1');
-    const img = document.createElement('img');
-    img.src = Logo;
-    img.setAttribute('alt', 'MovieList 로고');
-    h1.appendChild(img);
+    const img = new Image({ src: Logo, alt: 'MovieList 로고', onImageClick: onLogoClick });
+    h1.appendChild(img.element);
     this.template.appendChild(h1);
-    const searchField = this.createSearchField();
-    this.template.appendChild(searchField);
   }
 
-  createSearchField() {
-    const searchField = new SearchField();
-    return searchField.getElement();
+  createSearchField(onSearch?: (event: SubmitEvent) => void) {
+    const searchField = new SearchField({ onSearch });
+    this.template.appendChild(searchField.element);
   }
 
-  getElement() {
+  get element() {
     return this.template;
-  }
-
-  setEventlistener() {
-    const logo = this.template.querySelector('img');
-    logo?.addEventListener('click', this.dispatchGetPopularMovie);
-  }
-
-  dispatchGetPopularMovie() {
-    const getPopularMoviesEvent = new CustomEvent('GetPopularMovies', {
-      bubbles: true,
-    });
-    document.dispatchEvent(getPopularMoviesEvent);
   }
 }
 

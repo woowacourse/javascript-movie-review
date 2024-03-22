@@ -1,59 +1,53 @@
 import './style.css';
 import Button from '../Button/Button';
 
+interface SearchFieldProps {
+  onSearch?: (event: SubmitEvent) => void;
+}
 class SearchField {
-  private template: HTMLElement;
+  private template: HTMLFormElement;
 
-  constructor() {
+  constructor(props: SearchFieldProps) {
+    const { onSearch } = props;
     this.template = this.createSearchField();
     this.createElements();
-    this.addEnterEventListener();
+    if (typeof onSearch !== 'undefined') this.setEventListener(onSearch);
   }
 
   createSearchField() {
-    const searchField = document.createElement('div');
+    const searchField = document.createElement('form');
     searchField.className = 'search-box';
     return searchField;
   }
 
   createElements() {
+    this.createInputElement();
+    this.createButtonElement();
+  }
+
+  createInputElement() {
     const input = document.createElement('input');
     input.setAttribute('type', 'text');
+    input.name = 'query';
     input.maxLength = 30;
     input.placeholder = '검색어를 입력하세요';
+    this.template.appendChild(input);
+  }
 
-    const button = Button.createElements({
+  createButtonElement() {
+    const button = new Button({
       className: ['search-button'],
       text: '검색',
-      onClick: this.dispatchGetMatchedMovie.bind(this),
     });
 
-    this.template.appendChild(input);
-    this.template.appendChild(button);
+    this.template.appendChild(button.element);
   }
 
-  addEnterEventListener() {
-    const input = this.template.querySelector('input');
-    input?.addEventListener('keyup', (event) => {
-      if (event.isComposing || event.keyCode === 229) return;
-      if (event.code === 'Enter') {
-        this.dispatchGetMatchedMovie();
-      }
-    });
+  setEventListener(onSearch: (event: SubmitEvent) => void) {
+    this.template.addEventListener('submit', onSearch);
   }
 
-  dispatchGetMatchedMovie() {
-    const input = this.template.querySelector('input') as HTMLInputElement;
-    const getMatchedMoviesEvent = new CustomEvent('GetMatchedMovies', {
-      detail: { query: input.value as string },
-      bubbles: true,
-    });
-    input.value = '';
-    input.blur();
-    document.dispatchEvent(getMatchedMoviesEvent);
-  }
-
-  getElement() {
+  get element() {
     return this.template;
   }
 }
