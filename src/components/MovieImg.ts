@@ -3,16 +3,17 @@ import { IMAGE_URL } from "../config";
 import { Movie } from "../type/movie";
 import { createElementWithAttribute } from "../utils";
 
-const POSTER_STIZE = "w500";
+const POSTER_SIZE = "w500";
 
 const imgSrc = (path: string | null) =>
-  path === null ? noImg : IMAGE_URL + POSTER_STIZE + path;
+  path === null ? noImg : IMAGE_URL + POSTER_SIZE + path;
 
 const MovieImg = (movie: Movie) =>
   createElementWithAttribute("img", {
-    class: "item-thumbnail",
+    class: "movie-thumbnail",
     src: imgSrc(movie.poster_path),
     loading: "lazy",
     alt: movie.title,
   });
+
 export default MovieImg;

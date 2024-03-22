@@ -1,19 +1,19 @@
 import LogoImg from "../../templates/logo.png";
 import { dataStateStore } from "../model";
-import { handleGetPopularMovieData } from "../service/fetchDataWidthSkeleton";
+import DataFetcher from "../service/DataFetcher";
 import { createElementWithAttribute } from "../utils";
 
-import ItemView from "./ItemView";
+import ItemView from "./MovieListContainer";
 import SearchBox from "./SearchBox";
 
 const handleClickToRefresh = async () => {
-  const $itemView = document.querySelector(".item-view");
+  const $itemView = document.querySelector(".movie-list-container");
   $itemView?.remove();
   const $searchBox = document.querySelector("#search-input");
   if ($searchBox instanceof HTMLInputElement) {
     $searchBox.value = "";
   }
-  await handleGetPopularMovieData(true);
+  await DataFetcher.handleGetPopularMovieData(true);
 
   ItemView("지금 인기 있는 영화", dataStateStore.movieData, "popular");
 };

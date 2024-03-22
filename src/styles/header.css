@@ -1,0 +1,21 @@
+header {
+  width: 100%;
+  min-width: 1200px;
+  height: 72px;
+  background-color: var(--black-bg-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--white-color);
+  margin-bottom: 48px;
+}
+
+header h1 {
+  cursor: pointer;
+  user-select: none;
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: -0.1rem;
+  color: var(--red-color);
+}

@@ -3,7 +3,7 @@ import { Movie } from "../type/movie";
 import { createElementWithAttribute } from "../utils";
 
 const MovieScore = (movie: Movie) => {
-  const $score = createElementWithAttribute("p", { class: "item-score" });
+  const $score = createElementWithAttribute("p", { class: "movie-score" });
   const $star = createElementWithAttribute("img", {
     src: starFilled,
     alt: "별점",
@@ -14,4 +14,5 @@ const MovieScore = (movie: Movie) => {
 
   return $score;
 };
+
 export default MovieScore;

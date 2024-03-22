@@ -1,21 +1,21 @@
 import { ListType, Movie, PartialMovieDataForItemView } from "../type/movie";
 import { createElementWithAttribute } from "../utils";
 
-import ItemList from "./ItemList";
 import MoreButton from "./MoreButton";
+import MovieList from "./MovieList";
 import Title from "./Title";
 
 const makeSection = (titleText: string, movieList: Movie[] | undefined) => {
   const $section = createElementWithAttribute("section", {
-    class: "item-view",
+    class: "movie-list-container",
   });
   $section.appendChild(Title(titleText));
-  $section.appendChild(ItemList(movieList));
+  $section.appendChild(MovieList(movieList));
 
   return $section;
 };
 
-const ItemView = (
+const MovieListContainer = (
   titleText: string,
   movieData: PartialMovieDataForItemView,
   listType: ListType,
@@ -26,4 +26,4 @@ const ItemView = (
   $main?.appendChild($section);
   MoreButton(listType, movieData.isShowMoreButton);
 };
-export default ItemView;
+export default MovieListContainer;

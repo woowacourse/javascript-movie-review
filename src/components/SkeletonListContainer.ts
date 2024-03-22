@@ -3,7 +3,7 @@ import { createElementWithAttribute } from "../utils";
 const SkeletonImg = ($card: HTMLElement) => {
   $card.appendChild(
     createElementWithAttribute("div", {
-      class: "item-thumbnail skeleton",
+      class: "movie-thumbnail skeleton",
     }),
   );
 };
@@ -11,7 +11,7 @@ const SkeletonImg = ($card: HTMLElement) => {
 const SkeletonTitle = ($card: HTMLElement) => {
   $card.appendChild(
     createElementWithAttribute("div", {
-      class: "item-title skeleton",
+      class: "movie-title skeleton",
     }),
   );
 };
@@ -19,13 +19,13 @@ const SkeletonTitle = ($card: HTMLElement) => {
 const SkeletonScore = ($card: HTMLElement) => {
   $card.appendChild(
     createElementWithAttribute("div", {
-      class: "item-score skeleton",
+      class: "movie-score skeleton",
     }),
   );
 };
 
 const SkeletonCard = () => {
-  const $card = createElementWithAttribute("div", { class: "item-card" });
+  const $card = createElementWithAttribute("div", { class: "movie-card" });
   SkeletonImg($card);
   SkeletonTitle($card);
   SkeletonScore($card);
@@ -52,7 +52,7 @@ const SkeletonListTitle = () => {
 
 const SkeletonList = () => {
   const $ul = createElementWithAttribute("ul", {
-    class: "item-list skeleton-list",
+    class: "movie-list skeleton-list",
   });
 
   Array.from({ length: 12 }).forEach(() => {
@@ -62,14 +62,15 @@ const SkeletonList = () => {
   return $ul;
 };
 
-const SkeletonView = () => {
+const SkeletonListContainer = () => {
   const $main = document.querySelector("main");
   const $section = createElementWithAttribute("section", {
-    class: "skeleton-view",
+    class: "skeleton-list-container",
   });
 
   $section.appendChild(SkeletonListTitle());
   $section.appendChild(SkeletonList());
   $main?.appendChild($section);
 };
-export default SkeletonView;
+
+export default SkeletonListContainer;

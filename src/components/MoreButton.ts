@@ -1,76 +1,76 @@
 import { dataStateStore } from "../model";
-import {
-  handleGetPopularMovieData,
-  handleGetSearchMovieData,
-} from "../service/fetchDataWidthSkeleton";
+import DataFetcher from "../service/DataFetcher";
 import { ListType, Movie } from "../type/movie";
 import { createElementWithAttribute, debouceFunc } from "../utils";
 
-import ItemList from "./ItemList";
+import ItemList from "./MovieList";
 
 // --- MoreButton click event
-const changeMoreButtonState = (event: Event, isShowMoreButton: boolean) => {
-  const { target } = event;
+const MoreButtonClickHandler = {
+  changeMoreButtonState(event: Event, isShowMoreButton: boolean) {
+    const { target } = event;
 
-  if (target instanceof HTMLButtonElement) {
-    target.classList.toggle("open", isShowMoreButton);
-  }
+    if (target instanceof HTMLButtonElement) {
+      target.classList.toggle("open", isShowMoreButton);
+    }
+  },
+
+  addItemsToMovieList(totalMovieList: Movie[]) {
+    const $itemList = document.querySelector(
+      ".movie-list-container .movie-list",
+    );
+
+    if (!$itemList) return;
+
+    const $newItemList = ItemList(totalMovieList);
+    $itemList.parentElement?.replaceChild($newItemList, $itemList);
+  },
+
+  getSearchInputValue() {
+    const $searchInput = document.querySelector("#search-input");
+
+    if (!($searchInput instanceof HTMLInputElement)) {
+      return undefined;
+    }
+
+    return $searchInput.value;
+  },
+
+  async getSearchMovieData() {
+    const title = this.getSearchInputValue();
+
+    if (!title) return;
+
+    await DataFetcher.handleGetSearchMovieData(title, false);
+  },
+
+  handleMovieDataState(event: Event) {
+    const previousScrollPosition = window.scrollY;
+
+    const { movieList, isShowMoreButton } = dataStateStore.movieData;
+
+    this.addItemsToMovieList(movieList);
+    this.changeMoreButtonState(event, isShowMoreButton);
+
+    window.scrollTo(0, previousScrollPosition);
+  },
+
+  async handleMovieData(event: Event, listType: ListType) {
+    if (listType === "popular") {
+      await DataFetcher.handleGetPopularMovieData();
+    } else {
+      await this.getSearchMovieData();
+    }
+
+    this.handleMovieDataState(event);
+  },
+
+  async handleClickMoreButton(event: Event, listType: ListType) {
+    event.stopPropagation();
+
+    debouceFunc(() => this.handleMovieData(event, listType));
+  },
 };
-
-const addItemsToMovieList = (totalMovieList: Movie[]) => {
-  const $itemList = document.querySelector(".item-view .item-list");
-
-  if (!$itemList) return;
-
-  const $newItemList = ItemList(totalMovieList);
-  $itemList.parentElement?.replaceChild($newItemList, $itemList);
-};
-
-const getSearchInputValue = () => {
-  const $searcInput = document.querySelector("#search-input");
-
-  if (!($searcInput instanceof HTMLInputElement)) {
-    return undefined;
-  }
-
-  return $searcInput.value;
-};
-
-const getSearchMovieData = async () => {
-  const title = getSearchInputValue();
-
-  if (!title) return;
-
-  await handleGetSearchMovieData(title, false);
-};
-
-const handleMovieDatastate = (event: Event) => {
-  const previousScrollPosition = window.scrollY;
-
-  const { movieList, isShowMoreButton } = dataStateStore.movieData;
-
-  addItemsToMovieList(movieList);
-  changeMoreButtonState(event, isShowMoreButton);
-
-  window.scrollTo(0, previousScrollPosition);
-};
-
-const hanldeMovieData = async (event: Event, listType: ListType) => {
-  if (listType === "popular") {
-    await handleGetPopularMovieData();
-  } else {
-    await getSearchMovieData();
-  }
-
-  handleMovieDatastate(event);
-};
-
-const handleClickMoreButton = async (event: Event, listType: ListType) => {
-  event.stopPropagation();
-
-  debouceFunc(() => hanldeMovieData(event, listType));
-};
-
 // MoreButton click event ---
 
 // make MoreButton ----
@@ -87,10 +87,10 @@ const makeMoreButton = () => {
 const MoreButton = (listType: ListType, isShowMoreButton: boolean) => {
   if (!isShowMoreButton) return;
   const $moreButton = makeMoreButton();
-  document.querySelector(".item-view")?.appendChild($moreButton);
+  document.querySelector(".movie-list-container")?.appendChild($moreButton);
 
   $moreButton.addEventListener("click", (event) =>
-    handleClickMoreButton(event, listType),
+    MoreButtonClickHandler.handleClickMoreButton(event, listType),
   );
 };
 

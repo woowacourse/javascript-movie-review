@@ -1,0 +1,44 @@
+.movie-list {
+  display: grid;
+  margin: 48px 0;
+  grid-template-columns: repeat(4, 180px);
+  grid-column-gap: 160px;
+  grid-row-gap: 48px;
+}
+.movie-list.no-movie-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  li {
+    font-size: 24px;
+    text-align: center;
+  }
+}
+
+.movie-list .movie-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-list .movie-thumbnail {
+  border-radius: 8px;
+  width: 180px;
+  height: 270px;
+  object-fit: cover;
+  background-size: contain;
+}
+
+.movie-list .movie-title {
+  margin-top: 16px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.movie-list .movie-score {
+  margin-top: 16px;
+  font-size: 1.2rem;
+}
+
+.movie-list .movie-score::after {
+  margin-left: 8px;
+}
