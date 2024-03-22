@@ -9,31 +9,29 @@ export interface Params {
   [key: string]: string | number | boolean;
 }
 
-interface MovieRequestResult {
-  id: number;
-  title: string;
-  vote_average: number;
-  poster_path: string;
+interface MovieData {
+  movies: Movie[];
+  page: number;
+  isLastPage: boolean;
+  isEmptyResults: boolean;
 }
 
 const MovieService = {
-  async fetchMovies(url: string) {
+  async fetchMovies(url: string): Promise<MovieData> {
     const data = await fetchData({
       url,
       options: COMMON_OPTIONS,
     });
 
     const { page, total_pages, results, total_results } = data;
-    const isLastPage = page === total_pages;
-    const isEmptyResults = total_results === 0;
-    const movies = results.map(
-      ({ id, title, vote_average, poster_path }: MovieRequestResult) => ({
-        id,
-        title,
-        vote_average,
-        poster_path,
-      }),
-    );
+    const isLastPage: boolean = page === total_pages;
+    const isEmptyResults: boolean = total_results === 0;
+    const movies: Movie[] = results.map((movie: Movie) => ({
+      id: movie.id,
+      title: movie.title,
+      vote_average: movie.vote_average,
+      poster_path: movie.poster_path,
+    }));
 
     return { movies, page, isLastPage, isEmptyResults };
   },
