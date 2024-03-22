@@ -46,6 +46,8 @@ class MovieList {
       setTimeout(() => {
         this.#updateMovieItemsWithData(data, liList);
 
+        this.#removeMoreMoviesButton();
+
         const moreMoviesButton = this.#createMoreMoviesButton();
         moreMoviesButton.addEventListener("click", () =>
           this.#handlePopularPageEnd()

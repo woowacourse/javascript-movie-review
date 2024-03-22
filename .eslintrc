@@ -1,11 +1,13 @@
-{
-  "rules": {},
-  "env": {
-    "es6": true,
-    "node": true
-  },
-  "parserOptions": {
-    "ecmaVersion": "latest"
-  },
-  "extends": ["eslint:recommended", "plugin:prettier/recommended"]
-}
+// {
+//   "rules": {
+//     "quotes": ["off", "single"]
+//   },
+//   "env": {
+//     "es6": true,
+//     "node": true
+//   },
+//   "parserOptions": {
+//     "ecmaVersion": "latest"
+//   },
+//   "extends": ["eslint:recommended", "plugin:prettier/recommended"]
+// }
