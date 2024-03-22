@@ -1,6 +1,6 @@
 describe('영화 리뷰 웹 사이트 기능 동작 테스트', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:8080');
+    cy.visit('/');
   });
 
   it('더 보기 버튼을 클릭했을 때, 20개의 영화 정보가 추가됩니다.', () => {
