@@ -1,4 +1,5 @@
 import { getMovieData } from "./getMovieData";
+import Movie from "../movie/Movie";
 
 const API_KEY = process.env.API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
@@ -23,7 +24,10 @@ export const getSearchedMoviesData = async (
     try {
       const searchedMovies = await getMovieData(searchMovieUrl);
       if (searchedMovies && searchedMovies.results) {
-        return searchedMovies.results;
+        const movies = searchedMovies.results.map(
+          (item: IMovieItemData) => new Movie(item)
+        );
+        return movies;
       } else {
         throw new Error("서버에서 영화 데이터를 불러오는데 실패했습니다.");
       }

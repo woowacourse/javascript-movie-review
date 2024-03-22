@@ -1,4 +1,5 @@
 import { getMovieData } from "./getMovieData";
+import Movie from "../movie/Movie";
 
 const API_KEY = process.env.API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
@@ -19,7 +20,10 @@ export const getPopularMoviesData = async (currentPage: string) => {
     try {
       const popularMovies = await getMovieData(popularMovieUrl);
       if (popularMovies && popularMovies.results) {
-        return popularMovies.results;
+        const movies = popularMovies.results.map(
+          (item: IMovieItemData) => new Movie(item)
+        );
+        return movies;
       } else {
         throw new Error("인기 영화를 불러오는데 실패했습니다.");
       }

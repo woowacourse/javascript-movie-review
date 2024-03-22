@@ -39,12 +39,12 @@ class MovieList {
     const ul = $(".item-list");
 
     try {
-      const data = await getPopularMoviesData(this.#currentPage.toString());
+      const movies = await getPopularMoviesData(this.#currentPage.toString());
 
-      const liList = this.#createEmptyMovieItems(data, ul);
+      const liList = this.#createEmptyMovieItems(movies, ul);
 
       setTimeout(() => {
-        this.#updateMovieItemsWithData(data, liList);
+        this.#updateMovieItemsWithData(movies, liList);
 
         this.#removeMoreMoviesButton();
 
@@ -104,13 +104,13 @@ class MovieList {
     const ul = $("ul");
 
     try {
-      const data = await this.#getSearchedMoviesData(titleInput);
-      const liList = this.#createEmptyMovieItems(data, ul);
+      const movies = await this.#getSearchedMoviesData(titleInput);
+      const liList = this.#createEmptyMovieItems(movies, ul);
 
       setTimeout(() => {
-        this.#updateMovieItemsWithData(data, liList);
+        this.#updateMovieItemsWithData(movies, liList);
 
-        this.#handleSearchedPageEnd(data);
+        this.#handleSearchedPageEnd(movies);
       }, 1000);
     } catch (error) {
       this.#handleError();
@@ -176,23 +176,22 @@ class MovieList {
   }
 
   #createEmptyMovieItems(
-    data: IMovieItemData[],
+    movies: IMovieItemData[],
     ul: HTMLElement | null
   ): HTMLLIElement[] {
-    return data.map(() => {
+    return movies.map(() => {
       const liElement = this.#createMovieItem() as HTMLLIElement;
       ul?.appendChild(liElement);
       return liElement;
     });
   }
 
-  #updateMovieItemsWithData(data: IMovieItemData[], liList: HTMLLIElement[]) {
+  #updateMovieItemsWithData(movies: IMovieItemData[], liList: HTMLLIElement[]) {
     this.#removeSkeleton();
 
-    const movieItems = data.map(
-      ({ title, poster_path, vote_average }) =>
-        new MovieItem({ title, poster_path, vote_average })
-    );
+    const movieItems = movies.map(({ title, poster_path, vote_average }) => {
+      return new MovieItem({ title, poster_path, vote_average });
+    });
 
     movieItems.forEach((movieItem: MovieItem, index: number) => {
       const li = liList[index];
