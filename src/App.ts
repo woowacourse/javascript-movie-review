@@ -23,54 +23,17 @@ class App {
     if (!this.itemViewBox) return;
     this.itemViewBox.append(this.movieListBox);
 
-    await this.renderPopularResult();
+    await this.renderMovieList();
   }
 
-  // fetchMovies({ props, currentPage }: { props: APIType; currentPage: number }) {
-  //   try {
-  //     if (props.apiType === 'popular') {
-  //       return movieAPI.fetchPopularMovies({ pageNumber: currentPage });
-  //     }
-  //     return movieAPI.fetchSearchMovies({ pageNumber: currentPage, query: props.query });
-  //   } catch (error: unknown) {
-  //     if (error instanceof Error) {
-  //       if (error.message === ERROR_MESSAGE.RESULTS_NOT_FOUND) {
-  //         return NotFound();
-  //       }
-  //       new Toast(error.message);
-  //     }
-  //   }
-  // }
-
-  // export type PopularAPIType = {
-  //   apiType: 'popular';
-  // };
-
-  // export type SearchAPIType = {
-  //   apiType: 'search';
-  //   query: string;
-  // };
-
-  async renderSearchResult(query: string) {
-    this.removeTitle();
-    this.renderTitle(query);
-    await this.movieDataLoader.renderFirstPage({
-      apiType: 'search',
-      query,
-    });
-  }
-
-  async renderPopularResult() {
+  async renderMovieList() {
     this.removeTitle();
     this.renderTitle();
-    await this.movieDataLoader.renderFirstPage({ apiType: 'popular' });
+    await this.movieDataLoader.renderFirstPage();
   }
 
   renderHeader() {
-    new Header({
-      searchEvent: (query: string) => this.renderSearchResult(query),
-      movePopularListEvent: () => this.renderPopularResult(),
-    });
+    new Header(this.renderMovieList.bind(this));
   }
 
   renderTitle(query?: string) {

@@ -12,5 +12,5 @@ export const setUrlParams = (paramKey: string, paramValue: string) => {
 export const deleteParams = (paramKey: string) => {
   const urlParams = new URLSearchParams(window.location.search);
   urlParams.delete(paramKey);
-  window.history.replaceState({}, '', `${window.location.pathname}${urlParams}`);
+  window.history.replaceState({}, '', `${window.location.pathname}?${urlParams}`);
 };

@@ -1,3 +1,4 @@
+import { deleteParams, setUrlParams } from '../../utils/queryString';
 import '../SearchBox/SearchBox.css';
 
 class SearchBox {
@@ -7,11 +8,11 @@ class SearchBox {
   searchBox = document.createElement('form');
   searchInput = document.createElement('input');
   searchButton = document.createElement('button');
-  searchEvent;
+  rerenderList;
 
-  constructor({ searchEvent }: { searchEvent: (query: string) => Promise<void> }) {
-    this.searchEvent = searchEvent;
-    this.setEvents(searchEvent);
+  constructor(rerenderList: () => void) {
+    this.rerenderList = rerenderList;
+    this.setEvents();
   }
 
   init() {
@@ -29,11 +30,11 @@ class SearchBox {
     return this.searchBox;
   }
 
-  setEvents(searchEvent: (query: string) => void) {
+  setEvents() {
     this.searchBox.addEventListener('submit', (e: Event) => {
       e.preventDefault();
-
-      this.searchEvent(this.searchInput.value);
+      setUrlParams('query', this.searchInput.value);
+      this.rerenderList();
     });
   }
 }

@@ -13,15 +13,16 @@ class Fetcher {
   async get(): Promise<MovieAPIReturnType> {
     const fullApiUrl = this.generateMovieApiUrl();
 
+    console.log('fullApiUrl', fullApiUrl);
+
     const response = await fetch(fullApiUrl);
     this.errorHandler(response.status);
+    console.log('response', response);
     const result = await response.json();
     return result;
   }
 
   generateMovieApiUrl() {
-    console.log('url', this.url);
-    console.log('params', this.params);
     const API_KEY = process.env.API_KEY;
     const queryParams = new URLSearchParams({
       api_key: API_KEY as string,

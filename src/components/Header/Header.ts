@@ -1,23 +1,17 @@
 import Logo from '../../assets/logo.png';
+import { deleteParams } from '../../utils/queryString';
 import SearchBox from '../SearchBox/SearchBox';
 import './Header.css';
 
-interface HeaderProp {
-  searchEvent: (query: string) => Promise<void>;
-  movePopularListEvent: () => Promise<void>;
-}
 class Header {
   headerBox = document.createElement('header');
   header = document.createElement('h1');
   headerImage = document.createElement('img');
+  rerenderList;
 
-  searchEvent: (query: string) => Promise<void>;
-  movePopularListEvent: () => Promise<void>;
-
-  constructor({ searchEvent, movePopularListEvent }: HeaderProp) {
+  constructor(rerenderList: () => void) {
+    this.rerenderList = rerenderList;
     this.render();
-    this.searchEvent = searchEvent;
-    this.movePopularListEvent = movePopularListEvent;
     this.setEvent();
   }
 
@@ -28,7 +22,7 @@ class Header {
     this.header.append(this.headerImage);
     this.headerBox.append(this.header);
 
-    const searchBox = new SearchBox({ searchEvent: (query: string) => this.searchEvent(query) }).init();
+    const searchBox = new SearchBox(this.rerenderList).init();
     this.headerBox.append(searchBox);
 
     const parent = document.querySelector('#app');
@@ -38,7 +32,9 @@ class Header {
 
   setEvent() {
     this.header.addEventListener('click', () => {
-      this.movePopularListEvent();
+      deleteParams('query');
+      deleteParams('page');
+      this.rerenderList();
     });
   }
 }
