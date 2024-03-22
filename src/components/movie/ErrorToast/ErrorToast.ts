@@ -1,8 +1,6 @@
 import Component from '../../common/Component/Component';
-
 import { createElement } from '../../../utils/dom/createElement/createElement';
 import { TOAST } from '../../../constants/Condition';
-
 import './ErrorToast.css';
 
 interface ErrorToastProps {

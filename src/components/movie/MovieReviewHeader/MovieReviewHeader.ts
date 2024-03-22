@@ -32,32 +32,31 @@ class MovieReviewHeader extends Component {
     const $searchForm = querySelector<HTMLFormElement>(ELEMENT_SELECTOR.searchform, this.$element);
     const $movieLogo = querySelector<HTMLFormElement>(ELEMENT_SELECTOR.movieLogo, this.$element);
 
-    $searchForm.addEventListener('submit', this.handleSubmitForm.bind(this));
-    $movieLogo.addEventListener('click', this.handleClickLogo);
+    $searchForm.addEventListener('submit', this.handleSearchFormSubmit.bind(this));
+    $movieLogo.addEventListener('click', this.handleLogoClick);
   }
 
-  private handleSubmitForm(event: Event) {
+  private handleSearchFormSubmit(event: Event) {
     event.preventDefault();
 
     const $searchForm = querySelector<HTMLFormElement>(ELEMENT_SELECTOR.searchform, this.$element);
     const $searchInput = querySelector<HTMLInputElement>(ELEMENT_SELECTOR.searchInput, this.$element);
 
-    this.handleMovieSearchResult($searchForm, $searchInput);
+    this.handleSearchResult($searchForm, $searchInput);
 
     $searchForm.reset();
   }
 
-  private handleMovieSearchResult($searchForm: HTMLElement, $searchInput: HTMLInputElement) {
-    const movieName = $searchInput.value;
+  private handleSearchResult($searchForm: HTMLElement, $searchInput: HTMLInputElement) {
+    const searchValue = $searchInput.value;
 
-    if (movieName === '') {
+    if (searchValue === '') {
       new ErrorToast($searchForm, { errorText: '아무것도 입력하지 않았습니다. 다시 입력해주세요.' });
-
       $searchInput.focus();
       return;
     }
 
-    this.renderMovieReviewBody(movieName);
+    this.renderMovieReviewBody(searchValue);
   }
 
   private renderMovieReviewBody(movieName: string) {
@@ -68,7 +67,7 @@ class MovieReviewHeader extends Component {
     new MovieReviewBody($main, { movieType: movieName });
   }
 
-  private handleClickLogo() {
+  private handleLogoClick() {
     window.location.reload();
   }
 }

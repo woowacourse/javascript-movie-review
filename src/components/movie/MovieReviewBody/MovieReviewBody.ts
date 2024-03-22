@@ -74,9 +74,10 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
   }
 
   private renderMovieList($movieListContainer: HTMLElement, $ul: HTMLElement) {
-    this.movie?.setPage(MOVIE.PAGE_UNIT);
+    if (!this.movie) return;
 
-    this.movie?.fetchMovieDetails({
+    this.movie.setPage(MOVIE.PAGE_UNIT);
+    this.movie.fetchMovieDetails({
       movieType: this.props?.movieType ?? '',
       onSuccess: (data) => {
         $ul.remove();
@@ -86,23 +87,23 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
           return;
         }
 
-        if (data.results.length < 20) this.removeMoreButton();
+        if (data.results.length < MOVIE.MAX_ITEM) this.removeMoreButton();
 
         new MovieList($movieListContainer, { movieItemDetails: data?.results ?? [] });
       },
-      onError: (error) => this.openErrorFallbackModal(error),
+      onError: (error) => this.openErrorModal(error),
     });
   }
 
   private renderNoResultImage($movieListContainer: HTMLElement) {
-    this.removeMoreButton();
-
-    const $fallbackImage = createElement({
+    const $noResultImage = createElement({
       tagName: 'img',
       attributeOptions: { src: NoResultImage, alt: '검색 결과 없음 이미지', class: 'no-result-image' },
     });
 
-    $movieListContainer.appendChild($fallbackImage);
+    $movieListContainer.appendChild($noResultImage);
+
+    this.removeMoreButton();
   }
 
   private removeMoreButton() {
@@ -110,7 +111,7 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     $button.remove();
   }
 
-  private openErrorFallbackModal(error: unknown) {
+  private openErrorModal(error: unknown) {
     if (error instanceof Error) {
       const $modal = querySelector<HTMLDialogElement>(ELEMENT_SELECTOR.errorFallBackModal);
       $modal.showModal();
@@ -126,7 +127,7 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     const $movieListContainer = querySelector<HTMLDivElement>(ELEMENT_SELECTOR.movieListContainer);
     this.updateMovieList($movieListContainer);
 
-    if (this?.movie && this.movie.isMaxPage()) {
+    if (this.movie && this.movie.isMaxPage()) {
       this.removeMoreButton();
     }
   }

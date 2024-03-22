@@ -1,8 +1,7 @@
 import Component from './components/common/Component/Component';
 import MovieReviewHeader from './components/movie/MovieReviewHeader/MovieReviewHeader';
 import MovieReviewBody from './components/movie/MovieReviewBody/MovieReviewBody';
-import ErrorFallbackModal from './components/movie/ErrorFallbackModal/ErrorFallbackModal';
-
+import ErrorModal from './components/movie/ErrorModal/ErrorModal';
 import { createElement } from './utils/dom/createElement/createElement';
 
 class App extends Component {
@@ -19,7 +18,7 @@ class App extends Component {
 
     $app.appendChild($main);
 
-    new ErrorFallbackModal($app);
+    new ErrorModal($app);
 
     return $app;
   }

@@ -3,9 +3,9 @@ import Modal from '../../common/Modal/Modal';
 import { querySelector } from '../../../utils/dom/selector';
 import { ELEMENT_SELECTOR } from '../../../constants/Selector';
 import { WarningImage } from '../../../assets';
-import './ErrorFallbackModal.css';
+import './ErrorModal.css';
 
-class ErrorFallbackModal extends Component {
+class ErrorModal extends Component {
   protected render(): void {
     new Modal(this.$element, { id: 'error-fallback-modal', children: this.createComponent() });
   }
@@ -20,12 +20,12 @@ class ErrorFallbackModal extends Component {
 
   protected setEvent(): void {
     const $reloadButton = querySelector<HTMLButtonElement>(ELEMENT_SELECTOR.reloadButton, this.$element);
-    $reloadButton.addEventListener('click', this.handleClickReloadButton.bind(this));
+    $reloadButton.addEventListener('click', this.handleReloadButtonClick.bind(this));
   }
 
-  private handleClickReloadButton() {
+  private handleReloadButtonClick() {
     window.location.reload();
   }
 }
 
-export default ErrorFallbackModal;
+export default ErrorModal;

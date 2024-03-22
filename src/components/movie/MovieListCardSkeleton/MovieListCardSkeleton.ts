@@ -1,7 +1,5 @@
 import Component from '../../common/Component/Component';
-
 import { createElement } from '../../../utils/dom/createElement/createElement';
-
 import './MovieListCardSkeleton.css';
 
 class MovieListCardSkeleton extends Component {
