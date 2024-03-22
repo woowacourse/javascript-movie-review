@@ -4,7 +4,7 @@ import MovieListCardSkeleton from '../MovieListCardSkeleton/MovieListCardSkeleto
 import Movie from '../../../domain/Movie/Movie';
 import { createElement } from '../../../utils/dom/createElement/createElement';
 import { querySelector } from '../../../utils/dom/selector';
-import { MOVIE } from '../../../constants/Condition';
+import { MOVIE, MOVIE_ITEM_SKELETON } from '../../../constants/Condition';
 import { ELEMENT_SELECTOR } from '../../../constants/Selector';
 import { NoResultImage } from '../../../assets';
 import './MovieReviewBody.css';
@@ -64,7 +64,7 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
   private updateMovieList($movieListContainer: HTMLElement) {
     const $ul = createElement({ tagName: 'ul', attributeOptions: { class: 'item-list' } });
 
-    this.renderSkeletonList($movieListContainer, $ul, 8);
+    this.renderSkeletonList($movieListContainer, $ul, MOVIE_ITEM_SKELETON.LENGTH);
     this.renderMovieList($movieListContainer, $ul);
   }
 

@@ -1,6 +1,7 @@
 import Component from '../../common/Component/Component';
 import type { MovieDetail } from '../../../domain/Movie/Movie.type';
 import { createElement } from '../../../utils/dom/createElement/createElement';
+import { MOVIE_ITEM } from '../../../constants/Condition';
 import { FilledStar } from '../../../assets';
 
 class MovieListCard extends Component<MovieDetail> {
@@ -20,7 +21,9 @@ class MovieListCard extends Component<MovieDetail> {
           alt=${`${this.props?.title}`}
         />
         <p class="item-title">${this.props?.title}</p>
-        <p class="item-score">${this.props?.vote_average.toFixed(1)} <img src=${`${FilledStar}`} alt="별점" /> </p>
+        <p class="item-score">${this.props?.vote_average.toFixed(
+          MOVIE_ITEM.SCORE_DIGIT,
+        )} <img src=${`${FilledStar}`} alt="별점" /> </p>
       </div>
     `;
 

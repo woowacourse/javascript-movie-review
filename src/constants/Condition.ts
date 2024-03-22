@@ -4,6 +4,14 @@ export const MOVIE = {
   PAGE_UNIT: 1,
 };
 
+export const MOVIE_ITEM_SKELETON = {
+  LENGTH: 8,
+};
+
+export const MOVIE_ITEM = {
+  SCORE_DIGIT: 1,
+};
+
 export const TOAST = {
   POP_UP_TIME: 800,
   POP_DOWN_TIME: 500,
