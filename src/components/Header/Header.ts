@@ -5,8 +5,10 @@ import './Header.css';
 const createLogo = () => {
   const $h1 = document.createElement('h1');
   const $img = document.createElement('img');
+
+  $h1.textContent = 'MovieList';
   $img.src = Logo;
-  $img.alt = 'MovieList 로고';
+  $img.alt = '';
 
   $h1.appendChild($img);
   return $h1;
