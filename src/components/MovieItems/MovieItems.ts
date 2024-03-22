@@ -8,6 +8,7 @@ import { ResponseMovieItem } from '../../types/ResponseMovieItem';
 import MovieItem from '../MovieItem/MovieItem';
 import MatchedMovies from '../../domain/MatchedMovies';
 import Fallback from '../Fallback/Fallback';
+import Skeleton from '../Skeleton/Skeleton';
 
 class MovieItems {
   private currentPage: number;
@@ -22,7 +23,7 @@ class MovieItems {
 
   constructor() {
     this.fallback = new Fallback();
-    this.template = this.fallback.getElement();
+    this.template = this.fallback.element;
     this.currentPage = 0;
     this.isLast = false;
     this.createElements();
@@ -46,7 +47,7 @@ class MovieItems {
 
   createH2Element(main: HTMLElement) {
     const h2 = document.createElement('h2');
-    h2.textContent = '지금 인기 있는 영화';
+    h2.textContent = '지금 인기있는 영화';
     main.appendChild(h2);
   }
 
@@ -78,9 +79,7 @@ class MovieItems {
   }
 
   checkLastPage(totalPage: number) {
-    if (this.currentPage >= totalPage) {
-      this.isLast = true;
-    }
+    this.isLast = this.currentPage >= totalPage;
   }
 
   changeShowMoreButton() {
@@ -109,21 +108,12 @@ class MovieItems {
   createSkeletonMovieItem() {
     const fragment = document.createDocumentFragment();
     const skeletonItems = Array.from({ length: 20 }).map(() => {
-      const movieItem = new MovieItem();
-      fragment.appendChild(movieItem.getElement());
-      return movieItem;
+      const skeleton = new Skeleton();
+      fragment.appendChild(skeleton.element);
+      return skeleton;
     });
     this.template?.querySelector('ul')?.appendChild(fragment);
     return skeletonItems;
-  }
-
-  createMovieItem(movies: ResponseMovieItem[], skeletonItems: MovieItem[]) {
-    movies.forEach((movie, index) => {
-      const { poster_path, title, vote_average } = movie;
-      skeletonItems[index].insertInfo({ poster_path, title, vote_average });
-    });
-    this.removeSkeletonMovieItem();
-    this.changeShowMoreButton();
   }
 
   removeSkeletonMovieItem() {
@@ -143,20 +133,38 @@ class MovieItems {
     }
   }
 
-  private getMorePopularMovies(skeletonItems: MovieItem[]) {
+  private getMorePopularMovies(skeletonItems: Skeleton[]) {
     this.getPopularMovies()
-      .then((movies) => this.createMovieItem(movies, skeletonItems))
-      .catch((error) => {
-        this.fallback.setFallbackMessage(error.message);
-        this.template.innerHTML = '';
-        this.template.appendChild(this.fallback.getElement());
-      });
+      .then((movies) => this.deleteSkeletonAndShowMovies(movies, skeletonItems))
+      .catch((error) => this.showErrorFallback(error));
   }
 
-  private getMoreMatchedMovies(skeletonItems: MovieItem[]) {
-    this.getMatchedMovies(this.searchQuery ?? '').then((movies) =>
-      this.createMovieItem(movies, skeletonItems),
-    );
+  private deleteSkeletonAndShowMovies(movies: ResponseMovieItem[], skeletonItems: Skeleton[]) {
+    skeletonItems.forEach((skeleton) => skeleton.removeSkeleton());
+    this.createMovieItem(movies);
+  }
+
+  private showErrorFallback(error: Error) {
+    this.fallback.setFallbackMessage(error.message);
+    this.template.innerHTML = '';
+    this.template.appendChild(this.fallback.element);
+  }
+
+  private getMoreMatchedMovies(skeletonItems: Skeleton[]) {
+    this.getMatchedMovies(this.searchQuery ?? '')
+      .then((movies) => this.deleteSkeletonAndShowMovies(movies, skeletonItems))
+      .catch((error) => this.showErrorFallback(error));
+  }
+
+  createMovieItem(movies: ResponseMovieItem[]) {
+    const fragment = document.createDocumentFragment();
+    movies.forEach((movie) => {
+      const { poster_path, title, vote_average } = movie;
+      fragment.appendChild(new MovieItem({ poster_path, title, vote_average }).element);
+    });
+
+    this.template?.querySelector('ul')?.appendChild(fragment);
+    this.changeShowMoreButton();
   }
 }
 

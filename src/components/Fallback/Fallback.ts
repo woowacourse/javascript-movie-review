@@ -26,7 +26,7 @@ class Fallback {
     p.textContent = this.STATUS_LOOKUP_TABLE[status];
   }
 
-  getElement() {
+  get element() {
     return this.template;
   }
 }
