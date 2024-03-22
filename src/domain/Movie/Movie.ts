@@ -3,10 +3,12 @@ import MovieAPI from '../../apis/movie/movie';
 import { BaseResponse } from '../../apis/common/apiSchema.type';
 import { MovieDetail } from './Movie.type';
 
-class Movie {
-  static MAX_PAGE = 5;
+import { MOVIE } from '../../constants/Condition';
 
-  constructor(private page: number, private movieType: string) {
+class Movie {
+  private page: number;
+
+  constructor(private movieType: string) {
     this.page = 0;
     this.movieType = movieType;
   }
@@ -16,7 +18,7 @@ class Movie {
   }
 
   isMaxPage() {
-    return this.page === Movie.MAX_PAGE;
+    return this.page === MOVIE.MAX_PAGE;
   }
 
   fetchMovieDetails({
