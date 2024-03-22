@@ -4,7 +4,7 @@ import ItemView from './components/ItemView/ItemView';
 
 const init = () => {
   MovieHeader.create();
-  const item = new ItemView();
+  new ItemView();
 };
 
 init();
