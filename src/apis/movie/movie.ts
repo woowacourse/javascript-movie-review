@@ -1,5 +1,4 @@
 import ApiSchema from '../common/apiSchema';
-
 import { isMovieErrorStatusCode } from './movie.util';
 
 class MovieAPI {
@@ -8,36 +7,46 @@ class MovieAPI {
     403: '사용자가 요청한 작업을 수행할 권한이 없습니다.',
   };
 
-  private static getAPIEndpoint(type: string) {
-    return type === 'popular' ? `${process.env.BASE_URL}/movie/popular` : `${process.env.BASE_URL}/search/movie`;
-  }
-
-  private static createMovieQueryString(page: number, query?: string) {
-    const params = new URLSearchParams({
-      api_key: process.env.API_KEY,
-      language: 'ko',
-      page: String(page),
-    });
-
-    if (query) {
-      params.append('query', query);
-    }
-
-    return params.toString();
-  }
-
   private static handleProcessStatusCode(response: Response) {
     if (!isMovieErrorStatusCode(response.status)) return;
 
     throw new Error(MovieAPI.ERROR_MESSAGES_MAP[response.status]);
   }
 
-  static async fetchMovieDetails<T>(page: number, type: string): Promise<T> {
-    const requestType = type === 'popular' ? '' : type;
-    const requestUrl = `${this.getAPIEndpoint(type)}?${MovieAPI.createMovieQueryString(page, requestType)}`;
+  private static getPopularMovieAPI(page: number) {
+    const endpoint = `${process.env.BASE_URL}/movie/popular`;
 
-    const response = await new ApiSchema(requestUrl).request();
+    const params = new URLSearchParams({
+      api_key: process.env.API_KEY,
+      language: 'ko',
+      page: String(page),
+    });
 
+    return `${endpoint}?${params.toString()}`;
+  }
+
+  static async fetchPopularMovieDetails(page: number) {
+    const response = await new ApiSchema(this.getPopularMovieAPI(page)).request();
+    this.handleProcessStatusCode(response);
+
+    return response.json();
+  }
+
+  private static getSearchMovieAPI(page: number, searchValue: string) {
+    const endpoint = `${process.env.BASE_URL}/search/movie`;
+
+    const params = new URLSearchParams({
+      query: searchValue,
+      api_key: process.env.API_KEY,
+      language: 'ko',
+      page: String(page),
+    });
+
+    return `${endpoint}?${params.toString()}`;
+  }
+
+  static async fetchSearchMovieDetails(page: number, searchValue: string) {
+    const response = await new ApiSchema(this.getSearchMovieAPI(page, searchValue)).request();
     this.handleProcessStatusCode(response);
 
     return response.json();

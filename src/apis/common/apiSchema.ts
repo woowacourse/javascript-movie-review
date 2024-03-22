@@ -14,7 +14,6 @@ class ApiSchema {
 
   async request() {
     const response = await fetch(this.url, { method: this.httpMethod });
-
     this.handleProcessStatusCode(response);
 
     return response;

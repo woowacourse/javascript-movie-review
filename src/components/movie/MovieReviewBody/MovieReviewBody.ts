@@ -17,7 +17,7 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
   private movie: Movie | undefined;
 
   protected initializeState(): void {
-    this.movie = new Movie(this.props?.movieType ?? '');
+    this.movie = new Movie();
   }
 
   protected render() {
@@ -30,9 +30,7 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
       attributeOptions: { id: 'movie-review-section', class: 'item-view' },
     });
 
-    $section.appendChild(this.createMovieTitle());
-    $section.appendChild(this.createMovieListContainer());
-    $section.appendChild(this.createMoreButton());
+    $section.append(this.createMovieTitle(), this.createMovieListContainer(), this.createMoreButton());
 
     return $section;
   }
@@ -55,17 +53,23 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     return $movieListContainer;
   }
 
+  private createMoreButton() {
+    return createElement({
+      tagName: 'button',
+      text: '더보기',
+      attributeOptions: { id: 'more-button', class: 'btn primary full-width' },
+    });
+  }
+
   private updateMovieList($movieListContainer: HTMLElement) {
     const $ul = createElement({ tagName: 'ul', attributeOptions: { class: 'item-list' } });
 
     this.renderSkeletonList($movieListContainer, $ul, 8);
-
     this.renderMovieList($movieListContainer, $ul);
   }
 
   private renderSkeletonList($movieListContainer: HTMLElement, $ul: HTMLElement, length: number) {
     Array.from({ length }, () => new MovieListCardSkeleton($ul));
-
     $movieListContainer.append($ul);
   }
 
@@ -73,6 +77,7 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     this.movie?.setPage(MOVIE.PAGE_UNIT);
 
     this.movie?.fetchMovieDetails({
+      movieType: this.props?.movieType ?? '',
       onSuccess: (data) => {
         $ul.remove();
 
@@ -85,14 +90,7 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
 
         new MovieList($movieListContainer, { movieItemDetails: data?.results ?? [] });
       },
-
-      onError: (error) => {
-        if (error instanceof Error) {
-          console.error(error.message);
-
-          this.openErrorFallbackModal();
-        }
-      },
+      onError: (error) => this.openErrorFallbackModal(error),
     });
   }
 
@@ -112,18 +110,11 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     $button.remove();
   }
 
-  private openErrorFallbackModal() {
-    const $modal = querySelector<HTMLDialogElement>(ELEMENT_SELECTOR.errorFallBackModal);
-
-    $modal.showModal();
-  }
-
-  private createMoreButton() {
-    return createElement({
-      tagName: 'button',
-      text: '더보기',
-      attributeOptions: { id: 'more-button', class: 'btn primary full-width' },
-    });
+  private openErrorFallbackModal(error: unknown) {
+    if (error instanceof Error) {
+      const $modal = querySelector<HTMLDialogElement>(ELEMENT_SELECTOR.errorFallBackModal);
+      $modal.showModal();
+    }
   }
 
   protected setEvent(): void {

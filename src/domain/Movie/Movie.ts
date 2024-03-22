@@ -8,9 +8,8 @@ import { MOVIE } from '../../constants/Condition';
 class Movie {
   private page: number;
 
-  constructor(private movieType: string) {
+  constructor() {
     this.page = 0;
-    this.movieType = movieType;
   }
 
   setPage(pageValue: number) {
@@ -22,13 +21,19 @@ class Movie {
   }
 
   fetchMovieDetails({
+    movieType,
     onSuccess,
     onError,
   }: {
+    movieType: string;
     onSuccess: (data: BaseResponse<MovieDetail[]>) => void;
     onError: (error: Error | unknown) => void;
   }) {
-    MovieAPI.fetchMovieDetails<BaseResponse<MovieDetail[]>>(this.page, this.movieType).then(onSuccess).catch(onError);
+    if (movieType === 'popular') {
+      MovieAPI.fetchPopularMovieDetails(this.page).then(onSuccess).catch(onError);
+    } else {
+      MovieAPI.fetchSearchMovieDetails(this.page, movieType).then(onSuccess).catch(onError);
+    }
   }
 }
 
