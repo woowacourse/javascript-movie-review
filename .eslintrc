@@ -5,7 +5,8 @@
     "linebreak-style": "off",
     "import/no-unresolved": "off",
     "import/extensions": "off",
-    "cypress/no-assigning-return-values": "off"
+    "cypress/no-assigning-return-values": "off",
+    "max-len": "off"
   },
   "overrides": [
     {

@@ -30,7 +30,6 @@ function getSearchBoxInput() {
     type: 'text',
     placeholder: '검색',
   };
-
   Object.assign(inputTag, state);
   return inputTag;
 }
@@ -41,7 +40,6 @@ function getSearchBoxButton() {
     className: 'search-button',
     innerText: '검색',
   };
-
   Object.assign(buttonTag, state);
 
   return buttonTag;
@@ -53,7 +51,6 @@ function getSearchBox() {
   const button = getSearchBoxButton();
   searchBox.classList.add('search-box');
   searchBox.onsubmit = submitEventHandler;
-
   appendChildren(searchBox, [input, button]);
 
   return searchBox;
@@ -63,7 +60,6 @@ function getHeader() {
   const headerTag = document.createElement('header');
   const logo = getLogo();
   const searchBox = getSearchBox();
-
   appendChildren(headerTag, [logo, searchBox]);
 
   return headerTag;
