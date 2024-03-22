@@ -7,6 +7,25 @@ export interface IFetchParams {
 }
 
 // eslint-disable-next-line max-lines-per-function
+function handleError(status: number) {
+  if (status === 200) return;
+
+  // eslint-disable-next-line default-case
+  switch (status) {
+    case 401:
+      throw new Error(`${status} 유효하지 않은 접근입니다.`);
+    case 403:
+      throw new Error(`${status} 접근 권한이 없습니다.`);
+    case 404:
+      throw new Error(`${status} 컨텐츠를 찾을 수 없습니다.`);
+    case 500:
+      throw new Error(`${status} 서버에서 문제가 발생했습니다.`);
+    case 503:
+      throw new Error(`${status} 서버에서 문제가 발생했습니다.`);
+  }
+}
+
+// eslint-disable-next-line max-lines-per-function
 function movieFetcher(params: IFetchParams) {
   const searchParams = new URLSearchParams({
     api_key: process.env.TMDB_API_KEY,
@@ -32,12 +51,13 @@ async function fetchMovies() {
     query: globalStateMethod.getQuery(),
   })
     .then((response) => {
-      if (!response.ok) {
-        throw new Error('❌ 잠시후에 시도해주세요.');
-      }
+      handleError(response.status);
       return response.json();
     })
-    .catch((error) => console.error(error.message));
+    .catch((error) => {
+      alert(error.message);
+      location.reload();
+    });
 }
 
 export default fetchMovies;
