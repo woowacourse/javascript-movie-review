@@ -1,9 +1,10 @@
 import { renderHandler } from './render';
-import { keywordSubmitHandler } from './eventHandler';
+import { keywordSubmitHandler, reloadPageHandler } from './eventHandler';
 
 function Header() {
   const headerComponent = renderHandler();
   keywordSubmitHandler();
+  reloadPageHandler();
   return headerComponent;
 }
 

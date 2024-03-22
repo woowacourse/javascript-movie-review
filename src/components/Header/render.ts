@@ -19,7 +19,7 @@ const createSearchButton = () => {
 
 const createSearchBar = () => {
   const searchBox = createElement('form', { className: 'search-form', id: 'searchForm' });
-  const input = createElement('input', { type: 'text', placeholder: '검색' });
+  const input = createElement('input', { type: 'search', placeholder: '검색' });
   const searchButton = createSearchButton();
   searchBox.appendChild(input);
   searchBox.appendChild(searchButton);
