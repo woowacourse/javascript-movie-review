@@ -1,15 +1,19 @@
 {
-  "rules": {
-    "max-depth": ["error", 1],
-    "max-lines-per-function": ["warn", { "max": 15 }],
-  },
   "env": {
     "es6": true,
     "node": true,
+    "browser": true
   },
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
   },
   "extends": ["eslint:recommended", "plugin:prettier/recommended"],
   "ignorePatterns": ["webpack.config.js", "babel.config.js", ".eslintrc"],
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    // "max-depth": ["error", 1],
+    "max-lines-per-function": ["warn", { "max": 15 }],
+    "no-unused-vars": "warn"
+  },
 }
