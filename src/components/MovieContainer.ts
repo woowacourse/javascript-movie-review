@@ -1,7 +1,6 @@
 import SkeletonItem from './SkeletonItem/SkeletonItem';
 import MovieItem from './MovieItem/MovieItem';
 import { showAlert } from './Alert/Alert';
-import { NO_SEARCH } from '../resource';
 import ErrorPage from './ErrorPage/ErrorPage';
 import Movies, { MovieInfo } from '../domain/Movies';
 
@@ -49,7 +48,7 @@ class MovieContainer {
     subtitle.classList.add('subtitle');
     section.classList.add('item-view');
     movieList.classList.add('item-list');
-    button.classList.add('btn', 'primary', 'full-width');
+    button.classList.add('view-more-button', 'primary', 'full-width');
 
     button.textContent = '더 보기';
 
@@ -61,11 +60,13 @@ class MovieContainer {
   }
 
   #setEvent() {
-    const moreButton = document.querySelector('.btn');
-    moreButton?.addEventListener('click', () => {
+    const viewMoreButton = document.querySelector('.view-more-button');
+    if (!viewMoreButton) return;
+
+    viewMoreButton.addEventListener('click', () => {
+      // TODO: 500 상수 분리
       if (this.#page > 500) {
-        const viewMoreButton = document.querySelector('.btn');
-        viewMoreButton?.classList.add('hidden');
+        viewMoreButton.classList.add('hidden');
 
         showAlert('마지막 페이지 입니다!');
         return;
@@ -97,7 +98,7 @@ class MovieContainer {
       ul.innerHTML = `<img src=${NO_SEARCH} class="error"/>`;
     }
 
-    const viewMoreButton = document.querySelector('.btn');
+    const viewMoreButton = document.querySelector('.view-more-button');
     !movieData || movieData.length < 20
       ? viewMoreButton?.classList.add('hidden')
       : viewMoreButton?.classList.remove('hidden');
@@ -134,7 +135,7 @@ class MovieContainer {
         const ul = document.querySelector('ul.item-list');
         if (!(ul instanceof HTMLElement)) return;
 
-        const viewMoreButton = document.querySelector('.btn') as HTMLElement;
+        const viewMoreButton = document.querySelector('.view-more-button') as HTMLElement;
         viewMoreButton.classList.add('hidden');
 
         ul.innerHTML = ErrorPage({ status, message }).outerHTML;
@@ -151,10 +152,7 @@ class MovieContainer {
       if (error instanceof Error) {
         this.#removeSkeleton();
         const [status, message] = error.message.split('-');
-        const ul = document.querySelector('ul.item-list');
-        if (!(ul instanceof HTMLElement)) return;
-
-        const viewMoreButton = document.querySelector('.btn');
+        const viewMoreButton = document.querySelector('.view-more-button');
         viewMoreButton?.classList.add('hidden');
         ul.innerHTML = ErrorPage({ status, message }).outerHTML;
       }
@@ -171,7 +169,7 @@ class MovieContainer {
 
     const movieData = await this.#getMovies(this.#page);
 
-    const viewMoreButton = document.querySelector('.btn');
+    const viewMoreButton = document.querySelector('.view-more-button');
     !movieData || movieData.length < 20
       ? viewMoreButton?.classList.add('hidden')
       : viewMoreButton?.classList.remove('hidden');
