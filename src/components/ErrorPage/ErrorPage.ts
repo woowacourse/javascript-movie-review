@@ -1,7 +1,7 @@
-import { ERROR } from '../../resource';
+import { WRONG } from '../../resource';
 
 interface Props {
-  status: string;
+  status?: string;
   message: string;
 }
 
@@ -9,15 +9,16 @@ const ErrorPage = ({ status, message }: Props) => {
   const container = document.createElement('div');
   const img = document.createElement('img');
   const statusText = document.createElement('span');
-  const messageText = document.createElement('span');
+  const messageText = document.createElement('p');
 
-  container.classList.add('error');
+  container.classList.add('error-container');
   statusText.classList.add('status-number');
   messageText.classList.add('error-message');
+  img.classList.add('error-image');
 
-  img.src = ERROR;
+  img.src = WRONG;
 
-  statusText.textContent = status;
+  if (status) statusText.textContent = status;
   messageText.textContent = message;
 
   container.appendChild(img);
