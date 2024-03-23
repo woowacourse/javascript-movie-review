@@ -4,7 +4,11 @@ export interface DataFetcher {
 
 export interface ErrorResponse {
   status: number;
-  response: ResponseInit;
+  response: Response;
+}
+
+export interface ErrorData {
+  status_message: string;
 }
 
 class Fetcher {
@@ -14,16 +18,20 @@ class Fetcher {
       headers: new Headers(headers),
     });
 
-    if (!response.ok) this.#handleErrorResponse({ status: response.status, response });
+    if (!response.ok) await this.#handleErrorResponse({ status: response.status, response });
 
     return response.json();
   }
 
-  #handleErrorResponse({ status }: ErrorResponse) {
-    if (status === 401) throw new Error('401-Unauthorized');
-    if (status === 404) throw new Error('404-Not Found');
-    if (status === 500) throw new Error('500-Internal Server Error');
-    if (status === 503) throw new Error('503-Service Unavailable');
+  // TODO: 에러 처리 추가
+  async #handleErrorResponse({ status, response }: ErrorResponse) {
+    const { status_message }: ErrorData = await response.json();
+
+    if (status === 400) throw new Error(`${status}-${status_message}`);
+    if (status === 401) throw new Error(`${status}-${status_message}`);
+    if (status === 404) throw new Error(`${status}-${status_message}`);
+    if (status === 500) throw new Error(`${status}-Internal Server Error`);
+    if (status === 503) throw new Error(`${status}-Service Unavailable`);
   }
 }
 
