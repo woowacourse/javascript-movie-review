@@ -16,7 +16,18 @@
   font-weight: bold;
 }
 
+.item-score img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
 .item-score {
+  height: 1.5rem;
+
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
   margin-top: 16px;
   font-size: 1.2rem;
 }
