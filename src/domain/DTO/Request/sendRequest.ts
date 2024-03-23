@@ -1,40 +1,30 @@
-import { POPULAR_MOVIES_URL, MOVIE_SEARCH_URL } from '../../../constants/DTO';
+import { KEY, MOVIE_SEARCH_BASE_URL, POPULAR_MOVIES_BASE_URL } from '../../../constants/DTO';
 
 async function fetchPopularMovies(page: number) {
-  const KEY = process.env.API_KEY;
+  const searchParamsURL = new URLSearchParams({
+    api_key: KEY as string,
+    language: 'ko-KR',
+    page: String(page),
+  });
 
-  const popularMovieUrl =
-    POPULAR_MOVIES_URL +
-    '?' +
-    new URLSearchParams({
-      api_key: KEY as string,
-      language: 'ko-KR',
-      page: `${page}`,
-    });
+  const popularMoviesURL = POPULAR_MOVIES_BASE_URL + searchParamsURL;
+  const response = await fetch(popularMoviesURL);
 
-  const response = await fetch(popularMovieUrl);
-  const popularMovies = await response.json();
-
-  return popularMovies;
+  return await response.json();
 }
 
 async function fetchSearchMovies(page: number, userInput: string) {
-  const KEY = process.env.API_KEY;
+  const searchParamsURL = new URLSearchParams({
+    api_key: KEY as string,
+    query: userInput,
+    language: 'ko-KR',
+    page: String(page),
+  });
 
-  const movieSearchUrl =
-    MOVIE_SEARCH_URL +
-    '?' +
-    new URLSearchParams({
-      api_key: KEY as string,
-      query: userInput,
-      language: 'ko-KR',
-      page: `${page}`,
-    });
-
+  const movieSearchUrl = MOVIE_SEARCH_BASE_URL + searchParamsURL;
   const response = await fetch(movieSearchUrl);
-  const searchedMovies = await response.json();
 
-  return searchedMovies;
+  return await response.json();
 }
 
 export { fetchPopularMovies, fetchSearchMovies };
