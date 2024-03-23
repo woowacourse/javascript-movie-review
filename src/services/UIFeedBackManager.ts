@@ -1,12 +1,12 @@
-import tmdbApi from '../api/index';
+import tmdbApi, { TMDBApi } from '../api/index';
 import HttpError from '../error/HttpError';
 import isHTMLElement from '../utils/isHTMLElement';
 import Skeleton from '../components/Skeleton/Skeleton';
-import { TMDBApi } from '../api/index';
 import removeHTMLElements from '../utils/removeHTMLElements';
 import { checkDataLength } from '../components/ShowMoreButton/eventHandler';
 import createElement from '../utils/createElement';
 import Error from '../components/Error/Error';
+
 class UIFeedBackManager {
   api;
 
