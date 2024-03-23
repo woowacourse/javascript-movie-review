@@ -62,20 +62,20 @@ const MoreButtonClickHandler = {
     window.scrollTo(0, previousScrollPosition);
   },
 
-  async handleMovieData(event: Event, listType: ListType) {
+  async handleMovieData(listType: ListType) {
     if (listType === 'popular') {
       await DataFetcher.handleGetPopularMovieData();
-    } else {
-      await this.getSearchMovieData();
+      return;
     }
 
-    this.handleMovieDataState(event);
+    await this.getSearchMovieData();
   },
 
   async handleClickMoreButton(event: Event, listType: ListType) {
     event.stopPropagation();
 
-    debouceFunc(() => this.handleMovieData(event, listType));
+    debouceFunc(() => this.handleMovieData(listType));
+    this.handleMovieDataState(event);
   },
 };
 
