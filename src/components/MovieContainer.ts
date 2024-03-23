@@ -42,18 +42,18 @@ class MovieContainer {
   #getTemplate(element: HTMLElement) {
     const section = document.createElement('section');
 
-    const h2 = document.createElement('h2');
+    const subtitle = document.createElement('h2');
     const movieList = document.createElement('ul');
     const button = document.createElement('button');
 
-    h2.classList.add('subtitle');
+    subtitle.classList.add('subtitle');
     section.classList.add('item-view');
     movieList.classList.add('item-list');
     button.classList.add('btn', 'primary', 'full-width');
 
     button.textContent = '더 보기';
 
-    section.appendChild(h2);
+    section.appendChild(subtitle);
     section.appendChild(movieList);
     section.appendChild(button);
 
