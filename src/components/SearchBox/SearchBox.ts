@@ -6,6 +6,7 @@ const SearchBox = {
     const searchBox = document.createElement('div');
     const searchInput = this.createSearchInput();
     const searchButton = this.createSearchButton();
+
     searchBox.classList.add('search-box');
 
     searchBox.appendChild(searchInput);

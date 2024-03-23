@@ -9,6 +9,7 @@ class ItemView {
 
   constructor(search?: string) {
     this.#page = 0;
+
     this.create(search ? `"${search}"${CONTAINER_TITLE.searchResult}` : CONTAINER_TITLE.popular, search);
   }
 
@@ -24,6 +25,7 @@ class ItemView {
       this.mountItems(button, search);
       button.addEventListener('click', () => this.mountItems(button, search));
     }
+
     return itemView;
   }
 
@@ -50,9 +52,8 @@ class ItemView {
   async getMovieListData(search?: string) {
     if (search) {
       return await fetchSearchMovies(++this.#page, search);
-    } else {
-      return await fetchPopularMovies(++this.#page);
     }
+    return await fetchPopularMovies(++this.#page);
   }
 }
 

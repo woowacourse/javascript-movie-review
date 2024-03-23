@@ -12,6 +12,7 @@ const MovieItems = {
     [...Array(OPTIONS.movieItemCount)].forEach(() => {
       movieItems.appendChild(this.createMovieItemSkeleton());
     });
+
     return movieItems;
   },
 
@@ -24,6 +25,7 @@ const MovieItems = {
     if (movieData === undefined) {
       return itemCard.remove();
     }
+
     this.replaceThumbnail(itemCard, movieData);
     this.replaceTitle(itemCard, movieData);
     this.replaceScore(itemCard, movieData);
@@ -64,8 +66,10 @@ const MovieItems = {
 
   createStarElement(): HTMLElement {
     const star = document.createElement('img');
+
     star.setAttribute('src', starFilled);
     star.alt = '별점';
+
     return star;
   },
 
@@ -91,6 +95,7 @@ const MovieItems = {
 
   createMovieItemCardSkeleton() {
     const movieItemCardSkeleton = document.createElement('div');
+
     movieItemCardSkeleton.classList.add('item-card');
 
     movieItemCardSkeleton.appendChild(this.createMovieItemThumbnailSkeleton());
@@ -102,6 +107,7 @@ const MovieItems = {
 
   createMovieItemThumbnailSkeleton() {
     const movieItemThumbnail = document.createElement('div');
+
     movieItemThumbnail.classList.add('item-thumbnail', 'skeleton');
 
     return movieItemThumbnail;
@@ -109,6 +115,7 @@ const MovieItems = {
 
   createMovieItemTitleSkeleton() {
     const movieItemTitle = document.createElement('div');
+
     movieItemTitle.classList.add('item-title', 'skeleton');
 
     return movieItemTitle;
@@ -116,6 +123,7 @@ const MovieItems = {
 
   createMovieItemScoreSkeleton() {
     const movieItemScore = document.createElement('div');
+
     movieItemScore.classList.add('item-score', 'skeleton');
 
     return movieItemScore;

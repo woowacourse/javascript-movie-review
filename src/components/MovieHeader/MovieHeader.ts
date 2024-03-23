@@ -51,6 +51,7 @@ const MovieHeader = {
 
   showPopularMovies(searchBox: HTMLElement) {
     const searchBoxInput = searchBox.querySelector('input');
+
     if (searchBoxInput) searchBoxInput.value = '';
 
     this.createItemView();
@@ -59,8 +60,10 @@ const MovieHeader = {
   showSearchMovies(searchBox: HTMLElement) {
     try {
       const trimmedSearchInputText = searchBox?.querySelector('input')?.value.replace(/ +/g, ' ');
+
       if (trimmedSearchInputText) {
         SearchValidator.validate(trimmedSearchInputText.trim());
+
         this.createItemView(trimmedSearchInputText);
       }
     } catch (e) {

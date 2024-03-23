@@ -2,6 +2,7 @@ import { POPULAR_MOVIES_URL, MOVIE_SEARCH_URL } from '../../../constants/DTO';
 
 async function fetchPopularMovies(page: number) {
   const KEY = process.env.API_KEY;
+
   const popularMovieUrl =
     POPULAR_MOVIES_URL +
     '?' +
@@ -19,6 +20,7 @@ async function fetchPopularMovies(page: number) {
 
 async function fetchSearchMovies(page: number, userInput: string) {
   const KEY = process.env.API_KEY;
+
   const movieSearchUrl =
     MOVIE_SEARCH_URL +
     '?' +
