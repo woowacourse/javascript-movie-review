@@ -1,8 +1,10 @@
+import { ERROR_VIEW_TEXT } from "../constants/system";
+
 const ErrorView = () => {
   const $main = document.querySelector("main");
   const $errorDiv = document.createElement("div");
   $errorDiv.classList.add("error-view");
-  $errorDiv.textContent = "서버와의 연결이 불안정합니다. 다시 시도해주세요.";
+  $errorDiv.textContent = ERROR_VIEW_TEXT;
 
   $main?.appendChild($errorDiv);
 };

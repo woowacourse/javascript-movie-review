@@ -1,3 +1,4 @@
+import { MORE_BUTTON_TEXT } from "../constants/system";
 import { dataStateStore } from "../model";
 import {
   handleGetPopularMovieData,
@@ -6,7 +7,7 @@ import {
 import { ListType, Movie } from "../type/movie";
 import { createElementWithAttribute, debounceFunc } from "../utils";
 
-import ItemList from "./ItemList";
+import ItemList from "./ItemCardList";
 
 // --- MoreButton click event
 const changeMoreButtonState = (event: Event, isShowMoreButton: boolean) => {
@@ -79,7 +80,7 @@ const makeMoreButton = () => {
     id: "more-button",
     class: "btn primary full-width more-button open",
   });
-  $moreButton.textContent = "더 보기";
+  $moreButton.textContent = MORE_BUTTON_TEXT;
 
   return $moreButton;
 };

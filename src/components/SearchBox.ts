@@ -1,4 +1,9 @@
-import { ENTER_KEYCODE } from "../constants/system";
+import {
+  ENTER_KEYCODE,
+  SEARCH_BUTTON_TEXT,
+  SEARCH_LABEL_TEXT,
+  TITLE_TEXT,
+} from "../constants/system";
 import { dataStateStore } from "../model";
 import { handleGetSearchMovieData } from "../service/handleSkeletonAndAPI";
 import { createElementWithAttribute, debounceFunc } from "../utils";
@@ -14,7 +19,7 @@ const searchMovie = async () => {
   const $itemView = document.querySelector(".item-view");
   $itemView?.remove();
   await handleGetSearchMovieData(title, true);
-  ItemView(`"${title}" 검색 결과`, dataStateStore.movieData, "search");
+  ItemView(TITLE_TEXT.SEARCH(title), dataStateStore.movieData, "search");
 };
 
 const handleInputKeydown = (event: KeyboardEvent) => {
@@ -35,7 +40,7 @@ const Label = () => {
     forId: "search-input",
     class: "screen-only",
   });
-  $label.textContent = "영화 검색";
+  $label.textContent = SEARCH_LABEL_TEXT;
 
   return $label;
 };
@@ -66,7 +71,7 @@ const Button = () => {
   const $button = createElementWithAttribute("button", {
     class: "search-button",
   });
-  $button.textContent = "검색";
+  $button.textContent = SEARCH_BUTTON_TEXT;
   $button.addEventListener("click", (event) => {
     event.stopPropagation();
     debounceFunc(() => searchMovie());

@@ -1,3 +1,4 @@
+import { NO_ITEM_TEXT } from "../constants/system";
 import { Movie } from "../type/movie";
 import { createElementWithAttribute } from "../utils";
 
@@ -5,12 +6,12 @@ import ItemCard from "./ItemCard";
 
 const NoItem = () => {
   const $noItem = document.createElement("li");
-  $noItem.textContent = "검색 결과가 없습니다.";
+  $noItem.textContent = NO_ITEM_TEXT;
 
   return $noItem;
 };
 
-const ItemList = (movieList: Movie[] | undefined) => {
+const ItemCardList = (movieList: Movie[] | undefined) => {
   const $ul = createElementWithAttribute("ul", {
     class: "item-list",
   });
@@ -22,4 +23,4 @@ const ItemList = (movieList: Movie[] | undefined) => {
   }
   return $ul;
 };
-export default ItemList;
+export default ItemCardList;

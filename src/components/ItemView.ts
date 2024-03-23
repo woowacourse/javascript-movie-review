@@ -1,7 +1,7 @@
 import { ListType, Movie, PartialMovieDataForItemView } from "../type/movie";
 import { createElementWithAttribute } from "../utils";
 
-import ItemList from "./ItemList";
+import ItemList from "./ItemCardList";
 import MoreButton from "./MoreButton";
 import Title from "./Title";
 
