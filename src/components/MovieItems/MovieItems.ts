@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import './style.css';
 
 import Button from '../Button/Button';
@@ -23,10 +22,10 @@ class MovieItems {
 
   constructor() {
     this.fallback = new Fallback();
-    this.template = this.fallback.element;
+    this.template = this.createElements();
+
     this.currentPage = 0;
     this.isLast = false;
-    this.createElements();
     this.showMore();
   }
 
@@ -34,30 +33,29 @@ class MovieItems {
     return this.template;
   }
 
-  createElements() {
+  private createElements() {
     const main = document.createElement('main');
     main.classList.add('item-view');
 
     this.createH2Element(main);
     this.createUlElement(main);
     this.createMoreButton(main);
-
-    this.template = main;
+    return main;
   }
 
-  createH2Element(main: HTMLElement) {
+  private createH2Element(main: HTMLElement) {
     const h2 = document.createElement('h2');
     h2.textContent = '지금 인기있는 영화';
     main.appendChild(h2);
   }
 
-  createUlElement(main: HTMLElement) {
+  private createUlElement(main: HTMLElement) {
     const ul = document.createElement('ul');
     ul.classList.add('item-list');
     main.appendChild(ul);
   }
 
-  createMoreButton(main: HTMLElement) {
+  private createMoreButton(main: HTMLElement) {
     const button = new Button({
       className: ['btn', 'primary', 'full-width'],
       text: '더 보기',
@@ -66,23 +64,23 @@ class MovieItems {
     main.appendChild(button.element);
   }
 
-  async getPopularMovies() {
+  private async getPopularMovies() {
     const movies = await PopularMovies.list({ page: this.currentPage });
     this.checkLastPage(movies.total_pages);
     return movies.results.map((movie) => MovieInfo.get(movie));
   }
 
-  async getMatchedMovies(query: string) {
+  private async getMatchedMovies(query: string) {
     const movies = await MatchedMovies.list({ page: this.currentPage, query });
     this.checkLastPage(movies.total_pages);
     return movies.results.map((movie) => MovieInfo.get(movie));
   }
 
-  checkLastPage(totalPage: number) {
+  private checkLastPage(totalPage: number) {
     this.isLast = this.currentPage >= totalPage;
   }
 
-  changeShowMoreButton() {
+  private changeShowMoreButton() {
     const button = this.template.querySelector('button');
     if (!(button instanceof HTMLButtonElement)) return;
     button.disabled = this.isLast;
@@ -97,7 +95,7 @@ class MovieItems {
     this.removeMovieItems();
   }
 
-  removeMovieItems() {
+  private removeMovieItems() {
     const ul = this.template?.querySelector('ul');
     if (!(ul instanceof HTMLElement)) return;
     ul.innerHTML = '';
@@ -105,7 +103,7 @@ class MovieItems {
     this.isLast = false;
   }
 
-  createSkeletonMovieItem() {
+  private createSkeletonMovieItem() {
     const fragment = document.createDocumentFragment();
     const skeletonItems = Array.from({ length: 20 }).map(() => {
       const skeleton = new Skeleton();
@@ -114,13 +112,6 @@ class MovieItems {
     });
     this.template?.querySelector('ul')?.appendChild(fragment);
     return skeletonItems;
-  }
-
-  removeSkeletonMovieItem() {
-    const skeletons = this.template.querySelectorAll('.li-skeleton');
-    skeletons.forEach((skeleton) => {
-      skeleton.remove();
-    });
   }
 
   showMore() {
@@ -133,30 +124,38 @@ class MovieItems {
     }
   }
 
-  private getMorePopularMovies(skeletonItems: Skeleton[]) {
-    this.getPopularMovies()
-      .then((movies) => this.deleteSkeletonAndShowMovies(movies, skeletonItems))
-      .catch((error) => this.showErrorFallback(error));
-  }
-
   private deleteSkeletonAndShowMovies(movies: IMovieInfo[], skeletonItems: Skeleton[]) {
     skeletonItems.forEach((skeleton) => skeleton.removeSkeleton());
+    if (movies.length === 0) {
+      this.showEmptyFallback();
+      return;
+    }
     this.createMovieItem(movies);
+  }
+
+  private showEmptyFallback() {
+    this.fallback.setEmptyMessage();
+    this.template.querySelector('.item-list')?.appendChild(this.fallback.element);
   }
 
   private showErrorFallback(error: Error) {
     this.fallback.setFallbackMessage(error.message);
-    this.template.innerHTML = '';
-    this.template.appendChild(this.fallback.element);
+    this.template.querySelector('.item-list')?.appendChild(this.fallback.element);
   }
 
   private getMoreMatchedMovies(skeletonItems: Skeleton[]) {
     this.getMatchedMovies(this.searchQuery ?? '')
       .then((movies) => this.deleteSkeletonAndShowMovies(movies, skeletonItems))
-      .catch((error) => this.showErrorFallback(error));
+      .catch(this.showErrorFallback);
   }
 
-  createMovieItem(movies: IMovieInfo[]) {
+  private getMorePopularMovies(skeletonItems: Skeleton[]) {
+    this.getPopularMovies()
+      .then((movies) => this.deleteSkeletonAndShowMovies(movies, skeletonItems))
+      .catch(this.showErrorFallback);
+  }
+
+  private createMovieItem(movies: IMovieInfo[]) {
     const fragment = document.createDocumentFragment();
     movies.forEach((movie) => {
       const { poster, title, voteAverage } = movie;

@@ -53,7 +53,7 @@ describe('검색 test', () => {
         });
     });
 
-    it('검색어에 대한 영화 목록이 더이상 없을 경우 더보기 버튼을 출력하지 않고, "더이상 불러올 목록이 없어요. :(" UX writing을 출력한다.', () => {
+    it('검색어에 대한 영화 목록이 더이상 없을 경우 더보기 버튼을 출력하지 않고, "조건에 맞는 영화가 없어요 :(" UX writing을 출력한다.', () => {
       cy.get('input').type('ㅁ');
 
       cy.intercept(
@@ -65,8 +65,7 @@ describe('검색 test', () => {
         .click()
         .then(() => {
           cy.get('.item-card').should('not.exist');
-          cy.get('.btn').should('be.disabled');
-          cy.get('.btn').should('have.text', '더이상 불러올 목록이 없어요. :(');
+          cy.get('.fallback_message').should('have.text', '조건에 맞는 영화가 없어요 :(');
         });
     });
   });
