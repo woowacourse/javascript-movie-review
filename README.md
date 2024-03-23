@@ -67,43 +67,123 @@ npm run test-e2e
 <div markdown="1">
 
 ```
-src
- ┣ components
- ┃ ┣ ErrorView.ts
- ┃ ┣ Header.ts
- ┃ ┣ ItemCard.ts
- ┃ ┣ ItemList.ts
- ┃ ┣ ItemView.ts
- ┃ ┣ MoreButton.ts
- ┃ ┣ MovieImg.ts
- ┃ ┣ MovieScore.ts
- ┃ ┣ MovieTitle.ts
- ┃ ┣ SearchBox.ts
- ┃ ┣ SkeletonList.ts
- ┃ ┗ Title.ts
- ┣ constants
- ┃ ┗ system.ts
- ┣ model
- ┃ ┣ APIClient.ts
- ┃ ┣ DataStateStore.ts
- ┃ ┗ index.ts
- ┣ service
- ┃ ┗ handleSkeletonAndAPI.ts
- ┣ type
- ┃ ┣ global.d.ts
- ┃ ┗ movie.ts
- ┣ utils
- ┃ ┣ createElementWithAttribute.ts
- ┃ ┣ debouneFunc.ts
- ┃ ┗ index.ts
- ┣ app.ts
- ┣ config.ts
- ┗ index.js
+📦src
+ ┣ 📂components
+ ┃ ┣ 📂modal
+ ┃ ┃ ┣ 📜AlertModal.ts
+ ┃ ┃ ┗ 📜ModalContainer.ts
+ ┃ ┣ 📂skeleton
+ ┃ ┃ ┣ 📜SkeletonCard.ts
+ ┃ ┃ ┣ 📜SkeletonList.ts
+ ┃ ┃ ┗ 📜SkeletonListContainer.ts
+ ┃ ┣ 📜ErrorView.ts
+ ┃ ┣ 📜Header.ts
+ ┃ ┣ 📜Label.ts
+ ┃ ┣ 📜MoreButton.ts
+ ┃ ┣ 📜MovieCard.ts
+ ┃ ┣ 📜MovieImg.ts
+ ┃ ┣ 📜MovieItem.ts
+ ┃ ┣ 📜MovieList.ts
+ ┃ ┣ 📜MovieListContainer.ts
+ ┃ ┣ 📜MovieListTitle.ts
+ ┃ ┣ 📜MovieScore.ts
+ ┃ ┣ 📜MovieTitle.ts
+ ┃ ┣ 📜NoneMovieItem.ts
+ ┃ ┣ 📜RefreshButton.ts
+ ┃ ┗ 📜SearchBox.ts
+ ┣ 📂constants
+ ┃ ┣ 📜apiErrorMessage.ts
+ ┃ ┣ 📜index.ts
+ ┃ ┗ 📜system.ts
+ ┣ 📂model
+ ┃ ┣ 📜APIClient.ts
+ ┃ ┣ 📜DataStateStore.ts
+ ┃ ┗ 📜index.ts
+ ┣ 📂service
+ ┃ ┣ 📜AlertModalForNullEl.ts
+ ┃ ┣ 📜DataFetcher.ts
+ ┃ ┣ 📜ErrorViewController.ts
+ ┃ ┗ 📜SkeletonController.ts
+ ┣ 📂styles
+ ┃ ┣ 📜common.css
+ ┃ ┣ 📜error-view.css
+ ┃ ┣ 📜header.css
+ ┃ ┣ 📜modal.css
+ ┃ ┣ 📜more-button.css
+ ┃ ┣ 📜movie-list.css
+ ┃ ┣ 📜refresh-button.css
+ ┃ ┣ 📜reset.css
+ ┃ ┣ 📜search-box.css
+ ┃ ┣ 📜skeleton.css
+ ┃ ┗ 📜style-constants.css
+ ┣ 📂type
+ ┃ ┣ 📜global.d.ts
+ ┃ ┗ 📜movie.ts
+ ┣ 📂utils
+ ┃ ┣ 📜createElementWithAttribute.ts
+ ┃ ┣ 📜debouneFunc.ts
+ ┃ ┗ 📜index.ts
+ ┣ 📜app.ts
+ ┣ 📜config.ts
+ ┗ 📜index.js
 ```
 
 </div>
 </details>
 
-## 모듈 구조
+## 모듈 구조 및 프로세스
+
+<details>
+<summary>🔍 모듈 구조 보기</summary>
+<div markdown="1">
 
 <img src="./모듈구조.png" alt="모둘 구조" width="700px" />
+
+</div>
+</details>
+
+<details>
+<summary>🔍 미션 1단계 프로세스 보기</summary>
+<div markdown="1">
+
+<img src="./movie_review_step1_process.png" alt="영화 리뷰 미션 step1 프로세스" width="700px">
+
+</div>
+</details>
+
+## 오류 화면
+
+<details>
+<summary> 🔍 401오류 화면 보기</summary>
+<div markdown="401">
+<img src="./errorImages/401_error.png" alt="401 error" width="500px" />
+
+</div>
+</details>
+<br/>
+
+<details>
+<summary>🔍404오류 화면 보기</summary>
+<div markdown="404">
+<img src="./errorImages/404_error.png" alt="404error" width="500px"  />
+
+</div>
+</details>
+<br/>
+
+<details>
+<summary> 🔍204 지만, 잘못된 url로 인한 json 형태 오류</summary>
+<div markdown="204">
+<div>  데이터 통신을 성공했지만, url이 잘못되어 response를 json형태로 변형하지 못할 때 오류 화면
+</div>
+<img src="./errorImages/json_error.png" alt="json error" width="500px"  />
+</div>
+</details>
+<br/>
+
+<details>
+<summary> 🔍찾는 element가 null인 경우</summary>
+<div markdown="alert">
+  <img src="./errorImages/alert.png" alt="json error" width="500px"  />
+</div>
+</details>
