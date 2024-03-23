@@ -19,6 +19,7 @@ const SearchBox = () => {
   searchButton.classList.add('search-button');
 
   searchInput.type = 'text';
+  searchButton.type = 'button';
   searchInput.placeholder = '검색';
   searchButton.textContent = '검색';
 
