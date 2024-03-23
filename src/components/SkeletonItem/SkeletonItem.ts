@@ -4,13 +4,11 @@ const SkeletonItem = () => {
   li.classList.add('skeleton-item');
 
   li.innerHTML = `
-      <a>
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
+    <div class="item-card">
+      <div class="item-thumbnail skeleton"></div>
+      <div class="item-title skeleton"></div>
+      <div class="item-score skeleton"></div>
+    </div>
   `;
 
   return li;
