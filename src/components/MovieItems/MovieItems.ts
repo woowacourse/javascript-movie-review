@@ -1,6 +1,6 @@
 import OPTIONS from '../../constants/OPTIONS';
-import IResponseData from '../../interfaces/IResponseData';
-import IMovieData from '../../interfaces/IMovieData';
+import ResponseData from '../../interfaces/ResponseData';
+import MovieData from '../../interfaces/MovieData';
 import { starFilled } from '../../resources';
 import { MOVIE_POSTER_URL } from '../../constants/DTO';
 
@@ -16,14 +16,15 @@ const MovieItems = {
     return movieItems;
   },
 
-  replaceSkeletons(movieItems: HTMLUListElement, respondData: IResponseData) {
+  replaceSkeletons(movieItems: HTMLUListElement, respondData: ResponseData) {
     const itemCards = movieItems.querySelectorAll('li');
     itemCards.forEach((item, index) => this.replaceSkeleton(item, respondData.results[index]));
   },
 
-  replaceSkeleton(itemCard: HTMLElement, movieData: IMovieData) {
+  replaceSkeleton(itemCard: HTMLElement, movieData: MovieData) {
     if (movieData === undefined) {
       return itemCard.remove();
+      // 검색 결과가 없습니다 생성
     }
 
     this.replaceThumbnail(itemCard, movieData);
@@ -31,7 +32,7 @@ const MovieItems = {
     this.replaceScore(itemCard, movieData);
   },
 
-  replaceThumbnail(itemCard: HTMLElement, movieData: IMovieData) {
+  replaceThumbnail(itemCard: HTMLElement, movieData: MovieData) {
     const oldThumbnail = itemCard.querySelector('.item-thumbnail');
     const newThumbnail = document.createElement('img');
 
@@ -43,7 +44,7 @@ const MovieItems = {
     oldThumbnail?.replaceWith(newThumbnail);
   },
 
-  replaceTitle(itemCard: HTMLElement, movieData: IMovieData) {
+  replaceTitle(itemCard: HTMLElement, movieData: MovieData) {
     const oldTitle = itemCard.querySelector('.item-title');
     const newTitle = document.createElement('p');
 
@@ -53,7 +54,7 @@ const MovieItems = {
     oldTitle?.replaceWith(newTitle);
   },
 
-  replaceScore(itemCard: HTMLElement, movieData: IMovieData) {
+  replaceScore(itemCard: HTMLElement, movieData: MovieData) {
     const oldScore = itemCard.querySelector('.item-score');
     const newScore = document.createElement('p');
 

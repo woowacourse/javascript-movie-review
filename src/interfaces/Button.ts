@@ -1,6 +1,6 @@
-interface IButton {
+interface Button {
   innerText: string;
   classList: string[];
 }
 
-export default IButton;
+export default Button;

@@ -1,7 +1,7 @@
-import IButton from '../../interfaces/IButton';
+import Button from '../../interfaces/Button';
 
 const Button = {
-  create(buttonInformation: IButton): HTMLElement {
+  create(buttonInformation: Button): HTMLElement {
     const button = document.createElement('button');
 
     button.textContent = `${buttonInformation.innerText}`;

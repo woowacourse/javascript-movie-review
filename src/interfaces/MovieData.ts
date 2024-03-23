@@ -1,4 +1,4 @@
-interface IMovieData {
+interface MovieData {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -15,4 +15,4 @@ interface IMovieData {
   vote_count: number;
 }
 
-export default IMovieData;
+export default MovieData;

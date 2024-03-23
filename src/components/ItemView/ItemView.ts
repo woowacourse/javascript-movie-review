@@ -2,7 +2,7 @@ import { fetchPopularMovies, fetchSearchMovies } from '../../domain/DTO/Request/
 import { BUTTONS, CONTAINER_TITLE } from '../../constants/INFORMATION';
 import Button from '../Button/Button';
 import MovieItems from '../MovieItems/MovieItems';
-import IResponseData from '../../interfaces/IResponseData';
+import ResponseData from '../../interfaces/ResponseData';
 
 class ItemView {
   #page: number;
@@ -32,7 +32,7 @@ class ItemView {
   createTitle(containerTitle: string) {
     const title = document.createElement('h2');
 
-    title.textContent = `${containerTitle}`;
+    title.textContent = containerTitle;
 
     return title;
   }
@@ -41,7 +41,7 @@ class ItemView {
     const skeleton = MovieItems.createSkeleton();
     button.insertAdjacentElement('beforebegin', skeleton);
 
-    const movieListData: IResponseData = await this.getMovieListData(search);
+    const movieListData: ResponseData = await this.getMovieListData(search);
     MovieItems.replaceSkeletons(skeleton, movieListData);
 
     if (this.#page === movieListData.total_pages || this.#page === 500) {
