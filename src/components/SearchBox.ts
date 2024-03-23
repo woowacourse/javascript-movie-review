@@ -17,10 +17,10 @@ const SearchHandler = {
 
   async searchMovie() {
     const title = this.getSearchInputValue();
-    console.log(title);
-    if (!title) return;
 
-    await DataFetcher.handleGetSearchMovieData(title, true);
+    if (!title || !title.trim()) return;
+
+    await DataFetcher.handleGetSearchMovieData(title.trim(), true);
 
     document.querySelector('.movie-list-container')?.remove();
 
