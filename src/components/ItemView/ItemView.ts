@@ -18,13 +18,12 @@ class ItemView {
     const itemView = document.querySelector('.item-view');
 
     if (itemView) {
-      const button = Button.create(BUTTONS.showMore);
+      const button = Button.create(BUTTONS.showMore, () => this.mountItems(button, search));
 
       itemView.appendChild(this.createTitle(itemViewTitle));
       itemView.appendChild(button);
 
       this.mountItems(button, search);
-      button.addEventListener('click', () => this.mountItems(button, search));
     }
 
     return itemView;

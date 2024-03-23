@@ -8,14 +8,12 @@ const MovieHeader = {
   create() {
     const header = document.createElement('header');
     const logoImgContainer = this.createLogoImgContainer();
-    const searchBox = SearchBox.create();
+    const searchBox = SearchBox.create(() => this.showSearchMovies());
 
     header.appendChild(logoImgContainer);
     header.appendChild(searchBox);
 
-    this.setHandle(logoImgContainer, searchBox);
-
-    document.getElementById('app')?.prepend(header);
+    return header;
   },
 
   createLogoImgContainer() {
@@ -26,19 +24,9 @@ const MovieHeader = {
     logoImg.setAttribute('alt', 'MovieList 로고');
 
     logoImgContainer.appendChild(logoImg);
+    logoImgContainer.addEventListener('click', () => this.showPopularMovies());
 
     return logoImgContainer;
-  },
-
-  setHandle(logoImgContainer: HTMLElement, searchBox: HTMLElement) {
-    logoImgContainer.addEventListener('click', () => this.showPopularMovies(searchBox));
-
-    const searchButton = searchBox.querySelector('button');
-    if (searchButton) searchButton.addEventListener('click', () => this.showSearchMovies(searchBox));
-
-    searchBox.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') this.showSearchMovies(searchBox);
-    });
   },
 
   createItemView(inputText?: string) {
@@ -48,14 +36,15 @@ const MovieHeader = {
     new ItemView(inputText);
   },
 
-  showPopularMovies(searchBox: HTMLElement) {
-    const searchBoxInput = searchBox.querySelector('input');
+  showPopularMovies() {
+    const searchBoxInput = document.querySelector('input');
     if (searchBoxInput) searchBoxInput.value = '';
 
     this.createItemView();
   },
 
-  showSearchMovies(searchBox: HTMLElement) {
+  showSearchMovies() {
+    const searchBox = document.querySelector('.search-box');
     try {
       const trimmedSearchInputText = searchBox?.querySelector('input')?.value.replace(/ +/g, ' ').trim();
 
