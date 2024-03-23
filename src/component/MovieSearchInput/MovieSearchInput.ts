@@ -1,8 +1,6 @@
 import { createElement } from "../../utility/dom";
 
 class MovieSearchInput {
-  #searchInput: string = "";
-
   createSearchBox() {
     const form = createElement("form", {
       class: "search-box",
@@ -10,6 +8,7 @@ class MovieSearchInput {
     const input = createElement("input", {
       type: "text",
       placeholder: "검색",
+      maxlength: "30",
     });
     const button = createElement("button", {
       class: "search-button",
