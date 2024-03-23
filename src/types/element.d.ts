@@ -1,23 +1,24 @@
-type ElementTag = keyof HTMLElementTagNameMap;
+export type ElementTag = keyof HTMLElementTagNameMap;
 
 interface BasicOption {
   className?: string;
   id?: string;
 }
 
-export interface DivOption extends BasicOption {}
+interface DivOption extends BasicOption {}
 
-export interface ImgOption extends BasicOption {
+interface ImgOption extends BasicOption {
   src: string;
   alt: string;
   loading?: 'lazy';
+  onload?: (this: HTMLImageElement, ev: Event) => any;
 }
 
-export interface POption extends BasicOption {
+interface POption extends BasicOption {
   textContent: string;
 }
 
-export interface InputOption extends BasicOption {
+interface InputOption extends BasicOption {
   type: string;
   placeholder?: string;
 }
