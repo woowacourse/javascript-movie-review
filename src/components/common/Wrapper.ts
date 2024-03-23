@@ -1,7 +1,7 @@
 import { setAttributes } from '../../utils/domUtils';
 
 interface Props {
-  type: 'header' | 'main' | 'section' | 'div' | 'ul';
+  type: 'header' | 'main' | 'section' | 'div';
   attrs?: {
     class?: string;
   };
