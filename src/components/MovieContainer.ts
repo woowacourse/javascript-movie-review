@@ -1,19 +1,19 @@
-import { MovieInfo } from '../api/api-type';
-import { getPopularMovieList } from '../api/popularMovieList';
 import SkeletonItem from './SkeletonItem';
 import MovieItem from './MovieItem';
-import { getSearchMovieList } from '../api/searchMovieList';
 import { showAlert } from './Alert';
 import { NO_SEARCH } from '../resource';
 import ErrorPage from './ErrorPage';
+import Movies, { MovieInfo } from '../domain/Movies';
 
 class MovieContainer {
   #page;
   #query;
+  #movies;
 
   constructor(element: HTMLElement) {
     this.#page = 1;
     this.#query = '';
+    this.#movies = new Movies();
     this.#getTemplate(element);
     this.#setEvent();
     this.render(this.#query);
@@ -126,7 +126,7 @@ class MovieContainer {
 
   async #getMovies(page: number) {
     try {
-      const movieData = await getPopularMovieList(page);
+      const movieData = await this.#movies.getPopularMovies(page);
       return movieData;
     } catch (error) {
       if (error instanceof Error) {
@@ -144,7 +144,7 @@ class MovieContainer {
 
   async #searchMovies(page: number, query: string) {
     try {
-      const movieData = await getSearchMovieList(query, page);
+      const movieData = await this.#movies.getSearchMovies(query, page);
 
       return movieData;
     } catch (error) {
