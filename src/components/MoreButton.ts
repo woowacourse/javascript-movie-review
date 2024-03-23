@@ -72,10 +72,10 @@ const MoreButtonClickHandler = {
     this.handleMovieDataState(event);
   },
 
-  async handleClickMoreButton(event: Event, listType: ListType) {
+  handleClickMoreButton(event: Event, listType: ListType) {
     event.stopPropagation();
 
-    await debouceFunc(() => this.handleMovieData(event, listType));
+    debouceFunc(() => this.handleMovieData(event, listType));
   },
 };
 

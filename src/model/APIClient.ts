@@ -1,5 +1,6 @@
 import { BASE_URL, endPoint, options } from '../config';
-import { API_ERROR_MESSAGE, MAX_PAGE } from '../constants';
+import { MAX_PAGE } from '../constants';
+import { checkAPIStatus, checkInvalidJSON } from '../utils';
 
 import dataStateStore from './DataStateStore';
 
@@ -10,37 +11,9 @@ class APIClient {
     page < totalPage && page <= MAX_PAGE;
 
   #updateCurrentPage = (isResetCurrentPage: boolean) => {
-    this.#currentPage = isResetCurrentPage? 1 : this.#currentPage +1;
+    this.#currentPage = isResetCurrentPage ? 1 : this.#currentPage + 1;
   };
-
-  #makeErrorMessage(status: number) {
-    switch (status) {
-      case 400:
-        return API_ERROR_MESSAGE.notFound;
-      case 404:
-        return API_ERROR_MESSAGE.badRequest;
-      case 500:
-        return API_ERROR_MESSAGE.serverError;
-      default:
-        return API_ERROR_MESSAGE.default;
-    }
-  }
-
-  #checkAPIStatus(response: Response) {
-    if (!response.ok) {
-      const message = this.#makeErrorMessage(response.status);
-      throw new Error(message);
-    }
-  }
-
-  #checkInvalidJSON(error: unknown) {
-    if (!(error instanceof Error)) return;
-    if (error.message.includes('Unexpected end of JSON input')) {
-      return new Error(API_ERROR_MESSAGE.inValidJSON);
-    }
-
-    return error;
-  }
+  // error
 
   async fetchPopularMovie() {
     const response = await fetch(
@@ -54,10 +27,10 @@ class APIClient {
   async handleFetchPopularMovie() {
     try {
       const response = await this.fetchPopularMovie();
-      this.#checkAPIStatus(response);
+      checkAPIStatus(response);
       return await response.json();
     } catch (error) {
-      const apiError = this.#checkInvalidJSON(error);
+      const apiError = checkInvalidJSON(error);
       return apiError;
     }
   }
@@ -74,10 +47,10 @@ class APIClient {
   async handleFetchSearchMovie(title: string) {
     try {
       const response = await this.fetchSearchMovie(title);
-      this.#checkAPIStatus(response);
+      checkAPIStatus(response);
       return await response.json();
     } catch (error) {
-      const apiError = this.#checkInvalidJSON(error);
+      const apiError = checkInvalidJSON(error);
       return apiError;
     }
   }
