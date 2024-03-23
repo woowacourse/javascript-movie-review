@@ -1,11 +1,12 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "import"],
+  "plugins": ["@typescript-eslint", "import",   "prettier"],
   "rules": {
     "import/extensions": ["error", "never"],
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "max-lines-per-function": ["error", 10],
-    "max-depth": ["error", 1]
+    "max-depth": ["error", 1],
+    "prettier/prettier": "error"
   },
   "env": {
     "es6": true,
@@ -19,6 +20,7 @@
     "eslint:recommended",
     "plugin:prettier/recommended",
     "plugin:@typescript-eslint/recommended",
-    "airbnb-typescript/base"
+    "airbnb-typescript/base",
+    "prettier"
   ]
 }
