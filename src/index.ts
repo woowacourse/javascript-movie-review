@@ -15,9 +15,9 @@ const getMatchedMovies = (event: SubmitEvent) => {
   event.preventDefault();
 
   const formData = new FormData(event.target as HTMLFormElement);
-  const query = Array.from(formData.values())[0];
+  const searchKeyword = Array.from(formData.values())[0];
 
-  movieItems.resetMovieItems(query.toString());
+  movieItems.resetMovieItems(searchKeyword.toString());
   movieItems.showMore();
 };
 
