@@ -2,12 +2,13 @@ import './styles/reset.css';
 import './styles/common.css';
 import './styles/error-view.css';
 import './styles/header.css';
+import './styles/modal.css';
 import './styles/more-button.css';
 import './styles/movie-list.css';
+import './styles/refresh-button.css';
 import './styles/search-box.css';
 import './styles/skeleton.css';
 import './styles/style-constants.css';
-import './styles/refresh-button.css';
 
 import App from './app';
 

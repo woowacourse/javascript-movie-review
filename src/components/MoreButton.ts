@@ -1,4 +1,5 @@
 import { dataStateStore } from '../model';
+import { renderAlertModalForNullEl } from '../service/AlertModalForNullEl';
 import DataFetcher from '../service/DataFetcher';
 import { ListType, Movie } from '../type/movie';
 import { createElementWithAttribute, debouceFunc } from '../utils';
@@ -14,6 +15,13 @@ const MoreButtonClickHandler = {
     }
   },
 
+  isParentElement($parentElement: Element | null) {
+    if (!$parentElement) {
+      renderAlertModalForNullEl('movie-list-container');
+      return;
+    }
+  },
+
   addItemsToMovieList(totalMovieList: Movie[]) {
     const $itemList = document.querySelector(
       '.movie-list-container .movie-list',
@@ -22,7 +30,9 @@ const MoreButtonClickHandler = {
     if (!$itemList) return;
 
     const $newItemList = new MovieList(totalMovieList).element;
-    $itemList.parentElement?.replaceChild($newItemList, $itemList);
+    const $parentElement = $itemList.parentElement;
+    this.isParentElement($parentElement);
+    ($parentElement as Element).replaceChild($newItemList, $itemList);
   },
 
   getSearchInputValue() {

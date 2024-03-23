@@ -1,3 +1,4 @@
+import { renderAlertModalForNullEl } from '../service/AlertModalForNullEl';
 import { ListType, Movie, PartialMovieDataForItemView } from '../type/movie';
 import { createElementWithAttribute } from '../utils';
 
@@ -29,10 +30,9 @@ class MovieListContainer {
     const { titleText, movieData, listType } = props;
     const $main = document.querySelector('main');
     const $section = this.#makeSection(titleText, movieData.movieList);
-    // TODO : alert modal
+
     if (!$main) {
-      console.error(`main element is null`);
-      window.location.reload();
+      renderAlertModalForNullEl('main');
       return;
     }
 

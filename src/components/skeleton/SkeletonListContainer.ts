@@ -1,3 +1,4 @@
+import { renderAlertModalForNullEl } from '../../service/AlertModalForNullEl';
 import { createElementWithAttribute } from '../../utils';
 
 import SkeletonList from './SkeletonList';
@@ -25,12 +26,17 @@ class SkeletonListContainer {
     return $section;
   }
 
-  #renderSkeletonListContainer = () => {
+  #renderSkeletonListContainer() {
     const $main = document.querySelector('main');
-    const $skeletonListContainer = this.#makeSkeletonListContainer();
 
+    if (!$main) {
+      renderAlertModalForNullEl('main');
+      return;
+    }
+
+    const $skeletonListContainer = this.#makeSkeletonListContainer();
     $main?.appendChild($skeletonListContainer);
-  };
+  }
 }
 
 export default SkeletonListContainer;
