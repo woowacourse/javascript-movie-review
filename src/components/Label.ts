@@ -1,19 +1,32 @@
-import { createElementWithAttribute } from "../utils";
+import { createElementWithAttribute } from '../utils';
 
-interface Props {
+interface LabelProps {
   forId: string;
   textContent: string;
   className?: string;
 }
-const Label = ({ forId, textContent, className }: Props) => {
-  const $label = createElementWithAttribute("label", {
-    forId,
-  });
-  if (className) $label.classList.add(className);
 
-  $label.textContent = textContent;
+class Label {
+  #element: HTMLElement;
 
-  return $label;
-};
+  constructor(props: LabelProps) {
+    this.#element = this.#makeLabel(props);
+  }
+
+  get element() {
+    return this.#element;
+  }
+
+  #makeLabel = ({ forId, textContent, className }: LabelProps) => {
+    const $label = createElementWithAttribute('label', {
+      forId,
+    });
+    if (className) $label.classList.add(className);
+
+    $label.textContent = textContent;
+
+    return $label;
+  };
+}
 
 export default Label;

@@ -1,21 +1,32 @@
-import { Movie } from "../type/movie";
-import { createElementWithAttribute } from "../utils";
+import { Movie } from '../type/movie';
+import { createElementWithAttribute } from '../utils';
 
-import MovieImg from "./MovieImg";
-import MovieScore from "./MovieScore";
-import MovieTitle from "./MovieTitle";
+import MovieImg from './MovieImg';
+import MovieScore from './MovieScore';
+import MovieTitle from './MovieTitle';
 
-const MovieCard = (movie: Movie) => {
-  const $card = createElementWithAttribute("div", { class: "movie-card" });
-  const $img = MovieImg(movie);
-  const $title = MovieTitle(movie);
-  const $score = MovieScore(movie);
+class MovieCard {
+  #element: HTMLElement;
+  constructor(movie: Movie) {
+    this.#element = this.#renderMovieCard(movie);
+  }
 
-  $card.appendChild($img);
-  $card.appendChild($title);
-  $card.appendChild($score);
+  get element() {
+    return this.#element;
+  }
 
-  return $card;
-};
+  #renderMovieCard(movie: Movie) {
+    const $card = createElementWithAttribute('div', { class: 'movie-card' });
+    const $img = new MovieImg(movie).element;
+    const $title = new MovieTitle(movie).element;
+    const $score = new MovieScore(movie).element;
+
+    $card.appendChild($img);
+    $card.appendChild($title);
+    $card.appendChild($score);
+
+    return $card;
+  }
+}
 
 export default MovieCard;

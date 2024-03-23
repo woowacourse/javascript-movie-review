@@ -1,38 +1,39 @@
-import { createElementWithAttribute } from "../utils";
+import { renderAlertModalForNullEl } from '../service/AlertModalForNullEl';
+import { createElementWithAttribute } from '../utils';
 
-const handleClickRetryButton = (event: Event) => {
-  event.stopPropagation();
-  window.location.reload();
-};
+import RefreshButton from './RefreshButton';
 
-const makeRetryButton = () => {
-  const $retryButton = document.createElement("button");
-  $retryButton.textContent = "새로 고침 🔁";
+class ErrorView {
+  constructor(errorMessage: string) {
+    this.#renderErrorView(errorMessage);
+  }
 
-  $retryButton.addEventListener("click", handleClickRetryButton);
+  #makeErrorDiv(errorMessage: string) {
+    const $errorDiv = document.createElement('div');
+    const $retryButton = new RefreshButton().element;
+    const $errorMessage = createElementWithAttribute('div', {
+      class: 'error-message',
+    });
 
-  return $retryButton;
-};
-const makeErrorDiv = (errorMessage: string) => {
-  const $errorDiv = document.createElement("div");
-  const $retryButton = makeRetryButton();
-  const $errorMessage = createElementWithAttribute("div", {
-    class: "error-message",
-  });
+    $errorDiv.classList.add('error-view');
+    $errorMessage.textContent = errorMessage;
+    $errorDiv.appendChild($errorMessage);
+    $errorDiv.appendChild($retryButton);
 
-  $errorDiv.classList.add("error-view");
-  $errorMessage.textContent = errorMessage;
-  $errorDiv.appendChild($errorMessage);
-  $errorDiv.appendChild($retryButton);
+    return $errorDiv;
+  }
 
-  return $errorDiv;
-};
+  #renderErrorView(errorMessage: string) {
+    const $main = document.querySelector('main');
+    const $errorDiv = this.#makeErrorDiv(errorMessage);
 
-const ErrorView = (errorMessage: string) => {
-  const $main = document.querySelector("main");
-  const $errorDiv = makeErrorDiv(errorMessage);
+    if (!$main) {
+      renderAlertModalForNullEl('main');
+      return;
+    }
 
-  $main?.appendChild($errorDiv);
-};
+    $main.appendChild($errorDiv);
+  }
+}
 
 export default ErrorView;

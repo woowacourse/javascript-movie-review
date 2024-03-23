@@ -1,37 +1,34 @@
-import { dataStateStore } from "../model";
-import DataFetcher from "../service/DataFetcher";
-import { ListType, Movie } from "../type/movie";
-import { createElementWithAttribute, debouceFunc } from "../utils";
+import { dataStateStore } from '../model';
+import DataFetcher from '../service/DataFetcher';
+import { ListType, Movie } from '../type/movie';
+import { createElementWithAttribute, debouceFunc } from '../utils';
 
-import ItemList from "./MovieList";
+import MovieList from './MovieList';
 
-// --- MoreButton click event
 const MoreButtonClickHandler = {
   changeMoreButtonState(event: Event, isShowMoreButton: boolean) {
     const { target } = event;
 
     if (target instanceof HTMLButtonElement) {
-      target.classList.toggle("open", isShowMoreButton);
+      target.classList.toggle('open', isShowMoreButton);
     }
   },
 
   addItemsToMovieList(totalMovieList: Movie[]) {
     const $itemList = document.querySelector(
-      ".movie-list-container .movie-list",
+      '.movie-list-container .movie-list',
     );
 
     if (!$itemList) return;
 
-    const $newItemList = ItemList(totalMovieList);
+    const $newItemList = new MovieList(totalMovieList).element;
     $itemList.parentElement?.replaceChild($newItemList, $itemList);
   },
 
   getSearchInputValue() {
-    const $searchInput = document.querySelector("#search-input");
+    const $searchInput = document.querySelector('#search-input');
 
-    if (!($searchInput instanceof HTMLInputElement)) {
-      return undefined;
-    }
+    if (!($searchInput instanceof HTMLInputElement)) return;
 
     return $searchInput.value;
   },
@@ -56,7 +53,7 @@ const MoreButtonClickHandler = {
   },
 
   async handleMovieData(event: Event, listType: ListType) {
-    if (listType === "popular") {
+    if (listType === 'popular') {
       await DataFetcher.handleGetPopularMovieData();
     } else {
       await this.getSearchMovieData();
@@ -71,27 +68,36 @@ const MoreButtonClickHandler = {
     debouceFunc(() => this.handleMovieData(event, listType));
   },
 };
-// MoreButton click event ---
 
-// make MoreButton ----
-const makeMoreButton = () => {
-  const $moreButton = createElementWithAttribute("button", {
-    id: "more-button",
-    class: "btn primary full-width more-button open",
-  });
-  $moreButton.textContent = "더 보기";
+interface MoreButtonProps {
+  listType: ListType;
+  isShowMoreButton: boolean;
+}
+class MoreButton {
+  constructor(props: MoreButtonProps) {
+    this.#renderMoreButton(props);
+  }
 
-  return $moreButton;
-};
+  // make MoreButton ----
+  #makeMoreButton() {
+    const $moreButton = createElementWithAttribute('button', {
+      id: 'more-button',
+      class: 'btn primary full-width more-button open',
+    });
+    $moreButton.textContent = '더 보기';
 
-const MoreButton = (listType: ListType, isShowMoreButton: boolean) => {
-  if (!isShowMoreButton) return;
-  const $moreButton = makeMoreButton();
-  document.querySelector(".movie-list-container")?.appendChild($moreButton);
+    return $moreButton;
+  }
 
-  $moreButton.addEventListener("click", (event) =>
-    MoreButtonClickHandler.handleClickMoreButton(event, listType),
-  );
-};
+  #renderMoreButton({ listType, isShowMoreButton }: MoreButtonProps) {
+    if (!isShowMoreButton) return;
+    const $moreButton = this.#makeMoreButton();
+    document.querySelector('.movie-list-container')?.appendChild($moreButton);
+
+    $moreButton.addEventListener('click', (event) =>
+      MoreButtonClickHandler.handleClickMoreButton(event, listType),
+    );
+  }
+}
 
 export default MoreButton;

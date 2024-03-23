@@ -1,44 +1,79 @@
-import LogoImg from "../../templates/logo.png";
-import { dataStateStore } from "../model";
-import DataFetcher from "../service/DataFetcher";
-import { createElementWithAttribute } from "../utils";
+import LogoImg from '../../templates/logo.png';
+import { dataStateStore } from '../model';
+import { renderAlertModalForNullEl } from '../service/AlertModalForNullEl';
+import DataFetcher from '../service/DataFetcher';
+import { createElementWithAttribute } from '../utils';
 
-import ItemView from "./MovieListContainer";
-import SearchBox from "./SearchBox";
+import MovieListContainer from './MovieListContainer';
+import SearchBox from './SearchBox';
 
-const handleClickToRefresh = async () => {
-  const $itemView = document.querySelector(".movie-list-container");
-  $itemView?.remove();
-  const $searchBox = document.querySelector("#search-input");
-  if ($searchBox instanceof HTMLInputElement) {
-    $searchBox.value = "";
+const HeaderClickHandler = {
+  private_removeMovieListContainer() {
+    const $movieListContainer = document.querySelector('.movie-list-container');
+
+    if (!$movieListContainer) {
+      renderAlertModalForNullEl('movie-list-container');
+      return;
+    }
+
+    $movieListContainer.remove();
+  },
+
+  private_resetSearchInputValue() {
+    const $searchBox = document.querySelector('#search-input');
+
+    if ($searchBox instanceof HTMLInputElement) {
+      $searchBox.value = '';
+    }
+  },
+
+  async handleClickToRefresh() {
+    this.private_removeMovieListContainer();
+    this.private_resetSearchInputValue();
+
+    await DataFetcher.handleGetPopularMovieData(true);
+
+    new MovieListContainer({
+      titleText: '지금 인기 있는 영화',
+      movieData: dataStateStore.movieData,
+      listType: 'popular',
+    });
+  },
+};
+class Header {
+  #element: HTMLElement;
+
+  constructor() {
+    this.#element = this.#makeHeader();
   }
-  await DataFetcher.handleGetPopularMovieData(true);
 
-  ItemView("지금 인기 있는 영화", dataStateStore.movieData, "popular");
-};
+  get element() {
+    return this.#element;
+  }
 
-const Logo = () => {
-  const logoImgAttribute = {
-    src: LogoImg,
-    alt: "MovieList 로고",
-  };
-  const $logo = createElementWithAttribute("img", logoImgAttribute);
+  #makeLogo() {
+    const logoImgAttribute = {
+      src: LogoImg,
+      alt: 'MovieList 로고',
+    };
+    const $logo = createElementWithAttribute('img', logoImgAttribute);
 
-  $logo.addEventListener("click", handleClickToRefresh);
+    $logo.addEventListener('click', HeaderClickHandler.handleClickToRefresh);
 
-  return $logo;
-};
+    return $logo;
+  }
 
-const Header = () => {
-  const $header = document.createElement("header");
-  const $h1 = document.createElement("h1");
-  const $logo = Logo();
+  #makeHeader() {
+    const $header = document.createElement('header');
+    const $h1 = document.createElement('h1');
+    const $logo = this.#makeLogo();
 
-  $h1.appendChild($logo);
-  $header.appendChild($h1);
-  $header.appendChild(SearchBox());
+    $h1.appendChild($logo);
+    $header.appendChild($h1);
+    $header.appendChild(new SearchBox().element);
 
-  return $header;
-};
+    return $header;
+  }
+}
+
 export default Header;

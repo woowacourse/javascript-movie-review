@@ -7,6 +7,7 @@ import './styles/movie-list.css';
 import './styles/search-box.css';
 import './styles/skeleton.css';
 import './styles/style-constants.css';
+import './styles/refresh-button.css';
 
 import App from './app';
 

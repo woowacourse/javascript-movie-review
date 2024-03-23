@@ -1,15 +1,14 @@
-import { ENTER_KEYCODE } from "../constants/system";
-import { dataStateStore } from "../model";
-import DataFetcher from "../service/DataFetcher";
-import { createElementWithAttribute, debouceFunc } from "../utils";
+import { ENTER_KEYCODE } from '../constants/system';
+import { dataStateStore } from '../model';
+import DataFetcher from '../service/DataFetcher';
+import { createElementWithAttribute, debouceFunc } from '../utils';
 
-import Label from "./Label";
-import ItemView from "./MovieListContainer";
+import Label from './Label';
+import MovieListContainer from './MovieListContainer';
 
-// SearchBox event ----
 const SearchHandler = {
   getSearchInputValue() {
-    const $searchInput = document.querySelector("#search-input");
+    const $searchInput = document.querySelector('#search-input');
     if (!($searchInput instanceof HTMLInputElement)) return;
     const title = $searchInput.value;
 
@@ -23,8 +22,13 @@ const SearchHandler = {
 
     await DataFetcher.handleGetSearchMovieData(title, true);
 
-    document.querySelector(".movie-list-container")?.remove();
-    ItemView(`"${title}" 검색 결과`, dataStateStore.movieData, "search");
+    document.querySelector('.movie-list-container')?.remove();
+
+    new MovieListContainer({
+      titleText: `"${title}" 검색 결과`,
+      movieData: dataStateStore.movieData,
+      listType: 'search',
+    });
   },
 
   handleInputKeydown(event: KeyboardEvent) {
@@ -34,63 +38,74 @@ const SearchHandler = {
     if (!(target instanceof HTMLInputElement)) return;
 
     if (keyCode === ENTER_KEYCODE) {
-      debouceFunc(() => SearchHandler.searchMovie()); // this를 통해 SearchHandler 내의 메서드를 호출
+      debouceFunc(() => SearchHandler.searchMovie());
     }
   },
 };
-//--- SearchBox event
-// make SearchBox ---
-const Input = () => {
-  const $input = createElementWithAttribute("input", {
-    id: "search-input",
-    type: "text",
-    placeholder: "검색",
-  });
 
-  if ($input instanceof HTMLInputElement) {
-    $input.addEventListener("keydown", SearchHandler.handleInputKeydown);
+class SearchBox {
+  #element: HTMLElement;
+
+  constructor() {
+    this.#element = this.#makeSearchBox();
   }
 
-  return $input;
-};
+  get element() {
+    return this.#element;
+  }
 
-const InputBox = () => {
-  const $div = document.createElement("div");
-  const $label = Label({
-    forId: "search-input",
-    textContent: "영화 검색",
-    className: "screen-reader-only",
-  });
+  #makeSearchInput = () => {
+    const $input = createElementWithAttribute('input', {
+      id: 'search-input',
+      type: 'text',
+      placeholder: '검색',
+    });
 
-  $div.appendChild($label);
-  $div.appendChild(Input());
+    if ($input instanceof HTMLInputElement) {
+      $input.addEventListener('keydown', SearchHandler.handleInputKeydown);
+    }
 
-  return $div;
-};
+    return $input;
+  };
 
-const Button = () => {
-  const $button = createElementWithAttribute("button", {
-    class: "search-button",
-  });
-  $button.textContent = "검색";
+  #makeSearchInputBox = () => {
+    const $div = document.createElement('div');
+    const $label = new Label({
+      forId: 'search-input',
+      textContent: '영화 검색',
+      className: 'screen-reader-only',
+    }).element;
 
-  $button.addEventListener("click", (event) => {
-    event.stopPropagation();
-    debouceFunc(() => SearchHandler.searchMovie());
-  });
+    $div.appendChild($label);
+    $div.appendChild(this.#makeSearchInput());
 
-  return $button;
-};
+    return $div;
+  };
 
-const SearchBox = () => {
-  const $searchBox = createElementWithAttribute("div", {
-    class: "search-box",
-  });
+  #makeSearchButton = () => {
+    const $button = createElementWithAttribute('button', {
+      class: 'search-button',
+    });
+    $button.textContent = '검색';
 
-  $searchBox.appendChild(InputBox());
-  $searchBox.appendChild(Button());
+    $button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      debouceFunc(() => SearchHandler.searchMovie());
+    });
 
-  return $searchBox;
-};
+    return $button;
+  };
+
+  #makeSearchBox = () => {
+    const $searchBox = createElementWithAttribute('div', {
+      class: 'search-box',
+    });
+
+    $searchBox.appendChild(this.#makeSearchInputBox());
+    $searchBox.appendChild(this.#makeSearchButton());
+
+    return $searchBox;
+  };
+}
 
 export default SearchBox;

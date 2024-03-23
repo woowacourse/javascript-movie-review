@@ -1,29 +1,44 @@
-import { ListType, Movie, PartialMovieDataForItemView } from "../type/movie";
-import { createElementWithAttribute } from "../utils";
+import { ListType, Movie, PartialMovieDataForItemView } from '../type/movie';
+import { createElementWithAttribute } from '../utils';
 
-import MoreButton from "./MoreButton";
-import MovieList from "./MovieList";
-import Title from "./Title";
+import MoreButton from './MoreButton';
+import MovieList from './MovieList';
+import MovieListTitle from './MovieListTitle';
 
-const makeSection = (titleText: string, movieList: Movie[] | undefined) => {
-  const $section = createElementWithAttribute("section", {
-    class: "movie-list-container",
-  });
-  $section.appendChild(Title(titleText));
-  $section.appendChild(MovieList(movieList));
+interface MovieListContainerProps {
+  titleText: string;
+  movieData: PartialMovieDataForItemView;
+  listType: ListType;
+}
+class MovieListContainer {
+  constructor(props: MovieListContainerProps) {
+    this.#renderMovieListContainer(props);
+  }
 
-  return $section;
-};
+  #makeSection = (titleText: string, movieList: Movie[] | undefined) => {
+    const $section = createElementWithAttribute('section', {
+      class: 'movie-list-container',
+    });
+    $section.appendChild(new MovieListTitle(titleText).element);
+    $section.appendChild(new MovieList(movieList).element);
 
-const MovieListContainer = (
-  titleText: string,
-  movieData: PartialMovieDataForItemView,
-  listType: ListType,
-) => {
-  const $main = document.querySelector("main");
-  const $section = makeSection(titleText, movieData.movieList);
+    return $section;
+  };
 
-  $main?.appendChild($section);
-  MoreButton(listType, movieData.isShowMoreButton);
-};
+  #renderMovieListContainer = (props: MovieListContainerProps) => {
+    const { titleText, movieData, listType } = props;
+    const $main = document.querySelector('main');
+    const $section = this.#makeSection(titleText, movieData.movieList);
+    // TODO : alert modal
+    if (!$main) {
+      console.error(`main element is null`);
+      window.location.reload();
+      return;
+    }
+
+    $main.appendChild($section);
+    new MoreButton({ listType, isShowMoreButton: movieData.isShowMoreButton });
+  };
+}
+
 export default MovieListContainer;
