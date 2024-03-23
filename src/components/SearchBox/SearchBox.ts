@@ -1,4 +1,4 @@
-import { BUTTON } from '../../constants/INFORMATION';
+import { BUTTONS } from '../../constants/INFORMATION';
 import Button from '../Button/Button';
 
 const SearchBox = {
@@ -25,7 +25,7 @@ const SearchBox = {
   },
 
   createSearchButton() {
-    return Button.create(BUTTON.search);
+    return Button.create(BUTTONS.search);
   },
 };
 

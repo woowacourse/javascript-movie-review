@@ -1,8 +1,8 @@
 import { fetchPopularMovies, fetchSearchMovies } from '../../domain/DTO/Request/sendRequest';
-import { BUTTON, CONTAINER_TITLE } from '../../constants/INFORMATION';
+import { BUTTONS, CONTAINER_TITLE } from '../../constants/INFORMATION';
 import Button from '../Button/Button';
 import MovieItems from '../MovieItems/MovieItems';
-import IRespondData from '../../interfaces/IRespondData';
+import IResponseData from '../../interfaces/IResponseData';
 
 class ItemView {
   #page: number;
@@ -17,7 +17,7 @@ class ItemView {
     const itemView = document.querySelector('.item-view');
 
     if (itemView) {
-      const button = Button.create(BUTTON.showMore);
+      const button = Button.create(BUTTONS.showMore);
 
       itemView.appendChild(this.createTitle(itemViewTitle));
       itemView.appendChild(button);
@@ -41,7 +41,7 @@ class ItemView {
     const skeleton = MovieItems.createSkeleton();
     button.insertAdjacentElement('beforebegin', skeleton);
 
-    const movieListData: IRespondData = await this.getMovieListData(search);
+    const movieListData: IResponseData = await this.getMovieListData(search);
     MovieItems.replaceSkeletons(skeleton, movieListData);
 
     if (this.#page === movieListData.total_pages || this.#page === 500) {

@@ -1,5 +1,5 @@
 import OPTIONS from '../../constants/OPTIONS';
-import IRespondData from '../../interfaces/IRespondData';
+import IResponseData from '../../interfaces/IResponseData';
 import IMovieData from '../../interfaces/IMovieData';
 import { starFilled } from '../../resources';
 import { MOVIE_POSTER_URL } from '../../constants/DTO';
@@ -16,7 +16,7 @@ const MovieItems = {
     return movieItems;
   },
 
-  replaceSkeletons(movieItems: HTMLUListElement, respondData: IRespondData) {
+  replaceSkeletons(movieItems: HTMLUListElement, respondData: IResponseData) {
     const itemCards = movieItems.querySelectorAll('li');
     itemCards.forEach((item, index) => this.replaceSkeleton(item, respondData.results[index]));
   },

@@ -1,6 +1,6 @@
 import IButton from '../interfaces/IButton';
 
-const BUTTON = {
+const BUTTONS = {
   search: {
     innerText: '검색',
     classes: ['search-button'],
@@ -17,4 +17,4 @@ const CONTAINER_TITLE = {
   searchResult: ' 검색 결과',
 };
 
-export { BUTTON, CONTAINER_TITLE };
+export { BUTTONS, CONTAINER_TITLE };

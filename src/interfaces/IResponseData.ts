@@ -1,10 +1,10 @@
 import IMovieData from './IMovieData';
 
-interface IRespondData {
+interface IResponseData {
   page: number;
   results: IMovieData[];
   total_pages: number;
   total_results: number;
 }
 
-export default IRespondData;
+export default IResponseData;
