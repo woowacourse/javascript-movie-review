@@ -1,6 +1,6 @@
 import { getData } from "./getData";
 
-const API_KEY = process.env.API_KEY;
+const API_KEY = process.env.API_KEY as string;
 const BASE_URL = "https://api.themoviedb.org/3";
 const MOVIE_SEARCH_URL = `${BASE_URL}/search/movie`;
 
@@ -8,7 +8,7 @@ export const getSearchedMoviesData = async (
   currentPage: string,
   title: string
 ) => {
-  if (typeof API_KEY === "string") {
+  if (API_KEY) {
     const params = {
       api_key: API_KEY,
       language: "ko-KR",
