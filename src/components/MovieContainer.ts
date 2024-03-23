@@ -20,6 +20,7 @@ class MovieContainer {
 
   render(query: string) {
     this.initData(query);
+    document.querySelector('.error-container')?.remove();
     this.#query ? this.renderSearchMovies() : this.renderMovies();
   }
 
@@ -95,7 +96,12 @@ class MovieContainer {
     const movieData = await this.#searchMovies(this.#page, query);
 
     if (movieData && !movieData.length) {
-      ul.innerHTML = `<img src=${NO_SEARCH} class="error"/>`;
+      document.querySelector('.subtitle')?.insertAdjacentElement(
+        'afterend',
+        ErrorPage({
+          message: '검색한 결과를 찾을 수 없습니다.\n다른 검색어로 검색을 해보시겠어요?',
+        }),
+      );
     }
 
     const viewMoreButton = document.querySelector('.view-more-button');
@@ -132,13 +138,13 @@ class MovieContainer {
     } catch (error) {
       if (error instanceof Error) {
         const [status, message] = error.message.split('-');
-        const ul = document.querySelector('ul.item-list');
-        if (!(ul instanceof HTMLElement)) return;
 
         const viewMoreButton = document.querySelector('.view-more-button') as HTMLElement;
         viewMoreButton.classList.add('hidden');
 
-        ul.innerHTML = ErrorPage({ status, message }).outerHTML;
+        document
+          .querySelector('.subtitle')
+          ?.insertAdjacentElement('afterend', ErrorPage({ status, message }));
       }
     }
   }
@@ -154,7 +160,10 @@ class MovieContainer {
         const [status, message] = error.message.split('-');
         const viewMoreButton = document.querySelector('.view-more-button');
         viewMoreButton?.classList.add('hidden');
-        ul.innerHTML = ErrorPage({ status, message }).outerHTML;
+
+        document
+          .querySelector('.subtitle')
+          ?.insertAdjacentElement('beforebegin', ErrorPage({ status, message }));
       }
     }
   }
@@ -170,6 +179,7 @@ class MovieContainer {
     const movieData = await this.#getMovies(this.#page);
 
     const viewMoreButton = document.querySelector('.view-more-button');
+
     !movieData || movieData.length < 20
       ? viewMoreButton?.classList.add('hidden')
       : viewMoreButton?.classList.remove('hidden');
