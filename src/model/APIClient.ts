@@ -10,8 +10,7 @@ class APIClient {
     page < totalPage && page <= MAX_PAGE;
 
   #updateCurrentPage = (isResetCurrentPage: boolean) => {
-    if (isResetCurrentPage) this.#currentPage = 1;
-    else this.#currentPage += 1;
+    this.#currentPage = isResetCurrentPage? 1 : this.#currentPage +1;
   };
 
   #makeErrorMessage(status: number) {

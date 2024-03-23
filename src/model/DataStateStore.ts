@@ -8,10 +8,14 @@ class DataStateStore {
     { movieList, isShowMoreButton }: MovieData,
     resetMovieList: boolean,
   ) {
-    if (!this.#movieList || resetMovieList) this.#movieList = movieList;
-    else this.#movieList = this.#movieList.concat(movieList);
-
     this.#isShowMorButton = isShowMoreButton;
+
+    if (!this.#movieList || resetMovieList) {
+      this.#movieList = movieList;
+      return;
+    }
+
+    this.#movieList = this.#movieList.concat(movieList);
   }
 
   get movieData() {

@@ -6,7 +6,7 @@ import { createElementWithAttribute, debouceFunc } from '../utils';
 import Label from './Label';
 import MovieListContainer from './MovieListContainer';
 
-const SearchHandler = {
+const SearchBoxHandler = {
   getSearchInputValue() {
     const $searchInput = document.querySelector('#search-input');
     if (!($searchInput instanceof HTMLInputElement)) return;
@@ -38,7 +38,7 @@ const SearchHandler = {
     if (!(target instanceof HTMLInputElement)) return;
 
     if (keyCode === ENTER_KEYCODE) {
-      debouceFunc(() => SearchHandler.searchMovie());
+      debouceFunc(() => SearchBoxHandler.searchMovie());
     }
   },
 };
@@ -62,7 +62,7 @@ class SearchBox {
     });
 
     if ($input instanceof HTMLInputElement) {
-      $input.addEventListener('keydown', SearchHandler.handleInputKeydown);
+      $input.addEventListener('keydown', SearchBoxHandler.handleInputKeydown);
     }
 
     return $input;
@@ -90,7 +90,7 @@ class SearchBox {
 
     $button.addEventListener('click', (event) => {
       event.stopPropagation();
-      debouceFunc(() => SearchHandler.searchMovie());
+      debouceFunc(() => SearchBoxHandler.searchMovie());
     });
 
     return $button;
