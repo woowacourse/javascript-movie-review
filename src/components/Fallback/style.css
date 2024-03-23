@@ -1,0 +1,13 @@
+.fallback {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  width: 100%;
+  min-height: calc(100vh - 120px);
+}
+
+.fallback_message {
+  color: #999999;
+}

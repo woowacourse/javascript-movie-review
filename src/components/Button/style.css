@@ -1,0 +1,20 @@
+button {
+  cursor: pointer;
+}
+
+button.btn {
+  border: 0;
+  border-radius: 8px;
+  height: 30px;
+  color: #fff;
+}
+
+button.primary {
+  background: #f33f3f;
+}
+
+button:disabled {
+  background: transparent;
+  cursor: default;
+  color: #999999;
+}
