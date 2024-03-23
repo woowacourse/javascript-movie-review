@@ -4,6 +4,6 @@ const debounceFunc = (func: () => void) => {
   if (debounce) {
     clearTimeout(debounce);
   }
-  debounce = setTimeout(func, 500);
+  debounce = setTimeout(func, 1000);
 };
 export default debounceFunc;
