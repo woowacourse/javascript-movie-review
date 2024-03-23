@@ -1,7 +1,7 @@
 class PageManager {
   currentPage;
 
-  static DEFAULT_PAGE_NUMBER = 2;
+  static DEFAULT_PAGE_NUMBER = 1;
 
   constructor() {
     this.currentPage = PageManager.DEFAULT_PAGE_NUMBER;
@@ -13,10 +13,6 @@ class PageManager {
 
   resetPage() {
     this.currentPage = PageManager.DEFAULT_PAGE_NUMBER;
-  }
-
-  getCurrentPage() {
-    return this.currentPage;
   }
 }
 
