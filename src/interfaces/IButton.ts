@@ -1,6 +1,6 @@
 interface IButton {
   innerText: string;
-  classes: string[];
+  classList: string[];
 }
 
 export default IButton;

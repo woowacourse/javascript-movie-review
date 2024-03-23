@@ -5,7 +5,7 @@ const Button = {
     const button = document.createElement('button');
 
     button.textContent = `${buttonInformation.innerText}`;
-    buttonInformation.classes.forEach((className) => button.classList.add(className));
+    buttonInformation.classList.forEach((className) => button.classList.add(className));
 
     return button;
   },

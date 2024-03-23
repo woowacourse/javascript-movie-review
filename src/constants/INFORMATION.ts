@@ -3,12 +3,12 @@ import IButton from '../interfaces/IButton';
 const BUTTONS = {
   search: {
     innerText: '검색',
-    classes: ['search-button'],
+    classList: ['search-button'],
   } as IButton,
 
   showMore: {
     innerText: '더 보기',
-    classes: ['btn', 'primary', 'full-width'],
+    classList: ['btn', 'primary', 'full-width'],
   } as IButton,
 };
 
