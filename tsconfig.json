@@ -17,5 +17,6 @@
     "strictNullChecks": true /* When type checking, take into account 'null' and 'undefined'. */,
     "outDir": "dist"
   },
+  "include": ["src"],
   "exclude": ["./__tests__/**/*", "node_modules", "dist"]
 }
