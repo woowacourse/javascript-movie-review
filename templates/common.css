@@ -85,6 +85,8 @@ button {
 }
 
 .item-score {
+  display: flex;
+  align-items: flex-end;
   margin-top: 16px;
   font-size: 1.2rem;
 }
