@@ -4,6 +4,7 @@ import { getSearchedMoviesData } from "../../api/getSearchedMoviesData";
 import { getPopularMoviesData } from "../../api/getPopularMoviesData";
 import { $, $$, createElement } from "../../utility/dom";
 import hangsungImg from "../../image/wooteco-icon.png";
+import { validation } from "../../utility/validation";
 
 const MAX_PAGE_PER_REQUEST = 20;
 const MAX_PAGE_COUNT = 50;
@@ -73,12 +74,16 @@ class MovieList {
       event.preventDefault();
 
       this.#type = "search";
-      this.#movieListSection.innerHTML = "";
       this.#currentPage = 1;
 
       const titleInput = (
         searchForm.querySelector("input[type='text']") as HTMLInputElement
       ).value;
+
+      if (!validation.validateEmptyInput(titleInput)) {
+        alert("검색어를 입력해주세요.");
+        return;
+      }
 
       this.#title = titleInput;
       this.#movieListSection.innerHTML = "";
