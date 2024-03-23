@@ -43,10 +43,7 @@ export default class MovieHeader extends EventComponent {
     );
   }
 
-  private async handleSearchMovie(
-    event: Event,
-    form: HTMLFormElement
-  ): Promise<void> {
+  private handleSearchMovie(event: Event, form: HTMLFormElement): void {
     event.preventDefault();
 
     const searchQuery = form["search-query"].value;

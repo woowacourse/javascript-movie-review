@@ -91,7 +91,7 @@ export default class MovieList extends APIClientComponent {
     }
   }
 
-  private async insertMovieItems(movies: Movie[]): Promise<void> {
+  private insertMovieItems(movies: Movie[]): void {
     const movieItemsTemplate = generateMovieItems(movies);
 
     $<HTMLUListElement>("item-list")?.insertAdjacentHTML(
