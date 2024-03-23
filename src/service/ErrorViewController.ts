@@ -1,15 +1,15 @@
-import ErrorView from "../components/ErrorView";
+import ErrorView from '../components/ErrorView';
 
 const ErrorViewController = {
   showErrorView(error: unknown) {
     if (error instanceof Error) {
-      document.querySelector(".movie-list-container")?.remove();
-      ErrorView(error.message);
+      document.querySelector('.movie-list-container')?.remove();
+      new ErrorView(error.message);
     }
   },
 
   removeErrorView() {
-    document.querySelector(".error-view")?.remove();
+    document.querySelector('.error-view')?.remove();
   },
 };
 

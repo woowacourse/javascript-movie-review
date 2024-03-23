@@ -1,7 +1,7 @@
-import { apiClient } from "../model";
+import { apiClient } from '../model';
 
-import ErrorViewController from "./ErrorViewController";
-import SkeletonController from "./SkeletonController";
+import ErrorViewController from './ErrorViewController';
+import SkeletonController from './SkeletonController';
 
 const DataFetcher = {
   async fetchDataWidthSkeleton(apiFun: () => Promise<void>) {

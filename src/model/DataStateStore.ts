@@ -1,4 +1,4 @@
-import { Movie, MovieData } from "../type/movie";
+import { Movie, MovieData } from '../type/movie';
 
 class DataStateStore {
   #movieList: Movie[] | undefined;

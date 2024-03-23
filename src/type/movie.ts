@@ -24,4 +24,4 @@ export interface PartialMovieDataForItemView extends Partial<MovieData> {
   isShowMoreButton: boolean;
 }
 
-export type ListType = "popular" | "search";
+export type ListType = 'popular' | 'search';

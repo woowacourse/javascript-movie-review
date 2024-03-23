@@ -3,9 +3,9 @@
 }
 
 body {
-  font-size: 14px;
   background-color: #222222;
   color: #fff;
+  font-size: 14px;
 }
 
 a {
@@ -39,14 +39,14 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
   margin: 0 auto;
+  width: 1200px;
 }
 
 .movie-list-container h2,
 .skeleton-list-container h2 {
-  font-size: 2rem;
   font-weight: bold;
+  font-size: 2rem;
   user-select: none;
 }
 

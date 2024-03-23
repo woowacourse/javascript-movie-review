@@ -1,7 +1,7 @@
 .movie-list {
   display: grid;
-  margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
+  margin: 48px 0;
   grid-column-gap: 160px;
   grid-row-gap: 48px;
 }
@@ -22,16 +22,16 @@
 
 .movie-list .movie-thumbnail {
   border-radius: 8px;
+  background-size: contain;
   width: 180px;
   height: 270px;
   object-fit: cover;
-  background-size: contain;
 }
 
 .movie-list .movie-title {
   margin-top: 16px;
-  font-size: 1.2rem;
   font-weight: bold;
+  font-size: 1.2rem;
 }
 
 .movie-list .movie-score {

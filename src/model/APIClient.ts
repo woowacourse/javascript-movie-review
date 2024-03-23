@@ -1,7 +1,7 @@
-import { BASE_URL, endpoint, options } from "../config";
-import { API_ERROR_MESSAGE, MAX_PAGE } from "../constants";
+import { BASE_URL, endpoint, options } from '../config';
+import { API_ERROR_MESSAGE, MAX_PAGE } from '../constants';
 
-import dataStateStore from "./DataStateStore";
+import dataStateStore from './DataStateStore';
 
 class APIClient {
   #currentPage = 0;
@@ -36,7 +36,7 @@ class APIClient {
 
   #checkInvalidJSON(error: unknown) {
     if (!(error instanceof Error)) return;
-    if (error.message.includes("Unexpected end of JSON input")) {
+    if (error.message.includes('Unexpected end of JSON input')) {
       return new Error(API_ERROR_MESSAGE.inValidJSON);
     }
 

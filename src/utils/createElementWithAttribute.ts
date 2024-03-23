@@ -7,6 +7,7 @@ const createElementWithAttribute = (
   attribute: Attribute,
 ) => {
   const $element = document.createElement(elementTag);
+
   Object.entries(attribute).forEach(([key, value]) => {
     $element.setAttribute(key, value);
   });
