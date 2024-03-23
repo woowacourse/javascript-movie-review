@@ -17,24 +17,24 @@ class Header {
     this.createElements(props);
   }
 
-  createHeader() {
+  private createHeader() {
     const header = document.createElement('header');
     return header;
   }
 
-  createElements({ onLogoClick, onSearch }: HeaderProps) {
+  private createElements({ onLogoClick, onSearch }: HeaderProps) {
     this.createLogoField(onLogoClick);
     this.createSearchField(onSearch);
   }
 
-  createLogoField(onLogoClick?: () => void) {
+  private createLogoField(onLogoClick?: () => void) {
     const h1 = document.createElement('h1');
     const img = new Image({ src: Logo, alt: 'MovieList 로고', onImageClick: onLogoClick });
     h1.appendChild(img.element);
     this.template.appendChild(h1);
   }
 
-  createSearchField(onSearch?: (event: SubmitEvent) => void) {
+  private createSearchField(onSearch?: (event: SubmitEvent) => void) {
     const searchField = new SearchField({ onSearch });
     this.template.appendChild(searchField.element);
   }

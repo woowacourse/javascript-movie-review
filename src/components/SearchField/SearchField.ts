@@ -14,18 +14,18 @@ class SearchField {
     if (typeof onSearch !== 'undefined') this.setEventListener(onSearch);
   }
 
-  createSearchField() {
+  private createSearchField() {
     const searchField = document.createElement('form');
     searchField.className = 'search-box';
     return searchField;
   }
 
-  createElements() {
+  private createElements() {
     this.createInputElement();
     this.createButtonElement();
   }
 
-  createInputElement() {
+  private createInputElement() {
     const input = document.createElement('input');
     input.setAttribute('type', 'text');
     input.name = 'query';
@@ -34,7 +34,7 @@ class SearchField {
     this.template.appendChild(input);
   }
 
-  createButtonElement() {
+  private createButtonElement() {
     const button = new Button({
       className: ['search-button'],
       text: '검색',
@@ -43,7 +43,7 @@ class SearchField {
     this.template.appendChild(button.element);
   }
 
-  setEventListener(onSearch: (event: SubmitEvent) => void) {
+  private setEventListener(onSearch: (event: SubmitEvent) => void) {
     this.template.addEventListener('submit', onSearch);
   }
 

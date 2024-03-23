@@ -34,13 +34,13 @@ class MovieItem {
     return this.template;
   }
 
-  createTemplate() {
+  private createTemplate() {
     const movieItem = document.createElement('li');
     movieItem.innerHTML = template;
     return movieItem;
   }
 
-  setMovieInfo({ poster, title, voteAverage }: MovieItemsProps) {
+  private setMovieInfo({ poster, title, voteAverage }: MovieItemsProps) {
     this.template.querySelector('.item-thumbnail')?.setAttribute('src', IMAGE_URL_PREFIX + poster);
     (this.template.querySelector('.item-title') as HTMLElement).textContent = title;
     (this.template.querySelector('.item-score') as HTMLElement).textContent = `${voteAverage}`;
