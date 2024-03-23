@@ -1,3 +1,5 @@
+import CustomError from '../utils/CustomError';
+
 export interface DataFetcher {
   getData<T>(url: string, headers: HeadersInit): Promise<T>;
 }
@@ -27,11 +29,11 @@ class Fetcher {
   async #handleErrorResponse({ status, response }: ErrorResponse) {
     const { status_message }: ErrorData = await response.json();
 
-    if (status === 400) throw new Error(`${status}-${status_message}`);
-    if (status === 401) throw new Error(`${status}-${status_message}`);
-    if (status === 404) throw new Error(`${status}-${status_message}`);
-    if (status === 500) throw new Error(`${status}-Internal Server Error`);
-    if (status === 503) throw new Error(`${status}-Service Unavailable`);
+    if (status === 400) throw new CustomError(status_message, status);
+    if (status === 401) throw new CustomError(status_message, status);
+    if (status === 404) throw new CustomError(status_message, status);
+    if (status === 500) throw new CustomError('Internal Server Error', status);
+    if (status === 503) throw new CustomError('Service Unavailable', status);
   }
 }
 
