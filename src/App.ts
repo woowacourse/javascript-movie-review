@@ -1,11 +1,13 @@
 import { Movie } from './index.d';
+
+import { SKELETON_UI_FIXED } from './constants';
+
 import MoreButton from './components/MoreButton';
 import MovieCard from './components/MovieCard';
 import movieStore from './store/MovieStore';
 import SearchBox from './components/SearchBox';
 import searchMovieStore from './store/SearchMovieStore';
 
-const SKELETON_UI_FIXED = 8; // 스켈레톤 UI 갯수
 type Tpage = 'popular' | 'search';
 
 export default class App {
@@ -17,6 +19,7 @@ export default class App {
     this.#addHomeButtonEvent();
   }
 
+  // eslint-disable-next-line max-lines-per-function
   async #generateMovieList() {
     this.#changeTitle('지금 인기 있는 영화');
     this.#removePreviousError();
@@ -31,6 +34,7 @@ export default class App {
     }
   }
 
+  // eslint-disable-next-line max-lines-per-function
   async #generateSearchMovieList() {
     this.#changeTitle(`"${searchMovieStore.query}"  검색 결과`);
     this.#removePreviousError();
