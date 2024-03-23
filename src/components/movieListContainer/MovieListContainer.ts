@@ -4,10 +4,11 @@ import { IMovie } from '../../types/movie';
 import { dom } from '../../utils/dom';
 import MovieItem from '../movieItem/MovieItem';
 import { InvalidRequestError } from '../../errors/error';
+import CONFIG from '../../constants/config';
 
 class MovieListContainer {
   $target: HTMLUListElement = document.createElement('ul');
-  page = 1;
+  page = CONFIG.FIRST_PAGE;
 
   constructor() {
     this.$target.classList.add('item-list');
@@ -36,7 +37,7 @@ class MovieListContainer {
                 <div class="item-score skeleton"></div>
                 </div>
               </a>
-            </li>`.repeat(20);
+            </li>`.repeat(CONFIG.MOVIE_COUNT_PER_PAGE);
   }
 
   async paint(movies: IMovie[]) {
@@ -47,7 +48,7 @@ class MovieListContainer {
   async attach() {
     this.$target.innerHTML += this.template();
     const { movies, totalPages } = await this.fetchMovies(this.page);
-    Array.from({ length: 20 }).forEach(() => {
+    Array.from({ length: CONFIG.MOVIE_COUNT_PER_PAGE }).forEach(() => {
       this.$target.removeChild(this.$target.lastChild!);
     });
     this.$target.append(...movies.map(movie => new MovieItem(movie).$target));
@@ -69,7 +70,7 @@ class MovieListContainer {
   }
 
   initPageNumber() {
-    this.page = 1;
+    this.page = CONFIG.FIRST_PAGE;
   }
 
   handleErrorToast(errorMessage: string) {
