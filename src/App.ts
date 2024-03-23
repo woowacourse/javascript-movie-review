@@ -127,7 +127,7 @@ export default class App {
     const header = document.querySelector('header');
     const ulElement = document.querySelector('ul.item-list');
     const searchBox = new SearchBox({
-      onClick: (query: string) => {
+      searchInputSubmit: (query: string) => {
         if (ulElement) ulElement.innerHTML = '';
         this.#pageType = 'search';
         searchMovieStore.query = query;

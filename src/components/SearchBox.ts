@@ -1,15 +1,15 @@
 interface Props {
-  onClick: (query: string) => void;
+  searchInputSubmit: (query: string) => void;
 }
 
 export default class SearchBox {
-  #SearchBoxElement = document.createElement('form');
+  #searchBoxElement = document.createElement('form');
 
-  #onClick: Props['onClick'];
+  #searchInputSubmit: Props['searchInputSubmit'];
 
-  constructor({ onClick }: Props) {
-    this.#onClick = onClick;
-    this.#SearchBoxElement.classList.add('search-box');
+  constructor({ searchInputSubmit }: Props) {
+    this.#searchInputSubmit = searchInputSubmit;
+    this.#searchBoxElement.classList.add('search-box');
     this.#generateInput();
     this.#generateButton();
     this.#addFormEvent();
@@ -22,7 +22,7 @@ export default class SearchBox {
     input.placeholder = '검색';
     input.name = 'query';
 
-    this.#SearchBoxElement.appendChild(input);
+    this.#searchBoxElement.appendChild(input);
   }
 
   #generateButton() {
@@ -31,19 +31,21 @@ export default class SearchBox {
     button.classList.add('search-button');
     button.textContent = '검색';
 
-    this.#SearchBoxElement.appendChild(button);
+    this.#searchBoxElement.appendChild(button);
+  }
+
+  #handleSubmit(event: Event) {
+    event.preventDefault();
+    const target = event.target as HTMLFormElement;
+
+    this.#searchInputSubmit(target.query.value);
   }
 
   #addFormEvent() {
-    this.#SearchBoxElement.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const target = event.target as HTMLFormElement;
-
-      this.#onClick(target.query.value);
-    });
+    this.#searchBoxElement.addEventListener('submit', this.#handleSubmit.bind(this));
   }
 
   get element() {
-    return this.#SearchBoxElement;
+    return this.#searchBoxElement;
   }
 }
