@@ -34,8 +34,6 @@ const formSubmitHandler = (event: Event) => {
   const input = document.querySelector('input');
   if (!input) return;
   validateAndLoadMovieList(input.value);
-
-  input.value = '';
 };
 
 export const keywordSubmitHandler = () => {

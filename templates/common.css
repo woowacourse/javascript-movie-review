@@ -21,6 +21,10 @@ button {
   padding-bottom: 48px;
 }
 
+main {
+  padding-top: 110px;
+}
+
 *:focus {
   outline: none;
 }
@@ -139,17 +143,20 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
+  position: fixed;
   width: 100%;
   min-width: 1200px;
   height: 72px;
-  background-color: #111;
+  background-color: rgba(1, 1, 1, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(10px);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid white;
-  margin-bottom: 48px;
+  border-bottom: 1px solid rgb(71, 71, 71);
 }
 
 header h1 {
