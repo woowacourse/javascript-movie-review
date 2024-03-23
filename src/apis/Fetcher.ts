@@ -1,23 +1,32 @@
 import APIError from "../error/APIError";
 
-type Url = string;
+type URLString = string;
 
-export default class Fetcher {
-  private baseUrl: Url;
-  private header?: HeadersInit;
+interface FetcherInterface {
+  get<T = any>(path: string, params: URLSearchParams): Promise<T>;
+}
 
-  constructor(baseUrl: Url, header: HeadersInit) {
-    this.baseUrl = baseUrl;
-    this.header = header;
+export default class Fetcher implements FetcherInterface {
+  private baseUrl: URL;
+  private header?: Headers;
+
+  constructor(baseUrl: URLString, header: HeadersInit) {
+    this.baseUrl = new URL(baseUrl);
+    this.header = new Headers(header);
   }
 
-  async get<T = any>(path: string): Promise<T> {
-    const response = await fetch(`${this.baseUrl}${path}`, {
+  async get<T = any>(path: string, params: URLSearchParams): Promise<T> {
+    const url = new URL(this.baseUrl.toString());
+    url.pathname = path;
+    url.search = params.toString();
+
+    const response = await fetch(url.toString(), {
       headers: this.header,
     });
 
     if (response.ok) {
-      return response.json();
+      const data = await response.json();
+      return data;
     } else {
       throw new APIError(response.status);
     }

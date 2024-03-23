@@ -2,13 +2,12 @@ import { Path } from "../components/templates/movie/generateMovieItems";
 import { Movie } from "../types/movie";
 import Fetcher from "./Fetcher";
 
-const BASE_URL = "https://api.themoviedb.org/3";
+const BASE_URL = "https://api.themoviedb.org";
 
-const formatPopularMovieListPath = (page: number) =>
-  `/movie/popular?language=ko-KR&page=${page}`;
+const POPULAR_MOVIE_LIST_PATH = "/3/movie/popular";
+const SEARCH_MOVIE_PATH = `/3/search/movie`;
 
-const formatSearchMovieListPath = (query: string, page: number) =>
-  `/search/movie?language=ko-KR&query=${query}&page=${page}`;
+const KOREAN_LANGUAGE = "ko-KR";
 
 const header = {
   accept: "application/json",
@@ -42,13 +41,17 @@ const parseRawMovieList = (movieRawDataList: MovieRawData[]): Movie[] =>
     voteAverage: movieRawData.vote_average,
   }));
 
-const tmdbFetcher = new Fetcher(BASE_URL, header);
+const TMDBFetcher = new Fetcher(BASE_URL, header);
 
 export const getPopularMovieList = async (
   page: number = 1
 ): Promise<Movie[]> => {
-  const data = await tmdbFetcher.get<{ results: MovieRawData[] }>(
-    formatPopularMovieListPath(page)
+  const data = await TMDBFetcher.get<{ results: MovieRawData[] }>(
+    POPULAR_MOVIE_LIST_PATH,
+    new URLSearchParams({
+      language: KOREAN_LANGUAGE,
+      page: page.toString(),
+    })
   );
 
   return parseRawMovieList(data.results);
@@ -58,8 +61,13 @@ export const getSearchMovieList = async (
   query: string,
   page: number = 1
 ): Promise<Movie[]> => {
-  const data = await tmdbFetcher.get<{ results: MovieRawData[] }>(
-    formatSearchMovieListPath(query, page)
+  const data = await TMDBFetcher.get<{ results: MovieRawData[] }>(
+    SEARCH_MOVIE_PATH,
+    new URLSearchParams({
+      language: KOREAN_LANGUAGE,
+      query,
+      page: page.toString(),
+    })
   );
 
   return parseRawMovieList(data.results);
