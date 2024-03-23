@@ -1,9 +1,10 @@
+import './resource/index';
+import { LOGO } from './resource/index';
+
 import Header from './components/Header.ts';
 import MovieContainer from './components/MovieContainer.ts';
 import SearchBox from './components/SearchBox.ts';
 import Title from './components/Title.ts';
-import './resource/index.js';
-import { LOGO } from './resource/index.js';
 
 const app = document.getElementById('app');
 const main = document.createElement('main');
