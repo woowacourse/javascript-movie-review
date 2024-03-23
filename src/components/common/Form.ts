@@ -1,12 +1,12 @@
 import { setAttributes } from '../../utils/domUtils';
 
 interface Props {
-  form: {
+  form?: {
     class?: string;
   };
 }
 
-export default function Form({ form }: Props) {
+export default function Form({ form = {} }: Props) {
   const $form = document.createElement('form');
   setAttributes($form, form);
 
