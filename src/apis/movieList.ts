@@ -48,7 +48,11 @@ export const getPopularMovieList = async (
 
   const movieList = await response.json();
 
-  return parseRawMovieList(movieList.results);
+  if (response.ok) {
+    return parseRawMovieList(movieList.results);
+  } else {
+    throw new APIError(response.status);
+  }
 };
 
 export const getSearchMovieList = async (
