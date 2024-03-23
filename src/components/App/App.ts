@@ -7,7 +7,7 @@ import MovieListContainer from '../movieListContainer/MovieListContainer';
 import Button from '../common/button/Button';
 import Toast from '../../Toast';
 import CONFIG from '../../constants/config';
-import MESSAGE from '../../constants/message';
+import { MESSAGE } from '../../constants/message';
 
 class App {
   $target: HTMLElement;
