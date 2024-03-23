@@ -1,10 +1,18 @@
 import { Movie, Path } from "../components/templates/movie/generateMovieItems";
-import APIError from "../error/APIError";
+import Fetcher from "./Fetcher";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
-const POPULAR_MOVIE_LIST_PATH = "/movie/popular";
-const SEARCH_MOVIE_LIST_PATH = "/search/movie";
+const formatPopularMovieListPath = (page: number) =>
+  `/movie/popular?language=ko-KR&page=${page}`;
+
+const formatSearchMovieListPath = (query: string, page: number) =>
+  `/search/movie?language=ko-KR&query=${query}&page=${page}`;
+
+const header = {
+  accept: "application/json",
+  Authorization: `Bearer ${process.env.TMDB_ACCESS_KEY}`,
+};
 
 type DateString = string;
 
@@ -33,47 +41,25 @@ const parseRawMovieList = (movieRawDataList: MovieRawData[]): Movie[] =>
     voteAverage: movieRawData.vote_average,
   }));
 
+const tmdbFetcher = new Fetcher(BASE_URL, header);
+
 export const getPopularMovieList = async (
   page: number = 1
 ): Promise<Movie[]> => {
-  const response = await fetch(
-    `${BASE_URL}${POPULAR_MOVIE_LIST_PATH}?language=ko-KR&page=${page}`,
-    {
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${process.env.TMDB_ACCESS_KEY}`,
-      },
-    }
+  const data = await tmdbFetcher.get<{ results: MovieRawData[] }>(
+    formatPopularMovieListPath(page)
   );
 
-  const movieList = await response.json();
-
-  if (response.ok) {
-    return parseRawMovieList(movieList.results);
-  } else {
-    throw new APIError(response.status);
-  }
+  return parseRawMovieList(data.results);
 };
 
 export const getSearchMovieList = async (
   query: string,
   page: number = 1
 ): Promise<Movie[]> => {
-  const response = await fetch(
-    `${BASE_URL}${SEARCH_MOVIE_LIST_PATH}?query=${query}&page=${page}`,
-    {
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${process.env.TMDB_ACCESS_KEY}`,
-      },
-    }
+  const data = await tmdbFetcher.get<{ results: MovieRawData[] }>(
+    formatSearchMovieListPath(query, page)
   );
 
-  const movieList = await response.json();
-
-  if (response.ok) {
-    return parseRawMovieList(movieList.results);
-  } else {
-    throw new APIError(response.status);
-  }
+  return parseRawMovieList(data.results);
 };
