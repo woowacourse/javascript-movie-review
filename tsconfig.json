@@ -9,7 +9,8 @@
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "outDir": "dist"
   },
   "outDir": "dist",
   "include": ["src/**/*"],
