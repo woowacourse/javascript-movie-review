@@ -8,8 +8,6 @@ export default class Component<T = {}, K = {}> {
   constructor($target: HTMLElement, props?: T) {
     this.$target = $target;
     this.props = props;
-
-    this.initializeState();
     this.render();
     this.setEvent();
   }
@@ -26,8 +24,6 @@ export default class Component<T = {}, K = {}> {
     this.$target.innerHTML = this.getTemplate();
     this.createChild();
   }
-
-  protected initializeState() {}
 
   protected setState(newState: K) {
     this.state = newState;

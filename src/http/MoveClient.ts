@@ -1,17 +1,11 @@
 import { BASE_URL } from "../constants/movies";
 
 class MovieClient {
-  private BASE_URL: string;
-
   private MOVIE_API_END_POINT = {
     popular: (currentPage: number) => `movie/popular?language=ko-KR&page=${currentPage}`,
     search: (currentPage: number, searchKeyword: string) =>
       `search/movie?query=${searchKeyword}&include_adult=false&language=ko-KR&page=${currentPage}`,
   };
-
-  constructor(baseUrl: string) {
-    this.BASE_URL = baseUrl;
-  }
 
   private decideEndPoint(currentPage: number, searchKeyword: string): string {
     if (searchKeyword === "") return this.MOVIE_API_END_POINT.popular(currentPage);
@@ -38,7 +32,7 @@ class MovieClient {
   public async get<T>(currentPage: number, searchKeyword: string): Promise<T | undefined> {
     const url = this.decideEndPoint(currentPage, searchKeyword);
 
-    const response = await fetch(`${this.BASE_URL}/${url}`, {
+    const response = await fetch(`${BASE_URL}/${url}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
@@ -51,4 +45,4 @@ class MovieClient {
   }
 }
 
-export default new MovieClient(BASE_URL);
+export default new MovieClient();

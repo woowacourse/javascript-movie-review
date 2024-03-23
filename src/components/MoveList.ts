@@ -12,7 +12,8 @@ interface MovieListState {
 }
 
 export default class MovieList extends Component<{}, MovieListState> {
-  protected initializeState() {
+  constructor($target: HTMLElement) {
+    super($target);
     this.state = { currentPage: 0, searchKeyword: "" };
   }
 
