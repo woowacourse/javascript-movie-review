@@ -12,7 +12,7 @@ import { MESSAGE } from '../../constants/message';
 class App {
   $target: HTMLElement;
   movieListContainer: MovieListContainer;
-  toast: Toast = new Toast('');
+  toast: Toast = new Toast();
 
   constructor() {
     this.$target = document.createElement('div');
@@ -30,7 +30,7 @@ class App {
       <section class="item-view">
         <h2 id="title">${MESSAGE.HOME_TITLE}</h2>
         <slot class="slot-movie-list"></slot>
-        <button style="display: none;" id="toast_btn"></button>
+        <button id="toast_button"></button>
       </section>
     </main>
     `;
@@ -38,10 +38,10 @@ class App {
 
   render() {
     const header = this.#createHeader();
-    const button = this.#createMoreButton();
+    const moreButton = this.#createMoreButton();
 
     const $section = dom.getElement<HTMLButtonElement>(this.$target, '.item-view');
-    $section.appendChild(button.$target);
+    $section.appendChild(moreButton.$target);
     $section.appendChild(this.toast.$target);
 
     const $title = dom.getElement(this.$target, 'h2');
@@ -55,7 +55,7 @@ class App {
   }
 
   setEvent() {
-    const $button = dom.getElement<HTMLButtonElement>(this.$target, '#toast_btn');
+    const $button = dom.getElement<HTMLButtonElement>(this.$target, '#toast_button');
 
     $button.addEventListener<any>('onToast', (e: CustomEvent) => {
       const message = e.detail;

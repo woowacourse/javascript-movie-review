@@ -71,12 +71,12 @@ class MovieListContainer {
   }
 
   handleErrorToast(errorMessage: string) {
-    const $button = dom.getElement<HTMLButtonElement>(document.body, '#toast_btn');
+    const $toastButton = dom.getElement<HTMLButtonElement>(document.body, '#toast_button');
     const clickEvent = new CustomEvent('onToast', {
       detail: errorMessage,
       bubbles: true,
     });
-    $button.dispatchEvent(clickEvent);
+    $toastButton.dispatchEvent(clickEvent);
   }
 }
 

@@ -20,7 +20,6 @@ class MovieItem {
           <img
           class="item-thumbnail skeleton"
           loading="lazy"
-          alt=""
         />
         <p class="item-title"></p>
         <div class="item-caption">

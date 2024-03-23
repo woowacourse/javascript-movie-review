@@ -4,7 +4,7 @@ class Toast {
   $target: HTMLElement = document.createElement('div');
   message;
 
-  constructor(message: string) {
+  constructor(message: string = '') {
     this.message = message;
     this.$target.id = 'toast_message';
   }

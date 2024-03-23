@@ -17,6 +17,10 @@
   user-select: none;
 }
 
+#toast-button {
+  display: none;
+}
+
 /*토스트 메시지*/
 #toast_message {
   opacity: 0;
