@@ -1,5 +1,5 @@
 import Logo from '../../assets/logo.png';
-import { deleteParams } from '../../utils/queryString';
+import { deleteParams, setEndpoint } from '../../utils/queryString';
 import SearchBox from '../SearchBox/SearchBox';
 import './Header.css';
 
@@ -22,7 +22,7 @@ class Header {
     this.header.append(this.headerImage);
     this.headerBox.append(this.header);
 
-    const searchBox = new SearchBox(this.rerenderList).init();
+    const searchBox = new SearchBox(this.rerenderList).render();
     this.headerBox.append(searchBox);
 
     const parent = document.querySelector('#app');
@@ -34,6 +34,8 @@ class Header {
     this.header.addEventListener('click', () => {
       deleteParams('query');
       deleteParams('page');
+
+      setEndpoint('search');
       this.rerenderList();
     });
   }

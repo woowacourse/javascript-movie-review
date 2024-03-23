@@ -2,6 +2,7 @@ import Header from '../src/components/Header/Header';
 import MovieList from '../src/components/MovieList/MovieList';
 import { TITLE } from './consts/message';
 import MovieDataLoader from './domain/services/MovieDataLoader';
+import { setEndpoint } from './utils/queryString';
 
 class App {
   movieDataLoader = new MovieDataLoader();
@@ -23,17 +24,22 @@ class App {
     if (!this.itemViewBox) return;
     this.itemViewBox.append(this.movieListBox);
 
+    setEndpoint('popular');
     await this.renderMovieList();
   }
 
   async renderMovieList() {
-    this.removeTitle();
-    this.renderTitle();
+    this.rerenderTitle();
     await this.movieDataLoader.renderFirstPage();
   }
 
   renderHeader() {
     new Header(this.renderMovieList.bind(this));
+  }
+
+  rerenderTitle() {
+    this.removeTitle();
+    this.renderTitle();
   }
 
   renderTitle(query?: string) {

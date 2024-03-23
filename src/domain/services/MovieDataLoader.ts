@@ -1,8 +1,8 @@
 import MovieList from '../../components/MovieList/MovieList';
 import { formatMovieList } from '../../utils/formatList';
-import MoreButton, { APIType } from '../../components/MoreButton/MoreButton';
+import MoreButton from '../../components/MoreButton/MoreButton';
 import movieAPI from '../../api/movie';
-import { deleteParams, getUrlParams, setUrlParams } from '../../utils/queryString';
+import { getEndpoint, getUrlParams, setEndpoint, setUrlParams } from '../../utils/queryString';
 
 //쿼리스트링을 자동 인식해서 페이지와 쿼리를 바꿔주는 로직을 하는 클래스
 class MovieDataLoader {
@@ -41,6 +41,7 @@ class MovieDataLoader {
   async renderFirstPage() {
     this.removeExistedList();
     this.currentPage = 1;
+
     setUrlParams('page', String(this.currentPage));
 
     const movieResult = await this.selectAPIAndFetch();
@@ -49,6 +50,8 @@ class MovieDataLoader {
     this.totalPage = movieResult.total_pages;
     this.movieListInstance.newList = formattedMovieList;
     this.movieListInstance.rerender();
+
+    if (this.totalPage === 1) return;
     this.moreButton.render();
   }
 
@@ -65,14 +68,16 @@ class MovieDataLoader {
     this.movieListInstance.newList = popularMovieList;
     this.movieListInstance.rerender();
 
+    //currentPage 에러
     if (this.currentPage === this.totalPage) return;
     this.moreButton.render();
   }
 
   async selectAPIAndFetch() {
     // try {
-    const query = getUrlParams('query');
-    if (query) {
+    const endpoint = getEndpoint();
+    const query = getUrlParams('query'); //TODO: constatn
+    if (endpoint === 'search' && query) {
       return movieAPI.fetchSearchMovies({ pageNumber: this.currentPage, query });
     }
     return movieAPI.fetchPopularMovies({ pageNumber: this.currentPage });

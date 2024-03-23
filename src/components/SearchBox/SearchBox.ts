@@ -1,4 +1,4 @@
-import { deleteParams, setUrlParams } from '../../utils/queryString';
+import { setEndpoint, setUrlParams } from '../../utils/queryString';
 import '../SearchBox/SearchBox.css';
 
 class SearchBox {
@@ -12,10 +12,10 @@ class SearchBox {
 
   constructor(rerenderList: () => void) {
     this.rerenderList = rerenderList;
-    this.setEvents();
+    this.#setEvents();
   }
 
-  init() {
+  render() {
     this.searchBox.classList.add('search-box');
     this.searchInput.setAttribute('type', 'text');
     this.searchInput.setAttribute('placeholder', '검색');
@@ -30,9 +30,10 @@ class SearchBox {
     return this.searchBox;
   }
 
-  setEvents() {
+  #setEvents() {
     this.searchBox.addEventListener('submit', (e: Event) => {
       e.preventDefault();
+      setEndpoint('search');
       setUrlParams('query', this.searchInput.value);
       this.rerenderList();
     });
