@@ -3,7 +3,6 @@ import { getPopularMovies, searchMoviesByTitle } from '../../apis/movie';
 import { Movie } from '../../types/movie';
 import { dom } from '../../utils/dom';
 import MovieItem from '../movieItem/MovieItem';
-import { InvalidRequestError } from '../../errors/error';
 import CONFIG from '../../constants/config';
 
 class MovieListContainer {
@@ -13,19 +12,15 @@ class MovieListContainer {
   constructor() {
     this.$target.classList.add('item-list');
     this.$target.innerHTML += this.template();
-    (async () => {
-      try {
-        const { movies, totalPages } = await this.fetchMovies(this.page);
-        await this.paint(movies);
 
-        if (this.$target.parentElement === null) return;
-        const $moreButton = dom.getElement(this.$target.parentElement, '#more-button');
-        if (this.page === totalPages) $moreButton.classList.add('hidden');
-      } catch (e) {
-        const target = e as InvalidRequestError;
-        this.handleErrorToast(target.message);
-      }
-    })();
+    this.fetchMovies(this.page)
+      .then(({ movies, totalPages }) => {
+        this.paint(movies);
+        this.validateMoreButton(totalPages);
+      })
+      .catch(e => {
+        if (e instanceof Error) this.handleErrorToast(e.message);
+      });
   }
 
   template() {
@@ -40,7 +35,7 @@ class MovieListContainer {
             </li>`.repeat(CONFIG.MOVIE_COUNT_PER_PAGE);
   }
 
-  async paint(movies: Movie[]) {
+  paint(movies: Movie[]) {
     this.$target.replaceChildren();
     this.$target.append(...movies.map(movie => new MovieItem(movie).$target));
   }
@@ -52,11 +47,7 @@ class MovieListContainer {
       this.$target.removeChild(this.$target.lastChild!);
     });
     this.$target.append(...movies.map(movie => new MovieItem(movie).$target));
-
-    if (this.$target.parentElement === null) return;
-
-    const $moreButton = dom.getElement(this.$target.parentElement, '#more-button');
-    if (this.page === totalPages) $moreButton.classList.add('hidden');
+    this.validateMoreButton(totalPages);
     this.page += 1;
   }
 
@@ -67,6 +58,12 @@ class MovieListContainer {
 
     const movies = mode === 'search' ? await searchMoviesByTitle(title, page) : await getPopularMovies(this.page);
     return movies;
+  }
+
+  validateMoreButton(totalPages: number) {
+    if (this.$target.parentElement === null) return;
+    const $moreButton = dom.getElement(this.$target.parentElement, '#more-button');
+    if (this.page === totalPages) $moreButton.classList.add('hidden');
   }
 
   initPageNumber() {
