@@ -1,6 +1,6 @@
 import { ERROR_2XX, ERROR_4XX, ERROR_5XX } from '../constants';
 
-export default class ErrorPage {
+export default class ErrorRender {
   #errorPageElement = document.createElement('div');
 
   #status: string = '';
