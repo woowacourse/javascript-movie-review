@@ -2,7 +2,9 @@ import createElement from '../../utils/createElement';
 import starImg from '../../../templates/star_filled.png';
 import formatToDecimalPlaces from '../../utils/formatToDecimalPlaces';
 import { MovieItemProps } from '../../types/movie';
-import { BASE_IMAGE_URL, BASE_IMAGE_WIDTH } from '../../constants/api/api';
+import { BASE_IMAGE_URL } from '../../constants/api/api';
+
+const THUMBNAIL_SIZE = 'w500';
 
 const createItemScore = (vote_average: number) => {
   const itemScoreContainer = createElement('div', { className: 'item-score-container' });
@@ -18,7 +20,7 @@ const createItemScore = (vote_average: number) => {
 const createItemImage = (poster_path: string, title: string) => {
   const image = createElement('img', {
     className: 'item-thumbnail skeleton',
-    src: `${BASE_IMAGE_URL}${BASE_IMAGE_WIDTH}${poster_path}`,
+    src: `${BASE_IMAGE_URL}${THUMBNAIL_SIZE}${poster_path}`,
     loading: 'lazy',
     alt: `${title} 포스터 이미지`,
     onload: toggleSkeleton,
