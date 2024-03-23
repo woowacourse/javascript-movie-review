@@ -14,9 +14,9 @@ export const getPopularMovies = async (page: number): Promise<MovieSearchResult>
     },
   });
 
-  const { results, total_pages } = await response.json();
+  const { results, total_pages, total_results } = await response.json();
   handleError(response.status);
-  return { movies: results.map(parseMovieResponse), totalPages: total_pages };
+  return { movies: results.map(parseMovieResponse), totalPages: total_pages, movieCount: total_results };
 };
 
 export const searchMoviesByTitle = async (title: string, page: number): Promise<MovieSearchResult> => {
@@ -29,9 +29,9 @@ export const searchMoviesByTitle = async (title: string, page: number): Promise<
     },
   });
 
-  const { results, total_pages } = await response.json();
+  const { results, total_pages, total_results } = await response.json();
   handleError(response.status);
-  return { movies: results.map(parseMovieResponse), totalPages: total_pages };
+  return { movies: results.map(parseMovieResponse), totalPages: total_pages, movieCount: total_results };
 };
 
 const parseMovieResponse = (movieResponse: MovieResponse): Movie => {
