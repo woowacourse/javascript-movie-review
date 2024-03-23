@@ -5,7 +5,7 @@ import QueryState from "./states/QueryState";
 import MovieListTitle from "./components/MovieList/MovieListTitle";
 import MovieList from "./components/MovieList/MovieList";
 import SkeletonUI from "./components/SkeletonUI";
-import { generateMovieListSkeleton } from "./components/templates/generateMovieListSkeleton";
+import { generateMovieListSkeleton } from "./components/templates/movie/generateMovieListSkeleton";
 
 const queryState = new QueryState();
 
@@ -16,15 +16,15 @@ const movieListTitle = new MovieListTitle({
 });
 
 const movieListSkeleton = new SkeletonUI(generateMovieListSkeleton());
-const movieListBody = new MovieList({
+const movieList = new MovieList({
   targetId: "movie-list",
   queryState,
   skeletonUI: movieListSkeleton,
 });
 
 queryState.addObserver(movieListTitle);
-queryState.addObserver(movieListBody);
+queryState.addObserver(movieList);
 
 movieHeader.mount();
 movieListTitle.mount();
-movieListBody.mount();
+movieList.mount();

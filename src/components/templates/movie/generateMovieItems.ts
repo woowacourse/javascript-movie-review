@@ -1,5 +1,5 @@
-import { HTMLTemplate } from "../abstract/BaseComponent";
-import IMAGES from "../../images";
+import { HTMLTemplate } from "../../abstract/BaseComponent";
+import IMAGES from "../../../images";
 
 export type Path = string;
 

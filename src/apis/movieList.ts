@@ -1,4 +1,4 @@
-import { Movie, Path } from "../components/templates/generateMovieItems";
+import { Movie, Path } from "../components/templates/movie/generateMovieItems";
 import APIError from "../error/APIError";
 
 const BASE_URL = "https://api.themoviedb.org/3";

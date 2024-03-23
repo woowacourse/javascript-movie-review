@@ -1,16 +1,16 @@
 import { HTMLTemplate } from "../abstract/BaseComponent";
 import QueryState, { Query } from "../../states/QueryState";
-import { Movie, generateMovieItems } from "../templates/generateMovieItems";
 import {
-  generateEmptyMovieListScreen,
-  generateNetworkNotWorkingScreen,
-} from "../templates/generateUnexpectedScreen";
+  Movie,
+  generateMovieItems,
+} from "../templates/movie/generateMovieItems";
+import { generateNetworkNotWorkingScreen } from "../templates/error/generateNetworkNotWorkingScreen";
+import { generateEmptyMovieListScreen } from "../templates/movie/generateEmptyMovieListScreen";
 import { getPopularMovieList, getSearchMovieList } from "../../apis/movieList";
 import { $ } from "../../utils/dom";
 import APIClientComponent from "../abstract/APIClientComponent";
 import APIError from "../../error/APIError";
 import SkeletonUI from "../SkeletonUI";
-import { runAsyncTryCatch } from "../../utils/runTryCatch";
 
 interface MovieListProps {
   targetId: string;
@@ -60,6 +60,7 @@ export default class MovieList extends APIClientComponent {
     try {
       this.skeletonUI.render(this.targetId);
       this.resetPage();
+
       const movies = await this.fetchMovies(this.page, this.queryState.get());
       this.movies = movies;
     } catch (error: unknown) {
@@ -117,8 +118,11 @@ export default class MovieList extends APIClientComponent {
       );
     }
 
+    console.log(this.targetId);
     const errorTargetElement = $(this.targetId);
+    console.log(errorTargetElement);
     if (errorTargetElement instanceof HTMLElement) {
+      console.log("hello");
       errorTargetElement.innerHTML = generateNetworkNotWorkingScreen();
     }
   }
