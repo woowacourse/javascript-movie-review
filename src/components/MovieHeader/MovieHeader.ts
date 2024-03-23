@@ -15,7 +15,7 @@ const MovieHeader = {
 
     this.setHandle(logoImgContainer, searchBox);
 
-    document.getElementById('app')?.appendChild(header);
+    document.getElementById('app')?.prepend(header);
   },
 
   createLogoImgContainer() {
@@ -32,8 +32,11 @@ const MovieHeader = {
 
   setHandle(logoImgContainer: HTMLElement, searchBox: HTMLElement) {
     logoImgContainer.addEventListener('click', () => this.showPopularMovies(searchBox));
+
     const searchButton = searchBox.querySelector('button');
+
     if (searchButton) searchButton.addEventListener('click', () => this.showSearchMovies(searchBox));
+
     searchBox.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') this.showSearchMovies(searchBox);
     });
