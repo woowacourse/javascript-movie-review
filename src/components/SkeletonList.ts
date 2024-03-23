@@ -46,7 +46,7 @@ const Skeleton = () => {
 const SkeletonListTitle = () => {
   const $title = createElementWithAttribute("h2", { class: "list-title" });
 
-  $title.textContent = "로딩 중...";
+  $title.textContent = "지금 인기 있는 영화";
 
   return $title;
 };
@@ -63,7 +63,7 @@ const SkeletonList = () => {
   return $ul;
 };
 
-const SkeletonView = () => {
+const renderSkeletonView = () => {
   const $main = document.querySelector("main");
   const $section = createElementWithAttribute("section", {
     class: "skeleton-view",
@@ -73,4 +73,4 @@ const SkeletonView = () => {
   $section.appendChild(SkeletonList());
   $main?.appendChild($section);
 };
-export default SkeletonView;
+export default renderSkeletonView;

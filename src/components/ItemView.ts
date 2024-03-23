@@ -5,6 +5,8 @@ import ItemList from "./ItemCardList";
 import MoreButton from "./MoreButton";
 import Title from "./Title";
 
+const $main = document.querySelector("main");
+
 const makeSection = (titleText: string, movieList: Movie[] | undefined) => {
   const $section = createElementWithAttribute("section", {
     class: "item-view",
@@ -15,15 +17,14 @@ const makeSection = (titleText: string, movieList: Movie[] | undefined) => {
   return $section;
 };
 
-const ItemView = (
+const renderItemView = (
   titleText: string,
   movieData: PartialMovieDataForItemView,
   listType: ListType,
 ) => {
-  const $main = document.querySelector("main");
   const $section = makeSection(titleText, movieData.movieList);
 
   $main?.appendChild($section);
   MoreButton(listType, movieData.isShowMoreButton);
 };
-export default ItemView;
+export default renderItemView;
