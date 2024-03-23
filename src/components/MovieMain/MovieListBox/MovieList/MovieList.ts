@@ -23,17 +23,20 @@ class MovieList {
   }
 
   reRender(movies: Movie[]) {
-    Array.from({ length: MovieList.MAX_ITEM_OF_PAGE }).forEach((_, index) => {
+    movies.forEach((movie, index) => {
       const movieItem = this.movieList[index];
-
-      if (index < movies.length) {
-        const movie = movies[index];
-        movieItem.reRender(movie);
-        return;
-      }
-
-      movieItem.$element.remove();
+      movieItem.reRender(movie);
+      return;
     });
+
+    const restSkeletonCount = MovieList.MAX_ITEM_OF_PAGE - movies.length;
+
+    if (restSkeletonCount) {
+      Array.from({ length: restSkeletonCount }).forEach((_, index) => {
+        const movieItem = this.movieList[movies.length + index];
+        movieItem.$element.remove();
+      });
+    }
   }
 
   appendSkeleton() {
