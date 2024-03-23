@@ -6,7 +6,7 @@ import MovieItem from '../movieItem/MovieItem';
 import CONFIG from '../../constants/config';
 
 class MovieListContainer {
-  $target: HTMLUListElement = document.createElement('ul');
+  $target = document.createElement('ul');
   page = CONFIG.FIRST_PAGE;
 
   constructor() {
@@ -18,8 +18,8 @@ class MovieListContainer {
         this.paint(movies);
         this.validateMoreButton(totalPages);
       })
-      .catch(e => {
-        if (e instanceof Error) this.handleErrorToast(e.message);
+      .catch(error => {
+        if (error instanceof Error) this.handleErrorToast(error.message);
       });
   }
 
