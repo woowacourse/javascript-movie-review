@@ -44,7 +44,8 @@ const Skeleton = () => {
 };
 
 const SkeletonListTitle = () => {
-  const $title = document.createElement("h2");
+  const $title = createElementWithAttribute("h2", { class: "list-title" });
+
   $title.textContent = "로딩 중...";
 
   return $title;

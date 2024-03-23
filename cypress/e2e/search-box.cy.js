@@ -30,7 +30,7 @@ describe("검색창 테스트", () => {
 
       cy.wait("@getSearchMovies1").then((intercept) => {
         cy.get(".item-view").within(() => {
-          cy.get("h2").should("contain.text", TITLE);
+          cy.get(".list-title").should("contain.text", TITLE);
         });
       });
     });
@@ -44,7 +44,7 @@ describe("검색창 테스트", () => {
 
       cy.wait("@getSearchMovies1").then((intercept) => {
         cy.get(".item-view").within(() => {
-          cy.get("h2").should("contain.text", TITLE);
+          cy.get(".list-title").should("contain.text", TITLE);
         });
       });
     });

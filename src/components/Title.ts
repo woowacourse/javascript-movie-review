@@ -1,5 +1,7 @@
+import { createElementWithAttribute } from "../utils";
+
 const Title = (text: string) => {
-  const $title = document.createElement("h2");
+  const $title = createElementWithAttribute("h2", { class: "list-title" });
   $title.textContent = text;
 
   return $title;
