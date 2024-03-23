@@ -1,6 +1,7 @@
 const CONFIG = {
   FIRST_PAGE: 1,
   MOVIE_COUNT_PER_PAGE: 20,
+  TOAST_MESSAGE_DELAY: 1000
 };
 
 export default CONFIG;

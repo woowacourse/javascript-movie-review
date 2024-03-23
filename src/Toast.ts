@@ -1,6 +1,9 @@
+import CONFIG from './constants/config';
+
 class Toast {
   $target: HTMLElement = document.createElement('div');
   message;
+
   constructor(message: string) {
     this.message = message;
     this.$target.id = 'toast_message';
@@ -11,7 +14,7 @@ class Toast {
     this.$target.textContent = message;
     setTimeout(() => {
       this.$target.classList.remove('active');
-    }, 1000);
+    }, CONFIG.TOAST_MESSAGE_DELAY);
   }
 }
 
