@@ -29,21 +29,9 @@ const createItemImage = (poster_path: string, title: string) => {
   return image;
 };
 
-// const createItemImage = (poster_path: string, title: string) => {
-//   const image = createElement('img', {
-//     className: 'item-thumbnail skeleton',
-//     src: `${BASE_IMAGE_URL}${BASE_IMAGE_WIDTH}${poster_path}`,
-//     loading: 'lazy',
-//     alt: `${title} 포스터 이미지`,
-//   });
-
-//   return image;
-// };
-
 const toggleSkeleton = (event: Event) => {
-  console.log('작동중');
-  const thumbnail = event.target as HTMLElement; // 이벤트의 대상을 직접 사용
-  thumbnail.classList.remove('skeleton'); // 로딩이 완료되면 스켈레톤 클래스 제거
+  const thumbnail = event.target as HTMLElement;
+  thumbnail.classList.remove('skeleton');
 };
 
 /* eslint-disable @typescript-eslint/naming-convention */
