@@ -1,14 +1,8 @@
 import { HTMLTemplate } from "../../abstract/BaseComponent";
 import IMAGES from "../../../images";
+import { Movie } from "../../../types/movie";
 
 export type Path = string;
-
-export interface Movie {
-  id: number;
-  title: string;
-  posterPath: Path;
-  voteAverage: number;
-}
 
 const BASE_POSTER_URL = "https://image.tmdb.org/t/p/w220_and_h330_face";
 

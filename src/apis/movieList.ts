@@ -1,4 +1,5 @@
-import { Movie, Path } from "../components/templates/movie/generateMovieItems";
+import { Path } from "../components/templates/movie/generateMovieItems";
+import { Movie } from "../types/movie";
 import Fetcher from "./Fetcher";
 
 const BASE_URL = "https://api.themoviedb.org/3";
