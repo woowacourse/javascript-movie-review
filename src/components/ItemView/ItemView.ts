@@ -3,6 +3,7 @@ import { BUTTONS, CONTAINER_TITLE } from '../../constants/INFORMATION';
 import Button from '../Button/Button';
 import MovieItems from '../MovieItems/MovieItems';
 import ResponseData from '../../interfaces/ResponseData';
+import MovieitemsSkeleton from '../MovieItems/MovieItemsSkeleton';
 
 class ItemView {
   #page: number;
@@ -38,7 +39,7 @@ class ItemView {
   }
 
   async mountItems(button: HTMLElement, search?: string) {
-    const skeleton = MovieItems.createSkeleton();
+    const skeleton = MovieitemsSkeleton.create();
     button.insertAdjacentElement('beforebegin', skeleton);
 
     const movieListData: ResponseData = await this.getMovieListData(search);
