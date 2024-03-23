@@ -1,4 +1,4 @@
-import { ERROR } from '../resource';
+import { ERROR } from '../../resource';
 
 interface Props {
   status: string;

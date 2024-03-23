@@ -1,6 +1,6 @@
-import { POSTER_BASE_URL } from '../api';
-import { MovieInfo } from '../domain/Movies';
-import { NO_IMAGE, STAR_FILLED } from '../resource';
+import { POSTER_BASE_URL } from '../../api';
+import { MovieInfo } from '../../domain/Movies';
+import { NO_IMAGE, STAR_FILLED } from '../../resource';
 
 const MovieItem = ({ title, poster_path, vote_average }: MovieInfo) => {
   const li = document.createElement('li');

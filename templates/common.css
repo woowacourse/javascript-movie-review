@@ -1,3 +1,12 @@
+@import url('../src/components/Header/header.css');
+@import url('../src/components/Title/title.css');
+@import url('../src/components/SearchBox/search-box.css');
+@import url('../src/components/MovieItem/movie-item.css');
+@import url('../src/components/SkeletonItem/skeleton-item.css');
+@import url('../src/components/Alert/alert.css');
+@import url('../src/components/ErrorPage/error-page.css');
+
+/* TODO: css 파일 분리 */
 * {
   box-sizing: border-box !important;
 }
@@ -53,47 +62,6 @@ button {
   grid-row-gap: 48px;
 }
 
-.item-card {
-  display: flex;
-  flex-direction: column;
-}
-
-.item-thumbnail {
-  border-radius: 8px;
-  width: 180px;
-  height: 270px;
-  background-size: contain;
-}
-
-.item-title {
-  margin-top: 16px;
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-.item-score {
-  margin-top: 16px;
-  font-size: 1.2rem;
-}
-
-.item-score::after {
-  margin-left: 8px;
-}
-
-.item-title.skeleton::after,
-.item-score.skeleton::after {
-  font-size: 0;
-  content: 'loading';
-}
-
-.full-width {
-  width: 100%;
-}
-
-.last-item {
-  margin-top: 48px;
-}
-
 button.btn {
   border: 0;
   border-radius: 8px;
@@ -105,139 +73,14 @@ button.primary {
   background: #f33f3f;
 }
 
-.item-card .skeleton {
-  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
-  background-size: 400%;
-  animation: skeleton-animation 5s infinite ease-out;
-  border-radius: 8px;
-}
-
-@keyframes skeleton-animation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-header {
-  width: 100%;
-  min-width: 1200px;
-  height: 72px;
-  background-color: #222;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-  border-bottom: 1px solid white;
-  margin-bottom: 48px;
-}
-
-header h1 {
-  cursor: pointer;
-  user-select: none;
-  font-size: 2rem;
-  font-weight: bold;
-  letter-spacing: -0.1rem;
-  color: #f33f3f;
-}
-
-header > .search-box {
-  background: #fff;
-  padding: 8px;
-  border-radius: 4px;
-}
-
-header .search-box > input {
-  border: 0;
-}
-
-header .search-box > .search-button {
-  width: 14px;
-  border: 0;
-  text-indent: -1000rem;
-  background: url('./search_button.png') transparent no-repeat 0 1px;
-  background-size: contain;
-}
-
 .hidden {
   display: none;
 }
 
-@keyframes fadeOut {
-  0%,
-  100% {
-    opacity: 0;
-  }
-  10%,
-  90% {
-    opacity: 1;
-  }
+.full-width {
+  width: 100%;
 }
 
-.alert-container {
-  position: fixed;
-  left: 50%;
-  bottom: 5%;
-
-  transform: translate(-50%, -50%);
-
-  min-width: 40%;
-  max-width: 70%;
-  height: 38px;
-
-  color: #000;
-  background: #ffffff;
-
-  box-shadow: 1px 1px 14.6px 3px #ea0202;
-  border-radius: 7px;
-
-  opacity: 0.9;
-  padding: 0 1rem;
-
-  font-size: 1.25rem;
-  font-weight: 700;
-
-  animation: fadeOut 3s ease-in-out 0s infinite normal none running;
-}
-
-.alert-content {
-  height: 100%;
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-  align-items: center;
-}
-
-.alert-text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-
-  white-space: nowrap;
-  text-align: center;
-}
-
-.error {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-
-  filter: grayscale(100%);
-
-  transform: translate(-50%, -50%);
-}
-
-.status-number {
-  margin-right: 1rem;
-  font-size: 2rem;
-  color: tomato;
-}
-
-.error-message {
-  font-size: 2rem;
+.last-item {
+  margin-top: 48px;
 }

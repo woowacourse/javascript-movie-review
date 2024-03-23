@@ -12,6 +12,9 @@ const handleHomeButtonClick = (event: MouseEvent) => {
 
 const Title = ({ element }: Props) => {
   const title = document.createElement('h1');
+
+  title.classList.add('title');
+
   title.appendChild(element);
 
   title.addEventListener('click', (event) => {

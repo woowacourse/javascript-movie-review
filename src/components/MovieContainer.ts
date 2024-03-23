@@ -1,8 +1,8 @@
-import SkeletonItem from './SkeletonItem';
-import MovieItem from './MovieItem';
-import { showAlert } from './Alert';
+import SkeletonItem from './SkeletonItem/SkeletonItem';
+import MovieItem from './MovieItem/MovieItem';
+import { showAlert } from './Alert/Alert';
 import { NO_SEARCH } from '../resource';
-import ErrorPage from './ErrorPage';
+import ErrorPage from './ErrorPage/ErrorPage';
 import Movies, { MovieInfo } from '../domain/Movies';
 
 class MovieContainer {
