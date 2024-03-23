@@ -4,29 +4,34 @@ import Button from '../Button/Button';
 import MovieItems from '../MovieItems/MovieItems';
 import ResponseData from '../../interfaces/ResponseData';
 import MovieitemsSkeleton from '../MovieItems/MovieItemsSkeleton';
+import SearchValidator from '../../domain/Validator/SearchValidator';
+import ToastPopup from '../ToastPopup/ToastPopup';
 
 class ItemView {
   #page: number;
+  #itemView = document.createElement('section');
 
-  constructor(search?: string) {
+  constructor() {
     this.#page = 0;
+    this.#itemView.classList.add('item-view');
 
-    this.create(search ? `"${search}"${CONTAINER_TITLE.searchResult}` : CONTAINER_TITLE.popular, search);
+    this.createItemView(CONTAINER_TITLE.popular);
   }
 
-  create(itemViewTitle: string, search?: string) {
-    const itemView = document.querySelector('.item-view');
+  getItemView() {
+    return this.#itemView;
+  }
 
-    if (itemView) {
-      const button = Button.create(BUTTONS.showMore, () => this.mountItems(button, search));
+  createItemView(itemViewTitle: string, search?: string) {
+    this.#page = 0;
+    this.#itemView.replaceChildren();
 
-      itemView.appendChild(this.createTitle(itemViewTitle));
-      itemView.appendChild(button);
+    const button = Button.create(BUTTONS.showMore, () => this.mountItems(button, search));
 
-      this.mountItems(button, search);
-    }
+    this.#itemView.appendChild(this.createTitle(itemViewTitle));
+    this.#itemView.appendChild(button);
 
-    return itemView;
+    this.mountItems(button, search);
   }
 
   createTitle(containerTitle: string) {
@@ -54,6 +59,25 @@ class ItemView {
       return await fetchSearchMovies(++this.#page, search);
     }
     return await fetchPopularMovies(++this.#page);
+  }
+
+  showPopularMovies() {
+    const searchBoxInput = document.querySelector('input');
+    if (searchBoxInput) searchBoxInput.value = '';
+
+    this.createItemView(CONTAINER_TITLE.popular);
+  }
+
+  showSearchMovies() {
+    try {
+      const trimmedSearchInputText = document.querySelector('input')?.value.replace(/ +/g, ' ').trim();
+
+      if (trimmedSearchInputText)
+        this.createItemView(`"${trimmedSearchInputText}"${CONTAINER_TITLE.searchResult}`, trimmedSearchInputText);
+      if (!trimmedSearchInputText) SearchValidator.validate();
+    } catch (e) {
+      if (e instanceof Error) ToastPopup(e.message);
+    }
   }
 }
 
