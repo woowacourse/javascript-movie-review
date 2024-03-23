@@ -10,7 +10,7 @@ import Error from '../components/Error/Error';
 class UIFeedBackManager {
   api;
 
-  SKELETON_LENGTH = 8;
+  SKELETON_LENGTH = 20;
 
   isLoading: boolean = false;
 
