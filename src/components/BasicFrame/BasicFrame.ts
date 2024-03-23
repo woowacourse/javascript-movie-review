@@ -9,7 +9,11 @@ function BasicFrame() {
   main.appendChild(section);
   section.appendChild(ul);
 
-  if (isHTMLElement(appContainer)) appContainer.appendChild(main);
+  if (!isHTMLElement(appContainer)) {
+    throw new Error('id가 app인 htmlElement를 찾을 수 없습니다.');
+  }
+
+  appContainer.appendChild(main);
 }
 
 export default BasicFrame;
