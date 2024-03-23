@@ -1,4 +1,4 @@
-export type TGenre =
+export type Genre =
   | 'Action'
   | 'Adventure'
   | 'Animation'
@@ -19,14 +19,14 @@ export type TGenre =
   | 'War'
   | 'Western';
 
-type TLanguage = string; // 'en' | ...
+type Language = string; // 'en' | ...
 
-export interface IMovieResponse {
+export interface MovieResponse {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
   id: number;
-  original_language: TLanguage;
+  original_language: Language;
   original_title: string;
   overview: string;
   popularity: number;
@@ -38,16 +38,16 @@ export interface IMovieResponse {
   vote_count: number;
 }
 
-export interface ISearchResult {
-  movies: IMovie[];
+export interface MovieSearchResult {
+  movies: Movie[];
   totalPages: number;
 }
 
-export interface IMovie {
+export interface Movie {
   id: number;
   title: string;
   imageSrc: string;
   score: number;
-  genre: TGenre[];
+  genre: Genre[];
   description: string;
 }

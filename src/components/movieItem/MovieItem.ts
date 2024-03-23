@@ -1,13 +1,13 @@
 import './MovieItem.css';
 
 import FILLED_STAR from '../../assets/images/star_filled.png';
-import { IMovie } from '../../types/movie';
+import { Movie } from '../../types/movie';
 import { dom } from '../../utils/dom';
 
 class MovieItem {
   $target: HTMLElement;
 
-  constructor(movie: IMovie) {
+  constructor(movie: Movie) {
     this.$target = document.createElement('li');
     this.$target.innerHTML = this.template();
     this.paint(movie);
@@ -32,7 +32,7 @@ class MovieItem {
       `;
   }
 
-  paint(movie: IMovie) {
+  paint(movie: Movie) {
     const $image = dom.getElement<HTMLImageElement>(this.$target, '.item-thumbnail');
     const $title = dom.getElement<HTMLParagraphElement>(this.$target, '.item-title');
     const $score = dom.getElement<HTMLParagraphElement>(this.$target, '.item-score');

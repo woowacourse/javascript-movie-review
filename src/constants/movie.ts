@@ -1,8 +1,8 @@
-import { TGenre } from '../types/movie';
+import { Genre } from '../types/movie';
 
-type TGenreId = Record<number, TGenre>;
+type GenreRecord = Record<number, Genre>;
 
-const genre: TGenreId = {
+const genre: GenreRecord = {
   28: 'Action',
   12: 'Adventure',
   16: 'Animation',

@@ -1,6 +1,6 @@
 import './MovieListContainer.css';
 import { getPopularMovies, searchMoviesByTitle } from '../../apis/movie';
-import { IMovie } from '../../types/movie';
+import { Movie } from '../../types/movie';
 import { dom } from '../../utils/dom';
 import MovieItem from '../movieItem/MovieItem';
 import { InvalidRequestError } from '../../errors/error';
@@ -40,7 +40,7 @@ class MovieListContainer {
             </li>`.repeat(CONFIG.MOVIE_COUNT_PER_PAGE);
   }
 
-  async paint(movies: IMovie[]) {
+  async paint(movies: Movie[]) {
     this.$target.replaceChildren();
     this.$target.append(...movies.map(movie => new MovieItem(movie).$target));
   }

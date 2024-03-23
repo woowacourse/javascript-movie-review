@@ -1,10 +1,10 @@
 import { genre } from '../constants/movie';
 import { IMAGE_BASE_URL, POPULAR_MOVIES_URL, SEARCH_MOVIES_URL } from '../constants/url';
 import { handleError } from '../errors/error';
-import { IMovie, IMovieResponse, ISearchResult } from '../types/movie';
+import { Movie, MovieResponse, MovieSearchResult } from '../types/movie';
 
 
-export const getPopularMovies = async (page: number): Promise<ISearchResult> => {
+export const getPopularMovies = async (page: number): Promise<MovieSearchResult> => {
   const params = `?language=ko-KR&page=${page}`;
   const response = await fetch(POPULAR_MOVIES_URL + params, {
     method: 'GET',
@@ -21,7 +21,7 @@ export const getPopularMovies = async (page: number): Promise<ISearchResult> => 
   return { movies: results.map(parseMovieResponse), totalPages: total_pages };
 };
 
-export const searchMoviesByTitle = async (title: string, page: number): Promise<ISearchResult> => {
+export const searchMoviesByTitle = async (title: string, page: number): Promise<MovieSearchResult> => {
   const params = `?query=${title}&include_adult=false&language=en-US&page=${page}`;
 
   const response = await fetch(SEARCH_MOVIES_URL + params, {
@@ -39,9 +39,9 @@ export const searchMoviesByTitle = async (title: string, page: number): Promise<
   return { movies: results.map(parseMovieResponse), totalPages: total_pages };
 };
 
-const parseMovieResponse = (movieResponse: IMovieResponse): IMovie => {
+const parseMovieResponse = (movieResponse: MovieResponse): Movie => {
   const { id, title, poster_path, vote_average, genre_ids, overview } = movieResponse;
-  const movie: IMovie = {
+  const movie: Movie = {
     id,
     title,
     imageSrc: `${IMAGE_BASE_URL}/original/${poster_path}`,
