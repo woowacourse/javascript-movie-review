@@ -18,3 +18,11 @@ button:disabled {
   cursor: default;
   color: #999999;
 }
+
+button:hover {
+  background-color: #e4353d;
+}
+
+button:active {
+  background-color: #e37278;
+}
