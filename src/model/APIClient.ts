@@ -1,4 +1,4 @@
-import { BASE_URL, endpoint, options } from '../config';
+import { BASE_URL, getEndPoint, options } from '../config';
 import { API_ERROR_MESSAGE, MAX_PAGE } from '../constants';
 
 import dataStateStore from './DataStateStore';
@@ -45,7 +45,7 @@ class APIClient {
 
   async fetchPopularMovie() {
     const response = await fetch(
-      `${BASE_URL}/${endpoint.popularMovie(this.#currentPage)}`,
+      `${BASE_URL}/${getEndPoint.popularMovie(this.#currentPage)}`,
       options,
     );
 
@@ -65,7 +65,7 @@ class APIClient {
 
   async fetchSearchMovie(title: string) {
     const response = await fetch(
-      `${BASE_URL}/${endpoint.searchMovie(title, this.#currentPage)}`,
+      `${BASE_URL}/${getEndPoint.searchMovie(title, this.#currentPage)}`,
       options,
     );
 

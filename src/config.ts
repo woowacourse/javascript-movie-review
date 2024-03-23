@@ -14,8 +14,23 @@ export const options = {
   },
 };
 
-export const endpoint = {
-  popularMovie: (page: number) => `movie/popular?language=ko&page=${page}`,
+const getPopularMovieURLParams = (page: number) =>
+  new URLSearchParams({
+    language: 'ko',
+    page: page.toString(),
+  });
+
+const getSearchMovieURLParams = (title: string, page: number) =>
+  new URLSearchParams({
+    query: title,
+    include_adult: 'false',
+    language: 'ko',
+    page: page.toString(),
+  });
+
+export const getEndPoint = {
+  popularMovie: (page: number) =>
+    `movie/popular?${getPopularMovieURLParams(page)}`,
   searchMovie: (title: string, page: number) =>
-    `search/movie?query=${title}}&include_adult=false&language=ko&page=${page}`,
+    `search/movie?${getSearchMovieURLParams(title, page)}`,
 };
