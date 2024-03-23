@@ -1,4 +1,5 @@
 type Selector = string;
 
-export const $ = (selector: Selector): HTMLElement | null =>
-  document.getElementById(selector);
+export const $ = <T extends HTMLElement = HTMLElement>(
+  selector: Selector
+): T | null => (document.getElementById(selector) as T) || null;

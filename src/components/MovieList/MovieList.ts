@@ -69,7 +69,7 @@ export default class MovieList extends APIClientComponent {
   }
 
   protected setEvent(): void {
-    $("watch-more-button")?.addEventListener(
+    $<HTMLButtonElement>("watch-more-button")?.addEventListener(
       "click",
       this.handleWatchMoreButtonClick.bind(this)
     );
@@ -82,19 +82,22 @@ export default class MovieList extends APIClientComponent {
 
     const additionalMovies = await this.fetchMovies(this.page);
 
-    $("skeleton-movie-item-list")?.remove();
+    $<HTMLUListElement>("skeleton-movie-item-list")?.remove();
 
     this.insertMovieItems(additionalMovies);
 
     if (additionalMovies.length < 20) {
-      $("watch-more-button")?.remove();
+      $<HTMLButtonElement>("watch-more-button")?.remove();
     }
   }
 
   private async insertMovieItems(movies: Movie[]): Promise<void> {
     const movieItemsTemplate = generateMovieItems(movies);
 
-    $("item-list")?.insertAdjacentHTML("beforeend", movieItemsTemplate);
+    $<HTMLUListElement>("item-list")?.insertAdjacentHTML(
+      "beforeend",
+      movieItemsTemplate
+    );
   }
 
   private async fetchMovies(page: number, query?: Query): Promise<Movie[]> {
@@ -118,11 +121,8 @@ export default class MovieList extends APIClientComponent {
       );
     }
 
-    console.log(this.targetId);
     const errorTargetElement = $(this.targetId);
-    console.log(errorTargetElement);
     if (errorTargetElement instanceof HTMLElement) {
-      console.log("hello");
       errorTargetElement.innerHTML = generateNetworkNotWorkingScreen();
     }
   }
