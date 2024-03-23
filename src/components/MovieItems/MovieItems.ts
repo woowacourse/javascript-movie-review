@@ -6,13 +6,24 @@ import { MOVIE_POSTER_URL } from '../../constants/DTO';
 const MovieItems = {
   replaceSkeletons(movieItems: HTMLUListElement, respondData: ResponseData) {
     const itemCards = movieItems.querySelectorAll('li');
-    itemCards.forEach((item, index) => this.replaceSkeleton(item, respondData.results[index]));
+    itemCards.forEach((itemCard, index) => this.replaceSkeleton(itemCard, respondData.results[index]));
+
+    if (respondData.results[0] === undefined) {
+      this.showNoResult(movieItems);
+    }
+  },
+
+  showNoResult(movieItems: HTMLUListElement): void {
+    const noResultText = document.createElement('h2');
+
+    noResultText.textContent = '존재하지 않습니다. 다시 입력해주세요.';
+
+    movieItems.replaceWith(noResultText);
   },
 
   replaceSkeleton(itemCard: HTMLElement, movieData: MovieData) {
     if (movieData === undefined) {
       return itemCard.remove();
-      // 검색 결과가 없습니다 생성
     }
 
     this.replaceThumbnail(itemCard, movieData);
