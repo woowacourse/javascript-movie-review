@@ -4,6 +4,7 @@ import { createMovieItems } from '../MovieContainer/render';
 import removeHTMLElements from '../../utils/removeHTMLElements';
 import { addShowMoreButtonEventListener } from '../ShowMoreButton/eventHandler';
 import pageManager from '../../services/PageManager';
+import scrollToTop from '../../utils/scrollToTop';
 
 const updateMovieListBanner = (keyword: string) => {
   const h2 = document.querySelector('h2');
@@ -34,6 +35,7 @@ const formSubmitHandler = (event: Event) => {
   const input = document.querySelector('input');
   if (!input) return;
   validateAndLoadMovieList(input.value);
+  scrollToTop();
 };
 
 export const keywordSubmitHandler = () => {
