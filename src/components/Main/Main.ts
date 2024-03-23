@@ -1,4 +1,4 @@
-import MovieService from '../../services/MovieService';
+import { MovieService, MovieData } from '../../services/MovieService';
 import movieStore from '../../stores/movieStore';
 import MovieList from '../MovieList/MovieList';
 import SkeletonMovieList from '../MovieList/SkeletonMovieList';
@@ -63,71 +63,66 @@ const Main = () => {
     };
   };
 
-  document.addEventListener('search', (e) => {
-    const { detail } = e as CustomEvent;
-    if (detail.curType !== 'search') movieStore.setPage(1);
+  interface MovieDetail {
+    curType: string;
+    query: string;
+  }
 
-    const {
-      $skeletonMovieList,
-      removeSkeletonMovieList,
-      insertSkeletonMovieList,
-    } = useSkeletonMovieList(`\"${detail.query}\" 검색 결과`);
+  type FetchFunction = (query: string, page: number) => Promise<MovieData>;
 
-    insertSkeletonMovieList();
+  function handleMovieEvent(
+    eventType: string,
+    fetchFunction: FetchFunction,
+  ): void {
+    document.addEventListener(eventType, (e) => {
+      const { detail } = e as CustomEvent<MovieDetail>;
+      if (detail.curType !== eventType) movieStore.setPage(1);
 
-    MovieService.fetchSearchMovies({
-      query: detail.query,
-      page: movieStore.page,
-    })
-      .then(({ movies, page, isLastPage, isEmptyResults }) => {
-        if (isEmptyResults) {
-          return showSearchResultsNotFound($skeletonMovieList);
-        }
+      const title =
+        eventType === 'search'
+          ? `\"${detail.query}\" 검색 결과`
+          : '지금 인기있는 영화';
 
-        if (page !== 1) {
-          movieStore.setMovies([...movieStore.movies, ...movies], () => {
-            removeSkeletonMovieList({ type: 'search', isLastPage });
-          });
-          movieStore.setPage(page + 1);
-        } else {
-          movieStore.setMovies(movies, () => {
-            removeSkeletonMovieList({ type: 'search', isLastPage });
-          });
-          movieStore.setPage(page + 1);
-        }
-      })
-      .catch(() => {
-        clearItemViewForError();
-      });
-  });
+      const {
+        $skeletonMovieList,
+        removeSkeletonMovieList,
+        insertSkeletonMovieList,
+      } = useSkeletonMovieList(title);
+      insertSkeletonMovieList();
 
-  document.addEventListener('popular', (e) => {
-    const { detail } = e as CustomEvent;
-    if (detail.curType !== 'popular') movieStore.setPage(1);
+      fetchFunction(detail.query, movieStore.page)
+        .then(({ movies, page, isLastPage, isEmptyResults }) => {
+          if (isEmptyResults) {
+            return showSearchResultsNotFound($skeletonMovieList);
+          }
 
-    const { removeSkeletonMovieList, insertSkeletonMovieList } =
-      useSkeletonMovieList('지금 인기있는 영화');
+          movieStore.setMovies(
+            page !== 1 ? [...movieStore.movies, ...movies] : movies,
+            () => {
+              removeSkeletonMovieList({ type: eventType, isLastPage });
+              movieStore.setPage(page + 1);
+            },
+          );
+        })
+        .catch(() => {
+          clearItemViewForError();
+        });
+    });
+  }
 
-    insertSkeletonMovieList();
+  function fetchSearchMovies(query: string, page: number): Promise<MovieData> {
+    return MovieService.fetchSearchMovies({ query, page });
+  }
 
-    MovieService.fetchPopularMovies({ page: movieStore.page })
-      .then(({ movies, page, isLastPage }) => {
-        if (page !== 1) {
-          movieStore.setMovies([...movieStore.movies, ...movies], () => {
-            removeSkeletonMovieList({ type: 'popular', isLastPage });
-          });
-          movieStore.setPage(page + 1);
-        } else {
-          movieStore.setMovies(movies, () => {
-            removeSkeletonMovieList({ type: 'popular', isLastPage });
-          });
-          movieStore.setPage(page + 1);
-        }
-      })
-      .catch(() => {
-        clearItemViewForError();
-      });
-  });
+  function fetchPopularMovies(
+    _query: string, // 사용되지 않음
+    page: number,
+  ): Promise<MovieData> {
+    return MovieService.fetchPopularMovies({ page });
+  }
+
+  handleMovieEvent('search', fetchSearchMovies);
+  handleMovieEvent('popular', fetchPopularMovies);
 
   document.dispatchEvent(
     new CustomEvent('popular', {

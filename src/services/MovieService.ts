@@ -5,18 +5,18 @@ import {
 } from '../constants/requests';
 import fetchData from '../utils/fetchData';
 
-export interface Params {
+interface Params {
   [key: string]: string | number | boolean;
 }
 
-interface MovieData {
+export interface MovieData {
   movies: Movie[];
   page: number;
   isLastPage: boolean;
   isEmptyResults: boolean;
 }
 
-const MovieService = {
+export const MovieService = {
   async fetchMovies(url: string): Promise<MovieData> {
     const data = await fetchData({
       url,
@@ -52,5 +52,3 @@ const MovieService = {
     return this.fetchMovies(url);
   },
 };
-
-export default MovieService;
