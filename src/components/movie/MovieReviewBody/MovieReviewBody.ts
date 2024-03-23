@@ -79,8 +79,6 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
 
     this.movie?.fetchMovieDetails({
       onSuccess: (data) => {
-        if (!data) return;
-
         $ul.remove();
 
         if (data.results.length === 0) {

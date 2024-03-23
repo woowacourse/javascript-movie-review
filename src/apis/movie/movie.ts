@@ -1,4 +1,6 @@
+import { MovieDetail } from '../../domain/Movie/Movie.type';
 import ApiSchema from '../common/apiSchema';
+import { BaseResponse } from '../common/apiSchema.type';
 
 import { isMovieErrorStatusCode } from './movie.util';
 
@@ -32,7 +34,7 @@ class MovieAPI {
     throw new Error(MovieAPI.ERROR_MESSAGES_MAP[response.status]);
   }
 
-  static async fetchMovieDetails<T>(page: number, type: string): Promise<T | undefined> {
+  static async fetchMovieDetails(page: number, type: string) {
     const requestType = type === 'popular' ? '' : type;
     const requestUrl = `${this.getAPIEndpoint(type)}?${MovieAPI.createMovieQueryString(page, requestType)}`;
 
@@ -41,7 +43,9 @@ class MovieAPI {
     if (!response) return;
 
     this.handleProcessStatusCode(response);
-    return response.json();
+
+    const movieDetails = response.json();
+    return movieDetails;
   }
 }
 

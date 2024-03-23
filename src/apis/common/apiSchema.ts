@@ -13,7 +13,7 @@ class ApiSchema {
     this.httpMethod = httpMethod;
   }
 
-  async request(): Promise<Response | undefined> {
+  async request(): Promise<Response> {
     const response = await fetch(this.url, { method: this.httpMethod });
 
     this.handleProcessStatusCode(response);
