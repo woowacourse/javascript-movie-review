@@ -32,12 +32,10 @@ const SearchBox = () => {
   });
 
   searchInput.addEventListener('keydown', (event: KeyboardEvent) => {
-    if (event.key === 'Enter') {
-      if (event.isComposing === false) {
-        event.preventDefault();
-        handleSearchClick(event);
-        searchInput.value = '';
-      }
+    if (event.key === 'Enter' && !event.isComposing) {
+      event.preventDefault();
+      handleSearchClick(event);
+      searchInput.value = '';
     }
   });
 
