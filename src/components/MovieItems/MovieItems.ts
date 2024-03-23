@@ -60,6 +60,7 @@ class MovieItems {
       className: ['btn', 'primary', 'full-width'],
       text: '더 보기',
       onClick: this.showMore.bind(this),
+      debounceWait: 500,
     });
     main.appendChild(button.element);
   }
