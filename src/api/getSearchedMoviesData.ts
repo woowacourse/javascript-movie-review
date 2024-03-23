@@ -1,4 +1,4 @@
-import { getMovieData } from "./getMovieData";
+import { getData } from "./getData";
 
 const API_KEY = process.env.API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
@@ -21,7 +21,7 @@ export const getSearchedMoviesData = async (
     ).toString()}`;
 
     try {
-      const searchedMovies = await getMovieData(searchMovieUrl);
+      const searchedMovies = await getData(searchMovieUrl);
       if (searchedMovies && searchedMovies.results) {
         return searchedMovies.results;
       } else {

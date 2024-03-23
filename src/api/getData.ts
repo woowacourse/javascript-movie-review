@@ -1,4 +1,4 @@
-export const getMovieData = async (url: string) => {
+export const getData = async (url: string) => {
   const response = await fetch(url);
   const data = await response.json();
 

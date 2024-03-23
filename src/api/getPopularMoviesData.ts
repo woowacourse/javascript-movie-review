@@ -1,4 +1,4 @@
-import { getMovieData } from "./getMovieData";
+import { getData } from "./getData";
 
 const API_KEY = process.env.API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
@@ -17,7 +17,7 @@ export const getPopularMoviesData = async (currentPage: string) => {
     ).toString()}`;
 
     try {
-      const popularMovies = await getMovieData(popularMovieUrl);
+      const popularMovies = await getData(popularMovieUrl);
       if (popularMovies && popularMovies.results) {
         return popularMovies.results;
       } else {
