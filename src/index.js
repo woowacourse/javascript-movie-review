@@ -1,23 +1,10 @@
-import '../templates/reset.css';
-import '../templates/common.css';
-import './css/style.css';
+/* eslint-disable import/no-unresolved */
+import './styles/reset.css';
+import './styles/common.css';
+import AppHeader from './components/app-header/AppHeader';
+import { $ } from './utils/domUtils';
 
-import getHeader from './view/getHeader.ts';
-import replaceMain from './view/getMain.ts';
+const $app = $('#app', document, true);
+const $appHeader = AppHeader();
 
-function renderHeader() {
-  const header = getHeader();
-  const app = document.getElementById('app');
-  app.prepend(header);
-}
-
-async function renderMain() {
-  await replaceMain();
-}
-
-async function run() {
-  renderHeader();
-  await renderMain();
-}
-
-run();
+if ($app) $app.appendChild($appHeader);
