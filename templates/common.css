@@ -141,9 +141,6 @@ button.primary {
 }
 
 .error-view {
-  display: none;
-}
-.error-view.on {
   display: flex;
   flex-direction: column;
   justify-content: center;

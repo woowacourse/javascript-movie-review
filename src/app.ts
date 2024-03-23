@@ -1,17 +1,13 @@
-import ErrorView from "./components/ErrorView";
 import Header from "./components/Header";
-import ItemView from "./components/ItemView";
-import SkeletonView from "./components/SkeletonList";
-import dataStateStore from "./model/DataStateStore";
-import { handleGetPopularMovieData } from "./service/handleSkeletonAndAPI";
+import ViewContainer from "./components/ViewContainer";
+
+export const $main = document.querySelector("main");
 
 async function App() {
   const $app = document.querySelector("#app");
+
   $app?.prepend(Header());
-  SkeletonView();
-  ErrorView();
-  await handleGetPopularMovieData();
-  ItemView("지금 인기 있는 영화", dataStateStore.movieData, "popular");
+  await ViewContainer();
 }
 
 export default App;

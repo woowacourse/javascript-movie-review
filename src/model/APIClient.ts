@@ -1,3 +1,4 @@
+import renderErrorView from "../components/ErrorView";
 import { BASE_URL, endpoint, options } from "../config";
 import { MAX_PAGE } from "../constants/system";
 
@@ -35,7 +36,7 @@ class APIClient {
       );
       return await response.json();
     } catch (error) {
-      console.error("Error fetching data:", error);
+      renderErrorView();
       return error;
     }
   }
@@ -61,7 +62,7 @@ class APIClient {
       );
       return await response.json();
     } catch (error) {
-      console.error("Error fetching data:", error);
+      renderErrorView();
       return error;
     }
   }
