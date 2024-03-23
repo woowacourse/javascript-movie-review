@@ -3,6 +3,7 @@ import MovieItem from './MovieItem/MovieItem';
 import { showAlert } from './Alert/Alert';
 import ErrorPage from './ErrorPage/ErrorPage';
 import Movies, { MovieInfo } from '../domain/Movies';
+import CustomError from '../utils/CustomError';
 
 class MovieContainer {
   #page;
@@ -18,27 +19,6 @@ class MovieContainer {
     this.render(this.#query);
   }
 
-  render(query: string) {
-    this.initData(query);
-    document.querySelector('.error-container')?.remove();
-    this.#query ? this.renderSearchMovies() : this.renderMovies();
-  }
-
-  initData(query: string) {
-    const ul = document.querySelector('ul.item-list');
-    const subtitle = document.querySelector('.subtitle');
-    if (!(ul instanceof HTMLElement)) return;
-    if (!(subtitle instanceof HTMLElement)) return;
-
-    query
-      ? (subtitle.textContent = `"${query}" 검색결과 입니다.`)
-      : (subtitle.textContent = '지금 인기 있는 영화');
-
-    this.#page = 1;
-    this.#query = query;
-    ul.innerHTML = '';
-  }
-
   #getTemplate(element: HTMLElement) {
     const section = document.createElement('section');
 
@@ -51,6 +31,7 @@ class MovieContainer {
     movieList.classList.add('item-list');
     button.classList.add('view-more-button', 'primary', 'full-width');
 
+    // TODO: 더 보기 버튼 클릭 시 비활성화 고민
     button.textContent = '더 보기';
 
     section.appendChild(subtitle);
@@ -77,10 +58,55 @@ class MovieContainer {
     });
   }
 
+  render(query: string) {
+    this.initData(query);
+    document.querySelector('.error-container')?.remove();
+    this.#query ? this.renderSearchMovies() : this.renderMovies();
+  }
+
+  initData(query: string) {
+    const ul = document.querySelector('ul.item-list');
+    const subtitle = document.querySelector('.subtitle');
+    if (!(ul instanceof HTMLElement)) return;
+    if (!(subtitle instanceof HTMLElement)) return;
+
+    query
+      ? (subtitle.textContent = `"${query}" 검색결과 입니다.`)
+      : (subtitle.textContent = '지금 인기 있는 영화');
+
+    this.#page = 1;
+    this.#query = query;
+    ul.innerHTML = '';
+  }
+
   async renderMovies() {
     this.#inputSkeleton();
 
     await this.#inputMovies();
+  }
+
+  async #inputMovies() {
+    const ul = document.querySelector('ul.item-list');
+    if (!(ul instanceof HTMLElement)) return;
+
+    const movieData = await this.#getMovies(this.#page);
+
+    const viewMoreButton = document.querySelector('.view-more-button');
+
+    // TODO: 상수 분리
+    !movieData || movieData.length < 20
+      ? viewMoreButton?.classList.add('hidden')
+      : viewMoreButton?.classList.remove('hidden');
+
+    if (movieData) {
+      this.#createMovieItems(movieData).forEach((movieItem) => {
+        ul.appendChild(movieItem);
+      });
+
+      this.#removeSkeleton();
+
+      this.#page += 1;
+    }
   }
 
   async renderSearchMovies() {
@@ -96,15 +122,11 @@ class MovieContainer {
     const movieData = await this.#searchMovies(this.#page, query);
 
     if (movieData && !movieData.length) {
-      document.querySelector('.subtitle')?.insertAdjacentElement(
-        'afterend',
-        ErrorPage({
-          message: '검색한 결과를 찾을 수 없습니다.\n다른 검색어로 검색을 해보시겠어요?',
-        }),
-      );
+      this.#showErrorPage('검색한 결과를 찾을 수 없습니다.\n다른 검색어로 검색을 해보시겠어요?');
     }
 
     const viewMoreButton = document.querySelector('.view-more-button');
+    // TODO: 상수 분리
     !movieData || movieData.length < 20
       ? viewMoreButton?.classList.add('hidden')
       : viewMoreButton?.classList.remove('hidden');
@@ -118,10 +140,28 @@ class MovieContainer {
     }
   }
 
+  async #searchMovies(page: number, query: string) {
+    try {
+      const movieData = await this.#movies.getSearchMovies(query, page);
+
+      return movieData;
+    } catch (error) {
+      if (!(error instanceof CustomError)) return;
+
+      this.#removeSkeleton();
+      const viewMoreButton = document.querySelector('.view-more-button');
+
+      viewMoreButton?.classList.add('hidden');
+
+      this.#showErrorPage(error.message, error.status);
+    }
+  }
+
   #inputSkeleton() {
     const ul = document.querySelector('.item-list');
     if (!(ul instanceof HTMLElement)) return;
 
+    // TODO: 20 상수 분리
     Array.from({ length: 20 }).forEach(() => ul.insertAdjacentElement('beforeend', SkeletonItem()));
   }
 
@@ -134,37 +174,15 @@ class MovieContainer {
   async #getMovies(page: number) {
     try {
       const movieData = await this.#movies.getPopularMovies(page);
-      return movieData;
-    } catch (error) {
-      if (error instanceof Error) {
-        const [status, message] = error.message.split('-');
-
-        const viewMoreButton = document.querySelector('.view-more-button') as HTMLElement;
-        viewMoreButton.classList.add('hidden');
-
-        document
-          .querySelector('.subtitle')
-          ?.insertAdjacentElement('afterend', ErrorPage({ status, message }));
-      }
-    }
-  }
-
-  async #searchMovies(page: number, query: string) {
-    try {
-      const movieData = await this.#movies.getSearchMovies(query, page);
 
       return movieData;
     } catch (error) {
-      if (error instanceof Error) {
-        this.#removeSkeleton();
-        const [status, message] = error.message.split('-');
-        const viewMoreButton = document.querySelector('.view-more-button');
-        viewMoreButton?.classList.add('hidden');
+      if (!(error instanceof CustomError)) return;
 
-        document
-          .querySelector('.subtitle')
-          ?.insertAdjacentElement('beforebegin', ErrorPage({ status, message }));
-      }
+      const viewMoreButton = document.querySelector('.view-more-button') as HTMLElement;
+      viewMoreButton.classList.add('hidden');
+
+      this.#showErrorPage(error.message, error.status);
     }
   }
 
@@ -172,27 +190,10 @@ class MovieContainer {
     return data.map((prop) => MovieItem(prop));
   }
 
-  async #inputMovies() {
-    const ul = document.querySelector('ul.item-list');
-    if (!(ul instanceof HTMLElement)) return;
-
-    const movieData = await this.#getMovies(this.#page);
-
-    const viewMoreButton = document.querySelector('.view-more-button');
-
-    !movieData || movieData.length < 20
-      ? viewMoreButton?.classList.add('hidden')
-      : viewMoreButton?.classList.remove('hidden');
-
-    if (movieData) {
-      this.#createMovieItems(movieData).forEach((movieItem) => {
-        ul.appendChild(movieItem);
-      });
-
-      this.#removeSkeleton();
-
-      this.#page += 1;
-    }
+  #showErrorPage(message: string, status?: number) {
+    document
+      .querySelector('.subtitle')
+      ?.insertAdjacentElement('afterend', ErrorPage({ status, message }));
   }
 }
 

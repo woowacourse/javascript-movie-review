@@ -1,7 +1,7 @@
 import { WRONG } from '../../resource';
 
 interface Props {
-  status?: string;
+  status?: number;
   message: string;
 }
 
@@ -18,7 +18,7 @@ const ErrorPage = ({ status, message }: Props) => {
 
   img.src = WRONG;
 
-  if (status) statusText.textContent = status;
+  if (status) statusText.textContent = String(status);
   messageText.textContent = message;
 
   container.appendChild(img);
