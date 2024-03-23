@@ -1,14 +1,11 @@
 import SearchBox from '../SearchBox/SearchBox';
 import { logo } from '../../resources';
-import ItemView from '../ItemView/ItemView';
-import SearchValidator from '../../domain/Validator/SearchValidator';
-import ToastPopup from '../ToastPopup/ToastPopup';
 
 const MovieHeader = {
-  create() {
+  create(logoImgOnclick: () => void, searchBoxOnClick: () => void) {
     const header = document.createElement('header');
-    const logoImgContainer = this.createLogoImgContainer();
-    const searchBox = SearchBox.create(() => this.showSearchMovies());
+    const logoImgContainer = this.createLogoImgContainer(logoImgOnclick);
+    const searchBox = SearchBox.create(searchBoxOnClick);
 
     header.appendChild(logoImgContainer);
     header.appendChild(searchBox);
@@ -16,7 +13,7 @@ const MovieHeader = {
     return header;
   },
 
-  createLogoImgContainer() {
+  createLogoImgContainer(logoImgOnclick: () => void) {
     const logoImgContainer = document.createElement('h1');
     const logoImg = document.createElement('img');
 
@@ -24,35 +21,9 @@ const MovieHeader = {
     logoImg.setAttribute('alt', 'MovieList 로고');
 
     logoImgContainer.appendChild(logoImg);
-    logoImgContainer.addEventListener('click', () => this.showPopularMovies());
+    logoImgContainer.addEventListener('click', logoImgOnclick);
 
     return logoImgContainer;
-  },
-
-  createItemView(inputText?: string) {
-    const itemView = document.querySelector('.item-view');
-    itemView?.replaceChildren();
-
-    new ItemView(inputText);
-  },
-
-  showPopularMovies() {
-    const searchBoxInput = document.querySelector('input');
-    if (searchBoxInput) searchBoxInput.value = '';
-
-    this.createItemView();
-  },
-
-  showSearchMovies() {
-    const searchBox = document.querySelector('.search-box');
-    try {
-      const trimmedSearchInputText = searchBox?.querySelector('input')?.value.replace(/ +/g, ' ').trim();
-
-      if (trimmedSearchInputText) this.createItemView(trimmedSearchInputText);
-      if (!trimmedSearchInputText) SearchValidator.validate();
-    } catch (e) {
-      if (e instanceof Error) ToastPopup(e.message);
-    }
   },
 };
 
