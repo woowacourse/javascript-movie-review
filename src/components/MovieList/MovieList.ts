@@ -42,27 +42,15 @@ const MovieList = ({
   };
 
   $loadMoreBtn.addEventListener('click', () => {
-    if (type === 'search') {
-      $loadMoreBtn.dispatchEvent(
-        new CustomEvent('search', {
-          bubbles: true,
-          detail: {
-            query: getSearchQuery($title),
-            curType: type,
-          },
-        }),
-      );
-    }
-    if (type === 'popular') {
-      $loadMoreBtn.dispatchEvent(
-        new CustomEvent('popular', {
-          bubbles: true,
-          detail: {
-            curType: type,
-          },
-        }),
-      );
-    }
+    $loadMoreBtn.dispatchEvent(
+      new CustomEvent(type, {
+        bubbles: true,
+        detail: {
+          curType: type,
+          query: getSearchQuery($title),
+        },
+      }),
+    );
   });
 
   return {
