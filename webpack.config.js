@@ -6,39 +6,40 @@ module.exports = {
   entry: './src/index.js',
   mode: 'development',
   resolve: {
-    extensions: ['.ts', '.js'],
+    extensions: ['.ts', '.js']
   },
   devServer: {
     static: './dist',
     open: true,
-    historyApiFallback: true,
+    historyApiFallback: true
   },
   output: {
+    publicPath: '/',
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    clean: true,
+    clean: true
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html',
+      template: './index.html'
     }),
-    new DotEnv(),
+    new DotEnv()
   ],
   module: {
     rules: [
       {
         test: /\.(js|mjs|ts)$/i,
         exclude: /node_modules/,
-        use: { loader: 'ts-loader' },
+        use: { loader: 'ts-loader' }
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: ['style-loader', 'css-loader']
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
-      },
-    ],
-  },
+        type: 'asset/resource'
+      }
+    ]
+  }
 };

@@ -1,28 +1,36 @@
 {
-  "rules": {
-    "max-depth": ["warn", 1],
-    "max-params": ["warn", 3],
-    "linebreak-style": "off",
-    "import/no-unresolved": "off",
-    "import/extensions": "off",
-    "cypress/no-assigning-return-values": "off"
-  },
-  "overrides": [
-    {
-      "files": ["./src/**"],
-      "rules": { "max-lines-per-function": ["warn", { "max": 10 }] }
-    }
-  ],
   "env": {
-    "es6": true,
-    "node": true,
     "browser": true,
-    "cypress/globals": true
+    "cypress/globals": true,
+    "es6": true,
+    "node": true
   },
+  "extends": [
+    "airbnb-base",
+    "plugin:cypress/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript"
+  ],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest"
   },
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "import", "cypress"],
-  "extends": ["prettier", "airbnb-base", "plugin:cypress/recommended"]
+  "plugins": ["@typescript-eslint", "cypress", "import", "prettier"],
+  "rules": {
+    "max-depth": ["warn", 1],
+    "max-lines-per-function": ["warn", { "max": 10, "skipBlankLines": true, "skipComments": true }],
+    "max-params": ["warn", 3],
+
+    "import/extensions": ["error", "never", { "ts": "never", "js": "never" }],
+
+    "prefer-template": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  }
 }
