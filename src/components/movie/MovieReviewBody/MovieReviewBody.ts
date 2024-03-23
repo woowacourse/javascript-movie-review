@@ -143,7 +143,7 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     const $movieListContainer = querySelector<HTMLDivElement>(ELEMENT_SELECTOR.movieListContainer);
     this.updateMovieList($movieListContainer);
 
-    if (this?.movie && this.movie.isMaxPage()) {
+    if (this.movie && this.movie.isMaxPage()) {
       this.removeMoreButton();
     }
   }
