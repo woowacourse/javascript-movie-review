@@ -17,6 +17,6 @@
     "strictNullChecks": true /* When type checking, take into account 'null' and 'undefined'. */,
     "outDir": "dist"
   },
-  "include": ["src"],
+  "include": ["src", "./cypress/**/*"],
   "exclude": ["./__tests__/**/*", "node_modules", "dist"]
 }
