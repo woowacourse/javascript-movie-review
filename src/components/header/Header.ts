@@ -8,6 +8,7 @@ interface IHeaderProps {
   imageSrc: string;
   onSubmit?: (e: SubmitEvent) => void;
 }
+
 class Header {
   $target: HTMLElement;
   #imageSrc: string;
@@ -24,7 +25,7 @@ class Header {
   template() {
     return /*html*/ `
       <h1>
-        <a href=${process.env.NODE_ENV === 'production' ? process.env.PUBLIC_PATH :'/'}>
+        <a href=${process.env.NODE_ENV === 'production' ? process.env.PUBLIC_PATH : '/'}>
           <img src=${this.#imageSrc} alt="MovieList 로고" />
         </a>
       </h1>

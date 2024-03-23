@@ -6,6 +6,8 @@ import Header from '../header/Header';
 import MovieListContainer from '../movieListContainer/MovieListContainer';
 import Button from '../common/button/Button';
 import Toast from '../../Toast';
+import CONFIG from '../../constants/config';
+import MESSAGE from '../../constants/message';
 
 class App {
   $target: HTMLElement;
@@ -23,10 +25,10 @@ class App {
   }
 
   template() {
-    return `
+    return /*html*/ `
     <main>
       <section class="item-view">
-        <h2 id="title">지금 인기 있는 영화</h2>
+        <h2 id="title">${MESSAGE.HOME_TITLE}</h2>
         <slot class="slot-movie-list"></slot>
         <button style="display: none;" id="toast_btn"></button>
       </section>
@@ -45,12 +47,10 @@ class App {
     const $title = dom.getElement(this.$target, 'h2');
     const urlSearchParams = new URLSearchParams(window.location.search);
     const title = urlSearchParams.get('title') ?? '';
+    $title.textContent = title ? MESSAGE.SEARCH_RESULT_FOUND_TITLE(title) : MESSAGE.HOME_TITLE;
 
-    $title.textContent = title ? `"${title}" 검색 결과` : '지금 인기 있는 영화';
     const slotMovieList = dom.getElement(this.$target, '.slot-movie-list');
-
     slotMovieList.replaceWith(this.movieListContainer.$target);
-
     this.$target.prepend(header.$target);
   }
 
@@ -75,7 +75,7 @@ class App {
         history.pushState('', '', `?mode=search&title=${$input.value}`);
 
         this.movieListContainer.initPageNumber();
-        const { movies, totalPages } = await this.movieListContainer.fetchMovies(1);
+        const { movies, totalPages } = await this.movieListContainer.fetchMovies(CONFIG.FIRST_PAGE);
 
         this.renderTitle(movies.length, $input.value);
         this.movieListContainer.paint(movies);
@@ -97,10 +97,10 @@ class App {
     });
   }
 
-  renderTitle(movieLength: number, text: string) {
+  renderTitle(movieLength: number, title: string) {
     const $title = dom.getElement(this.$target, 'h2');
-    $title.textContent = `"${text}" 검색 결과`;
-    if (movieLength === 0) $title.textContent = `"${text}" 검색 결과가 없습니다`;
+    $title.textContent = MESSAGE.SEARCH_RESULT_FOUND_TITLE(title);
+    if (movieLength === 0) $title.textContent = MESSAGE.SEARCH_RESULT_NOT_FOUND_TITLE(title);
   }
 
   handleClickMoreMovies() {
