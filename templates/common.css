@@ -74,6 +74,9 @@ button {
 .item-score {
   margin-top: 16px;
   font-size: 1.2rem;
+  display: flex;
+  gap: 0.3rem;
+  align-items: flex-end;
 }
 
 .item-score::after {
