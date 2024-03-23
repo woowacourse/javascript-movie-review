@@ -16,14 +16,14 @@ export default abstract class BaseComponent extends Observer {
   }
 
   update(): void {
-    this.init();
+    this.mount();
   }
 
-  init(): void {
+  mount(): void {
     this.render();
   }
 
-  render(): void {
+  protected render(): void {
     const element = $(this.targetId);
 
     if (!element) {

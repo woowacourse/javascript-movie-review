@@ -25,6 +25,6 @@ const movieListBody = new MovieList({
 queryState.addObserver(movieListTitle);
 queryState.addObserver(movieListBody);
 
-movieHeader.init();
-movieListTitle.init();
-movieListBody.init();
+movieHeader.mount();
+movieListTitle.mount();
+movieListBody.mount();
