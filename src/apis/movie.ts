@@ -1,13 +1,12 @@
 import { genre } from '../constants/movie';
+import { IMAGE_BASE_URL, POPULAR_MOVIES_URL, SEARCH_MOVIES_URL } from '../constants/url';
 import { handleError } from '../errors/error';
 import { IMovie, IMovieResponse, ISearchResult } from '../types/movie';
 
-const BASE_URL = 'https://api.themoviedb.org';
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p';
 
 export const getPopularMovies = async (page: number): Promise<ISearchResult> => {
-  const fetchUrl = `/3/movie/popular?language=ko-KR&page=${page}`;
-  const response = await fetch(BASE_URL + fetchUrl, {
+  const params = `?language=ko-KR&page=${page}`;
+  const response = await fetch(POPULAR_MOVIES_URL + params, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
@@ -23,8 +22,9 @@ export const getPopularMovies = async (page: number): Promise<ISearchResult> => 
 };
 
 export const searchMoviesByTitle = async (title: string, page: number): Promise<ISearchResult> => {
-  const fetchUrl = `/3/search/movie?query=${title}&include_adult=false&language=en-US&page=${page}`;
-  const response = await fetch(BASE_URL + fetchUrl, {
+  const params = `?query=${title}&include_adult=false&language=en-US&page=${page}`;
+
+  const response = await fetch(SEARCH_MOVIES_URL + params, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
