@@ -30,32 +30,28 @@ class App {
       <section class="item-view">
         <h2 id="title">${MESSAGE.HOME_TITLE}</h2>
         <slot class="slot-movie-list"></slot>
-        <button id="toast_button"></button>
+        <button id="toast-button"></button>
       </section>
     </main>
     `;
   }
 
   render() {
-    const header = this.#createHeader();
-    const moreButton = this.#createMoreButton();
-
-    const $section = dom.getElement<HTMLButtonElement>(this.$target, '.item-view');
-    $section.appendChild(moreButton.$target);
-    $section.appendChild(this.toast.$target);
-
-    const $title = dom.getElement(this.$target, 'h2');
+    const $section = dom.getElement(this.$target, '.item-view');
+    const $title = dom.getElement(this.$target, '#title');
+    const $movieListSlot = dom.getElement(this.$target, '.slot-movie-list');
     const urlSearchParams = new URLSearchParams(window.location.search);
     const title = urlSearchParams.get('title') ?? '';
-    $title.textContent = title ? MESSAGE.SEARCH_RESULT_FOUND_TITLE(title) : MESSAGE.HOME_TITLE;
 
-    const slotMovieList = dom.getElement(this.$target, '.slot-movie-list');
-    slotMovieList.replaceWith(this.movieListContainer.$target);
-    this.$target.prepend(header.$target);
+    this.#renderHeader();
+    this.#renderMoreButton($section);
+    $section.appendChild(this.toast.$target);
+    $title.textContent = title ? MESSAGE.SEARCH_FOUND_TITLE(title) : MESSAGE.HOME_TITLE;
+    $movieListSlot.replaceWith(this.movieListContainer.$target);
   }
 
   setEvent() {
-    const $button = dom.getElement<HTMLButtonElement>(this.$target, '#toast_button');
+    const $button = dom.getElement<HTMLButtonElement>(this.$target, '#toast-button');
 
     $button.addEventListener<any>('onToast', (e: CustomEvent) => {
       const message = e.detail;
@@ -68,23 +64,28 @@ class App {
       imageSrc: LOGO,
       onSubmit: async (e: SubmitEvent) => {
         e.preventDefault();
-
         const $input = dom.getElement<HTMLInputElement>(this.$target, '#search-input');
         if (!$input.value) return;
-
         history.pushState('', '', `?mode=search&title=${$input.value}`);
 
         this.movieListContainer.initPageNumber();
-        const { movies, totalPages } = await this.movieListContainer.fetchMovies(CONFIG.FIRST_PAGE);
+        const { movies, totalPages, movieCount } = await this.movieListContainer.fetchMovies(CONFIG.FIRST_PAGE);
 
-        this.renderTitle(movies.length, $input.value);
+        this.updateTitle(movieCount, $input.value);
         this.movieListContainer.paint(movies);
-
-        const $moreButton = dom.getElement(this.$target, '#more-button');
-        if (this.movieListContainer.page === totalPages) $moreButton.classList.add('hidden');
-        else if (this.movieListContainer.page !== totalPages) $moreButton.classList.remove('hidden');
+        this.movieListContainer.validateMoreButton(totalPages);
       },
     });
+  }
+
+  #renderHeader() {
+    const header = this.#createHeader();
+    this.$target.prepend(header.$target);
+  }
+
+  #renderMoreButton($section: HTMLElement) {
+    const moreButton = this.#createMoreButton();
+    $section.appendChild(moreButton.$target);
   }
 
   #createMoreButton() {
@@ -97,10 +98,9 @@ class App {
     });
   }
 
-  renderTitle(movieLength: number, title: string) {
-    const $title = dom.getElement(this.$target, 'h2');
-    $title.textContent = MESSAGE.SEARCH_RESULT_FOUND_TITLE(title);
-    if (movieLength === 0) $title.textContent = MESSAGE.SEARCH_RESULT_NOT_FOUND_TITLE(title);
+  updateTitle(movieCount: number, title: string) {
+    const $title = dom.getElement(this.$target, '#title');
+    $title.textContent = movieCount === 0 ? MESSAGE.SEARCH_NOT_FOUND_TITLE(title) : MESSAGE.SEARCH_FOUND_TITLE(title);
   }
 
   handleClickMoreMovies() {
