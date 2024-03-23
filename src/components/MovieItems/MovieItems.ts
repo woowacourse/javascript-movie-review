@@ -9,7 +9,7 @@ const MovieItems = {
     const movieItems = document.createElement('ul');
     movieItems.classList.add('item-list');
 
-    [...Array(OPTIONS.movieItemCount)].forEach(() => {
+    Array.from({ length: OPTIONS.movieItemCount }).forEach(() => {
       movieItems.appendChild(this.createMovieItemSkeleton());
     });
 
