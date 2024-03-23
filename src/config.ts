@@ -28,7 +28,7 @@ const getSearchMovieURLParams = (title: string, page: number) =>
     page: page.toString(),
   });
 
-export const getEndPoint = {
+export const endPoint = {
   popularMovie: (page: number) =>
     `movie/popular?${getPopularMovieURLParams(page)}`,
   searchMovie: (title: string, page: number) =>
