@@ -4,6 +4,8 @@ interface Props {
   img: {
     src: string;
     alt: string;
+    loading?: 'auto' | 'lazy' | 'eager';
+    class?: string;
   };
 }
 
