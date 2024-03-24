@@ -15,12 +15,14 @@ class MovieListController {
   /* 가장 인기 있는 영화 */
   public static popular() {
     this.initializeParams({ path: TmdbAPI.PATH.movie.popular, page: '1' });
+    this.clearMovieList();
     this.fetchAndRenderMovies();
   }
 
   /* 영화 검색 */
   public static search(query: string) {
     this.initializeParams({ path: TmdbAPI.PATH.search.movie, page: '1', query });
+    this.clearMovieList();
     this.fetchAndRenderMovies();
   }
 
@@ -28,6 +30,14 @@ class MovieListController {
   public static more() {
     this.increasePage();
     this.fetchAndRenderMovies();
+  }
+
+  private static clearMovieList() {
+    const $movieList = $('.item-list')!;
+
+    while ($movieList.firstChild) {
+      $movieList.removeChild($movieList.firstChild);
+    }
   }
 
   private static async fetchAndRenderMovies() {
