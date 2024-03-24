@@ -5,6 +5,7 @@ import { dom } from '../../utils/dom';
 import MovieItem from '../movieItem/MovieItem';
 import CONFIG from '../../constants/config';
 import skeleton from '../Skeleton';
+import movieInfo from '../../domain/movieInfo';
 
 class MovieListContainer {
   $target = document.createElement('ul');
@@ -16,7 +17,7 @@ class MovieListContainer {
 
     this.fetchMovies(this.page)
       .then(({ movies, totalPages }) => {
-        this.paint(movies, totalPages);
+        this.paint(movieInfo.createAll(movies), totalPages);
       })
       .catch(error => {
         if (error instanceof Error) this.handleErrorToast(error.message);
@@ -34,7 +35,7 @@ class MovieListContainer {
     this.page += 1;
     this.$target.append(...movieItems.map(movieItem => movieItem.$target));
     const { movies, totalPages } = await this.fetchMovies(this.page);
-    movies.map((movie, index) => movieItems[index].paint(movie));
+    movies.map((movie, index) => movieItems[index].paint(movieInfo.create(movie)));
     this.validateMoreButton(totalPages);
   }
 
@@ -43,7 +44,7 @@ class MovieListContainer {
     const mode = urlSearchParams.get('mode') ?? 'popular';
     const title = urlSearchParams.get('title') ?? '';
 
-    const movies = mode === 'search' ? await searchMoviesByTitle(title, page) : await getPopularMovies(this.page);
+    const movies = mode === 'search' ? await searchMoviesByTitle(title, page) : await getPopularMovies(page);
     return movies;
   }
 

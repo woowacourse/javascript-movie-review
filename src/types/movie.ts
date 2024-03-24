@@ -45,7 +45,7 @@ export interface MovieResponseResult {
 }
 
 export interface MovieSearchResult {
-  movies: Movie[];
+  movies: MovieResponseResult[];
   totalPages: number;
   movieCount: number;
 }

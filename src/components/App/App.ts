@@ -8,6 +8,7 @@ import Button from '../common/button/Button';
 import Toast from '../../Toast';
 import CONFIG from '../../constants/config';
 import { MESSAGE } from '../../constants/message';
+import movieInfo from '../../domain/movieInfo';
 
 class App {
   $target: HTMLElement;
@@ -71,7 +72,7 @@ class App {
         this.movieListContainer.initPageNumber();
         const { movies, totalPages, movieCount } = await this.movieListContainer.fetchMovies(CONFIG.FIRST_PAGE);
         this.updateTitle(movieCount, $input.value);
-        this.movieListContainer.paint(movies, totalPages);
+        this.movieListContainer.paint(movieInfo.createAll(movies), totalPages);
       },
     });
   }
