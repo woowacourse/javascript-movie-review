@@ -229,3 +229,23 @@ header .search-form > .search-button {
 .no-image-subtitle {
   color: #888;
 }
+
+.network-status-alert-container {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1200px;
+  height: 100px;
+  padding-left: 50px;
+  z-index: 100;
+
+  background-color: #fff;
+  color: #000;
+  border-top: solid 3px #f33f3f;
+
+  font-size: 1.5rem;
+  font-weight: 900;
+}
