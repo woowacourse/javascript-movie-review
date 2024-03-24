@@ -15,7 +15,7 @@ const movieListTitle = new MovieListTitle({
   queryState,
 });
 
-const movieListSkeleton = new SkeletonUI(generateMovieListSkeleton());
+const movieListSkeleton = new SkeletonUI("movie");
 const movieList = new MovieList({
   targetId: "movie-list",
   queryState,

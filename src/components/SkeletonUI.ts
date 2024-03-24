@@ -1,11 +1,13 @@
 import { HTMLTemplate } from "./abstract/BaseComponent";
 import { $ } from "../utils/dom";
+import { generateMovieListSkeleton } from "./templates/movie/generateMovieListSkeleton";
 
+type SkeletonVariant = "movie";
 export default class SkeletonUI {
-  private template: HTMLTemplate;
+  private variant: SkeletonVariant;
 
-  constructor(template: HTMLTemplate) {
-    this.template = template;
+  constructor(variant: SkeletonVariant) {
+    this.variant = variant;
   }
 
   render(targetId: string): void {
@@ -15,10 +17,17 @@ export default class SkeletonUI {
       return;
     }
 
-    element.innerHTML = this.template;
+    element.innerHTML = this.generateTemplate();
   }
 
   insert(targetId: string, position: InsertPosition = "beforeend"): void {
-    $(targetId)?.insertAdjacentHTML(position, this.template);
+    $(targetId)?.insertAdjacentHTML(position, this.generateTemplate());
+  }
+
+  generateTemplate() {
+    switch (this.variant) {
+      case "movie":
+        return generateMovieListSkeleton();
+    }
   }
 }
