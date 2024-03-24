@@ -1,5 +1,8 @@
+/* element의 속성을 수정하는 모듈이므로, 위 규칙 비활성화 (element.innerText) */
+/* eslint-disable no-param-reassign */
+
 /**
- * querySelector의 단축 함수다. 선택된 요소가 없을 경우 null을 반환하거나, 옵션에 따라 에러를 발생시킨다.
+ * querySelector의 단축 함수이다. 선택된 요소가 없을 경우 null을 반환하거나, 옵션에 따라 에러를 발생시킨다.
  * @param selector - 선택할 요소의 CSS 선택자
  * @param scope - 검색 범위를 지정하는 요소 (Default: document)
  * @param canNull - 선택된 요소가 없을 경우 null 반환 여부 (Default: false)
@@ -17,7 +20,7 @@ export const $ = (selector: string, scope: Document | Element = document, canNul
 };
 
 /**
- * querySelectorAll의 단축 함수다. 선택된 요소가 없을 경우 빈 NodeList를 반환하거나, 옵션에 따라 에러를 발생시킨다.
+ * querySelectorAll의 단축 함수이다. 선택된 요소가 없을 경우 빈 NodeList를 반환하거나, 옵션에 따라 에러를 발생시킨다.
  * @param selector - 선택할 요소의 CSS 선택자
  * @param scope - 검색 범위를 지정하는 요소 (Default: document)
  * @param throwError - 선택된 요소가 없을 경우 에러를 발생시킬지 여부
@@ -39,15 +42,11 @@ export const $$ = (selector: string, scope: Document | Element = document, throw
  * @param element HTML 요소
  * @param attributes 요소에 적용할 속성들이 담긴 객체
  */
-export const setAttributes = (element: HTMLElement, attributes: { [key: string]: string }): void => {
-  Object.keys(attributes).forEach((key) => {
-    if (key === 'text') {
-      /* 요소의 속성을 변경하는 모듈이므로, 다음 규칙을 비활성화한다. */
-      // eslint-disable-next-line no-param-reassign
-      element.innerText = attributes[key];
-    } else {
-      element.setAttribute(key, attributes[key]);
-    }
+export const setAttributes = (element: HTMLElement, attributes: { [key: string]: string | EventListener }): void => {
+  Object.entries(attributes).forEach(([key, value]) => {
+    if (typeof value === 'function') element.addEventListener(key, value as EventListener);
+    else if (key === 'text') element.innerText = value as string;
+    else element.setAttribute(key, value as string);
   });
 };
 
