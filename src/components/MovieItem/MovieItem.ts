@@ -1,17 +1,19 @@
 import './style.css';
 import { MovieType } from '../../types/movie';
-import { STAR_FILLED } from '../../images';
+import { NO_IMAGE, STAR_FILLED } from '../../images';
+import { MOVIE_PATH } from '../../constants/movie';
 
 // eslint-disable-next-line max-lines-per-function
 const createMovieItem = (movie: MovieType) => {
   const movieItem = document.createElement('li');
+  const imagePath = movie.poster_path ? `${MOVIE_PATH}/${movie.poster_path}` : NO_IMAGE;
 
   const templates = /* html */ `
     <a>
       <div class="item-card">
         <img
           class="item-thumbnail"
-          src="https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}"
+          src="${imagePath}"
           loading="lazy"
           alt="${movie.title}"
         />
