@@ -1,7 +1,7 @@
 import createElement from '../../utils/createElement';
 import starImg from '../../../templates/star_filled.png';
 import formatToDecimalPlaces from '../../utils/formatToDecimalPlaces';
-import { MovieItemProps } from '../../types/movie';
+import { TMDBMovieDetailsResponse } from '../../types/tmdb';
 import { BASE_IMAGE_URL } from '../../constants/api/api';
 import NoImage from '../ui/NoIamge';
 
@@ -37,7 +37,7 @@ const toggleSkeleton = (event: Event) => {
 };
 
 /* eslint-disable @typescript-eslint/naming-convention */
-export const createItemCardContent = (movieItem: MovieItemProps) => {
+export const createItemCardContent = (movieItem: TMDBMovieDetailsResponse) => {
   const { poster_path, title, vote_average } = movieItem;
   const itemImage = createItemImage(poster_path, title);
   const itemTitle = createElement('p', { className: 'item-title', textContent: title });
@@ -47,7 +47,7 @@ export const createItemCardContent = (movieItem: MovieItemProps) => {
   return fragment;
 };
 
-export const renderHandler = (movieItem: MovieItemProps) => {
+export const renderHandler = (movieItem: TMDBMovieDetailsResponse) => {
   const li = createElement('li');
   const a = createElement('a');
   const itemCard = createElement('div', { className: 'item-card' });

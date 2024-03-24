@@ -1,9 +1,11 @@
-export type MovieData = {
+export type TMDBMoviesResponse = {
   page: number;
-  results: MovieItem[];
+  results: TMDBMovieDetailsResponse[];
+  total_pages: number;
+  total_results: number;
 };
 
-export type MovieItemProps = {
+export type TMDBMovieDetailsResponse = {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
