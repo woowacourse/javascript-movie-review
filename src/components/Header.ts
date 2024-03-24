@@ -1,0 +1,45 @@
+import LogoImg from "../../templates/logo.png";
+import { LOGO_IMG_ALT, TITLE_TEXT } from "../constants/system";
+import { dataStateStore } from "../model";
+import { handleGetPopularMovieData } from "../service/handleSkeletonAndAPI";
+import { createElementWithAttribute } from "../utils";
+
+import ItemView from "./ItemView";
+import SearchBox from "./SearchBox";
+
+const handleClickToRefresh = async () => {
+  const $itemView = document.querySelector(".item-view");
+  $itemView?.remove();
+  const $searchBox = document.querySelector("#search-input");
+  if ($searchBox instanceof HTMLInputElement) {
+    $searchBox.value = "";
+  }
+  await handleGetPopularMovieData(true);
+
+  ItemView(TITLE_TEXT.POPULAR, dataStateStore.movieData, "popular");
+};
+
+const Logo = () => {
+  const logoImgAttribute = {
+    src: LogoImg,
+    alt: LOGO_IMG_ALT,
+  };
+  const $logo = createElementWithAttribute("img", logoImgAttribute);
+
+  $logo.addEventListener("click", handleClickToRefresh);
+
+  return $logo;
+};
+
+const Header = () => {
+  const $header = document.createElement("header");
+  const $h1 = document.createElement("h1");
+  const $logo = Logo();
+
+  $h1.appendChild($logo);
+  $header.appendChild($h1);
+  $header.appendChild(SearchBox());
+
+  return $header;
+};
+export default Header;
