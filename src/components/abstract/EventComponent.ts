@@ -1,9 +1,9 @@
 import BaseComponent from "./BaseComponent";
 
 export default abstract class EventComponent extends BaseComponent {
-  mount(): void {
-    super.mount();
-    this.onMounted();
+  initialize(): void {
+    super.initialize();
+    this.onInitialized();
   }
 
   protected render() {
@@ -13,5 +13,5 @@ export default abstract class EventComponent extends BaseComponent {
 
   protected abstract setEvent(): void;
 
-  protected onMounted(): void {}
+  protected onInitialized(): void {}
 }

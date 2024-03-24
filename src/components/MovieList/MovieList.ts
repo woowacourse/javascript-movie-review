@@ -50,7 +50,7 @@ export default class MovieList extends EventComponent {
     `;
   }
 
-  protected async onMounted(): Promise<void> {
+  protected async onInitialized(): Promise<void> {
     try {
       this.skeletonUI.render(this.targetId);
 
@@ -65,19 +65,19 @@ export default class MovieList extends EventComponent {
           onHomeButton: () => this.queryState.reset(),
         });
 
-        emptyMovieList.mount();
+        emptyMovieList.initialize();
         return;
       }
 
       this.render();
     } catch (error) {
       if (error instanceof Error) {
-        this.handleOnMountedError(error);
+        this.handleErrorOnInitialized(error);
       }
     }
   }
 
-  protected handleOnMountedError(error: Error): void {
+  protected handleErrorOnInitialized(error: Error): void {
     if (error instanceof APIError) {
       alert(error.message);
     } else if (error instanceof Error) {

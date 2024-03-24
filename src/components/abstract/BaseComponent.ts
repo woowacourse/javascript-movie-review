@@ -16,10 +16,10 @@ export default abstract class BaseComponent extends Observer {
   }
 
   update(): void {
-    this.mount();
+    this.initialize();
   }
 
-  mount(): void {
+  initialize(): void {
     this.render();
   }
 
