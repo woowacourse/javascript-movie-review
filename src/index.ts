@@ -5,6 +5,7 @@ import Header from './components/Header/Header';
 import MovieItems from './components/MovieItems/MovieItems';
 import Modal from './components/Modal/Modal';
 import MovieDetail from './components/MovieDetail/MovieDetali';
+import { IMovieDetail } from './domainObject/MovieInfo';
 
 const body = document.querySelector('body');
 
@@ -33,9 +34,15 @@ body?.appendChild(header.element);
 body?.appendChild(movieItems.element);
 body?.appendChild(modal.element);
 
-body?.addEventListener('click', (event) => {
+movieItems.element?.addEventListener('click', (event) => {
   const target = event.target as HTMLElement;
-  if (target.classList.contains('movie-item')) {
-    modal.toggleModal();
-  }
+  const movieId = target.closest('.item-card')?.id;
+  if (movieId === undefined) return;
+
+  movieDetail.requestMovieDetail(Number(movieId)).then(setMovieDetailAndToggleModal);
 });
+
+function setMovieDetailAndToggleModal(detail: IMovieDetail) {
+  movieDetail.setMovieDetail(detail);
+  modal.toggleModal();
+}

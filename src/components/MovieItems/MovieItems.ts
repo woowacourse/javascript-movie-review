@@ -159,8 +159,8 @@ class MovieItems {
   private createMovieItem(movies: IMovieInfo[]) {
     const fragment = document.createDocumentFragment();
     movies.forEach((movie) => {
-      const { poster, title, voteAverage } = movie;
-      fragment.appendChild(new MovieItem({ poster, title, voteAverage }).element);
+      const { id, poster, title, voteAverage } = movie;
+      fragment.appendChild(new MovieItem({ id, poster, title, voteAverage }).element);
     });
 
     this.template?.querySelector('ul')?.appendChild(fragment);

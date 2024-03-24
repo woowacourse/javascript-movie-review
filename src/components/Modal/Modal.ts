@@ -18,8 +18,7 @@ class Modal {
   private createElements({ content }: ModalProps) {
     const modal = this.createModal();
     modal.appendChild(this.createModalBackdrop());
-    modal.appendChild(this.createModalContainer());
-    modal.appendChild(content);
+    modal.appendChild(this.createModalContainer(content));
     return modal;
   }
 
@@ -36,11 +35,12 @@ class Modal {
     return backdrop;
   }
 
-  private createModalContainer() {
+  private createModalContainer(content: HTMLElement) {
     const container = document.createElement('section');
     container.className = 'modal-container';
     container.addEventListener('click', (event) => event.stopPropagation());
     container.appendChild(this.createCloseIcon());
+    container.appendChild(content);
     return container;
   }
 
