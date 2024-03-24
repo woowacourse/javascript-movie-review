@@ -39,7 +39,7 @@ class Header {
 
   setEventlistener() {
     const logo = this.template.querySelector('img');
-    logo?.addEventListener('click', this.dispatchGetPopularMovie);
+    logo?.addEventListener('click', this.dispatchGetPopularMovie.bind(this));
   }
 
   dispatchGetPopularMovie() {
