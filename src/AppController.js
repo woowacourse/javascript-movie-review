@@ -1,5 +1,4 @@
 import { createHeader } from "./components/header/header";
-import { showSkeleton, updateCard } from "./components/movieCard/movieCard";
 import { MovieListWrapper } from "./components/movieListWrapper/MovieListWrapper";
 
 class AppController {
@@ -11,9 +10,15 @@ class AppController {
   
   async start() {
     const app = document.querySelector('#app');
-    const header = createHeader(async (inputValue) => {
+    const logoHandler = async () => {
+      await this.#currentView.updateView('지금 인기 있는 영화', 'popular');
+    }
+
+    const inputSubmitHandler = async (inputValue) => {
       await this.#currentView.updateView(`"${inputValue}" 검색 결과`, 'search', inputValue);
-    });
+    }
+
+    const header = createHeader(logoHandler, inputSubmitHandler);
     app.prepend(header);
     this.#currentView .create();
   }

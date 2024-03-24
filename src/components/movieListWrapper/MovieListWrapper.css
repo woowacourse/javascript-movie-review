@@ -1,0 +1,47 @@
+.no-result {
+  margin: 48px;
+  font-size: 1.5rem;
+}
+
+.item-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.item-view h2 {
+  margin: 0 48px;
+  font-size: 2rem;
+  font-weight: bold;
+  user-select: none;
+}
+
+.item-view,
+.item-test {
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.last-item {
+  margin-top: 48px;
+}
+
+button.btn {
+  border: 0;
+  border-radius: 8px;
+  height: 30px;
+  color: #fff;
+}
+
+button.primary {
+  background: #f33f3f;
+}
+
+button.none {
+  display: none;
+}

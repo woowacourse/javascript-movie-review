@@ -21,7 +21,7 @@
 /* movie-list */
 .item-list {
   display: grid;
-  margin: 48px 0;
+  margin: 48px;
   grid-template-columns: repeat(4, 180px);
   grid-column-gap: 160px;
   grid-row-gap: 48px;
@@ -61,47 +61,4 @@
 .item-score.skeleton::after {
   font-size: 0;
   content: 'loading';
-}
-
-/* movie-wrapper */
-.item-view,
-.item-test {
-  width: 100%;
-}
-
-.item-view {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 1200px;
-  margin: 0 auto;
-}
-
-.item-view h2 {
-  font-size: 2rem;
-  font-weight: bold;
-  user-select: none;
-}
-
-.full-width {
-  width: 100%;
-}
-
-.last-item {
-  margin-top: 48px;
-}
-
-button.btn {
-  border: 0;
-  border-radius: 8px;
-  height: 30px;
-  color: #fff;
-}
-
-button.primary {
-  background: #f33f3f;
-}
-
-button.none {
-  display: none;
 }
