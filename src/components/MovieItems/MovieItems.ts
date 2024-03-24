@@ -143,9 +143,13 @@ class MovieItems {
   }
 
   private getMoreMatchedMovies(skeletonItems: MovieItem[]) {
-    this.getMatchedMovies(this.searchQuery ?? '').then((movies) =>
-      this.createMovieItem(movies, skeletonItems),
-    );
+    this.getMatchedMovies(this.searchQuery ?? '')
+      .then((movies) => this.createMovieItem(movies, skeletonItems))
+      .catch((error) => {
+        this.fallback.setFallbackMessage(error.message);
+        this.template.innerHTML = '';
+        this.template.appendChild(this.fallback.getElement());
+      });
   }
 }
 
