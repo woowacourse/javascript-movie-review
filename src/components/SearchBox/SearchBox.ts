@@ -1,6 +1,7 @@
 import { END_POINT, QUERY_STRING_KEYS } from '../../consts/URL';
 import { setEndpoint, setUrlParams } from '../../utils/queryString';
 import '../SearchBox/SearchBox.css';
+import Toast from '../Toast/Toast';
 
 class SearchBox {
   currentPage: number = 1;
@@ -20,7 +21,7 @@ class SearchBox {
     this.searchBox.classList.add('search-box');
     this.searchInput.setAttribute('type', 'text');
     this.searchInput.setAttribute('placeholder', '검색');
-    this.searchInput.required = true;
+    this.searchInput.id = 'search-input';
 
     this.searchButton.classList.add('search-button');
     this.searchButton.textContent = '검색';
@@ -36,6 +37,11 @@ class SearchBox {
       e.preventDefault();
       setEndpoint(END_POINT.SEARCH);
       setUrlParams(QUERY_STRING_KEYS.QUERY, this.searchInput.value);
+
+      if (!this.searchInput.value.length) {
+        this.searchInput.focus();
+        return new Toast('검색어를 입력하세요.');
+      }
       this.rerenderList();
     });
   }
