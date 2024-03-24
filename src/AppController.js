@@ -11,9 +11,8 @@ class AppController {
   
   async start() {
     const app = document.querySelector('#app');
-    const header = createHeader((inputValue) => {
-      this.#currentView  = new MovieListWrapper(`"${inputValue}" 검색 결과`, 'search', inputValue)
-      this.#currentView .create();
+    const header = createHeader(async (inputValue) => {
+      await this.#currentView.updateView(`"${inputValue}" 검색 결과`, 'search', inputValue);
     });
     app.prepend(header);
     this.#currentView .create();
