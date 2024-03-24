@@ -4,6 +4,7 @@ import { Movie } from '../../types/movie';
 import { dom } from '../../utils/dom';
 import MovieItem from '../movieItem/MovieItem';
 import CONFIG from '../../constants/config';
+import skeleton from '../Skeleton';
 
 class MovieListContainer {
   $target = document.createElement('ul');
@@ -11,7 +12,7 @@ class MovieListContainer {
 
   constructor() {
     this.$target.classList.add('item-list');
-    this.$target.innerHTML += this.template();
+    this.$target.appendChild(skeleton.create(CONFIG.MOVIE_COUNT_PER_PAGE));
 
     this.fetchMovies(this.page)
       .then(({ movies, totalPages }) => {
@@ -23,32 +24,18 @@ class MovieListContainer {
       });
   }
 
-  template() {
-    return `<li>
-              <a href="#">
-                <div class="item-card">
-                <div class="item-thumbnail skeleton"></div>
-                <div class="item-title skeleton"></div>
-                <div class="item-score skeleton"></div>
-                </div>
-              </a>
-            </li>`.repeat(CONFIG.MOVIE_COUNT_PER_PAGE);
-  }
-
   paint(movies: Movie[]) {
     this.$target.replaceChildren();
-    this.$target.append(...movies.map(movie => new MovieItem(movie).$target));
+    this.$target.append(...movies.map(movie => new MovieItem().create(movie)));
   }
 
   async attach() {
-    this.$target.innerHTML += this.template();
-    const { movies, totalPages } = await this.fetchMovies(this.page);
-    Array.from({ length: CONFIG.MOVIE_COUNT_PER_PAGE }).forEach(() => {
-      this.$target.removeChild(this.$target.lastChild!);
-    });
-    this.$target.append(...movies.map(movie => new MovieItem(movie).$target));
-    this.validateMoreButton(totalPages);
+    const movieItems = Array.from({ length: CONFIG.MOVIE_COUNT_PER_PAGE }).map(() => new MovieItem());
     this.page += 1;
+    this.$target.append(...movieItems.map(movieItem => movieItem.$target));
+    const { movies, totalPages } = await this.fetchMovies(this.page);
+    movies.map((movie, index) => movieItems[index].paint(movie));
+    this.validateMoreButton(totalPages);
   }
 
   async fetchMovies(page: number) {
