@@ -1,7 +1,5 @@
-export const TITLE = {
-  POPULER: '지금 인기 있는 영화',
-  SEARCH_RESULT: (query: string) => `"${query}" 검색 결과`,
-};
+export const POPULER_TITLE = '지금 인기 있는 영화';
+export const SEARCH_RESULT_TITLE = (query: string) => `"${query}" 검색 결과`;
 
 export const ERROR_MESSAGE = {
   AUTHENTICATION_FAILED: '인증에 실패하였습니다. \n 유효한 API를 입력해 주세요.',

@@ -1,5 +1,6 @@
 import { END_POINT, QUERY_STRING_KEYS } from '../../consts/URL';
-import { TITLE } from '../../consts/message';
+import { POPULER_TITLE, SEARCH_RESULT_TITLE } from '../../consts/message';
+
 import { getEndpoint, getUrlParams } from '../../utils/queryString';
 
 class Title {
@@ -22,11 +23,11 @@ class Title {
     switch (endpoint) {
       case END_POINT.SEARCH:
         const query = getUrlParams(QUERY_STRING_KEYS.QUERY) || '';
-        titleBox.textContent = TITLE.SEARCH_RESULT(query);
+        titleBox.textContent = SEARCH_RESULT_TITLE(query);
         break;
 
       default:
-        titleBox.textContent = TITLE.POPULER;
+        titleBox.textContent = POPULER_TITLE;
     }
 
     if (!this.itemViewBox) return;
