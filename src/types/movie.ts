@@ -22,6 +22,12 @@ export type Genre =
 type Language = string; // 'en' | ...
 
 export interface MovieResponse {
+  results: MovieResponseResult[];
+  total_pages: number;
+  total_results: number;
+}
+
+export interface MovieResponseResult {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
