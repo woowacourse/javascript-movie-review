@@ -1,9 +1,10 @@
 import { API_ENDPOINT, API_OPTION } from '../../constants/api/api';
 import uiFeedBackManager from '../../services/UIFeedBackManager';
-import { ShowMoreButtonOption } from '../../types/movie';
+
 import { createMovieItems } from '../MovieContainer/render';
 import removeHTMLElements from '../../utils/removeHTMLElements';
 import pageManager from '../../services/PageManager';
+import { ShowMoreButtonOption } from '../../types/tmdb';
 
 const MAX_PAGE_NUMBER = 10;
 
@@ -28,10 +29,11 @@ const getTotalApiUrl = (option: ShowMoreButtonOption, keyword: string, pageNumbe
 const fetchNextPage = async (event: Event, option: ShowMoreButtonOption, keyword: string) => {
   const updatePageNumber = pageManager.increasePage();
   const totalUrl = getTotalApiUrl(option, keyword, updatePageNumber);
-  const data = await uiFeedBackManager.fetchData(totalUrl, 'GET', null, API_OPTION.headers);
-  const { results } = data;
-  checkDataLength(results.length);
-  createMovieItems(results);
+  const moviePage = await uiFeedBackManager.fetchData(totalUrl, 'GET', null, API_OPTION.headers);
+  if (moviePage) {
+    checkDataLength(moviePage.movies.length);
+    createMovieItems(moviePage.movies);
+  }
   if (!event.target) return;
   checkMaxPage(updatePageNumber, event.target);
 };

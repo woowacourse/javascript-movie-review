@@ -6,6 +6,7 @@ import removeHTMLElements from '../utils/removeHTMLElements';
 import { checkDataLength } from '../components/ShowMoreButton/eventHandler';
 import createElement from '../utils/createElement';
 import Error from '../components/Error/Error';
+import { MoviePage } from '../domain/movie';
 
 class UIFeedBackManager {
   api;
@@ -39,9 +40,9 @@ class UIFeedBackManager {
     try {
       this.isLoading = true;
       this.onLoadingChanged();
-      const data = await this.api.sendRequest(url, method, body, headers);
+      const data = (await this.api.sendRequest(url, method, body, headers)) as MoviePage;
 
-      this.checkExistingData(data.results.length);
+      this.checkExistingData(data.movies.length);
 
       this.isLoading = false;
       this.resetMovieList();

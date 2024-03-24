@@ -13,9 +13,9 @@ const updateMovieListBanner = (keyword: string) => {
 };
 
 const getMovieListDataByKeyword = async (keyword: string) => {
-  const data = await uiFeedBackManager.fetchData(API_ENDPOINT.SEARCH(keyword), 'GET', null, API_OPTION.headers);
-  const { results } = data;
-  createMovieItems(results);
+  const moviePage = await uiFeedBackManager.fetchData(API_ENDPOINT.SEARCH(keyword), 'GET', null, API_OPTION.headers);
+
+  if (moviePage) createMovieItems(moviePage.movies);
   pageManager.resetPage();
   addShowMoreButtonEventListener('search', keyword);
 };

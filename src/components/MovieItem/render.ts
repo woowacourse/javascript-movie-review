@@ -1,9 +1,9 @@
 import createElement from '../../utils/createElement';
 import starImg from '../../../templates/star_filled.png';
 import formatToDecimalPlaces from '../../utils/formatToDecimalPlaces';
-import { TMDBMovieDetailsResponse } from '../../types/tmdb';
 import { BASE_IMAGE_URL } from '../../constants/api/api';
 import NoImage from '../ui/NoIamge';
+import { Movie } from '../../domain/movie';
 
 const THUMBNAIL_SIZE = 'w500';
 
@@ -18,11 +18,11 @@ const createItemScore = (vote_average: number) => {
   return itemScoreContainer;
 };
 
-const createItemImage = (poster_path: string, title: string) => {
-  if (poster_path === null) return NoImage();
+const createItemImage = (posterPath: string, title: string) => {
+  if (posterPath === null) return NoImage();
   const image = createElement('img', {
     className: 'item-thumbnail skeleton',
-    src: `${BASE_IMAGE_URL}${THUMBNAIL_SIZE}${poster_path}`,
+    src: `${BASE_IMAGE_URL}${THUMBNAIL_SIZE}${posterPath}`,
     loading: 'lazy',
     alt: `${title} 포스터 이미지`,
     onload: toggleSkeleton,
@@ -36,22 +36,21 @@ const toggleSkeleton = (event: Event) => {
   thumbnail.classList.remove('skeleton');
 };
 
-/* eslint-disable @typescript-eslint/naming-convention */
-export const createItemCardContent = (movieItem: TMDBMovieDetailsResponse) => {
-  const { poster_path, title, vote_average } = movieItem;
-  const itemImage = createItemImage(poster_path, title);
+export const createItemCardContent = (movie: Movie) => {
+  const { posterPath, title, voteAverage } = movie;
+  const itemImage = createItemImage(posterPath, title);
   const itemTitle = createElement('p', { className: 'item-title', textContent: title });
-  const itemScore = createItemScore(vote_average);
+  const itemScore = createItemScore(voteAverage);
   const fragment = document.createDocumentFragment();
   [itemImage, itemTitle, itemScore].forEach((item) => fragment.appendChild(item));
   return fragment;
 };
 
-export const renderHandler = (movieItem: TMDBMovieDetailsResponse) => {
+export const renderHandler = (movie: Movie) => {
   const li = createElement('li');
   const a = createElement('a');
   const itemCard = createElement('div', { className: 'item-card' });
-  const itemCardContent = createItemCardContent(movieItem);
+  const itemCardContent = createItemCardContent(movie);
   itemCard.appendChild(itemCardContent);
   a.appendChild(itemCard);
   li.appendChild(a);

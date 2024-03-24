@@ -1,8 +1,8 @@
-import { TMDBMovieDetailsResponse } from '../../types/tmdb';
+import { Movie } from '../../domain/movie';
 import { renderHandler } from './render';
 
-function MovieItem(movieItem: TMDBMovieDetailsResponse) {
-  const movieItemComponent = renderHandler(movieItem);
+function MovieItem(movie: Movie) {
+  const movieItemComponent = renderHandler(movie);
 
   return movieItemComponent;
 }
