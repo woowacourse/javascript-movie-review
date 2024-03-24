@@ -10,16 +10,12 @@ interface MovieItemsProps {
 }
 
 const template = /* html */ `
-  <a href="#">
-    <div class="item-card">
-      <img class="item-thumbnail" loading="lazy" />
-      <p class="item-title"></p>
-      <div class="item-score-container">
-        <p class="item-score"></p>
-        <img class="star-icon" alt="별점" />
-      </div>
-    </div>
-  </a>
+  <img class="item-thumbnail movie-item" loading="lazy" />
+  <p class="item-title movie-item"></p>
+  <div class="item-score-container movie-item">
+    <p class="item-score movie-item"></p>
+    <img class="star-icon movie-item" alt="별점" />
+  </div>
 `;
 
 class MovieItem {
@@ -36,6 +32,7 @@ class MovieItem {
 
   private createTemplate() {
     const movieItem = document.createElement('li');
+    movieItem.classList.add('item-card', 'movie-item');
     movieItem.innerHTML = template;
     return movieItem;
   }

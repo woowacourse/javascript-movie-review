@@ -1,0 +1,46 @@
+.modal {
+  display: none;
+}
+
+.modal--open {
+  display: block;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+
+  width: 740px;
+  height: 544px;
+  padding: 0;
+  z-index: 2;
+
+  background: #212122;
+  border-radius: 8px;
+}
+
+.modal-close-button {
+  position: absolute;
+  top: 12px;
+  right: 32px;
+  z-index: 3;
+  background: transparent;
+  border: none;
+}
+
+.modal-close-button:hover {
+  cursor: pointer;
+}
+
+.modal-container {
+  height: 100%;
+}

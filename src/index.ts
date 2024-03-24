@@ -3,6 +3,8 @@ import './app.css';
 
 import Header from './components/Header/Header';
 import MovieItems from './components/MovieItems/MovieItems';
+import Modal from './components/Modal/Modal';
+import MovieDetail from './components/MovieDetail/MovieDetali';
 
 const body = document.querySelector('body');
 
@@ -24,5 +26,16 @@ const getMatchedMovies = (event: SubmitEvent) => {
 const header = new Header({ onLogoClick: getPopularMovies, onSearch: getMatchedMovies });
 const movieItems = new MovieItems();
 
+const movieDetail = new MovieDetail();
+const modal = new Modal({ content: movieDetail.element });
+
 body?.appendChild(header.element);
 body?.appendChild(movieItems.element);
+body?.appendChild(modal.element);
+
+body?.addEventListener('click', (event) => {
+  const target = event.target as HTMLElement;
+  if (target.classList.contains('movie-item')) {
+    modal.toggleModal();
+  }
+});
