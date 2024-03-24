@@ -16,7 +16,7 @@ class MovieItem {
       thumbnailElement.alt = this.#movieItemInfo.title;
     }
 
-    const titleElement = liElement.querySelector("p");
+    const titleElement = liElement.querySelector("h3");
     if (titleElement) {
       titleElement.textContent = this.#movieItemInfo.title;
     }

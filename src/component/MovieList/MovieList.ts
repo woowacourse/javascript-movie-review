@@ -21,7 +21,7 @@ class MovieList {
       loading: "lazy",
       alt: "",
     }) as HTMLImageElement;
-    const title = createElement("p", {
+    const title = createElement("h3", {
       class: "item-title skeleton",
     });
     const scoreWrapper = createElement("div", {
