@@ -15,20 +15,3 @@
   font-size: 1.2rem;
   font-weight: bold;
 }
-
-.item-score {
-  font-size: 1.2rem;
-}
-
-.item-score-container {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  margin-top: 16px;
-}
-
-.star-icon {
-  margin-left: 8px;
-  padding-top: 2px;
-}
