@@ -12,8 +12,7 @@ header .search-box input {
 
 header .search-box > .search-button {
   border: 0;
-  background: url('../../templates/search_button.png') transparent no-repeat 0
-    1px;
+  background: url('../images/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
   width: 14px;
   text-indent: -1000rem;

@@ -1,4 +1,4 @@
-import starFilled from '../../templates/star_filled.png';
+import StarFilled from '../images/star_filled.png';
 import { Movie } from '../type/movie';
 import { createElementWithAttribute } from '../utils';
 
@@ -16,7 +16,7 @@ class MovieScore {
   #makeMovieScore(movie: Movie) {
     const $score = createElementWithAttribute('p', { class: 'movie-score' });
     const $star = createElementWithAttribute('img', {
-      src: starFilled,
+      src: StarFilled,
       alt: '별점',
     });
 

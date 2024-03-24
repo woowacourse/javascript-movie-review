@@ -1,4 +1,4 @@
-import LogoImg from '../../templates/logo.png';
+import LogoImg from '../images/logo.png';
 import { dataStateStore } from '../model';
 import { renderAlertModalForNullEl } from '../service/AlertModalForNullEl';
 import DataFetcher from '../service/DataFetcher';
