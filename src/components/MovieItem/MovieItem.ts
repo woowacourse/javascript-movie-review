@@ -1,4 +1,5 @@
 import { POSTER_BASE_URL } from '../../api';
+import { RULES } from '../../constants/rule';
 import { MovieInfo } from '../../domain/Movies';
 import { NO_IMAGE, STAR_FILLED } from '../../resource';
 
@@ -28,7 +29,7 @@ const MovieItem = ({ title, poster_path, vote_average }: MovieInfo) => {
   scoreImg.alt = '별점';
 
   itemScore.appendChild(scoreImg);
-  scoreImg.insertAdjacentText('afterend', vote_average.toFixed(1));
+  scoreImg.insertAdjacentText('afterend', vote_average.toFixed(RULES.averageDecimalPlaces));
 
   itemCard.appendChild(thumbnail);
   itemCard.appendChild(movieTitle);

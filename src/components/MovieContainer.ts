@@ -1,9 +1,10 @@
-import SkeletonItem from './SkeletonItem/SkeletonItem';
-import MovieItem from './MovieItem/MovieItem';
-import { showAlert } from './Alert/Alert';
-import ErrorPage from './ErrorPage/ErrorPage';
 import Movies, { MovieInfo } from '../domain/Movies';
+import MovieItem from './MovieItem/MovieItem';
+import SkeletonItem from './SkeletonItem/SkeletonItem';
 import CustomError from '../utils/CustomError';
+import ErrorPage from './ErrorPage/ErrorPage';
+import { showAlert } from './Alert/Alert';
+import { RULES } from '../constants/rule';
 
 class MovieContainer {
   #page;
@@ -46,8 +47,7 @@ class MovieContainer {
     if (!viewMoreButton) return;
 
     viewMoreButton.addEventListener('click', () => {
-      // TODO: 500 상수 분리
-      if (this.#page > 500) {
+      if (this.#page > RULES.maxPage) {
         viewMoreButton.classList.add('hidden');
 
         showAlert('마지막 페이지 입니다!');
@@ -94,7 +94,7 @@ class MovieContainer {
     const viewMoreButton = document.querySelector('.view-more-button');
 
     // TODO: 상수 분리
-    !movieData || movieData.length < 20
+    !movieData || movieData.length < RULES.moviesPerPage
       ? viewMoreButton?.classList.add('hidden')
       : viewMoreButton?.classList.remove('hidden');
 
@@ -126,8 +126,8 @@ class MovieContainer {
     }
 
     const viewMoreButton = document.querySelector('.view-more-button');
-    // TODO: 상수 분리
-    !movieData || movieData.length < 20
+    // TODO: 상수 분리, 삼항 연산자 - 조건문
+    !movieData || movieData.length < RULES.moviesPerPage
       ? viewMoreButton?.classList.add('hidden')
       : viewMoreButton?.classList.remove('hidden');
 
@@ -161,8 +161,9 @@ class MovieContainer {
     const ul = document.querySelector('.item-list');
     if (!(ul instanceof HTMLElement)) return;
 
-    // TODO: 20 상수 분리
-    Array.from({ length: 20 }).forEach(() => ul.insertAdjacentElement('beforeend', SkeletonItem()));
+    Array.from({ length: RULES.moviesPerPage }).forEach(() =>
+      ul.insertAdjacentElement('beforeend', SkeletonItem()),
+    );
   }
 
   #removeSkeleton() {
