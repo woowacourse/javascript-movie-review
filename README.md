@@ -134,56 +134,75 @@ npm run test-e2e
 ## 모듈 구조 및 프로세스
 
 <details>
-<summary>🔍 모듈 구조 보기</summary>
-<div markdown="1">
+  <summary>🔍 모듈 구조 보기</summary>
+  <div markdown="1">
+  <br/>
+  <img src="./모듈구조.png" alt="모둘 구조" width="700px" />
 
-<img src="./모듈구조.png" alt="모둘 구조" width="700px" />
-
-</div>
+  </div>
 </details>
 
+<br/>
+
 <details>
-<summary>🔍 미션 1단계 프로세스 보기</summary>
-<div markdown="1">
+  <summary>🔍 미션 1단계 프로세스 보기</summary>
+  <div markdown="1">
+  <br/>
+  <img src="./movie_review_step1_process.png" alt="영화 리뷰 미션 step1 프로세스" width="700px">
 
-<img src="./movie_review_step1_process.png" alt="영화 리뷰 미션 step1 프로세스" width="700px">
-
-</div>
+  </div>
 </details>
 
 ## 오류 화면
 
 <details>
-<summary> 🔍 401오류 화면 보기</summary>
-<div markdown="401">
-<img src="./errorImages/401_error.png" alt="401 error" width="500px" />
+  <summary> 🔍 401오류 화면 보기</summary>
+  <div markdown="401">
+  <br/>
+  <img src="./readmeImages/401_error.png" alt="401 error" width="500px" />
 
-</div>
+  </div>
 </details>
+
 <br/>
 
 <details>
-<summary>🔍404오류 화면 보기</summary>
-<div markdown="404">
-<img src="./errorImages/404_error.png" alt="404error" width="500px"  />
-
-</div>
+  <summary>🔍404오류 화면 보기</summary>
+  <div markdown="404">
+  <br/>
+  <img src="./readmeImages/404_error.png" alt="404error" width="500px"  />
+  </div>
 </details>
+
 <br/>
 
 <details>
-<summary> 🔍204 지만, 잘못된 url로 인한 json 형태 오류</summary>
-<div markdown="204">
-<div>  데이터 통신을 성공했지만, url이 잘못되어 response를 json형태로 변형하지 못할 때 오류 화면
-</div>
-<img src="./errorImages/json_error.png" alt="json error" width="500px"  />
-</div>
+  <summary> 🔍204 지만, 잘못된 url로 인한 json 형태 오류</summary>
+  <div markdown="204">
+  <br/>
+  <div>  데이터 통신을 성공했지만, url이 잘못되어 response를 json형태로 변형하지 못할 때 오류 화면
+  </div>
+  <br/>
+  <img src="./readmeImages/json_error.png" alt="json error" width="500px"  />
+  </div>
 </details>
+
 <br/>
 
 <details>
-<summary> 🔍찾는 element가 null인 경우</summary>
-<div markdown="alert">
-  <img src="./errorImages/alert.png" alt="json error" width="500px"  />
-</div>
+  <summary> 🔍찾는 element가 null인 경우</summary>
+  <div markdown="alert">
+  <br/>
+    <img src="./readmeImages/null_error.png" alt="json error" width="500px"  />
+  </div>
+</details>
+
+<br/>
+
+<details>
+  <summary> 🔍검색창에 입력값이 없거나 공백으로 이루어진 경우</summary>
+  <div markdown="alert">
+  <br/>
+    <img src="./readmeImages/undefined_input.png" alt="input error"  />
+  </div>
 </details>
