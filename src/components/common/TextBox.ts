@@ -8,7 +8,7 @@ interface Props {
   };
 }
 
-export default function TextBox({ type, attrs = {} }: Props): HTMLElement {
+export default function TextBox({ type, attrs = {} }: Props): HTMLParagraphElement | HTMLHeadingElement {
   const element = document.createElement(type);
   setAttributes(element, attrs);
 
