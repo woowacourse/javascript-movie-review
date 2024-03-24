@@ -178,10 +178,13 @@ header .search-box .search-button {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+
+  display: flex;
+  flex-direction: column;
 }
 .fallback-image {
-  object-fit: cover;
   width: 300px;
+  margin: 0 auto;
 }
 .fallback-message {
   font-size: 1.5rem;

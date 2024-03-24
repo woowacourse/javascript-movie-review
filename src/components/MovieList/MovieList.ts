@@ -1,7 +1,7 @@
 import { HTMLTemplate } from "../abstract/BaseComponent";
 import QueryState, { Query } from "../../states/QueryState";
 import { generateMovieItems } from "../templates/movie/generateMovieItems";
-import { generateNetworkNotWorkingScreen } from "../templates/error/generateNetworkNotWorkingScreen";
+import { generateErrorFallbackScreen } from "../templates/error/generateErrorFallbackScreen";
 import { getPopularMovieList, getSearchMovieList } from "../../apis/movieList";
 import { $ } from "../../utils/dom";
 import APIError from "../../error/APIError";
@@ -88,7 +88,7 @@ export default class MovieList extends EventComponent {
 
     const errorTargetElement = $(this.targetId);
     if (errorTargetElement instanceof HTMLElement) {
-      errorTargetElement.innerHTML = generateNetworkNotWorkingScreen();
+      errorTargetElement.innerHTML = generateErrorFallbackScreen();
     }
   }
 
