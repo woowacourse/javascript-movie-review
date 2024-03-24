@@ -6,6 +6,7 @@ import ErrorPage from './ErrorPage/ErrorPage';
 import { showAlert } from './Alert/Alert';
 import { RULES } from '../constants/rule';
 import { $ } from '../utils/dom';
+import { ALERT_MESSAGE, ERROR_MESSAGE, TITLE } from '../constants/messages';
 
 class MovieContainer {
   #page;
@@ -30,7 +31,7 @@ class MovieContainer {
   #handleViewMoreButtonClick(target: HTMLButtonElement) {
     if (this.#page > RULES.maxPage) {
       target.classList.add('hidden');
-      showAlert('마지막 페이지 입니다!');
+      showAlert(ALERT_MESSAGE.lastPage);
       return;
     }
 
@@ -42,9 +43,11 @@ class MovieContainer {
     this.renderMovies();
   }
 
-  render(query: string) {
+  render(query: string = '') {
+    const errorContainer = $('.error-container');
     this.initData(query);
-    $('.error-container')?.remove();
+
+    if (errorContainer) errorContainer.remove();
 
     if (this.#query) {
       this.renderSearchMovies();
@@ -59,7 +62,7 @@ class MovieContainer {
     const subtitle = $('.subtitle');
     if (!(ul instanceof HTMLElement) || !(subtitle instanceof HTMLElement)) return;
 
-    subtitle.textContent = query ? `"${query}" 검색결과 입니다.` : '지금 인기 있는 영화';
+    subtitle.textContent = query ? `"${query}" ${TITLE.searchResult}` : TITLE.popularMovies;
 
     this.#page = 1;
     this.#query = query;
@@ -101,7 +104,7 @@ class MovieContainer {
     const movieData = await this.#searchMovies(this.#page, query);
 
     if (movieData && !movieData.length) {
-      this.#showErrorPage('검색한 결과를 찾을 수 없습니다.\n다른 검색어로 검색을 해보시겠어요?');
+      this.#showErrorPage(ERROR_MESSAGE.noSearchResult);
     }
 
     $('.view-more-button')?.classList.remove('hidden');
