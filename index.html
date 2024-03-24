@@ -1,12 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    영화 리뷰 미션을 진행하세요
-  </body>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preload" href="./src/images/workers.png" as="image" />
+  <title>영화 리뷰</title>
+</head>
+<body>
+  <header id="movie-header"></header>
+  <main>
+    <section class="item-view">
+      <div id="movie-list-header"></div>
+      <ul id="movie-list"></ul>
+    </section>
+
+    <dialog id="network-error-fallback-modal" class="network-error-fallback-modal">
+      <h1>⛔️ 네트워크와의 연결이 끊겼습니다.</h1>
+      <p>네트워크에 연결해 주세요.</p>
+      <p>네트워크에 연결되면 이 알림창이 자동으로 사라집니다.</p>
+    </dialog>
+  </main>
+
+  <script>
+    window.ononline = function () {
+      document.querySelector("#network-error-fallback-modal")?.close();
+    }
+
+    window.onoffline = function () {
+      document.querySelector("#network-error-fallback-modal").showModal();
+    }
+  </script>
+</body>
 </html>
