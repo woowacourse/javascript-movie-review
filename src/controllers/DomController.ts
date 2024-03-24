@@ -1,3 +1,4 @@
+import TMDB_ERRORS from '../constants/tmdbErrors';
 import { $ } from '../utils/domUtils';
 
 class DomController {
@@ -19,6 +20,11 @@ class DomController {
 
   public static updateListTitle(query: string) {
     this.state.$listTitle.textContent = `"${query}" 검색 결과`;
+  }
+
+  public static printErrorMessage(statusCode: number) {
+    const error = TMDB_ERRORS[statusCode];
+    this.state.$listTitle.textContent = `[Error ${error.httpStatus}] ${error.message}`;
   }
 
   public static printMovieNotFoundMessage(query: string = '') {

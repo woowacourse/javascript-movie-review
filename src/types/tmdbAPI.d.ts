@@ -20,6 +20,7 @@ interface TmdbResponse {
   results: Movie[];
   total_pages: number;
   total_results: number;
+  status_code: number;
 }
 
 interface TmdbUrlParams {

@@ -27,15 +27,14 @@ class MovieListController {
   }
 
   private static async fetchAndRenderMovies() {
-    const { results, total_pages, total_results } = await TmdbAPI.fetch(this.state);
+    const { results, total_pages, total_results, status_code } = await TmdbAPI.fetch(this.state);
 
-    if (!total_results) {
-      this.printMovieNotFoundMessage();
-      return;
+    if (status_code) this.printErrorMessage(status_code);
+    else if (!total_results) this.printMovieNotFoundMessage();
+    else {
+      this.renderMovieItems(results);
+      this.showMoreButtonWhenNotLastPage(total_pages);
     }
-
-    this.renderMovieItems(results);
-    this.showMoreButtonWhenNotLastPage(total_pages);
   }
 
   private static clearMovieList() {
@@ -63,6 +62,10 @@ class MovieListController {
         MovieItem({ posterPath, title, voteAverage })
       )
     );
+  }
+
+  private static printErrorMessage(status_code: number) {
+    DomController.printErrorMessage(status_code);
   }
 
   private static printMovieNotFoundMessage() {
