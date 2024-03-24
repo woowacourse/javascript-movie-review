@@ -1,4 +1,5 @@
 import { getData } from "./getData";
+import { ERROR_MESSAGE } from "../constant/setting";
 
 const API_KEY = process.env.API_KEY as string;
 const BASE_URL = "https://api.themoviedb.org/3";
@@ -9,9 +10,7 @@ export const getSearchedMoviesData = async (
   title: string
 ) => {
   if (!API_KEY) {
-    throw new Error(
-      "유효하지 않은 API 키입니다. 올바른 API 키를 확인하고 다시 시도해주세요."
-    );
+    throw new Error(ERROR_MESSAGE.INVALID_API_KEY);
   }
 
   const params = {
@@ -27,9 +26,7 @@ export const getSearchedMoviesData = async (
 
   const searchedMovies = await getData(searchMovieUrl);
   if (searchedMovies.results.length === 0) {
-    throw new Error(
-      "해당 키워드로 작품을 찾을 수 없습니다. 다른 키워드를 입력해주세요."
-    );
+    throw new Error(ERROR_MESSAGE.FETCH_SEARCHED_MOVIES_FAILED);
   }
 
   return searchedMovies.results;

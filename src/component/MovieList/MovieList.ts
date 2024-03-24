@@ -5,9 +5,15 @@ import { getPopularMoviesData } from "../../api/getPopularMoviesData";
 import { $, $$, createElement } from "../../utility/dom";
 import hangsungImg from "../../image/wooteco-icon.png";
 import { validation } from "../../utility/validation";
+import {
+  ERROR_MESSAGE,
+  INFO_MESSAGE,
+  TITLE_TEXT,
+} from "../../constant/setting";
 
 const MAX_PAGE_PER_REQUEST = 20;
 const MAX_PAGE_COUNT = 50;
+
 class MovieList {
   #type: string;
   #title: string;
@@ -26,7 +32,7 @@ class MovieList {
 
   #renderPopularMovieList() {
     const movieListTitle = createElement("h2");
-    movieListTitle.textContent = "지금 인기 있는 영화";
+    movieListTitle.textContent = TITLE_TEXT.POPULAR;
 
     const movieListUl = createElement("ul", {
       class: "item-list",
@@ -81,7 +87,7 @@ class MovieList {
       ).value;
 
       if (!validation.validateEmptyInput(titleInput)) {
-        alert("검색어를 입력해주세요.");
+        alert(INFO_MESSAGE.EMPTY_SEARCH_KEYWORD);
         return;
       }
 
@@ -94,7 +100,7 @@ class MovieList {
 
   #renderSearchedMovieList(titleInput: string) {
     const movieListTitle = createElement("h2");
-    movieListTitle.textContent = `"${titleInput}" 검색 결과`;
+    movieListTitle.textContent = TITLE_TEXT.SEARCH(titleInput);
 
     const searchedMovieListUl = createElement("ul", {
       class: "item-list",
@@ -222,7 +228,7 @@ class MovieList {
     const maxPageInfoElement = createElement("p", {
       class: "max-page-info",
     });
-    maxPageInfoElement.textContent = "목록의 끝에 도달했습니다 🚀";
+    maxPageInfoElement.textContent = INFO_MESSAGE.MAX_PAGE;
 
     return maxPageInfoElement;
   }
@@ -277,7 +283,7 @@ class MovieList {
     if (typeof error === "object" && error.message) {
       this.#crateErrorUI(error.message);
     } else {
-      this.#crateErrorUI("알 수 없는 오류가 발생했습니다.");
+      this.#crateErrorUI(ERROR_MESSAGE.UNKNOWN);
     }
   }
 }

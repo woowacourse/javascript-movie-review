@@ -1,5 +1,7 @@
 import starFilledImg from "../../image/star_filled.png";
 
+const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w220_and_h330_face";
+
 class MovieItem {
   #movieItemInfo;
 
@@ -10,7 +12,7 @@ class MovieItem {
   setMovieItemData(liElement: HTMLLIElement) {
     const thumbnailElement = liElement.querySelector("img");
     if (thumbnailElement) {
-      thumbnailElement.src = `https://image.tmdb.org/t/p/w220_and_h330_face${
+      thumbnailElement.src = `${IMAGE_BASE_URL}${
         this.#movieItemInfo.poster_path
       }`;
       thumbnailElement.alt = this.#movieItemInfo.title;
