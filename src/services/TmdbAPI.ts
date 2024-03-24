@@ -19,12 +19,8 @@ class TmdbAPI {
 
   /* TMDB API 공식문서에 따라 그룹화 */
   public static PATH = {
-    movie: {
-      popular: 'movie/popular'
-    },
-    search: {
-      movie: 'search/movie'
-    }
+    popular: 'movie/popular',
+    search: 'search/movie'
   } as const;
 
   public static fetch(params: TmdbUrlParams): Promise<TmdbResponse> {

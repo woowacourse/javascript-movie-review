@@ -13,41 +13,30 @@ class MovieListController {
     query: ''
   };
 
-  /* 가장 인기 있는 영화 */
-  public static popular() {
+  public static async loadMovieList({ path, query }: Omit<TmdbUrlParams, 'page'>) {
     this.hideMoreButton();
-    this.initializeParams({ path: TmdbAPI.PATH.movie.popular, page: '1' });
+    this.initializeParams({ path, page: '1', query });
     this.clearMovieList();
-    this.fetchAndRenderMovies();
+    await this.fetchAndRenderMovies();
   }
 
-  /* 영화 검색 */
-  public static search(query: string) {
-    this.hideMoreButton();
-    this.initializeParams({ path: TmdbAPI.PATH.search.movie, page: '1', query });
-    this.clearMovieList();
-    this.fetchAndRenderMovies();
-  }
-
-  /* 더 보기 */
-  public static more() {
+  public static async moreLoadMovieList() {
     this.hideMoreButton();
     this.increasePage();
-    this.fetchAndRenderMovies();
-  }
-
-  private static clearMovieList() {
-    const $movieList = $('.item-list')!;
-
-    while ($movieList.firstChild) {
-      $movieList.removeChild($movieList.firstChild);
-    }
+    await this.fetchAndRenderMovies();
   }
 
   private static async fetchAndRenderMovies() {
     const { results, total_pages } = await TmdbAPI.fetch(this.state);
     this.renderMovieItems(results);
     this.showMoreButtonWhenNotLastPage(total_pages);
+  }
+
+  private static clearMovieList() {
+    const $movieList = $('.item-list')!;
+    while ($movieList.firstChild) {
+      $movieList.removeChild($movieList.firstChild);
+    }
   }
 
   private static hideMoreButton() {

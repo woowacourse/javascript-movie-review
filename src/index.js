@@ -6,6 +6,7 @@ import MovieListSection from './components/movie-list-section/MovieListSection';
 import MovieListController from './controllers/MovieListController';
 import { $ } from './utils/domUtils';
 import DomController from './controllers/DomController';
+import TmdbAPI from './services/TmdbAPI';
 
 /* Main Page Container */
 const $app = $('#app');
@@ -24,5 +25,5 @@ $app.appendChild($main);
 /* App 초기화 */
 window.onload = () => {
   DomController.initController();
-  MovieListController.popular();
+  MovieListController.loadMovieList({ path: TmdbAPI.PATH.popular });
 };

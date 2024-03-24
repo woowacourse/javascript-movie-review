@@ -1,4 +1,5 @@
 import MovieListController from '../../controllers/MovieListController';
+import TmdbAPI from '../../services/TmdbAPI';
 import { $, appendChildren } from '../../utils/domUtils';
 import Button from '../common/Button';
 import Form from '../common/Form';
@@ -10,7 +11,7 @@ const handleFormSubmit = (event: Event) => {
   const $input = $<HTMLInputElement>('.search-box input')!;
   const query = $input.value.trim();
 
-  if (query) MovieListController.search(query);
+  if (query) MovieListController.loadMovieList({ path: TmdbAPI.PATH.search, query });
   $input.blur();
 };
 

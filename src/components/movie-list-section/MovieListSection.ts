@@ -6,7 +6,7 @@ import List from '../common/List';
 import MovieListController from '../../controllers/MovieListController';
 
 const handleMoreButtonClick = () => {
-  MovieListController.more();
+  MovieListController.moreLoadMovieList();
 };
 
 export default function MovieListSection() {
