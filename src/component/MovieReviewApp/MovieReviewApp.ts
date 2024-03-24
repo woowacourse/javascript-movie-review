@@ -1,6 +1,6 @@
 import MovieReviewHeader from "../MovieReviewHeader/MovieReviewHeader";
 import MovieSearchInput from "../MovieSearchInput/MovieSearchInput";
-import MovieList from "../MovieList/MovieList";
+import MovieListController from "../../controller/MovieListController";
 
 import { $ } from "../../utility/dom";
 
@@ -17,7 +17,13 @@ class MovieReviewApp {
   }
 
   #renderMovieReviewMain() {
-    const movieList = new MovieList();
+    try {
+      const movieListController = new MovieListController();
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error.message);
+      }
+    }
   }
 
   render() {
