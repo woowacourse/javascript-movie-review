@@ -1,21 +1,32 @@
+import { renderAlertModalForNullEl } from './AlertModalForNullController';
+
 const SkeletonController = {
-  hideSkeleton() {
+  getSkeletonElement() {
     const $skeletonListContainer = document.querySelector(
       '.skeleton-list-container',
-    ) as Element;
+    );
+    if (!$skeletonListContainer) {
+      renderAlertModalForNullEl('skeleton');
+      return;
+    }
+    return $skeletonListContainer;
+  },
 
-    $skeletonListContainer?.classList.remove('on');
+  hideSkeleton() {
+    const $skeletonListContainer = SkeletonController.getSkeletonElement();
+    if (!$skeletonListContainer) return;
+
+    $skeletonListContainer.classList.remove('on');
     setTimeout(() => {
-      $skeletonListContainer?.classList.remove('on');
+      $skeletonListContainer.classList.remove('on');
     }, 500);
   },
 
   showSkeleton() {
-    const $skeletonListContainer = document.querySelector(
-      '.skeleton-list-container',
-    ) as Element;
+    const $skeletonListContainer = SkeletonController.getSkeletonElement();
+    if (!$skeletonListContainer) return;
 
-    $skeletonListContainer?.classList.add('on');
+    $skeletonListContainer.classList.add('on');
   },
 };
 

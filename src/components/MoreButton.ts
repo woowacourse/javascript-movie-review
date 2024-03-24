@@ -1,9 +1,18 @@
 import { dataStateStore } from '../model';
-import { DataFetcher, renderAlertModalForNullEl } from '../service';
+import {
+  DataFetcher,
+  SkeletonController,
+  renderAlertModalForNullEl,
+} from '../service';
 import { ListType, Movie } from '../type/movie';
 import { createElementWithAttribute, debouceFunc } from '../utils';
 
 import MovieList from './movie/MovieList';
+
+const dataFetcher = new DataFetcher({
+  show: SkeletonController.showSkeleton,
+  hide: SkeletonController.hideSkeleton,
+});
 
 /**
  * 더보기 버튼 클릭 시, 이루어지는 api 통신 관리하는 핸들러
@@ -15,7 +24,7 @@ const APIHandlerForMoreButton = {
    */
   async handleGetMovieData(listType: ListType) {
     if (listType === 'popular') {
-      await DataFetcher.handleGetPopularMovieData();
+      await dataFetcher.handleGetPopularMovieData();
       return;
     }
 
@@ -32,10 +41,9 @@ const APIHandlerForMoreButton = {
 
   async private_getSearchMovieData() {
     const title = this.private_getSearchInputValue();
-
     if (!title) return;
 
-    await DataFetcher.handleGetSearchMovieData(title, false);
+    await dataFetcher.handleGetSearchMovieData(title, false);
   },
 };
 

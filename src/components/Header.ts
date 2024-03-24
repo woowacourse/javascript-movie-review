@@ -1,17 +1,30 @@
 import LogoImg from '../images/logo.png';
 import { dataStateStore } from '../model';
-import { DataFetcher, renderAlertModalForNullEl } from '../service';
+import {
+  DataFetcher,
+  renderAlertModalForNullEl,
+  SkeletonController,
+} from '../service';
 import { createElementWithAttribute } from '../utils';
 
 import { MovieListContainer } from './movie';
 import SearchBox from './SearchBox';
 
 const HeaderClickHandler = {
+  async handleDataFetcher() {
+    const dataFetcher = new DataFetcher({
+      show: SkeletonController.showSkeleton,
+      hide: SkeletonController.hideSkeleton,
+    });
+
+    await dataFetcher.handleGetPopularMovieData(true);
+  },
+
   async handleClickToRefresh() {
     this.private_removeMovieListContainer();
     this.private_resetSearchInputValue();
 
-    await DataFetcher.handleGetPopularMovieData(true);
+    await this.handleDataFetcher();
 
     new MovieListContainer({
       titleText: '지금 인기 있는 영화',
