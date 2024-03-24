@@ -62,7 +62,7 @@ export default class MovieHeader extends EventComponent {
   }
 
   private handleLogoClick(): void {
-    this.queryState.set("");
+    this.queryState.reset();
 
     const $searchForm = $<HTMLFormElement>("search-form");
 

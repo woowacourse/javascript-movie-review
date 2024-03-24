@@ -173,18 +173,34 @@ header .search-box .search-button {
   width: 100%;
 }
 
-.unexpected-case-container {
+.fallback-container {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
 }
-.unexpected-case-image {
+.fallback-image {
   object-fit: cover;
   width: 300px;
 }
-.unexpected-case-message {
+.fallback-message {
   font-size: 1.5rem;
   text-align: center;
   margin-top: 0.5rem;
+}
+
+.return-to-home-button {
+  background: #ef7e7e;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px auto;
+
+  border: none;
+  padding: 10px 15px;
+  border-radius: 15px;
+  width: 100%;
 }

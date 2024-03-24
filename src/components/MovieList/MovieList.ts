@@ -2,13 +2,13 @@ import { HTMLTemplate } from "../abstract/BaseComponent";
 import QueryState, { Query } from "../../states/QueryState";
 import { generateMovieItems } from "../templates/movie/generateMovieItems";
 import { generateNetworkNotWorkingScreen } from "../templates/error/generateNetworkNotWorkingScreen";
-import { generateEmptyMovieListScreen } from "../templates/movie/generateEmptyMovieListScreen";
 import { getPopularMovieList, getSearchMovieList } from "../../apis/movieList";
 import { $ } from "../../utils/dom";
 import APIError from "../../error/APIError";
 import SkeletonUI from "../SkeletonUI";
 import { Movie } from "../../types/movie";
 import EventComponent from "../abstract/EventComponent";
+import EmptyMovieList from "./EmptyMovieList";
 
 interface MovieListProps {
   targetId: string;
@@ -40,16 +40,12 @@ export default class MovieList extends EventComponent {
 
     return `
         <ul id="item-list" class="item-list">
-        ${
-          this.movies.length === 0
-            ? generateEmptyMovieListScreen()
-            : movieItemsTemplate
-        }
+        ${movieItemsTemplate}
         </ul>
         ${
-          this.movies.length < 20
-            ? ""
-            : '<button id="watch-more-button" class="btn primary full-width">더 보기</button>'
+          this.movies.length === 20
+            ? '<button id="watch-more-button" class="btn primary full-width">더 보기</button>'
+            : ""
         }
     `;
   }
@@ -62,6 +58,16 @@ export default class MovieList extends EventComponent {
 
       const movies = await this.fetchMovies(this.page, this.queryState.get());
       this.movies = movies;
+
+      if (movies.length === 0) {
+        const emptyMovieList = new EmptyMovieList({
+          targetId: this.targetId,
+          onHomeButton: () => this.queryState.reset(),
+        });
+
+        emptyMovieList.mount();
+        return;
+      }
 
       this.render();
     } catch (error) {

@@ -18,4 +18,8 @@ export default class QueryState extends Observable {
   public get(): Query {
     return this.query;
   }
+
+  public reset(): void {
+    this.set("");
+  }
 }
