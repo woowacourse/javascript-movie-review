@@ -27,14 +27,15 @@ class MovieListController {
   }
 
   private static async fetchAndRenderMovies() {
+    this.showMovieListSkeleton();
     const { results, total_pages, total_results, status_code } = await TmdbAPI.fetch(this.state);
+    this.hideMovieListSkeleton();
 
     if (status_code) this.printErrorMessage(status_code);
     else if (!total_results) this.printMovieNotFoundMessage();
-    else {
-      this.renderMovieItems(results);
-      this.showMoreButtonWhenNotLastPage(total_pages);
-    }
+
+    this.renderMovieItems(results);
+    this.showMoreButtonWhenNotLastPage(total_pages);
   }
 
   private static clearMovieList() {
@@ -42,6 +43,14 @@ class MovieListController {
     while ($movieList.firstChild) {
       $movieList.removeChild($movieList.firstChild);
     }
+  }
+
+  private static hideMovieListSkeleton() {
+    DomController.hideMovieListSkeleton();
+  }
+
+  private static showMovieListSkeleton() {
+    DomController.showMovieListSkeleton();
   }
 
   private static hideMoreButton() {
@@ -54,6 +63,7 @@ class MovieListController {
     }
   }
 
+  // TODO: DomController에 위임
   private static renderMovieItems(results: Movie[]) {
     const $movieList = $('.item-list')!;
     appendChildren(

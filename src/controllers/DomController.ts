@@ -4,16 +4,19 @@ import { $ } from '../utils/domUtils';
 class DomController {
   public static state = {
     $listTitle: <HTMLHeadingElement>{},
+    $movieListSkeleton: <HTMLUListElement>{},
     $moreButton: <HTMLButtonElement>{}
   };
 
   /* Dom 로딩 후 반드시 초기화 한다. */
   public static initController() {
     const $listTitle = $<HTMLHeadingElement>('.item-view h2')!;
+    const $movieListSkeleton = $<HTMLUListElement>('.item-list.skeleton')!;
     const $moreButton = $<HTMLButtonElement>('.item-view button')!;
 
     DomController.state = {
       $listTitle,
+      $movieListSkeleton,
       $moreButton
     };
   }
@@ -33,6 +36,14 @@ class DomController {
     } else {
       this.state.$listTitle.textContent = '조회 결과가 없습니다.';
     }
+  }
+
+  public static hideMovieListSkeleton() {
+    this.state.$movieListSkeleton.classList.add('hidden');
+  }
+
+  public static showMovieListSkeleton() {
+    this.state.$movieListSkeleton.classList.remove('hidden');
   }
 
   public static hideMoreButton() {
