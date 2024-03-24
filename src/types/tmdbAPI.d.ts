@@ -22,7 +22,8 @@ interface TmdbResponse {
   total_results: number;
 }
 
-interface UrlParams {
-  page?: string;
+interface TmdbUrlParams {
+  path: string;
+  page: string;
   query?: string;
 }
