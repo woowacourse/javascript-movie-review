@@ -1,7 +1,5 @@
+import { fetchAPI } from "./fetchAPI";
 import { Movie, Path } from "../components/templates/generateMovieItems";
-import APIError from "../error/APIError";
-
-const BASE_URL = "https://api.themoviedb.org/3";
 
 const POPULAR_MOVIE_LIST_PATH = "/movie/popular";
 const SEARCH_MOVIE_LIST_PATH = "/search/movie";
@@ -36,21 +34,8 @@ const parseRawMovieList = (movieRawDataList: MovieRawData[]): Movie[] =>
 export const getPopularMovieList = async (
   page: number = 1
 ): Promise<Movie[]> => {
-  const response = await fetch(
-    `${BASE_URL}${POPULAR_MOVIE_LIST_PATH}?language=ko-KR&page=${page}`,
-    {
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${process.env.TMDB_ACCESS_KEY}`,
-      },
-    }
-  );
+  const movieList = await fetchAPI(POPULAR_MOVIE_LIST_PATH, `page=${page}`);
 
-  if (!response.ok) {
-    throw new APIError(response.status);
-  }
-
-  const movieList = await response.json();
   return parseRawMovieList(movieList.results);
 };
 
@@ -58,20 +43,10 @@ export const getSearchMovieList = async (
   query: string,
   page: number = 1
 ): Promise<Movie[]> => {
-  const response = await fetch(
-    `${BASE_URL}${SEARCH_MOVIE_LIST_PATH}?query=${query}&page=${page}`,
-    {
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${process.env.TMDB_ACCESS_KEY}`,
-      },
-    }
+  const movieList = await fetchAPI(
+    SEARCH_MOVIE_LIST_PATH,
+    `query=${query}&page=${page}`
   );
 
-  if (!response.ok) {
-    throw new APIError(response.status);
-  }
-
-  const movieList = await response.json();
   return parseRawMovieList(movieList.results);
 };
