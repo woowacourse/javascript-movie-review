@@ -24,12 +24,12 @@ class MovieList {
     this.#title = "";
     this.#movieListSection = $(".item-view") as Element;
 
-    this.#renderPopularMovieList();
-    this.#createPopularMovieItems();
+    this.#createPopularMoviesSection();
+    this.#renderPopularMovieItems();
     this.#setupSearchFormSubmit();
   }
 
-  #renderPopularMovieList() {
+  #createPopularMoviesSection() {
     const movieListTitle = createElement("h2");
     movieListTitle.textContent = TITLE_TEXT.POPULAR;
 
@@ -41,7 +41,7 @@ class MovieList {
     this.#movieListSection.appendChild(movieListUl);
   }
 
-  async #createPopularMovieItems() {
+  async #renderPopularMovieItems() {
     const ul = $(".item-list");
 
     try {
@@ -70,7 +70,7 @@ class MovieList {
     if (this.#popularCurrentPage === MAX_PAGE_COUNT) this.#displayMaxPageInfo();
     if (this.#popularCurrentPage > MAX_PAGE_COUNT) return;
 
-    this.#createPopularMovieItems();
+    this.#renderPopularMovieItems();
   }
 
   #setupSearchFormSubmit() {
@@ -97,11 +97,11 @@ class MovieList {
 
     this.#title = titleInput;
     this.#movieListSection.innerHTML = "";
-    this.#renderSearchedMovieList(titleInput);
-    this.#createSearchedMovieItems(titleInput);
+    this.#createSearchedMoviesSection(titleInput);
+    this.#renderSearchedMovieItems(titleInput);
   }
 
-  #renderSearchedMovieList(titleInput: string) {
+  #createSearchedMoviesSection(titleInput: string) {
     const movieListTitle = createElement("h2");
     movieListTitle.textContent = TITLE_TEXT.SEARCH(titleInput);
 
@@ -113,7 +113,7 @@ class MovieList {
     this.#movieListSection.appendChild(searchedMovieListUl);
   }
 
-  async #createSearchedMovieItems(titleInput: string) {
+  async #renderSearchedMovieItems(titleInput: string) {
     const ul = $("ul");
 
     try {
@@ -145,7 +145,7 @@ class MovieList {
       const moreMoviesButton = this.#createMoreMoviesButton();
       moreMoviesButton.addEventListener("click", () => {
         this.#searchCurrentPage += 1;
-        this.#createSearchedMovieList();
+        this.#renderSearchedMovieItems(this.#title);
       });
 
       return;
@@ -220,17 +220,6 @@ class MovieList {
     });
   }
 
-  #createSearchedMovieList() {
-    this.#createSearchedMovieItems(this.#title);
-  }
-
-  #displayMaxPageInfo() {
-    this.#removeMoreMoviesButton();
-    const maxPageInfo = this.#createMaxPageInfo();
-
-    this.#movieListSection.appendChild(maxPageInfo);
-  }
-
   #createMaxPageInfo() {
     const maxPageInfoElement = createElement("p", {
       class: "max-page-info",
@@ -238,6 +227,13 @@ class MovieList {
     maxPageInfoElement.textContent = INFO_MESSAGE.MAX_PAGE;
 
     return maxPageInfoElement;
+  }
+
+  #displayMaxPageInfo() {
+    this.#removeMoreMoviesButton();
+    const maxPageInfo = this.#createMaxPageInfo();
+
+    this.#movieListSection.appendChild(maxPageInfo);
   }
 
   #createMoreMoviesButton() {
