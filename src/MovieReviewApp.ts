@@ -1,8 +1,7 @@
-import MovieReviewHeader from "../MovieReviewHeader/MovieReviewHeader";
-import MovieSearchInput from "../MovieSearchInput/MovieSearchInput";
-import MovieList from "../MovieList/MovieList";
-
-import { $ } from "../../utility/dom";
+import MovieList from "./component/MovieList/MovieList";
+import MovieReviewHeader from "./component/MovieReviewHeader/MovieReviewHeader";
+import MovieSearchInput from "./component/MovieSearchInput/MovieSearchInput";
+import { $ } from "./utility/dom";
 
 class MovieReviewApp {
   #renderMovieReviewHeader() {

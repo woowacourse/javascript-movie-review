@@ -1,4 +1,4 @@
-import MovieReviewApp from "./component/MovieReviewApp/MovieReviewApp.ts";
+import MovieReviewApp from "./MovieReviewApp";
 
 import "./common.style.css";
 import "./reset.style.css";
