@@ -1,6 +1,6 @@
 import { fetchPopularMovieList, fetchSearchMovieList } from '../../apis/fetchData';
 import { LAST_PAGE } from '../../constants/constant';
-import { completeMovieList, loadMovieList } from '../../domain/MovieService';
+import { showSkeleton, updateCard } from '../movieCard/movieCard';
 
 export class MovieListWrapper {
   #currentPage;
@@ -27,18 +27,18 @@ export class MovieListWrapper {
     ul.className = 'item-list';
     ul.replaceChildren();
 
-    const addButton = document.createElement('button');
+    const addButton: HTMLButtonElement = document.createElement('button');
     addButton.className = 'btn primary full-width';
     addButton.textContent = '더 보기';
 
     section.append(title, ul);
 
-    await this.updateMovieList(addButton);
+    await this.selectUpdatingMovieType(addButton);
 
     section.appendChild(addButton);
 
     addButton.addEventListener('click', async () => {
-      await this.updateMovieList(addButton);
+      await this.selectUpdatingMovieType(addButton);
     });
   }
 
@@ -46,61 +46,81 @@ export class MovieListWrapper {
     this.#currentPage += 1;
   }
 
-  hasNextPage(lastPage: number) {
-    if (this.#currentPage === (lastPage < LAST_PAGE ? lastPage : LAST_PAGE)) {
-      return false;
-    }
-    return true;
-  }
-
-  async updateMovieList(addButton: any) {
+  async selectUpdatingMovieType(addButton: HTMLButtonElement) {
+    const liList = this.loadMovieList();
     switch (this.#getName) {
       case 'popular':
         {
-          const liList = loadMovieList();
           const result = await fetchPopularMovieList(this.#currentPage);
-          if (result) {
-            const [movies, totalPages] = result;
-            if (LAST_PAGE <= this.#currentPage) {
-              addButton.classList.add('none');
-            }
-            this.plusCurrentPage();
-            completeMovieList(liList, movies);
-          } else {
-            addButton.classList.add('none');
+          if (!result) return;
+          this.updateMoviesCardList(liList, result, addButton);
+          if (result[2] === 0) {
+            this.displayNoResultsMessage();
           }
         }
         return;
       case 'search':
         {
           const result = await fetchSearchMovieList(this.#inputValue, this.#currentPage);
-          if (result) {
-            const liList = loadMovieList();
-            const [movies, totalPages] = result;
-            if (Math.min(totalPages, LAST_PAGE) <= this.#currentPage) {
-              addButton.classList.add('none');
-            }
-            this.plusCurrentPage();
-            completeMovieList(liList, movies);
-          } else {
-            addButton.classList.add('none');
+          if (!result) return;
+          this.updateMoviesCardList(liList, result, addButton);
+          if (result[2] === 0) {
+            this.displayNoResultsMessage();
           }
         }
         return;
       default: {
-        const liList = loadMovieList();
         const result = await fetchPopularMovieList(this.#currentPage);
-        if (result) {
-          const [movies, totalPages] = result;
-          if (totalPages === this.#currentPage) {
-            addButton.classList.add('none');
-          }
-          this.plusCurrentPage();
-          completeMovieList(liList, movies);
-        } else {
-          addButton.classList.add('none');
+        if (!result) return;
+        this.updateMoviesCardList(liList, result, addButton);
+        if (result[2] === 0) {
+          this.displayNoResultsMessage();
         }
       }
     }
+  }
+  updateMoviesCardList(liList: any, result: any, addButton: HTMLButtonElement) {
+    const [movies, totalPages] = result;
+    if (Math.min(totalPages, LAST_PAGE) <= this.#currentPage) {
+      addButton.classList.add('none');
+    }
+    this.plusCurrentPage();
+    this.completeMovieList(liList, movies);
+  }
+
+  displayNoResultsMessage() {
+    const section = document.querySelector('.item-view');
+    if (!section) return;
+    const ul = section?.querySelector('ul');
+    const totalResult = document.createElement('h3');
+    totalResult.className = 'no-result';
+    totalResult.textContent = '현재 검색결과가 존재하지 않습니다.';
+    section?.appendChild(totalResult);
+    ul?.remove();
+  }
+
+  completeMovieList(liList: any, movies: any) {
+    movies.forEach((movie: any, index: any) => {
+      updateCard(liList[index], movie);
+    });
+    document.querySelectorAll('li.skeleton').forEach(element => {
+      element.remove();
+    });
+  }
+
+  loadMovieList() {
+    const itemList = document.querySelector('.item-list');
+    if (!itemList) return;
+    const liList = Array.from({ length: 20 }, () => showSkeleton());
+    itemList.append(...liList);
+    return liList;
+  }
+
+  async updateView(title: string, getName: string, inputValue = '') {
+    this.#title = title;
+    this.#getName = getName;
+    this.#inputValue = inputValue;
+    this.#currentPage = 1;
+    await this.create();
   }
 }
