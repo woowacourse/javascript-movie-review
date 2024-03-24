@@ -5,7 +5,7 @@ import Title from './components/Title/Title';
 import SearchBox from './components/SearchBox/SearchBox';
 
 import MovieList from './components/MovieList/MovieList';
-import MovieController from './components/MovieController';
+import MovieController from './controller/MovieController';
 import { $ } from './utils/dom';
 
 class MovieApp {

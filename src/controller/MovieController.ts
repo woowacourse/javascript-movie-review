@@ -1,9 +1,9 @@
 import Movies, { MovieInfo } from '../domain/Movies';
-import MovieItem from './MovieItem/MovieItem';
-import SkeletonItem from './SkeletonItem/SkeletonItem';
+import MovieItem from '../components/MovieItem/MovieItem';
+import SkeletonItem from '../components/SkeletonItem/SkeletonItem';
 import CustomError from '../utils/CustomError';
-import ErrorPage from './ErrorPage/ErrorPage';
-import { showAlert } from './Alert/Alert';
+import ErrorPage from '../components/ErrorPage/ErrorPage';
+import { showAlert } from '../components/Alert/Alert';
 import { RULES } from '../constants/rule';
 import { $ } from '../utils/dom';
 import { ALERT_MESSAGE, ERROR_MESSAGE, TITLE } from '../constants/messages';
