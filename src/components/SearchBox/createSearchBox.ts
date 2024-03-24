@@ -8,7 +8,8 @@ const createSearchBox = (customEventName: string, placeHolder: string) => {
     type: "text",
     placeholder: placeHolder,
   }) as HTMLInputElement;
-  (input as HTMLInputElement).required = true;
+
+  input.required = true;
   const button = createElement("button", { class: "search-button" });
 
   button.addEventListener("click", async (event) => {
