@@ -1,3 +1,5 @@
+import './style.css';
+
 import MovieDetailRequest from '../../api/MovieDetailRequest';
 import { IMAGE_URL_PREFIX } from '../../constants/url';
 import MovieInfo, { IMovieDetail } from '../../domainObject/MovieInfo';
@@ -10,10 +12,12 @@ const template = /* html */ `
   <div class="detail-body">
     <img class="poster" />
     <article class="detail-content">
-      <div class="outline">
-        <p class="genres"></p>
-      </div>
-      <p class="overview"></p>
+      <figcaption class="movie-summary">
+        <div class="outline">
+          <p class="genres"></p>
+        </div>
+        <p class="overview"></p>
+      </figcaption>
     </article>
   </article>
 `;
@@ -69,7 +73,7 @@ class MovieDetail {
 
   private setGenres(genres: string[]) {
     const p = this.template.querySelector('.genres') as HTMLParagraphElement;
-    p.textContent = genres.join(',');
+    p.textContent = genres.join(', ');
   }
 
   private setVoteScore(voteAverage: number) {
