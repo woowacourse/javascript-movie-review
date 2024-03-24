@@ -1,10 +1,7 @@
 import Component from "./common/Component";
 import { $ } from "./utils/dom";
-import { createMovieElement } from "./components/Movie";
 import Header from "./components/Header";
-import MovieList from "./components/MoveList";
-import movieClient from "./http/MoveClient";
-import { BASE_URL } from "./constants/movies";
+import MovieList from "./components/MovieList";
 
 export default class App extends Component<HTMLDivElement, {}> {
   protected getTemplate(): string {
