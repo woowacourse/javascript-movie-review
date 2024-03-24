@@ -1,6 +1,6 @@
 import './styles/reset.css';
 import './styles/common.css';
-import './styles/error-view.css';
+import './styles/error.css';
 import './styles/header.css';
 import './styles/modal.css';
 import './styles/more-button.css';

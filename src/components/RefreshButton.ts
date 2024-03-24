@@ -16,7 +16,7 @@ class RefreshButton {
       class: 'button-refresh',
     }) as HTMLButtonElement;
 
-    $retryButton.textContent = '새로 고침 🔁';
+    $retryButton.textContent = '새로 고침';
 
     $retryButton.addEventListener('click', (event) =>
       this.#handleClickRetryButton(event),

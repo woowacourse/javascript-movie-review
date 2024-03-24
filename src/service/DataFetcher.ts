@@ -10,7 +10,7 @@ const DataFetcher = {
       await apiFun();
       ErrorViewController.removeErrorView();
     } catch (error) {
-      ErrorViewController.showErrorView(error);
+      ErrorViewController.showErrorView(error, 'error-box-api');
     }
     SkeletonController.hideSkeleton();
   },

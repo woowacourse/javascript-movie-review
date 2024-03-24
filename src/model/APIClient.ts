@@ -13,7 +13,6 @@ class APIClient {
   #updateCurrentPage = (isResetCurrentPage: boolean) => {
     this.#currentPage = isResetCurrentPage ? 1 : this.#currentPage + 1;
   };
-  // error
 
   async fetchPopularMovie() {
     const response = await fetch(

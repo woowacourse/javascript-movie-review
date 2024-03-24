@@ -1,4 +1,2 @@
-import API_ERROR_MESSAGE from './apiErrorMessage';
-
+export * from './errorMessage';
 export * from './system';
-export { API_ERROR_MESSAGE };
