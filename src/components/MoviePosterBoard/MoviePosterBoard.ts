@@ -117,7 +117,7 @@ class MoviePosterBoard {
     if (this.page === 1)
       return this.#showNetworkFallbackComponent(posterType, movieName);
 
-    alert("네트워크가 잘못되었어요.");
+    alert("잠시 인터넷이 끊긴거 같아요 나중에 다시 시도해주세요");
     this.#deleteLast20Posters();
   }
 
