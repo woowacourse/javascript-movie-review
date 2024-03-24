@@ -1,5 +1,7 @@
 import HttpError from '../error/HttpError';
 import ERROR_MESSAGE from '../constants/api/messages';
+import { Movie, MoviePage } from '../domain/movie';
+import { TMDBMovieDetailsResponse, TMDBMoviesResponse } from '../types/tmdb';
 
 /* eslint-disable max-depth */
 /* eslint-disable max-lines-per-function */
@@ -13,6 +15,7 @@ export class TMDBApi {
   }
 
   async sendRequest(url: string, method = 'GET', body = null, headers = {}) {
+    console.log('url', url);
     const httpAbortCtrl = new AbortController();
     if (httpAbortCtrl instanceof AbortController) {
       this.activeHttpRequests.push(httpAbortCtrl);
@@ -32,10 +35,32 @@ export class TMDBApi {
         const error = new HttpError(ERROR_MESSAGE.FAIL_FETCH, res.status);
         throw error;
       }
-      return await res.json();
+      const data = await res.json();
+      const transformedData = this.transformToMoviePage(data);
+      return transformedData;
     } catch (err) {
       throw err;
     }
+  }
+
+  private transformToMoviePage(moviesData: TMDBMoviesResponse): MoviePage {
+    return {
+      page: moviesData.page,
+      movies: moviesData.results.map(this.transformMovieData),
+      totalPages: moviesData.total_pages,
+      totalResults: moviesData.total_results,
+    };
+  }
+
+  private transformMovieData(movieDetails: TMDBMovieDetailsResponse): Movie {
+    return {
+      id: movieDetails.id,
+      title: movieDetails.title,
+      genreIds: movieDetails.genre_ids,
+      overview: movieDetails.overview,
+      posterPath: movieDetails.poster_path,
+      voteAverage: movieDetails.vote_average,
+    };
   }
 
   cleanup() {
