@@ -1,4 +1,8 @@
 describe('Flow: 인기있는 영화에서 "더보기" 버튼을 누른 경우', () => {
+  const POPULAR_MOVIES_REQUEST = {
+    method: 'GET',
+    url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular*/,
+  };
   beforeEach(() => {
     cy.interceptAPI({ type: 'popular' });
 

@@ -1,11 +1,16 @@
 beforeEach(() => {
-  cy.intercept(MATCHED_MOVIES_REQUEST, { fixture: 'movie-matched.json' });
-  cy.intercept(POPULAR_MOVIES_REQUEST, { fixture: 'movie-popular.json' });
+  cy.interceptAPI({ type: 'matched' });
+  cy.interceptAPI({ type: 'popular' });
 
   cy.visit('/');
 });
 
 describe('Flow: 검색어 입력을 통한 영화 검색', () => {
+  const MATCHED_MOVIES_REQUEST = {
+    method: 'GET',
+    url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie*/,
+  };
+
   it('검색어를 입력 후 검색 버튼을 누르면 검색어에 맞는 영화 화면으로 전환되어 해당 검색어에 대한 초기 검색 결과 20개를 보여준다.', () => {
     cy.get('input').type('쿵푸');
     cy.get('.search-button')
