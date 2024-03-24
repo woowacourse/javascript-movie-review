@@ -3,8 +3,8 @@ import MoreMoviesButton from "../MoreMoviesButton/MoreMoviesButton";
 import { getSearchedMoviesData } from "../../api/getSearchedMoviesData";
 import { getPopularMoviesData } from "../../api/getPopularMoviesData";
 import { $, $$, createElement } from "../../utility/dom";
-import hangsungImg from "../../image/wooteco-icon.png";
 import { validation } from "../../utility/validation";
+import hangsungImg from "../../image/wooteco-icon.png";
 import {
   ERROR_MESSAGE,
   INFO_MESSAGE,
@@ -26,7 +26,7 @@ class MovieList {
 
     this.#renderPopularMovieList();
     this.#createPopularMovieItems();
-    this.#setupSearchHandler();
+    this.#setupSearchFormSubmit();
   }
 
   #renderPopularMovieList() {
@@ -73,28 +73,32 @@ class MovieList {
     this.#createPopularMovieItems();
   }
 
-  #setupSearchHandler() {
+  #setupSearchFormSubmit() {
     const searchForm = $(".search-box");
 
     searchForm?.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      this.#searchCurrentPage = 1;
-
-      const titleInput = (
-        searchForm.querySelector(".search-input") as HTMLInputElement
-      ).value;
-
-      if (!validation.validateEmptyInput(titleInput)) {
-        alert(INFO_MESSAGE.EMPTY_SEARCH_KEYWORD);
-        return;
-      }
-
-      this.#title = titleInput;
-      this.#movieListSection.innerHTML = "";
-      this.#renderSearchedMovieList(titleInput);
-      this.#createSearchedMovieItems(titleInput);
+      this.#handleSearchFormSubmit(event, searchForm);
     });
+  }
+
+  #handleSearchFormSubmit(event: Event, searchForm: HTMLElement | null) {
+    event.preventDefault();
+
+    this.#searchCurrentPage = 1;
+
+    const titleInput = (
+      searchForm?.querySelector(".search-input") as HTMLInputElement
+    ).value;
+
+    if (!validation.validateEmptyInput(titleInput)) {
+      alert(INFO_MESSAGE.EMPTY_SEARCH_KEYWORD);
+      return;
+    }
+
+    this.#title = titleInput;
+    this.#movieListSection.innerHTML = "";
+    this.#renderSearchedMovieList(titleInput);
+    this.#createSearchedMovieItems(titleInput);
   }
 
   #renderSearchedMovieList(titleInput: string) {
