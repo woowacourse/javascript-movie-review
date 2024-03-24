@@ -7,10 +7,10 @@ import Input from '../common/Input';
 const handleFormSubmit = (event: Event) => {
   event.preventDefault();
 
-  const query = (event.target as HTMLFormElement).querySelector('input')?.value.trim();
-  if (query) MovieListController.search(query);
+  const $input = $<HTMLInputElement>('.search-box input')!;
+  const query = $input.value.trim();
 
-  const $input = $('input', event.target as HTMLFormElement) as HTMLInputElement;
+  if (query) MovieListController.search(query);
   $input.blur();
 };
 
