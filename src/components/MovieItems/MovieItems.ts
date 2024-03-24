@@ -8,6 +8,7 @@ import MatchedMovies from '../../api/MatchedMovies';
 import Fallback from '../Fallback/Fallback';
 import Skeleton from '../Skeleton/Skeleton';
 import MovieInfo, { IMovieInfo } from '../../domainObject/MovieInfo';
+import debounce from '../../utils/debounce';
 
 class MovieItems {
   private currentPage: number;
@@ -59,8 +60,7 @@ class MovieItems {
     const button = new Button({
       className: ['btn', 'primary', 'full-width'],
       text: '더 보기',
-      onClick: this.showMore.bind(this),
-      debounceWait: 500,
+      onClick: debounce({ callback: this.showMore.bind(this), wait: 500 }),
     });
     main.appendChild(button.element);
   }

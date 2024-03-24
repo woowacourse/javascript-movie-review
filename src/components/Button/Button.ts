@@ -1,4 +1,3 @@
-import debounce from '../../utils/debounce';
 import './style.css';
 
 interface ButtonProps {
@@ -6,19 +5,17 @@ interface ButtonProps {
   text: string;
   onClick?: () => void;
   disabled?: boolean;
-  debounceWait?: number;
 }
 
 class Button {
   private template: HTMLButtonElement;
 
-  constructor({ className, text, onClick, disabled, debounceWait = 3000 }: ButtonProps) {
+  constructor({ className, text, onClick, disabled }: ButtonProps) {
     const button = document.createElement('button');
     button.classList.add(...className);
     button.textContent = text;
 
-    if (onClick)
-      button.addEventListener('click', debounce({ callback: onClick, wait: debounceWait }));
+    if (onClick) button.addEventListener('click', onClick);
     if (disabled) button.disabled = disabled;
     this.template = button;
   }
