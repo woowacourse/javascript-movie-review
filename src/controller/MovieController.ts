@@ -33,10 +33,13 @@ class MovieController {
   }
 
   render(query: string = '') {
-    const errorContainer = $('.error-container');
+    const errorContainer = $('.error-container') as HTMLElement;
+    
     this.#initData(query);
 
-    if (errorContainer) errorContainer.remove();
+    if (errorContainer.classList.contains('hidden')){
+      errorContainer.classList.add('hidden')
+    }
 
     if (this.#query) {
       this.renderSearchMovies();
@@ -155,7 +158,11 @@ class MovieController {
   }
 
   #showErrorPage(message: string, status?: number) {
-    $('.subtitle')?.insertAdjacentElement('afterend', ErrorPage({ status, message }));
+    const errorContainer = $('.error-container') as HTMLElement;
+
+    errorContainer.innerHTML = '';
+    errorContainer.appendChild(ErrorPage({ status, message }));
+    errorContainer.classList.remove('hidden');
   }
 }
 

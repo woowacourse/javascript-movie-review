@@ -6,12 +6,11 @@ interface Props {
 }
 
 const ErrorPage = ({ status, message }: Props) => {
-  const container = document.createElement('div');
+  const fragment = document.createDocumentFragment();
   const img = document.createElement('img');
   const statusText = document.createElement('span');
   const messageText = document.createElement('p');
 
-  container.classList.add('error-container');
   statusText.classList.add('status-number');
   messageText.classList.add('error-message');
   img.classList.add('error-image');
@@ -21,11 +20,11 @@ const ErrorPage = ({ status, message }: Props) => {
   if (status) statusText.textContent = String(status);
   messageText.textContent = message;
 
-  container.appendChild(img);
-  container.appendChild(statusText);
-  container.appendChild(messageText);
+  fragment.appendChild(img);
+  fragment.appendChild(statusText);
+  fragment.appendChild(messageText);
 
-  return container;
+  return fragment;
 };
 
 export default ErrorPage;
