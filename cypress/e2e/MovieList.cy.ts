@@ -66,7 +66,7 @@ describe("영화 목록 E2E 테스트", () => {
     cy.get("button#next-button").should("not.exist");
   });
 
-  it("검색창에 특정 기워드 검색 시, 검색 키워드에 맞는 데이터가 보여진다.", () => {
+  it("검색창에 특정 키워드 검색 시, 검색 키워드에 맞는 데이터가 보여진다.", () => {
     cy.wait("@getPopularMovies").then(() => {
       cy.get("input#search-input").type("해리");
       cy.get("button#search-button").click();

@@ -14,8 +14,10 @@ class Header extends Component<HeaderProps> {
     return /*html*/ `
       <h1 id="logo"><img src="${logo}" alt="MovieList 로고" /></h1>
       <div class="search-box">
-          <input id="search-input" type="text" name="search-input" placeholder="검색" required/>
-          <button id="search-button" type="submit" class="search-button">검색</button>
+          <form class="search-form">
+            <input id="search-input" type="text" name="search-input" placeholder="검색" required/>
+            <button id="search-button" type="submit" class="search-button">검색</button>
+          </form>
       </div>
     `;
   }
@@ -35,17 +37,13 @@ class Header extends Component<HeaderProps> {
     });
 
     const inputElment = $<HTMLInputElement>("#search-input");
+    const searchForm = $<HTMLFormElement>(".search-form");
 
-    inputElment?.addEventListener("keydown", (e: KeyboardEvent) => {
-      if (!(e instanceof KeyboardEvent) || e.key !== "Enter") return;
-
-      onSearchKeywordSubmit(inputElment.value);
-    });
-
-    $<HTMLButtonElement>("#search-button")?.addEventListener("click", () => {
-      if (!inputElment) return;
-
-      onSearchKeywordSubmit(inputElment.value);
+    searchForm?.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (inputElment) {
+        onSearchKeywordSubmit(inputElment.value);
+      }
     });
   }
 }

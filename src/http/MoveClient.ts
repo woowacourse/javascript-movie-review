@@ -1,17 +1,6 @@
 import { BASE_URL } from "../constants/movies";
 
 class MovieClient {
-  private MOVIE_API_END_POINT = {
-    popular: (currentPage: number) => `movie/popular?language=ko-KR&page=${currentPage}`,
-    search: (currentPage: number, searchKeyword: string) =>
-      `search/movie?query=${searchKeyword}&include_adult=false&language=ko-KR&page=${currentPage}`,
-  };
-
-  private decideEndPoint(currentPage: number, searchKeyword: string): string {
-    if (searchKeyword === "") return this.MOVIE_API_END_POINT.popular(currentPage);
-    return this.MOVIE_API_END_POINT.search(currentPage, searchKeyword);
-  }
-
   private handleResponseStatus(status: number) {
     if (status === 200) return;
 
@@ -29,10 +18,26 @@ class MovieClient {
     }
   }
 
-  public async get<T>(currentPage: number, searchKeyword: string): Promise<T | undefined> {
-    const url = this.decideEndPoint(currentPage, searchKeyword);
+  public async getPopularMovies(page: number) {
+    const params = new URLSearchParams({ language: "ko-KR", page: page.toString() });
+    const url = `${BASE_URL}/movie/popular?${params.toString()}`;
 
-    const response = await fetch(`${BASE_URL}/${url}`, {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+      },
+    });
+
+    this.handleResponseStatus(response.status);
+
+    return response.json();
+  }
+
+  public async getSearchMovies(page: number, searchKeyword: string) {
+    const params = new URLSearchParams({ language: "ko-KR", include_adult: "false", page: page.toString(), query: searchKeyword });
+    const url = `${BASE_URL}/search/movie?${params.toString()}`;
+    const response = await fetch(url, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,

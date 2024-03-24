@@ -14,7 +14,6 @@ interface MovieListState {
 export default class MovieList extends Component<{}, MovieListState> {
   constructor($target: HTMLElement) {
     super($target);
-    this.state = { currentPage: 0, searchKeyword: "" };
   }
 
   protected getTemplate() {
@@ -30,6 +29,7 @@ export default class MovieList extends Component<{}, MovieListState> {
   }
 
   protected render() {
+    this.state = { currentPage: 0, searchKeyword: "" };
     this.$target.innerHTML = this.getTemplate();
     this.handleRenderMovieList();
   }
@@ -123,7 +123,8 @@ export default class MovieList extends Component<{}, MovieListState> {
 
     const { currentPage, searchKeyword } = this.state;
 
-    return await movieClient.get<FetchResponse<MovieItem[]>>(currentPage, searchKeyword);
+    if (searchKeyword === "") return movieClient.getPopularMovies(currentPage);
+    return await movieClient.getSearchMovies(currentPage, searchKeyword);
   }
 
   protected setEvent(): void {
