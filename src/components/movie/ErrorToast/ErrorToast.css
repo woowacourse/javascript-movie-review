@@ -1,0 +1,27 @@
+@keyframes toast-animation {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.toast {
+  position: absolute;
+
+  top: 45px;
+  right: 0;
+
+  background: #f33f3f;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 14px;
+
+  white-space: nowrap;
+  word-break: break-all;
+}
+
+.remove-toast {
+  animation: toast-animation 1s;
+}

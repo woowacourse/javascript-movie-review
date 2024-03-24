@@ -1,0 +1,47 @@
+dialog {
+  position: fixed;
+  min-width: 450px;
+  margin: auto;
+  border: none;
+  border-radius: 8px;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-container {
+  width: 500px;
+  height: 300px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  white-space: pre;
+  text-align: center;
+  line-height: 28px;
+  font-size: 24px;
+
+  padding: 24px 16px;
+
+  background: #ffffff;
+
+  /* Firefox & IE & Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.modal-container > div {
+  margin: 20px 0px;
+}
+
+/* Chrome, Safari */
+.modal-container::-webkit-scrollbar {
+  display: none;
+}
+
+.warning-image {
+  width: 100px;
+}
