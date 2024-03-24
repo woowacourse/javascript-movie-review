@@ -4,6 +4,7 @@
 import MovieItem from '../components/movie-list-section/MovieItem';
 import TmdbAPI from '../services/TmdbAPI';
 import { $, appendChildren } from '../utils/domUtils';
+import DomController from './DomController';
 
 class MovieListController {
   private static state: TmdbUrlParams = {
@@ -16,6 +17,7 @@ class MovieListController {
   public static popular() {
     this.initializeParams({ path: TmdbAPI.PATH.movie.popular, page: '1' });
     this.clearMovieList();
+    this.showMoreButton();
     this.fetchAndRenderMovies();
   }
 
@@ -23,6 +25,7 @@ class MovieListController {
   public static search(query: string) {
     this.initializeParams({ path: TmdbAPI.PATH.search.movie, page: '1', query });
     this.clearMovieList();
+    this.showMoreButton();
     this.fetchAndRenderMovies();
   }
 
@@ -42,14 +45,18 @@ class MovieListController {
 
   private static async fetchAndRenderMovies() {
     const { results, total_pages } = await TmdbAPI.fetch(this.state);
-    this.hideButtonWhenLastPage(total_pages);
+    this.hideMoreButtonWhenLastPage(total_pages);
     this.renderMovieItems(results);
   }
 
-  private static hideButtonWhenLastPage(total_pages: number) {
+  private static hideMoreButtonWhenLastPage(total_pages: number) {
     if (Number(this.state.page) === total_pages) {
-      $('.item-view button')!.setAttribute('disabled', 'disabled');
+      DomController.hiddenMoreButton();
     }
+  }
+
+  private static showMoreButton() {
+    DomController.showMoreButton();
   }
 
   private static renderMovieItems(results: Movie[]) {
