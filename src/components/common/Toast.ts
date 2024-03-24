@@ -1,4 +1,4 @@
-import CONFIG from './constants/config';
+import CONFIG from '../../constants/config';
 
 class Toast {
   $target: HTMLElement = document.createElement('div');

@@ -4,7 +4,7 @@ import { Movie } from '../../types/movie';
 import { dom } from '../../utils/dom';
 import MovieItem from '../movieItem/MovieItem';
 import CONFIG from '../../constants/config';
-import skeleton from '../Skeleton';
+import skeleton from '../common/Skeleton';
 import movieInfo from '../../domain/movieInfo';
 
 class MovieListContainer {

@@ -5,7 +5,7 @@ import { dom } from '../../utils/dom';
 import Header from '../header/Header';
 import MovieListContainer from '../movieListContainer/MovieListContainer';
 import Button from '../common/button/Button';
-import Toast from '../../Toast';
+import Toast from '../common/Toast';
 import CONFIG from '../../constants/config';
 import { MESSAGE } from '../../constants/message';
 import movieInfo from '../../domain/movieInfo';

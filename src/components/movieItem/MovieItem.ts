@@ -3,7 +3,7 @@ import './MovieItem.css';
 import FILLED_STAR from '../../assets/images/star_filled.png';
 import { Movie } from '../../types/movie';
 import { dom } from '../../utils/dom';
-import skeleton from '../Skeleton';
+import skeleton from '../common/Skeleton';
 
 class MovieItem {
   $target = document.createElement('li');
