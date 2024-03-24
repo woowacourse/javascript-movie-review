@@ -1,6 +1,4 @@
-import MoviePoster, {
-  MovieInfo,
-} from "./components/MoviePoster/createMoviePoster";
+import { MovieInfo } from "./components/MoviePoster/createMoviePoster";
 
 import { $ } from "./utils/selector";
 import CUSTOM_EVENT from "./constants/event";
