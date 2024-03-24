@@ -1,54 +1,50 @@
 import toast from "../components/toast/toast";
-import { MOVIE_SEARCH_URL, POPULAR_MOVIES_URL } from "../constants/constant";
+import { BASE_URL, ENDPOINT } from "../constants/constant";
 import { mapDataToMovies } from "../domain/MovieService";
 
 const API_KEY = process.env.API_KEY;
 
-export async function fetchPopularMovieList(pageNumber) {
+async function fetchMovies(url) {
   try {
-    const popularMovieUrl =
-      POPULAR_MOVIES_URL +
-      '?' +
-      new URLSearchParams({
-        api_key: API_KEY,
-        language: 'ko-KR',
-        page: pageNumber.toString(),
-      });
-      
-    const response = await fetch(popularMovieUrl);
-    const popularMovies = await response.json();
-    
-    if(!response.ok){
-      throw new Error(popularMovies.status_message);
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.status_message);
     }
 
-    return [mapDataToMovies(popularMovies), popularMovies.total_pages];
+    return data;
   } catch (error) {
     toast(error.message);
+    throw error;
   }
 }
 
+export async function fetchPopularMovieList(pageNumber) {
+  const popularMovieUrl =
+    BASE_URL + ENDPOINT.POPULAR_MOVIES +
+    '?' +
+    new URLSearchParams({
+      api_key: API_KEY,
+      language: 'ko-KR',
+      page: pageNumber.toString(),
+    });
+
+  const popularMovies = await fetchMovies(popularMovieUrl);
+  return [mapDataToMovies(popularMovies), popularMovies.total_pages];
+}
+
 export async function fetchSearchMovieList(inputValue, pageNumber) {
-  try {
-    const searchMovieUrl =
-      MOVIE_SEARCH_URL +
-      '?' +
-      new URLSearchParams({
-        query: inputValue,
-        api_key: API_KEY,
-        language: 'ko-KR',
-        page: pageNumber.toString(),
-      });
+  const searchMovieUrl =
+    BASE_URL + ENDPOINT.MOVIE_SEARCH +
+    '?' +
+    new URLSearchParams({
+      query: inputValue,
+      api_key: API_KEY,
+      language: 'ko-KR',
+      page: pageNumber.toString(),
+    });
 
-    const response = await fetch(searchMovieUrl);
-    const searchMovies = await response.json();
-
-    if(!response.ok){
-      throw new Error(searchMovies.status_message);
-    }
-    
-    return [mapDataToMovies(searchMovies), searchMovies.total_pages];
-  } catch (error) {
-    toast(error.message);
-  }
+  const searchMovies = await fetchMovies(searchMovieUrl);
+  return [mapDataToMovies(searchMovies), searchMovies.total_pages];
 }
