@@ -42,7 +42,7 @@ export const $$ = (selector: string, scope: Document | Element = document, throw
 export const setAttributes = (element: HTMLElement, attributes: { [key: string]: string }): void => {
   Object.keys(attributes).forEach((key) => {
     if (key === 'text') {
-      // 요소의 속성을 변경하는 모듈이므로, 다음 규칙을 비활성화한다.
+      /* 요소의 속성을 변경하는 모듈이므로, 다음 규칙을 비활성화 한다. */
       // eslint-disable-next-line no-param-reassign
       element.innerText = attributes[key];
     } else {
