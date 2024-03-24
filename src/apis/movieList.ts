@@ -46,8 +46,11 @@ export const getPopularMovieList = async (
     }
   );
 
-  const movieList = await response.json();
+  if (!response.ok) {
+    throw new APIError(response.status);
+  }
 
+  const movieList = await response.json();
   return parseRawMovieList(movieList.results);
 };
 
@@ -65,11 +68,10 @@ export const getSearchMovieList = async (
     }
   );
 
-  const movieList = await response.json();
-
-  if (response.ok) {
-    return parseRawMovieList(movieList.results);
-  } else {
+  if (!response.ok) {
     throw new APIError(response.status);
   }
+
+  const movieList = await response.json();
+  return parseRawMovieList(movieList.results);
 };
