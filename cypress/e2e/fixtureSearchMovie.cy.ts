@@ -6,7 +6,7 @@ describe('Fixture를 이용한 영화 검색 테스트', () => {
         method: 'GET',
         url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie*/,
       },
-      { fixture: 'movie-search.json' },
+      { fixture: 'movie-search-harry.json' },
     ).as('getSearchMovies');
 
     cy.visit('http://localhost:8080');
