@@ -10,24 +10,30 @@ class MovieListController {
   private static state: TmdbUrlParams = {
     path: '',
     page: '1',
-    query: ''
+    query: undefined
   };
 
   public static async loadMovieList({ path, query }: Omit<TmdbUrlParams, 'page'>) {
-    this.hideMoreButton();
     this.initializeParams({ path, page: '1', query });
+    this.hideMoreButton();
     this.clearMovieList();
     await this.fetchAndRenderMovies();
   }
 
   public static async moreLoadMovieList() {
-    this.hideMoreButton();
     this.increasePage();
+    this.hideMoreButton();
     await this.fetchAndRenderMovies();
   }
 
   private static async fetchAndRenderMovies() {
-    const { results, total_pages } = await TmdbAPI.fetch(this.state);
+    const { results, total_pages, total_results } = await TmdbAPI.fetch(this.state);
+
+    if (!total_results) {
+      this.printMovieNotFoundMessage();
+      return;
+    }
+
     this.renderMovieItems(results);
     this.showMoreButtonWhenNotLastPage(total_pages);
   }
@@ -40,7 +46,7 @@ class MovieListController {
   }
 
   private static hideMoreButton() {
-    DomController.hiddenMoreButton();
+    DomController.hideMoreButton();
   }
 
   private static showMoreButtonWhenNotLastPage(total_pages: number) {
@@ -57,6 +63,10 @@ class MovieListController {
         MovieItem({ posterPath, title, voteAverage })
       )
     );
+  }
+
+  private static printMovieNotFoundMessage() {
+    DomController.printMovieNotFoundMessage(this.state.query);
   }
 
   private static initializeParams({ path, page, query }: TmdbUrlParams) {

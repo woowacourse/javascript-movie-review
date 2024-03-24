@@ -2,19 +2,34 @@ import { $ } from '../utils/domUtils';
 
 class DomController {
   public static state = {
+    $listTitle: <HTMLHeadingElement>{},
     $moreButton: <HTMLButtonElement>{}
   };
 
   /* Dom 로딩 후 반드시 초기화 한다. */
   public static initController() {
-    const $moreButton = $('.item-view button') as HTMLButtonElement;
+    const $listTitle = $<HTMLHeadingElement>('.item-view h2')!;
+    const $moreButton = $<HTMLButtonElement>('.item-view button')!;
 
     DomController.state = {
+      $listTitle,
       $moreButton
     };
   }
 
-  public static hiddenMoreButton() {
+  public static updateListTitle(query: string) {
+    this.state.$listTitle.textContent = `"${query}" 검색 결과`;
+  }
+
+  public static printMovieNotFoundMessage(query: string = '') {
+    if (query) {
+      this.state.$listTitle.textContent = `"${query}"에 대한 검색 결과가 없습니다.`;
+    } else {
+      this.state.$listTitle.textContent = '조회 결과가 없습니다.';
+    }
+  }
+
+  public static hideMoreButton() {
     this.state.$moreButton.classList.add('hidden');
   }
 
