@@ -57,7 +57,7 @@ class MovieList {
         const moreMoviesButton = this.#createMoreMoviesButton();
         moreMoviesButton.addEventListener("click", () => {
           this.#popularCurrentPage += 1;
-          this.#handlePopularPageEnd();
+          this.#handlePopularPagination();
         });
       }, 1000);
     } catch (error) {
@@ -66,7 +66,7 @@ class MovieList {
     this.#removeMoreMoviesButton();
   }
 
-  #handlePopularPageEnd() {
+  #handlePopularPagination() {
     if (this.#popularCurrentPage === MAX_PAGE_COUNT) this.#displayMaxPageInfo();
     if (this.#popularCurrentPage > MAX_PAGE_COUNT) return;
 
@@ -119,7 +119,7 @@ class MovieList {
 
         setTimeout(() => {
           this.#updateMovieItemsWithData(data, liList);
-          this.#handleSearchedPageEnd(data);
+          this.#handleSearchPagination(data);
         }, 1000);
       }
     } catch (error) {
@@ -134,7 +134,7 @@ class MovieList {
     );
   }
 
-  #handleSearchedPageEnd(data: IMovieItemData[]) {
+  #handleSearchPagination(data: IMovieItemData[]) {
     if (data.length === MAX_PAGE_PER_REQUEST) {
       this.#removeMoreMoviesButton();
 
