@@ -39,7 +39,7 @@ class UIFeedBackManager {
   async fetchData(url: string, method = 'GET', body = null, headers = {}) {
     try {
       this.isLoading = true;
-      this.onLoadingChanged();
+      this.displayLoadingSkeleton();
       const data = (await this.api.sendRequest(url, method, body, headers)) as MoviePage;
 
       this.checkExistingData(data.movies.length);
@@ -82,7 +82,7 @@ class UIFeedBackManager {
     return fragment;
   }
 
-  onLoadingChanged() {
+  displayLoadingSkeleton() {
     const ul = document.querySelector('ul');
     if (isHTMLElement(ul) && this.isLoading) {
       const skeletonComponent = this.createSkeleton();
