@@ -1,47 +1,59 @@
+import './SearchInput.css';
+
 const createSearchBox = () => {
-  const $searchBox = document.createElement('div');
+  const $searchBox = document.createElement('form');
   $searchBox.classList.add('search-box');
   return $searchBox;
 };
 
+const createSearchLabel = () => {
+  const $searchLabel = document.createElement('label');
+  $searchLabel.setAttribute('for', 'movie-search');
+  return $searchLabel;
+};
+
+const createSearchInput = () => {
+  const $searchInput = document.createElement('input');
+  $searchInput.type = 'search';
+  $searchInput.placeholder = '검색';
+  $searchInput.id = 'movie-search';
+  $searchInput.name = 'movie-search';
+
+  return $searchInput;
+};
+
+const createSearchBtn = () => {
+  const $searchBtn = document.createElement('button');
+  $searchBtn.classList.add('search-button');
+  $searchBtn.textContent = '검색';
+  $searchBtn.type = 'submit';
+
+  return $searchBtn;
+};
+
 const SearchInput = () => {
   const $searchBox = createSearchBox();
-  const $searchInput = document.createElement('input');
-  const $searchBtn = document.createElement('button');
+  const $searchLabel = createSearchLabel();
+  const $searchInput = createSearchInput();
+  const $searchBtn = createSearchBtn();
 
-  const render = () => {
-    $searchInput.type = 'text';
-    $searchInput.placeholder = '검색';
+  $searchBox.addEventListener('submit', (e: SubmitEvent) => {
+    e.preventDefault();
 
-    $searchBtn.classList.add('search-button');
-    $searchBtn.textContent = '검색';
+    const formElement = e.target as HTMLFormElement;
+    const formData = new FormData(formElement);
 
-    $searchBox.innerHTML = '';
-
-    $searchBox.appendChild($searchInput);
-    $searchBox.appendChild($searchBtn);
-
-    return $searchBox;
-  };
-
-  $searchInput.addEventListener('keydown', (e) => {
-    const { target } = e;
-    const { key } = e as KeyboardEvent;
-
-    if (e.isComposing) return;
-    if (key === 'Enter' && target instanceof HTMLInputElement) {
-      $searchInput.dispatchEvent(
-        new CustomEvent('search', {
-          bubbles: true,
-          detail: {
-            query: target.value,
-          },
-        }),
-      );
-    }
+    $searchInput.dispatchEvent(
+      new CustomEvent('search', {
+        bubbles: true,
+        detail: {
+          query: formData.get('movie-search'),
+        },
+      }),
+    );
   });
 
-  $searchInput.addEventListener('input', (e) => {
+  $searchInput.addEventListener('input', (e: Event) => {
     const { target } = e;
     if (target instanceof HTMLInputElement && target.value === '') {
       $searchInput.dispatchEvent(
@@ -55,17 +67,15 @@ const SearchInput = () => {
     }
   });
 
-  $searchBtn.addEventListener('click', () => {
-    const { value } = $searchInput as HTMLInputElement;
-    $searchInput.dispatchEvent(
-      new CustomEvent('search', {
-        bubbles: true,
-        detail: {
-          query: value,
-        },
-      }),
-    );
-  });
+  const render = () => {
+    const fragment = document.createDocumentFragment();
+    fragment.appendChild($searchLabel);
+    fragment.appendChild($searchInput);
+    fragment.appendChild($searchBtn);
+
+    $searchBox.appendChild(fragment);
+    return $searchBox;
+  };
 
   return {
     render,

@@ -1,0 +1,18 @@
+header > .search-box {
+  border-radius: 4px;
+  background: #fff;
+  padding: 8px;
+}
+
+header .search-box > input {
+  border: 0;
+}
+
+header .search-box > .search-button {
+  border: 0;
+  background: url('../../statics/images/search_button.png') transparent
+    no-repeat 0 1px;
+  background-size: contain;
+  width: 14px;
+  text-indent: -1000rem;
+}
