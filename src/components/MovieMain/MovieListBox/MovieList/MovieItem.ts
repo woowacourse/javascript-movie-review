@@ -30,7 +30,7 @@ class MovieItem {
     $thumbnail?.setAttribute("alt", korTitle);
 
     $title?.classList.remove("skeleton");
-    $title?.append(korTitle);
+    $title?.replaceChildren(korTitle);
 
     $score?.classList.remove("skeleton");
 
@@ -42,7 +42,7 @@ class MovieItem {
       },
     });
 
-    $score?.append($img, voteAverage.toString());
+    $score?.replaceChildren($img, voteAverage.toString());
   }
 
   private generateMovieItem() {
