@@ -1,0 +1,38 @@
+.item-view {
+  width: 100%;
+}
+
+.item-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  width: 1200px;
+}
+
+.item-view h2 {
+  font-weight: bold;
+  font-size: 2rem;
+  user-select: none;
+}
+
+.item-list {
+  display: grid;
+  grid-template-columns: repeat(4, 180px);
+  margin: 48px 0;
+  grid-column-gap: 160px;
+  grid-row-gap: 48px;
+}
+
+.last-item {
+  margin-top: 48px;
+}
+
+.search-results-not-found {
+  margin-top: 20%;
+  width: 100%;
+  height: 100%;
+
+  font-size: 24px;
+  text-align: center;
+}
