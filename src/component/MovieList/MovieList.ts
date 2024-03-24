@@ -55,7 +55,7 @@ class MovieList {
 
       this.#currentPage += 1;
     } catch (error) {
-      this.#handleError();
+      this.#handleError(error as Error);
     }
     this.#removeMoreMoviesButton();
   }
@@ -116,11 +116,9 @@ class MovieList {
           this.#updateMovieItemsWithData(data, liList);
           this.#handleSearchedPageEnd(data);
         }, 1000);
-      } else {
-        this.#crateErrorUI("검색 결과가 없어요!");
       }
     } catch (error) {
-      this.#handleError();
+      this.#handleError(error as Error);
     }
   }
 
@@ -275,15 +273,11 @@ class MovieList {
     }
   }
 
-  async #handleError() {
-    try {
-      await getPopularMoviesData(String(this.#currentPage));
-      await getSearchedMoviesData(String(this.#currentPage), this.#title);
-    } catch (error) {
-      if (error instanceof Error) {
-        const errorMessage = error.message;
-        this.#crateErrorUI(errorMessage);
-      }
+  async #handleError(error: Error) {
+    if (typeof error === "object" && error.message) {
+      this.#crateErrorUI(error.message);
+    } else {
+      this.#crateErrorUI("알 수 없는 오류가 발생했습니다.");
     }
   }
 }

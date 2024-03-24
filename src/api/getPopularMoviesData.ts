@@ -6,8 +6,9 @@ const POPULAR_MOVIES_URL = `${BASE_URL}/movie/popular`;
 
 export const getPopularMoviesData = async (currentPage: string) => {
   if (!API_KEY) {
-    console.error("API_KEY가 유효하지 않습니다.");
-    throw new Error("API_KEY가 유효하지 않습니다.");
+    throw new Error(
+      "유효하지 않은 API 키입니다. 올바른 API 키를 확인하고 다시 시도해주세요."
+    );
   }
 
   const params = {
@@ -20,15 +21,13 @@ export const getPopularMoviesData = async (currentPage: string) => {
     params
   ).toString()}`;
 
-  try {
-    const popularMovies = await getData(popularMovieUrl);
-    if (popularMovies && popularMovies.results) {
-      return popularMovies.results;
-    } else {
-      throw new Error("인기 영화를 불러오는데 실패했습니다.");
-    }
-  } catch (error) {
-    console.error("인기 영화 정보를 가져오는 중 오류 발생:", error);
-    throw new Error("인기 영화를 불러오는데 실패했습니다.");
+  const popularMovies = await getData(popularMovieUrl);
+
+  if (!popularMovies || !popularMovies.results) {
+    throw new Error(
+      "인기 영화를 불러오는데 실패했습니다. 잠시 후 다시 시도해주세요."
+    );
   }
+
+  return popularMovies.results;
 };

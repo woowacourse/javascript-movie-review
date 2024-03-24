@@ -9,8 +9,9 @@ export const getSearchedMoviesData = async (
   title: string
 ) => {
   if (!API_KEY) {
-    console.error("API_KEY가 유효하지 않습니다.");
-    throw new Error("API_KEY가 유효하지 않습니다.");
+    throw new Error(
+      "유효하지 않은 API 키입니다. 올바른 API 키를 확인하고 다시 시도해주세요."
+    );
   }
 
   const params = {
@@ -24,14 +25,12 @@ export const getSearchedMoviesData = async (
     params
   ).toString()}`;
 
-  try {
-    const searchedMovies = await getData(searchMovieUrl);
-    if (searchedMovies && searchedMovies.results) {
-      return searchedMovies.results;
-    } else {
-      throw new Error("검색 결과를 불러오는데 실패했습니다.");
-    }
-  } catch (error) {
-    throw new Error("검색 결과를 불러오는데 실패했습니다.");
+  const searchedMovies = await getData(searchMovieUrl);
+  if (searchedMovies.results.length === 0) {
+    throw new Error(
+      "해당 키워드로 작품을 찾을 수 없습니다. 다른 키워드를 입력해주세요."
+    );
   }
+
+  return searchedMovies.results;
 };
