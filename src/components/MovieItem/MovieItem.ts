@@ -7,7 +7,7 @@ const createMovieItem = (movie: MovieType) => {
   const movieItem = document.createElement('li');
 
   const templates = /* html */ `
-    <a href="#">
+    <a>
       <div class="item-card">
         <img
           class="item-thumbnail"
