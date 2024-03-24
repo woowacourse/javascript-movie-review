@@ -5,10 +5,10 @@ import { generateNetworkNotWorkingScreen } from "../templates/error/generateNetw
 import { generateEmptyMovieListScreen } from "../templates/movie/generateEmptyMovieListScreen";
 import { getPopularMovieList, getSearchMovieList } from "../../apis/movieList";
 import { $ } from "../../utils/dom";
-import APIClientComponent from "../abstract/APIClientComponent";
 import APIError from "../../error/APIError";
 import SkeletonUI from "../SkeletonUI";
 import { Movie } from "../../types/movie";
+import EventComponent from "../abstract/EventComponent";
 
 interface MovieListProps {
   targetId: string;
@@ -17,7 +17,7 @@ interface MovieListProps {
   skeletonUI: SkeletonUI;
 }
 
-export default class MovieList extends APIClientComponent {
+export default class MovieList extends EventComponent {
   private queryState: QueryState;
   private page = 1;
   private movies: Movie[] = [];
@@ -54,15 +54,35 @@ export default class MovieList extends APIClientComponent {
     `;
   }
 
-  protected async fetchRenderData(): Promise<void> {
+  protected async onMounted(): Promise<void> {
     try {
       this.skeletonUI.render(this.targetId);
+
       this.resetPage();
 
       const movies = await this.fetchMovies(this.page, this.queryState.get());
       this.movies = movies;
-    } catch (error: unknown) {
-      this.handleFetchError(error);
+
+      this.render();
+    } catch (error) {
+      if (error instanceof Error) {
+        this.handleErrorUntilMount(error);
+      }
+    }
+  }
+
+  protected handleErrorUntilMount(error: Error): void {
+    if (error instanceof APIError) {
+      alert(error.message);
+    } else if (error instanceof Error) {
+      alert(
+        "네트워크가 원활하지 않습니다. 인터넷 연결 확인 후 다시 시도해주세요."
+      );
+    }
+
+    const errorTargetElement = $(this.targetId);
+    if (errorTargetElement instanceof HTMLElement) {
+      errorTargetElement.innerHTML = generateNetworkNotWorkingScreen();
     }
   }
 
@@ -82,6 +102,7 @@ export default class MovieList extends APIClientComponent {
 
     $<HTMLUListElement>("skeleton-movie-item-list")?.remove();
 
+    this.movies = [...this.movies, ...additionalMovies];
     this.insertMovieItems(additionalMovies);
 
     if (additionalMovies.length < 20) {
@@ -108,20 +129,5 @@ export default class MovieList extends APIClientComponent {
 
   private resetPage(): void {
     this.page = 1;
-  }
-
-  private handleFetchError(error: unknown): void {
-    if (error instanceof APIError) {
-      alert(error.message);
-    } else if (error instanceof Error) {
-      alert(
-        "네트워크가 원활하지 않습니다. 인터넷 연결 확인 후 다시 시도해주세요."
-      );
-    }
-
-    const errorTargetElement = $(this.targetId);
-    if (errorTargetElement instanceof HTMLElement) {
-      errorTargetElement.innerHTML = generateNetworkNotWorkingScreen();
-    }
   }
 }
