@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE } from '../consts/message';
+import { ErrorRetry } from '../components/Error/ErrorRetry/ErrorRetry';
 import { MovieAPIReturnType, UrlParamsType } from './movieAPI.type';
 
 class Fetcher {
@@ -10,13 +10,23 @@ class Fetcher {
     this.params = params;
   }
 
-  async get(): Promise<MovieAPIReturnType> {
-    const fullApiUrl = this.generateMovieApiUrl();
-
-    const response = await fetch(fullApiUrl);
-    this.errorHandler(response.status);
-    const result = await response.json();
-    return result;
+  get(): Promise<MovieAPIReturnType> {
+    console.log('aasdfasd');
+    return new Promise(resolve => {
+      fetch(this.generateMovieApiUrl())
+        .then(response => {
+          if (!response.ok) {
+            this.errorHandler(response.status);
+          }
+          return response.json();
+        })
+        .then(data => {
+          resolve(data);
+        })
+        .catch(err => {
+          ErrorRetry({ errorType: err.message, fetchData: () => this.get() });
+        });
+    });
   }
 
   generateMovieApiUrl() {
@@ -31,10 +41,16 @@ class Fetcher {
   }
 
   errorHandler(status: number) {
-    if (status === 400) throw new Error(ERROR_MESSAGE.FETCH_FAILED);
-    else if (status === 401) throw new Error(ERROR_MESSAGE.AUTHENTICATION_FAILED);
-    else if (status === 500) throw new Error(ERROR_MESSAGE.SERVER_ERROR);
-    else if (status === 501) throw new Error(ERROR_MESSAGE.SERVICE_NOT_SUPPORTED);
+    if (status >= 500) {
+      throw new Error('SERVER_ERROR');
+    }
+    if (status === 401) {
+      throw new Error('AUTHENTICATION_FAILED');
+    }
+    if (status >= 400) {
+      throw new Error('FETCHING_ERROR');
+    }
+    throw new Error('NETWORK_ERROR');
   }
 }
 

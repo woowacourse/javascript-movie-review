@@ -1,9 +1,8 @@
 import MovieItem from '../MovieItem/MovieItem';
 import { Movie } from './../../types/movie';
 import '../MovieList/MovieList.css';
-import { NotFound } from '../NotFound/NotFound';
-import { getUrlParams } from '../../utils/queryString';
 import { MOVIE_COUNT_PER_PAGE } from '../../consts/UISettings';
+import { NotFound } from '../Error/NotFound/NotFound';
 
 interface Props {
   movieList: Movie[];
@@ -22,10 +21,6 @@ class MovieList {
   set newList(movieList: Movie[]) {
     this.movieList = movieList;
   }
-
-  // rerender() {
-  //   this.render();
-  // }
 
   render() {
     if (!this.movieList.length) return NotFound();
@@ -55,7 +50,6 @@ class MovieList {
       const skeletonTemplate = document.querySelector(`li[data-skeleton-id="${i + 1}"]`);
       if (!skeletonTemplate) return;
 
-      /*영화가 있을 때는 영화정보가 담긴 movieItem으로 바꾸기*/
       if (this.movieList[i]) {
         const moveItemTemplate = MovieItem.template(this.movieList[i]);
         return skeletonTemplate.replaceWith(moveItemTemplate);
@@ -64,6 +58,7 @@ class MovieList {
     });
 
     const movieListBox = document.querySelector('.item-list');
+    //TODO: querySelector 로 바꾸기
     if (!movieListBox) return;
     movieListBox.classList.add('grid');
     const parent = document.querySelector('.item-view');

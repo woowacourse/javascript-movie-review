@@ -1,0 +1,19 @@
+.button-box {
+  display: flex;
+  gap: 20px;
+}
+
+#retry-button {
+  width: 120px;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+#home-button {
+  width: 120px;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: rgb(139, 139, 139);
+}

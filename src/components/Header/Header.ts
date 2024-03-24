@@ -1,6 +1,4 @@
 import Logo from '../../assets/logo.png';
-import { END_POINT, QUERY_STRING_KEYS } from '../../consts/URL';
-import { deleteParams, setEndpoint } from '../../utils/queryString';
 import SearchBox from '../SearchBox/SearchBox';
 import './Header.css';
 
@@ -33,10 +31,6 @@ class Header {
 
   setEvent() {
     this.header.addEventListener('click', () => {
-      deleteParams(QUERY_STRING_KEYS.QUERY);
-      deleteParams(QUERY_STRING_KEYS.PAGE);
-
-      setEndpoint(END_POINT.POPULAR);
       this.rerenderList();
     });
   }

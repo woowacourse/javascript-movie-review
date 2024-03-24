@@ -10,9 +10,7 @@ const movieAPI = {
         page: pageNumber,
       },
     });
-
-    const data = await fetcher.get();
-    return data;
+    return fetcher.get();
   },
 
   async fetchSearchMovies({ query, pageNumber = 1 }: SearchAPIParamsType): Promise<MovieAPIReturnType> {

@@ -1,4 +1,4 @@
-.not-found {
+.error {
   width: 80vw;
   height: 300px;
   display: flex;
@@ -11,7 +11,7 @@
   margin-top: 200px;
 }
 
-#not-found-text {
+#error-text {
   color: #fff;
   display: flex;
   align-items: flex-start;
@@ -26,11 +26,11 @@
 }
 
 @media (max-width: 400px) {
-  .not-found {
+  .error {
     margin-top: 50px;
   }
 
-  #not-found-text {
+  #error-text {
     color: #fff;
     display: flex;
     align-items: flex-start;
@@ -45,7 +45,7 @@
   }
 }
 
-#not-found-img {
+#error-img {
   width: 100px;
   height: 100px;
 }

@@ -1,22 +1,23 @@
-import NotFoundImage from '../../assets/notfound.png';
-import { ERROR_MESSAGE } from '../../consts/message';
+import { ERROR_MESSAGE } from '../../../consts/message';
+import NotFoundImage from '../../../assets/not_found.png';
+
 import '../NotFound/NotFound.css';
 
 export const NotFound = () => {
   const notFoundBox = document.createElement('div');
-  notFoundBox.classList.add('not-found');
+  notFoundBox.classList.add('error');
 
   const notFoundImage = document.createElement('img');
   notFoundImage.setAttribute('src', NotFoundImage);
-  notFoundImage.id = 'not-found-img';
+  notFoundImage.id = 'error-img';
   notFoundImage.setAttribute('alt', '로고 이미지');
 
   const notFoundTitle = document.createElement('h2');
-  notFoundTitle.id = 'not-found-title';
+  notFoundTitle.id = 'error-title';
   notFoundTitle.textContent = ERROR_MESSAGE.RESULTS_NOT_FOUND;
 
   const notFoundText = document.createElement('ul');
-  notFoundText.id = 'not-found-text';
+  notFoundText.id = 'error-text';
 
   const fragment = new DocumentFragment();
   const textInfo1 = document.createElement('li');
