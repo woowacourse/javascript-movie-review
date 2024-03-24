@@ -63,50 +63,72 @@ npm run test-e2e
 ## 파일 구조
 
 <details>
-<summary>파일 구조 보기</summary>
+<summary> 📂 파일 구조 보기</summary>
 <div markdown="1">
 
 ```
 📦src
  ┣ 📂components
+ ┃ ┣ 📂error
+ ┃ ┃ ┣ 📜ErrorBox.ts
+ ┃ ┃ ┣ 📜ErrorImg.ts
+ ┃ ┃ ┣ 📜ErrorMessage.ts
+ ┃ ┃ ┣ 📜ErrorView.ts
+ ┃ ┃ ┣ 📜index.ts
+ ┃ ┃ ┗ 📜NullElementError.ts
  ┃ ┣ 📂modal
  ┃ ┃ ┣ 📜AlertModal.ts
- ┃ ┃ ┗ 📜ModalContainer.ts
+ ┃ ┃ ┣ 📜index.ts
+ ┃ ┃ ┣ 📜ModalContainer.ts
+ ┃ ┃ ┗ 📜ToastModal.ts
+ ┃ ┣ 📂movie
+ ┃ ┃ ┣ 📜index.ts
+ ┃ ┃ ┣ 📜MovieCard.ts
+ ┃ ┃ ┣ 📜MovieImg.ts
+ ┃ ┃ ┣ 📜MovieItem.ts
+ ┃ ┃ ┣ 📜MovieList.ts
+ ┃ ┃ ┣ 📜MovieListContainer.ts
+ ┃ ┃ ┣ 📜MovieListTitle.ts
+ ┃ ┃ ┣ 📜MovieScore.ts
+ ┃ ┃ ┣ 📜MovieTitle.ts
+ ┃ ┃ ┗ 📜NoneMovieItem.ts
  ┃ ┣ 📂skeleton
+ ┃ ┃ ┣ 📜index.ts
  ┃ ┃ ┣ 📜SkeletonCard.ts
  ┃ ┃ ┣ 📜SkeletonList.ts
  ┃ ┃ ┗ 📜SkeletonListContainer.ts
- ┃ ┣ 📜ErrorView.ts
  ┃ ┣ 📜Header.ts
+ ┃ ┣ 📜index.ts
  ┃ ┣ 📜Label.ts
  ┃ ┣ 📜MoreButton.ts
- ┃ ┣ 📜MovieCard.ts
- ┃ ┣ 📜MovieImg.ts
- ┃ ┣ 📜MovieItem.ts
- ┃ ┣ 📜MovieList.ts
- ┃ ┣ 📜MovieListContainer.ts
- ┃ ┣ 📜MovieListTitle.ts
- ┃ ┣ 📜MovieScore.ts
- ┃ ┣ 📜MovieTitle.ts
- ┃ ┣ 📜NoneMovieItem.ts
  ┃ ┣ 📜RefreshButton.ts
  ┃ ┗ 📜SearchBox.ts
  ┣ 📂constants
- ┃ ┣ 📜apiErrorMessage.ts
+ ┃ ┣ 📜errorMessage.ts
  ┃ ┣ 📜index.ts
  ┃ ┗ 📜system.ts
+ ┣ 📂images
+ ┃ ┣ 📜circle-exclamation.svg
+ ┃ ┣ 📜logo.png
+ ┃ ┣ 📜no_image.svg
+ ┃ ┣ 📜no_movie.svg
+ ┃ ┣ 📜search_button.png
+ ┃ ┣ 📜star_empty.png
+ ┃ ┣ 📜star_filled.png
+ ┃ ┗ 📜triangle_exclamation.svg
  ┣ 📂model
  ┃ ┣ 📜APIClient.ts
  ┃ ┣ 📜DataStateStore.ts
  ┃ ┗ 📜index.ts
  ┣ 📂service
- ┃ ┣ 📜AlertModalForNullEl.ts
+ ┃ ┣ 📜AlertModalForNullController.ts
  ┃ ┣ 📜DataFetcher.ts
  ┃ ┣ 📜ErrorViewController.ts
+ ┃ ┣ 📜index.ts
  ┃ ┗ 📜SkeletonController.ts
  ┣ 📂styles
  ┃ ┣ 📜common.css
- ┃ ┣ 📜error-view.css
+ ┃ ┣ 📜error.css
  ┃ ┣ 📜header.css
  ┃ ┣ 📜modal.css
  ┃ ┣ 📜more-button.css
@@ -120,8 +142,10 @@ npm run test-e2e
  ┃ ┣ 📜global.d.ts
  ┃ ┗ 📜movie.ts
  ┣ 📂utils
+ ┃ ┣ 📜checkElementIsNotNull.ts
  ┃ ┣ 📜createElementWithAttribute.ts
  ┃ ┣ 📜debouneFunc.ts
+ ┃ ┣ 📜handleFetchData.ts
  ┃ ┗ 📜index.ts
  ┣ 📜app.ts
  ┣ 📜config.ts
