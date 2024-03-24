@@ -33,6 +33,7 @@ class MovieItem {
     ) as HTMLImageElement;
     if (starImgElement) {
       starImgElement.src = starFilledImg;
+      starImgElement.alt = "starFilledImg for grade";
     }
   }
 }
