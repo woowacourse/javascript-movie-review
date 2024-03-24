@@ -4,7 +4,7 @@ const MoreMoviesButton = {
   createMoreMoviesButton() {
     const button = createElement("button", {
       type: "button",
-      class: "btn primary full-width",
+      class: "more-movies-btn primary full-width",
     });
     button.textContent = "더보기";
 

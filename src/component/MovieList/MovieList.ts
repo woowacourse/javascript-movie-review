@@ -94,7 +94,7 @@ class MovieList {
   }
 
   removeMoreMoviesButton() {
-    $(".btn")?.remove();
+    $(".more-movies-btn")?.remove();
   }
 
   removeSkeleton() {
