@@ -3,6 +3,7 @@ import { setAttributes } from '../../utils/domUtils';
 interface Props {
   form?: {
     class?: string;
+    submit?: EventListener;
   };
 }
 

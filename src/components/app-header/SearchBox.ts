@@ -1,10 +1,18 @@
+import MovieListController from '../../controllers/MovieListController';
 import { appendChildren } from '../../utils/domUtils';
 import Button from '../common/Button';
 import Form from '../common/Form';
 import Input from '../common/Input';
 
+const handleFormSubmit = (event: Event) => {
+  event.preventDefault();
+
+  const query = (event.target as HTMLFormElement).querySelector('input')?.value;
+  if (query) MovieListController.search(query);
+};
+
 export default function SearchBox() {
-  const $form = Form({ form: { class: 'search-box' } });
+  const $form = Form({ form: { class: 'search-box', submit: handleFormSubmit } });
   const $input = Input({ input: { type: 'search', placeholder: '검색' } });
   const $button = Button({ button: { type: 'submit', text: '검색', class: 'search-button' } });
 
