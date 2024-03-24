@@ -1,16 +1,12 @@
 /* element의 속성을 수정하는 모듈이므로, 위 규칙 비활성화 (element.innerText) */
 /* eslint-disable no-param-reassign */
 
-/**
- * querySelector의 단축 함수이다. 선택된 요소가 없을 경우 null을 반환하거나, 옵션에 따라 에러를 발생시킨다.
- * @param selector - 선택할 요소의 CSS 선택자
- * @param scope - 검색 범위를 지정하는 요소 (Default: document)
- * @param canNull - 선택된 요소가 없을 경우 null 반환 여부 (Default: false)
- * @returns 선택된 요소를 반환한다. 요소가 없으면 null을 반환하거나, throwError가 true면 에러를 발생시킨다.
- * @throws Error - throwError가 true이고 선택된 요소가 없을 경우 에러를 발생시킨다.
- */
-export const $ = (selector: string, scope: Document | Element = document, canNull = false) => {
-  const element = scope.querySelector(selector);
+export const $ = <T extends Element = Element>(
+  selector: string,
+  scope: Document | Element = document,
+  canNull = false
+): T | null => {
+  const element = scope.querySelector<T>(selector);
 
   if (!canNull && !element) {
     throw new Error('No element matches the selector:' + selector);
@@ -19,16 +15,12 @@ export const $ = (selector: string, scope: Document | Element = document, canNul
   return element;
 };
 
-/**
- * querySelectorAll의 단축 함수이다. 선택된 요소가 없을 경우 빈 NodeList를 반환하거나, 옵션에 따라 에러를 발생시킨다.
- * @param selector - 선택할 요소의 CSS 선택자
- * @param scope - 검색 범위를 지정하는 요소 (Default: document)
- * @param throwError - 선택된 요소가 없을 경우 에러를 발생시킬지 여부
- * @returns 선택된 요소의 NodeList를 반환한다. 만약 선택된 요소가 없다면, 빈 NodeList를 반환하거나 throwError가 true면 에러를 발생시킨다.
- * @throws Error - throwError가 true이고 선택된 요소가 없을 경우 에러를 발생시킨다.
- */
-export const $$ = (selector: string, scope: Document | Element = document, throwError = false) => {
-  const elements = scope.querySelectorAll(selector);
+export const $$ = <T extends Element = Element>(
+  selector: string,
+  scope: Document | Element = document,
+  throwError = false
+): NodeListOf<T> => {
+  const elements = scope.querySelectorAll<T>(selector);
 
   if (throwError && elements.length === 0) {
     throw new Error('No elements match the selector:' + selector);
@@ -37,11 +29,6 @@ export const $$ = (selector: string, scope: Document | Element = document, throw
   return elements;
 };
 
-/**
- * 주어진 속성 객체를 HTML 요소에 적용하는 함수다.
- * @param element HTML 요소
- * @param attributes 요소에 적용할 속성들이 담긴 객체
- */
 export const setAttributes = (element: HTMLElement, attributes: { [key: string]: string | EventListener }): void => {
   Object.entries(attributes).forEach(([key, value]) => {
     if (typeof value === 'function') element.addEventListener(key, value as EventListener);
@@ -50,11 +37,6 @@ export const setAttributes = (element: HTMLElement, attributes: { [key: string]:
   });
 };
 
-/**
- * 부모 요소들을 순차적으로 서로의 자식으로 추가하고, 마지막 부모요소에 여러 자식 요소들을 추가한다.
- * @param parents - 자식 요소들을 추가할 부모 요소 또는 부모 요소들의 배열
- * @param children - 추가할 자식 요소들의 배열
- */
 export const appendChildren = (parents: Element | Element[], children: Element[]): void => {
   const parentsArray = Array.isArray(parents) ? parents : [parents];
 
