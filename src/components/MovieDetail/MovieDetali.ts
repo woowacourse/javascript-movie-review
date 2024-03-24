@@ -18,6 +18,9 @@ const template = /* html */ `
         </div>
         <p class="overview"></p>
       </figcaption>
+      <aside class="vote-my-rate">
+        <p class="rate-label">내 별점</p>
+      </aside>
     </article>
   </article>
 `;
@@ -35,6 +38,7 @@ class MovieDetail {
 
   private createElements() {
     const container = document.createElement('div');
+    container.className = 'detail-container';
     container.innerHTML = template;
     return container;
   }
@@ -53,12 +57,17 @@ class MovieDetail {
   setMovieDetail(movieDetail: IMovieDetail) {
     const { title, poster, voteAverage, genres, overview, backdropImage } = movieDetail;
     this.resetMovieDetail();
+    this.setBackdropImage(backdropImage);
     this.setTitle(title);
     this.setPoster(title, poster);
     this.setGenres(genres);
     this.setVoteScore(voteAverage);
     this.setOverview(overview);
-    console.log(backdropImage);
+  }
+
+  private setBackdropImage(backdropImage: string) {
+    const modalContainer = this.template.closest('.detail-container') as HTMLElement;
+    modalContainer.style.backgroundImage = `url(${IMAGE_URL_PREFIX + backdropImage})`;
   }
 
   private setTitle(title: string) {

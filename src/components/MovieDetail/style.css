@@ -1,11 +1,28 @@
+.detail-container {
+  position: relative;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: none;
+  border-radius: 8px;
+}
+
+.detail-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0,0,0,0.8);
+}
+
 .detail-header {
   display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
 
   width: 100%;
   height: 60px;
   margin-bottom: 0;
+  background-color: transparent;
 }
 
 .title {
@@ -15,6 +32,7 @@
 
 .detail-body {
   display: flex;
+  position: relative;
   justify-content: space-between;
 
   width: 100%;
@@ -60,6 +78,25 @@
 .overview {
   font-size: 16px;
   font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+}
+
+.vote-my-rate {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  padding: 16px;
+
+  column-gap: 12px;
+  background: #383839;
+  border-radius: 16px;
+}
+
+.rate-label {
+  font-size: 16px;
+  font-weight: 700;
   line-height: 24px;
   letter-spacing: 0.5px;
 }
