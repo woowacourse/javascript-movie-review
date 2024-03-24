@@ -16,7 +16,7 @@ class Movie {
   async getMovieData(): Promise<MovieData> {
     this.updatePage();
 
-    const movieList = await httpRequest
+    const movieList = httpRequest
       .fetchPopularMovies(this.#page)
       .then(({ popularMovieList, isLastPage }) => ({
         movieList: popularMovieList.map((movie: MovieType) => ({
@@ -45,7 +45,7 @@ class Movie {
   async getSearchedData(input: string) {
     this.updatePage();
 
-    const movieList = await httpRequest
+    const movieList = httpRequest
       .fetchSearchedMovies(this.#page, input)
       .then(({ searchedMovieList, isLastPage }) => ({
         movieList: searchedMovieList.map((movie: MovieType) => ({
