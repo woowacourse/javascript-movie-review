@@ -1,3 +1,4 @@
+import { TOAST_SHOW_TIME } from '../../consts/UISettings';
 import '../Toast/Toast.css';
 
 class Toast {
@@ -26,7 +27,7 @@ class Toast {
   removeToast() {
     setTimeout(() => {
       this.toastMessage.remove();
-    }, 2000);
+    }, TOAST_SHOW_TIME);
   }
 }
 

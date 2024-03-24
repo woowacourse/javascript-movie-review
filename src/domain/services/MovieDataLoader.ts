@@ -11,33 +11,21 @@ class MovieDataLoader {
   itemViewBox = document.querySelector('.item-view');
   movieListBox = document.createElement('ul');
   movieList: MovieList;
-  moreButton = new MoreButton({
-    showNextPage: () => this.showNextPage(),
-    apiType: { endpoint: 'popular' },
-  });
+  moreButton: MoreButton;
   query?: string;
 
   constructor() {
     this.movieList = new MovieList({ isLoading: true, movieList: [] });
+    this.moreButton = new MoreButton({
+      showNextPage: () => this.showNextPage(),
+      apiType: { endpoint: 'popular' },
+    });
     this.currentPage = Number(getUrlParams(QUERY_STRING_KEYS.PAGE));
     this.query = getUrlParams(QUERY_STRING_KEYS.QUERY) ?? undefined;
   }
 
-  removeExistedList() {
-    MoreButton.removeExistedButton();
-
-    const notFoundBox = document.querySelector('#not-found');
-    if (notFoundBox) {
-      notFoundBox.remove();
-    }
-
-    const itemList = document.querySelector('.item-list');
-    if (!itemList) return;
-    itemList.replaceChildren();
-  }
-
   async renderFirstPage() {
-    this.removeExistedList();
+    this.removeExistedData();
 
     this.movieList.renderSkeleton();
     this.currentPage = 1;
@@ -52,6 +40,29 @@ class MovieDataLoader {
 
     if (this.totalPage === 1) return;
     this.moreButton.render();
+  }
+
+  removeExistedData() {
+    MoreButton.removeExistedButton();
+
+    const notFoundBox = document.querySelector('#not-found');
+    if (notFoundBox) {
+      notFoundBox.remove();
+    }
+
+    const itemList = document.querySelector('.item-list');
+    if (!itemList) return;
+    itemList.replaceChildren();
+
+    this.resetInputText();
+  }
+
+  resetInputText() {
+    const endpoint = getEndpoint();
+    if (endpoint !== END_POINT.SEARCH) {
+      const searchInput = document.querySelector('.search-box input') as HTMLInputElement;
+      searchInput.value = '';
+    }
   }
 
   async showNextPage() {
