@@ -14,7 +14,7 @@ const Button = {
     button.textContent = text;
 
     if (onClick) this.setEventListener(button, onClick);
-    if (disabled) button.disabled = disabled;
+    button.disabled = !!disabled;
     return button;
   },
 
