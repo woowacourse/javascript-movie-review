@@ -8,27 +8,16 @@ import { RULES } from '../constants/rule';
 import { $ } from '../utils/dom';
 import { ALERT_MESSAGE, ERROR_MESSAGE, TITLE } from '../constants/messages';
 
-class MovieContainer {
-  #page;
-  #query;
+class MovieController {
+  #page = 1;
+  #query = '';
   #movies;
 
   constructor() {
-    this.#page = 1;
-    this.#query = '';
     this.#movies = new Movies();
-    this.#setEvent();
-    this.render(this.#query);
   }
 
-  // TODO: 더 보기 버튼 클릭 시 비활성화 고민
-  #setEvent() {
-    $('.view-more-button')?.addEventListener('click', (event) =>
-      this.#handleViewMoreButtonClick(event.target as HTMLButtonElement),
-    );
-  }
-
-  #handleViewMoreButtonClick(target: HTMLButtonElement) {
+  handleViewMoreButtonClick(target: HTMLButtonElement) {
     if (this.#page > RULES.maxPage) {
       target.classList.add('hidden');
       showAlert(ALERT_MESSAGE.lastPage);
@@ -45,7 +34,7 @@ class MovieContainer {
 
   render(query: string = '') {
     const errorContainer = $('.error-container');
-    this.initData(query);
+    this.#initData(query);
 
     if (errorContainer) errorContainer.remove();
 
@@ -57,7 +46,7 @@ class MovieContainer {
     this.renderMovies();
   }
 
-  initData(query: string) {
+  #initData(query: string) {
     const ul = $('ul.item-list');
     const subtitle = $('.subtitle');
     if (!(ul instanceof HTMLElement) || !(subtitle instanceof HTMLElement)) return;
@@ -170,4 +159,4 @@ class MovieContainer {
   }
 }
 
-export default MovieContainer;
+export default MovieController;

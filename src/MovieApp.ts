@@ -5,14 +5,21 @@ import Title from './components/Title/Title';
 import SearchBox from './components/SearchBox/SearchBox';
 
 import MovieList from './components/MovieList/MovieList';
-import MovieContainer from './components/MovieContainer';
+import MovieController from './components/MovieController';
+import { $ } from './utils/dom';
 
 class MovieApp {
   #app = document.getElementById('app');
+  #movieController;
+
+  constructor() {
+    this.#movieController = new MovieController();
+  }
 
   init() {
     this.#app?.appendChild(this.#setHeader());
     this.#app?.appendChild(this.#setMain());
+    this.#movieController.render('');
 
     this.#addEvents();
   }
@@ -37,15 +44,17 @@ class MovieApp {
   }
 
   #addEvents() {
-    const movieContainer = new MovieContainer();
-
     this.#app?.addEventListener('search', ((event: CustomEvent<string>) => {
-      movieContainer.render(event.detail);
+      this.#movieController.render(event.detail);
     }) as EventListener);
 
     this.#app?.addEventListener('home-click', () => {
-      movieContainer.render();
+      this.#movieController.render();
     });
+
+    $('.view-more-button')?.addEventListener('click', (event) =>
+      this.#movieController.handleViewMoreButtonClick(event.target as HTMLButtonElement),
+    );
   }
 }
 
