@@ -7,7 +7,7 @@ const handleSearchClick = (event: MouseEvent | KeyboardEvent) => {
   const input = $('#search-text') as HTMLInputElement;
 
   event.target?.dispatchEvent(
-    new CustomEvent('search', {
+    new CustomEvent<string>('search', {
       bubbles: true,
       detail: input.value,
     }),
