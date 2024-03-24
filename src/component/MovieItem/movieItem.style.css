@@ -3,11 +3,16 @@
   flex-direction: column;
 }
 
-.item-thumbnail {
-  border-radius: 8px;
+.thumbnail-container {
   width: 180px;
   height: 270px;
+  display: flex;
   background-size: contain;
+  border-radius: 8px;
+}
+
+.item-thumbnail {
+  width: 100%;
 }
 
 .item-score-wrapper {

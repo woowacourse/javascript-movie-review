@@ -1,4 +1,5 @@
 import starFilledImg from "../../image/star_filled.png";
+import posterEmptyImg from "../../image/poster_empty.png";
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w220_and_h330_face";
 
@@ -10,11 +11,18 @@ class MovieItem {
   }
 
   setMovieItemData(liElement: HTMLLIElement) {
-    const thumbnailElement = liElement.querySelector("img");
+    const thumbnailElement = liElement.querySelector(
+      ".item-thumbnail"
+    ) as HTMLImageElement;
+
     if (thumbnailElement) {
-      thumbnailElement.src = `${IMAGE_BASE_URL}${
-        this.#movieItemInfo.poster_path
-      }`;
+      if (this.#movieItemInfo.poster_path === null) {
+        thumbnailElement.src = posterEmptyImg;
+      } else {
+        thumbnailElement.src = `${IMAGE_BASE_URL}${
+          this.#movieItemInfo.poster_path
+        }`;
+      }
       thumbnailElement.alt = this.#movieItemInfo.title;
     }
 

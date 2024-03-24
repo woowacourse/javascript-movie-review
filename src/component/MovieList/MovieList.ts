@@ -158,8 +158,11 @@ class MovieList {
     const article = createElement("article", {
       class: "item-card",
     });
+    const tumbnailContainer = createElement("div", {
+      class: "thumbnail-container skeleton",
+    });
     const thumbnail = createElement("img", {
-      class: "item-thumbnail skeleton",
+      class: "item-thumbnail",
       loading: "lazy",
       alt: "",
     }) as HTMLImageElement;
@@ -178,7 +181,8 @@ class MovieList {
 
     scoreWrapper.appendChild(score);
     scoreWrapper.appendChild(starImg);
-    article.appendChild(thumbnail);
+    article.appendChild(tumbnailContainer);
+    tumbnailContainer.appendChild(thumbnail);
     article.appendChild(title);
     article.appendChild(scoreWrapper);
     li.appendChild(article);
