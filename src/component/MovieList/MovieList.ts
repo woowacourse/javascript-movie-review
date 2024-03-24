@@ -54,12 +54,11 @@ class MovieList {
         this.#updateMovieItemsWithData(data, liList);
 
         const moreMoviesButton = this.#createMoreMoviesButton();
-        moreMoviesButton.addEventListener("click", () =>
-          this.#handlePopularPageEnd()
-        );
+        moreMoviesButton.addEventListener("click", () => {
+          this.#handlePopularPageEnd();
+          this.#currentPage += 1;
+        });
       }, 1000);
-
-      this.#currentPage += 1;
     } catch (error) {
       this.#handleError(error as Error);
     }
@@ -140,11 +139,11 @@ class MovieList {
       this.#removeMoreMoviesButton();
 
       const moreMoviesButton = this.#createMoreMoviesButton();
-      moreMoviesButton.addEventListener("click", () =>
-        this.#createSearchedMovieList()
-      );
+      moreMoviesButton.addEventListener("click", () => {
+        this.#createSearchedMovieList();
+        this.#currentPage += 1;
+      });
 
-      this.#currentPage += 1;
       return;
     }
 
