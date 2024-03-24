@@ -4,6 +4,7 @@ import MovieDetailRequest from '../../api/MovieDetailRequest';
 import { IMAGE_URL_PREFIX } from '../../constants/url';
 import MovieInfo, { IMovieDetail } from '../../domainObject/MovieInfo';
 import VoteScore from '../VoteScore/VoteScore';
+import StarRating from '../StarRating/StarRating';
 
 const template = /* html */ `
   <header class="detail-header">
@@ -30,6 +31,7 @@ class MovieDetail {
 
   constructor() {
     this.template = this.createElements();
+    this.createStarRating();
   }
 
   get element() {
@@ -41,6 +43,13 @@ class MovieDetail {
     container.className = 'detail-container';
     container.innerHTML = template;
     return container;
+  }
+
+  private createStarRating() {
+    const starRating = new StarRating({ initRate: 2 });
+    console.log(starRating);
+
+    this.template.querySelector('.vote-my-rate')?.appendChild(starRating.element);
   }
 
   async requestMovieDetail(id: number) {
