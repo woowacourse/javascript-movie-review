@@ -82,14 +82,14 @@ class MovieItems {
   resetMovieItems(query?: string) {
     this.searchQuery = query;
     const h2 = this.template?.querySelector('h2');
-    if (!(h2 instanceof HTMLElement)) return;
+    if (!(h2 instanceof HTMLHeadElement)) return;
     h2.textContent = query ? `"${query}"검색 결과` : '지금 인기있는 영화';
     this.removeMovieItems();
   }
 
   removeMovieItems() {
     const ul = this.template?.querySelector('ul');
-    if (!(ul instanceof HTMLElement)) return;
+    if (!(ul instanceof HTMLUListElement)) return;
     ul.innerHTML = '';
     this.currentPage = 0;
     this.isLast = false;

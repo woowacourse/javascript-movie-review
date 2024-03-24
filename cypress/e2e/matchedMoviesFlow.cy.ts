@@ -6,7 +6,7 @@ beforeEach(() => {
 });
 
 describe('Flow: 검색어 입력을 통한 영화 검색', () => {
-  it('검색어를 입력 후 검색 버튼을 누르면 해당 검색어에 대한 초기 검색 결과 20개를 보여준다.', () => {
+  it('검색어를 입력 후 검색 버튼을 누르면 검색어에 맞는 영화 화면으로 전환되어 해당 검색어에 대한 초기 검색 결과 20개를 보여준다.', () => {
     cy.get('input').type('쿵푸');
     cy.get('.search-button')
       .click()
@@ -17,7 +17,7 @@ describe('Flow: 검색어 입력을 통한 영화 검색', () => {
       });
   });
 
-  it('검색어를 입력 후 Enter 키를 누르면 해당 검색어에 대한 초기 검색 결과 20개를 보여준다.', () => {
+  it('검색어를 입력 후 Enter 키를 누르면 검색어에 맞는 영화 화면으로 전환되어 해당 검색어에 대한 초기 검색 결과 20개를 보여준다.', () => {
     cy.searchMovie('쿵푸').then(() => {
       cy.get('.item-view').find('h2').should('have.text', '"쿵푸"검색 결과');
       cy.get('.item-card').eq(1).find('.item-title').should('have.text', '쿵푸팬더');
