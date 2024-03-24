@@ -1,5 +1,6 @@
 import './style.css';
 import createMovieContents from '../MovieContents/MovieContents';
+import { RENDER_TYPE } from '../../constants/movie';
 
 interface Props {
   imageSource: string;
@@ -24,9 +25,9 @@ const createHeader = ({ imageSource }: Props) => {
     document.querySelector('main')?.remove();
 
     const form = e.target as HTMLFormElement;
-    const input = (form.elements.namedItem('search') as HTMLInputElement).value;
+    const input = (form.elements.namedItem(RENDER_TYPE.SEARCH) as HTMLInputElement).value;
     const movieContents = await createMovieContents.execute(`"${input}" 검색 결과`);
-    createMovieContents.renderMovieData({ type: 'search', input });
+    createMovieContents.renderMovieData({ type: RENDER_TYPE.SEARCH, input });
 
     document.querySelector('#app')?.appendChild(movieContents);
   });

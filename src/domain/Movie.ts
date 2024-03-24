@@ -1,4 +1,5 @@
 import httpRequest from '../api/httpRequest';
+import { RENDER_TYPE } from '../constants/movie';
 import errorMessage from '../error/errorMessage';
 import { MovieListType, MovieType } from '../types/movie';
 
@@ -6,11 +7,24 @@ interface MovieData {
   movieList: MovieListType;
   isLastPage: boolean;
 }
+
+type MainType = (typeof RENDER_TYPE)[keyof typeof RENDER_TYPE];
+type HandleMovieDataTableType = { [key in MainType]: () => Promise<MovieData> };
+
 class Movie {
   #page: number;
 
   constructor() {
     this.#page = 0;
+  }
+
+  handleMovieData(type: getDataType, input?: string): Promise<MovieData> {
+    const handleMovieDataTable: HandleMovieDataTableType = {
+      popular: () => this.getMovieData(),
+      search: () => this.getSearchedData(input ?? ''),
+    };
+    const getDataFunction = handleMovieDataTable[type];
+    return getDataFunction();
   }
 
   async getMovieData(): Promise<MovieData> {
@@ -34,15 +48,7 @@ class Movie {
     return movieList;
   }
 
-  handleMovieData(type: string, input?: string) {
-    if (type === 'popular') {
-      return this.getMovieData();
-    }
-
-    return this.getSearchedData(input ?? '');
-  }
-
-  async getSearchedData(input: string) {
+  async getSearchedData(input: string): Promise<MovieData> {
     this.updatePage();
 
     const movieList = httpRequest

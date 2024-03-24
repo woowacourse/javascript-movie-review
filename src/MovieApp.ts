@@ -1,5 +1,6 @@
 import createHeader from './components/Header/Header';
 import createMovieContents from './components/MovieContents/MovieContents';
+import { RENDER_TYPE } from './constants/movie';
 import { LOGO } from './images/index';
 import { PropsType } from './types/props';
 
@@ -22,7 +23,7 @@ class MovieApp {
 
   render() {
     const props: PropsType = {
-      type: 'popular',
+      type: RENDER_TYPE.POPULAR,
       input: '',
     };
     createMovieContents.renderMovieData(props);
