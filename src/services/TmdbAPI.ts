@@ -25,10 +25,7 @@ class TmdbAPI {
 
   public static fetch(params: TmdbUrlParams): Promise<TmdbResponse> {
     const url = this.createUrl(params);
-    // QUEST: 두 번째 then 필요성 검증
-    return fetch(url)
-      .then((response) => response.json())
-      .then((response) => response);
+    return fetch(url).then((response) => response.json());
   }
 }
 
