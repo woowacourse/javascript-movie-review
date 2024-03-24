@@ -28,6 +28,12 @@
 .movie-list .movie-score {
   margin-top: 16px;
   font-size: 1.2rem;
+  line-height: 1.2rem;
+  img {
+    margin-right: 5px;
+    width: 1.2rem;
+    height: 1.2rem;
+  }
 }
 
 .movie-list .movie-score::after {

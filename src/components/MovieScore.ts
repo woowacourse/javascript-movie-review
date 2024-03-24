@@ -19,11 +19,12 @@ class MovieScore {
       src: StarFilled,
       alt: '별점',
     });
-
+    const $scorePoint = createElementWithAttribute('span', {
+      class: 'movie-score__point',
+    });
+    $scorePoint.textContent = movie.vote_average.toFixed(1).toString();
     $score.appendChild($star);
-    $score.appendChild(
-      document.createTextNode(movie.vote_average.toFixed(1).toString()),
-    );
+    $score.appendChild($scorePoint);
 
     return $score;
   }
