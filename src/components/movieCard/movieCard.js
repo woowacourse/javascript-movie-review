@@ -26,7 +26,7 @@ export function renderSkeleton() {
   return movieCard;
 }
 
-export function updateCard(li, movie) {
+export function updateSkeletonToMovieCard(li, movie) {
   li.classList.toggle('skeleton');
   const thumbnail = li.querySelector('.item-thumbnail.skeleton');
   thumbnail.classList.toggle('skeleton');

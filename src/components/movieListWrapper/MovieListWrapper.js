@@ -27,18 +27,18 @@ class MovieListWrapper {
     ul.className = 'item-list';
     ul.replaceChildren();
 
-    const addButton = document.createElement('button');
-    addButton.className = 'btn primary full-width';
-    addButton.textContent = '더 보기';
+    const showMoreButton = document.createElement('button');
+    showMoreButton.className = 'btn primary full-width';
+    showMoreButton.textContent = '더 보기';
 
     section.append(title, ul);
 
-    await this.updateMovieList(addButton);
+    await this.updateMovieList(showMoreButton);
 
-    section.appendChild(addButton);
+    section.appendChild(showMoreButton);
 
-    addButton.addEventListener('click', async () => {
-      await this.updateMovieList(addButton);
+    showMoreButton.addEventListener('click', async () => {
+      await this.updateMovieList(showMoreButton);
     });
   }
 
@@ -53,7 +53,7 @@ class MovieListWrapper {
     return true;
   }
 
-  async updateMovieList(addButton) {
+  async updateMovieList(showMoreButton) {
     switch (this.#getName) {
       case 'popular':
         {
@@ -62,12 +62,12 @@ class MovieListWrapper {
           if (result) {
             const [movies, totalPages] = result;
             if (LAST_PAGE <= this.#currentPage) {
-              addButton.classList.add('none');
+              showMoreButton.classList.add('none');
             }
             this.plusCurrentPage();
             completeMovieList(liList, movies);
           } else {
-            addButton.classList.add('none');
+            showMoreButton.classList.add('none');
           }
         }
         return;
@@ -78,12 +78,12 @@ class MovieListWrapper {
             const liList = loadMovieList();
             const [movies, totalPages] = result;
             if (Math.min(totalPages, LAST_PAGE) <= this.#currentPage) {
-              addButton.classList.add('none');
+              showMoreButton.classList.add('none');
             }
             this.plusCurrentPage();
             completeMovieList(liList, movies);
           } else {
-            addButton.classList.add('none');
+            showMoreButton.classList.add('none');
           }
         }
         return;
@@ -93,12 +93,12 @@ class MovieListWrapper {
         if (result) {
           const [movies, totalPages] = result;
           if (totalPages === this.#currentPage) {
-            addButton.classList.add('none');
+            showMoreButton.classList.add('none');
           }
           this.plusCurrentPage();
           completeMovieList(liList, movies);
         } else {
-          addButton.classList.add('none');
+          showMoreButton.classList.add('none');
         }
       }
     }

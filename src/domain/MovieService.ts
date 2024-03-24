@@ -1,4 +1,4 @@
-import { renderSkeleton, updateCard } from '../components/movieCard/movieCard';
+import { renderSkeleton, updateSkeletonToMovieCard } from '../components/movieCard/movieCard';
 import { Movie } from '../interface/Movie';
 
 export function loadMovieList() {
@@ -11,7 +11,7 @@ export function loadMovieList() {
 
 export function completeMovieList(liList: any, movies: Movie[]) {
   movies.forEach((movie, index) => {
-    updateCard(liList[index], movie);
+    updateSkeletonToMovieCard(liList[index], movie);
   });
   document.querySelectorAll('li.skeleton').forEach(element => {
     element.remove();
