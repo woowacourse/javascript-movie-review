@@ -66,12 +66,12 @@ export default class MovieList extends EventComponent {
       this.render();
     } catch (error) {
       if (error instanceof Error) {
-        this.handleErrorUntilMount(error);
+        this.handleOnMountedError(error);
       }
     }
   }
 
-  protected handleErrorUntilMount(error: Error): void {
+  protected handleOnMountedError(error: Error): void {
     if (error instanceof APIError) {
       alert(error.message);
     } else if (error instanceof Error) {
