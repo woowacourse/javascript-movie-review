@@ -21,13 +21,13 @@ class Toast {
 
     setTimeout(() => {
       this.toastMessage.classList.add('hide-toast');
-    }, 1000);
+    }, TOAST_SHOW_TIME);
   }
 
   removeToast() {
     setTimeout(() => {
       this.toastMessage.remove();
-    }, TOAST_SHOW_TIME);
+    }, TOAST_SHOW_TIME + 2000);
   }
 }
 

@@ -1,4 +1,5 @@
 import { ErrorRetry } from '../components/Error/ErrorRetry/ErrorRetry';
+import Toast from '../components/Toast/Toast';
 import { MovieAPIReturnType, UrlParamsType } from './movieAPI.type';
 
 class Fetcher {
@@ -24,6 +25,7 @@ class Fetcher {
           resolve(data);
         })
         .catch(err => {
+          new Toast(err.message);
           ErrorRetry({ errorType: err.message, fetchData: () => this.get() });
         });
     });
