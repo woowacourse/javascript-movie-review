@@ -12,7 +12,6 @@ class Fetcher {
   }
 
   get(): Promise<MovieAPIReturnType> {
-    console.log('aasdfasd');
     return new Promise(resolve => {
       fetch(this.generateMovieApiUrl())
         .then(response => {
