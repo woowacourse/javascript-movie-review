@@ -5,6 +5,7 @@ import CustomError from '../utils/CustomError';
 import ErrorPage from './ErrorPage/ErrorPage';
 import { showAlert } from './Alert/Alert';
 import { RULES } from '../constants/rule';
+import { $ } from '../utils/dom';
 
 class MovieContainer {
   #page;
@@ -21,25 +22,36 @@ class MovieContainer {
 
   // TODO: 더 보기 버튼 클릭 시 비활성화 고민
   #setEvent() {
-    const viewMoreButton = document.querySelector('.view-more-button');
-    if (!viewMoreButton) return;
+    $('.view-more-button')?.addEventListener('click', (event) =>
+      this.#handleViewMoreButtonClick(event.target as HTMLButtonElement),
+    );
+  }
 
-    viewMoreButton.addEventListener('click', () => {
-      if (this.#page > RULES.maxPage) {
-        viewMoreButton.classList.add('hidden');
+  #handleViewMoreButtonClick(target: HTMLButtonElement) {
+    if (this.#page > RULES.maxPage) {
+      target.classList.add('hidden');
+      showAlert('마지막 페이지 입니다!');
+      return;
+    }
 
-        showAlert('마지막 페이지 입니다!');
-        return;
-      }
+    if (this.#query) {
+      this.renderSearchMovies();
+      return;
+    }
 
-      this.#query ? this.renderSearchMovies() : this.renderMovies();
-    });
+    this.renderMovies();
   }
 
   render(query: string) {
     this.initData(query);
     document.querySelector('.error-container')?.remove();
-    this.#query ? this.renderSearchMovies() : this.renderMovies();
+
+    if (this.#query) {
+      this.renderSearchMovies();
+      return;
+    }
+
+    this.renderMovies();
   }
 
   initData(query: string) {
@@ -48,9 +60,7 @@ class MovieContainer {
     if (!(ul instanceof HTMLElement)) return;
     if (!(subtitle instanceof HTMLElement)) return;
 
-    query
-      ? (subtitle.textContent = `"${query}" 검색결과 입니다.`)
-      : (subtitle.textContent = '지금 인기 있는 영화');
+    subtitle.textContent = query ? `"${query}" 검색결과 입니다.` : '지금 인기 있는 영화';
 
     this.#page = 1;
     this.#query = query;
@@ -71,18 +81,16 @@ class MovieContainer {
 
     const viewMoreButton = document.querySelector('.view-more-button');
 
-    // TODO: 삼항연산자 - 조건문
-    !movieData || movieData.length < RULES.moviesPerPage
-      ? viewMoreButton?.classList.add('hidden')
-      : viewMoreButton?.classList.remove('hidden');
+    viewMoreButton?.classList.remove('hidden');
+
+    if (!movieData || movieData.length < RULES.moviesPerPage) {
+      viewMoreButton?.classList.add('hidden');
+    }
 
     if (movieData) {
-      this.#createMovieItems(movieData).forEach((movieItem) => {
-        ul.appendChild(movieItem);
-      });
+      this.#createMovieItems(movieData).forEach((movieItem) => ul.appendChild(movieItem));
 
       this.#removeSkeleton();
-
       this.#page += 1;
     }
   }
@@ -104,10 +112,12 @@ class MovieContainer {
     }
 
     const viewMoreButton = document.querySelector('.view-more-button');
-    // TODO: 상수 분리, 삼항 연산자 - 조건문
-    !movieData || movieData.length < RULES.moviesPerPage
-      ? viewMoreButton?.classList.add('hidden')
-      : viewMoreButton?.classList.remove('hidden');
+
+    viewMoreButton?.classList.remove('hidden');
+
+    if (!movieData || movieData.length < RULES.moviesPerPage) {
+      viewMoreButton?.classList.add('hidden');
+    }
 
     if (movieData) {
       this.#createMovieItems(movieData).forEach((movieItem) => {
@@ -130,7 +140,6 @@ class MovieContainer {
       const viewMoreButton = document.querySelector('.view-more-button');
 
       viewMoreButton?.classList.add('hidden');
-
       this.#showErrorPage(error.message, error.status);
     }
   }
@@ -159,8 +168,8 @@ class MovieContainer {
       if (!(error instanceof CustomError)) return;
 
       const viewMoreButton = document.querySelector('.view-more-button') as HTMLElement;
-      viewMoreButton.classList.add('hidden');
 
+      viewMoreButton.classList.add('hidden');
       this.#showErrorPage(error.message, error.status);
     }
   }
