@@ -14,7 +14,7 @@ export default function MovieListSection() {
   const $title = TextBox({ type: 'h2', attrs: { text: '지금 인기 있는 영화' } });
   const $movieList = List({ type: 'ul', attrs: { class: 'item-list' } });
   const $moreButton = Button({
-    button: { type: 'button', text: '더 보기', class: 'btn primary full-width', click: handleMoreButtonClick }
+    button: { type: 'button', text: '더 보기', class: 'btn primary full-width hidden', click: handleMoreButtonClick }
   });
 
   appendChildren($section, [$title, $movieList, $moreButton]);

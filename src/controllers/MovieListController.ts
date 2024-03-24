@@ -15,22 +15,23 @@ class MovieListController {
 
   /* 가장 인기 있는 영화 */
   public static popular() {
+    this.hideMoreButton();
     this.initializeParams({ path: TmdbAPI.PATH.movie.popular, page: '1' });
     this.clearMovieList();
-    this.showMoreButton();
     this.fetchAndRenderMovies();
   }
 
   /* 영화 검색 */
   public static search(query: string) {
+    this.hideMoreButton();
     this.initializeParams({ path: TmdbAPI.PATH.search.movie, page: '1', query });
     this.clearMovieList();
-    this.showMoreButton();
     this.fetchAndRenderMovies();
   }
 
   /* 더 보기 */
   public static more() {
+    this.hideMoreButton();
     this.increasePage();
     this.fetchAndRenderMovies();
   }
@@ -45,18 +46,18 @@ class MovieListController {
 
   private static async fetchAndRenderMovies() {
     const { results, total_pages } = await TmdbAPI.fetch(this.state);
-    this.hideMoreButtonWhenLastPage(total_pages);
     this.renderMovieItems(results);
+    this.showMoreButtonWhenNotLastPage(total_pages);
   }
 
-  private static hideMoreButtonWhenLastPage(total_pages: number) {
-    if (Number(this.state.page) === total_pages) {
-      DomController.hiddenMoreButton();
+  private static hideMoreButton() {
+    DomController.hiddenMoreButton();
+  }
+
+  private static showMoreButtonWhenNotLastPage(total_pages: number) {
+    if (total_pages > Number(this.state.page)) {
+      DomController.showMoreButton();
     }
-  }
-
-  private static showMoreButton() {
-    DomController.showMoreButton();
   }
 
   private static renderMovieItems(results: Movie[]) {
