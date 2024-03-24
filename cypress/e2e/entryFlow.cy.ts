@@ -1,16 +1,7 @@
 describe('Flow: 영화 리뷰 앱을 처음 실행시킨 경우', () => {
-  const POPULAR_MOVIES_REQUEST = {
-    method: 'GET',
-    url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular*/,
-  };
-  const MATCHED_MOVIES_REQUEST = {
-    method: 'GET',
-    url: /^https:\/\/api\.themoviedb\.org\/3\/search \/movie*/,
-  };
-
   beforeEach(() => {
-    cy.intercept(POPULAR_MOVIES_REQUEST, { fixture: 'movie-popular.json' });
-    cy.intercept(MATCHED_MOVIES_REQUEST, { fixture: 'movie-matched.json' });
+    cy.interceptAPI({ type: 'popular' });
+    cy.interceptAPI({ type: 'matched' });
 
     cy.visit('/');
   });
