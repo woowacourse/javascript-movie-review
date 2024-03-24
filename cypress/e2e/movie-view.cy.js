@@ -37,7 +37,7 @@ describe('영화 리스트 E2E 테스트', () => {
   
     it ('더보기 버튼을 누르면 영화 리스트를 20개 추가되어 보여준다.', () => {
       cy.wait('@getPopularMovies').then(interception => {
-        cy.get('.btn.primary.full-width').click();
+        cy.get('.show-more-btn').click();
         const popularMovieItems = cy.get('.item-list > li');
         expect(popularMovieItems.should('have.length', 40));
       })
@@ -63,7 +63,7 @@ describe('영화 리스트 E2E 테스트', () => {
       cy.get('.search-box').submit();
   
       cy.wait('@getSearchMovies').then(() => {
-        cy.get('.btn.primary.full-width').should('not.be.visible');
+        cy.get('.show-more-btn').should('not.be.visible');
       })
     })
   })

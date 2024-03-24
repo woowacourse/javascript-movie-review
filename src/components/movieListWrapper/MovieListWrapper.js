@@ -28,7 +28,7 @@ class MovieListWrapper {
     ul.replaceChildren();
 
     const showMoreButton = document.createElement('button');
-    showMoreButton.className = 'btn primary full-width';
+    showMoreButton.className = 'show-more-btn btn primary full-width';
     showMoreButton.textContent = '더 보기';
 
     section.append(title, ul);
