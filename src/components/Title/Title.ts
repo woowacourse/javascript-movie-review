@@ -28,7 +28,6 @@ class Title {
         titleBox.textContent = TITLE.POPULER;
     }
 
-    console.log('titleBox', titleBox);
     if (!this.itemViewBox) return;
     this.itemViewBox.append(titleBox);
   }

@@ -35,7 +35,7 @@ class Header {
       deleteParams('query');
       deleteParams('page');
 
-      setEndpoint('search');
+      setEndpoint('popular');
       this.rerenderList();
     });
   }

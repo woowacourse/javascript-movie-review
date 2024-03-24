@@ -7,15 +7,13 @@ const MovieItem = {
   skeletonTemplate() {
     const skeletonItemBox = document.createElement('li');
     skeletonItemBox.innerHTML = /* html */ `
-    <li>
       <a href="#">
         <div class="item-card">
           <div class="item-thumbnail skeleton"></div>
           <div class="item-title skeleton"></div> 
           <div class="item-score skeleton"></div>
         </div>
-      </a>
-    </li>`;
+      </a>`;
     return skeletonItemBox;
   },
 
@@ -33,6 +31,7 @@ const MovieItem = {
             loading="lazy"
             alt=${title}
           />
+          
           <p class="item-title">${title}</p>
           <p class="item-score"><img src=${Star} alt="별점" />${voteAverage}</p>
         </div>

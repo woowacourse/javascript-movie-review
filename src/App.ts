@@ -12,8 +12,9 @@ class App {
   title = new Title();
 
   constructor() {
-    this.init();
     this.movieListBox.classList.add('item-list');
+    this.movieListBox.classList.add('grid');
+    this.init();
     this.movieListInstance = new MovieList({ isLoading: true, movieList: [] });
   }
 
@@ -25,11 +26,10 @@ class App {
     this.itemViewBox.append(this.movieListBox);
 
     setEndpoint('popular');
-    await this.renderMovieList();
+    await this.movieDataLoader.renderFirstPage();
   }
 
   async renderMovieList() {
-    console.log('rear');
     this.title.rerenderTitle();
     await this.movieDataLoader.renderFirstPage();
   }

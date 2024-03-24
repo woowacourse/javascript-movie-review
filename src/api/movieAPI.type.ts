@@ -34,14 +34,3 @@ export interface MovieAPIReturnType {
   total_pages: number;
   total_results: number;
 }
-
-// export type PopularAPIType = {
-//   apiType: 'popular';
-// };
-
-// export type SearchAPIType = {
-//   apiType: 'search';
-//   query: string;
-// };
-
-// export type APIType = PopularAPIType | SearchAPIType;

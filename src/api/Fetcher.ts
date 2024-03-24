@@ -13,11 +13,8 @@ class Fetcher {
   async get(): Promise<MovieAPIReturnType> {
     const fullApiUrl = this.generateMovieApiUrl();
 
-    console.log('fullApiUrl', fullApiUrl);
-
     const response = await fetch(fullApiUrl);
     this.errorHandler(response.status);
-    console.log('response', response);
     const result = await response.json();
     return result;
   }
