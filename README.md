@@ -8,7 +8,7 @@ FE 레벨1 영화관 미션
 
 ### 구현 모습
 
-<img src="./movie_review.gif" width="600px" />
+<img src="./readmeImages/movie_review_step1.gif" width="600px" />
 
 ## 웹팩 빌드,서버 열기
 
@@ -137,7 +137,7 @@ npm run test-e2e
   <summary>🔍 모듈 구조 보기</summary>
   <div markdown="1">
   <br/>
-  <img src="./모듈구조.png" alt="모둘 구조" width="700px" />
+  <img src="./readmeImages/모듈구조.png" alt="모둘 구조" width="700px" />
 
   </div>
 </details>
@@ -148,7 +148,7 @@ npm run test-e2e
   <summary>🔍 미션 1단계 프로세스 보기</summary>
   <div markdown="1">
   <br/>
-  <img src="./movie_review_step1_process.png" alt="영화 리뷰 미션 step1 프로세스" width="700px">
+  <img src="./readmeImages/movie_review_step1_process.png" alt="영화 리뷰 미션 step1 프로세스" width="700px">
 
   </div>
 </details>
@@ -203,6 +203,6 @@ npm run test-e2e
   <summary> 🔍검색창에 입력값이 없거나 공백으로 이루어진 경우</summary>
   <div markdown="alert">
   <br/>
-    <img src="./readmeImages/undefined_input.png" alt="input error"  />
+    <img src="./readmeImages/undefined_input.gif" alt="input error"  />
   </div>
 </details>
