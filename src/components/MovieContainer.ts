@@ -11,37 +11,15 @@ class MovieContainer {
   #query;
   #movies;
 
-  constructor(element: HTMLElement) {
+  constructor() {
     this.#page = 1;
     this.#query = '';
     this.#movies = new Movies();
-    this.#getTemplate(element);
     this.#setEvent();
     this.render(this.#query);
   }
 
-  #getTemplate(element: HTMLElement) {
-    const section = document.createElement('section');
-
-    const subtitle = document.createElement('h2');
-    const movieList = document.createElement('ul');
-    const button = document.createElement('button');
-
-    subtitle.classList.add('subtitle');
-    section.classList.add('item-view');
-    movieList.classList.add('item-list');
-    button.classList.add('view-more-button', 'primary', 'full-width');
-
-    // TODO: 더 보기 버튼 클릭 시 비활성화 고민
-    button.textContent = '더 보기';
-
-    section.appendChild(subtitle);
-    section.appendChild(movieList);
-    section.appendChild(button);
-
-    element.appendChild(section);
-  }
-
+  // TODO: 더 보기 버튼 클릭 시 비활성화 고민
   #setEvent() {
     const viewMoreButton = document.querySelector('.view-more-button');
     if (!viewMoreButton) return;
@@ -93,7 +71,7 @@ class MovieContainer {
 
     const viewMoreButton = document.querySelector('.view-more-button');
 
-    // TODO: 상수 분리
+    // TODO: 삼항연산자 - 조건문
     !movieData || movieData.length < RULES.moviesPerPage
       ? viewMoreButton?.classList.add('hidden')
       : viewMoreButton?.classList.remove('hidden');
