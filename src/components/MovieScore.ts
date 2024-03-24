@@ -21,7 +21,9 @@ class MovieScore {
     });
 
     $score.appendChild($star);
-    $score.appendChild(document.createTextNode(movie.vote_average.toString()));
+    $score.appendChild(
+      document.createTextNode(movie.vote_average.toFixed(1).toString()),
+    );
 
     return $score;
   }
