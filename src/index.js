@@ -11,4 +11,4 @@ import './images/star_filled.png';
 
 import AppController from './AppController';
 
-new AppController().start()
+new AppController().start();
