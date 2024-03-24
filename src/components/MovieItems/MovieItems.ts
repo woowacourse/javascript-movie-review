@@ -82,7 +82,7 @@ class MovieItems {
   resetMovieItems(query?: string) {
     this.searchQuery = query;
     const h2 = this.template?.querySelector('h2');
-    if (!(h2 instanceof HTMLHeadElement)) return;
+    if (!(h2 instanceof HTMLHeadingElement)) return;
     h2.textContent = query ? `"${query}"검색 결과` : '지금 인기있는 영화';
     this.removeMovieItems();
   }
@@ -144,7 +144,9 @@ class MovieItems {
 
   private getMoreMatchedMovies(skeletonItems: MovieItem[]) {
     this.getMatchedMovies(this.searchQuery ?? '')
-      .then((movies) => this.createMovieItem(movies, skeletonItems))
+      .then((movies) => {
+        this.createMovieItem(movies, skeletonItems);
+      })
       .catch((error) => {
         this.fallback.setFallbackMessage(error.message);
         this.template.innerHTML = '';
