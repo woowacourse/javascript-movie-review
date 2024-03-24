@@ -5,15 +5,6 @@
   grid-column-gap: 160px;
   grid-row-gap: 48px;
 }
-.movie-list.no-movie-list {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  li {
-    font-size: 24px;
-    text-align: center;
-  }
-}
 
 .movie-list .movie-card {
   display: flex;
@@ -41,4 +32,22 @@
 
 .movie-list .movie-score::after {
   margin-left: 8px;
+}
+
+/*none movie*/
+.movie-list.no-movie-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 72px - 32px - (48px * 3));
+  li {
+    font-size: 24px;
+    text-align: center;
+  }
+  img {
+    opacity: 0.5;
+    margin: 2rem 0;
+    width: 250px;
+    height: 250px;
+  }
 }
