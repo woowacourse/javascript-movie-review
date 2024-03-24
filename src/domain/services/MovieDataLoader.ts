@@ -2,7 +2,8 @@ import MovieList from '../../components/MovieList/MovieList';
 import { formatMovieList } from '../../utils/formatList';
 import MoreButton from '../../components/MoreButton/MoreButton';
 import movieAPI from '../../api/movie';
-import { getEndpoint, getUrlParams, setUrlParams } from '../../utils/queryString';
+import { getEndpoint, getUrlParams, setEndpoint, setUrlParams } from '../../utils/queryString';
+import MovieDomain from '../entity/Movie';
 
 class MovieDataLoader {
   currentPage: number = 1;
@@ -34,7 +35,7 @@ class MovieDataLoader {
     if (!itemList) return;
     itemList.replaceChildren();
   }
-  //   //TODO: 도메인 객체 분리해서 formatMovieList 를 만들기: this.currentPage, ...params });
+
   async renderFirstPage() {
     this.removeExistedList();
 
@@ -43,7 +44,7 @@ class MovieDataLoader {
     setUrlParams('page', String(this.currentPage));
 
     const movieResult = await this.selectAPIAndFetch();
-    const formattedMovieList = formatMovieList(movieResult);
+    const formattedMovieList = new MovieDomain(movieResult).formatMovieList();
 
     this.totalPage = movieResult.total_pages;
     this.movieList.newList = formattedMovieList;
@@ -61,8 +62,8 @@ class MovieDataLoader {
     this.movieList.renderSkeleton();
 
     const movieResult = await this.selectAPIAndFetch();
+    const popularMovieList = new MovieDomain(movieResult).formatMovieList();
 
-    const popularMovieList = formatMovieList(movieResult);
     this.movieList.newList = popularMovieList;
     this.movieList.render();
 
