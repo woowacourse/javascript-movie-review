@@ -3,8 +3,8 @@
 }
 
 body {
-  background-color: #222222;
-  color: #fff;
+  background-color: var(--body-background-color);
+  color: var(--white-color);
   font-size: 14px;
 }
 
@@ -64,9 +64,9 @@ button.btn {
   border: 0;
   border-radius: 8px;
   height: 30px;
-  color: #fff;
+  color: var(--white-color);
 }
 
 button.primary {
-  background: var(--red-color);
+  background: var(--primary-red-color);
 }

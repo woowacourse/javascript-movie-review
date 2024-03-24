@@ -1,5 +1,8 @@
 :root {
-  --red-color: #f33f3f;
+  --body-background-color: #222222;
+  --primary-red-color: #f33f3f;
+  --soft-red-color: #d13c32;
+  --cream-red-color: #ffd6d3;
   --white-color: rgb(255, 255, 255);
   --modal-contents-color: #383839;
   --modal-background-color: rgba(0, 0, 0, 0.6);

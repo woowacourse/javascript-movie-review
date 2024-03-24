@@ -8,3 +8,5 @@ export const API_ERROR_MESSAGE = {
 };
 
 export const NULL_ELEMENT_ERROR_MESSAGE = `레이아웃 오류입니다.페이지를 새로 고침해주세요.`;
+
+export const UNDEFINED_INPUT_VALUE = '검색어를 입력해주세요.';

@@ -1,10 +1,24 @@
+import { UNDEFINED_INPUT_VALUE } from '../constants';
 import { ENTER_KEYCODE } from '../constants/system';
 import { dataStateStore } from '../model';
 import DataFetcher from '../service/DataFetcher';
 import { createElementWithAttribute, debouceFunc } from '../utils';
 
 import Label from './Label';
+import ToastModal from './modal/ToastModal';
 import MovieListContainer from './MovieListContainer';
+
+const makeSearchBoxToastModal = () => {
+  const $children = document.createElement('div');
+  $children.textContent = UNDEFINED_INPUT_VALUE;
+
+  return new ToastModal({
+    $children,
+    extraClass: 'undefined-input',
+  });
+};
+
+const toastModal = makeSearchBoxToastModal();
 
 const SearchBoxHandler = {
   getSearchInputValue() {
@@ -15,15 +29,20 @@ const SearchBoxHandler = {
     return title;
   },
 
+  renderToastModal() {
+    const $header = document.querySelector('header');
+    toastModal.handleRenderingToastModal($header);
+  },
+
   async searchMovie() {
     const title = this.getSearchInputValue();
-
-    if (!title || !title.trim()) return;
-
+    if (!title || !title.trim()) {
+      this.renderToastModal();
+      return;
+    }
+    toastModal.removeToastModal(true);
     await DataFetcher.handleGetSearchMovieData(title.trim(), true);
-
     document.querySelector('.movie-list-container')?.remove();
-
     new MovieListContainer({
       titleText: `"${title}" 검색 결과`,
       movieData: dataStateStore.movieData,

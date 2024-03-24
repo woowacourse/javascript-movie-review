@@ -46,6 +46,25 @@
   width: 70%;
 }
 
+/* toast modal*/
+.toast-modal {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 1000ms ease-in-out;
+  border-radius: 16px;
+  background-color: var(--cream-red-color);
+  padding: 14px 20px;
+  color: black;
+}
+.toast-modal.on {
+  opacity: 1;
+}
+.toast-modal.undefined-input {
+  top: calc(100% + 1.5rem);
+  right: 20px;
+  width: fit-content;
+  font-size: 1rem;
+}
 @media screen and (min-width: 1024px) {
   .modal-alert__inner {
     width: 400px;
