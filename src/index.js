@@ -3,6 +3,7 @@ import './css/common.css';
 import '../src/components/header/header.css';
 import '../src/components/movieCard/movieCard.css';
 import '../src/components/toast/toast.css';
+import '../src/components/movieListWrapper/MovieListWrapper.css'
 
 import './images/logo.png';
 import './images/search_button.png';
