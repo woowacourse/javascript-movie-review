@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE } from '../consts/error';
+import { ERROR_MESSAGE } from '../consts/message';
 import { MovieAPIReturnType, UrlParamsType } from './movieAPI.type';
 
 class Fetcher {

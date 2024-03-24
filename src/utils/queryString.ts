@@ -1,9 +1,11 @@
-export const getUrlParams = (paramKey: string) => {
+import { EndPointValues, QueryStringKeyValues } from '../consts/URL';
+
+export const getUrlParams = (paramKey: QueryStringKeyValues) => {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(paramKey);
 };
 
-export const setEndpoint = (endPoint: string) => {
+export const setEndpoint = (endPoint: EndPointValues) => {
   const path = window.location.pathname;
   const pathSegments = path.split('/');
   const newPath = [pathSegments[0], endPoint].join('/');
@@ -17,13 +19,13 @@ export const getEndpoint = () => {
   return endpoint.startsWith('/') ? endpoint.substring(1) : endpoint;
 };
 
-export const setUrlParams = (paramKey: string, paramValue: string) => {
+export const setUrlParams = (paramKey: QueryStringKeyValues, paramValue: string) => {
   const urlParams = new URLSearchParams(window.location.search);
   urlParams.set(paramKey, paramValue);
   window.history.replaceState({}, '', `${window.location.pathname}?${urlParams}`);
 };
 
-export const deleteParams = (paramKey: string) => {
+export const deleteParams = (paramKey: QueryStringKeyValues) => {
   const urlParams = new URLSearchParams(window.location.search);
   urlParams.delete(paramKey);
   window.history.replaceState({}, '', `${window.location.pathname}?${urlParams}`);

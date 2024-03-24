@@ -1,5 +1,5 @@
-import { ERROR_MESSAGE } from '../../consts/error';
 import NotFoundImage from '../../assets/notfound.png';
+import { ERROR_MESSAGE } from '../../consts/message';
 import '../NotFound/NotFound.css';
 
 export const NotFound = () => {

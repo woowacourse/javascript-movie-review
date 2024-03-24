@@ -1,6 +1,7 @@
 import Header from '../src/components/Header/Header';
 import MovieList from '../src/components/MovieList/MovieList';
 import Title from './components/Title/Title';
+import { END_POINT } from './consts/URL';
 import MovieDataLoader from './domain/services/MovieDataLoader';
 import { setEndpoint } from './utils/queryString';
 
@@ -25,7 +26,7 @@ class App {
     if (!this.itemViewBox) return;
     this.itemViewBox.append(this.movieListBox);
 
-    setEndpoint('popular');
+    setEndpoint(END_POINT.POPULAR);
     await this.movieDataLoader.renderFirstPage();
   }
 

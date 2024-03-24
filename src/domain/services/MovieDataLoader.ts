@@ -1,9 +1,9 @@
 import MovieList from '../../components/MovieList/MovieList';
-import { formatMovieList } from '../../utils/formatList';
 import MoreButton from '../../components/MoreButton/MoreButton';
 import movieAPI from '../../api/movie';
 import { getEndpoint, getUrlParams, setEndpoint, setUrlParams } from '../../utils/queryString';
 import MovieDomain from '../entity/Movie';
+import { END_POINT, QUERY_STRING_KEYS } from '../../consts/URL';
 
 class MovieDataLoader {
   currentPage: number = 1;
@@ -13,14 +13,14 @@ class MovieDataLoader {
   movieList: MovieList;
   moreButton = new MoreButton({
     showNextPage: () => this.showNextPage(),
-    apiType: { apiType: 'popular' },
+    apiType: { endpoint: 'popular' },
   });
   query?: string;
 
   constructor() {
     this.movieList = new MovieList({ isLoading: true, movieList: [] });
-    this.currentPage = Number(getUrlParams('page'));
-    this.query = getUrlParams('query') ?? undefined;
+    this.currentPage = Number(getUrlParams(QUERY_STRING_KEYS.PAGE));
+    this.query = getUrlParams(QUERY_STRING_KEYS.QUERY) ?? undefined;
   }
 
   removeExistedList() {
@@ -41,7 +41,7 @@ class MovieDataLoader {
 
     this.movieList.renderSkeleton();
     this.currentPage = 1;
-    setUrlParams('page', String(this.currentPage));
+    setUrlParams(QUERY_STRING_KEYS.PAGE, String(this.currentPage));
 
     const movieResult = await this.selectAPIAndFetch();
     const formattedMovieList = new MovieDomain(movieResult).formatMovieList();
@@ -57,7 +57,7 @@ class MovieDataLoader {
   async showNextPage() {
     MoreButton.removeExistedButton();
     this.currentPage++;
-    setUrlParams('page', String(this.currentPage));
+    setUrlParams(QUERY_STRING_KEYS.PAGE, String(this.currentPage));
 
     this.movieList.renderSkeleton();
 
@@ -74,8 +74,8 @@ class MovieDataLoader {
 
   async selectAPIAndFetch() {
     const endpoint = getEndpoint();
-    const query = getUrlParams('query'); //TODO: constatn
-    if (endpoint === 'search' && query) {
+    const query = getUrlParams(QUERY_STRING_KEYS.QUERY);
+    if (endpoint === END_POINT.SEARCH && query) {
       return movieAPI.fetchSearchMovies({ pageNumber: this.currentPage, query });
     }
     return movieAPI.fetchPopularMovies({ pageNumber: this.currentPage });

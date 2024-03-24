@@ -1,3 +1,4 @@
+import { END_POINT, QUERY_STRING_KEYS } from '../../consts/URL';
 import { TITLE } from '../../consts/message';
 import { getEndpoint, getUrlParams } from '../../utils/queryString';
 
@@ -19,8 +20,8 @@ class Title {
     titleBox.id = 'list-title';
 
     switch (endpoint) {
-      case 'search':
-        const query = getUrlParams('query') || '';
+      case END_POINT.SEARCH:
+        const query = getUrlParams(QUERY_STRING_KEYS.QUERY) || '';
         titleBox.textContent = TITLE.SEARCH_RESULT(query);
         break;
 

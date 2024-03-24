@@ -1,6 +1,6 @@
-import { API_URL } from '../consts/Api';
 import { PopularAPIParamsType, MovieAPIReturnType, SearchAPIParamsType } from './movieAPI.type';
 import Fetcher from './Fetcher';
+import { API_URL } from '../consts/URL';
 
 const movieAPI = {
   async fetchPopularMovies({ pageNumber = 1 }: PopularAPIParamsType): Promise<MovieAPIReturnType> {

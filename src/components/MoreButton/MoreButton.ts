@@ -1,11 +1,11 @@
 import Button from '../Button/Button';
 
 export type PopularAPIType = {
-  apiType: 'popular';
+  endpoint: 'popular';
 };
 
 export type SearchAPIType = {
-  apiType: 'search';
+  endpoint: 'search';
   query: string;
 };
 

@@ -1,7 +1,8 @@
 import Star from '../../assets/star_filled.png';
-import { POSTER_BASE_URL } from '../../consts/Api';
+
 import { Movie } from './../../types/movie';
 import '../MovieItem/MovieItem.css';
+import { POSTER_BASE_URL } from '../../consts/URL';
 
 const MovieItem = {
   skeletonTemplate() {

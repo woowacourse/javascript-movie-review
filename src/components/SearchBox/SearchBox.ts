@@ -1,3 +1,4 @@
+import { END_POINT, QUERY_STRING_KEYS } from '../../consts/URL';
 import { setEndpoint, setUrlParams } from '../../utils/queryString';
 import '../SearchBox/SearchBox.css';
 
@@ -33,8 +34,8 @@ class SearchBox {
   #setEvents() {
     this.searchBox.addEventListener('submit', (e: Event) => {
       e.preventDefault();
-      setEndpoint('search');
-      setUrlParams('query', this.searchInput.value);
+      setEndpoint(END_POINT.SEARCH);
+      setUrlParams(QUERY_STRING_KEYS.QUERY, this.searchInput.value);
       this.rerenderList();
     });
   }
