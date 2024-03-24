@@ -1,0 +1,46 @@
+.error-img {
+  display: block;
+}
+.error-box,
+.error-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-view {
+  width: 100%;
+  height: calc(100vh - 72px);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.error-message {
+  p {
+    margin-bottom: 14px;
+    font-size: 1rem;
+  }
+}
+/*element null error*/
+.error-box-null-element .error-img {
+  margin-bottom: 24px;
+  width: 32px;
+  height: 32px;
+}
+
+/*api error*/
+.error-box-api .error-img {
+  opacity: 0.4;
+  margin-bottom: 4rem;
+  width: 380px;
+  height: 380px;
+}
+
+.error-box-api p {
+  font-weight: 400;
+  font-size: 1.2rem;
+}
+.error-view .button-refresh {
+  width: 380px;
+}
