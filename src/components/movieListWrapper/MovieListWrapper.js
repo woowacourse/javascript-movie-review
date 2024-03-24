@@ -39,18 +39,12 @@ class MovieListWrapper {
 
     showMoreButton.addEventListener('click', async () => {
       await this.updateMovieList(showMoreButton);
+      this.plusCurrentPage()
     });
   }
 
   plusCurrentPage() {
     this.#currentPage += 1;
-  }
-
-  hasNextPage(lastPage) {
-    if (this.#currentPage === (lastPage < LAST_PAGE ? lastPage : LAST_PAGE)) {
-      return false;
-    }
-    return true;
   }
 
   async updateMovieList(showMoreButton) {
@@ -64,7 +58,6 @@ class MovieListWrapper {
             if (LAST_PAGE <= this.#currentPage) {
               showMoreButton.classList.add('none');
             }
-            this.plusCurrentPage();
             completeMovieList(liList, movies);
           } else {
             showMoreButton.classList.add('none');
@@ -80,27 +73,12 @@ class MovieListWrapper {
             if (Math.min(totalPages, LAST_PAGE) <= this.#currentPage) {
               showMoreButton.classList.add('none');
             }
-            this.plusCurrentPage();
             completeMovieList(liList, movies);
           } else {
             showMoreButton.classList.add('none');
           }
         }
         return;
-      default: {
-        const liList = loadMovieList();
-        const result = await fetchPopularMovieList(this.#currentPage);
-        if (result) {
-          const [movies, totalPages] = result;
-          if (totalPages === this.#currentPage) {
-            showMoreButton.classList.add('none');
-          }
-          this.plusCurrentPage();
-          completeMovieList(liList, movies);
-        } else {
-          showMoreButton.classList.add('none');
-        }
-      }
     }
   }
 }
