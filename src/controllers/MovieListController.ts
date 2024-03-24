@@ -3,7 +3,7 @@
 
 import MovieItem from '../components/movie-list-section/MovieItem';
 import TmdbAPI from '../services/TmdbAPI';
-import { $, appendChildren } from '../utils/domUtils';
+import { $ } from '../utils/domUtils';
 import DomController from './DomController';
 
 class MovieListController {
@@ -63,15 +63,13 @@ class MovieListController {
     }
   }
 
-  // TODO: DomController에 위임
-  private static renderMovieItems(results: Movie[]) {
-    const $movieList = $('.item-list')!;
-    appendChildren(
-      $movieList,
-      results.map(({ poster_path: posterPath, title, vote_average: voteAverage }) =>
-        MovieItem({ posterPath, title, voteAverage })
-      )
-    );
+  private static renderMovieItems(movies: Movie[]) {
+    const movieItems = movies.map((movie) => {
+      const { poster_path: posterPath, title, vote_average: voteAverage } = movie;
+      return MovieItem({ posterPath, title, voteAverage });
+    });
+
+    DomController.renderMovieItems(movieItems);
   }
 
   private static printErrorMessage(status_code: number) {

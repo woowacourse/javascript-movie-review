@@ -1,24 +1,20 @@
 import TMDB_ERRORS from '../constants/tmdbErrors';
-import { $ } from '../utils/domUtils';
+import { $, appendChildren } from '../utils/domUtils';
 
 class DomController {
   public static state = {
     $listTitle: <HTMLHeadingElement>{},
+    $movieList: <HTMLUListElement>{},
     $movieListSkeleton: <HTMLUListElement>{},
     $moreButton: <HTMLButtonElement>{}
   };
 
   /* Dom 로딩 후 반드시 초기화 한다. */
   public static initController() {
-    const $listTitle = $<HTMLHeadingElement>('.item-view h2')!;
-    const $movieListSkeleton = $<HTMLUListElement>('.item-list.skeleton')!;
-    const $moreButton = $<HTMLButtonElement>('.item-view button')!;
-
-    DomController.state = {
-      $listTitle,
-      $movieListSkeleton,
-      $moreButton
-    };
+    this.state.$listTitle = $<HTMLHeadingElement>('.item-view h2')!;
+    this.state.$movieList = $<HTMLUListElement>('.item-list')!;
+    this.state.$movieListSkeleton = $<HTMLUListElement>('.item-list.skeleton')!;
+    this.state.$moreButton = $<HTMLButtonElement>('.item-view button')!;
   }
 
   public static updateListTitle(query: string) {
@@ -36,6 +32,10 @@ class DomController {
     } else {
       this.state.$listTitle.textContent = '조회 결과가 없습니다.';
     }
+  }
+
+  public static renderMovieItems(movieItems: HTMLLIElement[]) {
+    appendChildren(this.state.$movieList, movieItems);
   }
 
   public static hideMovieListSkeleton() {
