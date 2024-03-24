@@ -20,7 +20,7 @@ export default class EmptyMovieList extends EventComponent {
     <div class="fallback-container">
       <img class="fallback-image" src="${IMAGES.emptyMovieList}" />
       <p class="fallback-message">표시할 영화 정보가 없습니다.</p>
-      <button id="home-button" class="return-to-home-button">초기 화면으로 되돌아가기</button>
+      <button id="home-button" class="fallback-handle-button">초기 화면으로 되돌아가기</button>
     </div>
 `;
   }

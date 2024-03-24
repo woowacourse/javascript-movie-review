@@ -14,6 +14,22 @@
       <div id="movie-list-header"></div>
       <ul id="movie-list"></ul>
     </section>
+
+    <dialog id="network-error-fallback-modal" class="network-error-fallback-modal">
+      <h1>⛔️ 네트워크와의 연결이 끊겼습니다.</h1>
+      <p>네트워크에 연결해 주세요.</p>
+      <p>네트워크에 연결되면 이 알림창이 자동으로 사라집니다.</p>
+    </dialog>
   </main>
+
+  <script>
+    window.ononline = function () {
+      document.querySelector("#network-error-fallback-modal")?.close();
+    }
+
+    window.onoffline = function () {
+      document.querySelector("#network-error-fallback-modal").showModal();
+    }
+  </script>
 </body>
 </html>
