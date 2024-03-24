@@ -56,9 +56,12 @@ class Header {
       src: LogoImg,
       alt: 'MovieList 로고',
     };
+
     const $logo = createElementWithAttribute('img', logoImgAttribute);
 
-    $logo.addEventListener('click', HeaderClickHandler.handleClickToRefresh);
+    $logo.addEventListener('click', () =>
+      HeaderClickHandler.handleClickToRefresh(),
+    );
 
     return $logo;
   }
