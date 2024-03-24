@@ -6,7 +6,7 @@ const MovieReviewHeader = {
     const logoWrapper = createElement("h1");
     const img = createElement("img", {
       class: "",
-      src: `${logoImg}`,
+      src: logoImg,
       alt: "MovieList 로고",
     });
 
@@ -14,8 +14,6 @@ const MovieReviewHeader = {
 
     return logoWrapper;
   },
-
-  
 };
 
 export default MovieReviewHeader;
