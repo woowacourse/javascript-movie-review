@@ -1,5 +1,5 @@
 import MovieListController from '../../controllers/MovieListController';
-import { appendChildren } from '../../utils/domUtils';
+import { $, appendChildren } from '../../utils/domUtils';
 import Button from '../common/Button';
 import Form from '../common/Form';
 import Input from '../common/Input';
@@ -7,8 +7,11 @@ import Input from '../common/Input';
 const handleFormSubmit = (event: Event) => {
   event.preventDefault();
 
-  const query = (event.target as HTMLFormElement).querySelector('input')?.value;
+  const query = (event.target as HTMLFormElement).querySelector('input')?.value.trim();
   if (query) MovieListController.search(query);
+
+  const $input = $('input', event.target as HTMLFormElement) as HTMLInputElement;
+  $input.blur();
 };
 
 export default function SearchBox() {
