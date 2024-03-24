@@ -82,7 +82,7 @@ class MovieList {
       this.#searchCurrentPage = 1;
 
       const titleInput = (
-        searchForm.querySelector("input[type='text']") as HTMLInputElement
+        searchForm.querySelector(".search-input") as HTMLInputElement
       ).value;
 
       if (!validation.validateEmptyInput(titleInput)) {
