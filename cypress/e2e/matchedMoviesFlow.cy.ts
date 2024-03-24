@@ -33,7 +33,7 @@ describe('Flow: 검색어 입력을 통한 영화 검색', () => {
     cy.get('.item-card.skeleton').should('have.length', 20);
   });
 
-  it('초기 검색 결과 화면에서 "더보기" 버튼을 클릭한 경우, 2번째 검색 결과의 20개를 추가로 보여준다.', () => {
+  it('초기 검색 결과 화면에서 "더보기" 버튼을 클릭한 경우, 로딩이 완료된 후 2번째 검색 결과의 20개를 추가로 보여준다.', () => {
     cy.searchMovie('쿵푸');
     cy.intercept(MATCHED_MOVIES_REQUEST, { fixture: 'movie-matched-2.json', delay: 1000 });
 

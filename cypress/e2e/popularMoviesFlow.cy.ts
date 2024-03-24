@@ -5,20 +5,20 @@ describe('Flow: 인기있는 영화에서 "더보기" 버튼을 누른 경우', 
     cy.visit('/');
   });
 
-  it('인기있는 영화의 첫 화면에서 20개의 영화 정보를 보여준다.', () => {
+  it('인기있는 영화 패아자의 첫 화면에서 20개의 영화 정보를 보여준다.', () => {
     cy.get('.item-card').should('have.length', 20);
     cy.get('.item-card').eq(1).find('.item-title').should('have.text', '댐즐');
     cy.get('.item-card').should('have.length', 20);
   });
 
-  it('초기 인기있는 영화 화면에서 "더보기" 버튼을 클릭한 경우, 로딩이 완료되기 전까지 20개의 movie skeleton UI를 출력한다.', () => {
+  it('인기있는 영화 첫 화면에서 "더보기" 버튼을 클릭한 경우, 로딩이 완료되기 전까지 20개의 movie skeleton UI를 출력한다.', () => {
     cy.intercept(POPULAR_MOVIES_REQUEST, { fixture: 'movie-popular-2.json', delay: 1000 });
 
     cy.get('.btn').click();
     cy.get('.item-card.skeleton').should('have.length', 20);
   });
 
-  it('초기 인기있는 영화 화면에서 "더보기" 버튼을 클릭한 경우, 2번째 인기영화 결과의 20개를 추가로 보여준다.', () => {
+  it('초기 인기있는 영화 화면에서 "더보기" 버튼을 클릭한 경우, 로딩이 끝난 뒤 2번째 인기영화 결과의 20개를 추가로 보여준다.', () => {
     cy.intercept(POPULAR_MOVIES_REQUEST, { fixture: 'movie-popular-2.json', delay: 1000 });
 
     const buttonClick = cy.get('.btn').click();

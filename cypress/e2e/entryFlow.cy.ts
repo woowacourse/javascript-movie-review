@@ -13,7 +13,7 @@ describe('Flow: 영화 리뷰 앱을 처음 실행시킨 경우', () => {
     cy.get('main').find('.btn').should('exist');
   });
 
-  it('처음 실행됐을 때, 인기있는 영화 화면을 보여준다.', () => {
+  it('처음 실행됐을 때, 홈 화면에서 기본적으로 인기있는 영화 목록 화면을 보여준다.', () => {
     cy.get('main').find('h2').should('have.text', '지금 인기 있는 영화');
     cy.get('.item-card').eq(1).find('.item-title').should('have.text', '댐즐');
     cy.get('.item-card').should('have.length', 20);
