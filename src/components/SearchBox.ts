@@ -21,23 +21,10 @@ const makeSearchBoxToastModal = () => {
 const toastModal = makeSearchBoxToastModal();
 
 const SearchBoxHandler = {
-  getSearchInputValue() {
-    const $searchInput = document.querySelector('#search-input');
-    if (!($searchInput instanceof HTMLInputElement)) return;
-    const title = $searchInput.value;
-
-    return title;
-  },
-
-  renderToastModal() {
-    const $header = document.querySelector('header');
-    toastModal.handleRenderingToastModal($header);
-  },
-
   async searchMovie() {
-    const title = this.getSearchInputValue();
+    const title = this.private_getSearchInputValue();
     if (!title || !title.trim()) {
-      this.renderToastModal();
+      this.private_renderToastModal();
       return;
     }
     toastModal.removeToastModal(true);
@@ -59,6 +46,19 @@ const SearchBoxHandler = {
     if (keyCode === ENTER_KEYCODE) {
       debouceFunc(() => SearchBoxHandler.searchMovie());
     }
+  },
+
+  private_getSearchInputValue() {
+    const $searchInput = document.querySelector('#search-input');
+    if (!($searchInput instanceof HTMLInputElement)) return;
+    const title = $searchInput.value;
+
+    return title;
+  },
+
+  private_renderToastModal() {
+    const $header = document.querySelector('header');
+    toastModal.handleRenderingToastModal($header);
   },
 };
 

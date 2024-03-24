@@ -1,6 +1,11 @@
 import checkElementIsNotNull from './checkElementIsNotNull';
 import createElementWithAttribute from './createElementWithAttribute';
 import debouceFunc from './debouneFunc';
+import handleFetchData from './handleFetchData';
 
-export * from './apiErrorFunc';
-export { checkElementIsNotNull, createElementWithAttribute, debouceFunc };
+export {
+  checkElementIsNotNull,
+  createElementWithAttribute,
+  debouceFunc,
+  handleFetchData,
+};

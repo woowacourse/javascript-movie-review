@@ -14,4 +14,5 @@ const createElementWithAttribute = (
 
   return $element;
 };
+
 export default createElementWithAttribute;

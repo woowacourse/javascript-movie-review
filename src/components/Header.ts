@@ -8,6 +8,19 @@ import MovieListContainer from './MovieListContainer';
 import SearchBox from './SearchBox';
 
 const HeaderClickHandler = {
+  async handleClickToRefresh() {
+    this.private_removeMovieListContainer();
+    this.private_resetSearchInputValue();
+
+    await DataFetcher.handleGetPopularMovieData(true);
+
+    new MovieListContainer({
+      titleText: '지금 인기 있는 영화',
+      movieData: dataStateStore.movieData,
+      listType: 'popular',
+    });
+  },
+
   private_removeMovieListContainer() {
     const $movieListContainer = document.querySelector('.movie-list-container');
 
@@ -25,19 +38,6 @@ const HeaderClickHandler = {
     if ($searchBox instanceof HTMLInputElement) {
       $searchBox.value = '';
     }
-  },
-
-  async handleClickToRefresh() {
-    this.private_removeMovieListContainer();
-    this.private_resetSearchInputValue();
-
-    await DataFetcher.handleGetPopularMovieData(true);
-
-    new MovieListContainer({
-      titleText: '지금 인기 있는 영화',
-      movieData: dataStateStore.movieData,
-      listType: 'popular',
-    });
   },
 };
 class Header {

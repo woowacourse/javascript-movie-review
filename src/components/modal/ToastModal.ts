@@ -14,6 +14,31 @@ class ToastModal {
     this.#element = this.#makeToastModal(props);
   }
 
+  /**
+   * @param {boolean} isNow 바로 토스트 모달을 삭제할 것 인지, 시간을 두고 토스트 모달이 희미해진 후 삭제할 것 인지 여부
+   */
+  removeToastModal(isNow: boolean) {
+    const $toastModal = document.querySelector('.toast-modal');
+    if (!$toastModal) return;
+    $toastModal.classList.remove('on');
+
+    setTimeout(
+      () => {
+        $toastModal.remove();
+        this.#resetTime();
+      },
+      isNow ? 0 : 500,
+    );
+  }
+
+  handleRenderingToastModal(parentElement: HTMLElement | null) {
+    this.#showToastModal(parentElement);
+
+    this.#time = setTimeout(() => {
+      this.removeToastModal(false);
+    }, 3000);
+  }
+
   #makeToastModal({ $children, id, extraClass }: ToastModalProps) {
     const $toastModal = createElementWithAttribute('div', {
       class: 'toast-modal',
@@ -42,31 +67,6 @@ class ToastModal {
   #resetTime() {
     clearTimeout(this.#time);
     this.#time = undefined;
-  }
-
-  /**
-   * @param {boolean} isNow 바로 토스트 모달을 삭제할 것 인지, 시간을 두고 토스트 모달이 희미해진 후 삭제할 것 인지 여부
-   */
-  removeToastModal(isNow: boolean) {
-    const $toastModal = document.querySelector('.toast-modal');
-    if (!$toastModal) return;
-    $toastModal.classList.remove('on');
-
-    setTimeout(
-      () => {
-        $toastModal.remove();
-        this.#resetTime();
-      },
-      isNow ? 0 : 500,
-    );
-  }
-
-  handleRenderingToastModal(parentElement: HTMLElement | null) {
-    this.#showToastModal(parentElement);
-
-    this.#time = setTimeout(() => {
-      this.removeToastModal(false);
-    }, 3000);
   }
 }
 
