@@ -5,6 +5,7 @@ interface Props {
     type?: string;
     text?: string;
     class?: string;
+    click?: () => void;
   };
 }
 
