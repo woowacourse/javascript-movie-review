@@ -70,10 +70,8 @@ class App {
 
         this.movieListContainer.initPageNumber();
         const { movies, totalPages, movieCount } = await this.movieListContainer.fetchMovies(CONFIG.FIRST_PAGE);
-
         this.updateTitle(movieCount, $input.value);
-        this.movieListContainer.paint(movies);
-        this.movieListContainer.validateMoreButton(totalPages);
+        this.movieListContainer.paint(movies, totalPages);
       },
     });
   }

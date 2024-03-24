@@ -16,17 +16,17 @@ class MovieListContainer {
 
     this.fetchMovies(this.page)
       .then(({ movies, totalPages }) => {
-        this.paint(movies);
-        this.validateMoreButton(totalPages);
+        this.paint(movies, totalPages);
       })
       .catch(error => {
         if (error instanceof Error) this.handleErrorToast(error.message);
       });
   }
 
-  paint(movies: Movie[]) {
+  paint(movies: Movie[], totalPages: number) {
     this.$target.replaceChildren();
     this.$target.append(...movies.map(movie => new MovieItem().create(movie)));
+    this.validateMoreButton(totalPages);
   }
 
   async attach() {
@@ -50,7 +50,11 @@ class MovieListContainer {
   validateMoreButton(totalPages: number) {
     if (this.$target.parentElement === null) return;
     const $moreButton = dom.getElement(this.$target.parentElement, '#more-button');
-    if (this.page === totalPages) $moreButton.classList.add('hidden');
+    if (this.page === totalPages) {
+      $moreButton.classList.add('hidden');
+      return;
+    }
+    $moreButton.classList.remove('hidden');
   }
 
   initPageNumber() {
