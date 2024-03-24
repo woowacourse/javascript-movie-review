@@ -44,7 +44,7 @@ class MovieContainer {
 
   render(query: string) {
     this.initData(query);
-    document.querySelector('.error-container')?.remove();
+    $('.error-container')?.remove();
 
     if (this.#query) {
       this.renderSearchMovies();
@@ -55,10 +55,9 @@ class MovieContainer {
   }
 
   initData(query: string) {
-    const ul = document.querySelector('ul.item-list');
-    const subtitle = document.querySelector('.subtitle');
-    if (!(ul instanceof HTMLElement)) return;
-    if (!(subtitle instanceof HTMLElement)) return;
+    const ul = $('ul.item-list');
+    const subtitle = $('.subtitle');
+    if (!(ul instanceof HTMLElement) || !(subtitle instanceof HTMLElement)) return;
 
     subtitle.textContent = query ? `"${query}" 검색결과 입니다.` : '지금 인기 있는 영화';
 
@@ -74,21 +73,18 @@ class MovieContainer {
   }
 
   async #inputMovies() {
-    const ul = document.querySelector('ul.item-list');
-    if (!(ul instanceof HTMLElement)) return;
-
     const movieData = await this.#getMovies(this.#page);
 
-    const viewMoreButton = document.querySelector('.view-more-button');
-
-    viewMoreButton?.classList.remove('hidden');
+    $('.view-more-button')?.classList.remove('hidden');
 
     if (!movieData || movieData.length < RULES.moviesPerPage) {
-      viewMoreButton?.classList.add('hidden');
+      $('.view-more-button')?.classList.add('hidden');
     }
 
     if (movieData) {
-      this.#createMovieItems(movieData).forEach((movieItem) => ul.appendChild(movieItem));
+      this.#createMovieItems(movieData).forEach((movieItem) =>
+        $('ul.item-list')?.appendChild(movieItem),
+      );
 
       this.#removeSkeleton();
       this.#page += 1;
@@ -102,26 +98,21 @@ class MovieContainer {
   }
 
   async #inputSearchMovies(query: string) {
-    const ul = document.querySelector('ul.item-list');
-    if (!(ul instanceof HTMLElement)) return;
-
     const movieData = await this.#searchMovies(this.#page, query);
 
     if (movieData && !movieData.length) {
       this.#showErrorPage('검색한 결과를 찾을 수 없습니다.\n다른 검색어로 검색을 해보시겠어요?');
     }
 
-    const viewMoreButton = document.querySelector('.view-more-button');
-
-    viewMoreButton?.classList.remove('hidden');
+    $('.view-more-button')?.classList.remove('hidden');
 
     if (!movieData || movieData.length < RULES.moviesPerPage) {
-      viewMoreButton?.classList.add('hidden');
+      $('.view-more-button')?.classList.add('hidden');
     }
 
     if (movieData) {
       this.#createMovieItems(movieData).forEach((movieItem) => {
-        ul.appendChild(movieItem);
+        $('ul.item-list')?.appendChild(movieItem);
       });
       this.#removeSkeleton();
       this.#page += 1;
@@ -137,19 +128,14 @@ class MovieContainer {
       if (!(error instanceof CustomError)) return;
 
       this.#removeSkeleton();
-      const viewMoreButton = document.querySelector('.view-more-button');
-
-      viewMoreButton?.classList.add('hidden');
+      $('.view-more-button')?.classList.add('hidden');
       this.#showErrorPage(error.message, error.status);
     }
   }
 
   #inputSkeleton() {
-    const ul = document.querySelector('.item-list');
-    if (!(ul instanceof HTMLElement)) return;
-
     Array.from({ length: RULES.moviesPerPage }).forEach(() =>
-      ul.insertAdjacentElement('beforeend', SkeletonItem()),
+      $('.item-list')?.insertAdjacentElement('beforeend', SkeletonItem()),
     );
   }
 
@@ -167,9 +153,7 @@ class MovieContainer {
     } catch (error) {
       if (!(error instanceof CustomError)) return;
 
-      const viewMoreButton = document.querySelector('.view-more-button') as HTMLElement;
-
-      viewMoreButton.classList.add('hidden');
+      $('.view-more-button')?.classList.add('hidden');
       this.#showErrorPage(error.message, error.status);
     }
   }
@@ -179,9 +163,7 @@ class MovieContainer {
   }
 
   #showErrorPage(message: string, status?: number) {
-    document
-      .querySelector('.subtitle')
-      ?.insertAdjacentElement('afterend', ErrorPage({ status, message }));
+    $('.subtitle')?.insertAdjacentElement('afterend', ErrorPage({ status, message }));
   }
 }
 
