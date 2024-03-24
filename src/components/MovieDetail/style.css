@@ -25,11 +25,6 @@
   background-color: transparent;
 }
 
-.title {
-  font-size: 20px;
-  font-weight: 600;
-}
-
 .detail-body {
   display: flex;
   position: relative;
@@ -68,20 +63,6 @@
   column-gap: 16px;
 }
 
-.genres {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  letter-spacing: 0.5px;
-}
-
-.overview {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  letter-spacing: 0.5px;
-}
-
 .vote-my-rate {
   display: flex;
   align-items: center;
@@ -92,11 +73,4 @@
   column-gap: 12px;
   background: #383839;
   border-radius: 16px;
-}
-
-.rate-label {
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 24px;
-  letter-spacing: 0.5px;
 }

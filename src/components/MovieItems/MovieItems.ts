@@ -46,6 +46,7 @@ class MovieItems {
 
   private createH2Element(main: HTMLElement) {
     const h2 = document.createElement('h2');
+    h2.classList.add('text-title');
     h2.textContent = '지금 인기있는 영화';
     main.appendChild(h2);
   }

@@ -32,3 +32,31 @@ button {
 .full-width {
   width: 100%;
 }
+
+.text-title {
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 36px;
+}
+
+.text-subtitle {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+}
+
+.text-body {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+}
+
+.text-label {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+}
+

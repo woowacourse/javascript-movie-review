@@ -8,19 +8,19 @@ import StarRating from '../StarRating/StarRating';
 
 const template = /* html */ `
   <header class="detail-header">
-    <h2 class="title"></h2>
+    <h2 class="title text-subtitle"></h2>
   </header>
   <div class="detail-body">
     <img class="poster" />
     <article class="detail-content">
       <figcaption class="movie-summary">
         <div class="outline">
-          <p class="genres"></p>
+          <p class="genres text-body"></p>
         </div>
-        <p class="overview"></p>
+        <p class="overview text-body"></p>
       </figcaption>
       <aside class="vote-my-rate">
-        <p class="rate-label">내 별점</p>
+        <p class="rate-label text-label">내 별점</p>
       </aside>
     </article>
   </article>
