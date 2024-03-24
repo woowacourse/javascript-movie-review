@@ -52,17 +52,17 @@ export const setAttributes = (element: HTMLElement, attributes: { [key: string]:
 };
 
 /**
- * 여러 자식 요소들을 마지막 부모 요소에 추가하고, 부모 요소들을 순차적으로 서로의 자식으로 추가한다.
- * 첫 번째 부모 요소가 루트이며, 각 부모 요소는 이전 요소의 자식 요소가 된다.
- * 모든 자식 요소들은 마지막 부모 요소의 자식 요소로 추가된다.
- * @param parents - 자식 요소들을 추가할 부모 요소들의 배열
+ * 부모 요소들을 순차적으로 서로의 자식으로 추가하고, 마지막 부모요소에 여러 자식 요소들을 추가한다.
+ * @param parents - 자식 요소들을 추가할 부모 요소 또는 부모 요소들의 배열
  * @param children - 추가할 자식 요소들의 배열
  */
-export const appendChildren = (parents: Element[], children: Element[]): void => {
-  parents.slice(1).reduce((prevParent, currentParent) => {
+export const appendChildren = (parents: Element | Element[], children: Element[]): void => {
+  const parentsArray = Array.isArray(parents) ? parents : [parents];
+
+  parentsArray.reduce((prevParent, currentParent) => {
     prevParent.appendChild(currentParent);
     return currentParent;
-  }, parents[0]);
+  });
 
-  children.forEach((child) => parents[parents.length - 1].appendChild(child));
+  children.forEach((child) => parentsArray[parentsArray.length - 1].appendChild(child));
 };
