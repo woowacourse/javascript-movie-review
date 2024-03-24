@@ -1,6 +1,6 @@
 import { Path } from "../components/templates/movie/generateMovieItems";
 import { Movie } from "../types/movie";
-import Fetcher from "./Fetcher";
+import APIClient from "./APIClient";
 
 const BASE_URL = "https://api.themoviedb.org";
 
@@ -41,12 +41,12 @@ const parseRawMovieList = (movieRawDataList: MovieRawData[]): Movie[] =>
     voteAverage: movieRawData.vote_average,
   }));
 
-const TMDBFetcher = new Fetcher(BASE_URL, header);
+const tmdbAPIClient = new APIClient(BASE_URL, header);
 
 export const getPopularMovieList = async (
   page: number = 1
 ): Promise<Movie[]> => {
-  const data = await TMDBFetcher.get<{ results: MovieRawData[] }>(
+  const data = await tmdbAPIClient.get<{ results: MovieRawData[] }>(
     POPULAR_MOVIE_LIST_PATH,
     new URLSearchParams({
       language: KOREAN_LANGUAGE,
@@ -61,7 +61,7 @@ export const getSearchMovieList = async (
   query: string,
   page: number = 1
 ): Promise<Movie[]> => {
-  const data = await TMDBFetcher.get<{ results: MovieRawData[] }>(
+  const data = await tmdbAPIClient.get<{ results: MovieRawData[] }>(
     SEARCH_MOVIE_PATH,
     new URLSearchParams({
       language: KOREAN_LANGUAGE,

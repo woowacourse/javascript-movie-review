@@ -2,11 +2,11 @@ import APIError from "../error/APIError";
 
 type URLString = string;
 
-interface FetcherInterface {
+interface APIClientInterface {
   get<T = any>(path: string, params: URLSearchParams): Promise<T>;
 }
 
-export default class Fetcher implements FetcherInterface {
+export default class APIClient implements APIClientInterface {
   private baseUrl: URL;
   private header?: Headers;
 
