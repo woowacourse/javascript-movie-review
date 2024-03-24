@@ -54,22 +54,25 @@ class MovieItem {
   }
 
   insertInfo({ poster_path, title, vote_average }: MovieItemsProps) {
-    this.template.classList.remove('li-skeleton');
-    const div = this.template.querySelector('.item-card') as HTMLElement;
-    div.classList.remove('skeleton');
+    this.removeSkeletonClassNames();
     const img = this.template.querySelector('.item-thumbnail') as HTMLImageElement;
     img.setAttribute('src', IMAGE_URL_PREFIX + poster_path);
     img.setAttribute('alt', title);
-    img.classList.remove('skeleton');
     const p1 = this.template.querySelector('.item-title') as HTMLElement;
-    p1.classList.remove('skeleton');
     p1.textContent = title;
     const p2 = this.template.querySelector('.item-score') as HTMLElement;
-    p2.classList.remove('skeleton');
     p2.innerHTML = `${vote_average}`;
     const starImage = this.template.querySelector('.star-icon') as HTMLImageElement;
     starImage.setAttribute('src', StarFilled);
     starImage.setAttribute('alt', '별점');
+  }
+
+  removeSkeletonClassNames() {
+    this.template.classList.remove('li-skeleton');
+    const skeletonElements = this.template.querySelectorAll('.skeleton');
+    skeletonElements.forEach((element) => {
+      element.classList.remove('skeleton');
+    });
   }
 
   getElement() {
