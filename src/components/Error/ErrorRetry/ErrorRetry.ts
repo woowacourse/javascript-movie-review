@@ -26,7 +26,7 @@ export const ErrorRetry = ({
   erroImage.id = 'error-img';
   erroImage.setAttribute('alt', '에러 이미지');
 
-  const notFoundTitle = document.createElement('h2');
+  const notFoundTitle = document.createElement('div');
   notFoundTitle.id = 'error-title';
 
   switch (errorType) {

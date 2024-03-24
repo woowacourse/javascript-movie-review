@@ -4,10 +4,10 @@ export const TITLE = {
 };
 
 export const ERROR_MESSAGE = {
-  AUTHENTICATION_FAILED: '인증에 실패하였습니다. 유효한 API를 입력해 주세요.', //401
-  SERVER_ERROR: '시스템에 문제가 생겼습니다. 다시 시도해 주세요.', //500
-  FETCH_FAILED: '데이터를 불러오기에 실패하였습니다. 다시 시도해 주세요.',
-  NETWORK_ERROR: '네트워크 연결이 끊겼습니다. 연결 후 다시 시도해 주세요.',
+  AUTHENTICATION_FAILED: '인증에 실패하였습니다. \n 유효한 API를 입력해 주세요.',
+  SERVER_ERROR: '시스템에 문제가 생겼습니다. \n 다시 시도해 주세요.',
+  FETCH_FAILED: '데이터를 불러오기에 실패하였습니다. \n 다시 시도해 주세요.',
+  NETWORK_ERROR: '네트워크 연결이 끊겼습니다. \n연결 후 다시 시도해 주세요.',
   RESULTS_NOT_FOUND: '검색 결과가 없습니다.',
 };
 
