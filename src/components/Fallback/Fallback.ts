@@ -7,17 +7,17 @@ class Fallback {
   constructor() {
     const main = document.createElement('section');
     main.classList.add('fallback');
-    const p = document.createElement('p');
-    p.classList.add('fallback_message');
-    p.textContent = FALLBACK_LOOKUP_TABLE['default'];
-    main.appendChild(p);
+    const h2 = document.createElement('h2');
+    h2.classList.add('fallback_message');
+    h2.textContent = FALLBACK_LOOKUP_TABLE['default'];
+    main.appendChild(h2);
 
     this.template = main;
   }
 
   setFallbackMessage(status: string) {
-    const p = this.template.querySelector('p') as HTMLElement;
-    p.textContent = FALLBACK_LOOKUP_TABLE[status];
+    const h2 = this.template.querySelector('h2') as HTMLElement;
+    h2.textContent = FALLBACK_LOOKUP_TABLE[status];
   }
 
   getElement() {
