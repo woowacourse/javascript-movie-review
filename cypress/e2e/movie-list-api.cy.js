@@ -5,7 +5,7 @@ describe('API 테스트', () => {
     cy.visit('http://localhost:8080');
   });
 
-  it('영화 목록 API를 호출하면 한 번에 20개씩 목록에 나열되어야 한다', () => {
+  it('영화 목록 API를 호출하면 한 번에 20개씩 목록에 나열되어야 한다.', () => {
     const popularMovieUrl =
       movieApi.POPULAR_MOVIES_URL +
       '?' +
@@ -22,7 +22,7 @@ describe('API 테스트', () => {
 
   });
 
-  it('영화 목록 API를 호출하면 한 번에 20개씩 목록에 나열되어야 한다', () => {
+  it('영화 검색 API를 호출하면 그 키워드가 있는 영화 목록이 나열되어야 한다.', () => {
     const searchMovieUrl =
       movieApi.MOVIE_SEARCH_URL +
       '?' +
