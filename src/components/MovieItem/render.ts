@@ -3,6 +3,7 @@ import starImg from '../../../templates/star_filled.png';
 import formatToDecimalPlaces from '../../utils/formatToDecimalPlaces';
 import { MovieItemProps } from '../../types/movie';
 import { BASE_IMAGE_URL } from '../../constants/api/api';
+import NoImage from '../ui/NoIamge';
 
 const THUMBNAIL_SIZE = 'w500';
 
@@ -18,6 +19,7 @@ const createItemScore = (vote_average: number) => {
 };
 
 const createItemImage = (poster_path: string, title: string) => {
+  if (poster_path === null) return NoImage();
   const image = createElement('img', {
     className: 'item-thumbnail skeleton',
     src: `${BASE_IMAGE_URL}${THUMBNAIL_SIZE}${poster_path}`,

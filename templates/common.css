@@ -207,3 +207,25 @@ header .search-form > .search-button {
   padding: 10px;
   text-align: center;
 }
+
+.no-image-container {
+  width: 180px;
+  height: 270px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.no-image-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #999;
+}
+
+.no-image-subtitle {
+  color: #888;
+}
