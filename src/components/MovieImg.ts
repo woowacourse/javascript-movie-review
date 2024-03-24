@@ -25,7 +25,7 @@ class MovieImg {
       class: 'movie-thumbnail',
       src: this.#getImgSrc(movie.poster_path),
       loading: 'lazy',
-      alt: movie.title,
+      alt: `${movie.title} 포스터`,
     }) as HTMLImageElement;
   }
 }
