@@ -6,7 +6,7 @@ button.btn {
   border: 0;
   border-radius: 8px;
   height: 30px;
-  color: #fff;
+  color: var(--white);
 }
 
 button.primary {
@@ -16,5 +16,5 @@ button.primary {
 button:disabled {
   background: transparent;
   cursor: default;
-  color: #999999;
+  color: var(--grayscale-200);
 }

@@ -1,11 +1,21 @@
+:root {
+  --grayscale-500: #222222;
+  --grayscale-400: #444444;
+  --grayscale-300: #666666;
+  --grayscale-200: #999999;
+  --grayscale-100: #bbbbbb;
+  --white: #ffffff;
+  --primary: #f33f3f;
+}
+
 * {
   box-sizing: border-box !important;
 }
 
 body {
   font-size: 14px;
-  background-color: #222222;
-  color: #fff;
+  background-color: var(--grayscale-500);
+  color: var(--white);
 }
 
 a {

@@ -8,5 +8,5 @@
 }
 
 .fallback_message {
-  color: #999999;
+  color: var(--grayscale-200);
 }
