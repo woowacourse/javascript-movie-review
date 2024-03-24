@@ -33,13 +33,17 @@ class Movies {
     };
     const url = `${POPULAR_MOVIES_URL}?${new URLSearchParams(urlParams)}`;
 
-    const { results }: ResponseMovieData = await this.#fetcher.getData(url, this.#headers);
+    try {
+      const { results }: ResponseMovieData = await this.#fetcher.getData(url, this.#headers);
 
-    return results.map((result) => ({
-      poster_path: result.poster_path,
-      title: result.title,
-      vote_average: result.vote_average,
-    }));
+      return results.map((result) => ({
+        poster_path: result.poster_path,
+        title: result.title,
+        vote_average: result.vote_average,
+      }));
+    } catch (error) {
+      return [];
+    }
   }
 
   async getSearchMovies(query: string, page = 1): Promise<MovieInfo[]> {
@@ -49,13 +53,18 @@ class Movies {
       page: String(page),
     };
     const url = `${MOVIE_SEARCH_URL}?${new URLSearchParams(urlParams)}`;
-    const { results }: ResponseMovieData = await this.#fetcher.getData(url, this.#headers);
 
-    return results.map((result) => ({
-      poster_path: result.poster_path,
-      title: result.title,
-      vote_average: result.vote_average,
-    }));
+    try {
+      const { results }: ResponseMovieData = await this.#fetcher.getData(url, this.#headers);
+
+      return results.map(({ poster_path, title, vote_average }) => ({
+        poster_path,
+        title,
+        vote_average,
+      }));
+    } catch (error) {
+      return [];
+    }
   }
 }
 
