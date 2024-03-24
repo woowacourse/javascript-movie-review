@@ -1,6 +1,6 @@
-import StarFilled from '../images/star_filled.png';
-import { Movie } from '../type/movie';
-import { createElementWithAttribute } from '../utils';
+import StarFilled from '../../images/star_filled.png';
+import { Movie } from '../../type/movie';
+import { createElementWithAttribute } from '../../utils';
 
 class MovieScore {
   #element: HTMLElement;

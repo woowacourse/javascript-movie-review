@@ -1,5 +1,5 @@
-import NoMovie from '../images/no_movie.svg';
-import { createElementWithAttribute } from '../utils';
+import NoMovie from '../../images/no_movie.svg';
+import { createElementWithAttribute } from '../../utils';
 
 class NoneMovieItem {
   #element: HTMLElement;

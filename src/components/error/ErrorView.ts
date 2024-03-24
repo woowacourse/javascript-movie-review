@@ -1,4 +1,4 @@
-import { renderAlertModalForNullEl } from '../../service/AlertModalForNullEl';
+import { renderAlertModalForNullEl } from '../../service';
 import RefreshButton from '../RefreshButton';
 
 import ErrorBox, { ErrorBoxProps } from './ErrorBox';

@@ -1,12 +1,11 @@
-import { UNDEFINED_INPUT_VALUE } from '../constants';
-import { ENTER_KEYCODE } from '../constants/system';
+import { ENTER_KEYCODE, UNDEFINED_INPUT_VALUE } from '../constants';
 import { dataStateStore } from '../model';
-import DataFetcher from '../service/DataFetcher';
+import { DataFetcher } from '../service';
 import { createElementWithAttribute, debouceFunc } from '../utils';
 
 import Label from './Label';
-import ToastModal from './modal/ToastModal';
-import MovieListContainer from './MovieListContainer';
+import { ToastModal } from './modal';
+import { MovieListContainer } from './movie';
 
 const makeSearchBoxToastModal = () => {
   const $children = document.createElement('div');

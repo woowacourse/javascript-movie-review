@@ -1,8 +1,8 @@
-import { renderAlertModalForNullEl } from '../service/AlertModalForNullEl';
-import { ListType, Movie, PartialMovieDataForItemView } from '../type/movie';
-import { createElementWithAttribute } from '../utils';
+import { renderAlertModalForNullEl } from '../../service';
+import { ListType, Movie, PartialMovieDataForItemView } from '../../type/movie';
+import { createElementWithAttribute } from '../../utils';
+import MoreButton from '../MoreButton';
 
-import MoreButton from './MoreButton';
 import MovieList from './MovieList';
 import MovieListTitle from './MovieListTitle';
 

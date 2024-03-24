@@ -1,7 +1,7 @@
-import { IMAGE_URL } from '../config';
-import noImg from '../images/no_image.svg';
-import { Movie } from '../type/movie';
-import { createElementWithAttribute } from '../utils';
+import { IMAGE_URL } from '../../config';
+import noImg from '../../images/no_image.svg';
+import { Movie } from '../../type/movie';
+import { createElementWithAttribute } from '../../utils';
 
 const POSTER_SIZE = 'w500';
 

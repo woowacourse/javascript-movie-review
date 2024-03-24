@@ -1,8 +1,10 @@
-import Header from './components/Header';
-import MovieListContainer from './components/MovieListContainer';
-import SkeletonListContainer from './components/skeleton/SkeletonListContainer';
+import {
+  Header,
+  MovieListContainer,
+  SkeletonListContainer,
+} from './components';
 import dataStateStore from './model/DataStateStore';
-import DataFetcher from './service/DataFetcher';
+import { DataFetcher } from './service';
 
 async function App() {
   const $app = document.querySelector('#app');

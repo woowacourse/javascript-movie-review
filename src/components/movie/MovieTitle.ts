@@ -1,5 +1,5 @@
-import { Movie } from '../type/movie';
-import { createElementWithAttribute } from '../utils';
+import { Movie } from '../../type/movie';
+import { createElementWithAttribute } from '../../utils';
 
 class MovieTitle {
   #element: HTMLElement;

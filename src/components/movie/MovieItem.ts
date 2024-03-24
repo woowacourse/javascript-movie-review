@@ -1,4 +1,4 @@
-import { Movie } from '../type/movie';
+import { Movie } from '../../type/movie';
 
 import MovieCard from './MovieCard';
 

@@ -1,5 +1,4 @@
-import ErrorMessage from '../components/error/ErrorMessage';
-import ErrorView from '../components/error/ErrorView';
+import { ErrorMessage, ErrorView } from '../components';
 
 const ErrorViewController = {
   showErrorView(error: unknown, extraExtraBoxClass?: string) {

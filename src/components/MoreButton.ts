@@ -1,10 +1,9 @@
 import { dataStateStore } from '../model';
-import { renderAlertModalForNullEl } from '../service/AlertModalForNullEl';
-import DataFetcher from '../service/DataFetcher';
+import { DataFetcher, renderAlertModalForNullEl } from '../service';
 import { ListType, Movie } from '../type/movie';
 import { createElementWithAttribute, debouceFunc } from '../utils';
 
-import MovieList from './MovieList';
+import MovieList from './movie/MovieList';
 
 /**
  * 더보기 버튼 클릭 시, 이루어지는 api 통신 관리하는 핸들러

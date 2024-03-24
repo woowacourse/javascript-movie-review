@@ -1,6 +1,4 @@
-import NullElementError from '../components/error/NullElementError';
-import AlertModal from '../components/modal/AlertModal';
-import RefreshButton from '../components/RefreshButton';
+import { AlertModal, NullElementError, RefreshButton } from '../components';
 
 export const renderAlertModalForNullEl = (elementInfo: string) => {
   const $alertContentsElement = document.createElement('div');

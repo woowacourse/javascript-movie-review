@@ -1,10 +1,9 @@
 import LogoImg from '../images/logo.png';
 import { dataStateStore } from '../model';
-import { renderAlertModalForNullEl } from '../service/AlertModalForNullEl';
-import DataFetcher from '../service/DataFetcher';
+import { DataFetcher, renderAlertModalForNullEl } from '../service';
 import { createElementWithAttribute } from '../utils';
 
-import MovieListContainer from './MovieListContainer';
+import { MovieListContainer } from './movie';
 import SearchBox from './SearchBox';
 
 const HeaderClickHandler = {
