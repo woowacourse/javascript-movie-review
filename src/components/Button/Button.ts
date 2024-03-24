@@ -1,7 +1,7 @@
 import './style.css';
 
 interface ButtonProps {
-  className: string[];
+  className: string[] | string;
   text: string;
   onClick?: () => void;
   disabled?: boolean;
