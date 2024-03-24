@@ -1,9 +1,9 @@
 .item-list {
-  display              : grid;
-  margin               : 48px 0;
+  display: grid;
+  margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
-  grid-column-gap      : 160px;
-  grid-row-gap         : 48px;
+  grid-column-gap: 160px;
+  grid-row-gap: 48px;
 }
 
 .item-view,
@@ -12,15 +12,15 @@
 }
 
 .item-view {
-  display        : flex;
-  flex-direction : column;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  width          : 1200px;
-  margin         : 0 auto;
+  width: 1200px;
+  margin: 0 auto;
 }
 
 .item-view h2 {
-  font-size  : 2rem;
+  font-size: 2rem;
   font-weight: bold;
   user-select: none;
 }
