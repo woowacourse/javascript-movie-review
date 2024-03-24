@@ -23,4 +23,8 @@ interface InputOption extends BasicOption {
   placeholder?: string;
 }
 
-export type ElementOption = DivOption | ImgOption | InputOption | POption;
+interface AOption extends BasicOption {
+  href: string;
+}
+
+export type ElementOption = DivOption | ImgOption | InputOption | POption | AOption;

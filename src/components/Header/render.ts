@@ -5,11 +5,21 @@ import isHTMLElement from '../../utils/isHTMLElement';
 const createHeaderContainer = () => {
   const headerContainer = createElement('header');
   const h1 = createElement('h1');
-  const headerLogoImage = createElement('img', { src: headerLogo, alt: 'MovieList' });
-  h1.appendChild(headerLogoImage);
+  const logo = createLogo();
+  h1.appendChild(logo);
   headerContainer.appendChild(h1);
 
   return headerContainer;
+};
+
+const createLogo = () => {
+  const a = createElement('a', {
+    href: 'http://localhost:8080',
+  });
+  const headerLogoImage = createElement('img', { src: headerLogo, alt: 'MovieList' });
+  a.appendChild(headerLogoImage);
+
+  return a;
 };
 
 const createSearchButton = () => {
