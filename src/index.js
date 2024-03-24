@@ -6,7 +6,7 @@ import MovieListSection from './components/movie-list-section/MovieListSection';
 import { $ } from './utils/domUtils';
 
 /* Main Page Container */
-const $app = $('#app', document, true);
+const $app = $('#app');
 if (!$app) throw new Error('main page container not found');
 
 /* Header */
