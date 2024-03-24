@@ -6,50 +6,43 @@ import TmdbAPI from '../services/TmdbAPI';
 import { $, appendChildren } from '../utils/domUtils';
 
 class MovieListController {
-  /* 생성자에서 updatePath() 호출하므로, 단언표현 사용 */
-  private path!: string;
-
-  /* 사용 전에 반드시 초기화되므로, 단언표현 사용 (popular, search, more) */
-  private params!: UrlParams;
-
-  constructor() {
-    /* Default 영화 리스트 */
-    this.popular();
-  }
+  private static state: TmdbUrlParams = {
+    path: '',
+    page: '1',
+    query: ''
+  };
 
   /* 가장 인기 있는 영화 */
-  public popular() {
-    this.initializeParams();
-    this.updatePath(TmdbAPI.PATH.movie.popular);
+  public static popular() {
+    this.initializeParams({ path: TmdbAPI.PATH.movie.popular, page: '1' });
     this.fetchAndRenderMovies();
   }
 
   /* 영화 검색 */
-  public search(query: string) {
-    this.initializeParams({ query });
-    this.updatePath(TmdbAPI.PATH.search.movie);
+  public static search(query: string) {
+    this.initializeParams({ path: TmdbAPI.PATH.search.movie, page: '1', query });
     this.fetchAndRenderMovies();
   }
 
   /* 더 보기 */
-  public more() {
+  public static more() {
     this.increasePage();
     this.fetchAndRenderMovies();
   }
 
-  private async fetchAndRenderMovies() {
-    const { results, total_pages } = await TmdbAPI.fetch({ path: this.path, params: this.params });
+  private static async fetchAndRenderMovies() {
+    const { results, total_pages } = await TmdbAPI.fetch(this.state);
     this.hideButtonWhenLastPage(total_pages);
     this.renderMovieItems(results);
   }
 
-  private hideButtonWhenLastPage(total_pages: number) {
-    if (Number(this.params.page) === total_pages) {
+  private static hideButtonWhenLastPage(total_pages: number) {
+    if (Number(this.state.page) === total_pages) {
       $('.item-view button')!.setAttribute('disabled', 'disabled');
     }
   }
 
-  private renderMovieItems(results: Movie[]) {
+  private static renderMovieItems(results: Movie[]) {
     const $movieList = $('.item-list')!;
     appendChildren(
       $movieList,
@@ -59,19 +52,14 @@ class MovieListController {
     );
   }
 
-  private updatePath(path: string) {
-    this.path = path;
+  private static initializeParams({ path, page, query }: TmdbUrlParams) {
+    this.state.path = path;
+    this.state.page = page;
+    this.state.query = query;
   }
 
-  private initializeParams({ page, query }: UrlParams = { page: '1' }) {
-    this.params = {
-      page,
-      query
-    };
-  }
-
-  private increasePage() {
-    this.params.page = String(Number(this.params.page) + 1);
+  private static increasePage() {
+    this.state.page = String(Number(this.state.page) + 1);
   }
 }
 

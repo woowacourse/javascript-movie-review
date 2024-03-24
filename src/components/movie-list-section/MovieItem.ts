@@ -1,3 +1,4 @@
+import TmdbAPI from '../../services/TmdbAPI';
 import { appendChildren } from '../../utils/domUtils';
 import Img from '../common/Img';
 import ListItem from '../common/ListItem';
@@ -13,7 +14,7 @@ interface Props {
 export default function MovieItem({ posterPath, title, voteAverage }: Props) {
   const $listItem = ListItem();
   const $wrapper = Wrapper({ type: 'div', attrs: { class: 'item-card' } });
-  const $poster = Img({ img: { src: posterPath, alt: title } });
+  const $poster = Img({ img: { src: `${TmdbAPI.imgUrl}${posterPath}`, alt: title } });
   const $title = TextBox({ type: 'p', attrs: { text: title, class: 'item-title' } });
   const $score = TextBox({ type: 'p', attrs: { text: voteAverage.toFixed(1), class: 'item-score' } });
 
