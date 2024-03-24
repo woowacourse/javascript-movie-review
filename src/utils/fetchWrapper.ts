@@ -4,7 +4,7 @@ interface FetchWrapperProps {
 }
 
 // eslint-disable-next-line max-lines-per-function
-async function fetchWrapper<T>({ url, accessToken }: FetchWrapperProps) {
+const fetchWrapper = async <T>({ url, accessToken }: FetchWrapperProps): Promise<T> => {
   const response = await fetch(url, {
     method: 'GET',
     headers: {
@@ -16,6 +16,6 @@ async function fetchWrapper<T>({ url, accessToken }: FetchWrapperProps) {
     throw new Error(`${response.status}`);
   }
   return response.json() as T;
-}
+};
 
 export default fetchWrapper;
