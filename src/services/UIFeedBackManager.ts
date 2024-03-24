@@ -7,11 +7,10 @@ import { checkDataLength } from '../components/ShowMoreButton/eventHandler';
 import createElement from '../utils/createElement';
 import Error from '../components/Error/Error';
 import { MoviePage } from '../domain/movie';
+import { SKELETON_LENGTH } from '../constants/ui';
 
 class UIFeedBackManager {
   api;
-
-  SKELETON_LENGTH = 20;
 
   isLoading: boolean = false;
 
@@ -74,7 +73,7 @@ class UIFeedBackManager {
 
   createSkeleton() {
     const fragment = document.createDocumentFragment();
-    Array.from({ length: this.SKELETON_LENGTH }, () => {
+    Array.from({ length: SKELETON_LENGTH }, () => {
       const skeleton = Skeleton();
       fragment.appendChild(skeleton);
     });

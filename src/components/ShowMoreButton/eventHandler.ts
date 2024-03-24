@@ -1,14 +1,10 @@
 import { API_ENDPOINT, API_OPTION } from '../../constants/api/api';
 import uiFeedBackManager from '../../services/UIFeedBackManager';
-
 import { createMovieItems } from '../MovieContainer/render';
 import removeHTMLElements from '../../utils/removeHTMLElements';
 import pageManager from '../../services/PageManager';
 import { ShowMoreButtonOption } from '../../types/tmdb';
-
-const MAX_PAGE_NUMBER = 10;
-
-const DATA_LENGTH_PER_PAGE = 20;
+import { DATA_LENGTH_PER_PAGE, MAX_PAGE_NUMBER } from '../../constants/ui';
 
 const checkMaxPage = (pageNumber: number, eventTarget: EventTarget) => {
   if (pageNumber > MAX_PAGE_NUMBER && eventTarget instanceof Element) {
