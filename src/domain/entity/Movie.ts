@@ -13,7 +13,7 @@ class MovieDomain {
       id: movie.id,
       title: movie.title,
       posterPath: movie.poster_path,
-      voteAverage: movie.vote_average,
+      voteAverage: Number(movie.vote_average.toFixed(1)),
     }));
 
     return formattedMovieList;

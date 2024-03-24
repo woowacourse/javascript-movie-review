@@ -1,7 +1,7 @@
 import MovieList from '../../components/MovieList/MovieList';
 import MoreButton from '../../components/MoreButton/MoreButton';
 import movieAPI from '../../api/movie';
-import { getEndpoint, getUrlParams, setEndpoint, setUrlParams } from '../../utils/queryString';
+import { getEndpoint, getUrlParams, setUrlParams } from '../../utils/queryString';
 import MovieDomain from '../entity/Movie';
 import { END_POINT, QUERY_STRING_KEYS } from '../../consts/URL';
 
@@ -54,10 +54,10 @@ class MovieDataLoader {
     if (!itemList) return;
     itemList.replaceChildren();
 
-    this.resetInputText();
+    this.resetSearchInput();
   }
 
-  resetInputText() {
+  resetSearchInput() {
     const endpoint = getEndpoint();
     if (endpoint !== END_POINT.SEARCH) {
       const searchInput = document.querySelector('.search-box input') as HTMLInputElement;

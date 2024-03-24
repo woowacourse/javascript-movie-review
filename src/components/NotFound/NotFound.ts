@@ -12,10 +12,11 @@ export const NotFound = () => {
   notFoundImage.setAttribute('alt', '로고 이미지');
 
   const notFoundTitle = document.createElement('h2');
-  notFoundTitle.id = 'not-found-text';
+  notFoundTitle.id = 'not-found-title';
   notFoundTitle.textContent = ERROR_MESSAGE.RESULTS_NOT_FOUND;
 
   const notFoundText = document.createElement('ul');
+  notFoundText.id = 'not-found-text';
 
   const fragment = new DocumentFragment();
   const textInfo1 = document.createElement('li');

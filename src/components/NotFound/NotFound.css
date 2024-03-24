@@ -1,15 +1,48 @@
 .not-found {
-  width: 500px;
+  width: 80vw;
   height: 300px;
+  display: flex;
+  flex-direction: column;
   text-align: center;
-  
-  /* align-items: center;
-  justify-content: center; */
+  justify-content: center;
+  align-items: center;
+  width: 1200px;
   gap: 30px;
+  margin-top: 200px;
 }
 
 #not-found-text {
   color: #fff;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 10px;
+  width: 460px;
+  font-size: 18px;
+
+  background-color: #3f3f3f;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+@media (max-width: 400px) {
+  .not-found {
+    margin-top: 50px;
+  }
+
+  #not-found-text {
+    color: #fff;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+    width: 340px;
+    font-size: 18px;
+
+    background-color: #3f3f3f;
+    padding: 20px;
+    border-radius: 8px;
+  }
 }
 
 #not-found-img {
