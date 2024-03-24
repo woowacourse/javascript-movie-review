@@ -1,3 +1,5 @@
+import { API_KEY, POPULAR_MOVIES_URL } from "../constants/api";
+
 import validateResponse from "./validateResponse";
 
 const getPopularMovieList = async ({
@@ -5,8 +7,8 @@ const getPopularMovieList = async ({
 }: {
   page: number;
 }): Promise<PopularMovieResponse> => {
-  const url = "https://api.themoviedb.org/3/movie/popular";
-  const queryParams = `language=ko-KR&page=${page}&api_key=${process.env.API_KEY}`;
+  const url = POPULAR_MOVIES_URL;
+  const queryParams = `language=ko-KR&page=${page}&api_key=${API_KEY}`;
   const popularMoviesUrl = `${url}?${queryParams}`;
 
   const res = await fetch(popularMoviesUrl);

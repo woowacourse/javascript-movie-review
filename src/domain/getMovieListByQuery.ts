@@ -1,3 +1,5 @@
+import { API_KEY, SEARCH_MOVIES_URL } from "../constants/api";
+
 import validateResponse from "./validateResponse";
 
 const getMovieListByQuery = async ({
@@ -7,8 +9,8 @@ const getMovieListByQuery = async ({
   page: number;
   query: string;
 }): Promise<SearchMovieResponse> => {
-  const url = "https://api.themoviedb.org/3/search/movie";
-  const queryParams = `language=ko-KR&page=${page}&query=${query}&api_key=${process.env.API_KEY}`;
+  const url = SEARCH_MOVIES_URL;
+  const queryParams = `language=ko-KR&page=${page}&query=${query}&api_key=${API_KEY}`;
   const moviesUrl = `${url}?${queryParams}`;
 
   const res = await fetch(moviesUrl);
