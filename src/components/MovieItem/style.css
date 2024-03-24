@@ -18,6 +18,8 @@
 
 .item-score {
   font-size: 1.2rem;
+
+  margin-top: 5px;
 }
 
 .item-title.skeleton::after,
@@ -25,7 +27,6 @@
   font-size: 0;
   content: 'loading';
 }
-
 
 .item-card .skeleton {
   background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
@@ -44,7 +45,6 @@
 
 .star-icon {
   margin-left: 8px;
-  padding-top: 2px;
 }
 
 @keyframes skeleton-animation {
