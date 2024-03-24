@@ -1,11 +1,12 @@
+import { event } from 'cypress/types/jquery';
 import logoPng from '../../images/logo.png';
 
-export function createHeader(inputSubmitHandle: () => void) {
-  const header = render(inputSubmitHandle);
+export function createHeader(logoHandler: () => void, inputSubmitHandler: (inputValue: string) => void) {
+  const header = render(logoHandler, inputSubmitHandler);
   return header;
 }
 
-function render(inputSubmitHandle: any) {
+function render(logoHandler: () => void, inputSubmitHandler: (inputValue: string) => void) {
   const header = document.createElement('header');
 
   const logo = document.createElement('h1');
@@ -29,12 +30,14 @@ function render(inputSubmitHandle: any) {
 
   header.append(logo, searchBox);
 
-  if (inputSubmitHandle) {
-    searchBox.addEventListener('submit', (event: any) => {
-      event.preventDefault();
-      if (searchInput.value.trim() !== '') inputSubmitHandle(searchInput.value);
-    });
-  }
+  logo.addEventListener('click', () => {
+    logoHandler();
+  });
+
+  searchBox.addEventListener('submit', (event: any) => {
+    event.preventDefault();
+    if (searchInput.value.trim() !== '') inputSubmitHandler(searchInput.value);
+  });
 
   return header;
 }
