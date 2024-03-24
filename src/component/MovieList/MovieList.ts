@@ -15,15 +15,14 @@ const MAX_PAGE_PER_REQUEST = 20;
 const MAX_PAGE_COUNT = 50;
 
 class MovieList {
-  #type: string;
   #title: string;
   #movieListSection;
-  #currentPage = 1;
+  #popularCurrentPage = 1;
+  #searchCurrentPage = 1;
 
   constructor() {
     this.#title = "";
     this.#movieListSection = $(".item-view") as Element;
-    this.#type = "popular";
 
     this.#renderPopularMovieList();
     this.#createPopularMovieItems();
@@ -46,7 +45,9 @@ class MovieList {
     const ul = $(".item-list");
 
     try {
-      const data = await getPopularMoviesData(this.#currentPage.toString());
+      const data = await getPopularMoviesData(
+        this.#popularCurrentPage.toString()
+      );
 
       const liList = this.#createEmptyMovieItems(data, ul);
 
@@ -55,8 +56,8 @@ class MovieList {
 
         const moreMoviesButton = this.#createMoreMoviesButton();
         moreMoviesButton.addEventListener("click", () => {
+          this.#popularCurrentPage += 1;
           this.#handlePopularPageEnd();
-          this.#currentPage += 1;
         });
       }, 1000);
     } catch (error) {
@@ -66,8 +67,8 @@ class MovieList {
   }
 
   #handlePopularPageEnd() {
-    if (this.#currentPage === MAX_PAGE_COUNT) this.#displayMaxPageInfo();
-    if (this.#currentPage > MAX_PAGE_COUNT) return;
+    if (this.#popularCurrentPage === MAX_PAGE_COUNT) this.#displayMaxPageInfo();
+    if (this.#popularCurrentPage > MAX_PAGE_COUNT) return;
 
     this.#createPopularMovieItems();
   }
@@ -78,8 +79,7 @@ class MovieList {
     searchForm?.addEventListener("submit", (event) => {
       event.preventDefault();
 
-      this.#type = "search";
-      this.#currentPage = 1;
+      this.#searchCurrentPage = 1;
 
       const titleInput = (
         searchForm.querySelector("input[type='text']") as HTMLInputElement
@@ -129,7 +129,7 @@ class MovieList {
 
   async #getSearchedMoviesData(titleInput: string) {
     return await getSearchedMoviesData(
-      this.#currentPage.toString(),
+      this.#searchCurrentPage.toString(),
       titleInput
     );
   }
@@ -140,8 +140,8 @@ class MovieList {
 
       const moreMoviesButton = this.#createMoreMoviesButton();
       moreMoviesButton.addEventListener("click", () => {
+        this.#searchCurrentPage += 1;
         this.#createSearchedMovieList();
-        this.#currentPage += 1;
       });
 
       return;
