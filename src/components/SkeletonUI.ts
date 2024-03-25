@@ -1,5 +1,5 @@
-import { HTMLTemplate } from "./abstract/BaseComponent";
 import { $ } from "../utils/dom";
+import { HTMLTemplate, TargetId } from "../types/common";
 
 export default class SkeletonUI {
   private template: HTMLTemplate;
@@ -8,7 +8,7 @@ export default class SkeletonUI {
     this.template = template;
   }
 
-  render(targetId: string): void {
+  render(targetId: TargetId): void {
     const element = $(targetId);
 
     if (!(element instanceof HTMLElement)) {

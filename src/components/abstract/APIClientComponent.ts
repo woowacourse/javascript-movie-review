@@ -4,11 +4,12 @@ import APIError from "../../error/APIError";
 import { generateNetworkNotWorkingScreen } from "../templates/generateUnexpectedScreen";
 import { $ } from "../../utils/dom";
 import { runAsyncTryCatch } from "../../utils/runTryCatch";
+import { HTMLTemplate, TargetId } from "../../types/common";
 
 type FetchedData = Record<any, any> | Record<any, any>[];
 
 interface APIClientComponentProps {
-  targetId: string;
+  targetId: TargetId;
   skeletonUI: SkeletonUI;
 }
 export default abstract class APIClientComponent extends EventComponent {
@@ -32,7 +33,7 @@ export default abstract class APIClientComponent extends EventComponent {
     throw new Error("fetch method must be implemented");
   }
 
-  protected abstract override getTemplate(data?: FetchedData): string;
+  protected abstract override getTemplate(data?: FetchedData): HTMLTemplate;
 
   protected abstract setEvent(): void;
 

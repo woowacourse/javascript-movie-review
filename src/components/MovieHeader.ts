@@ -1,13 +1,13 @@
-import { ElementId, HTMLTemplate } from "./abstract/BaseComponent";
 import EventComponent from "./abstract/EventComponent";
 import QueryState from "../states/QueryState";
 import { $ } from "../utils/dom";
+import { HTMLTemplate, TargetId } from "../types/common";
 import IMAGES from "../images";
 
 const MOVIE_QUERY_MAX_LENGTH = 500;
 
 interface MovieHeaderProps {
-  targetId: ElementId;
+  targetId: TargetId;
   queryState: QueryState;
 }
 export default class MovieHeader extends EventComponent {

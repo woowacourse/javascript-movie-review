@@ -1,6 +1,5 @@
 import Observable from "./abstract/Observable";
-
-export type Query = string;
+import { Query } from "../types/common";
 
 export default class QueryState extends Observable {
   private query: Query;

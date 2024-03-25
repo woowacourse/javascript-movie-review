@@ -1,4 +1,4 @@
-import { HTMLTemplate } from "../abstract/BaseComponent";
+import { HTMLTemplate } from "../../types/common";
 
 const MOVIE_ITEM_SKELETON = `
   <li>

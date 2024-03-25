@@ -1,11 +1,9 @@
-import BaseComponent, {
-  ElementId,
-  HTMLTemplate,
-} from "../abstract/BaseComponent";
+import BaseComponent from "../abstract/BaseComponent";
 import QueryState from "../../states/QueryState";
+import { HTMLTemplate, TargetId } from "../../types/common";
 
 interface MovieListTitleProps {
-  targetId: ElementId;
+  targetId: TargetId;
   queryState: QueryState;
 }
 

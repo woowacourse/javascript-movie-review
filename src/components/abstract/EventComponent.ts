@@ -1,4 +1,5 @@
-import BaseComponent, { HTMLTemplate } from "./BaseComponent";
+import BaseComponent from "./BaseComponent";
+import { HTMLTemplate } from "../../types/common";
 
 export default abstract class EventComponent extends BaseComponent {
   init(): void {

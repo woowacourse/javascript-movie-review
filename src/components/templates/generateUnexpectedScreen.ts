@@ -1,5 +1,5 @@
+import { HTMLTemplate } from "../../types/common";
 import IMAGES from "../../images";
-import { HTMLTemplate } from "../abstract/BaseComponent";
 
 export const generateNetworkNotWorkingScreen = (): HTMLTemplate => {
   return `

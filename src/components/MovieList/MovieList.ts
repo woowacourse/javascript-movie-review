@@ -1,15 +1,17 @@
 import APIClientComponent from "../abstract/APIClientComponent";
-import { HTMLTemplate } from "../abstract/BaseComponent";
 import SkeletonUI from "../SkeletonUI";
-import QueryState, { Query } from "../../states/QueryState";
+import QueryState from "../../states/QueryState";
+
 import { Movie, generateMovieItems } from "../templates/generateMovieItems";
 import { generateMovieListSkeleton } from "../templates/generateMovieListSkeleton";
 import { generateEmptyMovieListScreen } from "../templates/generateUnexpectedScreen";
+
 import { getPopularMovieList, getSearchMovieList } from "../../apis/movieList";
 import { $ } from "../../utils/dom";
+import { HTMLTemplate, TargetId, Query } from "../../types/common";
 
 interface MovieListProps {
-  targetId: string;
+  targetId: TargetId;
   queryState: QueryState;
   skeletonUI: SkeletonUI;
 }

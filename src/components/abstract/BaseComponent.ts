@@ -1,14 +1,13 @@
 import Observer from "./Observer";
 import { $ } from "../../utils/dom";
+import { HTMLTemplate, TargetId } from "../../types/common";
 
-export type HTMLTemplate = string;
-export type ElementId = string;
 interface BaseComponentProps {
-  targetId: ElementId;
+  targetId: TargetId;
 }
 
 export default abstract class BaseComponent extends Observer {
-  protected targetId: ElementId;
+  protected targetId: TargetId;
 
   constructor({ targetId }: BaseComponentProps) {
     super();
