@@ -72,7 +72,6 @@ embed,
 figure,
 figcaption,
 footer,
-header,
 hgroup,
 menu,
 nav,
@@ -98,7 +97,6 @@ details,
 figcaption,
 figure,
 footer,
-header,
 hgroup,
 menu,
 nav,
@@ -120,7 +118,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 table {

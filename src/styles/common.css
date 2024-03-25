@@ -1,0 +1,42 @@
+* {
+  box-sizing: border-box !important;
+}
+
+*:focus {
+  outline: none;
+}
+
+body {
+  font-size: 14px;
+  background-color: #222222;
+  color: #fff;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button.btn {
+  border: 0;
+  border-radius: 8px;
+  width: 100%;
+  height: 40px;
+  color: #fff;
+}
+
+button.primary {
+  background: #f33f3f;
+}
+
+#app {
+  padding-bottom: 48px;
+}
+
+.full-width {
+  width: 100%;
+}
