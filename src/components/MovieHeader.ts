@@ -35,20 +35,17 @@ export default class MovieHeader extends EventComponent {
 
     if ($form instanceof HTMLFormElement) {
       $form.addEventListener("submit", (event) =>
-        this.handleSearchMovie(event, $form)
+        this.onSearchMovieSubmit(event, $form)
       );
     }
 
     $("movie-list-logo")?.addEventListener(
       "click",
-      this.handleLogoClick.bind(this)
+      this.onLogoClick.bind(this)
     );
   }
 
-  private async handleSearchMovie(
-    event: Event,
-    form: HTMLFormElement
-  ): Promise<void> {
+  private onSearchMovieSubmit(event: Event, form: HTMLFormElement): void {
     event.preventDefault();
 
     const searchQuery = form["search-query"].value;
@@ -56,7 +53,7 @@ export default class MovieHeader extends EventComponent {
     this.queryState.set(searchQuery);
   }
 
-  private handleLogoClick(): void {
+  private onLogoClick(): void {
     this.queryState.set("");
 
     const $searchForm = $("search-form");

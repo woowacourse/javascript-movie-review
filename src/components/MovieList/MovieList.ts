@@ -53,11 +53,11 @@ export default class MovieList extends APIClientComponent {
   protected setEvent(): void {
     $("watch-more-button")?.addEventListener(
       "click",
-      this.handleWatchMoreButtonClick.bind(this)
+      this.onWatchMoreButtonClick.bind(this)
     );
   }
 
-  async handleWatchMoreButtonClick(): Promise<void> {
+  async onWatchMoreButtonClick(): Promise<void> {
     this.page += 1;
 
     this.skeletonUI.insert("item-list", "afterend");
