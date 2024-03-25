@@ -1,4 +1,5 @@
 import Logo from '../../assets/logo.png';
+import { redirectToRoot } from '../../utils/queryString';
 import SearchBox from '../SearchBox/SearchBox';
 import './Header.css';
 
@@ -31,6 +32,7 @@ class Header {
 
   setEvent() {
     this.header.addEventListener('click', () => {
+      redirectToRoot();
       this.rerenderList();
     });
   }

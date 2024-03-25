@@ -2,12 +2,10 @@ import { ERROR_MESSAGE } from '../../../consts/message';
 import NETWORK_ERROR from '../../../assets/network_error.png';
 import SYSTEM_ERROR from '../../../assets/system_error.png';
 import './ErrorRetry.css';
-
 import '../NotFound/NotFound.css';
 import Button from '../../Button/Button';
 import { MovieAPIReturnType } from '../../../api/movieAPI.type';
-import { deleteParams } from '../../../utils/queryString';
-import { QUERY_STRING_KEYS } from '../../../consts/URL';
+import { redirectToRoot } from '../../../utils/queryString';
 
 export type ErrorType = 'NOT_FOUND' | 'NETWORK_ERROR' | 'SERVER_ERROR' | 'FETCHING_ERROR' | 'AUTHENTICATION_FAILED';
 
@@ -53,8 +51,7 @@ export const ErrorRetry = ({
   const homeButton = new Button({
     text: '홈화면으로',
     clickEvent: () => {
-      deleteParams(QUERY_STRING_KEYS.QUERY);
-      deleteParams(QUERY_STRING_KEYS.PAGE);
+      redirectToRoot();
       location.reload();
     },
     id: 'home-button',

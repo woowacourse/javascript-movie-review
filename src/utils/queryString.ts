@@ -8,7 +8,8 @@ export const getUrlParams = (paramKey: QueryStringKeyValues) => {
 export const setEndpoint = (endPoint: EndPointValues) => {
   const path = window.location.pathname;
   const pathSegments = path.split('/');
-  const newPath = [pathSegments[0], endPoint].join('/');
+  const pathSegmentsExceptLast = pathSegments.slice(0, -1);
+  const newPath = [pathSegmentsExceptLast, endPoint].join('/');
   window.history.replaceState({}, '', newPath);
 };
 
@@ -29,4 +30,10 @@ export const deleteParams = (paramKey: QueryStringKeyValues) => {
   const urlParams = new URLSearchParams(window.location.search);
   urlParams.delete(paramKey);
   window.history.replaceState({}, '', `${window.location.pathname}?${urlParams}`);
+};
+
+export const redirectToRoot = () => {
+  const url = new URL(window.location.href);
+  const baseUrl = url.origin;
+  window.location.href = baseUrl;
 };
