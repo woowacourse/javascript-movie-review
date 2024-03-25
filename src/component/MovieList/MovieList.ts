@@ -12,7 +12,6 @@ import {
 } from "../../constant/setting";
 
 const MAX_PAGE_PER_REQUEST = 20;
-const MAX_PAGE_COUNT = 50;
 
 class MovieList {
   #title: string;
@@ -48,17 +47,11 @@ class MovieList {
       const data = await getPopularMoviesData(
         this.#popularCurrentPage.toString()
       );
-
       const liList = this.#createEmptyMovieItems(data, ul);
 
       setTimeout(() => {
         this.#updateMovieItemsWithData(data, liList);
-
-        const moreMoviesButton = this.#createMoreMoviesButton();
-        moreMoviesButton.addEventListener("click", () => {
-          this.#popularCurrentPage += 1;
-          this.#handlePopularPagination();
-        });
+        this.#handlePopularPagination(data);
       }, 1000);
     } catch (error) {
       this.#handleError(error as Error);
@@ -66,11 +59,20 @@ class MovieList {
     this.#removeMoreMoviesButton();
   }
 
-  #handlePopularPagination() {
-    if (this.#popularCurrentPage === MAX_PAGE_COUNT) this.#displayMaxPageInfo();
-    if (this.#popularCurrentPage > MAX_PAGE_COUNT) return;
+  #handlePopularPagination(data: IMovieItemData[]) {
+    if (data.length === MAX_PAGE_PER_REQUEST) {
+      const moreMoviesButton = this.#createMoreMoviesButton();
 
-    this.#renderPopularMovieItems();
+      moreMoviesButton.addEventListener("click", () => {
+        this.#popularCurrentPage += 1;
+        this.#renderPopularMovieItems();
+      });
+
+      return;
+    }
+
+    this.#removeMoreMoviesButton();
+    this.#displayMaxPageInfo();
   }
 
   #setupSearchFormSubmit() {
@@ -129,6 +131,8 @@ class MovieList {
     } catch (error) {
       this.#handleError(error as Error);
     }
+
+    this.#removeMoreMoviesButton();
   }
 
   async #getSearchedMoviesData(titleInput: string) {
@@ -140,9 +144,8 @@ class MovieList {
 
   #handleSearchPagination(data: IMovieItemData[]) {
     if (data.length === MAX_PAGE_PER_REQUEST) {
-      this.#removeMoreMoviesButton();
-
       const moreMoviesButton = this.#createMoreMoviesButton();
+
       moreMoviesButton.addEventListener("click", () => {
         this.#searchCurrentPage += 1;
         this.#renderSearchedMovieItems(this.#title);
@@ -231,6 +234,7 @@ class MovieList {
 
   #displayMaxPageInfo() {
     this.#removeMoreMoviesButton();
+
     const maxPageInfo = this.#createMaxPageInfo();
 
     this.#movieListSection.appendChild(maxPageInfo);
