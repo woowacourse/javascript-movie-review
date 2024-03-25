@@ -1,19 +1,16 @@
-import OPTIONS from '../../constants/OPTIONS';
 import IRespondData from '../../interfaces/IRespondData';
 import IMovieData from '../../interfaces/IMovieData';
 import { starFilled } from '../../resources';
+import { getDomElement, getAllDomElements } from '../../util/DOM';
 import { MOVIE_POSTER_URL } from '../../constants/DTO';
-import { getAllDomElements, getDomElement } from '../../util/DOM';
+import Skeleton from '../Skeleton/Skeleton';
 
 const MovieItems = {
-  createSkeleton(): HTMLUListElement {
-    const movieItems = document.createElement('ul');
-    movieItems.classList.add('item-list');
-
-    [...Array(OPTIONS.movieItemCount)].forEach(() => {
-      movieItems.appendChild(this.createMovieItemSkeleton());
-    });
-    return movieItems;
+  createSkeleton() {
+    const movieItemsList = document.createElement('ul');
+    movieItemsList.classList.add('item-list');
+    Skeleton.createMovieSkeleton(movieItemsList);
+    return movieItemsList;
   },
 
   async replaceSkeletons(movieItems: HTMLUListElement, respondData: IRespondData) {
@@ -70,16 +67,6 @@ const MovieItems = {
     return star;
   },
 
-  createMovieItemSkeleton() {
-    const movieItem = document.createElement('li');
-
-    const movieItemLink = this.createMovieItemLink(this.createMovieItemCardSkeleton());
-
-    movieItem.appendChild(movieItemLink);
-
-    return movieItem;
-  },
-
   createMovieItemLink(movieItemCard: HTMLElement) {
     const movieItemLink = document.createElement('a');
 
@@ -90,15 +77,13 @@ const MovieItems = {
     return movieItemLink;
   },
 
-  createMovieItemCardSkeleton() {
-    const movieItemCardSkeleton = document.createElement('div');
-    movieItemCardSkeleton.classList.add('item-card');
-
-    movieItemCardSkeleton.appendChild(this.createMovieItemThumbnailSkeleton());
-    movieItemCardSkeleton.appendChild(this.createMovieItemTitleSkeleton());
-    movieItemCardSkeleton.appendChild(this.createMovieItemScoreSkeleton());
-
-    return movieItemCardSkeleton;
+  replaceMovieCardSkeleton(itemCard: HTMLElement, movieData: IMovieData) {
+    if (movieData === undefined) {
+      return itemCard.remove();
+    }
+    this.replaceThumbnail(itemCard, movieData);
+    this.replaceTitle(itemCard, movieData);
+    this.replaceScore(itemCard, movieData);
   },
 
   createMovieItemThumbnailSkeleton() {
