@@ -1,29 +1,22 @@
 import { HTMLTemplate } from "../../types/common";
 import IMAGES from "../../images";
+import { FetchedMovieData, Movie } from "../../types/movies";
 
 export type Path = string;
-
-export interface Movie {
-  id: number;
-  title: string;
-  posterPath: Path;
-  voteAverage: number;
-}
 
 const BASE_POSTER_URL = "https://image.tmdb.org/t/p/w220_and_h330_face";
 
 const generateMovieItem = (movie: Movie): HTMLTemplate => {
-  const { title, posterPath, voteAverage } = movie;
-
+  const { title, poster_path, vote_average } = movie;
   return `
     <li>
       <a href="#">
         <div class="item-card">
-          <img class="item-thumbnail" src="${BASE_POSTER_URL}${posterPath}" loading="lazy" alt="${title}" />
+          <img class="item-thumbnail" src="${BASE_POSTER_URL}${poster_path}" loading="lazy" alt="${title}" />
           <p class="item-title">${title}</p>
           <p class="item-score">
             <img src="${IMAGES.starFilled}" alt="별점" />
-            ${voteAverage}
+            ${vote_average}
           </p>
         </div>
       </a>
@@ -31,8 +24,8 @@ const generateMovieItem = (movie: Movie): HTMLTemplate => {
   `;
 };
 
-export const generateMovieItems = (movies: Movie[]): HTMLTemplate => {
-  return movies.reduce((movieListTemplate, movieInfo) => {
+export const generateMovieItems = (data: FetchedMovieData): HTMLTemplate => {
+  return data.results.reduce((movieListTemplate, movieInfo) => {
     return movieListTemplate + generateMovieItem(movieInfo);
   }, "");
 };

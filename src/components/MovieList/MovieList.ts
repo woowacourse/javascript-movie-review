@@ -2,15 +2,14 @@ import APIClientComponent from "../abstract/APIClientComponent";
 import SkeletonUI from "../SkeletonUI";
 import QueryState from "../../states/QueryState";
 
-import { Movie, generateMovieItems } from "../templates/generateMovieItems";
+import { generateMovieItems } from "../templates/generateMovieItems";
 import { generateMovieListSkeleton } from "../templates/generateMovieListSkeleton";
 import { generateEmptyMovieListScreen } from "../templates/generateUnexpectedScreen";
 
 import { getPopularMovieList, getSearchMovieList } from "../../apis/movieList";
 import { $ } from "../../utils/dom";
 import { HTMLTemplate, TargetId, Query } from "../../types/common";
-
-const MOVIE_DATA_MAX_LENGTH = 20;
+import { FetchedMovieData } from "../../types/movies";
 
 interface MovieListProps {
   targetId: TargetId;
@@ -27,31 +26,33 @@ export default class MovieList extends APIClientComponent {
     this.queryState = queryState;
   }
 
-  protected getTemplate(data: Movie[]): HTMLTemplate {
+  protected getTemplate(data: FetchedMovieData): HTMLTemplate {
     const movieItemsTemplate = generateMovieItems(data);
 
     return `
         <ul id="item-list" class="item-list">
         ${
-          data.length === 0
+          data.results.length === 0
             ? generateEmptyMovieListScreen()
             : movieItemsTemplate
         }
         </ul>
         ${
-          data.length < MOVIE_DATA_MAX_LENGTH
+          this.page >= data.total_pages
             ? ""
             : '<button id="watch-more-button" class="btn primary full-width">더 보기</button>'
         }
     `;
   }
 
-  async fetchRenderData(): Promise<Movie[]> {
+  async fetchRenderData(): Promise<FetchedMovieData> {
     this.resetPage();
 
-    const movies = await this.fetchMovies(this.page, this.queryState.get());
-
-    return movies;
+    const fetchedMovieData = await this.fetchMovies(
+      this.page,
+      this.queryState.get()
+    );
+    return fetchedMovieData;
   }
 
   protected setEvent(): void {
@@ -66,29 +67,29 @@ export default class MovieList extends APIClientComponent {
 
     this.skeletonUI.insert("item-list", "afterend");
 
-    const additionalMovies = await getPopularMovieList(this.page);
+    const additionalFetchedMovieData = await getPopularMovieList(this.page);
 
+    console.log(additionalFetchedMovieData);
     $("skeleton-movie-item-list")?.remove();
 
-    this.insertMovieItems(additionalMovies);
-
-    if (additionalMovies.length < MOVIE_DATA_MAX_LENGTH) {
-      $("watch-more-button")?.remove();
-    }
+    this.insertMovieItems(additionalFetchedMovieData);
   }
 
-  private async insertMovieItems(movies: Movie[]): Promise<void> {
-    const movieItemsTemplate = generateMovieItems(movies);
+  private async insertMovieItems(data: FetchedMovieData): Promise<void> {
+    const movieItemsTemplate = generateMovieItems(data);
 
     $("item-list")?.insertAdjacentHTML("beforeend", movieItemsTemplate);
   }
 
-  private async fetchMovies(page: number, query?: Query): Promise<Movie[]> {
-    const movies = query
+  private async fetchMovies(
+    page: number,
+    query?: Query
+  ): Promise<FetchedMovieData> {
+    const fetchedMovieData = query
       ? await getSearchMovieList(query, page)
       : await getPopularMovieList(page);
 
-    return movies;
+    return fetchedMovieData;
   }
 
   private resetPage(): void {
