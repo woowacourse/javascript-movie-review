@@ -1,11 +1,25 @@
 {
-  "rules": {},
+  "rules": {
+    "max-depth": ["error", 1],
+    "max-params": ["error", 2],
+    "eqeqeq": "error",
+    "no-console": "warn"
+  },
   "env": {
     "es6": true,
-    "node": true
+    "node": true,
+    "browser": true
   },
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
-  "extends": ["eslint:recommended", "plugin:prettier/recommended"]
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "ignorePatterns": ["**/cypress/*", "**/__tests__/*"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ]
 }

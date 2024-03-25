@@ -1,0 +1,32 @@
+.error-container {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 48px;
+}
+
+.error-image {
+  width: 200px;
+  height: 200px;
+}
+
+.status-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #585858;
+}
+
+.error-message {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #f33f3f;
+
+  line-height: 2.5rem;
+
+  text-align: center;
+
+  white-space: pre-line;
+}
