@@ -5,6 +5,8 @@ import { IMAGE_URL_PREFIX } from '../../constants/url';
 import MovieInfo, { IMovieDetail } from '../../domainObject/MovieInfo';
 import VoteScore from '../VoteScore/VoteScore';
 import StarRating from '../StarRating/StarRating';
+import { Rate, verifyRate } from '../../types/StarRate';
+import VoteMovies from '../../database/voteMovies';
 
 const template = /* html */ `
   <header class="detail-header">
@@ -27,8 +29,11 @@ const template = /* html */ `
 class MovieDetail {
   private template: HTMLElement;
 
+  private movieId: number;
+
   constructor() {
     this.template = this.createElements();
+    this.movieId = 0;
   }
 
   get element() {
@@ -40,11 +45,6 @@ class MovieDetail {
     container.className = 'detail-container';
     container.innerHTML = template;
     return container;
-  }
-
-  private createStarRating() {
-    const starRating = new StarRating({ initRate: 6 });
-    this.template.querySelector('.vote-my-rate')?.appendChild(starRating.element);
   }
 
   async requestMovieDetail(id: number) {
@@ -60,19 +60,32 @@ class MovieDetail {
   }
 
   setMovieDetail(movieDetail: IMovieDetail) {
-    const { title, poster, backdropImage } = movieDetail;
+    const { id, title, poster, backdropImage } = movieDetail;
     this.resetMovieDetail();
     this.setBackdropImage(backdropImage);
     this.setTitle(title);
     this.setPoster(title, poster);
     this.setMovieContent(movieDetail);
+    this.movieId = id;
   }
 
   private setMovieContent({ genres, voteAverage, overview }: IMovieDetail) {
     this.setGenres(genres);
     this.setVoteScore(voteAverage);
     this.setOverview(overview);
-    this.createStarRating();
+  }
+
+  setStarRating(initRate?: number) {
+    this.createStarRating(verifyRate(initRate ?? 0));
+  }
+
+  private saveRating = (score: Rate) => {
+    VoteMovies.add(this.movieId, score);
+  };
+
+  private createStarRating(initRate: Rate) {
+    const starRating = new StarRating({ initRate, saveRating: this.saveRating });
+    this.template.querySelector('.vote-my-rate')?.appendChild(starRating.element);
   }
 
   private setBackdropImage(backdropImage: string) {

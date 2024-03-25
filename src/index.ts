@@ -6,6 +6,7 @@ import MovieItems from './components/MovieItems/MovieItems';
 import Modal from './components/Modal/Modal';
 import MovieDetail from './components/MovieDetail/MovieDetali';
 import { IMovieDetail } from './domainObject/MovieInfo';
+import VoteMovies from './database/voteMovies';
 
 const body = document.querySelector('body');
 
@@ -44,5 +45,6 @@ movieItems.element?.addEventListener('click', (event) => {
 
 function setMovieDetailAndToggleModal(detail: IMovieDetail) {
   movieDetail.setMovieDetail(detail);
+  movieDetail.setStarRating(VoteMovies.get(detail.id)?.rate);
   modal.toggleModal();
 }

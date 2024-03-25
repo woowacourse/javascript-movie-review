@@ -5,6 +5,7 @@ import EachStar from './EachStar';
 
 interface StarRatingProps {
   initRate?: Rate;
+  saveRating?: (score: Rate) => void;
 }
 
 const template = /* html */ `
@@ -23,10 +24,13 @@ class StarRating {
 
   private score: Rate;
 
-  constructor({ initRate }: StarRatingProps) {
+  private saveRating: ((score: Rate) => void) | undefined;
+
+  constructor({ initRate, saveRating }: StarRatingProps) {
     this.template = this.createElements();
     this.score = initRate ?? 0;
     this.stars = this.createStarIcons();
+    this.saveRating = saveRating;
     this.setScoreAndMent();
     this.initStarFill();
     this.onMouseOver();
@@ -39,6 +43,7 @@ class StarRating {
 
   private setScore(score: Rate) {
     this.score = score;
+    if (this.saveRating !== undefined) this.saveRating(score);
     this.stars.forEach((star) => star.fillStars(this.score));
     this.setScoreAndMent();
   }

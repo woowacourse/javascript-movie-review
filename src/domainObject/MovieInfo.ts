@@ -11,6 +11,7 @@ export interface IMovieInfo {
 }
 
 export interface IMovieDetail {
+  id: number;
   title: string;
   poster: string;
   voteAverage: number;
@@ -31,8 +32,9 @@ const MovieInfo = {
   },
 
   getDetail(movie: ResponseMovieDetail): IMovieDetail {
-    const { title, poster_path, vote_average, genres, overview, backdrop_path } = movie;
+    const { id, title, poster_path, vote_average, genres, overview, backdrop_path } = movie;
     return {
+      id,
       title,
       poster: poster_path,
       voteAverage: vote_average,
