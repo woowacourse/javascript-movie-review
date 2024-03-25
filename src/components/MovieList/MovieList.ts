@@ -12,7 +12,7 @@ class MovieList {
     this.#page = 0;
     this.#search = search;
     if (search) {
-      this.create(`"${search}"${CONTAINER_TITLE.searchResult}`);
+      this.create(`"${search}"${CONTAINER_TITLE.searchResult}`, search);
     } else {
       this.create(CONTAINER_TITLE.popular, search);
     }
@@ -44,7 +44,6 @@ class MovieList {
 
     const movieListData: IRespondData = await this.getMovieListData(search);
     MovieItems.replaceAllSkeletons(skeleton, movieListData);
-
     if (this.#page === movieListData.total_pages || this.#page === 500) {
       button.remove();
     }
