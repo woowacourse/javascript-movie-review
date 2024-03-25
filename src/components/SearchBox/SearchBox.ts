@@ -1,20 +1,11 @@
-// TODO: CustomEvent 구현 이유?
-
 import { $ } from '../../utils/dom';
 import { showAlert } from '../Alert/Alert';
 
-const handleSearchClick = (event: MouseEvent | KeyboardEvent) => {
-  const input = $('#search-text') as HTMLInputElement;
+interface Props {
+  searchHandler: (event: MouseEvent | KeyboardEvent) => void;
+}
 
-  event.target?.dispatchEvent(
-    new CustomEvent<string>('search', {
-      bubbles: true,
-      detail: input.value,
-    }),
-  );
-};
-
-const SearchBox = () => {
+const SearchBox = ({ searchHandler }: Props) => {
   const searchBox = document.createElement('div');
   const searchInputLabel = document.createElement('label');
   const searchInput = document.createElement('input');
@@ -36,19 +27,17 @@ const SearchBox = () => {
   searchBox.appendChild(searchInput);
   searchBox.appendChild(searchButton);
 
-  searchButton.addEventListener('click', (event) => {
-    handleSearchClick(event);
-    searchInput.value = '';
-  });
-
+  searchButton.addEventListener('click', (event: MouseEvent) => searchHandler(event));
   searchInput.addEventListener('keydown', (event: KeyboardEvent) => {
-    if (event.key === 'Enter' && ($('#search-text') as HTMLInputElement).value === '') {
+    const searchInput = $('#search-text') as HTMLInputElement;
+
+    if (event.key === 'Enter' && searchInput.value === '') {
       showAlert('검색어를 입력해주세요.');
       return;
     }
 
     if (event.key === 'Enter' && !event.isComposing) {
-      handleSearchClick(event);
+      searchHandler(event);
       searchInput.value = '';
     }
   });

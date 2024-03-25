@@ -1,25 +1,16 @@
 interface Props {
   element: HTMLElement;
+  onClick: () => void;
 }
 
-const handleHomeButtonClick = (event: MouseEvent) => {
-  event.target?.dispatchEvent(
-    new CustomEvent('home-click', {
-      bubbles: true,
-    }),
-  );
-};
-
-const Title = ({ element }: Props) => {
+const Title = ({ element, onClick }: Props) => {
   const title = document.createElement('h1');
 
   title.classList.add('title');
 
   title.appendChild(element);
 
-  title.addEventListener('click', (event) => {
-    handleHomeButtonClick(event);
-  });
+  title.addEventListener('click', () => onClick());
 
   return title;
 };
