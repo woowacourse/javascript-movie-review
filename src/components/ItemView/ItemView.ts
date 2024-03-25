@@ -44,6 +44,8 @@ class ItemView {
   }
 
   async mountItems(button: HTMLElement, search?: string) {
+    this.#page++;
+
     const skeleton = MovieitemsSkeleton.create();
     button.insertAdjacentElement('beforebegin', skeleton);
 
@@ -57,9 +59,9 @@ class ItemView {
 
   async getMovieListData(search?: string) {
     if (search) {
-      return await fetchSearchMovies(++this.#page, search);
+      return await fetchSearchMovies(this.#page, search);
     }
-    return await fetchPopularMovies(++this.#page);
+    return await fetchPopularMovies(this.#page);
   }
 
   showPopularMovies() {
@@ -73,8 +75,9 @@ class ItemView {
     try {
       const trimmedSearchInputText = document.querySelector('input')?.value.replace(/ +/g, ' ').trim();
 
-      if (trimmedSearchInputText)
+      if (trimmedSearchInputText) {
         this.createItemView(`"${trimmedSearchInputText}"${CONTAINER_TITLE.searchResult}`, trimmedSearchInputText);
+      }
       if (!trimmedSearchInputText) SearchValidator.validate();
     } catch (e) {
       if (e instanceof Error) ToastPopup(e.message);
