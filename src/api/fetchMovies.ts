@@ -19,7 +19,6 @@ function handleError(status: number) {
     case 404:
       throw new Error(`${status} 컨텐츠를 찾을 수 없습니다.`);
     case 500:
-      throw new Error(`${status} 서버에서 문제가 발생했습니다.`);
     case 503:
       throw new Error(`${status} 서버에서 문제가 발생했습니다.`);
   }
