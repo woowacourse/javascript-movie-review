@@ -9,7 +9,7 @@ const MovieReviewHeader = {
     });
     const logoElement = createElement("img", {
       src: `${logoImg}`,
-      alt: "MovieList 로고",
+      alt: "MovieList 홈으로 이동",
     });
 
     headerElement.appendChild(linkElement);
