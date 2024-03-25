@@ -18,6 +18,7 @@ button {
 }
 
 #app {
+  margin-top: 150px;
   padding-bottom: 48px;
 }
 
@@ -78,12 +79,6 @@ button {
   vertical-align: middle;
 }
 
-/* .star-start {
-  margin-left: 5px;
-  vertical-align: middle;
-  padding-top: 5px;
-} */
-
 .item-score::after {
   margin-left: 8px;
 }
@@ -131,6 +126,7 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
   width: 100%;
   min-width: 1200px;
@@ -142,6 +138,11 @@ header {
   padding: 0 20px;
   border-bottom: 1px solid var(--white);
   margin-bottom: 48px;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 
 header h1 {

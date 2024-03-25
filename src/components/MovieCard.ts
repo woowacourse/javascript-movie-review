@@ -22,12 +22,15 @@ export default class MovieCard {
 
   /* eslint-disable max-lines-per-function */
   #generateMovieItem(movie: Movie) {
-    const element = /* html */ ` 
+    const posterPath = movie.poster_path
+      ? `https:image.tmdb.org/t/p/w220_and_h330_face${movie.poster_path}`
+      : '../images/no-image.png';
+    const element = /* html */ `
     <a href="#">
        <div class="item-card">
          <img
            class="item-thumbnail"
-           src="https:image.tmdb.org/t/p/w220_and_h330_face${movie.poster_path}"
+           src="${posterPath}"
            loading="lazy"
            alt="${movie.title}"
          />
