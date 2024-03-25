@@ -3,6 +3,7 @@ import IRespondData from '../../interfaces/IRespondData';
 import IMovieData from '../../interfaces/IMovieData';
 import { starFilled } from '../../resources';
 import { MOVIE_POSTER_URL } from '../../constants/DTO';
+import { getAllDomElements, getDomElement } from '../../util/DOM';
 
 const MovieItems = {
   createSkeleton(): HTMLUListElement {
@@ -16,7 +17,7 @@ const MovieItems = {
   },
 
   async replaceSkeletons(movieItems: HTMLUListElement, respondData: IRespondData) {
-    const itemCards = movieItems.querySelectorAll('li');
+    const itemCards = getAllDomElements('li', movieItems);
     itemCards.forEach((item, index) => this.replaceSkeleton(item, respondData.results[index]));
   },
 
@@ -30,7 +31,7 @@ const MovieItems = {
   },
 
   replaceThumbnail(itemCard: HTMLElement, movieData: IMovieData) {
-    const oldThumbnail = itemCard.querySelector('.item-thumbnail');
+    const oldThumbnail = getDomElement('.item-thumbnail', itemCard);
     const newThumbnail = document.createElement('img');
 
     newThumbnail.classList.add('item-thumbnail');
@@ -38,28 +39,28 @@ const MovieItems = {
     newThumbnail.loading = 'lazy';
     newThumbnail.alt = movieData.title;
 
-    oldThumbnail?.replaceWith(newThumbnail);
+    oldThumbnail.replaceWith(newThumbnail);
   },
 
   replaceTitle(itemCard: HTMLElement, movieData: IMovieData) {
-    const oldTitle = itemCard.querySelector('.item-title');
+    const oldTitle = getDomElement('.item-title', itemCard);
     const newTitle = document.createElement('p');
 
     newTitle.classList.add('item-title');
     newTitle.textContent = movieData.title;
 
-    oldTitle?.replaceWith(newTitle);
+    oldTitle.replaceWith(newTitle);
   },
 
   replaceScore(itemCard: HTMLElement, movieData: IMovieData) {
-    const oldScore = itemCard.querySelector('.item-score');
+    const oldScore = getDomElement('.item-score', itemCard);
     const newScore = document.createElement('p');
 
     newScore.classList.add('item-score');
     newScore.textContent = `${movieData.vote_average.toFixed(1)} `;
     newScore.appendChild(this.createStarElement());
 
-    oldScore?.replaceWith(newScore);
+    oldScore.replaceWith(newScore);
   },
 
   createStarElement(): HTMLElement {

@@ -3,6 +3,7 @@ import { logo } from '../../resources';
 import ItemView from '../ItemView/ItemView';
 import SearchValidator from '../../domain/Validator/SearchValidator';
 import ToastPopup from '../ToastPopup/ToastPopup';
+import { getDomElement } from '../../util/DOM';
 
 const MovieHeader = {
   create() {
@@ -15,7 +16,7 @@ const MovieHeader = {
 
     this.setHandle(logoImgContainer, searchBox);
 
-    document.getElementById('app')?.appendChild(header);
+    getDomElement('#app').appendChild(header);
   },
 
   createLogoImgContainer() {
@@ -32,34 +33,34 @@ const MovieHeader = {
 
   setHandle(logoImgContainer: HTMLElement, searchBox: HTMLElement) {
     logoImgContainer.addEventListener('click', () => this.showPopularMovies(searchBox));
-    const searchButton = searchBox.querySelector('button');
-    if (searchButton) searchButton.addEventListener('click', () => this.showSearchMovies(searchBox));
+    const searchButton = getDomElement('button', searchBox);
+    searchButton.addEventListener('click', () => this.showSearchMovies(searchBox));
     searchBox.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') this.showSearchMovies(searchBox);
+      if (event.key === 'Enter') {
+        this.showSearchMovies(searchBox);
+      }
     });
   },
 
   createItemView(inputText?: string) {
-    const itemView = document.querySelector('.item-view');
-    itemView?.replaceChildren();
+    const oldItemView = getDomElement('.item-view');
+    oldItemView.replaceChildren();
 
     new ItemView(inputText);
   },
 
   showPopularMovies(searchBox: HTMLElement) {
-    const searchBoxInput = searchBox.querySelector('input');
-    if (searchBoxInput) searchBoxInput.value = '';
+    const searchBoxInput = getDomElement<HTMLInputElement>('input', searchBox);
+    searchBoxInput.value = '';
 
     this.createItemView();
   },
 
   showSearchMovies(searchBox: HTMLElement) {
     try {
-      const trimmedSearchInputText = searchBox?.querySelector('input')?.value.replace(/ +/g, ' ');
-      if (trimmedSearchInputText) {
-        SearchValidator.validate(trimmedSearchInputText.trim());
-        this.createItemView(trimmedSearchInputText);
-      }
+      const trimmedSearchInputText = getDomElement<HTMLInputElement>('input', searchBox).value.replace(/ +/g, ' ');
+      SearchValidator.validate(trimmedSearchInputText.trim());
+      this.createItemView(trimmedSearchInputText);
     } catch (e) {
       if (e instanceof Error) ToastPopup(e.message);
     }

@@ -1,3 +1,9 @@
 node_modules
 .env
 cypress.env.json
+dist/2e162b4fefb34cd7ed8d.png
+dist/6c9611deedf4b85849c9.png
+dist/6328741810b732410eec.png
+dist/bundle.js
+dist/f1bd4269f4446ceae306.png
+dist/index.html

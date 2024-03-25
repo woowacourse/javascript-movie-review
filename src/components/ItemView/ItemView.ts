@@ -3,6 +3,7 @@ import { BUTTON, CONTAINER_TITLE } from '../../constants/INFORMATION';
 import Button from '../Button/Button';
 import MovieItems from '../MovieItems/MovieItems';
 import IRespondData from '../../interfaces/IRespondData';
+import { getDomElement } from '../../util/DOM';
 
 class ItemView {
   #page: number;
@@ -13,17 +14,14 @@ class ItemView {
   }
 
   create(itemViewTitle: string, search?: string) {
-    const itemView = document.querySelector('.item-view');
+    const itemView = getDomElement('.item-view');
+    const button = Button.create(BUTTON.showMore);
 
-    if (itemView) {
-      const button = Button.create(BUTTON.showMore);
+    itemView.appendChild(this.createTitle(itemViewTitle));
+    itemView.appendChild(button);
 
-      itemView.appendChild(this.createTitle(itemViewTitle));
-      itemView.appendChild(button);
-
-      this.mountItems(button, search);
-      button.addEventListener('click', () => this.mountItems(button, search));
-    }
+    this.mountItems(button, search);
+    button.addEventListener('click', () => this.mountItems(button, search));
     return itemView;
   }
 
