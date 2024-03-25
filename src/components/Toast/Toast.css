@@ -26,13 +26,6 @@
   animation-fill-mode: forwards;
 }
 
-/* #toast-message {
-  display: inline-block;
-  animation: fadeout 1s;
-  -webkit-animation: fadeout 1s;
-  animation-fill-mode: forwards;
-} */
-
 @keyframes fadeout {
   from {
     opacity: 1;
