@@ -56,12 +56,12 @@ class MovieList {
     } catch (error) {
       this.#handleError(error as Error);
     }
-    this.#removeMoreMoviesButton();
+    this.#removeMoreMoviesButton("popular");
   }
 
   #handlePopularPagination(data: IMovieItemData[]) {
     if (data.length === MAX_PAGE_PER_REQUEST) {
-      const moreMoviesButton = this.#createMoreMoviesButton();
+      const moreMoviesButton = this.#createMoreMoviesButton("popular");
 
       moreMoviesButton.addEventListener("click", () => {
         this.#popularCurrentPage += 1;
@@ -71,7 +71,7 @@ class MovieList {
       return;
     }
 
-    this.#removeMoreMoviesButton();
+    this.#removeMoreMoviesButton("popular");
     this.#displayMaxPageInfo();
   }
 
@@ -132,7 +132,7 @@ class MovieList {
       this.#handleError(error as Error);
     }
 
-    this.#removeMoreMoviesButton();
+    this.#removeMoreMoviesButton("search");
   }
 
   async #getSearchedMoviesData(titleInput: string) {
@@ -144,7 +144,7 @@ class MovieList {
 
   #handleSearchPagination(data: IMovieItemData[]) {
     if (data.length === MAX_PAGE_PER_REQUEST) {
-      const moreMoviesButton = this.#createMoreMoviesButton();
+      const moreMoviesButton = this.#createMoreMoviesButton("search");
 
       moreMoviesButton.addEventListener("click", () => {
         this.#searchCurrentPage += 1;
@@ -154,7 +154,7 @@ class MovieList {
       return;
     }
 
-    this.#removeMoreMoviesButton();
+    this.#removeMoreMoviesButton("search");
     this.#displayMaxPageInfo();
   }
 
@@ -233,22 +233,20 @@ class MovieList {
   }
 
   #displayMaxPageInfo() {
-    this.#removeMoreMoviesButton();
-
     const maxPageInfo = this.#createMaxPageInfo();
 
     this.#movieListSection.appendChild(maxPageInfo);
   }
 
-  #createMoreMoviesButton() {
-    const moreMoviesButton = MoreMoviesButton.createMoreMoviesButton();
+  #createMoreMoviesButton(tab: string) {
+    const moreMoviesButton = MoreMoviesButton.createMoreMoviesButton(tab);
     this.#movieListSection.appendChild(moreMoviesButton);
 
     return moreMoviesButton;
   }
 
-  #removeMoreMoviesButton() {
-    $(".btn")?.remove();
+  #removeMoreMoviesButton(tab: string) {
+    $(`.${tab}MoreMoviesButton`)?.remove();
   }
 
   #removeSkeleton() {
