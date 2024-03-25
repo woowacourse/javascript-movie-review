@@ -4,7 +4,7 @@ import Header from './components/Header/Header';
 import Title from './components/Title/Title';
 import SearchBox from './components/SearchBox/SearchBox';
 
-import MovieList from './components/MovieList/MovieList';
+import MovieListSection from './components/MovieListSection/MovieListSection';
 import MovieController from './controller/MovieController';
 import { $ } from './utils/dom';
 
@@ -36,9 +36,9 @@ class MovieApp {
 
   #setMain() {
     const main = document.createElement('main');
-    const movieList = MovieList();
+    const movieListSection = MovieListSection();
 
-    main.appendChild(movieList);
+    main.appendChild(movieListSection);
 
     return main;
   }

@@ -1,4 +1,4 @@
-const MovieList = () => {
+const MovieListSection = () => {
   const section = document.createElement('section');
 
   const subtitle = document.createElement('h2');
@@ -22,4 +22,4 @@ const MovieList = () => {
   return section;
 };
 
-export default MovieList;
+export default MovieListSection;
