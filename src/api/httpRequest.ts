@@ -1,70 +1,31 @@
 import createMovieItems from '../components/MovieItems/MovieItems';
-import { MovieListType } from '../types/movie';
 import HTTPError from './HttpError';
+import { URL } from './url';
+
+async function fetchMovies(url: string) {
+  createMovieItems([], false);
+  const response = await fetch(url);
+  if (response.status !== 200) {
+    throw new HTTPError(response.status);
+  }
+
+  const data = await response.json();
+  const movieList = data.results;
+  const isLastPage = data.total_pages === data.page;
+  return { movieList, isLastPage };
+}
 
 const httpRequest = {
-  async fetchPopularMovies(
-    page: number,
-  ): Promise<{ popularMovieList: MovieListType; isLastPage: boolean }> {
-    return new Promise((resolve, reject) => {
-      createMovieItems([], false);
-      setTimeout(async () => {
-        try {
-          const response = await fetch(
-            `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}&api_key=${process.env.API_KEY}`,
-          );
+  async getPopularMovies(page: number) {
+    const url = `${URL.POPULAR_MOVIES}&page=${page}`;
 
-          if (response.status !== 200) throw new HTTPError(response.status);
-          // throw new HTTPError(500); // 임의 에러 처리
-
-          const responseData = await response.json();
-          const popularMovieList = responseData.results;
-
-          const totalPages = responseData.total_pages;
-
-          const currentPages = responseData.page;
-          const isLastPage = totalPages === currentPages;
-
-          resolve({ popularMovieList, isLastPage });
-        } catch (error) {
-          reject(error);
-        }
-      }, 0); // skeleton UI 확인 => 3000
-    });
+    return fetchMovies(url);
   },
 
-  async fetchSearchedMovies(
-    page: number,
-    input: string,
-  ): Promise<{ searchedMovieList: MovieListType; isLastPage: boolean }> {
-    return new Promise((resolve, reject) => {
-      createMovieItems([], false);
-      setTimeout(async () => {
-        try {
-          const response = await fetch(
-            `https://api.themoviedb.org/3/search/movie?query=${input}&include_adult=false&language=ko-KR&page=${page}&api_key=${process.env.API_KEY}`,
-          );
+  async getSearchedMovies(page: number, input: string) {
+    const url = `${URL.SEARCH_MOVIES}&query=${input}&page=${page}`;
 
-          const responseData = await response.json();
-          const searchedMovieList = responseData.results;
-
-          if (searchedMovieList.length === 0) {
-            document.querySelector('.item-list--skeleton')?.remove();
-            throw new HTTPError(response.status, '검색된 영화가 없습니다.');
-          }
-          // throw new HTTPError(500, '검색된 영화가 없습니다.'); // 임의 에러 처리
-
-          const totalPages = responseData.total_pages;
-
-          const currentPages = responseData.page;
-          const isLastPage = totalPages === currentPages;
-
-          resolve({ searchedMovieList, isLastPage });
-        } catch (error) {
-          reject(error);
-        }
-      }, 0);
-    });
+    return fetchMovies(url);
   },
 };
 
