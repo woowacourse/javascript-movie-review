@@ -1,7 +1,7 @@
 import MovieAPI from '../../apis/movie/movie';
 
 import { BaseResponse } from '../../apis/common/apiSchema.type';
-import { MovieDetail } from './Movie.type';
+import { MovieResponse } from './Movie.type';
 
 class Movie {
   static MAX_PAGE = 5;
@@ -23,7 +23,7 @@ class Movie {
     onSuccess,
     onError,
   }: {
-    onSuccess: (data: BaseResponse<MovieDetail[]>) => void;
+    onSuccess: (data: BaseResponse<MovieResponse[]>) => void;
     onError: (error: Error | unknown) => void;
   }) {
     MovieAPI.fetchMovieDetails(this.page, this.movieType).then(onSuccess).catch(onError);

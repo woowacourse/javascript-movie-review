@@ -1,6 +1,4 @@
-import { MovieDetail } from '../../domain/Movie/Movie.type';
 import ApiSchema from '../common/apiSchema';
-import { BaseResponse } from '../common/apiSchema.type';
 
 import { isMovieErrorStatusCode } from './movie.util';
 
@@ -10,34 +8,49 @@ class MovieAPI {
     403: '사용자가 요청한 작업을 수행할 권한이 없습니다.',
   };
 
-  private static getAPIEndpoint(type: string) {
-    return type === 'popular' ? `${process.env.BASE_URL}/movie/popular` : `${process.env.BASE_URL}/search/movie`;
+  static fetchMovieDetails(page: number, type: string) {
+    const query = type === 'popular' ? '' : type;
+    const requestUrl = `${this.getAPIEndpoint(type)}?${MovieAPI.createMovieQueryString({
+      page: String(page),
+      query,
+    })}`;
+
+    return this.fetchMovieData(requestUrl);
   }
 
-  private static createMovieQueryString(page: number, query?: string) {
+  static fetchMovieDetail(id: string) {
+    const requestUrl = `${this.getAPIEndpoint('detail', id)}?${MovieAPI.createMovieQueryString()}`;
+
+    return this.fetchMovieData(requestUrl);
+  }
+
+  private static getAPIEndpoint(type: string, id?: string) {
+    switch (type) {
+      case 'popular':
+        return `${process.env.BASE_URL}/movie/popular`;
+      case 'detail':
+        return `${process.env.BASE_URL}/movie/${id}`;
+      default:
+        return `${process.env.BASE_URL}/search/movie`;
+    }
+  }
+
+  private static createMovieQueryString(options?: Record<string, string>) {
     const params = new URLSearchParams({
       api_key: process.env.API_KEY,
       language: 'ko',
-      page: String(page),
     });
 
-    if (query) {
-      params.append('query', query);
+    if (options) {
+      Object.entries(options).forEach(([key, value]) => {
+        params.append(key, value);
+      });
     }
 
     return params.toString();
   }
 
-  private static handleProcessStatusCode(response: Response) {
-    if (!isMovieErrorStatusCode(response.status)) return;
-
-    throw new Error(MovieAPI.ERROR_MESSAGES_MAP[response.status]);
-  }
-
-  static async fetchMovieDetails(page: number, type: string) {
-    const requestType = type === 'popular' ? '' : type;
-    const requestUrl = `${this.getAPIEndpoint(type)}?${MovieAPI.createMovieQueryString(page, requestType)}`;
-
+  static async fetchMovieData(requestUrl: string) {
     const response = await new ApiSchema(requestUrl).request();
 
     if (!response) return;
@@ -46,6 +59,12 @@ class MovieAPI {
 
     const movieDetails = response.json();
     return movieDetails;
+  }
+
+  private static handleProcessStatusCode(response: Response) {
+    if (!isMovieErrorStatusCode(response.status)) return;
+
+    throw new Error(MovieAPI.ERROR_MESSAGES_MAP[response.status]);
   }
 }
 

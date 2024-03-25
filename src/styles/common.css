@@ -10,6 +10,11 @@ body {
   font-size: 14px;
   background-color: #222222;
   color: #fff;
+  scrollbar-width: none;
+}
+
+body:has(dialog[open]) {
+  overflow: hidden;
 }
 
 a {
@@ -39,4 +44,21 @@ button.primary {
 
 .full-width {
   width: 100%;
+}
+
+.text-body {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+}
+
+main {
+  position: relative;
+}
+
+.observer-target {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
 }

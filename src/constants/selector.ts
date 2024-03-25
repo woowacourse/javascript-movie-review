@@ -1,11 +1,14 @@
 export const ELEMENT_SELECTOR = {
+  app: '#app',
   main: 'main',
-  movieReviewSection: '#movie-review-section',
-  movieListContainer: '#movie-list-container',
+  movieReviewDetailModal: '#movie-review-detail-modal',
+  modalCloseButton: '#modal-close-button',
   errorFallBackModal: '#error-fallback-modal',
+  reloadButton: '#reload-button',
+  movieReviewSection: '#movie-review-section',
   searchForm: '#search-form',
   searchInput: '#search-input',
-  moreButton: '#more-button',
-  reloadButton: '#reload-button',
   movieLogo: '#movie-logo',
+  movieListContainer: '#movie-list-container',
+  itemCard: '#item-card',
 } as const;
