@@ -14,7 +14,7 @@ function getLogo() {
   return logo;
 }
 
-const submitEventHandler = (event: any) => {
+const submitSearchEventHandler = (event: any) => {
   event.preventDefault();
   movieStateMethod.setQuery(event.target.searchContent.value);
   movieStateMethod.setUrl(SEARCH_MOVIES_URL);
@@ -47,7 +47,7 @@ function getSearchBox() {
   const input = getSearchBoxInput();
   const button = getSearchBoxButton();
   searchBox.classList.add('search-box');
-  searchBox.onsubmit = submitEventHandler;
+  searchBox.onsubmit = submitSearchEventHandler;
   searchBox.append(input, button);
   return searchBox;
 }
