@@ -19,31 +19,27 @@ export default class App {
     this.#addHomeButtonEvent();
   }
 
-  // eslint-disable-next-line max-lines-per-function
-  async #generateMovieList() {
-    this.#changeTitle('지금 인기 있는 영화');
-    this.#removePreviousError();
-    const ulElement = document.querySelector('ul.item-list');
+  #generateMovieList() {
+    this.#generateItemList('지금 인기 있는 영화', async () => await movieStore.getMovies(), movieStore);
+  }
 
-    if (ulElement) {
-      this.#generateSkeletonUI(ulElement as HTMLElement);
-      const newData = await movieStore.getMovies(); //
-
-      this.#removeSkeletonUI();
-      this.#appendMovieCard(newData, ulElement as HTMLElement);
-    }
+  #generateSearchMovieList() {
+    this.#generateItemList(
+      `"${searchMovieStore.query}"  검색 결과`,
+      async () => await searchMovieStore.searchMovies(),
+      searchMovieStore,
+    );
   }
 
   // eslint-disable-next-line max-lines-per-function
-  async #generateSearchMovieList() {
-    this.#changeTitle(`"${searchMovieStore.query}"  검색 결과`);
+  async #generateItemList(title: string, fetchData: () => Promise<Movie[]>, store: any) {
+    this.#changeTitle(title);
     this.#removePreviousError();
     const ulElement = document.querySelector('ul.item-list');
 
     if (ulElement) {
       this.#generateSkeletonUI(ulElement as HTMLElement);
-      const newData = await searchMovieStore.searchMovies();
-
+      const newData = await fetchData();
       this.#removeSkeletonUI();
       this.#appendMovieCard(newData, ulElement as HTMLElement);
     }
