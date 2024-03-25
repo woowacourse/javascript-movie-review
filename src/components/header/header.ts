@@ -34,7 +34,7 @@ function render(logoHandler: () => void, inputSubmitHandler: (inputValue: string
     logoHandler();
   });
 
-  searchBox.addEventListener('submit', (event: any) => {
+  searchBox.addEventListener('submit', (event: Event) => {
     event.preventDefault();
     if (searchInput.value.trim() !== '') inputSubmitHandler(searchInput.value);
   });
