@@ -19,9 +19,8 @@ export const fetchPopularMovie = async (
   const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`;
 
   const res = await fetch(url, options);
-  const tmdbResponse: TMDBResponse = await res.json();
 
-  return tmdbResponse;
+  return (await res.json()) as TMDBResponse;
 };
 
 export const fetchTargetMovie = async (
@@ -33,7 +32,6 @@ export const fetchTargetMovie = async (
   const url = `https://api.themoviedb.org/3/search/movie?query=${movieName}&include_adult=false&language=ko-KR&page=${page}`;
 
   const res = await fetch(url, options);
-  const tmdbResponse: TMDBResponse = await res.json();
 
-  return tmdbResponse;
+  return (await res.json()) as TMDBResponse;
 };

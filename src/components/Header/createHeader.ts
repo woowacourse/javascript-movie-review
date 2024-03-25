@@ -5,7 +5,7 @@ import createElement from "../../utils/createElement";
 import createSearchBox from "../SearchBox/createSearchBox";
 import logo from "./logo.png";
 
-const handleClickLogo = (event: Event) => {
+const goHomepage = (event: Event) => {
   const input = document.querySelector<HTMLInputElement>("#header__search-box");
   if (input) {
     input.value = "";
@@ -23,13 +23,13 @@ const createHeader = () => {
 
   const h1 = createElement("h1");
 
-  h1.addEventListener("click", handleClickLogo);
+  h1.addEventListener("click", goHomepage);
 
-  const img = createElement("img", {
+  const logoImg = createElement("img", {
     src: logo,
     alt: "MovieList 로고",
   });
-  h1.append(img);
+  h1.append(logoImg);
 
   const searchBox = createSearchBox(CUSTOM_EVENT.searchMovie, "검색");
   const input = searchBox.querySelector("input");

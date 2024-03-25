@@ -10,10 +10,10 @@ export interface MovieInfo {
 }
 
 const createMoviePoster = ({ title, imgSrc, rating }: MovieInfo) => {
-  const li = createElement("li");
+  const moviePosterLi = createElement("li");
   const anchor = createElement("a");
-  const div = createElement("div", { class: "item-card" });
-  const posterImg = createElement("img", {
+  const itemCardDiv = createElement("div", { class: "item-card" });
+  const itemThumbnail = createElement("img", {
     class: "item-thumbnail",
     src: imgSrc,
     loading: "lazy",
@@ -27,11 +27,11 @@ const createMoviePoster = ({ title, imgSrc, rating }: MovieInfo) => {
   });
 
   scoreParagraph.append(starImg, rating.toFixed(1));
-  div.append(posterImg, titleParagraph, scoreParagraph);
-  anchor.append(div);
-  li.append(anchor);
+  itemCardDiv.append(itemThumbnail, titleParagraph, scoreParagraph);
+  anchor.append(itemCardDiv);
+  moviePosterLi.append(anchor);
 
-  return li;
+  return moviePosterLi;
 };
 
 export default createMoviePoster;
