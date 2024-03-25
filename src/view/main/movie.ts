@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-alert */
 import fetchMovies from '../../api/fetchMovies';
 
 import starFilledImage from '../../assets/images/star_filled.png';
@@ -70,8 +72,10 @@ function checkPage(responseJson: ITMDBResponse, button: HTMLElement | null) {
 }
 
 export async function getMovieItems(button = document.getElementById('see-more-button')) {
-  const responseJson: ITMDBResponse = await fetchMovies();
-
+  const responseJson: ITMDBResponse = await fetchMovies().catch((error) => {
+    alert(error.message);
+    location.reload();
+  });
   checkPage(responseJson, button);
   const moviesData = responseJson.results;
   const movieElements = moviesData.map((info: IMovieItemProps) => getMovieItem(info)) as HTMLElement[];

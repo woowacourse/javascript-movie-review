@@ -48,17 +48,10 @@ async function fetchMovies() {
     url: movieStateMethod.getUrl(),
     page: movieStateMethod.getPage(),
     query: movieStateMethod.getQuery(),
-  })
-    .then((response) => {
-      handleError(response.status);
-      return response.json();
-    })
-    .catch((error) => {
-      // eslint-disable-next-line no-alert
-      alert(error.message);
-      // eslint-disable-next-line no-restricted-globals
-      location.reload();
-    });
+  }).then((response) => {
+    handleError(response.status);
+    return response.json();
+  });
 }
 
 export default fetchMovies;
