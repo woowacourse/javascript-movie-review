@@ -1,5 +1,5 @@
-import { fetchAPI } from "./fetchAPI";
-import { POPULAR_MOVIE_LIST_PATH, SEARCH_MOVIE_LIST_PATH } from "./paths";
+import { fetchAPI } from "./utils/fetchAPI";
+import { POPULAR_MOVIE_LIST_PATH, SEARCH_MOVIE_LIST_PATH } from "./utils/paths";
 import { Movie, Path } from "../components/templates/generateMovieItems";
 
 type DateString = string;
