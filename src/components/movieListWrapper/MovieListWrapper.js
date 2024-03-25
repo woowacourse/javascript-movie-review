@@ -1,23 +1,22 @@
 import { fetchPopularMovieList, fetchSearchMovieList } from '../../apis/fetchData';
 import { LAST_PAGE } from '../../constants/constant';
-import { completeMovieList, loadMovieList } from '../../domain/MovieService';
+import movieList from '../../view/movieList';
 
 class MovieListWrapper {
   #currentPage
   #title
-  #getName
+  #viewType
   #inputValue
 
-  constructor(title, getName, inputValue = '') {
+  constructor(title, viewType, inputValue = '') {
     this.#currentPage = 1;
     this.#title = title;
-    this.#getName = getName;
+    this.#viewType = viewType;
     this.#inputValue = inputValue;
   }
 
   async create() {
     const section = document.querySelector('.item-view');
-    if (!section) return;
     section.replaceChildren();
 
     const title = document.createElement('h2');
@@ -39,48 +38,48 @@ class MovieListWrapper {
 
     showMoreButton.addEventListener('click', async () => {
       await this.updateMovieList(showMoreButton);
-      this.plusCurrentPage()
+      this.#currentPage += 1;
     });
   }
 
-  plusCurrentPage() {
-    this.#currentPage += 1;
+  async updateMovieList(showMoreButton) {
+    switch (this.#viewType) {
+      case 'popular':
+        await this.updatePopularMovieList(showMoreButton);
+        break;
+      case 'search':
+        await this.updateSearchMovieList(showMoreButton);
+        break;
+    }
   }
 
-  async updateMovieList(showMoreButton) {
-    switch (this.#getName) {
-      case 'popular':
-        {
-          const liList = loadMovieList();
-          const result = await fetchPopularMovieList(this.#currentPage);
-          if (result) {
-            const [movies, totalPages] = result;
-            if (LAST_PAGE <= this.#currentPage) {
-              showMoreButton.classList.add('none');
-            }
-            completeMovieList(liList, movies);
-          } else {
-            showMoreButton.classList.add('none');
-          }
-        }
-        return;
-      case 'search':
-        {
-          const result = await fetchSearchMovieList(this.#inputValue, this.#currentPage);
-          if (result) {
-            const liList = loadMovieList();
-            const [movies, totalPages] = result;
-            if (Math.min(totalPages, LAST_PAGE) <= this.#currentPage) {
-              showMoreButton.classList.add('none');
-            }
-            completeMovieList(liList, movies);
-          } else {
-            showMoreButton.classList.add('none');
-          }
-        }
-        return;
+  async updatePopularMovieList(showMoreButton) {
+    const liList = movieList.loading();
+    const result = await fetchPopularMovieList(this.#currentPage);
+    if (result) {
+      const [movies, totalPages] = result;
+      if (LAST_PAGE <= this.#currentPage) {
+        showMoreButton.classList.add('none');
+      }
+      movieList.completed(liList, movies);
+    } else {
+      showMoreButton.classList.add('none');
+    }
+  }
+
+  async updateSearchMovieList(showMoreButton) {
+    const liList = movieList.loading();
+    const result = await fetchSearchMovieList(this.#inputValue, this.#currentPage);
+    if (result) {
+      const [movies, totalPages] = result;
+      if (Math.min(totalPages, LAST_PAGE) <= this.#currentPage) {
+        showMoreButton.classList.add('none');
+      }
+      movieList.completed(liList, movies);
+    } else {
+      showMoreButton.classList.add('none');
     }
   }
 }
 
-export default MovieListWrapper
+export default MovieListWrapper;
