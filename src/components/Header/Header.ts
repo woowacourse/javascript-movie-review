@@ -6,6 +6,17 @@ interface Props {
   imageSource: string;
 }
 
+async function updateMainHtml(e: Event) {
+  document.querySelector('main')?.remove();
+
+  const form = e.target as HTMLFormElement;
+  const input = (form.elements.namedItem(RENDER_TYPE.SEARCH) as HTMLInputElement).value;
+  const movieContents = await createMovieContents.execute(`"${input}" 검색 결과`);
+  createMovieContents.renderMovieData({ type: RENDER_TYPE.SEARCH, input });
+
+  document.querySelector('#app')?.appendChild(movieContents);
+}
+
 // eslint-disable-next-line max-lines-per-function
 const createHeader = ({ imageSource }: Props) => {
   const header = document.createElement('header');
@@ -20,17 +31,11 @@ const createHeader = ({ imageSource }: Props) => {
     `;
   header.innerHTML = templates;
 
-  header.querySelector('.search-box')?.addEventListener('submit', async (e: Event) => {
-    e.preventDefault();
-    document.querySelector('main')?.remove();
-
-    const form = e.target as HTMLFormElement;
-    const input = (form.elements.namedItem(RENDER_TYPE.SEARCH) as HTMLInputElement).value;
-    const movieContents = await createMovieContents.execute(`"${input}" 검색 결과`);
-    createMovieContents.renderMovieData({ type: RENDER_TYPE.SEARCH, input });
-
-    document.querySelector('#app')?.appendChild(movieContents);
+  header.querySelector('.search-box')?.addEventListener('submit', async (event: Event) => {
+    event.preventDefault();
+    updateMainHtml(event);
   });
+
   return header;
 };
 
