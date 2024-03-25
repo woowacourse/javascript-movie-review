@@ -30,7 +30,7 @@ class SearchedMovieList extends MovieList {
   }
 
   async #createSearchedMovieItems() {
-    const ul = $("ul");
+    const ul = $(".item-list");
 
     try {
       const movies = await this.#getSearchedMoviesData();
