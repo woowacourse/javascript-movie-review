@@ -6,7 +6,7 @@ describe('Fixture를 이용한 영화 검색 테스트', () => {
         method: 'GET',
         url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie*/,
       },
-      { fixture: 'movie-search.json' },
+      { fixture: 'movie-search-harry.json' },
     ).as('getSearchMovies');
 
     cy.visit('http://localhost:8080');
@@ -23,6 +23,11 @@ describe('Fixture를 이용한 영화 검색 테스트', () => {
 
       // fixture data로 렌더링 검증
       cy.get('.item-list > li').should('have.length', 20);
+
+      // 검색결과에 검색어 포함 여부 확인
+      searchMovies.forEach((movie: any) => {
+        expect(movie.title.toLowerCase()).to.include('해리');
+      });
     });
   });
 });
