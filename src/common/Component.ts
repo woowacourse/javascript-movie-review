@@ -18,18 +18,16 @@ export default class Component<T = {}, K = {}> {
     return ``;
   }
 
-  protected setEvent() {}
+  protected initializeState(): void {}
 
-  protected createChild(): void {}
+  protected render(): void {}
 
-  protected render() {
-    this.$target.innerHTML = this.getTemplate();
-    this.createChild();
-  }
+  protected setEvent(): void {}
 
-  protected initializeState() {}
+  public rerender(...args: unknown[]): void;
 
-  protected setState(newState: K) {
-    this.state = newState;
+  public rerender() {
+    this.render();
+    this.setEvent();
   }
 }
