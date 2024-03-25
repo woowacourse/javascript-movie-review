@@ -31,21 +31,20 @@ const createCard = () => {
   const $title = createTitle();
   const $score = createScore();
 
-  $card.appendChild($thumbnail);
-  $card.appendChild($title);
-  $card.appendChild($score);
+  const fragment = document.createDocumentFragment();
+  fragment.appendChild($thumbnail);
+  fragment.appendChild($title);
+  fragment.appendChild($score);
 
+  $card.appendChild(fragment);
   return $card;
 };
 
 const createSkeletonMovieItem = () => {
   const $li = document.createElement('li');
-  const $anchor = document.createElement('a');
-  $anchor.href = '#';
   const $card = createCard();
 
-  $anchor.appendChild($card);
-  $li.appendChild($anchor);
+  $li.appendChild($card);
 
   return $li;
 };
