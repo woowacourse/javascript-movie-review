@@ -1,4 +1,4 @@
-import { getMovieData } from "./getMovieData";
+import { fetchData } from "./getMovieData";
 import Movie from "../movie/Movie";
 
 const API_KEY = process.env.API_KEY as string;
@@ -9,6 +9,12 @@ export const getSearchedMoviesData = async (
   currentPage: string,
   title: string
 ) => {
+  if (!API_KEY) {
+    throw new Error(
+      "유효하지 않은 API 키입니다. 올바른 API 키를 확인하고 다시 시도해주세요."
+    );
+  }
+
   const params = {
     api_key: API_KEY,
     language: "ko-KR",
@@ -20,17 +26,18 @@ export const getSearchedMoviesData = async (
     params
   ).toString()}`;
 
-  try {
-    const searchedMovies = await getMovieData(searchMovieUrl);
-    if (searchedMovies && searchedMovies.results) {
-      const movies = searchedMovies.results.map(
-        (item: IMovieItemData) => new Movie(item)
-      );
-      return movies;
-    } else {
-      throw new Error("서버에서 영화 데이터를 불러오는데 실패했습니다.");
-    }
-  } catch (error) {
-    throw new Error("네트워크 오류로 인해 영화 검색에 실패했습니다.");
+  const searchedMovies = await fetchData(searchMovieUrl);
+
+  if (searchedMovies.results.length === 0) {
+    throw new Error("해당 키워드에 해당하는 영화가 없습니다.");
+  }
+
+  if (searchedMovies && searchedMovies.results) {
+    const movies = searchedMovies.results.map(
+      (item: IMovieItemData) => new Movie(item)
+    );
+    return movies;
+  } else {
+    throw new Error("영화 검색에 실패했습니다.");
   }
 };
