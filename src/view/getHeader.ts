@@ -13,13 +13,17 @@ interface ISearchSubmitEvent<T> extends SubmitEvent {
   target: EventTarget & T;
 }
 
+function logoClickHandler() {
+  // eslint-disable-next-line no-restricted-globals
+  location.reload();
+}
+
 function getLogo() {
   const logo = document.createElement('h1');
   const logoImgElement = document.createElement('img');
-
   logoImgElement.src = logoImg;
   logoImgElement.alt = 'MovieList 로고';
-
+  logo.onclick = logoClickHandler;
   logo.appendChild(logoImgElement);
   return logo;
 }
