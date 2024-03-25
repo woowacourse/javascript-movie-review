@@ -1,6 +1,7 @@
 import Component from '../../common/Component/Component';
 import MovieList from '../MovieList/MovieList';
 import MovieListCardSkeleton from '../MovieListCardSkeleton/MovieListCardSkeleton';
+import MovieDetailModal from '../MovieDetailModal/MovieDetailModal';
 import Movie from '../../../domain/Movie/Movie';
 import { createElement } from '../../../utils/dom/createElement/createElement';
 import { querySelector } from '../../../utils/dom/selector';
@@ -22,6 +23,7 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
 
   protected render() {
     this.$element.append(this.createComponent());
+    this.updateMovieList();
   }
 
   protected createComponent() {
@@ -30,46 +32,25 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
       attributeOptions: { id: 'movie-review-section', class: 'item-view' },
     });
 
-    $section.append(this.createMovieTitle(), this.createMovieListContainer(), this.createMoreButton());
+    $section.innerHTML = /* html */ `
+      <h2>${this.props?.movieType === 'popular' ? '지금 인기 있는 영화' : `"${this.props?.movieType}" 검색 결과`}</h2>
+      <div id="movie-list-container" class="movie-list-container"></div>
+      <button id="more-button" class="btn primary full-width">더보기</button>
+    `;
 
     return $section;
   }
 
-  private createMovieTitle() {
-    const movieTitleText =
-      this.props?.movieType === 'popular' ? '지금 인기 있는 영화' : `"${this.props?.movieType}" 검색 결과`;
-
-    return createElement({ tagName: 'h2', text: movieTitleText });
-  }
-
-  private createMovieListContainer() {
-    const $movieListContainer = createElement({
-      tagName: 'div',
-      attributeOptions: { id: 'movie-list-container', class: 'movie-list-container' },
-    });
-
-    this.updateMovieList($movieListContainer);
-
-    return $movieListContainer;
-  }
-
-  private createMoreButton() {
-    return createElement({
-      tagName: 'button',
-      text: '더보기',
-      attributeOptions: { id: 'more-button', class: 'btn primary full-width' },
-    });
-  }
-
-  private updateMovieList($movieListContainer: HTMLElement) {
+  private updateMovieList() {
+    const $movieListContainer = querySelector<HTMLElement>('#movie-list-container', this.$element);
     const $ul = createElement({ tagName: 'ul', attributeOptions: { class: 'item-list' } });
 
-    this.renderSkeletonList($movieListContainer, $ul, MOVIE_ITEM_SKELETON.LENGTH);
+    this.renderSkeletonList($movieListContainer, $ul);
     this.renderMovieList($movieListContainer, $ul);
   }
 
-  private renderSkeletonList($movieListContainer: HTMLElement, $ul: HTMLElement, length: number) {
-    Array.from({ length }, () => new MovieListCardSkeleton($ul));
+  private renderSkeletonList($movieListContainer: HTMLElement, $ul: HTMLElement) {
+    Array.from({ length: MOVIE_ITEM_SKELETON.LENGTH }, () => new MovieListCardSkeleton($ul));
     $movieListContainer.append($ul);
   }
 
@@ -77,7 +58,7 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     if (!this.movie) return;
 
     this.movie.setPage(MOVIE.PAGE_UNIT);
-    this.movie.fetchMovieDetails({
+    this.movie.fetchMovies({
       movieType: this.props?.movieType ?? '',
       onSuccess: (data) => {
         $ul.remove();
@@ -89,7 +70,10 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
 
         if (data.results.length < MOVIE.MAX_ITEM) this.removeMoreButton();
 
-        new MovieList($movieListContainer, { movieItemDetails: data?.results ?? [] });
+        new MovieList($movieListContainer, {
+          movieItems: data.results,
+          createMovieDetailModal: this.createMovieDetailModal.bind(this),
+        });
       },
       onError: (error) => this.openErrorModal(error),
     });
@@ -118,14 +102,22 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     }
   }
 
+  private createMovieDetailModal(key: number) {
+    const $movieReviewSection = querySelector<HTMLElement>('#movie-review-section');
+
+    new MovieDetailModal($movieReviewSection, { key });
+
+    const $modal = querySelector<HTMLDialogElement>('#movie-detail-modal');
+    $modal.showModal();
+  }
+
   protected setEvent(): void {
     const $moreButton = querySelector<HTMLButtonElement>(ELEMENT_SELECTOR.moreButton, this.$element);
     $moreButton.addEventListener('click', this.handleMoreButtonClick.bind(this));
   }
 
   private handleMoreButtonClick() {
-    const $movieListContainer = querySelector<HTMLDivElement>(ELEMENT_SELECTOR.movieListContainer);
-    this.updateMovieList($movieListContainer);
+    this.updateMovieList();
 
     if (this.movie && this.movie.isMaxPage()) {
       this.removeMoreButton();

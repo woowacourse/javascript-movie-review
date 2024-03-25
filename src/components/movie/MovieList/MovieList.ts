@@ -5,7 +5,8 @@ import { createElement } from '../../../utils/dom/createElement/createElement';
 import './MovieList.css';
 
 interface MovieListProps {
-  movieItemDetails: MovieDetail[];
+  movieItems: MovieDetail[];
+  createMovieDetailModal: (key: number) => void;
 }
 
 class MovieList extends Component<MovieListProps> {
@@ -16,12 +17,15 @@ class MovieList extends Component<MovieListProps> {
   protected createComponent() {
     const $movieItemList = createElement({ tagName: 'ul', attributeOptions: { class: 'item-list' } });
 
-    this.props?.movieItemDetails.forEach((movieItemDetail) => {
-      const $li = createElement({ tagName: 'li' });
-      new MovieListCard($li, movieItemDetail);
+    if (this.props) {
+      const { movieItems, createMovieDetailModal } = this.props;
 
-      $movieItemList.appendChild($li);
-    });
+      movieItems.forEach((movieItem) => {
+        const $li = createElement({ tagName: 'li' });
+        new MovieListCard($li, { movieItem, createMovieDetailModal });
+        $movieItemList.appendChild($li);
+      });
+    }
 
     return $movieItemList;
   }
