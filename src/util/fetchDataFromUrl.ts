@@ -1,9 +1,10 @@
 import { ResponseMovieList } from '../interface/api';
 import { Params, convertObjectToURLSearchParams } from './convertObjectToURLSearchParams';
 
+// fetch 포장 함수
 export default async function fetchDataFromUrl(url: string, query: Record<string, Params>) {
   const paramsObj = convertObjectToURLSearchParams(query);
-  const queryUrl = url + '?' + new URLSearchParams(paramsObj);
+  const queryUrl = url + '?' + paramsObj;
   const response = await fetch(queryUrl);
 
   if (!response.ok) {
