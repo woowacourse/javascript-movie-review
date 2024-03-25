@@ -28,12 +28,15 @@ export function renderSkeleton() {
 export function updateSkeletonToMovieCard(li, movie) {
   li.classList.toggle('skeleton');
   const thumbnail = li.querySelector('.item-thumbnail.skeleton');
-  thumbnail.classList.toggle('skeleton');
   thumbnail.src = movie.poster_path
     ? `https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}.jpg`
     : emptyPng;
   thumbnail.loading = 'lazy';
   thumbnail.alt = movie.title;
+  thumbnail.onload = () => {
+    thumbnail.classList.toggle('skeleton');
+    thumbnail.style.display = 'block';
+  };
 
   const title = li.querySelector('.item-title.skeleton');
   title.classList.toggle('skeleton');
