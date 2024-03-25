@@ -1,6 +1,6 @@
 import SearchBox from '../SearchBox/SearchBox';
 import { logo } from '../../resources';
-import ItemView from '../ItemView/ItemView';
+import MovieList from '../MovieList/MovieList';
 import SearchValidator from '../../domain/Validator/SearchValidator';
 import ToastPopup from '../ToastPopup/ToastPopup';
 import { getDomElement } from '../../util/DOM';
@@ -42,25 +42,25 @@ const MovieHeader = {
     });
   },
 
-  createItemView(inputText?: string) {
-    const oldItemView = getDomElement('.item-view');
-    oldItemView.replaceChildren();
+  createMovieList(inputText?: string) {
+    const oldMovieList = getDomElement('.item-view');
+    oldMovieList.replaceChildren();
 
-    new ItemView(inputText);
+    new MovieList(inputText);
   },
 
   showPopularMovies(searchBox: HTMLElement) {
     const searchBoxInput = getDomElement<HTMLInputElement>('input', searchBox);
     searchBoxInput.value = '';
 
-    this.createItemView();
+    this.createMovieList();
   },
 
   showSearchMovies(searchBox: HTMLElement) {
     try {
       const trimmedSearchInputText = getDomElement<HTMLInputElement>('input', searchBox).value.replace(/ +/g, ' ');
       SearchValidator.validate(trimmedSearchInputText.trim());
-      this.createItemView(trimmedSearchInputText);
+      this.createMovieList(trimmedSearchInputText);
     } catch (e) {
       if (e instanceof Error) ToastPopup(e.message);
     }

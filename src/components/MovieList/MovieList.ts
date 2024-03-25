@@ -5,7 +5,7 @@ import MovieItems from '../MovieItems/MovieItems';
 import IRespondData from '../../interfaces/IRespondData';
 import { getDomElement } from '../../util/DOM';
 
-class ItemView {
+class MovieList {
   #page: number;
 
   constructor(search?: string) {
@@ -13,16 +13,16 @@ class ItemView {
     this.create(search ? `"${search}"${CONTAINER_TITLE.searchResult}` : CONTAINER_TITLE.popular, search);
   }
 
-  create(itemViewTitle: string, search?: string) {
-    const itemView = getDomElement('.item-view');
+  create(movieListTitle: string, search?: string) {
+    const movieList = getDomElement('.item-view');
     const button = Button.create(BUTTON.showMore);
 
-    itemView.appendChild(this.createTitle(itemViewTitle));
-    itemView.appendChild(button);
+    movieList.appendChild(this.createTitle(movieListTitle));
+    movieList.appendChild(button);
 
     this.mountItems(button, search);
     button.addEventListener('click', () => this.mountItems(button, search));
-    return itemView;
+    return movieList;
   }
 
   createTitle(containerTitle: string) {
@@ -54,4 +54,4 @@ class ItemView {
   }
 }
 
-export default ItemView;
+export default MovieList;
