@@ -2,7 +2,6 @@ import { $ } from '../util/selector.js';
 import createButton from './Button.js';
 import { injectMovieDataToItem } from './MovieItem.js';
 import { createSkeletonMovieList } from './MovieList.js';
-import createRetryButton from './RetryButton.js';
 
 class MovieContainer {
   #movieListContainer;
@@ -18,10 +17,20 @@ class MovieContainer {
     this.#sectionTitle.textContent = title;
     this.#handleMoreButton = handleMoreButton;
 
-    this.#moreButton = createButton({ size: 'full-width', variant: 'primary', name: '더 보기 ', type: 'button' });
+    this.#moreButton = createButton(
+      {
+        type: 'button',
+        id: 'more-button',
+        size: 'full-width',
+        variant: 'primary',
+        textContent: '더 보기',
+      },
+      {
+        type: 'click',
+        callbackFunction: () => this.initHandleClickMoreButton(),
+      },
+    );
     this.toggleMoreButtonVisibility();
-
-    this.#moreButton.addEventListener('click', () => this.initHandleClickMoreButton());
 
     $('section').append(this.#moreButton);
   }
@@ -81,14 +90,24 @@ class MovieContainer {
   }
 
   createRetryButton(handleRetryButton) {
-    const retryButton = createRetryButton();
+    const retryButton = createButton(
+      {
+        type: 'button',
+        id: 'retry-button',
+        size: 'full-width',
+        variant: 'primary',
+        textContent: '다시 불러오기 ↻',
+      },
+      {
+        type: 'click',
+        callbackFunction: () => handleRetryButton(),
+      },
+    );
     $('.item-view').insertBefore(retryButton, $('ul.item-list'));
-
-    retryButton.addEventListener('retryButtonClickEvent', handleRetryButton);
   }
 
   removeRetryButton() {
-    const retryButton = $('.retry-button');
+    const retryButton = $('#retry-button');
     retryButton?.remove();
   }
 
