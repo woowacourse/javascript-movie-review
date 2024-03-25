@@ -1,5 +1,5 @@
 import { fetchPopularMovieList, fetchSearchMovieList } from '../../apis/fetchData';
-import { LAST_PAGE } from '../../constants/constant';
+import { LAST_PAGE, VIEW_TYPE } from '../../constants/constant';
 import movieList from '../../view/movieList';
 
 class MovieListWrapper {
@@ -44,10 +44,10 @@ class MovieListWrapper {
 
   async updateMovieList(showMoreButton) {
     switch (this.#viewType) {
-      case 'popular':
+      case VIEW_TYPE.POPULAR:
         await this.updatePopularMovieList(showMoreButton);
         break;
-      case 'search':
+      case VIEW_TYPE.SEARCH:
         await this.updateSearchMovieList(showMoreButton);
         break;
     }
