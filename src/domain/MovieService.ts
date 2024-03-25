@@ -34,6 +34,7 @@ class MovieService {
     return this.createMoviePageData({ total_pages, results, pageNumber });
   }
 
+  // 중간 도메인 객체
   createMoviePageData({ total_pages, results, pageNumber }: MoviePageData) {
     const movieList: Movie[] = results.map(
       (result) =>
