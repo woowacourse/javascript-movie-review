@@ -12,7 +12,7 @@ import './MovieList.css';
 
 interface MovieListProps {
   movieItemDetails: MovieDetail[];
-  removeMoreButton: () => void;
+  removeEvent: () => void;
 }
 
 class MovieList extends Component<MovieListProps> {
@@ -20,7 +20,7 @@ class MovieList extends Component<MovieListProps> {
     if (!this.props?.movieItemDetails) return;
 
     if (this.props?.movieItemDetails.length === 0) {
-      this.props?.removeMoreButton();
+      this.props?.removeEvent();
 
       new Image(this.$element, {
         image: NoResultImage,
@@ -31,7 +31,7 @@ class MovieList extends Component<MovieListProps> {
       return;
     }
 
-    if (this.props?.movieItemDetails.length < 20) this.props?.removeMoreButton();
+    if (this.props?.movieItemDetails.length < 20) this.props?.removeEvent();
 
     this.$element.append(this.createComponent());
   }

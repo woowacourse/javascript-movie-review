@@ -7,7 +7,7 @@ import Movie from '../../../domain/Movie/Movie';
 
 import { createElement } from '../../../utils/dom/createElement/createElement';
 import { querySelector } from '../../../utils/dom/selector';
-import { on } from '../../../utils/dom/eventListener/eventListener';
+import { off, on } from '../../../utils/dom/eventListener/eventListener';
 
 import { ELEMENT_SELECTOR } from '../../../constants/selector';
 
@@ -19,9 +19,12 @@ interface MovieReviewBodyProps {
 
 class MovieReviewBody extends Component<MovieReviewBodyProps> {
   private movie: Movie | undefined;
+  private handleStartScroll: typeof this.handleScroll | undefined;
 
   protected initializeState(): void {
     this.movie = new Movie(1, this.props?.movieType ?? '');
+
+    this.handleStartScroll = this.handleScroll.bind(this);
   }
 
   protected render() {
@@ -37,7 +40,6 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     new MovieTitle($section, { movieType: this.props?.movieType ?? '' });
 
     $section.appendChild(this.createMovieListContainer());
-    $section.appendChild(this.createMoreButton());
 
     return $section;
   }
@@ -69,8 +71,8 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
         $ul.remove();
 
         new MovieList($movieListContainer, {
-          movieItemDetails: data?.results ?? [],
-          removeMoreButton: this.removeMoreButton.bind(this),
+          movieItemDetails: data.results,
+          removeEvent: this.removeEvent.bind(this),
         });
       },
 
@@ -84,40 +86,43 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     });
   }
 
-  private removeMoreButton() {
-    const $button = querySelector<HTMLButtonElement>(ELEMENT_SELECTOR.moreButton, this.$element);
-    $button.remove();
-  }
-
   private openErrorFallbackModal() {
     const $modal = querySelector<HTMLDialogElement>(ELEMENT_SELECTOR.errorFallBackModal);
 
     $modal.showModal();
   }
 
-  private createMoreButton() {
-    return createElement({
-      tagName: 'button',
-      text: '더보기',
-      attributeOptions: { id: 'more-button', class: 'btn primary full-width' },
-    });
-  }
-
   protected setEvent(): void {
+    if (!this.handleStartScroll) return;
+
     on({
-      target: querySelector<HTMLButtonElement>(ELEMENT_SELECTOR.moreButton, this.$element),
-      eventName: 'click',
-      eventHandler: this.handleMoreButtonClick.bind(this),
+      target: window,
+      eventName: 'scroll',
+      eventHandler: this.handleStartScroll,
     });
   }
 
-  private handleMoreButtonClick() {
+  private handleUpdateMovieList() {
     const $movieListContainer = querySelector<HTMLDivElement>(ELEMENT_SELECTOR.movieListContainer);
     this.updateMovieList($movieListContainer);
+  }
 
-    if (this.movie && this.movie.isMaxPage()) {
-      this.removeMoreButton();
+  private handleScroll() {
+    const isReachedBottom = Math.floor(window.innerHeight + window.scrollY) + 1 >= document.body.offsetHeight;
+
+    if (isReachedBottom) {
+      this.handleUpdateMovieList();
     }
+  }
+
+  public removeEvent() {
+    if (!this.handleStartScroll) return;
+
+    off({
+      target: window,
+      eventName: 'scroll',
+      eventHandler: this.handleStartScroll,
+    });
   }
 }
 

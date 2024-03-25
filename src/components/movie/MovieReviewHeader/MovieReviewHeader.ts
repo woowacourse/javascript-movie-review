@@ -34,7 +34,7 @@ class MovieReviewHeader extends Component {
   }
 
   protected setEvent(): void {
-    const $searchForm = querySelector<HTMLFormElement>(ELEMENT_SELECTOR.searchform, this.$element);
+    const $searchForm = querySelector<HTMLFormElement>(ELEMENT_SELECTOR.searchForm, this.$element);
     const $movieLogo = querySelector<HTMLFormElement>(ELEMENT_SELECTOR.movieLogo, this.$element);
 
     on({ target: $searchForm, eventName: 'submit', eventHandler: this.handleSubmitForm.bind(this) });
@@ -44,7 +44,7 @@ class MovieReviewHeader extends Component {
   private handleSubmitForm(event: Event) {
     event.preventDefault();
 
-    const $searchForm = querySelector<HTMLFormElement>(ELEMENT_SELECTOR.searchform, this.$element);
+    const $searchForm = querySelector<HTMLFormElement>(ELEMENT_SELECTOR.searchForm, this.$element);
     const $searchInput = querySelector<HTMLInputElement>(ELEMENT_SELECTOR.searchInput, this.$element);
 
     this.handleMovieSearchResult($searchForm, $searchInput);
