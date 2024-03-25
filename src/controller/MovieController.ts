@@ -70,11 +70,7 @@ class MovieController {
   async #inputMovies() {
     const movieData = await this.#getMovies(this.#page);
 
-    $('.view-more-button')?.classList.remove('hidden');
-
-    if (!movieData || movieData.length < RULES.moviesPerPage) {
-      $('.view-more-button')?.classList.add('hidden');
-    }
+    this.#updateViewMoreButtonDisplay(movieData);
 
     if (movieData) {
       this.#createMovieItems(movieData).forEach((movieItem) =>
@@ -99,11 +95,7 @@ class MovieController {
       this.#showErrorPage(ERROR_MESSAGE.noSearchResult);
     }
 
-    $('.view-more-button')?.classList.remove('hidden');
-
-    if (!movieData || movieData.length < RULES.moviesPerPage) {
-      $('.view-more-button')?.classList.add('hidden');
-    }
+    this.#updateViewMoreButtonDisplay(movieData);
 
     if (movieData) {
       this.#createMovieItems(movieData).forEach((movieItem) => {
@@ -163,6 +155,14 @@ class MovieController {
     errorContainer.innerHTML = '';
     errorContainer.appendChild(ErrorPage({ status, message }));
     errorContainer.classList.remove('hidden');
+  }
+
+  #updateViewMoreButtonDisplay(movieData: MovieInfo[] | undefined) {
+    if (!movieData || movieData.length < RULES.moviesPerPage) {
+      $('.view-more-button')?.classList.add('hidden');
+    } else {
+      $('.view-more-button')?.classList.remove('hidden');
+    }
   }
 }
 
