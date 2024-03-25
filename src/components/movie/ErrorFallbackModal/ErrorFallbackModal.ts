@@ -13,7 +13,11 @@ import './ErrorFallbackModal.css';
 
 class ErrorFallbackModal extends Component {
   protected render(): void {
-    new Modal(this.$element, { id: 'error-fallback-modal', children: this.createComponent() });
+    new Modal(this.$element, {
+      id: 'error-fallback-modal',
+      class: 'error-fallback-modal',
+      children: this.createComponent(),
+    });
   }
 
   protected createComponent() {

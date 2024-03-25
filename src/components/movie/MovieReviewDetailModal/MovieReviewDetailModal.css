@@ -63,7 +63,7 @@
 .movie-description-image {
   width: 356px;
   height: 433px;
-  padding: 32px;
+  margin: 32px;
 }
 
 .modal-review-detail-section {

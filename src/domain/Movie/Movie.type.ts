@@ -4,3 +4,8 @@ export interface MovieResponse {
   vote_average: number;
   id: number;
 }
+
+export interface MovieInterface extends Pick<MovieResponse, 'title' | 'id'> {
+  image: string;
+  score: number;
+}

@@ -1,4 +1,4 @@
-import { MovieResponse } from '../Movie.type';
+import { MovieInterface, MovieResponse } from '../Movie.type';
 
 export interface Genre {
   id: number;
@@ -8,4 +8,14 @@ export interface Genre {
 export interface MovieDetailResponse extends MovieResponse {
   genres: Genre[];
   overview: string;
+}
+
+export interface MovieDetailInterface extends MovieInterface {
+  genres: string;
+  overview: string;
+}
+
+export interface RateDetail {
+  title?: string;
+  ratingScore?: number;
 }

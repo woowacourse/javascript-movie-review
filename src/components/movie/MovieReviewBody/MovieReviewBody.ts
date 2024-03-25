@@ -67,11 +67,11 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     this.movie?.setPage(1);
 
     this.movie?.fetchMovieDetails({
-      onSuccess: (data) => {
+      onSuccess: (movieItemDetails) => {
         $ul.remove();
 
         new MovieList($movieListContainer, {
-          movieItemDetails: data.results,
+          movieItemDetails,
           removeEvent: this.removeEvent.bind(this),
         });
       },

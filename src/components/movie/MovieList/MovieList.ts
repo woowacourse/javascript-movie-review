@@ -2,7 +2,7 @@ import Image from '../../common/Image/Image';
 import Component from '../../common/Component/Component';
 import MovieListCard from '../MovieListCard/MovieListCard';
 
-import type { MovieResponse } from '../../../domain/Movie/Movie.type';
+import type { MovieInterface } from '../../../domain/Movie/Movie.type';
 
 import { createElement } from '../../../utils/dom/createElement/createElement';
 
@@ -11,7 +11,7 @@ import { NoResultImage } from '../../../assets';
 import './MovieList.css';
 
 interface MovieListProps {
-  movieItemDetails: MovieResponse[];
+  movieItemDetails: MovieInterface[];
   removeEvent: () => void;
 }
 

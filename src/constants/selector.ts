@@ -11,4 +11,9 @@ export const ELEMENT_SELECTOR = {
   movieLogo: '#movie-logo',
   movieListContainer: '#movie-list-container',
   itemCard: '#item-card',
+  modalReviewDetailSection: '#modal-review-detail-section',
+  movieScoreBoardRating: '#movie-score-board-rating',
+  movieScoreBoardNeedRating: '#movie-score-board-need-rating',
+  movieScoreBoardImage: '#movie-score-board-stars>img',
+  movieScoreBoardStars: '#movie-score-board-stars',
 } as const;
