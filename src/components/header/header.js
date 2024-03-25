@@ -7,6 +7,9 @@ export function createHeader(inputSubmitHandle) {
 
 function render(inputSubmitHandle) {
   const header = document.createElement('header');
+  header.onclick = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });  
+  }
 
   const logo = document.createElement('h1');
   const logoImage = document.createElement('img');
