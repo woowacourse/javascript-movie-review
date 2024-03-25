@@ -1,7 +1,7 @@
 import MovieAPI from '../../apis/movie/movie';
 
 import { BaseResponse } from '../../apis/common/apiSchema.type';
-import { MovieDetail } from './Movie.type';
+import { IMovie } from './Movie.type';
 
 import { MOVIE } from '../../constants/Condition';
 
@@ -20,19 +20,19 @@ class Movie {
     return this.page === MOVIE.MAX_PAGE;
   }
 
-  fetchMovieDetails({
+  fetchMovies({
     movieType,
     onSuccess,
     onError,
   }: {
     movieType: string;
-    onSuccess: (data: BaseResponse<MovieDetail[]>) => void;
+    onSuccess: (data: BaseResponse<IMovie[]>) => void;
     onError: (error: Error | unknown) => void;
   }) {
     if (movieType === 'popular') {
-      MovieAPI.fetchPopularMovieDetails(this.page).then(onSuccess).catch(onError);
+      MovieAPI.fetchPopularMovies(this.page).then(onSuccess).catch(onError);
     } else {
-      MovieAPI.fetchSearchMovieDetails(this.page, movieType).then(onSuccess).catch(onError);
+      MovieAPI.fetchSearchMovies(this.page, movieType).then(onSuccess).catch(onError);
     }
   }
 }

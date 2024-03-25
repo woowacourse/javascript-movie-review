@@ -13,7 +13,7 @@ class MovieAPI {
     throw new Error(MovieAPI.ERROR_MESSAGES_MAP[response.status]);
   }
 
-  private static getPopularMovieAPI(page: number) {
+  private static buildPopularMoviesURL(page: number) {
     const endpoint = `${process.env.BASE_URL}/movie/popular`;
 
     const params = new URLSearchParams({
@@ -25,14 +25,14 @@ class MovieAPI {
     return `${endpoint}?${params.toString()}`;
   }
 
-  static async fetchPopularMovieDetails(page: number) {
-    const response = await new ApiSchema(this.getPopularMovieAPI(page)).request();
+  static async fetchPopularMovies(page: number) {
+    const response = await new ApiSchema(this.buildPopularMoviesURL(page)).request();
     this.handleProcessStatusCode(response);
 
     return response.json();
   }
 
-  private static getSearchMovieAPI(page: number, searchValue: string) {
+  private static buildSearchMoviesURL(page: number, searchValue: string) {
     const endpoint = `${process.env.BASE_URL}/search/movie`;
 
     const params = new URLSearchParams({
@@ -45,8 +45,26 @@ class MovieAPI {
     return `${endpoint}?${params.toString()}`;
   }
 
-  static async fetchSearchMovieDetails(page: number, searchValue: string) {
-    const response = await new ApiSchema(this.getSearchMovieAPI(page, searchValue)).request();
+  static async fetchSearchMovies(page: number, searchValue: string) {
+    const response = await new ApiSchema(this.buildSearchMoviesURL(page, searchValue)).request();
+    this.handleProcessStatusCode(response);
+
+    return response.json();
+  }
+
+  private static buildMovieDetailAPI(key: number) {
+    const endpoint = `${process.env.BASE_URL}/movie/${key}`;
+
+    const params = new URLSearchParams({
+      api_key: process.env.API_KEY,
+      language: 'ko',
+    });
+
+    return `${endpoint}?${params.toString()}`;
+  }
+
+  static async fetchMovieDetail(key: number) {
+    const response = await new ApiSchema(this.buildMovieDetailAPI(key)).request();
     this.handleProcessStatusCode(response);
 
     return response.json();

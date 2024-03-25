@@ -1,12 +1,12 @@
 import Component from '../../common/Component/Component';
-import type { MovieDetail } from '../../../domain/Movie/Movie.type';
+import type { IMovie } from '../../../domain/Movie/Movie.type';
 import { createElement } from '../../../utils/dom/createElement/createElement';
 import { MOVIE_ITEM } from '../../../constants/Condition';
 import { FilledStar } from '../../../assets';
 import { querySelector } from '../../../utils/dom/selector';
 
 interface MovieListCardProps {
-  movieItem: MovieDetail;
+  movieItem: IMovie;
   createMovieDetailModal: (key: number) => void;
 }
 

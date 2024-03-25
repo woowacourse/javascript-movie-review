@@ -1,16 +1,4 @@
-dialog {
-  position: fixed;
-  min-width: 450px;
-  margin: auto;
-  border: none;
-  border-radius: 8px;
-}
-
-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.modal-container {
+.error-fallback-modal > .modal-container {
   width: 500px;
   height: 300px;
 
@@ -33,15 +21,15 @@ dialog::backdrop {
   -ms-overflow-style: none;
 }
 
-.modal-container > div {
+.error-fallback-modal > .modal-container > div {
   margin: 20px 0px;
 }
 
 /* Chrome, Safari */
-.modal-container::-webkit-scrollbar {
+.error-fallback-modal > .modal-container::-webkit-scrollbar {
   display: none;
 }
 
-.warning-image {
+.error-fallback-modal > .warning-image {
   width: 100px;
 }

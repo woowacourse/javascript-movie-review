@@ -1,9 +1,14 @@
 import Component from '../../common/Component/Component';
 import Modal from '../../common/Modal/Modal';
-import { FilledStar } from '../../../assets';
+import { IMovieDetail } from '../../../domain/Movie/Movie.type';
+import { MOVIE_ITEM } from '../../../constants/Condition';
+import { CloseButton, FilledStar, EmptyStar } from '../../../assets';
+
+import './MovieDetailModal.css';
+import { querySelector } from '../../../utils/dom/selector';
 
 interface MovieDetailModalProps {
-  key: number;
+  movieDetail: IMovieDetail;
 }
 
 class MovieDetailModal extends Component<MovieDetailModalProps> {
@@ -12,26 +17,52 @@ class MovieDetailModal extends Component<MovieDetailModalProps> {
   }
 
   protected createComponent() {
-    console.log(this.props?.key);
+    if (this.props) {
+      const { title, genres, overview, poster_path, vote_average } = this.props.movieDetail;
 
-    return /* html */ `
-      <div>
-        <div>해리 포터 20주년: 리턴 투 호그와트</div>
-        <div>
-            <img src="" alt="해리 포터" />
-            <div>
-                <p>액션, 코미디, 영화</p>
-                <p>해리 포터 영화 시리즈가 다룬 주제들을 챕터로 나누어 다루었으며, 배우들의 영화 촬영장에서의 에피소드들과 감독들의 설명이 이어졌다. DVD 코멘터리와 비슷한 구성이지만, 영화에 참여하기까지의 일련의 오디션 과정과 시리즈가 끝난 후의 배우들의 커리어 등에 대해서 광범위하게 다루고 있다. 또한 세상을 떠난 배우들에 대한 기억들을 회상하는 시간도 가졌다.</p>
-                <div>
-                    <p>내 별점</p>
-                    ${Array.from({ length: 5 })
-                      .map(() => `<img src=${FilledStar} alt="별" />`)
-                      .join('')}
-                </div>
-            </div>
-        </div>
-      </div>
-    `;
+      return /* html */ `
+      <div class="modal-container">
+          <div class="modal-header">
+              <h1 class="modal-title">${title}</h1>
+              <button id="modal-close-button" class="flex justify-center items-center"><img src=${CloseButton} alt="닫기" /></button>
+          </div>
+          <div class="modal-content flex gap-y-32">
+              <img src="${process.env.IMAGE_BASE_URL}/w220_and_h330_face/${poster_path}" loading="lazy" alt=${title} />
+              <div class="movie-detail-container">
+                  <div class="flex-col gap-x-16">
+                      <div class="flex gap-y-16">
+                          <p>${genres.map((genre) => genre.name).join(', ')}</p>
+                          <p class="flex items-center gap-y-4">
+                            <img src="${FilledStar}" alt="별점" />
+                            ${vote_average.toFixed(MOVIE_ITEM.SCORE_DIGIT)}
+                          </p>
+                      </div>
+                      <p>${overview ? overview : '줄거리가 없습니다.'}</p>
+                  </div>
+                  <div class="movie-rating-container flex items-center gap-y-12">
+                      <p>내 별점</p>
+                      <div id="movie-rating-box" class="flex items-center">
+                        ${Array.from({ length: 5 })
+                          .map(() => `<img src="${EmptyStar}" alt="별" />`)
+                          .join('')}
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>`;
+    }
+
+    return ``;
+  }
+
+  protected setEvent(): void {
+    const $modalCloseButton = querySelector('#modal-close-button', this.$element);
+    $modalCloseButton.addEventListener('click', this.removeModal.bind(this));
+  }
+
+  private removeModal() {
+    const $modal = querySelector<HTMLDialogElement>('#movie-detail-modal');
+    $modal.remove();
   }
 }
 

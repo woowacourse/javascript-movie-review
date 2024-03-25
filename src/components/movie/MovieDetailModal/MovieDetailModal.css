@@ -1,0 +1,79 @@
+.movie-detail-modal .modal-container {
+  background: #212122;
+}
+
+.modal-header {
+  position: relative;
+
+  width: 100%;
+  padding: 18px 32px;
+  border-bottom: 1px solid #f1f1f140;
+}
+
+.modal-header h1 {
+  color: #f1f1f1;
+
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: center;
+}
+
+.modal-header button {
+  position: absolute;
+
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+
+  background: #383839;
+
+  width: 36px;
+  height: 36px;
+
+  border: none;
+  border-radius: 36px;
+}
+
+.modal-content {
+  padding: 48px 32px;
+  color: #f1f1f1;
+}
+
+.movie-detail-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.movie-detail-container p {
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+}
+
+.movie-detail-container img {
+  width: 24px;
+  height: 24px;
+
+  margin-bottom: 3px;
+}
+
+.movie-rating-container {
+  background: #383839;
+  padding: 16px;
+
+  border-radius: 16px;
+}
+
+.movie-rating-container p {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+}
+
+.movie-rating-container img {
+  width: 32px;
+  height: 32px;
+}

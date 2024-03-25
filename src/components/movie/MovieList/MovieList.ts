@@ -1,11 +1,11 @@
 import Component from '../../common/Component/Component';
 import MovieListCard from '../MovieListCard/MovieListCard';
-import { MovieDetail } from '../../../domain/Movie/Movie.type';
+import { IMovie } from '../../../domain/Movie/Movie.type';
 import { createElement } from '../../../utils/dom/createElement/createElement';
 import './MovieList.css';
 
 interface MovieListProps {
-  movieItems: MovieDetail[];
+  movieItems: IMovie[];
   createMovieDetailModal: (key: number) => void;
 }
 

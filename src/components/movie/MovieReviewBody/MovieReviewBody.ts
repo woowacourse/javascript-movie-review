@@ -8,6 +8,7 @@ import { querySelector } from '../../../utils/dom/selector';
 import { MOVIE, MOVIE_ITEM_SKELETON } from '../../../constants/Condition';
 import { ELEMENT_SELECTOR } from '../../../constants/Selector';
 import { NoResultImage } from '../../../assets';
+import MovieAPI from '../../../apis/movie/movie';
 import './MovieReviewBody.css';
 
 interface MovieReviewBodyProps {
@@ -105,10 +106,12 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
   private createMovieDetailModal(key: number) {
     const $movieReviewSection = querySelector<HTMLElement>('#movie-review-section');
 
-    new MovieDetailModal($movieReviewSection, { key });
+    MovieAPI.fetchMovieDetail(key).then((data) => {
+      new MovieDetailModal($movieReviewSection, { movieDetail: data });
 
-    const $modal = querySelector<HTMLDialogElement>('#movie-detail-modal');
-    $modal.showModal();
+      const $modal = querySelector<HTMLDialogElement>('#movie-detail-modal');
+      $modal.showModal();
+    });
   }
 
   protected setEvent(): void {
