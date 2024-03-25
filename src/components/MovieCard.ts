@@ -1,4 +1,5 @@
 import { Movie } from '../index.d';
+import starFilledImg from '../images/star_filled.png';
 
 interface Props {
   classes?: string[];
@@ -32,7 +33,7 @@ export default class MovieCard {
            alt="${movie.title}"
          />
          <p class="item-title">${movie.title}</p>
-         <p class="item-score">${movie.vote_average.toFixed(2)}<img src="./images/star_filled.png" alt="별점" class="star-start" /></p>
+         <p class="item-score">${movie.vote_average.toFixed(2)}<img src="${starFilledImg}" alt="별점" class="star-start" /></p>
        </div>
      </a>`;
 
