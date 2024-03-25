@@ -1,9 +1,7 @@
-import { POPULAR_MOVIES_URL, MOVIE_SEARCH_URL } from '../../src/constants/URLs';
 import IMovieData from '../../src/interfaces/IMovieData';
-import IRespondData from '../../src/interfaces/FetchMovieListDTO';
 import '../support/commands';
 
-describe('Fixture를 이용한 테스트', () => {
+describe('Fixture를 이용한 PopularMovie 테스트', () => {
   beforeEach(() => {
     // https://docs.cypress.io/api/commands/intercept
     cy.intercept(
@@ -21,14 +19,6 @@ describe('Fixture를 이용한 테스트', () => {
       },
       { fixture: 'movie-popular-page2.json' },
     ).as('getPopularMoviesPage2');
-
-    cy.intercept(
-      {
-        method: 'GET',
-        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie*/,
-      },
-      { fixture: 'movie-search.json' },
-    ).as('getSearchMovies');
 
     cy.visit('http://localhost:8080');
   });
@@ -51,18 +41,6 @@ describe('Fixture를 이용한 테스트', () => {
     cy.wait('@getPopularMoviesPage2').then((interception) => {
       const popularMovieItems = cy.get('.item-list > li');
       expect(popularMovieItems.should('have.length', 40));
-    });
-  });
-
-  it('검색 창에 "해리 포터"를 입력 시 해리 포터 관련 영화 목록이 나타나야 한다.', () => {
-    cy.wait('@getPopularMoviesPage1').then(() => {
-      cy.get('input').type('해리 포터');
-      cy.get('.search-button').click();
-    });
-    cy.wait('@getSearchMovies').then((interception) => {
-      const searchedMovies: IMovieData[] = interception.response?.body.results;
-      expect(searchedMovies.length).to.equal(10);
-      searchedMovies.forEach((data) => expect(data.title).to.match(/^해리 포터/));
     });
   });
 
