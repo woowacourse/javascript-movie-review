@@ -11,8 +11,15 @@ const MovieReviewHeader = {
     });
 
     logoWrapper.appendChild(img);
+    this.setLogoClickHandler(logoWrapper);
 
     return logoWrapper;
+  },
+
+  setLogoClickHandler(targetElement: HTMLElement) {
+    targetElement.addEventListener("click", () => {
+      location.reload();
+    });
   },
 };
 
