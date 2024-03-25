@@ -1,11 +1,10 @@
 import Component from '../../common/Component/Component';
 import Modal from '../../common/Modal/Modal';
 import { IMovieDetail } from '../../../domain/Movie/Movie.type';
+import { querySelector, querySelectorAll } from '../../../utils/dom/selector';
 import { MOVIE_ITEM } from '../../../constants/Condition';
 import { CloseButton, FilledStar, EmptyStar } from '../../../assets';
-
 import './MovieDetailModal.css';
-import { querySelector } from '../../../utils/dom/selector';
 
 interface MovieDetailModalProps {
   movieDetail: IMovieDetail;
@@ -39,13 +38,22 @@ class MovieDetailModal extends Component<MovieDetailModalProps> {
                       </div>
                       <p>${overview ? overview : '줄거리가 없습니다.'}</p>
                   </div>
-                  <div class="movie-rating-container flex items-center gap-y-12">
-                      <p>내 별점</p>
-                      <div id="movie-rating-box" class="flex items-center">
+                  <div id="movie-rating-container" class="movie-rating-container flex items-center gap-y-12">
+                      <h3>내 별점</h3>
+                      <form id="movie-rating-form" class="flex items-center">
                         ${Array.from({ length: 5 })
-                          .map(() => `<img src="${EmptyStar}" alt="별" />`)
+                          .map(
+                            (_, index) => `
+                            <label for="star-${index}">
+                                <input id="star-${index}" type="radio" value=${(index + 1) * 2} class="movie-rating">
+                                <img src="${EmptyStar}" alt="별" class="movie-rating-image" />
+                            </label>
+                            `,
+                          )
                           .join('')}
-                      </div>
+                      </form>
+                      <p id="movie-rating-score"></p>
+                      <p id="movie-rating-text"></p>
                   </div>
               </div>
           </div>
@@ -58,6 +66,41 @@ class MovieDetailModal extends Component<MovieDetailModalProps> {
   protected setEvent(): void {
     const $modalCloseButton = querySelector('#modal-close-button', this.$element);
     $modalCloseButton.addEventListener('click', this.removeModal.bind(this));
+
+    const $movieRatingForm = querySelector('#movie-rating-form', this.$element);
+    $movieRatingForm.addEventListener('change', this.updateRating.bind(this));
+  }
+
+  private createRatingText(rating: number) {
+    switch (rating) {
+      case 2:
+        return '최악이에요';
+      case 4:
+        return '별로예요';
+      case 6:
+        return '보통이에요';
+      case 8:
+        return '재미있어요';
+      case 10:
+        return '명작이에요';
+      default:
+        return '';
+    }
+  }
+
+  private updateRating(event: Event) {
+    const $starImages = querySelectorAll<HTMLImageElement>('.movie-rating-image', this.$element);
+    const rating = (event.target as HTMLInputElement).value;
+
+    $starImages.forEach(($star, index) => {
+      $star.src = (index + 1) * 2 <= Number(rating) ? FilledStar : EmptyStar;
+    });
+
+    const $movieRatingScore = querySelector<HTMLParagraphElement>('#movie-rating-score', this.$element);
+    const $movieRatingText = querySelector<HTMLParagraphElement>('#movie-rating-text', this.$element);
+
+    $movieRatingScore.textContent = rating;
+    $movieRatingText.textContent = this.createRatingText(Number(rating));
   }
 
   private removeModal() {
