@@ -12,8 +12,10 @@ const SearchBox = {
     searchBox.appendChild(searchInput);
     searchBox.appendChild(searchButton);
 
-    searchBox.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') onSearching();
+    searchBox.addEventListener('keypress', (event) => {
+      if (event.key === 'Enter') {
+        searchButton.click();
+      }
     });
 
     return searchBox;
