@@ -1,4 +1,4 @@
-import ErrorPage from '../components/ErrorPage';
+import UserNotifyPage from '../components/UserNotifyPage';
 import { Movie } from '../index.d';
 
 const searchOptions = {
@@ -34,13 +34,13 @@ class SearchMovieStore {
       .then(async (response) => {
         // 4xx, 5xx 에러 처리
         if (!response.ok) {
-          new ErrorPage(String(response.status)).renderError();
+          new UserNotifyPage(String(response.status)).renderError();
         }
         const responseJSON = await response.json();
 
         // 검색 결과가 없는 경우
         if (String(response.status)[0] === '2' && responseJSON.results.length === 0) {
-          new ErrorPage(String(response.status)).renderError();
+          new UserNotifyPage(String(response.status)).renderError();
         }
         return responseJSON;
       })
