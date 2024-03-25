@@ -34,7 +34,7 @@ class Fetcher {
     if (status === 404) throw new CustomError(status_message, status);
     if (status === 500) throw new CustomError('Internal Server Error', status);
     if (status === 501) throw new CustomError('Not Implemented', status);
-    if (status === 502) throw new CustomError('Bad Gateway	', status);
+    if (status === 502) throw new CustomError('Bad Gateway', status);
     if (status === 503) throw new CustomError('Service Unavailable', status);
   }
 }

@@ -34,11 +34,11 @@ class MovieController {
 
   render(query: string = '') {
     const errorContainer = $('.error-container') as HTMLElement;
-    
+
     this.#initData(query);
 
-    if (errorContainer.classList.contains('hidden')){
-      errorContainer.classList.add('hidden')
+    if (errorContainer.classList.contains('hidden')) {
+      errorContainer.classList.add('hidden');
     }
 
     if (this.#query) {
