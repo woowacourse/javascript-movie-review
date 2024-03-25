@@ -74,6 +74,9 @@ button {
 .item-score {
   margin-top: 16px;
   font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .item-score::after {
@@ -123,6 +126,7 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
   width: 100%;
   min-width: 1200px;
@@ -165,14 +169,18 @@ header .search-box > .search-button {
 
 .empty-result {
   width: 100%;
-  height: 50vh;
 
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
+
   font-size: 1.2rem;
-  line-height: 24px;
+  line-height: 36px;
+}
+
+.empty-result > h2 {
+  margin-bottom: 24px;
 }
 
 .hidden {
