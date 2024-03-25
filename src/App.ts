@@ -166,13 +166,12 @@ export default class App {
 
   #renderAllMovieList() {
     const movieDatas = movieStore.movies;
-    if (!(movieDatas.length === 0)) {
-      const ulElement = document.querySelector('ul.item-list');
+    if (movieDatas.length === 0) return;
 
-      if (ulElement) {
-        ulElement.innerHTML = '';
-        this.#appendMovieCard(movieDatas, ulElement as HTMLElement);
-      }
-    }
+    const ulElement = document.querySelector('ul.item-list');
+    if (!ulElement) return;
+
+    ulElement.innerHTML = '';
+    this.#appendMovieCard(movieDatas, ulElement as HTMLElement);
   }
 }
