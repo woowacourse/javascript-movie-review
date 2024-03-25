@@ -1,11 +1,10 @@
 import { MovieInfo } from "./components/MoviePoster/createMoviePoster";
-
 import { $ } from "./utils/selector";
 import CUSTOM_EVENT from "./constants/event";
 import MoviePosterBoard from "./components/MoviePosterBoard/MoviePosterBoard";
 import createHeader from "./components/Header/createHeader";
 
-class RenderController {
+class MoviePosterController {
   static moviePosterBoard = new MoviePosterBoard("popular");
 
   private static renderPopularMoviePosterBoard() {
@@ -45,8 +44,8 @@ class RenderController {
     const { keyword } = e.detail;
     this.moviePosterBoard = new MoviePosterBoard("search", keyword);
 
-    RenderController.renderMoviePosterBoard();
+    MoviePosterController.renderMoviePosterBoard();
   }
 }
 
-export default RenderController;
+export default MoviePosterController;
