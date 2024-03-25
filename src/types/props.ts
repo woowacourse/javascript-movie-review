@@ -1,6 +1,8 @@
-type MainType = 'popular' | 'search';
+import { RENDER_TYPE } from '../constants/movie';
+
+export type RenderType = (typeof RENDER_TYPE)[keyof typeof RENDER_TYPE];
 
 export interface PropsType {
-  type: MainType;
+  type: RenderType;
   input?: string;
 }
