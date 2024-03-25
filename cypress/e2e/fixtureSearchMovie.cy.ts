@@ -9,7 +9,7 @@ describe('Fixture를 이용한 영화 검색 테스트', () => {
       { fixture: 'movie-search-harry.json' },
     ).as('getSearchMovies');
 
-    cy.visit('http://localhost:8080');
+    cy.customVisit();
   });
 
   it('영화 검색 API를 호출하면 검색한 영화에 대한 결과가 목록에 나열된다', () => {

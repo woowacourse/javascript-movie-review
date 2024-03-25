@@ -24,7 +24,7 @@ export default class App {
 
     if (ulElement) {
       this.#generateSkeletonUI(ulElement as HTMLElement);
-      const newData = await movieStore.getMovies(); //
+      const newData = await movieStore.getMovies();
 
       this.#removeSkeletonUI();
       this.#appendMovieCard(newData, ulElement as HTMLElement);
