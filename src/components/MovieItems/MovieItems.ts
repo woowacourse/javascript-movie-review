@@ -97,7 +97,6 @@ class MovieItems {
       .fetchMovies()
       .then((movies) => this.createMovieItem(movies, skeletonItems))
       .catch((error) => {
-        console.log('!!!');
         document.dispatchEvent(new CustomEvent('APIError', { detail: error, bubbles: true }));
       });
   }

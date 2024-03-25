@@ -36,7 +36,6 @@ document.addEventListener('APIError', (event) => {
 
 const reLoad = () => {
   const fallback = body?.querySelector('section');
-  console.log(fallback);
   if (fallback) {
     fallback.remove();
     movieItems.createElements();
