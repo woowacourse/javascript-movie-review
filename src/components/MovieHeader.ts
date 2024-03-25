@@ -32,7 +32,6 @@ export default class MovieHeader extends EventComponent {
 
   protected setEvent(): void {
     const $form = $("search-form");
-
     if ($form instanceof HTMLFormElement) {
       $form.addEventListener("submit", (event) =>
         this.onSearchMovieSubmit(event, $form)
@@ -49,6 +48,11 @@ export default class MovieHeader extends EventComponent {
     event.preventDefault();
 
     const searchQuery = form["search-query"].value;
+
+    if (!searchQuery) {
+      alert("검색어를 입력해 주세요.");
+      return;
+    }
 
     this.queryState.set(searchQuery);
   }

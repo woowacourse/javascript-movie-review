@@ -69,7 +69,6 @@ export default class MovieList extends APIClientComponent {
 
     const additionalFetchedMovieData = await getPopularMovieList(this.page);
 
-    console.log(additionalFetchedMovieData);
     $("skeleton-movie-item-list")?.remove();
 
     this.insertMovieItems(additionalFetchedMovieData);
