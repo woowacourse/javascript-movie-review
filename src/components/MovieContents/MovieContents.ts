@@ -43,7 +43,7 @@ const createMovieContents = {
     if (!isLastPage) {
       const showMoreButton = createShowMoreButton();
       document.querySelector('.item-view')?.appendChild(showMoreButton);
-      this.setEventListener(movie, { type, input });
+      this.setEventOnShowMoreButton(movie, { type, input });
     }
   },
 
@@ -54,7 +54,7 @@ const createMovieContents = {
     return { movieItems, isLastPage };
   },
 
-  setEventListener(movie: Movie, { type, input }: PropsType) {
+  setEventOnShowMoreButton(movie: Movie, { type, input }: PropsType) {
     document.querySelector('.btn')?.addEventListener('click', () => {
       this.setMovieData(movie, { type, input });
     });
