@@ -1,24 +1,25 @@
 import toast from '../components/toast/toast';
 import { MOVIE_SEARCH_URL, NETWORK_ERROR_MESSAGE, POPULAR_MOVIES_URL } from '../constants/constant';
 import { mapDataToMovies } from '../domain/MovieService';
-import { UrlParams } from '../interface/Movie';
+import { MovieAPIResponse, UrlParams } from '../interface/Movie';
 
 const API_KEY: string | undefined = process.env.API_KEY;
 
-export async function fetchPopularMovieList(pageNumber: number) {
+export async function fetchPopularMovieList(pageNumber: number): Promise<MovieAPIResponse> {
   try {
     const popularMovies = await buildData(
       { api_key: API_KEY, language: 'ko-KR', page: pageNumber.toString() } as UrlParams,
       POPULAR_MOVIES_URL,
     );
 
-    return [mapDataToMovies(popularMovies), popularMovies.total_pages];
+    return [mapDataToMovies(popularMovies), popularMovies.total_pages, popularMovies.total_results];
   } catch (error) {
     toast((error as Error).message);
+    return [[], 0, 0];
   }
 }
 
-export async function fetchSearchMovieList(inputValue: string, pageNumber: number) {
+export async function fetchSearchMovieList(inputValue: string, pageNumber: number): Promise<MovieAPIResponse> {
   try {
     const searchMovies = await buildData(
       { query: inputValue, api_key: API_KEY, language: 'ko-KR', page: pageNumber.toString() } as UrlParams,
@@ -27,6 +28,7 @@ export async function fetchSearchMovieList(inputValue: string, pageNumber: numbe
     return [mapDataToMovies(searchMovies), searchMovies.total_pages, searchMovies.total_results];
   } catch (error) {
     toast((error as Error).message);
+    return [[], 0, 0];
   }
 }
 
