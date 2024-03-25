@@ -8,10 +8,10 @@ import hangsungImg from "../../image/wooteco-icon.png";
 import {
   ERROR_MESSAGE,
   INFO_MESSAGE,
+  MAX_PAGE_PER_REQUEST,
+  TAB,
   TITLE_TEXT,
 } from "../../constant/setting";
-
-const MAX_PAGE_PER_REQUEST = 20;
 
 class MovieList {
   #title: string;
@@ -56,12 +56,12 @@ class MovieList {
     } catch (error) {
       this.#handleError(error as Error);
     }
-    this.#removeMoreMoviesButton("popular");
+    this.#removeMoreMoviesButton(TAB.POPULAR);
   }
 
   #handlePopularPagination(data: IMovieItemData[]) {
     if (data.length === MAX_PAGE_PER_REQUEST) {
-      const moreMoviesButton = this.#createMoreMoviesButton("popular");
+      const moreMoviesButton = this.#createMoreMoviesButton(TAB.POPULAR);
 
       moreMoviesButton.addEventListener("click", () => {
         this.#popularCurrentPage += 1;
@@ -71,7 +71,7 @@ class MovieList {
       return;
     }
 
-    this.#removeMoreMoviesButton("popular");
+    this.#removeMoreMoviesButton(TAB.POPULAR);
     this.#displayMaxPageInfo();
   }
 
@@ -132,7 +132,7 @@ class MovieList {
       this.#handleError(error as Error);
     }
 
-    this.#removeMoreMoviesButton("search");
+    this.#removeMoreMoviesButton(TAB.SEARCH);
   }
 
   async #getSearchedMoviesData(titleInput: string) {
@@ -144,7 +144,7 @@ class MovieList {
 
   #handleSearchPagination(data: IMovieItemData[]) {
     if (data.length === MAX_PAGE_PER_REQUEST) {
-      const moreMoviesButton = this.#createMoreMoviesButton("search");
+      const moreMoviesButton = this.#createMoreMoviesButton(TAB.SEARCH);
 
       moreMoviesButton.addEventListener("click", () => {
         this.#searchCurrentPage += 1;
@@ -154,7 +154,7 @@ class MovieList {
       return;
     }
 
-    this.#removeMoreMoviesButton("search");
+    this.#removeMoreMoviesButton(TAB.SEARCH);
     this.#displayMaxPageInfo();
   }
 
@@ -284,7 +284,7 @@ class MovieList {
     }
   }
 
-  async #handleError(error: Error) {
+  #handleError(error: Error) {
     if (typeof error === "object" && error.message) {
       this.#crateErrorUI(error.message);
     } else {

@@ -3,6 +3,13 @@ export const TITLE_TEXT = {
   SEARCH: (title: string) => `"${title}" 검색 결과`,
 };
 
+export const MAX_PAGE_PER_REQUEST = 20;
+
+export const TAB = {
+  POPULAR: "popular",
+  SEARCH: "search",
+};
+
 export const ERROR_MESSAGE = {
   UNAUTHORIZED:
     "접근 권한이 없습니다. 해당 기능을 사용하려면 계정 권한을 확인하세요.",
