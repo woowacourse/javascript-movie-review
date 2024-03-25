@@ -1,4 +1,4 @@
-import { KEY, MOVIE_SEARCH_BASE_URL, POPULAR_MOVIES_BASE_URL } from '../../../constants/DTO';
+import { KEY, MOVIE_SEARCH_BASE_URL, POPULAR_MOVIES_BASE_URL } from '../../../constants/MOVIES_URL';
 
 async function fetchPopularMovies(page: number) {
   const searchParamsURL = new URLSearchParams({

@@ -1,4 +1,4 @@
-import { POPULAR_MOVIES_BASE_URL, MOVIE_SEARCH_BASE_URL, KEY } from '../../src/constants/DTO';
+import { POPULAR_MOVIES_BASE_URL, MOVIE_SEARCH_BASE_URL, KEY } from '../../src/constants/MOVIES_URL';
 import ResponseData from '../../src/interfaces/ResponseData';
 import '../support/commands';
 

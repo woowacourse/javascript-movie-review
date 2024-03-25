@@ -1,4 +1,4 @@
-import { fetchPopularMovies, fetchSearchMovies } from '../../domain/DTO/Request/sendRequest';
+import { fetchPopularMovies, fetchSearchMovies } from '../../domain/Movies/Request/sendRequest';
 import { BUTTONS, CONTAINER_TITLE } from '../../constants/INFORMATION';
 import MovieItems from '../MovieItems/MovieItems';
 import ResponseData from '../../interfaces/ResponseData';

@@ -1,7 +1,7 @@
 import ResponseData from '../../interfaces/ResponseData';
 import MovieData from '../../interfaces/MovieData';
 import { starFilled } from '../../resources';
-import { MOVIE_POSTER_URL } from '../../constants/DTO';
+import { MOVIE_POSTER_URL } from '../../constants/MOVIES_URL';
 
 const MovieItems = {
   replaceSkeletons(movieItems: HTMLUListElement, respondData: ResponseData) {
