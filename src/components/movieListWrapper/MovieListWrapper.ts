@@ -1,5 +1,6 @@
 import { fetchPopularMovieList, fetchSearchMovieList } from '../../apis/fetchData';
-import { LAST_PAGE } from '../../constants/constant';
+import PageService from '../../domain/PageService';
+import { Movie, MovieAPIResponse } from '../../interface/Movie';
 import { showSkeleton, updateCard } from '../movieCard/movieCard';
 
 export class MovieListWrapper {
@@ -9,7 +10,7 @@ export class MovieListWrapper {
   #inputValue;
 
   constructor(title: string, getName: string, inputValue = '') {
-    this.#currentPage = 1;
+    this.#currentPage = new PageService();
     this.#title = title;
     this.#getName = getName;
     this.#inputValue = inputValue;
@@ -42,16 +43,13 @@ export class MovieListWrapper {
     });
   }
 
-  plusCurrentPage() {
-    this.#currentPage += 1;
-  }
-
   async selectUpdatingMovieType(addButton: HTMLButtonElement) {
     const liList = this.loadMovieList();
+    if (!liList) return;
     switch (this.#getName) {
       case 'popular':
         {
-          const result = await fetchPopularMovieList(this.#currentPage);
+          const result = await fetchPopularMovieList(this.#currentPage.getCurrentPage());
           if (!result) return;
           this.updateMoviesCardList(liList, result, addButton);
           if (result[2] === 0) {
@@ -61,7 +59,7 @@ export class MovieListWrapper {
         return;
       case 'search':
         {
-          const result = await fetchSearchMovieList(this.#inputValue, this.#currentPage);
+          const result = await fetchSearchMovieList(this.#inputValue, this.#currentPage.getCurrentPage());
           if (!result) return;
           this.updateMoviesCardList(liList, result, addButton);
           if (result[2] === 0) {
@@ -70,7 +68,7 @@ export class MovieListWrapper {
         }
         return;
       default: {
-        const result = await fetchPopularMovieList(this.#currentPage);
+        const result: MovieAPIResponse = await fetchPopularMovieList(this.#currentPage.getCurrentPage());
         if (!result) return;
         this.updateMoviesCardList(liList, result, addButton);
         if (result[2] === 0) {
@@ -79,12 +77,12 @@ export class MovieListWrapper {
       }
     }
   }
-  updateMoviesCardList(liList: any, result: any, addButton: HTMLButtonElement) {
+  updateMoviesCardList(liList: HTMLElement[], result: MovieAPIResponse, addButton: HTMLButtonElement) {
     const [movies, totalPages] = result;
-    if (Math.min(totalPages, LAST_PAGE) <= this.#currentPage) {
+    if (this.#currentPage.isPageInRange(totalPages)) {
       addButton.classList.add('none');
     }
-    this.plusCurrentPage();
+    this.#currentPage.nextPage();
     this.completeMovieList(liList, movies);
   }
 
@@ -99,8 +97,8 @@ export class MovieListWrapper {
     ul?.remove();
   }
 
-  completeMovieList(liList: any, movies: any) {
-    movies.forEach((movie: any, index: any) => {
+  completeMovieList(liList: HTMLElement[], movies: Movie[]) {
+    movies.forEach((movie: Movie, index) => {
       updateCard(liList[index], movie);
     });
     document.querySelectorAll('li.skeleton').forEach(element => {
@@ -120,7 +118,7 @@ export class MovieListWrapper {
     this.#title = title;
     this.#getName = getName;
     this.#inputValue = inputValue;
-    this.#currentPage = 1;
+    this.#currentPage.resetPage();
     await this.create();
   }
 }
