@@ -6,6 +6,7 @@ import ResponseData from '../../interfaces/ResponseData';
 import MovieitemsSkeleton from '../MovieItems/MovieItemsSkeleton';
 import SearchValidator from '../../domain/Validator/SearchValidator';
 import ToastPopup from '../ToastPopup/ToastPopup';
+import CONDITIONS from '../../constants/CONDITIONS';
 
 class ItemView {
   #page: number;
@@ -49,7 +50,7 @@ class ItemView {
     const movieListData: ResponseData = await this.getMovieListData(search);
     MovieItems.replaceSkeletons(skeleton, movieListData);
 
-    if (this.#page === movieListData.total_pages || this.#page === 500) {
+    if (this.#page === movieListData.total_pages || this.#page === CONDITIONS.popularMoviesTotalPage) {
       button.remove();
     }
   }
