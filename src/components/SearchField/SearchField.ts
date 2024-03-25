@@ -44,13 +44,15 @@ class SearchField {
 
   dispatchGetMatchedMovie() {
     const input = this.template.querySelector('input') as HTMLInputElement;
-    const getMatchedMoviesEvent = new CustomEvent('GetMatchedMovies', {
-      detail: { query: input.value },
-      bubbles: true,
-    });
+    if (input.value.trim()) {
+      const getMatchedMoviesEvent = new CustomEvent('GetMatchedMovies', {
+        detail: { query: input.value },
+        bubbles: true,
+      });
+      document.dispatchEvent(getMatchedMoviesEvent);
+    }
     input.value = '';
     input.blur();
-    document.dispatchEvent(getMatchedMoviesEvent);
   }
 
   getElement() {
