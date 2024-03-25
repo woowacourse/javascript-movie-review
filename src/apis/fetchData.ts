@@ -14,7 +14,7 @@ export async function fetchPopularMovieList(pageNumber: number): Promise<MovieAP
 
     return [mapDataToMovies(popularMovies), popularMovies.total_pages, popularMovies.total_results];
   } catch (error) {
-    toast((error as Error).message);
+    toast(NETWORK_ERROR_MESSAGE);
     return [[], 0, 0];
   }
 }
@@ -27,7 +27,7 @@ export async function fetchSearchMovieList(inputValue: string, pageNumber: numbe
     );
     return [mapDataToMovies(searchMovies), searchMovies.total_pages, searchMovies.total_results];
   } catch (error) {
-    toast((error as Error).message);
+    toast(NETWORK_ERROR_MESSAGE);
     return [[], 0, 0];
   }
 }
