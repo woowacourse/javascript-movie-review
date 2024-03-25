@@ -1,4 +1,4 @@
-import createMovieItems from '../components/MovieItems/MovieItems';
+// import createMovieItems from '../components/MovieItems/MovieItems';
 import { MovieListType } from '../types/movie';
 import HTTPError from './HttpError';
 
@@ -6,7 +6,7 @@ const httpRequest = {
   async fetchPopularMovies(
     page: number,
   ): Promise<{ movieList: MovieListType; isLastPage: boolean }> {
-    createMovieItems([], false);
+    // createMovieItems([], false);
     const response = await fetch(
       `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}&api_key=${process.env.API_KEY}`,
     );
@@ -27,7 +27,7 @@ const httpRequest = {
     page: number,
     input?: string,
   ): Promise<{ movieList: MovieListType; isLastPage: boolean }> {
-    createMovieItems([], false);
+    // createMovieItems([], false);
 
     const response = await fetch(
       `https://api.themoviedb.org/3/search/movie?query=${input}&include_adult=false&language=ko-KR&page=${page}&api_key=${process.env.API_KEY}`,

@@ -3,3 +3,6 @@ export const RENDER_TYPE = {
   POPULAR: 'popular',
   SEARCH: 'search',
 } as const;
+
+export const POPULAR_MOVIE_TITLE = '지금 인기 있는 영화';
+export const SEARCH_MOVIE_TITLE = '지금 인기 있는 영화';
