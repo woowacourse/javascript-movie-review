@@ -10,6 +10,8 @@ import { getPopularMovieList, getSearchMovieList } from "../../apis/movieList";
 import { $ } from "../../utils/dom";
 import { HTMLTemplate, TargetId, Query } from "../../types/common";
 
+const MOVIE_DATA_MAX_LENGTH = 20;
+
 interface MovieListProps {
   targetId: TargetId;
   queryState: QueryState;
@@ -37,7 +39,7 @@ export default class MovieList extends APIClientComponent {
         }
         </ul>
         ${
-          data.length < 20
+          data.length < MOVIE_DATA_MAX_LENGTH
             ? ""
             : '<button id="watch-more-button" class="btn primary full-width">더 보기</button>'
         }
@@ -70,7 +72,7 @@ export default class MovieList extends APIClientComponent {
 
     this.insertMovieItems(additionalMovies);
 
-    if (additionalMovies.length < 20) {
+    if (additionalMovies.length < MOVIE_DATA_MAX_LENGTH) {
       $("watch-more-button")?.remove();
     }
   }
