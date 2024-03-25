@@ -1,5 +1,4 @@
 import logoImg from '../assets/images/logo.png';
-import { appendChildren } from '../utils/domUtil';
 import { replaceMain } from './main';
 import { SEARCH_MOVIES_URL } from '../constants/tmdbConstants';
 import movieStateMethod from '../store/movieStore';
@@ -49,7 +48,7 @@ function getSearchBox() {
   const button = getSearchBoxButton();
   searchBox.classList.add('search-box');
   searchBox.onsubmit = submitEventHandler;
-  appendChildren(searchBox, [input, button]);
+  searchBox.append(input, button);
   return searchBox;
 }
 
@@ -57,7 +56,7 @@ function getHeader() {
   const headerTag = document.createElement('header');
   const logo = getLogo();
   const searchBox = getSearchBox();
-  appendChildren(headerTag, [logo, searchBox]);
+  headerTag.append(logo, searchBox);
   return headerTag;
 }
 

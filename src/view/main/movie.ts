@@ -1,7 +1,6 @@
 import fetchMovies from '../../api/fetchMovies';
 
 import starFilledImage from '../../assets/images/star_filled.png';
-import { appendChildren } from '../../utils/domUtil';
 import getSeeMoreButton from '../getSeeMoreButton';
 import movieStateMethod from '../../store/movieStore';
 
@@ -50,7 +49,7 @@ function getMovieItemCard(props: IMovieItemProps) {
   const image = getImage(props);
   const title = getTitleParagraph(props.title);
   const score = getScoreParagraph(props.vote_average);
-  appendChildren(movieItemCard, [image, title, score]);
+  movieItemCard.append(image, title, score);
   return movieItemCard;
 }
 
@@ -90,7 +89,7 @@ async function getMovieList(button?: HTMLButtonElement) {
   const movieList = document.createElement('ul');
   const movieItems = await getMovieItems(button);
   movieList.classList.add('item-list');
-  appendChildren(movieList, movieItems);
+  movieList.append(...movieItems);
   return movieList;
 }
 
@@ -100,6 +99,6 @@ export async function getMovieListContainer() {
   const mainTitle = getMainTitle();
   const button = getSeeMoreButton();
   const movieList = await getMovieList(button);
-  appendChildren(movieListContainer, [mainTitle, movieList, button]);
+  movieListContainer.append(mainTitle, movieList, button);
   return movieListContainer;
 }

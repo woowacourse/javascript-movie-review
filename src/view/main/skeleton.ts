@@ -1,5 +1,4 @@
 import movieStateMethod from '../../store/movieStore';
-import { appendChildren } from '../../utils/domUtil';
 
 export function getMovieItemCardSkeleton() {
   const list = document.createElement('li');
@@ -16,7 +15,7 @@ function getSkeletonMovieList() {
   const movieList = document.createElement('ul');
   movieList.classList.add('item-list');
   const skeletonItems = Array.from({ length: 20 }, () => getMovieItemCardSkeleton());
-  appendChildren(movieList, skeletonItems);
+  movieList.append(...skeletonItems);
   return movieList;
 }
 
@@ -27,6 +26,6 @@ export function getSkeletonView() {
   const query = movieStateMethod.getQuery();
   title.innerText = query ? `"${query}" 검색 결과` : '지금 인기 있는 영화';
   const movieList = getSkeletonMovieList();
-  appendChildren(section, [title, movieList]);
+  section.append(title, movieList);
   return section;
 }

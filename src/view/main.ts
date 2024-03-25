@@ -1,5 +1,5 @@
 import movieStateMethod from '../store/movieStore';
-import { appendChildren, elementsReplaceWith } from '../utils/domUtil';
+import { elementsReplaceWith } from '../utils/domUtil';
 import { getMovieListContainer, getMovieItems } from './main/movie';
 import { getSkeletonView, getMovieItemCardSkeleton } from './main/skeleton';
 
@@ -7,7 +7,7 @@ export async function renderNewMovies() {
   movieStateMethod.increasePage();
   const movieList = document.querySelector('.item-list') as HTMLElement;
   const skeletonItems = Array.from({ length: 20 }, () => getMovieItemCardSkeleton());
-  appendChildren(movieList, skeletonItems);
+  movieList.append(...skeletonItems);
   const newMovies = await getMovieItems();
   elementsReplaceWith(skeletonItems, newMovies);
 }
