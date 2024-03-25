@@ -8,6 +8,7 @@ import Movie from '../../../domain/Movie/Movie';
 import { createElement } from '../../../utils/dom/createElement/createElement';
 import { querySelector } from '../../../utils/dom/selector';
 import { off, on } from '../../../utils/dom/eventListener/eventListener';
+import { throttle } from '../../../utils/throttle';
 
 import { ELEMENT_SELECTOR } from '../../../constants/selector';
 
@@ -24,7 +25,7 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
   protected initializeState(): void {
     this.movie = new Movie(1, this.props?.movieType ?? '');
 
-    this.handleStartScroll = this.handleScroll.bind(this);
+    this.handleStartScroll = throttle(this.handleScroll.bind(this), 300);
   }
 
   protected render() {
