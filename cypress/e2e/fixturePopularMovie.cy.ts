@@ -19,7 +19,7 @@ describe('Fixture를 이용한 인기순 영화 목록 테스트', () => {
       expect(popularMovies.length).to.equal(20);
 
       // fixture data로 렌더링 검증
-      cy.get('.item-list > li').should('have.length', 20);
+      cy.get('.item-card').should('have.length', 20);
     });
   });
 });

@@ -22,7 +22,7 @@ describe('Fixture를 이용한 영화 검색 테스트', () => {
       expect(searchMovies.length).to.equal(20);
 
       // fixture data로 렌더링 검증
-      cy.get('.item-list > li').should('have.length', 20);
+      cy.get('.item-card').should('have.length', 20);
     });
   });
 });
