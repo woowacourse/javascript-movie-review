@@ -16,19 +16,23 @@ const handleSearchClick = (event: MouseEvent | KeyboardEvent) => {
 
 const SearchBox = () => {
   const searchBox = document.createElement('div');
-  // TODO: input은 항상 label과 같이?
+  const searchInputLabel = document.createElement('label');
   const searchInput = document.createElement('input');
   const searchButton = document.createElement('button');
 
   searchBox.classList.add('search-box');
   searchButton.classList.add('search-button');
+  searchInputLabel.classList.add('sr-only');
 
   searchInput.setAttribute('id', 'search-text');
+  searchInputLabel.setAttribute('for', 'search-text');
+  searchInputLabel.textContent = '검색';
   searchInput.type = 'text';
   searchButton.type = 'button';
   searchInput.placeholder = '검색';
   searchButton.textContent = '검색';
 
+  searchBox.appendChild(searchInputLabel);
   searchBox.appendChild(searchInput);
   searchBox.appendChild(searchButton);
 

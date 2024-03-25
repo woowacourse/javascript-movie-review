@@ -49,3 +49,18 @@ button {
 .last-item {
   margin-top: 48px;
 }
+
+.sr-only {
+  overflow: hidden;
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  margin: -1px;
+  padding: 0;
+  border: 0;
+
+  clip: rect(0, 0, 0, 0);
+  clip-path: polygon(0 0, 0 0, 0 0);
+}
