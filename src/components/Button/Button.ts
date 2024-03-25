@@ -1,11 +1,11 @@
-import Button from '../../interfaces/Button';
+import ButtonData from '../../interfaces/ButtonData';
 
 const Button = {
-  create(buttonInformation: Button, onButtonClick?: () => void): HTMLElement {
+  create(buttonData: ButtonData, onButtonClick?: () => void): HTMLElement {
     const button = document.createElement('button');
 
-    button.textContent = `${buttonInformation.innerText}`;
-    buttonInformation.classList.forEach((className) => button.classList.add(className));
+    button.textContent = `${buttonData.innerText}`;
+    buttonData.classList.forEach((className) => button.classList.add(className));
 
     if (onButtonClick) button.addEventListener('click', onButtonClick);
 

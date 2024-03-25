@@ -1,15 +1,15 @@
-import Button from '../interfaces/Button';
+import ButtonData from '../interfaces/ButtonData';
 
 const BUTTONS = {
   search: {
     innerText: '검색',
     classList: ['search-button'],
-  } as Button,
+  } as ButtonData,
 
   showMore: {
     innerText: '더 보기',
     classList: ['btn', 'primary', 'full-width'],
-  } as Button,
+  } as ButtonData,
 };
 
 const CONTAINER_TITLE = {

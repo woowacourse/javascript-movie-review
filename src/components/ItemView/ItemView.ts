@@ -1,12 +1,12 @@
 import { fetchPopularMovies, fetchSearchMovies } from '../../domain/DTO/Request/sendRequest';
 import { BUTTONS, CONTAINER_TITLE } from '../../constants/INFORMATION';
-import Button from '../Button/Button';
 import MovieItems from '../MovieItems/MovieItems';
 import ResponseData from '../../interfaces/ResponseData';
 import MovieitemsSkeleton from '../MovieItems/MovieItemsSkeleton';
 import SearchValidator from '../../domain/Validator/SearchValidator';
 import ToastPopup from '../ToastPopup/ToastPopup';
 import CONDITIONS from '../../constants/CONDITIONS';
+import Button from '../Button/Button';
 
 class ItemView {
   #page: number;
