@@ -27,9 +27,10 @@ export function showSkeleton() {
   return movieCard;
 }
 
-export function updateCard(li: any, movie: Movie) {
+export function updateCard(li: HTMLElement, movie: Movie) {
   li.classList.toggle('skeleton');
-  const thumbnail = li.querySelector('.item-thumbnail.skeleton');
+  const thumbnail: HTMLImageElement | null = li.querySelector('.item-thumbnail.skeleton');
+  if (!thumbnail) return;
   thumbnail.classList.toggle('skeleton');
   thumbnail.src = movie.poster_path
     ? `https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}.jpg`
@@ -38,12 +39,14 @@ export function updateCard(li: any, movie: Movie) {
   thumbnail.alt = movie.title;
 
   const title = li.querySelector('.item-title.skeleton');
+  if (!title) return;
   title.classList.toggle('skeleton');
   title.textContent = movie.title;
 
   const score = li.querySelector('.item-score.skeleton');
+  if (!score) return;
   score.classList.toggle('skeleton');
-  score.textContent = movie.vote_average;
+  score.textContent = movie.vote_average.toString();
 
   const scoreImage = document.createElement('img');
   scoreImage.src = filledStar;
