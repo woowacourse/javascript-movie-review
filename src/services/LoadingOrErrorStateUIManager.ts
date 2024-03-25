@@ -7,10 +7,7 @@ import { checkDataLength } from '../components/ShowMoreButton/eventHandler';
 import createElement from '../utils/createElement';
 import ErrorComponent from '../components/ErrorComponent/ErrorComponent';
 import { FetchOption } from '../types/fetch';
-
-// function isHttpError(error: any): error is HttpError {
-//   return error instanceof HttpError && typeof error.status === 'number';
-// }
+import isHttpError from '../utils/isHttpError';
 
 class LoadingOrErrorStateUIManager {
   api;
@@ -51,13 +48,8 @@ class LoadingOrErrorStateUIManager {
       this.resetMovieList();
 
       return data;
-    } catch (error: any) {
-      // 여기가 문제 any타입으로 지정하면
-      //  HttpError 클래스 내에
-      // Object.setPrototypeOf(this, new.target.prototype);
-      // 함수가 없어도 실행됨
-      // 하지만 if(error instanceof HttpError) 이렇게 하면 안됨
-      if (error) {
+    } catch (error) {
+      if (isHttpError(error)) {
         this.resetMovieList();
         this.onErrorChanged(error);
       }
