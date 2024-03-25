@@ -15,22 +15,16 @@ body?.appendChild(header.getElement());
 body?.appendChild(movieItems.getElement());
 
 document.addEventListener('GetPopularMovies', () => {
-  body?.querySelector('section')?.remove();
   movieItems.moviesService = new PopularMoviesService();
-  movieItems.createElements();
-  movieItems.resetMovieItems();
-  movieItems.fetchMovieItems();
+  reLoad();
 });
 
 document.addEventListener('GetMatchedMovies', (event) => {
   if (!(event instanceof CustomEvent)) return;
   const { query } = event.detail;
 
-  body?.querySelector('section')?.remove();
   movieItems.moviesService = new MatchedMoviesService(query);
-  movieItems.createElements();
-  movieItems.resetMovieItems();
-  movieItems.fetchMovieItems();
+  reLoad();
 });
 
 document.addEventListener('APIError', (event) => {
@@ -39,3 +33,14 @@ document.addEventListener('APIError', (event) => {
   main.innerHTML = '';
   main?.appendChild(new Fallback(event.detail.message).getElement());
 });
+
+const reLoad = () => {
+  const fallback = body?.querySelector('section');
+  console.log(fallback);
+  if (fallback) {
+    fallback.remove();
+    movieItems.createElements();
+  }
+  movieItems.resetMovieItems();
+  movieItems.fetchMovieItems();
+};
