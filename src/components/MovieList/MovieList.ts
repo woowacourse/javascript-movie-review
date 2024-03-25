@@ -7,10 +7,15 @@ import { getDomElement } from '../../util/DOM';
 
 class MovieList {
   #page: number;
-
+  #search?: string;
   constructor(search?: string) {
     this.#page = 0;
-    this.create(search ? `"${search}"${CONTAINER_TITLE.searchResult}` : CONTAINER_TITLE.popular, search);
+    this.#search = search;
+    if (search) {
+      this.create(`"${search}"${CONTAINER_TITLE.searchResult}`);
+    } else {
+      this.create(CONTAINER_TITLE.popular, search);
+    }
   }
 
   create(movieListTitle: string, search?: string) {
