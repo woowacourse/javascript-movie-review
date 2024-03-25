@@ -32,10 +32,8 @@ class Fetcher {
     if (status === 401) throw new CustomError(status_message, status);
     if (status === 403) throw new CustomError('Forbidden', status);
     if (status === 404) throw new CustomError(status_message, status);
-    if (status === 500) throw new CustomError('Internal Server Error', status);
-    if (status === 501) throw new CustomError('Not Implemented', status);
-    if (status === 502) throw new CustomError('Bad Gateway', status);
-    if (status === 503) throw new CustomError('Service Unavailable', status);
+    if (Math.floor(status / 100) === 5)
+      throw new CustomError('서버에 문제가 발생했습니다. 다시 시도해보시겠어요?', status);
   }
 }
 
