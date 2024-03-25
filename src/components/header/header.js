@@ -1,15 +1,12 @@
 import logoPng from '../../images/logo.png';
 
-export function createHeader(inputSubmitHandle) {
-  const header = render(inputSubmitHandle);
+export function createHeader({onLogoClick, inputSubmitHandle}) {
+  const header = render(onLogoClick, inputSubmitHandle);
   return header;
 }
 
-function render(inputSubmitHandle) {
+function render(onLogoClick, inputSubmitHandle) {
   const header = document.createElement('header');
-  header.onclick = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });  
-  }
 
   const logo = document.createElement('h1');
   const logoImage = document.createElement('img');
@@ -31,6 +28,19 @@ function render(inputSubmitHandle) {
   searchBox.append(searchInput, searchButton);
 
   header.append(logo, searchBox);
+
+  header.onclick = (event) => {
+    if (event.target.tagName === 'HEADER') { 
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  if (onLogoClick) {
+    logo.addEventListener('click', (event) => {
+      searchInput.value = '';
+      onLogoClick();
+    })
+  }
 
   if (inputSubmitHandle) {
     searchBox.addEventListener('submit', (event) => {
