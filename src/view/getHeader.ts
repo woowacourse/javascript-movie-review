@@ -25,7 +25,7 @@ function getSearchBoxInput() {
   const inputTag = document.createElement('input');
   const state = {
     name: 'searchContent',
-    type: 'text',
+    type: 'search',
     placeholder: '검색',
   };
   Object.assign(inputTag, state);
