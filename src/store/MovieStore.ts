@@ -1,4 +1,5 @@
 import { Movie } from '../index.d';
+import { ERROR_2XX } from '../constants';
 
 import ErrorRender from '../components/ErrorRender';
 
@@ -21,31 +22,35 @@ class MovieStore {
 
   /* eslint-disable max-lines-per-function */
   async getMovies() {
-    // Skeleton UI 확인을 위한 강제 delay
-    await this.#delay();
+    await this.#delay(); // Skeleton UI 확인을 위한 강제 delay
 
-    const responseData: Movie[] = await fetch(
+    try {
+      const responseData = await this.#fetchMoviesData();
+      this.#pushNewData(responseData);
+      return responseData;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  /* eslint-disable max-lines-per-function */
+  async #fetchMoviesData() {
+    const response = await fetch(
       `https://api.themoviedb.org/3/movie/popular?language=ko&page=${this.#pageCount}`,
       options,
-    )
-      .then(async (response) => {
-        if (!response.ok) {
-          new ErrorRender(String(response.status)).renderError();
-        }
-        const responseJSON = await response.json();
+    );
 
-        // 검색 결과가 없는 경우
-        if (String(response.status)[0] === '2' && responseJSON.results.length === 0) {
-          new ErrorRender(String(response.status)).renderError();
-        }
-        return responseJSON;
-      })
-      .then((response) => response.results)
-      .catch((err) => console.error(err));
+    if (!response.ok) {
+      throw new ErrorRender(String(response.status)).renderError();
+    }
 
-    this.#pushNewData(responseData);
+    const responseJSON = await response.json();
 
-    return responseData;
+    if (String(response.status)[0] === ERROR_2XX && responseJSON.results.length === 0) {
+      throw new ErrorRender(String(response.status)).renderError();
+    }
+
+    return responseJSON.results;
   }
 
   async #delay() {

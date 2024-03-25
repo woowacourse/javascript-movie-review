@@ -1,4 +1,5 @@
 import { Movie } from '../index.d';
+import { ERROR_2XX } from '../constants';
 
 import ErrorRender from '../components/ErrorRender';
 
@@ -25,36 +26,37 @@ class SearchMovieStore {
 
   /* eslint-disable max-lines-per-function */
   async searchMovies() {
-    // Skeleton UI 확인을 위한 강제 delay
-    await this.#delay();
+    await this.#delay(); // Skeleton UI 확인을 위한 강제 delay
 
-    const responseData: any = await fetch(
+    try {
+      const responseData = await this.#fetchSearchData();
+      const { results } = responseData;
+      this.#totalPages = responseData.total_pages;
+      this.#pushNewData(results);
+      return results;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  /* eslint-disable max-lines-per-function */
+  async #fetchSearchData() {
+    const response = await fetch(
       `https://api.themoviedb.org/3/search/movie?query=${this.#query}&include_adult=false&language=ko&page=${this.#presentPage}`,
       searchOptions,
-    )
-      .then(async (response) => {
-        // 4xx, 5xx 에러 처리
-        if (!response.ok) {
-          new ErrorRender(String(response.status)).renderError();
-        }
-        const responseJSON = await response.json();
+    );
 
-        // 검색 결과가 없는 경우
-        if (String(response.status)[0] === '2' && responseJSON.results.length === 0) {
-          new ErrorRender(String(response.status)).renderError();
-        }
-        return responseJSON;
-      })
-      .then((response) => response)
-      .catch((err) => console.error(err));
+    if (!response.ok) {
+      throw new ErrorRender(String(response.status)).renderError();
+    }
 
-    const { results } = responseData;
+    const responseJSON = await response.json();
 
-    this.#totalPages = responseData.total_pages;
+    if (String(response.status)[0] === ERROR_2XX && responseJSON.results.length === 0) {
+      throw new ErrorRender(String(response.status)).renderError();
+    }
 
-    this.#pushNewData(results);
-
-    return results;
+    return responseJSON;
   }
 
   async #delay() {
