@@ -31,10 +31,11 @@ export function updateCard(li: HTMLElement, movie: Movie) {
   li.classList.toggle('skeleton');
   const thumbnail: HTMLImageElement | null = li.querySelector('.item-thumbnail.skeleton');
   if (!thumbnail) return;
-  thumbnail.classList.toggle('skeleton');
+
   thumbnail.src = movie.poster_path
     ? `https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}.jpg`
     : emptyPng;
+  thumbnail.onload = () => thumbnail.classList.toggle('skeleton');
   thumbnail.loading = 'lazy';
   thumbnail.alt = movie.title;
 
