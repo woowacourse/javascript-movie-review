@@ -19,9 +19,7 @@ const template = /* html */ `
         </div>
         <p class="overview text-body"></p>
       </figcaption>
-      <aside class="vote-my-rate">
-        <p class="rate-label text-label">내 별점</p>
-      </aside>
+      <aside class="vote-my-rate"></aside>
     </article>
   </article>
 `;
@@ -31,7 +29,6 @@ class MovieDetail {
 
   constructor() {
     this.template = this.createElements();
-    this.createStarRating();
   }
 
   get element() {
@@ -46,9 +43,7 @@ class MovieDetail {
   }
 
   private createStarRating() {
-    const starRating = new StarRating({ initRate: 2 });
-    console.log(starRating);
-
+    const starRating = new StarRating({ initRate: 6 });
     this.template.querySelector('.vote-my-rate')?.appendChild(starRating.element);
   }
 
@@ -61,17 +56,23 @@ class MovieDetail {
     this.setTitle('');
     this.resetPoster();
     this.resetVoteScore();
+    this.resetStarRating();
   }
 
   setMovieDetail(movieDetail: IMovieDetail) {
-    const { title, poster, voteAverage, genres, overview, backdropImage } = movieDetail;
+    const { title, poster, backdropImage } = movieDetail;
     this.resetMovieDetail();
     this.setBackdropImage(backdropImage);
     this.setTitle(title);
     this.setPoster(title, poster);
+    this.setMovieContent(movieDetail);
+  }
+
+  private setMovieContent({ genres, voteAverage, overview }: IMovieDetail) {
     this.setGenres(genres);
     this.setVoteScore(voteAverage);
     this.setOverview(overview);
+    this.createStarRating();
   }
 
   private setBackdropImage(backdropImage: string) {
@@ -112,6 +113,10 @@ class MovieDetail {
   private resetVoteScore() {
     const itemScore = this.template.querySelector('.item-score-container');
     itemScore?.remove();
+  }
+
+  private resetStarRating() {
+    this.template.querySelector('.star-rating')?.remove();
   }
 }
 

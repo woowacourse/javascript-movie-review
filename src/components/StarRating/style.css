@@ -3,10 +3,27 @@
   align-items: center;
 }
 
+.rate-label {
+  margin-right: 12px;
+}
+
+fieldset {
+  display: flex;
+  border: 0;
+}
+
+fieldset input[type=radio] {
+  display: none;
+}
+
 .star-score {
   margin-left: 12px;
 }
 
 .score-ment {
   margin-left: 12px;
+}
+
+.rate-icon img {
+  cursor: pointer;
 }
