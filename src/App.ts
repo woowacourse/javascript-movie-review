@@ -51,6 +51,7 @@ export default class App {
 
   #changeTitle(title: string) {
     const h2Element = document.querySelector('h2');
+
     if (h2Element) {
       h2Element.textContent = title;
     }
@@ -64,18 +65,25 @@ export default class App {
 
       ulElement?.appendChild(card.element);
     });
+
     this.#generateMoreButton();
   }
 
+  // eslint-disable-next-line max-lines-per-function
   #generateSkeletonUI(ulElement: HTMLElement) {
     this.#removeMoreButton();
+
+    const fragment = new DocumentFragment();
+
     for (let i = 0; i < SKELETON_UI_FIXED; i++) {
       const card = new MovieCard({
         classes: ['skeleton-container'],
       });
 
-      ulElement?.appendChild(card.element);
+      fragment.appendChild(card.element);
     }
+
+    ulElement?.appendChild(fragment);
   }
 
   #removeSkeletonUI() {
@@ -91,8 +99,11 @@ export default class App {
   /* eslint-disable max-lines-per-function */
   #generateMoreButton() {
     this.#removeMoreButton();
+
     if (searchMovieStore.presentPage === searchMovieStore.totalPages) return;
+
     const itemView = document.querySelector('section.item-view');
+
     const moreBtn = new MoreButton({
       onClick: () => {
         if (this.#pageType === 'popular') {
@@ -126,6 +137,7 @@ export default class App {
   #generateSearchBox() {
     const header = document.querySelector('header');
     const ulElement = document.querySelector('ul.item-list');
+
     const searchBox = new SearchBox({
       searchInputSubmit: (query: string) => {
         if (ulElement) ulElement.innerHTML = '';
