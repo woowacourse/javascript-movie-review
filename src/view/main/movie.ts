@@ -65,21 +65,24 @@ function getMovieItem(props: IMovieItemProps) {
   return movieItem;
 }
 
-function checkPage(responseJson: ITMDBResponse, button: HTMLElement | null) {
-  if (responseJson.page === responseJson.total_pages) {
+function checkPage(
+  { page, totalPage }: { page: number; totalPage: number },
+  button = document.getElementById('see-more-button'),
+) {
+  if (page === totalPage) {
     button?.classList.add('hidden');
   }
 }
 
-export async function getMovieItems(button = document.getElementById('see-more-button')) {
-  const responseJson: ITMDBResponse = await fetchMovies().catch((error) => {
+export async function getMovieItems() {
+  // eslint-disable-next-line camelcase
+  const { results, page, total_pages }: ITMDBResponse = await fetchMovies().catch((error) => {
     alert(error.message);
     location.reload();
   });
-  checkPage(responseJson, button);
-  const moviesData = responseJson.results;
-  const movieElements = moviesData.map((info: IMovieItemProps) => getMovieItem(info)) as HTMLElement[];
-  return movieElements;
+  const movieElements = results.map((info: IMovieItemProps) => getMovieItem(info)) as HTMLElement[];
+  // eslint-disable-next-line camelcase
+  return { elements: movieElements, page, totalPage: total_pages };
 }
 
 function getMainTitle() {
@@ -91,7 +94,8 @@ function getMainTitle() {
 
 async function getMovieList(button?: HTMLButtonElement) {
   const movieList = document.createElement('ul');
-  const movieItems = await getMovieItems(button);
+  const { elements: movieItems, page, totalPage } = await getMovieItems();
+  checkPage({ page, totalPage }, button);
   movieList.classList.add('item-list');
   movieList.append(...movieItems);
   return movieList;

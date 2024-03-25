@@ -8,7 +8,7 @@ export async function renderNewMovies() {
   const movieList = document.querySelector('.item-list') as HTMLElement;
   const skeletonItems = Array.from({ length: 20 }, () => getMovieItemCardSkeleton());
   movieList.append(...skeletonItems);
-  const newMovies = await getMovieItems();
+  const { elements: newMovies } = await getMovieItems();
   elementsReplaceWith(skeletonItems, newMovies);
 }
 
