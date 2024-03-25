@@ -4,15 +4,18 @@ import FALLBACK_LOOKUP_TABLE from '../../constants/fallbackMessage';
 class Fallback {
   private template: HTMLElement;
 
-  constructor() {
-    const main = document.createElement('section');
-    main.classList.add('fallback');
+  constructor(status: string) {
+    this.template = document.createElement('section');
+    this.template.classList.add('fallback');
+    this.createTemplate();
+    this.setFallbackMessage(status);
+  }
+
+  createTemplate() {
     const h2 = document.createElement('h2');
     h2.classList.add('fallback_message');
     h2.textContent = FALLBACK_LOOKUP_TABLE['default'];
-    main.appendChild(h2);
-
-    this.template = main;
+    this.template.appendChild(h2);
   }
 
   setFallbackMessage(status: string) {
