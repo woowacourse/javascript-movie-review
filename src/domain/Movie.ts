@@ -1,14 +1,17 @@
+import HTTPError from '../api/HttpError';
 import httpRequest from '../api/httpRequest';
 import errorMessage from '../error/errorMessage';
-import { MovieListType, MovieType } from '../types/movie';
+import { MovieListType } from '../types/movie';
 import { RenderType } from '../types/props';
 
-interface MovieData {
+interface MovieDataType {
   movieList: MovieListType;
   isLastPage: boolean;
 }
 
-type HandleMovieDataTableType = { [key in RenderType]: () => Promise<MovieData> };
+type RequestFunctionType = (page: number, input?: string) => Promise<MovieDataType>;
+
+type HandleMovieDataTableType = { [key in RenderType]: () => Promise<MovieDataType> };
 
 class Movie {
   #page: number;
@@ -17,55 +20,31 @@ class Movie {
     this.#page = 0;
   }
 
-  handleMovieData(type: RenderType, input?: string): Promise<MovieData> {
+  handleMovieData(type: RenderType, input?: string): Promise<MovieDataType> {
+    this.updatePage();
     const handleMovieDataTable: HandleMovieDataTableType = {
-      popular: () => this.getMovieData(),
-      search: () => this.getSearchedData(input ?? ''),
+      popular: () => this.getMovieData(httpRequest.fetchPopularMovies),
+      search: () => this.getMovieData(httpRequest.fetchSearchedMovies, input),
     };
     const getDataFunction = handleMovieDataTable[type];
     return getDataFunction();
   }
 
-  async getMovieData(): Promise<MovieData> {
-    this.updatePage();
-
-    const movieList = httpRequest
-      .fetchPopularMovies(this.#page)
-      .then(({ popularMovieList, isLastPage }) => ({
-        movieList: popularMovieList.map((movie: MovieType) => ({
-          id: movie.id,
-          poster_path: movie.poster_path,
-          title: movie.title,
-          vote_average: movie.vote_average,
-        })),
-        isLastPage,
-      }))
-      .catch((error) => {
-        errorMessage.apiError(error.statusCode);
-        return { movieList: [], isLastPage: true };
-      });
-    return movieList;
-  }
-
-  async getSearchedData(input: string): Promise<MovieData> {
-    this.updatePage();
-
-    const movieList = httpRequest
-      .fetchSearchedMovies(this.#page, input)
-      .then(({ searchedMovieList, isLastPage }) => ({
-        movieList: searchedMovieList.map((movie: MovieType) => ({
-          id: movie.id,
-          poster_path: movie.poster_path,
-          title: movie.title,
-          vote_average: movie.vote_average,
-        })),
-        isLastPage,
-      }))
-      .catch((error) => {
-        errorMessage.apiError(error.statusCode, error.message);
-        return { movieList: [], isLastPage: true };
-      });
-    return movieList;
+  async getMovieData(requestFunction: RequestFunctionType, input?: string): Promise<MovieDataType> {
+    try {
+      const { movieList, isLastPage } = await requestFunction(this.#page, input);
+      const filteredMovieList = movieList.map((movie) => ({
+        id: movie.id,
+        poster_path: movie.poster_path,
+        title: movie.title,
+        vote_average: movie.vote_average,
+      }));
+      return { movieList: filteredMovieList, isLastPage };
+    } catch (error) {
+      const customError = error as HTTPError;
+      errorMessage.apiError(customError.statusCode, customError.message ? customError.message : '');
+      return { movieList: [], isLastPage: true };
+    }
   }
 
   updatePage() {
