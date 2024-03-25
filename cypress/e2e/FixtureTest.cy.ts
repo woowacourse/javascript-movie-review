@@ -1,6 +1,6 @@
-import { POPULAR_MOVIES_URL, MOVIE_SEARCH_URL } from '../../src/constants/DTO';
+import { POPULAR_MOVIES_URL, MOVIE_SEARCH_URL } from '../../src/constants/URLs';
 import IMovieData from '../../src/interfaces/IMovieData';
-import IRespondData from '../../src/interfaces/IRespondData';
+import IRespondData from '../../src/interfaces/FetchMovieListDTO';
 import '../support/commands';
 
 describe('Fixture를 이용한 테스트', () => {

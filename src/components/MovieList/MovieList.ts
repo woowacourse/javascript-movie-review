@@ -1,9 +1,10 @@
-import { fetchPopularMovies, fetchSearchMovies } from '../../domain/DTO/Request/sendRequest';
+import { fetchPopularMovies, fetchSearchMovies } from '../../domain/Request/sendRequest';
 import { BUTTON, CONTAINER_TITLE } from '../../constants/INFORMATION';
 import Button from '../Button/Button';
 import MovieItems from '../MovieItems/MovieItems';
-import IRespondData from '../../interfaces/IRespondData';
+import IRespondData from '../../interfaces/FetchMovieListDTO';
 import { getDomElement } from '../../util/DOM';
+import OPTIONS from '../../constants/OPTIONS';
 
 class MovieList {
   #page: number;
@@ -44,7 +45,7 @@ class MovieList {
 
     const movieListData: IRespondData = await this.getMovieListData(search);
     MovieItems.replaceAllSkeletons(skeleton, movieListData);
-    if (this.#page === movieListData.total_pages || this.#page === 500) {
+    if (this.#page === movieListData.total_pages || this.#page === OPTIONS.maxPage) {
       button.remove();
     }
   }

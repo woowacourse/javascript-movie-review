@@ -1,8 +1,8 @@
-import IRespondData from '../../interfaces/IRespondData';
+import IRespondData from '../../interfaces/FetchMovieListDTO';
 import IMovieData from '../../interfaces/IMovieData';
 import { starFilled } from '../../resources';
 import { getDomElement, getAllDomElements } from '../../util/DOM';
-import { MOVIE_POSTER_URL } from '../../constants/DTO';
+import { MOVIE_POSTER_URL } from '../../constants/URLs';
 import Skeleton from '../Skeleton/Skeleton';
 
 const MovieItems = {

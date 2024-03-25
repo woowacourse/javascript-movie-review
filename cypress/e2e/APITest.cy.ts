@@ -1,5 +1,5 @@
-import { POPULAR_MOVIES_URL, MOVIE_SEARCH_URL } from '../../src/constants/DTO';
-import IRespondData from '../../src/interfaces/IRespondData';
+import { POPULAR_MOVIES_URL, MOVIE_SEARCH_URL } from '../../src/constants/URLs';
+import IRespondData from '../../src/interfaces/FetchMovieListDTO';
 import '../support/commands';
 
 describe('API 테스트', () => {

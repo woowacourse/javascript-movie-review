@@ -1,4 +1,6 @@
-import { POPULAR_MOVIES_URL, MOVIE_SEARCH_URL } from '../../../constants/DTO';
+import ToastPopup from '../../components/ToastPopup/ToastPopup';
+import { POPULAR_MOVIES_URL, MOVIE_SEARCH_URL } from '../../constants/URLs';
+import ResponseValidator from '../Validator/ResponseValidator';
 
 async function fetchPopularMovies(page: number) {
   const KEY = process.env.API_KEY;
