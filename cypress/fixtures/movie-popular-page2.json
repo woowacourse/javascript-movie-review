@@ -1,0 +1,400 @@
+{
+  "page": 2,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/nTPFkLUARmo1bYHfkfdNpRKgEOs.jpg",
+      "genre_ids": [
+        10749,
+        35
+      ],
+      "id": 1072790,
+      "original_language": "en",
+      "original_title": "Anyone But You",
+      "overview": "After an amazing first date, Bea and Ben’s fiery attraction turns ice cold — until they find themselves unexpectedly reunited at a destination wedding in Australia. So they do what any two mature adults would do: pretend to be a couple.",
+      "popularity": 782.059,
+      "poster_path": "/5qHoazZiaLe7oFBok7XlUhg96f2.jpg",
+      "release_date": "2023-12-21",
+      "title": "Anyone But You",
+      "video": false,
+      "vote_average": 7.095,
+      "vote_count": 1113
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/3JhQQFidqbrD9k9DxGFCba46EFk.jpg",
+      "genre_ids": [
+        14,
+        12,
+        35
+      ],
+      "id": 967847,
+      "original_language": "en",
+      "original_title": "Ghostbusters: Frozen Empire",
+      "overview": "The Spengler family returns to where it all started – the iconic New York City firehouse – to team up with the original Ghostbusters, who've developed a top-secret research lab to take busting ghosts to the next level. But when the discovery of an ancient artifact unleashes an evil force, Ghostbusters new and old must join forces to protect their home and save the world from a second Ice Age.",
+      "popularity": 633.663,
+      "poster_path": "/r65fWcFELCSeyyrkq5wY09EPSGN.jpg",
+      "release_date": "2024-03-20",
+      "title": "Ghostbusters: Frozen Empire",
+      "video": false,
+      "vote_average": 6.754,
+      "vote_count": 71
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/yyFc8Iclt2jxPmLztbP617xXllT.jpg",
+      "genre_ids": [
+        35,
+        10751,
+        14
+      ],
+      "id": 787699,
+      "original_language": "en",
+      "original_title": "Wonka",
+      "overview": "Willy Wonka – chock-full of ideas and determined to change the world one delectable bite at a time – is proof that the best things in life begin with a dream, and if you’re lucky enough to meet Willy Wonka, anything is possible.",
+      "popularity": 745.613,
+      "poster_path": "/qhb1qOilapbapxWQn9jtRCMwXJF.jpg",
+      "release_date": "2023-12-06",
+      "title": "Wonka",
+      "video": false,
+      "vote_average": 7.211,
+      "vote_count": 2638
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/i7nnmCTnjK50vNqbMfVtmoVULWJ.jpg",
+      "genre_ids": [
+        28
+      ],
+      "id": 1081620,
+      "original_language": "en",
+      "original_title": "The Weapon",
+      "overview": "Dallas is a one-man killing machine on a mysterious rampage. His attacks on biker gangs and meth labs anger the Vegas mob boss who’s holding Dallas’ girlfriend hostage. But who is Dallas working for? Even torture won’t make him talk, and he won’t stop until justice is served.",
+      "popularity": 682.064,
+      "poster_path": "/slQYCDzCMM8SBh9Xa3aPeM2fekA.jpg",
+      "release_date": "2023-02-17",
+      "title": "The Weapon",
+      "video": false,
+      "vote_average": 5.763,
+      "vote_count": 19
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/nb3xI8XI3w4pMVZ38VijbsyBqP4.jpg",
+      "genre_ids": [
+        18,
+        36
+      ],
+      "id": 872585,
+      "original_language": "en",
+      "original_title": "Oppenheimer",
+      "overview": "The story of J. Robert Oppenheimer's role in the development of the atomic bomb during World War II.",
+      "popularity": 627.217,
+      "poster_path": "/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg",
+      "release_date": "2023-07-19",
+      "title": "Oppenheimer",
+      "video": false,
+      "vote_average": 8.112,
+      "vote_count": 7361
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/wqmemsQb8xcLVQkwt8WTYnMIYms.jpg",
+      "genre_ids": [
+        28,
+        35
+      ],
+      "id": 1217409,
+      "original_language": "es",
+      "original_title": "Jaque Mate",
+      "overview": "Duque, an international secret agent who retired years ago after a traumatic event, is forced to return to action when a commando operative kidnaps his niece and forces him to steal a precious scientific formula as part of the ransom.",
+      "popularity": 661.291,
+      "poster_path": "/26VzK0GVAsZhVXIbv3qDKiwBYud.jpg",
+      "release_date": "2024-01-25",
+      "title": "Jaque Mate",
+      "video": false,
+      "vote_average": 4.375,
+      "vote_count": 8
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/xi2pblvQtCnh26SeOYzx1YX3DLT.jpg",
+      "genre_ids": [
+        80,
+        28,
+        53
+      ],
+      "id": 1227816,
+      "original_language": "en",
+      "original_title": "Red Right Hand",
+      "overview": "Cash is trying to live a quiet, honest life in a small Appalachian town. When a vicious crime boss forces him back into her services, he soon learns he's capable of anything -- even killing -- to protect his family and his home.",
+      "popularity": 509.837,
+      "poster_path": "/vfEG79SQIg3p6B8rBLVeIo2BBhb.jpg",
+      "release_date": "2024-02-22",
+      "title": "Red Right Hand",
+      "video": false,
+      "vote_average": 7.4,
+      "vote_count": 67
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/hIUs8RzKlrzgbWxn2EpWmiTFqCc.jpg",
+      "genre_ids": [
+        878,
+        53
+      ],
+      "id": 870404,
+      "original_language": "en",
+      "original_title": "Meteor",
+      "overview": "After a meteor collides into Earth, a lonely rancher and a lost young girl are on the run from vicious mercenaries.",
+      "popularity": 644.767,
+      "poster_path": "/tVMddOS5bi3YPVPgTPlEw0TOWoF.jpg",
+      "release_date": "2021-09-01",
+      "title": "Meteor",
+      "video": false,
+      "vote_average": 5.418,
+      "vote_count": 85
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/xPTefQ4CZpWapxiEsAZsxtidS49.jpg",
+      "genre_ids": [
+        10751,
+        878
+      ],
+      "id": 682075,
+      "original_language": "en",
+      "original_title": "The Adventure of A.R.I.: My Robot Friend",
+      "overview": "A teenager summons the courage to help a friendly robot known as A.R.I. kidnapped by a ruthless lab director working for a powerful corporation seeking to turn him into a dangerous weapon in order to rule the world.",
+      "popularity": 533.07,
+      "poster_path": "/txcjXiyhBvsSFyZtgCHWW7CyIeN.jpg",
+      "release_date": "2022-01-13",
+      "title": "The Adventure of A.R.I.: My Robot Friend",
+      "video": false,
+      "vote_average": 7.1,
+      "vote_count": 8
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/elH2ZWRHOKpjUNHROvpTCZIvuO7.jpg",
+      "genre_ids": [
+        27,
+        53
+      ],
+      "id": 983526,
+      "original_language": "no",
+      "original_title": "Leave",
+      "overview": "A young woman tries to find her origins after having been abandoned as an infant at a cemetery wrapped in a cloth with satanic symbols, but as she gets closer to answers a malevolent spirit is telling her to leave.",
+      "popularity": 606.706,
+      "poster_path": "/aiw8k5wXSCkueUD7eavmnNtaQFO.jpg",
+      "release_date": "2022-10-28",
+      "title": "Leave",
+      "video": false,
+      "vote_average": 5.965,
+      "vote_count": 43
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/G56AzECyTDp63sE7CbJ6AEBKhF.jpg",
+      "genre_ids": [
+        37,
+        28
+      ],
+      "id": 851925,
+      "original_language": "en",
+      "original_title": "Death Alley",
+      "overview": "In 1892, the Dalton Gang set out to become the most famous outlaws in America. That dream would become a nightmare.",
+      "popularity": 546.696,
+      "poster_path": "/iIKYK9mdapWlJ21YNRGB57WKErK.jpg",
+      "release_date": "2021-03-11",
+      "title": "Death Alley",
+      "video": false,
+      "vote_average": 5.655,
+      "vote_count": 29
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/9JNsAIFMu4o37AgnU1JVtR6AWsK.jpg",
+      "genre_ids": [
+        10749,
+        28,
+        18
+      ],
+      "id": 1248795,
+      "original_language": "tr",
+      "original_title": "Romantik Hırsız",
+      "overview": "After learning that the art thief she has been chasing is her ex-lover, an officer working for Interpol concocts a plan to catch him red-handed.",
+      "popularity": 546.017,
+      "poster_path": "/niVtvS9Kf8G1VDPSqurqHkaSSwm.jpg",
+      "release_date": "2024-03-14",
+      "title": "Art of Love",
+      "video": false,
+      "vote_average": 6.716,
+      "vote_count": 74
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/lzWHmYdfeFiMIY4JaMmtR7GEli3.jpg",
+      "genre_ids": [
+        878,
+        12
+      ],
+      "id": 438631,
+      "original_language": "en",
+      "original_title": "Dune",
+      "overview": "Paul Atreides, a brilliant and gifted young man born into a great destiny beyond his understanding, must travel to the most dangerous planet in the universe to ensure the future of his family and his people. As malevolent forces explode into conflict over the planet's exclusive supply of the most precious resource in existence-a commodity capable of unlocking humanity's greatest potential-only those who can conquer their fear will survive.",
+      "popularity": 484.678,
+      "poster_path": "/d5NXSklXo0qyIYkgV94XAgMIckC.jpg",
+      "release_date": "2021-09-15",
+      "title": "Dune",
+      "video": false,
+      "vote_average": 7.79,
+      "vote_count": 10940
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/ehumsuIBbgAe1hg343oszCLrAfI.jpg",
+      "genre_ids": [
+        16,
+        10751,
+        14,
+        12
+      ],
+      "id": 1022796,
+      "original_language": "en",
+      "original_title": "Wish",
+      "overview": "Asha, a sharp-witted idealist, makes a wish so powerful that it is answered by a cosmic force – a little ball of boundless energy called Star. Together, Asha and Star confront a most formidable foe - the ruler of Rosas, King Magnifico - to save her community and prove that when the will of one courageous human connects with the magic of the stars, wondrous things can happen.",
+      "popularity": 490.012,
+      "poster_path": "/AcoVfiv1rrWOmAdpnAMnM56ki19.jpg",
+      "release_date": "2023-11-13",
+      "title": "Wish",
+      "video": false,
+      "vote_average": 6.63,
+      "vote_count": 889
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/6SLyu9ygASsrOqkCpjAwtyG9PWW.jpg",
+      "genre_ids": [
+        10751,
+        878,
+        28,
+        35
+      ],
+      "id": 1094556,
+      "original_language": "en",
+      "original_title": "The Thundermans Return",
+      "overview": "Twins Phoebe and Max are enjoying their superhero lifestyle, but when one 'save' goes awry, the Thundermans are sent back to Hiddenville. While Hank and Barb enjoy their return, and Billy and Nora look forward to a normal high school life, Max and Phoebe are determined to regain their superhero status.",
+      "popularity": 446.291,
+      "poster_path": "/2J5eeroLDY0d45mVjpuGhcLZs3W.jpg",
+      "release_date": "2024-03-07",
+      "title": "The Thundermans Return",
+      "video": false,
+      "vote_average": 7.86,
+      "vote_count": 75
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/wW7Wt5bXzPy4VOEE4LTIUDyDgBo.jpg",
+      "genre_ids": [
+        12,
+        14,
+        28
+      ],
+      "id": 22,
+      "original_language": "en",
+      "original_title": "Pirates of the Caribbean: The Curse of the Black Pearl",
+      "overview": "Jack Sparrow, a freewheeling 18th-century pirate, quarrels with a rival pirate bent on pillaging Port Royal. When the governor's daughter is kidnapped, Sparrow decides to help the girl's love save her.",
+      "popularity": 416.187,
+      "poster_path": "/z8onk7LV9Mmw6zKz4hT6pzzvmvl.jpg",
+      "release_date": "2003-07-09",
+      "title": "Pirates of the Caribbean: The Curse of the Black Pearl",
+      "video": false,
+      "vote_average": 7.798,
+      "vote_count": 19829
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/qz2QzkYzesbbL94rdUpZrFPhlRe.jpg",
+      "genre_ids": [
+        10749,
+        35,
+        14
+      ],
+      "id": 1019420,
+      "original_language": "en",
+      "original_title": "Irish Wish",
+      "overview": "Maddie's dream guy is days away from marrying her best friend when a wish for true love made on an ancient stone in Ireland magically alters her fate.",
+      "popularity": 458.842,
+      "poster_path": "/v4Bb70dpIIQoEnZAHnm3nzCPauU.jpg",
+      "release_date": "2024-03-14",
+      "title": "Irish Wish",
+      "video": false,
+      "vote_average": 6.311,
+      "vote_count": 177
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/feSiISwgEpVzR1v3zv2n2AU4ANJ.jpg",
+      "genre_ids": [
+        878,
+        12,
+        28
+      ],
+      "id": 609681,
+      "original_language": "en",
+      "original_title": "The Marvels",
+      "overview": "Carol Danvers, aka Captain Marvel, has reclaimed her identity from the tyrannical Kree and taken revenge on the Supreme Intelligence. But unintended consequences see Carol shouldering the burden of a destabilized universe. When her duties send her to an anomalous wormhole linked to a Kree revolutionary, her powers become entangled with that of Jersey City super-fan Kamala Khan, aka Ms. Marvel, and Carol’s estranged niece, now S.A.B.E.R. astronaut Captain Monica Rambeau. Together, this unlikely trio must team up and learn to work in concert to save the universe.",
+      "popularity": 493.325,
+      "poster_path": "/9GBhzXMFjgcZ3FdR9w3bUMMTps5.jpg",
+      "release_date": "2023-11-08",
+      "title": "The Marvels",
+      "video": false,
+      "vote_average": 6.208,
+      "vote_count": 2084
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/aINel9503ompOlGKn4sIVMg09Un.jpg",
+      "genre_ids": [
+        9648,
+        27,
+        53
+      ],
+      "id": 838209,
+      "original_language": "ko",
+      "original_title": "파묘",
+      "overview": "After tracing the origin of a disturbing supernatural affliction to a wealthy family's ancestral gravesite, a team of paranormal experts relocates the remains—and soon discovers what happens to those who dare to mess with the wrong grave.",
+      "popularity": 387.113,
+      "poster_path": "/pQYHouPsDw32FhDLr7E3jmw0WTk.jpg",
+      "release_date": "2024-02-22",
+      "title": "Exhuma",
+      "video": false,
+      "vote_average": 8.2,
+      "vote_count": 30
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/s9YTxwaByYeoSqugYjJJtZjMRAG.jpg",
+      "genre_ids": [
+        28,
+        27,
+        35,
+        53
+      ],
+      "id": 1211483,
+      "original_language": "en",
+      "original_title": "Skal - Fight for Survival",
+      "overview": "My name's Arthur, a huge Internet star who's just hit 3 million subs. While in the midst of throwing an epic party to celebrate, the universe had the balls to bring on the effing apocalypse and cut my night short. What was supposed to be a perfect hangover, has turned into an epic fight for survival.",
+      "popularity": 495.996,
+      "poster_path": "/1On8iF3AsFIbpyfZg1xiGWMAFBn.jpg",
+      "release_date": "2023-11-24",
+      "title": "Skal - Fight for Survival",
+      "video": false,
+      "vote_average": 5.5,
+      "vote_count": 53
+    }
+  ],
+  "total_pages": 43198,
+  "total_results": 863949
+}
