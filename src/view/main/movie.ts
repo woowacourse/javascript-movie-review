@@ -74,15 +74,19 @@ function checkPage(
   }
 }
 
+const handleGetMovieItemsError = (error: Error) => {
+  alert(error.message);
+  location.reload();
+};
+
 export async function getMovieItems() {
-  // eslint-disable-next-line camelcase
-  const { results, page, total_pages }: ITMDBResponse = await fetchMovies().catch((error) => {
-    alert(error.message);
-    location.reload();
-  });
+  const {
+    results,
+    page,
+    total_pages: totalPage,
+  }: ITMDBResponse = await fetchMovies().catch((error: Error) => handleGetMovieItemsError(error));
   const movieElements = results.map((info: IMovieItemProps) => getMovieItem(info)) as HTMLElement[];
-  // eslint-disable-next-line camelcase
-  return { elements: movieElements, page, totalPage: total_pages };
+  return { elements: movieElements, page, totalPage };
 }
 
 function getMainTitle() {
