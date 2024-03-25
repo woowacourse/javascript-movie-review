@@ -1,13 +1,8 @@
 import HTTPError from '../api/HttpError';
 import httpRequest from '../api/httpRequest';
 import errorMessage from '../error/errorMessage';
-import { MovieListType } from '../types/movie';
+import { MovieDataType, MovieListType } from '../types/movie';
 import { RenderType } from '../types/props';
-
-interface MovieDataType {
-  movieList: MovieListType;
-  isLastPage: boolean;
-}
 
 type RequestFunctionType = (page: number, input?: string) => Promise<MovieDataType>;
 

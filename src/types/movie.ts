@@ -6,3 +6,8 @@ export interface MovieType {
 }
 
 export type MovieListType = MovieType[];
+
+export interface MovieDataType {
+  movieList: MovieListType;
+  isLastPage: boolean;
+}

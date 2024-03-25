@@ -99,8 +99,11 @@ button {
 }
 
 .item-score {
+  display: flex;
+  align-items: center;
   margin-top: 16px;
   font-size: 1.2rem;
+  gap: 11px;
 }
 
 .item-score::after {
