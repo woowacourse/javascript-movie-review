@@ -13,10 +13,19 @@ async function fetchPopularMovies(page: number) {
       page: `${page}`,
     });
 
-  const response = await fetch(popularMovieUrl);
-  const popularMovies = await response.json();
+  try {
+    const response = await fetch(popularMovieUrl);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
 
-  return popularMovies;
+    const popularMovies = await response.json();
+    return popularMovies;
+  } catch (error) {
+    ToastPopup(`인기 영화를 불러오는 도중 오류가 발생했습니다. ${error}`);
+    console.error('fetchPopularMovies 오류:', error);
+    return null;
+  }
 }
 
 async function fetchSearchMovies(page: number, userInput: string) {
@@ -31,10 +40,19 @@ async function fetchSearchMovies(page: number, userInput: string) {
       page: `${page}`,
     });
 
-  const response = await fetch(movieSearchUrl);
-  const searchedMovies = await response.json();
+  try {
+    const response = await fetch(movieSearchUrl);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
 
-  return searchedMovies;
+    const popularMovies = await response.json();
+    return popularMovies;
+  } catch (error) {
+    ToastPopup(`영화 검색 결과를 불러오는 도중 오류가 발생했습니다. ${error}`);
+    console.error('fetchSearchMovies 오류:', error);
+    return null;
+  }
 }
 
 export { fetchPopularMovies, fetchSearchMovies };
