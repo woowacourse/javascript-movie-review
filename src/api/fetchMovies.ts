@@ -40,11 +40,7 @@ function movieFetcher(params: IFetchParams) {
   return fetch(`${params.url}?${searchParams}`);
 }
 
-// eslint-disable-next-line max-lines-per-function
 async function fetchMovies() {
-  await new Promise((resolve) => {
-    setTimeout(resolve, 3000);
-  });
   return movieFetcher({
     url: movieStateMethod.getUrl(),
     page: movieStateMethod.getPage(),
