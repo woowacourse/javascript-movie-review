@@ -26,8 +26,7 @@ const createMovieItems = (movieList: MovieListType, isLastPage: boolean) => {
     });
   }
   
-  // TODO: 버튼 리팩터링
-  const showMoreButton = document.querySelector('.btn');
+  const showMoreButton = document.querySelector('show-more-button');
   showMoreButton?.insertAdjacentElement('beforebegin', ul);
 
   if (isLastPage) showMoreButton?.remove();

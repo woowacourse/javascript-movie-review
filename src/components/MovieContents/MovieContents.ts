@@ -55,7 +55,7 @@ const createMovieContents = {
   },
 
   setEventOnShowMoreButton(movie: Movie, { type, input }: PropsType) {
-    document.querySelector('.btn')?.addEventListener('click', () => {
+    document.querySelector('#show-more-btn')?.addEventListener('click', () => {
       this.setMovieData(movie, { type, input });
     });
   },
