@@ -1,7 +1,7 @@
 import './MovieList.css';
 import SkeletonMovieItem from '../MovieItem/SkeletonMovieItem';
 
-const PAGE_SIZE = 20;
+export const PAGE_SIZE = 20;
 
 const SkeletonMovieList = ({ title }: { title: string }) => {
   const $section = document.createElement('section');

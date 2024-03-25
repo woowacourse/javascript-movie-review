@@ -1,3 +1,5 @@
+import { PAGE_SIZE } from '../../src/components/MovieList/SkeletonMovieList';
+
 describe('더보기 버튼 E2E 테스트', () => {
   beforeEach(() => {
     cy.customVisit();
@@ -7,7 +9,7 @@ describe('더보기 버튼 E2E 테스트', () => {
     cy.get('button[list-type="popular"]').click();
 
     const popularMovieItems = cy.get('.item-list > li');
-    expect(popularMovieItems.should('have.length', 40));
+    expect(popularMovieItems.should('have.length', PAGE_SIZE * 2));
   });
 
   it('검색 결과에서 더보기 버튼을 한번 누르면 20개의 목록이 추가되어야 한다', () => {
@@ -16,6 +18,6 @@ describe('더보기 버튼 E2E 테스트', () => {
     cy.get('button[list-type="search"]').click();
 
     const popularMovieItems = cy.get('.item-list > li');
-    expect(popularMovieItems.should('have.length', 40));
+    expect(popularMovieItems.should('have.length', PAGE_SIZE * 2));
   });
 });
