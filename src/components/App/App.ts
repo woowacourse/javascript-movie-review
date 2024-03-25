@@ -52,30 +52,29 @@ class App {
   }
 
   setEvent() {
-    const $button = dom.getElement<HTMLButtonElement>(this.$target, '#toast-button');
+    const $toastButton = dom.getElement<HTMLButtonElement>(this.$target, '#toast-button');
 
-    $button.addEventListener<any>('onToast', (e: CustomEvent) => {
+    $toastButton.addEventListener<any>('onToast', (e: CustomEvent) => {
       const message = e.detail;
       this.toast.on(message);
     });
 
-    document.addEventListener('scroll', () => {
-      const scrollLocation = document.documentElement.scrollTop; // 현재 스크롤바 위치
-      const windowHeight = window.innerHeight; // 스크린 창
-      const fullHeight = Math.max(
-        document.body.scrollHeight,
-        document.documentElement.scrollHeight,
-        document.body.offsetHeight,
-        document.documentElement.offsetHeight,
-        document.body.clientHeight,
-        document.documentElement.clientHeight,
-      );
+    const options = {
+      root: null,
+      rootMargin: '0px 0px 150px 0px',
+      threshold: 0,
+    };
 
-      if (scrollLocation + windowHeight >= fullHeight * 0.8) {
-        const $moreButton = dom.getElement(this.$target, '#more-button');
-        !$moreButton.classList.contains('hidden') && this.handleClickMoreMovies();
-      }
-    });
+    const $moreButton = dom.getElement<HTMLButtonElement>(this.$target, '#more-button');
+    const io = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          !$moreButton.classList.contains('hidden') && this.handleClickMoreMovies();
+        }
+      });
+    }, options);
+
+    io.observe($moreButton);
   }
 
   #createHeader() {
