@@ -43,8 +43,7 @@ class SearchedMovieList extends MovieList {
       }, 1000);
     } catch (error) {
       if (error instanceof Error) {
-        const errorMessage = error.message;
-        this.createErrorUI(errorMessage);
+        this.createErrorUI(error.message);
       }
     }
   }

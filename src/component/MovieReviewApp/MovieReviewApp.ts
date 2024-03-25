@@ -17,13 +17,7 @@ class MovieReviewApp {
   }
 
   #renderMovieReviewMain() {
-    try {
-      const movieListController = new MovieListController();
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log(error.message);
-      }
-    }
+    const movieListController = new MovieListController();
   }
 
   render() {

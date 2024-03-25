@@ -50,8 +50,7 @@ class PopularMovieList extends MovieList {
       this.#currentPage += 1;
     } catch (error) {
       if (error instanceof Error) {
-        const errorMessage = error.message;
-        this.createErrorUI(errorMessage);
+        this.createErrorUI(error.message);
       }
     }
   }
