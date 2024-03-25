@@ -1,14 +1,15 @@
 import createElement from "../../utils/createElement";
 
 const createButton = (
-  content: string,
+  contents: string,
   onClickFunc?: (event: Event) => void
 ) => {
-  const button = createElement(
-    "button",
-    { class: "btn primary full-width" },
-    content
-  );
+  const button = createElement({
+    tagName: "button",
+    contents,
+    attrs: { class: "btn primary full-width" },
+  });
+
   if (onClickFunc) button.onclick = onClickFunc;
 
   return button;

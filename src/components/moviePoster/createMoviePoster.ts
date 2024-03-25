@@ -10,20 +10,38 @@ export interface MovieInfo {
 }
 
 const createMoviePoster = ({ title, imgSrc, rating }: MovieInfo) => {
-  const moviePosterLi = createElement("li");
-  const anchor = createElement("a");
-  const itemCardDiv = createElement("div", { class: "item-card" });
-  const itemThumbnail = createElement("img", {
-    class: "item-thumbnail",
-    src: imgSrc,
-    loading: "lazy",
-    alt: title,
+  const moviePosterLi = createElement({ tagName: "li" });
+  const anchor = createElement({ tagName: "a" });
+  const itemCardDiv = createElement({
+    tagName: "div",
+    attrs: { class: "item-card" },
   });
-  const titleParagraph = createElement("p", { class: "item-title" }, title);
-  const scoreParagraph = createElement("p", { class: " item-score" });
-  const starImg = createElement("img", {
-    src: starFills,
-    alt: "별점",
+
+  const itemThumbnail = createElement({
+    tagName: "img",
+    attrs: {
+      class: "item-thumbnail",
+      src: imgSrc,
+      loading: "lazy",
+      alt: title,
+    },
+  });
+
+  const titleParagraph = createElement({
+    tagName: "p",
+    contents: title,
+    attrs: { class: "item-title" },
+  });
+  const scoreParagraph = createElement({
+    tagName: "p",
+    attrs: { class: " item-score" },
+  });
+  const starImg = createElement({
+    tagName: "img",
+    attrs: {
+      src: starFills,
+      alt: "별점",
+    },
   });
 
   scoreParagraph.append(starImg, rating.toFixed(1));

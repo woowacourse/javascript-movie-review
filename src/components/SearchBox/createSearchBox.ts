@@ -3,14 +3,20 @@ import "./style.css";
 import createElement from "../../utils/createElement";
 
 const createSearchBox = (customEventName: string, placeHolder: string) => {
-  const div = createElement("div", { class: "search-box" });
-  const input = createElement("input", {
-    type: "text",
-    placeholder: placeHolder,
+  const div = createElement({ tagName: "div", attrs: { class: "search-box" } });
+  const input = createElement({
+    tagName: "input",
+    attrs: {
+      type: "text",
+      placeholder: placeHolder,
+    },
   }) as HTMLInputElement;
 
   input.required = true;
-  const button = createElement("button", { class: "search-button" });
+  const button = createElement({
+    tagName: "button",
+    attrs: { class: "search-button" },
+  });
 
   button.addEventListener("click", async (event) => {
     const keyword = input.value;

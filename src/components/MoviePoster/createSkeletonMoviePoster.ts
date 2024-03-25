@@ -1,13 +1,25 @@
 import createElement from "../../utils/createElement";
 
 const createSkeletonMoviePoster = () => {
-  const moviePosterLi = createElement("li");
-  const itemCardDiv = createElement("div", { class: "item-card" });
-  const itemThumbnail = createElement("div", {
-    class: "item-thumbnail skeleton",
+  const moviePosterLi = createElement({ tagName: "li" });
+  const itemCardDiv = createElement({
+    tagName: "div",
+    attrs: { class: "item-card" },
   });
-  const itemTitle = createElement("div", { class: "item-title skeleton" });
-  const itemScore = createElement("div", { class: "item-score skeleton" });
+  const itemThumbnail = createElement({
+    tagName: "div",
+    attrs: {
+      class: "item-thumbnail skeleton",
+    },
+  });
+  const itemTitle = createElement({
+    tagName: "div",
+    attrs: { class: "item-title skeleton" },
+  });
+  const itemScore = createElement({
+    tagName: "div",
+    attrs: { class: "item-score skeleton" },
+  });
 
   itemCardDiv.append(itemThumbnail, itemTitle, itemScore);
 

@@ -19,15 +19,18 @@ const goHomepage = (event: Event) => {
 };
 
 const createHeader = () => {
-  const header = createElement("header");
+  const header = createElement({ tagName: "header" });
 
-  const h1 = createElement("h1");
+  const h1 = createElement({ tagName: "h1" });
 
   h1.addEventListener("click", goHomepage);
 
-  const logoImg = createElement("img", {
-    src: logo,
-    alt: "MovieList 로고",
+  const logoImg = createElement({
+    tagName: "img",
+    attrs: {
+      src: logo,
+      alt: "MovieList 로고",
+    },
   });
   h1.append(logoImg);
 

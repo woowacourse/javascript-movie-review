@@ -19,24 +19,28 @@ const createNetworkFallback = (
   posterType: MoviePosterType,
   movieName?: string
 ) => {
-  const section = createElement("section", { class: "network-error-fallback" });
-
-  const img = createElement("img", {
-    src: ERROR_MEOW_BASE64,
-    alt: "ERROR_MEOW",
-    class: "error-meow",
+  const section = createElement({
+    tagName: "section",
+    attrs: { class: "network-error-fallback" },
   });
 
-  const mainText = createElement(
-    "h2",
-    {},
-    "오늘부터 인터넷은 내가 지배한다옹~"
-  );
-  const subText = createElement(
-    "h3",
-    {},
-    "(🙀 고양이가 인터넷 선을 물어뜯지는 않았는지 확인해보세요 🙀)"
-  );
+  const img = createElement({
+    tagName: "img",
+    attrs: {
+      src: ERROR_MEOW_BASE64,
+      alt: "ERROR_MEOW",
+      class: "error-meow",
+    },
+  });
+
+  const mainText = createElement({
+    tagName: "h2",
+    contents: "오늘부터 인터넷은 내가 지배한다옹~",
+  });
+  const subText = createElement({
+    tagName: "h3",
+    contents: "(🙀 고양이가 인터넷 선을 물어뜯지는 않았는지 확인해보세요 🙀)",
+  });
 
   const retryButton = createButton("재시도", () =>
     handleButtonClick(posterType, movieName)

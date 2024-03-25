@@ -21,7 +21,7 @@ class MoviePosterBoard {
     this.page = 1;
     const description = this.#createDescription(posterType, movieName);
     this.element = this.#createBasicElement(description);
-    this.#ul = createElement("ul", { class: "item-list" });
+    this.#ul = createElement({ tagName: "ul", attrs: { class: "item-list" } });
     this.#seeMoreButton = this.#createSeeMoreButton(posterType, movieName);
     this.element.append(this.#ul, this.#seeMoreButton);
     this.#seeMoreButton.click();
@@ -34,8 +34,11 @@ class MoviePosterBoard {
   }
 
   #createBasicElement(description: string) {
-    const section = createElement("section", { class: "item-view" });
-    const h2 = createElement("h2", {}, description);
+    const section = createElement({
+      tagName: "section",
+      attrs: { class: "item-view" },
+    });
+    const h2 = createElement({ tagName: "h2", contents: description });
     section.append(h2);
 
     return section;
