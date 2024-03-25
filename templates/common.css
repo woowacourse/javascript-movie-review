@@ -4,7 +4,7 @@
 
 body {
   font-size: 14px;
-  background-color: #222222;
+  background-color: #111111;
   color: #fff;
 }
 
@@ -15,6 +15,12 @@ a {
 
 button {
   cursor: pointer;
+}
+
+main {
+  height: auto;
+  min-height: 100vh;
+  margin-top: 8rem;
 }
 
 #app {
@@ -72,8 +78,23 @@ button {
 }
 
 .item-score {
-  margin-top: 16px;
   font-size: 1.2rem;
+  margin: 0;
+}
+
+.item-score {
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-score-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 7px;
 }
 
 .item-score::after {
@@ -83,7 +104,7 @@ button {
 .item-title.skeleton::after,
 .item-score.skeleton::after {
   font-size: 0;
-  content: "loading";
+  content: 'loading';
 }
 
 .full-width {
@@ -106,7 +127,8 @@ button.primary {
 }
 
 .item-card .skeleton {
-  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  /* background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0); */
+  background: linear-gradient(-90deg, #7d7d7d, #f0f0f0, #aaa, #f0f0f0);
   background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
   border-radius: 8px;
@@ -127,13 +149,15 @@ header {
   width: 100%;
   min-width: 1200px;
   height: 72px;
-  background-color: #222;
+  background-color: #111;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
   border-bottom: 1px solid white;
   margin-bottom: 48px;
+  position: fixed;
+  top: 0;
 }
 
 header h1 {
@@ -145,20 +169,42 @@ header h1 {
   color: #f33f3f;
 }
 
-header > .search-box {
+header > .search-form {
   background: #fff;
   padding: 8px;
   border-radius: 4px;
 }
 
-header .search-box > input {
+header .search-form > input {
   border: 0;
 }
 
-header .search-box > .search-button {
+header .search-form > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
-  background: url("./search_button.png") transparent no-repeat 0 1px;
+  background: url('./search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+.error-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.error-title {
+  font-size: 10rem;
+  color: #555;
+}
+
+.error-detail-container {
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.error-text {
+  padding: 10px;
+  text-align: center;
 }
