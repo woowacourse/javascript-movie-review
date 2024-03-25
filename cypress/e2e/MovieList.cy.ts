@@ -1,16 +1,20 @@
 describe("영화 목록 E2E 테스트", () => {
-  beforeEach(() => {
-    const POPULAR_REQUEST_URL = "https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=*";
+  const POPULAR_REQUEST_URL = "https://api.themoviedb.org/3/movie/popular?*";
 
+  const SEARCH_REQUEST_URL = "https://api.themoviedb.org/3/search/movie?*";
+
+  const MOVIE_LENGTH_PER_REQUEST = 20;
+
+  const EMPTY_RESULT_LENGTH = 0;
+
+  beforeEach(() => {
     cy.intercept(
       {
         method: "GET",
         url: POPULAR_REQUEST_URL,
       },
-      { fixture: "popular-movies.json" }
+      { fixture: "popular-movies.json", delay: 2000 }
     ).as("getPopularMovies");
-
-    const SEARCH_REQUEST_URL = "https://api.themoviedb.org/3/search/movie?query=*&include_adult=false&language=ko-KR&page=*";
 
     cy.intercept(
       {
@@ -23,78 +27,81 @@ describe("영화 목록 E2E 테스트", () => {
     cy.visit("http://localhost:8080");
   });
 
-  it("처음 방문할 경우 20개의 데이터를 요청하고, 20개의 영화 데이터가 보여진다", () => {
-    const EXPECTED_MOVIE_LENGTH = 20;
+  it("처음 영화 목록 페이지에 방문한 경우 스켈레톤 UI가 표시된다.", () => {
+    cy.get("ul#skeleton-list").should("exist");
+  });
 
-    cy.wait("@getPopularMovies").then((interception) => {
-      if (interception.response) {
-        const initialMovies = interception.response.body.results;
-        expect(initialMovies.length).to.equal(20);
-      }
-    });
+  it("인기 영화 목록 API를 호출하면 20개의 영화 정보 목록이 나열된다.", () => {
+    cy.wait("@getPopularMovies");
 
-    cy.get("ul#movie-list-container").children().should("have.length", EXPECTED_MOVIE_LENGTH);
+    cy.get("ul#movie-list-container").children().should("have.length", MOVIE_LENGTH_PER_REQUEST);
   });
 
   it("더보기 버튼을 클릭할 경우, 20개의 데이터가 추가된다.", () => {
     const EXPECTED_MOVIE_LENGTH = 40;
 
-    cy.get("button#next-button").click();
+    cy.wait("@getPopularMovies");
 
-    cy.wait("@getPopularMovies").then((interception) => {
-      if (interception.response) {
-        const initialMovies = interception.response.body.results;
-        expect(initialMovies.length).to.equal(20);
-      }
-    });
+    cy.get("button#next-button").click();
 
     cy.get("ul#movie-list-container").children().should("have.length", EXPECTED_MOVIE_LENGTH);
   });
 
   it("10 페이지의 데이터를 모두 보여준 후, 더보기 버튼은 사라져야한다", () => {
-    const MOVIE_LENGTH_PER_RESQUEST = 20;
     const TOTAL_PAGE = 10;
+    const CLICK_COUNT = 9;
 
-    Array.from({ length: 9 }, () => {
+    Array.from({ length: CLICK_COUNT }, () => {
+      cy.wait("@getPopularMovies");
       cy.get("button#next-button").click();
     });
 
     cy.get("ul#movie-list-container")
       .children()
-      .should("have.length", MOVIE_LENGTH_PER_RESQUEST * TOTAL_PAGE);
+      .should("have.length", MOVIE_LENGTH_PER_REQUEST * TOTAL_PAGE);
 
     cy.get("button#next-button").should("not.exist");
   });
 
-  it("검색창에 특정 기워드 검색 시, 검색 키워드에 맞는 데이터가 보여진다.", () => {
-    const EXPECTED_MOVIE_LENGTH = 20;
+  context("영화 목록 검색 테스트", () => {
+    it("특정 검색어를 입력하면, 검색된 영화 정보 목록이 나열된다.", () => {
+      const SEARCH_KEYWORD = "해리";
 
-    cy.wait("@getPopularMovies").then(() => {
-      cy.get("input#search-input").type("해리");
+      cy.wait("@getPopularMovies");
+
+      cy.get("input#search-input").type(SEARCH_KEYWORD);
       cy.get("button#search-button").click();
 
-      cy.wait("@getSearchMovies").then((interception) => {
-        if (interception.response) {
-          const initialMovies = interception.response.body.results;
-          expect(initialMovies.length).to.equal(EXPECTED_MOVIE_LENGTH);
-        }
-      });
+      cy.get("ul#movie-list-container").children().should("have.length", MOVIE_LENGTH_PER_REQUEST);
+      cy.get("ul#movie-list-container")
+        .children()
+        .each(($child) => {
+          cy.wrap($child).should("contain", SEARCH_KEYWORD);
+        });
     });
 
-    cy.get("ul#movie-list-container").children().should("have.length", EXPECTED_MOVIE_LENGTH);
-    cy.get("ul#movie-list-container").children().first().should("contain", "해리");
-  });
+    it("검색 후 영화가 존재하지 않을 경우, 검색 결과 없음 UI가 보여진다", () => {
+      cy.intercept(
+        {
+          method: "GET",
+          url: SEARCH_REQUEST_URL,
+        },
+        { fixture: "empty-movies.json" }
+      ).as("getEmptyMovies");
 
-  it("검색 후 영화가 존재하지 않을 경우, 검색 결과 없음 UI가 보여진다", () => {
-    cy.wait("@getPopularMovies").then(() => {
-      cy.get("input#search-input").type("blahblahblah");
+      const EMPTY_RESULT_TEXT = "검색 결과가 존재하지 않습니다.";
+      const EMPTY_RESULT_SEARCH_KEYWORD = "harryharryharry";
+
+      cy.wait("@getPopularMovies");
+
+      cy.get("input#search-input").type(EMPTY_RESULT_SEARCH_KEYWORD);
       cy.get("button#search-button").click();
 
-      cy.wait("@getSearchMovies").then((interception) => {
-        if (interception.response) {
-          cy.get(".empty-result").should("exist");
-        }
-      });
+      cy.wait("@getEmptyMovies");
+
+      cy.get("ul#movie-list-container").children().should("have.length", EMPTY_RESULT_LENGTH);
+
+      cy.get("div#empty-result").should("contain", EMPTY_RESULT_TEXT);
     });
   });
 });
