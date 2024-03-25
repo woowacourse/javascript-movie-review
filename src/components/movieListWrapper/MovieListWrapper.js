@@ -37,8 +37,8 @@ class MovieListWrapper {
     section.appendChild(showMoreButton);
 
     showMoreButton.addEventListener('click', async () => {
-      await this.updateMovieList(showMoreButton);
       this.#currentPage += 1;
+      await this.updateMovieList(showMoreButton);
     });
   }
 
@@ -62,8 +62,6 @@ class MovieListWrapper {
         showMoreButton.classList.add('none');
       }
       movieList.completed(liList, movies);
-    } else {
-      showMoreButton.classList.add('none');
     }
   }
 
@@ -72,12 +70,13 @@ class MovieListWrapper {
     const result = await fetchSearchMovieList(this.#inputValue, this.#currentPage);
     if (result) {
       const [movies, totalPages] = result;
+      if (!movies.length && totalPages == 1) {
+        movieList.none()
+      }
       if (Math.min(totalPages, LAST_PAGE) <= this.#currentPage) {
         showMoreButton.classList.add('none');
       }
       movieList.completed(liList, movies);
-    } else {
-      showMoreButton.classList.add('none');
     }
   }
 }

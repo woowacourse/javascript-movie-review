@@ -2,6 +2,18 @@ import { renderSkeleton, updateSkeletonToMovieCard } from '../components/movieCa
 import { Movie } from '../interface/Movie';
 
 const movieList = {
+  none() {
+    const itemList = document.querySelector('.item-list');
+    if (!itemList) return;
+    itemList.classList.add('none-text');
+
+    itemList.innerHTML = `
+      <h3>검색 결과를 찾지 못 하였습니다.</h3>
+      <div>단어의 철자가 정확한지 확인해 보세요.</div>
+      <div>검색어의 단어 수를 줄이거나, 보다 일반적인 검색어로 다시 검색해 보세요.</div>
+    `;
+  },
+
   loading() {
     const itemList = document.querySelector('.item-list');
     if (!itemList) return;

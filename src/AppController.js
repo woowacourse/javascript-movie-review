@@ -3,6 +3,10 @@ import MovieListWrapper from "./components/movieListWrapper/MovieListWrapper";
 
 class AppController {
   #currentView ;
+
+  constructor() {
+    this.#currentView = new MovieListWrapper('지금 인기 있는 영화', 'popular');
+  }
   
   async start() {
     const app = document.querySelector('#app');
@@ -19,7 +23,6 @@ class AppController {
     });
     app.prepend(header);
 
-    this.#currentView = new MovieListWrapper('지금 인기 있는 영화', 'popular');
     this.#currentView.create();
   }
 };
