@@ -11,13 +11,13 @@ function renderHeader() {
   app.prepend(header);
 }
 
-async function renderMain() {
-  await replaceMain();
+function renderMain() {
+  replaceMain();
 }
 
-async function run() {
+function run() {
   renderHeader();
-  await renderMain();
+  renderMain();
 }
 
 run();
