@@ -3,7 +3,7 @@ import createHeader from './components/Header/Header';
 import createMovieContents from './components/MovieContents/MovieContents';
 import { POPULAR_MOVIE_TITLE, RENDER_TYPE, SEARCH_MOVIE_TITLE } from './constants/movie';
 import Movie from './domain/Movie';
-import { LOGO } from './images/index';
+import { LOGO, STAR_FILLED } from './images/index';
 import { MovieListType, MovieType } from './types/movie';
 import { PropsType, RenderType } from './types/props';
 import httpRequest from './api/httpRequest';
@@ -37,7 +37,7 @@ class MovieApp {
       if (searchForm instanceof HTMLElement) {
         const formData = new FormData(searchForm as HTMLFormElement);
         const inputValue = formData.get('search') as string;
-        this.resetPage()
+        this.resetPage();
         this.updateMainHtml();
         this.renderMainContents(RENDER_TYPE.SEARCH, inputValue);
       }
@@ -52,7 +52,7 @@ class MovieApp {
 
   createHeader() {
     const header = document.createElement('header');
-    const templates = /* html */`
+    const templates = /* html */ `
       <h1><img src=${LOGO} alt="MovieList 로고" /></h1>
       <form class="search-box" id="search">
         <input type="text" name="search" id="search" placeholder="검색" />
@@ -160,7 +160,9 @@ class MovieApp {
               alt="${movie.title}"
             />
             <p class="item-title">${movie.title}</p>
-            <p class="item-score"><img src="./star_filled.png" alt="별점" />${movie.vote_average}</p>
+            <p class="item-score">
+              <img src=${STAR_FILLED} alt="별점" />${movie.vote_average.toFixed(1)}
+            </p>
           </div>
         </a>
       </li>  
@@ -179,7 +181,12 @@ class MovieApp {
     return button;
   }
 
-  createMainContents(movieList: MovieListType, isLastPage: boolean, renderType: RenderType, input?:string) {
+  createMainContents(
+    movieList: MovieListType,
+    isLastPage: boolean,
+    renderType: RenderType,
+    input?: string,
+  ) {
     // 영화 데이터 출력
     const movieData = this.showMovieData(movieList);
     document.querySelector('section.item-view')?.appendChild(movieData);
