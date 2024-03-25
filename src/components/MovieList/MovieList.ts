@@ -104,7 +104,10 @@ export default class MovieList extends EventComponent {
 
     this.skeletonUI.insert("item-list", "afterend");
 
-    const additionalMovies = await this.fetchMovies(this.page);
+    const additionalMovies = await this.fetchMovies(
+      this.page,
+      this.queryState.get()
+    );
 
     $<HTMLUListElement>("skeleton-movie-item-list")?.remove();
 
