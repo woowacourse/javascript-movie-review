@@ -13,7 +13,7 @@ const MovieItems = {
     return movieItemsList;
   },
 
-  async replaceSkeletons(movieItems: HTMLUListElement, respondData: IRespondData) {
+  async replaceAllSkeletons(movieItems: HTMLUListElement, respondData: IRespondData) {
     const itemCards = getAllDomElements('li', movieItems);
     itemCards.forEach((item, index) => this.replaceSkeleton(item, respondData.results[index]));
   },

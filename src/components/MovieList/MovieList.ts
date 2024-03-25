@@ -43,7 +43,7 @@ class MovieList {
     button.insertAdjacentElement('beforebegin', skeleton);
 
     const movieListData: IRespondData = await this.getMovieListData(search);
-    MovieItems.replaceSkeletons(skeleton, movieListData);
+    MovieItems.replaceAllSkeletons(skeleton, movieListData);
 
     if (this.#page === movieListData.total_pages || this.#page === 500) {
       button.remove();
