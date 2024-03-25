@@ -1,0 +1,38 @@
+{
+  "results": [
+    [
+      {
+        "adult": false,
+        "backdrop_path": "/4tjnRmTrFQd0zkJ8MMWwzL6s0Le.jpg",
+        "genre_ids": [16, 12, 10751, 35],
+        "id": 269149,
+        "original_language": "en",
+        "original_title": "Zootopia",
+        "overview": "어릴 적부터 경찰이 꿈이었던 토끼 주디 홉스는 주변의 만류에도 불구하고 경찰학교에 들어가 당당히 수석으로 졸업한다. 온갖 동물들이 모여 살며 교양 있고 세련된 라이프 스타일을 주도하는 대도시 주토피아에 자원한 주디는 의욕을 안고 출근하지만, 상사는 작은 토끼라는 이유로 주차관리 같은 소일거리만 시킨다. 따분하게 업무를 보던 주디는 아이스크림 불법 판매를 일삼는 사기꾼 여우 닉 와일드를 알게 되고, 그와 함께  48시간 안에 주토피아에서 벌어지고 있는 연쇄 실종사건을 추적해야만 하는데...",
+        "popularity": 119.063,
+        "poster_path": "/fZcab1yiKXsjx3S8D4KRHZsnMGC.jpg",
+        "release_date": "2016-02-11",
+        "title": "주토피아",
+        "video": false,
+        "vote_average": 7.7,
+        "vote_count": 15703
+      },
+      {
+        "adult": false,
+        "backdrop_path": null,
+        "genre_ids": [16, 35, 10751],
+        "id": 1084242,
+        "original_language": "en",
+        "original_title": "Zootopia 2",
+        "overview": "Sequel to the 2016 animated film Zootopia. Plot TBA.",
+        "popularity": 27.252,
+        "poster_path": "/A5b90CMDyLeAkm1dMOLtzbfdrZs.jpg",
+        "release_date": "2025-11-26",
+        "title": "주토피아 2",
+        "video": false,
+        "vote_average": 0,
+        "vote_count": 0
+      }
+    ]
+  ]
+}
