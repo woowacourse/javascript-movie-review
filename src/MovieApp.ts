@@ -33,16 +33,21 @@ class MovieApp {
     this.createMain(POPULAR_MOVIE_TITLE);
     document.querySelector('#search')?.addEventListener('submit', (event: Event) => {
       event.preventDefault();
-      const searchForm = document.querySelector('#search');
-      if (searchForm instanceof HTMLElement) {
-        const formData = new FormData(searchForm as HTMLFormElement);
-        const inputValue = formData.get('search') as string;
-        this.resetPage();
-        this.updateMainHtml();
-        this.renderMainContents(RENDER_TYPE.SEARCH, inputValue);
-      }
+      this.setEventOnSearchForm()
     });
     this.renderMainContents(RENDER_TYPE.POPULAR);
+  }
+  
+  setEventOnSearchForm() {
+    const searchForm = document.querySelector('#search');
+    if (searchForm instanceof HTMLElement) {
+      const formData = new FormData(searchForm as HTMLFormElement);
+      const inputValue = formData.get('search') as string;
+      this.resetPage();
+      this.updateMainHtml();
+      this.renderMainContents(RENDER_TYPE.SEARCH, inputValue);
+    }
+
   }
 
   updateMainHtml() {
