@@ -10,17 +10,13 @@ const searchOptions = {
 };
 
 class SearchMovieStore {
-  #searchMoviesData: any[];
+  #searchMoviesData: any[] = [];
 
   #totalPages: number = 0;
 
   #query: string = '';
 
   #presentPage: number = 1;
-
-  constructor() {
-    this.#searchMoviesData = [];
-  }
 
   /* eslint-disable max-lines-per-function */
   async searchMovies() {

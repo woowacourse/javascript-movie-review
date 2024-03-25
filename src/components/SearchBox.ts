@@ -3,13 +3,13 @@ interface Props {
 }
 
 export default class SearchBox {
-  #SearchBoxElement = document.createElement('form');
+  searchBoxElement = document.createElement('form');
 
   #onClick: Props['onClick'];
 
   constructor({ onClick }: Props) {
     this.#onClick = onClick;
-    this.#SearchBoxElement.classList.add('search-box');
+    this.searchBoxElement.classList.add('search-box');
     this.#generateInput();
     this.#generateButton();
     this.#addFormEvent();
@@ -22,7 +22,7 @@ export default class SearchBox {
     input.placeholder = '검색';
     input.name = 'query';
 
-    this.#SearchBoxElement.appendChild(input);
+    this.searchBoxElement.appendChild(input);
   }
 
   #generateButton() {
@@ -31,11 +31,11 @@ export default class SearchBox {
     button.classList.add('search-button');
     button.textContent = '검색';
 
-    this.#SearchBoxElement.appendChild(button);
+    this.searchBoxElement.appendChild(button);
   }
 
   #addFormEvent() {
-    this.#SearchBoxElement.addEventListener('submit', (event) => {
+    this.searchBoxElement.addEventListener('submit', (event) => {
       event.preventDefault();
       const target = event.target as HTMLFormElement;
 
@@ -44,6 +44,6 @@ export default class SearchBox {
   }
 
   get element() {
-    return this.#SearchBoxElement;
+    return this.searchBoxElement;
   }
 }

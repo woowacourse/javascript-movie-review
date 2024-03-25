@@ -58,7 +58,7 @@ export default class App {
         movie: movieData,
       });
 
-      ulElement?.appendChild(card.element);
+      ulElement.appendChild(card.element);
     });
     this.#generateMoreButton();
   }
@@ -70,7 +70,7 @@ export default class App {
         classes: ['skeleton-container'],
       });
 
-      ulElement?.appendChild(card.element);
+      ulElement.appendChild(card.element);
     }
   }
 
@@ -156,7 +156,7 @@ export default class App {
       if (ulElement) {
         ulElement.innerHTML = '';
         this.#appendMovieCard(movieDatas, ulElement as HTMLElement);
-      }
+      // }
     }
   }
 }
