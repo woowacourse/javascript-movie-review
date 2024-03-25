@@ -1,0 +1,18 @@
+button.btn {
+    border: 0;
+    border-radius: 8px;
+    height: 30px;
+    color: #fff;
+}
+
+button.primary {
+    background: #f33f3f;
+}
+
+button.primary:hover {
+    background-color: #da7979;
+}
+
+button:disabled {
+    background-color: #da7979;
+}
