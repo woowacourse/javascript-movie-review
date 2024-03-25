@@ -58,6 +58,24 @@ class App {
       const message = e.detail;
       this.toast.on(message);
     });
+
+    document.addEventListener('scroll', () => {
+      const scrollLocation = document.documentElement.scrollTop; // 현재 스크롤바 위치
+      const windowHeight = window.innerHeight; // 스크린 창
+      const fullHeight = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight,
+        document.body.offsetHeight,
+        document.documentElement.offsetHeight,
+        document.body.clientHeight,
+        document.documentElement.clientHeight,
+      );
+
+      if (scrollLocation + windowHeight >= fullHeight * 0.8) {
+        const $moreButton = dom.getElement(this.$target, '#more-button');
+        !$moreButton.classList.contains('hidden') && this.handleClickMoreMovies();
+      }
+    });
   }
 
   #createHeader() {
