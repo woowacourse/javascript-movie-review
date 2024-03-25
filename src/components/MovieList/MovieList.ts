@@ -56,7 +56,9 @@ export default class MovieList extends APIClientComponent {
   }
 
   protected setEvent(): void {
-    $("watch-more-button")?.addEventListener(
+    const $watchMoreButton = $<HTMLButtonElement>("watch-more-button");
+
+    $watchMoreButton?.addEventListener(
       "click",
       this.onWatchMoreButtonClick.bind(this)
     );
@@ -69,7 +71,7 @@ export default class MovieList extends APIClientComponent {
 
     const additionalFetchedMovieData = await getPopularMovieList(this.page);
 
-    $("skeleton-movie-item-list")?.remove();
+    $<HTMLElement>("skeleton-movie-item-list")?.remove();
 
     this.insertMovieItems(additionalFetchedMovieData);
   }

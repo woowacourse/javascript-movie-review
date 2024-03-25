@@ -23,7 +23,7 @@ export default abstract class BaseComponent extends Observer {
   }
 
   render(): void {
-    const element = $(this.targetId);
+    const element = $<HTMLElement>(this.targetId);
 
     if (!element) {
       return;

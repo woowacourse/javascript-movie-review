@@ -31,17 +31,14 @@ export default class MovieHeader extends EventComponent {
   }
 
   protected setEvent(): void {
-    const $form = $("search-form");
-    if ($form instanceof HTMLFormElement) {
-      $form.addEventListener("submit", (event) =>
-        this.onSearchMovieSubmit(event, $form)
-      );
-    }
+    const $form = $<HTMLFormElement>("search-form");
+    const $movieListLogo = $<HTMLHeadElement>("movie-list-logo");
 
-    $("movie-list-logo")?.addEventListener(
-      "click",
-      this.onLogoClick.bind(this)
+    $form?.addEventListener("submit", (event) =>
+      this.onSearchMovieSubmit(event, $form)
     );
+
+    $movieListLogo?.addEventListener("click", this.onLogoClick.bind(this));
   }
 
   private onSearchMovieSubmit(event: Event, form: HTMLFormElement): void {
@@ -60,10 +57,6 @@ export default class MovieHeader extends EventComponent {
   private onLogoClick(): void {
     this.queryState.set("");
 
-    const $searchForm = $("search-form");
-
-    if ($searchForm instanceof HTMLFormElement) {
-      $searchForm.reset();
-    }
+    $<HTMLFormElement>("search-form")?.reset();
   }
 }

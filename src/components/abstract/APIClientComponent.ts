@@ -12,6 +12,7 @@ interface APIClientComponentProps {
   targetId: TargetId;
   skeletonUI: SkeletonUI;
 }
+
 export default abstract class APIClientComponent extends EventComponent {
   protected skeletonUI: SkeletonUI;
 
@@ -29,18 +30,16 @@ export default abstract class APIClientComponent extends EventComponent {
     });
   }
 
-  async fetchRenderData(): Promise<FetchedData> {
-    throw new Error("fetch method must be implemented");
-  }
+  abstract fetchRenderData(): Promise<FetchedData>;
 
   protected abstract override getTemplate(data?: FetchedData): HTMLTemplate;
 
   protected abstract setEvent(): void;
 
   override render(data?: FetchedData): void {
-    const element = $(this.targetId);
+    const element = $<HTMLElement>(this.targetId);
 
-    if (!(element instanceof HTMLElement)) {
+    if (!element) {
       return;
     }
 
@@ -62,8 +61,8 @@ export default abstract class APIClientComponent extends EventComponent {
       );
     }
 
-    const errorTargetElement = $(this.targetId);
-    if (errorTargetElement instanceof HTMLElement) {
+    const errorTargetElement = $<HTMLElement>(this.targetId);
+    if (errorTargetElement) {
       errorTargetElement.innerHTML = generateNetworkNotWorkingScreen();
     }
   }

@@ -9,9 +9,9 @@ export default class SkeletonUI {
   }
 
   render(targetId: TargetId): void {
-    const element = $(targetId);
+    const element = $<HTMLElement>(targetId);
 
-    if (!(element instanceof HTMLElement)) {
+    if (!element) {
       return;
     }
 
@@ -19,6 +19,12 @@ export default class SkeletonUI {
   }
 
   insert(targetId: string, position: InsertPosition = "beforeend"): void {
-    $(targetId)?.insertAdjacentHTML(position, this.template);
+    const element = $<HTMLElement>(targetId);
+
+    if (!element) {
+      return;
+    }
+
+    element.insertAdjacentHTML(position, this.template);
   }
 }
