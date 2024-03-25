@@ -12,28 +12,31 @@ import createSkeletonMoviePoster from "../MoviePoster/createSkeletonMoviePoster"
 export type MoviePosterType = "popular" | "search";
 
 class MoviePosterBoard {
-  element;
-  #ul: HTMLElement;
-  #seeMoreButton;
-  page: number;
+  public element;
+  private moviePosterUl: HTMLElement;
+  private seeMoreButton: HTMLElement;
+  private page: number;
 
   constructor(posterType: MoviePosterType, movieName?: string) {
     this.page = 1;
     const description = this.#createDescription(posterType, movieName);
-    this.element = this.#createBasicElement(description);
-    this.#ul = createElement({ tagName: "ul", attrs: { class: "item-list" } });
-    this.#seeMoreButton = this.#createSeeMoreButton(posterType, movieName);
-    this.element.append(this.#ul, this.#seeMoreButton);
-    this.#seeMoreButton.click();
+    this.element = this.#createSectionElement(description);
+    this.moviePosterUl = createElement({
+      tagName: "ul",
+      attrs: { class: "item-list" },
+    });
+    this.seeMoreButton = this.#createSeeMoreButton(posterType, movieName);
+    this.element.append(this.moviePosterUl, this.seeMoreButton);
+    this.seeMoreButton.click();
   }
 
   addMoviePoster(movieInfos: MovieInfo[]) {
     const newMoviePosters = movieInfos.map(createMoviePoster);
 
-    this.#ul.append(...newMoviePosters);
+    this.moviePosterUl.append(...newMoviePosters);
   }
 
-  #createBasicElement(description: string) {
+  #createSectionElement(description: string) {
     const section = createElement({
       tagName: "section",
       attrs: { class: "item-view" },
@@ -56,11 +59,13 @@ class MoviePosterBoard {
   }
 
   #addSkeletonPosters() {
-    this.#ul.append(...this.#createSkeletons());
+    this.moviePosterUl.append(...this.#createSkeletons());
   }
 
   #deleteLast20Posters() {
-    Array.from({ length: 20 }).forEach(() => this.#ul.lastChild?.remove());
+    Array.from({ length: 20 }).forEach(() =>
+      this.moviePosterUl.lastChild?.remove()
+    );
   }
 
   #createSkeletons() {
@@ -96,7 +101,7 @@ class MoviePosterBoard {
       this.#deleteLast20Posters();
 
       if (this.page === TMDBResponse?.total_pages)
-        this.#seeMoreButton.classList.add("display-none");
+        this.seeMoreButton.classList.add("display-none");
 
       this.page++;
       const movieInfos = TMDBResponse.results.map((result) => {
@@ -108,7 +113,7 @@ class MoviePosterBoard {
       });
 
       this.addMoviePoster(movieInfos);
-      if (!this.#ul.children.length) {
+      if (!this.moviePosterUl.children.length) {
         this.element
           .querySelector("h2")
           ?.replaceChildren(movieName + " 그런 건 없어용!~ 🌞");

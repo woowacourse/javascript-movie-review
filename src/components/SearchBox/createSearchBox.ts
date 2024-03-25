@@ -1,9 +1,13 @@
 import "./style.css";
 
 import createElement from "../../utils/createElement";
+import MoviePosterController from "../../MoviePosterController";
 
-const createSearchBox = (customEventName: string, placeHolder: string) => {
-  const div = createElement({ tagName: "div", attrs: { class: "search-box" } });
+const createSearchBox = (placeHolder: string) => {
+  const searchForm = createElement({
+    tagName: "form",
+    attrs: { class: "search-box" },
+  });
   const input = createElement({
     tagName: "input",
     attrs: {
@@ -18,28 +22,18 @@ const createSearchBox = (customEventName: string, placeHolder: string) => {
     attrs: { class: "search-button" },
   });
 
-  button.addEventListener("click", async (event) => {
+  searchForm.addEventListener("submit", (e) => {
+    e.preventDefault();
     const keyword = input.value;
 
-    document.dispatchEvent(
-      new CustomEvent(customEventName, {
-        bubbles: true,
-        detail: { keyword },
-      })
-    );
+    MoviePosterController.renderSearchMoviePosterBoard(keyword);
 
     input.textContent = "";
   });
 
-  input.addEventListener("keypress", (event) => {
-    if (event.key === "Enter") {
-      button.click();
-    }
-  });
+  searchForm.append(input, button);
 
-  div.append(input, button);
-
-  return div;
+  return searchForm;
 };
 
 export default createSearchBox;

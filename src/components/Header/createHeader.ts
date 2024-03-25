@@ -1,9 +1,9 @@
 import "./style.css";
 
-import CUSTOM_EVENT from "../../constants/event";
 import createElement from "../../utils/createElement";
 import createSearchBox from "../SearchBox/createSearchBox";
 import logo from "./logo.png";
+import MoviePosterController from "../../MoviePosterController";
 
 const goHomepage = (event: Event) => {
   const input = document.querySelector<HTMLInputElement>("#header__search-box");
@@ -11,11 +11,7 @@ const goHomepage = (event: Event) => {
     input.value = "";
   }
 
-  document.dispatchEvent(
-    new CustomEvent(CUSTOM_EVENT.showPopularMovie, {
-      bubbles: true,
-    })
-  );
+  MoviePosterController.renderPopularMoviePosterBoard();
 };
 
 const createHeader = () => {
@@ -34,7 +30,7 @@ const createHeader = () => {
   });
   h1.append(logoImg);
 
-  const searchBox = createSearchBox(CUSTOM_EVENT.searchMovie, "검색");
+  const searchBox = createSearchBox("검색");
   const input = searchBox.querySelector("input");
   if (input) input.id = "header__search-box";
 

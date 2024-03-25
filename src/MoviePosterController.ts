@@ -1,13 +1,12 @@
 import { MovieInfo } from "./components/MoviePoster/createMoviePoster";
 import { $ } from "./utils/selector";
-import CUSTOM_EVENT from "./constants/event";
 import MoviePosterBoard from "./components/MoviePosterBoard/MoviePosterBoard";
 import createHeader from "./components/Header/createHeader";
 
 class MoviePosterController {
   static moviePosterBoard = new MoviePosterBoard("popular");
 
-  private static renderPopularMoviePosterBoard() {
+  static renderPopularMoviePosterBoard() {
     this.moviePosterBoard = new MoviePosterBoard("popular");
 
     $("body>section")?.remove();
@@ -18,15 +17,6 @@ class MoviePosterController {
     const header = createHeader();
 
     $("body")?.append(header);
-    document.addEventListener(
-      CUSTOM_EVENT.searchMovie,
-      this.renderSearchMoviePosterBoard.bind(this)
-    );
-
-    document.addEventListener(
-      CUSTOM_EVENT.showPopularMovie,
-      this.renderPopularMoviePosterBoard.bind(this)
-    );
   }
 
   static renderMoviePosterBoard() {
@@ -38,13 +28,10 @@ class MoviePosterController {
     this.moviePosterBoard.addMoviePoster(movieInfos);
   }
 
-  static async renderSearchMoviePosterBoard(e: Event) {
-    if (!(e instanceof CustomEvent)) return;
-
-    const { keyword } = e.detail;
+  static async renderSearchMoviePosterBoard(keyword: string) {
     this.moviePosterBoard = new MoviePosterBoard("search", keyword);
 
-    MoviePosterController.renderMoviePosterBoard();
+    this.renderMoviePosterBoard();
   }
 }
 
