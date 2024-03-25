@@ -3,6 +3,16 @@ import { replaceMain } from './main';
 import { SEARCH_MOVIES_URL } from '../constants/tmdbConstants';
 import movieStateMethod from '../store/movieStore';
 
+interface ISearchInput {
+  searchContent: {
+    value: string;
+  };
+}
+
+interface ISearchSubmitEvent<T> extends SubmitEvent {
+  target: EventTarget & T;
+}
+
 function getLogo() {
   const logo = document.createElement('h1');
   const logoImgElement = document.createElement('img');
@@ -14,9 +24,9 @@ function getLogo() {
   return logo;
 }
 
-const submitSearchEventHandler = (event: any) => {
+const submitSearchEventHandler = (event: ISearchSubmitEvent<ISearchInput>) => {
   event.preventDefault();
-  movieStateMethod.setQuery(event.target.searchContent.value);
+  movieStateMethod.setQuery(event.target?.searchContent.value);
   movieStateMethod.setUrl(SEARCH_MOVIES_URL);
   replaceMain();
 };
@@ -47,7 +57,7 @@ function getSearchBox() {
   const input = getSearchBoxInput();
   const button = getSearchBoxButton();
   searchBox.classList.add('search-box');
-  searchBox.onsubmit = submitSearchEventHandler;
+  searchBox.onsubmit = (e) => submitSearchEventHandler(e as ISearchSubmitEvent<ISearchInput>);
   searchBox.append(input, button);
   return searchBox;
 }
