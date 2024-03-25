@@ -1,5 +1,6 @@
-import { Movie } from '../index.d';
-import starFilledImg from '../images/star_filled.png';
+import { Movie } from '../../index.d';
+import starFilledImg from '../../images/star_filled.png';
+import './MovieCard.css';
 
 interface Props {
   classes?: string[];

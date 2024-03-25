@@ -1,6 +1,6 @@
 import { Movie } from './index.d';
 import MoreButton from './components/MoreButton';
-import MovieCard from './components/MovieCard';
+import MovieCard from './components/MovieCard/MovieCard';
 import movieStore from './store/MovieStore';
 import SearchBox from './components/SearchBox';
 import searchMovieStore from './store/SearchMovieStore';
