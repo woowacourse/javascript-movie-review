@@ -1,7 +1,7 @@
-import { MovieItem } from "../types/movies";
+import { MovieType } from "../types";
 import { starImage } from "../assets/image";
 
-export const createMovieElement = ({ id, title, backdrop_path, vote_average }: MovieItem) => {
+export const createMovieElement = ({ id, title, thumbnail, voteAverage }: MovieType) => {
   const listItem = document.createElement("li");
   listItem.id = String(id);
   listItem.innerHTML = /*html*/ `
@@ -9,13 +9,13 @@ export const createMovieElement = ({ id, title, backdrop_path, vote_average }: M
       <div class="item-card">
         <img
         class="item-thumbnail"
-        src="https://image.tmdb.org/t/p/w220_and_h330_face/${backdrop_path}"
+        src="${thumbnail}"
         loading="lazy"
         alt="${title}"
         />
         <p class="item-title">${title}</p>
         <p class="item-score">
-        <img src="${starImage}" alt="별점" /> ${vote_average.toFixed(1)}
+        <img src="${starImage}" alt="별점" /> ${voteAverage.toFixed(1)}
         </p>
       </div>
     </a> 

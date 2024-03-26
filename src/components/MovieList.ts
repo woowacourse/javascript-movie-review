@@ -1,9 +1,9 @@
 import Component from "../common/Component";
 import { createMovieElement } from "./Movie";
 import { hideSkeleton, renderSkeleton } from "./Skeleton";
-import movieClient from "../http/MoveClient";
+import movieClient from "../http/MovieClient";
 import { $ } from "../utils/dom";
-import { FetchResponse, MovieItem } from "../types/movies";
+import { MovieType } from "../types";
 import { MAX_PAGE } from "../constants/movies";
 
 interface MovieListState {
@@ -51,7 +51,7 @@ export default class MovieList extends Component<{}, MovieListState> {
     emptyResultContainer.innerText = emptyText;
   }
 
-  private renderMovies(movies: MovieItem[]) {
+  private renderMovies(movies: MovieType[]) {
     const movieList = $<HTMLUListElement>("#movie-list-container");
     if (!movieList) return;
 
@@ -62,8 +62,7 @@ export default class MovieList extends Component<{}, MovieListState> {
 
     this.hideEmptyResult();
     movies.forEach((movie) => {
-      const { id, title, backdrop_path, vote_average } = movie;
-      const movieItem = createMovieElement({ id, title, backdrop_path, vote_average });
+      const movieItem = createMovieElement(movie);
       movieList.append(movieItem);
     });
   }
@@ -91,7 +90,7 @@ export default class MovieList extends Component<{}, MovieListState> {
 
     this.getNextPage()
       .then((res) => {
-        res && this.renderMovies(res.results);
+        res && this.renderMovies(res);
       })
       .catch((error) => {
         if (error instanceof Error) {
@@ -122,9 +121,8 @@ export default class MovieList extends Component<{}, MovieListState> {
     if (!this.state) return;
 
     const { currentPage, searchKeyword } = this.state;
-
     if (searchKeyword === "") return movieClient.getPopularMovies(currentPage);
-    return await movieClient.getSearchMovies(currentPage, searchKeyword);
+    return movieClient.getSearchMovies(currentPage, searchKeyword);
   }
 
   protected setEvent(): void {
