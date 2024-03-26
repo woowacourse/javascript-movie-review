@@ -1,0 +1,49 @@
+/* movie-list */
+.item-list {
+  display: grid;
+  margin: 48px 0;
+  grid-template-columns: repeat(4, 180px);
+  grid-column-gap: 160px;
+  grid-row-gap: 48px;
+}
+
+.item-list.none-text {
+  display: block;
+  line-height: 25px;
+}
+
+.item-list.none-text h3 {
+  font-size: 25px;
+  font-weight: 700;
+  margin: 20px 0;
+}
+
+.item-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-thumbnail {
+  border-radius: 8px;
+  width: 180px;
+  height: 270px;
+  background-size: contain;
+}
+
+.item-title {
+  margin-top: 16px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.item-score {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 16px;
+  font-size: 1.2rem;
+}
+
+.item-score::after {
+  margin-left: 8px;
+}
