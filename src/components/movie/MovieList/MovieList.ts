@@ -23,8 +23,8 @@ class MovieList extends Component<MovieListProps> {
 
   protected initializeState(): void {
     this.movie = new Movie();
-    this.initializeObserver();
     this.updateMovieList();
+    this.initializeObserver();
   }
 
   protected render() {
@@ -34,12 +34,6 @@ class MovieList extends Component<MovieListProps> {
   private reRender() {
     this.$element.innerHTML = '';
     this.render();
-  }
-
-  private initializeObserver() {
-    this.observer = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => entry.isIntersecting && this.updateMovieList());
-    });
   }
 
   updateMovieList() {
@@ -59,16 +53,6 @@ class MovieList extends Component<MovieListProps> {
     this.reRender();
   }
 
-  private handleObserver(index: number, $li: HTMLElement) {
-    if (!this.movieItems || !this.movie) return;
-    if (this.movie.isMaxPage()) return;
-    if (this.movieItems.length % 20 !== 0) return;
-
-    if (index === this.movieItems.length - 1) {
-      this.observer?.observe($li);
-    }
-  }
-
   private openErrorModal(error: unknown) {
     if (error instanceof Error) {
       const $modal = querySelector<HTMLDialogElement>('#error-fallBack-modal');
@@ -83,6 +67,21 @@ class MovieList extends Component<MovieListProps> {
       const $modal = querySelector<HTMLDialogElement>('#movie-detail-modal');
       $modal.showModal();
     });
+  }
+
+  private initializeObserver() {
+    this.observer = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry: IntersectionObserverEntry) => entry.isIntersecting && this.updateMovieList());
+    });
+  }
+
+  private setInfiniteScrollObserver(index: number, $movieItem: HTMLElement) {
+    if (!this.movieItems || !this.movie) return;
+    if (this.movie.isMaxPage() || this.movieItems.length % 20 !== 0) return;
+
+    if (index === this.movieItems.length - 1) {
+      this.observer?.observe($movieItem);
+    }
   }
 
   private createNoResultImage($movieItemList: HTMLElement) {
@@ -103,11 +102,11 @@ class MovieList extends Component<MovieListProps> {
     }
 
     this.movieItems.forEach((movieItem, index) => {
-      const $li = createElement({ tagName: 'li', attributeOptions: { class: 'item' } });
-      new MovieListCard($li, { movieItem, createMovieDetailModal: this.openMovieDetailModal.bind(this) });
+      const $li = createElement({ tagName: 'li' });
+      new MovieListCard($li, { movieItem, openMovieDetailModal: this.openMovieDetailModal.bind(this) });
       $movieItemList.appendChild($li);
 
-      this.handleObserver(index, $li);
+      this.setInfiniteScrollObserver(index, $li);
     });
 
     return $movieItemList;

@@ -6,7 +6,7 @@ import { FilledStar } from '../../../assets';
 
 interface MovieListCardProps {
   movieItem: IMovie;
-  createMovieDetailModal: (key: number) => void;
+  openMovieDetailModal: (key: number) => void;
 }
 
 class MovieListCard extends Component<MovieListCardProps> {
@@ -34,7 +34,7 @@ class MovieListCard extends Component<MovieListCardProps> {
 
   protected setEvent(): void {
     const $movieItemCard = querySelector('#movie-item-card', this.$element);
-    $movieItemCard.addEventListener('click', () => this.props?.createMovieDetailModal(this.props.movieItem.id));
+    $movieItemCard.addEventListener('click', () => this.props?.openMovieDetailModal(this.props.movieItem.id));
   }
 }
 
