@@ -1,6 +1,13 @@
+import { showAlert } from './Alert';
+
 const handleSearchClick = (event: MouseEvent | KeyboardEvent) => {
-  const input = document.querySelector('.search-box > input');
+  const input = document.querySelector('.search-input');
+
   if (!(input instanceof HTMLInputElement)) return;
+  if (input.value === '') {
+    showAlert('검색어를 입력해주세요', 3000);
+    return;
+  }
 
   event.target?.dispatchEvent(
     new CustomEvent('search', {
@@ -16,6 +23,7 @@ const SearchBox = () => {
   const searchButton = document.createElement('button');
 
   searchBox.classList.add('search-box');
+  searchInput.classList.add('search-input');
   searchButton.classList.add('search-button');
 
   searchInput.type = 'text';

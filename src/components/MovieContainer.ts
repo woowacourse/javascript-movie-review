@@ -1,4 +1,4 @@
-import { MovieInfo } from '../api/api-type';
+import { MovieDataType } from '../api/apiType';
 import { getPopularMovieList } from '../api/popularMovieList';
 import SkeletonItem from './SkeletonItem';
 import MovieItem from './MovieItem';
@@ -15,13 +15,11 @@ class MovieContainer {
     this.#page = 1;
     this.#query = '';
     this.#getTemplate(element);
-    this.#setEvent();
-    this.render(this.#query);
   }
 
   render(query: string) {
     this.initData(query);
-    this.#query ? this.renderSearchMovies() : this.renderMovies();
+    this.renderMovies();
   }
 
   initData(query: string) {
@@ -60,18 +58,16 @@ class MovieContainer {
     element.appendChild(section);
   }
 
-  #setEvent() {
+  setEvent() {
     const moreButton = document.querySelector('.btn');
     moreButton?.addEventListener('click', () => {
       if (this.#page > 500) {
-        const viewMoreButton = document.querySelector('.btn');
-        viewMoreButton?.classList.add('hidden');
-
-        showAlert('마지막 페이지 입니다!');
+        moreButton?.classList.add('hidden');
+        showAlert('마지막 페이지 입니다!', 3000);
         return;
       }
 
-      this.#query ? this.renderSearchMovies() : this.renderMovies();
+      this.renderMovies();
     });
   }
 
@@ -81,17 +77,11 @@ class MovieContainer {
     await this.#inputMovies();
   }
 
-  async renderSearchMovies() {
-    this.#inputSkeleton();
-
-    await this.#inputSearchMovies(this.#query);
-  }
-
-  async #inputSearchMovies(query: string) {
+  async #inputMovies() {
     const ul = document.querySelector('ul.item-list');
     if (!(ul instanceof HTMLElement)) return;
 
-    const movieData = await this.#searchMovies(this.#page, query);
+    const movieData = await this.#getMovies(this.#page, this.#query);
 
     if (movieData && !movieData.length) {
       ul.innerHTML = `<img src=${NO_SEARCH} class="error"/>`;
@@ -107,7 +97,26 @@ class MovieContainer {
         ul.appendChild(movieItem);
       });
       this.#removeSkeleton();
+
       this.#page += 1;
+    }
+  }
+
+  async #getMovies(page: number, query: string) {
+    try {
+      const movieData = await (query ? getSearchMovieList(query, page) : getPopularMovieList(page));
+      return movieData;
+    } catch (error) {
+      if (error instanceof Error) {
+        this.#removeSkeleton();
+        const [status, message] = error.message.split('-');
+        const ul = document.querySelector('ul.item-list');
+        if (!(ul instanceof HTMLElement)) return;
+
+        const viewMoreButton = document.querySelector('.btn');
+        viewMoreButton?.classList.add('hidden');
+        ul.innerHTML = ErrorPage({ status, message }).outerHTML;
+      }
     }
   }
 
@@ -124,67 +133,8 @@ class MovieContainer {
     skeletonItems.forEach((item) => item?.remove());
   }
 
-  async #getMovies(page: number) {
-    try {
-      const movieData = await getPopularMovieList(page);
-      return movieData;
-    } catch (error) {
-      if (error instanceof Error) {
-        const [status, message] = error.message.split('-');
-        const ul = document.querySelector('ul.item-list');
-        if (!(ul instanceof HTMLElement)) return;
-
-        const viewMoreButton = document.querySelector('.btn') as HTMLElement;
-        viewMoreButton.classList.add('hidden');
-
-        ul.innerHTML = ErrorPage({ status, message }).outerHTML;
-      }
-    }
-  }
-
-  async #searchMovies(page: number, query: string) {
-    try {
-      const movieData = await getSearchMovieList(query, page);
-
-      return movieData;
-    } catch (error) {
-      if (error instanceof Error) {
-        this.#removeSkeleton();
-        const [status, message] = error.message.split('-');
-        const ul = document.querySelector('ul.item-list');
-        if (!(ul instanceof HTMLElement)) return;
-
-        const viewMoreButton = document.querySelector('.btn');
-        viewMoreButton?.classList.add('hidden');
-        ul.innerHTML = ErrorPage({ status, message }).outerHTML;
-      }
-    }
-  }
-
-  #createMovieItems(data: MovieInfo[]): HTMLElement[] {
+  #createMovieItems(data: MovieDataType[]): HTMLElement[] {
     return data.map((prop) => MovieItem(prop));
-  }
-
-  async #inputMovies() {
-    const ul = document.querySelector('ul.item-list');
-    if (!(ul instanceof HTMLElement)) return;
-
-    const movieData = await this.#getMovies(this.#page);
-
-    const viewMoreButton = document.querySelector('.btn');
-    !movieData || movieData.length < 20
-      ? viewMoreButton?.classList.add('hidden')
-      : viewMoreButton?.classList.remove('hidden');
-
-    if (movieData) {
-      this.#createMovieItems(movieData).forEach((movieItem) => {
-        ul.appendChild(movieItem);
-      });
-
-      this.#removeSkeleton();
-
-      this.#page += 1;
-    }
   }
 }
 
