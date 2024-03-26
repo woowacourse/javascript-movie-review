@@ -11,4 +11,4 @@ const errorHandler = (code) => {
   }
 }
 
-export default errorHandler
+export default errorHandler;
