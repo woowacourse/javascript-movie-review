@@ -9,7 +9,7 @@ import ErrorComponent from '../components/ErrorComponent/ErrorComponent';
 import { FetchOption } from '../types/fetch';
 import isHttpError from '../utils/isHttpError';
 
-class LoadingOrErrorStateUIManager {
+class MovieFetcherWithLoadingOrErrorState {
   api;
 
   SKELETON_LENGTH = 8;
@@ -92,6 +92,6 @@ class LoadingOrErrorStateUIManager {
   }
 }
 
-const loadingOrErrorStateUIManager = new LoadingOrErrorStateUIManager(api);
+const movieFetcherWithLoadingOrErrorState = new MovieFetcherWithLoadingOrErrorState(api);
 
-export default loadingOrErrorStateUIManager;
+export default movieFetcherWithLoadingOrErrorState;
