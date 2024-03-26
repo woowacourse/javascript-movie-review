@@ -23,23 +23,20 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
   }
 
   protected render() {
-    this.$element.append(this.createComponent());
+    this.$element.innerHTML = this.createComponent();
     this.updateMovieList();
   }
 
   protected createComponent() {
-    const $section = createElement({
-      tagName: 'section',
-      attributeOptions: { id: 'movie-review-section', class: 'item-view' },
-    });
-
-    $section.innerHTML = /* html */ `
-      <h2>${this.props?.movieType === 'popular' ? '지금 인기 있는 영화' : `"${this.props?.movieType}" 검색 결과`}</h2>
-      <div id="movie-list-container" class="movie-list-container"></div>
-      <button id="more-button" class="btn primary full-width">더보기</button>
+    return /* html */ `
+      <section id="movie-review-section" class="item-view">
+        <h2>
+          ${this.props?.movieType === 'popular' ? '지금 인기 있는 영화' : `"${this.props?.movieType}" 검색 결과`}
+        </h2>
+        <div id="movie-list-container" class="movie-list-container"></div>
+        <button id="more-button" class="btn primary full-width">더보기</button>
+      </section>
     `;
-
-    return $section;
   }
 
   private updateMovieList() {
