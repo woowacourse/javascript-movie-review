@@ -1,5 +1,4 @@
 import './style.css';
-import '../Skeleton/style.css';
 import { MovieListType, MovieType } from '../../types/movie';
 import createMovieItem from '../MovieItem/MovieItem';
 import DOM from '../../utils/DOM';
@@ -7,8 +6,8 @@ import Skeleton from '../Skeleton/Skeleton';
 
 const { $ } = DOM;
 
-const movieItems = {
-  createMovieItems(movieList: MovieListType, isLastPage: boolean) {
+const MovieListManager = {
+  renderMovieList(movieList: MovieListType, isLastPage: boolean) {
     const ul = document.createElement('ul');
     ul.classList.add('item-list');
 
@@ -27,4 +26,4 @@ const movieItems = {
   },
 };
 
-export default movieItems;
+export default MovieListManager;

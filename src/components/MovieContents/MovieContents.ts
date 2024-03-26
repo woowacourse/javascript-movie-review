@@ -1,14 +1,14 @@
 import './style.css';
 import Movie from '../../domain/Movie';
-import movieItems from '../MovieItems/MovieItems';
 import { PropsType } from '../../types/props';
 import Skeleton from '../Skeleton/Skeleton';
 import DOM from '../../utils/DOM';
+import MovieListManager from '../MovieList/MovieList';
 
 const { $ } = DOM;
 
-const createMovieContents = {
-  execute(title: string) {
+const MovieContentManager = {
+  renderMain(title: string) {
     const main = document.createElement('main');
 
     const templates = /* html */ `
@@ -37,7 +37,7 @@ const createMovieContents = {
     $('.item-container')?.appendChild(Skeleton.render(20));
 
     const { movieList, isLastPage } = await movie.handleMovieData(type, input);
-    movieItems.createMovieItems(movieList, isLastPage);
+    MovieListManager.renderMovieList(movieList, isLastPage);
     return isLastPage;
   },
 
@@ -48,4 +48,4 @@ const createMovieContents = {
   },
 };
 
-export default createMovieContents;
+export default MovieContentManager;

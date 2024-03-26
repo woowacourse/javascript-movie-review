@@ -1,31 +1,34 @@
-import createHeader from './components/Header/Header';
-import createMovieContents from './components/MovieContents/MovieContents';
+import HeaderManager from './components/Header/Header';
+import MovieContentManager from './components/MovieContents/MovieContents';
 import { LOGO } from './images/index';
 import { PropsType } from './types/props';
+import DOM from './utils/DOM';
+
+const { $ } = DOM;
 
 class MovieApp {
   constructor() {
-    this.init();
-    this.render();
+    this.start();
+    this.renderPopularMovie();
   }
 
-  async init() {
-    const container = document.querySelector('#app');
-    const header = createHeader({
+  async start() {
+    const container = $('#app');
+    const header = HeaderManager.render({
       imageSource: LOGO,
     });
-    const main = await createMovieContents.execute('지금 인기 있는 영화');
+    const main = await MovieContentManager.renderMain('지금 인기 있는 영화');
 
-    container?.prepend(header);
+    container?.appendChild(header);
     container?.appendChild(main);
   }
 
-  render() {
+  renderPopularMovie() {
     const props: PropsType = {
       type: 'popular',
       input: '',
     };
-    createMovieContents.renderMovieData(props);
+    MovieContentManager.renderMovieData(props);
   }
 }
 
