@@ -1,6 +1,6 @@
 import { Movie } from '../interface/Movie';
 
-export function mapDataToMovies(movies: any): Movie[] {
+const mapDataToMovies = (movies: any): Movie[] => {
   return movies.results.map((data: any) => {
     return {
       id: data.id,
@@ -9,4 +9,6 @@ export function mapDataToMovies(movies: any): Movie[] {
       vote_average: data.vote_average,
     };
   });
-}
+};
+
+export default mapDataToMovies;

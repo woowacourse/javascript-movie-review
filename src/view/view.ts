@@ -1,4 +1,4 @@
-import { updateSkeletonToMovieCard } from '../components/movieCard/movieCard';
+import MovieCard from '../components/movieCard/movieCard';
 import { Movie } from '../interface/Movie';
 
 const view = {
@@ -19,7 +19,7 @@ const view = {
     if (!skeletonList) return;
 
     movies.forEach(movie => {
-      skeletonList.before(updateSkeletonToMovieCard(movie));
+      skeletonList.before(MovieCard(movie));
     });
   },
 

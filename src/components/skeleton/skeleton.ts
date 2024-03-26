@@ -1,9 +1,9 @@
-export function createSkeleton() {
+const Skeleton = () => {
   const skeleton = render();
   return skeleton;
-}
+};
 
-function render() {
+const render = () => {
   const skeletonHTML = `            
   <li class='skeleton-list none'>
     <a href="#">
@@ -16,5 +16,7 @@ function render() {
   </li>
   `.repeat(20);
 
-  return skeletonHTML
-}
+  return skeletonHTML;
+};
+
+export default Skeleton;

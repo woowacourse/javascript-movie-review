@@ -1,6 +1,6 @@
 import toast from "../components/toast/toast";
 import { BASE_URL, ENDPOINT } from "../constants/constant";
-import { mapDataToMovies } from "../domain/MovieService";
+import mapDataToMovies from "../domain/MovieService";
 
 const API_KEY = process.env.API_KEY;
 

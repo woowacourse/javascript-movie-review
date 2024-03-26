@@ -1,11 +1,16 @@
 import logoPng from '../../images/logo.png';
 
-export function createHeader({onLogoClick, inputSubmitHandle}) {
-  const header = render(onLogoClick, inputSubmitHandle);
-  return header;
+interface Props {
+  onLogoClick?: () => void;
+  inputSubmitHandle?: (value: string) => void;
 }
 
-function render(onLogoClick, inputSubmitHandle) {
+const Header = ({ onLogoClick, inputSubmitHandle }: Props) => {
+  const header = render({ onLogoClick, inputSubmitHandle });
+  return header;
+};
+
+const render = ({ onLogoClick, inputSubmitHandle }: Props) => {
   const header = document.createElement('header');
 
   const logo = document.createElement('h1');
@@ -29,25 +34,27 @@ function render(onLogoClick, inputSubmitHandle) {
 
   header.append(logo, searchBox);
 
-  header.onclick = (event) => {
-    if (event.target.tagName === 'HEADER') { 
-      window.scrollTo({ top: 0, behavior: "smooth" });
+  header.onclick = event => {
+    if ((event.target as HTMLElement).tagName === 'HEADER') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }
+  };
 
   if (onLogoClick) {
-    logo.addEventListener('click', (event) => {
+    logo.addEventListener('click', () => {
       searchInput.value = '';
       onLogoClick();
-    })
+    });
   }
 
   if (inputSubmitHandle) {
-    searchBox.addEventListener('submit', (event) => {
+    searchBox.addEventListener('submit', event => {
       event.preventDefault();
       if (searchInput.value.trim() !== '') inputSubmitHandle(searchInput.value);
     });
   }
 
   return header;
-}
+};
+
+export default Header;

@@ -1,13 +1,19 @@
 import filledStar from '../../images/star_filled.png';
 import emptyPng from '../../images/empty_poster.png';
+import { Movie } from '../../interface/Movie';
 
-export function updateSkeletonToMovieCard(movie) {
+const MovieCard = (movie: Movie) => {
+  const movieCard = render(movie);
+  return movieCard;
+};
+
+const render = (movie: Movie) => {
   const list = document.createElement('li');
 
   const anchor = document.createElement('a');
-  
-  const itemCard = document.createElement('div')
-  itemCard.className = 'item-card'
+
+  const itemCard = document.createElement('div');
+  itemCard.className = 'item-card';
 
   const thumbnail = document.createElement('img');
   thumbnail.className = 'item-thumbnail skeleton';
@@ -26,16 +32,18 @@ export function updateSkeletonToMovieCard(movie) {
 
   const score = document.createElement('p');
   score.className = 'item-score';
-  score.textContent = movie.vote_average;
+  score.textContent = String(movie.vote_average);
 
   const scoreImage = document.createElement('img');
   scoreImage.src = filledStar;
   scoreImage.alt = '별점';
 
   score.appendChild(scoreImage);
-  itemCard.append(thumbnail, title, score)
-  anchor.appendChild(itemCard)
-  list.appendChild(anchor)
+  itemCard.append(thumbnail, title, score);
+  anchor.appendChild(itemCard);
+  list.appendChild(anchor);
 
-  return list
-}
+  return list;
+};
+
+export default MovieCard;
