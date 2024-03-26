@@ -1,13 +1,15 @@
 import Header from '../src/components/Header/Header';
 import MovieList from '../src/components/MovieList/MovieList';
+import Button from './components/Button/Button';
+import Toast from './components/Toast/Toast';
 import { URL } from './consts/common';
 import { TITLE } from './consts/message';
-import MovieDataLoader from './domain/services/MovieDataLoader';
-import { getUrlParams, setUrlParams } from './utils/queryString';
-import { getCurrentMode, getCurrentQuery, setDefaultPageUrl } from './utils/urlHelper';
+import MovieFetchAPI from './domain/services/MovieFetchAPI';
+import { formatMovieList } from './utils/formatList';
+import { setUrlParams } from './utils/queryString';
+import { getCurrentMode, getCurrentPage, getCurrentQuery, increaseUrlPage, setDefaultPageUrl } from './utils/urlHelper';
 
 class App {
-  movieDataLoader = new MovieDataLoader();
   movieListInstance: MovieList;
   itemViewBox = document.querySelector('.item-view');
   movieListBox = document.createElement('ul');
@@ -16,27 +18,20 @@ class App {
   constructor() {
     this.init();
     this.movieListBox.classList.add('item-list');
-    this.movieListInstance = new MovieList({ isLoading: true });
+    this.movieListInstance = new MovieList({ movieList: [], isLoading: true });
   }
 
   async init() {
-    this.browserReloadHandler();
+    this.browserLoadHandler();
     this.renderHeader();
+    this.initTitle();
 
     if (!this.itemViewBox) return;
     this.itemViewBox.append(this.movieListBox);
-
-    await this.render();
   }
 
-  async render() {
-    this.removeTitle();
-    this.renderTitle();
-    await this.movieDataLoader.renderPage();
-  }
-
-  browserReloadHandler() {
-    window.onload = () => {
+  browserLoadHandler() {
+    window.addEventListener('load', async () => {
       const previousMode = getCurrentMode();
       const previousQuery = getCurrentQuery();
 
@@ -44,20 +39,34 @@ class App {
       setUrlParams(URL.QUERY, previousQuery);
       setUrlParams(URL.PAGES, '1');
 
-      this.render();
-    };
+      await this.renderPage();
+    });
   }
 
   renderHeader() {
     new Header({
-      onSearch: () => this.render(),
-      onLogoClick: () => {
+      onSearch: () => this.renderPage(),
+      onLogoClick: async () => {
         setDefaultPageUrl();
         this.initSearchInput();
 
-        return this.render();
+        return await this.renderPage();
       },
     });
+  }
+
+  initTitle() {
+    this.title.setAttribute('id', 'list-title');
+
+    if (!this.itemViewBox) return;
+    this.itemViewBox.prepend(this.title);
+
+    this.updateTitle();
+  }
+
+  updateTitle() {
+    if (getCurrentMode() === 'popular') this.title.textContent = TITLE.POPULAR;
+    else this.title.textContent = TITLE.SEARCH_RESULT(getCurrentQuery());
   }
 
   initSearchInput() {
@@ -67,17 +76,70 @@ class App {
     searchInput.value = '';
   }
 
-  renderTitle() {
-    this.title.id = 'list-title';
-    if (getUrlParams(URL.MODE) === 'popular') this.title.textContent = TITLE.POPULAR;
-    else this.title.textContent = TITLE.SEARCH_RESULT(getCurrentQuery());
+  removeExistingItems(currentPage: number) {
+    const notFoundBox = document.querySelector('#not-found');
+    if (notFoundBox) notFoundBox.remove();
 
-    if (!this.itemViewBox) return;
-    this.itemViewBox.append(this.title);
+    if (currentPage === 1) {
+      const itemList = document.querySelector('.item-list');
+      if (!itemList) return;
+      itemList.replaceChildren();
+    }
+
+    const existingButton = document.querySelector('.button');
+    if (!existingButton) return;
+    existingButton.remove();
+
+    this.movieListInstance.renderSkeleton();
   }
 
-  removeTitle() {
-    this.title.remove();
+  async renderPage() {
+    try {
+      this.updateTitle();
+      const movieResult = await this.fetchMovies();
+      const formattedMovieList = formatMovieList(movieResult);
+
+      const currentPage = getCurrentPage();
+      const totalPage = movieResult.total_pages;
+      this.removeExistingItems(currentPage);
+
+      this.movieListInstance.newList = formattedMovieList;
+      this.movieListInstance.rerender();
+
+      if (currentPage >= totalPage) return;
+      this.renderMoreButton();
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        this.errorHandler(error);
+        new Toast(error.message);
+      }
+    }
+  }
+
+  errorHandler(error: Error) {
+    // TODO: 각 status code 별 예외 처리 예정
+  }
+
+  fetchMovies() {
+    if (getCurrentMode() === 'popular') {
+      return MovieFetchAPI.fetchPopularMovies();
+    }
+    return MovieFetchAPI.fetchSearchMovies();
+  }
+
+  renderMoreButton() {
+    const moreButton = new Button({
+      text: '더보기',
+      onClick: () => {
+        increaseUrlPage();
+        this.renderPage();
+      },
+      id: 'more-button',
+    }).render();
+
+    const container = document.querySelector('.item-view');
+    if (!container) return;
+    container.append(moreButton);
   }
 }
 
