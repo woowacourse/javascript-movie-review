@@ -4,7 +4,7 @@ import {
   RENDER_TYPE,
   SEARCH_MOVIE_TITLE,
 } from './constants/movie';
-import { LOGO, STAR_FILLED } from './images/index';
+import { LOGO, NO_IMAGE, STAR_FILLED } from './images/index';
 import { MovieListType, MovieType } from './types/movie';
 import { RenderType } from './types/props';
 import httpRequest from './api/httpRequest';
@@ -161,13 +161,13 @@ class MovieApp {
     const ul = document.createElement('ul');
     ul.classList.add('item-list');
 
-    const templateItem = (movie: MovieType) => /* html */ `
+    const templateItem = (movie: MovieType, imagePath: string) => /* html */ `
       <li>
         <a>
           <div class="item-card">
             <img
               class="item-thumbnail"
-              src="${MOVIE_PATH}/${movie.poster_path}"
+              src="${imagePath}"
               loading="lazy"
               alt="${movie.title}"
             />
@@ -180,7 +180,10 @@ class MovieApp {
       </li>  
     `;
 
-    const templates = movieList.map(templateItem);
+    const templates = movieList.map((movie) => {
+      const imagePath = movie.poster_path ? `${MOVIE_PATH}/${movie.poster_path}` : NO_IMAGE;
+      return templateItem(movie, imagePath);
+    });
     ul.innerHTML = templates.join('');
     return ul;
   }
