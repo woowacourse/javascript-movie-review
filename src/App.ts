@@ -50,8 +50,8 @@ class App {
 
   renderHeader() {
     new Header({
-      searchEvent: () => this.render(),
-      logoClickEvent: () => {
+      onSearch: () => this.render(),
+      onLogoClick: () => {
         setDefaultPageUrl();
         this.initSearchInput();
 

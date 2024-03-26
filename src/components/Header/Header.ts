@@ -3,21 +3,21 @@ import SearchBox from '../SearchBox/SearchBox';
 import './Header.css';
 
 interface HeaderProp {
-  searchEvent: () => Promise<void>;
-  logoClickEvent: () => Promise<void>;
+  onSearch: () => Promise<void>;
+  onLogoClick: () => Promise<void>;
 }
 class Header {
   headerBox = document.createElement('header');
   header = document.createElement('h1');
   headerImage = document.createElement('img');
 
-  searchEvent: () => Promise<void>;
-  logoClickEvent: () => Promise<void>;
+  onSearch: () => Promise<void>;
+  onLogoClick: () => Promise<void>;
 
-  constructor({ searchEvent, logoClickEvent }: HeaderProp) {
+  constructor({ onSearch: searchEvent, onLogoClick: onLogoClick }: HeaderProp) {
     this.render();
-    this.searchEvent = searchEvent;
-    this.logoClickEvent = logoClickEvent;
+    this.onSearch = searchEvent;
+    this.onLogoClick = onLogoClick;
     this.setEvent();
   }
 
@@ -28,7 +28,7 @@ class Header {
     this.header.append(this.headerImage);
     this.headerBox.append(this.header);
 
-    const searchBox = new SearchBox({ searchEvent: () => this.searchEvent() }).init();
+    const searchBox = new SearchBox({ onSearch: () => this.onSearch() }).init();
     this.headerBox.append(searchBox);
 
     const parent = document.querySelector('#app');
@@ -38,7 +38,7 @@ class Header {
 
   setEvent() {
     this.header.addEventListener('click', () => {
-      this.logoClickEvent();
+      this.onLogoClick();
     });
   }
 }

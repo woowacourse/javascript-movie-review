@@ -69,7 +69,7 @@ class MovieDataLoader {
   renderMoreButton() {
     const moreButton = new Button({
       text: '더보기',
-      clickEvent: () => {
+      onClick: () => {
         increaseUrlPage();
         this.renderPage();
       },

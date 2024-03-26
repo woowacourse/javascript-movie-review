@@ -6,11 +6,11 @@ class SearchBox {
   searchBox = document.createElement('form');
   searchInput = document.createElement('input');
   searchButton = document.createElement('button');
-  searchEvent;
+  onSearch;
 
-  constructor({ searchEvent }: { searchEvent: () => Promise<void> }) {
-    this.searchEvent = searchEvent;
-    this.setEvents(searchEvent);
+  constructor({ onSearch: onSearch }: { onSearch: () => Promise<void> }) {
+    this.onSearch = onSearch;
+    this.setEvents(onSearch);
   }
 
   init() {
@@ -28,7 +28,7 @@ class SearchBox {
     return this.searchBox;
   }
 
-  setEvents(searchEvent: () => void) {
+  setEvents(onSearch: () => void) {
     this.searchBox.addEventListener('submit', (e: Event) => {
       e.preventDefault();
 
@@ -36,7 +36,7 @@ class SearchBox {
       setUrlParams(URL.QUERY, this.searchInput.value);
       setUrlParams(URL.PAGES, '1');
 
-      searchEvent();
+      onSearch();
     });
   }
 }
