@@ -1,14 +1,14 @@
 interface Props {
-  onClick: (query: string) => void;
+  onSearch: (query: string) => void;
 }
 
 export default class SearchBox {
   searchBoxElement = document.createElement('form');
 
-  #onClick: Props['onClick'];
+  #onSearch: Props['onSearch'];
 
-  constructor({ onClick }: Props) {
-    this.#onClick = onClick;
+  constructor({ onSearch }: Props) {
+    this.#onSearch = onSearch;
     this.searchBoxElement.classList.add('search-box');
     this.#generateInput();
     this.#generateButton();
@@ -39,7 +39,7 @@ export default class SearchBox {
       event.preventDefault();
       const target = event.target as HTMLFormElement;
 
-      this.#onClick(target.query.value);
+      this.#onSearch(target.query.value);
     });
   }
 
