@@ -113,8 +113,10 @@ class MovieDetail {
   }
 
   private setOverview(overview: string) {
+    const fallbackMent = '이 영화는 줄거리를 제공하지 않습니다 :)';
     const p = this.template.querySelector('.overview') as HTMLParagraphElement;
     p.textContent = overview;
+    if (overview === '') p.textContent = fallbackMent;
   }
 
   private resetPoster() {
