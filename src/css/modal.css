@@ -1,0 +1,162 @@
+.modal {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.modal--open {
+  display: block;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  background: rgba(0, 0, 0, 0.6);
+
+  z-index: 100;
+}
+
+.modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  gap: 0px;
+  width: 740px;
+  height: 544px;
+
+  border-radius: 8px;
+  background-color: rgba(33, 33, 34, 1);
+
+  z-index: 200;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 740px;
+  height: 60px;
+
+  border-bottom: 1px solid rgba(241, 241, 241, 0.25);
+}
+
+.detail-title {
+  top: 18px;
+  left: 32px;
+  gap: 0px;
+
+  width: 676px;
+  height: 24px;
+}
+
+.modal-close-button {
+  width: 36px;
+  height: 36px;
+
+  border: none;
+  background-color: transparent;
+  background-image: url('../images/modal_close_button.png');
+}
+
+.modal-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 32px;
+  gap: 32px;
+}
+
+.detail-poster {
+  top: 96px;
+  left: 32px;
+  gap: 0px;
+
+  width: 260px;
+  height: 400px;
+}
+
+.modal-contents {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  height: 400px;
+}
+
+.detail-text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: auto;
+  margin-top: 0;
+}
+
+.detail-text-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+
+  width: 100%;
+}
+
+.detail-genres {
+}
+
+.detail-vote_average {
+}
+
+.detail-overview {
+}
+
+.my-vote {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 0 20px;
+  margin-top: auto;
+  margin-bottom: 0;
+
+  width: 384px;
+  height: 64px;
+
+  border-radius: 16px;
+  background-color: rgba(56, 56, 57, 1);
+}
+
+.my-vote-title {
+}
+
+.my-vote-body {
+  display: flex;
+  gap: 0;
+
+  width: 160px;
+}
+
+.my-vote-body button {
+  padding: 0;
+
+  border: none;
+  background-color: transparent;
+}
+
+.my-vote-body img {
+  width: 32px;
+  height: 32px;
+}
+
+.my-vote-number {
+}
+
+.my-vote-description {
+}

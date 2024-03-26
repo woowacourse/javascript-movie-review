@@ -1,12 +1,13 @@
 import { Movie } from './index.d';
-
 import { SKELETON_UI_FIXED } from './constants';
 
-import MoreButton from './components/MoreButton';
-import MovieCard from './components/MovieCard';
 import movieStore from './store/MovieStore';
-import SearchBox from './components/SearchBox';
 import searchMovieStore from './store/SearchMovieStore';
+
+import SearchBox from './components/SearchBox';
+import MovieCard from './components/MovieCard';
+import Modal from './components/Modal';
+import MoreButton from './components/MoreButton';
 
 type Tpage = 'popular' | 'search';
 
@@ -17,6 +18,7 @@ export default class App {
     this.#generateMovieList();
     this.#generateSearchBox();
     this.#addHomeButtonEvent();
+    this.#addMovieCardClickEvent();
   }
 
   #generateMovieList() {
@@ -169,5 +171,22 @@ export default class App {
 
     ulElement.innerHTML = '';
     this.#appendMovieCard(movieDatas, ulElement as HTMLElement);
+  }
+
+  /* eslint-disable max-lines-per-function */
+  #addMovieCardClickEvent() {
+    const itemList = document.querySelector('ul.item-list');
+
+    if (itemList) {
+      itemList.addEventListener('click', (event) => {
+        const clickedElement = event.target as HTMLElement;
+        const movieCard = clickedElement.closest('.item-card');
+
+        if (movieCard) {
+          const modal = new Modal(movieCard);
+          modal.openModal();
+        }
+      });
+    }
   }
 }
