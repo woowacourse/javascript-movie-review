@@ -31,7 +31,6 @@ class App {
       <section class="item-view">
         <h2 id="title">${MESSAGE.HOME_TITLE}</h2>
         <slot class="slot-movie-list"></slot>
-        <button id="toast-button"></button>
       </section>
     </main>
     `;
@@ -52,7 +51,7 @@ class App {
   }
 
   setEvent() {
-    const $toastButton = dom.getElement<HTMLButtonElement>(this.$target, '#toast-button');
+    const $toastButton = dom.getElement<HTMLButtonElement>(document.body, '#toast-button');
     $toastButton.addEventListener<any>('onToast', (e: CustomEvent) => {
       const message = e.detail;
       this.toast.on(message);
