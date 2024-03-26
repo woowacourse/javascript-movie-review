@@ -1,16 +1,12 @@
-import { template } from 'cypress/types/lodash';
-import createHeader from './components/Header/Header';
-import createMovieContents from './components/MovieContents/MovieContents';
 import {
   MOVIE_PATH,
   POPULAR_MOVIE_TITLE,
   RENDER_TYPE,
   SEARCH_MOVIE_TITLE,
 } from './constants/movie';
-import Movie from './domain/Movie';
 import { LOGO, STAR_FILLED } from './images/index';
 import { MovieListType, MovieType } from './types/movie';
-import { PropsType, RenderType } from './types/props';
+import { RenderType } from './types/props';
 import httpRequest from './api/httpRequest';
 import HTTPError from './api/HttpError';
 import errorMessage from './error/errorMessage';
