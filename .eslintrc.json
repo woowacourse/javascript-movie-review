@@ -19,5 +19,15 @@
     "import/no-unresolved": ["off"],
     "class-methods-use-this": ["off"],
     "no-param-reassign": ["off"]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["cypress/**"],
+      "rules": {
+        "max-lines-per-function": ["off"],
+        "spaced-comment": ["off"],
+        "no-undef": ["off"]
+      }
+    }
+  ]
 }
