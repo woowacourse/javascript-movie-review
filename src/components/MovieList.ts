@@ -100,7 +100,7 @@ export default class MovieList {
 
   #generateMoreButton() {
     this.#removeMoreButton();
-    if (searchMovieStore.presentPage === searchMovieStore.totalPages) return;
+    if (this.#listType === SEARCH && searchMovieStore.presentPage === searchMovieStore.totalPages) return;
     const itemView = document.querySelector('section.item-view');
     const moreBtn = new MoreButton({
       onClick: () => {
