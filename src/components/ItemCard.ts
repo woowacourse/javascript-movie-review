@@ -1,6 +1,8 @@
+/* eslint-disable max-lines-per-function */
 import { Movie } from "../type/movie";
 import { createElementWithAttribute } from "../utils";
 
+import DetailModal from "./DetailModal";
 import MovieImg from "./MovieImg";
 import MovieScore from "./MovieScore";
 import MovieTitle from "./MovieTitle";
@@ -25,6 +27,10 @@ const ItemCard = (movie: Movie) => {
 
   $a.appendChild($card);
   $li.appendChild($a);
+
+  $li.addEventListener("click", () => {
+    DetailModal(movie);
+  });
 
   return $li;
 };

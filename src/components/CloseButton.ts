@@ -7,6 +7,7 @@ function closeModal() {
   const $modal = document.querySelector(".detail-modal");
   if (!$modal) return;
   $modal.remove();
+  document.body.style.overflow = "";
 }
 
 const CloseButton = () => {
