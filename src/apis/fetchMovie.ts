@@ -13,9 +13,8 @@ const isValidPage = (page: number) =>
 
 export const fetchPopularMovie = async (
   page: number
-): Promise<TMDBResponse | null> => {
-  if (!isValidPage(page)) return null;
-
+): Promise<TMDBResponse> => {
+  if (!isValidPage(page)) throw new Error();
   const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`;
 
   const res = await fetch(url, options);
@@ -26,9 +25,8 @@ export const fetchPopularMovie = async (
 export const fetchTargetMovie = async (
   page: number,
   movieName: string
-): Promise<TMDBResponse | null> => {
-  if (!isValidPage(page)) return null;
-
+): Promise<TMDBResponse> => {
+  if (!isValidPage(page)) throw new Error();
   const url = `https://api.themoviedb.org/3/search/movie?query=${movieName}&include_adult=false&language=ko-KR&page=${page}`;
 
   const res = await fetch(url, options);
