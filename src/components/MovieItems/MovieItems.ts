@@ -7,17 +7,16 @@ import Fallback from '../Fallback/Fallback';
 import Skeleton from '../Skeleton/Skeleton';
 import MovieInfo, { IMovieInfo } from '../../domainObject/MovieInfo';
 import MoreSpace from '../MoreSpace/MoreSpace';
+import Pagination from '../Pagination/Pagination';
 
 class MovieItems {
-  private currentPage: number;
-
-  private isLast: boolean;
-
   private template: HTMLElement;
 
   private fallback: Fallback;
 
   private searchQuery?: string;
+
+  private pagination: Pagination;
 
   private moreSpace: MoreSpace;
 
@@ -26,8 +25,7 @@ class MovieItems {
     this.moreSpace = new MoreSpace(this.showMore.bind(this));
     this.template = this.createElements();
 
-    this.currentPage = 0;
-    this.isLast = false;
+    this.pagination = new Pagination();
     this.showMore();
   }
 
@@ -63,36 +61,16 @@ class MovieItems {
     main.appendChild(ul);
   }
 
-  // private createMoreButton(main: HTMLElement) {
-  //   const button = new Button({
-  //     className: ['btn', 'primary', 'full-width'],
-  //     text: '더 보기',
-  //     onClick: debounce({ callback: this.showMore.bind(this), wait: 500 }),
-  //   });
-  //   main.appendChild(button.element);
-  // }
-
   private async getPopularMovies() {
-    const movies = await PopularMovies.list({ page: this.currentPage });
-    this.checkLastPage(movies.total_pages);
+    const movies = await PopularMovies.list({ page: this.pagination.curPage });
+    this.pagination.checkLastPage(movies.total_pages);
     return movies.results.map((movie) => MovieInfo.get(movie));
   }
 
   private async getMatchedMovies(query: string) {
-    const movies = await MatchedMovies.list({ page: this.currentPage, query });
-    this.checkLastPage(movies.total_pages);
+    const movies = await MatchedMovies.list({ page: this.pagination.curPage, query });
+    this.pagination.checkLastPage(movies.total_pages);
     return movies.results.map((movie) => MovieInfo.get(movie));
-  }
-
-  private checkLastPage(totalPage: number) {
-    this.isLast = this.currentPage >= totalPage;
-  }
-
-  private changeShowMoreButton() {
-    const button = this.template.querySelector('button');
-    if (!(button instanceof HTMLButtonElement)) return;
-    button.disabled = this.isLast;
-    button.textContent = this.isLast ? '더이상 불러올 목록이 없어요. :(' : '더 보기';
   }
 
   resetMovieItems(query?: string) {
@@ -101,7 +79,7 @@ class MovieItems {
     if (!(h2 instanceof HTMLElement)) return;
     h2.textContent = query ? `"${query}"검색 결과` : '지금 인기있는 영화';
     this.removeMovieItems();
-    this.resetPage();
+    this.pagination.resetPage();
     this.moreSpace.observeMoreSpace();
   }
 
@@ -109,11 +87,6 @@ class MovieItems {
     const ul = this.template?.querySelector('ul');
     if (!(ul instanceof HTMLElement)) return;
     ul.innerHTML = '';
-  }
-
-  private resetPage() {
-    this.currentPage = 0;
-    this.isLast = false;
   }
 
   private createSkeletonMovieItem() {
@@ -128,7 +101,7 @@ class MovieItems {
   }
 
   showMore() {
-    this.currentPage += 1;
+    this.pagination.goNextPage();
     const skeletonItems = this.createSkeletonMovieItem();
     if (this.searchQuery) {
       this.getMoreMatchedMovies(skeletonItems);
@@ -178,7 +151,6 @@ class MovieItems {
     });
 
     this.template?.querySelector('ul')?.appendChild(fragment);
-    this.changeShowMoreButton();
   }
 
   private isExistMovies() {
