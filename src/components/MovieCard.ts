@@ -25,32 +25,33 @@ export default class MovieCard {
     const posterPath = movie.poster_path
       ? `https:image.tmdb.org/t/p/w220_and_h330_face${movie.poster_path}`
       : '../images/no-image.png';
+
     const element = /* html */ `
     <a href="#">
-       <div class="item-card">
-         <img
-           class="item-thumbnail"
-           src="${posterPath}"
-           loading="lazy"
-           alt="${movie.title}"
-         />
-         <p class="item-title">${movie.title}</p>
-         <p class="item-score">${movie.vote_average.toFixed(2)}<img src="./images/star_filled.png" alt="별점" class="star-start" /></p>
-       </div>
-     </a>`;
+      <div class="item-card">
+        <img
+        class="item-thumbnail"
+        src="${posterPath}"
+        loading="lazy"
+        alt="${movie.title}"
+        />
+        <p class="item-title">${movie.title}</p>
+        <p class="item-score">${movie.vote_average.toFixed(2)}<img src="./images/star_filled.png" alt="별점" class="star-start" /></p>
+      </div>
+    </a>
+    `;
 
     this.#liElement.innerHTML = element;
   }
 
   #generateSkeletonMovieItem() {
     const element = /* html */ ` 
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-     </a>`;
+    <div class="item-card">
+      <div class="item-thumbnail skeleton"></div>
+      <div class="item-title skeleton"></div>
+      <div class="item-score skeleton"></div>
+    </div>
+    `;
 
     this.#liElement.innerHTML = element;
   }
