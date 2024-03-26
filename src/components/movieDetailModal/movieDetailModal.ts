@@ -104,14 +104,10 @@ class MovieDetailModal {
       if (e.target === e.currentTarget) return;
       const target = e.target as HTMLImageElement;
       const id = Number(target.dataset.id);
-      if (typeof id === 'undefined') return;
-      const $scoreNumber = dom.getElement(this.$target, '#score-number');
-      const $scoreText = dom.getElement(this.$target, '#score-text');
-      const score = (id * 2) as StarScore;
-      $scoreNumber.textContent = score.toString();
-      $scoreText.textContent = SCORE_TEXT[score];
+      this.updateScoreContainer(id);
 
       // TODO: 로컬 스토리지 리팩토링
+      const score = (id * 2) as StarScore;
       const movies = JSON.parse(localStorage.getItem('movies')!);
       const isDeclared = movies.some((movie: { id: number; score: number }) => movie.id === this.movieId);
       const result = isDeclared
@@ -131,31 +127,28 @@ class MovieDetailModal {
 
   fillRate(count: number = 0) {
     const $starContainer = dom.getElement(this.$target, '#star-container');
-    const stars = [...$starContainer.children];
-    for (let i = 0; i <= count - 1; i++) {
-      stars[i].classList.add('filled');
-      stars[i].setAttribute('src', FILLED_STAR);
-    }
+    [...$starContainer.children].forEach(star => {
+      star.classList.add('filled');
+      star.setAttribute('src', FILLED_STAR);
+    });
 
-    // TODO: 점수까지 리렌더링
+    this.updateScoreContainer(count);
+  }
+
+  initStarRate(count = 0) {
+    const $starContainer = dom.getElement(this.$target, '#star-container');
+    [...$starContainer.children].forEach(star => {
+      star.classList.remove('filled');
+      star.setAttribute('src', EMPTY_STAR);
+    });
+
+    this.updateScoreContainer(count);
+  }
+
+  updateScoreContainer(count: number) {
     const $scoreNumber = dom.getElement(this.$target, '#score-number');
     const $scoreText = dom.getElement(this.$target, '#score-text');
     const score = (count * 2) as StarScore;
-    $scoreNumber.textContent = score.toString();
-    $scoreText.textContent = SCORE_TEXT[score];
-  }
-
-  initStarRate(id = 0) {
-    const $starContainer = dom.getElement(this.$target, '#star-container');
-    const stars = [...$starContainer.children];
-    for (let i = 0; i < stars.length; i++) {
-      stars[i].classList.remove('filled');
-      stars[i].setAttribute('src', EMPTY_STAR);
-    }
-
-    const $scoreNumber = dom.getElement(this.$target, '#score-number');
-    const $scoreText = dom.getElement(this.$target, '#score-text');
-    const score = (id * 2) as StarScore;
     $scoreNumber.textContent = score.toString();
     $scoreText.textContent = SCORE_TEXT[score];
   }
