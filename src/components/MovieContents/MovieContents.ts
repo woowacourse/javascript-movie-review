@@ -26,7 +26,9 @@ const MovieContentManager = {
 
   async renderMovieData({ type, input }: PropsType) {
     const movie = new Movie();
-    const isLastPage = await this.setMovieData(movie, { type, input });
+    const { movieList, isLastPage } = await this.setMovieData(movie, { type, input });
+
+    MovieListManager.renderMovieList(movieList, isLastPage);
 
     if (!isLastPage) {
       this.setEventListener(movie, { type, input });
@@ -37,13 +39,15 @@ const MovieContentManager = {
     $('.item-container')?.appendChild(Skeleton.render(20));
 
     const { movieList, isLastPage } = await movie.handleMovieData(type, input);
-    MovieListManager.renderMovieList(movieList, isLastPage);
-    return isLastPage;
+
+    return { movieList, isLastPage };
   },
 
   setEventListener(movie: Movie, { type, input }: PropsType) {
-    $('.btn')?.addEventListener('click', () => {
-      this.setMovieData(movie, { type, input });
+    $('.btn')?.addEventListener('click', async () => {
+      const { movieList, isLastPage } = await this.setMovieData(movie, { type, input });
+
+      MovieListManager.renderMovieList(movieList, isLastPage);
     });
   },
 };
