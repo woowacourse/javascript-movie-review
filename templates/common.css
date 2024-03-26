@@ -126,13 +126,26 @@ button {
   margin-top: 16px;
   font-size: 1.2rem;
   font-weight: bold;
+  margin-bottom: 16px;
 }
 
-.item-score {
+.modal-genres {
   display: flex;
-  align-items: flex-end;
+  font-size: 1rem;
+}
+
+.item-score,
+.modal-score {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 1rem;
+}
+
+.modal-overview {
   margin-top: 16px;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  line-height: 24px;
 }
 
 .item-score::after {
@@ -269,4 +282,118 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* dialog */
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 850px;
+  height: 575px;
+  background-color: #212122;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border-bottom: 1px solid rgba(241, 241, 241, 0.25);
+}
+
+.modal-section {
+  display: flex;
+  gap: 20px;
+  padding: 32px;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.modal-thumbnail {
+  width: 300px;
+  height: 430px;
+  object-fit: cover;
+  background-size: contain;
+}
+
+.modal-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.detail-info-top {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  border: none;
+  background: none;
+}
+
+.modal-rate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 16px 0;
+  background-color: #383839;
+  border-radius: 16px;
+  gap: 12px;
+  font-size: 1.2rem;
+}
+
+.stars-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+.star-button {
+  border: none;
+  background: none;
+}
+
+.rate-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.rate-star {
+  width: 24px;
+  height: 24px;
+}
+
+.rate-state-container {
+  display: flex;
+  font-size: 1rem;
+  width: 120px;
+  gap: 10px;
 }
