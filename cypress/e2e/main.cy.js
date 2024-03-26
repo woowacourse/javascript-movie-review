@@ -20,6 +20,7 @@ describe("영화 목록 보여주는 주요한 기능 테스트", () => {
   });
 
   it("메인 화면에서 인기있는 영화가 20개씩 목록에 나열되어야 한다", () => {
+    cy.wait("@getPopularMovies");
     const popularMovieItems = cy.get(".item-list > li");
     expect(popularMovieItems.should("have.length", 20));
   });
@@ -31,6 +32,7 @@ describe("영화 목록 보여주는 주요한 기능 테스트", () => {
         const searchTarget = "탕후루판다";
         const input = cy.get("#header__search-box");
         input.type(searchTarget + "\n");
+        cy.wait("@getSearchMovies");
 
         cy.get("h2").should("have.text", `"${searchTarget}" 검색 결과`);
         const popularMovieItems = cy.get(".item-list > li");
@@ -41,6 +43,7 @@ describe("영화 목록 보여주는 주요한 기능 테스트", () => {
         const searchTarget = "탕후루판다";
         const input = cy.get("#header__search-box");
         input.type(searchTarget + "\n");
+        cy.wait("@getSearchMovies");
 
         cy.get("h2").should("have.text", `"${searchTarget}" 검색 결과`);
       });
