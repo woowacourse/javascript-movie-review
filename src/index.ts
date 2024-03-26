@@ -5,14 +5,17 @@ import Header from './components/Header/Header';
 import MovieItems from './components/MovieItems/MovieItems';
 import { MatchedMoviesService, PopularMoviesService } from './services/MovieService';
 import Fallback from './components/Fallback/Fallback';
+import MovieDetailModal from './components/MovieDetailModal/MovieDetailModal';
 
 const body = document.querySelector('body');
 
 const header = new Header();
 const movieItems = new MovieItems();
+const movieDetailModal = new MovieDetailModal();
 
 body?.appendChild(header.getElement());
 body?.appendChild(movieItems.getElement());
+body?.appendChild(movieDetailModal.getElement());
 
 document.addEventListener('GetPopularMovies', () => {
   movieItems.moviesService = new PopularMoviesService();
@@ -32,6 +35,13 @@ document.addEventListener('APIError', (event) => {
   const main = body?.querySelector('main') as HTMLElement;
   main.innerHTML = '';
   main?.appendChild(new Fallback(event.detail.message).getElement());
+});
+
+document.addEventListener('toggleMovieDetailModal', (event) => {
+  if (!(event instanceof CustomEvent)) return;
+  const modal = body?.querySelector('.modal') as HTMLElement;
+  movieDetailModal.setMovieDetail(event.detail.value);
+  movieDetailModal.toggleModal();
 });
 
 const reLoad = () => {

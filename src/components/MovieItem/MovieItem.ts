@@ -3,6 +3,7 @@ import './style.css';
 import StarFilled from '../../imgs/star_filled.png';
 import { IMAGE_URL_PREFIX } from '../../constants/url';
 import MovieDetails from '../../api/MovieDetails';
+import { ResponseMovieDetail } from '../../types/ResponseMovieDetail';
 
 interface MovieItemsProps {
   id: number;
@@ -77,8 +78,18 @@ class MovieItem {
 
   setEventListener(movie_id: number) {
     this.template.querySelector('.item-detail-button')?.addEventListener('click', () => {
-      MovieDetails.fetch({ movie_id }).then((result) => console.log(result));
+      MovieDetails.fetch({ movie_id }).then((result) => {
+        this.dispatchToggleMovieDetailModal(result);
+      });
     });
+  }
+
+  dispatchToggleMovieDetailModal(result: ResponseMovieDetail) {
+    const toggleMovieDetailModal = new CustomEvent('toggleMovieDetailModal', {
+      detail: { value: result },
+      bubbles: true,
+    });
+    document.dispatchEvent(toggleMovieDetailModal);
   }
 
   getElement() {
