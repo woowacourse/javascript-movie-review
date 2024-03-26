@@ -2,7 +2,7 @@ import { ListType, Movie, PartialMovieDataForItemView } from "../type/movie";
 import { createElementWithAttribute } from "../utils";
 
 import ItemList from "./ItemCardList";
-import MoreButton from "./MoreButton";
+// import MoreButton from "./MoreButton";
 import Title from "./Title";
 
 const $main = document.querySelector("main");
@@ -11,9 +11,12 @@ const makeSection = (titleText: string, movieList: Movie[] | undefined) => {
   const $section = createElementWithAttribute("section", {
     class: "item-view",
   });
-  $section.appendChild(Title(titleText));
-  $section.appendChild(ItemList(movieList));
-
+  const $div = createElementWithAttribute("div", {
+    class: "item-view-container",
+  });
+  $div.appendChild(Title(titleText));
+  $div.appendChild(ItemList(movieList));
+  $section.appendChild($div);
   return $section;
 };
 
@@ -25,6 +28,6 @@ const renderItemView = (
   const $section = makeSection(titleText, movieData.movieList);
 
   $main?.appendChild($section);
-  MoreButton(listType, movieData.isShowMoreButton);
+  // MoreButton(listType, movieData.isShowMoreButton);
 };
 export default renderItemView;
