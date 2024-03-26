@@ -3,6 +3,7 @@ import { setEndpoint, setUrlParams } from '../../utils/queryString';
 import '../SearchBox/SearchBox.css';
 import Toast from '../Toast/Toast';
 import searchIcon from '../../assets/search_button.png';
+
 class searchInputBox {
   currentPage: number = 1;
   totalPage: number = 1;
@@ -16,23 +17,34 @@ class searchInputBox {
     this.searchInputBox.classList.add('search-box');
     this.rerenderList = rerenderList;
     this.#setEvents();
+
+    this.resize();
   }
 
   render() {
-    const searchInputBox = this.renderSearchInput();
+    this.renderSearchInput();
 
-    searchInputBox.classList.add('search-box');
     const inputShowButton = this.renderInputShowButton();
 
     const headerBox = document.querySelector('header');
     if (!headerBox) return;
-    headerBox.append(searchInputBox);
-    headerBox.append(inputShowButton);
+    headerBox.append(this.searchInputBox);
+  }
+
+  //400이하일 때
+  resize() {
+    if (window.innerWidth <= 400) {
+      this.searchInputBox.classList.add('search-box-expand', 'hidden');
+      const logo = document.querySelector('header h1');
+
+      if (!logo) return;
+      logo.classList.add('hidden');
+    }
   }
 
   renderSearchInput() {
-    const searchInputBox = document.createElement('div');
-    searchInputBox.id = 'search-input-box';
+    // this.searchInputBox.id = 'search-input-box';
+    // this.searchInputBox.classList.add('show');
     this.searchInput.setAttribute('type', 'text');
     this.searchInput.setAttribute('placeholder', '검색');
     this.searchInput.id = 'search-input';
@@ -40,10 +52,8 @@ class searchInputBox {
     this.searchButton.id = 'search-button';
     this.searchButton.textContent = '검색';
 
-    searchInputBox.append(this.searchInput);
-    searchInputBox.append(this.searchButton);
-
-    return searchInputBox;
+    this.searchInputBox.append(this.searchInput);
+    this.searchInputBox.append(this.searchButton);
   }
 
   renderInputShowButton() {
@@ -56,8 +66,13 @@ class searchInputBox {
     inputShowButton.append(searchImg);
 
     inputShowButton.addEventListener('click', () => {
-      this.searchInput.classList.add('hidden');
-      this.searchButton.classList.add('hidden');
+      inputShowButton.classList.add('hidden');
+      this.searchInputBox.classList.remove('hidden');
+      const logo = document.querySelector('header h1');
+      if (!logo) return;
+      logo?.classList.add('hidden');
+      this.searchInputBox.classList.add('search-box-expand');
+      this.searchInputBox.classList.remove('show');
     });
     return inputShowButton;
   }

@@ -1,17 +1,33 @@
-@media (min-width: 700px) {
+@media (min-width: 500px) {
   #input-show-button {
     visibility: hidden;
   }
 }
 
-@media (max-width: 700px) {
-  #search-input-box {
+/* @media (max-width: 700px) {
+  .search-box {
+    background-color: pink;
     visibility: hidden;
   }
+} */
+
+.search-box {
+  background: white;
+  padding: 8px;
+  border-radius: 4px;
+  width: 280px;
+}
+
+.search-box-expanded {
+  width: calc(100vw - 40px);
 }
 
 .hidden {
   visibility: hidden;
+}
+
+.visible {
+  visibility: block;
 }
 
 #input-show-button {
@@ -30,14 +46,10 @@
   width: 20px;
   height: 20px;
 }
-.search-box {
-  background: white;
-  padding: 8px;
-  border-radius: 4px;
-}
 
 #search-input {
   border: none;
+  width: calc(100% - 20px);
 }
 
 #search-button {

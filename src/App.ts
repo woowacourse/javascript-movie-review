@@ -27,12 +27,12 @@ class App {
     this.itemViewBox.append(this.movieListBox);
 
     setEndpoint(END_POINT.POPULAR);
-    await this.movieDataLoader.renderFirstPage();
+    this.movieDataLoader.renderTargetPage();
   }
 
   async rerenderMovieList() {
     this.title.rerenderTitle();
-    await this.movieDataLoader.renderFirstPage();
+    this.movieDataLoader.renderTargetPage();
   }
 
   #renderHeader() {

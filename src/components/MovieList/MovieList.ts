@@ -24,6 +24,8 @@ class MovieList {
 
   render() {
     if (!this.movieList.length) return NotFound();
+
+    console.log('render');
     return this.renderMovieList();
   }
 
