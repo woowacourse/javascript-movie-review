@@ -24,17 +24,28 @@ const HeaderManager = {
   },
 
   submitMovieSearch(header: HTMLElement) {
-    header.querySelector('.search-box')?.addEventListener('submit', async (e: Event) => {
-      e.preventDefault();
+    header.querySelector('.search-box')?.addEventListener('submit', async (event: Event) => {
+      event.preventDefault();
       $('main')?.remove();
 
-      const form = e.target as HTMLFormElement;
-      const input = (form.elements.namedItem('search') as HTMLInputElement).value;
-      const movieContents = await MovieContentManager.renderMain(`"${input}" 검색 결과`);
-      MovieContentManager.renderMovieData({ type: 'search', input });
+      const movie = this.getMovieName(event);
 
-      $('#app')?.appendChild(movieContents);
+      this.renderMovie(movie);
     });
+  },
+
+  getMovieName(event: Event) {
+    const form = event.target as HTMLFormElement;
+    const input = (form.elements.namedItem('search') as HTMLInputElement).value;
+
+    return input;
+  },
+
+  async renderMovie(movie: string) {
+    const movieContents = await MovieContentManager.renderMain(`"${movie}" 검색 결과`);
+    MovieContentManager.renderMovieData({ type: 'search', input: movie });
+
+    $('#app')?.appendChild(movieContents);
   },
 };
 
