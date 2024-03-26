@@ -1,7 +1,7 @@
 import './style.css';
 
 const skeletonTemplate = /* html */ `
-  <div class="item-card skeleton">
+  <div class="item-skeleton">
     <img class="item-thumbnail skeleton" loading="lazy" />
     <p class="item-title skeleton"></p>
     <div class="item-score-container">

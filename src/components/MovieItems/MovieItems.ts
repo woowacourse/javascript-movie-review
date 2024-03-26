@@ -19,13 +19,12 @@ class MovieItems {
 
   private searchQuery?: string;
 
-  private observer: IntersectionObserver;
+  private moreSpace: MoreSpace;
 
   constructor() {
     this.fallback = new Fallback();
+    this.moreSpace = new MoreSpace(this.showMore.bind(this));
     this.template = this.createElements();
-    this.observer = this.setObserver();
-    this.observeMoreSpace();
 
     this.currentPage = 0;
     this.isLast = false;
@@ -48,8 +47,7 @@ class MovieItems {
   }
 
   private createMoreSpace(main: HTMLElement) {
-    const moreSpace = new MoreSpace();
-    main.appendChild(moreSpace.element);
+    main.appendChild(this.moreSpace.element);
   }
 
   private createH2Element(main: HTMLElement) {
@@ -104,7 +102,7 @@ class MovieItems {
     h2.textContent = query ? `"${query}"검색 결과` : '지금 인기있는 영화';
     this.removeMovieItems();
     this.resetPage();
-    this.observeMoreSpace();
+    this.moreSpace.observeMoreSpace();
   }
 
   private removeMovieItems() {
@@ -139,38 +137,6 @@ class MovieItems {
     }
   }
 
-  private setObserver() {
-    const observer = new IntersectionObserver(this.observerCallback.bind(this), { threshold: 0.5 });
-    return observer;
-  }
-
-  private observerCallback(entries: IntersectionObserverEntry[]) {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        this.unObservedMoreSpace();
-        this.showMore();
-        this.afterIsIntersecting();
-      }
-    });
-  }
-
-  private afterIsIntersecting() {
-    const fallback = this.template.querySelector('.fallback');
-    if (fallback === null) {
-      this.observeMoreSpace();
-    }
-  }
-
-  private observeMoreSpace() {
-    const moreSpace = this.template.querySelector('.more-space') as HTMLElement;
-    this.observer.observe(moreSpace);
-  }
-
-  private unObservedMoreSpace() {
-    const moreSpace = this.template.querySelector('.more-space') as HTMLElement;
-    this.observer.unobserve(moreSpace);
-  }
-
   private deleteSkeletonAndShowMovies(movies: IMovieInfo[], skeletonItems: Skeleton[]) {
     skeletonItems.forEach((skeleton) => skeleton.removeSkeleton());
     this.createMovieItem(movies);
@@ -178,8 +144,18 @@ class MovieItems {
 
   private showErrorFallback(error: Error) {
     this.fallback.setFallbackMessage(error.message);
-    this.removeMovieItems();
-    this.template.querySelector('.item-list')?.appendChild(this.fallback.element);
+    if (!this.isExistMovies()) {
+      this.removeMovieItems();
+      this.template.querySelector('.item-list')?.appendChild(this.fallback.element);
+    } else {
+      this.removeSkeleton();
+      this.moreSpace.unObservedMoreSpace();
+    }
+  }
+
+  private removeSkeleton() {
+    const skeletons = this.template.querySelectorAll('.item-skeleton');
+    Array.from(skeletons).forEach((skeleton) => skeleton.remove());
   }
 
   private getMoreMatchedMovies(skeletonItems: Skeleton[]) {
@@ -203,6 +179,11 @@ class MovieItems {
 
     this.template?.querySelector('ul')?.appendChild(fragment);
     this.changeShowMoreButton();
+  }
+
+  private isExistMovies() {
+    const movieItems = this.template.querySelector('.item-card');
+    return movieItems !== null;
   }
 }
 
