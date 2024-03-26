@@ -12,12 +12,12 @@ class MovieApp {
     this.renderPopularMovie();
   }
 
-  async start() {
+  start() {
     const container = $('#app');
     const header = HeaderManager.render({
       imageSource: LOGO,
     });
-    const main = await MovieContentManager.renderMain('지금 인기 있는 영화');
+    const main = MovieContentManager.renderMain('지금 인기 있는 영화');
 
     container?.appendChild(header);
     container?.appendChild(main);

@@ -13,10 +13,10 @@ class Movie {
     this.#page = 0;
   }
 
-  async getMovieData(): Promise<MovieData> {
+  getMovieData(): Promise<MovieData> {
     this.updatePage();
 
-    const movieList = await httpRequest
+    const movieList = httpRequest
       .getPopularMovies(this.#page)
       .then(({ movieList, isLastPage }) => ({
         movieList: movieList.map((movie: MovieType) => ({
