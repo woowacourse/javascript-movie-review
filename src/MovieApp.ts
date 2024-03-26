@@ -4,12 +4,17 @@ import {
   RENDER_TYPE,
   SEARCH_MOVIE_TITLE,
 } from './constants/movie';
-import { LOGO, NO_IMAGE, STAR_FILLED } from './images/index';
-import { MovieListType, MovieType } from './types/movie';
+import { NO_IMAGE } from './images/index';
+import { MovieListType } from './types/movie';
 import { RenderType } from './types/props';
 import httpRequest from './api/httpRequest';
 import HTTPError from './api/HttpError';
 import errorMessage from './error/errorMessage';
+import {
+  HEADER_TEMPLATE,
+  MOVIE_ITEM_TEMPLATE,
+  SKELETON_ITEM_TEMPLATE,
+} from './constants/templates';
 
 interface MovieDataType {
   movieList: MovieListType;
@@ -62,15 +67,7 @@ class MovieApp {
 
   createHeader() {
     const header = document.createElement('header');
-    const templates = /* html */ `
-      <h1><img src=${LOGO} alt="MovieList 로고" /></h1>
-      <form class="search-box" id="search-form">
-        <input type="search" name="search" id="search" placeholder="검색" />
-        <button type="submit" class="search-button">검색</button>
-      </form>
-    `;
-    header.innerHTML = templates;
-
+    header.innerHTML = HEADER_TEMPLATE;
     return header;
   }
 
@@ -100,19 +97,7 @@ class MovieApp {
     ul.classList.add('item-list');
     ul.id = 'skeleton';
 
-    const skeletonItem = /* html */ `
-      <li>
-        <a>
-          <div class="item-card">
-            <div class="item-thumbnail skeleton"></div>
-            <div class="item-title skeleton"></div>
-            <div class="item-score skeleton"></div>
-          </div>
-        </a>
-      </li>  
-    `;
-
-    ul.innerHTML = skeletonItem.repeat(20);
+    ul.innerHTML = SKELETON_ITEM_TEMPLATE.repeat(20);
     const itemView = document.querySelector('#section--item-view');
     if (itemView) itemView.appendChild(ul);
   }
@@ -162,28 +147,9 @@ class MovieApp {
     const ul = document.createElement('ul');
     ul.classList.add('item-list');
 
-    const templateItem = (movie: MovieType, imagePath: string) => /* html */ `
-      <li>
-        <a>
-          <div class="item-card">
-            <img
-              class="item-thumbnail"
-              src="${imagePath}"
-              loading="lazy"
-              alt="${movie.title}"
-            />
-            <p class="item-title">${movie.title}</p>
-            <p class="item-score">
-              <img src=${STAR_FILLED} alt="별점" />${movie.vote_average.toFixed(1)}
-            </p>
-          </div>
-        </a>
-      </li>  
-    `;
-
     const templates = movieList.map((movie) => {
       const imagePath = movie.poster_path ? `${MOVIE_PATH}/${movie.poster_path}` : NO_IMAGE;
-      return templateItem(movie, imagePath);
+      return MOVIE_ITEM_TEMPLATE(movie, imagePath);
     });
     ul.innerHTML = templates.join('');
     return ul;
