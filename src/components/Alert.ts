@@ -20,12 +20,12 @@ const Alert = (message: string) => {
   return container;
 };
 
-export const showAlert = (message: string) => {
+export const showAlert = (message: string, timeout: number) => {
   const alert = Alert(message);
 
   document.querySelector('#app')?.appendChild(alert);
 
   setTimeout(() => {
     alert.classList.add('hidden');
-  }, 3000);
+  }, timeout);
 };
