@@ -14,7 +14,7 @@ const createHeaderContainer = () => {
 
 const createLogo = () => {
   const a = createElement('a', {
-    href: 'http://localhost:8080',
+    href: '/',
   });
   const headerLogoImage = createElement('img', { src: headerLogo, alt: 'MovieList' });
   a.appendChild(headerLogoImage);
