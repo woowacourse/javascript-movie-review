@@ -1,4 +1,5 @@
 import Star from '../../assets/star_filled.png';
+import NoImage from '../../assets/no-image.png';
 import { POSTER_BASE_URL } from '../../consts/Api';
 import { Movie } from './../../types/movie';
 import '../MovieItem/MovieItem.css';
@@ -6,16 +7,26 @@ import '../MovieItem/MovieItem.css';
 const MovieItem = {
   skeletonTemplate() {
     const skeletonItemBox = document.createElement('li');
-    skeletonItemBox.innerHTML = /* html */ `
-    <li>
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div> 
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
-    </li>`;
+
+    const skeletonCard = document.createElement('a');
+    skeletonCard.classList.add('item-card');
+    skeletonCard.setAttribute('href', '#');
+
+    const skeletonThumbnail = document.createElement('div');
+    skeletonThumbnail.classList.add('item-thumbnail', 'skeleton');
+
+    const skeletonTitle = document.createElement('div');
+    skeletonTitle.classList.add('item-title', 'skeleton');
+
+    const skeletonScore = document.createElement('div');
+    skeletonScore.classList.add('item-score', 'skeleton');
+
+    skeletonCard.append(skeletonThumbnail);
+    skeletonCard.append(skeletonTitle);
+    skeletonCard.append(skeletonScore);
+
+    skeletonItemBox.append(skeletonCard);
+
     return skeletonItemBox;
   },
 
@@ -24,22 +35,52 @@ const MovieItem = {
     const itemBox = document.createElement('li');
     itemBox.setAttribute('data-movie-id', String(id));
 
-    itemBox.innerHTML = /* html */ `
-      <a href="#">
-        <div class="item-card">
-          <img
-            class="item-thumbnail"
-            src=${POSTER_BASE_URL + posterPath}
-            loading="lazy"
-            alt=${title}
-          />
-          <p class="item-title">${title}</p>
-          <p class="item-score"><img src=${Star} alt="별점" />${voteAverage}</p>
-        </div>
-      </a>
-    `;
+    const itemCard = document.createElement('a');
+    itemCard.classList.add('item-card');
+    itemCard.setAttribute('href', '#');
+
+    if (posterPath) {
+      const itemImage = document.createElement('img');
+      itemImage.classList.add('item-thumbnail');
+      itemImage.setAttribute('src', POSTER_BASE_URL + posterPath);
+      itemImage.setAttribute('loading', 'lazy');
+      itemImage.setAttribute('alt', title);
+      itemCard.append(itemImage);
+    } else {
+      const itemImage = this.makeNoImage();
+      itemCard.append(itemImage);
+    }
+
+    const itemTitle = document.createElement('p');
+    itemTitle.classList.add('item-title');
+    itemTitle.textContent = title;
+
+    const itemScore = document.createElement('p');
+    itemScore.classList.add('item-score');
+
+    const itemStarIcon = document.createElement('img');
+    itemStarIcon.setAttribute('src', Star);
+    itemStarIcon.setAttribute('alt', '별점');
+
+    itemScore.textContent = String(voteAverage);
+    itemScore.prepend(itemStarIcon);
+
+    itemCard.append(itemTitle);
+    itemCard.append(itemScore);
+
+    itemBox.append(itemCard);
 
     return itemBox;
+  },
+
+  makeNoImage() {
+    const itemImage = document.createElement('img');
+    itemImage.classList.add('item-thumbnail', 'no-image');
+    itemImage.setAttribute('src', NoImage);
+    itemImage.setAttribute('loading', 'lazy');
+    itemImage.setAttribute('alt', 'no image');
+
+    return itemImage;
   },
 };
 

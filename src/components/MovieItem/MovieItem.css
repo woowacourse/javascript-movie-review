@@ -5,6 +5,11 @@
   border-radius: 8px;
 }
 
+.item-score {
+  display: flex;
+  align-items: center;
+}
+
 @keyframes skeleton-animation {
   0% {
     background-position: 0% 50%;
