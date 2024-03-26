@@ -18,7 +18,7 @@ const Skeleton = {
   get(count: number = 20) {
     return /* html */ `
       <li>
-      <a href="#">
+      <a>
         <div class="item-card">
           <div class="item-thumbnail skeleton"></div>
           <div class="item-title skeleton"></div>

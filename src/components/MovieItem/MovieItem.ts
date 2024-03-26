@@ -2,12 +2,11 @@ import './style.css';
 import { MovieType } from '../../types/movie';
 import { STAR_FILLED } from '../../images';
 
-// eslint-disable-next-line max-lines-per-function
 const createMovieItem = (movie: MovieType) => {
   const movieItem = document.createElement('li');
 
   const templates = /* html */ `
-    <a href="#">
+    <a>
       <div class="item-card">
         <img
           class="item-thumbnail"
