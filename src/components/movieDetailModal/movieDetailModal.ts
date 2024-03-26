@@ -43,11 +43,11 @@ class MovieDetailModal {
                     <div id='user-score' class='user-score-container'>
                         <p>내 별점</p>
                         <div id='star-container'>
-                          <img data-id='1' class='user-star-icon' src=${EMPTY_STAR} />
-                          <img data-id='2' class='user-star-icon' src=${EMPTY_STAR} />
-                          <img data-id='3' class='user-star-icon' src=${EMPTY_STAR} />
-                          <img data-id='4' class='user-star-icon' src=${EMPTY_STAR} />
-                          <img data-id='5' class='user-star-icon' src=${EMPTY_STAR} />
+                          <img data-id='1' class='user-star-icon' />
+                          <img data-id='2' class='user-star-icon' />
+                          <img data-id='3' class='user-star-icon' />
+                          <img data-id='4' class='user-star-icon' />
+                          <img data-id='5' class='user-star-icon' />
                         </div>
                         <p id='score-number'>0</p>
                         <p id='score-text'>${SCORE_TEXT[0]}</p>

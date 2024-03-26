@@ -18,7 +18,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
 
-    border-radius: 8px 8px 0px 0px;
+    border-radius: 16px;
     background-color: rgb(49, 46, 46);
     overflow: scroll;
 
@@ -88,6 +88,25 @@
     height: 16px;
 }
 
+.user-star-icon {
+
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    background-image: url("./images/star_empty.png");
+    background-repeat: no-repeat;
+
+    &.filled {
+        background-image: url("./images/star_filled.png");
+        background-repeat: no-repeat;
+    }
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+
 .description {
     line-height: 20px;
 }
@@ -100,6 +119,7 @@
 
 .user-score-container {
     display: flex;
+    align-items: center;
     gap: 10px;
     padding: 20px;
     background-color: #383839;

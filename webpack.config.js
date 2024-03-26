@@ -23,7 +23,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html',
-      publicPath: isProduction ? '/javascript-movie-review/dist/' : '.'
+      publicPath: isProduction ? '/javascript-movie-review/dist/' : '.',
     }),
 
     new DotEnv(),
@@ -37,7 +37,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: ['style-loader', { loader: 'css-loader', options: { url: false } }],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
