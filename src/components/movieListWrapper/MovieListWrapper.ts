@@ -32,7 +32,7 @@ class MovieListWrapper {
     itemList.innerHTML = Skeleton();
 
     const showMoreButton = document.createElement('button');
-    showMoreButton.className = 'show-more-btn btn primary full-width';
+    showMoreButton.className = 'show-more-btn primary full-width';
     showMoreButton.textContent = '더 보기';
 
     itemView.append(title, itemList, showMoreButton);
