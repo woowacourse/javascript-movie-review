@@ -46,9 +46,12 @@ const MovieItem = {
 
   makePosterImage(title: string, posterPath: string) {
     const posterImage = document.createElement('img');
-    posterImage.classList.add('item-thumbnail');
-    posterImage.setAttribute('src', POSTER_BASE_URL + posterPath);
     posterImage.setAttribute('loading', 'lazy');
+    posterImage.classList.add('item-thumbnail');
+
+    if (posterPath) {
+      posterImage.setAttribute('src', POSTER_BASE_URL + posterPath);
+    }
     posterImage.setAttribute('alt', title);
 
     return posterImage;

@@ -18,9 +18,12 @@ class InfiniteScrollDataLoader {
     this.oberveScrollAndRenderNextPage();
   }
 
+  resetPage() {
+    this.currentPage = 1;
+  }
+
   oberveScrollAndRenderNextPage() {
     window.addEventListener('scroll', async () => {
-      console.log('scroll');
       const isScrollEnded = window.innerHeight + window.scrollY + 100 >= document.body.offsetHeight;
 
       if (isScrollEnded && this.currentPage < this.totalPage) {
@@ -42,17 +45,6 @@ class InfiniteScrollDataLoader {
 
     if (this.totalPage === 1) return;
     this.renderComplete = false;
-  }
-
-  async showNextPage() {
-    this.currentPage++;
-    this.movieList.renderSkeleton();
-
-    const movieResult = await this.selectAPIAndFetch();
-    const popularMovieList = new MovieDomain(movieResult).formatMovieList();
-
-    this.movieList.newList = popularMovieList;
-    this.movieList.render();
   }
 
   async selectAPIAndFetch() {

@@ -18,6 +18,7 @@ class Fetcher {
           if (!response.ok) {
             this.errorHandler(response.status);
           }
+
           return response.json();
         })
         .then(data => {

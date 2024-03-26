@@ -3,13 +3,28 @@
   background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
   border-radius: 8px;
+
+  transition: 0.3s all ease-out;
+}
+
+.item-card:hover {
+  transform: scale(1.1);
+  transition: 0.3s all ease-in-out;
 }
 
 .item-thumbnail {
-  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
-  background-size: 400%;
-  animation: skeleton-animation 5s infinite ease-out;
+  background: #aaa;
+  animation: fade-in 0.7s;
   border-radius: 8px;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes skeleton-animation {
@@ -48,5 +63,3 @@
   width: 60px;
   height: 50px;
 }
-
-/* 안녕,부시맨 */

@@ -3,7 +3,7 @@ import MovieList from '../src/components/MovieList/MovieList';
 import Title from './components/Title/Title';
 import { END_POINT } from './consts/URL';
 import InfiniteScrollDataLoader from './domain/services/InfiniteScrollDataLoader';
-import { deleteParams, getEndpoint, setEndpoint, setUrlParams } from './utils/queryString';
+import { getEndpoint, setEndpoint } from './utils/queryString';
 
 class App {
   infiniteScrollDataLoader = new InfiniteScrollDataLoader();
@@ -33,6 +33,7 @@ class App {
   async rerenderMovieList() {
     this.title.rerenderTitle();
     this.removeExistedData();
+    this.infiniteScrollDataLoader.resetPage();
     this.infiniteScrollDataLoader.renderTargetPage();
   }
 

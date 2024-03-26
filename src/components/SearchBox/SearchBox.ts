@@ -23,16 +23,17 @@ class searchInputBox {
 
   render() {
     this.renderSearchInput();
-
     const inputShowButton = this.renderInputShowButton();
 
     const headerBox = document.querySelector('header');
     if (!headerBox) return;
     headerBox.append(this.searchInputBox);
+    headerBox.append(inputShowButton);
   }
 
   resize() {
     if (window.innerWidth <= 400) {
+      console.log('aaa');
       this.searchInputBox.classList.add('search-box-expand', 'hidden');
       const logo = document.querySelector('header h1');
 
@@ -67,10 +68,12 @@ class searchInputBox {
       this.searchInputBox.classList.remove('hidden');
       const logo = document.querySelector('header h1');
       if (!logo) return;
-      logo?.classList.add('hidden');
-      this.searchInputBox.classList.add('search-box-expand');
-      this.searchInputBox.classList.remove('show');
+      // logo?.classList.add('hidden');
+      this.searchInputBox.classList.toggle('search-box-expand');
+      // this.searchInputBox.classList.remove('show');
     });
+
+    this.searchInputBox.append(inputShowButton);
     return inputShowButton;
   }
 

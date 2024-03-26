@@ -10,6 +10,7 @@ const movieAPI = {
         page: pageNumber,
       },
     });
+
     return fetcher.get();
   },
 
