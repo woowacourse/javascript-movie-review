@@ -9,7 +9,6 @@ export const POSTER_BASE_URL = 'https://image.tmdb.org/t/p/w220_and_h330_face/';
 
 export const QUERY_STRING_KEYS = {
   QUERY: 'query',
-  PAGE: 'page',
 } as const;
 
 export type QueryStringKeyValues = (typeof QUERY_STRING_KEYS)[keyof typeof QUERY_STRING_KEYS];

@@ -2,11 +2,11 @@ import Header from '../src/components/Header/Header';
 import MovieList from '../src/components/MovieList/MovieList';
 import Title from './components/Title/Title';
 import { END_POINT } from './consts/URL';
-import MovieDataLoader from './domain/services/MovieDataLoader';
-import { setEndpoint } from './utils/queryString';
+import InfiniteScrollDataLoader from './domain/services/InfiniteScrollDataLoader';
+import { deleteParams, getEndpoint, setEndpoint, setUrlParams } from './utils/queryString';
 
 class App {
-  movieDataLoader = new MovieDataLoader();
+  infiniteScrollDataLoader = new InfiniteScrollDataLoader();
   itemViewBox = document.querySelector('.item-view');
   movieListBox = document.createElement('ul');
   movieListInstance: MovieList;
@@ -27,16 +27,39 @@ class App {
     this.itemViewBox.append(this.movieListBox);
 
     setEndpoint(END_POINT.POPULAR);
-    this.movieDataLoader.renderTargetPage();
+    this.infiniteScrollDataLoader.renderTargetPage();
   }
 
   async rerenderMovieList() {
     this.title.rerenderTitle();
-    this.movieDataLoader.renderTargetPage();
+    this.removeExistedData();
+    this.infiniteScrollDataLoader.renderTargetPage();
   }
 
   #renderHeader() {
     new Header(this.rerenderMovieList.bind(this));
+  }
+
+  removeExistedData() {
+    const notFoundBox = document.querySelector('#not-found');
+    if (notFoundBox) {
+      notFoundBox.remove();
+    }
+
+    const itemList = document.querySelector('.item-list');
+    if (!itemList) return;
+    itemList.replaceChildren();
+
+    this.resetSearchInput();
+  }
+
+  resetSearchInput() {
+    const endpoint = getEndpoint();
+    if (endpoint !== END_POINT.SEARCH) {
+      const searchInput = document.querySelector('.search-box input') as HTMLInputElement;
+      if (!searchInput) return;
+      searchInput.value = '';
+    }
   }
 }
 

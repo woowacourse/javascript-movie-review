@@ -31,7 +31,6 @@ class searchInputBox {
     headerBox.append(this.searchInputBox);
   }
 
-  //400이하일 때
   resize() {
     if (window.innerWidth <= 400) {
       this.searchInputBox.classList.add('search-box-expand', 'hidden');
@@ -43,8 +42,6 @@ class searchInputBox {
   }
 
   renderSearchInput() {
-    // this.searchInputBox.id = 'search-input-box';
-    // this.searchInputBox.classList.add('show');
     this.searchInput.setAttribute('type', 'text');
     this.searchInput.setAttribute('placeholder', '검색');
     this.searchInput.id = 'search-input';
