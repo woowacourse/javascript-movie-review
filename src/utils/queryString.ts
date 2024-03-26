@@ -35,5 +35,10 @@ export const deleteParams = (paramKey: QueryStringKeyValues) => {
 export const redirectToRoot = () => {
   const url = new URL(window.location.href);
   const baseUrl = url.origin;
-  window.location.href = baseUrl;
+  const lastSlashIndex = url.pathname.lastIndexOf('/');
+
+  const beforeLastSlashIndex = url.pathname.lastIndexOf('/', lastSlashIndex - 1);
+  const newPathname = beforeLastSlashIndex > 0 ? url.pathname.substring(0, beforeLastSlashIndex) : '/';
+
+  window.location.href = `${baseUrl}${newPathname}`;
 };

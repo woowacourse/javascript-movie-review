@@ -61,6 +61,7 @@ class MovieDataLoader {
     const endpoint = getEndpoint();
     if (endpoint !== END_POINT.SEARCH) {
       const searchInput = document.querySelector('.search-box input') as HTMLInputElement;
+      if (!searchInput) return;
       searchInput.value = '';
     }
   }

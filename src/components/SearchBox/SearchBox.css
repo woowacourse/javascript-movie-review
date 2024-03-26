@@ -1,0 +1,49 @@
+@media (min-width: 700px) {
+  #input-show-button {
+    visibility: hidden;
+  }
+}
+
+@media (max-width: 700px) {
+  #search-input-box {
+    visibility: hidden;
+  }
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+#input-show-button {
+  width: 48px;
+  height: 44px;
+  border: 4px;
+
+  position: absolute;
+  right: 30px;
+
+  background-color: white;
+  border-radius: 8px;
+}
+
+#input-show-button img {
+  width: 20px;
+  height: 20px;
+}
+.search-box {
+  background: white;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+#search-input {
+  border: none;
+}
+
+#search-button {
+  width: 14px;
+  border: 0;
+  text-indent: -1000rem;
+  background: url('../../assets/search_button.png') transparent no-repeat 0 1px;
+  background-size: contain;
+}

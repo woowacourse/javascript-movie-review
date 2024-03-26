@@ -1,0 +1,5 @@
+export const RESPONSIVE_UNIT = {
+  SMALL_SCREEN: '600px',
+  MEDIUM_SCREEN: '900px',
+  LARGE_SCREEN: '1200px',
+};

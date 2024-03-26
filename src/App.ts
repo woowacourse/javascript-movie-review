@@ -15,11 +15,11 @@ class App {
   constructor() {
     this.movieListBox.classList.add('item-list');
     this.movieListBox.classList.add('grid');
-    this.init();
+    this.render();
     this.movieListInstance = new MovieList({ isLoading: true, movieList: [] });
   }
 
-  async init() {
+  async render() {
     this.#renderHeader();
     this.title.renderTitle();
 
@@ -30,13 +30,13 @@ class App {
     await this.movieDataLoader.renderFirstPage();
   }
 
-  async renderMovieList() {
+  async rerenderMovieList() {
     this.title.rerenderTitle();
     await this.movieDataLoader.renderFirstPage();
   }
 
   #renderHeader() {
-    new Header(this.renderMovieList.bind(this));
+    new Header(this.rerenderMovieList.bind(this));
   }
 }
 

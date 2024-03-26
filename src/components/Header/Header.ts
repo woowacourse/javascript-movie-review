@@ -4,7 +4,7 @@ import SearchBox from '../SearchBox/SearchBox';
 import './Header.css';
 
 class Header {
-  headerBox = document.createElement('header');
+  headerBox = document.querySelector('header');
   header = document.createElement('h1');
   headerImage = document.createElement('img');
   rerenderList;
@@ -20,10 +20,11 @@ class Header {
     this.headerImage.setAttribute('alt', '로고 이미지');
 
     this.header.append(this.headerImage);
+
+    if (!this.headerBox) return;
     this.headerBox.append(this.header);
 
-    const searchBox = new SearchBox(this.rerenderList).render();
-    this.headerBox.append(searchBox);
+    new SearchBox(this.rerenderList).render();
 
     const parent = document.querySelector('#app');
     if (!parent) return;
