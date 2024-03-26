@@ -10,6 +10,8 @@ import { SCORE_TEXT } from '../../constants/movie';
 class MovieDetailModal {
   $target = document.createElement('div');
   stars?: Element[];
+  movieId?: number;
+  score: StarScore = 0;
 
   constructor() {
     this.$target.classList.add('modal');
@@ -49,8 +51,8 @@ class MovieDetailModal {
                           <img data-id='4' class='user-star-icon' />
                           <img data-id='5' class='user-star-icon' />
                         </div>
-                        <p id='score-number'>0</p>
-                        <p id='score-text'>${SCORE_TEXT[0]}</p>
+                        <p id='score-number'>${this.score ?? 0}</p>
+                        <p id='score-text'>${SCORE_TEXT[this.score ?? 0]}</p>
                     </div>
                 </div>
             </div>
@@ -59,8 +61,16 @@ class MovieDetailModal {
   }
 
   open(movieResponse: MovieDetailResponse) {
-    const { genres, imageSrc, description, title, score } = movieDetail.create(movieResponse);
+    const { id, genres, imageSrc, description, title, score } = movieDetail.create(movieResponse);
 
+    // TODO: 로컬 스토리지 리팩토링
+    const movies = JSON.parse(localStorage.getItem('movies')!);
+    const movie = movies.filter((movie: { id: number; score: number }) => movie.id === id)[0];
+    const movieScore = movie?.score;
+    this.score = movieScore ?? 0;
+    this.fillRate(this.score / 2);
+
+    this.movieId = id;
     const $thumbnail = dom.getElement<HTMLImageElement>(this.$target, '#thumbnail');
     const $description = dom.getElement(this.$target, '#description');
     const $genre = dom.getElement(this.$target, '#genre');
@@ -101,20 +111,38 @@ class MovieDetailModal {
       $scoreNumber.textContent = score.toString();
       $scoreText.textContent = SCORE_TEXT[score];
 
+      // TODO: 로컬 스토리지 리팩토링
+      const movies = JSON.parse(localStorage.getItem('movies')!);
+      const isDeclared = movies.some((movie: { id: number; score: number }) => movie.id === this.movieId);
+      const result = isDeclared
+        ? movies.map((movie: { id: number; score: number }) =>
+            movie.id === this.movieId ? { ...movie, score } : movie,
+          )
+        : [...movies, { id: this.movieId, score }];
+
+      const saveMovies = JSON.stringify(result);
+      localStorage.setItem('movies', saveMovies);
       this.initStarRate(id);
-      this.fillRate(Number(target.dataset.id));
+      this.fillRate(id);
     });
 
     window.addEventListener('keydown', this.handleModalCloseKey.bind(this));
   }
 
-  fillRate(count: number) {
+  fillRate(count: number = 0) {
     const $starContainer = dom.getElement(this.$target, '#star-container');
     const stars = [...$starContainer.children];
     for (let i = 0; i <= count - 1; i++) {
       stars[i].classList.add('filled');
       stars[i].setAttribute('src', FILLED_STAR);
     }
+
+    // TODO: 점수까지 리렌더링
+    const $scoreNumber = dom.getElement(this.$target, '#score-number');
+    const $scoreText = dom.getElement(this.$target, '#score-text');
+    const score = (count * 2) as StarScore;
+    $scoreNumber.textContent = score.toString();
+    $scoreText.textContent = SCORE_TEXT[score];
   }
 
   initStarRate(id = 0) {
