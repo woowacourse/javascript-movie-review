@@ -14,15 +14,16 @@ import './MovieList.css';
 
 interface MovieListProps {
   movieType: string;
-  removeMoreButton: () => void;
 }
 
 class MovieList extends Component<MovieListProps> {
   private movie: Movie | undefined;
   private movieItems: IMovie[] | undefined;
+  private observer: IntersectionObserver | undefined;
 
   protected initializeState(): void {
     this.movie = new Movie();
+    this.initializeObserver();
     this.updateMovieList();
   }
 
@@ -33,6 +34,12 @@ class MovieList extends Component<MovieListProps> {
   private reRender() {
     this.$element.innerHTML = '';
     this.render();
+  }
+
+  private initializeObserver() {
+    this.observer = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => entry.isIntersecting && this.updateMovieList());
+    });
   }
 
   updateMovieList() {
@@ -50,9 +57,15 @@ class MovieList extends Component<MovieListProps> {
   private handleMovieListSuccess(data: BaseResponse<IMovie[]>) {
     this.movieItems = [...(this.movieItems ?? []), ...data.results];
     this.reRender();
+  }
 
-    if (this.movie && this.movie.isMaxPage()) {
-      this.props?.removeMoreButton();
+  private handleObserver(index: number, $li: HTMLElement) {
+    if (!this.movieItems || !this.movie) return;
+    if (this.movie.isMaxPage()) return;
+    if (this.movieItems.length % 20 !== 0) return;
+
+    if (index === this.movieItems.length - 1) {
+      this.observer?.observe($li);
     }
   }
 
@@ -74,7 +87,6 @@ class MovieList extends Component<MovieListProps> {
 
   private createNoResultImage($movieItemList: HTMLElement) {
     $movieItemList.innerHTML = `<img src=${NoResultImage} alt="검색 결과 없음 이미지" class="no-result-image"></img>`;
-    this.props?.removeMoreButton();
   }
 
   protected createComponent() {
@@ -90,10 +102,12 @@ class MovieList extends Component<MovieListProps> {
       return $movieItemList;
     }
 
-    this.movieItems.forEach((movieItem) => {
-      const $li = createElement({ tagName: 'li' });
+    this.movieItems.forEach((movieItem, index) => {
+      const $li = createElement({ tagName: 'li', attributeOptions: { class: 'item' } });
       new MovieListCard($li, { movieItem, createMovieDetailModal: this.openMovieDetailModal.bind(this) });
       $movieItemList.appendChild($li);
+
+      this.handleObserver(index, $li);
     });
 
     return $movieItemList;
