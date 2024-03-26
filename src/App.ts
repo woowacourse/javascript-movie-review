@@ -1,15 +1,17 @@
 import Header from '../src/components/Header/Header';
 import MovieList from '../src/components/MovieList/MovieList';
-import Toast from './components/Toast/Toast';
+import { URL } from './consts/common';
 import { TITLE } from './consts/message';
 import MovieDataLoader from './domain/services/MovieDataLoader';
+import { getUrlParams, setUrlParams } from './utils/queryString';
+import { getCurrentMode, getCurrentQuery, setDefaultPageUrl } from './utils/urlHelper';
 
 class App {
   movieDataLoader = new MovieDataLoader();
+  movieListInstance: MovieList;
   itemViewBox = document.querySelector('.item-view');
   movieListBox = document.createElement('ul');
   title = document.createElement('h2');
-  movieListInstance: MovieList;
 
   constructor() {
     this.init();
@@ -18,38 +20,57 @@ class App {
   }
 
   async init() {
+    this.browserReloadHandler();
     this.renderHeader();
-    this.renderTitle();
 
     if (!this.itemViewBox) return;
     this.itemViewBox.append(this.movieListBox);
 
-    await this.renderPopularResult();
+    await this.render();
   }
 
-  async renderSearchResult(query: string) {
-    this.removeTitle();
-    this.renderTitle(query);
-    await this.movieDataLoader.renderFirstPage({ apiType: 'search', query });
-  }
-
-  async renderPopularResult() {
+  async render() {
     this.removeTitle();
     this.renderTitle();
-    await this.movieDataLoader.renderFirstPage({ apiType: 'popular' });
+    await this.movieDataLoader.renderPage();
+  }
+
+  browserReloadHandler() {
+    window.onload = () => {
+      const previousMode = getCurrentMode();
+      const previousQuery = getCurrentQuery();
+
+      setUrlParams(URL.MODE, previousMode);
+      setUrlParams(URL.QUERY, previousQuery);
+      setUrlParams(URL.PAGES, '1');
+
+      this.render();
+    };
   }
 
   renderHeader() {
     new Header({
-      searchEvent: (query: string) => this.renderSearchResult(query),
-      logoClickEvent: () => this.renderPopularResult(),
+      searchEvent: () => this.render(),
+      logoClickEvent: () => {
+        setDefaultPageUrl();
+        this.initSearchInput();
+
+        return this.render();
+      },
     });
   }
 
-  renderTitle(query?: string) {
+  initSearchInput() {
+    const searchInput = document.querySelector<HTMLInputElement>('.search-box>input');
+    if (!searchInput) return;
+
+    searchInput.value = '';
+  }
+
+  renderTitle() {
     this.title.id = 'list-title';
-    if (!query) this.title.textContent = TITLE.POPULER;
-    else this.title.textContent = TITLE.SEARCH_RESULT(query);
+    if (getUrlParams(URL.MODE) === 'popular') this.title.textContent = TITLE.POPULAR;
+    else this.title.textContent = TITLE.SEARCH_RESULT(getCurrentQuery());
 
     if (!this.itemViewBox) return;
     this.itemViewBox.append(this.title);

@@ -3,7 +3,7 @@ import SearchBox from '../SearchBox/SearchBox';
 import './Header.css';
 
 interface HeaderProp {
-  searchEvent: (query: string) => Promise<void>;
+  searchEvent: () => Promise<void>;
   logoClickEvent: () => Promise<void>;
 }
 class Header {
@@ -11,7 +11,7 @@ class Header {
   header = document.createElement('h1');
   headerImage = document.createElement('img');
 
-  searchEvent: (query: string) => Promise<void>;
+  searchEvent: () => Promise<void>;
   logoClickEvent: () => Promise<void>;
 
   constructor({ searchEvent, logoClickEvent }: HeaderProp) {
@@ -28,7 +28,7 @@ class Header {
     this.header.append(this.headerImage);
     this.headerBox.append(this.header);
 
-    const searchBox = new SearchBox({ searchEvent: (query: string) => this.searchEvent(query) }).init();
+    const searchBox = new SearchBox({ searchEvent: () => this.searchEvent() }).init();
     this.headerBox.append(searchBox);
 
     const parent = document.querySelector('#app');

@@ -1,15 +1,14 @@
+import { URL } from '../../consts/common';
+import { setUrlParams } from '../../utils/queryString';
 import '../SearchBox/SearchBox.css';
 
 class SearchBox {
-  currentPage: number = 1;
-  totalPage: number = 1;
-
   searchBox = document.createElement('form');
   searchInput = document.createElement('input');
   searchButton = document.createElement('button');
   searchEvent;
 
-  constructor({ searchEvent }: { searchEvent: (query: string) => Promise<void> }) {
+  constructor({ searchEvent }: { searchEvent: () => Promise<void> }) {
     this.searchEvent = searchEvent;
     this.setEvents(searchEvent);
   }
@@ -29,11 +28,15 @@ class SearchBox {
     return this.searchBox;
   }
 
-  setEvents(searchEvent: (query: string) => void) {
+  setEvents(searchEvent: () => void) {
     this.searchBox.addEventListener('submit', (e: Event) => {
       e.preventDefault();
 
-      this.searchEvent(this.searchInput.value);
+      setUrlParams(URL.MODE, 'search');
+      setUrlParams(URL.QUERY, this.searchInput.value);
+      setUrlParams(URL.PAGES, '1');
+
+      searchEvent();
     });
   }
 }
