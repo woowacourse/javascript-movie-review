@@ -1,16 +1,13 @@
-import createMovieItems from '../components/MovieItems/MovieItems';
-import HTTPError from './HttpError';
 import { URL } from './url';
+import httpValidation from './httpValidation';
 
 async function fetchMovies(url: string) {
-  createMovieItems([], false);
   const response = await fetch(url);
-  if (response.status !== 200) {
-    throw new HTTPError(response.status);
-  }
-
   const data = await response.json();
   const movieList = data.results;
+
+  httpValidation(response.status, movieList);
+
   const isLastPage = data.total_pages === data.page;
   return { movieList, isLastPage };
 }
