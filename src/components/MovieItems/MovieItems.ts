@@ -85,8 +85,8 @@ class MovieItems {
 
   createMovieItem(movies: ResponseMovieItem[], skeletonItems: MovieItem[]) {
     movies.forEach((movie, index) => {
-      const { poster_path, title, vote_average } = movie;
-      skeletonItems[index].insertInfo({ poster_path, title, vote_average });
+      const { id, poster_path, title, vote_average } = movie;
+      skeletonItems[index].insertInfo({ id, poster_path, title, vote_average });
     });
     this.removeSkeletonMovieItem();
     this.changeShowMoreButton();
