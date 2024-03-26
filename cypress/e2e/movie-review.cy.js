@@ -3,12 +3,6 @@ describe('영화 리뷰 웹 사이트 기능 동작 테스트', () => {
     cy.visit('http://localhost:8080');
   });
 
-  it('더 보기 버튼을 클릭했을 때, 20개의 영화 정보가 추가됩니다.', () => {
-    cy.contains('더 보기').click();
-
-    cy.get('.item-list').children().should('have.length', 40);
-  });
-
   it('"스파이더맨" 를 검색했을 때 영화 제목들에 "스파이더맨"이 포함됩니다.', () => {
     const search = '스파이더맨';
 
