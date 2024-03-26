@@ -1,15 +1,15 @@
-import { createElement } from "../../utility/dom";
-import logoImg from "../../image/logo.png";
+import { createElement } from '../../utility/dom';
+import logoImg from '../../image/logo.png';
 
 const MovieReviewHeader = {
   createHeader() {
-    const headerElement = createElement("h1");
-    const linkElement = createElement("a", {
-      href: "/",
+    const headerElement = createElement('h1');
+    const linkElement = createElement('a', {
+      href: '/',
     });
-    const logoElement = createElement("img", {
+    const logoElement = createElement('img', {
       src: `${logoImg}`,
-      alt: "MovieList 홈으로 이동",
+      alt: 'MovieList 홈으로 이동',
     });
 
     headerElement.appendChild(linkElement);

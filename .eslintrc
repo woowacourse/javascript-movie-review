@@ -1,5 +1,8 @@
 {
-  "rules": {},
+  "rules": {
+    "@typescript-eslint/semi": 0,
+    "@typescript-eslint/prefer-readonly": 0
+  },
   "env": {
     "es6": true,
     "node": true

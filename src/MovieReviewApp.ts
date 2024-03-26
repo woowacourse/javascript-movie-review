@@ -1,11 +1,11 @@
-import MovieList from "./component/MovieList/MovieList";
-import MovieReviewHeader from "./component/MovieReviewHeader/MovieReviewHeader";
-import MovieSearchInput from "./component/MovieSearchInput/MovieSearchInput";
-import { $ } from "./utility/dom";
+import MovieList from './component/MovieList/MovieList';
+import MovieReviewHeader from './component/MovieReviewHeader/MovieReviewHeader';
+import MovieSearchInput from './component/MovieSearchInput/MovieSearchInput';
+import { $ } from './utility/dom';
 
 class MovieReviewApp {
   #renderMovieReviewHeader() {
-    const headerElement = $("header");
+    const headerElement = $('header');
 
     const movieSearchInput = new MovieSearchInput();
 

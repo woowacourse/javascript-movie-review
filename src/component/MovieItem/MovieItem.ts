@@ -1,7 +1,7 @@
-import starFilledImg from "../../image/star_filled.png";
-import posterEmptyImg from "../../image/poster_empty.png";
+import starFilledImg from '../../image/star_filled.png';
+import posterEmptyImg from '../../image/poster_empty.png';
 
-const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w220_and_h330_face";
+const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w220_and_h330_face';
 
 class MovieItem {
   #movieItemInfo;
@@ -12,7 +12,7 @@ class MovieItem {
 
   setMovieItemData(liElement: HTMLLIElement) {
     const thumbnailElement = liElement.querySelector(
-      ".item-thumbnail"
+      '.item-thumbnail',
     ) as HTMLImageElement;
 
     if (thumbnailElement) {
@@ -26,20 +26,20 @@ class MovieItem {
       thumbnailElement.alt = this.#movieItemInfo.title;
     }
 
-    const titleElement = liElement.querySelector("p");
+    const titleElement = liElement.querySelector('p');
     if (titleElement) {
       titleElement.textContent = this.#movieItemInfo.title;
     }
 
-    const scoreElement = liElement.querySelector("span");
+    const scoreElement = liElement.querySelector('span');
     if (scoreElement) {
       scoreElement.textContent = String(
-        this.#movieItemInfo.vote_average.toFixed(1)
+        this.#movieItemInfo.vote_average.toFixed(1),
       );
     }
 
     const starImgElement = liElement.querySelector(
-      ".item-filled-star"
+      '.item-filled-star',
     ) as HTMLImageElement;
     if (starImgElement) {
       starImgElement.src = starFilledImg;
