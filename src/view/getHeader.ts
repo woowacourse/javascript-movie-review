@@ -37,7 +37,7 @@ const submitSearchEventHandler = (event: ISearchSubmitEvent<ISearchInput>) => {
 
 function getSearchBoxInput() {
   const inputTag = document.createElement('input');
-  const state = {
+  const state: Partial<HTMLInputElement> = {
     name: 'searchContent',
     type: 'search',
     placeholder: '검색',
@@ -48,7 +48,7 @@ function getSearchBoxInput() {
 
 function getSearchBoxButton() {
   const buttonTag = document.createElement('button');
-  const state = {
+  const state: Partial<HTMLButtonElement> = {
     className: 'search-button',
     innerText: '검색',
   };
