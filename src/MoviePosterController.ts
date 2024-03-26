@@ -24,10 +24,6 @@ class MoviePosterController {
     $("body")?.append(this.moviePosterBoard.element);
   }
 
-  static addToMoviePosterBoard(movieInfos: MovieInfo[]) {
-    this.moviePosterBoard.addMoviePoster(movieInfos);
-  }
-
   static async renderSearchMoviePosterBoard(keyword: string) {
     this.moviePosterBoard = new MoviePosterBoard("search", keyword);
 
