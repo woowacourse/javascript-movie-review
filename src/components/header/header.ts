@@ -1,4 +1,3 @@
-import { event } from 'cypress/types/jquery';
 import logoPng from '../../images/logo.png';
 
 export function createHeader(logoHandler: () => void, inputSubmitHandler: (inputValue: string) => void) {
