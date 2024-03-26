@@ -66,7 +66,7 @@ class MovieItems {
 
   createSkeletonMovieItem() {
     const fragment = document.createDocumentFragment();
-    const skeletonItems = Array.from({ length: 20 }).map(() => {
+    const skeletonItems = Array.from({ length: SETTING.itemsOnPage }).map(() => {
       const movieItem = new MovieItem();
       fragment.appendChild(movieItem.getElement());
       return movieItem;

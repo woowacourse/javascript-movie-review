@@ -9,7 +9,7 @@ interface MovieService {
   totalItems: number;
 
   fetchMovies(query?: string): Promise<ResponseMovieItem[]>;
-  lastPage(totalPage: number): void;
+  setIsLastPage(totalPage: number): void;
   countItems(): number;
 }
 
@@ -26,13 +26,13 @@ class PopularMoviesService implements MovieService {
     return movies.results;
   }
 
-  lastPage(totalPage: number) {
+  setIsLastPage(totalPage: number) {
     this.isLastPage = this.currentPage >= totalPage;
   }
 
   countItems() {
-    if (this.isLastPage) return this.totalItems % 20;
-    return 20;
+    if (this.isLastPage) return this.totalItems % SETTING.itemsOnPage;
+    return SETTING.itemsOnPage;
   }
 
   reset() {
@@ -58,13 +58,13 @@ class MatchedMoviesService implements MovieService {
     return movies.results;
   }
 
-  lastPage(totalPage: number) {
+  setIsLastPage(totalPage: number) {
     this.isLastPage = this.currentPage >= totalPage;
   }
 
   countItems() {
-    if (this.isLastPage) return this.totalItems % 20;
-    return 20;
+    if (this.isLastPage) return this.totalItems % SETTING.itemsOnPage;
+    return SETTING.itemsOnPage;
   }
 
   reset() {
