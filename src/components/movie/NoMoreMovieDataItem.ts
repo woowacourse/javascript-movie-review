@@ -15,17 +15,17 @@ class NoMoreMovieDataItem {
   #makeNoMoreMovieDataItem() {
     const $noItem = document.createElement('div');
     $noItem.classList.add('no-more-movie-data');
-    const $img = createElementWithAttribute('img', { src: Tap });
+    const $img = createElementWithAttribute('img', {
+      src: Tap,
+      alt: 'list-end-icon',
+    });
     const $text = document.createElement('div');
-    $text.textContent = '더 이상 불러올 영화가 없습니다.';
+    $text.title = '영화 목록 끝';
+    $text.textContent = '___________END____________';
 
     $noItem.appendChild($img);
     $noItem.appendChild($text);
     return $noItem;
-  }
-
-  remove() {
-    this.#element.remove();
   }
 }
 

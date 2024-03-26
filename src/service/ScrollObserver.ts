@@ -1,4 +1,4 @@
-import { MovieList, NoMoreMovieDataItem } from '../components';
+import { MovieList } from '../components';
 import { dataStateStore } from '../model';
 import { ListType, Movie } from '../type/movie';
 import { debouceFunc } from '../utils';
@@ -56,10 +56,10 @@ const ChangedUIRenderer = {
 
     const { movieList, isMoreData } = dataStateStore.movieData;
 
-    this.private_addItemsToMovieList(movieList);
+    this.private_addItemsToMovieList(movieList, isMoreData);
 
     if (!isMoreData) {
-      this.private_renderNoMoreData();
+      this.private_showNoMoreData();
     }
 
     window.scrollTo(0, previousScrollPosition);
@@ -71,45 +71,31 @@ const ChangedUIRenderer = {
       return;
     }
   },
-
-  private_addItemsToMovieList(totalMovieList: Movie[]) {
+  /**
+   * 새로운 데이터에 따라 생선된 MovieList를  기존의 MovieList와 바꾸는 기능
+   */
+  private_addItemsToMovieList(totalMovieList: Movie[], isMoreData: boolean) {
     const $itemList = document.querySelector(
       '.movie-list-container .movie-list',
     );
 
     if (!$itemList) return;
 
-    const $newItemList = new MovieList(totalMovieList).element;
+    const $newItemList = new MovieList(totalMovieList, isMoreData).element;
     const $parentElement = $itemList.parentElement;
     this.private_isParentElement($parentElement);
     ($parentElement as Element).replaceChild($newItemList, $itemList);
   },
 
   /**
-   * 불러올 데이터가 더 존재하는 지 여부에 따라 NoMoreData 추가 ,제거
+   * 불러올 데이터가 더 존재하는 지 않을 경우, scroll-observer-target 클래스를 지워서 NoMoreData를 보여주는 기능
    */
-  private_renderNoMoreData() {
-    const isNoMoreDataItem = !!document.querySelector('.no-more-movie-data');
+  private_showNoMoreData() {
+    const $movieListLastItem = document.querySelector('.movie-list__last-item');
 
-    if (isNoMoreDataItem) return;
-    const $movieListContainer = document.querySelector('.movie-list-container');
+    if (!$movieListLastItem) return;
 
-    if (!$movieListContainer) {
-      renderAlertModalForNullEl('movie-list-container');
-      return;
-    }
-
-    const $noMoreDataItem = new NoMoreMovieDataItem().element;
-    $movieListContainer.appendChild($noMoreDataItem);
-    this.private_removeScrollObserverTarget();
-  },
-
-  private_removeScrollObserverTarget() {
-    const $scrollObserveTarget = document.querySelector(
-      '#scroll-observer-target',
-    );
-
-    $scrollObserveTarget?.remove();
+    $movieListLastItem.classList.remove('scroll-observer-target');
   },
 };
 

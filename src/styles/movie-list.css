@@ -5,7 +5,10 @@
   grid-column-gap: 160px;
   grid-row-gap: 48px;
 }
-
+.movie-list li:last-child {
+  display: block;
+  grid-column: 1 / -1;
+}
 .movie-list .movie-card {
   display: flex;
   flex-direction: column;
@@ -57,6 +60,11 @@
     height: 250px;
   }
 }
+.movie-list__last-item.scroll-observer-target {
+  .no-more-movie-data {
+    display: none;
+  }
+}
 .no-more-movie-data {
   display: flex;
   justify-content: center;
@@ -69,11 +77,16 @@
     width: 2rem;
     height: 2rem;
   }
+
+  div {
+    width: fit-content;
+  }
 }
 
-#scroll-observer-target {
+.scroll-observer-target {
   height: 10px;
 }
+
 @media screen and (max-width: 1023px) {
   .movie-list {
     grid-template-columns: repeat(3, 180px);

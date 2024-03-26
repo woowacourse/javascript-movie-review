@@ -3,6 +3,7 @@ import { Movie } from '../../type/movie';
 import { createElementWithAttribute } from '../../utils';
 
 import MovieItem from './MovieItem';
+import MovieListLastItem from './MovieListLastItem';
 import NoneMovieItem from './NoneMovieItem';
 
 class MovieList {
@@ -10,10 +11,10 @@ class MovieList {
   #scrollObserver = new ScrollObserver();
   #isMovieList: boolean;
 
-  constructor(movieList: Movie[] | undefined) {
+  constructor(movieList: Movie[] | undefined, isMoreData: boolean) {
     this.#isMovieList = this.#setValueOfIsMovieList(movieList);
-    this.#element = this.#makeMovieList(movieList);
-    this.#activateScrollObserver();
+    this.#element = this.#makeMovieList(movieList, isMoreData);
+    this.#startObserving();
   }
 
   get element() {
@@ -24,14 +25,6 @@ class MovieList {
     return !!(movieList && movieList.length > 0);
   }
 
-  #makeScrollObserverTarget() {
-    const $observerTarget = createElementWithAttribute('li', {
-      id: 'scroll-observer-target',
-    });
-
-    return $observerTarget;
-  }
-
   #makeNoMovieList($ul: HTMLElement) {
     $ul.classList.add('no-movie-list');
     $ul.appendChild(new NoneMovieItem().element);
@@ -39,36 +32,26 @@ class MovieList {
     return $ul;
   }
 
-  #makeMovieList(movieList: Movie[] | undefined) {
+  #makeMovieList(movieList: Movie[] | undefined, isMoreData: boolean) {
     const $ul = createElementWithAttribute('ul', {
       class: 'movie-list',
     });
-
     if (!movieList || !this.#isMovieList) {
       return this.#makeNoMovieList($ul);
     }
-
     movieList.forEach((movie) => {
       $ul.appendChild(new MovieItem(movie).element);
     });
+    const $lastItem = new MovieListLastItem(isMoreData).element;
+    $ul.appendChild($lastItem);
     return $ul;
   }
 
-  #activateScrollObserver() {
+  #startObserving() {
     if (!this.#isMovieList) return;
 
-    this.#addScrollObserverTarget();
-    this.#startObserving();
-  }
-
-  #addScrollObserverTarget() {
-    const $scrollObserveTarget = this.#makeScrollObserverTarget();
-    this.#element.append($scrollObserveTarget);
-  }
-
-  #startObserving() {
     const $scrollObserveTarget = this.#element.querySelector(
-      '#scroll-observer-target',
+      '.scroll-observer-target',
     );
     if (!$scrollObserveTarget) return;
 

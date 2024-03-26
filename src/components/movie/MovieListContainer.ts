@@ -15,6 +15,7 @@ interface SectionProps {
   titleText: string;
   movieList: Movie[] | undefined;
   listType: ListType;
+  isMoreData: boolean;
 }
 class MovieListContainer {
   constructor(props: MovieListContainerProps) {
@@ -22,13 +23,13 @@ class MovieListContainer {
   }
 
   #makeSection = (props: SectionProps) => {
-    const { titleText, movieList, listType } = props;
+    const { titleText, movieList, listType, isMoreData } = props;
     const $section = createElementWithAttribute('section', {
       class: 'movie-list-container',
       name: listType,
     });
     $section.appendChild(new MovieListTitle(titleText).element);
-    $section.appendChild(new MovieList(movieList).element);
+    $section.appendChild(new MovieList(movieList, isMoreData).element);
 
     return $section;
   };
@@ -37,7 +38,7 @@ class MovieListContainer {
     const $main = document.querySelector('main');
     const $section = this.#makeSection({
       ...props,
-      movieList: props.movieData.movieList,
+      ...props.movieData,
     });
     if (!$main) {
       renderAlertModalForNullEl('main');
