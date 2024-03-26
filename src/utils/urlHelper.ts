@@ -1,6 +1,9 @@
 import { URL } from '../consts/common';
-import { UrlParamsType } from '../domain/services/API.type';
 import { getUrlParams, setUrlParams } from './queryString';
+
+export type UrlParamsType = {
+  [key: string]: string | number;
+};
 
 export const generateMovieApiUrl = (url: string, params: UrlParamsType) => {
   const API_KEY = process.env.API_KEY;
@@ -22,4 +25,16 @@ export const setDefaultPageUrl = () => {
 export const increaseUrlPage = () => {
   const currentPage = Number(getUrlParams(URL.PAGES) ?? '1');
   setUrlParams(URL.PAGES, String(currentPage + 1));
+};
+
+export const getCurrentPage = (): number => {
+  return Number(getUrlParams(URL.PAGES) ?? '1');
+};
+
+export const getCurrentQuery = (): string => {
+  return getUrlParams(URL.QUERY) ?? '';
+};
+
+export const getCurrentMode = (): string => {
+  return getUrlParams(URL.MODE) ?? 'popular';
 };

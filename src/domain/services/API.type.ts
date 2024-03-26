@@ -10,10 +10,6 @@ export type PopularAPIParamsType = {
   pageNumber: number;
 };
 
-export type UrlParamsType = {
-  [key: string]: string | number;
-};
-
 export interface MovieItemReturnType {
   adult: boolean;
   backdrop_path: string;
