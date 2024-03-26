@@ -19,9 +19,9 @@ class MovieDetailModal {
   template() {
     return /* html */ `
         <div class='detail-modal-backdrop'></div>
-        <div class='detail-modal-container'>
+        <section class='detail-modal-container'>
             <div class='title-container'>
-                <div id='title'></div>
+                <p id='title'></p>
             </div>
             <div class='information-container'>
                 <div class='thumbnail-container'>
@@ -30,27 +30,27 @@ class MovieDetailModal {
                 <div id='information' class='movie-information'>
                     <div class='movie-information-wrapper'>
                         <div class='movie-information-header'>
-                            <div id='genre'></div>
+                            <p id='genre'></p>
                             <div class='score-container'>
                                 <img class='star-icon' src=${FILLED_STAR} />
-                                <div id='score'></div>
+                                <p id='score'></p>
                             </div>
                         </div>
                         <div id='description' class='description'></div>
                     </div>
                     <div id='user-score' class='user-score-container'>
-                        <div>내 별점</div>
+                        <p>내 별점</p>
                         <img class='star-icon' src=${EMPTY_STAR} />
                         <img class='star-icon' src=${EMPTY_STAR} />
                         <img class='star-icon' src=${EMPTY_STAR} />
                         <img class='star-icon' src=${EMPTY_STAR} />
                         <img class='star-icon' src=${EMPTY_STAR} />
-                        <div>6</div>
-                        <div>보통이예요</div>
+                        <p id='score-number'>6</p>
+                        <p id='score-text'>보통이예요</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     `;
   }
 
