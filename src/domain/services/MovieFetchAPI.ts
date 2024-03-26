@@ -30,7 +30,6 @@ const MovieFetchAPI = {
 
     const searchMovieResult = await response.json();
 
-    if (!searchMovieResult.results.length) throw new Error(ERROR_MESSAGE.RESULTS_NOT_FOUND);
     return searchMovieResult;
   },
 
