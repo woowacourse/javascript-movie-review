@@ -30,8 +30,16 @@ interface RenderInputType {
   input?: string;
 }
 
+interface PageInputType {
+  page: number;
+  input?: string;
+}
+
 class MovieApp {
-  #page: number = 0;
+  #popularPage: number = 1;
+
+  #searchPage: number = 1;
+
 
   constructor() {
     this.init();
@@ -102,19 +110,22 @@ class MovieApp {
     if (itemView) itemView.appendChild(ul);
   }
 
-  handleMovieData(type: RenderType, input?: string): Promise<MovieDataType> {
-    this.updatePage();
+  handleMovieData(renderType: RenderType, input?: string): Promise<MovieDataType> {
+    const page = this.getPage(renderType);
     const handleMovieDataTable: HandleMovieDataTableType = {
-      popular: () => this.getMovieData(httpRequest.fetchPopularMovies),
-      search: () => this.getMovieData(httpRequest.fetchSearchedMovies, input),
+      popular: () => this.getMovieData(httpRequest.fetchPopularMovies, { page }),
+      search: () => this.getMovieData(httpRequest.fetchSearchedMovies, { page, input }),
     };
-    const getDataFunction = handleMovieDataTable[type];
+    const getDataFunction = handleMovieDataTable[renderType];
     return getDataFunction();
   }
 
-  async getMovieData(requestFunction: RequestFunctionType, input?: string): Promise<MovieDataType> {
+  async getMovieData(
+    requestFunction: RequestFunctionType,
+    { page, input }: PageInputType,
+  ): Promise<MovieDataType> {
     try {
-      const { movieList, isLastPage } = await requestFunction(this.#page, input);
+      const { movieList, isLastPage } = await requestFunction(page, input);
       const filteredMovieList = movieList.map((movie) => ({
         id: movie.id,
         poster_path: movie.poster_path,
@@ -129,12 +140,25 @@ class MovieApp {
     }
   }
 
-  updatePage() {
-    this.#page += 1;
+  getPage(renderType: RenderType): number {
+    const pageTable = {
+      popular: this.#popularPage,
+      search: this.#searchPage,
+    };
+    return pageTable[renderType];
+  }
+
+  updatePage(renderType: RenderType) {
+    if (renderType === RENDER_TYPE.POPULAR) {
+      this.#popularPage += 1;
+    } else {
+      this.#searchPage += 1;
+    }
   }
 
   resetPage() {
-    this.#page = 0;
+    this.#popularPage = 1;
+    this.#searchPage = 1;
   }
 
   deleteSkeleton() {
@@ -160,7 +184,10 @@ class MovieApp {
     button.classList.add('btn', 'primary', 'full-width');
     button.id = 'show-more-btn';
     button.textContent = '더 보기';
-    button.addEventListener('click', () => this.renderMainContents(renderType, input));
+    button.addEventListener('click', () => {
+      this.updatePage(renderType);
+      this.renderMainContents(renderType, input);
+    });
     return button;
   }
 
