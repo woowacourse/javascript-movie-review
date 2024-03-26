@@ -1,3 +1,4 @@
+import DEFAULT_IMAGE from "../../../../../templates/failed_to_load.png";
 import STAR from "../../../../../templates/star_filled.png";
 import createElement from "../../../utils/createElement";
 
@@ -22,27 +23,35 @@ class MovieItem {
     const $title = this.$element.querySelector(".item-title");
     const $score = this.$element.querySelector(".item-score");
 
-    $thumbnail?.classList.remove("skeleton");
     $thumbnail?.setAttribute(
       "src",
       `https://image.tmdb.org/t/p/w500${posterPath}`
     );
-    $thumbnail?.setAttribute("alt", korTitle);
+    $thumbnail?.addEventListener("error", (event: Event) => {
+      if (!(event.target instanceof HTMLImageElement)) {
+        return;
+      }
+      event.target.src = DEFAULT_IMAGE;
+    });
+    $thumbnail?.addEventListener("load", (e) => {
+      $thumbnail?.classList.remove("skeleton");
+      $thumbnail?.setAttribute("alt", korTitle);
+    });
 
     $title?.classList.remove("skeleton");
     $title?.append(korTitle);
 
     $score?.classList.remove("skeleton");
-
-    const $img = createElement({
-      tagName: "img",
-      attribute: {
-        src: STAR,
-        alt: "별점",
-      },
-    });
-
-    $score?.append($img, voteAverage.toString());
+    $score?.append(
+      createElement({
+        tagName: "img",
+        attribute: {
+          src: STAR,
+          alt: "별점",
+        },
+      }),
+      voteAverage.toString()
+    );
   }
 
   private generateMovieItem() {

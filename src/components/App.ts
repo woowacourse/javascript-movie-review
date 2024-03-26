@@ -75,9 +75,7 @@ class App {
       }
 
       const movies = this.extractMovies(res.results);
-      setTimeout(() => {
-        this.movieMain.reRender(movies);
-      }, 500);
+      this.movieMain.reRender(movies);
     } catch (error) {
       if (error instanceof Error) {
         this.currentPage -= 1;
@@ -99,9 +97,7 @@ class App {
         this.movieMain.removeMovieMoreButton();
       }
 
-      setTimeout(() => {
-        this.movieMain.reRender(movies);
-      }, 500);
+      this.movieMain.reRender(movies);
     } catch (error) {
       if (error instanceof Error) {
         this.currentPage -= 1;
