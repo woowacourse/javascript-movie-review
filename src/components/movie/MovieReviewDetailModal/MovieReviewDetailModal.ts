@@ -67,7 +67,7 @@ class MovieReviewDetailModal extends Component<MovieReviewDetailModalProps> {
           </div>
         </section>
       </article>
-    `.trim();
+    `;
   }
 
   open() {

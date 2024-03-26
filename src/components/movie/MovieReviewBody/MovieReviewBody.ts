@@ -38,7 +38,11 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
       attributeOptions: { id: 'movie-review-section', class: 'item-view' },
     });
 
-    new MovieTitle($section, { movieType: this.props?.movieType ?? '' });
+    const $div = createElement({ tagName: 'div', attributeOptions: { class: 'movie-review-title-container' } });
+
+    new MovieTitle($div, { movieType: this.props?.movieType ?? '' });
+
+    $section.appendChild($div);
 
     $section.appendChild(this.createMovieListContainer());
 

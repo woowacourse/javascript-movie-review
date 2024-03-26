@@ -54,7 +54,7 @@ class MovieScoreBoard extends Component<MovieScoreBoardProps> {
           <img data-value="5" src="${EmptyStar}" />
         </div>
         <span id="movie-score-board-rating">${ratingScore}</span>
-        <span id="movie-score-board-need-rating">${MovieScoreBoard.MOVIE_SCORE_GUIDANCE[ratingScore]}</span>
+        <span id="movie-score-board-need-rating" class="movie-score-board-need-rating">${MovieScoreBoard.MOVIE_SCORE_GUIDANCE[ratingScore]}</span>
       `;
 
       return $movieScoreBoard;
