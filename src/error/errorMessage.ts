@@ -5,7 +5,8 @@ const { $ } = DOM;
 
 const errorMessage = {
   apiError(statusCode: number, message?: string) {
-    const movieItems = document.querySelector('main') as HTMLElement;
+    const movieItems = $('main') as HTMLElement;
+
     if (statusCode >= 500) {
       this.renderTemplates(movieItems, this.serverError(statusCode));
     } else if (statusCode >= 400) {
