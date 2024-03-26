@@ -1,13 +1,5 @@
-import UserNotifyPage from '../components/UserNotifyPage';
+import MovieApi from '../API/MovieApi';
 import { Movie } from '../index.d';
-
-const options = {
-  method: 'GET',
-  headers: {
-    accept: 'application/json',
-    Authorization: `Bearer ${process.env.TOKEN}`,
-  },
-};
 
 class MovieStore {
   #moviesData: any[];
@@ -18,45 +10,21 @@ class MovieStore {
     this.#moviesData = [];
   }
 
-  /* eslint-disable max-lines-per-function */
   async getMovies() {
-    // Skeleton UI 확인을 위한 강제 delay
-    await this.#delay();
+    const responseData = await MovieApi.getPopularMovies(this.#pageCount);
 
-    const responseData: Movie[] = await fetch(
-      `https://api.themoviedb.org/3/movie/popular?language=ko&page=${this.#pageCount}`,
-      options,
-    )
-      .then(async (response) => {
-        if (!response.ok) {
-          new UserNotifyPage(String(response.status)).renderError();
-        }
-        const responseJSON = await response.json();
+    const moviesData = responseData.results;
 
-        // 검색 결과가 없는 경우
-        if (String(response.status)[0] === '2' && responseJSON.results.length === 0) {
-          new UserNotifyPage(String(response.status)).renderError();
-        }
-        return responseJSON;
-      })
-      .then((response) => response.results)
-      .catch((err) => console.error(err));
+    this.#pushNewMovies(moviesData);
 
-    this.#pushNewData(responseData);
-
-    return responseData;
-  }
-
-  async #delay() {
-    const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-    await delay(2000);
+    return moviesData;
   }
 
   increasePageCount() {
     this.#pageCount += 1;
   }
 
-  #pushNewData(data: Movie[]) {
+  #pushNewMovies(data: Movie[]) {
     if (data) {
       this.#moviesData.push(...data);
     }
