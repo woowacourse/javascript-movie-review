@@ -1,4 +1,4 @@
-function toast(errorMessage) {
+function renderToast(errorMessage) {
   const toastElement = document.createElement('div');
   toastElement.classList.add('toast');
   toastElement.textContent = errorMessage;
@@ -9,4 +9,4 @@ function toast(errorMessage) {
   setTimeout(() => toastElement.remove(), 2500);
 }
 
-export default toast;
+export default renderToast;

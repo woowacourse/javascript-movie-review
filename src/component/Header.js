@@ -5,7 +5,7 @@ const SearchButtonClickEvent = new Event('clickSearchButton');
 const LogoClickEvent = new Event('logoClickEvent');
 
 function createHeader() {
-  const header = renderHeader();
+  const header = createHeaderElement();
   $('#app').prepend(header);
 
   header.querySelector('form').addEventListener('submit', (event) => {
@@ -18,7 +18,7 @@ function createHeader() {
   });
 }
 
-function renderHeader() {
+function createHeaderElement() {
   const header = document.createElement('header');
 
   const logo = document.createElement('img');
@@ -26,7 +26,7 @@ function renderHeader() {
   logo.alt = 'MovieList 로고';
   logo.src = LogoImagePath;
 
-  const searchBox = renderSearchBox();
+  const searchBox = createSearchBoxElement();
   searchBox.classList.add('search-box');
 
   header.append(logo, searchBox);
@@ -34,7 +34,7 @@ function renderHeader() {
   return header;
 }
 
-function renderSearchBox() {
+function createSearchBoxElement() {
   const searchBox = document.createElement('form');
 
   const input = document.createElement('input');

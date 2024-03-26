@@ -3,13 +3,13 @@ import retryIcon from '../asset/retry.svg';
 const RetryButtonClickEvent = new Event('retryButtonClickEvent');
 
 function createRetryButton() {
-  const retryButton = renderRetryButton();
+  const retryButton = createRetryButtonElement();
 
   retryButton.addEventListener('click', () => retryButton.dispatchEvent(RetryButtonClickEvent));
   return retryButton;
 }
 
-function renderRetryButton() {
+function createRetryButtonElement() {
   const button = document.createElement('button');
   button.className = 'retry-button';
 
