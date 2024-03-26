@@ -1,4 +1,3 @@
-import { MovieInfo } from "./components/MoviePoster/createMoviePoster";
 import { $ } from "./utils/selector";
 import MoviePosterBoard from "./components/MoviePosterBoard/MoviePosterBoard";
 import createHeader from "./components/Header/createHeader";
