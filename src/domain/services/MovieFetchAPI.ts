@@ -1,10 +1,10 @@
 import { generateMovieApiUrl, getCurrentPage, getCurrentQuery } from '../../utils/urlHelper';
 import { API_URL } from './../../consts/Api';
-import { MovieAPIReturnType } from './API.type';
+import { MovieAPI } from './API.type';
 import { ERROR_MESSAGE } from '../../consts/error';
 
 const MovieFetchAPI = {
-  async fetchPopularMovies(): Promise<MovieAPIReturnType> {
+  async fetchPopularMovies(): Promise<MovieAPI> {
     const popularMoviesUrl = generateMovieApiUrl(API_URL.POPULAR_MOVIES, {
       page: getCurrentPage(),
     });
@@ -18,7 +18,7 @@ const MovieFetchAPI = {
     return popularMovieResult;
   },
 
-  async fetchSearchMovies(): Promise<MovieAPIReturnType> {
+  async fetchSearchMovies(): Promise<MovieAPI> {
     const searchMoviesUrl = generateMovieApiUrl(API_URL.SEARCH_MOVIES, {
       page: getCurrentPage(),
       query: getCurrentQuery(),

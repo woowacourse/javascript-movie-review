@@ -1,16 +1,15 @@
-import { API_URL } from './../../consts/Api';
 export const BASE_URL = 'https://api.themoviedb.org/3';
 
-export type SearchAPIParamsType = {
+export type SearchAPIParams = {
   query: string;
   pageNumber: number;
 };
 
-export type PopularAPIParamsType = {
+export type PopularAPIParams = {
   pageNumber: number;
 };
 
-export interface MovieItemReturnType {
+export interface MovieItem {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -27,9 +26,9 @@ export interface MovieItemReturnType {
   vote_count: number;
 }
 
-export interface MovieAPIReturnType {
+export interface MovieAPI {
   page: number;
-  results: MovieItemReturnType[];
+  results: MovieItem[];
   total_pages: number;
   total_results: number;
 }
