@@ -18,7 +18,7 @@ export default class SkeletonUI {
     element.innerHTML = this.template;
   }
 
-  insert(targetId: string, position: InsertPosition = "beforeend"): void {
+  insert(targetId: TargetId, position: InsertPosition = "beforeend"): void {
     const element = $<HTMLElement>(targetId);
 
     if (!element) {
@@ -27,4 +27,14 @@ export default class SkeletonUI {
 
     element.insertAdjacentHTML(position, this.template);
   }
+
+  remove = (targetId: TargetId) => {
+    const element = $<HTMLElement>(targetId);
+
+    if (!element) {
+      return;
+    }
+
+    element.remove();
+  };
 }
