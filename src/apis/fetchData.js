@@ -1,21 +1,27 @@
 import toast from "../components/toast/toast";
 import { BASE_URL, ENDPOINT } from "../constants/constant";
 import mapDataToMovies from "../domain/MovieService";
+import errorHandler from "../utils/errorHandler";
+import view from "../view/view";
 
 const API_KEY = process.env.API_KEY;
 
 async function fetchMovies(url) {
   try {
+    window.addEventListener("offline", () => {
+      throw new Error('offline');
+    });
+    
     const response = await fetch(url);
     const data = await response.json();
-
+    
     if (!response.ok) {
       throw new Error(data.status_message);
     }
 
     return data;
   } catch (error) {
-    toast(error.message);
+    errorHandler(error.message)
     throw error;
   }
 }

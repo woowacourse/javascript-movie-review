@@ -8,7 +8,7 @@ const toast = (errorMessage: string) => {
   if (!body) return;
   body.appendChild(toastElement);
 
-  setTimeout(() => toastElement.remove(), 4500);
+  setTimeout(() => toastElement.remove(), 2500);
 };
 
 export default toast;

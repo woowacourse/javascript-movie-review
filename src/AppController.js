@@ -1,6 +1,7 @@
 import Header from './components/header/header';
 import MovieListWrapper from './components/movieListWrapper/MovieListWrapper';
 import { VIEW_TYPE } from './constants/constant';
+import view from './view/view';
 
 class AppController {
   #currentView;
