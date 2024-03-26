@@ -28,7 +28,7 @@ describe("Movie App 테스트", () => {
     );
 
     cy.get("li").should("have.length", 20);
-    cy.get("button").contains("더 보기").click();
+    cy.get("#watch-more-button").contains("더 보기").click();
     cy.get("li").should("have.length", 40);
   });
 
