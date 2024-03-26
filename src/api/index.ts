@@ -43,12 +43,12 @@ export class TMDBApi {
     }
   }
 
-  private transformToMoviePage(moviesData: TMDBMoviesResponse): MoviePage {
+  private transformToMoviePage({ page, results, total_pages, total_results }: TMDBMoviesResponse): MoviePage {
     return {
-      page: moviesData.page,
-      movies: moviesData.results.map(this.transformMovieData),
-      totalPages: moviesData.total_pages,
-      totalResults: moviesData.total_results,
+      page: page,
+      movies: results.map(this.transformMovieData),
+      totalPages: total_pages,
+      totalResults: total_results,
     };
   }
 

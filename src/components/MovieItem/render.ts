@@ -36,8 +36,7 @@ const toggleSkeleton = (event: Event) => {
   thumbnail.classList.remove('skeleton');
 };
 
-export const createItemCardContent = (movie: Movie) => {
-  const { posterPath, title, voteAverage } = movie;
+export const createItemCardContent = ({ posterPath, title, voteAverage }: Movie) => {
   const itemImage = createItemImage(posterPath, title);
   const itemTitle = createElement('p', { className: 'item-title', textContent: title });
   const itemScore = createItemScore(voteAverage);
