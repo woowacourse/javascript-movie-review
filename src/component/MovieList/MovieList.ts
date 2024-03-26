@@ -58,8 +58,8 @@ class MovieList {
   updateMovieItemsWithData(movies: IMovieItemData[], liList: HTMLLIElement[]) {
     this.removeSkeleton();
 
-    const movieItems = movies.map(({ title, poster_path, vote_average }) => {
-      return new MovieItem({ title, poster_path, vote_average });
+    const movieItems = movies.map(({ title, id, poster_path, vote_average }) => {
+      return new MovieItem({ title, id, poster_path, vote_average });
     });
 
     movieItems.forEach((movieItem: MovieItem, index: number) => {

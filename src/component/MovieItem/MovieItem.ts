@@ -8,6 +8,8 @@ class MovieItem {
   }
 
   setMovieItemData(liElement: HTMLLIElement) {
+    liElement.id = this.#movieItemInfo.id.toString();
+
     const thumbnailElement = liElement.querySelector("img");
     if (thumbnailElement) {
       thumbnailElement.src = `https://image.tmdb.org/t/p/w220_and_h330_face${
