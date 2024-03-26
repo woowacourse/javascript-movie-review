@@ -50,11 +50,21 @@ export interface MovieSearchResult {
   movieCount: number;
 }
 
+export interface MovieDetailResponse extends Omit<MovieResponseResult, 'genre_ids'> {
+  genres: {
+    id: number;
+    name: string;
+  }[];
+}
+
 export interface Movie {
   id: number;
   title: string;
   imageSrc: string;
   score: number;
-  genre: Genre[];
   description: string;
+}
+
+export interface MovieDetail extends Movie {
+  genre: string[];
 }
