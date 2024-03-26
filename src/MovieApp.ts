@@ -90,6 +90,7 @@ class MovieApp {
   createSection(titleMessage: string) {
     const section = document.createElement('section');
     section.classList.add('item-view');
+    section.id = 'section--item-view'
     section.innerHTML = /* html */ `<h2>${titleMessage}</h2>`;
     return section;
   }
@@ -112,7 +113,7 @@ class MovieApp {
     `;
 
     ul.innerHTML = skeletonItem.repeat(20);
-    const itemView = document.querySelector('section.item-view');
+    const itemView = document.querySelector('#section--item-view');
     if (itemView) itemView.appendChild(ul);
   }
 
@@ -202,7 +203,7 @@ class MovieApp {
     { renderType, input }: RenderInputType,
   ) {
     const movieData = this.showMovieData(movieList);
-    const itemView = document.querySelector('section.item-view');
+    const itemView = document.querySelector('#section--item-view');
     if (itemView && !isLastPage) {
       const showMoreButton = this.createShowMoreButton(renderType, input);
       itemView.appendChild(movieData);
