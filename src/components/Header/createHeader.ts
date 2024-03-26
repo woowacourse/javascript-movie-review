@@ -5,11 +5,9 @@ import createSearchBox from "../SearchBox/createSearchBox";
 import logo from "./logo.png";
 import MoviePosterController from "../../MoviePosterController";
 
-const goHomepage = (event: Event) => {
+const goHomepage = () => {
   const input = document.querySelector<HTMLInputElement>("#header__search-box");
-  if (input) {
-    input.value = "";
-  }
+  if (input) input.value = "";
 
   MoviePosterController.renderPopularMoviePosterBoard();
 };
@@ -18,7 +16,6 @@ const createHeader = () => {
   const header = createElement({ tagName: "header" });
 
   const h1 = createElement({ tagName: "h1" });
-
   h1.addEventListener("click", goHomepage);
 
   const logoImg = createElement({
