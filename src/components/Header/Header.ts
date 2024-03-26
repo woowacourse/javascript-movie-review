@@ -1,6 +1,7 @@
 import './style.css';
 import MovieContentManager from '../MovieContents/MovieContents';
 import DOM from '../../utils/DOM';
+import errorMessage from '../../error/errorMessage';
 
 const { $ } = DOM;
 
@@ -18,19 +19,24 @@ const HeaderManager = {
           <button type="submit" class="search-button">검색</button>
         </form>
       `;
+
     header.innerHTML = templates;
-    this.submitMovieSearch(header);
+    this.handleSearchSubmit(header);
     return header;
   },
 
-  submitMovieSearch(header: HTMLElement) {
+  handleSearchSubmit(header: HTMLElement) {
     header.querySelector('.search-box')?.addEventListener('submit', async (event: Event) => {
       event.preventDefault();
       $('main')?.remove();
+      $('.search-error-msg')?.remove();
 
       const movie = this.getMovieName(event);
-
-      this.renderMovie(movie);
+      if (movie.trim() === '') {
+        this.displaySearchError();
+      } else {
+        this.renderMovie(movie);
+      }
     });
   },
 
@@ -39,6 +45,11 @@ const HeaderManager = {
     const input = (form.elements.namedItem('search') as HTMLInputElement).value;
 
     return input;
+  },
+
+  displaySearchError() {
+    const errorElement = errorMessage.noSearchedMovieError('검색된 영화가 없습니다 💢');
+    $('#app')?.insertAdjacentHTML('beforeend', errorElement);
   },
 
   async renderMovie(movie: string) {
