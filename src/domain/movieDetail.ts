@@ -8,7 +8,7 @@ const movieDetail = {
       title,
       imageSrc: `${IMAGE_BASE_URL}/original/${poster_path}`,
       score: vote_average,
-      genre: genres.map(genres => genres.name),
+      genres: genres.map(genres => genres.name),
       description: overview,
     };
   },

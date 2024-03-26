@@ -66,5 +66,5 @@ export interface Movie {
 }
 
 export interface MovieDetail extends Movie {
-  genre: string[];
+  genres: string[];
 }

@@ -56,7 +56,7 @@ class MovieDetailModal {
 
   open(movieResponse: MovieDetailResponse) {
     this.$target.classList.add('open');
-    const movie = movieDetail.create(movieResponse);
+    const { genres, imageSrc, description, title, score } = movieDetail.create(movieResponse);
 
     const $thumbnail = dom.getElement<HTMLImageElement>(this.$target, '#thumbnail');
     const $description = dom.getElement(this.$target, '#description');
@@ -64,11 +64,11 @@ class MovieDetailModal {
     const $title = dom.getElement(this.$target, '#title');
     const $score = dom.getElement(this.$target, '#score');
 
-    $genre.textContent = movie.genre.join(', ');
-    $thumbnail.setAttribute('src', movie.imageSrc);
-    $description.textContent = movie.description;
-    $title.textContent = movie.title;
-    $score.textContent = movie.score.toString();
+    $genre.textContent = genres.join(', ');
+    $thumbnail.setAttribute('src', imageSrc);
+    $description.textContent = description;
+    $title.textContent = title;
+    $score.textContent = score.toString();
   }
 
   close() {
