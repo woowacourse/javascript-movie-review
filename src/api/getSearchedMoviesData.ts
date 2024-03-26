@@ -1,4 +1,4 @@
-import { fetchData } from "./getMovieData";
+import { fetchData } from "./fetchData";
 import Movie from "../movie/Movie";
 
 const API_KEY = process.env.API_KEY as string;
