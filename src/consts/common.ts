@@ -8,3 +8,5 @@ export const URL = {
   QUERY: 'query',
   PAGES: 'pages',
 };
+
+export const PAGE_SIZE = 20;
