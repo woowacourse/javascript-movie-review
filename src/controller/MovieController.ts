@@ -25,11 +25,11 @@ class MovieController {
     }
 
     if (this.#query) {
-      this.renderSearchMovies();
+      this.#renderSearchMovies();
       return;
     }
 
-    this.renderMovies();
+    this.#renderPopularMovies();
   }
 
   render(query: string = '') {
@@ -42,11 +42,11 @@ class MovieController {
     }
 
     if (this.#query) {
-      this.renderSearchMovies();
+      this.#renderSearchMovies();
       return;
     }
 
-    this.renderMovies();
+    this.#renderPopularMovies();
   }
 
   #initData(query: string) {
@@ -61,14 +61,9 @@ class MovieController {
     ul.innerHTML = '';
   }
 
-  async renderMovies() {
+  async #renderPopularMovies() {
     this.#inputSkeleton();
-
-    await this.#inputMovies();
-  }
-
-  async #inputMovies() {
-    const movieData = await this.#getMovies(this.#page);
+    const movieData = await this.#getPopularMovies(this.#page);
 
     this.#updateViewMoreButtonDisplay(movieData);
 
@@ -82,14 +77,23 @@ class MovieController {
     }
   }
 
-  async renderSearchMovies() {
-    this.#inputSkeleton();
+  async #getPopularMovies(page: number) {
+    try {
+      const movieData = await this.#movies.getPopularMovies(page);
 
-    await this.#inputSearchMovies(this.#query);
+      return movieData;
+    } catch (error) {
+      if (!(error instanceof CustomError)) return;
+
+      this.#removeSkeleton();
+      $('.view-more-button')?.classList.add('hidden');
+      this.#showErrorPage(error.message, error.status);
+    }
   }
 
-  async #inputSearchMovies(query: string) {
-    const movieData = await this.#searchMovies(this.#page, query);
+  async #renderSearchMovies() {
+    this.#inputSkeleton();
+    const movieData = await this.#searchMovies(this.#page, this.#query);
 
     if (movieData && !movieData.length) {
       this.#showErrorPage(ERROR_MESSAGE.noSearchResult);
@@ -130,19 +134,6 @@ class MovieController {
     const skeletonItems = document.querySelectorAll('.skeleton-item');
 
     skeletonItems.forEach((item) => item?.remove());
-  }
-
-  async #getMovies(page: number) {
-    try {
-      const movieData = await this.#movies.getPopularMovies(page);
-
-      return movieData;
-    } catch (error) {
-      if (!(error instanceof CustomError)) return;
-
-      $('.view-more-button')?.classList.add('hidden');
-      this.#showErrorPage(error.message, error.status);
-    }
   }
 
   #createMovieItems(data: MovieInfo[]): HTMLElement[] {
