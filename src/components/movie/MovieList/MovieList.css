@@ -3,6 +3,11 @@
   flex-direction: column;
 }
 
+.item-card:hover {
+  transform: scale(1.05, 1.05);
+  transition-duration: 0.5s;
+}
+
 .item-thumbnail {
   border-radius: 8px;
   width: 180px;
