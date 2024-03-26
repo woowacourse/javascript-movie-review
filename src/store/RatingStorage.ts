@@ -4,9 +4,17 @@ interface IRating {
 }
 
 const RatingStorage = {
-  setRating(rating: IRating): void {
-    const ratings = JSON.parse(localStorage.getItem('ratings') ?? '');
+  setRatings(ratings: IRating[]) {
+    localStorage.setItem('ratings', JSON.stringify(ratings));
+  },
 
+  getRatings() {
+    const ratings = localStorage.getItem('ratings');
+    return ratings ? JSON.parse(ratings) : [];
+  },
+
+  updateRating(rating: IRating): void {
+    const ratings = this.getRatings();
     const index = ratings.findIndex((el: IRating) => el.key === rating.key);
 
     if (index !== -1) {
@@ -15,15 +23,14 @@ const RatingStorage = {
       ratings.push(rating);
     }
 
-    localStorage.setItem('ratings', JSON.stringify(ratings));
+    this.setRatings(ratings);
   },
 
-  getRating(key: number) {
-    const ratings = JSON.parse(localStorage.getItem('ratings') ?? '');
-
+  getRatingScore(key: number): number {
+    const ratings = this.getRatings();
     const index = ratings.findIndex((el: IRating) => el.key === key);
 
-    return index !== -1 ? ratings[index] : 0;
+    return index !== -1 ? ratings[index].score : 0;
   },
 };
 
