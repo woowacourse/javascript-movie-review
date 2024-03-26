@@ -1,10 +1,10 @@
 import { fetchPopularMovies, fetchSearchMovies } from '../../domain/Request/sendRequest';
-import { BUTTON, CONTAINER_TITLE } from '../../constants/INFORMATION';
-import Button from '../Button/Button';
+import { CONTAINER_TITLE } from '../../constants/INFORMATION';
 import MovieItems from '../MovieItems/MovieItems';
 import IRespondData from '../../interfaces/FetchMovieListDTO';
 import { getDomElement } from '../../util/DOM';
 import OPTIONS from '../../constants/OPTIONS';
+import setupInfiniteScroll from '../../util/InfiniteScroll';
 
 class MovieList {
   #page: number;
@@ -19,16 +19,18 @@ class MovieList {
     }
   }
 
-  create(movieListTitle: string, search?: string) {
+  async create(movieListTitle: string, search?: string) {
     const movieList = getDomElement('.item-view');
-    const button = Button.create(BUTTON.showMore);
+    const listEnd = document.createElement('div');
+    listEnd.classList.add('list-end');
 
     movieList.appendChild(this.createTitle(movieListTitle));
-    movieList.appendChild(button);
+    movieList.appendChild(listEnd);
+    await this.mountItems(listEnd, search);
 
-    this.mountItems(button, search);
-    button.addEventListener('click', () => this.mountItems(button, search));
-    return movieList;
+    await setupInfiniteScroll(listEnd, this.mountItems.bind(this), search);
+
+    getDomElement('#app').appendChild(movieList);
   }
 
   createTitle(containerTitle: string) {
@@ -39,14 +41,14 @@ class MovieList {
     return title;
   }
 
-  async mountItems(button: HTMLElement, search?: string) {
+  async mountItems(listEnd: HTMLElement, search?: string): Promise<void> {
     const skeleton = MovieItems.createSkeleton();
-    button.insertAdjacentElement('beforebegin', skeleton);
+    listEnd.insertAdjacentElement('beforebegin', skeleton);
 
     const movieListData: IRespondData = await this.getMovieListData(search);
     MovieItems.replaceAllSkeletons(skeleton, movieListData);
     if (this.#page === movieListData.total_pages || this.#page === OPTIONS.maxPage) {
-      button.remove();
+      listEnd.remove();
     }
   }
 
