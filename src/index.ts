@@ -1,5 +1,7 @@
-import "../templates/reset.css";
-import "../templates/common.css";
+import "./styles/reset.css";
+import "./styles/common.css";
+import "./styles/modal.css";
+
 import "../templates/star_empty.png";
 import "../templates/star_filled.png";
 import "../templates/logo.png";

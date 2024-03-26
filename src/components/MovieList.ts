@@ -1,10 +1,11 @@
 import Component from "../common/Component";
 import { createMovieElement } from "./Movie";
 import { hideSkeleton, renderSkeleton } from "./Skeleton";
-import movieClient from "../http/MovieClient";
+import MovieClient from "../http/MovieClient";
 import { $ } from "../utils/dom";
 import { MovieType } from "../types";
 import { MAX_PAGE } from "../constants/movies";
+import { starImage } from "../assets/image";
 
 interface MovieListState {
   currentPage: number;
@@ -25,6 +26,8 @@ export default class MovieList extends Component<{}, MovieListState> {
       </div>
       <div id="empty-result" class="empty-result hidden"></div>
       <button id="next-button" class="btn primary full-width">더 보기</button>
+      <dialog class="modal">
+      </dialog>
     `;
   }
 
@@ -121,13 +124,12 @@ export default class MovieList extends Component<{}, MovieListState> {
     if (!this.state) return;
 
     const { currentPage, searchKeyword } = this.state;
-    if (searchKeyword === "") return movieClient.getPopularMovies(currentPage);
-    return movieClient.getSearchMovies(currentPage, searchKeyword);
+    if (searchKeyword === "") return MovieClient.getPopularMovies(currentPage);
+    return MovieClient.getSearchMovies(currentPage, searchKeyword);
   }
 
   protected setEvent(): void {
     const button = $<HTMLButtonElement>("#next-button");
-
     button?.addEventListener("click", () => {
       this.handleRenderMovieList();
     });
