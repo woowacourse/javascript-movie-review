@@ -53,28 +53,12 @@ class App {
 
   setEvent() {
     const $toastButton = dom.getElement<HTMLButtonElement>(this.$target, '#toast-button');
-
     $toastButton.addEventListener<any>('onToast', (e: CustomEvent) => {
       const message = e.detail;
       this.toast.on(message);
     });
 
-    const options = {
-      root: null,
-      rootMargin: '0px 0px 150px 0px',
-      threshold: 0,
-    };
-
-    const $moreButton = dom.getElement<HTMLButtonElement>(this.$target, '#more-button');
-    const io = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          !$moreButton.classList.contains('hidden') && this.handleClickMoreMovies();
-        }
-      });
-    }, options);
-
-    io.observe($moreButton);
+    this.handleInfinityScroll();
   }
 
   #createHeader() {
@@ -121,6 +105,26 @@ class App {
 
   handleClickMoreMovies() {
     this.movieListContainer.attach();
+  }
+
+  handleInfinityScroll() {
+    const $moreButton = dom.getElement<HTMLButtonElement>(this.$target, '#more-button');
+
+    const options = {
+      root: null,
+      rootMargin: '0px 0px 150px 0px',
+      threshold: 0,
+    };
+
+    const io = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          !$moreButton.classList.contains('hidden') && this.handleClickMoreMovies();
+        }
+      });
+    }, options);
+
+    io.observe($moreButton);
   }
 }
 export default App;
