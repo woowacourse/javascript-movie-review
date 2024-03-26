@@ -1,5 +1,7 @@
 import './SearchInput.css';
 
+import SearchIcon from '../../statics/images/search_button.png';
+
 const createSearchBox = () => {
   const $searchBox = document.createElement('form');
   $searchBox.classList.add('search-box');
@@ -25,8 +27,13 @@ const createSearchInput = () => {
 const createSearchBtn = () => {
   const $searchBtn = document.createElement('button');
   $searchBtn.classList.add('search-button');
-  $searchBtn.textContent = '검색';
   $searchBtn.type = 'submit';
+
+  const $img = document.createElement('img');
+  $img.src = SearchIcon;
+  $img.alt = '검색';
+
+  $searchBtn.appendChild($img);
 
   return $searchBtn;
 };
