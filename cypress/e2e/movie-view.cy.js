@@ -20,17 +20,17 @@ describe('영화 리스트 E2E 테스트', () => {
 
   context('인기 있는 영화 View 테스트', () => {
     it ('인기 있는 영화가 로딩될 때는 skeleton UI를 20개 보여준다.', () => {
-      const popularMovieItems = cy.get('.item-list > li.skeleton');
+      const popularMovieItems = cy.get('.item-list > li.skeleton-list');
       expect(popularMovieItems.should('have.length', 20));
       cy.wait('@getPopularMovies')
     });
   
     it ('인기 있는 영화가 로딩 된 후에는 skeleton UI가 다 사라지고 영화 리스트를 20개 보여준다.', () => {
       cy.wait('@getPopularMovies').then(interception => {
-        const popularMovieItemsSkeleton = cy.get('.item-list > li.skeleton');
-        expect(popularMovieItemsSkeleton.should('have.length', 0));
+        const popularMovieItemsSkeleton = cy.get('.item-list > li.skeleton-list.none');
+        expect(popularMovieItemsSkeleton.should('have.length', 20));
   
-        const popularMovieItems = cy.get('.item-list > li');
+        const popularMovieItems = cy.get('.item-list > li.movie-list');
         expect(popularMovieItems.should('have.length', 20));
       })
     });
@@ -38,7 +38,7 @@ describe('영화 리스트 E2E 테스트', () => {
     it ('더보기 버튼을 누르면 영화 리스트를 20개 추가되어 보여준다.', () => {
       cy.wait('@getPopularMovies').then(interception => {
         cy.get('.show-more-btn').click();
-        const popularMovieItems = cy.get('.item-list > li');
+        const popularMovieItems = cy.get('.item-list > li.movie-list');
         expect(popularMovieItems.should('have.length', 40));
       })
     });
@@ -51,7 +51,7 @@ describe('영화 리스트 E2E 테스트', () => {
       cy.get('.search-box').submit();
   
       cy.wait('@getSearchMovies').then(() => {
-        const searchMovieItems = cy.get('.item-list > li');
+        const searchMovieItems = cy.get('.item-list > li.movie-list');
         searchMovieItems.each($movie => {
           cy.wrap($movie).find('.item-title').should('contain', '해리 포터');
         });

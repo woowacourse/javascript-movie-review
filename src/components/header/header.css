@@ -1,7 +1,6 @@
 header {
   position: fixed;
-  width: 100%;
-  min-width: 1200px;
+  width: 100vw;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -11,6 +10,12 @@ header {
   border-bottom: 1px solid white;
   margin-bottom: 48px;
   cursor: pointer;
+  overflow: auto;
+}
+
+@media screen and (max-width: 1200px) {
+  header {
+  }
 }
 
 header h1 {

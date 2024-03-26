@@ -9,6 +9,7 @@ const MovieCard = (movie: Movie) => {
 
 const render = (movie: Movie) => {
   const list = document.createElement('li');
+  list.className = 'movie-list';
 
   const anchor = document.createElement('a');
 
