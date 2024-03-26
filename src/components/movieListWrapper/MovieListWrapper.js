@@ -1,6 +1,7 @@
 import { fetchPopularMovieList, fetchSearchMovieList } from '../../apis/fetchData';
 import { LAST_PAGE, VIEW_TYPE } from '../../constants/constant';
-import movieList from '../../view/movieList';
+import view from '../../view/view';
+import { createSkeleton } from '../skeleton/skeleton';
 
 class MovieListWrapper {
   #currentPage
@@ -16,26 +17,24 @@ class MovieListWrapper {
   }
 
   async create() {
-    const section = document.querySelector('.item-view');
-    section.replaceChildren();
+    const itemView = document.querySelector('.item-view');
+    itemView.replaceChildren()
 
     const title = document.createElement('h2');
     title.textContent = this.#title;
 
-    const ul = document.createElement('ul');
-    ul.className = 'item-list';
-    ul.replaceChildren();
+    const itemList = document.createElement('ul')
+    itemList.className = 'item-list';
+    itemList.replaceChildren();
+    itemList.innerHTML = (createSkeleton());
 
     const showMoreButton = document.createElement('button');
     showMoreButton.className = 'show-more-btn btn primary full-width';
     showMoreButton.textContent = '더 보기';
 
-    section.append(title, ul);
+    itemView.append(title, itemList, showMoreButton)
 
     await this.updateMovieList(showMoreButton);
-
-    section.appendChild(showMoreButton);
-
     showMoreButton.addEventListener('click', async () => {
       this.#currentPage += 1;
       await this.updateMovieList(showMoreButton);
@@ -54,29 +53,32 @@ class MovieListWrapper {
   }
 
   async updatePopularMovieList(showMoreButton) {
-    const liList = movieList.loading();
+    view.showSkeleton()
     const result = await fetchPopularMovieList(this.#currentPage);
     if (result) {
+      console.log(result)
+      view.hideSkeleton()
       const [movies, totalPages] = result;
       if (LAST_PAGE <= this.#currentPage) {
         showMoreButton.classList.add('none');
       }
-      movieList.completed(liList, movies);
+      view.renderMovieCard(movies);
     }
   }
 
   async updateSearchMovieList(showMoreButton) {
-    const liList = movieList.loading();
+    view.showSkeleton()
     const result = await fetchSearchMovieList(this.#inputValue, this.#currentPage);
     if (result) {
+      view.hideSkeleton()
       const [movies, totalPages] = result;
       if (!movies.length && totalPages == 1) {
-        movieList.none()
+        view.noMovieResult()
       }
       if (Math.min(totalPages, LAST_PAGE) <= this.#currentPage) {
         showMoreButton.classList.add('none');
       }
-      movieList.completed(liList, movies);
+      view.renderMovieCard(movies);
     }
   }
 }

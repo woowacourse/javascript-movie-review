@@ -1,49 +1,31 @@
 import filledStar from '../../images/star_filled.png';
 import emptyPng from '../../images/empty_poster.png';
 
-export function renderSkeleton() {
-  const movieCard = document.createElement('li');
-  movieCard.className = 'skeleton';
-  const link = document.createElement('a');
+export function updateSkeletonToMovieCard(movie) {
+  const list = document.createElement('li');
 
-  const itemCard = document.createElement('div');
-  itemCard.className = 'item-card';
+  const anchor = document.createElement('a');
+  
+  const itemCard = document.createElement('div')
+  itemCard.className = 'item-card'
 
   const thumbnail = document.createElement('img');
   thumbnail.className = 'item-thumbnail skeleton';
-
-  const title = document.createElement('p');
-  title.className = 'item-title skeleton';
-
-  const score = document.createElement('p');
-  score.className = 'item-score skeleton';
-
-  itemCard.append(thumbnail, title, score);
-  link.appendChild(itemCard);
-  movieCard.appendChild(link);
-
-  return movieCard;
-}
-
-export function updateSkeletonToMovieCard(li, movie) {
-  li.classList.toggle('skeleton');
-  const thumbnail = li.querySelector('.item-thumbnail.skeleton');
   thumbnail.src = movie.poster_path
     ? `https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}.jpg`
     : emptyPng;
   thumbnail.loading = 'lazy';
   thumbnail.alt = movie.title;
   thumbnail.onload = () => {
-    thumbnail.classList.toggle('skeleton');
-    thumbnail.style.display = 'block';
+    thumbnail.classList.remove('skeleton');
   };
 
-  const title = li.querySelector('.item-title.skeleton');
-  title.classList.toggle('skeleton');
+  const title = document.createElement('p');
+  title.className = 'item-title';
   title.textContent = movie.title;
 
-  const score = li.querySelector('.item-score.skeleton');
-  score.classList.toggle('skeleton');
+  const score = document.createElement('p');
+  score.className = 'item-score';
   score.textContent = movie.vote_average;
 
   const scoreImage = document.createElement('img');
@@ -51,4 +33,9 @@ export function updateSkeletonToMovieCard(li, movie) {
   scoreImage.alt = '별점';
 
   score.appendChild(scoreImage);
+  itemCard.append(thumbnail, title, score)
+  anchor.appendChild(itemCard)
+  list.appendChild(anchor)
+
+  return list
 }

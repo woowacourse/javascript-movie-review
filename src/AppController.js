@@ -3,7 +3,7 @@ import MovieListWrapper from "./components/movieListWrapper/MovieListWrapper";
 import { VIEW_TYPE } from "./constants/constant";
 
 class AppController {
-  #currentView ;
+  #currentView;
 
   constructor() {
     this.#currentView = new MovieListWrapper('지금 인기 있는 영화', VIEW_TYPE.POPULAR);
@@ -14,11 +14,11 @@ class AppController {
 
     const header = createHeader({
       onLogoClick: () => {
-        this.#currentView = new MovieListWrapper('지금 인기 있는 영화', VIEW_TYPE.POPULAR)
+        this.#currentView = new MovieListWrapper('지금 인기 있는 영화', VIEW_TYPE.POPULAR);
         this.#currentView.create();
       },
       inputSubmitHandle: (inputValue) => {
-        this.#currentView = new MovieListWrapper(`"${inputValue}" 검색 결과`, VIEW_TYPE.SEARCH, inputValue)
+        this.#currentView = new MovieListWrapper(`"${inputValue}" 검색 결과`, VIEW_TYPE.SEARCH, inputValue);
         this.#currentView.create();
       }
     });
@@ -26,6 +26,6 @@ class AppController {
 
     this.#currentView.create();
   }
-};
+}
 
 export default AppController;

@@ -24,3 +24,7 @@ button {
 *:focus {
   outline: none;
 }
+
+.none {
+  display: none;
+}
