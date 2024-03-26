@@ -4,25 +4,41 @@ import FILLED_STAR from '../../assets/images/star_filled.png';
 import { Movie } from '../../types/movie';
 import { dom } from '../../utils/dom';
 import skeleton from '../common/Skeleton';
+import { getDetailMovie } from '../../apis/movie';
+import MovieDetailModal from '../movieDetailModal/movieDetailModal';
 
 class MovieItem {
   $target = document.createElement('li');
+  movieDetailModal: MovieDetailModal;
+  movieId: number = -1;
 
-  constructor() {
+  constructor(movieDetailModal: MovieDetailModal) {
     this.$target.appendChild(skeleton.create(1));
+    this.movieDetailModal = movieDetailModal;
   }
 
   paint(movie: Movie) {
-    const $title = dom.getElement<HTMLParagraphElement>(this.$target, '.item-title');
+    this.movieId = movie.id;
     this.#renderThumbnail(movie.imageSrc, movie.title);
     this.#renderCaption(movie.score);
+    const $title = dom.getElement<HTMLParagraphElement>(this.$target, '.item-title');
     $title.textContent = movie.title;
     $title.classList.remove('skeleton');
+
+    this.setEvent();
   }
 
   create(movie: Movie) {
     this.paint(movie);
     return this.$target;
+  }
+
+  setEvent() {
+    this.$target.addEventListener('click', () => {
+      getDetailMovie(this.movieId).then(res => {
+        this.movieDetailModal.open(res);
+      });
+    });
   }
 
   #renderThumbnail(imageSrc: string, title: string) {
