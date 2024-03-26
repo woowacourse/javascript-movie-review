@@ -50,6 +50,25 @@ class MovieClient {
 
     return response.json();
   }
+
+  public async getMovieDetail(movieId: number) {
+    // curl --request GET \
+    //  --url 'https://api.themoviedb.org/3/movie/1011985?language=ko-KR' \
+    //  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlOGJiZmJiMmJkM2RhYzVmNzUwMzM4ZWJkYzExMzk2OCIsInN1YiI6IjY1ZjgzNTc3ZTIxMDIzMDE3ZWVmZmUxNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.JXS5CUlLDrvIO0gE6ltYYHxKSVQs3A4_NgKCUzPQtu0' \
+    //  --header 'accept: application/json'
+    const params = new URLSearchParams({ language: "ko-KR" });
+    const url = `${BASE_URL}/movie/${movieId}?${params.toString()}`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+      },
+    });
+
+    this.handleResponseStatus(response.status);
+
+    return response.json();
+  }
 }
 
 export default new MovieClient();
