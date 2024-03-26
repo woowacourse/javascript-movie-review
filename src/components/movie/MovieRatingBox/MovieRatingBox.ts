@@ -7,6 +7,15 @@ interface MovieRatingBoxProps {
   key: number;
 }
 
+const RATING_TEXT: Record<number, string> = {
+  0: '점수가 없어요',
+  2: '최악이에요',
+  4: '별로예요',
+  6: '보통이에요',
+  8: '재미있어요',
+  10: '명작이에요',
+};
+
 class MovieRatingBox extends Component<MovieRatingBoxProps> {
   private score: number | undefined;
 
@@ -14,20 +23,21 @@ class MovieRatingBox extends Component<MovieRatingBoxProps> {
     this.$element.innerHTML = this.createComponent();
   }
 
-  protected initializeState(): void {
-    this.initializeRating();
-    this.reRender();
-  }
-
   private reRender() {
     this.$element.innerHTML = '';
     this.render();
   }
 
-  private initializeRating() {
+  protected initializeState(): void {
+    this.initializeRatingScore();
+  }
+
+  private initializeRatingScore() {
     if (this.props) {
       this.score = RatingStorage.getRatingScore(this.props.key);
     }
+
+    this.reRender();
   }
 
   protected createComponent(): string {
@@ -35,38 +45,24 @@ class MovieRatingBox extends Component<MovieRatingBoxProps> {
       <h3>내 별점</h3>
       <form id="movie-rating-form" class="flex items-center">
         ${Array.from({ length: 5 })
-          .map((_, index) => this.createEmptyStar(index + 1, this.score ?? 0))
+          .map((_, index) => this.createEmptyStar(index + 1, this.score))
           .join('')}
       </form>
-      <p id="movie-rating-score">${this.score}</p>
-      <p id="movie-rating-text">${this.createRatingText(this.score ?? 0)}</p>
+      <p id="movie-rating-text">${this.createRatingText(this.score)}</p>
     `;
   }
 
-  private createEmptyStar(key: number, score: number) {
+  private createEmptyStar(index: number, score: number = 0) {
     return `
-      <label for="star-${key}">
-        <input id="star-${key}" type="radio" value="${key * 2}" class="movie-rating-input">
-        <img src="${key * 2 <= score ? FilledStar : EmptyStar}" alt="별" class="movie-rating-image" />
+      <label for="star-${index}">
+        <input id="star-${index}" type="radio" value="${index * 2}" class="movie-rating-input">
+        <img src="${index * 2 <= score ? FilledStar : EmptyStar}" alt="별" class="movie-rating-image" />
       </label>
     `;
   }
 
-  private createRatingText(rating: number) {
-    switch (rating) {
-      case 2:
-        return '최악이에요';
-      case 4:
-        return '별로예요';
-      case 6:
-        return '보통이에요';
-      case 8:
-        return '재미있어요';
-      case 10:
-        return '명작이에요';
-      default:
-        return '점수가 없어요';
-    }
+  private createRatingText(score: number = 0) {
+    return `${score}점 ${RATING_TEXT[score]}`;
   }
 
   protected setEvent(): void {
@@ -83,10 +79,8 @@ class MovieRatingBox extends Component<MovieRatingBoxProps> {
   }
 
   private updateRatingText(score: number) {
-    const $movieRatingScore = querySelector<HTMLParagraphElement>('#movie-rating-score', this.$element);
     const $movieRatingText = querySelector<HTMLParagraphElement>('#movie-rating-text', this.$element);
 
-    $movieRatingScore.textContent = `${score}`;
     $movieRatingText.textContent = this.createRatingText(score);
   }
 
