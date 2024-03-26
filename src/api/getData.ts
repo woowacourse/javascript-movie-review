@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE } from "../constant/setting";
+import { ERROR_MESSAGE } from '../constant/setting';
 
 export const getData = async (url: string) => {
   const response = await fetch(url);

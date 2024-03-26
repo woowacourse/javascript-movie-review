@@ -1,8 +1,8 @@
-import { getData } from "./getData";
-import { ERROR_MESSAGE } from "../constant/setting";
+import { getData } from './getData';
+import { ERROR_MESSAGE } from '../constant/setting';
 
 const API_KEY = process.env.API_KEY as string;
-const BASE_URL = "https://api.themoviedb.org/3";
+const BASE_URL = 'https://api.themoviedb.org/3';
 const POPULAR_MOVIES_URL = `${BASE_URL}/movie/popular`;
 
 export const getPopularMoviesData = async (currentPage: string) => {
@@ -12,12 +12,12 @@ export const getPopularMoviesData = async (currentPage: string) => {
 
   const params = {
     api_key: API_KEY,
-    language: "ko-KR",
+    language: 'ko-KR',
     page: currentPage,
   };
 
   const popularMovieUrl = `${POPULAR_MOVIES_URL}?${new URLSearchParams(
-    params
+    params,
   ).toString()}`;
 
   const popularMovies = await getData(popularMovieUrl);
