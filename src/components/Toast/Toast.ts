@@ -12,11 +12,11 @@ class Toast {
     if (!appContainer) return;
     appContainer.append(this.toastMessage);
 
-    this.toastOn();
+    this.showToast();
     this.removeToast();
   }
 
-  toastOn() {
+  showToast() {
     this.toastMessage.classList.remove('hide-toast');
 
     setTimeout(() => {
