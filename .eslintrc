@@ -1,11 +1,29 @@
 {
-  "rules": {},
+  "rules": {
+    "max-depth": ["warn", 1],
+    "max-params": ["warn", 3],
+    "linebreak-style": "off",
+    "import/no-unresolved": "off",
+    "import/extensions": "off",
+    "cypress/no-assigning-return-values": "off",
+    "max-len": "off"
+  },
+  "overrides": [
+    {
+      "files": ["./src/**"],
+      "rules": { "max-lines-per-function": ["warn", { "max": 10 }] }
+    }
+  ],
   "env": {
     "es6": true,
-    "node": true
+    "node": true,
+    "browser": true,
+    "cypress/globals": true
   },
   "parserOptions": {
     "ecmaVersion": "latest"
   },
-  "extends": ["eslint:recommended", "plugin:prettier/recommended"]
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "import", "cypress"],
+  "extends": ["prettier", "airbnb-base", "plugin:cypress/recommended"]
 }
