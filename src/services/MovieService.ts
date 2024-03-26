@@ -31,8 +31,8 @@ class PopularMoviesService implements MovieService {
   }
 
   countItems() {
-    if (this.isLastPage) return this.totalItems % 20;
-    return 20;
+    if (this.isLastPage) return this.totalItems % SETTING.itemsOnPage;
+    return SETTING.itemsOnPage;
   }
 
   reset() {
@@ -63,8 +63,8 @@ class MatchedMoviesService implements MovieService {
   }
 
   countItems() {
-    if (this.isLastPage) return this.totalItems % 20;
-    return 20;
+    if (this.isLastPage) return this.totalItems % SETTING.itemsOnPage;
+    return SETTING.itemsOnPage;
   }
 
   reset() {
