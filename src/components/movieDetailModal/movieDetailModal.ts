@@ -79,6 +79,7 @@ class MovieDetailModal {
   close() {
     this.$target.classList.remove('open');
     document.body.style.overflow = 'unset';
+    window.removeEventListener('keydown', this.handleModalCloseKey.bind(this));
   }
 
   setEvent() {
@@ -103,6 +104,8 @@ class MovieDetailModal {
       this.initStarRate(id);
       this.fillRate(Number(target.dataset.id));
     });
+
+    window.addEventListener('keydown', this.handleModalCloseKey.bind(this));
   }
 
   fillRate(count: number) {
@@ -127,6 +130,12 @@ class MovieDetailModal {
     const score = (id * 2) as StarScore;
     $scoreNumber.textContent = score.toString();
     $scoreText.textContent = SCORE_TEXT[score];
+  }
+
+  handleModalCloseKey(e: KeyboardEvent) {
+    if (e.key === 'Escape') {
+      this.close();
+    }
   }
 }
 
