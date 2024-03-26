@@ -1,37 +1,41 @@
 import './style.css';
+import DOM from '../utils/DOM';
+
+const { $ } = DOM;
 
 const errorMessage = {
   apiError(statusCode: number, message?: string) {
-    const movieItems = document.querySelector('.item-view') as HTMLElement;
+    const movieItems = document.querySelector('main') as HTMLElement;
     if (statusCode >= 500) {
-      this.renderTemplates(movieItems, this.serverError());
+      this.renderTemplates(movieItems, this.serverError(statusCode));
     } else if (statusCode >= 400) {
-      this.renderTemplates(movieItems, this.clientError());
+      this.renderTemplates(movieItems, this.clientError(statusCode));
     } else {
       this.renderTemplates(movieItems, this.noSearchedMovieError(message));
     }
   },
 
-  serverError() {
+  serverError(statusCode: number) {
     const templates = /* html */ `
-      <h2 class="error-msg">서버 에러가 발생했습니다.</h2>
-      <h2 class="error-msg">잠시 후 다시 이용해주세요.</h2>
+    <h1 class="error-msg">${statusCode}</h1>
+    <h2 class="error-description">서버 에러입니다ㅠ <span onClick="window.location.reload()">새로고침</span> 해보고 안되면 알아서 처리하세요~</h2>
     `;
     return templates;
   },
 
-  clientError() {
+  clientError(statusCode: number) {
     const templates = /* html */ `
-      <h2 class="error-msg">에러가 발생했습니다.</h2>
-      <h2 class="error-msg">잠시 후 다시 이용해주세요.</h2>
+      <h1 class="error-msg">${statusCode}</h1>
+      <h2 class="error-description">클라이언트 에러입니다ㅠ <span onClick="window.location.reload()">새로고침</span> 해보고 안되면 알아서 처리하세요~</h2>
       `;
     return templates;
   },
 
   noSearchedMovieError(message?: string) {
     const templates = /* html */ `
-      <h2 class="error-msg">${message}</h2>
+      <h1 class="search-error-msg">${message}</h1>
       `;
+
     return templates;
   },
 

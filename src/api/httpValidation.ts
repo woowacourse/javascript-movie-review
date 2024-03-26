@@ -6,7 +6,7 @@ const httpValidation = (statusCode: number, movieList: MovieListType) => {
     throw new HTTPError(statusCode);
   }
   if (movieList.length === 0) {
-    throw new HTTPError(100, '검색된 영화가 없습니다.');
+    throw new HTTPError(200, '검색된 영화가 없습니다 💢');
   }
 };
 

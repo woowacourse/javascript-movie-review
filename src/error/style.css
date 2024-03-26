@@ -1,4 +1,26 @@
 .error-msg {
   text-align: center;
-  margin: 1rem 0;
+  font-size: 40rem;
+  color: red;
+}
+
+.error-description {
+  text-align: center;
+  font-size: 3rem;
+  color: red;
+}
+
+.error-description > span {
+  color: white;
+}
+
+.search-error-msg {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 10rem;
+  color: red;
 }
