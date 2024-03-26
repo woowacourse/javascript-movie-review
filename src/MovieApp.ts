@@ -15,6 +15,7 @@ import {
   MOVIE_ITEM_TEMPLATE,
   SKELETON_ITEM_TEMPLATE,
 } from './constants/templates';
+import filterMovieList from './domain/filterMovieList';
 
 interface MovieDataType {
   movieList: MovieListType;
@@ -39,7 +40,6 @@ class MovieApp {
   #popularPage: number = 1;
 
   #searchPage: number = 1;
-
 
   constructor() {
     this.init();
@@ -126,12 +126,7 @@ class MovieApp {
   ): Promise<MovieDataType> {
     try {
       const { movieList, isLastPage } = await requestFunction(page, input);
-      const filteredMovieList = movieList.map((movie) => ({
-        id: movie.id,
-        poster_path: movie.poster_path,
-        title: movie.title,
-        vote_average: movie.vote_average,
-      }));
+      const filteredMovieList = filterMovieList(movieList);
       return { movieList: filteredMovieList, isLastPage };
     } catch (error) {
       const customError = error as HTTPError;
@@ -197,9 +192,12 @@ class MovieApp {
   ) {
     const movieData = this.showMovieData(movieList);
     const itemView = document.querySelector('#section--item-view');
-    if (itemView && !isLastPage) {
+    if (!itemView) return;
+
+    itemView.appendChild(movieData);
+
+    if (!isLastPage) {
       const showMoreButton = this.createShowMoreButton(renderType, input);
-      itemView.appendChild(movieData);
       itemView.appendChild(showMoreButton);
     }
   }
@@ -207,7 +205,6 @@ class MovieApp {
   async renderMainContents(renderType: RenderType, input?: string) {
     this.deleteShowMoreButton();
     this.createMainSkeleton();
-
     const { movieList, isLastPage } = await this.handleMovieData(renderType, input);
     this.createMainContents({ movieList, isLastPage }, { renderType, input });
   }
