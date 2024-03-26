@@ -6,7 +6,7 @@ import MoreButton from '../MoreButton';
 import MovieList from './MovieList';
 import MovieListTitle from './MovieListTitle';
 
-interface MovieListContainerProps {
+export interface MovieListContainerProps {
   titleText: string;
   movieData: PartialMovieDataForItemView;
   listType: ListType;

@@ -1,6 +1,14 @@
-import { ENTER_KEYCODE, UNDEFINED_INPUT_VALUE } from '../constants';
+import {
+  ENTER_KEYCODE,
+  MOBILE_WIDTH,
+  UNDEFINED_INPUT_VALUE,
+} from '../constants';
 import { dataStateStore } from '../model';
-import { DataFetcher, SkeletonController } from '../service';
+import {
+  DataFetcher,
+  SearchBoxResponsiveHandler,
+  SkeletonController,
+} from '../service';
 import { createElementWithAttribute, debouceFunc } from '../utils';
 
 import Label from './Label';
@@ -25,20 +33,17 @@ const makeSearchBoxToastModal = () => {
 const toastModal = makeSearchBoxToastModal();
 
 const SearchBoxHandler = {
-  async searchMovie() {
-    const title = this.private_getSearchInputValue();
-    if (!title || !title.trim()) {
-      this.private_renderToastModal();
+  handleClickSearchButton(event: Event) {
+    event.stopPropagation();
+    const isMobile = window.innerWidth <= MOBILE_WIDTH;
+    const title = this.private_getInputValue();
+
+    if (!isMobile || title) {
+      this.searchMovie();
       return;
     }
-    toastModal.removeToastModal(true);
-    await dataFetcher.handleGetSearchMovieData(title.trim(), true);
-    document.querySelector('.movie-list-container')?.remove();
-    new MovieListContainer({
-      titleText: `"${title}" 검색 결과`,
-      movieData: dataStateStore.movieData,
-      listType: 'search',
-    });
+
+    SearchBoxResponsiveHandler.handleSizeBySearchButton();
   },
 
   handleInputKeydown(event: KeyboardEvent) {
@@ -52,6 +57,25 @@ const SearchBoxHandler = {
     }
   },
 
+  async searchMovie() {
+    const title = this.private_getInputValue();
+    this.private_renderToastModal(title);
+    if (!title) return;
+    toastModal.removeToastModal(true);
+    await dataFetcher.handleGetSearchMovieData(title.trim(), true);
+    document.querySelector('.movie-list-container')?.remove();
+    new MovieListContainer({
+      titleText: `"${title}" 검색 결과`,
+      movieData: dataStateStore.movieData,
+      listType: 'search',
+    });
+  },
+
+  private_getInputValue() {
+    const title = this.private_getSearchInputValue();
+    return title;
+  },
+
   private_getSearchInputValue() {
     const $searchInput = document.querySelector('#search-input');
     if (!($searchInput instanceof HTMLInputElement)) return;
@@ -60,9 +84,12 @@ const SearchBoxHandler = {
     return title;
   },
 
-  private_renderToastModal() {
-    const $header = document.querySelector('header');
-    toastModal.handleRenderingToastModal($header);
+  private_renderToastModal(title: string | undefined) {
+    const renderingCondition = !title || !title.trim();
+    if (renderingCondition) {
+      const $header = document.querySelector('header');
+      toastModal.handleRenderingToastModal($header);
+    }
   },
 };
 
@@ -80,6 +107,7 @@ class SearchBox {
   #makeSearchInput = () => {
     const $input = createElementWithAttribute('input', {
       id: 'search-input',
+      class: 'search-input',
       type: 'text',
       placeholder: '검색',
     });
@@ -112,8 +140,7 @@ class SearchBox {
     $button.textContent = '검색';
 
     $button.addEventListener('click', (event) => {
-      event.stopPropagation();
-      debouceFunc(() => SearchBoxHandler.searchMovie());
+      debouceFunc(() => SearchBoxHandler.handleClickSearchButton(event));
     });
 
     return $button;

@@ -1,8 +1,8 @@
-import LogoImg from '../images/logo.png';
 import { dataStateStore } from '../model';
 import {
   DataFetcher,
   renderAlertModalForNullEl,
+  SearchBoxResponsiveHandler,
   SkeletonController,
 } from '../service';
 import { createElementWithAttribute } from '../utils';
@@ -25,12 +25,13 @@ const HeaderClickHandler = {
     this.private_resetSearchInputValue();
 
     await this.handleDataFetcher();
-
     new MovieListContainer({
       titleText: '지금 인기 있는 영화',
       movieData: dataStateStore.movieData,
       listType: 'popular',
     });
+
+    SearchBoxResponsiveHandler.handleSizeByLogoButton();
   },
 
   private_removeMovieListContainer() {
@@ -64,12 +65,10 @@ class Header {
   }
 
   #makeLogo() {
-    const logoImgAttribute = {
-      src: LogoImg,
-      alt: 'MovieList 로고',
-    };
-
-    const $logo = createElementWithAttribute('img', logoImgAttribute);
+    const $logo = createElementWithAttribute('button', {
+      class: 'logo',
+      title: 'MovieList 로고',
+    });
 
     $logo.addEventListener('click', () =>
       HeaderClickHandler.handleClickToRefresh(),

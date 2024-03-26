@@ -3,22 +3,37 @@ import {
   MovieListContainer,
   SkeletonListContainer,
 } from './components';
+import { MovieListContainerProps } from './components/movie/MovieListContainer';
 import dataStateStore from './model/DataStateStore';
-import { DataFetcher, SkeletonController } from './service';
+import {
+  DataFetcher,
+  SkeletonController,
+  WindowResponsiveHandler,
+} from './service';
+
+const dataFetcher = new DataFetcher({
+  show: SkeletonController.showSkeleton,
+  hide: SkeletonController.hideSkeleton,
+});
+
+const popularMovieListContainerProps: Omit<
+  MovieListContainerProps,
+  'movieData'
+> = {
+  titleText: '지금 인기 있는 영화',
+  listType: 'popular',
+};
 
 async function App() {
   const $app = document.querySelector('#app');
   $app?.prepend(new Header().element);
+  WindowResponsiveHandler.handleWindowResize();
   new SkeletonListContainer();
-  const dataFetcher = new DataFetcher({
-    show: SkeletonController.showSkeleton,
-    hide: SkeletonController.hideSkeleton,
-  });
+
   await dataFetcher.handleGetPopularMovieData();
   new MovieListContainer({
-    titleText: '지금 인기 있는 영화',
+    ...popularMovieListContainerProps,
     movieData: dataStateStore.movieData,
-    listType: 'popular',
   });
 }
 

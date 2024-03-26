@@ -1,19 +1,44 @@
 header > .search-box {
   display: flex;
+  position: absolute;
+  top: calc((100% - 32px) / 2);
+  right: 40px;
   border-radius: 4px;
   background: var(--white-color);
   padding: 8px;
   width: fit-content;
 }
 
-header .search-box input {
+.search-input {
+  transition: width 1s ease-out;
+  box-sizing: border-box;
   border: 0;
+  width: 260px;
 }
 
-header .search-box > .search-button {
+header .search-button {
   border: 0;
   background: url('../images/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
   width: 14px;
   text-indent: -1000rem;
+}
+@media screen and (max-width: 780px) {
+  header > .search-box {
+    right: 20px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .search-input.off {
+    padding: 0;
+    width: 0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .search-input {
+    display: block;
+    /* window.innerWidth - header padding - logo width = input padding -gam */
+    width: calc(100vw - 20px * 2 - 26px - 14px - 8px * 2 - 10px);
+  }
 }

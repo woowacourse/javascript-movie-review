@@ -29,10 +29,6 @@ button {
   top: -999px;
   left: -999px;
 }
-.movie-list-container,
-.skeleton-list-container {
-  width: 100%;
-}
 
 .movie-list-container,
 .skeleton-list-container {
@@ -69,4 +65,15 @@ button.btn {
 
 button.primary {
   background: var(--primary-red-color);
+}
+
+@media screen and (max-width: 1023px) {
+  main {
+    width: 100%;
+  }
+
+  .movie-list-container,
+  .skeleton-list-container {
+    width: max-content;
+  }
 }
