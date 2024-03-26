@@ -13,6 +13,12 @@ export const generateMovieApiUrl = (url: string, params: UrlParamsType) => {
   return `${url}?${queryParams.toString()}`;
 };
 
+export const setDefaultPageUrl = () => {
+  setUrlParams(URL.MODE, 'popular');
+  setUrlParams(URL.QUERY, '');
+  setUrlParams(URL.PAGES, '1');
+};
+
 export const increaseUrlPage = () => {
   const currentPage = Number(getUrlParams(URL.PAGES) ?? '1');
   setUrlParams(URL.PAGES, String(currentPage + 1));
