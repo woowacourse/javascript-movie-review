@@ -61,13 +61,16 @@ export default class MovieList {
 
   #generateSkeletonUI() {
     this.#removeMoreButton();
+    const fragment = new DocumentFragment();
+
     for (let i = 0; i < SKELETON_UI_FIXED; i++) {
       const card = new MovieCard({
         classes: ['skeleton-container'],
       });
 
-      this.#ulElement.appendChild(card.element);
+      fragment.append(card.element);
     }
+    this.#ulElement.append(fragment);
   }
 
   #removeSkeletonUI() {

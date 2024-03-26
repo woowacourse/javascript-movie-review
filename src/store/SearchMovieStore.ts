@@ -4,13 +4,12 @@ import { Movie } from '../index.d';
 class SearchMovieStore {
   #searchMoviesData: any[] = [];
 
-  #totalPages: number = 0;
-
   #query: string = '';
+
+  #totalPages: number = 0;
 
   #presentPage: number = 1;
 
-  /* eslint-disable max-lines-per-function */
   async searchMovies() {
     const responseData = await MovieApi.getSearchData(this.#query, this.#presentPage);
     const moviesData = responseData.results;
