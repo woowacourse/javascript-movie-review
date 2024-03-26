@@ -68,3 +68,5 @@ export interface Movie {
 export interface MovieDetail extends Movie {
   genres: string[];
 }
+
+export type StarScore = 0 | 2 | 4 | 6 | 8 | 10;
