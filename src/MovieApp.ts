@@ -37,7 +37,7 @@ class MovieApp {
     const header = this.createHeader();
     container?.prepend(header);
     this.createMain(POPULAR_MOVIE_TITLE);
-    document.querySelector('#search')?.addEventListener('submit', (event: Event) => {
+    document.querySelector('#search-form')?.addEventListener('submit', (event: Event) => {
       event.preventDefault();
       this.handleSearchFormSubmit();
     });
@@ -45,10 +45,10 @@ class MovieApp {
   }
 
   handleSearchFormSubmit() {
-    const searchForm = document.querySelector('#search');
-    if (searchForm instanceof HTMLElement) {
-      const formData = new FormData(searchForm as HTMLFormElement);
-      const inputValue = formData.get('search') as string;
+    const searchForm = document.querySelector('#search') as HTMLInputElement;
+
+    if (searchForm instanceof HTMLInputElement) {
+      const inputValue = searchForm.value;
       this.resetPage();
       this.updateMainHtml(SEARCH_MOVIE_TITLE);
       this.renderMainContents(RENDER_TYPE.SEARCH, inputValue);
@@ -64,8 +64,8 @@ class MovieApp {
     const header = document.createElement('header');
     const templates = /* html */ `
       <h1><img src=${LOGO} alt="MovieList 로고" /></h1>
-      <form class="search-box" id="search">
-        <input type="text" name="search" id="search" placeholder="검색" />
+      <form class="search-box" id="search-form">
+        <input type="search" name="search" id="search" placeholder="검색" />
         <button type="submit" class="search-button">검색</button>
       </form>
     `;
@@ -90,7 +90,7 @@ class MovieApp {
   createSection(titleMessage: string) {
     const section = document.createElement('section');
     section.classList.add('item-view');
-    section.id = 'section--item-view'
+    section.id = 'section--item-view';
     section.innerHTML = /* html */ `<h2>${titleMessage}</h2>`;
     return section;
   }
