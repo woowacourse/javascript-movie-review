@@ -31,7 +31,7 @@ class Modal {
   private createModalBackdrop() {
     const backdrop = document.createElement('div');
     backdrop.className = 'modal-backdrop';
-    backdrop.addEventListener('click', this.toggleModal.bind(this));
+    backdrop.addEventListener('click', this.closeModal.bind(this));
     return backdrop;
   }
 
@@ -49,19 +49,27 @@ class Modal {
       src: close,
       classname: ['modal-close-button'],
       alt: 'close-icon',
-      onImageClick: this.toggleModal.bind(this),
+      onImageClick: this.closeModal.bind(this),
     });
     return closeIcon.element;
   }
 
-  toggleModal() {
-    this.template.classList.toggle('modal--open');
+  openModal() {
+    this.template.classList.add('modal--open');
+    const body = document.querySelector('body') as HTMLBodyElement;
+    body.style.overflowY = 'hidden';
+  }
+
+  closeModal() {
+    this.template.classList.remove('modal--open');
+    const body = document.querySelector('body') as HTMLBodyElement;
+    body.style.overflowY = 'auto';
   }
 
   onEscapeKeydown() {
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') {
-        this.template.classList.remove('modal--open');
+        this.closeModal();
       }
     });
   }

@@ -40,11 +40,11 @@ movieItems.element?.addEventListener('click', (event) => {
   const movieId = target.closest('.item-card')?.id;
   if (movieId === undefined) return;
 
-  movieDetail.requestMovieDetail(Number(movieId)).then(setMovieDetailAndToggleModal);
+  movieDetail.requestMovieDetail(Number(movieId)).then(setMovieDetailAndOpenModal);
 });
 
-function setMovieDetailAndToggleModal(detail: IMovieDetail) {
+function setMovieDetailAndOpenModal(detail: IMovieDetail) {
   movieDetail.setMovieDetail(detail);
   movieDetail.setStarRating(VoteMovies.get(detail.id)?.rate);
-  modal.toggleModal();
+  modal.openModal();
 }
