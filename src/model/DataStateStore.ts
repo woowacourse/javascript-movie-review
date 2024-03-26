@@ -5,10 +5,10 @@ class DataStateStore {
   #isShowMorButton = true;
 
   getTotalMovieData(
-    { movieList, isShowMoreButton }: MovieData,
+    { movieList, isMoreData }: MovieData,
     resetMovieList: boolean,
   ) {
-    this.#isShowMorButton = isShowMoreButton;
+    this.#isShowMorButton = isMoreData;
 
     if (!this.#movieList || resetMovieList) {
       this.#movieList = movieList;
@@ -21,7 +21,7 @@ class DataStateStore {
   get movieData() {
     return {
       movieList: JSON.parse(JSON.stringify(this.#movieList)) as Movie[],
-      isShowMoreButton: this.#isShowMorButton,
+      isMoreData: this.#isShowMorButton,
     };
   }
 }

@@ -17,11 +17,11 @@ export interface Movie {
 
 export interface MovieData {
   movieList: Movie[];
-  isShowMoreButton: boolean;
+  isMoreData: boolean;
 }
 
 export interface PartialMovieDataForItemView extends Partial<MovieData> {
-  isShowMoreButton: boolean;
+  isMoreData: boolean;
 }
 
 export type ListType = 'popular' | 'search';

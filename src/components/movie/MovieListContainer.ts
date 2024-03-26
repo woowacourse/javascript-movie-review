@@ -1,14 +1,19 @@
 import { renderAlertModalForNullEl } from '../../service';
-import { ListType, Movie, PartialMovieDataForItemView } from '../../type/movie';
+import { ListType, Movie, MovieData } from '../../type/movie';
 import { createElementWithAttribute } from '../../utils';
-import MoreButton from '../MoreButton';
 
 import MovieList from './MovieList';
 import MovieListTitle from './MovieListTitle';
 
 export interface MovieListContainerProps {
   titleText: string;
-  movieData: PartialMovieDataForItemView;
+  movieData: MovieData;
+  listType: ListType;
+}
+
+interface SectionProps {
+  titleText: string;
+  movieList: Movie[] | undefined;
   listType: ListType;
 }
 class MovieListContainer {
@@ -16,9 +21,11 @@ class MovieListContainer {
     this.#renderMovieListContainer(props);
   }
 
-  #makeSection = (titleText: string, movieList: Movie[] | undefined) => {
+  #makeSection = (props: SectionProps) => {
+    const { titleText, movieList, listType } = props;
     const $section = createElementWithAttribute('section', {
       class: 'movie-list-container',
+      name: listType,
     });
     $section.appendChild(new MovieListTitle(titleText).element);
     $section.appendChild(new MovieList(movieList).element);
@@ -27,17 +34,16 @@ class MovieListContainer {
   };
 
   #renderMovieListContainer = (props: MovieListContainerProps) => {
-    const { titleText, movieData, listType } = props;
     const $main = document.querySelector('main');
-    const $section = this.#makeSection(titleText, movieData.movieList);
-
+    const $section = this.#makeSection({
+      ...props,
+      movieList: props.movieData.movieList,
+    });
     if (!$main) {
       renderAlertModalForNullEl('main');
       return;
     }
-
     $main.appendChild($section);
-    new MoreButton({ listType, isShowMoreButton: movieData.isShowMoreButton });
   };
 }
 

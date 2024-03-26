@@ -3,7 +3,6 @@ import './styles/common.css';
 import './styles/error.css';
 import './styles/header.css';
 import './styles/modal.css';
-import './styles/more-button.css';
 import './styles/movie-list.css';
 import './styles/refresh-button.css';
 import './styles/search-box.css';

@@ -16,7 +16,7 @@ class APIClient {
     dataStateStore.getTotalMovieData(
       {
         movieList: data.results,
-        isShowMoreButton: this.#isShowMoreButton(data.page, data.total_pages),
+        isMoreData: this.#isMoreData(data.page, data.total_pages),
       },
       isResetCurrentPage,
     );
@@ -31,13 +31,13 @@ class APIClient {
     dataStateStore.getTotalMovieData(
       {
         movieList: data.results,
-        isShowMoreButton: this.#isShowMoreButton(data.page, data.total_pages),
+        isMoreData: this.#isMoreData(data.page, data.total_pages),
       },
       isResetCurrentPage,
     );
   }
 
-  #isShowMoreButton = (page: number, totalPage: number) =>
+  #isMoreData = (page: number, totalPage: number) =>
     page < totalPage && page <= MAX_PAGE;
 
   #updateCurrentPage = (isResetCurrentPage: boolean) => {

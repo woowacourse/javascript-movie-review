@@ -6,6 +6,7 @@ import MovieListContainer from './MovieListContainer';
 import MovieListTitle from './MovieListTitle';
 import MovieScore from './MovieScore';
 import MovieTitle from './MovieTitle';
+import NoMoreMovieDataItem from './NoMoreMovieDataItem';
 import NoneMovieItem from './NoneMovieItem';
 
 export {
@@ -17,5 +18,6 @@ export {
   MovieListTitle,
   MovieScore,
   MovieTitle,
+  NoMoreMovieDataItem,
   NoneMovieItem,
 };
