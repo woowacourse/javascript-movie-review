@@ -2,23 +2,15 @@ import { getDataWithAuth } from '.';
 import { showAlert } from '../components/Alert';
 
 export const catchError = async (url: string) => {
-  return await getDataWithAuth(url)
-    .then(async (response) => {
-      const data = await response.json();
-      if (!response.ok) {
-        console.error(data.status_message);
-        handleErrorResponse(response.status);
-      }
+  return await getDataWithAuth(url).then(async (response) => {
+    const data = await response.json();
+    if (!response.ok) {
+      console.error(data.status_message);
+      handleErrorResponse(response.status);
+    }
 
-      return data.results;
-    })
-    .catch((error) => {
-      if (error === 'Failed to fetch') {
-        showAlert('네트워크 연결을 확인해주세요 🐣', 3000);
-      }
-
-      throw error;
-    });
+    return data.results;
+  });
 };
 
 const handleErrorResponse = (status: number) => {

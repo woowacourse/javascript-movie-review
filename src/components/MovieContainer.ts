@@ -109,7 +109,14 @@ class MovieContainer {
     } catch (error) {
       if (error instanceof Error) {
         this.#removeSkeleton();
+
         const [status, message] = error.message.split('-');
+
+        if (status === 'Failed to fetch') {
+          showAlert('네트워크 연결을 확인해주세요 🐣', 3000);
+          throw new Error();
+        }
+
         const ul = document.querySelector('ul.item-list');
         if (!(ul instanceof HTMLElement)) return;
 

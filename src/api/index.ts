@@ -9,7 +9,7 @@ export const getDataWithAuth = async (url: string) => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+      Authorization: `Bearer ${process.env.MOVIE_ACCESS_TOKEN}`,
     },
   });
 };

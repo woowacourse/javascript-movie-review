@@ -17,7 +17,7 @@ const MovieItem = ({ movieTitle, posterPath, voteAverage }: MovieDataType) => {
   movieTitleTag.classList.add('item-title');
   itemScore.classList.add('item-score');
 
-  posterPath ? (thumbnail.src = `${POSTER_BASE_URL}${posterPath}`) : (thumbnail.src = NO_IMAGE);
+  thumbnail.src = posterPath ? `${POSTER_BASE_URL}${posterPath}` : NO_IMAGE;
 
   thumbnail.setAttribute('loading', 'lazy');
   thumbnail.setAttribute('alt', movieTitle);
