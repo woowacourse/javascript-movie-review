@@ -1,4 +1,4 @@
-import { OPTION } from '../constants/InfiniteScrollOption';
+import OPTIONS from '../constants/OPTIONS';
 
 async function setupInfiniteScroll(
   listEnd: HTMLElement,
@@ -13,7 +13,7 @@ async function setupInfiniteScroll(
     });
   };
 
-  const observer = new IntersectionObserver(onIntersect, OPTION);
+  const observer = new IntersectionObserver(onIntersect, OPTIONS.infiniteScroll);
   observer.observe(listEnd);
 }
 
