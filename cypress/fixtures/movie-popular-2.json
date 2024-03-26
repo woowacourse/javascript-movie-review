@@ -1,0 +1,405 @@
+{
+  "page": 2,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/td2NcEUn7MPWzpFFjvHLsVQ2pkZ.jpg",
+      "genre_ids": [
+        28,
+        53
+      ],
+      "id": 984249,
+      "original_language": "en",
+      "original_title": "Ruthless",
+      "overview": "",
+      "popularity": 449.29,
+      "poster_path": "/3hVt5fEuUxNZ5h6ynczcUbq6lpJ.jpg",
+      "release_date": "2023-12-14",
+      "title": "Ruthless",
+      "video": false,
+      "vote_average": 6.581,
+      "vote_count": 31
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/G56AzECyTDp63sE7CbJ6AEBKhF.jpg",
+      "genre_ids": [
+        37,
+        28
+      ],
+      "id": 851925,
+      "original_language": "en",
+      "original_title": "Death Alley",
+      "overview": "",
+      "popularity": 428.408,
+      "poster_path": "/iIKYK9mdapWlJ21YNRGB57WKErK.jpg",
+      "release_date": "2021-03-11",
+      "title": "Death Alley",
+      "video": false,
+      "vote_average": 5.655,
+      "vote_count": 29
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/sR0SpCrXamlIkYMdfz83sFn5JS6.jpg",
+      "genre_ids": [
+        28,
+        878,
+        12
+      ],
+      "id": 823464,
+      "original_language": "en",
+      "original_title": "Godzilla x Kong: The New Empire",
+      "overview": "고질라 X 콩, 이번에는 한 팀이다! ‘고질라’ VS ‘콩’, 두 타이탄의 전설적인 대결 이후 할로우 어스에 남은 ‘콩’은 드디어 애타게 찾던 동족을 발견하지만 그 뒤에 도사리고 있는 예상치 못한 위협에 맞닥뜨린다. 한편, 깊은 동면에 빠진 ‘고질라’는 알 수 없는 신호로 인해 깨어나고 푸른 눈의 폭군 ‘스카 킹’의 지배 아래 위기에 처한 할로우 어스를 마주하게 된다. 할로우 어스는 물론, 지구상에도 출몰해 전세계를 초토화시키는 타이탄들의 도발 속에서 ‘고질라’와 ‘콩’은 사상 처음으로 한 팀을 이뤄 반격에 나서기로 하는데…",
+      "popularity": 560.127,
+      "poster_path": "/4z1VMmlxHrziG45901esjB4dpIa.jpg",
+      "release_date": "2024-03-27",
+      "title": "고질라 X 콩: 뉴 엠파이어",
+      "video": false,
+      "vote_average": 0,
+      "vote_count": 0
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/wqmemsQb8xcLVQkwt8WTYnMIYms.jpg",
+      "genre_ids": [
+        28,
+        35
+      ],
+      "id": 1217409,
+      "original_language": "es",
+      "original_title": "Jaque Mate",
+      "overview": "",
+      "popularity": 427.008,
+      "poster_path": "/umRkEsTwKU5nVbLVNw22cYB2fjm.jpg",
+      "release_date": "2024-01-25",
+      "title": "Jaque Mate",
+      "video": false,
+      "vote_average": 4.375,
+      "vote_count": 8
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/xi2pblvQtCnh26SeOYzx1YX3DLT.jpg",
+      "genre_ids": [
+        80,
+        28,
+        53
+      ],
+      "id": 1227816,
+      "original_language": "en",
+      "original_title": "Red Right Hand",
+      "overview": "",
+      "popularity": 365.147,
+      "poster_path": "/vfEG79SQIg3p6B8rBLVeIo2BBhb.jpg",
+      "release_date": "2024-02-22",
+      "title": "Red Right Hand",
+      "video": false,
+      "vote_average": 7.246,
+      "vote_count": 59
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/s9YTxwaByYeoSqugYjJJtZjMRAG.jpg",
+      "genre_ids": [
+        28,
+        27,
+        35,
+        53
+      ],
+      "id": 1211483,
+      "original_language": "en",
+      "original_title": "Skal - Fight for Survival",
+      "overview": "",
+      "popularity": 378.9,
+      "poster_path": "/1On8iF3AsFIbpyfZg1xiGWMAFBn.jpg",
+      "release_date": "2023-11-24",
+      "title": "Skal - Fight for Survival",
+      "video": false,
+      "vote_average": 5.425,
+      "vote_count": 53
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/6SLyu9ygASsrOqkCpjAwtyG9PWW.jpg",
+      "genre_ids": [
+        10751,
+        878,
+        28,
+        35
+      ],
+      "id": 1094556,
+      "original_language": "en",
+      "original_title": "The Thundermans Return",
+      "overview": "",
+      "popularity": 340.29,
+      "poster_path": "/eUdkKkRcyRV9TLs26vfimPFFmS3.jpg",
+      "release_date": "2024-03-07",
+      "title": "The Thundermans Return",
+      "video": false,
+      "vote_average": 7.929,
+      "vote_count": 56
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/feSiISwgEpVzR1v3zv2n2AU4ANJ.jpg",
+      "genre_ids": [
+        878,
+        12,
+        28
+      ],
+      "id": 609681,
+      "original_language": "en",
+      "original_title": "The Marvels",
+      "overview": "강력한 힘으로 은하계를 수호하는 최강 히어로 캡틴 마블 캐럴 댄버스. 캡틴 마블의 오랜 친구의 딸이자, 빛의 파장을 조작하는 히어로 모니카 램보. 최애 히어로 캡틴 마블의 열렬한 팬인 미즈 마블 카말라 칸. 캡틴 마블에 대한 복수를 꿈꾸는 냉혹한 크리족 리더 다르-벤의 영향으로 세 명의 히어로는 능력을 사용할 때마다 서로의 위치가 뒤바뀌게 된다. 뜻하지 않게 우주와 지구를 넘나들게 되는 예측 불가하고 통제 불가한 상황 속, 다르-벤은 지구를 포함해 캡틴 마블이 고향이라고 부르는 수많은 행성을 모두 파멸시키려 하고, 이를 저지하기 위해 모인 팀 마블스는 하나로 힘을 모으는데…",
+      "popularity": 360.844,
+      "poster_path": "/qApkjVJzZ2nkFUcFhcYkTBaRnNj.jpg",
+      "release_date": "2023-11-08",
+      "title": "더 마블스",
+      "video": false,
+      "vote_average": 6.2,
+      "vote_count": 2055
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/elH2ZWRHOKpjUNHROvpTCZIvuO7.jpg",
+      "genre_ids": [
+        27,
+        53
+      ],
+      "id": 983526,
+      "original_language": "no",
+      "original_title": "Leave",
+      "overview": "",
+      "popularity": 423.564,
+      "poster_path": "/908fS4q4oxEot5SgDDcwFnKMNxk.jpg",
+      "release_date": "2022-10-28",
+      "title": "Leave",
+      "video": false,
+      "vote_average": 5.788,
+      "vote_count": 40
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/bckxSN9ueOgm0gJpVJmPQrecWul.jpg",
+      "genre_ids": [
+        28,
+        12,
+        14
+      ],
+      "id": 572802,
+      "original_language": "en",
+      "original_title": "Aquaman and the Lost Kingdom",
+      "overview": "아틀란티스 왕국을 이끌 왕의 자리에 오른 아쿠아맨. 그 앞에 블랙 만타가 세상을 뒤흔들 강력한 지배 아이템 블랙 트라이던트를 손에 넣게 된다. 그동안 겪지 못 했던 최악의 위협 속 아쿠아맨은 블랙 만타와 손을 잡았던 이복 동생 옴 없이는 절대적 힘이 부족한 상황. 바다를 지배할 슈퍼 히어로가 세상의 판도를 바꾼다!",
+      "popularity": 378.25,
+      "poster_path": "/eDps1ZhI8IOlbEC7nFg6eTk4jnb.jpg",
+      "release_date": "2023-12-20",
+      "title": "아쿠아맨과 로스트 킹덤",
+      "video": false,
+      "vote_average": 6.814,
+      "vote_count": 2077
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/u0P5drNyTrZoGyJONPcZGbv1mNP.jpg",
+      "genre_ids": [
+        28,
+        53
+      ],
+      "id": 1124127,
+      "original_language": "en",
+      "original_title": "Air Force One Down",
+      "overview": "에어포스 원에 탑승한 첫 임무에서 신참 비밀경호국 요원은 테러리스트들이 중요한 에너지 거래를 무산시키려는 의도로 비행기를 납치하면서 궁극적인 시험에 직면하게 됩니다. 대통령의 목숨이 위태로워지고 세계적 위기가 위태로워진 가운데, 역사의 흐름을 바꿀 수 있는 끊임없는 전투에서 그녀의 용기와 기술이 한계에 부딪힙니다.",
+      "popularity": 518.37,
+      "poster_path": "/nKPoSD4pZ3s3CJ9g3cqWRcQ41TC.jpg",
+      "release_date": "2024-02-09",
+      "title": "에어 포스 원 다운",
+      "video": false,
+      "vote_average": 6.076,
+      "vote_count": 33
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/ruKNVJFViAyR4jguVboFXTskMOe.jpg",
+      "genre_ids": [
+        53,
+        28,
+        27
+      ],
+      "id": 1028703,
+      "original_language": "en",
+      "original_title": "The OctoGames",
+      "overview": "",
+      "popularity": 298.247,
+      "poster_path": "/qGz5rffXhegQH5PGUDiObqoOt06.jpg",
+      "release_date": "2022-10-07",
+      "title": "The OctoGames",
+      "video": false,
+      "vote_average": 5.637,
+      "vote_count": 95
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/sKdDC38FHuPvEsRgIzMEQE6ydol.jpg",
+      "genre_ids": [
+        53,
+        27,
+        18
+      ],
+      "id": 714567,
+      "original_language": "ru",
+      "original_title": "#хочувигру",
+      "overview": "원인을 알 수 없는 십대 자살이 유행처럼 번지고 ‘다나’는 아무 문제 없이 보였던 여동생이 어느 날 갑자기 달려오는 기차에 뛰어들어 생을 마감했다는 사실을 믿을 수 없다. ‘다나’는 동생이 남긴 노트북을 통해 청소년들을 가스라이팅해 자해하도록 부추기고 결국 자살까지 인증하게 만드는 끔찍한 SNS 게임에 동생이 참여했다는 것을 발견한다. ‘다나’는 동생을 죽음으로 몰고간 범인의 정체를 밝혀내기 위해 직접 게임에 참여하게 된다.",
+      "popularity": 304.932,
+      "poster_path": "/7fgS7p6gNsLbbNP3TzuHzpou2oG.jpg",
+      "release_date": "2021-10-07",
+      "title": "서치: 데스게임",
+      "video": false,
+      "vote_average": 6.479,
+      "vote_count": 24
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/ehumsuIBbgAe1hg343oszCLrAfI.jpg",
+      "genre_ids": [
+        16,
+        10751,
+        14,
+        12
+      ],
+      "id": 1022796,
+      "original_language": "en",
+      "original_title": "Wish",
+      "overview": "마음 속 깊이 ‘소원’을 품고 있는 모두를 위한 디즈니의 마법! 용감한 ‘아샤’와 신비로운 ‘별’의 특별한 여정 & 소원과 얽힌 비밀스러운 힘을 지닌 ‘매그니피코 왕’의 숨겨진 스토리까지! 2024년 1월, 믿고 듣는 디즈니표 명품 OST와 함께 아름다운 로사스 왕국에서 펼쳐지는 가슴 벅찬 이야기!",
+      "popularity": 317.263,
+      "poster_path": "/lnOgP8Fl2dQ73d4Qu24O2zcKFFS.jpg",
+      "release_date": "2023-11-13",
+      "title": "위시",
+      "video": false,
+      "vote_average": 6.623,
+      "vote_count": 882
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/wxPHhgaQEnsNo5j2q1NsqZEBwhD.jpg",
+      "genre_ids": [
+        16,
+        12,
+        14
+      ],
+      "id": 508883,
+      "original_language": "ja",
+      "original_title": "君たちはどう生きるか",
+      "overview": "화재로 어머니를 잃은 11살 소년 ‘마히토’는 아버지와 함께 어머니의 고향으로 간다. 어머니에 대한 그리움과 새로운 보금자리에 적응하느라 힘들어하던 ‘마히토’ 앞에 정체를 알 수 없는 왜가리 한 마리가 나타나고, 저택에서 일하는 일곱 할멈으로부터 왜가리가 살고 있는 탑에 대한 신비로운 이야기를 듣게 된다. 그러던 어느 날, ‘마히토’는 사라져버린 새엄마 ‘나츠코’를 찾기 위해 탑으로 들어가고, 왜가리가 안내하는 대로 이세계(異世界)의 문을 통과하는데…!",
+      "popularity": 308.997,
+      "poster_path": "/kmoScy628A6JWv8mmd2ofrYv16T.jpg",
+      "release_date": "2023-07-14",
+      "title": "그대들은 어떻게 살 것인가",
+      "video": false,
+      "vote_average": 7.4,
+      "vote_count": 1114
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/4MCKNAc6AbWjEsM2h9Xc29owo4z.jpg",
+      "genre_ids": [
+        28,
+        53,
+        18
+      ],
+      "id": 866398,
+      "original_language": "en",
+      "original_title": "The Beekeeper",
+      "overview": "법 위에 있는 비밀 기관 '비키퍼' 그곳의 전설로 남은 탑티어 에이전트 '애덤 클레이'는 기관의 눈을 피해 자취를 감추고 양봉가로 살아간다. 그러던 어느 날, 거대 보이스 피싱 조직으로부터 유일한 친구 '엘로이즈'를 잃게 된 그는 피의 복수를 위해 잠재웠던 진짜 모습을 드러내기 시작하는데....",
+      "popularity": 326.431,
+      "poster_path": "/ekHemOB84SoKi6fqG0ciwvKWM2i.jpg",
+      "release_date": "2024-01-08",
+      "title": "비키퍼",
+      "video": false,
+      "vote_average": 7.5,
+      "vote_count": 1772
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/5lhkwyuxSyElspMjAVZPUFg20b3.jpg",
+      "genre_ids": [
+        27
+      ],
+      "id": 1058078,
+      "original_language": "sv",
+      "original_title": "Karusell",
+      "overview": "",
+      "popularity": 263.793,
+      "poster_path": "/iZDgt2I7Yf1XO0gp7rS3GCQjwbP.jpg",
+      "release_date": "2023-10-20",
+      "title": "Karusell",
+      "video": false,
+      "vote_average": 5.885,
+      "vote_count": 13
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/mmpnUZebJhFXewEUuP7OGM4GuNF.jpg",
+      "genre_ids": [
+        878,
+        12,
+        18
+      ],
+      "id": 636706,
+      "original_language": "en",
+      "original_title": "Spaceman",
+      "overview": "홀로 연구 탐사를 떠난 지 6개월째인 외로운 우주 비행사. 우주선에서 발견한 수수께끼의 생명체에게 도움을 받으며 금이 간 자신의 결혼 생활을 돌아본다.",
+      "popularity": 294.185,
+      "poster_path": "/pQyVnn14GDyJQEcVdQRTGsYxIJD.jpg",
+      "release_date": "2024-02-23",
+      "title": "우주인",
+      "video": false,
+      "vote_average": 6.722,
+      "vote_count": 408
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/mOQV573Tr0WxI2VVOLKwtfaRGZH.jpg",
+      "genre_ids": [
+        10749,
+        35,
+        12
+      ],
+      "id": 949429,
+      "original_language": "th",
+      "original_title": "ผจญภัยล่าขุมทรัพย์หมื่นลี้",
+      "overview": "",
+      "popularity": 278.549,
+      "poster_path": "/w0Fao59IOjgfA9a1BFHG5nECGJg.jpg",
+      "release_date": "2023-12-22",
+      "title": "ผจญภัยล่าขุมทรัพย์หมื่นลี้",
+      "video": false,
+      "vote_average": 6.667,
+      "vote_count": 15
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/d1RHScaZc7I8j0lDke1c4AxI435.jpg",
+      "genre_ids": [
+        28,
+        12,
+        16,
+        10751,
+        35
+      ],
+      "id": 9502,
+      "original_language": "en",
+      "original_title": "Kung Fu Panda",
+      "overview": "평화의 계곡에서 아버지의 국수 가게를 돕고 있는 팬더 포. 아버지는 국수의 비법을 알려주어 가업을 잇게 하고 싶지만, 포의 관심사는 오로지 쿵푸 마스터. 가게 일은 뒷전으로 하고 쿵푸의 비법이 적힌 용문서의 전수자를 정하는 무적의 5인방 대결을 보러 시합장을 찾은 포. 그런데 마을의 현인 우그웨이 대사부가 포를 용문서의 전수자로 점지하는 이변이 일어난다. 무적의 5인방은 물론 시푸 사부 역시 이 사태를 받아들이지 못하는 가운데, 용문서를 노리고 어둠의 감옥에서 탈출한 타이 렁이 마을을 습격해오자 그를 막아야 하는 미션이 포에게 떨어지는데...",
+      "popularity": 281.066,
+      "poster_path": "/c3Dzd3A3QE0LkKb5HMOHTzs2Fyg.jpg",
+      "release_date": "2008-06-04",
+      "title": "쿵푸팬더",
+      "video": false,
+      "vote_average": 7.269,
+      "vote_count": 10975
+    }
+  ],
+  "total_pages": 43123,
+  "total_results": 862453
+}
