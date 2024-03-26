@@ -22,7 +22,7 @@ interface MovieDataType {
   isLastPage: boolean;
 }
 
-type RequestFunctionType = (page: number, input?: string) => Promise<MovieDataType>;
+type RequestFunctionType = (page: number, input: string) => Promise<MovieDataType>;
 
 type HandleMovieDataTableType = { [key in RenderType]: () => Promise<MovieDataType> };
 
@@ -33,7 +33,7 @@ interface RenderInputType {
 
 interface PageInputType {
   page: number;
-  input?: string;
+  input: string;
 }
 
 class MovieApp {
@@ -113,8 +113,10 @@ class MovieApp {
   handleMovieData(renderType: RenderType, input?: string): Promise<MovieDataType> {
     const page = this.getPage(renderType);
     const handleMovieDataTable: HandleMovieDataTableType = {
-      popular: () => this.getMovieData(httpRequest.fetchPopularMovies, { page }),
-      search: () => this.getMovieData(httpRequest.fetchSearchedMovies, { page, input }),
+      popular: () =>
+        this.getMovieData(httpRequest.fetchPopularMovies, { page, input: input ?? '' }),
+      search: () =>
+        this.getMovieData(httpRequest.fetchSearchedMovies, { page, input: input ?? '' }),
     };
     const getDataFunction = handleMovieDataTable[renderType];
     return getDataFunction();
@@ -125,7 +127,7 @@ class MovieApp {
     { page, input }: PageInputType,
   ): Promise<MovieDataType> {
     try {
-      const { movieList, isLastPage } = await requestFunction(page, input);
+      const { movieList, isLastPage } = await requestFunction(page, input ?? '');
       const filteredMovieList = filterMovieList(movieList);
       return { movieList: filteredMovieList, isLastPage };
     } catch (error) {

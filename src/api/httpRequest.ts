@@ -35,7 +35,7 @@ const httpRequest = {
 
   async fetchSearchedMovies(
     page: number,
-    input?: string,
+    input: string,
   ): Promise<{ movieList: MovieListType; isLastPage: boolean }> {
     const response = await tryCatchApi(
       `https://api.themoviedb.org/3/search/movie?query=${input}&include_adult=false&language=ko-KR&page=${page}&api_key=${process.env.API_KEY}`,
