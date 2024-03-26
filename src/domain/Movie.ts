@@ -17,9 +17,9 @@ class Movie {
     this.updatePage();
 
     const movieList = await httpRequest
-      .fetchPopularMovies(this.#page)
-      .then(({ popularMovieList, isLastPage }) => ({
-        movieList: popularMovieList.map((movie: MovieType) => ({
+      .getPopularMovies(this.#page)
+      .then(({ movieList, isLastPage }) => ({
+        movieList: movieList.map((movie: MovieType) => ({
           id: movie.id,
           poster_path: movie.poster_path,
           title: movie.title,
@@ -46,9 +46,9 @@ class Movie {
     this.updatePage();
 
     const movieList = await httpRequest
-      .fetchSearchedMovies(this.#page, input)
-      .then(({ searchedMovieList, isLastPage }) => ({
-        movieList: searchedMovieList.map((movie: MovieType) => ({
+      .getSearchedMovies(this.#page, input)
+      .then(({ movieList, isLastPage }) => ({
+        movieList: movieList.map((movie: MovieType) => ({
           id: movie.id,
           poster_path: movie.poster_path,
           title: movie.title,
