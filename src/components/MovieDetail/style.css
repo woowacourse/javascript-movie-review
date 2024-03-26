@@ -1,5 +1,6 @@
 .detail-container {
   position: relative;
+  height: 100%;
   background-repeat: no-repeat;
   background-size: cover;
   border: none;
@@ -11,6 +12,7 @@
   position: absolute;
   inset: 0;
   background-color: rgba(0,0,0,0.8);
+  border-radius: 8px;
 }
 
 .detail-header {
@@ -38,6 +40,13 @@
 .poster {
   width: 40%;
   height: 400px;
+}
+
+
+@media (max-width: 833px) {
+  .poster {
+    display: none;
+  }
 }
 
 .detail-content {
@@ -69,8 +78,15 @@
 
   width: 100%;
   padding: 16px;
+  margin-top: 46px;
 
   column-gap: 12px;
   background: #383839;
   border-radius: 16px;
+}
+
+@media (max-width: 833px) {
+  .vote-my-rate {
+    justify-content: center;
+  }
 }

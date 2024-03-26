@@ -27,3 +27,9 @@ fieldset input[type=radio] {
 .rate-icon img {
   cursor: pointer;
 }
+
+@media (max-width: 833px) {
+  .score-ment {
+    display: none;
+  }
+}
