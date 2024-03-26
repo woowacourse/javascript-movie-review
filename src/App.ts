@@ -6,10 +6,11 @@ import SearchBox from './components/SearchBox';
 import searchMovieStore from './store/SearchMovieStore';
 
 const SKELETON_UI_FIXED = 8; // 스켈레톤 UI 갯수
-type Tpage = 'popular' | 'search';
+const POPULAR = 'popular';
+const SEARCH = 'search';
 
 export default class App {
-  #pageType: Tpage = 'popular';
+  #pageType = POPULAR;
 
   async run() {
     this.#generateMovieList();
@@ -18,35 +19,20 @@ export default class App {
   }
 
   async #generateMovieList() {
-    this.#changeTitle('지금 인기 있는 영화');
+    this.#changeTitle();
     this.#removePreviousError();
     const ulElement = document.querySelector('ul.item-list');
-
     if (ulElement) {
       this.#generateSkeletonUI(ulElement as HTMLElement);
-      const newData = await movieStore.getMovies();
-
+      const newData = this.#pageType === POPULAR ? await movieStore.getMovies() : await searchMovieStore.searchMovies();
       this.#removeSkeletonUI();
       this.#appendMovieCard(newData, ulElement as HTMLElement);
     }
   }
 
-  async #generateSearchMovieList() {
-    this.#changeTitle(`"${searchMovieStore.query}"  검색 결과`);
-    this.#removePreviousError();
-    const ulElement = document.querySelector('ul.item-list');
-
-    if (ulElement) {
-      this.#generateSkeletonUI(ulElement as HTMLElement);
-      const newData = await searchMovieStore.searchMovies();
-
-      this.#removeSkeletonUI();
-      this.#appendMovieCard(newData, ulElement as HTMLElement);
-    }
-  }
-
-  #changeTitle(title: string) {
+  #changeTitle() {
     const h2Element = document.querySelector('h2');
+    const title = this.#pageType === POPULAR ? '지금 인기 있는 영화' : `"${searchMovieStore.query}"  검색 결과`;
     if (h2Element) {
       h2Element.textContent = title;
     }
@@ -91,12 +77,12 @@ export default class App {
     const itemView = document.querySelector('section.item-view');
     const moreBtn = new MoreButton({
       onClick: () => {
-        if (this.#pageType === 'popular') {
+        if (this.#pageType === POPULAR) {
           movieStore.increasePageCount();
           this.#generateMovieList();
         } else {
           searchMovieStore.increasePageCount();
-          this.#generateSearchMovieList();
+          this.#generateMovieList();
         }
       },
     });
@@ -125,9 +111,9 @@ export default class App {
     const searchBox = new SearchBox({
       onClick: (query: string) => {
         if (ulElement) ulElement.innerHTML = '';
-        this.#pageType = 'search';
+        this.#pageType = SEARCH;
         searchMovieStore.query = query;
-        this.#generateSearchMovieList();
+        this.#generateMovieList();
       },
     });
 
@@ -139,8 +125,8 @@ export default class App {
 
     if (homeButton) {
       homeButton.addEventListener('click', () => {
-        this.#pageType = 'popular';
-        this.#changeTitle('지금 인기 있는 영화');
+        this.#pageType = POPULAR;
+        this.#changeTitle();
         this.#removePreviousError();
         this.#removeMoreButton();
         this.#renderAllMovieList();
@@ -156,7 +142,8 @@ export default class App {
       if (ulElement) {
         ulElement.innerHTML = '';
         this.#appendMovieCard(movieDatas, ulElement as HTMLElement);
-      // }
+        // }
+      }
     }
   }
 }
