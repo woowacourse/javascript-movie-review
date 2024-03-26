@@ -8,6 +8,7 @@ import Skeleton from '../Skeleton/Skeleton';
 import MovieInfo, { IMovieInfo } from '../../domainObject/MovieInfo';
 import MoreSpace from '../MoreSpace/MoreSpace';
 import Pagination from '../Pagination/Pagination';
+import Button from '../Button/Button';
 
 class MovieItems {
   private template: HTMLElement;
@@ -40,7 +41,19 @@ class MovieItems {
     this.createH2Element(main);
     this.createUlElement(main);
     this.createMoreSpace(main);
+    this.createMoveTheTopButton(main);
     return main;
+  }
+
+  private createMoveTheTopButton(main: HTMLElement) {
+    const button = new Button({
+      className: ['move-the-top', 'text-body'],
+      text: '맨 위로',
+      onClick: () => {
+        window.scrollTo({ top: 0 });
+      },
+    });
+    main.appendChild(button.element);
   }
 
   private createMoreSpace(main: HTMLElement) {
