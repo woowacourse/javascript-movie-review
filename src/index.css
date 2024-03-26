@@ -1,0 +1,20 @@
+@import './styles/reset.css';
+@import './styles/common.css';
+
+/* Variables *****************************************/
+:root {
+  /* color */
+  --primary-color: #f33f3f;
+  --content-color: #fff;
+  --background-color: #222222;
+
+  /* image */
+  --search-box-img: url('../src/images/search_button.png');
+}
+
+/* Typography *************************************/
+.text-title {
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 600;
+}

@@ -1,11 +1,24 @@
 {
-  "rules": {},
+  "rules": {
+    "max-depth": ["warn", 1],
+    "max-params": ["warn", 3],
+    "max-lines-per-function": ["warn", { "max": 12, "skipBlankLines": true, "skipComments": true }],
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "class-methods-use-this": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+  },
   "env": {
     "es6": true,
-    "node": true
+    "node": true,
+    "browser": true,
   },
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
+    "sourceType": "module",
   },
-  "extends": ["eslint:recommended", "plugin:prettier/recommended"]
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": ["eslint:recommended", "plugin:prettier/recommended", "airbnb-base", "plugin:cypress/recommended"],
 }
