@@ -5,9 +5,13 @@
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
-  height: 270px;
   background-size: contain;
+}
+
+@media (max-width: 500px) {  
+  .item-thumbnail {
+    width: 100%;
+  }
 }
 
 .item-title {

@@ -14,6 +14,14 @@ header {
   border-bottom: 1px solid white;
 }
 
+@media (min-width: 1280px) {
+  header {
+    width: 1200px;
+    margin: 0 auto;
+    margin-bottom: 48px;
+  }
+}
+
 header h1 {
   cursor: pointer;
   user-select: none;

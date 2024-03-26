@@ -3,19 +3,19 @@
   flex-direction: column;
 }
 
-.item-thumbnail {
+.item-thumbnail-skeleton {
   border-radius: 8px;
-  width: 180px;
+  width: 100%;
   height: 270px;
   background-size: contain;
 }
 
-.item-title {
+.item-title-skeleton {
   margin-top: 16px;
 }
 
-.item-title.skeleton::after,
-.item-score.skeleton::after {
+.item-title-skeleton.skeleton::after,
+.item-score-skeleton.skeleton::after {
   font-size: 0;
   content: 'loading';
 }
