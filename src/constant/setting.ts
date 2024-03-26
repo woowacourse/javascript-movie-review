@@ -24,6 +24,8 @@ export const ERROR_MESSAGE = {
     '인기 영화를 불러오는데 실패했습니다. 잠시 후 다시 시도해주세요.',
   FETCH_SEARCHED_MOVIES_FAILED:
     '해당 키워드로 작품을 찾을 수 없습니다. 다른 키워드를 입력해주세요.',
+  FETCH_MOVIE_DETAIL_FAILED:
+    '해당 영화의 정보를 불러오는데 실패했습니다. 잠시 후 다시 시도해주세요.',
 };
 
 export const INFO_MESSAGE = {
