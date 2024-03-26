@@ -39,7 +39,6 @@ class MovieItems {
 
     this.createH2Element(main);
     this.createUlElement(main);
-    // this.createMoreButton(main);
     this.createMoreSpace(main);
     return main;
   }
