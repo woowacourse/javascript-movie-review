@@ -5,7 +5,7 @@ import { handleGetPopularMovieData } from "../service/handleSkeletonAndAPI";
 import { createElementWithAttribute } from "../utils";
 
 import ItemView from "./ItemView";
-import SearchBox from "./SearchBox";
+import { SearchBox, SearchBoxMobile } from "./SearchBox";
 
 const handleClickToRefresh = async () => {
   const $itemView = document.querySelector(".item-view");
@@ -33,12 +33,13 @@ const Logo = () => {
 
 const Header = () => {
   const $header = document.createElement("header");
-  const $h1 = document.createElement("h1");
+  const $h1 = createElementWithAttribute("h1", { class: "logo" });
   const $logo = Logo();
 
   $h1.appendChild($logo);
   $header.appendChild($h1);
   $header.appendChild(SearchBox());
+  $header.appendChild(SearchBoxMobile());
 
   return $header;
 };

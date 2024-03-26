@@ -80,7 +80,29 @@ const Button = () => {
   return $button;
 };
 
-const SearchBox = () => {
+const changeSearchMode = () => {
+  const $logoImg = document.querySelector(".logo");
+  const $searchBox = document.querySelector(".search-box");
+  const $searchBoxMobile = document.querySelector(".search-box-mobile");
+  $searchBox?.classList.add("show");
+  $logoImg?.classList.add("hide");
+  $searchBoxMobile?.classList.add("none");
+};
+
+const ButtonMobile = () => {
+  const $button = createElementWithAttribute("button", {
+    class: "search-button",
+  });
+  $button.textContent = SEARCH_BUTTON_TEXT;
+  $button.addEventListener("click", (event) => {
+    event.stopPropagation();
+    changeSearchMode();
+  });
+
+  return $button;
+};
+
+export const SearchBox = () => {
   const $searchBox = createElementWithAttribute("div", {
     class: "search-box",
   });
@@ -89,4 +111,12 @@ const SearchBox = () => {
 
   return $searchBox;
 };
-export default SearchBox;
+
+export const SearchBoxMobile = () => {
+  const $searchBoxMobile = createElementWithAttribute("div", {
+    class: "search-box-mobile",
+  });
+
+  $searchBoxMobile.appendChild(ButtonMobile());
+  return $searchBoxMobile;
+};
