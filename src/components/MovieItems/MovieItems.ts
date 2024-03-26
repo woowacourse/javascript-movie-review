@@ -6,6 +6,7 @@ import Button from '../Button/Button';
 import { ResponseMovieItem } from '../../types/ResponseMovieItem';
 import MovieItem from '../MovieItem/MovieItem';
 import { MovieService, PopularMoviesService } from '../../services/MovieService';
+import { SETTING } from '../../constants/setting';
 
 class MovieItems {
   moviesService: MovieService;

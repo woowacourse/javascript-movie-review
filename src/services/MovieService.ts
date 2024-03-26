@@ -1,5 +1,6 @@
 import MatchedMovies from '../api/MatchedMovies';
 import PopularMovies from '../api/PopularMovies';
+import { SETTING } from '../constants/setting';
 import { ResponseMovieItem } from '../types/ResponseMovieItem';
 
 interface MovieService {
