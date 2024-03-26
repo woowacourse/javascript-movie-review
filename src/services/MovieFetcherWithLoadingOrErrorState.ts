@@ -3,8 +3,6 @@ import isHTMLElement from '../utils/isHTMLElement';
 import Skeleton from '../components/Skeleton/Skeleton';
 import { Api, api } from '../api';
 import removeHTMLElements from '../utils/removeHTMLElements';
-import { checkDataLength } from '../components/ShowMoreButton/eventHandler';
-import createElement from '../utils/createElement';
 import ErrorComponent from '../components/ErrorComponent/ErrorComponent';
 import { FetchOption } from '../types/fetch';
 import isHttpError from '../utils/isHttpError';
@@ -42,28 +40,19 @@ class MovieFetcherWithLoadingOrErrorState {
       this.isLoading = true;
       this.onLoadingChanged();
       const data = await this.api.sendRequest(url, { method, body, headers });
-      this.checkExistingData(data.results.length);
 
       this.isLoading = false;
       this.resetMovieList();
 
       return data;
-    } catch (error) {
+    } catch (error: any) {
       if (isHttpError(error)) {
         this.resetMovieList();
         this.onErrorChanged(error);
+      } else if (error instanceof TypeError) {
+        this.resetMovieList();
+        this.onErrorChanged(new HttpError(error.message, 503));
       }
-    }
-  }
-
-  checkExistingData(length: number) {
-    removeHTMLElements('.error-text');
-    if (!length) {
-      checkDataLength(length);
-      const section = document.querySelector('.item-view');
-      if (!section) return;
-      const errorText = createElement('p', { textContent: '검색 결과가 존재하지 않습니다', className: 'error-text' });
-      section.appendChild(errorText);
     }
   }
 
