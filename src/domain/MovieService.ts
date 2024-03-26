@@ -1,5 +1,6 @@
-import { MOVIE_SEARCH_URL, POPULAR_MOVIES_URL } from '../constant/config';
-import fetchDataFromUrl from '../util/fetchDataFromUrl';
+import { BASE_URL, ENDPOINT } from '../constant/config';
+import fetchAPI from '../api/fetchAPI';
+import generateQueryUrl from '../api/generateQueryUrl';
 import Movie from './Movie';
 import getEnvVariable from '../util/getEnvVariable';
 
@@ -14,23 +15,31 @@ interface MoviePageData extends MovieListData {
 
 class MovieService {
   async fetchPopularMovieList(pageNumber: number) {
-    const { total_pages, results } = await fetchDataFromUrl(POPULAR_MOVIES_URL, {
-      api_key: getEnvVariable('API_KEY'),
-      language: 'ko-KR',
-      page: pageNumber,
+    const queryUrl = generateQueryUrl({
+      baseUrl: BASE_URL,
+      endpoint: ENDPOINT.GET.POPULAR_MOVIES,
+      query: {
+        api_key: getEnvVariable('API_KEY'),
+        language: 'ko-KR',
+        page: pageNumber,
+      },
     });
-
+    const { total_pages, results } = await fetchAPI({ url: queryUrl, method: 'GET' });
     return this.createMoviePageData({ total_pages, results, pageNumber });
   }
 
   async fetchSearchResult({ query, pageNumber }: { query: string; pageNumber: number }) {
-    const { total_pages, results } = await fetchDataFromUrl(MOVIE_SEARCH_URL, {
-      api_key: getEnvVariable('API_KEY'),
-      language: 'ko-KR',
-      query,
-      page: pageNumber,
+    const queryUrl = generateQueryUrl({
+      baseUrl: BASE_URL,
+      endpoint: ENDPOINT.GET.MOVIE_SEARCH,
+      query: {
+        api_key: getEnvVariable('API_KEY'),
+        language: 'ko-KR',
+        query,
+        page: pageNumber,
+      },
     });
-
+    const { total_pages, results } = await fetchAPI({ url: queryUrl, method: 'GET' });
     return this.createMoviePageData({ total_pages, results, pageNumber });
   }
 
