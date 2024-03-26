@@ -25,7 +25,8 @@ const generateMovieItem = (movie: Movie): HTMLTemplate => {
 };
 
 export const generateMovieItems = (data: FetchedMovieData): HTMLTemplate => {
-  return data.results.reduce((movieListTemplate, movieInfo) => {
-    return movieListTemplate + generateMovieItem(movieInfo);
-  }, "");
+  const movieItems = data.results.map((movieInfo) =>
+    generateMovieItem(movieInfo)
+  );
+  return movieItems.join("");
 };
