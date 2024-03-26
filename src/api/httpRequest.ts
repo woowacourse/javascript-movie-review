@@ -26,9 +26,7 @@ const httpRequest = {
     const responseData = await response.json();
     const movieList = responseData.results;
 
-    const totalPages = responseData.total_pages;
-
-    const currentPages = responseData.page;
+    const { total_pages: totalPages, page: currentPages } = responseData;
     const isLastPage = totalPages === currentPages;
     return { movieList, isLastPage };
   },
@@ -48,10 +46,8 @@ const httpRequest = {
     if (movieList.length === 0) {
       throw new HTTPError(response.status, '검색된 영화가 없습니다.');
     }
-
-    const totalPages = responseData.total_pages;
-
-    const currentPages = responseData.page;
+    
+    const { total_pages: totalPages, page: currentPages } = responseData;
     const isLastPage = totalPages === currentPages;
     return { movieList, isLastPage };
   },
