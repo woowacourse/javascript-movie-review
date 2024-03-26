@@ -6,6 +6,9 @@ body {
   font-size: 14px;
   background-color: #111111;
   color: #fff;
+  width: 100vw;
+  height: auto;
+  min-height: 100vh;
 }
 
 a {
@@ -18,19 +21,29 @@ button {
 }
 
 main {
-  height: auto;
-  min-height: 100vh;
   margin-top: 8rem;
+}
+
+li {
+  cursor: pointer;
 }
 
 #app {
   padding-bottom: 48px;
 }
 
+.banner-container {
+  width: 100%;
+}
+
+.result-banner-text {
+  margin-bottom: 3rem;
+}
+
 *:focus {
   outline: none;
 }
-.item-view,
+
 .item-test {
   width: 100%;
 }
@@ -39,7 +52,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  width: 75%;
   margin: 0 auto;
 }
 
@@ -53,10 +66,13 @@ main {
 
 .item-list {
   display: grid;
-  margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 80px;
   grid-row-gap: 48px;
+}
+
+.overview-container {
+  min-height: 80%;
 }
 
 .item-card {
@@ -66,8 +82,8 @@ main {
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
-  height: 270px;
+  width: 100%;
+  height: 300px;
   background-size: contain;
 }
 
@@ -147,7 +163,6 @@ button.primary {
 }
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #111;
   display: flex;
@@ -158,6 +173,7 @@ header {
   margin-bottom: 48px;
   position: fixed;
   top: 0;
+  box-shadow: 10px 10px 10px rgba(255, 255, 255, 0.2);
 }
 
 header h1 {
@@ -207,4 +223,334 @@ header .search-form > .search-button {
 .error-text {
   padding: 10px;
   text-align: center;
+}
+
+/* 모달 관련 */
+.modal {
+  display: none;
+}
+
+.modal--open {
+  display: block;
+}
+
+.modal-open {
+  overflow: hidden;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-container {
+  position: fixed;
+  width: 60%;
+  padding: 1rem;
+  border-radius: 8px 8px 0px 0px;
+  background: rgba(33, 33, 34, 1);
+  z-index: 101;
+}
+
+/* 디테일 모달 컨텐츠 */
+
+.detail-container {
+  position: relative;
+  height: 100%;
+}
+
+.detail-title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(241, 241, 241, 0.25);
+}
+
+.detail-movie-title {
+  font-size: 20px;
+}
+
+.image-info-container {
+  margin-top: 2rem;
+  display: flex;
+  width: 100%;
+  height: 80%;
+}
+
+.close-container {
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 100%;
+  background-color: rgba(56, 56, 57, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.close-text {
+  width: 1.5rem;
+  font-size: 1.5rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.detail-image-container {
+  min-width: 35%;
+  height: 100%;
+}
+
+.detail-image {
+  width: 100%;
+  height: 100%;
+}
+
+.info-container {
+  padding: 0 1rem;
+  min-width: 65%;
+  position: relative;
+}
+
+.genre-and-rate-container {
+  display: flex;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.movie-genre {
+  margin-right: 1rem;
+}
+
+.image-average-container {
+  display: flex;
+  align-items: center;
+}
+
+.star-rate-container {
+  padding: 1rem;
+  background: rgba(56, 56, 57, 1);
+  border-radius: 16px;
+  display: flex;
+  width: 97%;
+  margin-bottom: 4px;
+  position: absolute;
+  bottom: 0;
+}
+
+.star-image {
+  margin-bottom: 4px;
+}
+
+.overview-text {
+  line-height: 24px;
+}
+
+.text-container {
+  display: flex;
+  align-items: center;
+  margin-top: 3px;
+  margin-right: 5px;
+}
+
+.stars-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rate-number-container {
+  display: flex;
+  align-items: center;
+  margin: 0 0.5rem;
+  margin-top: 3px;
+}
+
+.rate-string-container {
+  display: flex;
+  align-items: center;
+  margin-top: 3px;
+}
+
+.star {
+  cursor: pointer;
+}
+
+.rate-container {
+  display: flex;
+}
+
+.no-more-text {
+  text-align: center;
+}
+
+/* 반응형 */
+
+@media (max-width: 1050px) {
+  .modal-container {
+    width: 85% !important;
+    height: 30rem;
+  }
+}
+
+@media (max-width: 834px) {
+  .modal-container {
+    width: 85% !important;
+    height: 30rem;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 40px;
+  }
+}
+
+@media (max-width: 610px) {
+  .modal-container {
+    height: 32rem;
+  }
+
+  .star-rate-text .rate-string .rate-number {
+    font-size: 0.7rem;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 40px;
+  }
+}
+
+@media (max-width: 580px) {
+  .modal-container {
+    height: 35rem;
+  }
+
+  .star {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+@media (max-width: 580px) {
+  .modal-container {
+    height: 38rem;
+  }
+
+  .rate-number {
+    font-size: 0.6rem;
+  }
+  .rate-string {
+    font-size: 0.6rem;
+  }
+  .star-rate-text {
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .modal-container {
+    height: 41rem;
+  }
+
+  .rate-number {
+    font-size: 0.6rem;
+  }
+  .rate-string {
+    font-size: 0.6rem;
+  }
+  .star-rate-text {
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .modal-container {
+    height: 43rem;
+  }
+
+  .rate-number {
+    font-size: 0.5rem;
+  }
+  .rate-string {
+    font-size: 0.5rem;
+  }
+  .star-rate-text {
+    font-size: 0.5rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .item-list {
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 30px;
+  }
+  .search-input {
+    display: none;
+  }
+  .item-view h2 {
+    font-size: 1.5rem;
+  }
+
+  .detail-container {
+    height: 100%;
+  }
+  .detail-image-container {
+    display: none;
+  }
+
+  .modal-container {
+    width: 100% !important;
+    height: 37rem;
+    bottom: 0;
+  }
+  .star-rate-container {
+    bottom: -16px !important;
+  }
+
+  .rate-number {
+    font-size: 1rem;
+  }
+  .rate-string {
+    font-size: 1rem;
+  }
+  .star-rate-text {
+    font-size: 1rem;
+  }
+
+  .star {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 280px) {
+  .rate-number {
+    font-size: 0.6rem;
+  }
+  .rate-string {
+    font-size: 0.6rem;
+  }
+  .star-rate-text {
+    font-size: 0.6rem;
+  }
+
+  .star {
+    width: 18px;
+    height: 18px;
+  }
 }
