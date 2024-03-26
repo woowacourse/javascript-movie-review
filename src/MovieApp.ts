@@ -41,7 +41,7 @@ class MovieApp {
       event.preventDefault();
       this.handleSearchFormSubmit();
     });
-    this.renderMainContents(RENDER_TYPE.POPULAR);
+    await this.renderMainContents(RENDER_TYPE.POPULAR);
   }
 
   handleSearchFormSubmit() {
