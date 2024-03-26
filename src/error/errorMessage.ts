@@ -18,23 +18,27 @@ const errorMessage = {
 
   serverError(statusCode: number) {
     const templates = /* html */ `
-    <h1 class="error-msg">${statusCode}</h1>
-    <h2 class="error-description">서버 에러입니다ㅠ <span onClick="window.location.reload()">새로고침</span> 해보고 안되면 알아서 처리하세요~</h2>
+    <div class="center-div">
+      <h1 class="error-msg">${statusCode}</h1>
+      <h2 class="error-description">서버 에러입니다ㅠ <span onClick="window.location.reload()">새로고침</span> 해보고 안되면 알아서 처리하세요~</h2>
+    </div>
     `;
     return templates;
   },
 
   clientError(statusCode: number) {
     const templates = /* html */ `
-      <h1 class="error-msg">${statusCode}</h1>
-      <h2 class="error-description">클라이언트 에러입니다ㅠ <span onClick="window.location.reload()">새로고침</span> 해보고 안되면 알아서 처리하세요~</h2>
+      <div class="center-div">
+        <h1 class="error-msg">${statusCode}</h1>
+        <h2 class="error-description">클라이언트 에러입니다ㅠ <span onClick="window.location.reload()">새로고침</span> 해보고 안되면 알아서 처리하세요~</h2>
+      </div>
       `;
     return templates;
   },
 
   noSearchedMovieError(message?: string) {
     const templates = /* html */ `
-      <h1 class="search-error-msg">${message}</h1>
+      <div class="search-error-msg center-div">${message}</div>
       `;
 
     return templates;
