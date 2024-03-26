@@ -7,7 +7,7 @@ const errorMessage = {
       this.renderTemplates(movieItems, this.serverError());
     } else if (statusCode >= 400) {
       this.renderTemplates(movieItems, this.clientError());
-    } else {
+    } else if (message) {
       this.renderTemplates(movieItems, this.noSearchedMovieError(message));
     }
   },
@@ -15,15 +15,15 @@ const errorMessage = {
   serverError() {
     const templates = /* html */ `
       <h2 class="error-msg">서버 에러가 발생했습니다.</h2>
-      <h2 class="error-msg">잠시 후 다시 이용해주세요.</h2>
+      <h2 class="error-msg">잠시 후 다시 이용해 주세요.</h2>
     `;
     return templates;
   },
 
   clientError() {
     const templates = /* html */ `
-      <h2 class="error-msg">에러가 발생했습니다.</h2>
-      <h2 class="error-msg">잠시 후 다시 이용해주세요.</h2>
+      <h2 class="error-msg">잘못된 요청입니다.</h2>
+      <h2 class="error-msg">다시 시도해 주세요.</h2>
       `;
     return templates;
   },
