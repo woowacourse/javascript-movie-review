@@ -88,7 +88,7 @@ const makeMoreButton = () => {
 const MoreButton = (listType: ListType, isShowMoreButton: boolean) => {
   if (!isShowMoreButton) return;
   const $moreButton = makeMoreButton();
-  document.querySelector(".item-view")?.appendChild($moreButton);
+  document.querySelector(".item-view-container")?.appendChild($moreButton);
 
   $moreButton.addEventListener("click", (event) =>
     handleClickMoreButton(event, listType),
