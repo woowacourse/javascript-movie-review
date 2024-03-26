@@ -1,5 +1,6 @@
 import Component from '../../common/Component/Component';
 import Modal from '../../common/Modal/Modal';
+import RatingStorage from '../../../store/RatingStorage';
 import { IMovieDetail } from '../../../domain/Movie/Movie.type';
 import { querySelector, querySelectorAll } from '../../../utils/dom/selector';
 import { MOVIE_ITEM } from '../../../constants/Condition';
@@ -101,6 +102,10 @@ class MovieDetailModal extends Component<MovieDetailModalProps> {
 
     $movieRatingScore.textContent = rating;
     $movieRatingText.textContent = this.createRatingText(Number(rating));
+
+    if (this.props) {
+      RatingStorage.setRating({ key: this.props.movieDetail.id, score: Number(rating) });
+    }
   }
 
   private removeModal() {
