@@ -18,3 +18,23 @@ header .search-box > .search-button {
   background: url('../../imgs/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
 }
+
+@media (max-width: 500px) {
+  header > .search-box {
+    position: absolute;
+    right: 30px;
+    width: 33px;
+  }
+
+  header > .search-box > input {
+    width: 0;
+  }
+
+  header > .search-box:hover {
+    width: 90%;
+  }
+
+  header > .search-box:hover > input {
+    width: 100%;
+  }
+}

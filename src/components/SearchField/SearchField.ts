@@ -1,5 +1,5 @@
-import './style.css';
 import Button from '../Button/Button';
+import './style.css';
 
 interface SearchFieldProps {
   onSearch?: (event: SubmitEvent) => void;
