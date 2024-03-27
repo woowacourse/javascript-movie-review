@@ -20,10 +20,19 @@ export interface MovieInfo {
   vote_average: number;
 }
 
-export interface MovieDetail {
+interface ResponseMovieDetailData {
   id: number;
   title: string;
   genres: Genre[];
+  overview: string;
+  vote_average: number;
+  poster_path: string;
+}
+
+export interface MovieDetail {
+  id: number;
+  title: string;
+  genres: string[];
   overview: string;
   vote_average: number;
   poster_path: string;
@@ -77,11 +86,12 @@ class Movies {
     const urlParams = { language: 'ko-KR' };
     const url = `${MOVIE_DETAIL_URL}/${movieId}?${new URLSearchParams(urlParams)}`;
 
-    const { title, genres, overview, vote_average, poster_path }: MovieDetail =
+    const { id, title, genres, overview, vote_average, poster_path }: ResponseMovieDetailData =
       await this.#fetcher.getData(url, this.#headers);
+
     const genreNames = genres.map((genre) => genre.name);
 
-    return { title, genres: genreNames, overview, vote_average, poster_path };
+    return { id, title, genres: genreNames, overview, vote_average, poster_path };
   }
 
   static async handleErrorResponse(response: Response) {
