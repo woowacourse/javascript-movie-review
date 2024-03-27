@@ -1,7 +1,7 @@
 export const getMyVoteAverage = (movieId: number): 0 | 2 | 4 | 6 | 8 | 10 => {
   const myVoteAverages = localStorage.getItem("myVoteAverages");
   if (!myVoteAverages || myVoteAverages === "[]") {
-    localStorage.setItem("myVoteAverages", `[]`);
+    localStorage.setItem("myVoteAverages", `[{"movieId": ${movieId}, "voteAverage": 0}]`);
     return 0;
   }
 
@@ -18,12 +18,10 @@ export const setMyVoteAverage = (movieId: number, voteAverage: number) => {
   }
 
   const newMyVoteAverages = JSON.parse(myVoteAverages);
-
   newMyVoteAverages.forEach((myVoteAverage: { movieId: number; voteAverage: number }) => {
     if (movieId === myVoteAverage.movieId) {
       myVoteAverage.voteAverage = voteAverage;
     }
   });
-  console.log(newMyVoteAverages);
-  localStorage.setItem("myVoteAverages", JSON.stringify([...newMyVoteAverages, { movieId, voteAverage }]));
+  localStorage.setItem("myVoteAverages", JSON.stringify(newMyVoteAverages));
 };
