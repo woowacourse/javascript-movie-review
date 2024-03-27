@@ -1,4 +1,4 @@
-import { MOVIE_SEARCH_URL, POPULAR_MOVIES_URL } from '../api';
+import { MOVIE_DETAIL_URL, MOVIE_SEARCH_URL, POPULAR_MOVIES_URL } from '../api';
 import Fetcher, { DataFetcher } from '../api/Fetcher';
 import CustomError from '../utils/CustomError';
 
@@ -14,9 +14,24 @@ export interface ResponseErrorData {
 }
 
 export interface MovieInfo {
+  id: number;
   poster_path: string;
   title: string;
   vote_average: number;
+}
+
+export interface MovieDetail {
+  id: number;
+  title: string;
+  genres: Genre[];
+  overview: string;
+  vote_average: number;
+  poster_path: string;
+}
+
+interface Genre {
+  id: number;
+  name: string;
 }
 
 class Movies {
@@ -36,10 +51,11 @@ class Movies {
     const url = `${POPULAR_MOVIES_URL}?${new URLSearchParams(urlParams)}`;
     const { results }: ResponseMovieData = await this.#fetcher.getData(url, this.#headers);
 
-    return results.map((result) => ({
-      poster_path: result.poster_path,
-      title: result.title,
-      vote_average: result.vote_average,
+    return results.map(({ id, poster_path, title, vote_average }) => ({
+      id,
+      poster_path,
+      title,
+      vote_average,
     }));
   }
 
@@ -49,11 +65,23 @@ class Movies {
 
     const { results }: ResponseMovieData = await this.#fetcher.getData(url, this.#headers);
 
-    return results.map(({ poster_path, title, vote_average }) => ({
+    return results.map(({ id, poster_path, title, vote_average }) => ({
+      id,
       poster_path,
       title,
       vote_average,
     }));
+  }
+
+  async getMovieDetail(movieId: number) {
+    const urlParams = { language: 'ko-KR' };
+    const url = `${MOVIE_DETAIL_URL}/${movieId}?${new URLSearchParams(urlParams)}`;
+
+    const { title, genres, overview, vote_average, poster_path }: MovieDetail =
+      await this.#fetcher.getData(url, this.#headers);
+    const genreNames = genres.map((genre) => genre.name);
+
+    return { title, genres: genreNames, overview, vote_average, poster_path };
   }
 
   static async handleErrorResponse(response: Response) {
