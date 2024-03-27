@@ -37,3 +37,11 @@
   animation      : skeleton-animation 5s infinite ease-out;
   border-radius  : 8px;
 }
+
+.item-list-skeleton {
+  margin-top: 0
+}
+
+.item-view>.display-none {
+  display: none;
+}
