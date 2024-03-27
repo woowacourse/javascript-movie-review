@@ -1,26 +1,37 @@
+import { MOVIE_LIST_TYPE } from '../constant/config';
+
 class PageNumberManager {
-  private pageNumberList: Map<string, number>;
+  private pageType: keyof typeof MOVIE_LIST_TYPE | null;
+  private pageNumber: number;
 
   constructor() {
-    this.pageNumberList = new Map();
+    this.pageType = null;
+    this.pageNumber = 1;
   }
 
-  add(pageName: string) {
-    const currentPage = this.pageNumberList.get(pageName) ?? 0;
-
-    this.pageNumberList.set(pageName, currentPage + 1);
+  setPageType(type: keyof typeof MOVIE_LIST_TYPE) {
+    this.pageType = type;
+    this.pageNumber = 1;
   }
 
-  clear(pageName: string) {
-    if (this.pageNumberList.has(pageName)) this.pageNumberList.set(pageName, 1);
+  setPageNumber(pageNumber: number) {
+    this.pageNumber = pageNumber;
   }
 
-  get(pageName: string) {
-    if (this.pageNumberList.has(pageName)) return this.pageNumberList.get(pageName);
+  getPageType() {
+    return this.pageType;
   }
 
-  init(pageName: string) {
-    this.pageNumberList.set(pageName, 1);
+  getPageNumber() {
+    return this.pageNumber;
+  }
+
+  increase() {
+    this.pageNumber += 1;
+  }
+
+  clear() {
+    this.pageNumber = 1;
   }
 }
 
