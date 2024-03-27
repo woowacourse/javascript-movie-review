@@ -44,15 +44,23 @@ export const createMovieElement = ({ id, title, thumbnail, voteAverage }: MovieT
           <div class="my-vote-average">내 별점 보통이에요 </div>
         </div>
      </section>
-     <form method="diglog">
       <button class="modal-close-button">X</button>
-     </form>
     `;
     $modal.showModal();
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
-        $modal.showModal();
+        $modal.close();
+      }
+    });
+    const $modalCloseButton = document.querySelector<HTMLButtonElement>(".modal-close-button");
+    $modalCloseButton?.addEventListener("click", (e) => {
+      e.preventDefault();
+      $modal.close();
+    });
+    $modal.addEventListener("click", (e: MouseEvent) => {
+      if (e.target === $modal) {
+        $modal.close();
       }
     });
   });
