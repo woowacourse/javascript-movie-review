@@ -17,4 +17,5 @@ export const ELEMENT_SELECTOR = {
   movieScoreBoardNeedRating: '#movie-score-board-need-rating',
   movieScoreBoardImage: '#movie-score-board-stars>img',
   movieScoreBoardStars: '#movie-score-board-stars',
+  observerTarget: '#observer-target',
 } as const;

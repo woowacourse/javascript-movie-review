@@ -7,6 +7,8 @@ import type { MovieInterface } from '../../../domain/Movie/Movie.type';
 import { createElement } from '../../../utils/dom/createElement/createElement';
 import { querySelector } from '../../../utils/dom/selector';
 
+import { ELEMENT_SELECTOR } from '../../../constants/selector';
+
 import { NoResultImage } from '../../../assets';
 
 import './MovieList.css';
@@ -20,8 +22,6 @@ class MovieList extends Component<MovieListProps> {
   protected render() {
     if (!this.props?.movieItemDetails) return;
 
-    const observerTarget = querySelector('#observer-target');
-
     if (this.props?.movieItemDetails.length === 0) {
       new Image(this.$element, {
         image: NoResultImage,
@@ -29,15 +29,12 @@ class MovieList extends Component<MovieListProps> {
         alt: '검색 결과 없음 이미지',
       });
 
-      this.props?.observer.unobserve(observerTarget);
       return;
     }
 
-    if (this.props?.movieItemDetails.length < 20) {
-      this.props?.observer.unobserve(observerTarget);
-    }
-
     if (this.props?.movieItemDetails.length === 20) {
+      const observerTarget = querySelector(ELEMENT_SELECTOR.observerTarget);
+
       this.props?.observer.observe(observerTarget);
     }
 
@@ -49,6 +46,7 @@ class MovieList extends Component<MovieListProps> {
 
     this.props?.movieItemDetails.forEach((movieItemDetail) => {
       const $li = createElement({ tagName: 'li' });
+
       new MovieListCard($li, movieItemDetail);
 
       $movieItemList.appendChild($li);
