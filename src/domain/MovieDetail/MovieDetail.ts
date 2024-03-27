@@ -1,7 +1,7 @@
-import MovieAPI from '../../../apis/movie/movie';
+import MovieAPI from '../../apis/movie/movie';
 import type { MovieDetailInterface, MovieDetailResponse, RateDetail } from './MovieDetail.type';
 
-import MovieStorage from '../../../storages/MovieStorage';
+import MovieStorage from '../../storages/MovieStorage';
 
 class MovieDetail {
   static fetchMovieDetail(

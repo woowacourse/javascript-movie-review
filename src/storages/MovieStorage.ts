@@ -1,4 +1,4 @@
-import type { RateDetail, MovieDetailInterface } from '../domain/Movie/MovieDetail/MovieDetail.type';
+import type { RateDetail, MovieDetailInterface } from '../domain/MovieDetail/MovieDetail.type';
 
 const MovieStorage = {
   get(id: number) {

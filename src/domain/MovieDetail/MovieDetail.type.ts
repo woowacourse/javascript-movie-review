@@ -1,4 +1,4 @@
-import { MovieInterface, MovieResponse } from '../Movie.type';
+import { MovieInterface, MovieResponse } from '../Movie/Movie.type';
 
 export interface Genre {
   id: number;

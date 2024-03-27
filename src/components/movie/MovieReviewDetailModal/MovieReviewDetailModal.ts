@@ -3,7 +3,7 @@ import Modal from '../../common/Modal/Modal';
 import MovieScoreBoard from '../MovieScoreBoard/MovieScoreBoard';
 import ModalCloseButton from '../ModalCloseButton/ModalCloseButton';
 
-import type { MovieDetailInterface, RateDetail } from '../../../domain/Movie/MovieDetail/MovieDetail.type';
+import type { MovieDetailInterface, RateDetail } from '../../../domain/MovieDetail/MovieDetail.type';
 
 import { querySelector } from '../../../utils/dom/selector';
 

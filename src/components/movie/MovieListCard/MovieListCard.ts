@@ -1,9 +1,9 @@
 import Component from '../../common/Component/Component';
 import MovieReviewDetailModal from '../MovieReviewDetailModal/MovieReviewDetailModal';
 
-import MovieDetail from '../../../domain/Movie/MovieDetail/MovieDetail';
+import MovieDetail from '../../../domain/MovieDetail/MovieDetail';
 import type { MovieInterface } from '../../../domain/Movie/Movie.type';
-import type { MovieDetailInterface, RateDetail } from '../../../domain/Movie/MovieDetail/MovieDetail.type';
+import type { MovieDetailInterface, RateDetail } from '../../../domain/MovieDetail/MovieDetail.type';
 
 import { createElement } from '../../../utils/dom/createElement/createElement';
 import { querySelector } from '../../../utils/dom/selector';

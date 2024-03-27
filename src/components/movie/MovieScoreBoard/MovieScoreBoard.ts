@@ -1,7 +1,7 @@
 import Component from '../../common/Component/Component';
 import { isMovieRateScore } from './MovieScoreBoard.util';
 
-import MovieDetail from '../../../domain/Movie/MovieDetail/MovieDetail';
+import MovieDetail from '../../../domain/MovieDetail/MovieDetail';
 
 import { createElement } from '../../../utils/dom/createElement/createElement';
 import { on } from '../../../utils/dom/eventListener/eventListener';
