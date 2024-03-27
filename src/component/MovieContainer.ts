@@ -55,9 +55,10 @@ class MovieContainer {
     this.groundWorkForNewMovieList({ movieList, hasNextPage });
 
     const movieItemList = movieList.map((movie) => createMovieItem(movie.data));
+    const movieItemListWrappedByLi = wrapItemWithLi(movieItemList);
 
-    if (this.firstSkeletonItem) movieItemList.forEach((item) => this.firstSkeletonItem!.before(item));
-    else movieItemList.forEach((item) => this.movieListContainer.append(item));
+    if (this.firstSkeletonItem) movieItemListWrappedByLi.forEach((item) => this.firstSkeletonItem!.before(item));
+    else movieItemListWrappedByLi.forEach((item) => this.movieListContainer.append(item));
   }
 
   private addHandlerToMoreButton(handleMoreList: EventHandler) {
