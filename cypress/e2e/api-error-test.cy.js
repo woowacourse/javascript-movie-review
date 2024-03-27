@@ -1,3 +1,5 @@
+import ERROR_MESSAGE from '../../src/constant/errorMessage.ts';
+
 describe('API에서 에러가 발생하는 경우 테스트', () => {
   it('서버 에러가 발생하면 toast를 띄운다', () => {
     cy.intercept(
@@ -11,9 +13,8 @@ describe('API에서 에러가 발생하는 경우 테스트', () => {
       },
     );
 
-    cy.visit('/');
-
-    cy.contains('다시 요청해주세요.').should('exist');
+    cy.visitHome();
+    cy.verifyToastExists(ERROR_MESSAGE.SERVER_ERROR);
   });
 
   it('서버 에러가 발생하면 재요청 버튼을 눌러 다시 api를 불러올 수 있다.', () => {
@@ -40,11 +41,11 @@ describe('API에서 에러가 발생하는 경우 테스트', () => {
       },
     );
 
-    cy.visit('/');
-    cy.contains('다시 요청해주세요.').should('exist');
+    cy.visitHome();
+    cy.verifyToastExists(ERROR_MESSAGE.SERVER_ERROR);
 
-    cy.get('.retry-button').click();
-    cy.contains('다시 요청해주세요.').should('not.exist');
+    cy.get('#retry-button').click();
+    cy.verifyToastNotExists();
     cy.get('.skeleton').should('not.exist');
   });
 
@@ -60,14 +61,14 @@ describe('API에서 에러가 발생하는 경우 테스트', () => {
       },
     ).as('fetchMovies');
 
-    cy.visit('/');
+    cy.visitHome();
 
-    for (let i = 0; i < 5; i++) {
-      cy.get('.retry-button').click();
+    Array.from({ length: 4 }).forEach(() => {
+      cy.get('#retry-button').click();
       cy.wait('@fetchMovies');
-    }
+    });
 
-    cy.get('.retry-button').click();
-    cy.contains('더 이상 요청할 수 없습니다.').should('exist');
+    cy.get('#retry-button').click();
+    cy.verifyToastExists(ERROR_MESSAGE.RETRY_LIMIT_EXCEEDED);
   });
 });

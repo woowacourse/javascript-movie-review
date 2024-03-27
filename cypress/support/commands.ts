@@ -1,37 +1,47 @@
 /// <reference types="cypress" />
-// ***********************************************
-// This example commands.ts shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+
+Cypress.Commands.add('visitHome', () => {
+  cy.visit('/');
+});
+
+Cypress.Commands.add('addSearchInput', (input: string) => {
+  cy.get('.search-box').get('input').type(input);
+});
+
+Cypress.Commands.add('submitSearchInput', () => {
+  cy.get('.search-box').submit();
+});
+
+Cypress.Commands.add('testAPIWithFixture', (type: string, fixturePath: string) => {
+  const url =
+    type === 'popular'
+      ? /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular*/
+      : /^https:\/\/api\.themoviedb\.org\/3\/search\/movie*/;
+
+  cy.intercept(
+    {
+      method: 'GET',
+      url: url,
+    },
+    { fixture: fixturePath },
+  );
+});
+
+Cypress.Commands.add('verifyToastExists', (message: string) => {
+  cy.get('div.toast', { timeout: 5000 }).should('be.visible').and('contain', message);
+});
+
+Cypress.Commands.add('verifyToastNotExists', () => {
+  cy.get('div.toast', { timeout: 5000 }).should('not.be.visible');
+});
+
+declare namespace Cypress {
+  interface Chainable {
+    visitHome(): Chainable<void>;
+    addSearchInput(input: string): Chainable<Element>;
+    submitSearchInput(): Chainable<Element>;
+    testAPIWithFixture(type: string, fixturePath: string): Chainable<void>;
+    verifyToastExists(message: string): Chainable<void>;
+    verifyToastNotExists(): Chainable<void>;
+  }
+}
