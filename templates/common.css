@@ -64,5 +64,11 @@ button.primary {
 }
 
 .display-none {
-  display: none;
+  display: none !important;
+}
+
+.visibility-hidden-no-position {
+  visibility: hidden;
+  width     : 0 !important;
+  height    : 0 !important;
 }
