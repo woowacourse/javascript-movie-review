@@ -1,4 +1,4 @@
-import { $ } from '../util/selector.js';
+import { $ } from '../util/selector.ts';
 import LogoImagePath from '../asset/logo.png';
 
 const SearchButtonClickEvent = new Event('clickSearchButton');
