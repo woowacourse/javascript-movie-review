@@ -4,11 +4,11 @@ import { starFilled } from '../../resources';
 import { MOVIE_POSTER_URL } from '../../constants/MOVIES_URL';
 
 const MovieItems = {
-  replaceSkeletons(movieItems: HTMLUListElement, respondData: ResponseData) {
+  replaceSkeletons(movieItems: HTMLUListElement, responseData: ResponseData) {
     const itemCards = movieItems.querySelectorAll('li');
-    itemCards.forEach((itemCard, index) => this.replaceSkeleton(itemCard, respondData.results[index]));
+    itemCards.forEach((itemCard, index) => this.replaceSkeleton(itemCard, responseData.results[index]));
 
-    if (respondData.results[0] === undefined) {
+    if (responseData.results[0] === undefined) {
       this.showNoResult(movieItems);
     }
   },
