@@ -30,21 +30,21 @@ const Skeleton = {
   },
 
   createMovieItemThumbnailSkeleton() {
-    const movieItemThumbnail = document.createElement('div');
+    const movieItemThumbnail = document.createElement('img');
     movieItemThumbnail.classList.add('item-thumbnail', 'skeleton');
 
     return movieItemThumbnail;
   },
 
   createMovieItemTitleSkeleton() {
-    const movieItemTitle = document.createElement('div');
+    const movieItemTitle = document.createElement('p');
     movieItemTitle.classList.add('item-title', 'skeleton');
 
     return movieItemTitle;
   },
 
   createMovieItemScoreSkeleton() {
-    const movieItemScore = document.createElement('div');
+    const movieItemScore = document.createElement('p');
     movieItemScore.classList.add('item-score', 'skeleton');
 
     return movieItemScore;

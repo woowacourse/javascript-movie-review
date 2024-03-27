@@ -28,36 +28,32 @@ const MovieItems = {
   },
 
   replaceThumbnail(itemCard: HTMLElement, movieData: IMovieData) {
-    const oldThumbnail = getDomElement('.item-thumbnail', itemCard);
-    const newThumbnail = document.createElement('img');
+    const thumbnail = getDomElement<HTMLImageElement>('.item-thumbnail', itemCard);
 
-    newThumbnail.classList.add('item-thumbnail');
-    newThumbnail.src = `${MOVIE_POSTER_URL}${movieData.poster_path}`;
-    newThumbnail.loading = 'lazy';
-    newThumbnail.alt = movieData.title;
-
-    oldThumbnail.replaceWith(newThumbnail);
+    thumbnail.classList.add('item-thumbnail');
+    thumbnail.src = `${MOVIE_POSTER_URL}${movieData.poster_path}`;
+    thumbnail.loading = 'lazy';
+    thumbnail.alt = movieData.title;
+    thumbnail.onload = () => thumbnail.classList.toggle('skeleton');
   },
 
   replaceTitle(itemCard: HTMLElement, movieData: IMovieData) {
-    const oldTitle = getDomElement('.item-title', itemCard);
-    const newTitle = document.createElement('p');
+    const title = getDomElement('.item-title', itemCard);
 
-    newTitle.classList.add('item-title');
-    newTitle.textContent = movieData.title;
+    title.classList.add('item-title');
+    title.textContent = movieData.title;
 
-    oldTitle.replaceWith(newTitle);
+    title.onload = () => title.classList.toggle('skeleton');
   },
 
   replaceScore(itemCard: HTMLElement, movieData: IMovieData) {
-    const oldScore = getDomElement('.item-score', itemCard);
-    const newScore = document.createElement('p');
+    const score = getDomElement('.item-score', itemCard);
 
-    newScore.classList.add('item-score');
-    newScore.textContent = `${movieData.vote_average.toFixed(1)} `;
-    newScore.appendChild(this.createStarElement());
+    score.classList.add('item-score');
+    score.textContent = `${movieData.vote_average.toFixed(1)} `;
+    score.appendChild(this.createStarElement());
 
-    oldScore.replaceWith(newScore);
+    score.onload = () => score.classList.toggle('skeleton');
   },
 
   createStarElement(): HTMLElement {
