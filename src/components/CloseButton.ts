@@ -1,5 +1,5 @@
 /* eslint-disable max-lines-per-function */
-import closeImg from "../../templates/exit.png";
+import closeImg from "../../templates/close-button.png";
 import { createElementWithAttribute } from "../utils";
 
 function closeModal() {
