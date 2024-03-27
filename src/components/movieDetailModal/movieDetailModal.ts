@@ -6,6 +6,12 @@ import { dom } from '../../utils/dom';
 import FILLED_STAR from '../../assets/images/star_filled.png';
 import EMPTY_STAR from '../../assets/images/star_empty.png';
 import { SCORE_TEXT } from '../../constants/movie';
+import storage from '../../utils/storage';
+
+interface ScoreStorage {
+  id: number;
+  score: StarScore;
+}
 
 class MovieDetailModal {
   $target = document.createElement('div');
@@ -63,9 +69,8 @@ class MovieDetailModal {
   open(movieResponse: MovieDetailResponse) {
     const { id, genres, imageSrc, description, title, score } = movieDetail.create(movieResponse);
 
-    // TODO: 로컬 스토리지 리팩토링
-    const movies = JSON.parse(localStorage.getItem('movies')!);
-    const movie = movies.filter((movie: { id: number; score: number }) => movie.id === id)[0];
+    const movies = storage.get<ScoreStorage[]>('movies');
+    const movie = movies.filter(movie => movie.id === id)[0];
     const movieScore = movie?.score;
     this.score = movieScore ?? 0;
     this.fillRate(this.score / 2);
@@ -94,35 +99,45 @@ class MovieDetailModal {
 
   setEvent() {
     const $backdrop = dom.getElement(this.$target, '.detail-modal-backdrop');
-    $backdrop.addEventListener('click', () => {
-      this.initStarRate();
-      this.close();
-    });
-
     const $starContainer = dom.getElement(this.$target, '#star-container');
-    $starContainer.addEventListener('click', e => {
-      if (e.target === e.currentTarget) return;
-      const target = e.target as HTMLImageElement;
-      const id = Number(target.dataset.id);
-      this.updateScoreContainer(id);
 
-      // TODO: 로컬 스토리지 리팩토링
-      const score = (id * 2) as StarScore;
-      const movies = JSON.parse(localStorage.getItem('movies')!);
-      const isDeclared = movies.some((movie: { id: number; score: number }) => movie.id === this.movieId);
-      const result = isDeclared
-        ? movies.map((movie: { id: number; score: number }) =>
-            movie.id === this.movieId ? { ...movie, score } : movie,
-          )
-        : [...movies, { id: this.movieId, score }];
-
-      const saveMovies = JSON.stringify(result);
-      localStorage.setItem('movies', saveMovies);
-      this.initStarRate(id);
-      this.fillRate(id);
-    });
-
+    $backdrop.addEventListener('click', this.handleClickDimmer.bind(this));
+    $starContainer.addEventListener('click', this.handleClickStar.bind(this));
     window.addEventListener('keydown', this.handleModalCloseKey.bind(this));
+  }
+
+  handleClickDimmer() {
+    this.initStarRate();
+    this.close();
+  }
+
+  handleClickStar(e: MouseEvent) {
+    if (e.target === e.currentTarget) return;
+    if (typeof this.movieId === 'undefined') return;
+
+    const target = e.target as HTMLImageElement;
+    const id = Number(target.dataset.id);
+    this.updateScoreContainer(id);
+
+    const movies = this.calculateStorageScore(id);
+    storage.set<ScoreStorage[]>('movies', movies);
+    this.initStarRate(id);
+    this.fillRate(id);
+  }
+
+  handleModalCloseKey(e: KeyboardEvent) {
+    if (e.key === 'Escape') {
+      this.close();
+    }
+  }
+
+  calculateStorageScore(id: number) {
+    const score = (id * 2) as StarScore;
+    const movies = storage.get<ScoreStorage[]>('movies');
+    const isDeclared = movies.some(movie => movie.id === this.movieId);
+    return isDeclared
+      ? movies.map(movie => (movie.id === this.movieId ? { ...movie, score } : movie))
+      : [...movies, { id: this.movieId!, score }];
   }
 
   fillRate(count = 0) {
@@ -152,12 +167,6 @@ class MovieDetailModal {
     const score = (count * 2) as StarScore;
     $scoreNumber.textContent = score.toString();
     $scoreText.textContent = SCORE_TEXT[score];
-  }
-
-  handleModalCloseKey(e: KeyboardEvent) {
-    if (e.key === 'Escape') {
-      this.close();
-    }
   }
 }
 
