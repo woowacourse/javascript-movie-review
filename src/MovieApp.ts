@@ -60,7 +60,6 @@ class MovieApp {
       this.handleSearchFormSubmit();
     });
     await this.renderMainContents(RENDER_TYPE.POPULAR);
-    movieDetailModal.handleDetailModal();
   }
 
   handleSearchFormSubmit() {
@@ -215,6 +214,7 @@ class MovieApp {
     this.createMainSkeleton();
     const { movieList, isLastPage } = await this.handleMovieData(renderType, input);
     this.createMainContents({ movieList, isLastPage }, { renderType, input });
+    movieDetailModal.handleDetailModal();
   }
 
   deleteShowMoreButton() {
