@@ -1,0 +1,39 @@
+import Logo from '../../statics/images/logo.png';
+import SearchInput from '../SearchInput/SearchInput';
+import './Header.css';
+
+const moveToMainPage = () => {
+  window.location.href = '';
+};
+
+const createLogo = () => {
+  const $h1 = document.createElement('h1');
+  const $img = document.createElement('img');
+  $img.src = Logo;
+  $img.alt = 'MovieList 로고';
+
+  $h1.appendChild($img);
+  $h1.addEventListener('click', moveToMainPage);
+  return $h1;
+};
+
+const createHeader = () => {
+  const $header = document.createElement('header');
+  const $logo = createLogo();
+  const $searchBox = SearchInput().render();
+
+  $header.appendChild($logo);
+  $header.appendChild($searchBox);
+  return $header;
+};
+
+function Header() {
+  return {
+    render: () => {
+      const $header = createHeader();
+      return $header;
+    },
+  };
+}
+
+export default Header;
