@@ -239,7 +239,6 @@ const imageAndInfoComponent = ({
   const imageAndInfoContainer = createElement('div', {
     className: 'image-info-container',
   });
-  console.log(overview);
 
   if (overview?.length === 0) {
     const noneInfo = createNoneInfo();

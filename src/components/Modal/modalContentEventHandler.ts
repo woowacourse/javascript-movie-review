@@ -57,7 +57,6 @@ const scoreStarRate = (event: Event) => {
 
 export const scoreStarRateHandler = () => {
   const starIconContainer = document.querySelector('.stars-container');
-  console.log(starIconContainer);
   if (!isElement(starIconContainer)) return;
 
   starIconContainer.addEventListener('click', scoreStarRate);
