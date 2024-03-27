@@ -28,7 +28,7 @@ class MovieDetail {
   }
 
   private static getRatingScore(id: string) {
-    const ratingDetail = MovieStorage.get(Number(id));
+    const ratingDetail = MovieStorage.getMovieRating(Number(id));
 
     return ratingDetail?.ratingScore ?? 0;
   }
