@@ -1,10 +1,15 @@
 import { renderHandler } from './render';
 import { keywordSubmitHandler, reloadPageHandler } from './eventHandler';
+import { mobileToggleButtonHandler, mobileInputEnterHandler } from './eventHandler';
 
 function Header() {
   const headerComponent = renderHandler();
-  keywordSubmitHandler();
+  mobileToggleButtonHandler();
+  keywordSubmitHandler('web');
+  keywordSubmitHandler('mobile');
+  mobileInputEnterHandler();
   reloadPageHandler();
+
   return headerComponent;
 }
 

@@ -9,6 +9,8 @@ import { initializeInfiniteScroll } from '../ShowMoreButton/infiniteScrollHandle
 import { renderNoMoreDataText } from '../ShowMoreButton/infiniteScrollHandler';
 import MovieStorageService from '../../services/MovieStorageService';
 
+type SearchType = 'web' | 'mobile';
+
 const removeExistingNoMoreDataText = () => {
   const noMoreText = document.querySelector('.no-more-text');
   if (!isElement(noMoreText)) return;
@@ -45,25 +47,31 @@ const validateAndLoadMovieList = (keyword: string) => {
   updateMovieListBanner(keyword);
 };
 
-const formSubmitHandler = (event: Event) => {
+const formSubmitHandler = (event: Event, searchType: SearchType) => {
   event.preventDefault();
+  const targetInputClass = searchType === 'mobile' ? '.mobile-search-input' : '.web-search-input';
   removeExistingNoMoreDataText();
   pageManager.resetPage();
-  const input = document.querySelector('input');
-  if (!input) return;
+  const input = document.querySelector(targetInputClass) as HTMLInputElement;
+  if (!isElement(input)) return;
   validateAndLoadMovieList(input.value);
 
   input.value = '';
 };
 
-export const keywordSubmitHandler = () => {
-  const form = document.querySelector('.search-form');
+export const keywordSubmitHandler = (searchType: SearchType) => {
+  const targetFormClass = searchType === 'mobile' ? '.mobile-search-form' : '.web-search-form';
+  const form = document.querySelector(targetFormClass);
   if (!form) return;
 
-  form.addEventListener('submit', (event) => formSubmitHandler(event));
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    formSubmitHandler(event, searchType);
+  });
 };
 
 const reloadPage = () => {
+  window.scroll(0, 0);
   window.location.reload();
 };
 
@@ -72,4 +80,40 @@ export const reloadPageHandler = () => {
   if (!isHTMLElement(headerBanner)) return;
 
   headerBanner.addEventListener('click', reloadPage);
+};
+
+const toggleMobileSearchInput = (event: Event) => {
+  event.preventDefault();
+  event.stopPropagation();
+
+  const mobileSearchInput = document.querySelector('.mobile-search-input');
+  const mobileSubmitButton = document.querySelector('.mobile-submit-button');
+
+  if (!isElement(mobileSearchInput)) return;
+  if (!isElement(mobileSubmitButton)) return;
+  [mobileSearchInput, mobileSubmitButton].forEach((element) => element.classList.add('visible'));
+};
+
+export const mobileToggleButtonHandler = () => {
+  const mobileToggleButton = document.querySelector('.mobile-search-button');
+  if (!isElement(mobileToggleButton)) return;
+
+  mobileToggleButton.addEventListener('click', (event) => toggleMobileSearchInput(event));
+  mobileToggleButton.classList.add('hide');
+};
+
+const mobileInputEnterSearch = (event: KeyboardEvent, mobileSearchInput: HTMLInputElement) => {
+  removeExistingNoMoreDataText();
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    const keyword = mobileSearchInput.value;
+    validateAndLoadMovieList(keyword);
+    mobileSearchInput.value = '';
+  }
+};
+
+export const mobileInputEnterHandler = () => {
+  const mobileSearchInput = document.querySelector('.mobile-search-input') as HTMLInputElement;
+  if (!isElement(mobileSearchInput)) return;
+  mobileSearchInput.addEventListener('keypress', (event) => mobileInputEnterSearch(event, mobileSearchInput));
 };
