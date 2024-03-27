@@ -18,9 +18,7 @@ const render = (movie: Movie) => {
 
   const thumbnail = document.createElement('img');
   thumbnail.className = 'item-thumbnail skeleton';
-  thumbnail.src = movie.poster_path
-    ? `https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}.jpg`
-    : emptyPng;
+  thumbnail.src = movie.posterPath ? `https://image.tmdb.org/t/p/w220_and_h330_face/${movie.posterPath}.jpg` : emptyPng;
   thumbnail.loading = 'lazy';
   thumbnail.alt = movie.title;
   thumbnail.onload = () => {
@@ -33,7 +31,7 @@ const render = (movie: Movie) => {
 
   const score = document.createElement('p');
   score.className = 'item-score';
-  score.textContent = String(movie.vote_average);
+  score.textContent = String(movie.voteAverage);
 
   const scoreImage = document.createElement('img');
   scoreImage.src = filledStar;

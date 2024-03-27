@@ -5,8 +5,8 @@ const mapDataToMovies = (movies: any): Movie[] => {
     return {
       id: data.id,
       title: data.title,
-      poster_path: data.poster_path,
-      vote_average: data.vote_average,
+      posterPath: data.poster_path,
+      voteAverage: data.vote_average,
     };
   });
 };
