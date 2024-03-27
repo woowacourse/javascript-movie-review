@@ -34,7 +34,7 @@ class Header {
   }
 
   render() {
-    this.$target.innerHTML += this.template();
+    this.$target.innerHTML = this.template();
     const button = this.#createSearchButton();
 
     const $form = dom.getElement(this.$target, '.search-box');
