@@ -324,6 +324,7 @@ main {
   display: flex;
   gap: 20px;
   padding: 32px;
+  justify-content: space-between;
 }
 
 .modal-title {
@@ -340,6 +341,7 @@ main {
 .modal-info-container {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   justify-content: space-between;
 }
 
