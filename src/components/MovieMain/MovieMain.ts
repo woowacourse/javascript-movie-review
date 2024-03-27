@@ -8,15 +8,22 @@ interface MovieMainProps {
 }
 
 class MovieMain {
-  $element;
-  private movieListBox;
+  private $element: HTMLElement;
+
+  private movieListBox: MovieListBox;
 
   constructor({ title, onMovieMoreButtonClick }: MovieMainProps) {
     this.movieListBox = new MovieListBox({
       title,
       onMovieMoreButtonClick,
     });
-    this.$element = generateMain({ children: [this.movieListBox.$element] });
+    this.$element = generateMain({
+      children: [this.movieListBox.getElement()],
+    });
+  }
+
+  getElement() {
+    return this.$element;
   }
 
   changeMovieListBox({ title, onMovieMoreButtonClick }: MovieMainProps) {
@@ -25,7 +32,7 @@ class MovieMain {
       onMovieMoreButtonClick,
     });
 
-    this.replace(this.movieListBox.$element);
+    this.replace(this.movieListBox.getElement());
   }
 
   reRender(movieList: Movie[]) {

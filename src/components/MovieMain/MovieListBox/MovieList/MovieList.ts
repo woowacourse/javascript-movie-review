@@ -4,8 +4,10 @@ import createElement from "../../../utils/createElement";
 
 class MovieList {
   private static MAX_ITEM_OF_PAGE = 20;
-  $element;
-  movieList;
+
+  private $element: HTMLElement;
+
+  private movieList: MovieItem[];
 
   constructor() {
     this.movieList = Array.from({ length: MovieList.MAX_ITEM_OF_PAGE }).map(
@@ -14,12 +16,8 @@ class MovieList {
     this.$element = this.generateMovieList();
   }
 
-  private generateMovieList() {
-    return createElement({
-      tagName: "ul",
-      attribute: { class: "item-list" },
-      children: this.movieList.map((item) => item.$element),
-    });
+  getElement() {
+    return this.$element;
   }
 
   reRender(movies: Movie[]) {
@@ -32,20 +30,7 @@ class MovieList {
         return;
       }
 
-      movieItem.$element.remove();
-    });
-  }
-
-  appendSkeleton() {
-    this.movieList = Array.from({ length: MovieList.MAX_ITEM_OF_PAGE }).map(
-      () => new MovieItem()
-    );
-    this.$element.append(...this.movieList.map((item) => item.$element));
-  }
-
-  removeAllSkeleton() {
-    this.movieList.forEach((movieItem) => {
-      movieItem.$element.remove();
+      movieItem.remove();
     });
   }
 
@@ -73,6 +58,27 @@ class MovieList {
     if ($lastChild.classList.contains("text-invalid-result")) {
       $lastChild.remove();
     }
+  }
+
+  appendSkeleton() {
+    this.movieList = Array.from({ length: MovieList.MAX_ITEM_OF_PAGE }).map(
+      () => new MovieItem()
+    );
+    this.$element.append(...this.movieList.map((item) => item.getElement()));
+  }
+
+  private removeAllSkeleton() {
+    this.movieList.forEach((movieItem) => {
+      movieItem.remove();
+    });
+  }
+
+  private generateMovieList() {
+    return createElement({
+      tagName: "ul",
+      attribute: { class: "item-list" },
+      children: this.movieList.map((item) => item.getElement()),
+    });
   }
 }
 

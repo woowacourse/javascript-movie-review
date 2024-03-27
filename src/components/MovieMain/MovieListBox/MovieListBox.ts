@@ -4,10 +4,13 @@ import MovieMoreButton from "./MovieList/MovieMoreButton";
 import createElement from "../../utils/createElement";
 
 class MovieListBox {
-  $element;
-  movieList;
-  button;
-  isIntersecting = false;
+  private $element: HTMLElement;
+
+  private movieList: MovieList;
+  private movieMoreButton: MovieMoreButton | null;
+
+  private intersectionObserver: IntersectionObserver;
+  private isIntersecting = false;
 
   constructor({
     title,
@@ -22,10 +25,9 @@ class MovieListBox {
     });
 
     this.movieList = new MovieList();
-    this.button = new MovieMoreButton({
+
+    this.movieMoreButton = new MovieMoreButton({
       onClickHandler: () => {
-        console.log("clicked!");
-        console.log("");
         this.movieList.removeMessage();
         this.showMoreMovies();
         onMovieMoreButtonClick();
@@ -33,60 +35,66 @@ class MovieListBox {
     });
 
     this.$element = this.generateMovieListBox({
-      children: [$h2, this.movieList.$element, this.button.$element],
+      children: [
+        $h2,
+        this.movieList.getElement(),
+        this.movieMoreButton.getElement(),
+      ],
     });
 
-    this.registerObserver();
-  }
-
-  private setIsIntersecting(isIntersection: boolean) {
-    console.log("###setIsIntersecting####");
-    this.isIntersecting = isIntersection;
-    this.clickButtonAccordingToCondition();
-  }
-
-  private registerObserver() {
-    const intersectionObserver = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        this.setIsIntersecting(true);
-      } else {
-        this.setIsIntersecting(false);
-      }
+    this.intersectionObserver = new IntersectionObserver((entries) => {
+      this.setIsIntersecting(entries[0].isIntersecting);
     });
-
-    intersectionObserver.observe(this.button.$element);
+    this.movieMoreButton.registerToIntersectionObserver(
+      this.intersectionObserver
+    );
   }
 
-  reRender(movieList: Movie[]) {
-    console.log("###reRender####");
-    this.movieList.reRender(movieList);
-    this.button.toggleDisabled();
-    this.clickButtonAccordingToCondition();
+  getElement() {
+    return this.$element;
   }
 
   renderMessage(message: string) {
     this.movieList.renderMessage(message);
   }
 
-  showMoreMovies() {
-    this.button.toggleDisabled();
+  removeMovieMoreButton() {
+    if (this.movieMoreButton) {
+      this.movieMoreButton.unregisterToIntersectionObserver(
+        this.intersectionObserver
+      );
+      this.movieMoreButton.removeElement();
+    }
+    this.movieMoreButton = null;
+  }
+
+  reRender(movieList: Movie[]) {
+    this.movieList.reRender(movieList);
+    if (!this.movieMoreButton) {
+      return;
+    }
+    this.movieMoreButton.enable();
+    if (this.isIntersecting) {
+      this.movieMoreButton.click();
+    }
+  }
+
+  private showMoreMovies() {
+    if (this.movieMoreButton) {
+      this.movieMoreButton.disable();
+    }
     this.movieList.appendSkeleton();
   }
 
-  removeMovieMoreButton() {
-    this.button.removeMovieMoreButton();
-  }
+  private setIsIntersecting(isIntersection: boolean) {
+    this.isIntersecting = isIntersection;
 
-  private clickButtonAccordingToCondition() {
-    console.log("this.isIntersecting:", this.isIntersecting);
-    console.log("!this.button.disabled:", !this.button.disabled);
-    if (!this.isIntersecting) {
+    if (!this.movieMoreButton) {
       return;
     }
-    if (this.button.disabled) {
-      return;
+    if (this.isIntersecting) {
+      this.movieMoreButton.click();
     }
-    this.button.$element.click();
   }
 
   private generateMovieListBox({ children }: { children: HTMLElement[] }) {

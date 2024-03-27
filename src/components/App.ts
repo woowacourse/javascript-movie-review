@@ -14,22 +14,22 @@ class App {
 
   private currentPage = App.FIRST_PAGE;
 
-  private movieMain;
+  private movieMain: MovieMain;
   private query = "";
 
   constructor($root: HTMLElement) {
+    const $movieHeader = new MovieHeader({
+      logoClickHandler: this.logoClickHandler.bind(this),
+      searchBoxSubmitHandler: this.searchBoxSubmitHandler.bind(this),
+    }).getElement();
+
     this.movieMain = new MovieMain({
       title: MOVIE_LIST_BOX_TITLE.popular,
       onMovieMoreButtonClick: this.renderNextPage.bind(this),
     });
 
-    $root.append(
-      new MovieHeader({
-        logoClickHandler: this.logoClickHandler.bind(this),
-        searchBoxSubmitHandler: this.searchBoxSubmitHandler.bind(this),
-      }).$element,
-      this.movieMain.$element
-    );
+    $root.append($movieHeader, this.movieMain.getElement());
+
     this.renderPopularMovieList();
   }
 

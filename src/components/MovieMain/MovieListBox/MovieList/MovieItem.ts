@@ -10,10 +10,14 @@ export interface Movie {
 }
 
 class MovieItem {
-  $element;
+  private $element: HTMLElement;
 
   constructor() {
     this.$element = this.generateMovieItem();
+  }
+
+  getElement() {
+    return this.$element;
   }
 
   reRender({ id, korTitle, posterPath, voteAverage }: Movie) {
@@ -52,6 +56,10 @@ class MovieItem {
       }),
       voteAverage.toString()
     );
+  }
+
+  remove() {
+    this.$element.remove();
   }
 
   private generateMovieItem() {

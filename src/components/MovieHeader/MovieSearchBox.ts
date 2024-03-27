@@ -9,8 +9,8 @@ interface MovieSearchBoxProps {
 class MovieSearchBox {
   private static PLACEHOLDER = "검색";
 
-  props;
-  $element;
+  private $element;
+  private props;
 
   constructor(props: MovieSearchBoxProps) {
     this.props = props;
@@ -20,6 +20,10 @@ class MovieSearchBox {
       buttonText: MovieSearchBox.PLACEHOLDER,
       onSubmitHandler: this.searchByQuery.bind(this),
     });
+  }
+
+  getElement() {
+    return this.$element;
   }
 
   clear() {

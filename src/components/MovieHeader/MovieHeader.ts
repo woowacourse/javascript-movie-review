@@ -10,10 +10,14 @@ interface MovieHeaderProps {
 }
 
 class MovieHeader {
-  $element;
+  private $element;
 
   constructor(props: MovieHeaderProps) {
     this.$element = this.generateMovieHeader(props);
+  }
+
+  getElement() {
+    return this.$element;
   }
 
   private generateMovieHeader({
@@ -38,7 +42,7 @@ class MovieHeader {
       searchBoxSubmitHandler,
     });
 
-    return generateHeader({ children: [$h1, searchBox.$element] });
+    return generateHeader({ children: [$h1, searchBox.getElement()] });
   }
 }
 

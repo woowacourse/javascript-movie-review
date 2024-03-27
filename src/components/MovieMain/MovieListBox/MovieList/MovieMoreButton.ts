@@ -1,20 +1,43 @@
 import createElement from "../../../utils/createElement";
 
 class MovieMoreButton {
-  $element;
-  disabled;
+  private $element: HTMLElement;
+
+  private enabled: boolean;
 
   constructor({ onClickHandler }: { onClickHandler: () => void }) {
     this.$element = this.generateMovieMoreButton(onClickHandler);
-    this.disabled = true;
+    this.enabled = false;
   }
 
-  toggleDisabled() {
-    this.disabled = !this.disabled;
+  getElement() {
+    return this.$element;
   }
 
-  removeMovieMoreButton() {
+  disable() {
+    this.enabled = false;
+  }
+
+  enable() {
+    this.enabled = true;
+  }
+
+  removeElement() {
     this.$element.remove();
+  }
+
+  click() {
+    if (this.enabled) {
+      this.$element.click();
+    }
+  }
+
+  registerToIntersectionObserver(intersectionObserver: IntersectionObserver) {
+    intersectionObserver.observe(this.$element);
+  }
+
+  unregisterToIntersectionObserver(intersectionObserver: IntersectionObserver) {
+    intersectionObserver.unobserve(this.$element);
   }
 
   private generateMovieMoreButton(onClickHandler: () => void) {
