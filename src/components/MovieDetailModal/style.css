@@ -23,7 +23,7 @@
   inset: 50%;
   transform: translate(-50%, -50%);
   width: 740px;
-  height: 544px;
+  height: 534px;
 
   border-radius: 8px;
   background: var(--grayscale-500);
@@ -36,6 +36,7 @@
 
   height: 60px;
   width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
 
   border-bottom: 1px solid var(--border);
 }
@@ -57,7 +58,16 @@
   display: flex;
   gap: 32px;
 
+  background-color: rgba(0, 0, 0, 0.8);
+
   padding: 36px 32px 48px 32px;
+}
+
+.backdrop-image {
+  position: absolute;
+  background-size: cover;
+  z-index: -5;
+  inset: 0;
 }
 
 .detail-poster {

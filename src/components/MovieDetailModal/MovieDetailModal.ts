@@ -4,7 +4,7 @@ import MovieGenresCollection from '../../domain/MovieGenresCollection';
 
 import ScoreSelector from '../ScoreSelector/ScoreSelector';
 
-import { IMAGE_URL_PREFIX } from '../../constants/url';
+import { BACKDROP_URL_PREFIX, IMAGE_URL_PREFIX } from '../../constants/url';
 
 import StarFilled from '../../imgs/star_filled.png';
 import CloseButton from '../../imgs/close_button.svg';
@@ -67,6 +67,7 @@ class MovieDetailModal {
           설명임
         </p>
         </section>
+        <div class="backdrop-image">/<div>
       </main>
     `;
 
@@ -86,6 +87,9 @@ class MovieDetailModal {
     vote_average,
   }: MovieDetailModalProps) {
     this.scoreSelector.initializeScore(title);
+
+    const backdrop = this.template.querySelector('.backdrop-image') as HTMLDivElement;
+    backdrop.style.backgroundImage = `url(${BACKDROP_URL_PREFIX}${backdrop_path})`;
 
     const titleElement = this.template.querySelector('.movie-detail-title') as HTMLHeadingElement;
     titleElement.textContent = title;
