@@ -25,13 +25,12 @@ export default class MovieList extends Component<{}, MovieListState> {
         </ul>
       </div>
       <div id="empty-result" class="empty-result hidden"></div>
-      <button id="next-button" class="btn primary full-width">더 보기</button>
       <dialog class="modal">
       </dialog>
     `;
   }
 
-  protected render() {
+  protected async render() {
     this.state = { currentPage: 0, searchKeyword: "" };
     this.$target.innerHTML = this.getTemplate();
     this.handleRenderMovieList();
@@ -58,7 +57,7 @@ export default class MovieList extends Component<{}, MovieListState> {
     const movieList = $<HTMLUListElement>("#movie-list-container");
     if (!movieList) return;
 
-    if (movies.length < 1) {
+    if (movies.length < 20) {
       this.renderEmptyResult();
       return;
     }
@@ -92,8 +91,20 @@ export default class MovieList extends Component<{}, MovieListState> {
     renderSkeleton();
 
     this.getNextPage()
-      .then((res) => {
-        res && this.renderMovies(res);
+      .then((data) => {
+        if (!data || data.length < 20) return;
+        this.renderMovies(data);
+        const $movies = document.querySelectorAll<HTMLLIElement>("li");
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && entry.target === $movies[$movies.length - 1]) {
+              observer.unobserve(entry.target);
+              this.handleRenderMovieList();
+            }
+          });
+        });
+
+        observer.observe($movies[$movies.length - 1]);
       })
       .catch((error) => {
         if (error instanceof Error) {
@@ -105,18 +116,10 @@ export default class MovieList extends Component<{}, MovieListState> {
       });
   }
 
-  private handleRemoveMoreButton() {
-    if (!this.state || this.state.currentPage < MAX_PAGE) return;
-
-    const $button = $<HTMLButtonElement>("#next-button");
-    $button && $button.remove();
-  }
-
   private updateCurrentPage() {
     if (!this.state) return;
 
     this.setState({ ...this.state, currentPage: this.state.currentPage + 1 });
-    this.handleRemoveMoreButton();
   }
 
   private async getNextPage() {
@@ -126,13 +129,6 @@ export default class MovieList extends Component<{}, MovieListState> {
     const { currentPage, searchKeyword } = this.state;
     if (searchKeyword === "") return MovieClient.getPopularMovies(currentPage);
     return MovieClient.getSearchMovies(currentPage, searchKeyword);
-  }
-
-  protected setEvent(): void {
-    const button = $<HTMLButtonElement>("#next-button");
-    button?.addEventListener("click", () => {
-      this.handleRenderMovieList();
-    });
   }
 
   public handleSearchMovie(searchKeyword: string) {
