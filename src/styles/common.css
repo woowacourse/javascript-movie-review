@@ -20,7 +20,9 @@ button {
 #app {
   padding-bottom: 48px;
 }
-
+main {
+  position: relative;
+}
 *:focus {
   outline: none;
 }

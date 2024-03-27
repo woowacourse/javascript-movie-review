@@ -5,7 +5,7 @@
   grid-column-gap: 160px;
   grid-row-gap: 48px;
 }
-.movie-list li:last-child {
+.movie-list-container .movie-list li:last-child {
   display: block;
   grid-column: 1 / -1;
 }

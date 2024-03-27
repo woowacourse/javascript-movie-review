@@ -8,19 +8,11 @@ class SkeletonListContainer {
     this.#renderSkeletonListContainer();
   }
 
-  #makeSkeletonListTitle = () => {
-    const $title = document.createElement('h2');
-    $title.textContent = '로딩 중...';
-
-    return $title;
-  };
-
   #makeSkeletonListContainer() {
     const $section = createElementWithAttribute('section', {
       class: 'skeleton-list-container',
     });
 
-    $section.appendChild(this.#makeSkeletonListTitle());
     $section.appendChild(new SkeletonList().element);
 
     return $section;

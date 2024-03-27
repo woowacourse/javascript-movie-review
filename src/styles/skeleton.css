@@ -5,6 +5,16 @@
 
 .skeleton-list-container.on {
   display: grid;
+  position: absolute;
+  top: 100%;
+  left: 48px;
+  width: calc(100vw - 48px * 2);
+}
+.skeleton-list-container h2 {
+  display: none;
+}
+.skeleton-list-container h2.on {
+  display: block;
 }
 .movie-card .skeleton {
   animation: skeleton-animation 5s infinite ease-out;
