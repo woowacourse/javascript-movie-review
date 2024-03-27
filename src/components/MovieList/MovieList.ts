@@ -26,7 +26,7 @@ class MovieList {
 
     movieList.appendChild(this.createTitle(movieListTitle));
     movieList.appendChild(listEnd);
-    await this.mountItems(listEnd);
+    this.mountItems(listEnd);
 
     await setupInfiniteScroll(listEnd, this.mountItems.bind(this), this.#search);
 
