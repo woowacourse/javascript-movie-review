@@ -40,7 +40,7 @@ const fetchMovies = async (url: string): Promise<MovieData> => {
   });
 
   const { page, total_pages, results, total_results } = data;
-  const isLastPage: boolean = page === total_pages;
+  const isLastPage = page === total_pages;
   const isEmptyResults: boolean = total_results === 0;
   const movies: Movie[] = results.map(
     (
