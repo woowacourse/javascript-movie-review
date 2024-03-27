@@ -55,7 +55,6 @@ const formSubmitHandler = (event: Event, searchType: SearchType) => {
   const input = document.querySelector(targetInputClass) as HTMLInputElement;
   if (!isElement(input)) return;
   validateAndLoadMovieList(input.value);
-
   input.value = '';
 };
 
@@ -85,10 +84,8 @@ export const reloadPageHandler = () => {
 const toggleMobileSearchInput = (event: Event) => {
   event.preventDefault();
   event.stopPropagation();
-
   const mobileSearchInput = document.querySelector('.mobile-search-input');
   const mobileSubmitButton = document.querySelector('.mobile-submit-button');
-
   if (!isElement(mobileSearchInput)) return;
   if (!isElement(mobileSubmitButton)) return;
   [mobileSearchInput, mobileSubmitButton].forEach((element) => element.classList.add('visible'));

@@ -2,14 +2,20 @@ import createElement from '../../utils/createElement';
 import headerLogo from '../../../templates/logo.png';
 import isHTMLElement from '../../utils/isHTMLElement';
 
-const createHeaderBanner = () => {
-  const container = createElement('div', { className: 'header-banner-wrapper' });
+const createBannerContent = () => {
   const h1 = createElement('h1');
   const headerLogoImage = createElement('img', {
     src: headerLogo,
     alt: 'MovieList',
   });
   h1.appendChild(headerLogoImage);
+
+  return h1;
+};
+
+const createHeaderBanner = () => {
+  const container = createElement('div', { className: 'header-banner-wrapper' });
+  const h1 = createBannerContent();
 
   container.appendChild(h1);
 

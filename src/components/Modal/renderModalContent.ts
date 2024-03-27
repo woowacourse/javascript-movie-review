@@ -20,6 +20,7 @@ const createCloseButton = () => {
   return closeContainer;
 };
 
+/* eslint-disable  max-lines-per-function */
 const createMovieDetailTitle = (movieTitle: string) => {
   const titleContainer = createElement('div', {
     className: 'detail-title-container',
@@ -36,6 +37,7 @@ const createMovieDetailTitle = (movieTitle: string) => {
   return titleContainer;
 };
 
+/* eslint-disable  max-lines-per-function */
 const createMovieDetailImage = (imageSrc: string) => {
   const imageContainer = createElement('div', {
     className: 'detail-image-container',
@@ -56,6 +58,7 @@ const createMovieDetailImage = (imageSrc: string) => {
   return imageContainer;
 };
 
+/* eslint-disable  max-lines-per-function */
 const createImageAndVoteAverage = (vote_average: number) => {
   const container = createElement('div', {
     className: 'image-average-container',
@@ -75,6 +78,7 @@ const createImageAndVoteAverage = (vote_average: number) => {
   return container;
 };
 
+/* eslint-disable  max-lines-per-function */
 const createGenreAndVoteAverage = (movieGenres: MovieGenre[], vote_average: number) => {
   const totalGenreText = movieGenres.join(', ');
   const container = createElement('div', {
@@ -146,9 +150,7 @@ const createRateToNumber = (star_rating: StarRate) => {
     className: 'rate-number',
     textContent: star_rating.toString(),
   });
-
   rateToNumberContainer.appendChild(rateToNumber);
-
   return rateToNumberContainer;
 };
 
@@ -208,6 +210,7 @@ const createNoneInfo = () => {
   return h2;
 };
 
+/* eslint-disable  max-lines-per-function */
 const createMovieInfoContainer = ({ genres, vote_average, overview, star_rating }: Partial<MovieDetailProps>) => {
   const infoContainer = createElement('div', {
     className: 'info-container',
@@ -225,6 +228,7 @@ const createMovieInfoContainer = ({ genres, vote_average, overview, star_rating 
   return infoContainer;
 };
 
+/* eslint-disable  max-lines-per-function */
 const imageAndInfoComponent = ({
   poster_path,
   genres,
