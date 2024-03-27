@@ -2,17 +2,26 @@
 export class InfiniteScroll {
   private observe: IntersectionObserver | null = null;
   private target: HTMLElement;
+  private isLoading: boolean;
   private callback: (observe: InfiniteScroll) => Promise<void>;
 
   constructor(target: HTMLElement, callback: (observe: InfiniteScroll) => Promise<void>) {
     this.target = target;
+    this.isLoading = false;
     this.callback = callback;
   }
   observeIntersection() {
     this.observe = new IntersectionObserver(async entries => {
       entries.forEach(async entry => {
-        if (entry.isIntersecting) {
-          await this.callback(this);
+        if (entry.isIntersecting && !this.isLoading) {
+          this.target.textContent = '로딩중';
+          this.isLoading = true;
+          setTimeout(async () => {
+            await this.callback(this).then(() => {
+              this.target.textContent = '';
+              this.isLoading = false;
+            });
+          }, 150);
         }
       });
     });

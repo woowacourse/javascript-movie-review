@@ -45,3 +45,8 @@ button.primary {
 button.none {
   display: none;
 }
+
+.loading {
+  text-align: center;
+  font-size: 20px;
+}

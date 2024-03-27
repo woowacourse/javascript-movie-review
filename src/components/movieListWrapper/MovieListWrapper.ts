@@ -30,6 +30,7 @@ export class MovieListWrapper {
     ul.replaceChildren();
 
     const addLayerDiv: HTMLElement = document.createElement('div');
+    addLayerDiv.className = 'loading';
 
     section.append(title, ul);
     section.appendChild(addLayerDiv);
