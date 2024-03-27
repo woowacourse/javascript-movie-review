@@ -1,4 +1,5 @@
 import { MOVIE_LIST_TYPE } from '../../src/constant/config.ts';
+import ERROR_MESSAGE from '../../src/constant/errorMessage.ts';
 
 describe('영화 e2e 테스트', () => {
   it('로고를 클릭하면 메인 페이지로 돌아간다', () => {
@@ -53,6 +54,6 @@ describe('영화 e2e 테스트', () => {
     cy.visitHome();
     cy.submitSearchInput();
 
-    cy.get('.toast').contains('검색어를 입력해주세요.').should('exist');
+    cy.get('.toast').contains(ERROR_MESSAGE.SEARCH_KEYWORD_EMPTY).should('exist');
   });
 });
