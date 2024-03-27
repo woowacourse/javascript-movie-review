@@ -4,8 +4,10 @@ import { SETTING } from '../../constants/setting';
 
 import StarFilled from '../../imgs/star_filled.png';
 import StarEmpty from '../../imgs/star_empty.png';
+import MovieScoresCollection from '../../domain/MovieScoresCollection';
 
 const SCORE_LOOKUP_TABLE: Record<number, string> = {
+  0: '별을 눌러주세요',
   2: '최악이예요',
   4: '별로예요',
   6: '보통이에요',
@@ -15,6 +17,7 @@ const SCORE_LOOKUP_TABLE: Record<number, string> = {
 
 class ScoreSelector {
   private template: HTMLElement;
+  private title = '';
 
   constructor() {
     this.template = this.createTemplate();
@@ -36,7 +39,7 @@ class ScoreSelector {
 
     const scoreDetail = document.createElement('p');
     scoreDetail.classList.add('font-body', 'my-score-detail');
-    scoreDetail.textContent = '별을 눌러주세요';
+    scoreDetail.textContent = SCORE_LOOKUP_TABLE[0];
 
     div.appendChild(myScoreTitle);
     div.appendChild(starContainer);
@@ -61,21 +64,23 @@ class ScoreSelector {
     return starContainer;
   }
 
-  getElement() {
-    return this.template;
-  }
-
   setEventListener() {
     this.template.querySelector('.star-icon-container')?.addEventListener('click', (event) => {
-      this.handleStarIcons((event.target as HTMLElement).id);
-      this.handleScoreDetail((event.target as HTMLElement).id);
+      const score = Number((event.target as HTMLElement).id) * 2;
+      this.handleScore(score);
+      this.updateScore(score);
     });
   }
 
-  handleStarIcons(targetId: string) {
+  handleScore(score: number) {
+    this.handleStarIcons(score);
+    this.handleScoreDetail(score);
+  }
+
+  handleStarIcons(score: number) {
     const icons = this.template.querySelectorAll('.star-icon');
     icons.forEach((icon) => {
-      if (icon.id <= targetId) {
+      if (Number(icon.id) <= score / 2) {
         (icon as HTMLImageElement).src = StarFilled;
       } else {
         (icon as HTMLImageElement).src = StarEmpty;
@@ -83,21 +88,25 @@ class ScoreSelector {
     });
   }
 
-  handleScoreDetail(targetId: string) {
-    const score = +targetId * 2;
-    (this.template.querySelector('.my-score') as HTMLParagraphElement).textContent = score + '';
+  handleScoreDetail(score: number) {
+    (this.template.querySelector('.my-score') as HTMLParagraphElement).textContent = score
+      ? score + ''
+      : '';
     (this.template.querySelector('.my-score-detail') as HTMLParagraphElement).textContent =
       SCORE_LOOKUP_TABLE[score];
   }
 
-  reset() {
-    const icons = this.template.querySelectorAll('.star-icon');
-    icons.forEach((icon) => {
-      (icon as HTMLImageElement).src = StarEmpty;
-    });
-    (this.template.querySelector('.my-score') as HTMLParagraphElement).textContent = '';
-    (this.template.querySelector('.my-score-detail') as HTMLParagraphElement).textContent =
-      '별을 눌러주세요';
+  initializeScore(title: string) {
+    this.title = title;
+    this.handleScore(MovieScoresCollection.getScoreByTItle(title) ?? 0);
+  }
+
+  updateScore(score: number) {
+    MovieScoresCollection.setOneScore({ title: this.title, score });
+  }
+
+  getElement() {
+    return this.template;
   }
 }
 

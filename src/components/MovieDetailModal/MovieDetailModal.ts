@@ -15,8 +15,10 @@ interface MovieDetailModalProps {
 
 class MovieDetailModal {
   private template: HTMLElement;
+  private scoreSelector: ScoreSelector;
 
   constructor() {
+    this.scoreSelector = new ScoreSelector();
     this.template = this.createBackdrop();
     this.setEventListener();
     this.createMovieDetail();
@@ -62,7 +64,7 @@ class MovieDetailModal {
     modalContainer.innerHTML = html;
 
     const section = this.template.querySelector('section') as HTMLElement;
-    section.appendChild(new ScoreSelector().getElement());
+    section.appendChild(this.scoreSelector.getElement());
   }
 
   setMovieDetail({
@@ -73,6 +75,7 @@ class MovieDetailModal {
     overview,
     vote_average,
   }: MovieDetailModalProps) {
+    this.scoreSelector.initializeScore(title);
     const titleElement = this.template.querySelector('.movie-detail-title') as HTMLHeadingElement;
     titleElement.textContent = title;
     const genreElement = this.template.querySelector('.detail-genre') as HTMLParagraphElement;
