@@ -17,8 +17,12 @@ class MovieApp {
   }
 
   init() {
-    this.#app?.appendChild(this.#setHeader());
-    this.#app?.appendChild(this.#setMain());
+    if (!(this.#app instanceof HTMLElement)) {
+      return;
+    }
+
+    this.#app.appendChild(this.#setHeader());
+    this.#app.appendChild(this.#setMain());
     this.#movieController.render('');
 
     this.#addViewMoreButtonClick();
