@@ -3,6 +3,7 @@ import { Movie } from './../../types/movie';
 import '../MovieList/MovieList.css';
 import { MOVIE_COUNT_PER_PAGE } from '../../consts/UISettings';
 import { NotFound } from '../Error/NotFound/NotFound';
+import { movieItemskeletonTemplate } from '../MovieItem/Skeleton';
 
 interface Props {
   movieList: Movie[];
@@ -33,7 +34,7 @@ class MovieList {
     const skeletonBox = new DocumentFragment();
 
     Array.from({ length: MOVIE_COUNT_PER_PAGE }).forEach((_, i) => {
-      const moveItemTemplate = MovieItem.skeletonTemplate();
+      const moveItemTemplate = movieItemskeletonTemplate();
       moveItemTemplate.setAttribute('data-skeleton-id', String(i + 1));
       skeletonBox.append(moveItemTemplate);
     });
@@ -53,7 +54,7 @@ class MovieList {
       if (!skeletonTemplate) return;
 
       if (this.movieList[i]) {
-        const moveItemTemplate = MovieItem.template(this.movieList[i]);
+        const moveItemTemplate = new MovieItem(this.movieList[i]).template();
         return skeletonTemplate.replaceWith(moveItemTemplate);
       }
       skeletonTemplate.remove();

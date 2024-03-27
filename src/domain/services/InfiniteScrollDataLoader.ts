@@ -1,6 +1,6 @@
 import MovieList from '../../components/MovieList/MovieList';
 import movieAPI from '../../api/movie';
-import { getEndpoint, getUrlParams, setUrlParams } from '../../utils/queryString';
+import { getEndpoint, getUrlParams } from '../../utils/queryString';
 import MovieDomain from '../entity/Movie';
 import { END_POINT, QUERY_STRING_KEYS } from '../../consts/URL';
 

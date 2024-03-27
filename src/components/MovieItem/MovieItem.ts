@@ -3,46 +3,70 @@ import NoImage from '../../assets/no_image.png';
 import { Movie } from './../../types/movie';
 import '../MovieItem/MovieItem.css';
 import { POSTER_BASE_URL } from '../../consts/URL';
+import { setUrlParams } from '../../utils/queryString';
+import movieAPI from '../../api/movie';
 
-const MovieItem = {
-  skeletonTemplate() {
-    const skeletonItemBox = document.createElement('li');
-    skeletonItemBox.innerHTML = /* html */ `
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div> 
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>`;
-    return skeletonItemBox;
-  },
+class MovieItem {
+  movie;
+  itemBox;
+  itemCard;
 
-  template(movie: Movie) {
-    const { id, title, posterPath, voteAverage } = movie;
-    const itemBox = document.createElement('li');
-    itemBox.setAttribute('data-movie-id', String(id));
+  constructor(movie: Movie) {
+    this.movie = movie;
+    this.itemBox = document.createElement('li');
+    this.itemBox.setAttribute('data-movie-id', String(movie.id));
 
-    const itemCard = document.createElement('a');
-    itemCard.classList.add('item-card');
+    this.itemCard = document.createElement('a');
+    this.itemCard.classList.add('item-card');
+    this.setEvent();
+  }
+
+  setEvent() {
+    this.itemCard.addEventListener('click', async () => {
+      setUrlParams('movie_id', String(this.movie.id));
+      const result = await movieAPI.fetchDetailOfMovie({ movieId: this.movie.id });
+      console.log(result);
+    });
+  }
+
+  // skeletonTemplate() {
+  //   const skeletonItemBox = document.createElement('li');
+  //   skeletonItemBox.innerHTML = /* html */ `
+  //     <a href="#">
+  //       <div class="item-card">
+  //         <div class="item-thumbnail skeleton"></div>
+  //         <div class="item-title skeleton"></div>
+  //         <div class="item-score skeleton"></div>
+  //       </div>
+  //     </a>`;
+  //   return skeletonItemBox;
+  // }
+
+  template() {
+    const { id, title, posterPath, voteAverage } = this.movie;
+    // const itemBox = document.createElement('li');
+    // this.itemBox.setAttribute('data-movie-id', String(id));
+
+    // const itemCard = document.createElement('a');
+    this.itemCard.classList.add('item-card');
 
     const titleBox = this.makeTitle(title);
     const voteAverageBox = this.makeVote(voteAverage);
 
     if (posterPath) {
       const posterImage = this.makePosterImage(title, posterPath);
-      itemCard.append(posterImage);
+      this.itemCard.append(posterImage);
     } else {
       const noImage = this.makeNoImage();
-      itemCard.append(noImage);
+      this.itemCard.append(noImage);
     }
 
-    itemCard.append(titleBox);
-    itemCard.append(voteAverageBox);
-    itemBox.append(itemCard);
+    this.itemCard.append(titleBox);
+    this.itemCard.append(voteAverageBox);
+    this.itemBox.append(this.itemCard);
 
-    return itemBox;
-  },
+    return this.itemBox;
+  }
 
   makePosterImage(title: string, posterPath: string) {
     const posterImage = document.createElement('img');
@@ -55,7 +79,7 @@ const MovieItem = {
     posterImage.setAttribute('alt', title);
 
     return posterImage;
-  },
+  }
 
   makeNoImage() {
     const noImage = document.createElement('div');
@@ -65,14 +89,14 @@ const MovieItem = {
     noImageIcon.setAttribute('src', NoImage);
     noImage.append(noImageIcon);
     return noImage;
-  },
+  }
 
   makeTitle(title: string) {
     const titleBox = document.createElement('p');
     titleBox.classList.add('item-title');
     titleBox.textContent = title;
     return titleBox;
-  },
+  }
 
   makeVote(voteAverage: number) {
     const voteAverageBox = document.createElement('p');
@@ -89,7 +113,7 @@ const MovieItem = {
     voteAverageBox.append(voteAverageText);
 
     return voteAverageBox;
-  },
-};
+  }
+}
 
 export default MovieItem;

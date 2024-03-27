@@ -17,6 +17,7 @@ class BasicModal {
 
   render() {
     this.modalBox.classList.add('modal-center');
+    this.backdropElement.classList.add('hidden');
     this.modalBox.append(this.children);
 
     this.modalContainer.append(this.modalBox);
