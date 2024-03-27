@@ -4,6 +4,7 @@ import './css/style.css';
 
 import getHeader from './view/getHeader.ts';
 import { replaceMain } from './view/main';
+import { addScrollEvent } from './view/scrollEvent';
 
 function renderHeader() {
   const header = getHeader();
@@ -12,6 +13,7 @@ function renderHeader() {
 }
 
 function renderMain() {
+  addScrollEvent();
   replaceMain();
 }
 

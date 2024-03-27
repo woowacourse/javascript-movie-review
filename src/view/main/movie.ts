@@ -1,10 +1,9 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-alert */
 import fetchMovies from '../../api/fetchMovies';
-
 import starFilledImage from '../../assets/images/star_filled.png';
-import getSeeMoreButton from '../getSeeMoreButton';
 import movieStateMethod from '../../store/movieStore';
+import { removeScrollEvent } from '../scrollEvent';
 
 interface IMovieItemProps {
   id: number;
@@ -65,12 +64,9 @@ function getMovieItem(props: IMovieItemProps) {
   return movieItem;
 }
 
-function checkPage(
-  { page, totalPage }: { page: number; totalPage: number },
-  button = document.getElementById('see-more-button'),
-) {
+function checkPage({ page, totalPage }: { page: number; totalPage: number }) {
   if (page === totalPage) {
-    button?.classList.add('hidden');
+    removeScrollEvent();
   }
 }
 
@@ -96,10 +92,10 @@ function getMainTitle() {
   return mainTitle;
 }
 
-async function getMovieList(button?: HTMLButtonElement) {
+async function getMovieList() {
   const movieList = document.createElement('ul');
   const { elements: movieItems, page, totalPage } = await getMovieItems();
-  checkPage({ page, totalPage }, button);
+  checkPage({ page, totalPage });
   movieList.classList.add('item-list');
   movieList.append(...movieItems);
   return movieList;
@@ -109,8 +105,7 @@ export async function getMovieListContainer() {
   const movieListContainer = document.createElement('section');
   movieListContainer.classList.add('item-view');
   const mainTitle = getMainTitle();
-  const button = getSeeMoreButton();
-  const movieList = await getMovieList(button);
-  movieListContainer.append(mainTitle, movieList, button);
+  const movieList = await getMovieList();
+  movieListContainer.append(mainTitle, movieList);
   return movieListContainer;
 }
