@@ -43,8 +43,12 @@ const createMoviePoster = ({ title, imgSrc, rating }: MovieInfo) => {
       alt: "별점",
     },
   });
+  const ratingTag = createElement({
+    tagName: "p",
+    contents: rating.toFixed(1),
+  });
 
-  scoreParagraph.append(starImg, rating.toFixed(1));
+  scoreParagraph.append(starImg, ratingTag);
   itemCardDiv.append(itemThumbnail, titleParagraph, scoreParagraph);
   anchor.append(itemCardDiv);
   moviePosterLi.append(anchor);
