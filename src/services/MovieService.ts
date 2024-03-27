@@ -23,6 +23,23 @@ export interface MovieData {
   isEmptyResults: boolean;
 }
 
+interface MovieResults {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: [];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
+
 const fetchMovies = async (url: string): Promise<MovieData> => {
   const data = await fetchData({
     url,
@@ -32,12 +49,19 @@ const fetchMovies = async (url: string): Promise<MovieData> => {
   const { page, total_pages, results, total_results } = data;
   const isLastPage: boolean = page === total_pages;
   const isEmptyResults: boolean = total_results === 0;
-  const movies: Movie[] = results.map((movie: Movie) => ({
-    id: movie.id,
-    title: movie.title,
-    vote_average: movie.vote_average,
-    poster_path: movie.poster_path,
-  }));
+  const movies: Movie[] = results.map(
+    (
+      movie: Pick<
+        MovieResults,
+        'id' | 'title' | 'vote_average' | 'poster_path'
+      >,
+    ) => ({
+      id: movie.id,
+      title: movie.title,
+      vote_average: movie.vote_average,
+      poster_path: movie.poster_path,
+    }),
+  );
 
   return { movies, page, isLastPage, isEmptyResults };
 };
