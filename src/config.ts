@@ -18,4 +18,5 @@ export const endpoint = {
   popularMovie: (page: number) => `movie/popular?language=ko&page=${page}`,
   searchMovie: (title: string, page: number) =>
     `search/movie?query=${title}}&include_adult=false&language=ko&page=${page}`,
+  oneMovieDetail: (movieId: number) => `movie/${movieId}?language=ko`,
 };
