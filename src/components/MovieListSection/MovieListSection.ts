@@ -1,3 +1,5 @@
+import SkeletonItems from '../SkeletonItems/SkeletonItems';
+
 const MovieListSection = () => {
   const section = document.createElement('section');
 
@@ -17,6 +19,7 @@ const MovieListSection = () => {
   section.appendChild(subtitle);
   section.appendChild(errorContainer);
   section.appendChild(movieList);
+  section.appendChild(SkeletonItems());
   section.appendChild(button);
 
   return section;

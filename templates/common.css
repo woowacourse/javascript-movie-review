@@ -3,7 +3,7 @@
 @import url('../src/components/SearchBox/search-box.css');
 @import url('../src/components/MovieListSection/movie-list-section.css');
 @import url('../src/components/MovieItem/movie-item.css');
-@import url('../src/components/SkeletonItem/skeleton-item.css');
+@import url('../src/components/SkeletonItems/skeleton-items.css');
 @import url('../src/components/Alert/alert.css');
 @import url('../src/components/ErrorPage/error-page.css');
 

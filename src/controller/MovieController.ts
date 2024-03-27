@@ -1,6 +1,5 @@
 import Movies, { MovieInfo } from '../domain/Movies';
 import MovieItem from '../components/MovieItem/MovieItem';
-import SkeletonItem from '../components/SkeletonItem/SkeletonItem';
 import CustomError from '../utils/CustomError';
 import ErrorPage from '../components/ErrorPage/ErrorPage';
 import { showAlert } from '../components/Alert/Alert';
@@ -62,17 +61,16 @@ class MovieController {
   }
 
   async #renderPopularMovies() {
-    this.#inputSkeleton();
+    document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
     const movieData = await this.#getPopularMovies(this.#page);
 
     this.#updateViewMoreButtonDisplay(movieData);
 
     if (movieData) {
       this.#createMovieItems(movieData).forEach((movieItem) =>
-        $('ul.item-list')?.appendChild(movieItem),
+        $('ul.item-list')?.insertAdjacentElement('beforeend', movieItem),
       );
-
-      this.#removeSkeleton();
+      document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
       this.#page += 1;
     }
   }
@@ -85,14 +83,14 @@ class MovieController {
     } catch (error) {
       if (!(error instanceof CustomError)) return;
 
-      this.#removeSkeleton();
+      document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
       $('.view-more-button')?.classList.add('hidden');
       this.#showErrorPage(error.message, error.status);
     }
   }
 
   async #renderSearchMovies() {
-    this.#inputSkeleton();
+    document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
     const movieData = await this.#searchMovies(this.#page, this.#query);
 
     if (movieData && !movieData.length) {
@@ -105,7 +103,7 @@ class MovieController {
       this.#createMovieItems(movieData).forEach((movieItem) => {
         $('ul.item-list')?.appendChild(movieItem);
       });
-      this.#removeSkeleton();
+      document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
       this.#page += 1;
     }
   }
@@ -118,22 +116,10 @@ class MovieController {
     } catch (error) {
       if (!(error instanceof CustomError)) return;
 
-      this.#removeSkeleton();
+      document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
       $('.view-more-button')?.classList.add('hidden');
       this.#showErrorPage(error.message, error.status);
     }
-  }
-
-  #inputSkeleton() {
-    Array.from({ length: RULES.moviesPerPage }).forEach(() =>
-      $('.item-list')?.insertAdjacentElement('beforeend', SkeletonItem()),
-    );
-  }
-
-  #removeSkeleton() {
-    const skeletonItems = document.querySelectorAll('.skeleton-item');
-
-    skeletonItems.forEach((item) => item?.remove());
   }
 
   #createMovieItems(data: MovieInfo[]): HTMLElement[] {
