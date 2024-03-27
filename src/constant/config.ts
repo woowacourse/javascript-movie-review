@@ -9,11 +9,11 @@ export const ENDPOINT = {
 };
 
 export const MOVIE_LIST_TYPE = {
-  SEARCH: {
+  search: {
     type: 'search',
     title: (keyword: string) => `"${keyword}" 검색 결과`,
   },
-  POPULAR: {
+  popular: {
     type: 'popular',
     title: '지금 인기 있는 영화',
   },
