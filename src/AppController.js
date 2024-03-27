@@ -26,10 +26,6 @@ class AppController {
 
     app.prepend(header);
 
-
-    const movieList = await fetchPopularMovieList(this.#currentPage);
-    this.updateMovieList(itemList, movieList.results);
-
     this.#currentView.create();
   }
 }
