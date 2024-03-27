@@ -1,13 +1,6 @@
-import {
-  REQUEST_URL,
-  COMMON_OPTIONS,
-  COMMON_PARAMS,
-} from '../constants/requests';
+import { REQUEST_URL, COMMON_OPTIONS } from '../constants/requests';
 import fetchData from '../utils/fetchData';
-
-interface Params {
-  [key: string]: string | number | boolean;
-}
+import { generateUrl, Params } from '../utils/generateUrl';
 
 interface Movie {
   id: number;
@@ -66,26 +59,18 @@ const fetchMovies = async (url: string): Promise<MovieData> => {
   return { movies, page, isLastPage, isEmptyResults };
 };
 
-const buildUrl = (baseURL: string, params: Params): string => {
-  const queryParams = new URLSearchParams({
-    ...COMMON_PARAMS,
-    ...params,
-  });
-  return `${baseURL}${queryParams}`;
-};
-
 export const MovieService = {
   async fetchMovies(url: string): Promise<MovieData> {
     return fetchMovies(url);
   },
 
   async fetchSearchMovies(params: Params) {
-    const url = buildUrl(REQUEST_URL.searchMovies, params);
+    const url = generateUrl(REQUEST_URL.searchMovies, params);
     return fetchMovies(url);
   },
 
   async fetchPopularMovies(params: Params) {
-    const url = buildUrl(REQUEST_URL.popularMovies, params);
+    const url = generateUrl(REQUEST_URL.popularMovies, params);
     return fetchMovies(url);
   },
 };
