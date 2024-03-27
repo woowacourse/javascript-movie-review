@@ -1,22 +1,38 @@
 import { Movie, MovieData } from "../type/movie";
 
 class MovieDataStateStore {
-  #movieList: Movie[] | undefined;
+  #fetchedMovieList: Movie[] | undefined;
+  #totalMovieList: Movie[] | undefined;
   #isShowMorButton = true;
 
   getTotalMovieData(
     { movieList, isShowMoreButton }: MovieData,
     resetMovieList: boolean,
   ) {
-    if (!this.#movieList || resetMovieList) this.#movieList = movieList;
-    else this.#movieList = this.#movieList.concat(movieList);
+    if (!this.#totalMovieList || resetMovieList)
+      this.#totalMovieList = movieList;
+    else this.#totalMovieList = this.#totalMovieList.concat(movieList);
 
     this.#isShowMorButton = isShowMoreButton;
   }
 
-  get movieData() {
+  addMovieData(movieList: Movie[], resetMovieList: boolean) {
+    this.#fetchedMovieList = movieList;
+
+    if (!this.#totalMovieList || resetMovieList) {
+      this.#totalMovieList = movieList;
+      return;
+    }
+    this.#totalMovieList = this.#totalMovieList.concat(movieList);
+  }
+
+  get fetchedMovieData() {
+    return this.#fetchedMovieList;
+  }
+
+  get totalMovieData() {
     return {
-      movieList: JSON.parse(JSON.stringify(this.#movieList)) as Movie[],
+      movieList: JSON.parse(JSON.stringify(this.#totalMovieList)) as Movie[],
       isShowMoreButton: this.#isShowMorButton,
     };
   }

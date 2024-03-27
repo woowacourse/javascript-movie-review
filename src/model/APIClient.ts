@@ -19,14 +19,9 @@ class APIClient {
   async getPopularMovieData(isResetCurrentPage: boolean) {
     this.#updateCurrentPage(isResetCurrentPage);
     const data = await this.fetchPopularMovie();
+    console.log(data);
 
-    movieDataStateStore.getTotalMovieData(
-      {
-        movieList: data.results,
-        isShowMoreButton: this.#isShowMoreButton(data.page, data.total_pages),
-      },
-      isResetCurrentPage,
-    );
+    movieDataStateStore.addMovieData(data.results, isResetCurrentPage);
   }
 
   async fetchPopularMovie() {

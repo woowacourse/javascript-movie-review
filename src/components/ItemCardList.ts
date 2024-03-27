@@ -1,6 +1,5 @@
 import { NO_ITEM_TEXT } from "../constants/system";
 import { Movie } from "../type/movie";
-import { createElementWithAttribute } from "../utils";
 
 import ItemCard from "./ItemCard";
 
@@ -12,9 +11,8 @@ const NoItem = () => {
 };
 
 const ItemCardList = (movieList: Movie[] | undefined) => {
-  const $ul = createElementWithAttribute("ul", {
-    class: "item-list",
-  });
+  const $ul = document.querySelector(".item-view-container .item-list");
+  if (!$ul) return undefined;
   if (movieList && movieList.length > 0) {
     movieList.map((movie) => $ul.appendChild(ItemCard(movie)));
   } else {
