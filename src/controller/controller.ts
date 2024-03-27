@@ -59,7 +59,6 @@ export class App {
   makeSearchPage() {
     this.pageManager.changePage('search');
     this.#movieContainer.clearMovieList();
-    setMainTitleText('search');
 
     this.setSearchKeyword();
     if (this.#searchKeyword === '') {
@@ -67,6 +66,7 @@ export class App {
       return;
     }
 
+    setMainTitleText('search', this.#searchKeyword);
     this.addMovieList();
   }
 
