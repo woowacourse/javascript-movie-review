@@ -1,19 +1,19 @@
 import { fetchPopularMovies, fetchSearchMovies } from '../../domain/Movies/Request/sendRequest';
-import { BUTTONS, CONTAINER_TITLE } from '../../constants/INFORMATION';
+import { CONTAINER_TITLE } from '../../constants/INFORMATION';
 import MovieItems from '../MovieItems/MovieItems';
 import ResponseData from '../../interfaces/ResponseData';
 import MovieitemsSkeleton from '../MovieItems/MovieItemsSkeleton';
 import SearchValidator from '../../domain/Validator/SearchValidator';
 import ToastPopup from '../ToastPopup/ToastPopup';
 import CONDITIONS from '../../constants/CONDITIONS';
-import Button from '../Button/Button';
 
 class ItemView {
-  #page: number;
+  #page: number = 0;
+  #totalPages: number = 1;
+  #searchValue: string = '';
   #itemView = document.createElement('section');
 
   constructor() {
-    this.#page = 0;
     this.#itemView.classList.add('item-view');
 
     this.createItemView(CONTAINER_TITLE.popular);
@@ -23,16 +23,13 @@ class ItemView {
     return this.#itemView;
   }
 
-  createItemView(itemViewTitle: string, search?: string) {
+  createItemView(itemViewTitle: string) {
     this.#page = 0;
     this.#itemView.replaceChildren();
 
-    const button = Button.create(BUTTONS.showMore, () => this.mountItems(button, search));
-
     this.#itemView.appendChild(this.createTitle(itemViewTitle));
-    this.#itemView.appendChild(button);
 
-    this.mountItems(button, search);
+    this.mountItems();
   }
 
   createTitle(containerTitle: string) {
@@ -43,30 +40,32 @@ class ItemView {
     return title;
   }
 
-  async mountItems(button: HTMLElement, search?: string) {
+  async mountItems() {
+    if (this.#page === this.#totalPages || this.#page === CONDITIONS.popularMoviesTotalPage) return;
+
     this.#page++;
 
     const skeleton = MovieitemsSkeleton.create();
-    button.insertAdjacentElement('beforebegin', skeleton);
+    this.#itemView.appendChild(skeleton);
 
-    const movieListData: ResponseData = await this.getMovieListData(search);
+    const movieListData: ResponseData = await this.getMovieListData();
+    this.#totalPages = movieListData.total_pages;
+
     MovieItems.replaceSkeletons(skeleton, movieListData);
-
-    if (this.#page === movieListData.total_pages || this.#page === CONDITIONS.popularMoviesTotalPage) {
-      button.remove();
-    }
   }
 
-  async getMovieListData(search?: string) {
-    if (search) {
-      return await fetchSearchMovies(this.#page, search);
+  async getMovieListData() {
+    if (this.#searchValue) {
+      return await fetchSearchMovies(this.#page, this.#searchValue);
     }
     return await fetchPopularMovies(this.#page);
   }
 
   showPopularMovies() {
+    this.#searchValue = '';
+
     const searchBoxInput = document.querySelector('input');
-    if (searchBoxInput) searchBoxInput.value = '';
+    if (searchBoxInput) searchBoxInput.value = this.#searchValue;
 
     this.createItemView(CONTAINER_TITLE.popular);
   }
@@ -76,7 +75,9 @@ class ItemView {
       const trimmedSearchInputText = document.querySelector('input')?.value.replace(/ +/g, ' ').trim();
 
       if (trimmedSearchInputText) {
-        this.createItemView(`"${trimmedSearchInputText}"${CONTAINER_TITLE.searchResult}`, trimmedSearchInputText);
+        this.#searchValue = trimmedSearchInputText;
+
+        this.createItemView(`"${trimmedSearchInputText}"${CONTAINER_TITLE.searchResult}`);
       }
       if (!trimmedSearchInputText) SearchValidator.validate();
     } catch (e) {
