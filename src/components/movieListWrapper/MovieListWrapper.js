@@ -42,7 +42,6 @@ class MovieListWrapper {
 
   setupIntersectionObserver() {
     const endList = document.querySelector('.end-list');
-    if (!endList) return;
 
     const option = {
       root: null,
@@ -56,10 +55,11 @@ class MovieListWrapper {
           this.#isLoading = true;
           view.showSkeleton();
           const result = await this.getResult();
+
           if (result) {
             const [movies, totalPages] = result;
             view.hideSkeleton();
-            if (this.shouldStopObserving(movies, totalPages)) observer.unobserve(endList);
+            if (this.shouldStopObserving(movies, totalPages)) observer.unobserve(endList); // 무한 스크롤 종료
             view.renderMovieCard(movies);
             this.#isLoading = false;
             this.plusPage();
@@ -93,12 +93,11 @@ class MovieListWrapper {
 
   shouldStopObserving(movies, totalPages) {
     if (this.#viewType === VIEW_TYPE.SEARCH){
-      if(!movies.length && totalPages == 1) {
+      if(this.#currentPage === 1 && !movies.length && totalPages == 1) {
         view.noMovieResult();
         return true
       }
     }
-
     if (!this.hasNextPage(totalPages)) {
       return true
     }
