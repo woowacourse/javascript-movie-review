@@ -5,7 +5,7 @@ import QueryState from "./states/QueryState";
 import MovieListTitle from "./components/MovieList/MovieListTitle";
 import MovieList from "./components/MovieList/MovieList";
 import SkeletonUI from "./components/SkeletonUI";
-import { generateMovieListSkeleton } from "./components/templates/movie/generateMovieListSkeleton";
+import MovieDetail from "./components/MovieDetail";
 
 const queryState = new QueryState();
 
@@ -21,6 +21,9 @@ const movieList = new MovieList({
   queryState,
   skeletonUI: movieListSkeleton,
 });
+const movieDetailModal = new MovieDetail({
+  targetId: "movie-detail-modal",
+});
 
 queryState.addObserver(movieListTitle);
 queryState.addObserver(movieList);
@@ -28,3 +31,4 @@ queryState.addObserver(movieList);
 movieHeader.initialize();
 movieListTitle.initialize();
 movieList.initialize();
+movieDetailModal.initialize();

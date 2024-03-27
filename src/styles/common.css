@@ -220,3 +220,113 @@ header .search-box .search-button {
 
   margin-bottom: 10px;
 }
+
+/* Movie Detail Modal */
+.movie-detail-modal {
+  padding: 0;
+}
+
+.movie-detail-container {
+  background: #212122;
+  color: #f1f1f1;
+  padding: 0;
+  max-width: 700px;
+}
+
+.movie-detail-hr {
+  margin: 0;
+  background-color: rgba(241, 241, 241, 0.25);
+  border: 0;
+  height: 0.1px;
+}
+
+.movie-detail-title {
+  font-size: 18px;
+  font-weight: 600;
+
+  width: fit-content;
+  margin: 0 auto;
+
+  padding: 18px;
+}
+
+.movie-detail-inner-wrapper {
+  display: flex;
+  padding: 35px 28px 45px 28px;
+}
+
+.movie-detail-poster {
+  width: 220px;
+  height: 330px;
+  object-fit: cover;
+
+  margin-right: 25px;
+}
+.movie-detail-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.movie-detail-genre {
+  margin-right: 10px;
+  font-weight: 200;
+}
+
+.movie-detail-vote {
+  display: flex;
+  align-items: center;
+}
+
+.movie-detail-star-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 2.5px;
+}
+
+.movie-detail-overview {
+  margin-top: 10px;
+  line-height: 160%;
+  font-weight: 200;
+}
+
+.flex-box {
+  display: flex;
+  align-items: center;
+}
+
+.modal-close-button {
+  width: 35px;
+  position: absolute;
+  top: 8px;
+  right: 25px;
+  cursor: pointer;
+}
+
+.my-vote-container {
+  display: flex;
+  background-color: #383839;
+  width: 100%;
+  padding: 14px 15px;
+  align-items: center;
+  border-radius: 16px;
+}
+
+.my-vote-label {
+  margin-right: 10px;
+  font-weight: 550;
+}
+
+.my-vote-star-container {
+  display: flex;
+}
+
+.my-vote-star {
+  width: 27px;
+  height: 27px;
+}
+
+.my-vote-text {
+  margin-left: 10px;
+  font-weight: 200;
+}
