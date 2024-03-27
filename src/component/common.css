@@ -83,7 +83,7 @@ button {
 .item-title.skeleton::after,
 .item-score.skeleton::after {
   font-size: 0;
-  content: "loading";
+  content: 'loading';
 }
 
 .full-width {
@@ -145,6 +145,10 @@ header h1 {
   color: #f33f3f;
 }
 
+header > img.logo:hover {
+  cursor: pointer;
+}
+
 header > .search-box {
   background: #fff;
   padding: 8px;
@@ -159,6 +163,6 @@ header .search-box > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
-  background: url("./search_button.png") transparent no-repeat 0 1px;
+  background: url('../asset/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
 }
