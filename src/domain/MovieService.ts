@@ -1,4 +1,4 @@
-import { BASE_URL, ENDPOINT } from '../constant/config';
+import { BASE_URL, ENDPOINT, MOVIE_LIST_TYPE } from '../constant/config';
 import fetchAPI from '../api/fetchAPI';
 import generateQueryUrl from '../api/generateQueryUrl';
 import Movie from './Movie';
@@ -13,32 +13,29 @@ interface MoviePageData extends MovieListData {
   pageNumber: number;
 }
 
-class MovieService {
-  async fetchPopularMovieList(pageNumber: number) {
-    const queryUrl = generateQueryUrl({
-      baseUrl: BASE_URL,
-      endpoint: ENDPOINT.GET.POPULAR_MOVIES,
-      query: {
-        api_key: getEnvVariable('API_KEY'),
-        language: 'ko-KR',
-        page: pageNumber,
-      },
-    });
-    const { total_pages, results } = await fetchAPI({ url: queryUrl, method: 'GET' });
-    return this.createMoviePageData({ total_pages, results, pageNumber });
-  }
+interface FetchMovieDataParams {
+  listType: MovieListType;
+  pageNumber: number;
+  searchKeyword: string;
+}
 
-  async fetchSearchResult({ searchKeyword, pageNumber }: { searchKeyword: string; pageNumber: number }) {
+type MovieListType = keyof typeof MOVIE_LIST_TYPE;
+
+class MovieService {
+  async fetchMovieData({ listType, pageNumber, searchKeyword = '' }: FetchMovieDataParams) {
+    const endpoint = listType === MOVIE_LIST_TYPE.search.type ? ENDPOINT.GET.MOVIE_SEARCH : ENDPOINT.GET.POPULAR_MOVIES;
+
     const queryUrl = generateQueryUrl({
       baseUrl: BASE_URL,
-      endpoint: ENDPOINT.GET.MOVIE_SEARCH,
+      endpoint,
       query: {
         api_key: getEnvVariable('API_KEY'),
         language: 'ko-KR',
-        query: searchKeyword,
         page: pageNumber,
+        query: searchKeyword,
       },
     });
+
     const { total_pages, results } = await fetchAPI({ url: queryUrl, method: 'GET' });
     return this.createMoviePageData({ total_pages, results, pageNumber });
   }
