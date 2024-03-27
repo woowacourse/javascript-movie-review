@@ -46,28 +46,33 @@ FE 레벨1 영화관 미션
 1차 코드리뷰
 
 - [ ] 엣지케이스
+
   - [ ] 네트워크 속도 낮춘 상태로 더보기 버튼 연타시 같은 페이지 요청+스켈레톤 사라지지 않음
-  - [ ] 빈 검색어 입력 시 서버에 검색을 요청
+  - [x] 빈 검색어 입력 시 서버에 검색을 요청
     - [ ] 없는 검색 결과일 시 이용자에게 추천상황 제공하기
   - [ ] 네트워크 오류별 조치 수정
 
 - [ ] html/css
-  - [ ] logo 이름을 homeButton으로 바꾸기
+
+  - [x] logo 이름을 homeButton으로 바꾸기
   - [ ] ItemCard의 별점 위치가 부자연스러움
   - [ ] css EOF 에러
-  - [ ] skeleton anchor 태그 변경
+  - [x] skeleton anchor 태그 변경
 
 - [ ] 테스트
   - [ ] 테스트 코드 async 작성
   - [ ] fixture data ko-KR로 변경
 
 최적화
-- [ ] MoviePosterBoard 내부 내용 변경 시 기존 컴포넌트 재사용
+
+- [x] MoviePosterBoard 내부 내용 변경 시 기존 컴포넌트 재사용
 
 -[ ] 리팩토링
-- [ ] MoviePosterBoard 쪼개기
-- [ ] 스켈레톤 삭제 방식 재고려
-- [ ] 컴포넌트 생성 시 하위 요소 이름을 요소가 아닌 역할로 드러내는 것 고려
-- [ ] createElement시 객체로 인자 받기
-- [ ] 렌더링컨트롤러로 이름 변경
-- [ ] 도메인 객체 생성
+
+- [x] MoviePosterBoard 쪼개기
+- [x] 스켈레톤 삭제 방식 재고려
+- [x] 컴포넌트 생성 시 하위 요소 이름을 요소가 아닌 역할로 드러내는 것 고려
+- [x] createElement시 객체로 인자 받기
+- [x] 도메인 객체 생성
+- [ ] MovieListController 쪼개기
+- [ ] 함수형 컴포넌트 클래스화 하기
