@@ -1,14 +1,18 @@
-import OPTIONS from '../constants/OPTIONS';
+import { getDomElement } from './DOM';
 
 async function setupInfiniteScroll(
   listEnd: HTMLElement,
   mountItems: (listEnd: HTMLElement, search?: string) => Promise<void>,
   search?: string,
 ) {
-  const onIntersect: IntersectionObserverCallback = async (entries, observer) => {
+  const onIntersect: IntersectionObserverCallback = async (entries) => {
     entries.forEach(async (entry) => {
+      getDomElement('.list-end').innerText = '🍿 영화 데이터를 불러오는 중입니다 🍿';
       if (entry.isIntersecting) {
-        await mountItems(listEnd, search);
+        setTimeout(
+          async () => await mountItems(listEnd, search).then(() => (getDomElement('.list-end').innerText = '')),
+          500,
+        );
       }
     });
   };

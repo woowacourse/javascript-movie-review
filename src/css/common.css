@@ -167,6 +167,12 @@ header .search-box > .search-button {
   background-size: contain;
 }
 
+.list-end {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 600;
+}
+
 #toast_message {
   opacity: 0;
   position: fixed;
