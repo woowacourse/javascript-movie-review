@@ -1,37 +1,31 @@
 import ToastPopup from '../components/ToastPopup/ToastPopup';
 
-function getDomElement<T extends HTMLElement = HTMLElement>(selector: string, where?: HTMLElement) {
-  if (where) {
-    const element = where.querySelector(selector);
-    if (element === undefined || element === null) {
-      ToastPopup(`${selector}를 찾을 수 없습니다. 3초 뒤 새로고침됩니다.`);
-      setTimeout(() => location.reload(), 3000);
+function getDomElement<T extends HTMLElement = HTMLElement>(selector: string, where?: HTMLElement): T {
+  try {
+    const element = where ? where.querySelector(selector) : document.querySelector(selector);
+    if (!element) {
+      throw new Error();
     }
     return element as T;
-  }
-  const element = document.querySelector(selector);
-  if (element === undefined || element === null) {
+  } catch (error) {
     ToastPopup(`${selector}를 찾을 수 없습니다. 3초 뒤 새로고침됩니다.`);
     setTimeout(() => location.reload(), 3000);
+    throw error;
   }
-  return element as T;
 }
 
-function getAllDomElements<T extends HTMLElement = HTMLElement>(selector: string, where?: HTMLElement) {
-  if (where) {
-    const elements = where.querySelectorAll(selector);
-    if (elements === undefined || elements === null) {
-      ToastPopup(`${selector}를 찾을 수 없습니다. 3초 뒤 새로고침됩니다.`);
-      setTimeout(() => location.reload(), 3000);
+function getAllDomElements<T extends HTMLElement = HTMLElement>(selector: string, where?: HTMLElement): NodeListOf<T> {
+  try {
+    const elements = where ? where.querySelectorAll(selector) : document.querySelectorAll(selector);
+    if (!elements || elements.length === 0) {
+      throw new Error();
     }
     return elements as NodeListOf<T>;
-  }
-  const element = document.querySelectorAll(selector);
-  if (element === undefined || element === null) {
+  } catch (error) {
     ToastPopup(`${selector}를 찾을 수 없습니다. 3초 뒤 새로고침됩니다.`);
     setTimeout(() => location.reload(), 3000);
+    throw error; // 예외를 다시 던져야 합니다.
   }
-  return element as NodeListOf<T>;
 }
 
 export { getDomElement, getAllDomElements };
