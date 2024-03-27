@@ -1,17 +1,25 @@
 import './ErrorMessage.css';
 
-const ErrorMessage = (status: number) => {
-  const $itemView = document.querySelector('.item-view');
-
+const createErrMsg = () => {
   const $errMsg = document.createElement('p');
   $errMsg.classList.add('err-msg');
+  return $errMsg;
+};
 
-  if (status >= 400 && status < 500)
-    $errMsg.textContent = `${status}: Page Not Found`;
-  if (status >= 500 && status < 600)
-    $errMsg.textContent = `${status}: Server Error`;
+const ErrorMessage = () => {
+  const $errMsg = createErrMsg();
 
-  $itemView?.appendChild($errMsg);
+  const render = (statusCode: number) => {
+    if (statusCode >= 400 && statusCode < 500)
+      $errMsg.textContent = `${statusCode}: Page Not Found`;
+    if (statusCode >= 500 && statusCode < 600)
+      $errMsg.textContent = `${statusCode}: Server Error`;
+    return $errMsg;
+  };
+
+  return {
+    render,
+  };
 };
 
 export default ErrorMessage;
