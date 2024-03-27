@@ -2,6 +2,7 @@ import { IMAGE_URL_PREFIX } from '../../constants/url';
 import StarFilled from '../../imgs/star_filled.png';
 import MovieGenresCollection from '../../domain/MovieGenresCollection';
 import './style.css';
+import ScoreSelector from '../ScoreSelector/ScoreSelector';
 
 interface MovieDetailModalProps {
   title: string;
@@ -54,14 +55,14 @@ class MovieDetailModal {
         <p class="font-body detail-overview">
           설명임
         </p>
-        <div class="my-score">
-        별 점 별 점
-        </div>
         </section>
       </main>
     `;
     const modalContainer = this.template.querySelector('.modal-container') as HTMLElement;
     modalContainer.innerHTML = html;
+
+    const section = this.template.querySelector('section') as HTMLElement;
+    section.appendChild(new ScoreSelector().getElement());
   }
 
   setMovieDetail({

@@ -1,0 +1,30 @@
+.score-selector {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+
+  padding: 16px;
+
+  border-radius: 16px;
+  background-color: var(--grayscale-400);
+}
+
+.score-selector .font-body-title {
+  margin-top: 2px;
+}
+
+.score-selector .font-body {
+  margin-top: 3px;
+}
+
+.star-icon-container {
+  display: flex;
+}
+
+.star-icon-container .star-icon {
+  margin-left: 0;
+  height: 32px;
+  width: 32px;
+}

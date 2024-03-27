@@ -1,6 +1,6 @@
 :root {
   --grayscale-500: #222222;
-  --grayscale-400: #444444;
+  --grayscale-400: #383839;
   --grayscale-300: #666666;
   --grayscale-200: #999999;
   --grayscale-100: #bbbbbb;
@@ -51,6 +51,15 @@ button {
   line-height: 24px;
   letter-spacing: 0.15px;
   text-align: center;
+}
+
+.font-body-bold {
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  text-align: left;
 }
 
 .font-body {
