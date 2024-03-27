@@ -5,10 +5,10 @@ import view from '../../view/view';
 import Skeleton from '../skeleton/skeleton';
 
 class MovieListWrapper {
-  #currentPage: number;
-  #title: string;
-  #viewType: ViewType;
-  #inputValue: string;
+  #currentPage;
+  #title;
+  #viewType;
+  #inputValue;
 
   constructor(title: string, viewType: ViewType, inputValue = '') {
     this.#currentPage = 1;
@@ -44,7 +44,7 @@ class MovieListWrapper {
     });
   }
 
-  private async updateMovieList(showMoreButton: HTMLButtonElement) {
+  async updateMovieList(showMoreButton: HTMLButtonElement) {
     switch (this.#viewType) {
       case VIEW_TYPE.POPULAR:
         await this.updatePopularMovieList(showMoreButton);
@@ -52,10 +52,12 @@ class MovieListWrapper {
       case VIEW_TYPE.SEARCH:
         await this.updateSearchMovieList(showMoreButton);
         break;
+      default:
+        return;
     }
   }
 
-  private async updatePopularMovieList(showMoreButton: HTMLButtonElement) {
+  async updatePopularMovieList(showMoreButton: HTMLButtonElement) {
     view.showSkeleton();
     const result = await fetchPopularMovieList(this.#currentPage);
     if (result) {
@@ -68,7 +70,7 @@ class MovieListWrapper {
     }
   }
 
-  private async updateSearchMovieList(showMoreButton: HTMLButtonElement) {
+  async updateSearchMovieList(showMoreButton: HTMLButtonElement) {
     view.showSkeleton();
     const result = await fetchSearchMovieList(this.#inputValue, this.#currentPage);
     if (result) {
