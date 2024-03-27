@@ -1,10 +1,9 @@
 import MovieContainer from '../component/MovieContainer';
 import MovieService from '../domain/MovieService';
-import createHeader from '../component/Header.js';
+import createHeader from '../component/Header';
 import PageManager from '../domain/pageManager';
 import { $ } from '../util/selector';
 import renderToast from '../component/toast/toast.js';
-import { RetryLimitError, retryLimiter } from '../util/retryLimiter';
 import { setMainTitleText } from '../component/setMainTitleText';
 
 export class App {
