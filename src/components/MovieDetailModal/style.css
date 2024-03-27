@@ -36,9 +36,12 @@
 
   height: 60px;
   width: 100%;
+
+  padding: 12px 32px;
   background-color: rgba(0, 0, 0, 0.8);
 
   border-bottom: 1px solid var(--border);
+  max-lines: 1;
 }
 
 .close-button {
@@ -66,11 +69,13 @@
 .backdrop-image {
   position: absolute;
   background-size: cover;
+  background-position: center;
   z-index: -5;
   inset: 0;
 }
 
 .detail-poster {
+  display: block;
   width: 260px;
   height: 390px;
 }
@@ -86,17 +91,54 @@
 
 .detail-genre-score {
   display: flex;
+  width: 100%;
   gap: 16px;
 
   height: 20px;
 }
 
+.detail-genre {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .detail-score-container {
   display: flex;
+  width: fit-content;
+
   gap: 6px;
 }
 
 .detail-overview {
   height: 100%;
   overflow: scroll;
+}
+
+@media (max-width: 1200px) {
+  .modal-container {
+    inset: auto 0 0 0;
+    transform: none;
+    width: 100%;
+    height: fit-content;
+
+    border-radius: 8px 8px 0 0;
+  }
+
+  .movie-detail-header {
+    justify-content: start;
+  }
+
+  .detail-items {
+    display: flex;
+    gap: 32px;
+
+    background-color: rgba(0, 0, 0, 0.8);
+
+    padding: 32px 32px 48px 32px;
+  }
+
+  .detail-poster {
+    display: none;
+  }
 }
