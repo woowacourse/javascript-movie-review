@@ -16,8 +16,8 @@ import { ToastModal } from './modal';
 import { MovieListContainer } from './movie';
 
 const dataFetcher = new DataFetcher({
-  show: SkeletonController.showSkeleton,
-  hide: SkeletonController.hideSkeleton,
+  show: SkeletonController.showListSkeletonContainer,
+  hide: SkeletonController.hideSkeletonListContainer,
 });
 
 const makeSearchBoxToastModal = () => {

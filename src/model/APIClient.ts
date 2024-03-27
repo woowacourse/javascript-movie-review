@@ -1,5 +1,6 @@
 import { BASE_URL, endPoint, options } from '../config';
 import { MAX_PAGE } from '../constants';
+import { MovieInfo } from '../type/movie';
 import { handleFetchData } from '../utils';
 
 import dataStateStore from './DataStateStore';
@@ -35,6 +36,22 @@ class APIClient {
       },
       isResetCurrentPage,
     );
+  }
+
+  async getMovieInfo(id: number) {
+    const fetcher = fetch(`${BASE_URL}/${endPoint.movieInfo(id)}`, options);
+    const data = await handleFetchData(fetcher);
+
+    const movieInfo: MovieInfo = {
+      id: data.id,
+      title: data.title,
+      genres: data.genres,
+      poster_path: data.poster_path,
+      overview: data.overview,
+      vote_average: data.vote_average,
+    };
+
+    dataStateStore.getMovieInfo(movieInfo);
   }
 
   #isMoreData = (page: number, totalPage: number) =>

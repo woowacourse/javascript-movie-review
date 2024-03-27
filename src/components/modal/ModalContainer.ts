@@ -23,6 +23,9 @@ export const ModalContainerHandler = {
     this.closeModalContainer();
   },
 
+  // TODO: 모달 열리면 스크롤 막기
+  // TODO : esc누르면 닫히는 이벤트 추가
+
   private_isWrongCloseTarget(event: Event) {
     const { target } = event;
     return !(target instanceof HTMLElement) || target.closest('.modal');

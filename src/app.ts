@@ -12,8 +12,8 @@ import {
 } from './service';
 
 const dataFetcher = new DataFetcher({
-  show: SkeletonController.showSkeleton,
-  hide: SkeletonController.hideSkeleton,
+  show: SkeletonController.showListSkeletonContainer,
+  hide: SkeletonController.hideSkeletonListContainer,
 });
 
 const popularMovieListContainerProps: Omit<

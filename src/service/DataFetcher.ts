@@ -36,5 +36,9 @@ class DataFetcher {
       apiClient.getSearchMovieData(isResetCurrentPage, title),
     );
   }
+
+  async handleGetMovieInfo(id: number) {
+    await this.fetchDataWidthSkeleton(() => apiClient.getMovieInfo(id));
+  }
 }
 export default DataFetcher;

@@ -1,23 +1,10 @@
 import XMarker from '../../images/xmark.svg';
+import { MovieInfo } from '../../type/movie';
 import { createElementWithAttribute } from '../../utils';
 import { MovieImg, MovieScore, MovieTitle } from '../movie';
 import UserScore from '../movie/UserScore';
 
 import ModalContainer, { ModalContainerHandler } from './ModalContainer';
-
-type MovieInfoGenre = {
-  id: number;
-  name: string;
-}[];
-
-export interface MovieInfo {
-  id: number;
-  title: string;
-  genre: MovieInfoGenre | null;
-  poster_path: string | null;
-  overview: string | null;
-  vote_average: number;
-}
 
 const COMMON_CLASS = 'modal-movie-info';
 
@@ -44,13 +31,13 @@ class MovieInfoModal {
   }
 
   #makeMovieGenreEl() {
-    const { genre } = this.#movieInfo;
-    if (!genre) return;
+    const { genres } = this.#movieInfo;
+    if (!genres) return;
 
     const $genreBox = createElementWithAttribute('span', {
       class: `${COMMON_CLASS}__genre`,
     });
-    $genreBox.textContent = genre.map((i) => i.name).join(', ');
+    $genreBox.textContent = genres.map((i) => i.name).join(', ');
 
     return $genreBox;
   }

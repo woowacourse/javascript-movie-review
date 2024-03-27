@@ -21,3 +21,17 @@ export interface LocalStorageUserScore {
   id: number;
   score: number;
 }
+
+export type MovieInfoGenre = {
+  id: number;
+  name: string;
+}[];
+
+export interface MovieInfo {
+  id: number;
+  title: string;
+  genres: MovieInfoGenre | null;
+  poster_path: string | null;
+  overview: string | null;
+  vote_average: number;
+}

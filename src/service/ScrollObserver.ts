@@ -8,8 +8,8 @@ import DataFetcher from './DataFetcher';
 import SkeletonController from './SkeletonController';
 
 const dataFetcher = new DataFetcher({
-  show: SkeletonController.showSkeleton,
-  hide: SkeletonController.hideSkeleton,
+  show: SkeletonController.showListSkeletonContainer,
+  hide: SkeletonController.hideSkeletonListContainer,
 });
 /**
  * 스크롤 시, 이루어지는 api 통신 관리하는 핸들러

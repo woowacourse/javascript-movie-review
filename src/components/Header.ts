@@ -13,8 +13,8 @@ import SearchBox from './SearchBox';
 const HeaderClickHandler = {
   async handleDataFetcher() {
     const dataFetcher = new DataFetcher({
-      show: SkeletonController.showSkeleton,
-      hide: SkeletonController.hideSkeleton,
+      show: SkeletonController.showListSkeletonContainer,
+      hide: SkeletonController.hideSkeletonListContainer,
     });
 
     await dataFetcher.handleGetPopularMovieData(true);

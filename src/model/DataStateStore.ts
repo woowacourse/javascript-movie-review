@@ -1,14 +1,16 @@
-import { Movie, MovieData } from '../type/movie';
+import { Movie, MovieData, MovieInfo } from '../type/movie';
 
-class DataStateStore {
+class MovieListDataStateStore {
   #movieList: Movie[] | undefined;
-  #isShowMorButton = true;
+  #isMoreData = true;
+  #movieInfo: MovieInfo | undefined;
 
+  // movie list
   getTotalMovieData(
     { movieList, isMoreData }: MovieData,
     resetMovieList: boolean,
   ) {
-    this.#isShowMorButton = isMoreData;
+    this.#isMoreData = isMoreData;
 
     if (!this.#movieList || resetMovieList) {
       this.#movieList = movieList;
@@ -21,11 +23,20 @@ class DataStateStore {
   get movieData() {
     return {
       movieList: JSON.parse(JSON.stringify(this.#movieList)) as Movie[],
-      isMoreData: this.#isShowMorButton,
+      isMoreData: this.#isMoreData,
     };
+  }
+
+  // movie info
+  getMovieInfo(movieInfo: MovieInfo) {
+    this.#movieInfo = movieInfo;
+  }
+
+  get movieInfo() {
+    return this.#movieInfo;
   }
 }
 
-const dataStateStore = new DataStateStore();
+const dataStateStore = new MovieListDataStateStore();
 
 export default dataStateStore;

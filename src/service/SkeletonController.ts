@@ -1,7 +1,8 @@
 import { renderAlertModalForNullEl } from './AlertModalForNullController';
 
 const SkeletonController = {
-  getSkeletonElement() {
+  // skeleton list container
+  getSkeletonListContainer() {
     const $skeletonListContainer = document.querySelector(
       '.skeleton-list-container',
     );
@@ -12,8 +13,9 @@ const SkeletonController = {
     return $skeletonListContainer;
   },
 
-  hideSkeleton() {
-    const $skeletonListContainer = SkeletonController.getSkeletonElement();
+  hideSkeletonListContainer() {
+    const $skeletonListContainer =
+      SkeletonController.getSkeletonListContainer();
     if (!$skeletonListContainer) return;
 
     $skeletonListContainer.classList.remove('on');
@@ -22,12 +24,14 @@ const SkeletonController = {
     }, 500);
   },
 
-  showSkeleton() {
-    const $skeletonListContainer = SkeletonController.getSkeletonElement();
+  showListSkeletonContainer() {
+    const $skeletonListContainer =
+      SkeletonController.getSkeletonListContainer();
     if (!$skeletonListContainer) return;
 
     $skeletonListContainer.classList.add('on');
   },
+  // skeleton movie info
 };
 
 export default SkeletonController;
