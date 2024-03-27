@@ -1,4 +1,4 @@
-dialog {
+dialog[open] {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -9,16 +9,10 @@ dialog {
   border: none;
   border-radius: 8px;
 }
-/* 
-#detail-modal--backdrop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
 
-  background: rgba(0, 0, 0, 0.6);
-} */
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.6);
+}
 
 #detail-modal--header {
   border-bottom: 1px solid rgba(241, 241, 241, 0.25);
@@ -63,6 +57,9 @@ dialog {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  letter-spacing: 0.5px;
+  line-height: 24px;
+  font-size: 16px;
 }
 
 #detail-modal--info-header {
@@ -75,6 +72,11 @@ dialog {
 #detail-modal--vote {
   display: flex;
   align-items: center;
+  gap: 4px;
+}
+
+#detail-modal--overview {
+  font-weight: bold;
 }
 
 #detail-modal--rating {

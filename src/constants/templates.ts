@@ -44,7 +44,7 @@ export const HEADER_TEMPLATE = /* html */ `
 export const DETAIL_MODAL_TEMPLATE = (movie: MovieDetailType) => /* html */ `
   <div id="detail-modal--header">
     <div id="detail-modal--title">${movie.title}</div>  
-    <div id="detail-modal--close-btn"><img src="${MODAL_CLOSE_BTN}"/></div>
+    <div id="detail-modal--close-btn"><img src="${MODAL_CLOSE_BTN}" alt="별점"/></div>
   </div>
   <div id="detail-modal--body">
     <img id="detail-modal--body-img" src="${
@@ -68,7 +68,9 @@ export const DETAIL_MODAL_TEMPLATE = (movie: MovieDetailType) => /* html */ `
       </div>
       <div id="detail-modal--rating">
         <div id="detail-modal--label">내 별점</div>
-        <div id="detail-modal--rating">별별별별별</div>
+        <div id="detail-modal--rating">
+          <img src="${STAR_FILLED}" id="rating-star" alt="별점"/>
+        </div>
         <div id="detail-modal--rating-value">6</div>
         <div id="detail-modal--rating-label">보통이에요</div>
       </div>
