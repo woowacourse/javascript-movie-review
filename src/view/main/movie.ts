@@ -20,6 +20,7 @@ interface ITMDBResponse {
 
 function getImage(props: IMovieItemProps) {
   const img = document.createElement('img');
+  img.classList.add('item-thumbnail');
   img.alt = props.title;
   img.src = `https://image.tmdb.org/t/p/w500/${props.poster_path}`;
   img.loading = 'lazy';
