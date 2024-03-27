@@ -1,6 +1,31 @@
 import { MovieType } from "../types";
-import { starImage } from "../assets/image";
+import { starImage, starEmpty } from "../assets/image";
 import MovieClient from "../http/MovieClient";
+import { getMyVoteAverage, setMyVoteAverage } from "../utils/localStorage";
+import { STAR_SCORE_DESCRIPTION } from "../constants/movies";
+
+const drawStarScore = (movieId: number) => {
+  const myVoteAverage = getMyVoteAverage(movieId);
+  const $starScore = document.querySelector<HTMLSpanElement>(".star-score");
+  const $starScoreDescription = document.querySelector<HTMLSpanElement>(".star-score-description");
+
+  if (!$starScore || !$starScoreDescription) return;
+  $starScore.innerHTML = /*html*/ `
+    ${`<img src="${starImage}" alt="별점" class="star" />`.repeat(myVoteAverage / 2)}
+    ${`<img src="${starEmpty}" alt="별점" class="star" />`.repeat(5 - myVoteAverage / 2)}
+  `;
+  $starScoreDescription.innerText = `${STAR_SCORE_DESCRIPTION[myVoteAverage]}`;
+
+  const $stars = document.querySelectorAll<HTMLImageElement>(".star");
+  $stars.forEach(($star) => {
+    $star.addEventListener("click", (e) => {
+      e.preventDefault();
+      const starIndex = Array.from($stars).indexOf($star);
+      setMyVoteAverage(movieId, (starIndex + 1) * 2);
+      drawStarScore(movieId);
+    });
+  });
+};
 
 export const createMovieElement = ({ id, title, thumbnail, voteAverage }: MovieType) => {
   const listItem = document.createElement("li");
@@ -21,7 +46,7 @@ export const createMovieElement = ({ id, title, thumbnail, voteAverage }: MovieT
         </p>
       </div>
     </a> 
-`;
+  `;
 
   listItem.addEventListener("click", async (e) => {
     e.preventDefault();
@@ -41,11 +66,16 @@ export const createMovieElement = ({ id, title, thumbnail, voteAverage }: MovieT
         <div class="movie-info">
           <div class="movie-genres">${data.genres.join(", ")} <img src="${starImage}" alt="별점" /> ${data.voteAverage}</div>
           <div class="movie-overview"> ${data.overview}</div>
-          <div class="my-vote-average">내 별점 보통이에요 </div>
+          <div class="my-vote-average">
+            <span>내 별점 </span> 
+            <span class="star-score"></span> 
+            <span class="star-score-description">내 별점 보통이에요</span> 
+          </div>
         </div>
      </section>
       <button class="modal-close-button">X</button>
     `;
+    drawStarScore(id);
     $modal.showModal();
 
     window.addEventListener("keydown", (e) => {
