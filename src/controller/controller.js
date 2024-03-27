@@ -28,31 +28,33 @@ export class App {
 
   async init() {
     createHeader();
-    $('form.search-box').addEventListener('clickSearchButton', () => this.makeSearchPage());
-    $('header > img.logo').addEventListener('logoClickEvent', () => {
-      this.#movieContainer.clearMovieList();
-      this.#movieContainer.setTitle(MOVIE_LIST_TYPE.popular.title);
-      this.#pageNumberManager.setPageType(MOVIE_LIST_TYPE.popular.type);
-      this.#searchKeyword = '';
-      $('form.search-box').reset();
-
-      this.addMovieList();
-    });
+    $('form.search-box').addEventListener('clickSearchButton', () => this.handleSearchButtonClick());
+    $('header > img.logo').addEventListener('logoClickEvent', () => this.handleLogoClick());
 
     await this.addMovieList();
   }
 
   async addMovieList() {
     try {
-      this.#movieContainer.pushMoreSkeletonList();
-      this.#movieContainer.removeRetryButton();
-
+      this.#movieContainer.createSkeletonList();
       const moviePageData = await this.fetchMoviePageData();
-      this.#movieContainer.replaceSkeletonListToData(moviePageData);
+      this.#movieContainer.fillMovieDataToSkeletonList(moviePageData);
       this.#pageNumberManager.increase();
       this.#tryCount = 1;
     } catch (error) {
       this.handleRetryAddMovieList(error.message);
+    }
+  }
+
+  handleLogoClick() {
+    this.clearAndResetToPopularPage();
+    this.addMovieList();
+  }
+
+  handleSearchButtonClick() {
+    this.setSearchKeyword();
+    if (this.#searchKeyword) {
+      this.makeSearchPage();
     }
   }
 
@@ -68,23 +70,35 @@ export class App {
     }
   }
 
+  clearAndResetToPopularPage() {
+    this.#movieContainer.clearMovieList();
+    this.#movieContainer.setTitle(MOVIE_LIST_TYPE.popular.title);
+    this.#pageNumberManager.setPageType(MOVIE_LIST_TYPE.popular.type);
+    this.resetSearchKeyword();
+  }
+
+  resetSearchKeyword() {
+    this.#searchKeyword = '';
+    $('form.search-box').reset();
+  }
+
   async fetchMoviePageData() {
     const isSearching = this.#searchKeyword !== '';
-    const mode = isSearching ? MOVIE_LIST_TYPE.search.type : MOVIE_LIST_TYPE.popular.type;
+    const listType = isSearching ? MOVIE_LIST_TYPE.search.type : MOVIE_LIST_TYPE.popular.type;
     const pageNumber = this.#pageNumberManager.getPageNumber();
 
-    const moviePageData = await this.fetchMovieData(mode, pageNumber, this.#searchKeyword);
+    const moviePageData = await this.fetchMovieData(listType, pageNumber, this.#searchKeyword);
     return moviePageData;
   }
 
-  async fetchMovieData(mode, pageNumber, searchKeyword = '') {
+  async fetchMovieData(listType, pageNumber, searchKeyword = '') {
     const fetchFunctions = {
       [MOVIE_LIST_TYPE.search.type]: this.#movieService.fetchSearchResult.bind(this.#movieService),
       [MOVIE_LIST_TYPE.popular.type]: this.#movieService.fetchPopularMovieList.bind(this.#movieService),
     };
 
-    const fetchFunction = fetchFunctions[mode];
-    const params = mode === MOVIE_LIST_TYPE.search.type ? { pageNumber, searchKeyword } : pageNumber;
+    const fetchFunction = fetchFunctions[listType];
+    const params = listType === MOVIE_LIST_TYPE.search.type ? { pageNumber, searchKeyword } : pageNumber;
 
     return fetchFunction(params);
   }
