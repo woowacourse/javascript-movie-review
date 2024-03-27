@@ -11,7 +11,9 @@ interface MovieItemProps {
 }
 
 const template = /* html */ `
-  <img class="item-thumbnail" loading="lazy" />
+  <div class="img-wrapper">
+    <img class="item-thumbnail" loading="lazy" />
+  </div>
   <p class="item-title"></p>
 `;
 

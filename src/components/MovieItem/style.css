@@ -1,11 +1,26 @@
 .item-card {
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+}
+
+.img-wrapper {
+  border-radius: 8px;
+  background-size: contain;
+  overflow: hidden;
 }
 
 .item-thumbnail {
+  width: 100%;
   border-radius: 8px;
   background-size: contain;
+  transform: scale(1);
+  transition: transform 0.3s;
+}
+
+.item-thumbnail:hover {
+  transform: scale(1.2);
+  transition: transform 0.3s;
 }
 
 @media (max-width: 500px) {  
