@@ -1,10 +1,11 @@
+/* eslint-disable max-lines-per-function */
 import LogoImg from "../../templates/logo.png";
 import { LOGO_IMG_ALT, TITLE_TEXT } from "../constants/system";
 import movieDataStateStore from "../model/MovieDataStateStore";
 import { handleGetPopularMovieData } from "../service/handleSkeletonAndAPI";
 import { createElementWithAttribute } from "../utils";
 
-import ItemView from "./ItemView";
+import renderItemView from "./ItemView";
 import { SearchBox, SearchBoxMobile } from "./SearchBox";
 
 const handleClickToRefresh = async () => {
@@ -15,8 +16,11 @@ const handleClickToRefresh = async () => {
     $searchBox.value = "";
   }
   await handleGetPopularMovieData(true);
-
-  ItemView(TITLE_TEXT.POPULAR, movieDataStateStore.movieData, "popular");
+  renderItemView(
+    TITLE_TEXT.POPULAR,
+    movieDataStateStore.totalMovieData,
+    "popular",
+  );
 };
 
 const Logo = () => {

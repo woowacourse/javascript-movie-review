@@ -9,7 +9,7 @@ const ViewContainer = async () => {
   await handleGetPopularMovieData();
   renderItemView(
     "지금 인기 있는 영화",
-    movieDataStateStore.movieData,
+    movieDataStateStore.totalMovieData,
     "popular",
   );
 };

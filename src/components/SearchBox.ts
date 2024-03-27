@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import {
   ENTER_KEYCODE,
   SEARCH_BUTTON_TEXT,
@@ -19,7 +20,11 @@ const searchMovie = async () => {
   const $itemView = document.querySelector(".item-view");
   $itemView?.remove();
   await handleGetSearchMovieData(title, true);
-  ItemView(TITLE_TEXT.SEARCH(title), movieDataStateStore.movieData, "search");
+  ItemView(
+    TITLE_TEXT.SEARCH(title),
+    movieDataStateStore.totalMovieData,
+    "search",
+  );
 };
 
 const handleInputKeydown = (event: KeyboardEvent) => {
