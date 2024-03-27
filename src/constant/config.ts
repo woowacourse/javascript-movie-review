@@ -7,3 +7,14 @@ export const ENDPOINT = {
     MOVIE_SEARCH: '/search/movie',
   },
 };
+
+export const MOVIE_LIST_TYPE = {
+  SEARCH: {
+    type: 'search',
+    title: (keyword: string) => `"${keyword}" 검색 결과`,
+  },
+  POPULAR: {
+    type: 'popular',
+    title: '지금 인기 있는 영화',
+  },
+} as const;
