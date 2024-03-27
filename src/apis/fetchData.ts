@@ -24,7 +24,6 @@ export async function fetchSearchMovieList(inputValue: string, pageNumber: numbe
       { query: inputValue, api_key: API_KEY, language: 'ko-KR', page: pageNumber.toString() } as UrlParams,
       MOVIE_SEARCH_URL,
     );
-    console.log(searchMovies);
     return [mapDataToMovies(searchMovies), searchMovies.total_pages, searchMovies.total_results];
   } catch (error) {
     toast(NETWORK_ERROR_MESSAGE);
