@@ -1,12 +1,14 @@
 .item-card {
   display: flex;
   flex-direction: column;
+
+  width: 100%;
 }
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
-  height: 270px;
+  width: 100%;
+  aspect-ratio: 2/3;
   background-size: contain;
 }
 
@@ -44,6 +46,8 @@
 }
 
 .star-icon {
+  width: 20px;
+  height: 20px;
   margin-left: 8px;
 }
 
@@ -56,5 +60,27 @@
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  .item-title {
+    margin-top: 12px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .item-score {
+    font-size: 16px;
+
+    margin-top: 5px;
+  }
+
+  .item-score-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    margin-top: 8px;
   }
 }
