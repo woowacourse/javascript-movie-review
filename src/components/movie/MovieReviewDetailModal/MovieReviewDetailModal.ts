@@ -1,10 +1,10 @@
 import Component from '../../common/Component/Component';
 import Modal from '../../common/Modal/Modal';
 import MovieScoreBoard from '../MovieScoreBoard/MovieScoreBoard';
+import ModalCloseButton from '../ModalCloseButton/ModalCloseButton';
 
 import type { MovieDetailInterface, RateDetail } from '../../../domain/Movie/MovieDetail/MovieDetail.type';
 
-import { on } from '../../../utils/dom/eventListener/eventListener';
 import { querySelector } from '../../../utils/dom/selector';
 
 import { ELEMENT_SELECTOR } from '../../../constants/selector';
@@ -16,14 +16,16 @@ import './MovieReviewDetailModal.css';
 type MovieReviewDetailModalProps = MovieDetailInterface & Pick<RateDetail, 'ratingScore'>;
 
 class MovieReviewDetailModal extends Component<MovieReviewDetailModalProps> {
-  private modal: Modal | undefined;
-
   protected render(): void {
-    this.modal = new Modal(this.$element, {
+    new Modal(this.$element, {
       id: 'movie-review-detail-modal',
       class: 'movie-review-detail-modal',
       children: this.createComponent(),
     });
+
+    const $nav = querySelector<HTMLElement>(ELEMENT_SELECTOR.modalReviewDetailHeader, this.$element);
+
+    new ModalCloseButton($nav);
 
     const $section = querySelector<HTMLDivElement>(ELEMENT_SELECTOR.modalReviewDetailSection, this.$element);
 
@@ -36,13 +38,8 @@ class MovieReviewDetailModal extends Component<MovieReviewDetailModalProps> {
 
   protected createComponent() {
     return /* html */ `
-      <nav class="modal-review-detail-header">
+      <nav id="modal-review-detail-header" class="modal-review-detail-header">
         <span id="modal-review-detail-title">${this.props?.title}</span>
-        <button id="modal-close-button" type="button" class="modal-close-button">
-          <svg viewBox="0 0 40 40">
-              <path class="modal-close-icon" d="M 10,10 L 30,30 M 30,10 L 10,30"></path>
-          </svg>
-        </button>
       </nav>
       <article class="modal-review-detail-content">
         <img 
@@ -74,24 +71,6 @@ class MovieReviewDetailModal extends Component<MovieReviewDetailModalProps> {
     const $modal = querySelector<HTMLDialogElement>(ELEMENT_SELECTOR.movieReviewDetailModal, this.$element);
 
     $modal.showModal();
-  }
-
-  protected setEvent(): void {
-    const $modalCloseButton = querySelector<HTMLButtonElement>(ELEMENT_SELECTOR.modalCloseButton, this.$element);
-
-    on({
-      target: $modalCloseButton,
-      eventName: 'click',
-      eventHandler: this.handleModalCloseButton.bind(this),
-    });
-  }
-
-  private handleModalCloseButton() {
-    if (!this.modal) return;
-
-    const $modal = querySelector<HTMLDialogElement>(ELEMENT_SELECTOR.movieReviewDetailModal, this.$element);
-
-    $modal.close();
   }
 }
 

@@ -2,6 +2,7 @@ export const ELEMENT_SELECTOR = {
   app: '#app',
   main: 'main',
   movieReviewDetailModal: '#movie-review-detail-modal',
+  modalReviewDetailHeader: '#modal-review-detail-header',
   modalCloseButton: '#modal-close-button',
   errorFallBackModal: '#error-fallback-modal',
   reloadButton: '#reload-button',
