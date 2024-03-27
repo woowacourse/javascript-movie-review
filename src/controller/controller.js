@@ -5,6 +5,7 @@ import PageNumberManager from '../domain/pageNumberManager.ts';
 import { $ } from '../util/selector.js';
 import toast from '../component/toast/toast.js';
 import { MOVIE_LIST_TYPE } from '../constant/config';
+import ERROR_MESSAGE from '../constant/errorMessage.ts';
 
 export class App {
   #searchKeyword;
@@ -15,7 +16,7 @@ export class App {
 
   constructor() {
     this.#searchKeyword = '';
-    this.#tryCount = 1;
+    this.#tryCount = 0;
     this.#pageNumberManager = new PageNumberManager();
     this.#pageNumberManager.setPageType(MOVIE_LIST_TYPE.popular.type);
 
@@ -40,7 +41,7 @@ export class App {
       const moviePageData = await this.fetchMoviePageData();
       this.#movieContainer.fillMovieDataToSkeletonList(moviePageData);
       this.#pageNumberManager.increase();
-      this.#tryCount = 1;
+      this.#tryCount = 0;
     } catch (error) {
       this.handleRetryAddMovieList(error.message);
     }
@@ -64,7 +65,7 @@ export class App {
     this.#tryCount += 1;
 
     if (this.#tryCount > 5) {
-      toast('재요청 가능한 횟수를 초과하였습니다.\n새로고침 후 다시 시도해 주세요.');
+      toast(ERROR_MESSAGE.RETRY_LIMIT_EXCEEDED);
     } else {
       this.#movieContainer.createRetryButton(() => this.addMovieList());
     }
@@ -97,7 +98,7 @@ export class App {
   setSearchKeyword() {
     const searchKeyword = $('form.search-box > input').value.trim();
     if (!searchKeyword) {
-      toast('검색어를 입력해주세요.');
+      toast(ERROR_MESSAGE.SEARCH_KEYWORD_EMPTY);
       return;
     }
     this.#searchKeyword = searchKeyword;
