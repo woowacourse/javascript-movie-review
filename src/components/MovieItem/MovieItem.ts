@@ -7,16 +7,29 @@ import { ResponseMovieDetail } from '../../types/ResponseMovieDetail';
 
 interface MovieItemsProps {
   id: number;
-  poster_path: string;
   title: string;
+  genre_ids: number[];
+  poster_path: string;
+  backdrop_path: string;
+  overview: string;
   vote_average: number;
 }
 
 class MovieItem {
   private template: HTMLElement;
+  private movieDetail: MovieItemsProps;
 
   constructor() {
     this.template = this.createSkeleton();
+    this.movieDetail = {
+      id: 0,
+      title: 'string',
+      genre_ids: [],
+      poster_path: '',
+      backdrop_path: '',
+      overview: '',
+      vote_average: 0,
+    };
   }
 
   createSkeleton() {
@@ -56,21 +69,22 @@ class MovieItem {
     return li;
   }
 
-  insertInfo({ id, poster_path, title, vote_average }: MovieItemsProps) {
-    this.setEventListener(id);
+  insertInfo(props: MovieItemsProps) {
+    this.movieDetail = props;
+    this.setEventListener(props.id);
     this.template.classList.remove('li-skeleton');
     const div = this.template.querySelector('.item-card') as HTMLElement;
     div.classList.remove('skeleton');
     const img = this.template.querySelector('.item-thumbnail') as HTMLImageElement;
-    img.setAttribute('src', IMAGE_URL_PREFIX + poster_path);
-    img.setAttribute('alt', title);
+    img.setAttribute('src', IMAGE_URL_PREFIX + props.poster_path);
+    img.setAttribute('alt', props.title);
     img.classList.remove('skeleton');
     const p1 = this.template.querySelector('.item-title') as HTMLElement;
     p1.classList.remove('skeleton');
-    p1.textContent = title;
+    p1.textContent = props.title;
     const p2 = this.template.querySelector('.item-score') as HTMLElement;
     p2.classList.remove('skeleton');
-    p2.innerHTML = `${vote_average}`;
+    p2.innerHTML = `${props.vote_average}`;
     const starImage = this.template.querySelector('.star-icon') as HTMLImageElement;
     starImage.setAttribute('src', StarFilled);
     starImage.setAttribute('alt', '별점');
@@ -78,15 +92,16 @@ class MovieItem {
 
   setEventListener(movie_id: number) {
     this.template.querySelector('.item-detail-button')?.addEventListener('click', () => {
-      MovieDetails.fetch({ movie_id }).then((result) => {
-        this.dispatchToggleMovieDetailModal(result);
-      });
+      // MovieDetails.fetch({ movie_id }).then((result) => {
+      //   this.dispatchToggleMovieDetailModal(result);
+      // });
+      this.dispatchToggleMovieDetailModal();
     });
   }
 
-  dispatchToggleMovieDetailModal(result: ResponseMovieDetail) {
+  dispatchToggleMovieDetailModal() {
     const toggleMovieDetailModal = new CustomEvent('toggleMovieDetailModal', {
-      detail: { value: result },
+      detail: { value: this.movieDetail },
       bubbles: true,
     });
     document.dispatchEvent(toggleMovieDetailModal);

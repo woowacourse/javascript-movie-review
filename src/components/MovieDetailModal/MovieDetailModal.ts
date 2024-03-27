@@ -1,14 +1,15 @@
 import { IMAGE_URL_PREFIX } from '../../constants/url';
+import MovieGenresCollection from '../../domain/MovieGenresCollection';
 import { Genre } from '../../types/ResponseMovieDetail';
 import './style.css';
 
 interface MovieDetailModalProps {
   title: string;
-  genres: Genre[];
+  genre_ids: number[];
   poster_path: string;
   backdrop_path: string;
-  vote_average: number;
   overview: string;
+  vote_average: number;
 }
 
 class MovieDetailModal {
@@ -65,16 +66,16 @@ class MovieDetailModal {
 
   setMovieDetail({
     title,
-    genres,
+    genre_ids,
     poster_path,
     backdrop_path,
-    vote_average,
     overview,
+    vote_average,
   }: MovieDetailModalProps) {
     const titleElement = this.template.querySelector('.movie-detail-title') as HTMLHeadingElement;
     titleElement.textContent = title;
     const genreElement = this.template.querySelector('.detail-genre') as HTMLParagraphElement;
-    genreElement.textContent = genres.map((genre) => genre.name).join(', ');
+    genreElement.textContent = this.genreIdsToGenreNames(genre_ids).join(', ');
     const posterElement = this.template.querySelector('.detail-poster') as HTMLImageElement;
     posterElement.src = `${IMAGE_URL_PREFIX}${poster_path}`;
     posterElement.alt = title;
@@ -82,6 +83,10 @@ class MovieDetailModal {
     scoreElement.textContent = `${vote_average}`;
     const overviewElement = this.template.querySelector('.detail-overview') as HTMLParagraphElement;
     overviewElement.textContent = overview;
+  }
+
+  genreIdsToGenreNames(genreIds: number[]) {
+    return genreIds.map((genreId) => MovieGenresCollection.getGenreNameByGenreId(genreId));
   }
 
   setEventListener() {
