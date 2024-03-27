@@ -1,4 +1,4 @@
-import Movies, { MovieInfo } from '../domain/Movies';
+import Movies, { MovieDetail, MovieInfo } from '../domain/Movies';
 import MovieItem from '../components/MovieItem/MovieItem';
 import CustomError from '../utils/CustomError';
 import ErrorPage from '../components/ErrorPage/ErrorPage';
@@ -29,6 +29,12 @@ class MovieController {
     }
 
     this.#renderPopularMovies();
+  }
+
+  async handleMovieClick(movieId: number) {
+    const data: MovieDetail = await this.#movies.getMovieDetail(movieId);
+
+    return data;
   }
 
   render(query: string = '') {
@@ -62,6 +68,7 @@ class MovieController {
 
   async #renderPopularMovies() {
     document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
+
     const movieData = await this.#getPopularMovies(this.#page);
 
     this.#updateViewMoreButtonDisplay(movieData);
@@ -91,6 +98,7 @@ class MovieController {
 
   async #renderSearchMovies() {
     document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
+
     const movieData = await this.#searchMovies(this.#page, this.#query);
 
     if (movieData && !movieData.length) {

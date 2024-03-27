@@ -5,15 +5,19 @@ import Header from './components/Header/Header';
 import Title from './components/Title/Title';
 import SearchBox from './components/SearchBox/SearchBox';
 import MovieListSection from './components/MovieListSection/MovieListSection';
+import ModalWrapper from './components/ModalWrapper/ModalWrapper';
+import MovieDetail from './components/MovieDetail/MovieDetail';
 
 import MovieController from './controller/MovieController';
 
 class MovieApp {
   #app = document.getElementById('app');
   #movieController;
+  #modal;
 
   constructor() {
     this.#movieController = new MovieController();
+    this.#modal = new ModalWrapper();
   }
 
   init() {
@@ -23,6 +27,7 @@ class MovieApp {
 
     this.#app.appendChild(this.#setHeader());
     this.#app.appendChild(this.#setMain());
+    this.#app.appendChild(this.#modal.element);
     this.#movieController.render('');
 
     this.#addViewMoreButtonClick();
@@ -48,7 +53,9 @@ class MovieApp {
 
   #setMain() {
     const main = document.createElement('main');
-    const movieListSection = MovieListSection();
+    const movieListSection = MovieListSection({
+      onMovieClick: (event: MouseEvent) => this.#onMovieClick(event),
+    });
 
     main.appendChild(movieListSection);
 
@@ -70,6 +77,19 @@ class MovieApp {
 
   #onHomeButtonClick() {
     this.#movieController.render();
+  }
+
+  async #onMovieClick(event: MouseEvent) {
+    this.#modal.toggle();
+    const target = event.target as Element;
+    const movieId = Number(target.closest('li')?.dataset.movieId);
+    const data = await this.#movieController.handleMovieClick(movieId);
+    const movieDetail = MovieDetail({
+      data,
+      onCloseButtonClick: () => this.#modal.toggle(),
+    });
+
+    this.#modal.replaceContent(movieDetail);
   }
 }
 
