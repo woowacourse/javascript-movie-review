@@ -2,7 +2,7 @@
 import closeImg from "../../templates/close-button.png";
 import { createElementWithAttribute } from "../utils";
 
-function closeModal() {
+export function handleCloseModal() {
   console.log("closeModal");
   const $modal = document.querySelector(".detail-modal");
   if (!$modal) return;
@@ -20,7 +20,7 @@ const CloseButton = () => {
   $button.appendChild($img);
 
   $button.addEventListener("click", () => {
-    closeModal();
+    handleCloseModal();
   });
 
   return $button;

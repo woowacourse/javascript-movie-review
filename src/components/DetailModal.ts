@@ -4,7 +4,7 @@ import rateDataStateStore from "../model/RateDataStateStore";
 import { Movie, MovieDetail } from "../type/movie";
 import { createElementWithAttribute } from "../utils";
 
-import CloseButton from "./CloseButton";
+import CloseButton, { handleCloseModal } from "./CloseButton";
 import MovieGenres from "./MovieGenres";
 import MovieImg from "./MovieImg";
 import MovieOverview from "./MovieOverview";
@@ -74,6 +74,19 @@ const ModalContainer = (movie: MovieDetail) => {
   return $modalContainer;
 };
 
+const closeModal = () => {
+  const $modalBackdrop = document.querySelector(".modal-backdrop");
+  $modalBackdrop?.addEventListener("click", () => {
+    handleCloseModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      handleCloseModal();
+    }
+  });
+};
+
 const DetailModal = async (movie: Movie) => {
   const movieDetail: MovieDetail = await apiClient.getOneMovieDetailData(
     movie.id,
@@ -89,5 +102,7 @@ const DetailModal = async (movie: Movie) => {
   $modal.appendChild(ModalContainer(movieDetail));
 
   $main?.appendChild($modal);
+
+  closeModal();
 };
 export default DetailModal;
