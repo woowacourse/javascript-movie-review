@@ -1,11 +1,17 @@
 {
-  "rules": {},
   "env": {
+    "browser": true,
     "es6": true,
     "node": true
   },
+  "extends": ["prettier"],
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
-  "extends": ["eslint:recommended", "plugin:prettier/recommended"]
+  "rules": {
+    "import/extensions": "off",
+    "max-depth": ["error", 1],
+    "lines-between-class-members": "off"
+  }
 }
