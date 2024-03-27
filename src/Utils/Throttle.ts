@@ -1,5 +1,5 @@
-const Throttle = (callback, delay) => {
-  let timerId;
+const Throttle = (callback: () => void, delay: number) => {
+  let timerId: ReturnType<typeof setTimeout> | null;
 
   return () => {
     if (timerId) return;
