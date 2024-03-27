@@ -60,35 +60,15 @@ export default class MovieList extends EventComponent {
       this.movies = movies;
 
       if (movies.length === 0) {
-        const emptyMovieList = new EmptyMovieList({
-          targetId: this.targetId,
-          onHomeButton: () => this.queryState.reset(),
-        });
-
-        emptyMovieList.initialize();
+        this.renderEmptyMovieList();
         return;
       }
 
       this.render();
     } catch (error) {
       if (error instanceof Error) {
-        this.handleErrorOnInitialized(error);
+        this.catchErrorOnInitialized(error);
       }
-    }
-  }
-
-  protected handleErrorOnInitialized(error: Error): void {
-    if (error instanceof APIError) {
-      alert(error.message);
-    } else if (error instanceof Error) {
-      alert(
-        "네트워크가 원활하지 않습니다. 인터넷 연결 확인 후 다시 시도해주세요."
-      );
-    }
-
-    const errorTargetElement = $(this.targetId);
-    if (errorTargetElement instanceof HTMLElement) {
-      errorTargetElement.innerHTML = generateErrorFallbackScreen();
     }
   }
 
@@ -119,13 +99,8 @@ export default class MovieList extends EventComponent {
     }
   }
 
-  private insertMovieItems(movies: Movie[]): void {
-    const movieItemsTemplate = generateMovieItems(movies);
-
-    $<HTMLUListElement>("item-list")?.insertAdjacentHTML(
-      "beforeend",
-      movieItemsTemplate
-    );
+  private resetPage(): void {
+    this.page = 1;
   }
 
   private async fetchMovies(page: number, query?: Query): Promise<Movie[]> {
@@ -136,7 +111,36 @@ export default class MovieList extends EventComponent {
     return movies;
   }
 
-  private resetPage(): void {
-    this.page = 1;
+  private catchErrorOnInitialized(error: Error): void {
+    if (error instanceof APIError) {
+      alert(error.message);
+    } else if (error instanceof Error) {
+      alert(
+        "네트워크가 원활하지 않습니다. 인터넷 연결 확인 후 다시 시도해주세요."
+      );
+    }
+
+    const errorTargetElement = $(this.targetId);
+    if (errorTargetElement instanceof HTMLElement) {
+      errorTargetElement.innerHTML = generateErrorFallbackScreen();
+    }
+  }
+
+  private insertMovieItems(movies: Movie[]): void {
+    const movieItemsTemplate = generateMovieItems(movies);
+
+    $<HTMLUListElement>("item-list")?.insertAdjacentHTML(
+      "beforeend",
+      movieItemsTemplate
+    );
+  }
+
+  private renderEmptyMovieList(): void {
+    const emptyMovieList = new EmptyMovieList({
+      targetId: this.targetId,
+      onHomeButton: () => this.queryState.reset(),
+    });
+
+    emptyMovieList.initialize();
   }
 }
