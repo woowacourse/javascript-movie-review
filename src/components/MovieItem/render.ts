@@ -24,7 +24,7 @@ const createItemImage = (poster_path: string, title: string) => {
     loading: 'lazy',
     alt: `${title} 포스터 이미지`,
   });
-
+  
   image.onerror = () => {
     const itemThumbnail = createElement('div', {
       className: 'item-thumbnail skeleton',

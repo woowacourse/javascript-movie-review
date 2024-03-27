@@ -9,7 +9,6 @@ function Header() {
   keywordSubmitHandler('mobile');
   mobileInputEnterHandler();
   reloadPageHandler();
-
   return headerComponent;
 }
 

@@ -80,37 +80,3 @@ export const reloadPageHandler = () => {
 
   headerBanner.addEventListener('click', reloadPage);
 };
-
-const toggleMobileSearchInput = (event: Event) => {
-  event.preventDefault();
-  event.stopPropagation();
-  const mobileSearchInput = document.querySelector('.mobile-search-input');
-  const mobileSubmitButton = document.querySelector('.mobile-submit-button');
-  if (!isElement(mobileSearchInput)) return;
-  if (!isElement(mobileSubmitButton)) return;
-  [mobileSearchInput, mobileSubmitButton].forEach((element) => element.classList.add('visible'));
-};
-
-export const mobileToggleButtonHandler = () => {
-  const mobileToggleButton = document.querySelector('.mobile-search-button');
-  if (!isElement(mobileToggleButton)) return;
-
-  mobileToggleButton.addEventListener('click', (event) => toggleMobileSearchInput(event));
-  mobileToggleButton.classList.add('hide');
-};
-
-const mobileInputEnterSearch = (event: KeyboardEvent, mobileSearchInput: HTMLInputElement) => {
-  removeExistingNoMoreDataText();
-  if (event.key === 'Enter') {
-    event.preventDefault();
-    const keyword = mobileSearchInput.value;
-    validateAndLoadMovieList(keyword);
-    mobileSearchInput.value = '';
-  }
-};
-
-export const mobileInputEnterHandler = () => {
-  const mobileSearchInput = document.querySelector('.mobile-search-input') as HTMLInputElement;
-  if (!isElement(mobileSearchInput)) return;
-  mobileSearchInput.addEventListener('keypress', (event) => mobileInputEnterSearch(event, mobileSearchInput));
-};
