@@ -13,7 +13,7 @@ async function setupInfiniteScroll(
     });
   };
 
-  const observer = new IntersectionObserver(onIntersect, OPTIONS.infiniteScroll);
+  const observer = new IntersectionObserver(onIntersect);
   observer.observe(listEnd);
 }
 
