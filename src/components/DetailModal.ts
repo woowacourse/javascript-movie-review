@@ -1,5 +1,6 @@
 /* eslint-disable max-lines-per-function */
 import { apiClient } from "../model";
+import rateDataStateStore from "../model/RateDataStateStore";
 import { Movie, MovieDetail } from "../type/movie";
 import { createElementWithAttribute } from "../utils";
 
@@ -12,6 +13,14 @@ import MovieTitle from "./MovieTitle";
 import StarRate from "./StarRate";
 
 const $main = document.querySelector("main");
+
+const ModalRate = (movie: MovieDetail) => {
+  const rate = rateDataStateStore.getOneRate(movie.id);
+  if (!rate) {
+    return StarRate({ movieId: movie.id, rate: 0 }, "modal-rate");
+  }
+  return StarRate(rate, "modal-rate");
+};
 
 const ModalInfoContainer = (movie: MovieDetail) => {
   const $infoContainer = createElementWithAttribute("div", {
@@ -27,7 +36,7 @@ const ModalInfoContainer = (movie: MovieDetail) => {
   $info.appendChild($infoTop);
   $info.appendChild(MovieOverview(movie.overview, "modal-overview"));
   $infoContainer.appendChild($info);
-  $infoContainer.appendChild(StarRate(movie.vote_average, "modal-rate"));
+  $infoContainer.appendChild(ModalRate(movie));
 
   return $infoContainer;
 };

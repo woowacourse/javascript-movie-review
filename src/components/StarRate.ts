@@ -1,6 +1,8 @@
 /* eslint-disable max-lines-per-function */
 import emptyStar from "../../templates/star_empty.png";
 import filledStar from "../../templates/star_filled.png";
+import rateDataStateStore from "../model/RateDataStateStore";
+import { Rate } from "../type/rate";
 import { createElementWithAttribute } from "../utils";
 
 const rateState = (rate: number) => {
@@ -10,6 +12,14 @@ const rateState = (rate: number) => {
   if (rate > 4) return "보통이에요";
   if (rate > 2) return "별로예요";
   return "최악이예요";
+};
+
+const setStarRate = (movieId: number, rate: number) => {
+  const newRate: Rate = {
+    movieId,
+    rate,
+  };
+  rateDataStateStore.setNewRate(newRate);
 };
 
 const Text = (text: string, className: string) => {
@@ -27,7 +37,7 @@ const Stars = (rate: number) => {
       class: "star-button",
     });
     const $star = createElementWithAttribute("img", {
-      src: i <= rate ? filledStar : emptyStar,
+      src: i * 2 <= rate ? filledStar : emptyStar,
       alt: "star",
       class: "rate-star",
     });
@@ -37,12 +47,12 @@ const Stars = (rate: number) => {
   return $stars;
 };
 
-const rateStateContainer = (rate?: number) => {
+const rateStateContainer = (rate: number) => {
   const $rateStateContainer = createElementWithAttribute("div", {
     class: "rate-state-container",
   });
 
-  if (!rate) {
+  if (rate === 0) {
     $rateStateContainer.appendChild(Text("별점을 매겨주세요.", "rate-state"));
     return $rateStateContainer;
   }
@@ -53,14 +63,14 @@ const rateStateContainer = (rate?: number) => {
   return $rateStateContainer;
 };
 
-const StarsContainer = (rate: number = 0) => {
+const StarsContainer = ({ movieId, rate }: Rate) => {
   const $rateContainer = createElementWithAttribute("div", {
     class: "stars-container",
   });
 
   const $stars = Stars(rate);
   $rateContainer.appendChild($stars);
-  $rateContainer.appendChild(rateStateContainer());
+  $rateContainer.appendChild(rateStateContainer(rate));
 
   $rateContainer.addEventListener("click", (e) => {
     const target = e.target as HTMLElement;
@@ -72,26 +82,25 @@ const StarsContainer = (rate: number = 0) => {
     );
 
     if (closestButton) {
-      const clickedStarId = closestButton.id;
+      const clickedStarNumber = Number(closestButton.id) * 2;
       $prevStars?.remove();
+      $rateContainer.appendChild(Stars(clickedStarNumber));
       $prevStarsState?.remove();
-      $rateContainer.appendChild(Stars(Number(clickedStarId)));
-      $rateContainer.appendChild(rateStateContainer(Number(clickedStarId) * 2));
-
-      Stars(Number(clickedStarId));
+      $rateContainer.appendChild(rateStateContainer(clickedStarNumber));
+      setStarRate(movieId, clickedStarNumber);
     }
   });
 
   return $rateContainer;
 };
 
-const StarRate = (rate: number, className: string) => {
+const StarRate = (rate: Rate, className: string) => {
   const $rateContainer = createElementWithAttribute("div", {
     class: className,
   });
 
   $rateContainer.appendChild(Text("내 별점 ", "rate-title"));
-  $rateContainer.appendChild(StarsContainer());
+  $rateContainer.appendChild(StarsContainer(rate));
 
   return $rateContainer;
 };
