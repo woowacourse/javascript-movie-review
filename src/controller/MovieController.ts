@@ -42,7 +42,7 @@ class MovieController {
 
     this.#initData(query);
 
-    if (errorContainer.classList.contains('hidden')) {
+    if (!errorContainer.classList.contains('hidden')) {
       errorContainer.classList.add('hidden');
     }
 
