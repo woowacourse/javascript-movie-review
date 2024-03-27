@@ -1,7 +1,9 @@
 import "../templates/reset.css";
 import "../templates/common.css";
 
-import RenderController from "./renderController";
+import MainController from "./controllers/MainController";
 
-RenderController.renderHeader();
-RenderController.renderMoviePosterBoard();
+const mainController = new MainController();
+
+const body = document.querySelector("body");
+body?.append(...mainController.elements);
