@@ -11,7 +11,6 @@ export async function fetchPopularMovieList(pageNumber: number): Promise<MovieAP
       { api_key: API_KEY, language: 'ko-KR', page: pageNumber.toString() } as UrlParams,
       POPULAR_MOVIES_URL,
     );
-    console.log(popularMovies);
     return [mapDataToMovies(popularMovies), popularMovies.total_pages, popularMovies.total_results];
   } catch (error) {
     toast(NETWORK_ERROR_MESSAGE);
@@ -41,6 +40,5 @@ async function buildData<T>(urlParams: UrlParams, baseURL: string): Promise<T> {
     throw new Error(NETWORK_ERROR_MESSAGE);
   }
   const jsonData = await response.json();
-  console.log(jsonData);
   return jsonData;
 }
