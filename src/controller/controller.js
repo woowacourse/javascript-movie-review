@@ -86,21 +86,12 @@ export class App {
     const isSearching = this.#searchKeyword !== '';
     const listType = isSearching ? MOVIE_LIST_TYPE.search.type : MOVIE_LIST_TYPE.popular.type;
     const pageNumber = this.#pageNumberManager.getPageNumber();
-
-    const moviePageData = await this.fetchMovieData(listType, pageNumber, this.#searchKeyword);
+    const moviePageData = await this.#movieService.fetchMovieData({
+      listType,
+      pageNumber,
+      searchKeyword: this.#searchKeyword,
+    });
     return moviePageData;
-  }
-
-  async fetchMovieData(listType, pageNumber, searchKeyword = '') {
-    const fetchFunctions = {
-      [MOVIE_LIST_TYPE.search.type]: this.#movieService.fetchSearchResult.bind(this.#movieService),
-      [MOVIE_LIST_TYPE.popular.type]: this.#movieService.fetchPopularMovieList.bind(this.#movieService),
-    };
-
-    const fetchFunction = fetchFunctions[listType];
-    const params = listType === MOVIE_LIST_TYPE.search.type ? { pageNumber, searchKeyword } : pageNumber;
-
-    return fetchFunction(params);
   }
 
   setSearchKeyword() {
