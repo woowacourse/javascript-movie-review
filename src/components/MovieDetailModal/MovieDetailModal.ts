@@ -1,6 +1,6 @@
 import { IMAGE_URL_PREFIX } from '../../constants/url';
+import StarFilled from '../../imgs/star_filled.png';
 import MovieGenresCollection from '../../domain/MovieGenresCollection';
-import { Genre } from '../../types/ResponseMovieDetail';
 import './style.css';
 
 interface MovieDetailModalProps {
@@ -37,7 +37,7 @@ class MovieDetailModal {
   createMovieDetail() {
     const html = `
     <div class="movie-detail-header">
-      <h class="movie-detail-title">
+      <h class="font-title movie-detail-title">
       타이틀이에요
       </h>
     </div>
@@ -45,13 +45,13 @@ class MovieDetailModal {
       <img class="detail-poster"></img>
       <section class="detail-contents">
         <div class="detail-genre-score">
-          <p class="detail-genre">액션, 코미디</p>
-          <div class="detail-score-container>
-            <img class="star-icon"></img>
-            <p class="detail-score">6.12</p>
+          <p class="font-body detail-genre">액션, 코미디</p>
+          <div class="detail-score-container">
+            <img class="star-icon" src=${StarFilled} alt="별점"></img>
+            <p class="font-body detail-score">6.12</p>
           </div>
         </div>
-        <p class="detail-overview">
+        <p class="font-body detail-overview">
           설명임
         </p>
         <div class="my-score">

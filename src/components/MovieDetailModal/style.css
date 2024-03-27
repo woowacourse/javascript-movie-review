@@ -20,25 +20,38 @@
 .modal-container {
   box-sizing: border-box;
   position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 500px;
+  inset: 50%;
+  transform: translate(-50%, -50%);
+  width: 740px;
+  height: 544px;
 
-  padding: 32px 16px;
-
-  border-radius: 8px 8px 0px 0px;
+  border-radius: 8px;
   background: var(--grayscale-500);
 }
 
 .movie-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 60px;
   width: 100%;
 
+  border-bottom: 1px solid var(--border);
+}
+
+.movie-detail-title {
   text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  user-select: none;
 }
 
 .detail-items {
   display: flex;
-  gap: 16px;
+  gap: 32px;
+
+  padding: 36px 32px 48px 32px;
 }
 
 .detail-poster {
@@ -57,6 +70,8 @@
 .detail-genre-score {
   display: flex;
   gap: 16px;
+
+  height: 20px;
 }
 
 .detail-score-container {

@@ -6,6 +6,7 @@
   --grayscale-100: #bbbbbb;
   --white: #ffffff;
   --primary: #f33f3f;
+  --border: rgba(241, 241, 241, 0.25);
 }
 
 * {
@@ -41,4 +42,22 @@ button {
 
 .full-width {
   width: 100%;
+}
+
+.font-title {
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  text-align: center;
+}
+
+.font-body {
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  text-align: left;
 }
