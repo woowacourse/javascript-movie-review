@@ -89,17 +89,9 @@
 }
 
 .user-star-icon {
-
     width: 24px;
     height: 24px;
     cursor: pointer;
-    background-image: url("./images/star_empty.png");
-    background-repeat: no-repeat;
-
-    &.filled {
-        background-image: url("./images/star_filled.png");
-        background-repeat: no-repeat;
-    }
 
     &:hover {
         opacity: 0.8;
