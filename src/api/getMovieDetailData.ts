@@ -4,7 +4,7 @@ import { ERROR_MESSAGE } from '../constant/setting';
 const API_KEY = process.env.API_KEY as string;
 const BASE_URL = 'https://api.themoviedb.org/3/movie/';
 
-export const getMovieDetailData = async (movieID: string) => {
+export const getMovieDetailData = async (movieID: number) => {
   if (!API_KEY) {
     throw new Error(ERROR_MESSAGE.INVALID_API_KEY);
   }

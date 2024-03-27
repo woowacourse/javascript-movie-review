@@ -2,6 +2,7 @@ import MovieItem from '../MovieItem/MovieItem';
 import MoreMoviesButton from '../MoreMoviesButton/MoreMoviesButton';
 import { getSearchedMoviesData } from '../../api/getSearchedMoviesData';
 import { getPopularMoviesData } from '../../api/getPopularMoviesData';
+import { getMovieDetailData } from '../../api/getMovieDetailData';
 import { $, $$, createElement } from '../../utility/dom';
 import { validation } from '../../utility/validation';
 import hangsungImg from '../../image/wooteco-icon.png';
@@ -12,15 +13,18 @@ import {
   TAB,
   TITLE_TEXT,
 } from '../../constant/setting';
+import MovieModal from '../MovieModal/MovieModal';
 
 class MovieList {
-  #title: string;
+  #movieTitle: string;
+  #movieID: number;
   #movieListSection;
   #popularCurrentPage = 1;
   #searchCurrentPage = 1;
 
   constructor() {
-    this.#title = '';
+    this.#movieTitle = '';
+    this.#movieID = 0;
     this.#movieListSection = $('.item-view') as Element;
 
     this.#createPopularMoviesSection();
@@ -56,6 +60,7 @@ class MovieList {
     } catch (error) {
       this.#handleError(error as Error);
     }
+    this.#setupItemClick();
     this.#removeMoreMoviesButton(TAB.POPULAR);
   }
 
@@ -83,6 +88,18 @@ class MovieList {
     });
   }
 
+  #setupItemClick() {
+    const ulElement = $('.item-list');
+    ulElement?.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      const clickedLi = target.closest('li');
+      if (clickedLi) {
+        this.#movieID = Number(clickedLi.id);
+        this.#renderMovieDetailModal(this.#movieID);
+      }
+    });
+  }
+
   #handleSearchFormSubmit(event: Event, searchForm: HTMLElement | null) {
     event.preventDefault();
 
@@ -97,7 +114,7 @@ class MovieList {
       return;
     }
 
-    this.#title = titleInput;
+    this.#movieTitle = titleInput;
     this.#movieListSection.innerHTML = '';
     this.#createSearchedMoviesSection(titleInput);
     this.#renderSearchedMovieItems(titleInput);
@@ -131,7 +148,7 @@ class MovieList {
     } catch (error) {
       this.#handleError(error as Error);
     }
-
+    this.#setupItemClick();
     this.#removeMoreMoviesButton(TAB.SEARCH);
   }
 
@@ -148,7 +165,7 @@ class MovieList {
 
       moreMoviesButton.addEventListener('click', () => {
         this.#searchCurrentPage += 1;
-        this.#renderSearchedMovieItems(this.#title);
+        this.#renderSearchedMovieItems(this.#movieTitle);
       });
 
       return;
@@ -156,6 +173,20 @@ class MovieList {
 
     this.#removeMoreMoviesButton(TAB.SEARCH);
     this.#displayMaxPageInfo();
+  }
+
+  async #renderMovieDetailModal(movieID: number) {
+    try {
+      const data = await this.#getMovieDetailData(movieID);
+      const movieModal = new MovieModal();
+      movieModal.setMovieModalItem(data);
+    } catch (error) {
+      this.#handleError(error as Error);
+    }
+  }
+
+  async #getMovieDetailData(movieID: number) {
+    return await getMovieDetailData(movieID);
   }
 
   // NOTE: 인기순 및 검색 리스트 공통 메서드
@@ -211,8 +242,8 @@ class MovieList {
     this.#removeSkeleton();
 
     const movieItems = data.map(
-      ({ title, poster_path, vote_average }) =>
-        new MovieItem({ title, poster_path, vote_average }),
+      ({ title, poster_path, vote_average, id }) =>
+        new MovieItem({ title, poster_path, vote_average, id }),
     );
 
     movieItems.forEach((movieItem: MovieItem, index: number) => {

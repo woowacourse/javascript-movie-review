@@ -8,6 +8,7 @@ import './component/MovieSearchInput/movieSearchInput.style.css';
 import './component/MovieList/movieList.style.css';
 import './component/MovieItem/movieItem.style.css';
 import './component/MoreMoviesButton/moreMoviesButton.style.css';
+import './component/MovieModal/movieModal.style.css';
 
 const movieReviewApp = new MovieReviewApp();
 

@@ -11,6 +11,8 @@ class MovieItem {
   }
 
   setMovieItemData(liElement: HTMLLIElement) {
+    liElement.id = this.#movieItemInfo.id.toString();
+
     const thumbnailElement = liElement.querySelector(
       '.item-thumbnail',
     ) as HTMLImageElement;
