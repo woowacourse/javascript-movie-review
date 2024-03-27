@@ -43,7 +43,7 @@ const MovieItems = {
     title.classList.add('item-title');
     title.textContent = movieData.title;
 
-    title.onload = () => title.classList.toggle('skeleton');
+    title.classList.toggle('skeleton');
   },
 
   replaceScore(itemCard: HTMLElement, movieData: IMovieData) {
@@ -53,7 +53,7 @@ const MovieItems = {
     score.textContent = `${movieData.vote_average.toFixed(1)} `;
     score.appendChild(this.createStarElement());
 
-    score.onload = () => score.classList.toggle('skeleton');
+    score.classList.toggle('skeleton');
   },
 
   createStarElement(): HTMLElement {
