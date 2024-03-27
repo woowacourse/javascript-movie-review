@@ -5,6 +5,8 @@ const ERROR_MESSAGE = {
   NETWORK_DISCONNECTED: '네트워크 에러가 발생했습니다.\n인터넷 연결 상태를 확인 후 다시 시도해 주세요.',
   RESULTS_NOT_JSON_FORMAT: '불러온 영화 데이터 양식이 올바르지 않습니다.\n잠시 후에 다시 시도해 주세요.',
   UNKNOWN_ERROR: '알 수 없는 에러가 발생했습니다.\n잠시 후에 다시 시도해주세요.',
+  SEARCH_KEYWORD_EMPTY: '검색어를 입력 후 다시 시도해주세요.',
+  RETRY_LIMIT_EXCEEDED: '재요청 가능한 횟수를 초과하였습니다.\n새로고침 후 다시 시도해 주세요.',
 };
 
 export default ERROR_MESSAGE;
