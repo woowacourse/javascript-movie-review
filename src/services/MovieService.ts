@@ -60,10 +60,6 @@ const fetchMovies = async (url: string): Promise<MovieData> => {
 };
 
 export const MovieService = {
-  async fetchMovies(url: string): Promise<MovieData> {
-    return fetchMovies(url);
-  },
-
   async fetchSearchMovies(params: Params) {
     const url = generateUrl(REQUEST_URL.searchMovies, params);
     return fetchMovies(url);
