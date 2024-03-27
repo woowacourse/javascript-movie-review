@@ -9,50 +9,56 @@ export interface Params {
   [key: string]: string | number | boolean;
 }
 
-interface MovieRequestResult {
-  id: number;
-  title: string;
-  vote_average: number;
-  poster_path: string;
+interface FetchProps {
+  params: Params;
+  onSuccess: (data: MovieResponse) => void;
+  onError: (res: Response) => void;
+  onLoading: () => void;
 }
 
-const MovieService = {
-  async fetchMovies(url: string) {
-    const data = await fetchData({
-      url,
-      options: COMMON_OPTIONS,
-    });
+export const processMovieRequestResults = (data: MovieResponse) => {
+  const { page, total_pages, results, total_results } = data;
 
-    const { page, total_pages, results, total_results } = data;
-    const isLastPage = page === total_pages;
-    const isEmptyResults = total_results === 0;
-    const movies = results.map(
-      ({ id, title, vote_average, poster_path }: MovieRequestResult) => ({
-        id,
-        title,
-        vote_average,
-        poster_path,
-      }),
-    );
+  const isLastPage = page === total_pages;
+  const isEmptyResults = total_results === 0;
+  const movies = results.map(({ id, title, vote_average, poster_path }) => ({
+    id,
+    title,
+    vote_average,
+    poster_path,
+  }));
 
-    return { movies, page, isLastPage, isEmptyResults };
-  },
-
-  async fetchSearchMovies(params: Params) {
-    const url = `${REQUEST_URL.searchMovies}${new URLSearchParams({
-      ...COMMON_PARAMS,
-      ...params,
-    })}`;
-    return this.fetchMovies(url);
-  },
-
-  async fetchPopularMovies(params: Params) {
-    const url = `${REQUEST_URL.popularMovies}${new URLSearchParams({
-      ...COMMON_PARAMS,
-      ...params,
-    })}`;
-    return this.fetchMovies(url);
-  },
+  return { movies, page, isLastPage, isEmptyResults };
 };
 
-export default MovieService;
+export const fetchSearchMovies = async ({
+  params,
+  onSuccess,
+  onError,
+  onLoading,
+}: FetchProps) => {
+  const parameters = new URLSearchParams({
+    ...COMMON_PARAMS,
+    ...params,
+  });
+  const url = `${REQUEST_URL.searchMovies}${parameters}`;
+  const options = COMMON_OPTIONS;
+
+  return fetchData({ url, options }, onSuccess, onError, onLoading);
+};
+
+export const fetchPopularMovies = async ({
+  params,
+  onSuccess,
+  onError,
+  onLoading,
+}: FetchProps) => {
+  const parameters = new URLSearchParams({
+    ...COMMON_PARAMS,
+    ...params,
+  });
+  const url = `${REQUEST_URL.popularMovies}${parameters}`;
+  const options = COMMON_OPTIONS;
+
+  return fetchData({ url, options }, onSuccess, onError, onLoading);
+};

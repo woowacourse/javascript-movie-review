@@ -35,7 +35,7 @@ const createCard = ({
   title,
   poster_path,
   vote_average,
-}: Pick<Movie, 'title' | 'poster_path' | 'vote_average'>) => {
+}: Pick<MovieItem, 'title' | 'poster_path' | 'vote_average'>) => {
   const $card = document.createElement('div');
   $card.classList.add('item-card');
 
@@ -50,7 +50,7 @@ const createCard = ({
   return $card;
 };
 
-const createMovieItem = (movie: Movie) => {
+const createMovieItem = (movie: MovieItem) => {
   const $li = document.createElement('li');
   const $anchor = document.createElement('a');
   $anchor.href = '#';
@@ -62,7 +62,7 @@ const createMovieItem = (movie: Movie) => {
   return $li;
 };
 
-function MovieItem(movie: Movie) {
+function MovieItem(movie: MovieItem) {
   return {
     render: () => {
       const $movieItem = createMovieItem(movie);

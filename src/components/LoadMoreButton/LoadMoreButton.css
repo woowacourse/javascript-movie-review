@@ -1,4 +1,5 @@
 button.btn {
+  display: block;
   border: 0;
   border-radius: 8px;
   height: 30px;
@@ -7,6 +8,10 @@ button.btn {
 
 button.primary {
   background: #f33f3f;
+}
+
+button.hide {
+  display: none;
 }
 
 .full-width {
