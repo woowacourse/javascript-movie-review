@@ -1,4 +1,5 @@
 import './style.css';
+
 import Button from '../Button/Button';
 
 class SearchField {
@@ -6,7 +7,7 @@ class SearchField {
 
   constructor() {
     this.template = this.createSearchField();
-    this.createElements();
+    this.createTemplate();
     this.addEnterEventListener();
   }
 
@@ -16,13 +17,13 @@ class SearchField {
     return searchField;
   }
 
-  createElements() {
+  createTemplate() {
     const input = document.createElement('input');
     input.setAttribute('type', 'text');
     input.maxLength = 30;
     input.placeholder = '검색어를 입력하세요';
 
-    const button = Button.createElements({
+    const button = Button.createTemplate({
       className: ['search-button'],
       text: '검색',
       onClick: this.dispatchGetMatchedMovie.bind(this),

@@ -1,4 +1,5 @@
 import MovieGenres from '../api/MovieGenres';
+
 import { Genre } from '../types/ResponseMovieGenres';
 
 const MovieGenresCollection = {
@@ -16,4 +17,5 @@ const MovieGenresCollection = {
     return this.getAllGenres().find((genre) => genre.id === id)?.name;
   },
 };
+
 export default MovieGenresCollection;

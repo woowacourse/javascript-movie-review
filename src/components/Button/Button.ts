@@ -8,7 +8,7 @@ interface ButtonProps {
 }
 
 const Button = {
-  createElements({ className, text, disabled, onClick }: ButtonProps) {
+  createTemplate({ className, text, disabled, onClick }: ButtonProps) {
     const button = document.createElement('button');
     button.classList.add(...className);
     button.textContent = text;

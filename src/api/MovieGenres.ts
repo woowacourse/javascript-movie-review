@@ -1,5 +1,7 @@
 import fetchWrapper from '../utils/fetchWrapper';
+
 import { MOVIE_GENRES } from '../constants/url';
+
 import { ResponseMovieGenres } from '../types/ResponseMovieGenres';
 
 const MovieGenres = {

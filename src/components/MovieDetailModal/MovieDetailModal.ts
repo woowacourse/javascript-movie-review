@@ -1,8 +1,12 @@
-import { IMAGE_URL_PREFIX } from '../../constants/url';
-import StarFilled from '../../imgs/star_filled.png';
-import MovieGenresCollection from '../../domain/MovieGenresCollection';
 import './style.css';
+
+import MovieGenresCollection from '../../domain/MovieGenresCollection';
+
 import ScoreSelector from '../ScoreSelector/ScoreSelector';
+
+import { IMAGE_URL_PREFIX } from '../../constants/url';
+
+import StarFilled from '../../imgs/star_filled.png';
 
 interface MovieDetailModalProps {
   title: string;
@@ -19,18 +23,21 @@ class MovieDetailModal {
 
   constructor() {
     this.scoreSelector = new ScoreSelector();
-    this.template = this.createBackdrop();
+    this.template = this.createTemplate();
     this.setEventListener();
     this.createMovieDetail();
   }
 
-  createBackdrop() {
+  createTemplate() {
     const div = document.createElement('div');
-    div.classList.add('modal', 'modal--open');
+    div.classList.add('modal');
+
     const backDrop = document.createElement('div');
     backDrop.classList.add('modal-backdrop');
+
     const container = document.createElement('div');
     container.classList.add('modal-container');
+
     div.appendChild(backDrop);
     div.appendChild(container);
 
@@ -60,6 +67,7 @@ class MovieDetailModal {
         </section>
       </main>
     `;
+
     const modalContainer = this.template.querySelector('.modal-container') as HTMLElement;
     modalContainer.innerHTML = html;
 

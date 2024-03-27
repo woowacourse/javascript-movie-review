@@ -3,10 +3,11 @@ import './app.css';
 
 import Header from './components/Header/Header';
 import MovieItems from './components/MovieItems/MovieItems';
-import { MatchedMoviesService, PopularMoviesService } from './services/MovieService';
 import Fallback from './components/Fallback/Fallback';
 import MovieDetailModal from './components/MovieDetailModal/MovieDetailModal';
-import MovieGenres from './api/MovieGenres';
+
+import { MatchedMoviesService, PopularMoviesService } from './services/MovieService';
+
 import MovieGenresCollection from './domain/MovieGenresCollection';
 
 class MovieApp {
@@ -72,7 +73,7 @@ class MovieApp {
     const fallback = this.body.querySelector('section');
     if (fallback) {
       fallback.remove();
-      this.movieItems.createElements();
+      this.movieItems.createTemplate();
     }
     this.movieItems.resetMovieItems();
     this.movieItems.fetchMovieItems();

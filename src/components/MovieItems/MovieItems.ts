@@ -2,43 +2,46 @@
 import './style.css';
 
 import Button from '../Button/Button';
+import MovieItem from '../MovieItem/MovieItem';
+
+import { MovieService, PopularMoviesService } from '../../services/MovieService';
 
 import { ResponseMovieItem } from '../../types/ResponseMovieItem';
-import MovieItem from '../MovieItem/MovieItem';
-import { MovieService, PopularMoviesService } from '../../services/MovieService';
-import { SETTING } from '../../constants/setting';
+
+import SETTING from '../../constants/setting';
+import { doc } from 'prettier';
 
 class MovieItems {
   moviesService: MovieService;
   private template: HTMLElement;
 
   constructor() {
-    this.template = document.createElement('main');
-    this.template.classList.add('item-view');
+    this.template = this.createTemplate();
     this.moviesService = new PopularMoviesService();
-    this.createElements();
+    this.createTemplate();
     this.fetchMovieItems();
   }
 
-  getElement() {
-    return this.template;
-  }
+  createTemplate() {
+    const div = document.createElement('main');
+    div.classList.add('item-view');
 
-  createElements() {
     const h2 = document.createElement('h2');
     h2.textContent = '지금 인기 있는 영화';
     const ul = document.createElement('ul');
     ul.classList.add('item-list');
 
-    this.template.appendChild(h2);
-    this.template.appendChild(ul);
+    div.appendChild(h2);
+    div.appendChild(ul);
 
-    const button = Button.createElements({
+    const button = Button.createTemplate({
       className: ['btn', 'primary', 'full-width'],
       text: '더 보기',
       onClick: this.fetchMovieItems.bind(this),
     });
-    this.template.appendChild(button);
+    div.appendChild(button);
+
+    return div;
   }
 
   changeShowMoreButton() {
@@ -114,6 +117,10 @@ class MovieItems {
     if (this.moviesService.isLastPage) {
       return this.moviesService.isLastPage;
     }
+  }
+
+  getElement() {
+    return this.template;
   }
 }
 

@@ -1,4 +1,5 @@
 import './style.css';
+
 import FALLBACK_LOOKUP_TABLE from '../../constants/fallbackMessage';
 
 class Fallback {

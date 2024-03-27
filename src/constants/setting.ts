@@ -3,4 +3,4 @@ const SETTING = {
   scoreStarIcons: 5,
 } as const;
 
-export { SETTING };
+export default SETTING;

@@ -1,10 +1,11 @@
 import './style.css';
 
-import { SETTING } from '../../constants/setting';
+import MovieScoresCollection from '../../domain/MovieScoresCollection';
+
+import SETTING from '../../constants/setting';
 
 import StarFilled from '../../imgs/star_filled.png';
 import StarEmpty from '../../imgs/star_empty.png';
-import MovieScoresCollection from '../../domain/MovieScoresCollection';
 
 const SCORE_LOOKUP_TABLE: Record<number, string> = {
   0: '별을 눌러주세요',

@@ -1,5 +1,7 @@
 import fetchWrapper from '../utils/fetchWrapper';
+
 import { MOVIE_DETAILS } from '../constants/url';
+
 import { ResponseMovieDetail } from '../types/ResponseMovieDetail';
 
 interface MovieDetailsProps {
