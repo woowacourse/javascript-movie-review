@@ -17,9 +17,9 @@ class MovieCard {
 
   #renderMovieCard(movie: Movie) {
     const $card = createElementWithAttribute('div', { class: 'movie-card' });
-    const $img = new MovieImg(movie).element;
-    const $title = new MovieTitle(movie).element;
-    const $score = new MovieScore(movie).element;
+    const $img = new MovieImg({ ...movie }).element;
+    const $title = new MovieTitle(movie.title).element;
+    const $score = new MovieScore(movie.vote_average).element;
 
     $card.appendChild($img);
     $card.appendChild($title);

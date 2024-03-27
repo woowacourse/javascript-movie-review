@@ -1,0 +1,126 @@
+.modal-movie-info {
+  width: 826px;
+  height: 577px;
+  button {
+    border: none;
+  }
+}
+
+.modal-movie-info__inner {
+  width: 826px;
+}
+.modal-movie-info__inner__header {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid black;
+  padding: 18px 48px;
+  height: 60px;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.modal-movie-info__inner .button-close-modal {
+  position: absolute;
+  top: 18px;
+  right: 48px;
+  border-radius: 50%;
+  background-color: var(--modal-inner-box-color);
+  padding: 4px;
+  img {
+    width: 17px;
+    height: 17px;
+  }
+}
+
+.modal-movie-info__inner__contents {
+  display: flex;
+  justify-content: space-between;
+  padding: 36px 48px 30px 48px;
+
+  .movie-thumbnail {
+    width: 239px;
+    height: 433px;
+  }
+}
+
+.modal-movie-info__description {
+  width: 438px;
+  height: calc(100% - 64px);
+  font-size: 1rem;
+  line-height: 24px;
+}
+.modal-movie-info__description__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  height: 24px;
+}
+.modal-movie-info__genre {
+  width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
+}
+
+.modal-movie-info__description__top,
+movie-score {
+  font-size: 16px;
+  line-height: 16px;
+  img {
+    margin-right: 5px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.modal-movie-info__description__overview {
+  height: calc(433px - 24px - 64px - 16px);
+  overflow-y: auto;
+}
+
+.user-score,
+.score-area {
+  display: flex;
+  align-items: center;
+}
+
+.user-score {
+  position: relative;
+  border-radius: 16px;
+  background-color: var(--modal-inner-box-color);
+  padding: 16px;
+  height: 64px;
+  h4 {
+    line-height: 32px;
+  }
+}
+
+.button-score-group {
+  margin: 0 8px;
+}
+
+.button-score {
+  background-image: url('../images/star_empty.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: inherit;
+  width: 32px;
+  height: 32px;
+}
+
+.button-score.filled {
+  background-image: url('../images/star_filled.png');
+}
+
+.button-reset-score {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background-color: transparent;
+  width: 32px;
+  height: 32px;
+}

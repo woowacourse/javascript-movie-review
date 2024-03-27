@@ -1,20 +1,19 @@
-import { Movie } from '../../type/movie';
 import { createElementWithAttribute } from '../../utils';
 
 class MovieTitle {
   #element: HTMLElement;
 
-  constructor(movie: Movie) {
-    this.#element = this.#makeMovieTitle(movie);
+  constructor(title: string) {
+    this.#element = this.#makeMovieTitle(title);
   }
 
   get element() {
     return this.#element;
   }
 
-  #makeMovieTitle = (movie: Movie) => {
+  #makeMovieTitle = (title: string) => {
     const $title = createElementWithAttribute('p', { class: 'movie-title' });
-    $title.textContent = movie.title;
+    $title.textContent = title;
 
     return $title;
   };

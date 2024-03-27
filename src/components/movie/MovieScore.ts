@@ -1,19 +1,18 @@
 import StarFilled from '../../images/star_filled.png';
-import { Movie } from '../../type/movie';
 import { createElementWithAttribute } from '../../utils';
 
 class MovieScore {
   #element: HTMLElement;
 
-  constructor(movie: Movie) {
-    this.#element = this.#makeMovieScore(movie);
+  constructor(score: number) {
+    this.#element = this.#makeMovieScore(score);
   }
 
   get element() {
     return this.#element;
   }
 
-  #makeMovieScore(movie: Movie) {
+  #makeMovieScore(score: number) {
     const $score = createElementWithAttribute('p', { class: 'movie-score' });
     const $star = createElementWithAttribute('img', {
       src: StarFilled,
@@ -22,7 +21,7 @@ class MovieScore {
     const $scorePoint = createElementWithAttribute('span', {
       class: 'movie-score__point',
     });
-    $scorePoint.textContent = movie.vote_average.toFixed(1).toString();
+    $scorePoint.textContent = score.toFixed(1).toString();
     $score.appendChild($star);
     $score.appendChild($scorePoint);
 
