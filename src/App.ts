@@ -18,7 +18,7 @@ export default class App {
     this.#generateMovieList();
     this.#generateSearchBox();
     this.#addHomeButtonEvent();
-    this.#addMovieCardClickEvent();
+    this.#initEventListeners();
   }
 
   #generateMovieList() {
@@ -119,6 +119,7 @@ export default class App {
 
   #removeMoreButton() {
     const moreButton = document.getElementById('more-button');
+
     if (moreButton) {
       moreButton.parentNode?.removeChild(moreButton);
     }
@@ -173,20 +174,20 @@ export default class App {
     this.#appendMovieCard(movieDatas, ulElement as HTMLElement);
   }
 
-  /* eslint-disable max-lines-per-function */
-  #addMovieCardClickEvent() {
+  #initEventListeners() {
     const itemList = document.querySelector('ul.item-list');
 
     if (itemList) {
-      itemList.addEventListener('click', (event) => {
-        const clickedElement = event.target as HTMLElement;
-        const movieCard = clickedElement.closest('.item-card');
+      itemList.addEventListener('click', this.#handleMovieCardClick.bind(this));
+    }
+  }
 
-        if (movieCard) {
-          const modal = new Modal(movieCard);
-          modal.openModal();
-        }
-      });
+  #handleMovieCardClick(event: any) {
+    const clickedElement = event.target.closest('.item-card');
+
+    if (clickedElement) {
+      const modal = Modal.getInstance(clickedElement);
+      modal.openModal();
     }
   }
 }

@@ -1,4 +1,10 @@
 export default class Modal {
+  #isOpen = false;
+
+  #modalElement: HTMLElement | null = null;
+
+  static instance: Modal | null = null;
+
   #movieCard: any;
 
   constructor(movieCard: any) {
@@ -9,15 +15,20 @@ export default class Modal {
 
   // eslint-disable-next-line max-lines-per-function
   generateModal() {
+    if (this.#modalElement) {
+      this.#modalElement.remove();
+      this.#modalElement = null;
+    }
+
     const modalElement = document.createElement('div');
-    modalElement.classList.add('modal', 'modal-open');
+    modalElement.classList.add('modal', 'modal--open');
 
     const modalHTML = /* html */ `
     <div class="modal-backdrop"></div>
     <div class="modal-container">
       <div class="modal-header">
         <h3 class="detail-title text-detail-title">쿵푸팬더 4</h3>
-        <button class="modal-close-button modal--close"></button>
+        <button class="modal-close-button"></button>
       </div>
       <div class="modal-body">
         <img src="https://dx35vtwkllhj9.cloudfront.net/universalstudios/kung-fu-panda-4/images/regions/us/onesheet.jpg" alt="포스터 이미지" class="detail-poster" />
@@ -53,23 +64,45 @@ export default class Modal {
    `;
 
     modalElement.innerHTML = modalHTML;
-
     document.body.appendChild(modalElement);
+    this.#modalElement = modalElement;
   }
 
   openModal() {
-    const modal = document.querySelector('.modal');
-    if (modal) {
-      modal.classList.add('modal--open');
-    }
+    if (this.#isOpen) return;
 
     this.generateModal();
+    this.#isOpen = true;
+
+    const modal = document.querySelector('.modal');
+    modal?.addEventListener('click', this.handleModalClick.bind(this));
   }
 
   closeModal() {
-    const modal = document.querySelector('.modal');
-    if (modal) {
-      modal.classList.remove('modal--open');
+    if (!this.#isOpen) return;
+
+    if (this.#modalElement) {
+      this.#modalElement.remove();
+      this.#modalElement = null;
     }
+
+    this.#isOpen = false;
+  }
+
+  handleModalClick(event: any) {
+    const modalBackDrop = document.querySelector('.modal-backdrop');
+    const modalCloseButton = event.target.closest('.modal-close-button');
+
+    if (event.target === modalBackDrop || modalCloseButton) {
+      this.closeModal();
+    }
+  }
+
+  static getInstance(movieCard: any) {
+    if (!Modal.instance) {
+      Modal.instance = new Modal(movieCard);
+    }
+
+    return Modal.instance;
   }
 }
