@@ -40,7 +40,7 @@ class App extends Component {
     const $searchForm = querySelector(ELEMENT_SELECTOR.searchForm, this.$element);
 
     $searchForm.addEventListener('submit', () => {
-      this.movieReviewBody?.removeEvent();
+      this.movieReviewBody?.removeScroll();
     });
   }
 }

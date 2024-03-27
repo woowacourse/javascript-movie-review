@@ -7,8 +7,7 @@ import Movie from '../../../domain/Movie/Movie';
 
 import { createElement } from '../../../utils/dom/createElement/createElement';
 import { querySelector } from '../../../utils/dom/selector';
-import { off, on } from '../../../utils/dom/eventListener/eventListener';
-import { throttle } from '../../../utils/throttle';
+import { bindObserver } from '../../../utils/bindObserver';
 
 import { ELEMENT_SELECTOR } from '../../../constants/selector';
 
@@ -20,12 +19,12 @@ interface MovieReviewBodyProps {
 
 class MovieReviewBody extends Component<MovieReviewBodyProps> {
   private movie: Movie | undefined;
-  private handleStartScroll: typeof this.handleScroll | undefined;
+  private observer: IntersectionObserver | undefined;
 
   protected initializeState(): void {
     this.movie = new Movie(1, this.props?.movieType ?? '');
 
-    this.handleStartScroll = throttle(this.handleScroll.bind(this), 300);
+    this.observer = bindObserver(this.handleUpdateMovieList.bind(this));
   }
 
   protected render() {
@@ -73,17 +72,19 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
 
     this.movie?.fetchMovieDetails({
       onSuccess: (movieItemDetails) => {
+        if (!this.observer) return;
+
         $ul.remove();
 
         new MovieList($movieListContainer, {
           movieItemDetails,
-          removeEvent: this.removeEvent.bind(this),
+          observer: this.observer,
         });
       },
 
       onError: (error) => {
         if (error instanceof Error) {
-          console.error(error.message);
+          console.error(error);
 
           this.openErrorFallbackModal();
         }
@@ -97,37 +98,14 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     $modal.showModal();
   }
 
-  protected setEvent(): void {
-    if (!this.handleStartScroll) return;
-
-    on({
-      target: window,
-      eventName: 'scroll',
-      eventHandler: this.handleStartScroll,
-    });
-  }
-
   private handleUpdateMovieList() {
     const $movieListContainer = querySelector<HTMLDivElement>(ELEMENT_SELECTOR.movieListContainer);
+
     this.updateMovieList($movieListContainer);
   }
 
-  private handleScroll() {
-    const isReachedBottom = Math.floor(window.innerHeight + window.scrollY) + 1 >= document.body.offsetHeight;
-
-    if (isReachedBottom) {
-      this.handleUpdateMovieList();
-    }
-  }
-
-  public removeEvent() {
-    if (!this.handleStartScroll) return;
-
-    off({
-      target: window,
-      eventName: 'scroll',
-      eventHandler: this.handleStartScroll,
-    });
+  removeScroll() {
+    this.observer?.disconnect();
   }
 }
 
