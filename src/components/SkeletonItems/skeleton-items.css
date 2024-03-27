@@ -23,17 +23,13 @@
   border-radius: 8px;
 }
 
-.hide-skeleton {
-  overflow: hidden;
-  visibility: hidden;
-
-  width: 0;
-  height: 0;
-}
-
 .skeleton-list {
   display: grid;
   grid-template-columns: repeat(4, 180px);
   grid-column-gap: 160px;
   grid-row-gap: 48px;
+}
+
+.hide-skeleton {
+  display: none;
 }
