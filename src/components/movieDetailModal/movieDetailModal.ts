@@ -18,11 +18,11 @@ const movieDetailModal = {
     this.setModalCloseEvent();
   },
 
-  handleDetailModal() {
+  handleDetailModal(ul: HTMLElement) {
     const dialog = document.querySelector('dialog');
 
-    if (dialog) {
-      document.querySelector('.item-list')?.addEventListener('click', (event: Event) => {
+    if (dialog && ul) {
+      ul.addEventListener('click', (event: Event) => {
         const target = event.target as HTMLDivElement;
         if (target?.className === 'item-list') return;
 

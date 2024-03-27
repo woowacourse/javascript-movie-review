@@ -178,6 +178,7 @@ class MovieApp {
       return MOVIE_ITEM_TEMPLATE(movie, imagePath);
     });
     ul.innerHTML = templates.join('');
+    movieDetailModal.handleDetailModal(ul);
     return ul;
   }
 
@@ -214,7 +215,6 @@ class MovieApp {
     this.createMainSkeleton();
     const { movieList, isLastPage } = await this.handleMovieData(renderType, input);
     this.createMainContents({ movieList, isLastPage }, { renderType, input });
-    movieDetailModal.handleDetailModal();
   }
 
   deleteShowMoreButton() {
