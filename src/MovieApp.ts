@@ -16,6 +16,7 @@ import {
   SKELETON_ITEM_TEMPLATE,
 } from './constants/templates';
 import filterMovieList from './domain/filterMovieList';
+import movieDetailModal from './components/movieDetailModal/movieDetailModal';
 
 interface MovieDataType {
   movieList: MovieListType;
@@ -48,13 +49,18 @@ class MovieApp {
   async init() {
     const container = document.querySelector('#app');
     const header = this.createHeader();
+    const detailModal = movieDetailModal.createModal();
+
     container?.prepend(header);
+    container?.appendChild(detailModal);
+
     this.createMain(POPULAR_MOVIE_TITLE);
     document.querySelector('#search-form')?.addEventListener('submit', (event: Event) => {
       event.preventDefault();
       this.handleSearchFormSubmit();
     });
     await this.renderMainContents(RENDER_TYPE.POPULAR);
+    movieDetailModal.handleDetailModal();
   }
 
   handleSearchFormSubmit() {
