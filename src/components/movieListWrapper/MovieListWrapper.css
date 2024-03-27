@@ -1,0 +1,39 @@
+/* movie-wrapper */
+.item-view,
+.item-test {
+  width: 100%;
+}
+
+.item-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 1200px;
+  margin: 0 auto;
+  padding-top: 132px;
+}
+
+.item-view h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  user-select: none;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.last-item {
+  margin-top: 48px;
+}
+
+button.show-more-btn {
+  border: 0;
+  border-radius: 8px;
+  height: 30px;
+  color: #fff;
+}
+
+button.primary {
+  background: #f33f3f;
+}
