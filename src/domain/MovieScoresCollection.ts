@@ -9,13 +9,14 @@ const MovieScoresCollection = {
   },
 
   setOneScore(newScore: Score): void {
-    const allScores: Score[] = this.getAllScores();
     if (this.hasScore(newScore.title)) {
+      const allScores: Score[] = this.getAllScores();
       localStorage.setItem(
         'scores',
         JSON.stringify(allScores.filter((score) => score.title !== newScore.title)),
       );
     }
+    const allScores: Score[] = this.getAllScores();
     allScores.push(newScore);
     localStorage.setItem('scores', JSON.stringify(allScores));
   },
