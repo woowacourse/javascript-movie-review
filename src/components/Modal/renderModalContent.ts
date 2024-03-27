@@ -6,6 +6,7 @@ import unfilledStarImage from '../../../templates/star_empty.png';
 import formatToDecimalPlaces from '../../utils/formatToDecimalPlaces';
 import isElement from '../../utils/isElement';
 import MATCHED_STAR_RATING from '../../constants/api/starRating';
+import defaultImageSrc from '../../../templates/star_filled.png';
 
 const createCloseButton = () => {
   const closeContainer = createElement('div', { className: 'close-container' });
@@ -39,11 +40,17 @@ const createMovieDetailImage = (imageSrc: string) => {
   const imageContainer = createElement('div', {
     className: 'detail-image-container',
   });
+
   const image = createElement('img', {
-    src: `${BASE_IMAGE_URL}${DETAIL_IMAGE_WIDTH}${imageSrc}`,
+    src: defaultImageSrc,
     alt: '포스터이미지',
     className: 'detail-image',
-  });
+  }) as HTMLImageElement;
+
+  image.onload = () => {
+    image.src = `${BASE_IMAGE_URL}${DETAIL_IMAGE_WIDTH}${imageSrc}`;
+  };
+
   imageContainer.appendChild(image);
 
   return imageContainer;
@@ -195,6 +202,12 @@ const createMovieDetailStarRating = (star_rating: StarRate) => {
   return container;
 };
 
+const createNoneInfo = () => {
+  const h2 = createElement('h2', { textContent: '영화 정보가 존재하지 않아요!' });
+
+  return h2;
+};
+
 const createMovieInfoContainer = ({ genres, vote_average, overview, star_rating }: Partial<MovieDetailProps>) => {
   const infoContainer = createElement('div', {
     className: 'info-container',
@@ -222,7 +235,15 @@ const imageAndInfoComponent = ({
   const imageAndInfoContainer = createElement('div', {
     className: 'image-info-container',
   });
-  if (poster_path && genres && vote_average && overview && star_rating) {
+  console.log(overview);
+
+  if (overview?.length === 0) {
+    const noneInfo = createNoneInfo();
+
+    imageAndInfoContainer.appendChild(noneInfo);
+  }
+
+  if (poster_path && genres && vote_average && overview && overview.length > 0 && star_rating) {
     const movieImage = createMovieDetailImage(poster_path);
 
     const infoContainer = createMovieInfoContainer({ genres, vote_average, overview, star_rating });

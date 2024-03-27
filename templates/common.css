@@ -165,9 +165,6 @@ header {
   width: 100%;
   height: 72px;
   background-color: #111;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 0 20px;
   border-bottom: 1px solid white;
   margin-bottom: 48px;
@@ -185,17 +182,83 @@ header h1 {
   color: #f33f3f;
 }
 
-header > .search-form {
+.web {
+  display: inline-block;
+}
+
+.mobile {
+  display: none;
+}
+
+.web-search-form {
+  position: absolute;
+  right: 0;
   background: #fff;
   padding: 8px;
   border-radius: 4px;
 }
 
-header .search-form > input {
+.mobile-search-form {
+  position: absolute;
+  right: 0;
+  background: #fff;
+  padding: 8px;
+  border-radius: 4px;
+  min-width: 2rem;
+  min-height: 2rem;
+}
+
+.box-container {
+  position: relative;
+}
+
+input {
   border: 0;
 }
 
-header .search-form > .search-button {
+.mobile-search-input {
+  display: none;
+}
+
+/* .hide {
+  display: none !important;
+} */
+
+.visible {
+  display: inline-block !important;
+}
+
+.header-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.mobile-search-button {
+  width: 14px;
+  border: 0;
+  text-indent: -1000rem;
+  background: url('./search_button.png') transparent no-repeat 0 1px;
+  background-size: contain;
+  position: absolute;
+  right: 0;
+}
+
+.mobile-submit-button {
+  width: 14px;
+  border: 0;
+  text-indent: -1000rem;
+  background: url('./search_button.png') transparent no-repeat 0 1px;
+  background-size: contain;
+  position: absolute;
+  right: 0;
+  display: none;
+}
+
+.web-search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
@@ -495,12 +558,13 @@ header .search-form > .search-button {
 }
 
 @media (max-width: 390px) {
+  .header-banner-wrapper {
+    display: none;
+  }
+
   .item-list {
     grid-template-columns: repeat(2, 1fr);
     grid-column-gap: 30px;
-  }
-  .search-input {
-    display: none;
   }
   .item-view h2 {
     font-size: 1.5rem;
@@ -536,6 +600,29 @@ header .search-form > .search-button {
     width: 18px;
     height: 18px;
   }
+  .web {
+    display: none;
+  }
+
+  .mobile {
+    display: inline-block;
+  }
+
+  .mobile-search-input {
+    width: 21rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .mobile-search-input {
+    width: 20rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .mobile-search-input {
+    width: 19rem;
+  }
 }
 
 @media (max-width: 280px) {
@@ -549,8 +636,16 @@ header .search-form > .search-button {
     font-size: 0.6rem;
   }
 
+  .star-rate-container {
+    width: 90%;
+  }
+
   .star {
     width: 18px;
     height: 18px;
+  }
+
+  .mobile-search-input {
+    width: 14rem;
   }
 }
