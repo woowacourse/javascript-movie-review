@@ -12,11 +12,9 @@ class MovieContainer {
 
   constructor({ title, handleMoreButton }) {
     this.#movieListContainer = $('ul.item-list');
-
     this.#sectionTitle = $('.item-view > h2');
     this.#sectionTitle.textContent = title;
     this.#handleMoreButton = handleMoreButton;
-
     this.#moreButton = createButton(
       {
         type: 'button',
@@ -30,12 +28,12 @@ class MovieContainer {
         callbackFunction: () => this.initHandleClickMoreButton(),
       },
     );
-    this.toggleMoreButtonVisibility();
+    this.toggleMoreButtonVisibility(false);
 
     $('section').append(this.#moreButton);
   }
 
-  pushMoreSkeletonList() {
+  createSkeletonList() {
     const skeletonMovieList = createSkeletonMovieList();
 
     skeletonMovieList.forEach((skeletonMovie) => {
@@ -43,8 +41,8 @@ class MovieContainer {
     });
 
     this.#skeletonList = skeletonMovieList;
-
-    this.toggleMoreButtonVisibility();
+    this.toggleMoreButtonVisibility(false);
+    this.removeRetryButton();
   }
 
   createEmptySearchResult() {
@@ -61,23 +59,24 @@ class MovieContainer {
   }
 
   setEmptySearchResult(listLength) {
-    if (listLength !== 0) $('h3.empty-search-result')?.remove();
+    if (listLength !== 0) {
+      $('h3.empty-search-result')?.remove();
+    }
 
-    if (listLength === 0 && !$('h3.empty-search-result'))
+    if (listLength === 0 && !$('h3.empty-search-result')) {
       $('.item-view').insertBefore(this.createEmptySearchResult(), this.#movieListContainer);
+    }
   }
 
-  replaceSkeletonListToData({ movieList, hasNextPage }) {
+  fillMovieDataToSkeletonList({ movieList, hasNextPage }) {
     this.setEmptySearchResult(movieList.length);
 
     this.#skeletonList.forEach((item, i) => {
       if (i >= movieList.length) return item.remove();
-
       injectMovieDataToItem({ item, movie: movieList[i].data });
     });
 
     this.toggleMoreButtonVisibility(hasNextPage);
-
     this.#skeletonList = [];
   }
 
@@ -107,8 +106,7 @@ class MovieContainer {
   }
 
   removeRetryButton() {
-    const retryButton = $('#retry-button');
-    retryButton?.remove();
+    $('#retry-button')?.remove();
   }
 
   async initHandleClickMoreButton() {

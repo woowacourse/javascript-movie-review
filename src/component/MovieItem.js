@@ -1,5 +1,4 @@
 import itemScoreIconPath from '../asset/star_filled.png';
-import { $ } from '../util/selector.js';
 
 function createSkeletonMovieItem() {
   const aLink = document.createElement('a');

@@ -28,14 +28,14 @@ class MovieService {
     return this.createMoviePageData({ total_pages, results, pageNumber });
   }
 
-  async fetchSearchResult({ query, pageNumber }: { query: string; pageNumber: number }) {
+  async fetchSearchResult({ searchKeyword, pageNumber }: { searchKeyword: string; pageNumber: number }) {
     const queryUrl = generateQueryUrl({
       baseUrl: BASE_URL,
       endpoint: ENDPOINT.GET.MOVIE_SEARCH,
       query: {
         api_key: getEnvVariable('API_KEY'),
         language: 'ko-KR',
-        query,
+        query: searchKeyword,
         page: pageNumber,
       },
     });
