@@ -1,14 +1,9 @@
 import ERROR_MESSAGE from '../constant/errorMessage';
-import { isError, isNetworkError } from '../util/errorTypeChecker';
 
 async function fetchAPI({ url, method, body }: { url: string; method: string; body?: object }) {
-  try {
-    const response = await getResponse({ url, method, body });
-    const result = await response.json();
-    return result;
-  } catch (error: unknown) {
-    handleFetchError(error);
-  }
+  const response = await getResponse({ url, method, body });
+  const result = await response.json();
+  return result;
 }
 
 async function getResponse({ url, method, body }: { url: string; method: string; body?: object }) {
@@ -35,15 +30,6 @@ function handleResponseError(status: number) {
     throw new Error(ERROR_MESSAGE.FETCHING_FAILED);
   }
   throw new Error(ERROR_MESSAGE.UNKNOWN_ERROR);
-}
-
-function handleFetchError(error: unknown) {
-  if (isNetworkError(error)) {
-    throw new Error(ERROR_MESSAGE.NETWORK_DISCONNECTED);
-  }
-  if (isError(error)) {
-    throw new Error(ERROR_MESSAGE.UNKNOWN_ERROR);
-  }
 }
 
 export default fetchAPI;
