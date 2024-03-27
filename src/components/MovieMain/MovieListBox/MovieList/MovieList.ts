@@ -57,7 +57,9 @@ class MovieList {
       attribute: {
         class: "text-invalid-result",
       },
-      children: [message],
+      children: [
+        this.$element.childNodes.length === 0 ? message : "이상입니다!",
+      ],
     });
 
     this.$element.append(textInvalidResult);

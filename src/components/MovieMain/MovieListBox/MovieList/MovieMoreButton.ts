@@ -11,14 +11,6 @@ class MovieMoreButton {
 
   toggleDisabled() {
     this.disabled = !this.disabled;
-    this.$element.classList.toggle("disabled");
-
-    if (this.disabled) {
-      this.$element.setAttribute("disabled", "disabled");
-      return;
-    }
-
-    this.$element.removeAttribute("disabled");
   }
 
   removeMovieMoreButton() {
@@ -27,17 +19,12 @@ class MovieMoreButton {
 
   private generateMovieMoreButton(onClickHandler: () => void) {
     return createElement({
-      tagName: "button",
-      attribute: {
-        class: `btn primary full-width disabled`,
-        disabled: "disabled",
-      },
+      tagName: "div",
       addEventListener: {
         click: () => {
           onClickHandler();
         },
       },
-      children: ["더 보기"],
     });
   }
 }

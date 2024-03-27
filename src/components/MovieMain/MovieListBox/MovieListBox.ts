@@ -7,6 +7,7 @@ class MovieListBox {
   $element;
   movieList;
   button;
+  isIntersecting = false;
 
   constructor({
     title,
@@ -23,6 +24,8 @@ class MovieListBox {
     this.movieList = new MovieList();
     this.button = new MovieMoreButton({
       onClickHandler: () => {
+        console.log("clicked!");
+        console.log("");
         this.movieList.removeMessage();
         this.showMoreMovies();
         onMovieMoreButtonClick();
@@ -32,11 +35,33 @@ class MovieListBox {
     this.$element = this.generateMovieListBox({
       children: [$h2, this.movieList.$element, this.button.$element],
     });
+
+    this.registerObserver();
+  }
+
+  private setIsIntersecting(isIntersection: boolean) {
+    console.log("###setIsIntersecting####");
+    this.isIntersecting = isIntersection;
+    this.clickButtonAccordingToCondition();
+  }
+
+  private registerObserver() {
+    const intersectionObserver = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        this.setIsIntersecting(true);
+      } else {
+        this.setIsIntersecting(false);
+      }
+    });
+
+    intersectionObserver.observe(this.button.$element);
   }
 
   reRender(movieList: Movie[]) {
+    console.log("###reRender####");
     this.movieList.reRender(movieList);
     this.button.toggleDisabled();
+    this.clickButtonAccordingToCondition();
   }
 
   renderMessage(message: string) {
@@ -50,6 +75,18 @@ class MovieListBox {
 
   removeMovieMoreButton() {
     this.button.removeMovieMoreButton();
+  }
+
+  private clickButtonAccordingToCondition() {
+    console.log("this.isIntersecting:", this.isIntersecting);
+    console.log("!this.button.disabled:", !this.button.disabled);
+    if (!this.isIntersecting) {
+      return;
+    }
+    if (this.button.disabled) {
+      return;
+    }
+    this.button.$element.click();
   }
 
   private generateMovieListBox({ children }: { children: HTMLElement[] }) {
