@@ -62,7 +62,7 @@ const MovieHeader = {
       SearchValidator.validate(trimmedSearchInputText.trim());
       this.createMovieList(trimmedSearchInputText);
     } catch (e) {
-      if (e instanceof Error) ToastPopup(e.message);
+      if (e instanceof Error) ToastPopup(e.message, 2500);
     }
   },
 };

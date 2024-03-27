@@ -1,5 +1,6 @@
 import ToastPopup from '../../components/ToastPopup/ToastPopup';
 import { POPULAR_MOVIES_URL, MOVIE_SEARCH_URL } from '../../constants/URLs';
+import { getDomElement } from '../../util/DOM';
 import ResponseValidator from '../Validator/ResponseValidator';
 
 async function fetchPopularMovies(page: number) {
@@ -19,7 +20,13 @@ async function fetchPopularMovies(page: number) {
     const popularMovies = await response.json();
     return popularMovies;
   } catch (error) {
-    ToastPopup(`${error}`, 5000);
+    ToastPopup(`${error}`, 10000000);
+    const toastMessage = getDomElement('#toast_message');
+    toastMessage.setAttribute('hover', 'true');
+    toastMessage.style.cursor = 'pointer';
+    toastMessage.onclick = () => {
+      window.open('https://github.com/greetings1012/javascript-movie-review');
+    };
   }
 }
 

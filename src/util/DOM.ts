@@ -8,7 +8,7 @@ function getDomElement<T extends HTMLElement = HTMLElement>(selector: string, wh
     }
     return element as T;
   } catch (error) {
-    ToastPopup(`${selector}를 찾을 수 없습니다. 3초 뒤 새로고침됩니다.`);
+    ToastPopup(`${selector}를 찾을 수 없습니다. 3초 뒤 새로고침됩니다.`, 2500);
     setTimeout(() => location.reload(), 3000);
     throw error;
   }
@@ -22,7 +22,7 @@ function getAllDomElements<T extends HTMLElement = HTMLElement>(selector: string
     }
     return elements as NodeListOf<T>;
   } catch (error) {
-    ToastPopup(`${selector}를 찾을 수 없습니다. 3초 뒤 새로고침됩니다.`);
+    ToastPopup(`${selector}를 찾을 수 없습니다. 3초 뒤 새로고침됩니다.`, 2500);
     setTimeout(() => location.reload(), 3000);
     throw error; // 예외를 다시 던져야 합니다.
   }
