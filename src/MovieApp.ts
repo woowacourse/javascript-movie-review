@@ -80,9 +80,13 @@ class MovieApp {
   }
 
   async #onMovieClick(event: MouseEvent) {
-    this.#modal.toggle();
     const target = event.target as Element;
-    const movieId = Number(target.closest('li')?.dataset.movieId);
+    const li = target.closest('li');
+    if (!li) return;
+
+    this.#modal.toggle();
+
+    const movieId = Number(li.dataset.movieId);
     const data = await this.#movieController.handleMovieClick(movieId);
     const movieDetail = MovieDetail({
       data,
