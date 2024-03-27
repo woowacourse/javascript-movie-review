@@ -63,6 +63,7 @@ button {
   width: 180px;
   height: 270px;
   background-size: contain;
+  background-color: #aaa;
 }
 
 .item-title {
@@ -84,6 +85,10 @@ button {
 .item-score.skeleton::after {
   font-size: 0;
   content: 'loading';
+}
+
+.item-score.skeleton * {
+  opacity: 0;
 }
 
 .full-width {
@@ -168,6 +173,7 @@ header .search-box > .search-button {
 }
 
 .retry-button {
+  background: no-repeat url('../asset/retry.svg');
   background-size: cover;
   background-color: white;
   background-position: 4px 3px;
