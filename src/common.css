@@ -4,6 +4,8 @@
 
 :root {
   --primary-color: #f33f3f;
+  --modal-background: #212122;
+  --border-line: rgba(241, 241, 241, 0.25);
 }
 
 body {

@@ -37,7 +37,9 @@ class InfiniteScrollDataLoader {
     this.movieList.renderSkeleton();
 
     const movieResult = await this.selectAPIAndFetch();
-    const formattedMovieList = new MovieDomain(movieResult).formatMovieList();
+    const formattedMovieList = movieResult.results.map(movie => {
+      return new MovieDomain(movie).formatMovieList();
+    });
 
     this.totalPage = movieResult.total_pages;
     this.movieList.newList = formattedMovieList;
