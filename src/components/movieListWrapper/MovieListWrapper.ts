@@ -1,6 +1,7 @@
 import { fetchPopularMovieList, fetchSearchMovieList } from '../../apis/fetchData';
 import PageService from '../../domain/PageService';
 import { Movie, MovieAPIResponse } from '../../interface/Movie';
+import InfiniteScroll from '../../utils/InfiniteScroll';
 import { showSkeleton, updateCard } from '../movieCard/movieCard';
 
 export class MovieListWrapper {
@@ -28,22 +29,17 @@ export class MovieListWrapper {
     ul.className = 'item-list';
     ul.replaceChildren();
 
-    const addButton: HTMLButtonElement = document.createElement('button');
-    addButton.className = 'btn primary full-width';
-    addButton.textContent = '더 보기';
+    const addLayerDiv: HTMLElement = document.createElement('div');
 
     section.append(title, ul);
+    section.appendChild(addLayerDiv);
+    const observe = new InfiniteScroll(addLayerDiv, this.selectUpdatingMovieType.bind(this));
+    observe.observeIntersection();
 
-    await this.selectUpdatingMovieType(addButton);
-
-    section.appendChild(addButton);
-
-    addButton.addEventListener('click', async () => {
-      await this.selectUpdatingMovieType(addButton);
-    });
+    await this.selectUpdatingMovieType(observe);
   }
 
-  async selectUpdatingMovieType(addButton: HTMLButtonElement) {
+  async selectUpdatingMovieType(observe: InfiniteScroll) {
     const liList = this.loadMovieList();
     if (!liList) return;
     switch (this.#getName) {
@@ -51,7 +47,7 @@ export class MovieListWrapper {
         {
           const result = await fetchPopularMovieList(this.#currentPage.getCurrentPage());
           if (!result) return;
-          this.updateMoviesCardList(liList, result, addButton);
+          this.updateMoviesCardList(liList, result, observe);
           if (result[2] === 0) {
             this.displayNoResultsMessage();
           }
@@ -61,7 +57,7 @@ export class MovieListWrapper {
         {
           const result = await fetchSearchMovieList(this.#inputValue, this.#currentPage.getCurrentPage());
           if (!result) return;
-          this.updateMoviesCardList(liList, result, addButton);
+          this.updateMoviesCardList(liList, result, observe);
           if (result[2] === 0) {
             this.displayNoResultsMessage();
           }
@@ -70,20 +66,20 @@ export class MovieListWrapper {
       default: {
         const result: MovieAPIResponse = await fetchPopularMovieList(this.#currentPage.getCurrentPage());
         if (!result) return;
-        this.updateMoviesCardList(liList, result, addButton);
+        this.updateMoviesCardList(liList, result, observe);
         if (result[2] === 0) {
           this.displayNoResultsMessage();
         }
       }
     }
   }
-  updateMoviesCardList(liList: HTMLElement[], result: MovieAPIResponse, addButton: HTMLButtonElement) {
+  updateMoviesCardList(liList: HTMLElement[], result: MovieAPIResponse, observe: InfiniteScroll) {
     const [movies, totalPages] = result;
-    if (this.#currentPage.isPageInRange(totalPages)) {
-      addButton.classList.add('none');
-    }
     this.#currentPage.nextPage();
     this.completeMovieList(liList, movies);
+    if (this.#currentPage.isPageInRange(totalPages)) {
+      observe.unobserve();
+    }
   }
 
   displayNoResultsMessage() {
