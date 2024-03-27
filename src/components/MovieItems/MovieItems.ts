@@ -9,17 +9,37 @@ import { MovieService, PopularMoviesService } from '../../services/MovieService'
 import { ResponseMovieItem } from '../../types/ResponseMovieItem';
 
 import SETTING from '../../constants/setting';
-import { doc } from 'prettier';
 
 class MovieItems {
   moviesService: MovieService;
+  intersectionObserver: IntersectionObserver;
   private template: HTMLElement;
 
   constructor() {
-    this.template = this.createTemplate();
     this.moviesService = new PopularMoviesService();
+    this.intersectionObserver = new IntersectionObserver(this.observerCallback.bind(this), {
+      threshold: 0.7,
+    });
+    this.template = this.createTemplate();
     this.createTemplate();
-    this.fetchMovieItems();
+    this.resetMovieItems();
+  }
+
+  observerCallback(
+    entries: IntersectionObserverEntry[],
+    intersectionObserver: IntersectionObserver,
+  ) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        intersectionObserver.unobserve(entry.target);
+        this.fetchMovieItems();
+      }
+    });
+  }
+
+  observeTargetItem(intersectionObserver: IntersectionObserver, items: NodeListOf<Element>) {
+    const targetItem = items[items.length - 5];
+    intersectionObserver.observe(targetItem);
   }
 
   createTemplate() {
@@ -60,6 +80,7 @@ class MovieItems {
       ? `"${this.moviesService.query}"검색 결과`
       : '지금 인기있는 영화';
     this.removeMovieItems();
+    this.fetchMovieItems();
   }
 
   removeMovieItems() {
@@ -107,7 +128,13 @@ class MovieItems {
     const skeletonItems = this.createSkeletonMovieItem();
     this.moviesService
       .fetchMovies()
-      .then((movies) => this.createMovieItem(movies, skeletonItems))
+      .then((movies) => {
+        this.observeTargetItem(
+          this.intersectionObserver,
+          this.template.querySelectorAll('.item-card'),
+        );
+        this.createMovieItem(movies, skeletonItems);
+      })
       .catch((error) => {
         document.dispatchEvent(new CustomEvent('APIError', { detail: error, bubbles: true }));
       });

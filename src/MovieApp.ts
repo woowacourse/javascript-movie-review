@@ -77,7 +77,6 @@ class MovieApp {
       this.movieItems.createTemplate();
     }
     this.movieItems.resetMovieItems();
-    this.movieItems.fetchMovieItems();
   }
 }
 
