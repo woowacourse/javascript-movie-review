@@ -21,9 +21,9 @@ class Header {
 
   template() {
     return /*html*/ `
-      <h1>
+      <h1 class="header-title">
         <a href="/">
-          <img src="./images/logo.png" alt="MovieList - 홈으로 이동" />
+          <img class="header-title__logo" src="./images/logo.png" alt="MovieList - 홈으로 이동" />
         </a>
       </h1>
       <form class="search-box">
@@ -40,7 +40,7 @@ class Header {
     const $form = dom.getElement(this.$target, '.search-box');
     $form.appendChild(button.$target);
 
-    const $image = dom.getElement<HTMLImageElement>(this.$target, 'h1 > a > img');
+    const $image = dom.getElement<HTMLImageElement>(this.$target, '.header-title__logo');
     $image.setAttribute('src', this.#imageSrc);
   }
 
