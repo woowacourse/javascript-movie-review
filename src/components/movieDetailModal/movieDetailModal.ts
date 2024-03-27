@@ -15,6 +15,7 @@ const movieDetailModal = {
   insertTemplate(movie: MovieDetailType) {
     const dialog = document.querySelector('dialog');
     if (dialog) dialog.innerHTML = DETAIL_MODAL_TEMPLATE(movie);
+    this.setModalCloseEvent();
   },
 
   handleDetailModal() {
@@ -24,8 +25,8 @@ const movieDetailModal = {
       document.querySelector('.item-list')?.addEventListener('click', (event: Event) => {
         const target = event.target as HTMLDivElement;
         if (target?.className === 'item-list') return;
+
         const movieId = Number(target?.closest('a')?.getAttribute('data-id')) ?? 0;
-        // API 요청
         this.getMovieDetail(movieId).then((movie) => {
           if (movie !== undefined) movieDetailModal.insertTemplate(movie);
         });
@@ -38,12 +39,18 @@ const movieDetailModal = {
     try {
       const movieDetail = await httpRequest.fetchMovieDetail(movieId);
       const filteredMovieDetail = filterMovieDetail(movieDetail);
-      console.log(filteredMovieDetail);
-
       return filteredMovieDetail;
     } catch (error) {
       const customError = error as HTTPError;
       errorMessage.apiError(customError.statusCode, customError.message ?? '');
+    }
+  },
+
+  setModalCloseEvent() {
+    const closeButton = document.querySelector('#detail-modal--close-btn');
+    const dialog = document.querySelector('dialog');
+    if (closeButton && dialog) {
+      closeButton.addEventListener('click', () => dialog.close());
     }
   },
 };
