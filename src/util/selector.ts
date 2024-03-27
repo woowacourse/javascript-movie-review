@@ -1,4 +1,4 @@
-function $<T extends Element = Element>(target: string, startDOM: HTMLElement = document.body): T {
+function $<T extends HTMLElement = HTMLElement>(target: string, startDOM: HTMLElement = document.body): T {
   const targetDOM = startDOM.querySelector<T>(target);
 
   if (targetDOM === null) throw new Error(`${target}에 해당하는 DOM을 찾을 수 없습니다.`);
@@ -6,7 +6,7 @@ function $<T extends Element = Element>(target: string, startDOM: HTMLElement = 
   return targetDOM;
 }
 
-function $$<T extends Element = Element>(target: string, startDOM: HTMLElement = document.body): NodeListOf<T> {
+function $$<T extends HTMLElement = HTMLElement>(target: string, startDOM: HTMLElement = document.body): NodeListOf<T> {
   const targetDOMList = startDOM.querySelectorAll<T>(target);
 
   if (targetDOMList.length === 0) throw new Error(`${target}에 해당하는 DOM을 찾을 수 없습니다.`);
