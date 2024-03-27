@@ -1,6 +1,6 @@
 import LogoImg from "../../templates/logo.png";
 import { LOGO_IMG_ALT, TITLE_TEXT } from "../constants/system";
-import { dataStateStore } from "../model";
+import movieDataStateStore from "../model/MovieDataStateStore";
 import { handleGetPopularMovieData } from "../service/handleSkeletonAndAPI";
 import { createElementWithAttribute } from "../utils";
 
@@ -16,7 +16,7 @@ const handleClickToRefresh = async () => {
   }
   await handleGetPopularMovieData(true);
 
-  ItemView(TITLE_TEXT.POPULAR, dataStateStore.movieData, "popular");
+  ItemView(TITLE_TEXT.POPULAR, movieDataStateStore.movieData, "popular");
 };
 
 const Logo = () => {

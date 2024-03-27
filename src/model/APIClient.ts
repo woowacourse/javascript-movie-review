@@ -3,7 +3,7 @@ import renderErrorView from "../components/ErrorView";
 import { BASE_URL, endpoint, options } from "../config";
 import { MAX_PAGE } from "../constants/system";
 
-import dataStateStore from "./DataStateStore";
+import movieDataStateStore from "./MovieDataStateStore";
 
 class APIClient {
   #currentPage = 0;
@@ -20,7 +20,7 @@ class APIClient {
     this.#updateCurrentPage(isResetCurrentPage);
     const data = await this.fetchPopularMovie();
 
-    dataStateStore.getTotalMovieData(
+    movieDataStateStore.getTotalMovieData(
       {
         movieList: data.results,
         isShowMoreButton: this.#isShowMoreButton(data.page, data.total_pages),
@@ -46,7 +46,7 @@ class APIClient {
     this.#updateCurrentPage(isResetCurrentPage);
     const data = await this.fetchSearchMovie(title);
 
-    dataStateStore.getTotalMovieData(
+    movieDataStateStore.getTotalMovieData(
       {
         movieList: data.results,
         isShowMoreButton: this.#isShowMoreButton(data.page, data.total_pages),

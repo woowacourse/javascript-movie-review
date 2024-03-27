@@ -1,4 +1,4 @@
 import apiClient from "./APIClient";
-import dataStateStore from "./DataStateStore";
+import movieDataStateStore from "./MovieDataStateStore";
 
-export { apiClient, dataStateStore };
+export { apiClient, movieDataStateStore };

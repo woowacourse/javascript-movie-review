@@ -4,7 +4,7 @@ import {
   SEARCH_LABEL_TEXT,
   TITLE_TEXT,
 } from "../constants/system";
-import { dataStateStore } from "../model";
+import { movieDataStateStore } from "../model";
 import { handleGetSearchMovieData } from "../service/handleSkeletonAndAPI";
 import { createElementWithAttribute, debounceFunc } from "../utils";
 
@@ -19,7 +19,7 @@ const searchMovie = async () => {
   const $itemView = document.querySelector(".item-view");
   $itemView?.remove();
   await handleGetSearchMovieData(title, true);
-  ItemView(TITLE_TEXT.SEARCH(title), dataStateStore.movieData, "search");
+  ItemView(TITLE_TEXT.SEARCH(title), movieDataStateStore.movieData, "search");
 };
 
 const handleInputKeydown = (event: KeyboardEvent) => {

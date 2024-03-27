@@ -1,5 +1,5 @@
 import { MORE_BUTTON_TEXT } from "../constants/system";
-import { dataStateStore } from "../model";
+import { movieDataStateStore } from "../model";
 import {
   handleGetPopularMovieData,
   handleGetSearchMovieData,
@@ -48,7 +48,7 @@ const getSearchMovieData = async () => {
 const handleMovieDataState = (event: Event) => {
   const previousScrollPosition = window.scrollY;
 
-  const { movieList, isShowMoreButton } = dataStateStore.movieData;
+  const { movieList, isShowMoreButton } = movieDataStateStore.movieData;
 
   addItemsToMovieList(movieList);
   changeMoreButtonState(event, isShowMoreButton);

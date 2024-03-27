@@ -1,6 +1,6 @@
 import { Movie, MovieData } from "../type/movie";
 
-class DataStateStore {
+class MovieDataStateStore {
   #movieList: Movie[] | undefined;
   #isShowMorButton = true;
 
@@ -22,6 +22,6 @@ class DataStateStore {
   }
 }
 
-const dataStateStore = new DataStateStore();
+const movieDataStateStore = new MovieDataStateStore();
 
-export default dataStateStore;
+export default movieDataStateStore;
