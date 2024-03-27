@@ -55,7 +55,7 @@ class MovieApp {
   setAPIErrorEventListener() {
     document.addEventListener('APIError', (event) => {
       if (!(event instanceof CustomEvent)) return;
-      const main = this.body.querySelector('main') as HTMLElement;
+      const main = this.body.querySelector('.item-view') as HTMLElement;
       main.innerHTML = '';
       main.appendChild(new Fallback(event.detail.message).getElement());
     });
@@ -64,13 +64,14 @@ class MovieApp {
   setToggleMovieDetailModalEventListener() {
     document.addEventListener('toggleMovieDetailModal', (event) => {
       if (!(event instanceof CustomEvent)) return;
+      console.log(event.detail.value);
       this.movieDetailModal.setMovieDetail(event.detail.value);
       this.movieDetailModal.toggleModal();
     });
   }
 
   reLoad() {
-    const fallback = this.body.querySelector('section');
+    const fallback = this.body.querySelector('.fallback');
     if (fallback) {
       fallback.remove();
       this.movieItems.createTemplate();

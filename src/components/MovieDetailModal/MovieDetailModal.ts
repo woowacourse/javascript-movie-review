@@ -57,7 +57,7 @@ class MovieDetailModal {
       <img class="detail-poster"></img>
       <section class="detail-contents">
         <div class="detail-genre-score">
-          <p class="font-body detail-genre">액션, 코미디</p>
+          <p class="font-body detail-genre"></p>
           <div class="detail-score-container">
             <img class="star-icon" src=${StarFilled} alt="별점"></img>
             <p class="font-body detail-score">6.12</p>
@@ -67,7 +67,7 @@ class MovieDetailModal {
           설명임
         </p>
         </section>
-        <div class="backdrop-image">/<div>
+        <div class="backdrop-image"></div>
       </main>
     `;
 
@@ -108,8 +108,10 @@ class MovieDetailModal {
     overviewElement.textContent = overview;
   }
 
-  genreIdsToGenreNames(genreIds: number[]) {
-    return genreIds.map((genreId) => MovieGenresCollection.getGenreNameByGenreId(genreId));
+  genreIdsToGenreNames(genreIds: number[]): string[] {
+    return genreIds.map(
+      (genreId) => MovieGenresCollection.getGenreNameByGenreId(genreId) ?? '기타',
+    );
   }
 
   setEventListener() {
