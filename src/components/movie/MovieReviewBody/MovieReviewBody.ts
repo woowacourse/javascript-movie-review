@@ -27,6 +27,12 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     this.observer = bindObserver(this.handleUpdateMovieList.bind(this));
   }
 
+  private handleUpdateMovieList() {
+    const $movieListContainer = querySelector<HTMLDivElement>(ELEMENT_SELECTOR.movieListContainer);
+
+    this.updateMovieList($movieListContainer);
+  }
+
   protected render() {
     this.$element.append(this.createComponent());
   }
@@ -96,12 +102,6 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     const $modal = querySelector<HTMLDialogElement>(ELEMENT_SELECTOR.errorFallBackModal);
 
     $modal.showModal();
-  }
-
-  private handleUpdateMovieList() {
-    const $movieListContainer = querySelector<HTMLDivElement>(ELEMENT_SELECTOR.movieListContainer);
-
-    this.updateMovieList($movieListContainer);
   }
 
   removeScroll() {
