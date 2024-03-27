@@ -1,8 +1,8 @@
-import ToastPopup from '../../components/ToastPopup/ToastPopup';
-
 const ResponseValidator = (response: any) => {
-  if (response.status === 401) {
-    ToastPopup('API KEY 검증에 실패했습니다.');
+  switch (response.status) {
+    case 401: {
+      throw new Error('API KEY 검증에 실패했습니다. 개발자에게 문의해주세요. https://github.com/greetings1012');
+    }
   }
 };
 

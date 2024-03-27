@@ -1,5 +1,6 @@
 import ToastPopup from '../../components/ToastPopup/ToastPopup';
 import { POPULAR_MOVIES_URL, MOVIE_SEARCH_URL } from '../../constants/URLs';
+import ResponseValidator from '../Validator/ResponseValidator';
 
 async function fetchPopularMovies(page: number) {
   const KEY = process.env.API_KEY;
@@ -14,16 +15,11 @@ async function fetchPopularMovies(page: number) {
 
   try {
     const response = await fetch(popularMovieUrl);
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
+    ResponseValidator(response);
     const popularMovies = await response.json();
     return popularMovies;
   } catch (error) {
-    ToastPopup(`인기 영화를 불러오는 도중 오류가 발생했습니다. ${error}`);
-    console.error('fetchPopularMovies 오류:', error);
-    return null;
+    ToastPopup(`${error}`, 5000);
   }
 }
 
@@ -41,16 +37,11 @@ async function fetchSearchMovies(page: number, userInput: string) {
 
   try {
     const response = await fetch(movieSearchUrl);
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
+    ResponseValidator(response);
     const popularMovies = await response.json();
     return popularMovies;
   } catch (error) {
-    ToastPopup(`영화 검색 결과를 불러오는 도중 오류가 발생했습니다. ${error}`);
-    console.error('fetchSearchMovies 오류:', error);
-    return null;
+    ToastPopup(`${error}`, 5000);
   }
 }
 
