@@ -23,7 +23,7 @@ class Header {
     return /*html*/ `
       <h1>
         <a href="/">
-          <img src="./images/logo.png" alt="MovieList 로고" />
+          <img src="./images/logo.png" alt="MovieList - 홈으로 이동" />
         </a>
       </h1>
       <form class="search-box">
