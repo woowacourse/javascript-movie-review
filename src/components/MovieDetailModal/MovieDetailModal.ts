@@ -7,6 +7,7 @@ import ScoreSelector from '../ScoreSelector/ScoreSelector';
 import { IMAGE_URL_PREFIX } from '../../constants/url';
 
 import StarFilled from '../../imgs/star_filled.png';
+import CloseButton from '../../imgs/close_button.svg';
 
 interface MovieDetailModalProps {
   title: string;
@@ -24,8 +25,8 @@ class MovieDetailModal {
   constructor() {
     this.scoreSelector = new ScoreSelector();
     this.template = this.createTemplate();
-    this.setEventListener();
     this.createMovieDetail();
+    this.setEventListener();
   }
 
   createTemplate() {
@@ -50,6 +51,7 @@ class MovieDetailModal {
       <h class="font-title movie-detail-title">
       타이틀이에요
       </h>
+      <img class="close-button" src=${CloseButton} alt="딛기"></img>
     </div>
     <main class="detail-items">
       <img class="detail-poster"></img>
@@ -84,15 +86,20 @@ class MovieDetailModal {
     vote_average,
   }: MovieDetailModalProps) {
     this.scoreSelector.initializeScore(title);
+
     const titleElement = this.template.querySelector('.movie-detail-title') as HTMLHeadingElement;
     titleElement.textContent = title;
+
     const genreElement = this.template.querySelector('.detail-genre') as HTMLParagraphElement;
     genreElement.textContent = this.genreIdsToGenreNames(genre_ids).join(', ');
+
     const posterElement = this.template.querySelector('.detail-poster') as HTMLImageElement;
     posterElement.src = `${IMAGE_URL_PREFIX}${poster_path}`;
     posterElement.alt = title;
+
     const scoreElement = this.template.querySelector('.detail-score') as HTMLParagraphElement;
     scoreElement.textContent = `${vote_average}`;
+
     const overviewElement = this.template.querySelector('.detail-overview') as HTMLParagraphElement;
     overviewElement.textContent = overview;
   }
@@ -102,6 +109,10 @@ class MovieDetailModal {
   }
 
   setEventListener() {
+    this.template.querySelector('.close-button')?.addEventListener('click', () => {
+      this.toggleModal();
+    });
+
     this.template.querySelector('.modal-backdrop')?.addEventListener('click', () => {
       this.toggleModal();
     });

@@ -40,6 +40,12 @@
   border-bottom: 1px solid var(--border);
 }
 
+.close-button {
+  position: absolute;
+  top: 12px;
+  right: 32px;
+}
+
 .movie-detail-title {
   text-align: center;
   font-size: 20px;
