@@ -3,27 +3,24 @@ import SkeletonMovieItem from '../MovieItem/SkeletonMovieItem';
 
 export const PAGE_SIZE = 20;
 
-const SkeletonMovieList = ({ title }: { title: string }) => {
-  const $section = document.createElement('section');
-  const $title = document.createElement('h2');
+const createUl = () => {
   const $ul = document.createElement('ul');
+  $ul.classList.add('item-list');
+  $ul.classList.add('skeleton');
+  return $ul;
+};
+
+const SkeletonMovieList = () => {
+  const $ul = createUl();
 
   const render = () => {
-    $section.classList.add('item-view');
-
-    $title.textContent = title;
-
-    $ul.classList.add('item-list');
     const fragment = document.createDocumentFragment();
     Array.from({ length: PAGE_SIZE }).forEach(() => {
       fragment.appendChild(SkeletonMovieItem().render());
     });
     $ul.appendChild(fragment);
 
-    $section.appendChild($title);
-    $section.appendChild($ul);
-
-    return $section;
+    return $ul;
   };
 
   return {
