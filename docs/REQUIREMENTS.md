@@ -22,7 +22,7 @@
 
 ### 컴포넌트
 
-- ShowErrorMessage
+- displayErrorMessage
 - Header
 - LoadMoreButton
 - Main
