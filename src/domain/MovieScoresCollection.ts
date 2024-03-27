@@ -16,9 +16,7 @@ const MovieScoresCollection = {
         JSON.stringify(allScores.filter((score) => score.title !== newScore.title)),
       );
     }
-    console.log(allScores);
     allScores.push(newScore);
-    console.log(allScores);
     localStorage.setItem('scores', JSON.stringify(allScores));
   },
 
@@ -27,8 +25,6 @@ const MovieScoresCollection = {
   },
 
   getScoreByTItle(name: string) {
-    console.log(name);
-    console.log(this.getAllScores());
     return this.getAllScores().find((score) => score.title === name)?.score;
   },
 };
