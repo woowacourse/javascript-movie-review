@@ -14,11 +14,16 @@
   margin-top: 16px;
   font-size: 1.2rem;
   font-weight: bold;
+  width: 160px;
 }
 
 .item-score {
+  display: flex;
+  align-items: center;
   margin-top: 16px;
   font-size: 1.2rem;
+  width: 100px;
+  height: 20px;
 }
 
 .item-score::after {
