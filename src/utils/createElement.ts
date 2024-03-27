@@ -1,22 +1,26 @@
-const createElement = (
-  tagName: string,
-  attrs: { [key: string]: string } = {},
-  contents: string = ""
-) => {
+const createElement = <T extends HTMLElement>(tagName:string,options?:{
+  attrs?: { [key: string]: string },
+  content?: string}
+):T=> {
+
+  const {attrs, content}=options??{}
+  
   const newElement = document.createElement(tagName);
 
-  if (contents) newElement.textContent = contents;
-  if (!attrs) return newElement;
+  if (content) newElement.textContent = content;
+  if (!attrs) return newElement as T;
 
   Object.keys(attrs).forEach((key) => {
     const value = attrs[key];
     if (key === "class") {
       const classLists = value.trim().split(" ");
       newElement.classList.add(...classLists);
-    } else newElement.setAttribute(key, value);
+      return
+    }
+    newElement.setAttribute(key, value);
   });
 
-  return newElement;
+  return newElement as T;
 };
 
 export default createElement;
