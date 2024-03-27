@@ -1,4 +1,4 @@
-import generateSearchBox from "../common/generateSearchBox";
+import createElement from "../utils/createElement";
 
 export type SearchType = (query: string) => void;
 
@@ -12,18 +12,28 @@ class MovieSearchBox {
   private $element;
   private props;
 
+  private visible;
+
   constructor(props: MovieSearchBoxProps) {
     this.props = props;
 
-    this.$element = generateSearchBox({
-      placeholder: MovieSearchBox.PLACEHOLDER,
-      buttonText: MovieSearchBox.PLACEHOLDER,
-      onSubmitHandler: this.searchByQuery.bind(this),
-    });
+    this.visible = true;
+
+    this.$element = this.generateSearchBox();
   }
 
   getElement() {
     return this.$element;
+  }
+
+  makeVisible() {
+    this.visible = true;
+    this.$element.style.display = "block";
+  }
+
+  makeInvisible() {
+    this.visible = false;
+    this.$element.style.display = "none";
   }
 
   clear() {
@@ -55,6 +65,36 @@ class MovieSearchBox {
     if (query.length > 500) {
       throw new Error("검색어는 500자 미만으로 입력해주세요.");
     }
+  }
+
+  private generateSearchBox() {
+    const $input = createElement({
+      tagName: "input",
+      attribute: {
+        placeholder: MovieSearchBox.PLACEHOLDER,
+        type: "text",
+        name: "query",
+      },
+    });
+
+    const $button = createElement({
+      tagName: "button",
+      attribute: { class: "search-button" },
+      children: [MovieSearchBox.PLACEHOLDER],
+    });
+
+    const $form = createElement({
+      tagName: "form",
+      attribute: {
+        class: `search-box`,
+      },
+      addEventListener: {
+        submit: this.searchByQuery.bind(this),
+      },
+      children: [$input, $button],
+    });
+
+    return $form;
   }
 }
 

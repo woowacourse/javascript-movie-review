@@ -130,7 +130,6 @@ button.disabled {
 }
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -175,4 +174,39 @@ header .search-box > .search-button {
   grid-column-end: 5;
   text-align: center;
   margin-top: 2rem;
+}
+
+.display-none {
+  display: none;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+header > .search-box-creator {
+  display: none;
+}
+
+@media screen and (max-width: 480px) {
+  /* mobile */
+  header > .search-box-creator {
+    display: block;
+    background: #fff;
+    padding: 8px;
+    border-radius: 4px;
+  }
+
+  header .search-box-creator > .search-box-creator-button {
+    width: 20px;
+    height: 20px;
+    border: 0;
+    text-indent: -1000rem;
+    background: url("./search_button.png") transparent no-repeat 0 1px;
+    background-size: contain;
+  }
+
+  header > .search-box {
+    display: none;
+  }
 }
