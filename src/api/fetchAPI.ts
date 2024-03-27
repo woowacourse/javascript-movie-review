@@ -12,24 +12,41 @@ async function getResponse({ url, method, body }: { url: string; method: string;
   if (body) {
     requestData.body = JSON.stringify(body);
   }
-  const response = await fetch(url, requestData);
+
+  const response = await getFetchResult(url, requestData);
   if (!response.ok) {
-    handleResponseError(response.status);
+    throw new Error(getResponseErrorMessage(response.status));
   }
   return response;
 }
 
-function handleResponseError(status: number) {
+async function getFetchResult(url: string, requestData: RequestInit): Promise<Response> {
+  try {
+    const response = await fetch(url, requestData);
+    return response;
+  } catch (error) {
+    throw new Error(getNetworkErrorMessage(error));
+  }
+}
+
+function getNetworkErrorMessage(error: unknown): string {
+  if (error instanceof TypeError) {
+    return ERROR_MESSAGE.NETWORK_DISCONNECTED;
+  }
+  return ERROR_MESSAGE.UNKNOWN_ERROR;
+}
+
+function getResponseErrorMessage(status: number): string {
   if (status >= 500) {
-    throw new Error(ERROR_MESSAGE.SERVER_ERROR);
+    return ERROR_MESSAGE.SERVER_ERROR;
   }
   if (status === 401 || status === 403) {
-    throw new Error(ERROR_MESSAGE.AUTHENTICATION_FAILED);
+    return ERROR_MESSAGE.AUTHENTICATION_FAILED;
   }
   if (status >= 400) {
-    throw new Error(ERROR_MESSAGE.FETCHING_FAILED);
+    return ERROR_MESSAGE.FETCHING_FAILED;
   }
-  throw new Error(ERROR_MESSAGE.UNKNOWN_ERROR);
+  return ERROR_MESSAGE.UNKNOWN_ERROR;
 }
 
 export default fetchAPI;
