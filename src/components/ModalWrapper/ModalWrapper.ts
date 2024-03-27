@@ -2,10 +2,9 @@ class ModalWrapper {
   #modal = document.createElement('div');
   #modalBackdrop = document.createElement('div');
   #modalContent = document.createElement('div');
-  #closeButton = document.createElement('button');
 
   constructor() {
-    this.#modal.classList.add('modal', 'modal--open');
+    this.#modal.classList.add('modal');
     this.#modalBackdrop.classList.add('modal-backdrop');
     this.#modalContent.classList.add('modal-content');
 
@@ -25,6 +24,10 @@ class ModalWrapper {
 
   toggle() {
     this.#modal.classList.toggle('modal--open');
+
+    if (!this.#modal.classList.contains('modal--open')) {
+      this.#modalContent.innerHTML = '';
+    }
   }
 }
 
