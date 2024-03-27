@@ -1,7 +1,7 @@
 import './movieDetailModal.css';
 
 import movieDetail from '../../domain/movieDetail';
-import { MovieDetailResponse, StarScore } from '../../types/movie';
+import { MovieDetail, MovieDetailResponse, StarScore } from '../../types/movie';
 import { dom } from '../../utils/dom';
 import FILLED_STAR from '../../assets/images/star_filled.png';
 import EMPTY_STAR from '../../assets/images/star_empty.png';
@@ -46,7 +46,7 @@ class MovieDetailModal {
                                 <p id='score'></p>
                             </div>
                         </div>
-                        <div id='description' class='description'></div>
+                        <p id='description' class='description'></p>
                     </div>
                     <div id='user-score' class='user-score-container'>
                         <p>내 별점</p>
@@ -66,27 +66,31 @@ class MovieDetailModal {
     `;
   }
 
-  open(movieResponse: MovieDetailResponse) {
-    const { id, genres, imageSrc, description, title, score } = movieDetail.create(movieResponse);
+  render({ title, imageSrc, score, description, genres }: MovieDetail) {
+    const $thumbnail = dom.getElement<HTMLImageElement>(this.$target, '#thumbnail');
+    const $description = dom.getElement<HTMLParagraphElement>(this.$target, '#description');
+    const $genre = dom.getElement<HTMLParagraphElement>(this.$target, '#genre');
+    const $title = dom.getElement<HTMLParagraphElement>(this.$target, '#title');
+    const $score = dom.getElement<HTMLParagraphElement>(this.$target, '#score');
 
+    $thumbnail.setAttribute('src', imageSrc);
+    $description.textContent = description;
+    $genre.textContent = genres.join(', ');
+    $title.textContent = title;
+    $score.textContent = score.toString();
+  }
+
+  open(movieResponse: MovieDetailResponse) {
+    const { id, title, imageSrc, score, description, genres } = movieDetail.create(movieResponse);
     const movies = storage.get<ScoreStorage[]>('movies');
     const movie = movies.filter(movie => movie.id === id)[0];
     const movieScore = movie?.score;
-    this.score = movieScore ?? 0;
-    this.fillRate(this.score / 2);
-
     this.movieId = id;
-    const $thumbnail = dom.getElement<HTMLImageElement>(this.$target, '#thumbnail');
-    const $description = dom.getElement(this.$target, '#description');
-    const $genre = dom.getElement(this.$target, '#genre');
-    const $title = dom.getElement(this.$target, '#title');
-    const $score = dom.getElement(this.$target, '#score');
+    this.score = movieScore ?? 0;
 
-    $genre.textContent = genres.join(', ');
-    $thumbnail.setAttribute('src', imageSrc);
-    $description.textContent = description;
-    $title.textContent = title;
-    $score.textContent = score.toString();
+    this.fillRate(this.score / 2);
+    this.render({ id, title, imageSrc, score, description, genres });
+
     document.body.style.overflow = 'hidden';
     this.$target.classList.add('open');
   }
