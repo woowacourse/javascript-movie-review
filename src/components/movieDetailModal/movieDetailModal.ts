@@ -125,11 +125,12 @@ class MovieDetailModal {
     window.addEventListener('keydown', this.handleModalCloseKey.bind(this));
   }
 
-  fillRate(count: number = 0) {
+  fillRate(count = 0) {
     const $starContainer = dom.getElement(this.$target, '#star-container');
-    [...$starContainer.children].forEach(star => {
-      star.classList.add('filled');
-      star.setAttribute('src', FILLED_STAR);
+    const stars = [...$starContainer.children];
+    Array.from({ length: count }, (_, i) => i).forEach(idx => {
+      stars[idx].classList.add('filled');
+      stars[idx].setAttribute('src', FILLED_STAR);
     });
 
     this.updateScoreContainer(count);
