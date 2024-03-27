@@ -47,14 +47,24 @@ export const DETAIL_MODAL_TEMPLATE = (movie: MovieDetailType) => /* html */ `
     <div id="detail-modal--close-btn"><img src="${MODAL_CLOSE_BTN}"/></div>
   </div>
   <div id="detail-modal--body">
-    <img id="detail-modal--body-img" src="${MOVIE_PATH}/${movie.poster_path}"/>
+    <img id="detail-modal--body-img" src="${
+      movie.poster_path ? `${MOVIE_PATH}/${movie.poster_path}` : NO_IMAGE
+    }"/>
     <div id="detail-modal--contents">
       <div id="detail-modal--info">
         <div id="detail-modal--info-header">
-          <div id="detail-modal--genre">${movie.genres.map((genre) => genre.name).join(', ')}</div>
-          <div id="detail-modal--vote"><img src="${STAR_FILLED}"/>${movie.vote_average.toFixed(1)}</div>
+          <div id="detail-modal--genre">${
+            movie.genres.length !== 0
+              ? movie.genres.map((genre) => genre.name).join(', ')
+              : '장르가 없습니다.'
+          }</div>
+          <div id="detail-modal--vote"><img src="${STAR_FILLED}"/>${movie.vote_average.toFixed(
+  1,
+)}</div>
         </div>
-        <div id="detail-modal--overview">${movie.overview}</div>
+        <div id="detail-modal--overview">${
+          movie.overview ? movie.overview : '등록된 줄거리가 없습니다.'
+        }</div>
       </div>
       <div id="detail-modal--rating">
         <div id="detail-modal--label">내 별점</div>
