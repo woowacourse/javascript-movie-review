@@ -27,7 +27,8 @@ export const getTotalApiUrl = (option: ShowMoreButtonOption, keyword: string, pa
 
 const fetchNextPage = async (event: Event, option: ShowMoreButtonOption, keyword: string) => {
   const updatePageNumber = pageManager.increasePage();
-  const movieListResults = await getMovieListByKeywordAndUpdatedPageNumber(keyword, option);
+  const totalUrl = getTotalApiUrl(option, keyword, updatePageNumber);
+  const movieListResults = await getMovieListByKeywordAndUpdatedPageNumber(totalUrl);
   checkDataLength(movieListResults.length);
   createMovieItems(movieListResults);
   if (!event.target) return;

@@ -1,14 +1,14 @@
 import MovieListBanner from '../MovieListBanner/MovieListBanner';
 import isHTMLElement from '../../utils/isHTMLElement';
-import { MovieItemProps } from '../../types/movie';
+import { TotalMovieItemProps } from '../../types/movie';
 import MovieItem from '../MovieItem/MovieItem';
-import ShowMoreButton from '../ShowMoreButton/ShowMoreButton';
+import createElement from '../../utils/createElement';
 
-export const createMovieItems = (results: MovieItemProps[]) => {
+export const createMovieItems = (results: TotalMovieItemProps[]) => {
   const ul = document.querySelector('ul');
   if (!isHTMLElement(ul)) return;
   const fragment = document.createDocumentFragment();
-  results.map((movieItem: MovieItemProps) => {
+  results.map((movieItem: TotalMovieItemProps) => {
     fragment.appendChild(MovieItem(movieItem));
   });
   ul.appendChild(fragment);
@@ -17,15 +17,16 @@ export const createMovieItems = (results: MovieItemProps[]) => {
 
 const assembleContent = (ul: HTMLElement) => {
   const section = document.querySelector('section');
+  const contentCard = createElement('div', { className: 'content-card' });
   if (!isHTMLElement(section)) return;
   const headerBanner = MovieListBanner();
   if (!headerBanner) return;
-  const createShowMoreButton = ShowMoreButton();
   if (!isHTMLElement(ul)) return;
-  [headerBanner, ul, createShowMoreButton].forEach((item) => section.appendChild(item));
+  [headerBanner, ul].forEach((item) => contentCard.appendChild(item));
+  section.appendChild(contentCard);
 };
 
-export const renderHandler = (results: MovieItemProps[]) => {
+export const renderHandler = (results: TotalMovieItemProps[]) => {
   const movieList = createMovieItems(results);
   if (!movieList) return;
   assembleContent(movieList);
