@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: fit-content;
+  width: 100%;
   height: 100%;
   margin: 0 auto 72px auto;
 }
@@ -20,23 +20,6 @@
   grid-column-gap: 64px;
   grid-row-gap: 64px;
 }
-
-/* @media (min-width: 1048px) and (max-width: 1200px) {
-  .item-view h2 {
-    font-size: 34px;
-    font-weight: bold;
-    padding-left: 64px;
-    user-select: none;
-  }
-  .item-list {
-    display: grid;
-    margin: 48px 0;
-    padding: 0 64px;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-column-gap: 64px;
-    grid-row-gap: 64px;
-  }
-} */
 
 @media (min-width: 768px) and (max-width: 1200px) {
   .item-view h2 {
