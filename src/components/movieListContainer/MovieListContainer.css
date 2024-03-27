@@ -33,9 +33,24 @@
 .item-list {
   display: grid;
   margin: 48px 0;
+
   grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
   grid-row-gap: 48px;
+  grid-column-gap: 48px;
+  justify-items: center;
+  justify-content: space-between;
+}
+
+@media (max-width: 950px) {
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+  }
+}
+
+@media (max-width: 750px) {
+  .item-list {
+    grid-template-columns: repeat(2, 180px);
+  }
 }
 
 .item-card .skeleton {

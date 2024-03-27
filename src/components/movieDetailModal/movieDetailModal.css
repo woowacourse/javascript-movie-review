@@ -9,6 +9,7 @@
 .detail-modal-container {
     position: fixed;
     width: 70vw;
+    min-width: 580px;
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -42,11 +43,6 @@
 
     padding-bottom: 20px;
     border-bottom: 2px solid #F1F1F140;
-}
-
-#title {
-    font-size: 24px;
-    font-weight: bold;
 }
 
 .thumbnail {
@@ -110,6 +106,7 @@
 }
 
 .user-score-container {
+    min-width: 380px;
     display: flex;
     align-items: center;
     gap: 10px;
