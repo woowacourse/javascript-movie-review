@@ -5,4 +5,4 @@ export const RENDER_TYPE = {
 } as const;
 
 export const POPULAR_MOVIE_TITLE = '지금 인기 있는 영화';
-export const SEARCH_MOVIE_TITLE = '지금 인기 있는 영화';
+export const SEARCH_MOVIE_TITLE = (movieName: string) => `"${movieName}" 검색 결과`;

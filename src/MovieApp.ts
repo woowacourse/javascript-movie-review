@@ -69,7 +69,7 @@ class MovieApp {
     if (searchForm instanceof HTMLInputElement) {
       const inputValue = searchForm.value;
       this.resetPage();
-      this.updateMainHtml(SEARCH_MOVIE_TITLE);
+      this.updateMainHtml(SEARCH_MOVIE_TITLE(inputValue));
       this.renderMainContents(RENDER_TYPE.SEARCH, inputValue);
     }
   }
