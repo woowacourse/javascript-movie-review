@@ -1,3 +1,4 @@
+import toast from "../components/toast/toast";
 import view from "../view/view";
 
 const errorHandler = (code) => {
