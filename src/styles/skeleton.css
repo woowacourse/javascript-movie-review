@@ -11,8 +11,8 @@
   width: calc(100vw - 48px * 2);
 }
 
-.skeleton-list-container .movie-card {
-  margin-bottom: 14px;
+.skeleton-list-container .movie-title {
+  margin-bottom: 16px;
 }
 .movie-card .skeleton,
 .skeleton-info .skeleton {

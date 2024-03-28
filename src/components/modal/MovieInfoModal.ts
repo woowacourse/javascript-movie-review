@@ -1,11 +1,11 @@
 import { MOVIE_INFO_COMMON_CLASS } from '../../constants';
-import XMarker from '../../images/xmark.svg';
+import { ModalContainerController } from '../../service';
 import { MovieInfo } from '../../type/movie';
 import { createElementWithAttribute } from '../../utils';
-import { MovieImg, MovieScore, MovieTitle } from '../movie';
-import UserScore from '../movie/UserScore';
+import { MovieImg, MovieScore, MovieTitle, UserScore } from '../movie';
 
-import ModalContainer, { ModalContainerHandler } from './ModalContainer';
+import ModalCloseButton from './ModalCloseButton';
+import ModalContainer from './ModalContainer';
 
 class MovieInfoModal {
   #movieInfo: MovieInfo;
@@ -73,30 +73,11 @@ class MovieInfoModal {
       class: `${MOVIE_INFO_COMMON_CLASS}__inner__header`,
     });
     const $movieTitle = new MovieTitle(this.#movieInfo.title).element;
-    const $closeButton = this.#makeCloseButton();
+    const $closeButton = new ModalCloseButton().element;
     $h2.appendChild($movieTitle);
     $h2.appendChild($closeButton);
 
     return $h2;
-  }
-
-  #makeCloseButton() {
-    const $button = createElementWithAttribute('button', {
-      class: 'button-close-modal',
-    });
-    const $img = createElementWithAttribute('img', {
-      src: XMarker,
-    });
-    $button.appendChild($img);
-
-    $button.addEventListener('click', this.#handleClickCloseButton);
-
-    return $button;
-  }
-
-  #handleClickCloseButton(event: Event) {
-    event.stopPropagation();
-    ModalContainerHandler.closeModalContainer();
   }
 
   #makeMovieDescription() {
@@ -137,12 +118,13 @@ class MovieInfoModal {
 
     return $overView;
   }
-  //render modal
 
+  //render modal
   #renderMovieInfoModal() {
     new ModalContainer({
       $children: this.#element,
     });
+    ModalContainerController.changePosition();
   }
 }
 

@@ -5,16 +5,7 @@ import {
 } from './components';
 import { MovieListContainerProps } from './components/movie/MovieListContainer';
 import dataStateStore from './model/DataStateStore';
-import {
-  DataFetcher,
-  SkeletonController,
-  WindowResponsiveHandler,
-} from './service';
-
-const dataFetcher = new DataFetcher({
-  show: SkeletonController.showListSkeletonContainer,
-  hide: SkeletonController.hideSkeletonListContainer,
-});
+import { WindowResponsiveHandler, movieListDataFetcher } from './service';
 
 const popularMovieListContainerProps: Omit<
   MovieListContainerProps,
@@ -30,7 +21,7 @@ async function App() {
   WindowResponsiveHandler.handleWindowResize();
   new SkeletonListContainer();
 
-  await dataFetcher.handleGetPopularMovieData();
+  await movieListDataFetcher.handleGetPopularMovieData();
   new MovieListContainer({
     ...popularMovieListContainerProps,
     movieData: dataStateStore.movieData,

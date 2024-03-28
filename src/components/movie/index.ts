@@ -8,6 +8,7 @@ import MovieScore from './MovieScore';
 import MovieTitle from './MovieTitle';
 import NoMoreMovieDataItem from './NoMoreMovieDataItem';
 import NoneMovieItem from './NoneMovieItem';
+import UserScore from './UserScore';
 
 export {
   MovieCard,
@@ -20,4 +21,5 @@ export {
   MovieTitle,
   NoMoreMovieDataItem,
   NoneMovieItem,
+  UserScore,
 };

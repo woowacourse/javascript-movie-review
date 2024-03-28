@@ -28,7 +28,7 @@ class MovieListDataStateStore {
   }
 
   // movie info
-  getMovieInfo(movieInfo: MovieInfo) {
+  getMovieInfo(movieInfo: MovieInfo | undefined) {
     this.#movieInfo = movieInfo;
   }
 

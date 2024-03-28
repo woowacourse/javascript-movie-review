@@ -1,4 +1,5 @@
-.modal-movie-info {
+.modal-movie-info,
+.movie-info-error {
   width: 826px;
   height: 577px;
   button {
@@ -22,7 +23,7 @@
   font-size: 20px;
 }
 
-.modal-movie-info__inner .button-close-modal {
+.button-close-modal {
   position: absolute;
   top: 18px;
   right: 48px;
@@ -74,7 +75,7 @@
 }
 
 .modal-movie-info__description__top,
-movie-score {
+.movie-score {
   font-size: 16px;
   line-height: 16px;
   img {
@@ -131,7 +132,7 @@ movie-score {
 .button-reset-score {
   position: absolute;
   top: calc(50% - 16px);
-  right: calc(16px + 5px);
+  right: calc(16px);
   background-color: transparent;
   padding: 1px;
   img {
@@ -185,10 +186,9 @@ movie-score {
 
   .modal-movie-info__inner__contents {
     padding: 18px 48px;
-  }
-
-  .modal-movie-info__inner__contents .movie-thumbnail {
-    display: none;
+    .movie-thumbnail {
+      display: none;
+    }
   }
 
   .modal-movie-info__description {

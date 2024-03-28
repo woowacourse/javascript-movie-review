@@ -4,21 +4,12 @@ import {
   UNDEFINED_INPUT_VALUE,
 } from '../constants';
 import { dataStateStore } from '../model';
-import {
-  DataFetcher,
-  SearchBoxResponsiveHandler,
-  SkeletonController,
-} from '../service';
+import { movieListDataFetcher, SearchBoxResponsiveHandler } from '../service';
 import { createElementWithAttribute, debouceFunc } from '../utils';
 
 import Label from './Label';
 import { ToastModal } from './modal';
 import { MovieListContainer } from './movie';
-
-const dataFetcher = new DataFetcher({
-  show: SkeletonController.showSkeletonListContainer,
-  hide: SkeletonController.hideSkeletonListContainer,
-});
 
 const makeSearchBoxToastModal = () => {
   const $children = document.createElement('div');
@@ -62,7 +53,7 @@ const SearchBoxHandler = {
     this.private_renderToastModal(title);
     if (!title) return;
     toastModal.removeToastModal(true);
-    await dataFetcher.handleGetSearchMovieData(title.trim(), true);
+    await movieListDataFetcher.handleGetSearchMovieData(title.trim(), true);
     document.querySelector('.movie-list-container')?.remove();
     new MovieListContainer({
       titleText: `"${title}" 검색 결과`,

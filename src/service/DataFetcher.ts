@@ -1,28 +1,39 @@
 import { apiClient } from '../model';
 
 import ErrorViewController from './ErrorViewController';
+import SkeletonController from './SkeletonController';
 
-interface SkeletonHandler {
+export interface DataFetcherSkeletonController {
   show: () => void;
-  hide: () => void;
+  remove: () => void;
+}
+
+export interface DataFetcherErrorViewController {
+  show: (error: unknown) => void;
+  remove: () => void;
 }
 
 class DataFetcher {
-  #skeletonHandler: SkeletonHandler;
+  #skeletonController: DataFetcherSkeletonController;
+  #errorViewController: DataFetcherErrorViewController;
 
-  constructor(skeletonHandler: SkeletonHandler) {
-    this.#skeletonHandler = skeletonHandler;
+  constructor(
+    skeletonController: DataFetcherSkeletonController,
+    errorViewController: DataFetcherErrorViewController,
+  ) {
+    this.#skeletonController = skeletonController;
+    this.#errorViewController = errorViewController;
   }
 
   async fetchDataWidthSkeleton(apiFun: () => Promise<void>) {
     try {
-      this.#skeletonHandler.show();
+      this.#skeletonController.show();
       await apiFun();
-      ErrorViewController.removeErrorView();
+      this.#errorViewController.remove();
     } catch (error) {
-      ErrorViewController.showErrorView(error, 'error-box-api');
+      this.#errorViewController.show(error);
     }
-    this.#skeletonHandler.hide();
+    this.#skeletonController.remove();
   }
 
   async handleGetPopularMovieData(isResetCurrentPage: boolean = false) {
@@ -41,4 +52,34 @@ class DataFetcher {
     await this.fetchDataWidthSkeleton(() => apiClient.getMovieInfo(id));
   }
 }
-export default DataFetcher;
+
+const movieListSkeletonController: DataFetcherSkeletonController = {
+  show: SkeletonController.showSkeletonListContainer,
+  remove: SkeletonController.hideSkeletonListContainer,
+};
+
+const movieListErrorViewController: DataFetcherErrorViewController = {
+  show: (error) =>
+    ErrorViewController.showErrorViewInMain(error, 'error-box-api'),
+  remove: ErrorViewController.removeErrorViewInMain,
+};
+
+export const movieListDataFetcher = new DataFetcher(
+  movieListSkeletonController,
+  movieListErrorViewController,
+);
+
+const movieInfoSkeletonController: DataFetcherSkeletonController = {
+  show: SkeletonController.showSkeletonInfo,
+  remove: SkeletonController.removeSkeletonInfo,
+};
+
+const movieInfoErrorViewController: DataFetcherErrorViewController = {
+  show: (error) => ErrorViewController.showErrorViewInModal(error),
+  remove: ErrorViewController.removeErrorViewInModal,
+};
+
+export const movieInfoDataFetcher = new DataFetcher(
+  movieInfoSkeletonController,
+  movieInfoErrorViewController,
+);

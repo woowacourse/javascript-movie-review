@@ -40,7 +40,7 @@ const SkeletonController = {
     skeletonInfo.renderSkeletonInfo();
   },
 
-  hideSkeletonInfo() {
+  removeSkeletonInfo() {
     skeletonInfo.removeSkeletonInfo();
   },
 };

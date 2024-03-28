@@ -1,9 +1,8 @@
 import { dataStateStore } from '../model';
 import {
-  DataFetcher,
+  movieListDataFetcher,
   renderAlertModalForNullEl,
   SearchBoxResponsiveHandler,
-  SkeletonController,
 } from '../service';
 import { createElementWithAttribute } from '../utils';
 
@@ -12,12 +11,7 @@ import SearchBox from './SearchBox';
 
 const HeaderClickHandler = {
   async handleDataFetcher() {
-    const dataFetcher = new DataFetcher({
-      show: SkeletonController.showSkeletonListContainer,
-      hide: SkeletonController.hideSkeletonListContainer,
-    });
-
-    await dataFetcher.handleGetPopularMovieData(true);
+    await movieListDataFetcher.handleGetPopularMovieData(true);
   },
 
   async handleClickToRefresh() {

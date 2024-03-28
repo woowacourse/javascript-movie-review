@@ -40,7 +40,14 @@ class APIClient {
 
   async getMovieInfo(id: number) {
     const fetcher = fetch(`${BASE_URL}/${endPoint.movieInfo(id)}`, options);
+    // 데이터 불러오기 전 초기화
+
     const data = await handleFetchData(fetcher);
+
+    if (data instanceof Error) {
+      dataStateStore.getMovieInfo(undefined);
+      throw new Error(data.message);
+    }
 
     const movieInfo: MovieInfo = {
       id: data.id,

@@ -4,13 +4,8 @@ import { ListType, Movie } from '../type/movie';
 import { debouceFunc } from '../utils';
 
 import { renderAlertModalForNullEl } from './AlertModalForNullController';
-import DataFetcher from './DataFetcher';
-import SkeletonController from './SkeletonController';
+import { movieListDataFetcher } from './DataFetcher';
 
-const dataFetcher = new DataFetcher({
-  show: SkeletonController.showSkeletonListContainer,
-  hide: SkeletonController.hideSkeletonListContainer,
-});
 /**
  * 스크롤 시, 이루어지는 api 통신 관리하는 핸들러
  */
@@ -21,7 +16,7 @@ const APIHandlerForScroll = {
    */
   async handleGetMovieData(listType: ListType) {
     if (listType === 'popular') {
-      await dataFetcher.handleGetPopularMovieData();
+      await movieListDataFetcher.handleGetPopularMovieData();
       return;
     }
 
@@ -40,7 +35,7 @@ const APIHandlerForScroll = {
     const title = this.private_getSearchInputValue();
     if (!title) return;
 
-    await dataFetcher.handleGetSearchMovieData(title, false);
+    await movieListDataFetcher.handleGetSearchMovieData(title, false);
   },
 };
 

@@ -1,7 +1,7 @@
 import { MOVIE_INFO_COMMON_CLASS } from '../../constants';
+import { ModalContainerController } from '../../service';
 import { createElementWithAttribute } from '../../utils';
 import { ModalContainer } from '../modal';
-import { ModalContainerHandler } from '../modal/ModalContainer';
 
 import SkeletonMovieImg from './SkeletonMovieImg';
 import SkeletonMovieTitle from './SkeletonMovieTitle';
@@ -75,7 +75,9 @@ class SkeletonInfo {
   }
 
   removeSkeletonInfo() {
-    ModalContainerHandler.closeModalContainer();
+    const $skeletonInfo = document.querySelector('.skeleton-info');
+    if (!$skeletonInfo) return;
+    ModalContainerController.closeModalContainer();
   }
 }
 

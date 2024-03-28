@@ -1,11 +1,14 @@
 import { renderAlertModalForNullEl } from '../../service';
+import { createElementWithAttribute } from '../../utils';
+import { ModalCloseButton, ModalContainer } from '../modal';
 import RefreshButton from '../RefreshButton';
 
 import ErrorBox, { ErrorBoxProps } from './ErrorBox';
 
 class ErrorView {
+  #element: HTMLElement;
   constructor(props: ErrorBoxProps) {
-    this.#renderErrorView(props);
+    this.#element = this.#makeErrorView(props);
   }
 
   #makeErrorView(props: ErrorBoxProps) {
@@ -20,16 +23,25 @@ class ErrorView {
     return $errorView;
   }
 
-  #renderErrorView(props: ErrorBoxProps) {
+  renderErrorViewInMain() {
     const $main = document.querySelector('main');
-    const $errorView = this.#makeErrorView(props);
-
     if (!$main) {
       renderAlertModalForNullEl('main');
       return;
     }
+    $main.appendChild(this.#element);
+  }
 
-    $main.appendChild($errorView);
+  renderErrorViewInModal() {
+    const $inner = createElementWithAttribute('div', {
+      class: 'movie-info-error',
+    });
+    const $modalCloseButton = new ModalCloseButton().element;
+    $inner.appendChild($modalCloseButton);
+    $inner.appendChild(this.#element);
+    new ModalContainer({
+      $children: $inner,
+    });
   }
 }
 
