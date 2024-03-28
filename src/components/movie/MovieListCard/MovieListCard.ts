@@ -19,7 +19,7 @@ class MovieListCard extends Component<MovieInterface> {
   }
 
   protected createComponent() {
-    const $anchor = createElement({ tagName: 'a', attributeOptions: {} });
+    const $anchor = createElement({ tagName: 'a' });
 
     $anchor.innerHTML = /* html */ `
       <div id="item-card" class="item-card">
