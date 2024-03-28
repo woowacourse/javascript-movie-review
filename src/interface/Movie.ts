@@ -101,3 +101,7 @@ export interface MovieDetail extends Movie {
   overview: string;
   genres: string[];
 }
+
+export type ScoreMessage = {
+  [key: number]: string;
+};

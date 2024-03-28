@@ -2,7 +2,7 @@ import { MovieDetail } from '../../interface/Movie';
 import emptyImg from '../../images/empty_poster.png';
 import filledStar from '../../images/star_filled.png';
 import modal from './emptyModal';
-import { createRecommendStar } from '../recommendStar/recommendStar';
+import { RecommendStar } from '../recommendStar/recommendStar';
 
 function createMovieDetailModal(movieDetail: MovieDetail, closeModalCallBack: () => void) {
   const container = render(movieDetail, closeModalCallBack);
@@ -62,10 +62,10 @@ function render(movieDetail: MovieDetail, closeModalCallBack: () => void) {
   overview.className = 'modal-overview';
   overview.textContent = movieDetail.overview;
 
-  const recommendStarBox = createRecommendStar();
+  const recommendStarBox = new RecommendStar(5);
 
   sectionHeader.append(genre, voteBox);
-  section.append(sectionHeader, overview, recommendStarBox);
+  section.append(sectionHeader, overview, recommendStarBox.createRecommendStar());
   header.append(title, closeButton);
   body.append(poster, section);
   container.append(header, body);

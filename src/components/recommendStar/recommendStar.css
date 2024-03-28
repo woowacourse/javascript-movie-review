@@ -1,0 +1,8 @@
+.recommend-star-box {
+  display: flex;
+  align-items: center;
+}
+
+.starBox {
+  gap: 3px;
+}
