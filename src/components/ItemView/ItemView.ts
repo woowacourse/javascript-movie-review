@@ -6,15 +6,18 @@ import MovieitemsSkeleton from '../MovieItems/MovieItemsSkeleton';
 import SearchValidator from '../../domain/Validator/SearchValidator';
 import ToastPopup from '../ToastPopup/ToastPopup';
 import CONDITIONS from '../../constants/CONDITIONS';
+import MovieItemDetailModalInstance from '../../typeAliases/MovieItemDetailModalInstance';
 
 class ItemView {
   #page: number = 0;
   #totalPages: number = 1;
   #searchValue: string = '';
   #itemView = document.createElement('section');
+  #moiveItemDetailModal: MovieItemDetailModalInstance;
 
-  constructor() {
+  constructor(moiveItemDetailModal: MovieItemDetailModalInstance) {
     this.#itemView.classList.add('item-view');
+    this.#moiveItemDetailModal = moiveItemDetailModal;
 
     this.createItemView(CONTAINER_TITLE.popular);
   }
@@ -51,7 +54,11 @@ class ItemView {
     const movieListData: ResponseData = await this.getMovieListData();
     this.#totalPages = movieListData.total_pages;
 
-    MovieItems.replaceSkeletons(skeleton, movieListData);
+    MovieItems.replaceSkeletons({
+      movieItems: skeleton,
+      responseData: movieListData,
+      moiveItemDetailModal: this.#moiveItemDetailModal,
+    });
   }
 
   async getMovieListData() {
