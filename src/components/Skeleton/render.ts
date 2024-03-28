@@ -5,6 +5,7 @@ const createSkeletonContent = () => {
   const itemTitle = createElement('div', { className: 'item-title skeleton' });
   const itemScore = createElement('div', { className: 'item-score skeleton' });
   const fragment = document.createDocumentFragment();
+
   fragment.appendChild(itemThumbnail);
   fragment.appendChild(itemTitle);
   fragment.appendChild(itemScore);

@@ -7,7 +7,7 @@ import ErrorComponent from '../components/ErrorComponent/ErrorComponent';
 import { FetchOption } from '../types/fetch';
 import isHttpError from '../utils/isHttpError';
 
-class MovieFetcherWithLoadingOrErrorState {
+class MovieFetcher {
   api;
 
   SKELETON_LENGTH = 8;
@@ -27,9 +27,7 @@ class MovieFetcherWithLoadingOrErrorState {
 
   onErrorChanged(error: HttpError | null) {
     if (error) {
-      const errorComponent = ErrorComponent(error.status);
-
-      this.showErrorComponent(errorComponent);
+      this.showErrorComponent(ErrorComponent(error.status));
     }
   }
 
@@ -81,6 +79,6 @@ class MovieFetcherWithLoadingOrErrorState {
   }
 }
 
-const movieFetcherWithLoadingOrErrorState = new MovieFetcherWithLoadingOrErrorState(api);
+const movieFetcher = new MovieFetcher(api);
 
-export default movieFetcherWithLoadingOrErrorState;
+export default movieFetcher;

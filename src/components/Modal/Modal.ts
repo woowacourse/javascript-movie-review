@@ -1,8 +1,16 @@
 import { MovieDetailProps } from '../../types/movie';
 import renderModalContainer, { initializeModalContent } from './render';
 import renderModalContent from './renderModalContent';
-import { closeButtonClickHandler, closeModalHandler, propagationContainer } from './eventHandler';
+import { closeButtonClickHandler, closeModalHandler, propagationContainer, openModalHandler } from './eventHandler';
 import { scoreStarRateHandler } from './modalContentEventHandler';
+
+function attachEventHandlers() {
+  openModalHandler();
+  closeModalHandler();
+  propagationContainer();
+  closeButtonClickHandler();
+  scoreStarRateHandler();
+}
 
 /* eslint-disable max-lines-per-function */
 function Modal({ title, genres, vote_average, poster_path, overview, star_rating }: MovieDetailProps) {
@@ -16,11 +24,7 @@ function Modal({ title, genres, vote_average, poster_path, overview, star_rating
     overview,
     star_rating,
   });
-
-  closeModalHandler();
-  propagationContainer();
-  closeButtonClickHandler();
-  scoreStarRateHandler();
+  attachEventHandlers();
 }
 
 export default Modal;

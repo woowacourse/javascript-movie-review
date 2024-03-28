@@ -6,7 +6,7 @@ import unfilledStarImage from '../../../templates/star_empty.png';
 import formatToDecimalPlaces from '../../utils/formatToDecimalPlaces';
 import isElement from '../../utils/isElement';
 import MATCHED_STAR_RATING from '../../constants/api/starRating';
-import defaultImageSrc from '../../../templates/star_filled.png';
+import defaultImageSrc from '../../../templates/skeleton.png';
 
 const createCloseButton = () => {
   const closeContainer = createElement('div', { className: 'close-container' });
@@ -204,12 +204,6 @@ const createMovieDetailStarRating = (star_rating: StarRate) => {
   return container;
 };
 
-const createNoneInfo = () => {
-  const h2 = createElement('h2', { textContent: '영화 정보가 존재하지 않아요!' });
-
-  return h2;
-};
-
 /* eslint-disable  max-lines-per-function */
 const createMovieInfoContainer = ({ genres, vote_average, overview, star_rating }: Partial<MovieDetailProps>) => {
   const infoContainer = createElement('div', {
@@ -241,7 +235,7 @@ const imageAndInfoComponent = ({
   });
 
   if (overview?.length === 0) {
-    const noneInfo = createNoneInfo();
+    const noneInfo = createElement('h2', { textContent: '영화 정보가 존재하지 않아요!' });
 
     imageAndInfoContainer.appendChild(noneInfo);
   }

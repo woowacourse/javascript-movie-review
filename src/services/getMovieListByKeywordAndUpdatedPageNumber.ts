@@ -1,8 +1,8 @@
-import movieFetcherWithLoadingOrErrorState from './MovieFetcherWithLoadingOrErrorState';
+import movieFetcher from './MovieFetcher';
 import { API_OPTION } from '../constants/api/api';
 
 const getMovieListByKeywordAndUpdatedPageNumber = async (totalUrl: string) => {
-  const data = await movieFetcherWithLoadingOrErrorState.fetchData(totalUrl, {
+  const data = await movieFetcher.fetchData(totalUrl, {
     headers: API_OPTION.headers,
   });
   const { results } = data;
