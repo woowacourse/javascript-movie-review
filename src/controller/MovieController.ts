@@ -33,9 +33,9 @@ class MovieController {
     }
   }
 
-  renderNextPage(target?: HTMLButtonElement) {
+  renderNextPage() {
     if (this.#page > RULES.maxPage) {
-      target?.classList.add('hidden');
+      document.removeEventListener('scroll', this.#scrollEvent);
       showAlert(ALERT_MESSAGE.lastPage);
       return;
     }
@@ -81,21 +81,24 @@ class MovieController {
     this.#page = 1;
     this.#query = query;
     ul.innerHTML = '';
-    document.addEventListener('scroll', this.#scrollEvent);
   }
 
   async #renderPopularMovies() {
     document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
 
     const movieData = await this.#getPopularMovies(this.#page);
+    if (!movieData) return;
 
-    if (movieData) {
-      this.#createMovieItems(movieData).forEach((movieItem) =>
-        $('ul.item-list')?.insertAdjacentElement('beforeend', movieItem),
-      );
-      document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
-      this.#page += 1;
+    this.#createMovieItems(movieData).forEach((movieItem) =>
+      $('ul.item-list')?.insertAdjacentElement('beforeend', movieItem),
+    );
+    document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
+    this.#page += 1;
+
+    if (movieData.length === RULES.moviesPerPage) {
       document.addEventListener('scroll', this.#scrollEvent);
+    } else {
+      document.removeEventListener('scroll', this.#scrollEvent);
     }
   }
 
@@ -116,18 +119,22 @@ class MovieController {
     document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
 
     const movieData = await this.#searchMovies(this.#page, this.#query);
+    if (!movieData) return;
 
     if (movieData && !movieData.length) {
       this.#showErrorPage(ERROR_MESSAGE.noSearchResult);
     }
 
-    if (movieData) {
-      this.#createMovieItems(movieData).forEach((movieItem) => {
-        $('ul.item-list')?.appendChild(movieItem);
-      });
-      document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
-      this.#page += 1;
+    this.#createMovieItems(movieData).forEach((movieItem) => {
+      $('ul.item-list')?.appendChild(movieItem);
+    });
+    document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
+    this.#page += 1;
+
+    if (movieData.length === RULES.moviesPerPage) {
       document.addEventListener('scroll', this.#scrollEvent);
+    } else {
+      document.removeEventListener('scroll', this.#scrollEvent);
     }
   }
 
