@@ -1,10 +1,11 @@
 import Header from '../src/components/Header/Header';
 import MovieList from '../src/components/MovieList/MovieList';
 import Button from './components/Button/Button';
+import Modal from './components/Modal/Modal';
 import Toast from './components/Toast/Toast';
 import { URL } from './consts/common';
 import { TITLE } from './consts/message';
-import MovieFetchAPI from './domain/services/MovieFetchAPI';
+import MovieListFetcher from './domain/services/MovieListFetcher';
 import { formatMovieList } from './utils/formatList';
 import { setUrlParams } from './utils/queryString';
 import { getCurrentMode, getCurrentPage, getCurrentQuery, increaseUrlPage, setDefaultPageUrl } from './utils/urlHelper';
@@ -122,9 +123,9 @@ class App {
 
   fetchMovies() {
     if (getCurrentMode() === 'popular') {
-      return MovieFetchAPI.fetchPopularMovies();
+      return MovieListFetcher.fetchPopularMovies();
     }
-    return MovieFetchAPI.fetchSearchMovies();
+    return MovieListFetcher.fetchSearchMovies();
   }
 
   renderMoreButton() {
