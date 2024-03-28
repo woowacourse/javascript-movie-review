@@ -33,8 +33,9 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
+  padding: 0 40px;
 }
 
 .item-view h2 {
@@ -46,11 +47,70 @@ button {
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .item-list {
+  width: 100%;
   display: grid;
   margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  /* align-content: space-between; */
+  justify-content: space-between;
+  grid-column-gap: 20px;
   grid-row-gap: 48px;
+  /* grid-row-gap: calc(1vw + 5px); */
+}
+
+@media (max-width: 834px) {
+  .item-list {
+    grid-template-columns: repeat(3, 180px); /* 3열로 변경 */
+  }
+
+  .item-list li:nth-last-child(1) {
+    display: none;
+  }
+}
+
+/* 브라우저의 너비가 480px 이하일 때 */
+@media (max-width: 660px) {
+  .item-list {
+    grid-template-columns: repeat(2, 180px); /* 2열로 변경 */
+  }
+
+  .item-list li:nth-last-child(1) {
+    display: none;
+  }
+
+  .item-list li:nth-last-child(2) {
+    display: none;
+  }
+
+  .item-list li:nth-last-child(3) {
+    display: none;
+  }
+
+  .item-list li:nth-last-child(4) {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .item-list {
+    grid-template-columns: repeat(2, 140px); /* 2열로 변경 */
+  }
+
+  .item-list li:nth-last-child(1) {
+    display: none;
+  }
+
+  .item-list li:nth-last-child(2) {
+    display: none;
+  }
+
+  .item-list li:nth-last-child(3) {
+    display: none;
+  }
+
+  .item-list li:nth-last-child(4) {
+    display: none;
+  }
 }
 
 .item-card {
@@ -66,6 +126,19 @@ button {
   background-color: #aaa;
 }
 
+@media (max-width: 660px) {
+  .item-thumbnail {
+    width: 180px;
+    height: 270px;
+  }
+}
+
+@media (max-width: 500px) {
+  .item-thumbnail {
+    width: 140px;
+    height: 220px;
+  }
+}
 .item-title {
   margin-top: 16px;
   font-size: 1.2rem;
@@ -128,17 +201,19 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 30px;
   border-bottom: 1px solid white;
   margin-bottom: 48px;
+
+  position: relative;
 }
 
 header h1 {
@@ -156,16 +231,37 @@ header > img.logo:hover {
 
 header > .search-box {
   background: #fff;
-  padding: 8px;
+  padding: 12px;
   border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
 }
 
 header .search-box > input {
   border: 0;
 }
 
+@media (max-width: 660px) {
+  header .full-cover-width {
+    z-index: 999;
+    left: 50%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: calc(100% - 60px);
+  }
+
+  header .search-box > input {
+    border: 0;
+    display: none;
+    width: 100%;
+  }
+}
+
 header .search-box > .search-button {
-  width: 14px;
+  width: 16px;
   border: 0;
   text-indent: -1000rem;
   background: url('../asset/search_button.png') transparent no-repeat 0 1px;
