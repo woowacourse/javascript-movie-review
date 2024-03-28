@@ -1,3 +1,8 @@
+#title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
 .modal {
     display: none;
 
@@ -8,8 +13,7 @@
 
 .detail-modal-container {
     position: fixed;
-    width: 70vw;
-    min-width: 580px;
+    min-width: 650px;
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -59,10 +63,10 @@
 }
 
 .movie-information {
+    width: 60vw;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    flex-basis: 70%;
     gap: 20px;
 }
 
@@ -96,9 +100,8 @@
     }
 }
 
-
 .description {
-    line-height: 20px;
+    line-height: 24px;
 }
 
 .movie-information-wrapper {
@@ -108,11 +111,43 @@
 }
 
 .user-score-container {
-    min-width: 380px;
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 10px;
     padding: 20px;
     background-color: #383839;
     border-radius: 10px;
+}
+
+@media (max-width: 750px) {
+    .detail-modal-container {
+        min-width: 0;
+        font-size: 14px;
+    }
+
+    .thumbnail-container {
+        display: none;
+    }
+
+    .information-container {
+        justify-content: center;
+    }
+
+    .description {
+        word-break: break-all;
+        word-wrap: break-word;
+        text-overflow: clip;
+    }
+
+    #score-text {
+        display: none;
+    }
+}
+
+@media (max-width: 400px) {
+    .user-star-icon {
+        width: 12px;
+        height: 12px;
+    }
 }
