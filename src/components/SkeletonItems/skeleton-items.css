@@ -24,13 +24,9 @@
 }
 
 .skeleton-list {
-  display: grid;
   margin-bottom: 48px;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
-  grid-row-gap: 48px;
 }
 
 .hide-skeleton {
-  display: none;
+  display: none !important;
 }

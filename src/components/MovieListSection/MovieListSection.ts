@@ -14,7 +14,7 @@ const MovieListSection = ({ onMovieClick }: Props) => {
   subtitle.classList.add('subtitle');
   section.classList.add('item-view');
   errorContainer.classList.add('error-container', 'hidden');
-  movieList.classList.add('item-list');
+  movieList.classList.add('item-list', 'grid');
 
   section.appendChild(subtitle);
   section.appendChild(errorContainer);

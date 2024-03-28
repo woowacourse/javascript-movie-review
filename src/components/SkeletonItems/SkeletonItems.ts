@@ -1,7 +1,7 @@
 const SkeletonItems = () => {
   const skeletonContainer = document.createElement('ul');
 
-  skeletonContainer.classList.add('skeleton-list', 'hide-skeleton');
+  skeletonContainer.classList.add('skeleton-list', 'hide-skeleton', 'grid');
   skeletonContainer.setAttribute('id', 'skeleton-container');
 
   Array.from({ length: 20 }, () => {
