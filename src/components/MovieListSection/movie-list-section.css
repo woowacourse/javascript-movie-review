@@ -20,13 +20,6 @@
   grid-row-gap: 48px;
 }
 
-button.view-more-button {
-  border: 0;
-  border-radius: 8px;
-  height: 30px;
-  color: #fff;
-}
-
 button.primary {
   background: var(--primary);
 }

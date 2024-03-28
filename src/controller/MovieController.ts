@@ -6,19 +6,36 @@ import { showAlert } from '../components/Alert/Alert';
 import { RULES } from '../constants/rule';
 import { $ } from '../utils/dom';
 import { ALERT_MESSAGE, ERROR_MESSAGE, TITLE } from '../constants/messages';
+import throttle from '../utils/throttle';
 
 class MovieController {
   #page = 1;
   #query = '';
   #movies;
+  #scrollEvent;
 
   constructor() {
     this.#movies = new Movies();
+    this.#scrollEvent = this.#throttleInfinityScroll();
   }
 
-  handleViewMoreButtonClick(target: HTMLButtonElement) {
+  #throttleInfinityScroll() {
+    return throttle(this.#infinityScroll.bind(this), 300);
+  }
+
+  #infinityScroll() {
+    const documentHeight = document.body.scrollHeight;
+    const presentHeight = window.scrollY + window.innerHeight;
+
+    if (presentHeight / documentHeight > RULES.arriveScrollPercentage) {
+      document.removeEventListener('scroll', this.#scrollEvent);
+      this.renderNextPage();
+    }
+  }
+
+  renderNextPage(target?: HTMLButtonElement) {
     if (this.#page > RULES.maxPage) {
-      target.classList.add('hidden');
+      target?.classList.add('hidden');
       showAlert(ALERT_MESSAGE.lastPage);
       return;
     }
@@ -64,6 +81,7 @@ class MovieController {
     this.#page = 1;
     this.#query = query;
     ul.innerHTML = '';
+    document.addEventListener('scroll', this.#scrollEvent);
   }
 
   async #renderPopularMovies() {
@@ -71,14 +89,13 @@ class MovieController {
 
     const movieData = await this.#getPopularMovies(this.#page);
 
-    this.#updateViewMoreButtonDisplay(movieData);
-
     if (movieData) {
       this.#createMovieItems(movieData).forEach((movieItem) =>
         $('ul.item-list')?.insertAdjacentElement('beforeend', movieItem),
       );
       document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
       this.#page += 1;
+      document.addEventListener('scroll', this.#scrollEvent);
     }
   }
 
@@ -91,7 +108,6 @@ class MovieController {
       if (!(error instanceof CustomError)) return;
 
       document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
-      $('.view-more-button')?.classList.add('hidden');
       this.#showErrorPage(error.message, error.status);
     }
   }
@@ -105,14 +121,13 @@ class MovieController {
       this.#showErrorPage(ERROR_MESSAGE.noSearchResult);
     }
 
-    this.#updateViewMoreButtonDisplay(movieData);
-
     if (movieData) {
       this.#createMovieItems(movieData).forEach((movieItem) => {
         $('ul.item-list')?.appendChild(movieItem);
       });
       document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
       this.#page += 1;
+      document.addEventListener('scroll', this.#scrollEvent);
     }
   }
 
@@ -125,7 +140,6 @@ class MovieController {
       if (!(error instanceof CustomError)) return;
 
       document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
-      $('.view-more-button')?.classList.add('hidden');
       this.#showErrorPage(error.message, error.status);
     }
   }
@@ -140,14 +154,6 @@ class MovieController {
     errorContainer.innerHTML = '';
     errorContainer.appendChild(ErrorPage({ status, message }));
     errorContainer.classList.remove('hidden');
-  }
-
-  #updateViewMoreButtonDisplay(movieData: MovieInfo[] | undefined) {
-    if (!movieData || movieData.length < RULES.moviesPerPage) {
-      $('.view-more-button')?.classList.add('hidden');
-    } else {
-      $('.view-more-button')?.classList.remove('hidden');
-    }
   }
 }
 

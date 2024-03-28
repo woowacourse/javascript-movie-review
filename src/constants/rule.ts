@@ -3,4 +3,5 @@ export const RULES = {
   maxPage: 500,
   moviesPerPage: 20,
   genreSeparator: ', ',
+  arriveScrollPercentage: 0.97,
 } as const;

@@ -29,8 +29,6 @@ class MovieApp {
     this.#app.appendChild(this.#setMain());
     this.#app.appendChild(this.#modal.element);
     this.#movieController.render('');
-
-    this.#addViewMoreButtonClick();
   }
 
   #setHeader() {
@@ -60,12 +58,6 @@ class MovieApp {
     main.appendChild(movieListSection);
 
     return main;
-  }
-
-  #addViewMoreButtonClick() {
-    $('.view-more-button')?.addEventListener('click', (event) =>
-      this.#movieController.handleViewMoreButtonClick(event.target as HTMLButtonElement),
-    );
   }
 
   #onSearchHandler() {
