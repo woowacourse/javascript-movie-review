@@ -34,6 +34,14 @@ const isValidPageNumber = (updatedPageNumber: number): boolean => {
   return updatedPageNumber <= MAX_PAGE_NUMBER;
 };
 
+const getMoreMovieDataScroll = async (option: ShowMoreButtonOption, keyword: string, updatedPageNumber: number) => {
+  const totalUrl = getTotalApiUrl(option, keyword, updatedPageNumber);
+  const dataResults = await getMovieListByKeywordAndUpdatedPageNumber(totalUrl);
+  const movieListResults = MovieStorageService.addData(dataResults);
+
+  return movieListResults;
+};
+
 const fetchNextPageData = async (option: ShowMoreButtonOption, keyword: string, observer: IntersectionObserver) => {
   const updatedPageNumber = pageManager.increasePage();
 
@@ -41,10 +49,7 @@ const fetchNextPageData = async (option: ShowMoreButtonOption, keyword: string, 
     renderNoMoreDataText('max');
     return;
   }
-
-  const totalUrl = getTotalApiUrl(option, keyword, updatedPageNumber);
-  const dataResults = await getMovieListByKeywordAndUpdatedPageNumber(totalUrl);
-  const movieListResults = MovieStorageService.addData(dataResults);
+  const movieListResults = await getMoreMovieDataScroll(option, keyword, updatedPageNumber);
 
   createMovieItems(movieListResults);
   observeLastListItem(observer);
@@ -58,6 +63,7 @@ const loadMoreMovieData = (
   entry: IntersectionObserverEntry,
 ) => {
   const currentPageNumber = pageManager.getCurrentPage();
+
   if (currentPageNumber <= MAX_PAGE_NUMBER) {
     fetchNextPageData(option, keyword, observer);
     observer.unobserve(entry.target);
@@ -83,6 +89,7 @@ const setupInfiniteScroll = (option: ShowMoreButtonOption, keyword: string) => {
 
   const items = document.querySelectorAll('.item-list li');
   const lastItem = items[items.length - 1];
+
   if (lastItem) observer.observe(lastItem);
 };
 
