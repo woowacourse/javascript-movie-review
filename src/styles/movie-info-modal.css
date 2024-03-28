@@ -7,7 +7,7 @@
 }
 
 .modal-movie-info__inner {
-  width: 826px;
+  width: 100%;
 }
 .modal-movie-info__inner__header {
   display: flex;
@@ -37,8 +37,9 @@
 .modal-movie-info__inner__contents {
   display: flex;
   justify-content: space-between;
+  box-sizing: border-box;
   padding: 36px 48px 30px 48px;
-
+  width: 100%;
   .movie-thumbnail {
     width: 239px;
     height: 433px;
@@ -46,6 +47,9 @@
 }
 
 .modal-movie-info__description {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 438px;
   height: calc(100% - 64px);
   font-size: 1rem;
@@ -78,7 +82,8 @@ movie-score {
 }
 
 .modal-movie-info__description__overview {
-  height: calc(433px - 24px - 64px - 16px);
+  /*description height - top heigh - top margin bottom  - user score height  */
+  height: calc(433px - 24px - 16px - 64px);
   overflow-y: auto;
 }
 
@@ -90,16 +95,17 @@ movie-score {
 
 .user-score {
   position: relative;
+  margin-top: 10px;
   border-radius: 16px;
   background-color: var(--modal-inner-box-color);
   padding: 16px;
   height: 64px;
-  h4 {
-    line-height: 32px;
-  }
+  line-height: 32px;
 }
 
 .button-score-group {
+  display: flex;
+  align-content: center;
   margin: 0 8px;
 }
 
@@ -108,19 +114,105 @@ movie-score {
   background-size: contain;
   background-repeat: no-repeat;
   background-color: inherit;
-  width: 32px;
-  height: 32px;
 }
 
 .button-score.filled {
   background-image: url('../images/star_filled.png');
 }
 
-.button-reset-score {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background-color: transparent;
+.user-score button {
   width: 32px;
   height: 32px;
+}
+
+.button-reset-score {
+  position: absolute;
+  top: calc(50% - 16px);
+  right: calc(16px + 5px);
+  background-color: transparent;
+  padding: 1px;
+  img {
+    width: calc(100% - 1px);
+    height: calc(100% - 1px);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .modal-movie-info {
+    aspect-ratio: 3/2;
+    width: 85vw;
+  }
+  .modal-movie-info__description {
+    width: 60%;
+  }
+  .modal-movie-info__inner__contents .movie-thumbnail {
+    width: 35%;
+  }
+  .user-score {
+    padding: 10px;
+    height: 50px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .user-score button {
+    width: 20px;
+    height: 20px;
+  }
+
+  .button-reset-score {
+    top: calc(50% - 10px);
+    right: calc(10px + 2px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .modal-movie-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 60vh;
+  }
+
+  .modal-movie-info__inner__header {
+    padding-right: 48px;
+    padding-left: 48px;
+  }
+
+  .modal-movie-info__inner__contents {
+    padding: 18px 48px;
+  }
+
+  .modal-movie-info__inner__contents .movie-thumbnail {
+    display: none;
+  }
+
+  .modal-movie-info__description {
+    width: 100%;
+  }
+
+  .modal-movie-info__description__overview {
+    padding: 0 8px;
+    /* movie-info height -contents padding - top height- top margin - header - user score- gap */
+    height: calc(60vh - 18px * 2 - 24px - 16px - 60px - 50px - 24px);
+  }
+
+  .score-text {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .modal-movie-info__inner__header {
+    padding-right: 32px;
+    padding-left: 32px;
+  }
+  .modal-movie-info__inner .button-close-modal {
+    right: 32px;
+  }
+  .modal-movie-info__inner__contents {
+    padding-right: 32px;
+    padding-left: 32px;
+  }
 }
