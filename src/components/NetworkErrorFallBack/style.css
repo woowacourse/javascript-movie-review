@@ -1,0 +1,37 @@
+.network-error-fallback {
+  display        : flex;
+  flex-direction : column;
+  justify-content: center;
+  width          : 1200px;
+  margin         : 0 auto;
+  align-items    : center;
+}
+
+button.reconnect-network-btn {
+  width      : 20rem;
+  height     : 5rem;
+  font-weight: bold;
+  margin     : 0 auto;
+  margin-top : 2rem;
+  font-size  : 2rem;
+}
+
+.error-meow {
+  height: 20rem;
+  width : 15rem;
+  margin: 0 auto;
+}
+
+.network-error-fallback h2 {
+  font-size  : 2rem;
+  font-weight: bold;
+  user-select: none;
+  margin-top : 2rem;
+}
+
+.network-error-fallback h3 {
+  font-size  : 1.5rem;
+  font-weight: bold;
+  user-select: none;
+  margin-top : 1.5rem;
+}
