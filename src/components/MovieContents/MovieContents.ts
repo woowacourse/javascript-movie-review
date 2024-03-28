@@ -39,7 +39,6 @@ const MovieContentManager = {
     $('.item-container')?.appendChild(Skeleton.render(20));
 
     const { movieList, isLastPage } = await movie.handleMovieData(type, input);
-
     return { movieList, isLastPage };
   },
 
