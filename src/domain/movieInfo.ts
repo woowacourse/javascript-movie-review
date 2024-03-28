@@ -6,7 +6,7 @@ const movieInfo = {
     return {
       id,
       title,
-      imageSrc: `${IMAGE_BASE_URL}/original/${poster_path}`,
+      imageSrc: poster_path ? `${IMAGE_BASE_URL}/original/${poster_path}` : '',
       score: vote_average,
       description: overview,
     };
@@ -16,7 +16,7 @@ const movieInfo = {
     return response.map(({ id, title, poster_path, vote_average, overview }) => ({
       id,
       title,
-      imageSrc: `${IMAGE_BASE_URL}/original/${poster_path}`,
+      imageSrc: poster_path ? `${IMAGE_BASE_URL}/original/${poster_path}` : '',
       score: vote_average,
       description: overview,
     }));

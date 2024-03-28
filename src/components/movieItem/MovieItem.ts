@@ -1,6 +1,7 @@
 import './MovieItem.css';
 
 import FILLED_STAR from '../../assets/images/star_filled.png';
+import NO_IMAGE from '../../assets/images/no_image.png';
 import { Movie } from '../../types/movie';
 import { dom } from '../../utils/dom';
 import skeleton from '../common/Skeleton';
@@ -52,7 +53,7 @@ class MovieItem {
     const $thumbnail = dom.getElement<HTMLImageElement>(this.$target, '.item-thumbnail');
 
     const image = new Image();
-    image.src = imageSrc;
+    image.src = imageSrc === '' ? NO_IMAGE : imageSrc;
     image.onload = () => {
       $thumbnail.src = image.src;
       $thumbnail.setAttribute('alt', title);
