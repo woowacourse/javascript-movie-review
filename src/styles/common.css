@@ -296,11 +296,19 @@ header .search-box .search-button {
 }
 
 .modal-close-button {
-  width: 35px;
   position: absolute;
-  top: 8px;
+  width: 30px;
+  height: 30px;
+  top: 11px;
   right: 25px;
   cursor: pointer;
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+}
+
+.modal-close-button-image {
+  width: 100%;
 }
 
 .my-vote-container {
@@ -329,4 +337,12 @@ header .search-box .search-button {
 .my-vote-text {
   margin-left: 10px;
   font-weight: 200;
+}
+
+.movie-item {
+  cursor: pointer;
+}
+
+.close {
+  display: none;
 }

@@ -6,31 +6,36 @@ import { getPopularMovieList, getSearchMovieList } from "../../apis/movieList";
 import { $ } from "../../utils/dom";
 import APIError from "../../error/APIError";
 import SkeletonUI from "../SkeletonUI";
-import { Movie } from "../../types/movie";
+import { MovieItem } from "../../types/movie";
 import EventComponent from "../abstract/EventComponent";
 import EmptyMovieList from "./EmptyMovieList";
+import MovieDetailModalState from "../../states/MovieDetailModalState";
 
 interface MovieListProps {
   targetId: string;
   queryState: QueryState;
-  movies?: Movie[];
+  movieDetailModalState: MovieDetailModalState;
+  movies?: MovieItem[];
   skeletonUI: SkeletonUI;
 }
 
 export default class MovieList extends EventComponent {
   private queryState: QueryState;
-  private page = 1;
-  private movies: Movie[] = [];
+  private movieDetailModalState: MovieDetailModalState;
+  private movies: MovieItem[] = [];
   private skeletonUI: SkeletonUI;
+  private page = 1;
 
   constructor({
     targetId,
     queryState,
+    movieDetailModalState,
     movies = [],
     skeletonUI,
   }: MovieListProps) {
     super({ targetId });
     this.queryState = queryState;
+    this.movieDetailModalState = movieDetailModalState;
     this.movies = movies;
     this.skeletonUI = skeletonUI;
   }
@@ -73,10 +78,31 @@ export default class MovieList extends EventComponent {
   }
 
   protected setEvent(): void {
+    $<HTMLUListElement>("item-list")?.addEventListener(
+      "click",
+      this.handleMovieItemClick.bind(this)
+    );
+
     $<HTMLButtonElement>("watch-more-button")?.addEventListener(
       "click",
       this.handleWatchMoreButtonClick.bind(this)
     );
+  }
+
+  handleMovieItemClick(event: Event): void {
+    const $movieItem = (event.target as HTMLElement).closest<HTMLLIElement>(
+      ".movie-item"
+    );
+
+    if ($movieItem && $movieItem.classList.contains("movie-item")) {
+      const movieId = $movieItem.dataset.movieId;
+      if (movieId) {
+        this.movieDetailModalState.set({
+          isOpen: true,
+          movieId: Number(movieId),
+        });
+      }
+    }
   }
 
   async handleWatchMoreButtonClick(): Promise<void> {
@@ -103,7 +129,7 @@ export default class MovieList extends EventComponent {
     this.page = 1;
   }
 
-  private async fetchMovies(page: number, query?: Query): Promise<Movie[]> {
+  private async fetchMovies(page: number, query?: Query): Promise<MovieItem[]> {
     const movies = query
       ? await getSearchMovieList(query, page)
       : await getPopularMovieList(page);
@@ -126,7 +152,7 @@ export default class MovieList extends EventComponent {
     }
   }
 
-  private insertMovieItems(movies: Movie[]): void {
+  private insertMovieItems(movies: MovieItem[]): void {
     const movieItemsTemplate = generateMovieItems(movies);
 
     $<HTMLUListElement>("item-list")?.insertAdjacentHTML(
