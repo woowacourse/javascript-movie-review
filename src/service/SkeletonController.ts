@@ -1,4 +1,8 @@
+import { SkeletonInfo } from '../components/skeleton';
+
 import { renderAlertModalForNullEl } from './AlertModalForNullController';
+
+const skeletonInfo = new SkeletonInfo();
 
 const SkeletonController = {
   // skeleton list container
@@ -24,7 +28,7 @@ const SkeletonController = {
     }, 500);
   },
 
-  showListSkeletonContainer() {
+  showSkeletonListContainer() {
     const $skeletonListContainer =
       SkeletonController.getSkeletonListContainer();
     if (!$skeletonListContainer) return;
@@ -32,6 +36,13 @@ const SkeletonController = {
     $skeletonListContainer.classList.add('on');
   },
   // skeleton movie info
+  showSkeletonInfo() {
+    skeletonInfo.renderSkeletonInfo();
+  },
+
+  hideSkeletonInfo() {
+    skeletonInfo.removeSkeletonInfo();
+  },
 };
 
 export default SkeletonController;

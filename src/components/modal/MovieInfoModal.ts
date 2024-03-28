@@ -1,3 +1,4 @@
+import { MOVIE_INFO_COMMON_CLASS } from '../../constants';
 import XMarker from '../../images/xmark.svg';
 import { MovieInfo } from '../../type/movie';
 import { createElementWithAttribute } from '../../utils';
@@ -5,8 +6,6 @@ import { MovieImg, MovieScore, MovieTitle } from '../movie';
 import UserScore from '../movie/UserScore';
 
 import ModalContainer, { ModalContainerHandler } from './ModalContainer';
-
-const COMMON_CLASS = 'modal-movie-info';
 
 class MovieInfoModal {
   #movieInfo: MovieInfo;
@@ -21,7 +20,7 @@ class MovieInfoModal {
   //make element
   #makeMovieInfoModal() {
     const $movieInfoModal = createElementWithAttribute('div', {
-      class: COMMON_CLASS,
+      class: MOVIE_INFO_COMMON_CLASS,
     });
 
     const $movieInfoModalInner = this.#makeMovieInfoInner();
@@ -35,7 +34,7 @@ class MovieInfoModal {
     if (!genres) return;
 
     const $genreBox = createElementWithAttribute('span', {
-      class: `${COMMON_CLASS}__genre`,
+      class: `${MOVIE_INFO_COMMON_CLASS}__genre`,
     });
     $genreBox.textContent = genres.map((i) => i.name).join(', ');
 
@@ -44,7 +43,7 @@ class MovieInfoModal {
 
   #makeMovieInfoInner() {
     const $movieInfoInner = createElementWithAttribute('div', {
-      class: `${COMMON_CLASS}__inner`,
+      class: `${MOVIE_INFO_COMMON_CLASS}__inner`,
     });
 
     const $header = this.#makeHeader();
@@ -58,7 +57,7 @@ class MovieInfoModal {
 
   #makeMovieInfoContents() {
     const $movieInfoContents = createElementWithAttribute('div', {
-      class: `${COMMON_CLASS}__inner__contents`,
+      class: `${MOVIE_INFO_COMMON_CLASS}__inner__contents`,
     });
 
     const $movieImg = new MovieImg({ ...this.#movieInfo }).element;
@@ -71,7 +70,7 @@ class MovieInfoModal {
 
   #makeHeader() {
     const $h2 = createElementWithAttribute('div', {
-      class: `${COMMON_CLASS}__inner__header`,
+      class: `${MOVIE_INFO_COMMON_CLASS}__inner__header`,
     });
     const $movieTitle = new MovieTitle(this.#movieInfo.title).element;
     const $closeButton = this.#makeCloseButton();
@@ -102,7 +101,7 @@ class MovieInfoModal {
 
   #makeMovieDescription() {
     const $description = createElementWithAttribute('div', {
-      class: `${COMMON_CLASS}__description`,
+      class: `${MOVIE_INFO_COMMON_CLASS}__description`,
     });
     const $top = this.#makeMovieDescriptionTop();
     const $overView = this.#makeMovieDescriptionOverView();
@@ -117,7 +116,7 @@ class MovieInfoModal {
 
   #makeMovieDescriptionTop() {
     const $top = createElementWithAttribute('section', {
-      class: `${COMMON_CLASS}__description__top`,
+      class: `${MOVIE_INFO_COMMON_CLASS}__description__top`,
     });
     const $genreBox = this.#makeMovieGenreEl();
     const $movieScore = new MovieScore(this.#movieInfo.vote_average).element;
@@ -132,7 +131,7 @@ class MovieInfoModal {
 
   #makeMovieDescriptionOverView() {
     const $overView = createElementWithAttribute('section', {
-      class: `${COMMON_CLASS}__description__overview`,
+      class: `${MOVIE_INFO_COMMON_CLASS}__description__overview`,
     });
     $overView.textContent = this.#movieInfo.overview;
 

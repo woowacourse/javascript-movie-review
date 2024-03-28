@@ -8,6 +8,7 @@
 
 .modal-movie-info__inner {
   width: 100%;
+  height: 100%;
 }
 .modal-movie-info__inner__header {
   display: flex;
@@ -40,6 +41,8 @@
   box-sizing: border-box;
   padding: 36px 48px 30px 48px;
   width: 100%;
+  /* parent - header - user score margin*/
+  height: calc(100% - 60px - 20px);
   .movie-thumbnail {
     width: 239px;
     height: 433px;
@@ -51,7 +54,7 @@
   flex-direction: column;
   justify-content: space-between;
   width: 438px;
-  height: calc(100% - 64px);
+  height: 100%;
   font-size: 1rem;
   line-height: 24px;
 }

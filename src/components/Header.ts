@@ -13,7 +13,7 @@ import SearchBox from './SearchBox';
 const HeaderClickHandler = {
   async handleDataFetcher() {
     const dataFetcher = new DataFetcher({
-      show: SkeletonController.showListSkeletonContainer,
+      show: SkeletonController.showSkeletonListContainer,
       hide: SkeletonController.hideSkeletonListContainer,
     });
 

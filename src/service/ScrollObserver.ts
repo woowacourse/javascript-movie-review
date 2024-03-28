@@ -8,7 +8,7 @@ import DataFetcher from './DataFetcher';
 import SkeletonController from './SkeletonController';
 
 const dataFetcher = new DataFetcher({
-  show: SkeletonController.showListSkeletonContainer,
+  show: SkeletonController.showSkeletonListContainer,
   hide: SkeletonController.hideSkeletonListContainer,
 });
 /**
