@@ -31,17 +31,41 @@
 #movie-info-poster {
   width: 292px;
   height: 433px;
-  background-color: pink;
+  background-color: rgb(45, 45, 45);
 }
 
-#movie-info-modal-box {
-  width: 438px;
-  height: 100%;
-  border: 3px solid blue;
+#movie-info-detail-box {
+  width: 385px;
+  height: 433px;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-#movie-info-modal-score {
+#movie-info-score-box {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-#movie-info-modal-detail {
+#movie-info-score {
+  padding-top: 4px;
+}
+
+#movie-info-genre-score-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.star-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.movie-overview {
+  width: 100%;
+  text-align: start;
+  line-height: 1.5;
 }

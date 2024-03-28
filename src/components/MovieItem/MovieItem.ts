@@ -4,7 +4,6 @@ import { Movie } from './../../types/movie';
 import '../MovieItem/MovieItem.css';
 import { POSTER_BASE_URL } from '../../consts/URL';
 import { setUrlParams } from '../../utils/queryString';
-import movieAPI from '../../api/movie';
 import MovieInfoModal from '../MovieInfoModal/MovieInfoModal';
 
 class MovieItem {
@@ -31,21 +30,8 @@ class MovieItem {
     });
   }
 
-  // skeletonTemplate() {
-  //   const skeletonItemBox = document.createElement('li');
-  //   skeletonItemBox.innerHTML = /* html */ `
-  //     <a href="#">
-  //       <div class="item-card">
-  //         <div class="item-thumbnail skeleton"></div>
-  //         <div class="item-title skeleton"></div>
-  //         <div class="item-score skeleton"></div>
-  //       </div>
-  //     </a>`;
-  //   return skeletonItemBox;
-  // }
-
   template() {
-    const { id, title, posterPath, voteAverage } = this.movie;
+    const { title, posterPath, voteAverage } = this.movie;
     this.itemCard.classList.add('item-card');
 
     const titleBox = this.makeTitle(title);
@@ -81,7 +67,7 @@ class MovieItem {
 
   makeNoImage() {
     const noImage = document.createElement('div');
-    noImage.classList.add('no-image');
+    noImage.classList.add('no-image', 'item-thumbnail');
     const noImageIcon = document.createElement('img');
     noImageIcon.classList.add('no-image-icon');
     noImageIcon.setAttribute('src', NoImage);

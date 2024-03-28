@@ -4,9 +4,9 @@ import { MovieAPIReturnType, UrlParamsType } from './movieAPI.type';
 
 class Fetcher {
   url;
-  params;
+  params?;
 
-  constructor({ url, params }: { url: string; params: UrlParamsType }) {
+  constructor({ url, params }: { url: string; params?: UrlParamsType }) {
     this.url = url;
     this.params = params;
   }

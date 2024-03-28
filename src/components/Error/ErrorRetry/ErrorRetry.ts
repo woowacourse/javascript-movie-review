@@ -4,7 +4,7 @@ import SYSTEM_ERROR from '../../../assets/system_error.png';
 import './ErrorRetry.css';
 import '../NotFound/NotFound.css';
 import Button from '../../Button/Button';
-import { MovieAPIReturnType } from '../../../api/movieAPI.type';
+import { MovieAPIReturnType, MovieDetailAPIReturnType } from '../../../api/movieAPI.type';
 import { redirectToRoot } from '../../../utils/queryString';
 
 export type ErrorType = 'NOT_FOUND' | 'NETWORK_ERROR' | 'SERVER_ERROR' | 'FETCHING_ERROR' | 'AUTHENTICATION_FAILED';
@@ -14,7 +14,7 @@ export const ErrorRetry = ({
   fetchData,
 }: {
   errorType: ErrorType;
-  fetchData: () => Promise<MovieAPIReturnType>;
+  fetchData: () => Promise<MovieAPIReturnType | MovieDetailAPIReturnType>;
 }) => {
   const notFoundBox = document.createElement('div');
   notFoundBox.classList.add('error');

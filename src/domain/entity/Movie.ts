@@ -1,23 +1,31 @@
-import { MovieAPIReturnType, MovieItemReturnType } from '../../api/movieAPI.type';
-import type { Movie } from '../../types/movie';
+import { MovieDetailAPIReturnType, MovieItemReturnType } from '../../api/movieAPI.type';
+import type { Movie, MovieDetail } from '../../types/movie';
 
-class MovieDomain {
-  movie;
+type RawMovieDataType = MovieItemReturnType | MovieDetailAPIReturnType;
 
-  constructor(movie: MovieItemReturnType) {
-    this.movie = movie;
-  }
-
-  formatMovieList(): Movie {
+const MovieDomain = {
+  formatMovieItem(movie: MovieItemReturnType): Movie {
     const formattedMovie = {
-      id: this.movie.id,
-      title: this.movie.title,
-      posterPath: this.movie.poster_path,
-      voteAverage: Number(this.movie.vote_average?.toFixed(1)),
+      id: movie.id,
+      title: movie.title,
+      posterPath: movie.poster_path,
+      voteAverage: Number(movie.vote_average?.toFixed(1)),
     };
 
     return formattedMovie;
-  }
-}
+  },
+
+  formatMovieDetail(movie: MovieDetailAPIReturnType): MovieDetail {
+    const formattedMovie = {
+      title: movie.title,
+      posterPath: movie.poster_path,
+      voteAverage: Number(movie.vote_average?.toFixed(1)),
+      genres: movie.genres.map(genre => genre.name),
+      overview: movie.overview,
+    };
+
+    return formattedMovie;
+  },
+};
 
 export default MovieDomain;

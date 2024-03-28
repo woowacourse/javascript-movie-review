@@ -37,8 +37,10 @@ class InfiniteScrollDataLoader {
     this.movieList.renderSkeleton();
 
     const movieResult = await this.selectAPIAndFetch();
+
+    //TODO: 도메인 위치가 여기가 맞을까?
     const formattedMovieList = movieResult.results.map(movie => {
-      return new MovieDomain(movie).formatMovieList();
+      return MovieDomain.formatMovieItem(movie);
     });
 
     this.totalPage = movieResult.total_pages;

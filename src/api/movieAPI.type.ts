@@ -28,19 +28,13 @@ export interface MovieItemReturnType {
   vote_count: number;
 }
 
-export interface MovieAPIReturnType {
+export type MovieAPIReturnType = MovieListAPIReturnType | MovieDetailAPIReturnType;
+
+export interface MovieListAPIReturnType {
   page: number;
   results: MovieItemReturnType[];
   total_pages: number;
   total_results: number;
-}
-
-export interface MovieDetailAPIReturnType {
-  adult: boolean;
-  backdrop_path: string;
-  belongs_to_collection: BelongsToCollection;
-  budget: number;
-  genres: GenreType[];
 }
 
 export interface GenreType {
@@ -82,7 +76,7 @@ interface BelongsToCollection {
   backdrop_path: string;
 }
 
-interface Genre {
+export interface Genre {
   id: number;
   name: string;
 }

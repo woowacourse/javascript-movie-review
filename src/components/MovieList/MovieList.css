@@ -1,5 +1,9 @@
 #list-title {
   width: 100%;
+  font-size: 2rem;
+  font-weight: bold;
+  width: 100%;
+  user-select: none;
 }
 
 .item-test {
@@ -25,12 +29,6 @@
   align-items: center;
   width: 100%;
   margin: 0 auto;
-}
-
-.item-view h2 {
-  font-size: 2rem;
-  font-weight: bold;
-  user-select: none;
 }
 
 .item-list {
@@ -86,6 +84,10 @@
     grid-row-gap: 20px;
   }
 
+  .item-card {
+    width: 140px;
+  }
+
   .item-thumbnail {
     width: 140px;
     height: 210px;
@@ -93,6 +95,7 @@
 
   #list-title {
     text-align: center;
+    border: 1ox solid red;
   }
 }
 
@@ -103,6 +106,7 @@
 }
 
 .item-title {
+  width: 100%;
   margin-top: 16px;
   font-size: 1.2rem;
   font-weight: bold;
