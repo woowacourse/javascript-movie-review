@@ -62,18 +62,20 @@ class App {
   #createHeader() {
     return new Header({
       imageSrc: './images/logo.png',
-      onSubmit: async (e: SubmitEvent) => {
-        e.preventDefault();
-
-        const $input: HTMLInputElement = dom.getElement(this.$target, '#search-input');
-        if (!$input.value) return;
-        history.pushState('', '', `?mode=search&title=${$input.value}`);
-
-        await this.movieListContainer.render();
-        const moviesCount = this.movieListContainer.moviesCount;
-        this.#renderTitle(moviesCount, $input.value);
-      },
+      onSubmit: this.#onSearchSubmit.bind(this),
     });
+  }
+
+  async #onSearchSubmit(e: SubmitEvent) {
+    e.preventDefault();
+
+    const $input: HTMLInputElement = dom.getElement(this.$target, '#search-input');
+    if (!$input.value) return;
+    history.pushState('', '', `?mode=search&title=${$input.value}`);
+
+    await this.movieListContainer.render();
+    const moviesCount = this.movieListContainer.moviesCount;
+    this.#renderTitle(moviesCount, $input.value);
   }
 
   #createMoreButton() {
