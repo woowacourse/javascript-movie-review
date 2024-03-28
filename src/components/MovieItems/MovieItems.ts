@@ -18,7 +18,7 @@ class MovieItems {
   constructor() {
     this.moviesService = new PopularMoviesService();
     this.intersectionObserver = new IntersectionObserver(this.observerCallback.bind(this), {
-      threshold: 0.7,
+      threshold: 0.5,
     });
     this.template = this.createTemplate();
     this.createTemplate();
@@ -38,7 +38,7 @@ class MovieItems {
   }
 
   observeTargetItem(intersectionObserver: IntersectionObserver, items: NodeListOf<Element>) {
-    const targetItem = items[items.length - 5];
+    const targetItem = items[items.length - 10];
     intersectionObserver.observe(targetItem);
   }
 
@@ -55,8 +55,8 @@ class MovieItems {
     div.appendChild(ul);
 
     const button = Button.createTemplate({
-      className: ['btn', 'primary', 'full-width'],
-      text: '더 보기',
+      className: ['btn', 'secondary', 'full-width'],
+      text: '목록을 불러오고 있어요',
       onClick: this.fetchMovieItems.bind(this),
     });
     div.appendChild(button);
@@ -70,7 +70,7 @@ class MovieItems {
     button.disabled = this.moviesService.isLastPage;
     button.textContent = this.moviesService.isLastPage
       ? '더이상 불러올 목록이 없어요. :('
-      : '더 보기';
+      : '목록을 불러오고 있어요';
   }
 
   resetMovieItems() {
