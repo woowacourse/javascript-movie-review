@@ -75,8 +75,8 @@ export const createMovieElement = ({ id, title, thumbnail, voteAverage }: MovieT
      </section>
       <button class="modal-close-button">X</button>
     `;
-    drawStarScore(id);
     $modal.showModal();
+    drawStarScore(id);
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
