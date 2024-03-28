@@ -12,6 +12,7 @@ import { on } from '../../../utils/dom/eventListener/eventListener';
 import { ELEMENT_SELECTOR } from '../../../constants/selector';
 
 import { FilledStar } from '../../../assets';
+import { DEFAULT_IMAGE_URL } from '../../../constants/movie';
 
 class MovieListCard extends Component<MovieInterface> {
   protected render() {
@@ -30,7 +31,7 @@ class MovieListCard extends Component<MovieInterface> {
           alt="${`${this.props?.title}`}"
           onerror="
             this.style.border='1px solid #e2e2e2';
-            this.src='https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg';
+            this.src='${DEFAULT_IMAGE_URL}';
           "
         />
         <p class="item-title">${this.props?.title}</p>

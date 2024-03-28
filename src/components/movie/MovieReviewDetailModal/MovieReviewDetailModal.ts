@@ -12,6 +12,7 @@ import { ELEMENT_SELECTOR } from '../../../constants/selector';
 import { FilledStar } from '../../../assets';
 
 import './MovieReviewDetailModal.css';
+import { DEFAULT_IMAGE_URL } from '../../../constants/movie';
 
 type MovieReviewDetailModalProps = MovieDetailInterface & Pick<RateDetail, 'ratingScore'>;
 
@@ -48,7 +49,7 @@ class MovieReviewDetailModal extends Component<MovieReviewDetailModalProps> {
           src="${this.props?.image ? `${process.env.IMAGE_BASE_URL}/w220_and_h330_face/${this.props?.image}` : ''}"
           onerror="
             this.style.border='1px solid #e2e2e2';
-            this.src='https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg';
+            this.src='${DEFAULT_IMAGE_URL}'
           "
         />
         <section id="modal-review-detail-section" class="modal-review-detail-section">
