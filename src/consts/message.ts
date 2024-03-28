@@ -10,9 +10,9 @@ export const ERROR_MESSAGE = {
 } as const;
 
 export const VOTE_MESSAGE: { [key: string]: string } = {
-  1: '진짜 별로에요.',
-  2: '그럭저럭 이에요.',
+  1: '최악이예요',
+  2: '별로예요',
   3: '보통이에요.',
-  4: '괜찮아요.',
-  5: '정말 추천해요.',
+  4: '재미있어요',
+  5: '명작이에요',
 };

@@ -5,18 +5,23 @@ import BasicModal from '../BasicModal/BasicModal';
 import movieAPI from '../../api/movie';
 import MovieDomain from '../../domain/entity/Movie';
 import StarIcon from '../../assets/star_filled.png';
-import StarVoteBox from '../StarVoteBox/StarVoteBox';
+
 import DeleteIcon from '../../assets/delete.png';
 import { getUrlParams } from '../../utils/queryString';
+import StarScore from '../StarScore/StarScore';
 
 class MovieInfoModal {
   movieInfoModal;
   movieId: number;
+  movieInfoContainer;
 
   constructor() {
     this.movieInfoModal = document.createElement('div');
     this.movieInfoModal.id = 'movie-info-modal';
     this.movieId = Number(getUrlParams('movie_id'));
+
+    this.movieInfoContainer = document.createElement('div');
+    this.movieInfoContainer.id = 'movie-info-flex-wrapper';
   }
 
   async render() {
@@ -45,17 +50,16 @@ class MovieInfoModal {
 
       movieInfoContainer.append(movieInfoDetailBox);
 
-      const starVoteBox = new StarVoteBox().render();
+      const starVoteBox = new StarScore();
 
       const deleteButton = this.createDeleteButton();
       this.movieInfoModal.append(deleteButton);
-
-      movieInfoDetailBox.append(starVoteBox);
 
       this.movieInfoModal.append(movieInfoContainer);
     }
 
     new BasicModal(this.movieInfoModal);
+    new StarScore();
   }
 
   rerender() {

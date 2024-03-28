@@ -11,9 +11,23 @@
   gap: 5px;
 }
 
-#star-container {
+#score-title {
+  width: 100px;
+}
+
+#star-with-info-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+}
+
+#star-box {
+  width: 150px;
 }
 
 #score-info {
   width: 150px;
+  display: flex;
+  gap: 30px;
 }

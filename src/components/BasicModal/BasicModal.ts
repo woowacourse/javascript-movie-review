@@ -49,7 +49,6 @@ class BasicModal {
 
   blockModalBodyScroll() {
     if (this.backdropElement.classList.contains('modal')) {
-      console.log('aaaa');
       document.body.style.overflowY = 'hidden';
     }
   }
