@@ -3,23 +3,10 @@ import './MovieItem.css';
 import { IMovie } from '../../types/movie';
 import { dom } from '../../utils/dom';
 
-class MovieItem {
-  $target: HTMLElement;
-
-  constructor(movie: IMovie) {
-    this.$target = document.createElement('li');
-    this.$target.innerHTML = this.template();
-    this.paint(movie);
-  }
-
-  template() {
-    return `   
+const TEMPLATE = `
   <a href="#">
     <article class="item-card">
-      <img
-      class="item-thumbnail skeleton"
-      loading="lazy"
-      alt="" />
+      <img class="item-thumbnail skeleton" loading="lazy" alt="" />
       <h3 class="item-title"></h3>
       <div class="item-caption">
         <p class="item-score"></p>
@@ -27,7 +14,15 @@ class MovieItem {
       </div>
     </article>
   </a>
-  `;
+`;
+
+class MovieItem {
+  $target: HTMLElement;
+
+  constructor(movie: IMovie) {
+    this.$target = document.createElement('li');
+    this.$target.innerHTML = TEMPLATE;
+    this.paint(movie);
   }
 
   paint(movie: IMovie) {
