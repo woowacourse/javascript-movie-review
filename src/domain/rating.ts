@@ -1,7 +1,7 @@
-import { RatingType } from '../types/ratings';
+import { RatingListType, RatingType } from '../types/ratings';
 
 const rating = {
-  getLocalData() {
+  getLocalData(): RatingListType {
     const data = JSON.parse(localStorage.getItem('ratings') ?? '[]');
     return data;
   },
@@ -13,13 +13,15 @@ const rating = {
 
   updateLocalData(id: number, ratingValue: number) {
     const dataList = this.getLocalData();
-    const exceptForIdData = dataList.map((data: RatingType) => {
-      if (data.id !== id) {
-        return data;
-      }
+    const isIncluded = dataList.filter((data: RatingType) => data.id === id).length > 0;
+    const newData = { id, ratingValue };
+
+    const updatedData = dataList.map((data: RatingType) => {
+      if (data.id !== id) return data;
+      return newData;
     });
-    const newData = [...exceptForIdData, { id, ratingValue }];
-    localStorage.setItem('ratings', JSON.stringify(newData));
+    if (!isIncluded) updatedData.push(newData);
+    localStorage.setItem('ratings', JSON.stringify(updatedData));
   },
 };
 
