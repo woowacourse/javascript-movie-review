@@ -6,10 +6,9 @@ import MovieInfoModal from '../modal/MovieInfoModal';
 
 import MovieCard from './MovieCard';
 
-// TODO: 상세 모달 관련 스켈레톤을 변경
 const dataFetcher = new DataFetcher({
-  show: () => SkeletonController.showSkeletonListContainer(),
-  hide: () => SkeletonController.hideSkeletonListContainer(),
+  show: () => SkeletonController.showSkeletonInfo(),
+  hide: () => SkeletonController.hideSkeletonInfo(),
 });
 
 class MovieItem {
