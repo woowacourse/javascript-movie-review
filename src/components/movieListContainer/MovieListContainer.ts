@@ -50,9 +50,9 @@ class MovieListContainer {
   }
 
   async attach() {
-    this.$target.innerHTML = TEMPLATE;
+    this.$target.innerHTML += TEMPLATE;
     const { movies, totalPages } = await this.fetchMovies(this.page);
-    Array.from({ length: 20 }).forEach(() => {
+    Array.from({ length: MOVIE_ITEM_SKELETON_COUNT }).forEach(() => {
       this.$target.removeChild(this.$target.lastChild!);
     });
     this.$target.append(...movies.map(movie => new MovieItem(movie).$target));
