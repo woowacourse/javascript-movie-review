@@ -123,6 +123,8 @@
 }
 
 .detail-overview {
+  max-height: 280px;
+  overflow-y: auto;
 }
 
 .my-vote {
