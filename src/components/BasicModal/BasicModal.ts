@@ -21,26 +21,41 @@ class BasicModal {
 
   setEvent(): void {
     this.blockModalBodyScroll();
+
     this.backdropElement.addEventListener('click', event => {
       if (event.target === event.currentTarget) {
-        this.closeModal();
+        BasicModal.closeModal();
         this.resetBodyScroll();
       }
     });
+
+    window.addEventListener('keydown', e => {
+      this.escKeyModalClose(e);
+    });
   }
 
-  closeModal() {
-    this.backdropElement.classList.remove('modal-open');
+  escKeyModalClose(e: KeyboardEvent) {
+    if (e.keyCode === 27) {
+      BasicModal.closeModal();
+    }
+  }
+
+  static closeModal() {
+    const backdropElement = document.querySelector('.modal-backdrop');
+    if (!backdropElement) return;
+    backdropElement.classList.remove('modal-open');
+    document.body.style.overflowY = 'auto';
   }
 
   blockModalBodyScroll() {
-    if (this.backdropElement.classList.contains('modal-open')) {
-      document.body.style.overflow = 'hidden';
+    if (this.backdropElement.classList.contains('modal')) {
+      console.log('aaaa');
+      document.body.style.overflowY = 'hidden';
     }
   }
 
   resetBodyScroll() {
-    document.body.style.overflow = 'auto';
+    document.body.style.overflowY = 'auto';
   }
 }
 export default BasicModal;

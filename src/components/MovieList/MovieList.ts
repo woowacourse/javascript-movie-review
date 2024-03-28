@@ -8,17 +8,14 @@ import MovieInfoModal from '../MovieInfoModal/MovieInfoModal';
 
 interface Props {
   movieList: Movie[];
-  isLoading: boolean;
 }
 
 class MovieList {
   movieList: Movie[];
-  isLoading: boolean;
   movieInfoModal: MovieInfoModal;
 
-  constructor({ movieList, isLoading }: Props) {
+  constructor({ movieList }: Props) {
     this.movieList = movieList;
-    this.isLoading = isLoading;
     this.movieInfoModal = new MovieInfoModal();
   }
 

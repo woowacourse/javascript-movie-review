@@ -3,63 +3,67 @@ import NoImage from '../../assets/no_image.png';
 import { POSTER_BASE_URL } from '../../consts/URL';
 import BasicModal from '../BasicModal/BasicModal';
 import movieAPI from '../../api/movie';
-import { getUrlParams } from '../../utils/queryString';
 import MovieDomain from '../../domain/entity/Movie';
 import StarIcon from '../../assets/star_filled.png';
 import StarVoteBox from '../StarVoteBox/StarVoteBox';
+import DeleteIcon from '../../assets/delete.png';
+import { getUrlParams } from '../../utils/queryString';
 
 class MovieInfoModal {
-  movieId;
+  movieInfoModal;
+  movieId: number;
 
   constructor() {
-    this.movieId = getUrlParams('movie_id');
+    this.movieInfoModal = document.createElement('div');
+    this.movieInfoModal.id = 'movie-info-modal';
+    this.movieId = Number(getUrlParams('movie_id'));
   }
 
   async render() {
-    const movieInfoModal = document.createElement('div');
-    movieInfoModal.classList.add('movie-info-modal');
-
-    new BasicModal(movieInfoModal);
-
     const movieInfoContainer = document.createElement('div');
     movieInfoContainer.id = 'movie-info-flex-wrapper';
 
     const movieInfoDetailBox = document.createElement('div');
     movieInfoDetailBox.id = 'movie-info-detail-box';
-    const movieId = getUrlParams('movie_id');
 
-    if (!movieId) return;
-    const movieInfo = await this.getMovieDetail(Number(movieId));
+    const movieInfo = await this.getMovieDetail(Number(this.movieId));
 
     if (movieInfo) {
       const { title, posterPath, voteAverage, genres, overview } = movieInfo;
 
-      const titleHeader = this.renderMovieTitle(title);
-      movieInfoModal.append(titleHeader);
+      const titleHeader = this.createTitle(title);
+      this.movieInfoModal.append(titleHeader);
 
-      const poster = this.renderPoster(posterPath, title);
+      const poster = this.createPoster(posterPath, title);
       movieInfoContainer.append(poster);
 
-      const genreAndVote = this.renderGenresAndVoteAverage(genres, voteAverage);
+      const genreAndVote = this.createGenreAndScore(genres, voteAverage);
       movieInfoDetailBox.append(genreAndVote);
 
-      const movieOverview = this.renderOverview(overview);
-
+      const movieOverview = this.createOverview(overview);
       movieInfoDetailBox.append(movieOverview);
+
       movieInfoContainer.append(movieInfoDetailBox);
 
       const starVoteBox = new StarVoteBox().render();
 
+      const deleteButton = this.createDeleteButton();
+      this.movieInfoModal.append(deleteButton);
+
       movieInfoDetailBox.append(starVoteBox);
-      movieInfoModal.append(movieInfoContainer);
+
+      this.movieInfoModal.append(movieInfoContainer);
     }
+
+    new BasicModal(this.movieInfoModal);
   }
 
   rerender() {
-    const modalContainer = document.querySelector('.modal-container');
+    this.movieId = Number(getUrlParams('movie_id'));
 
-    modalContainer?.replaceChildren();
-    this.movieId = getUrlParams('movie_id');
+    const movieInfoModal = document.querySelector('#movie-info-modal');
+
+    movieInfoModal?.replaceChildren();
     this.render();
   }
 
@@ -69,7 +73,7 @@ class MovieInfoModal {
     return movieInfo;
   }
 
-  renderMovieTitle(title: string) {
+  createTitle(title: string) {
     const movieTitleHeader = document.createElement('div');
     movieTitleHeader.id = 'movie-info-modal-header';
     movieTitleHeader.textContent = title;
@@ -77,7 +81,7 @@ class MovieInfoModal {
     return movieTitleHeader;
   }
 
-  renderPoster(posterPath: string, title: string) {
+  createPoster(posterPath: string, title: string) {
     const moviePoster = document.createElement('img');
     moviePoster.id = 'movie-info-poster';
 
@@ -94,7 +98,7 @@ class MovieInfoModal {
     return moviePoster;
   }
 
-  renderGenresAndVoteAverage(genres: string[], voteAverage: number) {
+  createGenreAndScore(genres: string[], voteAverage: number) {
     const movieGenreScoreInfoBox = document.createElement('div');
     movieGenreScoreInfoBox.id = 'movie-info-genre-score-box';
 
@@ -120,14 +124,29 @@ class MovieInfoModal {
     movieScoreBox.append(starIcon);
     movieScoreBox.append(movieScore);
 
-    return movieScoreBox;
+    return movieGenreScoreInfoBox;
   }
 
-  renderOverview(overview: string) {
+  createOverview(overview: string) {
     const movieOverview = document.createElement('div');
     movieOverview.classList.add('movie-overview');
     movieOverview.textContent = overview;
     return movieOverview;
+  }
+
+  createDeleteButton() {
+    const deleteButton = document.createElement('button');
+    deleteButton.classList.add('modal-close-button');
+    const deleteIcon = document.createElement('img');
+    deleteIcon.setAttribute('src', DeleteIcon);
+
+    deleteButton.append(deleteIcon);
+
+    deleteButton.addEventListener('click', () => {
+      BasicModal.closeModal();
+    });
+
+    return deleteButton;
   }
 }
 

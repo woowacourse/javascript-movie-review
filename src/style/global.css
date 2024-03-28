@@ -1,5 +1,8 @@
 * {
   box-sizing: border-box !important;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 body {

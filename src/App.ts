@@ -16,7 +16,7 @@ class App {
     this.movieListBox.classList.add('item-list');
     this.movieListBox.classList.add('grid');
     this.render();
-    this.movieListInstance = new MovieList({ isLoading: true, movieList: [] });
+    this.movieListInstance = new MovieList({ movieList: [] });
   }
 
   async render() {

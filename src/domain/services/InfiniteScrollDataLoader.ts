@@ -13,7 +13,7 @@ class InfiniteScrollDataLoader {
   renderComplete: boolean;
 
   constructor() {
-    this.movieList = new MovieList({ isLoading: true, movieList: [] });
+    this.movieList = new MovieList({ movieList: [] });
     this.renderComplete = false;
     this.oberveScrollAndRenderNextPage();
   }

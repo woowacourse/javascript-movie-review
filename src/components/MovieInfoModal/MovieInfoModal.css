@@ -1,9 +1,11 @@
-.movie-info-modal {
+#movie-info-modal {
   width: 826px;
   height: 577px;
   border: 8px;
   z-index: 100;
   background-color: var(--grey-5);
+
+  position: relative;
 }
 
 #movie-info-modal-header {
@@ -68,4 +70,22 @@
   width: 100%;
   text-align: start;
   line-height: 1.5;
+  height: 300px;
+  overflow-y: scroll;
+}
+
+.modal-close-button {
+  width: 36px;
+  height: 36px;
+  background-color: var(--grey-4);
+
+  border-radius: 50%;
+
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.modal-close-button:hover {
+  background-color: var(--grey-3);
 }

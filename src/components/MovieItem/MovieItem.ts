@@ -1,21 +1,23 @@
 import Star from '../../assets/star_filled.png';
 import NoImage from '../../assets/no_image.png';
-import { Movie } from './../../types/movie';
+import { Movie, MovieDetail } from './../../types/movie';
 import '../MovieItem/MovieItem.css';
 import { POSTER_BASE_URL } from '../../consts/URL';
+import movieAPI from '../../api/movie';
+import MovieDomain from '../../domain/entity/Movie';
 import { setUrlParams } from '../../utils/queryString';
-import MovieInfoModal from '../MovieInfoModal/MovieInfoModal';
 
 type MovieItemProps = {
   movie: Movie;
-  rerenderModal: () => void;
+  rerenderModal: (id: number) => void;
 };
 
+//TODO: 데이터 셋을 쓰고 있는가?
 class MovieItem {
   movie;
   itemBox;
   itemCard;
-  rerenderModal: () => void;
+  rerenderModal: (id: number) => void;
 
   constructor({ movie, rerenderModal }: MovieItemProps) {
     this.movie = movie;
@@ -34,7 +36,7 @@ class MovieItem {
       setUrlParams('movie_id', String(this.movie.id));
       const movieDetailModal = document.querySelector('.modal');
       movieDetailModal?.classList.add('modal-open');
-      this.rerenderModal();
+      this.rerenderModal(this.movie.id);
     });
   }
 
@@ -42,14 +44,14 @@ class MovieItem {
     const { title, posterPath, voteAverage } = this.movie;
     this.itemCard.classList.add('item-card');
 
-    const titleBox = this.makeTitle(title);
-    const voteAverageBox = this.makeVote(voteAverage);
+    const titleBox = this.createTitle(title);
+    const voteAverageBox = this.createScore(voteAverage);
 
     if (posterPath) {
-      const posterImage = this.makePosterImage(title, posterPath);
+      const posterImage = this.createPoster(title, posterPath);
       this.itemCard.append(posterImage);
     } else {
-      const noImage = this.makeNoImage();
+      const noImage = this.createNoImage();
       this.itemCard.append(noImage);
     }
 
@@ -60,7 +62,7 @@ class MovieItem {
     return this.itemBox;
   }
 
-  makePosterImage(title: string, posterPath: string) {
+  createPoster(title: string, posterPath: string) {
     const posterImage = document.createElement('img');
     posterImage.setAttribute('loading', 'lazy');
     posterImage.classList.add('item-thumbnail');
@@ -73,7 +75,7 @@ class MovieItem {
     return posterImage;
   }
 
-  makeNoImage() {
+  createNoImage() {
     const noImage = document.createElement('div');
     noImage.classList.add('no-image', 'item-thumbnail');
     const noImageIcon = document.createElement('img');
@@ -83,14 +85,14 @@ class MovieItem {
     return noImage;
   }
 
-  makeTitle(title: string) {
+  createTitle(title: string) {
     const titleBox = document.createElement('p');
     titleBox.classList.add('item-title', 'multi-lines-overflow');
     titleBox.textContent = title;
     return titleBox;
   }
 
-  makeVote(voteAverage: number) {
+  createScore(voteAverage: number) {
     const voteAverageBox = document.createElement('p');
     voteAverageBox.classList.add('item-score');
 
