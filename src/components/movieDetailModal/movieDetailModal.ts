@@ -5,8 +5,10 @@ import { MovieDetail, MovieDetailResponse, StarScore } from '../../types/movie';
 import { dom } from '../../utils/dom';
 import FILLED_STAR from '../../assets/images/star_filled.png';
 import EMPTY_STAR from '../../assets/images/star_empty.png';
+import CLOSE_BUTTON from '../../assets/images/close_button.png';
 import { SCORE_TEXT } from '../../constants/movie';
 import storage from '../../utils/storage';
+import Button from '../common/button/Button';
 
 interface ScoreStorage {
   id: number;
@@ -22,6 +24,7 @@ class MovieDetailModal {
   constructor() {
     this.$target.classList.add('modal');
     this.$target.innerHTML = this.template();
+    this.paint();
     this.initStarRate();
     this.setEvent();
   }
@@ -31,7 +34,8 @@ class MovieDetailModal {
         <div class='detail-modal-backdrop'></div>
         <section class='detail-modal-container'>
             <div class='title-container'>
-                <p id='modal-title'></p>
+              <div class='blank-container'></div>
+              <p id='modal-title'></p>
             </div>
             <div class='information-container'>
                 <div class='thumbnail-container'>
@@ -64,6 +68,12 @@ class MovieDetailModal {
             </div>
         </section>
     `;
+  }
+
+  paint() {
+    const $titleContainer = dom.getElement(this.$target, '.title-container');
+    const closeButton = this.createCloseButton();
+    $titleContainer.appendChild(closeButton.$target);
   }
 
   render({ title, imageSrc, score, description, genres }: MovieDetail) {
@@ -171,6 +181,17 @@ class MovieDetailModal {
     const score = (count * 2) as StarScore;
     $scoreNumber.textContent = score.toString();
     $scoreText.textContent = SCORE_TEXT[score];
+  }
+
+  createCloseButton() {
+    const $buttonImage = document.createElement('img');
+    $buttonImage.setAttribute('src', CLOSE_BUTTON);
+
+    return new Button({
+      classNames: ['close-button'],
+      onClick: this.close.bind(this),
+      children: [$buttonImage],
+    });
   }
 }
 

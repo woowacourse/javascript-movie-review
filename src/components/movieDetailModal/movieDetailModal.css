@@ -25,7 +25,7 @@
     z-index: 2;
 
     border-radius: 16px;
-    background-color: rgb(49, 46, 46);
+    background-color: #212122;
     overflow: scroll;
 
     -ms-overflow-style: none;
@@ -42,12 +42,22 @@
 
 .title-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     flex-basis: 20%;
 
     padding-bottom: 20px;
     border-bottom: 2px solid #F1F1F140;
+}
+
+.blank-container {
+    width: 36px;
+    height: 36px;
+}
+
+.close-button {
+    border: 0;
+    background-color: inherit;
 }
 
 .thumbnail {
