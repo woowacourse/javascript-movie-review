@@ -12,10 +12,6 @@ fieldset {
   border: 0;
 }
 
-fieldset input[type=radio] {
-  display: none;
-}
-
 .star-score {
   margin-left: 12px;
 }

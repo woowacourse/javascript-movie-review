@@ -22,7 +22,6 @@ class EachStar {
     rate.id = `rate${RATE_NUMBER(index)}`;
     rate.className = 'rate-icon';
     rate.appendChild(this.createStar({ index, setScore }));
-    rate.appendChild(this.createStarInput(index));
     this.template = rate;
     this.active = false;
   }
@@ -64,15 +63,6 @@ class EachStar {
 
   emptyStars(index: number) {
     this.setActive(index <= Number(this.template.querySelector('img')?.className));
-  }
-
-  private createStarInput(index: number) {
-    const input = document.createElement('input');
-    input.type = 'radio';
-    input.name = 'rating';
-    input.value = `${RATE_NUMBER(index)}`;
-    input.id = `rate-input${RATE_NUMBER(index)}`;
-    return input;
   }
 }
 
