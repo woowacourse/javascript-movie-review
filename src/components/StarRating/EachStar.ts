@@ -21,21 +21,13 @@ class EachStar {
     const rate = document.createElement('div');
     rate.id = `rate${RATE_NUMBER(index)}`;
     rate.className = 'rate-icon';
-    rate.appendChild(this.createStar({ index, setScore }));
+    rate.appendChild(this.createStarImage({ index, setScore }).element);
     this.template = rate;
     this.active = false;
   }
 
   get element() {
     return this.template;
-  }
-
-  private createStar({ index, setScore }: EachStarProps) {
-    const label = document.createElement('label');
-    label.htmlFor = `rate-input${RATE_NUMBER(index)}`;
-    const starImage = this.createStarImage({ index, setScore });
-    label.appendChild(starImage.element);
-    return label;
   }
 
   private createStarImage({ index, setScore }: EachStarProps) {
