@@ -70,9 +70,13 @@
   align-items: center;
   padding: 40px 32px;
   gap: 32px;
+
+  width: 740px;
+  height: 484px;
 }
 
 .detail-poster {
+  position: fixed;
   top: 96px;
   left: 32px;
   gap: 0px;
@@ -86,7 +90,11 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  position: fixed;
+  top: 96px;
+  left: 324px;
 
+  width: 385px;
   height: 400px;
 }
 
