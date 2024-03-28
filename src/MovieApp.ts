@@ -17,6 +17,7 @@ import {
 } from './constants/templates';
 import filterMovieList from './domain/filterMovieList';
 import movieDetailModal from './components/movieDetailModal/movieDetailModal';
+import MoviePage from './domain/MoviePage';
 
 interface MovieDataType {
   movieList: MovieListType;
@@ -57,40 +58,26 @@ localStorage.setItem('ratings', JSON.stringify(dummy));
 
 // ========================임시=========================
 
-class MovieApp {
-  #popularPage: number = 1;
-
-  #searchPage: number = 1;
-
+class MovieApp extends MoviePage {
   constructor() {
+    super();
     this.init();
   }
 
   async init() {
     const container = document.querySelector('#app');
+    if (!container) return;
+
     const header = this.createHeader();
     const detailModal = movieDetailModal.createModal();
 
-    container?.prepend(header);
-    container?.appendChild(detailModal);
+    container.prepend(header);
+    container.appendChild(detailModal);
 
     this.createMain(POPULAR_MOVIE_TITLE);
-    document.querySelector('#search-form')?.addEventListener('submit', (event: Event) => {
-      event.preventDefault();
-      this.handleSearchFormSubmit();
-    });
-    await this.renderMainContents(RENDER_TYPE.POPULAR);
-  }
+    this.setSearchFormEvent();
 
-  handleSearchFormSubmit() {
-    const searchForm = document.querySelector('#search') as HTMLInputElement;
-
-    if (searchForm instanceof HTMLInputElement) {
-      const inputValue = searchForm.value;
-      this.resetPage();
-      this.updateMainHtml(SEARCH_MOVIE_TITLE(inputValue));
-      this.renderMainContents(RENDER_TYPE.SEARCH, inputValue);
-    }
+    await this.renderMainContents({ renderType: RENDER_TYPE.POPULAR });
   }
 
   updateMainHtml(titleMessage: string) {
@@ -104,15 +91,11 @@ class MovieApp {
     return header;
   }
 
-  deleteMain() {
-    const main = document.querySelector('main');
-    if (main) main.remove();
-  }
-
   createMain(titleMessage: string) {
     const main = document.createElement('main');
     const section = this.createSection(titleMessage);
     main.appendChild(section);
+
     const container = document.querySelector('#app');
     if (container) container.appendChild(main);
   }
@@ -133,6 +116,56 @@ class MovieApp {
     ul.innerHTML = SKELETON_ITEM_TEMPLATE.repeat(20);
     const itemView = document.querySelector('#section--item-view');
     if (itemView) itemView.appendChild(ul);
+  }
+
+  createShowMoreButton({ renderType, input }: RenderInputType) {
+    const button = document.createElement('button');
+    button.classList.add('btn', 'primary', 'full-width');
+    button.id = 'show-more-btn';
+    button.textContent = '더 보기';
+    button.addEventListener('click', () => {
+      this.updatePage(renderType);
+      this.renderMainContents({ renderType, input });
+    });
+    return button;
+  }
+
+  createMainContents(
+    { movieList, isLastPage }: MovieDataType,
+    { renderType, input }: RenderInputType,
+  ) {
+    const movieData = this.showMovieData(movieList);
+    const itemView = document.querySelector('#section--item-view');
+    if (!itemView) return;
+
+    itemView.appendChild(movieData);
+
+    if (!isLastPage) {
+      const showMoreButton = this.createShowMoreButton({ renderType, input });
+      itemView.appendChild(showMoreButton);
+    }
+  }
+
+  async renderMainContents({ renderType, input }: RenderInputType) {
+    this.deleteShowMoreButton();
+    this.createMainSkeleton();
+    const { movieList, isLastPage } = await this.handleMovieData(renderType, input);
+    this.createMainContents({ movieList, isLastPage }, { renderType, input });
+  }
+
+  deleteMain() {
+    const main = document.querySelector('main');
+    if (main) main.remove();
+  }
+
+  deleteShowMoreButton() {
+    const showMoreButton = document.querySelector('#show-more-btn');
+    if (showMoreButton) showMoreButton.remove();
+  }
+
+  deleteSkeleton() {
+    const skeleton = document.querySelector('#skeleton');
+    if (skeleton) skeleton.remove();
   }
 
   handleMovieData(renderType: RenderType, input?: string): Promise<MovieDataType> {
@@ -162,32 +195,6 @@ class MovieApp {
     }
   }
 
-  getPage(renderType: RenderType): number {
-    const pageTable = {
-      popular: this.#popularPage,
-      search: this.#searchPage,
-    };
-    return pageTable[renderType];
-  }
-
-  updatePage(renderType: RenderType) {
-    if (renderType === RENDER_TYPE.POPULAR) {
-      this.#popularPage += 1;
-    } else {
-      this.#searchPage += 1;
-    }
-  }
-
-  resetPage() {
-    this.#popularPage = 1;
-    this.#searchPage = 1;
-  }
-
-  deleteSkeleton() {
-    const skeleton = document.querySelector('#skeleton');
-    if (skeleton) skeleton.remove();
-  }
-
   showMovieData(movieList: MovieListType) {
     this.deleteSkeleton();
     const ul = document.createElement('ul');
@@ -197,49 +204,32 @@ class MovieApp {
       const imagePath = movie.poster_path ? `${MOVIE_PATH}/${movie.poster_path}` : NO_IMAGE;
       return MOVIE_ITEM_TEMPLATE(movie, imagePath);
     });
+
     ul.innerHTML = templates.join('');
     movieDetailModal.handleDetailModal(ul);
     return ul;
   }
 
-  createShowMoreButton(renderType: RenderType, input?: string) {
-    const button = document.createElement('button');
-    button.classList.add('btn', 'primary', 'full-width');
-    button.id = 'show-more-btn';
-    button.textContent = '더 보기';
-    button.addEventListener('click', () => {
-      this.updatePage(renderType);
-      this.renderMainContents(renderType, input);
-    });
-    return button;
-  }
+  setSearchFormEvent() {
+    const searchForm = document.querySelector('#search-form');
 
-  createMainContents(
-    { movieList, isLastPage }: MovieDataType,
-    { renderType, input }: RenderInputType,
-  ) {
-    const movieData = this.showMovieData(movieList);
-    const itemView = document.querySelector('#section--item-view');
-    if (!itemView) return;
-
-    itemView.appendChild(movieData);
-
-    if (!isLastPage) {
-      const showMoreButton = this.createShowMoreButton(renderType, input);
-      itemView.appendChild(showMoreButton);
+    if (searchForm) {
+      searchForm.addEventListener('submit', (event: Event) => {
+        event.preventDefault();
+        this.handleSearchFormSubmit();
+      });
     }
   }
 
-  async renderMainContents(renderType: RenderType, input?: string) {
-    this.deleteShowMoreButton();
-    this.createMainSkeleton();
-    const { movieList, isLastPage } = await this.handleMovieData(renderType, input);
-    this.createMainContents({ movieList, isLastPage }, { renderType, input });
-  }
+  handleSearchFormSubmit() {
+    const searchForm = document.querySelector('#search') as HTMLInputElement;
 
-  deleteShowMoreButton() {
-    const showMoreButton = document.querySelector('#show-more-btn');
-    if (showMoreButton) showMoreButton.remove();
+    if (searchForm instanceof HTMLInputElement) {
+      const input = searchForm.value;
+      this.resetPage();
+      this.updateMainHtml(SEARCH_MOVIE_TITLE(input));
+      this.renderMainContents({ renderType: RENDER_TYPE.SEARCH, input });
+    }
   }
 }
 
