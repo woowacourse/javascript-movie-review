@@ -60,7 +60,7 @@ class MovieListContainer {
 
   async attach() {
     this.$target.innerHTML += TEMPLATE;
-    const { movies, totalPages } = await this.fetchMovies(this.page);
+    const { movies, totalPages } = await this.fetchMovies(this.page + 1);
 
     this.paintOverwrite(movies);
     if (this.$target.parentElement === null) return;
@@ -76,7 +76,7 @@ class MovieListContainer {
     const mode = urlSearchParams.get('mode') ?? 'popular';
     const title = urlSearchParams.get('title') ?? '';
 
-    const movies = mode === 'search' ? await searchMoviesByTitle(title, page) : await getPopularMovies(this.page);
+    const movies = mode === 'search' ? await searchMoviesByTitle(title, page) : await getPopularMovies(page);
     return movies;
   }
 
