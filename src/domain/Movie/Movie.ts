@@ -1,10 +1,13 @@
-import MovieAPI from '../../apis/movie/movie';
+import MovieFetcher from '../../apis/MovieFetcher/MovieFetcher';
 
-import { BaseResponse } from '../../apis/common/apiSchema.type';
-import { MovieDetail } from './Movie.type';
+import { BaseResponse } from '../../apis/common/ApiClient/ApiClient.type';
+import { MovieInterface, MovieResponse } from './Movie.type';
+
+import MovieStorage from '../../storages/MovieStorage';
 
 class Movie {
   static MAX_PAGE = 5;
+  static MAX_MOVIE_ITEMS = 20;
 
   constructor(private page: number, private movieType: string) {
     this.page = 0;
@@ -19,14 +22,40 @@ class Movie {
     return this.page === Movie.MAX_PAGE;
   }
 
+  isMaxMovieItems(movieItems: MovieInterface[]) {
+    return movieItems.length === Movie.MAX_MOVIE_ITEMS;
+  }
+
+  isEmptyMovieItems(movieItems: MovieInterface[]) {
+    return movieItems.length === 0;
+  }
+
   fetchMovieDetails({
     onSuccess,
     onError,
   }: {
-    onSuccess: (data: BaseResponse<MovieDetail[]>) => void;
+    onSuccess: (data: MovieInterface[]) => void;
     onError: (error: Error | unknown) => void;
   }) {
-    MovieAPI.fetchMovieDetails(this.page, this.movieType).then(onSuccess).catch(onError);
+    MovieFetcher.fetchMovieDetails(this.page, this.movieType)
+      .then((data: BaseResponse<MovieResponse[]>) => {
+        this.updateMovieRatings(data.results);
+
+        const movieResponse: MovieInterface[] = data.results.map((result) => ({
+          ...result,
+          image: result.poster_path,
+          score: result.vote_average,
+        }));
+
+        onSuccess(movieResponse);
+      })
+      .catch(onError);
+  }
+
+  private updateMovieRatings(movies: MovieResponse[]) {
+    movies.forEach(({ id, title }) => {
+      MovieStorage.setMovieRating({ id, title });
+    });
   }
 }
 

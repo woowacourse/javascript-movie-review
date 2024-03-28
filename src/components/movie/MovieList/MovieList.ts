@@ -2,17 +2,22 @@ import Image from '../../common/Image/Image';
 import Component from '../../common/Component/Component';
 import MovieListCard from '../MovieListCard/MovieListCard';
 
-import type { MovieDetail } from '../../../domain/Movie/Movie.type';
+import type { MovieInterface } from '../../../domain/Movie/Movie.type';
 
 import { createElement } from '../../../utils/dom/createElement/createElement';
+import { querySelector } from '../../../utils/dom/selector';
+
+import { ELEMENT_SELECTOR } from '../../../constants/selector';
 
 import { NoResultImage } from '../../../assets';
 
 import './MovieList.css';
 
 interface MovieListProps {
-  movieItemDetails: MovieDetail[];
-  removeMoreButton: () => void;
+  movieItemDetails: MovieInterface[];
+  observer: IntersectionObserver;
+  isEmptyMovieListItems: boolean;
+  isMaxMovieListItems: boolean;
 }
 
 class MovieList extends Component<MovieListProps> {
@@ -20,8 +25,6 @@ class MovieList extends Component<MovieListProps> {
     if (!this.props?.movieItemDetails) return;
 
     if (this.props?.movieItemDetails.length === 0) {
-      this.props?.removeMoreButton();
-
       new Image(this.$element, {
         image: NoResultImage,
         class: 'no-result-image',
@@ -31,7 +34,11 @@ class MovieList extends Component<MovieListProps> {
       return;
     }
 
-    if (this.props?.movieItemDetails.length < 20) this.props?.removeMoreButton();
+    if (this.props?.movieItemDetails.length === 20) {
+      const observerTarget = querySelector(ELEMENT_SELECTOR.observerTarget);
+
+      this.props?.observer.observe(observerTarget);
+    }
 
     this.$element.append(this.createComponent());
   }
@@ -41,6 +48,7 @@ class MovieList extends Component<MovieListProps> {
 
     this.props?.movieItemDetails.forEach((movieItemDetail) => {
       const $li = createElement({ tagName: 'li' });
+
       new MovieListCard($li, movieItemDetail);
 
       $movieItemList.appendChild($li);

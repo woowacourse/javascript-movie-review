@@ -1,6 +1,7 @@
 import Component from '../../common/Component/Component';
-import MovieReviewBody from '../MovieReviewBody/MovieReviewBody';
 import ErrorToast from '../ErrorToast/ErrorToast';
+import MovieLogo from '../MovieLogo/MovieLogo';
+import { renderMovieReviewBody } from '../MovieReviewBody/MovieReviewBody.util';
 
 import { createElement } from '../../../utils/dom/createElement/createElement';
 import { querySelector } from '../../../utils/dom/selector';
@@ -8,22 +9,22 @@ import { on } from '../../../utils/dom/eventListener/eventListener';
 
 import { ELEMENT_SELECTOR } from '../../../constants/selector';
 
-import { Logo } from '../../../assets';
-
 import './MovieReviewHeader.css';
 
 class MovieReviewHeader extends Component {
   protected render() {
     this.$element.append(this.createComponent());
+
+    const $movieLogoContainer = querySelector<HTMLElement>('#movie-logo', this.$element);
+
+    new MovieLogo($movieLogoContainer);
   }
 
   protected createComponent() {
     const $header = createElement({ tagName: 'header' });
 
     $header.innerHTML = /* html */ `
-      <h1 id="movie-logo">
-        <img src=${Logo} alt="MovieList 로고" />
-      </h1>
+      <h1 id="movie-logo"></h1>
       <form id="search-form" class="search-box">
         <input id="search-input" type="text" placeholder="검색" />
         <button id="search-button" class="search-button">검색</button>
@@ -34,17 +35,15 @@ class MovieReviewHeader extends Component {
   }
 
   protected setEvent(): void {
-    const $searchForm = querySelector<HTMLFormElement>(ELEMENT_SELECTOR.searchform, this.$element);
-    const $movieLogo = querySelector<HTMLFormElement>(ELEMENT_SELECTOR.movieLogo, this.$element);
+    const $searchForm = querySelector<HTMLFormElement>(ELEMENT_SELECTOR.searchForm, this.$element);
 
     on({ target: $searchForm, eventName: 'submit', eventHandler: this.handleSubmitForm.bind(this) });
-    on({ target: $movieLogo, eventName: 'click', eventHandler: this.handleClickLogo });
   }
 
   private handleSubmitForm(event: Event) {
     event.preventDefault();
 
-    const $searchForm = querySelector<HTMLFormElement>(ELEMENT_SELECTOR.searchform, this.$element);
+    const $searchForm = querySelector<HTMLFormElement>(ELEMENT_SELECTOR.searchForm, this.$element);
     const $searchInput = querySelector<HTMLInputElement>(ELEMENT_SELECTOR.searchInput, this.$element);
 
     this.handleMovieSearchResult($searchForm, $searchInput);
@@ -62,19 +61,7 @@ class MovieReviewHeader extends Component {
       return;
     }
 
-    this.renderMovieReviewBody(movieName);
-  }
-
-  private renderMovieReviewBody(movieName: string) {
-    const $section = querySelector<HTMLElement>(ELEMENT_SELECTOR.movieReviewSection);
-    $section.remove();
-
-    const $main = querySelector<HTMLElement>(ELEMENT_SELECTOR.main);
-    new MovieReviewBody($main, { movieType: movieName });
-  }
-
-  private handleClickLogo() {
-    window.location.reload();
+    renderMovieReviewBody(movieName);
   }
 }
 

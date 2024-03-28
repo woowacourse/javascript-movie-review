@@ -1,10 +1,11 @@
 .movie-list-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  width: 100%;
 }
 
 .item-list {
+  width: 100%;
   display: grid;
   margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
@@ -21,6 +22,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   width: 1200px;
   margin: 0 auto;
 }
@@ -29,4 +31,28 @@
   font-size: 2rem;
   font-weight: bold;
   user-select: none;
+}
+
+.movie-review-title-container {
+  width: 100%;
+}
+
+@media screen and (max-width: 1220px) {
+  .item-view {
+    width: max-content;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+    grid-column-gap: 64px;
+  }
+}
+
+@media screen and (max-width: 674px) {
+  .item-view {
+    width: max-content;
+  }
+  .item-list {
+    grid-template-columns: repeat(2, 180px);
+  }
 }

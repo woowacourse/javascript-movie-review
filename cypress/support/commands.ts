@@ -3,6 +3,7 @@ declare namespace Cypress {
     generateAPIKeyError(): Chainable<any>;
     moreButtonClick(count: number): Chainable<any>;
     searchMovie(text: string): Chainable<any>;
+    getPopularMovies(): Chainable<any>;
   }
 }
 
@@ -17,6 +18,16 @@ Cypress.Commands.add('generateAPIKeyError', () => {
       statusCode: 403,
     },
   ).as('APIKeyError');
+});
+
+Cypress.Commands.add('getPopularMovies', () => {
+  cy.intercept(
+    {
+      method: 'GET',
+      url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular*/,
+    },
+    { fixture: 'movie-popular.json' },
+  ).as('getPopularMovies');
 });
 
 Cypress.Commands.add('moreButtonClick', (count: number) => {

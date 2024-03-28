@@ -1,0 +1,8 @@
+.movie-score-board-stars > img {
+  cursor: pointer;
+}
+
+.movie-score-board {
+  display: flex;
+  justify-content: center;
+}
