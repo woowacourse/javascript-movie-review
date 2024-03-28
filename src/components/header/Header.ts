@@ -24,24 +24,25 @@ class Header {
 
   template() {
     return /*html*/ `
-      <h1>
+      <h1 id='logo'>
         <a href=${process.env.NODE_ENV === 'production' ? process.env.PUBLIC_PATH : '/'}>
           <img src=${this.#imageSrc} alt="MovieList 로고" />
         </a>
       </h1>
       <form class="search-box">
         <input id="search-input" type="text" placeholder="검색" />
-        
       </form>
 `;
   }
 
   render() {
     this.$target.innerHTML += this.template();
-    const button = this.#createSearchButton();
+    const searchButton = this.#createSearchButton();
+    const miniSearchButton = this.#createMiniSearchButton();
 
     const $form = dom.getElement(this.$target, '.search-box');
-    $form.appendChild(button.$target);
+    $form.appendChild(searchButton.$target);
+    this.$target.appendChild(miniSearchButton.$target);
 
     const $image = dom.getElement<HTMLImageElement>(this.$target, 'h1 > a > img');
     $image.setAttribute('src', this.#imageSrc);
@@ -56,6 +57,23 @@ class Header {
       id: 'search-button',
       classNames: ['search-button'],
       children: [childImage],
+    });
+  }
+
+  #createMiniSearchButton() {
+    const childImage = document.createElement('img');
+    childImage.setAttribute('src', SEARCH_BUTTON_IMG);
+    childImage.classList.add('search-button-icon');
+
+    return new Button({
+      id: 'mini-search-button',
+      classNames: ['mini-search-button'],
+      children: [childImage],
+      onClick: () => {
+        dom.getElement(this.$target, '#logo').classList.add('clicked-logo');
+        dom.getElement(this.$target, '.search-box').classList.add('clicked-form');
+        dom.getElement(this.$target, '#mini-search-button').classList.add('clicked-button');
+      },
     });
   }
 }
