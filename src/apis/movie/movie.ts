@@ -57,7 +57,7 @@ class MovieAPI {
 
     this.handleProcessStatusCode(response);
 
-    const movieDetails = response.json();
+    const movieDetails = await response.json();
     return movieDetails;
   }
 
