@@ -480,21 +480,29 @@ input {
   }
 }
 
-@media (max-width: 834px) {
-  .modal-container {
-    width: 85% !important;
-    height: 30rem;
+@media (max-width: 1024px) {
+  .item-thumbnail {
+    min-width: 140px;
   }
+}
 
+@media (max-width: 912px) {
   .item-list {
     grid-template-columns: repeat(3, 1fr);
     grid-column-gap: 40px;
   }
 }
 
+@media (max-width: 853px) {
+  .modal-container {
+    width: 85% !important;
+    height: 30rem;
+  }
+}
+
 @media (max-width: 610px) {
   .modal-container {
-    height: 32rem;
+    height: 42rem;
   }
 
   .star-rate-text .rate-string .rate-number {
@@ -509,18 +517,12 @@ input {
 
 @media (max-width: 580px) {
   .modal-container {
-    height: 35rem;
+    height: 42rem;
   }
 
   .star {
     width: 15px;
     height: 15px;
-  }
-}
-
-@media (max-width: 580px) {
-  .modal-container {
-    height: 38rem;
   }
 
   .rate-number {
@@ -536,23 +538,23 @@ input {
 
 @media (max-width: 450px) {
   .modal-container {
-    height: 41rem;
+    height: 51rem;
   }
 
   .rate-number {
-    font-size: 0.6rem;
+    font-size: 0.5rem;
   }
   .rate-string {
-    font-size: 0.6rem;
+    font-size: 0.4rem;
   }
   .star-rate-text {
-    font-size: 0.6rem;
+    font-size: 0.4rem;
   }
 }
 
 @media (max-width: 420px) {
   .modal-container {
-    height: 43rem;
+    height: 50rem;
   }
 
   .rate-number {
@@ -563,6 +565,23 @@ input {
   }
   .star-rate-text {
     font-size: 0.5rem;
+  }
+}
+
+@media (max-width: 412px) {
+  .item-thumbnail {
+    min-width: 135px;
+    min-height: 250px;
+  }
+
+  .rate-number {
+    font-size: 0.4rem;
+  }
+  .rate-string {
+    font-size: 0.3rem;
+  }
+  .star-rate-text {
+    font-size: 0.4rem;
   }
 }
 
@@ -632,6 +651,9 @@ input {
   .mobile-search-input {
     width: 19rem;
   }
+  .item-thumbnail {
+    min-width: 123px;
+  }
 }
 
 @media (max-width: 280px) {
@@ -647,6 +669,11 @@ input {
 
   .star-rate-container {
     width: 90%;
+  }
+
+  .item-thumbnail {
+    min-width: 95px;
+    min-height: 200px;
   }
 
   .star {
