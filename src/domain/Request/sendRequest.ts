@@ -1,6 +1,5 @@
 import ToastPopup from '../../components/ToastPopup/ToastPopup';
-import { POPULAR_MOVIES_URL, MOVIE_SEARCH_URL } from '../../constants/URLs';
-import IRespondData from '../../interfaces/IMovieList';
+import { POPULAR_MOVIES_URL, MOVIE_SEARCH_URL, MOVIE_DETAIL_URL } from '../../constants/URLs';
 import { getDomElement } from '../../util/DOM';
 import checkNetworkStatus from '../Validator/NetworkValidator';
 
@@ -43,7 +42,26 @@ async function fetchSearchMovies(page: number, userInput: string) {
   }
 }
 
-async function requestMovieData(url: string): Promise<IRespondData> {
+async function fetchMovieDetail(id: number) {
+  const KEY = process.env.API_KEY;
+  const movieDetailUrl =
+    MOVIE_DETAIL_URL +
+    `/${id}` +
+    '?' +
+    new URLSearchParams({
+      api_key: KEY as string,
+      language: 'ko-KR',
+    });
+  try {
+    return await requestMovieData(movieDetailUrl);
+  } catch (error) {
+    ToastPopup(`${error}`, 10000);
+    getDomElement('.list-end').remove();
+    throw new Error();
+  }
+}
+
+async function requestMovieData(url: string): Promise<any> {
   const isOnline = await checkNetworkStatus();
   if (!isOnline) {
     throw new Error('네트워크 연결이 없습니다.');
@@ -64,4 +82,4 @@ async function requestMovieData(url: string): Promise<IRespondData> {
   return popularMovies;
 }
 
-export { fetchPopularMovies, fetchSearchMovies };
+export { fetchPopularMovies, fetchSearchMovies, fetchMovieDetail };
