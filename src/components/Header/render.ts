@@ -88,11 +88,13 @@ const createWebSearchBar = () => {
     className: 'web-search-form web',
     id: 'searchForm',
   });
+
   const input = createElement('input', {
     type: 'search web',
     placeholder: '검색',
     className: 'web-search-input',
   });
+
   const searchButton = createWebSearchButton();
   webSearchBox.appendChild(input);
   webSearchBox.appendChild(searchButton);

@@ -13,6 +13,7 @@ type SearchType = 'web' | 'mobile';
 
 const removeExistingNoMoreDataText = () => {
   const noMoreText = document.querySelector('.no-more-text');
+
   if (!isElement(noMoreText)) return;
   noMoreText.remove();
 };
@@ -31,31 +32,44 @@ function createMovieItemByKeyword(results: TotalMovieItemProps[], keyword: strin
 
 const getMovieListDataByKeyword = async (keyword: string) => {
   const dataFromServer = await getMovieDataByKeyword(keyword);
-  if (!dataFromServer.length) renderNoMoreDataText();
+
+  if (!dataFromServer.length) renderNoMoreDataText('none');
+
   const results = MovieStorageService.addData(dataFromServer);
-  createMovieItemByKeyword(results, keyword);
+
+  return results;
 };
 
-const validateAndLoadMovieList = (keyword: string) => {
+const validateAndLoadMovieList = async (keyword: string) => {
   if (!keyword.length) {
     alert('검색어는 1글자 이상이어야 합니다.');
     return;
   }
+
   window.scrollTo(0, 0);
+
   removeHTMLElements('li');
-  getMovieListDataByKeyword(keyword);
+  const results = await getMovieListDataByKeyword(keyword);
+  createMovieItemByKeyword(results, keyword);
   updateMovieListBanner(keyword);
+};
+
+const selectTargetInputAndRender = (targetInputClass: '.mobile-search-input' | '.web-search-input') => {
+  const input = document.querySelector(targetInputClass) as HTMLInputElement;
+  if (!isElement(input)) return;
+
+  validateAndLoadMovieList(input.value);
+  input.value = '';
 };
 
 const formSubmitHandler = (event: Event, searchType: SearchType) => {
   event.preventDefault();
+
   const targetInputClass = searchType === 'mobile' ? '.mobile-search-input' : '.web-search-input';
+
   removeExistingNoMoreDataText();
   pageManager.resetPage();
-  const input = document.querySelector(targetInputClass) as HTMLInputElement;
-  if (!isElement(input)) return;
-  validateAndLoadMovieList(input.value);
-  input.value = '';
+  selectTargetInputAndRender(targetInputClass);
 };
 
 export const onSearchMovieByKeyword = (searchType: SearchType) => {

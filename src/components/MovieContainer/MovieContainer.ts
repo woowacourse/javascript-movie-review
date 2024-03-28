@@ -11,6 +11,7 @@ async function MovieContainer() {
   });
   const { results } = dataFromServer;
   const data = MovieStorageService.addData(results);
+
   renderHandler(data);
   initializeInfiniteScroll();
   renderMovieItemDetailModalHandler();

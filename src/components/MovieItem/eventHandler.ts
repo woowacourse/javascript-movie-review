@@ -21,6 +21,7 @@ const renderDetailModal = (movieDetailData: MovieDetailProps) => {
 const getMovieDataByIdAndRender = async (movieId: number) => {
   const movieDetailData = await MovieStorageService.getDataFromMovieId(movieId);
   if (!movieDetailData) return;
+
   renderDetailModal(movieDetailData);
 };
 

@@ -38,7 +38,7 @@ export type TotalMovieItemProps = {
   star_rating: StarRate;
 };
 
-export type StarRate = 2 | 4 | 6 | 8 | 10;
+export type StarRate = 0 | 2 | 4 | 6 | 8 | 10;
 
 export type ShowMoreButtonOption = 'popular' | 'search';
 

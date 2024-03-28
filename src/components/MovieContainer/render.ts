@@ -7,21 +7,25 @@ import createElement from '../../utils/createElement';
 export const createMovieItems = (results: TotalMovieItemProps[]) => {
   const ul = document.querySelector('ul');
   if (!isHTMLElement(ul)) return;
+
   const fragment = document.createDocumentFragment();
   results.map((movieItem: TotalMovieItemProps) => {
     fragment.appendChild(MovieItem(movieItem));
   });
   ul.appendChild(fragment);
+
   return ul;
 };
 
 const assembleContent = (ul: HTMLElement) => {
   const section = document.querySelector('section');
-  const contentCard = createElement('div', { className: 'content-card' });
   if (!isHTMLElement(section)) return;
+
+  const contentCard = createElement('div', { className: 'content-card' });
   const headerBanner = MovieListBanner();
   if (!headerBanner) return;
   if (!isHTMLElement(ul)) return;
+
   [headerBanner, ul].forEach((item) => contentCard.appendChild(item));
   section.appendChild(contentCard);
 };
@@ -29,5 +33,6 @@ const assembleContent = (ul: HTMLElement) => {
 export const renderHandler = (results: TotalMovieItemProps[]) => {
   const movieList = createMovieItems(results);
   if (!movieList) return;
+
   assembleContent(movieList);
 };
