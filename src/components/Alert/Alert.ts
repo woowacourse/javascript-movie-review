@@ -26,6 +26,6 @@ export const showAlert = (message: string) => {
   document.querySelector('#app')?.appendChild(alert);
 
   setTimeout(() => {
-    alert.classList.add('hidden');
+    alert.remove();
   }, 3000);
 };
