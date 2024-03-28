@@ -1,4 +1,5 @@
 .item-card {
+  position: relative;
   display: flex;
   flex-direction: column;
 }
@@ -15,6 +16,11 @@
     scale: 1.1;
   }
 }
+
+.item-thumbnail.loading {
+  opacity: 0.8;
+}
+
 
 .item-title {
   margin-top: 16px;
@@ -75,5 +81,36 @@
     width: 140px;
     height: 210px;
     background-size: contain;
+  }
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  display: none;
+  position: absolute;
+  border: 5px solid #3498db;
+  border-top: 5px solid transparent;
+  border-radius: 50%;
+  animation: rotate 1s linear infinite;
+
+  top: 50%;
+  left: 50%;
+  /* transform: translate(-50%, -50%); */
+  margin-left: -25px;
+  margin-top: -25px;
+}
+
+.loading-spinner.loading {
+  display: block;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
   }
 }

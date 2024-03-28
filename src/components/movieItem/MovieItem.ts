@@ -35,8 +35,15 @@ class MovieItem {
 
   setEvent() {
     this.$target.addEventListener('click', () => {
+      const $thumbnail = dom.getElement<HTMLImageElement>(this.$target, '.item-thumbnail');
+      const $spinner = dom.getElement<HTMLImageElement>(this.$target, '.loading-spinner');
+      $spinner.classList.add('loading');
+      $thumbnail.classList.add('loading');
+
       getDetailMovie(this.movieId).then(res => {
         this.movieDetailModal.open(res);
+        $spinner.classList.remove('loading');
+        $thumbnail.classList.remove('loading');
       });
     });
   }
