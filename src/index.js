@@ -5,6 +5,9 @@ import '../src/components/movieCard/movieCard.css';
 import '../src/components/movieListWrapper/MovieListWrapper.css';
 import '../src/components/skeleton/skeleton.css'
 import '../src/components/toast/toast.css';
+import '../src/components/modal/Modal.css';
+import '../src/components/movieDetailModal/MovieDetailModal.css';
+
 
 import './images/logo.png';
 import './images/search_button.png';

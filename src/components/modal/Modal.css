@@ -1,0 +1,31 @@
+.modal {
+  display: none;
+}
+
+.modal--open {
+  display: block;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 826px;
+  height: 577px;
+  overflow-y: auto;
+
+  border-radius: 8px;
+  background: #212122;
+}

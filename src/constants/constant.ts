@@ -3,6 +3,7 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 const ENDPOINT = {
   POPULAR_MOVIES: '/movie/popular',
   MOVIE_SEARCH: '/search/movie',
+  DETAIL_MOVIE_INFO: '/movie',
 };
 
 const VIEW_TYPE = {

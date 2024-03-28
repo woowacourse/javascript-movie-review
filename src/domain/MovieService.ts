@@ -11,4 +11,15 @@ const mapDataToMovies = (movies: any): Movie[] => {
   });
 };
 
-export default mapDataToMovies;
+const mapDataToMovieDetail = (movieData: any): Movie => {
+  return {
+    id: movieData.id,
+    title: movieData.title,
+    posterPath: movieData.poster_path,
+    voteAverage: movieData.vote_average,
+    genres: movieData.genres,
+    overview: movieData.overview,
+  };
+};
+
+export { mapDataToMovies, mapDataToMovieDetail };

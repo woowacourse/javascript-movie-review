@@ -1,6 +1,7 @@
 import filledStar from '../../images/star_filled.png';
 import emptyPng from '../../images/empty_poster.png';
 import { Movie } from '../../interface/Movie';
+import MovieDetailModal from '../movieDetailModal/MovieDetailModal';
 
 const MovieCard = (movie: Movie) => {
   const movieCard = render(movie);
@@ -41,6 +42,13 @@ const render = (movie: Movie) => {
   itemCard.append(thumbnail, title, score);
   anchor.appendChild(itemCard);
   list.appendChild(anchor);
+
+  list.addEventListener('click', () => {
+    const main = document.querySelector('main');
+    const movieDetailModal = new MovieDetailModal(movie.id);
+    main?.appendChild(movieDetailModal.element);
+    movieDetailModal.open();
+  });
 
   return list;
 };
