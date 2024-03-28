@@ -17,7 +17,7 @@ class BasicModal {
 
   render() {
     this.modalBox.classList.add('modal-center');
-    this.backdropElement.classList.add('hidden');
+    // this.backdropElement.classList.add('hidden');
     this.modalBox.append(this.children);
 
     this.modalContainer.append(this.modalBox);
@@ -32,10 +32,10 @@ class BasicModal {
 
   setEvent(): void {
     this.blockModalBodyScroll();
-    // this.#backdropElement.addEventListener('click', () => {
-    //   this.#position === 'bottom' && closeModal();
-    //   resetBodyScroll();
-    // });
+    this.backdropElement.addEventListener('click', () => {
+      this.closeModal();
+      this.resetBodyScroll();
+    });
   }
 
   #addModalContainer() {
@@ -55,14 +55,11 @@ class BasicModal {
   //   this.append(this.#backdropElement);
   // }
 
-  // closeModal() {
-  //   // hideErrorMessage();
-  //   const $modal = document.querySelector('.modal');
-  //   if (!$modal) return;
-
-  //   $modal.classList.remove('modal--open');
-  //   resetBodyScroll();
-  // }
+  closeModal() {
+    const modal = document.querySelector('.modal');
+    if (!modal) return;
+    modal.classList.remove('modal--open');
+  }
 
   // openModal = (modalType: 'add' | 'detail') => {
   //   if (modalType === 'add') {
@@ -74,14 +71,14 @@ class BasicModal {
   //   blockModalBodyScroll();
   // };
 
-  blockModalBodyScroll = () => {
+  blockModalBodyScroll() {
     if (this.modalContainer.classList.contains('modal-open')) {
       document.body.style.overflow = 'hidden';
     }
-  };
+  }
 
-  resetBodyScroll = () => {
+  resetBodyScroll() {
     document.body.style.overflow = 'auto';
-  };
+  }
 }
 export default BasicModal;

@@ -5,6 +5,7 @@ import '../MovieItem/MovieItem.css';
 import { POSTER_BASE_URL } from '../../consts/URL';
 import { setUrlParams } from '../../utils/queryString';
 import movieAPI from '../../api/movie';
+import MovieInfoModal from '../MovieInfoModal/MovieInfoModal';
 
 class MovieItem {
   movie;
@@ -24,8 +25,9 @@ class MovieItem {
   setEvent() {
     this.itemCard.addEventListener('click', async () => {
       setUrlParams('movie_id', String(this.movie.id));
-      const result = await movieAPI.fetchDetailOfMovie({ movieId: this.movie.id });
-      console.log(result);
+      const movieDetailModal = document.querySelector('.modal-backdrop');
+      new MovieInfoModal();
+      movieDetailModal?.classList.add('modal--open');
     });
   }
 
@@ -44,10 +46,6 @@ class MovieItem {
 
   template() {
     const { id, title, posterPath, voteAverage } = this.movie;
-    // const itemBox = document.createElement('li');
-    // this.itemBox.setAttribute('data-movie-id', String(id));
-
-    // const itemCard = document.createElement('a');
     this.itemCard.classList.add('item-card');
 
     const titleBox = this.makeTitle(title);

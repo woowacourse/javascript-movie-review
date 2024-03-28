@@ -34,7 +34,7 @@ const movieAPI = {
       },
     });
 
-    return fetcher.get();
+    return fetcher.get(); //TODO: 원하는 디테일 객체로 분리 필요
   },
 };
 
