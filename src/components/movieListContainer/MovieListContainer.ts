@@ -60,15 +60,14 @@ class MovieListContainer {
 
   async attach() {
     this.$target.innerHTML += TEMPLATE;
-    const { movies, totalPages } = await this.fetchMovies(this.page + 1);
+    this.page += 1;
+    const { movies, totalPages } = await this.fetchMovies(this.page);
 
     this.paintOverwrite(movies);
     if (this.$target.parentElement === null) return;
 
     const $moreButton = dom.getElement(this.$target.parentElement, '#more-button');
     if (this.page === totalPages) $moreButton.classList.add('hidden');
-
-    this.page += 1;
   }
 
   async fetchMovies(page: number) {
