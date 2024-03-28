@@ -1,5 +1,5 @@
 import {
-  ENTER_KEYCODE,
+  ENTER_KEY_CODE,
   MOBILE_WIDTH,
   UNDEFINED_INPUT_VALUE,
 } from '../constants';
@@ -52,7 +52,7 @@ const SearchBoxHandler = {
 
     if (!(target instanceof HTMLInputElement)) return;
 
-    if (keyCode === ENTER_KEYCODE) {
+    if (keyCode === ENTER_KEY_CODE) {
       debouceFunc(() => SearchBoxHandler.searchMovie());
     }
   },

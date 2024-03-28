@@ -1,14 +1,42 @@
-import { checkElementIsNotNull, createElementWithAttribute } from '../../utils';
+import { ESC_KEY } from '../../constants';
+import {
+  checkElementIsNotNull,
+  createElementWithAttribute,
+  debouceFunc,
+} from '../../utils';
 
 interface ModalContainerProps {
   $children: HTMLElement;
   onCloseExtraFunc?: () => void;
 }
 
+const ScrollController = {
+  allowScroll() {
+    document.body.style.overflow = 'auto';
+  },
+
+  preventScroll() {
+    document.body.style.overflow = 'hidden';
+  },
+};
+
 export const ModalContainerHandler = {
+  closeModalByESC(event: KeyboardEvent) {
+    debouceFunc(() => {
+      if (event.key === ESC_KEY) {
+        ModalContainerHandler.closeModalContainer();
+      }
+    });
+  },
+
   closeModalContainer() {
     const $modalContainer = document.querySelector('.modal-container');
     $modalContainer?.remove();
+    ScrollController.allowScroll();
+    document.removeEventListener(
+      'keydown',
+      ModalContainerHandler.closeModalByESC,
+    );
   },
 
   handleClickBackgroundToCloseModal(
@@ -23,8 +51,9 @@ export const ModalContainerHandler = {
     this.closeModalContainer();
   },
 
-  // TODO: 모달 열리면 스크롤 막기
-  // TODO : esc누르면 닫히는 이벤트 추가
+  handleKeyDownToCloseModal() {
+    document.addEventListener('keydown', ModalContainerHandler.closeModalByESC);
+  },
 
   private_isWrongCloseTarget(event: Event) {
     const { target } = event;
@@ -35,6 +64,8 @@ export const ModalContainerHandler = {
 class ModalContainer {
   constructor(props: ModalContainerProps) {
     this.#renderModalContainer(props);
+    ScrollController.preventScroll();
+    ModalContainerHandler.handleKeyDownToCloseModal();
   }
 
   #makeModalBackground(onCloseExtraFunc?: () => void) {
