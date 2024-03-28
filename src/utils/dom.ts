@@ -1,5 +1,9 @@
-export const createElement = <T>(selector: string) => document.createElement(selector) as T;
+export const createElement = <T>(selector: keyof HTMLElementTagNameMap) => document.createElement(selector) as T;
 
-export const $ = <E extends Element>(selector: string): E | null => {
-  return document.querySelector(selector);
+export const $ = <E extends Element>(selector: string, baseElement: Element | Document = document): E | null => {
+  return baseElement.querySelector(selector);
+};
+
+export const $$ = <E extends Element>(selector: string, baseElement: Element | Document = document): NodeListOf<E> => {
+  return baseElement.querySelectorAll(selector);
 };
