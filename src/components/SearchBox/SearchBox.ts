@@ -12,6 +12,7 @@ const SearchBox = ({ searchHandler }: Props) => {
   const searchButton = document.createElement('button');
 
   searchBox.classList.add('search-box');
+  searchInput.classList.add('search-input');
   searchButton.classList.add('search-button');
   searchInputLabel.classList.add('sr-only');
 
@@ -27,7 +28,15 @@ const SearchBox = ({ searchHandler }: Props) => {
   searchBox.appendChild(searchInput);
   searchBox.appendChild(searchButton);
 
-  searchButton.addEventListener('click', (event: MouseEvent) => searchHandler(event));
+  searchButton.addEventListener('click', (event: MouseEvent) => {
+    const searchInput = $('#search-text') as HTMLInputElement;
+    if (searchInput.value === '') {
+      showAlert('검색어를 입력해주세요.');
+      return;
+    }
+    searchHandler(event);
+  });
+
   searchInput.addEventListener('keydown', (event: KeyboardEvent) => {
     const searchInput = $('#search-text') as HTMLInputElement;
 
