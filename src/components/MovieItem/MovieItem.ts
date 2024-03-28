@@ -1,6 +1,7 @@
 import './style.css';
 
 import StarFilled from '../../imgs/star_filled.png';
+import Placeholder from '../../imgs/poster-placeholder.svg';
 
 import { IMAGE_URL_PREFIX } from '../../constants/url';
 
@@ -77,8 +78,7 @@ class MovieItem {
     div.classList.remove('skeleton');
 
     const img = this.template.querySelector('.item-thumbnail') as HTMLImageElement;
-    img.setAttribute('src', IMAGE_URL_PREFIX + props.poster_path);
-    img.setAttribute('alt', props.title);
+    img.setAttribute('src', props.poster_path ? IMAGE_URL_PREFIX + props.poster_path : Placeholder);
     img.classList.remove('skeleton');
 
     const p1 = this.template.querySelector('.item-title') as HTMLElement;
