@@ -6,8 +6,7 @@ import MovieItem from '../movieItem/MovieItem';
 import { InvalidRequestError } from '../../errors/error';
 
 const MOVIE_ITEM_SKELETON_COUNT = 20;
-const TEMPLATE = `
-<li>
+const TEMPLATE = `<li>
   <a href="#">
     <div class="item-card">
       <div class="item-thumbnail skeleton"></div>
@@ -54,7 +53,9 @@ class MovieListContainer {
     const { movies, totalPages } = await this.fetchMovies(this.page);
     Array.from({ length: MOVIE_ITEM_SKELETON_COUNT }).forEach(() => {
       this.$target.removeChild(this.$target.lastChild!);
+      console.log('삭제:', this.$target.lastChild!);
     });
+
     this.$target.append(...movies.map(movie => new MovieItem(movie).$target));
 
     if (this.$target.parentElement === null) return;
