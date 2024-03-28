@@ -69,7 +69,6 @@ class App {
         if (!$input.value) return;
         history.pushState('', '', `?mode=search&title=${$input.value}`);
 
-        this.movieListContainer.initPageNumber();
         this.movieListContainer.render();
         // const { movies, totalPages } = await this.movieListContainer.fetchMovies(1);
         // this.movieListContainer.paint(movies);
