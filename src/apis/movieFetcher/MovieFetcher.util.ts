@@ -1,7 +1,7 @@
-import MovieAPI from './movie';
+import MovieFetcher from './MovieFetcher';
 
-export const isMovieErrorStatusCode = (status: number): status is keyof typeof MovieAPI.ERROR_MESSAGES_MAP => {
-  return status in MovieAPI.ERROR_MESSAGES_MAP;
+export const isMovieErrorStatusCode = (status: number): status is keyof typeof MovieFetcher.ERROR_MESSAGES_MAP => {
+  return status in MovieFetcher.ERROR_MESSAGES_MAP;
 };
 
 export const getAPIEndpoint = (type: string, id?: string) => {

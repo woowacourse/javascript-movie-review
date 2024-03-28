@@ -1,6 +1,6 @@
-import MovieAPI from '../../apis/movie/movie';
+import MovieFetcher from '../../apis/MovieFetcher/MovieFetcher';
 
-import { BaseResponse } from '../../apis/common/apiSchema.type';
+import { BaseResponse } from '../../apis/common/ApiClient/ApiClient.type';
 import { MovieInterface, MovieResponse } from './Movie.type';
 
 import MovieStorage from '../../storages/MovieStorage';
@@ -37,7 +37,7 @@ class Movie {
     onSuccess: (data: MovieInterface[]) => void;
     onError: (error: Error | unknown) => void;
   }) {
-    MovieAPI.fetchMovieDetails(this.page, this.movieType)
+    MovieFetcher.fetchMovieDetails(this.page, this.movieType)
       .then((data: BaseResponse<MovieResponse[]>) => {
         this.updateMovieRatings(data.results);
 

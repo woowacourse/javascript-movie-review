@@ -1,8 +1,8 @@
-import ApiSchema from '../common/apiSchema';
+import ApiClient from '../common/ApiClient/ApiClient';
 
-import { createMovieQueryString, getAPIEndpoint, isMovieErrorStatusCode } from './movie.util';
+import { createMovieQueryString, getAPIEndpoint, isMovieErrorStatusCode } from './MovieFetcher.util';
 
-class MovieAPI {
+class MovieFetcher {
   static ERROR_MESSAGES_MAP = {
     401: 'API 키가 누락되었거나 잘못되었습니다.',
     403: '사용자가 요청한 작업을 수행할 권한이 없습니다.',
@@ -25,7 +25,7 @@ class MovieAPI {
   }
 
   static async fetchMovieData(requestUrl: string) {
-    const response = await new ApiSchema(requestUrl).request();
+    const response = await new ApiClient(requestUrl).request();
 
     if (!response) return;
 
@@ -38,8 +38,8 @@ class MovieAPI {
   private static handleProcessStatusCode(response: Response) {
     if (!isMovieErrorStatusCode(response.status)) return;
 
-    throw new Error(MovieAPI.ERROR_MESSAGES_MAP[response.status]);
+    throw new Error(MovieFetcher.ERROR_MESSAGES_MAP[response.status]);
   }
 }
 
-export default MovieAPI;
+export default MovieFetcher;

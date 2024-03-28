@@ -1,4 +1,4 @@
-import MovieAPI from '../../apis/movie/movie';
+import MovieFetcher from '../../apis/MovieFetcher/MovieFetcher';
 import type { MovieDetailInterface, MovieDetailResponse, RateDetail } from './MovieDetail.type';
 
 import MovieStorage from '../../storages/MovieStorage';
@@ -14,7 +14,7 @@ class MovieDetail {
       onError: (error: Error | unknown) => void;
     },
   ) {
-    MovieAPI.fetchMovieDetail(id)
+    MovieFetcher.fetchMovieDetail(id)
       .then((data: MovieDetailResponse) => {
         onSuccess({
           ...data,

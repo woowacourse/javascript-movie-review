@@ -1,8 +1,8 @@
-import type { HTTPMethod } from './apiSchema.type';
+import type { HTTPMethod } from './ApiClient.type';
 
-import { isErrorStatusCode } from './apiSchema.util';
+import { isErrorStatusCode } from './ApiClient.util';
 
-class ApiSchema {
+class ApiClient {
   static ERROR_MESSAGES_MAP = {
     404: '서버가 요청 받은 리소스를 찾을 수 없습니다.',
     500: '서버 에러가 발생했습니다.',
@@ -24,8 +24,8 @@ class ApiSchema {
   private handleProcessStatusCode(response: Response) {
     if (!isErrorStatusCode(response.status)) return;
 
-    throw new Error(ApiSchema.ERROR_MESSAGES_MAP[response.status]);
+    throw new Error(ApiClient.ERROR_MESSAGES_MAP[response.status]);
   }
 }
 
-export default ApiSchema;
+export default ApiClient;
