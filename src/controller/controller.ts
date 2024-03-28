@@ -57,14 +57,14 @@ export class App {
 
   makeSearchPage() {
     this.pageManager.changePage('search');
-    this.#movieContainer.clearMovieList();
-
     this.setSearchKeyword();
+
     if (this.#searchKeyword === '') {
       renderToast('검색어를 입력해주세요.');
       return;
     }
 
+    this.#movieContainer.clearMovieList();
     setMainTitleText('search', this.#searchKeyword);
     this.addMovieList();
   }
