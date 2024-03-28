@@ -1,27 +1,28 @@
-import ResponseData from '../../interfaces/ResponseData';
 import MovieData from '../../interfaces/MovieData';
 import { starFilled } from '../../resources';
 import { MOVIE_POSTER_URL } from '../../constants/MOVIES_URL';
+import ReplaceSkeletonProps from '../../interfaces/ReplaceSkeletonProps';
+import ReplaceSkeletonsProps from '../../interfaces/ReplaceSkeletonsProps';
 
 const MovieItems = {
-  replaceSkeletons(movieItems: HTMLUListElement, responseData: ResponseData) {
+  replaceSkeletons({ movieItems, responseData, moiveItemDetailModal }: ReplaceSkeletonsProps) {
     const itemCards = movieItems.querySelectorAll('li');
-    itemCards.forEach((itemCard, index) => this.replaceSkeleton(itemCard, responseData.results[index]));
+
+    itemCards.forEach((itemCard, index) =>
+      this.replaceSkeleton({
+        itemCard: itemCard,
+        movieData: responseData.results[index],
+        setMovieItem: moiveItemDetailModal.setMovieItem,
+        onClick: () => moiveItemDetailModal.toggle(),
+      }),
+    );
 
     if (responseData.results[0] === undefined) {
       this.showNoResult(movieItems);
     }
   },
 
-  showNoResult(movieItems: HTMLUListElement): void {
-    const noResultText = document.createElement('h2');
-
-    noResultText.textContent = '존재하지 않습니다. 다시 입력해주세요.';
-
-    movieItems.replaceWith(noResultText);
-  },
-
-  replaceSkeleton(itemCard: HTMLElement, movieData: MovieData) {
+  replaceSkeleton({ itemCard, movieData, setMovieItem, onClick }: ReplaceSkeletonProps) {
     if (movieData === undefined) {
       return itemCard.remove();
     }
@@ -29,6 +30,9 @@ const MovieItems = {
     this.replaceThumbnail(itemCard, movieData);
     this.replaceTitle(itemCard, movieData);
     this.replaceScore(itemCard, movieData);
+
+    setMovieItem(movieData);
+    itemCard.addEventListener('click', onClick);
   },
 
   replaceThumbnail(itemCard: HTMLElement, movieData: MovieData) {
@@ -71,6 +75,14 @@ const MovieItems = {
     star.alt = '별점';
 
     return star;
+  },
+
+  showNoResult(movieItems: HTMLUListElement): void {
+    const noResultText = document.createElement('h2');
+
+    noResultText.textContent = '존재하지 않습니다. 다시 입력해주세요.';
+
+    movieItems.replaceWith(noResultText);
   },
 };
 
