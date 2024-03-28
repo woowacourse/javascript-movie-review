@@ -1,9 +1,9 @@
 import renderHandler from './render';
 
-function Error(errorStatus: number) {
+function ErrorScreen(errorStatus: number) {
   const errorComponent = renderHandler(errorStatus);
 
   return errorComponent;
 }
 
-export default Error;
+export default ErrorScreen;
