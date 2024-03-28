@@ -2,7 +2,7 @@ const storage = {
   get<T>(key: string): T {
     const item = localStorage.getItem(key);
     if (item === null) {
-      return '' as T;
+      return [] as T;
     }
 
     return JSON.parse(item);
