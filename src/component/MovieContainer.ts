@@ -8,6 +8,9 @@ import Movie from '../domain/Movie';
 import { EventHandler } from '../interface/event';
 import SkeletonCardList from './Skeleton/SkeletonCardList';
 import removeAllChild from '../util/removeAllChild';
+import isExistElement from '../util/isExistElement';
+
+const LIST_LENGTH_UNIT = 20;
 
 class MovieContainer {
   private movieContainer;
@@ -23,18 +26,18 @@ class MovieContainer {
     this.firstSkeletonItem = null;
     this.skeletonList = new SkeletonCardList();
 
-    // this.createSkeletonMovieList();
+    this.renderSkeletonMovieList();
     this.addHandlerToMoreButton(handleMoreList);
   }
 
-  // step2 에서 사용
-  // private createSkeletonMovieList() {
-  //   const skeletonMovieList = this.skeletonList.create(createSkeletonMovieItem);
-  //   const wrappedSkeletonMovieListWithLi = wrapItemWithLi(skeletonMovieList);
-  //   wrappedSkeletonMovieListWithLi.forEach((item) => this.movieListContainer.append(item));
+  private renderSkeletonMovieList() {
+    const skeletonMovieList = this.skeletonList.create(createSkeletonMovieItem);
+    const wrappedSkeletonMovieListWithLi = wrapItemWithLi(skeletonMovieList);
 
-  //   this.firstSkeletonItem = wrappedSkeletonMovieListWithLi[0]; // 새로운 아이템 push를 위한 진입점 마킹
-  // }
+    wrappedSkeletonMovieListWithLi.forEach((item) => this.movieListContainer.append(item));
+
+    this.firstSkeletonItem = wrappedSkeletonMovieListWithLi[0]; // 새로운 아이템 push를 위한 진입점 마킹
+  }
 
   // 결과 없음 알림 요소 토글, ul 클리어, 버튼 보임 여부 토글
   groundWorkForNewMovieList({ movieList, hasNextPage }: { movieList: Array<Movie>; hasNextPage: boolean }) {
@@ -46,7 +49,9 @@ class MovieContainer {
       if (movieList.length === 0) this.noticeNoData();
     }
 
+    if (!isExistElement('.skeleton', this.movieListContainer)) this.renderSkeletonMovieList();
     if (movieList.length === 0) this.clearMovieList();
+    if (!hasNextPage) this.skeletonList.handleVisibility(false);
 
     handleElementVisibilityByElement(this.moreButton, hasNextPage);
   }
@@ -57,7 +62,7 @@ class MovieContainer {
     const movieItemList = movieList.map((movie) => createMovieItem(movie.data));
     const movieItemListWrappedByLi = wrapItemWithLi(movieItemList);
 
-    if (this.firstSkeletonItem) movieItemListWrappedByLi.forEach((item) => this.firstSkeletonItem!.before(item));
+    if (this.firstSkeletonItem) movieItemListWrappedByLi.forEach((item) => this.firstSkeletonItem?.before(item));
     else movieItemListWrappedByLi.forEach((item) => this.movieListContainer.append(item));
   }
 
@@ -66,7 +71,6 @@ class MovieContainer {
   }
 
   clearMovieList() {
-    this.skeletonList.handleVisibility(false);
     if (this.movieListContainer.firstChild) removeAllChild(this.movieListContainer);
     handleElementVisibilityByElement(this.moreButton, false);
   }
