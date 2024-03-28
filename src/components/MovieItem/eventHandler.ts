@@ -41,11 +41,11 @@ const ulTagAddEventListener = (ul: Element) => {
   ul.addEventListener('click', (event) => getMovieTitleEventPhaseHandler(event, ul));
 };
 
-const renderMovieItemDetailModalHandler = () => {
+const renderMovieItemDetailModal = () => {
   const ul = document.querySelector('.item-list');
   if (!isElement(ul)) return;
 
   ulTagAddEventListener(ul);
 };
 
-export default renderMovieItemDetailModalHandler;
+export default renderMovieItemDetailModal;

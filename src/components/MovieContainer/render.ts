@@ -30,7 +30,7 @@ const assembleContent = (ul: HTMLElement) => {
   section.appendChild(contentCard);
 };
 
-export const renderHandler = (results: TotalMovieItemProps[]) => {
+export const renderMovieContainerComponents = (results: TotalMovieItemProps[]) => {
   const movieList = createMovieItems(results);
   if (!movieList) return;
 

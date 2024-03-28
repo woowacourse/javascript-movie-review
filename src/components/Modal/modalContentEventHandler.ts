@@ -77,7 +77,7 @@ const scoreStarRate = (event: Event) => {
   updateAndReRenderStarRate(starRate);
 };
 
-export const scoreStarRateHandler = () => {
+export const onScoreStarRate = () => {
   const starIconContainer = document.querySelector('.stars-container');
   if (!isElement(starIconContainer)) return;
 

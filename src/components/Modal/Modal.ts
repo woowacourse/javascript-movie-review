@@ -1,15 +1,15 @@
 import { MovieDetailProps } from '../../types/movie';
 import renderModalContainer, { initializeModalContent } from './render';
 import renderModalContent from './renderModalContent';
-import { closeButtonClickHandler, closeModalHandler, propagationContainer, openModalHandler } from './eventHandler';
-import { scoreStarRateHandler } from './modalContentEventHandler';
+import { onCloseButtonClick, onCloseModal, onPropagationContainer, onOpenModal } from './eventHandler';
+import { onScoreStarRate } from './modalContentEventHandler';
 
 function attachEventHandlers() {
-  openModalHandler();
-  closeModalHandler();
-  propagationContainer();
-  closeButtonClickHandler();
-  scoreStarRateHandler();
+  onOpenModal();
+  onCloseModal();
+  onPropagationContainer();
+  onCloseButtonClick();
+  onScoreStarRate();
 }
 
 /* eslint-disable max-lines-per-function */

@@ -62,7 +62,7 @@ const selectTargetInputAndRender = (targetInputClass: '.mobile-search-input' | '
   input.value = '';
 };
 
-const formSubmitHandler = (event: Event, searchType: SearchType) => {
+const searchKeywordSubmit = (event: Event, searchType: SearchType) => {
   event.preventDefault();
 
   const targetInputClass = searchType === 'mobile' ? '.mobile-search-input' : '.web-search-input';
@@ -78,7 +78,7 @@ export const onSearchMovieByKeyword = (searchType: SearchType) => {
   if (!form) return;
 
   form.addEventListener('submit', (event) => {
-    formSubmitHandler(event, searchType);
+    searchKeywordSubmit(event, searchType);
   });
 };
 
