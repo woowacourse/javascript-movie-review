@@ -1,6 +1,13 @@
-export const STAR_RATES = Object.freeze([2, 4, 6, 8, 10]);
+export const STAR_RATES = Object.freeze([0, 2, 4, 6, 8, 10]);
+
+export const RATE_STANDARD = 2;
+export const MAX_STAR_LENGTH = 10;
 
 const MATCHED_STAR_RATING = [
+  {
+    RATE: 0,
+    TEXT: '별점을 남겨주세요!',
+  },
   {
     RATE: 2,
     TEXT: '최악이에요',

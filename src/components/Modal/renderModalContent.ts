@@ -7,6 +7,7 @@ import formatToDecimalPlaces from '../../utils/formatToDecimalPlaces';
 import isElement from '../../utils/isElement';
 import MATCHED_STAR_RATING from '../../constants/api/starRating';
 import defaultImageSrc from '../../../templates/skeleton.png';
+import { MAX_STAR_LENGTH, RATE_STANDARD } from '../../constants/api/starRating';
 
 const createCloseButton = () => {
   const closeContainer = createElement('div', { className: 'close-container' });
@@ -109,21 +110,20 @@ const createMovieDetailOverview = (movieOverview: string) => {
 };
 
 const createIndividualStarImage = (totalRate: number, currentRate: number) => {
-  const star = createElement('img', {
-    src: totalRate <= currentRate ? filledStarImage : unfilledStarImage,
-    className: 'star',
-    'data-rate': totalRate.toString(),
-  });
+  const star = document.createElement('img');
+  star.src = totalRate <= currentRate ? filledStarImage : unfilledStarImage; // 채워진 별 또는 채워지지 않은 별 이미지
+  star.className = 'star';
+  star.setAttribute('data-rate', totalRate.toString());
 
   return star;
 };
 
 export const createFiveStarRates = (star_rating: number) => {
   const fragment = document.createDocumentFragment();
-  MATCHED_STAR_RATING.forEach((starRate) => {
-    const star = createIndividualStarImage(starRate.RATE, star_rating);
+  for (let rate = RATE_STANDARD; rate <= MAX_STAR_LENGTH; rate += RATE_STANDARD) {
+    const star = createIndividualStarImage(rate, star_rating);
     fragment.appendChild(star);
-  });
+  }
 
   return fragment;
 };
@@ -146,10 +146,12 @@ const createRateToNumber = (star_rating: StarRate) => {
   const rateToNumberContainer = createElement('div', {
     className: 'rate-number-container',
   });
+
   const rateToNumber = createElement('p', {
     className: 'rate-number',
     textContent: star_rating.toString(),
   });
+
   rateToNumberContainer.appendChild(rateToNumber);
   return rateToNumberContainer;
 };
@@ -158,7 +160,9 @@ const createRateToString = (star_rating: StarRate) => {
   const rateToTextContainer = createElement('div', {
     className: 'rate-string-container',
   });
+
   const rateToTextValue = matchRateToString(star_rating) ?? '명작이에요';
+
   const rateToString = createElement('p', {
     className: 'rate-string',
     textContent: rateToTextValue,
@@ -169,6 +173,7 @@ const createRateToString = (star_rating: StarRate) => {
   return rateToTextContainer;
 };
 
+/* eslint-disable  max-lines-per-function */
 const createStarRateComponent = (star_rating: StarRate) => {
   const rateContainer = createElement('div', { className: 'rate-container' });
   const starsContainer = createTotalStarRate(star_rating);
@@ -189,6 +194,7 @@ const createMyRateText = () => {
     className: 'star-rate-text',
     textContent: '내 별점',
   });
+
   textContainer.appendChild(text);
 
   return textContainer;
@@ -198,6 +204,7 @@ const createMovieDetailStarRating = (star_rating: StarRate) => {
   const container = createElement('div', { className: 'star-rate-container' });
   const textContainer = createMyRateText();
   const rateContainer = createStarRateComponent(star_rating);
+
   container.appendChild(textContainer);
   container.appendChild(rateContainer);
 
@@ -205,12 +212,12 @@ const createMovieDetailStarRating = (star_rating: StarRate) => {
 };
 
 /* eslint-disable  max-lines-per-function */
-const createMovieInfoContainer = ({ genres, vote_average, overview, star_rating }: Partial<MovieDetailProps>) => {
+const createMovieInfoContainer = ({ genres, vote_average, overview, star_rating = 0 }: Partial<MovieDetailProps>) => {
   const infoContainer = createElement('div', {
     className: 'info-container',
   });
 
-  if (genres && vote_average && overview && star_rating) {
+  if (genres && vote_average && overview && star_rating >= 0) {
     const movieGenreAndVoteAverage = createGenreAndVoteAverage(genres, vote_average);
     const movieOverView = createMovieDetailOverview(overview);
     const starRating = createMovieDetailStarRating(star_rating);
@@ -228,7 +235,7 @@ const imageAndInfoComponent = ({
   genres,
   vote_average,
   overview,
-  star_rating,
+  star_rating = 0,
 }: Partial<MovieDetailProps>) => {
   const imageAndInfoContainer = createElement('div', {
     className: 'image-info-container',
@@ -240,7 +247,7 @@ const imageAndInfoComponent = ({
     imageAndInfoContainer.appendChild(noneInfo);
   }
 
-  if (poster_path && genres && vote_average && overview && overview.length > 0 && star_rating) {
+  if (poster_path && genres && vote_average && overview && overview.length > 0 && star_rating >= 0) {
     const movieImage = createMovieDetailImage(poster_path);
 
     const infoContainer = createMovieInfoContainer({ genres, vote_average, overview, star_rating });
@@ -251,19 +258,22 @@ const imageAndInfoComponent = ({
   return imageAndInfoContainer;
 };
 
+/* eslint-disable  max-lines-per-function */
 const renderModalContent = ({
   title,
   genres,
   vote_average,
   poster_path,
   overview,
-  star_rating = 10,
+  star_rating = 0,
 }: MovieDetailProps) => {
   const movieDetailContainer = createElement('div', {
     className: 'detail-container',
   });
+
   const movieDetailTitle = createMovieDetailTitle(title);
   movieDetailContainer.appendChild(movieDetailTitle);
+
   const imageAndInfoContainer = imageAndInfoComponent({ poster_path, genres, vote_average, overview, star_rating });
   movieDetailContainer.appendChild(imageAndInfoContainer);
 
