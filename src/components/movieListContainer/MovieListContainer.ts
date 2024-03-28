@@ -24,7 +24,6 @@ class MovieListContainer {
   constructor() {
     this.$target.classList.add('item-list');
     this.$target.innerHTML = TEMPLATE;
-    this.$target.innerHTML = TEMPLATE;
     (async () => {
       try {
         const { movies, totalPages } = await this.fetchMovies(this.page);
@@ -46,7 +45,6 @@ class MovieListContainer {
   }
 
   async attach() {
-    this.$target.innerHTML = TEMPLATE;
     this.$target.innerHTML = TEMPLATE;
     const { movies, totalPages } = await this.fetchMovies(this.page);
     Array.from({ length: 20 }).forEach(() => {
