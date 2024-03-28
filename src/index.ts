@@ -2,8 +2,8 @@ import "./styles/common.css";
 
 import MovieHeader from "./components/MovieHeader";
 import QueryState from "./states/QueryState";
-import MovieListTitle from "./components/MovieList/MovieListTitle";
-import MovieList from "./components/MovieList/MovieList";
+import MovieListTitle from "./components/movieList/MovieListTitle";
+import MovieList from "./components/movieList/MovieList";
 import SkeletonUI from "./components/SkeletonUI";
 import { generateMovieListSkeleton } from "./components/templates/generateMovieListSkeleton";
 
