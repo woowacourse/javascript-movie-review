@@ -77,7 +77,7 @@ class MovieItem {
 
   makeTitle(title: string) {
     const titleBox = document.createElement('p');
-    titleBox.classList.add('item-title');
+    titleBox.classList.add('item-title', 'multi-lines-overflow');
     titleBox.textContent = title;
     return titleBox;
   }

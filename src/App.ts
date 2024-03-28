@@ -1,9 +1,7 @@
 import Header from '../src/components/Header/Header';
 import MovieList from '../src/components/MovieList/MovieList';
-import MovieInfoModal from './components/MovieInfoModal/MovieInfoModal';
 import Title from './components/Title/Title';
 import { END_POINT } from './consts/URL';
-import MovieDomain from './domain/entity/Movie';
 import InfiniteScrollDataLoader from './domain/services/InfiniteScrollDataLoader';
 import { getEndpoint, setEndpoint } from './utils/queryString';
 

@@ -95,12 +95,14 @@
 
   #list-title {
     text-align: center;
-    border: 1ox solid red;
+  }
+
+  .item-title {
+    font-size: 12px;
   }
 }
 
 .item-card {
-  width: 180px;
   display: flex;
   flex-direction: column;
 }
@@ -110,6 +112,7 @@
   margin-top: 16px;
   font-size: 1.2rem;
   font-weight: bold;
+  line-height: 1.5;
 }
 
 .item-score {

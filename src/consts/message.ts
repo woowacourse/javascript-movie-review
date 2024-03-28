@@ -7,6 +7,12 @@ export const ERROR_MESSAGE = {
   FETCH_FAILED: '데이터를 불러오기에 실패하였습니다. \n 다시 시도해 주세요.',
   NETWORK_ERROR: '네트워크 연결이 끊겼습니다. \n연결 후 다시 시도해 주세요.',
   RESULTS_NOT_FOUND: '검색 결과가 없습니다.',
-};
+} as const;
 
-//https://developer.themoviedb.org/docs/errors
+export const VOTE_MESSAGE: { [key: string]: string } = {
+  1: '진짜 별로에요.',
+  2: '그럭저럭 이에요.',
+  3: '보통이에요.',
+  4: '괜찮아요.',
+  5: '정말 추천해요.',
+};

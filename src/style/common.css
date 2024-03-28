@@ -1,0 +1,21 @@
+:root {
+  --primary-color: #f33f3f;
+  --grey-5: #212122;
+  --grey-3: rgba(241, 241, 241, 0.25);
+  --grey-1: #888888;
+}
+
+.line-overflow {
+  padding: 0 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.multi-lines-overflow {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+}

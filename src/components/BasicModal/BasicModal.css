@@ -21,12 +21,11 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 32px 16px;
+  z-index: 10;
 }
 
 .modal-center {
   position: fixed;
-
   overflow-y: auto;
 
   top: 50%;

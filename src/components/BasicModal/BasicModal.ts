@@ -32,9 +32,11 @@ class BasicModal {
 
   setEvent(): void {
     this.blockModalBodyScroll();
-    this.backdropElement.addEventListener('click', () => {
-      this.closeModal();
-      this.resetBodyScroll();
+    this.backdropElement.addEventListener('click', event => {
+      if (event.target === event.currentTarget) {
+        this.closeModal();
+        this.resetBodyScroll();
+      }
     });
   }
 
