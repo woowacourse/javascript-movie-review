@@ -1,0 +1,19 @@
+.scroll-trigger {
+  height: 1.25rem;
+}
+
+.empty-result {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 1.2rem;
+  line-height: 36px;
+}
+
+.empty-result > h2 {
+  margin-bottom: 24px;
+}
