@@ -1,7 +1,9 @@
-import { fetchPopularMovieList, fetchSearchMovieList } from '../../apis/fetchData';
+import { fetchMovieDetail, fetchPopularMovieList, fetchSearchMovieList } from '../../apis/fetchData';
+import { openMovieDetailModal } from '../../domain/MovieService';
 import PageService from '../../domain/PageService';
 import { Movie, MovieAPIResponse } from '../../interface/Movie';
 import InfiniteScroll from '../../utils/InfiniteScroll';
+
 import { showSkeleton, updateCard } from '../movieCard/movieCard';
 
 export class MovieListWrapper {
@@ -86,7 +88,7 @@ export class MovieListWrapper {
   displayNoResultsMessage() {
     const section = document.querySelector('.item-view');
     if (!section) return;
-    const ul = section?.querySelector('ul');
+    const ul = section.querySelector('ul');
     const totalResult = document.createElement('h3');
     totalResult.className = 'no-result';
     totalResult.textContent = '현재 검색결과가 존재하지 않습니다.';
@@ -97,6 +99,7 @@ export class MovieListWrapper {
   completeMovieList(liList: HTMLElement[], movies: Movie[]) {
     movies.forEach((movie: Movie, index) => {
       updateCard(liList[index], movie);
+      liList[index].addEventListener('click', () => openMovieDetailModal(movie.id));
     });
     document.querySelectorAll('li.skeleton').forEach(element => {
       element.remove();
