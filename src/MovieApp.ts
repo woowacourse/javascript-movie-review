@@ -73,7 +73,7 @@ class MovieApp {
 
   async #onMovieClick(event: MouseEvent) {
     const target = event.target as Element;
-    const li = target.closest('li');
+    const li = target.closest('li.movie-item') as HTMLLIElement;
     if (!li) return;
 
     this.#modal.toggle();
