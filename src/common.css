@@ -4,8 +4,10 @@
 
 :root {
   --primary-color: #f33f3f;
-  --modal-background: #212122;
-  --border-line: rgba(241, 241, 241, 0.25);
+  /* --border-line: rgba(241, 241, 241, 0.25); */
+  --grey-5: #212122;
+  --grey-3: rgba(241, 241, 241, 0.25);
+  --grey-1: #888888;
 }
 
 body {

@@ -6,6 +6,7 @@ import movieAPI from '../../api/movie';
 import { getUrlParams } from '../../utils/queryString';
 import MovieDomain from '../../domain/entity/Movie';
 import StarIcon from '../../assets/star_filled.png';
+import StarVoteBox from '../StarVoteBox/StarVoteBox';
 
 class MovieInfoModal {
   movieInfoBox;
@@ -37,6 +38,9 @@ class MovieInfoModal {
       this.renderGenresAndVoteAverage(genres, voteAverage);
       this.renderOverview(overview);
 
+      const starVoteBox = new StarVoteBox().render();
+
+      this.movieInfoDetailBox.append(starVoteBox);
       this.movieInfoBox.append(this.movieInfoWrapper);
     }
   }
