@@ -58,7 +58,7 @@ const formSubmitHandler = (event: Event, searchType: SearchType) => {
   input.value = '';
 };
 
-export const keywordSearchInputSubmitHandler = (searchType: SearchType) => {
+export const onSearchMovieByKeyword = (searchType: SearchType) => {
   const targetFormClass = searchType === 'mobile' ? '.mobile-search-form' : '.web-search-form';
   const form = document.querySelector(targetFormClass);
   if (!form) return;
@@ -73,14 +73,14 @@ const reloadPage = () => {
   window.location.reload();
 };
 
-export const reloadPageHandler = () => {
+export const onReloadPage = () => {
   const headerBanner = document.querySelector('h1');
   if (!isHTMLElement(headerBanner)) return;
 
   headerBanner.addEventListener('click', reloadPage);
 };
 
-const toggleMobileSearchInput = (event: Event) => {
+const showMobileInputAndButton = (event: Event) => {
   event.preventDefault();
   event.stopPropagation();
   const mobileSearchInput = document.querySelector('.mobile-search-input');
@@ -90,11 +90,11 @@ const toggleMobileSearchInput = (event: Event) => {
   [mobileSearchInput, mobileSubmitButton].forEach((element) => element.classList.add('visible'));
 };
 
-export const mobileToggleButtonHandler = () => {
+export const onMobileToggleButton = () => {
   const mobileToggleButton = document.querySelector('.mobile-search-button');
   if (!isElement(mobileToggleButton)) return;
 
-  mobileToggleButton.addEventListener('click', (event) => toggleMobileSearchInput(event));
+  mobileToggleButton.addEventListener('click', (event) => showMobileInputAndButton(event));
   mobileToggleButton.classList.add('hide');
 };
 
@@ -108,7 +108,7 @@ const mobileInputEnterSearch = (event: KeyboardEvent, mobileSearchInput: HTMLInp
   }
 };
 
-export const mobileInputEnterHandler = () => {
+export const onEnterMovieKeywordMobileInput = () => {
   const mobileSearchInput = document.querySelector('.mobile-search-input') as HTMLInputElement;
   if (!isElement(mobileSearchInput)) return;
   mobileSearchInput.addEventListener('keypress', (event) => mobileInputEnterSearch(event, mobileSearchInput));
