@@ -1,4 +1,4 @@
-import { renderAlertModalForNullEl } from '../../service';
+import { renderAlertModalForNullEl } from '../../controller';
 import { ListType, Movie, MovieData } from '../../type/movie';
 import { createElementWithAttribute } from '../../utils';
 

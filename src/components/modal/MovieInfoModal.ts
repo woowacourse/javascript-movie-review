@@ -1,5 +1,5 @@
 import { MOVIE_INFO_COMMON_CLASS } from '../../constants';
-import { ModalContainerController } from '../../service';
+import { ModalContainerController } from '../../controller';
 import { MovieInfo } from '../../type/movie';
 import { createElementWithAttribute } from '../../utils';
 import { MovieImg, MovieScore, MovieTitle, UserScore } from '../movie';

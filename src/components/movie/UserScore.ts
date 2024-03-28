@@ -1,6 +1,6 @@
-import { LOCAL_STORAGE_KEY } from '../../constants';
+import { renderAlertModalForNullEl } from '../../controller';
 import Trash from '../../images/trash.svg';
-import { renderAlertModalForNullEl } from '../../service';
+import localStorageHandler from '../../model/LocalStorageHandler';
 import { LocalStorageUserScore } from '../../type/movie';
 import { createElementWithAttribute, debouceFunc } from '../../utils';
 
@@ -30,20 +30,9 @@ class UserScore {
     return this.#element;
   }
 
-  #getLocalScoreItems() {
-    const sessionItem = window.localStorage.getItem(
-      LOCAL_STORAGE_KEY.userScore,
-    );
-    if (!sessionItem) return;
-
-    const scoreItems = JSON.parse(sessionItem) as LocalStorageUserScore[];
-
-    return scoreItems;
-  }
-
   // 로컬에 저장된 유저 점수 반영
   #getUserScore() {
-    const scoreItems = this.#getLocalScoreItems();
+    const scoreItems = localStorageHandler.scoreData;
     if (!scoreItems) return;
 
     const item = scoreItems.find((score) => score.id === this.#movieId);
@@ -90,17 +79,7 @@ class UserScore {
 
     this.#score = 0;
     this.#changeScoreArea();
-    this.#removeScoreItemFromStorage();
-  }
-
-  #removeScoreItemFromStorage() {
-    const scoreItems = this.#getLocalScoreItems();
-    if (!scoreItems) return;
-    const index = scoreItems.findIndex((item) => item.id === this.#movieId);
-    if (!index) return;
-
-    scoreItems.splice(index, 1);
-    this.#addScoreItemsToKLocalStorage(scoreItems);
+    localStorageHandler.removeScoreItemFromScoreData(this.#movieId);
   }
 
   #makeScoreArea() {
@@ -181,7 +160,8 @@ class UserScore {
     // 변경된 score에 따라 scoreArea 변경
     this.#changeScoreArea();
     // 변경된 score - 로컬 스토리지에 업데이트
-    this.#updateChangedScoreToStorage();
+    const newScoreItem = this.#getNewScoreItem();
+    localStorageHandler.updateScoreData(newScoreItem);
   }
 
   #getNewScore(target: HTMLButtonElement) {
@@ -202,29 +182,6 @@ class UserScore {
     }
     const $newCurrentScoreArea = this.#makeScoreArea();
     $parent.replaceChild($newCurrentScoreArea, $currentScoreArea);
-  }
-
-  #updateChangedScoreToStorage() {
-    const scoreItems = this.#getLocalScoreItems();
-    const newScoreItem = this.#getNewScoreItem();
-    if (!scoreItems) {
-      this.#addScoreItemsToKLocalStorage([newScoreItem]);
-      return;
-    }
-    const index = scoreItems?.findIndex((item) => item.id === this.#movieId);
-    if (!index) {
-      this.#addScoreItemsToKLocalStorage(scoreItems.concat(newScoreItem));
-      return;
-    }
-    scoreItems.splice(index, 1, newScoreItem);
-    this.#addScoreItemsToKLocalStorage(scoreItems);
-  }
-
-  #addScoreItemsToKLocalStorage(scoreItems: LocalStorageUserScore[]) {
-    window.localStorage.setItem(
-      LOCAL_STORAGE_KEY.userScore,
-      JSON.stringify(scoreItems),
-    );
   }
 
   #getNewScoreItem() {

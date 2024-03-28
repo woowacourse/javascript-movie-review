@@ -1,9 +1,8 @@
-import { dataStateStore } from '../model';
 import {
-  movieListDataFetcher,
   renderAlertModalForNullEl,
   SearchBoxResponsiveHandler,
-} from '../service';
+} from '../controller';
+import { dataStateStore, movieListDataFetcher } from '../model';
 import { createElementWithAttribute } from '../utils';
 
 import { MovieListContainer } from './movie';

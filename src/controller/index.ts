@@ -7,7 +7,6 @@ import SkeletonController from './SkeletonController';
 import WindowResponsiveHandler from './WindowResponsiveHandler';
 
 export * from './AlertModalForNullController';
-export * from './DataFetcher';
 export {
   ErrorViewController,
   ModalContainerController,

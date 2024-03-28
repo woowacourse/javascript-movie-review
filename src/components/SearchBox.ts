@@ -3,8 +3,8 @@ import {
   MOBILE_WIDTH,
   UNDEFINED_INPUT_VALUE,
 } from '../constants';
-import { dataStateStore } from '../model';
-import { movieListDataFetcher, SearchBoxResponsiveHandler } from '../service';
+import { SearchBoxResponsiveHandler } from '../controller';
+import { dataStateStore, movieListDataFetcher } from '../model';
 import { createElementWithAttribute, debouceFunc } from '../utils';
 
 import Label from './Label';

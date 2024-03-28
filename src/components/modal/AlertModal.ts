@@ -1,4 +1,4 @@
-import { ModalContainerController } from '../../service';
+import { ModalContainerController } from '../../controller';
 import { createElementWithAttribute } from '../../utils';
 
 import ModalContainer from './ModalContainer';

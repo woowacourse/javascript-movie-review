@@ -1,5 +1,5 @@
 import XMarker from '../../images/xmark.svg';
-import { ModalContainerController } from '../../service';
+import { ModalContainerController } from '../../controller';
 import { createElementWithAttribute } from '../../utils';
 
 class ModalCloseButton {

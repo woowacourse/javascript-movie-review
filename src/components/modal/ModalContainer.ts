@@ -1,4 +1,4 @@
-import { ModalContainerController, ScrollController } from '../../service';
+import { ModalContainerController, ScrollController } from '../../controller';
 import { checkElementIsNotNull, createElementWithAttribute } from '../../utils';
 
 interface ModalContainerProps {
@@ -47,7 +47,6 @@ class ModalContainer {
   #renderModalContainer(props: ModalContainerProps) {
     const $app = document.querySelector('#app');
     checkElementIsNotNull($app);
-    console.log('render', props.$children);
     //이전에 있는 모달 지우기
     ModalContainerController.closeModalContainer();
     //모달 생성

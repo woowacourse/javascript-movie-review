@@ -1,4 +1,4 @@
-import { ScrollObserver } from '../../service';
+import { ScrollObserver } from '../../controller';
 import { Movie } from '../../type/movie';
 import { createElementWithAttribute } from '../../utils';
 

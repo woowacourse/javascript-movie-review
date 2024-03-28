@@ -1,4 +1,4 @@
-import { renderAlertModalForNullEl } from '../../service';
+import { renderAlertModalForNullEl } from '../../controller';
 import { createElementWithAttribute } from '../../utils';
 
 import SkeletonList from './SkeletonList';

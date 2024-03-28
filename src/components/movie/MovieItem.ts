@@ -1,5 +1,4 @@
-import { dataStateStore } from '../../model';
-import { movieInfoDataFetcher } from '../../service';
+import { dataStateStore, movieInfoDataFetcher } from '../../model';
 import { Movie } from '../../type/movie';
 import { debouceFunc } from '../../utils';
 import MovieInfoModal from '../modal/MovieInfoModal';

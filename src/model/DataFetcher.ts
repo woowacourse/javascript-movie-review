@@ -1,7 +1,7 @@
-import { apiClient } from '../model';
+import ErrorViewController from '../controller/ErrorViewController';
+import SkeletonController from '../controller/SkeletonController';
 
-import ErrorViewController from './ErrorViewController';
-import SkeletonController from './SkeletonController';
+import apiClient from './APIClient';
 
 export interface DataFetcherSkeletonController {
   show: () => void;
