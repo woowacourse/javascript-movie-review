@@ -26,10 +26,6 @@ button {
   padding-bottom: 48px;
 }
 
-*:focus {
-  outline: none;
-}
-
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .full-width {
