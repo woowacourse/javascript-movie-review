@@ -38,6 +38,7 @@ class MovieApp {
   setGetPopularMoviesEventListener() {
     document.addEventListener('GetPopularMovies', () => {
       this.movieItems.moviesService = new PopularMoviesService();
+
       this.reLoad();
     });
   }
@@ -64,7 +65,6 @@ class MovieApp {
   setToggleMovieDetailModalEventListener() {
     document.addEventListener('toggleMovieDetailModal', (event) => {
       if (!(event instanceof CustomEvent)) return;
-      console.log(event.detail.value);
       this.movieDetailModal.setMovieDetail(event.detail.value);
       this.movieDetailModal.toggleModal();
     });

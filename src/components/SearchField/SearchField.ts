@@ -20,6 +20,7 @@ class SearchField {
 
   createTemplate() {
     const input = document.createElement('input');
+    input.classList.add('search-input');
     input.setAttribute('type', 'text');
     input.maxLength = 30;
     input.placeholder = '검색어를 입력하세요';
@@ -45,6 +46,10 @@ class SearchField {
 
   handleBlur() {
     const input = this.template.querySelector('input') as HTMLInputElement;
+    const logo = document.querySelector('header')?.querySelector('h1') as HTMLHeadingElement;
+    input.classList.toggle('input--open');
+    this.template.classList.toggle('input--open');
+    logo.classList.toggle('logo--hidden');
     input.value = '';
     input.blur();
   }

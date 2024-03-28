@@ -2,6 +2,7 @@ header > .search-box {
   background: #fff;
   padding: 8px;
   border-radius: 4px;
+  display: flex;
 }
 
 header .search-box > input {
@@ -10,8 +11,27 @@ header .search-box > input {
 
 header .search-box > .search-button {
   width: 14px;
+  margin: 0 2px;
   border: 0;
   text-indent: -10000px;
   background: url('../../imgs/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+@media (max-width: 530px) {
+  header > .search-box {
+    width: fit-content;
+  }
+  header > .search-box.input--open {
+    width: 100%;
+  }
+
+  header .search-box > input {
+    display: none;
+  }
+
+  header .search-box > input.input--open {
+    display: block;
+    width: 100%;
+  }
 }

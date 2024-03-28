@@ -16,6 +16,7 @@ class Header {
     const header = document.createElement('header');
 
     const img = document.createElement('img');
+    img.classList.add('logo');
     img.src = Logo;
     img.setAttribute('alt', 'MovieList 로고');
 
