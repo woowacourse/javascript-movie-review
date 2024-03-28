@@ -19,6 +19,7 @@ const TEMPLATE = `<li>
 class MovieListContainer {
   $target: HTMLUListElement = document.createElement('ul');
   page = 1;
+  moviesCount = 0;
 
   constructor() {
     this.$target.classList.add('item-list');
@@ -37,6 +38,7 @@ class MovieListContainer {
       const $moreButton = dom.getElement(this.$target.parentElement, '#more-button');
       if (this.page === totalPages) $moreButton.classList.add('hidden');
       else $moreButton.classList.remove('hidden');
+      this.moviesCount += MOVIE_ITEM_SKELETON_COUNT;
     } catch (e) {
       const target = e as InvalidRequestError;
       this.handleErrorToast(target.message);
@@ -46,6 +48,7 @@ class MovieListContainer {
   paint(movies: IMovie[]) {
     this.$target.replaceChildren();
     this.$target.append(...movies.map(movie => new MovieItem(movie).$target));
+    this.moviesCount = movies.length;
   }
 
   async attach() {
@@ -53,7 +56,6 @@ class MovieListContainer {
     const { movies, totalPages } = await this.fetchMovies(this.page);
     Array.from({ length: MOVIE_ITEM_SKELETON_COUNT }).forEach(() => {
       this.$target.removeChild(this.$target.lastChild!);
-      console.log('삭제:', this.$target.lastChild!);
     });
 
     this.$target.append(...movies.map(movie => new MovieItem(movie).$target));
@@ -62,6 +64,8 @@ class MovieListContainer {
 
     const $moreButton = dom.getElement(this.$target.parentElement, '#more-button');
     if (this.page === totalPages) $moreButton.classList.add('hidden');
+
+    this.moviesCount += movies.length;
     this.page += 1;
   }
 
