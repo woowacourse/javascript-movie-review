@@ -29,10 +29,6 @@ class Header {
     if (onSubmit) $form.addEventListener('submit', onSubmit);
   }
 
-  template() {
-    return;
-  }
-
   render() {
     this.$target.innerHTML = TEMPLATE;
     const button = this.#createSearchButton();

@@ -88,8 +88,12 @@ class App {
 
   #renderTitle(movieLength: number, text: string) {
     const $title = dom.getElement(this.$target, 'h2');
-    $title.textContent = `"${text}" 검색 결과`;
-    if (movieLength === 0) $title.textContent = `"${text}" 검색 결과가 없습니다`;
+
+    if (movieLength > 0) {
+      $title.textContent = `"${text}" 검색 결과`;
+    } else {
+      $title.textContent = `"${text}" 검색 결과가 없습니다`;
+    }
   }
 
   #handleClickMoreMovies() {

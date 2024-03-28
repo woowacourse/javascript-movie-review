@@ -23,49 +23,51 @@ class MovieListContainer {
 
   constructor() {
     this.$target.classList.add('item-list');
-    this.$target.innerHTML = TEMPLATE;
     this.render();
   }
 
   async render() {
+    this.$target.innerHTML = TEMPLATE;
     this.initPageNumber();
 
     try {
       const { movies, totalPages } = await this.fetchMovies(this.page);
-      this.paint(movies);
+      this.paintOverwrite(movies);
 
       if (this.$target.parentElement === null) return;
       const $moreButton = dom.getElement(this.$target.parentElement, '#more-button');
       if (this.page === totalPages) $moreButton.classList.add('hidden');
       else $moreButton.classList.remove('hidden');
-      this.moviesCount += MOVIE_ITEM_SKELETON_COUNT;
     } catch (e) {
       const target = e as InvalidRequestError;
       this.handleErrorToast(target.message);
     }
   }
 
-  paint(movies: IMovie[]) {
-    this.$target.replaceChildren();
-    this.$target.append(...movies.map(movie => new MovieItem(movie).$target));
-    this.moviesCount = movies.length;
+  paintOverwrite(movies: IMovie[]) {
+    movies.forEach(movie => {
+      this.$target.replaceChild(new MovieItem(movie).$target, this.$target.children[this.moviesCount]);
+      this.moviesCount += 1;
+    });
+    this.#deleteLastItems(this.$target.children.length - this.moviesCount);
+  }
+
+  #deleteLastItems(deleteCount: number) {
+    Array.from({ length: deleteCount }).forEach(() => {
+      this.$target.removeChild(this.$target.lastChild!);
+    });
   }
 
   async attach() {
     this.$target.innerHTML += TEMPLATE;
     const { movies, totalPages } = await this.fetchMovies(this.page);
-    Array.from({ length: MOVIE_ITEM_SKELETON_COUNT }).forEach(() => {
-      this.$target.removeChild(this.$target.lastChild!);
-    });
 
-    this.$target.append(...movies.map(movie => new MovieItem(movie).$target));
-
+    this.paintOverwrite(movies);
     if (this.$target.parentElement === null) return;
 
     const $moreButton = dom.getElement(this.$target.parentElement, '#more-button');
     if (this.page === totalPages) $moreButton.classList.add('hidden');
 
-    this.moviesCount += movies.length;
     this.page += 1;
   }
 
@@ -80,6 +82,7 @@ class MovieListContainer {
 
   initPageNumber() {
     this.page = 1;
+    this.moviesCount = 0;
   }
 
   handleErrorToast(errorMessage: string) {
