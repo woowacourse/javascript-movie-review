@@ -146,6 +146,10 @@
 }
 
 @media (max-width: 400px) {
+    .description {
+        font-size: 12px;
+    }
+
     .user-star-icon {
         width: 12px;
         height: 12px;
