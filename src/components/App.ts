@@ -1,7 +1,6 @@
-import Component from "../common/Component";
-
-import Header from "./Header";
-import MovieSection from "./MovieApp/MovieSection";
+import Component from "./common/Component";
+import Header from "./Header/Header";
+import MovieSection from "./MovieSection/MovieSection";
 
 import { $ } from "../utils/dom";
 
