@@ -24,10 +24,10 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
   protected initializeState(): void {
     this.movie = new Movie(1, this.props?.movieType ?? '');
 
-    this.observer = bindObserver(this.handleUpdateMovieList.bind(this));
+    this.observer = bindObserver(this.generateInfiniteScroll.bind(this));
   }
 
-  private handleUpdateMovieList() {
+  private generateInfiniteScroll() {
     const skeletonList = querySelectorAll(ELEMENT_SELECTOR.skeletonItemCard, this.$element);
 
     if (skeletonList.length > 0) return;

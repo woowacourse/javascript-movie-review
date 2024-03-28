@@ -24,11 +24,11 @@ class ModalCloseButton extends Component {
     on({
       target: $modalCloseButton,
       eventName: 'click',
-      eventHandler: this.handleModalCloseButton.bind(this),
+      eventHandler: this.closeMovieReviewDetailModal.bind(this),
     });
   }
 
-  private handleModalCloseButton() {
+  private closeMovieReviewDetailModal() {
     const $modal = querySelector<HTMLDialogElement>(ELEMENT_SELECTOR.movieReviewDetailModal);
 
     $modal.close();

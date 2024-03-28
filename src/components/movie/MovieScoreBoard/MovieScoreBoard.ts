@@ -69,11 +69,11 @@ class MovieScoreBoard extends Component<MovieScoreBoardProps> {
     on({
       target,
       eventName: 'click',
-      eventHandler: this.handleClickStarImage.bind(this),
+      eventHandler: this.renderMovieScoreBoard.bind(this),
     });
   }
 
-  private handleClickStarImage(event: Event) {
+  private renderMovieScoreBoard(event: Event) {
     if (event.target instanceof HTMLElement && event.target.dataset.value) {
       const ratingScore = Number(event.target.dataset.value) * 2;
 

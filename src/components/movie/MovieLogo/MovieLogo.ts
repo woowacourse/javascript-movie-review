@@ -16,10 +16,10 @@ class MovieLogo extends Component {
   }
 
   protected setEvent() {
-    on({ target: this.$element, eventName: 'click', eventHandler: this.handleClickLogo });
+    on({ target: this.$element, eventName: 'click', eventHandler: this.reloadPage });
   }
 
-  private handleClickLogo() {
+  private reloadPage() {
     window.location.reload();
   }
 }

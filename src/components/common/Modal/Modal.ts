@@ -34,10 +34,10 @@ class Modal extends Component<ModalProps> {
   protected setEvent() {
     const $modal = querySelector<HTMLDialogElement>(`#${this.props?.id}` ?? '', this.$element);
 
-    $modal.addEventListener('click', (event) => this.handleClickBackdrop(event, $modal));
+    $modal.addEventListener('click', (event) => this.closeModal(event, $modal));
   }
 
-  private handleClickBackdrop(event: MouseEvent, $modal: HTMLDialogElement) {
+  private closeModal(event: MouseEvent, $modal: HTMLDialogElement) {
     if (event.target === $modal) {
       $modal.close();
     }

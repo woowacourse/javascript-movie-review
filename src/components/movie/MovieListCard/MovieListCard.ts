@@ -48,23 +48,22 @@ class MovieListCard extends Component<MovieInterface> {
     on({
       target,
       eventName: 'click',
-      eventHandler: this.handleClickCard.bind(this),
+      eventHandler: this.renderModal.bind(this),
     });
   }
 
-  private handleClickCard(event: Event) {
+  private renderModal(event: Event) {
     event.stopPropagation();
 
     MovieDetail.fetchMovieDetail(String(this.props?.id), {
       onSuccess: ({ id, overview, title, score, image, genres, ratingScore }) => {
         this.renderMovieReviewDetailModal({ id, overview, title, score, image, genres, ratingScore });
       },
+
       onError: (error) => {
         console.error(error);
 
-        const $errorFallbackModal = querySelector<HTMLDialogElement>(ELEMENT_SELECTOR.errorFallBackModal);
-
-        $errorFallbackModal.showModal();
+        this.renderErrorFallbackModal();
       },
     });
   }
@@ -78,6 +77,12 @@ class MovieListCard extends Component<MovieInterface> {
     const movieReviewDetailModal = new MovieReviewDetailModal($app, movieDetail);
 
     movieReviewDetailModal.open();
+  }
+
+  private renderErrorFallbackModal() {
+    const $errorFallbackModal = querySelector<HTMLDialogElement>(ELEMENT_SELECTOR.errorFallBackModal);
+
+    $errorFallbackModal.showModal();
   }
 }
 

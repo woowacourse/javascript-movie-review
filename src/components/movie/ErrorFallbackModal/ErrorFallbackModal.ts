@@ -30,10 +30,10 @@ class ErrorFallbackModal extends Component {
 
   protected setEvent(): void {
     const button = querySelector<HTMLButtonElement>(ELEMENT_SELECTOR.reloadButton, this.$element);
-    on({ target: button, eventName: 'click', eventHandler: this.handleClickReloadButton });
+    on({ target: button, eventName: 'click', eventHandler: this.reloadPage });
   }
 
-  private handleClickReloadButton() {
+  private reloadPage() {
     window.location.reload();
   }
 }
