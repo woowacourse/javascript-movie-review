@@ -31,7 +31,7 @@ class MovieDetailModal {
         <div class='detail-modal-backdrop'></div>
         <section class='detail-modal-container'>
             <div class='title-container'>
-                <p id='title'></p>
+                <p id='modal-title'></p>
             </div>
             <div class='information-container'>
                 <div class='thumbnail-container'>
@@ -70,7 +70,7 @@ class MovieDetailModal {
     const $thumbnail = dom.getElement<HTMLImageElement>(this.$target, '#thumbnail');
     const $description = dom.getElement<HTMLParagraphElement>(this.$target, '#description');
     const $genre = dom.getElement<HTMLParagraphElement>(this.$target, '#genre');
-    const $title = dom.getElement<HTMLParagraphElement>(this.$target, '#title');
+    const $title = dom.getElement<HTMLParagraphElement>(this.$target, '#modal-title');
     const $score = dom.getElement<HTMLParagraphElement>(this.$target, '#score');
 
     $thumbnail.setAttribute('src', imageSrc);
