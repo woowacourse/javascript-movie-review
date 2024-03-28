@@ -114,7 +114,8 @@ class MovieInfoModal {
     const $overView = createElementWithAttribute('section', {
       class: `${MOVIE_INFO_COMMON_CLASS}__description__overview`,
     });
-    $overView.textContent = this.#movieInfo.overview;
+    $overView.textContent =
+      this.#movieInfo.overview || '영화에 대한 설명이 없습니다.🫥';
 
     return $overView;
   }
