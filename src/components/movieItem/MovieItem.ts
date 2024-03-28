@@ -33,10 +33,13 @@ class MovieItem {
     $image.setAttribute('src', movie.imageSrc);
     $image.setAttribute('alt', movie.title);
     $title.innerText = movie.title;
-    $score.textContent = movie.score.toString();
+    $score.textContent = this.#formatScore(movie.score);
   }
 
-  #formatScore(score: number) {}
+  #formatScore(score: number) {
+    const FORMAT_FIXED_DIGIT = 1;
+    return score.toFixed(FORMAT_FIXED_DIGIT).toString();
+  }
 }
 
 export default MovieItem;
