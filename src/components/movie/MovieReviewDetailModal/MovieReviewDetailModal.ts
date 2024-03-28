@@ -38,6 +38,9 @@ class MovieReviewDetailModal extends Component<MovieReviewDetailModalProps> {
   }
 
   protected createComponent() {
+    const genres = this?.props?.genres || '장르 없음';
+    const overview = this.props?.overview || '설명이 존재하지 않습니다.';
+
     return /* html */ `
       <nav id="modal-review-detail-header" class="modal-review-detail-header">
         <span id="modal-review-detail-title">${this.props?.title}</span>
@@ -54,14 +57,10 @@ class MovieReviewDetailModal extends Component<MovieReviewDetailModalProps> {
         />
         <section id="modal-review-detail-section" class="modal-review-detail-section">
           <div class="movie-description-container text-body">
-            <p class="movie-description-title"><span id="movie-genre" class="movie-genre">${
-              this.props?.genres || '장르 없음'
-            }</span> <img class="movie-title-image" src="${FilledStar}" /> <span id="movie-score" class="movie-score">${
+            <p class="movie-description-title"><span id="movie-genre" class="movie-genre">${genres}</span> <img class="movie-title-image" src="${FilledStar}" /> <span id="movie-score" class="movie-score">${
       this.props?.score
     }</span></p>
-            <p id="movie-description-body" class="movie-description-body">${
-              this.props?.overview || '설명이 존재하지 않습니다.'
-            }</p>
+            <p id="movie-description-body" class="movie-description-body">${overview}</p>
           </div>
         </section>
       </article>
