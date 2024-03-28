@@ -22,7 +22,7 @@ const movieDetailModal = {
 
     if (dialog) dialog.innerHTML = DETAIL_MODAL_TEMPLATE(movie, ratingValue);
     this.setModalCloseEvent();
-    this.handleRating();
+    this.handleRating(movie.id);
   },
 
   handleDetailModal(ul: HTMLElement) {
@@ -62,23 +62,23 @@ const movieDetailModal = {
     }
   },
 
-  handleRating() {
-    const rating = document.querySelector('#detail-modal--rating');
-    if (rating) {
-      rating.addEventListener('click', (event: Event) => {
+  handleRating(movieId: number) {
+    const ratingHtml = document.querySelector('#detail-modal--rating');
+    if (ratingHtml) {
+      ratingHtml.addEventListener('click', (event: Event) => {
         // 사용자가 클릭한 별점의 인덱스 찾는다
         const target = event.target as HTMLElement;
         if (target && target.className !== 'rating-star') return;
         const idAttribute = target.getAttribute('data-id');
         if (!idAttribute) return;
-        const id = Number(idAttribute);
+        const ratingValue = Number(idAttribute);
 
-        // localStorage를 업데이트 한다
+        this.updateLocalRatingValue(movieId, ratingValue);
 
         // 클릭한 위치까지의 별점을 색칠한다
-        const ratingStarList = rating.querySelectorAll('.rating-star');
+        const ratingStarList = ratingHtml.querySelectorAll('.rating-star');
         ratingStarList.forEach((star, index) => {
-          if ((index + 1) * 2 <= id) {
+          if ((index + 1) * 2 <= ratingValue) {
             star.setAttribute('src', STAR_FILLED);
           } else {
             star.setAttribute('src', STAR_EMPTY);
@@ -86,14 +86,14 @@ const movieDetailModal = {
         });
 
         // rating-value를 바꾼다
-        const ratingValue = rating.querySelector('#detail-modal--rating-value');
-        if (!ratingValue) return;
-        ratingValue.innerHTML = String(id);
+        const ratingValueHtml = ratingHtml.querySelector('#detail-modal--rating-value');
+        if (!ratingValueHtml) return;
+        ratingValueHtml.innerHTML = String(ratingValue);
 
         // rating-label을 바꾼다
-        const ratingLabel = rating.querySelector('#detail-modal--rating-label');
-        if (!ratingLabel) return;
-        ratingLabel.innerHTML = RATING_MESSAGE[id];
+        const ratingLabelHtml = ratingHtml.querySelector('#detail-modal--rating-label');
+        if (!ratingLabelHtml) return;
+        ratingLabelHtml.innerHTML = RATING_MESSAGE[ratingValue];
       });
     }
   },
@@ -101,6 +101,10 @@ const movieDetailModal = {
   getLocalRatingValue(id: number): number {
     const { ratingValue } = rating.getLocalDataItem(id);
     return ratingValue;
+  },
+
+  updateLocalRatingValue(id: number, ratingValue: number) {
+    rating.updateLocalData(id, ratingValue);
   },
 };
 
