@@ -1,6 +1,6 @@
 import Component from "../common/Component";
 import Modal from "../Modal/Modal";
-import MovieScore from "../MovieScore/MovieScore";
+import MovieRatingPanel from "../MovieRatingPanel/MovieRatingPanel";
 
 import movieFetcher from "../../http/MovieFetcher";
 import { MovieDetailItem } from "../../types/movies";
@@ -61,7 +61,7 @@ export default class MovieDetail extends Component {
     const $div = $<HTMLDivElement>("#detail-description", this.$target);
     if (!$div) return;
 
-    new MovieScore($div, { id: Number(id) });
+    new MovieRatingPanel($div, { id: Number(id) });
 
     this.$modal?.showModal(this.$target);
   }
