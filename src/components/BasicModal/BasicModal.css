@@ -2,7 +2,7 @@
   display: none;
 }
 
-.modal--open {
+.modal-open {
   display: block;
 }
 
@@ -18,19 +18,11 @@
 
 .modal-container {
   position: fixed;
+  overflow-y: auto;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 10;
-}
-
-.modal-center {
-  position: fixed;
-  overflow-y: auto;
-
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 
   border-radius: 8px;
 

@@ -6,27 +6,35 @@ import { POSTER_BASE_URL } from '../../consts/URL';
 import { setUrlParams } from '../../utils/queryString';
 import MovieInfoModal from '../MovieInfoModal/MovieInfoModal';
 
+type MovieItemProps = {
+  movie: Movie;
+  rerenderModal: () => void;
+};
+
 class MovieItem {
   movie;
   itemBox;
   itemCard;
+  rerenderModal: () => void;
 
-  constructor(movie: Movie) {
+  constructor({ movie, rerenderModal }: MovieItemProps) {
     this.movie = movie;
     this.itemBox = document.createElement('li');
     this.itemBox.setAttribute('data-movie-id', String(movie.id));
 
     this.itemCard = document.createElement('a');
     this.itemCard.classList.add('item-card');
+
+    this.rerenderModal = rerenderModal;
     this.setEvent();
   }
 
   setEvent() {
     this.itemCard.addEventListener('click', async () => {
       setUrlParams('movie_id', String(this.movie.id));
-      const movieDetailModal = document.querySelector('.modal-backdrop');
-      new MovieInfoModal();
-      movieDetailModal?.classList.add('modal--open');
+      const movieDetailModal = document.querySelector('.modal');
+      movieDetailModal?.classList.add('modal-open');
+      this.rerenderModal();
     });
   }
 

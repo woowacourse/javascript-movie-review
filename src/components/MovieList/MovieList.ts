@@ -4,6 +4,7 @@ import '../MovieList/MovieList.css';
 import { MOVIE_COUNT_PER_PAGE } from '../../consts/UISettings';
 import { NotFound } from '../Error/NotFound/NotFound';
 import { movieItemskeletonTemplate } from '../MovieItem/Skeleton';
+import MovieInfoModal from '../MovieInfoModal/MovieInfoModal';
 
 interface Props {
   movieList: Movie[];
@@ -13,10 +14,12 @@ interface Props {
 class MovieList {
   movieList: Movie[];
   isLoading: boolean;
+  movieInfoModal: MovieInfoModal;
 
   constructor({ movieList, isLoading }: Props) {
     this.movieList = movieList;
     this.isLoading = isLoading;
+    this.movieInfoModal = new MovieInfoModal();
   }
 
   set newList(movieList: Movie[]) {
@@ -53,7 +56,10 @@ class MovieList {
       if (!skeletonTemplate) return;
 
       if (this.movieList[i]) {
-        const moveItemTemplate = new MovieItem(this.movieList[i]).template();
+        const moveItemTemplate = new MovieItem({
+          movie: this.movieList[i],
+          rerenderModal: () => this.movieInfoModal.rerender(),
+        }).template();
         return skeletonTemplate.replaceWith(moveItemTemplate);
       }
       skeletonTemplate.remove();

@@ -27,6 +27,7 @@ export const ErrorRetry = ({
   const notFoundTitle = document.createElement('div');
   notFoundTitle.id = 'error-title';
 
+  //TODO: 404 에러 처리 필요: 잘못된 요청, 페이지가 없다.
   switch (errorType) {
     case 'SERVER_ERROR':
       erroImage.setAttribute('src', SYSTEM_ERROR);

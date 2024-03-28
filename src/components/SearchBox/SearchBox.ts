@@ -66,11 +66,10 @@ class searchInputBox {
     inputShowButton.addEventListener('click', () => {
       inputShowButton.classList.add('hidden');
       this.searchInputBox.classList.remove('hidden');
+
       const logo = document.querySelector('header h1');
       if (!logo) return;
-      // logo?.classList.add('hidden');
       this.searchInputBox.classList.toggle('search-box-expand');
-      // this.searchInputBox.classList.remove('show');
     });
 
     this.searchInputBox.append(inputShowButton);

@@ -9,40 +9,58 @@ import StarIcon from '../../assets/star_filled.png';
 import StarVoteBox from '../StarVoteBox/StarVoteBox';
 
 class MovieInfoModal {
-  movieInfoBox;
-  movieInfoWrapper;
-  movieInfoDetailBox;
+  movieId;
 
   constructor() {
-    this.movieInfoBox = document.createElement('div');
-    this.movieInfoBox.classList.add('movie-info-modal');
-    new BasicModal(this.movieInfoBox);
-    this.movieInfoWrapper = document.createElement('div');
-    this.movieInfoWrapper.id = 'movie-info-flex-wrapper';
-
-    this.movieInfoDetailBox = document.createElement('div');
-    this.movieInfoDetailBox.id = 'movie-info-detail-box';
-    this.render();
+    this.movieId = getUrlParams('movie_id');
   }
 
   async render() {
+    const movieInfoModal = document.createElement('div');
+    movieInfoModal.classList.add('movie-info-modal');
+
+    new BasicModal(movieInfoModal);
+
+    const movieInfoContainer = document.createElement('div');
+    movieInfoContainer.id = 'movie-info-flex-wrapper';
+
+    const movieInfoDetailBox = document.createElement('div');
+    movieInfoDetailBox.id = 'movie-info-detail-box';
     const movieId = getUrlParams('movie_id');
 
+    if (!movieId) return;
     const movieInfo = await this.getMovieDetail(Number(movieId));
 
     if (movieInfo) {
       const { title, posterPath, voteAverage, genres, overview } = movieInfo;
 
-      this.renderMovieTitle(title);
-      this.renderPoster(posterPath, title);
-      this.renderGenresAndVoteAverage(genres, voteAverage);
-      this.renderOverview(overview);
+      const titleHeader = this.renderMovieTitle(title);
+      movieInfoModal.append(titleHeader);
+
+      const poster = this.renderPoster(posterPath, title);
+      movieInfoContainer.append(poster);
+
+      const genreAndVote = this.renderGenresAndVoteAverage(genres, voteAverage);
+      movieInfoDetailBox.append(genreAndVote);
+
+      const movieOverview = this.renderOverview(overview);
+
+      movieInfoDetailBox.append(movieOverview);
+      movieInfoContainer.append(movieInfoDetailBox);
 
       const starVoteBox = new StarVoteBox().render();
 
-      this.movieInfoDetailBox.append(starVoteBox);
-      this.movieInfoBox.append(this.movieInfoWrapper);
+      movieInfoDetailBox.append(starVoteBox);
+      movieInfoModal.append(movieInfoContainer);
     }
+  }
+
+  rerender() {
+    const modalContainer = document.querySelector('.modal-container');
+
+    modalContainer?.replaceChildren();
+    this.movieId = getUrlParams('movie_id');
+    this.render();
   }
 
   async getMovieDetail(movieId: number) {
@@ -55,8 +73,8 @@ class MovieInfoModal {
     const movieTitleHeader = document.createElement('div');
     movieTitleHeader.id = 'movie-info-modal-header';
     movieTitleHeader.textContent = title;
-    this.movieInfoBox.append(movieTitleHeader);
-    this.movieInfoBox.append(movieTitleHeader);
+
+    return movieTitleHeader;
   }
 
   renderPoster(posterPath: string, title: string) {
@@ -73,7 +91,7 @@ class MovieInfoModal {
       moviePoster.append(noImageIcon);
     }
     moviePoster.setAttribute('alt', title);
-    this.movieInfoWrapper.append(moviePoster);
+    return moviePoster;
   }
 
   renderGenresAndVoteAverage(genres: string[], voteAverage: number) {
@@ -102,15 +120,14 @@ class MovieInfoModal {
     movieScoreBox.append(starIcon);
     movieScoreBox.append(movieScore);
 
-    this.movieInfoDetailBox.append(movieGenreScoreInfoBox);
+    return movieScoreBox;
   }
 
   renderOverview(overview: string) {
     const movieOverview = document.createElement('div');
     movieOverview.classList.add('movie-overview');
     movieOverview.textContent = overview;
-    this.movieInfoDetailBox.append(movieOverview);
-    this.movieInfoWrapper.append(this.movieInfoDetailBox);
+    return movieOverview;
   }
 }
 
