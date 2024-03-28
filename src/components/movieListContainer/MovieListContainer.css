@@ -49,7 +49,21 @@
 
 @media (max-width: 750px) {
   .item-list {
-    grid-template-columns: repeat(2, 180px);
+    grid-template-columns: repeat(2, 140px);
+    justify-content: space-around;
+  }
+}
+
+@media (max-width: 400px) {
+  .item-list {
+    grid-template-columns: repeat(2, 120px);
+  }
+
+  .item-thumbnail {
+    border-radius: 8px;
+    width: 140px;
+    height: 210px;
+    background-size: contain;
   }
 }
 
