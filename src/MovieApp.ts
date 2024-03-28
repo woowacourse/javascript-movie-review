@@ -37,6 +37,26 @@ interface PageInputType {
   input: string;
 }
 
+// ====================임시 더미데이터==================
+const dummy = [
+  {
+    id: 1011985,
+    ratingValue: 10,
+  },
+  {
+    id: 634492,
+    ratingValue: 2,
+  },
+  {
+    id: 763215,
+    ratingValue: 8,
+  },
+];
+
+localStorage.setItem('ratings', JSON.stringify(dummy));
+
+// ========================임시=========================
+
 class MovieApp {
   #popularPage: number = 1;
 

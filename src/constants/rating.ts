@@ -1,0 +1,12 @@
+interface RatingMessageType {
+  [key: number]: string;
+}
+
+export const RATING_MESSAGE: RatingMessageType = {
+  0: '평가해 주세요',
+  2: '최악이예요',
+  4: '별로예요',
+  6: '보통이에요',
+  8: '재미있어요',
+  10: '명작이에요',
+};

@@ -1,6 +1,7 @@
-import { LOGO, MODAL_CLOSE_BTN, NO_IMAGE, STAR_FILLED } from '../images';
+import { LOGO, MODAL_CLOSE_BTN, NO_IMAGE, STAR_EMPTY, STAR_FILLED } from '../images';
 import { MovieDetailType, MovieType } from '../types/movie';
 import { MOVIE_PATH } from './movie';
+import { RATING_MESSAGE } from './rating';
 
 export const MOVIE_ITEM_TEMPLATE = (movie: MovieType, imagePath: string) => /* html */ `
   <li>
@@ -41,7 +42,7 @@ export const HEADER_TEMPLATE = /* html */ `
 </form>
 `;
 
-export const DETAIL_MODAL_TEMPLATE = (movie: MovieDetailType) => /* html */ `
+export const DETAIL_MODAL_TEMPLATE = (movie: MovieDetailType, ratingValue: number) => /* html */ `
   <div id="detail-modal--header">
     <div id="detail-modal--title">${movie.title}</div>  
     <div id="detail-modal--close-btn"><img src="${MODAL_CLOSE_BTN}" alt="별점"/></div>
@@ -68,11 +69,25 @@ export const DETAIL_MODAL_TEMPLATE = (movie: MovieDetailType) => /* html */ `
       </div>
       <div id="detail-modal--rating">
         <div id="detail-modal--label">내 별점</div>
-        <div id="detail-modal--rating">
-          <img src="${STAR_FILLED}" id="rating-star" alt="별점"/>
+        <div id="detail-modal--rating-stars">
+          <img src="${
+            ratingValue >= 2 ? STAR_FILLED : STAR_EMPTY
+          }" class="rating-star" data-id=2 alt="별점"/>
+          <img src="${
+            ratingValue >= 4 ? STAR_FILLED : STAR_EMPTY
+          }" class="rating-star" data-id=4 alt="별점"/>
+          <img src="${
+            ratingValue >= 6 ? STAR_FILLED : STAR_EMPTY
+          }" class="rating-star" data-id=6 alt="별점"/>
+          <img src="${
+            ratingValue >= 8 ? STAR_FILLED : STAR_EMPTY
+          }" class="rating-star" data-id=8 alt="별점"/>
+          <img src="${
+            ratingValue >= 10 ? STAR_FILLED : STAR_EMPTY
+          }" class="rating-star" data-id=10 alt="별점"/>
         </div>
-        <div id="detail-modal--rating-value">6</div>
-        <div id="detail-modal--rating-label">보통이에요</div>
+        <div id="detail-modal--rating-value">${ratingValue}</div>
+        <div id="detail-modal--rating-label">${RATING_MESSAGE[ratingValue]}</div>
       </div>
     </div>
   </div>
