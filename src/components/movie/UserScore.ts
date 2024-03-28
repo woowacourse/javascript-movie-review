@@ -109,8 +109,9 @@ class UserScore {
     });
     const $starBox = this.#makeButtonGroup();
     const $scoreText = this.#makeScoreText();
-
+    const $scoreNumber = this.#makeScoreNumber();
     $scoreArea.appendChild($starBox);
+    $scoreArea.appendChild($scoreNumber);
     if ($scoreText) {
       $scoreArea.appendChild($scoreText);
     }
@@ -118,8 +119,16 @@ class UserScore {
     return $scoreArea;
   }
 
+  #makeScoreNumber() {
+    const $scoreNumber = createElementWithAttribute('span', {
+      class: 'score-number',
+    });
+    $scoreNumber.textContent = this.#score.toString();
+    return $scoreNumber;
+  }
+
   #makeScoreText() {
-    const $scoreText = createElementWithAttribute('div', {
+    const $scoreText = createElementWithAttribute('span', {
       class: 'score-text',
     });
     const text = SCORE_TEXT_MAP.get(this.#score);
