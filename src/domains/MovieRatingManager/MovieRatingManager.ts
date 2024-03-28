@@ -1,13 +1,9 @@
 import BrowserStorage from "../Storage/Storage";
 import { BrowserStorageInterface } from "../Storage/Storage.type";
-import { MovieRatingManagerInterface } from "./MovieRatingManager.type";
 
-type Rating = 0 | 2 | 4 | 6 | 8 | 10;
+import { isValidElement } from "../../utils/type";
 
-interface RatingItem {
-  movieId: number;
-  rating: Rating;
-}
+import { MovieRatingManagerInterface, Rating, RatingItem } from "./MovieRatingManager.type";
 
 export default class MovieRatingManager implements MovieRatingManagerInterface {
   private storage: BrowserStorageInterface<RatingItem[]> | null = null;
@@ -25,7 +21,6 @@ export default class MovieRatingManager implements MovieRatingManagerInterface {
   }
 
   private add(item: RatingItem) {
-    console.log(item);
     const storedMovies = this.storage?.get();
 
     if (!storedMovies) {
@@ -56,10 +51,6 @@ export default class MovieRatingManager implements MovieRatingManagerInterface {
     this.storage?.set(updatedMovies);
   }
 
-  private isValidRating(rating: number): rating is Rating {
-    return [2, 4, 6, 8, 10].includes(rating);
-  }
-
   getRatingById(id: number): Rating {
     const movie = this.getMovieById(id);
     if (!movie) return 0;
@@ -68,7 +59,7 @@ export default class MovieRatingManager implements MovieRatingManagerInterface {
   }
 
   updateMovieRating(id: number, rating: number): void {
-    if (!this.isValidRating(rating)) return;
+    if (!isValidElement<number, Rating>([0, 2, 4, 6, 8, 10], rating)) return;
 
     if (!this.getMovieById(id)) {
       this.add({ movieId: id, rating: rating });
