@@ -58,7 +58,7 @@ export const createMovieElement = ({ id, title, thumbnail, voteAverage }: MovieT
      <h3 class="movie-title">${data.title}</h3>
      <section>
         <img
-        class="item-thumbnail"
+        class="movie-thumbnail"
         src="${data.thumbnail}"
         loading="lazy"
         alt="${data.title}"

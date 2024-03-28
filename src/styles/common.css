@@ -33,7 +33,6 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
   margin: 0 auto;
 }
 
@@ -48,9 +47,18 @@ button {
 .item-list {
   display: grid;
   margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  grid-template-columns: repeat(4, 1fr);
   grid-row-gap: 48px;
+
+  /* 태블릿 크기 */
+  @media (max-width: 1250px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* 모바일 크기 */
+  @media (max-width: 850px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .item-card {
@@ -125,7 +133,6 @@ button.primary {
 }
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -151,8 +158,11 @@ header > .search-box {
   border-radius: 4px;
 }
 
-header .search-box > form > input {
+header .search-box > .search-form > #search-input {
   border: 0;
+  @media (max-width: 500px) {
+    width: 0px;
+  }
 }
 
 header .search-box > form > .search-button {
