@@ -5,7 +5,7 @@ export type UrlParams = {
   [key: string]: string | number;
 };
 
-export const generateMovieApiUrl = (url: string, params: UrlParams) => {
+export const generateMovieApiUrl = (url: string, params?: UrlParams) => {
   const API_KEY = process.env.API_KEY;
   const queryParams = new URLSearchParams({
     api_key: API_KEY as string,
