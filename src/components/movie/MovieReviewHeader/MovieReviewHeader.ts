@@ -18,7 +18,7 @@ class MovieReviewHeader extends Component<MovieReviewHeaderProps> {
       <h1 id="logo">
         <img src=${Logo} alt="MovieList 로고" />
       </h1>
-      <form id="search-form" class="search-box">
+      <form id="search-form" class="search-form">
         <input id="search-input" type="text" placeholder="검색" />
         <button id="search-button" class="search-button">검색</button>
       </form>
@@ -39,9 +39,22 @@ class MovieReviewHeader extends Component<MovieReviewHeaderProps> {
     const $searchForm = querySelector<HTMLFormElement>('#search-form', this.$element);
     const $searchInput = querySelector<HTMLInputElement>('#search-input', this.$element);
 
+    if ($searchInput.offsetWidth === 0) {
+      this.expandSearchForm($searchForm, $searchInput);
+      return;
+    }
+
     this.handleSearchResult($searchForm, $searchInput);
 
     $searchForm.reset();
+  }
+
+  private expandSearchForm($searchForm: HTMLFormElement, $searchInput: HTMLInputElement) {
+    const $movieLogo = querySelector<HTMLFormElement>('#logo', this.$element);
+    $movieLogo.classList.add('hide');
+
+    $searchForm.style.width = '100%';
+    $searchInput.style.width = '100%';
   }
 
   private handleSearchResult($searchForm: HTMLElement, $searchInput: HTMLInputElement) {

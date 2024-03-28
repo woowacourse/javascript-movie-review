@@ -24,23 +24,51 @@ header h1 {
   user-select: none;
 }
 
-header > .search-box {
+.hide {
+  display: none;
+}
+
+.search-form {
+  z-index: 1;
+
   display: flex;
   justify-content: space-between;
 
-  width: 320px;
+  width: 38px;
+  transition: width 0.5s ease;
+
   padding: 8px;
 
   background: #fff;
   border-radius: 4px;
 }
 
-header .search-box > input {
-  width: 100%;
+.search-form > input {
+  padding: 0;
   border: 0;
 }
 
-header .search-box > .search-button {
+@media (max-width: 767px) {
+  .search-form > input {
+    width: 0;
+  }
+}
+
+@media (min-width: 768px) {
+  header h1 {
+    display: block !important;
+  }
+
+  .search-form {
+    width: 320px !important;
+  }
+
+  .search-form > input {
+    width: 100%;
+  }
+}
+
+.search-button {
   width: 14px;
   margin: 0 4px;
   border: 0;
