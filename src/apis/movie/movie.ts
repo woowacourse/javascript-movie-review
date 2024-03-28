@@ -1,6 +1,6 @@
 import ApiSchema from '../common/apiSchema';
 
-import { isMovieErrorStatusCode } from './movie.util';
+import { createMovieQueryString, getAPIEndpoint, isMovieErrorStatusCode } from './movie.util';
 
 class MovieAPI {
   static ERROR_MESSAGES_MAP = {
@@ -10,7 +10,7 @@ class MovieAPI {
 
   static fetchMovieDetails(page: number, type: string) {
     const query = type === 'popular' ? '' : type;
-    const requestUrl = `${this.getAPIEndpoint(type)}?${MovieAPI.createMovieQueryString({
+    const requestUrl = `${getAPIEndpoint(type)}?${createMovieQueryString({
       page: String(page),
       query,
     })}`;
@@ -19,35 +19,9 @@ class MovieAPI {
   }
 
   static fetchMovieDetail(id: string) {
-    const requestUrl = `${this.getAPIEndpoint('detail', id)}?${MovieAPI.createMovieQueryString()}`;
+    const requestUrl = `${getAPIEndpoint('detail', id)}?${createMovieQueryString()}`;
 
     return this.fetchMovieData(requestUrl);
-  }
-
-  private static getAPIEndpoint(type: string, id?: string) {
-    switch (type) {
-      case 'popular':
-        return `${process.env.BASE_URL}/movie/popular`;
-      case 'detail':
-        return `${process.env.BASE_URL}/movie/${id}`;
-      default:
-        return `${process.env.BASE_URL}/search/movie`;
-    }
-  }
-
-  private static createMovieQueryString(options?: Record<string, string>) {
-    const params = new URLSearchParams({
-      api_key: process.env.API_KEY,
-      language: 'ko',
-    });
-
-    if (options) {
-      Object.entries(options).forEach(([key, value]) => {
-        params.append(key, value);
-      });
-    }
-
-    return params.toString();
   }
 
   static async fetchMovieData(requestUrl: string) {
