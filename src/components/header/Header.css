@@ -1,6 +1,5 @@
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -9,6 +8,7 @@ header {
   padding: 0 20px;
   border-bottom: 1px solid white;
   margin-bottom: 48px;
+  gap: 20px;
 }
 
 header h1 {
@@ -22,9 +22,11 @@ header h1 {
 
 header>.search-box {
   display: flex;
+  justify-content: space-between;
   background: #fff;
   padding: 8px;
   border-radius: 4px;
+  margin: 10px;
 }
 
 header .search-box>input {
@@ -41,4 +43,48 @@ header .search-box>.search-button {
 
 .search-button-icon {
   width: 14px;
+}
+
+.mini-search-button {
+  display: none;
+}
+
+.clicked-button {
+  display: none !important;
+}
+
+.clicked-logo {
+  display: none;
+}
+
+.clicked-form {
+  visibility: visible;
+}
+
+@media (max-width: 400px) {
+  header .search-box {
+    display: none;
+  }
+
+  .mini-search-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .clicked-form {
+    display: flex !important;
+    justify-content: space-between;
+    width: 90vw;
+  }
+}
+
+@media (min-width: 400px) {
+  .clicked-logo {
+    display: flex;
+  }
 }

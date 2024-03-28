@@ -17,6 +17,14 @@
   user-select: none;
 }
 
+
+@media (max-width: 750px) {
+  .item-view h2 {
+    text-align: center;
+  }
+}
+
+
 #toast-button {
   display: none;
 }
