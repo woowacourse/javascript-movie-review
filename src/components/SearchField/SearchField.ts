@@ -57,9 +57,9 @@ class SearchField {
         clearTimeout(debounce);
       }
       debounce = setTimeout(() => {
-        if (/^[a-zA-Z가-힣]$/.test(input.value[input.value.length - 1]))
+        if (/^[a-zA-Zㄱ-ㅎ가-힣]$/.test(input.value[input.value.length - 1]))
           this.dispatchGetMatchedMovie();
-      }, 300);
+      }, 200);
     });
   }
 

@@ -129,11 +129,13 @@ class MovieItems {
     this.moviesService
       .fetchMovies()
       .then((movies) => {
-        this.observeTargetItem(
-          this.intersectionObserver,
-          this.template.querySelectorAll('.item-card'),
-        );
         this.createMovieItem(movies, skeletonItems);
+        if (!this.moviesService.isLastPage && this.template.querySelectorAll('.item-card').length) {
+          this.observeTargetItem(
+            this.intersectionObserver,
+            this.template.querySelectorAll('.item-card'),
+          );
+        }
       })
       .catch((error) => {
         document.dispatchEvent(new CustomEvent('APIError', { detail: error, bubbles: true }));
