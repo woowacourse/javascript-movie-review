@@ -65,20 +65,16 @@ class App {
       onSubmit: async (e: SubmitEvent) => {
         e.preventDefault();
 
-        // 인풋
         const $input: HTMLInputElement = dom.getElement(this.$target, '#search-input');
         if (!$input.value) return;
         history.pushState('', '', `?mode=search&title=${$input.value}`);
 
         this.movieListContainer.initPageNumber();
-        const { movies, totalPages } = await this.movieListContainer.fetchMovies(1);
+        this.movieListContainer.render();
+        // const { movies, totalPages } = await this.movieListContainer.fetchMovies(1);
+        // this.movieListContainer.paint(movies);
 
-        this.#renderTitle(movies.length, $input.value);
-        this.movieListContainer.paint(movies);
-
-        const $moreButton = dom.getElement(this.$target, '#more-button');
-        if (this.movieListContainer.page === totalPages) $moreButton.classList.add('hidden');
-        else if (this.movieListContainer.page !== totalPages) $moreButton.classList.remove('hidden');
+        // this.#renderTitle(movies.length, $input.value);
       },
     });
   }

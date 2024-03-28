@@ -24,22 +24,27 @@ class MovieListContainer {
   constructor() {
     this.$target.classList.add('item-list');
     this.$target.innerHTML = TEMPLATE;
-    (async () => {
-      try {
-        const { movies, totalPages } = await this.fetchMovies(this.page);
-        await this.paint(movies);
-
-        if (this.$target.parentElement === null) return;
-        const $moreButton = dom.getElement(this.$target.parentElement, '#more-button');
-        if (this.page === totalPages) $moreButton.classList.add('hidden');
-      } catch (e) {
-        const target = e as InvalidRequestError;
-        this.handleErrorToast(target.message);
-      }
-    })();
+    this.render();
   }
 
-  async paint(movies: IMovie[]) {
+  async render() {
+    this.initPageNumber();
+
+    try {
+      const { movies, totalPages } = await this.fetchMovies(this.page);
+      this.paint(movies);
+
+      if (this.$target.parentElement === null) return;
+      const $moreButton = dom.getElement(this.$target.parentElement, '#more-button');
+      if (this.page === totalPages) $moreButton.classList.add('hidden');
+      else $moreButton.classList.remove('hidden');
+    } catch (e) {
+      const target = e as InvalidRequestError;
+      this.handleErrorToast(target.message);
+    }
+  }
+
+  paint(movies: IMovie[]) {
     this.$target.replaceChildren();
     this.$target.append(...movies.map(movie => new MovieItem(movie).$target));
   }
