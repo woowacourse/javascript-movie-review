@@ -9,6 +9,7 @@ class SearchField {
     this.template = this.createSearchField();
     this.createTemplate();
     this.addEnterEventListener();
+    this.addInputEventListener();
   }
 
   createSearchField() {
@@ -26,7 +27,7 @@ class SearchField {
     const button = Button.createTemplate({
       className: ['search-button'],
       text: '검색',
-      onClick: this.dispatchGetMatchedMovie.bind(this),
+      onClick: this.handleBlur.bind(this),
     });
 
     this.template.appendChild(input);
@@ -36,10 +37,29 @@ class SearchField {
   addEnterEventListener() {
     const input = this.template.querySelector('input');
     input?.addEventListener('keyup', (event) => {
-      if (event.isComposing || event.keyCode === 229) return;
       if (event.code === 'Enter') {
-        this.dispatchGetMatchedMovie();
+        this.handleBlur();
       }
+    });
+  }
+
+  handleBlur() {
+    const input = this.template.querySelector('input') as HTMLInputElement;
+    input.value = '';
+    input.blur();
+  }
+
+  addInputEventListener() {
+    let debounce: NodeJS.Timeout;
+    const input = this.template.querySelector('input');
+    input?.addEventListener('input', () => {
+      if (debounce) {
+        clearTimeout(debounce);
+      }
+      debounce = setTimeout(() => {
+        if (/^[a-zA-Z가-힣]$/.test(input.value[input.value.length - 1]))
+          this.dispatchGetMatchedMovie();
+      }, 300);
     });
   }
 
@@ -52,8 +72,6 @@ class SearchField {
       });
       document.dispatchEvent(getMatchedMoviesEvent);
     }
-    input.value = '';
-    input.blur();
   }
 
   getElement() {
