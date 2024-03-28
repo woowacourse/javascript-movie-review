@@ -20,10 +20,6 @@ class App extends Component {
     const $app = createElement({ tagName: 'div', attributeOptions: { id: 'app' } });
     const $main = createElement({ tagName: 'main' });
 
-    $main.appendChild(
-      createElement({ tagName: 'div', attributeOptions: { id: 'observer-target', class: 'observer-target' } }),
-    );
-
     new MovieReviewHeader($main);
     this.movieReviewBody = new MovieReviewBody($main, { movieType: 'popular' });
 

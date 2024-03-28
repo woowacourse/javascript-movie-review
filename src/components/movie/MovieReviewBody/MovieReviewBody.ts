@@ -6,7 +6,7 @@ import { renderSkeletonList } from '../MovieListCardSkeleton/MovieListCardSkelet
 import Movie from '../../../domain/Movie/Movie';
 
 import { createElement } from '../../../utils/dom/createElement/createElement';
-import { querySelector } from '../../../utils/dom/selector';
+import { querySelector, querySelectorAll } from '../../../utils/dom/selector';
 import { bindObserver } from '../../../utils/bindObserver';
 
 import { ELEMENT_SELECTOR } from '../../../constants/selector';
@@ -28,6 +28,10 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
   }
 
   private handleUpdateMovieList() {
+    const skeletonList = querySelectorAll(ELEMENT_SELECTOR.skeletonItemCard, this.$element);
+
+    if (skeletonList.length > 0) return;
+
     const $movieListContainer = querySelector<HTMLDivElement>(ELEMENT_SELECTOR.movieListContainer);
 
     this.updateMovieList($movieListContainer);
@@ -35,6 +39,9 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
 
   protected render() {
     this.$element.append(this.createComponent());
+    this.$element.append(
+      createElement({ tagName: 'div', attributeOptions: { id: 'observer-target', class: 'observer-target' } }),
+    );
   }
 
   protected createComponent() {

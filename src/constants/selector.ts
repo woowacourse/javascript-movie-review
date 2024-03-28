@@ -18,4 +18,5 @@ export const ELEMENT_SELECTOR = {
   movieScoreBoardImage: '#movie-score-board-stars>img',
   movieScoreBoardStars: '#movie-score-board-stars',
   observerTarget: '#observer-target',
+  skeletonItemCard: '#item-card-skeleton',
 } as const;

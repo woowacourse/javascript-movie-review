@@ -52,13 +52,3 @@ button.primary {
   line-height: 24px;
   letter-spacing: 0.5px;
 }
-
-main {
-  position: relative;
-}
-
-.observer-target {
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-}
