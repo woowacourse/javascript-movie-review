@@ -85,13 +85,15 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
 
     this.movie?.fetchMovieDetails({
       onSuccess: (movieItemDetails) => {
-        if (!this.observer) return;
+        if (!this.observer || !this.movie) return;
 
         $ul.remove();
 
         new MovieList($movieListContainer, {
           movieItemDetails,
           observer: this.observer,
+          isEmptyMovieListItems: this.movie.isEmptyMovieItems(movieItemDetails),
+          isMaxMovieListItems: this.movie.isMaxMovieItems(movieItemDetails),
         });
       },
 

@@ -16,6 +16,8 @@ import './MovieList.css';
 interface MovieListProps {
   movieItemDetails: MovieInterface[];
   observer: IntersectionObserver;
+  isEmptyMovieListItems: boolean;
+  isMaxMovieListItems: boolean;
 }
 
 class MovieList extends Component<MovieListProps> {
