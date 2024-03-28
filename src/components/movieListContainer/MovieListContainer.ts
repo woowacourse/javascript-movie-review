@@ -17,12 +17,25 @@ const TEMPLATE = `
   </a>
 </li>`.repeat(MOVIE_ITEM_SKELETON_COUNT);
 
+const MOVIE_ITEM_SKELETON_COUNT = 20;
+const TEMPLATE = `
+<li>
+  <a href="#">
+    <div class="item-card">
+      <div class="item-thumbnail skeleton"></div>
+      <div class="item-title skeleton"></div>
+      <div class="item-score skeleton"></div>
+    </div>
+  </a>
+</li>`.repeat(MOVIE_ITEM_SKELETON_COUNT);
+
 class MovieListContainer {
   $target: HTMLUListElement = document.createElement('ul');
   page = 1;
 
   constructor() {
     this.$target.classList.add('item-list');
+    this.$target.innerHTML = TEMPLATE;
     this.$target.innerHTML = TEMPLATE;
     (async () => {
       try {
@@ -45,6 +58,7 @@ class MovieListContainer {
   }
 
   async attach() {
+    this.$target.innerHTML = TEMPLATE;
     this.$target.innerHTML = TEMPLATE;
     const { movies, totalPages } = await this.fetchMovies(this.page);
     Array.from({ length: 20 }).forEach(() => {
