@@ -1,5 +1,3 @@
-import SkeletonItems from '../SkeletonItems/SkeletonItems';
-
 interface Props {
   onMovieClick: (event: MouseEvent) => void;
 }
@@ -19,7 +17,6 @@ const MovieListSection = ({ onMovieClick }: Props) => {
   section.appendChild(subtitle);
   section.appendChild(errorContainer);
   section.appendChild(movieList);
-  section.appendChild(SkeletonItems());
 
   movieList.addEventListener('click', async (event) => onMovieClick(event));
 

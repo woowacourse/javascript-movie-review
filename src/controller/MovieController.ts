@@ -7,6 +7,7 @@ import { RULES } from '../constants/rule';
 import { $ } from '../utils/dom';
 import { ALERT_MESSAGE, ERROR_MESSAGE, TITLE } from '../constants/messages';
 import throttle from '../utils/throttle';
+import SkeletonItem from '../components/SkeletonItem/SkeletonItem';
 
 class MovieController {
   #page = 1;
@@ -81,18 +82,21 @@ class MovieController {
     this.#page = 1;
     this.#query = query;
     ul.innerHTML = '';
+    Array.from({ length: RULES.moviesPerPage }).forEach(() => {
+      ul.appendChild(SkeletonItem());
+    });
   }
 
   async #renderPopularMovies() {
-    document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
+    this.#toggleSkeletonItems();
 
     const movieData = await this.#getPopularMovies(this.#page);
     if (!movieData) return;
 
-    this.#createMovieItems(movieData).forEach((movieItem) =>
-      $('ul.item-list')?.insertAdjacentElement('beforeend', movieItem),
-    );
-    document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
+    this.#createMovieItems(movieData).forEach((movieItem) => {
+      $('.skeleton-item')?.insertAdjacentElement('beforebegin', movieItem);
+    });
+    this.#toggleSkeletonItems();
     this.#page += 1;
 
     if (movieData.length === RULES.moviesPerPage) {
@@ -110,13 +114,13 @@ class MovieController {
     } catch (error) {
       if (!(error instanceof CustomError)) return;
 
-      document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
+      this.#toggleSkeletonItems();
       this.#showErrorPage(error.message, error.status);
     }
   }
 
   async #renderSearchMovies() {
-    document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
+    this.#toggleSkeletonItems();
 
     const movieData = await this.#searchMovies(this.#page, this.#query);
     if (!movieData) return;
@@ -126,9 +130,9 @@ class MovieController {
     }
 
     this.#createMovieItems(movieData).forEach((movieItem) => {
-      $('ul.item-list')?.appendChild(movieItem);
+      $('.skeleton-item')?.insertAdjacentElement('beforebegin', movieItem);
     });
-    document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
+    this.#toggleSkeletonItems();
     this.#page += 1;
 
     if (movieData.length === RULES.moviesPerPage) {
@@ -146,7 +150,7 @@ class MovieController {
     } catch (error) {
       if (!(error instanceof CustomError)) return;
 
-      document.getElementById('skeleton-container')?.classList.toggle('hide-skeleton');
+      this.#toggleSkeletonItems();
       this.#showErrorPage(error.message, error.status);
     }
   }
@@ -161,6 +165,12 @@ class MovieController {
     errorContainer.innerHTML = '';
     errorContainer.appendChild(ErrorPage({ status, message }));
     errorContainer.classList.remove('hidden');
+  }
+
+  #toggleSkeletonItems() {
+    const skeletonItems = document.querySelectorAll('.skeleton-item');
+
+    skeletonItems.forEach((skeletonItem) => skeletonItem.classList.toggle('hide-skeleton'));
   }
 }
 
