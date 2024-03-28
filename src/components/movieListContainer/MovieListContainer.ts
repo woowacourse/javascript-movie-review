@@ -37,9 +37,19 @@ class MovieListContainer {
     );
     this.page += 1;
     this.$target.append(...movieItems.map(movieItem => movieItem.$target));
-    const { movies, totalPages } = await this.fetchMovies(this.page);
+    const { movies, totalPages, movieCount } = await this.fetchMovies(this.page);
     movies.map((movie, index) => movieItems[index].paint(movieInfo.create(movie)));
-    this.validateMoreButton(totalPages);
+    const isValidMoreButton = this.validateMoreButton(totalPages);
+    if (!isValidMoreButton) this.erase(totalPages, movieCount);
+  }
+
+  erase(totalPages: number, movieCount: number) {
+    const restMovieCount = totalPages * CONFIG.MOVIE_COUNT_PER_PAGE - movieCount;
+    const length = this.$target.children.length;
+
+    Array.from({ length: restMovieCount }, (_, i) => i + 1).forEach(idx => {
+      this.$target.removeChild(this.$target.childNodes[length - idx]);
+    });
   }
 
   async fetchMovies(page: number) {
@@ -56,9 +66,10 @@ class MovieListContainer {
     const $moreButton = dom.getElement(this.$target.parentElement, '#more-button');
     if (this.page === totalPages) {
       $moreButton.classList.add('hidden');
-      return;
+      return false;
     }
     $moreButton.classList.remove('hidden');
+    return true;
   }
 
   initPageNumber() {
