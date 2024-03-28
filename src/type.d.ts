@@ -5,6 +5,10 @@ interface IMovieItemData {
   vote_average: number;
 }
 
+interface IGenre {
+  id: number;
+  name: string;
+}
 interface IMovieDetailsData {
   poster_path: string;
   title: string;

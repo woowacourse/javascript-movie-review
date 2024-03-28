@@ -1,0 +1,84 @@
+/* 추후 정렬하기! */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+dialog {
+  width: 70%;
+  height: 60%;
+  box-sizing: border-box;
+
+  overflow: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+}
+
+dialog::backdrop {
+  background-color: red;
+}
+
+.modal-item-thumbnail {
+  height: 100%;
+}
+
+.modal-header {
+  min-width: inherit;
+  background-color: #222;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.modal-title {
+  flex-grow: 1;
+  color: white;
+  text-align: center;
+}
+
+.modal-close-btn {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.modal-content {
+  background-color: #212122;
+  display: flex;
+  color: white;
+
+  height: 100%;
+
+  padding: 1rem;
+  margin: 0;
+}
+
+.tab-section {
+  display: flex;
+  align-items: stretch;
+}
+
+.modal-genres {
+  height: 100%;
+  margin: 1rem 2rem;
+}
+
+.modal-item-score-wrapper {
+  height: 100%;
+  margin: 1rem 2rem;
+}
+
+.modal-movie-overview-wrapper {
+  margin: 1rem 2rem;
+}
