@@ -1,5 +1,5 @@
 import { POPULAR_MOVIES_URL, MOVIE_SEARCH_URL } from '../../src/constants/URLs';
-import IRespondData from '../../src/interfaces/FetchMovieListDTO';
+import IRespondData from '../../src/interfaces/IMovieList';
 import '../support/commands';
 
 describe('API 테스트', () => {

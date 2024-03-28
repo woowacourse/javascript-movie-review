@@ -1,7 +1,7 @@
 import { fetchPopularMovies, fetchSearchMovies } from '../../domain/Request/sendRequest';
 import { CONTAINER_TITLE } from '../../constants/INFORMATION';
 import MovieItems from '../MovieItems/MovieItems';
-import IRespondData from '../../interfaces/FetchMovieListDTO';
+import IRespondData from '../../interfaces/IMovieList';
 import { getDomElement } from '../../util/DOM';
 import OPTIONS from '../../constants/OPTIONS';
 import setupInfiniteScroll from '../../util/InfiniteScroll';

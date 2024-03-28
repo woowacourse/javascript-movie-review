@@ -1,6 +1,6 @@
 import ToastPopup from '../../components/ToastPopup/ToastPopup';
 import { POPULAR_MOVIES_URL, MOVIE_SEARCH_URL } from '../../constants/URLs';
-import IRespondData from '../../interfaces/FetchMovieListDTO';
+import IRespondData from '../../interfaces/IMovieList';
 import { getDomElement } from '../../util/DOM';
 import checkNetworkStatus from '../Validator/NetworkValidator';
 

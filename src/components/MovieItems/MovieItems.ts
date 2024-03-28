@@ -1,4 +1,4 @@
-import IRespondData from '../../interfaces/FetchMovieListDTO';
+import IRespondData from '../../interfaces/IMovieList';
 import IMovieData from '../../interfaces/IMovieData';
 import { starFilled } from '../../resources';
 import { getDomElement, getAllDomElements } from '../../util/DOM';
