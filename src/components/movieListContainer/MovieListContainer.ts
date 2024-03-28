@@ -17,18 +17,6 @@ const TEMPLATE = `
   </a>
 </li>`.repeat(MOVIE_ITEM_SKELETON_COUNT);
 
-const MOVIE_ITEM_SKELETON_COUNT = 20;
-const TEMPLATE = `
-<li>
-  <a href="#">
-    <div class="item-card">
-      <div class="item-thumbnail skeleton"></div>
-      <div class="item-title skeleton"></div>
-      <div class="item-score skeleton"></div>
-    </div>
-  </a>
-</li>`.repeat(MOVIE_ITEM_SKELETON_COUNT);
-
 class MovieListContainer {
   $target: HTMLUListElement = document.createElement('ul');
   page = 1;
