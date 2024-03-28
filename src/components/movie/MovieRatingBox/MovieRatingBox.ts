@@ -2,6 +2,7 @@ import Component from '../../common/Component/Component';
 import RatingStorage from '../../../store/RatingStorage';
 import { querySelector, querySelectorAll } from '../../../utils/dom/selector';
 import { FilledStar, EmptyStar } from '../../../assets';
+import './MovieRatingBox.css';
 
 interface MovieRatingBoxProps {
   key: number;
@@ -62,7 +63,7 @@ class MovieRatingBox extends Component<MovieRatingBoxProps> {
   }
 
   private createRatingText(score: number = 0) {
-    return `${score}점 ${RATING_TEXT[score]}`;
+    return `${score}점 <span class="movie-rating-text">${RATING_TEXT[score]}</span>`;
   }
 
   protected setEvent(): void {
@@ -81,7 +82,7 @@ class MovieRatingBox extends Component<MovieRatingBoxProps> {
   private updateRatingText(score: number) {
     const $movieRatingText = querySelector<HTMLParagraphElement>('#movie-rating-text', this.$element);
 
-    $movieRatingText.textContent = this.createRatingText(score);
+    $movieRatingText.innerHTML = this.createRatingText(score);
   }
 
   private updateRating(event: Event) {

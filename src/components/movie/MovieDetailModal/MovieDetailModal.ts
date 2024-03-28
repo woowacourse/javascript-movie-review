@@ -14,6 +14,7 @@ interface MovieDetailModalProps {
 class MovieDetailModal extends Component<MovieDetailModalProps> {
   protected render(): void {
     new Modal(this.$element, { id: 'movie-detail-modal', children: this.createComponent() });
+    document.body.style.overflow = 'hidden';
   }
 
   protected initializeState(): void {
@@ -28,10 +29,12 @@ class MovieDetailModal extends Component<MovieDetailModalProps> {
       <div class="modal-container">
           <div class="modal-header">
               <h1 class="modal-title">${title}</h1>
-              <button id="modal-close-button" class="flex justify-center items-center"><img src=${CloseButton} alt="닫기" /></button>
+              <button id="modal-close-button"><img src=${CloseButton} alt="닫기" /></button>
           </div>
-          <div class="modal-content flex gap-y-32">
-              <img src="${process.env.IMAGE_BASE_URL}/w220_and_h330_face/${poster_path}" loading="lazy" alt=${title} />
+          <div class="modal-content">
+              <img src="${
+                process.env.IMAGE_BASE_URL
+              }/w220_and_h330_face/${poster_path}" loading="lazy" alt=${title} class="modal-thumbnail" />
               <div class="movie-detail-container">
                   <div class="flex-col gap-x-16">
                       <div class="flex gap-y-16">
@@ -43,7 +46,7 @@ class MovieDetailModal extends Component<MovieDetailModalProps> {
                       </div>
                       <p>${overview ? overview : '줄거리가 없습니다.'}</p>
                   </div>
-                  <div id="movie-rating-container" class="movie-rating-container flex items-center gap-y-12"></div>
+                  <div id="movie-rating-container" class="movie-rating-container"></div>
               </div>
           </div>
       </div>`;
@@ -59,12 +62,22 @@ class MovieDetailModal extends Component<MovieDetailModalProps> {
 
   protected setEvent(): void {
     const $modalCloseButton = querySelector('#modal-close-button', this.$element);
-    $modalCloseButton.addEventListener('click', this.removeModal.bind(this));
+    $modalCloseButton.addEventListener('click', this.closeModal.bind(this));
+
+    const $modal = querySelector<HTMLDialogElement>('#movie-detail-modal');
+    $modal.addEventListener('click', this.handleBackDropClick.bind(this));
   }
 
-  private removeModal() {
+  private closeModal() {
     const $modal = querySelector<HTMLDialogElement>('#movie-detail-modal');
     $modal.remove();
+    document.body.style.overflow = 'auto';
+  }
+
+  private handleBackDropClick(event: Event) {
+    if (event.target === event.currentTarget) {
+      this.closeModal();
+    }
   }
 }
 

@@ -22,7 +22,7 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
         <h2>
           ${this.props?.movieType === 'popular' ? '지금 인기 있는 영화' : `"${this.props?.movieType}" 검색 결과`}
         </h2>
-        <div id="movie-list-container" class="movie-list-container"></div>
+        <div id="movie-list-container" class="item-list-container"></div>
       </section>
     `;
   }
