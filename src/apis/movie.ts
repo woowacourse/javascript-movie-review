@@ -23,7 +23,7 @@ export const getPopularMovies = async (page: number): Promise<ISearchResult> => 
 };
 
 export const searchMoviesByTitle = async (title: string, page: number): Promise<ISearchResult> => {
-  const fetchUrl = `/3/search/movie?query=${title}&include_adult=false&language=en-US&page=${page}`;
+  const fetchUrl = `/3/search/movie?query=${title}&include_adult=false&language=ko-KR&page=${page}`;
   const response = await fetch(BASE_URL + fetchUrl, {
     method: 'GET',
     headers: {

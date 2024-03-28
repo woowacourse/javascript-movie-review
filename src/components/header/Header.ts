@@ -25,7 +25,7 @@ class Header {
     this.#imageSrc = imageSrc;
     this.render();
 
-    const $form = dom.getElement<HTMLFormElement>(this.$target, 'form');
+    const $form: HTMLFormElement = dom.getElement(this.$target, 'form');
     if (onSubmit) $form.addEventListener('submit', onSubmit);
   }
 
@@ -36,7 +36,7 @@ class Header {
     const $form = dom.getElement(this.$target, '.search-box');
     $form.appendChild(button.$target);
 
-    const $image = dom.getElement<HTMLImageElement>(this.$target, '.header-title__logo');
+    const $image: HTMLImageElement = dom.getElement(this.$target, '.header-title__logo');
     $image.setAttribute('src', this.#imageSrc);
   }
 

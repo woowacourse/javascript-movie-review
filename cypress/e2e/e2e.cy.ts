@@ -15,15 +15,15 @@ describe('영화 리뷰 e2e 테스트', () => {
   });
 
   describe('검색 기능 테스트', () => {
-    it('마루를 입력하고 엔터 클릭 시 영화 목록 18개를 보여준다.', () => {
-      cy.get('#search-input').type('마루{enter}');
-      cy.get('.item-list').find('li').should('have.length', 18);
+    it('미르를 입력하고 엔터 클릭 시 영화 목록 8개를 보여준다.', () => {
+      cy.get('#search-input').type('미르{enter}');
+      cy.get('.item-list').find('li').should('have.length', 8);
     });
 
-    it('마루를 입력하고 버튼 클릭 시 영화 목록 18개를 보여준다.', () => {
-      cy.get('#search-input').type('마루');
+    it('미르를 입력하고 검색버튼 클릭 시 영화 목록 8개를 보여준다.', () => {
+      cy.get('#search-input').type('미르');
       cy.get('#search-button').click();
-      cy.get('.item-list').find('li').should('have.length', 18);
+      cy.get('.item-list').find('li').should('have.length', 8);
     });
   });
 });
