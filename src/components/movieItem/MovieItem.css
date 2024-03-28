@@ -8,6 +8,12 @@
   width: 180px;
   height: 270px;
   background-size: contain;
+  cursor: pointer;
+  transition: all 0.5s;
+
+  &:hover {
+    scale: 1.1;
+  }
 }
 
 .item-title {
