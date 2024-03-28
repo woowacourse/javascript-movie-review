@@ -11,6 +11,7 @@ import {
 
 import { getPopularMovieList, getSearchMovieList } from "../../apis/movieList";
 import { $ } from "../../utils/dom";
+import { throttle } from "../../utils/throttle";
 import { HTMLTemplate, TargetId, Query } from "../../types/common";
 import { FetchedMovieData } from "../../types/movies";
 
@@ -62,21 +63,20 @@ export default class MovieList extends EventComponent {
             : movieItemsTemplate
         }
         </ul>
-        ${
-          this.page >= this.movieList.total_pages
-            ? ""
-            : '<button id="watch-more-button" class="btn primary full-width">더 보기</button>'
-        }
     `;
   }
 
   protected setEvent(): void {
-    const $watchMoreButton = $<HTMLButtonElement>("watch-more-button");
+    window.addEventListener("scroll", throttle(this.onScroll.bind(this), 500));
+  }
 
-    $watchMoreButton?.addEventListener(
-      "click",
-      this.onWatchMoreButtonClick.bind(this)
-    );
+  private onScroll() {
+    if (
+      window.innerHeight + window.scrollY >=
+      document.documentElement.scrollHeight
+    ) {
+      this.loadMoreMovies();
+    }
   }
 
   private handleError(error: unknown): void {
@@ -101,7 +101,22 @@ export default class MovieList extends EventComponent {
     }
   }
 
-  private async onWatchMoreButtonClick(): Promise<void> {
+  private async fetchMovies(
+    page: number,
+    query?: Query
+  ): Promise<FetchedMovieData> {
+    const fetchedMovieData = query
+      ? await getSearchMovieList(query, page)
+      : await getPopularMovieList(page);
+
+    return fetchedMovieData;
+  }
+
+  private resetPage(): void {
+    this.page = 1;
+  }
+
+  private async loadMoreMovies() {
     this.page += 1;
 
     this.skeletonUI.insert("item-list", "afterend");
@@ -117,20 +132,5 @@ export default class MovieList extends EventComponent {
     const movieItemsTemplate = generateMovieItems(data);
 
     $("item-list")?.insertAdjacentHTML("beforeend", movieItemsTemplate);
-  }
-
-  private async fetchMovies(
-    page: number,
-    query?: Query
-  ): Promise<FetchedMovieData> {
-    const fetchedMovieData = query
-      ? await getSearchMovieList(query, page)
-      : await getPopularMovieList(page);
-
-    return fetchedMovieData;
-  }
-
-  private resetPage(): void {
-    this.page = 1;
   }
 }
