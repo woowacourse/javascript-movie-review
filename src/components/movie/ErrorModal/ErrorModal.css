@@ -1,35 +1,20 @@
-.error-fallback-modal > .modal-container {
-  width: 500px;
-  height: 300px;
+.error-fallback-modal {
+  background: #212122;
+  border-radius: 8px;
+}
 
+.error-fallback-modal .modal-container {
   display: flex;
   flex-direction: column;
+  row-gap: 20px;
+
   justify-content: center;
   align-items: center;
 
-  white-space: pre;
-  text-align: center;
-  line-height: 28px;
-  font-size: 24px;
-
-  padding: 24px 16px;
-
-  background: #ffffff;
-
-  /* Firefox & IE & Edge */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  padding: 24px 38px;
 }
 
-.error-fallback-modal > .modal-container > div {
-  margin: 20px 0px;
-}
-
-/* Chrome, Safari */
-.error-fallback-modal > .modal-container::-webkit-scrollbar {
-  display: none;
-}
-
-.error-fallback-modal > .warning-image {
-  width: 100px;
+.error-fallback-modal .modal-container p {
+  color: white;
+  font-size: 14px;
 }

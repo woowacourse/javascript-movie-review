@@ -55,7 +55,7 @@ class MovieList extends Component<MovieListProps> {
 
   private openErrorModal(error: unknown) {
     if (error instanceof Error) {
-      const $modal = querySelector<HTMLDialogElement>('#error-fallBack-modal');
+      const $modal = querySelector<HTMLDialogElement>('#error-fallback-modal');
       $modal.showModal();
     }
   }

@@ -2,7 +2,6 @@ import Component from '../../common/Component/Component';
 import Modal from '../../common/Modal/Modal';
 import { querySelector } from '../../../utils/dom/selector';
 import { ELEMENT_SELECTOR } from '../../../constants/Selector';
-import { WarningImage } from '../../../assets';
 import './ErrorModal.css';
 
 class ErrorModal extends Component {
@@ -12,9 +11,10 @@ class ErrorModal extends Component {
 
   protected createComponent() {
     return /* html */ `
-      <img id="warning-image" class="warning-image" src="${WarningImage}" alt="경고 이미지" />
-      <div>시스템 오류가 발생했습니다. 다시 시작해 주세요.</div>
-      <button type="button" id="reload-button" class="btn primary">다시 시도하기</button>
+      <div class="modal-container">
+        <p>시스템 오류가 발생했습니다. 다시 시작해 주세요.</p>
+        <button type="button" id="reload-button" class="btn primary">다시 시도하기</button>
+      </div>
     `;
   }
 
