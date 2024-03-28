@@ -24,7 +24,7 @@ const MovieItems = {
     }
     this.replaceThumbnail(itemCard, movieData);
     this.replaceTitle(itemCard, movieData);
-    this.replaceScore(itemCard, movieData);
+    this.replaceVoteAverage(itemCard, movieData);
   },
 
   replaceThumbnail(itemCard: HTMLElement, movieData: IMovieData) {
@@ -46,14 +46,14 @@ const MovieItems = {
     title.classList.toggle('skeleton');
   },
 
-  replaceScore(itemCard: HTMLElement, movieData: IMovieData) {
-    const score = getDomElement('.item-score', itemCard);
+  replaceVoteAverage(itemCard: HTMLElement, movieData: IMovieData) {
+    const voteAverage = getDomElement('.item-vote-average', itemCard);
 
-    score.classList.add('item-score');
-    score.textContent = `${movieData.vote_average.toFixed(1)} `;
-    score.appendChild(this.createStarElement());
+    voteAverage.classList.add('item-vote-average');
+    voteAverage.textContent = `${movieData.vote_average.toFixed(1)} `;
+    voteAverage.appendChild(this.createStarElement());
 
-    score.classList.toggle('skeleton');
+    voteAverage.classList.toggle('skeleton');
   },
 
   createStarElement(): HTMLElement {
@@ -63,23 +63,13 @@ const MovieItems = {
     return star;
   },
 
-  createMovieItemLink(movieItemCard: HTMLElement) {
-    const movieItemLink = document.createElement('a');
-
-    movieItemLink.setAttribute('href', '#');
-
-    movieItemLink.appendChild(movieItemCard);
-
-    return movieItemLink;
-  },
-
   replaceMovieCardSkeleton(itemCard: HTMLElement, movieData: IMovieData) {
     if (movieData === undefined) {
       return itemCard.remove();
     }
     this.replaceThumbnail(itemCard, movieData);
     this.replaceTitle(itemCard, movieData);
-    this.replaceScore(itemCard, movieData);
+    this.replaceVoteAverage(itemCard, movieData);
   },
 
   createMovieItemThumbnailSkeleton() {
@@ -96,11 +86,11 @@ const MovieItems = {
     return movieItemTitle;
   },
 
-  createMovieItemScoreSkeleton() {
-    const movieItemScore = document.createElement('div');
-    movieItemScore.classList.add('item-score', 'skeleton');
+  createMovieItemVoteAverageSkeleton() {
+    const movieItemVoteAverage = document.createElement('div');
+    movieItemVoteAverage.classList.add('item-vote-average', 'skeleton');
 
-    return movieItemScore;
+    return movieItemVoteAverage;
   },
 };
 

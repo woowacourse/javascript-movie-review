@@ -1,5 +1,5 @@
 import OPTIONS from '../../constants/OPTIONS';
-import MovieItems from '../MovieItems/MovieItems';
+import { getDomElement } from '../../util/DOM';
 
 const Skeleton = {
   createMovieSkeleton(movieItemsList: HTMLUListElement): HTMLUListElement {
@@ -11,9 +11,7 @@ const Skeleton = {
 
   createMovieItemSkeleton() {
     const movieItem = document.createElement('li');
-    const movieItemLink = MovieItems.createMovieItemLink(this.createMovieItemCardSkeleton());
-
-    movieItem.appendChild(movieItemLink);
+    movieItem.appendChild(this.createMovieItemCardSkeleton());
 
     return movieItem;
   },
@@ -24,7 +22,7 @@ const Skeleton = {
 
     movieItemCardSkeleton.appendChild(this.createMovieItemThumbnailSkeleton());
     movieItemCardSkeleton.appendChild(this.createMovieItemTitleSkeleton());
-    movieItemCardSkeleton.appendChild(this.createMovieItemScoreSkeleton());
+    movieItemCardSkeleton.appendChild(this.createMovieItemVoteAverageSkeleton());
 
     return movieItemCardSkeleton;
   },
@@ -43,11 +41,11 @@ const Skeleton = {
     return movieItemTitle;
   },
 
-  createMovieItemScoreSkeleton() {
-    const movieItemScore = document.createElement('p');
-    movieItemScore.classList.add('item-score', 'skeleton');
+  createMovieItemVoteAverageSkeleton() {
+    const movieItemVoteAverage = document.createElement('p');
+    movieItemVoteAverage.classList.add('item-vote-average', 'skeleton');
 
-    return movieItemScore;
+    return movieItemVoteAverage;
   },
 };
 
