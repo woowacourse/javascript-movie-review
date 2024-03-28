@@ -27,6 +27,7 @@ button {
 .item-view,
 .item-test {
   width: 100%;
+  max-width: 1200px;
 }
 
 .item-view {
