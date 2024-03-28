@@ -5,8 +5,8 @@ import { Movie } from '../../interface/Movie';
 export function showSkeleton() {
   const movieCard = document.createElement('li');
   movieCard.className = 'skeleton';
-  const link = document.createElement('a');
-  link.href = '#';
+  const link = document.createElement('div');
+  //link.href = '#';
 
   const itemCard = document.createElement('div');
   itemCard.className = 'item-card';

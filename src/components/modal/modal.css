@@ -1,0 +1,110 @@
+.modal--open .skeleton {
+  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background-size: 400%;
+  animation: skeleton-animation 5s infinite ease-out;
+  border-radius: 8px;
+}
+
+@keyframes skeleton-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.modal {
+  display: none;
+}
+
+.modal--open {
+  display: block;
+}
+
+.modal-backdrop {
+  position: fixed;
+  display: flex;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  border-radius: 8px 8px 0px 0px;
+  background: #222222;
+  color: white;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+
+  padding: 1rem 1rem;
+  border-bottom: 1px solid rgba(154, 150, 150, 0.35);
+}
+
+.modal-title {
+  text-align: center;
+  width: 100%;
+}
+
+.modal-close-button {
+  border-radius: 6px;
+  height: 2rem;
+  width: 2rem;
+}
+
+.modal-section {
+  height: 25rem;
+}
+
+.modal-body {
+  display: flex;
+  padding: 1rem;
+}
+
+.modal-body-header {
+  display: flex;
+  align-items: center;
+}
+.modal-genre {
+  width: 6rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.voteBox {
+  margin: 0 0 0 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.modal-overview {
+  min-height: 70%;
+  max-height: 70%;
+  overflow: auto;
+}
+
+.modal-body-poster {
+  min-width: 16.25rem;
+  height: 25rem;
+  background-size: contain;
+}
+
+.stop-scroll {
+  overflow: hidden;
+}
