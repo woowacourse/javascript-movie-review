@@ -54,6 +54,11 @@ class MovieReviewDetailModal extends Component<MovieReviewDetailModalProps> {
             this.style.border='1px solid #e2e2e2';
             this.src='${DEFAULT_IMAGE_URL}'
           "
+          onload="
+            this.src='${
+              this.props?.image ? `${process.env.IMAGE_BASE_URL}/w220_and_h330_face/${this.props?.image}` : ''
+            }'
+          "
         />
         <section id="modal-review-detail-section" class="modal-review-detail-section">
           <div class="movie-description-container text-body">
