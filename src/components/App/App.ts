@@ -5,6 +5,16 @@ import MovieListContainer from '../movieListContainer/MovieListContainer';
 import Button from '../common/button/Button';
 import Toast from '../../Toast';
 
+const TEMPLATE = `
+  <main>
+    <section class="item-view">
+      <h2 id="title">지금 인기 있는 영화</h2>
+      <slot class="slot-movie-list"></slot>
+      <button style="display: none;" id="toast_btn"></button>
+    </section>
+  </main>
+`;
+
 class App {
   $target: HTMLElement;
   movieListContainer: MovieListContainer;
@@ -13,26 +23,14 @@ class App {
   constructor() {
     this.$target = document.createElement('div');
     this.$target.id = 'app';
-    this.$target.innerHTML = this.template();
+    this.$target.innerHTML = TEMPLATE;
     this.movieListContainer = new MovieListContainer();
 
-    this.render();
-    this.setEvent();
+    this.#render();
+    this.#setEvent();
   }
 
-  template() {
-    return `
-    <main>
-      <section class="item-view">
-        <h2 id="title">지금 인기 있는 영화</h2>
-        <slot class="slot-movie-list"></slot>
-        <button style="display: none;" id="toast_btn"></button>
-      </section>
-    </main>
-    `;
-  }
-
-  render() {
+  #render() {
     const header = this.#createHeader();
     const button = this.#createMoreButton();
 
@@ -52,7 +50,7 @@ class App {
     this.$target.prepend(header.$target);
   }
 
-  setEvent() {
+  #setEvent() {
     const $button = dom.getElement<HTMLButtonElement>(this.$target, '#toast_btn');
 
     $button.addEventListener<any>('onToast', (e: CustomEvent) => {
@@ -67,15 +65,15 @@ class App {
       onSubmit: async (e: SubmitEvent) => {
         e.preventDefault();
 
-        const $input = dom.getElement<HTMLInputElement>(this.$target, '#search-input');
+        // 인풋
+        const $input: HTMLInputElement = dom.getElement(this.$target, '#search-input');
         if (!$input.value) return;
-
         history.pushState('', '', `?mode=search&title=${$input.value}`);
 
         this.movieListContainer.initPageNumber();
         const { movies, totalPages } = await this.movieListContainer.fetchMovies(1);
 
-        this.renderTitle(movies.length, $input.value);
+        this.#renderTitle(movies.length, $input.value);
         this.movieListContainer.paint(movies);
 
         const $moreButton = dom.getElement(this.$target, '#more-button');
@@ -91,17 +89,17 @@ class App {
       id: 'more-button',
       classNames: ['btn', 'primary', 'full-width'],
       children: [textNode],
-      onClick: this.handleClickMoreMovies.bind(this),
+      onClick: this.#handleClickMoreMovies.bind(this),
     });
   }
 
-  renderTitle(movieLength: number, text: string) {
+  #renderTitle(movieLength: number, text: string) {
     const $title = dom.getElement(this.$target, 'h2');
     $title.textContent = `"${text}" 검색 결과`;
     if (movieLength === 0) $title.textContent = `"${text}" 검색 결과가 없습니다`;
   }
 
-  handleClickMoreMovies() {
+  #handleClickMoreMovies() {
     this.movieListContainer.attach();
   }
 }

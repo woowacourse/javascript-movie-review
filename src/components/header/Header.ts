@@ -2,6 +2,16 @@ import './Header.css';
 import { dom } from '../../utils/dom';
 import Button from '../common/button/Button';
 
+const TEMPLATE = `
+  <h1 class="header-title">
+    <a href="/">
+      <img class="header-title__logo" src="./images/logo.png" alt="MovieList - 홈으로 이동" />
+    </a>
+  </h1>
+  <form class="search-box">
+    <input id="search-input" type="text" placeholder="검색" />
+  </form>
+`;
 interface IHeaderProps {
   imageSrc: string;
   onSubmit?: (e: SubmitEvent) => void;
@@ -20,21 +30,11 @@ class Header {
   }
 
   template() {
-    return /*html*/ `
-      <h1 class="header-title">
-        <a href="/">
-          <img class="header-title__logo" src="./images/logo.png" alt="MovieList - 홈으로 이동" />
-        </a>
-      </h1>
-      <form class="search-box">
-        <input id="search-input" type="text" placeholder="검색" />
-        
-      </form>
-`;
+    return;
   }
 
   render() {
-    this.$target.innerHTML = this.template();
+    this.$target.innerHTML = TEMPLATE;
     const button = this.#createSearchButton();
 
     const $form = dom.getElement(this.$target, '.search-box');
