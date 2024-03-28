@@ -10,6 +10,16 @@ const BUTTON = {
     innerText: '더 보기',
     classes: ['btn', 'primary', 'full-width'],
   } as IButton,
+
+  closeModal: {
+    innerText: 'X',
+    classes: ['close-button'],
+  } as IButton,
+
+  voteStar: {
+    innerText: '별점',
+    classes: ['item-votestar', 'skeleton'],
+  } as IButton,
 };
 
 const CONTAINER_TITLE = {
