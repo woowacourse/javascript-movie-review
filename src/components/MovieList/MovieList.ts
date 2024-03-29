@@ -8,6 +8,7 @@ import MovieStore from '../../stores/movieStore';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import LoadMoreButton from '../LoadMoreButton/LoadMoreButton';
 import MovieItem from '../MovieItem/MovieItem';
+import ResultNotFound from './ResultNotFound/ResultNotFound';
 import SkeletonMovieList from './SkeletonMovieList';
 
 const createSection = () => {
@@ -22,12 +23,48 @@ const createUl = () => {
   return $ul;
 };
 
-const updateMovieList = (movies: MovieItem[], $list: HTMLUListElement) => {
-  $list.textContent = '';
+const showResultNotFound = () => {
+  const $section = document.querySelector('.item-view');
+
+  if ($section) {
+    const $resultNotFound = ResultNotFound().render();
+    $section.appendChild($resultNotFound);
+  }
+};
+
+const updateMovieList = ({
+  movies,
+  $ul,
+}: {
+  movies: MovieItem[];
+  $ul: HTMLUListElement;
+}) => {
+  if (MovieStore.page === 1) {
+    $ul.textContent = '';
+  }
+
+  if (movies.length === 0) {
+    showResultNotFound();
+  }
+
   movies.forEach((movie) => {
     const $movieItem = MovieItem(movie).render();
-    $list.appendChild($movieItem);
+    $ul.appendChild($movieItem);
   });
+};
+
+const updateMovieStore = ({
+  movies,
+  page,
+}: {
+  movies: MovieItem[];
+  page: number;
+}) => {
+  MovieStore.setMovies({
+    value: movies,
+  });
+
+  MovieStore.setPage(page + 1);
 };
 
 const MovieList = () => {
@@ -59,23 +96,10 @@ const MovieList = () => {
     return $section;
   };
 
-  const updateMovieStore = ({
-    movies,
-    page,
-  }: {
-    movies: MovieItem[];
-    page: number;
-  }) => {
-    MovieStore.setMovies({
-      value: movies,
-      callback: () => updateMovieList(movies, $ul),
-    });
-
-    MovieStore.setPage(page + 1);
-  };
-
   const onSuccess = (data: MovieResponse) => {
     const { page, movies, isLastPage } = processMovieRequestResults(data);
+
+    updateMovieList({ movies, $ul });
 
     const updatedMovies =
       page === 1 ? [...movies] : [...MovieStore.movies, ...movies];
