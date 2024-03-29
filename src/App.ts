@@ -11,7 +11,7 @@ export default class App {
   }
 
   async run() {
-    const itemView = document.querySelector('.item-view');
+    const itemView = document.getElementById('item-view-container');
 
     itemView?.appendChild(this.#movieListElement.element);
     this.#generateSearchBox();
@@ -35,6 +35,9 @@ export default class App {
     if (homeButton) {
       homeButton.addEventListener('click', () => {
         this.#movieListElement.renderPreviousPopularList();
+        const input = document.querySelector('input[name=query]');
+
+        input?.classList.remove('search-open');
       });
     }
   }

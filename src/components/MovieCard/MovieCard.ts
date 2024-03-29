@@ -25,7 +25,7 @@ export default class MovieCard {
   /* eslint-disable max-lines-per-function */
   #generateMovieItem(movie: Movie) {
     const element = /* html */ ` 
-    <a href="#">
+    <a>
        <div class="item-card">
          <img
            class="item-thumbnail"
@@ -43,7 +43,7 @@ export default class MovieCard {
 
   #generateSkeletonMovieItem() {
     const element = /* html */ ` 
-    <a href="#">
+    <a>
       <div class="item-card">
         <div class="item-thumbnail skeleton"></div>
         <div class="item-title skeleton"></div>

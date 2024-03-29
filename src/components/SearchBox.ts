@@ -3,13 +3,13 @@ interface Props {
 }
 
 export default class SearchBox {
-  searchBoxElement = document.createElement('form');
+  #searchBoxElement = document.createElement('form');
 
   #onSearch: Props['onSearch'];
 
   constructor({ onSearch }: Props) {
     this.#onSearch = onSearch;
-    this.searchBoxElement.classList.add('search-box');
+    this.#searchBoxElement.classList.add('search-box');
     this.#generateInput();
     this.#generateButton();
     this.#addFormEvent();
@@ -22,7 +22,7 @@ export default class SearchBox {
     input.placeholder = '검색';
     input.name = 'query';
 
-    this.searchBoxElement.appendChild(input);
+    this.#searchBoxElement.appendChild(input);
   }
 
   #generateButton() {
@@ -31,19 +31,25 @@ export default class SearchBox {
     button.classList.add('search-button');
     button.textContent = '검색';
 
-    this.searchBoxElement.appendChild(button);
+    this.#searchBoxElement.appendChild(button);
   }
 
   #addFormEvent() {
-    this.searchBoxElement.addEventListener('submit', (event) => {
+    this.#searchBoxElement.addEventListener('submit', (event) => {
       event.preventDefault();
       const target = event.target as HTMLFormElement;
 
-      this.#onSearch(target.query.value);
+      const input = document.querySelector('input[name=query]');
+
+      if (input?.getBoundingClientRect().width === 0) {
+        input.classList.add('search-open');
+      } else {
+        this.#onSearch(target.query.value);
+      }
     });
   }
 
   get element() {
-    return this.searchBoxElement;
+    return this.#searchBoxElement;
   }
 }
