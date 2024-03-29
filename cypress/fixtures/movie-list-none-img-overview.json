@@ -1,0 +1,23 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": null,
+      "genre_ids": [99],
+      "id": 863274,
+      "original_language": "ko",
+      "original_title": "학생이 행복한 도시: Like a Student",
+      "overview": "During my 12 years of schooling, I often asked questions like, \"Is this school rule necessary?\" I thought that students should be respected enough to exercise their basic rights as human beings. However, society and schools seemed to say that students can only be guaranteed their human rights when they are decent students. From then on, I started finding ways to promote student human rights. And I found out. There is no \"Student Human Rights Ordinance\" in \"Daegu\" where I live. Why? Daegu students are no different from Seoul students!",
+      "popularity": 0.6,
+      "poster_path": null,
+      "release_date": "2021-09-09",
+      "title": "학생이 행복한 도시: Like a Student",
+      "video": false,
+      "vote_average": 0,
+      "vote_count": 0
+    }
+  ],
+  "total_pages": 1,
+  "total_results": 1
+}
