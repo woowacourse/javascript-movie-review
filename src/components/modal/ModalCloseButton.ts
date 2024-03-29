@@ -1,5 +1,5 @@
-import XMarker from '../../images/xmark.svg';
 import { ModalContainerController } from '../../controller';
+import XMarker from '../../images/xmark.svg';
 import { createElementWithAttribute } from '../../utils';
 
 class ModalCloseButton {
@@ -16,6 +16,7 @@ class ModalCloseButton {
   #makeCloseButton() {
     const $button = createElementWithAttribute('button', {
       class: 'button-close-modal',
+      title: '모달 닫기 버튼',
     });
     const $img = createElementWithAttribute('img', {
       src: XMarker,

@@ -9,6 +9,7 @@ body {
 }
 
 a {
+  background-color: #d1d1d14f;
   color: inherit;
   text-decoration: none;
 }
@@ -22,6 +23,7 @@ button {
 }
 main {
   position: relative;
+  margin-top: calc(72px + 60px);
 }
 *:focus {
   outline: none;

@@ -127,6 +127,7 @@ class SearchBox {
   #makeSearchButton = () => {
     const $button = createElementWithAttribute('button', {
       class: 'search-button',
+      title: '검색 버튼',
     });
     $button.textContent = '검색';
 

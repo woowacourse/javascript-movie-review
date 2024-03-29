@@ -60,12 +60,12 @@ class UserScore {
   #makeResetButton() {
     const $button = createElementWithAttribute('button', {
       class: 'button-reset-score',
+      title: '별점 초기화',
     });
     const $img = createElementWithAttribute('img', {
       src: Trash,
     });
     $button.appendChild($img);
-
     $button.addEventListener('click', (event) =>
       this.#handleClickResetButton(event),
     );
@@ -139,6 +139,7 @@ class UserScore {
     const $btn = createElementWithAttribute('button', {
       class: 'button-score',
       name: `${STAR_BUTTON_NAME_PREFIX}${index + 1}`,
+      title: '별점 버튼',
     });
     if (isFilled) $btn.classList.add(FILLED_CLASS);
 

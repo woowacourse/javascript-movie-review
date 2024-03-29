@@ -23,6 +23,14 @@
   font-size: 20px;
 }
 
+.modal-movie-info .movie-title {
+  width: calc(100% - 25px - 20px);
+  height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
+}
 .button-close-modal {
   position: absolute;
   top: 18px;
@@ -54,7 +62,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 438px;
+  width: 450px;
   height: 100%;
   font-size: 1rem;
   line-height: 24px;
@@ -125,8 +133,8 @@
 }
 
 .user-score button {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
 }
 
 .button-reset-score {
@@ -141,6 +149,14 @@
   }
 }
 
+.score-number {
+  margin-right: 14px;
+  width: 16px;
+}
+
+.score-text {
+  width: 138px;
+}
 @media screen and (max-width: 900px) {
   .modal-movie-info {
     aspect-ratio: 3/2;
@@ -200,10 +216,6 @@
     /* movie-info height -contents padding - top height- top margin - header - user score- gap */
     height: calc(60vh - 18px * 2 - 24px - 16px - 60px - 50px - 24px);
   }
-
-  .score-text {
-    display: none;
-  }
 }
 
 @media screen and (max-width: 500px) {
@@ -217,5 +229,9 @@
   .modal-movie-info__inner__contents {
     padding-right: 32px;
     padding-left: 32px;
+  }
+
+  .score-text {
+    display: none;
   }
 }
