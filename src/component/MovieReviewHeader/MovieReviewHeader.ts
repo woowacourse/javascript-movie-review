@@ -3,7 +3,9 @@ import logoImg from '../../image/logo.png';
 
 const MovieReviewHeader = {
   createHeader() {
-    const headerElement = createElement('h1');
+    const headerElement = createElement('h1', {
+      class: '.home-link',
+    });
     const linkElement = createElement('a', {
       href: '/',
     });

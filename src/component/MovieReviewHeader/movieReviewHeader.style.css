@@ -1,4 +1,4 @@
-header {
+.app-header {
   width: 100%;
   min-width: 1200px;
   height: 72px;
@@ -11,7 +11,7 @@ header {
   margin-bottom: 48px;
 }
 
-header h1 {
+.home-link {
   cursor: pointer;
   user-select: none;
   font-size: 2rem;
