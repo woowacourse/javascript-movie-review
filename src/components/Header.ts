@@ -1,20 +1,24 @@
-/* eslint-disable max-lines-per-function */
 import LogoImg from "../../templates/logo.png";
 import { LOGO_IMG_ALT, TITLE_TEXT } from "../constants/system";
 import movieDataStateStore from "../model/MovieDataStateStore";
 import { handleGetPopularMovieData } from "../service/handleSkeletonAndAPI";
 import { createElementWithAttribute } from "../utils";
+import removePrevItemView from "../utils/removePrevItemView";
 
 import renderItemView from "./ItemView";
 import { SearchBox, SearchBoxMobile } from "./SearchBox";
 
-const handleClickToRefresh = async () => {
-  const $itemView = document.querySelector(".item-view");
-  $itemView?.remove();
+const resetSearchBox = () => {
   const $searchBox = document.querySelector("#search-input");
   if ($searchBox instanceof HTMLInputElement) {
     $searchBox.value = "";
   }
+};
+
+const handleClickToRefresh = async () => {
+  removePrevItemView();
+  resetSearchBox();
+
   await handleGetPopularMovieData(true);
   renderItemView({
     titleText: TITLE_TEXT.POPULAR,
