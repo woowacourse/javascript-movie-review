@@ -8,5 +8,6 @@
 }
 
 .infinite-scroll-trigger .hide {
-  display: none;
+  /* display: none; */
+  visibility: hidden;
 }
