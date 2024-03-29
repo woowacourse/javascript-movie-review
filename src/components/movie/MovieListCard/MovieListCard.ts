@@ -15,10 +15,6 @@ import { FilledStar } from '../../../assets';
 import { DEFAULT_IMAGE_URL } from '../../../constants/movie';
 
 class MovieListCard extends Component<MovieInterface> {
-  protected render() {
-    this.$element.append(this.createComponent());
-  }
-
   protected createComponent() {
     const $anchor = createElement({ tagName: 'a' });
 

@@ -15,10 +15,6 @@ class MovieListCardSkeleton extends Component {
     $ul.remove();
   };
 
-  protected render() {
-    this.$element.appendChild(this.createComponent());
-  }
-
   protected createComponent() {
     const li = createElement({ tagName: 'li' });
 

@@ -12,10 +12,6 @@ interface ModalProps {
 }
 
 class Modal extends Component<ModalProps> {
-  protected render() {
-    this.$element.append(this.createComponent());
-  }
-
   protected createComponent() {
     const dialog = createElement({
       tagName: 'dialog',
