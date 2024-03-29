@@ -1,6 +1,6 @@
 import { MOVIE_API_URL } from '../../src/constants/url';
 
-describe('영화 상세보기 테스트', () => {
+describe('영화 상세보기 모달 테스트', () => {
   beforeEach(() => {
     cy.intercept({
       method: 'GET',
@@ -80,6 +80,20 @@ describe('영화 상세보기 테스트', () => {
           const storageMovie = win.localStorage.getItem('movies');
           expect(storageMovie).to.equal(`[{"id":${movieId},"score":${score}}]`);
         });
+      });
+    });
+  });
+
+  it('상세보기 모달에서 ESC 키를 누르면 모달이 닫힌다.', () => {
+    cy.get('.item-card').first().click();
+    cy.wait('@getPopularMovies').then(popular => {
+      if (popular.response === undefined) return;
+      cy.wait('@getDetailMovie').then(interception => {
+        if (interception.response === undefined) return;
+
+        cy.get('body').type('{esc}');
+        const modal = cy.get('.detail-modal-container');
+        expect(modal.should('not.be.visible'));
       });
     });
   });
