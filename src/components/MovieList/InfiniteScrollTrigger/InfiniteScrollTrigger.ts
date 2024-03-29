@@ -34,9 +34,7 @@ const observer = new IntersectionObserver(
 
     entries.forEach((entry) => {
       if (entry.isIntersecting && $trigger) {
-        unObserve($trigger);
         observerCallback();
-        restartObserving($trigger);
       }
     });
   },
@@ -45,24 +43,24 @@ const observer = new IntersectionObserver(
   },
 );
 
-const observe = ($trigger: Element) => {
-  observer.observe($trigger);
-};
-
 export const restartObserving = ($trigger: Element) => {
   if ($trigger) {
     observer.observe($trigger);
+    $trigger.classList.remove('hide');
   }
 };
 
-export const unObserve = ($trigger: Element) => {
-  if ($trigger) observer.unobserve($trigger);
+export const stopObserving = ($trigger: Element) => {
+  if ($trigger) {
+    observer.unobserve($trigger);
+    $trigger.classList.add('hide');
+  }
 };
 
 const InfiniteScrollTrigger = () => {
   const $infiniteScrollTrigger = createScrollTrigger();
 
-  observe($infiniteScrollTrigger);
+  observer.observe($infiniteScrollTrigger);
 
   return {
     render: () => $infiniteScrollTrigger,

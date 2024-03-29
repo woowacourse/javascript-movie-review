@@ -12,7 +12,7 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import MovieItem from '../MovieItem/MovieItem';
 import InfiniteScrollTrigger, {
   restartObserving,
-  unObserve,
+  stopObserving,
 } from './InfiniteScrollTrigger/InfiniteScrollTrigger';
 import ResultNotFound from './ResultNotFound/ResultNotFound';
 import SkeletonMovieList from './SkeletonMovieList';
@@ -92,8 +92,7 @@ const MovieList = () => {
 
     $section.removeChild($skeleton);
 
-    if (isLastPage) unObserve($infiniteScrollTrigger);
-    else restartObserving($infiniteScrollTrigger);
+    if (!isLastPage) restartObserving($infiniteScrollTrigger);
   };
 
   const onError = (res: Response) => {
@@ -102,10 +101,12 @@ const MovieList = () => {
     $section.appendChild($errMsg);
     $section.removeChild($skeleton);
 
-    unObserve($infiniteScrollTrigger);
+    stopObserving($infiniteScrollTrigger);
   };
 
   const onLoading = () => {
+    stopObserving($infiniteScrollTrigger);
+
     const { type } = MovieStore;
     $title.textContent = `${type === 'popular' ? '지금 인기있는 영화' : `\"${MovieStore.query}\" 검색 결과`}`;
     $section.appendChild($skeleton);
