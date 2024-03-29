@@ -93,11 +93,11 @@ class MovieApp {
     $('.search-box')?.addEventListener('mouseover', () => {
       const searchInput = $('#search-text') as HTMLInputElement;
       const searchButton = $('.search-button') as HTMLButtonElement;
+      searchButton.style.pointerEvents = 'auto';
 
       if (window.innerWidth <= 673) {
         $('.title')?.classList.add('visibility-hidden');
         searchInput.classList.add('show-input');
-        searchButton.style.pointerEvents = 'auto';
       }
     });
 
@@ -109,6 +109,8 @@ class MovieApp {
         $('.title')?.classList.remove('visibility-hidden');
         searchInput.classList.remove('show-input');
         searchButton.style.pointerEvents = 'none';
+      } else {
+        searchButton.style.pointerEvents = 'auto';
       }
     });
   }

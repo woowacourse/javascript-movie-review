@@ -1,7 +1,9 @@
 .search-box {
+  overflow: hidden;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
+  gap: 4px;
 
   background: #fff;
   padding: 8px;
@@ -12,7 +14,7 @@
   transition: all 0.3s ease-in-out;
 
   @media screen and (max-width: 673px) {
-    width: 48px;
+    width: 42px;
   }
 }
 
@@ -21,7 +23,8 @@
 }
 
 .search-input {
-  width: 260px;
+  flex: 1;
+
   border: 0;
   font-size: 1rem;
 
@@ -29,9 +32,9 @@
   padding: 0;
 
   @media screen and (max-width: 673px) {
-    width: 1px;
     margin: -1px;
     opacity: 0;
+    overflow: hidden;
   }
 
   transition: all 0.3s ease-in-out;
