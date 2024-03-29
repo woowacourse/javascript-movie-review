@@ -16,6 +16,9 @@ const imgSrc = (path: string | null) =>
   path === null ? noImg : IMAGE_URL + POSTER_SIZE + path;
 
 const MovieImg = (posterPath: string, title: string, className: string) => {
+  if (className === "modal-thumbnail" && window.innerWidth <= 700)
+    return createElementWithAttribute("div", { style: "display: none;" });
+
   const skeletonUI = SkeletonImg(className);
 
   const imgElement = createElementWithAttribute("img", {

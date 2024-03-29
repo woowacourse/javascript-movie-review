@@ -72,6 +72,24 @@ button {
   .item-list {
     grid-template-columns: repeat(3, 180px);
   }
+  .detail-modal .modal-container {
+    max-width: 700px;
+    min-width: 70%;
+    height: 500px;
+  }
+  .detail-modal .modal-section {
+    padding: 25px;
+  }
+  .detail-modal .modal-thumbnail {
+    width: 260px;
+    height: 390px;
+  }
+  .detail-modal .modal-rate {
+    gap: 0px;
+  }
+  .detail-modal .rate-title {
+    font-size: 1rem;
+  }
 }
 @media (max-width: 700px) {
   .item-list {
@@ -88,13 +106,26 @@ button {
   header > .search-box-mobile {
     display: flex;
   }
+  .detail-modal .modal-container {
+    position: fixed;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    width: 100%;
+    height: 60%;
+  }
+  .detail-modal .modal-thumbnail {
+    display: none !important;
+  }
+  .detail-modal .stars-container {
+    gap: 8px;
+  }
 }
 
 .show {
   display: flex !important;
 }
 .hide {
-  /* display: none !important; */
   visibility: hidden;
 }
 .none {
@@ -146,6 +177,8 @@ button {
   margin-top: 16px;
   font-size: 1rem;
   line-height: 24px;
+  height: 90%;
+  overflow-y: scroll;
 }
 
 .item-score::after {
@@ -310,6 +343,9 @@ main {
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   z-index: 100;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .modal-header {
@@ -325,6 +361,8 @@ main {
   gap: 20px;
   padding: 32px;
   justify-content: space-between;
+  flex-grow: 1;
+  height: calc(100% - 64px);
 }
 
 .modal-title {
@@ -343,6 +381,11 @@ main {
   flex-direction: column;
   flex-grow: 1;
   justify-content: space-between;
+  align-items: stretch;
+}
+
+.detail-info {
+  height: 70%;
 }
 
 .detail-info-top {

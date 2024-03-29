@@ -25,7 +25,7 @@ const ModalInfoContainer = (movie: MovieDetail) => {
   const $infoContainer = createElementWithAttribute("div", {
     class: "modal-info-container",
   });
-  const $info = createElementWithAttribute("div", {});
+  const $info = createElementWithAttribute("div", { class: "detail-info" });
   const $infoTop = createElementWithAttribute("div", {
     class: "detail-info-top",
   });
