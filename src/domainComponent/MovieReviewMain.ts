@@ -1,16 +1,13 @@
 import Header from "../components/Header/Header";
-import MovieListController from "./MovieListController";
+import MovieList from "./MovieList";
 import MoviePageReceiver from "../apis/MoviePageReceiver";
 
-class MainController {
+class MovieReviewMain {
   elements;
   #header;
-  #movieListController = new MovieListController(
-    "지금 인기있는 영화",
-    async () => {
-      return { movieInfos: [], isLastPage: false };
-    }
-  );
+  #movieListController = new MovieList("지금 인기있는 영화", async () => {
+    return { movieInfos: [], isLastPage: false };
+  });
   #moviePageReceiver = new MoviePageReceiver();
 
   constructor() {
@@ -24,12 +21,12 @@ class MainController {
       const title = "지금 인기있는 영화";
       const fetchFunc = this.#moviePageReceiver.getFetchPopularMoviePage();
 
-      this.#movieListController.render({ title, fetchFunc });
+      this.#movieListController.init({ title, fetchFunc });
     };
     const searchBoxAction = (string: string) => {
       const title = `"${string}" 검색결과`;
       const fetchFunc = this.#moviePageReceiver.getFetchSearchMoviePage(string);
-      this.#movieListController.render({ title, fetchFunc });
+      this.#movieListController.init({ title, fetchFunc });
     };
     const header = new Header({
       homeButtonClickAction: homeButtonClickAction.bind(this),
@@ -40,4 +37,4 @@ class MainController {
   }
 }
 
-export default MainController;
+export default MovieReviewMain;

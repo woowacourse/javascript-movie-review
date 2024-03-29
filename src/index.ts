@@ -1,9 +1,9 @@
 import "../templates/reset.css";
 import "../templates/common.css";
 
-import MainController from "./controllers/MainController";
+import MovieReviewMain from "./domainComponent/MovieReviewMain";
 
-const mainController = new MainController();
+const mainController = new MovieReviewMain();
 
 const body = document.querySelector("body");
 body?.append(...mainController.elements);

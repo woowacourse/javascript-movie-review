@@ -1,17 +1,20 @@
-import { MovieInfo } from "../components/MoviePoster/createMoviePreview";
+import { MovieInfo } from "../components/MoviePreview/createMoviePreview";
 import MoviePosterBoard from "../components/MoviePosterBoard/MoviePosterBoard";
 import PrimaryButton from "../components/Button/createPrimaryButton";
+import SubTitle from "../components/SubTitle/SubTitle";
 import createElement from "../utils/createElement";
 import createMoviePosterBoardSkeleton from "../components/MoviePosterBoard/createMoviePosterBoardSkeleton";
 import createNetworkFallback from "../components/NetworkErrorFallBack/createNetworkErrorFallback";
+import hideElement from "./utils/hideElement";
+import revealElement from "./utils/revealElement";
 
 interface fetchPromiseT {
   movieInfos: MovieInfo[];
   isLastPage: boolean;
 }
-class MovieListController {
+class MovieList {
   element = createElement("div");
-  #title = document.createElement("h2");
+  #title;
   #fetchFunc: () => Promise<{ movieInfos: MovieInfo[]; isLastPage: boolean }>;
   #moviePosterBoard = new MoviePosterBoard();
   #posterBoardSkeleton = createMoviePosterBoardSkeleton();
@@ -22,17 +25,29 @@ class MovieListController {
 
   constructor(title: string, fetchFunc: () => Promise<fetchPromiseT>) {
     const section = createElement("section", { attrs: { class: "item-view" } });
+    this.#title = new SubTitle(title);
     section.append(
-      this.#title,
+      this.#title.element,
       this.#moviePosterBoard.element,
       this.#posterBoardSkeleton,
       this.#seeMoreButton.element
     );
 
     this.element.append(section, this.#networkFallBack);
-    this.#title.textContent = title;
     this.#fetchFunc = fetchFunc;
-    this.render();
+    this.init();
+  }
+
+  init(option?: { title?: string; fetchFunc?: () => Promise<fetchPromiseT> }) {
+    const { title, fetchFunc } = option ?? {};
+    if (title) this.#setTitle(title);
+    if (fetchFunc) this.#setFetchFunc(fetchFunc);
+
+    this.#moviePosterBoard.deleteMoviePosters();
+    hideElement(this.#seeMoreButton.element);
+    this.#seeMoreButton.element.click();
+
+    hideElement(this.#networkFallBack);
   }
 
   #setFetchFunc(fetchFunc: () => Promise<fetchPromiseT>) {
@@ -40,47 +55,7 @@ class MovieListController {
   }
 
   #setTitle(string: string) {
-    this.#title.textContent = string;
-  }
-
-  render(option?: {
-    title?: string;
-    fetchFunc?: () => Promise<fetchPromiseT>;
-  }) {
-    const { title, fetchFunc } = option ?? {};
-    if (title) this.#setTitle(title);
-    if (fetchFunc) this.#setFetchFunc(fetchFunc);
-
-    this.#moviePosterBoard.deleteMoviePosters();
-    this.#showSeeMoreButton();
-    this.#seeMoreButton.element.click();
-
-    this.#hideNetworkFallBack();
-  }
-  #hideNetworkFallBack() {
-    this.#networkFallBack.classList.add("visibility-hidden-no-position");
-  }
-
-  #showNetworkFallBack() {
-    this.#networkFallBack.classList.remove("visibility-hidden-no-position");
-  }
-
-  #hidePosterBoardSkeleton() {
-    this.#posterBoardSkeleton.classList.add("visibility-hidden-no-position");
-  }
-
-  #showPosterBoardSkeleton() {
-    this.#posterBoardSkeleton.classList.remove("visibility-hidden-no-position");
-  }
-
-  #hideSeeMoreButton() {
-    this.#seeMoreButton.element.classList.add("visibility-hidden-no-position");
-  }
-
-  #showSeeMoreButton() {
-    this.#seeMoreButton.element.classList.remove(
-      "visibility-hidden-no-position"
-    );
+    this.#title.setTitle(string);
   }
 
   #createSeeMoreButton() {
@@ -94,26 +69,42 @@ class MovieListController {
     return seeMoreButton;
   }
 
-  #seeMoreButtonClickEvent() {
-    this.#showPosterBoardSkeleton();
+  #attachSeeMoreButtonClickEvent() {
+    this.#seeMoreButton.element.removeEventListener(
+      "click",
+      this.#seeMoreButtonClickEvent
+    );
+  }
+
+  #dettachSeeMoreButtonClickEvent() {
+    this.#seeMoreButton.element.removeEventListener(
+      "click",
+      this.#seeMoreButtonClickEvent
+    );
+  }
+
+  #seeMoreButtonClickEvent(event: Event) {
+    revealElement(this.#posterBoardSkeleton);
+    this.#dettachSeeMoreButtonClickEvent.call(this);
 
     this.#fetchFunc()
       .then(({ movieInfos, isLastPage }) => {
         this.#moviePosterBoard.addMoviePosters(movieInfos);
 
-        if (isLastPage) this.#hideSeeMoreButton.bind(this)();
-        else this.#showSeeMoreButton();
+        if (isLastPage) hideElement(this.#seeMoreButton.element);
+        else revealElement(this.#seeMoreButton.element);
 
-        this.#hideNetworkFallBack.bind(this)();
+        hideElement(this.#networkFallBack);
       })
       .catch(() => {
-        this.#showNetworkFallBack.bind(this)();
-        this.#hideSeeMoreButton.bind(this)();
+        revealElement(this.#networkFallBack);
+        hideElement(this.#seeMoreButton.element);
       })
       .finally(() => {
-        this.#hidePosterBoardSkeleton.bind(this)();
+        hideElement(this.#posterBoardSkeleton);
+        this.#attachSeeMoreButtonClickEvent();
       });
   }
 }
 
-export default MovieListController;
+export default MovieList;
