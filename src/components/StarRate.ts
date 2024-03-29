@@ -1,7 +1,7 @@
 /* eslint-disable max-lines-per-function */
 import emptyStar from "../../templates/star_empty.png";
 import filledStar from "../../templates/star_filled.png";
-import rateDataStateStore from "../model/RateDataStateStore";
+import { rateDataStateStore } from "../model";
 import { Rate } from "../type/rate";
 import { createElementWithAttribute } from "../utils";
 

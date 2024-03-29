@@ -1,6 +1,5 @@
 /* eslint-disable max-lines-per-function */
-import { apiClient } from "../model";
-import rateDataStateStore from "../model/RateDataStateStore";
+import { apiClient, rateDataStateStore } from "../model";
 import { Movie, MovieDetail } from "../type/movie";
 import { createElementWithAttribute } from "../utils";
 
