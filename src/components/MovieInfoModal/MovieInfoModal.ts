@@ -7,7 +7,7 @@ import MovieDomain from '../../domain/entity/Movie';
 import StarIcon from '../../assets/star_filled.png';
 
 import DeleteIcon from '../../assets/delete.png';
-import { getUrlParams } from '../../utils/queryString';
+import { deleteUrlParams, getUrlParams, setUrlParams } from '../../utils/queryString';
 import UserScoreBox from '../UserScoreBox/UserScoreBox';
 
 class MovieInfoModal {
@@ -153,6 +153,7 @@ class MovieInfoModal {
 
     deleteButton.addEventListener('click', () => {
       BasicModal.closeModal();
+      deleteUrlParams('movie_id');
     });
 
     return deleteButton;

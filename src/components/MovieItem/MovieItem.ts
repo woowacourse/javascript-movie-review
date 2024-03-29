@@ -12,7 +12,6 @@ type MovieItemProps = {
   rerenderModal: (id: number) => void;
 };
 
-//TODO: 데이터 셋을 쓰고 있는가?
 class MovieItem {
   movie;
   itemBox;

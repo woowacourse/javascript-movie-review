@@ -31,8 +31,7 @@ class UserScoreBox {
 
   getOriginalUserScore() {
     const userScore = ScoreDBService.getScore(Number(this.movieId));
-    console.log('userScore', userScore);
-    // this.score = ScoreDBService.getScore(Number(this.movieId));
+    this.score = ScoreDBService.getScore(Number(this.movieId));
   }
 
   render() {

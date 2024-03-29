@@ -17,7 +17,7 @@ class ScoreDBService {
       const targetMovie: DBMovieScoreType = existedScoreList.filter(
         (movie: DBMovieScoreType) => Number(movie.id) === movieId,
       )[0];
-      return targetMovie.score;
+      return targetMovie ? targetMovie.score : 0;
     }
 
     return 0;

@@ -33,7 +33,6 @@ class searchInputBox {
 
   resize() {
     if (window.innerWidth <= 400) {
-      console.log('aaa');
       this.searchInputBox.classList.add('search-box-expand', 'hidden');
       const logo = document.querySelector('header h1');
 

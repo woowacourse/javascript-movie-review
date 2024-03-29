@@ -1,10 +1,5 @@
 import { EndPointValues, QueryStringKeyValues } from '../consts/URL';
 
-export const getUrlParams = (paramKey: QueryStringKeyValues) => {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(paramKey);
-};
-
 export const setEndpoint = (endPoint: EndPointValues) => {
   const path = window.location.pathname;
   const pathSegments = path.split('/');
@@ -16,8 +11,12 @@ export const setEndpoint = (endPoint: EndPointValues) => {
 export const getEndpoint = () => {
   const path = window.location.pathname;
   const endpoint = path.substring(path.lastIndexOf('/'));
-
   return endpoint.startsWith('/') ? endpoint.substring(1) : endpoint;
+};
+
+export const getUrlParams = (paramKey: QueryStringKeyValues) => {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(paramKey);
 };
 
 export const setUrlParams = (paramKey: QueryStringKeyValues, paramValue: string) => {
@@ -28,11 +27,13 @@ export const setUrlParams = (paramKey: QueryStringKeyValues, paramValue: string)
 
 export const redirectToRoot = () => {
   const url = new URL(window.location.href);
-  const baseUrl = url.origin;
-  const lastSlashIndex = url.pathname.lastIndexOf('/');
+  window.history.replaceState({}, '', url.origin);
+};
 
-  const beforeLastSlashIndex = url.pathname.lastIndexOf('/', lastSlashIndex - 1);
-  const newPathname = beforeLastSlashIndex > 0 ? url.pathname.substring(0, beforeLastSlashIndex) : '/';
+export const deleteUrlParams = (paramKey: QueryStringKeyValues) => {
+  const url = new URL(window.location.href);
+  url.searchParams.delete(paramKey);
+  const newUrl = `${url.pathname}${url.search}`;
 
-  window.location.href = `${baseUrl}${newPathname}`;
+  window.history.replaceState({}, '', newUrl);
 };
