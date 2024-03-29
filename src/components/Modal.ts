@@ -22,7 +22,6 @@ export default class Modal {
       this.#modalElement = null;
     }
 
-    // Fetch movie detail
     const movieDetail = await movieDetailStore.detail;
 
     const posterPath = movieDetail.poster_path
@@ -73,14 +72,14 @@ export default class Modal {
     this.#modalElement = modalElement;
   }
 
-  openModal() {
+  async openModal() {
     if (this.#isOpen) return;
 
-    this.generateModal();
+    await this.generateModal();
     this.#isOpen = true;
 
     const modal = document.querySelector('.modal');
-    modal?.addEventListener('click', this.handleModalClick.bind(this));
+    modal?.addEventListener('click', (event) => this.handleModalClick(event));
   }
 
   closeModal() {
@@ -94,11 +93,13 @@ export default class Modal {
     this.#isOpen = false;
   }
 
-  handleModalClick(event: any) {
+  handleModalClick(event: Event) {
+    if (!(event.target instanceof HTMLElement)) return;
+
     const modalBackDrop = document.querySelector('.modal-backdrop');
     const modalCloseButton = event.target.closest('.modal-close-button');
 
-    if (event.target === modalBackDrop || modalCloseButton) {
+    if (event.target === modalBackDrop || event.target === modalCloseButton) {
       this.closeModal();
     }
   }
