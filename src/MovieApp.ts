@@ -1,4 +1,5 @@
 import { LOGO, STAR_EMPTY, STAR_FILLED } from './resource/index';
+import { STAR_MESSAGE } from './constants/messages';
 import { $ } from './utils/dom';
 
 import Header from './components/Header/Header';
@@ -96,11 +97,17 @@ class MovieApp {
       const target = event.target as HTMLElement;
       const targetStar = target.closest('.star') as HTMLImageElement;
       if (!targetStar) return;
+      const gradeElement = $('.review-rating') as HTMLSpanElement;
+      const gradeText = $('.review-text') as HTMLSpanElement;
       const starIndex = Number(targetStar.dataset?.starIndex);
+      const grade = (starIndex + 1) * 2 - 2;
 
       stars.forEach((star, index) => {
         if (index <= starIndex) star.src = STAR_FILLED;
       });
+
+      gradeElement.textContent = String(grade);
+      gradeText.textContent = STAR_MESSAGE[grade];
     });
 
     $('.stars')?.addEventListener('mouseout', (event: Event) => {
@@ -108,11 +115,17 @@ class MovieApp {
       const target = event.target as HTMLElement;
       const targetStar = target.closest('.star') as HTMLImageElement;
       if (!targetStar) return;
+      const gradeElement = $('.review-rating') as HTMLSpanElement;
+      const gradeText = $('.review-text') as HTMLSpanElement;
       const starIndex = Number(targetStar.dataset?.starIndex);
+      const grade = (starIndex + 1) * 2 - 2;
 
       stars.forEach((star, index) => {
         if (index >= starIndex) star.src = STAR_EMPTY;
       });
+
+      gradeElement.textContent = String(grade);
+      gradeText.textContent = STAR_MESSAGE[grade];
     });
   }
 

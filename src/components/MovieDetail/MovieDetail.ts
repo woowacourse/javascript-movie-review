@@ -45,7 +45,7 @@ const MovieDetail = ({
               .join('')}
           </div>
           <div class="review-rate-container">
-            <span class="my-stars">6</span>
+            <span class="my-stars review-rating">6</span>
             <span class="my-stars review-text">보통이에요</span>
           </div>
         </div>

@@ -10,3 +10,16 @@ export const TITLE = {
 export const ALERT_MESSAGE = {
   lastPage: '마지막 페이지 입니다!',
 } as const;
+
+interface Star {
+  [key: number]: string;
+}
+
+export const STAR_MESSAGE: Star = {
+  0: '평점을 선택해주세요',
+  2: '최악이에요',
+  4: '별로에요',
+  6: '보통이에요',
+  8: '재미있어요',
+  10: '명작이에요',
+};
