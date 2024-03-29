@@ -1,11 +1,15 @@
 {
-  "rules": {},
+  "rules": {
+    "max-depth": ["error", 1],
+    "max-lines-per-function": ["warn", { "max": 15 }],
+  },
   "env": {
     "es6": true,
-    "node": true
+    "node": true,
   },
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
   },
-  "extends": ["eslint:recommended", "plugin:prettier/recommended"]
+  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+  "ignorePatterns": ["webpack.config.js", "babel.config.js", ".eslintrc"],
 }
