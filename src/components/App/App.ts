@@ -57,7 +57,7 @@ class App {
       this.toast.on(message);
     });
 
-    this.handleInfinityScroll();
+    this.#handleInfinityScroll();
   }
 
   #createHeader() {
@@ -66,6 +66,11 @@ class App {
       onSubmit: async (e: SubmitEvent) => {
         e.preventDefault();
         const $input = dom.getElement<HTMLInputElement>(this.$target, '#search-input');
+
+        if ($input.offsetWidth === 0) {
+          this.#handleClickMiniSearchButton();
+          return;
+        }
         if (!$input.value) return;
         history.pushState('', '', `?mode=search&title=${$input.value}`);
 
@@ -106,7 +111,7 @@ class App {
     this.movieListContainer.attach();
   }
 
-  handleInfinityScroll() {
+  #handleInfinityScroll() {
     const $moreButton = dom.getElement<HTMLButtonElement>(this.$target, '#more-button');
 
     const options = {
@@ -124,6 +129,12 @@ class App {
     }, options);
 
     io.observe($moreButton);
+  }
+
+  #handleClickMiniSearchButton() {
+    dom.getElement(this.$target, '#logo').classList.add('clicked-logo');
+    dom.getElement(this.$target, '.search-box').classList.add('clicked-form');
+    dom.getElement(this.$target, '.search-input').classList.add('clicked-input');
   }
 }
 export default App;

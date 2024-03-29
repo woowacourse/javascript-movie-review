@@ -38,7 +38,7 @@ class Header {
         </a>
       </h1>
       <form class="search-box">
-        <input id="search-input" type="text" placeholder="검색" />
+        <input id="search-input" class='search-input' type="text" placeholder="검색" />
       </form>
 `;
   }
@@ -46,11 +46,9 @@ class Header {
   render() {
     this.$target.innerHTML += this.template();
     const searchButton = this.#createSearchButton();
-    const miniSearchButton = this.#createMiniSearchButton();
 
     const $form = dom.getElement(this.$target, '.search-box');
     $form.appendChild(searchButton.$target);
-    this.$target.appendChild(miniSearchButton.$target);
 
     const $image = dom.getElement<HTMLImageElement>(this.$target, 'h1 > a > img');
     $image.setAttribute('src', this.#imageSrc);
@@ -68,23 +66,6 @@ class Header {
     });
   }
 
-  #createMiniSearchButton() {
-    const childImage = document.createElement('img');
-    childImage.setAttribute('src', SEARCH_BUTTON_IMG);
-    childImage.classList.add('search-button-icon');
-
-    return new Button({
-      id: 'mini-search-button',
-      classNames: ['mini-search-button'],
-      children: [childImage],
-      onClick: () => {
-        dom.getElement(this.$target, '#logo').classList.add('clicked-logo');
-        dom.getElement(this.$target, '.search-box').classList.add('clicked-form');
-        dom.getElement(this.$target, '#mini-search-button').classList.add('clicked-button');
-      },
-    });
-  }
-
   handleResize() {
     if (debounce) clearTimeout(debounce);
 
@@ -93,9 +74,9 @@ class Header {
       if (width > 400) {
         dom.getElement(this.$target, '#logo').classList.remove('clicked-logo');
         dom.getElement(this.$target, '.search-box').classList.remove('clicked-form');
-        dom.getElement(this.$target, '#mini-search-button').classList.remove('clicked-button');
+        dom.getElement(this.$target, '.search-input').classList.remove('clicked-input');
       }
-    }, 300);
+    }, 200);
   }
 }
 
