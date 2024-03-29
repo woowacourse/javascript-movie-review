@@ -2,6 +2,7 @@ import { $, createElement } from '../../utility/dom';
 import starEmptyImage from '../../image/star_empty.png';
 import modalCloseImage from '../../image/modal_close.png';
 import posterEmptyImg from '../../image/poster_empty.png';
+import { setItemToLocalStorage } from '../../utility/localStorage';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w220_and_h330_face';
 
@@ -10,6 +11,7 @@ class MovieModal {
     this.#createMovieModalSection();
     this.#createMovieModalItem();
     this.#setModalDelete();
+    this.#handleMyVoteButtonClick();
   }
 
   #createMovieModalSection() {
@@ -45,6 +47,7 @@ class MovieModal {
     const cancelImageElement = createElement('img', {
       class: 'modal-cancel-image',
     }) as HTMLImageElement;
+
     cancelImageElement.src = modalCloseImage;
 
     cancelElement.appendChild(cancelImageElement);
@@ -108,20 +111,24 @@ class MovieModal {
     const myVoteButtonWrapperElement = createElement('div', {
       class: 'my-vote-button-wrapper',
     });
-    const myVoteButtonElement = createElement('button', {
-      class: 'my-vote-button',
-    });
-    const myVoteButtonImageElement = createElement('img', {
-      class: 'my-vote-button-image',
-      src: starEmptyImage,
-    });
-    myVoteButtonElement.appendChild(myVoteButtonImageElement);
 
-    myVoteButtonWrapperElement.appendChild(myVoteButtonElement);
-    myVoteButtonWrapperElement.appendChild(myVoteButtonElement);
-    myVoteButtonWrapperElement.appendChild(myVoteButtonElement);
-    myVoteButtonWrapperElement.appendChild(myVoteButtonElement);
-    myVoteButtonWrapperElement.appendChild(myVoteButtonElement);
+    const buttonCount = 5;
+    const buttonElements = Array.from({ length: buttonCount }, (_, index) => {
+      const myVoteButtonElement = createElement('button', {
+        class: 'my-vote-button',
+        value: String((index + 1) * 2),
+      });
+      const myVoteButtonImageElement = createElement('img', {
+        class: 'my-vote-button-image',
+        src: starEmptyImage,
+      });
+      myVoteButtonElement.appendChild(myVoteButtonImageElement);
+      return myVoteButtonElement;
+    });
+
+    buttonElements.forEach((buttonElement) => {
+      myVoteButtonWrapperElement.appendChild(buttonElement);
+    });
 
     const myVoteScoreNumberElement = createElement('span', {
       class: 'my-vote-score-number',
@@ -156,12 +163,41 @@ class MovieModal {
     }
   }
 
+  #handleMyVoteButtonClick() {
+    const myVoteButtonWrapperElement = $('.modal-my-vote-wrapper');
+    if (myVoteButtonWrapperElement) {
+      myVoteButtonWrapperElement.addEventListener('click', (event) => {
+        const targetElement = event.target as HTMLElement;
+        if (!targetElement.classList.contains('my-vote-button-wrapper')) {
+          const myVoteButtonElement = targetElement.closest(
+            '.my-vote-button',
+          ) as HTMLButtonElement;
+          const myVoteButtonWrapperElement = targetElement.closest(
+            '.my-vote-button-wrapper',
+          );
+
+          if (myVoteButtonWrapperElement && myVoteButtonElement) {
+            setItemToLocalStorage(
+              myVoteButtonWrapperElement.id,
+              myVoteButtonElement.value,
+            );
+          }
+        }
+      });
+    }
+  }
+
   setMovieModalItem(movieDetail: IMovieDetailData) {
     const titleElement = $('.modal-title') as HTMLSpanElement;
     const posterElement = $('.modal-poster') as HTMLImageElement;
     const genresElement = $('.modal-genres') as HTMLSpanElement;
     const voteAverageElement = $('.modal-vote-average') as HTMLSpanElement;
     const overviewElement = $('.modal-overview') as HTMLParagraphElement;
+    const myVoteButtonWrapperElement = $('.my-vote-button-wrapper');
+
+    if (myVoteButtonWrapperElement) {
+      myVoteButtonWrapperElement.id = String(movieDetail.id);
+    }
 
     titleElement.textContent =
       movieDetail.title || '해당 영화는 제목 정보를 제공하지 않습니다.';

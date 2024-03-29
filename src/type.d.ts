@@ -13,6 +13,7 @@ interface IUrlSearchParamsConfig {
 }
 
 interface IMovieDetailData {
+  id: number;
   title: string;
   poster_path: string;
   genres: IGenre[];
