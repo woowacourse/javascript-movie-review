@@ -2,10 +2,8 @@ import Component from '../../common/Component/Component';
 import MovieList from '../MovieList/MovieList';
 import MovieListCardSkeleton from '../MovieListCardSkeleton/MovieListCardSkeleton';
 import MovieDetailModal from '../MovieDetailModal/MovieDetailModal';
-import Movie from '../../../domain/Movie/Movie';
-import MovieAPI from '../../../apis/movie/movie';
+import MovieService from '../../../domain/Movie/MovieService';
 import { IMovie } from '../../../domain/Movie/Movie.type';
-import { BaseResponse } from '../../../apis/common/apiSchema.type';
 import { querySelector } from '../../../utils/dom/selector';
 import { createElement } from '../../../utils/dom/createElement/createElement';
 import { MOVIE, MOVIE_ITEM_SKELETON } from '../../../constants/Condition';
@@ -18,7 +16,7 @@ interface MovieReviewBodyProps {
 }
 
 class MovieReviewBody extends Component<MovieReviewBodyProps> {
-  private movie: Movie | undefined;
+  private movieService: MovieService | undefined;
   private observer: IntersectionObserver | undefined;
   private $movieDetailModal: MovieDetailModal | undefined;
 
@@ -28,7 +26,7 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
   }
 
   protected initializeState(): void {
-    this.movie = new Movie();
+    this.movieService = new MovieService();
     this.initializeIntersectionObserver();
 
     this.updateMovieList();
@@ -52,34 +50,38 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
   }
 
   private updateMovieList() {
-    if (!this.props || !this.movie) return;
+    if (!this.props || !this.movieService) return;
 
     this.removeIntersectionObserver();
     this.createSkeletonList();
 
-    this.movie.setPage(MOVIE.PAGE_UNIT);
+    this.movieService.setPage(MOVIE.PAGE_UNIT);
 
-    this.movie.fetchMovies({
+    this.movieService.fetchMovies({
       movieType: this.props.movieType,
       onSuccess: this.handleMovieListSuccess.bind(this),
       onError: this.props.openErrorModal.bind(this),
     });
   }
 
-  private handleMovieListSuccess(data: BaseResponse<IMovie[]>) {
+  private handleMovieListSuccess(data: IMovie[]) {
     this.removeSkeletonList();
 
-    if (data.results.length === 0) {
+    if (data.length === 0) {
       this.createNoResultImage();
     }
 
-    this.createMovieList([...data.results]);
+    this.createMovieList([...data]);
   }
 
   private openMovieDetailModal(key: number) {
-    MovieAPI.fetchMovieDetail(key).then((data) => {
-      this.$movieDetailModal?.openModal(data);
-    });
+    if (this.props) {
+      this.movieService?.fetchMovieDetail({
+        key: key,
+        onSuccess: (data) => this.$movieDetailModal?.openModal(data),
+        onError: this.props.openErrorModal,
+      });
+    }
   }
 
   private createSkeletonList() {

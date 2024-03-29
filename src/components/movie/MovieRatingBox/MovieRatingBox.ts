@@ -1,5 +1,5 @@
 import Component from '../../common/Component/Component';
-import RatingStorage from '../../../store/RatingStorage';
+import RatingService from '../../../domain/Rating/RatingService';
 import { querySelector, querySelectorAll } from '../../../utils/dom/selector';
 import { FilledStar, EmptyStar } from '../../../assets';
 import './MovieRatingBox.css';
@@ -35,7 +35,7 @@ class MovieRatingBox extends Component<MovieRatingBoxProps> {
 
   private initializeRatingScore() {
     if (this.props) {
-      this.score = RatingStorage.getRatingScore(this.props.key);
+      this.score = RatingService.getRatingScore(this.props.key);
     }
 
     this.reRender();
@@ -99,7 +99,7 @@ class MovieRatingBox extends Component<MovieRatingBoxProps> {
     this.updateRatingText(score);
 
     if (this.props) {
-      RatingStorage.updateRating({ key: this.props.key, score: score });
+      RatingService.updateRating({ key: this.props.key, score: score });
     }
   }
 }
