@@ -31,6 +31,7 @@ class LocalStorageHandler {
     const index = this.#scoreData.findIndex(
       (item) => item.id === newScoreItem.id,
     );
+
     if (index < 0) {
       this.#pushScoreItemToScoreData(newScoreItem);
       return;

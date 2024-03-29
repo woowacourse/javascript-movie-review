@@ -49,6 +49,11 @@ class APIClient {
       throw new Error(data.message);
     }
 
+    this.#updateMovieInfo(data);
+  }
+  // typescript-eslint/no-explicit-any rule off
+  // eslint-disable-next-line
+  #updateMovieInfo(data: any) {
     const movieInfo: MovieInfo = {
       id: data.id,
       title: data.title,

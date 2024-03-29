@@ -1,3 +1,4 @@
+import { NOT_SCORE_TEXT } from '../../constants';
 import { renderAlertModalForNullEl } from '../../controller';
 import Trash from '../../images/trash.svg';
 import localStorageHandler from '../../model/LocalStorageHandler';
@@ -112,7 +113,7 @@ class UserScore {
     });
     const text = SCORE_TEXT_MAP.get(this.#score);
     if (!text) {
-      console.error('별점에 맞는 문구를 찾을 수 없습니다.');
+      console.error(NOT_SCORE_TEXT);
       return;
     }
     $scoreText.textContent = text;

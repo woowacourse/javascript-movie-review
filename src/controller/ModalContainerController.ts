@@ -48,7 +48,6 @@ const ModalContainerController = {
 
   changePosition() {
     const $modalContainer = document.querySelector('.modal-container');
-    console.log($modalContainer);
     if (!($modalContainer instanceof HTMLElement)) {
       renderAlertModalForNullEl('modal-container');
       return;
