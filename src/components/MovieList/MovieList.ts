@@ -1,13 +1,19 @@
 import './MovieList.css';
+
 import {
   fetchPopularMovies,
   fetchSearchMovies,
   processMovieRequestResults,
 } from '../../services/MovieService';
+
 import MovieStore from '../../stores/movieStore';
+
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
-import LoadMoreButton from '../LoadMoreButton/LoadMoreButton';
 import MovieItem from '../MovieItem/MovieItem';
+import InfiniteScrollTrigger, {
+  restartObserving,
+  unObserve,
+} from './InfiniteScrollTrigger/InfiniteScrollTrigger';
 import ResultNotFound from './ResultNotFound/ResultNotFound';
 import SkeletonMovieList from './SkeletonMovieList';
 
@@ -72,29 +78,8 @@ const MovieList = () => {
   const $title = document.createElement('h2');
   const $ul: HTMLUListElement = createUl();
 
-  const loadMoreButton = LoadMoreButton();
-  const $loadMoreBtn = loadMoreButton.render();
   const $skeleton = SkeletonMovieList().render();
-
-  const render = ({
-    title,
-    type,
-    isLastPage,
-  }: {
-    title: string;
-    type: string;
-    isLastPage: boolean;
-  }) => {
-    $title.textContent = title;
-
-    $loadMoreBtn.setAttribute('list-type', type);
-
-    $section.appendChild($title);
-    $section.appendChild($ul);
-    if (!isLastPage) $section.appendChild($loadMoreBtn);
-
-    return $section;
-  };
+  const $infiniteScrollTrigger = InfiniteScrollTrigger().render();
 
   const onSuccess = (data: MovieResponse) => {
     const { page, movies, isLastPage } = processMovieRequestResults(data);
@@ -107,7 +92,8 @@ const MovieList = () => {
 
     $section.removeChild($skeleton);
 
-    loadMoreButton.setVisibility(isLastPage);
+    if (isLastPage) unObserve($infiniteScrollTrigger);
+    else restartObserving($infiniteScrollTrigger);
   };
 
   const onError = (res: Response) => {
@@ -115,7 +101,8 @@ const MovieList = () => {
 
     $section.appendChild($errMsg);
     $section.removeChild($skeleton);
-    $loadMoreBtn.classList.add('hide');
+
+    unObserve($infiniteScrollTrigger);
   };
 
   const onLoading = () => {
@@ -124,9 +111,9 @@ const MovieList = () => {
     $section.appendChild($skeleton);
   };
 
+  // Add EventListener
   document.addEventListener('popularMovies', () => {
     fetchPopularMovies({
-      params: { page: MovieStore[MovieStore.type].page },
       onSuccess,
       onError,
       onLoading,
@@ -134,10 +121,7 @@ const MovieList = () => {
   });
 
   document.addEventListener('searchMovies', () => {
-    const { query } = MovieStore.search;
-
     fetchSearchMovies({
-      params: { page: MovieStore[MovieStore.type].page, query },
       onSuccess,
       onError,
       onLoading,
@@ -149,6 +133,24 @@ const MovieList = () => {
       bubbles: true,
     }),
   );
+
+  // Render
+  const render = ({
+    title,
+    isLastPage,
+  }: {
+    title: string;
+    isLastPage: boolean;
+  }) => {
+    $title.textContent = title;
+
+    $section.appendChild($title);
+    $section.appendChild($ul);
+    if (!isLastPage && $infiniteScrollTrigger)
+      $section.appendChild($infiniteScrollTrigger);
+
+    return $section;
+  };
 
   return {
     render,

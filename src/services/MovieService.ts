@@ -3,6 +3,7 @@ import {
   COMMON_OPTIONS,
   COMMON_PARAMS,
 } from '../constants/requests';
+import MovieStore from '../stores/movieStore';
 import fetchData from '../utils/fetchData';
 
 export interface Params {
@@ -10,7 +11,6 @@ export interface Params {
 }
 
 interface FetchProps {
-  params: Params;
   onSuccess: (data: MovieResponse) => void;
   onError: (res: Response) => void;
   onLoading: () => void;
@@ -32,14 +32,16 @@ export const processMovieRequestResults = (data: MovieResponse) => {
 };
 
 export const fetchSearchMovies = async ({
-  params,
   onSuccess,
   onError,
   onLoading,
 }: FetchProps) => {
+  const { page, query } = MovieStore.search;
+
   const parameters = new URLSearchParams({
     ...COMMON_PARAMS,
-    ...params,
+    page: page.toString(),
+    query,
   });
   const url = `${REQUEST_URL.searchMovies}${parameters}`;
   const options = COMMON_OPTIONS;
@@ -48,14 +50,15 @@ export const fetchSearchMovies = async ({
 };
 
 export const fetchPopularMovies = async ({
-  params,
   onSuccess,
   onError,
   onLoading,
 }: FetchProps) => {
+  const { page } = MovieStore.popular;
+
   const parameters = new URLSearchParams({
     ...COMMON_PARAMS,
-    ...params,
+    page: page.toString(),
   });
   const url = `${REQUEST_URL.popularMovies}${parameters}`;
   const options = COMMON_OPTIONS;
