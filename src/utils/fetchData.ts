@@ -9,7 +9,8 @@ interface FetchOptions {
   };
 }
 
-// 원래 여기서 ErrorMessage를 사용해줬음.
+// TODO: API 공통 모듈 만들기 참고
+// TODO: 비동기 함수로 선언되어 있는데, 실제로 바깥에서 비동기를 사용하진 않는다. 코드의 일관성을 해치진 않을지 생각해보기.
 const fetchData = async (
   { url, options }: FetchOptions,
   onSuccess: (data: MovieResponse) => void,

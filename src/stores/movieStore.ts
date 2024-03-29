@@ -1,50 +1,41 @@
-interface SetMoviesProps {
-  value: MovieItem[];
-  callback?: (param?: MovieItem[]) => void;
-}
+const MovieStore: MovieStoreType = {
+  type: 'popular',
 
-export const popularMovieStore = {
-  _movies: [] as MovieItem[],
-
-  _page: 1 as number,
-
-  get movies(): readonly MovieItem[] {
-    return this._movies;
+  popular: {
+    movies: [],
+    page: 1,
   },
 
-  setMovies({ value, callback }: SetMoviesProps) {
-    this._movies = value;
+  search: {
+    movies: [],
+    page: 1,
+    query: '',
+  },
+
+  get movies() {
+    return this[this.type].movies;
+  },
+
+  get page() {
+    return this[this.type].page;
+  },
+
+  get query() {
+    return this.search.query;
+  },
+
+  setMovies({ value, callback }) {
+    this[this.type].movies = value;
     if (callback) callback();
   },
 
-  get page(): number {
-    return this._page;
+  setPage(value) {
+    this[this.type].page = value;
   },
 
-  setPage(value: number) {
-    this._page = value;
-  },
-};
-
-export const searchMovieStore = {
-  _movies: [] as MovieItem[],
-
-  _page: 1 as number,
-
-  get movies(): readonly MovieItem[] {
-    return this._movies;
-  },
-
-  setMovies({ value, callback }: SetMoviesProps) {
-    this._movies = value;
-    if (callback) callback();
-  },
-
-  get page(): number {
-    return this._page;
-  },
-
-  setPage(value: number) {
-    this._page = value;
+  setQuery(value) {
+    this.search.query = value;
   },
 };
+
+export default MovieStore;

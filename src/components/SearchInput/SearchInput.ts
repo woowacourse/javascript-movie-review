@@ -1,6 +1,7 @@
 import './SearchInput.css';
 
 import SearchIcon from '../../statics/images/search_button.png';
+import MovieStore from '../../stores/movieStore';
 
 const createSearchBox = () => {
   const $searchBox = document.createElement('form');
@@ -47,28 +48,31 @@ const SearchInput = () => {
   $searchBox.addEventListener('submit', (e: SubmitEvent) => {
     e.preventDefault();
 
-    const formElement = e.target as HTMLFormElement;
-    const formData = new FormData(formElement);
+    if ($searchInput.value === MovieStore.query) return;
 
-    $searchInput.dispatchEvent(
-      new CustomEvent('search', {
+    MovieStore.setMovies({ value: [] });
+    MovieStore.setPage(1);
+    MovieStore.type = 'search';
+    MovieStore.setQuery($searchInput.value);
+
+    $searchBox.dispatchEvent(
+      new CustomEvent('searchMovies', {
         bubbles: true,
-        detail: {
-          query: formData.get('movie-search'),
-        },
       }),
     );
   });
 
   $searchInput.addEventListener('input', (e: Event) => {
     const { target } = e;
+
     if (target instanceof HTMLInputElement && target.value === '') {
+      MovieStore.setMovies({ value: [] });
+      MovieStore.setPage(1);
+      MovieStore.type = 'popular';
+
       $searchInput.dispatchEvent(
-        new CustomEvent('popular', {
+        new CustomEvent('popularMovies', {
           bubbles: true,
-          detail: {
-            curType: 'search',
-          },
         }),
       );
     }
