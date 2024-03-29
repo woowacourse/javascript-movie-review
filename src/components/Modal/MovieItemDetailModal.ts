@@ -13,11 +13,9 @@ class MovieItemDetailModal extends Modal {
   }
 
   async setDetailMovieData(movieData: MovieData) {
-    movieItemDetailContainer.replaceChildren();
-
     const movieDetailData = await fetchMovieDetail(movieData.id);
 
-    MovieItemDetail.append(movieItemDetailContainer, () => super.toggle(), movieDetailData);
+    MovieItemDetail.append(movieItemDetailContainer, () => super.close(), movieDetailData);
   }
 }
 

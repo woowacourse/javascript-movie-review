@@ -13,7 +13,7 @@ const MovieItem = {
 
     itemCard.addEventListener('click', () => {
       moiveItemDetailModal.setDetailMovieData(movieData);
-      moiveItemDetailModal.toggle();
+      moiveItemDetailModal.open();
     });
   },
 
