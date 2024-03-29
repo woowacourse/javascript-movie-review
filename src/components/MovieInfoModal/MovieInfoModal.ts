@@ -8,7 +8,7 @@ import StarIcon from '../../assets/star_filled.png';
 
 import DeleteIcon from '../../assets/delete.png';
 import { getUrlParams } from '../../utils/queryString';
-import StarScore from '../StarScore/StarScore';
+import UserScoreBox from '../UserScoreBox/UserScoreBox';
 
 class MovieInfoModal {
   movieInfoModal;
@@ -50,7 +50,7 @@ class MovieInfoModal {
 
       movieInfoContainer.append(movieInfoDetailBox);
 
-      new StarScore();
+      new UserScoreBox();
 
       const deleteButton = this.createDeleteButton();
       this.movieInfoModal.append(deleteButton);
@@ -59,7 +59,7 @@ class MovieInfoModal {
     }
 
     new BasicModal(this.movieInfoModal);
-    new StarScore();
+    new UserScoreBox();
   }
 
   rerender() {

@@ -31,5 +31,14 @@
   width: 130px;
   padding-left: 10px;
   display: flex;
-  gap: 30px;
+  gap: 10px;
+}
+
+.star {
+  width: 32px;
+  transition: box-shadow 0.3s ease;
+}
+
+.star:hover {
+  filter: drop-shadow(0 0 10px yellow);
 }

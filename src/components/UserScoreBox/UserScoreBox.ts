@@ -1,12 +1,11 @@
-import './StarScore.css';
+import './UserScoreBox.css';
 import StarEmptyIcon from '../../assets/star_empty.png';
 import StarFillIcon from '../../assets/star_filled.png';
 import { VOTE_MESSAGE } from '../../consts/message';
 import ScoreDBService from '../../domain/services/ScoreDBService';
 import { getUrlParams } from '../../utils/queryString';
 
-//TODO: USERScore 로 이름 바꾸기
-class StarScore {
+class UserScoreBox {
   score: number;
   starVoteBox;
   starAndInfoBox;
@@ -70,22 +69,19 @@ class StarScore {
     const scoreInfo = document.createElement('span');
     scoreInfo.id = 'score-info';
 
-    if (!this.score) {
-      scoreInfo.textContent = '평점을 매겨주세요!';
-    } else {
-      const scoreNumber = document.createElement('span');
-      const scoreText = document.createElement('span');
+    const scoreNumber = document.createElement('span');
+    const scoreText = document.createElement('span');
 
-      scoreNumber.id = 'score-number';
-      scoreText.id = 'score-text';
+    scoreNumber.id = 'score-number';
+    scoreText.id = 'score-text';
 
+    if (this.score) {
       scoreNumber.textContent = String(this.score * 2);
-      scoreText.textContent = VOTE_MESSAGE[String(this.score)];
-
-      scoreInfo.append(scoreNumber);
-      scoreInfo.append(scoreText);
     }
 
+    scoreText.textContent = VOTE_MESSAGE[String(this.score)];
+    scoreInfo.append(scoreNumber);
+    scoreInfo.append(scoreText);
     this.starVoteBox.append(scoreInfo);
   }
 
@@ -120,9 +116,9 @@ class StarScore {
     if (!scoreNumber) return;
     if (!scoreText) return;
 
-    scoreNumber.textContent = String(userScore * 2); //TODO: 안됨
+    scoreNumber.textContent = String(userScore * 2);
     scoreText.textContent = VOTE_MESSAGE[String(userScore)];
   }
 }
 
-export default StarScore;
+export default UserScoreBox;
