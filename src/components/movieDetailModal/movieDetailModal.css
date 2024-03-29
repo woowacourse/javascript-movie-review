@@ -115,6 +115,21 @@
     overflow: auto;
 }
 
+.description::-webkit-scrollbar {
+    width: 3px;
+}
+
+.description::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+}
+
+.description::-webkit-scrollbar-track {
+    background-color: grey;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
+}
+
 .movie-information-wrapper {
     display: flex;
     flex-direction: column;

@@ -9,7 +9,7 @@ body {
   -ms-overflow-style: none;
 }
 
-::-webkit-scrollbar {
+body::-webkit-scrollbar {
   display: none;
 }
 
