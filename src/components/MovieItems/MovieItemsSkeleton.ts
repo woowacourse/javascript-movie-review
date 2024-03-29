@@ -16,21 +16,9 @@ const MovieitemsSkeleton = {
   createMovieItemSkeleton() {
     const movieItem = document.createElement('li');
 
-    const movieItemLink = this.createMovieItemLink(this.createMovieItemCardSkeleton());
-
-    movieItem.appendChild(movieItemLink);
+    movieItem.appendChild(this.createMovieItemCardSkeleton());
 
     return movieItem;
-  },
-
-  createMovieItemLink(movieItemCard: HTMLElement) {
-    const movieItemLink = document.createElement('a');
-
-    movieItemLink.setAttribute('href', '#');
-
-    movieItemLink.appendChild(movieItemCard);
-
-    return movieItemLink;
   },
 
   createMovieItemCardSkeleton() {
