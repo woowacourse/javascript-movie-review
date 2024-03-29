@@ -1,5 +1,6 @@
 import { ListType, PartialMovieDataForItemView } from "../type/movie";
 import { createElementWithAttribute } from "../utils";
+import scrollToTop from "../utils/scrollToTop";
 
 import ItemCardList from "./ItemCardList";
 import LoadMore from "./LoadMore";
@@ -26,6 +27,7 @@ interface ItemViewProps {
 }
 
 const renderItemView = ({ titleText, movieData, listType }: ItemViewProps) => {
+  scrollToTop();
   const $itemView = createElementWithAttribute("section", {
     class: "item-view",
   });
