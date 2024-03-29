@@ -52,20 +52,20 @@ class MovieListCard extends Component<MovieInterface> {
     });
   }
 
-  private renderModal(event: Event) {
+  private async renderModal(event: Event) {
     event.stopPropagation();
 
-    MovieDetail.fetchMovieDetail(String(this.props?.id), {
-      onSuccess: ({ id, overview, title, score, image, genres, ratingScore }) => {
-        this.renderMovieReviewDetailModal({ id, overview, title, score, image, genres, ratingScore });
-      },
+    try {
+      const { id, overview, title, score, image, genres, ratingScore } = await MovieDetail.fetchMovieDetail(
+        String(this.props?.id),
+      );
 
-      onError: (error) => {
-        console.error(error);
+      this.renderMovieReviewDetailModal({ id, overview, title, score, image, genres, ratingScore });
+    } catch (error) {
+      console.error(error);
 
-        this.renderErrorFallbackModal();
-      },
-    });
+      this.renderErrorFallbackModal();
+    }
   }
 
   private renderMovieReviewDetailModal(movieDetail: MovieDetailInterface & RateDetail) {
