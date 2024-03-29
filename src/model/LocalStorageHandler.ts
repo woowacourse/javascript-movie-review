@@ -16,8 +16,7 @@ class LocalStorageHandler {
     if (!this.#scoreData) return;
 
     const index = this.#scoreData.findIndex((item) => item.id === id);
-
-    if (!index) return;
+    if (index === undefined) return;
 
     this.#scoreData.splice(index, 1);
     this.#addScoreItemsToKLocalStorage();
