@@ -22,7 +22,7 @@ export default class MovieList extends Component<{}, MovieListState> {
       <h2 id="main-text">지금 인기 있는 영화</h2>
       <div id="movie-list">
         <ul id="movie-list-container" class="item-list">
-        </ul>
+        </ul>f
       </div>
       <div id="empty-result" class="empty-result hidden"></div>
       <dialog class="modal">
@@ -94,7 +94,7 @@ export default class MovieList extends Component<{}, MovieListState> {
       .then((data) => {
         if (!data || data.length < 20) return;
         this.renderMovies(data);
-        const $movies = document.querySelectorAll<HTMLLIElement>("li");
+        const $movies = document.querySelectorAll<HTMLLIElement>("#movie-list-container li");
         const observer = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting && entry.target === $movies[$movies.length - 1]) {

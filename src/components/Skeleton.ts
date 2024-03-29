@@ -6,7 +6,7 @@ export const hideSkeleton = () => {
 };
 
 export const renderSkeleton = () => {
-  const movieList = $<HTMLUListElement>("#movie-list-container");
+  const movieList = $<HTMLUListElement>("#movie-list");
   const skeletonList = createElement<HTMLUListElement>("ul");
   skeletonList.id = "skeleton-list";
   skeletonList.className = "item-list";
