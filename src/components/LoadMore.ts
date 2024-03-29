@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { movieDataStateStore } from "../model";
 import {
   handleGetPopularMovieData,
@@ -25,15 +26,26 @@ const getSearchMovieData = async () => {
   await handleGetSearchMovieData(title, false);
 };
 
+const addItemCardList = () => {
+  if (
+    movieDataStateStore.fetchedMovieData.movieList !== undefined &&
+    movieDataStateStore.fetchedMovieData.movieList.length !== 0
+  ) {
+    ItemCardList(movieDataStateStore.fetchedMovieData.movieList);
+    return undefined;
+  }
+  const $loader = document.querySelector(".loader");
+  $loader?.remove();
+  return undefined;
+};
+
 const fetchMoreData = async (listType: ListType) => {
-  console.log("fetchMoreData", listType);
   if (listType === "popular") {
     await handleGetPopularMovieData();
   } else {
     await getSearchMovieData();
   }
-
-  ItemCardList(movieDataStateStore.fetchedMovieData);
+  addItemCardList();
 };
 
 const handleIntersection = (

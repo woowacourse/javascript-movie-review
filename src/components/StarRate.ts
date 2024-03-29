@@ -6,7 +6,6 @@ import { Rate } from "../type/rate";
 import { createElementWithAttribute } from "../utils";
 
 const rateState = (rate: number) => {
-  console.log("rateState", rate);
   if (rate > 8) return "명작이에요";
   if (rate > 6) return "재미있어요";
   if (rate > 4) return "보통이에요";

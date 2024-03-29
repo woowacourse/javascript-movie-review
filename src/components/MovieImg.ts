@@ -26,7 +26,6 @@ const MovieImg = (posterPath: string, title: string, className: string) => {
   }) as HTMLImageElement;
 
   imgElement.addEventListener("load", () => {
-    console.log("img load");
     skeletonUI.style.display = "none";
     imgElement.style.display = "block";
   });

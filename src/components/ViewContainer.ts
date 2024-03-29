@@ -6,7 +6,9 @@ import renderSkeletonView from "./SkeletonList";
 
 const ViewContainer = async () => {
   renderSkeletonView();
+
   await handleGetPopularMovieData();
+
   renderItemView({
     titleText: "지금 인기 있는 영화",
     movieData: movieDataStateStore.totalMovieData,
