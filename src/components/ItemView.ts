@@ -37,6 +37,6 @@ const renderItemView = ({ titleText, movieData, listType }: ItemViewProps) => {
   $main?.appendChild($itemView);
 
   ItemCardList(movieData.movieList);
-  LoadMore(listType);
+  LoadMore(listType, movieData.isEndPage);
 };
 export default renderItemView;

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { movieDataStateStore } from "../model";
 import {
   handleGetPopularMovieData,
@@ -81,7 +82,7 @@ const addObserver = ($loadMore: HTMLElement, listType: ListType) => {
   previousObserver = observer;
 };
 
-const LoadMore = (listType: ListType) => {
+const LoadMore = (listType: ListType, isEndPage: boolean) => {
   const $itemView = document.querySelector(".item-view");
 
   const $loader = document.createElement("div");
@@ -93,7 +94,7 @@ const LoadMore = (listType: ListType) => {
     $loader.appendChild($dot);
   }
 
-  $itemView?.appendChild($loader);
+  if (!isEndPage) $itemView?.appendChild($loader);
 
   addObserver($loader, listType);
 };
