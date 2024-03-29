@@ -49,12 +49,6 @@ class MovieController {
     this.#renderPopularMovies();
   }
 
-  async handleMovieClick(movieId: number) {
-    const data: MovieDetail = await this.#movies.getMovieDetail(movieId);
-
-    return data;
-  }
-
   render(query: string = '') {
     const errorContainer = $('.error-container') as HTMLElement;
 

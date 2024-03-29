@@ -36,6 +36,7 @@ export interface MovieDetail {
   overview: string;
   vote_average: number;
   poster_path: string;
+  my_grade: number;
 }
 
 interface Genre {
@@ -91,7 +92,7 @@ class Movies {
 
     const genreNames = genres.map((genre) => genre.name);
 
-    return { id, title, genres: genreNames, overview, vote_average, poster_path };
+    return { id, title, genres: genreNames, overview, vote_average, poster_path, my_grade: 0 };
   }
 
   static async handleErrorResponse(response: Response) {

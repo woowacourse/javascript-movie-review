@@ -10,14 +10,17 @@ import ModalWrapper from './components/ModalWrapper/ModalWrapper';
 import MovieDetail from './components/MovieDetail/MovieDetail';
 
 import MovieController from './controller/MovieController';
+import MovieDetailController from './controller/MovieDetailController';
 
 class MovieApp {
   #app = document.getElementById('app');
   #movieController;
+  #movieDetailController;
   #modal;
 
   constructor() {
     this.#movieController = new MovieController();
+    this.#movieDetailController = new MovieDetailController(localStorage);
     this.#modal = new ModalWrapper();
   }
 
@@ -81,10 +84,11 @@ class MovieApp {
     this.#modal.toggle();
 
     const movieId = Number(li.dataset.movieId);
-    const data = await this.#movieController.handleMovieClick(movieId);
+    const data = await this.#movieDetailController.getMovieDetail(movieId);
     const movieDetail = MovieDetail({
       data,
       onCloseButtonClick: () => this.#modal.toggle(),
+      onStarClick: (movieId: number, event: Event) => this.#onStarClick(movieId, event),
     });
 
     this.#modal.replaceContent(movieDetail);
@@ -100,33 +104,26 @@ class MovieApp {
       const gradeElement = $('.review-rating') as HTMLSpanElement;
       const gradeText = $('.review-text') as HTMLSpanElement;
       const starIndex = Number(targetStar.dataset?.starIndex);
-      const grade = (starIndex + 1) * 2 - 2;
+      const grade = starIndex * 2 + 2;
 
       stars.forEach((star, index) => {
         if (index <= starIndex) star.src = STAR_FILLED;
+        else star.src = STAR_EMPTY;
       });
 
       gradeElement.textContent = String(grade);
       gradeText.textContent = STAR_MESSAGE[grade];
     });
+  }
 
-    $('.stars')?.addEventListener('mouseout', (event: Event) => {
-      const stars = document.querySelectorAll('.star') as NodeListOf<HTMLImageElement>;
-      const target = event.target as HTMLElement;
-      const targetStar = target.closest('.star') as HTMLImageElement;
-      if (!targetStar) return;
-      const gradeElement = $('.review-rating') as HTMLSpanElement;
-      const gradeText = $('.review-text') as HTMLSpanElement;
-      const starIndex = Number(targetStar.dataset?.starIndex);
-      const grade = (starIndex + 1) * 2 - 2;
+  #onStarClick(movieId: number, event: Event) {
+    const target = event.target as HTMLElement;
+    const targetStar = target.closest('.star') as HTMLImageElement;
+    if (!targetStar) return;
+    const starIndex = Number(targetStar.dataset?.starIndex);
+    const grade = starIndex * 2 + 2;
 
-      stars.forEach((star, index) => {
-        if (index >= starIndex) star.src = STAR_EMPTY;
-      });
-
-      gradeElement.textContent = String(grade);
-      gradeText.textContent = STAR_MESSAGE[grade];
-    });
+    this.#movieDetailController.updateMovieDetail(movieId, grade);
   }
 
   #addSearchButtonHoverEvent() {
@@ -147,7 +144,6 @@ class MovieApp {
       const searchButton = $('.search-button') as HTMLButtonElement;
 
       if (window.innerWidth <= 673) {
-        $('.title')?.classList.remove('visibility-hidden');
         searchInput.classList.remove('show-input');
         searchButton.style.pointerEvents = 'none';
       } else {
