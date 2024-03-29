@@ -5,6 +5,16 @@ import { createElement } from '../../../utils/dom/createElement/createElement';
 import './MovieListCardSkeleton.css';
 
 class MovieListCardSkeleton extends Component {
+  static renderSkeletonList = ($container: HTMLElement, $target: HTMLElement, length: number) => {
+    Array.from({ length }, () => new MovieListCardSkeleton($target));
+
+    $container.append($target);
+  };
+
+  static hideSkeletonList = ($ul: HTMLElement) => {
+    $ul.remove();
+  };
+
   protected render() {
     this.$element.appendChild(this.createComponent());
   }

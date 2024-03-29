@@ -1,7 +1,7 @@
 import Component from '../../common/Component/Component';
 import MovieList from '../MovieList/MovieList';
 import MovieTitle from '../MovieTitle/MovieTitle';
-import { renderSkeletonList } from '../MovieListCardSkeleton/MovieListCardSkeleton.util';
+import MovieListCardSkeleton from '../MovieListCardSkeleton/MovieListCardSkeleton';
 
 import Movie from '../../../domain/Movie/Movie';
 
@@ -83,7 +83,7 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
   private updateMovieList($movieListContainer: HTMLElement) {
     const $ul = createElement({ tagName: 'ul', attributeOptions: { class: 'item-list' } });
 
-    renderSkeletonList($movieListContainer, $ul, 8);
+    MovieListCardSkeleton.renderSkeletonList($movieListContainer, $ul, 8);
 
     this.renderMovieList($movieListContainer, $ul);
   }
@@ -96,7 +96,9 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
 
       const movieItemDetails = await this.movie?.fetchMovieDetails();
 
-      $ul.remove();
+      console.log(movieItemDetails);
+
+      MovieListCardSkeleton.hideSkeletonList($ul);
 
       new MovieList($movieListContainer, {
         movieItemDetails,
