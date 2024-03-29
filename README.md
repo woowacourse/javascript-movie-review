@@ -1,4 +1,4 @@
-# javascript-movie-review
+# 🍿 javascript-movie-review
 
 FE 레벨1 영화관 미션
 
@@ -9,6 +9,56 @@ FE 레벨1 영화관 미션
 ### 구현 모습
 
 <img src="./readmeImages/movie_review_step1.gif" width="600px" />
+
+#### 2단계 추가 기능
+
+<details>
+  <summary> 그리드(반응형) </summary>
+  <div markdown="1">
+ <img src="./readmeImages/그리드반응형.gif" alt="그리드 반응형" width="600px">
+  
+  </div>
+</details>
+<br/>
+
+<details>
+  <summary> 소형 모바일에서의 입력창 (반응형) </summary>
+  <div markdown="1">
+  
+ <img src="./readmeImages/search_input.gif" alt="소형 모바일에서의 입력창" width="600px">
+  
+  </div>
+</details>
+<br/>
+<details>
+  <summary> 영화 상세 정보 모달</summary>
+  <div markdown="1">
+  
+ <img src="./readmeImages/상세모달_스켈레톤.gif" alt="영화 상세 정보 모달" width="600px">
+  
+  </div>
+</details>
+<br/>
+
+<details>
+  <summary> 내 별점 </summary>
+  <div markdown="1">
+  
+ <img src="./readmeImages/별점.gif" alt="별점" width="600px">
+  
+  </div>
+</details>
+<br/>
+
+<details>
+  <summary> 무한 스크롤</summary>
+  <div markdown="1">
+  
+ <img src="./readmeImages/무한스크롤.gif" alt="무한 스크롤" width="600px">
+  
+  </div>
+</details>
+<br/>
 
 ## 웹팩 빌드,서버 열기
 
@@ -34,7 +84,7 @@ npm run test-e2e
   
   ### 도메인 로직
   
-  #### APIClient
+  #### MovieListAPIClient
   
   - api 데이터 받아오기
   - 더보기 버튼 숨길지 보일지 결정
@@ -73,25 +123,26 @@ npm run test-e2e
 
 ### 영화 상세 정보 조회
 
-- [ ] 모달창
-- [ ] 모달 창 닫기
-  - [ ] UX 고려
-    - ex: esc키,백그라운드 클릭 시
+- 모달창
+- 모달 창 닫기
+- UX 고려
+- ex: esc키,백그라운드 클릭 시
 - 정보 목록
-  - [] 포스터
-  - [] 제목
-  - [] 장르
-  - [] 별점
-  - [] 설명
-  - [] 내 별점 (별점 , 점수)
+  - 포스터
+  - 제목
+  - 장르
+  - 별점
+  - 설명
+  - 내 별점 (별점 , 점수)
+- http 오류 또는 정보 없을 경우 오류 화면
 
 ### 별점 매기기
 
-- [ ] 위치: 영화 상세 정보 모달창
-- [ ] 새로 고침 하더라도, 유저가 남긴 별점 유지 (로컬 스토리시 사용)
-- [ ] 별점 클릭 해서 별점 반영
-  - 별점은 5개로 구성
-- [ ] 별점 별, 영화 평 보여주기
+- 위치: 영화 상세 정보 모달창
+- 새로 고침 하더라도, 유저가 남긴 별점 유지 (로컬 스토리시 사용)
+- 별점 클릭 해서 별점 반영
+- 별점은 5개로 구성
+- 별점 별, 영화 평 보여주기
   - 2점: 최악이예요
   - 4점: 별로예요
   - 6점: 보통이에요
@@ -100,17 +151,17 @@ npm run test-e2e
 
 ### 무한 스크롤
 
-- [ ] 더 보기 버튼이 아닌 스크롤로 영화 데이터를 불러와 리스트에 추가
-  - [ ] 더 이상 불러올 데이터가 없을 경우 이에 대한 컴포넌트 추가 (모달?)
-  - [ ] 더 이상 블러올 데이터가 없을 경우 api 요청 하지 않기
+- 더 보기 버튼이 아닌 스크롤로 영화 데이터를 불러와 리스트에 추가
+- 더 이상 불러올 데이터가 없을 경우 이에 대한 컴포넌트 추가
+- 더 이상 블러올 데이터가 없을 경우 api 요청 하지 않기
 
 ### 반응형
 
-- [ ] 영화 목록
-  - [ ] 데스크탑: 한 줄에 4개
-  - [ ] 태블릿 : 한 줄에 3개
-  - [ ] 폰: 한 줄에 2개
-- [ ] 검색 입력창
+- 영화 목록
+  - 데스크탑: 한 줄에 4개
+  - 태블릿 : 한 줄에 3개
+  - 폰: 한 줄에 2개
+- 검색 입력창
 
   </div>
 </details>
@@ -134,7 +185,9 @@ npm run test-e2e
  ┃ ┣ 📂modal
  ┃ ┃ ┣ 📜AlertModal.ts
  ┃ ┃ ┣ 📜index.ts
+ ┃ ┃ ┣ 📜ModalCloseButton.ts
  ┃ ┃ ┣ 📜ModalContainer.ts
+ ┃ ┃ ┣ 📜MovieInfoModal.ts
  ┃ ┃ ┗ 📜ToastModal.ts
  ┃ ┣ 📂movie
  ┃ ┃ ┣ 📜index.ts
@@ -143,50 +196,67 @@ npm run test-e2e
  ┃ ┃ ┣ 📜MovieItem.ts
  ┃ ┃ ┣ 📜MovieList.ts
  ┃ ┃ ┣ 📜MovieListContainer.ts
+ ┃ ┃ ┣ 📜MovieListLastItem.ts
  ┃ ┃ ┣ 📜MovieListTitle.ts
  ┃ ┃ ┣ 📜MovieScore.ts
  ┃ ┃ ┣ 📜MovieTitle.ts
- ┃ ┃ ┗ 📜NoneMovieItem.ts
+ ┃ ┃ ┣ 📜NoMoreMovieDataItem.ts
+ ┃ ┃ ┣ 📜NoneMovieItem.ts
+ ┃ ┃ ┗ 📜UserScore.ts
  ┃ ┣ 📂skeleton
  ┃ ┃ ┣ 📜index.ts
  ┃ ┃ ┣ 📜SkeletonCard.ts
+ ┃ ┃ ┣ 📜SkeletonInfo.ts
  ┃ ┃ ┣ 📜SkeletonList.ts
- ┃ ┃ ┗ 📜SkeletonListContainer.ts
+ ┃ ┃ ┣ 📜SkeletonListContainer.ts
+ ┃ ┃ ┣ 📜SkeletonMovieImg.ts
+ ┃ ┃ ┣ 📜SkeletonMovieTitle.ts
+ ┃ ┃ ┗ 📜SkeletonTextBox.ts
  ┃ ┣ 📜Header.ts
  ┃ ┣ 📜index.ts
  ┃ ┣ 📜Label.ts
- ┃ ┣ 📜MoreButton.ts
  ┃ ┣ 📜RefreshButton.ts
  ┃ ┗ 📜SearchBox.ts
  ┣ 📂constants
+ ┃ ┣ 📜component.ts
  ┃ ┣ 📜errorMessage.ts
  ┃ ┣ 📜index.ts
  ┃ ┗ 📜system.ts
+ ┣ 📂controller
+ ┃ ┣ 📜AlertModalForNullController.ts
+ ┃ ┣ 📜ErrorViewController.ts
+ ┃ ┣ 📜index.ts
+ ┃ ┣ 📜ModalContainerController.ts
+ ┃ ┣ 📜ScrollController.ts
+ ┃ ┣ 📜ScrollObserver.ts
+ ┃ ┣ 📜SearchBoxResponsiveHandler.ts
+ ┃ ┣ 📜SkeletonController.ts
+ ┃ ┗ 📜WindowResponsiveHandler.ts
  ┣ 📂images
  ┃ ┣ 📜circle-exclamation.svg
  ┃ ┣ 📜logo.png
+ ┃ ┣ 📜logo_small.png
  ┃ ┣ 📜no_image.svg
  ┃ ┣ 📜no_movie.svg
  ┃ ┣ 📜search_button.png
  ┃ ┣ 📜star_empty.png
  ┃ ┣ 📜star_filled.png
- ┃ ┗ 📜triangle_exclamation.svg
+ ┃ ┣ 📜tape.svg
+ ┃ ┣ 📜trash.svg
+ ┃ ┣ 📜triangle_exclamation.svg
+ ┃ ┗ 📜xmark.svg
  ┣ 📂model
  ┃ ┣ 📜APIClient.ts
- ┃ ┣ 📜DataStateStore.ts
- ┃ ┗ 📜index.ts
- ┣ 📂service
- ┃ ┣ 📜AlertModalForNullController.ts
  ┃ ┣ 📜DataFetcher.ts
- ┃ ┣ 📜ErrorViewController.ts
+ ┃ ┣ 📜DataStateStore.ts
  ┃ ┣ 📜index.ts
- ┃ ┗ 📜SkeletonController.ts
+ ┃ ┗ 📜LocalStorageHandler.ts
  ┣ 📂styles
  ┃ ┣ 📜common.css
  ┃ ┣ 📜error.css
  ┃ ┣ 📜header.css
  ┃ ┣ 📜modal.css
- ┃ ┣ 📜more-button.css
+ ┃ ┣ 📜movie-info-modal.css
  ┃ ┣ 📜movie-list.css
  ┃ ┣ 📜refresh-button.css
  ┃ ┣ 📜reset.css
@@ -217,10 +287,8 @@ npm run test-e2e
   <div markdown="1">
   <br/>
   <img src="./readmeImages/모듈구조.png" alt="모둘 구조" width="700px" />
-
   </div>
 </details>
-
 <br/>
 
 <details>
@@ -228,25 +296,40 @@ npm run test-e2e
   <div markdown="1">
   <br/>
   <img src="./readmeImages/movie_review_step1_process.png" alt="영화 리뷰 미션 step1 프로세스" width="700px">
+  </div>
+</details>
+<br/>
 
+<details>
+  <summary>🔍 미션 2단계 무한 스크롤 프로세스 보기</summary>
+  <div markdown="1">
+  <br/>
+  <img src="./readmeImages/무한스크롤_순서도.png" alt="무한 스크롤 프로세스" width="700px">
   </div>
 </details>
 
 ## 오류 화면
 
 <details>
-  <summary> 🔍 401오류 화면 보기</summary>
+  <summary> 🔍 영화 리스트 401오류 화면 보기</summary>
   <div markdown="401">
   <br/>
   <img src="./readmeImages/401_error.png" alt="401 error" width="500px" />
-
   </div>
 </details>
 
 <br/>
 
 <details>
-  <summary>🔍404오류 화면 보기</summary>
+  <summary> 🔍 영화 상세 정보 모달 401오류 화면 보기</summary>
+  <div markdown="401">
+  <br/>
+  <img src="./readmeImages/info_401.png" alt="401 error" height="450px" />
+  </div>
+</details>
+<br/>
+<details>
+  <summary>🔍영화 리스트 404오류 화면 보기</summary>
   <div markdown="404">
   <br/>
   <img src="./readmeImages/404_error.png" alt="404error" width="500px"  />
@@ -254,7 +337,14 @@ npm run test-e2e
 </details>
 
 <br/>
-
+<details>
+  <summary>🔍 영화 상세 정보 모달 404오류 화면 보기</summary>
+  <div markdown="404">
+  <br/>
+  <img src="./readmeImages/info_404.png" alt="404error" height="450px"  />
+  </div>
+</details>
+<br/>
 <details>
   <summary> 🔍204 지만, 잘못된 url로 인한 json 형태 오류</summary>
   <div markdown="204">
