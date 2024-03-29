@@ -18,11 +18,17 @@
   background: #212122;
   overflow-y: hidden;
   color: #f1f1f1;
+  border-radius: 16px;
 }
 
-.flex-center-aligned {
+.flex-XY-aligned {
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.flex-Y-center {
+  display: flex;
   align-items: center;
 }
 
@@ -55,4 +61,61 @@
 
 dialog::backdrop {
   background: #00000099;
+}
+
+.padding-32 {
+  padding: 32px;
+}
+
+.gap-16 {
+  gap: 16px;
+}
+
+.movie-detail-image {
+  height: 433px;
+  width: 292px;
+  background: red;
+}
+
+.movie-detail-info {
+  width: 438px;
+  height: 433px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 16px;
+}
+
+.movie-detail-info > div:first-child {
+  height: 24px;
+}
+
+.movie-detail-info > div:nth-child(2) {
+  flex-grow: 1;
+}
+
+.movie-detail-info > div:last-child {
+  height: 64px;
+  width: 100%;
+  background: #383839;
+  border-radius: 16px;
+  display: flex;
+  padding: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-rate-box {
+  display: flex;
+  gap: 12px;
+}
+
+.rate-result {
+  width: 120px;
+}
+
+.star-image {
+  height: 32px;
+  width: 32px;
 }
