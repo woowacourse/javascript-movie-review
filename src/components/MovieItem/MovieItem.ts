@@ -4,15 +4,17 @@ import { MOVIE_POSTER_URL } from '../../constants/MOVIES_URL';
 import ReplaceSkeletonProps from '../../interfaces/ReplaceSkeletonProps';
 
 const MovieItem = {
-  replaceSkeleton({ itemCard, movieData, setMovieItem, onClick }: ReplaceSkeletonProps) {
+  replaceSkeleton({ itemCard, movieData, moiveItemDetailModal }: ReplaceSkeletonProps) {
     if (movieData === undefined) return itemCard.remove();
 
     this.replaceThumbnail(itemCard, movieData);
     this.replaceTitle(itemCard, movieData);
     this.replaceScore(itemCard, movieData);
 
-    setMovieItem(movieData);
-    itemCard.addEventListener('click', onClick);
+    itemCard.addEventListener('click', () => {
+      moiveItemDetailModal.setDetailMovieData(movieData);
+      moiveItemDetailModal.toggle();
+    });
   },
 
   replaceThumbnail(itemCard: HTMLElement, movieData: MovieData) {

@@ -1,10 +1,10 @@
+import MovieItemDetailModalInstance from '../typeAliases/MovieItemDetailModalInstance';
 import MovieData from './MovieData';
 
 interface ReplaceSkeletonProps {
   itemCard: HTMLElement;
   movieData: MovieData;
-  setMovieItem: (movieData: MovieData) => void;
-  onClick: () => void;
+  moiveItemDetailModal: MovieItemDetailModalInstance;
 }
 
 export default ReplaceSkeletonProps;

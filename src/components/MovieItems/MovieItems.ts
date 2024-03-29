@@ -5,14 +5,13 @@ const MovieItems = {
   replaceSkeletons({ movieItems, responseData, moiveItemDetailModal }: ReplaceSkeletonsProps) {
     const itemCards = movieItems.querySelectorAll('li');
 
-    itemCards.forEach((itemCard, index) =>
+    itemCards.forEach((itemCard, index) => {
       MovieItem.replaceSkeleton({
         itemCard: itemCard,
         movieData: responseData.results[index],
-        setMovieItem: moiveItemDetailModal.setMovieItem,
-        onClick: () => moiveItemDetailModal.toggle(),
-      }),
-    );
+        moiveItemDetailModal: moiveItemDetailModal,
+      });
+    });
 
     if (responseData.results[0] === undefined) {
       this.showNoResult(movieItems);
