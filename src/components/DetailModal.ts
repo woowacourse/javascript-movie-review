@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { apiClient, rateDataStateStore } from "../model";
 import { Movie, MovieDetail } from "../type/movie";
 import { createElementWithAttribute } from "../utils";
@@ -21,18 +20,23 @@ const ModalRate = (movie: MovieDetail) => {
   return StarRate(rate, "modal-rate");
 };
 
-const ModalInfoContainer = (movie: MovieDetail) => {
-  const $infoContainer = createElementWithAttribute("div", {
-    class: "modal-info-container",
-  });
-  const $info = createElementWithAttribute("div", { class: "detail-info" });
+const InfoTopContainer = (movie: MovieDetail) => {
   const $infoTop = createElementWithAttribute("div", {
     class: "detail-info-top",
   });
   $infoTop.appendChild(MovieGenres(movie.genres, "modal-genres"));
   $infoTop.appendChild(MovieScore(movie.vote_average, "modal-score"));
 
-  $info.appendChild($infoTop);
+  return $infoTop;
+};
+
+const ModalInfoContainer = (movie: MovieDetail) => {
+  const $infoContainer = createElementWithAttribute("div", {
+    class: "modal-info-container",
+  });
+  const $info = createElementWithAttribute("div", { class: "detail-info" });
+
+  $info.appendChild(InfoTopContainer(movie));
   $info.appendChild(MovieOverview(movie.overview, "modal-overview"));
   $infoContainer.appendChild($info);
   $infoContainer.appendChild(ModalRate(movie));
@@ -64,12 +68,14 @@ const ModalHeader = (movie: MovieDetail) => {
   return $modalHeader;
 };
 
-const ModalContainer = (movie: MovieDetail) => {
+const ModalContainer = async (movieId: number) => {
+  const movieDetail: MovieDetail =
+    await apiClient.getOneMovieDetailData(movieId);
   const $modalContainer = createElementWithAttribute("div", {
     class: "modal-container",
   });
-  $modalContainer.appendChild(ModalHeader(movie));
-  $modalContainer.appendChild(ModalSection(movie));
+  $modalContainer.appendChild(ModalHeader(movieDetail));
+  $modalContainer.appendChild(ModalSection(movieDetail));
   return $modalContainer;
 };
 
@@ -87,10 +93,6 @@ const closeModal = () => {
 };
 
 const DetailModal = async (movie: Movie) => {
-  const movieDetail: MovieDetail = await apiClient.getOneMovieDetailData(
-    movie.id,
-  );
-
   document.body.style.overflow = "hidden";
   const $modal = createElementWithAttribute("div", { class: "detail-modal" });
   const $modalBackdrop = createElementWithAttribute("div", {
@@ -98,8 +100,7 @@ const DetailModal = async (movie: Movie) => {
   });
 
   $modal.appendChild($modalBackdrop);
-  $modal.appendChild(ModalContainer(movieDetail));
-
+  $modal.appendChild(await ModalContainer(movie.id));
   $main?.appendChild($modal);
 
   closeModal();
