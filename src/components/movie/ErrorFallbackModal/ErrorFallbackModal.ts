@@ -20,6 +20,12 @@ class ErrorFallbackModal extends Component {
     });
   }
 
+  static open() {
+    const $modal = querySelector<HTMLDialogElement>(ELEMENT_SELECTOR.errorFallBackModal);
+
+    $modal.showModal();
+  }
+
   protected createComponent() {
     return /* html */ `
       <img id="warning-image" class="warning-image" src="${WarningImage}" alt="경고 이미지" />

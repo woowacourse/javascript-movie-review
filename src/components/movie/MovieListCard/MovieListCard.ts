@@ -1,5 +1,6 @@
 import Component from '../../common/Component/Component';
 import MovieReviewDetailModal from '../MovieReviewDetailModal/MovieReviewDetailModal';
+import ErrorFallbackModal from '../ErrorFallbackModal/ErrorFallbackModal';
 
 import MovieDetail from '../../../domain/MovieDetail/MovieDetail';
 import type { MovieInterface } from '../../../domain/Movie/Movie.type';
@@ -60,7 +61,7 @@ class MovieListCard extends Component<MovieInterface> {
     } catch (error) {
       console.error(error);
 
-      this.renderErrorFallbackModal();
+      ErrorFallbackModal.open();
     }
   }
 
@@ -73,12 +74,6 @@ class MovieListCard extends Component<MovieInterface> {
     const movieReviewDetailModal = new MovieReviewDetailModal($app, movieDetail);
 
     movieReviewDetailModal.open();
-  }
-
-  private renderErrorFallbackModal() {
-    const $errorFallbackModal = querySelector<HTMLDialogElement>(ELEMENT_SELECTOR.errorFallBackModal);
-
-    $errorFallbackModal.showModal();
   }
 }
 

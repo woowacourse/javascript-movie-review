@@ -2,6 +2,7 @@ import Component from '../../common/Component/Component';
 import MovieList from '../MovieList/MovieList';
 import MovieTitle from '../MovieTitle/MovieTitle';
 import MovieListCardSkeleton from '../MovieListCardSkeleton/MovieListCardSkeleton';
+import ErrorFallbackModal from '../ErrorFallbackModal/ErrorFallbackModal';
 
 import Movie from '../../../domain/Movie/Movie';
 
@@ -110,15 +111,9 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
       if (error instanceof Error) {
         console.error(error);
 
-        this.openErrorFallbackModal();
+        ErrorFallbackModal.open();
       }
     }
-  }
-
-  private openErrorFallbackModal() {
-    const $modal = querySelector<HTMLDialogElement>(ELEMENT_SELECTOR.errorFallBackModal);
-
-    $modal.showModal();
   }
 
   removeScroll() {
