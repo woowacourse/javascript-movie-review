@@ -37,7 +37,6 @@ export class App {
 
   async addMovieList() {
     try {
-      this.removeRetryButton();
       this.movieContainer.createSkeletonList();
       const moviePageData = await this.fetchMoviePageData();
       this.movieContainer.fillMovieDataToSkeletonList(moviePageData);
@@ -45,12 +44,6 @@ export class App {
       this.tryCount = 0;
     } catch (error) {
       this.retryAddMovieList(error as Error);
-    }
-  }
-
-  removeRetryButton() {
-    if (this.tryCount > 0) {
-      this.movieContainer.removeRetryButton();
     }
   }
 

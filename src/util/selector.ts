@@ -1,8 +1,3 @@
-// const $ = (target) => document.querySelector(target);
-// const $$ = (target) => document.querySelectorAll(target);
-
-// export { $, $$ };
-
 function $<E extends HTMLElement = HTMLElement>(selector: string, target?: HTMLElement): E {
   const element = target ? target.querySelector(selector) : document.querySelector(selector);
   if (!(element instanceof HTMLElement)) {
@@ -11,8 +6,13 @@ function $<E extends HTMLElement = HTMLElement>(selector: string, target?: HTMLE
   return <E>element;
 }
 
+function $OptionalSelector<E extends HTMLElement = HTMLElement>(selector: string, target?: HTMLElement): E | null {
+  const element = target ? target.querySelector(selector) : document.querySelector(selector);
+  return <E>element;
+}
+
 function $$(selector: string, target?: HTMLElement): NodeListOf<HTMLElement> {
   return target ? target.querySelectorAll(selector) : document.querySelectorAll(selector);
 }
 
-export { $, $$ };
+export { $, $OptionalSelector, $$ };

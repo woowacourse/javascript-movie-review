@@ -1,4 +1,4 @@
-import { $ } from '../util/selector';
+import { $, $OptionalSelector } from '../util/selector';
 import createButton from './Button';
 import { injectMovieDataToItem } from './MovieItem';
 import { createSkeletonMovieList } from './MovieList';
@@ -41,6 +41,7 @@ class MovieContainer {
   }
 
   createSkeletonList() {
+    this.removeRetryButton();
     const skeletonMovieList = createSkeletonMovieList();
 
     skeletonMovieList.forEach((skeletonMovie) => {
@@ -66,11 +67,13 @@ class MovieContainer {
   }
 
   setEmptySearchResult(listLength: number) {
+    const emptySearchResultParagraph = $OptionalSelector('h3.empty-search-result');
+
     if (listLength !== 0) {
-      $('h3.empty-search-result')?.remove();
+      emptySearchResultParagraph?.remove();
     }
 
-    if (listLength === 0 && !$('h3.empty-search-result')) {
+    if (listLength === 0 && !emptySearchResultParagraph) {
       $('.item-view').insertBefore(this.createEmptySearchResult(), this.movieListContainer);
     }
   }
@@ -113,7 +116,7 @@ class MovieContainer {
   }
 
   removeRetryButton() {
-    $('#retry-button').remove();
+    $OptionalSelector('#retry-button')?.remove();
   }
 
   async initHandleClickMoreButton() {
