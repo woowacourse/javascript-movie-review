@@ -2,12 +2,12 @@ header {
   width: 100%;
   min-width: 1200px;
   height: 72px;
-  background-color: #222;
+  background-color: var(--black-300);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid white;
+  border-bottom: var(--black-50-dim) solid 2px;
   margin-bottom: 48px;
 }
 

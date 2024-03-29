@@ -5,6 +5,7 @@ import './assets/images/search_button.png';
 import './assets/images/logo.png';
 import './assets/images/star_empty.png';
 import './assets/images/star_filled.png';
+import './assets/images/image.png';
 
 import App from './components/App/App';
 
