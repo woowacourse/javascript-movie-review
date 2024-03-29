@@ -21,6 +21,9 @@
   width: 100%;
   object-fit: cover;
 }
+.movie-list .movie-thumbnail.none-img {
+  object-fit: contain;
+}
 
 .movie-list .movie-title {
   margin-top: 16px;
