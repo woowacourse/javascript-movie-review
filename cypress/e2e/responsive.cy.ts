@@ -32,4 +32,12 @@ describe('반응형 UI 테스트', () => {
       });
     });
   });
+
+  it('검색창은 viewport의 width가 400px 기준으로 사라지고 다시 늘리면 검색창이 보여진다.', () => {
+    cy.get('#search-input').should('be.visible');
+    cy.viewport(400, 800);
+    cy.get('#search-input').should('not.be.visible');
+    cy.viewport(800, 800);
+    cy.get('#search-input').should('be.visible');
+  });
 });
