@@ -1,4 +1,4 @@
-import { LOGO } from './resource/index';
+import { LOGO, STAR_EMPTY, STAR_FILLED } from './resource/index';
 import { $ } from './utils/dom';
 
 import Header from './components/Header/Header';
@@ -87,12 +87,40 @@ class MovieApp {
     });
 
     this.#modal.replaceContent(movieDetail);
+    this.#addStarHoverEvent();
+  }
+
+  #addStarHoverEvent() {
+    $('.stars')?.addEventListener('mouseover', (event: Event) => {
+      const stars = document.querySelectorAll('.star') as NodeListOf<HTMLImageElement>;
+      const target = event.target as HTMLElement;
+      const targetStar = target.closest('.star') as HTMLImageElement;
+      if (!targetStar) return;
+      const starIndex = Number(targetStar.dataset?.starIndex);
+
+      stars.forEach((star, index) => {
+        if (index <= starIndex) star.src = STAR_FILLED;
+      });
+    });
+
+    $('.stars')?.addEventListener('mouseout', (event: Event) => {
+      const stars = document.querySelectorAll('.star') as NodeListOf<HTMLImageElement>;
+      const target = event.target as HTMLElement;
+      const targetStar = target.closest('.star') as HTMLImageElement;
+      if (!targetStar) return;
+      const starIndex = Number(targetStar.dataset?.starIndex);
+
+      stars.forEach((star, index) => {
+        if (index >= starIndex) star.src = STAR_EMPTY;
+      });
+    });
   }
 
   #addSearchButtonHoverEvent() {
     $('.search-box')?.addEventListener('mouseover', () => {
       const searchInput = $('#search-text') as HTMLInputElement;
       const searchButton = $('.search-button') as HTMLButtonElement;
+
       searchButton.style.pointerEvents = 'auto';
 
       if (window.innerWidth <= 673) {

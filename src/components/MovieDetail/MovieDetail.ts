@@ -38,11 +38,11 @@ const MovieDetail = ({
         <div class="review-container">
           <span class="my-stars">내 별점</span>
           <div class="stars">
-            <img src="${STAR_FILLED}" />
-            <img src="${STAR_FILLED}" />
-            <img src="${STAR_FILLED}" />
-            <img src="${STAR_EMPTY}" />
-            <img src="${STAR_EMPTY}" />
+            ${Array.from({ length: 5 })
+              .map(
+                (_, index) => `<img class="star" src="${STAR_EMPTY}" data-star-index="${index}" />`,
+              )
+              .join('')}
           </div>
           <div class="review-rate-container">
             <span class="my-stars">6</span>
