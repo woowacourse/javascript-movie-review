@@ -311,30 +311,31 @@ header .search-box .search-button {
   width: 100%;
 }
 
-.my-vote-container {
+.rating-bar {
   display: flex;
   background-color: #383839;
   width: 100%;
   padding: 14px 15px;
   align-items: center;
   border-radius: 16px;
+  min-width: 360px;
 }
 
-.my-vote-label {
+.rating-label {
   margin-right: 10px;
   font-weight: 550;
 }
 
-.my-vote-star-container {
+.rating-star-container {
   display: flex;
 }
 
-.my-vote-star {
+.rating-star {
   width: 27px;
   height: 27px;
 }
 
-.my-vote-text {
+.rating-text {
   margin-left: 10px;
   font-weight: 200;
 }
@@ -345,4 +346,34 @@ header .search-box .search-button {
 
 .close {
   display: none;
+}
+
+/* rating bar */
+input.rating-checkbox {
+  display: none;
+}
+
+input.rating-checkbox + label {
+  cursor: pointer;
+}
+
+/* label:before에 체크하기 전 상태 CSS */
+input.rating-checkbox + label:before {
+  width: 27px;
+  height: 27px;
+  content: "";
+  display: inline-block;
+  background-position: 50%;
+  background-image: url("../images/star_empty.png");
+  background-repeat: no-repeat;
+}
+
+/* label:before에 체크 된 상태 CSS */
+input.rating-checkbox:checked + label:before {
+  width: 27px;
+  height: 27px;
+  content: "";
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-image: url("../images/star_filled.png");
 }

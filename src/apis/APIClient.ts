@@ -1,4 +1,4 @@
-import APIError from "../error/APIError";
+import APIError from "../errors/APIError";
 
 type URLString = string;
 

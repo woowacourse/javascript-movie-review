@@ -4,7 +4,7 @@ import { generateMovieItems } from "../templates/movie/generateMovieItems";
 import { generateErrorFallbackScreen } from "../templates/error/generateErrorFallbackScreen";
 import { getPopularMovieList, getSearchMovieList } from "../../apis/movieList";
 import { $ } from "../../utils/dom";
-import APIError from "../../error/APIError";
+import APIError from "../../errors/APIError";
 import SkeletonUI from "../SkeletonUI";
 import { MovieItem } from "../../types/movie";
 import EventComponent from "../abstract/EventComponent";
@@ -89,7 +89,7 @@ export default class MovieList extends EventComponent {
     );
   }
 
-  handleMovieItemClick(event: Event): void {
+  private handleMovieItemClick(event: Event): void {
     const $movieItem = (event.target as HTMLElement).closest<HTMLLIElement>(
       ".movie-item"
     );
@@ -105,7 +105,7 @@ export default class MovieList extends EventComponent {
     }
   }
 
-  async handleWatchMoreButtonClick(): Promise<void> {
+  private async handleWatchMoreButtonClick(): Promise<void> {
     this.page += 1;
 
     this.skeletonUI.insert("item-list", "afterend");

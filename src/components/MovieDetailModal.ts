@@ -5,34 +5,42 @@ import { MovieDetail } from "../types/movie";
 import { $ } from "../utils/dom";
 import { HTMLTemplate } from "./abstract/BaseComponent";
 import EventComponent from "./abstract/EventComponent";
+import RatingBar from "./RatingBar";
 
+customElements.define("rating-bar", RatingBar);
 interface MovieDetailModalProps {
   targetId: string;
   movieDetailModalState: MovieDetailModalState;
-  movieInfo?: MovieDetail;
+  movieDetail?: MovieDetail;
 }
 
 export default class MovieDetailModal extends EventComponent {
   private movieDetailModalState: MovieDetailModalState;
-  private movieInfo: MovieDetail | null;
+  private movieDetail: MovieDetail | null;
 
   constructor({
     targetId,
     movieDetailModalState,
-    movieInfo,
+    movieDetail,
   }: MovieDetailModalProps) {
     super({ targetId });
     this.movieDetailModalState = movieDetailModalState;
-    this.movieInfo = movieInfo || null;
+    this.movieDetail = movieDetail || null;
   }
 
   protected getTemplate(): HTMLTemplate {
-    const movieInfo = this.movieInfo;
-    if (!movieInfo) {
-      return "<div class='close' id='test-modal'>스켈레톤 UI</div>";
+    const movieDetail = this.movieDetail;
+    if (!movieDetail) {
+      return `
+      <dialog id="movie-detail-modal" class="movie-detail-modal">
+        <div class="movie-detail-container">
+          <p>영화 정보가 없습니다.</p>
+        </div>
+      </dialog>
+      `;
     }
 
-    const { id, title, posterSrc, genres, voteAverage, overview } = movieInfo;
+    const { id, title, posterSrc, genres, voteAverage, overview } = movieDetail;
 
     return `
     <dialog id="movie-detail-modal" class="movie-detail-modal">
@@ -58,17 +66,7 @@ export default class MovieDetailModal extends EventComponent {
             </div>
             <p class="movie-detail-overview">${overview}</p>
           </div>
-          <div class="my-vote-container">
-            <p class="my-vote-label">내 별점</p>
-            <div class="my-vote-star-container">
-              <img class="my-vote-star" src="${IMAGES.starFilled}" />
-              <img class="my-vote-star" src="${IMAGES.starFilled}" />
-              <img class="my-vote-star" src="${IMAGES.starFilled}" />
-              <img class="my-vote-star" src="${IMAGES.starFilled}" />
-              <img class="my-vote-star" src="${IMAGES.starFilled}" />
-            </div>
-            <p class="my-vote-text">6 보통이에요</p>
-          </div>
+          <rating-bar movieId="${id}"></rating-bar>
         </div>
       </div>
     </div>
@@ -79,7 +77,8 @@ export default class MovieDetailModal extends EventComponent {
   protected async onInitialized(): Promise<void> {
     const { isOpen, movieId } = this.movieDetailModalState.get();
     if (isOpen) {
-      await this.fetchMovieDetail(movieId);
+      const movieDetail = await getMovieDetail(movieId);
+      this.movieDetail = movieDetail;
       this.render();
       this.openModal();
     }
@@ -97,11 +96,6 @@ export default class MovieDetailModal extends EventComponent {
     );
   }
 
-  private async fetchMovieDetail(movieId: number): Promise<void> {
-    const movieInfo = await getMovieDetail(movieId);
-    this.movieInfo = movieInfo;
-  }
-
   private openModal(): void {
     $<HTMLDivElement>(this.targetId)
       ?.querySelector<HTMLDialogElement>("dialog")
@@ -109,7 +103,7 @@ export default class MovieDetailModal extends EventComponent {
   }
 
   private closeModal(): void {
-    this.movieInfo = null;
+    this.movieDetail = null;
 
     $<HTMLDialogElement>(this.targetId)
       ?.querySelector<HTMLDialogElement>("dialog")
