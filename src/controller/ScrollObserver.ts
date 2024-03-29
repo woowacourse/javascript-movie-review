@@ -1,10 +1,10 @@
 import { MovieList } from '../components';
 import { dataStateStore } from '../model';
+import { movieListDataFetcher } from '../model/DataFetcher';
 import { ListType, Movie } from '../type/movie';
 import { debouceFunc } from '../utils';
 
 import { renderAlertModalForNullEl } from './AlertModalForNullController';
-import { movieListDataFetcher } from '../model/DataFetcher';
 
 /**
  * 스크롤 시, 이루어지는 api 통신 관리하는 핸들러

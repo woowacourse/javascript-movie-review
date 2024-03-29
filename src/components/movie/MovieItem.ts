@@ -19,7 +19,6 @@ class MovieItem {
   #makeMovieItem(movie: Movie) {
     const $li = document.createElement('li');
     const $card = new MovieCard(movie).element;
-    //2단계 상세 모달 기능 추가
     $li.appendChild($card);
     $li.addEventListener('click', (event) => {
       debouceFunc(() => this.handleClickToOpenModal(event, movie.id));
