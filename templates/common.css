@@ -391,7 +391,7 @@ input {
 
 .detail-image {
   width: 100%;
-  height: 100%;
+  height: 97%;
 }
 
 .info-container {
@@ -423,7 +423,7 @@ input {
   width: 97%;
   margin-bottom: 4px;
   position: absolute;
-  bottom: 0;
+  bottom: 15px;
 }
 
 .star-image {
