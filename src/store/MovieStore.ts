@@ -16,6 +16,7 @@ class MovieStore {
     const moviesData = responseData.results;
 
     this.#pushNewMovies(moviesData);
+    this.increasePageCount();
 
     return moviesData;
   }

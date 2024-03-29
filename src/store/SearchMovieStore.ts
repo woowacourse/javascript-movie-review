@@ -6,7 +6,7 @@ class SearchMovieStore {
 
   #query: string = '';
 
-  #totalPages: number = 0;
+  #totalPages: number = 100;
 
   #presentPage: number = 1;
 
@@ -16,6 +16,7 @@ class SearchMovieStore {
 
     this.#totalPages = responseData.total_pages;
     this.#pushNewData(moviesData);
+    this.increasePageCount();
 
     return moviesData;
   }
