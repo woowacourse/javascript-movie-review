@@ -7,10 +7,10 @@ import renderSkeletonView from "./SkeletonList";
 const ViewContainer = async () => {
   renderSkeletonView();
   await handleGetPopularMovieData();
-  renderItemView(
-    "지금 인기 있는 영화",
-    movieDataStateStore.totalMovieData,
-    "popular",
-  );
+  renderItemView({
+    titleText: "지금 인기 있는 영화",
+    movieData: movieDataStateStore.totalMovieData,
+    listType: "popular",
+  });
 };
 export default ViewContainer;

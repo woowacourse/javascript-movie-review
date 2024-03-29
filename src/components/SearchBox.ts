@@ -9,22 +9,24 @@ import { movieDataStateStore } from "../model";
 import { handleGetSearchMovieData } from "../service/handleSkeletonAndAPI";
 import { createElementWithAttribute, debounceFunc } from "../utils";
 
-import ItemView from "./ItemView";
+import renderItemView from "./ItemView";
 
 // SearchBox event ----
 const searchMovie = async () => {
   const $searchInput = document.querySelector("#search-input");
   if (!($searchInput instanceof HTMLInputElement)) return;
-  const title = $searchInput.value;
 
+  const title = $searchInput.value;
   const $itemView = document.querySelector(".item-view");
   $itemView?.remove();
+
   await handleGetSearchMovieData(title, true);
-  ItemView(
-    TITLE_TEXT.SEARCH(title),
-    movieDataStateStore.totalMovieData,
-    "search",
-  );
+
+  renderItemView({
+    titleText: TITLE_TEXT.SEARCH(title),
+    movieData: movieDataStateStore.totalMovieData,
+    listType: "search",
+  });
 };
 
 const handleInputKeydown = (event: KeyboardEvent) => {
@@ -56,6 +58,7 @@ const Input = () => {
     type: "text",
     placeholder: "검색",
   });
+
   if ($input instanceof HTMLInputElement) {
     $input.addEventListener("keydown", handleInputKeydown);
   }
@@ -89,6 +92,7 @@ const changeSearchMode = () => {
   const $logoImg = document.querySelector(".logo");
   const $searchBox = document.querySelector(".search-box");
   const $searchBoxMobile = document.querySelector(".search-box-mobile");
+
   $searchBox?.classList.add("show");
   $logoImg?.classList.add("hide");
   $searchBoxMobile?.classList.add("none");
@@ -121,7 +125,7 @@ export const SearchBoxMobile = () => {
   const $searchBoxMobile = createElementWithAttribute("div", {
     class: "search-box-mobile",
   });
-
   $searchBoxMobile.appendChild(ButtonMobile());
+
   return $searchBoxMobile;
 };

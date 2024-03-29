@@ -16,11 +16,11 @@ const handleClickToRefresh = async () => {
     $searchBox.value = "";
   }
   await handleGetPopularMovieData(true);
-  renderItemView(
-    TITLE_TEXT.POPULAR,
-    movieDataStateStore.totalMovieData,
-    "popular",
-  );
+  renderItemView({
+    titleText: TITLE_TEXT.POPULAR,
+    movieData: movieDataStateStore.totalMovieData,
+    listType: "popular",
+  });
 };
 
 const Logo = () => {
