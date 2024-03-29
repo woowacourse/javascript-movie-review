@@ -14,8 +14,43 @@
 }
 
 .movie-modal {
-  width: 200px;
-  height: 200px;
+  width: 768px;
+  background: #212122;
+  overflow-y: hidden;
+  color: #f1f1f1;
+}
+
+.flex-center-aligned {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.movie-detail-header {
+  text-align: center;
+  border-bottom: 1px solid #f1f1f140;
+  height: 60px;
+  position: relative;
+  font-size: 20px;
+}
+
+.close-button {
+  position: absolute;
+  right: 30px;
+  top: 12px;
+  border-radius: 100%;
+  background: #515151;
+  padding: 12px;
+}
+
+.transition-background {
+  transition-property: background-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.close-button:hover {
+  background: #383839;
 }
 
 dialog::backdrop {
