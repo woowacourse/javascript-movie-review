@@ -1,4 +1,4 @@
-import { MovieData } from '../interface/MovieData';
+import { MovieData } from '../interface/MovieInterface';
 import convertToPosterPath from '../util/convertToPosterPath';
 
 export default class Movie {

@@ -1,4 +1,4 @@
-function toast(errorMessage) {
+function toast(errorMessage: string) {
   const toastElement = document.createElement('div');
   toastElement.classList.add('toast');
   toastElement.textContent = errorMessage;

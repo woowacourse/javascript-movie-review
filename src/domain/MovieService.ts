@@ -3,23 +3,15 @@ import fetchAPI from '../api/fetchAPI';
 import generateQueryUrl from '../api/generateQueryUrl';
 import Movie from './Movie';
 import getEnvVariable from '../util/getEnvVariable';
+import { MoviePageDataParams } from '../interface/MovieInterface';
 
-interface MovieListData {
-  total_pages: number;
-  results: { id: number; title: string; poster_path: string; vote_average: number; overview: string }[];
-}
-
-interface MoviePageData extends MovieListData {
-  pageNumber: number;
-}
+type MovieListType = keyof typeof MOVIE_LIST_TYPE;
 
 interface FetchMovieDataParams {
   listType: MovieListType;
   pageNumber: number;
   searchKeyword: string;
 }
-
-type MovieListType = keyof typeof MOVIE_LIST_TYPE;
 
 class MovieService {
   async fetchMovieData({ listType, pageNumber, searchKeyword = '' }: FetchMovieDataParams) {
@@ -40,7 +32,7 @@ class MovieService {
     return this.createMoviePageData({ total_pages, results, pageNumber });
   }
 
-  createMoviePageData({ total_pages, results, pageNumber }: MoviePageData) {
+  createMoviePageData({ total_pages, results, pageNumber }: MoviePageDataParams) {
     const movieList: Movie[] = results.map(
       (result) =>
         new Movie({

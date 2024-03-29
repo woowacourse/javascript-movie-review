@@ -1,4 +1,4 @@
-import { $ } from '../util/selector.js';
+import { $ } from '../util/selector';
 import LogoImagePath from '../asset/logo.png';
 
 const SearchButtonClickEvent = new Event('clickSearchButton');
@@ -8,13 +8,17 @@ function createHeader() {
   const header = renderHeader();
   $('#app').prepend(header);
 
-  header.querySelector('form').addEventListener('submit', (event) => {
+  $('form', header).addEventListener('submit', (event) => {
     event.preventDefault();
-    event.target.dispatchEvent(SearchButtonClickEvent);
+    if (event.target) {
+      event.target.dispatchEvent(SearchButtonClickEvent);
+    }
   });
 
-  header.querySelector('.logo').addEventListener('click', (event) => {
-    event.target.dispatchEvent(LogoClickEvent);
+  $('.logo', header).addEventListener('click', (event) => {
+    if (event.target) {
+      event.target.dispatchEvent(LogoClickEvent);
+    }
   });
 }
 
