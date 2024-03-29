@@ -11,7 +11,7 @@ const ViewContainer = async () => {
 
   renderItemView({
     titleText: "지금 인기 있는 영화",
-    movieData: movieDataStateStore.totalMovieData,
+    movieData: movieDataStateStore.fetchedMovieData,
     listType: "popular",
   });
 };

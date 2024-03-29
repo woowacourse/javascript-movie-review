@@ -22,7 +22,7 @@ const handleClickToRefresh = async () => {
   await handleGetPopularMovieData(true);
   renderItemView({
     titleText: TITLE_TEXT.POPULAR,
-    movieData: movieDataStateStore.totalMovieData,
+    movieData: movieDataStateStore.fetchedMovieData,
     listType: "popular",
   });
 };

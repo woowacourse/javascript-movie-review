@@ -68,7 +68,6 @@ header h1 {
   display: flex;
   justify-content: space-between;
   background: #fff;
-  width: 320px;
   padding: 8px;
   border-radius: 4px;
 }

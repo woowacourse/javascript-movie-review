@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import {
   ENTER_KEYCODE,
   SEARCH_BUTTON_TEXT,
@@ -12,11 +13,9 @@ import removePrevItemView from "../utils/removePrevItemView";
 import renderItemView from "./ItemView";
 
 const changeSearchMode = () => {
-  const $logoImg = document.querySelector(".logo");
   const $searchBox = document.querySelector(".search-box");
   const $searchBoxMobile = document.querySelector(".search-box-mobile");
 
-  $logoImg?.classList.toggle("hide");
   $searchBox?.classList.toggle("show");
   $searchBoxMobile?.classList.toggle("none");
 };
@@ -32,12 +31,11 @@ const searchMovie = async () => {
   if (!($searchInput instanceof HTMLInputElement)) return;
   initSearchBox();
 
-  $searchInput.value = "";
   await handleGetSearchMovieData($searchInput.value, true);
 
   renderItemView({
     titleText: TITLE_TEXT.SEARCH($searchInput.value),
-    movieData: movieDataStateStore.totalMovieData,
+    movieData: movieDataStateStore.fetchedMovieData,
     listType: "search",
   });
 };
