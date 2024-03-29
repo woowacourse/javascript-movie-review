@@ -4,7 +4,7 @@ describe('영화 상세보기 테스트', () => {
   beforeEach(() => {
     cy.intercept({
       method: 'GET',
-      url: /^https:\/\/api\.themoviedb\.org\/3\/movie*/,
+      url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/\d/,
     }).as('getDetailMovie');
     cy.visit('/');
   });
@@ -31,7 +31,7 @@ describe('영화 상세보기 테스트', () => {
     cy.get('.item-card').first().click();
     cy.wait('@getDetailMovie').then(interception => {
       if (interception.response === undefined) return;
-      const movieDetailTitle = cy.get('.item-card').first().get('#modal-title');
+      const movieDetailTitle = cy.get('.detail-modal-container').first().get('#modal-title');
       expect(movieDetailTitle.should('have.text', '쿵푸팬더 4'));
     });
   });
