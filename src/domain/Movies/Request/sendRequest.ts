@@ -1,5 +1,5 @@
 import {
-  DETAIL_MOVIES_BASE_URL,
+  MOVIE_DETAIL_BASE_URL,
   KEY,
   MOVIE_SEARCH_BASE_URL,
   POPULAR_MOVIES_BASE_URL,
@@ -38,7 +38,7 @@ async function fetchMovieDetail(id: number) {
     language: 'ko-KR',
   });
 
-  const movieDetailUrl = DETAIL_MOVIES_BASE_URL + id + '?' + searchParamsURL;
+  const movieDetailUrl = MOVIE_DETAIL_BASE_URL + id + '?' + searchParamsURL;
   const response = await fetch(movieDetailUrl);
 
   return await response.json();
