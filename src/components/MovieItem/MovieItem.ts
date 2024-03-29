@@ -45,15 +45,16 @@ const MovieItem = {
 
     newScore.classList.add('item-score');
     newScore.textContent = `${movieData.vote_average.toFixed(1)} `;
-    newScore.appendChild(this.createStarElement());
+
+    newScore.appendChild(this.createStarImg());
 
     oldScore?.replaceWith(newScore);
   },
 
-  createStarElement(): HTMLElement {
+  createStarImg(): HTMLElement {
     const star = document.createElement('img');
 
-    star.setAttribute('src', starFilled);
+    star.src = starFilled;
     star.alt = '별점';
 
     return star;
