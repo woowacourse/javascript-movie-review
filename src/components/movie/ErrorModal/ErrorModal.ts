@@ -1,7 +1,6 @@
 import Component from '../../common/Component/Component';
 import Modal from '../../common/Modal/Modal';
 import { querySelector } from '../../../utils/dom/selector';
-import { ELEMENT_SELECTOR } from '../../../constants/Selector';
 import './ErrorModal.css';
 
 class ErrorModal extends Component {
@@ -28,7 +27,7 @@ class ErrorModal extends Component {
   }
 
   protected setEvent(): void {
-    const $reloadButton = querySelector<HTMLButtonElement>(ELEMENT_SELECTOR.reloadButton, this.$element);
+    const $reloadButton = querySelector<HTMLButtonElement>('#reload-button', this.$element);
     $reloadButton.addEventListener('click', this.handleReloadButtonClick.bind(this));
   }
 
