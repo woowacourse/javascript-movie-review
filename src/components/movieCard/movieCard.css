@@ -1,10 +1,32 @@
-/* movie-list */
 .item-list {
   display: grid;
   margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
-  grid-row-gap: 48px;
+  justify-content: space-between;
+}
+
+/* 데스크탑 규격 */
+@media screen and (min-width: 1024px) {
+  .item-list {
+    grid-template-columns: repeat(4, 180px);
+    grid-row-gap: 48px;
+  }
+}
+
+/* tablet 규격 */
+@media screen and (min-width: 650px) and (max-width: 1023px) {
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+    grid-row-gap: 48px;
+  }
+}
+
+/* mobile 규격 */
+@media screen and (max-width: 650px) {
+  .item-list {
+    grid-template-columns: repeat(2, 140px);
+    grid-row-gap: 32px;
+    margin: 24px 0;
+  }
 }
 
 .item-list.none-text {
@@ -25,9 +47,32 @@
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
-  height: 270px;
   background-size: contain;
+}
+
+/* 데스크탑 규격 */
+@media screen and (min-width: 1024px) {
+  .item-thumbnail {
+    width: 180px;
+    height: 270px;
+  }
+}
+
+/* tablet 규격 */
+@media screen and (min-width: 651px) and (max-width: 1023px) {
+  .item-thumbnail {
+    width: 180px;
+    height: 270px;
+    /* TODO: 너비, 높이 다시 생각하기 */
+  }
+}
+
+/* mobile 규격 */
+@media screen and (max-width: 650px) {
+  .item-thumbnail {
+    width: 140px;
+    height: 220px;
+  }
 }
 
 .item-title {

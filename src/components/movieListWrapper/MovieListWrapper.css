@@ -8,9 +8,15 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
   margin: 0 auto;
-  padding-top: 132px;
+  padding: 132px 16px 48px 16px;
+}
+
+/* 데스크탑 규격 */
+@media screen and (min-width: 1024px) {
+  .item-view {
+    max-width: 1200px;
+  }
 }
 
 .item-view h2 {
@@ -25,15 +31,4 @@
 
 .last-item {
   margin-top: 48px;
-}
-
-button.show-more-btn {
-  border: 0;
-  border-radius: 8px;
-  height: 30px;
-  color: #fff;
-}
-
-button.primary {
-  background: #f33f3f;
 }

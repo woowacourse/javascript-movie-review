@@ -13,11 +13,18 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 60px;
+  min-height: 60px;
   margin: 0 auto;
   border-bottom: 1px solid #f1f1f140;
   font-size: 1.4rem;
   font-weight: bold;
+}
+
+/* mobile 규격 */
+@media screen and (max-width: 650px) {
+  .detail-title {
+    font-size: 1.3rem;
+  }
 }
 
 .close-btn {
@@ -44,8 +51,36 @@
   font-size: 1.15rem;
 }
 
+/* mobile 규격 */
+@media screen and (max-width: 650px) {
+  .sub-detail {
+    padding-top: 32px;
+  }
+}
+
 .detail-thumbnail {
   width: 37%;
+}
+
+/* 데스크탑 규격 */
+@media screen and (min-width: 1024px) {
+  .detail-thumbnail {
+    height: 433px;
+  }
+}
+
+/* tablet 규격 */
+@media screen and (min-width: 651px) and (max-width: 1023px) {
+  .detail-thumbnail {
+    height: 400px;
+  }
+}
+
+/* mobile 규격 */
+@media screen and (max-width: 650px) {
+  .detail-thumbnail {
+    display: none;
+  }
 }
 
 .detail-description {
@@ -62,7 +97,33 @@
 }
 
 .detail-main-description {
-  /* TODO: 스크롤 만들기 */
+  max-height: 288px;
+  overflow-x: hidden;
+}
+
+.detail-main-description::-webkit-scrollbar {
+  width: 8px;
+}
+
+.detail-main-description::-webkit-scrollbar-thumb {
+  height: 30%;
+  background: rgba(92, 92, 92, 0.4);
+  border-radius: 10px;
+}
+
+.detail-main-description::-webkit-scrollbar-track {
+  background: rgba(92, 92, 92, 0.1);
+}
+
+/* mobile 규격 */
+@media screen and (max-width: 650px) {
+  .detail-main-description {
+    max-height: none;
+    overflow: hidden;
+  }
+  .detail-main-description::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .detail-score {
@@ -83,7 +144,8 @@
 
 .detail-my-score {
   width: 100%;
-  height: 64px;
+  min-height: 64px;
+  margin-top: 48px;
   padding: 0 16px;
   display: flex;
   align-items: center;
@@ -94,10 +156,28 @@
   font-weight: 700;
 }
 
+/* mobile 규격 */
+@media screen and (max-width: 650px) {
+  .detail-my-score {
+    justify-content: center;
+  }
+}
+
+.detail-stars {
+  cursor: pointer;
+}
+
 .detail-score-number {
   font-weight: 400;
 }
 
 .detail-score-text {
   font-weight: 400;
+}
+
+/* 태블릿 작은 크기, 모바일 규격 */
+@media screen and (max-width: 790px) {
+  .detail-score-text {
+    display: none;
+  }
 }
