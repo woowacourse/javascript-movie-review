@@ -45,6 +45,7 @@ export default class MovieList {
     const movieDatas = movieStore.movies;
     if (!(movieDatas.length === 0)) {
       this.#listType = POPULAR;
+      this.#changeTitle();
       this.#ulElement.innerHTML = '';
       this.#appendMovieCard(movieDatas);
     }
