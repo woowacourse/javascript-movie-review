@@ -1,5 +1,5 @@
+import { openMovieDetailModal } from '../../View/View';
 import { fetchMovieDetail, fetchPopularMovieList, fetchSearchMovieList } from '../../apis/fetchData';
-import { openMovieDetailModal } from '../../domain/MovieService';
 import PageService from '../../domain/PageService';
 import { Movie, MovieAPIResponse } from '../../interface/Movie';
 import InfiniteScroll from '../../utils/InfiniteScroll';

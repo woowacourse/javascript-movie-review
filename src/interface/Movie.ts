@@ -105,3 +105,7 @@ export interface MovieDetail extends Movie {
 export type ScoreMessage = {
   [key: number]: string;
 };
+
+export interface UserMovieDetail extends MovieDetail {
+  userVote: number;
+}

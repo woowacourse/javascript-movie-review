@@ -7,18 +7,27 @@ const modal = {
     backdrop.appendChild(content);
     modal.append(backdrop);
     document.body.appendChild(modal);
-
     return modal;
   },
 
   createContainer() {
     const container = document.createElement('div');
     container.className = 'modal-container';
+    container.tabIndex = -1;
+
+    container.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        this.remove('modal--open');
+      }
+    });
+    setTimeout(() => container.focus(), 0);
+    container.focus();
 
     return container;
   },
 
   remove(className: string) {
+    document.body.classList.remove('stop-scroll');
     document.querySelector(`.${className}`)?.remove();
   },
 };
