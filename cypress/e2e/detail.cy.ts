@@ -35,4 +35,16 @@ describe('영화 상세보기 테스트', () => {
       expect(movieDetailTitle.should('have.text', '쿵푸팬더 4'));
     });
   });
+
+  it('상세보기 모달에서 해당 영화의 별점을 매길 수 있는데 첫번째 별을 클릭하면 2점을 매기고 최악이예요 텍스트를 출력한다.', () => {
+    cy.get('.item-card').first().click();
+    cy.wait('@getDetailMovie').then(interception => {
+      if (interception.response === undefined) return;
+      cy.get('#star-container > img').first().click();
+      const score = cy.get('#score-number');
+      expect(score.should('have.text', '2'));
+      const text = cy.get('#score-text');
+      expect(text.should('have.text', '최악이예요'));
+    });
+  });
 });
