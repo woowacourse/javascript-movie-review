@@ -7,13 +7,26 @@ export interface MovieData {
   voteAverage: number;
 }
 
+export interface MovieDetailData extends MovieData {
+  genres: string[];
+  overview: string;
+  userScore: number | null;
+}
+
 export interface MovieList {
   movieList: MovieData[];
 }
 
 export interface MovieListData {
   total_pages: number;
-  results: { id: number; title: string; poster_path: string; vote_average: number; overview: string }[];
+  results: {
+    id: number;
+    title: string;
+    genre_ids: number[];
+    poster_path: string;
+    vote_average: number;
+    overview: string;
+  }[];
 }
 
 export interface MoviePageDataParams extends MovieListData {

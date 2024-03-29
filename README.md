@@ -86,9 +86,9 @@ FE 레벨1 영화관 미션
 
 ## Domain
 
-- [ ] MovieDetail : 개별 영화에 대한 상세 내용 데이터 객체
-  - [ ] MovieDetail은 영화 id, title, genres, posterUrl, voteAverage, userScore가 담긴 데이터 필드를 갖는다.
-  - [ ] getter를 통해 id, title, genres, posterUrl, averageScore, userScore를 반환할 수 있다.
+- [x] MovieDetail : 개별 영화에 대한 상세 내용 데이터 객체
+  - [x] MovieDetail은 영화 id, title, genres, posterUrl, voteAverage, userScore가 담긴 데이터 필드를 갖는다.
+  - [x] getter를 통해 id, title, genres, posterUrl, averageScore, userScore를 반환할 수 있다.
 
 ## Service
 
