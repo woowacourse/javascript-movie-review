@@ -11,6 +11,8 @@ export default class App extends Component<HTMLDivElement, {}> {
         <section class="item-view">
         </section>
       </main>
+      <dialog class="modal">
+      </dialog>
     `;
   }
 

@@ -6,14 +6,16 @@ import { STAR_SCORE_DESCRIPTION } from "../constants/movies";
 
 const drawStarScore = (movieId: number) => {
   const myVoteAverage = getMyVoteAverage(movieId);
+  const $starScoreImages = document.querySelector<HTMLSpanElement>(".star-score-images");
   const $starScore = document.querySelector<HTMLSpanElement>(".star-score");
   const $starScoreDescription = document.querySelector<HTMLSpanElement>(".star-score-description");
 
-  if (!$starScore || !$starScoreDescription) return;
-  $starScore.innerHTML = /*html*/ `
+  if (!$starScoreImages || !$starScoreDescription || !$starScore) return;
+  $starScoreImages.innerHTML = /*html*/ `
     ${`<img src="${starImage}" alt="별점" class="star" />`.repeat(myVoteAverage / 2)}
     ${`<img src="${starEmpty}" alt="별점" class="star" />`.repeat(5 - myVoteAverage / 2)}
   `;
+  $starScore.innerText = myVoteAverage.toString();
   $starScoreDescription.innerText = `${STAR_SCORE_DESCRIPTION[myVoteAverage]}`;
 
   const $stars = document.querySelectorAll<HTMLImageElement>(".star");
@@ -68,8 +70,9 @@ export const createMovieElement = ({ id, title, thumbnail, voteAverage }: MovieT
           <div class="movie-overview"> ${data.overview}</div>
           <div class="my-vote-average">
             <span>내 별점 </span> 
-            <span class="star-score"></span> 
-            <span class="star-score-description">내 별점 보통이에요</span> 
+            <span class="star-score-images"></span> 
+            <span class="star-score"></span>
+            <span class="star-score-description"></span> 
           </div>
         </div>
      </section>

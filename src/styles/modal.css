@@ -1,6 +1,7 @@
 .modal {
   width: 826px;
   height: 577px;
+  min-width: 400px;
   background-color: #212122;
   border: 0;
   padding: 0;
@@ -8,6 +9,15 @@
   color: white;
   line-height: 24px;
   z-index: 1;
+  /* 모바일 크기 */
+  @media (max-width: 800px) {
+    max-width: 800px;
+    width: 100%;
+    margin-bottom: 0;
+    .star-score-description {
+      display: none;
+    }
+  }
 }
 
 .modal::backdrop {
@@ -30,13 +40,20 @@
   display: flex;
   justify-content: space-between;
   padding: 20px;
+  & .movie-thumbnail {
+    margin: 10px;
+  }
 }
 
 .modal > section > .movie-info {
   width: 450px;
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: space-between;
+  & .movie-genres {
+    display: flex;
+  }
 }
 
 .movie-thumbnail {
@@ -59,6 +76,22 @@
   padding: 0 20px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  & .star-score-images {
+    width: 150px;
+    display: flex;
+    justify-content: space-evenly;
+    & img:hover {
+      transform: scale(1.2);
+    }
+  }
+  & .star-score {
+    margin: 0 10px;
+    width: 10px;
+  }
+  & .star-score-description {
+    width: 80px;
+  }
 }
 
 .modal-close-button {

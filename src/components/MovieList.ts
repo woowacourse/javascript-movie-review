@@ -22,11 +22,10 @@ export default class MovieList extends Component<{}, MovieListState> {
       <h2 id="main-text">지금 인기 있는 영화</h2>
       <div id="movie-list">
         <ul id="movie-list-container" class="item-list">
-        </ul>f
+        </ul>
       </div>
       <div id="empty-result" class="empty-result hidden"></div>
-      <dialog class="modal">
-      </dialog>
+      
     `;
   }
 
@@ -56,12 +55,6 @@ export default class MovieList extends Component<{}, MovieListState> {
   private renderMovies(movies: MovieType[]) {
     const movieList = $<HTMLUListElement>("#movie-list-container");
     if (!movieList) return;
-
-    if (movies.length < 20) {
-      this.renderEmptyResult();
-      return;
-    }
-
     this.hideEmptyResult();
     movies.forEach((movie) => {
       const movieItem = createMovieElement(movie);
@@ -92,7 +85,10 @@ export default class MovieList extends Component<{}, MovieListState> {
 
     this.getNextPage()
       .then((data) => {
-        if (!data || data.length < 20) return;
+        if (!data || data.length < 20) {
+          this.renderEmptyResult();
+          return;
+        }
         this.renderMovies(data);
         const $movies = document.querySelectorAll<HTMLLIElement>("#movie-list-container li");
         const observer = new IntersectionObserver((entries) => {
