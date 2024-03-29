@@ -30,26 +30,21 @@ class Movie {
     return movieItems.length === 0;
   }
 
-  fetchMovieDetails({
-    onSuccess,
-    onError,
-  }: {
-    onSuccess: (data: MovieInterface[]) => void;
-    onError: (error: Error | unknown) => void;
-  }) {
-    MovieFetcher.fetchMovieDetails(this.page, this.movieType)
-      .then((data: BaseResponse<MovieResponse[]>) => {
-        this.updateMovieRatings(data.results);
+  async fetchMovieDetails() {
+    const movieResponse: BaseResponse<MovieResponse[]> = await MovieFetcher.fetchMovieDetails(
+      this.page,
+      this.movieType,
+    );
 
-        const movieResponse: MovieInterface[] = data.results.map((result) => ({
-          ...result,
-          image: result.poster_path,
-          score: result.vote_average,
-        }));
+    this.updateMovieRatings(movieResponse.results);
 
-        onSuccess(movieResponse);
-      })
-      .catch(onError);
+    const movieItemDetails: MovieInterface[] = movieResponse.results.map((result) => ({
+      ...result,
+      image: result.poster_path,
+      score: result.vote_average,
+    }));
+
+    return movieItemDetails;
   }
 
   private updateMovieRatings(movies: MovieResponse[]) {

@@ -88,31 +88,29 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     this.renderMovieList($movieListContainer, $ul);
   }
 
-  private renderMovieList($movieListContainer: HTMLElement, $ul: HTMLElement) {
-    this.movie?.setPage(1);
+  private async renderMovieList($movieListContainer: HTMLElement, $ul: HTMLElement) {
+    if (!this.observer || !this.movie) return;
 
-    this.movie?.fetchMovieDetails({
-      onSuccess: (movieItemDetails) => {
-        if (!this.observer || !this.movie) return;
+    try {
+      this.movie?.setPage(1);
 
-        $ul.remove();
+      const movieItemDetails = await this.movie?.fetchMovieDetails();
 
-        new MovieList($movieListContainer, {
-          movieItemDetails,
-          observer: this.observer,
-          isEmptyMovieListItems: this.movie.isEmptyMovieItems(movieItemDetails),
-          isMaxMovieListItems: this.movie.isMaxMovieItems(movieItemDetails),
-        });
-      },
+      $ul.remove();
 
-      onError: (error) => {
-        if (error instanceof Error) {
-          console.error(error);
+      new MovieList($movieListContainer, {
+        movieItemDetails,
+        observer: this.observer,
+        isEmptyMovieListItems: this.movie.isEmptyMovieItems(movieItemDetails),
+        isMaxMovieListItems: this.movie.isMaxMovieItems(movieItemDetails),
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error);
 
-          this.openErrorFallbackModal();
-        }
-      },
-    });
+        this.openErrorFallbackModal();
+      }
+    }
   }
 
   private openErrorFallbackModal() {
