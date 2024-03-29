@@ -1,8 +1,6 @@
 import MovieAPI from '../../apis/movie/movie';
-
-import { BaseResponse } from '../../apis/common/apiSchema.type';
 import { IMovie } from './Movie.type';
-
+import { BaseResponse } from '../../apis/common/apiSchema.type';
 import { MOVIE } from '../../constants/Condition';
 
 class Movie {

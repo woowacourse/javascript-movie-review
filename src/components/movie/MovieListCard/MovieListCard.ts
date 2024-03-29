@@ -18,7 +18,8 @@ class MovieListCard extends Component<MovieListCardProps> {
     return /* html */ `
         <div id="movie-item-card" class="item-card">
           <img
-            class="item-thumbnail"
+            id="movie-item-thumbnail"
+            class="item-thumbnail skeleton"
             src=${`${process.env.IMAGE_BASE_URL}/w220_and_h330_face/${this.props?.movieItem.poster_path}`}
             loading="lazy",
             alt=${`${this.props?.movieItem.title}`}
@@ -32,9 +33,17 @@ class MovieListCard extends Component<MovieListCardProps> {
     `;
   }
 
+  private removeSkeleton() {
+    const $movieItemThumbnail = querySelector<HTMLImageElement>('#movie-item-thumbnail', this.$element);
+    $movieItemThumbnail.classList.remove('skeleton');
+  }
+
   protected setEvent(): void {
     const $movieItemCard = querySelector('#movie-item-card', this.$element);
     $movieItemCard.addEventListener('click', () => this.props?.openMovieDetailModal(this.props.movieItem.id));
+
+    const $movieItemThumbnail = querySelector<HTMLImageElement>('#movie-item-thumbnail', this.$element);
+    $movieItemThumbnail.addEventListener('load', this.removeSkeleton.bind(this));
   }
 }
 
