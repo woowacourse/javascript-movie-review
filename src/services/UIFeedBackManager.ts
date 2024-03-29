@@ -5,9 +5,9 @@ import Skeleton from '../components/Skeleton/Skeleton';
 import removeHTMLElements from '../utils/removeHTMLElements';
 import { checkDataLength } from '../components/ShowMoreButton/eventHandler';
 import createElement from '../utils/createElement';
-import Error from '../components/Error/Error';
 import { MoviePage } from '../domain/movie';
 import { SKELETON_LENGTH } from '../constants/ui';
+import ErrorScreen from '../components/ErrorScreen/ErrorScreen';
 
 class UIFeedBackManager {
   api;
@@ -27,7 +27,7 @@ class UIFeedBackManager {
 
   onErrorChanged(error: HttpError | null) {
     if (error instanceof HttpError) {
-      const errorComponent = Error(error.status);
+      const errorComponent = ErrorScreen(error.status);
 
       this.showErrorComponent(errorComponent);
     }
