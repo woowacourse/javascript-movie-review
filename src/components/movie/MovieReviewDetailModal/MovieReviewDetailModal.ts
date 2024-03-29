@@ -38,7 +38,7 @@ class MovieReviewDetailModal extends Component<MovieReviewDetailModalProps> {
   }
 
   protected createComponent() {
-    const genres = this?.props?.genres || '장르 없음';
+    const genres = this.props?.genres || '장르 없음';
     const overview = this.props?.overview || '설명이 존재하지 않습니다.';
 
     return /* html */ `
@@ -49,16 +49,12 @@ class MovieReviewDetailModal extends Component<MovieReviewDetailModalProps> {
         <img 
           id="movie-description-image" 
           class="movie-description-image"
-          src="${this.props?.image ? `${process.env.IMAGE_BASE_URL}/w220_and_h330_face/${this.props?.image}` : ''}"
+          src="${this.props?.image ?? DEFAULT_IMAGE_URL}"
           onerror="
             this.style.border='1px solid #e2e2e2';
             this.src='${DEFAULT_IMAGE_URL}'
           "
-          onload="
-            this.src='${
-              this.props?.image ? `${process.env.IMAGE_BASE_URL}/w220_and_h330_face/${this.props?.image}` : ''
-            }'
-          "
+          
         />
         <section id="modal-review-detail-section" class="modal-review-detail-section">
           <div class="movie-description-container text-body">

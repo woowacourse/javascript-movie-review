@@ -18,7 +18,7 @@ class MovieDetail {
       .then((data: MovieDetailResponse) => {
         onSuccess({
           ...data,
-          image: data.poster_path,
+          image: `${process.env.IMAGE_BASE_URL}/w220_and_h330_face/${data.poster_path}`,
           score: data.vote_average,
           genres: data.genres.map(({ name }) => name).join(', '),
           ratingScore: this.getRatingScore(id),
