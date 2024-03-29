@@ -73,6 +73,11 @@
   z-index: -5;
   inset: 0;
 }
+.detail-poster-container {
+  display: block;
+  width: 260px;
+  height: 390px;
+}
 
 .detail-poster {
   display: block;

@@ -54,7 +54,9 @@ class MovieDetailModal {
       <img class="close-button" src=${CloseButton} alt="딛기"></img>
     </div>
     <main class="detail-items">
-      <img class="detail-poster"></img>
+      <div class="detail-poster-container">
+        <img class="detail-poster"></img>
+      </div>
       <section class="detail-contents">
         <div class="detail-genre-score">
           <p class="font-body detail-genre"></p>
