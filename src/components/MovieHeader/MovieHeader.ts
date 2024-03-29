@@ -17,8 +17,8 @@ const MovieHeader = {
     const logoImgContainer = document.createElement('h1');
     const logoImg = document.createElement('img');
 
-    logoImg.setAttribute('src', logo);
-    logoImg.setAttribute('alt', 'MovieList 로고');
+    logoImg.src = logo;
+    logoImg.alt = 'MovieList 로고';
 
     logoImgContainer.appendChild(logoImg);
     logoImgContainer.addEventListener('click', logoImgOnclick);

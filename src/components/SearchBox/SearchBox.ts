@@ -24,8 +24,8 @@ const SearchBox = {
   createSearchInput() {
     const searchInput = document.createElement('input');
 
-    searchInput.setAttribute('type', 'text');
-    searchInput.setAttribute('placeholder', '검색');
+    searchInput.type = 'text';
+    searchInput.placeholder = '검색';
 
     return searchInput;
   },
