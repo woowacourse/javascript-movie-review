@@ -4,6 +4,10 @@ describe('영화 상세보기 테스트', () => {
   beforeEach(() => {
     cy.intercept({
       method: 'GET',
+      url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular*/,
+    }).as('getPopularMovies');
+    cy.intercept({
+      method: 'GET',
       url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/\d/,
     }).as('getDetailMovie');
     cy.visit('/');
@@ -30,12 +34,15 @@ describe('영화 상세보기 테스트', () => {
   it('쿵푸팬더 4를 클릭하면 쿵푸팬더 4 영화의 상세 정보를 조회할 수 있다.', () => {
     const movieTitle = '쿵푸팬더 4';
 
-    cy.get('.item-card').first().click();
-    cy.wait('@getDetailMovie').then(interception => {
-      if (interception.response === undefined) return;
+    cy.wait('@getPopularMovies').then(popular => {
+      if (popular.response === undefined) return;
+      cy.get('.item-card').first().click();
 
-      const movieDetailTitle = cy.get('.detail-modal-container').first().get('#modal-title');
-      expect(movieDetailTitle.should('have.text', movieTitle));
+      cy.wait('@getDetailMovie').then(interception => {
+        if (interception.response === undefined) return;
+        const movieDetailTitle = cy.get('.detail-modal-container').first().get('#modal-title');
+        expect(movieDetailTitle.should('have.text', movieTitle));
+      });
     });
   });
 
@@ -43,15 +50,18 @@ describe('영화 상세보기 테스트', () => {
     const scoreNumber = 2;
     const scoreText = '최악이예요';
 
-    cy.get('.item-card').first().click();
-    cy.wait('@getDetailMovie').then(interception => {
-      if (interception.response === undefined) return;
+    cy.wait('@getPopularMovies').then(popular => {
+      if (popular.response === undefined) return;
+      cy.get('.item-card').first().click();
 
-      cy.get('#star-container > img').first().click();
-      const score = cy.get('#score-number');
-      expect(score.should('have.text', scoreNumber));
-      const text = cy.get('#score-text');
-      expect(text.should('have.text', scoreText));
+      cy.wait('@getDetailMovie').then(interception => {
+        if (interception.response === undefined) return;
+        cy.get('#star-container > img').first().click();
+        const score = cy.get('#score-number');
+        expect(score.should('have.text', scoreNumber));
+        const text = cy.get('#score-text');
+        expect(text.should('have.text', scoreText));
+      });
     });
   });
 
@@ -59,14 +69,17 @@ describe('영화 상세보기 테스트', () => {
     const movieId = 1011985;
     const score = 2;
 
-    cy.get('.item-card').first().click();
-    cy.wait('@getDetailMovie').then(interception => {
-      if (interception.response === undefined) return;
+    cy.wait('@getPopularMovies').then(popular => {
+      if (popular.response === undefined) return;
+      cy.get('.item-card').first().click();
 
-      cy.get('#star-container > img').first().click();
-      cy.window().then(win => {
-        const storageMovie = win.localStorage.getItem('movies');
-        expect(storageMovie).to.equal(`[{"id":${movieId},"score":${score}}]`);
+      cy.wait('@getDetailMovie').then(interception => {
+        if (interception.response === undefined) return;
+        cy.get('#star-container > img').first().click();
+        cy.window().then(win => {
+          const storageMovie = win.localStorage.getItem('movies');
+          expect(storageMovie).to.equal(`[{"id":${movieId},"score":${score}}]`);
+        });
       });
     });
   });
