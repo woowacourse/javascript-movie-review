@@ -1,4 +1,9 @@
-import { KEY, MOVIE_SEARCH_BASE_URL, POPULAR_MOVIES_BASE_URL } from '../../../constants/MOVIES_URL';
+import {
+  DETAIL_MOVIES_BASE_URL,
+  KEY,
+  MOVIE_SEARCH_BASE_URL,
+  POPULAR_MOVIES_BASE_URL,
+} from '../../../constants/MOVIES_URL';
 
 async function fetchPopularMovies(page: number) {
   const searchParamsURL = new URLSearchParams({
@@ -27,4 +32,16 @@ async function fetchSearchMovies(page: number, userInput: string) {
   return await response.json();
 }
 
-export { fetchPopularMovies, fetchSearchMovies };
+async function fetchMovieDetail(id: number) {
+  const searchParamsURL = new URLSearchParams({
+    api_key: KEY as string,
+    language: 'ko-KR',
+  });
+
+  const movieDetailUrl = DETAIL_MOVIES_BASE_URL + id + '?' + searchParamsURL;
+  const response = await fetch(movieDetailUrl);
+
+  return await response.json();
+}
+
+export { fetchPopularMovies, fetchSearchMovies, fetchMovieDetail };
