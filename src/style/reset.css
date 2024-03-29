@@ -132,3 +132,9 @@ table {
 li {
   text-decoration: 0;
 }
+
+button {
+  background: none;
+  border: 0;
+  cursor: pointer;
+}

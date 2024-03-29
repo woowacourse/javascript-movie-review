@@ -13,12 +13,13 @@ class UserScoreBox {
 
   constructor() {
     this.movieId = getUrlParams('movie_id');
-    this.score = new ScoreDBService().getScore(Number(this.movieId));
+    this.score = ScoreDBService.getScore(Number(this.movieId)) || 0;
     this.starVoteBox = document.createElement('div');
     this.starVoteBox.id = 'star-vote-box';
     this.starAndInfoBox = document.createElement('div');
     this.starAndInfoBox.id = 'star-with-info-box';
-    this.renderTitle();
+
+    this.getOriginalUserScore();
     this.render();
 
     this.setEvent();
@@ -28,22 +29,26 @@ class UserScoreBox {
     this.addClickStarEvent();
   }
 
-  renderTitle() {
+  getOriginalUserScore() {
+    const userScore = ScoreDBService.getScore(Number(this.movieId));
+    console.log('userScore', userScore);
+    // this.score = ScoreDBService.getScore(Number(this.movieId));
+  }
+
+  render() {
     const scoreTitle = document.createElement('span');
     scoreTitle.textContent = '내 별점';
     scoreTitle.id = 'score-title';
 
     this.starVoteBox.append(scoreTitle);
-  }
 
-  render() {
     this.createStarsByScore();
     this.createScoreInfo();
 
     const detailBox = document.querySelector('#movie-info-detail-box');
     if (!detailBox) return;
 
-    detailBox?.append(this.starVoteBox);
+    detailBox.append(this.starVoteBox);
   }
 
   createStarsByScore() {
@@ -90,9 +95,11 @@ class UserScoreBox {
     [...stars].forEach(star => {
       if (star) {
         star.addEventListener('click', (e: Event) => {
-          const score = (e.currentTarget as HTMLElement).dataset.score;
-          this.updateStars(Number(score));
-          this.updateScoreInfo(Number(score));
+          const userScore = Number((e.currentTarget as HTMLElement).dataset.score);
+          this.score = userScore;
+          this.updateStars(this.score);
+          this.updateScoreInfo(this.score);
+          ScoreDBService.updateScore({ movieId: Number(this.movieId), newScore: this.score });
         });
       }
     });

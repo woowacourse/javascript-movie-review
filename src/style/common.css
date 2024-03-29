@@ -20,3 +20,9 @@
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
 }
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

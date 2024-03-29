@@ -145,7 +145,7 @@ class MovieInfoModal {
 
   createDeleteButton() {
     const deleteButton = document.createElement('button');
-    deleteButton.classList.add('modal-close-button');
+    deleteButton.classList.add('modal-close-button', 'flex-center');
     const deleteIcon = document.createElement('img');
     deleteIcon.setAttribute('src', DeleteIcon);
 
