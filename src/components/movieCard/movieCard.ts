@@ -32,7 +32,7 @@ const render = (movie: Movie) => {
 
   const score = document.createElement('p');
   score.className = 'item-score';
-  score.textContent = String(movie.voteAverage.toFixed(1));
+  score.textContent = movie.voteAverage;
 
   const scoreImage = document.createElement('img');
   scoreImage.src = filledStar;

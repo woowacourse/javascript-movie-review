@@ -74,7 +74,7 @@ class MovieDetailModal extends Modal {
     // 별점
     const score = document.createElement('p');
     score.className = 'detail-score';
-    score.textContent = String(movie.voteAverage.toFixed(1));
+    score.textContent = movie.voteAverage;
 
     const scoreImage = document.createElement('img');
     scoreImage.src = filledStar;

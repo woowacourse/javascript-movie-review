@@ -6,7 +6,7 @@ const mapDataToMovies = (movies: any): Movie[] => {
       id: data.id,
       title: data.title,
       posterPath: data.poster_path,
-      voteAverage: data.vote_average,
+      voteAverage: String(data.vote_average.toFixed(1)),
     };
   });
 };
@@ -16,7 +16,7 @@ const mapDataToMovieDetail = (movieData: any): Movie => {
     id: movieData.id,
     title: movieData.title,
     posterPath: movieData.poster_path,
-    voteAverage: movieData.vote_average,
+    voteAverage: String(movieData.vote_average.toFixed(1)),
     genres: movieData.genres,
     overview: movieData.overview,
   };
