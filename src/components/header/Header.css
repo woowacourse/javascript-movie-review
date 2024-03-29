@@ -30,6 +30,8 @@ header>.search-box {
 
 header .search-box>input {
   border: 0;
+  transition: width 1s;
+  width: 30vw;
 }
 
 header .search-box>.search-button {
@@ -56,6 +58,10 @@ header .search-box>.search-button {
   display: none;
 }
 
+.clicked-header {
+  justify-content: flex-end !important;
+}
+
 .clicked-form {
   visibility: visible;
 }
@@ -80,6 +86,7 @@ header .search-box>.search-button {
     display: flex !important;
     justify-content: space-between;
     width: 90vw;
+    animation: expand 0.5s ease-out;
   }
 
   .clicked-input {
@@ -90,5 +97,15 @@ header .search-box>.search-button {
 @media (min-width: 400px) {
   .clicked-logo {
     display: flex;
+  }
+}
+
+@keyframes expand {
+  from {
+    width: 36px;
+  }
+
+  to {
+    width: 90vw;
   }
 }

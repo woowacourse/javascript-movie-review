@@ -135,6 +135,7 @@ class App {
     dom.getElement(this.$target, '#logo').classList.add('clicked-logo');
     dom.getElement(this.$target, '.search-box').classList.add('clicked-form');
     dom.getElement(this.$target, '.search-input').classList.add('clicked-input');
+    dom.getElement(this.$target, 'header').classList.add('clicked-header');
   }
 }
 export default App;

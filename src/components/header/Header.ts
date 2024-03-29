@@ -75,8 +75,9 @@ class Header {
         dom.getElement(this.$target, '#logo').classList.remove('clicked-logo');
         dom.getElement(this.$target, '.search-box').classList.remove('clicked-form');
         dom.getElement(this.$target, '.search-input').classList.remove('clicked-input');
+        dom.getElement(document.body, 'header').classList.remove('clicked-header');
       }
-    }, 200);
+    }, 100);
   }
 }
 

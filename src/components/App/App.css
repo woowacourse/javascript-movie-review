@@ -17,14 +17,6 @@
   user-select: none;
 }
 
-
-@media (max-width: 750px) {
-  .item-view h2 {
-    text-align: center;
-  }
-}
-
-
 #toast-button {
   display: none;
 }
@@ -48,4 +40,17 @@
 #toast_message.active {
   opacity: 100%;
   bottom: 50px;
+}
+
+@media (max-width: 750px) {
+  .item-view h2 {
+    font-size: 1.6rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .item-view h2 {
+    font-size: 1.2rem;
+  }
 }
