@@ -5,8 +5,17 @@ import { ELEMENT_SELECTOR } from '../../../constants/Selector';
 import './ErrorModal.css';
 
 class ErrorModal extends Component {
+  $modal: Modal | undefined;
+
   protected render(): void {
-    new Modal(this.$element, { id: 'error-fallback-modal', children: this.createComponent() });
+    this.$modal = new Modal(this.$element, { id: 'error-fallback-modal' });
+  }
+
+  protected initializeState(): void {
+    if (!this.$modal) return;
+
+    console.log(this.$modal);
+    this.$modal.createModalContent(this.createComponent());
   }
 
   protected createComponent() {
@@ -21,6 +30,10 @@ class ErrorModal extends Component {
   protected setEvent(): void {
     const $reloadButton = querySelector<HTMLButtonElement>(ELEMENT_SELECTOR.reloadButton, this.$element);
     $reloadButton.addEventListener('click', this.handleReloadButtonClick.bind(this));
+  }
+
+  openModal() {
+    this.$modal?.open();
   }
 
   private handleReloadButtonClick() {
