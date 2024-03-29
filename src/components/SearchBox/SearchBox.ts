@@ -1,3 +1,4 @@
+import { SEARCH_BUTTON } from '../../resource';
 import { $ } from '../../utils/dom';
 import { showAlert } from '../Alert/Alert';
 
@@ -10,10 +11,12 @@ const SearchBox = ({ searchHandler }: Props) => {
   const searchInputLabel = document.createElement('label');
   const searchInput = document.createElement('input');
   const searchButton = document.createElement('button');
+  const searchImage = document.createElement('img');
 
   searchBox.classList.add('search-box');
   searchInput.classList.add('search-input');
   searchButton.classList.add('search-button');
+  searchImage.classList.add('search-image');
   searchInputLabel.classList.add('sr-only');
 
   searchInput.setAttribute('id', 'search-text');
@@ -22,7 +25,9 @@ const SearchBox = ({ searchHandler }: Props) => {
   searchInput.type = 'text';
   searchButton.type = 'button';
   searchInput.placeholder = '검색';
-  searchButton.textContent = '검색';
+  searchImage.src = SEARCH_BUTTON;
+
+  searchButton.appendChild(searchImage);
 
   searchBox.appendChild(searchInputLabel);
   searchBox.appendChild(searchInput);
