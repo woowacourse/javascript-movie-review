@@ -32,3 +32,18 @@
   align-items: center;
   position: relative;
 }
+
+@media (max-width: 600px) {
+  #movie-info-modal {
+    height: 60vh;
+  }
+
+  .modal-container {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    top: 50%;
+    left: auto;
+    transform: none;
+  }
+}

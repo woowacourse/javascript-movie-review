@@ -1,6 +1,5 @@
 import {
   PopularAPIParamsType,
-  MovieAPIReturnType,
   SearchAPIParamsType,
   MovieDetailAPIReturnType,
   MovieListAPIReturnType,

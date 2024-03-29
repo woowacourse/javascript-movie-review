@@ -50,7 +50,7 @@ class MovieInfoModal {
 
       movieInfoContainer.append(movieInfoDetailBox);
 
-      const starVoteBox = new StarScore();
+      new StarScore();
 
       const deleteButton = this.createDeleteButton();
       this.movieInfoModal.append(deleteButton);
@@ -80,7 +80,12 @@ class MovieInfoModal {
   createTitle(title: string) {
     const movieTitleHeader = document.createElement('div');
     movieTitleHeader.id = 'movie-info-modal-header';
-    movieTitleHeader.textContent = title;
+
+    const movieTitle = document.createElement('span');
+    movieTitle.id = 'movie-title';
+    movieTitle.textContent = title;
+
+    movieTitleHeader.append(movieTitle);
 
     return movieTitleHeader;
   }
@@ -133,7 +138,7 @@ class MovieInfoModal {
 
   createOverview(overview: string) {
     const movieOverview = document.createElement('div');
-    movieOverview.classList.add('movie-overview');
+    movieOverview.id = 'movie-overview';
     movieOverview.textContent = overview;
     return movieOverview;
   }

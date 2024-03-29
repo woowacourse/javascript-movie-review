@@ -36,7 +36,7 @@
 }
 
 #movie-info-detail-box {
-  width: 385px;
+  width: 438px;
   font-size: 16px;
   display: flex;
   flex-direction: column;
@@ -66,7 +66,7 @@
   height: 24px;
 }
 
-.movie-overview {
+#movie-overview {
   width: 100%;
   text-align: start;
   line-height: 1.5;
@@ -88,4 +88,56 @@
 
 .modal-close-button:hover {
   background-color: var(--grey-3);
+}
+
+@media (max-width: 800px) {
+  #movie-info-modal {
+    width: 740px;
+    height: 544px;
+  }
+
+  #movie-info-poster {
+    width: 260px;
+    height: 400px;
+  }
+
+  #movie-info-detail-box {
+    margin: 32px;
+    height: 400px;
+  }
+
+  #movie-overview {
+    height: 260px;
+  }
+}
+
+@media (max-width: 600px) {
+  #movie-info-modal-header {
+    justify-content: start;
+    padding: 0 32px;
+  }
+
+  #movie-info-detail-box {
+    padding: 0 10px;
+  }
+
+  #movie-info-poster {
+    display: none;
+  }
+
+  #movie-overview {
+    height: 212px;
+  }
+
+  #star-vote-box {
+    bottom: 50px !important;
+  }
+
+  #movie-info-detail-box {
+    width: 100%;
+  }
+
+  #score-info {
+    display: none !important;
+  }
 }

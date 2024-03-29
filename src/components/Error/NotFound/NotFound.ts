@@ -33,7 +33,7 @@ export const NotFound = () => {
 
   notFoundText.append(fragment);
 
-  const itemList = document.querySelector('.item-list');
+  const itemList = document.querySelector('.item-view');
   if (!itemList) return;
   itemList.replaceChildren();
 

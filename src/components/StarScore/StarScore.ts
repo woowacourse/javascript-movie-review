@@ -5,6 +5,7 @@ import { VOTE_MESSAGE } from '../../consts/message';
 import ScoreDBService from '../../domain/services/ScoreDBService';
 import { getUrlParams } from '../../utils/queryString';
 
+//TODO: USERScore 로 이름 바꾸기
 class StarScore {
   score: number;
   starVoteBox;

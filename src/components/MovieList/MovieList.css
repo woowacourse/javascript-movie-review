@@ -51,6 +51,10 @@
 }
 
 @media (max-width: 1100px) {
+  #list-title {
+    width: 960px;
+  }
+
   .grid {
     grid-column-gap: 80px;
     grid-row-gap: 40px;
@@ -65,6 +69,10 @@
 }
 
 @media (max-width: 960px) {
+  #list-title {
+    width: 660px;
+  }
+
   .grid {
     grid-template-columns: repeat(3, 180px);
     grid-column-gap: 60px;
@@ -78,6 +86,10 @@
 }
 
 @media (max-width: 600px) {
+  #list-title {
+    width: 360px;
+  }
+
   .grid {
     grid-template-columns: repeat(2, 140px);
     grid-column-gap: 80px;
@@ -91,10 +103,6 @@
   .item-thumbnail {
     width: 140px;
     height: 210px;
-  }
-
-  #list-title {
-    text-align: center;
   }
 
   .item-title {
