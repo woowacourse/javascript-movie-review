@@ -46,7 +46,7 @@ describe('영화 리뷰 E2E 테스트', () => {
       cy.get('.toast').should('exist');
     });
 
-    it('ㅋㅋ를 입력했을 때 "텅" 이미지와 함께 더 이상 영화 결과를 제공하지 않는다.', () => {
+    it('검색 결과가 없는 검색어를 입력했을 때 "텅" 이미지와 함께 더 이상 영화 결과를 제공하지 않는다.', () => {
       cy.searchMovie('ㅋㅋ');
 
       cy.get('#movie-list-container > img').should('exist');
