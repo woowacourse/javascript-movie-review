@@ -1,5 +1,5 @@
 import createElement from "../../utils/createElement";
-import { createMoviePreviewSkeleton } from "../MoviePoster/utils/createMovieSkeleton";
+import { createMoviePreviewSkeleton } from "../MoviePreview/utils/createMovieSkeleton";
 
 const createMoviePosterBoardSkeleton = () => {
   const posterBoard = createElement("ul", {

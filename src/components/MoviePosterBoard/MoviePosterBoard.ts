@@ -1,7 +1,7 @@
 import "./style.css";
 
-import { MovieInfo } from "../MoviePoster/createMoviePreview";
-import MoviePreview from "../MoviePoster/createMoviePreview";
+import { MovieInfo } from "../MoviePreview/createMoviePreview";
+import MoviePreview from "../MoviePreview/createMoviePreview";
 import createElement from "../../utils/createElement";
 
 class MoviePosterBoard {
