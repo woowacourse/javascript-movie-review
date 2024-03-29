@@ -3,6 +3,8 @@ import NoImage from '../../assets/no-image.png';
 import { POSTER_BASE_URL } from '../../consts/Api';
 import { Movie } from './../../types/movie';
 import '../MovieItem/MovieItem.css';
+import { MovieDetailAPI } from '../../domain/services/API.type';
+import MovieDetailFetcher from '../../domain/services/MovieDetailFetcher';
 
 const MovieItem = {
   skeletonTemplate() {
@@ -10,7 +12,6 @@ const MovieItem = {
 
     const skeletonCard = document.createElement('a');
     skeletonCard.classList.add('item-card');
-    skeletonCard.setAttribute('href', '#');
 
     const skeletonThumbnail = document.createElement('div');
     skeletonThumbnail.classList.add('item-thumbnail', 'skeleton');
@@ -30,14 +31,13 @@ const MovieItem = {
     return skeletonItemBox;
   },
 
-  template(movie: Movie) {
+  template(movie: Movie, onClick: (movieData: MovieDetailAPI) => void) {
     const { id, title, posterPath, voteAverage } = movie;
     const itemBox = document.createElement('li');
     itemBox.setAttribute('data-movie-id', String(id));
 
     const itemCard = document.createElement('a');
     itemCard.classList.add('item-card');
-    itemCard.setAttribute('href', '#');
 
     if (posterPath) {
       const itemImage = document.createElement('img');
@@ -69,6 +69,10 @@ const MovieItem = {
     itemCard.append(itemScore);
 
     itemBox.append(itemCard);
+
+    itemBox.addEventListener('click', async () => {
+      onClick(await MovieDetailFetcher.fetchMovieDetail(id));
+    });
 
     return itemBox;
   },

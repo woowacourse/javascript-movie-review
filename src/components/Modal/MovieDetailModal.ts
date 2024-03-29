@@ -2,6 +2,8 @@ import Star from '../../assets/star_filled.png';
 import NoImage from '../../assets/no-image.png';
 import Modal from './Modal';
 import './MovieDetailModal.css';
+import { MovieDetailAPI } from '../../domain/services/API.type';
+import { POSTER_BASE_URL } from '../../consts/Api';
 
 const movieDetailModalLayout = document.createElement('div');
 movieDetailModalLayout.classList.add('movie-detail-container');
@@ -11,12 +13,12 @@ class MovieDetailModal extends Modal {
     super({ child: movieDetailModalLayout });
   }
 
-  rerender() {
+  rerender(movieData: MovieDetailAPI) {
     movieDetailModalLayout.replaceChildren();
 
     const detailTitle = document.createElement('h2');
     detailTitle.classList.add('detail-title');
-    detailTitle.textContent = '테스트 타이틀';
+    detailTitle.textContent = movieData.title;
     movieDetailModalLayout.append(detailTitle);
 
     const detailBox = document.createElement('div');
@@ -24,7 +26,12 @@ class MovieDetailModal extends Modal {
 
     const detailImage = document.createElement('img');
     detailImage.classList.add('detail-image');
-    detailImage.setAttribute('src', NoImage);
+    if (movieData.poster_path) {
+      detailImage.setAttribute('src', POSTER_BASE_URL + movieData.poster_path);
+    } else {
+      detailImage.setAttribute('src', NoImage);
+    }
+
     detailBox.append(detailImage);
 
     const detailInfo = document.createElement('div');
@@ -37,7 +44,7 @@ class MovieDetailModal extends Modal {
     detailGenreAndScore.classList.add('detail-genre-and-score');
 
     const detailGenre = document.createElement('p');
-    detailGenre.textContent = '장르';
+    detailGenre.textContent = movieData.genres.map(genre => genre.name).join(', ');
     detailGenreAndScore.append(detailGenre);
 
     const detailScoreBox = document.createElement('div');
@@ -48,7 +55,7 @@ class MovieDetailModal extends Modal {
     detailScoreBox.append(detailScoreIcon);
 
     const detailScore = document.createElement('p');
-    detailScore.textContent = '10점';
+    detailScore.textContent = String(movieData.vote_average);
     detailScoreBox.append(detailScore);
 
     detailGenreAndScore.append(detailScoreBox);
@@ -56,8 +63,7 @@ class MovieDetailModal extends Modal {
 
     const detailDescription = document.createElement('p');
     detailDescription.classList.add('detail-description');
-    detailDescription.textContent =
-      '텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠텍스트 컨텐츠 텍스트 컨텐츠 텍스트 컨텐츠';
+    detailDescription.textContent = movieData.overview;
 
     detailPropertyBox.append(detailGenreAndScore);
     detailPropertyBox.append(detailDescription);
@@ -69,6 +75,8 @@ class MovieDetailModal extends Modal {
     detailRateCaption.classList.add('detail-rate-caption');
     detailRateCaption.textContent = '내 별점';
     detailRateBox.append(detailRateCaption);
+
+    // const detailRateStarBox = document.createElement('div');
 
     const detailRateStar = document.createElement('p');
     detailRateStar.textContent = '★★★★★';

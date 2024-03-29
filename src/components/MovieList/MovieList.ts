@@ -3,6 +3,8 @@ import { Movie } from './../../types/movie';
 import { NotFound } from '../NotFound/NotFound';
 import { PAGE_SIZE } from '../../consts/common';
 import '../MovieList/MovieList.css';
+import MovieDetailModal from '../Modal/MovieDetailModal';
+import { MovieDetailAPI } from '../../domain/services/API.type';
 
 interface Props {
   movieList: Movie[];
@@ -12,6 +14,7 @@ interface Props {
 class MovieList {
   movieList: Movie[];
   isLoading: boolean;
+  movieDetailModal = new MovieDetailModal();
 
   constructor({ movieList, isLoading }: Props) {
     this.movieList = movieList;
@@ -56,7 +59,10 @@ class MovieList {
   renderMovieList() {
     const fragment = new DocumentFragment();
     this.movieList.forEach(movie => {
-      const movieItemTemplate = MovieItem.template(movie);
+      const movieItemTemplate = MovieItem.template(movie, (movieData: MovieDetailAPI) => {
+        this.movieDetailModal.toggle();
+        this.movieDetailModal.rerender(movieData);
+      });
       fragment.append(movieItemTemplate);
     });
 
