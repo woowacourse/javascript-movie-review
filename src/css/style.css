@@ -2,9 +2,22 @@
   display: none;
 }
 
+.no-scroll-y {
+  overflow-y: hidden;
+}
+
 .movie-detail-button {
   background: none;
   color: inherit;
   text-decoration: none;
   text-align: left;
+}
+
+.movie-modal {
+  width: 200px;
+  height: 200px;
+}
+
+dialog::backdrop {
+  background: #00000099;
 }

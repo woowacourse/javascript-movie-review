@@ -3,6 +3,7 @@
 import fetchMovies from '../../api/fetchMovies';
 import starFilledImage from '../../assets/images/star_filled.png';
 import movieStateMethod from '../../store/movieStore';
+import renderMovieDetailModal from '../movieDetailModal';
 import { removeScrollEvent } from '../scrollEvent';
 
 interface IMovieItemProps {
@@ -57,11 +58,12 @@ function getMovieItemCard(props: IMovieItemProps) {
 
 function getMovieItem(props: IMovieItemProps) {
   const movieItem = document.createElement('li');
-  const movieItemLink = document.createElement('a');
+  const movieItemButton = document.createElement('button');
   const movieItemCard = getMovieItemCard(props);
-
-  movieItemLink.appendChild(movieItemCard);
-  movieItem.appendChild(movieItemLink);
+  movieItemButton.classList.add('movie-detail-button');
+  movieItemButton.onclick = renderMovieDetailModal;
+  movieItemButton.appendChild(movieItemCard);
+  movieItem.appendChild(movieItemButton);
   return movieItem;
 }
 

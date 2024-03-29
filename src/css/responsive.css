@@ -16,4 +16,11 @@
   .item-view {
     width: 460px;
   }
+  .movie-modal {
+    width: 100vw;
+    bottom: 0;
+  }
+  dialog {
+    margin-bottom: 0;
+  }
 }

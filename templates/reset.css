@@ -107,6 +107,12 @@ section {
 }
 body {
   line-height: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+}
+body::-webkit-scrollbar {
+  display: none;
 }
 ol,
 ul {
@@ -135,4 +141,10 @@ button {
   padding: 0;
   overflow: visible;
   cursor: pointer;
+}
+
+dialog {
+  max-width: 100%;
+  border: none;
+  padding: 0;
 }
