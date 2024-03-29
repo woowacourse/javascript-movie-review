@@ -44,8 +44,10 @@ const MovieDetail = ({
             <img src="${STAR_EMPTY}" />
             <img src="${STAR_EMPTY}" />
           </div>
-          <span class="my-stars">6</span>
-          <span class="my-stars">보통이에요</span>
+          <div class="review-rate-container">
+            <span class="my-stars">6</span>
+            <span class="my-stars review-text">보통이에요</span>
+          </div>
         </div>
       </div>
     </div>

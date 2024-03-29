@@ -31,7 +31,7 @@
   row-gap: 64px;
   column-gap: 64px;
 
-  @media screen and (max-width: 920px) {
+  @media screen and (max-width: 919px) {
     grid-template-columns: repeat(3, 182px);
     column-gap: 55px;
   }

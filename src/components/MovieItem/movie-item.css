@@ -11,7 +11,7 @@
   height: 273px;
   background-size: contain;
 
-  @media screen and (max-width: 642px) {
+  @media screen and (max-width: 673px) {
     height: 220px;
   }
 }
