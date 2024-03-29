@@ -18,7 +18,7 @@ class App extends Component {
     const $header = createElement({ tagName: 'header' });
     const $main = createElement({ tagName: 'main' });
 
-    new MovieReviewHeader($header, { renderMovieReviewBody: this.renderMovieReviewBody });
+    new MovieReviewHeader($header, { renderMovieReviewBody: this.renderMovieReviewBody.bind(this) });
     new MovieReviewBody($main, { movieType: 'popular', openErrorModal: this.openErrorModal.bind(this) });
 
     $app.append($header, $main);
