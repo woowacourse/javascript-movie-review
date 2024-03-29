@@ -12,17 +12,20 @@ const Header = ({ onLogoClick, inputSubmitHandle }: Props) => {
 
 const render = ({ onLogoClick, inputSubmitHandle }: Props) => {
   const header = document.createElement('header');
+  header.className = 'header';
 
   const logo = document.createElement('h1');
+  logo.className = 'logo';
   const logoImage = document.createElement('img');
   logoImage.src = logoPng;
   logoImage.alt = 'MovieList 로고';
   logo.appendChild(logoImage);
 
   const searchBox = document.createElement('form');
-  searchBox.className = 'search-box';
+  searchBox.className = 'search-box closed';
 
   const searchInput = document.createElement('input');
+  searchInput.className = 'search-input closed';
   searchInput.placeholder = '검색';
 
   const searchButton = document.createElement('button');
@@ -50,8 +53,25 @@ const render = ({ onLogoClick, inputSubmitHandle }: Props) => {
   if (inputSubmitHandle) {
     searchBox.addEventListener('submit', event => {
       event.preventDefault();
-      if (searchInput.value.trim() !== '') inputSubmitHandle(searchInput.value);
+
+      const isSearchInputClosed = searchInput.classList.contains('closed');
+      const searchInputValue = searchInput.value.trim();
+
+      if (isSearchInputClosed) {
+        toggleElementsVisibility(false);
+      } else if (searchInputValue === '') {
+        toggleElementsVisibility(true);
+      } else {
+        inputSubmitHandle(searchInputValue);
+        toggleElementsVisibility(true);
+      }
     });
+  }
+
+  function toggleElementsVisibility(isSearchClosed: boolean) {
+    searchBox.classList.toggle('closed', isSearchClosed);
+    searchInput.classList.toggle('closed', isSearchClosed);
+    logo.classList.toggle('closed', !isSearchClosed);
   }
 
   return header;
