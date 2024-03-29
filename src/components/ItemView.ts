@@ -1,12 +1,8 @@
-/* eslint-disable max-depth */
-/* eslint-disable max-lines-per-function */
-import { movieDataStateStore } from "../model";
-import { handleGetPopularMovieData } from "../service/handleSkeletonAndAPI";
 import { ListType, PartialMovieDataForItemView } from "../type/movie";
 import { createElementWithAttribute } from "../utils";
-import throttleFunc from "../utils/throttleFunc";
 
 import ItemCardList from "./ItemCardList";
+import LoadMore from "./LoadMore";
 import Title from "./Title";
 
 const $main = document.querySelector("main");
@@ -23,47 +19,13 @@ const makeSection = (titleText: string) => {
   return $viewContainer;
 };
 
-const handleMovieData = async (listType: ListType) => {
-  if (listType === "popular") {
-    await handleGetPopularMovieData();
-  }
-  // else {
-  //   await getSearchMovieData();
-  // }
+interface ItemViewProps {
+  titleText: string;
+  movieData: PartialMovieDataForItemView;
+  listType: ListType;
+}
 
-  ItemCardList(movieDataStateStore.fetchedMovieData);
-};
-
-const checkEndOfPage = () => {
-  const mainElement = document.querySelector("main");
-  if (mainElement) {
-    const isScrollAtBottom =
-      window.innerHeight + window.scrollY >= mainElement.offsetHeight;
-    return isScrollAtBottom;
-  }
-  return false;
-};
-
-const fetchMoreData = async (listType: ListType) => {
-  if (checkEndOfPage()) {
-    handleMovieData(listType);
-  }
-};
-
-const handleScrollToBottom = (listType: ListType) => {
-  console.log("fetchMoreData", listType);
-  window.addEventListener("scroll", () => {
-    throttleFunc(() => {
-      fetchMoreData(listType);
-    });
-  });
-};
-
-const renderItemView = (
-  titleText: string,
-  movieData: PartialMovieDataForItemView,
-  listType: ListType,
-) => {
+const renderItemView = ({ titleText, movieData, listType }: ItemViewProps) => {
   const $itemView = createElementWithAttribute("section", {
     class: "item-view",
   });
@@ -71,7 +33,6 @@ const renderItemView = (
   $main?.appendChild($itemView);
 
   ItemCardList(movieData.movieList);
-
-  handleScrollToBottom(listType);
+  LoadMore(listType);
 };
 export default renderItemView;

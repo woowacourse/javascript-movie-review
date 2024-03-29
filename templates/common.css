@@ -399,3 +399,43 @@ main {
   width: 120px;
   gap: 10px;
 }
+
+/* loader */
+
+.loader {
+  display: inline-block;
+}
+
+.loader-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 16px;
+  background-color: #333;
+  margin-right: 5px;
+  opacity: 0;
+  animation: fadeInOut 1s infinite;
+}
+
+@keyframes fadeInOut {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.loader-dot:nth-child(1) {
+  animation-delay: 0s;
+  background-color: red;
+}
+.loader-dot:nth-child(2) {
+  animation-delay: 0.2s;
+  background-color: orange;
+}
+.loader-dot:nth-child(3) {
+  animation-delay: 0.4s;
+  background-color: yellowgreen;
+}
