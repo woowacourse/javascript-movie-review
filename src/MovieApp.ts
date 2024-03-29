@@ -6,37 +6,16 @@ import {
 } from './constants/movie';
 import { NO_IMAGE } from './images/index';
 import { MovieListType } from './types/movie';
-import { RenderType } from './types/props';
-import httpRequest from './api/httpRequest';
-import HTTPError from './api/HttpError';
-import errorMessage from './error/errorMessage';
+import { RenderInputType } from './types/props';
 import {
   HEADER_TEMPLATE,
   MOVIE_ITEM_TEMPLATE,
   SKELETON_ITEM_TEMPLATE,
 } from './constants/templates';
-import filterMovieList from './domain/filterMovieList';
 import movieDetailModal from './components/movieDetailModal/movieDetailModal';
 import MoviePage from './domain/MoviePage';
-
-interface MovieDataType {
-  movieList: MovieListType;
-  isLastPage: boolean;
-}
-
-type RequestFunctionType = (page: number, input: string) => Promise<MovieDataType>;
-
-type HandleMovieDataTableType = { [key in RenderType]: () => Promise<MovieDataType> };
-
-interface RenderInputType {
-  renderType: RenderType;
-  input?: string;
-}
-
-interface PageInputType {
-  page: number;
-  input: string;
-}
+import infiniteScroll from './utils/infiniteScroll';
+import movieData from './domain/movieData';
 
 // ====================임시 더미데이터==================
 const dummy = [
@@ -59,6 +38,8 @@ localStorage.setItem('ratings', JSON.stringify(dummy));
 // ========================임시=========================
 
 class MovieApp extends MoviePage {
+  isLastPage: boolean = false;
+
   constructor() {
     super();
     this.init();
@@ -78,10 +59,13 @@ class MovieApp extends MoviePage {
     this.setSearchFormEvent();
 
     await this.renderMainContents({ renderType: RENDER_TYPE.POPULAR });
+
+    infiniteScroll.startObserving(this, { renderType: RENDER_TYPE.POPULAR });
   }
 
   updateMainHtml(titleMessage: string) {
     this.deleteMain();
+    this.deleteScrollEnd();
     this.createMain(titleMessage);
   }
 
@@ -96,8 +80,13 @@ class MovieApp extends MoviePage {
     const section = this.createSection(titleMessage);
     main.appendChild(section);
 
+    const scrollEnd = this.createScrollEnd();
+
     const container = document.querySelector('#app');
-    if (container) container.appendChild(main);
+    if (container) {
+      container.appendChild(main);
+      container.appendChild(scrollEnd);
+    }
   }
 
   createSection(titleMessage: string) {
@@ -123,6 +112,7 @@ class MovieApp extends MoviePage {
     button.classList.add('btn', 'primary', 'full-width');
     button.id = 'show-more-btn';
     button.textContent = '더 보기';
+
     button.addEventListener('click', () => {
       this.updatePage(renderType);
       this.renderMainContents({ renderType, input });
@@ -130,27 +120,28 @@ class MovieApp extends MoviePage {
     return button;
   }
 
-  createMainContents(
-    { movieList, isLastPage }: MovieDataType,
-    { renderType, input }: RenderInputType,
-  ) {
+  createMainContents(movieList: MovieListType) {
     const movieData = this.showMovieData(movieList);
     const itemView = document.querySelector('#section--item-view');
     if (!itemView) return;
 
     itemView.appendChild(movieData);
+  }
 
-    if (!isLastPage) {
-      const showMoreButton = this.createShowMoreButton({ renderType, input });
-      itemView.appendChild(showMoreButton);
-    }
+  createScrollEnd() {
+    const div = document.createElement('div');
+    div.id = 'scroll-end-box';
+    return div;
   }
 
   async renderMainContents({ renderType, input }: RenderInputType) {
-    this.deleteShowMoreButton();
     this.createMainSkeleton();
-    const { movieList, isLastPage } = await this.handleMovieData(renderType, input);
-    this.createMainContents({ movieList, isLastPage }, { renderType, input });
+    const { movieList, isLastPage: isLastPageValue } = await movieData.handleMovieData(this, {
+      renderType,
+      input,
+    });
+    this.isLastPage = isLastPageValue;
+    this.createMainContents(movieList);
   }
 
   deleteMain() {
@@ -158,41 +149,14 @@ class MovieApp extends MoviePage {
     if (main) main.remove();
   }
 
-  deleteShowMoreButton() {
-    const showMoreButton = document.querySelector('#show-more-btn');
-    if (showMoreButton) showMoreButton.remove();
+  deleteScrollEnd() {
+    const scrollEnd = document.querySelector('#scroll-end-box');
+    if (scrollEnd) scrollEnd.remove();
   }
 
   deleteSkeleton() {
     const skeleton = document.querySelector('#skeleton');
     if (skeleton) skeleton.remove();
-  }
-
-  handleMovieData(renderType: RenderType, input?: string): Promise<MovieDataType> {
-    const page = this.getPage(renderType);
-    const handleMovieDataTable: HandleMovieDataTableType = {
-      popular: () =>
-        this.getMovieData(httpRequest.fetchPopularMovies, { page, input: input ?? '' }),
-      search: () =>
-        this.getMovieData(httpRequest.fetchSearchedMovies, { page, input: input ?? '' }),
-    };
-    const getDataFunction = handleMovieDataTable[renderType];
-    return getDataFunction();
-  }
-
-  async getMovieData(
-    requestFunction: RequestFunctionType,
-    { page, input }: PageInputType,
-  ): Promise<MovieDataType> {
-    try {
-      const { movieList, isLastPage } = await requestFunction(page, input ?? '');
-      const filteredMovieList = filterMovieList(movieList);
-      return { movieList: filteredMovieList, isLastPage };
-    } catch (error) {
-      const customError = error as HTTPError;
-      errorMessage.apiError(customError.statusCode, customError.message ?? '');
-      return { movieList: [], isLastPage: true };
-    }
   }
 
   showMovieData(movieList: MovieListType) {
@@ -221,14 +185,15 @@ class MovieApp extends MoviePage {
     }
   }
 
-  handleSearchFormSubmit() {
+  async handleSearchFormSubmit() {
     const searchForm = document.querySelector('#search') as HTMLInputElement;
 
     if (searchForm instanceof HTMLInputElement) {
       const input = searchForm.value;
       this.resetPage();
       this.updateMainHtml(SEARCH_MOVIE_TITLE(input));
-      this.renderMainContents({ renderType: RENDER_TYPE.SEARCH, input });
+      await this.renderMainContents({ renderType: RENDER_TYPE.SEARCH, input });
+      infiniteScroll.startObserving(this, { renderType: RENDER_TYPE.SEARCH, input });
     }
   }
 }

@@ -4,7 +4,7 @@ import { MOVIE_PATH } from './movie';
 import { RATING_MESSAGE } from './rating';
 
 export const MOVIE_ITEM_TEMPLATE = (movie: MovieType, imagePath: string) => /* html */ `
-  <li>
+  <li class="movie-item">
     <a data-id=${movie.id}>
       <div class="item-card">
         <img
