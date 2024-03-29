@@ -41,14 +41,13 @@ function movieFetcher(params: IFetchParams) {
 }
 
 async function fetchMovies() {
-  return movieFetcher({
+  const response = await movieFetcher({
     url: movieStateMethod.getUrl(),
     page: movieStateMethod.getPage(),
     query: movieStateMethod.getQuery(),
-  }).then((response) => {
-    handleError(response.status);
-    return response.json();
   });
+  handleError(response.status);
+  return response.json();
 }
 
 export default fetchMovies;
