@@ -1,8 +1,8 @@
 import './style.css';
 
 import Image from '../Image/Image';
-import StarEmpty from '../../imgs/star_empty.png';
-import StarFilled from '../../imgs/star_filled.png';
+import StarEmpty from '../../imgs/star_empty.svg';
+import StarFilled from '../../imgs/star_filled.svg';
 import { Rate } from '../../types/StarRate';
 
 const RATE_NUMBER = (index: number) => ((index + 1) * 2) as Rate;

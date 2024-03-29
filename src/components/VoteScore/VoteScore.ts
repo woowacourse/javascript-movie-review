@@ -1,5 +1,5 @@
 import './style.css';
-import StarFilled from '../../imgs/star_filled.png';
+import StarFilled from '../../imgs/star_filled.svg';
 
 const template = /* html */ `
   <p class="item-score"></p>
