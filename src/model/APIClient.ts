@@ -1,5 +1,4 @@
-/* eslint-disable max-lines-per-function */
-import renderErrorView from "../components/ErrorView";
+import { renderErrorItemView } from "../components/ErrorView";
 import { BASE_URL, endpoint, options } from "../config";
 import { MAX_PAGE } from "../constants/system";
 
@@ -35,7 +34,7 @@ class APIClient {
       );
       return await response.json();
     } catch (error) {
-      renderErrorView();
+      renderErrorItemView();
       return error;
     }
   }
@@ -59,7 +58,7 @@ class APIClient {
       );
       return await response.json();
     } catch (error) {
-      renderErrorView();
+      renderErrorItemView();
       return error;
     }
   }
@@ -77,8 +76,7 @@ class APIClient {
       );
       return await response.json();
     } catch (error) {
-      // TODO: 모달 내부 에러 페이지
-      renderErrorView();
+      renderErrorItemView();
       return error;
     }
   }
