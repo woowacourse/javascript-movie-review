@@ -1,7 +1,6 @@
 import Component from '../../common/Component/Component';
 import ErrorToast from '../ErrorToast/ErrorToast';
 import MovieLogo from '../MovieLogo/MovieLogo';
-import { renderMovieReviewBody } from '../MovieReviewBody/MovieReviewBody.util';
 
 import { createElement } from '../../../utils/dom/createElement/createElement';
 import { querySelector } from '../../../utils/dom/selector';
@@ -10,6 +9,7 @@ import { on } from '../../../utils/dom/eventListener/eventListener';
 import { ELEMENT_SELECTOR } from '../../../constants/selector';
 
 import './MovieReviewHeader.css';
+import MovieReviewBody from '../MovieReviewBody/MovieReviewBody';
 
 class MovieReviewHeader extends Component {
   protected render() {
@@ -61,7 +61,7 @@ class MovieReviewHeader extends Component {
       return;
     }
 
-    renderMovieReviewBody(movieName);
+    MovieReviewBody.rerender(movieName);
   }
 }
 

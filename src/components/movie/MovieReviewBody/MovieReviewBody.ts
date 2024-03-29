@@ -21,6 +21,14 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
   private movie: Movie | undefined;
   private observer: IntersectionObserver | undefined;
 
+  static rerender = (movieName: string) => {
+    const $section = querySelector<HTMLElement>(ELEMENT_SELECTOR.movieReviewSection);
+    $section.remove();
+
+    const $main = querySelector<HTMLElement>(ELEMENT_SELECTOR.main);
+    new MovieReviewBody($main, { movieType: movieName });
+  };
+
   protected initializeState(): void {
     this.movie = new Movie(1, this.props?.movieType ?? '');
 
