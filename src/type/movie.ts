@@ -20,11 +20,11 @@ export interface MovieDetail extends Movie {
 
 export interface MovieData {
   movieList: Movie[];
-  isShowMoreButton: boolean;
+  isEndPage: boolean;
 }
 
 export interface PartialMovieDataForItemView extends Partial<MovieData> {
-  isShowMoreButton: boolean;
+  isEndPage: boolean;
 }
 
 export type ListType = "popular" | "search";

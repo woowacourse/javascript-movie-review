@@ -3,20 +3,20 @@ import { Movie, MovieData } from "../type/movie";
 class MovieDataStateStore {
   #fetchedMovieList: Movie[] | undefined;
   #totalMovieList: Movie[] | undefined;
-  #isShowMorButton = true;
+  #isEndPage = true;
 
   getTotalMovieData(
-    { movieList, isShowMoreButton }: MovieData,
+    { movieList, isEndPage }: MovieData,
     resetMovieList: boolean,
   ) {
     if (!this.#totalMovieList || resetMovieList)
       this.#totalMovieList = movieList;
     else this.#totalMovieList = this.#totalMovieList.concat(movieList);
 
-    this.#isShowMorButton = isShowMoreButton;
+    this.#isEndPage = isEndPage;
   }
 
-  addMovieData(movieList: Movie[], resetMovieList: boolean) {
+  addMovieData({ movieList, isEndPage }: MovieData, resetMovieList: boolean) {
     this.#fetchedMovieList = movieList;
 
     if (!this.#totalMovieList || resetMovieList) {
@@ -24,16 +24,20 @@ class MovieDataStateStore {
       return;
     }
     this.#totalMovieList = this.#totalMovieList.concat(movieList);
+    this.#isEndPage = isEndPage;
   }
 
   get fetchedMovieData() {
-    return this.#fetchedMovieList;
+    return {
+      movieList: this.#fetchedMovieList,
+      isEndPage: this.#isEndPage,
+    };
   }
 
   get totalMovieData() {
     return {
       movieList: JSON.parse(JSON.stringify(this.#totalMovieList)) as Movie[],
-      isShowMoreButton: this.#isShowMorButton,
+      isEndPage: this.#isEndPage,
     };
   }
 }

@@ -8,7 +8,7 @@ import movieDataStateStore from "./MovieDataStateStore";
 class APIClient {
   #currentPage = 0;
 
-  #isShowMoreButton = (page: number, totalPage: number) =>
+  #isEndPage = (page: number, totalPage: number) =>
     page < totalPage && page <= MAX_PAGE;
 
   #updateCurrentPage = (isResetCurrentPage: boolean) => {
@@ -19,8 +19,12 @@ class APIClient {
   async getPopularMovieData(isResetCurrentPage: boolean) {
     this.#updateCurrentPage(isResetCurrentPage);
     const data = await this.fetchPopularMovie();
+    const isEndPage = this.#isEndPage(this.#currentPage, data.total_pages);
 
-    movieDataStateStore.addMovieData(data.results, isResetCurrentPage);
+    movieDataStateStore.addMovieData(
+      { movieList: data.results, isEndPage },
+      isResetCurrentPage,
+    );
   }
 
   async fetchPopularMovie() {
@@ -39,8 +43,12 @@ class APIClient {
   async getSearchMovieData(isResetCurrentPage: boolean, title: string) {
     this.#updateCurrentPage(isResetCurrentPage);
     const data = await this.fetchSearchMovie(title);
+    const isEndPage = this.#isEndPage(this.#currentPage, data.total_pages);
 
-    movieDataStateStore.addMovieData(data.results, isResetCurrentPage);
+    movieDataStateStore.addMovieData(
+      { movieList: data.results, isEndPage },
+      isResetCurrentPage,
+    );
   }
 
   async fetchSearchMovie(title: string) {
@@ -58,7 +66,6 @@ class APIClient {
 
   async getOneMovieDetailData(movieId: number) {
     const data = await this.fetchOneMovieDetail(movieId);
-    console.log(data);
     return data;
   }
 
