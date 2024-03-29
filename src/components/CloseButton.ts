@@ -1,24 +1,25 @@
-/* eslint-disable max-lines-per-function */
 import closeImg from "../../templates/close-button.png";
 import { createElementWithAttribute } from "../utils";
 
 export function handleCloseModal() {
-  console.log("closeModal");
   const $modal = document.querySelector(".detail-modal");
+
   if (!$modal) return;
   $modal.remove();
+
   document.body.style.overflow = "";
 }
+
+const $CloseButtonImg = createElementWithAttribute("img", {
+  src: closeImg,
+});
 
 const CloseButton = () => {
   const $button = createElementWithAttribute("button", {
     class: "close-button",
   });
-  const $img = createElementWithAttribute("img", {
-    src: closeImg,
-  });
-  $button.appendChild($img);
 
+  $button.appendChild($CloseButtonImg);
   $button.addEventListener("click", () => {
     handleCloseModal();
   });
