@@ -74,11 +74,10 @@ dialog::backdrop {
 .movie-detail-image {
   height: 433px;
   width: 292px;
-  background: red;
 }
 
 .movie-detail-info {
-  width: 438px;
+  flex-grow: 1;
   height: 433px;
   display: flex;
   flex-direction: column;

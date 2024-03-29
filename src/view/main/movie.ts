@@ -61,7 +61,7 @@ function getMovieItem(props: IMovieItemProps) {
   const movieItemButton = document.createElement('button');
   const movieItemCard = getMovieItemCard(props);
   movieItemButton.classList.add('movie-detail-button');
-  movieItemButton.onclick = renderMovieDetailModal;
+  movieItemButton.onclick = () => renderMovieDetailModal(props.id);
   movieItemButton.appendChild(movieItemCard);
   movieItem.appendChild(movieItemButton);
   return movieItem;

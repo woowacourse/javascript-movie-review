@@ -1,5 +1,8 @@
+import fetchMovieDetail, { IMovieDetailResponse, genre } from '../api/fetchMovieDetail';
 import XImage from '../assets/images/closeButton.svg';
-import starImage from '../assets/images/star_empty.png';
+import starEmptyImage from '../assets/images/star_empty.png';
+import starFillImage from '../assets/images/star_filled.png';
+import { MOVIE_IMAGE_BASE_URL } from '../constants/tmdbConstants';
 
 // eslint-disable-next-line no-unused-vars
 const RATING_MESSAGES: Record<string, string> = {
@@ -17,10 +20,10 @@ function closeModal() {
   modal.close();
 }
 
-function createMovieTitle() {
-  const title = document.createElement('div');
-  title.innerText = '영화제목';
-  return title;
+function createMovieTitle(title: string) {
+  const titleDiv = document.createElement('div');
+  titleDiv.innerText = title;
+  return titleDiv;
 }
 
 function createModalCloseButton() {
@@ -34,33 +37,46 @@ function createModalCloseButton() {
   return button;
 }
 
-function createMovieDetailHeader() {
+function createMovieDetailHeader(title: string) {
   const div = document.createElement('div');
   div.className = 'movie-detail-header flex-XY-aligned';
-  div.append(createMovieTitle(), createModalCloseButton());
+  div.append(createMovieTitle(title), createModalCloseButton());
   return div;
 }
 
-function createMovieDetailImage() {
+function createMovieDetailImage(posterPath: string) {
   const img = document.createElement('img');
   img.className = 'movie-detail-image';
+  img.src = MOVIE_IMAGE_BASE_URL + posterPath;
+  img.loading = 'lazy';
   img.alt = 'movie-image';
   return img;
 }
 
-function createGenreAndRating() {
+function createTMDBRatingBox(movieRating: number) {
+  const rateBox = document.createElement('div');
+  rateBox.className = 'flex-Y-center';
+  const star = document.createElement('img');
+  star.src = starFillImage;
+  const rateNumber = document.createElement('span');
+  rateNumber.innerText = String(movieRating);
+  rateBox.append(star, rateNumber);
+  return rateBox;
+}
+
+function createGenreAndRating(movieGenres: genre[], movieRating: number) {
   const div = document.createElement('div');
-  const genre = document.createElement('span');
-  genre.innerText = '스릴러, 로멘스?';
-  const rate = document.createElement('span');
-  rate.innerText = '6.1';
-  div.append(genre, rate);
+  div.className = 'flex-Y-center gap-16';
+  const genreSpan = document.createElement('span');
+  genreSpan.innerText = movieGenres.map((value) => value.name).join(', ');
+  const rate = createTMDBRatingBox(movieRating);
+  div.append(genreSpan, rate);
   return div;
 }
 
-function createDescription() {
+function createDescription(overview: string) {
   const description = document.createElement('div');
-  description.innerText = '여기에 설명이 들어간다.';
+  description.innerText = overview;
   return description;
 }
 
@@ -69,7 +85,7 @@ function createRateStars() {
   const STAR_COUNT = 5;
   return Array.from({ length: STAR_COUNT }, (_, index) => {
     const starBox = document.createElement('span');
-    starBox.innerHTML = `<img src=${starImage} alt='star' data-star-id="${index}" class='star-image'></img>`;
+    starBox.innerHTML = `<img src=${starEmptyImage} alt='star' data-star-id="${index}" class='star-image'></img>`;
     starBox.addEventListener('click', () => {
       // TODO: 별 눌렀을 때의 이벤트 만들기
     });
@@ -108,25 +124,29 @@ function createUserRate() {
   return rateBox;
 }
 
-function createMovieDetailInfo() {
+function createMovieDetailInfo(movieDetail: IMovieDetailResponse) {
   const description = document.createElement('div');
   description.className = 'movie-detail-info';
-  description.append(createGenreAndRating(), createDescription(), createUserRate());
+  description.append(
+    createGenreAndRating(movieDetail.genres, movieDetail.vote_average),
+    createDescription(movieDetail.overview),
+    createUserRate(),
+  );
   return description;
 }
 
-function createMovieDetailMain() {
+function createMovieDetailMain(movieDetail: IMovieDetailResponse) {
   const div = document.createElement('div');
   div.className = 'flex-XY-aligned padding-32 gap-16';
-  div.append(createMovieDetailImage(), createMovieDetailInfo());
+  div.append(createMovieDetailImage(movieDetail.poster_path), createMovieDetailInfo(movieDetail));
   return div;
 }
 
-function createMovieDetailContainer() {
+function createMovieDetailContainer(movieDetail: IMovieDetailResponse) {
   const container = document.createElement('div');
   container.classList.add('movie-modal');
-  const header = createMovieDetailHeader();
-  const main = createMovieDetailMain();
+  const header = createMovieDetailHeader(movieDetail.title);
+  const main = createMovieDetailMain(movieDetail);
   container.append(header, main);
   return container;
 }
@@ -137,17 +157,25 @@ const backDropClickHandler = (event: any) => {
   }
 };
 
-function appendNewModal(): HTMLDialogElement {
-  const modal = document.createElement('dialog');
-  modal.id = 'movie-detail-modal';
-  document.body.append(modal);
-  modal.addEventListener('click', (e) => backDropClickHandler(e));
-  modal.appendChild(createMovieDetailContainer());
-  return modal;
+function getClearModal() {
+  const originalModal = document.getElementById('movie-detail-modal') as HTMLDialogElement;
+  if (!originalModal) {
+    const newModal = document.createElement('dialog');
+    newModal.id = 'movie-detail-modal';
+    newModal.addEventListener('click', (e) => backDropClickHandler(e));
+    document.body.append(newModal);
+    return newModal;
+  }
+  originalModal.innerHTML = '';
+  return originalModal;
 }
 
-function renderMovieDetailModal() {
-  const modal = (document.getElementById('movie-detail-modal') as HTMLDialogElement) || appendNewModal();
+async function renderMovieDetailModal(id: number) {
+  const modal = getClearModal();
+  // TODO: 스켈레톤 UI 렌더링
+  const movieResponse: IMovieDetailResponse = await fetchMovieDetail(id);
+  // TODO: fetching 이후 스켈레톤 UI replace해주기.
+  modal.append(createMovieDetailContainer(movieResponse));
   document.body.classList.add('no-scroll-y');
   modal.showModal();
 }
