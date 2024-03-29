@@ -7,7 +7,7 @@ export default class Movie {
   constructor(movie: MovieData) {
     this.movie = {
       ...movie,
-      posterPath: convertToPosterPath({ relativePath: movie.posterPath, width: 200 }),
+      posterPath: convertToPosterPath({ relativePath: movie.posterPath, width: 300 }),
     };
   }
 
