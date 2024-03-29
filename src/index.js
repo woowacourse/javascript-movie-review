@@ -3,6 +3,7 @@ import MovieHeader from './components/MovieHeader/MovieHeader';
 import ItemView from './components/ItemView/ItemView';
 import Throttle from './Utils/Throttle';
 import MovieItemDetailModal from './components/Modal/MovieItemDetailModal';
+import CONDITIONS from './constants/CONDITIONS';
 
 const init = () => {
   const movieItemDetailModal = new MovieItemDetailModal();
@@ -20,7 +21,8 @@ const init = () => {
   window.addEventListener(
     'scroll',
     Throttle(() => {
-      if (window.innerHeight + window.scrollY + 0.75 >= document.body.offsetHeight) itemView.mountItems();
+      if (window.innerHeight + window.scrollY + CONDITIONS.supplement >= document.body.offsetHeight)
+        itemView.mountItems();
     }, 1000),
   );
 };
