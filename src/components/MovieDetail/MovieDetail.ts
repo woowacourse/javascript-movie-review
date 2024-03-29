@@ -1,60 +1,59 @@
 import { POSTER_BASE_URL } from '../../api';
+import { STAR_MESSAGE } from '../../constants/messages';
 import { RULES } from '../../constants/rule';
 import { MovieDetail } from '../../domain/Movies';
 import { STAR_EMPTY, STAR_FILLED } from '../../resource';
 
+type onStarClick = (movieId: number, event: Event) => void;
+
 interface Props {
   data: MovieDetail;
   onCloseButtonClick: () => void;
+  onStarClick: onStarClick;
 }
 
-const MovieDetail = ({
-  data: { id, genres, overview, poster_path, title, vote_average },
-  onCloseButtonClick,
-}: Props) => {
+const MovieDetail = ({ data, onCloseButtonClick, onStarClick }: Props) => {
   const container = document.createElement('div');
+  const movieDetailContent = document.createElement('div');
+  const movieDetailPoster = document.createElement('div');
 
   container.classList.add('movie-detail-container');
+  movieDetailContent.classList.add('movie-detail-content');
+  movieDetailPoster.classList.add('movie-detail-poster');
 
-  container.appendChild(MovieDetailTitle(title, onCloseButtonClick));
-  container.insertAdjacentHTML(
-    'beforeend',
-    /* html */ `
-    <div class="movie-detail-content">
-      <div class="movie-detail-poster">
-        <img src="${POSTER_BASE_URL}${poster_path}" />
-      </div>
-      <div class="movie-detail-description">
-        <div class="movie-detail-text-content">
-          <div class="genre-info">
-            <span>${genres.join(RULES.genreSeparator)}</span>
-            <span class="movie-detail-vote-average">
-              <img src="${STAR_FILLED}" />
-              ${vote_average.toFixed(RULES.averageDecimalPlaces)}
-            </span>
-          </div>
-          <p class="overview">${overview}</p>
-        </div>
-        <div class="review-container">
-          <span class="my-stars">내 별점</span>
-          <div class="stars">
-            ${Array.from({ length: 5 })
-              .map(
-                (_, index) => `<img class="star" src="${STAR_EMPTY}" data-star-index="${index}" />`,
-              )
-              .join('')}
-          </div>
-          <div class="review-rate-container">
-            <span class="my-stars review-rating">6</span>
-            <span class="my-stars review-text">보통이에요</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  `,
-  );
+  movieDetailPoster.innerHTML = `<img src="${POSTER_BASE_URL}${data.poster_path}" />`;
+  movieDetailContent.appendChild(movieDetailPoster);
+  movieDetailContent.appendChild(MovieDetailDescription(data, onStarClick));
+
+  container.appendChild(MovieDetailTitle(data.title, onCloseButtonClick));
+  container.appendChild(movieDetailContent);
 
   return container;
+};
+
+const MovieDetailDescription = (data: MovieDetail, onStarClick: onStarClick) => {
+  const movieDetailDescription = document.createElement('div');
+
+  movieDetailDescription.classList.add('movie-detail-description');
+
+  movieDetailDescription.innerHTML = `
+  <div class="movie-detail-description">
+    <div class="movie-detail-text-content">
+      <div class="genre-info">
+        <span>${data.genres.join(RULES.genreSeparator)}</span>
+        <span class="movie-detail-vote-average">
+          <img src="${STAR_FILLED}" />
+          ${data.vote_average.toFixed(RULES.averageDecimalPlaces)}
+        </span>
+      </div>
+      <p class="overview">${data.overview}</p>
+    </div>
+  </div>
+  `;
+
+  movieDetailDescription.appendChild(ReviewContainer(data, onStarClick));
+
+  return movieDetailDescription;
 };
 
 const MovieDetailTitle = (title: string, onCloseButtonClick: () => void) => {
@@ -79,6 +78,61 @@ const MovieDetailTitle = (title: string, onCloseButtonClick: () => void) => {
   closeButton.addEventListener('click', () => onCloseButtonClick());
 
   return container;
+};
+
+const ReviewContainer = ({ id, my_grade }: MovieDetail, onStarClick: onStarClick) => {
+  const filledStarLength = my_grade / 2;
+  const reviewContainer = document.createElement('div');
+  const myStars = document.createElement('span');
+  const stars = document.createElement('div');
+
+  reviewContainer.classList.add('review-container');
+  myStars.classList.add('my-stars');
+  stars.classList.add('stars');
+
+  myStars.textContent = '내 별점';
+
+  Array.from({ length: 5 }).forEach((_, index) => {
+    if (index < filledStarLength) {
+      stars.appendChild(starImage(STAR_FILLED, index));
+    } else {
+      stars.appendChild(starImage(STAR_EMPTY, index));
+    }
+  });
+
+  const reviewRateContainer = document.createElement('div');
+  const reviewRating = document.createElement('span');
+  const reviewText = document.createElement('span');
+
+  reviewRateContainer.classList.add('review-rate-container');
+  reviewRating.classList.add('review-rating', 'my-stars');
+  reviewText.classList.add('review-text', 'my-stars');
+
+  reviewRating.textContent = String(my_grade);
+  reviewText.textContent = STAR_MESSAGE[my_grade];
+
+  reviewRateContainer.appendChild(reviewRating);
+  reviewRateContainer.appendChild(reviewText);
+
+  reviewContainer.appendChild(myStars);
+  reviewContainer.appendChild(stars);
+  reviewContainer.appendChild(reviewRateContainer);
+
+  stars.addEventListener('click', (event) => {
+    onStarClick(id, event);
+  });
+
+  return reviewContainer;
+};
+
+const starImage = (src: string, index: number) => {
+  const starImage = document.createElement('img');
+
+  starImage.classList.add('star');
+  starImage.dataset['starIndex'] = String(index);
+  starImage.src = src;
+
+  return starImage;
 };
 
 export default MovieDetail;
