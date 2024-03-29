@@ -162,6 +162,7 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
   width: 100%;
   height: 72px;
@@ -353,7 +354,7 @@ input {
   margin-top: 2rem;
   display: flex;
   width: 100%;
-  height: 80%;
+  height: 90%;
 }
 
 .image-info-container h2 {
@@ -500,6 +501,12 @@ input {
   }
 }
 
+@media (max-width: 768px) {
+  .image-info-container {
+    height: 85%;
+  }
+}
+
 @media (max-width: 610px) {
   .modal-container {
     height: 42rem;
@@ -611,7 +618,7 @@ input {
     bottom: 0;
   }
   .star-rate-container {
-    bottom: -16px !important;
+    bottom: 15px !important;
   }
 
   .rate-number {
