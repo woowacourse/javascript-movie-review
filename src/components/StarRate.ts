@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import emptyStar from "../../templates/star_empty.png";
 import filledStar from "../../templates/star_filled.png";
 import { rateDataStateStore } from "../model";
@@ -28,18 +27,24 @@ const Text = (text: string, className: string) => {
   return $text;
 };
 
+const StarButton = (index: number) =>
+  createElementWithAttribute("button", {
+    id: `${index}`,
+    class: "star-button",
+  });
+
+const StarImg = (index: number, rate: number) =>
+  createElementWithAttribute("img", {
+    src: index * 2 <= rate ? filledStar : emptyStar,
+    alt: "star",
+    class: "rate-star",
+  });
+
 const Stars = (rate: number) => {
   const $stars = createElementWithAttribute("div", { class: "stars" });
   for (let i = 1; i <= 5; i += 1) {
-    const $starButton = createElementWithAttribute("button", {
-      id: `${i}`,
-      class: "star-button",
-    });
-    const $star = createElementWithAttribute("img", {
-      src: i * 2 <= rate ? filledStar : emptyStar,
-      alt: "star",
-      class: "rate-star",
-    });
+    const $starButton = StarButton(i);
+    const $star = StarImg(i, rate);
     $starButton.appendChild($star);
     $stars.appendChild($starButton);
   }
@@ -62,32 +67,40 @@ const rateStateContainer = (rate: number) => {
   return $rateStateContainer;
 };
 
+const handleRemovePreStar = (
+  target: HTMLElement,
+  $rateContainer: HTMLElement,
+) => {
+  const $prevStars = target.closest(".stars");
+  $prevStars?.remove();
+  const $prevStarsState = $rateContainer.querySelector(".rate-state-container");
+  $prevStarsState?.remove();
+};
+
+const handleClickStar = (
+  e: Event,
+  movieId: number,
+  $rateContainer: HTMLElement,
+) => {
+  const target = e.target as HTMLElement;
+  handleRemovePreStar(target, $rateContainer);
+
+  const clickedStarNumber = Number(target.closest("button")?.id) * 2;
+  $rateContainer.appendChild(Stars(clickedStarNumber));
+  $rateContainer.appendChild(rateStateContainer(clickedStarNumber));
+  setStarRate(movieId, clickedStarNumber);
+};
+
 const StarsContainer = ({ movieId, rate }: Rate) => {
   const $rateContainer = createElementWithAttribute("div", {
     class: "stars-container",
   });
 
-  const $stars = Stars(rate);
-  $rateContainer.appendChild($stars);
+  $rateContainer.appendChild(Stars(rate));
   $rateContainer.appendChild(rateStateContainer(rate));
 
   $rateContainer.addEventListener("click", (e) => {
-    const target = e.target as HTMLElement;
-
-    const closestButton = target.closest("button");
-    const $prevStars = target.closest(".stars");
-    const $prevStarsState = $rateContainer.querySelector(
-      ".rate-state-container",
-    );
-
-    if (closestButton) {
-      const clickedStarNumber = Number(closestButton.id) * 2;
-      $prevStars?.remove();
-      $rateContainer.appendChild(Stars(clickedStarNumber));
-      $prevStarsState?.remove();
-      $rateContainer.appendChild(rateStateContainer(clickedStarNumber));
-      setStarRate(movieId, clickedStarNumber);
-    }
+    handleClickStar(e, movieId, $rateContainer);
   });
 
   return $rateContainer;

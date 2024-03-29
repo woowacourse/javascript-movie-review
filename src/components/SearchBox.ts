@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import {
   ENTER_KEYCODE,
   SEARCH_BUTTON_TEXT,
@@ -8,22 +7,36 @@ import {
 import { movieDataStateStore } from "../model";
 import { handleGetSearchMovieData } from "../service/handleSkeletonAndAPI";
 import { createElementWithAttribute, debounceFunc } from "../utils";
+import removePrevItemView from "../utils/removePrevItemView";
 
 import renderItemView from "./ItemView";
+
+const changeSearchMode = () => {
+  const $logoImg = document.querySelector(".logo");
+  const $searchBox = document.querySelector(".search-box");
+  const $searchBoxMobile = document.querySelector(".search-box-mobile");
+
+  $logoImg?.classList.toggle("hide");
+  $searchBox?.classList.toggle("show");
+  $searchBoxMobile?.classList.toggle("none");
+};
+
+const initSearchBox = () => {
+  removePrevItemView();
+  changeSearchMode();
+};
 
 // SearchBox event ----
 const searchMovie = async () => {
   const $searchInput = document.querySelector("#search-input");
   if (!($searchInput instanceof HTMLInputElement)) return;
+  initSearchBox();
 
-  const title = $searchInput.value;
-  const $itemView = document.querySelector(".item-view");
-  $itemView?.remove();
-
-  await handleGetSearchMovieData(title, true);
+  $searchInput.value = "";
+  await handleGetSearchMovieData($searchInput.value, true);
 
   renderItemView({
-    titleText: TITLE_TEXT.SEARCH(title),
+    titleText: TITLE_TEXT.SEARCH($searchInput.value),
     movieData: movieDataStateStore.totalMovieData,
     listType: "search",
   });
@@ -86,16 +99,6 @@ const Button = () => {
   });
 
   return $button;
-};
-
-const changeSearchMode = () => {
-  const $logoImg = document.querySelector(".logo");
-  const $searchBox = document.querySelector(".search-box");
-  const $searchBoxMobile = document.querySelector(".search-box-mobile");
-
-  $searchBox?.classList.add("show");
-  $logoImg?.classList.add("hide");
-  $searchBoxMobile?.classList.add("none");
 };
 
 const ButtonMobile = () => {
