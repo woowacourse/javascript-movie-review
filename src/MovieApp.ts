@@ -26,6 +26,7 @@ class MovieApp {
     }
 
     this.#app.appendChild(this.#setHeader());
+    this.#addSearchButtonHoverEvent();
     this.#app.appendChild(this.#setMain());
     this.#app.appendChild(this.#modal.element);
     this.#movieController.render('');
@@ -86,6 +87,30 @@ class MovieApp {
     });
 
     this.#modal.replaceContent(movieDetail);
+  }
+
+  #addSearchButtonHoverEvent() {
+    $('.search-box')?.addEventListener('mouseover', () => {
+      const searchInput = $('#search-text') as HTMLInputElement;
+      const searchButton = $('.search-button') as HTMLButtonElement;
+
+      if (window.innerWidth <= 673) {
+        $('.title')?.classList.add('visibility-hidden');
+        searchInput.classList.add('show-input');
+        searchButton.style.pointerEvents = 'auto';
+      }
+    });
+
+    $('.search-box')?.addEventListener('mouseout', () => {
+      const searchInput = $('#search-text') as HTMLInputElement;
+      const searchButton = $('.search-button') as HTMLButtonElement;
+
+      if (window.innerWidth <= 673) {
+        $('.title')?.classList.remove('visibility-hidden');
+        searchInput.classList.remove('show-input');
+        searchButton.style.pointerEvents = 'none';
+      }
+    });
   }
 }
 
