@@ -40,6 +40,7 @@ const createMobileSearchButton = () => {
   const searchButton = createElement('button', {
     className: 'mobile-search-button mobile',
     textContent: '검색',
+    type: 'button',
   });
   return searchButton;
 };
