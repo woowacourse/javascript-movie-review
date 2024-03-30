@@ -136,8 +136,11 @@ class App {
   openModal() {
     this.modal.open();
   }
-  paintModal(node: Node) {
-    this.modalContent.$target.replaceWith(node, this.#createModalCloseButton());
+  paintModal(element: HTMLElement) {
+    element.appendChild(this.#createModalCloseButton());
+    this.modalContent.$target.replaceWith(element);
+    this.modalContent.$target = element;
+
     this.openModal();
   }
 }

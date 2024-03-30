@@ -49,11 +49,7 @@ class MovieListContainer {
 
   paintOverwrite(movies: IMovie[]) {
     movies.forEach(movie => {
-      const newMovie = new MovieItem(movie).$target;
-      newMovie.addEventListener('click', e => {
-        appInstance.paintModal(new MovieItemDetail(movie).$target);
-      });
-      this.$target.replaceChild(newMovie, this.$target.children[this.moviesCount]);
+      this.$target.replaceChild(new MovieItem(movie).$target, this.$target.children[this.moviesCount]);
       this.moviesCount += 1;
     });
     this.#deleteLastItems(this.$target.children.length - this.moviesCount);

@@ -2,6 +2,8 @@ import './MovieItem.css';
 
 import { IMovie } from '../../types/movie';
 import { dom } from '../../utils/dom';
+import appInstance from '../App/App';
+import MovieItemDetail from '../movieItemDetail/MovieItemDetail';
 
 const TEMPLATE = `
     <article class="item-card">
@@ -16,11 +18,15 @@ const TEMPLATE = `
 
 class MovieItem {
   $target: HTMLElement;
+  #movie: IMovie;
 
   constructor(movie: IMovie) {
     this.$target = document.createElement('li');
     this.$target.innerHTML = TEMPLATE;
+    this.#movie = movie;
     this.paint(movie);
+
+    this.$target.addEventListener('click', this.#onClickHandler.bind(this));
   }
 
   paint(movie: IMovie) {
@@ -37,6 +43,10 @@ class MovieItem {
   #formatScore(score: number) {
     const FORMAT_FIXED_DIGIT = 1;
     return score.toFixed(FORMAT_FIXED_DIGIT).toString();
+  }
+
+  #onClickHandler() {
+    appInstance.paintModal(new MovieItemDetail(this.#movie).$target);
   }
 }
 
