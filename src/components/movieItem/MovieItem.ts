@@ -47,6 +47,8 @@ class MovieItem {
   }
 
   #onClickHandler() {
+    console.log('a');
+
     appInstance.paintModal(new MovieItemDetail(this.#movie).$target);
   }
 }

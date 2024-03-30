@@ -34,7 +34,7 @@ class MovieListContainer {
     this.initPageNumber();
 
     try {
-      const { movies, totalPages } = await this.fetchMovies(this.page);
+      const { movies, totalPages } = await this.#fetchMovies(this.page);
       this.paintOverwrite(movies);
 
       if (this.$target.parentElement === null) return;
@@ -52,19 +52,19 @@ class MovieListContainer {
       this.$target.replaceChild(new MovieItem(movie).$target, this.$target.children[this.moviesCount]);
       this.moviesCount += 1;
     });
-    this.#deleteLastItems(this.$target.children.length - this.moviesCount);
+    this.#deleteLastNItems(this.$target.children.length - this.moviesCount);
   }
 
-  #deleteLastItems(deleteCount: number) {
+  #deleteLastNItems(deleteCount: number) {
     Array.from({ length: deleteCount }).forEach(() => {
       this.$target.removeChild(this.$target.lastChild!);
     });
   }
 
   async attach() {
-    this.$target.innerHTML += TEMPLATE;
+    this.$target.insertAdjacentHTML('beforeend', TEMPLATE);
     this.page += 1;
-    const { movies, totalPages } = await this.fetchMovies(this.page);
+    const { movies, totalPages } = await this.#fetchMovies(this.page);
 
     this.paintOverwrite(movies);
     if (this.$target.parentElement === null) return;
@@ -73,7 +73,7 @@ class MovieListContainer {
     if (this.page === totalPages) $moreButton.classList.add('hidden');
   }
 
-  async fetchMovies(page: number) {
+  async #fetchMovies(page: number) {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const mode = urlSearchParams.get('mode') ?? 'popular';
     const title = urlSearchParams.get('title') ?? '';
