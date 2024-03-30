@@ -1,7 +1,9 @@
 import EventComponent from "../abstract/EventComponent";
 import SkeletonUI from "../SkeletonUI";
-import QueryState from "../../states/QueryState";
 import APIError from "../../error/APIError";
+
+import QueryState from "../../states/QueryState";
+import MovieState from "../../states/MovieState";
 
 import { generateMovieItems } from "../templates/generateMovieItems";
 import {
@@ -17,20 +19,28 @@ import { FetchedMovieData } from "../../types/movies";
 
 interface MovieListProps {
   targetId: TargetId;
-  queryState: QueryState;
   skeletonUI: SkeletonUI;
+  queryState: QueryState;
+  movieState: MovieState;
 }
 
 export default class MovieList extends EventComponent {
   private page = 1;
-  private queryState: QueryState;
   private skeletonUI: SkeletonUI;
+  private queryState: QueryState;
+  private movieState: MovieState;
   private movieList: FetchedMovieData;
 
-  constructor({ targetId, queryState, skeletonUI }: MovieListProps) {
+  constructor({
+    targetId,
+    queryState,
+    movieState,
+    skeletonUI,
+  }: MovieListProps) {
     super({ targetId });
-    this.queryState = queryState;
     this.skeletonUI = skeletonUI;
+    this.queryState = queryState;
+    this.movieState = movieState;
     this.movieList = {} as FetchedMovieData;
   }
 
@@ -68,6 +78,10 @@ export default class MovieList extends EventComponent {
 
   protected setEvent(): void {
     window.addEventListener("scroll", throttle(this.onScroll.bind(this), 500));
+    $(this.targetId)?.addEventListener(
+      "click",
+      this.openMovieDetailModal.bind(this)
+    );
   }
 
   private onScroll() {
@@ -76,6 +90,22 @@ export default class MovieList extends EventComponent {
       document.documentElement.scrollHeight
     ) {
       this.loadMoreMovies();
+    }
+  }
+
+  private openMovieDetailModal(event: Event): void {
+    event.preventDefault();
+    const target = event.target;
+
+    if (target instanceof HTMLElement) {
+      const clickedMovieId = target.closest("li")?.dataset.movieId;
+
+      if (clickedMovieId) {
+        this.movieState.set(Number(clickedMovieId));
+        console.log("movieState", this.movieState.get());
+        $<HTMLElement>("movie-detail-modal")?.classList.remove("modal");
+        $<HTMLElement>("movie-detail-modal")?.classList.add("modal-open");
+      }
     }
   }
 

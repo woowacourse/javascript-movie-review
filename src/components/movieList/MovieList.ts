@@ -1,5 +1,6 @@
 import EventComponent from "../abstract/EventComponent";
 import SkeletonUI from "../SkeletonUI";
+import APIError from "../../error/APIError";
 
 import QueryState from "../../states/QueryState";
 import MovieState from "../../states/MovieState";
@@ -11,8 +12,6 @@ import {
 } from "../templates/generateUnexpectedScreen";
 
 import { getPopularMovieList, getSearchMovieList } from "../../apis/movieList";
-import APIError from "../../error/APIError";
-
 import { $ } from "../../utils/dom";
 import { throttle } from "../../utils/throttle";
 import { HTMLTemplate, TargetId, Query } from "../../types/common";
@@ -34,9 +33,9 @@ export default class MovieList extends EventComponent {
 
   constructor({
     targetId,
-    skeletonUI,
     queryState,
     movieState,
+    skeletonUI,
   }: MovieListProps) {
     super({ targetId });
     this.skeletonUI = skeletonUI;
@@ -103,6 +102,7 @@ export default class MovieList extends EventComponent {
 
       if (clickedMovieId) {
         this.movieState.set(Number(clickedMovieId));
+        console.log("movieState", this.movieState.get());
         $<HTMLElement>("movie-detail-modal")?.classList.remove("modal");
         $<HTMLElement>("movie-detail-modal")?.classList.add("modal-open");
       }
