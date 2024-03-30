@@ -5,8 +5,8 @@ import isHTMLElement from '../../utils/isHTMLElement';
 import { TotalMovieItemProps } from '../../types/movie';
 import isElement from '../../utils/isElement';
 import getMovieDataByKeyword from '../../services/getMovieDataByKeyword';
-import { initializeInfiniteScroll } from '../ShowMoreButton/infiniteScrollHandler';
-import { renderNoMoreDataText } from '../ShowMoreButton/infiniteScrollHandler';
+import { initializeInfiniteScroll } from '../MovieContainer/infiniteScrollHandler';
+import { renderNoMoreDataText } from '../MovieContainer/infiniteScrollHandler';
 import MovieStorageService from '../../services/MovieStorageService';
 
 type SearchType = 'web' | 'mobile';
@@ -62,9 +62,7 @@ const selectTargetInputAndRender = (targetInputClass: '.mobile-search-input' | '
   input.value = '';
 };
 
-const searchKeywordSubmit = (event: Event, searchType: SearchType) => {
-  event.preventDefault();
-
+const searchKeywordSubmit = (searchType: SearchType) => {
   const targetInputClass = searchType === 'mobile' ? '.mobile-search-input' : '.web-search-input';
 
   removeExistingNoMoreDataText();
@@ -78,7 +76,8 @@ export const onSearchMovieByKeyword = (searchType: SearchType) => {
   if (!form) return;
 
   form.addEventListener('submit', (event) => {
-    searchKeywordSubmit(event, searchType);
+    event.preventDefault();
+    searchKeywordSubmit(searchType);
   });
 };
 
@@ -99,9 +98,10 @@ const showMobileInputAndButton = (event: Event) => {
   event.stopPropagation();
   const mobileSearchInput = document.querySelector('.mobile-search-input');
   const mobileSubmitButton = document.querySelector('.mobile-submit-button');
-  if (!isElement(mobileSearchInput)) return;
-  if (!isElement(mobileSubmitButton)) return;
+  const headerBannerWrapper = document.querySelector('.header-banner-wrapper');
+  if (!isElement(mobileSearchInput) || !isElement(mobileSubmitButton) || !isElement(headerBannerWrapper)) return;
   [mobileSearchInput, mobileSubmitButton].forEach((element) => element.classList.add('visible'));
+  headerBannerWrapper.classList.add('hide');
 };
 
 export const onMobileToggleButton = () => {
@@ -109,21 +109,4 @@ export const onMobileToggleButton = () => {
   if (!isElement(mobileToggleButton)) return;
 
   mobileToggleButton.addEventListener('click', (event) => showMobileInputAndButton(event));
-  mobileToggleButton.classList.add('hide');
-};
-
-const mobileInputEnterSearch = (event: KeyboardEvent, mobileSearchInput: HTMLInputElement) => {
-  removeExistingNoMoreDataText();
-  if (event.key === 'Enter') {
-    event.preventDefault();
-    const keyword = mobileSearchInput.value;
-    validateAndLoadMovieList(keyword);
-    mobileSearchInput.value = '';
-  }
-};
-
-export const onEnterMovieKeywordMobileInput = () => {
-  const mobileSearchInput = document.querySelector('.mobile-search-input') as HTMLInputElement;
-  if (!isElement(mobileSearchInput)) return;
-  mobileSearchInput.addEventListener('keypress', (event) => mobileInputEnterSearch(event, mobileSearchInput));
 };
