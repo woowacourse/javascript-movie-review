@@ -22,9 +22,8 @@ const MovieItemManager = {
             alt="${movie.title}"
           />
           <p class="item-title">${movie.title}</p>
-          <p class="item-score">${movie.vote_average.toFixed(
-            1,
-          )}<img src=${STAR_FILLED} alt="별점" /></p>
+          <p class="item-score">
+          <span>${movie.vote_average.toFixed(1)}<img src=${STAR_FILLED} alt="별점" /></span></p>
         </div>
       </a>
       `;

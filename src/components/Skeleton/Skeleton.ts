@@ -9,9 +9,6 @@ const Skeleton = {
     skeleton.classList.add('item-list', 'item-list--skeleton');
     skeleton.innerHTML = this.get(count);
 
-    // const showMoreButton = $('.btn');
-    // showMoreButton?.insertAdjacentElement('beforebegin', skeleton);
-
     return skeleton;
   },
 

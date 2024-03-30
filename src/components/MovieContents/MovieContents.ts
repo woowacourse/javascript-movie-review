@@ -15,7 +15,7 @@ const MovieContentManager = {
       <section class="item-view">
         <h2>${title}</h2>
         <div class="item-container"></div>
-        <button class="btn primary full-width">더 보기</button>
+        <div class="scroll-end"></div>
       </section>
       `;
 
@@ -31,7 +31,7 @@ const MovieContentManager = {
     MovieListManager.renderMovieList(movieList, isLastPage);
 
     if (!isLastPage) {
-      this.setEventListener(movie, { type, input });
+      this.setIntersectionObserver(movie, { type, input });
     }
   },
 
@@ -39,15 +39,26 @@ const MovieContentManager = {
     $('.item-container')?.appendChild(Skeleton.render(20));
 
     const { movieList, isLastPage } = await movie.handleMovieData(type, input);
+
     return { movieList, isLastPage };
   },
 
-  setEventListener(movie: Movie, { type, input }: PropsType) {
-    $('.btn')?.addEventListener('click', async () => {
-      const { movieList, isLastPage } = await this.setMovieData(movie, { type, input });
+  setIntersectionObserver(movie: Movie, { type, input }: PropsType) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(async (entry) => {
+        if (entry.isIntersecting) {
+          const { movieList, isLastPage } = await this.setMovieData(movie, { type, input });
+          MovieListManager.renderMovieList(movieList, isLastPage);
 
-      MovieListManager.renderMovieList(movieList, isLastPage);
+          if (isLastPage) {
+            observer.disconnect();
+          }
+        }
+      });
     });
+
+    const target = $('.scroll-end');
+    observer.observe(target!);
   },
 };
 

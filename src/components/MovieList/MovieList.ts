@@ -16,13 +16,8 @@ const MovieListManager = {
     });
 
     Skeleton.remove();
-    this.removeButtonIfLastPage(isLastPage);
 
     return $('.item-container')?.appendChild(ul);
-  },
-
-  removeButtonIfLastPage(isLastPage: boolean) {
-    if (isLastPage) $('.btn')?.remove();
   },
 };
 

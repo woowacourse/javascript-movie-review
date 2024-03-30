@@ -6,19 +6,23 @@
 .item-thumbnail {
   border-radius: 8px;
   background-size: contain;
+  height: 550px;
 }
 
 .item-title {
   margin-top: 16px;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
 .item-score {
+  margin-top: 16px;
+}
+
+.item-score span {
   display: flex;
   align-items: center;
-  margin-top: 16px;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   gap: 11px;
 }
 
