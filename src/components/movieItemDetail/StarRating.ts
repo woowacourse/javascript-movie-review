@@ -1,7 +1,5 @@
 import StarToggle from './StarToggle';
 
-const SCORE_PER_STAR_RATING = 2;
-
 class StarRating {
   #starCount: number = 5;
   $target: HTMLDivElement = document.createElement('div');

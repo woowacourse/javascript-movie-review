@@ -5,8 +5,9 @@ import './MovieItemDetail.css';
 import { IMovie } from '../../types/movie';
 import { dom } from '../../utils/dom';
 
-import CloseButton from '../common/button/CloseButton';
 import StarRating from './StarRating';
+
+const SCORE_PER_STAR_RATING = 2;
 
 class MovieItemDetail {
   $target: HTMLElement = document.createElement('article');
@@ -86,7 +87,8 @@ class MovieItemDetail {
 
     $rating.$target.addEventListener('click', (e: MouseEvent) => {
       if (!(e.target instanceof HTMLImageElement)) return;
-      $ratingCaption.innerText = Ratings[$rating.clickedId];
+      const score = SCORE_PER_STAR_RATING * ($rating.clickedId + 1);
+      $ratingCaption.innerText = `${score} ${Ratings[$rating.clickedId]}`;
     });
 
     return $ratingCaption;
