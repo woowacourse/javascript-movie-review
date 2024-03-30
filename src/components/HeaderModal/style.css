@@ -1,0 +1,42 @@
+.modal--header {
+  height       : 5vh;
+  width        : 100%;
+  min-width    : 0;
+  border-bottom: 1px solid #F1F1F140;
+  margin       : 0;
+  position     : relative;
+  border-radius: 8px 8px 0px 0px;
+
+  justify-content: flex-end;
+}
+
+.modal--title {
+  position     : absolute;
+  display      : inline-block;
+  max-width    : 60vw;
+  overflow     : hidden;
+  white-space  : nowrap;
+  text-overflow: ellipsis;
+  word-break   : break-all;
+
+
+  font-family   : Roboto;
+  font-size     : 2vh;
+  font-weight   : 600;
+  line-height   : 5vh;
+  letter-spacing: 0.15px;
+
+  left     : 50%;
+  transform: translate(-50%, 0%)
+}
+
+.modal--close-button {
+  width        : 3.8vh;
+  height       : 3.8vh;
+  border-radius: 50%;
+  background   : #383839;
+
+  font-size: 2vh;
+  color    : #F1F1F1;
+  border   : 0px;
+}
