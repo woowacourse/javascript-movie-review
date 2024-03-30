@@ -1,8 +1,31 @@
+.modal {
+  display: none;
+}
+
+.modal--open {
+  display: block;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  background: rgba(0, 0, 0, 0.6);
+}
+
 .movie-detail-container {
   display: flex;
   align-items: center;
   flex-direction: column;
   width: 826px;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
   background-color: #222222;
   font-size: 16px;
@@ -63,7 +86,8 @@
 
 .detail-description {
   overflow-y: auto;
-  min-height: 40vh;
+  min-height: 20vh;
+  max-height: 40vh;
 }
 
 .detail-rate-box {
