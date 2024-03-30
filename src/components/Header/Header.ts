@@ -1,17 +1,11 @@
 import { renderHandler } from './render';
-import {
-  onSearchMovieByKeyword,
-  onReloadPage,
-  onMobileToggleButton,
-  onEnterMovieKeywordMobileInput,
-} from './eventHandler';
+import { onSearchMovieByKeyword, onReloadPage, onMobileToggleButton } from './eventHandler';
 
 function Header() {
   const headerComponent = renderHandler();
   onMobileToggleButton();
   onSearchMovieByKeyword('web');
   onSearchMovieByKeyword('mobile');
-  onEnterMovieKeywordMobileInput();
   onReloadPage();
 
   return headerComponent;
