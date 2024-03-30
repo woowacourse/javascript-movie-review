@@ -4,6 +4,8 @@ import starEmptyImage from '../assets/images/star_empty.png';
 import starFillImage from '../assets/images/star_filled.png';
 import { MOVIE_IMAGE_BASE_URL } from '../constants/tmdbConstants';
 
+import addHoverEventToStar from '../css/userStarCss';
+
 // eslint-disable-next-line no-unused-vars
 const RATING_MESSAGES: Record<string, string> = {
   0: '별점 미등록',
@@ -17,6 +19,7 @@ const RATING_MESSAGES: Record<string, string> = {
 function closeModal() {
   const modal = document.getElementById('movie-detail-modal') as HTMLDialogElement;
   document.body.classList.remove('no-scroll-y');
+  modal.innerHTML = '';
   modal.close();
 }
 
@@ -82,15 +85,23 @@ function createDescription(overview: string) {
   return description;
 }
 
-// eslint-disable-next-line max-lines-per-function
+const clickStarHandler = () => {
+  // TODO: 1. 별 색상 변경
+  // TODO: 2. 로컬 스토리지에 별점 정보 저장
+};
+
+function createStarBox(index: number) {
+  const starBox = document.createElement('span');
+  starBox.setAttribute('data-star-id', String(index));
+  starBox.innerHTML = `<img src=${starEmptyImage} alt='star' class='star-image'></img>`;
+  starBox.addEventListener('click', clickStarHandler);
+  return starBox;
+}
+
 function createRateStars() {
   const STAR_COUNT = 5;
   return Array.from({ length: STAR_COUNT }, (_, index) => {
-    const starBox = document.createElement('span');
-    starBox.innerHTML = `<img src=${starEmptyImage} alt='star' data-star-id="${index}" class='star-image'></img>`;
-    starBox.addEventListener('click', () => {
-      // TODO: 별 눌렀을 때의 이벤트 만들기
-    });
+    const starBox = createStarBox(index);
     return starBox;
   });
 }
@@ -180,6 +191,7 @@ async function renderMovieDetailModal(id: number) {
   modal.append(createMovieDetailContainer(movieResponse));
   document.body.classList.add('no-scroll-y');
   modal.showModal();
+  addHoverEventToStar();
 }
 
 export default renderMovieDetailModal;
