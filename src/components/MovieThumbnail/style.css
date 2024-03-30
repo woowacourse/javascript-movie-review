@@ -1,0 +1,6 @@
+.movie-thumbnail {
+  border-radius  : 8px;
+  width          : 180px;
+  height         : 270px;
+  background-size: contain;
+}

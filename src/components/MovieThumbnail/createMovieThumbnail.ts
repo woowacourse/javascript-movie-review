@@ -1,5 +1,5 @@
 import createElement from "../../utils/createElement";
-import { createMovieThumbnailSkeleton } from "./utils/createMovieSkeleton";
+import { createMovieThumbnailSkeleton } from "../MoviePreview/utils/createMovieSkeleton";
 
 class MovieThumbnail {
   element = createElement<HTMLDivElement>("div");
