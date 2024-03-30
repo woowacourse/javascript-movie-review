@@ -22,6 +22,7 @@ function closeModal() {
 
 function createMovieTitle(title: string) {
   const titleDiv = document.createElement('div');
+  titleDiv.className = 'one-line-ellipsis max-width-60';
   titleDiv.innerText = title;
   return titleDiv;
 }
@@ -32,7 +33,7 @@ function createModalCloseButton() {
   const closeImage = document.createElement('img');
   closeImage.src = XImage;
   closeImage.alt = 'close-button';
-  closeImage.addEventListener('click', closeModal);
+  button.addEventListener('click', closeModal);
   button.append(closeImage);
   return button;
 }
@@ -59,7 +60,7 @@ function createTMDBRatingBox(movieRating: number) {
   const star = document.createElement('img');
   star.src = starFillImage;
   const rateNumber = document.createElement('span');
-  rateNumber.innerText = String(movieRating);
+  rateNumber.innerText = String(movieRating.toFixed(1));
   rateBox.append(star, rateNumber);
   return rateBox;
 }
@@ -76,7 +77,8 @@ function createGenreAndRating(movieGenres: genre[], movieRating: number) {
 
 function createDescription(overview: string) {
   const description = document.createElement('div');
-  description.innerText = overview;
+  const NO_OVERVIEW = '줄거리가 없습니다.';
+  description.innerText = overview || NO_OVERVIEW;
   return description;
 }
 

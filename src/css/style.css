@@ -91,7 +91,12 @@ dialog::backdrop {
 }
 
 .movie-detail-info > div:nth-child(2) {
-  flex-grow: 1;
+  height: 280px;
+  line-height: 20px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 14;
+  -webkit-box-orient: vertical;
 }
 
 .movie-detail-info > div:last-child {
@@ -117,4 +122,14 @@ dialog::backdrop {
 .star-image {
   height: 32px;
   width: 32px;
+}
+
+.one-line-ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.max-width-60 {
+  max-width: 60%;
 }

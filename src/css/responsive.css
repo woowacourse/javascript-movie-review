@@ -19,6 +19,13 @@
   .movie-detail-image {
     display: none;
   }
+  .movie-detail-info {
+    height: 280px;
+  }
+  .movie-detail-info > div:nth-child(2) {
+    height: 160px;
+    -webkit-line-clamp: 8;
+  }
   .result-string {
     display: none;
   }
