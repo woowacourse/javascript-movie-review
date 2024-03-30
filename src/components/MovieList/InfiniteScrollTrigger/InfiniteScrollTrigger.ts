@@ -4,7 +4,9 @@ import MovieStore from '../../../stores/movieStore';
 
 const createScrollTrigger = () => {
   const $infiniteScrollTrigger = document.createElement('div');
-  $infiniteScrollTrigger?.classList.add(SELECTORS.infiniteScrollTrigger);
+
+  const { trigger } = SELECTORS.INFINITE_SCROLL_TRIGGER;
+  $infiniteScrollTrigger?.classList.add(trigger);
 
   return $infiniteScrollTrigger;
 };
@@ -28,9 +30,8 @@ const observerCallback = () => {
 
 const observer = new IntersectionObserver(
   (entries) => {
-    const $trigger = document.querySelector(
-      `.${SELECTORS.infiniteScrollTrigger}`,
-    );
+    const { trigger } = SELECTORS.INFINITE_SCROLL_TRIGGER;
+    const $trigger = document.querySelector(`.${trigger}`);
 
     entries.forEach((entry) => {
       if (entry.isIntersecting && $trigger) {
