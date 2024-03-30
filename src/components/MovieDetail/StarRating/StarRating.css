@@ -1,0 +1,58 @@
+.star-rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+
+  border-radius: 16px;
+  background-color: #383839;
+  padding: 16px 20px;
+
+  width: 100%;
+}
+
+.star-rating > p {
+  white-space: nowrap;
+}
+
+.star-rating-label {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+
+.star-rating-board {
+  min-width: max-content;
+}
+
+.star-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.star-icon:hover {
+  cursor: pointer;
+}
+
+.rating-score {
+  width: 18px;
+}
+
+.rating-description {
+  display: block;
+  width: 117px;
+}
+
+@media screen and (max-width: 768px) {
+  /* TODO: 크기를 더 세분화해서 레이아웃 바꾸기 */
+  .star-rating {
+    margin-top: 48px;
+    min-width: fit-content;
+  }
+
+  .rating-description {
+    display: none;
+  }
+}

@@ -25,14 +25,35 @@ const MOVIE_DETAIL_MODAL = Object.freeze({
   poster: 'movie-poster',
 });
 
-const SELECTORS = {
-  // movieListSection: 'item-view',
-  // movieList: 'item-list',
+const MOVIE_DETAIL = Object.freeze({
+  container: 'movie-detail',
+  header: 'movie-detail-header',
+  genre: 'genre',
 
+  // TODO: VotingAverage 컴포넌트로 분리
+  votingAverage: 'voting-average',
+  votingAverageIcon: 'voting-average-icon',
+  votingAverageScore: 'voting-average-score',
+
+  overview: 'movie-detail-overview',
+});
+
+const STAR_RATING = Object.freeze({
+  container: 'star-rating',
+  label: 'star-rating-label',
+  board: 'star-rating-board',
+  icon: 'star-icon',
+  score: 'rating-score',
+  description: 'rating-description',
+});
+
+const SELECTORS = {
   INFINITE_SCROLL_TRIGGER,
   MOVIE_ITEM,
   MODAL,
   MOVIE_DETAIL_MODAL,
+  MOVIE_DETAIL,
+  STAR_RATING,
 };
 
 export default SELECTORS;
