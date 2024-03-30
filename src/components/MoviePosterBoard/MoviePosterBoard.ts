@@ -122,7 +122,7 @@ class MoviePosterBoard {
         movieName
       );
       this.deleteLastPosters(numberOfPosters);
-      if (fetchedMovieInfo) this.addMoviePoster(fetchedMovieInfo);
+      if (fetchedMovieInfo.length) this.addMoviePoster(fetchedMovieInfo);
       else this.notFoundMovie(movieName);
 
       if (observer) this.observeLastItem(observer);
