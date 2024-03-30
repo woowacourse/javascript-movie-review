@@ -62,10 +62,16 @@
   stroke-width: 5;
 }
 
-.movie-description-image {
+.movie-description-image-container {
   width: 356px;
   height: 433px;
-  margin: 32px;
+  padding: 0px 32px;
+  display: flex;
+}
+
+.movie-description-image {
+  width: 292px;
+  height: 433px;
 }
 
 .modal-review-detail-section {
@@ -158,6 +164,10 @@
   }
 
   .movie-description-image {
+    display: none;
+  }
+
+  .movie-description-image-container {
     display: none;
   }
 

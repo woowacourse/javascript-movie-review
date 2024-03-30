@@ -8,11 +8,11 @@ import type { MovieDetailInterface, RateDetail } from '../../../domain/MovieDeta
 import { querySelector } from '../../../utils/dom/selector';
 
 import { ELEMENT_SELECTOR } from '../../../constants/selector';
+import { DEFAULT_IMAGE_URL } from '../../../constants/movie';
 
 import { FilledStar } from '../../../assets';
 
 import './MovieReviewDetailModal.css';
-import { DEFAULT_IMAGE_URL } from '../../../constants/movie';
 
 type MovieReviewDetailModalProps = MovieDetailInterface & Pick<RateDetail, 'ratingScore'>;
 
@@ -38,7 +38,7 @@ class MovieReviewDetailModal extends Component<MovieReviewDetailModalProps> {
   }
 
   protected createComponent() {
-    const genres = this.props?.genres || '장르 없음';
+    const genres = this?.props?.genres || '장르 없음';
     const overview = this.props?.overview || '설명이 존재하지 않습니다.';
 
     return /* html */ `
@@ -46,16 +46,17 @@ class MovieReviewDetailModal extends Component<MovieReviewDetailModalProps> {
         <span id="modal-review-detail-title">${this.props?.title}</span>
       </nav>
       <article class="modal-review-detail-content">
-        <img 
-          id="movie-description-image" 
-          class="movie-description-image"
-          src="${this.props?.image ?? DEFAULT_IMAGE_URL}"
-          onerror="
-            this.style.border='1px solid #e2e2e2';
-            this.src='${DEFAULT_IMAGE_URL}'
-          "
-          
-        />
+        <div id="movie-description-image-container" class="movie-description-image-container">
+          <img 
+            id="movie-description-image" 
+            class="movie-description-image"
+            src="${this.props?.image ?? DEFAULT_IMAGE_URL}"
+            onerror="
+              this.style.border='1px solid #e2e2e2';
+              this.src='${DEFAULT_IMAGE_URL}'
+            "
+          />
+        </div>
         <section id="modal-review-detail-section" class="modal-review-detail-section">
           <div class="movie-description-container text-body">
             <p class="movie-description-title"><span id="movie-genre" class="movie-genre">${genres}</span> <img class="movie-title-image" src="${FilledStar}" /> <span id="movie-score" class="movie-score">${
