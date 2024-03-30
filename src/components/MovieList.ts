@@ -86,7 +86,9 @@ export default class MovieList extends Component<{}, MovieListState> {
     this.getNextPage()
       .then((data) => {
         if (!data || data.length < 20) {
-          this.renderEmptyResult();
+          if (this.state?.currentPage === 1) {
+            this.renderEmptyResult();
+          }
           return;
         }
         this.renderMovies(data);
