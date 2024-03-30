@@ -1,4 +1,4 @@
-import TMDBResponse from "../types/TMDBResponse";
+import { TMDBResponse, MovieInfo } from "../types/TMDBResponse";
 
 const options = {
   method: "GET",
@@ -32,4 +32,15 @@ export const fetchTargetMovie = async (
   const res = await fetch(url, options);
 
   return (await res.json()) as TMDBResponse;
+};
+
+export const fetchMovieDetail = async (
+  movieId: string | number
+): Promise<MovieInfo> => {
+  const id = typeof movieId === "string" ? parseInt(movieId) : movieId;
+  const url = `https://api.themoviedb.org/3/movie/${id}?language=ko-KR`;
+
+  const res = await fetch(url, options);
+
+  return (await res.json()) as MovieInfo;
 };
