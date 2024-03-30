@@ -81,7 +81,7 @@ class MovieItemDetail {
   }
 
   #createRatingCaption($rating: StarRating) {
-    const Ratings = ['최악이에요', '별로에요', '보통이에요', '좋아요', '최고에요'];
+    const Ratings = ['최악이에요', '별로예요', '보통이에요', '재미있어요', '명작이에요'];
     const $ratingCaption: HTMLLabelElement = document.createElement('label');
     $ratingCaption.innerText = '';
 
