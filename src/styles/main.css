@@ -47,3 +47,8 @@ button {
   height: 1px;
   overflow: hidden;
 }
+
+main {
+  display: flex;
+  justify-content: center;
+}
