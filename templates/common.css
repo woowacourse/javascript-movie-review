@@ -222,9 +222,9 @@ input {
   display: none;
 }
 
-/* .hide {
+.hide {
   display: none !important;
-} */
+}
 
 .visible {
   display: inline-block !important;
@@ -327,8 +327,8 @@ input {
   width: 60%;
   position: fixed;
   min-width: 60%;
-  height: 60%;
-  min-height: 60%;
+  height: 65%;
+  min-height: 65%;
 }
 
 /* 디테일 모달 컨텐츠 */
@@ -593,9 +593,9 @@ input {
 }
 
 @media (max-width: 390px) {
-  .header-banner-wrapper {
+  /* .header-banner-wrapper {
     display: none;
-  }
+  } */
 
   .item-list {
     grid-template-columns: repeat(2, 1fr);
