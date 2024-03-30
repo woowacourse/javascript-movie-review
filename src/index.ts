@@ -9,5 +9,5 @@ import './assets/images/image.png';
 
 import App from './components/App/App';
 
-const app = new App();
+const app = App;
 document.body.appendChild(app.$target);

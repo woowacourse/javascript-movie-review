@@ -137,7 +137,10 @@ class App {
     this.modal.open();
   }
   paintModal(node: Node) {
-    this.modalContent.$target.replaceWith(node);
+    this.modalContent.$target.replaceWith(node, this.#createModalCloseButton());
+    this.openModal();
   }
 }
-export default App;
+
+const appInstance = new App();
+export default appInstance;

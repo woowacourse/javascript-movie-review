@@ -6,6 +6,7 @@ import MovieItem from '../movieItem/MovieItem';
 import { InvalidRequestError } from '../../errors/error';
 import Modal from '../common/modal/Modal';
 import MovieItemDetail from '../movieItemDetail/MovieItemDetail';
+import appInstance from '../App/App';
 
 const MOVIE_ITEM_SKELETON_COUNT = 20;
 const TEMPLATE = `<li>
@@ -50,8 +51,7 @@ class MovieListContainer {
     movies.forEach(movie => {
       const newMovie = new MovieItem(movie).$target;
       newMovie.addEventListener('click', e => {
-        Modal.replace(new MovieItemDetail(movie).$target);
-        Modal.open();
+        appInstance.paintModal(new MovieItemDetail(movie).$target);
       });
       this.$target.replaceChild(newMovie, this.$target.children[this.moviesCount]);
       this.moviesCount += 1;
