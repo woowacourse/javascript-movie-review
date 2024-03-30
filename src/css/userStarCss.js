@@ -7,13 +7,13 @@ function addHoverEventToStar() {
   Array(STAR_COUNT)
     .fill(null)
     .forEach((_, index) => {
-      const star = document.querySelector(`span[data-star-id="${index}"]`);
+      const star = document.querySelector(`button[data-star-id="${index}"]`);
       star.addEventListener('mouseover', () => {
         Array(index + 1)
           .fill(null)
           .forEach((_, index2) => {
-            const span = document.querySelector(`span[data-star-id="${index2}"]`);
-            const img = span.querySelector('img');
+            const button = document.querySelector(`button[data-star-id="${index2}"]`);
+            const img = button.querySelector('img');
             img.style.filter = 'brightness(120%)';
           });
       });
@@ -21,8 +21,8 @@ function addHoverEventToStar() {
         Array(index + 1)
           .fill(null)
           .forEach((_, index2) => {
-            const span = document.querySelector(`span[data-star-id="${index2}"]`);
-            const img = span.querySelector('img');
+            const button = document.querySelector(`button[data-star-id="${index2}"]`);
+            const img = button.querySelector('img');
             img.style.filter = 'brightness(100%)';
           });
       });

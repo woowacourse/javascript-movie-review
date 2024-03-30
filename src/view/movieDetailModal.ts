@@ -6,15 +6,14 @@ import { MOVIE_IMAGE_BASE_URL } from '../constants/tmdbConstants';
 
 import addHoverEventToStar from '../css/userStarCss';
 
-// eslint-disable-next-line no-unused-vars
-const RATING_MESSAGES: Record<string, string> = {
+const RATING_MESSAGES = {
   0: '별점 미등록',
   2: '최악이에요',
   4: '별로예요',
   6: '보통이에요',
   8: '재밌어요',
   10: '명작이에요',
-};
+} as const;
 
 function closeModal() {
   const modal = document.getElementById('movie-detail-modal') as HTMLDialogElement;
@@ -85,16 +84,44 @@ function createDescription(overview: string) {
   return description;
 }
 
-const clickStarHandler = () => {
-  // TODO: 1. 별 색상 변경
+function changeStarImage(starId: number, parent: HTMLElement) {
+  const STAR_COUNT = 5;
+  Array(STAR_COUNT)
+    .fill(null)
+    .forEach((_, index) => {
+      const img = parent.querySelector(`[data-star-id="${index}"] > img`) as HTMLImageElement;
+      if (index <= starId) img.src = starFillImage;
+      if (index > starId) img.src = starEmptyImage;
+    });
+}
+
+function changeStarResult(starId: number, parent: HTMLElement) {
+  const rateResultNumber = parent.parentNode!.querySelector('.result-number') as HTMLSpanElement;
+  const rateResultString = parent.parentNode!.querySelector('.result-string') as HTMLSpanElement;
+  const score = ((starId + 1) * 2) as keyof typeof RATING_MESSAGES;
+  rateResultNumber.innerText = String(score);
+  rateResultString.innerText = RATING_MESSAGES[score];
+}
+
+function executeInterface(star: HTMLElement) {
+  const starId = Number(star.getAttribute('data-star-id'));
+  const parent = star.parentNode as HTMLElement;
+  changeStarImage(starId, parent);
+  changeStarResult(starId, parent);
+}
+
+const clickStarHandler = (e: any) => {
+  e.preventDefault();
+  const star = e.target.parentNode;
+  executeInterface(star);
   // TODO: 2. 로컬 스토리지에 별점 정보 저장
 };
 
 function createStarBox(index: number) {
-  const starBox = document.createElement('span');
+  const starBox = document.createElement('button');
   starBox.setAttribute('data-star-id', String(index));
   starBox.innerHTML = `<img src=${starEmptyImage} alt='star' class='star-image'></img>`;
-  starBox.addEventListener('click', clickStarHandler);
+  starBox.addEventListener('click', (e) => clickStarHandler(e));
   return starBox;
 }
 
@@ -108,14 +135,15 @@ function createRateStars() {
 
 function createRate() {
   const rateNumber = document.createElement('span');
-  rateNumber.innerText = '6';
-
+  rateNumber.innerText = '0';
+  rateNumber.style.width = '17px';
+  rateNumber.className = 'result-number';
   return rateNumber;
 }
 
 function createResult() {
   const rateString = document.createElement('span');
-  rateString.innerText = '별점 미등록';
+  rateString.innerText = RATING_MESSAGES[0];
   rateString.classList.add('result-string');
   rateString.style.minWidth = '100px';
   return rateString;
