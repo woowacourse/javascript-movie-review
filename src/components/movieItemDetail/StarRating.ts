@@ -1,9 +1,9 @@
 import StarToggle from './StarToggle';
 
 class StarRating {
-  #starCount: number = 5;
-  $target: HTMLDivElement = document.createElement('div');
-  #stars: StarToggle[] = [];
+  readonly #starCount: number = 5;
+  readonly $target: HTMLDivElement = document.createElement('div');
+  readonly #stars: StarToggle[] = [];
   clickedId: number = 0;
 
   constructor(starCount: number, onClick?: (e: MouseEvent) => void) {

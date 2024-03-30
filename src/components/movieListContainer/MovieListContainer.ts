@@ -20,7 +20,7 @@ const TEMPLATE = `<li>
 </li>`.repeat(MOVIE_ITEM_SKELETON_COUNT);
 
 class MovieListContainer {
-  $target: HTMLUListElement = document.createElement('ul');
+  readonly $target: HTMLUListElement = document.createElement('ul');
   page = 1;
   moviesCount = 0;
 

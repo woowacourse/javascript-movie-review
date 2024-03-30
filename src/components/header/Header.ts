@@ -13,8 +13,8 @@ const TEMPLATE = `
   </form>
 `;
 interface IHeaderProps {
-  imageSrc: string;
-  onSubmit?: (e: SubmitEvent) => void;
+  readonly imageSrc: string;
+  readonly onSubmit?: (e: SubmitEvent) => void;
 }
 class Header {
   $target: HTMLElement;

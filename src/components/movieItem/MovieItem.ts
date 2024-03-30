@@ -16,9 +16,11 @@ const TEMPLATE = `
     </article>
 `;
 
+const FORMAT_FIXED_DIGIT = 1;
+
 class MovieItem {
-  $target: HTMLElement;
-  #movie: IMovie;
+  readonly $target: HTMLElement;
+  readonly #movie: IMovie;
 
   constructor(movie: IMovie) {
     this.$target = document.createElement('li');
@@ -41,7 +43,6 @@ class MovieItem {
   }
 
   #formatScore(score: number) {
-    const FORMAT_FIXED_DIGIT = 1;
     return score.toFixed(FORMAT_FIXED_DIGIT).toString();
   }
 

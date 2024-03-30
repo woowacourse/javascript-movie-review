@@ -5,7 +5,7 @@ const onSrc = './images/star_filled.png';
 const offSrc = './images/star_empty.png';
 
 class StarToggle {
-  $target: HTMLImageElement = document.createElement('img');
+  readonly $target: HTMLImageElement = document.createElement('img');
   clicked = false;
   constructor(clicked?: boolean) {
     if (clicked !== undefined) {

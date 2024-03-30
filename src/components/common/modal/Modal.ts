@@ -4,17 +4,15 @@ import './Modal.css';
 const OPEN_CSS = 'modal-open';
 
 class Modal {
-  $target: HTMLDivElement = document.createElement('div');
-  $container: HTMLDivElement;
-  $backdrop: HTMLDivElement;
+  readonly $target: HTMLDivElement = document.createElement('div');
+  readonly $container: HTMLDivElement;
+  readonly $backdrop: HTMLDivElement;
 
   constructor() {
     this.$target.innerHTML = this.#template();
     this.$container = dom.getElement(this.$target, '.modal-container');
     this.$backdrop = dom.getElement(this.$target, '.modal-backdrop');
-    this.$backdrop.addEventListener('click', () => {
-      this.close();
-    });
+    this.$backdrop.addEventListener('click', this.close.bind(this));
 
     this.$target.classList.add('modal');
   }

@@ -1,12 +1,14 @@
 import './App.css';
+
 import { dom } from '../../utils/dom';
+
 import Header from '../header/Header';
 import MovieListContainer from '../movieListContainer/MovieListContainer';
 import Button from '../common/button/Button';
-import Toast from '../../Toast';
 import Modal from '../common/modal/Modal';
 import MovieItemDetail from '../movieItemDetail/MovieItemDetail';
 import CloseButton from '../common/button/CloseButton';
+import Toast from '../../Toast';
 
 const TEMPLATE = `
   <main>
@@ -19,11 +21,11 @@ const TEMPLATE = `
 `;
 
 class App {
-  $target: HTMLElement = document.createElement('div');
-  movieListContainer: MovieListContainer;
-  toast: Toast = new Toast('');
-  modalContent: MovieItemDetail = this.#createModalContent();
-  modal: typeof Modal = Modal;
+  readonly $target: HTMLElement = document.createElement('div');
+  readonly movieListContainer: MovieListContainer;
+  readonly toast: Toast = new Toast('');
+  readonly modalContent: MovieItemDetail = this.#createModalContent();
+  readonly modal: typeof Modal = Modal;
 
   constructor() {
     this.$target.id = 'app';
@@ -136,6 +138,7 @@ class App {
   openModal() {
     this.modal.open();
   }
+
   paintModal(element: HTMLElement) {
     element.appendChild(this.#createModalCloseButton());
     this.modalContent.$target.replaceWith(element);
