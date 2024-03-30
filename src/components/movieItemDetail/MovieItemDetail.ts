@@ -1,6 +1,7 @@
 import { IMovie } from '../../types/movie';
 import { dom } from '../../utils/dom';
 import './MovieItemDetail.css';
+import CloseButton from '../common/button/CloseButton';
 
 class MovieItemDetail {
   $target: HTMLElement = document.createElement('article');
@@ -55,6 +56,8 @@ class MovieItemDetail {
     $headerGenre.innerText = movie.genre.join(', ');
     $headerScore.innerText = this.#formatScore(movie.score);
     $explanation.innerText = movie.description;
+
+    dom.getElement(this.$target, '.movie-detail-header').append(new CloseButton().$target);
   }
 
   #formatScore(score: number) {
