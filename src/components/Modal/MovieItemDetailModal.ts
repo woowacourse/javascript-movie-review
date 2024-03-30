@@ -1,6 +1,7 @@
 import { fetchMovieDetail } from '../../domain/Movies/Request/sendRequest';
 import MovieData from '../../interfaces/MovieData';
-import MovieItemDetail from '../MovieItem/MovieItemDetail';
+import MovieItemDetailContentContainer from '../MovieItem/MovieItemDetailContentContainer';
+import MovieItemDetailTitleContainer from '../MovieItem/MovieItemDetailTitleContainer';
 import Modal from './Modal';
 
 const movieItemDetailContainer = document.createElement('div');
@@ -15,7 +16,8 @@ class MovieItemDetailModal extends Modal {
   async setDetailMovieData(movieData: MovieData) {
     const movieDetailData = await fetchMovieDetail(movieData.id);
 
-    MovieItemDetail.append(movieItemDetailContainer, () => super.close(), movieDetailData);
+    movieItemDetailContainer.appendChild(MovieItemDetailTitleContainer.create(() => super.close(), movieDetailData));
+    movieItemDetailContainer.appendChild(MovieItemDetailContentContainer.create(movieDetailData));
   }
 }
 
