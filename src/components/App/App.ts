@@ -23,7 +23,7 @@ class App {
   movieListContainer: MovieListContainer;
   toast: Toast = new Toast('');
   modalContent: MovieItemDetail = this.#createModalContent();
-  modal: Modal = new Modal([this.modalContent.$target]);
+  modal: typeof Modal = Modal;
 
   constructor() {
     this.$target.id = 'app';
@@ -31,6 +31,7 @@ class App {
     this.movieListContainer = new MovieListContainer();
 
     this.$target.append(this.modal.$target);
+    this.modal.append(this.modalContent.$target);
     this.modal.open(); // 임시
     this.#render();
     this.#setEvent();
@@ -130,6 +131,13 @@ class App {
       this.modal.close();
     });
     return $modalCloseButton.$target;
+  }
+
+  openModal() {
+    this.modal.open();
+  }
+  paintModal(node: Node) {
+    this.modalContent.$target.replaceWith(node);
   }
 }
 export default App;

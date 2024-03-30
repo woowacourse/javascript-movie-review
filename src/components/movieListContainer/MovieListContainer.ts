@@ -4,6 +4,8 @@ import { IMovie } from '../../types/movie';
 import { dom } from '../../utils/dom';
 import MovieItem from '../movieItem/MovieItem';
 import { InvalidRequestError } from '../../errors/error';
+import Modal from '../common/modal/Modal';
+import MovieItemDetail from '../movieItemDetail/MovieItemDetail';
 
 const MOVIE_ITEM_SKELETON_COUNT = 20;
 const TEMPLATE = `<li>
@@ -46,7 +48,13 @@ class MovieListContainer {
 
   paintOverwrite(movies: IMovie[]) {
     movies.forEach(movie => {
-      this.$target.replaceChild(new MovieItem(movie).$target, this.$target.children[this.moviesCount]);
+      const newMovie = new MovieItem(movie).$target;
+      newMovie.addEventListener('click', e => {
+        console.log(Modal);
+        Modal.replace(new MovieItemDetail(movie).$target);
+        Modal.open();
+      });
+      this.$target.replaceChild(newMovie, this.$target.children[this.moviesCount]);
       this.moviesCount += 1;
     });
     this.#deleteLastItems(this.$target.children.length - this.moviesCount);

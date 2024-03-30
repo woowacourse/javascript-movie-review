@@ -8,7 +8,7 @@ class Modal {
   $container: HTMLDivElement;
   $backdrop: HTMLDivElement;
 
-  constructor(children: HTMLElement[]) {
+  constructor() {
     this.$target.innerHTML = this.#template();
     this.$container = dom.getElement(this.$target, '.modal-container');
     this.$backdrop = dom.getElement(this.$target, '.modal-backdrop');
@@ -17,7 +17,6 @@ class Modal {
     });
 
     this.$target.classList.add('modal');
-    this.$container.append(...children);
   }
 
   #template() {
@@ -48,6 +47,11 @@ class Modal {
   append(node: Node) {
     this.$container.append(node);
   }
+
+  replace(node: Node) {
+    this.$container.replaceChildren(node);
+  }
 }
 
-export default Modal;
+const instance = new Modal();
+export default instance;
