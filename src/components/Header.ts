@@ -15,7 +15,7 @@ class Header extends Component<HeaderProps> {
       <h1 id="logo"><img src="${logo}" alt="MovieList 로고" /></h1>
       <div class="search-box">
           <form class="search-form">
-            <input id="search-input" type="text" name="search-input" placeholder="검색" required/>
+            <input id="search-input" type="text" name="search-input" placeholder="검색"/>
             <button id="search-button" type="submit" class="search-button">검색</button>
           </form>
       </div>
@@ -36,13 +36,28 @@ class Header extends Component<HeaderProps> {
       this.resetSearchForm();
     });
 
-    const inputElment = $<HTMLInputElement>("#search-input");
+    // const inputElment = $<HTMLInputElement>("#search-input");
+    const inputElment = document.querySelector<HTMLInputElement>("#search-input");
     const searchForm = $<HTMLFormElement>(".search-form");
-
-    searchForm?.addEventListener("submit", (e) => {
+    const $logo = document.querySelector<HTMLHeadingElement>("#logo");
+    if (!inputElment || !searchForm || !$logo) return;
+    searchForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      if (inputElment) {
+      const inputDisplay = getComputedStyle(inputElment).display;
+      if (inputDisplay === "inline-block") {
         onSearchKeywordSubmit(inputElment.value);
+      } else if (inputDisplay === "none") {
+        $logo.style.display = "none";
+        inputElment.style.display = "inline-block";
+      }
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth < 500) {
+        inputElment.style.display = "none";
+      } else {
+        $logo.style.display = "inline-block";
+        inputElment.style.display = "inline-block";
       }
     });
   }

@@ -161,9 +161,6 @@ header > .search-box {
 
 header .search-box > .search-form > #search-input {
   border: 0;
-  @media (max-width: 500px) {
-    width: 0px;
-  }
 }
 
 header .search-box > form > .search-button {
