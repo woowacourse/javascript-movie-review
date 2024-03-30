@@ -16,3 +16,14 @@
   background: url("./search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
 }
+
+@media (max-width: 400px) {
+  .search-box input {
+    width: 0px;
+  }
+
+  .search-box:hover input {
+    width: 50vw;
+    transition: 0.3s;
+  }
+}

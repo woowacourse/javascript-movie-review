@@ -1,6 +1,5 @@
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -18,4 +17,15 @@ header h1 {
   font-weight: bold;
   letter-spacing: -0.1rem;
   color: #f33f3f;
+}
+
+@media (max-width: 400px) {
+  header {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  header h1 {
+    display: none;
+  }
 }

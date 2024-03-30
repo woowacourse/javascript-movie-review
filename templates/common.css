@@ -63,3 +63,8 @@ button.primary {
 .display-none {
   display: none;
 }
+
+.invisible-element {
+  visibility: hidden;
+  width: 20px;
+}
