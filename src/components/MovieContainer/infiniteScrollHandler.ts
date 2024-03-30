@@ -21,7 +21,7 @@ export const getTotalApiUrl = (option: ShowMoreButtonOption, keyword: string, pa
 
 export const renderNoMoreDataText = (type: NoData) => {
   const noMoreText = createElement('h2', {
-    textContent: type === 'max' ? '더 이상 불러올 데이터가 존재하지 않아요!' : '검색 결과가 존재하지 않아요!',
+    textContent: type === 'max' ? '' : '검색 결과가 존재하지 않아요!',
     className: 'no-more-text',
   });
 
