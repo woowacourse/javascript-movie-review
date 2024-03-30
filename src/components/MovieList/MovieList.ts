@@ -4,7 +4,7 @@ import {
   fetchPopularMovies,
   fetchSearchMovies,
   processMovieRequestResults,
-} from '../../services/MovieService';
+} from '../../services/TMDBService';
 
 import MovieStore from '../../stores/movieStore';
 
