@@ -1,5 +1,5 @@
 const revealElement = (element: HTMLElement) => {
-  element.classList.remove("visibility-hidden-no-position");
+  element.classList.remove("display-none");
 };
 
 export default revealElement;

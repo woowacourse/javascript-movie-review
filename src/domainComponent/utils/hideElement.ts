@@ -1,5 +1,5 @@
 const hideElement = (element: HTMLElement) => {
-  element.classList.add("visibility-hidden-no-position");
+  element.classList.add("display-none");
 };
 
 export default hideElement;
