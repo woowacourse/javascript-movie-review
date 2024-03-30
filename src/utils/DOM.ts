@@ -13,10 +13,10 @@ const DOM = {
       alert(error);
     }
   },
-  $$: (selector: string) => {
+  $$: (selector: string, target: HTMLElement | Document = document) => {
     try {
       validateSelector(selector);
-      return document.querySelectorAll(selector);
+      return target.querySelectorAll(selector);
     } catch (error) {
       alert(error);
       return [];

@@ -13,6 +13,14 @@ class Movie {
     this.#page = 0;
   }
 
+  handleMovieData(type: string, input?: string) {
+    if (type === 'popular') {
+      return this.getMovieData();
+    }
+
+    return this.getSearchedData(input ?? '');
+  }
+
   getMovieData(): Promise<MovieData> {
     this.updatePage();
 
@@ -24,6 +32,8 @@ class Movie {
           poster_path: movie.poster_path,
           title: movie.title,
           vote_average: movie.vote_average,
+          genre_ids: movie.genre_ids,
+          overview: movie.overview,
         })),
         isLastPage,
       }))
@@ -32,14 +42,6 @@ class Movie {
         return { movieList: [], isLastPage: true };
       });
     return movieList;
-  }
-
-  handleMovieData(type: string, input?: string) {
-    if (type === 'popular') {
-      return this.getMovieData();
-    }
-
-    return this.getSearchedData(input ?? '');
   }
 
   async getSearchedData(input: string) {
@@ -53,6 +55,8 @@ class Movie {
           poster_path: movie.poster_path,
           title: movie.title,
           vote_average: movie.vote_average,
+          genre_ids: movie.genre_ids,
+          overview: movie.overview,
         })),
         isLastPage,
       }))
