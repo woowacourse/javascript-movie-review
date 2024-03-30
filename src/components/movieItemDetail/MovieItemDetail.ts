@@ -76,13 +76,14 @@ class MovieItemDetail {
     const starRating = new StarRating(starCount);
 
     const $ratingCaption = this.#createRatingCaption(starRating);
+    $ratingCaption.classList.add('font-body');
     return [$label, starRating.$target, $ratingCaption];
   }
-  
+
   #createRatingCaption($rating: StarRating) {
     const Ratings = ['최악이에요', '별로에요', '보통이에요', '좋아요', '최고에요'];
-    const $ratingCaption: HTMLDivElement = document.createElement('div');
-    $ratingCaption.innerText = 'a';
+    const $ratingCaption: HTMLLabelElement = document.createElement('label');
+    $ratingCaption.innerText = '';
 
     $rating.$target.addEventListener('click', (e: MouseEvent) => {
       if (!(e.target instanceof HTMLImageElement)) return;
