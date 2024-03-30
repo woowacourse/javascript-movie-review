@@ -1,25 +1,26 @@
 import BaseModal from "./BaseModal";
+import MovieState from "../../states/MovieState";
+
 import {
   generateEmptyMovieListScreen,
   generateNetworkNotWorkingScreen,
 } from "../templates/generateUnexpectedScreen";
-import MovieState from "../../states/MovieState";
+import { generateStarRating } from "../templates/generateStarRating";
+import { generateMovieDetailModal } from "../templates/generateMovieDetailModal";
 
 import APIError from "../../error/APIError";
 import { getMovieDetail } from "../../apis/movieList";
 
-import { HTMLTemplate, TargetId } from "../../types/common";
 import { $ } from "../../utils/dom";
+import { storage } from "../../utils/storage";
+
 import { MovieDetail } from "../../types/movies";
-import IMAGES from "../../images";
+import { HTMLTemplate, TargetId } from "../../types/common";
 
 interface MovieDetailModalProps {
   targetId: TargetId;
   movieState: MovieState;
 }
-
-// TODO: BASE_POSTER_URL이 generateMovieItems에서도 공통으로 사용됨 → 분리
-const BASE_POSTER_URL = "https://image.tmdb.org/t/p/w220_and_h330_face";
 
 export default class MovieDetailModal extends BaseModal {
   private movieState: MovieState;
@@ -42,41 +43,40 @@ export default class MovieDetailModal extends BaseModal {
   }
 
   protected getModalContent(): HTMLTemplate {
-    const { genres, overview, poster_path, title, vote_average } =
-      this.movieDetail;
+    const starRating = storage.get<Record<number, number>>("starRating") ?? {};
+    const rating = starRating[this.movieState.get() as number] ?? 0;
 
-    const genreNames = genres.map((genre) => genre.name).join(", ");
-
-    return `
-      <div class="modal-content">
-          <div class="modal-header">
-              <h2 class="modal-title">${title}</h2>
-              <button id="close-button" class="close-button">X</button>
-          </div>
-          <div class="modal-body">
-              <div class="modal-image">
-                  <img src="${BASE_POSTER_URL}/${poster_path}" alt="${title} thumbnail" />
-              </div>
-              <div class="modal-info">
-                <div>
-                  <div class="movie-genre">${genreNames}</div>
-                  <div class="movie-rating">
-                    <img src="${IMAGES.starFilled}" alt="별점" />
-                      ${vote_average}
-                    </div>
-                  </div>
-                  <div class="movie-overview">${overview}</div>
-              </div>
-          </div>
-      </div>
-    `;
+    return generateMovieDetailModal(this.movieDetail, rating);
   }
 
   protected setEvent(): void {
     super.setEvent();
 
     const $closeButton = $<HTMLElement>("close-button");
+    const $starRatingContainer = $<HTMLElement>("star-rating-container");
+
     $closeButton?.addEventListener("click", this.closeModal.bind(this));
+    $starRatingContainer?.addEventListener(
+      "click",
+      this.onStarRatingClick.bind(this)
+    );
+  }
+
+  private onStarRatingClick(event: Event): void {
+    const target = event.target as HTMLElement;
+    const starRatingIndex = target.dataset.index;
+
+    if (starRatingIndex) {
+      const rating = Number(starRatingIndex);
+      this.updateStarRating(this.movieState.get() as number, rating);
+    }
+  }
+
+  private updateStarRating(movieId: number, rating: number): void {
+    const starRating = storage.get<Record<number, number>>("starRating") ?? {};
+    starRating[movieId] = rating;
+
+    storage.set("starRating", starRating);
   }
 
   private handleError(error: unknown): void {
