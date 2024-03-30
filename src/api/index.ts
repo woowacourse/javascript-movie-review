@@ -1,7 +1,7 @@
 import HttpError from '../error/HttpError';
 import ERROR_MESSAGE from '../constants/api/messages';
 import { Movie, MoviePage } from '../domain/movie';
-import { TMDBMovieDetailsResponse, TMDBMoviesResponse } from '../types/tmdb';
+import { TMDBMovieResponse, TMDBMoviesResponse } from '../types/tmdb';
 
 /* eslint-disable max-depth */
 /* eslint-disable max-lines-per-function */
@@ -36,8 +36,11 @@ export class TMDBApi {
         throw error;
       }
       const data = await res.json();
-      const transformedData = this.transformToMoviePage(data);
-      return transformedData;
+      if (/^https:\/\/api\.themoviedb\.org\/3\/movie\/\d+/.test(url)) {
+        return data;
+      } else {
+        return this.transformToMoviePage(data);
+      }
     } catch (err) {
       throw err;
     }
@@ -52,7 +55,7 @@ export class TMDBApi {
     };
   }
 
-  private transformMovieData(movieDetails: TMDBMovieDetailsResponse): Movie {
+  private transformMovieData(movieDetails: TMDBMovieResponse): Movie {
     return {
       id: movieDetails.id,
       title: movieDetails.title,
