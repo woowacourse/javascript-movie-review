@@ -19,13 +19,20 @@ const MODAL = Object.freeze({
   closeBtn: 'modal-close-btn',
 });
 
+const MOVIE_DETAIL_MODAL = Object.freeze({
+  container: 'movie-detail-modal',
+  title: 'movie-title',
+  poster: 'movie-poster',
+});
+
 const SELECTORS = {
-  movieListSection: 'item-view',
-  movieList: 'item-list',
+  // movieListSection: 'item-view',
+  // movieList: 'item-list',
 
   INFINITE_SCROLL_TRIGGER,
   MOVIE_ITEM,
   MODAL,
+  MOVIE_DETAIL_MODAL,
 };
 
 export default SELECTORS;
