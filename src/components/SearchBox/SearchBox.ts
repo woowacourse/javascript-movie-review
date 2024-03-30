@@ -7,85 +7,114 @@ import searchIcon from '../../assets/search_button.png';
 class searchInputBox {
   currentPage: number = 1;
   totalPage: number = 1;
+  header;
+  headerLogo;
+
+  prevWidth = window.innerWidth;
 
   searchInputBox = document.createElement('form');
   searchInput = document.createElement('input');
   searchButton = document.createElement('button');
+  inputFoldButton = document.createElement('button');
+
   rerenderList;
 
   constructor(rerenderList: () => void) {
-    this.searchInputBox.classList.add('search-box');
+    this.header = document.querySelector('header') as HTMLElement;
+    this.headerLogo = document.querySelector('header > h1') as HTMLElement;
+
+    this.searchInputBox.classList.add('search-box', 'flex-center');
+    this.searchButton.id = 'search-button';
     this.rerenderList = rerenderList;
-    this.#setEvents();
+    this.createSearchInput();
+    this.createSearchButton();
+    this.createInputFoldButton();
+    this.render();
+    this.setEvents();
 
-    this.resize();
+    this.handleResize();
+    window.addEventListener('resize', () => {
+      this.handleResize();
+    });
   }
 
-  render() {
-    this.renderSearchInput();
-    const inputShowButton = this.renderInputShowButton();
+  render() {}
 
-    const headerBox = document.querySelector('header');
-    if (!headerBox) return;
-    headerBox.append(this.searchInputBox);
-    headerBox.append(inputShowButton);
-  }
-
-  resize() {
-    if (window.innerWidth <= 400) {
-      this.searchInputBox.classList.add('search-box-expand', 'hidden');
-      const logo = document.querySelector('header h1');
-
-      if (!logo) return;
-      logo.classList.add('hidden');
+  handleResize() {
+    if (window.innerWidth <= 600) {
+      this.searchInput.classList.add('search-input-expand');
+      if (this.searchInput.style.display === 'block') {
+        this.headerLogo.style.display = 'none';
+        this.inputFoldButton.style.display = 'block';
+      }
+    } else {
+      this.searchInput.classList.remove('search-input-expand');
+      this.headerLogo.style.display = 'block';
+      this.inputFoldButton.style.display = 'none';
     }
   }
 
-  renderSearchInput() {
+  createSearchInput() {
     this.searchInput.setAttribute('type', 'text');
     this.searchInput.setAttribute('placeholder', '검색');
-    this.searchInput.id = 'search-input';
 
-    this.searchButton.id = 'search-button';
-    this.searchButton.textContent = '검색';
+    this.searchInput.id = 'search-input';
 
     this.searchInputBox.append(this.searchInput);
     this.searchInputBox.append(this.searchButton);
+    this.header.append(this.searchInputBox);
   }
 
-  renderInputShowButton() {
-    const inputShowButton = document.createElement('button');
-    inputShowButton.id = 'input-show-button';
-
-    const searchImg = document.createElement('img');
-    searchImg.setAttribute('src', searchIcon);
-
-    inputShowButton.append(searchImg);
-
-    inputShowButton.addEventListener('click', () => {
-      inputShowButton.classList.add('hidden');
-      this.searchInputBox.classList.remove('hidden');
-
-      const logo = document.querySelector('header h1');
-      if (!logo) return;
-      this.searchInputBox.classList.toggle('search-box-expand');
-    });
-
-    this.searchInputBox.append(inputShowButton);
-    return inputShowButton;
+  createInputFoldButton() {
+    this.inputFoldButton.id = 'input-fold-button';
+    this.inputFoldButton.textContent = '>\nfold';
+    this.inputFoldButton.style.display = 'none';
+    this.header.prepend(this.inputFoldButton);
   }
 
-  #setEvents() {
-    this.searchInputBox.addEventListener('submit', (e: Event) => {
+  createSearchButton() {
+    const searchImage = document.createElement('img');
+    searchImage.id = 'search-icon';
+    this.searchButton.id = 'search-button';
+    this.searchButton.classList.add('flex-center');
+
+    searchImage.setAttribute('src', searchIcon);
+    this.searchButton.append(searchImage);
+  }
+
+  setEvents() {
+    this.setSubmitEvent();
+    this.setInputFoldButtonEvent();
+  }
+
+  setSubmitEvent() {
+    this.searchButton.addEventListener('click', e => {
       e.preventDefault();
-      setEndpoint(END_POINT.SEARCH);
-      setUrlParams(QUERY_STRING_KEYS.QUERY, this.searchInput.value);
-
+      if (this.searchInput.classList.contains('search-input-expand')) {
+        this.headerLogo.style.display = 'none';
+        this.searchInput.style.display = 'block';
+        this.inputFoldButton.style.display = 'block';
+        this.searchInput.focus();
+        this.headerLogo.style.display = 'none';
+        return;
+      }
       if (!this.searchInput.value.length) {
         this.searchInput.focus();
         return new Toast('검색어를 입력하세요.');
       }
+
+      setEndpoint(END_POINT.SEARCH);
+      setUrlParams(QUERY_STRING_KEYS.QUERY, this.searchInput.value);
       this.rerenderList();
+    });
+  }
+
+  setInputFoldButtonEvent() {
+    this.inputFoldButton.addEventListener('click', e => {
+      e.preventDefault();
+      this.searchInput.style.display = 'none';
+      this.inputFoldButton.style.display = 'none';
+      this.headerLogo.style.display = 'block';
     });
   }
 }
