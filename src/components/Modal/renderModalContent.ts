@@ -40,18 +40,17 @@ const createMovieDetailTitle = (movieTitle: string) => {
 
 /* eslint-disable  max-lines-per-function */
 const createMovieDetailImage = (imageSrc: string) => {
-  const imageContainer = createElement('div', {
-    className: 'detail-image-container',
+  const imageContainer = createElement<HTMLDivElement>('div', { className: 'detail-image-container' });
+  const image = createElement<HTMLImageElement>('img', {
+    src: defaultImageSrc,
+    alt: '포스터 이미지',
+    className: 'detail-image',
   });
 
-  const image = createElement('img', {
-    src: defaultImageSrc,
-    alt: '포스터이미지',
-    className: 'detail-image',
-  }) as HTMLImageElement;
-
   image.onload = () => {
-    image.src = `${BASE_IMAGE_URL}${DETAIL_IMAGE_WIDTH}${imageSrc}`;
+    if (image.src === defaultImageSrc) {
+      image.src = `${BASE_IMAGE_URL}${DETAIL_IMAGE_WIDTH}${imageSrc}`;
+    }
   };
 
   imageContainer.appendChild(image);
@@ -110,10 +109,11 @@ const createMovieDetailOverview = (movieOverview: string) => {
 };
 
 const createIndividualStarImage = (totalRate: number, currentRate: number) => {
-  const star = document.createElement('img');
-  star.src = totalRate <= currentRate ? filledStarImage : unfilledStarImage; // 채워진 별 또는 채워지지 않은 별 이미지
-  star.className = 'star';
-  star.setAttribute('data-rate', totalRate.toString());
+  const star = createElement<HTMLImageElement>('img', {
+    className: 'star',
+    rate: totalRate.toString(),
+    src: totalRate <= currentRate ? filledStarImage : unfilledStarImage,
+  });
 
   return star;
 };
@@ -230,7 +230,7 @@ const createMovieInfoContainer = ({ genres, vote_average, overview, star_rating 
 };
 
 /* eslint-disable  max-lines-per-function */
-const imageAndInfoComponent = ({
+const ImageAndInfoComponent = ({
   poster_path,
   genres,
   vote_average,
@@ -274,8 +274,8 @@ const renderModalContent = ({
   const movieDetailTitle = createMovieDetailTitle(title);
   movieDetailContainer.appendChild(movieDetailTitle);
 
-  const imageAndInfoContainer = imageAndInfoComponent({ poster_path, genres, vote_average, overview, star_rating });
-  movieDetailContainer.appendChild(imageAndInfoContainer);
+  const imageAndInfoComponent = ImageAndInfoComponent({ poster_path, genres, vote_average, overview, star_rating });
+  movieDetailContainer.appendChild(imageAndInfoComponent);
 
   const modalContainer = document.querySelector('.modal-container');
   if (!isElement(modalContainer)) return;
