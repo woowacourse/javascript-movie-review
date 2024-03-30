@@ -25,3 +25,8 @@ interface IGenre {
   id: number;
   name: string;
 }
+
+interface IVoteData {
+  id: number;
+  score: number;
+}

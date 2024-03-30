@@ -1,8 +1,9 @@
 import { $, createElement } from '../../utility/dom';
+import starFilledImage from '../../image/star_filled.png';
 import starEmptyImage from '../../image/star_empty.png';
 import modalCloseImage from '../../image/modal_close.png';
 import posterEmptyImg from '../../image/poster_empty.png';
-import { setItemToLocalStorage } from '../../utility/localStorage';
+import { addUserVotesToLocalStorage } from '../../utility/localStorage';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w220_and_h330_face';
 
@@ -174,14 +175,14 @@ class MovieModal {
           ) as HTMLButtonElement;
           const myVoteButtonWrapperElement = targetElement.closest(
             '.my-vote-button-wrapper',
-          );
+          ) as HTMLDivElement;
 
-          if (myVoteButtonWrapperElement && myVoteButtonElement) {
-            setItemToLocalStorage(
-              myVoteButtonWrapperElement.id,
-              myVoteButtonElement.value,
-            );
-          }
+          const voteData = {
+            id: Number(myVoteButtonWrapperElement.id),
+            score: Number(myVoteButtonElement.value),
+          };
+
+          addUserVotesToLocalStorage(voteData);
         }
       });
     }
