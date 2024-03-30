@@ -32,10 +32,8 @@ export const generateStarRating = (count: number = 0): HTMLTemplate => {
   const scoreDescription = createScoreDescription(count);
 
   return `
-    <div id="star-rating-container" class="star-rating-container">
-        <div>내 별점</div>
-        <div>${starsHtml}</div>
-        ${scoreDescription}
-    </div>
+    <div>내 별점</div>
+    <div>${starsHtml}</div>
+    ${scoreDescription}
   `;
 };

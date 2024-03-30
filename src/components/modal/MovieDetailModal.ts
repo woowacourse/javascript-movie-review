@@ -84,7 +84,6 @@ export default class MovieDetailModal extends BaseModal {
     const $starRatingContainer = $<HTMLElement>("star-rating-container");
     if (!$starRatingContainer) return;
     const newStarRatingHTML = generateStarRating(rating);
-
     $starRatingContainer.innerHTML = newStarRatingHTML;
   }
 

@@ -32,7 +32,9 @@ export const generateMovieDetailModal = (
                     </div>
                     </div>
                     <div class="movie-overview">${overview}</div>
-                    ${generateStarRating(rating)}
+                    <div id="star-rating-container" class="star-rating-container">
+                        ${generateStarRating(rating)}
+                    </div>
                 </div>
             </div>
         </div>
