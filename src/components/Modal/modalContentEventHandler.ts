@@ -1,10 +1,14 @@
 import isElement from '../../utils/isElement';
-import { createFiveStarRates } from './renderModalContent';
 import MATCHED_STAR_RATING, { STAR_RATES } from '../../constants/api/starRating';
 import { StarRate } from '../../types/movie';
 import MovieStorageService from '../../services/MovieStorageService';
 import HttpError from '../../error/HttpError';
 import ERROR_MESSAGE from '../../constants/api/messages';
+import filledStarImage from '../../../templates/star_filled.png';
+import unfilledStarImage from '../../../templates/star_empty.png';
+
+const isHTMLImageElement = (element: Element | null): element is HTMLImageElement =>
+  element instanceof HTMLImageElement;
 
 function isStarRate(value: number): value is StarRate {
   return STAR_RATES.includes(value);
@@ -18,14 +22,6 @@ const reRenderRateText = (currentStarRate: number) => {
 
   rateNumber.textContent = currentStarRate.toString();
   rateString.textContent = currentStringRate;
-};
-
-const reRenderStarRateIcons = (reScoredRate: DocumentFragment) => {
-  const starIconContainer = document.querySelector('.stars-container');
-  if (!isElement(starIconContainer)) return;
-
-  starIconContainer.innerHTML = '';
-  starIconContainer.appendChild(reScoredRate);
 };
 
 function isValidStarRate(value: number): value is StarRate {
@@ -46,17 +42,7 @@ const saveUpdatedStarRateFromLocalStorage = (starRate: StarRate) => {
   updateStarRateFromTargetMovie(movieTitle, starRate);
 };
 
-const updateAndReRenderStarRate = (starRate: StarRate) => {
-  if (!isValidStarRate(starRate)) return;
-  saveUpdatedStarRateFromLocalStorage(starRate);
-
-  const reScoredRate = createFiveStarRates(starRate);
-
-  reRenderStarRateIcons(reScoredRate);
-  reRenderRateText(starRate);
-};
-
-const getStarRate = (currentStarRate: number) => {
+const getStarRate = (currentStarRate: number): StarRate => {
   if (!isStarRate(currentStarRate)) {
     const error = new HttpError(ERROR_MESSAGE.INVALID_STAR_RATE, 400);
     throw error;
@@ -65,16 +51,33 @@ const getStarRate = (currentStarRate: number) => {
   return currentStarRate;
 };
 
+export const reRenderStarRateIcons = (starRating: number) => {
+  const starIcons = document.querySelectorAll('.star');
+
+  starIcons.forEach((icon) => {
+    if (!isHTMLImageElement(icon)) return;
+    const rateValue = getStarRate(Number(icon.getAttribute('rate') || '0'));
+    icon.src = rateValue <= starRating ? filledStarImage : unfilledStarImage;
+  });
+};
+
+const updateAndReRenderStarRate = (starRate: StarRate) => {
+  if (!isValidStarRate(starRate)) return;
+  saveUpdatedStarRateFromLocalStorage(starRate);
+};
+
 const scoreStarRate = (event: Event) => {
   const clickedStarPosition = event.target;
   if (!(clickedStarPosition instanceof Element)) return;
 
-  const currentStarRate = clickedStarPosition.getAttribute('data-rate');
-  if (!currentStarRate) return;
+  const currentStarRate = clickedStarPosition.getAttribute('rate');
+  if (!isStarRate(Number(currentStarRate))) return;
 
   const starRate = getStarRate(Number(currentStarRate));
 
   updateAndReRenderStarRate(starRate);
+  reRenderStarRateIcons(starRate);
+  reRenderRateText(starRate);
 };
 
 export const onScoreStarRate = () => {
