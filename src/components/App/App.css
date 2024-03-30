@@ -37,3 +37,12 @@
   opacity: 100%;
   bottom: 50px;
 }
+
+/* 모달 끄기버튼 */
+.modal-close-button {
+  position: fixed;
+  right: 15px;
+  top: 12px;
+  background-color: transparent;
+  border: none;
+}

@@ -65,6 +65,7 @@
   border: none;
 }
 
+/* 내 별점 */
 .movie-description__rating {
   display: flex;
   justify-content: flex-start;

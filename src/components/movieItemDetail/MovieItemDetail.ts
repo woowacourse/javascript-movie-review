@@ -1,11 +1,11 @@
-import { IMovie } from '../../types/movie';
-import { dom } from '../../utils/dom';
-import './MovieItemDetail.css';
-import CloseButton from '../common/button/CloseButton';
-
 import '../../assets/images/star_empty.png';
 import '../../assets/images/star_filled.png';
-import StarToggle from './StarToggle';
+import './MovieItemDetail.css';
+
+import { IMovie } from '../../types/movie';
+import { dom } from '../../utils/dom';
+
+import CloseButton from '../common/button/CloseButton';
 import StarRating from './StarRating';
 
 class MovieItemDetail {
@@ -60,7 +60,6 @@ class MovieItemDetail {
     $headerScore.innerText = this.#formatScore(movie.score);
     $explanation.innerText = movie.description;
 
-    dom.getElement(this.$target, '.movie-detail-header').append(new CloseButton().$target);
     dom.getElement(this.$target, '.movie-description__rating').append(...this.#createStarRating(5));
   }
 

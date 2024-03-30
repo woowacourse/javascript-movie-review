@@ -6,6 +6,7 @@ import Button from '../common/button/Button';
 import Toast from '../../Toast';
 import Modal from '../common/modal/Modal';
 import MovieItemDetail from '../movieItemDetail/MovieItemDetail';
+import CloseButton from '../common/button/CloseButton';
 
 const TEMPLATE = `
   <main>
@@ -21,8 +22,8 @@ class App {
   $target: HTMLElement = document.createElement('div');
   movieListContainer: MovieListContainer;
   toast: Toast = new Toast('');
-  modal: Modal = new Modal([]);
   modalContent: MovieItemDetail = this.#createModalContent();
+  modal: Modal = new Modal([this.modalContent.$target]);
 
   constructor() {
     this.$target.id = 'app';
@@ -30,7 +31,6 @@ class App {
     this.movieListContainer = new MovieListContainer();
 
     this.$target.append(this.modal.$target);
-    this.modal.append(this.modalContent.$target);
     this.modal.open(); // 임시
     this.#render();
     this.#setEvent();
@@ -109,7 +109,7 @@ class App {
   }
 
   #createModalContent() {
-    return new MovieItemDetail({
+    const $modalContent = new MovieItemDetail({
       id: 123,
       title: '해리 포터 20주년: 리턴 투 호그와트',
       imageSrc: './images/image.png',
@@ -118,6 +118,18 @@ class App {
       description:
         '해리 포터 영화 시리즈가 다룬 주제들을 챕터로 나누어 다루었으며, 배우들의 영화 촬영장에서의 에피소드들과 감독들의 설명이 이어졌다. DVD 코멘터리와 비슷한 구성이지만, 영화에 참여하기까지의 일련의 오디션 과정과 시리즈가 끝난 후의 배우들의 커리어 등에 대해서 광범위하게 다루고 있다. 또한 세상을 떠난 배우들에 대한 기억들을 회상하는 시간도 가졌다.',
     });
+
+    $modalContent.$target.append(this.#createModalCloseButton());
+    return $modalContent;
+  }
+
+  #createModalCloseButton() {
+    const $modalCloseButton = new CloseButton();
+    $modalCloseButton.$target.classList.add('modal-close-button');
+    $modalCloseButton.$target.addEventListener('click', () => {
+      this.modal.close();
+    });
+    return $modalCloseButton.$target;
   }
 }
 export default App;
