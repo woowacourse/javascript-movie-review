@@ -4,7 +4,6 @@ import { IMovie } from '../../types/movie';
 import { dom } from '../../utils/dom';
 
 const TEMPLATE = `
-  <a href="#">
     <article class="item-card">
       <img class="item-thumbnail skeleton" loading="lazy" alt="" />
       <h3 class="item-title"></h3>
@@ -13,7 +12,6 @@ const TEMPLATE = `
         <img class="item-star-icon" src="./images/star_filled.png" alt="별점" />
       </div>
     </article>
-  </a>
 `;
 
 class MovieItem {

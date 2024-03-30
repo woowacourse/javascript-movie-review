@@ -50,7 +50,6 @@ class MovieListContainer {
     movies.forEach(movie => {
       const newMovie = new MovieItem(movie).$target;
       newMovie.addEventListener('click', e => {
-        console.log(Modal);
         Modal.replace(new MovieItemDetail(movie).$target);
         Modal.open();
       });
