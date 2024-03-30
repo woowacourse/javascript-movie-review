@@ -22,7 +22,7 @@ const createMoviePoster = ({ id, title, imgSrc, rating }: MovieInfo) => {
   const itemThumbnail = createElement({
     tagName: "img",
     attrs: {
-      class: "item-thumbnail",
+      class: "item-thumbnail skeleton",
       src: imgSrc,
       loading: "lazy",
       alt: title,
