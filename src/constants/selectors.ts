@@ -9,12 +9,23 @@ const MOVIE_ITEM = Object.freeze({
   card: 'item-card',
 });
 
+const MODAL = Object.freeze({
+  modal: 'modal',
+  open: 'modal--open',
+  backdrop: 'modal-backdrop',
+  container: 'modal-container',
+  header: 'modal-header',
+  body: 'modal-body',
+  closeBtn: 'modal-close-btn',
+});
+
 const SELECTORS = {
   movieListSection: 'item-view',
   movieList: 'item-list',
 
   INFINITE_SCROLL_TRIGGER,
   MOVIE_ITEM,
+  MODAL,
 };
 
 export default SELECTORS;
