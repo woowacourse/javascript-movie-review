@@ -4,6 +4,8 @@
   /* color */
   --bg-color: #222;
   --bg-modal-container-color: #212122;
+  --bg-modal-backdrop-color: rgba(0, 0, 0, 0.35);
+  --line-color: #f1f1f140;
   --white-color: #fff;
 
   /* responsive */

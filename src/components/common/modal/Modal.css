@@ -23,22 +23,33 @@
   bottom: 0;
   left: 0;
 
-  background: rgba(0, 0, 0, 0.35);
+  background: var(--bg-modal-backdrop-color);
 }
 
 .modal-container {
   position: relative;
 
   z-index: 1000;
-  background: #212122;
+  background: var(--bg-modal-container-color);
 
   width: 80%;
   min-width: 740px;
   max-width: 826px;
 }
 
-.modal-title {
-  margin-bottom: 36px;
+.modal-header {
+  border-bottom: 1px solid var(--line-color);
+  padding: 18px 32px;
+
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  text-align: center;
+}
+
+.modal-body {
+  padding: 36px 32px 48px;
 }
 
 .modal-close-btn {
