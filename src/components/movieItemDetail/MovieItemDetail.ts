@@ -3,6 +3,11 @@ import { dom } from '../../utils/dom';
 import './MovieItemDetail.css';
 import CloseButton from '../common/button/CloseButton';
 
+import '../../assets/images/star_empty.png';
+import '../../assets/images/star_filled.png';
+import StarToggle from './StarToggle';
+import StarRating from './StarRating';
+
 class MovieItemDetail {
   $target: HTMLElement = document.createElement('article');
 
@@ -35,6 +40,9 @@ class MovieItemDetail {
             </div>
           </div>
           <div class="movie-description__rating">
+          <div>내 별점</div>
+          <div class="movie-description__star-rating"></div>
+          <div class="movie-description__star-rating-caption"></div>
           </div>
         </div>
       </div> `;
@@ -43,7 +51,6 @@ class MovieItemDetail {
   paint(movie: IMovie) {
     const $image = dom.getElement<HTMLImageElement>(this.$target, '.movie-detail-content__poster-image');
     const $title = dom.getElement(this.$target, '.movie-detail-header__text');
-    const $score = dom.getElement(this.$target, '.movie-description__rating');
     const $headerGenre = dom.getElement(this.$target, '.movie-explanation__header-genre');
     const $headerScore = dom.getElement(this.$target, '.movie-explanation__header-rating-text');
 
@@ -52,17 +59,26 @@ class MovieItemDetail {
     $image.setAttribute('src', movie.imageSrc);
     $image.setAttribute('alt', movie.title);
     $title.innerText = movie.title;
-    $score.textContent = this.#formatScore(movie.score);
     $headerGenre.innerText = movie.genre.join(', ');
     $headerScore.innerText = this.#formatScore(movie.score);
     $explanation.innerText = movie.description;
 
     dom.getElement(this.$target, '.movie-detail-header').append(new CloseButton().$target);
+    dom.getElement(this.$target, '.movie-description__star-rating').append(this.#createStarRating(6));
   }
 
   #formatScore(score: number) {
     const FORMAT_FIXED_DIGIT = 1;
     return score.toFixed(FORMAT_FIXED_DIGIT).toString();
+  }
+
+  #createStarRating(score: number) {
+    // const SCORE_PER_STAR_RATING = 2;
+    // const COUNT_OF_STARS = score / SCORE_PER_STAR_RATING;
+    // const stars = Array.from({ length: COUNT_OF_STARS }).map(() => new StarToggle(true).$target);
+    // const emptyStars = Array.from({ length: 5 - COUNT_OF_STARS }).map(() => new StarToggle(false).$target);
+
+    return new StarRating(5).$target;
   }
 }
 

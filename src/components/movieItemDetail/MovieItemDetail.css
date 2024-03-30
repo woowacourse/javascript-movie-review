@@ -64,3 +64,12 @@
   background-color: transparent;
   border: none;
 }
+
+.movie-description__rating {
+  display: flex;
+  width: 384px;
+  height: 64px;
+  padding: 16px 0px 0px 0px;
+  gap: 12px;
+  border-radius: 16px 0px 0px 0px;
+}
