@@ -1,7 +1,7 @@
 import { renderMovieContainerComponents } from './render';
 import { API_ENDPOINT, API_OPTION } from '../../constants/api/api';
-import renderMovieItemDetailModal from '../MovieItem/eventHandler';
-import { initializeInfiniteScroll } from '../ShowMoreButton/infiniteScrollHandler';
+import onRenderMovieDetailModal from '../MovieItem/eventHandler';
+import { initializeInfiniteScroll } from './infiniteScrollHandler';
 import movieFetcher from '../../services/MovieFetcher';
 import MovieStorageService from '../../services/MovieStorageService';
 
@@ -14,7 +14,7 @@ async function MovieContainer() {
 
   renderMovieContainerComponents(data);
   initializeInfiniteScroll();
-  renderMovieItemDetailModal();
+  onRenderMovieDetailModal();
 }
 
 export default MovieContainer;

@@ -25,7 +25,7 @@ const getMovieDataByIdAndRender = async (movieId: number) => {
   renderDetailModal(movieDetailData);
 };
 
-const getMovieTitleEventPhaseHandler = async (event: Event, ul: Element) => {
+const getMovieTitleFromMovieId = async (event: Event, ul: Element) => {
   if (!(event.target instanceof Element)) return;
 
   const li = event.target.closest('li');
@@ -37,15 +37,15 @@ const getMovieTitleEventPhaseHandler = async (event: Event, ul: Element) => {
   }
 };
 
-const ulTagAddEventListener = (ul: Element) => {
-  ul.addEventListener('click', (event) => getMovieTitleEventPhaseHandler(event, ul));
+const onClickMovieListItem = (ul: Element) => {
+  ul.addEventListener('click', (event) => getMovieTitleFromMovieId(event, ul));
 };
 
-const renderMovieItemDetailModal = () => {
+const onRenderMovieDetailModal = () => {
   const ul = document.querySelector('.item-list');
   if (!isElement(ul)) return;
 
-  ulTagAddEventListener(ul);
+  onClickMovieListItem(ul);
 };
 
-export default renderMovieItemDetailModal;
+export default onRenderMovieDetailModal;
