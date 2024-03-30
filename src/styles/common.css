@@ -280,3 +280,12 @@ header .search-box .search-button {
   align-items: center;
   margin-left: 1rem;
 }
+
+/* 모달 */
+.star-rating-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+  background-color: #383839;
+}

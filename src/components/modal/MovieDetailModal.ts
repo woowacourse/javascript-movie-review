@@ -77,6 +77,15 @@ export default class MovieDetailModal extends BaseModal {
     starRating[movieId] = rating;
 
     storage.set("starRating", starRating);
+    this.updateStarRatingUI(rating);
+  }
+
+  private updateStarRatingUI(rating: number): void {
+    const $starRatingContainer = $<HTMLElement>("star-rating-container");
+    if (!$starRatingContainer) return;
+    const newStarRatingHTML = generateStarRating(rating);
+
+    $starRatingContainer.innerHTML = newStarRatingHTML;
   }
 
   private handleError(error: unknown): void {
