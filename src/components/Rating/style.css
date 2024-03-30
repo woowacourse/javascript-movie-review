@@ -1,0 +1,57 @@
+.star-container {
+  background-color: #383839;
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.star-container :hover {
+  cursor: pointer;
+}
+
+.star-container p {
+  font-size: 1rem;
+  margin-right: 1rem;
+}
+
+@media (min-width: 801px) {
+  .star-container img {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+
+  .star-container p {
+    font-size: 1rem;
+    margin-right: 1rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .star-container img {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  .rating-text {
+    padding-left: 0.5rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .star-container p {
+    font-size: 0.7rem;
+    margin-right: 0.8rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .star-container {
+    white-space: nowrap;
+  }
+}
+
+.rating-text {
+  padding-left: 1rem;
+}
