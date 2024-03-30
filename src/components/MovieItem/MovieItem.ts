@@ -2,6 +2,7 @@ import MovieData from '../../interfaces/MovieData';
 import { starFilled } from '../../resources';
 import { MOVIE_POSTER_URL } from '../../constants/MOVIES_URL';
 import ReplaceSkeletonProps from '../../interfaces/ReplaceSkeletonProps';
+import StarImg from './StarImg';
 
 const MovieItem = {
   replaceSkeleton({ itemCard, movieData, moiveItemDetailModal }: ReplaceSkeletonProps) {
@@ -46,18 +47,9 @@ const MovieItem = {
     newScore.classList.add('item-score');
     newScore.textContent = `${movieData.vote_average.toFixed(1)} `;
 
-    newScore.appendChild(this.createStarImg());
+    newScore.appendChild(StarImg.create(starFilled));
 
     oldScore?.replaceWith(newScore);
-  },
-
-  createStarImg(): HTMLElement {
-    const star = document.createElement('img');
-
-    star.src = starFilled;
-    star.alt = '별점';
-
-    return star;
   },
 };
 
