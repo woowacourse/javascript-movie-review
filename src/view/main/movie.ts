@@ -3,7 +3,7 @@
 import fetchMovies from '../../api/fetchMovies';
 import starFilledImage from '../../assets/images/star_filled.png';
 import movieStateMethod from '../../store/movieStore';
-import renderMovieDetailModal from '../movieDetailModal';
+import { renderMovieDetailModal } from '../modal';
 import { removeScrollEvent } from '../scrollEvent';
 
 interface IMovieItemProps {

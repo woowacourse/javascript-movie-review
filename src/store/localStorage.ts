@@ -1,4 +1,4 @@
-import { RATING_MESSAGES } from '../view/movieDetailModal';
+import { RATING_MESSAGES } from '../view/modal/movieDetail';
 
 const LOCAL_KEY = 'moviesScore';
 

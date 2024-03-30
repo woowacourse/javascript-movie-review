@@ -1,11 +1,12 @@
-import fetchMovieDetail, { IMovieDetailResponse, genre } from '../api/fetchMovieDetail';
-import XImage from '../assets/images/closeButton.svg';
-import starEmptyImage from '../assets/images/star_empty.png';
-import starFillImage from '../assets/images/star_filled.png';
-import { MOVIE_IMAGE_BASE_URL } from '../constants/tmdbConstants';
+import { IMovieDetailResponse, genre } from '../../api/fetchMovieDetail';
 
-import addHoverEventToStar from '../css/userStarCss';
-import { getLocalStorageScore, setLocalStorageScore } from '../store/localStorage';
+import XImage from '../../assets/images/closeButton.svg';
+import starEmptyImage from '../../assets/images/star_empty.png';
+import starFillImage from '../../assets/images/star_filled.png';
+
+import { MOVIE_IMAGE_BASE_URL } from '../../constants/tmdbConstants';
+import { getLocalStorageScore, setLocalStorageScore } from '../../store/localStorage';
+import { closeModal } from '../modal';
 
 export const RATING_MESSAGES = {
   0: '별점 미등록',
@@ -15,13 +16,6 @@ export const RATING_MESSAGES = {
   8: '재밌어요',
   10: '명작이에요',
 } as const;
-
-function closeModal() {
-  const modal = document.getElementById('movie-detail-modal') as HTMLDialogElement;
-  document.body.classList.remove('no-scroll-y');
-  modal.innerHTML = '';
-  modal.close();
-}
 
 function createMovieTitle(title: string) {
   const titleDiv = document.createElement('div');
@@ -198,7 +192,7 @@ function createMovieDetailMain(movieDetail: IMovieDetailResponse) {
   return div;
 }
 
-function createMovieDetailContainer(movieDetail: IMovieDetailResponse) {
+export function createMovieDetailContainer(movieDetail: IMovieDetailResponse) {
   const container = document.createElement('div');
   container.classList.add('movie-modal');
   const header = createMovieDetailHeader(movieDetail.title);
@@ -206,35 +200,3 @@ function createMovieDetailContainer(movieDetail: IMovieDetailResponse) {
   container.append(header, main);
   return container;
 }
-
-const backDropClickHandler = (event: any) => {
-  if (event.target.tagName === 'DIALOG') {
-    closeModal();
-  }
-};
-
-function getClearModal() {
-  const originalModal = document.getElementById('movie-detail-modal') as HTMLDialogElement;
-  if (!originalModal) {
-    const newModal = document.createElement('dialog');
-    newModal.id = 'movie-detail-modal';
-    newModal.addEventListener('click', (e) => backDropClickHandler(e));
-    document.body.append(newModal);
-    return newModal;
-  }
-  originalModal.innerHTML = '';
-  return originalModal;
-}
-
-async function renderMovieDetailModal(id: number) {
-  const modal = getClearModal();
-  // TODO: 스켈레톤 UI 렌더링
-  const movieResponse: IMovieDetailResponse = await fetchMovieDetail(id);
-  // TODO: fetching 이후 스켈레톤 UI replace해주기.
-  modal.append(createMovieDetailContainer(movieResponse));
-  document.body.classList.add('no-scroll-y');
-  modal.showModal();
-  addHoverEventToStar();
-}
-
-export default renderMovieDetailModal;
