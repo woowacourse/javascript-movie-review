@@ -28,7 +28,7 @@ class MovieItem {
     this.#movie = movie;
     this.paint(movie);
 
-    this.$target.addEventListener('click', this.#onClickHandler.bind(this));
+    this.$target.addEventListener('click', this.#handleClick.bind(this));
   }
 
   paint(movie: IMovie) {
@@ -46,9 +46,7 @@ class MovieItem {
     return score.toFixed(FORMAT_FIXED_DIGIT).toString();
   }
 
-  #onClickHandler() {
-    console.log('a');
-
+  #handleClick() {
     appInstance.paintModal(new MovieItemDetail(this.#movie).$target);
   }
 }
