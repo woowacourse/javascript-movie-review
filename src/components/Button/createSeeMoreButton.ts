@@ -14,12 +14,12 @@ class createSeeMoreButton {
 
   public async getMoreMoviePoster(
     posterType: MoviePosterType,
-    movieName?: string
+    movieName: string
   ) {
     const fetchFunc =
       posterType === "popular" ? fetchPopularMovie : fetchTargetMovie;
 
-    const TMDBResponse = await fetchFunc(this.currentPage, movieName as string);
+    const TMDBResponse = await fetchFunc(this.currentPage, movieName);
 
     if (this.currentPage === TMDBResponse?.total_pages)
       this.buttonElement.classList.add("display-none");

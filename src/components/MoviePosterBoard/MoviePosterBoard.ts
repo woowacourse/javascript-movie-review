@@ -2,11 +2,12 @@ import "./style.css";
 
 import createMoviePoster, { MovieInfo } from "../MoviePoster/createMoviePoster";
 
-import { $ } from "../../utils/selector";
+import { $, $$ } from "../../utils/selector";
 import createElement from "../../utils/createElement";
 import createNetworkFallback from "../NetworkErrorFallBack/createNetworkErrorFallback";
 import createSkeletonMoviePoster from "../MoviePoster/createSkeletonMoviePoster";
 import createSeeMoreButton from "../Button/createSeeMoreButton";
+import MovieDetailModal from "../Modal/MovieDetailModal";
 
 export type MoviePosterType = "popular" | "search";
 const numberOfPosters = 20;
@@ -16,17 +17,19 @@ class MoviePosterBoard {
   private moviePosterUl: HTMLElement;
   private seeMoreButton;
 
-  constructor(posterType: MoviePosterType, movieName?: string) {
+  constructor(posterType: MoviePosterType, movieName: string = "") {
     const description = this.createDescription(posterType, movieName);
     this.element = this.createSectionElement(description);
     this.moviePosterUl = createElement({
       tagName: "ul",
       attrs: { class: "item-list" },
     });
+
+    this.moviePosterUl.addEventListener("click", this.openMovieDetailModal);
+
     this.seeMoreButton = new createSeeMoreButton();
-    this.addSeeMoreButtonEvent(posterType, movieName);
-    this.element.append(this.moviePosterUl, this.seeMoreButton.element);
-    this.seeMoreButton.element.click();
+    this.element.append(this.moviePosterUl);
+    this.handleSeeMoreButton(posterType, movieName);
   }
 
   private addMoviePoster(movieInfos: MovieInfo[]) {
@@ -35,7 +38,7 @@ class MoviePosterBoard {
     this.moviePosterUl.append(...newMoviePosters);
   }
 
-  private notFoundMovie(movieName?: string) {
+  private notFoundMovie(movieName: string) {
     this.element
       .querySelector("h2")
       ?.replaceChildren(movieName + " 그런 건 없어용!~ 🌞");
@@ -75,27 +78,40 @@ class MoviePosterBoard {
     $("body")?.append(networkErrorFallback);
   }
 
-  private fetchErrorHandler(posterType: MoviePosterType, movieName?: string) {
+  private fetchErrorHandler(posterType: MoviePosterType, movieName: string) {
     return this.showNetworkFallbackComponent(posterType, movieName);
   }
 
-  private createDescription(posterType: MoviePosterType, name?: string) {
+  private createDescription(posterType: MoviePosterType, name: string) {
     if (posterType === "search" && name) return `"${name}" 검색 결과`;
     return "지금 인기있는 영화";
   }
 
-  private addSeeMoreButtonEvent(
-    posterType: MoviePosterType,
-    movieName?: string
-  ) {
-    this.seeMoreButton.element.addEventListener("click", () =>
-      this.handleSeeMoreButton(posterType, movieName)
-    );
+  private observeLastItem(observer: IntersectionObserver) {
+    setTimeout(() => {
+      const items = $$(".item-list li");
+      const lastItem = items[items.length - 1];
+
+      if (lastItem) observer.observe(lastItem);
+    }, 1000);
+  }
+
+  private setInfiniteScroll(posterType: MoviePosterType, movieName: string) {
+    const observer = new IntersectionObserver((entries, observer) => {
+      const entry = entries[0];
+      if (entry.isIntersecting) {
+        this.handleSeeMoreButton(posterType, movieName, observer);
+        observer.unobserve(entry.target);
+      }
+    });
+
+    this.observeLastItem(observer);
   }
 
   private async handleSeeMoreButton(
     posterType: MoviePosterType,
-    movieName?: string
+    movieName: string,
+    observer?: IntersectionObserver
   ) {
     try {
       this.addSkeletonPosters(numberOfPosters);
@@ -106,9 +122,22 @@ class MoviePosterBoard {
       this.deleteLastPosters(numberOfPosters);
       if (fetchedMovieInfo) this.addMoviePoster(fetchedMovieInfo);
       else this.notFoundMovie(movieName);
+
+      if (observer) this.observeLastItem(observer);
+      else this.setInfiniteScroll(posterType, movieName);
     } catch (error) {
       this.fetchErrorHandler(posterType, movieName);
     }
+  }
+
+  private async openMovieDetailModal(event: Event) {
+    const clickedElement = event.target as HTMLElement;
+    const closestDiv = clickedElement.closest("div.item-card") as HTMLElement;
+    const { movieId } = closestDiv?.dataset;
+    if (!movieId) return;
+
+    const movieDetailModal = new MovieDetailModal(movieId);
+    $("body")?.append(movieDetailModal.element);
   }
 }
 
