@@ -88,6 +88,8 @@ class MoviePosterBoard {
   }
 
   private observeLastItem(observer: IntersectionObserver) {
+    if (this.seeMoreButton.isLastPage()) return;
+
     setTimeout(() => {
       const items = $$(".item-list li");
       const lastItem = items[items.length - 1];

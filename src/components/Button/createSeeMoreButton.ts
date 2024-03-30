@@ -6,10 +6,12 @@ import { MovieInfo } from "../MoviePoster/createMoviePoster";
 class createSeeMoreButton {
   private buttonElement: HTMLButtonElement;
   private currentPage: number;
+  private totalPage: number | null;
 
   constructor() {
     this.buttonElement = createButton("더보기") as HTMLButtonElement;
     this.currentPage = 1;
+    this.totalPage = null;
   }
 
   public async getMoreMoviePoster(
@@ -20,6 +22,7 @@ class createSeeMoreButton {
       posterType === "popular" ? fetchPopularMovie : fetchTargetMovie;
 
     const TMDBResponse = await fetchFunc(this.currentPage, movieName);
+    if (this.totalPage === null) this.totalPage = TMDBResponse.total_pages;
 
     if (this.currentPage === TMDBResponse?.total_pages)
       this.buttonElement.classList.add("display-none");
@@ -36,6 +39,11 @@ class createSeeMoreButton {
     });
 
     return movieInfos;
+  }
+
+  isLastPage(): boolean {
+    if (!this.totalPage) return true;
+    return this.totalPage < this.currentPage ? true : false;
   }
 
   public get element(): HTMLButtonElement {
