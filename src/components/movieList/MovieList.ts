@@ -1,7 +1,8 @@
 import EventComponent from "../abstract/EventComponent";
 import SkeletonUI from "../SkeletonUI";
+
 import QueryState from "../../states/QueryState";
-import APIError from "../../error/APIError";
+import MovieState from "../../states/MovieState";
 
 import { generateMovieItems } from "../templates/generateMovieItems";
 import {
@@ -10,6 +11,8 @@ import {
 } from "../templates/generateUnexpectedScreen";
 
 import { getPopularMovieList, getSearchMovieList } from "../../apis/movieList";
+import APIError from "../../error/APIError";
+
 import { $ } from "../../utils/dom";
 import { throttle } from "../../utils/throttle";
 import { HTMLTemplate, TargetId, Query } from "../../types/common";
@@ -17,20 +20,28 @@ import { FetchedMovieData } from "../../types/movies";
 
 interface MovieListProps {
   targetId: TargetId;
-  queryState: QueryState;
   skeletonUI: SkeletonUI;
+  queryState: QueryState;
+  movieState: MovieState;
 }
 
 export default class MovieList extends EventComponent {
   private page = 1;
-  private queryState: QueryState;
   private skeletonUI: SkeletonUI;
+  private queryState: QueryState;
+  private movieState: MovieState;
   private movieList: FetchedMovieData;
 
-  constructor({ targetId, queryState, skeletonUI }: MovieListProps) {
+  constructor({
+    targetId,
+    skeletonUI,
+    queryState,
+    movieState,
+  }: MovieListProps) {
     super({ targetId });
-    this.queryState = queryState;
     this.skeletonUI = skeletonUI;
+    this.queryState = queryState;
+    this.movieState = movieState;
     this.movieList = {} as FetchedMovieData;
   }
 
@@ -68,6 +79,10 @@ export default class MovieList extends EventComponent {
 
   protected setEvent(): void {
     window.addEventListener("scroll", throttle(this.onScroll.bind(this), 500));
+    $(this.targetId)?.addEventListener(
+      "click",
+      this.openMovieDetailModal.bind(this)
+    );
   }
 
   private onScroll() {
@@ -76,6 +91,21 @@ export default class MovieList extends EventComponent {
       document.documentElement.scrollHeight
     ) {
       this.loadMoreMovies();
+    }
+  }
+
+  private openMovieDetailModal(event: Event): void {
+    event.preventDefault();
+    const target = event.target;
+
+    if (target instanceof HTMLElement) {
+      const clickedMovieId = target.closest("li")?.dataset.movieId;
+
+      if (clickedMovieId) {
+        this.movieState.set(Number(clickedMovieId));
+        $<HTMLElement>("movie-detail-modal")?.classList.remove("modal");
+        $<HTMLElement>("movie-detail-modal")?.classList.add("modal-open");
+      }
     }
   }
 
