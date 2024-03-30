@@ -1,4 +1,4 @@
-import CONDITIONS from '../../constants/CONDITIONS';
+import { MOVIE_ITEM } from '../../constants/INFORMATION';
 
 const MovieitemsSkeleton = {
   create(): HTMLUListElement {
@@ -6,7 +6,7 @@ const MovieitemsSkeleton = {
 
     movieItems.classList.add('item-list');
 
-    Array.from({ length: CONDITIONS.movieItemCount }).forEach(() => {
+    Array.from({ length: MOVIE_ITEM.count }).forEach(() => {
       movieItems.appendChild(this.createMovieItemSkeleton());
     });
 
