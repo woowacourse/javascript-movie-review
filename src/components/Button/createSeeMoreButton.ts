@@ -28,6 +28,7 @@ class createSeeMoreButton {
 
     const movieInfos: MovieInfo[] = TMDBResponse.results.map((result) => {
       return {
+        id: result.id,
         title: result.title,
         imgSrc: `https://image.tmdb.org/t/p/w220_and_h330_face/${result.poster_path}`,
         rating: result.vote_average,
