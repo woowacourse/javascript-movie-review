@@ -4,21 +4,21 @@ import createElement from "../../utils/createElement";
 
 class Modal {
   element = createElement("div", { attrs: { class: "modal" } });
-  #container;
-  #backdrop;
+  protected container;
+  protected backdrop;
   constructor(option?: {
     contents?: (HTMLElement | string)[];
     isOpen?: boolean;
   }) {
     const { contents = [], isOpen = true } = option ?? {};
-    this.#backdrop = createElement("div", {
+    this.backdrop = createElement("div", {
       attrs: { class: "modal-backdrop" },
     });
-    this.#container = createElement("aside", {
+    this.container = createElement("aside", {
       attrs: { class: "modal-container" },
     });
-    if (contents.length > 0) this.#container.append(...contents);
-    this.element.append(this.#backdrop, this.#container);
+    if (contents.length > 0) this.container.append(...contents);
+    this.element.append(this.backdrop, this.container);
     if (isOpen) this.open();
     if (!isOpen) this.close();
 
@@ -34,7 +34,7 @@ class Modal {
   }
 
   #setEvent() {
-    this.#backdrop.addEventListener("click", this.close.bind(this));
+    this.backdrop.addEventListener("click", this.close.bind(this));
     document.addEventListener("keydown", (event: KeyboardEvent) => {
       if (event.key === "Escape") this.close.call(this);
     });
