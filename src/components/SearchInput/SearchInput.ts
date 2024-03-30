@@ -12,6 +12,7 @@ const SearchInput = () => {
   const render = () => {
     $searchInput.type = 'text';
     $searchInput.placeholder = '검색';
+    $searchInput.classList.add('search-input');
 
     $searchBtn.type = 'button';
     $searchBtn.classList.add('search-button');
@@ -24,6 +25,14 @@ const SearchInput = () => {
 
     return $searchBox;
   };
+
+  if (window.innerWidth <= 390) {
+    $searchInput.classList.add('visibility-hidden');
+    $searchBtn.addEventListener('click', () => {
+      $searchBox.classList.toggle('click-input-box');
+      $searchInput.classList.toggle('visibility-hidden');
+    });
+  }
 
   $searchInput.addEventListener('keydown', (e) => {
     const { target } = e;
@@ -56,17 +65,19 @@ const SearchInput = () => {
     }
   });
 
-  $searchBtn.addEventListener('click', () => {
-    const { value } = $searchInput as HTMLInputElement;
-    $searchInput.dispatchEvent(
-      new CustomEvent('search', {
-        bubbles: true,
-        detail: {
-          query: value,
-        },
-      }),
-    );
-  });
+  if (window.innerWidth > 390) {
+    $searchBtn.addEventListener('click', () => {
+      const { value } = $searchInput as HTMLInputElement;
+      $searchInput.dispatchEvent(
+        new CustomEvent('search', {
+          bubbles: true,
+          detail: {
+            query: value,
+          },
+        }),
+      );
+    });
+  }
 
   return {
     render,

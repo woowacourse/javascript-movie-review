@@ -24,6 +24,7 @@ const createHeader = () => {
 
   $header.appendChild($logo);
   $header.appendChild($searchBox);
+
   return $header;
 };
 
