@@ -40,9 +40,6 @@ class MovieItemDetail {
             </div>
           </div>
           <div class="movie-description__rating">
-          <div>내 별점</div>
-          <div class="movie-description__star-rating"></div>
-          <div class="movie-description__star-rating-caption"></div>
           </div>
         </div>
       </div> `;
@@ -64,7 +61,7 @@ class MovieItemDetail {
     $explanation.innerText = movie.description;
 
     dom.getElement(this.$target, '.movie-detail-header').append(new CloseButton().$target);
-    dom.getElement(this.$target, '.movie-description__star-rating').append(this.#createStarRating(6));
+    dom.getElement(this.$target, '.movie-description__rating').append(...this.#createStarRating(5));
   }
 
   #formatScore(score: number) {
@@ -72,13 +69,27 @@ class MovieItemDetail {
     return score.toFixed(FORMAT_FIXED_DIGIT).toString();
   }
 
-  #createStarRating(score: number) {
-    // const SCORE_PER_STAR_RATING = 2;
-    // const COUNT_OF_STARS = score / SCORE_PER_STAR_RATING;
-    // const stars = Array.from({ length: COUNT_OF_STARS }).map(() => new StarToggle(true).$target);
-    // const emptyStars = Array.from({ length: 5 - COUNT_OF_STARS }).map(() => new StarToggle(false).$target);
+  #createStarRating(starCount: number) {
+    const $label = document.createElement('label');
+    $label.innerText = '내 별점';
 
-    return new StarRating(5).$target;
+    const starRating = new StarRating(starCount);
+
+    const $ratingCaption = this.#createRatingCaption(starRating);
+    return [$label, starRating.$target, $ratingCaption];
+  }
+  
+  #createRatingCaption($rating: StarRating) {
+    const Ratings = ['최악이에요', '별로에요', '보통이에요', '좋아요', '최고에요'];
+    const $ratingCaption: HTMLDivElement = document.createElement('div');
+    $ratingCaption.innerText = 'a';
+
+    $rating.$target.addEventListener('click', (e: MouseEvent) => {
+      if (!(e.target instanceof HTMLImageElement)) return;
+      $ratingCaption.innerText = Ratings[$rating.clickedId];
+    });
+
+    return $ratingCaption;
   }
 }
 
