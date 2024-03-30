@@ -6,7 +6,8 @@
     "import/no-unresolved": "off",
     "import/extensions": "off",
     "cypress/no-assigning-return-values": "off",
-    "max-len": "off"
+    "max-len": "off",
+    "prefer-destructuring": "off"
   },
   "overrides": [
     {

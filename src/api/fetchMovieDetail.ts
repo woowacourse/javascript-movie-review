@@ -12,6 +12,7 @@ export type genre = {
 };
 
 export interface IMovieDetailResponse {
+  id: number;
   title: string;
   genres: genre[];
   overview: string;

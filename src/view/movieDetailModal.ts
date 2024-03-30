@@ -5,8 +5,9 @@ import starFillImage from '../assets/images/star_filled.png';
 import { MOVIE_IMAGE_BASE_URL } from '../constants/tmdbConstants';
 
 import addHoverEventToStar from '../css/userStarCss';
+import { getLocalStorageScore, setLocalStorageScore } from '../store/localStorage';
 
-const RATING_MESSAGES = {
+export const RATING_MESSAGES = {
   0: '별점 미등록',
   2: '최악이에요',
   4: '별로예요',
@@ -110,58 +111,72 @@ function executeInterface(star: HTMLElement) {
   changeStarResult(starId, parent);
 }
 
-const clickStarHandler = (e: any) => {
+function executeLocaleStorage(star: HTMLElement, id: number) {
+  const starScore = (Number(star.getAttribute('data-star-id')) + 1) * 2;
+  setLocalStorageScore(id, starScore);
+}
+
+const clickStarHandler = (e: any, id: number) => {
   e.preventDefault();
   const star = e.target.parentNode;
   executeInterface(star);
-  // TODO: 2. 로컬 스토리지에 별점 정보 저장
+  executeLocaleStorage(star, id);
 };
 
-function createStarBox(index: number) {
+function createStarBox(index: number, id: number) {
   const starBox = document.createElement('button');
   starBox.setAttribute('data-star-id', String(index));
   starBox.innerHTML = `<img src=${starEmptyImage} alt='star' class='star-image'></img>`;
-  starBox.addEventListener('click', (e) => clickStarHandler(e));
+  starBox.addEventListener('click', (e) => clickStarHandler(e, id));
   return starBox;
 }
 
-function createRateStars() {
+function createRateStars(id: number) {
   const STAR_COUNT = 5;
   return Array.from({ length: STAR_COUNT }, (_, index) => {
-    const starBox = createStarBox(index);
+    const starBox = createStarBox(index, id);
     return starBox;
   });
 }
 
-function createRate() {
+function createRate(id: number) {
   const rateNumber = document.createElement('span');
-  rateNumber.innerText = '0';
+  rateNumber.innerText = String(getLocalStorageScore(id) ?? 0);
   rateNumber.style.width = '17px';
   rateNumber.className = 'result-number';
   return rateNumber;
 }
 
-function createResult() {
+function createResult(id: number) {
   const rateString = document.createElement('span');
-  rateString.innerText = RATING_MESSAGES[0];
+  rateString.innerText = RATING_MESSAGES[getLocalStorageScore(id) ?? 0];
   rateString.classList.add('result-string');
   rateString.style.minWidth = '100px';
   return rateString;
 }
 
-function createUserRateStarBox() {
-  const userRateBox = document.createElement('div');
-  userRateBox.className = 'flex-Y-center';
-  userRateBox.append(...createRateStars());
+function checkInitScore(userRateBox: HTMLElement, id: number) {
+  const score = getLocalStorageScore(id);
+  if (score) {
+    changeStarImage(score / 2 - 1, userRateBox);
+  }
   return userRateBox;
 }
 
-function createUserRate() {
+function createUserRateStarBox(id: number) {
+  const userRateBox = document.createElement('div');
+  userRateBox.className = 'flex-Y-center';
+  userRateBox.append(...createRateStars(id));
+
+  return checkInitScore(userRateBox, id);
+}
+
+function createUserRate(id: number) {
   const rateBox = document.createElement('div');
   rateBox.className = 'flex-Y-center user-rate-box';
   const leftSpan = document.createElement('span');
   leftSpan.innerHTML = '내 별점';
-  rateBox.append(leftSpan, createUserRateStarBox(), createRate(), createResult());
+  rateBox.append(leftSpan, createUserRateStarBox(id), createRate(id), createResult(id));
   return rateBox;
 }
 
@@ -171,7 +186,7 @@ function createMovieDetailInfo(movieDetail: IMovieDetailResponse) {
   description.append(
     createGenreAndRating(movieDetail.genres, movieDetail.vote_average),
     createDescription(movieDetail.overview),
-    createUserRate(),
+    createUserRate(movieDetail.id),
   );
   return description;
 }
