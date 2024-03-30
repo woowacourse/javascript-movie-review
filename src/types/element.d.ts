@@ -3,6 +3,8 @@ export type ElementTag = keyof HTMLElementTagNameMap;
 interface BasicOption {
   className?: string;
   id?: string;
+  'data-id'?: number;
+  'data-rating'?: string;
 }
 
 interface DivOption extends BasicOption {}

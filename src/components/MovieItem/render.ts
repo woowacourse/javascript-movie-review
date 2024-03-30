@@ -46,7 +46,7 @@ export const createItemCardContent = ({ posterPath, title, voteAverage }: Movie)
 };
 
 export const renderHandler = (movie: Movie) => {
-  const li = createElement('li');
+  const li = createElement('li', { 'data-id': movie.id });
   const a = createElement('a');
   const itemCard = createElement('div', { className: 'item-card' });
   const itemCardContent = createItemCardContent(movie);
