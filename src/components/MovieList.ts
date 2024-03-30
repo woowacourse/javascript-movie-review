@@ -4,8 +4,7 @@ import { hideSkeleton, renderSkeleton } from "./Skeleton";
 import MovieClient from "../http/MovieClient";
 import { $ } from "../utils/dom";
 import { MovieType } from "../types";
-import { MAX_PAGE } from "../constants/movies";
-import { starImage } from "../assets/image";
+import { hideEmptyResult, renderEmptyResult } from "../utils/UI";
 
 interface MovieListState {
   currentPage: number;
@@ -35,27 +34,10 @@ export default class MovieList extends Component<{}, MovieListState> {
     this.handleRenderMovieList();
   }
 
-  private hideEmptyResult() {
-    const emptyResultContainer = $<HTMLDivElement>("#empty-result");
-    if (!emptyResultContainer) return;
-
-    emptyResultContainer.classList.add("hidden");
-    emptyResultContainer.innerText = "";
-  }
-
-  private renderEmptyResult() {
-    const emptyResultContainer = $<HTMLDivElement>("#empty-result");
-    if (!emptyResultContainer) return;
-
-    emptyResultContainer?.classList.remove("hidden");
-    const emptyText = `${this.state?.searchKeyword} 에 대한 검색 결과가 존재하지 않아요..😅\n정확한 검색어를 다시 입력해주세요`;
-    emptyResultContainer.innerText = emptyText;
-  }
-
   private renderMovies(movies: MovieType[]) {
     const movieList = $<HTMLUListElement>("#movie-list-container");
     if (!movieList) return;
-    this.hideEmptyResult();
+    hideEmptyResult();
     movies.forEach((movie) => {
       const movieItem = createMovieElement(movie);
       movieList.append(movieItem);
@@ -87,7 +69,7 @@ export default class MovieList extends Component<{}, MovieListState> {
       .then((data) => {
         if (!data || data.length < 20) {
           if (this.state?.currentPage === 1) {
-            this.renderEmptyResult();
+            renderEmptyResult(this.state.searchKeyword);
           }
           return;
         }

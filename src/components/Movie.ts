@@ -54,20 +54,20 @@ export const createMovieElement = ({ id, title, thumbnail, voteAverage }: MovieT
     e.preventDefault();
     const $modal = document.querySelector<HTMLDialogElement>(".modal");
     if (!$modal) return;
-    const data = await MovieClient.getMovieDetail(Number(listItem.id));
+    const movieDetail = await MovieClient.getMovieDetail(Number(listItem.id));
     $modal.innerHTML = /*html*/ `
      <div class="modal-background"></div>
-     <h3 class="movie-title">${data.title}</h3>
+     <h3 class="movie-title">${movieDetail.title}</h3>
      <section>
         <img
         class="movie-thumbnail"
-        src="${data.thumbnail}"
+        src="${movieDetail.thumbnail}"
         loading="lazy"
-        alt="${data.title}"
+        alt="${movieDetail.title}"
         />
         <div class="movie-info">
-          <div class="movie-genres">${data.genres.join(", ")} <img src="${starImage}" alt="별점" /> ${data.voteAverage}</div>
-          <div class="movie-overview"> ${data.overview}</div>
+          <div class="movie-genres">${movieDetail.genres.join(", ")} <img src="${starImage}" alt="별점" /> ${movieDetail.voteAverage}</div>
+          <div class="movie-overview"> ${movieDetail.overview}</div>
           <div class="my-vote-average">
             <span>내 별점 </span> 
             <span class="star-score-images"></span> 
@@ -80,12 +80,6 @@ export const createMovieElement = ({ id, title, thumbnail, voteAverage }: MovieT
     `;
     $modal.showModal();
     drawStarScore(id);
-
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        $modal.close();
-      }
-    });
     const $modalCloseButton = document.querySelector<HTMLButtonElement>(".modal-close-button");
     $modalCloseButton?.addEventListener("click", (e) => {
       e.preventDefault();
