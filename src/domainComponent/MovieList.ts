@@ -23,7 +23,12 @@ class MovieList {
     this.#seeMoreButton.element.click.bind(this.#seeMoreButton.element)
   );
 
+  #observer;
+  #debounce: NodeJS.Timeout | null = null;
+
   constructor(title: string, fetchFunc: () => Promise<fetchPromiseT>) {
+    this.#observer = this.#createObserver();
+
     const section = createElement("section", { attrs: { class: "item-view" } });
     this.#title = new SubTitle(title);
     section.append(
@@ -44,10 +49,10 @@ class MovieList {
     if (fetchFunc) this.#setFetchFunc(fetchFunc);
 
     this.#moviePosterBoard.deleteMoviePosters();
-    hideElement(this.#seeMoreButton.element);
-    this.#seeMoreButton.element.click();
 
     hideElement(this.#networkFallBack);
+
+    // this.#seeMoreButton.element.click();
   }
 
   #setFetchFunc(fetchFunc: () => Promise<fetchPromiseT>) {
@@ -58,8 +63,20 @@ class MovieList {
     this.#title.setTitle(string);
   }
 
+  #createObserver() {
+    const observer = new IntersectionObserver((e) => {
+      this.#seeMoreButton.element.click.call(this.#seeMoreButton.element);
+    });
+    observer.observe(this.#seeMoreButton.element);
+
+    return observer;
+  }
+
   #createSeeMoreButton() {
-    const seeMoreButton = new PrimaryButton({ content: "더보기" });
+    const seeMoreButton = new PrimaryButton({
+      content: "더보기",
+      type: "opacity-zero",
+    });
 
     seeMoreButton.element.addEventListener(
       "click",
@@ -70,7 +87,7 @@ class MovieList {
   }
 
   #attachSeeMoreButtonClickEvent() {
-    this.#seeMoreButton.element.removeEventListener(
+    this.#seeMoreButton.element.addEventListener(
       "click",
       this.#seeMoreButtonClickEvent
     );
@@ -84,26 +101,35 @@ class MovieList {
   }
 
   #seeMoreButtonClickEvent(event: Event) {
-    revealElement(this.#posterBoardSkeleton);
     this.#dettachSeeMoreButtonClickEvent.call(this);
+    revealElement(this.#posterBoardSkeleton);
 
-    this.#fetchFunc()
-      .then(({ movieInfos, isLastPage }) => {
-        this.#moviePosterBoard.addMoviePosters(movieInfos);
+    if (this.#debounce) {
+      clearTimeout(this.#debounce);
+    }
 
-        if (isLastPage) hideElement(this.#seeMoreButton.element);
-        else revealElement(this.#seeMoreButton.element);
+    this.#debounce = setTimeout(() => {
+      hideElement(this.#seeMoreButton.element);
+      this.#fetchFunc()
+        .then(({ movieInfos, isLastPage }) => {
+          this.#moviePosterBoard.addMoviePosters(movieInfos);
 
-        hideElement(this.#networkFallBack);
-      })
-      .catch(() => {
-        revealElement(this.#networkFallBack);
-        hideElement(this.#seeMoreButton.element);
-      })
-      .finally(() => {
-        hideElement(this.#posterBoardSkeleton);
-        this.#attachSeeMoreButtonClickEvent();
-      });
+          if (isLastPage) hideElement(this.#seeMoreButton.element);
+          else revealElement(this.#seeMoreButton.element);
+
+          hideElement(this.#networkFallBack);
+        })
+        .catch(() => {
+          revealElement(this.#networkFallBack);
+          hideElement(this.#seeMoreButton.element);
+        })
+        .finally(() => {
+          hideElement(this.#posterBoardSkeleton);
+          revealElement(this.#seeMoreButton.element);
+          this.#attachSeeMoreButtonClickEvent();
+        });
+    }, 700);
+    // 700ms 미만으로 설정시 한번에 두개씩 불러들여와짐
   }
 }
 
