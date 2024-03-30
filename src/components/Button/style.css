@@ -1,0 +1,12 @@
+.close-button {
+  background-color: #383839;
+  border: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+}
+
+.close-button-x {
+  color: white;
+  font-size: 1.3rem;
+}
