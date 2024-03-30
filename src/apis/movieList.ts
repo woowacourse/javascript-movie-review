@@ -1,5 +1,9 @@
 import { fetchAPI } from "./utils/fetchAPI";
-import { POPULAR_MOVIE_LIST_PATH, SEARCH_MOVIE_LIST_PATH } from "./utils/paths";
+import {
+  POPULAR_MOVIE_LIST_PATH,
+  MOVIE_PATH,
+  SEARCH_MOVIE_LIST_PATH,
+} from "./utils/paths";
 import { FetchedMovieData } from "../types/movies";
 
 export const getPopularMovieList = async (
@@ -21,4 +25,10 @@ export const getSearchMovieList = async (
     `query=${query}&page=${page}`
   );
   return fetchedMovieData;
+};
+
+export const getMovieDetail = async (movieId: number | null) => {
+  const fetchedMovieDetailData = await fetchAPI(`${MOVIE_PATH}/${movieId}`);
+
+  return fetchedMovieDetailData;
 };
