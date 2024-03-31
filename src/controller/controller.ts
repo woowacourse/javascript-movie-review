@@ -6,6 +6,8 @@ import toast from '../component/toast/toast';
 import { $ } from '../util/selector';
 import { MOVIE_LIST_TYPE } from '../constant/config';
 import ERROR_MESSAGE from '../constant/errorMessage';
+import MovieDetailModal from '../component/modal/MovieDetailModal';
+import { UserScoreParams } from '../interface/MovieInterface';
 
 export class App {
   private searchKeyword;
@@ -13,6 +15,7 @@ export class App {
   private pageNumberManager;
   private movieService;
   private movieContainer;
+  private movieDetailModal;
 
   constructor() {
     this.searchKeyword = '';
@@ -25,12 +28,22 @@ export class App {
       title: MOVIE_LIST_TYPE.popular.title,
       handleMoreButton: () => this.addMovieList(),
     });
+
+    this.movieDetailModal = new MovieDetailModal({
+      id: 'movie-detail-modal',
+      onUpdateUserScore: ({ movieId, userScore }) => this.handleUpdateUserScore({ movieId, userScore }),
+    });
+  }
+
+  handleUpdateUserScore({ movieId, userScore }: UserScoreParams) {
+    console.log(movieId, userScore);
   }
 
   async init() {
     createHeader();
     $('form.search-box').addEventListener('clickSearchButton', () => this.handleSearchButtonClick());
     $('header > img.logo').addEventListener('logoClickEvent', () => this.handleLogoClick());
+    document.body.appendChild(this.movieDetailModal.render());
 
     await this.addMovieList();
   }
@@ -59,8 +72,10 @@ export class App {
     }
   }
 
-  handleMovieItemClick(movieId: number) {
-    this.fetchMovieDetailData(movieId);
+  async handleMovieItemClick(movieId: number) {
+    const movieDetail = await this.fetchMovieDetail(movieId);
+    this.movieDetailModal.renderMovieDetailContainer({ movie: movieDetail.data });
+    this.movieDetailModal.showModal();
   }
 
   retryAddMovieList(error: Error) {
@@ -99,9 +114,9 @@ export class App {
     return moviePageData;
   }
 
-  async fetchMovieDetailData(movieId: number) {
-    const movieDetailData = await this.movieService.fetchMovieDetailData(movieId);
-    console.log(movieDetailData);
+  async fetchMovieDetail(movieId: number) {
+    const movieDetail = await this.movieService.fetchMovieDetail(movieId);
+    return movieDetail;
   }
 
   setSearchKeyword() {

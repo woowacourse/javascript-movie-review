@@ -3,7 +3,7 @@ import fetchAPI from '../api/fetchAPI';
 import generateQueryUrl from '../api/generateQueryUrl';
 import Movie from './Movie';
 import getEnvVariable from '../util/getEnvVariable';
-import { MovieDetailRawData, MovieDetailData, MoviePageDataParams } from '../interface/MovieInterface';
+import { MovieDetailRawData, MovieDetailData, MoviePageDataParams, UserScoreParams } from '../interface/MovieInterface';
 import MovieDetail from './MovieDetail';
 
 type MovieListType = keyof typeof MOVIE_LIST_TYPE;
@@ -36,7 +36,7 @@ class MovieService {
     return this.createMoviePageData({ total_pages, results, pageNumber });
   }
 
-  async fetchMovieDetailData(id: number) {
+  async fetchMovieDetail(id: number) {
     const queryUrl = generateQueryUrl({
       baseUrl: BASE_URL,
       endpoint: ENDPOINT.GET.MOVIE_DETAIL(id),
@@ -47,7 +47,7 @@ class MovieService {
     });
 
     const { title, genres, poster_path, vote_average, overview } = await fetchAPI({ url: queryUrl, method: 'GET' });
-    return this.createMovieDetailData({ id, title, genres, poster_path, vote_average, overview });
+    return this.createMovieDetail({ id, title, genres, poster_path, vote_average, overview });
   }
 
   createMoviePageData({ total_pages, results, pageNumber }: MoviePageDataParams) {
@@ -67,7 +67,7 @@ class MovieService {
     };
   }
 
-  createMovieDetailData({ ...data }: MovieDetailRawData) {
+  createMovieDetail({ ...data }: MovieDetailRawData) {
     const movieDetailData: MovieDetailData = {
       id: data.id,
       title: data.title,
@@ -95,7 +95,7 @@ class MovieService {
     return JSON.parse(userMoviesRawData);
   }
 
-  getUserScore({ movieId }: { movieId: number }) {
+  getUserScore({ movieId }: UserScoreParams) {
     const userMovies = this.getUserMoviesFromStorage();
     if (Object.keys(userMovies).includes(movieId.toString())) {
       return parseInt(userMovies[movieId].userScore);
@@ -103,7 +103,7 @@ class MovieService {
     return null;
   }
 
-  setUserScore({ movieId, userScore }: { movieId: number; userScore: number }) {
+  setUserScore({ movieId, userScore }: UserScoreParams) {
     const userMovies = this.getUserMoviesFromStorage();
     const updatedUserMovies = { ...userMovies, [movieId]: { userScore } };
     localStorage.setItem(STORAGE.userMovies, JSON.stringify(updatedUserMovies));

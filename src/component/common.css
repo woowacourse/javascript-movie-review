@@ -56,6 +56,14 @@ button {
 .item-card {
   display: flex;
   flex-direction: column;
+  transform: scale(1);
+  transition: transform 0.3s ease;
+}
+
+.item-card:hover {
+  cursor: pointer;
+  transform: scale(1.08);
+  transition: transform 0.3s ease;
 }
 
 .item-thumbnail {
