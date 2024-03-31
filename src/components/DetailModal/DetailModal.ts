@@ -3,37 +3,50 @@ import closeButtonImg from '../../images/close_button.png';
 import starImg from '../../images/star_filled.png';
 import emptyStarImg from '../../images/star_empty.png';
 import './DetailModal.css';
+import MovieApi from '../../API/MovieApi';
 
 class DetailModal {
   #modalElement = document.querySelector('dialog');
 
-  #movie: Movie;
+  #movieDetail: any;
 
-  #count = 3;
+  #count = 0;
 
   constructor(movie: any) {
-    this.#movie = movie;
-    this.#generateContainer();
+    this.#getMovieDetail(movie.id);
   }
 
-  #generateContainer() {
+  async #getMovieDetail(movieId: number) {
+    const detailData = await MovieApi.getDetailData(movieId);
+
+    this.#movieDetail = detailData;
+    this.#generateContainer(detailData);
+  }
+
+  #getMovieGenres(genres: any[]) {
+    const genresName = genres.map((genre) => genre.name);
+
+    return genresName.join(', ');
+  }
+
+  #generateContainer(detailData: any) {
     const container = document.createElement('div');
 
     container.classList.add('modal-container');
 
-    container.appendChild(this.#generateHeader());
+    container.appendChild(this.#generateHeader(detailData));
     container.appendChild(this.#generateCloseButton());
-    container.appendChild(this.#generateContent());
+    container.appendChild(this.#generateContent(detailData));
     this.#modalElement?.appendChild(container);
   }
 
-  #generateHeader() {
+  #generateHeader(detailData: any) {
     const container = document.createElement('div');
     const title = document.createElement('h3');
 
     container.classList.add('modal-header');
     title.classList.add('text-title', 'modal-title');
-    title.innerText = this.#movie.title;
+    title.innerText = detailData.title;
 
     container.appendChild(title);
 
@@ -53,22 +66,22 @@ class DetailModal {
   }
 
   /* eslint-disable max-lines-per-function */
-  #generateContent() {
+  #generateContent(detailData: any) {
     const container = document.createElement('div');
     const content = /* html */ `
-        <img src="https:image.tmdb.org/t/p/w220_and_h330_face${this.#movie.poster_path}" class="modal-img">
+          <img src="https:image.tmdb.org/t/p/w220_and_h330_face${detailData.poster_path}" loading="lazy" class="modal-img">
         <div class="modal-content">
           <div class="modal-movie-info">
             <div class="modal-genre-star-box">
               <div class="modal-genre text-body">
-                액션, 코미디, 범죄
+                ${this.#getMovieGenres(detailData.genres)}
               </div>
               <div class="modal-star">
-                <img src=${starImg}> <span class="text-body">${this.#movie.vote_average.toFixed(2)}</span>
+                <img src=${starImg}> <span class="text-body">${detailData.vote_average.toFixed(2)}</span>
               </div>
             </div>
             <p class="modal-description text-body">
-              ${this.#movie.overview}
+              ${detailData.overview}
             </p>
           </div>
           <div class="modal-user-star-container">
@@ -99,15 +112,26 @@ class DetailModal {
   }
 
   #generateStarImg() {
+    const container = document.createElement('div');
+
+    for (let i = 0; i < this.#count; i++) {
+      const button = document.createElement('button');
+
+      button.type = 'button';
+      button.classList.add('modal-user-star-button');
+      button.innerHTML = /* html */ `<img src="${starImg}">`;
+      container.appendChild(button);
+    }
+
     const img = /* html */ `
-    <button type="button" class="modal-user-star-button filled"><img src="${starImg}"></button>
+    <button type="button" class="modal-user-star-button"><img src="${starImg}"></button>
     `;
     return img.repeat(this.#count);
   }
 
   #generateEmptyStarImg() {
     const img = /* html */ `
-    <button type="button" class="modal-user-star-button empty"><img src="${emptyStarImg}"></button>
+    <button type="button" class="modal-user-star-button"><img src="${emptyStarImg}"></button>
     `;
     return img.repeat(5 - this.#count);
   }
