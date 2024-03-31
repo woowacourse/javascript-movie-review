@@ -6,11 +6,11 @@ import { querySelector } from './utils/dom/selector';
 import { createElement } from './utils/dom/createElement/createElement';
 
 class App extends Component {
-  $errorModal: ErrorModal | undefined;
+  errorModal: ErrorModal | undefined;
 
   protected render() {
     this.$element.append(this.createComponent());
-    this.$errorModal = new ErrorModal(this.$element);
+    this.errorModal = new ErrorModal(this.$element);
   }
 
   protected createComponent() {
@@ -18,7 +18,7 @@ class App extends Component {
     const $header = createElement({ tagName: 'header' });
     const $main = createElement({ tagName: 'main' });
 
-    new MovieReviewHeader($header, { renderMovieReviewBody: this.renderMovieReviewBody.bind(this) });
+    new MovieReviewHeader($header, { updateMovieReviewBody: this.updateMovieReviewBody.bind(this) });
     new MovieReviewBody($main, { movieType: 'popular', openErrorModal: this.openErrorModal.bind(this) });
 
     $app.append($header, $main);
@@ -26,7 +26,7 @@ class App extends Component {
     return $app;
   }
 
-  private renderMovieReviewBody(movieName: string) {
+  private updateMovieReviewBody(movieName: string) {
     const $main = querySelector<HTMLElement>('main', this.$element);
     $main.innerHTML = '';
 
@@ -35,7 +35,7 @@ class App extends Component {
 
   private openErrorModal(error: unknown) {
     if (error instanceof Error) {
-      this.$errorModal?.openModal();
+      this.errorModal?.openModal();
     }
   }
 }

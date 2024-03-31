@@ -5,7 +5,7 @@ import { Logo } from '../../../assets';
 import './MovieReviewHeader.css';
 
 interface MovieReviewHeaderProps {
-  renderMovieReviewBody: (movieName: string) => void;
+  updateMovieReviewBody: (movieName: string) => void;
 }
 
 class MovieReviewHeader extends Component<MovieReviewHeaderProps> {
@@ -67,7 +67,7 @@ class MovieReviewHeader extends Component<MovieReviewHeaderProps> {
       return;
     }
 
-    this.props?.renderMovieReviewBody(searchValue);
+    this.props?.updateMovieReviewBody(searchValue);
   }
 
   private handleLogoClick() {

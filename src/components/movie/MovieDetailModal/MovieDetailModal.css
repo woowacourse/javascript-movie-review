@@ -97,6 +97,9 @@ input[type='radio'] {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  row-gap: 16px;
+
+  width: 100%;
 }
 
 @media (max-width: 767px) {
@@ -118,6 +121,11 @@ input[type='radio'] {
   height: 24px;
 
   margin-bottom: 3px;
+}
+
+.movie-overview {
+  max-height: 140px;
+  overflow: auto;
 }
 
 .movie-rating-container {

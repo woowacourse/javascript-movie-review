@@ -4,17 +4,16 @@ import { querySelector } from '../../../utils/dom/selector';
 import './ErrorModal.css';
 
 class ErrorModal extends Component {
-  $modal: Modal | undefined;
+  modal: Modal | undefined;
 
   protected render(): void {
-    this.$modal = new Modal(this.$element, { id: 'error-fallback-modal' });
+    this.modal = new Modal(this.$element, { id: 'error-modal' });
   }
 
   protected initializeState(): void {
-    if (!this.$modal) return;
+    if (!this.modal) return;
 
-    console.log(this.$modal);
-    this.$modal.createModalContent(this.createComponent());
+    this.modal.createModalContent(this.createComponent());
   }
 
   protected createComponent() {
@@ -28,14 +27,14 @@ class ErrorModal extends Component {
 
   protected setEvent(): void {
     const $reloadButton = querySelector<HTMLButtonElement>('#reload-button', this.$element);
-    $reloadButton.addEventListener('click', this.handleReloadButtonClick.bind(this));
+    $reloadButton.addEventListener('click', this.reload);
   }
 
   openModal() {
-    this.$modal?.open();
+    this.modal?.open();
   }
 
-  private handleReloadButtonClick() {
+  private reload() {
     window.location.reload();
   }
 }

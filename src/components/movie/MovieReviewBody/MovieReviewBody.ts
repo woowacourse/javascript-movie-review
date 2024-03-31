@@ -18,11 +18,11 @@ interface MovieReviewBodyProps {
 class MovieReviewBody extends Component<MovieReviewBodyProps> {
   private page: number | undefined;
   private observer: IntersectionObserver | undefined;
-  private $movieDetailModal: MovieDetailModal | undefined;
+  private movieDetailModal: MovieDetailModal | undefined;
 
   protected render() {
     this.$element.innerHTML = this.createComponent();
-    this.$movieDetailModal = new MovieDetailModal(this.$element);
+    this.movieDetailModal = new MovieDetailModal(this.$element);
   }
 
   protected initializeState(): void {
@@ -126,7 +126,7 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
 
     MovieService.fetchMovieDetail({
       key: key,
-      onSuccess: (data) => this.$movieDetailModal?.openModal(data),
+      onSuccess: (data) => this.movieDetailModal?.openModal(data),
       onError: this.props.openErrorModal,
     });
   }
