@@ -36,7 +36,7 @@ class MovieApp {
     this.#app.appendChild(this.#modal.element);
     this.#movieController.render('');
 
-    this.#addResizeEvent();
+    window.addEventListener('resize', this.#onResize());
   }
 
   #setHeader() {
@@ -68,6 +68,14 @@ class MovieApp {
     return main;
   }
 
+  #onResize() {
+    return throttle(() => {
+      const searchBox = $('.search-box') as HTMLElement;
+
+      if (window.innerWidth > RULES.mobileThresholdWidth) searchBox.style.width = '';
+    }, 300);
+  }
+
   #onSearchHandler() {
     const searchInput = $('#search-text') as HTMLInputElement;
 
@@ -95,28 +103,7 @@ class MovieApp {
     });
 
     this.#modal.replaceContent(movieDetail);
-    this.#addStarHoverEvent();
-  }
-
-  #addStarHoverEvent() {
-    $('.stars')?.addEventListener('mouseover', (event: Event) => {
-      const stars = document.querySelectorAll('.star') as NodeListOf<HTMLImageElement>;
-      const target = event.target as HTMLElement;
-      const targetStar = target.closest('.star') as HTMLImageElement;
-      if (!targetStar) return;
-      const gradeElement = $('.review-rating') as HTMLSpanElement;
-      const gradeText = $('.review-text') as HTMLSpanElement;
-      const starIndex = Number(targetStar.dataset?.starIndex);
-      const grade = starIndex * 2 + 2;
-
-      stars.forEach((star, index) => {
-        if (index <= starIndex) star.src = STAR_FILLED;
-        else star.src = STAR_EMPTY;
-      });
-
-      gradeElement.textContent = String(grade);
-      gradeText.textContent = STAR_MESSAGE[grade];
-    });
+    $('.stars')?.addEventListener('mouseover', (event) => this.#onStarHover(event));
   }
 
   #onStarClick(movieId: number, event: Event) {
@@ -129,15 +116,23 @@ class MovieApp {
     this.#movieDetailController.updateMovieDetail(movieId, grade);
   }
 
-  #addResizeEvent() {
-    window.addEventListener(
-      'resize',
-      throttle(() => {
-        const searchBox = $('.search-box') as HTMLElement;
+  #onStarHover(event: Event) {
+    const stars = document.querySelectorAll('.star') as NodeListOf<HTMLImageElement>;
+    const target = event.target as HTMLElement;
+    const targetStar = target.closest('.star') as HTMLImageElement;
+    if (!targetStar) return;
+    const gradeElement = $('.review-rating') as HTMLSpanElement;
+    const gradeText = $('.review-text') as HTMLSpanElement;
+    const starIndex = Number(targetStar.dataset?.starIndex);
+    const grade = starIndex * 2 + 2;
 
-        if (window.innerWidth > RULES.mobileThresholdWidth) searchBox.style.width = '';
-      }, 300),
-    );
+    stars.forEach((star, index) => {
+      if (index <= starIndex) star.src = STAR_FILLED;
+      else star.src = STAR_EMPTY;
+    });
+
+    gradeElement.textContent = String(grade);
+    gradeText.textContent = STAR_MESSAGE[grade];
   }
 }
 
