@@ -43,7 +43,7 @@ class SearchedMovieList extends MovieList {
 
       setTimeout(() => {
         this.updateMovieItemsWithData(movies, liList);
-      }, 1000);
+      }, 500);
     } catch (error) {
       if (error instanceof Error) {
         this.createErrorUI(error.message);

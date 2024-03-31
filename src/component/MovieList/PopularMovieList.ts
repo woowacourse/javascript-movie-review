@@ -39,7 +39,7 @@ class PopularMovieList extends MovieList {
 
       setTimeout(() => {
         this.updateMovieItemsWithData(movies, liList);
-      }, 1000);
+      }, 500);
 
       this.currentPage += 1;
     } catch (error) {
