@@ -7,4 +7,5 @@ export const URL = {
   POPULAR_MOVIES: `https://api.themoviedb.org/3/movie/popular?${params.toString()}`,
   SEARCH_MOVIES: `https://api.themoviedb.org/3/search/movie?${params.toString()}`,
   GENRE: `https://api.themoviedb.org/3/genre/movie/list?${params.toString()}`,
+  IMAGE: `https://image.tmdb.org/t/p/w220_and_h330_face/`,
 };

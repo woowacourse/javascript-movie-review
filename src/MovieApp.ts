@@ -1,5 +1,5 @@
 import HeaderManager from './components/Header/Header';
-import Modal, { MovieScoreEvent } from './components/Modal/Modal';
+import ScoreCheckbox, { MovieScoreEvent } from './components/Modal/ScoreCheckbox';
 import MovieContentManager from './components/MovieContents/MovieContents';
 import { LOGO } from './images/index';
 import storage from './storage';
@@ -42,7 +42,7 @@ class MovieApp {
 
       const existData = storage.getData().find((data) => data.movie.title === movieInfo.title);
       if (existData) {
-        Modal.updateMovieScoreUI(existData.score);
+        ScoreCheckbox.updateMovieScoreUI(existData.score);
       }
     });
   }
