@@ -46,10 +46,8 @@ describe("네트워크 에러 테스트", () => {
       { forceNetworkError: true }
     ).as("getPopularMoviesClientNetworkError");
 
-    const button = cy.get(".item-view button");
+    cy.scrollTo("bottom");
 
-    button.click().then(() => {
-      cy.contains("오늘부터 인터넷은 내가 지배한다옹~").should("be.visible");
-    });
+    cy.contains("오늘부터 인터넷은 내가 지배한다옹~").should("be.visible");
   });
 });
