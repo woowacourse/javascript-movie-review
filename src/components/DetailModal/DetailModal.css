@@ -50,6 +50,11 @@
   margin-left: 32px;
 }
 
+.modal-img-container {
+  width: 300px;
+  height: 433px;
+}
+
 .modal-img {
   width: 300px;
   height: 433px;
@@ -93,4 +98,22 @@
   padding: 0;
   border: 0;
   background: none;
+}
+
+.modal-img.skeleton {
+  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background-size: 400%;
+  animation: skeleton-animation 5s infinite ease-out;
+  border-radius: 8px;
+}
+
+.modal-title.skeleton,
+.modal-score.skeleton {
+  width: 440px;
+  height: 20px;
+  margin-top: 10px;
+  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background-size: 400%;
+  animation: skeleton-animation 5s infinite ease-out;
+  border-radius: 8px;
 }

@@ -17,10 +17,14 @@ class DetailModal {
   }
 
   async #getMovieDetail(movieId: number) {
-    const detailData = await MovieApi.getDetailData(movieId);
+    if (this.#modalElement) {
+      this.#modalElement.innerHTML = this.#generateSkeleton();
+      const detailData = await MovieApi.getDetailData(movieId);
+      this.#modalElement.innerHTML = '';
 
-    this.#movieDetail = detailData;
-    this.#generateContainer(detailData);
+      this.#movieDetail = detailData;
+      this.#generateContainer(detailData);
+    }
   }
 
   #getMovieGenres(genres: any[]) {
@@ -65,11 +69,33 @@ class DetailModal {
     return button;
   }
 
+  #generateSkeleton() {
+    const element = /* html */ `
+    <div class="modal-container">
+      <div class="modal-header"></div>
+      <div class="modal-content-container">
+        <div class="modal-img skeleton"></div>
+        <div class="modal-content">
+        <div>
+          <div class="modal-title skeleton"></div>
+          <div class="modal-score skeleton"></div>
+        </div>
+        </div>
+      </div>
+    </div>
+     `;
+
+    return element;
+  }
+
   /* eslint-disable max-lines-per-function */
   #generateContent(detailData: any) {
     const container = document.createElement('div');
     const content = /* html */ `
+        <div class="modal-img-container">
           <img src="https:image.tmdb.org/t/p/w220_and_h330_face${detailData.poster_path}" loading="lazy" class="modal-img">
+        </div>
+        
         <div class="modal-content">
           <div class="modal-movie-info">
             <div class="modal-genre-star-box">
@@ -120,6 +146,7 @@ class DetailModal {
       button.type = 'button';
       button.classList.add('modal-user-star-button');
       button.innerHTML = /* html */ `<img src="${starImg}">`;
+      this.#addStarButtonEvent(button);
       container.appendChild(button);
     }
 
@@ -134,6 +161,12 @@ class DetailModal {
     <button type="button" class="modal-user-star-button"><img src="${emptyStarImg}"></button>
     `;
     return img.repeat(5 - this.#count);
+  }
+
+  #addStarButtonEvent(button: HTMLButtonElement) {
+    button.addEventListener('click', () => {
+      console.log('click');
+    });
   }
 
   get element() {
