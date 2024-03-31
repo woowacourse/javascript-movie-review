@@ -46,7 +46,6 @@ class SearchedMovieList extends MovieList {
       }, 1000);
     } catch (error) {
       if (error instanceof Error) {
-        console.log(error);
         this.createErrorUI(error.message);
       }
     }
