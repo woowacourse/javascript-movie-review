@@ -64,9 +64,13 @@
 }
 
 .modal-close-button {
-  border-radius: 6px;
+  border: none;
+  border-radius: 50%;
   height: 2rem;
   width: 1.5rem;
+  height: 1.5rem;
+  background: #383839;
+  color: #f1f1f1;
 }
 
 .modal-section {
