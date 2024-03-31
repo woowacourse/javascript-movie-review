@@ -36,6 +36,7 @@ class RateDataStateStore {
 
     if (rateIndex === undefined) return;
     if (this.#rateList) this.#rateList[rateIndex].rate = newRate.rate;
+    this.setRateList();
   }
 
   getOneRate(movieId: number) {
