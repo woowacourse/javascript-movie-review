@@ -4,14 +4,16 @@ import MovieSection from "./MovieSection/MovieSection";
 
 import { $ } from "../utils/dom";
 
+import "./App.css";
+
 export default class App extends Component<{}, {}> {
   private movieSection: MovieSection | undefined;
 
   protected getTemplate(): string {
     return /*html*/ `
-      <header></header>
+      <header class="full-width flex justify-between align-center mb-3"></header>
       <main>
-        <section class="item-view"></section>
+        <section class="flex flex-col justify-center w-fit item-view"></section>
       </main>
     `;
   }
