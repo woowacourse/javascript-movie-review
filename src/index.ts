@@ -1,4 +1,4 @@
-import "./styles/common.css";
+import "./styles/index.css";
 
 import MovieHeader from "./components/MovieHeader";
 import MovieListTitle from "./components/movieList/MovieListTitle";
