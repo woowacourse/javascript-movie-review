@@ -7,6 +7,8 @@ import { $ } from "../../utils/dom";
 import { filledStarLogo, emptyStarLogo } from "../../assets/image";
 import { isValidElement } from "../../utils/type";
 
+import "./MovieRatingPanel.css";
+
 interface MovieRatingPanelProps {
   id: number;
 }
@@ -15,7 +17,7 @@ export default class MovieRatingPanel extends Component<MovieRatingPanelProps, {
   private ratingManager: MovieRatingManager | undefined;
 
   private static readonly MOVIE_RATING_MESSAGES = {
-    0: "평가를 남겨주세요",
+    0: "평가 없음",
     2: "최악이에요",
     4: "별로에요",
     6: "보통이에요",
@@ -40,7 +42,7 @@ export default class MovieRatingPanel extends Component<MovieRatingPanelProps, {
             <img src="" value="5" class="h-8 w-8 star-logo" alt="별점 이미지" />
           </div>
           <p class="text-base font-normal" id="rating-number"></p>
-          <p class="text-base font-normal" id="rating-message"></p>
+          <p class="text-base font-normal rating-message" id="rating-message"></p>
         </div>
       </div>`;
   }
