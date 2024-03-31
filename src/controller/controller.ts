@@ -47,6 +47,7 @@ export class App {
     document.body.appendChild(this.movieDetailModal.render());
 
     await this.addMovieList();
+    this.setIntersectionObserver();
   }
 
   async addMovieList() {
@@ -71,6 +72,25 @@ export class App {
     if (this.searchKeyword) {
       this.makeSearchPage();
     }
+  }
+
+  setIntersectionObserver() {
+    const options = {
+      root: null,
+      rootMargin: '0px 0px 100px 0px',
+      threshold: 0,
+    };
+
+    const intersectionObserver = new IntersectionObserver(this.handleScrollToBottom.bind(this), options);
+    intersectionObserver.observe($('button#more-button'));
+  }
+
+  handleScrollToBottom(entries: IntersectionObserverEntry[]) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        this.addMovieList();
+      }
+    });
   }
 
   async handleMovieItemClick(movieId: number) {

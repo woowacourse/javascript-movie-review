@@ -34,7 +34,7 @@ class MovieContainer {
         callbackFunction: () => this.initHandleClickMoreButton(),
       },
     });
-    this.toggleMoreButtonVisibility(false);
+    this.toggleMoreButtonDisplay(false);
 
     $('section').append(this.moreButton);
   }
@@ -48,7 +48,7 @@ class MovieContainer {
     });
 
     this.skeletonList = skeletonMovieList;
-    this.toggleMoreButtonVisibility(false);
+    this.toggleMoreButtonDisplay(false);
     this.removeRetryButton();
   }
 
@@ -85,12 +85,12 @@ class MovieContainer {
       injectMovieDataToItem({ item, movie: movieList[i].data, onClick });
     });
 
-    this.toggleMoreButtonVisibility(hasNextPage);
+    this.toggleMoreButtonDisplay(hasNextPage);
     this.skeletonList = [];
   }
 
-  toggleMoreButtonVisibility(hasNextPage: boolean) {
-    this.moreButton.style.visibility = hasNextPage ? 'visible' : 'hidden';
+  toggleMoreButtonDisplay(hasNextPage: boolean) {
+    this.moreButton.style.display = hasNextPage ? 'block' : 'none';
   }
 
   clearMovieList() {
