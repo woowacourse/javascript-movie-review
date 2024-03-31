@@ -6,6 +6,66 @@
   overflow-y: hidden;
 }
 
+.flex-XY-aligned {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-Y-center {
+  display: flex;
+  align-items: center;
+}
+
+.flex-column {
+  display: flex;
+  /* flex-direction: column; */
+}
+
+.padding-32 {
+  padding: 32px;
+}
+
+.gap-16 {
+  gap: 16px;
+}
+
+.h-433 {
+  height: 433px;
+}
+
+.w-16 {
+  width: 16px;
+}
+
+.w-96 {
+  width: 96px;
+}
+
+.w-292 {
+  width: 292px;
+}
+
+.w-396 {
+  width: 396px;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+.max-width-60 {
+  max-width: 60%;
+}
+
+.h-20 {
+  height: 20px;
+}
+
+.w-100 {
+  width: 100px;
+}
+
 .movie-detail-button {
   background: none;
   color: inherit;
@@ -19,17 +79,6 @@
   overflow-y: hidden;
   color: #f1f1f1;
   border-radius: 16px;
-}
-
-.flex-XY-aligned {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.flex-Y-center {
-  display: flex;
-  align-items: center;
 }
 
 .movie-detail-header {
@@ -63,22 +112,7 @@ dialog::backdrop {
   background: #00000099;
 }
 
-.padding-32 {
-  padding: 32px;
-}
-
-.gap-16 {
-  gap: 16px;
-}
-
-.movie-detail-image {
-  height: 433px;
-  width: 292px;
-}
-
 .movie-detail-info {
-  flex-grow: 1;
-  height: 433px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -128,8 +162,4 @@ dialog::backdrop {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-}
-
-.max-width-60 {
-  max-width: 60%;
 }
