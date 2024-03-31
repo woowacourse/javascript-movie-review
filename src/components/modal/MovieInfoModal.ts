@@ -1,4 +1,4 @@
-import { MOVIE_INFO_COMMON_CLASS } from '../../constants';
+import { MOVIE_INFO_COMMON_CLASS, NONE_MOVIE_INFO } from '../../constants';
 import { MovieInfo } from '../../type/movie';
 import { createElementWithAttribute } from '../../utils';
 import { MovieImg, MovieScore, MovieTitle, UserScore } from '../movie';
@@ -35,10 +35,10 @@ class MovieInfoModal {
     const $genreBox = createElementWithAttribute('span', {
       class: `${MOVIE_INFO_COMMON_CLASS}__genre`,
     });
-    // TODO: 상수화
+
     $genreBox.textContent = genres
       ? genres.map((i) => i.name).join(', ')
-      : '(장르가 없어요.🫥)';
+      : NONE_MOVIE_INFO.genre;
 
     return $genreBox;
   }
@@ -117,7 +117,7 @@ class MovieInfoModal {
       class: `${MOVIE_INFO_COMMON_CLASS}__description__overview`,
     });
     $overView.textContent =
-      this.#movieInfo.overview || '영화에 대한 설명이 없습니다.🫥';
+      this.#movieInfo.overview || NONE_MOVIE_INFO.overview;
 
     return $overView;
   }

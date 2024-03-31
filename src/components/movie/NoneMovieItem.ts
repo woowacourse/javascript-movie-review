@@ -1,3 +1,4 @@
+import { NONE_MOVIE_ITEM_TEXT } from '../../constants';
 import NoMovie from '../../images/no_movie.svg';
 import { createElementWithAttribute } from '../../utils';
 
@@ -16,7 +17,7 @@ class NoneMovieItem {
     const $noItem = document.createElement('li');
     const $img = createElementWithAttribute('img', { src: NoMovie });
     const $text = document.createElement('p');
-    $text.textContent = '검색 결과가 없습니다.';
+    $text.textContent = NONE_MOVIE_ITEM_TEXT;
 
     $noItem.appendChild($img);
     $noItem.appendChild($text);

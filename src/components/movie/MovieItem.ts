@@ -1,3 +1,4 @@
+import { NONE_MOVIE_INFO } from '../../constants';
 import { dataStateStore, movieInfoDataFetcher } from '../../model';
 import { Movie } from '../../type/movie';
 import { debouceFunc } from '../../utils';
@@ -30,8 +31,7 @@ class MovieItem {
     event.stopPropagation();
     const movieInfo = await this.getMovieInfo(id);
     if (!movieInfo) {
-      // TODO: 상수화
-      console.error('정보를 찾을 수 없습니다.');
+      console.error(NONE_MOVIE_INFO.noneData);
       return;
     }
 

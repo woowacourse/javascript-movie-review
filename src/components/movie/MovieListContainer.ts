@@ -42,6 +42,8 @@ class MovieListContainer {
     });
 
     $main.appendChild($section);
+    // 스크롤 후, 영화 검색 또는 로고를 눌러 인기 영화 리스트로 변경  시 스크롤을 최상단으로 변경
+    window.scrollTo({ top: 0 });
   };
 }
 
