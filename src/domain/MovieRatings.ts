@@ -1,4 +1,4 @@
-import MovieRating, { MovieRatingProps } from "./MovieRating";
+import MovieRating, { MovieRatingProps, RatingValue } from "./MovieRating";
 
 export default class MovieRatings {
   private ratings: MovieRating[] = [];
@@ -20,7 +20,7 @@ export default class MovieRatings {
     this.ratings = updated;
   }
 
-  public findRating(movieId: number): number | null {
+  public findRating(movieId: number): RatingValue | null {
     const targetRating = this.ratings.find((r) => r.isSameMovie(movieId));
 
     return targetRating ? targetRating.info().rating : null;

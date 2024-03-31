@@ -3,7 +3,7 @@ export interface MovieRatingProps {
   rating: number;
 }
 
-type RatingValue = 2 | 4 | 6 | 8 | 10;
+export type RatingValue = 2 | 4 | 6 | 8 | 10;
 
 const RATING_VALUES = [2, 4, 6, 8, 10];
 
@@ -20,7 +20,7 @@ export default class MovieRating {
     this.rating = rating;
   }
 
-  public info(): MovieRatingProps {
+  public info(): { movieId: number; rating: RatingValue } {
     return { movieId: this.movieId, rating: this.rating };
   }
 

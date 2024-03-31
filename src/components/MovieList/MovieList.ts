@@ -10,6 +10,7 @@ import { MovieItem } from "../../types/movie";
 import EventComponent from "../abstract/EventComponent";
 import EmptyMovieList from "./EmptyMovieList";
 import MovieDetailModalState from "../../states/MovieDetailModalState";
+import { throttle } from "../../utils/throttle";
 
 interface MovieListProps {
   targetId: string;
@@ -25,6 +26,8 @@ export default class MovieList extends EventComponent {
   private movies: MovieItem[] = [];
   private skeletonUI: SkeletonUI;
   private page = 1;
+  private isLoading = false;
+  private isLastPage = false;
 
   constructor({
     targetId,
@@ -47,11 +50,6 @@ export default class MovieList extends EventComponent {
         <ul id="item-list" class="item-list">
         ${movieItemsTemplate}
         </ul>
-        ${
-          this.movies.length === 20
-            ? '<button id="watch-more-button" class="btn primary full-width">더 보기</button>'
-            : ""
-        }
     `;
   }
 
@@ -85,7 +83,12 @@ export default class MovieList extends EventComponent {
 
     $<HTMLButtonElement>("watch-more-button")?.addEventListener(
       "click",
-      this.handleWatchMoreButtonClick.bind(this)
+      this.loadMoreMovies.bind(this)
+    );
+
+    window.addEventListener(
+      "scroll",
+      throttle(this.handleScroll.bind(this), 500)
     );
   }
 
@@ -105,23 +108,39 @@ export default class MovieList extends EventComponent {
     }
   }
 
-  private async handleWatchMoreButtonClick(): Promise<void> {
-    this.page += 1;
+  private handleScroll(): void {
+    const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
 
+    const SCROLL_HEIGHT_BUFFER = 150;
+    if (scrollTop + clientHeight + SCROLL_HEIGHT_BUFFER >= scrollHeight) {
+      this.loadMoreMovies();
+    }
+  }
+
+  private async loadMoreMovies(): Promise<void> {
+    if (this.isLoading || this.isLastPage) {
+      return;
+    }
+
+    this.isLoading = true;
     this.skeletonUI.insert("item-list", "afterend");
+    this.page += 1;
 
     const additionalMovies = await this.fetchMovies(
       this.page,
       this.queryState.get()
     );
 
+    this.isLoading = false;
+    this.insertMovieItems(additionalMovies);
+
     $<HTMLUListElement>("skeleton-movie-item-list")?.remove();
 
     this.movies = [...this.movies, ...additionalMovies];
-    this.insertMovieItems(additionalMovies);
 
-    if (additionalMovies.length < 20) {
-      $<HTMLButtonElement>("watch-more-button")?.remove();
+    const MOVIE_COUNT_PER_PAGE = 20;
+    if (additionalMovies.length < MOVIE_COUNT_PER_PAGE) {
+      this.isLastPage = true;
     }
   }
 
