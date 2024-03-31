@@ -29,7 +29,7 @@ class MovieReviewApp {
   }
 
   #renderMovieItemModal() {
-    const mainSection = $(".item-view") as HTMLElement;
+    const mainSection = $("main") as HTMLElement;
 
     const modalElement = this.#movieItemModal.getModal();
     mainSection.appendChild(modalElement);
