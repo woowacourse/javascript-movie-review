@@ -1,8 +1,5 @@
-import { ESC_KEY } from '../constants';
-import { debouceFunc } from '../utils';
-
-import ElementFinder from './ElementFinder';
-import ScrollController from './ScrollController';
+import { ESC_KEY } from '../../../constants';
+import { debouceFunc, ElementFinder, ScrollController } from '../../../utils';
 
 const ModalContainerController = {
   closeModalByESC(event: KeyboardEvent) {

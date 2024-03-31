@@ -1,6 +1,16 @@
 import createElementWithAttribute from './createElementWithAttribute';
 import debouceFunc from './debouneFunc';
+import ElementFinder from './ElementFinder';
 import handleFetchData from './handleFetchData';
+import ScrollController from './ScrollController';
+import WindowResponsiveHandler from './WindowResponsiveHandler';
 
 export * from './changeElementClass';
-export { createElementWithAttribute, debouceFunc, handleFetchData };
+export {
+  createElementWithAttribute,
+  debouceFunc,
+  ElementFinder,
+  handleFetchData,
+  ScrollController,
+  WindowResponsiveHandler,
+};

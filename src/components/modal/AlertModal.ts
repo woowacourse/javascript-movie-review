@@ -1,6 +1,6 @@
-import { ModalContainerController } from '../../controller';
 import { createElementWithAttribute } from '../../utils';
 
+import ModalContainerController from './controller/ModalContainerController';
 import ModalContainer from './ModalContainer';
 
 interface AlertModalInnerProps {

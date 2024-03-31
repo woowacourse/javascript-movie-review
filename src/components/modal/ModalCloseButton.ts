@@ -1,6 +1,7 @@
-import { ModalContainerController } from '../../controller';
 import XMarker from '../../images/xmark.svg';
 import { createElementWithAttribute } from '../../utils';
+
+import ModalContainerController from './controller/ModalContainerController';
 
 class ModalCloseButton {
   #element: HTMLElement;

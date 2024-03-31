@@ -1,9 +1,10 @@
 import {
+  createElementWithAttribute,
   ElementFinder,
-  ModalContainerController,
   ScrollController,
-} from '../../controller';
-import { createElementWithAttribute } from '../../utils';
+} from '../../utils';
+
+import ModalContainerController from './controller/ModalContainerController';
 
 interface ModalContainerProps {
   $children: HTMLElement;

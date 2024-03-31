@@ -1,5 +1,4 @@
-import { ElementFinder } from '../../controller';
-import { createElementWithAttribute } from '../../utils';
+import { createElementWithAttribute, ElementFinder } from '../../utils';
 import { ModalCloseButton, ModalContainer } from '../modal';
 import RefreshButton from '../RefreshButton';
 

@@ -1,7 +1,9 @@
-import { MOBILE_WIDTH } from '../constants';
-import { changeElementClass, changingElementClassProps } from '../utils';
-
-import ElementFinder from './ElementFinder';
+import { MOBILE_WIDTH } from '../../constants';
+import {
+  changeElementClass,
+  changingElementClassProps,
+  ElementFinder,
+} from '../../utils';
 
 const HIDDEN_INPUT_CLASS_NAME = 'off';
 

@@ -1,9 +1,12 @@
 import { NOT_SCORE_TEXT } from '../../constants';
-import { ElementFinder } from '../../controller';
 import Trash from '../../images/trash.svg';
 import localStorageHandler from '../../model/LocalStorageHandler';
 import { LocalStorageUserScore } from '../../type/movie';
-import { createElementWithAttribute, debouceFunc } from '../../utils';
+import {
+  createElementWithAttribute,
+  debouceFunc,
+  ElementFinder,
+} from '../../utils';
 
 const FILLED_CLASS = 'filled';
 const SCORE_TEXT_MAP = new Map([

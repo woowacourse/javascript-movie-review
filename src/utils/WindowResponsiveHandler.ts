@@ -1,4 +1,4 @@
-import SearchBoxResponsiveHandler from './SearchBoxResponsiveHandler';
+import SearchBoxResponsiveHandler from '../components/searching/SearchBoxResponsiveHandler';
 
 const WindowResponsiveHandler = {
   handleWindowResize() {

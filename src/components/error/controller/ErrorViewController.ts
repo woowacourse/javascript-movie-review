@@ -1,6 +1,6 @@
-import { ErrorMessage, ErrorView } from '../components';
-
-import ModalContainerController from './ModalContainerController';
+import { ModalContainerController } from '../../modal';
+import ErrorMessage from '../ErrorMessage';
+import ErrorView from '../ErrorView';
 
 const ErrorViewController = {
   showErrorViewInMain(error: unknown, extraExtraBoxClass?: string) {

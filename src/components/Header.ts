@@ -1,9 +1,8 @@
-import { ElementFinder, SearchBoxResponsiveHandler } from '../controller';
 import { dataStateStore, movieListDataFetcher } from '../model';
-import { createElementWithAttribute } from '../utils';
+import { createElementWithAttribute, ElementFinder } from '../utils';
 
 import { MovieListContainer } from './movie';
-import SearchBox from './SearchBox';
+import { SearchBox, SearchBoxResponsiveHandler } from './searching';
 
 const HeaderClickHandler = {
   async handleDataFetcher() {

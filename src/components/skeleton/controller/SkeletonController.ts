@@ -1,6 +1,5 @@
-import { SkeletonInfo } from '../components/skeleton';
-
-import ElementFinder from './ElementFinder';
+import { ElementFinder } from '../../../utils';
+import SkeletonInfo from '../SkeletonInfo';
 
 const skeletonInfo = new SkeletonInfo();
 

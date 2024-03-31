@@ -2,14 +2,18 @@ import {
   ENTER_KEY_CODE,
   MOBILE_WIDTH,
   UNDEFINED_INPUT_VALUE,
-} from '../constants';
-import { ElementFinder, SearchBoxResponsiveHandler } from '../controller';
-import { dataStateStore, movieListDataFetcher } from '../model';
-import { createElementWithAttribute, debouceFunc } from '../utils';
+} from '../../constants';
+import { dataStateStore, movieListDataFetcher } from '../../model';
+import {
+  createElementWithAttribute,
+  debouceFunc,
+  ElementFinder,
+} from '../../utils';
+import Label from '../Label';
+import { ToastModal } from '../modal';
+import { MovieListContainer } from '../movie';
 
-import Label from './Label';
-import { ToastModal } from './modal';
-import { MovieListContainer } from './movie';
+import SearchBoxResponsiveHandler from './SearchBoxResponsiveHandler';
 
 const makeSearchBoxToastModal = () => {
   const $children = document.createElement('div');

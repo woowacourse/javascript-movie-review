@@ -1,5 +1,4 @@
-import { ElementFinder } from '../../controller';
-import { createElementWithAttribute } from '../../utils';
+import { createElementWithAttribute, ElementFinder } from '../../utils';
 
 type ToastModalProps = {
   $children: HTMLElement;

@@ -4,8 +4,8 @@ import {
   SkeletonListContainer,
 } from './components';
 import { MovieListContainerProps } from './components/movie/MovieListContainer';
-import { ElementFinder, WindowResponsiveHandler } from './controller';
 import { dataStateStore, movieListDataFetcher } from './model';
+import { ElementFinder, WindowResponsiveHandler } from './utils';
 
 const popularMovieListContainerProps: Omit<
   MovieListContainerProps,

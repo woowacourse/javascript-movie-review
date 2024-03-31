@@ -1,6 +1,4 @@
 import { ScrollObserver } from '../../controller';
-import { Movie } from '../../type/movie';
-import { createElementWithAttribute } from '../../utils';
 
 import MovieItem from './MovieItem';
 import MovieListLastItem from './MovieListLastItem';

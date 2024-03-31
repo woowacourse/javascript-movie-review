@@ -1,5 +1,5 @@
-import ErrorViewController from '../controller/ErrorViewController';
-import SkeletonController from '../controller/SkeletonController';
+import ErrorViewController from '../components/error/controller/ErrorViewController';
+import SkeletonController from '../components/skeleton/controller/SkeletonController';
 
 import apiClient from './APIClient';
 

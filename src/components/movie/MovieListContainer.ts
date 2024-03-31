@@ -1,6 +1,5 @@
-import { ElementFinder } from '../../controller';
 import { ListType, Movie, MovieData } from '../../type/movie';
-import { createElementWithAttribute } from '../../utils';
+import { createElementWithAttribute, ElementFinder } from '../../utils';
 
 import MovieList from './MovieList';
 import MovieListTitle from './MovieListTitle';

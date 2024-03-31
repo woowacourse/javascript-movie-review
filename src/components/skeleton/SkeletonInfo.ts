@@ -1,7 +1,6 @@
 import { MOVIE_INFO_COMMON_CLASS } from '../../constants';
-import { ModalContainerController } from '../../controller';
 import { createElementWithAttribute } from '../../utils';
-import { ModalContainer } from '../modal';
+import { ModalContainer, ModalContainerController } from '../modal';
 
 import SkeletonMovieImg from './SkeletonMovieImg';
 import SkeletonMovieTitle from './SkeletonMovieTitle';
