@@ -2,8 +2,9 @@ import IRespondData from '../../interfaces/IMovieList';
 import IMovieData from '../../interfaces/IMovieData';
 import { starFilled } from '../../resources';
 import { getDomElement, getAllDomElements } from '../../util/DOM';
-import { MOVIE_POSTER_URL } from '../../constants/URLs';
+import { MOVIE_THUMBNAIL_URL } from '../../constants/URLs';
 import Skeleton from '../Skeleton/Skeleton';
+import MovieInfoModal from '../MovieInfoModal/MovieInfoModal';
 
 const MovieItems = {
   createSkeleton() {
@@ -15,7 +16,10 @@ const MovieItems = {
 
   async replaceAllSkeletons(movieItems: HTMLUListElement, respondData: IRespondData) {
     const itemCards = getAllDomElements('li', movieItems);
-    itemCards.forEach((item, index) => this.replaceSkeleton(item, respondData.results[index]));
+    itemCards.forEach((item, index) => {
+      this.replaceSkeleton(item, respondData.results[index]);
+      this.addShowModal(item, respondData.results[index]);
+    });
   },
 
   replaceSkeleton(itemCard: HTMLElement, movieData: IMovieData) {
@@ -31,7 +35,7 @@ const MovieItems = {
     const thumbnail = getDomElement<HTMLImageElement>('.item-thumbnail', itemCard);
 
     thumbnail.classList.add('item-thumbnail');
-    thumbnail.src = `${MOVIE_POSTER_URL}${movieData.poster_path}`;
+    thumbnail.src = `${MOVIE_THUMBNAIL_URL}${movieData.poster_path}`;
     thumbnail.loading = 'lazy';
     thumbnail.alt = movieData.title;
     thumbnail.onload = () => thumbnail.classList.toggle('skeleton');
@@ -91,6 +95,12 @@ const MovieItems = {
     movieItemVoteAverage.classList.add('item-vote-average', 'skeleton');
 
     return movieItemVoteAverage;
+  },
+
+  addShowModal(item: HTMLElement, movieData: IMovieData) {
+    item.addEventListener('click', () => {
+      new MovieInfoModal(movieData.id);
+    });
   },
 };
 
