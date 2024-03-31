@@ -1,4 +1,5 @@
 import { MOBILE_WIDTH } from '../constants';
+import { changeElementClass, changingElementClassProps } from '../utils';
 
 import ElementFinder from './ElementFinder';
 
@@ -44,15 +45,15 @@ const SearchBoxResponsiveHandler = {
     const width = window.innerWidth;
     const isHidden = this.private_isInputHidden($searchInput);
 
-    if (width <= MOBILE_WIDTH && !isHidden) {
-      $searchInput.classList.add(HIDDEN_INPUT_CLASS_NAME);
-      return;
-    }
-
-    if (width > MOBILE_WIDTH && isHidden) {
-      $searchInput.classList.remove(HIDDEN_INPUT_CLASS_NAME);
-      return;
-    }
+    const props: changingElementClassProps = {
+      $targetElement: $searchInput,
+      className: HIDDEN_INPUT_CLASS_NAME,
+      conditionForClass: {
+        additionCondition: width <= MOBILE_WIDTH && !isHidden,
+        removalCondition: width > MOBILE_WIDTH && isHidden,
+      },
+    };
+    changeElementClass(props);
   },
 
   private_isInputHidden($searchInput: HTMLElement) {
