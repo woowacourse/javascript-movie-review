@@ -96,6 +96,22 @@
 }
 .modal-body__star-box__rating-number {
   margin-right: 12px;
+  width: 16px;
+  text-align: center;
+}
+.modal-body__star-box__rating-text {
+  width: 74px;
+  text-align: center;
+}
+
+.modal-body__star-btn {
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+.modal-body__star-btn img {
+  width: 25px;
+  height: 25px;
 }
 
 @media (min-width: 1156px) {

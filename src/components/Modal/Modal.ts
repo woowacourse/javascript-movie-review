@@ -1,3 +1,7 @@
+import {
+  LocalStorageService,
+  StarRating,
+} from '../../services/LocalStorageService';
 import CloseBtn from '../../statics/images/close_button.png';
 import StartEmpty from '../../statics/images/star_empty.png';
 import StarFilled from '../../statics/images/star_filled.png';
@@ -58,7 +62,7 @@ const createInfoBox = (vote_average: number, genres: Genre[]) => {
   return $infoBox;
 };
 
-const createUserRating = () => {
+const createUserRating = (movieId: number) => {
   const $userRating = document.createElement('div');
   $userRating.classList.add('modal-body__user-rating');
 
@@ -66,26 +70,44 @@ const createUserRating = () => {
   $title.classList.add('modal-body__user-rating-title');
   $title.textContent = '내 별점';
 
+  const $ratingNumber = document.createElement('p');
+  $ratingNumber.classList.add('modal-body__star-box__rating-number');
+
+  const $ratingText = document.createElement('p');
+  $ratingText.classList.add('modal-body__star-box__rating-text');
+
+  const ratingData: StarRating[] = LocalStorageService.getData('starRating');
+  const rating = ratingData?.find((item) => item.id === movieId);
+
   const $starBox = document.createElement('div');
   $starBox.classList.add('modal-body__star-box');
 
   ['별로에요', '그냥 그래요', '보통이에요', '좋아요', '최고에요'].forEach(
-    (starText) => {
-      const $star = document.createElement('img');
-      $star.src = StartEmpty;
-      $star.alt = starText;
+    (starText, idx) => {
+      const $starBtn = document.createElement('button');
+      $starBtn.classList.add('modal-body__star-btn');
+      $starBtn.id = `star-btn${idx + 1}`;
 
-      $starBox.appendChild($star);
+      const $starImg = document.createElement('img');
+      if (rating && rating.ratingNumber / 2 >= idx + 1) {
+        $starImg.src = StarFilled;
+      } else {
+        $starImg.src = StartEmpty;
+      }
+
+      $starImg.alt = starText;
+      $starBtn.appendChild($starImg);
+      $starBox.appendChild($starBtn);
     },
   );
 
-  const $ratingNumber = document.createElement('p');
-  $ratingNumber.classList.add('modal-body__star-box__rating-number');
-  $ratingNumber.textContent = '6';
-
-  const $ratingText = document.createElement('p');
-  $ratingText.classList.add('modal-body__star-box__rating-text');
-  $ratingText.textContent = '보통이에요';
+  if (rating) {
+    $ratingNumber.textContent = rating.ratingNumber.toString();
+    $ratingText.textContent = rating.ratingText;
+  } else {
+    $ratingNumber.textContent = '0';
+    $ratingText.textContent = '별점 미입력';
+  }
 
   $userRating.appendChild($title);
   $userRating.appendChild($starBox);
@@ -108,7 +130,7 @@ const createContent = (movie: Movie) => {
       ? '영화 설명이 존재하지 않습니다.'
       : (movie.overview as string);
 
-  const $userRating = createUserRating();
+  const $userRating = createUserRating(movie.id);
 
   $content.appendChild($infoBox);
   $content.appendChild($overview);
@@ -150,6 +172,7 @@ const createBody = (movie: Movie) => {
 const createModal = (movie: Movie) => {
   const $modal = document.createElement('div');
   $modal.classList.add('modal');
+  $modal.id = movie.id.toString();
 
   const $backdrop = document.createElement('div');
   $backdrop.classList.add('modal-backdrop');
