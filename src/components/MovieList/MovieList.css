@@ -8,7 +8,8 @@
   flex-direction: column;
   justify-content: center;
   margin: 0 auto;
-  width: 1200px;
+  padding: 0 24px;
+  max-width: 1200px;
 }
 
 .item-view h2 {
@@ -19,9 +20,8 @@
 
 .item-list {
   display: grid;
-  grid-template-columns: repeat(4, 180px);
+  grid-template-columns: repeat(4, minmax(200px, 1fr));
   margin: 48px 0;
-  grid-column-gap: 160px;
   grid-row-gap: 48px;
 }
 
@@ -36,4 +36,19 @@
 
   font-size: 24px;
   text-align: center;
+}
+
+@media screen and (max-width: 863px) {
+  .item-list {
+    grid-template-columns: repeat(2, minmax(270px, auto));
+    justify-items: center;
+    grid-column-gap: 30px;
+  }
+}
+
+@media screen and (max-width: 618px) {
+  .item-list {
+    grid-template-columns: repeat(1, minmax(270px, auto));
+    justify-items: center;
+  }
 }
