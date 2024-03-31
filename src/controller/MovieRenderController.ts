@@ -9,7 +9,7 @@ import { ALERT_MESSAGE, ERROR_MESSAGE, TITLE } from '../constants/messages';
 import throttle from '../utils/throttle';
 import SkeletonItem from '../components/SkeletonItem/SkeletonItem';
 
-class MovieController {
+class MovieRenderController {
   #page = 1;
   #query = '';
   #movies;
@@ -146,4 +146,4 @@ class MovieController {
   }
 }
 
-export default MovieController;
+export default MovieRenderController;

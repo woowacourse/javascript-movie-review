@@ -11,17 +11,17 @@ import MovieListSection from './components/MovieListSection/MovieListSection';
 import ModalWrapper from './components/ModalWrapper/ModalWrapper';
 import MovieDetail from './components/MovieDetail/MovieDetail';
 
-import MovieController from './controller/MovieController';
+import MovieRenderController from './controller/MovieRenderController';
 import MovieDetailController from './controller/MovieDetailController';
 
 class MovieApp {
   #app = document.getElementById('app');
-  #movieController;
+  #MovieRenderController;
   #movieDetailController;
   #modal;
 
   constructor() {
-    this.#movieController = new MovieController();
+    this.#MovieRenderController = new MovieRenderController();
     this.#movieDetailController = new MovieDetailController(localStorage);
     this.#modal = new ModalWrapper();
   }
@@ -34,7 +34,7 @@ class MovieApp {
     this.#app.appendChild(this.#setHeader());
     this.#app.appendChild(this.#setMain());
     this.#app.appendChild(this.#modal.element);
-    this.#movieController.render('');
+    this.#MovieRenderController.render('');
 
     window.addEventListener('resize', this.#onResize());
     document.addEventListener('click', (event) => this.#onCloseSearchBar(event));
@@ -91,12 +91,12 @@ class MovieApp {
   #onSearchHandler() {
     const searchInput = $('#search-text') as HTMLInputElement;
 
-    this.#movieController.render(searchInput.value);
+    this.#MovieRenderController.render(searchInput.value);
     searchInput.value = '';
   }
 
   #onHomeButtonClick() {
-    this.#movieController.render();
+    this.#MovieRenderController.render();
   }
 
   async #onMovieClick(event: MouseEvent) {
