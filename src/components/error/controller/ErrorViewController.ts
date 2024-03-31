@@ -3,6 +3,7 @@ import ErrorMessage from '../ErrorMessage';
 import ErrorView from '../ErrorView';
 
 const ErrorViewController = {
+  // main 안의 error view
   showErrorViewInMain(error: unknown, extraExtraBoxClass?: string) {
     if (!(error instanceof Error)) return;
     // error-view를 main에 넣기전, move-list-container 있다면 이를 삭제
@@ -24,6 +25,7 @@ const ErrorViewController = {
     document.querySelector('.error-view')?.remove();
   },
 
+  // modal 안의 error view
   showErrorViewInModal(error: unknown, extraExtraBoxClass?: string) {
     if (!(error instanceof Error)) return;
 
@@ -37,7 +39,9 @@ const ErrorViewController = {
   },
 
   removeErrorViewInModal() {
-    ModalContainerController.closeModalContainer();
+    if (document.querySelector('.movie-info-error')) {
+      ModalContainerController.closeModalContainer();
+    }
   },
 };
 
