@@ -1,12 +1,15 @@
 import { Movie } from '../../index.d';
 import closeButtonImg from '../../images/close_button.png';
 import starImg from '../../images/star_filled.png';
+import emptyStarImg from '../../images/star_empty.png';
 import './DetailModal.css';
 
 class DetailModal {
   #modalElement = document.querySelector('dialog');
 
   #movie: Movie;
+
+  #count = 3;
 
   constructor(movie: any) {
     this.#movie = movie;
@@ -54,18 +57,28 @@ class DetailModal {
     const container = document.createElement('div');
     const content = /* html */ `
         <img src="https:image.tmdb.org/t/p/w220_and_h330_face${this.#movie.poster_path}" class="modal-img">
-        <div class="modal-movie-info">
-          <div class="modal-genre-star-box">
-            <div class="modal-genre text-body">
-              액션, 코미디, 범죄
+        <div class="modal-content">
+          <div class="modal-movie-info">
+            <div class="modal-genre-star-box">
+              <div class="modal-genre text-body">
+                액션, 코미디, 범죄
+              </div>
+              <div class="modal-star">
+                <img src=${starImg}> <span class="text-body">${this.#movie.vote_average.toFixed(2)}</span>
+              </div>
             </div>
-            <div class="modal-star">
-              <img src=${starImg}> <span class="text-body">${this.#movie.vote_average.toFixed(2)}</span>
-            </div>
+            <p class="modal-description text-body">
+              ${this.#movie.overview}
+            </p>
           </div>
-          <p class="modal-description text-body">
-            ${this.#movie.overview}
-          </p>
+          <div class="modal-user-star-container">
+            <span class="text-subtitle">내 별점</span>
+            <div class="modal-user-star-box">
+             ${this.#generateStarImg()}${this.#generateEmptyStarImg()}
+            </div>
+            <span class="text-body">${this.#count * 2}</span>
+            <span class="text-body">보통이에요</span>
+          </div>
         </div>
     `;
 
@@ -83,6 +96,20 @@ class DetailModal {
         modal.close();
       });
     }
+  }
+
+  #generateStarImg() {
+    const img = /* html */ `
+    <button type="button" class="modal-user-star-button filled"><img src="${starImg}"></button>
+    `;
+    return img.repeat(this.#count);
+  }
+
+  #generateEmptyStarImg() {
+    const img = /* html */ `
+    <button type="button" class="modal-user-star-button empty"><img src="${emptyStarImg}"></button>
+    `;
+    return img.repeat(5 - this.#count);
   }
 
   get element() {

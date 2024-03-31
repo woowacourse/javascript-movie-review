@@ -43,7 +43,10 @@
   color: rgba(241, 241, 241, 1);
 }
 
-.modal-movie-info {
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   margin-left: 32px;
 }
 
@@ -64,4 +67,30 @@
   display: flex;
   align-items: center;
   gap: 5px;
+}
+
+.modal-user-star-container {
+  display: flex;
+  align-items: center;
+  width: 438px;
+  height: 64px;
+  padding: 0 16px;
+  gap: 12px;
+
+  background-color: rgba(56, 56, 57, 1);
+  border-radius: 16px;
+}
+
+.modal-user-start-box {
+  width: 160px;
+  height: 32px;
+}
+
+.modal-user-star-button {
+  text-align: center;
+  width: 24px;
+  height: 25px;
+  padding: 0;
+  border: 0;
+  background: none;
 }
