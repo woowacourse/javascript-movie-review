@@ -4,6 +4,7 @@ import StarFillIcon from '../../assets/star_filled.png';
 import { VOTE_MESSAGE } from '../../consts/message';
 import ScoreDBService from '../../domain/services/ScoreDBService';
 import { getUrlParams } from '../../utils/queryString';
+import Toast from '../Toast/Toast';
 
 class UserScoreBox {
   score: number;
@@ -90,17 +91,25 @@ class UserScoreBox {
   }
 
   addClickStarEvent() {
+    let scoreEvent = false;
     const stars = document.querySelectorAll('.star');
     [...stars].forEach(star => {
-      if (star) {
-        star.addEventListener('click', (e: Event) => {
-          const userScore = Number((e.currentTarget as HTMLElement).dataset.score);
-          this.score = userScore;
-          this.updateStars(this.score);
-          this.updateScoreInfo(this.score);
-          ScoreDBService.updateScore({ movieId: Number(this.movieId), newScore: this.score });
-        });
-      }
+      star.addEventListener('click', (e: Event) => {
+        const userScore = Number((e.currentTarget as HTMLElement).dataset.score);
+        this.score = userScore;
+        this.updateStars(this.score);
+        this.updateScoreInfo(this.score);
+
+        if (!scoreEvent) {
+          scoreEvent = true;
+
+          setTimeout(() => {
+            scoreEvent = false;
+            ScoreDBService.updateScore({ movieId: Number(this.movieId), newScore: this.score });
+            new Toast('점수가 반영되었습니다.');
+          }, 1000);
+        }
+      });
     });
   }
 
