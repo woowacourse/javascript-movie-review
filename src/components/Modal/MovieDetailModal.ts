@@ -16,6 +16,8 @@ export interface MovieDetail {
   description: string;
 }
 
+const noMovieDescriptionText = "🎬 영화 줄거리가 등록되지 않았어요";
+
 class MovieDetailModal {
   modalElement: HTMLElement;
   modalSection: HTMLElement;
@@ -44,7 +46,7 @@ class MovieDetailModal {
       genre: res.genres,
       rating: res.vote_average,
       imgSrc: `https://image.tmdb.org/t/p/w220_and_h330_face/${res.poster_path}`,
-      description: res.overview,
+      description: res.overview.length ? res.overview : noMovieDescriptionText,
     };
 
     return movieDetailInfo;
