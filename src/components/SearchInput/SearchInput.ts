@@ -88,6 +88,15 @@ const SearchInput = () => {
     }
   });
 
+  window.addEventListener('resize', () => {
+    const windowWidth = window.innerWidth;
+    const isMobile = windowWidth <= SCREEN_SIZE.mobile;
+    if (isMobile) return;
+
+    const isSearchInputOpen = $searchInput.classList.contains('open');
+    if (isSearchInputOpen) $searchInput.classList.remove('open');
+  });
+
   const render = () => {
     const fragment = document.createDocumentFragment();
     fragment.appendChild($searchLabel);
