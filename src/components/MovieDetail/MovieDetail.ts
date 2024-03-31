@@ -69,7 +69,7 @@ const MovieDetailDescription = (data: MovieDetail, onStarClick: onStarClick) => 
           ${data.vote_average.toFixed(RULES.averageDecimalPlaces)}
         </span>
       </div>
-      <p class="overview">${data.overview}</p>
+      <p class="overview">${data.overview === '' ? '-' : data.overview}</p>
     </div>
   `;
 
