@@ -1,10 +1,7 @@
 import Component from '../../common/Component/Component';
 import MovieReviewDetailModal from '../MovieReviewDetailModal/MovieReviewDetailModal';
-import ErrorFallbackModal from '../ErrorFallbackModal/ErrorFallbackModal';
 
-import MovieDetail from '../../../domain/MovieDetail/MovieDetail';
 import type { MovieInterface } from '../../../domain/Movie/Movie.type';
-import type { MovieDetailInterface, RateDetail } from '../../../domain/MovieDetail/MovieDetail.type';
 
 import { createElement } from '../../../utils/dom/createElement/createElement';
 import { querySelector } from '../../../utils/dom/selector';
@@ -52,28 +49,9 @@ class MovieListCard extends Component<MovieInterface> {
   private async renderModal(event: Event) {
     event.stopPropagation();
 
-    try {
-      const { id, overview, title, score, image, genres, ratingScore } = await MovieDetail.fetchMovieDetail(
-        String(this.props?.id),
-      );
+    if (!this.props) return;
 
-      this.renderMovieReviewDetailModal({ id, overview, title, score, image, genres, ratingScore });
-    } catch (error) {
-      console.error(error);
-
-      ErrorFallbackModal.open();
-    }
-  }
-
-  private renderMovieReviewDetailModal(movieDetail: MovieDetailInterface & RateDetail) {
-    const $modal = querySelector<HTMLDialogElement>(ELEMENT_SELECTOR.movieReviewDetailModal);
-    const $app = querySelector<HTMLDivElement>(ELEMENT_SELECTOR.app);
-
-    $modal.remove();
-
-    const movieReviewDetailModal = new MovieReviewDetailModal($app, movieDetail);
-
-    movieReviewDetailModal.open();
+    await MovieReviewDetailModal.rerender(this.props?.id);
   }
 }
 

@@ -2,7 +2,9 @@ import Component from '../../common/Component/Component';
 import Modal from '../../common/Modal/Modal';
 import MovieScoreBoard from '../MovieScoreBoard/MovieScoreBoard';
 import ModalCloseButton from '../ModalCloseButton/ModalCloseButton';
+import ErrorFallbackModal from '../ErrorFallbackModal/ErrorFallbackModal';
 
+import MovieDetail from '../../../domain/MovieDetail/MovieDetail';
 import type { MovieDetailInterface, RateDetail } from '../../../domain/MovieDetail/MovieDetail.type';
 
 import { querySelector } from '../../../utils/dom/selector';
@@ -17,6 +19,29 @@ import './MovieReviewDetailModal.css';
 type MovieReviewDetailModalProps = MovieDetailInterface & Pick<RateDetail, 'ratingScore'>;
 
 class MovieReviewDetailModal extends Component<MovieReviewDetailModalProps> {
+  static async rerender(movieId: number) {
+    try {
+      const { id, overview, title, score, image, genres, ratingScore } = await MovieDetail.fetchMovieDetail(
+        String(movieId),
+      );
+
+      const movieDetail = { id, overview, title, score, image, genres, ratingScore };
+
+      const $modal = querySelector<HTMLDialogElement>(ELEMENT_SELECTOR.movieReviewDetailModal);
+      const $app = querySelector<HTMLDivElement>(ELEMENT_SELECTOR.app);
+
+      $modal.remove();
+
+      const movieReviewDetailModal = new MovieReviewDetailModal($app, movieDetail);
+
+      movieReviewDetailModal.open();
+    } catch (error) {
+      console.error(error);
+
+      ErrorFallbackModal.open();
+    }
+  }
+
   protected render(): void {
     new Modal(this.$element, {
       id: 'movie-review-detail-modal',
