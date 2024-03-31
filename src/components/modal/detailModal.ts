@@ -36,7 +36,16 @@ function render(movieDetail: MovieDetail, closeModalCallBack: () => void) {
     ? `https://image.tmdb.org/t/p/w220_and_h330_face/${movieDetail.poster_path}.jpg`
     : emptyImg;
   poster.onload = () => poster.classList.toggle('skeleton');
+  const movieDetailSection = createMovieDetailSection(movieDetail);
 
+  header.append(title, closeButton);
+  body.append(poster, movieDetailSection);
+  container.append(header, body);
+
+  return container;
+}
+
+function createMovieDetailSection(movieDetail: MovieDetail) {
   const section = document.createElement('section');
   section.className = 'modal-section';
 
@@ -69,11 +78,8 @@ function render(movieDetail: MovieDetail, closeModalCallBack: () => void) {
 
   sectionHeader.append(genre, voteBox);
   section.append(sectionHeader, overview, recommendStarBox.createRecommendStar());
-  header.append(title, closeButton);
-  body.append(poster, section);
-  container.append(header, body);
 
-  return container;
+  return section;
 }
 
 function getSavedRecommend(movieDetail: MovieDetail) {
