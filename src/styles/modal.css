@@ -6,7 +6,7 @@
 }
 
 .modal-container {
-  z-index: 30;
+  z-index: var(--modal-container-z-index);
 }
 
 .modal-container__inner {
@@ -25,7 +25,7 @@
 }
 
 .modal {
-  z-index: 1;
+  z-index: var(--modal-z-index);
   border-radius: 16px;
   background-color: var(--modal-contents-color);
 }

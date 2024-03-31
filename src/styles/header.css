@@ -1,7 +1,7 @@
 header {
   position: fixed;
   top: 0;
-  z-index: 1;
+  z-index: var(--header-z-index);
   margin-bottom: 48px;
   border-bottom: 1px solid var(--white-color);
   background-color: var(--body-background-color);
