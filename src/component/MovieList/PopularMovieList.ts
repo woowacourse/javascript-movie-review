@@ -1,11 +1,12 @@
 import MovieList from "./MovieList";
 import { getPopularMoviesData } from "../../api/getPopularMoviesData";
 import { createElement, $ } from "../../utility/dom";
+import { infiniteScroll } from "../../utility/infiniteScroll";
 
 const MAX_PAGE_COUNT = 50;
 
 class PopularMovieList extends MovieList {
-  #currentPage = 1;
+  currentPage = 1;
 
   constructor() {
     super();
@@ -30,24 +31,17 @@ class PopularMovieList extends MovieList {
     const ul = $(".item-list");
 
     try {
-      const movies = await getPopularMoviesData(this.#currentPage.toString());
+      const movies = await getPopularMoviesData(this.currentPage.toString());
 
       const liList = this.createEmptyMovieItems(movies, ul);
 
+      infiniteScroll.addInfiniteScroll(this.handlePopularPageEnd.bind(this));
+
       setTimeout(() => {
         this.updateMovieItemsWithData(movies, liList);
-
-        if (this.#currentPage <= MAX_PAGE_COUNT) {
-          this.removeMoreMoviesButton();
-
-          const moreMoviesButton = this.createMoreMoviesButton();
-          moreMoviesButton.addEventListener("click", () =>
-            this.#handlePopularPageEnd()
-          );
-        }
       }, 1000);
 
-      this.#currentPage += 1;
+      this.currentPage += 1;
     } catch (error) {
       if (error instanceof Error) {
         this.createErrorUI(error.message);
@@ -55,15 +49,15 @@ class PopularMovieList extends MovieList {
     }
   }
 
-  #handlePopularPageEnd() {
-    if (this.#currentPage === MAX_PAGE_COUNT) {
+  async handlePopularPageEnd() {
+    if (this.currentPage === MAX_PAGE_COUNT) {
       this.displayMaxPageInfo();
     }
-    if (this.#currentPage > MAX_PAGE_COUNT) {
+    if (this.currentPage > MAX_PAGE_COUNT) {
       return;
     }
 
-    this.#createPopularMovieItems();
+    await this.#createPopularMovieItems();
   }
 }
 
