@@ -1,3 +1,13 @@
+.loading-image {
+  position: fixed;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 70px;
+}
+
 .item-view,
 .item-test {
   width: 100%;

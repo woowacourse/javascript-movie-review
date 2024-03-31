@@ -3,11 +3,11 @@ import MovieList from '../MovieList/MovieList';
 import MovieListCardSkeleton from '../MovieListCardSkeleton/MovieListCardSkeleton';
 import MovieDetailModal from '../MovieDetailModal/MovieDetailModal';
 import MovieService from '../../../domain/Movie/MovieService';
-import { IMovie } from '../../../domain/Movie/Movie.type';
+import { IMovie, IMovieDetail } from '../../../domain/Movie/Movie.type';
 import { querySelector } from '../../../utils/dom/selector';
 import { createElement } from '../../../utils/dom/createElement/createElement';
 import { MOVIE, MOVIE_ITEM_SKELETON } from '../../../constants/Condition';
-import { NoResultImage } from '../../../assets';
+import { LoadingImage, NoResultImage } from '../../../assets';
 import './MovieReviewBody.css';
 
 interface MovieReviewBodyProps {
@@ -124,11 +124,33 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
   private openMovieDetailModal(key: number) {
     if (!this.props) return;
 
+    this.createLoadingImage();
+
     MovieService.fetchMovieDetail({
       key: key,
-      onSuccess: (data) => this.movieDetailModal?.openModal(data),
+      onSuccess: this.handleMovieDetailSuccess.bind(this),
       onError: this.props.openErrorModal,
     });
+  }
+
+  private createLoadingImage() {
+    const $movieListContainer = querySelector<HTMLElement>('#movie-list-container', this.$element);
+
+    const loadingImage = /* html */ `
+      <img src=${LoadingImage} alt="로딩중 이미지" id="loading-image" class="loading-image" />
+    `;
+
+    $movieListContainer.insertAdjacentHTML('afterend', loadingImage);
+  }
+
+  private removeLoadingImage() {
+    const $loadingImage = querySelector<HTMLImageElement>('#loading-image', this.$element);
+    $loadingImage.remove();
+  }
+
+  private handleMovieDetailSuccess(data: IMovieDetail) {
+    this.removeLoadingImage();
+    this.movieDetailModal?.openModal(data);
   }
 }
 
