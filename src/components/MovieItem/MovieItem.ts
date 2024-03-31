@@ -5,21 +5,24 @@ import { Movie } from './../../types/movie';
 import '../MovieItem/MovieItem.css';
 import { MovieDetailAPI } from '../../domain/services/API.type';
 import MovieDetailFetcher from '../../domain/services/MovieDetailFetcher';
+import Skeleton from '../Skeleton/Skeleton';
 
 class MovieItem {
-  constructor() {}
+  itemBox = document.createElement('li');
 
-  template(movie: Movie, onClick: (movieData: MovieDetailAPI) => void) {
+  constructor() {
+    this.itemBox.append(Skeleton.template());
+  }
+
+  get item() {
+    return this.itemBox;
+  }
+
+  render(movie: Movie, onClick: (movieData: MovieDetailAPI) => void) {
     const { id, title, posterPath, voteAverage } = movie;
-    const itemBox = document.createElement('li');
-    itemBox.setAttribute('data-movie-id', String(id));
 
-    const itemCard = document.createElement('a');
-    itemCard.classList.add('item-card');
-
-    const itemImage = document.createElement('img');
-    itemImage.classList.add('item-thumbnail', 'skeleton');
-    itemCard.append(itemImage);
+    const itemImage = this.itemBox.querySelector('.item-thumbnail');
+    if (!itemImage) return;
 
     const image = new Image();
     image.src = posterPath ? POSTER_BASE_URL + posterPath : NoImage;
@@ -30,20 +33,17 @@ class MovieItem {
       itemImage.classList.remove('skeleton');
     };
 
-    const itemTitle = document.createElement('p');
-    itemTitle.classList.add('item-title', 'skeleton');
+    const itemTitle = this.itemBox.querySelector('.item-title');
+    if (!itemTitle) return;
 
-    const itemScoreAndIcon = document.createElement('div');
-    itemScoreAndIcon.classList.add('item-score-and-icon');
+    const itemScoreAndIcon = this.itemBox.querySelector('.item-score-and-icon');
+    if (!itemScoreAndIcon) return;
 
-    const itemStarIcon = document.createElement('img');
-    itemStarIcon.classList.add('item-star-icon');
+    const itemScore = this.itemBox.querySelector('.item-score');
+    if (!itemScore) return;
 
-    const itemScore = document.createElement('p');
-    itemScore.classList.add('item-score', 'skeleton');
-
-    itemScoreAndIcon.append(itemStarIcon);
-    itemScoreAndIcon.append(itemScore);
+    const itemStarIcon = this.itemBox.querySelector('.item-star-icon');
+    if (!itemStarIcon) return;
 
     const starImage = new Image();
     starImage.src = Star;
@@ -55,19 +55,12 @@ class MovieItem {
       itemStarIcon.setAttribute('alt', '별점');
 
       itemTitle.classList.remove('skeleton');
-      itemScore.classList.remove('skeleton');
+      itemScoreAndIcon.classList.remove('skeleton');
     };
 
-    itemCard.append(itemTitle);
-    itemCard.append(itemScoreAndIcon);
-
-    itemBox.append(itemCard);
-
-    itemBox.addEventListener('click', async () => {
+    this.itemBox.addEventListener('click', async () => {
       onClick(await MovieDetailFetcher.fetchMovieDetail(id));
     });
-
-    return itemBox;
   }
 }
 

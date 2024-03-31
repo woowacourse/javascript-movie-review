@@ -42,11 +42,12 @@ class MovieList {
   renderMovieList(movieList: Movie[]) {
     const fragment = new DocumentFragment();
     movieList.forEach(movie => {
-      const movieItem = new MovieItem().template(movie, (movieData: MovieDetailAPI) => {
+      const movieItem = new MovieItem();
+      movieItem.render(movie, (movieData: MovieDetailAPI) => {
         this.movieDetailModal.toggle();
         this.movieDetailModal.rerender(movieData);
       });
-      fragment.append(movieItem);
+      fragment.append(movieItem.item);
     });
 
     this.movieListBox.append(fragment);
