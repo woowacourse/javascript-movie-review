@@ -15,7 +15,7 @@ export const MOVIE_ITEM_TEMPLATE = (movie: MovieType, imagePath: string) => /* h
         />
         <p class="item-title">${movie.title}</p>
         <p class="item-score">
-          <img src=${STAR_FILLED} alt="별점" />${movie.vote_average.toFixed(1)}
+          ${movie.vote_average.toFixed(1)}<img src=${STAR_FILLED} alt="별점" />
         </p>
       </div>
     </a>

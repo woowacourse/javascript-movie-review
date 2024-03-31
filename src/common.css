@@ -6,6 +6,7 @@ body {
   font-size: 14px;
   background-color: #222222;
   color: #fff;
+  min-width: 391px;
 }
 
 a {
@@ -24,59 +25,106 @@ button {
 *:focus {
   outline: none;
 }
-.item-view,
-.item-test {
-  width: 100%;
-}
 
 .item-view {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
-  margin: 0 auto;
 }
 
 .item-view h2 {
-  font-size: 2rem;
+  font-size: 22px;
   font-weight: bold;
   user-select: none;
+}
+
+@media screen and (min-width: 834px) {
+  .item-view h2 {
+    font-size: 28px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .item-view h2 {
+    font-size: 34px;
+  }
 }
 
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .item-list {
   display: grid;
-  margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
-  grid-row-gap: 48px;
+  margin: 6.1% 0;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 36px;
+  grid-row-gap: 32px;
+}
+
+@media screen and (min-width: 834px) {
+  .item-list {
+    display: grid;
+    margin: 4.3% 0;
+    grid-template-columns: repeat(3, 1fr);
+    grid-row-gap: 55px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .item-list {
+    display: grid;
+    margin: 3.8% 0;
+    grid-template-columns: repeat(4, 1fr);
+    grid-row-gap: 64px;
+  }
 }
 
 .item-card {
   display: flex;
   flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
 }
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
-  height: 270px;
+  aspect-ratio: calc(180 / 270);
+  width: 100%;
   background-size: contain;
 }
 
 .item-title {
-  margin-top: 16px;
-  font-size: 1.2rem;
+  margin-top: 8px;
+  font-size: 16px;
   font-weight: bold;
+  line-height: 24px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+@media screen and (min-width: 834px) {
+  .item-title {
+    margin-top: 5px;
+    font-size: 18px;
+    line-height: 27px;
+  }
 }
 
 .item-score {
   display: flex;
   align-items: center;
-  margin-top: 16px;
-  font-size: 1.2rem;
+  margin-top: 8px;
+  font-size: 16px;
   gap: 11px;
+}
+
+@media screen and (min-width: 834px) {
+  .item-score {
+    font-size: 18px;
+  }
 }
 
 .item-score::after {
@@ -126,9 +174,13 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
+main {
+  padding: 0 14%;
+}
+
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -164,4 +216,9 @@ header .search-box > .search-button {
   text-indent: -1000rem;
   background: url('./images/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+#scroll-end-box {
+  width: 100%;
+  height: 15%;
 }
