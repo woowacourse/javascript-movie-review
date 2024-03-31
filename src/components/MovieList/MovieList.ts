@@ -1,5 +1,6 @@
 import './MovieList.css';
 
+import SELECTORS from '../../constants/selectors';
 import {
   fetchPopularMovies,
   fetchSearchMovies,
@@ -8,7 +9,9 @@ import {
 
 import MovieStore from '../../stores/movieStore';
 
+import { openModal } from '../common/modal/Modal';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import MovieDetailModal from '../MovieDetailModal/MovieDetailModal';
 import MovieItem from '../MovieItem/MovieItem';
 import InfiniteScrollTrigger, {
   restartObserving,
@@ -73,6 +76,11 @@ const updateMovieStore = ({
   MovieStore.setPage(page + 1);
 };
 
+const openMovieDetailModal = (id: number) => {
+  const $movieDetail = MovieDetailModal(id).render();
+  openModal($movieDetail);
+};
+
 const MovieList = () => {
   const $section = createSection();
   const $title = document.createElement('h2');
@@ -80,6 +88,23 @@ const MovieList = () => {
 
   const $skeleton = SkeletonMovieList().render();
   const $infiniteScrollTrigger = InfiniteScrollTrigger().render();
+
+  const render = ({
+    title,
+    isLastPage,
+  }: {
+    title: string;
+    isLastPage: boolean;
+  }) => {
+    $title.textContent = title;
+
+    $section.appendChild($title);
+    $section.appendChild($ul);
+    if (!isLastPage && $infiniteScrollTrigger)
+      $section.appendChild($infiniteScrollTrigger);
+
+    return $section;
+  };
 
   const onSuccess = (data: MovieListResponse) => {
     const { page, movies, isLastPage } = processMovieListResponse(data);
@@ -112,7 +137,6 @@ const MovieList = () => {
     $section.appendChild($skeleton);
   };
 
-  // Add EventListener
   document.addEventListener('popularMovies', () => {
     fetchPopularMovies({
       onSuccess,
@@ -129,29 +153,24 @@ const MovieList = () => {
     });
   });
 
+  $ul.addEventListener('click', (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (!target) return;
+
+    const $card = target.parentElement;
+    if (!$card) return;
+
+    if ($card.className === SELECTORS.MOVIE_ITEM.card) {
+      const id = $card.getAttribute('data-id');
+      openMovieDetailModal(Number(id));
+    }
+  });
+
   document.dispatchEvent(
     new CustomEvent('popularMovies', {
       bubbles: true,
     }),
   );
-
-  // Render
-  const render = ({
-    title,
-    isLastPage,
-  }: {
-    title: string;
-    isLastPage: boolean;
-  }) => {
-    $title.textContent = title;
-
-    $section.appendChild($title);
-    $section.appendChild($ul);
-    if (!isLastPage && $infiniteScrollTrigger)
-      $section.appendChild($infiniteScrollTrigger);
-
-    return $section;
-  };
 
   return {
     render,

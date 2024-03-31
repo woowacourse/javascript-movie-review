@@ -25,7 +25,11 @@ export const closeModal = () => {
   const $modal = document.querySelector(`.${modal}`);
   const $container = document.querySelector(`.${container}`);
 
-  if ($container) $container.textContent = '';
+  if ($container) {
+    const $closeBtn = createCloseBtn();
+    $container.textContent = '';
+    $container.appendChild($closeBtn);
+  }
   if ($modal) $modal.classList.remove(open);
 };
 

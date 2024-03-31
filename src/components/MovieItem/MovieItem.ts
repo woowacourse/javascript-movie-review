@@ -37,12 +37,14 @@ const createThumbnail = (title: string, poster_path: string) => {
 };
 
 const createCard = ({
+  id,
   title,
   poster_path,
   vote_average,
-}: Pick<MovieItem, 'title' | 'poster_path' | 'vote_average'>) => {
+}: Pick<MovieItem, 'title' | 'poster_path' | 'vote_average' | 'id'>) => {
   const $card = document.createElement('div');
   $card.classList.add(MOVIE_ITEM.card);
+  $card.setAttribute('data-id', id.toString());
 
   const $thumbnail = createThumbnail(title, poster_path);
   const $title = createTitle(title);
