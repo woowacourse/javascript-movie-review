@@ -57,9 +57,9 @@ const SearchBoxHandler = {
     this.private_renderToastModal(title);
     if (!title) return;
     toastModal.removeToastModal(true);
-    await movieListDataFetcher.handleGetSearchMovieData(title.trim(), true);
-    //기존에 movie-list-container 있을 시 삭제
+    // 스켈레톤 적용을 위해서는 movie-list-container를 삭제 하고 데이터를 불러와야함
     document.querySelector('.movie-list-container')?.remove();
+    await movieListDataFetcher.handleGetSearchMovieData(title.trim(), true);
     new MovieListContainer({
       titleText: `"${title}" 검색 결과`,
       movieData: dataStateStore.movieData,
