@@ -23,6 +23,11 @@ export default class MovieListContainer extends Component<MovieListContainerProp
   protected getTemplate(): string {
     return /*html*/ `
       <ul id="movie-list-container" class="item-list"></ul>
+      <div id="error-message-container" class="w-4_5 rounded-lg error-message-container hidden">
+        <p class="error-title">! 문제가 발생했습니다.</p>
+        <p id="error-description" class="font-normal error-text"></p> 
+        <p class="font-normal error-text">페이지를 새로 고침 하거나 다시 시도해주세요.</p>
+      </div>
     `;
   }
 
@@ -31,7 +36,7 @@ export default class MovieListContainer extends Component<MovieListContainerProp
   }
 
   protected render() {
-    this.$target.insertAdjacentHTML("afterend", this.getTemplate());
+    this.$target.insertAdjacentHTML("beforeend", this.getTemplate());
 
     const $ul = $<HTMLUListElement>("#movie-list-container");
 
@@ -52,19 +57,11 @@ export default class MovieListContainer extends Component<MovieListContainerProp
     this.scrollObserver = createScrollObserver({
       callback: this.handleRenderMovieList.bind(this),
       options: {
-        threshold: 0.5,
+        threshold: 0.3,
       },
     });
 
     this.scrollObserver.observe($div);
-  }
-
-  private handleRemoveMoreButton() {
-    if (this.manager?.isEndPage()) {
-      this.removeScrollTrigger();
-
-      this.scrollObserver?.disconnect();
-    }
   }
 
   private removeScrollTrigger() {
@@ -72,25 +69,43 @@ export default class MovieListContainer extends Component<MovieListContainerProp
 
     if ($div) {
       $div.remove();
+
+      this.scrollObserver?.unobserve($div);
+      this.scrollObserver?.disconnect();
     }
   }
 
-  public async handleRenderMovieList() {
+  private showErrorMessage(message: string) {
+    const $div = $<HTMLDivElement>("#error-message-container");
+    const $p = $<HTMLParagraphElement>("#error-description");
+
+    if (!$div || !$p) return;
+
+    $div.classList.remove("hidden");
+    $p.innerText = message;
+
+    document.body.classList.add("overflow-hidden");
+  }
+
+  private async handleRenderMovieList() {
+    console.log("handleRenderMovieList exec");
+
     try {
       renderSkeleton();
 
       const movies = await this.manager?.fetchMovieList();
-
-      this.handleRemoveMoreButton();
 
       hideSkeleton();
 
       if (movies) {
         this.movieList?.renderMovies(movies);
       }
+      if (this.manager?.isEndPage()) {
+        this.removeScrollTrigger();
+      }
     } catch (error) {
       if (error instanceof Error) {
-        alert(error.message);
+        this.showErrorMessage(error.message);
       }
     }
   }
