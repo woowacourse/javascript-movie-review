@@ -49,16 +49,23 @@ function handleResize() {
   debounce = setTimeout(() => {
     const width = window.innerWidth;
     if (width >= 768) {
-      Dom.getElement(document, 'header h1').classList.remove('clicked-logo');
-      Dom.getElement(document, 'header > .search-box').classList.remove('clicked-form');
-      Dom.getElement(document, 'header .search-box > input')?.classList.remove('clicked-input');
-      Dom.getElement(document, 'header')?.classList.remove('clicked-header');
+      noneClickedHeaderView();
     }
     if (width < 768 && (Dom.getElement(document, 'header .search-box > input') as HTMLInputElement)?.value !== '') {
-      Dom.getElement(document, 'header h1').classList.add('clicked-logo');
-      Dom.getElement(document, 'header > .search-box').classList.add('clicked-form');
-      Dom.getElement(document, 'header .search-box > input').classList.add('clicked-input');
-      Dom.getElement(document, 'header').classList.add('clicked-header');
+      clickedHeaderView();
     }
   }, 100);
+}
+
+export function noneClickedHeaderView() {
+  Dom.getElement(document, 'header h1').classList.remove('clicked-logo');
+  Dom.getElement(document, 'header > .search-box').classList.remove('clicked-form');
+  Dom.getElement(document, 'header .search-box > input').classList.remove('clicked-input');
+  Dom.getElement(document, 'header')?.classList.remove('clicked-header');
+}
+export function clickedHeaderView() {
+  Dom.getElement(document, 'header h1').classList.add('clicked-logo');
+  Dom.getElement(document, 'header > .search-box').classList.add('clicked-form');
+  Dom.getElement(document, 'header .search-box > input').classList.add('clicked-input');
+  Dom.getElement(document, 'header').classList.add('clicked-header');
 }
