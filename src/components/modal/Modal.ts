@@ -25,7 +25,12 @@ class Modal {
   }
 
   close() {
-    this.#modal.classList.remove('modal--open');
+    if (this.#modal) {
+      this.#modal.classList.remove('modal--open');
+      if (this.#modal.parentNode) {
+        this.#modal.parentNode.removeChild(this.#modal);
+      }
+    }
   }
 
   setContent(content: HTMLElement) {
