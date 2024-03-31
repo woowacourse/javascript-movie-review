@@ -6,8 +6,10 @@
 
 body {
   font-size: 14px;
-  background-color: #222222;
+  background-color: #111111;
   color: #fff;
+
+  min-width: 430px;
 }
 
 a {
@@ -26,6 +28,11 @@ button {
 *:focus {
   outline: none;
 }
+
+dialog:-internal-dialog-in-top-layer::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
 .item-view,
 .item-test {
   width: 100%;
@@ -35,7 +42,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  width: 1100px;
   margin: 0 auto;
 }
 
@@ -47,12 +54,157 @@ button {
 
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
+.main {
+  margin: 0 auto;
+  /* min-width: none; */
+}
+
 .item-list {
   display: grid;
   margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  grid-template-columns: repeat(4, 15%);
+  grid-column-gap: 142px;
   grid-row-gap: 48px;
+}
+
+.header-return-button {
+  display: none;
+}
+
+@media (max-width: 1170px) {
+  .item-view {
+    width: 840px;
+  }
+  .item-list {
+    display: grid;
+    margin: 48px 0;
+    grid-template-columns: repeat(3, 15%);
+    grid-column-gap: 204px;
+    grid-row-gap: 48px;
+  }
+}
+
+@media (max-width: 900px) {
+  .item-view {
+    width: 670px;
+  }
+  .item-list {
+    display: grid;
+    margin: 48px 0;
+    grid-template-columns: repeat(3, 15%);
+    grid-column-gap: 144px;
+    grid-row-gap: 48px;
+  }
+}
+
+@media (max-width: 730px) {
+  .item-view {
+    width: 590px;
+  }
+  .item-list {
+    display: grid;
+    margin: 48px 0;
+    grid-template-columns: repeat(3, 15%);
+    grid-column-gap: 115px;
+    grid-row-gap: 48px;
+  }
+
+  .movie-detail-poster {
+    display: none;
+  }
+
+  .movie-detail-container {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
+
+  .movie-detail-inner-wrapper {
+    width: 100%;
+  }
+  .movie-detail-info {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .item-view {
+    width: 390px;
+  }
+  .item-list {
+    display: grid;
+    margin: 48px 0;
+    grid-template-columns: repeat(2, 15%);
+    grid-column-gap: 152px;
+    grid-row-gap: 48px;
+  }
+
+  .movie-detail-poster {
+    display: none;
+  }
+
+  .movie-detail-container {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
+
+  .movie-detail-inner-wrapper {
+    width: 100%;
+  }
+
+  .movie-detail-info {
+    width: 100%;
+  }
+
+  .search-box input {
+    display: none;
+  }
+
+  header.search-bar-only .search-box {
+    width: 92%;
+    margin: 0 auto;
+  }
+
+  header.search-bar-only form {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  header.search-bar-only #movie-list-logo {
+    display: none;
+  }
+
+  header.search-bar-only input {
+    display: inline-block;
+    width: 90%;
+  }
+
+  header.search-bar-only .header-return-button {
+    display: block;
+    background-color: rgb(243 63 63);
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 6px;
+    text-align: center;
+  }
+}
+
+.scroll-to-top-button {
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+  display: block;
+  padding: 10px;
+  font-size: 30px;
+  background-color: white;
+  border-radius: 100px;
+  box-shadow: -4px 3px 44px 0px rgba(0, 0, 0, 1);
+  cursor: pointer;
 }
 
 .item-card {
@@ -129,15 +281,16 @@ button.primary {
 }
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
-  background-color: #222;
+  background-color: #111111;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid white;
+  border-bottom: 0.1px solid rgba(207, 207, 207, 0.861);
   margin-bottom: 48px;
+
+  box-shadow: 0 4px 10px -2px rgb(74, 74, 74);
 }
 
 header h1 {
@@ -151,7 +304,7 @@ header h1 {
 
 header > .search-box {
   background: #fff;
-  padding: 8px;
+  padding: 8px 10px;
   border-radius: 4px;
 }
 
@@ -230,7 +383,7 @@ header .search-box .search-button {
   background: #212122;
   color: #f1f1f1;
   padding: 0;
-  max-width: 700px;
+  max-width: 730px;
 }
 
 .movie-detail-hr {
@@ -319,6 +472,8 @@ header .search-box .search-button {
   align-items: center;
   border-radius: 16px;
   min-width: 360px;
+
+  margin-top: 50px;
 }
 
 .rating-label {
@@ -342,6 +497,7 @@ header .search-box .search-button {
 
 .movie-item {
   cursor: pointer;
+  width: fit-content;
 }
 
 .close {

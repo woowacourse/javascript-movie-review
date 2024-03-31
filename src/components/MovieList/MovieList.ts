@@ -47,8 +47,9 @@ export default class MovieList extends EventComponent {
     const movieItemsTemplate = generateMovieItems(this.movies);
 
     return `
+        <div id="scroll-to-top-button" class="scroll-to-top-button">🔝</div>
         <ul id="item-list" class="item-list">
-        ${movieItemsTemplate}
+          ${movieItemsTemplate}
         </ul>
     `;
   }
@@ -86,9 +87,15 @@ export default class MovieList extends EventComponent {
       this.loadMoreMovies.bind(this)
     );
 
+    const THROTTLE_DELAY = 500;
     window.addEventListener(
       "scroll",
-      throttle(this.handleScroll.bind(this), 500)
+      throttle(this.handleScroll.bind(this), THROTTLE_DELAY)
+    );
+
+    $<HTMLButtonElement>("scroll-to-top-button")?.addEventListener(
+      "click",
+      this.scrollToTop
     );
   }
 
@@ -111,10 +118,14 @@ export default class MovieList extends EventComponent {
   private handleScroll(): void {
     const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
 
-    const SCROLL_HEIGHT_BUFFER = 150;
+    const SCROLL_HEIGHT_BUFFER = 400;
     if (scrollTop + clientHeight + SCROLL_HEIGHT_BUFFER >= scrollHeight) {
       this.loadMoreMovies();
     }
+  }
+
+  private scrollToTop(): void {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   private async loadMoreMovies(): Promise<void> {
@@ -136,8 +147,6 @@ export default class MovieList extends EventComponent {
 
     $<HTMLUListElement>("skeleton-movie-item-list")?.remove();
 
-    this.movies = [...this.movies, ...additionalMovies];
-
     const MOVIE_COUNT_PER_PAGE = 20;
     if (additionalMovies.length < MOVIE_COUNT_PER_PAGE) {
       this.isLastPage = true;
@@ -154,6 +163,15 @@ export default class MovieList extends EventComponent {
       : await getPopularMovieList(page);
 
     return movies;
+  }
+
+  private renderEmptyMovieList(): void {
+    const emptyMovieList = new EmptyMovieList({
+      targetId: this.targetId,
+      onHomeButton: () => this.queryState.reset(),
+    });
+
+    emptyMovieList.initialize();
   }
 
   private catchErrorOnInitialized(error: Error): void {
@@ -178,14 +196,5 @@ export default class MovieList extends EventComponent {
       "beforeend",
       movieItemsTemplate
     );
-  }
-
-  private renderEmptyMovieList(): void {
-    const emptyMovieList = new EmptyMovieList({
-      targetId: this.targetId,
-      onHomeButton: () => this.queryState.reset(),
-    });
-
-    emptyMovieList.initialize();
   }
 }

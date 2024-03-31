@@ -22,6 +22,7 @@ export default class MovieHeader extends EventComponent {
   protected getTemplate(): HTMLTemplate {
     return `
       <h1 id="movie-list-logo"><img src="${IMAGES.logo}" alt="MovieList 로고" /></h1>
+      <button id="header-return-button" class="header-return-button">⏎</button>
       <div class="search-box">
           <form id="search-form">
             <input name="search-query" type="text" placeholder="검색" />
@@ -42,10 +43,23 @@ export default class MovieHeader extends EventComponent {
       "click",
       this.handleLogoClick.bind(this)
     );
+
+    $<HTMLButtonElement>("header-return-button")?.addEventListener(
+      "click",
+      this.removeSearchBarOnly.bind(this)
+    );
   }
 
   private handleSearchMovie(event: Event, form: HTMLFormElement): void {
     event.preventDefault();
+
+    const $header = $(this.targetId) as HTMLHeadElement;
+    if (
+      window.innerWidth <= 640 &&
+      !$header.classList.contains("search-bar-only")
+    ) {
+      return $header.classList.add("search-bar-only");
+    }
 
     const { isValid, message } = this.validateSearchQuery(
       form["search-query"].value
@@ -69,7 +83,14 @@ export default class MovieHeader extends EventComponent {
     $searchForm?.reset();
   }
 
-  protected validateSearchQuery(searchQuery: string): {
+  private removeSearchBarOnly() {
+    const $header = $(this.targetId) as HTMLHeadElement;
+
+    console.log($header);
+    $header.classList.remove("search-bar-only");
+  }
+
+  private validateSearchQuery(searchQuery: string): {
     isValid: boolean;
     message?: string;
   } {
