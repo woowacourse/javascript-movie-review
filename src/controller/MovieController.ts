@@ -34,21 +34,6 @@ class MovieController {
     }
   }
 
-  renderNextPage() {
-    if (this.#page > RULES.maxPage) {
-      document.removeEventListener('scroll', this.#scrollEvent);
-      showAlert(ALERT_MESSAGE.lastPage);
-      return;
-    }
-
-    if (this.#query) {
-      this.#renderSearchMovies();
-      return;
-    }
-
-    this.#renderPopularMovies();
-  }
-
   render(query: string = '') {
     const errorContainer = $('.error-container') as HTMLElement;
 
@@ -59,11 +44,24 @@ class MovieController {
     }
 
     if (this.#query) {
-      this.#renderSearchMovies();
+      this.#renderMovies(async () => this.#getSearchMovies());
+    } else {
+      this.#renderMovies(async () => this.#getPopularMovies());
+    }
+  }
+
+  renderNextPage() {
+    if (this.#page > RULES.maxPage) {
+      document.removeEventListener('scroll', this.#scrollEvent);
+      showAlert(ALERT_MESSAGE.lastPage);
       return;
     }
 
-    this.#renderPopularMovies();
+    if (this.#query) {
+      this.#renderMovies(async () => this.#getSearchMovies());
+    } else {
+      this.#renderMovies(async () => this.#getPopularMovies());
+    }
   }
 
   #initData(query: string) {
@@ -81,11 +79,10 @@ class MovieController {
     });
   }
 
-  async #renderPopularMovies() {
+  async #renderMovies(getMovies: () => Promise<MovieInfo[]>) {
     this.#toggleSkeletonItems();
 
-    const movieData = await this.#getPopularMovies(this.#page);
-    if (!movieData) return;
+    const movieData = await getMovies();
 
     this.#createMovieItems(movieData).forEach((movieItem) => {
       $('.skeleton-item')?.insertAdjacentElement('beforebegin', movieItem);
@@ -100,52 +97,35 @@ class MovieController {
     }
   }
 
-  async #getPopularMovies(page: number) {
+  async #getPopularMovies() {
     try {
-      const movieData = await this.#movies.getPopularMovies(page);
+      const movieData = await this.#movies.getPopularMovies(this.#page);
 
       return movieData;
     } catch (error) {
-      if (!(error instanceof CustomError)) return;
+      if (error instanceof CustomError) {
+        this.#toggleSkeletonItems();
+        this.#showErrorPage(error.message, error.status);
+      }
 
-      this.#toggleSkeletonItems();
-      this.#showErrorPage(error.message, error.status);
+      return [];
     }
   }
 
-  async #renderSearchMovies() {
-    this.#toggleSkeletonItems();
-
-    const movieData = await this.#searchMovies(this.#page, this.#query);
-    if (!movieData) return;
-
-    if (movieData && !movieData.length) {
-      this.#showErrorPage(ERROR_MESSAGE.noSearchResult);
-    }
-
-    this.#createMovieItems(movieData).forEach((movieItem) => {
-      $('.skeleton-item')?.insertAdjacentElement('beforebegin', movieItem);
-    });
-    this.#toggleSkeletonItems();
-    this.#page += 1;
-
-    if (movieData.length === RULES.moviesPerPage) {
-      document.addEventListener('scroll', this.#scrollEvent);
-    } else {
-      document.removeEventListener('scroll', this.#scrollEvent);
-    }
-  }
-
-  async #searchMovies(page: number, query: string) {
+  async #getSearchMovies() {
     try {
-      const movieData = await this.#movies.getSearchMovies(query, page);
+      const movieData = await this.#movies.getSearchMovies(this.#query, this.#page);
+
+      if (!movieData.length) this.#showErrorPage(ERROR_MESSAGE.noSearchResult);
 
       return movieData;
     } catch (error) {
-      if (!(error instanceof CustomError)) return;
+      if (error instanceof CustomError) {
+        this.#toggleSkeletonItems();
+        this.#showErrorPage(error.message, error.status);
+      }
 
-      this.#toggleSkeletonItems();
-      this.#showErrorPage(error.message, error.status);
+      return [];
     }
   }
 
