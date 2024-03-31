@@ -86,7 +86,6 @@ export default class MovieHeader extends EventComponent {
   private removeSearchBarOnly() {
     const $header = $(this.targetId) as HTMLHeadElement;
 
-    console.log($header);
     $header.classList.remove("search-bar-only");
   }
 
