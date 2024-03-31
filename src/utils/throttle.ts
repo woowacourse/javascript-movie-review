@@ -1,16 +1,13 @@
-export const throttle = <T extends []>(
-  callback: (...args: T) => void,
-  delay: number = 300
-): ((...args: T) => void) => {
+export const throttle = (callback: () => void, delay: number = 300) => {
   let waiting: NodeJS.Timeout | null = null;
 
-  const throttledFunction = (...args: T) => {
-    if (!waiting) {
-      waiting = setTimeout(() => {
-        callback(...args);
-        waiting = null;
-      }, delay);
-    }
+  const throttledFunction = () => {
+    if (waiting) return;
+
+    waiting = setTimeout(() => {
+      callback();
+      waiting = null;
+    }, delay);
   };
 
   return throttledFunction;

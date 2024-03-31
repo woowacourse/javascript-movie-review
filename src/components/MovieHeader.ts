@@ -1,6 +1,9 @@
 import EventComponent from "./abstract/EventComponent";
 import QueryState from "../states/QueryState";
+
 import { $ } from "../utils/dom";
+import { throttle } from "../utils/throttle";
+
 import { HTMLTemplate, TargetId } from "../types/common";
 import IMAGES from "../images";
 
@@ -43,7 +46,7 @@ export default class MovieHeader extends EventComponent {
       "click",
       this.onSearchButtonClick.bind(this)
     );
-    window.addEventListener("resize", this.onResize);
+    window.addEventListener("resize", throttle(this.onResize.bind(this), 300));
   }
 
   private handleLogoClick(): void {
