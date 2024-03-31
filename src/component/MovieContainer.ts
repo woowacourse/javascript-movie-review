@@ -26,9 +26,8 @@ class MovieContainer {
       options: {
         type: 'button',
         id: 'more-button',
-        size: 'full-width',
-        variant: 'primary',
         textContent: '더 보기',
+        variantClasses: ['full-width', 'primary'],
       },
       eventType: {
         type: 'click',
@@ -103,9 +102,8 @@ class MovieContainer {
       options: {
         type: 'button',
         id: 'retry-button',
-        size: 'full-width',
-        variant: 'primary',
         textContent: '다시 불러오기 ↻',
+        variantClasses: ['full-width', 'primary'],
       },
       eventType: {
         type: 'click',

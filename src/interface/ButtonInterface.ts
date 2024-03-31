@@ -1,9 +1,8 @@
 export interface ButtonElementParams {
   type: 'button' | 'submit' | 'reset';
   id: string;
-  size: string;
-  variant: string;
   textContent: string;
+  variantClasses?: string[];
 }
 
 export interface ButtonEventType {
