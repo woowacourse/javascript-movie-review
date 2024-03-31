@@ -1,3 +1,7 @@
+.movie-title {
+  height: 60px;
+}
+
 .movie-poster {
   display: block;
   width: 260px;
