@@ -6,21 +6,10 @@ import {
 import MovieStore from '../stores/movieStore';
 import fetchData from '../utils/fetchData';
 
-export interface Params {
-  [key: string]: string | number | boolean;
-}
-
-interface FetchProps {
-  onSuccess: (data: MovieResponse) => void;
-  onError: (res: Response) => void;
-  onLoading: () => void;
-}
-
-export const processMovieRequestResults = (data: MovieResponse) => {
-  const { page, total_pages, results, total_results } = data;
+export const processMovieListResponse = (data: MovieListResponse) => {
+  const { page, total_pages, results } = data;
 
   const isLastPage = page === total_pages;
-  const isEmptyResults = total_results === 0;
   const movies = results.map(({ id, title, vote_average, poster_path }) => ({
     id,
     title,
@@ -28,14 +17,38 @@ export const processMovieRequestResults = (data: MovieResponse) => {
     poster_path,
   }));
 
-  return { movies, page, isLastPage, isEmptyResults };
+  return { movies, page, isLastPage };
 };
 
-export const fetchSearchMovies = async ({
+export const processMovieDetailResponse = (
+  data: MovieDetailResponse,
+): MovieDetail => {
+  const {
+    id,
+    genres,
+    overview,
+    poster_path,
+    release_date,
+    title,
+    vote_average,
+  }: MovieDetail = data;
+
+  return {
+    id,
+    genres,
+    overview,
+    poster_path,
+    release_date,
+    title,
+    vote_average,
+  };
+};
+
+export const fetchSearchMovies = ({
   onSuccess,
   onError,
   onLoading,
-}: FetchProps) => {
+}: FetchSearchMoviesProps) => {
   const { page, query } = MovieStore.search;
 
   const parameters = new URLSearchParams({
@@ -46,14 +59,19 @@ export const fetchSearchMovies = async ({
   const url = `${REQUEST_URL.searchMovies}${parameters}`;
   const options = COMMON_OPTIONS;
 
-  return fetchData({ url, options }, onSuccess, onError, onLoading);
+  return fetchData<MovieListResponse>(
+    { url, options },
+    onSuccess,
+    onError,
+    onLoading,
+  );
 };
 
-export const fetchPopularMovies = async ({
+export const fetchPopularMovies = ({
   onSuccess,
   onError,
   onLoading,
-}: FetchProps) => {
+}: FetchPopularMoviesProps) => {
   const { page } = MovieStore.popular;
 
   const parameters = new URLSearchParams({
@@ -63,5 +81,30 @@ export const fetchPopularMovies = async ({
   const url = `${REQUEST_URL.popularMovies}${parameters}`;
   const options = COMMON_OPTIONS;
 
-  return fetchData({ url, options }, onSuccess, onError, onLoading);
+  return fetchData<MovieListResponse>(
+    { url, options },
+    onSuccess,
+    onError,
+    onLoading,
+  );
+};
+
+export const fetchMovieDetail = ({
+  onSuccess,
+  onError,
+  onLoading,
+  id,
+}: FetchMovieDetailProps) => {
+  const parameters = new URLSearchParams({
+    ...COMMON_PARAMS,
+  });
+  const url = `${REQUEST_URL.movieDetail}/${id}?${parameters}`;
+  const options = COMMON_OPTIONS;
+
+  return fetchData<MovieDetailResponse>(
+    { url, options },
+    onSuccess,
+    onError,
+    onLoading,
+  );
 };

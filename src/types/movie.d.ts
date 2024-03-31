@@ -20,7 +20,7 @@ interface Movie {
   vote_count: number;
 }
 
-interface MovieResponse {
+interface MovieListResponse {
   page: number;
   results: Movie[];
   total_pages: number;

@@ -3,7 +3,7 @@ import './MovieList.css';
 import {
   fetchPopularMovies,
   fetchSearchMovies,
-  processMovieRequestResults,
+  processMovieListResponse,
 } from '../../services/TMDBService';
 
 import MovieStore from '../../stores/movieStore';
@@ -81,8 +81,8 @@ const MovieList = () => {
   const $skeleton = SkeletonMovieList().render();
   const $infiniteScrollTrigger = InfiniteScrollTrigger().render();
 
-  const onSuccess = (data: MovieResponse) => {
-    const { page, movies, isLastPage } = processMovieRequestResults(data);
+  const onSuccess = (data: MovieListResponse) => {
+    const { page, movies, isLastPage } = processMovieListResponse(data);
 
     updateMovieList({ movies, $ul });
 
