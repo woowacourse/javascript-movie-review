@@ -3,7 +3,6 @@ import movieAPI from '../../api/movie';
 import { getEndpoint, getUrlParams } from '../../utils/queryString';
 import MovieDomain from '../entity/Movie';
 import { END_POINT, QUERY_STRING_KEYS } from '../../consts/URL';
-import { MovieListAPIReturnType } from '../../api/movieAPI.type';
 
 class InfiniteScrollDataLoader {
   currentPage: number = 1;
@@ -14,10 +13,7 @@ class InfiniteScrollDataLoader {
 
   constructor() {
     this.movieList = new MovieList({ movieList: [] });
-    this.movieList.renderSkeleton();
     this.oberveScrollAndRenderNextPage();
-    // this.renderTargetPage();
-    // this.oberveScrollAndRenderNextPage();
   }
 
   resetPage() {
@@ -26,21 +22,27 @@ class InfiniteScrollDataLoader {
 
   oberveScrollAndRenderNextPage() {
     let scrollCheck: NodeJS.Timeout | null;
+    let skeletonLoading = false;
 
     window.addEventListener('scroll', () => {
       clearTimeout(scrollCheck!);
 
       const isScrollEnded = window.innerHeight + window.scrollY + 100 >= document.body.offsetHeight;
 
-      scrollCheck = setTimeout(async () => {
-        scrollCheck = null;
+      scrollCheck = null;
 
+      scrollCheck = setTimeout(() => {
         if (isScrollEnded && this.currentPage < this.totalPage) {
-          this.movieList.renderSkeleton();
+          if (!skeletonLoading) {
+            this.movieList.renderSkeleton();
+            skeletonLoading = true;
+          }
+
           this.currentPage += 1;
-          await this.renderTargetPage();
+          this.renderTargetPage();
+          skeletonLoading = false;
         }
-      }, 1000);
+      }, 500);
     });
   }
 
@@ -56,8 +58,6 @@ class InfiniteScrollDataLoader {
     this.movieList.render();
 
     if (this.totalPage === 1) return;
-
-    // }, 300);
   }
 
   async selectAPIAndFetch() {

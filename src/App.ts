@@ -16,24 +16,28 @@ class App {
     this.movieListBox.classList.add('item-list');
     this.movieListBox.classList.add('grid');
     this.movieListInstance = new MovieList({ movieList: [] });
-    this.renderPopularList();
-  }
 
-  async renderPopularList() {
     this.#renderHeader();
-    this.title.renderTitle();
 
     this.itemViewBox.append(this.movieListBox);
 
+    this.movieListInstance.renderSkeleton();
+    this.renderFirstPage();
+    this.itemViewBox.append(this.movieListBox);
+  }
+
+  async renderFirstPage() {
+    this.title.renderTitle();
     setEndpoint(END_POINT.POPULAR);
     this.movieListInstance.renderSkeleton();
     this.infiniteScrollDataLoader.renderTargetPage();
   }
 
   async rerenderMovieList() {
-    this.title.rerenderTitle();
+    this.title.renderTitle();
     this.removeExistedData();
     this.infiniteScrollDataLoader.resetPage();
+    this.movieListInstance.renderSkeleton();
     this.infiniteScrollDataLoader.renderTargetPage();
   }
 

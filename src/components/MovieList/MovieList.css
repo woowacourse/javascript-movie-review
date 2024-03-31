@@ -43,13 +43,6 @@
   grid-row-gap: 48px;
 }
 
-.item-thumbnail {
-  border-radius: 8px;
-  width: 180px;
-  height: 270px;
-  background-size: contain;
-}
-
 @media (max-width: 1100px) {
   #list-title {
     width: 960px;
@@ -65,6 +58,10 @@
     height: 270px;
     display: flex;
     flex-direction: column;
+  }
+
+  .item-title {
+    height: 50px;
   }
 }
 
@@ -83,6 +80,10 @@
     width: 180px;
     height: 270px;
   }
+
+  .item-title {
+    height: 50px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -91,49 +92,23 @@
   }
 
   .grid {
-    grid-template-columns: repeat(2, 140px);
+    grid-template-columns: repeat(2, 150px);
     grid-column-gap: 80px;
     grid-row-gap: 20px;
   }
 
   .item-card {
-    width: 140px;
+    width: 150px;
+    padding-top: 10px;
   }
 
   .item-thumbnail {
-    width: 140px;
+    width: 150px;
     height: 210px;
   }
 
   .item-title {
-    font-size: 12px;
+    font-size: 16px;
+    height: 45px;
   }
-}
-
-.item-card {
-  display: flex;
-  flex-direction: column;
-}
-
-.item-title {
-  width: 100%;
-  margin-top: 16px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  line-height: 1.5;
-}
-
-.item-score {
-  margin-top: 16px;
-  font-size: 1.2rem;
-}
-
-.item-score::after {
-  margin-left: 8px;
-}
-
-.item-title.skeleton::after,
-.item-score.skeleton::after {
-  font-size: 0;
-  content: 'loading';
 }

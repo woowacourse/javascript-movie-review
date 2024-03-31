@@ -86,7 +86,6 @@ class searchInputBox {
 
   handleResize() {
     if (window.innerWidth <= 600) {
-      console.log('aa');
       if (this.searchInputBox.classList.contains('open')) {
         this.headerLogo.style.display = 'none';
         this.inputFoldButton.style.display = 'block';
@@ -94,7 +93,6 @@ class searchInputBox {
       }
       return (this.searchInput.style.display = 'none');
     }
-    console.log('aa');
     this.searchInput.style.display = 'block';
     this.headerLogo.style.display = 'block';
     this.inputFoldButton.style.display = 'none';

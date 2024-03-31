@@ -48,12 +48,12 @@
 
 #search-input {
   width: 200px;
+  padding: 0 8px;
 }
 
 @media (max-width: 600px) {
   #search-input {
     width: calc(100vw - 120px);
-    padding: 0 8px;
     animation: expand 0.5s linear;
   }
 }
