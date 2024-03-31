@@ -4,6 +4,7 @@ export { default as CloseButton } from './images/close_button.svg';
 export { default as UpButton } from './images/up_button.svg';
 export { default as EmptyStar } from './images/star_empty.png';
 export { default as FilledStar } from './images/star_filled.png';
+export { default as NoImage } from './images/no_image.png';
 export { default as NoResultImage } from './images/no_result_image.png';
 export { default as WarningImage } from './images/warning.png';
 export { default as LoadingImage } from './images/loading.gif';

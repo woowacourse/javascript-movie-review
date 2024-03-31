@@ -2,7 +2,7 @@ import Component from '../../common/Component/Component';
 import { IMovie } from '../../../domain/Movie/Movie.type';
 import { querySelector } from '../../../utils/dom/selector';
 import { MOVIE_ITEM } from '../../../constants/Condition';
-import { FilledStar } from '../../../assets';
+import { NoImage, FilledStar } from '../../../assets';
 
 interface MovieListCardProps {
   movieItem: IMovie;
@@ -15,12 +15,16 @@ class MovieListCard extends Component<MovieListCardProps> {
   }
 
   protected createComponent() {
+    const posterURL = this.props?.movieItem.poster_path
+      ? `${process.env.IMAGE_BASE_URL}/w220_and_h330_face/${this.props?.movieItem.poster_path}`
+      : NoImage;
+
     return /* html */ `
         <div id="movie-item-card" class="item-card">
           <img
             id="movie-item-thumbnail"
             class="item-thumbnail skeleton"
-            src=${`${process.env.IMAGE_BASE_URL}/w220_and_h330_face/${this.props?.movieItem.poster_path}`}
+            src=${posterURL}
             loading="lazy",
             alt=${`${this.props?.movieItem.title}`}
           />

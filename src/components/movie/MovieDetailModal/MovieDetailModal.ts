@@ -4,7 +4,7 @@ import MovieRatingBox from '../MovieRatingBox/MovieRatingBox';
 import { IMovieDetail } from '../../../domain/Movie/Movie.type';
 import { querySelector } from '../../../utils/dom/selector';
 import { MOVIE_ITEM } from '../../../constants/Condition';
-import { CloseButton, FilledStar } from '../../../assets';
+import { NoImage, CloseButton, FilledStar } from '../../../assets';
 import './MovieDetailModal.css';
 
 class MovieDetailModal extends Component {
@@ -23,8 +23,13 @@ class MovieDetailModal extends Component {
   }
 
   protected createComponent() {
-    const posterURL = `${process.env.IMAGE_BASE_URL}/w220_and_h330_face/${this.movieDetail?.poster_path}`;
-    const genres = this.movieDetail?.genres.map((genre) => genre.name).join(', ');
+    const posterURL = this.movieDetail?.poster_path
+      ? `${process.env.IMAGE_BASE_URL}/w220_and_h330_face/${this.movieDetail?.poster_path}`
+      : NoImage;
+    const genres =
+      (this.movieDetail?.genres.length ?? 0) > 0
+        ? this.movieDetail?.genres.map((genre) => genre.name).join(', ')
+        : '장르가 없습니다.';
     const overview = this.movieDetail?.overview || '줄거리가 없습니다.';
 
     return /* html */ `
