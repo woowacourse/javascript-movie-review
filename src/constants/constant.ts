@@ -5,6 +5,7 @@ const POPULAR_MOVIES_URL = `${BASE_URL}/movie/popular`;
 const MOVIE_SEARCH_URL = `${BASE_URL}/search/movie`;
 const MOVIE_DETAIL = `${BASE_URL}/movie/`;
 const LAST_PAGE = 500;
+const COUNT_OF_MOVIES = 20;
 
 const SCORE_MESSAGE: ScoreMessage = {
   2: '최악이예요',
@@ -24,4 +25,5 @@ export {
   LAST_PAGE,
   SCORE_MESSAGE,
   NETWORK_ERROR_MESSAGE,
+  COUNT_OF_MOVIES,
 };

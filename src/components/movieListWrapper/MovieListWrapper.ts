@@ -1,7 +1,9 @@
 import { openMovieDetailModal } from '../../View/View';
 import { fetchMovieDetail, fetchPopularMovieList, fetchSearchMovieList } from '../../apis/fetchData';
+import { COUNT_OF_MOVIES } from '../../constants/constant';
 import PageService from '../../domain/PageService';
 import { Movie, MovieAPIResponse } from '../../interface/Movie';
+import { Dom } from '../../utils/Dom';
 import InfiniteScroll from '../../utils/InfiniteScroll';
 
 import { showSkeleton, updateCard } from '../movieCard/movieCard';
@@ -20,8 +22,7 @@ export class MovieListWrapper {
   }
 
   async create() {
-    const section = document.querySelector('.item-view');
-    if (!section) return;
+    const section = Dom.getElement(document, '.item-view');
     section.replaceChildren();
 
     const title = document.createElement('h2');
@@ -44,7 +45,6 @@ export class MovieListWrapper {
 
   async selectUpdatingMovieType(observe: InfiniteScroll) {
     const liList = this.loadMovieList();
-    if (!liList) return;
     switch (this.#getName) {
       case 'popular':
         {
@@ -86,14 +86,13 @@ export class MovieListWrapper {
   }
 
   displayNoResultsMessage() {
-    const section = document.querySelector('.item-view');
-    if (!section) return;
-    const ul = section.querySelector('ul');
+    const section = Dom.getElement(document, '.item-view');
+    const ul = Dom.getElement(section, 'ul');
     const totalResult = document.createElement('h3');
     totalResult.className = 'no-result';
     totalResult.textContent = '현재 검색결과가 존재하지 않습니다.';
-    section?.appendChild(totalResult);
-    ul?.remove();
+    section.appendChild(totalResult);
+    ul.remove();
   }
 
   completeMovieList(liList: HTMLElement[], movies: Movie[]) {
@@ -101,15 +100,14 @@ export class MovieListWrapper {
       updateCard(liList[index], movie);
       liList[index].addEventListener('click', () => openMovieDetailModal(movie.id));
     });
-    document.querySelectorAll('li.skeleton').forEach(element => {
+    Dom.getElementAll(document, 'li.skeleton').forEach(element => {
       element.remove();
     });
   }
 
   loadMovieList() {
-    const itemList = document.querySelector('.item-list');
-    if (!itemList) return;
-    const liList = Array.from({ length: 20 }, () => showSkeleton());
+    const itemList = Dom.getElement(document, '.item-list');
+    const liList = Array.from({ length: COUNT_OF_MOVIES }, () => showSkeleton());
     itemList.append(...liList);
     return liList;
   }

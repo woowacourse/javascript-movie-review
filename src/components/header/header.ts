@@ -1,4 +1,5 @@
 import logoPng from '../../images/logo.png';
+import { Dom } from '../../utils/Dom';
 
 export function createHeader(logoHandler: () => void, inputSubmitHandler: (inputValue: string) => void) {
   const header = render(logoHandler, inputSubmitHandler);
@@ -48,16 +49,16 @@ function handleResize() {
   debounce = setTimeout(() => {
     const width = window.innerWidth;
     if (width >= 768) {
-      document.querySelector('header h1')?.classList.remove('clicked-logo');
-      document.querySelector('header > .search-box')?.classList.remove('clicked-form');
-      document.querySelector('header .search-box > input')?.classList.remove('clicked-form');
-      document.querySelector('header')?.classList.remove('clicked-header');
+      Dom.getElement(document, 'header h1').classList.remove('clicked-logo');
+      Dom.getElement(document, 'header > .search-box').classList.remove('clicked-form');
+      Dom.getElement(document, 'header .search-box > input')?.classList.remove('clicked-input');
+      Dom.getElement(document, 'header')?.classList.remove('clicked-header');
     }
-    if (width < 768 && (document.querySelector('header .search-box > input') as HTMLInputElement)?.value !== '') {
-      document.querySelector('header h1')?.classList.add('clicked-logo');
-      document.querySelector('header > .search-box')?.classList.add('clicked-form');
-      document.querySelector('header .search-box > input')?.classList.add('clicked-input');
-      document.querySelector('header')?.classList.add('clicked-header');
+    if (width < 768 && (Dom.getElement(document, 'header .search-box > input') as HTMLInputElement)?.value !== '') {
+      Dom.getElement(document, 'header h1').classList.add('clicked-logo');
+      Dom.getElement(document, 'header > .search-box').classList.add('clicked-form');
+      Dom.getElement(document, 'header .search-box > input').classList.add('clicked-input');
+      Dom.getElement(document, 'header').classList.add('clicked-header');
     }
   }, 100);
 }
