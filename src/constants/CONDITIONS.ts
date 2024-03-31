@@ -1,6 +1,6 @@
 const CONDITIONS = {
   popularMoviesTotalPage: 500,
-  supplement: 0.75,
+  supplement: 1000,
 };
 
 export default CONDITIONS;
