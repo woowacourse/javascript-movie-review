@@ -41,6 +41,15 @@ const showResultNotFound = () => {
   }
 };
 
+const removeResultNotFound = () => {
+  const $section = document.querySelector('.item-view');
+  const $resultNotFound = document.querySelector('.result-not-found');
+
+  if ($section && $resultNotFound) {
+    $section.removeChild($resultNotFound);
+  }
+};
+
 const updateMovieList = ({
   movies,
   $ul,
@@ -125,12 +134,14 @@ const MovieList = () => {
 
     $section.appendChild($errMsg);
     $section.removeChild($skeleton);
+    removeResultNotFound();
 
     stopObserving($infiniteScrollTrigger);
   };
 
   const onLoading = () => {
     stopObserving($infiniteScrollTrigger);
+    removeResultNotFound();
 
     const { type } = MovieStore;
     $title.textContent = `${type === 'popular' ? '지금 인기있는 영화' : `\"${MovieStore.query}\" 검색 결과`}`;

@@ -69,6 +69,7 @@ const SearchInput = () => {
     if (target instanceof HTMLInputElement && target.value === '') {
       MovieStore.setMovies({ value: [] });
       MovieStore.setPage(1);
+      MovieStore.setQuery('');
       MovieStore.type = 'popular';
 
       $searchInput.dispatchEvent(
