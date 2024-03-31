@@ -10,8 +10,7 @@ class AppController {
   }
 
   async start() {
-    const app = document.querySelector('#app');
-    if (!app) return;
+    const app = Dom.getElement(document, '#app');
     const logoHandler: () => void = async () => {
       await this.#currentView.updateView('지금 인기 있는 영화', 'popular');
     };
