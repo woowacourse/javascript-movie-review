@@ -1,10 +1,8 @@
 import { MOVIE_ITEM } from '../../constants/INFORMATION';
 
 const MovieitemsSkeleton = {
-  create(): HTMLUListElement {
-    const movieItems = document.createElement('ul');
-
-    movieItems.classList.add('item-list');
+  create(): DocumentFragment {
+    const movieItems = document.createDocumentFragment();
 
     Array.from({ length: MOVIE_ITEM.count }).forEach(() => {
       movieItems.appendChild(this.createMovieItemSkeleton());

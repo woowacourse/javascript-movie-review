@@ -2,9 +2,10 @@ import MovieItemDetailModalInstance from '../typeAliases/MovieItemDetailModalIns
 import ResponseData from './ResponseData';
 
 interface ReplaceSkeletonsProps {
-  movieItems: HTMLUListElement;
-  responseData: ResponseData;
+  skeletonList: NodeListOf<HTMLLIElement>;
+  moviesData: ResponseData;
   moiveItemDetailModal: MovieItemDetailModalInstance;
+  itemList: HTMLElement;
 }
 
 export default ReplaceSkeletonsProps;
