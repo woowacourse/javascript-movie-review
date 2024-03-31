@@ -1,0 +1,13 @@
+.star-rating__radio {
+  display: none;
+}
+
+.star-rating__empty-icon {
+  width : 1.5rem;
+  height: 1.5rem;
+}
+
+.star-rating__filled-icon {
+  width : 1.5rem;
+  height: 1.5rem;
+}
