@@ -44,8 +44,8 @@ export class RecommendStar {
     const recommendMessage = document.createElement('span');
     recommendMessage.className = 'recommend-message';
     if (this.currentScore !== 0) {
-      this.reRenderScore(recommendScore);
-      this.reRenderScoreMessage(recommendMessage);
+      this.rerenderScore(recommendScore);
+      this.rerenderScoreMessage(recommendMessage);
     }
 
     starBox.append(...this.stars);
@@ -54,16 +54,16 @@ export class RecommendStar {
       star.addEventListener('click', () => {
         console.log(this.userMovieDetail);
         this.currentScore = (index + 1) * 2;
-        this.reRenderStar();
-        this.reRenderScore(recommendScore);
-        this.reRenderScoreMessage(recommendMessage);
+        this.rerenderStar();
+        this.rerenderScore(recommendScore);
+        this.rerenderScoreMessage(recommendMessage);
         this.setRecommendList();
       });
     });
     return recommendStarBox;
   }
 
-  reRenderStar() {
+  rerenderStar() {
     this.stars.forEach((element, index) => {
       if (index <= this.currentScore / 2 - 1) {
         element.src = filledStar;
@@ -73,11 +73,10 @@ export class RecommendStar {
     });
   }
 
-  reRenderScore(recommendScore: HTMLElement) {
-    console.log(this.currentScore);
+  rerenderScore(recommendScore: HTMLElement) {
     recommendScore.textContent = this.currentScore.toString();
   }
-  reRenderScoreMessage(recommendMessage: HTMLElement) {
+  rerenderScoreMessage(recommendMessage: HTMLElement) {
     recommendMessage.textContent = SCORE_MESSAGE[this.currentScore];
   }
 
