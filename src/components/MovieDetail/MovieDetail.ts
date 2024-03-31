@@ -31,6 +31,30 @@ const MovieDetail = ({ data, onCloseButtonClick, onStarClick }: Props) => {
   return container;
 };
 
+const MovieDetailTitle = (title: string, onCloseButtonClick: () => void) => {
+  const container = document.createElement('div');
+  const h2 = document.createElement('h2');
+  const closeButton = document.createElement('button');
+
+  container.classList.add('movie-detail-title-container');
+  h2.classList.add('movie-detail-title');
+  closeButton.classList.add('movie-detail-close-button');
+
+  h2.textContent = title;
+  closeButton.innerHTML = /* html */ `
+    <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M13.7665 1.54966L12.38 0L6.88315 6.14368L1.38632 0L-0.000183105 1.54966L5.49665 7.69333L-0.000183105 13.837L1.38632 15.3867L6.88315 9.24299L12.38 15.3867L13.7665 13.837L8.26965 7.69333L13.7665 1.54966Z" fill="#F1F1F1"/>
+    </svg>
+  `;
+
+  container.appendChild(h2);
+  container.appendChild(closeButton);
+
+  closeButton.addEventListener('click', () => onCloseButtonClick());
+
+  return container;
+};
+
 const MovieDetailDescription = (data: MovieDetail, onStarClick: onStarClick) => {
   const movieDetailDescription = document.createElement('div');
 
@@ -54,30 +78,6 @@ const MovieDetailDescription = (data: MovieDetail, onStarClick: onStarClick) => 
   movieDetailDescription.appendChild(ReviewContainer(data, onStarClick));
 
   return movieDetailDescription;
-};
-
-const MovieDetailTitle = (title: string, onCloseButtonClick: () => void) => {
-  const container = document.createElement('div');
-  const h2 = document.createElement('h2');
-  const closeButton = document.createElement('button');
-
-  container.classList.add('movie-detail-title-container');
-  h2.classList.add('movie-detail-title');
-  closeButton.classList.add('movie-detail-close-button');
-
-  h2.textContent = title;
-  closeButton.innerHTML = /* html */ `
-    <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M13.7665 1.54966L12.38 0L6.88315 6.14368L1.38632 0L-0.000183105 1.54966L5.49665 7.69333L-0.000183105 13.837L1.38632 15.3867L6.88315 9.24299L12.38 15.3867L13.7665 13.837L8.26965 7.69333L13.7665 1.54966Z" fill="#F1F1F1"/>
-    </svg>
-  `;
-
-  container.appendChild(h2);
-  container.appendChild(closeButton);
-
-  closeButton.addEventListener('click', () => onCloseButtonClick());
-
-  return container;
 };
 
 const ReviewContainer = ({ id, my_grade }: MovieDetail, onStarClick: onStarClick) => {
