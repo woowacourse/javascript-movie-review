@@ -8,7 +8,7 @@ class APIClient {
   #currentPage = 0;
 
   #isEndPage = (page: number, totalPage: number) =>
-    page >= totalPage && page > MAX_PAGE;
+    page >= totalPage || page > MAX_PAGE;
 
   #updateCurrentPage = (isResetCurrentPage: boolean) => {
     if (isResetCurrentPage) this.#currentPage = 1;

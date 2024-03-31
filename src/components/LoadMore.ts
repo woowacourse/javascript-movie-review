@@ -32,11 +32,12 @@ const addItemCardList = () => {
     movieDataStateStore.fetchedMovieData.movieList.length !== 0
   ) {
     ItemCardList(movieDataStateStore.fetchedMovieData.movieList);
-    return undefined;
   }
-  const $loader = document.querySelector(".loader");
-  $loader?.remove();
-  return undefined;
+
+  if (movieDataStateStore.fetchedMovieData.isEndPage) {
+    const $loader = document.querySelector(".loader");
+    $loader?.remove();
+  }
 };
 
 const fetchMoreData = async (listType: ListType) => {
