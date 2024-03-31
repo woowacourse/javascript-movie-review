@@ -4,31 +4,25 @@ import SkeletonInfo from '../SkeletonInfo';
 const skeletonInfo = new SkeletonInfo();
 
 const SkeletonController = {
-  // skeleton list container
-  getSkeletonListContainer() {
+  hideSkeletonListContainer() {
     const $skeletonListContainer = ElementFinder.findElementBySelector(
       '.skeleton-list-container',
     );
-    if (!$skeletonListContainer) return;
-
-    return $skeletonListContainer;
-  },
-
-  hideSkeletonListContainer() {
-    const $skeletonListContainer =
-      SkeletonController.getSkeletonListContainer();
 
     if (!$skeletonListContainer) return;
-    // 캐시로 인해  데이터가 빨리 불어져오면 스켈레톤이 바로 사라져서 깜빡이는 현상이 발생함,이를 막기 위해 setTimeout을 사용
-    setTimeout(() => {
-      $skeletonListContainer.classList.remove('on');
-    }, 500);
+    // 초기 렌더링 시, 캐시로 인해 데이터가 빨리 불러와져서 깜빡이는 현상을 막기위해 시간을 두고 삭제
+    setTimeout(
+      () => {
+        $skeletonListContainer.classList.remove('on');
+      },
+      window.scrollY === 0 ? 1500 : 0,
+    );
   },
 
   showSkeletonListContainer() {
-    const $skeletonListContainer =
-      SkeletonController.getSkeletonListContainer();
-
+    const $skeletonListContainer = ElementFinder.findElementBySelector(
+      '.skeleton-list-container',
+    );
     if (!$skeletonListContainer) return;
 
     $skeletonListContainer.classList.add('on');

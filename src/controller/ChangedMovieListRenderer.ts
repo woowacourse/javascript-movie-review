@@ -11,8 +11,6 @@ const ChangedMovieListRenderer = {
    * 데이터를 사용해 화면에 영화 리스트를 구현한다.
    */
   updateMovieList() {
-    const previousScrollPosition = window.scrollY;
-
     const { movieList, isMoreData } = dataStateStore.movieData;
 
     this.private_addItemsToMovieList(movieList, isMoreData);
@@ -20,8 +18,6 @@ const ChangedMovieListRenderer = {
     if (!isMoreData) {
       this.private_showNoMoreData();
     }
-
-    window.scrollTo(0, previousScrollPosition);
   },
 
   /**
