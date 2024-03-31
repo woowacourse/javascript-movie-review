@@ -14,9 +14,9 @@ const MovieHeader = {
     header.appendChild(logoImgContainer);
     header.appendChild(searchBox);
 
-    this.setHandle(logoImgContainer, searchBox);
-
     getDomElement('#app').appendChild(header);
+
+    this.setHandle(logoImgContainer, searchBox);
   },
 
   createLogoImgContainer() {
@@ -33,8 +33,31 @@ const MovieHeader = {
 
   setHandle(logoImgContainer: HTMLElement, searchBox: HTMLElement) {
     logoImgContainer.addEventListener('click', () => this.showPopularMovies(searchBox));
+
     const searchButton = getDomElement('button', searchBox);
-    searchButton.addEventListener('click', () => this.showSearchMovies(searchBox));
+    const searchInput = getDomElement('input', searchBox);
+    const header = getDomElement('header');
+    const headerLogo = getDomElement('h1', header);
+
+    searchButton.addEventListener('click', () => {
+      const computedStyles = window.getComputedStyle(searchInput);
+      if (computedStyles.display === 'none') {
+        searchInput.style.display = 'inline-block';
+        headerLogo.style.display = 'none';
+        searchInput.focus();
+      } else {
+        this.showSearchMovies(searchBox);
+      }
+    });
+
+    searchInput.addEventListener('blur', () => {
+      const computedStyles = window.getComputedStyle(headerLogo);
+      if (computedStyles.display === 'none') {
+        searchInput.style.display = 'none';
+        headerLogo.style.display = 'inline-block';
+      }
+    });
+
     searchBox.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {
         this.showSearchMovies(searchBox);
