@@ -32,7 +32,6 @@ class MovieList {
     this.#createPopularMoviesSection();
     this.#renderPopularMovieItems();
     this.#setupSearchFormSubmit();
-    this.#movieModal.createMovieModalSection();
   }
 
   #createPopularMoviesSection() {
@@ -65,6 +64,8 @@ class MovieList {
     }
     this.#setupItemClick();
     this.#removeMoreMoviesButton(TAB.POPULAR);
+
+    this.#movieModal.createMovieModalSection();
   }
 
   #handlePopularPagination(data: IMovieItemData[]) {
@@ -152,6 +153,7 @@ class MovieList {
       this.#handleError(error as Error);
     }
     this.#setupItemClick();
+    this.#movieModal.createMovieModalSection();
     this.#removeMoreMoviesButton(TAB.SEARCH);
   }
 
