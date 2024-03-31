@@ -5,11 +5,13 @@ import { HTMLTemplate, TargetId } from "../types/common";
 import IMAGES from "../images";
 
 const MOVIE_QUERY_MAX_LENGTH = 500;
+const MOBILE_SIZE = 479;
 
 interface MovieHeaderProps {
   targetId: TargetId;
   queryState: QueryState;
 }
+
 export default class MovieHeader extends EventComponent {
   private queryState: QueryState;
 
@@ -31,20 +33,29 @@ export default class MovieHeader extends EventComponent {
   }
 
   protected setEvent(): void {
-    const $form = $<HTMLFormElement>("search-form");
     const $movieListLogo = $<HTMLHeadElement>("movie-list-logo");
+    const $form = $<HTMLFormElement>("search-form");
+    const $searchButton = $<HTMLButtonElement>("search-button");
 
-    $form?.addEventListener("submit", (event) =>
-      this.onSearchMovieSubmit(event, $form)
+    $movieListLogo?.addEventListener("click", this.handleLogoClick.bind(this));
+    $form?.addEventListener("submit", this.onSearchMovieSubmit.bind(this));
+    $searchButton?.addEventListener(
+      "click",
+      this.onSearchButtonClick.bind(this)
     );
-
-    $movieListLogo?.addEventListener("click", this.onLogoClick.bind(this));
+    window.addEventListener("resize", this.onResize);
   }
 
-  private onSearchMovieSubmit(event: Event, form: HTMLFormElement): void {
-    event.preventDefault();
+  private handleLogoClick(): void {
+    this.queryState.set("");
+    $<HTMLFormElement>("search-form")?.reset();
+  }
 
-    const searchQuery = form["search-query"].value;
+  private onSearchMovieSubmit(event: Event): void {
+    event.preventDefault();
+    const $form = $<HTMLFormElement>("search-form");
+
+    const searchQuery = $form?.["search-query"].value;
 
     if (!searchQuery) {
       alert("검색어를 입력해 주세요.");
@@ -54,9 +65,25 @@ export default class MovieHeader extends EventComponent {
     this.queryState.set(searchQuery);
   }
 
-  private onLogoClick(): void {
-    this.queryState.set("");
+  private onSearchButtonClick(event: Event): void {
+    event.preventDefault();
 
-    $<HTMLFormElement>("search-form")?.reset();
+    const $searchInput = $<HTMLInputElement>("search-input");
+
+    if ($searchInput?.classList.contains("hidden")) {
+      $searchInput?.classList.remove("hidden");
+    } else {
+      this.onSearchMovieSubmit(event);
+    }
+  }
+
+  private onResize(): void {
+    const $searchInput = $<HTMLInputElement>("search-input");
+
+    if (window.innerWidth <= MOBILE_SIZE) {
+      $searchInput?.classList.add("hidden");
+    } else {
+      $searchInput?.classList.remove("hidden");
+    }
   }
 }
