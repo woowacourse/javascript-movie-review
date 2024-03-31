@@ -1,3 +1,5 @@
+import UserVote from '../typeAliases/UserVote';
+
 interface DetailMovieData {
   adult: boolean;
   backdrop_path: string;
@@ -24,6 +26,7 @@ interface DetailMovieData {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  user_vote: UserVote;
 }
 
 interface Genre {
