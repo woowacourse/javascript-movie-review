@@ -75,10 +75,23 @@ const Modal = {
   },
 
   handleModal(modal: HTMLDivElement) {
+    this.clickClose(modal);
+    this.useEscClose(modal);
+  },
+
+  clickClose(modal: HTMLDivElement) {
     modal?.addEventListener('click', (e) => {
       const element = e.target as HTMLElement;
 
       if (element.className === 'modal-backdrop' || element.className === 'modal-close-btn') {
+        modal.remove();
+      }
+    });
+  },
+
+  useEscClose(modal: HTMLDivElement) {
+    window?.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
         modal.remove();
       }
     });
