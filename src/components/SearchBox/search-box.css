@@ -11,18 +11,18 @@
   width: 320px;
   height: 44px;
 
+  z-index: 99;
+
   transition: all 0.3s ease-in-out;
 
   @media screen and (max-width: 673px) {
-    width: 42px;
+    width: 40px;
+    gap: 0;
   }
 }
 
-.search-box:hover {
-  width: 320px;
-}
-
 .search-input {
+  overflow: hidden;
   flex: 1;
 
   border: 0;
@@ -30,12 +30,6 @@
 
   height: 24px;
   padding: 0;
-
-  @media screen and (max-width: 673px) {
-    margin: -1px;
-    opacity: 0;
-    overflow: hidden;
-  }
 
   transition: all 0.3s ease-in-out;
 }
@@ -58,20 +52,14 @@
   background-color: #fff;
 
   border: 0;
-
-  @media screen and (max-width: 673px) {
-    pointer-events: none;
-  }
-}
-
-.show-input {
-  width: 260px;
-  opacity: 1;
-  margin: 0;
 }
 
 .visibility-hidden {
   opacity: 0;
   width: 1px;
   margin: -1px;
+}
+
+.prevent-pointer-event {
+  pointer-events: none;
 }

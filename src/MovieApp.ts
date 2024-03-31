@@ -1,6 +1,8 @@
 import { LOGO, STAR_EMPTY, STAR_FILLED } from './resource/index';
 import { STAR_MESSAGE } from './constants/messages';
 import { $ } from './utils/dom';
+import throttle from './utils/throttle';
+import { RULES } from './constants/rule';
 
 import Header from './components/Header/Header';
 import Title from './components/Title/Title';
@@ -30,10 +32,11 @@ class MovieApp {
     }
 
     this.#app.appendChild(this.#setHeader());
-    this.#addSearchButtonHoverEvent();
     this.#app.appendChild(this.#setMain());
     this.#app.appendChild(this.#modal.element);
     this.#movieController.render('');
+
+    this.#addResizeEvent();
   }
 
   #setHeader() {
@@ -126,30 +129,15 @@ class MovieApp {
     this.#movieDetailController.updateMovieDetail(movieId, grade);
   }
 
-  #addSearchButtonHoverEvent() {
-    $('.search-box')?.addEventListener('mouseover', () => {
-      const searchInput = $('#search-text') as HTMLInputElement;
-      const searchButton = $('.search-button') as HTMLButtonElement;
+  #addResizeEvent() {
+    window.addEventListener(
+      'resize',
+      throttle(() => {
+        const searchBox = $('.search-box') as HTMLElement;
 
-      searchButton.style.pointerEvents = 'auto';
-
-      if (window.innerWidth <= 673) {
-        $('.title')?.classList.add('visibility-hidden');
-        searchInput.classList.add('show-input');
-      }
-    });
-
-    $('.search-box')?.addEventListener('mouseout', () => {
-      const searchInput = $('#search-text') as HTMLInputElement;
-      const searchButton = $('.search-button') as HTMLButtonElement;
-
-      if (window.innerWidth <= 673) {
-        searchInput.classList.remove('show-input');
-        searchButton.style.pointerEvents = 'none';
-      } else {
-        searchButton.style.pointerEvents = 'auto';
-      }
-    });
+        if (window.innerWidth > RULES.mobileThresholdWidth) searchBox.style.width = '';
+      }, 300),
+    );
   }
 }
 

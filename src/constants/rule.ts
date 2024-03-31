@@ -4,4 +4,6 @@ export const RULES = {
   moviesPerPage: 20,
   genreSeparator: ', ',
   arriveScrollPercentage: 0.97,
+  searchBoxWidth: 320,
+  mobileThresholdWidth: 673,
 } as const;
