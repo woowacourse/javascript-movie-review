@@ -80,24 +80,24 @@
 
 ### 컴포넌트
 
-- [] MovieItemModal
+- [x] MovieItemModal
 
   - 클릭한 영화의 상세 정보를 보여주는 컴포넌트
   - 제목, 포스터, 장르, 평점, 줄거리를 보여준다.
   - 추가적으로, '내 별점'을 등록할 수 있다.
 
-- [] MovieItemHeader
+- [x] MovieItemHeader
 
   - MovieItemModal의 일부로, 영화 제목과 모달 닫기 버튼을 포함한다.
 
-- [] MovieItemContent
+- [x] MovieItemContent
 
   - MovieItemModal의 일부로, 영화 포스터, 장르, 평점, 줄거리, Myscore 요소를 포함한다.
 
-- [] Myscore
+- [x] Myscore
 
   - MovieItemContent의 일부로, 별점을 매길 수 있는 기능과 별점에 따른 문구를 출력한다.
 
-- [] StarRatingButton
+- [x] StarRatingButton
 
   - Myscore의 일부로, 클릭하면 자신을 포함한 좌측 StarRatingButton의 배경색이 toggle된다.

@@ -1,3 +1,4 @@
+/* 모달 배경 */
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -10,12 +11,12 @@
   align-items: center;
 }
 
+/* 모달 */
 dialog {
-  width: 45%;
+  width: 50%;
   height: 65%;
   box-sizing: border-box;
-
-  /* overflow: auto; */
+  border: none;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -39,8 +40,9 @@ dialog {
 }
 
 .modal-close-btn {
-  width: 1.5rem;
-  height: 1.5rem;
+  margin-right: 1rem;
+  width: 2rem;
+  height: 1.7rem;
   background: transparent;
   border: none;
 }
@@ -51,23 +53,22 @@ dialog {
 }
 
 /* 모달 본문 */
-
 .modal-content {
   background-color: #212122;
   display: flex;
   color: white;
-
   height: calc(100% - 2rem);
-
   padding: 1rem;
   margin: 0;
 }
 
 .modal-item-thumbnail {
   margin-top: 1rem;
+  margin-left: 1rem;
   height: 90%;
 }
 
+/* 탭 섹션 */
 .tab-section {
   display: flex;
   align-items: stretch;
@@ -83,6 +84,10 @@ dialog {
   margin: 1rem 0.6rem 1rem 2rem;
 }
 
+.modal-filled-star {
+  height: 42%;
+}
+
 .modal-item-score-wrapper {
   height: 100%;
   margin: 1rem 0.1rem 1rem 0.6rem;
@@ -92,12 +97,13 @@ dialog {
   margin-left: 0.3rem;
 }
 
+/* 줄거리 */
 .modal-movie-overview-wrapper {
   margin: 0.2rem 2rem 3rem 1.5rem;
   padding: 0rem 0.5rem 1rem;
   overflow-y: auto;
+  min-height: 58%;
   max-height: 58%;
-  /* max-height: calc(100% - 10rem); */
 }
 
 /* 별점 */
@@ -105,20 +111,23 @@ dialog {
   background-color: #383839;
   display: flex;
   border-radius: 12px;
-  margin: 1rem 2rem;
-  padding: 0.7rem 2rem;
+  margin: 0rem 2rem;
+  padding: 0.9rem 1rem;
   align-items: stretch;
+  position: absolute;
+  top: 89%;
+  width: 52%;
+  justify-content: flex-start;
 }
 
 .my-score-section > * {
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 
 .myscore-button-description {
   font-weight: bold;
-  margin-right: 0.7rem;
+  margin-right: 0.6rem;
 }
 
 .star-ratings-wrapper {
