@@ -8,7 +8,9 @@ class PageManager {
   }
 
   increasePage() {
-    return this.currentPage + 1;
+    this.currentPage += 1;
+
+    return this.currentPage;
   }
 
   resetPage() {
