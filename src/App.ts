@@ -1,7 +1,6 @@
 import Header from '../src/components/Header/Header';
 import MovieList from '../src/components/MovieList/MovieList';
 import Button from './components/Button/Button';
-import Modal from './components/Modal/Modal';
 import Toast from './components/Toast/Toast';
 import { URL } from './consts/common';
 import { TITLE } from './consts/message';
@@ -13,22 +12,22 @@ import { getCurrentMode, getCurrentPage, getCurrentQuery, increaseUrlPage, setDe
 class App {
   movieListInstance: MovieList;
   itemViewBox = document.querySelector('.item-view');
-  movieListBox = document.createElement('ul');
   title = document.createElement('h2');
+  moreButton;
 
   constructor() {
-    this.init();
-    this.movieListBox.classList.add('item-list');
-    this.movieListInstance = new MovieList({ movieList: [], isLoading: true });
-  }
-
-  async init() {
     this.browserLoadHandler();
     this.renderHeader();
     this.initTitle();
 
-    if (!this.itemViewBox) return;
-    this.itemViewBox.append(this.movieListBox);
+    this.movieListInstance = new MovieList();
+    this.renderMoreButton();
+
+    this.moreButton = document.querySelector('#more-button');
+    if (!this.moreButton) return;
+    this.moreButton.classList.add('hidden');
+
+    this.observeInfinityScroll();
   }
 
   browserLoadHandler() {
@@ -78,24 +77,18 @@ class App {
   }
 
   removeExistingItems(currentPage: number) {
-    const notFoundBox = document.querySelector('#not-found');
-    if (notFoundBox) notFoundBox.remove();
-
     if (currentPage === 1) {
       const itemList = document.querySelector('.item-list');
       if (!itemList) return;
       itemList.replaceChildren();
     }
-
-    const existingButton = document.querySelector('.button');
-    if (!existingButton) return;
-    existingButton.remove();
-
-    this.movieListInstance.renderSkeleton();
   }
 
   async renderPage() {
     try {
+      if (!this.moreButton) return;
+      this.moreButton.classList.add('hidden');
+
       this.updateTitle();
       const movieResult = await this.fetchMovies();
       const formattedMovieList = formatMovieList(movieResult);
@@ -104,11 +97,10 @@ class App {
       const totalPage = movieResult.total_pages;
       this.removeExistingItems(currentPage);
 
-      this.movieListInstance.newList = formattedMovieList;
-      this.movieListInstance.rerender();
+      this.movieListInstance.renderMovieList(formattedMovieList);
 
-      if (currentPage >= totalPage) return;
-      this.renderMoreButton();
+      if (currentPage >= totalPage) this.moreButton.classList.add('hidden');
+      else this.moreButton.classList.remove('hidden');
     } catch (error: unknown) {
       if (error instanceof Error) {
         this.errorHandler(error);
@@ -141,6 +133,24 @@ class App {
     const container = document.querySelector('.item-view');
     if (!container) return;
     container.append(moreButton);
+  }
+
+  observeInfinityScroll() {
+    if (!this.moreButton) return;
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (!this.moreButton) return;
+
+          this.moreButton.classList.add('hidden');
+          increaseUrlPage();
+          this.renderPage();
+        }
+      });
+    });
+
+    io.observe(this.moreButton);
   }
 }
 
