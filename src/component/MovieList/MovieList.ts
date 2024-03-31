@@ -98,25 +98,27 @@ class MovieList {
       threshold: 0.1,
     };
 
-    const target = $('.item-list')?.lastChild as HTMLLIElement;
+    const observer = new IntersectionObserver((entries) => {
+      const lastEntry = entries[entries.length - 1];
 
-    if (target) {
-      const observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          if (tab === TAB.POPULAR) {
-            this.#popularCurrentPage += 1;
-            this.#renderPopularMovieItems();
-          }
-
-          if (tab === TAB.SEARCH && titleInput) {
-            this.#searchCurrentPage += 1;
-            this.#renderSearchedMovieItems(titleInput);
-          }
+      if (
+        lastEntry.isIntersecting &&
+        lastEntry.target === $('.item-list')?.lastChild
+      ) {
+        if (tab === TAB.POPULAR) {
+          this.#popularCurrentPage += 1;
+          this.#renderPopularMovieItems();
         }
-      }, options);
 
-      if (target) observer.observe(target);
-    }
+        if (tab === TAB.SEARCH && titleInput) {
+          this.#searchCurrentPage += 1;
+          this.#renderSearchedMovieItems(titleInput);
+        }
+      }
+    }, options);
+
+    const target = $('.item-list')?.lastChild as HTMLLIElement;
+    if (target) observer.observe(target);
   }
 
   #handleSearchFormSubmit(event: Event, searchForm: HTMLElement | null) {
