@@ -35,6 +35,7 @@ class MovieReviewApp {
     mainSection.appendChild(modalElement);
 
     this.#movieItemModal.setModalCloseHandler();
+    // this.#movieItemModal.setModalClickHandler();
   }
 
   #handleMovieItemClick() {

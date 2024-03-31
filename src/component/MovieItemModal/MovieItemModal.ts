@@ -1,10 +1,20 @@
 import "./movieItemModal.style.css"; // NOTE: 모달만 import 없으면 css
 
+import StarRatings from "../StarRatings/StarRatings";
+
+import modalCloseButtonImg from "../../image/modal_close_button.png";
 import starFilledImg from "../../image/star_filled.png";
+
 import { $, createElement } from "../../utility/dom";
 import { getMovieDetailsData } from "../../api/getMovieDetailsData";
 
 class MovieItemModal {
+  starRatings: StarRatings;
+
+  constructor() {
+    this.starRatings = new StarRatings();
+  }
+
   closeModal() {
     const modalBackdrop = $(".modal-backdrop") as HTMLDivElement;
     const modalElement = $("dialog") as HTMLDialogElement;
@@ -36,6 +46,7 @@ class MovieItemModal {
     const closeBtn = modalElement.querySelector(
       ".modal-close-btn"
     ) as HTMLButtonElement;
+
     closeBtn.addEventListener("click", () => {
       this.closeModal();
     });
@@ -51,7 +62,9 @@ class MovieItemModal {
     ) as HTMLHeadingElement;
     title.textContent = movieDetails.title;
 
-    const thumbnail = movieItemModal.querySelector("img") as HTMLImageElement;
+    const thumbnail = movieItemModal.querySelector(
+      ".modal-item-thumbnail"
+    ) as HTMLImageElement;
     thumbnail.src = `https://image.tmdb.org/t/p/w220_and_h330_face${movieDetails.poster_path}`;
     thumbnail.alt = "";
 
@@ -81,6 +94,9 @@ class MovieItemModal {
       ".modal-item-score"
     ) as HTMLSpanElement;
     score.textContent = String(movieDetails.vote_average.toFixed(1));
+
+    this.starRatings.setMovieId(Number(movieId));
+    this.starRatings.initMyScoreSection(Number(movieId));
   }
 
   #createHeader() {
@@ -96,7 +112,12 @@ class MovieItemModal {
       class: "modal-close-btn",
       type: "button",
     });
-    modalCloseButton.textContent = "X";
+
+    const modalCloseImg = createElement("img", {
+      alt: "modal-close-button-img",
+      src: modalCloseButtonImg,
+    });
+    modalCloseButton.appendChild(modalCloseImg);
 
     modalHeader.appendChild(movieTitleElement);
     modalHeader.appendChild(modalCloseButton);
@@ -126,7 +147,6 @@ class MovieItemModal {
     });
     modalContent.appendChild(rightModalContentWrapper);
 
-    // tagSection
     const tagSection = createElement("section", {
       class: "tab-section",
     });
@@ -151,7 +171,7 @@ class MovieItemModal {
 
     rightModalContentWrapper.appendChild(tagSection);
 
-    // 줄거리
+    // NOTE: 줄거리
     const overviewSection = createElement("section", {
       class: "modal-movie-overview-wrapper",
     });
@@ -163,28 +183,32 @@ class MovieItemModal {
 
     rightModalContentWrapper.appendChild(overviewSection);
 
-    // myscore
-    // TODO: 별추가
+    // NOTE: 내 별점
     const myscoreSection = createElement("section", {
       class: "my-score-section",
     });
     rightModalContentWrapper.appendChild(myscoreSection);
 
-    const myscore = createElement("div", {
-      class: "my-score",
-    });
-    myscoreSection.appendChild(myscore);
-
     const myscoreButtonDescription = createElement("label", {
       class: "myscore-button-description",
     });
+    myscoreButtonDescription.textContent = "내 별점";
+    myscoreSection.appendChild(myscoreButtonDescription);
 
-    // 버튼 추가 어떻게 하지
-    // 버튼 엘리먼트를 별도 파일로 만들고 5개 가져오자 ㅎㅎ...
-    // 여기서는 가져오고 붙이는 것만
+    const myStarRatings = this.starRatings.createStarRatings();
+    myscoreSection.appendChild(myStarRatings);
+
+    const myscore = createElement("label", {
+      class: "myscore-ratings",
+    });
+    myscore.textContent = "0"; // TODO: 상수로 수정
+    myscoreSection.appendChild(myscore);
+
     const myscoreDescription = createElement("label", {
       class: "myscore-description",
     });
+    myscoreDescription.textContent = "";
+    myscoreSection.appendChild(myscoreDescription);
 
     return modalContent;
   }

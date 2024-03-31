@@ -23,3 +23,8 @@ interface IUrlSearchParamsConfig {
   language: string;
   page: string;
 }
+
+interface IMovieInput{
+  movieId?: number;
+  starFilledCount?: number;
+}
