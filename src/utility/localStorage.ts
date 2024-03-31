@@ -3,8 +3,17 @@ export const setUserVotesToLocalStorage = (key: string, value: string) => {
 };
 
 export const getUserVotesFromLocalStorage = () => {
-  const userVote = localStorage.getItem('userVotes');
-  return userVote ? JSON.parse(userVote) : [];
+  const userVoteData: IVoteData[] = JSON.parse(
+    localStorage.getItem('userVotes') || '[]',
+  );
+  return userVoteData;
+};
+
+export const getUserVoteScoreFromLocalStorage = (movieID: number) => {
+  const existingVoteData = getUserVotesFromLocalStorage();
+  const existingVote = existingVoteData.find((data) => data.id === movieID);
+  const score = existingVote ? existingVote.score : 0;
+  return score;
 };
 
 export const addUserVotesToLocalStorage = (voteData: IVoteData) => {

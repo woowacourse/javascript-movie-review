@@ -1,9 +1,12 @@
+import {
+  addUserVotesToLocalStorage,
+  getUserVoteScoreFromLocalStorage,
+} from '../../utility/localStorage';
 import { $, createElement } from '../../utility/dom';
 import starFilledImage from '../../image/star_filled.png';
 import starEmptyImage from '../../image/star_empty.png';
 import modalCloseImage from '../../image/modal_close.png';
 import posterEmptyImg from '../../image/poster_empty.png';
-import { addUserVotesToLocalStorage } from '../../utility/localStorage';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w220_and_h330_face';
 
@@ -123,6 +126,7 @@ class MovieModal {
         class: 'my-vote-button-image',
         src: starEmptyImage,
       });
+
       myVoteButtonElement.appendChild(myVoteButtonImageElement);
       return myVoteButtonElement;
     });
@@ -134,7 +138,6 @@ class MovieModal {
     const myVoteScoreNumberElement = createElement('span', {
       class: 'my-vote-score-number',
     });
-
     const myVoteScoreTextElement = createElement('span', {
       class: 'my-vote-score-text',
     });
@@ -166,16 +169,17 @@ class MovieModal {
 
   #handleMyVoteButtonClick() {
     const myVoteButtonWrapperElement = $('.modal-my-vote-wrapper');
+
     if (myVoteButtonWrapperElement) {
       myVoteButtonWrapperElement.addEventListener('click', (event) => {
         const targetElement = event.target as HTMLElement;
         if (!targetElement.classList.contains('my-vote-button-wrapper')) {
-          const myVoteButtonElement = targetElement.closest(
-            '.my-vote-button',
-          ) as HTMLButtonElement;
           const myVoteButtonWrapperElement = targetElement.closest(
             '.my-vote-button-wrapper',
           ) as HTMLDivElement;
+          const myVoteButtonElement = targetElement.closest(
+            '.my-vote-button',
+          ) as HTMLButtonElement;
 
           const voteData = {
             id: Number(myVoteButtonWrapperElement.id),
@@ -183,6 +187,7 @@ class MovieModal {
           };
 
           addUserVotesToLocalStorage(voteData);
+          this.#updateMyVote(voteData.id);
         }
       });
     }
@@ -198,6 +203,7 @@ class MovieModal {
 
     if (myVoteButtonWrapperElement) {
       myVoteButtonWrapperElement.id = String(movieDetail.id);
+      this.#updateMyVote(movieDetail.id);
     }
 
     titleElement.textContent =
@@ -222,6 +228,56 @@ class MovieModal {
     overviewElement.textContent = overview
       ? overview
       : '해당 영화는 줄거리 정보를 제공하지 않습니다.';
+  }
+
+  #updateMyVote(movieID: number) {
+    const myVoteButtonWrapperElement = $('.my-vote-button-wrapper');
+    const myVoteScoreNumberElement = $('.my-vote-score-number');
+    const myVoteScoreTextElement = $('.my-vote-score-text');
+    const voteScore = getUserVoteScoreFromLocalStorage(movieID);
+    const starCount = voteScore / 2 - 1;
+
+    if (myVoteButtonWrapperElement) {
+      myVoteButtonWrapperElement.childNodes.forEach((myVoteButton, index) => {
+        const myVoteButtonElement = myVoteButton as HTMLButtonElement;
+        const myVoteButtonImageElement =
+          myVoteButtonElement.firstChild as HTMLImageElement;
+        if (index <= starCount) {
+          if (myVoteButtonImageElement) {
+            myVoteButtonImageElement.src = starFilledImage;
+          }
+        } else {
+          myVoteButtonImageElement.src = starEmptyImage;
+        }
+      });
+    }
+
+    if (myVoteScoreNumberElement) {
+      myVoteScoreNumberElement.textContent = String(voteScore);
+    }
+
+    if (myVoteScoreTextElement) {
+      switch (voteScore) {
+        case 2:
+          myVoteScoreTextElement.textContent = '최악이에요';
+          break;
+        case 4:
+          myVoteScoreTextElement.textContent = '별로예요';
+          break;
+        case 6:
+          myVoteScoreTextElement.textContent = '보통이에요';
+          break;
+        case 8:
+          myVoteScoreTextElement.textContent = '재미있어요';
+          break;
+        case 10:
+          myVoteScoreTextElement.textContent = '명작이에요';
+          break;
+        default:
+          myVoteScoreTextElement.textContent = '';
+          break;
+      }
+    }
   }
 }
 
