@@ -5,6 +5,7 @@ import MovieItem from '../components/movie-list-section/MovieItem';
 import TmdbAPI from '../services/TmdbAPI';
 import { $ } from '../utils/domUtils';
 import DomController from './DomController';
+import InfiniteScrollController from './InfiniteScrollController';
 
 class MovieListController {
   private static state: TmdbUrlParams = {
@@ -15,27 +16,25 @@ class MovieListController {
 
   public static async loadMovieList({ path, query }: Omit<TmdbUrlParams, 'page'>) {
     this.initializeParams({ path, page: '1', query });
-    this.hideMoreButton();
     this.clearMovieList();
     await this.fetchAndRenderMovies();
   }
 
   public static async moreLoadMovieList() {
     this.increasePage();
-    this.hideMoreButton();
     await this.fetchAndRenderMovies();
   }
 
   private static async fetchAndRenderMovies() {
-    this.showMovieListSkeleton();
+    // this.showMovieListSkeleton();
     const { results, total_pages, total_results, status_code } = await TmdbAPI.fetch(this.state);
-    this.hideMovieListSkeleton();
+    // this.hideMovieListSkeleton();
 
     if (status_code) this.printErrorMessage(status_code);
     else if (!total_results) this.printMovieNotFoundMessage();
 
     this.renderMovieItems(results);
-    this.showMoreButtonWhenNotLastPage(total_pages);
+    this.setInfiniteScrollWhenNotLastPage(total_pages);
   }
 
   private static clearMovieList() {
@@ -45,28 +44,24 @@ class MovieListController {
     }
   }
 
-  private static hideMovieListSkeleton() {
-    DomController.hideMovieListSkeleton();
-  }
+  // private static hideMovieListSkeleton() {
+  //   DomController.hideMovieListSkeleton();
+  // }
 
-  private static showMovieListSkeleton() {
-    DomController.showMovieListSkeleton();
-  }
+  // private static showMovieListSkeleton() {
+  //   DomController.showMovieListSkeleton();
+  // }
 
-  private static hideMoreButton() {
-    DomController.hideMoreButton();
-  }
-
-  private static showMoreButtonWhenNotLastPage(total_pages: number) {
+  private static setInfiniteScrollWhenNotLastPage(total_pages: number) {
     if (total_pages > Number(this.state.page)) {
-      DomController.showMoreButton();
+      InfiniteScrollController.initObserveTarget();
     }
   }
 
   private static renderMovieItems(movies: Movie[]) {
     const movieItems = movies.map((movie) => {
-      const { poster_path: posterPath, title, vote_average: voteAverage } = movie;
-      return MovieItem({ posterPath, title, voteAverage });
+      const { poster_path: posterPath, id, title, vote_average: voteAverage } = movie;
+      return MovieItem({ posterPath, id, title, voteAverage });
     });
 
     DomController.renderMovieItems(movieItems);
