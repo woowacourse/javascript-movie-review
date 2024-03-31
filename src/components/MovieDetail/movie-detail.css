@@ -20,6 +20,8 @@
 }
 
 .movie-detail-title {
+  min-width: 200px;
+  min-height: 1.25rem;
   font-size: 1.25rem;
   font-weight: 600;
 }
@@ -66,6 +68,8 @@
   flex-direction: column;
   justify-content: space-between;
 
+  width: 100%;
+
   font-size: 1rem;
   font-weight: 400;
 }
@@ -90,12 +94,22 @@
   display: flex;
 
   gap: 16px;
+
+  min-width: 150px;
+  min-height: 1rem;
 }
 
 .overview {
   padding-right: 16px;
 
   line-height: 1.5rem;
+
+  min-width: 200px;
+  min-height: 1.5rem;
+  max-height: 300px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .movie-detail-close-button {
   display: flex;

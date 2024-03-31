@@ -10,6 +10,7 @@ import SearchBox from './components/SearchBox/SearchBox';
 import MovieListSection from './components/MovieListSection/MovieListSection';
 import ModalWrapper from './components/ModalWrapper/ModalWrapper';
 import MovieDetail from './components/MovieDetail/MovieDetail';
+import MovieDetailSkeleton from './components/SkeletonItem/MovieDetailSkeleton';
 
 import MovieRenderController from './controller/MovieRenderController';
 import MovieDetailController from './controller/MovieDetailController';
@@ -105,7 +106,11 @@ class MovieApp {
     const target = event.target as Element;
     const li = target.closest('li.movie-item') as HTMLLIElement;
     if (!li) return;
-
+    this.#modal.replaceContent(
+      MovieDetailSkeleton({
+        onCloseButtonClick: () => this.#modal.toggle(),
+      }),
+    );
     this.#modal.toggle();
 
     const movieId = Number(li.dataset.movieId);

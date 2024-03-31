@@ -61,7 +61,6 @@ const MovieDetailDescription = (data: MovieDetail, onStarClick: onStarClick) => 
   movieDetailDescription.classList.add('movie-detail-description');
 
   movieDetailDescription.innerHTML = `
-  <div class="movie-detail-description">
     <div class="movie-detail-text-content">
       <div class="genre-info">
         <span>${data.genres.join(RULES.genreSeparator)}</span>
@@ -72,7 +71,6 @@ const MovieDetailDescription = (data: MovieDetail, onStarClick: onStarClick) => 
       </div>
       <p class="overview">${data.overview}</p>
     </div>
-  </div>
   `;
 
   movieDetailDescription.appendChild(ReviewContainer(data, onStarClick));
