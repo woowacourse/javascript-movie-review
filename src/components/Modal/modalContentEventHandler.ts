@@ -10,9 +10,9 @@ import unfilledStarImage from '../../../templates/star_empty.png';
 const isHTMLImageElement = (element: Element | null): element is HTMLImageElement =>
   element instanceof HTMLImageElement;
 
-function isStarRate(value: number): value is StarRate {
+const isStarRate = (value: number): value is StarRate => {
   return STAR_RATES.includes(value);
-}
+};
 
 const reRenderRateText = (currentStarRate: number) => {
   const currentStringRate = MATCHED_STAR_RATING.find((rate) => rate.RATE === currentStarRate)?.TEXT ?? '';

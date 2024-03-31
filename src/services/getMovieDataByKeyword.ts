@@ -1,8 +1,8 @@
 import { API_ENDPOINT, API_OPTION } from '../constants/api/api';
-import loadingOrErrorStateUIManager from './MovieFetcher';
+import movieFetcher from './MovieFetcher';
 
 const getMovieDataByKeyword = async (keyword: string) => {
-  const data = await loadingOrErrorStateUIManager.fetchData(API_ENDPOINT.SEARCH(keyword), {
+  const data = await movieFetcher.fetchData(API_ENDPOINT.SEARCH(keyword), {
     headers: API_OPTION.headers,
   });
 
