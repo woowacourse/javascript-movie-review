@@ -48,7 +48,6 @@
 @media screen and (max-width: 768px) {
   /* TODO: 크기를 더 세분화해서 레이아웃 바꾸기 */
   .star-rating {
-    margin-top: 48px;
     min-width: fit-content;
   }
 

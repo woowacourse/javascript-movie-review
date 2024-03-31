@@ -1,5 +1,6 @@
 import './SearchInput.css';
 
+import SCREEN_SIZE from '../../constants/responsive';
 import SearchIcon from '../../statics/images/search_button.png';
 import MovieStore from '../../stores/movieStore';
 
@@ -75,6 +76,15 @@ const SearchInput = () => {
           bubbles: true,
         }),
       );
+    }
+  });
+
+  $searchBtn.addEventListener('click', () => {
+    const windowWidth = window.innerWidth;
+    const isMobile = windowWidth <= SCREEN_SIZE.mobile;
+
+    if (isMobile) {
+      $searchInput.classList.toggle('open');
     }
   });
 
