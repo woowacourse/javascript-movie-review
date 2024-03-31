@@ -200,7 +200,7 @@ class MovieInfoModal {
         element.onload = () => element.classList.toggle('skeleton');
       }
       if (element.classList.contains('item-genre')) {
-        element.innerText = movieDetailData.genres.map((genre) => genre.name).join();
+        element.innerText = movieDetailData.genres.map((genre) => genre.name).join(', ');
         element.classList.toggle('skeleton');
       }
       if (element.classList.contains('item-vote-average')) {
