@@ -22,7 +22,7 @@ class Modal extends Component<ModalProps> {
   }
 
   protected setEvent(): void {
-    const $dialog = querySelector<HTMLDialogElement>('dialog', this.$element);
+    const $dialog = querySelector<HTMLDialogElement>(`#${this.props?.id}`, this.$element);
     $dialog.addEventListener('click', this.handleBackDropClick.bind(this));
   }
 

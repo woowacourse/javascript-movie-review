@@ -1,20 +1,18 @@
-.error-fallback-modal {
+.error-modal {
   background: #212122;
   border-radius: 8px;
 }
 
-.error-fallback-modal .modal-container {
+.error-modal .modal-container {
   display: flex;
   flex-direction: column;
   row-gap: 20px;
-
   justify-content: center;
   align-items: center;
-
   padding: 24px 38px;
 }
 
-.error-fallback-modal .modal-container p {
+.error-modal .modal-container p {
   color: white;
   font-size: 14px;
 }

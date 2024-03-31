@@ -30,7 +30,7 @@ class ErrorModal extends Component {
     $reloadButton.addEventListener('click', this.reload);
   }
 
-  openModal() {
+  public openModal() {
     this.modal?.open();
   }
 

@@ -69,7 +69,7 @@ class MovieDetailModal extends Component {
     $modalCloseButton.addEventListener('click', this.closeModal.bind(this));
   }
 
-  openModal(movieDetail: IMovieDetail) {
+  public openModal(movieDetail: IMovieDetail) {
     this.movieDetail = movieDetail;
 
     this.initializeState();
@@ -78,7 +78,7 @@ class MovieDetailModal extends Component {
     this.modal?.open();
   }
 
-  closeModal() {
+  public closeModal() {
     this.modal?.close();
   }
 }
