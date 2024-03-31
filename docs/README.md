@@ -17,7 +17,7 @@ https://soosoo22.github.io/javascript-movie-review/dist/
 ### 영화 상세정보 조회
 
 - [x] 영화 포스터나 제목 클릭 시, 예고편이나 줄거리 등의 정보를 보여준다.
-- [] ESC 키를 누르면 모달 창을 닫을 수 있다.
+- [x] ESC 키를 누르면 모달 창을 닫을 수 있다.
 
 ### 별점 매기기
 
