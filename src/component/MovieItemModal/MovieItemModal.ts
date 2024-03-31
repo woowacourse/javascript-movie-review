@@ -71,7 +71,11 @@ class MovieItemModal {
     const overview = movieItemModal.querySelector(
       ".modal-movie-overview"
     ) as HTMLDivElement;
-    overview.textContent = movieDetails.overview;
+
+    overview.textContent =
+      movieDetails.overview.length > 0
+        ? movieDetails.overview
+        : "영화 줄거리 정보가 없습니다.";
 
     const genres = movieItemModal.querySelector(
       ".modal-genres"
@@ -86,7 +90,7 @@ class MovieItemModal {
     genres.textContent = genreNames;
 
     const starImg = movieItemModal.querySelector(
-      ".item-filled-star"
+      ".modal-filled-star"
     ) as HTMLImageElement;
     starImg.src = starFilledImg;
 
@@ -158,7 +162,7 @@ class MovieItemModal {
       class: "modal-item-score-wrapper",
     });
     const starImg = createElement("img", {
-      class: "item-filled-star",
+      class: "modal-filled-star",
     }) as HTMLImageElement;
     const score = createElement("span", {
       class: "modal-item-score skeleton",
