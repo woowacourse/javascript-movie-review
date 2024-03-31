@@ -3,14 +3,26 @@ import NoImage from '../../assets/no-image.png';
 import './MovieDetailModal.css';
 import { MovieDetailAPI } from '../../domain/services/API.type';
 import { POSTER_BASE_URL } from '../../consts/Api';
+import StarEmpty from '../../assets/star_empty.png';
+import StarFilled from '../../assets/star_filled.png';
+import UserRatingStore from '../../domain/services/UserRatingStore';
+import { RATING_SCORE, RATING_STAR_SIZE } from '../../consts/common';
+
+type Score = 0 | 2 | 4 | 6 | 8 | 10;
 
 class MovieDetailModal {
+  movieId: number = 0;
+  movieScore: Score = 0;
   modal = document.createElement('div');
 
   constructor() {
     this.render();
     this.mount();
-    this.setEvents();
+    this.setModalEvents();
+  }
+
+  set id(id: number) {
+    this.movieId = id;
   }
 
   render() {
@@ -24,20 +36,19 @@ class MovieDetailModal {
     this.modal.appendChild(backdrop);
 
     const detailTitle = document.createElement('h2');
-    detailTitle.classList.add('detail-title', 'skeleton');
-    // detailTitle.textContent = movieData.title;
+    detailTitle.classList.add('detail-title');
     container.append(detailTitle);
+
+    const detailCloseButton = document.createElement('button');
+    detailCloseButton.classList.add('detail-close-button');
+    detailCloseButton.textContent = 'X';
+    container.append(detailCloseButton);
 
     const detailBox = document.createElement('div');
     detailBox.classList.add('detail-box');
 
     const detailImage = document.createElement('img');
     detailImage.classList.add('detail-image');
-    // if (movieData.poster_path) {
-    //   detailImage.setAttribute('src', POSTER_BASE_URL + movieData.poster_path);
-    // } else {
-    //   detailImage.setAttribute('src', NoImage);
-    // }
 
     detailBox.append(detailImage);
 
@@ -52,7 +63,6 @@ class MovieDetailModal {
 
     const detailGenre = document.createElement('p');
     detailGenre.classList.add('detail-genre');
-    // detailGenre.textContent = movieData.genres.map(genre => genre.name).join(', ');
     detailGenreAndScore.append(detailGenre);
 
     const detailScoreBox = document.createElement('div');
@@ -64,7 +74,6 @@ class MovieDetailModal {
 
     const detailScore = document.createElement('p');
     detailScore.classList.add('detail-score');
-    // detailScore.textContent = String(movieData.vote_average);
     detailScoreBox.append(detailScore);
 
     detailGenreAndScore.append(detailScoreBox);
@@ -72,31 +81,33 @@ class MovieDetailModal {
 
     const detailDescription = document.createElement('p');
     detailDescription.classList.add('detail-description');
-    // detailDescription.textContent = movieData.overview;
 
     detailPropertyBox.append(detailGenreAndScore);
     detailPropertyBox.append(detailDescription);
 
-    const detailRateBox = document.createElement('div');
-    detailRateBox.classList.add('detail-rate-box');
-
-    const detailRateCaption = document.createElement('p');
-    detailRateCaption.classList.add('detail-rate-caption');
-    detailRateCaption.textContent = '내 별점';
-    detailRateBox.append(detailRateCaption);
-
-    // const detailRateStarBox = document.createElement('div');
-
-    const detailRateStar = document.createElement('p');
-    // detailRateStar.textContent = '★★★★★';
-    detailRateBox.append(detailRateStar);
-
-    const detailRateScore = document.createElement('p');
-    // detailRateScore.textContent = '10 명작이에요';
-    detailRateBox.append(detailRateScore);
-
     detailInfo.append(detailPropertyBox);
-    detailInfo.append(detailRateBox);
+
+    const ratingContainer = document.createElement('div');
+    ratingContainer.classList.add('rating-container');
+
+    const ratingCaption = document.createElement('p');
+    ratingCaption.classList.add('rating-caption');
+    ratingCaption.textContent = '내 별점';
+    ratingContainer.append(ratingCaption);
+
+    const ratingStarBox = document.createElement('div');
+
+    ratingContainer.append(ratingStarBox);
+    ratingStarBox.classList.add('rating-star-box');
+
+    this.drawStar();
+
+    const ratingScoreText = document.createElement('p');
+    ratingScoreText.classList.add('rating-score-text');
+    ratingScoreText.textContent = `${this.movieScore} ${RATING_SCORE[this.movieScore]}`;
+    ratingContainer.append(ratingScoreText);
+
+    detailInfo.append(ratingContainer);
 
     detailBox.append(detailInfo);
 
@@ -107,7 +118,6 @@ class MovieDetailModal {
   }
 
   mount() {
-    console.log('hi');
     const target = document.querySelector('main');
     if (!target) return;
     target.append(this.modal);
@@ -122,21 +132,67 @@ class MovieDetailModal {
 
     if (detailTitle) detailTitle.textContent = movieData.title;
     if (detailImage) {
-      if (movieData.poster_path) {
-        detailImage.setAttribute('src', POSTER_BASE_URL + movieData.poster_path);
-      } else {
-        detailImage.setAttribute('src', NoImage);
-      }
+      detailImage.setAttribute('src', movieData.poster_path ? POSTER_BASE_URL + movieData.poster_path : NoImage);
     }
     if (detailGenre) detailGenre.textContent = movieData.genres.map(genre => genre.name).join(', ');
     if (detailScore) detailScore.textContent = String(movieData.vote_average);
     if (detailDescription) detailDescription.textContent = movieData.overview;
+
+    const userRatingList = UserRatingStore.fetch();
+    const isRatedMovie = userRatingList.some(rating => rating.movieId === movieData.id);
+
+    this.movieScore = isRatedMovie
+      ? (userRatingList.find(rating => rating.movieId === movieData.id)?.rateScore as Score)
+      : 0;
+    this.movieId = movieData.id;
+
+    this.drawStar();
   }
 
-  setEvents() {
+  drawStar() {
+    const fragment = new DocumentFragment();
+
+    for (let i = 1; i <= RATING_STAR_SIZE; i++) {
+      const star = document.createElement('img');
+      star.setAttribute('id', 'rate-star');
+      if (this.movieScore / 2 >= i) star.setAttribute('src', StarFilled);
+      else star.setAttribute('src', StarEmpty);
+      fragment.append(star);
+    }
+
+    const ratingStarBox = this.modal.querySelector('.rating-star-box');
+    if (!ratingStarBox) return;
+    ratingStarBox.replaceChildren(fragment);
+
+    const ratingText = this.modal.querySelector('.rating-score-text');
+    if (ratingText) {
+      ratingText.textContent = `${this.movieScore} ${RATING_SCORE[this.movieScore]}`;
+    }
+
+    this.setStarEvents();
+  }
+
+  setStarEvents() {
+    const starImages = Array.from(this.modal.querySelectorAll('#rate-star'));
+    starImages.forEach((star, index) => {
+      star.addEventListener('click', () => {
+        this.movieScore = ((index + 1) * 2) as Score;
+        UserRatingStore.store(this.movieId, this.movieScore);
+        this.drawStar();
+      });
+    });
+  }
+
+  setModalEvents() {
     const backdrop = this.modal.querySelector('.modal-backdrop');
     if (!backdrop) return;
     backdrop.addEventListener('click', () => this.toggle());
+
+    window.addEventListener('keydown', this.handleModalCloseWithKey.bind(this));
+  }
+
+  handleModalCloseWithKey(e: KeyboardEvent) {
+    if (e.key === 'Escape') this.close();
   }
 
   toggle() {
@@ -145,6 +201,11 @@ class MovieDetailModal {
     } else {
       this.modal.classList.add('modal--open');
     }
+  }
+
+  close() {
+    this.modal.classList.remove('modal--open');
+    window.removeEventListener('keydown', this.handleModalCloseWithKey.bind(this));
   }
 }
 
