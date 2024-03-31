@@ -10,7 +10,7 @@ function createMovieDetailSkeleton() {
     <div class="flex-XY-aligned padding-32 gap-16">
       <div>
         <img
-          class="h-433 w-292 custom-skeleton"
+          class="h-433 w-292 custom-skeleton mobile-display-none"
         />
       </div>
       <div class="movie-detail-info w-396">
