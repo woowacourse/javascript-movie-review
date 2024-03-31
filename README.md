@@ -176,6 +176,8 @@ npm run test-e2e
 📦src
  ┣ 📂components
  ┃ ┣ 📂error
+ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┗ 📜ErrorViewController.ts
  ┃ ┃ ┣ 📜ErrorBox.ts
  ┃ ┃ ┣ 📜ErrorImg.ts
  ┃ ┃ ┣ 📜ErrorMessage.ts
@@ -183,6 +185,8 @@ npm run test-e2e
  ┃ ┃ ┣ 📜index.ts
  ┃ ┃ ┗ 📜NullElementError.ts
  ┃ ┣ 📂modal
+ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┗ 📜ModalContainerController.ts
  ┃ ┃ ┣ 📜AlertModal.ts
  ┃ ┃ ┣ 📜index.ts
  ┃ ┃ ┣ 📜ModalCloseButton.ts
@@ -190,6 +194,8 @@ npm run test-e2e
  ┃ ┃ ┣ 📜MovieInfoModal.ts
  ┃ ┃ ┗ 📜ToastModal.ts
  ┃ ┣ 📂movie
+ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┗ 📜ChangedMovieListRenderer.ts
  ┃ ┃ ┣ 📜index.ts
  ┃ ┃ ┣ 📜MovieCard.ts
  ┃ ┃ ┣ 📜MovieImg.ts
@@ -201,9 +207,14 @@ npm run test-e2e
  ┃ ┃ ┣ 📜MovieScore.ts
  ┃ ┃ ┣ 📜MovieTitle.ts
  ┃ ┃ ┣ 📜NoMoreMovieDataItem.ts
- ┃ ┃ ┣ 📜NoneMovieItem.ts
- ┃ ┃ ┗ 📜UserScore.ts
+ ┃ ┃ ┗ 📜NoneMovieItem.ts
+ ┃ ┣ 📂searching
+ ┃ ┃ ┣ 📜index.ts
+ ┃ ┃ ┣ 📜SearchBox.ts
+ ┃ ┃ ┗ 📜SearchBoxResponsiveHandler.ts
  ┃ ┣ 📂skeleton
+ ┃ ┃ ┣ 📂controller
+ ┃ ┃ ┃ ┗ 📜SkeletonController.ts
  ┃ ┃ ┣ 📜index.ts
  ┃ ┃ ┣ 📜SkeletonCard.ts
  ┃ ┃ ┣ 📜SkeletonInfo.ts
@@ -212,26 +223,17 @@ npm run test-e2e
  ┃ ┃ ┣ 📜SkeletonMovieImg.ts
  ┃ ┃ ┣ 📜SkeletonMovieTitle.ts
  ┃ ┃ ┗ 📜SkeletonTextBox.ts
+ ┃ ┣ 📂userScore
  ┃ ┣ 📜Header.ts
  ┃ ┣ 📜index.ts
  ┃ ┣ 📜Label.ts
  ┃ ┣ 📜RefreshButton.ts
- ┃ ┗ 📜SearchBox.ts
+ ┃ ┗ 📜UserScore.ts
  ┣ 📂constants
  ┃ ┣ 📜component.ts
  ┃ ┣ 📜errorMessage.ts
  ┃ ┣ 📜index.ts
  ┃ ┗ 📜system.ts
- ┣ 📂controller
- ┃ ┣ 📜AlertModalForNullController.ts
- ┃ ┣ 📜ErrorViewController.ts
- ┃ ┣ 📜index.ts
- ┃ ┣ 📜ModalContainerController.ts
- ┃ ┣ 📜ScrollController.ts
- ┃ ┣ 📜ScrollObserver.ts
- ┃ ┣ 📜SearchBoxResponsiveHandler.ts
- ┃ ┣ 📜SkeletonController.ts
- ┃ ┗ 📜WindowResponsiveHandler.ts
  ┣ 📂images
  ┃ ┣ 📜circle-exclamation.svg
  ┃ ┣ 📜logo.png
@@ -247,10 +249,11 @@ npm run test-e2e
  ┃ ┗ 📜xmark.svg
  ┣ 📂model
  ┃ ┣ 📜APIClient.ts
+ ┃ ┣ 📜APIHandlerForScroll.ts
  ┃ ┣ 📜DataFetcher.ts
  ┃ ┣ 📜DataStateStore.ts
  ┃ ┣ 📜index.ts
- ┃ ┗ 📜LocalStorageHandler.ts
+ ┃ ┗ 📜LocalStorageHandlerForUserScore.ts
  ┣ 📂styles
  ┃ ┣ 📜common.css
  ┃ ┣ 📜error.css
@@ -267,18 +270,24 @@ npm run test-e2e
  ┃ ┣ 📜global.d.ts
  ┃ ┗ 📜movie.ts
  ┣ 📂utils
- ┃ ┣ 📜checkElementIsNotNull.ts
+ ┃ ┣ 📜changeElementClass.ts
  ┃ ┣ 📜createElementWithAttribute.ts
  ┃ ┣ 📜debouneFunc.ts
+ ┃ ┣ 📜ElementFinder.ts
  ┃ ┣ 📜handleFetchData.ts
- ┃ ┗ 📜index.ts
+ ┃ ┣ 📜index.ts
+ ┃ ┣ 📜ScrollController.ts
+ ┃ ┣ 📜ScrollObserver.ts
+ ┃ ┗ 📜WindowResponsiveHandler.ts
  ┣ 📜app.ts
  ┣ 📜config.ts
  ┗ 📜index.js
 ```
 
-</div>
-</details>
+- 추가 설명
+  - component이름/controller : 컴포넌트와 관련있는 컨트롤러 관리
+  </div>
+  </details>
 
 ## 모듈 구조 및 프로세스
 
