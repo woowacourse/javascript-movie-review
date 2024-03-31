@@ -92,8 +92,6 @@ class MovieController {
 
     if (movieData.length === RULES.moviesPerPage) {
       document.addEventListener('scroll', this.#scrollEvent);
-    } else {
-      document.removeEventListener('scroll', this.#scrollEvent);
     }
   }
 
