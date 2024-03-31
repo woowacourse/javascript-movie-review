@@ -211,7 +211,7 @@ class MovieInfoModal {
       }
       if (element.classList.contains('item-overview')) {
         element.innerText =
-          movieDetailData.overview === '' ? movieDetailData.overview : '영화 설명 정보가 존재하지 않습니다.';
+          movieDetailData.overview === ' ' ? movieDetailData.overview : '영화 설명 정보가 존재하지 않습니다.';
         element.classList.toggle('skeleton');
       }
     });
