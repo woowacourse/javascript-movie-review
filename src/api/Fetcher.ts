@@ -1,5 +1,7 @@
+import CustomError from '../components/Error/CustomError/CustomError';
 import { ErrorRetry } from '../components/Error/ErrorRetry/ErrorRetry';
 import Toast from '../components/Toast/Toast';
+import { ERROR_MESSAGE } from '../consts/message';
 import { MovieAPIReturnType, UrlParamsType } from './movieAPI.type';
 
 class Fetcher {
@@ -24,9 +26,9 @@ class Fetcher {
         .then(data => {
           resolve(data);
         })
-        .catch(err => {
-          new Toast(err.message);
-          ErrorRetry({ errorType: err.message, fetchData: () => this.get() });
+        .catch(error => {
+          new Toast(error.message);
+          ErrorRetry({ currentError: error, fetchData: () => this.get() });
         });
     });
   }
@@ -44,15 +46,18 @@ class Fetcher {
 
   errorHandler(status: number) {
     if (status >= 500) {
-      throw new Error('SERVER_ERROR');
+      throw new CustomError({ name: 'SERVER_ERROR', message: ERROR_MESSAGE.SERVER_ERROR });
+    }
+    if (status === 404) {
+      throw new CustomError({ name: 'NOT_FOUND', message: ERROR_MESSAGE.RESOURCE_NOT_FOUND });
     }
     if (status === 401) {
-      throw new Error('AUTHENTICATION_FAILED');
+      throw new CustomError({ name: 'AUTHENTICATION_FAILED', message: ERROR_MESSAGE.RESOURCE_NOT_FOUND });
     }
     if (status >= 400) {
-      throw new Error('FETCHING_ERROR');
+      throw new CustomError({ name: 'NETWORK_ERROR', message: ERROR_MESSAGE.NETWORK_ERROR });
     }
-    throw new Error('NETWORK_ERROR');
+    throw new CustomError({ name: 'FETCHING_ERROR', message: ERROR_MESSAGE.FETCH_FAILED });
   }
 }
 

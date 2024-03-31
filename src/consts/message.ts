@@ -6,7 +6,8 @@ export const ERROR_MESSAGE = {
   SERVER_ERROR: '시스템에 문제가 생겼습니다. \n 다시 시도해 주세요.',
   FETCH_FAILED: '데이터를 불러오기에 실패하였습니다. \n 다시 시도해 주세요.',
   NETWORK_ERROR: '네트워크 연결이 끊겼습니다. \n연결 후 다시 시도해 주세요.',
-  RESULTS_NOT_FOUND: '검색 결과가 없습니다.',
+  RESOURCE_NOT_FOUND: '잘못된 요청입니다.',
+  SEARCH_NOT_FOUND: '검색 결과가 없습니다.',
 } as const;
 
 export const VOTE_MESSAGE: { [key: string]: string } = {
