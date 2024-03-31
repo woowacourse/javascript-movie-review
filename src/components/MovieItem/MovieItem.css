@@ -30,14 +30,21 @@
 }
 
 .item-title {
-  margin-top: 16px;
+  margin-top: 20px;
   font-weight: bold;
   font-size: 1.2rem;
 }
 
 .item-score {
+  display: flex;
+  align-items: center;
+
   margin-top: 16px;
   font-size: 1.2rem;
+}
+
+.item-score > span {
+  margin-right: 6px;
 }
 
 .item-score::after {
