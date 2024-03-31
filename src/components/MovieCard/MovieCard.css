@@ -2,6 +2,11 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.item-card:hover {
+  transform: translateY(-20px);
 }
 
 .item-thumbnail {

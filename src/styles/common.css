@@ -186,6 +186,7 @@ dialog {
   height: 577px;
   padding: 0;
   border: 0;
+  border-radius: 8px;
 }
 
 dialog::backdrop {
