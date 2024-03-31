@@ -1,5 +1,5 @@
 import { openMovieDetailModal } from '../../View/View';
-import { fetchMovieDetail, fetchPopularMovieList, fetchSearchMovieList } from '../../apis/fetchData';
+import { fetchPopularMovieList, fetchSearchMovieList } from '../../apis/fetchData';
 import { COUNT_OF_MOVIES } from '../../constants/constant';
 import PageService from '../../domain/PageService';
 import { Movie, MovieAPIResponse } from '../../interface/Movie';
