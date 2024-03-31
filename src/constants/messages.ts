@@ -16,7 +16,7 @@ interface Star {
 }
 
 export const STAR_MESSAGE: Star = {
-  0: '평점을 선택해주세요',
+  0: '평점 선택',
   2: '최악이에요',
   4: '별로에요',
   6: '보통이에요',
