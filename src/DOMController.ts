@@ -2,7 +2,7 @@ import { $ } from "./utils/selector";
 import MoviePosterBoard from "./components/MoviePosterBoard/MoviePosterBoard";
 import createHeader from "./components/Header/createHeader";
 
-class MoviePosterController {
+class DOMController {
   static moviePosterBoard = new MoviePosterBoard("popular");
 
   static renderPopularMoviePosterBoard() {
@@ -30,4 +30,4 @@ class MoviePosterController {
   }
 }
 
-export default MoviePosterController;
+export default DOMController;

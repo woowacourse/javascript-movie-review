@@ -1,7 +1,7 @@
 import "../templates/reset.css";
 import "../templates/common.css";
 
-import MoviePosterController from "./MoviePosterController";
+import DOMController from "./DOMController";
 
-MoviePosterController.renderHeader();
-MoviePosterController.renderMoviePosterBoard();
+DOMController.renderHeader();
+DOMController.renderMoviePosterBoard();

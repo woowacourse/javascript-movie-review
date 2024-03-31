@@ -3,13 +3,13 @@ import "./style.css";
 import createElement from "../../utils/createElement";
 import createSearchBox from "../SearchBox/createSearchBox";
 import logo from "./logo.png";
-import MoviePosterController from "../../MoviePosterController";
+import DOMController from "../../DOMController";
 
 const goHomepage = () => {
   const input = document.querySelector<HTMLInputElement>("#header__search-box");
   if (input) input.value = "";
 
-  MoviePosterController.renderPopularMoviePosterBoard();
+  DOMController.renderPopularMoviePosterBoard();
 };
 
 const createHeader = () => {

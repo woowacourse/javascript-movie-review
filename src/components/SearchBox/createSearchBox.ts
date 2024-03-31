@@ -1,7 +1,7 @@
 import "./style.css";
 
 import createElement from "../../utils/createElement";
-import MoviePosterController from "../../MoviePosterController";
+import DOMController from "../../DOMController";
 
 const createSearchBox = (placeHolder: string) => {
   const searchForm = createElement({
@@ -26,7 +26,7 @@ const createSearchBox = (placeHolder: string) => {
     e.preventDefault();
     const keyword = input.value;
 
-    MoviePosterController.renderSearchMoviePosterBoard(keyword);
+    DOMController.renderSearchMoviePosterBoard(keyword);
 
     input.textContent = "";
   });
