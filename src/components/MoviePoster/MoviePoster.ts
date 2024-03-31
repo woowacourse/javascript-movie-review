@@ -8,8 +8,7 @@ const createPoster = ({
   type,
   title,
   poster_path,
-  width = 220,
-  height = 330,
+  width = 500,
 }: PosterProps) => {
   const $poster = document.createElement('img');
   $poster.classList.add(type);
@@ -20,7 +19,7 @@ const createPoster = ({
     const randIdx = Math.floor(Math.random() * DEFAULT_THUMBNAILS.length);
     $poster.src = DEFAULT_THUMBNAILS[randIdx];
   };
-  $poster.src = `https://image.tmdb.org/t/p/w${width}_and_h${height}_face${poster_path}`;
+  $poster.src = `https://image.tmdb.org/t/p/w${width}${poster_path}`;
 
   return $poster;
 };
