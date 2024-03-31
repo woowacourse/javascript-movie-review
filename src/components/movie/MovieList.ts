@@ -36,7 +36,7 @@ class MovieList {
   }
 
   #makeMovieList(movieList: Movie[] | undefined, isMoreData: boolean) {
-    const $ul = createElementWithAttribute('ul', {
+    const $ul = createElementWithAttribute<HTMLUListElement>('ul', {
       class: 'movie-list',
     });
     if (!movieList || !this.#isMovieList) {

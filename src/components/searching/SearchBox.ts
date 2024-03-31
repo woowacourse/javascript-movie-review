@@ -101,7 +101,7 @@ class SearchBox {
   }
 
   #makeSearchInput = () => {
-    const $input = createElementWithAttribute('input', {
+    const $input = createElementWithAttribute<HTMLInputElement>('input', {
       id: 'search-input',
       class: 'search-input',
       type: 'text',
@@ -130,7 +130,7 @@ class SearchBox {
   };
 
   #makeSearchButton = () => {
-    const $button = createElementWithAttribute('button', {
+    const $button = createElementWithAttribute<HTMLButtonElement>('button', {
       class: 'search-button',
       title: '검색 버튼',
     });

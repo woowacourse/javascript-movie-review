@@ -15,13 +15,14 @@ class ModalCloseButton {
   }
 
   #makeCloseButton() {
-    const $button = createElementWithAttribute('button', {
+    const $button = createElementWithAttribute<HTMLButtonElement>('button', {
       class: 'button-close-modal',
       title: '모달 닫기 버튼',
     });
-    const $img = createElementWithAttribute('img', {
+    const $img = createElementWithAttribute<HTMLImageElement>('img', {
       src: XMarker,
     });
+
     $button.appendChild($img);
 
     $button.addEventListener('click', this.#handleClickCloseButton);
@@ -31,6 +32,7 @@ class ModalCloseButton {
 
   #handleClickCloseButton(event: Event) {
     event.stopPropagation();
+
     ModalContainerController.closeModalContainer();
   }
 }

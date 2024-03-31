@@ -23,12 +23,12 @@ class MovieImg {
   }
 
   #makeMovieImg(props: MovieImgProps) {
-    const $img = createElementWithAttribute('img', {
+    const $img = createElementWithAttribute<HTMLImageElement>('img', {
       class: 'movie-thumbnail',
       src: this.#getImgSrc(props.poster_path),
       loading: 'lazy',
       alt: `${props.title} 포스터`,
-    }) as HTMLImageElement;
+    });
 
     if (props.poster_path === null) {
       $img.classList.add('none-img');

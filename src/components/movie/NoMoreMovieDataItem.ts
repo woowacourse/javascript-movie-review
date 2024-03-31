@@ -15,7 +15,7 @@ class NoMoreMovieDataItem {
   #makeNoMoreMovieDataItem() {
     const $noItem = document.createElement('div');
     $noItem.classList.add('no-more-movie-data');
-    const $img = createElementWithAttribute('img', {
+    const $img = createElementWithAttribute<HTMLImageElement>('img', {
       src: Tap,
       alt: 'list-end-icon',
     });

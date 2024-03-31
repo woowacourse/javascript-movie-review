@@ -13,19 +13,31 @@ class MovieScore {
   }
 
   #makeMovieScore(score: number) {
-    const $score = createElementWithAttribute('p', { class: 'movie-score' });
-    const $star = createElementWithAttribute('img', {
+    const $score = createElementWithAttribute('p', {
+      class: 'movie-score',
+    });
+
+    $score.appendChild(this.#makeScoreStar());
+    $score.appendChild(this.#makeScorePoint(score));
+
+    return $score;
+  }
+
+  #makeScoreStar() {
+    return createElementWithAttribute<HTMLImageElement>('img', {
       src: StarFilled,
       alt: '별점',
     });
-    const $scorePoint = createElementWithAttribute('span', {
+  }
+
+  #makeScorePoint(score: number) {
+    const $scorePoint = createElementWithAttribute<HTMLSpanElement>('span', {
       class: 'movie-score__point',
     });
-    $scorePoint.textContent = score.toFixed(1).toString();
-    $score.appendChild($star);
-    $score.appendChild($scorePoint);
 
-    return $score;
+    $scorePoint.textContent = score.toFixed(1).toString();
+
+    return $scorePoint;
   }
 }
 

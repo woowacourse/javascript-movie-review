@@ -15,7 +15,9 @@ class NoneMovieItem {
 
   #makeNoneMovieItem = () => {
     const $noItem = document.createElement('li');
-    const $img = createElementWithAttribute('img', { src: NoMovie });
+    const $img = createElementWithAttribute<HTMLImageElement>('img', {
+      src: NoMovie,
+    });
     const $text = document.createElement('p');
     $text.textContent = NONE_MOVIE_ITEM_TEXT;
 

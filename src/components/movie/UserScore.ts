@@ -62,19 +62,24 @@ class UserScore {
   }
 
   #makeResetButton() {
-    const $button = createElementWithAttribute('button', {
+    const $button = createElementWithAttribute<HTMLButtonElement>('button', {
       class: 'button-reset-score',
       title: '별점 초기화',
     });
-    const $img = createElementWithAttribute('img', {
+    const $img = createElementWithAttribute<HTMLImageElement>('img', {
       src: Trash,
     });
     $button.appendChild($img);
-    $button.addEventListener('click', (event) =>
-      this.#handleClickResetButton(event),
-    );
+
+    this.#addClickEventToResetButton($button);
 
     return $button;
+  }
+
+  #addClickEventToResetButton($resetButton: HTMLButtonElement) {
+    $resetButton.addEventListener('click', (event) =>
+      this.#handleClickResetButton(event),
+    );
   }
 
   #handleClickResetButton(event: Event) {
@@ -140,7 +145,7 @@ class UserScore {
   }
 
   #makeSoreButton(isFilled: boolean, index: number) {
-    const $btn = createElementWithAttribute('button', {
+    const $btn = createElementWithAttribute<HTMLButtonElement>('button', {
       class: 'button-score',
       name: `${STAR_BUTTON_NAME_PREFIX}${index + 1}`,
       title: '별점 버튼',

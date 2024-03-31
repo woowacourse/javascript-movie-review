@@ -14,7 +14,7 @@ class MovieListLastItem {
   }
 
   #makeElement(isMoreData: boolean) {
-    const $div = createElementWithAttribute('li', {
+    const $div = createElementWithAttribute<HTMLLIElement>('li', {
       class: 'movie-list__last-item',
     });
 
