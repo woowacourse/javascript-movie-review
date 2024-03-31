@@ -37,6 +37,7 @@ export class App {
 
   handleUpdateUserScore({ movieId, userScore }: UserScoreParams) {
     this.movieService.setUserScore({ movieId, userScore });
+    toast('영화에 대한 별점이 업데이트 되었습니다!', $('#movie-detail-modal'));
   }
 
   async init() {
