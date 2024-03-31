@@ -9,6 +9,8 @@ import MATCHED_STAR_RATING from '../../constants/api/starRating';
 import defaultImageSrc from '../../../templates/skeleton.png';
 import { MAX_STAR_LENGTH, RATE_STANDARD } from '../../constants/api/starRating';
 
+const BASE_FRONT_URL = 'http://localhost:8080';
+
 const createCloseButton = () => {
   const closeContainer = createElement('div', { className: 'close-container' });
   const close = createElement('p', {
@@ -48,7 +50,7 @@ const createMovieDetailImage = (imageSrc: string) => {
   });
 
   image.onload = () => {
-    if (image.src === defaultImageSrc) {
+    if (image.src === `${BASE_FRONT_URL}${defaultImageSrc}`) {
       image.src = `${BASE_IMAGE_URL}${DETAIL_IMAGE_WIDTH}${imageSrc}`;
     }
   };
