@@ -68,33 +68,66 @@ class MovieFetcher {
     });
   }
 
-  private async getMovieData(url: string): Promise<MovieItem[] | undefined> {
-    const response = await this.movieFetcher.get<FetchResponse<MovieItemResponse[]>>(url);
-    const popularMovies = this.formattingMovieListResponse(response.results);
+  private isErrorType(error: unknown): error is Error | TypeError {
+    return error instanceof Error || error instanceof TypeError;
+  }
 
-    return popularMovies;
+  private selectErrorMessage(error: Error | TypeError) {
+    switch (error.constructor) {
+      case Error:
+        return error.message;
+      case TypeError:
+        return "네트워크 오류: 데이터를 요청할 수 없습니다. 인터넷 연결을 확인하고 다시 시도해주세요.";
+    }
+  }
+
+  private handleError(error: unknown) {
+    if (!this.isErrorType(error)) return;
+
+    const errorMessage = this.selectErrorMessage(error);
+
+    throw new Error(errorMessage);
+  }
+
+  private async getMovieListData(url: string): Promise<MovieItem[] | undefined> {
+    const response = await this.movieFetcher.get<FetchResponse<MovieItemResponse[]>>(url);
+    const movies = this.formattingMovieListResponse(response.results);
+
+    return movies;
   }
 
   public async getPopularMovies(page: number): Promise<MovieItem[] | undefined> {
-    const url = this.MOVIE_API_END_POINT.popular + this.createMovieFetchUrl({ page });
+    try {
+      const url = this.MOVIE_API_END_POINT.popular + this.createMovieFetchUrl({ page });
 
-    return await this.getMovieData(url);
+      return await this.getMovieListData(url);
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   public async getSearchMovies(page: number, query: string): Promise<MovieItem[] | undefined> {
-    const url = this.MOVIE_API_END_POINT.search + this.createMovieFetchUrl({ page, query });
+    try {
+      const url = this.MOVIE_API_END_POINT.search + this.createMovieFetchUrl({ page, query });
 
-    return await this.getMovieData(url);
+      return await this.getMovieListData(url);
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   public async getMovieDetail(id: string): Promise<MovieDetailItem | undefined> {
-    const url = this.MOVIE_API_END_POINT.detail + id + "?" + this.createMovieFetchUrl();
+    try {
+      const url = this.MOVIE_API_END_POINT.detail + id + "?" + this.createMovieFetchUrl();
 
-    const response = await this.movieFetcher.get<MovieDetailResponse>(url);
+      const response = await this.movieFetcher.get<MovieDetailResponse>(url);
 
-    const formattedMovieDetail = this.formattingMovieDetailResponse(response);
+      const formattedMovieDetail = this.formattingMovieDetailResponse(response);
 
-    return formattedMovieDetail;
+      return formattedMovieDetail;
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 }
 
