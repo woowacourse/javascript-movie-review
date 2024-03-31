@@ -1,38 +1,73 @@
 dialog[open] {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 826px;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0;
   background-color: #212122;
   color: #f1f1f1;
   border: none;
   border-radius: 8px;
+  min-width: 390px;
 }
 
 dialog::backdrop {
   background-color: rgba(0, 0, 0, 0.6);
 }
 
+/* dialog[open] + body {
+  overflow: hidden;
+} */
+
+#detail-modal--body-img {
+  display: none;
+  width: 40%;
+}
+
+@media screen and (min-width: 834px) {
+  dialog[open] {
+    width: 80%;
+    min-width: 840px;
+    margin-top: 5%;
+  }
+
+  #detail-modal--body-img {
+    display: block;
+  }
+}
+
 #detail-modal--header {
+  display: grid;
+  grid-template-columns: 9fr 1fr;
   border-bottom: 1px solid rgba(241, 241, 241, 0.25);
-  padding: 18px 32px;
+  height: 60px;
+  padding: 0 16px 0 32px;
+  align-items: center;
+  justify-items: end;
 }
 
 #detail-modal--title {
-  text-align: center;
+  text-align: start;
   font-weight: bold;
+  font-size: 18px;
+  letter-spacing: 0.15px;
+  width: 100%;
+}
+
+@media screen and (min-width: 834px) {
+  #detail-modal--title {
+    font-size: 20px;
+    text-align: center;
+  }
 }
 
 #detail-modal--close-btn {
-  position: absolute;
-  top: 12px;
-  right: 32px;
   background-color: #383839;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   padding: 10px;
+  width: 36px;
+  aspect-ratio: 1;
 }
 
 #detail-modal--body {
@@ -41,16 +76,10 @@ dialog::backdrop {
   padding: 32px;
 }
 
-#detail-modal--body-img {
-  width: 292px;
-  height: 433px;
-}
-
 #detail-modal--contents {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* background-color: yellow; */
 }
 
 #detail-modal--info {
@@ -76,14 +105,35 @@ dialog::backdrop {
 }
 
 #detail-modal--overview {
-  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
 }
 
 #detail-modal--rating {
-  display: flex;
+  display: grid;
+  grid-template-columns: 2fr 5fr 1fr;
   border-radius: 16px;
   background-color: #383839;
   padding: 16px;
-  gap: 16px;
+  gap: 12px;
   align-items: center;
+  justify-items: center;
+  margin-top: 48px;
+}
+
+@media screen and (max-width: 834px) {
+  #detail-modal--rating-label {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 834px) {
+  #detail-modal--rating {
+    grid-template-columns: 2fr 5fr 1fr 3fr;
+    gap: 16px;
+    font-size: 16px;
+  }
 }
