@@ -46,18 +46,18 @@ const Modal = {
     )}</p>
                 </div>
                 <p class="movie-text summary">${movie.overview}</p>
-                <div class="vote-container">
+                <div class="score-container">
                     <h3 class="movie-text">내 별점</h3>
-                    <div class="vote-box">
-                        <input type="checkbox" id="star1" name="vote" value="2">
+                    <div class="score-box">
+                        <input type="checkbox" id="star1" name="score" value="2">
                         <label for="star1"><img src="${STAR_LINED}" alt="별점"></label>
-                        <input type="checkbox" id="star2" name="vote" value="4">
+                        <input type="checkbox" id="star2" name="score" value="4">
                         <label for="star2"><img src="${STAR_LINED}" alt="별점"></label>
-                        <input type="checkbox" id="star3" name="vote" value="6">
+                        <input type="checkbox" id="star3" name="score" value="6">
                         <label for="star3"><img src="${STAR_LINED}" alt="별점"></label>
-                        <input type="checkbox" id="star4" name="vote" value="8">
+                        <input type="checkbox" id="star4" name="score" value="8">
                         <label for="star4"><img src="${STAR_LINED}" alt="별점"></label>
-                        <input type="checkbox" id="star5" name="vote" value="10">
+                        <input type="checkbox" id="star5" name="score" value="10">
                         <label for="star5"><img src="${STAR_LINED}" alt="별점"></label>
                     </div>
                     <h4 class="movie-text">0 점수를 매겨주세요</h4>
@@ -85,7 +85,7 @@ const Modal = {
   },
 
   handleStarCheckbox(modal: HTMLDivElement, movie: MovieType) {
-    const checkboxes = $$('.vote-box input', modal);
+    const checkboxes = $$('.score-box input', modal);
 
     checkboxes.forEach((checkbox) => {
       checkbox?.addEventListener('click', (e) => {
@@ -105,8 +105,8 @@ const Modal = {
   },
 
   updateMovieScoreUI(score: string) {
-    const starIcons = $$('.vote-box img');
-    const scoreMessage = $('.vote-container .movie-text:last-child');
+    const starIcons = $$('.score-box img');
+    const scoreMessage = $('.score-container .movie-text:last-child');
     scoreMessage!.textContent = MOIVE_SCORE[score];
 
     starIcons.forEach((icon, index) => {

@@ -5,3 +5,9 @@
   grid-row-gap: 48px;
   grid-column-gap: 150px;
 }
+
+.item-list li:hover {
+  cursor: pointer;
+  transform: scale(1.2, 1.2);
+  transition-duration: 0.5s;
+}

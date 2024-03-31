@@ -71,7 +71,7 @@
   line-height: 35px;
 }
 
-.vote-container {
+.score-container {
   display: flex;
   align-items: center;
   position: absolute;
@@ -82,16 +82,20 @@
   padding: 20px 30px;
 }
 
-.vote-container > h3 {
+.score-container > h3 {
   font-weight: 600;
 }
 
-.vote-box {
+.score-box {
   margin: 0px 15px;
 }
 
-.vote-box > input[type='checkbox'] {
+.score-box > input[type='checkbox'] {
   display: none;
+}
+
+.score-box > label {
+  cursor: pointer;
 }
 
 .modal--open {
