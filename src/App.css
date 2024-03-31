@@ -1,0 +1,15 @@
+.item-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.item-view h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  user-select: none;
+}

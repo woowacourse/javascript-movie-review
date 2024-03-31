@@ -1,3 +1,11 @@
+.item-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
 .item-card .skeleton {
   background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
   background-size: 400%;
