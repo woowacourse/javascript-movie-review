@@ -17,8 +17,8 @@ const BUTTON = {
   } as IButton,
 
   voteStar: {
-    innerText: '별점',
-    classes: ['item-votestar', 'skeleton'],
+    innerText: '',
+    classes: ['item-votestar'],
   } as IButton,
 };
 
@@ -27,4 +27,13 @@ const CONTAINER_TITLE = {
   searchResult: ' 검색 결과',
 };
 
-export { BUTTON, CONTAINER_TITLE };
+const LOCAL_VOTE = {
+  0: '이 영화 어때요?',
+  2: '최악이에요',
+  4: '별로에요',
+  6: '그저 그래요',
+  8: '훌륭해요',
+  10: '최고에요',
+};
+
+export { BUTTON, CONTAINER_TITLE, LOCAL_VOTE };
