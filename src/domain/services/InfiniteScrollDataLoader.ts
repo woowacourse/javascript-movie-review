@@ -3,6 +3,7 @@ import movieAPI from '../../api/movie';
 import { getEndpoint, getUrlParams } from '../../utils/queryString';
 import MovieDomain from '../entity/Movie';
 import { END_POINT, QUERY_STRING_KEYS } from '../../consts/URL';
+import { MovieListAPIReturnType } from '../../api/movieAPI.type';
 
 class InfiniteScrollDataLoader {
   currentPage: number = 1;
@@ -10,12 +11,13 @@ class InfiniteScrollDataLoader {
   itemViewBox = document.querySelector('.item-view');
   movieListBox = document.createElement('ul');
   movieList: MovieList;
-  renderComplete: boolean;
 
   constructor() {
     this.movieList = new MovieList({ movieList: [] });
-    this.renderComplete = false;
+    this.movieList.renderSkeleton();
     this.oberveScrollAndRenderNextPage();
+    // this.renderTargetPage();
+    // this.oberveScrollAndRenderNextPage();
   }
 
   resetPage() {
@@ -23,19 +25,26 @@ class InfiniteScrollDataLoader {
   }
 
   oberveScrollAndRenderNextPage() {
-    window.addEventListener('scroll', async () => {
+    let scrollCheck: NodeJS.Timeout | null;
+
+    window.addEventListener('scroll', () => {
+      clearTimeout(scrollCheck!);
+
       const isScrollEnded = window.innerHeight + window.scrollY + 100 >= document.body.offsetHeight;
 
-      if (isScrollEnded && this.currentPage < this.totalPage) {
-        this.currentPage += 1;
-        await this.renderTargetPage();
-      }
+      scrollCheck = setTimeout(async () => {
+        scrollCheck = null;
+
+        if (isScrollEnded && this.currentPage < this.totalPage) {
+          this.movieList.renderSkeleton();
+          this.currentPage += 1;
+          await this.renderTargetPage();
+        }
+      }, 1000);
     });
   }
 
   async renderTargetPage() {
-    this.movieList.renderSkeleton();
-
     const movieResult = await this.selectAPIAndFetch();
 
     const formattedMovieList = movieResult.results.map(movie => {
@@ -47,7 +56,8 @@ class InfiniteScrollDataLoader {
     this.movieList.render();
 
     if (this.totalPage === 1) return;
-    this.renderComplete = false;
+
+    // }, 300);
   }
 
   async selectAPIAndFetch() {

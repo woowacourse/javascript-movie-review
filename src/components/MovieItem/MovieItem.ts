@@ -1,10 +1,8 @@
 import Star from '../../assets/star_filled.png';
 import NoImage from '../../assets/no_image.png';
-import { Movie, MovieDetail } from './../../types/movie';
+import { Movie } from './../../types/movie';
 import '../MovieItem/MovieItem.css';
 import { POSTER_BASE_URL } from '../../consts/URL';
-import movieAPI from '../../api/movie';
-import MovieDomain from '../../domain/entity/Movie';
 import { setUrlParams } from '../../utils/queryString';
 
 type MovieItemProps = {
@@ -13,21 +11,34 @@ type MovieItemProps = {
 };
 
 class MovieItem {
-  movie;
-  itemBox;
-  itemCard;
+  movie: Movie;
+  itemBox = document.createElement('li');
+  itemCard = document.createElement('a');
+  itemThumbnail = document.createElement('img');
+  itemTitle = document.createElement('div');
+  itemScore = document.createElement('p');
+
   rerenderModal: (id: number) => void;
 
   constructor({ movie, rerenderModal }: MovieItemProps) {
     this.movie = movie;
-    this.itemBox = document.createElement('li');
     this.itemBox.setAttribute('data-movie-id', String(movie.id));
-
-    this.itemCard = document.createElement('a');
     this.itemCard.classList.add('item-card');
+
+    this.renderSkeleton();
 
     this.rerenderModal = rerenderModal;
     this.setEvent();
+  }
+
+  renderSkeleton() {
+    this.itemThumbnail.classList.add('item-thumbnail', 'skeleton');
+    this.itemTitle.classList.add('item-title', 'skeleton');
+    this.itemScore.classList.add('item-score', 'skeleton');
+
+    this.itemCard.append(this.itemThumbnail);
+    this.itemCard.append(this.itemTitle);
+    this.itemCard.append(this.itemScore);
   }
 
   setEvent() {
@@ -41,37 +52,25 @@ class MovieItem {
 
   template() {
     const { title, posterPath, voteAverage } = this.movie;
-    this.itemCard.classList.add('item-card');
+    this.createThumbnail(title, posterPath);
+    this.createTitle(title);
+    this.createScore(voteAverage);
 
-    const titleBox = this.createTitle(title);
-    const voteAverageBox = this.createScore(voteAverage);
-
-    if (posterPath) {
-      const posterImage = this.createPoster(title, posterPath);
-      this.itemCard.append(posterImage);
-    } else {
-      const noImage = this.createNoImage();
-      this.itemCard.append(noImage);
-    }
-
-    this.itemCard.append(titleBox);
-    this.itemCard.append(voteAverageBox);
     this.itemBox.append(this.itemCard);
 
     return this.itemBox;
   }
 
-  createPoster(title: string, posterPath: string) {
-    const posterImage = document.createElement('img');
-    posterImage.setAttribute('loading', 'lazy');
-    posterImage.classList.add('item-thumbnail');
-
+  createThumbnail(title: string, posterPath: string | null) {
     if (posterPath) {
-      posterImage.setAttribute('src', POSTER_BASE_URL + posterPath);
+      this.itemThumbnail.setAttribute('loading', 'lazy');
+      this.itemThumbnail.classList.add('item-thumbnail');
+      this.itemThumbnail.setAttribute('src', POSTER_BASE_URL + posterPath);
+      this.itemThumbnail.setAttribute('alt', title);
+    } else {
+      const noImage = this.createNoImage();
+      this.itemCard.append(noImage);
     }
-    posterImage.setAttribute('alt', title);
-
-    return posterImage;
   }
 
   createNoImage() {
@@ -85,16 +84,13 @@ class MovieItem {
   }
 
   createTitle(title: string) {
-    const titleBox = document.createElement('p');
-    titleBox.classList.add('item-title', 'multi-lines-overflow');
-    titleBox.textContent = title;
-    return titleBox;
+    this.itemTitle.classList.remove('skeleton');
+    this.itemTitle.classList.add('multi-lines-overflow');
+    this.itemTitle.textContent = title;
   }
 
   createScore(voteAverage: number) {
-    const voteAverageBox = document.createElement('p');
-    voteAverageBox.classList.add('item-score');
-
+    this.itemScore.classList.remove('skeleton');
     const starImage = document.createElement('img');
     starImage.setAttribute('src', Star);
     starImage.setAttribute('alt', '별점');
@@ -102,10 +98,8 @@ class MovieItem {
     const voteAverageText = document.createElement('span');
     voteAverageText.textContent = String(voteAverage);
 
-    voteAverageBox.append(starImage);
-    voteAverageBox.append(voteAverageText);
-
-    return voteAverageBox;
+    this.itemScore.append(starImage);
+    this.itemScore.append(voteAverageText);
   }
 }
 

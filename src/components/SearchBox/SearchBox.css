@@ -46,18 +46,15 @@
   color: white;
 }
 
-#search-input.search-input-expand {
-  width: calc(100vw - 120px);
-  animation: expand 0.5s linear;
-}
-
 #search-input {
-  padding: 0 8px;
+  width: 200px;
 }
 
 @media (max-width: 600px) {
   #search-input {
-    display: none;
+    width: calc(100vw - 120px);
+    padding: 0 8px;
+    animation: expand 0.5s linear;
   }
 }
 
@@ -67,14 +64,5 @@
   }
   to {
     width: calc(100vw - 120px);
-  }
-}
-
-@keyframes shrink {
-  from {
-    width: calc(100vw - 120px);
-  }
-  to {
-    width: 0;
   }
 }

@@ -22,36 +22,19 @@ class searchInputBox {
   constructor(rerenderList: () => void) {
     this.header = document.querySelector('header') as HTMLElement;
     this.headerLogo = document.querySelector('header > h1') as HTMLElement;
-
     this.searchInputBox.classList.add('search-box', 'flex-center');
     this.searchButton.id = 'search-button';
+
     this.rerenderList = rerenderList;
+
+    this.render();
+    this.setEvents();
+  }
+
+  render() {
     this.createSearchInput();
     this.createSearchButton();
     this.createInputFoldButton();
-    this.render();
-    this.setEvents();
-
-    this.handleResize();
-    window.addEventListener('resize', () => {
-      this.handleResize();
-    });
-  }
-
-  render() {}
-
-  handleResize() {
-    if (window.innerWidth <= 600) {
-      this.searchInput.classList.add('search-input-expand');
-      if (this.searchInput.style.display === 'block') {
-        this.headerLogo.style.display = 'none';
-        this.inputFoldButton.style.display = 'block';
-      }
-    } else {
-      this.searchInput.classList.remove('search-input-expand');
-      this.headerLogo.style.display = 'block';
-      this.inputFoldButton.style.display = 'none';
-    }
   }
 
   createSearchInput() {
@@ -84,18 +67,44 @@ class searchInputBox {
 
   setEvents() {
     this.setSubmitEvent();
-    this.setInputFoldButtonEvent();
+    this.setCloseInputEvent();
+    this.handleResize();
+
+    this.handleResize();
+
+    let resizeEvent: NodeJS.Timeout | null;
+
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeEvent!);
+
+      resizeEvent = setTimeout(() => {
+        resizeEvent = null;
+        this.handleResize();
+      }, 300);
+    });
+  }
+
+  handleResize() {
+    if (window.innerWidth <= 600) {
+      console.log('aa');
+      if (this.searchInputBox.classList.contains('open')) {
+        this.headerLogo.style.display = 'none';
+        this.inputFoldButton.style.display = 'block';
+        return;
+      }
+      return (this.searchInput.style.display = 'none');
+    }
+    console.log('aa');
+    this.searchInput.style.display = 'block';
+    this.headerLogo.style.display = 'block';
+    this.inputFoldButton.style.display = 'none';
   }
 
   setSubmitEvent() {
     this.searchButton.addEventListener('click', e => {
       e.preventDefault();
-      if (this.searchInput.classList.contains('search-input-expand')) {
-        this.headerLogo.style.display = 'none';
-        this.searchInput.style.display = 'block';
-        this.inputFoldButton.style.display = 'block';
-        this.searchInput.focus();
-        this.headerLogo.style.display = 'none';
+      if (this.searchInput.style.display === 'none') {
+        this.setOpenInputEvent();
         return;
       }
       if (!this.searchInput.value.length) {
@@ -109,12 +118,21 @@ class searchInputBox {
     });
   }
 
-  setInputFoldButtonEvent() {
+  setOpenInputEvent() {
+    this.headerLogo.style.display = 'none';
+    this.searchInput.style.display = 'block';
+    this.inputFoldButton.style.display = 'block';
+    this.searchInput.focus();
+    this.searchInputBox.classList.add('open');
+  }
+
+  setCloseInputEvent() {
     this.inputFoldButton.addEventListener('click', e => {
       e.preventDefault();
-      this.searchInput.style.display = 'none';
+      this.searchInputBox.classList.remove('open');
       this.inputFoldButton.style.display = 'none';
       this.headerLogo.style.display = 'block';
+      this.searchInput.style.display = 'none';
     });
   }
 }

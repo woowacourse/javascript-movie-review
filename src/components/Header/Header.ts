@@ -24,7 +24,7 @@ class Header {
     if (!this.headerBox) return;
     this.headerBox.append(this.header);
 
-    new SearchBox(this.rerenderList).render();
+    new SearchBox(this.rerenderList);
 
     const parent = document.querySelector('#app');
     if (!parent) return;

@@ -7,7 +7,7 @@ import { getEndpoint, setEndpoint } from './utils/queryString';
 
 class App {
   infiniteScrollDataLoader = new InfiniteScrollDataLoader();
-  itemViewBox = document.querySelector('.item-view');
+  itemViewBox = document.querySelector('.item-view')!;
   movieListBox = document.createElement('ul');
   movieListInstance: MovieList;
   title = new Title();
@@ -15,18 +15,18 @@ class App {
   constructor() {
     this.movieListBox.classList.add('item-list');
     this.movieListBox.classList.add('grid');
-    this.render();
     this.movieListInstance = new MovieList({ movieList: [] });
+    this.renderPopularList();
   }
 
-  async render() {
+  async renderPopularList() {
     this.#renderHeader();
     this.title.renderTitle();
 
-    if (!this.itemViewBox) return;
     this.itemViewBox.append(this.movieListBox);
 
     setEndpoint(END_POINT.POPULAR);
+    this.movieListInstance.renderSkeleton();
     this.infiniteScrollDataLoader.renderTargetPage();
   }
 
