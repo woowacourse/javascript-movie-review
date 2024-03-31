@@ -1,7 +1,8 @@
 import { ModalParams } from '../../interface/ModalInterface';
 import { MovieDetailData, UserScoreParams } from '../../interface/MovieInterface';
 import Modal from './Modal';
-import MovieDetailContainer from '../MovieDetailContainer';
+import MovieDetailContainer from '../MovieDetailContainer/MovieDetailContainer';
+import { $OptionalSelector } from '../../util/selector';
 
 interface MovieDetailModalParams extends ModalParams {
   onUpdateUserScore: ({ movieId, userScore }: UserScoreParams) => void;
@@ -33,5 +34,6 @@ export default class MovieDetailModal extends Modal {
     while (this.modalContainer.firstChild) {
       this.modalContainer.removeChild(this.modalContainer.firstChild);
     }
+    $OptionalSelector('div.toast', this.modal)?.remove();
   }
 }
