@@ -43,12 +43,14 @@ function createMovieDetailHeader(title: string) {
 }
 
 function createMovieDetailImage(posterPath: string) {
+  const box = document.createElement('div');
   const img = document.createElement('img');
-  img.className = 'movie-detail-image';
+  img.className = 'h-433 w-292';
   img.src = MOVIE_IMAGE_BASE_URL + posterPath;
   img.loading = 'lazy';
   img.alt = 'movie-image';
-  return img;
+  box.append(img);
+  return box;
 }
 
 function createTMDBRatingBox(movieRating: number) {
@@ -136,16 +138,14 @@ function createRateStars(id: number) {
 function createRate(id: number) {
   const rateNumber = document.createElement('span');
   rateNumber.innerText = String(getLocalStorageScore(id) ?? 0);
-  rateNumber.style.width = '17px';
-  rateNumber.className = 'result-number';
+  rateNumber.className = 'w-16 result-number';
   return rateNumber;
 }
 
 function createResult(id: number) {
   const rateString = document.createElement('span');
   rateString.innerText = RATING_MESSAGES[getLocalStorageScore(id) ?? 0];
-  rateString.classList.add('result-string');
-  rateString.style.minWidth = '100px';
+  rateString.className = 'result-string w-96';
   return rateString;
 }
 
@@ -176,7 +176,7 @@ function createUserRate(id: number) {
 
 function createMovieDetailInfo(movieDetail: IMovieDetailResponse) {
   const description = document.createElement('div');
-  description.className = 'movie-detail-info';
+  description.className = 'movie-detail-info h-433';
   description.append(
     createGenreAndRating(movieDetail.genres, movieDetail.vote_average),
     createDescription(movieDetail.overview),
