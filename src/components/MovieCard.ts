@@ -8,12 +8,16 @@ interface Props {
 export default class MovieCard {
   #liElement = document.createElement('li');
 
+  #movieId!: number;
+
   #movie;
 
   constructor({ classes, movie }: Props) {
     if (classes) this.#liElement.classList.add(...classes);
+
     if (movie) {
       this.#movie = movie;
+      this.#movieId = movie.id;
       this.#generateMovieItem(this.#movie);
     } else {
       this.#generateSkeletonMovieItem();
@@ -28,7 +32,7 @@ export default class MovieCard {
 
     const element = /* html */ `
     <a href="#">
-      <div class="item-card">
+      <div class="item-card", data-movieid="${this.#movieId}">
         <img
         class="item-thumbnail"
         src="${posterPath}"

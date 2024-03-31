@@ -7,24 +7,10 @@ const detailOptions = {
 };
 
 class MovieDetailStore {
-  #movieId: number = 0;
-
-  constructor() {
-    this.#movieId = 634492;
-  }
-
-  async #fetchMovieDetail() {
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${this.#movieId}?language=ko`, detailOptions);
-    const responseJson = response.json();
-
-    return responseJson;
-  }
-
-  get detail() {
-    return this.#fetchMovieDetail();
+  static async fetchMovieDetail(movieId: number | string) {
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?language=ko`, detailOptions);
+    return response.json();
   }
 }
 
-const movieDetailStore = new MovieDetailStore();
-
-export default movieDetailStore;
+export default MovieDetailStore;

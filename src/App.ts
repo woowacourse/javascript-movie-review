@@ -186,7 +186,8 @@ export default class App {
     const clickedElement = event.target.closest('.item-card');
 
     if (clickedElement) {
-      const modal = Modal.getInstance(clickedElement);
+      const movieId = Number(clickedElement.dataset.movieid);
+      const modal = Modal.getInstance(movieId);
       modal.openModal();
     }
   }

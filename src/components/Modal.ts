@@ -1,4 +1,4 @@
-import movieDetailStore from '../store/MovieDetailStore';
+import MovieDetailStore from '../store/MovieDetailStore';
 
 export default class Modal {
   #isOpen = false;
@@ -7,12 +7,12 @@ export default class Modal {
 
   static instance: Modal | null = null;
 
-  #movieCard: any;
+  // #movieCard: any;
 
-  constructor(movieCard: any) {
-    this.#movieCard = movieCard;
+  #movieId: number;
 
-    this.#movieCard.addEventListener('click', this.openModal.bind(this));
+  constructor(movieId: number) {
+    this.#movieId = movieId;
   }
 
   // eslint-disable-next-line max-lines-per-function
@@ -22,7 +22,7 @@ export default class Modal {
       this.#modalElement = null;
     }
 
-    const movieDetail = await movieDetailStore.detail;
+    const movieDetail = await MovieDetailStore.fetchMovieDetail(this.#movieId);
 
     const posterPath = movieDetail.poster_path
       ? `https://image.tmdb.org/t/p/w500${movieDetail.poster_path}`
@@ -70,6 +70,8 @@ export default class Modal {
     modalElement.innerHTML = modalHTML;
     document.body.appendChild(modalElement);
     this.#modalElement = modalElement;
+
+    modalElement.addEventListener('click', (event) => this.handleModalClick(event));
   }
 
   async openModal() {
@@ -77,9 +79,6 @@ export default class Modal {
 
     await this.generateModal();
     this.#isOpen = true;
-
-    const modal = document.querySelector('.modal');
-    modal?.addEventListener('click', (event) => this.handleModalClick(event));
   }
 
   closeModal() {
@@ -104,9 +103,9 @@ export default class Modal {
     }
   }
 
-  static getInstance(movieCard: any) {
-    if (!Modal.instance) {
-      Modal.instance = new Modal(movieCard);
+  static getInstance(movieId: number) {
+    if (!Modal.instance || Modal.instance.#movieId !== movieId) {
+      Modal.instance = new Modal(movieId);
     }
 
     return Modal.instance;
