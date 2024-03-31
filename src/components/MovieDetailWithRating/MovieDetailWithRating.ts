@@ -23,7 +23,7 @@ class MovieDetailWithRating {
 
   constructor(option?: {
     thumbnailSrc?: string;
-    genre?: string[];
+    genres?: string[];
     rating?: number;
     description?: string;
     setRatingAction?: (rating: number) => void;
@@ -31,7 +31,7 @@ class MovieDetailWithRating {
   }) {
     const {
       thumbnailSrc = "",
-      genre,
+      genres: genre,
       rating,
       description,
       setRatingAction = (rating: number) => {},

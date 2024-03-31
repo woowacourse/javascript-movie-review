@@ -4,6 +4,9 @@ import Modal from "../Modal/Modal";
 import createElement from "../../utils/createElement";
 
 class HeaderModal extends Modal {
+  protected titleElement = createElement("h2", {
+    attrs: { class: "modal--title" },
+  });
   constructor(option?: {
     contents?: (string | HTMLElement)[];
     isOpen?: boolean;
@@ -18,6 +21,10 @@ class HeaderModal extends Modal {
     this.container.prepend(header);
   }
 
+  setTitle(title: string) {
+    this.titleElement.textContent = title;
+  }
+
   #createHeader(option?: {
     title?: string;
     closeAction?: (event?: Event) => void;
@@ -27,14 +34,11 @@ class HeaderModal extends Modal {
       attrs: { class: "modal--header" },
     });
 
-    const titleElement = createElement("h2", {
-      attrs: { class: "modal--title" },
-      content: title,
-    });
+    if (title) this.setTitle(title);
 
     const closeButton = this.#createCloseButton(closeAction);
 
-    header.append(titleElement, closeButton);
+    header.append(this.titleElement, closeButton);
 
     return header;
   }

@@ -5,6 +5,7 @@ import createElement from "../../utils/createElement";
 class Modal {
   element = createElement("div", { attrs: { class: "modal" } });
   protected container;
+  protected contents = createElement("div");
   protected backdrop;
   constructor(option?: {
     contents?: (HTMLElement | string)[];
@@ -17,7 +18,8 @@ class Modal {
     this.container = createElement("aside", {
       attrs: { class: "modal-container" },
     });
-    if (contents.length > 0) this.container.append(...contents);
+    if (contents.length > 0) this.contents.append(...contents);
+    this.container.append(this.contents);
     this.element.append(this.backdrop, this.container);
     if (isOpen) this.open();
     if (!isOpen) this.close();
@@ -31,6 +33,10 @@ class Modal {
 
   close() {
     this.element.classList.add("display-none");
+  }
+
+  replaceContents(...elements: HTMLElement[]) {
+    this.contents.replaceChildren(...elements);
   }
 
   #setEvent() {

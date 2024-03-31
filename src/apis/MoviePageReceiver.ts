@@ -33,6 +33,13 @@ interface MovieInfoInPage {
   vote_count: number;
 }
 
+interface MovieDetail {
+  posterSrc: string;
+  title: string;
+  genres: [];
+  rating: number;
+  description?: string;
+}
 class MoviePageReceiver {
   #popularPage = 1;
   #posterSrcHeader = `https://image.tmdb.org/t/p/w220_and_h330_face/`;
@@ -80,6 +87,27 @@ class MoviePageReceiver {
         isLastPage: this.#popularPage === pageResponse.total_pages,
       };
     }).bind(this);
+  }
+
+  async fetchMovieDetail(movieId: string): Promise<MovieDetail> {
+    const url = `https://api.themoviedb.org/3/movie/${movieId}?language=ko-KR`;
+
+    const detail = fetch(url, this.#options)
+      .then((res) => res.json())
+      .then((obj) => this.#getMovieDetail(obj));
+
+    return detail;
+  }
+
+  #getMovieDetail(obj: any): MovieDetail {
+    console.log(obj);
+    const title = obj.title;
+    const posterSrc = this.#posterSrcHeader + obj.poster_path;
+    const genres = obj.genres?.map((genre: any) => genre.name) ?? ["장르 없음"];
+    const rating = obj.vote_average;
+    const description = obj.overview;
+
+    return { title, posterSrc, genres, rating, description };
   }
 
   async #getTMDBPageResponse(url: string) {

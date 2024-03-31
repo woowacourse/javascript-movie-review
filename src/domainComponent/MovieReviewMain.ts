@@ -1,18 +1,26 @@
 import Header from "../components/Header/Header";
+import MovieDetailModal from "./MovieDetailModal";
 import MovieList from "./MovieList";
 import MoviePageReceiver from "../apis/MoviePageReceiver";
 
 class MovieReviewMain {
-  elements;
+  elements: HTMLElement[];
   #header;
   #movieListController = new MovieList("지금 인기있는 영화", async () => {
     return { movieInfos: [], isLastPage: false };
   });
   #moviePageReceiver = new MoviePageReceiver();
+  #modal = new MovieDetailModal();
 
   constructor() {
     this.#header = this.#createHeader();
-    this.elements = [this.#header.element, this.#movieListController.element];
+    this.elements = [
+      this.#header.element,
+      this.#movieListController.element,
+      this.#modal.element,
+    ];
+    this.#modal.open();
+    this.#modal.setMovieDetail("1011985");
     this.#header.goHome();
   }
 
