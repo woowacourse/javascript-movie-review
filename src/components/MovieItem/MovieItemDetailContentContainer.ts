@@ -35,7 +35,7 @@ const MovieItemDetailContentContainer = {
     const content = document.createElement('div');
 
     const contentDetail = this.createContentDetail(detailMovieData);
-    const contentMyRatingContainer = MyRatingContainer.create();
+    const contentMyRatingContainer = MyRatingContainer.create(detailMovieData);
 
     content.classList.add('movie-item-detail_content');
 
