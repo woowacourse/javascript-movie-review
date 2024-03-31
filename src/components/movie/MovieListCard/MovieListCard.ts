@@ -1,5 +1,4 @@
 import Component from '../../common/Component/Component';
-import MovieReviewDetailModal from '../MovieReviewDetailModal/MovieReviewDetailModal';
 
 import type { MovieInterface } from '../../../domain/Movie/Movie.type';
 
@@ -12,7 +11,11 @@ import { ELEMENT_SELECTOR } from '../../../constants/selector';
 import { FilledStar } from '../../../assets';
 import { DEFAULT_IMAGE_URL } from '../../../constants/movie';
 
-class MovieListCard extends Component<MovieInterface> {
+interface MovieListCardProps extends MovieInterface {
+  onClick?: () => void;
+}
+
+class MovieListCard extends Component<MovieListCardProps> {
   protected createComponent() {
     const $anchor = createElement({ tagName: 'a' });
 
@@ -42,16 +45,16 @@ class MovieListCard extends Component<MovieInterface> {
     on({
       target,
       eventName: 'click',
-      eventHandler: this.renderModal.bind(this),
+      eventHandler: this.handleClickCard.bind(this),
     });
   }
 
-  private async renderModal(event: Event) {
+  private handleClickCard(event: Event) {
     event.stopPropagation();
 
-    if (!this.props) return;
+    if (!this.props?.onClick || !this.props?.id) return;
 
-    await MovieReviewDetailModal.rerender(this.props?.id);
+    this.props.onClick();
   }
 }
 
