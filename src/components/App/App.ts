@@ -34,7 +34,6 @@ class App {
 
     this.$target.append(this.modal.$target);
     this.modal.append(this.modalContent.$target);
-    this.modal.open(); // 임시
     this.#render();
     this.#setEvent();
   }
