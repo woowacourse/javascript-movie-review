@@ -3,6 +3,7 @@ import posterNotFoundImage from '../asset/poster_not_found.jpg';
 import searchButtonImage from '../asset/search_button.png';
 import starEmptyImage from '../asset/star_empty.png';
 import starFilledImage from '../asset/star_filled.png';
+import closeButtonImage from '../asset/close_button.svg';
 
 const ASSETS = {
   logoImage,
@@ -10,6 +11,7 @@ const ASSETS = {
   searchButtonImage,
   starEmptyImage,
   starFilledImage,
+  closeButtonImage,
 };
 
 export default ASSETS;

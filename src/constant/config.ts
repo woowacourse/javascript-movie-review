@@ -26,4 +26,11 @@ export const STORAGE = {
 
 export const CONFIG = {
   userScoreDecimalPlaces: 1,
+  userScore: {
+    2: '최악이에요',
+    4: '별로에요',
+    6: '보통이에요',
+    8: '재미있어요',
+    10: '명작이에요',
+  },
 } as const;

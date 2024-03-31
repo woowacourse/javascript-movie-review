@@ -1,10 +1,14 @@
 import { MovieDetailData } from '../interface/MovieInterface';
+import convertToPosterPath from '../util/convertToPosterPath';
 
 export default class MovieDetail {
   private movieDetail: MovieDetailData;
 
   constructor(movieDetail: MovieDetailData) {
-    this.movieDetail = movieDetail;
+    this.movieDetail = {
+      ...movieDetail,
+      posterPath: convertToPosterPath({ relativePath: movieDetail.posterPath, width: 300 }),
+    };
   }
 
   get data(): MovieDetailData {

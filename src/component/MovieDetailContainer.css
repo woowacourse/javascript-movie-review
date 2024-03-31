@@ -1,0 +1,130 @@
+#modal__movie-detail {
+  overflow: hidden;
+
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  background-color: #222222;
+  color: #f1f1f1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+#modal__movie-detail-title {
+  height: 60px;
+  padding: 12px 32px;
+  border-bottom: 1px solid #f1f1f126;
+}
+
+#modal__movie-detail-title h2 {
+  font-size: 20px;
+  font-weight: 600;
+  height: 100%;
+  line-height: 40px;
+  letter-spacing: 0.15px;
+  text-align: center;
+}
+
+#modal__movie-detail-title > button {
+  position: absolute;
+  top: 12px;
+  right: 32px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #383839 url('../asset/close_button.svg') center no-repeat;
+}
+
+#modal__movie-detail-content {
+  padding: 36px 32px 48px;
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+}
+
+#modal__movie-detail-content .poster-image {
+  width: 292px;
+  height: 433px;
+}
+
+#modal__movie-detail-content .movie-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#modal__movie-detail-content .movie-info-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.movie-info-box {
+  line-height: 24px;
+}
+
+.movie-info > .average-score {
+  display: inline-block;
+  margin-left: 40px;
+  position: relative;
+}
+
+.movie-info > .average-score::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url('../asset/star_filled.png');
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: -24px;
+}
+
+.movie-info-box > .movie-overview {
+  word-break: keep-all;
+}
+
+#modal__movie-detail-user-score {
+  width: 100%;
+  background: #383839;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+#modal__movie-detail-user-score .user-score-title {
+  font-weight: 700;
+}
+
+#modal__movie-detail-user-score .star-icons > .user-score-star {
+  width: 21px;
+  height: 24px;
+  display: inline-block;
+  background: url('../asset/star_empty.png');
+  background-size: cover;
+}
+
+#modal__movie-detail-user-score .star-icons > .user-score-star:hover {
+  cursor: pointer;
+  background: url('../asset/star_filled.png');
+}
+
+#modal__movie-detail-user-score .star-icons > .user-score-star.filled {
+  background: url('../asset/star_filled.png');
+}
+
+#modal__movie-detail-user-score .user-score {
+  display: inline-block;
+  width: 24px;
+  text-align: center;
+}
+
+#modal__movie-detail-user-score .user-score-description {
+  display: inline-block;
+  text-align: left;
+}

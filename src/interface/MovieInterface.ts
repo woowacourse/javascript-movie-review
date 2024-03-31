@@ -45,3 +45,8 @@ export interface MoviePageData {
   movieList: Movie[];
   hasNextPage: boolean;
 }
+
+export interface UserScoreParams {
+  movieId: number;
+  userScore?: number;
+}
