@@ -15,7 +15,7 @@ const HeaderManager = {
     const templates = /* html */ `
         <h1><img src=${imageSource} alt="MovieList 로고" onClick="window.location.reload()"/></h1>
         <form class="search-box">
-          <input type="text" name="search" placeholder="검색" style="width:300px;"/>
+          <input type="text" name="search" placeholder="검색" />
           <button type="submit" class="search-button">검색</button>
         </form>
       `;
