@@ -52,7 +52,6 @@ export class RecommendStar {
     recommendStarBox.append(span, starBox, recommendScore, recommendMessage);
     this.stars.forEach((star, index) => {
       star.addEventListener('click', () => {
-        console.log(this.userMovieDetail);
         this.currentScore = (index + 1) * 2;
         this.rerenderStar();
         this.rerenderScore(recommendScore);
