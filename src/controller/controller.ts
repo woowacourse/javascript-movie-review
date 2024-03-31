@@ -7,44 +7,69 @@ import renderToast from '../component/toast/toast.js';
 import { setMainTitleText } from '../component/setMainTitleText';
 
 export class App {
-  #searchKeyword;
+  private searchKeyword;
   private pageManager;
-  #movieService;
-  #movieContainer;
+  private movieService;
+  private movieContainer;
+  private isLoading = false;
 
   constructor() {
-    this.#searchKeyword = '';
+    this.searchKeyword = '';
 
     this.pageManager = new PageManager();
-    this.#movieService = new MovieService();
-    this.#movieContainer = new MovieContainer({
+    this.movieService = new MovieService();
+    this.movieContainer = new MovieContainer({
       handleMoreList: () => this.addMovieList(),
     });
+
+    setMainTitleText('popular');
+    this.attachInfiniteScroll();
+  }
+
+  private attachInfiniteScroll() {
+    const skeleton$ = $('.item-view .infinite-scroll-observer'); // 관찰할 대상(요소)
+    const options = {
+      root: null,
+      rootMargin: '0px 0px 0px 0px',
+      threshold: 0.8,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !this.isLoading) {
+          this.addMovieList();
+        }
+      });
+    }, options);
+    observer.observe(skeleton$);
   }
 
   async init() {
     createHeader();
     $('form.search-box').addEventListener('clickSearchButton', () => this.makeSearchPage());
     $('header > img.logo').addEventListener('logoClickEvent', () => this.makePopularPage());
-
-    this.makePopularPage();
   }
 
   async addMovieList() {
+    if (this.isLoading) return;
+
+    this.isLoading = true;
     const moviePageData = await this.fetchMoviePageData();
-    this.#movieContainer.pushNewMovieList(moviePageData);
+    this.isLoading = false;
+    this.movieContainer.pushNewMovieList(moviePageData);
   }
 
   async fetchMoviePageData() {
-    const isSearching = this.#searchKeyword !== '';
+    console.log('hi');
+    const isSearching = this.searchKeyword !== '';
     const pageNumber = this.pageManager.getPage();
 
     const moviePageData = await (isSearching
-      ? this.#movieService.fetchSearchResult({
+      ? this.movieService.fetchSearchResult({
           pageNumber,
-          query: this.#searchKeyword,
+          query: this.searchKeyword,
         })
-      : this.#movieService.fetchPopularMovieList(pageNumber));
+      : this.movieService.fetchPopularMovieList(pageNumber));
 
     this.pageManager.addPage();
 
@@ -52,29 +77,30 @@ export class App {
   }
 
   setSearchKeyword() {
-    this.#searchKeyword = $<HTMLInputElement>('form.search-box > input').value;
+    this.searchKeyword = $<HTMLInputElement>('form.search-box > input').value;
   }
 
   makeSearchPage() {
     this.pageManager.changePage('search');
     this.setSearchKeyword();
 
-    if (this.#searchKeyword === '') {
+    if (this.searchKeyword === '') {
       renderToast('검색어를 입력해주세요.');
       return;
     }
 
-    this.#movieContainer.clearMovieList();
-    setMainTitleText('search', this.#searchKeyword);
+    this.movieContainer.clearMovieList();
+    setMainTitleText('search', this.searchKeyword);
+
     this.addMovieList();
   }
 
   makePopularPage() {
     this.pageManager.changePage('popular');
-    this.#movieContainer.clearMovieList();
+    this.movieContainer.clearMovieList();
     setMainTitleText('popular');
 
-    this.#searchKeyword = '';
+    this.searchKeyword = '';
     $<HTMLFormElement>('form.search-box').reset();
 
     this.addMovieList();
