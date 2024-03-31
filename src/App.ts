@@ -8,6 +8,7 @@ import MovieListFetcher from './domain/services/MovieListFetcher';
 import { formatMovieList } from './utils/formatList';
 import { setUrlParams } from './utils/queryString';
 import { getCurrentMode, getCurrentPage, getCurrentQuery, increaseUrlPage, setDefaultPageUrl } from './utils/urlHelper';
+import './App.css';
 
 class App {
   movieListInstance: MovieList;
