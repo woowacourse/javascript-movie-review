@@ -83,12 +83,15 @@ export default class MovieList extends EventComponent {
   }
 
   private onScroll() {
-    if (
+    const isEndOfPage =
       window.innerHeight + window.scrollY >=
-      document.documentElement.scrollHeight
-    ) {
-      this.loadMoreMovies();
-    }
+      document.documentElement.scrollHeight;
+
+    const hasMorePages = this.page < this.movieList.total_pages;
+
+    if (!isEndOfPage || !hasMorePages) return;
+
+    this.loadMoreMovies();
   }
 
   private openMovieDetailModal(event: Event): void {
@@ -126,7 +129,10 @@ export default class MovieList extends EventComponent {
 
     this.skeletonUI.insert("item-list", "afterend");
 
-    const additionalFetchedMovieData = await getPopularMovieList(this.page);
+    const additionalFetchedMovieData = await this.fetchMovies(
+      this.page,
+      this.queryState.get()
+    );
 
     this.skeletonUI.remove("skeleton-movie-item-list");
 
