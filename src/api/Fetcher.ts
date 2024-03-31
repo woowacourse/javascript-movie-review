@@ -1,5 +1,4 @@
 import Movies from '../domain/Movies';
-import CustomError from '../utils/CustomError';
 
 export interface DataFetcher {
   getData<T>(url: string, headers: HeadersInit): Promise<T>;
