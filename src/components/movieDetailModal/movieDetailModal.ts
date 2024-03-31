@@ -11,16 +11,15 @@ import rating from '../../domain/rating';
 
 const movieDetailModal = {
   createModal() {
-    const dialog = document.createElement('dialog');
-    return dialog;
+    return document.createElement('dialog');
   },
 
   insertTemplate(movie: MovieDetailType | null) {
     const dialog = document.querySelector('dialog');
-    if (movie === null) return;
-    const ratingValue = this.getLocalRatingValue(movie.id);
+    if (!movie || !dialog) return;
 
-    if (dialog) dialog.innerHTML = DETAIL_MODAL_TEMPLATE(movie, ratingValue);
+    const ratingValue = this.getLocalRatingValue(movie.id);
+    dialog.innerHTML = DETAIL_MODAL_TEMPLATE(movie, ratingValue);
     this.setModalCloseEvent();
     this.handleRating(movie.id);
   },
@@ -64,43 +63,48 @@ const movieDetailModal = {
 
   handleRating(movieId: number) {
     const ratingHtml = document.querySelector('#detail-modal--rating');
-    if (ratingHtml) {
-      ratingHtml.addEventListener('click', (event: Event) => {
-        // 사용자가 클릭한 별점의 인덱스 찾는다
-        const target = event.target as HTMLElement;
-        if (target && target.className !== 'rating-star') return;
-        const idAttribute = target.getAttribute('data-id');
-        if (!idAttribute) return;
-        const ratingValue = Number(idAttribute);
+    if (!ratingHtml || !(ratingHtml instanceof HTMLElement)) return;
 
-        this.updateLocalRatingValue(movieId, ratingValue);
+    ratingHtml.addEventListener('click', (event: Event) => {
+      const clickedRatingValue = this.findClickedIndex(event, movieId);
+      this.fillStars(ratingHtml, clickedRatingValue);
+      this.updateRatingValue(ratingHtml, clickedRatingValue);
+      this.updateRatingLabel(ratingHtml, clickedRatingValue);
+    });
+  },
 
-        // 클릭한 위치까지의 별점을 색칠한다
-        const ratingStarList = ratingHtml.querySelectorAll('.rating-star');
-        ratingStarList.forEach((star, index) => {
-          if ((index + 1) * 2 <= ratingValue) {
-            star.setAttribute('src', STAR_FILLED);
-          } else {
-            star.setAttribute('src', STAR_EMPTY);
-          }
-        });
+  findClickedIndex(event: Event, movieId: number): number {
+    const target = event.target as HTMLElement;
+    if (!target || target.className !== 'rating-star') return 0;
 
-        // rating-value를 바꾼다
-        const ratingValueHtml = ratingHtml.querySelector('#detail-modal--rating-value');
-        if (!ratingValueHtml) return;
-        ratingValueHtml.innerHTML = String(ratingValue);
+    const idAttribute = target.getAttribute('data-id');
+    if (!idAttribute) return 0;
+    const ratingValue = Number(idAttribute);
+    this.updateLocalRatingValue(movieId, ratingValue);
+    return ratingValue;
+  },
 
-        // rating-label을 바꾼다
-        const ratingLabelHtml = ratingHtml.querySelector('#detail-modal--rating-label');
-        if (!ratingLabelHtml) return;
-        ratingLabelHtml.innerHTML = RATING_MESSAGE[ratingValue];
-      });
-    }
+  fillStars(ratingHtml: HTMLElement, clickedRatingValue: number) {
+    const ratingStarList = ratingHtml.querySelectorAll('.rating-star');
+    ratingStarList.forEach((star, index) => {
+      star.setAttribute('src', index * 2 < clickedRatingValue ? STAR_FILLED : STAR_EMPTY);
+    });
+  },
+
+  updateRatingValue(ratingHtml: HTMLElement, clickedRatingValue: number) {
+    const ratingValueHtml = ratingHtml.querySelector('#detail-modal--rating-value');
+    if (!ratingValueHtml) return;
+    ratingValueHtml.innerHTML = String(clickedRatingValue);
+  },
+
+  updateRatingLabel(ratingHtml: HTMLElement, clickedRatingValue: number) {
+    const ratingLabelHtml = ratingHtml.querySelector('#detail-modal--rating-label');
+    if (!ratingLabelHtml) return;
+    ratingLabelHtml.innerHTML = RATING_MESSAGE[clickedRatingValue];
   },
 
   getLocalRatingValue(id: number): number {
-    const { ratingValue } = rating.getLocalDataItem(id);
-    return ratingValue;
+    return rating.getLocalDataItem(id).ratingValue;
   },
 
   updateLocalRatingValue(id: number, ratingValue: number) {
