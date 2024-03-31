@@ -166,10 +166,20 @@ npm run test-e2e
   </div>
 </details>
 
-## 파일 구조
+## 폴더 구조
+
+| 폴더                     | 설명                               |
+| ------------------------ | ---------------------------------- |
+| components               | 컴포넌트 관리                      |
+| component이름/controller | 해당 컴포넌트에 대한 컨트롤러 관리 |
+| constants                | 반복적으로 사용하는 상수 관리      |
+| images                   | 이미지 파일 관리                   |
+| styles                   | css 파일 관리                      |
+| type                     | 타입 관리                          |
+| utils                    | 유틸 관리                          |
 
 <details>
-<summary> 📂 파일 구조 보기</summary>
+<summary> 📂 폴더 구조 보기</summary>
 <div markdown="1">
 
 ```
@@ -284,8 +294,6 @@ npm run test-e2e
  ┗ 📜index.js
 ```
 
-- 추가 설명
-  - component이름/controller : 컴포넌트와 관련있는 컨트롤러 관리
   </div>
   </details>
 
