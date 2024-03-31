@@ -16,7 +16,7 @@ interface MovieReviewBodyProps {
 }
 
 class MovieReviewBody extends Component<MovieReviewBodyProps> {
-  private movieService: MovieService | undefined;
+  private page: number | undefined;
   private observer: IntersectionObserver | undefined;
   private $movieDetailModal: MovieDetailModal | undefined;
 
@@ -26,10 +26,20 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
   }
 
   protected initializeState(): void {
-    this.movieService = new MovieService();
+    this.page = 0;
     this.initializeIntersectionObserver();
-
     this.updateMovieList();
+  }
+
+  protected createComponent() {
+    const title = this.props?.movieType === 'popular' ? '지금 인기 있는 영화' : `"${this.props?.movieType}" 검색 결과`;
+
+    return /* html */ `
+      <section id="movie-review-section" class="item-view">
+        <h2>${title}</h2>
+        <div id="movie-list-container" class="item-list-container"></div>
+      </section>
+    `;
   }
 
   private initializeIntersectionObserver() {
@@ -38,27 +48,26 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     });
   }
 
-  protected createComponent() {
-    return /* html */ `
-      <section id="movie-review-section" class="item-view">
-        <h2>
-          ${this.props?.movieType === 'popular' ? '지금 인기 있는 영화' : `"${this.props?.movieType}" 검색 결과`}
-        </h2>
-        <div id="movie-list-container" class="item-list-container"></div>
-      </section>
-    `;
+  private removeIntersectionObserver() {
+    const $observeItem = this.$element.querySelector('.observe');
+
+    if ($observeItem) {
+      this.observer?.unobserve($observeItem);
+      $observeItem.classList.remove('observe');
+    }
   }
 
   private updateMovieList() {
-    if (!this.props || !this.movieService) return;
+    if (this.page === undefined || this.props === undefined) return;
 
     this.removeIntersectionObserver();
     this.createSkeletonList();
 
-    this.movieService.setPage(MOVIE.PAGE_UNIT);
+    this.page += MOVIE.PAGE_UNIT;
 
-    this.movieService.fetchMovies({
+    MovieService.fetchMovies({
       movieType: this.props.movieType,
+      page: this.page,
       onSuccess: this.handleMovieListSuccess.bind(this),
       onError: this.props.openErrorModal.bind(this),
     });
@@ -69,24 +78,14 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
 
     if (data.length === 0) {
       this.createNoResultImage();
+      return;
     }
 
-    this.createMovieList([...data]);
-  }
-
-  private openMovieDetailModal(key: number) {
-    if (this.props) {
-      this.movieService?.fetchMovieDetail({
-        key: key,
-        onSuccess: (data) => this.$movieDetailModal?.openModal(data),
-        onError: this.props.openErrorModal,
-      });
-    }
+    this.createMovieList(data);
   }
 
   private createSkeletonList() {
     const $movieListContainer = querySelector<HTMLElement>('#movie-list-container', this.$element);
-
     const $skeletonList = createElement({
       tagName: 'ul',
       attributeOptions: { id: 'skeleton-list', class: 'item-list' },
@@ -97,10 +96,16 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     $movieListContainer.appendChild($skeletonList);
   }
 
+  private removeSkeletonList() {
+    const $skeletonList = querySelector<HTMLElement>('#skeleton-list');
+    $skeletonList.remove();
+  }
+
   private createMovieList(movieItems: IMovie[]) {
     if (!this.observer) return;
 
     const $movieListContainer = querySelector<HTMLElement>('#movie-list-container', this.$element);
+
     new MovieList($movieListContainer, {
       movieItems: movieItems,
       observer: this.observer,
@@ -116,18 +121,14 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
     `;
   }
 
-  private removeIntersectionObserver() {
-    const $observeItem = this.$element.querySelector('.observe');
+  private openMovieDetailModal(key: number) {
+    if (!this.props) return;
 
-    if (!$observeItem) return;
-
-    this.observer?.unobserve($observeItem);
-    $observeItem.classList.remove('observe');
-  }
-
-  private removeSkeletonList() {
-    const $skeletonList = querySelector<HTMLElement>('#skeleton-list');
-    $skeletonList.remove();
+    MovieService.fetchMovieDetail({
+      key: key,
+      onSuccess: (data) => this.$movieDetailModal?.openModal(data),
+      onError: this.props.openErrorModal,
+    });
   }
 }
 
