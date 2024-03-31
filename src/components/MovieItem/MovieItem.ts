@@ -48,8 +48,6 @@ class MovieItem {
   }
 
   createThumbnail(title: string, posterPath: string | null) {
-    this.itemThumbnail.classList.remove('skeleton');
-
     if (posterPath) {
       this.itemThumbnail.setAttribute('loading', 'lazy');
       this.itemThumbnail.classList.add('item-thumbnail');

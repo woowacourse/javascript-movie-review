@@ -6,19 +6,15 @@ import movieAPI from '../../api/movie';
 import MovieDomain from '../../domain/entity/Movie';
 import StarIcon from '../../assets/star_filled.png';
 import DeleteIcon from '../../assets/delete.png';
-import { deleteUrlParams, getUrlParams } from '../../utils/queryString';
+import { deleteUrlParams, getUrlParams, setUrlParams } from '../../utils/queryString';
 import UserScoreBox from '../UserScoreBox/UserScoreBox';
 
 class MovieInfoModal {
   movieInfoModal;
   movieId: number;
-  movieInfoContainer = document.createElement('div');
-  movieInfoDetailBox = document.createElement('div');
+  movieInfoContainer;
 
   constructor() {
-    this.movieInfoContainer.id = 'movie-info-flex-wrapper';
-    this.movieInfoDetailBox.id = 'movie-info-detail-box';
-
     this.movieInfoModal = document.createElement('div');
     this.movieInfoModal.id = 'movie-info-modal';
     this.movieId = Number(getUrlParams('movie_id'));
@@ -28,6 +24,12 @@ class MovieInfoModal {
   }
 
   async render() {
+    const movieInfoContainer = document.createElement('div');
+    movieInfoContainer.id = 'movie-info-flex-wrapper';
+
+    const movieInfoDetailBox = document.createElement('div');
+    movieInfoDetailBox.id = 'movie-info-detail-box';
+
     const movieInfo = await this.getMovieDetail(Number(this.movieId));
 
     if (movieInfo) {
@@ -37,18 +39,19 @@ class MovieInfoModal {
       this.movieInfoModal.append(titleHeader);
 
       const poster = this.createPoster(posterPath, title);
-      this.movieInfoContainer.append(poster);
+      movieInfoContainer.append(poster);
 
       const genreAndVote = this.createGenreAndScore(genres, voteAverage);
-      this.movieInfoDetailBox.append(genreAndVote);
+      movieInfoDetailBox.append(genreAndVote);
 
       const movieOverview = this.createOverview(overview);
-      this.movieInfoDetailBox.append(movieOverview);
-      this.movieInfoContainer.append(this.movieInfoDetailBox);
+      movieInfoDetailBox.append(movieOverview);
+
+      movieInfoContainer.append(movieInfoDetailBox);
 
       const deleteButton = this.createDeleteButton();
       this.movieInfoModal.append(deleteButton);
-      this.movieInfoModal.append(this.movieInfoContainer);
+      this.movieInfoModal.append(movieInfoContainer);
     }
 
     new BasicModal(this.movieInfoModal);
@@ -59,6 +62,7 @@ class MovieInfoModal {
     this.movieId = Number(getUrlParams('movie_id'));
 
     const movieInfoModal = document.querySelector('#movie-info-modal');
+
     movieInfoModal?.replaceChildren();
     this.render();
   }
@@ -106,10 +110,11 @@ class MovieInfoModal {
     movieGenreScoreInfoBox.id = 'movie-info-genre-score-box';
 
     const movieGenre = this.createGenre(genres);
-    const movieScoreBox = this.createScore(voteAverage);
+    const movieScore = this.createScore(voteAverage);
 
     movieGenreScoreInfoBox.append(movieGenre);
-    movieGenreScoreInfoBox.append(movieScoreBox);
+    movieGenreScoreInfoBox.append(movieScore);
+
     return movieGenreScoreInfoBox;
   }
 
@@ -132,6 +137,7 @@ class MovieInfoModal {
     movieScore.id = 'movie-info-score';
 
     movieScore.textContent = String(voteAverage);
+
     movieScoreBox.append(starIcon);
     movieScoreBox.append(movieScore);
 

@@ -56,7 +56,6 @@ class MovieList {
         }).render();
       }
     });
-
     this.removeRemainingSkeletons();
   }
 

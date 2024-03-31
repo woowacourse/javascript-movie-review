@@ -1,6 +1,7 @@
 import Header from '../src/components/Header/Header';
 import MovieList from '../src/components/MovieList/MovieList';
 import Title from './components/Title/Title';
+import TopButton from './components/TopButton/TopButton';
 import { END_POINT } from './consts/URL';
 import InfiniteScrollDataLoader from './domain/services/InfiniteScrollDataLoader';
 import { getEndpoint, setEndpoint } from './utils/queryString';
@@ -19,6 +20,7 @@ class App {
     this.itemViewBox.append(this.movieListBox);
 
     this.renderFirstPage();
+    new TopButton();
   }
 
   async renderFirstPage() {
