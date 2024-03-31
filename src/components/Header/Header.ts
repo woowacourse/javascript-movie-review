@@ -17,6 +17,7 @@ class Header {
 
   render() {
     this.headerImage.setAttribute('src', Logo);
+    this.headerImage.id = 'logo';
     this.headerImage.setAttribute('alt', '로고 이미지');
 
     this.header.append(this.headerImage);
