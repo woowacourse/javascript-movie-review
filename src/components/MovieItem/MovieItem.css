@@ -50,9 +50,17 @@
   font-size: 0;
 }
 
-@media screen and (max-width: 863px) {
+/* tablet size */
+@media screen and (max-width: 480px) {
   .item-thumbnail {
-    width: 270px;
-    height: 405px;
+    width: 140px;
+    height: 220px;
+  }
+}
+
+@media screen and (max-width: 364px) {
+  .item-thumbnail {
+    width: 180px;
+    height: 270px;
   }
 }
