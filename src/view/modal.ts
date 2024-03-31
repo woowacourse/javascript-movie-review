@@ -1,7 +1,8 @@
 import fetchMovieDetail, { IMovieDetailResponse } from '../api/fetchMovieDetail';
 
-import addHoverEventToStar from '../css/userStarCss';
+import addHoverEventToStar from '../style/userStarStyle';
 import { createMovieDetailContainer } from './modal/movieDetail';
+import createMovieDetailSkeleton from './modal/movieDetailSkeleton';
 
 export function closeModal() {
   const modal = document.getElementById('movie-detail-modal') as HTMLDialogElement;
@@ -36,11 +37,11 @@ function getClearModal() {
 
 export async function renderMovieDetailModal(id: number) {
   const modal = getClearModal();
-  // TODO: 스켈레톤 UI 렌더링
-  const movieResponse: IMovieDetailResponse = await fetchMovieDetail(id);
-  // TODO: fetching 이후 스켈레톤 UI replace해주기.
-  modal.append(createMovieDetailContainer(movieResponse));
+  const movieDetailSkeleton = createMovieDetailSkeleton();
+  modal.append(movieDetailSkeleton);
   document.body.classList.add('no-scroll-y');
   modal.showModal();
+  const movieResponse: IMovieDetailResponse = await fetchMovieDetail(id);
+  movieDetailSkeleton.replaceWith(createMovieDetailContainer(movieResponse));
   addHoverEventToStar();
 }
