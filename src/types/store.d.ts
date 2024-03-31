@@ -1,3 +1,4 @@
+// MovieStore
 type QueryType = 'popular' | 'search';
 
 interface SetMoviesProps {
@@ -22,7 +23,23 @@ interface MovieStoreType {
   readonly movies: readonly MovieItem[];
   readonly page: number;
   readonly query: string;
-  setPage(value: number): void;
   setMovies({ value, callback }: SetMoviesProps): void;
+  setPage(value: number): void;
   setQuery(value: string): void;
+}
+
+// UserMovieStore
+interface UserMovie {
+  id: number;
+  userRating: number;
+}
+
+interface UserMovieStore {
+  userMovies: UserMovie[];
+
+  // setMovies({ id, userRating }: UserMovie): void;
+
+  get(id: number): UserMovie;
+  add({ id, userRating }: UserMovie): void;
+  update({ id, userRating }: UserMovie): void;
 }

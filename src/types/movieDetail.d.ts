@@ -71,5 +71,5 @@ type MovieDetail = Pick<
 
 type MovieDetailProps = Pick<
   MovieDetail,
-  'genres' | 'overview' | 'vote_average'
+  'genres' | 'overview' | 'vote_average' | 'id'
 >;

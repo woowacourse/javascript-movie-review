@@ -9,6 +9,7 @@ import {
 
 import emptyStar from '../../../statics/images/star_empty.png';
 import filledStar from '../../../statics/images/star_filled.png';
+import UserMovieStore from '../../../stores/userMovieStore';
 
 const { container, label, board, icon, score, description } =
   SELECTORS.STAR_RATING;
@@ -64,8 +65,10 @@ const createContainer = () => {
   return $container;
 };
 
-const StarRating = ({ initialScore = 0 }: { initialScore: number }) => {
-  let curScore: number = initialScore;
+// score를 보내는 게 아니라 id를 보내서
+const StarRating = ({ id }: { id: number }) => {
+  const { userRating: initialScore } = UserMovieStore.get(id);
+  let curScore = initialScore;
 
   const $container = createContainer();
   const $label = createLabel();
@@ -117,12 +120,14 @@ const StarRating = ({ initialScore = 0 }: { initialScore: number }) => {
     const target = e.target as HTMLElement;
     if (!target) return;
 
-    const newScore = target.getAttribute('data-score');
-    if (!newScore) return;
+    const starScore = target.getAttribute('data-score');
+    if (!starScore) return;
 
     if (target.className === icon) {
-      curScore = Number(newScore) * SCORE_GAP;
+      curScore = Number(starScore) * SCORE_GAP;
       rerenderStarRating(curScore);
+
+      UserMovieStore.add({ id, userRating: curScore });
     }
   });
 

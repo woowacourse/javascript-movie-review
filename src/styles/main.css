@@ -11,6 +11,10 @@
   /* responsive */
   --mobile-size: 768px;
   --tablet-size: 1024px;
+
+  /* z-index */
+  --modal-index: 1000;
+  --search-input-index: 800;
 }
 
 * {
@@ -38,6 +42,13 @@ button {
 
 *:focus {
   outline: none;
+}
+
+.box-skeleton {
+  animation: skeleton-animation 5s infinite ease-out;
+  border-radius: 8px;
+  background: linear-gradient(-90deg, #4a4a4a, #595959, #4a4a4a, #595959);
+  background-size: 400%;
 }
 
 @keyframes skeleton-animation {

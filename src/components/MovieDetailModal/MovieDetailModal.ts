@@ -13,11 +13,13 @@ import MoviePoster from '../MoviePoster/MoviePoster';
 const { MODAL, MOVIE_DETAIL_MODAL } = SELECTORS;
 
 const createMovieDetail = ({
+  id,
   genres,
   vote_average,
   overview,
-}: Pick<MovieDetail, 'genres' | 'vote_average' | 'overview'>) => {
+}: Pick<MovieDetail, 'genres' | 'vote_average' | 'overview' | 'id'>) => {
   const $movieDetail = MovieDetail({
+    id,
     genres,
     vote_average,
     overview,
@@ -65,13 +67,14 @@ const MovieDetailModal = (id: number) => {
   const $body = createBody();
 
   const onSuccess = (data: MovieDetailResponse) => {
-    const { genres, overview, poster_path, title, vote_average } =
+    const { genres, overview, poster_path, title, vote_average, id } =
       processMovieDetailResponse(data);
 
     $header.textContent = title;
 
     const $poster = createPoster({ title, poster_path });
     const $movieDetail = createMovieDetail({
+      id,
       genres,
       vote_average,
       overview,

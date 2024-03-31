@@ -65,7 +65,12 @@ const createContainer = () => {
   return $container;
 };
 
-const MovieDetail = ({ genres, vote_average, overview }: MovieDetailProps) => {
+const MovieDetail = ({
+  id,
+  genres,
+  vote_average,
+  overview,
+}: MovieDetailProps) => {
   const $container = createContainer();
 
   const $div = document.createElement('div');
@@ -75,7 +80,7 @@ const MovieDetail = ({ genres, vote_average, overview }: MovieDetailProps) => {
 
   const $overview = createOverview({ overview });
 
-  const $starRating = StarRating({ initialScore: 0 }).render();
+  const $starRating = StarRating({ id }).render();
 
   const render = () => {
     $header.appendChild($genres);
