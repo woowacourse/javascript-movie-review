@@ -31,7 +31,7 @@ class MovieDetailWithRating {
   }) {
     const {
       thumbnailSrc = "",
-      genres: genre,
+      genres,
       rating,
       description,
       setRatingAction = (rating: number) => {},
@@ -39,8 +39,9 @@ class MovieDetailWithRating {
     } = option ?? {};
 
     const thumbnail = new MovieThumbnail(thumbnailSrc, "썸네일");
+    thumbnail.element.classList.add("movie-thumbnail");
     const movieDescription = new MovieDescription({
-      genre,
+      genres,
       rating,
       description,
     });
@@ -48,11 +49,12 @@ class MovieDetailWithRating {
       userRating,
       setRatingAction
     );
-    this.element.append(
-      thumbnail.element,
-      movieDescription.element,
-      ratingContainer
-    );
+
+    const notPosterContainer = createElement("section", {
+      attrs: { class: "movie-detail-with-rating__not-poster-container" },
+    });
+    notPosterContainer.append(movieDescription.element, ratingContainer);
+    this.element.append(thumbnail.element, notPosterContainer);
   }
 
   #createRatingContainer(
@@ -83,7 +85,7 @@ class MovieDetailWithRating {
   }
 
   #getRatingMsg(rating: Rating) {
-    return `${rating.padEnd(2, "  ")}${RATING_MESSAGES[rating]}`;
+    return `${rating.padEnd(3, "  ")}${RATING_MESSAGES[rating]}`;
   }
 }
 

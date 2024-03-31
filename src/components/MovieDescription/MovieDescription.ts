@@ -7,17 +7,17 @@ class MovieDescription {
   element = createElement("section", { attrs: { class: "movie-description" } });
 
   constructor(option?: {
-    genre?: string[];
+    genres?: string[];
     rating?: number;
     description?: string;
   }) {
     const {
-      genre = ["없음"],
+      genres = ["장르 없음"],
       rating = 0,
       description = "제시된 설명이 없습니다.",
     } = option ?? {};
     const genreRatingParagraph = this.#createGenreRatingParagraph(
-      genre,
+      genres,
       rating
     );
     this.element.append(genreRatingParagraph, description);

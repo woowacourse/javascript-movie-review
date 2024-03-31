@@ -16,19 +16,25 @@ class MovieList {
   element = createElement("div");
   #title;
   #fetchFunc: () => Promise<{ movieInfos: MovieInfo[]; isLastPage: boolean }>;
-  #moviePosterBoard = new MoviePosterBoard();
+  #moviePosterBoard;
   #posterBoardSkeleton = createMoviePosterBoardSkeleton();
   #seeMoreButton = this.#createSeeMoreButton();
   #networkFallBack = createNetworkFallback(
     this.#seeMoreButton.element.click.bind(this.#seeMoreButton.element)
   );
+  #itemClickAction;
 
   #observer;
   #debounce: NodeJS.Timeout | null = null;
 
-  constructor(title: string, fetchFunc: () => Promise<fetchPromiseT>) {
+  constructor(
+    title: string,
+    fetchFunc: () => Promise<fetchPromiseT>,
+    itemClickAction: (id: string) => void
+  ) {
     this.#observer = this.#createObserver();
-
+    this.#itemClickAction = itemClickAction;
+    this.#moviePosterBoard = new MoviePosterBoard();
     const section = createElement("section", { attrs: { class: "item-view" } });
     this.#title = new SubTitle(title);
     section.append(
@@ -51,8 +57,6 @@ class MovieList {
     this.#moviePosterBoard.deleteMoviePosters();
 
     hideElement(this.#networkFallBack);
-
-    // this.#seeMoreButton.element.click();
   }
 
   #setFetchFunc(fetchFunc: () => Promise<fetchPromiseT>) {
@@ -112,7 +116,10 @@ class MovieList {
       hideElement(this.#seeMoreButton.element);
       this.#fetchFunc()
         .then(({ movieInfos, isLastPage }) => {
-          this.#moviePosterBoard.addMoviePosters(movieInfos);
+          this.#moviePosterBoard.addMoviePosters(
+            movieInfos,
+            this.#itemClickAction.bind(this.#itemClickAction)
+          );
 
           if (isLastPage) hideElement(this.#seeMoreButton.element);
           else revealElement(this.#seeMoreButton.element);

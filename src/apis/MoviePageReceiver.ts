@@ -2,6 +2,7 @@ interface MovieInfo {
   title: string;
   imgSrc: string;
   rating: number;
+  id: string;
 }
 
 interface MoviePage {
@@ -20,7 +21,7 @@ interface MovieInfoInPage {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
-  id: number;
+  id: string;
   original_language: string;
   original_title: string;
   overview: string;
@@ -43,6 +44,7 @@ interface MovieDetail {
 class MoviePageReceiver {
   #popularPage = 1;
   #posterSrcHeader = `https://image.tmdb.org/t/p/w220_and_h330_face/`;
+  #posterOriginSrcHeader = "https://image.tmdb.org/t/p/original/";
   #popularUrlHeader =
     "https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=";
   #options = {
@@ -100,9 +102,8 @@ class MoviePageReceiver {
   }
 
   #getMovieDetail(obj: any): MovieDetail {
-    console.log(obj);
     const title = obj.title;
-    const posterSrc = this.#posterSrcHeader + obj.poster_path;
+    const posterSrc = this.#posterOriginSrcHeader + obj.poster_path;
     const genres = obj.genres?.map((genre: any) => genre.name) ?? ["장르 없음"];
     const rating = obj.vote_average;
     const description = obj.overview;
@@ -122,6 +123,7 @@ class MoviePageReceiver {
         title: result.title,
         imgSrc: this.#posterSrcHeader + result.poster_path,
         rating: result.vote_average,
+        id: result.id,
       };
     });
   }

@@ -13,7 +13,6 @@ class StorageInterface {
 
   setMovieInfo(movieId: string, movieInfo: MovieInfo) {
     const movieInfos = this.#getMovieInfos();
-    console.log(movieInfos);
 
     movieInfos[movieId] = movieInfo;
     this.#storage.setItem("movieInfos", JSON.stringify(movieInfos));

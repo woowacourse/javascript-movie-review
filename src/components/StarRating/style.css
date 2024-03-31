@@ -3,16 +3,17 @@
 }
 
 .star-rating__empty-icon {
-  width : 1.5rem;
-  height: 1.5rem;
+  width : 32px;
+  height: 32px;
 }
 
 .star-rating__filled-icon {
-  width : 1.5rem;
-  height: 1.5rem;
+  width : 32px;
+  height: 32px
 }
 
 .star-rating {
+  height : 32px;
   display: flex;
 
   flex-direction: row;

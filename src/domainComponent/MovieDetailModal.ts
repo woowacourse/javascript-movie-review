@@ -1,11 +1,13 @@
 import HeaderModal from "../components/HeaderModal/HeaderModal";
 import MovieDetailWithRating from "../components/MovieDetailWithRating/MovieDetailWithRating";
 import MoviePageReceiver from "../apis/MoviePageReceiver";
+import StorageInterface from "../storage/StorageInterface";
 import createNetworkFallback from "../components/NetworkErrorFallBack/createNetworkErrorFallback";
 
 class MovieDetailModal extends HeaderModal {
   #movieDetail;
   #fetchFunc;
+  #storage = new StorageInterface();
   constructor(option?: {
     title?: string | undefined;
     closeAction?: ((event?: Event | undefined) => void) | undefined;
@@ -24,12 +26,22 @@ class MovieDetailModal extends HeaderModal {
   }
 
   setMovieDetail(movieId: string) {
+    this.replaceContents();
+    this.setTitle("");
+    //skeleton
     this.#fetchFunc(movieId)
       .then((movieDetail) => {
         this.setTitle(movieDetail.title);
         this.#movieDetail = new MovieDetailWithRating({
           ...movieDetail,
           thumbnailSrc: movieDetail.posterSrc,
+          userRating:
+            this.#storage.getMovieInfo(movieId)?.userRating.toString() ?? "0",
+          setRatingAction: (rating: number) => {
+            this.#storage.setMovieInfo.bind(this.#storage)(movieId, {
+              userRating: rating,
+            });
+          },
         });
         this.replaceContents(this.#movieDetail.element);
       })

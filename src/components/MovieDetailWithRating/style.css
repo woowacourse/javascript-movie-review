@@ -1,7 +1,7 @@
 .movie-detail-with-rating {
   padding: 3vh;
   width  : 826px;
-  height : 500px;
+  height : 517px;
 
   display        : flex;
   flex-direction : column;
@@ -9,28 +9,46 @@
   justify-content: space-between
 }
 
-.movie-detail-with-rating>div {
+.movie-detail-with-rating>.movie-thumbnail {
   margin-right: 30px;
   height      : 433px;
   width       : 292px;
 }
 
-.movie-detail-with-rating>div>.item-thumbnail {
+.movie-detail-with-rating>.movie-thumbnail>.item-thumbnail {
   height: 433px;
   width : 292px;
 }
 
-.movie-detail-with-rating>div>.item-thumbnail.visibility-hidden-no-position {
+.movie-detail-with-rating__not-poster-container {
+  height         : 433px;
+  width          : 438px;
+  display        : flex;
+  flex-direction : column;
+  justify-content: space-between;
+}
+
+.movie-detail-with-rating>.movie-thumbnail>.item-thumbnail.visibility-hidden-no-position {
   width : 0px !important;
   height: 0px !important;
 }
 
+
 .movie-detail-with-rating__rating-container {
+  width        : 438px;
+  height       : 64px;
+  top          : 465px;
+  left         : 356px;
+  padding      : 0px;
+  gap          : 12px;
+  border-radius: 16px;
 
-  height: 2rem;
-  width : 40rem;
+  opacity   : 0px;
+  background: #383839;
 
-  display       : flex;
-  flex-direction: row;
-  align-items   : center;
+
+  display        : flex;
+  flex-direction : row;
+  align-items    : center;
+  justify-content: center;
 }

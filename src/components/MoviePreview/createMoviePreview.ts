@@ -8,6 +8,7 @@ export interface MovieInfo {
   title: string;
   imgSrc: string;
   rating: number;
+  id: string;
 }
 
 class MoviePreview {

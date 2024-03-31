@@ -6,9 +6,13 @@ import MoviePageReceiver from "../apis/MoviePageReceiver";
 class MovieReviewMain {
   elements: HTMLElement[];
   #header;
-  #movieListController = new MovieList("지금 인기있는 영화", async () => {
-    return { movieInfos: [], isLastPage: false };
-  });
+  #movieListController = new MovieList(
+    "지금 인기있는 영화",
+    async () => {
+      return { movieInfos: [], isLastPage: false };
+    },
+    this.#itemClickEvent.bind(this)
+  );
   #moviePageReceiver = new MoviePageReceiver();
   #modal = new MovieDetailModal();
 
@@ -19,8 +23,7 @@ class MovieReviewMain {
       this.#movieListController.element,
       this.#modal.element,
     ];
-    this.#modal.open();
-    this.#modal.setMovieDetail("1011985");
+
     this.#header.goHome();
   }
 
@@ -42,6 +45,11 @@ class MovieReviewMain {
     });
 
     return header;
+  }
+
+  #itemClickEvent(id: string) {
+    this.#modal.open();
+    this.#modal.setMovieDetail(id);
   }
 }
 
