@@ -7,7 +7,7 @@ export function handleCloseModal() {
   if (!$modal) return;
   $modal.remove();
 
-  document.body.style.overflow = "";
+  document.body.classList.remove("modal-open");
 }
 
 const $CloseButtonImg = createElementWithAttribute("img", {

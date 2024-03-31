@@ -259,6 +259,10 @@ button.primary {
 
 /* modal */
 
+.modal-open {
+  overflow: hidden;
+}
+
 .modal-backdrop {
   position: fixed;
   top: 0;

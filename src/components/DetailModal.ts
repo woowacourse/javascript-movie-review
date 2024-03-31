@@ -93,7 +93,7 @@ const closeModal = () => {
 };
 
 const DetailModal = async (movie: Movie) => {
-  document.body.style.overflow = "hidden";
+  document.body.classList.add("modal-open");
   const $modal = createElementWithAttribute("div", { class: "detail-modal" });
   const $modalBackdrop = createElementWithAttribute("div", {
     class: "modal-backdrop",
