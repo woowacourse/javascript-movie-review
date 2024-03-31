@@ -28,8 +28,7 @@ function createNewModal() {
 function getClearModal() {
   const originalModal = document.getElementById('movie-detail-modal') as HTMLDialogElement;
   if (!originalModal) {
-    const newModal = createNewModal();
-    return newModal;
+    return createNewModal();
   }
   originalModal.innerHTML = '';
   return originalModal;
