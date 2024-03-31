@@ -63,12 +63,9 @@ const createCard = ({
 
 const createMovieItem = (movie: MovieItem) => {
   const $li = document.createElement('li');
-  const $anchor = document.createElement('a');
-  $anchor.href = '#';
   const $card = createCard(movie);
 
-  $anchor.appendChild($card);
-  $li.appendChild($anchor);
+  $li.appendChild($card);
 
   return $li;
 };
