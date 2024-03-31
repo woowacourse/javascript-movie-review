@@ -21,8 +21,10 @@ class MovieList {
   #movieListSection;
   #popularCurrentPage = 1;
   #searchCurrentPage = 1;
+  #movieModal: MovieModal;
 
   constructor() {
+    this.#movieModal = new MovieModal();
     this.#movieTitle = '';
     this.#movieID = 0;
     this.#movieListSection = $('.item-view') as Element;
@@ -30,6 +32,7 @@ class MovieList {
     this.#createPopularMoviesSection();
     this.#renderPopularMovieItems();
     this.#setupSearchFormSubmit();
+    this.#movieModal.createMovieModalSection();
   }
 
   #createPopularMoviesSection() {
@@ -178,8 +181,7 @@ class MovieList {
   async #renderMovieDetailModal(movieID: number) {
     try {
       const data = await this.#getMovieDetailData(movieID);
-      const movieModal = new MovieModal();
-      movieModal.setMovieModalItem(data);
+      this.#movieModal.setMovieModalItem(data);
     } catch (error) {
       this.#handleError(error as Error);
     }

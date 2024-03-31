@@ -16,7 +16,7 @@ class MovieReviewApp {
   }
 
   #renderMovieReviewMain() {
-    const movieList = new MovieList();
+    new MovieList();
   }
 
   render() {

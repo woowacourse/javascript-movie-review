@@ -12,16 +12,13 @@ const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w220_and_h330_face';
 
 class MovieModal {
   constructor() {
-    this.#createMovieModalSection();
-    this.#createMovieModalItem();
-    this.#setModalDelete();
     this.#handleMyVoteButtonClick();
   }
 
-  #createMovieModalSection() {
+  createMovieModalSection() {
     const movieListSectionElement = $('.item-view') as Element;
     const modalElement = createElement('div', {
-      class: 'modal modal-open',
+      class: 'modal modal-close',
     });
     const modalBackDropElement = createElement('div', {
       class: 'modal-backdrop',
@@ -34,6 +31,8 @@ class MovieModal {
     modalBackDropElement.appendChild(modalContainerElement);
 
     movieListSectionElement.appendChild(modalElement);
+
+    this.#createMovieModalItem();
   }
 
   #createMovieModalItem() {
@@ -154,15 +153,26 @@ class MovieModal {
     modalContainerElement?.appendChild(headerElement);
     modalContainerElement?.appendChild(contentElement);
 
+    this.#setModalState();
+
     return modalContainerElement;
   }
 
-  #setModalDelete() {
-    const cancelElement = $('.modal-cancel-button');
-    if (cancelElement) {
-      cancelElement.addEventListener('click', () => {
-        const modalElement = $('.modal');
-        if (modalElement) modalElement.remove();
+  #setModalState() {
+    const movieItemULElement = $('.item-list');
+    const modalCancelButtonElement = $('.modal-cancel-button');
+    const modalElement = $('.modal') as HTMLDivElement;
+
+    if (movieItemULElement) {
+      movieItemULElement.addEventListener('click', () => {
+        modalElement?.classList.add('modal-open');
+        modalElement?.classList.remove('modal-close');
+      });
+    }
+    if (modalCancelButtonElement) {
+      modalCancelButtonElement.addEventListener('click', () => {
+        modalElement?.classList.add('modal-close');
+        modalElement?.classList.remove('modal-open');
       });
     }
   }
