@@ -1,5 +1,5 @@
 // Import necessary dependencies and constants
-import { fetchPopularMovieList, fetchSearchMovieList } from '../../apis/fetchData';
+import { fetchPopularMovieList, fetchSearchMovieList } from '../../apis/getMovieData';
 import { LAST_PAGE, VIEW_TYPE } from '../../constants/constant';
 import { ViewType } from '../../interface/Movie';
 import view from '../../view/view';
@@ -8,6 +8,7 @@ import Skeleton from '../skeleton/skeleton';
 class MovieListWrapper {
   #currentPage;
   #isLoading;
+
   #title;
   #viewType;
   #inputValue;
@@ -33,21 +34,21 @@ class MovieListWrapper {
     itemList.innerHTML = Skeleton();
 
     const endList = document.createElement('div');
-    endList.className = 'end-list'
+    endList.className = 'end-list';
 
     itemView.append(title, itemList, endList);
 
-    this.setupIntersectionObserver()
+    this.setupIntersectionObserver();
   }
 
   setupIntersectionObserver() {
-    const endList = document.querySelector('.end-list');
-
     const option = {
       root: null,
       rootMargin: '0px 0px 0px 0px',
       threshold: 0,
     };
+
+    const endList = document.querySelector('.end-list');
 
     const onIntersect = async (entries) => {
       entries.forEach(async entry => {
@@ -84,7 +85,7 @@ class MovieListWrapper {
   }
 
   plusPage() {
-    this.#currentPage++
+    this.#currentPage++;
   }
   
   hasNextPage(totalPages) {

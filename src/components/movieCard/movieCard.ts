@@ -45,8 +45,10 @@ const render = (movie: Movie) => {
 
   list.addEventListener('click', () => {
     const main = document.querySelector('main');
+    if (!main) return;
+
     const movieDetailModal = new MovieDetailModal(movie.id);
-    main?.appendChild(movieDetailModal.element);
+    main.appendChild(movieDetailModal.element);
     movieDetailModal.open();
   });
 

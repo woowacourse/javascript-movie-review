@@ -1,5 +1,5 @@
 import Modal from '../modal/Modal';
-import { fetchMovieDetail } from '../../apis/fetchData';
+import { fetchMovieDetail } from '../../apis/getMovieData';
 import closeIcon from '../../images/close_icon.png';
 import emptyPng from '../../images/empty_poster.png';
 import filledStar from '../../images/star_filled.png';
@@ -26,7 +26,7 @@ class MovieDetailModal extends Modal {
     const movieDetailContent = new MovieDetailContent(this.#movie);
     this.setContent(movieDetailContent.render());
 
-    this.manageCloseModal();
+    this.manageModalClose();
     this.manageUserVote();
   }
 
@@ -35,7 +35,7 @@ class MovieDetailModal extends Modal {
     return existingMovie ? existingMovie.userVote : 0;
   }
 
-  manageCloseModal() {
+  manageModalClose() {
     document.addEventListener('keydown', event => {
       if (event.key === 'Escape') this.close();
     });
@@ -59,6 +59,7 @@ class MovieDetailModal extends Modal {
         const clickedIndex = Array.from(starsContainer.children).indexOf(target);
         const userVote = (clickedIndex + 1) * 2;
         this.#movie.userVote = this.#movie.userVote === userVote ? 0 : userVote;
+
         this.renderUserVote(starsContainer, voteNumber, voteText);
         this.updateUserMovie();
       }
