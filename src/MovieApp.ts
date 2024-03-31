@@ -37,6 +37,7 @@ class MovieApp {
     this.#movieController.render('');
 
     window.addEventListener('resize', this.#onResize());
+    document.addEventListener('click', (event) => this.#onCloseSearchBar(event));
   }
 
   #setHeader() {
@@ -74,6 +75,17 @@ class MovieApp {
 
       if (window.innerWidth > RULES.mobileThresholdWidth) searchBox.style.width = '';
     }, 300);
+  }
+
+  #onCloseSearchBar(event: Event) {
+    const target = event.target as HTMLElement;
+    const searchBox = $('.search-box') as HTMLElement;
+    const title = $('.title') as HTMLElement;
+
+    if (target.closest('.search-box')) return;
+
+    searchBox.style.width = '';
+    title.classList.remove('visibility-hidden', 'prevent-pointer-event');
   }
 
   #onSearchHandler() {

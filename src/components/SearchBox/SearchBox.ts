@@ -35,6 +35,7 @@ const SearchBox = ({ searchHandler }: Props) => {
   searchBox.appendChild(searchButton);
 
   searchButton.addEventListener('click', (event: MouseEvent) => {
+    event.stopPropagation();
     const searchInput = $('#search-text') as HTMLInputElement;
     const searchBox = $('.search-box') as HTMLInputElement;
     const title = $('.title') as HTMLElement;
