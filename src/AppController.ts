@@ -18,7 +18,6 @@ class AppController {
     const inputSubmitHandler = async (inputValue: string) => {
       const input: HTMLInputElement | null = document.querySelector('header .search-box > input');
       if (!input) return;
-      console.log(input.offsetWidth);
       if (input.offsetWidth === 0) {
         document.querySelector('header h1')?.classList.add('clicked-logo');
         document.querySelector('header > .search-box')?.classList.add('clicked-form');
