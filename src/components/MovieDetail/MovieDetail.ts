@@ -17,7 +17,9 @@ const {
 const createOverview = ({ overview }: Pick<MovieDetailProps, 'overview'>) => {
   const $overview = document.createElement('p');
   $overview.classList.add(SELECTORS.MOVIE_DETAIL.overview);
-  $overview.textContent = overview;
+
+  if (overview === '') $overview.textContent = '줄거리 정보가 없어요. 🥲';
+  else $overview.textContent = overview;
 
   return $overview;
 };
