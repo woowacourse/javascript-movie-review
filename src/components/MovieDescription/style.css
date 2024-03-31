@@ -1,0 +1,22 @@
+.movie-description {
+  width: 50vw;
+}
+
+.movie-description__genre-rating {
+  display: block;
+
+  font-family   : Roboto;
+  font-size     : 1rem;
+  font-weight   : 400;
+  line-height   : 1rem;
+  letter-spacing: 0.5px;
+  text-align    : left;
+
+  margin-bottom: 2rem;
+}
+
+.movie-description__genre-rating>img {
+  margin-left: 2rem;
+  width      : 1rem;
+  height     : 1rem;
+}

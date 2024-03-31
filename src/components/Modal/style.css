@@ -11,8 +11,7 @@
   left    : 0;
   right   : 0;
   margin  : auto;
-  height  : 40vw;
-  width   : 80vw;
+  display : table;
 
   padding         : 0px;
   border-radius   : 8px;
