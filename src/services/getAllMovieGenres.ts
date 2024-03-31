@@ -2,19 +2,11 @@ import { API_ENDPOINT, API_OPTION } from '../constants/api/api';
 import { MovieGenre } from '../types/movie';
 import { api } from '../api';
 
-const getAllGenres = async () => {
-  const res = await api.sendRequest(API_ENDPOINT.GENRE, {
-    headers: API_OPTION.headers,
-  });
-
-  const data = res.json();
-
-  return data;
-};
-
 /*eslint-disable max-lines-per-function */
 const getTargetMovieAllGenres = async (genreIds: number[]) => {
-  const allGenres = await getAllGenres();
+  const allGenres = await await api.sendRequest(API_ENDPOINT.GENRE, {
+    headers: API_OPTION.headers,
+  });
 
   const targetGenres = genreIds
     .map((id) => {
