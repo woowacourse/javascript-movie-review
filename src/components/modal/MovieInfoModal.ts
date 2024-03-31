@@ -17,7 +17,6 @@ class MovieInfoModal {
     this.#renderMovieInfoModal();
   }
 
-  //make element
   #makeMovieInfoModal() {
     const $movieInfoModal = createElementWithAttribute('div', {
       class: MOVIE_INFO_COMMON_CLASS,
@@ -48,11 +47,8 @@ class MovieInfoModal {
       class: `${MOVIE_INFO_COMMON_CLASS}__inner`,
     });
 
-    const $header = this.#makeHeader();
-    const $movieInfoContents = this.#makeMovieInfoContents();
-
-    $movieInfoInner.appendChild($header);
-    $movieInfoInner.appendChild($movieInfoContents);
+    $movieInfoInner.appendChild(this.#makeHeader());
+    $movieInfoInner.appendChild(this.#makeMovieInfoContents());
 
     return $movieInfoInner;
   }
@@ -62,10 +58,10 @@ class MovieInfoModal {
       class: `${MOVIE_INFO_COMMON_CLASS}__inner__contents`,
     });
 
-    const $movieImg = new MovieImg({ ...this.#movieInfo }).element;
-    const $movieDescription = this.#makeMovieDescription();
-    $movieInfoContents.appendChild($movieImg);
-    $movieInfoContents.appendChild($movieDescription);
+    $movieInfoContents.appendChild(
+      new MovieImg({ ...this.#movieInfo }).element,
+    );
+    $movieInfoContents.appendChild(this.#makeMovieDescription());
 
     return $movieInfoContents;
   }
@@ -74,10 +70,9 @@ class MovieInfoModal {
     const $h2 = createElementWithAttribute('div', {
       class: `${MOVIE_INFO_COMMON_CLASS}__inner__header`,
     });
-    const $movieTitle = new MovieTitle(this.#movieInfo.title).element;
-    const $closeButton = new ModalCloseButton().element;
-    $h2.appendChild($movieTitle);
-    $h2.appendChild($closeButton);
+
+    $h2.appendChild(new MovieTitle(this.#movieInfo.title).element);
+    $h2.appendChild(new ModalCloseButton().element);
 
     return $h2;
   }
@@ -86,13 +81,10 @@ class MovieInfoModal {
     const $description = createElementWithAttribute('div', {
       class: `${MOVIE_INFO_COMMON_CLASS}__description`,
     });
-    const $top = this.#makeMovieDescriptionTop();
-    const $overView = this.#makeMovieDescriptionOverView();
-    const $userScore = new UserScore(this.#movieInfo.id).element;
 
-    $description.appendChild($top);
-    $description.appendChild($overView);
-    $description.appendChild($userScore);
+    $description.appendChild(this.#makeMovieDescriptionTop());
+    $description.appendChild(this.#makeMovieDescriptionOverView());
+    $description.appendChild(new UserScore(this.#movieInfo.id).element);
 
     return $description;
   }
@@ -126,7 +118,7 @@ class MovieInfoModal {
   #renderMovieInfoModal() {
     new ModalContainer({
       $children: this.#element,
-      isDeletePreviousModal: false,
+      isKeepExistingModal: true,
     });
     ModalContainerController.changePosition();
   }

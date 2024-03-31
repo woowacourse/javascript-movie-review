@@ -1,4 +1,5 @@
 import { IMAGE_URL } from '../../config';
+import { MOVIE_CHILDREN_CLASS } from '../../constants';
 import noImg from '../../images/no_image.svg';
 import { createElementWithAttribute } from '../../utils';
 
@@ -24,7 +25,7 @@ class MovieImg {
 
   #makeMovieImg(props: MovieImgProps) {
     const $img = createElementWithAttribute<HTMLImageElement>('img', {
-      class: 'movie-thumbnail',
+      class: MOVIE_CHILDREN_CLASS.thumbnail,
       src: this.#getImgSrc(props.poster_path),
       loading: 'lazy',
       alt: `${props.title} 포스터`,

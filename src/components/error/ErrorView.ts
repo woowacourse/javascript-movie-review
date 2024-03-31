@@ -12,28 +12,30 @@ class ErrorView {
 
   #makeErrorView(props: ErrorBoxProps) {
     const $errorView = document.createElement('div');
-    const $errorBox = new ErrorBox(props).element;
-    const $retryButton = new RefreshButton().element;
-
     $errorView.classList.add('error-view');
-    $errorView.appendChild($errorBox);
-    $errorView.appendChild($retryButton);
+
+    $errorView.appendChild(new ErrorBox(props).element);
+    $errorView.appendChild(new RefreshButton().element);
 
     return $errorView;
   }
 
   renderErrorViewInMain() {
     const $main = ElementFinder.findElementBySelector('main');
-    $main?.appendChild(this.#element);
+
+    if (!$main) return;
+
+    $main.appendChild(this.#element);
   }
 
   renderErrorViewInModal() {
     const $inner = createElementWithAttribute('div', {
       class: 'movie-info-error',
     });
-    const $modalCloseButton = new ModalCloseButton().element;
-    $inner.appendChild($modalCloseButton);
+
+    $inner.appendChild(new ModalCloseButton().element);
     $inner.appendChild(this.#element);
+
     new ModalContainer({
       $children: $inner,
     });

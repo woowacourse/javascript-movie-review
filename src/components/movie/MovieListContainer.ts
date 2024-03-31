@@ -1,3 +1,4 @@
+import { MOVIE_LIST_CONTAINER_CLASS } from '../../constants';
 import { ListType, Movie, MovieData } from '../../type/movie';
 import { createElementWithAttribute, ElementFinder } from '../../utils';
 
@@ -24,9 +25,10 @@ class MovieListContainer {
   #makeSection = (props: SectionProps) => {
     const { titleText, movieList, listType, isMoreData } = props;
     const $section = createElementWithAttribute('section', {
-      class: 'movie-list-container',
+      class: MOVIE_LIST_CONTAINER_CLASS,
       name: listType,
     });
+
     $section.appendChild(new MovieListTitle(titleText).element);
     $section.appendChild(new MovieList(movieList, isMoreData).element);
 
@@ -36,6 +38,7 @@ class MovieListContainer {
   #renderMovieListContainer = (props: MovieListContainerProps) => {
     const $main = ElementFinder.findElementBySelector('main');
     if (!$main) return;
+
     const $section = this.#makeSection({
       ...props,
       ...props.movieData,

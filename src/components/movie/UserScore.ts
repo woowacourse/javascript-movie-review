@@ -8,6 +8,7 @@ import {
   ElementFinder,
 } from '../../utils';
 
+// 상수
 const FILLED_CLASS = 'filled';
 const SCORE_TEXT_MAP = new Map([
   [0, '별점을 남겨주세요.'],
@@ -18,7 +19,8 @@ const SCORE_TEXT_MAP = new Map([
   [10, '명작이에요.'],
 ]);
 const STAR_BUTTON_NAME_PREFIX = 'star_';
-
+const TOTAL_START_LENGTH = 5;
+const STAR_SCORE_INCREMENT = 2;
 class UserScore {
   #movieId: number;
   #element: HTMLElement;
@@ -50,15 +52,19 @@ class UserScore {
     const $userScore = createElementWithAttribute('section', {
       class: 'user-score',
     });
-    const $h4 = document.createElement('h4');
-    $h4.textContent = '내 별점';
-    const $scoreArea = this.#makeScoreArea();
-    const $resetButton = this.#makeResetButton();
-    $userScore.appendChild($h4);
-    $userScore.appendChild($scoreArea);
-    $userScore.appendChild($resetButton);
+
+    $userScore.appendChild(this.#makeScoreHeader());
+    $userScore.appendChild(this.#makeScoreArea());
+    $userScore.appendChild(this.#makeResetButton());
 
     return $userScore;
+  }
+
+  #makeScoreHeader() {
+    const $h4 = document.createElement('h4');
+    $h4.textContent = '내 별점';
+
+    return $h4;
   }
 
   #makeResetButton() {
@@ -95,11 +101,11 @@ class UserScore {
     const $scoreArea = createElementWithAttribute('div', {
       class: 'score-area',
     });
-    const $starBox = this.#makeButtonGroup();
+
+    $scoreArea.appendChild(this.#makeButtonGroup());
+    $scoreArea.appendChild(this.#makeScoreNumber());
+
     const $scoreText = this.#makeScoreText();
-    const $scoreNumber = this.#makeScoreNumber();
-    $scoreArea.appendChild($starBox);
-    $scoreArea.appendChild($scoreNumber);
     if ($scoreText) {
       $scoreArea.appendChild($scoreText);
     }
@@ -112,6 +118,7 @@ class UserScore {
       class: 'score-number',
     });
     $scoreNumber.textContent = this.#score.toString();
+
     return $scoreNumber;
   }
 
@@ -120,11 +127,14 @@ class UserScore {
       class: 'score-text',
     });
     const text = SCORE_TEXT_MAP.get(this.#score);
+
     if (!text) {
       console.error(NOT_SCORE_TEXT);
       return;
     }
+
     $scoreText.textContent = text;
+
     return $scoreText;
   }
 
@@ -132,16 +142,20 @@ class UserScore {
     const $buttonGroup = createElementWithAttribute('div', {
       class: 'button-score-group',
     });
-    const TOTAL_START_LENGTH = 5;
-    const filledStartLength = this.#score ? this.#score / 2 : 0;
+
+    const numberOfFilledStar = this.#getNumberOfFilledStar();
 
     Array.from({ length: TOTAL_START_LENGTH }).forEach((_, index) => {
-      const isFilled = index + 1 <= filledStartLength;
+      const isFilled = index + 1 <= numberOfFilledStar;
       const $btn = this.#makeSoreButton(isFilled, index);
       $buttonGroup.appendChild($btn);
     });
 
     return $buttonGroup;
+  }
+
+  #getNumberOfFilledStar() {
+    return this.#score ? this.#score / STAR_SCORE_INCREMENT : 0;
   }
 
   #makeSoreButton(isFilled: boolean, index: number) {
@@ -169,11 +183,16 @@ class UserScore {
     this.#score = newScore;
     // 변경된 score에 따라 scoreArea 변경
     this.#changeScoreArea();
-    // 변경된 score - 로컬 스토리지에 업데이트
-    const newScoreItem = this.#getNewScoreItem();
+    // 변경된 score 를 로컬 스토리지에 업데이트
+    const newScoreItem = this.#makeNewScoreItem();
     localStorageHandler.updateScoreData(newScoreItem);
   }
 
+  /**
+   * 클릭한 별에 따라서 변경되는 점수를 계산하는 함수
+   * @param target  클릭한 별
+   * @returns 변경된 점수
+   */
   #getNewScore(target: HTMLButtonElement) {
     const targetScore = Number(
       target.name.replace(STAR_BUTTON_NAME_PREFIX, ''),
@@ -184,13 +203,16 @@ class UserScore {
     return newScore;
   }
 
+  /**
+   * 변경된 점수에 따라 UI 변경
+   */
   #changeScoreArea() {
     const $currentScoreArea =
       ElementFinder.findElementBySelector('.score-area');
     if (!$currentScoreArea) return;
 
     const $parent = $currentScoreArea.parentElement;
-    if (!$currentScoreArea || !$parent) {
+    if (!$parent) {
       ElementFinder.renderAlertModalForNullEl('score-area parent');
       return;
     }
@@ -198,7 +220,10 @@ class UserScore {
     $parent.replaceChild(this.#makeScoreArea(), $currentScoreArea);
   }
 
-  #getNewScoreItem() {
+  /**
+   * 변경된 점수에 따라 로컬 스토리지에 변경되어야하는 데이터 생성
+   */
+  #makeNewScoreItem() {
     const changedScoreItem: LocalStorageUserScore = {
       id: this.#movieId,
       score: this.#score,

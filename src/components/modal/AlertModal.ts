@@ -19,6 +19,7 @@ class AlertModal {
 
   #handleClickAlertModalButton(event: Event) {
     event.stopPropagation();
+
     ModalContainerController.closeModalContainer();
   }
 
@@ -46,6 +47,7 @@ class AlertModal {
       $alertContentsElement,
       $button,
     });
+
     $alertModal.appendChild($alertModalInner);
 
     return $alertModal;

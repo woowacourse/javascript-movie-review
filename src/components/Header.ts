@@ -1,3 +1,4 @@
+import { MOVIE_LIST_CONTAINER_CLASS } from '../constants';
 import { dataStateStore, movieListDataFetcher } from '../model';
 import { createElementWithAttribute, ElementFinder } from '../utils';
 
@@ -25,7 +26,7 @@ const HeaderClickHandler = {
 
   private_removeMovieListContainer() {
     const $movieListContainer = ElementFinder.findElementBySelector(
-      '.movie-list-container',
+      `.${MOVIE_LIST_CONTAINER_CLASS}`,
     );
     if (!$movieListContainer) return;
 

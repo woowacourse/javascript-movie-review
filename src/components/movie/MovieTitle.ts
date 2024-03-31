@@ -1,4 +1,4 @@
-import { NONE_MOVIE_INFO } from '../../constants';
+import { MOVIE_CHILDREN_CLASS, NONE_MOVIE_INFO } from '../../constants';
 import { createElementWithAttribute } from '../../utils';
 
 class MovieTitle {
@@ -13,7 +13,9 @@ class MovieTitle {
   }
 
   #makeMovieTitle = (title: string | null) => {
-    const $title = createElementWithAttribute('p', { class: 'movie-title' });
+    const $title = createElementWithAttribute('p', {
+      class: MOVIE_CHILDREN_CLASS.title,
+    });
     $title.textContent = title || NONE_MOVIE_INFO.title;
 
     return $title;

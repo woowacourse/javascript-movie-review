@@ -1,3 +1,4 @@
+import { MOVIE_CHILDREN_CLASS } from '../../constants';
 import { Movie } from '../../type/movie';
 import { createElementWithAttribute } from '../../utils';
 
@@ -16,14 +17,13 @@ class MovieCard {
   }
 
   #renderMovieCard(movie: Movie) {
-    const $card = createElementWithAttribute('div', { class: 'movie-card' });
-    const $img = new MovieImg({ ...movie }).element;
-    const $title = new MovieTitle(movie.title).element;
-    const $score = new MovieScore(movie.vote_average).element;
+    const $card = createElementWithAttribute('div', {
+      class: MOVIE_CHILDREN_CLASS.card,
+    });
 
-    $card.appendChild($img);
-    $card.appendChild($title);
-    $card.appendChild($score);
+    $card.appendChild(new MovieImg({ ...movie }).element);
+    $card.appendChild(new MovieTitle(movie.title).element);
+    $card.appendChild(new MovieScore(movie.vote_average).element);
 
     return $card;
   }

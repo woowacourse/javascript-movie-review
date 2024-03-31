@@ -6,17 +6,18 @@ import {
 
 import ModalContainerController from './controller/ModalContainerController';
 
+const MODAL_CONTAINER_CLASS = 'modal-container';
 interface ModalContainerProps {
   $children: HTMLElement;
   onCloseExtraFunc?: () => void;
-  /**
-   * 이전에 열어 놓은 모달을 지울 것 인지 여부
-   */
-  isDeletePreviousModal?: boolean;
+  isKeepExistingModal?: boolean;
 }
 
 class ModalContainer {
+  #element: HTMLElement;
+
   constructor(props: ModalContainerProps) {
+    this.#element = this.#makeModalContainer(props);
     this.#renderModalContainer(props);
     ScrollController.preventScroll();
     ModalContainerController.handleKeyDownToCloseModal();
@@ -42,7 +43,7 @@ class ModalContainer {
     onCloseExtraFunc,
   }: ModalContainerProps) {
     const $modalContainerInner = createElementWithAttribute('div', {
-      class: 'modal-container__inner',
+      class: `${MODAL_CONTAINER_CLASS}__inner`,
     });
     $children.classList.add('modal');
     $modalContainerInner.appendChild(
@@ -53,20 +54,28 @@ class ModalContainer {
     return $modalContainerInner;
   }
 
+  #makeModalContainer(props: ModalContainerProps) {
+    const $modalContainer = createElementWithAttribute('div', {
+      class: MODAL_CONTAINER_CLASS,
+    });
+    $modalContainer.appendChild(this.#makeModalContainerInner(props));
+
+    return $modalContainer;
+  }
+
   #renderModalContainer(props: ModalContainerProps) {
     const $app = ElementFinder.findElementBySelector('#app');
     if (!$app) return;
-
-    if (props.isDeletePreviousModal) {
+    const isDeleteExistingModal =
+      !props.isKeepExistingModal &&
+      document.querySelector(`.${MODAL_CONTAINER_CLASS}`);
+    // 이전에 열린 모달 제거
+    if (isDeleteExistingModal) {
+      console.log('delete');
       ModalContainerController.closeModalContainer();
     }
-    //모달 생성
-    const $modalContainer = createElementWithAttribute('div', {
-      class: 'modal-container',
-    });
-
-    $modalContainer.appendChild(this.#makeModalContainerInner(props));
-    $app.appendChild($modalContainer);
+    //새로운 모달 생성
+    $app.appendChild(this.#element);
   }
 }
 

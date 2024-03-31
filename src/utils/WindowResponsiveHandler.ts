@@ -3,7 +3,7 @@ import SearchBoxResponsiveHandler from '../components/searching/SearchBoxRespons
 const WindowResponsiveHandler = {
   handleWindowResize() {
     window.addEventListener('resize', () => {
-      SearchBoxResponsiveHandler.handleSizeByWIndowSize();
+      SearchBoxResponsiveHandler.handleSizeByWindowSize();
     });
   },
 };

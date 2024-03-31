@@ -1,4 +1,4 @@
-import { SKELETON } from '../../constants';
+import { MOVIE_CHILDREN_CLASS } from '../../constants';
 import { createElementWithAttribute } from '../../utils';
 
 import SkeletonMovieImg from './SkeletonMovieImg';
@@ -15,27 +15,13 @@ class SkeletonCard {
     return this.#element;
   }
 
-  #addSkeletonImg($card: HTMLElement) {
-    $card.appendChild(
-      createElementWithAttribute('div', {
-        class: `movie-thumbnail ${SKELETON}`,
-      }),
-    );
-  }
-
-  #addSkeletonTitle($card: HTMLElement) {
-    $card.appendChild(new SkeletonMovieTitle().element);
-  }
-
-  #addSkeletonScore($card: HTMLElement) {
-    $card.appendChild(new SkeletonMovieImg().element);
-  }
-
   #makeSkeletonCard() {
-    const $card = createElementWithAttribute('div', { class: 'movie-card' });
-    this.#addSkeletonImg($card);
-    this.#addSkeletonTitle($card);
-    this.#addSkeletonScore($card);
+    const $card = createElementWithAttribute('div', {
+      class: MOVIE_CHILDREN_CLASS.card,
+    });
+    $card.appendChild(new SkeletonMovieImg().element);
+    $card.appendChild(new SkeletonMovieTitle().element);
+    $card.appendChild(new SkeletonMovieImg().element);
 
     return $card;
   }

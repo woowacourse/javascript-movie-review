@@ -1,4 +1,9 @@
 import {
+  MOVIE_LIST_CLASS,
+  MOVIE_LIST_CONTAINER_CLASS,
+  OBSERVER_TARGET,
+} from '../../constants';
+import {
   APIHandlerForScroll,
   ChangedMovieListRenderer,
   ScrollObserver,
@@ -29,7 +34,7 @@ class MovieList {
   }
 
   #makeNoMovieList($ul: HTMLElement) {
-    $ul.classList.add('no-movie-list');
+    $ul.classList.add(`no-${MOVIE_LIST_CLASS}`);
     $ul.appendChild(new NoneMovieItem().element);
 
     return $ul;
@@ -37,16 +42,17 @@ class MovieList {
 
   #makeMovieList(movieList: Movie[] | undefined, isMoreData: boolean) {
     const $ul = createElementWithAttribute<HTMLUListElement>('ul', {
-      class: 'movie-list',
+      class: MOVIE_LIST_CLASS,
     });
     if (!movieList || !this.#isMovieList) {
       return this.#makeNoMovieList($ul);
     }
+
     movieList.forEach((movie) => {
       $ul.appendChild(new MovieItem(movie).element);
     });
-    const $lastItem = new MovieListLastItem(isMoreData).element;
-    $ul.appendChild($lastItem);
+    $ul.appendChild(new MovieListLastItem(isMoreData).element);
+
     return $ul;
   }
 
@@ -65,7 +71,7 @@ class MovieList {
 
   #getListType(): ListType | undefined {
     const $movieListContainer = ElementFinder.findElementBySelector(
-      '.movie-list-container',
+      `.${MOVIE_LIST_CONTAINER_CLASS}`,
     );
 
     if (!$movieListContainer || !$movieListContainer.hasAttribute('name'))
@@ -80,7 +86,7 @@ class MovieList {
     if (!this.#isMovieList) return;
 
     const $scrollObserverTarget = this.#element.querySelector(
-      '.scroll-observer-target',
+      `.${OBSERVER_TARGET.scroll}`,
     );
     if (!$scrollObserverTarget) return;
 

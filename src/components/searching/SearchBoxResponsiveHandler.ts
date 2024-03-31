@@ -11,41 +11,35 @@ const SearchBoxResponsiveHandler = {
   /**
    * 브라우저 창의 크기에 따라 search input의 크기를 조절
    */
-  handleSizeByWIndowSize() {
-    const $searchInput = this.private_getSearchInputEl();
+  handleSizeByWindowSize() {
+    const $searchInput = ElementFinder.findElementBySelector('.search-input');
     if (!$searchInput) return;
 
     this.private_changeClassByWindowSize($searchInput);
   },
   /**
-   * 모바일 사이즈에서 search button 클릭 시 search input의 크기를 늘리느 기능
+   * 모바일 크기의 화면에서 search button 클릭 시 search input의 크기를 변경하는 기능 (디바운스 적용)
    */
   handleSizeBySearchButton() {
-    const $searchInput = this.private_getSearchInputEl();
+    const $searchInput = ElementFinder.findElementBySelector('.search-input');
     if (!$searchInput) return;
 
-    this.private_changeClassByButtonClick($searchInput);
+    $searchInput.classList.toggle(HIDDEN_INPUT_CLASS_NAME);
   },
   /**
-   * 로고 버튼을 클릭 해 인기 영화 검색 시, input 창을 줄이는 기능
+   *모바일 크기의 화면에서 로고 버튼을 클릭 해 인기 영화 검색 시, input 창을 줄이는 기능
    */
   handleSizeByLogoButton() {
-    const $searchInput = this.private_getSearchInputEl();
-
+    const $searchInput = ElementFinder.findElementBySelector('.search-input');
     if (!$searchInput) return;
+
     if ($searchInput.classList.contains(HIDDEN_INPUT_CLASS_NAME)) return;
     $searchInput.classList.add(HIDDEN_INPUT_CLASS_NAME);
   },
 
-  private_getSearchInputEl() {
-    const $searchInput = ElementFinder.findElementBySelector('.search-input');
-
-    return $searchInput;
-  },
-
   private_changeClassByWindowSize($searchInput: HTMLElement) {
     const width = window.innerWidth;
-    const isHidden = this.private_isInputHidden($searchInput);
+    const isHidden = $searchInput.classList.contains(HIDDEN_INPUT_CLASS_NAME);
 
     const props: changingElementClassProps = {
       $targetElement: $searchInput,
@@ -56,14 +50,6 @@ const SearchBoxResponsiveHandler = {
       },
     };
     changeElementClass(props);
-  },
-
-  private_isInputHidden($searchInput: HTMLElement) {
-    return $searchInput.classList.contains(HIDDEN_INPUT_CLASS_NAME);
-  },
-
-  private_changeClassByButtonClick($searchInput: HTMLElement) {
-    $searchInput.classList.toggle(HIDDEN_INPUT_CLASS_NAME);
   },
 };
 

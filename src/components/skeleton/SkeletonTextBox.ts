@@ -1,6 +1,8 @@
 import { SKELETON } from '../../constants';
 import { createElementWithAttribute } from '../../utils';
 
+const SKELETON_TEXT_CLASS = `${SKELETON}-text`;
+
 class SkeletonTextBox {
   #element: HTMLElement;
 
@@ -14,12 +16,12 @@ class SkeletonTextBox {
 
   #makeElement(numberOfText: number) {
     const $skeletonText = createElementWithAttribute('div', {
-      class: 'skeleton-text-box',
+      class: `${SKELETON_TEXT_CLASS}-box`,
     });
 
     for (let i = 0; i < numberOfText; i += 1) {
       const $p = createElementWithAttribute('p', {
-        class: `${SKELETON}  skeleton-text`,
+        class: `${SKELETON} ${SKELETON_TEXT_CLASS}`,
       });
       $skeletonText.appendChild($p);
     }

@@ -1,4 +1,4 @@
-import { SKELETON } from '../../constants';
+import { MOVIE_CHILDREN_CLASS, SKELETON } from '../../constants';
 import { createElementWithAttribute } from '../../utils';
 
 class SkeletonMovieImg {
@@ -6,7 +6,7 @@ class SkeletonMovieImg {
 
   constructor() {
     this.#element = createElementWithAttribute('div', {
-      class: `movie-thumbnail ${SKELETON}`,
+      class: `${MOVIE_CHILDREN_CLASS.thumbnail} ${SKELETON}`,
     });
   }
 

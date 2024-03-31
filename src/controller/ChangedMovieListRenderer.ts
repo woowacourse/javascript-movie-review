@@ -1,4 +1,9 @@
 import { MovieList } from '../components';
+import {
+  MOVIE_LIST_CLASS,
+  MOVIE_LIST_CONTAINER_CLASS,
+  OBSERVER_TARGET,
+} from '../constants';
 import { dataStateStore } from '../model';
 import { Movie } from '../type/movie';
 import { ElementFinder } from '../utils';
@@ -25,11 +30,11 @@ const ChangedMovieListRenderer = {
    */
   private_addItemsToMovieList(totalMovieList: Movie[], isMoreData: boolean) {
     const $movieListContainer = ElementFinder.findElementBySelector(
-      '.movie-list-container',
+      `.${MOVIE_LIST_CONTAINER_CLASS}`,
     );
     if (!$movieListContainer) return;
     const $itemList = ElementFinder.findElementBySelector(
-      '.movie-list-container .movie-list',
+      `.${MOVIE_LIST_CONTAINER_CLASS} .${MOVIE_LIST_CLASS}`,
     );
     if (!$itemList) return;
 
@@ -42,12 +47,12 @@ const ChangedMovieListRenderer = {
    */
   private_showNoMoreData() {
     const $movieListLastItem = ElementFinder.findElementBySelector(
-      '.movie-list__last-item',
+      `.${MOVIE_LIST_CLASS}__last-item`,
     );
 
     if (!$movieListLastItem) return;
 
-    $movieListLastItem.classList.remove('scroll-observer-target');
+    $movieListLastItem.classList.remove(OBSERVER_TARGET.scroll);
   },
 };
 

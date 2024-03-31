@@ -12,11 +12,12 @@ class ErrorMessage {
   }
 
   #makeErrorMessage(message: string) {
+    const PERIOD = '.';
     const $errorMessage = createElementWithAttribute('div', {
       class: 'error-message',
     });
 
-    message.split('.').forEach((item) => {
+    message.split(PERIOD).forEach((item) => {
       const $text = document.createElement('p');
       $text.textContent = item.trim();
       $errorMessage.appendChild($text);
