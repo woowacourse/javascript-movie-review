@@ -1,5 +1,4 @@
 import MovieItem from '../MovieItem/MovieItem';
-import MoreMoviesButton from '../MoreMoviesButton/MoreMoviesButton';
 import { getSearchedMoviesData } from '../../api/getSearchedMoviesData';
 import { getPopularMoviesData } from '../../api/getPopularMoviesData';
 import { getMovieDetailData } from '../../api/getMovieDetailData';
@@ -63,25 +62,15 @@ class MovieList {
       this.#handleError(error as Error);
     }
     this.#setupItemClick();
-    this.#removeMoreMoviesButton(TAB.POPULAR);
-
     this.#movieModal.createMovieModalSection();
   }
 
   #handlePopularPagination(data: IMovieItemData[]) {
-    if (data.length === MAX_PAGE_PER_REQUEST) {
-      const moreMoviesButton = this.#createMoreMoviesButton(TAB.POPULAR);
-
-      moreMoviesButton.addEventListener('click', () => {
-        this.#popularCurrentPage += 1;
-        this.#renderPopularMovieItems();
-      });
-
-      return;
+    if (data.length < MAX_PAGE_PER_REQUEST) {
+      this.#displayMaxPageInfo();
+    } else {
+      this.#setupIntersectionObserver(TAB.POPULAR);
     }
-
-    this.#removeMoreMoviesButton(TAB.POPULAR);
-    this.#displayMaxPageInfo();
   }
 
   #setupSearchFormSubmit() {
@@ -102,6 +91,32 @@ class MovieList {
         this.#renderMovieDetailModal(this.#movieID);
       }
     });
+  }
+
+  #setupIntersectionObserver(tab: string, titleInput?: string) {
+    const options = {
+      threshold: 0.1,
+    };
+
+    const target = $('.item-list')?.lastChild as HTMLLIElement;
+
+    if (target) {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          if (tab === TAB.POPULAR) {
+            this.#popularCurrentPage += 1;
+            this.#renderPopularMovieItems();
+          }
+
+          if (tab === TAB.SEARCH && titleInput) {
+            this.#searchCurrentPage += 1;
+            this.#renderSearchedMovieItems(titleInput);
+          }
+        }
+      }, options);
+
+      if (target) observer.observe(target);
+    }
   }
 
   #handleSearchFormSubmit(event: Event, searchForm: HTMLElement | null) {
@@ -137,16 +152,16 @@ class MovieList {
   }
 
   async #renderSearchedMovieItems(titleInput: string) {
-    const ul = $('ul');
+    const ulElement = $('.item-list');
 
     try {
       const data = await this.#getSearchedMoviesData(titleInput);
       if (data.length > 0) {
-        const liList = this.#createEmptyMovieItems(data, ul);
+        const liList = this.#createEmptyMovieItems(data, ulElement);
 
         setTimeout(() => {
           this.#updateMovieItemsWithData(data, liList);
-          this.#handleSearchPagination(data);
+          this.#handleSearchPagination(data.length, titleInput);
         }, 1000);
       }
     } catch (error) {
@@ -154,7 +169,6 @@ class MovieList {
     }
     this.#setupItemClick();
     this.#movieModal.createMovieModalSection();
-    this.#removeMoreMoviesButton(TAB.SEARCH);
   }
 
   async #getSearchedMoviesData(titleInput: string) {
@@ -164,20 +178,12 @@ class MovieList {
     );
   }
 
-  #handleSearchPagination(data: IMovieItemData[]) {
-    if (data.length === MAX_PAGE_PER_REQUEST) {
-      const moreMoviesButton = this.#createMoreMoviesButton(TAB.SEARCH);
-
-      moreMoviesButton.addEventListener('click', () => {
-        this.#searchCurrentPage += 1;
-        this.#renderSearchedMovieItems(this.#movieTitle);
-      });
-
-      return;
+  #handleSearchPagination(dataLength: number, titleInput: string) {
+    if (dataLength < MAX_PAGE_PER_REQUEST) {
+      this.#displayMaxPageInfo();
+    } else {
+      this.#setupIntersectionObserver(TAB.SEARCH, titleInput);
     }
-
-    this.#removeMoreMoviesButton(TAB.SEARCH);
-    this.#displayMaxPageInfo();
   }
 
   async #renderMovieDetailModal(movieID: number) {
@@ -195,7 +201,9 @@ class MovieList {
 
   // NOTE: 인기순 및 검색 리스트 공통 메서드
   #createMovieItem() {
-    const li = createElement('li');
+    const li = createElement('li', {
+      class: 'item',
+    });
     const article = createElement('article', {
       class: 'item-card',
     });
@@ -271,17 +279,6 @@ class MovieList {
     const maxPageInfo = this.#createMaxPageInfo();
 
     this.#movieListSection.appendChild(maxPageInfo);
-  }
-
-  #createMoreMoviesButton(tab: string) {
-    const moreMoviesButton = MoreMoviesButton.createMoreMoviesButton(tab);
-    this.#movieListSection.appendChild(moreMoviesButton);
-
-    return moreMoviesButton;
-  }
-
-  #removeMoreMoviesButton(tab: string) {
-    $(`.${tab}MoreMoviesButton`)?.remove();
   }
 
   #removeSkeleton() {
