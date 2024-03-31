@@ -5,6 +5,7 @@ export interface Movie {
   voteAverage: string;
   genres?: [];
   overview?: string;
+  userVote?: number;
 }
 
 export type ViewType = 'popular' | 'search';

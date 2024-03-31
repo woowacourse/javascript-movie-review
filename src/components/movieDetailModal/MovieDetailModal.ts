@@ -4,121 +4,87 @@ import closeIcon from '../../images/close_icon.png';
 import emptyPng from '../../images/empty_poster.png';
 import filledStar from '../../images/star_filled.png';
 import emptyStar from '../../images/star_empty.png';
+import { Movie } from '../../interface/Movie';
+import { RATING_MESSAGES } from '../../constants/constant';
+import MovieDetailContent from './MovieDetailContent';
 
 class MovieDetailModal extends Modal {
-  #movieId;
+  #movieId: number;
+  #movie: any;
+  #userMovies: Movie[] = [];
 
-  constructor(movieId: any) {
+  constructor(movieId: number) {
     super();
     this.#movieId = movieId;
-    this.getDetailData();
+    this.#userMovies = JSON.parse(localStorage.getItem('userMovies') as string) || [];
+    this.renderMovieDetail();
   }
 
-  async getDetailData() {
-    try {
-      const result = await fetchMovieDetail(this.#movieId);
-      console.log(result);
-      const detailMovieContent = this.generateDetailTemplate(result);
-      this.setContent(detailMovieContent);
-    } catch (error) {
-      console.error('Error loading movie detail:', error);
-    }
+  async renderMovieDetail() {
+    this.#movie = await fetchMovieDetail(this.#movieId);
+    this.#movie.userVote = this.setUserVote();
+    const detailContent = new MovieDetailContent(this.#movie);
+    const detailMovieContent = detailContent.render();
+    this.setContent(detailMovieContent);
+    this.manageCloseModal();
+    this.manageUserVote();
   }
 
-  generateDetailTemplate(movie: any) {
-    const detailContent = document.createElement('div');
-    detailContent.className = 'detail-content';
+  setUserVote() {
+    const existingMovie = this.#userMovies.find(item => item.id === this.#movie.id);
+    return existingMovie ? existingMovie.userVote : 0;
+  }
 
-    // 영화 제목
-    const title = document.createElement('h3');
-    title.className = 'detail-title';
-    title.textContent = movie.title;
+  manageCloseModal() {
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') this.close();
+    });
 
-    // 닫힘 버튼
-    const closeButton = document.createElement('div');
-    closeButton.className = 'close-btn';
+    const closeButton = document.querySelector('.close-btn');
+    if (!closeButton) return;
+    closeButton.addEventListener('click', () => this.close());
+  }
 
-    title.appendChild(closeButton);
+  manageUserVote() {
+    const starsContainer = document.querySelector('.detail-stars')!;
+    const voteNumber = document.querySelector('.detail-vote-number');
+    const voteText = document.querySelector('.detail-vote-text');
+    if (!starsContainer || !voteNumber || !voteText) return;
 
-    const closeImage = document.createElement('img');
-    closeImage.src = closeIcon;
-    closeImage.alt = '닫힘 버튼';
-    closeButton.appendChild(closeImage);
+    this.renderUserVote(starsContainer, voteNumber, voteText);
 
-    // 서브 정보
-    const subDetail = document.createElement('div');
-    subDetail.className = 'sub-detail';
+    starsContainer.addEventListener('click', event => {
+      const target = event.target;
+      if (target instanceof HTMLImageElement) {
+        const clickedIndex = Array.from(starsContainer.children).indexOf(target);
+        const userVote = (clickedIndex + 1) * 2;
+        this.#movie.userVote = userVote;
+        this.renderUserVote(starsContainer, voteNumber, voteText);
+        this.addUserMovie(userVote);
+      }
+    });
+  }
 
-    // 썸네일
-    const thumbnail = document.createElement('img');
-    thumbnail.className = 'detail-thumbnail';
-    thumbnail.src = movie.posterPath ? `https://image.tmdb.org/t/p/w500/${movie.posterPath}.jpg` : emptyPng;
-    thumbnail.alt = movie.title;
+  renderUserVote(starsContainer: Element, voteNumber: Element, voteText: Element) {
+    starsContainer.querySelectorAll('img').forEach((img: HTMLImageElement, index: number) => {
+      img.src = index < this.#movie.userVote / 2 ? filledStar : emptyStar;
+    });
 
-    // 설명(장르, 별점, 오버뷰, 내 별점)
-    const description = document.createElement('div');
-    description.className = 'detail-description';
+    const userVote = String(this.#movie.userVote);
+    voteNumber.textContent = userVote;
+    voteText.textContent = RATING_MESSAGES[userVote];
+  }
 
-    const mainDescription = document.createElement('div');
-    mainDescription.className = 'detail-main-description';
-
-    const firstDescription = document.createElement('div');
-    firstDescription.className = 'detail-first-description';
-
-    // 장르
-    const genres = document.createElement('p');
-    genres.className = '';
-    const genreNames = movie.genres.map((genre: { id: number; name: string }) => genre.name);
-    genres.textContent = genreNames.join(',');
-
-    // 별점
-    const score = document.createElement('p');
-    score.className = 'detail-score';
-    score.textContent = movie.voteAverage;
-
-    const scoreImage = document.createElement('img');
-    scoreImage.src = filledStar;
-    scoreImage.alt = '별점';
-
-    score.prepend(scoreImage);
-
-    firstDescription.append(genres, score);
-
-    // 오버뷰
-    const overview = document.createElement('p');
-    overview.className = 'detail-overview';
-    overview.textContent = movie.overview;
-
-    mainDescription.append(firstDescription, overview);
-
-    // 내 별점
-    const myScore = document.createElement('div');
-    myScore.className = 'detail-my-score';
-    myScore.textContent = '내 별점';
-
-    const starsContainer = document.createElement('div');
-    starsContainer.className = 'detail-stars';
-    for (let i = 0; i < 5; i++) {
-      const emptyStarImage = document.createElement('img');
-      emptyStarImage.src = emptyStar;
-      emptyStarImage.alt = '별점';
-      starsContainer.appendChild(emptyStarImage);
+  addUserMovie(userVote: number) {
+    const existingMovieIndex = this.#userMovies.findIndex(item => item.id === this.#movie.id);
+    if (existingMovieIndex !== -1) {
+      this.#userMovies[existingMovieIndex].userVote = userVote;
+    } else {
+      const newUserMovie: Movie = { ...this.#movie, userVote };
+      this.#userMovies.push(newUserMovie);
     }
 
-    const scoreNumber = document.createElement('div');
-    scoreNumber.className = 'detail-score-number';
-    scoreNumber.textContent = '6';
-
-    const scoreText = document.createElement('div');
-    scoreText.className = 'detail-score-text';
-    scoreText.textContent = '보통이에요';
-
-    myScore.append(starsContainer, scoreNumber, scoreText);
-
-    description.append(mainDescription, myScore);
-    subDetail.append(thumbnail, description);
-    detailContent.append(title, subDetail);
-    return detailContent;
+    localStorage.setItem('userMovies', JSON.stringify(this.#userMovies));
   }
 }
 

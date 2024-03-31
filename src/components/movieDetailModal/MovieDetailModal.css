@@ -126,13 +126,13 @@
   }
 }
 
-.detail-score {
+.detail-vote {
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
 }
 
-.detail-score::after {
+.detail-vote::after {
   margin-left: 8px;
 }
 
@@ -142,7 +142,7 @@
   text-align: left;
 }
 
-.detail-my-score {
+.detail-my-vote {
   width: 100%;
   min-height: 64px;
   margin-top: 48px;
@@ -158,26 +158,28 @@
 
 /* mobile 규격 */
 @media screen and (max-width: 650px) {
-  .detail-my-score {
+  .detail-my-vote {
     justify-content: center;
   }
 }
 
-.detail-stars {
+.detail-stars img {
+  width: 24px;
+  height: 24px;
   cursor: pointer;
 }
 
-.detail-score-number {
+.detail-vote-number {
   font-weight: 400;
 }
 
-.detail-score-text {
+.detail-vote-text {
   font-weight: 400;
 }
 
 /* 태블릿 작은 크기, 모바일 규격 */
 @media screen and (max-width: 790px) {
-  .detail-score-text {
+  .detail-vote-text {
     display: none;
   }
 }
