@@ -35,7 +35,7 @@ class PopularMovieList extends MovieList {
 
       const liList = this.createEmptyMovieItems(movies, ul);
 
-      infiniteScroll.addInfiniteScroll(this.handlePopularPageEnd.bind(this));
+      infiniteScroll.addInfiniteScroll(this.#handlePopularPageEnd.bind(this));
 
       setTimeout(() => {
         this.updateMovieItemsWithData(movies, liList);
@@ -49,7 +49,7 @@ class PopularMovieList extends MovieList {
     }
   }
 
-  async handlePopularPageEnd() {
+  async #handlePopularPageEnd() {
     if (this.currentPage === MAX_PAGE_COUNT) {
       this.displayMaxPageInfo();
     }
