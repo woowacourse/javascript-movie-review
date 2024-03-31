@@ -1,8 +1,25 @@
-.recommend-star-box {
+.recommend-box {
+  margin: 5px;
+  background: #383839;
+  padding: 5px;
+  border-radius: 8px;
+  font-size: 1rem;
   display: flex;
   align-items: center;
 }
 
-.starBox {
-  gap: 3px;
+.recommend-star-box {
+  margin: 0 0.5rem;
+}
+.recommend-message {
+  margin: 0 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .recommend-box {
+    justify-content: space-evenly;
+  }
+  .recommend-message {
+    display: none;
+  }
 }

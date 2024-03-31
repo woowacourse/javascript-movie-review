@@ -31,17 +31,18 @@ export class RecommendStar {
 
   render() {
     const recommendStarBox = document.createElement('div');
-    recommendStarBox.className = 'recommend-star-box';
+    recommendStarBox.className = 'recommend-box';
 
     const span = document.createElement('span');
     span.textContent = '별점';
 
     const starBox = document.createElement('div');
-    starBox.className = 'star-box';
+    starBox.className = 'recommend-star-box';
 
     const recommendScore = document.createElement('span');
 
     const recommendMessage = document.createElement('span');
+    recommendMessage.className = 'recommend-message';
     if (this.currentScore !== 0) {
       this.reRenderScore(recommendScore);
       this.reRenderScoreMessage(recommendMessage);

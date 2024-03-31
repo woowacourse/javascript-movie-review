@@ -7,11 +7,13 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  /* width: 1200px; */
   margin: 0 auto;
+  align-items: center;
 }
 
 .item-view h2 {
+  width: calc(4 * 180px + 3 * 10vw);
   margin: 0 48px;
   font-size: 2rem;
   font-weight: bold;

@@ -23,7 +23,7 @@
   display: grid;
   margin: 48px;
   grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  grid-column-gap: 10vw;
   grid-row-gap: 48px;
 }
 
@@ -61,4 +61,72 @@
 .item-score.skeleton::after {
   font-size: 0;
   content: 'loading';
+}
+
+@media (max-width: 1100px) {
+  .item-view h2 {
+    width: calc(3 * 180px + 2 * 12vw);
+    margin: 0 48px;
+    font-size: 2rem;
+    font-weight: bold;
+    user-select: none;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(3, 180px); /* 열을 3개로 줄임 */
+    grid-column-gap: 12vw; /* 열 간격을 줄임 */
+  }
+
+  .item-thumbnail {
+    border-radius: 8px;
+    width: 180px;
+    height: 270px;
+    background-size: contain;
+  }
+  .item-title {
+    margin-top: 16px;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  .item-score {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 8px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .item-view h2 {
+    width: calc(2 * 34vw + 1 * 10vw);
+    font-size: 1.5rem;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(2, 34vw);
+    grid-column-gap: 10vw;
+  }
+
+  .item-thumbnail {
+    border-radius: 8px;
+    width: 34vw;
+    height: 51vw;
+    background-size: contain;
+  }
+
+  .item-title {
+    margin-top: 2vw;
+    font-size: 4vw;
+    font-weight: bold;
+  }
+
+  .item-score {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2vw;
+    font-size: 4vw;
+  }
 }

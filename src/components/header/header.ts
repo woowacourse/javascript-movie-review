@@ -28,15 +28,36 @@ function render(logoHandler: () => void, inputSubmitHandler: (inputValue: string
   searchBox.append(searchInput, searchButton);
 
   header.append(logo, searchBox);
-
+  window.addEventListener('resize', handleResize);
   logo.addEventListener('click', () => {
     logoHandler();
   });
 
   searchBox.addEventListener('submit', (event: Event) => {
     event.preventDefault();
-    if (searchInput.value.trim() !== '') inputSubmitHandler(searchInput.value);
+    inputSubmitHandler(searchInput.value);
   });
 
   return header;
+}
+
+let debounce: NodeJS.Timeout | undefined;
+function handleResize() {
+  if (debounce) clearTimeout(debounce);
+
+  debounce = setTimeout(() => {
+    const width = window.innerWidth;
+    if (width >= 768) {
+      document.querySelector('header h1')?.classList.remove('clicked-logo');
+      document.querySelector('header > .search-box')?.classList.remove('clicked-form');
+      document.querySelector('header .search-box > input')?.classList.remove('clicked-form');
+      document.querySelector('header')?.classList.remove('clicked-header');
+    }
+    if (width < 768 && (document.querySelector('header .search-box > input') as HTMLInputElement)?.value !== '') {
+      document.querySelector('header h1')?.classList.add('clicked-logo');
+      document.querySelector('header > .search-box')?.classList.add('clicked-form');
+      document.querySelector('header .search-box > input')?.classList.add('clicked-input');
+      document.querySelector('header')?.classList.add('clicked-header');
+    }
+  }, 100);
 }
