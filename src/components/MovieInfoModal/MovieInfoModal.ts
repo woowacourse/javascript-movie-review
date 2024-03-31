@@ -91,20 +91,22 @@ class MovieInfoModal {
   }
 
   createPoster(posterPath: string, title: string) {
-    const moviePoster = document.createElement('img');
-    moviePoster.id = 'movie-info-poster';
-
     if (posterPath) {
+      const moviePoster = document.createElement('img');
+      moviePoster.id = 'movie-info-poster';
       moviePoster.setAttribute('src', POSTER_BASE_URL + posterPath);
+      moviePoster.setAttribute('alt', title);
+      return moviePoster;
     } else {
-      moviePoster.classList.add('no-image');
+      const moviePoster = document.createElement('div');
+      moviePoster.id = 'movie-info-poster';
       const noImageIcon = document.createElement('img');
       noImageIcon.classList.add('no-image-icon');
       noImageIcon.setAttribute('src', NoImage);
       moviePoster.append(noImageIcon);
+      moviePoster.setAttribute('alt', title);
+      return moviePoster;
     }
-    moviePoster.setAttribute('alt', title);
-    return moviePoster;
   }
 
   createGenreAndScore(genres: string[], voteAverage: number) {

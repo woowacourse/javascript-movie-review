@@ -107,6 +107,10 @@
     height: 210px;
   }
 
+  .no-image {
+    height: 210px;
+  }
+
   .item-title {
     font-size: 16px;
     height: 45px;

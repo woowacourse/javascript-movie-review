@@ -1,0 +1,15 @@
+#top-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  visibility: hidden;
+}
+
+.show {
+  visibility: block;
+}

@@ -31,6 +31,13 @@ class MovieItem {
     this.setEvent();
   }
 
+  render() {
+    const { title, posterPath, voteAverage } = this.movie;
+    this.createThumbnail(title, posterPath);
+    this.createTitle(title);
+    this.createScore(voteAverage);
+  }
+
   setEvent() {
     this.itemCard.addEventListener('click', async () => {
       setUrlParams('movie_id', String(this.movie.id));
@@ -40,15 +47,8 @@ class MovieItem {
     });
   }
 
-  render() {
-    const { title, posterPath, voteAverage } = this.movie;
-    this.createThumbnail(title, posterPath);
-    this.createTitle(title);
-    this.createScore(voteAverage);
-  }
-
   createThumbnail(title: string, posterPath: string | null) {
-    this.itemTitle.classList.remove('skeleton');
+    this.itemThumbnail.classList.remove('skeleton');
 
     if (posterPath) {
       this.itemThumbnail.setAttribute('loading', 'lazy');
@@ -56,14 +56,19 @@ class MovieItem {
       this.itemThumbnail.setAttribute('src', POSTER_BASE_URL + posterPath);
       this.itemThumbnail.setAttribute('alt', title);
     } else {
-      this.itemThumbnail.classList.add('no-image');
-      const noImageIcon = document.createElement('img');
-      noImageIcon.classList.add('no-image-icon');
-      noImageIcon.setAttribute('src', NoImage);
-      this.itemThumbnail.append(noImageIcon);
-
-      this.itemThumbnail.setAttribute('src', NoImage);
+      const noImageThumbnail = MovieItem.createNoImage();
+      this.itemThumbnail.replaceWith(noImageThumbnail);
     }
+  }
+
+  static createNoImage() {
+    const noImageThumbnail = document.createElement('div');
+    noImageThumbnail.classList.add('no-image');
+    const noImageIcon = document.createElement('img');
+    noImageIcon.classList.add('no-image-icon');
+    noImageIcon.setAttribute('src', NoImage);
+    noImageThumbnail.append(noImageIcon);
+    return noImageThumbnail;
   }
 
   createTitle(title: string) {

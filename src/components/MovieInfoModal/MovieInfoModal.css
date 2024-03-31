@@ -31,8 +31,13 @@
 }
 
 #movie-info-poster {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 292px;
-  background-color: rgb(45, 45, 45);
+  height: 438px;
+  border-radius: 8px;
+  background-color: var(--grey-3);
 }
 
 #movie-info-detail-box {

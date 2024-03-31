@@ -16,20 +16,17 @@ class App {
     this.movieListBox.classList.add('item-list');
     this.movieListBox.classList.add('grid');
     this.movieListInstance = new MovieList({ movieList: [] });
-
-    this.#renderHeader();
-
     this.itemViewBox.append(this.movieListBox);
 
-    this.movieListInstance.renderSkeleton();
     this.renderFirstPage();
-    this.itemViewBox.append(this.movieListBox);
   }
 
   async renderFirstPage() {
+    this.renderHeader();
+
     this.title.renderTitle();
-    setEndpoint(END_POINT.POPULAR);
     this.movieListInstance.renderSkeleton();
+    setEndpoint(END_POINT.POPULAR);
     this.infiniteScrollDataLoader.renderTargetPage();
   }
 
@@ -41,7 +38,7 @@ class App {
     this.infiniteScrollDataLoader.renderTargetPage();
   }
 
-  #renderHeader() {
+  renderHeader() {
     new Header(this.rerenderMovieList.bind(this));
   }
 
