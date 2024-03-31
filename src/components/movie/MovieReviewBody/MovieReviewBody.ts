@@ -97,8 +97,6 @@ class MovieReviewBody extends Component<MovieReviewBodyProps> {
 
       const movieItemDetails = await this.movie?.fetchMovieDetails();
 
-      console.log(movieItemDetails);
-
       MovieListCardSkeleton.hideSkeletonList($ul);
 
       new MovieList($movieListContainer, {
