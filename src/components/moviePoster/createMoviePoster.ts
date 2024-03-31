@@ -2,6 +2,7 @@ import "./style.css";
 
 import createElement from "../../utils/createElement";
 import starFills from "./star_filled.png";
+import defaultMovieImage from "./default_movie_image.png";
 
 export interface MovieInfo {
   id: number;
@@ -27,7 +28,8 @@ const createMoviePoster = ({ id, title, imgSrc, rating }: MovieInfo) => {
       loading: "lazy",
       alt: title,
     },
-  });
+  }) as HTMLImageElement;
+  itemThumbnail.onerror = () => (itemThumbnail.src = defaultMovieImage);
 
   const titleParagraph = createElement({
     tagName: "p",
