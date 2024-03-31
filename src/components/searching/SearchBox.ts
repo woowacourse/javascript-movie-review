@@ -59,7 +59,7 @@ const SearchBoxHandler = {
     toastModal.removeToastModal(true);
     // 스켈레톤 적용을 위해서는 movie-list-container를 삭제 하고 데이터를 불러와야함
     document.querySelector('.movie-list-container')?.remove();
-    await movieListDataFetcher.handleGetSearchMovieData(title.trim(), true);
+    await movieListDataFetcher.getSearchMovieListData(title.trim(), true);
     new MovieListContainer({
       titleText: `"${title}" 검색 결과`,
       movieData: dataStateStore.movieData,

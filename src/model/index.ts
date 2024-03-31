@@ -1,6 +1,12 @@
 import apiClient from './APIClient';
+import APIHandlerForScroll from './APIHandlerForScroll';
 import dataStateStore from './DataStateStore';
-import LocalStorageHandler from './LocalStorageHandler';
+import localStorageHandlerForUserScore from './LocalStorageHandlerForUserScore';
 
 export * from './DataFetcher';
-export { apiClient, dataStateStore, LocalStorageHandler };
+export {
+  apiClient,
+  APIHandlerForScroll,
+  dataStateStore,
+  localStorageHandlerForUserScore,
+};

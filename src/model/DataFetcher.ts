@@ -36,15 +36,15 @@ class DataFetcher {
     this.#skeletonController.remove();
   }
 
-  async handleGetPopularMovieData(isResetCurrentPage: boolean = false) {
+  async getPopularMovieListData(isResetCurrentPage: boolean = false) {
     await this.fetchDataWidthSkeleton(() =>
-      apiClient.getPopularMovieData(isResetCurrentPage),
+      apiClient.getPopularMovieListData(isResetCurrentPage),
     );
   }
 
-  async handleGetSearchMovieData(title: string, isResetCurrentPage: boolean) {
+  async getSearchMovieListData(title: string, isResetCurrentPage: boolean) {
     await this.fetchDataWidthSkeleton(() =>
-      apiClient.getSearchMovieData(isResetCurrentPage, title),
+      apiClient.getSearchMovieListData(isResetCurrentPage, title),
     );
   }
 

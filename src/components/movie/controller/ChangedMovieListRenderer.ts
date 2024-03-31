@@ -1,12 +1,12 @@
-import { MovieList } from '../components';
+import { MovieList } from '../..';
 import {
   MOVIE_LIST_CLASS,
   MOVIE_LIST_CONTAINER_CLASS,
   OBSERVER_TARGET,
-} from '../constants';
-import { dataStateStore } from '../model';
-import { Movie } from '../type/movie';
-import { ElementFinder } from '../utils';
+} from '../../../constants';
+import { dataStateStore } from '../../../model';
+import { Movie } from '../../../type/movie';
+import { ElementFinder } from '../../../utils';
 
 /**
  * 스크롤링 후, 새로 불러온 영화 리스트를 화면에 추가하는 핸들러

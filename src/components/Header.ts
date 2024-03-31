@@ -7,7 +7,7 @@ import { SearchBox, SearchBoxResponsiveHandler } from './searching';
 
 const HeaderClickHandler = {
   async handleDataFetcher() {
-    await movieListDataFetcher.handleGetPopularMovieData(true);
+    await movieListDataFetcher.getPopularMovieListData(true);
   },
 
   async handleClickToRefresh() {

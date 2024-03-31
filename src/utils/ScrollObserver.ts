@@ -1,4 +1,4 @@
-import { debouceFunc } from '../utils';
+import { debouceFunc } from '.';
 
 class ScrollObserver {
   #observer: IntersectionObserver;

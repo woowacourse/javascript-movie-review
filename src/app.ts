@@ -22,7 +22,7 @@ async function App() {
   $app.prepend(new Header().element);
   WindowResponsiveHandler.handleWindowResize();
   new SkeletonListContainer();
-  await movieListDataFetcher.handleGetPopularMovieData();
+  await movieListDataFetcher.getPopularMovieListData();
   new MovieListContainer({
     ...popularMovieListContainerProps,
     movieData: dataStateStore.movieData,

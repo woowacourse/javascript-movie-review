@@ -1,7 +1,7 @@
 import { LOCAL_STORAGE_KEY } from '../constants';
 import { LocalStorageUserScore } from '../type/movie';
 
-class LocalStorageHandler {
+class LocalStorageHandlerForUserScore {
   #scoreData: LocalStorageUserScore[] | undefined;
 
   constructor() {
@@ -12,14 +12,14 @@ class LocalStorageHandler {
     return this.#scoreData;
   }
 
-  removeScoreItemFromScoreData(id: number) {
+  removeScoreItem(id: number) {
     if (!this.#scoreData) return;
 
     const index = this.#scoreData.findIndex((item) => item.id === id);
     if (index === undefined) return;
 
     this.#scoreData.splice(index, 1);
-    this.#addScoreItemsToKLocalStorage();
+    this.#updateLocalStorageScoreData();
   }
 
   updateScoreData(newScoreItem: LocalStorageUserScore) {
@@ -51,24 +51,24 @@ class LocalStorageHandler {
 
   #addScoreDataWhenNotInStorage(newScoreItem: LocalStorageUserScore) {
     this.#scoreData = [newScoreItem];
-    this.#addScoreItemsToKLocalStorage();
+    this.#updateLocalStorageScoreData();
   }
 
   #pushScoreItemToScoreData(newScoreItem: LocalStorageUserScore) {
     if (!this.#scoreData) return;
 
     this.#scoreData.push(newScoreItem);
-    this.#addScoreItemsToKLocalStorage();
+    this.#updateLocalStorageScoreData();
   }
 
   #replaceScoreItem(index: number, newScoreItem: LocalStorageUserScore) {
     if (!this.#scoreData) return;
 
     this.#scoreData.splice(index, 1, newScoreItem);
-    this.#addScoreItemsToKLocalStorage();
+    this.#updateLocalStorageScoreData();
   }
 
-  #addScoreItemsToKLocalStorage() {
+  #updateLocalStorageScoreData() {
     window.localStorage.setItem(
       LOCAL_STORAGE_KEY.userScore,
       JSON.stringify(this.#scoreData),
@@ -76,6 +76,6 @@ class LocalStorageHandler {
   }
 }
 
-const localStorageHandler = new LocalStorageHandler();
+const localStorageHandlerForUserScore = new LocalStorageHandlerForUserScore();
 
-export default localStorageHandler;
+export default localStorageHandlerForUserScore;

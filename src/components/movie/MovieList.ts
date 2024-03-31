@@ -3,14 +3,15 @@ import {
   MOVIE_LIST_CONTAINER_CLASS,
   OBSERVER_TARGET,
 } from '../../constants';
-import {
-  APIHandlerForScroll,
-  ChangedMovieListRenderer,
-  ScrollObserver,
-} from '../../controller';
+import { APIHandlerForScroll } from '../../model';
 import { ListType, Movie } from '../../type/movie';
-import { createElementWithAttribute, ElementFinder } from '../../utils';
+import {
+  createElementWithAttribute,
+  ElementFinder,
+  ScrollObserver,
+} from '../../utils';
 
+import ChangedMovieListRenderer from './controller/ChangedMovieListRenderer';
 import MovieItem from './MovieItem';
 import MovieListLastItem from './MovieListLastItem';
 import NoneMovieItem from './NoneMovieItem';
@@ -64,7 +65,7 @@ class MovieList {
     const listType = this.#getListType();
     if (!listType) return;
     // 데이터 업데이트
-    await APIHandlerForScroll.handleGetMovieData(listType);
+    await APIHandlerForScroll.getMovieListData(listType);
     // 업데이트 된 영화 리스트 ui로 구현
     ChangedMovieListRenderer.updateMovieList();
   }

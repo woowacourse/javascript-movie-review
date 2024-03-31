@@ -1,12 +1,12 @@
-import { NOT_SCORE_TEXT } from '../../constants';
-import Trash from '../../images/trash.svg';
-import localStorageHandler from '../../model/LocalStorageHandler';
-import { LocalStorageUserScore } from '../../type/movie';
+import { NOT_SCORE_TEXT } from '../constants';
+import Trash from '../images/trash.svg';
+import { localStorageHandlerForUserScore } from '../model';
+import { LocalStorageUserScore } from '../type/movie';
 import {
   createElementWithAttribute,
   debouceFunc,
   ElementFinder,
-} from '../../utils';
+} from '../utils';
 
 // 상수
 const FILLED_CLASS = 'filled';
@@ -21,6 +21,7 @@ const SCORE_TEXT_MAP = new Map([
 const STAR_BUTTON_NAME_PREFIX = 'star_';
 const TOTAL_START_LENGTH = 5;
 const STAR_SCORE_INCREMENT = 2;
+
 class UserScore {
   #movieId: number;
   #element: HTMLElement;
@@ -38,7 +39,7 @@ class UserScore {
 
   // 로컬에 저장된 유저 점수 반영
   #getUserScore() {
-    const scoreItems = localStorageHandler.scoreData;
+    const scoreItems = localStorageHandlerForUserScore.scoreData;
     if (!scoreItems) return;
 
     const item = scoreItems.find((score) => score.id === this.#movieId);
@@ -94,7 +95,7 @@ class UserScore {
 
     this.#score = 0;
     this.#changeScoreArea();
-    localStorageHandler.removeScoreItemFromScoreData(this.#movieId);
+    localStorageHandlerForUserScore.removeScoreItem(this.#movieId);
   }
 
   #makeScoreArea() {
@@ -185,7 +186,7 @@ class UserScore {
     this.#changeScoreArea();
     // 변경된 score 를 로컬 스토리지에 업데이트
     const newScoreItem = this.#makeNewScoreItem();
-    localStorageHandler.updateScoreData(newScoreItem);
+    localStorageHandlerForUserScore.updateScoreData(newScoreItem);
   }
 
   /**

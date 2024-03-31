@@ -8,9 +8,9 @@ import dataStateStore from './DataStateStore';
 class APIClient {
   #currentPage = 0;
 
-  async getPopularMovieData(isResetCurrentPage: boolean) {
+  async getPopularMovieListData(isResetCurrentPage: boolean) {
     this.#updateCurrentPage(isResetCurrentPage);
-    const data = await this.#handleFetchPopularMovie();
+    const data = await this.#handleFetchPopularMovieList();
 
     if (data instanceof Error) throw new Error(data.message);
 
@@ -23,9 +23,9 @@ class APIClient {
     );
   }
 
-  async getSearchMovieData(isResetCurrentPage: boolean, title: string) {
+  async getSearchMovieListData(isResetCurrentPage: boolean, title: string) {
     this.#updateCurrentPage(isResetCurrentPage);
-    const data = await this.#handleFetchSearchMovie(title);
+    const data = await this.#handleFetchSearchMovieList(title);
 
     if (data instanceof Error) throw new Error(data.message);
 
@@ -74,7 +74,7 @@ class APIClient {
   };
 
   // fetch
-  async #fetchPopularMovie() {
+  async #fetchPopularMovieList() {
     const response = await fetch(
       `${BASE_URL}/${endPoint.popularMovie(this.#currentPage)}`,
       options,
@@ -83,7 +83,7 @@ class APIClient {
     return response;
   }
 
-  async #fetchSearchMovie(title: string) {
+  async #fetchSearchMovieList(title: string) {
     const response = await fetch(
       `${BASE_URL}/${endPoint.searchMovie(title, this.#currentPage)}`,
       options,
@@ -92,14 +92,14 @@ class APIClient {
     return response;
   }
 
-  async #handleFetchPopularMovie() {
-    const result = await handleFetchData(this.#fetchPopularMovie());
+  async #handleFetchPopularMovieList() {
+    const result = await handleFetchData(this.#fetchPopularMovieList());
 
     return result;
   }
 
-  async #handleFetchSearchMovie(title: string) {
-    const results = await handleFetchData(this.#fetchSearchMovie(title));
+  async #handleFetchSearchMovieList(title: string) {
+    const results = await handleFetchData(this.#fetchSearchMovieList(title));
 
     return results;
   }
