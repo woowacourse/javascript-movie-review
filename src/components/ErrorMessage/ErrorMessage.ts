@@ -1,3 +1,4 @@
+import ERRORS from '../../constants/messages';
 import './ErrorMessage.css';
 
 const createErrMsg = () => {
@@ -10,10 +11,10 @@ const ErrorMessage = () => {
   const $errMsg = createErrMsg();
 
   const render = (statusCode: number) => {
-    if (statusCode >= 400 && statusCode < 500)
-      $errMsg.textContent = `${statusCode}: Page Not Found`;
-    if (statusCode >= 500 && statusCode < 600)
-      $errMsg.textContent = `${statusCode}: Server Error`;
+    const message = ERRORS[statusCode] ?? 'Oops! Something went wrong 🫣';
+
+    $errMsg.textContent = `${statusCode}: ${message}`;
+
     return $errMsg;
   };
 

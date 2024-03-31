@@ -1,5 +1,6 @@
 import './MovieDetail.css';
 
+import ERRORS from '../../constants/messages';
 import SELECTORS from '../../constants/selectors';
 
 import filledStar from '../../statics/images/star_filled.png';
@@ -18,7 +19,7 @@ const createOverview = ({ overview }: Pick<MovieDetailProps, 'overview'>) => {
   const $overview = document.createElement('p');
   $overview.classList.add(SELECTORS.MOVIE_DETAIL.overview);
 
-  if (overview === '') $overview.textContent = '줄거리 정보가 없어요. 🥲';
+  if (overview === '') $overview.textContent = ERRORS.noOverview;
   else $overview.textContent = overview;
 
   return $overview;
@@ -96,6 +97,7 @@ const MovieDetail = ({
 
     return $container;
   };
+
   return {
     render,
   };
