@@ -1,7 +1,8 @@
 import '../templates/reset.css';
 import '../templates/common.css';
-import './css/style.css';
-import './css/responsive.css';
+import './style/responsive.css';
+import './style/skeleton.css';
+import './style/style.css';
 
 import getHeader from './view/getHeader.ts';
 import { replaceMain } from './view/main';
