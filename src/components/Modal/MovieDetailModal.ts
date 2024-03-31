@@ -21,10 +21,6 @@ class MovieDetailModal {
     this.setModalEvents();
   }
 
-  set id(id: number) {
-    this.movieId = id;
-  }
-
   render() {
     const backdrop = document.createElement('div');
     const container = document.createElement('div');
@@ -187,6 +183,10 @@ class MovieDetailModal {
     const backdrop = this.modal.querySelector('.modal-backdrop');
     if (!backdrop) return;
     backdrop.addEventListener('click', () => this.toggle());
+
+    const closeButton = this.modal.querySelector('.detail-close-button');
+    if (!closeButton) return;
+    closeButton.addEventListener('click', () => this.close());
 
     window.addEventListener('keydown', this.handleModalCloseWithKey.bind(this));
   }
