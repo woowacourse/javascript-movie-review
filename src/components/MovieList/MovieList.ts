@@ -155,6 +155,8 @@ export default class MovieList extends EventComponent {
 
   private resetPage(): void {
     this.page = 1;
+    this.isLoading = false;
+    this.isLastPage = false;
   }
 
   private async fetchMovies(page: number, query?: Query): Promise<MovieItem[]> {
