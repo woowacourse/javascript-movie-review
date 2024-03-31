@@ -19,10 +19,24 @@
   }
 }
 
+/* mobile 규격 */
+@media screen and (max-width: 650px) {
+  .item-view {
+    max-width: 450px;
+  }
+}
+
 .item-view h2 {
   font-size: 2rem;
   font-weight: bold;
   user-select: none;
+}
+
+/* mobile 규격 */
+@media screen and (max-width: 650px) {
+  .item-view h2 {
+    font-size: 1.8rem;
+  }
 }
 
 .full-width {

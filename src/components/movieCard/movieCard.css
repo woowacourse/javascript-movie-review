@@ -48,6 +48,7 @@
 .item-thumbnail {
   border-radius: 8px;
   background-size: contain;
+  cursor: pointer;
 }
 
 /* 데스크탑 규격 */
