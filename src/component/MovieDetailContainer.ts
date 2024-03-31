@@ -16,31 +16,30 @@ class MovieDetailContainer {
   private onClose;
   private onUpdateUserScore;
   private container;
+  private userScoreStatusContainer;
 
   constructor({ movie, onClose, onUpdateUserScore }: MovieDetailContainerParams) {
     this.movie = movie;
     this.userScore = movie.userScore;
     this.onClose = onClose;
     this.onUpdateUserScore = onUpdateUserScore;
+
     this.container = document.createElement('div');
     this.container.id = 'modal__movie-detail';
-    this.initialize();
-  }
-
-  initialize() {
-    this.render();
+    this.userScoreStatusContainer = document.createElement('div');
+    this.userScoreStatusContainer.id = 'modal__movie-detail__user-score-status';
   }
 
   createTitleSection() {
     const titleSection = document.createElement('section');
-    titleSection.id = 'modal__movie-detail-title';
+    titleSection.id = 'modal__movie-detail__title';
 
     const title = document.createElement('h2');
     title.classList.add('title');
     title.textContent = this.movie.title;
 
     const closeButton = createButton({
-      options: { type: 'button', id: 'modal__movie-detail-close-button', textContent: '' },
+      options: { type: 'button', id: 'modal__movie-detail__close-button', textContent: '' },
       eventType: {
         type: 'click',
         callbackFunction: () => this.onClose(),
@@ -53,7 +52,7 @@ class MovieDetailContainer {
 
   createContentSection() {
     const contentSection = document.createElement('section');
-    contentSection.id = 'modal__movie-detail-content';
+    contentSection.id = 'modal__movie-detail__content';
 
     const posterImage = this.createPosterImage();
     const movieInfoContainer = this.createMovieInfoContainer();
@@ -81,10 +80,34 @@ class MovieDetailContainer {
     return movieInfoContainer;
   }
 
+  createUserScoreContainer() {
+    const userScoreContainer = document.createElement('div');
+    userScoreContainer.classList.add('user-score-container');
+
+    const userScoreTitle = document.createElement('span');
+    userScoreTitle.classList.add('user-score-title');
+    userScoreTitle.textContent = '내 별점';
+
+    this.updateUserScoreStatusContainer();
+    userScoreContainer.append(userScoreTitle, this.userScoreStatusContainer);
+    return userScoreContainer;
+  }
+
   createMovieInfoBox() {
     const movieInfoBox = document.createElement('div');
     movieInfoBox.classList.add('movie-info-box');
 
+    const movieInfo = this.createMovieInfo();
+
+    const movieOverview = document.createElement('p');
+    movieOverview.classList.add('movie-overview');
+    movieOverview.textContent = this.movie.overview;
+
+    movieInfoBox.append(movieInfo, movieOverview);
+    return movieInfoBox;
+  }
+
+  createMovieInfo() {
     const movieInfo = document.createElement('p');
     movieInfo.classList.add('movie-info');
     movieInfo.textContent = this.movie.genres.join(', ');
@@ -93,44 +116,23 @@ class MovieDetailContainer {
     averageScore.classList.add('average-score');
     averageScore.textContent = this.movie.voteAverage.toFixed(CONFIG.userScoreDecimalPlaces).toString();
 
-    const movieOverview = document.createElement('p');
-    movieOverview.classList.add('movie-overview');
-    movieOverview.textContent = this.movie.overview;
-
     movieInfo.append(averageScore);
-    movieInfoBox.append(movieInfo, movieOverview);
-    return movieInfoBox;
+    return movieInfo;
   }
 
-  createUserScoreContainer() {
-    const userScoreContainer = document.createElement('div');
-    userScoreContainer.id = 'modal__movie-detail-user-score';
+  updateUserScoreStatusContainer() {
+    this.userScoreStatusContainer.innerHTML = '';
 
-    const userScoreTitle = document.createElement('span');
-    userScoreTitle.classList.add('user-score-title');
-    userScoreTitle.textContent = '내 별점';
-    const userScoreStarsContainer = this.createUserScoreStarsContainer();
+    const userScoreStars = this.createUserScoreStars();
     const userScoreDescriptionSet = this.createUserScoreDescriptionSet();
 
-    userScoreContainer.append(userScoreTitle, userScoreStarsContainer, ...userScoreDescriptionSet);
-    return userScoreContainer;
+    this.userScoreStatusContainer.append(userScoreStars, ...userScoreDescriptionSet);
   }
 
-  renderUpdatedUserScore() {
-    const userScoreStarsContainer = this.createUserScoreStarsContainer();
-    const userScoreDescriptionSet = this.createUserScoreDescriptionSet();
+  createUserScoreStars() {
+    const userScoreStars = document.createElement('div');
+    userScoreStars.classList.add('star-icons');
 
-    const userScoreContainer = $('#modal__movie-detail-user-score', this.container);
-    userScoreContainer.innerHTML = '';
-
-    const userScoreTitle = document.createElement('span');
-    userScoreTitle.classList.add('user-score-title');
-    userScoreTitle.textContent = '내 별점';
-
-    userScoreContainer.append(userScoreTitle, userScoreStarsContainer, ...userScoreDescriptionSet);
-  }
-
-  createUserScoreStarsContainer() {
     const starsFillStates = Array.from({ length: Object.keys(CONFIG.userScore).length }, (_, index) => {
       if (this.userScore && index < Math.floor(this.userScore / 2)) {
         return true;
@@ -138,23 +140,24 @@ class MovieDetailContainer {
       return false;
     });
 
-    const userScoreStarsContainer = this.createUserScoreStars(starsFillStates);
-    return userScoreStarsContainer;
+    const starElements = this.createStarElements(starsFillStates);
+    userScoreStars.append(...starElements);
+    return userScoreStars;
   }
 
-  createUserScoreStars(states: boolean[]) {
+  createStarElements(states: boolean[]) {
     const userScoreStars = document.createElement('div');
     userScoreStars.classList.add('star-icons');
 
-    const starElements = states.map((state, index) => {
+    return states.map((state, index) => {
       const star = document.createElement('div');
       star.classList.add('user-score-star');
       if (state) star.classList.add('filled');
+      star.addEventListener('click', () => {
+        this.updateUserScore((index + 1) * 2);
+      });
       return star;
     });
-
-    userScoreStars.append(...starElements);
-    return userScoreStars;
   }
 
   createUserScoreDescriptionSet() {
@@ -180,7 +183,7 @@ class MovieDetailContainer {
 
   updateUserScore(userScore: number) {
     this.userScore = userScore;
-    this.renderUpdatedUserScore();
+    this.updateUserScoreStatusContainer();
     this.onUpdateUserScore({ movieId: this.movie.id, userScore });
   }
 
@@ -193,7 +196,7 @@ class MovieDetailContainer {
       return this.container;
     }
 
-    $('#modal__movie-detail-content', this.container).replaceWith(contentSection);
+    $('#modal__movie-detail__content', this.container).replaceWith(contentSection);
     return this.container;
   }
 }

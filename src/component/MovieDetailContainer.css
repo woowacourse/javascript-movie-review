@@ -11,13 +11,13 @@
   justify-content: flex-start;
 }
 
-#modal__movie-detail-title {
+#modal__movie-detail__title {
   height: 60px;
   padding: 12px 32px;
   border-bottom: 1px solid #f1f1f126;
 }
 
-#modal__movie-detail-title h2 {
+#modal__movie-detail__title h2 {
   font-size: 20px;
   font-weight: 600;
   height: 100%;
@@ -26,7 +26,7 @@
   text-align: center;
 }
 
-#modal__movie-detail-title > button {
+#modal__movie-detail__title > button {
   position: absolute;
   top: 12px;
   right: 32px;
@@ -36,25 +36,25 @@
   background: #383839 url('../asset/close_button.svg') center no-repeat;
 }
 
-#modal__movie-detail-content {
+#modal__movie-detail__content {
   padding: 36px 32px 48px;
   display: flex;
   flex-direction: row;
   gap: 32px;
 }
 
-#modal__movie-detail-content .poster-image {
+#modal__movie-detail__content .poster-image {
   width: 292px;
   height: 433px;
 }
 
-#modal__movie-detail-content .movie-info-container {
+#modal__movie-detail__content .movie-info-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-#modal__movie-detail-content .movie-info-box {
+#modal__movie-detail__content .movie-info-box {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -86,7 +86,7 @@
   word-break: keep-all;
 }
 
-#modal__movie-detail-user-score {
+.user-score-container {
   width: 100%;
   background: #383839;
   border-radius: 16px;
@@ -97,11 +97,18 @@
   gap: 12px;
 }
 
-#modal__movie-detail-user-score .user-score-title {
+.user-score-container .user-score-title {
   font-weight: 700;
 }
 
-#modal__movie-detail-user-score .star-icons > .user-score-star {
+#modal__movie-detail__user-score-status {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+#modal__movie-detail__user-score-status .star-icons > .user-score-star {
   width: 21px;
   height: 24px;
   display: inline-block;
@@ -109,22 +116,22 @@
   background-size: cover;
 }
 
-#modal__movie-detail-user-score .star-icons > .user-score-star:hover {
+#modal__movie-detail__user-score-status .star-icons > .user-score-star:hover {
   cursor: pointer;
   background: url('../asset/star_filled.png');
 }
 
-#modal__movie-detail-user-score .star-icons > .user-score-star.filled {
+#modal__movie-detail__user-score-status .star-icons > .user-score-star.filled {
   background: url('../asset/star_filled.png');
 }
 
-#modal__movie-detail-user-score .user-score {
+#modal__movie-detail__user-score-status .user-score {
   display: inline-block;
   width: 24px;
   text-align: center;
 }
 
-#modal__movie-detail-user-score .user-score-description {
+#modal__movie-detail__user-score-status .user-score-description {
   display: inline-block;
   text-align: left;
 }

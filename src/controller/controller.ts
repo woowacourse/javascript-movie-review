@@ -36,7 +36,7 @@ export class App {
   }
 
   handleUpdateUserScore({ movieId, userScore }: UserScoreParams) {
-    console.log(movieId, userScore);
+    this.movieService.setUserScore({ movieId, userScore });
   }
 
   async init() {
