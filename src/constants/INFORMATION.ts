@@ -24,9 +24,8 @@ const CONTAINER_TITLE = {
 
 const MY_RATING = {
   title: '내 별점',
-  default: 0,
+  default: '0' as '0',
   starCount: 5,
-  score: ['0', '2', '4', '6', '8', '10'],
   ment: {
     0: '이 영화 어떤가요?',
     2: '최악이예요',
@@ -43,4 +42,6 @@ const MOVIE_ITEM = {
   count: 20,
 };
 
-export { BUTTONS, CONTAINER_TITLE, MY_RATING, EMPTY_OVERVIEW, MOVIE_ITEM };
+const STORAGE_KEY = 'userMovies';
+
+export { BUTTONS, CONTAINER_TITLE, MY_RATING, EMPTY_OVERVIEW, MOVIE_ITEM, STORAGE_KEY };
