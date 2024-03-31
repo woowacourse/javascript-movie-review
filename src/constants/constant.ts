@@ -1,9 +1,21 @@
-const BASE_URL = 'https://api.themoviedb.org/3';
+const API = {
+  URL: 'https://api.themoviedb.org/3/',
+  LANGUAGE: 'ko-KR',
+};
 
-const ENDPOINT = {
-  POPULAR_MOVIES: '/movie/popular',
-  MOVIE_SEARCH: '/search/movie',
-  DETAIL_MOVIE_INFO: '/movie',
+const PATH = {
+  POPULAR_MOVIE: 'movie/popular',
+  SEARCHED_MOVIE: 'search/movie',
+  DETAIL_MOVIE_INFO: 'movie',
+};
+
+const RATING_MESSAGES: Record<string, string> = {
+  '0': '별점 미등록',
+  '2': '최악이에요',
+  '4': '별로예요',
+  '6': '보통이에요',
+  '8': '재밌어요',
+  '10': '명작이에요',
 };
 
 const VIEW_TYPE = {
@@ -13,4 +25,8 @@ const VIEW_TYPE = {
 
 const LAST_PAGE = 500;
 
-export { BASE_URL, ENDPOINT, VIEW_TYPE, LAST_PAGE };
+const LOCALSTORAGE_KEY = {
+  USER_MOVIES: 'userMovies',
+};
+
+export { API, PATH, RATING_MESSAGES, VIEW_TYPE, LAST_PAGE, LOCALSTORAGE_KEY };

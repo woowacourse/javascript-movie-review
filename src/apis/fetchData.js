@@ -1,5 +1,5 @@
-import { BASE_URL, ENDPOINT } from "../constants/constant";
-import {mapDataToMovies, mapDataToMovieDetail} from "../domain/MovieService";
+import { API, PATH } from "../constants/constant";
+import {mapDataToMovies, mapDataToMovieDetail} from "../utils/dataMapper";
 import errorHandler from "../utils/errorHandler";
 
 const API_KEY = process.env.API_KEY;
@@ -14,9 +14,7 @@ async function fetchMovies(url) {
     const response = await fetch(url);
     const data = await response.json();
     
-    if (!response.ok) {
-      throw new Error(data.status_message);
-    }
+    if (!response.ok) throw new Error(data.status_message);
 
     return data;
   } catch (error) {
@@ -29,30 +27,30 @@ async function fetchMovies(url) {
 function buildUrl(endpoint, queryParams = {}) {
   const params = new URLSearchParams({
     api_key: API_KEY,
-    language: 'ko-KR',
+    language: API.LANGUAGE,
     ...queryParams
   });
 
-  return `${BASE_URL}${endpoint}?${params}`;
+  return `${API.URL}${endpoint}?${params}`;
 }
 
 // 인기 영화 목록
 export async function fetchPopularMovieList(pageNumber) {
-  const popularMovieUrl = buildUrl(ENDPOINT.POPULAR_MOVIES, {page: pageNumber.toString()});
+  const popularMovieUrl = buildUrl(PATH.POPULAR_MOVIE, {page: pageNumber.toString()});
   const popularMovies = await fetchMovies(popularMovieUrl);
   return [mapDataToMovies(popularMovies), popularMovies.total_pages];
 }
 
 // 검색 영화 목록
 export async function fetchSearchMovieList(inputValue, pageNumber) {
-  const searchMovieUrl = buildUrl(ENDPOINT.MOVIE_SEARCH, { query: inputValue, page: pageNumber.toString()});
+  const searchMovieUrl = buildUrl(PATH.SEARCHED_MOVIE, { query: inputValue, page: pageNumber.toString()});
   const searchMovies = await fetchMovies(searchMovieUrl);
   return [mapDataToMovies(searchMovies), searchMovies.total_pages];
 }
 
 // 영화 상세 정보
 export async function fetchMovieDetail(movieId) {
-  const movieDetailUrl = buildUrl(ENDPOINT.DETAIL_MOVIE_INFO + `/${movieId}`);
+  const movieDetailUrl = buildUrl(PATH.DETAIL_MOVIE_INFO + `/${movieId}`);
   const movieDetailInfo = await fetchMovies(movieDetailUrl);
   return mapDataToMovieDetail(movieDetailInfo);
 }
