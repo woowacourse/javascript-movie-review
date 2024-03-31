@@ -1,7 +1,7 @@
 import './UserScoreBox.css';
 import StarEmptyIcon from '../../assets/star_empty.png';
 import StarFillIcon from '../../assets/star_filled.png';
-import { VOTE_MESSAGE } from '../../consts/message';
+import { SCORE_MESSAGE, VOTE_MESSAGE } from '../../consts/message';
 import ScoreDBService from '../../domain/services/ScoreDBService';
 import { getUrlParams } from '../../utils/queryString';
 import Toast from '../Toast/Toast';
@@ -106,7 +106,7 @@ class UserScoreBox {
           setTimeout(() => {
             scoreEvent = false;
             ScoreDBService.updateScore({ movieId: Number(this.movieId), newScore: this.score });
-            new Toast('점수가 반영되었습니다.');
+            new Toast(SCORE_MESSAGE);
           }, 1000);
         }
       });

@@ -17,3 +17,5 @@ export const VOTE_MESSAGE: { [key: string]: string } = {
   4: '재미있어요',
   5: '명작이에요',
 };
+
+export const SCORE_MESSAGE = '점수가 반영되었습니다.';
