@@ -3,50 +3,55 @@ import { MovieData } from '../interface/MovieInterface';
 import { $ } from '../util/selector';
 
 function createSkeletonMovieItem() {
-  const aLink = document.createElement('a');
-  aLink.href = '#';
-
   const itemCard = document.createElement('div');
   itemCard.classList.add('item-card');
+  itemCard.append(...createSkeletonMovieItemElements());
 
-  const itemThumbnail = document.createElement('img');
-  itemThumbnail.classList.add('item-thumbnail', 'skeleton');
-
-  const itemTitle = document.createElement('p');
-  itemTitle.classList.add('item-title', 'skeleton');
-
-  const itemScore = document.createElement('p');
-  itemScore.classList.add('item-score', 'skeleton');
-
-  itemCard.append(itemThumbnail, itemTitle, itemScore);
-  aLink.append(itemCard);
-
-  return aLink;
+  return itemCard;
 }
 
-function injectMovieDataToItem({ item, movie }: { item: HTMLLIElement; movie: MovieData }) {
+function createSkeletonMovieItemElements() {
+  const itemThumbnail = document.createElement('img');
+  const itemTitle = document.createElement('p');
+  const itemScore = document.createElement('p');
+  itemThumbnail.classList.add('item-thumbnail', 'skeleton');
+  itemTitle.classList.add('item-title', 'skeleton');
+  itemScore.classList.add('item-score', 'skeleton');
+
+  return [itemThumbnail, itemTitle, itemScore];
+}
+
+function injectMovieDataToItem({
+  item,
+  movie,
+  onClick,
+}: {
+  item: HTMLLIElement;
+  movie: MovieData;
+  onClick: (movieId: number) => void;
+}) {
   const $itemThumbnail = $<HTMLImageElement>('.item-thumbnail', item);
   const $itemTitle = $<HTMLParagraphElement>('.item-title', item);
   const $itemScore = $<HTMLParagraphElement>('.item-score', item);
 
   $itemThumbnail.onload = () => {
-    $itemThumbnail.classList.remove('skeleton');
-    $itemTitle.classList.remove('skeleton');
-    $itemScore.classList.remove('skeleton');
-
-    $itemThumbnail.loading = 'lazy';
+    [$itemThumbnail, $itemTitle, $itemScore].forEach((element: HTMLElement) => element.classList.remove('skeleton'));
     $itemThumbnail.alt = movie.title;
     $itemTitle.textContent = movie.title;
+    $itemScore.append(createScoreIcon(), movie.voteAverage.toString());
 
-    const $itemScoreIcon = document.createElement('img');
-
-    $itemScoreIcon.src = itemScoreIconPath;
-    $itemScoreIcon.alt = '별점';
-
-    $itemScore.append($itemScoreIcon, movie.voteAverage.toString());
+    item.addEventListener('click', () => onClick(movie.id));
   };
 
   $itemThumbnail.src = movie.posterPath;
+}
+
+function createScoreIcon() {
+  const scoreIcon = document.createElement('img');
+  scoreIcon.src = itemScoreIconPath;
+  scoreIcon.alt = '별점';
+
+  return scoreIcon;
 }
 
 export { createSkeletonMovieItem, injectMovieDataToItem };

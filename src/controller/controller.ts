@@ -39,7 +39,7 @@ export class App {
     try {
       this.movieContainer.createSkeletonList();
       const moviePageData = await this.fetchMoviePageData();
-      this.movieContainer.fillMovieDataToSkeletonList(moviePageData);
+      this.movieContainer.fillMovieDataToSkeletonList(moviePageData, this.handleMovieItemClick.bind(this));
       this.pageNumberManager.increase();
       this.tryCount = 0;
     } catch (error) {
@@ -57,6 +57,10 @@ export class App {
     if (this.searchKeyword) {
       this.makeSearchPage();
     }
+  }
+
+  handleMovieItemClick(movieId: number) {
+    this.fetchMovieDetailData(movieId);
   }
 
   retryAddMovieList(error: Error) {
@@ -93,6 +97,11 @@ export class App {
       searchKeyword: this.searchKeyword,
     });
     return moviePageData;
+  }
+
+  async fetchMovieDetailData(movieId: number) {
+    const movieDetailData = await this.movieService.fetchMovieDetailData(movieId);
+    console.log(movieDetailData);
   }
 
   setSearchKeyword() {

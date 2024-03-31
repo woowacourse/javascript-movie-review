@@ -5,6 +5,7 @@ export const ENDPOINT = {
   GET: {
     POPULAR_MOVIES: '/movie/popular',
     MOVIE_SEARCH: '/search/movie',
+    MOVIE_DETAIL: (id: number) => `/movie/${id.toString()}`,
   },
 };
 

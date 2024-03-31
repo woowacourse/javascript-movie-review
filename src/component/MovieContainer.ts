@@ -78,12 +78,12 @@ class MovieContainer {
     }
   }
 
-  fillMovieDataToSkeletonList({ movieList, hasNextPage }: MoviePageData) {
+  fillMovieDataToSkeletonList({ movieList, hasNextPage }: MoviePageData, onClick: (movieId: number) => void) {
     this.setEmptySearchResult(movieList.length);
 
     this.skeletonList.forEach((item, i) => {
       if (i >= movieList.length) return item.remove();
-      injectMovieDataToItem({ item, movie: movieList[i].data });
+      injectMovieDataToItem({ item, movie: movieList[i].data, onClick });
     });
 
     this.toggleMoreButtonVisibility(hasNextPage);

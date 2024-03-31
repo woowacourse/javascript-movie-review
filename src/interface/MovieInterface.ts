@@ -13,6 +13,15 @@ export interface MovieDetailData extends MovieData {
   userScore: number | null;
 }
 
+export interface MovieDetailRawData {
+  id: number;
+  title: string;
+  genres: { id: number; name: string }[];
+  poster_path: string;
+  vote_average: number;
+  overview: string;
+}
+
 export interface MovieList {
   movieList: MovieData[];
 }
@@ -22,7 +31,6 @@ export interface MovieListData {
   results: {
     id: number;
     title: string;
-    genre_ids: number[];
     poster_path: string;
     vote_average: number;
     overview: string;
