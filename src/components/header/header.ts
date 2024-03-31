@@ -29,7 +29,9 @@ function render(logoHandler: () => void, inputSubmitHandler: (inputValue: string
   searchBox.append(searchInput, searchButton);
 
   header.append(logo, searchBox);
+
   window.addEventListener('resize', handleResize);
+
   logo.addEventListener('click', () => {
     logoHandler();
   });
