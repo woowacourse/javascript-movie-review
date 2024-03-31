@@ -1,6 +1,8 @@
 import HeaderManager from './components/Header/Header';
+import Modal, { MovieScoreEvent } from './components/Modal/Modal';
 import MovieContentManager from './components/MovieContents/MovieContents';
 import { LOGO } from './images/index';
+import storage from './storage';
 import { PropsType } from './types/props';
 import DOM from './utils/DOM';
 
@@ -10,6 +12,8 @@ class MovieApp {
   constructor() {
     this.start();
     this.renderPopularMovie();
+    this.listenModalOpen();
+    this.listenMovieScore();
   }
 
   start() {
@@ -29,6 +33,28 @@ class MovieApp {
       input: '',
     };
     MovieContentManager.renderMovieData(props);
+  }
+
+  listenModalOpen() {
+    document.addEventListener('openModal', (event: Event) => {
+      const scoreEvent = event as MovieScoreEvent;
+      const movieInfo = scoreEvent.detail.movie;
+
+      const existData = storage.getData().find((data) => data.movie.title === movieInfo.title);
+      if (existData) {
+        Modal.updateMovieScoreUI(existData.score);
+      }
+    });
+  }
+
+  listenMovieScore() {
+    document.addEventListener('selectMovieScore', (event: Event) => {
+      const scoreEvent = event as MovieScoreEvent;
+      const movieInfo = scoreEvent.detail.movie;
+      const movieScore = scoreEvent.detail.score;
+
+      storage.setData({ movie: movieInfo, score: movieScore });
+    });
   }
 }
 

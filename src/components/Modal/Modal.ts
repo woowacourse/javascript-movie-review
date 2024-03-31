@@ -5,7 +5,14 @@ import { CLOSE_BUTTON, STAR_FILLED, STAR_LINED } from '../../images';
 
 const { $, $$ } = DOM;
 
-const VOTE_TEXT: Record<string, string> = {
+export interface MovieScoreEvent extends CustomEvent {
+  detail: {
+    movie: MovieType;
+    score: string;
+  };
+}
+
+const MOIVE_SCORE: Record<string, string> = {
   '2': '2 최악이예요',
   '4': '4 별로예요',
   '6': '6 보통이에요',
@@ -16,6 +23,7 @@ const VOTE_TEXT: Record<string, string> = {
 const Modal = {
   render(movie: MovieType) {
     const modal = document.createElement('div');
+    modal.setAttribute('id', `${movie.title}`);
     modal.classList.add('modal');
 
     modal.innerHTML = /* html */ `
@@ -33,7 +41,9 @@ const Modal = {
             <div class="modal-details">
                 <div class="movie-info">
                     <h3 class="movie-text">${movie.genre_ids}</h3>
-                    <p class="movie-text"><img src=${STAR_FILLED} alt="별점">${movie.vote_average}</p>
+                    <p class="movie-text"><img src=${STAR_FILLED} alt="별점">${movie.vote_average.toFixed(
+      1,
+    )}</p>
                 </div>
                 <p class="movie-text summary">${movie.overview}</p>
                 <div class="vote-container">
@@ -59,7 +69,8 @@ const Modal = {
     `;
 
     this.handleModal(modal);
-    this.handleStarCheckbox(modal);
+    this.handleStarCheckbox(modal, movie);
+
     return modal;
   },
 
@@ -73,24 +84,38 @@ const Modal = {
     });
   },
 
-  handleStarCheckbox(modal: HTMLDivElement) {
+  handleStarCheckbox(modal: HTMLDivElement, movie: MovieType) {
     const checkboxes = $$('.vote-box input', modal);
 
     checkboxes.forEach((checkbox) => {
       checkbox?.addEventListener('click', (e) => {
         const element = e.target as HTMLInputElement;
 
-        const voteText = $('.vote-container .movie-text:last-child');
-        voteText!.textContent = VOTE_TEXT[element.value];
+        this.updateMovieScoreUI(element.value);
 
-        checkboxes.forEach((check) => {
-          const currentCheckbox = check as HTMLInputElement;
-          currentCheckbox.checked = Number(currentCheckbox.value) <= Number(element.value);
-          const label = currentCheckbox.nextElementSibling as HTMLLabelElement;
-          const img = label.querySelector('img')!;
-          img.src = currentCheckbox.checked ? STAR_FILLED : STAR_LINED;
+        const selectMovieScore = new CustomEvent('selectMovieScore', {
+          detail: {
+            movie,
+            score: element.value,
+          },
         });
+        document.dispatchEvent(selectMovieScore);
       });
+    });
+  },
+
+  updateMovieScoreUI(score: string) {
+    const starIcons = $$('.vote-box img');
+    const scoreMessage = $('.vote-container .movie-text:last-child');
+    scoreMessage!.textContent = MOIVE_SCORE[score];
+
+    starIcons.forEach((icon, index) => {
+      const image = icon as HTMLImageElement;
+      if (index + 1 <= Number(score) / 2) {
+        image.src = STAR_FILLED;
+      } else {
+        image.src = STAR_LINED;
+      }
     });
   },
 };

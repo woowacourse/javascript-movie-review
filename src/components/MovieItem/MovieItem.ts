@@ -43,8 +43,14 @@ const MovieItemManager = {
       );
 
       movieList[0].genre_ids = genreNames.join(', ');
-
       $('main')?.appendChild(Modal.render(movieList[0]));
+
+      const openModal = new CustomEvent('openModal', {
+        detail: {
+          movie: movieList[0],
+        },
+      });
+      document.dispatchEvent(openModal);
     });
   },
 

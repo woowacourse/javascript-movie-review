@@ -8,3 +8,8 @@ export interface MovieType {
 }
 
 export type MovieListType = MovieType[];
+
+export interface MovieScore {
+  movie: MovieType;
+  score: string;
+}
