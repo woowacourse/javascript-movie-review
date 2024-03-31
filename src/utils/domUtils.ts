@@ -31,9 +31,9 @@ export const $$ = <T extends Element = Element>(
 
 export const setAttributes = (element: HTMLElement, attributes: { [key: string]: string | EventListener }): void => {
   Object.entries(attributes).forEach(([key, value]) => {
-    if (typeof value === 'function') element.addEventListener(key, value as EventListener);
-    else if (key === 'text') element.innerText = value as string;
-    else element.setAttribute(key, value as string);
+    if (typeof value === 'function') element.addEventListener(key, value);
+    else if (key === 'text') element.innerText = value;
+    else element.setAttribute(key, value);
   });
 };
 
