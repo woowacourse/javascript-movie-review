@@ -1,9 +1,11 @@
-import { BUTTON } from '../../constants/INFORMATION';
+import { BUTTON, LOCAL_VOTE } from '../../constants/INFORMATION';
+import { MOVIE_POSTER_URL } from '../../constants/URLs';
 import { fetchMovieDetail } from '../../domain/Request/sendRequest';
 import { IMovieDetail } from '../../interfaces/IMovieDetail';
 import { starEmpty, starFilled } from '../../resources';
 import { getAllDomElements, getDomElement } from '../../util/DOM';
 import Button from '../Button/Button';
+import MovieItems from '../MovieItems/MovieItems';
 
 class MovieInfoModal {
   #movieID: number;
@@ -11,20 +13,37 @@ class MovieInfoModal {
 
   constructor(movieID: number) {
     this.#movieID = movieID;
-    this.#localVote = localStorage.getItem(`${this.#movieID}`) ? Number(localStorage.getItem(`${this.#movieID}`)) : 6;
+    this.#localVote = localStorage.getItem(`${this.#movieID}`) ? Number(localStorage.getItem(`${this.#movieID}`)) : 0;
     this.create();
     this.setHandle();
     console.log(123);
+    document.addEventListener('keydown', this.handleKeyPress);
+    document.body.style.overflow = 'hidden';
   }
+
+  handleKeyPress = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      document.removeEventListener('keydown', this.handleKeyPress);
+      getDomElement('#movie-detail-modal__open').remove();
+      document.body.style.overflow = 'auto';
+    }
+  };
 
   create() {
     const movieDetailModal = document.createElement('div');
-    movieDetailModal.id = 'movie-detail-modal';
+    movieDetailModal.id = 'movie-detail-modal__open';
+    const modalBackdrop = document.createElement('div');
+    modalBackdrop.classList.add('modal-backdrop');
+    const movieDetailModalContainer = document.createElement('div');
+    movieDetailModalContainer.classList.add('modal-container');
     const movieDetailModalHeader = this.#createHeader();
     const movieDetailModalContent = this.#createContent();
 
-    movieDetailModal.appendChild(movieDetailModalHeader);
-    movieDetailModal.appendChild(movieDetailModalContent);
+    movieDetailModalContainer.appendChild(movieDetailModalHeader);
+    movieDetailModalContainer.appendChild(movieDetailModalContent);
+
+    movieDetailModal.appendChild(movieDetailModalContainer);
+    movieDetailModal.appendChild(modalBackdrop);
 
     this.mountItems();
 
@@ -39,13 +58,15 @@ class MovieInfoModal {
 
   setHandle() {
     getDomElement('.close-button').addEventListener('click', () => {
-      getDomElement('#movie-detail-modal').remove;
+      document.removeEventListener('keydown', this.handleKeyPress);
+      getDomElement('#movie-detail-modal__open').remove();
+      document.body.style.overflow = 'auto';
     });
   }
 
   #createHeader() {
     const header = document.createElement('div');
-
+    header.classList.add('modal-header');
     const title = document.createElement('h2');
     title.classList.add('modal-header-title', 'skeleton');
 
@@ -74,6 +95,7 @@ class MovieInfoModal {
 
   #createDescriptionAndVote() {
     const descriptionAndVote = document.createElement('div');
+    descriptionAndVote.classList.add('modal-description-and-vote');
     const description = this.#createDescription();
     const vote = this.#createVote();
 
@@ -85,6 +107,7 @@ class MovieInfoModal {
 
   #createDescription() {
     const description = document.createElement('div');
+    description.classList.add('item-description');
     const genreAndVoteAverage = this.#createGenreAndVoteAverage();
     const overView = this.#createOverView();
 
@@ -96,10 +119,13 @@ class MovieInfoModal {
 
   #createGenreAndVoteAverage(): HTMLElement {
     const genreAndVoteAverage = document.createElement('div');
+    genreAndVoteAverage.classList.add('modal-genre-and-vote');
     const genre = document.createElement('p');
-    genre.classList.add('skeleton');
+    genre.classList.add('item-genre', 'skeleton');
+    genre.textContent = 'ㅤㅤㅤㅤㅤㅤㅤㅤ';
     const voteAverage = document.createElement('p');
     voteAverage.classList.add('item-vote-average', 'skeleton');
+    voteAverage.textContent = 'ㅤㅤㅤ';
 
     genreAndVoteAverage.appendChild(genre);
     genreAndVoteAverage.appendChild(voteAverage);
@@ -115,14 +141,17 @@ class MovieInfoModal {
 
   #createVote() {
     const vote = document.createElement('div');
-    vote.classList.add('item-vote', 'skeleton');
+    vote.classList.add('item-vote');
     const myVoteMessage = document.createElement('p');
+    myVoteMessage.style.fontWeight = '700';
     myVoteMessage.textContent = '내 별점';
     const star = this.#createAllVoteStars();
     const myVote = document.createElement('p');
-    myVote.textContent = this.#localVote.toString();
+    myVote.classList.add('modal-my-vote');
+    myVote.textContent = this.#localVote === 0 ? '' : this.#localVote.toString();
     const myVoteDescription = document.createElement('p');
-    myVoteDescription.textContent = this.#getMyVoteDescription();
+    myVoteDescription.classList.add('modal-my-vote-description');
+    myVoteDescription.textContent = LOCAL_VOTE[this.#localVote as keyof typeof LOCAL_VOTE];
 
     vote.appendChild(myVoteMessage);
     vote.appendChild(star);
@@ -134,6 +163,7 @@ class MovieInfoModal {
 
   #createAllVoteStars() {
     const voteStars = document.createElement('div');
+    voteStars.classList.add('modal-vote-stars');
     [...Array(5)].forEach((_, index) => {
       voteStars.appendChild(this.#createVoteStar(index));
     });
@@ -141,24 +171,17 @@ class MovieInfoModal {
   }
 
   #createVoteStar(index: number) {
-    const star = Button.create(BUTTON.voteStar) as HTMLButtonElement;
-    const starImage = document.createElement('img');
-    starImage.src = index * 2 <= this.#localVote ? starFilled : starEmpty;
-    star.appendChild(starImage);
+    const star = document.createElement('img');
+    star.classList.add('item-votestar');
+    star.src = index * 2 + 2 <= this.#localVote ? starFilled : starEmpty;
+    star.addEventListener('click', () => {
+      this.#localVote = index * 2 + 2;
+      getDomElement('.modal-my-vote').innerText = this.#localVote === 0 ? '' : (index * 2 + 2).toString();
+      getDomElement('.modal-my-vote-description').innerText = LOCAL_VOTE[this.#localVote as keyof typeof LOCAL_VOTE];
+      this.#drawStars(index);
+      this.#saveLocalVoteData();
+    });
     return star;
-  }
-
-  #getMyVoteDescription() {
-    switch (this.#localVote) {
-      case 0 | 2:
-        return '별로에요';
-      case 4 | 6:
-        return '보통이에요';
-      case 8 | 10:
-        return '재밌어요';
-      default:
-        return null;
-    }
   }
 
   async getMovieDetailData(movie_id: number) {
@@ -166,32 +189,47 @@ class MovieInfoModal {
   }
 
   replaceAllSkeletons(movieDetailData: IMovieDetail) {
-    const movieDetailModal = getDomElement('#movie-detail-modal');
+    const movieDetailModal = getDomElement('#movie-detail-modal__open');
     getAllDomElements('.skeleton', movieDetailModal).forEach((element: HTMLElement) => {
       if (element.classList.contains('modal-header-title')) {
         element.textContent = movieDetailData.title;
         element.classList.toggle('skeleton');
       }
       if (element.classList.contains('item-poster')) {
-        (element as HTMLImageElement).src = movieDetailData.poster_path;
+        (element as HTMLImageElement).src = `${MOVIE_POSTER_URL}${movieDetailData.poster_path}`;
         element.onload = () => element.classList.toggle('skeleton');
       }
-      if (element.classList.contains('genre')) {
-        element.innerText = movieDetailData.genres.join();
+      if (element.classList.contains('item-genre')) {
+        element.innerText = movieDetailData.genres.map((genre) => genre.name).join();
         element.classList.toggle('skeleton');
       }
       if (element.classList.contains('item-vote-average')) {
-        element.innerText = `${movieDetailData.vote_average}`;
+        element.textContent = ` ${movieDetailData.vote_average.toFixed(1)}`;
+        const starImage = MovieItems.createStarElement();
+        element.prepend(starImage);
         element.classList.toggle('skeleton');
       }
       if (element.classList.contains('item-overview')) {
-        element.innerText = movieDetailData.overview;
-        element.classList.toggle('skeleton');
-      }
-      if (element.classList.contains('item-vote')) {
+        element.innerText =
+          movieDetailData.overview === '' ? movieDetailData.overview : '영화 설명 정보가 존재하지 않습니다.';
         element.classList.toggle('skeleton');
       }
     });
+  }
+
+  #drawStars(starIndex: number) {
+    const stars = getAllDomElements<HTMLImageElement>('.item-votestar');
+    stars.forEach((star, index) => {
+      if (index * 2 < this.#localVote) {
+        star.src = starFilled;
+      } else {
+        star.src = starEmpty;
+      }
+    });
+  }
+
+  #saveLocalVoteData() {
+    localStorage.setItem(this.#movieID.toString(), this.#localVote.toString());
   }
 }
 
