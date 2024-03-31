@@ -13,6 +13,7 @@ import MovieDetail from './components/MovieDetail/MovieDetail';
 
 import MovieRenderController from './controller/MovieRenderController';
 import MovieDetailController from './controller/MovieDetailController';
+import TopButton from './components/TopButton/TopButton';
 
 class MovieApp {
   #app = document.getElementById('app');
@@ -31,6 +32,7 @@ class MovieApp {
       return;
     }
 
+    this.#app.appendChild(TopButton());
     this.#app.appendChild(this.#setHeader());
     this.#app.appendChild(this.#setMain());
     this.#app.appendChild(this.#modal.element);
