@@ -10,4 +10,8 @@ export default class MovieDetail {
   get data(): MovieDetailData {
     return { ...this.movieDetail };
   }
+
+  set userScore(score: number) {
+    this.movieDetail.userScore = score;
+  }
 }

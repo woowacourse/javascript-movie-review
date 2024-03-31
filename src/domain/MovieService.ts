@@ -1,4 +1,4 @@
-import { BASE_URL, ENDPOINT, MOVIE_LIST_TYPE } from '../constant/config';
+import { BASE_URL, ENDPOINT, MOVIE_LIST_TYPE, STORAGE } from '../constant/config';
 import fetchAPI from '../api/fetchAPI';
 import generateQueryUrl from '../api/generateQueryUrl';
 import Movie from './Movie';
@@ -15,6 +15,10 @@ interface FetchMovieDataParams {
 }
 
 class MovieService {
+  constructor() {
+    this.initUserMoviesStorage();
+  }
+
   async fetchMovieData({ listType, pageNumber, searchKeyword = '' }: FetchMovieDataParams) {
     const endpoint = listType === MOVIE_LIST_TYPE.search.type ? ENDPOINT.GET.MOVIE_SEARCH : ENDPOINT.GET.POPULAR_MOVIES;
     const queryUrl = generateQueryUrl({
@@ -71,9 +75,38 @@ class MovieService {
       overview: data.overview,
       posterPath: data.poster_path,
       voteAverage: data.vote_average,
-      userScore: null,
+      userScore: this.getUserScore({ movieId: data.id }),
     };
     return new MovieDetail(movieDetailData);
+  }
+
+  initUserMoviesStorage() {
+    if (!localStorage.getItem(STORAGE.userMovies)) {
+      localStorage.setItem(STORAGE.userMovies, '{}');
+    }
+  }
+
+  getUserMoviesFromStorage() {
+    const userMoviesRawData = localStorage.getItem(STORAGE.userMovies);
+    if (!userMoviesRawData) {
+      this.initUserMoviesStorage();
+      return {};
+    }
+    return JSON.parse(userMoviesRawData);
+  }
+
+  getUserScore({ movieId }: { movieId: number }) {
+    const userMovies = this.getUserMoviesFromStorage();
+    if (Object.keys(userMovies).includes(movieId.toString())) {
+      return parseInt(userMovies[movieId].userScore);
+    }
+    return null;
+  }
+
+  setUserScore({ movieId, userScore }: { movieId: number; userScore: number }) {
+    const userMovies = this.getUserMoviesFromStorage();
+    const updatedUserMovies = { ...userMovies, [movieId]: { userScore } };
+    localStorage.setItem(STORAGE.userMovies, JSON.stringify(updatedUserMovies));
   }
 }
 

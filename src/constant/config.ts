@@ -19,3 +19,7 @@ export const MOVIE_LIST_TYPE = {
     title: '지금 인기 있는 영화',
   },
 } as const;
+
+export const STORAGE = {
+  userMovies: 'userMovies',
+} as const;

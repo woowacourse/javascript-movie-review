@@ -92,11 +92,11 @@ FE 레벨1 영화관 미션
 
 ## Service
 
-- [ ] MovieService
+- [x] MovieService
   - [x] TMDB API를 통해 특정 영화 ID에 대한 영화 상세 정보를 요청하고 수신하여 반환한다.
     - [x] 장르에 대한 정보는 string[] 형태로 가공한다.
-    - [ ] 해당 영화 ID에 대한 사용자 별점 정보가 localStorage에 존재할 경우 해당 내용을 userScore 필드에 포함하여 반환한다.
-  - [ ] 특정 영화 ID에 대한 사용자 별점 정보 입력이 들어왔을 경우 이를 localStorage에 저장한다.
+    - [x] 해당 영화 ID에 대한 사용자 별점 정보가 localStorage에 존재할 경우 해당 내용을 userScore 필드에 포함하여 반환한다.
+  - [x] 특정 영화 ID에 대한 사용자 별점 정보 입력이 들어왔을 경우 이를 localStorage에 저장한다.
 
 ## Controller
 
