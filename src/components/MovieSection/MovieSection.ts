@@ -5,16 +5,16 @@ import { $ } from "../../utils/dom";
 
 import "./MovieSection.css";
 
-export default class MovieSection extends Component<{}, {}> {
+export default class MovieSection extends Component {
   private searchKeyword: string | undefined;
 
   protected getTemplate() {
     return /*html*/ `
       <div id="movie-list">
-        <h2 id="main-title"></h2>
+        <h2 id="main-title" class="font-bold select-none main-title"></h2>
       </div>
-      <div id="empty-result" class="empty-result hidden"></div>
-      <div id="scroll-trigger" class="scroll-trigger full-width"></div>
+      <div id="empty-result" class="flex flex-col text-center text-base hidden empty-result"></div>
+      <div id="scroll-trigger" class="h-5 full-width"></div>
     `;
   }
 
