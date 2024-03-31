@@ -13,7 +13,7 @@ function createMovieDetailSkeleton() {
           class="h-433 w-292 custom-skeleton"
         />
       </div>
-      <div class="movie-detail-info h-433 w-396">
+      <div class="movie-detail-info w-396">
         <div class="custom-skeleton h-20 w-100"></div>
         <div>
           <div class="custom-skeleton h-20 w-396"></div>

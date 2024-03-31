@@ -6,6 +6,10 @@
   .item-view {
     width: 800px;
   }
+  .movie-modal {
+    width: 768px;
+    bottom: 0;
+  }
 }
 
 @media (max-width: 768px) {
@@ -16,7 +20,7 @@
   dialog {
     margin-bottom: 0;
   }
-  .movie-detail-image {
+  .mobile-display-none {
     display: none;
   }
   .movie-detail-info {
@@ -25,9 +29,6 @@
   .movie-detail-info > div:nth-child(2) {
     height: 160px;
     -webkit-line-clamp: 8;
-  }
-  .result-string {
-    display: none;
   }
 }
 

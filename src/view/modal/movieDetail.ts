@@ -45,7 +45,7 @@ function createMovieDetailHeader(title: string) {
 function createMovieDetailImage(posterPath: string) {
   const box = document.createElement('div');
   const img = document.createElement('img');
-  img.className = 'h-433 w-292';
+  img.className = 'h-433 w-292 mobile-display-none';
   img.src = MOVIE_IMAGE_BASE_URL + posterPath;
   img.loading = 'lazy';
   img.alt = 'movie-image';
@@ -145,7 +145,7 @@ function createRate(id: number) {
 function createResult(id: number) {
   const rateString = document.createElement('span');
   rateString.innerText = RATING_MESSAGES[getLocalStorageScore(id) ?? 0];
-  rateString.className = 'result-string w-96';
+  rateString.className = 'mobile-display-none w-96';
   return rateString;
 }
 
