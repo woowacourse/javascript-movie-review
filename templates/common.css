@@ -4,7 +4,7 @@
 
 body {
   font-size: 14px;
-  background-color: #222222;
+  background-color: var(--primary-background);
   color: #fff;
 }
 
@@ -21,32 +21,23 @@ button {
   outline: none;
 }
 
-.item-view,
-.item-test {
-  width: 100%;
-}
-
-.item-view {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 1200px;
-  margin: 0 auto;
-}
-
-.item-view h2 {
-  font-size: 2rem;
-  font-weight: bold;
-  user-select: none;
-}
-
-/* --------------------common-------------------- */
+/* -------------------- common -------------------- */
 
 :root {
+  --primary-background: #222222;
+  --logo-color: #f33f3f;
   --border-bottom-gray: #f1f1f140;
   --detail-background: #212122;
   --gray-300: #383839;
   --white-100: #f1f1f1;
+}
+
+.hidden {
+  display: none;
+}
+
+.overflow-hidden {
+  overflow: hidden;
 }
 
 .relative {
@@ -85,12 +76,24 @@ button {
   padding-left: 2rem;
 }
 
+.mt-1 {
+  margin-top: 1rem;
+}
+
 .ml-1 {
   margin-left: 1rem;
 }
 
 .mb-1 {
   margin-bottom: 1rem;
+}
+
+.mb-3 {
+  margin-bottom: 3rem;
+}
+
+.h-5 {
+  height: 1.25rem;
 }
 
 .h-6 {
@@ -117,8 +120,20 @@ button {
   width: 2rem;
 }
 
+.w-fit {
+  width: fit-content;
+}
+
 .font-semibold {
   font-weight: 600;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.text-center {
+  text-align: center;
 }
 
 .font-normal {
@@ -128,6 +143,10 @@ button {
 .text-base {
   font-size: 1rem;
   line-height: 1.5rem;
+}
+
+.border-0 {
+  border: 0;
 }
 
 .rounded-lg {
@@ -140,4 +159,12 @@ button {
 
 .gap-y-3 {
   gap: 0.75rem;
+}
+
+.select-none {
+  user-select: none;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
