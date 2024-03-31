@@ -16,8 +16,12 @@ const renderContainer = ($children: HTMLElement, $container: Element) => {
 export const openModal = ($children: HTMLElement) => {
   const $modal = document.querySelector(`.${modal}`);
   const $container = document.querySelector(`.${container}`);
+  const $closeBtn = createCloseBtn();
 
-  if ($container) renderContainer($children, $container);
+  if ($container) {
+    renderContainer($children, $container);
+    $container.appendChild($closeBtn);
+  }
   if ($modal) $modal.classList.add(open);
 };
 
@@ -26,9 +30,7 @@ export const closeModal = () => {
   const $container = document.querySelector(`.${container}`);
 
   if ($container) {
-    const $closeBtn = createCloseBtn();
     $container.textContent = '';
-    $container.appendChild($closeBtn);
   }
   if ($modal) $modal.classList.remove(open);
 };
