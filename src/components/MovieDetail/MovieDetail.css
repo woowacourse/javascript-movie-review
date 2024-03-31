@@ -25,6 +25,10 @@
   text-wrap: nowrap;
 }
 
+.movie-detail-overview {
+  margin-bottom: 48px;
+}
+
 .voting-average {
   display: flex;
   align-items: center;

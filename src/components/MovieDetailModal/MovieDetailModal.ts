@@ -6,6 +6,7 @@ import {
   processMovieDetailResponse,
 } from '../../services/TMDBService';
 
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import MovieDetail from '../MovieDetail/MovieDetail';
 import MoviePoster from '../MoviePoster/MoviePoster';
 
@@ -79,9 +80,11 @@ const MovieDetailModal = (id: number) => {
     $body.appendChild($movieDetail);
   };
 
-  const onError = (response: Response) => {};
+  const onError = (response: Response) => {
+    const $errMsg = ErrorMessage().render(response.status);
 
-  const onLoading = () => {};
+    $body.appendChild($errMsg);
+  };
 
   const render = () => {
     $container.appendChild($header);
@@ -90,7 +93,7 @@ const MovieDetailModal = (id: number) => {
     return $container;
   };
 
-  fetchMovieDetail({ onSuccess, onError, onLoading, id });
+  fetchMovieDetail({ onSuccess, onError, onLoading: () => {}, id });
 
   return {
     render,

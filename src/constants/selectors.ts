@@ -1,14 +1,3 @@
-const INFINITE_SCROLL_TRIGGER = Object.freeze({
-  trigger: 'infinite-scroll-trigger',
-});
-
-const MOVIE_ITEM = Object.freeze({
-  title: 'item-title',
-  score: 'item-score',
-  thumbnail: 'item-thumbnail',
-  card: 'item-card',
-});
-
 const MODAL = Object.freeze({
   modal: 'modal',
   open: 'modal--open',
@@ -17,6 +6,17 @@ const MODAL = Object.freeze({
   header: 'modal-header',
   body: 'modal-body',
   closeBtn: 'modal-close-btn',
+});
+
+const SKELETON = Object.freeze({
+  box: 'box-skeleton',
+});
+
+const MOVIE_ITEM = Object.freeze({
+  title: 'item-title',
+  score: 'item-score',
+  thumbnail: 'item-thumbnail',
+  card: 'item-card',
 });
 
 const MOVIE_DETAIL_MODAL = Object.freeze({
@@ -47,13 +47,18 @@ const STAR_RATING = Object.freeze({
   description: 'rating-description',
 });
 
+const INFINITE_SCROLL_TRIGGER = Object.freeze({
+  trigger: 'infinite-scroll-trigger',
+});
+
 const SELECTORS = {
-  INFINITE_SCROLL_TRIGGER,
-  MOVIE_ITEM,
   MODAL,
+  SKELETON,
+  MOVIE_ITEM,
   MOVIE_DETAIL_MODAL,
   MOVIE_DETAIL,
   STAR_RATING,
+  INFINITE_SCROLL_TRIGGER,
 };
 
 export default SELECTORS;
