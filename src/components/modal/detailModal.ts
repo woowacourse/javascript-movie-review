@@ -1,9 +1,8 @@
-import { MovieDetail, UserMovieDetail } from '../../interface/Movie';
+import { MovieDetail } from '../../interface/Movie';
 import emptyImg from '../../images/empty_poster.png';
 import filledStar from '../../images/star_filled.png';
 import modal from './emptyModal';
-import { RecommendStar } from '../recommendStar/recommendStar';
-import { MovieDetailToUserMovieDetail } from '../../domain/MovieService';
+import { RecommendStar, getSavedRecommend } from '../recommendStar/recommendStar';
 
 function createMovieDetailModal(movieDetail: MovieDetail, closeModalCallBack: () => void) {
   const container = render(movieDetail, closeModalCallBack);
@@ -73,7 +72,6 @@ function createMovieDetailSection(movieDetail: MovieDetail) {
   overview.textContent = movieDetail.overview;
 
   const SavedRecommend = getSavedRecommend(movieDetail);
-  console.log(SavedRecommend);
   const recommendStarBox = new RecommendStar(SavedRecommend, 5);
 
   sectionHeader.append(genre, voteBox);
@@ -81,17 +79,4 @@ function createMovieDetailSection(movieDetail: MovieDetail) {
 
   return section;
 }
-
-function getSavedRecommend(movieDetail: MovieDetail) {
-  const recommendList = JSON.parse(localStorage.getItem('recommendList') || '[]');
-  if (recommendList.length !== 0) {
-    const userMovieDetail = recommendList.find((movie: UserMovieDetail) => movie.id === movieDetail.id);
-    if (userMovieDetail) {
-      return userMovieDetail;
-    }
-    return MovieDetailToUserMovieDetail(movieDetail, 0);
-  }
-  return MovieDetailToUserMovieDetail(movieDetail, 0);
-}
-
 export default createMovieDetailModal;
