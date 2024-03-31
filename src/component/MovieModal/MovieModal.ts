@@ -11,10 +11,6 @@ import posterEmptyImg from '../../image/poster_empty.png';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w220_and_h330_face';
 
 class MovieModal {
-  constructor() {
-    this.#handleMyVoteButtonClick();
-  }
-
   createMovieModalSection() {
     const movieListSectionElement = $('.item-view') as Element;
     const modalElement = createElement('div', {
@@ -154,6 +150,7 @@ class MovieModal {
     modalContainerElement?.appendChild(contentElement);
 
     this.#setModalState();
+    this.#handleMyVoteButtonClick();
 
     return modalContainerElement;
   }
