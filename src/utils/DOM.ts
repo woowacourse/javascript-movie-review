@@ -5,22 +5,13 @@ function validateSelector(selector: string) {
 }
 
 const DOM = {
-  $: (selector: string, target: HTMLElement | Document = document) => {
-    try {
-      validateSelector(selector);
-      return target.querySelector(selector);
-    } catch (error) {
-      alert(error);
-    }
+  $: <T extends Element>(selector: string, target: Element | Document = document) => {
+    validateSelector(selector);
+    return target.querySelector<T>(selector);
   },
-  $$: (selector: string, target: HTMLElement | Document = document) => {
-    try {
-      validateSelector(selector);
-      return target.querySelectorAll(selector);
-    } catch (error) {
-      alert(error);
-      return [];
-    }
+  $$: <T extends Element>(selector: string, target: Element | Document = document) => {
+    validateSelector(selector);
+    return target.querySelectorAll<T>(selector);
   },
 };
 
