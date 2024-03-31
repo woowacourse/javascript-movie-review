@@ -4,6 +4,7 @@ import MovieDetail from "../MovieDetail/MovieDetail";
 import { $, createElement } from "../../utils/dom";
 import { MovieItem } from "../../types/movies";
 import { filledStarLogo } from "../../assets/image";
+import { ERROR_IMAGE_SOURCE, MOVIE_LENGTH_PER_REQUEST } from "../../constants/movie";
 
 import "./MovieList.css";
 
@@ -12,14 +13,12 @@ interface MovieListProps {
 }
 
 export default class MovieList extends Component<MovieListProps, {}> {
-  private ERROR_IMAGE_SOURCE =
-    "https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg";
-
   private movieDetail: MovieDetail | undefined;
 
   protected initializeState() {
     const $section = createElement<HTMLDivElement>("section");
-    $section.className = "detail-container flex flex-col rounded-lg";
+    $section.className = "flex flex-col rounded-lg detail-container";
+    $section.id = "movie-detail-container";
 
     this.movieDetail = new MovieDetail($section);
   }
@@ -44,18 +43,18 @@ export default class MovieList extends Component<MovieListProps, {}> {
     listItem.id = String(id);
 
     listItem.innerHTML = /*html*/ `
-      <div class="item-card">
+      <div class="flex flex-col cursor-pointer item-card">
         <img
-          class="item-thumbnail"
+          class="rounded-lg bg-contain item-thumbnail skeleton"
           src="https://image.tmdb.org/t/p/w220_and_h330_face/${imagePath}"
-          onerror="this.src='${this.ERROR_IMAGE_SOURCE}'"
-          loading="lazy"
+          onerror="this.src='${ERROR_IMAGE_SOURCE}'"
           alt="${title}"/>
-        <p class="item-title">${title}</p>
-        <p class="item-score">
-          ${voteAverage.toFixed(1)} <img src="${filledStarLogo}" alt="별점" /> 
+        <p class="font-bold item-title">${title}</p>
+        <p class="flex align-center item-score">
+        ${voteAverage.toFixed(1)} <img src="${filledStarLogo}" alt="별점" /> 
         </p>
       </div>    
+      
     `;
 
     return listItem;
@@ -67,9 +66,12 @@ export default class MovieList extends Component<MovieListProps, {}> {
     if (!$div) return;
 
     $div.innerHTML = /*html*/ `
-      <h2>검색 결과가 존재하지 않습니다.</h2>
-      <p>단어의 철자가 정확한지 다시 한번 확인해볼까요?</p>
-      <p>너무 긴 검색어라면 검색어를 줄여주시고, 보다 일반적인 검색어로 검색 부탁드려요!</p>
+      <p class="mb-1">검색 결과가 존재하지 않습니다 🥲</p>
+      <p>- 단어의 철자가 정확한지 확인해 보세요</p>
+      <p>- 보다 일반적인 검색어로 다시 검색해 보세요</p>
+      <p>- 검색어의 띄어쓰기를 다르게 해보세요</p>
+      <p>- 유해/금지어가 아닌지 확인해주세요</p>
+      <p>- 더 간단한 단어로 검색해 보세요 (예: 해리 포터 -> 해리)</p>
     `;
 
     $div.classList.remove("hidden");
@@ -84,7 +86,7 @@ export default class MovieList extends Component<MovieListProps, {}> {
       return;
     }
 
-    if (movies.length < 20) {
+    if (movies.length < MOVIE_LENGTH_PER_REQUEST) {
       this.props?.removeScrollTrigger();
     }
 
