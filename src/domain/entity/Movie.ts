@@ -1,5 +1,5 @@
 import { MovieDetailAPIReturnType, MovieItemReturnType } from '../../api/movieAPI.type';
-import type { Movie, MovieDetail } from '../../types/movie';
+import type { Movie, MovieDetail } from './movie.type';
 
 type RawMovieDataType = MovieItemReturnType | MovieDetailAPIReturnType;
 

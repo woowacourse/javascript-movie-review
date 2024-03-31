@@ -36,6 +36,7 @@ const movieAPI = {
       url: DETAIL_OF_MOVIE(movieId),
     });
 
+    console.log(await fetcher.get());
     return fetcher.get() as Promise<MovieDetailAPIReturnType>;
   },
 };

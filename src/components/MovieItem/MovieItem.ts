@@ -1,6 +1,6 @@
 import Star from '../../assets/star_filled.png';
 import NoImage from '../../assets/no_image.png';
-import { Movie } from './../../types/movie';
+import type { Movie } from '../../domain/entity/movie.type';
 import '../MovieItem/MovieItem.css';
 import { POSTER_BASE_URL } from '../../consts/URL';
 import { setUrlParams } from '../../utils/queryString';

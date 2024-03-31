@@ -1,5 +1,5 @@
 import MovieItem from '../MovieItem/MovieItem';
-import { Movie } from './../../types/movie';
+import type { Movie } from '../../domain/entity/movie.type';
 import '../MovieList/MovieList.css';
 import { MOVIE_COUNT_PER_PAGE } from '../../consts/UISettings';
 import { NotFound } from '../Error/NotFound/NotFound';

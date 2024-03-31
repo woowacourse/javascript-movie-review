@@ -7,15 +7,15 @@ import { getUrlParams } from '../../utils/queryString';
 
 class UserScoreBox {
   score: number;
-  starVoteBox;
+  userVoteBox;
   starAndInfoBox;
   movieId;
 
   constructor() {
     this.movieId = getUrlParams('movie_id');
     this.score = ScoreDBService.getScore(Number(this.movieId)) || 0;
-    this.starVoteBox = document.createElement('div');
-    this.starVoteBox.id = 'star-vote-box';
+    this.userVoteBox = document.createElement('div');
+    this.userVoteBox.id = 'user-vote-box';
     this.starAndInfoBox = document.createElement('div');
     this.starAndInfoBox.id = 'star-with-info-box';
 
@@ -30,7 +30,6 @@ class UserScoreBox {
   }
 
   getOriginalUserScore() {
-    const userScore = ScoreDBService.getScore(Number(this.movieId));
     this.score = ScoreDBService.getScore(Number(this.movieId));
   }
 
@@ -39,7 +38,7 @@ class UserScoreBox {
     scoreTitle.textContent = '내 별점';
     scoreTitle.id = 'score-title';
 
-    this.starVoteBox.append(scoreTitle);
+    this.userVoteBox.append(scoreTitle);
 
     this.createStarsByScore();
     this.createScoreInfo();
@@ -47,7 +46,7 @@ class UserScoreBox {
     const detailBox = document.querySelector('#movie-info-detail-box');
     if (!detailBox) return;
 
-    detailBox.append(this.starVoteBox);
+    detailBox.append(this.userVoteBox);
   }
 
   createStarsByScore() {
@@ -61,12 +60,13 @@ class UserScoreBox {
     stars.forEach((star, i) => {
       const starIcon = document.createElement('img');
       starIcon.classList.add('star');
+      star === StarFillIcon ? starIcon.classList.add('filled-star') : starIcon.classList.add('empty-star');
       starIcon.dataset.score = String(i + 1);
       starIcon.setAttribute('src', star);
       fragment.append(starIcon);
     });
 
-    this.starVoteBox.append(fragment);
+    this.userVoteBox.append(fragment);
   }
 
   createScoreInfo() {
@@ -86,7 +86,7 @@ class UserScoreBox {
     scoreText.textContent = VOTE_MESSAGE[String(this.score)];
     scoreInfo.append(scoreNumber);
     scoreInfo.append(scoreText);
-    this.starVoteBox.append(scoreInfo);
+    this.userVoteBox.append(scoreInfo);
   }
 
   addClickStarEvent() {
@@ -106,10 +106,15 @@ class UserScoreBox {
 
   updateStars(userScore: number) {
     const stars = document.querySelectorAll('.star');
+
     [...stars].forEach((star, i) => {
+      star.classList.remove('filled-star', 'empty-star');
+
       if (i + 1 <= userScore) {
+        star.classList.add('filled-star');
         star.setAttribute('src', StarFillIcon);
       } else {
+        star.classList.add('empty-star');
         star.setAttribute('src', StarEmptyIcon);
       }
     });
