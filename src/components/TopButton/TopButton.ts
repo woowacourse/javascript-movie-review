@@ -18,12 +18,18 @@ class TopButton {
   }
 
   setEvent() {
+    let topButtonEvent: NodeJS.Timeout | null;
+
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 200) {
-        this.topButtonBox.classList.add('show');
-      } else {
-        this.topButtonBox.classList.remove('show');
-      }
+      clearTimeout(topButtonEvent!);
+
+      topButtonEvent = setTimeout(() => {
+        if (window.scrollY > 200) {
+          this.topButtonBox.classList.add('show');
+        } else {
+          this.topButtonBox.classList.remove('show');
+        }
+      }, 1000);
     });
 
     this.topButtonBox.addEventListener('click', () => {
