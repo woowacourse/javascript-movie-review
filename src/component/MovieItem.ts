@@ -1,4 +1,5 @@
 import itemScoreIconPath from '../asset/star_filled.png';
+import { CONFIG } from '../constant/config';
 import { MovieData } from '../interface/MovieInterface';
 import { $ } from '../util/selector';
 
@@ -38,7 +39,7 @@ function injectMovieDataToItem({
     [$itemThumbnail, $itemTitle, $itemScore].forEach((element: HTMLElement) => element.classList.remove('skeleton'));
     $itemThumbnail.alt = movie.title;
     $itemTitle.textContent = movie.title;
-    $itemScore.append(createScoreIcon(), movie.voteAverage.toString());
+    $itemScore.append(createScoreIcon(), movie.voteAverage.toFixed(CONFIG.userScoreDecimalPlaces).toString());
 
     item.addEventListener('click', () => onClick(movie.id));
   };

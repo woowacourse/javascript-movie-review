@@ -23,3 +23,7 @@ export const MOVIE_LIST_TYPE = {
 export const STORAGE = {
   userMovies: 'userMovies',
 } as const;
+
+export const CONFIG = {
+  userScoreDecimalPlaces: 1,
+} as const;
