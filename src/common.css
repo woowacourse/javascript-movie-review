@@ -40,3 +40,8 @@ button {
 #more-button {
   margin-top: 20px;
 }
+
+.stop-scroll {
+  height: 100%;
+  overflow: hidden;
+}

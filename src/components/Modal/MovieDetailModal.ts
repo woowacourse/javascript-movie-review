@@ -198,8 +198,10 @@ class MovieDetailModal {
   toggle() {
     if (this.modal.classList.contains('modal--open')) {
       this.modal.classList.remove('modal--open');
+      document.body.classList.remove('stop-scroll');
     } else {
       this.modal.classList.add('modal--open');
+      document.body.classList.add('stop-scroll');
     }
   }
 
