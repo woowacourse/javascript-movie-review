@@ -1,9 +1,7 @@
 import { generateStarRating } from "./generateStarRating";
+import { BASE_POSTER_URL } from "../../constants/urls";
 import { MovieDetail } from "../../types/movies";
 import IMAGES from "../../images";
-
-// TODO: BASE_POSTER_URL이 generateMovieItems에서도 공통으로 사용됨 → 분리
-const BASE_POSTER_URL = "https://image.tmdb.org/t/p/w220_and_h330_face";
 
 export const generateMovieDetailModal = (
   movieDetail: MovieDetail,

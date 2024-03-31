@@ -1,8 +1,7 @@
 import { HTMLTemplate } from "../../types/common";
-import IMAGES from "../../images";
+import { BASE_POSTER_URL } from "../../constants/urls";
 import { FetchedMovieData, Movie } from "../../types/movies";
-
-const BASE_POSTER_URL = "https://image.tmdb.org/t/p/w220_and_h330_face";
+import IMAGES from "../../images";
 
 const generateMovieItem = (movie: Movie): HTMLTemplate => {
   const { id, title, poster_path, vote_average } = movie;
