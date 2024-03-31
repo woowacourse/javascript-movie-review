@@ -1,38 +1,33 @@
-import { $, createElement } from "../../utils/dom";
+import { MOVIE_LENGTH_PER_REQUEST } from "../../constants/movie";
+import { $, $$ } from "../../utils/dom";
 
 import "./Skeleton.css";
 
-const createMovieCardSkeleton = (length: number = 20) => {
+const createMovieCardSkeleton = (length: number = MOVIE_LENGTH_PER_REQUEST) => {
   return /*html*/ `
-    <li class="item-skeleton">
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div>
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>
+    <li id="item-skeleton">
+      <div class="item-card">
+      <div class="item-thumbnail skeleton"></div>
+      <div class="item-title skeleton"></div>
+      <div class="item-score skeleton"></div>
+    </div>
     </li>`.repeat(length);
 };
 
 export const hideSkeleton = () => {
-  const skeletonList = $<HTMLUListElement>("#skeleton-list");
+  const skeletonList = $$<HTMLLIElement>("#item-skeleton");
 
-  if (!skeletonList) return;
-
-  skeletonList.remove();
+  skeletonList.forEach((element) => {
+    element.remove();
+  });
 };
 
 export const renderSkeleton = () => {
   const movieList = $<HTMLUListElement>("#movie-list-container");
 
-  const skeletonList = createElement<HTMLUListElement>("ul");
+  if (!movieList) return;
 
-  skeletonList.id = "skeleton-list";
-  skeletonList.className = "item-list";
-  skeletonList.innerHTML = createMovieCardSkeleton();
+  const moveListSkeleton = createMovieCardSkeleton();
 
-  if (movieList) {
-    movieList.appendChild(skeletonList);
-  }
+  movieList.insertAdjacentHTML("beforeend", moveListSkeleton);
 };
