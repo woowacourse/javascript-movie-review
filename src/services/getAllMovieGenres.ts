@@ -1,18 +1,11 @@
 import { API_ENDPOINT, API_OPTION } from '../constants/api/api';
 import { MovieGenre } from '../types/movie';
-import HttpError from '../error/HttpError';
-import ERROR_MESSAGE from '../constants/api/messages';
+import { api } from '../api';
 
 const getAllGenres = async () => {
-  const res = await fetch(API_ENDPOINT.GENRE, {
+  const res = await api.sendRequest(API_ENDPOINT.GENRE, {
     headers: API_OPTION.headers,
   });
-
-  if (!res.ok) {
-    const error = new HttpError(ERROR_MESSAGE.FAIL_GET_ALL_GENRE, res.status);
-
-    throw error;
-  }
 
   const data = res.json();
 
