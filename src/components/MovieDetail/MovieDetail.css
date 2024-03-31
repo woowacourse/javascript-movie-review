@@ -11,6 +11,7 @@
 
 .detail-header {
   height: 3.75rem;
+
   border-bottom: 1px solid var(--border-bottom-gray);
 }
 
@@ -30,17 +31,75 @@
   border: none;
   border-radius: 50%;
   font-size: 18px;
+
   background-color: var(--gray-300);
 }
 
 .detail-thumbnail {
   width: 18.25rem;
   height: 27.0625rem;
+}
 
-  background-size: contain;
+.detail-description img {
+  margin-right: 4px;
 }
 
 .rate-container {
   height: 4rem;
   background-color: var(--gray-300);
+}
+
+@media screen and (max-width: 1220px) {
+  .detail-container {
+    height: 34rem;
+    width: 46.25rem;
+  }
+
+  .detail-thumbnail {
+    height: 25rem;
+    width: 16.25rem;
+  }
+}
+
+@media screen and (max-width: 677px) {
+  .detail-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    height: 30.3125rem;
+    width: 100%;
+  }
+
+  .detail-thumbnail {
+    display: none;
+  }
+
+  .detail-title-container {
+    width: 100%;
+    padding: 0 32px;
+    justify-content: space-between;
+  }
+
+  .detail-title {
+    font-size: 1.125rem;
+  }
+
+  .detail-body {
+    height: 100%;
+  }
+
+  .detail-description {
+    width: 100%;
+    padding-left: 0;
+  }
+
+  .detail-overview {
+    height: 12.5rem;
+    overflow: scroll;
+  }
+
+  .modal-cancel-button {
+    right: 32px;
+  }
 }
