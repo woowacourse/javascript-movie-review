@@ -1,4 +1,4 @@
-import { renderAlertModalForNullEl } from '../../controller';
+import { ElementFinder } from '../../controller';
 import { createElementWithAttribute } from '../../utils';
 import { ModalCloseButton, ModalContainer } from '../modal';
 import RefreshButton from '../RefreshButton';
@@ -24,12 +24,8 @@ class ErrorView {
   }
 
   renderErrorViewInMain() {
-    const $main = document.querySelector('main');
-    if (!$main) {
-      renderAlertModalForNullEl('main');
-      return;
-    }
-    $main.appendChild(this.#element);
+    const $main = ElementFinder.findElementBySelector('main');
+    $main?.appendChild(this.#element);
   }
 
   renderErrorViewInModal() {

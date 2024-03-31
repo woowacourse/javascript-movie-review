@@ -1,3 +1,4 @@
+import ElementFinder from './ElementFinder';
 import ErrorViewController from './ErrorViewController';
 import ModalContainerController from './ModalContainerController';
 import ScrollController from './ScrollController';
@@ -6,8 +7,8 @@ import SearchBoxResponsiveHandler from './SearchBoxResponsiveHandler';
 import SkeletonController from './SkeletonController';
 import WindowResponsiveHandler from './WindowResponsiveHandler';
 
-export * from './AlertModalForNullController';
 export {
+  ElementFinder,
   ErrorViewController,
   ModalContainerController,
   ScrollObserver,

@@ -1,7 +1,7 @@
-import { ESC_KEY, MOVIE_INFO_COMMON_CLASS } from '../constants';
+import { ESC_KEY } from '../constants';
 import { debouceFunc } from '../utils';
 
-import { renderAlertModalForNullEl } from './AlertModalForNullController';
+import ElementFinder from './ElementFinder';
 import ScrollController from './ScrollController';
 
 const ModalContainerController = {
@@ -14,12 +14,11 @@ const ModalContainerController = {
   },
 
   closeModalContainer() {
-    const $modalContainer = document.querySelector('.modal-container');
-    const $movieInfoModal = document.querySelector(
-      `.${MOVIE_INFO_COMMON_CLASS}`,
-    );
-    if ($movieInfoModal) ModalContainerController.changePosition();
-    $modalContainer?.remove();
+    const $modalContainer =
+      ElementFinder.findElementBySelector('.modal-container');
+    if (!$modalContainer) return;
+
+    $modalContainer.remove();
     ScrollController.allowScroll();
     document.removeEventListener(
       'keydown',
@@ -47,16 +46,16 @@ const ModalContainerController = {
   },
 
   changePosition() {
-    const $modalContainer = document.querySelector('.modal-container');
-    if (!($modalContainer instanceof HTMLElement)) {
-      renderAlertModalForNullEl('modal-container');
-      return;
-    }
+    const $modalContainer =
+      ElementFinder.findElementBySelector('.modal-container');
+    if (!$modalContainer) return;
+
     $modalContainer.style.top = `${window.scrollY}PX`;
   },
 
   private_isWrongCloseTarget(event: Event) {
     const { target } = event;
+
     return !(target instanceof HTMLElement) || target.closest('.modal');
   },
 };

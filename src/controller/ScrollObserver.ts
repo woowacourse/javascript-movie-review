@@ -4,7 +4,7 @@ import { movieListDataFetcher } from '../model/DataFetcher';
 import { ListType, Movie } from '../type/movie';
 import { debouceFunc } from '../utils';
 
-import { renderAlertModalForNullEl } from './AlertModalForNullController';
+import ElementFinder from './ElementFinder';
 
 /**
  * 스크롤 시, 이루어지는 api 통신 관리하는 핸들러
@@ -24,9 +24,10 @@ const APIHandlerForScroll = {
   },
 
   private_getSearchInputValue() {
-    const $searchInput = document.querySelector('#search-input');
+    const $searchInput =
+      ElementFinder.findElementBySelector<HTMLInputElement>('#search-input');
 
-    if (!($searchInput instanceof HTMLInputElement)) return;
+    if (!$searchInput) return;
 
     return $searchInput.value;
   },
@@ -60,33 +61,30 @@ const ChangedUIRenderer = {
     window.scrollTo(0, previousScrollPosition);
   },
 
-  private_isParentElement($parentElement: Element | null) {
-    if (!$parentElement) {
-      renderAlertModalForNullEl('movie-list-container');
-      return;
-    }
-  },
   /**
    * 새로운 데이터에 따라 생선된 MovieList를  기존의 MovieList와 바꾸는 기능
    */
   private_addItemsToMovieList(totalMovieList: Movie[], isMoreData: boolean) {
-    const $itemList = document.querySelector(
+    const $movieListContainer = ElementFinder.findElementBySelector(
+      '.movie-list-container',
+    );
+    if (!$movieListContainer) return;
+    const $itemList = ElementFinder.findElementBySelector(
       '.movie-list-container .movie-list',
     );
-
     if (!$itemList) return;
 
     const $newItemList = new MovieList(totalMovieList, isMoreData).element;
-    const $parentElement = $itemList.parentElement;
-    this.private_isParentElement($parentElement);
-    ($parentElement as Element).replaceChild($newItemList, $itemList);
+    $movieListContainer.replaceChild($newItemList, $itemList);
   },
 
   /**
    * 불러올 데이터가 더 존재하는 지 않을 경우, scroll-observer-target 클래스를 지워서 NoMoreData를 보여주는 기능
    */
   private_showNoMoreData() {
-    const $movieListLastItem = document.querySelector('.movie-list__last-item');
+    const $movieListLastItem = ElementFinder.findElementBySelector(
+      '.movie-list__last-item',
+    );
 
     if (!$movieListLastItem) return;
 
@@ -135,14 +133,13 @@ class ScrollObserver {
   }
 
   #getListType(): ListType | undefined {
-    const $movieListContainer = document.querySelector('.movie-list-container');
+    const $movieListContainer = ElementFinder.findElementBySelector(
+      '.movie-list-container',
+    );
 
-    if (!$movieListContainer) {
-      renderAlertModalForNullEl('movie-list-container');
+    if (!$movieListContainer || !$movieListContainer.hasAttribute('name'))
       return;
-    }
 
-    if (!$movieListContainer.hasAttribute('name')) return;
     const name = $movieListContainer.getAttribute('name');
 
     return name === 'search' ? 'search' : 'popular';

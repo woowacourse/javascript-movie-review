@@ -3,7 +3,7 @@ import {
   MOBILE_WIDTH,
   UNDEFINED_INPUT_VALUE,
 } from '../constants';
-import { SearchBoxResponsiveHandler } from '../controller';
+import { ElementFinder, SearchBoxResponsiveHandler } from '../controller';
 import { dataStateStore, movieListDataFetcher } from '../model';
 import { createElementWithAttribute, debouceFunc } from '../utils';
 
@@ -54,6 +54,7 @@ const SearchBoxHandler = {
     if (!title) return;
     toastModal.removeToastModal(true);
     await movieListDataFetcher.handleGetSearchMovieData(title.trim(), true);
+    //기존에 movie-list-container 있을 시 삭제
     document.querySelector('.movie-list-container')?.remove();
     new MovieListContainer({
       titleText: `"${title}" 검색 결과`,
@@ -68,19 +69,19 @@ const SearchBoxHandler = {
   },
 
   private_getSearchInputValue() {
-    const $searchInput = document.querySelector('#search-input');
-    if (!($searchInput instanceof HTMLInputElement)) return;
-    const title = $searchInput.value;
+    const $searchInput =
+      ElementFinder.findElementBySelector<HTMLInputElement>('#search-input');
 
-    return title;
+    if (!$searchInput) return;
+
+    return $searchInput.value;
   },
 
   private_renderToastModal(title: string | undefined) {
     const renderingCondition = !title || !title.trim();
-    if (renderingCondition) {
-      const $header = document.querySelector('header');
-      toastModal.handleRenderingToastModal($header);
-    }
+    if (!renderingCondition) return;
+
+    toastModal.handleRenderingToastModal('header');
   },
 };
 

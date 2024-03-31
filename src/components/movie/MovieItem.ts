@@ -30,9 +30,11 @@ class MovieItem {
     event.stopPropagation();
     const movieInfo = await this.getMovieInfo(id);
     if (!movieInfo) {
+      // TODO: 상수화
       console.error('정보를 찾을 수 없습니다.');
       return;
     }
+
     new MovieInfoModal(movieInfo);
   }
 

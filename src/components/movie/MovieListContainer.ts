@@ -1,4 +1,4 @@
-import { renderAlertModalForNullEl } from '../../controller';
+import { ElementFinder } from '../../controller';
 import { ListType, Movie, MovieData } from '../../type/movie';
 import { createElementWithAttribute } from '../../utils';
 
@@ -35,15 +35,13 @@ class MovieListContainer {
   };
 
   #renderMovieListContainer = (props: MovieListContainerProps) => {
-    const $main = document.querySelector('main');
+    const $main = ElementFinder.findElementBySelector('main');
+    if (!$main) return;
     const $section = this.#makeSection({
       ...props,
       ...props.movieData,
     });
-    if (!$main) {
-      renderAlertModalForNullEl('main');
-      return;
-    }
+
     $main.appendChild($section);
   };
 }

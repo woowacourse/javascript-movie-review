@@ -1,5 +1,5 @@
 import { NOT_SCORE_TEXT } from '../../constants';
-import { renderAlertModalForNullEl } from '../../controller';
+import { ElementFinder } from '../../controller';
 import Trash from '../../images/trash.svg';
 import localStorageHandler from '../../model/LocalStorageHandler';
 import { LocalStorageUserScore } from '../../type/movie';
@@ -172,18 +172,22 @@ class UserScore {
     );
     const newScore = targetScore * 2;
     if (this.#score === newScore) return;
+
     return newScore;
   }
 
   #changeScoreArea() {
-    const $currentScoreArea = document.querySelector('.score-area');
-    const $parent = $currentScoreArea?.parentElement;
+    const $currentScoreArea =
+      ElementFinder.findElementBySelector('.score-area');
+    if (!$currentScoreArea) return;
+
+    const $parent = $currentScoreArea.parentElement;
     if (!$currentScoreArea || !$parent) {
-      renderAlertModalForNullEl('score-area');
+      ElementFinder.renderAlertModalForNullEl('score-area parent');
       return;
     }
-    const $newCurrentScoreArea = this.#makeScoreArea();
-    $parent.replaceChild($newCurrentScoreArea, $currentScoreArea);
+
+    $parent.replaceChild(this.#makeScoreArea(), $currentScoreArea);
   }
 
   #getNewScoreItem() {

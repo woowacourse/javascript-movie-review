@@ -1,7 +1,4 @@
-import {
-  renderAlertModalForNullEl,
-  SearchBoxResponsiveHandler,
-} from '../controller';
+import { ElementFinder, SearchBoxResponsiveHandler } from '../controller';
 import { dataStateStore, movieListDataFetcher } from '../model';
 import { createElementWithAttribute } from '../utils';
 
@@ -28,22 +25,21 @@ const HeaderClickHandler = {
   },
 
   private_removeMovieListContainer() {
-    const $movieListContainer = document.querySelector('.movie-list-container');
-
-    if (!$movieListContainer) {
-      renderAlertModalForNullEl('movie-list-container');
-      return;
-    }
+    const $movieListContainer = ElementFinder.findElementBySelector(
+      '.movie-list-container',
+    );
+    if (!$movieListContainer) return;
 
     $movieListContainer.remove();
   },
 
   private_resetSearchInputValue() {
-    const $searchBox = document.querySelector('#search-input');
+    const $searchBox =
+      ElementFinder.findElementBySelector<HTMLInputElement>('#search-input');
 
-    if ($searchBox instanceof HTMLInputElement) {
-      $searchBox.value = '';
-    }
+    if (!$searchBox) return;
+
+    $searchBox.value = '';
   },
 };
 class Header {

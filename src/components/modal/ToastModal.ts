@@ -1,4 +1,5 @@
-import { checkElementIsNotNull, createElementWithAttribute } from '../../utils';
+import { ElementFinder } from '../../controller';
+import { createElementWithAttribute } from '../../utils';
 
 type ToastModalProps = {
   $children: HTMLElement;
@@ -31,8 +32,8 @@ class ToastModal {
     );
   }
 
-  handleRenderingToastModal(parentElement: HTMLElement | null) {
-    this.#showToastModal(parentElement);
+  handleRenderingToastModal(parentSelector: string) {
+    this.#showToastModal(parentSelector);
 
     this.#time = setTimeout(() => {
       this.removeToastModal(false);
@@ -52,13 +53,14 @@ class ToastModal {
     return $toastModal;
   }
 
-  #showToastModal(parentElement: HTMLElement | null) {
-    checkElementIsNotNull(parentElement);
+  #showToastModal(parentSelector: string) {
+    const $parent = ElementFinder.findElementBySelector(parentSelector);
+    if (!$parent) return;
     //이전에 토스트 모달이 열려있는 경우 이름 삭제
     document.querySelector('.toast-modal')?.remove();
 
-    (parentElement as HTMLElement).appendChild(this.#element);
-
+    $parent.appendChild(this.#element);
+    // toast modal 등장 효과를 위해 시간차로 class변경
     setTimeout(() => {
       this.#element.classList.add('on');
     }, 100);

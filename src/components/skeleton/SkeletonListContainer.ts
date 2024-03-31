@@ -1,4 +1,4 @@
-import { renderAlertModalForNullEl } from '../../controller';
+import { ElementFinder } from '../../controller';
 import { createElementWithAttribute } from '../../utils';
 
 import SkeletonList from './SkeletonList';
@@ -19,15 +19,12 @@ class SkeletonListContainer {
   }
 
   #renderSkeletonListContainer() {
-    const $main = document.querySelector('main');
+    const $main = ElementFinder.findElementBySelector('main');
 
-    if (!$main) {
-      renderAlertModalForNullEl('main');
-      return;
-    }
+    if (!$main) return;
 
     const $skeletonListContainer = this.#makeSkeletonListContainer();
-    $main?.appendChild($skeletonListContainer);
+    $main.appendChild($skeletonListContainer);
   }
 }
 

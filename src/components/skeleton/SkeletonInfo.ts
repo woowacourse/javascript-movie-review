@@ -78,7 +78,9 @@ class SkeletonInfo {
   removeSkeletonInfo() {
     const $skeletonInfo = document.querySelector('.skeleton-info');
     if (!$skeletonInfo) return;
-    ModalContainerController.closeModalContainer();
+    setTimeout(() => {
+      ModalContainerController.closeModalContainer();
+    }, 500);
   }
 }
 

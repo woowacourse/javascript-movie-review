@@ -31,12 +31,14 @@ class MovieInfoModal {
 
   #makeMovieGenreEl() {
     const { genres } = this.#movieInfo;
-    if (!genres) return;
 
     const $genreBox = createElementWithAttribute('span', {
       class: `${MOVIE_INFO_COMMON_CLASS}__genre`,
     });
-    $genreBox.textContent = genres.map((i) => i.name).join(', ');
+    // TODO: 상수화
+    $genreBox.textContent = genres
+      ? genres.map((i) => i.name).join(', ')
+      : '(장르가 없어요.🫥)';
 
     return $genreBox;
   }
@@ -124,6 +126,7 @@ class MovieInfoModal {
   #renderMovieInfoModal() {
     new ModalContainer({
       $children: this.#element,
+      isDeletePreviousModal: false,
     });
     ModalContainerController.changePosition();
   }

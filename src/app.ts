@@ -4,7 +4,7 @@ import {
   SkeletonListContainer,
 } from './components';
 import { MovieListContainerProps } from './components/movie/MovieListContainer';
-import { WindowResponsiveHandler } from './controller';
+import { ElementFinder, WindowResponsiveHandler } from './controller';
 import { dataStateStore, movieListDataFetcher } from './model';
 
 const popularMovieListContainerProps: Omit<
@@ -16,11 +16,12 @@ const popularMovieListContainerProps: Omit<
 };
 
 async function App() {
-  const $app = document.querySelector('#app');
-  $app?.prepend(new Header().element);
+  const $app = ElementFinder.findElementBySelector('#app');
+  if (!$app) return;
+
+  $app.prepend(new Header().element);
   WindowResponsiveHandler.handleWindowResize();
   new SkeletonListContainer();
-
   await movieListDataFetcher.handleGetPopularMovieData();
   new MovieListContainer({
     ...popularMovieListContainerProps,

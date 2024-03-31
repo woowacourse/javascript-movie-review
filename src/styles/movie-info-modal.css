@@ -27,6 +27,7 @@
   width: calc(100% - 25px - 20px);
   height: 20px;
   overflow: hidden;
+  text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
   word-break: break-all;

@@ -1,9 +1,17 @@
-import { ModalContainerController, ScrollController } from '../../controller';
-import { checkElementIsNotNull, createElementWithAttribute } from '../../utils';
+import {
+  ElementFinder,
+  ModalContainerController,
+  ScrollController,
+} from '../../controller';
+import { createElementWithAttribute } from '../../utils';
 
 interface ModalContainerProps {
   $children: HTMLElement;
   onCloseExtraFunc?: () => void;
+  /**
+   * 이전에 열어 놓은 모달을 지울 것 인지 여부
+   */
+  isDeletePreviousModal?: boolean;
 }
 
 class ModalContainer {
@@ -45,17 +53,19 @@ class ModalContainer {
   }
 
   #renderModalContainer(props: ModalContainerProps) {
-    const $app = document.querySelector('#app');
-    checkElementIsNotNull($app);
-    //이전에 있는 모달 지우기
-    ModalContainerController.closeModalContainer();
+    const $app = ElementFinder.findElementBySelector('#app');
+    if (!$app) return;
+
+    if (props.isDeletePreviousModal) {
+      ModalContainerController.closeModalContainer();
+    }
     //모달 생성
     const $modalContainer = createElementWithAttribute('div', {
       class: 'modal-container',
     });
-    $modalContainer.appendChild(this.#makeModalContainerInner(props));
 
-    ($app as Element).appendChild($modalContainer);
+    $modalContainer.appendChild(this.#makeModalContainerInner(props));
+    $app.appendChild($modalContainer);
   }
 }
 

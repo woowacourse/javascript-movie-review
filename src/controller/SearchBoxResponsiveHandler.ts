@@ -1,7 +1,8 @@
 import { MOBILE_WIDTH } from '../constants';
-import { checkElementIsNotNull } from '../utils';
 
-const CLASS_NAME = 'off';
+import ElementFinder from './ElementFinder';
+
+const HIDDEN_INPUT_CLASS_NAME = 'off';
 
 const SearchBoxResponsiveHandler = {
   /**
@@ -9,6 +10,8 @@ const SearchBoxResponsiveHandler = {
    */
   handleSizeByWIndowSize() {
     const $searchInput = this.private_getSearchInputEl();
+    if (!$searchInput) return;
+
     this.private_changeClassByWindowSize($searchInput);
   },
   /**
@@ -16,6 +19,8 @@ const SearchBoxResponsiveHandler = {
    */
   handleSizeBySearchButton() {
     const $searchInput = this.private_getSearchInputEl();
+    if (!$searchInput) return;
+
     this.private_changeClassByButtonClick($searchInput);
   },
   /**
@@ -23,34 +28,39 @@ const SearchBoxResponsiveHandler = {
    */
   handleSizeByLogoButton() {
     const $searchInput = this.private_getSearchInputEl();
-    if ($searchInput.classList.contains(CLASS_NAME)) return;
-    $searchInput.classList.add(CLASS_NAME);
+
+    if (!$searchInput) return;
+    if ($searchInput.classList.contains(HIDDEN_INPUT_CLASS_NAME)) return;
+    $searchInput.classList.add(HIDDEN_INPUT_CLASS_NAME);
   },
 
   private_getSearchInputEl() {
-    const $searchInput = document.getElementsByClassName('search-input')[0];
+    const $searchInput = ElementFinder.findElementBySelector('.search-input');
 
-    if (!$searchInput) checkElementIsNotNull($searchInput);
     return $searchInput;
   },
 
-  private_changeClassByWindowSize($searchInput: Element) {
+  private_changeClassByWindowSize($searchInput: HTMLElement) {
     const width = window.innerWidth;
+    const isHidden = this.private_isInputHidden($searchInput);
 
-    const isOffClassName = $searchInput.classList.contains(CLASS_NAME);
-    if (width <= MOBILE_WIDTH && !isOffClassName) {
-      $searchInput.classList.add(CLASS_NAME);
+    if (width <= MOBILE_WIDTH && !isHidden) {
+      $searchInput.classList.add(HIDDEN_INPUT_CLASS_NAME);
       return;
     }
 
-    if (width > MOBILE_WIDTH && isOffClassName) {
-      $searchInput.classList.remove(CLASS_NAME);
+    if (width > MOBILE_WIDTH && isHidden) {
+      $searchInput.classList.remove(HIDDEN_INPUT_CLASS_NAME);
       return;
     }
   },
 
-  private_changeClassByButtonClick($searchInput: Element) {
-    $searchInput.classList.toggle(CLASS_NAME);
+  private_isInputHidden($searchInput: HTMLElement) {
+    return $searchInput.classList.contains(HIDDEN_INPUT_CLASS_NAME);
+  },
+
+  private_changeClassByButtonClick($searchInput: HTMLElement) {
+    $searchInput.classList.toggle(HIDDEN_INPUT_CLASS_NAME);
   },
 };
 
