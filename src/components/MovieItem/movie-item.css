@@ -1,3 +1,11 @@
+.movie-item:hover .item-thumbnail {
+  transform: translate(0px, -10px);
+  transition: all 0.45s ease-in-out;
+  box-shadow:
+    rgba(243, 63, 63, 0.25) 0px 14px 28px,
+    rgba(243, 63, 63, 0.25) 0px 6px 10px;
+}
+
 .item-card {
   display: flex;
   flex-direction: column;
