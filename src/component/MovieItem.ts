@@ -12,14 +12,17 @@ function createSkeletonMovieItem() {
 }
 
 function createSkeletonMovieItemElements() {
+  const itemThumbnailBox = document.createElement('div');
   const itemThumbnail = document.createElement('img');
   const itemTitle = document.createElement('p');
   const itemScore = document.createElement('p');
+  itemThumbnailBox.classList.add('item-thumbnail-box');
   itemThumbnail.classList.add('item-thumbnail', 'skeleton');
   itemTitle.classList.add('item-title', 'skeleton');
   itemScore.classList.add('item-score', 'skeleton');
+  itemThumbnailBox.append(itemThumbnail);
 
-  return [itemThumbnail, itemTitle, itemScore];
+  return [itemThumbnailBox, itemTitle, itemScore];
 }
 
 function injectMovieDataToItem({
@@ -29,7 +32,7 @@ function injectMovieDataToItem({
 }: {
   item: HTMLLIElement;
   movie: MovieData;
-  onClick: (movieId: number) => void;
+  onClick: (item: HTMLLIElement, movieId: number) => void;
 }) {
   const $itemThumbnail = $<HTMLImageElement>('.item-thumbnail', item);
   const $itemTitle = $<HTMLParagraphElement>('.item-title', item);
@@ -41,7 +44,7 @@ function injectMovieDataToItem({
     $itemTitle.textContent = movie.title;
     $itemScore.append(createScoreIcon(), movie.voteAverage.toFixed(CONFIG.userScoreDecimalPlaces).toString());
 
-    item.addEventListener('click', () => onClick(movie.id));
+    item.addEventListener('click', () => onClick(item, movie.id));
   };
 
   $itemThumbnail.src = movie.posterPath;

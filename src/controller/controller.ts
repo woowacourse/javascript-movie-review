@@ -8,6 +8,7 @@ import { MOVIE_LIST_TYPE } from '../constant/config';
 import ERROR_MESSAGE from '../constant/errorMessage';
 import MovieDetailModal from '../component/modal/MovieDetailModal';
 import { UserScoreParams } from '../interface/MovieInterface';
+import { removeLoadingAnimation, showLoadingAnimation } from '../component/LoadingAnimation/LoadingAnimation';
 
 export class App {
   private searchKeyword;
@@ -93,10 +94,13 @@ export class App {
     });
   }
 
-  async handleMovieItemClick(movieId: number) {
+  async handleMovieItemClick(item: HTMLLIElement, movieId: number) {
+    showLoadingAnimation(item);
     const movieDetail = await this.fetchMovieDetail(movieId);
+
     this.movieDetailModal.renderMovieDetailContainer({ movie: movieDetail.data });
     this.movieDetailModal.showModal();
+    removeLoadingAnimation(item);
   }
 
   retryAddMovieList(error: Error) {

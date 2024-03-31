@@ -1,5 +1,5 @@
 import { $, $OptionalSelector } from '../util/selector';
-import createButton from './Button';
+import createButton from './Button/Button';
 import { injectMovieDataToItem } from './MovieItem';
 import { createSkeletonMovieList } from './MovieList';
 import { MoviePageData } from '../interface/MovieInterface';
@@ -77,7 +77,10 @@ class MovieContainer {
     }
   }
 
-  fillMovieDataToSkeletonList({ movieList, hasNextPage }: MoviePageData, onClick: (movieId: number) => void) {
+  fillMovieDataToSkeletonList(
+    { movieList, hasNextPage }: MoviePageData,
+    onClick: (item: HTMLLIElement, movieId: number) => void,
+  ) {
     this.setEmptySearchResult(movieList.length);
 
     this.skeletonList.forEach((item, i) => {
