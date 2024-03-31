@@ -1,15 +1,11 @@
 import BaseModal from "./BaseModal";
 import MovieState from "../../states/MovieState";
 
-import {
-  generateEmptyMovieListScreen,
-  generateNetworkNotWorkingScreen,
-} from "../templates/generateUnexpectedScreen";
 import { generateStarRating } from "../templates/generateStarRating";
 import { generateMovieDetailModal } from "../templates/generateMovieDetailModal";
 
-import APIError from "../../error/APIError";
 import { getMovieDetail } from "../../apis/movieList";
+import { handleAPIError } from "../../error/handleAPIError";
 
 import { $ } from "../../utils/dom";
 import { storage } from "../../utils/storage";
@@ -38,7 +34,7 @@ export default class MovieDetailModal extends BaseModal {
       this.render();
       this.setEvent();
     } catch (error) {
-      this.handleError(error);
+      handleAPIError(error, this.targetId);
     }
   }
 
@@ -85,28 +81,6 @@ export default class MovieDetailModal extends BaseModal {
     if (!$starRatingContainer) return;
     const newStarRatingHTML = generateStarRating(rating);
     $starRatingContainer.innerHTML = newStarRatingHTML;
-  }
-
-  private handleError(error: unknown): void {
-    if (error instanceof APIError) {
-      this.displayErrorMessage(error.message, generateEmptyMovieListScreen);
-    } else if (error instanceof Error) {
-      this.displayErrorMessage(
-        "네트워크가 원활하지 않습니다. 인터넷 연결 확인 후 다시 시도해주세요.",
-        generateNetworkNotWorkingScreen
-      );
-    }
-  }
-
-  private displayErrorMessage(
-    message: string,
-    screenGenerator: () => HTMLTemplate
-  ): void {
-    alert(message);
-    const errorTargetElement = $<HTMLElement>(this.targetId);
-    if (errorTargetElement) {
-      errorTargetElement.innerHTML = screenGenerator();
-    }
   }
 
   private async fetchMovieDetail(params: number | null) {

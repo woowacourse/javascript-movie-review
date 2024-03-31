@@ -23,8 +23,8 @@ export default class MovieHeader extends EventComponent {
       <h1 id="movie-list-logo"><img src="${IMAGES.logo}" alt="MovieList 로고" /></h1>
       <div class="search-box">
           <form id="search-form">
-            <input id="search-input" name="search-query" type="text" placeholder="검색" maxLength="${MOVIE_QUERY_MAX_LENGTH}"/>
-            <button class="search-button">검색</button>
+            <input id="search-input" class="search-input" name="search-query" type="text" placeholder="검색" maxLength="${MOVIE_QUERY_MAX_LENGTH}"/>
+            <button id="search-button" class="search-button">검색</button>
           </form>
       </div>
   `;
