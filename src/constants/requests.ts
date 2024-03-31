@@ -5,6 +5,7 @@ const BASE_URL: string = 'https://api.themoviedb.org/3';
 export const REQUEST_URL = {
   popularMovies: `${BASE_URL}/movie/popular?`,
   searchMovies: `${BASE_URL}/search/movie?`,
+  detailMovie: `${BASE_URL}/movie/`,
 };
 
 export const COMMON_PARAMS = {

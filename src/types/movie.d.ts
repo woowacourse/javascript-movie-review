@@ -1,3 +1,7 @@
+interface Genre {
+  id: number;
+  name: string;
+}
 interface Movie {
   id: number;
   title: string;
@@ -5,4 +9,5 @@ interface Movie {
   poster_path: string;
   overview?: string;
   genre_ids?: string[];
+  genres?: Genre[];
 }

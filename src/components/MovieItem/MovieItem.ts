@@ -1,4 +1,6 @@
 import './MovieItem.css';
+import ModalController from '../../controller/ModalController';
+import MovieDetailService from '../../services/MovieDetailService';
 import StarFilled from '../../statics/images/star_filled.png';
 
 const createTitle = (title: string) => {
@@ -50,24 +52,30 @@ const createCard = ({
   return $card;
 };
 
-const createMovieItem = (movie: Movie) => {
+const MovieItem = (movie: Movie) => {
   const $li = document.createElement('li');
   const $anchor = document.createElement('a');
-  $anchor.href = '#';
   const $card = createCard(movie);
 
-  $anchor.appendChild($card);
-  $li.appendChild($anchor);
+  const render = () => {
+    $li.id = movie.id.toString();
+    $anchor.href = '#';
 
-  return $li;
-};
+    $anchor.appendChild($card);
+    $li.appendChild($anchor);
 
-function MovieItem(movie: Movie) {
-  return {
-    render: () => {
-      const $movieItem = createMovieItem(movie);
-      return $movieItem;
-    },
+    return $li;
   };
-}
+
+  $card.addEventListener('click', () => {
+    MovieDetailService.fetchDetailMovie(movie.id).then((res) => {
+      ModalController.openModal(res);
+      ModalController.closeModal();
+    });
+  });
+
+  return {
+    render,
+  };
+};
 export default MovieItem;
