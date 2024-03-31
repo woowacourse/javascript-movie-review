@@ -1,3 +1,5 @@
+import "./style.css";
+
 import createElement from "../../utils/createElement";
 import { createMovieThumbnailSkeleton } from "../MoviePreview/utils/createMovieSkeleton";
 

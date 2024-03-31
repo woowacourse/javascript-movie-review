@@ -1,0 +1,36 @@
+.movie-detail-with-rating {
+  padding: 3vh;
+  width  : 826px;
+  height : 500px;
+
+  display        : flex;
+  flex-direction : column;
+  flex-wrap      : wrap;
+  justify-content: space-between
+}
+
+.movie-detail-with-rating>div {
+  margin-right: 30px;
+  height      : 433px;
+  width       : 292px;
+}
+
+.movie-detail-with-rating>div>.item-thumbnail {
+  height: 433px;
+  width : 292px;
+}
+
+.movie-detail-with-rating>div>.item-thumbnail.visibility-hidden-no-position {
+  width : 0px !important;
+  height: 0px !important;
+}
+
+.movie-detail-with-rating__rating-container {
+
+  height: 2rem;
+  width : 40rem;
+
+  display       : flex;
+  flex-direction: row;
+  align-items   : center;
+}
