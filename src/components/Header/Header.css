@@ -1,39 +1,57 @@
 header {
-  width: 100%;
-  min-width: 1200px;
-  height: 72px;
-  background-color: #222;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
+  height: 3.75rem;
+
+  padding: 0.5rem 2rem;
   border-bottom: 1px solid white;
-  margin-bottom: 48px;
 }
 
 header h1 {
-  cursor: pointer;
   user-select: none;
+  color: var(--logo-color);
+
   font-size: 2rem;
-  font-weight: bold;
+
   letter-spacing: -0.1rem;
-  color: #f33f3f;
 }
 
-header > .search-box {
+header > .search-form {
+  height: 2.75rem;
+  width: 20rem;
+
+  padding: 0.625rem 0.875rem;
+
   background: #fff;
-  padding: 8px;
   border-radius: 4px;
 }
 
-header .search-box > input {
-  border: 0;
+header .search-form > .search-button {
+  height: 1.125rem;
+  width: 1.125rem;
+
+  background: url("../../../templates/search_button.png") transparent no-repeat 0;
+  background-size: contain;
 }
 
-header .search-box > .search-button {
-  width: 14px;
-  border: 0;
-  text-indent: -1000rem;
-  background: url("../../../templates/search_button.png") transparent no-repeat 0 1px;
-  background-size: contain;
+.mobile-search-input {
+  width: 90% !important;
+}
+
+.full-width-important {
+  width: 100% !important;
+}
+
+@media screen and (max-width: 677px) {
+  header {
+    padding: 0.5rem 1rem;
+  }
+
+  header .search-form {
+    width: 3rem;
+  }
+
+  header .search-form > input {
+    width: 0rem;
+    padding-block: 0rem;
+    padding-inline: 0rem;
+  }
 }

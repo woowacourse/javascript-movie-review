@@ -1,6 +1,6 @@
 import Component from "../common/Component";
 
-import { $ } from "../../utils/dom";
+import { $, isMobileDevice } from "../../utils/dom";
 import { logo } from "../../assets/image";
 
 import "./Header.css";
@@ -13,12 +13,16 @@ interface HeaderProps {
 class Header extends Component<HeaderProps, {}> {
   private $form: HTMLFormElement | undefined;
 
+  private $input: HTMLInputElement | undefined;
+
+  private $h1: HTMLHeadingElement | undefined;
+
   protected getTemplate() {
     return /*html*/ `
-      <h1 id="logo"><img src="${logo}" alt="MovieList 로고" /></h1>
-      <form class="search-box" id="movie-search-form">
-        <input id="search-input" type="text" name="search-input" placeholder="검색" required/>
-        <button id="search-button" type="submit" class="search-button">검색</button>
+      <h1 id="logo" class="font-bold cursor-pointer"><img src="${logo}" alt="MovieList 로고" /></h1>
+      <form class="flex justify-between align-center search-form" id="movie-search-form">
+        <input id="search-input" class="text-base border-0 rounded-lg" type="text" name="search-input" placeholder="검색"/>
+        <button id="search-button" class="border-0 search-button" type="submit" ></button>
       </form>
     `;
   }
@@ -26,10 +30,15 @@ class Header extends Component<HeaderProps, {}> {
   protected render() {
     this.$target.innerHTML = this.getTemplate();
 
-    const searchForm = $<HTMLFormElement>("#movie-search-form");
-    if (!searchForm) return;
+    const $form = $<HTMLFormElement>("#movie-search-form");
+    const $input = $<HTMLInputElement>("#search-input");
+    const $h1 = $<HTMLHeadingElement>("#logo");
 
-    this.$form = searchForm;
+    if (!$form || !$input || !$h1) return;
+
+    this.$form = $form;
+    this.$input = $input;
+    this.$h1 = $h1;
   }
 
   protected setEvent(): void {
@@ -39,18 +48,76 @@ class Header extends Component<HeaderProps, {}> {
 
     $<HTMLHeadingElement>("#logo")?.addEventListener("click", () => {
       onLogoClick();
+
       this.resetSearchForm();
+    });
+
+    $<HTMLButtonElement>("#search-button")?.addEventListener("click", (event: Event) => {
+      if (!isMobileDevice() || !this.isInputWidthZero()) return;
+
+      this.addMobileFormStyle();
+
+      this.$input?.focus();
     });
 
     this.$form?.addEventListener("submit", (e: Event) => {
       e.preventDefault();
 
-      const $input = $<HTMLInputElement>("#search-input");
-      if (!$input) return;
+      if (!this.$input || !this.inValidSearchInput()) return;
 
-      onSearchKeywordSubmit($input.value);
+      onSearchKeywordSubmit(this.$input?.value);
+
       this.resetSearchForm();
     });
+
+    document.addEventListener("click", (event: Event) => {
+      if (!isMobileDevice()) return;
+
+      const eventTarget = event.target;
+      if (!(eventTarget instanceof HTMLElement) || eventTarget.closest("#movie-search-form")) return;
+
+      this.removeMobileFormStyle();
+    });
+
+    window.addEventListener("resize", () => {
+      if (isMobileDevice()) return;
+
+      this.removeMobileFormStyle();
+    });
+  }
+
+  private inValidSearchInput() {
+    if (!this.$input) return;
+
+    return this.$input.value.trim().length !== 0;
+  }
+
+  private isInputWidthZero() {
+    return this.$input?.offsetWidth === 0;
+  }
+
+  private renderMovieListLogo() {
+    this.$h1?.classList.remove("hidden");
+  }
+
+  private hideMovieListLogo() {
+    this.$h1?.classList.add("hidden");
+  }
+
+  private addMobileFormStyle() {
+    this.hideMovieListLogo();
+
+    this.$form?.classList.add("full-width-important");
+
+    this.$input?.classList.add("mobile-search-input");
+  }
+
+  private removeMobileFormStyle() {
+    this.renderMovieListLogo();
+
+    this.$form?.classList.remove("full-width-important");
+
+    this.$input?.classList.remove("mobile-search-input");
   }
 
   private resetSearchForm() {
