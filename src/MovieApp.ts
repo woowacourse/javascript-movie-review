@@ -57,6 +57,7 @@ class MovieApp extends MoviePage {
 
     this.createMain(POPULAR_MOVIE_TITLE);
     this.setSearchFormEvent();
+    this.handleSearchWidth();
 
     await this.renderMainContents({ renderType: RENDER_TYPE.POPULAR });
 
@@ -175,26 +176,54 @@ class MovieApp extends MoviePage {
   }
 
   setSearchFormEvent() {
-    const searchForm = document.querySelector('#search-form');
+    const searchForm = document.querySelector('#search-form') as HTMLFormElement;
 
     if (searchForm) {
       searchForm.addEventListener('submit', (event: Event) => {
         event.preventDefault();
         this.handleSearchFormSubmit();
+        this.toggleSearchWidth(searchForm);
       });
     }
   }
 
   async handleSearchFormSubmit() {
-    const searchForm = document.querySelector('#search') as HTMLInputElement;
+    const searchInput = document.querySelector('#search') as HTMLInputElement;
 
-    if (searchForm instanceof HTMLInputElement) {
-      const input = searchForm.value;
+    if (searchInput instanceof HTMLInputElement) {
+      const input = searchInput.value;
       this.resetPage();
+      this.handleSearchWidth();
       this.updateMainHtml(SEARCH_MOVIE_TITLE(input));
       await this.renderMainContents({ renderType: RENDER_TYPE.SEARCH, input });
       infiniteScroll.startObserving(this, { renderType: RENDER_TYPE.SEARCH, input });
     }
+  }
+
+  handleSearchWidth() {
+    const searchForm = document.querySelector('#search-form') as HTMLFormElement;
+
+    if (searchForm && window.innerWidth <= 834) {
+      searchForm.addEventListener(
+        'click',
+        (event: Event) => {
+          event.preventDefault();
+          searchForm.reset();
+          this.toggleSearchWidth(searchForm);
+        },
+        { once: true },
+      );
+    }
+  }
+
+  toggleSearchWidth(searchForm: HTMLFormElement) {
+    const logo = document.querySelector('#logo-img') as HTMLImageElement;
+    const searchInput = document.querySelector('#search') as HTMLInputElement;
+
+    searchForm.classList.toggle('search-form--longer');
+    searchInput.classList.toggle('search-input--longer');
+    logo.classList.toggle('invisible');
+    searchInput.focus();
   }
 }
 

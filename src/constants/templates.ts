@@ -35,9 +35,9 @@ export const SKELETON_ITEM_TEMPLATE = /* html */ `
 `;
 
 export const HEADER_TEMPLATE = /* html */ `
-<h1><img src=${LOGO} alt="MovieList 로고" /></h1>
-<form class="search-box" id="search-form">
-  <input type="search" name="search" id="search" placeholder="검색" />
+<h1><img src=${LOGO} id="logo-img" alt="MovieList 로고" /></h1>
+<form class="search-form" id="search-form">
+  <input type="search" class="search-input" name="search" id="search" placeholder="검색" />
   <button type="submit" class="search-button">검색</button>
 </form>
 `;
