@@ -11,6 +11,7 @@ class MovieItem {
   itemBox = document.createElement('li');
 
   constructor() {
+    this.itemBox.classList.add('item-box');
     this.itemBox.append(Skeleton.template());
   }
 

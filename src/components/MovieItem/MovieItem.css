@@ -4,6 +4,14 @@
   align-items: center;
   width: 100%;
   margin: 0 auto;
+
+  cursor: pointer;
+  background-size: contain;
+}
+
+.item-box:hover {
+  transform: scale(110%);
+  transition: 0.3s ease-in-out;
 }
 
 .item-card .skeleton {
