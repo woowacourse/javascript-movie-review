@@ -310,6 +310,11 @@ header .search-box > .search-button {
   height: 32px;
 }
 
+.movie-item-detail_my-rating-star {
+  cursor: pointer;
+  width: 32px;
+}
+
 #toast_message {
   opacity: 0;
   position: fixed;
