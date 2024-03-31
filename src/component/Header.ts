@@ -1,5 +1,5 @@
 import { $ } from '../util/selector';
-import LogoImagePath from '../asset/logo.png';
+import ASSETS from '../constant/assets';
 
 const SearchButtonClickEvent = new Event('clickSearchButton');
 const LogoClickEvent = new Event('logoClickEvent');
@@ -28,7 +28,7 @@ function renderHeader() {
   const logo = document.createElement('img');
   logo.classList.add('logo');
   logo.alt = 'MovieList 로고';
-  logo.src = LogoImagePath;
+  logo.src = ASSETS.logoImage;
 
   const searchBox = renderSearchBox();
   searchBox.classList.add('search-box');
