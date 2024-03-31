@@ -7,3 +7,7 @@ export const $ = <E extends Element>(selector: string, baseElement: Element | Do
 export const $$ = <E extends Element>(selector: string, baseElement: Element | Document = document): NodeListOf<E> => {
   return baseElement.querySelectorAll(selector);
 };
+
+export const isMobileDevice = () => {
+  return window.innerWidth <= 677;
+};
