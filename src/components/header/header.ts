@@ -53,21 +53,22 @@ function render(logoHandler: () => void, inputSubmitHandler: (inputValue: string
   return header;
 }
 
-let debounce: NodeJS.Timeout | undefined;
+let throttle: NodeJS.Timeout | null;
 function handleResize() {
-  if (debounce) clearTimeout(debounce);
-
-  debounce = setTimeout(() => {
-    const width = window.innerWidth;
-    if (width >= 768) {
-      Dom.getElement(document, '.close-input').classList.remove('clicked-close-input');
-      noneClickedHeaderView();
-    }
-    if (width < 768 && (Dom.getElement(document, 'header .search-box > input') as HTMLInputElement)?.value !== '') {
-      clickedHeaderView();
-      Dom.getElement(document, '.close-input').classList.add('clicked-close-input');
-    }
-  }, 100);
+  if (!throttle) {
+    throttle = setTimeout(() => {
+      throttle = null;
+      const width = window.innerWidth;
+      if (width >= 768) {
+        Dom.getElement(document, '.close-input').classList.remove('clicked-close-input');
+        noneClickedHeaderView();
+      }
+      if (width < 768 && (Dom.getElement(document, 'header .search-box > input') as HTMLInputElement)?.value !== '') {
+        clickedHeaderView();
+        Dom.getElement(document, '.close-input').classList.add('clicked-close-input');
+      }
+    }, 100);
+  }
 }
 
 export function noneClickedHeaderView() {
