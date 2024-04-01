@@ -2,7 +2,7 @@ import { scoreToPhrases } from './../constant/movie';
 import { grayStar, yellowStar } from '../constant/svg';
 import { hiddenElement, showElement } from '../util/hiddenElement';
 import { isMobile, resizeWidth } from '../util/resizeWidth';
-import { getLocalStorage, setLocalStorage } from '../domain/Movie';
+import { getScore, setLocalStorage } from '../domain/Movie';
 
 class MyVote {
   #score = 0;
@@ -10,7 +10,7 @@ class MyVote {
 
   constructor(id: number) {
     this.#id = id;
-    this.#score = getLocalStorage(id.toString()).score;
+    this.#score = getScore(id.toString());
 
     const modalInfo = document.querySelector('.movie-info');
     modalInfo?.appendChild(this.myVoteTemplate());
@@ -33,6 +33,7 @@ class MyVote {
     starTag.innerHTML = star;
     starTag.classList.add('star-tag');
     starTag.id = id;
+
     return starTag;
   }
 
