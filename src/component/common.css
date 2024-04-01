@@ -1,4 +1,6 @@
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box !important;
 }
 
@@ -216,6 +218,11 @@ header {
   position: relative;
 }
 
+h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
 header h1 {
   cursor: pointer;
   user-select: none;
@@ -278,4 +285,15 @@ header .search-box > .search-button {
   height: 50px;
   cursor: pointer;
   border: none;
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+}
+
+.loader-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
