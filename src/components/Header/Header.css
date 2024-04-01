@@ -21,12 +21,15 @@ header h1 {
 }
 
 header > .search-box {
+  display: flex;
+  justify-content: flex-end;
   background: #fff;
   padding: 8px;
   border-radius: 4px;
 }
 
 header .search-box > input {
+  width: 100%;
   border: 0;
 }
 
