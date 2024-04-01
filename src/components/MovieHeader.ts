@@ -64,7 +64,6 @@ export default class MovieHeader extends EventComponent {
       $searchInput?.classList.remove("hidden");
       return;
     }
-
     const searchQuery = $form?.["search-query"].value;
 
     if (!searchQuery) {

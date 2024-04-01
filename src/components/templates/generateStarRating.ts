@@ -19,7 +19,7 @@ const createScoreDescription = (count: number): string => {
   const scoreKey: ScoreKey = (count * 2) as ScoreKey;
   const scoreText = SCORE[scoreKey];
 
-  return `<div>${scoreKey} ${scoreText}</div>`;
+  return `<div id="score-description">${scoreKey} ${scoreText}</div>`;
 };
 
 export const generateStarRating = (count: number = 0): HTMLTemplate => {
