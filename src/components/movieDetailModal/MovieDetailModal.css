@@ -59,12 +59,13 @@
 }
 
 .detail-thumbnail {
-  width: 37%;
+  aspect-ratio: 16 / 9;
 }
 
 /* 데스크탑 규격 */
 @media screen and (min-width: 1024px) {
   .detail-thumbnail {
+    width: 292px;
     height: 433px;
   }
 }
@@ -72,6 +73,7 @@
 /* tablet 규격 */
 @media screen and (min-width: 651px) and (max-width: 1023px) {
   .detail-thumbnail {
+    width: 260px;
     height: 400px;
   }
 }
@@ -178,7 +180,7 @@
 }
 
 /* 태블릿 작은 크기, 모바일 규격 */
-@media screen and (max-width: 790px) {
+@media screen and (max-width: 822px) {
   .detail-vote-text {
     display: none;
   }
