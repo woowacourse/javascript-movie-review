@@ -85,6 +85,7 @@ export async function getMovieItems() {
     total_pages: totalPage,
   }: ITMDBResponse = await fetchMovies().catch((error: Error) => handleGetMovieItemsError(error));
   const movieElements = results.map((info: IMovieItemProps) => getMovieItem(info)) as HTMLElement[];
+  checkPage({ page, totalPage });
   return { elements: movieElements, page, totalPage };
 }
 
@@ -105,8 +106,7 @@ function createNoMovieMessage() {
 
 async function getMovieList() {
   const movieList = document.createElement('ul');
-  const { elements: movieItems, page, totalPage } = await getMovieItems();
-  checkPage({ page, totalPage });
+  const { elements: movieItems } = await getMovieItems();
   movieList.classList.add('item-list');
   if (movieItems.length === 0) movieList.append(createNoMovieMessage());
   movieList.append(...movieItems);
