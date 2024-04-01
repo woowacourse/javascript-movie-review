@@ -1,12 +1,12 @@
 import MovieService from '../domain/MovieService';
 import PageNumberManager from '../domain/pageNumberManager';
-import MovieContainer from '../component/MovieContainer';
-import createHeader from '../component/Header';
+import MovieContainer from '../component/MovieContainer/MovieContainer';
+import createHeader from '../component/Header/Header';
 import toast from '../component/toast/toast';
 import { $ } from '../util/selector';
 import { MOVIE_LIST_TYPE } from '../constant/config';
 import ERROR_MESSAGE from '../constant/errorMessage';
-import MovieDetailModal from '../component/modal/MovieDetailModal';
+import MovieDetailModal from '../component/Modal/MovieDetailModal';
 import { UserScoreParams } from '../interface/MovieInterface';
 import { removeLoadingAnimation, showLoadingAnimation } from '../component/LoadingAnimation/LoadingAnimation';
 

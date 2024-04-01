@@ -1,5 +1,5 @@
-import { $ } from '../util/selector';
-import ASSETS from '../constant/assets';
+import { $ } from '../../util/selector';
+import ASSETS from '../../constant/assets';
 
 const SearchButtonClickEvent = new Event('clickSearchButton');
 const LogoClickEvent = new Event('logoClickEvent');

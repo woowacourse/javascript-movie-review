@@ -1,4 +1,4 @@
-import createButton from '../../Button';
+import createButton from '../../Button/Button';
 
 export default function MovieDetailTitleSection({ title, onClose }: { title: string; onClose: () => void }) {
   const section = document.createElement('section');

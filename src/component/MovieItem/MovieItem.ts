@@ -1,7 +1,6 @@
-import itemScoreIconPath from '../asset/star_filled.png';
-import { CONFIG } from '../constant/config';
-import { MovieData } from '../interface/MovieInterface';
-import { $ } from '../util/selector';
+import { CONFIG } from '../../constant/config';
+import { MovieData } from '../../interface/MovieInterface';
+import { $ } from '../../util/selector';
 
 function createSkeletonMovieItem() {
   const itemCard = document.createElement('div');
@@ -49,14 +48,6 @@ function injectMovieDataToItem({
   };
 
   $itemThumbnail.src = movie.posterPath;
-}
-
-function createScoreIcon() {
-  const scoreIcon = document.createElement('img');
-  scoreIcon.src = itemScoreIconPath;
-  scoreIcon.alt = '별점';
-
-  return scoreIcon;
 }
 
 export { createSkeletonMovieItem, injectMovieDataToItem };

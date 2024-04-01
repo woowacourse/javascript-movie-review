@@ -1,4 +1,4 @@
-import { createSkeletonMovieItem } from './MovieItem';
+import { createSkeletonMovieItem } from '../MovieItem/MovieItem';
 
 const MAX_SINGLE_REQUEST_MOVIE_COUNT = 20;
 

@@ -1,4 +1,4 @@
-import { ButtonElementParams, ButtonParams } from '../interface/ButtonInterface';
+import { ButtonElementParams, ButtonParams } from '../../interface/ButtonInterface';
 
 function createButtonElement({ type, id, textContent, variantClasses }: ButtonElementParams) {
   const button = document.createElement('button');

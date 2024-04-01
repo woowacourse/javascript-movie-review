@@ -1,8 +1,8 @@
-import { $, $OptionalSelector } from '../util/selector';
-import createButton from './Button/Button';
-import { injectMovieDataToItem } from './MovieItem';
-import { createSkeletonMovieList } from './MovieList';
-import { MoviePageData } from '../interface/MovieInterface';
+import { $, $OptionalSelector } from '../../util/selector';
+import createButton from '../Button/Button';
+import { injectMovieDataToItem } from '../MovieItem/MovieItem';
+import { createSkeletonMovieList } from '../MovieList/MovieList';
+import { MoviePageData } from '../../interface/MovieInterface';
 
 interface MovieContainerParams {
   title: string;
