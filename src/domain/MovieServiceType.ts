@@ -1,7 +1,16 @@
+import Movie from './Movie';
+
+// TODO: 오류를 임시로 null로 해두었음
 export interface MovieServiceType {
-  fetchPopularMovieList: (pageNumber: number) => Array<MovieData>;
-  fetchSearchResult: ({ query, pageNumber }: { query: string; pageNumber: number }) => Array<MovieData>;
-  fetchMovieDetail: (movieId: number) => MovieDetail;
+  fetchPopularMovieList: (currentPage: number) => Promise<{ hasNextPage: boolean; movieList: Movie[] } | null>;
+  fetchSearchResult: ({
+    query,
+    currentPage,
+  }: {
+    query: string;
+    currentPage: number;
+  }) => Promise<{ hasNextPage: boolean; movieList: Movie[] } | null>;
+  fetchMovieDetail: (movieId: number) => Promise<MovieDetail | null>;
 }
 
 // 가공 타입
@@ -14,7 +23,7 @@ export interface MovieData {
 
 export interface MovieDetail {
   id: number;
-  genres: { name: string; id: number };
+  genres: Array<string>;
   title: string;
   voteAverage: number;
   description: string;
