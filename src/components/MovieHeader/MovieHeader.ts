@@ -20,25 +20,62 @@ class MovieHeader {
     logoClickHandler,
     searchBoxSubmitHandler,
   }: MovieHeaderProps) {
-    const $logo = createElement({
+    const $logoImg = createElement({
       tagName: "img",
       attribute: { src: LOGO, alt: "MovieList 로고" },
     });
-    const $h1 = createElement({
+
+    const $logo = createElement({
       tagName: "h1",
-      children: [$logo],
-      addEventListener: {
+      children: [$logoImg],
+      eventListener: {
         click: () => {
           searchBox.clear();
           logoClickHandler();
         },
       },
     });
+
+    const $shortSearchBox = this.generateShortSearchBox();
+
     const searchBox = new MovieSearchBox({
       searchBoxSubmitHandler,
     });
 
-    return generateHeader({ children: [$h1, searchBox.$element] });
+    return generateHeader({
+      children: [$logo, searchBox.$element, $shortSearchBox],
+    });
+  }
+
+  private generateShortSearchBox = () => {
+    const $shortSearchButton = createElement({
+      tagName: "button",
+      attribute: { class: "short-search-button" },
+      children: ["검색"],
+    });
+
+    const $shortSearchBox = createElement({
+      tagName: "div",
+      attribute: { class: "short-search-box" },
+      children: [$shortSearchButton],
+      eventListener: {
+        click: this.switchShortSearchBox.bind(this),
+      },
+    });
+
+    return $shortSearchBox;
+  };
+
+  private switchShortSearchBox(e: Event) {
+    if (!(e.currentTarget instanceof HTMLElement)) {
+      return;
+    }
+    e.currentTarget.classList.toggle("exit");
+
+    const $logo = this.$element.firstChild?.firstChild as HTMLElement;
+    const $searchBox = this.$element.firstChild?.nextSibling as HTMLElement;
+    $logo.classList.toggle("hidden");
+    $searchBox.classList.toggle("show");
   }
 }
 
