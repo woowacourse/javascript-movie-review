@@ -1,27 +1,37 @@
 export interface Movie {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
   id: number;
-  original_language: string;
-  original_title: string;
   overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
+  poster_path: string | null;
   title: string;
-  video: boolean;
   vote_average: number;
-  vote_count: number;
 }
 
 export interface MovieData {
   movieList: Movie[];
-  isShowMoreButton: boolean;
+  isMoreData: boolean;
 }
 
 export interface PartialMovieDataForItemView extends Partial<MovieData> {
-  isShowMoreButton: boolean;
+  isMoreData: boolean;
 }
 
 export type ListType = 'popular' | 'search';
+
+export interface LocalStorageUserScore {
+  id: number;
+  score: number;
+}
+
+export type MovieInfoGenre = {
+  id: number;
+  name: string;
+}[];
+
+export interface MovieInfo {
+  id: number;
+  title: string;
+  genres: MovieInfoGenre | null;
+  poster_path: string | null;
+  overview: string | null;
+  vote_average: number;
+}

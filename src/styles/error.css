@@ -44,3 +44,18 @@
 .error-view .button-refresh {
   width: 380px;
 }
+
+.movie-info-error {
+  position: relative;
+  .button-refresh {
+    display: none;
+  }
+
+  .error-view {
+    height: 100%;
+  }
+
+  .error-message {
+    margin-top: 1rem;
+  }
+}

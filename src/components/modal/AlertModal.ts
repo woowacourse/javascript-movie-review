@@ -1,6 +1,7 @@
 import { createElementWithAttribute } from '../../utils';
 
-import ModalContainer, { ModalContainerHandler } from './ModalContainer';
+import ModalContainerController from './controller/ModalContainerController';
+import ModalContainer from './ModalContainer';
 
 interface AlertModalInnerProps {
   $alertContentsElement: HTMLElement;
@@ -18,7 +19,8 @@ class AlertModal {
 
   #handleClickAlertModalButton(event: Event) {
     event.stopPropagation();
-    ModalContainerHandler.closeModalContainer();
+
+    ModalContainerController.closeModalContainer();
   }
 
   #makeAlertModalInner({
@@ -45,6 +47,7 @@ class AlertModal {
       $alertContentsElement,
       $button,
     });
+
     $alertModal.appendChild($alertModalInner);
 
     return $alertModal;

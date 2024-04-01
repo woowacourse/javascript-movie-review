@@ -1,15 +1,18 @@
 import { IMAGE_URL } from '../../config';
+import { MOVIE_CHILDREN_CLASS } from '../../constants';
 import noImg from '../../images/no_image.svg';
-import { Movie } from '../../type/movie';
 import { createElementWithAttribute } from '../../utils';
 
 const POSTER_SIZE = 'w500';
-
+interface MovieImgProps {
+  poster_path: string | null;
+  title: string;
+}
 class MovieImg {
   #element: HTMLImageElement;
 
-  constructor(movie: Movie) {
-    this.#element = this.#makeMovieImg(movie);
+  constructor(props: MovieImgProps) {
+    this.#element = this.#makeMovieImg(props);
   }
 
   get element() {
@@ -20,13 +23,18 @@ class MovieImg {
     return path === null ? noImg : IMAGE_URL + POSTER_SIZE + path;
   }
 
-  #makeMovieImg(movie: Movie) {
-    return createElementWithAttribute('img', {
-      class: 'movie-thumbnail',
-      src: this.#getImgSrc(movie.poster_path),
+  #makeMovieImg(props: MovieImgProps) {
+    const $img = createElementWithAttribute<HTMLImageElement>('img', {
+      class: MOVIE_CHILDREN_CLASS.thumbnail,
+      src: this.#getImgSrc(props.poster_path),
       loading: 'lazy',
-      alt: `${movie.title} 포스터`,
-    }) as HTMLImageElement;
+      alt: `${props.title} 포스터`,
+    });
+
+    if (props.poster_path === null) {
+      $img.classList.add('none-img');
+    }
+    return $img;
   }
 }
 

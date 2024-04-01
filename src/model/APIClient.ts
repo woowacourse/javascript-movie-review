@@ -1,5 +1,6 @@
 import { BASE_URL, endPoint, options } from '../config';
 import { MAX_PAGE } from '../constants';
+import { MovieInfo } from '../type/movie';
 import { handleFetchData } from '../utils';
 
 import dataStateStore from './DataStateStore';
@@ -7,37 +8,65 @@ import dataStateStore from './DataStateStore';
 class APIClient {
   #currentPage = 0;
 
-  async getPopularMovieData(isResetCurrentPage: boolean) {
+  async getPopularMovieListData(isResetCurrentPage: boolean) {
     this.#updateCurrentPage(isResetCurrentPage);
-    const data = await this.#handleFetchPopularMovie();
+    const data = await this.#handleFetchPopularMovieList();
 
     if (data instanceof Error) throw new Error(data.message);
 
     dataStateStore.getTotalMovieData(
       {
         movieList: data.results,
-        isShowMoreButton: this.#isShowMoreButton(data.page, data.total_pages),
+        isMoreData: this.#isMoreData(data.page, data.total_pages),
       },
       isResetCurrentPage,
     );
   }
 
-  async getSearchMovieData(isResetCurrentPage: boolean, title: string) {
+  async getSearchMovieListData(isResetCurrentPage: boolean, title: string) {
     this.#updateCurrentPage(isResetCurrentPage);
-    const data = await this.#handleFetchSearchMovie(title);
+    const data = await this.#handleFetchSearchMovieList(title);
 
     if (data instanceof Error) throw new Error(data.message);
 
     dataStateStore.getTotalMovieData(
       {
         movieList: data.results,
-        isShowMoreButton: this.#isShowMoreButton(data.page, data.total_pages),
+        isMoreData: this.#isMoreData(data.page, data.total_pages),
       },
       isResetCurrentPage,
     );
   }
 
-  #isShowMoreButton = (page: number, totalPage: number) =>
+  async getMovieInfo(id: number) {
+    const fetcher = fetch(`${BASE_URL}/${endPoint.movieInfo(id)}`, options);
+    // 데이터 불러오기 전 초기화
+
+    const data = await handleFetchData(fetcher);
+
+    if (data instanceof Error) {
+      dataStateStore.getMovieInfo(undefined);
+      throw new Error(data.message);
+    }
+
+    this.#updateMovieInfo(data);
+  }
+  // typescript-eslint/no-explicit-any rule off
+  // eslint-disable-next-line
+  #updateMovieInfo(data: any) {
+    const movieInfo: MovieInfo = {
+      id: data.id,
+      title: data.title,
+      genres: data.genres,
+      poster_path: data.poster_path,
+      overview: data.overview,
+      vote_average: data.vote_average,
+    };
+
+    dataStateStore.getMovieInfo(movieInfo);
+  }
+
+  #isMoreData = (page: number, totalPage: number) =>
     page < totalPage && page <= MAX_PAGE;
 
   #updateCurrentPage = (isResetCurrentPage: boolean) => {
@@ -45,7 +74,7 @@ class APIClient {
   };
 
   // fetch
-  async #fetchPopularMovie() {
+  async #fetchPopularMovieList() {
     const response = await fetch(
       `${BASE_URL}/${endPoint.popularMovie(this.#currentPage)}`,
       options,
@@ -54,7 +83,7 @@ class APIClient {
     return response;
   }
 
-  async #fetchSearchMovie(title: string) {
+  async #fetchSearchMovieList(title: string) {
     const response = await fetch(
       `${BASE_URL}/${endPoint.searchMovie(title, this.#currentPage)}`,
       options,
@@ -63,14 +92,14 @@ class APIClient {
     return response;
   }
 
-  async #handleFetchPopularMovie() {
-    const result = await handleFetchData(this.#fetchPopularMovie());
+  async #handleFetchPopularMovieList() {
+    const result = await handleFetchData(this.#fetchPopularMovieList());
 
     return result;
   }
 
-  async #handleFetchSearchMovie(title: string) {
-    const results = await handleFetchData(this.#fetchSearchMovie(title));
+  async #handleFetchSearchMovieList(title: string) {
+    const results = await handleFetchData(this.#fetchSearchMovieList(title));
 
     return results;
   }

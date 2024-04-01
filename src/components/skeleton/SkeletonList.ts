@@ -1,3 +1,4 @@
+import { MOVIE_LIST_CLASS } from '../../constants';
 import { createElementWithAttribute } from '../../utils';
 
 import SkeletonCard from './SkeletonCard';
@@ -24,7 +25,7 @@ class SkeletonList {
 
   #makeSkeletonList = () => {
     const $ul = createElementWithAttribute('ul', {
-      class: 'movie-list skeleton-list',
+      class: `${MOVIE_LIST_CLASS} skeleton-list`,
     });
 
     Array.from({ length: 12 }).forEach(() => {

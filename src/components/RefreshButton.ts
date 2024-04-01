@@ -14,6 +14,7 @@ class RefreshButton {
   #makeRetryButton() {
     const $retryButton = createElementWithAttribute('button', {
       class: 'button-refresh',
+      title: '새로고침 버튼',
     }) as HTMLButtonElement;
 
     $retryButton.textContent = '새로 고침';

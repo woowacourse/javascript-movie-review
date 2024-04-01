@@ -1,20 +1,22 @@
-import { Movie } from '../../type/movie';
+import { MOVIE_CHILDREN_CLASS, NONE_MOVIE_INFO } from '../../constants';
 import { createElementWithAttribute } from '../../utils';
 
 class MovieTitle {
   #element: HTMLElement;
 
-  constructor(movie: Movie) {
-    this.#element = this.#makeMovieTitle(movie);
+  constructor(title: string | null) {
+    this.#element = this.#makeMovieTitle(title);
   }
 
   get element() {
     return this.#element;
   }
 
-  #makeMovieTitle = (movie: Movie) => {
-    const $title = createElementWithAttribute('p', { class: 'movie-title' });
-    $title.textContent = movie.title;
+  #makeMovieTitle = (title: string | null) => {
+    const $title = createElementWithAttribute('p', {
+      class: MOVIE_CHILDREN_CLASS.title,
+    });
+    $title.textContent = title || NONE_MOVIE_INFO.title;
 
     return $title;
   };

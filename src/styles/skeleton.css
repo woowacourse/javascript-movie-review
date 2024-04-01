@@ -5,20 +5,60 @@
 
 .skeleton-list-container.on {
   display: grid;
+  position: absolute;
+  top: 100%;
+  left: 48px;
+  width: calc(100vw - 48px * 2);
 }
-.movie-card .skeleton {
+
+.skeleton-list-container .movie-title {
+  margin-bottom: 16px;
+}
+.movie-card .skeleton,
+.skeleton-info .skeleton {
   animation: skeleton-animation 5s infinite ease-out;
   border-radius: 8px;
   background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
   background-size: 400%;
 }
-
 .movie-title.skeleton::after,
 .movie-score.skeleton::after {
   content: 'loading';
   font-size: 0;
 }
 
+.skeleton-info .movie-title {
+  margin-bottom: 0;
+  width: 60%;
+  height: 20px;
+}
+.skeleton-info .movie-thumbnail {
+  height: 100%;
+}
+.skeleton-info .skeleton-text {
+  margin-bottom: 14px;
+  height: 20px;
+}
+.skeleton-info .skeleton-text:first-child {
+  width: 40%;
+}
+
+.skeleton-info .skeleton-text:nth-child(2) {
+  width: 60%;
+}
+
+.skeleton-info .skeleton-text:nth-child(3) {
+  width: 100%;
+}
+
+.skeleton-info .skeleton-text-box {
+  margin-top: 3rem;
+}
+
+.skeleton-info .user-score {
+  width: 100%;
+  height: 30px;
+}
 @keyframes skeleton-animation {
   0% {
     background-position: 0% 50%;

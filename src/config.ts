@@ -28,9 +28,15 @@ const getSearchMovieURLParams = (title: string, page: number) =>
     page: page.toString(),
   });
 
+const getMovieInfoURLParams = () =>
+  new URLSearchParams({
+    language: 'ko',
+  });
+
 export const endPoint = {
   popularMovie: (page: number) =>
     `movie/popular?${getPopularMovieURLParams(page)}`,
   searchMovie: (title: string, page: number) =>
     `search/movie?${getSearchMovieURLParams(title, page)}`,
+  movieInfo: (id: number) => `movie/${id}?${getMovieInfoURLParams()}`,
 };

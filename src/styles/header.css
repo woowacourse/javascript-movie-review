@@ -1,13 +1,12 @@
 header {
-  display: flex;
-  position: relative;
-  justify-content: space-between;
-  align-items: center;
+  position: fixed;
+  top: 0;
+  z-index: var(--header-z-index);
   margin-bottom: 48px;
   border-bottom: 1px solid var(--white-color);
-  background-color: var(--black-bg-color);
-  padding: 0 20px;
-  width: 100%;
+  background-color: var(--body-background-color);
+  padding: calc((72px - 32px) / 2) 20px;
+  width: 100vw;
   min-width: 1200px;
   height: 72px;
 }
@@ -19,4 +18,26 @@ header h1 {
   font-size: 2rem;
   letter-spacing: -0.1rem;
   user-select: none;
+}
+header .logo {
+  border: none;
+  background-image: url(../images/logo.png);
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-color: inherit;
+  width: 123px;
+  height: 23px;
+}
+
+@media screen and (max-width: 1200px) {
+  header {
+    min-width: inherit;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  header .logo {
+    background-image: url(../images/logo_small.png);
+    width: 26px;
+  }
 }

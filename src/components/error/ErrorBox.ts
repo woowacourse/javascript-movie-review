@@ -34,12 +34,11 @@ class ErrorBox {
     extraExtraBoxClass,
   }: ErrorBoxProps) {
     const $errorBox = createElementWithAttribute('div', { class: 'error-box' });
-    if (extraExtraBoxClass) $errorBox.classList.add(extraExtraBoxClass);
-    const $errorImg = new ErrorImg(errorImageType).element;
-    const $errorMessage = this.#makeErrorMessageEl(errorMessage);
 
-    $errorBox.appendChild($errorImg);
-    $errorBox.appendChild($errorMessage);
+    if (extraExtraBoxClass) $errorBox.classList.add(extraExtraBoxClass);
+
+    $errorBox.appendChild(new ErrorImg(errorImageType).element);
+    $errorBox.appendChild(this.#makeErrorMessageEl(errorMessage));
 
     return $errorBox;
   }

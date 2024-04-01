@@ -1,37 +1,26 @@
-import { checkElementIsNotNull, createElementWithAttribute } from '../../utils';
+import {
+  createElementWithAttribute,
+  ElementFinder,
+  ScrollController,
+} from '../../utils';
 
+import ModalContainerController from './controller/ModalContainerController';
+
+const MODAL_CONTAINER_CLASS = 'modal-container';
 interface ModalContainerProps {
   $children: HTMLElement;
   onCloseExtraFunc?: () => void;
+  isKeepExistingModal?: boolean;
 }
 
-export const ModalContainerHandler = {
-  closeModalContainer() {
-    const $modalContainer = document.querySelector('.modal-container');
-    $modalContainer?.remove();
-  },
-
-  handleClickBackgroundToCloseModal(
-    event: Event,
-    onCloseExtraFunc?: () => void,
-  ) {
-    event.stopPropagation();
-
-    if (this.private_isWrongCloseTarget(event)) return;
-
-    if (onCloseExtraFunc) onCloseExtraFunc();
-    this.closeModalContainer();
-  },
-
-  private_isWrongCloseTarget(event: Event) {
-    const { target } = event;
-    return !(target instanceof HTMLElement) || target.closest('.modal');
-  },
-};
-
 class ModalContainer {
+  #element: HTMLElement;
+
   constructor(props: ModalContainerProps) {
+    this.#element = this.#makeModalContainer(props);
     this.#renderModalContainer(props);
+    ScrollController.preventScroll();
+    ModalContainerController.handleKeyDownToCloseModal();
   }
 
   #makeModalBackground(onCloseExtraFunc?: () => void) {
@@ -40,7 +29,7 @@ class ModalContainer {
     });
 
     $backGround.addEventListener('click', (event) =>
-      ModalContainerHandler.handleClickBackgroundToCloseModal(
+      ModalContainerController.handleClickBackgroundToCloseModal(
         event,
         onCloseExtraFunc,
       ),
@@ -54,7 +43,7 @@ class ModalContainer {
     onCloseExtraFunc,
   }: ModalContainerProps) {
     const $modalContainerInner = createElementWithAttribute('div', {
-      class: 'modal-container__inner',
+      class: `${MODAL_CONTAINER_CLASS}__inner`,
     });
     $children.classList.add('modal');
     $modalContainerInner.appendChild(
@@ -65,18 +54,28 @@ class ModalContainer {
     return $modalContainerInner;
   }
 
-  #renderModalContainer(props: ModalContainerProps) {
-    const $app = document.querySelector('#app');
-    checkElementIsNotNull($app);
-    //이전에 있는 모달 지우기
-    ModalContainerHandler.closeModalContainer();
-    //모달 생성
+  #makeModalContainer(props: ModalContainerProps) {
     const $modalContainer = createElementWithAttribute('div', {
-      class: 'modal-container',
+      class: MODAL_CONTAINER_CLASS,
     });
     $modalContainer.appendChild(this.#makeModalContainerInner(props));
 
-    ($app as Element).appendChild($modalContainer);
+    return $modalContainer;
+  }
+
+  #renderModalContainer(props: ModalContainerProps) {
+    const $app = ElementFinder.findElementBySelector('#app');
+    if (!$app) return;
+    const isDeleteExistingModal =
+      !props.isKeepExistingModal &&
+      document.querySelector(`.${MODAL_CONTAINER_CLASS}`);
+    // 이전에 열린 모달 제거
+    if (isDeleteExistingModal) {
+      console.log('delete');
+      ModalContainerController.closeModalContainer();
+    }
+    //새로운 모달 생성
+    $app.appendChild(this.#element);
   }
 }
 

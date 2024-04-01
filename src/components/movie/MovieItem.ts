@@ -1,4 +1,8 @@
+import { NONE_MOVIE_INFO } from '../../constants';
+import { dataStateStore, movieInfoDataFetcher } from '../../model';
 import { Movie } from '../../type/movie';
+import { debouceFunc } from '../../utils';
+import MovieInfoModal from '../modal/MovieInfoModal';
 
 import MovieCard from './MovieCard';
 
@@ -15,13 +19,33 @@ class MovieItem {
 
   #makeMovieItem(movie: Movie) {
     const $li = document.createElement('li');
-    const $a = document.createElement('a');
     const $card = new MovieCard(movie).element;
-    //2단계 상세 모달 기능 추가
-    $a.appendChild($card);
-    $li.appendChild($a);
-
+    $li.appendChild($card);
+    $li.addEventListener('click', (event) => {
+      debouceFunc(() => this.handleClickToOpenModal(event, movie.id));
+    });
     return $li;
+  }
+
+  async handleClickToOpenModal(event: Event, id: number) {
+    event.stopPropagation();
+    const movieInfo = await this.getMovieInfo(id);
+    if (!movieInfo) {
+      console.error(NONE_MOVIE_INFO.noneData);
+      return;
+    }
+
+    new MovieInfoModal(movieInfo);
+  }
+
+  async getMovieInfo(id: number) {
+    const movieInfoInDataStateStore = dataStateStore.movieInfo;
+    const isInDataStore = movieInfoInDataStateStore?.id === id;
+    if (isInDataStore) {
+      return movieInfoInDataStateStore;
+    }
+    await movieInfoDataFetcher.handleGetMovieInfo(id);
+    return dataStateStore.movieInfo;
   }
 }
 

@@ -1,42 +1,45 @@
-import LogoImg from '../images/logo.png';
-import { dataStateStore } from '../model';
-import { DataFetcher, renderAlertModalForNullEl } from '../service';
-import { createElementWithAttribute } from '../utils';
+import { MOVIE_LIST_CONTAINER_CLASS } from '../constants';
+import { dataStateStore, movieListDataFetcher } from '../model';
+import { createElementWithAttribute, ElementFinder } from '../utils';
 
 import { MovieListContainer } from './movie';
-import SearchBox from './SearchBox';
+import { SearchBox, SearchBoxResponsiveHandler } from './searching';
 
 const HeaderClickHandler = {
+  async handleDataFetcher() {
+    await movieListDataFetcher.getPopularMovieListData(true);
+  },
+
   async handleClickToRefresh() {
     this.private_removeMovieListContainer();
     this.private_resetSearchInputValue();
 
-    await DataFetcher.handleGetPopularMovieData(true);
-
+    await this.handleDataFetcher();
     new MovieListContainer({
       titleText: '지금 인기 있는 영화',
       movieData: dataStateStore.movieData,
       listType: 'popular',
     });
+
+    SearchBoxResponsiveHandler.handleSizeByLogoButton();
   },
 
   private_removeMovieListContainer() {
-    const $movieListContainer = document.querySelector('.movie-list-container');
-
-    if (!$movieListContainer) {
-      renderAlertModalForNullEl('movie-list-container');
-      return;
-    }
+    const $movieListContainer = ElementFinder.findElementBySelector(
+      `.${MOVIE_LIST_CONTAINER_CLASS}`,
+    );
+    if (!$movieListContainer) return;
 
     $movieListContainer.remove();
   },
 
   private_resetSearchInputValue() {
-    const $searchBox = document.querySelector('#search-input');
+    const $searchBox =
+      ElementFinder.findElementBySelector<HTMLInputElement>('#search-input');
 
-    if ($searchBox instanceof HTMLInputElement) {
-      $searchBox.value = '';
-    }
+    if (!$searchBox) return;
+
+    $searchBox.value = '';
   },
 };
 class Header {
@@ -51,12 +54,10 @@ class Header {
   }
 
   #makeLogo() {
-    const logoImgAttribute = {
-      src: LogoImg,
-      alt: 'MovieList 로고',
-    };
-
-    const $logo = createElementWithAttribute('img', logoImgAttribute);
+    const $logo = createElementWithAttribute('button', {
+      class: 'logo',
+      title: 'MovieList 로고',
+    });
 
     $logo.addEventListener('click', () =>
       HeaderClickHandler.handleClickToRefresh(),

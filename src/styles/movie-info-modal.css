@@ -1,0 +1,238 @@
+.modal-movie-info,
+.movie-info-error {
+  width: 826px;
+  height: 577px;
+  button {
+    border: none;
+  }
+}
+
+.modal-movie-info__inner {
+  width: 100%;
+  height: 100%;
+}
+.modal-movie-info__inner__header {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid black;
+  padding: 18px 48px;
+  height: 60px;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.modal-movie-info .movie-title {
+  width: calc(100% - 25px - 20px);
+  height: 20px;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
+}
+.button-close-modal {
+  position: absolute;
+  top: 18px;
+  right: 48px;
+  border-radius: 50%;
+  background-color: var(--modal-inner-box-color);
+  padding: 4px;
+  img {
+    width: 17px;
+    height: 17px;
+  }
+}
+
+.modal-movie-info__inner__contents {
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 36px 48px 30px 48px;
+  width: 100%;
+  /* parent - header - user score margin*/
+  height: calc(100% - 60px - 20px);
+  .movie-thumbnail {
+    width: 239px;
+    height: 433px;
+  }
+}
+
+.modal-movie-info__description {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 450px;
+  height: 100%;
+  font-size: 1rem;
+  line-height: 24px;
+}
+.modal-movie-info__description__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  height: 24px;
+}
+.modal-movie-info__genre {
+  width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
+}
+
+.modal-movie-info__description__top,
+.movie-score {
+  font-size: 16px;
+  line-height: 16px;
+  img {
+    margin-right: 5px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.modal-movie-info__description__overview {
+  /*description height - top heigh - top margin bottom  - user score height  */
+  height: calc(433px - 24px - 16px - 64px);
+  overflow-y: auto;
+}
+
+.user-score,
+.score-area {
+  display: flex;
+  align-items: center;
+}
+
+.user-score {
+  position: relative;
+  margin-top: 10px;
+  border-radius: 16px;
+  background-color: var(--modal-inner-box-color);
+  padding: 16px;
+  height: 64px;
+  line-height: 32px;
+}
+
+.button-score-group {
+  display: flex;
+  align-content: center;
+  margin: 0 8px;
+}
+
+.button-score {
+  background-image: url('../images/star_empty.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: inherit;
+}
+
+.button-score.filled {
+  background-image: url('../images/star_filled.png');
+}
+
+.user-score button {
+  width: 30px;
+  height: 30px;
+}
+
+.button-reset-score {
+  position: absolute;
+  top: calc(50% - 16px);
+  right: calc(16px);
+  background-color: transparent;
+  padding: 1px;
+  img {
+    width: calc(100% - 1px);
+    height: calc(100% - 1px);
+  }
+}
+
+.score-number {
+  margin-right: 14px;
+  width: 16px;
+}
+
+.score-text {
+  width: 138px;
+}
+@media screen and (max-width: 900px) {
+  .modal-movie-info {
+    aspect-ratio: 3/2;
+    width: 85vw;
+  }
+  .modal-movie-info__description {
+    width: 60%;
+  }
+  .modal-movie-info__inner__contents .movie-thumbnail {
+    width: 35%;
+  }
+  .user-score {
+    padding: 10px;
+    height: 50px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .user-score button {
+    width: 20px;
+    height: 20px;
+  }
+
+  .button-reset-score {
+    top: calc(50% - 10px);
+    right: calc(10px + 2px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .modal-movie-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 60vh;
+  }
+
+  .modal-movie-info__inner__header {
+    padding-right: 48px;
+    padding-left: 48px;
+  }
+
+  .modal-movie-info__inner__contents {
+    padding: 18px 48px;
+    .movie-thumbnail {
+      display: none;
+    }
+  }
+
+  .modal-movie-info__description {
+    width: 100%;
+  }
+
+  .modal-movie-info__description__overview {
+    padding: 0 8px;
+    /* movie-info height -contents padding - top height- top margin - header - user score- gap */
+    height: calc(60vh - 18px * 2 - 24px - 16px - 60px - 50px - 24px);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .modal-movie-info__inner__header {
+    padding-right: 32px;
+    padding-left: 32px;
+  }
+  .modal-movie-info__inner .button-close-modal {
+    right: 32px;
+  }
+  .modal-movie-info__inner__contents {
+    padding-right: 32px;
+    padding-left: 32px;
+  }
+
+  .score-text {
+    display: none;
+  }
+}

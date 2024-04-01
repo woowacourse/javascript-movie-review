@@ -9,6 +9,7 @@ body {
 }
 
 a {
+  background-color: #d1d1d14f;
   color: inherit;
   text-decoration: none;
 }
@@ -20,7 +21,10 @@ button {
 #app {
   padding-bottom: 48px;
 }
-
+main {
+  position: relative;
+  margin-top: calc(72px + 60px);
+}
 *:focus {
   outline: none;
 }
@@ -28,10 +32,6 @@ button {
   position: absolute;
   top: -999px;
   left: -999px;
-}
-.movie-list-container,
-.skeleton-list-container {
-  width: 100%;
 }
 
 .movie-list-container,
@@ -69,4 +69,15 @@ button.btn {
 
 button.primary {
   background: var(--primary-red-color);
+}
+
+@media screen and (max-width: 1023px) {
+  main {
+    width: 100%;
+  }
+
+  .movie-list-container,
+  .skeleton-list-container {
+    width: max-content;
+  }
 }

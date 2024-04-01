@@ -1,35 +1,44 @@
-import { renderAlertModalForNullEl } from '../../service';
+import { createElementWithAttribute, ElementFinder } from '../../utils';
+import { ModalCloseButton, ModalContainer } from '../modal';
 import RefreshButton from '../RefreshButton';
 
 import ErrorBox, { ErrorBoxProps } from './ErrorBox';
 
 class ErrorView {
+  #element: HTMLElement;
   constructor(props: ErrorBoxProps) {
-    this.#renderErrorView(props);
+    this.#element = this.#makeErrorView(props);
   }
 
   #makeErrorView(props: ErrorBoxProps) {
     const $errorView = document.createElement('div');
-    const $errorBox = new ErrorBox(props).element;
-    const $retryButton = new RefreshButton().element;
-
     $errorView.classList.add('error-view');
-    $errorView.appendChild($errorBox);
-    $errorView.appendChild($retryButton);
+
+    $errorView.appendChild(new ErrorBox(props).element);
+    $errorView.appendChild(new RefreshButton().element);
 
     return $errorView;
   }
 
-  #renderErrorView(props: ErrorBoxProps) {
-    const $main = document.querySelector('main');
-    const $errorView = this.#makeErrorView(props);
+  renderErrorViewInMain() {
+    const $main = ElementFinder.findElementBySelector('main');
 
-    if (!$main) {
-      renderAlertModalForNullEl('main');
-      return;
-    }
+    if (!$main) return;
 
-    $main.appendChild($errorView);
+    $main.appendChild(this.#element);
+  }
+
+  renderErrorViewInModal() {
+    const $inner = createElementWithAttribute('div', {
+      class: 'movie-info-error',
+    });
+
+    $inner.appendChild(new ModalCloseButton().element);
+    $inner.appendChild(this.#element);
+
+    new ModalContainer({
+      $children: $inner,
+    });
   }
 }
 
