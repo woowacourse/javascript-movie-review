@@ -17,26 +17,6 @@ import MoviePage from './domain/MoviePage';
 import infiniteScroll from './utils/infiniteScroll';
 import movieData from './domain/movieData';
 
-// ====================임시 더미데이터==================
-const dummy = [
-  {
-    id: 1011985,
-    ratingValue: 10,
-  },
-  {
-    id: 634492,
-    ratingValue: 2,
-  },
-  {
-    id: 763215,
-    ratingValue: 8,
-  },
-];
-
-localStorage.setItem('ratings', JSON.stringify(dummy));
-
-// ========================임시=========================
-
 class MovieApp extends MoviePage {
   isLastPage: boolean = false;
 
