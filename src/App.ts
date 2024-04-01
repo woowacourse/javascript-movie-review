@@ -8,6 +8,8 @@ import SearchBox from './components/SearchBox';
 import MovieCard from './components/MovieCard';
 import Modal from './components/Modal';
 
+import Logo from './images/logo.png';
+
 type Tpage = 'popular' | 'search';
 
 export default class App {
@@ -20,11 +22,22 @@ export default class App {
   #skeletonBySize: number = SKELETON_UI_PC;
 
   async run() {
+    this.#insertLogo();
     this.#generateMovieList();
     this.#generateSearchBox();
     this.#addHomeButtonEvent();
     this.#initEventListeners();
     this.#setupIntersectionObserver();
+  }
+
+  #insertLogo() {
+    const homeButton = document.getElementById('home-button');
+    const imgElement = document.createElement('img');
+
+    imgElement.src = Logo;
+    imgElement.alt = 'MovieList 로고';
+
+    homeButton?.appendChild(imgElement);
   }
 
   #getSkeletonCount() {
