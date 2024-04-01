@@ -1,4 +1,4 @@
-import { handleElementVisibilityByElement } from '../../util/handleHideElement';
+import { handleElementDisplayByElement } from '../../util/handleHideElement';
 
 const SKELETON_ROW_COUNT = 2;
 const SKELETON_CON_COUNT_LIST = [2, 3, 4];
@@ -22,7 +22,7 @@ class SkeletonCardList {
   }
 
   handleVisibility(type: boolean) {
-    this.skeletonCardList?.forEach((item) => handleElementVisibilityByElement(item, type));
+    this.skeletonCardList?.forEach((item) => handleElementDisplayByElement(item, type));
   }
 }
 
