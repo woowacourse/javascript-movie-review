@@ -7,18 +7,22 @@ import searchMovieStore from './store/SearchMovieStore';
 import SearchBox from './components/SearchBox';
 import MovieCard from './components/MovieCard';
 import Modal from './components/Modal';
-import MoreButton from './components/MoreButton';
 
 type Tpage = 'popular' | 'search';
 
 export default class App {
   #pageType: Tpage = 'popular';
 
+  #observer: IntersectionObserver | null = null;
+
+  #isLoading: boolean = false;
+
   async run() {
     this.#generateMovieList();
     this.#generateSearchBox();
     this.#addHomeButtonEvent();
     this.#initEventListeners();
+    this.#setupIntersectionObserver();
   }
 
   #generateMovieList() {
@@ -44,6 +48,7 @@ export default class App {
       const newData = await fetchData();
       this.#removeSkeletonUI();
       this.#appendMovieCard(newData, ulElement as HTMLElement);
+      this.#observeSentinel();
     }
   }
 
@@ -63,21 +68,15 @@ export default class App {
 
       ulElement?.appendChild(card.element);
     });
-
-    this.#generateMoreButton();
   }
 
-  // eslint-disable-next-line max-lines-per-function
   #generateSkeletonUI(ulElement: HTMLElement) {
-    this.#removeMoreButton();
-
     const fragment = new DocumentFragment();
 
     for (let i = 0; i < SKELETON_UI_FIXED; i++) {
       const card = new MovieCard({
         classes: ['skeleton-container'],
       });
-
       fragment.appendChild(card.element);
     }
 
@@ -94,35 +93,49 @@ export default class App {
     }
   }
 
-  /* eslint-disable max-lines-per-function */
-  #generateMoreButton() {
-    this.#removeMoreButton();
+  #setupIntersectionObserver() {
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.8,
+    };
 
-    if (searchMovieStore.presentPage === searchMovieStore.totalPages) return;
-
-    const itemView = document.querySelector('section.item-view');
-
-    const moreBtn = new MoreButton({
-      onClick: () => {
-        if (this.#pageType === 'popular') {
-          movieStore.increasePageCount();
-          this.#generateMovieList();
-        } else {
-          searchMovieStore.increasePageCount();
-          this.#generateSearchMovieList();
-        }
-      },
-    });
-
-    itemView?.appendChild(moreBtn.element);
+    this.#observer = new IntersectionObserver(this.#handleIntersection, options);
+    const sentinel = document.createElement('li');
+    sentinel.classList.add('sentinel');
+    this.#observer.observe(sentinel);
   }
 
-  #removeMoreButton() {
-    const moreButton = document.getElementById('more-button');
-
-    if (moreButton) {
-      moreButton.parentNode?.removeChild(moreButton);
+  #observeSentinel() {
+    const sentinel = document.querySelector('.sentinel');
+    if (sentinel && this.#observer) {
+      this.#observer.observe(sentinel);
     }
+  }
+
+  #handleIntersection = (entries: IntersectionObserverEntry[]) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.8 && !this.#isLoading) {
+        this.#loadMoreMovies();
+      }
+    });
+  };
+
+  // eslint-disable-next-line max-lines-per-function
+  async #loadMoreMovies() {
+    if (searchMovieStore.presentPage === searchMovieStore.totalPages) return;
+
+    this.#isLoading = true;
+
+    if (this.#pageType === 'popular') {
+      await movieStore.increasePageCount();
+      await this.#generateMovieList();
+    } else {
+      await searchMovieStore.increasePageCount();
+      await this.#generateSearchMovieList();
+    }
+
+    this.#isLoading = false;
   }
 
   #removePreviousError() {
@@ -133,6 +146,7 @@ export default class App {
     }
   }
 
+  // eslint-disable-next-line max-lines-per-function
   #generateSearchBox() {
     const header = document.querySelector('header');
     const ulElement = document.querySelector('ul.item-list');
@@ -157,7 +171,6 @@ export default class App {
         this.#pageType = 'popular';
         this.#changeTitle('지금 인기 있는 영화');
         this.#removePreviousError();
-        this.#removeMoreButton();
         this.#renderAllMovieList();
       });
     }
@@ -172,6 +185,7 @@ export default class App {
 
     ulElement.innerHTML = '';
     this.#appendMovieCard(movieDatas, ulElement as HTMLElement);
+    this.#observeSentinel();
   }
 
   #initEventListeners() {
