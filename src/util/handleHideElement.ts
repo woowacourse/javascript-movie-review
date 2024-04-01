@@ -1,13 +1,13 @@
 import { $ } from './selector';
 
-function handleElementVisibilityBySelector(target: string, visibility: boolean) {
+function handleElementDisplayBySelector(target: string, isDisplay: boolean) {
   const targetElement = $<HTMLElement>(target);
 
-  if (targetElement) targetElement.style.visibility = visibility ? 'visible' : 'hidden';
+  if (targetElement) targetElement.style.display = isDisplay ? 'block' : 'none';
 }
 
-function handleElementVisibilityByElement(targetElement: HTMLElement, visibility: boolean) {
-  if (targetElement) targetElement.style.visibility = visibility ? 'visible' : 'hidden';
+function handleElementDisplayByElement(targetElement: HTMLElement, isDisplay: boolean) {
+  if (targetElement) targetElement.style.display = isDisplay ? 'block' : 'none';
 }
 
-export { handleElementVisibilityBySelector, handleElementVisibilityByElement };
+export { handleElementDisplayBySelector, handleElementDisplayByElement };
