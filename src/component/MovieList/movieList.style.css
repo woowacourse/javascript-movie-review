@@ -47,6 +47,18 @@
   }
 }
 
+.item {
+  cursor: pointer;
+}
+
+.item-card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.item-card:hover {
+  transform: scale(1.1);
+}
+
 .max-page-info {
   text-align: center;
   font-size: 25px;

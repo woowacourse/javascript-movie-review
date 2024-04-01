@@ -122,7 +122,7 @@
   width: 100%;
 }
 
-@media screen and (max-width: 674px) {
+@media screen and (max-width: 820px) {
   .modal-container {
     position: fixed;
     left: 0;
