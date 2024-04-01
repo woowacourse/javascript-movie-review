@@ -1,5 +1,8 @@
 import { Movie } from '../index.d';
 
+import NoImage from '../images/no-image.png';
+import StarFilled from '../images/star_filled.png';
+
 interface Props {
   classes?: string[];
   movie?: Movie;
@@ -27,8 +30,8 @@ export default class MovieCard {
   /* eslint-disable max-lines-per-function */
   #generateMovieItem(movie: Movie) {
     const posterPath = movie.poster_path
-      ? `https:image.tmdb.org/t/p/w220_and_h330_face${movie.poster_path}`
-      : '../images/no-image.png';
+      ? `https://image.tmdb.org/t/p/w220_and_h330_face${movie.poster_path}`
+      : NoImage;
 
     const element = /* html */ `
     <a href="#">
@@ -40,7 +43,7 @@ export default class MovieCard {
         alt="${movie.title}"
         />
         <p class="item-title">${movie.title}</p>
-        <p class="item-score">${movie.vote_average.toFixed(2)}<img src="./images/star_filled.png" alt="별점" class="star-start" /></p>
+        <p class="item-score">${movie.vote_average.toFixed(2)}<img src=${StarFilled} alt="별점" class="star-start" /></p>
       </div>
     </a>
     `;
