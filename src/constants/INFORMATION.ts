@@ -11,9 +11,14 @@ const BUTTONS = {
     classList: ['btn', 'primary', 'full-width'],
   } as ButtonData,
 
-  close: {
+  modalClose: {
     innerText: 'X',
     classList: ['movie-item-detail_close-button'],
+  } as ButtonData,
+
+  searchClose: {
+    innerText: 'Ｘ',
+    classList: ['search-close-button'],
   } as ButtonData,
 };
 
