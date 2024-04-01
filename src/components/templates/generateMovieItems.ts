@@ -1,5 +1,6 @@
-import { HTMLTemplate } from "../../types/common";
+import { roundNumber } from "../../utils/roundNumber";
 import { BASE_POSTER_URL } from "../../constants/urls";
+import { HTMLTemplate } from "../../types/common";
 import { FetchedMovieData, Movie } from "../../types/movies";
 import IMAGES from "../../images";
 
@@ -13,7 +14,7 @@ const generateMovieItem = (movie: Movie): HTMLTemplate => {
           <p class="item-title">${title}</p>
           <p class="item-score">
             <img src="${IMAGES.starFilled}" alt="별점" />
-            ${vote_average}
+            ${roundNumber(vote_average, 1)}
           </p>
         </div>
       </a>
