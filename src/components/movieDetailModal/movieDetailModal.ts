@@ -37,6 +37,7 @@ const movieDetailModal = {
           if (movie !== null) movieDetailModal.insertTemplate(movie);
         });
         dialog.showModal();
+        this.fixBackGroundBody();
       });
     }
   },
@@ -57,7 +58,17 @@ const movieDetailModal = {
     const closeButton = document.querySelector('#detail-modal--close-btn');
     const dialog = document.querySelector('dialog');
     if (closeButton && dialog) {
-      closeButton.addEventListener('click', () => dialog.close());
+      closeButton.addEventListener('click', () => {
+        dialog.close();
+        this.unfixBackGroundBody();
+      });
+      dialog.addEventListener('click', (event) => {
+        const { target } = event;
+        if (target instanceof HTMLElement && target.nodeName === 'DIALOG') {
+          dialog.close();
+          this.unfixBackGroundBody();
+        }
+      });
     }
   },
 
@@ -109,6 +120,22 @@ const movieDetailModal = {
 
   updateLocalRatingValue(id: number, ratingValue: number) {
     rating.updateLocalData(id, ratingValue);
+  },
+
+  fixBackGroundBody() {
+    const body = document.querySelector('body');
+    if (!body) return;
+
+    body.style.top = `-${window.scrollY}px`;
+    body.classList.add('body-fixed');
+  },
+
+  unfixBackGroundBody() {
+    const body = document.querySelector('body');
+    if (!body) return;
+    body.classList.remove('body-fixed');
+    const scrollY = document.body.style.top;
+    window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
   },
 };
 

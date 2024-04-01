@@ -1,5 +1,4 @@
 dialog[open] {
-  position: fixed;
   width: 100%;
   margin-bottom: 0;
   padding: 0;
@@ -12,11 +11,9 @@ dialog[open] {
 
 dialog::backdrop {
   background-color: rgba(0, 0, 0, 0.6);
-}
-
-/* dialog[open] + body {
+  position: fixed;
   overflow: hidden;
-} */
+}
 
 #detail-modal--body-img {
   display: none;
@@ -25,9 +22,10 @@ dialog::backdrop {
 
 @media screen and (min-width: 834px) {
   dialog[open] {
-    width: 80%;
+    width: 60%;
     min-width: 840px;
     margin-top: 5%;
+    margin-bottom: 100%;
   }
 
   #detail-modal--body-img {
@@ -122,6 +120,11 @@ dialog::backdrop {
   align-items: center;
   justify-items: center;
   margin-top: 48px;
+  width: 100%;
+}
+
+#detail-modal--label {
+  font-weight: bold;
 }
 
 @media screen and (max-width: 834px) {
@@ -136,4 +139,23 @@ dialog::backdrop {
     gap: 16px;
     font-size: 16px;
   }
+}
+
+.rating-star {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+}
+
+@media screen and (min-width: 834px) {
+  .rating-star {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.body-fixed {
+  position: fixed;
+  overflow-y: scroll;
+  width: 100%;
 }
