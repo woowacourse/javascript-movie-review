@@ -40,7 +40,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  width: 912px;
   margin: 0 auto;
 }
 
@@ -54,10 +54,10 @@ button {
 
 .item-list {
   display: grid;
-  margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
-  grid-row-gap: 48px;
+  grid-column-gap: 64px;
+  grid-row-gap: 64px;
+  margin: 32px 0;
 }
 
 .item-card {
@@ -133,7 +133,6 @@ button.primary {
 }
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -169,6 +168,28 @@ header .search-box > .search-button {
   text-indent: -1000rem;
   background: url('../assets/image/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+.search-close-button {
+  display: none;
+  width: 30px;
+  height: 33.6px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 0;
+  background-color: #fff;
+}
+
+.search-close-button:hover {
+  background-color: #ffffffd7;
+}
+
+#search-mini-box {
+  display: none;
+}
+
+.open {
+  display: block;
 }
 
 .modal {
@@ -332,4 +353,135 @@ header .search-box > .search-button {
   opacity: 100%;
   top: 80px;
   right: 0px;
+}
+
+@media (max-width: 1000px) {
+  .item-view {
+    width: 674px;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+    grid-row-gap: 55px;
+    margin: 27.5px 0;
+  }
+
+  .movie-item-detail-container {
+    width: 740px;
+    height: 544px;
+  }
+
+  .movie-item-detail_content-container {
+    height: 400px;
+  }
+
+  .movie-item-detail_thumbnail {
+    width: 260px;
+    height: 400px;
+  }
+
+  .movie-item-detail_overview {
+    -webkit-line-clamp: 12;
+  }
+
+  .movie-item-detail_my-rating-container {
+    width: 384px;
+    height: 64px;
+  }
+}
+
+@media (max-width: 750px) {
+  .search-box:hover {
+    background-color: #ffffffd7;
+  }
+
+  .search-box > input {
+    width: 0;
+    padding: 0;
+  }
+
+  header.clicked > h1 {
+    display: none;
+  }
+
+  header.clicked input {
+    animation: expand 1s forwards;
+  }
+
+  header.clicked .search-box {
+    background-color: #fff;
+  }
+
+  header.clicked .search-close-button {
+    display: block;
+  }
+
+  @keyframes expand {
+    from {
+      width: 0;
+    }
+
+    to {
+      width: 70vw;
+    }
+  }
+
+  .item-view {
+    width: 316px;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(2, 140px);
+    grid-column-gap: 36px;
+    grid-row-gap: 32px;
+    margin: 18px 0;
+  }
+
+  .item-card {
+    height: 308px;
+  }
+
+  .item-thumbnail {
+    width: 140px;
+  }
+
+  .movie-item-detail-container {
+    width: 100%;
+    height: 485px;
+    top: 100%;
+    transform: translate(-50%, -100%);
+  }
+
+  .movie-item-detail_content {
+    width: 100%;
+  }
+
+  .movie-item-detail_content-container {
+    height: 341px;
+  }
+
+  .movie-item-detail_thumbnail {
+    display: none;
+  }
+
+  .movie-item-detail_title {
+    text-align: left;
+  }
+
+  .movie-item-detail_overview {
+    -webkit-line-clamp: 9;
+  }
+  .movie-item-detail_my-rating-container {
+    width: 100%;
+    height: 64px;
+  }
+
+  .movie-item-detail_my-rating-content {
+    width: 250px;
+    margin: 16px auto;
+  }
+
+  .movie-item-detail_my-rating-content > p:last-child {
+    display: none;
+  }
 }
