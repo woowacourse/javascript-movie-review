@@ -1,6 +1,12 @@
-.modal-container {
+.modal {
   visibility: hidden;
-
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.modal-container {
   position: fixed;
   left: 50vw;
   top: 50vh;
@@ -10,12 +16,8 @@
 }
 
 .modal-backdrop {
-  visibility: hidden;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
 
   background: rgba(1, 1, 1, 0.4);
   transition: opacity 0.24s ease-in-out;
@@ -23,10 +25,6 @@
   z-index: 10;
 }
 
-.modal.modal-open .modal-container {
-  visibility: visible;
-}
-
-.modal.modal-open .modal-backdrop {
+.modal.modal-open {
   visibility: visible;
 }
