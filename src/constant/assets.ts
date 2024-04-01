@@ -4,6 +4,7 @@ import searchButtonImage from '../asset/search_button.png';
 import starEmptyImage from '../asset/star_empty.png';
 import starFilledImage from '../asset/star_filled.png';
 import closeButtonImage from '../asset/close_button.svg';
+import resultEmptyImage from '../asset/result_empty.png';
 
 const ASSETS = {
   logoImage,
@@ -12,6 +13,7 @@ const ASSETS = {
   starEmptyImage,
   starFilledImage,
   closeButtonImage,
+  resultEmptyImage,
 };
 
 export default ASSETS;

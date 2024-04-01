@@ -191,6 +191,23 @@ header .search-box > .search-button {
   background-size: contain;
 }
 
+.empty-result {
+  margin: 0 auto;
+  max-width: 40vh;
+}
+
+.empty-result img {
+  width: 100%;
+  margin-bottom: 5vh;
+}
+
+.empty-result p {
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 36px;
+}
+
 .display-none {
   display: none;
 }

@@ -3,6 +3,7 @@ import createButton from '../Button/Button';
 import { injectMovieDataToItem } from '../MovieItem/MovieItem';
 import { createSkeletonMovieList } from '../MovieList/MovieList';
 import { MoviePageData } from '../../interface/MovieInterface';
+import ASSETS from '../../constant/assets';
 
 interface MovieContainerParams {
   title: string;
@@ -53,10 +54,19 @@ class MovieContainer {
   }
 
   createEmptySearchResult() {
-    const emptySearchResult = document.createElement('h3');
-    emptySearchResult.classList.add('empty-search-result');
-    emptySearchResult.textContent = '검색 결과가 없습니다.';
-    return emptySearchResult;
+    const emptyResultContainer = document.createElement('div');
+    emptyResultContainer.classList.add('empty-result');
+
+    const emptyResultImage = document.createElement('img');
+    emptyResultImage.src = ASSETS.resultEmptyImage;
+
+    const emptyResultHeader = document.createElement('p');
+    const emptyResultDescription = document.createElement('p');
+    emptyResultHeader.textContent = '검색 결과가 없습니다.';
+    emptyResultDescription.textContent = '다른 검색어로 다시 검색해주세요.';
+
+    emptyResultContainer.append(emptyResultImage, emptyResultHeader, emptyResultDescription);
+    return emptyResultContainer;
   }
 
   removeSkeleton() {
@@ -66,14 +76,15 @@ class MovieContainer {
   }
 
   setEmptySearchResult(listLength: number) {
-    const emptySearchResultParagraph = $OptionalSelector('h3.empty-search-result');
+    const emptySearchResultParagraph = $OptionalSelector('div.empty-search-result');
 
     if (listLength !== 0) {
       emptySearchResultParagraph?.remove();
     }
 
     if (listLength === 0 && !emptySearchResultParagraph) {
-      $('.item-view').insertBefore(this.createEmptySearchResult(), this.movieListContainer);
+      // $('.item-view').insertBefore(this.createEmptySearchResult(), this.movieListContainer);
+      $('.item-view').appendChild(this.createEmptySearchResult());
     }
   }
 
