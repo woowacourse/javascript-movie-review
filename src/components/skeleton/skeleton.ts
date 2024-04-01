@@ -1,3 +1,5 @@
+import { SETTING } from '../../constants/constant';
+
 const Skeleton = () => {
   const skeleton = render();
   return skeleton;
@@ -14,7 +16,7 @@ const render = () => {
       </div>
     </a>
   </li>
-  `.repeat(20);
+  `.repeat(SETTING.FETCH_ITEM_COUNT);
 
   return skeletonHTML;
 };

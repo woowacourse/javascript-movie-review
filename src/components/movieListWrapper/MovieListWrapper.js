@@ -1,6 +1,6 @@
 // Import necessary dependencies and constants
 import { fetchPopularMovieList, fetchSearchMovieList } from '../../apis/getMovieData';
-import { LAST_PAGE, VIEW_TYPE } from '../../constants/constant';
+import { SETTING, VIEW_TYPE } from '../../constants/constant';
 import { ViewType } from '../../interface/Movie';
 import view from '../../view/view';
 import Skeleton from '../skeleton/skeleton';
@@ -89,7 +89,7 @@ class MovieListWrapper {
   }
   
   hasNextPage(totalPages) {
-    return this.#currentPage <= Math.min(totalPages, LAST_PAGE);
+    return this.#currentPage <= Math.min(totalPages, SETTING.LAST_PAGE);
   }
 
   shouldStopObserving(movies, totalPages) {

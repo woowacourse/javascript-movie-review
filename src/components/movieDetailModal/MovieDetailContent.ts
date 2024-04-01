@@ -3,6 +3,7 @@ import closeIcon from '../../images/close_icon.png';
 import emptyPng from '../../images/empty_poster.png';
 import filledStar from '../../images/star_filled.png';
 import emptyStar from '../../images/star_empty.png';
+import { SETTING } from '../../constants/constant';
 
 class MovieDetailContent {
   #movie;
@@ -150,7 +151,7 @@ class MovieDetailContent {
   createStarsContainer() {
     const starsContainer = document.createElement('div');
     starsContainer.className = 'detail-stars';
-    starsContainer.innerHTML = `<img src="${emptyStar}" alt="star rating">`.repeat(5);
+    starsContainer.innerHTML = `<img src="${emptyStar}" alt="star rating">`.repeat(SETTING.STARS_COUNT);
     return starsContainer;
   }
 
