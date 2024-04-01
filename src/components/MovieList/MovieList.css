@@ -23,3 +23,15 @@
     grid-template-columns: repeat(2, 180px);
   }
 }
+
+@media (max-width: 510px) {
+  .item-list {
+    grid-template-columns: repeat(2, 140px);
+  }
+}
+
+@media (max-width: 410px) {
+  .item-list {
+    grid-column-gap: 10px;
+  }
+}
