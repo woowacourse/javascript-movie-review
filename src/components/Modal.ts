@@ -51,14 +51,14 @@ export default class Modal {
           <div class="my-vote">
             <p class="my-vote-title text-detail-vote">내 별점</p>
             <div class="my-vote-body">
-              <button><img src="./images/star_filled.png"/></button>
-              <button><img src="./images/star_filled.png"/></button>
-              <button><img src="./images/star_filled.png"/></button>
+              <button><img src="./images/star_empty.png"/></button>
+              <button><img src="./images/star_empty.png"/></button>
+              <button><img src="./images/star_empty.png"/></button>
               <button><img src="./images/star_empty.png"/></button>
               <button><img src="./images/star_empty.png"/></button>
             </div>
-            <p class="my-vote-number text-detail-vote-contents">6</p>
-            <p class="my-vote-description text-detail-vote-contents">보통이에요</p>
+            <p class="my-vote-number text-detail-vote-contents">0</p>
+            <p class="my-vote-description text-detail-vote-contents">남겨주세요</p>
           </div>
         </div>
       </div>
