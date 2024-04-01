@@ -35,12 +35,14 @@ const submitSearchEventHandler = (event: ISearchSubmitEvent<ISearchInput>) => {
   replaceMain();
 };
 
+// eslint-disable-next-line max-lines-per-function
 function getSearchBoxInput() {
   const inputTag = document.createElement('input');
   const state: Partial<HTMLInputElement> = {
     name: 'searchContent',
     type: 'search',
     placeholder: '검색',
+    required: true,
   };
   Object.assign(inputTag, state);
   return inputTag;
