@@ -202,3 +202,28 @@ header .search-box > .search-button {
     min-width: 674px;
   }
 }
+
+@media only screen and (max-width: 390px) {
+  .item-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 316px;
+    margin: 0 auto;
+  }
+
+  .item-list {
+    display: grid;
+    margin: 24px 0;
+    grid-template-columns: repeat(2, 140px);
+    grid-column-gap: 36px;
+    grid-row-gap: 32px;
+  }
+
+  .item-thumbnail {
+    border-radius: 15px;
+    width: 140px;
+    height: 220px;
+    background-size: contain;
+  }
+}
