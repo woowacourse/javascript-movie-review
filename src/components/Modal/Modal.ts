@@ -3,9 +3,10 @@ import {
   StarRating,
 } from '../../services/LocalStorageService';
 import CloseBtn from '../../statics/images/close_button.png';
-import StartEmpty from '../../statics/images/star_empty.png';
+import StarEmpty from '../../statics/images/star_empty.png';
 import StarFilled from '../../statics/images/star_filled.png';
 import './Modal.css';
+import STAR_RATING_TEXT_LIST from '../../constants/messages';
 
 const createHeader = (title: string) => {
   const $header = document.createElement('div');
@@ -82,24 +83,22 @@ const createUserRating = (movieId: number) => {
   const $starBox = document.createElement('div');
   $starBox.classList.add('modal-body__star-box');
 
-  ['별로에요', '그냥 그래요', '보통이에요', '좋아요', '최고에요'].forEach(
-    (starText, idx) => {
-      const $starBtn = document.createElement('button');
-      $starBtn.classList.add('modal-body__star-btn');
-      $starBtn.id = `star-btn${idx + 1}`;
+  STAR_RATING_TEXT_LIST.forEach((starText, idx) => {
+    const $starBtn = document.createElement('button');
+    $starBtn.classList.add('modal-body__star-btn');
+    $starBtn.id = `star-btn${idx + 1}`;
 
-      const $starImg = document.createElement('img');
-      if (rating && rating.ratingNumber / 2 >= idx + 1) {
-        $starImg.src = StarFilled;
-      } else {
-        $starImg.src = StartEmpty;
-      }
+    const $starImg = document.createElement('img');
+    if (rating && rating.ratingNumber / 2 >= idx + 1) {
+      $starImg.src = StarFilled;
+    } else {
+      $starImg.src = StarEmpty;
+    }
 
-      $starImg.alt = starText;
-      $starBtn.appendChild($starImg);
-      $starBox.appendChild($starBtn);
-    },
-  );
+    $starImg.alt = starText;
+    $starBtn.appendChild($starImg);
+    $starBox.appendChild($starBtn);
+  });
 
   if (rating) {
     $ratingNumber.textContent = rating.ratingNumber.toString();

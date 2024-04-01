@@ -2,10 +2,10 @@ import {
   LocalStorageService,
   StarRating,
 } from '../services/LocalStorageService';
-import StartEmpty from '../statics/images/star_empty.png';
+import StarEmpty from '../statics/images/star_empty.png';
 import StarFilled from '../statics/images/star_filled.png';
 
-const StartRatingController = {
+const StarRatingController = {
   changeStarFilled(movieId: number) {
     const $starBtns = document.querySelectorAll('.modal-body__star-btn');
     const $ratingNumber = document.querySelector(
@@ -15,19 +15,27 @@ const StartRatingController = {
       '.modal-body__star-box__rating-text',
     );
 
-    function updateStars(starId: number, ratingText: string) {
+    function updateStars({
+      starId,
+      ratingText,
+      ratingNumber,
+    }: {
+      starId: number;
+      ratingText: string;
+      ratingNumber: number;
+    }) {
       $starBtns.forEach((button, index) => {
         const currentId: number = index + 1;
         const $starImg = button.querySelector('img') as HTMLImageElement;
         if (currentId <= starId) {
           $starImg.src = StarFilled;
         } else {
-          $starImg.src = StartEmpty;
+          $starImg.src = StarEmpty;
         }
       });
 
       if ($ratingNumber) {
-        $ratingNumber.textContent = (starId * 2).toString();
+        $ratingNumber.textContent = ratingNumber.toString();
       }
       if ($ratingText) {
         $ratingText.textContent = ratingText;
@@ -35,7 +43,7 @@ const StartRatingController = {
     }
 
     function updateMovieRatingInLocalStorage(
-      starId: number,
+      ratingNumber: number,
       ratingText: string,
     ) {
       const ratingData: StarRating[] =
@@ -47,13 +55,13 @@ const StartRatingController = {
           ...(ratingData || []),
           {
             id: movieId,
-            ratingNumber: starId * 2,
+            ratingNumber,
             ratingText,
           },
         ];
         LocalStorageService.setData('starRating', newRatingData);
       } else {
-        rating.ratingNumber = starId * 2;
+        rating.ratingNumber = ratingNumber;
         rating.ratingText = ratingText;
         LocalStorageService.setData('starRating', ratingData);
       }
@@ -63,11 +71,12 @@ const StartRatingController = {
       button.addEventListener('click', () => {
         const starId: number = index + 1;
         const ratingText = button.querySelector('img')?.alt as string;
-        updateStars(starId, ratingText);
-        updateMovieRatingInLocalStorage(starId, ratingText);
+        const ratingNumber = starId * 2;
+        updateStars({ starId, ratingText, ratingNumber });
+        updateMovieRatingInLocalStorage(ratingNumber, ratingText);
       });
     });
   },
 };
 
-export default StartRatingController;
+export default StarRatingController;

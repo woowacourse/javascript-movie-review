@@ -1,5 +1,5 @@
 import Modal from '../components/Modal/Modal';
-import StartRatingController from './StarRatingController';
+import StarRatingController from './StarRatingController';
 
 const ModalController = {
   openModal(res: Movie) {
@@ -29,7 +29,7 @@ const ModalController = {
         $target.nodeType === Node.ELEMENT_NODE &&
         $target.classList.contains('modal')
       ) {
-        StartRatingController.changeStarFilled(Number($target.id));
+        StarRatingController.changeStarFilled(Number($target.id));
       }
     };
 
