@@ -23,7 +23,7 @@ const errorMessage = {
       <h1 class="error-msg">${statusCode}</h1>
       <h2 >서버 에러입니다.<h2> 
       <h2>${errorHandler(statusCode)}</div>
-      <h2 >일단 <button onClick="window.location.reload()">새로고침</button> 해보고 안되면 알아서 처리하세요~❤️</h2>
+      <h2 class="error-description" >일단 <button onClick="window.location.reload()">새로고침</button> 해보고 안되면 알아서 처리하세요~❤️</h2>
     </div>
     `;
     return templates;
