@@ -1,12 +1,13 @@
 import NETWORK_ERROR from '../../../assets/network_error.png';
 import SYSTEM_ERROR from '../../../assets/system_error.png';
-import './ErrorRetry.css';
+import Logo from '../../../assets/logo.png';
+import './ErrorPage.css';
 import '../NotFound/NotFound.css';
 import Button from '../../Button/Button';
 import { MovieAPIReturnType, MovieDetailAPIReturnType } from '../../../api/movieAPI.type';
 import { redirectToRoot } from '../../../utils/queryString';
 
-export const ErrorRetry = ({
+export const ErrorPage = ({
   currentError,
   fetchData,
 }: {

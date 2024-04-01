@@ -78,12 +78,12 @@ class searchInputBox {
       resizeEvent = setTimeout(() => {
         resizeEvent = null;
         this.handleResize();
-      }, 300);
+      }, 1000);
     });
   }
 
   handleResize() {
-    if (window.innerWidth <= 600) {
+    if (window.innerWidth <= 660) {
       if (this.searchInput.classList.contains('open')) {
         this.headerLogo.style.display = 'none';
         this.inputFoldButton.style.display = 'block';

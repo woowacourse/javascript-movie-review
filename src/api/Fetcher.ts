@@ -1,5 +1,5 @@
 import CustomError from '../components/Error/CustomError/CustomError';
-import { ErrorRetry } from '../components/Error/ErrorRetry/ErrorRetry';
+import { ErrorPage } from '../components/Error/ErrorPage/ErrorPage';
 import Toast from '../components/Toast/Toast';
 import { ERROR_MESSAGE } from '../consts/message';
 import { MovieAPIReturnType, UrlParamsType } from './movieAPI.type';
@@ -28,7 +28,7 @@ class Fetcher {
         })
         .catch(error => {
           new Toast(error.message);
-          ErrorRetry({ currentError: error, fetchData: () => this.get() });
+          ErrorPage({ currentError: error, fetchData: () => this.get() });
         });
     });
   }
