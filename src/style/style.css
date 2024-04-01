@@ -171,3 +171,24 @@ dialog::backdrop {
   overflow: hidden;
   white-space: nowrap;
 }
+
+.topScrollButton {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  padding: 4px;
+  font-size: 36px;
+  transition: 0.2s ease-in-out;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  pointer-events: auto;
+}
+
+.topScrollButton.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.topScrollButton:hover {
+  transform: translate(0, -8%);
+}
