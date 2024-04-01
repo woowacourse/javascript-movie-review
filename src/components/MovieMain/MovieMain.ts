@@ -5,6 +5,7 @@ import generateMain from "../common/generateMain";
 interface MovieMainProps {
   title: string;
   onMovieMoreButtonClick: () => void;
+  onMovieItemClick: (id: number) => void;
 }
 
 class MovieMain {
@@ -12,10 +13,15 @@ class MovieMain {
 
   private movieListBox: MovieListBox;
 
-  constructor({ title, onMovieMoreButtonClick }: MovieMainProps) {
+  constructor({
+    title,
+    onMovieMoreButtonClick,
+    onMovieItemClick,
+  }: MovieMainProps) {
     this.movieListBox = new MovieListBox({
       title,
       onMovieMoreButtonClick,
+      onMovieItemClick,
     });
     this.$element = generateMain({
       children: [this.movieListBox.getElement()],
@@ -26,10 +32,15 @@ class MovieMain {
     return this.$element;
   }
 
-  changeMovieListBox({ title, onMovieMoreButtonClick }: MovieMainProps) {
+  changeMovieListBox({
+    title,
+    onMovieMoreButtonClick,
+    onMovieItemClick,
+  }: MovieMainProps) {
     this.movieListBox = new MovieListBox({
       title,
       onMovieMoreButtonClick,
+      onMovieItemClick,
     });
 
     this.replace(this.movieListBox.getElement());

@@ -3,6 +3,12 @@ import MovieList from "./MovieList/MovieList";
 import MovieMoreButton from "./MovieList/MovieMoreButton";
 import createElement from "../../utils/createElement";
 
+interface MovieListBoxProps {
+  title: string;
+  onMovieMoreButtonClick: () => void;
+  onMovieItemClick: (id: number) => void;
+}
+
 class MovieListBox {
   private $element: HTMLElement;
 
@@ -15,16 +21,14 @@ class MovieListBox {
   constructor({
     title,
     onMovieMoreButtonClick,
-  }: {
-    title: string;
-    onMovieMoreButtonClick: () => void;
-  }) {
+    onMovieItemClick,
+  }: MovieListBoxProps) {
     const $h2 = createElement({
       tagName: "h2",
       children: [title],
     });
 
-    this.movieList = new MovieList();
+    this.movieList = new MovieList({ onMovieItemClick });
 
     this.movieMoreButton = new MovieMoreButton({
       onClickHandler: () => {

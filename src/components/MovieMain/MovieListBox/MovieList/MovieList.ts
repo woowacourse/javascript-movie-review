@@ -2,16 +2,23 @@ import MovieItem, { Movie } from "./MovieItem";
 
 import createElement from "../../../utils/createElement";
 
+interface MovieListProps {
+  onMovieItemClick: (id: number) => void;
+}
+
 class MovieList {
   private static MAX_ITEM_OF_PAGE = 20;
 
   private $element: HTMLElement;
+  private props: MovieListProps;
 
   private movieList: MovieItem[];
 
-  constructor() {
+  constructor(props: MovieListProps) {
+    this.props = props;
+
     this.movieList = Array.from({ length: MovieList.MAX_ITEM_OF_PAGE }).map(
-      () => new MovieItem()
+      () => new MovieItem({ onClick: this.props.onMovieItemClick })
     );
     this.$element = this.generateMovieList();
   }
@@ -62,7 +69,7 @@ class MovieList {
 
   appendSkeleton() {
     this.movieList = Array.from({ length: MovieList.MAX_ITEM_OF_PAGE }).map(
-      () => new MovieItem()
+      () => new MovieItem({ onClick: this.props.onMovieItemClick })
     );
     this.$element.append(...this.movieList.map((item) => item.getElement()));
   }
