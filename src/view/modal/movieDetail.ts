@@ -145,7 +145,7 @@ function createRate(id: number) {
 function createResult(id: number) {
   const rateString = document.createElement('span');
   rateString.innerText = RATING_MESSAGES[getLocalStorageScore(id) ?? 0];
-  rateString.className = 'mobile-display-none w-96';
+  rateString.className = 'mobile-display-none w-96 result-string';
   return rateString;
 }
 
