@@ -1,10 +1,10 @@
 import './style.css';
 import { MovieType } from '../../types/movie';
 import { CLOSE_BUTTON, STAR_FILLED } from '../../images';
-import ScoreCheckbox from './ScoreCheckbox';
+import movieScoreManager from './ScoreCheckbox';
 import { URL } from '../../api/url';
 
-const Modal = {
+const modalManager = {
   render(movie: MovieType) {
     const modal = document.createElement('div');
     modal.setAttribute('id', `${movie.title}`);
@@ -37,7 +37,7 @@ const Modal = {
     <div class="modal-backdrop"></div>
     `;
 
-    ScoreCheckbox.render(modal, movie);
+    movieScoreManager.render(modal, movie);
 
     this.handleModal(modal);
 
@@ -68,4 +68,4 @@ const Modal = {
   },
 };
 
-export default Modal;
+export default modalManager;

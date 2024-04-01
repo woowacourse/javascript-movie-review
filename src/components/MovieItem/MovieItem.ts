@@ -2,13 +2,13 @@ import './style.css';
 import { MovieType } from '../../types/movie';
 import { STAR_FILLED } from '../../images';
 import DOM from '../../utils/DOM';
-import Modal from '../Modal/Modal';
+import modalManager from '../Modal/Modal';
 import httpRequest from '../../api/httpRequest';
 import { URL } from '../../api/url';
 
 const { $ } = DOM;
 
-const MovieItemManager = {
+const movieItemManager = {
   render(movie: MovieType) {
     const movieItem = document.createElement('li');
 
@@ -43,7 +43,7 @@ const MovieItemManager = {
       );
 
       movieList[0].genre_ids = genreNames.join(', ');
-      $('main')?.appendChild(Modal.render(movieList[0]));
+      $('main')?.appendChild(modalManager.render(movieList[0]));
 
       const openModal = new CustomEvent('openModal', {
         detail: {
@@ -63,4 +63,4 @@ const MovieItemManager = {
   },
 };
 
-export default MovieItemManager;
+export default movieItemManager;

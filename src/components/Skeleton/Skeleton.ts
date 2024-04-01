@@ -3,7 +3,7 @@ import './style.css';
 
 const { $ } = DOM;
 
-const Skeleton = {
+const skeleton = {
   render(count: number) {
     const skeleton = document.createElement('ul');
     skeleton.classList.add('item-list', 'item-list--skeleton');
@@ -31,4 +31,4 @@ const Skeleton = {
   },
 };
 
-export default Skeleton;
+export default skeleton;

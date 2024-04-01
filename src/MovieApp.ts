@@ -1,6 +1,6 @@
-import HeaderManager from './components/Header/Header';
-import ScoreCheckbox, { MovieScoreEvent } from './components/Modal/ScoreCheckbox';
-import MovieContentManager from './components/MovieContents/MovieContents';
+import headerManager from './components/Header/Header';
+import movieScoreManager, { MovieScoreEvent } from './components/Modal/ScoreCheckbox';
+import movieContentManager from './components/MovieContents/MovieContents';
 import { LOGO } from './images/index';
 import storage from './storage';
 import { PropsType } from './types/props';
@@ -18,10 +18,10 @@ class MovieApp {
 
   start() {
     const container = $('#app');
-    const header = HeaderManager.render({
+    const header = headerManager.render({
       imageSource: LOGO,
     });
-    const main = MovieContentManager.renderMain('지금 인기 있는 영화');
+    const main = movieContentManager.renderMain('지금 인기 있는 영화');
 
     container?.appendChild(header);
     container?.appendChild(main);
@@ -32,7 +32,7 @@ class MovieApp {
       type: 'popular',
       input: '',
     };
-    MovieContentManager.renderMovieData(props);
+    movieContentManager.renderMovieData(props);
   }
 
   listenModalOpen() {
@@ -42,7 +42,7 @@ class MovieApp {
 
       const existData = storage.getData().find((data) => data.movie.title === movieInfo.title);
       if (existData) {
-        ScoreCheckbox.updateMovieScoreUI(existData.score);
+        movieScoreManager.updateMovieScoreUI(existData.score);
       }
     });
   }

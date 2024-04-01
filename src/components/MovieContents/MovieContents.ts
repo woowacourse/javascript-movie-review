@@ -1,13 +1,13 @@
 import './style.css';
 import Movie from '../../domain/Movie';
 import { PropsType } from '../../types/props';
-import Skeleton from '../Skeleton/Skeleton';
+import skeleton from '../Skeleton/Skeleton';
 import DOM from '../../utils/DOM';
-import MovieListManager from '../MovieList/MovieList';
+import movieListManager from '../MovieList/MovieList';
 
 const { $ } = DOM;
 
-const MovieContentManager = {
+const movieContentManager = {
   renderMain(title: string) {
     const main = document.createElement('main');
 
@@ -28,7 +28,7 @@ const MovieContentManager = {
     const movie = new Movie();
     const { movieList, isLastPage } = await this.setMovieData(movie, { type, input });
 
-    MovieListManager.renderMovieList(movieList, isLastPage);
+    movieListManager.renderMovieList(movieList, isLastPage);
 
     if (!isLastPage) {
       this.setIntersectionObserver(movie, { type, input });
@@ -36,7 +36,7 @@ const MovieContentManager = {
   },
 
   async setMovieData(movie: Movie, { type, input }: PropsType) {
-    $('.item-container')?.appendChild(Skeleton.render(20));
+    $('.item-container')?.appendChild(skeleton.render(20));
 
     const { movieList, isLastPage } = await movie.handleMovieData(type, input);
 
@@ -48,7 +48,7 @@ const MovieContentManager = {
       entries.forEach(async (entry) => {
         if (entry.isIntersecting) {
           const { movieList, isLastPage } = await this.setMovieData(movie, { type, input });
-          MovieListManager.renderMovieList(movieList, isLastPage);
+          movieListManager.renderMovieList(movieList, isLastPage);
 
           if (isLastPage) {
             observer.disconnect();
@@ -62,4 +62,4 @@ const MovieContentManager = {
   },
 };
 
-export default MovieContentManager;
+export default movieContentManager;

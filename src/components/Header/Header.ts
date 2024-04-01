@@ -1,5 +1,5 @@
 import './style.css';
-import MovieContentManager from '../MovieContents/MovieContents';
+import movieContentManager from '../MovieContents/MovieContents';
 import DOM from '../../utils/DOM';
 import errorMessage from '../../error/errorMessage';
 
@@ -9,7 +9,7 @@ interface Props {
   imageSource: string;
 }
 
-const HeaderManager = {
+const headerManager = {
   render({ imageSource }: Props) {
     const header = document.createElement('header');
     const templates = /* html */ `
@@ -53,11 +53,11 @@ const HeaderManager = {
   },
 
   async renderMovie(movie: string) {
-    const movieContents = await MovieContentManager.renderMain(`"${movie}" 검색 결과`);
-    MovieContentManager.renderMovieData({ type: 'search', input: movie });
+    const movieContents = await movieContentManager.renderMain(`"${movie}" 검색 결과`);
+    movieContentManager.renderMovieData({ type: 'search', input: movie });
 
     $('#app')?.appendChild(movieContents);
   },
 };
 
-export default HeaderManager;
+export default headerManager;

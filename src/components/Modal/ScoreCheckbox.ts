@@ -19,7 +19,7 @@ const MOIVE_SCORE: Record<string, string> = {
   '10': '10 명작이에요',
 };
 
-const ScoreCheckbox = {
+const movieScoreManager = {
   render(modal: HTMLDivElement, movie: MovieType) {
     const scoreContainer = document.createElement('div');
     scoreContainer.classList.add('score-container');
@@ -80,4 +80,4 @@ const ScoreCheckbox = {
   },
 };
 
-export default ScoreCheckbox;
+export default movieScoreManager;
