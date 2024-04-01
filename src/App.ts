@@ -2,9 +2,9 @@ import Header from '../src/components/Header/Header';
 import MovieList from '../src/components/MovieList/MovieList';
 import Button from './components/Button/Button';
 import Toast from './components/Toast/Toast';
+import MovieListFetcher from './domain/services/MovieListFetcher';
 import { URL } from './consts/common';
 import { TITLE } from './consts/message';
-import MovieListFetcher from './domain/services/MovieListFetcher';
 import { formatMovieList } from './utils/formatList';
 import { setUrlParams } from './utils/queryString';
 import { getCurrentMode, getCurrentPage, getCurrentQuery, increaseUrlPage, setDefaultPageUrl } from './utils/urlHelper';
@@ -104,14 +104,9 @@ class App {
       else this.moreButton.classList.remove('hidden');
     } catch (error: unknown) {
       if (error instanceof Error) {
-        this.errorHandler(error);
         new Toast(error.message);
       }
     }
-  }
-
-  errorHandler(error: Error) {
-    // TODO: 각 status code 별 예외 처리 예정
   }
 
   fetchMovies() {
