@@ -1,10 +1,12 @@
 .movie-description {
   display: block;
   width  : 438px;
-  height : 184px;
+  height : 350px;
   top    : 96px;
   left   : 356px;
   gap    : 16px;
+
+  overflow-y: scroll;
 
   font-family   : Roboto;
   font-size     : 16px;
