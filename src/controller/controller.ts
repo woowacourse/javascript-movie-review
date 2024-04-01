@@ -9,7 +9,7 @@ import { setMainTitleText } from '../component/setMainTitleText';
 export class App {
   private searchKeyword;
   private pageManager;
-  private movieService;
+  private api;
   private movieContainer;
   private isLoading = false;
 
@@ -17,24 +17,23 @@ export class App {
     this.searchKeyword = '';
 
     this.pageManager = new PageManager();
-    this.movieService = new MovieService();
-    this.movieContainer = new MovieContainer({
-      handleMoreList: () => this.addMovieList(),
-    });
+    this.api = new MovieService('TMDB');
+    this.movieContainer = new MovieContainer();
 
     setMainTitleText('popular');
     this.attachInfiniteScroll();
   }
 
   private attachInfiniteScroll() {
-    const skeleton$ = $('.item-view .infinite-scroll-observer'); // 관찰할 대상(요소)
+    const skeleton$ = $('.item-view .observer'); // 관찰할 대상(요소)
     const options = {
       root: null,
       rootMargin: '0px 0px 0px 0px',
-      threshold: 0.8,
+      threshold: 0.2,
     };
 
     const observer = new IntersectionObserver((entries) => {
+      // TODO: isLoading 빼고도 정상 동작하는지 확인
       entries.forEach((entry) => {
         if (entry.isIntersecting && !this.isLoading) {
           this.addMovieList();
@@ -56,20 +55,22 @@ export class App {
     this.isLoading = true;
     const moviePageData = await this.fetchMoviePageData();
     this.isLoading = false;
+
+    if (!moviePageData) return;
+
     this.movieContainer.pushNewMovieList(moviePageData);
   }
 
   async fetchMoviePageData() {
-    console.log('hi');
     const isSearching = this.searchKeyword !== '';
     const pageNumber = this.pageManager.getPage();
 
     const moviePageData = await (isSearching
-      ? this.movieService.fetchSearchResult({
-          pageNumber,
+      ? this.api.fetchSearchResult({
           query: this.searchKeyword,
+          currentPage: pageNumber,
         })
-      : this.movieService.fetchPopularMovieList(pageNumber));
+      : this.api.fetchPopularMovieList(pageNumber));
 
     this.pageManager.addPage();
 
