@@ -65,7 +65,6 @@ const createContainer = () => {
   return $container;
 };
 
-// score를 보내는 게 아니라 id를 보내서
 const StarRating = ({ id }: { id: number }) => {
   const { userRating: initialScore } = UserMovieStore.get(id);
   let curScore = initialScore;

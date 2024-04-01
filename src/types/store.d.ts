@@ -37,8 +37,6 @@ interface UserMovie {
 interface UserMovieStore {
   userMovies: UserMovie[];
 
-  // setMovies({ id, userRating }: UserMovie): void;
-
   get(id: number): UserMovie;
   add({ id, userRating }: UserMovie): void;
   update({ id, userRating }: UserMovie): void;
