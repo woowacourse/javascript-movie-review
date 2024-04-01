@@ -1,3 +1,4 @@
+import STAR_RATING_TEXT_LIST from '../../constants/messages';
 import {
   LocalStorageService,
   StarRating,
@@ -6,7 +7,6 @@ import CloseBtn from '../../statics/images/close_button.png';
 import StarEmpty from '../../statics/images/star_empty.png';
 import StarFilled from '../../statics/images/star_filled.png';
 import './Modal.css';
-import STAR_RATING_TEXT_LIST from '../../constants/messages';
 
 const createHeader = (title: string) => {
   const $header = document.createElement('div');
