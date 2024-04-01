@@ -46,15 +46,15 @@
   width: 200px;
 }
 
+#search-input.open {
+  padding: 0 8px;
+}
+
 @media (max-width: 660px) {
   #search-input {
     width: calc(100vw - 120px);
     animation: expand 0.5s linear;
     padding: 0;
-  }
-
-  #search-input.open {
-    padding: 0 8px;
   }
 
   #search-input.shrink {

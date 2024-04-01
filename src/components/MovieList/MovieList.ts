@@ -5,7 +5,7 @@ import { MOVIE_COUNT_PER_PAGE } from '../../consts/UISettings';
 import { NotFound } from '../Error/NotFound/NotFound';
 import MovieItemSkeleton from '../MovieItem/Skeleton';
 import MovieInfoModal from '../MovieInfoModal/MovieInfoModal';
-
+import Network from '../../assets/network_error.png';
 interface Props {
   movieList: Movie[];
 }

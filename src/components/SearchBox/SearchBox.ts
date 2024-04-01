@@ -92,6 +92,7 @@ class searchInputBox {
       this.searchInput.style.display = 'none';
       return;
     }
+    this.searchInput.classList.add('open');
     this.searchInput.style.display = 'block';
     this.headerLogo.style.display = 'block';
     this.inputFoldButton.style.display = 'none';
@@ -100,18 +101,17 @@ class searchInputBox {
   setSubmitEvent() {
     this.searchButton.addEventListener('click', e => {
       e.preventDefault();
-      if (this.searchInput.width === 0) {
-        this.setOpenInputEvent();
-        return;
+      if (this.searchInput.classList.contains('open')) {
+        if (!this.searchInput.value.length) {
+          this.searchInput.focus();
+          return new Toast('검색어를 입력하세요.');
+        }
+        setEndpoint(END_POINT.SEARCH);
+        setUrlParams(QUERY_STRING_KEYS.QUERY, this.searchInput.value);
+        return this.rerenderList();
       }
-      if (!this.searchInput.value.length) {
-        this.searchInput.focus();
-        return new Toast('검색어를 입력하세요.');
-      }
-
-      setEndpoint(END_POINT.SEARCH);
-      setUrlParams(QUERY_STRING_KEYS.QUERY, this.searchInput.value);
-      this.rerenderList();
+      this.setOpenInputEvent();
+      return;
     });
   }
 

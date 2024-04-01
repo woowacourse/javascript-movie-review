@@ -18,7 +18,7 @@ class Fetcher {
       fetch(this.generateMovieApiUrl())
         .then(response => {
           if (!response.ok) {
-            this.errorHandler(response.status);
+            throw new CustomError(response.status);
           }
 
           return response.json();
@@ -42,22 +42,6 @@ class Fetcher {
     });
 
     return `${this.url}?${queryParams.toString()}`;
-  }
-
-  errorHandler(status: number) {
-    if (status >= 500) {
-      throw new CustomError({ name: 'SERVER_ERROR', message: ERROR_MESSAGE.SERVER_ERROR });
-    }
-    if (status === 404) {
-      throw new CustomError({ name: 'NOT_FOUND', message: ERROR_MESSAGE.RESOURCE_NOT_FOUND });
-    }
-    if (status === 401) {
-      throw new CustomError({ name: 'AUTHENTICATION_FAILED', message: ERROR_MESSAGE.RESOURCE_NOT_FOUND });
-    }
-    if (status >= 400) {
-      throw new CustomError({ name: 'NETWORK_ERROR', message: ERROR_MESSAGE.NETWORK_ERROR });
-    }
-    throw new CustomError({ name: 'FETCHING_ERROR', message: ERROR_MESSAGE.FETCH_FAILED });
   }
 }
 

@@ -1,3 +1,4 @@
+import { ESC_KEY } from '../../consts/UISettings';
 import './BasicModal.css';
 
 class BasicModal {
@@ -35,15 +36,12 @@ class BasicModal {
   }
 
   escKeyModalClose(e: KeyboardEvent) {
-    if (e.keyCode === 27) {
+    if (e.keyCode === ESC_KEY) {
       BasicModal.closeModal();
     }
   }
 
   static closeModal() {
-    const topScrollButton = document.querySelector('#top-scroll-button');
-    topScrollButton?.classList.add('show');
-
     const backdropElement = document.querySelector('.modal-backdrop');
     if (!backdropElement) return;
     backdropElement.classList.remove('modal-open');
