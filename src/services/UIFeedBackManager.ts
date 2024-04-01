@@ -61,7 +61,10 @@ class UIFeedBackManager {
       const section = document.querySelector('.item-view');
       if (!section) return;
       const h1 = createElement('h1', { textContent: '검색 결과가 존재하지 않습니다', className: 'error-text' });
-      section.appendChild(h1);
+
+      if (!document.querySelector('.error-text')) {
+        section.appendChild(h1);
+      }
     }
   }
 
