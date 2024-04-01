@@ -43,6 +43,7 @@ class MovieList {
 
     this.#movieListSection.appendChild(movieListTitle);
     this.#movieListSection.appendChild(movieListUl);
+    this.#movieModal.createMovieModalSection();
   }
 
   async #renderPopularMovieItems() {
@@ -62,7 +63,6 @@ class MovieList {
       this.#handleError(error as Error);
     }
     this.#setupItemClick();
-    this.#movieModal.createMovieModalSection();
   }
 
   #handlePopularPagination(data: IMovieItemData[]) {
@@ -151,6 +151,7 @@ class MovieList {
 
     this.#movieListSection.appendChild(movieListTitle);
     this.#movieListSection.appendChild(searchedMovieListUl);
+    this.#movieModal.createMovieModalSection();
   }
 
   async #renderSearchedMovieItems(titleInput: string) {
@@ -170,7 +171,6 @@ class MovieList {
       this.#handleError(error as Error);
     }
     this.#setupItemClick();
-    this.#movieModal.createMovieModalSection();
   }
 
   async #getSearchedMoviesData(titleInput: string) {
