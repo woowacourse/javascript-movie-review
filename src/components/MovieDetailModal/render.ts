@@ -1,7 +1,7 @@
 import { BASE_IMAGE_URL } from '../../constants/api/api';
 import { Genre } from '../../types/tmdb';
 import createElement from '../../utils/createElement';
-import NoImage from '../ui/NoIamge';
+import NoImage from '../ui/NoImage';
 import RatingStars from '../RatingStars/RatingStarts';
 import formatToDecimalPlaces from '../../utils/formatToDecimalPlaces';
 

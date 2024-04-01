@@ -2,10 +2,9 @@ import createElement from '../../utils/createElement';
 import starImg from '../../../templates/star_filled.png';
 import formatToDecimalPlaces from '../../utils/formatToDecimalPlaces';
 import { BASE_IMAGE_URL } from '../../constants/api/api';
-import NoImage from '../ui/NoIamge';
+import NoImage from '../ui/NoImage';
 import { Movie } from '../../domain/movie';
-
-const THUMBNAIL_SIZE = 'w500';
+import { THUMBNAIL_SIZE } from '../../constants/ui';
 
 const createItemScore = (vote_average: number) => {
   const itemScoreContainer = createElement('div', { className: 'item-score-container' });
