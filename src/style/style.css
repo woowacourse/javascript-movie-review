@@ -66,6 +66,10 @@
   width: 100px;
 }
 
+.w-1-ratio {
+  width: 100%;
+}
+
 .movie-detail-button {
   background: none;
   color: inherit;
