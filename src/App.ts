@@ -1,5 +1,5 @@
 import { Movie } from './index.d';
-import { SKELETON_UI_PC, SKELETON_UI_TABLET } from './constants';
+import { SKELETON_UI_PC, SKELETON_UI_TABLET, SKELETON_UI_MOBILE } from './constants';
 
 import movieStore from './store/MovieStore';
 import searchMovieStore from './store/SearchMovieStore';
@@ -31,7 +31,9 @@ export default class App {
     const width = window.innerWidth;
     let skeletonCount = this.#skeletonBySize;
 
-    if (width <= 834) {
+    if (width <= 390) {
+      skeletonCount = SKELETON_UI_MOBILE;
+    } else if (width <= 834) {
       skeletonCount = SKELETON_UI_TABLET;
     }
 
