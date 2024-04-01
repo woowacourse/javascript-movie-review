@@ -92,7 +92,7 @@ class DetailModal {
     const container = document.createElement('div');
     const content = /* html */ `
         <div class="modal-img-container">
-          <img src="https:image.tmdb.org/t/p/w220_and_h330_face${detailData.poster_path}" loading="lazy" class="modal-img">
+          <img src="https://image.tmdb.org/t/p/w220_and_h330_face${detailData.poster_path}" loading="lazy" class="modal-img">
         </div>
         <div class="modal-content">
           <div class="modal-movie-info">
