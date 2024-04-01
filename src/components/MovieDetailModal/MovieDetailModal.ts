@@ -128,6 +128,11 @@ class MovieDetailModal {
 
   toggleModal() {
     this.template.classList.toggle('modal--open');
+    if (this.template.classList.contains('modal--open')) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
   }
 
   getElement() {
