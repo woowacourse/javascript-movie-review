@@ -30,7 +30,9 @@ function getLogo() {
 
 const submitSearchEventHandler = (event: ISearchSubmitEvent<ISearchInput>) => {
   event.preventDefault();
-  movieStateMethod.setQuery(event.target?.searchContent.value);
+  const query = event.target?.searchContent.value;
+  if (movieStateMethod.getQuery() === query) return;
+  movieStateMethod.setQuery(query);
   movieStateMethod.setUrl(SEARCH_MOVIES_URL);
   replaceMain();
 };
