@@ -1,5 +1,6 @@
 import './style.css';
 import DOM from '../utils/DOM';
+import errorHandler from './errorHandler';
 
 const { $ } = DOM;
 
@@ -20,7 +21,9 @@ const errorMessage = {
     const templates = /* html */ `
     <div class="center-div">
       <h1 class="error-msg">${statusCode}</h1>
-      <h2 class="error-description">서버 에러입니다ㅠ <span onClick="window.location.reload()">새로고침</span> 해보고 안되면 알아서 처리하세요~</h2>
+      <h2 >서버 에러입니다.<h2> 
+      <h2>${errorHandler(statusCode)}</div>
+      <h2 >일단 <button onClick="window.location.reload()">새로고침</button> 해보고 안되면 알아서 처리하세요~❤️</h2>
     </div>
     `;
     return templates;
@@ -30,7 +33,9 @@ const errorMessage = {
     const templates = /* html */ `
       <div class="center-div">
         <h1 class="error-msg">${statusCode}</h1>
-        <h2 class="error-description">클라이언트 에러입니다ㅠ <span onClick="window.location.reload()">새로고침</span> 해보고 안되면 알아서 처리하세요~</h2>
+        <h2>클라이언트 에러입니다.<h2> 
+        <h2>${errorHandler(statusCode)}</div>
+        <h2 class="error-description">일단 <button onClick="window.location.reload()">새로고침</button> 해보고 안되면 알아서 처리하세요~❤️</h2>
       </div>
       `;
     return templates;
@@ -38,7 +43,9 @@ const errorMessage = {
 
   noSearchedMovieError(message?: string) {
     const templates = /* html */ `
-      <div class="search-error-msg center-div">${message}</div>
+      <div class="search-error-msg">${message}</div>
+      <h2 class="error-description">검색어를 바르게 입력하셨는지 확인해주세요~❤️</h2>
+
       `;
 
     return templates;
