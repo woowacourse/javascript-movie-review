@@ -1,13 +1,18 @@
 import SearchBox from '../SearchBox/SearchBox';
 import { logo } from '../../resources';
+import Button from '../Button/Button';
+import { BUTTONS } from '../../constants/INFORMATION';
 
 const MovieHeader = {
   create(logoImgOnclick: () => void, searchBoxOnClick: () => void) {
     const header = document.createElement('header');
+
     const logoImgContainer = this.createLogoImgContainer(logoImgOnclick);
-    const searchBox = SearchBox.create(searchBoxOnClick);
+    const searchCloseButton = Button.create(BUTTONS.searchClose, () => header.classList.remove('clicked'));
+    const searchBox = SearchBox.create(header, searchBoxOnClick);
 
     header.appendChild(logoImgContainer);
+    header.appendChild(searchCloseButton);
     header.appendChild(searchBox);
 
     return header;
