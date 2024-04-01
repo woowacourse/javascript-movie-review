@@ -107,7 +107,7 @@ class MovieDetailModal {
     scoreElement.textContent = `${vote_average}`;
 
     const overviewElement = this.template.querySelector('.detail-overview') as HTMLParagraphElement;
-    overviewElement.textContent = overview;
+    overviewElement.textContent = overview ? overview : '등록된 영화 설명이 없어요.';
   }
 
   genreIdsToGenreNames(genreIds: number[]): string[] {
