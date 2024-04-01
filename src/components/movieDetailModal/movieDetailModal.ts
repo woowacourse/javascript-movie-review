@@ -1,13 +1,10 @@
 import './style.css';
 import { DETAIL_MODAL_TEMPLATE } from '../../constants/templates';
 import { MovieDetailType } from '../../types/movie';
-import httpRequest from '../../api/httpRequest';
-import filterMovieDetail from '../../domain/filterMovieDetail';
-import HTTPError from '../../api/HttpError';
-import errorMessage from '../../error/errorMessage';
 import { STAR_EMPTY, STAR_FILLED } from '../../images';
 import { RATING_MESSAGE } from '../../constants/rating';
 import rating from '../../domain/rating';
+import movieData from '../../domain/movieData';
 
 const movieDetailModal = {
   createModal() {
@@ -33,24 +30,12 @@ const movieDetailModal = {
         if (target && target.className === 'item-list') return;
 
         const movieId = Number(target?.closest('a')?.getAttribute('data-id')) ?? 0;
-        this.getMovieDetail(movieId).then((movie: MovieDetailType | null) => {
+        movieData.getMovieDetail(movieId).then((movie: MovieDetailType | null) => {
           if (movie !== null) movieDetailModal.insertTemplate(movie);
         });
         dialog.showModal();
         this.fixBackGroundBody();
       });
-    }
-  },
-
-  async getMovieDetail(movieId: number): Promise<MovieDetailType | null> {
-    try {
-      const movieDetail = await httpRequest.fetchMovieDetail(movieId);
-      const filteredMovieDetail = filterMovieDetail(movieDetail);
-      return filteredMovieDetail;
-    } catch (error) {
-      const customError = error as HTTPError;
-      errorMessage.apiError(customError.statusCode, customError.message ?? '');
-      return null;
     }
   },
 

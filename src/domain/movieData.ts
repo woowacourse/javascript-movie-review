@@ -2,8 +2,9 @@ import MovieApp from '../MovieApp';
 import HTTPError from '../api/HttpError';
 import httpRequest from '../api/httpRequest';
 import errorMessage from '../error/errorMessage';
-import { MovieDataType } from '../types/movie';
+import { MovieDataType, MovieDetailType } from '../types/movie';
 import { RenderType, RenderInputType } from '../types/props';
+import filterMovieDetail from './filterMovieDetail';
 import filterMovieList from './filterMovieList';
 
 type RequestFunctionType = (page: number, input: string) => Promise<MovieDataType>;
@@ -44,6 +45,18 @@ const movieData = {
       const customError = error as HTTPError;
       errorMessage.apiError(customError.statusCode, customError.message ?? '');
       return { movieList: [], isLastPage: true };
+    }
+  },
+
+  async getMovieDetail(movieId: number): Promise<MovieDetailType | null> {
+    try {
+      const movieDetail = await httpRequest.fetchMovieDetail(movieId);
+      const filteredMovieDetail = filterMovieDetail(movieDetail);
+      return filteredMovieDetail;
+    } catch (error) {
+      const customError = error as HTTPError;
+      errorMessage.apiError(customError.statusCode, customError.message ?? '');
+      return null;
     }
   },
 };
