@@ -38,7 +38,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -179,4 +179,26 @@ header .search-box > .search-button {
   text-indent: -1000rem;
   background: url('../images/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+@media only screen and (max-width: 834px) {
+  .item-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 674px;
+    margin: 0 auto;
+  }
+
+  .item-list {
+    display: grid;
+    margin: 36px 0;
+    grid-template-columns: repeat(3, 180px);
+    grid-column-gap: 64px;
+    grid-row-gap: 55px;
+  }
+
+  header {
+    min-width: 674px;
+  }
 }
