@@ -21,11 +21,10 @@ const createItemScore = (vote_average: number) => {
 const createItemImage = (posterPath: string, title: string) => {
   if (posterPath === null) return NoImage();
   const image = createElement('img', {
-    className: 'item-thumbnail skeleton',
+    className: 'item-thumbnail',
     src: `${BASE_IMAGE_URL}${THUMBNAIL_SIZE}${posterPath}`,
     loading: 'lazy',
     alt: `${title} 포스터 이미지`,
-    onload: toggleSkeleton,
   });
 
   return image;

@@ -2,8 +2,6 @@ import { BASE_IMAGE_URL } from '../../constants/api/api';
 import { Genre } from '../../types/tmdb';
 import createElement from '../../utils/createElement';
 import NoImage from '../ui/NoIamge';
-import starFilled from '../../../templates/star_filled.png';
-import startEmpty from '../../../templates/star_empty.png';
 import RatingStars from '../RatingStars/RatingStarts';
 import formatToDecimalPlaces from '../../utils/formatToDecimalPlaces';
 
@@ -62,7 +60,7 @@ const createMovieDetailHeader = (title: string) => {
 const createItemImage = (posterPath: string, title: string) => {
   if (posterPath === null) return NoImage();
   const image = createElement('img', {
-    className: 'item-thumbnail skeleton',
+    className: 'item-thumbnail',
     src: `${BASE_IMAGE_URL}/w500/${posterPath}`,
     alt: `${title} 포스터 이미지`,
     loading: 'lazy',
@@ -73,6 +71,7 @@ const createItemImage = (posterPath: string, title: string) => {
 };
 
 const toggleSkeleton = (event: Event) => {
+  'toggle 작동ㅋㅋㅋ';
   const thumbnail = event.target as HTMLElement;
   thumbnail.classList.remove('skeleton');
 };
@@ -90,7 +89,6 @@ const createMovieDetailContent = (posterPath: string, title: string) => {
 const createMovieDetailInfo = (genres: string, voteAverage: number, overview: string) => {
   const movieDetailInfo = createElement('div', { className: 'movie-detail-info' });
   const movieDetailZz = createElement('div', { className: 'movie-detail-zz' });
-  //   const movieOverview = createElement('p', { className: 'movie-detail-overview', textContent: overview });
   const movieOverview = createOverview(overview);
   const movieDetailDd = createElement('div', { className: 'movie-detail-dd' });
   const genreParagraph = createElement('p', { textContent: genres });

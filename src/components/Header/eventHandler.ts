@@ -17,7 +17,6 @@ const getMovieListDataByKeyword = async (keyword: string) => {
 
   if (moviePage) createMovieItems(moviePage.movies);
   pageManager.resetPage();
-  // addShowMoreButtonEventListener('search', keyword);
   addInfiniteScrollEventListener('search', keyword);
 };
 

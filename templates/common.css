@@ -51,14 +51,6 @@ main {
 
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
-/* .item-list {
-  display: grid;
-  margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
-  grid-row-gap: 48px;
-} */
-
 .item-list {
   display: grid;
   margin: 48px 0;
@@ -150,6 +142,7 @@ button.primary {
 }
 
 .item-card .skeleton {
+  width: 100%;
   background: linear-gradient(-90deg, #7d7d7d, #f0f0f0, #aaa, #f0f0f0);
   background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
@@ -167,145 +160,6 @@ button.primary {
     background-position: 0% 50%;
   }
 }
-/* 
-header {
-  position: fixed;
-  width: 100%;
-  height: 72px;
-  background-color: rgba(1, 1, 1, 0.6);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-  border-bottom: 1px solid rgb(71, 71, 71);
-}
-
-header h1 {
-  cursor: pointer;
-  user-select: none;
-  font-size: 2rem;
-  font-weight: bold;
-  letter-spacing: -0.1rem;
-  color: #f33f3f;
-}
-
-header > .search-form {
-  background: #fff;
-  padding: 8px;
-  border-radius: 4px;
-}
-
-header .search-form > input {
-  border: 0;
-}
-
-header .search-form > .search-button {
-  width: 14px;
-  border: 0;
-  text-indent: -1000rem;
-  background: url('./search_button.png') transparent no-repeat 0 1px;
-  background-size: contain;
-} */
-
-/* *** 기존
-
-header {
-  position: fixed;
-  width: 100%;
-  height: 72px;
-  background-color: rgba(1, 1, 1, 0.6);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-  border-bottom: 1px solid rgb(71, 71, 71);
-  z-index: 1000;
-}
-
-header h1 {
-  cursor: pointer;
-  user-select: none;
-  font-size: 2rem;
-  font-weight: bold;
-  letter-spacing: -0.1rem;
-  color: #f33f3f;
-}
-
-header > .search-form {
-  background: #fff;
-  padding: 8px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  width: 300px;
-  transition: width 3s ease;
-}
-
-header .search-form > input {
-  border: 0;
-  flex: 1;
-  margin-right: 8px;
-}
-
-header .search-form > .search-button {
-  width: 14px;
-  border: 0;
-  text-indent: -1000rem;
-  background: url('./search_button.png') transparent no-repeat 0 1px;
-  background-size: contain;
-}
-
-@media screen and (max-width: 767px) {
-  header > .search-form {
-    width: 40px;
-    padding: 8px;
-    justify-content: flex-end;
-  }
-
-  header .search-form > input {
-    display: none;
-  }
-
-  header .search-form.active {
-    width: calc(100% - 100px);
-  }
-
-  header .search-form.active > input {
-    display: block;
-  }
-
-  header h1 {
-    font-size: 1.5rem;
-  }
-}
-
-@media screen and (max-width: 767px) {
-  header > .search-form {
-    width: 40px;
-    padding: 8px;
-    justify-content: flex-end;
-  }
-
-  header .search-form > input {
-    display: none;
-  }
-
-  header .search-form:hover {
-    width: 300px;
-  }
-
-  header .search-form:hover > input {
-    display: block;
-  }
-
-  header h1 {
-    font-size: 1.5rem;
-  }
-} */
 
 header {
   position: fixed;
@@ -588,7 +442,7 @@ header .search-form > .search-button {
     transform: none;
     width: 100%;
     max-width: none;
-    height: 40%;
+    height: 45%;
     overflow-y: auto;
     border-radius: 10px 10px 0 0;
   }
@@ -639,4 +493,13 @@ header .search-form > .search-button {
     width: 100%;
     justify-content: center;
   }
+}
+
+.no-more-pages {
+  background-color: #191919;
+  padding: 20px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: #c8c8c8;
+  text-align: center;
 }

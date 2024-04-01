@@ -51,4 +51,4 @@ export const addShowMoreButtonEventListener = (option: ShowMoreButtonOption = 'p
   showMoreButton.addEventListener('click', currentShowMoreEventHandler);
 };
 
-export default showMoreButtonEventHandler;
+export default addShowMoreButtonEventListener;

@@ -1,18 +1,9 @@
 import tmdbApi from '../../api';
 import { API_ENDPOINT } from '../../constants/api/api';
-import { Genre } from '../../types/tmdb';
 import MovieDetailModal from '../MovieDetailModal/MovieDetailModal';
+import { TMDBDetailProps } from '../../types/tmdb';
 
-type MovieDetailProps = {
-  id: number;
-  title: string;
-  poster_path: string;
-  genres: Genre[];
-  vote_average: number;
-  overview: string;
-};
-
-const fetchMovieDetails = async (movieId: string): Promise<MovieDetailProps | null> => {
+const fetchMovieDetails = async (movieId: string): Promise<TMDBDetailProps | null> => {
   try {
     const response = await tmdbApi.sendRequest(API_ENDPOINT.DETAIL(Number(movieId)));
     const { id, title, poster_path, genres, vote_average, overview } = response;

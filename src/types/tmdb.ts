@@ -77,4 +77,13 @@ export type TMDBMovieDetailResponse = {
   vote_count: number;
 };
 
+export type TMDBDetailProps = {
+  id: number;
+  title: string;
+  poster_path: string;
+  genres: Genre[];
+  overview: string;
+  vote_average: number;
+};
+
 export type ShowMoreButtonOption = 'popular' | 'search';
