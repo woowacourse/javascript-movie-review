@@ -1,17 +1,15 @@
 import EventComponent from "../abstract/EventComponent";
 import SkeletonUI from "../SkeletonUI";
-import APIError from "../../error/APIError";
 
 import QueryState from "../../states/QueryState";
 import MovieState from "../../states/MovieState";
 
 import { generateMovieItems } from "../templates/generateMovieItems";
-import {
-  generateEmptyMovieListScreen,
-  generateNetworkNotWorkingScreen,
-} from "../templates/generateUnexpectedScreen";
+import { generateEmptyMovieListScreen } from "../templates/generateUnexpectedScreen";
 
 import { getPopularMovieList, getSearchMovieList } from "../../apis/movieList";
+import { handleAPIError } from "../../error/handleAPIError";
+
 import { $ } from "../../utils/dom";
 import { throttle } from "../../utils/throttle";
 import { HTMLTemplate, TargetId, Query } from "../../types/common";
@@ -59,7 +57,7 @@ export default class MovieList extends EventComponent {
       this.render();
       this.setEvent();
     } catch (error) {
-      this.handleError(error);
+      handleAPIError(error, this.targetId);
     }
   }
 
@@ -85,12 +83,14 @@ export default class MovieList extends EventComponent {
   }
 
   private onScroll() {
-    if (
+    const isEndOfPage =
       window.innerHeight + window.scrollY >=
-      document.documentElement.scrollHeight
-    ) {
-      this.loadMoreMovies();
-    }
+      document.documentElement.scrollHeight;
+    const hasMorePages = this.page < this.movieList.total_pages;
+
+    if (!isEndOfPage || !hasMorePages) return;
+
+    this.loadMoreMovies();
   }
 
   private openMovieDetailModal(event: Event): void {
@@ -105,28 +105,6 @@ export default class MovieList extends EventComponent {
         $<HTMLElement>("movie-detail-modal")?.classList.remove("modal");
         $<HTMLElement>("movie-detail-modal")?.classList.add("modal-open");
       }
-    }
-  }
-
-  private handleError(error: unknown): void {
-    if (error instanceof APIError) {
-      this.displayErrorMessage(error.message, generateEmptyMovieListScreen);
-    } else if (error instanceof Error) {
-      this.displayErrorMessage(
-        "네트워크가 원활하지 않습니다. 인터넷 연결 확인 후 다시 시도해주세요.",
-        generateNetworkNotWorkingScreen
-      );
-    }
-  }
-
-  private displayErrorMessage(
-    message: string,
-    screenGenerator: () => HTMLTemplate
-  ): void {
-    alert(message);
-    const errorTargetElement = $<HTMLElement>(this.targetId);
-    if (errorTargetElement) {
-      errorTargetElement.innerHTML = screenGenerator();
     }
   }
 
@@ -150,7 +128,10 @@ export default class MovieList extends EventComponent {
 
     this.skeletonUI.insert("item-list", "afterend");
 
-    const additionalFetchedMovieData = await getPopularMovieList(this.page);
+    const additionalFetchedMovieData = await this.fetchMovies(
+      this.page,
+      this.queryState.get()
+    );
 
     this.skeletonUI.remove("skeleton-movie-item-list");
 

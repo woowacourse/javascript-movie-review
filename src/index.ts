@@ -32,6 +32,7 @@ const movieDetailModal = new MovieDetailModal({
   movieState,
 });
 
+queryState.addObserver(movieListTitle);
 queryState.addObserver(movieList);
 movieState.addObserver(movieDetailModal);
 
