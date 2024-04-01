@@ -38,15 +38,16 @@ export default class MovieHeader extends EventComponent {
   protected setEvent(): void {
     const $movieListLogo = $<HTMLHeadElement>("movie-list-logo");
     const $form = $<HTMLFormElement>("search-form");
-    const $searchButton = $<HTMLButtonElement>("search-button");
+    const $searchInput = $<HTMLInputElement>("search-input");
 
     $movieListLogo?.addEventListener("click", this.handleLogoClick.bind(this));
     $form?.addEventListener("submit", this.onSearchMovieSubmit.bind(this));
-    $searchButton?.addEventListener(
-      "click",
-      this.onSearchButtonClick.bind(this)
-    );
+
     window.addEventListener("resize", throttle(this.onResize.bind(this), 300));
+
+    if (window.innerWidth <= MOBILE_SIZE) {
+      $searchInput?.classList.add("hidden");
+    }
   }
 
   private handleLogoClick(): void {
@@ -57,6 +58,12 @@ export default class MovieHeader extends EventComponent {
   private onSearchMovieSubmit(event: Event): void {
     event.preventDefault();
     const $form = $<HTMLFormElement>("search-form");
+    const $searchInput = $<HTMLInputElement>("search-input");
+
+    if ($searchInput?.classList.contains("hidden")) {
+      $searchInput?.classList.remove("hidden");
+      return;
+    }
 
     const searchQuery = $form?.["search-query"].value;
 
@@ -66,18 +73,6 @@ export default class MovieHeader extends EventComponent {
     }
 
     this.queryState.set(searchQuery);
-  }
-
-  private onSearchButtonClick(event: Event): void {
-    event.preventDefault();
-
-    const $searchInput = $<HTMLInputElement>("search-input");
-
-    if ($searchInput?.classList.contains("hidden")) {
-      $searchInput?.classList.remove("hidden");
-    } else {
-      this.onSearchMovieSubmit(event);
-    }
   }
 
   private onResize(): void {
