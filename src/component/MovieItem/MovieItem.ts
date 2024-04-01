@@ -1,7 +1,6 @@
 import starFilledImg from '../../image/star_filled.png';
 import posterEmptyImg from '../../image/poster_empty.png';
-
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w220_and_h330_face';
+import { IMAGE_BASE_URL } from '../../constant/setting';
 
 class MovieItem {
   #movieItemInfo;

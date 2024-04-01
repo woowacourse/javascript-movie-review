@@ -7,8 +7,7 @@ import starFilledImage from '../../image/star_filled.png';
 import starEmptyImage from '../../image/star_empty.png';
 import modalCloseImage from '../../image/modal_close.png';
 import posterEmptyImg from '../../image/poster_empty.png';
-
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w220_and_h330_face';
+import { IMAGE_BASE_URL } from '../../constant/setting';
 
 class MovieModal {
   createMovieModalSection() {
