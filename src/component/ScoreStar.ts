@@ -1,5 +1,6 @@
 import { $, $$ } from '../util/selector';
 import starUnfilledIcon from '../asset/star_empty.png';
+import starFilledIcon from '../asset/star_filled.png';
 import { MovieUserServiceType } from '../domain/MovieUserServiceType';
 
 const STAR_COUNT = 5;
@@ -32,12 +33,12 @@ class ScoreStar {
     <ul class='star-list'>
       ${new Array(STAR_COUNT)
         .fill(0)
-        .map((_, i) => `<li id=${i}><img class='${storedStarScore / 2 > i && 'active'}'/></li>`)
+        .map((_, i) => `<li id=${i}><img src='${storedStarScore / 2 > i ? starFilledIcon : starUnfilledIcon}'/></li>`)
         .join('')}
     </ul>
     <div class='selected-star-score'>${storedStarScore || 0}</div>
     <div class='selected-star-score-description'>
-        ${storedStarScore === 0 ? '별점을 남겨주세요' : STAR_SCORE_DESCRIPTION[storedStarScore / 2]}
+        ${storedStarScore === 0 ? '별점을 남겨주세요' : STAR_SCORE_DESCRIPTION[storedStarScore / 2 - 1]}
     </div>
     `;
   }
