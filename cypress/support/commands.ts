@@ -30,7 +30,7 @@ Cypress.Commands.add('interceptMovieDetailAPI', () => {
   cy.intercept(
     {
       method: 'GET',
-      url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/d+\*/,
+      url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/\d{6,7}/,
     },
     { fixture: 'movie-detail.json' },
   ).as('getMovieDetail');
