@@ -21,7 +21,7 @@ function buttonHideStyle() {
 function renderTopButton() {
   const button = document.createElement('button');
   button.onclick = scrollTopHandler;
-  button.className = 'topScrollButton flex-XY-aligned';
+  button.className = 'topScrollButton flex-XY-aligned hidden';
   button.innerText = '🆙';
   const main = document.querySelector('main') as HTMLElement;
   main.append(button);
