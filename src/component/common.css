@@ -120,6 +120,7 @@ button {
 }
 
 .item-card {
+  cursor: pointer;
   display: flex;
   flex-direction: column;
 }
@@ -241,6 +242,7 @@ header > img.logo:hover {
 }
 
 header > .search-box {
+  cursor: pointer;
   background: #fff;
   padding: 12px;
   border-radius: 4px;

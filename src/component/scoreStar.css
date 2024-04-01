@@ -9,6 +9,7 @@
 }
 
 .star-list {
+  cursor: pointer;
   display: flex;
   align-items: center;
 
