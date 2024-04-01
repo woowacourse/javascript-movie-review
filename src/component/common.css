@@ -65,13 +65,13 @@ button {
     grid-template-columns: repeat(3, 180px); /* 3열로 변경 */
   }
 
-  .item-list li:nth-last-child(1) {
+  /* .item-list li:nth-last-child(1) {
     display: none;
   }
 
   .item-list li:nth-last-child(2) {
     display: none;
-  }
+  } */
 }
 
 /* 브라우저의 너비가 480px 이하일 때 */
@@ -80,7 +80,7 @@ button {
     grid-template-columns: repeat(2, 180px); /* 2열로 변경 */
   }
 
-  .item-list li:nth-last-child(1) {
+  /* .item-list li:nth-last-child(1) {
     display: none;
   }
 
@@ -94,7 +94,7 @@ button {
 
   .item-list li:nth-last-child(4) {
     display: none;
-  }
+  } */
 }
 
 @media (max-width: 500px) {
@@ -102,7 +102,7 @@ button {
     grid-template-columns: repeat(2, 140px); /* 2열로 변경 */
   }
 
-  .item-list li:nth-last-child(1) {
+  /* .item-list li:nth-last-child(1) {
     display: none;
   }
 
@@ -116,7 +116,7 @@ button {
 
   .item-list li:nth-last-child(4) {
     display: none;
-  }
+  } */
 }
 
 .item-card {
