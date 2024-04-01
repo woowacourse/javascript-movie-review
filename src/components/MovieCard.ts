@@ -49,7 +49,6 @@ export default class MovieCard {
     </a>
     `;
 
-
     this.#liElement.innerHTML = element;
   }
 
@@ -61,7 +60,6 @@ export default class MovieCard {
       <div class="item-score skeleton"></div>
     </div>
     `;
-
 
     this.#liElement.innerHTML = element;
   }
