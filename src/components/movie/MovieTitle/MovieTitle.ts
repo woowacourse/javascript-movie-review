@@ -6,10 +6,6 @@ interface MovieTitleProps {
 }
 
 class MovieTitle extends Component<MovieTitleProps> {
-  protected render() {
-    this.$element.append(this.createComponent());
-  }
-
   protected createComponent() {
     const movieTitleText =
       this.props?.movieType === 'popular' ? '지금 인기 있는 영화' : `"${this.props?.movieType}" 검색 결과`;

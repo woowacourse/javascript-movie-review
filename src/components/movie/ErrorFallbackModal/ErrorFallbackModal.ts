@@ -13,7 +13,17 @@ import './ErrorFallbackModal.css';
 
 class ErrorFallbackModal extends Component {
   protected render(): void {
-    new Modal(this.$element, { id: 'error-fallback-modal', children: this.createComponent() });
+    new Modal(this.$element, {
+      id: 'error-fallback-modal',
+      class: 'error-fallback-modal',
+      children: this.createComponent(),
+    });
+  }
+
+  static open() {
+    const $modal = querySelector<HTMLDialogElement>(ELEMENT_SELECTOR.errorFallBackModal);
+
+    $modal.showModal();
   }
 
   protected createComponent() {
@@ -26,10 +36,10 @@ class ErrorFallbackModal extends Component {
 
   protected setEvent(): void {
     const button = querySelector<HTMLButtonElement>(ELEMENT_SELECTOR.reloadButton, this.$element);
-    on({ target: button, eventName: 'click', eventHandler: this.handleClickReloadButton });
+    on({ target: button, eventName: 'click', eventHandler: this.reloadPage });
   }
 
-  private handleClickReloadButton() {
+  private reloadPage() {
     window.location.reload();
   }
 }

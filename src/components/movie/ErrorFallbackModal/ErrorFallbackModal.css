@@ -1,23 +1,21 @@
-dialog {
-  position: fixed;
+.error-fallback-modal {
   min-width: 450px;
-  margin: auto;
-  border: none;
-  border-radius: 8px;
-}
-
-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.modal-container {
   width: 500px;
   height: 300px;
+  border-radius: 8px;
+  margin: auto;
+  border: none;
+}
+
+.error-fallback-modal > .modal-container {
+  width: 100%;
+  height: 100%;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-radius: 8px;
 
   white-space: pre;
   text-align: center;
@@ -27,19 +25,6 @@ dialog::backdrop {
   padding: 24px 16px;
 
   background: #ffffff;
-
-  /* Firefox & IE & Edge */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.modal-container > div {
-  margin: 20px 0px;
-}
-
-/* Chrome, Safari */
-.modal-container::-webkit-scrollbar {
-  display: none;
 }
 
 .warning-image {

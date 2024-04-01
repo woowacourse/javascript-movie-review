@@ -13,7 +13,10 @@ abstract class Component<T = {}> {
 
   protected initializeState() {}
 
-  protected abstract render(): void;
+  protected render(): void;
+  protected render() {
+    this.$element.append(this.createComponent());
+  }
 
   protected abstract createComponent(): HTMLElement | string;
 

@@ -8,10 +8,6 @@ interface ImageProps {
 }
 
 class Image extends Component<ImageProps> {
-  protected render() {
-    this.$element.append(this.createComponent());
-  }
-
   protected createComponent() {
     return createElement({
       tagName: 'img',
