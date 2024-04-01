@@ -75,6 +75,7 @@
 .modal-detail-wrapper {
   display: flex;
   flex-direction: column;
+  gap: 16px;
 }
 
 .modal-genres-and-vote-average-wrapper {
@@ -90,11 +91,16 @@
 }
 
 .modal-overview {
-  flex: 7.5;
+  height: 310px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 15;
+  -webkit-box-orient: vertical;
 }
 
 .modal-my-vote-wrapper {
-  flex: 1.5;
+  height: 64px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -114,4 +120,24 @@
 
 .my-vote-button-image {
   width: 100%;
+}
+
+@media screen and (max-width: 674px) {
+  .modal-container {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+  }
+
+  .modal-poster-wrapper {
+    display: none;
+  }
+
+  .my-vote-button-wrapper {
+    justify-content: center;
+  }
+
+  .my-vote-score-text {
+    display: none;
+  }
 }
