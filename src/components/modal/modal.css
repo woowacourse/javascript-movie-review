@@ -74,8 +74,11 @@
 }
 
 .modal-section {
+  display: flex;
+  flex-direction: column;
   height: 25rem;
-  margin: 10px;
+  margin: 0 10px;
+  justify-content: space-between;
 }
 
 .modal-body {
@@ -87,8 +90,9 @@
   display: flex;
   align-items: center;
 }
+
 .modal-genre {
-  width: 6rem;
+  max-width: 10rem;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -108,7 +112,12 @@
   overflow: auto;
 }
 
+.modal-overview::-webkit-scrollbar {
+  display: none;
+}
+
 .modal-body-poster {
+  border-radius: 8px;
   min-width: 16.25rem;
   height: 25rem;
   background-size: contain;

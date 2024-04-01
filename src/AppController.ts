@@ -18,6 +18,7 @@ class AppController {
     const inputSubmitHandler = async (inputValue: string) => {
       const input: HTMLInputElement = Dom.getElement(document, 'header .search-box > input');
       if (input.offsetWidth === 0) {
+        Dom.getElement(document, '.close-input').classList.add('clicked-close-input');
         clickedHeaderView();
         return;
       }

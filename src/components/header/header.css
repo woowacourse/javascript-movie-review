@@ -39,6 +39,10 @@ header .search-box > .search-button {
   background-size: contain;
 }
 
+.close-input {
+  display: none;
+}
+
 .clicked-button {
   display: none !important;
 }
@@ -71,6 +75,19 @@ header .search-box > .search-button {
 
   .clicked-input {
     width: 90% !important;
+  }
+
+  .clicked-close-input {
+    display: flex !important;
+    border-radius: 4px;
+    width: 2.1rem;
+    height: 2.1rem;
+    background: #9c9c9c42;
+    color: #f1f1f1;
+    margin: 0 0.5rem 0 0;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
   }
 }
 

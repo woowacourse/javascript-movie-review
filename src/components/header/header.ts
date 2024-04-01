@@ -28,12 +28,21 @@ function render(logoHandler: () => void, inputSubmitHandler: (inputValue: string
 
   searchBox.append(searchInput, searchButton);
 
-  header.append(logo, searchBox);
+  const closeSearchInput = document.createElement('div');
+  closeSearchInput.className = 'close-input';
+  closeSearchInput.textContent = 'X';
+
+  header.append(logo, closeSearchInput, searchBox);
 
   window.addEventListener('resize', handleResize);
 
   logo.addEventListener('click', () => {
     logoHandler();
+  });
+
+  closeSearchInput.addEventListener('click', () => {
+    noneClickedHeaderView();
+    Dom.getElement(document, '.close-input').classList.remove('clicked-close-input');
   });
 
   searchBox.addEventListener('submit', (event: Event) => {
@@ -51,10 +60,12 @@ function handleResize() {
   debounce = setTimeout(() => {
     const width = window.innerWidth;
     if (width >= 768) {
+      Dom.getElement(document, '.close-input').classList.remove('clicked-close-input');
       noneClickedHeaderView();
     }
     if (width < 768 && (Dom.getElement(document, 'header .search-box > input') as HTMLInputElement)?.value !== '') {
       clickedHeaderView();
+      Dom.getElement(document, '.close-input').classList.add('clicked-close-input');
     }
   }, 100);
 }
