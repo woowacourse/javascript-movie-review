@@ -108,6 +108,8 @@ class MovieDetailContent {
     if (this.#movie.genres) {
       const genreNames = this.#movie.genres.map((genre: { id: number; name: string }) => genre.name);
       genres.textContent = genreNames.join(', ');
+    } else {
+      genres.textContent = '장르 없음';
     }
 
     return genres;
@@ -131,6 +133,8 @@ class MovieDetailContent {
     overview.className = 'detail-overview';
     if (this.#movie.overview) {
       overview.textContent = this.#movie.overview;
+    } else {
+      overview.textContent = '상세 설명이 없습니다.';
     }
     return overview;
   }
