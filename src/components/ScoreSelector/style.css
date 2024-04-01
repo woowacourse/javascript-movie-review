@@ -32,6 +32,7 @@
 @media (max-width: 1200px) {
   .score-selector {
     margin-top: 16px;
+    justify-content: center;
   }
 
   .my-score-detail {
