@@ -3,9 +3,9 @@
 }
 
 body {
-  font-size: 14px;
   background-color: #222222;
   color: #fff;
+  font-size: 14px;
 }
 
 a {
@@ -33,22 +33,20 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
   margin: 0 auto;
+  width: 1200px;
 }
 
 .item-view h2 {
-  font-size: 2rem;
   font-weight: bold;
+  font-size: 2rem;
   user-select: none;
 }
 
-/* https://andrew.hedges.name/experiments/aspect_ratio/ */
-
 .item-list {
   display: grid;
-  margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
+  margin: 48px 0;
   grid-column-gap: 160px;
   grid-row-gap: 48px;
 }
@@ -60,15 +58,15 @@ button {
 
 .item-thumbnail {
   border-radius: 8px;
+  background-size: contain;
   width: 180px;
   height: 270px;
-  background-size: contain;
 }
 
 .item-title {
   margin-top: 16px;
-  font-size: 1.2rem;
   font-weight: bold;
+  font-size: 1.2rem;
 }
 
 .item-score {
@@ -82,8 +80,8 @@ button {
 
 .item-title.skeleton::after,
 .item-score.skeleton::after {
+  content: 'loading';
   font-size: 0;
-  content: "loading";
 }
 
 .full-width {
@@ -106,10 +104,10 @@ button.primary {
 }
 
 .item-card .skeleton {
-  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
-  background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
   border-radius: 8px;
+  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background-size: 400%;
 }
 
 @keyframes skeleton-animation {
@@ -124,31 +122,31 @@ button.primary {
   }
 }
 header {
-  width: 100%;
-  min-width: 1200px;
-  height: 72px;
-  background-color: #222;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
-  border-bottom: 1px solid white;
   margin-bottom: 48px;
+  border-bottom: 1px solid white;
+  background-color: #222;
+  padding: 0 20px;
+  width: 100%;
+  min-width: 1200px;
+  height: 72px;
 }
 
 header h1 {
   cursor: pointer;
-  user-select: none;
-  font-size: 2rem;
-  font-weight: bold;
-  letter-spacing: -0.1rem;
   color: #f33f3f;
+  font-weight: bold;
+  font-size: 2rem;
+  letter-spacing: -0.1rem;
+  user-select: none;
 }
 
 header > .search-box {
+  border-radius: 4px;
   background: #fff;
   padding: 8px;
-  border-radius: 4px;
 }
 
 header .search-box > input {
@@ -156,9 +154,9 @@ header .search-box > input {
 }
 
 header .search-box > .search-button {
-  width: 14px;
   border: 0;
-  text-indent: -1000rem;
-  background: url("./search_button.png") transparent no-repeat 0 1px;
+  background: url('./search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+  width: 14px;
+  text-indent: -1000rem;
 }

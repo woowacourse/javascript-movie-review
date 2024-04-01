@@ -1,4 +1,5 @@
 import './MovieItem.css';
+import { POSTER_BASE_URL } from '../../constants/rule';
 import ModalController from '../../controller/ModalController';
 import MovieDetailService from '../../services/MovieDetailService';
 import StarFilled from '../../statics/images/star_filled.png';
@@ -26,7 +27,7 @@ const createScore = (vote_average: number) => {
 const createThumbnail = (title: string, poster_path: string) => {
   const $thumbnail = document.createElement('img');
   $thumbnail.classList.add('item-thumbnail');
-  $thumbnail.src = `https://image.tmdb.org/t/p/w220_and_h330_face${poster_path}`;
+  $thumbnail.src = `${POSTER_BASE_URL}${poster_path}`;
   $thumbnail.loading = 'lazy';
   $thumbnail.alt = `${title} 포스터`;
 

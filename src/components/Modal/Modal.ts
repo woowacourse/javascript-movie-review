@@ -1,4 +1,4 @@
-import STAR_RATING_TEXT_LIST from '../../constants/messages';
+import { STAR_RATING_TEXT_LIST, POSTER_BASE_URL } from '../../constants/rule';
 import {
   LocalStorageService,
   StarRating,
@@ -144,7 +144,7 @@ const createDetail = (movie: Movie) => {
 
   const $poster = document.createElement('img');
   $poster.classList.add('modal-body__poster');
-  $poster.src = `https://image.tmdb.org/t/p/w220_and_h330_face${movie.poster_path}`;
+  $poster.src = `${POSTER_BASE_URL}${movie.poster_path}`;
   $poster.alt = `${movie.title} 포스터`;
 
   const $content = createContent(movie);
