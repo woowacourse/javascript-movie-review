@@ -11,3 +11,8 @@
   animation      : skeleton-animation 5s infinite ease-out;
   border-radius  : 8px;
 }
+
+.movie-thumbnail>.visibility-hidden-no-position {
+  width : 0px !important;
+  height: 0px !important;
+}
