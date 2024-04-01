@@ -1,10 +1,10 @@
-import { MovieData } from '../interface/MovieData';
 import scoreIconPath from '../asset/star_filled.png';
+import { MovieData } from '../domain/MovieServiceType';
 
 // movieItem의 형태(청사진)를 만들어 반환한다.
 function createMovieItemBlueprint() {
   const aLink = document.createElement('a');
-  aLink.href = '#';
+  // aLink.href = '#';
 
   const itemCard = document.createElement('div');
   itemCard.classList.add('item-card');
@@ -60,30 +60,5 @@ function createSkeletonMovieItem() {
 
   return movieItem;
 }
-
-// function injectMovieDataToItem({ item, movie }) {
-//   const $itemThumbnail = item.querySelector('.item-thumbnail');
-//   const $itemTitle = item.querySelector('.item-title');
-//   const $itemScore = item.querySelector('.item-score');
-
-//   $itemThumbnail.onload = () => {
-//     $itemThumbnail.classList.remove('skeleton');
-//     $itemTitle.classList.remove('skeleton');
-//     $itemScore.classList.remove('skeleton');
-
-//     $itemThumbnail.loading = 'lazy';
-//     $itemThumbnail.alt = movie.title;
-//     $itemTitle.textContent = movie.title;
-
-//     const $itemScoreIcon = document.createElement('img');
-
-//     $itemScoreIcon.src = itemScoreIconPath;
-//     $itemScoreIcon.alt = '별점';
-
-//     $itemScore.append($itemScoreIcon, movie.voteAverage);
-//   };
-
-//   $itemThumbnail.src = movie.posterPath;
-// }
 
 export { createMovieItem, createSkeletonMovieItem };
