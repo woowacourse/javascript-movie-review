@@ -30,7 +30,10 @@ export const generateMovieDetailModal = (
                         ${roundNumber(vote_average, 1)}
                     </div>
                     </div>
-                    <div class="movie-overview">${overview}</div>
+                    <div class="movie-overview">${
+                      overview || "overview 정보가 없습니다."
+                    }
+                    </div>
                     <div id="star-rating-container" class="star-rating-container">
                         ${generateStarRating(rating)}
                     </div>
