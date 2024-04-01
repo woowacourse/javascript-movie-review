@@ -75,6 +75,11 @@
   color: inherit;
   text-decoration: none;
   text-align: left;
+  transition: 0.2s ease-in-out;
+}
+
+.movie-detail-button:hover {
+  transform: translate(0, -5%);
 }
 
 .movie-modal {
