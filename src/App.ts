@@ -1,10 +1,10 @@
 import Header from '../src/components/Header/Header';
 import MovieList from '../src/components/MovieList/MovieList';
 import Title from './components/Title/Title';
-import TopButton from './components/TopButton/TopButton';
+import TopScrollButton from './components/TopScrollButton/TopScrollButton';
 import { END_POINT } from './consts/URL';
 import InfiniteScrollDataLoader from './domain/services/InfiniteScrollDataLoader';
-import { getEndpoint, setEndpoint } from './utils/queryString';
+import { getEndpoint } from './utils/queryString';
 
 class App {
   infiniteScrollDataLoader = new InfiniteScrollDataLoader();
@@ -20,7 +20,7 @@ class App {
     this.itemViewBox.append(this.movieListBox);
 
     this.renderFirstPage();
-    new TopButton();
+    new TopScrollButton();
   }
 
   async renderFirstPage() {

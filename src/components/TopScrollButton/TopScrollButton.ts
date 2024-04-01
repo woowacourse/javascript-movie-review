@@ -1,6 +1,6 @@
 import './TopButton.css';
 
-class TopButton {
+class TopScrollButton {
   topButtonBox;
 
   constructor() {
@@ -38,4 +38,4 @@ class TopButton {
   }
 }
 
-export default TopButton;
+export default TopScrollButton;
