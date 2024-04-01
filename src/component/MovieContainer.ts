@@ -82,6 +82,7 @@ class MovieContainer {
     if (!hasNextPage) {
       this.skeletonList.handleVisibility(false);
       $('.loader', this.movieContainer).remove();
+      this.firstSkeletonItem = null;
     }
   }
 
@@ -98,7 +99,10 @@ class MovieContainer {
 
   clearMovieList() {
     if (this.movieListContainer.firstChild) removeAllChild(this.movieListContainer);
-    $('.loader', this.movieContainer).remove();
+
+    const loaderWrapper$ = $('.loader-wrapper', this.movieContainer);
+
+    if (loaderWrapper$.firstChild) removeAllChild(loaderWrapper$);
   }
 
   noticeNoData() {
