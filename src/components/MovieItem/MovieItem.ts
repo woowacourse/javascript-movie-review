@@ -54,15 +54,11 @@ const createCard = ({
 
 const MovieItem = (movie: Movie) => {
   const $li = document.createElement('li');
-  const $anchor = document.createElement('a');
   const $card = createCard(movie);
 
   const render = () => {
     $li.id = movie.id.toString();
-    $anchor.href = '#';
-
-    $anchor.appendChild($card);
-    $li.appendChild($anchor);
+    $li.appendChild($card);
 
     return $li;
   };
