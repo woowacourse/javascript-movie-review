@@ -1,6 +1,10 @@
 import { fetchMovieDetail } from '../store/API';
 import { VOTE } from '../constants';
 
+import NoImage from '../images/no-image.png';
+import StarFilled from '../images/star_filled.png';
+import StarEmpty from '../images/star_empty.png';
+
 export default class Modal {
   #isOpen = false;
 
@@ -23,9 +27,7 @@ export default class Modal {
 
     const movieDetail = await fetchMovieDetail(this.#movieId);
 
-    const posterPath = movieDetail.poster_path
-      ? `https://image.tmdb.org/t/p/w500${movieDetail.poster_path}`
-      : '../images/no-image.png';
+    const posterPath = movieDetail.poster_path ? `https://image.tmdb.org/t/p/w500${movieDetail.poster_path}` : NoImage;
 
     const genres = movieDetail.genres.map((genre: any) => genre.name).join(', ');
 
@@ -52,11 +54,11 @@ export default class Modal {
           <div class="my-vote">
             <p class="my-vote-title text-detail-vote">내 별점</p>
             <div class="my-vote-body">
-              <button><img src="./images/star_empty.png"/></button>
-              <button><img src="./images/star_empty.png"/></button>
-              <button><img src="./images/star_empty.png"/></button>
-              <button><img src="./images/star_empty.png"/></button>
-              <button><img src="./images/star_empty.png"/></button>
+              <button><img src=${StarEmpty}/></button>
+              <button><img src=${StarEmpty}/></button>
+              <button><img src=${StarEmpty}/></button>
+              <button><img src=${StarEmpty}/></button>
+              <button><img src=${StarEmpty}/></button>
             </div>
             <p class="my-vote-number text-detail-vote-contents">0</p>
             <p class="my-vote-description text-detail-vote-contents">남겨주세요</p>
@@ -124,9 +126,9 @@ export default class Modal {
 
     starButtons.forEach((starButton, index) => {
       if (index <= starIndex) {
-        starButton.setAttribute('src', './images/star_filled.png');
+        starButton.setAttribute('src', StarFilled);
       } else {
-        starButton.setAttribute('src', './images/star_empty.png');
+        starButton.setAttribute('src', StarEmpty);
       }
     });
 
