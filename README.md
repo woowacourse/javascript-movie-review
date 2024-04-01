@@ -23,6 +23,7 @@ npm run test-e2e
   - API 연동을 위한 테스트 환경 경험
   - 실제 동작하는 API를 통한 비동기 통신
   - UX 경험 개선을 위한 `더 보기`(페이징) 구현
+- 실제 웹앱처럼 쓸 수 있도록 사용성 개선한다.
 
 ## 🎯 구현한 기능
 
@@ -45,6 +46,18 @@ npm run test-e2e
 
 - 영화를 검색할 때 검색 결과가 없으면 오류 메세지를 출력한다.
 - API 통신 결과 400, 500번대 에러가 발생한 경우 오류 메세지를 출력한다.
+
+### 4. 📺 영화 상세정보 조회
+
+- 영화 포스터나 제목을 클릭하면 자세한 예고편이나 줄거리 등의 정보를 보여준다.
+
+### 5. ⭐️ 별점 매기기
+
+- 영화 상세정보 조회에서 유저가 별점을 남길 수 있다.
+
+### 6. 📐 UI⁄UX 개선하기
+
+- 반응형 웹을 구상하여 디바이스의 너비에 따라 유동적으로 레이아웃이 조절된다.
 
 <br/>
 
@@ -71,9 +84,6 @@ npm run test-e2e
 ```bash
 src
  ┣ components
- ┃ ┣ displayErrorMessage
- ┃ ┃ ┣ displayErrorMessage.css
- ┃ ┃ ┗ displayErrorMessage.ts
  ┃ ┣ Header
  ┃ ┃ ┣ Header.css
  ┃ ┃ ┗ Header.ts
@@ -82,6 +92,9 @@ src
  ┃ ┃ ┗ LoadMoreButton.ts
  ┃ ┣ Main
  ┃ ┃ ┗ Main.ts
+ ┃ ┣ Modal
+ ┃ ┃ ┣ Modal.css
+ ┃ ┃ ┗ Modal.ts
  ┃ ┣ MovieItem
  ┃ ┃ ┣ MovieItem.css
  ┃ ┃ ┣ MovieItem.ts
@@ -92,13 +105,23 @@ src
  ┃ ┃ ┗ SkeletonMovieList.ts
  ┃ ┣ SearchInput
  ┃ ┃ ┗ SearchInput.ts
+ ┃ ┣ displayErrorMessage
+ ┃ ┃ ┣ displayErrorMessage.css
+ ┃ ┃ ┗ displayErrorMessage.ts
  ┃ ┗ App.ts
  ┣ constants
  ┃ ┗ requests.ts
+ ┣ controller
+ ┃ ┣ ModalController.ts
+ ┃ ┣ StarRatingController.ts
+ ┃ ┗ WebController.ts
  ┣ services
+ ┃ ┣ LocalStorageService.ts
+ ┃ ┣ MovieDetailService.ts
  ┃ ┗ MovieService.ts
  ┣ statics
  ┃ ┗ images
+ ┃ ┃ ┣ close_button.png
  ┃ ┃ ┣ logo.png
  ┃ ┃ ┣ search_button.png
  ┃ ┃ ┣ star_empty.png
@@ -111,7 +134,8 @@ src
  ┣ types
  ┃ ┗ movie.d.ts
  ┣ utils
- ┃ ┗ fetchData.ts
+ ┃ ┣ fetchData.ts
+ ┃ ┗ generateUrl.ts
  ┣ custom.d.ts
  ┗ index.js
 
