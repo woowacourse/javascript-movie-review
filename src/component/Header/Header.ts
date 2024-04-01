@@ -43,7 +43,7 @@ function renderSearchBox() {
 
   const input = document.createElement('input');
   input.placeholder = '검색';
-  input.type = 'text';
+  input.type = 'search';
 
   const searchButton = document.createElement('button');
   searchButton.classList.add('search-button');
