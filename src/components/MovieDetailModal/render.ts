@@ -4,6 +4,7 @@ import createElement from '../../utils/createElement';
 import NoImage from '../ui/NoImage';
 import RatingStars from '../RatingStars/RatingStarts';
 import formatToDecimalPlaces from '../../utils/formatToDecimalPlaces';
+import { THUMBNAIL_SIZE } from '../../constants/ui';
 
 type MovieDetailProps = {
   id: number;
@@ -59,19 +60,20 @@ const createMovieDetailHeader = (title: string) => {
 
 const createItemImage = (posterPath: string, title: string) => {
   if (posterPath === null) return NoImage();
+  const imageContainer = createElement('div', { className: 'item-thumbnail-container' });
   const image = createElement('img', {
-    className: 'item-thumbnail',
-    src: `${BASE_IMAGE_URL}/w500/${posterPath}`,
+    className: 'item-thumbnail skeleton',
+    src: `${BASE_IMAGE_URL}/${THUMBNAIL_SIZE}/${posterPath}`,
     alt: `${title} 포스터 이미지`,
     loading: 'lazy',
     onload: toggleSkeleton,
   });
+  imageContainer.appendChild(image);
 
-  return image;
+  return imageContainer;
 };
 
 const toggleSkeleton = (event: Event) => {
-  'toggle 작동ㅋㅋㅋ';
   const thumbnail = event.target as HTMLElement;
   thumbnail.classList.remove('skeleton');
 };

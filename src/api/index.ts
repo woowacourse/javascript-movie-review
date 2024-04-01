@@ -15,7 +15,6 @@ export class TMDBApi {
   }
 
   async sendRequest(url: string, method = 'GET', body = null, headers = {}) {
-    console.log('url', url);
     const httpAbortCtrl = new AbortController();
     if (httpAbortCtrl instanceof AbortController) {
       this.activeHttpRequests.push(httpAbortCtrl);
