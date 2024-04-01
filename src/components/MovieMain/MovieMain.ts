@@ -1,28 +1,35 @@
 import { Movie } from "./MovieListBox/MovieList/MovieItem";
 import MovieListBox from "./MovieListBox/MovieListBox";
+import createElement from "../utils/createElement";
 import generateMain from "../common/generateMain";
 
 interface MovieMainProps {
   title: string;
-  onMovieMoreButtonClick: () => void;
+  getMoreMovies: () => void;
 }
 
 class MovieMain {
   $element;
   private movieListBox;
 
-  constructor({ title, onMovieMoreButtonClick }: MovieMainProps) {
+  constructor({ title, getMoreMovies }: MovieMainProps) {
     this.movieListBox = new MovieListBox({
       title,
-      onMovieMoreButtonClick,
+      getMoreMovies,
     });
-    this.$element = generateMain({ children: [this.movieListBox.$element] });
+    const $modalSection = createElement({
+      tagName: "section",
+      attribute: { class: "modal-section" },
+    });
+    this.$element = generateMain({
+      children: [this.movieListBox.$element, $modalSection],
+    });
   }
 
-  changeMovieListBox({ title, onMovieMoreButtonClick }: MovieMainProps) {
+  changeMovieListBox({ title, getMoreMovies }: MovieMainProps) {
     this.movieListBox = new MovieListBox({
       title,
-      onMovieMoreButtonClick,
+      getMoreMovies,
     });
 
     this.replace(this.movieListBox.$element);
@@ -32,7 +39,7 @@ class MovieMain {
     this.movieListBox.reRender(movieList);
   }
 
-  removeMovieMoreButton() {
+  removeMovieMoreObserver() {
     this.movieListBox.removeMovieMoreButton();
   }
 
@@ -41,7 +48,11 @@ class MovieMain {
   }
 
   private replace(movieListBoxElement: HTMLElement) {
-    this.$element.replaceChildren(movieListBoxElement);
+    const $modalSection = createElement({
+      tagName: "section",
+      attribute: { class: "modal-section" },
+    });
+    this.$element.replaceChildren(movieListBoxElement, $modalSection);
   }
 }
 
