@@ -80,8 +80,7 @@ class MovieContainer {
     if (!isExistElement('.skeleton', this.movieListContainer)) this.renderSkeletonMovieList();
     if (movieList.length === 0) this.clearMovieList();
     if (!hasNextPage) {
-      this.skeletonList.handleVisibility(false);
-      $('.loader', this.movieContainer).remove();
+      this.clearMovieList();
       this.firstSkeletonItem = null;
     }
   }
