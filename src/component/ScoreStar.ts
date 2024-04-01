@@ -56,7 +56,7 @@ class ScoreStar {
       const selectedLi$ = event.target.closest('li');
       const selectedStarId = parseInt(selectedLi$?.id || '0');
 
-      const starList = $$('img', ul$);
+      const starList = $$<HTMLImageElement>('img', ul$);
 
       // 점수 변화
       const score$ = $('.selected-star-score', this.$container);
@@ -67,8 +67,8 @@ class ScoreStar {
 
       new Array(STAR_COUNT).fill(0).forEach((_, i) => {
         if (i <= selectedStarId) {
-          starList[i].classList.add('active');
-        } else starList[i].classList.remove('active');
+          starList[i].src = starFilledIcon;
+        } else starList[i].src = starUnfilledIcon;
       });
 
       const selectedStarScore = parseInt($('.selected-star-score', this.$container).innerText) || 0;
