@@ -1,3 +1,5 @@
+import searchButton from '../images/search_button.png';
+
 interface Props {
   onSearch: (query: string) => void;
 }
@@ -31,9 +33,12 @@ export default class SearchBox {
 
   #generateButton() {
     const button = document.createElement('button');
+    const img = document.createElement('img');
 
     button.classList.add('search-button');
-    button.textContent = '검색';
+    img.src = searchButton;
+    img.id = 'search-button-img';
+    button.appendChild(img);
 
     this.#searchBoxElement.appendChild(button);
   }

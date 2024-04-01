@@ -102,12 +102,16 @@ header > .search-box {
   border: 0;
 }
 
-header .search-box > .search-button {
-  width: 14px;
+.search-button {
+  width: 18px;
+  height: 18px;
   border: 0;
-  text-indent: -1000rem;
-  background: var(--search-box-img) transparent no-repeat 0 1px;
-  background-size: contain;
+  padding: 0;
+}
+
+#search-button-img {
+  width: 18px;
+  height: 18px;
 }
 
 .search-open {
