@@ -45,7 +45,7 @@ export default class Modal {
           <div class="detail-text-container">
             <div class="detail-text-top">
               <p class="detail-genres text-detail-contents">${genres}</p>
-              <p class="detail-vote_average text-detail-contents">${movieDetail.vote_average}</p>
+              <p class="detail-vote_average text-detail-contents">${movieDetail.vote_average.toFixed(2)}</p>
             </div>
             <p class="detail-overview text-detail-contents">${movieDetail.overview}</p>
           </div>
