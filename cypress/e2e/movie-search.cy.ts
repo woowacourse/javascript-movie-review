@@ -1,10 +1,10 @@
 describe('검색 테스트', () => {
   beforeEach(() => {
+    cy.interceptMovieSearchAPI();
     cy.visit('/');
   });
 
   it('검색 결과가 20개 보다 작으면 더보기 버튼은 사라진다.', () => {
-    cy.interceptMovieSearchAPI();
     cy.get('.search-button').click();
     expect(cy.get('#see-more-button').should('have.class', 'hidden'));
   });

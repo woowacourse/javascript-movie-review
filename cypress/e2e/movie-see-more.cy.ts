@@ -13,11 +13,11 @@
 
 describe('무한 스크롤 테스트', () => {
   beforeEach(() => {
+    cy.interceptPopularMovieAPI();
     cy.visit('/');
   });
 
   it('스크롤을 맨 밑까지 하면, 추가적으로 20개의 영화가 표시된다.', () => {
-    cy.interceptPopularMovieAPI();
     cy.scrollTo('bottom');
     const popularMovieItems = cy.get('.item-list > li');
     expect(popularMovieItems.should('have.length', 40));
