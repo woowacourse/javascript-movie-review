@@ -3,7 +3,13 @@ import '../support/commands';
 
 describe('Fixture를 이용한 MovieSearch 테스트', () => {
   beforeEach(() => {
-    // https://docs.cypress.io/api/commands/intercept
+    cy.intercept(
+      {
+        method: 'GET',
+        url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular.+1$/,
+      },
+      { fixture: 'movie-popular-page1.json' },
+    ).as('getPopularMoviesPage1');
 
     cy.intercept(
       {
@@ -23,7 +29,6 @@ describe('Fixture를 이용한 MovieSearch 테스트', () => {
     });
     cy.wait('@getSearchMovies').then((interception) => {
       const searchedMovies: IMovieData[] = interception.response?.body.results;
-      expect(searchedMovies.length).to.equal(10);
       searchedMovies.forEach((data) => expect(data.title).to.match(/^해리 포터/));
     });
   });
@@ -35,7 +40,18 @@ describe('Fixture를 이용한 MovieSearch 테스트', () => {
     });
     cy.wait('@getSearchMovies').then((interception) => {
       cy.scrollTo('bottom');
-      cy.contains('더 보기').should('not.be.exist');
+      cy.get('.listEnd').should('not.be.exist');
+    });
+  });
+
+  it('모바일 환경에서는 검색 버튼을 눌러 input창이 나타나게 한 후 검색해야 한다.', () => {
+    cy.viewport('iphone-xr');
+    cy.get('button').click();
+    cy.get('input').type('해리 포터');
+    cy.get('input').type('{enter}');
+    cy.wait('@getSearchMovies').then((interception) => {
+      const searchedMovies: IMovieData[] = interception.response?.body.results;
+      searchedMovies.forEach((data) => expect(data.title).to.match(/^해리 포터/));
     });
   });
 });

@@ -1,4 +1,3 @@
-import IMovieData from '../../src/interfaces/IMovieData';
 import '../support/commands';
 
 describe('Fixture를 이용한 PopularMovie 테스트', () => {
@@ -20,6 +19,14 @@ describe('Fixture를 이용한 PopularMovie 테스트', () => {
       { fixture: 'movie-popular-page2.json' },
     ).as('getPopularMoviesPage2');
 
+    cy.intercept(
+      {
+        method: 'GET',
+        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie*/,
+      },
+      { fixture: 'movie-search.json' },
+    ).as('getSearchMovies');
+
     cy.visit('http://localhost:8080');
   });
 
@@ -33,25 +40,13 @@ describe('Fixture를 이용한 PopularMovie 테스트', () => {
     });
   });
 
-  it('초기 화면에서 더 보기를 누르면 영화 20개가 추가로 나열되어야 한다.', () => {
+  it('초기 화면에서 화면 가장 아래로 내리면 영화 20개가 추가로 나열되어야 한다.', () => {
     cy.wait('@getPopularMoviesPage1').then((interception) => {
       cy.scrollTo('bottom');
-      cy.get('.btn').click();
     });
     cy.wait('@getPopularMoviesPage2').then((interception) => {
       const popularMovieItems = cy.get('.item-list > li');
       expect(popularMovieItems.should('have.length', 40));
-    });
-  });
-
-  it('마지막 페이지인 경우 더 보기 버튼이 사라져야 한다', () => {
-    cy.wait('@getPopularMoviesPage1').then(() => {
-      cy.get('input').type('해리 포터');
-      cy.get('.search-button').click();
-    });
-    cy.wait('@getSearchMovies').then((interception) => {
-      cy.scrollTo('bottom');
-      cy.contains('더 보기').should('not.be.exist');
     });
   });
 
