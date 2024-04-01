@@ -17,8 +17,6 @@ class MovieStore {
 
   /* eslint-disable max-lines-per-function */
   async getMovies() {
-    await this.#delay(); // Skeleton UI 확인을 위한 강제 delay
-
     try {
       const responseData = await this.#fetchMoviesData();
       this.#pushNewData(responseData);
@@ -43,11 +41,6 @@ class MovieStore {
     }
 
     return responseJSON.results;
-  }
-
-  async #delay() {
-    const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-    await delay(2000);
   }
 
   increasePageCount() {
