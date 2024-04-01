@@ -15,27 +15,20 @@ describe('영화 리뷰 E2E 테스트', () => {
       cy.visit('/');
       cy.wait('@APIKeyError');
 
-      cy.get('#error-fallback-modal').should('exist');
+      cy.get('#error-modal').should('exist');
     });
   });
 
   context('인기순 영화 목록 확인 테스트', () => {
     it('영화 목록 API 요청에 성공하면 20개의 영화 정보가 목록에 나열되어야 한다.', () => {
-      const popularMovieItems = cy.get('.item-list > li');
-      expect(popularMovieItems.should('have.length', 20));
+      cy.get('.item-list > li').should('have.length', 20);
     });
 
-    it('더보기 버튼을 클릭하면 영화 정보가 20개씩 추가되어야 한다.', () => {
-      cy.moreButtonClick(1);
+    it('스크롤을 아래로 내리면 20개의 영화 정보가 추가로 불러와져야 한다.', () => {
+      cy.scrollTo(0, 9999999);
+      cy.wait(1000);
 
-      const popularMovieItems = cy.get('.item-list > li');
-      expect(popularMovieItems.should('have.length', 40));
-    });
-
-    it('더보기 버튼을 4번 더 클릭하면 더보기 버튼이 사라져야 한다.', () => {
-      cy.moreButtonClick(4);
-
-      cy.get('#more-button').should('not.exist');
+      cy.get('.item-list > li').should('have.length', 40);
     });
   });
 
@@ -46,7 +39,7 @@ describe('영화 리뷰 E2E 테스트', () => {
       cy.get('.toast').should('exist');
     });
 
-    it('검색 결과가 없으면 "텅" 이미s지가 표시되고 더보기 버튼이 없어야 한다.', () => {
+    it('검색 결과가 없으면 "텅" 이미지가 표시되고 더보기 버튼이 없어야 한다.', () => {
       cy.searchMovie('ㅋㅋ');
 
       cy.get('#movie-list-container > img').should('exist');
