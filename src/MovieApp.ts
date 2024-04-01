@@ -40,6 +40,8 @@ localStorage.setItem('ratings', JSON.stringify(dummy));
 class MovieApp extends MoviePage {
   isLastPage: boolean = false;
 
+  isLoading: boolean = false;
+
   constructor() {
     super();
     this.init();
@@ -106,6 +108,8 @@ class MovieApp extends MoviePage {
     ul.innerHTML = SKELETON_ITEM_TEMPLATE.repeat(20);
     const itemView = document.querySelector('#section--item-view');
     if (itemView) itemView.appendChild(ul);
+
+    this.isLoading = true;
   }
 
   createShowMoreButton({ renderType, input }: RenderInputType) {
@@ -158,6 +162,7 @@ class MovieApp extends MoviePage {
   deleteSkeleton() {
     const skeleton = document.querySelector('#skeleton');
     if (skeleton) skeleton.remove();
+    this.isLoading = false;
   }
 
   showMovieData(movieList: MovieListType) {

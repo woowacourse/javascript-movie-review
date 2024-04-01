@@ -12,7 +12,7 @@ const infiniteScroll = {
       const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach((entry) => {
           if (movieApp.isLastPage) observer.disconnect();
-          if (!entry.isIntersecting) return;
+          if (!entry.isIntersecting || movieApp.isLoading) return;
 
           observer.observe(scrollEnd);
           this.handleMovieApp(movieApp, { renderType, input });
