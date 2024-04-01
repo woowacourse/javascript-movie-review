@@ -21,7 +21,7 @@ function createMovieDetailModal(movie: MovieDetail) {
           ${movie.voteAverage}
         </div>
       </div>
-      <p>${movie.description}</p>
+      <p>${movie.description !== '' ? movie.description : '(영화 설명이 존재하지 않습니다.)'}</p>
       <div class='score-star'></div>
     </div>
   </div>
