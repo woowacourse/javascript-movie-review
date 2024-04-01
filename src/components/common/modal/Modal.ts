@@ -10,9 +10,11 @@ class Modal {
 
   constructor() {
     this.$target.innerHTML = this.#template();
+    this.$target.tabIndex = 0;
     this.$container = dom.getElement(this.$target, '.modal-container');
     this.$backdrop = dom.getElement(this.$target, '.modal-backdrop');
     this.$backdrop.addEventListener('click', this.close.bind(this));
+
     this.$target.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return;
       this.close();
@@ -22,7 +24,7 @@ class Modal {
   }
 
   #template() {
-    return `<div class="modal-container" tabindex="0"></div>
+    return `<div class="modal-container"></div>
         <div class="modal-backdrop"></div>`;
   }
 
@@ -32,7 +34,7 @@ class Modal {
 
   open() {
     this.$target.classList.add(OPEN_CSS);
-    this.$container.focus();
+    this.$target.focus();
   }
 
   toggle() {
