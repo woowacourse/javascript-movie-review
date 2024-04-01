@@ -6,8 +6,8 @@ import createElement from "../../../utils/createElement";
 
 class MovieList {
   private STUB_ITEM_LENGTH = 20;
-  $element;
-  movieList;
+  $element: HTMLElement;
+  movieList: MovieItem[];
 
   private isLoading = true;
   private touchBottom = false;
@@ -31,20 +31,11 @@ class MovieList {
   }
 
   reRender(movies: Movie[]) {
-    movies.forEach((movie, index) => {
-      const movieItem = this.movieList[index];
-      movieItem.reRender(movie);
-      return;
-    });
+    const movieList = movies.map((movie) => new MovieItem(movie).$element);
 
-    const restSkeletonCount = this.STUB_ITEM_LENGTH - movies.length;
+    this.removeAllSkeleton();
 
-    if (restSkeletonCount) {
-      Array.from({ length: restSkeletonCount }).forEach((_, index) => {
-        const movieItem = this.movieList[movies.length + index];
-        movieItem.$element.remove();
-      });
-    }
+    this.$element.append(...movieList);
 
     this.isLoading = false;
 

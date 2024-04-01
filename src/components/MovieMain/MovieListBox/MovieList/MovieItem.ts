@@ -10,45 +10,22 @@ export interface Movie {
   voteAverage: number;
 }
 
+const SKELETON: Movie = { id: 0, korTitle: "", posterPath: "", voteAverage: 0 };
+
 class MovieItem {
   $element;
 
-  constructor() {
-    this.$element = this.generateMovieItem();
-  }
-
-  reRender({ id, korTitle, posterPath, voteAverage }: Movie) {
-    this.$element.setAttribute("id", id.toString());
-
-    const $thumbnail = this.$element.querySelector(".item-thumbnail");
-    const $title = this.$element.querySelector(".item-title");
-    const $score = this.$element.querySelector(".item-score");
-
-    $thumbnail?.classList.remove("skeleton");
-    $thumbnail?.setAttribute(
-      "src",
-      posterPath ? `${IMAGE_BASE_URL}${posterPath}` : IMAGE_PLACEHOLDER
-    );
-    $thumbnail?.setAttribute("alt", korTitle);
-
-    $title?.classList.remove("skeleton");
-    $title?.replaceChildren(korTitle);
-
-    $score?.classList.remove("skeleton");
-
-    const $img = createElement({
-      tagName: "img",
-      attribute: {
-        src: STAR,
-        alt: "별점",
-      },
+  constructor({ id, korTitle, posterPath, voteAverage }: Movie = SKELETON) {
+    this.$element = this.generateMovieItem({
+      id,
+      korTitle,
+      posterPath,
+      voteAverage,
     });
-
-    $score?.replaceChildren($img, voteAverage.toString());
   }
 
-  private generateMovieItem() {
-    const $div = this.generateItemCard();
+  private generateMovieItem(movie: Movie) {
+    const $div = this.generateItemCard(movie);
 
     const $a = createElement({
       tagName: "div",
@@ -57,19 +34,19 @@ class MovieItem {
 
     const $li = createElement({
       tagName: "li",
-      attribute: { class: "movie-item" },
+      attribute: { id: String(movie.id), class: "movie-item" },
       children: [$a],
     });
 
     return $li;
   }
 
-  private generateItemCard() {
-    const $img = this.generatePoster();
+  private generateItemCard(movie: Movie) {
+    const $img = this.generatePoster(movie.id, movie.posterPath);
 
-    const $title = this.generateTitle();
+    const $title = this.generateTitle(movie.korTitle);
 
-    const $voteAverage = this.generateVoteAverage();
+    const $voteAverage = this.generateVoteAverage(movie.voteAverage);
 
     const $div = createElement({
       tagName: "div",
@@ -82,33 +59,59 @@ class MovieItem {
     return $div;
   }
 
-  private generatePoster() {
-    return createElement({
+  private generatePoster(id: number, posterPath: string) {
+    const $poster = createElement({
       tagName: "img",
       attribute: {
-        class: "item-thumbnail skeleton",
+        class: `item-thumbnail ${id ? "" : "skeleton"}`,
         loading: "lazy",
         alt: "",
       },
     });
+
+    if (id) {
+      $poster.setAttribute(
+        "src",
+        posterPath ? `${IMAGE_BASE_URL}${posterPath}` : IMAGE_PLACEHOLDER
+      );
+    }
+
+    return $poster;
   }
 
-  private generateTitle() {
+  private generateTitle(title: string) {
     return createElement({
       tagName: "p",
+      children: [title],
       attribute: {
-        class: "item-title skeleton",
+        class: `item-title ${title ? "" : "skeleton"}`,
       },
     });
   }
 
-  private generateVoteAverage() {
-    return createElement({
-      tagName: "p",
+  private generateVoteAverage(voteAverage: number) {
+    const $star = createElement({
+      tagName: "img",
       attribute: {
-        class: "item-score skeleton",
+        src: STAR,
+        alt: "별점",
       },
     });
+
+    const $voteValue = createElement({
+      tagName: "span",
+      children: [String(voteAverage)],
+    });
+
+    const $vote = createElement({
+      tagName: "p",
+      children: voteAverage ? [$star, $voteValue] : [],
+      attribute: {
+        class: `item-score ${voteAverage ? "" : "skeleton"}`,
+      },
+    });
+
+    return $vote;
   }
 }
 
