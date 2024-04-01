@@ -73,11 +73,19 @@ class MovieItems {
       : '목록을 불러오고 있어요';
   }
 
+  truncatedQuery() {
+    if (this.moviesService.query && this.moviesService.query.length > 6) {
+      return this.moviesService.query.slice(0, 6) + '...';
+    }
+
+    return this.moviesService.query;
+  }
+
   resetMovieItems() {
     const h2 = this.template?.querySelector('h2');
     if (!(h2 instanceof HTMLHeadingElement)) return;
     h2.textContent = this.moviesService.query
-      ? `"${this.moviesService.query}"검색 결과`
+      ? `"${this.truncatedQuery()}"검색 결과`
       : '지금 인기있는 영화';
     this.removeMovieItems();
     this.fetchMovieItems();
