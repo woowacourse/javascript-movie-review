@@ -56,15 +56,14 @@ class SearchField {
 
   addInputEventListener() {
     let debounce: NodeJS.Timeout;
-    const input = this.template.querySelector('input');
+    const input = this.template.querySelector('input') as HTMLInputElement;
     input?.addEventListener('input', () => {
       if (debounce) {
         clearTimeout(debounce);
       }
       debounce = setTimeout(() => {
-        if (/^[a-zA-Zㄱ-ㅎ가-힣]$/.test(input.value[input.value.length - 1]))
-          this.dispatchGetMatchedMovie();
-      }, 200);
+        this.dispatchGetMatchedMovie();
+      }, 300);
     });
   }
 
