@@ -33,4 +33,5 @@ export const CONFIG = {
     8: '재미있어요',
     10: '명작이에요',
   },
+  fetchRetryLimit: 5,
 } as const;

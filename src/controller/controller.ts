@@ -4,7 +4,7 @@ import MovieContainer from '../component/MovieContainer/MovieContainer';
 import createHeader from '../component/Header/Header';
 import toast from '../component/toast/toast';
 import { $ } from '../util/selector';
-import { MOVIE_LIST_TYPE } from '../constant/config';
+import { CONFIG, MOVIE_LIST_TYPE } from '../constant/config';
 import ERROR_MESSAGE from '../constant/errorMessage';
 import MovieDetailModal from '../component/Modal/MovieDetailModal';
 import { UserScoreParams } from '../interface/MovieInterface';
@@ -104,7 +104,7 @@ export class App {
   }
 
   retryAddMovieList(error: Error) {
-    if (this.tryCount > 5) {
+    if (this.tryCount > CONFIG.fetchRetryLimit) {
       toast(ERROR_MESSAGE.RETRY_LIMIT_EXCEEDED);
       return;
     }
