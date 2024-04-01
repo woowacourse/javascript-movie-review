@@ -56,25 +56,37 @@ class ScoreStar {
       const selectedLi$ = event.target.closest('li');
       const selectedStarId = parseInt(selectedLi$?.id || '0');
 
-      const starList = $$<HTMLImageElement>('img', ul$);
-
-      // 점수 변화
-      const score$ = $('.selected-star-score', this.$container);
-      score$.textContent = ((selectedStarId + 1) * 2).toString();
-
-      const scoreDescription$ = $('.selected-star-score-description', this.$container);
-      scoreDescription$.textContent = STAR_SCORE_DESCRIPTION[selectedStarId];
-
-      new Array(STAR_COUNT).fill(0).forEach((_, i) => {
-        if (i <= selectedStarId) {
-          starList[i].src = starFilledIcon;
-        } else starList[i].src = starUnfilledIcon;
-      });
-
-      const selectedStarScore = parseInt($('.selected-star-score', this.$container).innerText) || 0;
-
-      this.api.setMovieUserData({ movieId: this.movieId, movieData: { starScore: selectedStarScore } });
+      this.updateStarIcon(ul$, selectedStarId);
+      this.updateScore(selectedStarId);
+      this.updateDescription(selectedStarId);
+      this.updateStarScoreData();
     });
+  }
+
+  private updateScore(selectedStarId: number) {
+    // 점수 변화
+    const score$ = $('.selected-star-score', this.$container);
+    score$.textContent = ((selectedStarId + 1) * 2).toString();
+  }
+
+  private updateStarIcon(ul$: HTMLElement, selectedStarId: number) {
+    const starList = $$<HTMLImageElement>('img', ul$);
+
+    new Array(STAR_COUNT).fill(0).forEach((_, i) => {
+      if (i <= selectedStarId) {
+        starList[i].src = starFilledIcon;
+      } else starList[i].src = starUnfilledIcon;
+    });
+  }
+
+  private updateDescription(selectedStarId: number) {
+    const scoreDescription$ = $('.selected-star-score-description', this.$container);
+    scoreDescription$.textContent = STAR_SCORE_DESCRIPTION[selectedStarId];
+  }
+
+  private updateStarScoreData() {
+    const selectedStarScore = parseInt($('.selected-star-score', this.$container).innerText) || 0;
+    this.api.setMovieUserData({ movieId: this.movieId, movieData: { starScore: selectedStarScore } });
   }
 }
 
