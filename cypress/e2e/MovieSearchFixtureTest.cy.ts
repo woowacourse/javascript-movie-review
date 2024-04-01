@@ -23,9 +23,10 @@ describe('Fixture를 이용한 MovieSearch 테스트', () => {
   });
 
   it('검색 창에 "해리 포터"를 입력 시 해리 포터 관련 영화 목록이 나타나야 한다.', () => {
+    cy.viewport('macbook-16');
     cy.wait('@getPopularMoviesPage1').then(() => {
       cy.get('input').type('해리 포터');
-      cy.get('.search-button').click();
+      cy.get('input').type('{enter}');
     });
     cy.wait('@getSearchMovies').then((interception) => {
       const searchedMovies: IMovieData[] = interception.response?.body.results;
@@ -34,9 +35,11 @@ describe('Fixture를 이용한 MovieSearch 테스트', () => {
   });
 
   it('마지막 페이지인 경우 더 보기 버튼이 사라져야 한다', () => {
+    cy.viewport('macbook-16');
+    cy.get('input').type('해리 포터');
+    cy.get('input').type('{enter}');
     cy.wait('@getPopularMoviesPage1').then(() => {
-      cy.get('input').type('해리 포터');
-      cy.get('.search-button').click();
+      cy.get('.search-box > input').type('해리 포터 {enter}');
     });
     cy.wait('@getSearchMovies').then((interception) => {
       cy.scrollTo('bottom');
