@@ -1,15 +1,10 @@
 import { Movie } from '../index.d';
+
+import { fetchPopularMovies } from './API';
+
 import { ERROR_2XX } from '../constants';
 
 import ErrorRender from '../components/ErrorRender';
-
-const options = {
-  method: 'GET',
-  headers: {
-    accept: 'application/json',
-    Authorization: `Bearer ${process.env.TOKEN}`,
-  },
-};
 
 class MovieStore {
   #moviesData: any[];
@@ -35,10 +30,7 @@ class MovieStore {
 
   /* eslint-disable max-lines-per-function */
   async #fetchMoviesData() {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/popular?language=ko&page=${this.#pageCount}`,
-      options,
-    );
+    const response = await fetchPopularMovies(this.#pageCount);
 
     if (!response.ok) {
       throw new ErrorRender(String(response.status)).renderError();

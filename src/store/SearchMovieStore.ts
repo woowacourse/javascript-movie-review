@@ -1,15 +1,10 @@
 import { Movie } from '../index.d';
+
+import { fetchSearchMovies } from './API';
+
 import { ERROR_2XX } from '../constants';
 
 import ErrorRender from '../components/ErrorRender';
-
-const searchOptions = {
-  method: 'GET',
-  headers: {
-    accept: 'application/json',
-    Authorization: `Bearer ${process.env.TOKEN}`,
-  },
-};
 
 class SearchMovieStore {
   #searchMoviesData: any[];
@@ -41,10 +36,7 @@ class SearchMovieStore {
 
   /* eslint-disable max-lines-per-function */
   async #fetchSearchData() {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/search/movie?query=${this.#query}&include_adult=false&language=ko&page=${this.#presentPage}`,
-      searchOptions,
-    );
+    const response = await fetchSearchMovies(this.#query, this.#presentPage);
 
     if (!response.ok) {
       throw new ErrorRender(String(response.status)).renderError();

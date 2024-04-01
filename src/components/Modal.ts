@@ -1,4 +1,4 @@
-import MovieDetailStore from '../store/MovieDetailStore';
+import { fetchMovieDetail } from '../store/API';
 
 export default class Modal {
   #isOpen = false;
@@ -6,8 +6,6 @@ export default class Modal {
   #modalElement: HTMLElement | null = null;
 
   static instance: Modal | null = null;
-
-  // #movieCard: any;
 
   #movieId: number;
 
@@ -22,7 +20,7 @@ export default class Modal {
       this.#modalElement = null;
     }
 
-    const movieDetail = await MovieDetailStore.fetchMovieDetail(this.#movieId);
+    const movieDetail = await fetchMovieDetail(this.#movieId);
 
     const posterPath = movieDetail.poster_path
       ? `https://image.tmdb.org/t/p/w500${movieDetail.poster_path}`
