@@ -1,3 +1,5 @@
+import { IMAGE_BASE_URL } from "../../../../constants/api";
+import IMAGE_PLACEHOLDER from "../../../../../templates/image-Placeholder.png";
 import STAR from "../../../../../templates/star_filled.png";
 import createElement from "../../../utils/createElement";
 
@@ -25,7 +27,7 @@ class MovieItem {
     $thumbnail?.classList.remove("skeleton");
     $thumbnail?.setAttribute(
       "src",
-      `https://image.tmdb.org/t/p/w500${posterPath}`
+      posterPath ? `${IMAGE_BASE_URL}${posterPath}` : IMAGE_PLACEHOLDER
     );
     $thumbnail?.setAttribute("alt", korTitle);
 
@@ -49,14 +51,13 @@ class MovieItem {
     const $div = this.generateItemCard();
 
     const $a = createElement({
-      tagName: "a",
-      attribute: { href: "#" },
+      tagName: "div",
       children: [$div],
     });
 
     const $li = createElement({
       tagName: "li",
-      attribute: {},
+      attribute: { class: "movie-item" },
       children: [$a],
     });
 
@@ -98,20 +99,16 @@ class MovieItem {
       attribute: {
         class: "item-title skeleton",
       },
-      children: [],
     });
   }
 
   private generateVoteAverage() {
-    const $p = createElement({
+    return createElement({
       tagName: "p",
       attribute: {
         class: "item-score skeleton",
       },
-      children: [],
     });
-
-    return $p;
   }
 }
 
