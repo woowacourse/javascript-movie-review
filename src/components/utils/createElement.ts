@@ -1,14 +1,14 @@
 interface Props {
   tagName: string;
   attribute?: Record<string, string>;
-  addEventListener?: Record<string, (e: Event) => void>;
+  eventListener?: Record<string, (e: Event) => void>;
   children?: (HTMLElement | string)[];
 }
 
 const createElement = ({
   tagName,
   attribute = {},
-  addEventListener = {},
+  eventListener: eventListener = {},
   children = [],
 }: Props) => {
   const $element = document.createElement(tagName);
@@ -17,7 +17,7 @@ const createElement = ({
     $element.setAttribute(key, value);
   });
 
-  Object.entries(addEventListener).forEach(([eventType, listener]) => {
+  Object.entries(eventListener).forEach(([eventType, listener]) => {
     $element.addEventListener(eventType, listener);
   });
 
