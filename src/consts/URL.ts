@@ -18,7 +18,6 @@ export type QueryStringKeyValues = (typeof QUERY_STRING_KEYS)[keyof typeof QUERY
 
 export const END_POINT = {
   SEARCH: 'search',
-  POPULAR: 'popular',
 } as const;
 
 export type EndPointValues = (typeof END_POINT)[keyof typeof END_POINT];

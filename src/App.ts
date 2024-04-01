@@ -28,7 +28,6 @@ class App {
 
     this.title.renderTitle();
     this.movieListInstance.renderSkeleton();
-    setEndpoint(END_POINT.POPULAR);
     this.infiniteScrollDataLoader.renderTargetPage();
   }
 
