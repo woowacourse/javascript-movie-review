@@ -52,3 +52,28 @@
   align-items    : center;
   justify-content: center;
 }
+
+.movie-detail-with-rating>.movie-thumbnail>.skeleton {
+  background     : linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background-size: 400%;
+  animation      : skeleton-animation 5s infinite ease-out;
+  border-radius  : 8px;
+}
+
+@media screen and (max-width:850px) {
+
+  .modal>aside>header {
+    width: 100vw;
+  }
+
+  .modal>aside>div>section>.movie-thumbnail {
+    display: none;
+  }
+
+  .modal>aside>div>section>.movie-detail-with-rating__not-poster-container {
+    width: 100vw;
+
+    align-items: center;
+  }
+
+}
