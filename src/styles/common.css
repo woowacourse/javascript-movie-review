@@ -89,16 +89,17 @@ header h1 {
   position: inherit;
   background-color: transparent;
   border: none;
-  /* z-index: -1; */
 }
 
 header > .search-box {
   background: var(--content-color);
   padding: 8px;
   border-radius: 4px;
+  display: flex;
 }
 
-header .search-box > input {
+.search-input {
+  width: 300px;
   border: 0;
 }
 
@@ -108,6 +109,12 @@ header .search-box > .search-button {
   text-indent: -1000rem;
   background: var(--search-box-img) transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+.search-open {
+  width: 100px !important;
+  transition: width 0.3s ease;
+  z-index: 9;
 }
 
 /* ul */
@@ -173,12 +180,6 @@ button.primary {
   100% {
     background-position: 0% 50%;
   }
-}
-
-.search-open {
-  width: 300px !important;
-  transition: width 0.3s ease;
-  z-index: 9;
 }
 
 dialog {

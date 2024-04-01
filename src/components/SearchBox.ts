@@ -16,13 +16,17 @@ export default class SearchBox {
   }
 
   #generateInput() {
+    const container = document.createElement('div');
     const input = document.createElement('input');
 
+    container.classList.add('search-container');
     input.type = 'text';
     input.placeholder = '검색';
     input.name = 'query';
+    input.classList.add('search-input');
+    container.appendChild(input);
 
-    this.#searchBoxElement.appendChild(input);
+    this.#searchBoxElement.appendChild(container);
   }
 
   #generateButton() {
