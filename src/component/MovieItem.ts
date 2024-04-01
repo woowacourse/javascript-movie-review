@@ -42,7 +42,8 @@ function injectMovieDataToItem({
     [$itemThumbnail, $itemTitle, $itemScore].forEach((element: HTMLElement) => element.classList.remove('skeleton'));
     $itemThumbnail.alt = movie.title;
     $itemTitle.textContent = movie.title;
-    $itemScore.append(createScoreIcon(), movie.voteAverage.toFixed(CONFIG.userScoreDecimalPlaces).toString());
+    $itemScore.classList.add('loaded');
+    $itemScore.append(movie.voteAverage.toFixed(CONFIG.userScoreDecimalPlaces).toString());
 
     item.addEventListener('click', () => onClick(item, movie.id));
   };
