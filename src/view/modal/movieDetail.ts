@@ -24,7 +24,7 @@ function createMovieTitle(title: string) {
   return titleDiv;
 }
 
-function createModalCloseButton() {
+export function createModalCloseButton() {
   const button = document.createElement('button');
   button.className = 'flex-XY-aligned close-button transition-background';
   const closeImage = document.createElement('img');

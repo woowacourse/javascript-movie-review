@@ -1,11 +1,11 @@
+import { createModalCloseButton } from './movieDetail';
+
 function createImageSkeleton() {
   const div = document.createElement('div');
   div.className = 'movie-detail-header flex-XY-aligned';
   div.innerHTML = `
-      <div class="custom-skeleton h-20 w-100"></div>
-      <button class="flex-XY-aligned close-button transition-background">
-        <img src="/009bf62bd786c8837153.svg" alt="close-button" />
-      </button>`;
+      <div class="custom-skeleton h-20 w-100"></div>`;
+  div.append(createModalCloseButton());
   return div;
 }
 
