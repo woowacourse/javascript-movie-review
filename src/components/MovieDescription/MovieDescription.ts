@@ -14,13 +14,16 @@ class MovieDescription {
     const {
       genres = ["장르 없음"],
       rating = 0,
-      description = "제시된 설명이 없습니다.",
+      description = "등록된 시놉시스가 존재하지 않습니다.",
     } = option ?? {};
     const genreRatingParagraph = this.#createGenreRatingParagraph(
       genres,
       rating
     );
-    this.element.append(genreRatingParagraph, description);
+    this.element.append(
+      genreRatingParagraph,
+      description.trim() ? description : "등록된 시놉시스가 존재하지 않습니다."
+    );
   }
 
   #createGenreRatingParagraph(genre: string[], rating: number) {
