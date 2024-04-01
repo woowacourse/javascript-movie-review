@@ -68,6 +68,10 @@ button {
   .item-list li:nth-last-child(1) {
     display: none;
   }
+
+  .item-list li:nth-last-child(2) {
+    display: none;
+  }
 }
 
 /* 브라우저의 너비가 480px 이하일 때 */
