@@ -1,4 +1,5 @@
 import { fetchMovieDetail } from '../store/API';
+import { VOTE } from '../constants';
 
 export default class Modal {
   #isOpen = false;
@@ -69,7 +70,17 @@ export default class Modal {
     document.body.appendChild(modalElement);
     this.#modalElement = modalElement;
 
-    modalElement.addEventListener('click', (event) => this.handleModalClick(event));
+    modalElement.addEventListener('click', (event) => {
+      this.handleModalClick(event);
+
+      const button = event.target;
+      const starButtons = modalElement.querySelectorAll('.my-vote-body button img');
+
+      const starIndex = Array.from(starButtons).findIndex((btn) => btn === button);
+      if (starIndex !== -1) {
+        this.handleStarClick(starIndex);
+      }
+    });
   }
 
   async openModal() {
@@ -99,6 +110,29 @@ export default class Modal {
     if (event.target === modalBackDrop || event.target === modalCloseButton) {
       this.closeModal();
     }
+  }
+
+  // eslint-disable-next-line max-lines-per-function
+  handleStarClick(starIndex: number) {
+    const myVoteNumber = this.#modalElement?.querySelector('.my-vote-number');
+    const myVoteDescription = this.#modalElement?.querySelector('.my-vote-description');
+
+    if (!myVoteNumber || !myVoteDescription) return;
+
+    const starButtons = this.#modalElement?.querySelectorAll('.my-vote-body button img');
+    if (!starButtons) return;
+
+    starButtons.forEach((starButton, index) => {
+      if (index <= starIndex) {
+        starButton.setAttribute('src', './images/star_filled.png');
+      } else {
+        starButton.setAttribute('src', './images/star_empty.png');
+      }
+    });
+
+    const myVoteKey = (starIndex + 1) * 2;
+    myVoteNumber.textContent = myVoteKey.toString();
+    myVoteDescription.textContent = VOTE[myVoteKey];
   }
 
   static getInstance(movieId: number) {
