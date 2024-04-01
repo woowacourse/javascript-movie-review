@@ -56,7 +56,7 @@ const Header = ({ onLogoClick, inputSubmitHandle }: Props) => {
           const isSearchInputClosed = searchInput.classList.contains('closed');
           const searchInputValue = searchInput.value.trim();
 
-          if (screenWidth <= 650) {
+          if (screenWidth <= 767) {
             if (isSearchInputClosed) {
               toggleElementsVisibility(false);
             } else if (searchInputValue === '') {

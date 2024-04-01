@@ -21,7 +21,7 @@
 }
 
 /* mobile 규격 */
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 767px) {
   .detail-title {
     font-size: 1.3rem;
   }
@@ -52,7 +52,7 @@
 }
 
 /* mobile 규격 */
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 767px) {
   .sub-detail {
     padding-top: 32px;
   }
@@ -77,7 +77,7 @@
 }
 
 /* mobile 규격 */
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 767px) {
   .detail-thumbnail {
     display: none;
   }
@@ -116,7 +116,7 @@
 }
 
 /* mobile 규격 */
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 767px) {
   .detail-main-description {
     max-height: none;
     overflow: hidden;
@@ -157,7 +157,7 @@
 }
 
 /* mobile 규격 */
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 767px) {
   .detail-my-vote {
     justify-content: center;
   }

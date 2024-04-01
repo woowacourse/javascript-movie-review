@@ -20,7 +20,7 @@
 }
 
 /* mobile 규격 */
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 767px) {
   .item-view {
     max-width: 450px;
   }
@@ -33,7 +33,7 @@
 }
 
 /* mobile 규격 */
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 767px) {
   .item-view h2 {
     font-size: 1.8rem;
   }

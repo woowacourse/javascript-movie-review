@@ -45,7 +45,7 @@ header {
 }
 
 /* mobile 규격 */
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 767px) {
   .logo.closed,
   .search-input.closed {
     display: none;
