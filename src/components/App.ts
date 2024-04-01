@@ -20,6 +20,10 @@ class App {
       getMoreMovies: this.renderNextPage.bind(this),
     });
 
+    this.firstRender($root);
+  }
+
+  private firstRender($root: HTMLElement) {
     $root.append(
       new MovieHeader({
         logoClickHandler: this.logoClickHandler.bind(this),
