@@ -13,8 +13,7 @@ class MovieReviewApp {
   }
 
   #renderMovieReviewHeader() {
-    // TODO: 명확한 클래스/아이디로 찾아오기
-    const headerElement = $("header");
+    const headerElement = $(".main-header");
 
     const movieSearchInput = new MovieSearchInput();
 
