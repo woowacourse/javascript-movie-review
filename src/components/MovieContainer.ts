@@ -1,19 +1,27 @@
 import { MovieDataType } from '../api/apiType';
 import { getPopularMovieList } from '../api/popularMovieList';
-import SkeletonItem from './SkeletonItem';
-import MovieItem from './MovieItem';
 import { getSearchMovieList } from '../api/searchMovieList';
-import { showAlert } from './Alert';
-import { NO_SEARCH } from '../resource';
-import ErrorPage from './ErrorPage';
 
+import MovieItem from './MovieItem';
+
+import SkeletonItem from './common/SkeletonItem';
+import { showAlert } from './common/Alert';
+import ErrorPage from './common/ErrorPage';
+
+import { NO_SEARCH } from '../resource';
+import { ALERT_MESSAGE, SUBTITLE, resizeMobileWidth } from '../constant/movie';
+import { hiddenElement, showElement } from '../util/hiddenElement';
+import { throttleOnRendering } from './../util/throttling';
 class MovieContainer {
   #page;
   #query;
+  #isDataLoading;
 
   constructor(element: HTMLElement) {
-    this.#page = 1;
+    this.#page = 0;
     this.#query = '';
+    this.#isDataLoading = false;
+
     this.#getTemplate(element);
   }
 
@@ -23,83 +31,110 @@ class MovieContainer {
   }
 
   initData(query: string) {
-    const ul = document.querySelector('ul.item-list');
     const subtitle = document.querySelector('.subtitle');
-    if (!(ul instanceof HTMLElement)) return;
+
     if (!(subtitle instanceof HTMLElement)) return;
 
     query
-      ? (subtitle.textContent = `"${query}" 검색결과 입니다.`)
-      : (subtitle.textContent = '지금 인기 있는 영화');
+      ? (subtitle.textContent = `"${query}" ${SUBTITLE.search}`)
+      : (subtitle.textContent = SUBTITLE.popular);
 
-    this.#page = 1;
-    this.#query = query;
-    ul.innerHTML = '';
+    this.#resetData(query);
   }
 
-  #getTemplate(element: HTMLElement) {
-    const section = document.createElement('section');
+  #resetData(query: string) {
+    const ul = document.querySelector('ul.item-list');
+    if (!(ul instanceof HTMLElement)) return;
 
-    const h2 = document.createElement('h2');
-    const movieList = document.createElement('ul');
-    const button = document.createElement('button');
+    this.#page = 0;
+    this.#query = query;
+    ul.innerHTML = '';
+    this.#isDataLoading = false;
+  }
 
-    h2.classList.add('subtitle');
-    section.classList.add('item-view');
-    movieList.classList.add('item-list');
-    button.classList.add('btn', 'primary', 'full-width');
+  searchBarClose = () => {
+    if (window.innerWidth <= resizeMobileWidth) {
+      const title = document.querySelector('h1');
+      const searchBox = document.querySelector('.search-box');
+      const searchInput = document.querySelector('.search-input');
 
-    button.textContent = '더 보기';
+      searchBox?.classList.add('mobile-search');
 
-    section.appendChild(h2);
-    section.appendChild(movieList);
-    section.appendChild(button);
+      hiddenElement(searchInput);
+      showElement(title);
+    }
+    return;
+  };
 
-    element.appendChild(section);
+  infiniteScroll() {
+    const isScrollEnded = window.innerHeight + window.scrollY + 100 >= document.body.offsetHeight;
+    if (isScrollEnded) {
+      this.renderMovies();
+    }
   }
 
   setEvent() {
-    const moreButton = document.querySelector('.btn');
-    moreButton?.addEventListener('click', () => {
-      if (this.#page > 500) {
-        moreButton?.classList.add('hidden');
-        showAlert('마지막 페이지 입니다!', 3000);
-        return;
-      }
+    window.addEventListener(
+      'scroll',
+      throttleOnRendering(() => {
+        this.infiniteScroll();
+      }),
+    );
 
-      this.renderMovies();
-    });
+    const section = document.querySelector('.item-view');
+    section?.addEventListener('click', this.searchBarClose);
   }
 
   async renderMovies() {
+    if (this.#isDataLoading) return;
     this.#inputSkeleton();
-
     await this.#inputMovies();
   }
 
   async #inputMovies() {
-    const ul = document.querySelector('ul.item-list');
-    if (!(ul instanceof HTMLElement)) return;
+    //isDataLoading 을 true 로 설정 후 data 를 불러와야 false 로 바껴 다음 페이지를 렌더링 할 수 있게 했습니다.
+    //그런데 isDataLoading 이 들어가서 너무 절차적으로 구현이 되었고, 해당 클래스가
+    // 가지고 있는 상태가 많아진 것 같아서 이 클래스를 어떻게 해야할까요🥲
+    // 그리고 만약 이렇게 하지 않는다면 , 네트워크 요청을 보낼지 말지 어떤식으로 알 수 있을까요?
 
+    this.#isDataLoading = true;
+    this.#page += 1;
     const movieData = await this.#getMovies(this.#page, this.#query);
+    this.#isDataLoading = false;
 
-    if (movieData && !movieData.length) {
-      ul.innerHTML = `<img src=${NO_SEARCH} class="error"/>`;
+    this.#updateBasedOnData(movieData);
+  }
+
+  #updateBasedOnData(movieData: MovieDataType[] | undefined) {
+    const movie = document.querySelector('ul.item-list');
+    if (!(movie instanceof HTMLElement)) return;
+
+    if (this.#noSearchMovies(movieData)) {
+      movie.innerHTML = `<img src=${NO_SEARCH} class="error"/>`;
     }
 
-    const viewMoreButton = document.querySelector('.btn');
-    !movieData || movieData.length < 20
-      ? viewMoreButton?.classList.add('hidden')
-      : viewMoreButton?.classList.remove('hidden');
+    if (this.#noMoreMovies(movieData)) {
+      this.#isDataLoading = true;
+    }
 
     if (movieData) {
-      this.#createMovieItems(movieData).forEach((movieItem) => {
-        ul.appendChild(movieItem);
-      });
+      this.#addMovieItems(movieData, movie);
       this.#removeSkeleton();
-
-      this.#page += 1;
     }
+  }
+
+  #addMovieItems(movieData: MovieDataType[], element: HTMLElement) {
+    this.#createMovieItems(movieData).forEach((movieItem) => {
+      element.appendChild(movieItem);
+    });
+  }
+
+  #noSearchMovies(movieData: MovieDataType[] | undefined) {
+    return movieData && !movieData.length;
+  }
+
+  #noMoreMovies(movieData: MovieDataType[] | undefined) {
+    return !movieData || movieData.length < 20;
   }
 
   async #getMovies(page: number, query: string) {
@@ -113,18 +148,27 @@ class MovieContainer {
         const [status, message] = error.message.split('-');
 
         if (status === 'Failed to fetch') {
-          showAlert('네트워크 연결을 확인해주세요 🐣', 3000);
+          showAlert(ALERT_MESSAGE.network);
+          this.#reRequest();
           throw new Error();
         }
 
-        const ul = document.querySelector('ul.item-list');
-        if (!(ul instanceof HTMLElement)) return;
+        const movie = document.querySelector('ul.item-list');
+        if (!(movie instanceof HTMLElement)) return;
 
-        const viewMoreButton = document.querySelector('.btn');
-        viewMoreButton?.classList.add('hidden');
-        ul.innerHTML = ErrorPage({ status, message }).outerHTML;
+        this.#isDataLoading = true;
+        movie.innerHTML = ErrorPage({ status, message }).outerHTML;
       }
     }
+  }
+
+  #reRequest() {
+    setTimeout(() => {
+      this.#getMovies(this.#page, this.#query);
+      this.#isDataLoading = false;
+    }, 3000);
+    //네트워크가 끊기고 다시 요청을 보내고 싶어서 이렇게 했는데,
+    //보통은 네트워크 에러처리를 어떤식으로 하는 지 궁금합니다!
   }
 
   #inputSkeleton() {
@@ -142,6 +186,22 @@ class MovieContainer {
 
   #createMovieItems(data: MovieDataType[]): HTMLElement[] {
     return data.map((prop) => MovieItem(prop));
+  }
+
+  #getTemplate(element: HTMLElement) {
+    const section = document.createElement('section');
+
+    const h2 = document.createElement('h2');
+    const movieList = document.createElement('ul');
+
+    h2.classList.add('subtitle');
+    section.classList.add('item-view');
+    movieList.classList.add('item-list');
+
+    section.appendChild(h2);
+    section.appendChild(movieList);
+
+    element.appendChild(section);
   }
 }
 
