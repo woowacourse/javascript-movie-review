@@ -81,10 +81,12 @@ class MovieModal {
     });
     const starElement = createElement('img', {
       class: 'modal-star-filled',
-    });
+    }) as HTMLImageElement;
     const voteAverageElement = createElement('span', {
       class: 'modal-vote-average',
     });
+
+    starElement.src = starFilledImage;
     voteAverageWrapper.appendChild(starElement);
     voteAverageWrapper.appendChild(voteAverageElement);
 
@@ -260,7 +262,11 @@ class MovieModal {
     }
 
     if (myVoteScoreNumberElement) {
-      myVoteScoreNumberElement.textContent = String(voteScore);
+      if (voteScore === 0) {
+        myVoteScoreNumberElement.textContent = '';
+      } else {
+        myVoteScoreNumberElement.textContent = String(voteScore);
+      }
     }
 
     if (myVoteScoreTextElement) {
