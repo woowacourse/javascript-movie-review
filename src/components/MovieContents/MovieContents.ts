@@ -1,7 +1,7 @@
 import './style.css';
 import Movie from '../../domain/Movie';
 import { PropsType } from '../../types/props';
-import skeleton from '../Skeleton/Skeleton';
+import skeletonManager from '../Skeleton/Skeleton';
 import DOM from '../../utils/DOM';
 import movieListManager from '../MovieList/MovieList';
 
@@ -36,7 +36,7 @@ const movieContentManager = {
   },
 
   async setMovieData(movie: Movie, { type, input }: PropsType) {
-    $('.item-container')?.appendChild(skeleton.render(20));
+    $('.item-container')?.appendChild(skeletonManager.render(20));
 
     const { movieList, isLastPage } = await movie.handleMovieData(type, input);
 

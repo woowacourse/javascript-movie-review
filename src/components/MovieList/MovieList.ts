@@ -1,7 +1,7 @@
 import './style.css';
 import { MovieListType, MovieType } from '../../types/movie';
 import DOM from '../../utils/DOM';
-import skeleton from '../Skeleton/Skeleton';
+import skeletonManager from '../Skeleton/Skeleton';
 import movieItemManager from '../MovieItem/MovieItem';
 
 const { $ } = DOM;
@@ -15,7 +15,7 @@ const movieListManager = {
       ul.appendChild(movieItemManager.render(movie));
     });
 
-    skeleton.remove();
+    skeletonManager.remove();
 
     return $('.item-container')?.appendChild(ul);
   },
