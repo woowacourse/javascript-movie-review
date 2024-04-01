@@ -124,3 +124,15 @@
   display: inline-block;
   text-align: left;
 }
+
+@media (max-width: 560px) {
+  .user-score-container {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 440px) {
+  .user-score-container .user-score-description {
+    display: none;
+  }
+}
