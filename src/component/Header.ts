@@ -1,7 +1,7 @@
 import { $ } from '../util/selector';
 import LogoImagePath from '../asset/logo.png';
+import SearchBox from '../SearchBox';
 
-const SearchButtonClickEvent = new Event('clickSearchButton');
 const LogoClickEvent = new Event('logoClickEvent');
 
 function createHeader() {
@@ -12,7 +12,6 @@ function createHeader() {
   if (form)
     form.addEventListener('submit', (event) => {
       event.preventDefault();
-      event.target?.dispatchEvent(SearchButtonClickEvent);
     });
 
   const logo = $('.logo', header);
@@ -30,7 +29,7 @@ function createHeaderElement() {
   logo.alt = 'MovieList 로고';
   logo.src = LogoImagePath;
 
-  const searchBox = createSearchBoxElement();
+  const searchBox = new SearchBox().get();
   searchBox.classList.add('search-box');
 
   header.append(logo, searchBox);
