@@ -1,6 +1,10 @@
 describe('영화 리뷰 E2E 테스트', () => {
   beforeEach(() => {
     cy.viewport(1920, 1080);
+
+    cy.fetchPopularMovies();
+    cy.fetchMovieDetail();
+
     cy.visit('/');
   });
 
@@ -21,12 +25,14 @@ describe('영화 리뷰 E2E 테스트', () => {
 
   context('인기순 영화 목록 확인 테스트', () => {
     it('영화 목록 API 요청에 성공하면 20개의 영화 정보가 목록에 나열되어야 한다.', () => {
+      cy.wait('@PopularMoviesSuccess');
+
       cy.get('.item-list > li').should('have.length', 20);
     });
 
     it('스크롤을 아래로 내리면 20개의 영화 정보가 추가로 불러와져야 한다.', () => {
       cy.scrollTo(0, 9999999);
-      cy.wait(1000);
+      cy.wait('@PopularMoviesSuccess');
 
       cy.get('.item-list > li').should('have.length', 40);
     });
@@ -50,6 +56,18 @@ describe('영화 리뷰 E2E 테스트', () => {
       cy.searchMovie('쿵푸팬더');
 
       cy.get('.item-title').invoke('text').should('contains', '쿵푸팬더');
+    });
+  });
+
+  context('영화 상세 정보 조회 테스트', () => {
+    it('영화 아이템을 상세 정보를 보여주는 모달 창이 표시되어야 한다.', () => {
+      cy.visit('/');
+      cy.wait('@PopularMoviesSuccess');
+
+      cy.get('.item-list > li').first().click();
+      cy.wait('@MovieDetailSuccess');
+
+      cy.get('#movie-detail-container > .modal-header > .modal-title').invoke('text').should('contains', '고질라');
     });
   });
 });
