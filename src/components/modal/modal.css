@@ -25,6 +25,9 @@
   display: block;
   font-family: sans-serif;
   line-height: 1.2rem;
+
+  opacity: 0;
+  animation: modalFadeInAnimation 0.8s forwards;
 }
 
 .modal-backdrop {
@@ -126,6 +129,13 @@
 .stop-scroll {
   overflow: hidden;
 }
+
+@keyframes modalFadeInAnimation {
+  to {
+    opacity: 1;
+  }
+}
+
 @media (max-width: 1100px) {
   .modal-container {
     min-width: 600px;
