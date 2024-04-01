@@ -18,7 +18,9 @@ class SearchBox {
         event.preventDefault();
       } else if (window.getComputedStyle(inputElement).getPropertyValue('display') !== 'none') {
         this.searchBox.classList.remove('full-cover-width');
-        inputElement.style.display = 'none';
+
+        const width = window.innerWidth;
+        if (width <= 660) inputElement.style.display = 'none';
 
         if (inputElement.value !== '') {
           this.searchBox.dispatchEvent(SearchButtonClickEvent);
