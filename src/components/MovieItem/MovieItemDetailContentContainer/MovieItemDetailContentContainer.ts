@@ -1,9 +1,10 @@
-import { EMPTY_OVERVIEW } from '../../constants/INFORMATION';
-import DetailMovieData from '../../interfaces/DetailMovieData';
-import { MOVIE_POSTER_URL } from '../../constants/MOVIES_URL';
-import { starFilled } from '../../resources';
-import StarImg from './StarImg';
-import MyRatingContainer from './MyRatingContainer';
+import { EMPTY_OVERVIEW } from '../../../constants/INFORMATION';
+import DetailMovieData from '../../../interfaces/DetailMovieData';
+import { MOVIE_POSTER_URL } from '../../../constants/MOVIES_URL';
+import { starFilled } from '../../../resources';
+import StarImg from '../../StarImg/StarImg';
+import MyRatingContainer from '../MyRatingContainer/MyRatingContainer';
+import './MovieItemDetailContentContainer.css';
 
 const MovieItemDetailContentContainer = {
   create(detailMovieData: DetailMovieData) {

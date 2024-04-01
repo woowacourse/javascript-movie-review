@@ -1,3 +1,4 @@
+import './Modal.css';
 class Modal {
   modal = document.createElement('div');
   body = document.querySelector('body');

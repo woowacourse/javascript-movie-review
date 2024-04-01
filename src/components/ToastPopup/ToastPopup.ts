@@ -1,3 +1,5 @@
+import './ToastPopup.css';
+
 const ToastPopup = (message: string) => {
   const toastMessage = document.getElementById('toast_message');
 

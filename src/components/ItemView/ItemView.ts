@@ -2,12 +2,13 @@ import { fetchPopularMovies, fetchSearchMovies } from '../../domain/Movies/Reque
 import { CONTAINER_TITLE } from '../../constants/INFORMATION';
 import MovieItems from '../MovieItems/MovieItems';
 import ResponseData from '../../interfaces/ResponseData';
-import MovieitemsSkeleton from '../MovieItems/MovieItemsSkeleton';
+import MovieitemsSkeleton from '../Skeleton/MovieItemsSkeleton/MovieItemsSkeleton';
 import SearchValidator from '../../domain/Validator/SearchValidator';
 import ToastPopup from '../ToastPopup/ToastPopup';
 import CONDITIONS from '../../constants/CONDITIONS';
 import MovieItemDetailModalInstance from '../../typeAliases/MovieItemDetailModalInstance';
 import Throttle from '../../Utils/Throttle';
+import './ItemView.css';
 
 class ItemView {
   #page: number = 0;

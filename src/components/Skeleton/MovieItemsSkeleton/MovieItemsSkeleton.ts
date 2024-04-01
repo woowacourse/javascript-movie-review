@@ -1,4 +1,5 @@
-import { MOVIE_ITEM } from '../../constants/INFORMATION';
+import { MOVIE_ITEM } from '../../../constants/INFORMATION';
+import './MovieItemsSkeleton.css';
 
 const MovieitemsSkeleton = {
   create(): DocumentFragment {

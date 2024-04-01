@@ -1,0 +1,53 @@
+.item-view,
+.item-test {
+  width: 100%;
+}
+
+.item-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 912px;
+  margin: 0 auto;
+}
+
+.item-view h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  user-select: none;
+}
+
+/* https://andrew.hedges.name/experiments/aspect_ratio/ */
+
+.item-list {
+  display: grid;
+  grid-template-columns: repeat(4, 180px);
+  grid-column-gap: 64px;
+  grid-row-gap: 64px;
+  margin: 32px 0;
+}
+
+@media (max-width: 1000px) {
+  .item-view {
+    width: 674px;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+    grid-row-gap: 55px;
+    margin: 27.5px 0;
+  }
+}
+
+@media (max-width: 750px) {
+  .item-view {
+    width: 316px;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(2, 140px);
+    grid-column-gap: 36px;
+    grid-row-gap: 32px;
+    margin: 18px 0;
+  }
+}

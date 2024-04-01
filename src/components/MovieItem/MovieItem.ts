@@ -2,7 +2,7 @@ import MovieData from '../../interfaces/MovieData';
 import { starFilled } from '../../resources';
 import { MOVIE_POSTER_URL } from '../../constants/MOVIES_URL';
 import ReplaceSkeletonProps from '../../interfaces/ReplaceSkeletonProps';
-import StarImg from './StarImg';
+import StarImg from '../StarImg/StarImg';
 
 const MovieItem = {
   replaceSkeleton({ itemCard, movieData, moiveItemDetailModal }: ReplaceSkeletonProps) {

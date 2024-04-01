@@ -1,8 +1,9 @@
 import { fetchMovieDetail } from '../../domain/Movies/Request/sendRequest';
 import MovieData from '../../interfaces/MovieData';
-import MovieItemDetailContentContainer from '../MovieItem/MovieItemDetailContentContainer';
-import MovieItemDetailTitleContainer from '../MovieItem/MovieItemDetailTitleContainer';
+import MovieItemDetailContentContainer from '../MovieItem/MovieItemDetailContentContainer/MovieItemDetailContentContainer';
+import MovieItemDetailTitleContainer from '../MovieItem/MovieItemDetailTitleContainer/MovieItemDetailTitleContainer';
 import Modal from './Modal';
+import './MovieItemDetailModal.css';
 
 const movieItemDetailContainer = document.createElement('div');
 

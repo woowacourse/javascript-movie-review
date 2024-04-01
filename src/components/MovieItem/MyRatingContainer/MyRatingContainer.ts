@@ -1,11 +1,12 @@
-import { MY_RATING } from '../../constants/INFORMATION';
-import UserMoviesStorage from '../../domain/UserMoviesStorage/UserMoviesStorage';
-import DetailMovieData from '../../interfaces/DetailMovieData';
-import { starEmpty, starFilled } from '../../resources';
-import UserVote from '../../typeAliases/UserVote';
-import StarImg from './StarImg';
-import HandleStarOnClickProps from '../../interfaces/HandleStarOnClickProps';
-import ChangeMyRatingContentProps from '../../interfaces/ChangeMyRatingContentProps';
+import { MY_RATING } from '../../../constants/INFORMATION';
+import UserMoviesStorage from '../../../domain/UserMoviesStorage/UserMoviesStorage';
+import DetailMovieData from '../../../interfaces/DetailMovieData';
+import { starEmpty, starFilled } from '../../../resources';
+import UserVote from '../../../typeAliases/UserVote';
+import StarImg from '../../StarImg/StarImg';
+import HandleStarOnClickProps from '../../../interfaces/HandleStarOnClickProps';
+import ChangeMyRatingContentProps from '../../../interfaces/ChangeMyRatingContentProps';
+import './MyRatingContainer.css';
 
 const MyRatingContainer = {
   create(detailMovieData: DetailMovieData) {

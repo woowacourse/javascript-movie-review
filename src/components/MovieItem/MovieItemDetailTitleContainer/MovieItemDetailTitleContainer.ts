@@ -1,6 +1,7 @@
-import Button from '../Button/Button';
-import { BUTTONS } from '../../constants/INFORMATION';
-import DetailMovieData from '../../interfaces/DetailMovieData';
+import Button from '../../Button/Button';
+import { BUTTONS } from '../../../constants/INFORMATION';
+import DetailMovieData from '../../../interfaces/DetailMovieData';
+import './MovieItemDetailTitleContainer.css';
 
 const MovieItemDetailTitleContainer = {
   create(onClick: () => void, detailMovieData: DetailMovieData) {

@@ -1,0 +1,27 @@
+.movie-item-detail-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 826px;
+  height: 577px;
+  gap: 0px;
+  border-radius: 8px;
+  background-color: rgba(33, 33, 34, 1);
+}
+
+@media (max-width: 1000px) {
+  .movie-item-detail-container {
+    width: 740px;
+    height: 544px;
+  }
+}
+
+@media (max-width: 750px) {
+  .movie-item-detail-container {
+    width: 100%;
+    height: 485px;
+    top: 100%;
+    transform: translate(-50%, -100%);
+  }
+}

@@ -2,6 +2,7 @@ import SearchBox from '../SearchBox/SearchBox';
 import { logo } from '../../resources';
 import Button from '../Button/Button';
 import { BUTTONS } from '../../constants/INFORMATION';
+import './MovieHeader.css';
 
 const MovieHeader = {
   create(logoImgOnclick: () => void, searchBoxOnClick: () => void) {
