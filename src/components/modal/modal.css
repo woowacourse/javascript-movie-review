@@ -133,7 +133,10 @@
 }
 @media (max-width: 768px) {
   .modal-container {
+    position: fixed;
+    width: 100vw;
     min-width: 250px;
+    bottom: 0;
   }
   .modal-body-poster {
     display: none;
