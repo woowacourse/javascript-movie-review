@@ -1,5 +1,5 @@
 import { Movie } from './index.d';
-import { SKELETON_UI_FIXED } from './constants';
+import { SKELETON_UI_PC, SKELETON_UI_TABLET } from './constants';
 
 import movieStore from './store/MovieStore';
 import searchMovieStore from './store/SearchMovieStore';
@@ -17,12 +17,25 @@ export default class App {
 
   #isLoading: boolean = false;
 
+  #skeletonBySize: number = SKELETON_UI_PC;
+
   async run() {
     this.#generateMovieList();
     this.#generateSearchBox();
     this.#addHomeButtonEvent();
     this.#initEventListeners();
     this.#setupIntersectionObserver();
+  }
+
+  #getSkeletonCount() {
+    const width = window.innerWidth;
+    let skeletonCount = this.#skeletonBySize;
+
+    if (width <= 834) {
+      skeletonCount = SKELETON_UI_TABLET;
+    }
+
+    return skeletonCount;
   }
 
   #generateMovieList() {
@@ -41,13 +54,18 @@ export default class App {
   async #generateItemList(title: string, fetchData: () => Promise<Movie[]>, store: any) {
     this.#changeTitle(title);
     this.#removePreviousError();
+
     const ulElement = document.querySelector('ul.item-list');
 
     if (ulElement) {
-      this.#generateSkeletonUI(ulElement as HTMLElement);
+      const skeletonCount = this.#getSkeletonCount();
+      this.#generateSkeletonUI(ulElement as HTMLElement, skeletonCount);
+
       const newData = await fetchData();
+
       this.#removeSkeletonUI();
       this.#appendMovieCard(newData, ulElement as HTMLElement);
+
       this.#observeSentinel();
     }
   }
@@ -70,10 +88,10 @@ export default class App {
     });
   }
 
-  #generateSkeletonUI(ulElement: HTMLElement) {
+  #generateSkeletonUI(ulElement: HTMLElement, skeletonCount: number) {
     const fragment = new DocumentFragment();
 
-    for (let i = 0; i < SKELETON_UI_FIXED; i++) {
+    for (let i = 0; i < skeletonCount; i++) {
       const card = new MovieCard({
         classes: ['skeleton-container'],
       });
