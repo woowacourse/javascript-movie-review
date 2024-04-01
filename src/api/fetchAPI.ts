@@ -1,12 +1,13 @@
 import ERROR_MESSAGE from '../constant/errorMessage';
+import { fetchAPIParams } from '../interface/api';
 
-async function fetchAPI({ url, method, body }: { url: string; method: string; body?: object }) {
+async function fetchAPI({ url, method, body }: fetchAPIParams) {
   const response = await getResponse({ url, method, body });
   const result = await response.json();
   return result;
 }
 
-async function getResponse({ url, method, body }: { url: string; method: string; body?: object }) {
+async function getResponse({ url, method, body }: fetchAPIParams) {
   const headers = { 'Content-type': 'application/json' };
   const requestData: RequestInit = { method, headers };
   if (body) {
