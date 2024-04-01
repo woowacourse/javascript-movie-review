@@ -8,6 +8,7 @@ class StarToggle {
   readonly $target: HTMLImageElement = document.createElement('img');
   clicked = false;
   constructor(clicked?: boolean) {
+    this.$target.classList.add('star-icon');
     if (clicked !== undefined) {
       this.clicked = clicked;
     }

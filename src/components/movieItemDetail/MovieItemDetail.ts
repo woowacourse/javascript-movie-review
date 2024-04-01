@@ -83,12 +83,13 @@ class MovieItemDetail {
   #createRatingCaption($rating: StarRating) {
     const Ratings = ['최악이에요', '별로예요', '보통이에요', '재미있어요', '명작이에요'];
     const $ratingCaption: HTMLLabelElement = document.createElement('label');
+    $ratingCaption.classList.add('rating-caption');
     $ratingCaption.innerText = '나의 점수는?';
 
     $rating.$target.addEventListener('click', (e: MouseEvent) => {
       if (!(e.target instanceof HTMLImageElement)) return;
       const score = SCORE_PER_STAR_RATING * ($rating.clickedId + 1);
-      $ratingCaption.innerText = `${score} ${Ratings[$rating.clickedId]}`;
+      $ratingCaption.innerText = `${score.toString().padStart(2, ' ')} ${Ratings[$rating.clickedId]}`;
     });
 
     return $ratingCaption;
