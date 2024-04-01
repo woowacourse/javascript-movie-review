@@ -7,6 +7,10 @@ import createElement from "../../utils/createElement";
 class MoviePosterBoard {
   element = createElement("ul", { attrs: { class: "item-list" } });
 
+  #length = 0;
+  get length() {
+    return this.#length;
+  }
   addMoviePosters(
     movieInfos: MovieInfo[],
     itemClickAction?: (id: string) => void
@@ -17,11 +21,13 @@ class MoviePosterBoard {
         preview.addEventListener("click", () => itemClickAction(movieInfo.id));
       return preview;
     });
+    this.#length += movieInfos.length;
 
     this.element.append(...newMoviePosters);
   }
   deleteMoviePosters() {
     this.element.replaceChildren();
+    this.#length = 0;
   }
 }
 
