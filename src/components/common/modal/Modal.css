@@ -7,11 +7,6 @@
   bottom: 0;
 }
 .modal-container {
-  position: fixed;
-  left: 50vw;
-  top: 50vh;
-  transform: translate(-50%, -50%);
-
   z-index: 11;
 }
 
@@ -27,4 +22,21 @@
 
 .modal.modal-open {
   visibility: visible;
+}
+
+@media screen and (max-width: 767px) {
+  .modal-container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .modal-container {
+    position: fixed;
+    left: 50vw;
+    top: 50vh;
+    transform: translate(-50%, -50%);
+  }
 }

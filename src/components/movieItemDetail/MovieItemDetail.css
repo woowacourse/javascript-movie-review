@@ -56,15 +56,6 @@
   column-gap: 16px;
 }
 
-/* 끄기 버튼 */
-.close-button {
-  position: fixed;
-  right: 15px;
-  top: 12px;
-  background-color: transparent;
-  border: none;
-}
-
 /* 내 별점 */
 .movie-description__rating {
   display: flex;
@@ -84,4 +75,10 @@
 
 .rating-caption {
   white-space: pre;
+}
+
+@media screen and (max-width: 768px) {
+  .movie-detail-content__poster-image {
+    display: none;
+  }
 }
