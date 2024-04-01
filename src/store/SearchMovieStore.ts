@@ -1,10 +1,10 @@
 import { Movie } from '../index.d';
 
-import { fetchSearchMovies } from './API';
 
 import { ERROR_2XX } from '../constants';
 
 import ErrorRender from '../components/ErrorRender';
+
 
 class SearchMovieStore {
   #searchMoviesData: any[];
@@ -21,6 +21,7 @@ class SearchMovieStore {
 
   /* eslint-disable max-lines-per-function */
   async searchMovies() {
+
     try {
       const responseData = await this.#fetchSearchData();
       const { results } = responseData;
@@ -36,6 +37,7 @@ class SearchMovieStore {
   async #fetchSearchData() {
     const response = await fetchSearchMovies(this.#query, this.#presentPage);
 
+
     if (!response.ok) {
       throw new ErrorRender(String(response.status)).renderError();
     }
@@ -48,6 +50,7 @@ class SearchMovieStore {
 
     return responseJSON;
   }
+
 
   increasePageCount() {
     this.#presentPage += 1;

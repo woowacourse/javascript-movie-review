@@ -2,6 +2,7 @@ import { Movie } from '../index.d';
 
 import { fetchPopularMovies } from './API';
 
+
 import { ERROR_2XX } from '../constants';
 
 import ErrorRender from '../components/ErrorRender';
@@ -29,6 +30,7 @@ class MovieStore {
   /* eslint-disable max-lines-per-function */
   async #fetchMoviesData() {
     const response = await fetchPopularMovies(this.#pageCount);
+
 
     if (!response.ok) {
       throw new ErrorRender(String(response.status)).renderError();

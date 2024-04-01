@@ -4,7 +4,6 @@
 
 body {
   position: relative;
-
   background-color: var(--black);
 
   font-family: Roboto;
@@ -39,6 +38,7 @@ button {
   flex-direction: column;
   justify-content: center;
   max-width: 1200px;
+
   margin: 0 auto;
 }
 

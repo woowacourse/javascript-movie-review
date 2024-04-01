@@ -18,6 +18,7 @@ export default class MovieCard {
     if (movie) {
       this.#movie = movie;
       this.#movieId = movie.id;
+
       this.#generateMovieItem(this.#movie);
     } else {
       this.#generateSkeletonMovieItem();
@@ -45,6 +46,7 @@ export default class MovieCard {
     </a>
     `;
 
+
     this.#liElement.innerHTML = element;
   }
 
@@ -56,6 +58,7 @@ export default class MovieCard {
       <div class="item-score skeleton"></div>
     </div>
     `;
+
 
     this.#liElement.innerHTML = element;
   }

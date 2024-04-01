@@ -1,4 +1,5 @@
 import { Movie } from './index.d';
+
 import { SKELETON_UI_PC, SKELETON_UI_TABLET, SKELETON_UI_MOBILE } from './constants';
 
 import movieStore from './store/MovieStore';
@@ -8,16 +9,19 @@ import SearchBox from './components/SearchBox';
 import MovieCard from './components/MovieCard';
 import Modal from './components/Modal';
 
+
 type Tpage = 'popular' | 'search';
 
 export default class App {
   #pageType: Tpage = 'popular';
+
 
   #observer: IntersectionObserver | null = null;
 
   #isLoading: boolean = false;
 
   #skeletonBySize: number = SKELETON_UI_PC;
+
 
   async run() {
     this.#generateMovieList();
@@ -88,6 +92,7 @@ export default class App {
 
       ulElement?.appendChild(card.element);
     });
+
   }
 
   #generateSkeletonUI(ulElement: HTMLElement, skeletonCount: number) {
@@ -97,6 +102,7 @@ export default class App {
       const card = new MovieCard({
         classes: ['skeleton-container'],
       });
+
       fragment.appendChild(card.element);
     }
 
@@ -112,6 +118,7 @@ export default class App {
       });
     }
   }
+
 
   #setupIntersectionObserver() {
     const options = {
@@ -224,5 +231,6 @@ export default class App {
       const modal = Modal.getInstance(movieId);
       modal.openModal();
     }
+
   }
 }
