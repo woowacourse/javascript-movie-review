@@ -8,6 +8,7 @@ import { BACKDROP_URL_PREFIX, IMAGE_URL_PREFIX } from '../../constants/url';
 
 import StarFilled from '../../imgs/star_filled.png';
 import CloseButton from '../../imgs/close_button.svg';
+import Placeholder from '../../imgs/poster-placeholder.svg';
 
 interface MovieDetailModalProps {
   title: string;
@@ -100,7 +101,7 @@ class MovieDetailModal {
     genreElement.textContent = this.genreIdsToGenreNames(genre_ids).join(', ');
 
     const posterElement = this.template.querySelector('.detail-poster') as HTMLImageElement;
-    posterElement.src = `${IMAGE_URL_PREFIX}${poster_path}`;
+    posterElement.setAttribute('src', poster_path ? IMAGE_URL_PREFIX + poster_path : Placeholder);
     posterElement.alt = title;
 
     const scoreElement = this.template.querySelector('.detail-score') as HTMLParagraphElement;
