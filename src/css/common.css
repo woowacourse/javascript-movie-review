@@ -87,8 +87,9 @@ button {
 
 .item-vote-average {
   margin-top: 16px;
+  padding-bottom: 20px;
   font-size: 1.2rem;
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .item-vote-average::after {
@@ -147,7 +148,7 @@ button.close-button {
   }
 }
 header {
-  width: 100%;
+  width: 100vw;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -169,6 +170,7 @@ header h1 {
 }
 
 header > .search-box {
+  display: flex;
   background: #fff;
   padding: 8px;
   border-radius: 4px;
@@ -281,7 +283,7 @@ header .search-box > .search-button {
 .item-genre {
   height: 40px;
   width: fit-content;
-  font-size: 20px;
+  font-size: 15px;
   display: flex;
   margin-right: 10px;
   white-space: nowrap;
@@ -339,8 +341,13 @@ header .search-box > .search-button {
 }
 
 @media screen and (max-width: 767px) {
+  .search-box {
+    display: flex;
+    align-self: center;
+  }
+
   .search-box > input {
-    width: 86vw;
+    width: calc(100vw - 74px);
   }
 
   .modal-container {

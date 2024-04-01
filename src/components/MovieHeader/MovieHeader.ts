@@ -66,7 +66,7 @@ const MovieHeader = {
         setTimeout(() => {
           searchInput.style.display = 'none';
           headerLogo.style.display = 'inline-block';
-        }, 500);
+        }, 300);
       }
     });
 
