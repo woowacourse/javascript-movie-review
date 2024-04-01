@@ -30,7 +30,7 @@ describe('영화 e2e 테스트', () => {
 
     cy.visit('/');
 
-    cy.get('.loader').should('not.exist');
+    cy.contains('더 보기').should('have.css', 'visibility', 'hidden');
   });
 
   it('키워드로 검색하면 검색 페이지로 전환된다.', () => {
@@ -64,7 +64,7 @@ describe('영화 e2e 테스트', () => {
     cy.get('.search-box').get('input').type('쿵푸');
     cy.get('.search-box').submit();
 
-    cy.contains('결과가 존재하지 않습니다.').should('exist');
+    cy.get('.empty-search-result').contains('검색 결과가 없습니다.').should('exist');
   });
 
   it('검색어를 입력하지 않으면 검색어가 없다고 안내한다.', () => {
