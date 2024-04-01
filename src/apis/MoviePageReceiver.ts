@@ -61,8 +61,8 @@ class MoviePageReceiver {
     return (async () => {
       const url = `${this.#popularUrlHeader}${nowPage}`;
 
-      const pageResponse = await this.#getTMDBPageResponse(url);
       nowPage++;
+      const pageResponse = await this.#getTMDBPageResponse(url);
       const movieInfos: MovieInfo[] = this.#getMovieInfosInPage(pageResponse);
 
       return {
@@ -80,8 +80,8 @@ class MoviePageReceiver {
     return (async () => {
       const url = getUrl(nowPage);
 
-      const pageResponse = await this.#getTMDBPageResponse(url);
       nowPage++;
+      const pageResponse = await this.#getTMDBPageResponse(url);
       const movieInfos: MovieInfo[] = this.#getMovieInfosInPage(pageResponse);
 
       return {
