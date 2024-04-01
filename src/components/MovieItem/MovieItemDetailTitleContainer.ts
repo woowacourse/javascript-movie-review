@@ -7,7 +7,7 @@ const MovieItemDetailTitleContainer = {
     const titleContainer = document.createElement('div');
 
     const movieItemTitle = this.createMovieItemTitle(detailMovieData);
-    const movieItemCloseButton = Button.create(BUTTONS.close, onClick);
+    const movieItemCloseButton = Button.create(BUTTONS.modalClose, onClick);
 
     titleContainer.classList.add('movie-item-detail_title-container');
 
