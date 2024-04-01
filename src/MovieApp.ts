@@ -10,6 +10,8 @@ import { MatchedMoviesService, PopularMoviesService } from './services/MovieServ
 
 import MovieGenresCollection from './domain/MovieGenresCollection';
 
+import FloatingButton from './imgs/floating_button.svg';
+
 class MovieApp {
   private body = document.querySelector('body') as HTMLBodyElement;
   private header = new Header();
@@ -26,6 +28,21 @@ class MovieApp {
     this.body.appendChild(this.header.getElement());
     this.body.appendChild(this.movieItems.getElement());
     this.body.appendChild(this.movieDetailModal.getElement());
+    this.body.appendChild(this.createFloatingButton());
+  }
+
+  createFloatingButton() {
+    const button = document.createElement('button');
+    const image = document.createElement('img');
+    image.src = FloatingButton;
+    image.classList.add('floating-button-image');
+    button.appendChild(image);
+    button.classList.add('floating-button');
+    button.addEventListener('click', () => {
+      window.scrollTo(0, 0);
+    });
+
+    return button;
   }
 
   setEventListener() {
