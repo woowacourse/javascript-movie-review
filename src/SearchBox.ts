@@ -22,10 +22,7 @@ class SearchBox {
         const width = window.innerWidth;
         if (width <= 660) inputElement.style.display = 'none';
 
-        if (inputElement.value !== '') {
-          this.searchBox.dispatchEvent(SearchButtonClickEvent);
-          return;
-        }
+        this.searchBox.dispatchEvent(SearchButtonClickEvent);
       }
     });
   }
