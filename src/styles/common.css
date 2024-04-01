@@ -58,7 +58,6 @@ button {
 header {
   position: fixed;
   width: 100%;
-  /* min-width: 1200px; */
   height: 72px;
   background-color: #222;
   display: flex;
@@ -180,16 +179,4 @@ button.primary {
   100% {
     background-position: 0% 50%;
   }
-}
-
-dialog {
-  width: 826px;
-  height: 577px;
-  padding: 0;
-  border: 0;
-  border-radius: 8px;
-}
-
-dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.6);
 }

@@ -62,7 +62,7 @@ class DetailModal {
     img.src = closeButtonImg;
     button.classList.add('modal-button');
     button.appendChild(img);
-    this.#addCloseButtonEvent(button);
+    this.#addCloseEvent(button);
 
     return button;
   }
@@ -118,9 +118,14 @@ class DetailModal {
     return container;
   }
 
-  #addCloseButtonEvent(button: HTMLButtonElement) {
+  #addCloseEvent(button: HTMLButtonElement) {
     button.addEventListener('click', () => {
       this.#modalElement?.close();
+    });
+    this.#modalElement?.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+
+      if (target.nodeName === 'DIALOG') this.#modalElement?.close();
     });
   }
 

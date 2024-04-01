@@ -1,7 +1,6 @@
 import SearchBox from './components/SearchBox';
 import MovieList from './components/MovieList';
 import Header from './components/Header';
-import DetailModal from './components/DetailModal/DetailModal';
 
 export default class App {
   #movieListElement;

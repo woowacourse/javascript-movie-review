@@ -39,7 +39,7 @@ class UserRate {
   #generateSubtitle() {
     const span = document.createElement('span');
 
-    span.classList.add('text-subtitle');
+    span.classList.add('text-subtitle', 'modal-user-rate-title');
     span.textContent = '내 별점';
 
     return span;
@@ -98,7 +98,7 @@ class UserRate {
   #generateText() {
     const span = document.createElement('span');
 
-    span.classList.add('text-body');
+    span.classList.add('text-body', 'modal-rate-text');
     span.textContent = textRate(this.#rate);
 
     return span;
