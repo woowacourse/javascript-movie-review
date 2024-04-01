@@ -95,11 +95,20 @@ function getMainTitle() {
   return mainTitle;
 }
 
+function createNoMovieMessage() {
+  const div = document.createElement('div');
+  div.style.fontSize = '18px';
+  div.style.fontWeight = '600';
+  div.innerText = '검색 결과가 없습니다.';
+  return div;
+}
+
 async function getMovieList() {
   const movieList = document.createElement('ul');
   const { elements: movieItems, page, totalPage } = await getMovieItems();
   checkPage({ page, totalPage });
   movieList.classList.add('item-list');
+  if (movieItems.length === 0) movieList.append(createNoMovieMessage());
   movieList.append(...movieItems);
   return movieList;
 }
