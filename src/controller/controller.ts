@@ -22,10 +22,12 @@ export class App {
 
     setMainTitleText('popular');
     this.attachInfiniteScroll();
+
+    this.addMovieList();
   }
 
   private attachInfiniteScroll() {
-    const skeleton$ = $('.item-view .observer'); // 관찰할 대상(요소)
+    const observer$ = $('.item-view .observer'); // 관찰할 대상(요소)
     const options = {
       root: null,
       rootMargin: '0px 0px 0px 0px',
@@ -40,7 +42,7 @@ export class App {
         }
       });
     }, options);
-    observer.observe(skeleton$);
+    observer.observe(observer$);
   }
 
   async init() {
