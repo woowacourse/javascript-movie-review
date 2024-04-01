@@ -47,20 +47,7 @@ class MovieItem {
   }
 
   #handleClick() {
-    this.#makeUrl('a.txt', JSON.stringify(this.#movie));
     appInstance.paintModal(new MovieItemDetail(this.#movie).$target);
-  }
-
-  #makeUrl(fileName: string, content: any) {
-    const blob = new Blob([content], { type: 'text/plain' });
-    console.log(blob);
-    const objURL = window.URL.createObjectURL(blob);
-
-    const a = document.createElement('a');
-    a.download = fileName;
-    a.href = objURL;
-    a.click();
-    a.remove();
   }
 }
 
