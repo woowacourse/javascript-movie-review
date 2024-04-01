@@ -74,32 +74,6 @@
   gap: 5px;
 }
 
-.modal-user-star-container {
-  display: flex;
-  align-items: center;
-  width: 438px;
-  height: 64px;
-  padding: 0 16px;
-  gap: 12px;
-
-  background-color: rgba(56, 56, 57, 1);
-  border-radius: 16px;
-}
-
-.modal-user-start-box {
-  width: 160px;
-  height: 32px;
-}
-
-.modal-user-star-button {
-  text-align: center;
-  width: 24px;
-  height: 25px;
-  padding: 0;
-  border: 0;
-  background: none;
-}
-
 .modal-img.skeleton {
   background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
   background-size: 400%;

@@ -1,16 +1,13 @@
-import { Movie } from '../../index.d';
 import closeButtonImg from '../../images/close_button.png';
 import starImg from '../../images/star_filled.png';
-import emptyStarImg from '../../images/star_empty.png';
 import './DetailModal.css';
 import MovieApi from '../../API/MovieApi';
+import UserRate from '../UserRate/UserRate';
 
 class DetailModal {
   #modalElement = document.querySelector('dialog');
 
   #movieDetail: any;
-
-  #count = 0;
 
   constructor(movie: any) {
     this.#getMovieDetail(movie.id);
@@ -20,10 +17,11 @@ class DetailModal {
     if (this.#modalElement) {
       this.#modalElement.innerHTML = this.#generateSkeleton();
       const detailData = await MovieApi.getDetailData(movieId);
-      this.#modalElement.innerHTML = '';
 
+      this.#modalElement.innerHTML = '';
       this.#movieDetail = detailData;
       this.#generateContainer(detailData);
+      this.#generateUserRate(movieId);
     }
   }
 
@@ -69,6 +67,7 @@ class DetailModal {
     return button;
   }
 
+  /* eslint-disable max-lines-per-function */
   #generateSkeleton() {
     const element = /* html */ `
     <div class="modal-container">
@@ -95,7 +94,6 @@ class DetailModal {
         <div class="modal-img-container">
           <img src="https:image.tmdb.org/t/p/w220_and_h330_face${detailData.poster_path}" loading="lazy" class="modal-img">
         </div>
-        
         <div class="modal-content">
           <div class="modal-movie-info">
             <div class="modal-genre-star-box">
@@ -110,14 +108,7 @@ class DetailModal {
               ${detailData.overview}
             </p>
           </div>
-          <div class="modal-user-star-container">
-            <span class="text-subtitle">내 별점</span>
-            <div class="modal-user-star-box">
-             ${this.#generateStarImg()}${this.#generateEmptyStarImg()}
-            </div>
-            <span class="text-body">${this.#count * 2}</span>
-            <span class="text-body">보통이에요</span>
-          </div>
+
         </div>
     `;
 
@@ -128,45 +119,16 @@ class DetailModal {
   }
 
   #addCloseButtonEvent(button: HTMLButtonElement) {
-    const modal = document.querySelector('dialog');
-
-    if (modal) {
-      button.addEventListener('click', () => {
-        modal.close();
-      });
-    }
-  }
-
-  #generateStarImg() {
-    const container = document.createElement('div');
-
-    for (let i = 0; i < this.#count; i++) {
-      const button = document.createElement('button');
-
-      button.type = 'button';
-      button.classList.add('modal-user-star-button');
-      button.innerHTML = /* html */ `<img src="${starImg}">`;
-      this.#addStarButtonEvent(button);
-      container.appendChild(button);
-    }
-
-    const img = /* html */ `
-    <button type="button" class="modal-user-star-button"><img src="${starImg}"></button>
-    `;
-    return img.repeat(this.#count);
-  }
-
-  #generateEmptyStarImg() {
-    const img = /* html */ `
-    <button type="button" class="modal-user-star-button"><img src="${emptyStarImg}"></button>
-    `;
-    return img.repeat(5 - this.#count);
-  }
-
-  #addStarButtonEvent(button: HTMLButtonElement) {
     button.addEventListener('click', () => {
-      console.log('click');
+      this.#modalElement?.close();
     });
+  }
+
+  #generateUserRate(movieId: number) {
+    const modalContent = document.querySelector('.modal-content');
+    const userRate = new UserRate(movieId);
+
+    modalContent?.appendChild(userRate.element);
   }
 
   get element() {
