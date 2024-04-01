@@ -91,8 +91,10 @@ class UserScoreBox {
   }
 
   addClickStarEvent() {
-    let scoreEvent = false;
     const stars = document.querySelectorAll('.star');
+
+    let scrollEvent: NodeJS.Timeout | null;
+
     [...stars].forEach(star => {
       star.addEventListener('click', (e: Event) => {
         const userScore = Number((e.currentTarget as HTMLElement).dataset.score);
@@ -100,15 +102,12 @@ class UserScoreBox {
         this.updateStars(this.score);
         this.updateScoreInfo(this.score);
 
-        if (!scoreEvent) {
-          scoreEvent = true;
+        clearTimeout(scrollEvent!);
 
-          setTimeout(() => {
-            scoreEvent = false;
-            ScoreDBService.updateScore({ movieId: Number(this.movieId), newScore: this.score });
-            new Toast(SCORE_MESSAGE);
-          }, 1000);
-        }
+        scrollEvent = setTimeout(() => {
+          ScoreDBService.updateScore({ movieId: Number(this.movieId), newScore: this.score });
+          new Toast(SCORE_MESSAGE);
+        }, 2000);
       });
     });
   }

@@ -1,4 +1,4 @@
-import './TopButton.css';
+import './TopScrollButton.css';
 
 class TopScrollButton {
   topButtonBox;

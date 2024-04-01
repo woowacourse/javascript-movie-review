@@ -6,7 +6,7 @@ import movieAPI from '../../api/movie';
 import MovieDomain from '../../domain/entity/Movie';
 import StarIcon from '../../assets/star_filled.png';
 import DeleteIcon from '../../assets/delete.png';
-import { deleteUrlParams, getUrlParams, setUrlParams } from '../../utils/queryString';
+import { deleteUrlParams, getUrlParams } from '../../utils/queryString';
 import UserScoreBox from '../UserScoreBox/UserScoreBox';
 
 class MovieInfoModal {

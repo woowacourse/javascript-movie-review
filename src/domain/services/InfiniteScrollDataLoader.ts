@@ -10,6 +10,7 @@ class InfiniteScrollDataLoader {
   itemViewBox = document.querySelector('.item-view');
   movieListBox = document.createElement('ul');
   movieList: MovieList;
+  skeletonLoading: boolean = false;
 
   constructor() {
     this.movieList = new MovieList({ movieList: [] });
@@ -22,28 +23,30 @@ class InfiniteScrollDataLoader {
 
   oberveScrollAndRenderNextPage() {
     let scrollCheck: NodeJS.Timeout | null;
-    let skeletonLoading = false;
 
     window.addEventListener('scroll', () => {
-      clearTimeout(scrollCheck!);
-
-      const isScrollEnded = window.innerHeight + window.scrollY + 100 >= document.body.offsetHeight;
-
-      scrollCheck = null;
+      if (scrollCheck) {
+        return;
+      }
 
       scrollCheck = setTimeout(() => {
+        const isScrollEnded = window.innerHeight + window.scrollY + 150 >= document.body.offsetHeight;
         if (isScrollEnded && this.currentPage < this.totalPage) {
-          if (!skeletonLoading) {
-            this.movieList.renderSkeleton();
-            skeletonLoading = true;
-          }
-
           this.currentPage += 1;
+          this.renderSkeleton();
           this.renderTargetPage();
-          skeletonLoading = false;
+          this.skeletonLoading = false;
         }
-      }, 500);
+        scrollCheck = null;
+      }, 1000);
     });
+  }
+
+  renderSkeleton() {
+    if (!this.skeletonLoading) {
+      this.movieList.renderSkeleton();
+      this.skeletonLoading = true;
+    }
   }
 
   async renderTargetPage() {
