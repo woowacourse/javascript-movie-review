@@ -1,3 +1,5 @@
+import "./style.css";
+
 import { MovieInfo } from "../components/MoviePreview/createMoviePreview";
 import MoviePosterBoard from "../components/MoviePosterBoard/MoviePosterBoard";
 import PrimaryButton from "../components/Button/createPrimaryButton";
@@ -13,7 +15,12 @@ interface fetchPromiseT {
   isLastPage: boolean;
 }
 class MovieList {
-  element = createElement("div");
+  element = createElement("div", {
+    attrs: {
+      class: "movie-list",
+      style: "padding-top:100px;",
+    },
+  });
   #title;
   #fetchFunc: () => Promise<{ movieInfos: MovieInfo[]; isLastPage: boolean }>;
   #moviePosterBoard;
@@ -37,6 +44,7 @@ class MovieList {
     this.#moviePosterBoard = new MoviePosterBoard();
     const section = createElement("section", { attrs: { class: "item-view" } });
     this.#title = new SubTitle(title);
+
     section.append(
       this.#title.element,
       this.#moviePosterBoard.element,
@@ -121,8 +129,12 @@ class MovieList {
             this.#itemClickAction.bind(this.#itemClickAction)
           );
 
-          if (isLastPage) hideElement(this.#seeMoreButton.element);
-          else revealElement(this.#seeMoreButton.element);
+          if (isLastPage) {
+            hideElement(this.#seeMoreButton.element);
+            if (this.#moviePosterBoard.length === 0) {
+              this.#title.setTitle("관련 영화가 존재하지 않습니다.");
+            }
+          } else revealElement(this.#seeMoreButton.element);
 
           hideElement(this.#networkFallBack);
         })
@@ -132,11 +144,9 @@ class MovieList {
         })
         .finally(() => {
           hideElement(this.#posterBoardSkeleton);
-          revealElement(this.#seeMoreButton.element);
           this.#attachSeeMoreButtonClickEvent();
         });
-    }, 700);
-    // 700ms 미만으로 설정시 한번에 두개씩 불러들여와짐
+    }, 500);
   }
 }
 
