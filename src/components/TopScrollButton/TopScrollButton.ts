@@ -21,7 +21,7 @@ class TopScrollButton {
     let topButtonEvent: NodeJS.Timeout | null;
 
     window.addEventListener('scroll', () => {
-      clearTimeout(topButtonEvent!);
+      if (topButtonEvent) return;
 
       topButtonEvent = setTimeout(() => {
         if (window.scrollY > 200) {
@@ -29,7 +29,8 @@ class TopScrollButton {
         } else {
           this.topButtonBox.classList.remove('show');
         }
-      }, 1000);
+        topButtonEvent = null;
+      }, 3000);
     });
 
     this.topButtonBox.addEventListener('click', () => {
