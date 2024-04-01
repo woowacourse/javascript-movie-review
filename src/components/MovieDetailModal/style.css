@@ -134,6 +134,15 @@
     justify-content: start;
   }
 
+  .movie-detail-title {
+    text-align: start;
+    margin-right: 44px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .detail-items {
     display: flex;
     gap: 32px;
