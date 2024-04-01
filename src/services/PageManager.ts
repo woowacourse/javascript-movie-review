@@ -1,10 +1,12 @@
 class PageManager {
-  currentPage;
+  currentPage: number;
+  totalPages: number;
 
   static DEFAULT_PAGE_NUMBER = 1;
 
   constructor() {
     this.currentPage = PageManager.DEFAULT_PAGE_NUMBER;
+    this.totalPages = 0;
   }
 
   increasePage() {
@@ -13,6 +15,10 @@ class PageManager {
 
   resetPage() {
     this.currentPage = PageManager.DEFAULT_PAGE_NUMBER;
+  }
+
+  setTotalPages(totalPages: number) {
+    this.totalPages = totalPages;
   }
 }
 
