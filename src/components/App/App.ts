@@ -40,10 +40,9 @@ class App {
 
   #render() {
     const header = this.#createHeader();
-    const button = this.#createMoreButton();
 
     const $section = dom.getElement<HTMLButtonElement>(this.$target, '.item-view');
-    $section.appendChild(button.$target);
+
     $section.appendChild(this.toast.$target);
 
     const $title = dom.getElement(this.$target, 'h2');
@@ -94,16 +93,6 @@ class App {
     this.#renderTitle(moviesCount, $input.value);
   }
 
-  #createMoreButton() {
-    const textNode = document.createTextNode('더 보기');
-    return new Button({
-      id: 'more-button',
-      classNames: ['btn', 'primary', 'full-width'],
-      children: [textNode],
-      onClick: this.#handleClickMoreMovies.bind(this),
-    });
-  }
-
   #renderTitle(movieLength: number, text: string) {
     const $title = dom.getElement(this.$target, 'h2');
 
@@ -112,10 +101,6 @@ class App {
     } else {
       $title.textContent = `"${text}" 검색 결과가 없습니다`;
     }
-  }
-
-  #handleClickMoreMovies() {
-    this.movieListContainer.attach();
   }
 
   #createModalContent() {

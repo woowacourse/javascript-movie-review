@@ -36,11 +36,6 @@ class MovieListContainer {
     try {
       const { movies, totalPages } = await this.#fetchMovies(this.page);
       this.paintOverwrite(movies);
-
-      if (this.$target.parentElement === null) return;
-      const $moreButton = dom.getElement(this.$target.parentElement, '#more-button');
-      if (this.page === totalPages) $moreButton.classList.add('hidden');
-      else $moreButton.classList.remove('hidden');
     } catch (e) {
       const target = e as InvalidRequestError;
       this.handleErrorToast(target.message);
@@ -68,9 +63,6 @@ class MovieListContainer {
 
     this.paintOverwrite(movies);
     if (this.$target.parentElement === null) return;
-
-    const $moreButton = dom.getElement(this.$target.parentElement, '#more-button');
-    if (this.page === totalPages) $moreButton.classList.add('hidden');
   }
 
   async #fetchMovies(page: number) {
