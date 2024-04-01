@@ -2,7 +2,6 @@
   width: 826px;
   height: 577px;
   border: 8px;
-  z-index: 100;
   background-color: var(--grey-5);
 
   position: relative;

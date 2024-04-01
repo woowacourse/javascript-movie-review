@@ -27,8 +27,8 @@ describe('영화 리스트 테스트', () => {
     cy.scrollTo(0, 1000, { duration: 1000 });
     cy.tick(5000);
 
-    cy.get('#top-button').should('be.visible');
-    cy.get('#top-button').click();
+    cy.get('#top-scroll-button').should('be.visible');
+    cy.get('#top-scroll-button').click();
 
     cy.window().then(win => {
       cy.wrap(win).its('scrollY').should('eq', 0);

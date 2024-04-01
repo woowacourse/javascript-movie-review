@@ -5,7 +5,7 @@ class TopScrollButton {
 
   constructor() {
     this.topButtonBox = document.createElement('button');
-    this.topButtonBox.id = 'top-button';
+    this.topButtonBox.id = 'top-scroll-button';
     this.topButtonBox.textContent = 'TOP';
     this.render();
     this.setEvent();

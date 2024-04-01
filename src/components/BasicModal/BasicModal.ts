@@ -41,6 +41,9 @@ class BasicModal {
   }
 
   static closeModal() {
+    const topScrollButton = document.querySelector('#top-scroll-button');
+    topScrollButton?.classList.add('show');
+
     const backdropElement = document.querySelector('.modal-backdrop');
     if (!backdropElement) return;
     backdropElement.classList.remove('modal-open');

@@ -40,6 +40,9 @@ class MovieItem {
 
   setEvent() {
     this.itemCard.addEventListener('click', async () => {
+      const topScrollButton = document.querySelector('#top-scroll-button');
+      topScrollButton?.classList.remove('show');
+
       setUrlParams('movie_id', String(this.movie.id));
       const movieDetailModal = document.querySelector('.modal');
       movieDetailModal?.classList.add('modal-open');

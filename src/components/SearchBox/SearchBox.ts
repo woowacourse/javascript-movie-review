@@ -70,8 +70,6 @@ class searchInputBox {
     this.setCloseInputEvent();
     this.handleResize();
 
-    this.handleResize();
-
     let resizeEvent: NodeJS.Timeout | null;
 
     window.addEventListener('resize', () => {
@@ -86,12 +84,13 @@ class searchInputBox {
 
   handleResize() {
     if (window.innerWidth <= 600) {
-      if (this.searchInputBox.classList.contains('open')) {
+      if (this.searchInput.classList.contains('open')) {
         this.headerLogo.style.display = 'none';
         this.inputFoldButton.style.display = 'block';
         return;
       }
-      return (this.searchInput.style.display = 'none');
+      this.searchInput.style.display = 'none';
+      return;
     }
     this.searchInput.style.display = 'block';
     this.headerLogo.style.display = 'block';
@@ -101,7 +100,7 @@ class searchInputBox {
   setSubmitEvent() {
     this.searchButton.addEventListener('click', e => {
       e.preventDefault();
-      if (this.searchInput.style.display === 'none') {
+      if (this.searchInput.width === 0) {
         this.setOpenInputEvent();
         return;
       }
@@ -117,20 +116,21 @@ class searchInputBox {
   }
 
   setOpenInputEvent() {
-    this.headerLogo.style.display = 'none';
+    this.searchInput.classList.remove('shrink');
     this.searchInput.style.display = 'block';
     this.inputFoldButton.style.display = 'block';
     this.searchInput.focus();
-    this.searchInputBox.classList.add('open');
+    this.searchInput.classList.add('open');
+    this.headerLogo.style.display = 'none';
   }
 
   setCloseInputEvent() {
     this.inputFoldButton.addEventListener('click', e => {
       e.preventDefault();
-      this.searchInputBox.classList.remove('open');
+      this.searchInput.classList.remove('open');
       this.inputFoldButton.style.display = 'none';
       this.headerLogo.style.display = 'block';
-      this.searchInput.style.display = 'none';
+      this.searchInput.classList.add('shrink');
     });
   }
 }
