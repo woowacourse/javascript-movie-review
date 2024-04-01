@@ -65,6 +65,14 @@ class App {
       const message = e.detail;
       this.toast.on(message);
     });
+
+    const SCROLL_TROTTLE_TIME = 500;
+    const throttleScrollHandler = this.#getThrottleFunction(
+      this.#infiniteScrollHandler.bind(this),
+      SCROLL_TROTTLE_TIME,
+    ).bind(this);
+
+    window.addEventListener('scroll', throttleScrollHandler);
   }
 
   #createHeader() {
@@ -144,6 +152,26 @@ class App {
     this.modalContent.$target = element;
 
     this.openModal();
+  }
+
+  #getThrottleFunction(callback: () => void, throttleTime: number) {
+    let throttle: boolean = false;
+    return (_: Event) => {
+      if (!throttle) {
+        throttle = true;
+        setTimeout(() => {
+          throttle = false;
+          callback();
+        }, throttleTime);
+      }
+    };
+  }
+
+  #infiniteScrollHandler(e?: Event) {
+    const INFINITE_SCROLL_THRESHOLD = 50;
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - INFINITE_SCROLL_THRESHOLD) {
+      this.movieListContainer.attach();
+    }
   }
 }
 
