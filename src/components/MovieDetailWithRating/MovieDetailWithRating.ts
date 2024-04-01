@@ -71,6 +71,7 @@ class MovieDetailWithRating {
     const starRating = new StarRating({ starNumber: 5, increase: 2, start: 2 });
     if (userRating !== "0") starRating.value = Number(userRating);
     const ratingMsg = createElement("p", {
+      attrs: { style: "    display: inline-block;width: 100px;" },
       content: this.#getRatingMsg(userRating),
     });
     starRating.element.addEventListener("click", () => {
