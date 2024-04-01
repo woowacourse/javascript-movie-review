@@ -32,15 +32,25 @@ const MovieHeader = {
   },
 
   setHandle(logoImgContainer: HTMLElement, searchBox: HTMLElement) {
-    logoImgContainer.addEventListener('click', () => this.showPopularMovies(searchBox));
-
-    const searchButton = getDomElement('button', searchBox);
     const searchInput = getDomElement('input', searchBox);
+    const computedStyles = window.getComputedStyle(searchInput);
+    window.addEventListener('resize', () => {
+      if (window.innerWidth <= 767) {
+        searchInput.style.display = 'none';
+      }
+      if (window.innerWidth > 767) {
+        searchInput.style.display = 'inline-block';
+      }
+    });
+    logoImgContainer.addEventListener('click', () => this.showPopularMovies(searchBox));
+    const searchButton = getDomElement('button', searchBox);
     const header = getDomElement('header');
     const headerLogo = getDomElement('h1', header);
 
     searchButton.addEventListener('click', () => {
-      const computedStyles = window.getComputedStyle(searchInput);
+      const header = getDomElement('header');
+      const headerLogo = getDomElement('h1', header);
+      console.log(computedStyles.display);
       if (computedStyles.display === 'none') {
         searchInput.style.display = 'inline-block';
         headerLogo.style.display = 'none';
@@ -53,8 +63,10 @@ const MovieHeader = {
     searchInput.addEventListener('blur', () => {
       const computedStyles = window.getComputedStyle(headerLogo);
       if (computedStyles.display === 'none') {
-        searchInput.style.display = 'none';
-        headerLogo.style.display = 'inline-block';
+        setTimeout(() => {
+          searchInput.style.display = 'none';
+          headerLogo.style.display = 'inline-block';
+        }, 500);
       }
     });
 

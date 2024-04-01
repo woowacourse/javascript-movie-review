@@ -340,8 +340,7 @@ header .search-box > .search-button {
 
 @media screen and (max-width: 767px) {
   .search-box > input {
-    display: none;
-    width: 80vw;
+    width: 86vw;
   }
 
   .modal-container {
