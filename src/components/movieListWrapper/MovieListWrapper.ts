@@ -37,7 +37,11 @@ export class MovieListWrapper {
 
     section.append(title, ul);
     section.appendChild(addLayerDiv);
-    const observe = new InfiniteScroll(addLayerDiv, this.selectUpdatingMovieType.bind(this));
+    const observe = new InfiniteScroll({
+      target: addLayerDiv,
+      callback: this.selectUpdatingMovieType.bind(this),
+      loadingMessage: '로딩중...',
+    });
     observe.observeIntersection();
 
     await this.selectUpdatingMovieType(observe);
