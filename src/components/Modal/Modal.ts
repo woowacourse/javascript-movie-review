@@ -89,13 +89,11 @@ const createUserRating = (movieId: number) => {
     $starBtn.id = `star-btn${idx + 1}`;
 
     const $starImg = document.createElement('img');
-    if (rating && rating.ratingNumber / 2 >= idx + 1) {
-      $starImg.src = StarFilled;
-    } else {
-      $starImg.src = StarEmpty;
-    }
-
+    const isFilled = rating && rating.ratingNumber / 2 >= idx + 1;
+    const src = isFilled ? StarFilled : StarEmpty;
+    $starImg.src = src;
     $starImg.alt = starText;
+
     $starBtn.appendChild($starImg);
     $starBox.appendChild($starBtn);
   });
