@@ -12,7 +12,7 @@ class Modal {
 
   constructor(props: ModalProps) {
     this.template = this.createElements(props);
-    this.onEscapeKeydown();
+    this.setEscapeKeyDownListener();
   }
 
   private createElements({ content }: ModalProps) {
@@ -66,7 +66,7 @@ class Modal {
     body.style.overflowY = 'auto';
   }
 
-  onEscapeKeydown() {
+  private setEscapeKeyDownListener() {
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') {
         this.closeModal();
