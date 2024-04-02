@@ -39,7 +39,10 @@ class MovieApp {
     this.#app.appendChild(this.#modal.element);
     this.#MovieRenderController.render('');
 
-    window.addEventListener('resize', this.#onResize());
+    window.addEventListener(
+      'resize',
+      throttle(() => this.#onResize(), 300),
+    );
     document.addEventListener('click', (event) => this.#onCloseSearchBar(event));
   }
 
@@ -73,11 +76,9 @@ class MovieApp {
   }
 
   #onResize() {
-    return throttle(() => {
-      const searchBox = $('.search-box') as HTMLElement;
+    const searchBox = $('.search-box') as HTMLElement;
 
-      if (window.innerWidth > RULES.mobileThresholdWidth) searchBox.style.width = '';
-    }, 300);
+    if (window.innerWidth > RULES.mobileThresholdWidth) searchBox.style.width = '';
   }
 
   #onCloseSearchBar(event: Event) {
