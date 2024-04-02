@@ -43,7 +43,10 @@ export const HEADER_TEMPLATE = /* html */ `
 </form>
 `;
 
-export const DETAIL_MODAL_TEMPLATE = (movie: MovieDetailType, ratingValue: ClickedRatingValueType) => /* html */ `
+export const DETAIL_MODAL_TEMPLATE = (
+  movie: MovieDetailType,
+  ratingValue: ClickedRatingValueType,
+) => /* html */ `
   <div id="detail-modal--header">
     <div id="detail-modal--title">${movie.title}</div>  
     <div id="detail-modal--close-btn"><img src="${MODAL_CLOSE_BTN}" alt="별점"/></div>
@@ -71,21 +74,12 @@ export const DETAIL_MODAL_TEMPLATE = (movie: MovieDetailType, ratingValue: Click
       <div id="detail-modal--rating">
         <div id="detail-modal--label">내 별점</div>
         <div id="detail-modal--rating-stars">
-          <img src="${
-            ratingValue >= 2 ? STAR_FILLED : STAR_EMPTY
-          }" class="rating-star" data-id=2 alt="별점"/>
-          <img src="${
-            ratingValue >= 4 ? STAR_FILLED : STAR_EMPTY
-          }" class="rating-star" data-id=4 alt="별점"/>
-          <img src="${
-            ratingValue >= 6 ? STAR_FILLED : STAR_EMPTY
-          }" class="rating-star" data-id=6 alt="별점"/>
-          <img src="${
-            ratingValue >= 8 ? STAR_FILLED : STAR_EMPTY
-          }" class="rating-star" data-id=8 alt="별점"/>
-          <img src="${
-            ratingValue >= 10 ? STAR_FILLED : STAR_EMPTY
-          }" class="rating-star" data-id=10 alt="별점"/>
+        ${Array.from({ length: 5 }, (_, index) => {
+          const starIndex = (index + 1) * 2;
+          return `<img src="${
+            ratingValue >= starIndex ? STAR_FILLED : STAR_EMPTY
+          }" class="rating-star" data-id="${starIndex}" alt="별점"/>`;
+        }).join('')}
         </div>
         <div id="detail-modal--rating-value">${ratingValue}</div>
         <div id="detail-modal--rating-label">${RATING_MESSAGE[ratingValue]}</div>
