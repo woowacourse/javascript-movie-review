@@ -59,7 +59,11 @@ class Movies {
   async getPopularMovies(page = 1): Promise<MovieInfo[]> {
     const urlParams = { language: 'ko-KR', page: String(page) };
     const url = `${POPULAR_MOVIES_URL}?${new URLSearchParams(urlParams)}`;
-    const { results }: ResponseMovieData = await this.#fetcher.getData(url, this.#headers);
+    const { results }: ResponseMovieData = await this.#fetcher.getData({
+      url,
+      headers: this.#headers,
+      handleError: this.#handleErrorResponse,
+    });
 
     return results.map(({ id, poster_path, title, vote_average }) => ({
       id,
@@ -73,7 +77,11 @@ class Movies {
     const urlParams = { query, language: 'ko-KR', page: String(page) };
     const url = `${MOVIE_SEARCH_URL}?${new URLSearchParams(urlParams)}`;
 
-    const { results }: ResponseMovieData = await this.#fetcher.getData(url, this.#headers);
+    const { results }: ResponseMovieData = await this.#fetcher.getData({
+      url,
+      headers: this.#headers,
+      handleError: this.#handleErrorResponse,
+    });
 
     return results.map(({ id, poster_path, title, vote_average }) => ({
       id,
@@ -88,14 +96,18 @@ class Movies {
     const url = `${MOVIE_DETAIL_URL}/${movieId}?${new URLSearchParams(urlParams)}`;
 
     const { id, title, genres, overview, vote_average, poster_path }: ResponseMovieDetailData =
-      await this.#fetcher.getData(url, this.#headers);
+      await this.#fetcher.getData({
+        url,
+        headers: this.#headers,
+        handleError: this.#handleErrorResponse,
+      });
 
     const genreNames = genres.map((genre) => genre.name);
 
     return { id, title, genres: genreNames, overview, vote_average, poster_path, my_grade: 0 };
   }
 
-  static async handleErrorResponse(response: Response) {
+  async #handleErrorResponse(response: Response) {
     const { status_message }: ResponseErrorData = await response.json();
 
     if (response.status === 400) throw new CustomError(status_message, response.status);
