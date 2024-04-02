@@ -4,7 +4,6 @@ import { dom } from '../../utils/dom';
 
 import Header from '../header/Header';
 import MovieListContainer from '../movieListContainer/MovieListContainer';
-import Button from '../common/button/Button';
 import Modal from '../common/modal/Modal';
 import MovieItemDetail from '../movieItemDetail/MovieItemDetail';
 import CloseButton from '../common/button/CloseButton';
@@ -34,6 +33,7 @@ class App {
 
     this.$target.append(this.modal.$target);
     this.modal.append(this.modalContent.$target);
+    this.$target.scroll();
     this.#render();
     this.#setEvent();
   }
@@ -65,7 +65,7 @@ class App {
       this.toast.on(message);
     });
 
-    const SCROLL_TROTTLE_TIME = 500;
+    const SCROLL_TROTTLE_TIME = 10;
     const throttleScrollHandler = this.#getThrottleFunction(
       this.#infiniteScrollHandler.bind(this),
       SCROLL_TROTTLE_TIME,
