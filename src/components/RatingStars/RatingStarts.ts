@@ -1,9 +1,7 @@
 import renderHandler from './renderHandler';
 
 const RatingStars = (movieId: number) => {
-  const ratingStars = renderHandler(movieId);
-
-  return ratingStars;
+  return renderHandler(movieId);
 };
 
 export default RatingStars;
