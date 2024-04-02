@@ -99,14 +99,12 @@ export default class MovieList extends EventComponent {
       ".movie-item"
     );
 
-    if ($movieItem && $movieItem.classList.contains("movie-item")) {
-      const movieId = $movieItem.dataset.movieId;
-      if (movieId) {
-        this.movieDetailModalState.set({
-          isOpen: true,
-          movieId: Number(movieId),
-        });
-      }
+    const movieId = $movieItem?.dataset.movieId;
+    if (movieId) {
+      this.movieDetailModalState.set({
+        isOpen: true,
+        movieId: Number(movieId),
+      });
     }
   }
 
