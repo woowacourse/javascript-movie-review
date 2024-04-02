@@ -5,6 +5,7 @@ import { SCORE_MESSAGE, VOTE_MESSAGE } from '../../consts/message';
 import ScoreDBService from '../../domain/services/ScoreDBService';
 import { getUrlParams } from '../../utils/queryString';
 import Toast from '../Toast/Toast';
+import { debounce } from 'cypress/types/lodash';
 
 class UserScoreBox {
   score: number;
@@ -27,7 +28,7 @@ class UserScoreBox {
   }
 
   setEvent() {
-    this.addClickStarEvent();
+    this.setClickStarsEvent();
   }
 
   getOriginalUserScore() {
@@ -90,17 +91,15 @@ class UserScoreBox {
     this.userVoteBox.append(scoreInfo);
   }
 
-  addClickStarEvent() {
-    const stars = document.querySelectorAll('.star');
+  setClickStarsEvent() {
+    const stars = [...document.querySelectorAll('.star')];
 
     let scrollEvent: NodeJS.Timeout | null;
 
-    [...stars].forEach(star => {
+    stars.forEach(star => {
       star.addEventListener('click', (e: Event) => {
         const userScore = Number((e.currentTarget as HTMLElement).dataset.score);
-        this.score = userScore;
-        this.updateStars(this.score);
-        this.updateScoreInfo(this.score);
+        this.updateScoreView(userScore);
 
         clearTimeout(scrollEvent!);
 
@@ -110,6 +109,12 @@ class UserScoreBox {
         }, 2000);
       });
     });
+  }
+
+  updateScoreView(userScore: number) {
+    this.score = userScore;
+    this.updateStars(this.score);
+    this.updateScoreInfo(this.score);
   }
 
   updateStars(userScore: number) {

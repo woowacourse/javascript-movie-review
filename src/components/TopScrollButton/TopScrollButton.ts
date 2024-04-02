@@ -1,3 +1,4 @@
+import { throttling } from '../../utils/throttling';
 import './TopScrollButton.css';
 
 class TopScrollButton {
@@ -17,21 +18,22 @@ class TopScrollButton {
     main.append(this.topButtonBox);
   }
 
+  scrollEvent() {
+    if (window.scrollY > 500) {
+      this.topButtonBox.classList.add('show');
+    } else {
+      this.topButtonBox.classList.remove('show');
+    }
+  }
+
   setEvent() {
-    let topButtonEvent: NodeJS.Timeout | null;
-
-    window.addEventListener('scroll', () => {
-      if (topButtonEvent) return;
-
-      topButtonEvent = setTimeout(() => {
-        if (window.scrollY > 200) {
-          this.topButtonBox.classList.add('show');
-        } else {
-          this.topButtonBox.classList.remove('show');
-        }
-        topButtonEvent = null;
-      }, 3000);
-    });
+    window.addEventListener(
+      'scroll',
+      throttling({
+        fn: this.scrollEvent.bind(this),
+        duration: 3000,
+      }),
+    );
 
     this.topButtonBox.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });

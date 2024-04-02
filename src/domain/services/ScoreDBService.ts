@@ -1,3 +1,6 @@
+import Toast from '../../components/Toast/Toast';
+import { SCORE_MESSAGE } from '../../consts/message';
+
 export interface DBMovieScoreType {
   id: number;
   score: number;
@@ -34,6 +37,8 @@ class ScoreDBService {
       const newScoreList = [...restScoreList, { id: movieId, score: newScore }];
       localStorage.setItem(MOVIE_SCORE_DB_KEY, JSON.stringify(newScoreList));
     }
+
+    new Toast(SCORE_MESSAGE);
   }
 }
 

@@ -67,16 +67,13 @@ class searchInputBox {
 
   setEvents() {
     this.setSubmitEvent();
-    this.handleResize();
 
     let resizeEvent: NodeJS.Timeout | null;
 
     window.addEventListener('resize', () => {
       clearTimeout(resizeEvent!);
-
       resizeEvent = setTimeout(() => {
-        resizeEvent = null;
-        this.handleResize();
+        this.changeViewByResize();
       }, 500);
     });
 
@@ -86,7 +83,7 @@ class searchInputBox {
     });
   }
 
-  handleResize() {
+  changeViewByResize() {
     if (window.innerWidth <= 660) {
       if (this.searchInput.classList.contains('open')) {
         this.setCloseInputEvent();
