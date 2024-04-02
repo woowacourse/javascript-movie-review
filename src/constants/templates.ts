@@ -1,5 +1,6 @@
 import { LOGO, MODAL_CLOSE_BTN, NO_IMAGE, STAR_EMPTY, STAR_FILLED } from '../images';
 import { MovieDetailType, MovieType } from '../types/movie';
+import { ClickedRatingValueType } from '../types/ratings';
 import { MOVIE_POSTER_PATH } from './movie';
 import { RATING_MESSAGE } from './rating';
 
@@ -42,7 +43,7 @@ export const HEADER_TEMPLATE = /* html */ `
 </form>
 `;
 
-export const DETAIL_MODAL_TEMPLATE = (movie: MovieDetailType, ratingValue: number) => /* html */ `
+export const DETAIL_MODAL_TEMPLATE = (movie: MovieDetailType, ratingValue: ClickedRatingValueType) => /* html */ `
   <div id="detail-modal--header">
     <div id="detail-modal--title">${movie.title}</div>  
     <div id="detail-modal--close-btn"><img src="${MODAL_CLOSE_BTN}" alt="별점"/></div>

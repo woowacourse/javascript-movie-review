@@ -3,6 +3,7 @@ import { DETAIL_MODAL_TEMPLATE } from '../../constants/templates';
 import { MovieDetailType } from '../../types/movie';
 import { STAR_EMPTY, STAR_FILLED } from '../../images';
 import { RATING_MESSAGE } from '../../constants/rating';
+import { ClickedRatingValueType } from '../../types/ratings';
 import rating from '../../domain/rating';
 import movieData from '../../domain/movieData';
 
@@ -62,48 +63,48 @@ const movieDetailModal = {
     if (!ratingHtml || !(ratingHtml instanceof HTMLElement)) return;
 
     ratingHtml.addEventListener('click', (event: Event) => {
-      const clickedRatingValue = this.findClickedIndex(event, movieId);
+      const clickedRatingValue: ClickedRatingValueType = this.findClickedIndex(event, movieId);
       this.fillStars(ratingHtml, clickedRatingValue);
       this.updateRatingValue(ratingHtml, clickedRatingValue);
       this.updateRatingLabel(ratingHtml, clickedRatingValue);
     });
   },
 
-  findClickedIndex(event: Event, movieId: number): number {
+  findClickedIndex(event: Event, movieId: number): ClickedRatingValueType {
     const target = event.target as HTMLElement;
     if (!target || target.className !== 'rating-star') return 0;
 
     const idAttribute = target.getAttribute('data-id');
     if (!idAttribute) return 0;
-    const ratingValue = Number(idAttribute);
+    const ratingValue: ClickedRatingValueType = Number(idAttribute) as ClickedRatingValueType;
     this.updateLocalRatingValue(movieId, ratingValue);
     return ratingValue;
   },
 
-  fillStars(ratingHtml: HTMLElement, clickedRatingValue: number) {
+  fillStars(ratingHtml: HTMLElement, clickedRatingValue: ClickedRatingValueType) {
     const ratingStarList = ratingHtml.querySelectorAll('.rating-star');
     ratingStarList.forEach((star, index) => {
       star.setAttribute('src', index * 2 < clickedRatingValue ? STAR_FILLED : STAR_EMPTY);
     });
   },
 
-  updateRatingValue(ratingHtml: HTMLElement, clickedRatingValue: number) {
+  updateRatingValue(ratingHtml: HTMLElement, clickedRatingValue: ClickedRatingValueType) {
     const ratingValueHtml = ratingHtml.querySelector('#detail-modal--rating-value');
     if (!ratingValueHtml) return;
     ratingValueHtml.innerHTML = String(clickedRatingValue);
   },
 
-  updateRatingLabel(ratingHtml: HTMLElement, clickedRatingValue: number) {
+  updateRatingLabel(ratingHtml: HTMLElement, clickedRatingValue: ClickedRatingValueType) {
     const ratingLabelHtml = ratingHtml.querySelector('#detail-modal--rating-label');
     if (!ratingLabelHtml) return;
     ratingLabelHtml.innerHTML = RATING_MESSAGE[clickedRatingValue];
   },
 
-  getLocalRatingValue(id: number): number {
+  getLocalRatingValue(id: number): ClickedRatingValueType {
     return rating.getLocalDataItem(id).ratingValue;
   },
 
-  updateLocalRatingValue(id: number, ratingValue: number) {
+  updateLocalRatingValue(id: number, ratingValue: ClickedRatingValueType) {
     rating.updateLocalData(id, ratingValue);
   },
 

@@ -1,4 +1,4 @@
-import { RatingListType, RatingType } from '../types/ratings';
+import { RatingListType, RatingType, ClickedRatingValueType } from '../types/ratings';
 
 const rating = {
   getLocalData(): RatingListType {
@@ -11,7 +11,7 @@ const rating = {
     return dataList.find((data) => data.id === id) ?? { id, ratingValue: 0 };
   },
 
-  updateLocalData(id: number, ratingValue: number) {
+  updateLocalData(id: number, ratingValue: ClickedRatingValueType) {
     const dataList = this.getLocalData();
     const newData: RatingType = { id, ratingValue };
     const updatedDataList = dataList.map((data) => (data.id !== id ? data : newData));
