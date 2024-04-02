@@ -3,6 +3,7 @@ import './SearchInput.css';
 import SCREEN_SIZE from '../../constants/responsive';
 import SearchIcon from '../../statics/images/search_button.png';
 import MovieStore from '../../stores/movieStore';
+import useThrottle from '../../utils/throttle';
 
 const createSearchBox = () => {
   const $searchBox = document.createElement('form');
@@ -91,14 +92,16 @@ const SearchInput = () => {
     }
   });
 
-  window.addEventListener('resize', () => {
+  const onResize = () => {
     const windowWidth = window.innerWidth;
     const isMobile = windowWidth <= SCREEN_SIZE.mobile;
     if (isMobile) return;
 
     const isSearchInputOpen = $searchInput.classList.contains('open');
     if (isSearchInputOpen) $searchInput.classList.remove('open');
-  });
+  };
+  const throttleResizing = useThrottle(onResize, 1000);
+  window.addEventListener('resize', throttleResizing);
 
   const render = () => {
     const fragment = document.createDocumentFragment();
