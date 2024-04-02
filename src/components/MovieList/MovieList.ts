@@ -47,7 +47,6 @@ export default class MovieList extends EventComponent {
     const movieItemsTemplate = generateMovieItems(this.movies);
 
     return `
-        <div id="scroll-to-top-button" class="scroll-to-top-button">🔝</div>
         <ul id="item-list" class="item-list">
           ${movieItemsTemplate}
         </ul>
@@ -87,11 +86,6 @@ export default class MovieList extends EventComponent {
       "scroll",
       throttle(this.handleScroll.bind(this), THROTTLE_DELAY)
     );
-
-    $<HTMLButtonElement>("scroll-to-top-button")?.addEventListener(
-      "click",
-      this.scrollToTop
-    );
   }
 
   private handleMovieItemClick(event: Event): void {
@@ -115,10 +109,6 @@ export default class MovieList extends EventComponent {
     if (scrollTop + clientHeight + SCROLL_HEIGHT_BUFFER >= scrollHeight) {
       this.loadMoreMovies();
     }
-  }
-
-  private scrollToTop(): void {
-    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   private async loadMoreMovies(): Promise<void> {

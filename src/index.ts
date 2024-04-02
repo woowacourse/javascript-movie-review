@@ -7,6 +7,7 @@ import MovieList from "./components/MovieList/MovieList";
 import SkeletonUI from "./components/SkeletonUI";
 import MovieDetailModal from "./components/MovieDetailModal";
 import MovieDetailModalState from "./states/MovieDetailModalState";
+import ScrollToTopButton from "./components/ScrollToTopButton";
 
 const queryState = new QueryState();
 const movieDetailModalState = new MovieDetailModalState();
@@ -31,6 +32,9 @@ const movieDetailModal = new MovieDetailModal({
   targetId: "movie-detail-modal-target",
   movieDetailModalState,
 });
+const scrollToTopButton = new ScrollToTopButton({
+  targetId: "scroll-to-top-button-target",
+});
 
 queryState.addObserver(movieListTitle);
 queryState.addObserver(movieList);
@@ -41,3 +45,4 @@ movieHeader.initialize();
 movieListTitle.initialize();
 movieList.initialize();
 movieDetailModal.initialize();
+scrollToTopButton.initialize();
