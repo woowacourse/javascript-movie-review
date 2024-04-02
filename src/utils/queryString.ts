@@ -26,8 +26,7 @@ export const setUrlParams = (paramKey: QueryStringKeyValues, paramValue: string)
 };
 
 export const redirectToRoot = () => {
-  const url = new URL(window.location.href);
-  window.history.replaceState({}, '', url.origin);
+  window.history.replaceState({}, '', process.env.PUBLIC_PATH);
 };
 
 export const deleteUrlParams = (paramKey: QueryStringKeyValues) => {
