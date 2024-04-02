@@ -42,7 +42,7 @@ class MovieItem {
   }
 
   private generateItemCard(movie: Movie) {
-    const $img = this.generatePoster(movie.id, movie.posterPath);
+    const $img = this.generatePoster(movie.korTitle, movie.posterPath);
 
     const $title = this.generateTitle(movie.korTitle);
 
@@ -59,23 +59,26 @@ class MovieItem {
     return $div;
   }
 
-  private generatePoster(id: number, posterPath: string) {
+  private generatePoster(korTitle: string, posterPath: string) {
     const $poster = createElement({
       tagName: "img",
       attribute: {
-        class: `item-thumbnail ${id ? "" : "skeleton"}`,
+        class: `item-thumbnail skeleton`,
         loading: "lazy",
         alt: "",
       },
     });
 
-    if (id) {
+    if (korTitle) {
       $poster.setAttribute(
         "src",
         posterPath ? `${IMAGE_BASE_URL}${posterPath}` : IMAGE_PLACEHOLDER
       );
+      $poster?.addEventListener("load", () => {
+        $poster?.classList.remove("skeleton");
+        $poster?.setAttribute("alt", korTitle);
+      });
     }
-
     return $poster;
   }
 
