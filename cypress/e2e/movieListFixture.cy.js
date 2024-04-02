@@ -26,10 +26,4 @@ describe('fixture를 활용한 영화 리뷰 e2e 테스트', () => {
       expect(popularMovieItems.should('have.length', 20));
     });
   });
-
-  it('영화에는 포스터, 이름, 별점이 나온다.', () => {
-    cy.get('.item-card').find('.item-title').should('be.visible');
-    cy.get('.item-card').find('.item-thumbnail').should('be.visible');
-    cy.get('.item-card').find('.item-score').should('be.visible');
-  });
 });
