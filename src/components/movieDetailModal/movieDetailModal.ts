@@ -84,7 +84,8 @@ const movieDetailModal = {
   fillStars(ratingHtml: HTMLElement, clickedRatingValue: ClickedRatingValueType) {
     const ratingStarList = ratingHtml.querySelectorAll('.rating-star');
     ratingStarList.forEach((star, index) => {
-      star.setAttribute('src', index * 2 < clickedRatingValue ? STAR_FILLED : STAR_EMPTY);
+      const calculatedIndex = index * 2 + 1;
+      star.setAttribute('src', calculatedIndex < clickedRatingValue ? STAR_FILLED : STAR_EMPTY);
     });
   },
 
