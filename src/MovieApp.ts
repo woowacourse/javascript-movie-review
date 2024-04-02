@@ -6,7 +6,7 @@ import {
 } from './constants/movie';
 import { NO_IMAGE } from './images/index';
 import { MovieListType } from './types/movie';
-import { RenderInputType } from './types/props';
+import { RenderInputType, RenderType } from './types/props';
 import {
   HEADER_TEMPLATE,
   MOVIE_ITEM_TEMPLATE,
@@ -17,13 +17,19 @@ import MoviePage from './domain/MoviePage';
 import infiniteScroll from './utils/infiniteScroll';
 import movieData from './domain/movieData';
 
-class MovieApp extends MoviePage {
-  isLastPage: boolean = false;
+interface CategorizeRenderType {
+  popular: MoviePage;
+  search: MoviePage;
+}
+
+class MovieApp {
+  popularPage: MoviePage = new MoviePage();
+
+  searchPage: MoviePage = new MoviePage();
 
   isLoading: boolean = false;
 
   constructor() {
-    super();
     this.init();
   }
 
@@ -100,19 +106,6 @@ class MovieApp extends MoviePage {
     this.isLoading = true;
   }
 
-  createShowMoreButton({ renderType, input }: RenderInputType) {
-    const button = document.createElement('button');
-    button.classList.add('btn', 'primary', 'full-width');
-    button.id = 'show-more-btn';
-    button.textContent = '더 보기';
-
-    button.addEventListener('click', () => {
-      this.updatePage(renderType);
-      this.renderMainContents({ renderType, input });
-    });
-    return button;
-  }
-
   createMainContents(movieList: MovieListType) {
     this.deleteSkeleton();
     const ul = document.querySelector('#item-list') as HTMLElement;
@@ -139,7 +132,7 @@ class MovieApp extends MoviePage {
       renderType,
       input,
     });
-    this.isLastPage = isLastPageValue;
+    this.categorizeRenderType(renderType).isLastPage = isLastPageValue;
     this.createMainContents(movieList);
   }
 
@@ -169,6 +162,7 @@ class MovieApp extends MoviePage {
         event.preventDefault();
         this.handleSearchFormSubmit();
         this.toggleSearchWidth(searchForm);
+        this.searchPage.resetIsLastPage();
       });
     }
   }
@@ -178,7 +172,9 @@ class MovieApp extends MoviePage {
 
     if (searchInput instanceof HTMLInputElement) {
       const input = searchInput.value;
-      this.resetPage();
+      const page = this.categorizeRenderType('search');
+      // if (!page) return;
+      page.resetPage();
       this.handleSearchWidth();
       this.updateMainHtml(SEARCH_MOVIE_TITLE(input));
       await this.renderMainContents({ renderType: RENDER_TYPE.SEARCH, input });
@@ -210,6 +206,14 @@ class MovieApp extends MoviePage {
     searchInput.classList.toggle('search-input--longer');
     logo.classList.toggle('invisible');
     searchInput.focus();
+  }
+
+  categorizeRenderType(renderType: RenderType): MoviePage {
+    const categorizeRenderTypeTable: CategorizeRenderType = {
+      popular: this.popularPage,
+      search: this.searchPage,
+    };
+    return categorizeRenderTypeTable[renderType];
   }
 }
 

@@ -21,7 +21,7 @@ const movieData = {
     movieApp: MovieApp,
     { renderType, input }: RenderInputType,
   ): Promise<MovieDataType> {
-    const page = movieApp.getPage(renderType);
+    const page = movieApp.categorizeRenderType(renderType).getPage();
     const handleMovieDataTable: HandleMovieDataTableType = {
       popular: () =>
         this.getMovieData(httpRequest.fetchPopularMovies, { page, input: input ?? '' }),

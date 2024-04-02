@@ -11,7 +11,7 @@ const infiniteScroll = {
 
       const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach((entry) => {
-          if (movieApp.isLastPage) observer.disconnect();
+          if (movieApp.categorizeRenderType(renderType).isLastPage) observer.disconnect();
           if (!entry.isIntersecting || movieApp.isLoading) return;
 
           observer.observe(scrollEnd);
@@ -24,7 +24,7 @@ const infiniteScroll = {
   },
 
   handleMovieApp(movieApp: MovieApp, { renderType, input }: RenderInputType) {
-    movieApp.updatePage(renderType);
+    movieApp.categorizeRenderType(renderType).updatePage();
     movieApp.renderMainContents({ renderType, input });
   },
 };
