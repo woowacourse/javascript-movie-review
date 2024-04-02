@@ -2,6 +2,7 @@ import Component from '../../common/Component/Component';
 import MovieListCard from '../MovieListCard/MovieListCard';
 import { IMovie } from '../../../domain/Movie/Movie.type';
 import { createElement } from '../../../utils/dom/createElement/createElement';
+import { MOVIE } from '../../../constants/Condition';
 import './MovieList.css';
 
 interface MovieListProps {
@@ -17,7 +18,7 @@ class MovieList extends Component<MovieListProps> {
 
   private setIntersectionObserver(index: number, $movieItem: HTMLElement) {
     if (!this.props) return;
-    if (this.props.movieItems.length !== 20) return;
+    if (this.props.movieItems.length !== MOVIE.MAX_ITEM) return;
 
     if (index === this.props.movieItems.length - 1) {
       this.props.observer.observe($movieItem);
