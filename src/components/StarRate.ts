@@ -48,6 +48,7 @@ const Stars = (rate: number) => {
     $starButton.appendChild($star);
     $stars.appendChild($starButton);
   }
+
   return $stars;
 };
 
@@ -67,11 +68,8 @@ const rateStateContainer = (rate: number) => {
   return $rateStateContainer;
 };
 
-const handleRemovePreStar = (
-  target: HTMLElement,
-  $rateContainer: HTMLElement,
-) => {
-  const $prevStars = target.closest(".stars");
+const handleRemovePreStar = ($rateContainer: HTMLElement) => {
+  const $prevStars = $rateContainer.querySelector(".stars");
   $prevStars?.remove();
   const $prevStarsState = $rateContainer.querySelector(".rate-state-container");
   $prevStarsState?.remove();
@@ -83,7 +81,7 @@ const handleClickStar = (
   $rateContainer: HTMLElement,
 ) => {
   const target = e.target as HTMLElement;
-  handleRemovePreStar(target, $rateContainer);
+  handleRemovePreStar($rateContainer);
 
   const clickedStarNumber = Number(target.closest("button")?.id) * 2;
   $rateContainer.appendChild(Stars(clickedStarNumber));
