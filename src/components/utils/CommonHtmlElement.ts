@@ -1,7 +1,7 @@
 import createElement from "./createElement";
 
 class CommonHtmlElement {
-  $element: HTMLElement = createElement({
+  private $element: HTMLElement = createElement({
     tagName: "div",
   });
 
