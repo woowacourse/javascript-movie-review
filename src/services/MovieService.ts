@@ -42,19 +42,12 @@ const fetchMovies = async (url: string): Promise<MovieData> => {
   const { page, total_pages, results, total_results } = data;
   const isLastPage = page === total_pages;
   const isEmptyResults: boolean = total_results === 0;
-  const movies: Movie[] = results.map(
-    (
-      movie: Pick<
-        MovieResults,
-        'id' | 'title' | 'vote_average' | 'poster_path'
-      >,
-    ) => ({
-      id: movie.id,
-      title: movie.title,
-      vote_average: movie.vote_average,
-      poster_path: movie.poster_path,
-    }),
-  );
+  const movies: Movie[] = results.map((movie: MovieResults) => ({
+    id: movie.id,
+    title: movie.title,
+    vote_average: movie.vote_average,
+    poster_path: movie.poster_path,
+  }));
 
   return { movies, page, isLastPage, isEmptyResults };
 };
