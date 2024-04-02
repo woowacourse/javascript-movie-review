@@ -120,6 +120,24 @@ const ReviewContainer = ({ id, my_grade }: MovieDetail, onStarClick: onStarClick
     onStarClick(id, event);
   });
 
+  stars.addEventListener('mouseout', () => {
+    const allData = localStorage.getItem('movieDetails') as string;
+    const movieGrade = JSON.parse(allData)[id].my_grade;
+
+    Array.from({ length: stars.children.length }).forEach((_, index) => {
+      const star = stars.children[index] as HTMLImageElement;
+
+      if (index < movieGrade / 2) {
+        star.src = STAR_FILLED;
+      } else {
+        star.src = STAR_EMPTY;
+      }
+    });
+
+    reviewRating.textContent = String(movieGrade);
+    reviewText.textContent = STAR_MESSAGE[movieGrade];
+  });
+
   return reviewContainer;
 };
 
