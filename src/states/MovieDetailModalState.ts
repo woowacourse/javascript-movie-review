@@ -1,4 +1,3 @@
-import { MovieItem } from "../types/movie";
 import Observable from "./abstract/Observable";
 
 interface MovieDetailModalStateData {
