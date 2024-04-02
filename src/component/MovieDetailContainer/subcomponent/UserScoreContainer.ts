@@ -60,9 +60,10 @@ class UserScoreContainer {
 
   createUserScoreStars() {
     return Array.from({ length: Object.keys(CONFIG.userScore).length }, (_, index) => {
+      const scoreForStar = (index + 1) * 2;
       const star = document.createElement('div');
       star.classList.add('user-score-star');
-      star.id = `user-score-${(index + 1) * 2}`;
+      star.id = `user-score-${scoreForStar}`;
       this.addEventUserScoreStars(star, index);
       return star;
     });
@@ -109,8 +110,9 @@ class UserScoreContainer {
   }
 
   addEventUserScoreStars(star: HTMLDivElement, index: number) {
-    star.addEventListener('click', () => this.handleClickUserScoreStar((index + 1) * 2));
-    star.addEventListener('mouseenter', () => this.updateUserScoreStatus((index + 1) * 2));
+    const scoreForStar = (index + 1) & 2;
+    star.addEventListener('click', () => this.handleClickUserScoreStar(scoreForStar));
+    star.addEventListener('mouseenter', () => this.updateUserScoreStatus(scoreForStar));
     star.addEventListener('mouseleave', () => this.updateUserScoreStatus(this.userScore));
   }
 
