@@ -138,22 +138,26 @@ class App {
   }
 
   private async renderDetailModal(id: number) {
-    const movieDetail = await getMovieDetail({ movieId: id });
-    const myVote = getMyVote({ movieId: id });
     this.movieDetailModal = new MovieDetailModal({
-      movieDetail,
-      myVote,
       closeModal: () => {
         if (this.movieDetailModal) {
           this.movieDetailModal.getElement().remove();
           this.movieDetailModal = null;
         }
       },
+    });
+    this.$element.appendChild(this.movieDetailModal.getElement());
+
+    const movieDetail = await getMovieDetail({ movieId: id });
+    const myVote = getMyVote({ movieId: id });
+
+    this.movieDetailModal.fillContent({
+      movieDetail,
+      myVote,
       onMyVoteClick: ({ movieId, score }: MyVote) => {
         setMyVote({ movieId, score });
       },
     });
-    this.$element.appendChild(this.movieDetailModal.getElement());
   }
 }
 
