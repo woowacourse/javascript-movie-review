@@ -7,7 +7,7 @@ import SearchValidator from '../../domain/Validator/SearchValidator';
 import ToastPopup from '../ToastPopup/ToastPopup';
 import CONDITIONS from '../../constants/CONDITIONS';
 import MovieItemDetailModalInstance from '../../typeAliases/MovieItemDetailModalInstance';
-import Throttle from '../../Utils/Throttle';
+import Throttle from '../../utils/Throttle';
 import './ItemView.css';
 
 class ItemView {
