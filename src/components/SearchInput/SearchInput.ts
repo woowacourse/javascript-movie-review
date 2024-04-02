@@ -64,6 +64,8 @@ const SearchInput = () => {
   });
 
   $searchInput.addEventListener('input', (e: Event) => {
+    if (MovieStore.type === 'search') return;
+
     const { target } = e;
 
     if (target instanceof HTMLInputElement && target.value === '') {
