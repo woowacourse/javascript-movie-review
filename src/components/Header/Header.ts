@@ -49,6 +49,7 @@ const headerManager = {
 
   displaySearchError() {
     const errorElement = errorMessage.noSearchedMovieError('검색된 영화가 없습니다 💢');
+    $('.error-container')?.remove();
     $('#app')?.insertAdjacentHTML('beforeend', errorElement);
   },
 

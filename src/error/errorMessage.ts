@@ -19,7 +19,7 @@ const errorMessage = {
 
   serverError(statusCode: number) {
     const templates = /* html */ `
-    <div class="center-div">
+    <div class="error-container center-div">
       <h1 class="error-msg">${statusCode}</h1>
       <h2 >서버 에러입니다.<h2> 
       <h2>${errorHandler(statusCode)}</div>
@@ -31,7 +31,7 @@ const errorMessage = {
 
   clientError(statusCode: number) {
     const templates = /* html */ `
-      <div class="center-div">
+      <div class="error-container center-div">
         <h1 class="error-msg">${statusCode}</h1>
         <h2>클라이언트 에러입니다.<h2> 
         <h2>${errorHandler(statusCode)}</div>
@@ -43,9 +43,10 @@ const errorMessage = {
 
   noSearchedMovieError(message?: string) {
     const templates = /* html */ `
+    <div class="error-container">
       <div class="search-error-msg">${message}</div>
       <h2 class="error-description">검색어를 바르게 입력하셨는지 확인해주세요~❤️</h2>
-
+    </div>
       `;
 
     return templates;
