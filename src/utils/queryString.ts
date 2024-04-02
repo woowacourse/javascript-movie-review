@@ -22,7 +22,7 @@ export const getUrlParams = (paramKey: QueryStringKeyValues) => {
 export const setUrlParams = (paramKey: QueryStringKeyValues, paramValue: string) => {
   const urlParams = new URLSearchParams(window.location.search);
   urlParams.set(paramKey, paramValue);
-  window.history.replaceState({}, '', `${window.location.pathname}?${urlParams}`);
+  window.history.replaceState({}, '', `${process.env.PUBLIC_PATH}?${urlParams}`);
 };
 
 export const redirectToRoot = () => {
