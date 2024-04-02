@@ -21,7 +21,6 @@ const modal = {
       }
     });
     setTimeout(() => container.focus(), 0);
-    container.focus();
 
     return container;
   },
