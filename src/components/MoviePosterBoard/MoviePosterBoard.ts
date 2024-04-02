@@ -115,21 +115,19 @@ class MoviePosterBoard {
     movieName: string,
     observer?: IntersectionObserver
   ) {
-    try {
-      this.addSkeletonPosters(numberOfPosters);
-      const fetchedMovieInfo = await this.seeMoreButton.getMoreMoviePoster(
-        posterType,
-        movieName
-      );
-      this.deleteLastPosters(numberOfPosters);
-      if (fetchedMovieInfo.length) this.addMoviePoster(fetchedMovieInfo);
-      else this.notFoundMovie(movieName);
+    this.addSkeletonPosters(numberOfPosters);
+    const fetchedMovieInfo = await this.seeMoreButton.getMoreMoviePoster(
+      posterType,
+      movieName
+    );
+    this.deleteLastPosters(numberOfPosters);
+    if (!fetchedMovieInfo) return this.fetchErrorHandler(posterType, movieName);
 
-      if (observer) this.observeLastItem(observer);
-      else this.setInfiniteScroll(posterType, movieName);
-    } catch (error) {
-      this.fetchErrorHandler(posterType, movieName);
-    }
+    if (fetchedMovieInfo.length) this.addMoviePoster(fetchedMovieInfo);
+    else this.notFoundMovie(movieName);
+
+    if (observer) this.observeLastItem(observer);
+    else this.setInfiniteScroll(posterType, movieName);
   }
 
   private async openMovieDetailModal(event: Event) {

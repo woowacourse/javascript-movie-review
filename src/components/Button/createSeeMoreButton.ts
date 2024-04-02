@@ -22,6 +22,8 @@ class createSeeMoreButton {
       posterType === "popular" ? fetchPopularMovie : fetchTargetMovie;
 
     const TMDBResponse = await fetchFunc(this.currentPage, movieName);
+    if (!TMDBResponse) return;
+
     if (this.totalPage === null) this.totalPage = TMDBResponse.total_pages;
 
     if (this.currentPage === TMDBResponse?.total_pages)
@@ -43,7 +45,7 @@ class createSeeMoreButton {
 
   isLastPage(): boolean {
     if (!this.totalPage) return true;
-    return this.totalPage < this.currentPage ? true : false;
+    return this.totalPage < this.currentPage;
   }
 
   public get element(): HTMLButtonElement {
