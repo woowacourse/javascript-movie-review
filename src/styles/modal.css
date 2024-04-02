@@ -1,4 +1,6 @@
 .modal {
+  display: flex;
+  flex-direction: column;
   width: 826px;
   height: 577px;
   min-width: 400px;
@@ -37,6 +39,7 @@
 }
 
 .modal > section {
+  flex: 1;
   display: flex;
   justify-content: space-between;
   padding: 20px;
