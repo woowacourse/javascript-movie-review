@@ -51,6 +51,13 @@ const INFINITE_SCROLL_TRIGGER = Object.freeze({
   trigger: 'infinite-scroll-trigger',
 });
 
+const SEARCH_INPUT = Object.freeze({
+  container: 'search-box',
+  input: 'movie-search',
+  button: 'search-button',
+  searchIcon: 'search-icon',
+});
+
 const SELECTORS = {
   MODAL,
   SKELETON,
@@ -58,6 +65,7 @@ const SELECTORS = {
   MOVIE_DETAIL_MODAL,
   MOVIE_DETAIL,
   STAR_RATING,
+  SEARCH_INPUT,
   INFINITE_SCROLL_TRIGGER,
 };
 

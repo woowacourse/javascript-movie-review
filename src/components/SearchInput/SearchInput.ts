@@ -1,6 +1,7 @@
 import './SearchInput.css';
 
 import SCREEN_SIZE from '../../constants/responsive';
+import SELECTORS from '../../constants/selectors';
 import SearchIcon from '../../statics/images/search_button.png';
 import MovieStore from '../../stores/movieStore';
 import useThrottle from '../../utils/throttle';
@@ -33,6 +34,7 @@ const createSearchBtn = () => {
   $searchBtn.type = 'submit';
 
   const $img = document.createElement('img');
+  $img.classList.add(SELECTORS.SEARCH_INPUT.searchIcon);
   $img.src = SearchIcon;
   $img.alt = '검색';
 
@@ -84,11 +86,22 @@ const SearchInput = () => {
   });
 
   $searchBtn.addEventListener('click', () => {
+    const isSearchInputOpen = $searchInput.classList.contains('open');
+    if (isSearchInputOpen) return;
+
     const windowWidth = window.innerWidth;
     const isMobile = windowWidth <= SCREEN_SIZE.mobile;
 
     if (isMobile) {
-      $searchInput.classList.toggle('open');
+      $searchInput.classList.add('open');
+    }
+  });
+
+  document.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement;
+
+    if (!target.closest(`.${SELECTORS.SEARCH_INPUT.container}`)) {
+      $searchInput.classList.remove('open');
     }
   });
 
