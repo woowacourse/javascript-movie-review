@@ -40,9 +40,9 @@ export default class RatingBar extends HTMLElement {
   }
 
   private getTemplate(): HTMLTemplate {
-    const rating = this.myRating();
-    const starFillCount = this.starFillCount(rating);
-    const ratingText = this.ratingText(rating);
+    const rating = this.getMyRating();
+    const starFillCount = this.calculateStarFillCount(rating);
+    const ratingText = this.convertIntoRatingText(rating);
 
     return `
     <div class="rating-bar">
@@ -75,7 +75,7 @@ export default class RatingBar extends HTMLElement {
     }
   }
 
-  private myRating(): number | null {
+  private getMyRating(): number | null {
     const movieId = Number(this.getAttribute("movieId"));
 
     const movieRatings = movieRatingsStore.get();
@@ -90,10 +90,10 @@ export default class RatingBar extends HTMLElement {
   }
 
   private updateRatingText(rating: number): void {
-    $("rating-text")!.textContent = this.ratingText(rating);
+    $("rating-text")!.textContent = this.convertIntoRatingText(rating);
   }
 
-  private ratingText(rating: number | null): string {
+  private convertIntoRatingText(rating: number | null): string {
     if (rating === null) {
       return RATING_TO_TEXT.none;
     }
@@ -101,7 +101,7 @@ export default class RatingBar extends HTMLElement {
     return RATING_TO_TEXT[rating as keyof typeof RATING_TO_TEXT];
   }
 
-  private starFillCount(rating: number | null): number {
+  private calculateStarFillCount(rating: number | null): number {
     return rating ? rating / 2 : 0;
   }
 
