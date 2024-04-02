@@ -1,4 +1,4 @@
-import './MovieListContainer.css';
+import './MovieListContainer.scss';
 
 import { getPopularMovies, searchMoviesByTitle } from '../../apis/movie';
 import { Movie } from '../../types/movie';

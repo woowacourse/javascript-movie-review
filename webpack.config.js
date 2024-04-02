@@ -40,6 +40,10 @@ module.exports = {
         use: ['style-loader', { loader: 'css-loader', options: { url: false } }],
       },
       {
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         loader: 'file-loader',
         options: {

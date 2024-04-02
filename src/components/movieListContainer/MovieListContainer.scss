@@ -1,3 +1,7 @@
+$desktop-width: 950px;
+$tablet-width: 750px;
+$mobile-width: 400px;
+
 .item-list {
   display: grid;
   margin: 48px 0;
@@ -9,20 +13,20 @@
   justify-content: space-between;
 }
 
-@media (max-width: 950px) {
+@media (max-width: #{$desktop-width}) {
   .item-list {
     grid-template-columns: repeat(3, 180px);
   }
 }
 
-@media (max-width: 750px) {
+@media (max-width: #{$tablet-width}) {
   .item-list {
     grid-template-columns: repeat(2, 140px);
     justify-content: space-around;
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: #{$mobile-width}) {
   .item-list {
     grid-template-columns: repeat(2, 120px);
   }
