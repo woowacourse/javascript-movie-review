@@ -2,13 +2,12 @@ import { Movie } from '../index.d';
 
 import { fetchPopularMovies } from './API';
 
-
 import { ERROR_2XX } from '../constants';
 
 import ErrorRender from '../components/ErrorRender';
 
 class MovieStore {
-  #moviesData: any[];
+  #moviesData: Movie[];
 
   #pageCount: number = 1;
 
@@ -16,7 +15,6 @@ class MovieStore {
     this.#moviesData = [];
   }
 
-  /* eslint-disable max-lines-per-function */
   async getMovies() {
     try {
       const responseData = await this.#fetchMoviesData();
@@ -30,7 +28,6 @@ class MovieStore {
   /* eslint-disable max-lines-per-function */
   async #fetchMoviesData() {
     const response = await fetchPopularMovies(this.#pageCount);
-
 
     if (!response.ok) {
       throw new ErrorRender(String(response.status)).renderError();

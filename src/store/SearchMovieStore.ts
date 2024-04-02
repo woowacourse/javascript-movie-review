@@ -7,7 +7,7 @@ import ErrorRender from '../components/ErrorRender';
 import { fetchSearchMovies } from './API';
 
 class SearchMovieStore {
-  #searchMoviesData: any[];
+  #searchMoviesData: Movie[];
 
   #totalPages: number = 0;
 
@@ -19,7 +19,6 @@ class SearchMovieStore {
     this.#searchMoviesData = [];
   }
 
-  /* eslint-disable max-lines-per-function */
   async searchMovies() {
     try {
       const responseData = await this.#fetchSearchData();
