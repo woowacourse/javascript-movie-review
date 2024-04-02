@@ -15,15 +15,11 @@ const StarRatingController = {
       '.modal-body__star-box__rating-text',
     );
 
-    function updateStars({
-      starId,
-      ratingText,
-      ratingNumber,
-    }: {
-      starId: number;
-      ratingText: string;
-      ratingNumber: number;
-    }) {
+    function startIdToRatingNumber(starId: number) {
+      return starId * 2;
+    }
+
+    function updateStars(starId: number, ratingText: string) {
       $starBtns.forEach((button, index) => {
         const currentId: number = index + 1;
         const $starImg = button.querySelector('img') as HTMLImageElement;
@@ -35,7 +31,7 @@ const StarRatingController = {
       });
 
       if ($ratingNumber) {
-        $ratingNumber.textContent = ratingNumber.toString();
+        $ratingNumber.textContent = startIdToRatingNumber(starId).toString();
       }
       if ($ratingText) {
         $ratingText.textContent = ratingText;
@@ -43,7 +39,7 @@ const StarRatingController = {
     }
 
     function updateMovieRatingInLocalStorage(
-      ratingNumber: number,
+      starId: number,
       ratingText: string,
     ) {
       const ratingData: StarRating[] =
@@ -55,13 +51,13 @@ const StarRatingController = {
           ...(ratingData || []),
           {
             id: movieId,
-            ratingNumber,
+            ratingNumber: startIdToRatingNumber(starId),
             ratingText,
           },
         ];
         LocalStorageService.setData('starRating', newRatingData);
       } else {
-        rating.ratingNumber = ratingNumber;
+        rating.ratingNumber = startIdToRatingNumber(starId);
         rating.ratingText = ratingText;
         LocalStorageService.setData('starRating', ratingData);
       }
@@ -71,9 +67,8 @@ const StarRatingController = {
       button.addEventListener('click', () => {
         const starId: number = index + 1;
         const ratingText = button.querySelector('img')?.alt as string;
-        const ratingNumber = starId * 2;
-        updateStars({ starId, ratingText, ratingNumber });
-        updateMovieRatingInLocalStorage(ratingNumber, ratingText);
+        updateStars(starId, ratingText);
+        updateMovieRatingInLocalStorage(starId, ratingText);
       });
     });
   },
