@@ -11,8 +11,8 @@ type MovieDetailProps = {
   overview: string;
 };
 
-const MovieDetailModal = ({ id, title, poster_path, genres, vote_average, overview }: MovieDetailProps) => {
-  const movieDetailModal = renderHandler({ id, title, poster_path, genres, vote_average, overview });
+const MovieDetailModal = (props: MovieDetailProps) => {
+  const movieDetailModal = renderHandler(props);
   movieDetailModalEventHandler();
 
   return movieDetailModal;
