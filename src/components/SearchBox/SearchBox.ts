@@ -66,7 +66,7 @@ class searchInputBox {
   }
 
   setEvents() {
-    this.setSubmitEvent();
+    this.changeViewByResize();
 
     let resizeEvent: NodeJS.Timeout | null;
 
@@ -76,6 +76,8 @@ class searchInputBox {
         this.changeViewByResize();
       }, 500);
     });
+
+    this.setSubmitEvent();
 
     this.inputFoldButton.addEventListener('click', e => {
       e.preventDefault();
