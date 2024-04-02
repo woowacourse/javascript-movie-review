@@ -7,6 +7,8 @@ import IMAGES from "../images";
 const MOVIE_QUERY_MIN_LENGTH = 1;
 const MOVIE_QUERY_MAX_LENGTH = 500;
 
+const MOBILE_WIDTH = 640;
+
 interface MovieHeaderProps {
   targetId: ElementId;
   queryState: QueryState;
@@ -55,7 +57,7 @@ export default class MovieHeader extends EventComponent {
 
     const $header = $(this.targetId) as HTMLHeadElement;
     if (
-      window.innerWidth <= 640 &&
+      window.innerWidth <= MOBILE_WIDTH &&
       !$header.classList.contains("search-bar-only")
     ) {
       return $header.classList.add("search-bar-only");
