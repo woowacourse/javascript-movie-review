@@ -1,10 +1,9 @@
 import Component from "../common/Component";
 import { createMovieElement } from "./Movie";
 import { hideSkeleton, renderSkeleton } from "./Skeleton";
-import movieClient from "../http/MoveClient";
-import { $ } from "../utils/dom";
-import { FetchResponse, MovieItem } from "../types/movies";
-import { MAX_PAGE } from "../constants/movies";
+import MovieClient from "../http/MovieClient";
+import { MovieType } from "../types";
+import { hideEmptyResult, renderEmptyResult } from "./EmptyResult";
 
 interface MovieListState {
   currentPage: number;
@@ -24,74 +23,67 @@ export default class MovieList extends Component<{}, MovieListState> {
         </ul>
       </div>
       <div id="empty-result" class="empty-result hidden"></div>
-      <button id="next-button" class="btn primary full-width">더 보기</button>
+      
     `;
   }
 
-  protected render() {
+  protected async render() {
     this.state = { currentPage: 0, searchKeyword: "" };
     this.$target.innerHTML = this.getTemplate();
     this.handleRenderMovieList();
   }
 
-  private hideEmptyResult() {
-    const emptyResultContainer = $<HTMLDivElement>("#empty-result");
-    if (!emptyResultContainer) return;
-
-    emptyResultContainer.classList.add("hidden");
-    emptyResultContainer.innerText = "";
-  }
-
-  private renderEmptyResult() {
-    const emptyResultContainer = $<HTMLDivElement>("#empty-result");
-    if (!emptyResultContainer) return;
-
-    emptyResultContainer?.classList.remove("hidden");
-    const emptyText = `${this.state?.searchKeyword} 에 대한 검색 결과가 존재하지 않아요..😅\n정확한 검색어를 다시 입력해주세요`;
-    emptyResultContainer.innerText = emptyText;
-  }
-
-  private renderMovies(movies: MovieItem[]) {
-    const movieList = $<HTMLUListElement>("#movie-list-container");
-    if (!movieList) return;
-
-    if (movies.length < 1) {
-      this.renderEmptyResult();
-      return;
-    }
-
-    this.hideEmptyResult();
+  private renderMovies(movies: MovieType[]) {
+    const $movieList = document.querySelector<HTMLUListElement>("#movie-list-container");
+    if (!$movieList) return;
+    hideEmptyResult();
     movies.forEach((movie) => {
-      const { id, title, backdrop_path, vote_average } = movie;
-      const movieItem = createMovieElement({ id, title, backdrop_path, vote_average });
-      movieList.append(movieItem);
+      const movieItem = createMovieElement(movie);
+      $movieList.append(movieItem);
     });
   }
 
   private toggleMainText(text: string = "") {
-    const mainText = $<HTMLHeadingElement>("#main-text");
-    if (!mainText) return;
+    const $mainText = document.querySelector<HTMLHeadingElement>("#main-text");
+    if (!$mainText) return;
 
     if (text === "") {
-      mainText.innerText = `지금 인기 있는 영화`;
+      $mainText.innerText = `지금 인기 있는 영화`;
     } else {
-      mainText.innerText = `"${text}" 검색 결과`;
+      $mainText.innerText = `"${text}" 검색 결과`;
     }
   }
 
   private resetCurrentMovieList() {
-    const movieList = $<HTMLUListElement>("#movie-list-container");
-    if (!movieList) return;
+    const $movieList = document.querySelector<HTMLUListElement>("#movie-list-container");
+    if (!$movieList) return;
 
-    movieList.innerHTML = "";
+    $movieList.innerHTML = "";
   }
 
   private handleRenderMovieList() {
     renderSkeleton();
 
     this.getNextPage()
-      .then((res) => {
-        res && this.renderMovies(res.results);
+      .then((data) => {
+        if (!data || data.length < 20) {
+          if (this.state?.currentPage === 1) {
+            renderEmptyResult(this.state.searchKeyword);
+          }
+          return;
+        }
+        this.renderMovies(data);
+        const $movies = document.querySelectorAll<HTMLLIElement>("#movie-list-container li");
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && entry.target === $movies[$movies.length - 1]) {
+              observer.unobserve(entry.target);
+              this.handleRenderMovieList();
+            }
+          });
+        });
+
+        observer.observe($movies[$movies.length - 1]);
       })
       .catch((error) => {
         if (error instanceof Error) {
@@ -103,18 +95,10 @@ export default class MovieList extends Component<{}, MovieListState> {
       });
   }
 
-  private handleRemoveMoreButton() {
-    if (!this.state || this.state.currentPage < MAX_PAGE) return;
-
-    const $button = $<HTMLButtonElement>("#next-button");
-    $button && $button.remove();
-  }
-
   private updateCurrentPage() {
     if (!this.state) return;
 
     this.setState({ ...this.state, currentPage: this.state.currentPage + 1 });
-    this.handleRemoveMoreButton();
   }
 
   private async getNextPage() {
@@ -122,17 +106,8 @@ export default class MovieList extends Component<{}, MovieListState> {
     if (!this.state) return;
 
     const { currentPage, searchKeyword } = this.state;
-
-    if (searchKeyword === "") return movieClient.getPopularMovies(currentPage);
-    return await movieClient.getSearchMovies(currentPage, searchKeyword);
-  }
-
-  protected setEvent(): void {
-    const button = $<HTMLButtonElement>("#next-button");
-
-    button?.addEventListener("click", () => {
-      this.handleRenderMovieList();
-    });
+    if (searchKeyword === "") return MovieClient.getPopularMovies(currentPage);
+    return MovieClient.getSearchMovies(currentPage, searchKeyword);
   }
 
   public handleSearchMovie(searchKeyword: string) {

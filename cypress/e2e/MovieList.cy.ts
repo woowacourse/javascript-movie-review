@@ -39,33 +39,6 @@ describe("영화 목록 E2E 테스트", () => {
     cy.get("ul#movie-list-container").children().should("have.length", EXPECTED_MOVIE_LENGTH);
   });
 
-  it("더보기 버튼을 클릭할 경우, 20개의 데이터가 추가된다.", () => {
-    cy.get("button#next-button").click();
-
-    cy.wait("@getPopularMovies").then((interception) => {
-      if (interception.response) {
-        const initialMovies = interception.response.body.results;
-        expect(initialMovies.length).to.equal(EXPECTED_MOVIE_LENGTH);
-      }
-    });
-
-    cy.get("ul#movie-list-container")
-      .children()
-      .should("have.length", EXPECTED_MOVIE_LENGTH * 2);
-  });
-
-  it("10 페이지의 데이터를 모두 보여준 후, 더보기 버튼은 사라져야한다", () => {
-    Array.from({ length: 9 }, () => {
-      cy.get("button#next-button").click();
-    });
-
-    cy.get("ul#movie-list-container")
-      .children()
-      .should("have.length", MOVIE_LENGTH_PER_RESQUEST * TOTAL_PAGE);
-
-    cy.get("button#next-button").should("not.exist");
-  });
-
   it("검색창에 특정 키워드 검색 시, 검색 키워드에 맞는 데이터가 보여진다.", () => {
     cy.wait("@getPopularMovies").then(() => {
       cy.get("input#search-input").type("해리");
