@@ -21,14 +21,16 @@ export const getUrlParams = (paramKey: QueryStringKeyValues) => {
 };
 
 export const setUrlParams = (paramKey: QueryStringKeyValues, endpoint: string, paramValue: string) => {
+  const baseUrl = process.env.NODE_ENV === 'production' ? process.env.PUBLIC_PATH : process.env.LOCAL_PATH!;
   const newUrl = endpoint.length
-    ? `${process.env.PUBLIC_PATH}${endpoint}?${paramKey}=${paramValue}`
-    : `${process.env.PUBLIC_PATH}?${paramKey}=${paramValue}`;
+    ? `${baseUrl}${endpoint}?${paramKey}=${paramValue}`
+    : `${baseUrl}?${paramKey}=${paramValue}`;
   window.history.replaceState({}, '', newUrl);
 };
 
 export const redirectToRoot = () => {
-  window.history.replaceState({}, '', process.env.PUBLIC_PATH);
+  const baseUrl = process.env.NODE_ENV === 'production' ? process.env.PUBLIC_PATH : process.env.LOCAL_PATH!;
+  window.history.replaceState({}, '', baseUrl);
 };
 
 export const deleteUrlParams = (paramKey: QueryStringKeyValues) => {

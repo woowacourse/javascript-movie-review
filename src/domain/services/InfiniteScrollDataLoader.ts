@@ -66,6 +66,7 @@ class InfiniteScrollDataLoader {
   async selectAPIAndFetch() {
     const endpoint = getEndpoint();
     const query = getUrlParams(QUERY_STRING_KEYS.QUERY);
+
     if (endpoint === END_POINT.SEARCH && query) {
       return movieAPI.fetchSearchMovies({ pageNumber: this.currentPage, query });
     }

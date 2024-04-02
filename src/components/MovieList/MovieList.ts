@@ -24,6 +24,8 @@ class MovieList {
   }
 
   render() {
+    const errorPage = document.querySelector('.error');
+    errorPage?.replaceWith();
     if (!this.movieList.length) return NotFound();
     this.renderMovieList();
   }
