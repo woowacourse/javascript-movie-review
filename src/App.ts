@@ -1,6 +1,6 @@
 import { Movie } from './index.d';
 
-import { SKELETON_UI_PC, SKELETON_UI_TABLET, SKELETON_UI_MOBILE } from './constants';
+import { SKELETON_UI_PC, SKELETON_UI_TABLET, SKELETON_UI_MOBILE, MOBILE_SIZE, TABLET_SIZE } from './constants';
 
 import movieStore from './store/MovieStore';
 import searchMovieStore from './store/SearchMovieStore';
@@ -45,9 +45,9 @@ export default class App {
     const width = window.innerWidth;
     let skeletonCount = this.#skeletonBySize;
 
-    if (width <= 390) {
+    if (width <= MOBILE_SIZE) {
       skeletonCount = SKELETON_UI_MOBILE;
-    } else if (width <= 834) {
+    } else if (width <= TABLET_SIZE) {
       skeletonCount = SKELETON_UI_TABLET;
     }
 
@@ -111,7 +111,6 @@ export default class App {
       const card = new MovieCard({
         classes: ['skeleton-container'],
       });
-
       fragment.appendChild(card.element);
     }
 
