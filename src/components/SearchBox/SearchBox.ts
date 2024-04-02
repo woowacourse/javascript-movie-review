@@ -106,7 +106,7 @@ class searchInputBox {
           return new Toast('검색어를 입력하세요.');
         }
         setEndpoint(END_POINT.SEARCH);
-        setUrlParams(QUERY_STRING_KEYS.QUERY, this.searchInput.value);
+        setUrlParams(QUERY_STRING_KEYS.QUERY, END_POINT.SEARCH, this.searchInput.value);
         return this.rerenderList();
       }
       this.setOpenInputEvent();

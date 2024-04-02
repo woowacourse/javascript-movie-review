@@ -19,8 +19,8 @@ export const getUrlParams = (paramKey: QueryStringKeyValues) => {
   return urlParams.get(paramKey);
 };
 
-export const setUrlParams = (paramKey: QueryStringKeyValues, paramValue: string) => {
-  window.history.replaceState({}, '', `${process.env.PUBLIC_PATH}?${paramKey}=${paramValue}`);
+export const setUrlParams = (paramKey: QueryStringKeyValues, endpoint: EndPointValues, paramValue: string) => {
+  window.history.replaceState({}, '', `${process.env.PUBLIC_PATH}${endpoint}?${paramKey}=${paramValue}`);
 };
 
 export const redirectToRoot = () => {
