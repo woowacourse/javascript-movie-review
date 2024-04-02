@@ -39,7 +39,7 @@ const createCard = ({
   poster_path,
   vote_average,
 }: Pick<Movie, 'title' | 'poster_path' | 'vote_average'>) => {
-  const $card = document.createElement('div');
+  const $card = document.createElement('button');
   $card.classList.add('item-card');
 
   const $thumbnail = createThumbnail(title, poster_path);
