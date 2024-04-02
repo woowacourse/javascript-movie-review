@@ -42,6 +42,8 @@ export default class MovieDetailModal extends EventComponent {
 
     const { id, title, posterSrc, genres, voteAverage, overview } = movieDetail;
 
+    const overViewText = overview || "🎬 영화 줄거리 정보가 없습니다";
+
     return `
     <dialog id="movie-detail-modal" class="movie-detail-modal">
     <div class="movie-detail-container">
@@ -64,9 +66,7 @@ export default class MovieDetailModal extends EventComponent {
                 IMAGES.starFilled
               }" />${voteAverage}</p>
             </div>
-            <p class="movie-detail-overview">${
-              overview || "🎬 영화 줄거리 정보가 없습니다"
-            }</p>
+            <p class="movie-detail-overview">${overViewText}</p>
           </div>
           <rating-bar movieId="${id}"></rating-bar>
         </div>
