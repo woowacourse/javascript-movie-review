@@ -1,7 +1,7 @@
+import { ALERT_MESSAGE } from '../../constants/messages';
 import { RULES } from '../../constants/rule';
 import { SEARCH_BUTTON } from '../../resource';
 import { $ } from '../../utils/dom';
-import { showAlert } from '../Alert/Alert';
 
 interface Props {
   searchHandler: (event: MouseEvent | KeyboardEvent) => void;
@@ -47,7 +47,15 @@ const SearchBox = ({ searchHandler }: Props) => {
     }
 
     if (searchInput.value === '') {
-      showAlert('검색어를 입력해주세요.');
+      const alert = $('.alert-container') as HTMLDivElement;
+      const alertText = $('.alert-text') as HTMLSpanElement;
+
+      alertText.textContent = ALERT_MESSAGE.searchInputEmpty;
+      alert.classList.remove('hidden');
+      setTimeout(() => {
+        alert.classList.add('hidden');
+      }, 3000);
+
       return;
     }
 
@@ -68,7 +76,16 @@ const SearchBox = ({ searchHandler }: Props) => {
     }
 
     if (event.key === 'Enter' && searchInput.value === '') {
-      showAlert('검색어를 입력해주세요.');
+      const alert = $('.alert-container') as HTMLDivElement;
+      const alertText = $('.alert-text') as HTMLSpanElement;
+
+      alertText.textContent = ALERT_MESSAGE.searchInputEmpty;
+      alert.classList.remove('hidden');
+      setTimeout(() => {
+        alert.classList.add('hidden');
+        alertText.textContent = '';
+      }, 3000);
+
       return;
     }
 

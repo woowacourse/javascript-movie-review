@@ -9,6 +9,7 @@ export const TITLE = {
 
 export const ALERT_MESSAGE = {
   lastPage: '마지막 페이지 입니다!',
+  searchInputEmpty: '검색어를 입력해주세요!',
 } as const;
 
 interface Star {

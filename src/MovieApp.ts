@@ -11,10 +11,11 @@ import MovieListSection from './components/MovieListSection/MovieListSection';
 import ModalWrapper from './components/ModalWrapper/ModalWrapper';
 import MovieDetail from './components/MovieDetail/MovieDetail';
 import MovieDetailSkeleton from './components/SkeletonItem/MovieDetailSkeleton';
+import Alert from './components/Alert/Alert';
+import TopButton from './components/TopButton/TopButton';
 
 import MovieRenderController from './controller/MovieRenderController';
 import MovieDetailController from './controller/MovieDetailController';
-import TopButton from './components/TopButton/TopButton';
 
 class MovieApp {
   #app = document.getElementById('app');
@@ -37,6 +38,7 @@ class MovieApp {
     this.#app.appendChild(this.#setHeader());
     this.#app.appendChild(this.#setMain());
     this.#app.appendChild(this.#modal.element);
+    this.#app.appendChild(Alert());
     this.#MovieRenderController.render('');
 
     window.addEventListener(

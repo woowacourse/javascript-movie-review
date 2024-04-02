@@ -1,8 +1,7 @@
-import Movies, { MovieDetail, MovieInfo } from '../domain/Movies';
+import Movies, { MovieInfo } from '../domain/Movies';
 import MovieItem from '../components/MovieItem/MovieItem';
 import CustomError from '../utils/CustomError';
 import ErrorPage from '../components/ErrorPage/ErrorPage';
-import { showAlert } from '../components/Alert/Alert';
 import { RULES } from '../constants/rule';
 import { $ } from '../utils/dom';
 import { ALERT_MESSAGE, ERROR_MESSAGE, TITLE } from '../constants/messages';
@@ -52,8 +51,17 @@ class MovieRenderController {
 
   renderNextPage() {
     if (this.#page > RULES.maxPage) {
+      const alert = $('.alert-container') as HTMLDivElement;
+      const alertText = $('.alert-text') as HTMLSpanElement;
+
       document.removeEventListener('scroll', this.#scrollEvent);
-      showAlert(ALERT_MESSAGE.lastPage);
+
+      alert.classList.remove('hidden');
+      alertText.textContent = ALERT_MESSAGE.lastPage;
+      setTimeout(() => {
+        alert.classList.add('hidden');
+      }, 3000);
+
       return;
     }
 
@@ -71,7 +79,7 @@ class MovieRenderController {
 
     subtitle.textContent = query ? `"${query}" ${TITLE.searchResult}` : TITLE.popularMovies;
 
-    this.#page = 1;
+    this.#page = 500;
     this.#query = query;
     ul.innerHTML = '';
     Array.from({ length: RULES.moviesPerPage }).forEach(() => {
