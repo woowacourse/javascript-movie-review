@@ -1,5 +1,4 @@
 import { ALERT_MESSAGE } from '../../constants/messages';
-import { RULES } from '../../constants/rule';
 import { SEARCH_BUTTON } from '../../resource';
 import { $ } from '../../utils/dom';
 
@@ -8,6 +7,7 @@ interface Props {
 }
 
 const SearchBox = ({ searchHandler }: Props) => {
+  const SEARCH_BOX_MAX_WIDTH = 320;
   const searchBox = document.createElement('div');
   const searchInputLabel = document.createElement('label');
   const searchInput = document.createElement('input');
@@ -41,8 +41,8 @@ const SearchBox = ({ searchHandler }: Props) => {
     const searchBox = target.closest('.search-box') as HTMLDivElement;
     const title = $('.title') as HTMLElement;
 
-    if (searchBox.clientWidth < RULES.searchBoxWidth) {
-      searchBox.style.width = `${RULES.searchBoxWidth}px`;
+    if (searchBox.clientWidth < SEARCH_BOX_MAX_WIDTH) {
+      searchBox.style.width = `${SEARCH_BOX_MAX_WIDTH}px`;
       title.classList.add('visibility-hidden', 'prevent-pointer-event');
       return;
     }
@@ -70,8 +70,8 @@ const SearchBox = ({ searchHandler }: Props) => {
     const searchBox = $('.search-box') as HTMLInputElement;
     const title = $('.title') as HTMLElement;
 
-    if (searchBox.clientWidth < RULES.searchBoxWidth) {
-      searchBox.style.width = `${RULES.searchBoxWidth}px`;
+    if (searchBox.clientWidth < SEARCH_BOX_MAX_WIDTH) {
+      searchBox.style.width = `${SEARCH_BOX_MAX_WIDTH}px`;
       title.classList.add('visibility-hidden', 'prevent-pointer-event');
       return;
     }

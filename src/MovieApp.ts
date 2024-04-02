@@ -2,7 +2,6 @@ import { LOGO, STAR_EMPTY, STAR_FILLED } from './resource/index';
 import { STAR_MESSAGE } from './constants/messages';
 import { $ } from './utils/dom';
 import throttle from './utils/throttle';
-import { RULES } from './constants/rule';
 
 import Header from './components/Header/Header';
 import Title from './components/Title/Title';
@@ -18,6 +17,7 @@ import MovieRenderController from './controller/MovieRenderController';
 import MovieDetailController from './controller/MovieDetailController';
 
 class MovieApp {
+  static MOBILE_THRESHOLD_WIDTH = 673;
   #app = document.getElementById('app');
   #MovieRenderController;
   #movieDetailController;
@@ -80,7 +80,7 @@ class MovieApp {
   #onResize() {
     const searchBox = $('.search-box') as HTMLElement;
 
-    if (window.innerWidth > RULES.mobileThresholdWidth) searchBox.style.width = '';
+    if (window.innerWidth > MovieApp.MOBILE_THRESHOLD_WIDTH) searchBox.style.width = '';
   }
 
   #onCloseSearchBar(event: Event) {

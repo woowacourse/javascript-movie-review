@@ -9,6 +9,7 @@ import throttle from '../utils/throttle';
 import SkeletonItem from '../components/SkeletonItem/SkeletonItem';
 
 class MovieRenderController {
+  static ARRIVE_SCROLL_PERCENTAGE = 0.97;
   #page = 1;
   #query = '';
   #movies;
@@ -27,7 +28,7 @@ class MovieRenderController {
     const documentHeight = document.body.scrollHeight;
     const presentHeight = window.scrollY + window.innerHeight;
 
-    if (presentHeight / documentHeight > RULES.arriveScrollPercentage) {
+    if (presentHeight / documentHeight > MovieRenderController.ARRIVE_SCROLL_PERCENTAGE) {
       document.removeEventListener('scroll', this.#scrollEvent);
       this.renderNextPage();
     }
