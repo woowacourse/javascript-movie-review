@@ -76,16 +76,17 @@ const handleRemovePreStar = ($rateContainer: HTMLElement) => {
 };
 
 const handleClickStar = (
-  e: Event,
+  target: HTMLElement,
   movieId: number,
   $rateContainer: HTMLElement,
 ) => {
-  const target = e.target as HTMLElement;
+  if (!target.closest("button")) return;
   handleRemovePreStar($rateContainer);
 
   const clickedStarNumber = Number(target.closest("button")?.id) * 2;
   $rateContainer.appendChild(Stars(clickedStarNumber));
   $rateContainer.appendChild(rateStateContainer(clickedStarNumber));
+
   setStarRate(movieId, clickedStarNumber);
 };
 
@@ -98,7 +99,8 @@ const StarsContainer = ({ movieId, rate }: Rate) => {
   $rateContainer.appendChild(rateStateContainer(rate));
 
   $rateContainer.addEventListener("click", (e) => {
-    handleClickStar(e, movieId, $rateContainer);
+    const target = e.target as HTMLElement;
+    handleClickStar(target, movieId, $rateContainer);
   });
 
   return $rateContainer;
