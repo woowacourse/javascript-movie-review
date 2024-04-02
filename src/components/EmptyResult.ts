@@ -1,7 +1,6 @@
-import { $ } from "./dom";
-
 export const hideEmptyResult = () => {
-  const emptyResultContainer = $<HTMLDivElement>("#empty-result");
+  const emptyResultContainer = document.querySelector<HTMLDivElement>("#empty-result");
+
   if (!emptyResultContainer) return;
 
   emptyResultContainer.classList.add("hidden");
@@ -9,7 +8,7 @@ export const hideEmptyResult = () => {
 };
 
 export const renderEmptyResult = (searchKeyword: string) => {
-  const emptyResultContainer = $<HTMLDivElement>("#empty-result");
+  const emptyResultContainer = document.querySelector<HTMLDivElement>("#empty-result");
   if (!emptyResultContainer) return;
 
   emptyResultContainer?.classList.remove("hidden");

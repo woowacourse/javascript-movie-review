@@ -4,7 +4,7 @@ import { hideSkeleton, renderSkeleton } from "./Skeleton";
 import MovieClient from "../http/MovieClient";
 import { $ } from "../utils/dom";
 import { MovieType } from "../types";
-import { hideEmptyResult, renderEmptyResult } from "../utils/UI";
+import { hideEmptyResult, renderEmptyResult } from "./EmptyResult";
 
 interface MovieListState {
   currentPage: number;
