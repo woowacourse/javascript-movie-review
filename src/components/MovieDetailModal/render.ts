@@ -22,7 +22,7 @@ const renderHandler = ({ id, title, poster_path, genres, overview, vote_average 
   const movieDetailHeader = createMovieDetailHeader(title);
   movieDetailContainer.appendChild(movieDetailHeader);
 
-  const { movieDetailContent } = createMovieDetailContent(poster_path, title);
+  const { movieDetailContent } = createMovieDetailContent(poster_path);
   movieDetailContainer.appendChild(movieDetailContent);
 
   const movieDetailInfo = createMovieDetailInfo(genresText, vote_average, overview);
@@ -58,13 +58,13 @@ const createMovieDetailHeader = (title: string) => {
   return movieDetailHeader;
 };
 
-const createItemImage = (posterPath: string, title: string) => {
+const createItemImage = (posterPath: string) => {
   if (posterPath === null) return NoImage();
   const imageContainer = createElement('div', { className: 'item-thumbnail-container' });
   const image = createElement('img', {
     className: 'item-thumbnail skeleton',
     src: `${BASE_IMAGE_URL}/${THUMBNAIL_SIZE}/${posterPath}`,
-    alt: `${title} 포스터 이미지`,
+    alt: '',
     loading: 'lazy',
     onload: toggleSkeleton,
   });
@@ -78,10 +78,10 @@ const toggleSkeleton = (event: Event) => {
   thumbnail.classList.remove('skeleton');
 };
 
-const createMovieDetailContent = (posterPath: string, title: string) => {
+const createMovieDetailContent = (posterPath: string) => {
   const movieDetailContent = createElement('div', { className: 'movie-detail-content' });
   const movieDetailThumbnail = createElement('div', { className: 'movie-detail-thumbnail' });
-  const movieImage = createItemImage(posterPath, title);
+  const movieImage = createItemImage(posterPath);
   movieDetailThumbnail.appendChild(movieImage);
   movieDetailContent.appendChild(movieDetailThumbnail);
 
