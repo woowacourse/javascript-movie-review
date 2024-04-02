@@ -4,8 +4,7 @@ import SEARCH_BUTTON_IMG from '../../assets/images/search_button.png';
 import { dom } from '../../utils/dom';
 import Button from '../common/button/Button';
 import CONFIG from '../../constants/config';
-
-let debounce: NodeJS.Timeout | undefined;
+import debounce from '../../utils/debounce';
 
 interface HeaderProps {
   imageSrc: string;
@@ -28,7 +27,8 @@ class Header {
   setEvent({ onSubmit }: EventProps) {
     const $form = dom.getElement<HTMLFormElement>(this.$target, 'form');
     if (onSubmit) $form.addEventListener('submit', onSubmit);
-    window.addEventListener('resize', this.handleResize.bind(this));
+    const debounceResize = debounce({ callback: this.handleResize.bind(this), delay: CONFIG.WINDOW_RESIZE_DELAY });
+    window.addEventListener('resize', debounceResize);
   }
 
   template() {
@@ -68,17 +68,13 @@ class Header {
   }
 
   handleResize() {
-    if (debounce) clearTimeout(debounce);
-
-    debounce = setTimeout(() => {
-      const width = window.innerWidth;
-      if (width > CONFIG.MOBILE_DEVICE_WIDTH) {
-        dom.getElement(this.$target, '#logo').classList.remove('clicked-logo');
-        dom.getElement(this.$target, '.search-box').classList.remove('clicked-form');
-        dom.getElement(this.$target, '.search-input').classList.remove('clicked-input');
-        dom.getElement(document.body, 'header').classList.remove('clicked-header');
-      }
-    }, CONFIG.WINDOW_RESIZE_DELAY);
+    const width = window.innerWidth;
+    if (width > CONFIG.MOBILE_DEVICE_WIDTH) {
+      dom.getElement(this.$target, '#logo').classList.remove('clicked-logo');
+      dom.getElement(this.$target, '.search-box').classList.remove('clicked-form');
+      dom.getElement(this.$target, '.search-input').classList.remove('clicked-input');
+      dom.getElement(document.body, 'header').classList.remove('clicked-header');
+    }
   }
 }
 
