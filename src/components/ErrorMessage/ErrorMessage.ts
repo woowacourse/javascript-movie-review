@@ -10,7 +10,7 @@ const createErrMsg = () => {
 const ErrorMessage = () => {
   const $errMsg = createErrMsg();
 
-  const render = (statusCode: number) => {
+  const render = (statusCode: HTTPStatusCode) => {
     const message = ERRORS[statusCode] ?? 'Oops! Something went wrong 🫣';
 
     $errMsg.textContent = `${statusCode}: ${message}`;

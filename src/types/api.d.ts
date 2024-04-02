@@ -1,3 +1,13 @@
+type HTTPStatusCode =
+  | '200'
+  | '301'
+  | '400'
+  | '403'
+  | '404'
+  | '408'
+  | '500'
+  | '502';
+
 interface Params {
   [key: string]: string | number | boolean;
 }
@@ -14,7 +24,7 @@ interface FetchOptions {
 }
 
 interface FetchProps {
-  onError: (res: Response) => void;
+  onError: (statusCode: HTTPStatusCode) => void;
   onLoading: () => void;
 }
 

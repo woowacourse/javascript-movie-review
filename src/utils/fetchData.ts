@@ -1,7 +1,7 @@
 const fetchData = async <T>(
   { url, options }: FetchOptions,
   onSuccess: (data: T) => void,
-  onError: (res: Response) => void,
+  onError: (statusCode: HTTPStatusCode) => void,
   onLoading: () => void,
 ) => {
   onLoading();
@@ -9,13 +9,15 @@ const fetchData = async <T>(
   return fetch(url, options)
     .then((response) => {
       if (!response.ok) {
-        onError(response);
+        throw new Error(`${response.status}`);
       }
-
       return response.json();
     })
     .then((data: T) => {
       onSuccess(data);
+    })
+    .catch((statusCode: HTTPStatusCode) => {
+      onError(statusCode);
     });
 };
 

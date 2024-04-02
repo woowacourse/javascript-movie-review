@@ -129,8 +129,8 @@ const MovieList = () => {
     if (!isLastPage) restartObserving($infiniteScrollTrigger);
   };
 
-  const onError = (res: Response) => {
-    const $errMsg = ErrorMessage().render(res.status);
+  const onError = (statusCode: HTTPStatusCode) => {
+    const $errMsg = ErrorMessage().render(statusCode);
 
     $section.appendChild($errMsg);
     $section.removeChild($skeleton);

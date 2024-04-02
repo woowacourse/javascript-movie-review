@@ -83,8 +83,8 @@ const MovieDetailModal = (id: number) => {
     $body.appendChild($movieDetail);
   };
 
-  const onError = (response: Response) => {
-    const $errMsg = ErrorMessage().render(response.status);
+  const onError = (statusCode: HTTPStatusCode) => {
+    const $errMsg = ErrorMessage().render(statusCode);
 
     $body.appendChild($errMsg);
   };
