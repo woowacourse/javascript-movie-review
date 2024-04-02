@@ -1,20 +1,17 @@
-import validateResponse from "./validateResponse";
+import movieFetcher, { PATH } from "./movieFetcher";
 
 const getPopularMovieList = async ({
   page,
 }: {
   page: number;
 }): Promise<PopularMovieResponse> => {
-  const url = "https://api.themoviedb.org/3/movie/popular";
-  const queryParams = `language=ko-KR&page=${page}&api_key=${process.env.API_KEY}`;
-  const popularMoviesUrl = `${url}?${queryParams}`;
+  const path = PATH.POPULAR_MOVIE;
+  const queryParams = {
+    language: "ko-KR",
+    page: page,
+  };
 
-  const res = await fetch(popularMoviesUrl);
-  validateResponse(res.status);
-
-  const popularMovieList = await res.json();
-
-  return popularMovieList;
+  return movieFetcher(path, queryParams);
 };
 
 export default getPopularMovieList;

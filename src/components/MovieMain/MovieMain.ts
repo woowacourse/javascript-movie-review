@@ -5,27 +5,45 @@ import generateMain from "../common/generateMain";
 interface MovieMainProps {
   title: string;
   onMovieMoreButtonClick: () => void;
+  onMovieItemClick: (id: number) => void;
 }
 
 class MovieMain {
-  $element;
-  private movieListBox;
+  private $element: HTMLElement;
 
-  constructor({ title, onMovieMoreButtonClick }: MovieMainProps) {
+  private movieListBox: MovieListBox;
+
+  constructor({
+    title,
+    onMovieMoreButtonClick,
+    onMovieItemClick,
+  }: MovieMainProps) {
     this.movieListBox = new MovieListBox({
       title,
       onMovieMoreButtonClick,
+      onMovieItemClick,
     });
-    this.$element = generateMain({ children: [this.movieListBox.$element] });
+    this.$element = generateMain({
+      children: [this.movieListBox.getElement()],
+    });
   }
 
-  changeMovieListBox({ title, onMovieMoreButtonClick }: MovieMainProps) {
+  getElement() {
+    return this.$element;
+  }
+
+  changeMovieListBox({
+    title,
+    onMovieMoreButtonClick,
+    onMovieItemClick,
+  }: MovieMainProps) {
     this.movieListBox = new MovieListBox({
       title,
       onMovieMoreButtonClick,
+      onMovieItemClick,
     });
 
-    this.replace(this.movieListBox.$element);
+    this.replace(this.movieListBox.getElement());
   }
 
   reRender(movieList: Movie[]) {

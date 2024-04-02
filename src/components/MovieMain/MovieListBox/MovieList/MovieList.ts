@@ -2,24 +2,29 @@ import MovieItem, { Movie } from "./MovieItem";
 
 import createElement from "../../../utils/createElement";
 
+interface MovieListProps {
+  onMovieItemClick: (id: number) => void;
+}
+
 class MovieList {
   private static MAX_ITEM_OF_PAGE = 20;
-  $element;
-  movieList;
 
-  constructor() {
+  private $element: HTMLElement;
+  private props: MovieListProps;
+
+  private movieList: MovieItem[];
+
+  constructor(props: MovieListProps) {
+    this.props = props;
+
     this.movieList = Array.from({ length: MovieList.MAX_ITEM_OF_PAGE }).map(
-      () => new MovieItem()
+      () => new MovieItem({ onClick: this.props.onMovieItemClick })
     );
     this.$element = this.generateMovieList();
   }
 
-  private generateMovieList() {
-    return createElement({
-      tagName: "ul",
-      attribute: { class: "item-list" },
-      children: this.movieList.map((item) => item.$element),
-    });
+  getElement() {
+    return this.$element;
   }
 
   reRender(movies: Movie[]) {
@@ -32,20 +37,7 @@ class MovieList {
         return;
       }
 
-      movieItem.$element.remove();
-    });
-  }
-
-  appendSkeleton() {
-    this.movieList = Array.from({ length: MovieList.MAX_ITEM_OF_PAGE }).map(
-      () => new MovieItem()
-    );
-    this.$element.append(...this.movieList.map((item) => item.$element));
-  }
-
-  removeAllSkeleton() {
-    this.movieList.forEach((movieItem) => {
-      movieItem.$element.remove();
+      movieItem.remove();
     });
   }
 
@@ -57,7 +49,9 @@ class MovieList {
       attribute: {
         class: "text-invalid-result",
       },
-      children: [message],
+      children: [
+        this.$element.childNodes.length === 0 ? message : "이상입니다!",
+      ],
     });
 
     this.$element.append(textInvalidResult);
@@ -71,6 +65,27 @@ class MovieList {
     if ($lastChild.classList.contains("text-invalid-result")) {
       $lastChild.remove();
     }
+  }
+
+  appendSkeleton() {
+    this.movieList = Array.from({ length: MovieList.MAX_ITEM_OF_PAGE }).map(
+      () => new MovieItem({ onClick: this.props.onMovieItemClick })
+    );
+    this.$element.append(...this.movieList.map((item) => item.getElement()));
+  }
+
+  private removeAllSkeleton() {
+    this.movieList.forEach((movieItem) => {
+      movieItem.remove();
+    });
+  }
+
+  private generateMovieList() {
+    return createElement({
+      tagName: "ul",
+      attribute: { class: "item-list" },
+      children: this.movieList.map((item) => item.getElement()),
+    });
   }
 }
 

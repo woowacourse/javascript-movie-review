@@ -10,10 +10,14 @@ export interface Movie {
 }
 
 class MovieItem {
-  $element;
+  private $element: HTMLElement;
 
-  constructor() {
-    this.$element = this.generateMovieItem();
+  constructor({ onClick }: { onClick: (id: number) => void }) {
+    this.$element = this.generateMovieItem(onClick);
+  }
+
+  getElement() {
+    return this.$element;
   }
 
   reRender({ id, korTitle, posterPath, voteAverage }: Movie) {
@@ -54,12 +58,22 @@ class MovieItem {
     );
   }
 
-  private generateMovieItem() {
+  remove() {
+    this.$element.remove();
+  }
+
+  private generateMovieItem(onClick: (id: number) => void) {
     const $div = this.generateItemCard();
 
     const $a = createElement({
       tagName: "a",
       attribute: { href: "#" },
+      addEventListener: {
+        click: (e: Event) => {
+          e.preventDefault();
+          onClick(Number(this.$element.id));
+        },
+      },
       children: [$div],
     });
 

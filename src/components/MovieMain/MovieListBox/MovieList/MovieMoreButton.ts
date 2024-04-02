@@ -1,43 +1,53 @@
 import createElement from "../../../utils/createElement";
 
 class MovieMoreButton {
-  $element;
-  disabled;
+  private $element: HTMLElement;
+
+  private enabled: boolean;
 
   constructor({ onClickHandler }: { onClickHandler: () => void }) {
     this.$element = this.generateMovieMoreButton(onClickHandler);
-    this.disabled = true;
+    this.enabled = false;
   }
 
-  toggleDisabled() {
-    this.disabled = !this.disabled;
-    this.$element.classList.toggle("disabled");
-
-    if (this.disabled) {
-      this.$element.setAttribute("disabled", "disabled");
-      return;
-    }
-
-    this.$element.removeAttribute("disabled");
+  getElement() {
+    return this.$element;
   }
 
-  removeMovieMoreButton() {
+  disable() {
+    this.enabled = false;
+  }
+
+  enable() {
+    this.enabled = true;
+  }
+
+  removeElement() {
     this.$element.remove();
+  }
+
+  click() {
+    if (this.enabled) {
+      this.$element.click();
+    }
+  }
+
+  registerToIntersectionObserver(intersectionObserver: IntersectionObserver) {
+    intersectionObserver.observe(this.$element);
+  }
+
+  unregisterToIntersectionObserver(intersectionObserver: IntersectionObserver) {
+    intersectionObserver.unobserve(this.$element);
   }
 
   private generateMovieMoreButton(onClickHandler: () => void) {
     return createElement({
-      tagName: "button",
-      attribute: {
-        class: `btn primary full-width disabled`,
-        disabled: "disabled",
-      },
+      tagName: "div",
       addEventListener: {
         click: () => {
           onClickHandler();
         },
       },
-      children: ["더 보기"],
     });
   }
 }
