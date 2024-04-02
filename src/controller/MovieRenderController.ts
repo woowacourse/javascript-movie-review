@@ -17,16 +17,21 @@ class MovieRenderController {
 
   constructor() {
     this.#movies = new Movies();
-    this.#scrollEvent = this.#throttleInfinityScroll();
+    this.#scrollEvent = throttle(this.#onScroll.bind(this), 300);
   }
 
-  #throttleInfinityScroll() {
-    return throttle(this.#infinityScroll.bind(this), 300);
-  }
-
-  #infinityScroll() {
+  #onScroll() {
+    const topButton = $('.top-button') as HTMLButtonElement;
     const documentHeight = document.body.scrollHeight;
     const presentHeight = window.scrollY + window.innerHeight;
+
+    console.log(1);
+
+    if (window.scrollY === 0) {
+      topButton.classList.add('hide-top-button');
+    } else {
+      topButton.classList.remove('hide-top-button');
+    }
 
     if (presentHeight / documentHeight > MovieRenderController.ARRIVE_SCROLL_PERCENTAGE) {
       document.removeEventListener('scroll', this.#scrollEvent);
@@ -80,7 +85,7 @@ class MovieRenderController {
 
     subtitle.textContent = query ? `"${query}" ${TITLE.searchResult}` : TITLE.popularMovies;
 
-    this.#page = 500;
+    this.#page = 1;
     this.#query = query;
     ul.innerHTML = '';
     Array.from({ length: RULES.moviesPerPage }).forEach(() => {

@@ -20,4 +20,12 @@
   cursor: pointer;
 
   box-shadow: rgba(243, 63, 63, 0.56) 0 0 10px 5px;
+
+  transition: all 0.2s ease-in-out;
+}
+
+.hide-top-button {
+  opacity: 0;
+  cursor: default;
+  pointer-events: none;
 }
