@@ -78,11 +78,11 @@ class MovieContainer {
   setEmptySearchResult(listLength: number) {
     const emptySearchResultParagraph = $OptionalSelector('div.empty-search-result');
 
-    if (listLength !== 0) {
+    if (listLength > 0) {
       emptySearchResultParagraph?.remove();
     }
 
-    if (listLength === 0 && !emptySearchResultParagraph) {
+    if (listLength <= 0 && !emptySearchResultParagraph) {
       $('.item-view').appendChild(this.createEmptySearchResult());
     }
   }
