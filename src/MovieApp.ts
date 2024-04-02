@@ -76,18 +76,26 @@ class MovieApp extends MoviePage {
     const section = document.createElement('section');
     section.classList.add('item-view');
     section.id = 'section--item-view';
-    section.innerHTML = /* html */ `<h2>${titleMessage}</h2>`;
+
+    const ul = document.createElement('ul');
+    ul.classList.add('item-list');
+    ul.id = 'item-list';
+    const h2 = document.createElement('h2');
+    h2.textContent = titleMessage;
+
+    section.appendChild(h2);
+    section.appendChild(ul);
     return section;
   }
 
   createMainSkeleton() {
-    const ul = document.createElement('ul');
-    ul.classList.add('item-list');
-    ul.id = 'skeleton';
+    const ul = document.querySelector('#item-list') as HTMLElement;
+    if (!ul) return;
 
-    ul.innerHTML = SKELETON_ITEM_TEMPLATE.repeat(20);
-    const itemView = document.querySelector('#section--item-view');
-    if (itemView) itemView.appendChild(ul);
+    const templates = document
+      .createRange()
+      .createContextualFragment(SKELETON_ITEM_TEMPLATE.repeat(20));
+    ul.appendChild(templates);
 
     this.isLoading = true;
   }
@@ -106,11 +114,17 @@ class MovieApp extends MoviePage {
   }
 
   createMainContents(movieList: MovieListType) {
-    const movieData = this.showMovieData(movieList);
-    const itemView = document.querySelector('#section--item-view');
-    if (!itemView) return;
+    this.deleteSkeleton();
+    const ul = document.querySelector('#item-list') as HTMLElement;
+    if (!ul) return;
 
-    itemView.appendChild(movieData);
+    const templates = movieList.map((movie) => {
+      const imagePath = movie.poster_path ? `${MOVIE_POSTER_PATH}/${movie.poster_path}` : NO_IMAGE;
+      return MOVIE_ITEM_TEMPLATE(movie, imagePath);
+    });
+
+    ul.insertAdjacentHTML('beforeend', templates.join(''));
+    movieDetailModal.handleDetailModal(ul);
   }
 
   createScrollEnd() {
@@ -140,24 +154,11 @@ class MovieApp extends MoviePage {
   }
 
   deleteSkeleton() {
-    const skeleton = document.querySelector('#skeleton');
-    if (skeleton) skeleton.remove();
+    const skeletons = document.querySelectorAll('.li--skeleton');
+    if (skeletons) {
+      skeletons.forEach((skeleton) => skeleton.remove());
+    }
     this.isLoading = false;
-  }
-
-  showMovieData(movieList: MovieListType) {
-    this.deleteSkeleton();
-    const ul = document.createElement('ul');
-    ul.classList.add('item-list');
-
-    const templates = movieList.map((movie) => {
-      const imagePath = movie.poster_path ? `${MOVIE_POSTER_PATH}/${movie.poster_path}` : NO_IMAGE;
-      return MOVIE_ITEM_TEMPLATE(movie, imagePath);
-    });
-
-    ul.innerHTML = templates.join('');
-    movieDetailModal.handleDetailModal(ul);
-    return ul;
   }
 
   setSearchFormEvent() {

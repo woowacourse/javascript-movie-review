@@ -24,7 +24,7 @@ export const MOVIE_ITEM_TEMPLATE = (movie: MovieType, imagePath: string) => /* h
 `;
 
 export const SKELETON_ITEM_TEMPLATE = /* html */ `
-<li>
+<li class="li--skeleton">
   <a>
     <div class="item-card">
       <div class="item-thumbnail skeleton"></div>
