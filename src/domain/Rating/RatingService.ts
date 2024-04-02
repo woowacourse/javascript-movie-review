@@ -1,9 +1,9 @@
 import { IRating } from './Rating.type';
-import RatingStorage from '../../store/RatingStorage';
+import Storage from '../../store/Storage';
 
 const RatingService = {
   updateRating(rating: IRating): void {
-    const ratings = RatingStorage.getRatings();
+    const ratings = Storage.getItem<IRating>('ratings');
     const index = ratings.findIndex((el: IRating) => el.key === rating.key);
 
     if (index !== -1) {
@@ -12,11 +12,11 @@ const RatingService = {
       ratings.push(rating);
     }
 
-    RatingStorage.setRatings(ratings);
+    Storage.setItem<IRating>('ratings', ratings);
   },
 
   getRatingScore(key: number): number {
-    const ratings = RatingStorage.getRatings();
+    const ratings = Storage.getItem<IRating>('ratings');
     const index = ratings.findIndex((el: IRating) => el.key === key);
 
     return index !== -1 ? ratings[index].score : 0;
