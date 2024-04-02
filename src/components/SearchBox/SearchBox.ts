@@ -36,8 +36,9 @@ const SearchBox = ({ searchHandler }: Props) => {
 
   searchButton.addEventListener('click', (event: MouseEvent) => {
     event.stopPropagation();
+    const target = event.target as HTMLElement;
     const searchInput = $('#search-text') as HTMLInputElement;
-    const searchBox = $('.search-box') as HTMLInputElement;
+    const searchBox = target.closest('.search-box') as HTMLDivElement;
     const title = $('.title') as HTMLElement;
 
     if (searchBox.clientWidth < RULES.searchBoxWidth) {
