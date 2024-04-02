@@ -7,6 +7,13 @@ import { ListType } from "../type/movie";
 
 import movieDataStateStore from "./MovieDataStateStore";
 
+const removeLoader = () => {
+  if (movieDataStateStore.fetchedMovieData.isEndPage) {
+    const $loader = document.querySelector(".loader");
+    $loader?.remove();
+  }
+};
+
 const addItemCardList = () => {
   if (
     movieDataStateStore.fetchedMovieData.movieList !== undefined &&
@@ -15,20 +22,12 @@ const addItemCardList = () => {
     ItemCardList(movieDataStateStore.fetchedMovieData.movieList);
   }
 
-  if (movieDataStateStore.fetchedMovieData.isEndPage) {
-    const $loader = document.querySelector(".loader");
-    $loader?.remove();
-  }
+  removeLoader();
 };
 
 const getSearchInputValue = () => {
   const $searchInput = document.querySelector("#search-input");
-
-  if (!($searchInput instanceof HTMLInputElement)) {
-    return undefined;
-  }
-
-  return $searchInput.value;
+  return $searchInput instanceof HTMLInputElement ? $searchInput.value : "";
 };
 
 const getSearchMovieData = async () => {
