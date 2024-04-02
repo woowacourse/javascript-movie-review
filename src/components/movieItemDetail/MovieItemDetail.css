@@ -48,6 +48,17 @@
   align-items: flex-start;
 
   row-gap: 16px;
+  max-height: 336px;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+}
+
+.movie-explanation::-webkit-scrollbar {
+  width: 4px;
+}
+.movie-explanation::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 4px;
 }
 
 /* 디테일 헤더 */
