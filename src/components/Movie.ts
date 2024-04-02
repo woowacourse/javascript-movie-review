@@ -79,9 +79,11 @@ export const createMovieElement = ({ id, title, thumbnail, voteAverage }: MovieT
     `;
     $modal.showModal();
     drawStarScore(id);
+    // document.body.style.overflow = "hidden";
     const $modalCloseButton = document.querySelector<HTMLButtonElement>(".modal-close-button");
     $modalCloseButton?.addEventListener("click", (e) => {
       e.preventDefault();
+      console.log("click close");
       $modal.close();
     });
     $modal.addEventListener("click", (e: MouseEvent) => {

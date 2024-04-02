@@ -1,8 +1,5 @@
 .modal {
-  display: flex;
-  flex-direction: column;
   width: 826px;
-  height: 577px;
   min-width: 400px;
   background-color: #212122;
   border: 0;
@@ -39,7 +36,6 @@
 }
 
 .modal > section {
-  flex: 1;
   display: flex;
   justify-content: space-between;
   padding: 20px;
