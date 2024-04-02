@@ -13,7 +13,24 @@
 
 .star-container p {
   font-size: 1rem;
-  margin-right: 1rem;
+}
+
+.rating-wrapper {
+  display: flex;
+  margin-left: 1rem;
+  width: 7rem;
+}
+
+.rating-score {
+  margin-right: 0.3rem;
+}
+
+.star-container {
+  justify-content: center;
+}
+
+.star-wrapper {
+  margin-left: 1rem;
 }
 
 @media (min-width: 801px) {
@@ -24,7 +41,6 @@
 
   .star-container p {
     font-size: 1rem;
-    margin-right: 1rem;
   }
 }
 
@@ -33,16 +49,21 @@
     width: 1.2rem;
     height: 1.2rem;
   }
-
-  .rating-text {
-    padding-left: 0.5rem;
-  }
 }
 
 @media (max-width: 720px) {
   .star-container p {
     font-size: 0.7rem;
-    margin-right: 0.8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .rating-text {
+    display: none;
+  }
+
+  .rating-wrapper {
+    width: 1rem;
   }
 }
 
@@ -50,8 +71,4 @@
   .star-container {
     white-space: nowrap;
   }
-}
-
-.rating-text {
-  padding-left: 1rem;
 }

@@ -13,6 +13,7 @@ class EditableStarRating {
   private starContainer: HTMLElement;
   private starElements: HTMLElement[];
   private selectedStarCount: number;
+  private ratingScore: HTMLElement;
   private ratingText: HTMLElement;
   private movieName: string;
 
@@ -34,7 +35,7 @@ class EditableStarRating {
     });
 
     this.starElements = Array.from({ length: starCount }).map((_, index) => {
-      const isFilledStar = index < this.selectedStarCount ? true : false;
+      const isFilledStar = index < this.selectedStarCount;
 
       return createElement({
         tagName: "img",
@@ -48,6 +49,21 @@ class EditableStarRating {
 
     starWrapper.append(...this.starElements);
 
+    const ratingWrapper = createElement({
+      tagName: "div",
+      attrs: {
+        class: "rating-wrapper",
+      },
+    });
+
+    this.ratingScore = createElement({
+      tagName: "p",
+      contents: this.selectedStarCount.toString(),
+      attrs: {
+        class: "rating-score",
+      },
+    });
+
     this.ratingText = createElement({
       tagName: "p",
       contents: getReviewMessageByRating(this.selectedStarCount),
@@ -56,7 +72,9 @@ class EditableStarRating {
       },
     });
 
-    this.starContainer.append(labelElement, starWrapper, this.ratingText);
+    ratingWrapper.append(this.ratingScore, this.ratingText);
+
+    this.starContainer.append(labelElement, starWrapper, ratingWrapper);
     starWrapper.addEventListener("click", this.clickStarButton.bind(this));
     starWrapper.addEventListener("mousemove", this.hoverStarEvent.bind(this));
     starWrapper.addEventListener(
@@ -74,6 +92,8 @@ class EditableStarRating {
       },
     });
 
+    const score = (rating * 2).toString();
+    this.ratingScore.replaceChildren(score);
     this.ratingText.replaceChildren(text);
   }
 
