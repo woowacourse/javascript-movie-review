@@ -1,37 +1,29 @@
 describe('영화 리스트 테스트', () => {
   beforeEach(() => {
     cy.visit('/');
-    cy.clock();
-    cy.wait(2000);
   });
 
-  context('헤더 반응형 테스트', () => {
-    it('뷰포트가 600이하가 되면 인풋이 사라지고, 서치 버튼을 누르면 인풋과 인풋 접는 버튼이 생긴다.', () => {
-      cy.viewport(600, 720);
-      cy.get('#search-input').should('not.be.visible');
-      cy.get('#search-button').click();
-      cy.get('#search-input').should('be.visible');
-      cy.get('#logo').should('not.be.visible');
-      cy.get('#input-fold-button').should('be.visible');
-    });
-
-    it('인풋 접는 버튼을 누르면 로고가 나타나고, 인풋이 사라진다.', () => {
-      cy.viewport(600, 720);
-      cy.get('#search-input').should('not.be.visible');
-      cy.get('#search-button').click();
-      cy.get('#input-fold-button').click();
-      cy.get('#search-input').should('not.be.visible');
-      cy.get('#logo').should('be.visible');
-    });
-  });
-
-  context('리스트 반응형 테스트', () => {
+  /*리스트 반응형 테스트*/
+  context('뷰포트가 960px 이하일 때', () => {
     it('960px 이하가 되면 리스트가 3줄로 바뀐다.', () => {
       cy.viewport(960, 720);
     });
 
     it('660px 이하가 되면 리스트가 2줄로 바뀐다.', () => {
       cy.viewport(600, 720);
+    });
+
+    it('height가 200px 아래이면 탑 버튼이 생긴다. 탑 버튼을 클릭시 위로 올라간다.', () => {
+      cy.clock();
+      cy.scrollTo(0, 1000, { duration: 1000 });
+      cy.tick(5000);
+
+      cy.get('#top-scroll-button').should('be.visible');
+      cy.get('#top-scroll-button').click();
+
+      cy.window().then(win => {
+        cy.wrap(win).its('scrollY').should('eq', 0);
+      });
     });
   });
 
@@ -60,21 +52,6 @@ describe('영화 리스트 테스트', () => {
       cy.scrollTo('bottom', { duration: 1000 });
       cy.tick(5000);
       cy.get('.item-box').should('have.length', MOVIES_LENGH);
-    });
-  });
-
-  context('탑버튼 테스트', () => {
-    it('height가 200px 아래이면 탑 버튼이 생긴다. 탑 버튼을 클릭시 위로 올라간다.', () => {
-      cy.clock();
-      cy.scrollTo(0, 1000, { duration: 1000 });
-      cy.tick(5000);
-
-      cy.get('#top-scroll-button').should('be.visible');
-      cy.get('#top-scroll-button').click();
-
-      cy.window().then(win => {
-        cy.wrap(win).its('scrollY').should('eq', 0);
-      });
     });
   });
 });

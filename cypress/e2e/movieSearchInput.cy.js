@@ -19,7 +19,7 @@ describe('검색 기능 테스트', () => {
       cy.get('#search-button').click();
 
       cy.get('.error').should('be.visible');
-      cy.get('.error h2').should('text', ERROR_MESSAGE.RESULTS_NOT_FOUND);
+      cy.get('.error h2').should('text', ERROR_MESSAGE.SEARCH_NOT_FOUND);
     });
 
     it('검색어로 해리포터를 검색하면 해리포터가 포함된 영화가 뜬다.', () => {

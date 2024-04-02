@@ -67,7 +67,6 @@ class searchInputBox {
 
   setEvents() {
     this.setSubmitEvent();
-    this.setCloseInputEvent();
     this.handleResize();
 
     let resizeEvent: NodeJS.Timeout | null;
@@ -78,24 +77,25 @@ class searchInputBox {
       resizeEvent = setTimeout(() => {
         resizeEvent = null;
         this.handleResize();
-      }, 1000);
+      }, 500);
+    });
+
+    this.inputFoldButton.addEventListener('click', e => {
+      e.preventDefault();
+      this.setCloseInputEvent();
     });
   }
 
   handleResize() {
     if (window.innerWidth <= 660) {
       if (this.searchInput.classList.contains('open')) {
-        this.headerLogo.style.display = 'none';
-        this.inputFoldButton.style.display = 'block';
-        return;
+        this.setCloseInputEvent();
+        this.searchInput.classList.remove('open');
       }
       this.searchInput.style.display = 'none';
       return;
     }
-    this.searchInput.classList.add('open');
-    this.searchInput.style.display = 'block';
-    this.headerLogo.style.display = 'block';
-    this.inputFoldButton.style.display = 'none';
+    this.setResetInput();
   }
 
   setSubmitEvent() {
@@ -115,6 +115,13 @@ class searchInputBox {
     });
   }
 
+  setResetInput() {
+    this.searchInput.classList.add('open');
+    this.searchInput.style.display = 'block';
+    this.headerLogo.style.display = 'block';
+    this.inputFoldButton.style.display = 'none';
+  }
+
   setOpenInputEvent() {
     this.searchInput.classList.remove('shrink');
     this.searchInput.style.display = 'block';
@@ -125,13 +132,10 @@ class searchInputBox {
   }
 
   setCloseInputEvent() {
-    this.inputFoldButton.addEventListener('click', e => {
-      e.preventDefault();
-      this.searchInput.classList.remove('open');
-      this.inputFoldButton.style.display = 'none';
-      this.headerLogo.style.display = 'block';
-      this.searchInput.classList.add('shrink');
-    });
+    this.searchInput.classList.remove('open');
+    this.inputFoldButton.style.display = 'none';
+    this.headerLogo.style.display = 'block';
+    this.searchInput.classList.add('shrink');
   }
 }
 
