@@ -36,11 +36,11 @@ header h1 {
 
 @media (min-width: 768px) {
   header h1 {
-    display: block !important;
+    display: block;
   }
 
   .search-form {
-    width: 320px !important;
+    width: 320px;
   }
 
   .search-form > input {
