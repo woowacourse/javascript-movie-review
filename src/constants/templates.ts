@@ -1,6 +1,6 @@
 import { LOGO, MODAL_CLOSE_BTN, NO_IMAGE, STAR_EMPTY, STAR_FILLED } from '../images';
 import { MovieDetailType, MovieType } from '../types/movie';
-import { MOVIE_PATH } from './movie';
+import { MOVIE_POSTER_PATH } from './movie';
 import { RATING_MESSAGE } from './rating';
 
 export const MOVIE_ITEM_TEMPLATE = (movie: MovieType, imagePath: string) => /* html */ `
@@ -49,7 +49,7 @@ export const DETAIL_MODAL_TEMPLATE = (movie: MovieDetailType, ratingValue: numbe
   </div>
   <div id="detail-modal--body">
     <img id="detail-modal--body-img" src="${
-      movie.poster_path ? `${MOVIE_PATH}/${movie.poster_path}` : NO_IMAGE
+      movie.poster_path ? `${MOVIE_POSTER_PATH}/${movie.poster_path}` : NO_IMAGE
     }"/>
     <div id="detail-modal--contents">
       <div id="detail-modal--info">

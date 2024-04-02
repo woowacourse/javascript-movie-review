@@ -1,5 +1,5 @@
 import {
-  MOVIE_PATH,
+  MOVIE_POSTER_PATH,
   POPULAR_MOVIE_TITLE,
   RENDER_TYPE,
   SEARCH_MOVIE_TITLE,
@@ -151,7 +151,7 @@ class MovieApp extends MoviePage {
     ul.classList.add('item-list');
 
     const templates = movieList.map((movie) => {
-      const imagePath = movie.poster_path ? `${MOVIE_PATH}/${movie.poster_path}` : NO_IMAGE;
+      const imagePath = movie.poster_path ? `${MOVIE_POSTER_PATH}/${movie.poster_path}` : NO_IMAGE;
       return MOVIE_ITEM_TEMPLATE(movie, imagePath);
     });
 

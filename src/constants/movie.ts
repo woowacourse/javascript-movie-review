@@ -1,4 +1,6 @@
-export const MOVIE_PATH = 'https://image.tmdb.org/t/p/w220_and_h330_face';
+export const MOVIE_POSTER_PATH = 'https://image.tmdb.org/t/p/w220_and_h330_face';
+export const API_PATH = 'https://api.themoviedb.org/3';
+
 export const RENDER_TYPE = {
   POPULAR: 'popular',
   SEARCH: 'search',
