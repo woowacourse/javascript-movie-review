@@ -9,9 +9,10 @@ export const setEndpoint = (endPoint: EndPointValues) => {
 };
 
 export const getEndpoint = () => {
-  const path = window.location.pathname;
-  const endpoint = path.substring(path.lastIndexOf('/'));
-  return endpoint.startsWith('/') ? endpoint.substring(1) : endpoint;
+  const baseUrl = process.env.NODE_ENV === 'production' ? process.env.PUBLIC_PATH : process.env.LOCAL_PATH!;
+  const currentUrl = window.location.href.split('?')[0];
+  const endpoint = currentUrl.substring(baseUrl!.length);
+  return endpoint;
 };
 
 export const getUrlParams = (paramKey: QueryStringKeyValues) => {
@@ -19,8 +20,11 @@ export const getUrlParams = (paramKey: QueryStringKeyValues) => {
   return urlParams.get(paramKey);
 };
 
-export const setUrlParams = (paramKey: QueryStringKeyValues, endpoint: EndPointValues, paramValue: string) => {
-  window.history.replaceState({}, '', `${process.env.PUBLIC_PATH}${endpoint}?${paramKey}=${paramValue}`);
+export const setUrlParams = (paramKey: QueryStringKeyValues, endpoint: string, paramValue: string) => {
+  const newUrl = endpoint.length
+    ? `${process.env.PUBLIC_PATH}${endpoint}?${paramKey}=${paramValue}`
+    : `${process.env.PUBLIC_PATH}?${paramKey}=${paramValue}`;
+  window.history.replaceState({}, '', newUrl);
 };
 
 export const redirectToRoot = () => {

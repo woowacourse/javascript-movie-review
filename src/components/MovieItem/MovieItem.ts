@@ -3,7 +3,7 @@ import NoImage from '../../assets/no_image.png';
 import type { Movie } from '../../domain/entity/movie.type';
 import '../MovieItem/MovieItem.css';
 import { POSTER_BASE_URL } from '../../consts/URL';
-import { setUrlParams } from '../../utils/queryString';
+import { getEndpoint, setUrlParams } from '../../utils/queryString';
 
 type MovieItemProps = {
   skeletonTemplate: HTMLElement;
@@ -43,7 +43,8 @@ class MovieItem {
       const topScrollButton = document.querySelector('#top-scroll-button');
       topScrollButton?.classList.remove('show');
 
-      setUrlParams('movie_id', String(this.movie.id));
+      const endpoint = getEndpoint() || '';
+      setUrlParams('movie_id', endpoint, String(this.movie.id));
       const movieDetailModal = document.querySelector('.modal');
       movieDetailModal?.classList.add('modal-open');
       this.rerenderModal(this.movie.id);
