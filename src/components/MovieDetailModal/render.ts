@@ -17,7 +17,7 @@ type MovieDetailProps = {
 
 const renderHandler = ({ id, title, poster_path, genres, overview, vote_average }: MovieDetailProps) => {
   const { movieDetail, movieDetailContainer } = createMovieDetailContainer();
-  const genresText = genres.map((genre) => genre.name).join(', ');
+  const genresText = genres.map(({ name }) => name).join(', ');
 
   const movieDetailHeader = createMovieDetailHeader(title);
   movieDetailContainer.appendChild(movieDetailHeader);
