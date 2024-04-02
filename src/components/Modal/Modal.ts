@@ -7,6 +7,7 @@ import CloseBtn from '../../statics/images/close_button.png';
 import StarEmpty from '../../statics/images/star_empty.png';
 import StarFilled from '../../statics/images/star_filled.png';
 import './Modal.css';
+import NoPosterImage from '../../statics/images/no_poster_image.png';
 
 const createHeader = (title: string) => {
   const $header = document.createElement('div');
@@ -143,6 +144,9 @@ const createDetail = (movie: Movie) => {
   const $poster = document.createElement('img');
   $poster.classList.add('modal-body__poster');
   $poster.src = `${POSTER_BASE_URL}${movie.poster_path}`;
+  $poster.onerror = () => {
+    $poster.src = NoPosterImage;
+  };
   $poster.alt = `${movie.title} 포스터`;
 
   const $content = createContent(movie);

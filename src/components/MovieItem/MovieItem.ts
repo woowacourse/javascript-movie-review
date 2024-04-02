@@ -2,6 +2,7 @@ import './MovieItem.css';
 import { POSTER_BASE_URL } from '../../constants/rule';
 import ModalController from '../../controller/ModalController';
 import MovieDetailService from '../../services/MovieDetailService';
+import NoPosterImage from '../../statics/images/no_poster_image.png';
 import StarFilled from '../../statics/images/star_filled.png';
 
 const createTitle = (title: string) => {
@@ -28,6 +29,9 @@ const createThumbnail = (title: string, poster_path: string) => {
   const $thumbnail = document.createElement('img');
   $thumbnail.classList.add('item-thumbnail');
   $thumbnail.src = `${POSTER_BASE_URL}${poster_path}`;
+  $thumbnail.onerror = () => {
+    $thumbnail.src = NoPosterImage;
+  };
   $thumbnail.loading = 'lazy';
   $thumbnail.alt = `${title} 포스터`;
 
