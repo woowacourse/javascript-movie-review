@@ -94,6 +94,7 @@
   display: flex;
   justify-content: space-between;
   padding: 18px 32px;
+  border-bottom: 1px solid #f1f1f140;
 }
 
 .movie-detail-section h1 {
