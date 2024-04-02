@@ -1,13 +1,15 @@
 import fetchMoreData from "../model/fetchData";
 import { ListType } from "../type/movie";
 
+import throttleFunc from "./throttleFunc";
+
 const handleIntersection = (
   entries: IntersectionObserverEntry[],
   listType: ListType,
 ) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
-      fetchMoreData(listType);
+      throttleFunc(() => fetchMoreData(listType));
     }
   });
 };
