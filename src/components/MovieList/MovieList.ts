@@ -82,11 +82,6 @@ export default class MovieList extends EventComponent {
       this.handleMovieItemClick.bind(this)
     );
 
-    $<HTMLButtonElement>("watch-more-button")?.addEventListener(
-      "click",
-      this.loadMoreMovies.bind(this)
-    );
-
     const THROTTLE_DELAY = 500;
     window.addEventListener(
       "scroll",
