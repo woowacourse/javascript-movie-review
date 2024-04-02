@@ -1,11 +1,20 @@
+:root {
+  --primary-color: #f33f3f;
+  --black-color: #222222;
+  --white-color: #fff;
+  --gray-color: #383839;
+  --dialog-black-color: #212122;
+  --dialog-white-color: #f1f1f1;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   font-size: 14px;
-  background-color: #222222;
-  color: #fff;
+  background-color: var(--black-color);
+  color: var(--white-color);
   min-width: 391px;
 }
 
@@ -149,11 +158,11 @@ button.btn {
   border: 0;
   border-radius: 8px;
   height: 30px;
-  color: #fff;
+  color: var(--white-color);
 }
 
 button.primary {
-  background: #f33f3f;
+  background: var(--primary-color);
 }
 
 .item-card .skeleton {
@@ -180,10 +189,9 @@ main {
 }
 
 header {
-  box-sizing: border-box;
   width: 100%;
   height: 72px;
-  background-color: #222;
+  background-color: var(--black-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -198,11 +206,11 @@ header h1 {
   font-size: 2rem;
   font-weight: bold;
   letter-spacing: -0.1rem;
-  color: #f33f3f;
+  color: var(--primary-color);
 }
 
 header > #search-form {
-  background: #fff;
+  background: var(--white-color);
   padding: 8px;
   border-radius: 4px;
 }

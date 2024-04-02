@@ -2,8 +2,8 @@ dialog[open] {
   width: 100%;
   margin-bottom: 0;
   padding: 0;
-  background-color: #212122;
-  color: #f1f1f1;
+  background-color: var(--dialog-black-color);
+  color: var(--dialog-white-color);
   border: none;
   border-radius: 8px;
   min-width: 390px;
@@ -59,7 +59,7 @@ dialog::backdrop {
 }
 
 #detail-modal--close-btn {
-  background-color: #383839;
+  background-color: var(--gray-color);
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -115,7 +115,7 @@ dialog::backdrop {
   display: grid;
   grid-template-columns: 2fr 5fr 1fr;
   border-radius: 16px;
-  background-color: #383839;
+  background-color: var(--gray-color);
   padding: 16px;
   gap: 12px;
   align-items: center;
