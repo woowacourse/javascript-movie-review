@@ -1,18 +1,16 @@
-import { $, createElement } from "../utils/dom";
-
 export const hideSkeleton = () => {
-  const skeletonList = $<HTMLUListElement>("#skeleton-list");
-  skeletonList && skeletonList.parentNode?.removeChild(skeletonList);
+  const $skeletonList = document.querySelector<HTMLUListElement>("#skeleton-list");
+  $skeletonList && $skeletonList.parentNode?.removeChild($skeletonList);
 };
 
 export const renderSkeleton = () => {
-  const movieList = $<HTMLUListElement>("#movie-list");
-  const skeletonList = createElement<HTMLUListElement>("ul");
+  const $movieList = document.querySelector<HTMLUListElement>("#movie-list");
+  const skeletonList = document.createElement("ul");
   skeletonList.id = "skeleton-list";
   skeletonList.className = "item-list";
   skeletonList.innerHTML = getSkeletonUI();
 
-  movieList && movieList.appendChild(skeletonList);
+  $movieList && $movieList.appendChild(skeletonList);
 };
 
 export const getSkeletonUI = (length: number = 20) => {

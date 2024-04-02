@@ -2,7 +2,6 @@ import Component from "../common/Component";
 import { createMovieElement } from "./Movie";
 import { hideSkeleton, renderSkeleton } from "./Skeleton";
 import MovieClient from "../http/MovieClient";
-import { $ } from "../utils/dom";
 import { MovieType } from "../types";
 import { hideEmptyResult, renderEmptyResult } from "./EmptyResult";
 
@@ -35,31 +34,31 @@ export default class MovieList extends Component<{}, MovieListState> {
   }
 
   private renderMovies(movies: MovieType[]) {
-    const movieList = $<HTMLUListElement>("#movie-list-container");
-    if (!movieList) return;
+    const $movieList = document.querySelector<HTMLUListElement>("#movie-list-container");
+    if (!$movieList) return;
     hideEmptyResult();
     movies.forEach((movie) => {
       const movieItem = createMovieElement(movie);
-      movieList.append(movieItem);
+      $movieList.append(movieItem);
     });
   }
 
   private toggleMainText(text: string = "") {
-    const mainText = $<HTMLHeadingElement>("#main-text");
-    if (!mainText) return;
+    const $mainText = document.querySelector<HTMLHeadingElement>("#main-text");
+    if (!$mainText) return;
 
     if (text === "") {
-      mainText.innerText = `지금 인기 있는 영화`;
+      $mainText.innerText = `지금 인기 있는 영화`;
     } else {
-      mainText.innerText = `"${text}" 검색 결과`;
+      $mainText.innerText = `"${text}" 검색 결과`;
     }
   }
 
   private resetCurrentMovieList() {
-    const movieList = $<HTMLUListElement>("#movie-list-container");
-    if (!movieList) return;
+    const $movieList = document.querySelector<HTMLUListElement>("#movie-list-container");
+    if (!$movieList) return;
 
-    movieList.innerHTML = "";
+    $movieList.innerHTML = "";
   }
 
   private handleRenderMovieList() {
