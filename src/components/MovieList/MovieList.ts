@@ -1,5 +1,6 @@
 import './MovieList.css';
 import movieStore from '../../stores/movieStore';
+import throttle from '../../utils/throttle';
 import MovieItem from '../MovieItem/MovieItem';
 
 const getSearchQuery = ($title: HTMLElement) => {
@@ -59,7 +60,7 @@ const MovieList = ({
       Math.ceil(scrollTop + clientHeight) >= scrollHeight;
 
     if (scrolledToBottom && !isLastPage) {
-      loadMore();
+      throttle().throttling(loadMore, 1000);
     }
   }
 
