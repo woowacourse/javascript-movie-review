@@ -17,7 +17,7 @@ class Modal {
 
   private createElements({ content }: ModalProps) {
     const modal = this.createModal();
-    modal.appendChild(this.createModalBackdrop());
+    modal.appendChild(this.createModalDimmedLayer());
     modal.appendChild(this.createModalContainer(content));
     return modal;
   }
@@ -28,9 +28,9 @@ class Modal {
     return modal;
   }
 
-  private createModalBackdrop() {
+  private createModalDimmedLayer() {
     const backdrop = document.createElement('div');
-    backdrop.className = 'modal-backdrop';
+    backdrop.className = 'modal-dimmed-layer';
     backdrop.addEventListener('click', this.closeModal.bind(this));
     return backdrop;
   }
