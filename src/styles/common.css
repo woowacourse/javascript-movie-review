@@ -174,6 +174,12 @@ header .search-box > form > .search-button {
   background-size: contain;
 }
 
+.search-form-mobile {
+  & #search-input {
+    display: none;
+  }
+}
+
 .empty-result {
   width: 100%;
   height: 50vh;

@@ -41,21 +41,24 @@ class Header extends Component<HeaderProps> {
     if (!$inputElment || !$searchForm || !$logo) return;
     $searchForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const inputDisplay = getComputedStyle($inputElment).display;
-      if (inputDisplay === "inline-block") {
+      if (!$searchForm.classList.contains("search-form-mobile")) {
+        if (!$inputElment.value) {
+          alert("검색어를 입력해주세요");
+          return;
+        }
         onSearchKeywordSubmit($inputElment.value);
-      } else if (inputDisplay === "none") {
+      } else if ($searchForm.classList.contains("search-form-mobile")) {
         $logo.style.display = "none";
-        $inputElment.style.display = "inline-block";
+        $searchForm.classList.remove("search-form-mobile");
       }
     });
 
     window.addEventListener("resize", () => {
       if (window.innerWidth < 500) {
-        $inputElment.style.display = "none";
+        $searchForm.classList.add("search-form-mobile");
       } else {
+        $searchForm.classList.remove("search-form-mobile");
         $logo.style.display = "inline-block";
-        $inputElment.style.display = "inline-block";
       }
     });
   }
