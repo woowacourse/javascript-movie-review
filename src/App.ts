@@ -43,15 +43,14 @@ export default class App {
 
   #getSkeletonCount() {
     const width = window.innerWidth;
-    let skeletonCount = this.#skeletonBySize;
 
     if (width <= MOBILE_SIZE) {
-      skeletonCount = SKELETON_UI_MOBILE;
-    } else if (width <= TABLET_SIZE) {
-      skeletonCount = SKELETON_UI_TABLET;
+      return SKELETON_UI_MOBILE;
     }
-
-    return skeletonCount;
+    if (width <= TABLET_SIZE) {
+      return SKELETON_UI_TABLET;
+    }
+    return this.#skeletonBySize;
   }
 
   #generateMovieList() {
