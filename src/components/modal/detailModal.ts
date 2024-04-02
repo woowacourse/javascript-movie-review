@@ -4,13 +4,13 @@ import filledStar from '../../images/star_filled.png';
 import modal from './emptyModal';
 import { RecommendStar, getSavedRecommend } from '../recommendStar/recommendStar';
 
-function createMovieDetailModal(movieDetail: MovieDetail, closeModalCallBack: () => void) {
-  const container = render(movieDetail, closeModalCallBack);
+function createMovieDetailModal(movieDetail: MovieDetail) {
+  const container = render(movieDetail);
 
   return container;
 }
 
-function render(movieDetail: MovieDetail, closeModalCallBack: () => void) {
+function render(movieDetail: MovieDetail) {
   const container = modal.createContainer();
   const header = document.createElement('div');
   header.className = 'modal-header';
@@ -23,7 +23,7 @@ function render(movieDetail: MovieDetail, closeModalCallBack: () => void) {
   closeButton.className = 'modal-close-button';
   closeButton.textContent = 'X';
 
-  closeButton.addEventListener('click', closeModalCallBack);
+  closeButton.addEventListener('click', () => modal.remove('modal--open'));
 
   const body = document.createElement('main');
   body.className = 'modal-body';
