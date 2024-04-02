@@ -101,6 +101,8 @@ export default class App {
 
       ulElement?.appendChild(card.element);
     });
+
+    this.#addSentinel();
   }
 
   #generateSkeletonUI(ulElement: HTMLElement, skeletonCount: number) {
@@ -130,13 +132,30 @@ export default class App {
     const options = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.8,
+      threshold: 0.2,
     };
 
     this.#observer = new IntersectionObserver(this.#handleIntersection, options);
-    const sentinel = document.createElement('li');
-    sentinel.classList.add('sentinel');
-    this.#observer.observe(sentinel);
+
+    this.#observeSentinel();
+  }
+
+  #addSentinel() {
+    const ulElement = document.querySelector('ul.item-list');
+
+    if (ulElement) {
+      const sentinel = document.createElement('li');
+      sentinel.classList.add('sentinel');
+      ulElement.appendChild(sentinel);
+      this.#observeSentinel();
+    }
+  }
+
+  #removeSentinel() {
+    const sentinelElement = document.querySelector('li.sentinel');
+    if (sentinelElement) {
+      sentinelElement.remove();
+    }
   }
 
   #observeSentinel() {
@@ -148,7 +167,7 @@ export default class App {
 
   #handleIntersection = (entries: IntersectionObserverEntry[]) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting && entry.intersectionRatio >= 0.8 && !this.#isLoading) {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.2 && !this.#isLoading) {
         this.#loadMoreMovies();
       }
     });
@@ -157,6 +176,8 @@ export default class App {
   // eslint-disable-next-line max-lines-per-function
   async #loadMoreMovies() {
     if (searchMovieStore.presentPage === searchMovieStore.totalPages) return;
+
+    this.#removeSentinel();
 
     this.#isLoading = true;
 
