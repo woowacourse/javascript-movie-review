@@ -22,6 +22,7 @@ class Header {
 
   constructor({ imageSrc, onSubmit }: IHeaderProps) {
     this.$target = document.createElement('header');
+    this.$target.classList.add('header');
     this.#imageSrc = imageSrc;
     this.render();
 
@@ -49,6 +50,13 @@ class Header {
       id: 'search-button',
       classNames: ['search-button'],
       children: [childImage],
+      onClick: () => {
+        const $searchBox = dom.getElement(this.$target, '.search-box');
+        $searchBox.style.width = '100%';
+        $searchBox.style.justifyContent = 'flex-end';
+        dom.getElement(this.$target, '.header-title').style.display = 'none';
+        this.$target.style.justifyContent = 'flex-end';
+      },
     });
   }
 }

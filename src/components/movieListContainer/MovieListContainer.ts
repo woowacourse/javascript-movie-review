@@ -4,9 +4,6 @@ import { IMovie } from '../../types/movie';
 import { dom } from '../../utils/dom';
 import MovieItem from '../movieItem/MovieItem';
 import { InvalidRequestError } from '../../errors/error';
-import Modal from '../common/modal/Modal';
-import MovieItemDetail from '../movieItemDetail/MovieItemDetail';
-import appInstance from '../App/App';
 
 const MOVIE_ITEM_SKELETON_COUNT = 20;
 const TEMPLATE = `<li>

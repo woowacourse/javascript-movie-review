@@ -19,9 +19,13 @@ header h1 {
   color: #f33f3f;
 }
 
-header > .search-box {
+header .search-box {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   background: #fff;
+
+  max-width: 300px;
   padding: 8px;
   border-radius: 4px;
 }
@@ -30,10 +34,7 @@ header .search-box > input {
   border: 0;
 }
 
-header .search-box > .search-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+header .search-box > .search-box {
   border: 0;
   background: transparent no-repeat 0 1px;
 }
