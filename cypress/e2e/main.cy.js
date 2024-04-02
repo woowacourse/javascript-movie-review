@@ -31,15 +31,23 @@ describe("영화 목록 보여주는 주요한 기능 테스트", () => {
     it("메인 화면에서 인기있는 영화가 20개씩 목록에 나열되어야 한다", () => {
       cy.wait("@getPopularMovies");
       const popularMovieItems = cy.get(".item-list > li");
-      expect(popularMovieItems.should("have.length", 20));
+      const moviePosterPerPage = 20;
+      expect(popularMovieItems.should("have.length", moviePosterPerPage));
     });
 
     it("스크롤을 가장 아래로 내리면 새로운 영화목록 20개를 보여준다. (무한스크롤)", () => {
       cy.wait("@getPopularMovies");
       cy.scrollTo("bottom");
       cy.wait("@getPopularMovies");
+      const moviePosterPerPage = 20;
+      const currentPage = 2;
       const popularMovieItems = cy.get(".item-list > li");
-      expect(popularMovieItems.should("have.length", 40));
+      expect(
+        popularMovieItems.should(
+          "have.length",
+          moviePosterPerPage * currentPage
+        )
+      );
     });
   });
 
