@@ -2,10 +2,6 @@
   display: flex;
   flex-direction: column;
   color: var(--grey-2);
-
-  @media screen and (max-width: 739px) {
-    height: 100%;
-  }
 }
 
 .movie-detail-title-container {
@@ -35,11 +31,6 @@
   gap: 32px;
 
   padding: 36px 32px 48px;
-
-  @media screen and (max-width: 739px) {
-    flex: 1;
-    gap: 0;
-  }
 }
 
 .movie-detail-poster {
@@ -47,17 +38,6 @@
 
   width: 292px;
   height: 433px;
-
-  @media screen and (max-width: 919px) {
-    width: 260px;
-    height: 400px;
-  }
-
-  @media screen and (max-width: 739px) {
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-  }
 }
 
 .movie-detail-poster img {
@@ -157,6 +137,30 @@
   width: 32px;
   height: 32px;
   cursor: pointer;
+}
+
+@media screen and (max-width: 919px) {
+  .movie-detail-poster {
+    width: 260px;
+    height: 400px;
+  }
+}
+
+@media screen and (max-width: 739px) {
+  .movie-detail-container {
+    height: 100%;
+  }
+
+  .movie-detail-poster {
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+  }
+
+  .movie-detail-content {
+    flex: 1;
+    gap: 0;
+  }
 }
 
 @media screen and (max-width: 440px) {

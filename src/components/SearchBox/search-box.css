@@ -14,11 +14,6 @@
   z-index: 99;
 
   transition: all 0.3s ease-in-out;
-
-  @media screen and (max-width: 673px) {
-    width: 40px;
-    gap: 0;
-  }
 }
 
 .search-input {
@@ -62,4 +57,11 @@
 
 .prevent-pointer-event {
   pointer-events: none;
+}
+
+@media screen and (max-width: 673px) {
+  .search-box {
+    width: 40px;
+    gap: 0;
+  }
 }

@@ -18,10 +18,6 @@
   width: 100%;
   height: 273px;
   background-size: contain;
-
-  @media screen and (max-width: 673px) {
-    height: 220px;
-  }
 }
 
 .item-title {
@@ -48,4 +44,10 @@
 
 .item-score::after {
   margin-left: 8px;
+}
+
+@media screen and (max-width: 673px) {
+  .item-thumbnail {
+    height: 220px;
+  }
 }

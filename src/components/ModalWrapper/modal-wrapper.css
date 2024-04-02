@@ -13,10 +13,6 @@
 
   width: 100vw;
   height: 100vh;
-
-  @media screen and (max-width: 739px) {
-    align-items: flex-end;
-  }
 }
 
 .modal-backdrop {
@@ -40,13 +36,21 @@
   border-radius: 8px;
 
   z-index: 99;
+}
 
-  @media screen and (max-width: 919px) {
-    width: 740px;
+@media screen and (max-width: 739px) {
+  .modal--open {
+    align-items: flex-end;
   }
 
-  @media screen and (max-width: 739px) {
+  .modal-content {
     position: relative;
     width: 100%;
+  }
+}
+
+@media screen and (max-width: 919px) {
+  .modal-content {
+    width: 740px;
   }
 }
