@@ -83,7 +83,6 @@ class MovieContainer {
     }
 
     if (listLength === 0 && !emptySearchResultParagraph) {
-      // $('.item-view').insertBefore(this.createEmptySearchResult(), this.movieListContainer);
       $('.item-view').appendChild(this.createEmptySearchResult());
     }
   }
