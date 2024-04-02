@@ -1,3 +1,5 @@
+import { MOBILE_BREAKPOINT } from '../../constants/rule';
+
 const createSearchBox = () => {
   const $searchBox = document.createElement('div');
   $searchBox.classList.add('search-box');
@@ -58,7 +60,7 @@ const SearchInput = () => {
   });
 
   $searchBtn.addEventListener('click', () => {
-    if (window.innerWidth > 390) {
+    if (window.innerWidth > MOBILE_BREAKPOINT) {
       const { value } = $searchInput as HTMLInputElement;
       $searchInput.dispatchEvent(
         new CustomEvent('search', {

@@ -7,3 +7,5 @@ export const STAR_RATING_TEXT_LIST = [
 ];
 
 export const POSTER_BASE_URL = 'https://image.tmdb.org/t/p/w220_and_h330_face';
+
+export const MOBILE_BREAKPOINT = 390;

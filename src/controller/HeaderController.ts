@@ -1,3 +1,5 @@
+import { MOBILE_BREAKPOINT } from '../constants/rule';
+
 const HeaderController = {
   toggleSearchInputVisibilityOnSmallScreens() {
     const $searchInput = document.querySelector(
@@ -19,7 +21,7 @@ const HeaderController = {
     const $app = document.getElementById('app') as HTMLElement;
     const callback = (entries: ResizeObserverEntry[]) => {
       const observerWidth = entries[0].contentRect.width;
-      if (observerWidth <= 390) {
+      if (observerWidth <= MOBILE_BREAKPOINT) {
         this.toggleSearchInputVisibilityOnSmallScreens();
       }
     };
