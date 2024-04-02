@@ -12,7 +12,7 @@ import MovieMain from "./MovieMain/MovieMain";
 import { MyVote } from "../domain/localStorage/myVote";
 import getMovieDetail from "../domain/api/getMovieDetail";
 import getMyVote from "../domain/localStorage/getMyVote";
-import { setMyVote } from "../domain/localStorage/setMyVote";
+import setMyVote from "../domain/localStorage/setMyVote";
 
 class App {
   private static FIRST_PAGE = 1;
@@ -140,8 +140,6 @@ class App {
   private async renderDetailModal(id: number) {
     const movieDetail = await getMovieDetail({ movieId: id });
     const myVote = getMyVote({ movieId: id });
-    console.log(movieDetail);
-    console.log(myVote);
     this.movieDetailModal = new MovieDetailModal({
       movieDetail,
       myVote,
@@ -152,7 +150,6 @@ class App {
         }
       },
       onMyVoteClick: ({ movieId, score }: MyVote) => {
-        console.log({ movieId, score });
         setMyVote({ movieId, score });
       },
     });

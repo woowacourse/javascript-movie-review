@@ -1,6 +1,6 @@
 import { MY_VOTES, MyVote } from "./myVote";
 
-export function setMyVote(myVote: MyVote) {
+export default function setMyVote(myVote: MyVote) {
   const myVotesJson = localStorage.getItem(MY_VOTES);
   if (myVotesJson === null) {
     localStorage.setItem(MY_VOTES, JSON.stringify([myVote]));
@@ -8,14 +8,15 @@ export function setMyVote(myVote: MyVote) {
   }
 
   const myVotes = JSON.parse(myVotesJson);
-  if (!(myVotes instanceof Array)) {
+  if (!Array.isArray(myVotes)) {
     localStorage.setItem(MY_VOTES, JSON.stringify([myVote]));
     return;
   }
 
-  if (
-    myVotes.filter((myVote2) => myVote2.movieId === myVote.movieId).length === 0
-  ) {
+  const isNewMyVote =
+    myVotes.filter((myVote2) => myVote2.movieId === myVote.movieId).length ===
+    0;
+  if (isNewMyVote) {
     localStorage.setItem(MY_VOTES, JSON.stringify([...myVotes, myVote]));
     return;
   }

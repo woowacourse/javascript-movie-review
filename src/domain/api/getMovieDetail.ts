@@ -1,16 +1,16 @@
+import movieFetcher, { PATH } from "./movieFetcher";
+
 const getMovieDetail = async ({
   movieId,
 }: {
   movieId: number;
 }): Promise<MovieDetailResult> => {
-  const url = `https://api.themoviedb.org/3/movie/${movieId}`;
+  const path = PATH.MOVIE_DETAIL;
+  const queryParams = {
+    language: "ko-KR",
+  };
 
-  const queryParams = `language=ko-KR&api_key=${process.env.API_KEY}`;
-  const movieDetailUrl = `${url}?${queryParams}`;
-
-  const res = await fetch(movieDetailUrl);
-
-  return await res.json();
+  return movieFetcher(`${path}/${movieId}`, queryParams);
 };
 
 export interface MovieDetailResult {

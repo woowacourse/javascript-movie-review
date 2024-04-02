@@ -11,7 +11,7 @@ export default function getMyVote({
   }
 
   const myVotes = JSON.parse(myVotesJson);
-  if (!(myVotes instanceof Array)) {
+  if (!Array.isArray(myVotes)) {
     return null;
   }
 

@@ -1,4 +1,4 @@
-import validateResponse from "./validateResponse";
+import movieFetcher, { PATH } from "./movieFetcher";
 
 const getMovieListByQuery = async ({
   page,
@@ -7,16 +7,14 @@ const getMovieListByQuery = async ({
   page: number;
   query: string;
 }): Promise<SearchMovieResponse> => {
-  const url = "https://api.themoviedb.org/3/search/movie";
-  const queryParams = `language=ko-KR&page=${page}&query=${query}&api_key=${process.env.API_KEY}`;
-  const moviesUrl = `${url}?${queryParams}`;
+  const path = PATH.SEARCHED_MOVIE;
+  const queryParams = {
+    language: "ko-KR",
+    page: page,
+    query: query,
+  };
 
-  const res = await fetch(moviesUrl);
-  validateResponse(res.status);
-
-  const movieList = await res.json();
-
-  return movieList;
+  return movieFetcher(path, queryParams);
 };
 
 export default getMovieListByQuery;
