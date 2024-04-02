@@ -12,10 +12,10 @@ function createButtonElement({ type, id, textContent, variantClasses }: ButtonEl
   return button;
 }
 
-function createButton({ options, eventType }: ButtonParams) {
+function createButton({ options, callbackFunction }: ButtonParams) {
   const button = createButtonElement(options);
-  if (eventType) {
-    button.addEventListener(eventType.type, eventType.callbackFunction);
+  if (callbackFunction) {
+    button.addEventListener('click', callbackFunction);
   }
   return button;
 }

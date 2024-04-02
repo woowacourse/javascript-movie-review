@@ -5,12 +5,7 @@ export interface ButtonElementParams {
   variantClasses?: string[];
 }
 
-export interface ButtonEventType {
-  type: string;
-  callbackFunction: (event: Event) => void;
-}
-
 export interface ButtonParams {
   options: ButtonElementParams;
-  eventType: ButtonEventType;
+  callbackFunction: (event: Event) => void;
 }

@@ -30,10 +30,7 @@ class MovieContainer {
         textContent: '더 보기',
         variantClasses: ['full-width', 'primary'],
       },
-      eventType: {
-        type: 'click',
-        callbackFunction: () => this.initHandleClickMoreButton(),
-      },
+      callbackFunction: () => this.initHandleClickMoreButton(),
     });
     this.toggleMoreButtonDisplay(false);
 
@@ -118,10 +115,7 @@ class MovieContainer {
         textContent: '다시 불러오기 ↻',
         variantClasses: ['full-width', 'primary'],
       },
-      eventType: {
-        type: 'click',
-        callbackFunction: () => handleRetryButton(),
-      },
+      callbackFunction: () => handleRetryButton(),
     });
     $('.item-view').insertBefore(retryButton, $('ul.item-list'));
   }

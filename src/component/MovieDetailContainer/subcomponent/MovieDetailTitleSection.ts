@@ -10,10 +10,7 @@ export default function MovieDetailTitleSection({ title, onClose }: { title: str
 
   const closeButton = createButton({
     options: { type: 'button', id: 'modal__movie-detail__close-button', textContent: '' },
-    eventType: {
-      type: 'click',
-      callbackFunction: onClose,
-    },
+    callbackFunction: onClose,
   });
 
   section.append(titleElement, closeButton);
