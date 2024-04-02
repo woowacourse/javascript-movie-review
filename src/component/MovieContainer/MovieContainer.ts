@@ -73,7 +73,7 @@ class MovieContainer {
   }
 
   setEmptySearchResult(listLength: number) {
-    const emptySearchResultParagraph = $OptionalSelector('div.empty-search-result');
+    const emptySearchResultParagraph = $OptionalSelector('div.empty-result');
 
     if (listLength > 0) {
       emptySearchResultParagraph?.remove();
