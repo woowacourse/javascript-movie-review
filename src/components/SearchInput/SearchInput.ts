@@ -26,14 +26,6 @@ const SearchInput = () => {
     return $searchBox;
   };
 
-  if (window.innerWidth <= 390) {
-    $searchInput.classList.add('visibility-hidden');
-    $searchBtn.addEventListener('click', () => {
-      $searchBox.classList.toggle('click-input-box');
-      $searchInput.classList.toggle('visibility-hidden');
-    });
-  }
-
   $searchInput.addEventListener('keydown', (e) => {
     const { target } = e;
     const { key } = e as KeyboardEvent;
@@ -65,8 +57,8 @@ const SearchInput = () => {
     }
   });
 
-  if (window.innerWidth > 390) {
-    $searchBtn.addEventListener('click', () => {
+  $searchBtn.addEventListener('click', () => {
+    if (window.innerWidth > 390) {
       const { value } = $searchInput as HTMLInputElement;
       $searchInput.dispatchEvent(
         new CustomEvent('search', {
@@ -76,8 +68,8 @@ const SearchInput = () => {
           },
         }),
       );
-    });
-  }
+    }
+  });
 
   return {
     render,
