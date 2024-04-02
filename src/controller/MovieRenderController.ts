@@ -102,7 +102,6 @@ class MovieRenderController {
       return movieData;
     } catch (error) {
       if (error instanceof CustomError) {
-        this.#toggleSkeletonItems();
         this.#showErrorPage(error.message, error.status);
       }
 
@@ -119,7 +118,6 @@ class MovieRenderController {
       return movieData;
     } catch (error) {
       if (error instanceof CustomError) {
-        this.#toggleSkeletonItems();
         this.#showErrorPage(error.message, error.status);
       }
 
