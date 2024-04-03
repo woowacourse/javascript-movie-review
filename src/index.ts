@@ -37,10 +37,13 @@ body?.appendChild(modal.element);
 
 movieItems.element?.addEventListener('click', (event) => {
   const target = event.target as HTMLElement;
-  const movieId = target.closest('.item-card')?.id;
-  if (movieId === undefined) return;
-
-  movieDetail.requestMovieDetail(Number(movieId)).then(setMovieDetailAndOpenModal);
+  const movieItem = target.closest('.item-card') as HTMLElement;
+  if (movieItem.id === undefined) return;
+  movieItem.style.cursor = 'progress';
+  movieDetail.requestMovieDetail(Number(movieItem.id)).then((detail) => {
+    setMovieDetailAndOpenModal(detail);
+    movieItem.style.cursor = 'pointer';
+  });
 });
 
 function setMovieDetailAndOpenModal(detail: IMovieDetail) {
