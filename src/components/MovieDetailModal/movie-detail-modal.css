@@ -95,6 +95,7 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
+
 .movie-detail-close-button {
   display: flex;
   justify-content: center;
@@ -109,6 +110,12 @@
   border: none;
   border-radius: 50%;
   background-color: var(--grey-1);
+
+  transition: all 0.1s ease-in-out;
+}
+
+.movie-detail-close-button:hover {
+  box-shadow: rgba(243, 63, 63, 0.56) 0 0 10px 3px;
 }
 
 .review-container {
