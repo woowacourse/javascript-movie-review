@@ -11,10 +11,21 @@ const ModalController = {
   closeModal() {
     const $app = document.getElementById('app');
     const $modal = document.querySelector('.modal') as HTMLElement;
-    const $modalCloseBtn = document.querySelector('.modal-body__close-btn img');
-    $modalCloseBtn?.addEventListener('click', () => {
-      $app?.removeChild($modal);
-    });
+    const $modalCloseBtn = document.querySelector(
+      '.modal-body__close-btn img',
+    ) as HTMLElement;
+    const $modalBackdrop = document.querySelector(
+      '.modal-backdrop',
+    ) as HTMLElement;
+
+    function clickRemoveChild(removeEl: HTMLElement) {
+      removeEl?.addEventListener('click', () => {
+        $app?.removeChild($modal);
+      });
+    }
+
+    clickRemoveChild($modalBackdrop);
+    clickRemoveChild($modalCloseBtn);
   },
 
   observerModal() {
