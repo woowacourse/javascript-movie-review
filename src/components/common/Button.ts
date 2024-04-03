@@ -5,13 +5,15 @@ interface Props {
     type?: string;
     text?: string;
     class?: string;
-    click?: () => void;
+    click?: EventListener;
+    name?: string;
+    value?: string;
   };
 }
 
 export default function Button({ button }: Props) {
   const $button = document.createElement('button');
-  setAttributes($button, button);
+  if (button) setAttributes($button, button);
 
   return $button;
 }

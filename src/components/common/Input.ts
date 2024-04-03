@@ -3,7 +3,10 @@ import { setAttributes } from '../../utils/domUtils';
 interface Props {
   input: {
     type: string;
+    class?: string;
     placeholder?: string;
+    name?: string;
+    value?: string;
   };
 }
 

@@ -15,16 +15,26 @@ interface Movie {
   vote_count: number;
 }
 
+interface Genre {
+  id: number;
+  name: string;
+}
+
 interface TmdbResponse {
   page: number;
   results: Movie[];
   total_pages: number;
   total_results: number;
   status_code: number;
+  poster_path: string;
+  title: string;
+  genres: Genre[];
+  vote_average: number;
+  overview: string;
 }
 
 interface TmdbUrlParams {
   path: string;
-  page: string;
+  page?: string;
   query?: string;
 }

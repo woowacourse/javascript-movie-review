@@ -3,7 +3,9 @@ import { setAttributes } from '../../utils/domUtils';
 interface Props {
   type: 'header' | 'main' | 'section' | 'div';
   attrs?: {
+    id?: string;
     class?: string;
+    click?: EventListener;
   };
 }
 

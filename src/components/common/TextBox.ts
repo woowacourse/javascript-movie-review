@@ -1,7 +1,7 @@
 import { setAttributes } from '../../utils/domUtils';
 
 interface Props {
-  type: 'p' | 'h1' | 'h2';
+  type: 'p' | 'h1' | 'h2' | 'h3';
   attrs?: {
     text?: string;
     class?: string;

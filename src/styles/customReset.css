@@ -1,0 +1,14 @@
+body,
+dialog {
+  -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar,
+dialog::-webkit-scrollbar {
+  display: none;
+}
+
+dialog {
+  padding: 0;
+  border: 0;
+}

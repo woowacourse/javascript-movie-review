@@ -32,7 +32,6 @@ class MovieListController {
 
     if (status_code) this.printErrorMessage(status_code);
     else if (!total_results) this.printMovieNotFoundMessage();
-
     this.renderMovieItems(results);
     this.setInfiniteScrollWhenNotLastPage(total_pages);
   }
