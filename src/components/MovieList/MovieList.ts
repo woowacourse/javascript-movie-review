@@ -4,33 +4,41 @@ import { generateMovieItems } from "../templates/movie/generateMovieItems";
 import { generateErrorFallbackScreen } from "../templates/error/generateErrorFallbackScreen";
 import { getPopularMovieList, getSearchMovieList } from "../../apis/movieList";
 import { $ } from "../../utils/dom";
-import APIError from "../../error/APIError";
+import APIError from "../../errors/APIError";
 import SkeletonUI from "../SkeletonUI";
-import { Movie } from "../../types/movie";
+import { MovieItem } from "../../types/movie";
 import EventComponent from "../abstract/EventComponent";
 import EmptyMovieList from "./EmptyMovieList";
+import MovieDetailModalState from "../../states/MovieDetailModalState";
+import { throttle } from "../../utils/throttle";
 
 interface MovieListProps {
   targetId: string;
   queryState: QueryState;
-  movies?: Movie[];
+  movieDetailModalState: MovieDetailModalState;
+  movies?: MovieItem[];
   skeletonUI: SkeletonUI;
 }
 
 export default class MovieList extends EventComponent {
   private queryState: QueryState;
-  private page = 1;
-  private movies: Movie[] = [];
+  private movieDetailModalState: MovieDetailModalState;
+  private movies: MovieItem[] = [];
   private skeletonUI: SkeletonUI;
+  private page = 1;
+  private isLoading = false;
+  private isLastPage = false;
 
   constructor({
     targetId,
     queryState,
+    movieDetailModalState,
     movies = [],
     skeletonUI,
   }: MovieListProps) {
     super({ targetId });
     this.queryState = queryState;
+    this.movieDetailModalState = movieDetailModalState;
     this.movies = movies;
     this.skeletonUI = skeletonUI;
   }
@@ -40,13 +48,8 @@ export default class MovieList extends EventComponent {
 
     return `
         <ul id="item-list" class="item-list">
-        ${movieItemsTemplate}
+          ${movieItemsTemplate}
         </ul>
-        ${
-          this.movies.length === 20
-            ? '<button id="watch-more-button" class="btn primary full-width">더 보기</button>'
-            : ""
-        }
     `;
   }
 
@@ -60,24 +63,103 @@ export default class MovieList extends EventComponent {
       this.movies = movies;
 
       if (movies.length === 0) {
-        const emptyMovieList = new EmptyMovieList({
-          targetId: this.targetId,
-          onHomeButton: () => this.queryState.reset(),
-        });
-
-        emptyMovieList.initialize();
+        this.renderEmptyMovieList();
         return;
       }
 
       this.render();
     } catch (error) {
       if (error instanceof Error) {
-        this.handleErrorOnInitialized(error);
+        this.catchErrorOnInitialized(error);
       }
     }
   }
 
-  protected handleErrorOnInitialized(error: Error): void {
+  protected setEvent(): void {
+    $<HTMLUListElement>("item-list")?.addEventListener(
+      "click",
+      this.handleMovieItemClick.bind(this)
+    );
+
+    const THROTTLE_DELAY = 500;
+    window.addEventListener(
+      "scroll",
+      throttle(this.handleScroll.bind(this), THROTTLE_DELAY)
+    );
+  }
+
+  private handleMovieItemClick(event: Event): void {
+    const $movieItem = (event.target as HTMLElement).closest<HTMLLIElement>(
+      ".movie-item"
+    );
+
+    const movieId = $movieItem?.dataset.movieId;
+    if (movieId) {
+      this.movieDetailModalState.set({
+        isOpen: true,
+        movieId: Number(movieId),
+      });
+    }
+  }
+
+  private handleScroll(): void {
+    const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
+
+    const SCROLL_HEIGHT_BUFFER = 400;
+    if (scrollTop + clientHeight + SCROLL_HEIGHT_BUFFER >= scrollHeight) {
+      this.loadMoreMovies();
+    }
+  }
+
+  private async loadMoreMovies(): Promise<void> {
+    if (this.isLoading || this.isLastPage) {
+      return;
+    }
+
+    this.isLoading = true;
+    this.skeletonUI.insert("item-list", "afterend");
+    this.page += 1;
+
+    const additionalMovies = await this.fetchMovies(
+      this.page,
+      this.queryState.get()
+    );
+
+    this.isLoading = false;
+    this.insertMovieItems(additionalMovies);
+
+    $<HTMLUListElement>("skeleton-movie-item-list")?.remove();
+
+    const MOVIE_COUNT_PER_PAGE = 20;
+    if (additionalMovies.length < MOVIE_COUNT_PER_PAGE) {
+      this.isLastPage = true;
+    }
+  }
+
+  private resetPage(): void {
+    this.page = 1;
+    this.isLoading = false;
+    this.isLastPage = false;
+  }
+
+  private async fetchMovies(page: number, query?: Query): Promise<MovieItem[]> {
+    const movies = query
+      ? await getSearchMovieList(query, page)
+      : await getPopularMovieList(page);
+
+    return movies;
+  }
+
+  private renderEmptyMovieList(): void {
+    const emptyMovieList = new EmptyMovieList({
+      targetId: this.targetId,
+      onHomeButton: () => this.queryState.reset(),
+    });
+
+    emptyMovieList.initialize();
+  }
+
+  private catchErrorOnInitialized(error: Error): void {
     if (error instanceof APIError) {
       alert(error.message);
     } else if (error instanceof Error) {
@@ -92,48 +174,12 @@ export default class MovieList extends EventComponent {
     }
   }
 
-  protected setEvent(): void {
-    $<HTMLButtonElement>("watch-more-button")?.addEventListener(
-      "click",
-      this.handleWatchMoreButtonClick.bind(this)
-    );
-  }
-
-  async handleWatchMoreButtonClick(): Promise<void> {
-    this.page += 1;
-
-    this.skeletonUI.insert("item-list", "afterend");
-
-    const additionalMovies = await this.fetchMovies(this.page);
-
-    $<HTMLUListElement>("skeleton-movie-item-list")?.remove();
-
-    this.movies = [...this.movies, ...additionalMovies];
-    this.insertMovieItems(additionalMovies);
-
-    if (additionalMovies.length < 20) {
-      $<HTMLButtonElement>("watch-more-button")?.remove();
-    }
-  }
-
-  private insertMovieItems(movies: Movie[]): void {
+  private insertMovieItems(movies: MovieItem[]): void {
     const movieItemsTemplate = generateMovieItems(movies);
 
     $<HTMLUListElement>("item-list")?.insertAdjacentHTML(
       "beforeend",
       movieItemsTemplate
     );
-  }
-
-  private async fetchMovies(page: number, query?: Query): Promise<Movie[]> {
-    const movies = query
-      ? await getSearchMovieList(query, page)
-      : await getPopularMovieList(page);
-
-    return movies;
-  }
-
-  private resetPage(): void {
-    this.page = 1;
   }
 }

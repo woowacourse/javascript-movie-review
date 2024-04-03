@@ -1,4 +1,4 @@
-import APIError from "../error/APIError";
+import APIError from "../errors/APIError";
 
 type URLString = string;
 
@@ -16,11 +16,9 @@ export default class APIClient implements APIClientInterface {
   }
 
   async get<T = any>(path: string, params: URLSearchParams): Promise<T> {
-    const url = new URL(this.baseUrl.toString());
-    url.pathname = path;
-    url.search = params.toString();
+    const url = `${this.baseUrl.toString()}${path}?${params.toString()}`;
 
-    const response = await fetch(url.toString(), {
+    const response = await fetch(url, {
       headers: this.header,
     });
 

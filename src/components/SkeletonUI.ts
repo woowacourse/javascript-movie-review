@@ -1,4 +1,3 @@
-import { HTMLTemplate } from "./abstract/BaseComponent";
 import { $ } from "../utils/dom";
 import { generateMovieListSkeleton } from "./templates/movie/generateMovieListSkeleton";
 
