@@ -1,15 +1,6 @@
-import { $, createElement } from "./dom";
-
 export const infiniteScroll = {
   isLoading: false,
   allDataLoaded: false,
-
-  addScrollAnchorDiv() {
-    const scrollAnchorDiv = createElement("div", { class: "scroll-anchor" });
-    scrollAnchorDiv.style.height = "1px";
-
-    $(".item-view")?.appendChild(scrollAnchorDiv);
-  },
 
   async addInfiniteScroll(callback: () => Promise<void>) {
     this.observeLastItem(callback);
