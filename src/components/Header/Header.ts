@@ -4,12 +4,15 @@ import './Header.css';
 
 const createLogo = () => {
   const $h1 = document.createElement('h1');
+  const $span = document.createElement('span');
   const $img = document.createElement('img');
 
-  $h1.textContent = 'MovieList';
+  $span.textContent = 'MovieList';
+  $span.classList.add('sr-only');
   $img.src = Logo;
   $img.alt = '';
 
+  $h1.appendChild($span);
   $h1.appendChild($img);
   return $h1;
 };
@@ -21,6 +24,7 @@ const createHeader = () => {
 
   $header.appendChild($logo);
   $header.appendChild($searchBox);
+
   return $header;
 };
 

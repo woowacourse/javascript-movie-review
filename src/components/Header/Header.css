@@ -7,7 +7,6 @@ header {
   background-color: #222;
   padding: 0 20px;
   width: 100%;
-  min-width: 1200px;
   height: 72px;
 }
 
@@ -37,4 +36,23 @@ header .search-box > .search-button {
   background-size: contain;
   width: 14px;
   text-indent: -1000rem;
+}
+
+@media (max-width: 390px) {
+  .search-box {
+    padding: 12px 10px;
+  }
+  .search-input {
+    width: 95%;
+  }
+  .visibility-hidden {
+    padding: 0;
+    width: 0;
+  }
+
+  .click-input-box {
+    position: absolute;
+    z-index: 1;
+    width: 90%;
+  }
 }

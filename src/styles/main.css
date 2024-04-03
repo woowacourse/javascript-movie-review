@@ -38,3 +38,17 @@ button {
     background-position: 0% 50%;
   }
 }
+
+.sr-only {
+  position: absolute;
+  opacity: 0;
+  z-index: -100;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+}

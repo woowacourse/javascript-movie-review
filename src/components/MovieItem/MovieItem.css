@@ -1,6 +1,14 @@
+li {
+  width: fit-content;
+}
 .item-card {
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: #fff;
 }
 
 .item-card .skeleton {
@@ -21,6 +29,7 @@
   margin-top: 16px;
   font-weight: bold;
   font-size: 1.2rem;
+  text-align: left;
 }
 
 .item-score {
@@ -43,4 +52,11 @@
 .item-score.skeleton::after {
   content: 'loading';
   font-size: 0;
+}
+
+@media (max-width: 668px) {
+  .item-thumbnail {
+    width: 150px;
+    height: 230px;
+  }
 }

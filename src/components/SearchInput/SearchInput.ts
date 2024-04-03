@@ -1,3 +1,5 @@
+import { MOBILE_BREAKPOINT } from '../../constants/rule';
+
 const createSearchBox = () => {
   const $searchBox = document.createElement('div');
   $searchBox.classList.add('search-box');
@@ -12,6 +14,7 @@ const SearchInput = () => {
   const render = () => {
     $searchInput.type = 'text';
     $searchInput.placeholder = '검색';
+    $searchInput.classList.add('search-input');
 
     $searchBtn.type = 'button';
     $searchBtn.classList.add('search-button');
@@ -57,15 +60,17 @@ const SearchInput = () => {
   });
 
   $searchBtn.addEventListener('click', () => {
-    const { value } = $searchInput as HTMLInputElement;
-    $searchInput.dispatchEvent(
-      new CustomEvent('search', {
-        bubbles: true,
-        detail: {
-          query: value,
-        },
-      }),
-    );
+    if (window.innerWidth > MOBILE_BREAKPOINT) {
+      const { value } = $searchInput as HTMLInputElement;
+      $searchInput.dispatchEvent(
+        new CustomEvent('search', {
+          bubbles: true,
+          detail: {
+            query: value,
+          },
+        }),
+      );
+    }
   });
 
   return {

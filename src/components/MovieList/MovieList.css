@@ -1,13 +1,8 @@
 .item-view {
-  width: 100%;
-}
-
-.item-view {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0 auto;
-  width: 1200px;
+  min-width: 1140px;
 }
 
 .item-view h2 {
@@ -18,9 +13,9 @@
 
 .item-list {
   display: grid;
-  grid-template-columns: repeat(4, 180px);
+  grid-template-columns: repeat(4, 0fr);
   margin: 48px 0;
-  grid-column-gap: 160px;
+  grid-column-gap: 140px;
   grid-row-gap: 48px;
 }
 
@@ -35,4 +30,25 @@
 
   font-size: 24px;
   text-align: center;
+}
+
+@media (max-width: 1142px) {
+  .item-view {
+    min-width: 660px;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(3, 0fr);
+    grid-column-gap: 60px;
+  }
+}
+
+@media (max-width: 668px) {
+  .item-view {
+    min-width: 340px;
+  }
+  .item-list {
+    grid-template-columns: repeat(2, 0fr);
+    grid-column-gap: 40px;
+  }
 }

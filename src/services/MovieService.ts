@@ -1,13 +1,6 @@
-import {
-  REQUEST_URL,
-  COMMON_OPTIONS,
-  COMMON_PARAMS,
-} from '../constants/requests';
+import { REQUEST_URL, COMMON_OPTIONS } from '../constants/requests';
 import fetchData from '../utils/fetchData';
-
-interface Params {
-  [key: string]: string | number | boolean;
-}
+import { generateUrl, Params } from '../utils/generateUrl';
 
 interface Movie {
   id: number;
@@ -23,6 +16,23 @@ export interface MovieData {
   isEmptyResults: boolean;
 }
 
+interface MovieResults {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: [];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
+
 const fetchMovies = async (url: string): Promise<MovieData> => {
   const data = await fetchData({
     url,
@@ -30,9 +40,9 @@ const fetchMovies = async (url: string): Promise<MovieData> => {
   });
 
   const { page, total_pages, results, total_results } = data;
-  const isLastPage: boolean = page === total_pages;
+  const isLastPage = page === total_pages;
   const isEmptyResults: boolean = total_results === 0;
-  const movies: Movie[] = results.map((movie: Movie) => ({
+  const movies: Movie[] = results.map((movie: MovieResults) => ({
     id: movie.id,
     title: movie.title,
     vote_average: movie.vote_average,
@@ -42,26 +52,14 @@ const fetchMovies = async (url: string): Promise<MovieData> => {
   return { movies, page, isLastPage, isEmptyResults };
 };
 
-const buildUrl = (baseURL: string, params: Params): string => {
-  const queryParams = new URLSearchParams({
-    ...COMMON_PARAMS,
-    ...params,
-  });
-  return `${baseURL}${queryParams}`;
-};
-
 export const MovieService = {
-  async fetchMovies(url: string): Promise<MovieData> {
-    return fetchMovies(url);
-  },
-
   async fetchSearchMovies(params: Params) {
-    const url = buildUrl(REQUEST_URL.searchMovies, params);
+    const url = generateUrl(REQUEST_URL.searchMovies, params);
     return fetchMovies(url);
   },
 
   async fetchPopularMovies(params: Params) {
-    const url = buildUrl(REQUEST_URL.popularMovies, params);
+    const url = generateUrl(REQUEST_URL.popularMovies, params);
     return fetchMovies(url);
   },
 };

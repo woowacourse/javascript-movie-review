@@ -70,46 +70,6 @@ const Main = () => {
 
   type FetchFunction = (query: string, page: number) => Promise<MovieData>;
 
-  function handleMovieEvent(
-    eventType: string,
-    fetchFunction: FetchFunction,
-  ): void {
-    document.addEventListener(eventType, (e) => {
-      const { detail } = e as CustomEvent<MovieDetail>;
-      if (detail.curType !== eventType) movieStore.setPage(1);
-
-      const title =
-        eventType === 'search'
-          ? `\"${detail.query}\" 검색 결과`
-          : '지금 인기있는 영화';
-
-      const {
-        $skeletonMovieList,
-        removeSkeletonMovieList,
-        insertSkeletonMovieList,
-      } = useSkeletonMovieList(title);
-      insertSkeletonMovieList();
-
-      fetchFunction(detail.query, movieStore.page)
-        .then(({ movies, page, isLastPage, isEmptyResults }) => {
-          if (isEmptyResults) {
-            return showSearchResultsNotFound($skeletonMovieList);
-          }
-
-          movieStore.setMovies(
-            page !== 1 ? [...movieStore.movies, ...movies] : movies,
-            () => {
-              removeSkeletonMovieList({ type: eventType, isLastPage });
-              movieStore.setPage(page + 1);
-            },
-          );
-        })
-        .catch(() => {
-          clearItemViewForError();
-        });
-    });
-  }
-
   function fetchSearchMovies(query: string, page: number): Promise<MovieData> {
     return MovieService.fetchSearchMovies({ query, page });
   }
@@ -121,8 +81,67 @@ const Main = () => {
     return MovieService.fetchPopularMovies({ page });
   }
 
-  handleMovieEvent('search', fetchSearchMovies);
-  handleMovieEvent('popular', fetchPopularMovies);
+  const handleMovies = ({
+    event,
+    fetchFunction,
+    eventType,
+  }: {
+    event: Event;
+    fetchFunction: FetchFunction;
+    eventType: string;
+  }) => {
+    const { detail } = event as CustomEvent<MovieDetail>;
+    if (detail.curType !== eventType) movieStore.setPage(1);
+
+    const title =
+      eventType === 'search'
+        ? `\"${detail.query}\" 검색 결과`
+        : '지금 인기있는 영화';
+
+    const {
+      $skeletonMovieList,
+      removeSkeletonMovieList,
+      insertSkeletonMovieList,
+    } = useSkeletonMovieList(title);
+    insertSkeletonMovieList();
+
+    fetchFunction(detail.query, movieStore.page)
+      .then(({ movies, page, isLastPage, isEmptyResults }) => {
+        if (isEmptyResults) {
+          return showSearchResultsNotFound($skeletonMovieList);
+        }
+
+        movieStore.setMovies(
+          page !== 1 ? [...movieStore.movies, ...movies] : movies,
+          () => {
+            removeSkeletonMovieList({ type: eventType, isLastPage });
+            movieStore.setPage(page + 1);
+          },
+        );
+      })
+      .catch(() => {
+        clearItemViewForError();
+      });
+  };
+
+  const handleSearchMovies = (e: Event) => {
+    handleMovies({
+      event: e,
+      fetchFunction: fetchSearchMovies,
+      eventType: 'search',
+    });
+  };
+
+  const handlePopularMovies = (e: Event) => {
+    handleMovies({
+      event: e,
+      fetchFunction: fetchPopularMovies,
+      eventType: 'popular',
+    });
+  };
+
+  document.addEventListener('search', handleSearchMovies);
+  document.addEventListener('popular', handlePopularMovies);
 
   document.dispatchEvent(
     new CustomEvent('popular', {

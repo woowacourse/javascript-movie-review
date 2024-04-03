@@ -1,6 +1,6 @@
 import './MovieList.css';
 import movieStore from '../../stores/movieStore';
-import LoadMoreButton from '../LoadMoreButton/LoadMoreButton';
+import throttle from '../../utils/throttle';
 import MovieItem from '../MovieItem/MovieItem';
 
 const getSearchQuery = ($title: HTMLElement) => {
@@ -19,7 +19,6 @@ const MovieList = ({
   const $section = document.createElement('section');
   const $title = document.createElement('h2');
   const $ul = document.createElement('ul');
-  const $loadMoreBtn = LoadMoreButton().render();
 
   const render = () => {
     $section.classList.add('item-view');
@@ -32,17 +31,14 @@ const MovieList = ({
       $ul.appendChild($movieItem);
     });
 
-    $loadMoreBtn.setAttribute('list-type', type);
-
     $section.appendChild($title);
     $section.appendChild($ul);
-    if (!isLastPage) $section.appendChild($loadMoreBtn);
 
     return $section;
   };
 
-  $loadMoreBtn.addEventListener('click', () => {
-    $loadMoreBtn.dispatchEvent(
+  function loadMore() {
+    $ul.dispatchEvent(
       new CustomEvent(type, {
         bubbles: true,
         detail: {
@@ -51,7 +47,24 @@ const MovieList = ({
         },
       }),
     );
-  });
+  }
+
+  function handleScroll() {
+    const scrollTop =
+      document.documentElement.scrollTop || document.body.scrollTop;
+    const scrollHeight =
+      document.documentElement.scrollHeight || document.body.scrollHeight;
+    const clientHeight =
+      document.documentElement.clientHeight || window.innerHeight;
+    const scrolledToBottom =
+      Math.ceil(scrollTop + clientHeight) >= scrollHeight;
+
+    if (scrolledToBottom && !isLastPage) {
+      throttle().throttling(loadMore, 1000);
+    }
+  }
+
+  window.addEventListener('scroll', handleScroll);
 
   return {
     render,
