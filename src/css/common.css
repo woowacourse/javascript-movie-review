@@ -377,6 +377,7 @@ header .search-box > .search-button {
   .item-vote {
     width: 85%;
     bottom: 20px;
+    font-weight: 700;
     justify-content: center;
   }
 

@@ -141,13 +141,16 @@ class MovieInfoModal {
   #createVote() {
     const vote = document.createElement('div');
     vote.classList.add('item-vote');
+
     const myVoteMessage = document.createElement('p');
-    myVoteMessage.style.fontWeight = '700';
     myVoteMessage.textContent = '내 별점';
+
     const star = this.#createAllVoteStars();
+
     const myVote = document.createElement('p');
     myVote.classList.add('modal-my-vote');
     myVote.textContent = this.#localVote === 0 ? '' : this.#localVote.toString();
+
     const myVoteDescription = document.createElement('p');
     myVoteDescription.classList.add('modal-my-vote-description');
     myVoteDescription.textContent = LOCAL_VOTE[this.#localVote as keyof typeof LOCAL_VOTE];
