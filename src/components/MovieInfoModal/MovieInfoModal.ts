@@ -4,6 +4,7 @@ import { fetchMovieDetail } from '../../domain/Request/sendRequest';
 import { IMovieDetail } from '../../interfaces/IMovieDetail';
 import { starEmpty, starFilled } from '../../resources';
 import { getAllDomElements, getDomElement } from '../../util/DOM';
+import EscapeModal from '../../util/EscapeModal';
 import Button from '../Button/Button';
 import MovieItems from '../MovieItems/MovieItems';
 
@@ -22,20 +23,19 @@ class MovieInfoModal {
   }
 
   handleKeyPress = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') {
-      document.removeEventListener('keydown', this.handleKeyPress);
-      getDomElement('#movie-detail-modal__open').remove();
-      document.body.style.overflow = 'auto';
-    }
+    const modal = getDomElement('#movie-detail-modal__open');
+    EscapeModal(modal, this.handleKeyPress, event, 'Escape');
   };
 
   create() {
     const movieDetailModal = document.createElement('div');
     movieDetailModal.id = 'movie-detail-modal__open';
+
     const modalBackdrop = document.createElement('div');
-    modalBackdrop.classList.add('modal-backdrop');
+
     const movieDetailModalContainer = document.createElement('div');
     movieDetailModalContainer.classList.add('modal-container');
+
     const movieDetailModalHeader = this.#createHeader();
     const movieDetailModalContent = this.#createContent();
 
@@ -57,9 +57,8 @@ class MovieInfoModal {
 
   setHandle() {
     getDomElement('.close-button').addEventListener('click', () => {
-      document.removeEventListener('keydown', this.handleKeyPress);
-      getDomElement('#movie-detail-modal__open').remove();
-      document.body.style.overflow = 'auto';
+      const modal = getDomElement('#movie-detail-modal__open');
+      EscapeModal(modal, this.handleKeyPress);
     });
   }
 
