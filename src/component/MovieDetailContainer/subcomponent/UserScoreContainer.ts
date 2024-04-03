@@ -97,7 +97,7 @@ class UserScoreContainer {
 
   createUserScoreStars() {
     return Array.from({ length: Object.keys(CONFIG.userScore).length }, (_, index) => {
-      const scoreForStar = (index + 1) * 2;
+      const scoreForStar = this.getUserScoreByStarIndex(index);
       const star = document.createElement('div');
       star.classList.add('user-score-star');
       star.id = `user-score-${scoreForStar}`;
