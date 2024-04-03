@@ -12,6 +12,8 @@ const TEMPLATE = `
     <input id="search-input" type="text" placeholder="검색" />
   </form>
 `;
+const MD_SCREEN_WIDTH = 768;
+
 interface IHeaderProps {
   readonly imageSrc: string;
   readonly onSubmit?: (e: SubmitEvent) => void;
@@ -51,11 +53,13 @@ class Header {
       classNames: ['search-button'],
       children: [childImage],
       onClick: () => {
-        dom.getElement(this.$target, '.header-title').style.display = 'none';
-        const $searchBox = dom.getElement(this.$target, '.search-box');
-        dom.getElement($searchBox, '#search-input').style.display = 'block';
-        $searchBox.style.maxWidth = '300px';
-        this.$target.style.justifyContent = 'flex-end';
+        if (window.innerWidth < MD_SCREEN_WIDTH) {
+          dom.getElement(this.$target, '.header-title').style.display = 'none';
+          const $searchBox = dom.getElement(this.$target, '.search-box');
+          dom.getElement($searchBox, '#search-input').style.display = 'block';
+          $searchBox.style.maxWidth = '300px';
+          this.$target.style.justifyContent = 'flex-end';
+        }
       },
     });
   }
