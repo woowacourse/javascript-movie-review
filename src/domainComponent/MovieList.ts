@@ -63,6 +63,8 @@ class MovieList {
     if (fetchFunc) this.#setFetchFunc(fetchFunc);
 
     this.#moviePosterBoard.deleteMoviePosters();
+    hideElement(this.#seeMoreButton.element);
+    revealElement(this.#seeMoreButton.element);
 
     hideElement(this.#networkFallBack);
   }

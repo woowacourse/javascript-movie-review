@@ -52,6 +52,21 @@ class SearchBox {
       event.preventDefault();
       searchFunc(this.#input.value);
     });
+
+    this.element.addEventListener("click", () => {
+      this.element.classList.add("clicked");
+    });
+
+    document.addEventListener("click", (e: Event) => {
+      if (
+        e.target === this.element ||
+        e.target === this.#input ||
+        e.target === this.#searchButton
+      )
+        return;
+
+      this.element.classList.remove("clicked");
+    });
   }
 }
 

@@ -20,3 +20,48 @@ header h1 {
   color         : #f33f3f;
 
 }
+
+@media screen and (max-width:480px) {
+
+  header {
+    display        : flex;
+    width          : 100%;
+    justify-content: flex-end;
+  }
+
+  header>.search-box {
+    z-index: 9;
+  }
+
+  header>.search-box.clicked {
+    width  : 100%;
+    z-index: 9;
+  }
+
+  header>h1 {
+    position: fixed;
+    left    : 20px;
+  }
+
+  header>h1>img {
+    z-index: 10;
+    display: block;
+  }
+
+
+  .search-box>input {
+    display: none;
+  }
+
+  .search-box>.search-button {
+    pointer-events: none;
+  }
+
+  .search-box.clicked>.search-button {
+    pointer-events: none;
+  }
+
+  .search-box.clicked>input {
+    display: inline-block;
+  }
+}
