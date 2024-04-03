@@ -74,3 +74,14 @@ button {
   clip: rect(0, 0, 0, 0);
   clip-path: polygon(0 0, 0 0, 0 0);
 }
+
+header.shrinked .title {
+  opacity: 0;
+  width: 1px;
+  margin: -1px;
+  pointer-events: none;
+}
+
+header.shrinked .search-box {
+  width: 320px;
+}

@@ -49,16 +49,6 @@
   border: 0;
 }
 
-.visibility-hidden {
-  opacity: 0;
-  width: 1px;
-  margin: -1px;
-}
-
-.prevent-pointer-event {
-  pointer-events: none;
-}
-
 @media screen and (max-width: 673px) {
   .search-box {
     width: 40px;

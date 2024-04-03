@@ -78,20 +78,20 @@ class MovieApp {
   }
 
   #onResize() {
-    const searchBox = $('.search-box') as HTMLElement;
+    const header = $('header') as HTMLElement;
 
-    if (window.innerWidth > MovieApp.MOBILE_THRESHOLD_WIDTH) searchBox.style.width = '';
+    if (window.innerWidth > MovieApp.MOBILE_THRESHOLD_WIDTH) {
+      header.classList.remove('shrinked');
+    }
   }
 
   #onCloseSearchBar(event: Event) {
     const target = event.target as HTMLElement;
-    const searchBox = $('.search-box') as HTMLElement;
-    const title = $('.title') as HTMLElement;
+    const header = $('header') as HTMLElement;
 
     if (target.closest('.search-box')) return;
 
-    searchBox.style.width = '';
-    title.classList.remove('visibility-hidden', 'prevent-pointer-event');
+    header.classList.remove('shrinked');
   }
 
   #onSearchHandler() {

@@ -36,14 +36,14 @@ const SearchBox = ({ searchHandler }: Props) => {
 
   searchButton.addEventListener('click', (event: MouseEvent) => {
     event.stopPropagation();
+    const header = $('header') as HTMLElement;
     const target = event.target as HTMLElement;
     const searchInput = $('#search-text') as HTMLInputElement;
     const searchBox = target.closest('.search-box') as HTMLDivElement;
     const title = $('.title') as HTMLElement;
 
     if (searchBox.clientWidth < SEARCH_BOX_MAX_WIDTH) {
-      searchBox.style.width = `${SEARCH_BOX_MAX_WIDTH}px`;
-      title.classList.add('visibility-hidden', 'prevent-pointer-event');
+      header.classList.add('shrinked');
       return;
     }
 
@@ -61,18 +61,17 @@ const SearchBox = ({ searchHandler }: Props) => {
     }
 
     searchHandler(event);
-    searchBox.style.width = '';
-    title.classList.remove('visibility-hidden', 'prevent-pointer-event');
+    header.classList.remove('shrinked');
   });
 
   searchInput.addEventListener('keydown', (event: KeyboardEvent) => {
+    const header = $('header') as HTMLElement;
     const searchInput = $('#search-text') as HTMLInputElement;
     const searchBox = $('.search-box') as HTMLInputElement;
     const title = $('.title') as HTMLElement;
 
     if (searchBox.clientWidth < SEARCH_BOX_MAX_WIDTH) {
-      searchBox.style.width = `${SEARCH_BOX_MAX_WIDTH}px`;
-      title.classList.add('visibility-hidden', 'prevent-pointer-event');
+      header.classList.add('shrinked');
       return;
     }
 
@@ -81,7 +80,7 @@ const SearchBox = ({ searchHandler }: Props) => {
       const alertText = $('.alert-text') as HTMLSpanElement;
 
       alertText.textContent = ALERT_MESSAGE.searchInputEmpty;
-      alert.classList.remove('hidden');
+      header.classList.remove('shrinked');
       setTimeout(() => {
         alert.classList.add('hidden');
         alertText.textContent = '';
@@ -92,9 +91,7 @@ const SearchBox = ({ searchHandler }: Props) => {
 
     if (event.key === 'Enter' && !event.isComposing) {
       searchHandler(event);
-      searchBox.style.width = '';
-      title.classList.remove('visibility-hidden', 'prevent-pointer-event');
-      title.style.pointerEvents = 'auto';
+      header.classList.remove('shrinked');
     }
   });
 
