@@ -1,11 +1,12 @@
 import Component from "../common/Component";
 
 import { $ } from "../../utils/dom";
+import { Optional } from "../../types/utility";
 
 import "./Modal.css";
 
 export default class Modal extends Component {
-  private $dialog: HTMLDialogElement | undefined;
+  private $dialog: Optional<HTMLDialogElement>;
 
   protected getTemplate() {
     return /*html*/ `
