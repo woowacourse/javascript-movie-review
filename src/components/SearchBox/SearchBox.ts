@@ -1,4 +1,6 @@
 import { URL } from '../../consts/common';
+import { MOVIE_LIST } from '../../consts/movie';
+import { debounce } from '../../utils/debounce';
 import { setUrlParams } from '../../utils/queryString';
 import '../SearchBox/SearchBox.css';
 import Toast from '../Toast/Toast';
@@ -64,23 +66,23 @@ class SearchBox {
   }
 
   setResponsiveEvents() {
-    let debounce: NodeJS.Timeout;
-
-    window.addEventListener('resize', () => {
-      if (debounce) clearTimeout(debounce);
-
-      debounce = setTimeout(() => {
-        if (window.innerWidth < 410) {
-          this.searchInput.classList.add('hidden');
-          this.searchBox.classList.remove('expand');
-          this.searchButton.classList.add('alone');
-        } else {
-          this.searchInput.classList.remove('hidden');
-          this.headerImage.classList.remove('hidden');
-          this.searchBox.classList.remove('expand');
-        }
-      }, 100);
-    });
+    window.addEventListener(
+      'resize',
+      debounce({
+        callback: () => {
+          if (window.innerWidth < MOVIE_LIST.MOBILE_VIEWPORT_WIDTH) {
+            this.searchInput.classList.add('hidden');
+            this.searchBox.classList.remove('expand');
+            this.searchButton.classList.add('alone');
+          } else {
+            this.searchInput.classList.remove('hidden');
+            this.headerImage.classList.remove('hidden');
+            this.searchBox.classList.remove('expand');
+          }
+        },
+        delay: MOVIE_LIST.RESIZING_DELAY,
+      }),
+    );
   }
 }
 
