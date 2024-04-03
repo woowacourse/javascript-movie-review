@@ -19,6 +19,7 @@ class StorageMock implements Storage {
   removeItem(key: string) {
     delete this.store[key];
   }
+
   get length(): number {
     return Object.keys(this.store).length;
   }
@@ -29,22 +30,39 @@ class StorageMock implements Storage {
 }
 
 describe('MovieStorageService 테스트', () => {
-  it('영화 하나를 저장했을 때, 저장한 영화 하나가 불러와진다.', () => {
-    const MOVIE: IMovie = {
-      id: 1,
-      title: '제목',
-      imageSrc: 'http://www.abc.com/a.jpg',
-      score: 5,
-      genre: ['Action'],
-      description: '설명',
-    };
+  const MOVIE1: IMovie = {
+    id: 1,
+    title: '영화1',
+    imageSrc: 'http://www.abc.com/a.jpg',
+    score: 4,
+    genre: ['Action'],
+    description: '설명1',
+  };
+  const MOVIE2: IMovie = {
+    id: 2,
+    title: '영화2',
+    imageSrc: 'http://www.abc.com/a.jpg',
+    score: 8,
+    genre: ['Action'],
+    description: '설명2',
+  };
 
+  it('영화 하나를 저장했을 때, 저장한 영화 하나가 불러와진다.', () => {
     const movieStorageService = new MovieStorageService(new StorageMock());
-    movieStorageService.save([MOVIE]);
-    const EXPECTED_RESULT = [MOVIE];
+    movieStorageService.save([MOVIE1]);
+    const EXPECTED_RESULT = [MOVIE1];
 
     const MOVIES_RESULT = movieStorageService.load();
 
     expect(MOVIES_RESULT).toEqual(EXPECTED_RESULT);
+  });
+
+  it('영화 하나를 업데이트 하였을 떄, 스토리지에 반영된다.', () => {
+    const movieStorageService = new MovieStorageService(new StorageMock());
+    movieStorageService.save([MOVIE1, MOVIE2]);
+
+    const MOVIE2_UPDATED = { ...MOVIE2, description: '설명2_업데이트' };
+
+    movieStorageService.update(MOVIE2_UPDATED);
   });
 });
