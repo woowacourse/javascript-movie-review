@@ -86,6 +86,8 @@ class MovieApp {
     const ul = document.createElement('ul');
     ul.classList.add('item-list');
     ul.id = 'item-list';
+    movieDetailModal.handleDetailModal(ul);
+
     const h2 = document.createElement('h2');
     h2.textContent = titleMessage;
 
@@ -117,7 +119,6 @@ class MovieApp {
     });
 
     ul.insertAdjacentHTML('beforeend', templates.join(''));
-    movieDetailModal.handleDetailModal(ul);
   }
 
   createScrollEnd() {
