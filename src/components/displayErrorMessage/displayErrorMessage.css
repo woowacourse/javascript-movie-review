@@ -1,7 +1,19 @@
 .err-msg {
+  margin-top: 20px;
   width: 100%;
   height: 100%;
-
-  font-size: 64px;
+  font-size: 54px;
   text-align: center;
+}
+
+@media (max-width: 1142px) {
+  .err-msg {
+    font-size: 34px;
+  }
+}
+
+@media (max-width: 390px) {
+  .err-msg {
+    font-size: 28px;
+  }
 }
