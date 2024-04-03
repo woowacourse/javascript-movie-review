@@ -29,11 +29,9 @@ export const generateStarRating = (count: number = 0): HTMLTemplate => {
       : `<img src="${starEmpty}" alt="empty star" data-index="${i + 1}"/>`
   ).join("");
 
-  const scoreDescription = createScoreDescription(count);
-
   return `
     <div>내 별점</div>
     <div>${starsHtml}</div>
-    ${scoreDescription}
+    ${createScoreDescription(count)}
   `;
 };
