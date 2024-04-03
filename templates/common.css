@@ -420,7 +420,7 @@ header .search-form > .search-button {
 
 .movie-detail-container {
   position: fixed;
-  height: 420px;
+  height: 460px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
