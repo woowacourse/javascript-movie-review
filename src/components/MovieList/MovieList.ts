@@ -5,7 +5,7 @@ import { NotFound } from '../NotFound/NotFound';
 import { Movie } from './../../types/movie';
 import { PAGE_SIZE } from '../../consts/common';
 import { MovieDetailAPI } from '../../domain/services/API.type';
-import '../MovieList/MovieList.css';
+import './MovieList.scss';
 
 class MovieList {
   movieListBox = document.createElement('ul');
