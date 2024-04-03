@@ -1,10 +1,11 @@
-import { openMovieDetailModal } from '../../View/View';
 import { fetchPopularMovieList, fetchSearchMovieList } from '../../apis/fetchData';
 import { COUNT_OF_MOVIES } from '../../constants/constant';
 import PageService from '../../domain/PageService';
 import { Movie, MovieAPIResponse } from '../../interface/Movie';
 import { Dom } from '../../utils/Dom';
 import InfiniteScroll from '../../utils/InfiniteScroll';
+import createMovieDetailModal from '../modal/detailModal';
+import Modal from '../modal/EmptyModal';
 
 import { showSkeleton, updateCard } from '../movieCard/movieCard';
 
@@ -102,7 +103,9 @@ export class MovieListWrapper {
   completeMovieList(liList: HTMLElement[], movies: Movie[]) {
     movies.forEach((movie: Movie, index) => {
       updateCard(liList[index], movie);
-      liList[index].addEventListener('click', () => openMovieDetailModal(movie.id));
+      liList[index].addEventListener('click', async () =>
+        new Modal('modal--open', await createMovieDetailModal(movie.id)).open(),
+      );
     });
     Dom.getElementAll(document, 'li.skeleton').forEach(element => {
       element.remove();

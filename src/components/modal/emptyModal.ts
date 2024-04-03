@@ -1,35 +1,43 @@
-const modal = {
-  create(className: string, content: HTMLElement) {
+import { Dom } from '../../utils/Dom';
+
+class Modal {
+  private modal: HTMLElement;
+  private modalClassName: string;
+
+  private content: HTMLElement;
+
+  constructor(className: string, content: HTMLElement) {
+    this.modalClassName = className;
+    this.content = content;
+    this.setContentKeyEvent();
     const modal = document.createElement('div');
     modal.className = className;
-
     const backdrop = createBackdrop();
     backdrop.appendChild(content);
     modal.append(backdrop);
+    this.modal = modal;
     document.body.appendChild(modal);
-    return modal;
-  },
+  }
+  open() {
+    document.body.classList.add('stop-scroll');
+    document.body.appendChild(this.modal);
+  }
+  setContentKeyEvent() {
+    this.content.tabIndex = -1;
 
-  createContainer() {
-    const container = document.createElement('div');
-    container.className = 'modal-container';
-    container.tabIndex = -1;
-
-    container.addEventListener('keydown', event => {
+    this.content.addEventListener('keydown', event => {
       if (event.key === 'Escape') {
-        this.remove('modal--open');
+        Modal.remove(this.modalClassName);
       }
     });
-    setTimeout(() => container.focus(), 0);
+    setTimeout(() => this.content.focus(), 0);
+  }
 
-    return container;
-  },
-
-  remove(className: string) {
+  static remove(modalClassName: string) {
     document.body.classList.remove('stop-scroll');
-    document.querySelector(`.${className}`)?.remove();
-  },
-};
+    Dom.getElement(document, `.${modalClassName}`).remove();
+  }
+}
 
 function createBackdrop() {
   const backdrop = document.createElement('div');
@@ -38,4 +46,4 @@ function createBackdrop() {
   return backdrop;
 }
 
-export default modal;
+export default Modal;

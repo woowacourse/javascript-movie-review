@@ -1,18 +1,21 @@
 import { MovieDetail } from '../../interface/Movie';
 import emptyImg from '../../images/empty_poster.png';
 import filledStar from '../../images/star_filled.png';
-import modal from './emptyModal';
 import { RecommendStar } from '../recommendStar/recommendStar';
 import { getSavedRecommend } from '../../domain/LocalStorage';
+import Modal from './EmptyModal';
+import { fetchMovieDetail } from '../../apis/fetchData';
 
-function createMovieDetailModal(movieDetail: MovieDetail) {
+async function createMovieDetailModal(movieId: number) {
+  const movieDetail = await fetchMovieDetail(movieId);
   const container = render(movieDetail);
-
   return container;
 }
 
 function render(movieDetail: MovieDetail) {
-  const container = modal.createContainer();
+  const container = document.createElement('div');
+  container.className = 'modal-container';
+
   const header = document.createElement('div');
   header.className = 'modal-header';
 
@@ -24,7 +27,7 @@ function render(movieDetail: MovieDetail) {
   closeButton.className = 'modal-close-button';
   closeButton.textContent = 'X';
 
-  closeButton.addEventListener('click', () => modal.remove('modal--open'));
+  closeButton.addEventListener('click', () => Modal.remove('modal--open'));
 
   const body = document.createElement('main');
   body.className = 'modal-body';
