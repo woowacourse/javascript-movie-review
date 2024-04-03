@@ -1,4 +1,4 @@
-import { LOCAL_STORAGE_KEY } from '../../consts/common';
+import storage from '../../utils/storage';
 
 interface UserRating {
   movieId: number;
@@ -7,22 +7,18 @@ interface UserRating {
 
 const UserRatingStore = {
   store(id: number, score: number) {
-    const userRatingList = this.fetch();
+    const userRatingList = storage.get<UserRating[]>();
     const isExisting = userRatingList.some(rate => rate.movieId === id);
 
-    if (isExisting) {
-      const newRatingList = userRatingList.map(rate =>
-        rate.movieId === id ? { movieId: id, rateScore: score } : rate,
-      );
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newRatingList));
-    } else {
-      const newRatingList = [...userRatingList, { movieId: id, rateScore: score }];
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newRatingList));
-    }
+    const newRatingList = isExisting
+      ? userRatingList.map(rate => (rate.movieId === id ? { movieId: id, rateScore: score } : rate))
+      : [...userRatingList, { movieId: id, rateScore: score }];
+
+    storage.set<UserRating[]>(newRatingList);
   },
 
-  fetch(): UserRating[] {
-    return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '[]');
+  fetch() {
+    return storage.get<UserRating[]>();
   },
 };
 
