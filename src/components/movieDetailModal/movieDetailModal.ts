@@ -140,7 +140,8 @@ const movieDetailModal = {
     if (!body) return;
     body.classList.remove('body-fixed');
     const scrollY = document.body.style.top;
-    window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+    const scrollToOriginalY = parseInt(scrollY || '0', 10) * -1;
+    window.scrollTo(0, scrollToOriginalY);
   },
 };
 
