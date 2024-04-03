@@ -1,49 +1,55 @@
 import MovieItem, { Movie } from "./MovieItem";
 
+import MovieDetailModal from "../MovieDetailModal/MovieDetailModal";
 import createElement from "../../../utils/createElement";
 
 class MovieList {
-  private static MAX_ITEM_OF_PAGE = 20;
-  $element;
-  movieList;
+  private STUB_ITEM_LENGTH = 20;
+  $element: HTMLElement;
+  movieList: MovieItem[];
 
-  constructor() {
-    this.movieList = Array.from({ length: MovieList.MAX_ITEM_OF_PAGE }).map(
+  private isLoading = true;
+  private touchBottom = false;
+  private domObserver;
+  private getMoreMovies;
+
+  constructor(getMoreMovies: () => void) {
+    this.getMoreMovies = getMoreMovies;
+    this.movieList = Array.from({ length: this.STUB_ITEM_LENGTH }).map(
       () => new MovieItem()
     );
     this.$element = this.generateMovieList();
-  }
 
-  private generateMovieList() {
-    return createElement({
-      tagName: "ul",
-      attribute: { class: "item-list" },
-      children: this.movieList.map((item) => item.$element),
+    this.setScrollObserver();
+
+    this.domObserver = new MutationObserver(() => {
+      this.setScrollObserver();
     });
+    const config = { attributes: true, childList: true, subtree: false };
+    this.domObserver.observe(this.$element, config);
   }
 
   reRender(movies: Movie[]) {
-    movies.forEach((movie, index) => {
-      const movieItem = this.movieList[index];
-      movieItem.reRender(movie);
-      return;
-    });
+    const movieList = movies.map((movie) => new MovieItem(movie).$element);
 
-    const restSkeletonCount = MovieList.MAX_ITEM_OF_PAGE - movies.length;
+    this.removeAllSkeleton();
 
-    if (restSkeletonCount) {
-      Array.from({ length: restSkeletonCount }).forEach((_, index) => {
-        const movieItem = this.movieList[movies.length + index];
-        movieItem.$element.remove();
-      });
+    this.$element.append(...movieList);
+
+    this.isLoading = false;
+
+    if (this.touchBottom) {
+      this.setScrollObserver();
     }
   }
 
   appendSkeleton() {
-    this.movieList = Array.from({ length: MovieList.MAX_ITEM_OF_PAGE }).map(
+    this.movieList = Array.from({ length: this.STUB_ITEM_LENGTH }).map(
       () => new MovieItem()
     );
     this.$element.append(...this.movieList.map((item) => item.$element));
+    this.isLoading = true;
+    this.touchBottom = false;
   }
 
   removeAllSkeleton() {
@@ -74,6 +80,70 @@ class MovieList {
     if ($lastChild.classList.contains("text-invalid-result")) {
       $lastChild.remove();
     }
+  }
+
+  clearDomObserver() {
+    this.domObserver?.disconnect();
+  }
+
+  private setScrollObserver() {
+    if (!(this.$element.lastChild instanceof HTMLElement)) {
+      return;
+    }
+
+    const scrollObserver = new IntersectionObserver(
+      this.getMoreMoviesWithObserverClear.bind(this),
+      {
+        threshold: 0.5,
+      }
+    );
+    scrollObserver.observe(this.$element.lastChild);
+  }
+
+  private getMoreMoviesWithObserverClear(
+    entries: IntersectionObserverEntry[],
+    observer: IntersectionObserver
+  ) {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) {
+        return;
+      }
+      if (this.isLoading) {
+        return;
+      }
+
+      this.touchBottom = true;
+
+      observer.disconnect();
+      this.getMoreMovies();
+    });
+  }
+
+  private showDetailModal(e: Event) {
+    if (!(e.target instanceof HTMLElement)) {
+      return;
+    }
+    const movieItem = e.target.closest("li");
+
+    if (!movieItem) {
+      return;
+    }
+
+    const movieId = Number(movieItem.getAttribute("id"));
+    const detailModal = new MovieDetailModal(movieId);
+
+    const $modalSection = document.querySelector(".modal-section");
+    $modalSection?.replaceChildren(detailModal.$element);
+    detailModal.toggle();
+  }
+
+  private generateMovieList() {
+    return createElement({
+      tagName: "ul",
+      attribute: { class: "item-list" },
+      children: this.movieList.map((item) => item.$element),
+      eventListener: { click: this.showDetailModal.bind(this) },
+    });
   }
 }
 

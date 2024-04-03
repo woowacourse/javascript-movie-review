@@ -1,18 +1,12 @@
-import getMovieListByQuery, {
-  SearchMovieResult,
-} from "../domain/getMovieListByQuery";
-import getPopularMovieList, {
-  PopularMovieResult,
-} from "../domain/getPopularMovieList";
-
 import MOVIE_LIST_BOX_TITLE from "../constants/movieListBoxTitle";
 import MovieHeader from "./MovieHeader/MovieHeader";
 import MovieMain from "./MovieMain/MovieMain";
+import generateScrollTopButton from "./common/generateScrollTopButton";
+import getMovieListByQuery from "../domain/getMovieListByQuery";
+import getPopularMovieList from "../domain/getPopularMovieList";
 
 class App {
-  private static FIRST_PAGE = 1;
-
-  private currentPage = App.FIRST_PAGE;
+  private currentPage = new Page();
 
   private movieMain;
   private query = "";
@@ -20,67 +14,84 @@ class App {
   constructor($root: HTMLElement) {
     this.movieMain = new MovieMain({
       title: MOVIE_LIST_BOX_TITLE.popular,
-      onMovieMoreButtonClick: this.renderNextPage.bind(this),
+      getMoreMovies: () => {
+        this.renderPage({ renderFn: this.renderPopularMovieList.bind(this) });
+      },
     });
 
+    this.firstRender($root);
+  }
+
+  private firstRender($root: HTMLElement) {
     $root.append(
       new MovieHeader({
         logoClickHandler: this.logoClickHandler.bind(this),
         searchBoxSubmitHandler: this.searchBoxSubmitHandler.bind(this),
       }).$element,
-      this.movieMain.$element
+      this.movieMain.$element,
+      generateScrollTopButton()
     );
     this.renderPopularMovieList();
   }
 
   private logoClickHandler() {
     this.query = "";
-    this.currentPage = App.FIRST_PAGE;
+    this.currentPage = new Page();
 
     this.movieMain.changeMovieListBox({
       title: MOVIE_LIST_BOX_TITLE.popular,
-      onMovieMoreButtonClick: this.renderNextPage.bind(this),
+      getMoreMovies: () => {
+        this.renderPage({ renderFn: this.renderPopularMovieList.bind(this) });
+      },
     });
 
     this.renderPopularMovieList();
   }
 
   private searchBoxSubmitHandler(query: string) {
-    this.currentPage = App.FIRST_PAGE;
+    this.currentPage = new Page();
     this.query = query;
 
     this.movieMain.changeMovieListBox({
       title: MOVIE_LIST_BOX_TITLE.search(query),
-      onMovieMoreButtonClick: this.renderSearchNextPage.bind(this),
+      getMoreMovies: () => {
+        this.renderPage({
+          renderFn: () => this.searchMovies.bind(this)(this.query),
+        });
+      },
     });
     this.searchMovies(query);
   }
 
-  private renderNextPage() {
-    this.currentPage += 1;
-    this.renderPopularMovieList();
-  }
-
-  private renderSearchNextPage() {
-    this.currentPage += 1;
-    this.searchMovies(this.query);
+  private renderPage({
+    renderFn,
+    page,
+  }: {
+    page?: number;
+    renderFn: () => void;
+  }) {
+    if (page) {
+      this.currentPage.setPage(page);
+    } else {
+      this.currentPage.nextPage();
+    }
+    renderFn();
   }
 
   private async renderPopularMovieList() {
     try {
-      const res = await getPopularMovieList({ page: this.currentPage });
+      const { movieList, totalPage } = await getPopularMovieList({
+        page: this.currentPage.page,
+      });
 
-      if (this.currentPage === res.total_pages) {
-        this.movieMain.removeMovieMoreButton();
+      if (this.currentPage.equalPage(totalPage)) {
+        this.movieMain.removeMovieMoreObserver();
       }
 
-      const movies = this.extractMovies(res.results);
-      setTimeout(() => {
-        this.movieMain.reRender(movies);
-      }, 500);
+      this.movieMain.reRender(movieList);
     } catch (error) {
       if (error instanceof Error) {
-        this.currentPage -= 1;
+        this.currentPage.previousPage();
         this.movieMain.renderMessage(error.message);
         this.movieMain.reRender([]);
       }
@@ -89,22 +100,23 @@ class App {
 
   private async searchMovies(query: string) {
     try {
-      const res = await getMovieListByQuery({ page: this.currentPage, query });
-      const movies = this.extractMovies(res.results);
-      if (!movies.length) {
+      const { movieList, totalPage } = await getMovieListByQuery({
+        page: this.currentPage.page,
+        query,
+      });
+
+      if (!movieList.length) {
         this.renderNoResult("검색 결과가 없습니다.");
       }
 
-      if (this.currentPage === res.total_pages) {
-        this.movieMain.removeMovieMoreButton();
+      if (this.currentPage.equalPage(totalPage)) {
+        this.movieMain.removeMovieMoreObserver();
       }
 
-      setTimeout(() => {
-        this.movieMain.reRender(movies);
-      }, 500);
+      this.movieMain.reRender(movieList);
     } catch (error) {
       if (error instanceof Error) {
-        this.currentPage -= 1;
+        this.currentPage.previousPage();
         this.renderNoResult(error.message);
         this.movieMain.reRender([]);
       }
@@ -112,18 +124,37 @@ class App {
   }
 
   private renderNoResult(message: string) {
-    this.movieMain.removeMovieMoreButton();
+    this.movieMain.removeMovieMoreObserver();
     this.movieMain.renderMessage(message);
-  }
-
-  private extractMovies(movies: SearchMovieResult[] | PopularMovieResult[]) {
-    return movies.map((movie) => ({
-      id: movie.id,
-      korTitle: movie.title,
-      posterPath: movie.poster_path,
-      voteAverage: movie.vote_average,
-    }));
   }
 }
 
 export default App;
+
+class Page {
+  private FIRST_PAGE = 1;
+  page: number;
+
+  constructor(page?: number) {
+    this.page = page || this.FIRST_PAGE;
+  }
+
+  nextPage() {
+    this.page++;
+  }
+
+  previousPage() {
+    this.page--;
+  }
+
+  setPage(page: number) {
+    this.page = page;
+  }
+
+  equalPage(page: number) {
+    if (this.page === page) {
+      return true;
+    }
+    return false;
+  }
+}

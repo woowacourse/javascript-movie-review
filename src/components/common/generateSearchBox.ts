@@ -25,7 +25,7 @@ const generateSearchBox = ({
   const $form = createElement({
     tagName: "form",
     attribute: { class: "search-box" },
-    addEventListener: {
+    eventListener: {
       submit: onSubmitHandler,
     },
     children: [$input, $button],

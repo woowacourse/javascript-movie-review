@@ -8,7 +8,7 @@ const getMovieListByQuery = async ({
 }: {
   page: number;
   query: string;
-}): Promise<SearchMovieResponse> => {
+}) => {
   const url = SEARCH_MOVIES_URL;
   const queryParams = `language=ko-KR&page=${page}&query=${query}&api_key=${API_KEY}`;
   const moviesUrl = `${url}?${queryParams}`;
@@ -18,31 +18,35 @@ const getMovieListByQuery = async ({
 
   const movieList = await res.json();
 
-  return movieList;
+  return {
+    movieList: extractMovies(movieList.results),
+    totalPage: movieList.total_pages,
+  };
 };
 
 export default getMovieListByQuery;
 
-export interface SearchMovieResult {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
+const extractMovies: (movies: SearchMovieResult[]) => SearchMovie[] = (
+  movies: SearchMovieResult[]
+) => {
+  return movies.map((movie) => ({
+    id: movie.id,
+    korTitle: movie.title,
+    posterPath: movie.poster_path,
+    voteAverage: movie.vote_average,
+  }));
+};
+
+interface SearchMovie {
   id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
+  korTitle: string;
+  posterPath: string;
+  voteAverage: number;
 }
 
-export interface SearchMovieResponse {
-  page: number;
-  results: SearchMovieResult[];
-  total_pages: number;
-  total_results: number;
+interface SearchMovieResult {
+  id: number;
+  title: string;
+  poster_path: string;
+  vote_average: number;
 }
