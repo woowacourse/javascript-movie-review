@@ -303,3 +303,7 @@ header .search-box > .search-button {
   display: flex;
   justify-content: center;
 }
+
+.none-display {
+  display: none;
+}
