@@ -21,12 +21,12 @@ class Modal {
   }
 
   open() {
-    this.#modal.classList.add('modal--open');
+    this.#modal.classList.add('visible');
   }
 
   close() {
     if (this.#modal) {
-      this.#modal.classList.remove('modal--open');
+      this.#modal.classList.remove('visible');
       if (this.#modal.parentNode) {
         this.#modal.parentNode.removeChild(this.#modal);
       }

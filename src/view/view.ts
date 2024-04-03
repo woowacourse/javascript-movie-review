@@ -27,14 +27,14 @@ const view = {
   showSkeleton() {
     const skeletons = document.querySelectorAll('.skeleton-list');
     skeletons.forEach(element => {
-      element.classList.remove('none');
+      element.classList.remove('hidden');
     });
   },
 
   hideSkeleton() {
     const skeletons = document.querySelectorAll('.skeleton-list');
     skeletons.forEach(element => {
-      element.classList.add('none');
+      element.classList.add('hidden');
     });
   },
 };
