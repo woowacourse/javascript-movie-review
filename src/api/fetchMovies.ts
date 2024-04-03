@@ -22,6 +22,7 @@ function movieFetcher(params: IFetchParams) {
   return fetch(`${params.url}?${searchParams}`);
 }
 
+// TODO: await와 에러 체크 그리고 json 반환을 해주는 함수를 분리할 수 있겠다.
 async function fetchMovies() {
   const response = await movieFetcher({
     url: movieStateMethod.getUrl(),

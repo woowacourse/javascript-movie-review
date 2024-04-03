@@ -8,6 +8,7 @@ import { MOVIE_IMAGE_BASE_URL } from '../../constants/tmdbConstants';
 import { getLocalStorageScore, setLocalStorageScore } from '../../store/localStorage';
 import { closeModal } from '../modal';
 
+// TODO: 외부 상수로 빼면 좋을 것 같다.
 export const RATING_MESSAGES = {
   0: '별점 미등록',
   2: '최악이에요',
@@ -99,7 +100,7 @@ function changeStarResult(starId: number, parent: HTMLElement) {
   rateResultNumber.innerText = String(score);
   rateResultString.innerText = RATING_MESSAGES[score];
 }
-
+// TODO: execute는 의미 전달이 부족하다. 다른 이름 없을까?
 function executeInterface(star: HTMLElement) {
   const starId = Number(star.getAttribute('data-star-id'));
   const parent = star.parentNode as HTMLElement;
@@ -122,6 +123,7 @@ const clickStarHandler = (e: any, id: number) => {
 function createStarBox(index: number, id: number) {
   const starBox = document.createElement('button');
   starBox.setAttribute('data-star-id', String(index));
+  // TODO: 이미지 document.createElement로 분리하기
   starBox.innerHTML = `<img src=${starEmptyImage} alt='star' class='star-image'></img>`;
   starBox.addEventListener('click', (e) => clickStarHandler(e, id));
   return starBox;
