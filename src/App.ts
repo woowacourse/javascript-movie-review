@@ -31,13 +31,13 @@ export default class App {
 
   #addHomeButtonEvent() {
     const homeButton = document.getElementById('home-button');
+    const input = document.querySelector('input[name=query]') as HTMLInputElement;
 
-    if (homeButton) {
+    if (homeButton && input) {
       homeButton.addEventListener('click', () => {
         this.#movieListElement.renderPreviousPopularList();
-        const input = document.querySelector('input[name=query]');
-
-        input?.classList.remove('search-open');
+        input.value = '';
+        input.classList.remove('search-open');
       });
     }
   }
