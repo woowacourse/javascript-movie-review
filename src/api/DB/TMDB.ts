@@ -1,5 +1,4 @@
-import Movie from '../../domain/Movie';
-import { MovieDetail, MovieServiceType } from '../../domain/MovieServiceType';
+import { MovieData, MovieDetail, MovieServiceType } from '../../domain/MovieServiceType';
 import convertToPosterPath from '../../util/convertToPosterPath';
 import fetchDataFromUrl from '../../util/fetchDataFromUrl';
 import getEnvVariable from '../../util/getEnvVariable';
@@ -84,15 +83,12 @@ class TMDB implements MovieServiceType {
   }
 
   private createMoviePageData({ responseData, currentPage }: { responseData: ResponseMovieList; currentPage: number }) {
-    const movieList: Movie[] = responseData.results.map(
-      (result) =>
-        new Movie({
-          id: result.id,
-          title: result.title,
-          posterPath: convertToPosterPath({ relativePath: result.poster_path, width: 200 }),
-          voteAverage: result.vote_average,
-        }),
-    );
+    const movieList: MovieData[] = responseData.results.map((result) => ({
+      id: result.id,
+      title: result.title,
+      posterPath: convertToPosterPath({ relativePath: result.poster_path, width: 200 }),
+      voteAverage: result.vote_average,
+    }));
 
     return {
       hasNextPage: responseData.total_pages > currentPage,

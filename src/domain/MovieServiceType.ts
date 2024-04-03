@@ -1,15 +1,13 @@
-import Movie from './Movie';
-
 // TODO: 오류를 임시로 null로 해두었음
 export interface MovieServiceType {
-  fetchPopularMovieList: (currentPage: number) => Promise<{ hasNextPage: boolean; movieList: Movie[] } | null>;
+  fetchPopularMovieList: (currentPage: number) => Promise<{ hasNextPage: boolean; movieList: MovieData[] } | null>;
   fetchSearchResult: ({
     query,
     currentPage,
   }: {
     query: string;
     currentPage: number;
-  }) => Promise<{ hasNextPage: boolean; movieList: Movie[] } | null>;
+  }) => Promise<{ hasNextPage: boolean; movieList: MovieData[] } | null>;
   fetchMovieDetail: (movieId: number) => Promise<MovieDetail | null>;
 }
 
