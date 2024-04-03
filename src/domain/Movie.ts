@@ -1,5 +1,5 @@
 import httpRequest from '../api/httpRequest';
-import errorMessage from '../error/errorMessage';
+import errorDisplay from '../components/Error/ErrorDisplay';
 import { MovieListType, MovieType } from '../types/movie';
 
 interface MovieData {
@@ -38,7 +38,7 @@ class Movie {
         isLastPage,
       }))
       .catch((error) => {
-        errorMessage.apiError(error.statusCode);
+        errorDisplay.displayError(error.statusCode);
         return { movieList: [], isLastPage: true };
       });
     return movieList;
@@ -61,7 +61,7 @@ class Movie {
         isLastPage,
       }))
       .catch((error) => {
-        errorMessage.apiError(error.statusCode, error.message);
+        errorDisplay.displayError(error.statusCode, error.message);
         return { movieList: [], isLastPage: true };
       });
     return movieList;

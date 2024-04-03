@@ -1,7 +1,7 @@
 import './style.css';
 import movieContentManager from '../MovieContents/MovieContents';
 import DOM from '../../utils/DOM';
-import errorMessage from '../../error/errorMessage';
+import errorDisplay from '../Error/ErrorDisplay';
 
 const { $ } = DOM;
 
@@ -48,7 +48,7 @@ const headerManager = {
   },
 
   displaySearchError() {
-    const errorElement = errorMessage.noSearchedMovieError('검색된 영화가 없습니다 💢');
+    const errorElement = errorDisplay.getErrorMessageTemplate(200, '검색된 영화가 없습니다 💢');
     $('.error-container')?.remove();
     $('#app')?.insertAdjacentHTML('beforeend', errorElement);
   },
