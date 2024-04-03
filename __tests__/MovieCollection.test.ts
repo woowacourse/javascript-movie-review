@@ -43,4 +43,13 @@ describe('MovieCollection 테스트', () => {
 
     expect(movieCollection.getMovies()).toEqual([UPDATED_MOVIE1, MOVIE2]);
   });
+
+  it('영화 목록에서 별점 정보만을 반환한다.', () => {
+    const movieCollection = new MovieCollection([MOVIE1, MOVIE2]);
+
+    expect(movieCollection.getScoresInfo()).toEqual([
+      { id: 1, score: 4 },
+      { id: 2, score: 8 },
+    ]);
+  });
 });

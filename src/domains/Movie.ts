@@ -37,6 +37,10 @@ class Movie implements IMovie {
       description: this.description,
     };
   }
+
+  getScoreInfo() {
+    return { id: this.id, score: this.score };
+  }
 }
 
 export default Movie;

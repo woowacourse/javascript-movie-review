@@ -6,16 +6,18 @@ import { IMovie } from '../../types/movie';
 import { dom } from '../../utils/dom';
 
 import StarRating from './StarRating';
+import MovieStorageService from '../../domains/MovieStorageService';
 
 const SCORE_PER_STAR_RATING = 2;
 
 class MovieItemDetail {
   $target: HTMLElement = document.createElement('article');
+  #movie: IMovie;
 
-  constructor(movie?: IMovie) {
+  constructor(movie: IMovie) {
     this.$target.classList.add('movie-detail');
     this.$target.innerHTML = this.#template();
-    if (movie === undefined) return;
+    this.#movie = movie;
     this.paint(movie);
   }
 
@@ -74,6 +76,13 @@ class MovieItemDetail {
     $label.innerText = '내 별점';
 
     const starRating = new StarRating(starCount);
+    starRating.clickedId = this.#movie.score / SCORE_PER_STAR_RATING - 1;
+    starRating.render();
+    starRating.$target.addEventListener('click', (e: MouseEvent) => {
+      if (!(e.target instanceof HTMLImageElement)) return;
+      this.#movie.score = (starRating.clickedId + 1) * SCORE_PER_STAR_RATING;
+      new MovieStorageService().update(this.#movie);
+    });
 
     const $ratingCaption = this.#createRatingCaption(starRating);
     $ratingCaption.classList.add('font-body');

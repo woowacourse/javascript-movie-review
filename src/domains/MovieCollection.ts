@@ -20,5 +20,9 @@ class MovieCollection {
   update(movie: IMovie) {
     this.movies = this.movies.map(m => (new Movie(m).equal(movie) ? movie : m));
   }
+
+  getScoresInfo() {
+    return this.movies.map(movie => new Movie(movie).getScoreInfo());
+  }
 }
 export default MovieCollection;
