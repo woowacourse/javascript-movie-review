@@ -93,7 +93,6 @@ class MovieDetailModal extends ModalWrapper {
     const movieDetailDescription = document.createElement('div');
 
     movieDetailDescription.classList.add('movie-detail-description');
-
     movieDetailDescription.insertAdjacentHTML(
       'afterbegin',
       `
@@ -110,7 +109,13 @@ class MovieDetailModal extends ModalWrapper {
   `,
     );
 
-    // TODO: 분리
+    const reviewContainer = this.#getReviewContainerTemplate(data);
+
+    movieDetailDescription.appendChild(reviewContainer);
+    this.#content.appendChild(movieDetailDescription);
+  }
+
+  #getReviewContainerTemplate(data: MovieDetail) {
     const filledStarLength = data.my_grade / 2;
     const reviewContainer = document.createElement('div');
     const myStars = document.createElement('span');
@@ -152,9 +157,7 @@ class MovieDetailModal extends ModalWrapper {
     stars.addEventListener('mouseout', (event) => this.#onStarMouseout(data.id, event));
     stars.addEventListener('mouseover', this.#onStarMouseover.bind(this));
 
-    movieDetailDescription.appendChild(reviewContainer);
-
-    this.#content.appendChild(movieDetailDescription);
+    return reviewContainer;
   }
 
   #onStarClick(id: number, event: MouseEvent) {
