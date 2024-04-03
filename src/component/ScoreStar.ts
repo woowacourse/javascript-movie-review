@@ -20,7 +20,7 @@ class ScoreStar {
     this.render();
 
     const socketElement = $<HTMLDivElement>('.score-star');
-    socketElement.parentNode!.replaceChild(this.$container, socketElement);
+    if (socketElement.parentNode) socketElement.parentNode.replaceChild(this.$container, socketElement);
 
     this.attachEventListener();
   }
