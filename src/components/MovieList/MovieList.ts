@@ -7,13 +7,14 @@ import { filledStarLogo } from "../../assets/image";
 import { ERROR_IMAGE_SOURCE, MOVIE_LENGTH_PER_REQUEST } from "../../constants/movie";
 
 import "./MovieList.css";
+import { Optional } from "../../types/utility";
 
 interface MovieListProps {
   removeScrollTrigger: () => void;
 }
 
 export default class MovieList extends Component<MovieListProps, {}> {
-  private movieDetail: MovieDetail | undefined;
+  private movieDetail: Optional<MovieDetail>;
 
   protected initializeState() {
     const $section = createElement<HTMLDivElement>("section");
@@ -47,7 +48,8 @@ export default class MovieList extends Component<MovieListProps, {}> {
         <img
           class="rounded-lg bg-contain item-thumbnail skeleton"
           src="https://image.tmdb.org/t/p/w220_and_h330_face/${imagePath}"
-          onerror="this.src='${ERROR_IMAGE_SOURCE}'"
+          loading="lazy"
+          onerror="this.src='${ERROR_IMAGE_SOURCE}"
           alt="${title}"/>
         <p class="font-bold item-title">${title}</p>
         <p class="flex align-center item-score">
@@ -67,11 +69,11 @@ export default class MovieList extends Component<MovieListProps, {}> {
 
     $div.innerHTML = /*html*/ `
       <p class="mb-1">검색 결과가 존재하지 않습니다 🥲</p>
-      <p>- 단어의 철자가 정확한지 확인해 보세요</p>
-      <p>- 보다 일반적인 검색어로 다시 검색해 보세요</p>
-      <p>- 검색어의 띄어쓰기를 다르게 해보세요</p>
-      <p>- 유해/금지어가 아닌지 확인해주세요</p>
-      <p>- 더 간단한 단어로 검색해 보세요 (예: 해리 포터 -> 해리)</p>
+      <li>- 단어의 철자가 정확한지 확인해 보세요</li>
+      <li>- 보다 일반적인 검색어로 다시 검색해 보세요</li>
+      <li>- 검색어의 띄어쓰기를 다르게 해보세요</li>
+      <li>- 유해/금지어가 아닌지 확인해주세요</li>
+      <li>- 더 간단한 단어로 검색해 보세요 (예: 해리 포터 -> 해리)</li>
     `;
 
     $div.classList.remove("hidden");
