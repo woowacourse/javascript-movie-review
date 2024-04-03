@@ -125,6 +125,14 @@
   text-align: left;
 }
 
+/* Screen Size Breakpoints ************************/
+/*
+  --breakpoint-desktop: 920px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-tablet-small: 560px;
+  --breakpoint-smartphone: 440px;
+*/
+
 @media (max-width: 560px) {
   .user-score-container {
     justify-content: center;
