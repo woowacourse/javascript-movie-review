@@ -27,6 +27,7 @@ class MovieInfoModal {
     movieDetailModal.id = 'movie-detail-modal__open';
 
     const modalBackdrop = document.createElement('div');
+    modalBackdrop.classList.add('modal-backdrop');
 
     const movieDetailModalContainer = document.createElement('div');
     movieDetailModalContainer.classList.add('modal-container');
@@ -56,7 +57,10 @@ class MovieInfoModal {
       EscapeModal(modal, this.handleKeyPress);
     });
 
-    // getDomElement();
+    getDomElement('.modal-backdrop').addEventListener('click', () => {
+      const modal = getDomElement('#movie-detail-modal__open');
+      EscapeModal(modal, this.handleKeyPress);
+    });
   }
 
   handleKeyPress = (event: KeyboardEvent) => {
