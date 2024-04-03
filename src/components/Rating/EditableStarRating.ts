@@ -58,7 +58,7 @@ class EditableStarRating {
 
     this.ratingScore = createElement({
       tagName: "p",
-      contents: this.selectedStarCount.toString(),
+      contents: (this.selectedStarCount * 2).toString(),
       attrs: {
         class: "rating-score",
       },
