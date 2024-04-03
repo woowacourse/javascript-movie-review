@@ -35,8 +35,8 @@ const movieItemManager = {
   },
 
   handleModal(movieItem: HTMLLIElement, movie: MovieType) {
-    movieItem?.addEventListener('click', async (event) => {
-      const { movieList, isLastPage } = await httpRequest.getSearchedMovies(1, movie.title);
+    movieItem?.addEventListener('click', async () => {
+      const { movieList } = await httpRequest.getSearchedMovies(1, movie.title);
 
       const genreIds = movieList[0].genre_ids;
       const genreNames = await Promise.all(

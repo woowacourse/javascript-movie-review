@@ -29,7 +29,7 @@ const headerManager = {
     header.querySelector('.search-box')?.addEventListener('submit', async (event: Event) => {
       event.preventDefault();
       $('main')?.remove();
-      $('.search-error-msg')?.remove();
+      $('.error-container')?.remove();
 
       const movie = this.getMovieName(event);
       if (movie.trim() === '') {
@@ -49,7 +49,6 @@ const headerManager = {
 
   displaySearchError() {
     const errorElement = errorDisplay.getErrorMessageTemplate(200, '검색된 영화가 없습니다 💢');
-    $('.error-container')?.remove();
     $('#app')?.insertAdjacentHTML('beforeend', errorElement);
   },
 
