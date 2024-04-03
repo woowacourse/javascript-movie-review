@@ -17,6 +17,7 @@ class MovieApp {
   private header = new Header();
   private movieItems = new MovieItems();
   private movieDetailModal = new MovieDetailModal();
+  private fallback = new Fallback();
 
   constructor() {
     this.createElements();
@@ -28,6 +29,7 @@ class MovieApp {
     this.body.appendChild(this.header.getElement());
     this.body.appendChild(this.movieItems.getElement());
     this.body.appendChild(this.movieDetailModal.getElement());
+    this.body.appendChild(this.fallback.getElement());
     this.body.appendChild(this.createFloatingButton());
   }
 
@@ -75,7 +77,8 @@ class MovieApp {
       if (!(event instanceof CustomEvent)) return;
       const main = this.body.querySelector('.item-view') as HTMLElement;
       main.innerHTML = '';
-      main.appendChild(new Fallback(event.detail.message).getElement());
+      this.fallback.setFallbackMessage(event.detail.message);
+      this.fallback.toggleHidden();
     });
   }
 
@@ -88,9 +91,9 @@ class MovieApp {
   }
 
   reLoad() {
-    const fallback = this.body.querySelector('.fallback');
-    if (fallback) {
-      fallback.remove();
+    const fallback = this.body.querySelector('.fallback') as HTMLElement;
+    if (!fallback.classList.contains('fallback--hidden')) {
+      this.fallback.toggleHidden();
       this.movieItems.createTemplate();
     }
     this.movieItems.resetMovieItems();

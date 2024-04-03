@@ -7,6 +7,10 @@
   min-height: calc(100vh - 168px);
 }
 
+.fallback--hidden {
+  display: none;
+}
+
 .fallback_message {
   color: var(--grayscale-200);
 }
