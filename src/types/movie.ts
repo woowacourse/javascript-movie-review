@@ -1,3 +1,5 @@
+import { SCORE_TEXT } from '../constants/movie';
+
 export type Genre =
   | 'Action'
   | 'Adventure'
@@ -69,4 +71,4 @@ export interface MovieDetail extends Movie {
   genres: string[];
 }
 
-export type StarScore = 0 | 2 | 4 | 6 | 8 | 10;
+export type StarScore = keyof typeof SCORE_TEXT;
