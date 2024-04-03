@@ -1,7 +1,6 @@
 import MovieItem, { Movie } from "./MovieItem";
 
 import MovieDetailModal from "../MovieDetailModal/MovieDetailModal";
-import ObserveIntersection from "../../../utils/ObserveIntersection";
 import createElement from "../../../utils/createElement";
 
 class MovieList {
@@ -21,10 +20,10 @@ class MovieList {
     );
     this.$element = this.generateMovieList();
 
-    this.setScrollObserver(getMoreMovies);
+    this.setScrollObserver();
 
     this.domObserver = new MutationObserver(() => {
-      this.setScrollObserver(getMoreMovies);
+      this.setScrollObserver();
     });
     const config = { attributes: true, childList: true, subtree: false };
     this.domObserver.observe(this.$element, config);
@@ -40,7 +39,7 @@ class MovieList {
     this.isLoading = false;
 
     if (this.touchBottom) {
-      this.setScrollObserver(this.getMoreMovies);
+      this.setScrollObserver();
     }
   }
 
@@ -87,26 +86,36 @@ class MovieList {
     this.domObserver?.disconnect();
   }
 
-  private setScrollObserver(getMoreMovies: () => void) {
+  private setScrollObserver() {
     if (!(this.$element.lastChild instanceof HTMLElement)) {
       return;
     }
 
-    const observer = new ObserveIntersection({
-      target: this.$element.lastChild,
-      callback: () => {
-        this.touchBottom = true;
-
-        if (this.isLoading) {
-          return;
-        }
-
-        observer.clearObserveIntersection();
-        getMoreMovies();
-      },
-      options: {
+    const scrollObserver = new IntersectionObserver(
+      this.getMoreMoviesWithObserverClear.bind(this),
+      {
         threshold: 0.5,
-      },
+      }
+    );
+    scrollObserver.observe(this.$element.lastChild);
+  }
+
+  private getMoreMoviesWithObserverClear(
+    entries: IntersectionObserverEntry[],
+    observer: IntersectionObserver
+  ) {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) {
+        return;
+      }
+      if (this.isLoading) {
+        return;
+      }
+
+      this.touchBottom = true;
+
+      observer.disconnect();
+      this.getMoreMovies();
     });
   }
 
