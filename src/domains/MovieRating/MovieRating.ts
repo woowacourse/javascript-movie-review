@@ -1,12 +1,12 @@
 import BrowserStorage from "../Storage/Storage";
-import { BrowserStorageInterface } from "../Storage/Storage.type";
+import { DataStorage } from "../Storage/Storage.type";
 
 import { isArrayElement } from "../../utils/type";
 
 import { Rating, RatingItem } from "./MovieRating.type";
 
 export default class MovieRating {
-  private storage: BrowserStorageInterface<RatingItem[]> | null = null;
+  private storage: DataStorage<RatingItem[]> | null = null;
 
   private STORAGE_KEY: string = "movie-score";
 
