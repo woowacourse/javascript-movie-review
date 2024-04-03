@@ -250,22 +250,20 @@ class MovieModal {
         const myVoteButtonElement = myVoteButton as HTMLButtonElement;
         const myVoteButtonImageElement =
           myVoteButtonElement.firstChild as HTMLImageElement;
-        if (index <= starCount) {
-          if (myVoteButtonImageElement) {
-            myVoteButtonImageElement.src = starFilledImage;
-          }
-        } else {
-          myVoteButtonImageElement.src = starEmptyImage;
+        if (index <= starCount && myVoteButtonImageElement) {
+          myVoteButtonImageElement.src = starFilledImage;
+          return;
         }
+        myVoteButtonImageElement.src = starEmptyImage;
       });
     }
 
     if (myVoteScoreNumberElement) {
       if (voteScore === 0) {
         myVoteScoreNumberElement.textContent = '';
-      } else {
-        myVoteScoreNumberElement.textContent = String(voteScore);
+        return;
       }
+      myVoteScoreNumberElement.textContent = String(voteScore);
     }
 
     if (myVoteScoreTextElement) {

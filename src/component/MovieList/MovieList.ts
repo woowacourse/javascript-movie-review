@@ -67,12 +67,12 @@ class MovieList {
     if (data.length < MAX_PAGE_PER_REQUEST) {
       this.#displayMaxPageInfo();
       ScrollUtility.disconnectObserver();
-    } else {
-      const scrollTrigger = $('.item-list')?.lastChild as HTMLLIElement;
-      ScrollUtility.infiniteScroll(scrollTrigger, () =>
-        this.#onPopularIntersect(),
-      );
+      return;
     }
+    const scrollTrigger = $('.item-list')?.lastChild as HTMLLIElement;
+    ScrollUtility.infiniteScroll(scrollTrigger, () =>
+      this.#onPopularIntersect(),
+    );
   }
 
   #setupSearchFormSubmit() {
@@ -167,12 +167,11 @@ class MovieList {
     if (dataLength < MAX_PAGE_PER_REQUEST) {
       this.#displayMaxPageInfo();
       ScrollUtility.disconnectObserver();
-    } else {
-      const scrollTrigger = $('.item-list')?.lastChild as HTMLLIElement;
-      ScrollUtility.infiniteScroll(scrollTrigger, () =>
-        this.#onSearchIntersect(titleInput),
-      );
     }
+    const scrollTrigger = $('.item-list')?.lastChild as HTMLLIElement;
+    ScrollUtility.infiniteScroll(scrollTrigger, () =>
+      this.#onSearchIntersect(titleInput),
+    );
   }
 
   async #renderMovieDetailModal(movieID: number) {
@@ -308,9 +307,9 @@ class MovieList {
   #handleError(error: Error) {
     if (typeof error === 'object' && error.message) {
       this.#crateErrorUI(error.message);
-    } else {
-      this.#crateErrorUI(ERROR_MESSAGE.UNKNOWN);
+      return;
     }
+    this.#crateErrorUI(ERROR_MESSAGE.UNKNOWN);
   }
 }
 

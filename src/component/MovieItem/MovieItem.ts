@@ -17,13 +17,9 @@ class MovieItem {
     ) as HTMLImageElement;
 
     if (thumbnailElement) {
-      if (this.#movieItemInfo.poster_path === null) {
-        thumbnailElement.src = posterEmptyImg;
-      } else {
-        thumbnailElement.src = `${IMAGE_BASE_URL}${
-          this.#movieItemInfo.poster_path
-        }`;
-      }
+      thumbnailElement.src = this.#movieItemInfo.poster_path
+        ? `${IMAGE_BASE_URL}${this.#movieItemInfo.poster_path}`
+        : posterEmptyImg;
       thumbnailElement.alt = this.#movieItemInfo.title;
     }
 
