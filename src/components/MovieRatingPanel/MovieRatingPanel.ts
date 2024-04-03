@@ -1,11 +1,12 @@
 import Component from "../common/Component";
 
-import MovieRatingManager from "../../domains/MovieRatingManager/MovieRatingManager";
-import { Rating } from "../../domains/MovieRatingManager/MovieRatingManager.type";
+import MovieRating from "../../domains/MovieRating/MovieRating";
+import { Rating } from "../../domains/MovieRating/MovieRating.type";
 
 import { $ } from "../../utils/dom";
+import { isArrayElement } from "../../utils/type";
+import { Optional } from "../../types/utility";
 import { filledStarLogo, emptyStarLogo } from "../../assets/image";
-import { isValidElement } from "../../utils/type";
 
 import "./MovieRatingPanel.css";
 
@@ -14,7 +15,7 @@ interface MovieRatingPanelProps {
 }
 
 export default class MovieRatingPanel extends Component<MovieRatingPanelProps, {}> {
-  private ratingManager: MovieRatingManager | undefined;
+  private rating: Optional<MovieRating>;
 
   private static readonly MOVIE_RATING_MESSAGES = {
     0: "평가 없음",
@@ -48,14 +49,14 @@ export default class MovieRatingPanel extends Component<MovieRatingPanelProps, {
   }
 
   protected initializeState() {
-    this.ratingManager = new MovieRatingManager();
+    this.rating = new MovieRating();
   }
 
   protected render() {
     this.$target.insertAdjacentHTML("beforeend", this.getTemplate());
-    if (!this.props || !this.ratingManager) return;
+    if (!this.props || !this.rating) return;
 
-    const rating = this.ratingManager.getRatingById(this.props.id);
+    const rating = this.rating.getRatingById(this.props.id);
 
     this.updateMovieRatingContent(rating);
   }
@@ -66,7 +67,7 @@ export default class MovieRatingPanel extends Component<MovieRatingPanelProps, {
 
       const rating = Number(event.target.getAttribute("value")) * MovieRatingPanel.RATING_PER_STAR;
 
-      if (!isValidElement<number, Rating>(MovieRatingPanel.RATING_VALUES, rating)) return;
+      if (!isArrayElement<number, Rating>(MovieRatingPanel.RATING_VALUES, rating)) return;
 
       this.handleUpdateMovieRating(rating);
     });
@@ -75,7 +76,7 @@ export default class MovieRatingPanel extends Component<MovieRatingPanelProps, {
   private handleUpdateMovieRating(rating: Rating) {
     if (!this.props) return;
 
-    this.ratingManager?.updateMovieRating(this.props.id, rating);
+    this.rating?.updateMovieRating(this.props.id, rating);
 
     this.updateMovieRatingContent(rating);
   }
