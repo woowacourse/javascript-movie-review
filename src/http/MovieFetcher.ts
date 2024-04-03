@@ -2,6 +2,9 @@ import Fetcher from "./Fetcher";
 
 import { HttpFetcher } from "../types/http";
 import { FetchResponse, MovieDetailItem, MovieDetailResponse, MovieItem, MovieItemResponse } from "../types/movies";
+import { Optional } from "../types/utility";
+
+import { isArrayWithObjectKeys } from "../utils/type";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
@@ -24,8 +27,6 @@ class MovieFetcher {
   }
 
   private createMovieFetchUrl(options: UrlOption = {}): string {
-    const { page, query } = options;
-
     if (!process.env.API_KEY) return "";
 
     const requestUrl = new URLSearchParams({
@@ -33,12 +34,14 @@ class MovieFetcher {
       language: "ko-KR",
     });
 
-    if (page) {
-      requestUrl.append("page", String(page));
-    }
+    const optionKeys = Object.keys(options);
 
-    if (query) {
-      requestUrl.append("query", query);
+    if (isArrayWithObjectKeys<(keyof UrlOption)[]>(options, optionKeys)) {
+      optionKeys.forEach((key) => {
+        if (options[key]) {
+          requestUrl.append(key, String(options[key]));
+        }
+      });
     }
 
     return requestUrl.toString();
@@ -89,14 +92,14 @@ class MovieFetcher {
     throw new Error(errorMessage);
   }
 
-  private async getMovieListData(url: string): Promise<MovieItem[] | undefined> {
+  private async getMovieListData(url: string): Promise<Optional<MovieItem[]>> {
     const response = await this.movieFetcher.get<FetchResponse<MovieItemResponse[]>>(url);
     const movies = this.formattingMovieListResponse(response.results);
 
     return movies;
   }
 
-  public async getPopularMovies(page: number): Promise<MovieItem[] | undefined> {
+  public async getPopularMovies(page: number): Promise<Optional<MovieItem[]>> {
     try {
       const url = this.MOVIE_API_END_POINT.popular + this.createMovieFetchUrl({ page });
 
@@ -106,7 +109,7 @@ class MovieFetcher {
     }
   }
 
-  public async getSearchMovies(page: number, query: string): Promise<MovieItem[] | undefined> {
+  public async getSearchMovies(page: number, query: string): Promise<Optional<MovieItem[]>> {
     try {
       const url = this.MOVIE_API_END_POINT.search + this.createMovieFetchUrl({ page, query });
 
@@ -116,7 +119,7 @@ class MovieFetcher {
     }
   }
 
-  public async getMovieDetail(id: string): Promise<MovieDetailItem | undefined> {
+  public async getMovieDetail(id: string): Promise<Optional<MovieDetailItem>> {
     try {
       const url = this.MOVIE_API_END_POINT.detail + id + "?" + this.createMovieFetchUrl();
 
