@@ -56,9 +56,10 @@ class EditableStarRating {
       },
     });
 
+    const ratingScore = this.selectedStarCount * 2;
     this.ratingScore = createElement({
       tagName: "p",
-      contents: this.selectedStarCount.toString(),
+      contents: ratingScore.toString(),
       attrs: {
         class: "rating-score",
       },
