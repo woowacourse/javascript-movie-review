@@ -33,21 +33,25 @@ function injectMovieDataToItem({
   movie: MovieData;
   onClick: (item: HTMLLIElement, movieId: number) => void;
 }) {
-  const $itemThumbnail = $<HTMLImageElement>('.item-thumbnail', item);
-  const $itemTitle = $<HTMLParagraphElement>('.item-title', item);
-  const $itemScore = $<HTMLParagraphElement>('.item-score', item);
+  return new Promise<void>((resolve) => {
+    const $itemThumbnail = $<HTMLImageElement>('.item-thumbnail', item);
+    const $itemTitle = $<HTMLParagraphElement>('.item-title', item);
+    const $itemScore = $<HTMLParagraphElement>('.item-score', item);
 
-  $itemThumbnail.onload = () => {
-    [$itemThumbnail, $itemTitle, $itemScore].forEach((element: HTMLElement) => element.classList.remove('skeleton'));
-    $itemThumbnail.alt = movie.title;
-    $itemTitle.textContent = movie.title;
-    $itemScore.classList.add('loaded');
-    $itemScore.append(movie.voteAverage.toFixed(CONFIG.userScoreDecimalPlaces).toString());
+    $itemThumbnail.onload = () => {
+      [$itemThumbnail, $itemTitle, $itemScore].forEach((element: HTMLElement) => element.classList.remove('skeleton'));
+      $itemThumbnail.alt = movie.title;
+      $itemTitle.textContent = movie.title;
+      $itemScore.classList.add('loaded');
+      $itemScore.append(movie.voteAverage.toFixed(CONFIG.userScoreDecimalPlaces).toString());
 
-    item.addEventListener('click', () => onClick(item, movie.id));
-  };
+      item.addEventListener('click', () => onClick(item, movie.id));
 
-  $itemThumbnail.src = movie.posterPath;
+      resolve();
+    };
+
+    $itemThumbnail.src = movie.posterPath;
+  });
 }
 
 export { createSkeletonMovieItem, injectMovieDataToItem };

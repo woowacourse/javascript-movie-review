@@ -4,49 +4,45 @@ import { injectMovieDataToItem } from '../MovieItem/MovieItem';
 import { createSkeletonMovieList } from '../MovieList/MovieList';
 import { MoviePageData } from '../../interface/MovieInterface';
 import ASSETS from '../../constant/assets';
+import InfiniteScroll from '../../util/InfiniteScroll';
 
 interface MovieContainerParams {
   title: string;
-  handleMoreButton: () => Promise<void>;
+  addMovieList: () => Promise<void>;
 }
 
 class MovieContainer {
   private movieListContainer: HTMLUListElement;
   private sectionTitle: HTMLHeadingElement;
   private skeletonList: HTMLLIElement[];
-  private moreButton: HTMLButtonElement;
-  private handleMoreButton: () => Promise<void>;
+  private infiniteScroll: InfiniteScroll;
 
-  constructor({ title, handleMoreButton }: MovieContainerParams) {
+  constructor({ title, addMovieList }: MovieContainerParams) {
     this.movieListContainer = $<HTMLUListElement>('ul.item-list');
     this.sectionTitle = $<HTMLHeadingElement>('.item-view > h2');
     this.sectionTitle.textContent = title;
     this.skeletonList = [];
-    this.handleMoreButton = handleMoreButton;
-    this.moreButton = createButton({
+    this.infiniteScroll = new InfiniteScroll({
+      targetElement: $<HTMLHeadingElement>('section.item-view'),
+      callbackFunction: addMovieList,
       options: {
-        type: 'button',
-        id: 'more-button',
-        textContent: '더 보기',
-        variantClasses: ['full-width', 'primary'],
+        root: null,
+        rootMargin: '0px 0px 100px 0px',
+        threshold: 0,
       },
-      callbackFunction: () => this.initHandleClickMoreButton(),
     });
-    this.toggleMoreButtonDisplay(false);
-
-    $('section').append(this.moreButton);
   }
 
   createSkeletonList() {
     this.removeRetryButton();
-    const skeletonMovieList = createSkeletonMovieList();
+    this.infiniteScroll.disconnect();
 
+    const skeletonMovieList = createSkeletonMovieList();
     skeletonMovieList.forEach((skeletonMovie) => {
       this.movieListContainer.appendChild(skeletonMovie);
     });
 
     this.skeletonList = skeletonMovieList;
-    this.toggleMoreButtonDisplay(false);
     this.removeRetryButton();
   }
 
@@ -84,23 +80,24 @@ class MovieContainer {
     }
   }
 
-  fillMovieDataToSkeletonList(
+  async fillMovieDataToSkeletonList(
     { movieList, hasNextPage }: MoviePageData,
     onClick: (item: HTMLLIElement, movieId: number) => void,
   ) {
     this.setEmptySearchResult(movieList.length);
 
-    this.skeletonList.forEach((item, i) => {
-      if (i >= movieList.length) return item.remove();
-      injectMovieDataToItem({ item, movie: movieList[i].data, onClick });
+    const injectMovieDataToItemResults = this.skeletonList.map((item, i) => {
+      if (i >= movieList.length) {
+        item.remove();
+        return Promise.resolve();
+      }
+      return injectMovieDataToItem({ item, movie: movieList[i].data, onClick });
     });
 
-    this.toggleMoreButtonDisplay(hasNextPage);
-    this.skeletonList = [];
-  }
+    await Promise.all(injectMovieDataToItemResults);
 
-  toggleMoreButtonDisplay(hasNextPage: boolean) {
-    this.moreButton.style.display = hasNextPage ? 'block' : 'none';
+    this.skeletonList = [];
+    if (hasNextPage) this.infiniteScroll.connect();
   }
 
   clearMovieList() {
@@ -122,10 +119,6 @@ class MovieContainer {
 
   removeRetryButton() {
     $OptionalSelector('#retry-button')?.remove();
-  }
-
-  async initHandleClickMoreButton() {
-    await this.handleMoreButton();
   }
 
   setTitle(title: string) {
