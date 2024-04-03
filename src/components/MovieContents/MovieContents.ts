@@ -4,6 +4,7 @@ import { PropsType } from '../../types/props';
 import skeletonManager from '../Skeleton/Skeleton';
 import DOM from '../../utils/DOM';
 import movieListManager from '../MovieList/MovieList';
+import { setIntersectionObserver, disconnectObserver, connectObserver } from '../../utils/observer';
 
 const { $ } = DOM;
 
@@ -31,8 +32,21 @@ const movieContentManager = {
     movieListManager.renderMovieList(movieList, isLastPage);
 
     if (!isLastPage) {
-      this.setIntersectionObserver(movie, { type, input });
+      this.handleNextPageObserver(movie, { type, input });
     }
+  },
+
+  async handleNextPageObserver(movie: Movie, { type, input }: PropsType) {
+    const target = $('.scroll-end') as HTMLElement;
+    const observer = setIntersectionObserver(async () => {
+      const { movieList, isLastPage } = await this.setMovieData(movie, { type, input });
+      movieListManager.renderMovieList(movieList, isLastPage);
+
+      if (isLastPage) {
+        disconnectObserver(observer);
+      }
+    });
+    connectObserver(observer, target);
   },
 
   async setMovieData(movie: Movie, { type, input }: PropsType) {
@@ -41,24 +55,6 @@ const movieContentManager = {
     const { movieList, isLastPage } = await movie.handleMovieData(type, input);
 
     return { movieList, isLastPage };
-  },
-
-  setIntersectionObserver(movie: Movie, { type, input }: PropsType) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(async (entry) => {
-        if (entry.isIntersecting) {
-          const { movieList, isLastPage } = await this.setMovieData(movie, { type, input });
-          movieListManager.renderMovieList(movieList, isLastPage);
-
-          if (isLastPage) {
-            observer.disconnect();
-          }
-        }
-      });
-    });
-
-    const target = $('.scroll-end');
-    observer.observe(target!);
   },
 };
 
