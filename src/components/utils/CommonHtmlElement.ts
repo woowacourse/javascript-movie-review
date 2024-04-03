@@ -1,9 +1,5 @@
-import createElement from "./createElement";
-
 class CommonHtmlElement {
-  private $element: HTMLElement = createElement({
-    tagName: "div",
-  });
+  private $element: HTMLElement;
 
   constructor(element: HTMLElement | Element | null = null) {
     if (!(element instanceof HTMLElement)) {
@@ -19,8 +15,8 @@ class CommonHtmlElement {
     this.$element.textContent = textContent;
   }
 
-  removeSkeleton() {
-    this.$element.classList.remove("skeleton");
+  removeClassName(className: string) {
+    this.$element.classList.remove(className);
   }
 
   setValue(value: string) {
