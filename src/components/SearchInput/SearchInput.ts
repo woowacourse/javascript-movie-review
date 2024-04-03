@@ -6,9 +6,11 @@ import SearchIcon from '../../statics/images/search_button.png';
 import MovieStore from '../../stores/movieStore';
 import useThrottle from '../../utils/throttle';
 
+const { container, input, button, searchIcon } = SELECTORS.SEARCH_INPUT;
+
 const createSearchBox = () => {
   const $searchBox = document.createElement('form');
-  $searchBox.classList.add('search-box');
+  $searchBox.classList.add(container);
   return $searchBox;
 };
 
@@ -22,19 +24,19 @@ const createSearchInput = () => {
   const $searchInput = document.createElement('input');
   $searchInput.type = 'search';
   $searchInput.placeholder = '검색';
-  $searchInput.id = 'movie-search';
-  $searchInput.name = 'movie-search';
+  $searchInput.id = input;
+  $searchInput.name = input;
 
   return $searchInput;
 };
 
 const createSearchBtn = () => {
   const $searchBtn = document.createElement('button');
-  $searchBtn.classList.add('search-button');
+  $searchBtn.classList.add(button);
   $searchBtn.type = 'submit';
 
   const $img = document.createElement('img');
-  $img.classList.add(SELECTORS.SEARCH_INPUT.searchIcon);
+  $img.classList.add(searchIcon);
   $img.src = SearchIcon;
   $img.alt = '검색';
 
@@ -99,8 +101,9 @@ const SearchInput = () => {
 
   document.addEventListener('click', (event) => {
     const target = event.target as HTMLElement;
+    const isOuterSpace = !target.closest(`.${container}`);
 
-    if (!target.closest(`.${SELECTORS.SEARCH_INPUT.container}`)) {
+    if (isOuterSpace) {
       $searchInput.classList.remove('open');
     }
   });
