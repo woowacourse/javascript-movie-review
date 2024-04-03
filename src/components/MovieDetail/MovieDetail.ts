@@ -3,6 +3,7 @@ import { STAR_MESSAGE } from '../../constants/messages';
 import { RULES } from '../../constants/rule';
 import { MovieDetail } from '../../domain/Movies';
 import { STAR_EMPTY, STAR_FILLED } from '../../resource';
+import { $ } from '../../utils/dom';
 
 type onStarClick = (movieId: number, event: Event) => void;
 
@@ -136,6 +137,25 @@ const ReviewContainer = ({ id, my_grade }: MovieDetail, onStarClick: onStarClick
 
     reviewRating.textContent = String(movieGrade);
     reviewText.textContent = STAR_MESSAGE[movieGrade];
+  });
+
+  stars.addEventListener('mouseover', (event) => {
+    const stars = document.querySelectorAll('.star') as NodeListOf<HTMLImageElement>;
+    const target = event.target as HTMLElement;
+    const targetStar = target.closest('.star') as HTMLImageElement;
+    if (!targetStar) return;
+    const gradeElement = $('.review-rating') as HTMLSpanElement;
+    const gradeText = $('.review-text') as HTMLSpanElement;
+    const starIndex = Number(targetStar.dataset?.starIndex);
+    const grade = starIndex * 2 + 2;
+
+    stars.forEach((star, index) => {
+      if (index <= starIndex) star.src = STAR_FILLED;
+      else star.src = STAR_EMPTY;
+    });
+
+    gradeElement.textContent = String(grade);
+    gradeText.textContent = STAR_MESSAGE[grade];
   });
 
   return reviewContainer;

@@ -125,7 +125,6 @@ class MovieApp {
     });
 
     this.#modal.replaceContent(movieDetail);
-    $('.stars')?.addEventListener('mouseover', (event) => this.#onStarHover(event));
   }
 
   #onStarClick(movieId: number, event: Event) {
@@ -136,25 +135,6 @@ class MovieApp {
     const grade = starIndex * 2 + 2;
 
     this.#movieDetailController.updateMovieDetail(movieId, grade);
-  }
-
-  #onStarHover(event: Event) {
-    const stars = document.querySelectorAll('.star') as NodeListOf<HTMLImageElement>;
-    const target = event.target as HTMLElement;
-    const targetStar = target.closest('.star') as HTMLImageElement;
-    if (!targetStar) return;
-    const gradeElement = $('.review-rating') as HTMLSpanElement;
-    const gradeText = $('.review-text') as HTMLSpanElement;
-    const starIndex = Number(targetStar.dataset?.starIndex);
-    const grade = starIndex * 2 + 2;
-
-    stars.forEach((star, index) => {
-      if (index <= starIndex) star.src = STAR_FILLED;
-      else star.src = STAR_EMPTY;
-    });
-
-    gradeElement.textContent = String(grade);
-    gradeText.textContent = STAR_MESSAGE[grade];
   }
 }
 
