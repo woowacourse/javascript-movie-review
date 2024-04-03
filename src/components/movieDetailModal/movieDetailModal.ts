@@ -134,7 +134,7 @@ class MovieDetailModal {
     this.updateScoreContainer(id);
 
     const movies = this.calculateStorageScore(id);
-    storage.set<ScoreStorage[]>('movies', movies);
+    storage.set('movies', movies);
     this.initStarRate(id);
     this.fillRate(id);
   }

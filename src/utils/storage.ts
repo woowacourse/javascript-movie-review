@@ -8,7 +8,7 @@ const storage = {
     return JSON.parse(item);
   },
 
-  set<T>(key: string, value: T) {
+  set(key: string, value: unknown) {
     const item = JSON.stringify(value);
     localStorage.setItem(key, item);
   },
