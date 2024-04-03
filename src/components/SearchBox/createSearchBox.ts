@@ -2,18 +2,7 @@ import "./style.css";
 import createElement from "../../utils/createElement";
 import DOMController from "../../DOMController";
 import { $ } from "../../utils/selector";
-
-function debounce(
-  func: (...args: any[]) => void,
-  wait: number = 200
-): (...args: any[]) => void {
-  let timeout: ReturnType<typeof setTimeout> | undefined;
-  return function (this: any, ...args: any[]) {
-    const context = this;
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(context, args), wait);
-  };
-}
+import debounce from "../../utils/debounce";
 
 function createSearchBox(placeHolder: string): HTMLElement {
   const searchBox = createSearchBoxElement();
