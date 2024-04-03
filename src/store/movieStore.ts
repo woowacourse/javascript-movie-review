@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { POPULAR_MOVIES_URL } from '../constants/tmdbConstants';
 
 interface IMovieState {

@@ -7,7 +7,9 @@
     "import/extensions": "off",
     "cypress/no-assigning-return-values": "off",
     "max-len": "off",
-    "prefer-destructuring": "off"
+    "prefer-destructuring": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error"
   },
   "overrides": [
     {
