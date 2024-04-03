@@ -9,7 +9,7 @@ class MovieCollection {
   add(movie: IMovie) {
     this.movies.push(movie);
   }
-  getMovies() {
+  get() {
     return this.movies;
   }
 
@@ -19,10 +19,17 @@ class MovieCollection {
 
   update(movie: IMovie) {
     this.movies = this.movies.map(m => (new Movie(m).equal(movie) ? movie : m));
+    if (!this.has(movie)) {
+      this.add(movie);
+    }
   }
 
   getScoresInfo() {
     return this.movies.map(movie => new Movie(movie).getScoreInfo());
+  }
+
+  has(movie: IMovie) {
+    return this.movies.some(m => new Movie(m).equal(movie));
   }
 
   getFiltered(movie: IMovie) {

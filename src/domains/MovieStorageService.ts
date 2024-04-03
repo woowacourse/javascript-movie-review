@@ -1,5 +1,6 @@
 import { IMovie } from '../types/movie';
 import Movie from './Movie';
+import MovieCollection from './MovieCollection';
 
 class MovieStorageService {
   private readonly KEY: string;
@@ -24,7 +25,9 @@ class MovieStorageService {
 
   update(movie: IMovie) {
     const movies = this.load();
-    const updatedMovies = movies.map(m => (new Movie(m).equal(movie) ? movie : m));
+    const movieCollection = new MovieCollection(movies);
+    movieCollection.update(movie);
+    const updatedMovies = movieCollection.get();
     this.save(updatedMovies);
   }
 }
