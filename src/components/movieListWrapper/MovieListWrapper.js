@@ -99,10 +99,7 @@ class MovieListWrapper {
         return true
       }
     }
-    if (!this.hasNextPage(totalPages)) {
-      return true
-    }
-    return false
+    return !this.hasNextPage(totalPages)
   }
 }
 
