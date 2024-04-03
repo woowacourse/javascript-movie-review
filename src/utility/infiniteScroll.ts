@@ -28,7 +28,7 @@ export const infiniteScroll = {
           observer.unobserve(entries[0].target);
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.9 }
     );
 
     observer.observe(lastItem);
