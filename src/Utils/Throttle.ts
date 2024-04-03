@@ -1,4 +1,4 @@
-const Throttle = (callback: () => void, delay: number) => {
+const throttle = (callback: () => void, delay: number) => {
   let timerId: ReturnType<typeof setTimeout> | null;
 
   return () => {
@@ -10,4 +10,4 @@ const Throttle = (callback: () => void, delay: number) => {
   };
 };
 
-export default Throttle;
+export default throttle;

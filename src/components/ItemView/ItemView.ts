@@ -7,7 +7,7 @@ import SearchValidator from '../../domain/Validator/SearchValidator';
 import ToastPopup from '../ToastPopup/ToastPopup';
 import CONDITIONS from '../../constants/CONDITIONS';
 import MovieItemDetailModalInstance from '../../typeAliases/MovieItemDetailModalInstance';
-import Throttle from '../../utils/Throttle';
+import throttle from '../../utils/throttle';
 import './ItemView.css';
 
 class ItemView {
@@ -46,7 +46,7 @@ class ItemView {
   setScrollHandler() {
     window.addEventListener(
       'scroll',
-      Throttle(() => {
+      throttle(() => {
         if (window.innerHeight + window.scrollY + CONDITIONS.supplement >= document.body.offsetHeight)
           this.createMovieItems();
       }, 1000),
