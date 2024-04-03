@@ -211,17 +211,17 @@ header h1 {
   color: var(--primary-color);
 }
 
-header > #search-form {
+header > .search-form {
   background: var(--white-color);
   padding: 8px;
   border-radius: 4px;
 }
 
-header #search-form > #search {
+header .search-form > .search-input {
   border: 0;
 }
 
-header #search-form > .search-button {
+header .search-form > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
@@ -254,7 +254,7 @@ header #search-form > .search-button {
   }
 }
 
-#scroll-end-box {
+.scroll-end-box {
   width: 100%;
   height: 15%;
 }
