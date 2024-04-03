@@ -6,5 +6,6 @@ export const getUserRateFromLocalStorage = (movieId: string) => {
 };
 
 export const updateUserRateToLocalStorage = (movieId: string, rate: string) => {
+  if (Number(rate) === getUserRateFromLocalStorage(movieId)) return;
   localStorage.setItem(movieId, rate);
 };

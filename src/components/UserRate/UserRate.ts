@@ -67,6 +67,7 @@ class UserRate {
       button.classList.add('modal-user-star-button');
       img.src = i * 2 <= this.#rate ? starImg : emptyStarImg;
       button.appendChild(img);
+
       container.appendChild(button);
     }
 
@@ -78,6 +79,8 @@ class UserRate {
   #addClickEvent(buttonContainer: HTMLDivElement) {
     buttonContainer.addEventListener('click', (event) => {
       const target = event.target as HTMLElement;
+      if (!target.closest('button')) return;
+
       const buttonId = target.closest('button')?.id.split('-')[1];
       const rate = String(Number(buttonId) * 2);
 
