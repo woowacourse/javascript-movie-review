@@ -44,7 +44,7 @@ const ApiClient = {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.status_code);
+        throw new Error(Number(response.status));
       }
 
       return data;
