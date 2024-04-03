@@ -31,21 +31,26 @@ class SearchMovieStore {
     }
   }
 
-  /* eslint-disable max-lines-per-function */
   async #fetchSearchData() {
     const response = await fetchSearchMovies(this.#query, this.#presentPage);
+    this.#handleResponseError(response);
 
+    const responseJSON = await response.json();
+    this.#handleResponseJSONError(response, responseJSON);
+
+    return responseJSON;
+  }
+
+  #handleResponseError(response: Response) {
     if (!response.ok) {
       throw new ErrorRender(String(response.status)).renderError();
     }
+  }
 
-    const responseJSON = await response.json();
-
+  #handleResponseJSONError(response: Response, responseJSON: any) {
     if (String(response.status)[0] === ERROR_2XX && responseJSON.results.length === 0) {
       throw new ErrorRender(String(response.status)).renderError();
     }
-
-    return responseJSON;
   }
 
   increasePageCount() {
