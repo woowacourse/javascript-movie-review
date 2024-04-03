@@ -36,7 +36,10 @@ export default abstract class BaseModal extends EventComponent {
 
   protected closeModal(): void {
     if (this.isModalOpen()) {
-      this.$modal?.classList.remove("modal-open");
+      if (this.$modal) {
+        this.$modal.classList.remove("modal-open");
+        this.$modal.innerHTML = "";
+      }
     }
   }
 
