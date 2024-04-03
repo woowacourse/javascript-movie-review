@@ -16,7 +16,7 @@ class MovieInfoModal {
     this.#localVote = localStorage.getItem(`${this.#movieID}`) ? Number(localStorage.getItem(`${this.#movieID}`)) : 0;
     this.create();
     this.setHandle();
-    console.log(123);
+
     document.addEventListener('keydown', this.handleKeyPress);
     document.body.style.overflow = 'hidden';
   }
@@ -52,7 +52,6 @@ class MovieInfoModal {
 
   async mountItems(): Promise<void> {
     const movieDetailData: IMovieDetail = await this.getMovieDetailData(this.#movieID);
-    console.log(movieDetailData);
     this.replaceAllSkeletons(movieDetailData);
   }
 
