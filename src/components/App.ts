@@ -5,9 +5,10 @@ import MovieSection from "./MovieSection/MovieSection";
 import { $ } from "../utils/dom";
 
 import "./App.css";
+import { Optional } from "../types/utility";
 
 export default class App extends Component<{}, {}> {
-  private movieSection: MovieSection | undefined;
+  private movieSection: Optional<MovieSection>;
 
   protected getTemplate(): string {
     return /*html*/ `
