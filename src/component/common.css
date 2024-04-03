@@ -1,11 +1,30 @@
 * {
-  box-sizing: border-box !important;
+  box-sizing: border-box;
 }
+
+/* Colors *****************************************/
+
+:root {
+  --primary-color: #f33f3f;
+  --lighten-color: #f6a88a;
+  --grey-100: #ffffff;
+  --grey-200: #f0f0f0;
+  --grey-300: #aaaaaa;
+  --grey-400: #747886;
+  --grey-500: #383839;
+  --grey-600: #222222;
+  --grey-700: #000000;
+  --modal-bg-color: rgba(0, 0, 0, 0.6);
+  --loading-overlay-bg-color: rgba(0, 0, 0, 0.5);
+  --loading-animation-bg-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Common Elements *******************************/
 
 body {
   font-size: 14px;
-  background-color: #222222;
-  color: #fff;
+  background-color: var(--grey-600);
+  color: var(--grey-100);
 }
 
 a {
@@ -17,6 +36,17 @@ button {
   cursor: pointer;
 }
 
+button.btn {
+  border: 0;
+  border-radius: 8px;
+  height: 30px;
+  color: var(--grey-100);
+}
+
+button.primary {
+  background: var(--primary-color);
+}
+
 #app {
   padding-bottom: 48px;
 }
@@ -24,6 +54,23 @@ button {
 *:focus {
   outline: none;
 }
+
+/* Common Style Sets ****************************/
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.display-none {
+  display: none;
+}
+
+.display-inline {
+  display: inline-block;
+}
+
+/* Element Classes *****************************/
+
 .item-view,
 .item-test {
   width: 100%;
@@ -118,32 +165,8 @@ button {
   margin-top: 48px;
 }
 
-button.btn {
-  border: 0;
-  border-radius: 8px;
-  height: 30px;
-  color: #fff;
-}
-
-button.primary {
-  background: #f33f3f;
-}
-
-/* common util style set */
-.overflow-hidden {
-  overflow: hidden;
-}
-
-.display-none {
-  display: none;
-}
-
-.display-inline {
-  display: inline-block;
-}
-
 .item-card .skeleton {
-  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background: linear-gradient(-90deg, var(--grey-200), var(--grey-300), var(--grey-200), var(--grey-300));
   background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
   border-radius: 8px;
@@ -164,12 +187,12 @@ button.primary {
 header {
   width: 100%;
   height: 72px;
-  background-color: #222;
+  background-color: var(--grey-600);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid var(--grey-100);
   margin-bottom: 48px;
 }
 
@@ -179,24 +202,24 @@ header h1 {
   font-size: 2rem;
   font-weight: bold;
   letter-spacing: -0.1rem;
-  color: #f33f3f;
+  color: var(--primary-color);
 }
 
-header > img.logo:hover {
+img.logo:hover {
   cursor: pointer;
 }
 
-header > .search-box {
-  background: #fff;
+.search-box {
+  background: var(--grey-100);
   padding: 8px;
   border-radius: 4px;
 }
 
-header .search-box > input {
+.search-box > input {
   border: 0;
 }
 
-header .search-box > .search-button {
+.search-box > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
@@ -220,6 +243,8 @@ header .search-box > .search-button {
   text-align: center;
   line-height: 36px;
 }
+
+/* Screen Size Responsive Elements ***************/
 
 @media (max-width: 920px) {
   .item-view h2 {

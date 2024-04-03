@@ -11,5 +11,5 @@ dialog {
 }
 
 dialog::backdrop {
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--modal-bg-color);
 }
