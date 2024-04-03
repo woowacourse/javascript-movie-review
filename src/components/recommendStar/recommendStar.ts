@@ -1,7 +1,7 @@
 import filledStar from '../../images/star_filled.png';
 import emptyStar from '../../images/star_empty.png';
 import { SCORE_MESSAGE } from '../../constants/constant';
-import { MovieDetail, UserMovieDetail } from '../../interface/Movie';
+import { UserMovieDetail } from '../../interface/Movie';
 import { setRecommendList } from '../../domain/LocalStorage';
 export class RecommendStar {
   private userMovieDetail;
