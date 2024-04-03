@@ -102,6 +102,7 @@ export default class MovieList extends EventComponent {
 
       if (clickedMovieId) {
         this.movieState.set(Number(clickedMovieId));
+        document.body.classList.add("no-scroll");
         $<HTMLElement>("movie-detail-modal")?.classList.toggle("modal-open");
       }
     }

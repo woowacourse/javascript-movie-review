@@ -35,11 +35,10 @@ export default abstract class BaseModal extends EventComponent {
   }
 
   protected closeModal(): void {
-    if (this.isModalOpen()) {
-      if (this.$modal) {
-        this.$modal.classList.remove("modal-open");
-        this.$modal.innerHTML = "";
-      }
+    if (this.$modal && this.$modal.classList.contains("modal-open")) {
+      this.$modal.innerHTML = "";
+      document.body.classList.remove("no-scroll");
+      this.$modal.classList.remove("modal-open");
     }
   }
 
@@ -47,9 +46,5 @@ export default abstract class BaseModal extends EventComponent {
     if (event.key === "Escape") {
       this.closeModal();
     }
-  }
-
-  private isModalOpen(): boolean {
-    return this.$modal?.classList.contains("modal-open") ?? false;
   }
 }

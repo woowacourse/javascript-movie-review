@@ -26,8 +26,9 @@ button {
   outline: none;
 }
 
-.hidden {
-  display: none;
+.no-scroll {
+  overflow: hidden;
+  height: 100%;
 }
 
 .item-view,
