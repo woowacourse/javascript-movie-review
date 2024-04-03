@@ -1,4 +1,6 @@
 import logoImg from '../assets/images/logo.png';
+import searchButtonImg from '../assets/images/search_button.png';
+
 import { replaceMain } from './main';
 import { SEARCH_MOVIES_URL } from '../constants/tmdbConstants';
 import movieStateMethod from '../store/movieStore';
@@ -60,21 +62,38 @@ function getSearchBoxButton() {
   return buttonTag;
 }
 
-function getSearchBox() {
+function getSearchForm() {
   const searchBox = document.createElement('form');
   const input = getSearchBoxInput();
-  const button = getSearchBoxButton();
-  searchBox.classList.add('search-box');
+  const submitButton = getSearchBoxButton();
+  searchBox.className = 'search-box absolute right-20 mobile-visibility-hidden';
   searchBox.onsubmit = (e) => submitSearchEventHandler(e as ISearchSubmitEvent<ISearchInput>);
-  searchBox.append(input, button);
+  searchBox.append(input, submitButton);
   return searchBox;
+}
+
+function openFormHandler(button: HTMLButtonElement, searchBox: HTMLFormElement) {
+  button.classList.remove('mobile-visibility-visible');
+  button.classList.add('mobile-visibility-hidden');
+
+  searchBox.classList.remove('mobile-visibility-hidden');
+  searchBox.classList.add('mobile-visibility-visible');
+}
+
+function getMobileToggle(searchBox: HTMLFormElement) {
+  const button = document.createElement('button');
+  button.className = 'right-20 mobile-visibility-visible mobile-search-button absolute flex-XY-aligned';
+  button.innerHTML = `<img src=${searchButtonImg} alt="search-form-toggle" class="w-14"></img>`;
+  button.onclick = () => openFormHandler(button, searchBox);
+  return button;
 }
 
 function getHeader() {
   const headerTag = document.createElement('header');
   const logo = getLogo();
-  const searchBox = getSearchBox();
-  headerTag.append(logo, searchBox);
+  const searchBox = getSearchForm();
+  const mobileToggle = getMobileToggle(searchBox);
+  headerTag.append(logo, searchBox, mobileToggle);
   return headerTag;
 }
 

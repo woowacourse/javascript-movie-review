@@ -17,11 +17,6 @@
   align-items: center;
 }
 
-/* .flex-column {
-  display: flex;
-  flex-direction: column;
-} */
-
 .padding-32 {
   padding: 32px;
 }
@@ -62,12 +57,24 @@
   height: 20px;
 }
 
+.w-14 {
+  width: 14px;
+}
+
 .w-100 {
   width: 100px;
 }
 
 .w-1-ratio {
   width: 100%;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.right-20 {
+  right: 20px;
 }
 
 .movie-detail-button {
@@ -191,4 +198,11 @@ dialog::backdrop {
 
 .topScrollButton:hover {
   transform: translate(0, -8%);
+}
+
+.mobile-search-button {
+  width: 35px;
+  background-color: white;
+  aspect-ratio: 1/1;
+  border-radius: 4px;
 }
