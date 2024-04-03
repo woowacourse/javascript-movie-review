@@ -12,8 +12,9 @@ class StarRating {
     this.#stars = Array.from({ length: starCount }).map(() => new StarToggle());
 
     this.#stars.forEach(el => el.$target.addEventListener('click', this.#starClickHandler.bind(this)));
-    this.$target.addEventListener('click', onClick ?? ((e: MouseEvent) => {}));
     this.$target.append(...this.#stars.map(el => el.$target));
+
+    onClick && this.$target.addEventListener('click', (e: MouseEvent) => {});
   }
 
   #starClickHandler(e: Event) {
