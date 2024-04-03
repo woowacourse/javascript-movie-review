@@ -32,7 +32,7 @@
 
 .item-list {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
   padding: 48px 0;
   column-gap: 100px;
