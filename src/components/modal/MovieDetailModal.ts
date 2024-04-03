@@ -40,7 +40,9 @@ export default class MovieDetailModal extends BaseModal {
 
   protected getModalContent(): HTMLTemplate {
     const starRating = storage.get<Record<number, number>>("starRating") ?? {};
-    const rating = starRating[this.movieState.get() as number] ?? 0;
+
+    const movieId = this.movieState.get();
+    const rating = typeof movieId === "number" ? starRating[movieId] ?? 0 : 0;
 
     return generateMovieDetailModal(this.movieDetail, rating);
   }
@@ -79,8 +81,7 @@ export default class MovieDetailModal extends BaseModal {
   private updateStarRatingUI(rating: number): void {
     const $starRatingContainer = $<HTMLElement>("star-rating-container");
     if (!$starRatingContainer) return;
-    const newStarRatingHTML = generateStarRating(rating);
-    $starRatingContainer.innerHTML = newStarRatingHTML;
+    $starRatingContainer.innerHTML = generateStarRating(rating);
   }
 
   private async fetchMovieDetail(params: number | null) {
