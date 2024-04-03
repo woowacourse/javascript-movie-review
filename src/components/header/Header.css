@@ -32,9 +32,10 @@ header .search-box {
 
 header .search-box > input {
   border: 0;
+  background-color: transparent;
 }
 
-header .search-box > .search-box {
+header .search-box > .search-button {
   border: 0;
   background: transparent no-repeat 0 1px;
 }

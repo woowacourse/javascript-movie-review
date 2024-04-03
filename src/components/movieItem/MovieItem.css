@@ -1,3 +1,8 @@
+.item-title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
 .item-caption {
   display: flex;
   gap: 10px;

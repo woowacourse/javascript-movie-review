@@ -52,9 +52,9 @@ class Header {
       children: [childImage],
       onClick: () => {
         const $searchBox = dom.getElement(this.$target, '.search-box');
+        dom.getElement(this.$target, '.header-title').style.display = 'none';
         $searchBox.style.width = '100%';
         $searchBox.style.justifyContent = 'flex-end';
-        dom.getElement(this.$target, '.header-title').style.display = 'none';
         this.$target.style.justifyContent = 'flex-end';
       },
     });
