@@ -3,7 +3,7 @@ import { setEndpoint, setUrlParams } from '../../utils/queryString';
 import '../SearchBox/SearchBox.css';
 import Toast from '../Toast/Toast';
 import searchIcon from '../../assets/search_button.png';
-
+import { debounce } from '../../utils/debounce';
 class searchInputBox {
   currentPage: number = 1;
   totalPage: number = 1;
@@ -68,14 +68,8 @@ class searchInputBox {
   setEvents() {
     this.changeViewByResize();
 
-    let resizeEvent: NodeJS.Timeout | null;
-
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeEvent!);
-      resizeEvent = setTimeout(() => {
-        this.changeViewByResize();
-      }, 500);
-    });
+    const debouncedResize = debounce(this.changeViewByResize.bind(this), 1000);
+    window.addEventListener('resize', debouncedResize);
 
     this.setSubmitEvent();
 
