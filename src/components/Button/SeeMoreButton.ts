@@ -1,9 +1,9 @@
 import { MoviePosterType } from "../MoviePosterBoard/MoviePosterBoard";
 import { fetchPopularMovie, fetchTargetMovie } from "../../apis/fetchMovie";
-import createButton from "./createButton";
-import { MovieInfo } from "../MoviePoster/createMoviePoster";
+import createButton from "./common/createButton";
+import { MovieInfo } from "../MoviePoster/MoviePoster";
 
-class createSeeMoreButton {
+class SeeMoreButton {
   private buttonElement: HTMLButtonElement;
   private currentPage: number;
   private totalPage: number | null;
@@ -53,4 +53,4 @@ class createSeeMoreButton {
   }
 }
 
-export default createSeeMoreButton;
+export default SeeMoreButton;

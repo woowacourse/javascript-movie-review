@@ -1,7 +1,7 @@
 import "./style.css";
 
 import createElement from "../../utils/createElement";
-import createCloseButton from "../Button/createCloseButton";
+import CloseButton from "../Button/CloseButton";
 import { fetchMovieDetail } from "../../apis/fetchMovie";
 import createModal from "./common/createModal";
 import starFills from "../MoviePoster/star_filled.png";
@@ -82,7 +82,7 @@ class MovieDetailModal {
       tagName: "h1",
       contents: title,
     });
-    const closeButton = createCloseButton(this.closeModalBind);
+    const closeButton = new CloseButton(this.closeModalBind).element;
 
     movieDetailHeader.append(invisibleElement, movieTitle, closeButton);
 

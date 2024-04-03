@@ -1,0 +1,59 @@
+import "./style.css";
+
+import MoviePosterBoard, {
+  MoviePosterType,
+} from "../MoviePosterBoard/MoviePosterBoard";
+
+import { $ } from "../../utils/selector";
+import ERROR_MEOW_BASE64 from "./ERROR_MEOW_BASE64";
+import createButton from "../Button/common/createButton";
+import createElement from "../../utils/createElement";
+
+const handleButtonClick = (posterType: MoviePosterType, movieName?: string) => {
+  const moviePosterBoard = new MoviePosterBoard(posterType, movieName);
+  $("body>section")?.remove();
+  $("body")?.append(moviePosterBoard.element);
+};
+
+class NetworkFallback {
+  private sectionElement: HTMLElement;
+
+  constructor(posterType: MoviePosterType, movieName?: string) {
+    this.sectionElement = createElement({
+      tagName: "section",
+      attrs: { class: "network-error-fallback" },
+    });
+
+    const img = createElement({
+      tagName: "img",
+      attrs: {
+        src: ERROR_MEOW_BASE64,
+        alt: "ERROR_MEOW",
+        class: "error-meow",
+      },
+    });
+
+    const mainText = createElement({
+      tagName: "h2",
+      contents: "오늘부터 인터넷은 내가 지배한다옹~",
+    });
+    const subText = createElement({
+      tagName: "h3",
+      contents: "(🙀 고양이가 인터넷 선을 물어뜯지는 않았는지 확인해보세요 🙀)",
+    });
+
+    const retryButton = createButton("재시도", () =>
+      handleButtonClick(posterType, movieName)
+    );
+    retryButton.classList.remove("full-width");
+    retryButton.classList.add("reconnect-network-btn");
+
+    this.sectionElement.append(img, mainText, subText, retryButton);
+  }
+
+  get element() {
+    return this.sectionElement;
+  }
+}
+
+export default NetworkFallback;

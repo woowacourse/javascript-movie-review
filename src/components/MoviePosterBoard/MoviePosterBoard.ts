@@ -1,12 +1,12 @@
 import "./style.css";
 
-import createMoviePoster, { MovieInfo } from "../MoviePoster/createMoviePoster";
+import MoviePoster, { MovieInfo } from "../MoviePoster/MoviePoster";
 
 import { $, $$ } from "../../utils/selector";
 import createElement from "../../utils/createElement";
-import createNetworkFallback from "../NetworkErrorFallBack/createNetworkErrorFallback";
-import createSkeletonMoviePoster from "../MoviePoster/createSkeletonMoviePoster";
-import createSeeMoreButton from "../Button/createSeeMoreButton";
+import NetworkFallback from "../NetworkErrorFallBack/NetworkErrorFallback";
+import SkeletonMoviePoster from "../MoviePoster/SkeletonMoviePoster";
+import SeeMoreButton from "../Button/SeeMoreButton";
 import MovieDetailModal from "../Modal/MovieDetailModal";
 
 export type MoviePosterType = "popular" | "search";
@@ -27,13 +27,15 @@ class MoviePosterBoard {
 
     this.moviePosterUl.addEventListener("click", this.openMovieDetailModal);
 
-    this.seeMoreButton = new createSeeMoreButton();
+    this.seeMoreButton = new SeeMoreButton();
     this.element.append(this.moviePosterUl);
     this.handleSeeMoreButton(posterType, movieName);
   }
 
   private addMoviePoster(movieInfos: MovieInfo[]) {
-    const newMoviePosters = movieInfos.map(createMoviePoster);
+    const newMoviePosters = movieInfos.map(
+      (movieInfo) => new MoviePoster(movieInfo).element
+    );
 
     this.moviePosterUl.append(...newMoviePosters);
   }
@@ -66,14 +68,17 @@ class MoviePosterBoard {
   }
 
   private createSkeletons(count: number) {
-    return Array.from({ length: count }).map(createSkeletonMoviePoster);
+    return Array.from({ length: count }).map(
+      () => new SkeletonMoviePoster().element
+    );
   }
 
   private showNetworkFallbackComponent(
     posterType: MoviePosterType,
     movieName?: string
   ) {
-    const networkErrorFallback = createNetworkFallback(posterType, movieName);
+    const networkErrorFallback = new NetworkFallback(posterType, movieName)
+      .element;
     $("body>section")?.remove();
     $("body")?.append(networkErrorFallback);
   }
