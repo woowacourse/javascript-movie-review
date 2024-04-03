@@ -82,18 +82,22 @@ class MovieApp {
     const section = document.createElement('section');
     section.classList.add('item-view');
     section.id = 'section--item-view';
-
-    const ul = document.createElement('ul');
-    ul.classList.add('item-list');
-    ul.id = 'item-list';
-    movieDetailModal.handleDetailModal(ul);
-
+    
+    const ul = this.createItemList();
     const h2 = document.createElement('h2');
     h2.textContent = titleMessage;
 
     section.appendChild(h2);
     section.appendChild(ul);
     return section;
+  }
+
+  createItemList() {
+    const ul = document.createElement('ul');
+    ul.classList.add('item-list');
+    ul.id = 'item-list';
+    movieDetailModal.handleDetailModal(ul);
+    return ul;
   }
 
   createMainSkeleton() {
