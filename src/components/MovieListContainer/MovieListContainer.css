@@ -7,31 +7,6 @@
   grid-row-gap: 3rem;
 }
 
-.error-message-container {
-  position: fixed;
-  top: 4rem;
-  left: 50%;
-  transform: translateX(-50%);
-
-  padding: 1rem 2rem;
-  border-top: 0.5rem solid #ce0606;
-  line-height: 3rem;
-
-  color: var(--gray-300);
-  background-color: var(--white-100);
-}
-
-.error-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-
-  color: #ce0606;
-}
-
-.error-text {
-  font-size: 1rem;
-}
-
 @media screen and (max-width: 1220px) {
   .item-list {
     margin: 36px 0;
@@ -45,22 +20,5 @@
     margin: 24px 0;
     grid-template-columns: repeat(2, 140px);
     grid-column-gap: 64px;
-  }
-
-  .error-message-container {
-    line-height: 1.5rem;
-  }
-
-  .error-title {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .error-text {
-    font-size: 0.75rem;
-  }
-
-  .error-message {
-    line-height: 24px;
   }
 }

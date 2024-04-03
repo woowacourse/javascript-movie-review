@@ -1,11 +1,14 @@
 import Component from "../common/Component";
 import MovieList from "../MovieList/MovieList";
 import { hideSkeleton, renderSkeleton } from "../Skeleton/Skeleton";
+import NetworkErrorMessage from "../NetworkErrorMessage/NetworkErrorMessage";
 
-import MovieListManager from "../../domains/MovieListManager/MovieListManager";
+import MovieListAPI from "../../domains/MovieListAPI/MovieListAPI";
+import MovieListPage from "../../domains/MovieListPage/MovieListPage";
 
 import { $ } from "../../utils/dom";
 import { createScrollObserver } from "../../utils/scroll-observer";
+import { Optional } from "../../types/utility";
 
 import "./MovieListContainer.css";
 
@@ -14,25 +17,28 @@ interface MovieListContainerProps {
 }
 
 export default class MovieListContainer extends Component<MovieListContainerProps, {}> {
-  private movieList: MovieList | undefined;
+  private movieList: Optional<MovieList>;
 
-  private manager: MovieListManager | undefined;
+  private networkErrorMessage: Optional<NetworkErrorMessage>;
 
-  private scrollObserver: IntersectionObserver | undefined;
+  private api: Optional<MovieListAPI>;
+
+  private scrollObserver: Optional<IntersectionObserver>;
+
+  private listPage: Optional<MovieListPage>;
 
   protected getTemplate(): string {
     return /*html*/ `
       <ul id="movie-list-container" class="item-list"></ul>
-      <div id="error-message-container" class="w-4_5 rounded-lg error-message-container hidden">
-        <p class="error-title">! 문제가 발생했습니다.</p>
-        <p id="error-description" class="font-normal error-text"></p> 
-        <p class="font-normal error-text">페이지를 새로 고침 하거나 다시 시도해주세요.</p>
-      </div>
     `;
   }
 
   protected initializeState(): void {
-    this.manager = new MovieListManager(this.props?.searchKeyword);
+    this.api = new MovieListAPI(this.props?.searchKeyword);
+
+    this.networkErrorMessage = new NetworkErrorMessage(this.$target);
+
+    this.listPage = new MovieListPage(1);
   }
 
   protected render() {
@@ -75,37 +81,37 @@ export default class MovieListContainer extends Component<MovieListContainerProp
     }
   }
 
-  private showErrorMessage(message: string) {
-    const $div = $<HTMLDivElement>("#error-message-container");
-    const $p = $<HTMLParagraphElement>("#error-description");
+  private handleRemoveScrollTrigger() {
+    if (!this.listPage?.isEndPage()) return;
 
-    if (!$div || !$p) return;
+    this.removeScrollTrigger();
+  }
 
-    $div.classList.remove("hidden");
-    $p.innerText = message;
-
-    document.body.classList.add("overflow-hidden");
+  private updatePage(currentPage: number) {
+    if (currentPage) {
+      this.listPage?.setPage(currentPage + 1);
+    }
   }
 
   private async handleRenderMovieList() {
-    console.log("handleRenderMovieList exec");
-
     try {
+      const currentPage = this.listPage?.getPage();
+      if (!currentPage) return;
+
       renderSkeleton();
 
-      const movies = await this.manager?.fetchMovieList();
+      this.updatePage(currentPage);
+      const movies = await this.api?.fetchMovieList(currentPage);
 
       hideSkeleton();
 
       if (movies) {
         this.movieList?.renderMovies(movies);
       }
-      if (this.manager?.isEndPage()) {
-        this.removeScrollTrigger();
-      }
+      this.handleRemoveScrollTrigger();
     } catch (error) {
       if (error instanceof Error) {
-        this.showErrorMessage(error.message);
+        this.networkErrorMessage?.show(error.message);
       }
     }
   }
