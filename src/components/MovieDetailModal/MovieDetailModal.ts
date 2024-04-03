@@ -49,10 +49,10 @@ class MovieDetailModal {
   createMovieDetail() {
     const html = `
     <div class="movie-detail-header">
-      <h class="font-title movie-detail-title">
+      <h1 class="font-title movie-detail-title">
       타이틀이에요
-      </h>
-      <img class="close-button" src=${CloseButton} alt="딛기"></img>
+      </h1>
+      <img class="close-button" src=${CloseButton} alt="닫기"></img>
     </div>
     <main class="detail-items">
       <div class="detail-poster-container">
