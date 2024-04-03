@@ -72,18 +72,20 @@ export default class App {
     this.#removePreviousError();
 
     const ulElement = document.querySelector('ul.item-list');
+    if (!ulElement) return;
 
-    if (ulElement) {
-      const skeletonCount = this.#getSkeletonCount();
-      this.#generateSkeletonUI(ulElement as HTMLElement, skeletonCount);
+    const skeletonCount = this.#getSkeletonCount();
+    this.#generateSkeletonUI(ulElement as HTMLElement, skeletonCount);
 
-      const newData = await fetchData();
+    const newData = await fetchData();
 
-      this.#removeSkeletonUI();
-      this.#appendMovieCard(newData, ulElement as HTMLElement);
+    this.#removeSkeletonUI();
 
-      this.#observeSentinel();
-    }
+    if (!newData) return;
+
+    this.#appendMovieCard(newData, ulElement as HTMLElement);
+
+    this.#observeSentinel();
   }
 
   #changeTitle(title: string) {
