@@ -9,13 +9,12 @@ import {
   ERROR_MESSAGE,
   INFO_MESSAGE,
   MAX_PAGE_PER_REQUEST,
-  TAB,
   TITLE_TEXT,
 } from '../../constant/setting';
 import MovieModal from '../MovieModal/MovieModal';
+import ScrollUtility from '../../utility/infiniteScroll';
 
 class MovieList {
-  #movieTitle: string;
   #movieID: number;
   #movieListSection;
   #popularCurrentPage = 1;
@@ -24,7 +23,6 @@ class MovieList {
 
   constructor() {
     this.#movieModal = new MovieModal();
-    this.#movieTitle = '';
     this.#movieID = 0;
     this.#movieListSection = $('.item-view') as Element;
 
@@ -68,8 +66,10 @@ class MovieList {
   #handlePopularPagination(data: IMovieItemData[]) {
     if (data.length < MAX_PAGE_PER_REQUEST) {
       this.#displayMaxPageInfo();
+      ScrollUtility.disconnectObserver();
     } else {
-      this.#setupIntersectionObserver(TAB.POPULAR);
+      const target = $('.item-list')?.lastChild as HTMLLIElement;
+      ScrollUtility.infiniteScroll(target, () => this.#onPopularIntersect());
     }
   }
 
@@ -93,32 +93,14 @@ class MovieList {
     });
   }
 
-  #setupIntersectionObserver(tab: string, titleInput?: string) {
-    const options = {
-      threshold: 0.1,
-    };
+  #onPopularIntersect() {
+    this.#popularCurrentPage += 1;
+    this.#renderPopularMovieItems();
+  }
 
-    const observer = new IntersectionObserver((entries) => {
-      const lastEntry = entries[entries.length - 1];
-
-      if (
-        lastEntry.isIntersecting &&
-        lastEntry.target === $('.item-list')?.lastChild
-      ) {
-        if (tab === TAB.POPULAR) {
-          this.#popularCurrentPage += 1;
-          this.#renderPopularMovieItems();
-        }
-
-        if (tab === TAB.SEARCH && titleInput) {
-          this.#searchCurrentPage += 1;
-          this.#renderSearchedMovieItems(titleInput);
-        }
-      }
-    }, options);
-
-    const target = $('.item-list')?.lastChild as HTMLLIElement;
-    if (target) observer.observe(target);
+  #onSearchIntersect(titleInput: string) {
+    this.#searchCurrentPage += 1;
+    this.#renderSearchedMovieItems(titleInput);
   }
 
   #handleSearchFormSubmit(event: Event, searchForm: HTMLElement | null) {
@@ -135,7 +117,6 @@ class MovieList {
       return;
     }
 
-    this.#movieTitle = titleInput;
     this.#movieListSection.innerHTML = '';
     this.#createSearchedMoviesSection(titleInput);
     this.#renderSearchedMovieItems(titleInput);
@@ -183,8 +164,12 @@ class MovieList {
   #handleSearchPagination(dataLength: number, titleInput: string) {
     if (dataLength < MAX_PAGE_PER_REQUEST) {
       this.#displayMaxPageInfo();
+      ScrollUtility.disconnectObserver();
     } else {
-      this.#setupIntersectionObserver(TAB.SEARCH, titleInput);
+      const target = $('.item-list')?.lastChild as HTMLLIElement;
+      ScrollUtility.infiniteScroll(target, () =>
+        this.#onSearchIntersect(titleInput),
+      );
     }
   }
 
