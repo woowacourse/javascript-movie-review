@@ -12,16 +12,26 @@ import MovieGenresCollection from './domain/MovieGenresCollection';
 
 import FloatingButton from './imgs/floating_button.svg';
 
+type AppEvents = 'GetPopularMovies' | 'GetMatchedMovies' | 'APIError' | 'toggleMovieDetailModal';
+
+const IS_SET_EVENT_LISTENERS_TABLE: Record<AppEvents, boolean> = {
+  GetPopularMovies: false,
+  GetMatchedMovies: false,
+  APIError: false,
+  toggleMovieDetailModal: false,
+};
+
 class MovieApp {
   private body = document.querySelector('body') as HTMLBodyElement;
   private header = new Header();
   private movieItems = new MovieItems();
   private movieDetailModal = new MovieDetailModal();
   private fallback = new Fallback();
+  private isSetEventListeners = IS_SET_EVENT_LISTENERS_TABLE;
 
   constructor() {
     this.createElements();
-    this.setEventListener();
+    this.setEventListeners();
     MovieGenresCollection.initialize();
   }
 
@@ -47,7 +57,7 @@ class MovieApp {
     return button;
   }
 
-  setEventListener() {
+  setEventListeners() {
     this.setGetPopularMoviesEventListener();
     this.setGetMatchedMoviesEventListener();
     this.setAPIErrorEventListener();
@@ -55,14 +65,17 @@ class MovieApp {
   }
 
   setGetPopularMoviesEventListener() {
+    if (this.isSetEventListeners.GetPopularMovies) return;
     document.addEventListener('GetPopularMovies', () => {
       this.movieItems.moviesService = new PopularMoviesService();
 
       this.reLoad();
     });
+    this.isSetEventListeners.GetPopularMovies = true;
   }
 
   setGetMatchedMoviesEventListener() {
+    if (this.isSetEventListeners.GetMatchedMovies) return;
     document.addEventListener('GetMatchedMovies', (event) => {
       if (!(event instanceof CustomEvent)) return;
       const { query } = event.detail;
@@ -70,9 +83,11 @@ class MovieApp {
       this.movieItems.moviesService = new MatchedMoviesService(query);
       this.reLoad();
     });
+    this.isSetEventListeners.GetMatchedMovies = true;
   }
 
   setAPIErrorEventListener() {
+    if (this.isSetEventListeners.APIError) return;
     document.addEventListener('APIError', (event) => {
       if (!(event instanceof CustomEvent)) return;
       const main = this.body.querySelector('.item-view') as HTMLElement;
@@ -80,14 +95,17 @@ class MovieApp {
       this.fallback.setFallbackMessage(event.detail.message);
       this.fallback.toggleHidden();
     });
+    this.isSetEventListeners.APIError = true;
   }
 
   setToggleMovieDetailModalEventListener() {
+    if (this.isSetEventListeners.toggleMovieDetailModal) return;
     document.addEventListener('toggleMovieDetailModal', (event) => {
       if (!(event instanceof CustomEvent)) return;
       this.movieDetailModal.setMovieDetail(event.detail.value);
       this.movieDetailModal.toggleModal();
     });
+    this.isSetEventListeners.toggleMovieDetailModal = true;
   }
 
   reLoad() {
