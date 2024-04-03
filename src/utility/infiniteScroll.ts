@@ -12,7 +12,6 @@ export const infiniteScroll = {
   },
 
   async addInfiniteScroll(callback: () => Promise<void>) {
-    this.addScrollAnchorDiv();
     this.observeLastItem(callback);
   },
 
@@ -27,8 +26,9 @@ export const infiniteScroll = {
   },
 
   observeLastItem(callback: () => Promise<void>): void {
-    const scrollAnchor = document.querySelector(".scroll-anchor");
-    if (!scrollAnchor) return;
+    const thumbnails = document.querySelectorAll(".item-thumbnail");
+    const lastItem = thumbnails[thumbnails.length - 1] as HTMLElement;
+    if (!lastItem) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -40,6 +40,6 @@ export const infiniteScroll = {
       { threshold: 0.2 }
     );
 
-    observer.observe(scrollAnchor);
+    observer.observe(lastItem);
   },
 };
