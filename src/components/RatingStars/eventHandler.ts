@@ -1,10 +1,10 @@
-const handleMouseover = (updateStars: (rating: number) => void, rating: number) => {
+export const updateStarsOnHover = (updateStars: (rating: number) => void, rating: number) => {
   return () => {
     updateStars(rating);
   };
 };
 
-const handleClick =
+export const saveRatingOnClick =
   ({ rating, movieId }: { rating: number; movieId: number }) =>
   () => {
     const ratingsStr = localStorage.getItem('movieRatings');
@@ -20,5 +20,3 @@ const handleClick =
 
     localStorage.setItem('movieRatings', JSON.stringify(ratings));
   };
-
-export { handleMouseover, handleClick };

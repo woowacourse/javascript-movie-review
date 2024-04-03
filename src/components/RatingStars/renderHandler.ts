@@ -1,7 +1,7 @@
 import createElement from '../../utils/createElement';
 import starFilled from '../../../templates/star_filled.png';
 import starEmpty from '../../../templates/star_empty.png';
-import { handleClick, handleMouseover } from './eventHandler';
+import { saveRatingOnClick, updateStarsOnHover } from './eventHandler';
 
 const updateStars = (starsContainer: HTMLElement, rating: number | null): void => {
   const filledStars = rating ? Math.floor(rating / 2) : 0;
@@ -41,9 +41,9 @@ const createStars = (movieId: number, starsContainer: HTMLElement): void => {
       'data-rating': (i * 2).toString(),
     });
 
-    starImage.addEventListener('mouseover', handleMouseover(updateStars.bind(null, starsContainer), i * 2));
+    starImage.addEventListener('mouseover', updateStarsOnHover(updateStars.bind(null, starsContainer), i * 2));
     starImage.addEventListener('click', (event) => {
-      handleClick({ rating: i * 2, movieId })();
+      saveRatingOnClick({ rating: i * 2, movieId })();
       updateScoreComment(starsContainer, i * 2);
     });
 
