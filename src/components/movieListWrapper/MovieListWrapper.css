@@ -1,0 +1,48 @@
+/* movie-wrapper */
+.item-view,
+.item-test {
+  width: 100%;
+}
+
+.item-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 132px 16px 48px 16px;
+}
+
+/* 데스크탑 규격 */
+@media screen and (min-width: 1024px) {
+  .item-view {
+    max-width: 1200px;
+  }
+}
+
+/* mobile 규격 */
+@media screen and (max-width: 767px) {
+  .item-view {
+    max-width: 450px;
+  }
+}
+
+.item-view h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  user-select: none;
+}
+
+/* mobile 규격 */
+@media screen and (max-width: 767px) {
+  .item-view h2 {
+    font-size: 1.8rem;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.last-item {
+  margin-top: 48px;
+}

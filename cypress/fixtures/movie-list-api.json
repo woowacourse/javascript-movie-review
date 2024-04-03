@@ -1,0 +1,6 @@
+{
+  "BASE_URL": "https://api.themoviedb.org/3",
+  "POPULAR_MOVIES_URL": "https://api.themoviedb.org/3/movie/popular",
+  "MOVIE_SEARCH_URL": "https://api.themoviedb.org/3/search/movie",
+  "LAST_PAGE": 500
+}

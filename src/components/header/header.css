@@ -1,0 +1,59 @@
+header {
+  position: fixed;
+  width: 100vw;
+  height: 72px;
+  background-color: #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 32px;
+  border-bottom: 1px solid white;
+  margin-bottom: 48px;
+  cursor: pointer;
+  overflow: auto;
+}
+
+.logo {
+  cursor: pointer;
+  user-select: none;
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: -0.1rem;
+  color: #f33f3f;
+}
+
+.search-box {
+  display: flex;
+  justify-content: space-between;
+  width: 320px;
+  background: #fff;
+  padding: 8px 13px;
+  border-radius: 4px;
+}
+
+.search-input {
+  width: 100%;
+  border: 0;
+}
+
+.search-button {
+  width: 15px;
+  border: 0;
+  text-indent: -1000rem;
+  background: url('../../images/search_button.png') transparent no-repeat 0 1px;
+  background-size: contain;
+}
+
+/* mobile 규격 */
+@media screen and (max-width: 767px) {
+  .logo.closed,
+  .search-input.closed {
+    display: none;
+  }
+  .search-box {
+    width: 100%;
+  }
+  .search-box.closed {
+    width: fit-content;
+  }
+}
