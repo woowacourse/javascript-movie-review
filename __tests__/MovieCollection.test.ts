@@ -21,7 +21,7 @@ describe('MovieCollection 테스트', () => {
     const movieCollection = new MovieCollection();
     movieCollection.add(MOVIE1);
 
-    expect(movieCollection.getMovies()).toEqual([MOVIE1]);
+    expect(movieCollection.get()).toEqual([MOVIE1]);
   });
 
   it('영화 하나를 제거했을 때, 제거된 영화가 얻어진다.', () => {
@@ -29,7 +29,7 @@ describe('MovieCollection 테스트', () => {
 
     movieCollection.remove(MOVIE1);
 
-    expect(movieCollection.getMovies()).toEqual([MOVIE2]);
+    expect(movieCollection.get()).toEqual([MOVIE2]);
   });
 
   it('영화 하나를 업데이트 했을 때, 해당 영화가 업데이트되어 얻어진다.', () => {
@@ -41,7 +41,7 @@ describe('MovieCollection 테스트', () => {
 
     movieCollection.update(UPDATED_MOVIE1);
 
-    expect(movieCollection.getMovies()).toEqual([UPDATED_MOVIE1, MOVIE2]);
+    expect(movieCollection.get()).toEqual([UPDATED_MOVIE1, MOVIE2]);
   });
 
   it('영화 목록에서 영화 하나만을 필터링한다.', () => {
