@@ -72,7 +72,7 @@ function getSearchForm() {
   return searchBox;
 }
 
-function openFormHandler(button: HTMLButtonElement, searchBox: HTMLFormElement) {
+function openSearchForm(button: HTMLButtonElement, searchBox: HTMLFormElement) {
   button.classList.remove('mobile-visibility-visible');
   button.classList.add('mobile-visibility-hidden');
 
@@ -80,11 +80,22 @@ function openFormHandler(button: HTMLButtonElement, searchBox: HTMLFormElement) 
   searchBox.classList.add('mobile-visibility-visible');
 }
 
+export function closeSearchForm() {
+  const button = document.querySelector('.mobile-search-button') as HTMLButtonElement;
+  const searchBox = document.querySelector('.search-box') as HTMLFormElement;
+
+  button.classList.add('mobile-visibility-visible');
+  button.classList.remove('mobile-visibility-hidden');
+
+  searchBox.classList.add('mobile-visibility-hidden');
+  searchBox.classList.remove('mobile-visibility-visible');
+}
+
 function getMobileToggle(searchBox: HTMLFormElement) {
   const button = document.createElement('button');
   button.className = 'right-20 mobile-visibility-visible mobile-search-button absolute flex-XY-aligned';
   button.innerHTML = `<img src=${searchButtonImg} alt="search-form-toggle" class="w-14"></img>`;
-  button.onclick = () => openFormHandler(button, searchBox);
+  button.onclick = () => openSearchForm(button, searchBox);
   return button;
 }
 
