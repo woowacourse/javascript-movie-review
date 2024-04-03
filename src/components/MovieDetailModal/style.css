@@ -17,7 +17,7 @@
 }
 
 .modal-container {
-  z-index: 20;
+  z-index: var(--z-modal-container);
   box-sizing: border-box;
   position: fixed;
   inset: 50%;
@@ -70,7 +70,7 @@
   position: absolute;
   background-size: cover;
   background-position: center;
-  z-index: -5;
+  z-index: var(--z-modal-backdrop-image);
   inset: 0;
 }
 .detail-poster-container {
