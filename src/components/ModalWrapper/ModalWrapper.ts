@@ -12,6 +12,11 @@ class ModalWrapper {
     this.#modal.appendChild(this.#modalContent);
 
     this.#modalBackdrop.addEventListener('click', this.toggle.bind(this));
+    document.addEventListener('keydown', (event) => {
+      if (this.#modal.classList.contains('modal--open') && event.key === 'Escape') {
+        this.toggle();
+      }
+    });
   }
 
   get element() {
