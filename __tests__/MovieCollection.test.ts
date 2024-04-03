@@ -44,6 +44,12 @@ describe('MovieCollection 테스트', () => {
     expect(movieCollection.getMovies()).toEqual([UPDATED_MOVIE1, MOVIE2]);
   });
 
+  it('영화 목록에서 영화 하나만을 필터링한다.', () => {
+    const movieCollection = new MovieCollection([MOVIE1, MOVIE2]);
+
+    expect(movieCollection.getFiltered(MOVIE1)).toEqual([MOVIE1]);
+  });
+
   it('영화 목록에서 별점 정보만을 반환한다.', () => {
     const movieCollection = new MovieCollection([MOVIE1, MOVIE2]);
 

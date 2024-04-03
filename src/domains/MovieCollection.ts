@@ -24,5 +24,9 @@ class MovieCollection {
   getScoresInfo() {
     return this.movies.map(movie => new Movie(movie).getScoreInfo());
   }
+
+  getFiltered(movie: IMovie) {
+    return this.movies.filter(m => new Movie(m).equal(movie));
+  }
 }
 export default MovieCollection;
