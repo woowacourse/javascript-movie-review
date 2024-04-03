@@ -22,11 +22,6 @@ class MovieInfoModal {
     document.body.style.overflow = 'hidden';
   }
 
-  handleKeyPress = (event: KeyboardEvent) => {
-    const modal = getDomElement('#movie-detail-modal__open');
-    EscapeModal(modal, this.handleKeyPress, event, 'Escape');
-  };
-
   create() {
     const movieDetailModal = document.createElement('div');
     movieDetailModal.id = 'movie-detail-modal__open';
@@ -60,7 +55,14 @@ class MovieInfoModal {
       const modal = getDomElement('#movie-detail-modal__open');
       EscapeModal(modal, this.handleKeyPress);
     });
+
+    // getDomElement();
   }
+
+  handleKeyPress = (event: KeyboardEvent) => {
+    const modal = getDomElement('#movie-detail-modal__open');
+    EscapeModal(modal, this.handleKeyPress, event, 'Escape');
+  };
 
   #createHeader() {
     const header = document.createElement('div');

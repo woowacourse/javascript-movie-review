@@ -10,7 +10,7 @@ const ResizeHandler = {
   },
 
   mobileViewRemoveClass(target: HTMLElement, style: string) {
-    if (window.innerWidth <= DEVICE_WIDTH.mobileMax) {
+    if (window.innerWidth > DEVICE_WIDTH.mobileMax) {
       target.classList.remove(style);
     } else {
       target.classList.add(style);

@@ -1,23 +1,20 @@
 import SearchBox from '../SearchBox/SearchBox';
 import { logo } from '../../resources';
 import MovieList from '../MovieList/MovieList';
-import SearchValidator from '../../domain/Validator/SearchValidator';
-import ToastPopup from '../ToastPopup/ToastPopup';
 import { getDomElement } from '../../util/DOM';
-import ResizeHandler from '../../util/ResizeHandler';
 
 const MovieHeader = {
   create() {
     const header = document.createElement('header');
     const logoImgContainer = this.createLogoImgContainer();
-    const searchBox = SearchBox.create();
 
     header.appendChild(logoImgContainer);
-    header.appendChild(searchBox);
-    ResizeHandler.mobileViewAddClass(getDomElement('input', searchBox), 'hidden');
     getDomElement('#app').appendChild(header);
 
-    this.setHandle(logoImgContainer, searchBox);
+    const searchBox = SearchBox.create();
+    header.appendChild(searchBox);
+
+    this.setHandle(logoImgContainer);
   },
 
   createLogoImgContainer() {
@@ -32,43 +29,8 @@ const MovieHeader = {
     return logoImgContainer;
   },
 
-  setHandle(logoImgContainer: HTMLElement, searchBox: HTMLElement) {
-    const headerLogo = getDomElement('h1');
-    const searchButton = getDomElement('button', searchBox);
-    const searchInput = getDomElement('input', searchBox);
-    const computedStyles = window.getComputedStyle(searchInput);
-
-    window.addEventListener('resize', () => {
-      ResizeHandler.mobileViewAddClass(searchInput, 'hidden');
-      ResizeHandler.mobileViewRemoveClass(searchInput, 'hidden');
-    });
-    logoImgContainer.addEventListener('click', () => this.showPopularMovies(searchBox));
-
-    searchButton.addEventListener('click', () => {
-      if (computedStyles.display === 'none') {
-        ResizeHandler.mobileViewRemoveClass(searchInput, 'hidden');
-        ResizeHandler.mobileViewAddClass(headerLogo, 'hidden');
-        searchInput.focus();
-      } else {
-        this.showSearchMovies(searchBox);
-      }
-    });
-
-    searchInput.addEventListener('blur', () => {
-      const computedStyles = window.getComputedStyle(headerLogo);
-      if (computedStyles.display === 'none') {
-        setTimeout(() => {
-          ResizeHandler.mobileViewAddClass(searchInput, 'hidden');
-          ResizeHandler.mobileViewRemoveClass(headerLogo, 'hidden');
-        }, 300);
-      }
-    });
-
-    searchBox.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        this.showSearchMovies(searchBox);
-      }
-    });
+  setHandle(logoImgContainer: HTMLElement) {
+    logoImgContainer.addEventListener('click', () => this.showPopularMovies());
   },
 
   createMovieList(inputText?: string) {
@@ -78,21 +40,12 @@ const MovieHeader = {
     new MovieList(inputText);
   },
 
-  showPopularMovies(searchBox: HTMLElement) {
+  showPopularMovies() {
+    const searchBox = getDomElement('.search-box');
     const searchBoxInput = getDomElement<HTMLInputElement>('input', searchBox);
     searchBoxInput.value = '';
 
     this.createMovieList();
-  },
-
-  showSearchMovies(searchBox: HTMLElement) {
-    try {
-      const trimmedSearchInputText = getDomElement<HTMLInputElement>('input', searchBox).value.replace(/ +/g, ' ');
-      SearchValidator.validate(trimmedSearchInputText.trim());
-      this.createMovieList(trimmedSearchInputText);
-    } catch (e) {
-      if (e instanceof Error) ToastPopup(e.message, 2500);
-    }
   },
 };
 
