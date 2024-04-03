@@ -24,7 +24,7 @@ class TMDB implements MovieServiceType {
   private readonly apiKey;
 
   constructor() {
-    this.base = 'https://api.themoviedb.org/3';
+    this.base = getEnvVariable('TMDB_API_BASE_URL');
     this.apiKey = getEnvVariable('API_KEY');
   }
 

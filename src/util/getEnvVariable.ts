@@ -1,6 +1,7 @@
 const KEY_LIST: Record<string, string | undefined> = {
   API_KEY: process.env.API_KEY,
   ACCESS_TOKEN: process.env.ACCESS_TOKEN,
+  TMDB_API_BASE_URL: process.env.TMDB_API_BASE_URL,
 };
 
 function getEnvVariable(key: string): string {
