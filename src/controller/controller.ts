@@ -5,6 +5,7 @@ import PageManager from '../domain/pageManager';
 import { $ } from '../util/selector';
 import renderToast from '../component/toast/toast.js';
 import { setMainTitleText } from '../component/setMainTitleText';
+import startInfiniteScroll from '../util/startInfiniteScroll';
 
 export class App {
   private searchKeyword;
@@ -21,28 +22,8 @@ export class App {
     this.movieContainer = new MovieContainer();
 
     setMainTitleText('popular');
-    this.attachInfiniteScroll();
 
-    this.addMovieList();
-  }
-
-  private attachInfiniteScroll() {
-    const observer$ = $('.item-view .observer'); // 관찰할 대상(요소)
-    const options = {
-      root: null,
-      rootMargin: '0px 0px 0px 0px',
-      threshold: 0.2,
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      // TODO: isLoading 빼고도 정상 동작하는지 확인
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && !this.isLoading) {
-          this.addMovieList();
-        }
-      });
-    }, options);
-    observer.observe(observer$);
+    this.addMovieList(true);
   }
 
   async init() {
@@ -51,7 +32,7 @@ export class App {
     $('header > img.logo').addEventListener('logoClickEvent', () => this.makePopularPage());
   }
 
-  async addMovieList() {
+  async addMovieList(isStart: boolean) {
     if (this.isLoading) return;
 
     this.isLoading = true;
@@ -61,6 +42,8 @@ export class App {
     if (!moviePageData) return;
 
     this.movieContainer.pushNewMovieList(moviePageData);
+
+    if (isStart) this.attachInfiniteScroll();
   }
 
   async fetchMoviePageData() {
@@ -83,7 +66,7 @@ export class App {
     this.searchKeyword = $<HTMLInputElement>('form.search-box > input').value;
   }
 
-  makeSearchPage() {
+  async makeSearchPage() {
     this.pageManager.changePage('search');
     this.setSearchKeyword();
 
@@ -95,10 +78,12 @@ export class App {
     this.movieContainer.clearMovieList();
     setMainTitleText('search', this.searchKeyword);
 
-    this.addMovieList();
+    await this.addMovieList(false);
+
+    this.attachInfiniteScroll();
   }
 
-  makePopularPage() {
+  async makePopularPage() {
     this.pageManager.changePage('popular');
     this.movieContainer.clearMovieList();
     setMainTitleText('popular');
@@ -106,6 +91,12 @@ export class App {
     this.searchKeyword = '';
     $<HTMLFormElement>('form.search-box').reset();
 
-    this.addMovieList();
+    await this.addMovieList(false);
+    this.attachInfiniteScroll();
+  }
+
+  attachInfiniteScroll() {
+    const observer$ = $('.skeleton');
+    startInfiniteScroll(this.addMovieList.bind(this), observer$);
   }
 }
