@@ -1,14 +1,14 @@
-import renderErrorView from "../components/ErrorView";
+import { renderErrorItemView } from "../components/ErrorView";
 import { BASE_URL, endpoint, options } from "../config";
 import { MAX_PAGE } from "../constants/system";
 
-import dataStateStore from "./DataStateStore";
+import movieDataStateStore from "./MovieDataStateStore";
 
 class APIClient {
   #currentPage = 0;
 
-  #isShowMoreButton = (page: number, totalPage: number) =>
-    page < totalPage && page <= MAX_PAGE;
+  #isEndPage = (page: number, totalPage: number) =>
+    page >= totalPage || page > MAX_PAGE;
 
   #updateCurrentPage = (isResetCurrentPage: boolean) => {
     if (isResetCurrentPage) this.#currentPage = 1;
@@ -18,14 +18,9 @@ class APIClient {
   async getPopularMovieData(isResetCurrentPage: boolean) {
     this.#updateCurrentPage(isResetCurrentPage);
     const data = await this.fetchPopularMovie();
+    const isEndPage = this.#isEndPage(data.page, data.total_pages);
 
-    dataStateStore.getTotalMovieData(
-      {
-        movieList: data.results,
-        isShowMoreButton: this.#isShowMoreButton(data.page, data.total_pages),
-      },
-      isResetCurrentPage,
-    );
+    movieDataStateStore.addMovieData({ movieList: data.results, isEndPage });
   }
 
   async fetchPopularMovie() {
@@ -36,7 +31,7 @@ class APIClient {
       );
       return await response.json();
     } catch (error) {
-      renderErrorView();
+      renderErrorItemView();
       return error;
     }
   }
@@ -44,14 +39,9 @@ class APIClient {
   async getSearchMovieData(isResetCurrentPage: boolean, title: string) {
     this.#updateCurrentPage(isResetCurrentPage);
     const data = await this.fetchSearchMovie(title);
+    const isEndPage = this.#isEndPage(this.#currentPage, data.total_pages);
 
-    dataStateStore.getTotalMovieData(
-      {
-        movieList: data.results,
-        isShowMoreButton: this.#isShowMoreButton(data.page, data.total_pages),
-      },
-      isResetCurrentPage,
-    );
+    movieDataStateStore.addMovieData({ movieList: data.results, isEndPage });
   }
 
   async fetchSearchMovie(title: string) {
@@ -62,7 +52,25 @@ class APIClient {
       );
       return await response.json();
     } catch (error) {
-      renderErrorView();
+      renderErrorItemView();
+      return error;
+    }
+  }
+
+  async getOneMovieDetailData(movieId: number) {
+    const data = await this.fetchOneMovieDetail(movieId);
+    return data;
+  }
+
+  async fetchOneMovieDetail(movieId: number) {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/${endpoint.oneMovieDetail(movieId)}`,
+        options,
+      );
+      return await response.json();
+    } catch (error) {
+      renderErrorItemView();
       return error;
     }
   }

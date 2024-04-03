@@ -2,7 +2,12 @@ import { ERROR_VIEW_TEXT } from "../constants/system";
 
 const $main = document.querySelector("main");
 
-const renderErrorView = () => {
+export const removeErrorView = () => {
+  const $errorView = document.querySelector(".error-view");
+  $errorView?.remove();
+};
+
+export const renderErrorItemView = () => {
   const $errorView = document.querySelector(".error-view");
   if ($errorView) {
     return;
@@ -13,5 +18,3 @@ const renderErrorView = () => {
 
   $main?.appendChild($errorDiv);
 };
-
-export default renderErrorView;

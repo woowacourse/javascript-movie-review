@@ -1,30 +1,42 @@
-import { ListType, Movie, PartialMovieDataForItemView } from "../type/movie";
+import { ListType, PartialMovieDataForItemView } from "../type/movie";
 import { createElementWithAttribute } from "../utils";
+import scrollToTop from "../utils/scrollToTop";
 
-import ItemList from "./ItemCardList";
-import MoreButton from "./MoreButton";
+import { removeErrorView } from "./ErrorView";
+import ItemCardList from "./ItemCardList";
+import LoadMore from "./LoadMore";
 import Title from "./Title";
 
 const $main = document.querySelector("main");
 
-const makeSection = (titleText: string, movieList: Movie[] | undefined) => {
-  const $section = createElementWithAttribute("section", {
-    class: "item-view",
+const makeSection = (titleText: string) => {
+  const $viewContainer = createElementWithAttribute("div", {
+    class: "item-view-container",
   });
-  $section.appendChild(Title(titleText));
-  $section.appendChild(ItemList(movieList));
-
-  return $section;
+  const $itemCardList = createElementWithAttribute("ul", {
+    class: "item-list",
+  });
+  $viewContainer.appendChild(Title(titleText));
+  $viewContainer.appendChild($itemCardList);
+  return $viewContainer;
 };
 
-const renderItemView = (
-  titleText: string,
-  movieData: PartialMovieDataForItemView,
-  listType: ListType,
-) => {
-  const $section = makeSection(titleText, movieData.movieList);
+interface ItemViewProps {
+  titleText: string;
+  movieData: PartialMovieDataForItemView;
+  listType: ListType;
+}
 
-  $main?.appendChild($section);
-  MoreButton(listType, movieData.isShowMoreButton);
+const renderItemView = ({ titleText, movieData, listType }: ItemViewProps) => {
+  scrollToTop();
+  removeErrorView();
+  const $itemView = createElementWithAttribute("section", {
+    class: "item-view",
+  });
+  $itemView.appendChild(makeSection(titleText));
+  $main?.appendChild($itemView);
+
+  ItemCardList(movieData.movieList);
+  LoadMore(listType, movieData.isEndPage);
 };
 export default renderItemView;

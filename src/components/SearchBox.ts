@@ -1,25 +1,43 @@
+/* eslint-disable max-lines-per-function */
 import {
   ENTER_KEYCODE,
   SEARCH_BUTTON_TEXT,
   SEARCH_LABEL_TEXT,
   TITLE_TEXT,
 } from "../constants/system";
-import { dataStateStore } from "../model";
+import { movieDataStateStore } from "../model";
 import { handleGetSearchMovieData } from "../service/handleSkeletonAndAPI";
 import { createElementWithAttribute, debounceFunc } from "../utils";
+import removePrevItemView from "../utils/removePrevItemView";
 
-import ItemView from "./ItemView";
+import renderItemView from "./ItemView";
+
+const changeSearchMode = () => {
+  const $searchBox = document.querySelector(".search-box");
+  const $searchBoxMobile = document.querySelector(".search-box-mobile");
+
+  $searchBox?.classList.toggle("show");
+  $searchBoxMobile?.classList.toggle("none");
+};
+
+const initSearchBox = () => {
+  removePrevItemView();
+  changeSearchMode();
+};
 
 // SearchBox event ----
 const searchMovie = async () => {
   const $searchInput = document.querySelector("#search-input");
   if (!($searchInput instanceof HTMLInputElement)) return;
-  const title = $searchInput.value;
+  initSearchBox();
 
-  const $itemView = document.querySelector(".item-view");
-  $itemView?.remove();
-  await handleGetSearchMovieData(title, true);
-  ItemView(TITLE_TEXT.SEARCH(title), dataStateStore.movieData, "search");
+  await handleGetSearchMovieData($searchInput.value, true);
+
+  renderItemView({
+    titleText: TITLE_TEXT.SEARCH($searchInput.value),
+    movieData: movieDataStateStore.fetchedMovieData,
+    listType: "search",
+  });
 };
 
 const handleInputKeydown = (event: KeyboardEvent) => {
@@ -51,6 +69,7 @@ const Input = () => {
     type: "text",
     placeholder: "검색",
   });
+
   if ($input instanceof HTMLInputElement) {
     $input.addEventListener("keydown", handleInputKeydown);
   }
@@ -80,7 +99,20 @@ const Button = () => {
   return $button;
 };
 
-const SearchBox = () => {
+const ButtonMobile = () => {
+  const $button = createElementWithAttribute("button", {
+    class: "search-button",
+  });
+  $button.textContent = SEARCH_BUTTON_TEXT;
+  $button.addEventListener("click", (event) => {
+    event.stopPropagation();
+    changeSearchMode();
+  });
+
+  return $button;
+};
+
+export const SearchBox = () => {
   const $searchBox = createElementWithAttribute("div", {
     class: "search-box",
   });
@@ -89,4 +121,12 @@ const SearchBox = () => {
 
   return $searchBox;
 };
-export default SearchBox;
+
+export const SearchBoxMobile = () => {
+  const $searchBoxMobile = createElementWithAttribute("div", {
+    class: "search-box-mobile",
+  });
+  $searchBoxMobile.appendChild(ButtonMobile());
+
+  return $searchBoxMobile;
+};

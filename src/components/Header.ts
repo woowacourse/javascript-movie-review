@@ -1,22 +1,30 @@
 import LogoImg from "../../templates/logo.png";
 import { LOGO_IMG_ALT, TITLE_TEXT } from "../constants/system";
-import { dataStateStore } from "../model";
+import movieDataStateStore from "../model/MovieDataStateStore";
 import { handleGetPopularMovieData } from "../service/handleSkeletonAndAPI";
 import { createElementWithAttribute } from "../utils";
+import removePrevItemView from "../utils/removePrevItemView";
 
-import ItemView from "./ItemView";
-import SearchBox from "./SearchBox";
+import renderItemView from "./ItemView";
+import { SearchBox, SearchBoxMobile } from "./SearchBox";
 
-const handleClickToRefresh = async () => {
-  const $itemView = document.querySelector(".item-view");
-  $itemView?.remove();
+const resetSearchBox = () => {
   const $searchBox = document.querySelector("#search-input");
   if ($searchBox instanceof HTMLInputElement) {
     $searchBox.value = "";
   }
-  await handleGetPopularMovieData(true);
+};
 
-  ItemView(TITLE_TEXT.POPULAR, dataStateStore.movieData, "popular");
+const handleClickToRefresh = async () => {
+  removePrevItemView();
+  resetSearchBox();
+
+  await handleGetPopularMovieData(true);
+  renderItemView({
+    titleText: TITLE_TEXT.POPULAR,
+    movieData: movieDataStateStore.fetchedMovieData,
+    listType: "popular",
+  });
 };
 
 const Logo = () => {
@@ -33,12 +41,13 @@ const Logo = () => {
 
 const Header = () => {
   const $header = document.createElement("header");
-  const $h1 = document.createElement("h1");
+  const $h1 = createElementWithAttribute("h1", { class: "logo" });
   const $logo = Logo();
 
   $h1.appendChild($logo);
   $header.appendChild($h1);
   $header.appendChild(SearchBox());
+  $header.appendChild(SearchBoxMobile());
 
   return $header;
 };

@@ -1,27 +1,30 @@
-export interface Movie {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
+export interface Genres {
   id: number;
-  original_language: string;
+  name: string;
+}
+
+export interface Movie {
+  id: number;
   original_title: string;
   overview: string;
-  popularity: number;
   poster_path: string;
   release_date: string;
   title: string;
-  video: boolean;
   vote_average: number;
   vote_count: number;
 }
 
+export interface MovieDetail extends Movie {
+  genres: Genres[];
+}
+
 export interface MovieData {
   movieList: Movie[];
-  isShowMoreButton: boolean;
+  isEndPage: boolean;
 }
 
 export interface PartialMovieDataForItemView extends Partial<MovieData> {
-  isShowMoreButton: boolean;
+  isEndPage: boolean;
 }
 
 export type ListType = "popular" | "search";

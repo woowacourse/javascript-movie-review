@@ -1,14 +1,12 @@
-/* eslint-disable max-lines-per-function */
 import noImg from "../../templates/no_image.svg";
 import { IMAGE_URL } from "../config";
-import { Movie } from "../type/movie";
 import { createElementWithAttribute } from "../utils";
 
 const POSTER_SIZE = "w500";
 
-function SkeletonImg() {
+function createSkeletonImg(className: string) {
   const $skeletonImg = createElementWithAttribute("div", {
-    class: "item-thumbnail skeleton",
+    class: `${className} skeleton`,
   });
   return $skeletonImg;
 }
@@ -16,16 +14,21 @@ function SkeletonImg() {
 const imgSrc = (path: string | null) =>
   path === null ? noImg : IMAGE_URL + POSTER_SIZE + path;
 
-const MovieImg = (movie: Movie) => {
-  const skeletonUI = SkeletonImg();
-
-  const imgElement = createElementWithAttribute("img", {
-    class: "item-thumbnail",
-    src: imgSrc(movie.poster_path),
-    loading: "lazy",
-    alt: movie.title,
+function createPosterImg(posterPath: string, title: string, className: string) {
+  const $img = createElementWithAttribute("img", {
+    class: className,
+    src: imgSrc(posterPath),
+    alt: title,
     style: "display: none;",
-  });
+  }) as HTMLImageElement;
+
+  return $img;
+}
+
+const MovieImg = (posterPath: string, title: string, className: string) => {
+  const skeletonUI = createSkeletonImg(className);
+
+  const imgElement = createPosterImg(posterPath, title, className);
 
   imgElement.addEventListener("load", () => {
     skeletonUI.style.display = "none";
