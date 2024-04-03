@@ -28,7 +28,7 @@ header>.search-box {
   border-radius: 4px;
 }
 
-header .search-box>input {
+.search-input {
   border: 0;
   transition: width 1s;
   width: 30vw;
@@ -50,16 +50,12 @@ header .search-box>.search-button {
   display: none;
 }
 
-.clicked-button {
-  display: none !important;
-}
-
 .clicked-logo {
   display: none;
 }
 
 .clicked-header {
-  justify-content: flex-end !important;
+  justify-content: flex-end;
 }
 
 .clicked-form {
@@ -67,7 +63,7 @@ header .search-box>.search-button {
 }
 
 @media (max-width: 400px) {
-  header .search-box>input {
+  .search-input {
     width: 0;
     padding: 0;
   }
@@ -83,14 +79,14 @@ header .search-box>.search-button {
   }
 
   .clicked-form {
-    display: flex !important;
+    display: flex;
     justify-content: space-between;
     width: 90vw;
     animation: expand 0.5s ease-out;
   }
 
   .clicked-input {
-    width: 90% !important;
+    width: 90vw;
   }
 }
 
