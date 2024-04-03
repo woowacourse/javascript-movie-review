@@ -1,4 +1,4 @@
-describe.skip("영화 목록 E2E 테스트", () => {
+describe("영화 목록 E2E 테스트", () => {
   const MOVIE_LENGTH_PER_REQUEST = 20;
 
   const EMPTY_RESULT_LENGTH = 0;
@@ -9,17 +9,17 @@ describe.skip("영화 목록 E2E 테스트", () => {
     cy.visit("/");
   });
 
-  it("처음 영화 목록 페이지에 방문한 경우 스켈레톤 UI가 표시된다.", () => {
+  it.skip("처음 영화 목록 페이지에 방문한 경우 스켈레톤 UI가 표시된다.", () => {
     cy.get("ul#movie-list-container #item-skeleton").should("exist");
   });
 
-  it("인기 영화 목록 API를 호출하면 20개의 영화 정보 목록이 나열된다.", () => {
+  it.skip("인기 영화 목록 API를 호출하면 20개의 영화 정보 목록이 나열된다.", () => {
     cy.wait("@getPopularMovies");
 
     cy.get("ul#movie-list-container").children().should("have.length", MOVIE_LENGTH_PER_REQUEST);
   });
 
-  it("페이지를 제일 아래로 스크롤 하면, 20개의 추가된 영화 정보 목록이 나열된다..", () => {
+  it.skip("페이지를 제일 아래로 스크롤 하면, 20개의 추가된 영화 정보 목록이 나열된다..", () => {
     cy.reload();
 
     const EXPECTED_MOVIE_LENGTH = 40;
@@ -49,7 +49,7 @@ describe.skip("영화 목록 E2E 테스트", () => {
     cy.get("div#scroll-trigger").should("not.exist");
   });
 
-  context("영화 목록 조회 네트워크 예외 테스트", () => {
+  context.skip("영화 목록 조회 네트워크 예외 테스트", () => {
     const NETWORK_EXCEPTION_DATA = [
       {
         code: 401,
@@ -132,7 +132,7 @@ describe.skip("영화 목록 E2E 테스트", () => {
       cy.wait("@getEmptyMovies");
 
       cy.get("ul#movie-list-container").children().should("have.length", EMPTY_RESULT_LENGTH);
-      cy.get("div#empty-result").should("contain", EMPTY_RESULT_TEXT);
+      cy.get("ul#empty-result").should("contain", EMPTY_RESULT_TEXT);
     });
   });
 });
