@@ -1,5 +1,7 @@
+import CONFIG from '../constants/config';
 import { MOVIE_API_URL, POPULAR_MOVIES_URL, SEARCH_MOVIES_URL } from '../constants/url';
 import { MovieDetailResponse, MovieResponse, MovieSearchResult } from '../types/movie';
+import throttleAsync from '../utils/throttle';
 import fetcher from './fetcher';
 
 export const getPopularMovies = async (page: number): Promise<MovieSearchResult> => {
@@ -15,6 +17,13 @@ export const searchMoviesByTitle = async (title: string, page: number): Promise<
 };
 
 export const getDetailMovie = async (movieId: number) => {
-  const params = `/${movieId}?language=ko-KR`;
-  return await fetcher.get<MovieDetailResponse>(MOVIE_API_URL + params);
+  return await throttleDetailMovie(movieId);
 };
+
+const throttleDetailMovie = throttleAsync({
+  callback: async (movieId: number) => {
+    const params = `/${movieId}?language=ko-KR`;
+    return await fetcher.get<MovieDetailResponse>(MOVIE_API_URL + params);
+  },
+  delay: CONFIG.DETAIL_MOVIE_THROTTLE_DELAY,
+});

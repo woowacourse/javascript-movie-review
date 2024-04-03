@@ -2,7 +2,7 @@ import './MovieItem.css';
 
 import FILLED_STAR from '../../assets/images/star_filled.png';
 import NO_IMAGE from '../../assets/images/no_image.png';
-import { Movie } from '../../types/movie';
+import { Movie, MovieDetailResponse } from '../../types/movie';
 import { dom } from '../../utils/dom';
 import skeleton from '../common/Skeleton';
 import { getDetailMovie } from '../../apis/movie';
@@ -36,18 +36,15 @@ class MovieItem {
 
   setEvent() {
     this.$target.addEventListener('click', () => {
-      const $thumbnail = dom.getElement<HTMLImageElement>(this.$target, '.item-thumbnail');
-      const $spinner = dom.getElement<HTMLImageElement>(this.$target, '.loading-spinner');
-      const $dimmer = dom.getElement(document.body, '.dimmer');
-      $spinner.classList.add('loading');
-      $thumbnail.classList.add('loading');
-      $dimmer.classList.add('dimmer-loading');
+      dom.getElement<HTMLImageElement>(this.$target, '.item-thumbnail').classList.add('loading');
+      dom.getElement<HTMLImageElement>(this.$target, '.loading-spinner').classList.add('loading');
 
       getDetailMovie(this.movieId).then(res => {
-        this.movieDetailModal.open(res);
-        $spinner.classList.remove('loading');
-        $thumbnail.classList.remove('loading');
-        $dimmer.classList.remove('dimmer-loading');
+        const response = res as MovieDetailResponse;
+        this.movieDetailModal.open(response);
+        [...document.querySelectorAll('.loading')].forEach(loadingElement =>
+          loadingElement.classList.remove('loading'),
+        );
       });
     });
   }
