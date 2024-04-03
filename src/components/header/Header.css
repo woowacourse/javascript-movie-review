@@ -25,9 +25,12 @@ header .search-box {
   align-items: center;
   background: #fff;
 
+  width: 100%;
   max-width: 300px;
   padding: 8px;
   border-radius: 4px;
+
+  transition: all 500ms ease-in-out;
 }
 
 header .search-box > input {
@@ -43,6 +46,9 @@ header .search-box > .search-button {
 @media screen and (max-width: 767px) {
   #search-input {
     display: none;
+  }
+  header .search-box {
+    max-width: 40px;
   }
 }
 

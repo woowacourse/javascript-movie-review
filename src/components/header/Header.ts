@@ -51,10 +51,10 @@ class Header {
       classNames: ['search-button'],
       children: [childImage],
       onClick: () => {
-        const $searchBox = dom.getElement(this.$target, '.search-box');
         dom.getElement(this.$target, '.header-title').style.display = 'none';
-        $searchBox.style.width = '100%';
-        $searchBox.style.justifyContent = 'flex-end';
+        const $searchBox = dom.getElement(this.$target, '.search-box');
+        dom.getElement($searchBox, '#search-input').style.display = 'block';
+        $searchBox.style.maxWidth = '300px';
         this.$target.style.justifyContent = 'flex-end';
       },
     });
