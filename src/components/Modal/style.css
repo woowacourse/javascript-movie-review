@@ -1,9 +1,6 @@
 .modal {
   position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  inset: 0;
   margin: auto;
 }
 
@@ -12,8 +9,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 70rem;
-  height: 50rem;
+  width: 826px;
+  height: 577px;
   background-color: #212122;
   z-index: 1;
 }
@@ -29,7 +26,7 @@
 .modal-header > h2 {
   text-align: center;
   width: 100%;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 600;
   color: #f1f1f1;
 }
@@ -37,8 +34,8 @@
 .modal-main {
   display: flex;
   height: calc(100% - 60px);
-  grid-column-gap: 40px;
-  padding: 50px 40px;
+  grid-column-gap: 30px;
+  padding: 40px 30px;
 }
 
 .modal-poster > img {
@@ -49,15 +46,12 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  grid-column-gap: 20px;
 }
 
 .movie-info {
   display: flex;
   align-items: center;
   grid-column-gap: 20px;
-  margin-bottom: 20px;
-
   overflow-x: auto;
   white-space: nowrap;
 }
@@ -65,17 +59,17 @@
 .movie-text {
   display: flex;
   align-items: center;
-  font-size: 1.5rem;
+  font-size: 1rem;
   gap: 11px;
   font-weight: 300;
-  line-height: 24px;
 }
 
 .summary {
-  line-height: 35px;
-  height: calc(100% - 170px);
+  line-height: 30px;
+  height: calc(100% - 150px);
   display: block;
   overflow-y: auto;
+  margin: 10px 0px;
 }
 
 .score-container {
@@ -86,7 +80,7 @@
   width: 100%;
   border-radius: 30px;
   background: #383839;
-  padding: 20px 30px;
+  padding: 15px 25px;
 
   overflow-x: auto;
   white-space: nowrap;
@@ -127,24 +121,13 @@
   position: absolute;
   right: 30px;
   background-color: #383839;
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   border: none;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-@media screen and (max-width: 1350px) {
-  .modal-container {
-    width: 60rem;
-    height: 40rem;
-  }
-
-  .score-container .movie-text {
-    font-size: 1.3rem;
-  }
 }
 
 @media screen and (max-width: 1030px) {
@@ -159,21 +142,11 @@
   .modal-poster {
     display: none;
   }
-
-  .score-container .movie-text {
-    font-size: 1.5rem;
-  }
-}
-
-@media screen and (max-width: 700px) {
-  .modal .movie-text {
-    font-size: 1.1rem;
-  }
 }
 
 @media screen and (max-width: 380px) {
   .modal-header > h2 {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .modal-details {
