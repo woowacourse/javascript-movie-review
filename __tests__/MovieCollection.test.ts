@@ -1,22 +1,5 @@
-import Movie from '../src/domains/Movie';
+import MovieCollection from '../src/domains/MovieCollection';
 import { IMovie } from '../src/types/movie';
-
-class MovieCollection {
-  private movies: IMovie[] = [];
-  constructor(movies: IMovie[] = []) {
-    this.movies = movies;
-  }
-  add(movie: IMovie) {
-    this.movies.push(movie);
-  }
-  getMovies() {
-    return this.movies;
-  }
-
-  remove(movie: IMovie) {
-    this.movies = this.movies.filter(m => !new Movie(m).equal(movie));
-  }
-}
 describe('MovieCollection 테스트', () => {
   const MOVIE1: IMovie = {
     id: 1,
