@@ -38,13 +38,16 @@ class MovieItem {
     this.$target.addEventListener('click', () => {
       const $thumbnail = dom.getElement<HTMLImageElement>(this.$target, '.item-thumbnail');
       const $spinner = dom.getElement<HTMLImageElement>(this.$target, '.loading-spinner');
+      const $dimmer = dom.getElement(document.body, '.dimmer');
       $spinner.classList.add('loading');
       $thumbnail.classList.add('loading');
+      $dimmer.classList.add('dimmer-loading');
 
       getDetailMovie(this.movieId).then(res => {
         this.movieDetailModal.open(res);
         $spinner.classList.remove('loading');
         $thumbnail.classList.remove('loading');
+        $dimmer.classList.remove('dimmer-loading');
       });
     });
   }
