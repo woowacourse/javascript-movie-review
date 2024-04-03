@@ -7,6 +7,7 @@ class StarRating {
   clickedId: number = 0;
 
   constructor(starCount: number, onClick?: (e: MouseEvent) => void) {
+    this.$target.className = 'star-rating';
     this.#starCount = starCount;
     this.#stars = Array.from({ length: starCount }).map(() => new StarToggle());
 

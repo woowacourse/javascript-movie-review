@@ -68,6 +68,11 @@
   column-gap: 16px;
 }
 
+.movie-explanation__header-rating {
+  display: flex;
+  align-items: center;
+}
+
 /* 내 별점 */
 .movie-description__rating {
   display: flex;
@@ -79,6 +84,10 @@
   gap: 12px;
   border-radius: 16px;
   background-color: var(--black-100);
+}
+
+.movie-description__rating .star-rating {
+  display: flex;
 }
 
 .movie-description__rating .star-icon {
