@@ -1,4 +1,5 @@
 import './css/reset.css';
+import './css/root.css'
 import './css/common.css';
 import '../src/components/header/header.css';
 import '../src/components/movieCard/movieCard.css';

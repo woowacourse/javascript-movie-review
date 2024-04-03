@@ -3,7 +3,7 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
-  color: #f1f1f1;
+  color: var(--grey-200);
 }
 
 .detail-title {
@@ -37,7 +37,7 @@
   align-items: center;
   width: 36px;
   height: 36px;
-  background: #383839;
+  background: var(--grey-400);
   border-radius: 50%;
   cursor: pointer;
 }
@@ -152,7 +152,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: #383839;
+  background: var(--grey-400);
   border-radius: 16px;
   font-size: 1.2rem;
   font-weight: 700;

@@ -19,7 +19,7 @@ header {
   font-size: 2rem;
   font-weight: bold;
   letter-spacing: -0.1rem;
-  color: #f33f3f;
+  color: var(--primary-color);
 }
 
 .search-box {

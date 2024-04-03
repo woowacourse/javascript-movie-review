@@ -20,7 +20,7 @@
   position: fixed;
   overflow-y: auto;
   border-radius: 8px;
-  background: #212122;
+  background: var(--grey-500);
 }
 
 /* 데스크탑 규격 */
