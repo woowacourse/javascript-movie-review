@@ -16,9 +16,7 @@ const UserMoviesStorage = {
   addUserMovie(userMovie: DetailMovieData) {
     const userMoviesLocalStorage = this.getUserMovies();
 
-    userMoviesLocalStorage.push(userMovie);
-
-    this.setUserMovies(userMoviesLocalStorage);
+    this.setUserMovies([...userMoviesLocalStorage, userMovie]);
   },
 
   setMatchedUserMovie(userMovie: DetailMovieData): void {
