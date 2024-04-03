@@ -82,10 +82,12 @@ button {
 }
 
 .item-score {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   margin-top: 16px;
+
   font-size: 1.2rem;
-  display: inline-block;
-  vertical-align: middle;
 }
 
 .item-score::after {

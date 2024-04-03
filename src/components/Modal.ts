@@ -37,6 +37,8 @@ export default class Modal {
 
     const genres = movieDetail.genres.map((genre: any) => genre.name).join(', ');
 
+    const overview = movieDetail.overview ? movieDetail.overview : '해당 영화의 줄거리 정보가 없습니다.';
+
     const modalElement = document.createElement('div');
     modalElement.classList.add('modal', 'modal--open');
 
@@ -53,9 +55,12 @@ export default class Modal {
           <div class="detail-text-container">
             <div class="detail-text-top">
               <p class="detail-genres text-detail-contents">${genres}</p>
-              <p class="detail-vote_average text-detail-contents">${movieDetail.vote_average.toFixed(2)}</p>
+              <p class="detail-vote_average text-detail-contents">
+                <img src=${StarFilled} alt="별점" class="star-start" />
+                ${movieDetail.vote_average.toFixed(2)}
+              </p>
             </div>
-            <p class="detail-overview text-detail-contents">${movieDetail.overview}</p>
+            <p class="detail-overview text-detail-contents">${overview}</p>
           </div>
           <div class="my-vote">
             <p class="my-vote-title text-detail-vote">내 별점</p>
@@ -99,6 +104,7 @@ export default class Modal {
   async openModal() {
     if (this.#isOpen) return;
 
+    document.body.style.overflow = 'hidden';
     await this.generateModal();
 
     const savedVotes = localStorage.getItem('myVoteResult');
@@ -156,6 +162,8 @@ export default class Modal {
 
   closeModal() {
     if (!this.#isOpen) return;
+
+    document.body.style.overflow = 'auto';
 
     this.removeKeydownEventListener();
 

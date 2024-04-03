@@ -106,6 +106,8 @@
   gap: 16px;
   margin-bottom: auto;
   margin-top: 0;
+
+  width: 100%;
 }
 
 .detail-text-top {
@@ -120,9 +122,13 @@
 }
 
 .detail-vote_average {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .detail-overview {
+  width: 100%;
   max-height: 280px;
   overflow-y: auto;
 }
@@ -131,9 +137,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 18px;
   margin-top: auto;
   margin-bottom: 0;
+  position: relative;
 
   width: 384px;
   height: 64px;
@@ -143,13 +149,15 @@
 }
 
 .my-vote-title {
-  margin-right: 10px;
+  position: absolute;
+  left: 18px;
 }
 
 .my-vote-body {
   display: flex;
   gap: 0;
-  margin-right: 10px;
+  position: absolute;
+  left: 80px;
 
   width: 160px;
 }
@@ -167,10 +175,13 @@
 }
 
 .my-vote-number {
-  margin-right: 10px;
+  position: absolute;
+  left: 250px;
 }
 
 .my-vote-description {
+  position: absolute;
+  left: 278px;
 }
 
 @media only screen and (max-width: 390px) {
