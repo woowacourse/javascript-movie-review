@@ -16,6 +16,8 @@ const SCORE_LOOKUP_TABLE: Record<number, string> = {
   10: '명작이에요',
 };
 
+const SCORE_PER_ONE_STAR = 2;
+
 class ScoreSelector {
   private template: HTMLElement;
   private title = '';
@@ -67,7 +69,7 @@ class ScoreSelector {
 
   setEventListener() {
     this.template.querySelector('.star-icon-container')?.addEventListener('click', (event) => {
-      const score = Number((event.target as HTMLElement).id) * 2;
+      const score = Number((event.target as HTMLElement).id) * SCORE_PER_ONE_STAR;
       this.handleScore(score);
       this.updateScore(score);
     });
@@ -81,7 +83,7 @@ class ScoreSelector {
   handleStarIcons(score: number) {
     const icons = this.template.querySelectorAll('.star-icon');
     icons.forEach((icon) => {
-      if (Number(icon.id) <= score / 2) {
+      if (Number(icon.id) <= score / SCORE_PER_ONE_STAR) {
         (icon as HTMLImageElement).src = StarFilled;
       } else {
         (icon as HTMLImageElement).src = StarEmpty;
