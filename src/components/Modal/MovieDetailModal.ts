@@ -150,7 +150,7 @@ class MovieDetailModal {
 
     for (let i = 1; i <= RATING_STAR_SIZE; i++) {
       const star = document.createElement('img');
-      star.setAttribute('id', 'rate-star');
+      star.classList.add('rate-star');
       if (this.movieScore / 2 >= i) star.setAttribute('src', StarFilled);
       else star.setAttribute('src', StarEmpty);
       fragment.append(star);
@@ -169,7 +169,7 @@ class MovieDetailModal {
   }
 
   setStarEvents() {
-    const starImages = Array.from(this.modal.querySelectorAll('#rate-star'));
+    const starImages = Array.from(this.modal.querySelectorAll('.rate-star'));
     starImages.forEach((star, index) => {
       star.addEventListener('click', () => {
         this.movieScore = ((index + 1) * 2) as Score;
