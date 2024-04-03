@@ -8,11 +8,12 @@ export const StarRatingButton = {
     const starRatingButton = createElement("button", {
       class: "star-rating-button",
       type: "button",
+      ariaLabel: "evaluate-movie",
     });
 
     const emptyStar = createElement("img", {
       src: emptyStarImg,
-      alt: "empty-star-img",
+      alt: "",
     });
 
     starRatingButton.appendChild(emptyStar);
