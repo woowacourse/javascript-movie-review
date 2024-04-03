@@ -1,24 +1,41 @@
-const movieStore = {
-  _movies: [] as Movie[],
+const MovieStore: MovieStoreType = {
+  type: 'popular',
 
-  _page: 1 as number,
-
-  get movies(): readonly Movie[] {
-    return this._movies;
+  popular: {
+    movies: [],
+    page: 1,
   },
 
-  setMovies(value: Movie[], callback: () => void) {
-    this._movies = value;
-    callback();
+  search: {
+    movies: [],
+    page: 1,
+    query: '',
   },
 
-  get page(): number {
-    return this._page;
+  get movies() {
+    return this[this.type].movies;
   },
 
-  setPage(value: number) {
-    this._page = value;
+  get page() {
+    return this[this.type].page;
+  },
+
+  get query() {
+    return this.search.query;
+  },
+
+  setMovies({ value, callback }) {
+    this[this.type].movies = value;
+    if (callback) callback();
+  },
+
+  setPage(value) {
+    this[this.type].page = value;
+  },
+
+  setQuery(value) {
+    this.search.query = value;
   },
 };
 
-export default movieStore;
+export default MovieStore;

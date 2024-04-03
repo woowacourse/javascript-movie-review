@@ -1,10 +1,16 @@
 import './SearchInput.css';
 
+import SCREEN_SIZE from '../../constants/responsive';
+import SELECTORS from '../../constants/selectors';
 import SearchIcon from '../../statics/images/search_button.png';
+import MovieStore from '../../stores/movieStore';
+import useThrottle from '../../utils/throttle';
+
+const { container, input, button, searchIcon } = SELECTORS.SEARCH_INPUT;
 
 const createSearchBox = () => {
   const $searchBox = document.createElement('form');
-  $searchBox.classList.add('search-box');
+  $searchBox.classList.add(container);
   return $searchBox;
 };
 
@@ -18,18 +24,19 @@ const createSearchInput = () => {
   const $searchInput = document.createElement('input');
   $searchInput.type = 'search';
   $searchInput.placeholder = '검색';
-  $searchInput.id = 'movie-search';
-  $searchInput.name = 'movie-search';
+  $searchInput.id = input;
+  $searchInput.name = input;
 
   return $searchInput;
 };
 
 const createSearchBtn = () => {
   const $searchBtn = document.createElement('button');
-  $searchBtn.classList.add('search-button');
+  $searchBtn.classList.add(button);
   $searchBtn.type = 'submit';
 
   const $img = document.createElement('img');
+  $img.classList.add(searchIcon);
   $img.src = SearchIcon;
   $img.alt = '검색';
 
@@ -47,32 +54,70 @@ const SearchInput = () => {
   $searchBox.addEventListener('submit', (e: SubmitEvent) => {
     e.preventDefault();
 
-    const formElement = e.target as HTMLFormElement;
-    const formData = new FormData(formElement);
+    if ($searchInput.value === MovieStore.query) return;
 
-    $searchInput.dispatchEvent(
-      new CustomEvent('search', {
+    MovieStore.setMovies({ value: [] });
+    MovieStore.setPage(1);
+    MovieStore.type = 'search';
+    MovieStore.setQuery($searchInput.value);
+
+    $searchBox.dispatchEvent(
+      new CustomEvent('searchMovies', {
         bubbles: true,
-        detail: {
-          query: formData.get('movie-search'),
-        },
       }),
     );
   });
 
   $searchInput.addEventListener('input', (e: Event) => {
+    if (MovieStore.type === 'search') return;
+
     const { target } = e;
+
     if (target instanceof HTMLInputElement && target.value === '') {
+      MovieStore.setMovies({ value: [] });
+      MovieStore.setPage(1);
+      MovieStore.setQuery('');
+      MovieStore.type = 'popular';
+
       $searchInput.dispatchEvent(
-        new CustomEvent('popular', {
+        new CustomEvent('popularMovies', {
           bubbles: true,
-          detail: {
-            curType: 'search',
-          },
         }),
       );
     }
   });
+
+  $searchBtn.addEventListener('click', () => {
+    const isSearchInputOpen = $searchInput.classList.contains('open');
+    if (isSearchInputOpen) return;
+
+    const windowWidth = window.innerWidth;
+    const isMobile = windowWidth <= SCREEN_SIZE.mobile;
+
+    if (isMobile) {
+      $searchInput.classList.add('open');
+    }
+  });
+
+  document.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement;
+    const isOuterSpace = !target.closest(`.${container}`);
+
+    if (isOuterSpace) {
+      $searchInput.classList.remove('open');
+    }
+  });
+
+  const onResize = () => {
+    const windowWidth = window.innerWidth;
+    const isMobile = windowWidth <= SCREEN_SIZE.mobile;
+    if (isMobile) return;
+
+    const isSearchInputOpen = $searchInput.classList.contains('open');
+    if (isSearchInputOpen) $searchInput.classList.remove('open');
+  };
+  const throttleResizing = useThrottle(onResize, 1000);
+  window.addEventListener('resize', throttleResizing);
 
   const render = () => {
     const fragment = document.createDocumentFragment();

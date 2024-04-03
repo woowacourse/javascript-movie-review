@@ -2,12 +2,16 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   margin-bottom: 48px;
+  box-shadow: 0px 4px 8px 0px #ffffff33;
   border-bottom: 1px solid white;
+
   background-color: #222;
   padding: 0 20px;
+
   width: 100%;
-  min-width: 1200px;
+  min-width: 323px;
   height: 72px;
 }
 

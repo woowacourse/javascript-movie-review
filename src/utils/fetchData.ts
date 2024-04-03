@@ -1,22 +1,24 @@
-import ErrorMessage from '../components/ErrorMessage/ErrorMessage';
+const fetchData = async <T>(
+  { url, options }: FetchOptions,
+  onSuccess: (data: T) => void,
+  onError: (statusCode: HTTPStatusCode) => void,
+  onLoading: () => void,
+) => {
+  onLoading();
 
-interface Props {
-  url: string;
-  options: {
-    method: string;
-    headers: {
-      accept: string;
-      Authorization: string;
-    };
-  };
-}
-
-const fetchData = async ({ url, options }: Props) => {
-  const response = await fetch(url, options).then((data) => {
-    if (!data.ok) ErrorMessage(data.status);
-    return data;
-  });
-  return response.json();
+  return fetch(url, options)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data: T) => {
+      onSuccess(data);
+    })
+    .catch((statusCode: HTTPStatusCode) => {
+      onError(statusCode);
+    });
 };
 
 export default fetchData;

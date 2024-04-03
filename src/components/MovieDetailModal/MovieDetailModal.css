@@ -1,0 +1,15 @@
+.movie-title {
+  height: 60px;
+}
+
+.movie-poster {
+  display: block;
+  width: 260px;
+  height: 400px;
+}
+
+@media screen and (max-width: 768px) {
+  .movie-poster {
+    display: none;
+  }
+}

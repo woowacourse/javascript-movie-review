@@ -1,12 +1,29 @@
 @import './reset.css';
 
+:root {
+  /* color */
+  --bg-color: #222;
+  --bg-modal-container-color: #212122;
+  --bg-modal-backdrop-color: rgba(0, 0, 0, 0.35);
+  --line-color: #f1f1f140;
+  --white-color: #fff;
+
+  /* responsive */
+  --mobile-size: 768px;
+  --tablet-size: 1024px;
+
+  /* z-index */
+  --modal-index: 1000;
+  --search-input-index: 800;
+}
+
 * {
   box-sizing: border-box !important;
 }
 
 body {
-  background-color: #222222;
-  color: #fff;
+  background-color: var(--bg-color);
+  color: var(--white-color);
   font-size: 14px;
 }
 
@@ -25,6 +42,13 @@ button {
 
 *:focus {
   outline: none;
+}
+
+.box-skeleton {
+  animation: skeleton-animation 5s infinite ease-out;
+  border-radius: 8px;
+  background: linear-gradient(-90deg, #4a4a4a, #595959, #4a4a4a, #595959);
+  background-size: 400%;
 }
 
 @keyframes skeleton-animation {

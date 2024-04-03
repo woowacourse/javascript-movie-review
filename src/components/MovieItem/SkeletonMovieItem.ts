@@ -57,4 +57,5 @@ function SkeletonMovieItem() {
     },
   };
 }
+
 export default SkeletonMovieItem;
