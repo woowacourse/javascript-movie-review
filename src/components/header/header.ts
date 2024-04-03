@@ -34,8 +34,6 @@ function render(logoHandler: () => void, inputSubmitHandler: (inputValue: string
 
   header.append(logo, closeSearchInput, searchBox);
 
-  window.addEventListener('resize', handleResize);
-
   logo.addEventListener('click', () => {
     logoHandler();
   });
@@ -51,24 +49,6 @@ function render(logoHandler: () => void, inputSubmitHandler: (inputValue: string
   });
 
   return header;
-}
-
-let throttle: NodeJS.Timeout | null;
-function handleResize() {
-  if (!throttle) {
-    throttle = setTimeout(() => {
-      throttle = null;
-      const width = window.innerWidth;
-      if (width >= 768) {
-        Dom.getElement(document, '.close-input').classList.remove('clicked-close-input');
-        noneClickedHeaderView();
-      }
-      if (width < 768 && (Dom.getElement(document, 'header .search-box > input') as HTMLInputElement)?.value !== '') {
-        clickedHeaderView();
-        Dom.getElement(document, '.close-input').classList.add('clicked-close-input');
-      }
-    }, 100);
-  }
 }
 
 export function noneClickedHeaderView() {
