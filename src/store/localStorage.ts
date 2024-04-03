@@ -1,4 +1,4 @@
-import { RATING_MESSAGES } from '../view/modal/movieDetail';
+import { RATING_MESSAGES } from '../constants/tmdbConstants';
 
 const LOCAL_KEY = 'moviesScore';
 

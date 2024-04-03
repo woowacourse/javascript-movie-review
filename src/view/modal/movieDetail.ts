@@ -4,19 +4,9 @@ import XImage from '../../assets/images/closeButton.svg';
 import starEmptyImage from '../../assets/images/star_empty.png';
 import starFillImage from '../../assets/images/star_filled.png';
 
-import { MOVIE_IMAGE_BASE_URL } from '../../constants/tmdbConstants';
+import { MOVIE_IMAGE_BASE_URL, RATING_MESSAGES } from '../../constants/tmdbConstants';
 import { getLocalStorageScore, setLocalStorageScore } from '../../store/localStorage';
 import { closeModal } from '../modal';
-
-// TODO: 외부 상수로 빼면 좋을 것 같다.
-export const RATING_MESSAGES = {
-  0: '별점 미등록',
-  2: '최악이에요',
-  4: '별로예요',
-  6: '보통이에요',
-  8: '재밌어요',
-  10: '명작이에요',
-} as const;
 
 function createMovieTitle(title: string) {
   const titleDiv = document.createElement('div');
