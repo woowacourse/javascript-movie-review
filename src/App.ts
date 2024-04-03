@@ -134,17 +134,20 @@ class App {
   observeInfinityScroll() {
     if (!this.moreButton) return;
 
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          if (!this.moreButton) return;
+    const io = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            if (!this.moreButton) return;
 
-          this.moreButton.classList.add('hidden');
-          increaseUrlPage();
-          this.renderPage();
-        }
-      });
-    });
+            this.moreButton.classList.add('hidden');
+            increaseUrlPage();
+            this.renderPage();
+          }
+        });
+      },
+      { rootMargin: '200px' },
+    );
 
     io.observe(this.moreButton);
   }
