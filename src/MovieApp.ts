@@ -12,8 +12,8 @@ class MovieApp {
   constructor() {
     this.start();
     this.renderPopularMovie();
-    this.listenModalOpen();
-    this.listenMovieScore();
+    this.listenModalOpenEvent();
+    this.listenMovieScoreEvent();
   }
 
   start() {
@@ -35,7 +35,7 @@ class MovieApp {
     movieContentManager.renderMovieData(props);
   }
 
-  listenModalOpen() {
+  listenModalOpenEvent() {
     document.addEventListener('openModal', (event: Event) => {
       const scoreEvent = event as MovieScoreEvent;
       const movieInfo = scoreEvent.detail.movie;
@@ -47,7 +47,7 @@ class MovieApp {
     });
   }
 
-  listenMovieScore() {
+  listenMovieScoreEvent() {
     document.addEventListener('selectMovieScore', (event: Event) => {
       const scoreEvent = event as MovieScoreEvent;
       const movieInfo = scoreEvent.detail.movie;

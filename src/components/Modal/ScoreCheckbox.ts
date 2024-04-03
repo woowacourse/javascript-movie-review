@@ -24,16 +24,18 @@ const movieScoreManager = {
     const scoreContainer = document.createElement('div');
     scoreContainer.classList.add('score-container');
 
+    const scoreCheckbox = Object.keys(MOIVE_SCORE)
+      .map(
+        (score) => /* html */ `
+    <input type="checkbox" id="star${score}" name="score" value="${score}">
+    <label for="star${score}"><img src="${STAR_LINED}" alt="별점"></label>`,
+      )
+      .join('');
+
     scoreContainer.innerHTML = /* html */ `
         <h3 class="movie-text">내 별점</h3>
         <div class="score-box">
-          ${Object.keys(MOIVE_SCORE)
-            .map(
-              (score) => /* html */ `
-            <input type="checkbox" id="star${score}" name="score" value="${score}">
-            <label for="star${score}"><img src="${STAR_LINED}" alt="별점"></label>`,
-            )
-            .join('')}
+          ${scoreCheckbox}
         </div>
         <h4 class="movie-text">0 점수를 매겨주세요</h4>
     `;

@@ -10,6 +10,8 @@ const modalManager = {
     modal.setAttribute('id', `${movie.title}`);
     modal.classList.add('modal');
 
+    const movieScore = movie.vote_average.toFixed(1);
+
     modal.innerHTML = /* html */ `
     <div class="modal-container">
         <div class="modal-header">
@@ -25,9 +27,7 @@ const modalManager = {
             <div class="modal-details">
                 <div class="movie-info">
                     <h3 class="movie-text">${movie.genre_ids}</h3>
-                    <p class="movie-text"><img src=${STAR_FILLED} alt="별점">${movie.vote_average.toFixed(
-      1,
-    )}</p>
+                    <p class="movie-text"><img src=${STAR_FILLED} alt="별점">${movieScore}</p>
                 </div>
                 <p class="movie-text summary">${movie.overview}</p>
               
