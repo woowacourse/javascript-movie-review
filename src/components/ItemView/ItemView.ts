@@ -39,7 +39,7 @@ class ItemView {
     this.#itemView.appendChild(this.createTitle(itemViewTitle));
     this.#itemView.appendChild(this.#itemList);
 
-    this.mountItems();
+    this.createMovieItems();
     this.setScrollHandler();
   }
 
@@ -48,7 +48,7 @@ class ItemView {
       'scroll',
       Throttle(() => {
         if (window.innerHeight + window.scrollY + CONDITIONS.supplement >= document.body.offsetHeight)
-          this.mountItems();
+          this.createMovieItems();
       }, 1000),
     );
   }
@@ -61,15 +61,19 @@ class ItemView {
     return title;
   }
 
-  async mountItems() {
-    if (this.#page === this.#totalPages || this.#page === CONDITIONS.popularMoviesTotalPage) return;
-
-    this.#page++;
-
+  createSkeleton() {
     const skeleton = MovieitemsSkeleton.create();
     const skeletonList = skeleton.querySelectorAll('li');
 
     this.#itemList.appendChild(skeleton);
+
+    return skeletonList;
+  }
+
+  async createMovieItems() {
+    if (this.#page === this.#totalPages || this.#page === CONDITIONS.popularMoviesTotalPage) return;
+
+    const skeletonList = this.createSkeleton();
 
     const moviesData: ResponseData = await this.getMoviesData();
     this.#totalPages = moviesData.total_pages;
@@ -83,6 +87,8 @@ class ItemView {
   }
 
   async getMoviesData() {
+    this.#page++;
+
     if (this.#searchValue) {
       return await fetchSearchMovies(this.#page, this.#searchValue);
     }
