@@ -1,5 +1,6 @@
 export const STAR_RATINGS = {
   starCount: 5,
+  scoreConvertMultiplier: 2,
 
   scoreDescription: {
     0: "",

@@ -60,7 +60,7 @@ class StarRatings {
       ".myscore-description"
     ) as HTMLElement;
 
-    const score = starFilledCount * 2; // TODO: 단위 상수화
+    const score = starFilledCount * STAR_RATINGS.scoreConvertMultiplier;
     const description = STAR_RATINGS.scoreDescription[score];
 
     myRatingsElement.textContent = `${score}`;
