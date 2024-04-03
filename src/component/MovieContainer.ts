@@ -1,13 +1,13 @@
 import { $ } from '../util/selector';
 import { createMovieItem, createSkeletonMovieItem } from './MovieItem';
 import wrapItemWithLi from '../util/wrapItemWithLi';
-import Movie from '../domain/Movie';
 import SkeletonCardList from './Skeleton/SkeletonCardList';
 import removeAllChild from '../util/removeAllChild';
 import isExistElement from '../util/isExistElement';
 import { openModal } from './Modal/Modal';
 import loader from '../asset/loader.gif';
 import MovieService from '../domain/MovieService';
+import { MovieData } from '../domain/MovieServiceType';
 
 const LIST_LENGTH_UNIT = 20;
 
@@ -68,7 +68,7 @@ class MovieContainer {
   }
 
   // 결과 없음 알림 요소 토글, ul 클리어, 버튼 보임 여부 토글
-  groundWorkForNewMovieList({ movieList, hasNextPage }: { movieList: Array<Movie>; hasNextPage: boolean }) {
+  groundWorkForNewMovieList({ movieList, hasNextPage }: { movieList: Array<MovieData>; hasNextPage: boolean }) {
     try {
       const noticeNoDataElement = $('.notice-no-data', this.movieContainer);
       if (noticeNoDataElement && movieList.length !== 0) noticeNoDataElement.remove();
@@ -85,12 +85,12 @@ class MovieContainer {
     }
   }
 
-  pushNewMovieList({ movieList, hasNextPage }: { movieList: Array<Movie>; hasNextPage: boolean }) {
+  pushNewMovieList({ movieList, hasNextPage }: { movieList: Array<MovieData>; hasNextPage: boolean }) {
     this.groundWorkForNewMovieList({ movieList, hasNextPage });
 
-    const movieItemList = movieList.map((movie) => createMovieItem(movie.data));
+    const movieItemList = movieList.map((movie) => createMovieItem(movie));
     const movieItemListWrappedByLi = wrapItemWithLi(movieItemList);
-    movieItemListWrappedByLi.forEach((element, i) => element.setAttribute('id', movieList[i].data.id.toString()));
+    movieItemListWrappedByLi.forEach((element, i) => element.setAttribute('id', movieList[i].id.toString()));
 
     if (this.firstSkeletonItem) movieItemListWrappedByLi.forEach((item) => this.firstSkeletonItem?.before(item));
     else movieItemListWrappedByLi.forEach((item) => this.movieListContainer.append(item));
