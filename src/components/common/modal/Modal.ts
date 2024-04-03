@@ -1,7 +1,7 @@
 import { dom } from '../../../utils/dom';
 import './Modal.css';
 
-const OPEN_CSS = 'modal-open';
+const OPEN_CLASS_NAME = 'modal-open';
 
 class Modal {
   readonly $target: HTMLDivElement = document.createElement('div');
@@ -29,16 +29,16 @@ class Modal {
   }
 
   close() {
-    this.$target.classList.remove(OPEN_CSS);
+    this.$target.classList.remove(OPEN_CLASS_NAME);
   }
 
   open() {
-    this.$target.classList.add(OPEN_CSS);
+    this.$target.classList.add(OPEN_CLASS_NAME);
     this.$target.focus();
   }
 
   toggle() {
-    if (this.$target.classList.contains(OPEN_CSS)) {
+    if (this.$target.classList.contains(OPEN_CLASS_NAME)) {
       this.close();
     } else {
       this.open();
