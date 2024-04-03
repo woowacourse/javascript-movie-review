@@ -1,5 +1,5 @@
-import { CONFIG } from '../../../constant/config';
 import { MovieDetailData } from '../../../interface/MovieInterface';
+import formatScoreNumber from '../../../util/formatScoreNumber';
 
 export default function MovieDetailContentSection(movie: MovieDetailData) {
   const section = document.createElement('section');
@@ -51,7 +51,7 @@ function createMovieInfo(genres: string[], voteAverage: number) {
 
   const averageScore = document.createElement('span');
   averageScore.classList.add('average-score');
-  averageScore.textContent = voteAverage.toFixed(CONFIG.userScoreDecimalPlaces).toString();
+  averageScore.textContent = formatScoreNumber(voteAverage).toString();
 
   movieInfo.append(averageScore);
   return movieInfo;

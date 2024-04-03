@@ -1,5 +1,5 @@
-import { CONFIG } from '../../constant/config';
 import { MovieData } from '../../interface/MovieInterface';
+import formatScoreNumber from '../../util/formatScoreNumber';
 import { $ } from '../../util/selector';
 
 function createSkeletonMovieItem() {
@@ -43,7 +43,7 @@ function injectMovieDataToItem({
       $itemThumbnail.alt = movie.title;
       $itemTitle.textContent = movie.title;
       $itemScore.classList.add('loaded');
-      $itemScore.append(movie.voteAverage.toFixed(CONFIG.userScoreDecimalPlaces).toString());
+      $itemScore.append(formatScoreNumber(movie.voteAverage).toString());
 
       item.addEventListener('click', () => onClick(item, movie.id));
 
