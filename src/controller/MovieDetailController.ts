@@ -9,14 +9,14 @@ class MovieDetailController {
     this.#storage = storage;
   }
 
-  #getMovieDetails(): MovieDetail[] {
+  get MovieDetails(): MovieDetail[] {
     const movieDetails = this.#storage.getItem('movieDetails') ?? '{}';
 
     return JSON.parse(movieDetails);
   }
 
   async getMovieDetail(movieId: number) {
-    const movieDetails = this.#getMovieDetails();
+    const movieDetails = this.MovieDetails;
     if (movieDetails[movieId]) {
       return movieDetails[movieId];
     }
@@ -29,7 +29,7 @@ class MovieDetailController {
   }
 
   updateMovieDetail(movieId: number, grade: number) {
-    const movieDetails = this.#getMovieDetails();
+    const movieDetails = this.MovieDetails;
     const movieDetail = movieDetails[movieId];
     movieDetail.my_grade = grade;
 

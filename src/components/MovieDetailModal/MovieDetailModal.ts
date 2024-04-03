@@ -168,13 +168,12 @@ class MovieDetailModal extends ModalWrapper {
   }
 
   #onStarMouseout(id: number, event: MouseEvent) {
-    // TODO: 로컬스토리지를 직접 가져옴
     const target = event.target as HTMLElement;
     const stars = target.closest('.stars') as HTMLDivElement;
     const reviewRating = $('.review-rating') as HTMLSpanElement;
     const reviewText = $('.review-text') as HTMLSpanElement;
-    const allData = localStorage.getItem('movieDetails') as string;
-    const movieGrade = JSON.parse(allData)[id].my_grade;
+    const movieDetails = this.#movieDetailController.MovieDetails;
+    const movieGrade = movieDetails[id].my_grade;
 
     Array.from({ length: stars.children.length }).forEach((_, index) => {
       const star = stars.children[index] as HTMLImageElement;
