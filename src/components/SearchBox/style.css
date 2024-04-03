@@ -34,5 +34,6 @@
 
   .search-box.clicked>input {
     display: inline-block;
+    width  : 100%;
   }
 }
