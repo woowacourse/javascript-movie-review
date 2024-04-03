@@ -125,6 +125,12 @@ class MovieDetailModal {
     this.template.querySelector('.modal-backdrop')?.addEventListener('click', () => {
       this.toggleModal();
     });
+
+    document.addEventListener('keyup', (event) => {
+      if (event.key === 'Escape') {
+        this.toggleModal();
+      }
+    });
   }
 
   toggleModal() {
