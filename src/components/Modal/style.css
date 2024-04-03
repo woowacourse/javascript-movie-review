@@ -32,6 +32,8 @@
     font-size: 16px;
     line-height: 24px;
     letter-spacing: 0.5px;
+    max-height: 30vh;
+    overflow: scroll;
   }
 }
 
@@ -51,6 +53,8 @@
     font-size: 16px;
     line-height: 20px;
     letter-spacing: 0.5px;
+    max-height: 20vh;
+    overflow: scroll;
   }
 }
 
@@ -64,6 +68,8 @@
     font-size: 12px;
     line-height: 16px;
     letter-spacing: 0.5px;
+    max-height: 15vh;
+    overflow: scroll;
   }
 
   .movie-detail-section .movie-detail-container .movie-detail-outline {
