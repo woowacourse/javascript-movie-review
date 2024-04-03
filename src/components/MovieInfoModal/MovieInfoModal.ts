@@ -52,13 +52,12 @@ class MovieInfoModal {
   }
 
   setHandle() {
+    const modal = getDomElement('#movie-detail-modal__open');
     getDomElement('.close-button').addEventListener('click', () => {
-      const modal = getDomElement('#movie-detail-modal__open');
       EscapeModal(modal, this.handleKeyPress);
     });
 
     getDomElement('.modal-backdrop').addEventListener('click', () => {
-      const modal = getDomElement('#movie-detail-modal__open');
       EscapeModal(modal, this.handleKeyPress);
     });
   }
