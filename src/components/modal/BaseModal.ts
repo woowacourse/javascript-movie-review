@@ -7,16 +7,19 @@ interface BaseModalProps {
 }
 
 export default abstract class BaseModal extends EventComponent {
+  private $modal: HTMLElement | null;
+
   constructor({ targetId }: BaseModalProps) {
     super({ targetId });
+    this.$modal = $<HTMLElement>(this.targetId);
   }
 
   protected getTemplate(): HTMLTemplate {
     return `
-        <div id="modal-backdrop" class="modal-backdrop"></div>
-        <div class="modal-container">
-            ${this.getModalContent()}
-        </div>
+      <div id="modal-backdrop" class="modal-backdrop"></div>
+      <div class="modal-container">
+          ${this.getModalContent()}
+      </div>
     `;
   }
 
@@ -28,21 +31,22 @@ export default abstract class BaseModal extends EventComponent {
       this.closeModal.bind(this)
     );
 
-    window.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        this.closeModal();
-      }
-    });
+    window.addEventListener("keydown", this.handleKeyDown.bind(this));
   }
 
   protected closeModal(): void {
-    const $modal = $<HTMLElement>(this.targetId);
-
-    if (!$modal) {
-      return;
+    if (this.isModalOpen()) {
+      this.$modal?.classList.remove("modal-open");
     }
+  }
 
-    $modal.classList.remove("modal-open");
-    $modal.classList.add("modal");
+  private handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === "Escape") {
+      this.closeModal();
+    }
+  }
+
+  private isModalOpen(): boolean {
+    return this.$modal?.classList.contains("modal-open") ?? false;
   }
 }

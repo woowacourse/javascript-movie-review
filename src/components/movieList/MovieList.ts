@@ -102,8 +102,7 @@ export default class MovieList extends EventComponent {
 
       if (clickedMovieId) {
         this.movieState.set(Number(clickedMovieId));
-        $<HTMLElement>("movie-detail-modal")?.classList.remove("modal");
-        $<HTMLElement>("movie-detail-modal")?.classList.add("modal-open");
+        $<HTMLElement>("movie-detail-modal")?.classList.toggle("modal-open");
       }
     }
   }

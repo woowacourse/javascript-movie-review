@@ -207,7 +207,7 @@ header .search-box .search-button {
 
 /* 모달 */
 
-.modal {
+.modal:not(.modal-open) {
   display: none;
 }
 
