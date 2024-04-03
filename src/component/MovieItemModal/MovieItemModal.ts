@@ -163,6 +163,7 @@ class MovieItemModal {
     });
     const starImg = createElement("img", {
       class: "modal-filled-star",
+      alt: "starFilledImg for grade",
     }) as HTMLImageElement;
     const score = createElement("span", {
       class: "modal-item-score skeleton",

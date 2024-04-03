@@ -76,6 +76,7 @@ class StarRatings {
         "img"
       ) as HTMLImageElement;
       img.src = starFilledImg;
+
       starFilledCount += 1;
     }
 
