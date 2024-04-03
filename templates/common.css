@@ -8,7 +8,7 @@
 @import url('../src/components/Alert/alert.css');
 @import url('../src/components/ErrorPage/error-page.css');
 @import url('../src/components/ModalWrapper/modal-wrapper.css');
-@import url('../src/components/MovieDetail/movie-detail.css');
+@import url('../src/components/MovieDetailModal/movie-detail-modal.css');
 
 :root {
   --background: #222222;

@@ -1,5 +1,4 @@
-import { LOGO, STAR_EMPTY, STAR_FILLED } from './resource/index';
-import { STAR_MESSAGE } from './constants/messages';
+import { LOGO } from './resource/index';
 import { $ } from './utils/dom';
 import throttle from './utils/throttle';
 
@@ -7,26 +6,21 @@ import Header from './components/Header/Header';
 import Title from './components/Title/Title';
 import SearchBox from './components/SearchBox/SearchBox';
 import MovieListSection from './components/MovieListSection/MovieListSection';
-import ModalWrapper from './components/ModalWrapper/ModalWrapper';
-import MovieDetail from './components/MovieDetail/MovieDetail';
-import MovieDetailSkeleton from './components/SkeletonItem/MovieDetailSkeleton';
 import Alert from './components/Alert/Alert';
 import TopButton from './components/TopButton/TopButton';
 
 import MovieRenderController from './controller/MovieRenderController';
-import MovieDetailController from './controller/MovieDetailController';
+import MovieDetailModal from './components/MovieDetailModal/MovieDetailModal';
 
 class MovieApp {
   static MOBILE_THRESHOLD_WIDTH = 673;
   #app = document.getElementById('app');
   #MovieRenderController;
-  #movieDetailController;
   #modal;
 
   constructor() {
     this.#MovieRenderController = new MovieRenderController();
-    this.#movieDetailController = new MovieDetailController(localStorage);
-    this.#modal = new ModalWrapper();
+    this.#modal = new MovieDetailModal();
   }
 
   init() {
@@ -109,32 +103,9 @@ class MovieApp {
     const target = event.target as Element;
     const li = target.closest('li.movie-item') as HTMLLIElement;
     if (!li) return;
-    this.#modal.replaceContent(
-      MovieDetailSkeleton({
-        onCloseButtonClick: () => this.#modal.toggle(),
-      }),
-    );
-    this.#modal.toggle();
-
     const movieId = Number(li.dataset.movieId);
-    const data = await this.#movieDetailController.getMovieDetail(movieId);
-    const movieDetail = MovieDetail({
-      data,
-      onCloseButtonClick: () => this.#modal.toggle(),
-      onStarClick: (movieId: number, event: Event) => this.#onStarClick(movieId, event),
-    });
 
-    this.#modal.replaceContent(movieDetail);
-  }
-
-  #onStarClick(movieId: number, event: Event) {
-    const target = event.target as HTMLElement;
-    const targetStar = target.closest('.star') as HTMLImageElement;
-    if (!targetStar) return;
-    const starIndex = Number(targetStar.dataset?.starIndex);
-    const grade = starIndex * 2 + 2;
-
-    this.#movieDetailController.updateMovieDetail(movieId, grade);
+    await this.#modal.replace(movieId);
   }
 }
 

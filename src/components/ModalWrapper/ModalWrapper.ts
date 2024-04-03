@@ -23,11 +23,11 @@ class ModalWrapper {
   }
 
   toggle() {
-    this.#modal.classList.toggle('modal--open');
-
-    if (!this.#modal.classList.contains('modal--open')) {
+    if (this.#modal.classList.contains('modal--open')) {
       this.#modalContent.innerHTML = '';
     }
+
+    this.#modal.classList.toggle('modal--open');
   }
 }
 
