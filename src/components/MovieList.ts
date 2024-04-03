@@ -1,4 +1,5 @@
 import { Movie } from '../index.d';
+import InfiniteScrollService from '../service/InfiniteScroll';
 import movieStore from '../store/MovieStore';
 import searchMovieStore from '../store/SearchMovieStore';
 import MovieCard from './MovieCard/MovieCard';
@@ -18,21 +19,17 @@ export default class MovieList {
   }
 
   async #infiniteScroll() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(async (entry) => {
-        if (entry.isIntersecting) {
-          if (this.#listType === SEARCH && searchMovieStore.presentPage > searchMovieStore.totalPages) return;
-          this.generateMovieList();
-        }
+    const target = document.querySelector('.list-end') as HTMLElement;
+
+    if (target) {
+      InfiniteScrollService.initObserver(target, () => {
+        this.generateMovieList();
       });
-    });
-
-    const target = document.querySelector('.list-end');
-
-    if (target) observer.observe(target);
+    }
   }
 
   async generateMovieList() {
+    if (this.#listType === SEARCH && searchMovieStore.presentPage > searchMovieStore.totalPages) return;
     this.#changeTitle();
     this.#removePreviousError();
     this.#generateSkeletonUI();
