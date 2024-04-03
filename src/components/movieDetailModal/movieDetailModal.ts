@@ -92,7 +92,7 @@ class MovieDetailModal {
 
   open(movieResponse: MovieDetailResponse) {
     const { id, title, imageSrc, score, description, genres } = movieDetail.create(movieResponse);
-    const movies = storage.get<ScoreStorage[]>('movies');
+    const movies = storage.get<ScoreStorage[]>('movies') ?? [];
     const movie = movies.filter(movie => movie.id === id)[0];
     const movieScore = movie?.score;
     this.movieId = id;
@@ -147,7 +147,8 @@ class MovieDetailModal {
 
   calculateStorageScore(id: number) {
     const score = (id * 2) as StarScore;
-    const movies = storage.get<ScoreStorage[]>('movies');
+    const movies = storage.get<ScoreStorage[]>('movies') ?? [];
+
     const isDeclared = movies.some(movie => movie.id === this.movieId);
     return isDeclared
       ? movies.map(movie => (movie.id === this.movieId ? { ...movie, score } : movie))

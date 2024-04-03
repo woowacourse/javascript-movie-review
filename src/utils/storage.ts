@@ -1,8 +1,8 @@
 const storage = {
-  get<T>(key: string): T {
+  get<T>(key: string): T | null {
     const item = localStorage.getItem(key);
     if (item === null) {
-      return [] as T;
+      return null;
     }
 
     return JSON.parse(item);
