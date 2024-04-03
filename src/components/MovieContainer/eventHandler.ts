@@ -6,8 +6,7 @@ import { TMDBDetailProps } from '../../types/tmdb';
 const fetchMovieDetails = async (movieId: string): Promise<TMDBDetailProps | null> => {
   try {
     const response = await tmdbApi.sendRequest(API_ENDPOINT.DETAIL(Number(movieId)));
-    const { id, title, poster_path, genres, vote_average, overview } = response;
-    return { id, title, poster_path, genres, vote_average, overview };
+    return response;
   } catch (error) {
     console.error(error);
     return null;
