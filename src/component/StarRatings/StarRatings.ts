@@ -63,8 +63,8 @@ class StarRatings {
     const score = starFilledCount * STAR_RATINGS.scoreConvertMultiplier;
     const description = STAR_RATINGS.scoreDescription[score];
 
-    myRatingsElement.textContent = `${score}`;
-    myRatingsDescriptionElement.textContent = `${description}`;
+    myRatingsElement.textContent = String(score);
+    myRatingsDescriptionElement.textContent = description;
   }
 
   setStarRatingButtonsStatus(starButtonId: number) {
