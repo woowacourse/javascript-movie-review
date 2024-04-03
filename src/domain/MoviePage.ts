@@ -3,6 +3,8 @@ class MoviePage {
 
   isLastPage: boolean = false;
 
+  isLoading: boolean = false;
+
   getPage(): number {
     return this.page;
   }

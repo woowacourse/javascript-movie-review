@@ -1,4 +1,5 @@
 import MovieApp from '../MovieApp';
+import INFINITE_SCROLL from '../constants/infiniteScroll';
 import { RenderInputType } from '../types/props';
 
 const infiniteScroll = {
@@ -7,25 +8,20 @@ const infiniteScroll = {
     const scrollEnd = document.querySelector('#scroll-end-box');
     if (scrollEnd) {
       const options = {
-        threshold: 1.0,
+        threshold: INFINITE_SCROLL.THRESHOLD,
       };
 
-      const observer = new IntersectionObserver((entries, observer) => {
+      const observers = new IntersectionObserver((entries, observer) => {
         entries.forEach((entry) => {
           if (movieApp.categorizeRenderType(renderType).isLastPage) observer.disconnect();
-          if (!entry.isIntersecting || movieApp.isLoading) return;
+          if (!entry.isIntersecting || movieApp.categorizeRenderType(renderType).isLoading) return;
           observer.observe(scrollEnd);
-          this.handleMovieApp(movieApp, { renderType, input });
+          movieApp.handleMovieApp({ renderType, input });
         });
       }, options);
 
-      observer.observe(scrollEnd);
+      observers.observe(scrollEnd);
     }
-  },
-
-  handleMovieApp(movieApp: MovieApp, { renderType, input }: RenderInputType) {
-    movieApp.categorizeRenderType(renderType).updatePage();
-    movieApp.renderMainContents({ renderType, input });
   },
 };
 

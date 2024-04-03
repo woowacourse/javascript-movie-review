@@ -27,7 +27,6 @@ class MovieApp {
 
   searchPage: MoviePage = new MoviePage();
 
-  isLoading: boolean = false;
 
   constructor() {
     this.init();
@@ -82,7 +81,7 @@ class MovieApp {
     const section = document.createElement('section');
     section.classList.add('item-view');
     section.id = 'section--item-view';
-    
+
     const ul = this.createItemList();
     const h2 = document.createElement('h2');
     h2.textContent = titleMessage;
@@ -100,7 +99,7 @@ class MovieApp {
     return ul;
   }
 
-  createMainSkeleton() {
+  createMainSkeleton(renderType: RenderType) {
     const ul = document.querySelector('#item-list') as HTMLElement;
     if (!ul) return;
 
@@ -109,11 +108,10 @@ class MovieApp {
       .createContextualFragment(SKELETON_ITEM_TEMPLATE.repeat(20));
     ul.appendChild(templates);
 
-    this.isLoading = true;
+    this.categorizeRenderType(renderType).isLoading = true;
   }
 
   createMainContents(movieList: MovieListType) {
-    this.deleteSkeleton();
     const ul = document.querySelector('#item-list') as HTMLElement;
     if (!ul) return;
 
@@ -132,7 +130,6 @@ class MovieApp {
   }
 
   async renderMainContents({ renderType, input }: RenderInputType) {
-    this.createMainSkeleton();
     const { movieList, isLastPage: isLastPageValue } = await movieData.handleMovieData(this, {
       renderType,
       input,
@@ -151,12 +148,12 @@ class MovieApp {
     if (scrollEnd) scrollEnd.remove();
   }
 
-  deleteSkeleton() {
+  deleteSkeleton(renderType: RenderType) {
     const skeletons = document.querySelectorAll('.li--skeleton');
     if (skeletons) {
       skeletons.forEach((skeleton) => skeleton.remove());
     }
-    this.isLoading = false;
+    this.categorizeRenderType(renderType).isLoading = false;
   }
 
   setSearchFormEvent() {
@@ -178,7 +175,6 @@ class MovieApp {
     if (searchInput instanceof HTMLInputElement) {
       const input = searchInput.value;
       const page = this.categorizeRenderType('search');
-      // if (!page) return;
       page.resetPage();
       this.handleSearchWidth();
       this.updateMainHtml(SEARCH_MOVIE_TITLE(input));
@@ -201,6 +197,11 @@ class MovieApp {
         { once: true },
       );
     }
+  }
+
+  handleMovieApp({ renderType, input }: RenderInputType) {
+    this.categorizeRenderType(renderType).updatePage();
+    this.renderMainContents({ renderType, input });
   }
 
   toggleSearchWidth(searchForm: HTMLFormElement) {

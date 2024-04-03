@@ -29,7 +29,9 @@ const movieData = {
         this.getMovieData(httpRequest.fetchSearchedMovies, { page, input: input ?? '' }),
     };
     const getDataFunction = handleMovieDataTable[renderType];
+    movieApp.createMainSkeleton(renderType);
     const getData = await getDataFunction();
+    movieApp.deleteSkeleton(renderType);
     return getData;
   },
 
