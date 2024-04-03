@@ -1,4 +1,5 @@
 import Movie from '../domain/Movie';
+import { CONFIG } from '../constant/config';
 
 export interface MovieData {
   id: number;
@@ -10,7 +11,7 @@ export interface MovieData {
 export interface MovieDetailData extends MovieData {
   genres: string[];
   overview: string;
-  userScore: number | null;
+  userScore: UserScoreType | null;
 }
 
 export interface MovieDetailRawData {
@@ -48,5 +49,7 @@ export interface MoviePageData {
 
 export interface UserScoreParams {
   movieId: number;
-  userScore?: number;
+  userScore?: UserScoreType | null;
 }
+
+export type UserScoreType = keyof typeof CONFIG.userScore;

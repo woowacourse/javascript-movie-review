@@ -1,4 +1,4 @@
-import { MovieDetailData } from '../interface/MovieInterface';
+import { MovieDetailData, UserScoreType } from '../interface/MovieInterface';
 import convertToPosterPath from '../util/convertToPosterPath';
 
 export default class MovieDetail {
@@ -15,7 +15,7 @@ export default class MovieDetail {
     return { ...this.movieDetail };
   }
 
-  set userScore(score: number) {
+  set userScore(score: UserScoreType) {
     this.movieDetail.userScore = score;
   }
 }

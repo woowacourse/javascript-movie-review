@@ -1,10 +1,16 @@
-import { BASE_URL, ENDPOINT, MOVIE_LIST_TYPE, STORAGE } from '../constant/config';
+import { BASE_URL, CONFIG, ENDPOINT, MOVIE_LIST_TYPE, STORAGE } from '../constant/config';
 import fetchAPI from '../api/fetchAPI';
 import generateQueryUrl from '../api/generateQueryUrl';
 import Movie from './Movie';
-import getEnvVariable from '../util/getEnvVariable';
-import { MovieDetailRawData, MovieDetailData, MoviePageDataParams, UserScoreParams } from '../interface/MovieInterface';
 import MovieDetail from './MovieDetail';
+import getEnvVariable from '../util/getEnvVariable';
+import {
+  MovieDetailRawData,
+  MovieDetailData,
+  MoviePageDataParams,
+  UserScoreParams,
+  UserScoreType,
+} from '../interface/MovieInterface';
 
 type MovieListType = keyof typeof MOVIE_LIST_TYPE;
 
@@ -97,8 +103,11 @@ class MovieService {
 
   getUserScore({ movieId }: UserScoreParams) {
     const userMovies = this.getUserMoviesFromStorage();
-    if (Object.keys(userMovies).includes(movieId.toString())) {
-      return parseInt(userMovies[movieId].userScore);
+    if (
+      Object.keys(userMovies).includes(movieId.toString()) &&
+      parseInt(userMovies[movieId].userScore) in CONFIG.userScore
+    ) {
+      return parseInt(userMovies[movieId].userScore) as keyof typeof CONFIG.userScore;
     }
     return null;
   }

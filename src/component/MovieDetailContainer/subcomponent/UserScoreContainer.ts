@@ -1,9 +1,9 @@
 import { CONFIG } from '../../../constant/config';
-import { UserScoreParams } from '../../../interface/MovieInterface';
+import { UserScoreParams, UserScoreType } from '../../../interface/MovieInterface';
 
 interface UserScoreContainerParams {
   movieId: number;
-  userScore: number | null;
+  userScore: UserScoreType | null;
   updateUserScore: ({ movieId, userScore }: UserScoreParams) => void;
 }
 
@@ -43,19 +43,56 @@ class UserScoreContainer {
     this.container.append(userScoreTitle, this.userScoreStarsContainer, this.userScoreText, this.userScoreDescription);
   }
 
-  updateUserScoreStatus(userScore: number | null) {
+  updateUserScoreStatus(userScore: UserScoreType | null) {
     this.updateUserScoreStars(userScore);
     this.updateUserScoreText(userScore);
     this.updateUserScoreDescription(userScore);
   }
 
-  getUserScoreArray(userScore: number | null) {
+  updateUserScoreStars(userScore: UserScoreType | null) {
+    const userScoreArray = this.getUserScoreArray(userScore);
+    this.userScoreStars.forEach((star, index) => {
+      if (userScoreArray[index]) star.classList.add('filled');
+      else star.classList.remove('filled');
+    });
+  }
+
+  updateUserScoreText(userScore: UserScoreType | null) {
+    this.userScoreText.textContent = userScore?.toString() || '0';
+  }
+
+  updateUserScoreDescription(userScore: UserScoreType | null) {
+    if (userScore !== null && userScore in CONFIG.userScore) {
+      this.userScoreDescription.textContent = CONFIG.userScore[userScore] ?? '별점을 남겨주세요!';
+      return;
+    }
+    this.userScoreDescription.textContent = '별점을 남겨주세요!';
+  }
+
+  getUserScoreArray(userScore: UserScoreType | null) {
     return Array.from({ length: Object.keys(CONFIG.userScore).length }, (_, index) => {
       if (userScore && index < Math.floor(userScore / 2)) {
         return true;
       }
       return false;
     });
+  }
+
+  getUserScoreByStarIndex(index: number) {
+    const userScore = (index + 1) * 2;
+    if (userScore in CONFIG.userScore) {
+      return userScore as keyof typeof CONFIG.userScore;
+    }
+    return null;
+  }
+
+  addEventUserScoreStars(star: HTMLDivElement, index: number) {
+    const userScore = this.getUserScoreByStarIndex(index);
+    if (userScore) {
+      star.addEventListener('click', () => this.handleClickUserScoreStar(userScore));
+      star.addEventListener('mouseenter', () => this.updateUserScoreStatus(userScore));
+      star.addEventListener('mouseleave', () => this.updateUserScoreStatus(this.userScore));
+    }
   }
 
   createUserScoreStars() {
@@ -88,41 +125,13 @@ class UserScoreContainer {
     return userScoreDescription;
   }
 
-  updateUserScoreStars(userScore: number | null) {
-    const userScoreArray = this.getUserScoreArray(userScore);
-    this.userScoreStars.forEach((star, index) => {
-      if (userScoreArray[index]) star.classList.add('filled');
-      else star.classList.remove('filled');
-    });
-  }
-
-  updateUserScoreText(userScore: number | null) {
-    this.userScoreText.textContent = userScore?.toString() || '0';
-  }
-
-  updateUserScoreDescription(userScore: number | null) {
-    const userScoreMap = new Map(Object.entries(CONFIG.userScore).map(([key, value]) => [parseInt(key), value]));
-    if (userScore !== null && userScoreMap.has(userScore)) {
-      this.userScoreDescription.textContent = userScoreMap.get(userScore) ?? '별점을 남겨주세요!';
-      return;
-    }
-    this.userScoreDescription.textContent = '별점을 남겨주세요!';
-  }
-
-  addEventUserScoreStars(star: HTMLDivElement, index: number) {
-    const scoreForStar = (index + 1) & 2;
-    star.addEventListener('click', () => this.handleClickUserScoreStar(scoreForStar));
-    star.addEventListener('mouseenter', () => this.updateUserScoreStatus(scoreForStar));
-    star.addEventListener('mouseleave', () => this.updateUserScoreStatus(this.userScore));
-  }
-
-  handleClickUserScoreStar(userScore: number) {
+  handleClickUserScoreStar(userScore: UserScoreType) {
     this.setUserScore(userScore);
     this.updateUserScoreStatus(this.userScore);
     this.updateUserScore({ movieId: this.movieId, userScore });
   }
 
-  setUserScore(userScore: number) {
+  setUserScore(userScore: UserScoreType) {
     this.userScore = userScore;
   }
 
