@@ -32,12 +32,10 @@ export const infiniteScroll = {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            this.fetchMoreItems(callback);
-            observer.unobserve(entry.target);
-          }
-        });
+        if (entries[0].isIntersecting) {
+          this.fetchMoreItems(callback);
+          observer.unobserve(entries[0].target);
+        }
       },
       { threshold: 0.2 }
     );
