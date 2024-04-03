@@ -71,6 +71,10 @@ button {
   background-size: contain;
 }
 
+.item-thumbnail:hover {
+  box-shadow: 0px 0px 14px 5px rgba(255, 255, 255, 0.3);
+}
+
 .item-title {
   margin-top: 16px;
   font-size: 1.2rem;
@@ -133,20 +137,22 @@ button.primary {
 }
 
 header {
-  width: 100vw;
-  height: 72px;
-  background-color: var(--black);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid var(--white);
-  margin-bottom: 48px;
 
   position: fixed;
   top: 0;
   left: 0;
   z-index: 10;
+
+  border-bottom: 1px solid var(--white);
+  margin-bottom: 48px;
+
+  width: 100vw;
+  height: 72px;
+  background-color: var(--black);
 }
 
 header h1 {
@@ -167,6 +173,10 @@ header > .search-box {
   background: var(--white);
   padding: 8px;
   border-radius: 4px;
+}
+
+header > .search-box:hover {
+  box-shadow: 0px 0px 8px 4px rgba(255, 255, 255, 0.3);
 }
 
 header .search-box > input {
