@@ -29,6 +29,7 @@ export default class App {
     this.#addHomeButtonEvent();
     this.#initEventListeners();
     this.#setupIntersectionObserver();
+    this.#goToTop();
   }
 
   #insertLogo() {
@@ -257,6 +258,16 @@ export default class App {
       const movieId = Number(clickedElement.dataset.movieid);
       const modal = Modal.getInstance(movieId);
       modal.openModal();
+    }
+  }
+
+  #goToTop() {
+    const topButton = document.querySelector('#goToTop');
+
+    if (topButton) {
+      topButton.addEventListener('click', () => {
+        window.scrollTo(0, 0);
+      });
     }
   }
 }
