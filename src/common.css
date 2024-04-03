@@ -140,6 +140,8 @@ button {
   margin-left: 8px;
 }
 
+.detail-modal--body.skeleton::after,
+.detail-modal--header.skeleton::after,
 .item-title.skeleton::after,
 .item-score.skeleton::after {
   font-size: 0;
@@ -165,7 +167,7 @@ button.primary {
   background: var(--primary-color);
 }
 
-.item-card .skeleton {
+.skeleton {
   background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
   background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;

@@ -47,33 +47,33 @@ export const DETAIL_MODAL_TEMPLATE = (
   movie: MovieDetailType,
   ratingValue: ClickedRatingValueType,
 ) => /* html */ `
-  <div id="detail-modal--header">
-    <div id="detail-modal--title">${movie.title}</div>  
-    <div id="detail-modal--close-btn"><img src="${MODAL_CLOSE_BTN}" alt="별점"/></div>
+  <div id="detail-modal--header" class="detail-modal--header">
+    <div id="detail-modal--title" class="detail-modal--title">${movie.title}</div>  
+    <div id="detail-modal--close-btn" class="detail-modal--close-btn"><img src="${MODAL_CLOSE_BTN}" alt="닫기"/></div>
   </div>
-  <div id="detail-modal--body">
-    <img id="detail-modal--body-img" src="${
+  <div id="detail-modal--body" class="detail-modal--body">
+    <img id="detail-modal--body-img" class="detail-modal--body-img" src="${
       movie.poster_path ? `${MOVIE_POSTER_PATH}/${movie.poster_path}` : NO_IMAGE
     }"/>
-    <div id="detail-modal--contents">
-      <div id="detail-modal--info">
-        <div id="detail-modal--info-header">
-          <div id="detail-modal--genre">${
+    <div id="detail-modal--contents" class="detail-modal--contents">
+      <div id="detail-modal--info" class="detail-modal--info">
+        <div id="detail-modal--info-header" class="detail-modal--info-header">
+          <div id="detail-modal--genre" clas="detail-modal--genre">${
             movie.genres.length !== 0
               ? movie.genres.map((genre) => genre.name).join(', ')
               : '장르가 없습니다.'
           }</div>
-          <div id="detail-modal--vote"><img src="${STAR_FILLED}"/>${movie.vote_average.toFixed(
+          <div id="detail-modal--vote" class="detail-modal--vote"><img src="${STAR_FILLED}"/>${movie.vote_average.toFixed(
   1,
 )}</div>
         </div>
-        <div id="detail-modal--overview">${
+        <div id="detail-modal--overview" class="detail-modal--overview">${
           movie.overview ? movie.overview : '등록된 줄거리가 없습니다.'
         }</div>
       </div>
-      <div id="detail-modal--rating">
-        <div id="detail-modal--label">내 별점</div>
-        <div id="detail-modal--rating-stars">
+      <div id="detail-modal--rating" class="detail-modal--rating">
+        <div id="detail-modal--label" class="detail-modal--label">내 별점</div>
+        <div id="detail-modal--rating-stars" class="detail-modal--rating-stars">
         ${Array.from({ length: 5 }, (_, index) => {
           const starIndex = (index + 1) * 2;
           return `<img src="${
@@ -81,8 +81,35 @@ export const DETAIL_MODAL_TEMPLATE = (
           }" class="rating-star" data-id="${starIndex}" alt="별점"/>`;
         }).join('')}
         </div>
-        <div id="detail-modal--rating-value">${ratingValue}</div>
-        <div id="detail-modal--rating-label">${RATING_MESSAGE[ratingValue]}</div>
+        <div id="detail-modal--rating-value" class="detail-modal--rating-value">${ratingValue}</div>
+        <div id="detail-modal--rating-label" class="detail-modal--rating-label">${
+          RATING_MESSAGE[ratingValue]
+        }</div>
+      </div>
+    </div>
+  </div>
+`;
+
+export const DETAIL_MODAL_SKELETON = /* html */ `
+  <div id="detail-modal--header" class="detail-modal--header detail-modal--header-skeleton">
+    <div id="detail-modal--title" class="detail-modal--title skeleton"></div>  
+    <div id="detail-modal--close-btn" class="detail-modal--close-btn"></div>  
+  </div>
+  <div id="detail-modal--body" class="detail-modal--body">
+    <div id="detail-modal--body-img" class="detail-modal--body-img skeleton"></div>
+    <div id="detail-modal--contents" class="detail-modal--contents">
+      <div id="detail-modal--info" class="detail-modal--info">
+        <div id="detail-modal--info-header" class="detail-modal--info-header skeleton">
+          <div id="detail-modal--genre" class="detail-modal--genre"></div>
+          <div id="detail-modal--vote" class="detail-modal--vote"></div>
+        </div>
+        <div id="detail-modal--overview" class="detail-modal--overview skeleton"></div>
+      </div>
+      <div id="detail-modal--rating" class="detail-modal--rating skeleton">
+        <div id="detail-modal--label" class="detail-modal--label"></div>
+        <div id="detail-modal--rating-stars" class="detail-modal--rating-stars"></div>
+        <div id="detail-modal--rating-value" class="detail-modal--rating-value"></div>
+        <div id="detail-modal--rating-label" class="detail-modal--rating-label"></div>
       </div>
     </div>
   </div>

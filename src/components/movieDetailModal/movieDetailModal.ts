@@ -1,5 +1,5 @@
 import './style.css';
-import { DETAIL_MODAL_TEMPLATE } from '../../constants/templates';
+import { DETAIL_MODAL_SKELETON, DETAIL_MODAL_TEMPLATE } from '../../constants/templates';
 import { MovieDetailType } from '../../types/movie';
 import { STAR_EMPTY, STAR_FILLED } from '../../images';
 import { RATING_MESSAGE } from '../../constants/rating';
@@ -31,6 +31,8 @@ const movieDetailModal = {
         if (target && target.className === 'item-list') return;
 
         const movieId = Number(target?.closest('a')?.getAttribute('data-id')) ?? 0;
+        dialog.innerHTML = DETAIL_MODAL_SKELETON;
+
         movieData.getMovieDetail(movieId).then((movie: MovieDetailType | null) => {
           if (movie !== null) movieDetailModal.insertTemplate(movie);
         });
@@ -38,6 +40,11 @@ const movieDetailModal = {
         this.fixBackGroundBody();
       });
     }
+  },
+
+  createModalSkeleton() {
+    const dialog = document.querySelector('dialog');
+    if (!dialog) return;
   },
 
   setModalCloseEvent() {
