@@ -1,19 +1,19 @@
 const ScrollUtility = {
   observer: null as IntersectionObserver | null,
 
-  infiniteScroll(target: HTMLElement, onIntersect: () => void) {
+  infiniteScroll(scrollTrigger: HTMLElement, onIntersect: () => void) {
     const options = {
       threshold: 0.1,
     };
 
     this.observer = new IntersectionObserver((entries) => {
       const lastEntry = entries[entries.length - 1];
-      if (lastEntry.isIntersecting && lastEntry.target === target) {
+      if (lastEntry.isIntersecting && lastEntry.target === scrollTrigger) {
         onIntersect();
       }
     }, options);
 
-    if (target) this.observer.observe(target);
+    if (scrollTrigger) this.observer.observe(scrollTrigger);
   },
 
   disconnectObserver() {

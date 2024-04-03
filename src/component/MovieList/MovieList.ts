@@ -68,8 +68,10 @@ class MovieList {
       this.#displayMaxPageInfo();
       ScrollUtility.disconnectObserver();
     } else {
-      const target = $('.item-list')?.lastChild as HTMLLIElement;
-      ScrollUtility.infiniteScroll(target, () => this.#onPopularIntersect());
+      const scrollTrigger = $('.item-list')?.lastChild as HTMLLIElement;
+      ScrollUtility.infiniteScroll(scrollTrigger, () =>
+        this.#onPopularIntersect(),
+      );
     }
   }
 
@@ -166,8 +168,8 @@ class MovieList {
       this.#displayMaxPageInfo();
       ScrollUtility.disconnectObserver();
     } else {
-      const target = $('.item-list')?.lastChild as HTMLLIElement;
-      ScrollUtility.infiniteScroll(target, () =>
+      const scrollTrigger = $('.item-list')?.lastChild as HTMLLIElement;
+      ScrollUtility.infiniteScroll(scrollTrigger, () =>
         this.#onSearchIntersect(titleInput),
       );
     }
