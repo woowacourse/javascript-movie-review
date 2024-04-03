@@ -6,7 +6,7 @@ import './style/style.css';
 
 import getHeader from './view/getHeader.ts';
 import { replaceMain } from './view/main';
-import { addScrollEvent } from './view/scrollEvent';
+import { addScrollEvent } from './view/event/scrollEvent';
 import renderTopButton from './view/main/topButton';
 
 function renderHeader() {

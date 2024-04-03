@@ -1,5 +1,5 @@
 import movieStateMethod from '../store/movieStore';
-import { elementsReplaceWith } from '../utils/domUtil';
+import { elementsReplaceWith } from './utils/domUtil';
 import { getMovieListContainer, getMovieItems } from './main/movie';
 import { getSkeletonView, getMovieItemCardSkeleton } from './main/movieSkeleton';
 

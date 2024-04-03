@@ -1,4 +1,4 @@
-import { renderNewMovies } from './main';
+import { renderNewMovies } from '../main';
 
 let isLoading = false;
 
