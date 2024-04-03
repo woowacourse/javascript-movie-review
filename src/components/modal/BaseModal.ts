@@ -28,23 +28,23 @@ export default abstract class BaseModal extends EventComponent {
   protected setEvent(): void {
     $<HTMLElement>("modal-backdrop")?.addEventListener(
       "click",
-      this.closeModal.bind(this)
+      this.closeModal
     );
 
-    window.addEventListener("keydown", this.handleKeyDown.bind(this));
+    window.addEventListener("keydown", this.handleKeyDown);
   }
 
-  protected closeModal(): void {
+  protected closeModal = (): void => {
     if (this.$modal && this.$modal.classList.contains("modal-open")) {
       this.$modal.innerHTML = "";
       document.body.classList.remove("no-scroll");
       this.$modal.classList.remove("modal-open");
     }
-  }
+  };
 
-  private handleKeyDown(event: KeyboardEvent): void {
+  private handleKeyDown = (event: KeyboardEvent): void => {
     if (event.key === "Escape") {
       this.closeModal();
     }
-  }
+  };
 }

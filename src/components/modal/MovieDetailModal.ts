@@ -53,14 +53,11 @@ export default class MovieDetailModal extends BaseModal {
     const $closeButton = $<HTMLElement>("close-button");
     const $starRatingContainer = $<HTMLElement>("star-rating-container");
 
-    $closeButton?.addEventListener("click", this.closeModal.bind(this));
-    $starRatingContainer?.addEventListener(
-      "click",
-      this.onStarRatingClick.bind(this)
-    );
+    $closeButton?.addEventListener("click", this.closeModal);
+    $starRatingContainer?.addEventListener("click", this.onStarRatingClick);
   }
 
-  private onStarRatingClick(event: Event): void {
+  private onStarRatingClick = (event: Event): void => {
     const target = event.target as HTMLElement;
     const starRatingIndex = target.dataset.index;
 
@@ -68,7 +65,7 @@ export default class MovieDetailModal extends BaseModal {
       const rating = Number(starRatingIndex);
       this.updateStarRating(this.movieState.get() as number, rating);
     }
-  }
+  };
 
   private updateStarRating(movieId: number, rating: number): void {
     const starRating = storage.get<Record<number, number>>("starRating") ?? {};
@@ -84,8 +81,8 @@ export default class MovieDetailModal extends BaseModal {
     $starRatingContainer.innerHTML = generateStarRating(rating);
   }
 
-  private async fetchMovieDetail(params: number | null) {
+  private fetchMovieDetail = async (params: number | null) => {
     const fetchedData = await getMovieDetail(params);
     return fetchedData;
-  }
+  };
 }

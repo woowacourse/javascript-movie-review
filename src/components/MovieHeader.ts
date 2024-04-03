@@ -30,23 +30,23 @@ export default class MovieHeader extends EventComponent {
             <button id="search-button" class="search-button">검색</button>
           </form>
       </div>
-  `;
+    `;
   }
 
   protected setEvent(): void {
     const $movieListLogo = $<HTMLHeadElement>("movie-list-logo");
     const $form = $<HTMLFormElement>("search-form");
 
-    $movieListLogo?.addEventListener("click", this.onLogoClick.bind(this));
-    $form?.addEventListener("submit", this.onSearchMovieSubmit.bind(this));
+    $movieListLogo?.addEventListener("click", this.onLogoClick);
+    $form?.addEventListener("submit", this.onSearchMovieSubmit);
   }
 
-  private onLogoClick(): void {
+  private onLogoClick = (): void => {
     this.queryState.set("");
     $<HTMLFormElement>("search-form")?.reset();
-  }
+  };
 
-  private onSearchMovieSubmit(event: Event): void {
+  private onSearchMovieSubmit = (event: Event): void => {
     const $searchInput = $<HTMLInputElement>("search-input");
 
     event.preventDefault();
@@ -68,7 +68,7 @@ export default class MovieHeader extends EventComponent {
     }
 
     this.queryState.set(searchQuery);
-  }
+  };
 
   private showInputField($inputElement: HTMLInputElement): void {
     $inputElement.style.display = "inline";
