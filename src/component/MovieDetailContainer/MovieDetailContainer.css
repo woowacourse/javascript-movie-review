@@ -1,4 +1,4 @@
-#modal__movie-detail {
+.movie-detail-container {
   overflow: hidden;
 
   font-size: 16px;
@@ -11,13 +11,13 @@
   justify-content: flex-start;
 }
 
-#modal__movie-detail__title {
+.movie-detail-title-section {
   height: 60px;
   padding: 12px 32px;
   border-bottom: 1px solid #f1f1f126;
 }
 
-#modal__movie-detail__title h2 {
+.movie-detail-title-section h2 {
   font-size: 20px;
   font-weight: 600;
   height: 100%;
@@ -26,7 +26,7 @@
   text-align: center;
 }
 
-#modal__movie-detail__title > button {
+.movie-detail-title-section > button {
   position: absolute;
   top: 12px;
   right: 32px;
@@ -36,25 +36,25 @@
   background: #383839 url('../../asset/close_button.svg') center no-repeat;
 }
 
-#modal__movie-detail__content {
+.movie-detail-content-section {
   padding: 36px 32px 48px;
   display: flex;
   flex-direction: row;
   gap: 32px;
 }
 
-#modal__movie-detail__content .poster-image {
+.movie-detail-content-section .poster-image {
   width: 292px;
   height: 433px;
 }
 
-#modal__movie-detail__content .movie-info-container {
+.movie-detail-content-section .movie-info-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-#modal__movie-detail__content .movie-info-box {
+.movie-detail-content-section .movie-info-box {
   display: flex;
   flex-direction: column;
   gap: 16px;

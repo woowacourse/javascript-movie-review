@@ -3,7 +3,7 @@ import formatScoreNumber from '../../../util/formatScoreNumber';
 
 export default function MovieDetailContentSection(movie: MovieDetailData) {
   const section = document.createElement('section');
-  section.id = 'modal__movie-detail__content';
+  section.classList.add('movie-detail-content-section');
 
   const posterImage = createPosterImage(movie.posterPath, movie.title);
   const movieInfoContainer = createMovieInfoContainer(movie);

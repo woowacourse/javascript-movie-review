@@ -263,7 +263,7 @@ header .search-box > .search-button {
     display: none;
   }
 
-  #movie-detail-modal .modal-container {
+  .modal-container {
     position: fixed;
     width: 100%;
     bottom: 0;
@@ -273,7 +273,7 @@ header .search-box > .search-button {
     overflow-y: auto;
   }
 
-  #modal__movie-detail__content .movie-info-container {
+  .movie-info-container {
     gap: 48px;
   }
 }

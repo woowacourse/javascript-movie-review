@@ -16,7 +16,7 @@ class MovieDetailContainer {
     this.onClose = onClose;
 
     this.container = document.createElement('div');
-    this.container.id = 'modal__movie-detail';
+    this.container.classList.add('movie-detail-container');
     this.userScoreContainer = new UserScoreContainer({
       movieId: movie.id,
       userScore: movie.userScore,
