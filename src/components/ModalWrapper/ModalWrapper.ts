@@ -31,7 +31,7 @@ class ModalWrapper {
     if (this.#modal.classList.contains('modal--open')) {
       this.#modalContent.innerHTML = '';
     }
-
+    document.body.classList.toggle('overflow-hidden');
     this.#modal.classList.toggle('modal--open');
   }
 }
