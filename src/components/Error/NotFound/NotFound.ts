@@ -10,11 +10,11 @@ export const NotFound = () => {
   const notFoundImage = document.createElement('img');
   notFoundImage.setAttribute('src', NotFoundImage);
   notFoundImage.id = 'error-img';
-  notFoundImage.setAttribute('alt', '로고 이미지');
+  notFoundImage.setAttribute('alt', '영화가 없습니다.');
 
   const notFoundTitle = document.createElement('h2');
   notFoundTitle.id = 'error-title';
-  notFoundTitle.textContent = ERROR_MESSAGE.RESULTS_NOT_FOUND;
+  notFoundTitle.textContent = ERROR_MESSAGE.SEARCH_NOT_FOUND;
 
   const notFoundText = document.createElement('ul');
   notFoundText.id = 'error-text';

@@ -2,9 +2,11 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DotEnv = require('dotenv-webpack');
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
   entry: './src/index.js',
-  mode: 'development',
+  mode: isProduction ? 'production' : 'development',
   resolve: {
     extensions: ['.ts', '.js'],
   },
@@ -14,7 +16,6 @@ module.exports = {
     historyApiFallback: true,
   },
   output: {
-    publicPath: '/',
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
@@ -22,6 +23,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html',
+      publicPath: isProduction ? '/javascript-movie-review/dist/' : '.',
     }),
     new DotEnv(),
   ],
@@ -38,7 +40,11 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+          outputPath: 'assets/',
+        },
       },
     ],
   },

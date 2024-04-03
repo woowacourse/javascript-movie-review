@@ -1,0 +1,143 @@
+#movie-info-modal {
+  width: 826px;
+  height: 577px;
+  border: 8px;
+  background-color: var(--grey-5);
+
+  position: relative;
+}
+
+#movie-info-modal-header {
+  height: 60px;
+  text-align: center;
+
+  border-bottom: 1px solid var(--grey-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 20px;
+  font-weight: 500;
+}
+
+#movie-info-flex-wrapper {
+  display: flex;
+
+  justify-content: center;
+  gap: 30px;
+  align-items: center;
+  height: calc(100% - 60px);
+}
+
+#movie-info-poster {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 292px;
+  height: 438px;
+  border-radius: 8px;
+  background-color: var(--grey-3);
+}
+
+#movie-info-detail-box {
+  width: 438px;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 438px;
+  position: relative;
+}
+
+#movie-info-score-box {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#movie-info-score {
+  padding-top: 4px;
+}
+
+#movie-info-genre-score-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.star-icon {
+  width: 24px;
+  height: 24px;
+}
+
+#movie-overview {
+  width: 100%;
+  text-align: start;
+  line-height: 1.5;
+  height: 300px;
+  overflow-y: scroll;
+}
+
+.modal-close-button {
+  width: 36px;
+  height: 36px;
+  background-color: var(--grey-4);
+
+  border-radius: 50%;
+
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.modal-close-button:hover {
+  background-color: var(--grey-3);
+}
+
+@media (max-width: 800px) {
+  #movie-info-modal {
+    width: 740px;
+    height: 544px;
+  }
+
+  #movie-info-poster {
+    width: 260px;
+    height: 400px;
+  }
+
+  #movie-info-detail-box {
+    margin: 32px;
+    height: 400px;
+  }
+
+  #movie-overview {
+    height: 260px;
+  }
+}
+
+@media (max-width: 600px) {
+  #movie-info-modal-header {
+    justify-content: start;
+    padding: 0 32px;
+  }
+
+  #movie-info-poster {
+    display: none;
+  }
+
+  #movie-overview {
+    height: 212px;
+  }
+
+  #user-vote-box {
+    bottom: 50px !important;
+  }
+
+  #movie-info-detail-box {
+    width: 100%;
+  }
+
+  #score-info {
+    display: none !important;
+  }
+}

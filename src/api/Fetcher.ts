@@ -1,12 +1,14 @@
-import { ErrorRetry } from '../components/Error/ErrorRetry/ErrorRetry';
+import CustomError from '../components/Error/CustomError/CustomError';
+import { ErrorPage } from '../components/Error/ErrorPage/ErrorPage';
 import Toast from '../components/Toast/Toast';
+import { ERROR_MESSAGE } from '../consts/message';
 import { MovieAPIReturnType, UrlParamsType } from './movieAPI.type';
 
 class Fetcher {
   url;
-  params;
+  params?;
 
-  constructor({ url, params }: { url: string; params: UrlParamsType }) {
+  constructor({ url, params }: { url: string; params?: UrlParamsType }) {
     this.url = url;
     this.params = params;
   }
@@ -16,16 +18,17 @@ class Fetcher {
       fetch(this.generateMovieApiUrl())
         .then(response => {
           if (!response.ok) {
-            this.errorHandler(response.status);
+            throw new CustomError(response.status);
           }
+
           return response.json();
         })
         .then(data => {
           resolve(data);
         })
-        .catch(err => {
-          new Toast(err.message);
-          ErrorRetry({ errorType: err.message, fetchData: () => this.get() });
+        .catch(error => {
+          new Toast(error.message);
+          ErrorPage({ currentError: error, fetchData: () => this.get() });
         });
     });
   }
@@ -39,19 +42,6 @@ class Fetcher {
     });
 
     return `${this.url}?${queryParams.toString()}`;
-  }
-
-  errorHandler(status: number) {
-    if (status >= 500) {
-      throw new Error('SERVER_ERROR');
-    }
-    if (status === 401) {
-      throw new Error('AUTHENTICATION_FAILED');
-    }
-    if (status >= 400) {
-      throw new Error('FETCHING_ERROR');
-    }
-    throw new Error('NETWORK_ERROR');
   }
 }
 

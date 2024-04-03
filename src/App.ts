@@ -1,13 +1,14 @@
 import Header from '../src/components/Header/Header';
 import MovieList from '../src/components/MovieList/MovieList';
 import Title from './components/Title/Title';
+import TopScrollButton from './components/TopScrollButton/TopScrollButton';
 import { END_POINT } from './consts/URL';
-import MovieDataLoader from './domain/services/MovieDataLoader';
-import { setEndpoint } from './utils/queryString';
+import InfiniteScrollDataLoader from './domain/services/InfiniteScrollDataLoader';
+import { getEndpoint } from './utils/queryString';
 
 class App {
-  movieDataLoader = new MovieDataLoader();
-  itemViewBox = document.querySelector('.item-view');
+  infiniteScrollDataLoader = new InfiniteScrollDataLoader();
+  itemViewBox = document.querySelector('.item-view')!;
   movieListBox = document.createElement('ul');
   movieListInstance: MovieList;
   title = new Title();
@@ -15,28 +16,53 @@ class App {
   constructor() {
     this.movieListBox.classList.add('item-list');
     this.movieListBox.classList.add('grid');
-    this.init();
-    this.movieListInstance = new MovieList({ isLoading: true, movieList: [] });
-  }
-
-  async init() {
-    this.#renderHeader();
-    this.title.renderTitle();
-
-    if (!this.itemViewBox) return;
+    this.movieListInstance = new MovieList({ movieList: [] });
     this.itemViewBox.append(this.movieListBox);
 
-    setEndpoint(END_POINT.POPULAR);
-    await this.movieDataLoader.renderFirstPage();
+    this.renderFirstPage();
+    new TopScrollButton();
   }
 
-  async renderMovieList() {
-    this.title.rerenderTitle();
-    await this.movieDataLoader.renderFirstPage();
+  async renderFirstPage() {
+    this.renderHeader();
+
+    this.title.renderTitle();
+    this.movieListInstance.renderSkeleton();
+    this.infiniteScrollDataLoader.renderTargetPage();
   }
 
-  #renderHeader() {
-    new Header(this.renderMovieList.bind(this));
+  async rerenderMovieList() {
+    this.title.renderTitle();
+    this.removeExistedData();
+    this.infiniteScrollDataLoader.resetPage();
+    this.movieListInstance.renderSkeleton();
+    this.infiniteScrollDataLoader.renderTargetPage();
+  }
+
+  renderHeader() {
+    new Header(this.rerenderMovieList.bind(this));
+  }
+
+  removeExistedData() {
+    const notFoundBox = document.querySelector('#not-found');
+    if (notFoundBox) {
+      notFoundBox.remove();
+    }
+
+    const itemList = document.querySelector('.item-list');
+    if (!itemList) return;
+    itemList.replaceChildren();
+
+    this.resetSearchInput();
+  }
+
+  resetSearchInput() {
+    const endpoint = getEndpoint();
+    if (endpoint !== END_POINT.SEARCH) {
+      const searchInput = document.querySelector('.search-box input') as HTMLInputElement;
+      if (!searchInput) return;
+      searchInput.value = '';
+    }
   }
 }
 

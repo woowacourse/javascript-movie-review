@@ -1,80 +1,86 @@
 import Star from '../../assets/star_filled.png';
 import NoImage from '../../assets/no_image.png';
-import { Movie } from './../../types/movie';
+import type { Movie } from '../../domain/entity/movie.type';
 import '../MovieItem/MovieItem.css';
 import { POSTER_BASE_URL } from '../../consts/URL';
+import { getEndpoint, setUrlParams } from '../../utils/queryString';
 
-const MovieItem = {
-  skeletonTemplate() {
-    const skeletonItemBox = document.createElement('li');
-    skeletonItemBox.innerHTML = /* html */ `
-      <a href="#">
-        <div class="item-card">
-          <div class="item-thumbnail skeleton"></div>
-          <div class="item-title skeleton"></div> 
-          <div class="item-score skeleton"></div>
-        </div>
-      </a>`;
-    return skeletonItemBox;
-  },
+type MovieItemProps = {
+  skeletonTemplate: HTMLElement;
+  movie: Movie;
+  rerenderModal: (id: number) => void;
+};
 
-  template(movie: Movie) {
-    const { id, title, posterPath, voteAverage } = movie;
-    const itemBox = document.createElement('li');
-    itemBox.setAttribute('data-movie-id', String(id));
+class MovieItem {
+  movie: Movie;
+  itemCard;
+  itemThumbnail;
+  itemTitle;
+  itemScore;
 
-    const itemCard = document.createElement('a');
-    itemCard.classList.add('item-card');
+  rerenderModal: (id: number) => void;
 
-    const titleBox = this.makeTitle(title);
-    const voteAverageBox = this.makeVote(voteAverage);
+  constructor({ skeletonTemplate, movie, rerenderModal }: MovieItemProps) {
+    this.movie = movie;
+    this.itemCard = skeletonTemplate.querySelector('a')!;
+    this.itemThumbnail = skeletonTemplate.querySelector('img')!;
+    this.itemTitle = skeletonTemplate.querySelector('div')!;
+    this.itemScore = skeletonTemplate.querySelector('p')!;
 
+    this.rerenderModal = rerenderModal;
+    this.setEvent();
+  }
+
+  render() {
+    const { title, posterPath, voteAverage } = this.movie;
+    this.createThumbnail(title, posterPath);
+    this.createTitle(title);
+    this.createScore(voteAverage);
+  }
+
+  setEvent() {
+    this.itemCard.addEventListener('click', async () => {
+      const topScrollButton = document.querySelector('#top-scroll-button');
+      topScrollButton?.classList.remove('show');
+
+      const endpoint = getEndpoint() || '';
+      setUrlParams('movie_id', endpoint, String(this.movie.id));
+      const movieDetailModal = document.querySelector('.modal');
+      movieDetailModal?.classList.add('modal-open');
+      this.rerenderModal(this.movie.id);
+    });
+  }
+
+  createThumbnail(title: string, posterPath: string | null) {
     if (posterPath) {
-      const posterImage = this.makePosterImage(title, posterPath);
-      itemCard.append(posterImage);
+      this.itemThumbnail.setAttribute('loading', 'lazy');
+      this.itemThumbnail.classList.add('item-thumbnail');
+      this.itemThumbnail.setAttribute('src', POSTER_BASE_URL + posterPath);
+      this.itemThumbnail.setAttribute('alt', title);
     } else {
-      const noImage = this.makeNoImage();
-      itemCard.append(noImage);
+      const noImageThumbnail = MovieItem.createNoImage();
+      this.itemThumbnail.replaceWith(noImageThumbnail);
     }
+  }
 
-    itemCard.append(titleBox);
-    itemCard.append(voteAverageBox);
-    itemBox.append(itemCard);
-
-    return itemBox;
-  },
-
-  makePosterImage(title: string, posterPath: string) {
-    const posterImage = document.createElement('img');
-    posterImage.classList.add('item-thumbnail');
-    posterImage.setAttribute('src', POSTER_BASE_URL + posterPath);
-    posterImage.setAttribute('loading', 'lazy');
-    posterImage.setAttribute('alt', title);
-
-    return posterImage;
-  },
-
-  makeNoImage() {
-    const noImage = document.createElement('div');
-    noImage.classList.add('no-image');
+  static createNoImage() {
+    const noImageThumbnail = document.createElement('div');
+    noImageThumbnail.classList.add('no-image');
     const noImageIcon = document.createElement('img');
     noImageIcon.classList.add('no-image-icon');
     noImageIcon.setAttribute('src', NoImage);
-    noImage.append(noImageIcon);
-    return noImage;
-  },
+    noImageThumbnail.append(noImageIcon);
+    return noImageThumbnail;
+  }
 
-  makeTitle(title: string) {
-    const titleBox = document.createElement('p');
-    titleBox.classList.add('item-title');
-    titleBox.textContent = title;
-    return titleBox;
-  },
+  createTitle(title: string) {
+    this.itemTitle.classList.remove('skeleton');
+    this.itemTitle.classList.add('multi-lines-overflow');
+    this.itemTitle.textContent = title;
+  }
 
-  makeVote(voteAverage: number) {
-    const voteAverageBox = document.createElement('p');
-    voteAverageBox.classList.add('item-score');
-
+  createScore(voteAverage: number) {
+    this.itemScore.classList.remove('skeleton');
     const starImage = document.createElement('img');
     starImage.setAttribute('src', Star);
     starImage.setAttribute('alt', '별점');
@@ -82,11 +88,9 @@ const MovieItem = {
     const voteAverageText = document.createElement('span');
     voteAverageText.textContent = String(voteAverage);
 
-    voteAverageBox.append(starImage);
-    voteAverageBox.append(voteAverageText);
-
-    return voteAverageBox;
-  },
-};
+    this.itemScore.append(starImage);
+    this.itemScore.append(voteAverageText);
+  }
+}
 
 export default MovieItem;

@@ -1,9 +1,10 @@
 * {
   box-sizing: border-box !important;
-}
 
-:root {
-  --primary-color: #f33f3f;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  line-height: 1.5;
 }
 
 body {

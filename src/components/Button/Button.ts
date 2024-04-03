@@ -1,13 +1,13 @@
 import './Button.css';
 
 interface Props {
-  text: string;
+  text?: string;
   clickEvent: () => void;
   id?: string;
 }
 
 class Button {
-  text: string;
+  text?: string;
   clickEvent: () => void;
   buttonBox = document.createElement('button');
   id?: string;
@@ -22,7 +22,7 @@ class Button {
 
   render() {
     this.buttonBox.classList.add('button');
-    this.buttonBox.textContent = this.text;
+    this.buttonBox.textContent = this.text || '';
     this.buttonBox.addEventListener('click', () => this.clickEvent());
     if (this.id) {
       this.buttonBox.id = this.id;

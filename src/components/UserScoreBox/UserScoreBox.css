@@ -1,0 +1,44 @@
+#user-vote-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 64px;
+  background-color: var(--grey-4);
+  border-radius: 16px;
+  position: absolute;
+  bottom: 0;
+  gap: 5px;
+}
+
+#score-title {
+  width: 70px;
+  padding: 0 10px;
+}
+
+#star-with-info-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+}
+
+#star-box {
+  width: 150px;
+}
+
+#score-info {
+  width: 130px;
+  padding-left: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.star {
+  width: 32px;
+  transition: box-shadow 0.3s ease;
+}
+
+.star:hover {
+  filter: drop-shadow(0 0 10px yellow);
+}

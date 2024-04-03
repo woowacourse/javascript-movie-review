@@ -1,22 +1,17 @@
-import { ERROR_MESSAGE } from '../../../consts/message';
 import NETWORK_ERROR from '../../../assets/network_error.png';
 import SYSTEM_ERROR from '../../../assets/system_error.png';
-import './ErrorRetry.css';
-
+import './ErrorPage.css';
 import '../NotFound/NotFound.css';
 import Button from '../../Button/Button';
-import { MovieAPIReturnType } from '../../../api/movieAPI.type';
-import { deleteParams } from '../../../utils/queryString';
-import { QUERY_STRING_KEYS } from '../../../consts/URL';
+import { MovieAPIReturnType, MovieDetailAPIReturnType } from '../../../api/movieAPI.type';
+import { redirectToRoot } from '../../../utils/queryString';
 
-export type ErrorType = 'NOT_FOUND' | 'NETWORK_ERROR' | 'SERVER_ERROR' | 'FETCHING_ERROR' | 'AUTHENTICATION_FAILED';
-
-export const ErrorRetry = ({
-  errorType,
+export const ErrorPage = ({
+  currentError,
   fetchData,
 }: {
-  errorType: ErrorType;
-  fetchData: () => Promise<MovieAPIReturnType>;
+  currentError: Error;
+  fetchData: () => Promise<MovieAPIReturnType | MovieDetailAPIReturnType>;
 }) => {
   const notFoundBox = document.createElement('div');
   notFoundBox.classList.add('error');
@@ -29,22 +24,14 @@ export const ErrorRetry = ({
   const notFoundTitle = document.createElement('div');
   notFoundTitle.id = 'error-title';
 
-  switch (errorType) {
-    case 'SERVER_ERROR':
+  switch (currentError.name) {
+    case 'SERVER_ERROR' || 'AUTHENTICATION_FAILED' || 'NOT_FOUND':
       erroImage.setAttribute('src', SYSTEM_ERROR);
-      notFoundTitle.textContent = ERROR_MESSAGE.SERVER_ERROR;
-
-    case 'AUTHENTICATION_FAILED':
-      erroImage.setAttribute('src', SYSTEM_ERROR);
-      notFoundTitle.textContent = ERROR_MESSAGE.AUTHENTICATION_FAILED;
-
-    case 'FETCHING_ERROR':
-      erroImage.setAttribute('src', NETWORK_ERROR);
-      notFoundTitle.textContent = ERROR_MESSAGE.FETCH_FAILED;
+      notFoundTitle.textContent = currentError.message;
 
     default:
       erroImage.setAttribute('src', NETWORK_ERROR);
-      notFoundTitle.textContent = ERROR_MESSAGE.NETWORK_ERROR;
+      notFoundTitle.textContent = currentError.message;
   }
 
   const buttonBox = document.createElement('div');
@@ -53,8 +40,7 @@ export const ErrorRetry = ({
   const homeButton = new Button({
     text: '홈화면으로',
     clickEvent: () => {
-      deleteParams(QUERY_STRING_KEYS.QUERY);
-      deleteParams(QUERY_STRING_KEYS.PAGE);
+      redirectToRoot();
       location.reload();
     },
     id: 'home-button',

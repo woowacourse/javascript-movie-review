@@ -1,0 +1,46 @@
+.modal {
+  display: none;
+}
+
+.modal-open {
+  display: block;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.modal-container {
+  width: fit-content;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+
+  border-radius: 8px;
+
+  text-align: center;
+  position: relative;
+}
+
+@media (max-width: 600px) {
+  #movie-info-modal {
+    height: 60vh;
+  }
+
+  .modal-container {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    top: 50%;
+    left: auto;
+    transform: none;
+  }
+}
