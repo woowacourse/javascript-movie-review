@@ -90,9 +90,9 @@ const createMovieDetailContent = (posterPath: string) => {
 
 const createMovieDetailInfo = (genres: string, voteAverage: number, overview: string) => {
   const movieDetailInfo = createElement('div', { className: 'movie-detail-info' });
-  const movieDetailZz = createElement('div', { className: 'movie-detail-zz' });
+  const movieDetailZz = createElement('div', { className: 'movie-info-container' });
   const movieOverview = createOverview(overview);
-  const movieDetailDd = createElement('div', { className: 'movie-detail-dd' });
+  const movieDetailDd = createElement('div', { className: 'movie-genres-and-rating' });
   const genreParagraph = createElement('p', { textContent: genres });
   const rating = createElement('div', {
     className: 'rating',

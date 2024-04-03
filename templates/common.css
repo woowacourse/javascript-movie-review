@@ -372,13 +372,13 @@ header .search-form > .search-button {
   justify-content: space-between;
 }
 
-.movie-detail-zz {
+.movie-info-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.movie-detail-dd {
+.movie-genres-and-rating {
   display: flex;
   gap: 10px;
 }
@@ -435,7 +435,7 @@ header .search-form > .search-button {
 }
 
 @media screen and (max-width: 768px) {
-  .movie-detail-dd {
+  .movie-genres-and-rating {
     display: flex;
     align-items: center;
   }
