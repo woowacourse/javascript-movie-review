@@ -4,41 +4,24 @@ import {
   MOVIE_SEARCH_BASE_URL,
   POPULAR_MOVIES_BASE_URL,
 } from '../../../constants/MOVIES_URL';
+import generateMoviesUrl from '../../../utils/GenerateMoviesUrl';
 
 async function fetchPopularMovies(page: number) {
-  const searchParamsURL = new URLSearchParams({
-    api_key: KEY as string,
-    language: 'ko-KR',
-    page: String(page),
-  });
-
-  const popularMoviesURL = POPULAR_MOVIES_BASE_URL + searchParamsURL;
+  const popularMoviesURL = generateMoviesUrl(POPULAR_MOVIES_BASE_URL, { page: String(page) });
   const response = await fetch(popularMoviesURL);
 
   return await response.json();
 }
 
 async function fetchSearchMovies(page: number, userInput: string) {
-  const searchParamsURL = new URLSearchParams({
-    api_key: KEY as string,
-    query: userInput,
-    language: 'ko-KR',
-    page: String(page),
-  });
-
-  const movieSearchUrl = MOVIE_SEARCH_BASE_URL + searchParamsURL;
+  const movieSearchUrl = generateMoviesUrl(MOVIE_SEARCH_BASE_URL, { query: userInput, page: String(page) });
   const response = await fetch(movieSearchUrl);
 
   return await response.json();
 }
 
 async function fetchMovieDetail(id: number) {
-  const searchParamsURL = new URLSearchParams({
-    api_key: KEY as string,
-    language: 'ko-KR',
-  });
-
-  const movieDetailUrl = MOVIE_DETAIL_BASE_URL + id + '?' + searchParamsURL;
+  const movieDetailUrl = generateMoviesUrl(`${MOVIE_DETAIL_BASE_URL}${id}?`);
   const response = await fetch(movieDetailUrl);
 
   return await response.json();
