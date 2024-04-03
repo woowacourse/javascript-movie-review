@@ -18,7 +18,8 @@ class MovieStorageService {
     return movies ? JSON.parse(movies) : [];
   }
   save(movies: IMovie[]) {
-    this.storage.setItem(this.KEY, JSON.stringify(movies));
+    const moviesSaving = movies.map(movie => ({ id: movie.id, score: movie.score }));
+    this.storage.setItem(this.KEY, JSON.stringify(moviesSaving));
   }
 
   update(movie: IMovie) {

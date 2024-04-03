@@ -47,22 +47,27 @@ describe('MovieStorageService 테스트', () => {
     description: '설명2',
   };
 
-  it('영화 하나를 저장했을 때, 저장한 영화 하나가 불러와진다.', () => {
+  const movieToMovieScore = (movie: IMovie) => ({ id: movie.id, score: movie.score });
+  const moviesToMovieScores = (movies: IMovie[]) => movies.map(movieToMovieScore);
+  it('영화 하나의 별점을 저장했을 때, 저장한 영화 하나의 별점이 불러와진다.', () => {
     const movieStorageService = new MovieStorageService(new StorageMock());
     movieStorageService.save([MOVIE1]);
-    const EXPECTED_RESULT = [MOVIE1];
+    const EXPECTED_RESULT = moviesToMovieScores([MOVIE1]);
 
     const MOVIES_RESULT = movieStorageService.load();
 
     expect(MOVIES_RESULT).toEqual(EXPECTED_RESULT);
   });
 
-  it('영화 하나를 업데이트 하였을 떄, 스토리지에 반영된다.', () => {
+  it('영화 하나의 별점을 업데이트 하였을 떄, 스토리지에 반영된다.', () => {
     const movieStorageService = new MovieStorageService(new StorageMock());
     movieStorageService.save([MOVIE1, MOVIE2]);
 
     const MOVIE2_UPDATED = { ...MOVIE2, description: '설명2_업데이트' };
+    const EXPECTED_RESULT = moviesToMovieScores([MOVIE1, MOVIE2_UPDATED]);
 
     movieStorageService.update(MOVIE2_UPDATED);
+
+    expect(movieStorageService.load()).toEqual(EXPECTED_RESULT);
   });
 });

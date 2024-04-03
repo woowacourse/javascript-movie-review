@@ -7,7 +7,14 @@ class Movie implements IMovie {
   score: number;
   genre: TGenre[];
   description: string;
-  constructor({ id, title, imageSrc, score, genre, description }: IMovie) {
+  constructor({
+    id,
+    title = '영화제목',
+    imageSrc = '이미지주소',
+    score = 0,
+    genre = ['Action'],
+    description = '빈 설명',
+  }: IMovie) {
     this.id = id;
     this.title = title;
     this.imageSrc = imageSrc;
