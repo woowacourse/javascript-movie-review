@@ -8,6 +8,7 @@ import getHeader from './view/getHeader.ts';
 import { replaceMain } from './view/main';
 import { addScrollEvent } from './view/event/scrollEvent';
 import renderTopButton from './view/main/topButton';
+import { addResizeEvent } from './view/event/resizeEvent';
 
 function renderHeader() {
   const header = getHeader();
@@ -16,7 +17,6 @@ function renderHeader() {
 }
 
 function renderMain() {
-  addScrollEvent();
   replaceMain();
   renderTopButton();
 }
@@ -24,6 +24,8 @@ function renderMain() {
 function run() {
   renderHeader();
   renderMain();
+  addScrollEvent();
+  addResizeEvent();
 }
 
 run();
