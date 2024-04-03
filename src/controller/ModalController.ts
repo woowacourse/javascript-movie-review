@@ -24,8 +24,17 @@ const ModalController = {
       });
     }
 
+    function keydownRemoveChild(key: string) {
+      document.addEventListener('keydown', (event) => {
+        if (event.key === key) {
+          $app?.removeChild($modal);
+        }
+      });
+    }
+
     clickRemoveChild($modalBackdrop);
     clickRemoveChild($modalCloseBtn);
+    keydownRemoveChild('Escape');
   },
 
   observerModal() {
