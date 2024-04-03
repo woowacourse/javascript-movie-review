@@ -42,7 +42,7 @@ class EditableStarRating {
         attrs: {
           src: isFilledStar ? starFills : starEmpty,
           class: "editable-star",
-          "data-star-rating": index.toString(),
+          "data-star-rating": (index + 1).toString(),
         },
       });
     });
@@ -56,10 +56,9 @@ class EditableStarRating {
       },
     });
 
-    const ratingScore = this.selectedStarCount * 2;
     this.ratingScore = createElement({
       tagName: "p",
-      contents: ratingScore.toString(),
+      contents: this.selectedStarCount.toString(),
       attrs: {
         class: "rating-score",
       },
@@ -110,19 +109,10 @@ class EditableStarRating {
     this.updateTextByRating(this.selectedStarCount);
   }
 
-  private getCurrentStarIndex(event: MouseEvent) {
-    const firstStarInfo = this.starElements[0].getBoundingClientRect();
-    const starWidth = firstStarInfo.width;
-    const mouseX = event.clientX;
-    const starRating = Math.ceil(
-      Math.floor(mouseX - firstStarInfo.x) / starWidth
-    );
-
-    return starRating;
-  }
-
   private hoverStarEvent(event: MouseEvent) {
-    const starRating = this.getCurrentStarIndex(event);
+    const starRatingStr = (event.target as HTMLElement).dataset.starRating;
+    const starRating = Number(starRatingStr);
+    if (!starRating) return;
 
     Array.from({ length: starRating }).forEach((_, index) => {
       (this.starElements[index] as HTMLImageElement).src = starFills;
@@ -139,8 +129,8 @@ class EditableStarRating {
     const { starRating } = (event.target as HTMLElement)?.dataset;
     if (!starRating) return;
 
-    localStore.setMyMovieRating(this.movieName, Number(starRating) + 1);
-    this.selectedStarCount = Number(starRating) + 1;
+    localStore.setMyMovieRating(this.movieName, Number(starRating));
+    this.selectedStarCount = Number(starRating);
   }
 
   get element() {
