@@ -14,8 +14,14 @@ export default class Modal {
 
   #movieId: number;
 
+  #myVoteResult: { [key: string]: number } = {};
+
   constructor(movieId: number) {
     this.#movieId = movieId;
+    const savedVotes = localStorage.getItem('myVoteResult');
+    if (savedVotes) {
+      this.#myVoteResult = JSON.parse(savedVotes);
+    }
   }
 
   // eslint-disable-next-line max-lines-per-function
@@ -85,11 +91,55 @@ export default class Modal {
     });
   }
 
+  get Element() {
+    return this.#modalElement;
+  }
+
+  // eslint-disable-next-line max-lines-per-function
   async openModal() {
     if (this.#isOpen) return;
 
     await this.generateModal();
+
+    const savedVotes = localStorage.getItem('myVoteResult');
+    if (savedVotes) {
+      const savedVotesJSON = JSON.parse(savedVotes);
+      this.#myVoteResult = savedVotesJSON;
+    }
+
+    const voteForMovie = this.#myVoteResult[this.#movieId];
+
+    if (voteForMovie) {
+      this.#updateVoteStar(voteForMovie);
+      this.#updateVoteText(voteForMovie);
+    }
+
     this.#isOpen = true;
+  }
+
+  // eslint-disable-next-line max-lines-per-function
+  #updateVoteStar(voteForMovie: number) {
+    const starButtons = this.#modalElement?.querySelectorAll('.my-vote-body button img');
+
+    if (starButtons) {
+      starButtons.forEach((starButton, index) => {
+        if (index < voteForMovie / 2) {
+          starButton.setAttribute('src', StarFilled);
+        } else {
+          starButton.setAttribute('src', StarEmpty);
+        }
+      });
+    }
+  }
+
+  #updateVoteText(voteForMovie: number) {
+    const myVoteNumber = this.#modalElement?.querySelector('.my-vote-number');
+    const myVoteDescription = this.#modalElement?.querySelector('.my-vote-description');
+
+    if (!myVoteNumber || !myVoteDescription) return;
+
+    myVoteNumber.textContent = voteForMovie.toString();
+    myVoteDescription.textContent = VOTE[voteForMovie];
   }
 
   closeModal() {
@@ -135,6 +185,9 @@ export default class Modal {
     const myVoteKey = (starIndex + 1) * 2;
     myVoteNumber.textContent = myVoteKey.toString();
     myVoteDescription.textContent = VOTE[myVoteKey];
+
+    this.#myVoteResult[this.#movieId] = myVoteKey;
+    localStorage.setItem('myVoteResult', JSON.stringify(this.#myVoteResult));
   }
 
   static getInstance(movieId: number) {
