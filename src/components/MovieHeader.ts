@@ -2,13 +2,11 @@ import EventComponent from "./abstract/EventComponent";
 import QueryState from "../states/QueryState";
 
 import { $ } from "../utils/dom";
-import { throttle } from "../utils/throttle";
 
 import { HTMLTemplate, TargetId } from "../types/common";
 import IMAGES from "../images";
 
 const MOVIE_QUERY_MAX_LENGTH = 500;
-const MOBILE_SIZE = 479;
 
 interface MovieHeaderProps {
   targetId: TargetId;
@@ -38,33 +36,31 @@ export default class MovieHeader extends EventComponent {
   protected setEvent(): void {
     const $movieListLogo = $<HTMLHeadElement>("movie-list-logo");
     const $form = $<HTMLFormElement>("search-form");
-    const $searchInput = $<HTMLInputElement>("search-input");
 
-    $movieListLogo?.addEventListener("click", this.handleLogoClick.bind(this));
+    $movieListLogo?.addEventListener("click", this.onLogoClick.bind(this));
     $form?.addEventListener("submit", this.onSearchMovieSubmit.bind(this));
-
-    window.addEventListener("resize", throttle(this.onResize.bind(this), 300));
-
-    if (window.innerWidth <= MOBILE_SIZE) {
-      $searchInput?.classList.add("hidden");
-    }
   }
 
-  private handleLogoClick(): void {
+  private onLogoClick(): void {
     this.queryState.set("");
     $<HTMLFormElement>("search-form")?.reset();
   }
 
   private onSearchMovieSubmit(event: Event): void {
-    event.preventDefault();
-    const $form = $<HTMLFormElement>("search-form");
     const $searchInput = $<HTMLInputElement>("search-input");
 
-    if ($searchInput?.classList.contains("hidden")) {
-      $searchInput?.classList.remove("hidden");
+    event.preventDefault();
+
+    if (
+      $searchInput &&
+      ($searchInput.style.display === "none" ||
+        window.getComputedStyle($searchInput).display === "none")
+    ) {
+      this.showInputField($searchInput);
       return;
     }
-    const searchQuery = $form?.["search-query"].value;
+
+    const searchQuery = $searchInput?.value;
 
     if (!searchQuery) {
       alert("검색어를 입력해 주세요.");
@@ -74,13 +70,8 @@ export default class MovieHeader extends EventComponent {
     this.queryState.set(searchQuery);
   }
 
-  private onResize(): void {
-    const $searchInput = $<HTMLInputElement>("search-input");
-
-    if (window.innerWidth <= MOBILE_SIZE) {
-      $searchInput?.classList.add("hidden");
-    } else {
-      $searchInput?.classList.remove("hidden");
-    }
+  private showInputField($inputElement: HTMLInputElement): void {
+    $inputElement.style.display = "inline";
+    $inputElement.focus();
   }
 }

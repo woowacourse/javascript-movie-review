@@ -35,6 +35,18 @@
 }
 
 @media all and (max-width: 479px) {
+  header h1 {
+    overflow: hidden;
+  }
+
+  header h1 img {
+    clip-path: inset(0 80% 0 0);
+  }
+
+  .search-input {
+    display: none;
+  }
+
   .item-list {
     grid-template-columns: repeat(2, 1fr);
   }
