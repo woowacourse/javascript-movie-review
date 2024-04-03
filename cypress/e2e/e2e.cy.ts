@@ -29,10 +29,14 @@ describe('영화 리뷰 e2e 테스트', () => {
       expect(popularMovieItems.should('have.length', 20));
     });
 
-    it('스크롤을 페이지 하단으로 내릴 시 영화 목록 20개를 추가로 보여준다.', () => {
-      cy.scrollTo('bottom');
+    it('무한스크롤을 구현하여 스크롤을 페이지 하단으로 내릴 시 영화 목록 20개씩 추가로 보여준다.', () => {
+      cy.scrollTo('bottom', { duration: 1000 });
+
       const popularMovieItems = cy.get('.item-list > li');
       expect(popularMovieItems.should('have.length', 40));
+
+      cy.scrollTo('bottom', { duration: 1000 });
+      expect(popularMovieItems.should('have.length', 60));
     });
   });
 });
