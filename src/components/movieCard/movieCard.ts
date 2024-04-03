@@ -29,6 +29,8 @@ export function showSkeleton() {
 
 export function updateCard(li: HTMLElement, movie: Movie) {
   li.classList.toggle('skeleton');
+  li.setAttribute('aria-label', `${movie.title} 상세보기 버튼`);
+
   const thumbnail: HTMLImageElement = Dom.getElement<HTMLImageElement>(li, '.item-thumbnail.skeleton');
 
   thumbnail.src = movie.poster_path

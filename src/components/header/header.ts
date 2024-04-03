@@ -17,6 +17,8 @@ function render(logoHandler: () => void, inputSubmitHandler: (inputValue: string
 
   const searchBox = document.createElement('form');
   searchBox.className = 'search-box';
+  searchBox.setAttribute('aria-label', '영화 검색');
+  searchBox.setAttribute('role', 'search');
 
   const searchInput = document.createElement('input');
   searchInput.placeholder = '검색';
@@ -25,12 +27,15 @@ function render(logoHandler: () => void, inputSubmitHandler: (inputValue: string
   searchButton.type = 'submit';
   searchButton.className = 'search-button';
   searchButton.textContent = '검색';
+  searchButton.setAttribute('aria-label', '검색 버튼');
 
   searchBox.append(searchInput, searchButton);
 
   const closeSearchInput = document.createElement('div');
   closeSearchInput.className = 'close-input';
   closeSearchInput.textContent = 'X';
+  closeSearchInput.setAttribute('role', 'button');
+  searchButton.setAttribute('aria-label', '검색 닫기 버튼');
 
   header.append(logo, closeSearchInput, searchBox);
 
