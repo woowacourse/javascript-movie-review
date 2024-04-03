@@ -4,6 +4,7 @@ import { $, isMobileDevice } from "../../utils/dom";
 import { logo } from "../../assets/image";
 
 import "./Header.css";
+import { Optional } from "../../types/utility";
 
 interface HeaderProps {
   onSearchKeywordSubmit: (value: string) => void;
@@ -11,11 +12,11 @@ interface HeaderProps {
 }
 
 class Header extends Component<HeaderProps, {}> {
-  private $form: HTMLFormElement | undefined;
+  private $form: Optional<HTMLFormElement>;
 
-  private $input: HTMLInputElement | undefined;
+  private $input: Optional<HTMLInputElement>;
 
-  private $h1: HTMLHeadingElement | undefined;
+  private $h1: Optional<HTMLHeadingElement>;
 
   protected getTemplate() {
     return /*html*/ `
