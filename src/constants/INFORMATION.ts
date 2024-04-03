@@ -36,4 +36,13 @@ const LOCAL_VOTE = {
   10: '최고에요',
 };
 
-export { BUTTON, CONTAINER_TITLE, LOCAL_VOTE };
+const FETCHING_MOVIE_MESSAGE = '🍿 영화 데이터를 불러오는 중입니다 🍿';
+
+const DEVICE_WIDTH = {
+  desktopMin: 1200,
+  tabletMax: 1199,
+  tabletMin: 768,
+  mobileMax: 767,
+};
+
+export { BUTTON, CONTAINER_TITLE, LOCAL_VOTE, FETCHING_MOVIE_MESSAGE, DEVICE_WIDTH };

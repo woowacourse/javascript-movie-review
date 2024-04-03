@@ -4,6 +4,7 @@ async function setupInfiniteScroll(
   listEnd: HTMLElement,
   mountItems: (listEnd: HTMLElement, search?: string) => Promise<void>,
   search?: string,
+  message?: string,
 ) {
   const onIntersect: IntersectionObserverCallback = async (entries) => {
     entries.forEach(async (entry) => {

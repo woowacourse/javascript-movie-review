@@ -1,5 +1,5 @@
 import { fetchPopularMovies, fetchSearchMovies } from '../../domain/Request/sendRequest';
-import { CONTAINER_TITLE } from '../../constants/INFORMATION';
+import { CONTAINER_TITLE, FETCHING_MOVIE_MESSAGE } from '../../constants/INFORMATION';
 import MovieItems from '../MovieItems/MovieItems';
 import IRespondData from '../../interfaces/IMovieList';
 import { getDomElement } from '../../util/DOM';
@@ -28,7 +28,7 @@ class MovieList {
     movieList.appendChild(listEnd);
     this.mountItems(listEnd);
 
-    await setupInfiniteScroll(listEnd, this.mountItems.bind(this), this.#search);
+    await setupInfiniteScroll(listEnd, this.mountItems.bind(this), this.#search, FETCHING_MOVIE_MESSAGE);
 
     getDomElement('#app').appendChild(movieList);
   }

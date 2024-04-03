@@ -33,20 +33,18 @@ const MovieHeader = {
   },
 
   setHandle(logoImgContainer: HTMLElement, searchBox: HTMLElement) {
+    const headerLogo = getDomElement('h1');
+    const searchButton = getDomElement('button', searchBox);
     const searchInput = getDomElement('input', searchBox);
     const computedStyles = window.getComputedStyle(searchInput);
+
     window.addEventListener('resize', () => {
       ResizeHandler.mobileViewAddClass(searchInput, 'hidden');
       ResizeHandler.mobileViewRemoveClass(searchInput, 'hidden');
     });
     logoImgContainer.addEventListener('click', () => this.showPopularMovies(searchBox));
-    const searchButton = getDomElement('button', searchBox);
-    const header = getDomElement('header');
-    const headerLogo = getDomElement('h1', header);
 
     searchButton.addEventListener('click', () => {
-      const header = getDomElement('header');
-      const headerLogo = getDomElement('h1', header);
       if (computedStyles.display === 'none') {
         ResizeHandler.mobileViewRemoveClass(searchInput, 'hidden');
         ResizeHandler.mobileViewAddClass(headerLogo, 'hidden');
