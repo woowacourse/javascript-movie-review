@@ -18,7 +18,7 @@ export default class MovieList {
   }
 
   async #infiniteScroll() {
-    let observer = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach(async (entry) => {
         if (entry.isIntersecting) {
           if (this.#listType === SEARCH && searchMovieStore.presentPage > searchMovieStore.totalPages) return;
