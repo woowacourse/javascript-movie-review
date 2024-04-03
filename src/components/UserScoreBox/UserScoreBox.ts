@@ -94,7 +94,7 @@ class UserScoreBox {
   setClickStarsEvent() {
     const stars = [...document.querySelectorAll('.star')];
 
-    const saveScoreEvent = debounce(() => {
+    const debouncedSaveScoreEvent = debounce(() => {
       ScoreDBService.updateScore({ movieId: Number(this.movieId), newScore: this.score });
       new Toast(SCORE_MESSAGE);
     }, 1000);
@@ -104,7 +104,7 @@ class UserScoreBox {
         const userScore = Number((e.currentTarget as HTMLElement).dataset.score);
         this.updateScoreView(userScore);
 
-        saveScoreEvent();
+        debouncedSaveScoreEvent();
       });
     });
   }
