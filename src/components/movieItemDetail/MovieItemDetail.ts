@@ -7,17 +7,19 @@ import { dom } from '../../utils/dom';
 
 import StarRating from './StarRating';
 import MovieStorageService from '../../domains/MovieStorageService';
+import MovieCollection from '../../domains/MovieCollection';
 
 const SCORE_PER_STAR_RATING = 2;
 
 class MovieItemDetail {
   $target: HTMLElement = document.createElement('article');
-  #movie: IMovie;
+  #movie: IMovie & { myScore?: number };
 
   constructor(movie: IMovie) {
     this.$target.classList.add('movie-detail');
     this.$target.innerHTML = this.#template();
     this.#movie = movie;
+    this.#updateMyScoreFromStorage();
     this.paint(movie);
   }
 
@@ -63,7 +65,8 @@ class MovieItemDetail {
     $headerScore.innerText = this.#formatScore(movie.score);
     $explanation.innerText = movie.description;
 
-    dom.getElement(this.$target, '.movie-description__rating').append(...this.#createStarRating(5));
+    const MAX_COUNT = 5;
+    dom.getElement(this.$target, '.movie-description__rating').append(...this.#createStarRating(MAX_COUNT));
   }
 
   #formatScore(score: number) {
@@ -71,16 +74,27 @@ class MovieItemDetail {
     return score.toFixed(FORMAT_FIXED_DIGIT).toString();
   }
 
-  #createStarRating(starCount: number) {
+  #updateMyScoreFromStorage() {
+    const moviesInStorage = new MovieCollection(new MovieStorageService().load());
+    if (moviesInStorage.has(this.#movie)) {
+      const thisMovie = moviesInStorage.getFiltered(this.#movie)[0];
+      this.#movie.myScore = thisMovie.myScore;
+    } else {
+      this.#movie.myScore = 0;
+    }
+  }
+
+  #createStarRating(maxStarCount: number) {
     const $label = document.createElement('label');
     $label.innerText = '내 별점';
 
-    const starRating = new StarRating(starCount);
-    starRating.clickedId = this.#movie.score / SCORE_PER_STAR_RATING - 1;
+    const starRating = new StarRating(maxStarCount);
+
+    starRating.clickedId = this.#scoreToId(this.#movie.myScore!);
     starRating.render();
     starRating.$target.addEventListener('click', (e: MouseEvent) => {
       if (!(e.target instanceof HTMLImageElement)) return;
-      this.#movie.score = (starRating.clickedId + 1) * SCORE_PER_STAR_RATING;
+      this.#movie.myScore = this.#idToScore(starRating.clickedId);
       new MovieStorageService().update(this.#movie);
     });
 
@@ -90,18 +104,37 @@ class MovieItemDetail {
   }
 
   #createRatingCaption($rating: StarRating) {
-    const Ratings = ['최악이에요', '별로예요', '보통이에요', '재미있어요', '명작이에요'];
     const $ratingCaption: HTMLLabelElement = document.createElement('label');
     $ratingCaption.classList.add('rating-caption');
-    $ratingCaption.innerText = '나의 점수는?';
+    const score = this.#idToScore($rating.clickedId);
+    this.#updateRatingCaption($ratingCaption, score);
 
     $rating.$target.addEventListener('click', (e: MouseEvent) => {
       if (!(e.target instanceof HTMLImageElement)) return;
-      const score = SCORE_PER_STAR_RATING * ($rating.clickedId + 1);
-      $ratingCaption.innerText = `${score.toString().padStart(2, ' ')} ${Ratings[$rating.clickedId]}`;
+      const score = this.#idToScore($rating.clickedId);
+      this.#updateRatingCaption($ratingCaption, score);
     });
 
     return $ratingCaption;
+  }
+
+  #idToScore(id: number) {
+    return this.#countToScore(id + 1);
+  }
+  #scoreToId(score: number) {
+    return this.#scoreToCount(score) - 1;
+  }
+
+  #scoreToCount(score: number) {
+    return score / SCORE_PER_STAR_RATING;
+  }
+  #countToScore(count: number) {
+    return count * SCORE_PER_STAR_RATING;
+  }
+
+  #updateRatingCaption($ratingCaption: HTMLElement, score: number) {
+    const Ratings = ['나의 점수는?', '최악이에요', '별로예요', '보통이에요', '재미있어요', '명작이에요'];
+    $ratingCaption.innerText = `${this.#movie.myScore!.toString().padStart(2, ' ')} ${Ratings[this.#scoreToCount(this.#movie.myScore!)]}`;
   }
 }
 

@@ -13,20 +13,25 @@ class StarRating {
     this.#stars.forEach(el => el.$target.addEventListener('click', this.#starClickHandler.bind(this)));
     this.$target.append(...this.#stars.map(el => el.$target));
 
-    onClick && this.$target.addEventListener('click', (e: MouseEvent) => {});
+    onClick && this.$target.addEventListener('click', onClick);
+
+    this.#load();
+    this.render();
   }
 
   #starClickHandler(e: Event) {
     if (!(e.target instanceof HTMLImageElement)) return;
     this.clickedId = this.#findId(e.target);
-    this.#render();
+    this.render();
   }
 
   #findId(star: HTMLImageElement) {
     return Array.from(this.$target.children).indexOf(star);
   }
 
-  #render() {
+  #load() {}
+
+  render() {
     const isOn = (i: number) => i <= this.clickedId;
     this.#stars.forEach((star, i) => (isOn(i) ? star.on() : star.off()));
   }
