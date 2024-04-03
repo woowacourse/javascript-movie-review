@@ -11,5 +11,5 @@ export type MovieListType = MovieType[];
 
 export interface MovieScore {
   movie: MovieType;
-  score: string;
+  score?: string;
 }

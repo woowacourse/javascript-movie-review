@@ -1,10 +1,11 @@
 import './style.css';
-import { MovieType } from '../../types/movie';
+import { MovieScore, MovieType } from '../../types/movie';
 import { STAR_FILLED } from '../../images';
 import DOM from '../../utils/DOM';
 import modalManager from '../Modal/Modal';
 import httpRequest from '../../api/httpRequest';
 import { URL } from '../../api/url';
+import { dispatchCustomEvent } from '../../utils/customEvent';
 
 const { $ } = DOM;
 
@@ -45,12 +46,7 @@ const movieItemManager = {
       movieList[0].genre_ids = genreNames.join(', ');
       $('main')?.appendChild(modalManager.render(movieList[0]));
 
-      const openModal = new CustomEvent('openModal', {
-        detail: {
-          movie: movieList[0],
-        },
-      });
-      document.dispatchEvent(openModal);
+      dispatchCustomEvent<MovieScore>('openModal', { movie: movieList[0] });
     });
   },
 

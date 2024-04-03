@@ -1,15 +1,9 @@
 import { STAR_FILLED, STAR_LINED } from '../../images';
-import { MovieType } from '../../types/movie';
+import { MovieScore, MovieType } from '../../types/movie';
 import DOM from '../../utils/DOM';
+import { dispatchCustomEvent } from '../../utils/customEvent';
 
 const { $, $$ } = DOM;
-
-export interface MovieScoreEvent extends CustomEvent {
-  detail: {
-    movie: MovieType;
-    score: string;
-  };
-}
 
 const MOIVE_SCORE: Record<string, string> = {
   '2': '2 최악이예요',
@@ -55,30 +49,22 @@ const movieScoreManager = {
 
         this.updateMovieScoreUI(element.value);
 
-        const selectMovieScore = new CustomEvent('selectMovieScore', {
-          detail: {
-            movie,
-            score: element.value,
-          },
-        });
-        document.dispatchEvent(selectMovieScore);
+        dispatchCustomEvent<MovieScore>('selectMovieScore', { movie, score: element.value });
       });
     });
   },
 
   updateMovieScoreUI(score: string) {
     const starIcons = $$('.score-box img');
+    starIcons.forEach((icon) => {
+      const image = icon as HTMLImageElement;
+      const checkboxId = icon.parentElement?.getAttribute('for');
+      const starIndex = Number(checkboxId!.replace(/^\D+/g, ''));
+      image.src = starIndex <= Number(score) ? STAR_FILLED : STAR_LINED;
+    });
+
     const scoreMessage = $('.score-container .movie-text:last-child');
     scoreMessage!.textContent = MOIVE_SCORE[score];
-
-    starIcons.forEach((icon, index) => {
-      const image = icon as HTMLImageElement;
-      if (index + 1 <= Number(score) / 2) {
-        image.src = STAR_FILLED;
-      } else {
-        image.src = STAR_LINED;
-      }
-    });
   },
 };
 

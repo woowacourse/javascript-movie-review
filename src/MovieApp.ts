@@ -1,10 +1,12 @@
 import headerManager from './components/Header/Header';
-import movieScoreManager, { MovieScoreEvent } from './components/Modal/ScoreCheckbox';
+import movieScoreManager from './components/Modal/ScoreCheckbox';
 import movieContentManager from './components/MovieContents/MovieContents';
 import { LOGO } from './images/index';
 import storage from './storage';
+import { MovieScore } from './types/movie';
 import { PropsType } from './types/props';
 import DOM from './utils/DOM';
+import { listenCustomEvent } from './utils/customEvent';
 
 const { $ } = DOM;
 
@@ -12,8 +14,7 @@ class MovieApp {
   constructor() {
     this.start();
     this.renderPopularMovie();
-    this.listenModalOpenEvent();
-    this.listenMovieScoreEvent();
+    this.listenEvents();
   }
 
   start() {
@@ -35,26 +36,22 @@ class MovieApp {
     movieContentManager.renderMovieData(props);
   }
 
-  listenModalOpenEvent() {
-    document.addEventListener('openModal', (event: Event) => {
-      const scoreEvent = event as MovieScoreEvent;
-      const movieInfo = scoreEvent.detail.movie;
-
-      const existData = storage.getData().find((data) => data.movie.title === movieInfo.title);
-      if (existData) {
-        movieScoreManager.updateMovieScoreUI(existData.score);
-      }
-    });
+  listenEvents() {
+    listenCustomEvent<MovieScore>('openModal', this.handleModalOpenEvent);
+    listenCustomEvent<MovieScore>('selectMovieScore', this.handleMovieScoreEvent);
   }
 
-  listenMovieScoreEvent() {
-    document.addEventListener('selectMovieScore', (event: Event) => {
-      const scoreEvent = event as MovieScoreEvent;
-      const movieInfo = scoreEvent.detail.movie;
-      const movieScore = scoreEvent.detail.score;
+  handleModalOpenEvent(event: CustomEvent<MovieScore>) {
+    const eventData = event.detail;
+    const existData = storage.getData().find((data) => data.movie.title === eventData.movie.title);
+    if (existData) {
+      movieScoreManager.updateMovieScoreUI(existData.score!);
+    }
+  }
 
-      storage.setData({ movie: movieInfo, score: movieScore });
-    });
+  handleMovieScoreEvent(event: CustomEvent<MovieScore>) {
+    const eventData = event.detail;
+    storage.setData({ movie: eventData.movie, score: eventData.score });
   }
 }
 
