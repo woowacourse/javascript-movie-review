@@ -71,11 +71,14 @@ class App {
           this.#handleClickMiniSearchButton();
           return;
         }
+
         if (!$input.value) return;
         history.pushState('', '', `?mode=search&title=${$input.value}`);
 
         this.movieListContainer.initPageNumber();
-        const { movies, totalPages, movieCount } = await this.movieListContainer.fetchMovies(CONFIG.FIRST_PAGE);
+        const fetchData = await this.movieListContainer.fetchMovies(CONFIG.FIRST_PAGE);
+        if (!fetchData) return;
+        const { movies, totalPages, movieCount } = fetchData;
         this.updateTitle(movieCount, $input.value);
         this.movieListContainer.paint(movieInfo.createAll(movies), totalPages);
       },

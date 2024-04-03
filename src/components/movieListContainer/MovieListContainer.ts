@@ -18,7 +18,9 @@ class MovieListContainer {
     this.$target.classList.add('item-list');
     this.$target.appendChild(skeleton.create(CONFIG.MOVIE_COUNT_PER_PAGE));
 
-    this.fetchMovies(this.page).then(({ movies, totalPages }) => {
+    this.fetchMovies(this.page).then(fetchData => {
+      if (!fetchData) return;
+      const { movies, totalPages } = fetchData;
       this.paint(movieInfo.createAll(movies), totalPages);
     });
 
@@ -37,7 +39,10 @@ class MovieListContainer {
     );
     this.page += 1;
     this.$target.append(...movieItems.map(movieItem => movieItem.$target));
-    const { movies, totalPages, movieCount } = await this.fetchMovies(this.page);
+
+    const fetchData = await this.fetchMovies(this.page);
+    if (!fetchData) return;
+    const { movies, totalPages, movieCount } = fetchData;
     movies.map((movie, index) => movieItems[index].paint(movieInfo.create(movie)));
     const isValidMoreButton = this.validateMoreButton(totalPages);
     if (!isValidMoreButton) this.erase(totalPages, movieCount);
@@ -57,8 +62,12 @@ class MovieListContainer {
     const mode = urlSearchParams.get('mode') ?? 'popular';
     const title = urlSearchParams.get('title') ?? '';
 
-    const movies = mode === 'search' ? await searchMoviesByTitle(title, page) : await getPopularMovies(page);
-    return movies;
+    try {
+      return mode === 'search' ? await searchMoviesByTitle(title, page) : await getPopularMovies(page);
+    } catch (error) {
+      const { message } = error as Error;
+      this.handleErrorToast(message);
+    }
   }
 
   validateMoreButton(totalPages: number) {
@@ -74,6 +83,16 @@ class MovieListContainer {
 
   initPageNumber() {
     this.page = CONFIG.FIRST_PAGE;
+  }
+
+  handleErrorToast(errorMessage: string) {
+    const $toastButton = dom.getElement<HTMLButtonElement>(document.body, '#toast-button');
+    const clickEvent = new CustomEvent('onToast', {
+      detail: errorMessage,
+      bubbles: true,
+    });
+
+    $toastButton.dispatchEvent(clickEvent);
   }
 }
 
