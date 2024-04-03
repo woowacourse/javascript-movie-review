@@ -1,7 +1,7 @@
 import { scoreToPhrases } from './../constant/movie';
 import { grayStar, yellowStar } from '../constant/svg';
 import { hiddenElement, showElement } from '../util/hiddenElement';
-import { isMobile, resizeWidth } from '../util/resizeWidth';
+import { isMobile, handleResize } from '../util/handleResize';
 import { getScore, setLocalStorage } from '../domain/Movie';
 
 class MyVote {
@@ -112,7 +112,8 @@ class MyVote {
   }
 
   setEvent() {
-    resizeWidth(() => this.adjustMyVoteShow());
+    this.adjustMyVoteShow();
+    handleResize(() => this.adjustMyVoteShow());
 
     this.clickStar();
   }

@@ -1,5 +1,5 @@
 import { CONSTANT_URL } from './../constant/api';
-import { MovieDataType } from '../api/apiType';
+import { MovieData } from '../api/apiType';
 import { NO_IMAGE, STAR_FILLED } from '../resource';
 
 const setClickEvent = (element: HTMLElement) => {
@@ -15,7 +15,7 @@ const setClickEvent = (element: HTMLElement) => {
   });
 };
 
-const MovieItem = ({ movieTitle, posterPath, voteAverage, movieId }: MovieDataType) => {
+const MovieItem = ({ movieTitle, posterPath, voteAverage, movieId }: MovieData) => {
   const li = document.createElement('li');
   const link = document.createElement('a');
   const itemCard = document.createElement('div');

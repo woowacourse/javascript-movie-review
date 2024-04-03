@@ -1,11 +1,11 @@
-import { MovieDetailDataType } from './../api/apiType';
+import { MovieDetailData } from './../api/apiType';
 import { getMovieDetail } from '../api/movieDetail';
 import { yellowStar, xButton } from '../constant/svg';
 import { NO_IMAGE } from '../resource';
 
 import BaseModal from './common/ModalLayout';
 import MyVote from './MyVote';
-import { loader } from '../util/loader';
+import { loader } from './common/loader';
 import { CONSTANT_URL } from '../constant/api';
 
 class MovieDetail extends BaseModal {
@@ -58,7 +58,7 @@ class MovieDetail extends BaseModal {
     });
   }
 
-  getMovieDetailTemplate(movieData: MovieDetailDataType) {
+  getMovieDetailTemplate(movieData: MovieDetailData) {
     const container = document.createElement('div');
     container.classList.add('container');
     const { genres, movieTitle, voteAverage, overview, posterPath } = movieData;

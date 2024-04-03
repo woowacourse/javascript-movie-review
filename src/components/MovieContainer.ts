@@ -1,4 +1,3 @@
-import { MovieDataType } from '../api/apiType';
 import { getPopularMovieList } from '../api/popularMovieList';
 import { getSearchMovieList } from '../api/searchMovieList';
 
@@ -12,6 +11,7 @@ import { NO_SEARCH } from '../resource';
 import { ALERT_MESSAGE, SUBTITLE, resizeMobileWidth } from '../constant/movie';
 import { hiddenElement, showElement } from '../util/hiddenElement';
 import { throttleOnRendering } from './../util/throttling';
+import { MovieData } from '../api/apiType';
 class MovieContainer {
   #page;
   #query;
@@ -83,6 +83,17 @@ class MovieContainer {
 
     const section = document.querySelector('.item-view');
     section?.addEventListener('click', this.searchBarClose);
+
+    window.addEventListener('offline', () => {
+      showAlert(ALERT_MESSAGE.network);
+      this.#reRequest();
+    });
+
+    window.addEventListener('online', () => {
+      this.#inputMovies();
+    });
+    //TODO: 이 부분 이벤트 받아서 온라인인지 오프라인인지, 이벤트 타입ㅂ으로 구분해서
+    // 재요청 보내게 하고나....에러 페이지 띄우지 못하게 하기...
   }
 
   async renderMovies() {
@@ -92,11 +103,6 @@ class MovieContainer {
   }
 
   async #inputMovies() {
-    //isDataLoading 을 true 로 설정 후 data 를 불러와야 false 로 바껴 다음 페이지를 렌더링 할 수 있게 했습니다.
-    //그런데 isDataLoading 이 들어가서 너무 절차적으로 구현이 되었고, 해당 클래스가
-    // 가지고 있는 상태가 많아진 것 같아서 이 클래스를 어떻게 해야할까요🥲
-    // 그리고 만약 이렇게 하지 않는다면 , 네트워크 요청을 보낼지 말지 어떤식으로 알 수 있을까요?
-
     this.#isDataLoading = true;
     this.#page += 1;
     const movieData = await this.#getMovies(this.#page, this.#query);
@@ -105,7 +111,7 @@ class MovieContainer {
     this.#updateBasedOnData(movieData);
   }
 
-  #updateBasedOnData(movieData: MovieDataType[] | undefined) {
+  #updateBasedOnData(movieData: MovieData[] | undefined) {
     const movie = document.querySelector('ul.item-list');
     if (!(movie instanceof HTMLElement)) return;
 
@@ -123,20 +129,30 @@ class MovieContainer {
     }
   }
 
-  #addMovieItems(movieData: MovieDataType[], element: HTMLElement) {
+  #addMovieItems(movieData: MovieData[], element: HTMLElement) {
     this.#createMovieItems(movieData).forEach((movieItem) => {
       element.appendChild(movieItem);
     });
   }
 
-  #noSearchMovies(movieData: MovieDataType[] | undefined) {
+  #noSearchMovies(movieData: MovieData[] | undefined) {
     return movieData && !movieData.length;
   }
 
-  #noMoreMovies(movieData: MovieDataType[] | undefined) {
+  #noMoreMovies(movieData: MovieData[] | undefined) {
     return !movieData || movieData.length < 20;
   }
 
+  onNetWorkError() {
+    window.addEventListener('offline', () => {
+      showAlert(ALERT_MESSAGE.network);
+      // throw new Error();
+    });
+
+    window.addEventListener('online', () => {
+      this.#reRequest();
+    });
+  }
   async #getMovies(page: number, query: string) {
     try {
       const movieData = await (query ? getSearchMovieList(query, page) : getPopularMovieList(page));
@@ -147,11 +163,11 @@ class MovieContainer {
 
         const [status, message] = error.message.split('-');
 
-        if (status === 'Failed to fetch') {
-          showAlert(ALERT_MESSAGE.network);
-          this.#reRequest();
-          throw new Error();
-        }
+        // if (status === 'Failed to fetch') {
+        //   showAlert(ALERT_MESSAGE.network);
+        //   this.#reRequest();
+        //   throw new Error();
+        // }
 
         const movie = document.querySelector('ul.item-list');
         if (!(movie instanceof HTMLElement)) return;
@@ -184,7 +200,7 @@ class MovieContainer {
     skeletonItems.forEach((item) => item?.remove());
   }
 
-  #createMovieItems(data: MovieDataType[]): HTMLElement[] {
+  #createMovieItems(data: MovieData[]): HTMLElement[] {
     return data.map((prop) => MovieItem(prop));
   }
 
