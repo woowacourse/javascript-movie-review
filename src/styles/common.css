@@ -75,6 +75,11 @@ button {
   object-fit: cover;
 }
 
+.item-thumbnail:hover {
+  transition: box-shadow 0.3s ease;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
 .item-title {
   width: 180px;
   height: 2.2rem;
