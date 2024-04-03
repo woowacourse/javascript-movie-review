@@ -1,11 +1,16 @@
 const storage = {
   get<T>(key: string): T | null {
-    const item = localStorage.getItem(key);
-    if (item === null) {
+    try {
+      const item = localStorage.getItem(key);
+      if (item === null) {
+        return null;
+      }
+
+      return JSON.parse(item);
+    } catch (err) {
+      localStorage.clear();
       return null;
     }
-
-    return JSON.parse(item);
   },
 
   set(key: string, value: unknown) {
