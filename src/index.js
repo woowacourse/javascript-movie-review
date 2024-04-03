@@ -3,6 +3,7 @@ import '../templates/common.css';
 import './style/responsive.css';
 import './style/skeleton.css';
 import './style/style.css';
+import './style/starHover.css';
 
 import getHeader from './view/getHeader.ts';
 import { replaceMain } from './view/main';

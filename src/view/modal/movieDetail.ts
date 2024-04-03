@@ -155,7 +155,7 @@ function checkInitScore(userRateBox: HTMLElement, id: number) {
 
 function createUserRateStarBox(id: number) {
   const userRateBox = document.createElement('div');
-  userRateBox.className = 'flex-Y-center';
+  userRateBox.className = 'flex-Y-center stars-box';
   userRateBox.append(...createRateStars(id));
 
   return checkInitScore(userRateBox, id);

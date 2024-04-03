@@ -1,6 +1,5 @@
 import fetchMovieDetail, { IMovieDetailResponse } from '../api/fetchMovieDetail';
 
-import addHoverEventToStar from '../style/userStarStyle';
 import { createMovieDetailContainer } from './modal/movieDetail';
 import createMovieDetailSkeleton from './modal/movieDetailSkeleton';
 
@@ -43,5 +42,4 @@ export async function renderMovieDetailModal(id: number) {
   modal.showModal();
   const movieResponse: IMovieDetailResponse = await fetchMovieDetail(id);
   movieDetailSkeleton.replaceWith(createMovieDetailContainer(movieResponse));
-  addHoverEventToStar();
 }

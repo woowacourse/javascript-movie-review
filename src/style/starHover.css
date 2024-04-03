@@ -1,0 +1,29 @@
+button[data-star-id] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stars-box:hover .star-image {
+  filter: brightness(120%);
+}
+
+button[data-star-id='0']:hover ~ button .star-image {
+  filter: brightness(100%);
+}
+
+button[data-star-id='1']:hover ~ button .star-image {
+  filter: brightness(100%);
+}
+
+button[data-star-id='2']:hover ~ button .star-image {
+  filter: brightness(100%);
+}
+
+button[data-star-id='3']:hover ~ button .star-image {
+  filter: brightness(100%);
+}
+
+button[data-star-id='4']:hover ~ button .star-image {
+  filter: brightness(100%);
+}
