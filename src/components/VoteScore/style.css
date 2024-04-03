@@ -1,0 +1,14 @@
+.item-score-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.item-score {
+  font-size: 1.2rem;
+}
+
+.star-icon {
+  margin-left: 8px;
+  padding-top: 2px;
+}

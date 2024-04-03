@@ -1,34 +1,36 @@
 .item-card {
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+}
+
+.img-wrapper {
+  border-radius: 8px;
+  background-size: contain;
+  overflow: hidden;
 }
 
 .item-thumbnail {
+  width: 100%;
   border-radius: 8px;
-  width: 180px;
-  height: 270px;
   background-size: contain;
+  transform: scale(1);
+  transition: transform 0.3s;
+}
+
+.item-thumbnail:hover {
+  transform: scale(1.2);
+  transition: transform 0.3s;
+}
+
+@media (max-width: 500px) {  
+  .item-thumbnail {
+    width: 100%;
+  }
 }
 
 .item-title {
-  margin-top: 16px;
+  margin: 16px 0;
   font-size: 1.2rem;
   font-weight: bold;
-}
-
-.item-score {
-  font-size: 1.2rem;
-}
-
-.item-score-container {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  margin-top: 16px;
-}
-
-.star-icon {
-  margin-left: 8px;
-  padding-top: 2px;
 }

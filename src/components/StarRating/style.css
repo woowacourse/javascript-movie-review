@@ -1,0 +1,31 @@
+.star-rating {
+  display: flex;
+  align-items: center;
+}
+
+.rate-label {
+  margin-right: 12px;
+}
+
+fieldset {
+  display: flex;
+  border: 0;
+}
+
+.star-score {
+  margin-left: 12px;
+}
+
+.score-ment {
+  margin-left: 12px;
+}
+
+.rate-icon img {
+  cursor: pointer;
+}
+
+@media (max-width: 833px) {
+  .score-ment {
+    display: none;
+  }
+}

@@ -1,8 +1,8 @@
 import './style.css';
 
-import SearchField from '../SearchField/SearchField';
 import Logo from '../../imgs/logo.png';
 import Image from '../Image/Image';
+import SearchField from '../SearchField/SearchField';
 
 interface HeaderProps {
   onLogoClick?: () => void;

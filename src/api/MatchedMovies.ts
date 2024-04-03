@@ -14,6 +14,8 @@ const MatchedMovies = {
       url: `${MATCHED_MOVIES}?${params}`,
       accessToken: process.env.ACCESS_TOKEN,
     });
+    if (matchedMovies.results.length === 0) throw new Error('NONE');
+
     return matchedMovies;
   },
 };

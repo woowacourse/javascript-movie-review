@@ -1,11 +1,11 @@
 import './style.css';
 
 const skeletonTemplate = /* html */ `
-  <div class="item-card skeleton">
-    <img class="item-thumbnail skeleton" loading="lazy" />
-    <p class="item-title skeleton"></p>
-    <div class="item-score-container">
-      <p class="item-score skeleton"></p>
+  <div class="item-skeleton">
+    <img class="item-thumbnail-skeleton skeleton" loading="lazy" />
+    <p class="item-title-skeleton skeleton"></p>
+    <div class="item-score-container-skeleton">
+      <p class="item-score-skeleton skeleton"></p>
     </div>
   </div>
 `;
