@@ -5,18 +5,15 @@ interface IMovieItemData {
   vote_average: number;
 }
 
-interface IGenre {
-  id: number;
-  name: string;
-}
-interface IMovieDetailsData {
-  poster_path: string;
-  title: string;
-  vote_average: number;
+interface IMovieDetailsData extends Omit<IMovieItemData, "id"> {
   genres: object[];
   overview: string;
 }
 
+interface IGenre {
+  id: number;
+  name: string;
+}
 interface IUrlSearchParamsConfig {
   [key: string]: string;
   api_key: string;
@@ -24,7 +21,7 @@ interface IUrlSearchParamsConfig {
   page: string;
 }
 
-interface IMovieInput{
+interface IMovieInput {
   movieId?: number;
   starFilledCount?: number;
 }
