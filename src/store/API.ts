@@ -24,5 +24,5 @@ export async function fetchSearchMovies(query: string, presentPage: number) {
 export async function fetchMovieDetail(movieId: number) {
   const response = await fetch(`${BASE_URL}/movie/${movieId}?language=ko`, options);
 
-  return response.json();
+  return response;
 }
