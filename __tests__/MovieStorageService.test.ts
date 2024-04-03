@@ -1,5 +1,5 @@
 import { IMovie } from '../src/types/movie';
-// import MovieStorageService from '../src/domains/MovieStorageService';
+import MovieStorageService from '../src/domains/MovieStorageService';
 
 class StorageMock implements Storage {
   store: Map<string, string> = new Map();
@@ -27,29 +27,6 @@ class StorageMock implements Storage {
     return keys[index] || null;
   }
 }
-
-class MovieStorageService {
-  private readonly KEY: string;
-  private readonly storage: Storage;
-
-  constructor(storage: Storage = localStorage, key: string = 'movies') {
-    this.storage = storage;
-    this.KEY = key;
-  }
-
-  removeAll() {
-    this.storage.removeItem(this.KEY);
-  }
-  load() {
-    const movies = this.storage.getItem(this.KEY);
-    return movies ? JSON.parse(movies) : [];
-  }
-  save(movies: IMovie[]) {
-    this.storage.setItem(this.KEY, JSON.stringify(movies));
-  }
-}
-
-export default MovieStorageService;
 
 describe('MovieStorageService 테스트', () => {
   it('영화 하나를 저장했을 때, 저장한 영화 하나가 불러와진다.', () => {
