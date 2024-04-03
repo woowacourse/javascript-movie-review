@@ -114,6 +114,8 @@ export default class Modal {
       this.#updateVoteText(voteForMovie);
     }
 
+    document.addEventListener('keydown', this.#handleKeyDown);
+
     this.#isOpen = true;
   }
 
@@ -142,8 +144,20 @@ export default class Modal {
     myVoteDescription.textContent = VOTE[voteForMovie];
   }
 
+  #handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      this.closeModal();
+    }
+  };
+
+  removeKeydownEventListener() {
+    document.removeEventListener('keydown', this.#handleKeyDown);
+  }
+
   closeModal() {
     if (!this.#isOpen) return;
+
+    this.removeKeydownEventListener();
 
     if (this.#modalElement) {
       this.#modalElement.remove();
