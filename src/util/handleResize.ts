@@ -1,8 +1,7 @@
 import { resizeMobileWidth } from '../constant/movie';
 import { throttleOnRendering } from './throttling';
 
-export const resizeWidth = (func: () => void) => {
-  func();
+export const handleResize = (func: () => void) => {
   window.addEventListener(
     'resize',
     throttleOnRendering(() => {

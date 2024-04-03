@@ -1,7 +1,7 @@
-import { ALERT_MESSAGE } from '../../constant/movie';
+import { ALERT_MESSAGE, resizeMobileWidth } from '../../constant/movie';
 import { hiddenElement, showElement } from '../../util/hiddenElement';
 import { keydownEvent } from '../../util/keydownEvent';
-import { isMobile, resizeWidth } from '../../util/resizeWidth';
+import { isMobile, handleResize } from '../../util/handleResize';
 import { showAlert } from '../common/Alert';
 
 interface search {
@@ -23,7 +23,8 @@ const adjustSearchUI = ({ searchInput, searchBox }: search) => {
 };
 
 const resizeEvent = ({ searchInput, searchBox }: search) => {
-  resizeWidth(() => adjustSearchUI({ searchInput, searchBox }));
+  adjustSearchUI({ searchInput, searchBox });
+  handleResize(() => adjustSearchUI({ searchInput, searchBox }));
 };
 
 const showSearchBar = ({ searchInput, searchBox }: search) => {

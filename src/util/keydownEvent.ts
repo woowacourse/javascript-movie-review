@@ -6,7 +6,7 @@ interface keydownType {
 
 export const keydownEvent = ({ event, key, func }: keydownType) => {
   if (event.key === key) {
-    if (event.isComposing === false) {
+    if (!event.isComposing) {
       event.preventDefault();
       func();
     }
