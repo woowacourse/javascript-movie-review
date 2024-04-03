@@ -5,6 +5,7 @@ import createHeader from '../component/Header/Header';
 import toast from '../component/toast/toast';
 import { $ } from '../util/selector';
 import { CONFIG, MOVIE_LIST_TYPE } from '../constant/config';
+import IN_APP_MESSAGE from '../constant/inAppMessage';
 import ERROR_MESSAGE from '../constant/errorMessage';
 import MovieDetailModal from '../component/Modal/MovieDetailModal';
 import { UserScoreParams } from '../interface/MovieInterface';
@@ -38,7 +39,7 @@ export class App {
 
   handleUpdateUserScore({ movieId, userScore }: UserScoreParams) {
     this.movieService.setUserScore({ movieId, userScore });
-    toast('영화에 대한 별점이 업데이트 되었습니다!', $('#movie-detail-modal'));
+    toast(IN_APP_MESSAGE.updateUserScore, $('#movie-detail-modal'));
   }
 
   async init() {

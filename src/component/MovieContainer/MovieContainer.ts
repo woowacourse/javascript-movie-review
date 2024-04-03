@@ -5,6 +5,7 @@ import { createSkeletonMovieList } from '../MovieList/MovieList';
 import { MoviePageData } from '../../interface/MovieInterface';
 import ASSETS from '../../constant/assets';
 import InfiniteScroll from '../../util/InfiniteScroll';
+import IN_APP_MESSAGE from '../../constant/inAppMessage';
 
 interface MovieContainerParams {
   title: string;
@@ -55,8 +56,8 @@ class MovieContainer {
 
     const emptyResultHeader = document.createElement('p');
     const emptyResultDescription = document.createElement('p');
-    emptyResultHeader.textContent = '검색 결과가 없습니다.';
-    emptyResultDescription.textContent = '다른 검색어로 다시 검색해주세요.';
+    emptyResultHeader.textContent = IN_APP_MESSAGE.emptyResultHeader;
+    emptyResultDescription.textContent = IN_APP_MESSAGE.emptyResultDescription;
 
     emptyResultContainer.append(emptyResultImage, emptyResultHeader, emptyResultDescription);
     return emptyResultContainer;
@@ -109,7 +110,7 @@ class MovieContainer {
       options: {
         type: 'button',
         id: 'retry-button',
-        textContent: '다시 불러오기 ↻',
+        textContent: IN_APP_MESSAGE.retryButtonTextContent,
         variantClasses: ['full-width', 'primary'],
       },
       callbackFunction: () => handleRetryButton(),

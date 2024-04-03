@@ -1,4 +1,5 @@
 import { CONFIG } from '../../../constant/config';
+import IN_APP_MESSAGE from '../../../constant/inAppMessage';
 import { UserScoreParams, UserScoreType } from '../../../interface/MovieInterface';
 
 interface UserScoreContainerParams {
@@ -63,10 +64,10 @@ class UserScoreContainer {
 
   updateUserScoreDescription(userScore: UserScoreType | null) {
     if (userScore !== null && userScore in CONFIG.userScore) {
-      this.userScoreDescription.textContent = CONFIG.userScore[userScore] ?? '별점을 남겨주세요!';
+      this.userScoreDescription.textContent = CONFIG.userScore[userScore] ?? IN_APP_MESSAGE.emptyUserScore;
       return;
     }
-    this.userScoreDescription.textContent = '별점을 남겨주세요!';
+    this.userScoreDescription.textContent = IN_APP_MESSAGE.emptyUserScore;
   }
 
   getUserScoreArray(userScore: UserScoreType | null) {
