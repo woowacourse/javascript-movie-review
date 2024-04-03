@@ -1,8 +1,17 @@
 .custom-skeleton {
   background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
   background-size: 400%;
-  animation: skeleton-animation 2s infinite ease-out;
+  animation: skeleton-animation 2s infinite ease-out, showSlow 1s linear;
   border-radius: 8px;
+}
+
+@keyframes showSlow {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100;
+  }
 }
 
 @keyframes skeleton-animation {
