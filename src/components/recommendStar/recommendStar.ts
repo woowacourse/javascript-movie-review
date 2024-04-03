@@ -2,7 +2,7 @@ import filledStar from '../../images/star_filled.png';
 import emptyStar from '../../images/star_empty.png';
 import { SCORE_MESSAGE } from '../../constants/constant';
 import { MovieDetail, UserMovieDetail } from '../../interface/Movie';
-import { MovieDetailToUserMovieDetail } from '../../domain/MovieService';
+import { setRecommendList } from '../../domain/LocalStorage';
 export class RecommendStar {
   private userMovieDetail;
   private currentScore: number;
@@ -57,7 +57,7 @@ export class RecommendStar {
         this.rerenderStar();
         this.rerenderScore(recommendScore);
         this.rerenderScoreMessage(recommendMessage);
-        this.setRecommendList();
+        setRecommendList(this.userMovieDetail, this.currentScore);
       });
     });
     return recommendStarBox;
@@ -79,29 +79,4 @@ export class RecommendStar {
   rerenderScoreMessage(recommendMessage: HTMLElement) {
     recommendMessage.textContent = SCORE_MESSAGE[this.currentScore];
   }
-
-  setRecommendList() {
-    const recommendList = JSON.parse(localStorage.getItem('recommendList') || '[]');
-
-    const findRecommend = recommendList.find((movie: UserMovieDetail) => movie.id === this.userMovieDetail.id);
-    if (findRecommend) {
-      findRecommend.userVote = this.currentScore;
-    } else {
-      this.userMovieDetail.userVote = this.currentScore;
-      recommendList.push(this.userMovieDetail);
-    }
-    localStorage.setItem('recommendList', JSON.stringify(recommendList));
-  }
-}
-
-export function getSavedRecommend(movieDetail: MovieDetail) {
-  const recommendList = JSON.parse(localStorage.getItem('recommendList') || '[]');
-  if (recommendList.length !== 0) {
-    const userMovieDetail = recommendList.find((movie: UserMovieDetail) => movie.id === movieDetail.id);
-    if (userMovieDetail) {
-      return userMovieDetail;
-    }
-    return MovieDetailToUserMovieDetail(movieDetail, 0);
-  }
-  return MovieDetailToUserMovieDetail(movieDetail, 0);
 }

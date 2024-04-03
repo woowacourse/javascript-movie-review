@@ -1,6 +1,3 @@
-import { fetchMovieDetail } from '../apis/fetchData';
-import createMovieDetailModal from '../components/modal/detailModal';
-import modal from '../components/modal/emptyModal';
 import { Movie, MovieDetail, MovieDetailData, UserMovieDetail } from '../interface/Movie';
 
 export function mapDataToMovies(movies: any): Movie[] {

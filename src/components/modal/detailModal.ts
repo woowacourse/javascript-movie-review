@@ -2,7 +2,8 @@ import { MovieDetail } from '../../interface/Movie';
 import emptyImg from '../../images/empty_poster.png';
 import filledStar from '../../images/star_filled.png';
 import modal from './emptyModal';
-import { RecommendStar, getSavedRecommend } from '../recommendStar/recommendStar';
+import { RecommendStar } from '../recommendStar/recommendStar';
+import { getSavedRecommend } from '../../domain/LocalStorage';
 
 function createMovieDetailModal(movieDetail: MovieDetail) {
   const container = render(movieDetail);
