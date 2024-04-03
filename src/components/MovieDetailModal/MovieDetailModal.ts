@@ -8,16 +8,6 @@ import { $ } from '../../utils/dom';
 import MovieDetailController from '../../controller/MovieDetailController';
 import MovieDetailSkeleton from '../SkeletonItem/MovieDetailSkeleton';
 
-const starImage = (src: string, index: number) => {
-  const starImage = document.createElement('img');
-
-  starImage.classList.add('star');
-  starImage.dataset['starIndex'] = String(index);
-  starImage.src = src;
-
-  return starImage;
-};
-
 class MovieDetailModal extends ModalWrapper {
   #container = document.createElement('div');
   #title = document.createElement('div');
@@ -129,9 +119,9 @@ class MovieDetailModal extends ModalWrapper {
 
     Array.from({ length: 5 }).forEach((_, index) => {
       if (index < filledStarLength) {
-        stars.appendChild(starImage(STAR_FILLED, index));
+        stars.appendChild(this.#getStarImageTemplate(STAR_FILLED, index));
       } else {
-        stars.appendChild(starImage(STAR_EMPTY, index));
+        stars.appendChild(this.#getStarImageTemplate(STAR_EMPTY, index));
       }
     });
 
@@ -158,6 +148,16 @@ class MovieDetailModal extends ModalWrapper {
     stars.addEventListener('mouseover', this.#onStarMouseover.bind(this));
 
     return reviewContainer;
+  }
+
+  #getStarImageTemplate(src: string, index: number) {
+    const starImage = document.createElement('img');
+
+    starImage.classList.add('star');
+    starImage.dataset['starIndex'] = String(index);
+    starImage.src = src;
+
+    return starImage;
   }
 
   #onStarClick(id: number, event: MouseEvent) {
