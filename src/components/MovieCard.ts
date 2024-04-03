@@ -35,7 +35,6 @@ export default class MovieCard {
       : NoImage;
 
     const element = /* html */ `
-    <a href="#">
       <div class="item-card", data-movieid="${this.#movieId}">
         <img
         class="item-thumbnail"
@@ -46,7 +45,6 @@ export default class MovieCard {
         <p class="item-title">${movie.title}</p>
         <p class="item-score">${movie.vote_average.toFixed(2)}<img src=${StarFilled} alt="별점" class="star-start" /></p>
       </div>
-    </a>
     `;
 
     this.#liElement.innerHTML = element;
