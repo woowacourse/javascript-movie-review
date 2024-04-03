@@ -24,11 +24,6 @@ class MovieRatingBox extends Component<MovieRatingBoxProps> {
     this.$element.innerHTML = this.createComponent();
   }
 
-  private reRender() {
-    this.$element.innerHTML = '';
-    this.render();
-  }
-
   protected initializeState(): void {
     this.initializeRatingScore();
   }
@@ -38,7 +33,7 @@ class MovieRatingBox extends Component<MovieRatingBoxProps> {
       this.score = RatingService.getRatingScore(this.props.key);
     }
 
-    this.reRender();
+    this.render();
   }
 
   protected createComponent(): string {
