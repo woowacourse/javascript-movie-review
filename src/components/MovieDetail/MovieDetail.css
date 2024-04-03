@@ -2,10 +2,13 @@
   color: var(--white-100);
 }
 
+.detail-title-container {
+  width: 47.625rem;
+}
+
 .detail-container {
   width: 51.625rem;
   height: 36.0625rem;
-
   background-color: var(--detail-background);
 }
 
@@ -55,6 +58,10 @@
     width: 46.25rem;
   }
 
+  .detail-title-container {
+    width: 42.25rem;
+  }
+
   .detail-thumbnail {
     height: 25rem;
     width: 16.25rem;
@@ -96,7 +103,7 @@
 
   .detail-overview {
     height: 12.5rem;
-    overflow: scroll;
+    overflow-y: auto;
   }
 
   .modal-cancel-button {

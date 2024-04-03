@@ -7,12 +7,13 @@ import { MovieDetailItem } from "../../types/movies";
 
 import { $ } from "../../utils/dom";
 import { filledStarLogo } from "../../assets/image";
-
-import "./MovieDetail.css";
+import { Optional } from "../../types/utility";
 import { ERROR_IMAGE_SOURCE } from "../../constants/movie";
 
+import "./MovieDetail.css";
+
 export default class MovieDetail extends Component {
-  private $modal: Modal | undefined;
+  private $modal: Optional<Modal>;
 
   protected initializeState() {
     const $app = $<HTMLDivElement>("#app");
@@ -33,7 +34,7 @@ export default class MovieDetail extends Component {
   private createDetailTemplate = ({ title, imagePath, genres, overview, voteAverage }: MovieDetailItem) => {
     return /*html*/ `
       <div class="full-width flex justify-center align-center detail-header">
-        <div class="h-6 w-4_5 relative flex justify-center align-center detail-title-container">
+        <div class="h-6 relative flex justify-center align-center detail-title-container">
           <p class="detail-text-white font-semibold detail-title">${title}</p>
           <button id="modal-cancel-button" class="absolute right-0 flex justify-center align-center detail-text-white modal-cancel-button">X</button>
         </div>
