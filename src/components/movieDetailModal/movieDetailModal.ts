@@ -43,18 +43,29 @@ const movieDetailModal = {
   setModalCloseEvent() {
     const closeButton = document.querySelector('#detail-modal--close-btn');
     const dialog = document.querySelector('dialog');
-    if (closeButton && dialog) {
-      closeButton.addEventListener('click', () => {
-        dialog.close();
-        this.unfixBackGroundBody();
-      });
-      dialog.addEventListener('click', (event) => {
-        const { target } = event;
-        if (target instanceof HTMLElement && target.nodeName === 'DIALOG') {
-          dialog.close();
-          this.unfixBackGroundBody();
-        }
-      });
+    if (!closeButton || !dialog) return;
+
+    closeButton.addEventListener('click', () => this.closeModal(dialog));
+    dialog.addEventListener('click', (event: Event) => this.handleDialogClick(event, dialog));
+    window.addEventListener('keydown', (event: KeyboardEvent) => this.handleKeyDown(event, dialog));
+  },
+
+  closeModal(dialog: HTMLDialogElement) {
+    dialog.close();
+    this.unfixBackGroundBody();
+  },
+
+  handleDialogClick(event: Event, dialog: HTMLDialogElement) {
+    const { target } = event;
+    if (target instanceof HTMLElement && target.nodeName === 'DIALOG') {
+      this.closeModal(dialog);
+    }
+  },
+
+  handleKeyDown(event: KeyboardEvent, dialog: HTMLDialogElement) {
+    if (event.key === 'Escape') {
+      this.unfixBackGroundBody();
+      this.closeModal(dialog);
     }
   },
 
