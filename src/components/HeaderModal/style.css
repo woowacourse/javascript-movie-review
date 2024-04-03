@@ -40,3 +40,11 @@
   color    : #F1F1F1;
   border   : 0px;
 }
+
+@media screen and (max-width:850px) {
+
+  .modal>.modal-container>header {
+    width: 100vw;
+  }
+
+}

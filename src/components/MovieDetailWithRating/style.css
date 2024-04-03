@@ -70,10 +70,27 @@
     display: none;
   }
 
-  .modal>aside>div>section>.movie-detail-with-rating__not-poster-container {
+  .modal>aside>div>section>.movie-thumbnail {
+    display: none;
+  }
+
+  .modal>aside>div>section {
     width: 100vw;
+  }
+
+  .modal>aside>div>section>.movie-detail-with-rating {
+    width  : 100vw;
+    display: flex;
+
 
     align-items: center;
   }
 
+  .modal>aside>div>section>.movie-detail-with-rating__not-poster-container>.movie-description {
+    width: 90vw;
+  }
+
+  .modal>aside>div>section>.movie-detail-with-rating__not-poster-container>.movie-detail-with-rating__rating-container {
+    width: 90vw;
+  }
 }
