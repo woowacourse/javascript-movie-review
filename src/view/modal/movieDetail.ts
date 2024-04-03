@@ -90,15 +90,15 @@ function changeStarResult(starId: number, parent: HTMLElement) {
   rateResultNumber.innerText = String(score);
   rateResultString.innerText = RATING_MESSAGES[score];
 }
-// TODO: execute는 의미 전달이 부족하다. 다른 이름 없을까?
-function executeInterface(star: HTMLElement) {
+
+function updateInterface(star: HTMLElement) {
   const starId = Number(star.getAttribute('data-star-id'));
   const parent = star.parentNode as HTMLElement;
   changeStarImage(starId, parent);
   changeStarResult(starId, parent);
 }
 
-function executeLocaleStorage(star: HTMLElement, id: number) {
+function updateLocaleStorage(star: HTMLElement, id: number) {
   const starScore = (Number(star.getAttribute('data-star-id')) + 1) * 2;
   setLocalStorageScore(id, starScore);
 }
@@ -106,23 +106,26 @@ function executeLocaleStorage(star: HTMLElement, id: number) {
 const clickStarHandler = (e: any, id: number) => {
   e.preventDefault();
   const star = e.target.parentNode;
-  executeInterface(star);
-  executeLocaleStorage(star, id);
+  updateInterface(star);
+  updateLocaleStorage(star, id);
 };
 
-function createStarBox(index: number, id: number) {
+function createStarBox(index: number) {
   const starBox = document.createElement('button');
   starBox.setAttribute('data-star-id', String(index));
-  // TODO: 이미지 document.createElement로 분리하기
-  starBox.innerHTML = `<img src=${starEmptyImage} alt='star' class='star-image'></img>`;
-  starBox.addEventListener('click', (e) => clickStarHandler(e, id));
+  const img = document.createElement('img');
+  img.src = starEmptyImage;
+  img.alt = 'star';
+  img.className = 'star-image';
+  starBox.append(img);
   return starBox;
 }
 
 function createRateStars(id: number) {
   const STAR_COUNT = 5;
   return Array.from({ length: STAR_COUNT }, (_, index) => {
-    const starBox = createStarBox(index, id);
+    const starBox = createStarBox(index);
+    starBox.addEventListener('click', (e) => clickStarHandler(e, id));
     return starBox;
   });
 }
@@ -144,7 +147,8 @@ function createResult(id: number) {
 function checkInitScore(userRateBox: HTMLElement, id: number) {
   const score = getLocalStorageScore(id);
   if (score) {
-    changeStarImage(score / 2 - 1, userRateBox);
+    const starId = score / 2 - 1;
+    changeStarImage(starId, userRateBox);
   }
   return userRateBox;
 }
