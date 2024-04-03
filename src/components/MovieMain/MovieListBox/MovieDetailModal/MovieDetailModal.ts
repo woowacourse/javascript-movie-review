@@ -20,6 +20,7 @@ interface MovieDetails {
   posterPath: string;
 }
 
+const SKELETON = "skeleton";
 class MovieDetailModal {
   $element;
   private movieId;
@@ -47,27 +48,51 @@ class MovieDetailModal {
     descriptions,
     posterPath,
   }: MovieDetails) {
+    this.titleReRender(korTitle);
+    this.genreReRender(genres);
+    this.voteReRender(voteAverage);
+    this.descriptionReRender(descriptions);
+    this.posterReRender(posterPath);
+
+    const rating = getUserRating(id);
+    this.renderUserRating(rating);
+  }
+
+  private titleReRender(korTitle: string) {
     const title = new CommonHtmlElement($(".modal-detail-header>.modal-title"));
+
+    title.injectTextContent(korTitle);
+    title.removeClassName(SKELETON);
+  }
+
+  private genreReRender(genres: string[]) {
     const genre = new CommonHtmlElement($("span.genre"));
+
+    genre.injectTextContent(genres.join(", "));
+    genre.removeClassName(SKELETON);
+  }
+
+  private voteReRender(voteAverage: number) {
     const vote = new CommonHtmlElement($("span.vote-value"));
+
+    vote.injectTextContent(String(voteAverage));
+    vote.removeClassName(SKELETON);
+  }
+
+  private descriptionReRender(descriptions: string) {
     const description = new CommonHtmlElement($(".movie-description"));
+
+    description.injectTextContent(descriptions);
+    description.removeClassName(SKELETON);
+  }
+
+  private posterReRender(posterPath: string) {
     const poster = new CommonHtmlElement(
       $(".modal-detail-body>img.item-thumbnail")
     );
 
-    const rating = getUserRating(id);
-    this.renderUserRating(rating);
-
-    title.injectTextContent(korTitle);
-    title.removeSkeleton();
-    genre.injectTextContent(genres.join(", "));
-    genre.removeSkeleton();
-    vote.injectTextContent(String(voteAverage));
-    vote.removeSkeleton();
-    description.injectTextContent(descriptions);
-    description.removeSkeleton();
     poster.setAttribute("src", posterPath);
-    poster.removeSkeleton();
+    poster.removeClassName(SKELETON);
   }
 
   private async movieDetails() {
@@ -98,7 +123,7 @@ class MovieDetailModal {
     });
     const $title = createElement({
       tagName: "h2",
-      attribute: { class: "modal-title skeleton" },
+      attribute: { class: `modal-title ${SKELETON}` },
     });
     const $exitButton = createElement({
       tagName: "button",
@@ -125,7 +150,7 @@ class MovieDetailModal {
     const $poster = createElement({
       tagName: "img",
       attribute: {
-        class: "item-thumbnail skeleton",
+        class: `item-thumbnail ${SKELETON}`,
       },
     });
 
@@ -144,7 +169,7 @@ class MovieDetailModal {
     const $genreWithVote = this.generateGenreWithVote();
     const $description = createElement({
       tagName: "div",
-      attribute: { class: "movie-description text-body skeleton" },
+      attribute: { class: `movie-description text-body ${SKELETON}` },
     });
 
     const $detailInfo = createElement({
@@ -167,7 +192,7 @@ class MovieDetailModal {
   private generateGenreWithVote() {
     const $genre = createElement({
       tagName: "span",
-      attribute: { class: "genre skeleton" },
+      attribute: { class: `genre ${SKELETON}` },
     });
 
     const $starImg = createElement({
@@ -180,7 +205,7 @@ class MovieDetailModal {
 
     const $voteValue = createElement({
       tagName: "span",
-      attribute: { class: "vote-value skeleton" },
+      attribute: { class: `vote-value ${SKELETON}` },
     });
 
     const $vote = createElement({
