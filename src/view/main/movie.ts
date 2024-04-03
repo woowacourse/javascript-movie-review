@@ -98,9 +98,6 @@ function getMainTitle() {
 
 function createNoMovieMessage() {
   const div = document.createElement('div');
-  // TODO: className으로 고치기
-  div.style.fontSize = '18px';
-  div.style.fontWeight = '600';
   div.innerText = '검색 결과가 없습니다.';
   return div;
 }
