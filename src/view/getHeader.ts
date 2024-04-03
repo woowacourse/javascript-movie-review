@@ -15,6 +15,17 @@ interface ISearchSubmitEvent<T> extends SubmitEvent {
   target: EventTarget & T;
 }
 
+export function closeSearchForm() {
+  const button = document.querySelector('.mobile-search-button') as HTMLButtonElement;
+  const searchBox = document.querySelector('.search-box') as HTMLFormElement;
+
+  button.classList.add('mobile-visibility-visible');
+  button.classList.remove('mobile-visibility-hidden');
+
+  searchBox.classList.add('mobile-visibility-hidden');
+  searchBox.classList.remove('mobile-visibility-visible');
+}
+
 function logoClickHandler() {
   // eslint-disable-next-line no-restricted-globals
   location.reload();
@@ -37,6 +48,12 @@ const submitSearchEventHandler = (event: ISearchSubmitEvent<ISearchInput>) => {
   movieStateMethod.setQuery(query);
   movieStateMethod.setUrl(SEARCH_MOVIES_URL);
   replaceMain();
+  closeSearchForm();
+};
+
+const InputFocusoutHandler = (e: any) => {
+  const input = e.target as HTMLInputElement;
+  if (!input.value) closeSearchForm();
 };
 
 // eslint-disable-next-line max-lines-per-function
@@ -48,6 +65,7 @@ function getSearchBoxInput() {
     placeholder: '검색',
     required: true,
   };
+  inputTag.addEventListener('focusout', (e) => InputFocusoutHandler(e));
   Object.assign(inputTag, state);
   return inputTag;
 }
@@ -80,22 +98,14 @@ function openSearchForm(button: HTMLButtonElement, searchBox: HTMLFormElement) {
   searchBox.classList.add('mobile-visibility-visible');
 }
 
-export function closeSearchForm() {
-  const button = document.querySelector('.mobile-search-button') as HTMLButtonElement;
-  const searchBox = document.querySelector('.search-box') as HTMLFormElement;
-
-  button.classList.add('mobile-visibility-visible');
-  button.classList.remove('mobile-visibility-hidden');
-
-  searchBox.classList.add('mobile-visibility-hidden');
-  searchBox.classList.remove('mobile-visibility-visible');
-}
-
 function getMobileToggle(searchBox: HTMLFormElement) {
   const button = document.createElement('button');
   button.className = 'right-20 mobile-visibility-visible mobile-search-button absolute flex-XY-aligned';
   button.innerHTML = `<img src=${searchButtonImg} alt="search-form-toggle" class="w-14"></img>`;
-  button.onclick = () => openSearchForm(button, searchBox);
+  button.onclick = () => {
+    openSearchForm(button, searchBox);
+    searchBox.querySelector('input')?.focus();
+  };
   return button;
 }
 
