@@ -7,6 +7,7 @@ class Movie implements IMovie {
   score: number;
   genre: TGenre[];
   description: string;
+  myScore: number;
   constructor({
     id,
     title = '영화제목',
@@ -14,6 +15,7 @@ class Movie implements IMovie {
     score = 0,
     genre = ['Action'],
     description = '빈 설명',
+    myScore = 0,
   }: IMovie) {
     this.id = id;
     this.title = title;
@@ -21,6 +23,7 @@ class Movie implements IMovie {
     this.score = score;
     this.genre = genre;
     this.description = description;
+    this.myScore = myScore;
   }
 
   equal(movie: IMovie) {
@@ -38,8 +41,8 @@ class Movie implements IMovie {
     };
   }
 
-  getScoreInfo() {
-    return { id: this.id, score: this.score };
+  getMyScoreInfo() {
+    return { id: this.id, myScore: this.myScore };
   }
 }
 

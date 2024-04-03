@@ -24,8 +24,8 @@ class MovieCollection {
     }
   }
 
-  getScoresInfo() {
-    return this.movies.map(movie => new Movie(movie).getScoreInfo());
+  getMyScoresInfo() {
+    return this.movies.map(movie => new Movie(movie).getMyScoreInfo());
   }
 
   has(movie: IMovie) {

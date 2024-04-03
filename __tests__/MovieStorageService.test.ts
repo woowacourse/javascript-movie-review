@@ -51,9 +51,9 @@ describe('MovieStorageService 테스트', () => {
   it('영화 하나의 별점을 저장했을 때, 저장한 영화 하나의 별점이 불러와진다.', () => {
     const movieStorageService = new MovieStorageService(new StorageMock());
     movieStorageService.save([MOVIE1]);
-    const EXPECTED_RESULT = new MovieCollection([MOVIE1]).getScoresInfo();
+    const EXPECTED_RESULT = new MovieCollection([MOVIE1]).getMyScoresInfo();
 
-    const MOVIES_RESULT = movieStorageService.load();
+    const MOVIES_RESULT = new MovieCollection(movieStorageService.load()).getMyScoresInfo();
 
     expect(MOVIES_RESULT).toEqual(EXPECTED_RESULT);
   });
@@ -63,10 +63,11 @@ describe('MovieStorageService 테스트', () => {
     movieStorageService.save([MOVIE1, MOVIE2]);
 
     const MOVIE2_UPDATED = { ...MOVIE2, description: '설명2_업데이트' };
-    const EXPECTED_RESULT = new MovieCollection([MOVIE1, MOVIE2_UPDATED]).getScoresInfo();
-
+    const EXPECTED_RESULT = new MovieCollection([MOVIE1, MOVIE2_UPDATED]).getMyScoresInfo();
     movieStorageService.update(MOVIE2_UPDATED);
 
-    expect(movieStorageService.load()).toEqual(EXPECTED_RESULT);
+    const MOVIE_SCORES = new MovieCollection(movieStorageService.load()).getMyScoresInfo();
+
+    expect(MOVIE_SCORES).toEqual(EXPECTED_RESULT);
   });
 });

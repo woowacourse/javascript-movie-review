@@ -50,4 +50,5 @@ export interface IMovie {
   score: number;
   genre: TGenre[];
   description: string;
+  myScore?: number;
 }

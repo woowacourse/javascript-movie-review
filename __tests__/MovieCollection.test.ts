@@ -8,6 +8,7 @@ describe('MovieCollection 테스트', () => {
     score: 4,
     genre: ['Action'],
     description: '설명',
+    myScore: 4,
   };
   const MOVIE2: IMovie = {
     id: 2,
@@ -16,6 +17,7 @@ describe('MovieCollection 테스트', () => {
     score: 8,
     genre: ['Action'],
     description: '설명',
+    myScore: 8,
   };
   it('영화 하나를 추가했을 때, 추가한 영화 하나가 불러와진다.', () => {
     const movieCollection = new MovieCollection();
@@ -53,9 +55,9 @@ describe('MovieCollection 테스트', () => {
   it('영화 목록에서 별점 정보만을 반환한다.', () => {
     const movieCollection = new MovieCollection([MOVIE1, MOVIE2]);
 
-    expect(movieCollection.getScoresInfo()).toEqual([
-      { id: 1, score: 4 },
-      { id: 2, score: 8 },
+    expect(movieCollection.getMyScoresInfo()).toEqual([
+      { id: 1, myScore: 4 },
+      { id: 2, myScore: 8 },
     ]);
   });
 });
