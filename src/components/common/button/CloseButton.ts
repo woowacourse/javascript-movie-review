@@ -14,6 +14,7 @@ class CloseButton extends Button {
   static #createImage() {
     const $image = document.createElement('img');
     $image.src = './images/close_button.svg';
+    $image.alt = '닫기 버튼';
     return $image;
   }
 }
