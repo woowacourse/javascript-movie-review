@@ -3,6 +3,7 @@ import { RenderInputType } from '../types/props';
 
 const infiniteScroll = {
   startObserving(movieApp: MovieApp, { renderType, input }: RenderInputType) {
+    if (movieApp.categorizeRenderType(renderType).isLastPage) return;
     const scrollEnd = document.querySelector('#scroll-end-box');
     if (scrollEnd) {
       const options = {
@@ -13,7 +14,6 @@ const infiniteScroll = {
         entries.forEach((entry) => {
           if (movieApp.categorizeRenderType(renderType).isLastPage) observer.disconnect();
           if (!entry.isIntersecting || movieApp.isLoading) return;
-
           observer.observe(scrollEnd);
           this.handleMovieApp(movieApp, { renderType, input });
         });
