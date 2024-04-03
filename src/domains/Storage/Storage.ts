@@ -1,12 +1,13 @@
-import { BrowserStorageInterface } from "./Storage.type";
+import { Nullable } from "../../types/utility";
+import { DataStorage } from "./Storage.type";
 
-export default class BrowserStorage<T> implements BrowserStorageInterface<T> {
-  private KEY: string | null = null;
+export default class BrowserStorage<T> implements DataStorage<T> {
+  private key: Nullable<string> = null;
 
-  private storage: Storage | null = null;
+  private storage: Nullable<Storage> = null;
 
   constructor(key: string, storage: Storage) {
-    this.KEY = key;
+    this.key = key;
     this.storage = storage;
   }
 
@@ -19,7 +20,7 @@ export default class BrowserStorage<T> implements BrowserStorageInterface<T> {
   }
 
   get<T>() {
-    const storedData = this.storage?.getItem(this.KEY ?? "");
+    const storedData = this.storage?.getItem(this.key ?? "");
     if (!storedData) return;
 
     return this.fromJson<T>(storedData);
@@ -28,10 +29,10 @@ export default class BrowserStorage<T> implements BrowserStorageInterface<T> {
   set(data: T) {
     const stringifiedData = this.toJson(data);
 
-    this.storage?.setItem(this.KEY ?? "", stringifiedData);
+    this.storage?.setItem(this.key ?? "", stringifiedData);
   }
 
   remove() {
-    this.storage?.removeItem(this.KEY ?? "");
+    this.storage?.removeItem(this.key ?? "");
   }
 }
