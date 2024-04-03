@@ -4,6 +4,7 @@ import MovieList from '../MovieList/MovieList';
 import SearchValidator from '../../domain/Validator/SearchValidator';
 import ToastPopup from '../ToastPopup/ToastPopup';
 import { getDomElement } from '../../util/DOM';
+import ResizeHandler from '../../util/ResizeHandler';
 
 const MovieHeader = {
   create() {
@@ -13,7 +14,7 @@ const MovieHeader = {
 
     header.appendChild(logoImgContainer);
     header.appendChild(searchBox);
-
+    ResizeHandler.mobileViewAddClass(getDomElement('input', searchBox), 'hidden');
     getDomElement('#app').appendChild(header);
 
     this.setHandle(logoImgContainer, searchBox);
@@ -35,12 +36,8 @@ const MovieHeader = {
     const searchInput = getDomElement('input', searchBox);
     const computedStyles = window.getComputedStyle(searchInput);
     window.addEventListener('resize', () => {
-      if (window.innerWidth <= 767) {
-        searchInput.style.display = 'none';
-      }
-      if (window.innerWidth > 767) {
-        searchInput.style.display = 'inline-block';
-      }
+      ResizeHandler.mobileViewAddClass(searchInput, 'hidden');
+      ResizeHandler.mobileViewRemoveClass(searchInput, 'hidden');
     });
     logoImgContainer.addEventListener('click', () => this.showPopularMovies(searchBox));
     const searchButton = getDomElement('button', searchBox);
@@ -50,10 +47,9 @@ const MovieHeader = {
     searchButton.addEventListener('click', () => {
       const header = getDomElement('header');
       const headerLogo = getDomElement('h1', header);
-      console.log(computedStyles.display);
       if (computedStyles.display === 'none') {
-        searchInput.style.display = 'inline-block';
-        headerLogo.style.display = 'none';
+        ResizeHandler.mobileViewRemoveClass(searchInput, 'hidden');
+        ResizeHandler.mobileViewAddClass(headerLogo, 'hidden');
         searchInput.focus();
       } else {
         this.showSearchMovies(searchBox);
@@ -64,8 +60,8 @@ const MovieHeader = {
       const computedStyles = window.getComputedStyle(headerLogo);
       if (computedStyles.display === 'none') {
         setTimeout(() => {
-          searchInput.style.display = 'none';
-          headerLogo.style.display = 'inline-block';
+          ResizeHandler.mobileViewAddClass(searchInput, 'hidden');
+          ResizeHandler.mobileViewRemoveClass(headerLogo, 'hidden');
         }, 300);
       }
     });

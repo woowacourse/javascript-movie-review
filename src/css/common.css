@@ -411,3 +411,7 @@ header .search-box > .search-button {
   top: 80px;
   right: 0px;
 }
+
+.hidden {
+  display: none !important;
+}
