@@ -31,4 +31,16 @@ describe('MovieCollection 테스트', () => {
 
     expect(movieCollection.getMovies()).toEqual([MOVIE2]);
   });
+
+  it('영화 하나를 업데이트 했을 때, 해당 영화가 업데이트되어 얻어진다.', () => {
+    const movieCollection = new MovieCollection([MOVIE1, MOVIE2]);
+    const UPDATED_MOVIE1: IMovie = {
+      ...MOVIE1,
+      title: '영화1_제목_업데이트',
+    };
+
+    movieCollection.update(UPDATED_MOVIE1);
+
+    expect(movieCollection.getMovies()).toEqual([UPDATED_MOVIE1, MOVIE2]);
+  });
 });

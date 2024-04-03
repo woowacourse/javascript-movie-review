@@ -16,5 +16,9 @@ class MovieCollection {
   remove(movie: IMovie) {
     this.movies = this.movies.filter(m => !new Movie(m).equal(movie));
   }
+
+  update(movie: IMovie) {
+    this.movies = this.movies.map(m => (new Movie(m).equal(movie) ? movie : m));
+  }
 }
 export default MovieCollection;
