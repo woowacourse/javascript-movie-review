@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 // eslint-disable-next-line max-lines-per-function
 function fetchErrorCheck(status: number) {
   if (status === 200) return;
@@ -17,4 +19,13 @@ function fetchErrorCheck(status: number) {
   }
 }
 
-export default fetchErrorCheck;
+interface IFetchParams<T> {
+  fetcherFunction: (fetchParams: T) => Promise<Response>;
+  fetchParams: T;
+}
+
+export async function fetchFetcherFunction<T>({ fetcherFunction, fetchParams }: IFetchParams<T>) {
+  const response = await fetcherFunction(fetchParams);
+  fetchErrorCheck(response.status);
+  return response.json();
+}

@@ -1,5 +1,5 @@
 import { MOVIE_DETAIL_URL } from '../constants/tmdbConstants';
-import fetchErrorCheck from './fetchErrorCheck';
+import { fetchFetcherFunction } from './utils';
 
 export type genre = {
   id: number;
@@ -24,10 +24,9 @@ function movieDetailFetcher(movieId: number) {
   return fetch(`${MOVIE_DETAIL_URL}/${movieId}?${searchParams}`);
 }
 
-async function fetchMovieDetail(movieId: number) {
-  const response = await movieDetailFetcher(movieId);
-  fetchErrorCheck(response.status);
-  return response.json();
+async function fetchMoviesDetail(movieId: number) {
+  const fetchData = await fetchFetcherFunction<number>({ fetcherFunction: movieDetailFetcher, fetchParams: movieId });
+  return fetchData;
 }
 
-export default fetchMovieDetail;
+export default fetchMoviesDetail;

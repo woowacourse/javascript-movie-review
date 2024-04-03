@@ -1,5 +1,5 @@
 import movieStateMethod from '../store/movieStore';
-import fetchErrorCheck from './fetchErrorCheck';
+import { fetchFetcherFunction } from './utils';
 
 export interface IFetchParams {
   url: string;
@@ -22,15 +22,18 @@ function movieFetcher(params: IFetchParams) {
   return fetch(`${params.url}?${searchParams}`);
 }
 
-// TODO: await와 에러 체크 그리고 json 반환을 해주는 함수를 분리할 수 있겠다.
+// eslint-disable-next-line max-lines-per-function
 async function fetchMovies() {
-  const response = await movieFetcher({
+  const fetchParams = {
     url: movieStateMethod.getUrl(),
     page: movieStateMethod.getPage(),
     query: movieStateMethod.getQuery(),
+  };
+  const fetchData = await fetchFetcherFunction<IFetchParams>({
+    fetcherFunction: movieFetcher,
+    fetchParams,
   });
-  fetchErrorCheck(response.status);
-  return response.json();
+  return fetchData;
 }
 
 export default fetchMovies;
