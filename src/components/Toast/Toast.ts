@@ -1,4 +1,4 @@
-import { DELAY } from '../../consts/common';
+import { MOVIE_LIST } from '../../consts/movie';
 import '../Toast/Toast.css';
 
 class Toast {
@@ -21,13 +21,13 @@ class Toast {
 
     setTimeout(() => {
       this.toastMessage.classList.add('hide-toast');
-    }, DELAY.TOAST_HIDE);
+    }, MOVIE_LIST.TOAST_HIDE_DELAY);
   }
 
   removeToast() {
     setTimeout(() => {
       this.toastMessage.remove();
-    }, DELAY.TOAST_REMOVE);
+    }, MOVIE_LIST.TOAST_REMOVE_DELAY);
   }
 }
 

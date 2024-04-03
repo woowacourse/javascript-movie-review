@@ -3,8 +3,8 @@ import MovieDetailModal from '../Modal/MovieDetailModal';
 import Skeleton from '../Skeleton/Skeleton';
 import { NotFound } from '../NotFound/NotFound';
 import { Movie } from './../../types/movie';
-import { PAGE_SIZE } from '../../consts/common';
 import { MovieDetailAPI } from '../../domain/services/API.type';
+import { MOVIE_LIST } from '../../consts/movie';
 import './MovieList.scss';
 
 class MovieList {
@@ -27,7 +27,7 @@ class MovieList {
   renderSkeleton() {
     const fragment = new DocumentFragment();
 
-    Array.from({ length: PAGE_SIZE }).forEach(() => {
+    Array.from({ length: MOVIE_LIST.PAGE_SIZE }).forEach(() => {
       const movieItemTemplate = Skeleton.template();
       fragment.append(movieItemTemplate);
     });

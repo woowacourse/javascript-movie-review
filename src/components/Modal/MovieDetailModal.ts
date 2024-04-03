@@ -6,7 +6,7 @@ import { POSTER_BASE_URL } from '../../consts/Api';
 import StarEmpty from '../../assets/star_empty.png';
 import StarFilled from '../../assets/star_filled.png';
 import UserRatingStore from '../../domain/services/UserRatingStore';
-import { RATING_SCORE, RATING_STAR_SIZE } from '../../consts/common';
+import { RATING_SCORE, RATING_STAR_SIZE } from '../../consts/userRating';
 
 type Score = 0 | 2 | 4 | 6 | 8 | 10;
 

@@ -1,4 +1,4 @@
-import { LOCAL_STORAGE_KEY } from '../consts/common';
+import { LOCAL_STORAGE_KEY } from '../consts/userRating';
 
 const storage = {
   get<T>(): T {
