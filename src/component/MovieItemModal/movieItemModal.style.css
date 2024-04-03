@@ -123,17 +123,10 @@ dialog {
   background-color: #383839;
   display: flex;
   border-radius: 12px;
-  /* margin: 0rem auto; */
   width: 100%;
   padding: 0.9rem 1rem;
   align-items: stretch;
-
   top: 89%;
-}
-
-.my-score-section > * {
-  display: flex;
-  align-items: center;
 }
 
 .my-score-section label {
@@ -160,6 +153,10 @@ dialog {
 
 .myscore-ratings {
   margin-right: 0.4rem;
+}
+
+.myscore-description {
+  width: 4rem;
 }
 
 @media (max-width: 768px) {
