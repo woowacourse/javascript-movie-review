@@ -25,8 +25,6 @@ class MovieRenderController {
     const documentHeight = document.body.scrollHeight;
     const presentHeight = window.scrollY + window.innerHeight;
 
-    console.log(1);
-
     if (window.scrollY === 0) {
       topButton.classList.add('hide-top-button');
     } else {
