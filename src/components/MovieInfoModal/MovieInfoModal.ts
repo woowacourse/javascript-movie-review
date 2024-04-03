@@ -13,7 +13,7 @@ class MovieInfoModal {
 
   constructor(movieID: number) {
     this.#movieID = movieID;
-    this.#localVote = localStorage.getItem(`${this.#movieID}`) ? Number(localStorage.getItem(`${this.#movieID}`)) : 0;
+    this.#localVote = Number(localStorage.getItem(`${this.#movieID}`)) ?? 0;
     this.create();
     this.setHandle();
 
