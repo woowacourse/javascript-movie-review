@@ -1,10 +1,5 @@
-import {
-  MOVIE_DETAIL_BASE_URL,
-  KEY,
-  MOVIE_SEARCH_BASE_URL,
-  POPULAR_MOVIES_BASE_URL,
-} from '../../../constants/MOVIES_URL';
-import generateMoviesUrl from '../../../utils/GenerateMoviesUrl';
+import { MOVIE_DETAIL_BASE_URL, MOVIE_SEARCH_BASE_URL, POPULAR_MOVIES_BASE_URL } from '../../../constants/MOVIES_URL';
+import generateMoviesUrl from '../../../utils/generateMoviesUrl';
 
 async function fetchPopularMovies(page: number) {
   const popularMoviesURL = generateMoviesUrl(POPULAR_MOVIES_BASE_URL, { page: String(page) });
