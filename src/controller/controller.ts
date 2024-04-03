@@ -77,6 +77,7 @@ export class App {
 
   async handleMovieItemClick(item: HTMLLIElement, movieId: number) {
     showLoadingAnimation(item);
+    document.body.classList.add('overflow-hidden');
     const movieDetail = await this.fetchMovieDetail(movieId);
 
     this.movieDetailModal.renderMovieDetailContainer({ movie: movieDetail.data });

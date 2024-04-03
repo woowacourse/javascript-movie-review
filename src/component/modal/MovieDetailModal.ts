@@ -28,6 +28,7 @@ export default class MovieDetailModal extends Modal {
   closeModal() {
     this.clearContainer();
     this.modal.close();
+    document.body.classList.remove('overflow-hidden');
   }
 
   private clearContainer() {
