@@ -30,6 +30,7 @@ export class App {
   async init() {
     createHeader();
     $('form.search-box').addEventListener('clickSearchButton', () => this.makeSearchPage());
+    $('form.search-box').addEventListener('emptyInputEvent', () => this.makePopularPage());
     $('header > img.logo').addEventListener('logoClickEvent', () => this.makePopularPage());
   }
 
@@ -98,6 +99,7 @@ export class App {
 
   attachInfiniteScroll() {
     const observer$ = $('.skeleton');
-    startInfiniteScroll(this.addMovieList.bind(this), observer$);
+
+    if (observer$) startInfiniteScroll(this.addMovieList.bind(this), observer$);
   }
 }
