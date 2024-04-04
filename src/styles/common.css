@@ -37,6 +37,59 @@ button.primary {
   padding-bottom: 48px;
 }
 
+.floating-button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 40px;
+  height: 40px;
+  background: #f33f3f;
+  border: none;
+  border-radius: 40px;
+  transition: background 0.5s ease;
+}
+
+.floating-button:hover {
+  background: #f2b5b5;
+}
+
 .full-width {
   width: 100%;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.gap-x-16 {
+  row-gap: 16px;
+}
+
+.gap-y-4 {
+  column-gap: 4px;
+}
+
+.gap-y-12 {
+  column-gap: 12px;
+}
+
+.gap-y-16 {
+  column-gap: 16px;
+}
+
+.gap-y-32 {
+  column-gap: 32px;
 }

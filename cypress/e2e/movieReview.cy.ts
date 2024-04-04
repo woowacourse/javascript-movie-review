@@ -1,6 +1,10 @@
 describe('영화 리뷰 E2E 테스트', () => {
   beforeEach(() => {
     cy.viewport(1920, 1080);
+
+    cy.fetchPopularMovies();
+    cy.fetchMovieDetail();
+
     cy.visit('/');
   });
 
@@ -15,27 +19,22 @@ describe('영화 리뷰 E2E 테스트', () => {
       cy.visit('/');
       cy.wait('@APIKeyError');
 
-      cy.get('#error-fallback-modal').should('exist');
+      cy.get('#error-modal').should('exist');
     });
   });
 
   context('인기순 영화 목록 확인 테스트', () => {
     it('영화 목록 API 요청에 성공하면 20개의 영화 정보가 목록에 나열되어야 한다.', () => {
-      const popularMovieItems = cy.get('.item-list > li');
-      expect(popularMovieItems.should('have.length', 20));
+      cy.wait('@PopularMoviesSuccess');
+
+      cy.get('.item-list > li').should('have.length', 20);
     });
 
-    it('더보기 버튼을 클릭하면 영화 정보가 20개씩 추가되어야 한다.', () => {
-      cy.moreButtonClick(1);
+    it('스크롤을 아래로 내리면 20개의 영화 정보가 추가로 불러와져야 한다.', () => {
+      cy.scrollTo(0, 9999999);
+      cy.wait('@PopularMoviesSuccess');
 
-      const popularMovieItems = cy.get('.item-list > li');
-      expect(popularMovieItems.should('have.length', 40));
-    });
-
-    it('더보기 버튼을 4번 더 클릭하면 더보기 버튼이 사라져야 한다.', () => {
-      cy.moreButtonClick(4);
-
-      cy.get('#more-button').should('not.exist');
+      cy.get('.item-list > li').should('have.length', 40);
     });
   });
 
@@ -46,7 +45,7 @@ describe('영화 리뷰 E2E 테스트', () => {
       cy.get('.toast').should('exist');
     });
 
-    it('검색 결과가 없으면 "텅" 이미s지가 표시되고 더보기 버튼이 없어야 한다.', () => {
+    it('검색 결과가 없으면 "텅" 이미지가 표시되고 더보기 버튼이 없어야 한다.', () => {
       cy.searchMovie('ㅋㅋ');
 
       cy.get('#movie-list-container > img').should('exist');
@@ -57,6 +56,18 @@ describe('영화 리뷰 E2E 테스트', () => {
       cy.searchMovie('쿵푸팬더');
 
       cy.get('.item-title').invoke('text').should('contains', '쿵푸팬더');
+    });
+  });
+
+  context('영화 상세 정보 조회 테스트', () => {
+    it('영화 아이템을 상세 정보를 보여주는 모달 창이 표시되어야 한다.', () => {
+      cy.visit('/');
+      cy.wait('@PopularMoviesSuccess');
+
+      cy.get('.item-list > li').first().click();
+      cy.wait('@MovieDetailSuccess');
+
+      cy.get('#movie-detail-container > .modal-header > .modal-title').invoke('text').should('contains', '고질라');
     });
   });
 });

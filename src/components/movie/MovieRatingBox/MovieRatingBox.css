@@ -1,0 +1,25 @@
+.movie-rating-container h3 {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+}
+
+.movie-rating-container p {
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+}
+
+.movie-rating-container img {
+  width: 32px;
+  height: 32px;
+  margin-top: 4px;
+  cursor: pointer;
+}
+
+@media (max-width: 767px) {
+  .movie-rating-text {
+    display: none;
+  }
+}

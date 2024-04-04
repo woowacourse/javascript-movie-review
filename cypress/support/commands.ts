@@ -1,6 +1,8 @@
 declare namespace Cypress {
   interface Chainable<Subject> {
     generateAPIKeyError(): Chainable<any>;
+    fetchPopularMovies(): Chainable<any>;
+    fetchMovieDetail(): Chainable<any>;
     moreButtonClick(count: number): Chainable<any>;
     searchMovie(text: string): Chainable<any>;
   }
@@ -17,6 +19,22 @@ Cypress.Commands.add('generateAPIKeyError', () => {
       statusCode: 403,
     },
   ).as('APIKeyError');
+});
+
+Cypress.Commands.add('fetchPopularMovies', () => {
+  cy.intercept({
+    method: 'GET',
+    url: /\/3\/movie\/popular/,
+    hostname: 'api.themoviedb.org',
+  }).as('PopularMoviesSuccess');
+});
+
+Cypress.Commands.add('fetchMovieDetail', () => {
+  cy.intercept({
+    method: 'GET',
+    url: /\/3\/movie/,
+    hostname: 'api.themoviedb.org',
+  }).as('MovieDetailSuccess');
 });
 
 Cypress.Commands.add('moreButtonClick', (count: number) => {

@@ -1,135 +1,156 @@
 import Component from '../../common/Component/Component';
 import MovieList from '../MovieList/MovieList';
 import MovieListCardSkeleton from '../MovieListCardSkeleton/MovieListCardSkeleton';
-import Movie from '../../../domain/Movie/Movie';
-import { createElement } from '../../../utils/dom/createElement/createElement';
+import MovieDetailModal from '../MovieDetailModal/MovieDetailModal';
+import MovieService from '../../../domain/Movie/MovieService';
+import { IMovie, IMovieDetail } from '../../../domain/Movie/Movie.type';
 import { querySelector } from '../../../utils/dom/selector';
+import { createElement } from '../../../utils/dom/createElement/createElement';
 import { MOVIE, MOVIE_ITEM_SKELETON } from '../../../constants/Condition';
-import { ELEMENT_SELECTOR } from '../../../constants/Selector';
-import { NoResultImage } from '../../../assets';
+import { LoadingImage, NoResultImage } from '../../../assets';
 import './MovieReviewBody.css';
 
 interface MovieReviewBodyProps {
   movieType: string;
+  openErrorModal: (error: unknown) => void;
 }
 
 class MovieReviewBody extends Component<MovieReviewBodyProps> {
-  private movie: Movie | undefined;
-
-  protected initializeState(): void {
-    this.movie = new Movie();
-  }
+  private page: number | undefined;
+  private observer: IntersectionObserver | undefined;
+  private movieDetailModal: MovieDetailModal | undefined;
 
   protected render() {
-    this.$element.append(this.createComponent());
+    this.$element.innerHTML = this.createComponent();
+    this.movieDetailModal = new MovieDetailModal(this.$element);
+  }
+
+  protected initializeState(): void {
+    this.page = 0;
+    this.initializeIntersectionObserver();
+    this.updateMovieList();
   }
 
   protected createComponent() {
-    const $section = createElement({
-      tagName: 'section',
-      attributeOptions: { id: 'movie-review-section', class: 'item-view' },
-    });
+    const title = this.props?.movieType === 'popular' ? '지금 인기 있는 영화' : `"${this.props?.movieType}" 검색 결과`;
 
-    $section.append(this.createMovieTitle(), this.createMovieListContainer(), this.createMoreButton());
-
-    return $section;
+    return /* html */ `
+      <section id="movie-review-section" class="item-view">
+        <h2>${title}</h2>
+        <div id="movie-list-container" class="item-list-container"></div>
+      </section>
+    `;
   }
 
-  private createMovieTitle() {
-    const movieTitleText =
-      this.props?.movieType === 'popular' ? '지금 인기 있는 영화' : `"${this.props?.movieType}" 검색 결과`;
-
-    return createElement({ tagName: 'h2', text: movieTitleText });
-  }
-
-  private createMovieListContainer() {
-    const $movieListContainer = createElement({
-      tagName: 'div',
-      attributeOptions: { id: 'movie-list-container', class: 'movie-list-container' },
-    });
-
-    this.updateMovieList($movieListContainer);
-
-    return $movieListContainer;
-  }
-
-  private createMoreButton() {
-    return createElement({
-      tagName: 'button',
-      text: '더보기',
-      attributeOptions: { id: 'more-button', class: 'btn primary full-width' },
+  private initializeIntersectionObserver() {
+    this.observer = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry: IntersectionObserverEntry) => entry.isIntersecting && this.updateMovieList());
     });
   }
 
-  private updateMovieList($movieListContainer: HTMLElement) {
-    const $ul = createElement({ tagName: 'ul', attributeOptions: { class: 'item-list' } });
+  private removeIntersectionObserver() {
+    const $observeItem = this.$element.querySelector('.observe');
 
-    this.renderSkeletonList($movieListContainer, $ul, MOVIE_ITEM_SKELETON.LENGTH);
-    this.renderMovieList($movieListContainer, $ul);
-  }
-
-  private renderSkeletonList($movieListContainer: HTMLElement, $ul: HTMLElement, length: number) {
-    Array.from({ length }, () => new MovieListCardSkeleton($ul));
-    $movieListContainer.append($ul);
-  }
-
-  private renderMovieList($movieListContainer: HTMLElement, $ul: HTMLElement) {
-    if (!this.movie) return;
-
-    this.movie.setPage(MOVIE.PAGE_UNIT);
-    this.movie.fetchMovieDetails({
-      movieType: this.props?.movieType ?? '',
-      onSuccess: (data) => {
-        $ul.remove();
-
-        if (data.results.length === 0) {
-          this.renderNoResultImage($movieListContainer);
-          return;
-        }
-
-        if (data.results.length < MOVIE.MAX_ITEM) this.removeMoreButton();
-
-        new MovieList($movieListContainer, { movieItemDetails: data?.results ?? [] });
-      },
-      onError: (error) => this.openErrorModal(error),
-    });
-  }
-
-  private renderNoResultImage($movieListContainer: HTMLElement) {
-    const $noResultImage = createElement({
-      tagName: 'img',
-      attributeOptions: { src: NoResultImage, alt: '검색 결과 없음 이미지', class: 'no-result-image' },
-    });
-
-    $movieListContainer.appendChild($noResultImage);
-
-    this.removeMoreButton();
-  }
-
-  private removeMoreButton() {
-    const $button = querySelector<HTMLButtonElement>(ELEMENT_SELECTOR.moreButton, this.$element);
-    $button.remove();
-  }
-
-  private openErrorModal(error: unknown) {
-    if (error instanceof Error) {
-      const $modal = querySelector<HTMLDialogElement>(ELEMENT_SELECTOR.errorFallBackModal);
-      $modal.showModal();
+    if ($observeItem) {
+      this.observer?.unobserve($observeItem);
+      $observeItem.classList.remove('observe');
     }
   }
 
-  protected setEvent(): void {
-    const $moreButton = querySelector<HTMLButtonElement>(ELEMENT_SELECTOR.moreButton, this.$element);
-    $moreButton.addEventListener('click', this.handleMoreButtonClick.bind(this));
+  private updateMovieList() {
+    if (this.page === undefined || this.props === undefined) return;
+
+    this.removeIntersectionObserver();
+    this.createSkeletonList();
+
+    this.page += MOVIE.PAGE_UNIT;
+
+    MovieService.fetchMovies({
+      movieType: this.props.movieType,
+      page: this.page,
+      onSuccess: this.handleMovieListSuccess.bind(this),
+      onError: this.props.openErrorModal.bind(this),
+    });
   }
 
-  private handleMoreButtonClick() {
-    const $movieListContainer = querySelector<HTMLDivElement>(ELEMENT_SELECTOR.movieListContainer);
-    this.updateMovieList($movieListContainer);
+  private handleMovieListSuccess(data: IMovie[]) {
+    this.removeSkeletonList();
 
-    if (this.movie && this.movie.isMaxPage()) {
-      this.removeMoreButton();
+    if (data.length === 0) {
+      this.createNoResultImage();
+      return;
     }
+
+    this.createMovieList(data);
+  }
+
+  private createSkeletonList() {
+    const $movieListContainer = querySelector<HTMLElement>('#movie-list-container', this.$element);
+    const $skeletonList = createElement({
+      tagName: 'ul',
+      attributeOptions: { id: 'skeleton-list', class: 'item-list' },
+    });
+
+    Array.from({ length: MOVIE_ITEM_SKELETON.LENGTH }, () => new MovieListCardSkeleton($skeletonList));
+
+    $movieListContainer.appendChild($skeletonList);
+  }
+
+  private removeSkeletonList() {
+    const $skeletonList = querySelector<HTMLElement>('#skeleton-list');
+    $skeletonList.remove();
+  }
+
+  private createMovieList(movieItems: IMovie[]) {
+    if (!this.observer) return;
+
+    const $movieListContainer = querySelector<HTMLElement>('#movie-list-container', this.$element);
+
+    new MovieList($movieListContainer, {
+      movieItems: movieItems,
+      observer: this.observer,
+      openMovieDetailModal: this.openMovieDetailModal.bind(this),
+    });
+  }
+
+  private createNoResultImage() {
+    const $movieListContainer = querySelector<HTMLElement>('#movie-list-container', this.$element);
+
+    $movieListContainer.innerHTML = `
+      <img src=${NoResultImage} alt="검색 결과 없음 이미지" class="no-result-image"></img>
+    `;
+  }
+
+  private openMovieDetailModal(key: number) {
+    if (!this.props) return;
+
+    this.createLoadingImage();
+
+    MovieService.fetchMovieDetail({
+      key: key,
+      onSuccess: this.handleMovieDetailSuccess.bind(this),
+      onError: this.props.openErrorModal,
+    });
+  }
+
+  private createLoadingImage() {
+    const $movieListContainer = querySelector<HTMLElement>('#movie-list-container', this.$element);
+
+    const loadingImage = /* html */ `
+      <img src=${LoadingImage} alt="로딩중 이미지" id="loading-image" class="loading-image" />
+    `;
+
+    $movieListContainer.insertAdjacentHTML('afterend', loadingImage);
+  }
+
+  private removeLoadingImage() {
+    const $loadingImage = querySelector<HTMLImageElement>('#loading-image', this.$element);
+    $loadingImage.remove();
+  }
+
+  private handleMovieDetailSuccess(data: IMovieDetail) {
+    this.removeLoadingImage();
+    this.movieDetailModal?.openModal(data);
   }
 }
 

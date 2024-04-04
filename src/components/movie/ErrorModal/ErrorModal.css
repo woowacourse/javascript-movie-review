@@ -1,47 +1,18 @@
-dialog {
-  position: fixed;
-  min-width: 450px;
-  margin: auto;
-  border: none;
+.error-modal {
+  background: #212122;
   border-radius: 8px;
 }
 
-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.modal-container {
-  width: 500px;
-  height: 300px;
-
+.error-modal .modal-container {
   display: flex;
   flex-direction: column;
+  row-gap: 20px;
   justify-content: center;
   align-items: center;
-
-  white-space: pre;
-  text-align: center;
-  line-height: 28px;
-  font-size: 24px;
-
-  padding: 24px 16px;
-
-  background: #ffffff;
-
-  /* Firefox & IE & Edge */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  padding: 24px 38px;
 }
 
-.modal-container > div {
-  margin: 20px 0px;
-}
-
-/* Chrome, Safari */
-.modal-container::-webkit-scrollbar {
-  display: none;
-}
-
-.warning-image {
-  width: 100px;
+.error-modal .modal-container p {
+  color: white;
+  font-size: 14px;
 }

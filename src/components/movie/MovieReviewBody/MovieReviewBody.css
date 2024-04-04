@@ -1,15 +1,11 @@
-.movie-list-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+.loading-image {
+  position: fixed;
 
-.item-list {
-  display: grid;
-  margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
-  grid-row-gap: 48px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 70px;
 }
 
 .item-view,
@@ -21,12 +17,22 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+
+  width: 100%;
   margin: 0 auto;
+  padding: 0 10vw;
 }
 
 .item-view h2 {
   font-size: 2rem;
   font-weight: bold;
   user-select: none;
+}
+
+.item-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
 }

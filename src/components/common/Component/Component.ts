@@ -6,18 +6,18 @@ abstract class Component<T = {}> {
     this.$element = element;
     this.props = props;
 
-    this.initializeState();
     this.render();
+    this.initializeState();
     this.setEvent();
   }
-
-  protected initializeState() {}
 
   protected abstract render(): void;
 
   protected abstract createComponent(): HTMLElement | string;
 
-  protected setEvent() {}
+  protected initializeState(): void {}
+
+  protected setEvent(): void {}
 }
 
 export default Component;
