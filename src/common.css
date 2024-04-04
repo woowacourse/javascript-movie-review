@@ -8,6 +8,7 @@
 
 body {
   font-size: 14px;
+  font-family: 'Roboto', 'Malgun Gothic';
   background-color: #222222;
   color: #fff;
 }
@@ -39,4 +40,9 @@ button {
 
 #more-button {
   margin-top: 20px;
+}
+
+.stop-scroll {
+  height: 100%;
+  overflow: hidden;
 }

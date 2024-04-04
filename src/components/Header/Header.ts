@@ -18,17 +18,18 @@ class Header {
     this.render();
     this.onSearch = searchEvent;
     this.onLogoClick = onLogoClick;
-    this.setEvent();
+    this.setEvents();
   }
 
   render() {
     this.headerImage.setAttribute('src', Logo);
+    this.headerImage.classList.add('header-image');
     this.headerImage.setAttribute('alt', '로고 이미지');
 
     this.header.append(this.headerImage);
     this.headerBox.append(this.header);
 
-    const searchBox = new SearchBox({ onSearch: () => this.onSearch() }).init();
+    const searchBox = new SearchBox({ headerImage: this.headerImage, onSearch: () => this.onSearch() }).init();
     this.headerBox.append(searchBox);
 
     const parent = document.querySelector('#app');
@@ -36,7 +37,7 @@ class Header {
     parent.prepend(this.headerBox);
   }
 
-  setEvent() {
+  setEvents() {
     this.header.addEventListener('click', () => {
       this.onLogoClick();
     });

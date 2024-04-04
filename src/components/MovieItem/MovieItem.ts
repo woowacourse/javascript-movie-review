@@ -3,85 +3,66 @@ import NoImage from '../../assets/no-image.png';
 import { POSTER_BASE_URL } from '../../consts/Api';
 import { Movie } from './../../types/movie';
 import '../MovieItem/MovieItem.css';
+import { MovieDetailAPI } from '../../domain/services/API.type';
+import MovieDetailFetcher from '../../domain/services/MovieDetailFetcher';
+import Skeleton from '../Skeleton/Skeleton';
 
-const MovieItem = {
-  skeletonTemplate() {
-    const skeletonItemBox = document.createElement('li');
+class MovieItem {
+  itemBox = document.createElement('li');
 
-    const skeletonCard = document.createElement('a');
-    skeletonCard.classList.add('item-card');
-    skeletonCard.setAttribute('href', '#');
+  constructor() {
+    this.itemBox.classList.add('item-box');
+    this.itemBox.append(Skeleton.template());
+  }
 
-    const skeletonThumbnail = document.createElement('div');
-    skeletonThumbnail.classList.add('item-thumbnail', 'skeleton');
+  get item() {
+    return this.itemBox;
+  }
 
-    const skeletonTitle = document.createElement('div');
-    skeletonTitle.classList.add('item-title', 'skeleton');
-
-    const skeletonScore = document.createElement('div');
-    skeletonScore.classList.add('item-score', 'skeleton');
-
-    skeletonCard.append(skeletonThumbnail);
-    skeletonCard.append(skeletonTitle);
-    skeletonCard.append(skeletonScore);
-
-    skeletonItemBox.append(skeletonCard);
-
-    return skeletonItemBox;
-  },
-
-  template(movie: Movie) {
+  render(movie: Movie, onClick: (movieData: MovieDetailAPI) => void) {
     const { id, title, posterPath, voteAverage } = movie;
-    const itemBox = document.createElement('li');
-    itemBox.setAttribute('data-movie-id', String(id));
 
-    const itemCard = document.createElement('a');
-    itemCard.classList.add('item-card');
-    itemCard.setAttribute('href', '#');
+    const itemImage = this.itemBox.querySelector('.item-thumbnail');
+    if (!itemImage) return;
 
-    if (posterPath) {
-      const itemImage = document.createElement('img');
-      itemImage.classList.add('item-thumbnail');
-      itemImage.setAttribute('src', POSTER_BASE_URL + posterPath);
-      itemImage.setAttribute('loading', 'lazy');
+    const image = new Image();
+    image.src = posterPath ? POSTER_BASE_URL + posterPath : NoImage;
+
+    image.onload = () => {
+      itemImage.setAttribute('src', image.src);
       itemImage.setAttribute('alt', title);
-      itemCard.append(itemImage);
-    } else {
-      const itemImage = this.makeNoImage();
-      itemCard.append(itemImage);
-    }
+      itemImage.classList.remove('skeleton');
+    };
 
-    const itemTitle = document.createElement('p');
-    itemTitle.classList.add('item-title');
-    itemTitle.textContent = title;
+    const itemTitle = this.itemBox.querySelector('.item-title');
+    if (!itemTitle) return;
 
-    const itemScore = document.createElement('p');
-    itemScore.classList.add('item-score');
+    const itemScoreAndIcon = this.itemBox.querySelector('.item-score-and-icon');
+    if (!itemScoreAndIcon) return;
 
-    const itemStarIcon = document.createElement('img');
-    itemStarIcon.setAttribute('src', Star);
-    itemStarIcon.setAttribute('alt', '별점');
+    const itemScore = this.itemBox.querySelector('.item-score');
+    if (!itemScore) return;
 
-    itemScore.textContent = String(voteAverage);
-    itemScore.prepend(itemStarIcon);
+    const itemStarIcon = this.itemBox.querySelector('.item-star-icon');
+    if (!itemStarIcon) return;
 
-    itemCard.append(itemTitle);
-    itemCard.append(itemScore);
+    const starImage = new Image();
+    starImage.src = Star;
 
-    itemBox.append(itemCard);
+    starImage.onload = () => {
+      itemTitle.textContent = title;
+      itemScore.textContent = String(voteAverage);
+      itemStarIcon.setAttribute('src', starImage.src);
+      itemStarIcon.setAttribute('alt', '별점');
 
-    return itemBox;
-  },
+      itemTitle.classList.remove('skeleton');
+      itemScoreAndIcon.classList.remove('skeleton');
+    };
 
-  makeNoImage() {
-    const itemImage = document.createElement('img');
-    itemImage.classList.add('item-thumbnail', 'no-image');
-    itemImage.setAttribute('src', NoImage);
-    itemImage.setAttribute('loading', 'lazy');
-    itemImage.setAttribute('alt', 'no image');
-
-    return itemImage;
-  },
-};
+    this.itemBox.addEventListener('click', async () => {
+      onClick(await MovieDetailFetcher.fetchMovieDetail(id));
+    });
+  }
+}
 
 export default MovieItem;

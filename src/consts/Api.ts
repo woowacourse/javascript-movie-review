@@ -1,6 +1,7 @@
 const BASE_URL = process.env.BASE_URL;
 
 export const API_URL = {
+  MOVIES: `${BASE_URL}/movie/`,
   POPULAR_MOVIES: `${BASE_URL}/movie/popular`,
   SEARCH_MOVIES: `${BASE_URL}/search/movie`,
 };

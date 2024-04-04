@@ -1,72 +1,56 @@
 import MovieItem from '../MovieItem/MovieItem';
-import { Movie } from './../../types/movie';
+import MovieDetailModal from '../Modal/MovieDetailModal';
+import Skeleton from '../Skeleton/Skeleton';
 import { NotFound } from '../NotFound/NotFound';
-import { PAGE_SIZE } from '../../consts/common';
-import '../MovieList/MovieList.css';
-
-interface Props {
-  movieList: Movie[];
-  isLoading: boolean;
-}
+import { Movie } from './../../types/movie';
+import { MovieDetailAPI } from '../../domain/services/API.type';
+import { MOVIE_LIST } from '../../consts/movie';
+import './MovieList.scss';
 
 class MovieList {
-  movieList: Movie[];
-  isLoading: boolean;
+  movieListBox = document.createElement('ul');
+  movieDetailModal = new MovieDetailModal();
 
-  constructor({ movieList, isLoading }: Props) {
-    this.movieList = movieList;
-    this.isLoading = isLoading;
-    this.render();
+  constructor() {
+    this.movieListBox.classList.add('item-list');
+    this.mount();
+
+    this.renderSkeleton();
   }
 
-  set newList(movieList: Movie[]) {
-    this.movieList = movieList;
-  }
-
-  rerender() {
-    const skeletonBox = document.querySelector('#skeleton-box');
-    if (skeletonBox) skeletonBox.remove();
-    this.render();
-  }
-
-  render() {
-    if (this.movieList.length === 0) return NotFound();
-    return this.renderMovieList();
+  mount() {
+    const itemViewBox = document.querySelector('.item-view');
+    if (!itemViewBox) return;
+    itemViewBox.append(this.movieListBox);
   }
 
   renderSkeleton() {
-    const skeletonBox = document.createElement('div');
-    skeletonBox.classList.add('item-list');
-    skeletonBox.setAttribute('id', 'skeleton-box');
-
-    Array.from({ length: PAGE_SIZE }).forEach(() => {
-      const movieItemTemplate = MovieItem.skeletonTemplate();
-      skeletonBox.append(movieItemTemplate);
-    });
-
-    const movieListBox = document.querySelector('.item-list');
-    if (!movieListBox) return;
-    movieListBox.append(skeletonBox);
-
-    const parent = document.querySelector('.item-view');
-    if (!parent) return;
-    parent.append(movieListBox);
-  }
-
-  renderMovieList() {
     const fragment = new DocumentFragment();
-    this.movieList.forEach(movie => {
-      const movieItemTemplate = MovieItem.template(movie);
+
+    Array.from({ length: MOVIE_LIST.PAGE_SIZE }).forEach(() => {
+      const movieItemTemplate = Skeleton.template();
       fragment.append(movieItemTemplate);
     });
 
-    const movieListBox = document.querySelector('.item-list');
-    if (!movieListBox) return;
-    movieListBox.append(fragment);
+    this.movieListBox.append(fragment);
+  }
 
-    const parent = document.querySelector('.item-view');
-    if (!parent) return;
-    parent.append(movieListBox);
+  renderMovieList(movieList: Movie[]) {
+    if (!movieList.length) {
+      return NotFound();
+    }
+
+    const fragment = new DocumentFragment();
+    movieList.forEach(movie => {
+      const movieItem = new MovieItem();
+      movieItem.render(movie, (movieData: MovieDetailAPI) => {
+        this.movieDetailModal.toggle();
+        this.movieDetailModal.rerender(movieData);
+      });
+      fragment.append(movieItem.item);
+    });
+
+    this.movieListBox.append(fragment);
   }
 }
 

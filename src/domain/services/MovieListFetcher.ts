@@ -1,9 +1,9 @@
 import { generateMovieApiUrl, getCurrentPage, getCurrentQuery } from '../../utils/urlHelper';
-import { API_URL } from './../../consts/Api';
+import { API_URL } from '../../consts/Api';
 import { MovieAPI } from './API.type';
 import { ERROR_MESSAGE } from '../../consts/error';
 
-const MovieFetchAPI = {
+const MovieListFetcher = {
   async fetchPopularMovies(): Promise<MovieAPI> {
     const popularMoviesUrl = generateMovieApiUrl(API_URL.POPULAR_MOVIES, {
       page: getCurrentPage(),
@@ -41,4 +41,4 @@ const MovieFetchAPI = {
   },
 };
 
-export default MovieFetchAPI;
+export default MovieListFetcher;
