@@ -7,9 +7,7 @@ describe("모달 동작 테스트", () => {
 
   it("영화를 클릭하면 해당 영화의 정보를 담은 모달이 등장한다.", () => {
     // given
-    cy.get('.search-box input[type="text"]').clear().type("해리 포터");
-    cy.get(".search-box .search-button").click();
-
+    const movieNameForSearch = "해리 포터";
     const movieId = 767;
     const movieDetailsUrl = `${BASE_URL}/movie/${movieId}`;
     const params = {
@@ -19,6 +17,8 @@ describe("모달 동작 테스트", () => {
     const movieDetailsQueryString = `${movieDetailsUrl}?${new URLSearchParams(
       params
     ).toString()}`;
+    cy.get('.search-box input[type="text"]').clear().type(movieNameForSearch);
+    cy.get(".search-box .search-button").click();
 
     cy.request("GET", movieDetailsQueryString).as("movieDetails");
 
