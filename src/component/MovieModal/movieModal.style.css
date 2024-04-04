@@ -19,6 +19,13 @@
   justify-content: center;
 }
 
+.modal-skeleton {
+  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background-size: 400%;
+  animation: skeleton-animation 5s infinite ease-out;
+  border-radius: 8px;
+}
+
 .modal-container {
   max-width: 826px;
   position: relative;
@@ -40,11 +47,23 @@
   border-bottom: 1px solid var(--light-gray);
 }
 
-.modal-title {
+.modal-title-wrapper {
   width: 100%;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.modal-title {
   font-size: 20px;
   font-weight: 600;
+  display: inline-block;
+}
+
+.modal-title.modal-skeleton::after {
+  display: inline-block;
+  width: 50%;
+  font-size: 20px;
+  content: 'loading';
 }
 
 .modal-cancel-button {

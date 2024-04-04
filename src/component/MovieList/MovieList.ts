@@ -48,6 +48,7 @@ class MovieList {
     const ulElement = $('.item-list');
     const liList = this.#createEmptyMovieItems(ulElement);
     const scrollTrigger = $('.item-list')?.lastChild as HTMLLIElement;
+
     try {
       const data = await getPopularMoviesData(
         this.#popularCurrentPage.toString(),
@@ -57,10 +58,10 @@ class MovieList {
           this.#onPopularIntersect(),
         );
       }
-      this.#removeSkeleton();
+      this.#removeSkeleton('.skeleton');
       this.#updateMovieItemsWithData(data, liList);
     } catch (error) {
-      this.#removeSkeleton();
+      this.#removeSkeleton('.skeleton');
       this.#handleError(error as Error);
     }
     this.#setupItemClick();
@@ -140,10 +141,10 @@ class MovieList {
           this.#onSearchIntersect(titleInput),
         );
       }
-      this.#removeSkeleton();
+      this.#removeSkeleton('.skeleton');
       this.#updateMovieItemsWithData(data, liList);
     } catch (error) {
-      this.#removeSkeleton();
+      this.#removeSkeleton('.skeleton');
       this.#handleError(error as Error);
     }
     this.#setupItemClick();
@@ -160,6 +161,7 @@ class MovieList {
     try {
       const data = await this.#getMovieDetailData(movieID);
       this.#movieModal.setMovieModalItem(data);
+      this.#removeSkeleton('.modal-skeleton');
     } catch (error) {
       this.#handleError(error as Error);
     }
@@ -237,12 +239,15 @@ class MovieList {
     });
   }
 
-  #removeSkeleton() {
-    const skeletonElements = $$('.skeleton');
-
+  #removeSkeleton(selector: string) {
+    const skeletonElements = $$(selector);
     if (skeletonElements) {
       skeletonElements.forEach((element) => {
-        element.classList.remove('skeleton');
+        if (element.classList.contains('modal-skeleton')) {
+          element.classList.remove('modal-skeleton');
+        } else {
+          element.classList.remove('skeleton');
+        }
       });
     }
   }

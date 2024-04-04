@@ -37,9 +37,11 @@ class MovieModal {
 
   #createMovieModalItem() {
     const modalContainerElement = $('.modal-container');
-
     const headerElement = createElement('header', {
       class: 'modal-header',
+    });
+    const titleWrapperElement = createElement('div', {
+      class: 'modal-title-wrapper',
     });
     const titleElement = createElement('span', {
       class: 'modal-title',
@@ -52,10 +54,10 @@ class MovieModal {
     }) as HTMLImageElement;
 
     cancelImageElement.src = modalCloseImage;
+    titleWrapperElement.appendChild(titleElement);
 
     cancelElement.appendChild(cancelImageElement);
-
-    headerElement.appendChild(titleElement);
+    headerElement.appendChild(titleWrapperElement);
     headerElement.appendChild(cancelElement);
 
     const contentElement = createElement('div', {
@@ -66,6 +68,7 @@ class MovieModal {
     });
     const posterElement = createElement('img', {
       class: 'modal-poster',
+      loading: 'lazy',
     });
 
     posterWrapperElement.appendChild(posterElement);
@@ -90,7 +93,6 @@ class MovieModal {
       class: 'modal-vote-average',
     });
 
-    starElement.src = starFilledImage;
     voteAverageWrapper.appendChild(starElement);
     voteAverageWrapper.appendChild(voteAverageElement);
 
@@ -111,7 +113,6 @@ class MovieModal {
     const myVoteTextElement = createElement('span', {
       class: 'modal-my-vote-text',
     });
-    myVoteTextElement.textContent = '내 별점';
 
     const myVoteButtonWrapperElement = createElement('div', {
       class: 'my-vote-button-wrapper',
@@ -157,8 +158,6 @@ class MovieModal {
 
     this.#setModalState();
     this.#handleMyVoteButtonClick();
-
-    return modalContainerElement;
   }
 
   #setModalState() {
@@ -178,6 +177,7 @@ class MovieModal {
         modalElement?.classList.add('modal-close');
         modalElement?.classList.remove('modal-open');
         document.body.style.overflow = 'unset';
+        this.#clearMovieModalItem();
       });
     }
   }
@@ -208,13 +208,40 @@ class MovieModal {
     }
   }
 
+  #clearMovieModalItem() {
+    const titleElement = $('.modal-title') as HTMLSpanElement;
+    titleElement.classList.add('modal-skeleton');
+    const posterElement = $('.modal-poster') as HTMLImageElement;
+    posterElement.classList.add('modal-skeleton');
+    const genresAndvoteAverageWrapperElement = $(
+      '.modal-genres-and-vote-average-wrapper',
+    ) as HTMLElement;
+    genresAndvoteAverageWrapperElement.classList.add('modal-skeleton');
+    const genresElement = $('.modal-genres') as HTMLSpanElement;
+    const voteAverageElement = $('.modal-vote-average') as HTMLSpanElement;
+    const overviewElement = $('.modal-overview') as HTMLParagraphElement;
+    overviewElement.classList.add('modal-skeleton');
+    const myVoteElementWrapper = $('.modal-my-vote-wrapper') as HTMLElement;
+    myVoteElementWrapper.classList.add('modal-skeleton');
+    const myVoteScoreTextElement = $('.my-vote-score-text') as HTMLSpanElement;
+
+    titleElement.textContent = '';
+    posterElement.src = '';
+    genresElement.textContent = '';
+    voteAverageElement.textContent = '';
+    overviewElement.textContent = '';
+    myVoteScoreTextElement.textContent = '';
+  }
+
   setMovieModalItem(movieDetail: IMovieDetailData) {
     const titleElement = $('.modal-title') as HTMLSpanElement;
     const posterElement = $('.modal-poster') as HTMLImageElement;
     const genresElement = $('.modal-genres') as HTMLSpanElement;
+    const starElement = $('.modal-star-filled') as HTMLImageElement;
     const voteAverageElement = $('.modal-vote-average') as HTMLSpanElement;
     const overviewElement = $('.modal-overview') as HTMLParagraphElement;
     const myVoteButtonWrapperElement = $('.my-vote-button-wrapper');
+    const myVoteTextElement = $('.modal-my-vote-text') as HTMLSpanElement;
 
     if (myVoteButtonWrapperElement) {
       myVoteButtonWrapperElement.id = String(movieDetail.id);
@@ -233,6 +260,8 @@ class MovieModal {
         ? names.join(', ')
         : ERROR_MESSAGE.NO_GENRES;
 
+    starElement.src = starFilledImage;
+
     const voteAverage = movieDetail.vote_average;
     voteAverageElement.textContent = voteAverage
       ? String(formatNumberToOneDecimalPlace(voteAverage))
@@ -242,6 +271,8 @@ class MovieModal {
     overviewElement.textContent = overview
       ? overview
       : ERROR_MESSAGE.NO_OVERVIEW;
+
+    myVoteTextElement.textContent = '내 별점';
   }
 
   #updateMyVote(movieID: number) {
