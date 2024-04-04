@@ -3,7 +3,7 @@ import closeIcon from '../../images/close_icon.png';
 import emptyPng from '../../images/empty_poster.png';
 import filledStar from '../../images/star_filled.png';
 import emptyStar from '../../images/star_empty.png';
-import { SETTING } from '../../constants/constant';
+import { EMPTY_CONTENT, SETTING } from '../../constants/constant';
 
 class MovieDetailContent {
   #movie;
@@ -109,7 +109,7 @@ class MovieDetailContent {
       const genreNames = this.#movie.genres.map((genre: { id: number; name: string }) => genre.name);
       genres.textContent = genreNames.join(', ');
     } else {
-      genres.textContent = '장르 없음';
+      genres.textContent = EMPTY_CONTENT.GENRES;
     }
 
     return genres;
@@ -131,11 +131,7 @@ class MovieDetailContent {
   createOverview() {
     const overview = document.createElement('p');
     overview.className = 'detail-overview';
-    if (this.#movie.overview) {
-      overview.textContent = this.#movie.overview;
-    } else {
-      overview.textContent = '상세 설명이 없습니다.';
-    }
+    overview.textContent = this.#movie.overview ? this.#movie.overview : EMPTY_CONTENT.OVERVIEW;
     return overview;
   }
 
