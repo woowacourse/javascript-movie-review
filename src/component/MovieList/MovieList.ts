@@ -12,7 +12,7 @@ import {
   TITLE_TEXT,
 } from '../../constant/setting';
 import MovieModal from '../MovieModal/MovieModal';
-import ScrollUtility from '../../utility/infiniteScroll';
+import { pagination } from '../../utility/pagination';
 
 class MovieList {
   #movieID: number;
@@ -45,34 +45,25 @@ class MovieList {
   }
 
   async #renderPopularMovieItems() {
-    const ul = $('.item-list');
-
+    const ulElement = $('.item-list');
+    const liList = this.#createEmptyMovieItems(ulElement);
+    const scrollTrigger = $('.item-list')?.lastChild as HTMLLIElement;
     try {
       const data = await getPopularMoviesData(
         this.#popularCurrentPage.toString(),
       );
-      const liList = this.#createEmptyMovieItems(data, ul);
-
-      setTimeout(() => {
-        this.#updateMovieItemsWithData(data, liList);
-        this.#handlePopularPagination(data);
-      }, 1000);
+      if (data.length > 0) {
+        pagination.paginate(data.length, scrollTrigger, () =>
+          this.#onPopularIntersect(),
+        );
+      }
+      this.#removeSkeleton();
+      this.#updateMovieItemsWithData(data, liList);
     } catch (error) {
+      this.#removeSkeleton();
       this.#handleError(error as Error);
     }
     this.#setupItemClick();
-  }
-
-  #handlePopularPagination(data: IMovieItemData[]) {
-    if (data.length < MAX_PAGE_PER_REQUEST) {
-      this.#displayMaxPageInfo();
-      ScrollUtility.disconnectObserver();
-      return;
-    }
-    const scrollTrigger = $('.item-list')?.lastChild as HTMLLIElement;
-    ScrollUtility.infiniteScroll(scrollTrigger, () =>
-      this.#onPopularIntersect(),
-    );
   }
 
   #setupSearchFormSubmit() {
@@ -139,18 +130,20 @@ class MovieList {
 
   async #renderSearchedMovieItems(titleInput: string) {
     const ulElement = $('.item-list');
+    const liList = this.#createEmptyMovieItems(ulElement);
+    const scrollTrigger = $('.item-list')?.lastChild as HTMLLIElement;
 
     try {
       const data = await this.#getSearchedMoviesData(titleInput);
       if (data.length > 0) {
-        const liList = this.#createEmptyMovieItems(data, ulElement);
-
-        setTimeout(() => {
-          this.#updateMovieItemsWithData(data, liList);
-          this.#handleSearchPagination(data.length, titleInput);
-        }, 1000);
+        pagination.paginate(data.length, scrollTrigger, () =>
+          this.#onSearchIntersect(titleInput),
+        );
       }
+      this.#removeSkeleton();
+      this.#updateMovieItemsWithData(data, liList);
     } catch (error) {
+      this.#removeSkeleton();
       this.#handleError(error as Error);
     }
     this.#setupItemClick();
@@ -160,17 +153,6 @@ class MovieList {
     return await getSearchedMoviesData(
       this.#searchCurrentPage.toString(),
       titleInput,
-    );
-  }
-
-  #handleSearchPagination(dataLength: number, titleInput: string) {
-    if (dataLength < MAX_PAGE_PER_REQUEST) {
-      this.#displayMaxPageInfo();
-      ScrollUtility.disconnectObserver();
-    }
-    const scrollTrigger = $('.item-list')?.lastChild as HTMLLIElement;
-    ScrollUtility.infiniteScroll(scrollTrigger, () =>
-      this.#onSearchIntersect(titleInput),
     );
   }
 
@@ -227,20 +209,21 @@ class MovieList {
     return li;
   }
 
-  #createEmptyMovieItems(
-    data: IMovieItemData[],
-    ul: HTMLElement | null,
-  ): HTMLLIElement[] {
-    return data.map(() => {
-      const liElement = this.#createMovieItem() as HTMLLIElement;
+  #createEmptyMovieItems(ul: HTMLElement | null): HTMLLIElement[] {
+    const skeletonData = Array.from({ length: MAX_PAGE_PER_REQUEST }).map(
+      () => {
+        return this.#createMovieItem() as HTMLLIElement;
+      },
+    );
+
+    skeletonData.forEach((liElement) => {
       ul?.appendChild(liElement);
-      return liElement;
     });
+
+    return skeletonData;
   }
 
   #updateMovieItemsWithData(data: IMovieItemData[], liList: HTMLLIElement[]) {
-    this.#removeSkeleton();
-
     const movieItems = data.map(
       ({ title, poster_path, vote_average, id }) =>
         new MovieItem({ title, poster_path, vote_average, id }),
@@ -252,21 +235,6 @@ class MovieList {
         movieItem.setMovieItemData(li);
       }
     });
-  }
-
-  #createMaxPageInfo() {
-    const maxPageInfoElement = createElement('p', {
-      class: 'max-page-info',
-    });
-    maxPageInfoElement.textContent = INFO_MESSAGE.MAX_PAGE;
-
-    return maxPageInfoElement;
-  }
-
-  #displayMaxPageInfo() {
-    const maxPageInfo = this.#createMaxPageInfo();
-
-    this.#movieListSection.appendChild(maxPageInfo);
   }
 
   #removeSkeleton() {
