@@ -307,3 +307,17 @@ header .search-box > .search-button {
 .none-display {
   display: none;
 }
+
+.scroll-to-top-button {
+  cursor: pointer;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  border: none;
+  background-color: #f33f3f;
+  padding: 20px;
+  color: white;
+  border-radius: 100%;
+  z-index: 10;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}

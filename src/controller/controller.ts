@@ -6,6 +6,7 @@ import { $ } from '../util/selector';
 import renderToast from '../component/toast/toast.js';
 import { setMainTitleText } from '../component/setMainTitleText';
 import startInfiniteScroll from '../util/startInfiniteScroll';
+import renderScrollToTopButton from '../component/ScrollToTopButton';
 
 export class App {
   private searchKeyword;
@@ -22,7 +23,7 @@ export class App {
     this.movieContainer = new MovieContainer();
 
     setMainTitleText('popular');
-
+    renderScrollToTopButton();
     this.addMovieList(true);
   }
 
