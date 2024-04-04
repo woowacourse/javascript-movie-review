@@ -10,6 +10,7 @@ import '../src/components/modal/Modal.css';
 import '../src/components/movieDetailModal/MovieDetailModal.css';
 
 
+
 import './images/logo.png';
 import './images/search_button.png';
 import './images/star_empty.png';

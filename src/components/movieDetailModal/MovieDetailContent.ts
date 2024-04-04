@@ -17,24 +17,35 @@ class MovieDetailContent {
     const detailContent = document.createElement('div');
     detailContent.className = 'detail-content';
 
+    // 로딩 중 화면
+    const loading = this.createLoading();
+
     // 영화 제목 & 닫힘 버튼
     const title = this.createTitle();
 
     // 서브 정보(썸네일, 장르, 평점, 설명, 내 평점)
     const subDetail = this.createSubDetail();
 
-    detailContent.append(title, subDetail);
+    detailContent.append(loading, title, subDetail);
     return detailContent;
+  }
+
+  createLoading() {
+    const loading = document.createElement('div');
+    loading.className = 'detail-loading';
+
+    return loading;
   }
 
   createTitle() {
     const title = document.createElement('h3');
-    title.className = 'detail-title';
+    title.className = 'detail-title hidden';
     title.textContent = this.#movie.title;
 
     const closeButton = this.createCloseButton();
 
     title.appendChild(closeButton);
+    title.style.display = 'none';
     return title;
   }
 
@@ -52,12 +63,13 @@ class MovieDetailContent {
 
   createSubDetail() {
     const subDetail = document.createElement('div');
-    subDetail.className = 'sub-detail';
+    subDetail.className = 'sub-detail hidden';
 
     const thumbnail = this.createThumbnail();
     const description = this.createDescription();
 
     subDetail.append(thumbnail, description);
+    subDetail.style.display = 'none';
     return subDetail;
   }
 
@@ -66,6 +78,9 @@ class MovieDetailContent {
     thumbnail.className = 'detail-thumbnail';
     thumbnail.src = this.#movie.posterPath ? imageUrl('large', this.#movie.posterPath) : emptyPng;
     thumbnail.alt = this.#movie.title;
+    thumbnail.onload = () => {
+      this.showModalContent();
+    };
 
     return thumbnail;
   }
@@ -166,6 +181,18 @@ class MovieDetailContent {
     const voteText = document.createElement('div');
     voteText.className = 'detail-vote-text';
     return voteText;
+  }
+
+  showModalContent() {
+    const detailLoading = document.querySelector('.detail-loading') as HTMLElement;
+    const title = document.querySelector('.detail-title') as HTMLElement;
+    const subDetail = document.querySelector('.sub-detail') as HTMLElement;
+
+    if (!detailLoading || !title || !subDetail) return;
+
+    title.style.display = 'flex';
+    subDetail.style.display = 'flex';
+    detailLoading.style.display = 'none';
   }
 }
 
