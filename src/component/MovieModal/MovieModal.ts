@@ -271,26 +271,11 @@ class MovieModal {
     }
 
     if (myVoteScoreTextElement) {
-      switch (voteScore) {
-        case 2:
-          myVoteScoreTextElement.textContent = VOTE_SCORE_MESSAGES.WORST;
-          break;
-        case 4:
-          myVoteScoreTextElement.textContent = VOTE_SCORE_MESSAGES.NOT_GOOD;
-          break;
-        case 6:
-          myVoteScoreTextElement.textContent = VOTE_SCORE_MESSAGES.AVERAGE;
-          break;
-        case 8:
-          myVoteScoreTextElement.textContent = VOTE_SCORE_MESSAGES.FUN;
-          break;
-        case 10:
-          myVoteScoreTextElement.textContent = VOTE_SCORE_MESSAGES.MASTERPIECE;
-          break;
-        default:
-          myVoteScoreTextElement.textContent = '';
-          break;
+      if (VOTE_SCORE_MESSAGES[voteScore]) {
+        myVoteScoreTextElement.textContent = VOTE_SCORE_MESSAGES[voteScore];
+        return;
       }
+      myVoteScoreTextElement.textContent = '';
     }
   }
 }

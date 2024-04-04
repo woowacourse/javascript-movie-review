@@ -39,10 +39,10 @@ export const INFO_MESSAGE = {
   MAX_PAGE: '목록의 끝에 도달했습니다 🚀',
 };
 
-export const VOTE_SCORE_MESSAGES = {
-  WORST: '최악이에요',
-  NOT_GOOD: '별로예요',
-  AVERAGE: '보통이에요',
-  FUN: '재미있어요',
-  MASTERPIECE: '명작이에요',
+export const VOTE_SCORE_MESSAGES: { [key: number]: string } = {
+  2: '최악이에요',
+  4: '별로예요',
+  6: '보통이에요',
+  8: '재미있어요',
+  10: '명작이에요',
 };
