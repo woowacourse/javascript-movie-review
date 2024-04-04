@@ -110,13 +110,14 @@ class MoviePageReceiver {
       const url = `${this.#popularUrlHeader}${nowPage}`;
 
       nowPage++;
-      const pageResponse = await this.#getTMDBPageResponse(url);
-      const movieInfos: MovieInfo[] = this.#getMovieInfosInPage(pageResponse);
 
-      return {
-        movieInfos,
-        isLastPage: this.#popularPage === pageResponse.total_pages,
-      };
+      return this.#getTMDBPageResponse(url).then((pageResponse) => {
+        const movieInfos = this.#getMovieInfosInPage(pageResponse);
+        return {
+          movieInfos,
+          isLastPage: this.#popularPage === pageResponse.total_pages,
+        };
+      });
     }).bind(this);
   }
 
@@ -129,13 +130,13 @@ class MoviePageReceiver {
       const url = getUrl(nowPage);
 
       nowPage++;
-      const pageResponse = await this.#getTMDBPageResponse(url);
-      const movieInfos: MovieInfo[] = this.#getMovieInfosInPage(pageResponse);
-
-      return {
-        movieInfos,
-        isLastPage: this.#popularPage === pageResponse.total_pages,
-      };
+      return this.#getTMDBPageResponse(url).then((pageResponse) => {
+        const movieInfos = this.#getMovieInfosInPage(pageResponse);
+        return {
+          movieInfos,
+          isLastPage: this.#popularPage === pageResponse.total_pages,
+        };
+      });
     }).bind(this);
   }
 
@@ -163,9 +164,7 @@ class MoviePageReceiver {
   }
 
   async #getTMDBPageResponse(url: string) {
-    const response = await fetch(url, this.#options);
-    const tmdbPageResponse: TMDBPageResponse = await response.json();
-    return tmdbPageResponse;
+    return fetch(url, this.#options).then((response) => response.json());
   }
 
   #getMovieInfosInPage(tmdbPageResponse: TMDBPageResponse) {
