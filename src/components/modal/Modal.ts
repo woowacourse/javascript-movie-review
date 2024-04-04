@@ -21,7 +21,10 @@ class Modal {
   }
 
   open() {
+    const body = document.body;
+
     this.#modal.classList.add('visible');
+    body.classList.add('modal-open');
   }
 
   close() {
@@ -30,6 +33,8 @@ class Modal {
       if (this.#modal.parentNode) {
         this.#modal.parentNode.removeChild(this.#modal);
       }
+      const body = document.body;
+      body.classList.remove('modal-open');
     }
   }
 
