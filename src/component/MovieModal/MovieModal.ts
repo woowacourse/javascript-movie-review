@@ -7,7 +7,7 @@ import starFilledImage from '../../image/star_filled.png';
 import starEmptyImage from '../../image/star_empty.png';
 import modalCloseImage from '../../image/modal_close.png';
 import posterEmptyImg from '../../image/poster_empty.png';
-import { IMAGE_BASE_URL } from '../../constant/setting';
+import { ERROR_MESSAGE, IMAGE_BASE_URL, VOTE_SCORE_MESSAGES } from '../../constant/setting';
 
 class MovieModal {
   createMovieModalSection() {
@@ -215,7 +215,7 @@ class MovieModal {
     }
 
     titleElement.textContent =
-      movieDetail.title || '해당 영화는 제목 정보를 제공하지 않습니다.';
+      movieDetail.title || ERROR_MESSAGE.NO_TITLE;
 
     posterElement.src = movieDetail.poster_path
       ? `${IMAGE_BASE_URL}${movieDetail.poster_path}`
@@ -225,17 +225,17 @@ class MovieModal {
     genresElement.textContent =
       movieDetail.genres.length !== 0
         ? names.join(', ')
-        : '해당 영화는 장르 정보를 제공하지 않습니다.';
+        : ERROR_MESSAGE.NO_GENRES;
 
     const voteAverage = movieDetail.vote_average;
     voteAverageElement.textContent = voteAverage
       ? String(voteAverage.toFixed(1))
-      : '해당 영화는 평점 정보를 제공하지 않습니다.';
+      : ERROR_MESSAGE.NO_VOTE;
 
     const overview = movieDetail.overview;
     overviewElement.textContent = overview
       ? overview
-      : '해당 영화는 줄거리 정보를 제공하지 않습니다.';
+      : ERROR_MESSAGE.NO_OVERVIEW;
   }
 
   #updateMyVote(movieID: number) {
@@ -269,19 +269,19 @@ class MovieModal {
     if (myVoteScoreTextElement) {
       switch (voteScore) {
         case 2:
-          myVoteScoreTextElement.textContent = '최악이에요';
+          myVoteScoreTextElement.textContent = VOTE_SCORE_MESSAGES.WORST;
           break;
         case 4:
-          myVoteScoreTextElement.textContent = '별로예요';
+          myVoteScoreTextElement.textContent = VOTE_SCORE_MESSAGES.NOT_GOOD;
           break;
         case 6:
-          myVoteScoreTextElement.textContent = '보통이에요';
+          myVoteScoreTextElement.textContent = VOTE_SCORE_MESSAGES.AVERAGE;
           break;
         case 8:
-          myVoteScoreTextElement.textContent = '재미있어요';
+          myVoteScoreTextElement.textContent = VOTE_SCORE_MESSAGES.FUN;
           break;
         case 10:
-          myVoteScoreTextElement.textContent = '명작이에요';
+          myVoteScoreTextElement.textContent = VOTE_SCORE_MESSAGES.MASTERPIECE;
           break;
         default:
           myVoteScoreTextElement.textContent = '';

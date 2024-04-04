@@ -28,9 +28,21 @@ export const ERROR_MESSAGE = {
     '해당 키워드로 작품을 찾을 수 없습니다. 다른 키워드를 입력해주세요.',
   FETCH_MOVIE_DETAIL_FAILED:
     '해당 영화의 정보를 불러오는데 실패했습니다. 잠시 후 다시 시도해주세요.',
+  NO_TITLE: '해당 영화는 제목 정보를 제공하지 않습니다.',
+  NO_GENRES: '해당 영화는 장르 정보를 제공하지 않습니다.',
+  NO_VOTE: '해당 영화는 평점 정보를 제공하지 않습니다.',
+  NO_OVERVIEW: '해당 영화는 줄거리 정보를 제공하지 않습니다.',
 };
 
 export const INFO_MESSAGE = {
   EMPTY_SEARCH_KEYWORD: '검색어를 입력해주세요.',
   MAX_PAGE: '목록의 끝에 도달했습니다 🚀',
+};
+
+export const VOTE_SCORE_MESSAGES = {
+  WORST: '최악이에요',
+  NOT_GOOD: '별로예요',
+  AVERAGE: '보통이에요',
+  FUN: '재미있어요',
+  MASTERPIECE: '명작이에요',
 };
