@@ -14,3 +14,17 @@ export interface Movie {
   video: boolean;
   vote_average: number;
 }
+
+export interface Genres {
+  id: number;
+  name: string;
+}
+
+export interface MovieDetail {
+  genres: Genres[];
+  id: number;
+  title: string;
+  poster_path: string;
+  vote_average: number;
+  overview: string;
+}

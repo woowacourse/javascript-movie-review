@@ -57,7 +57,7 @@ export default class MovieCard {
     if (modal) {
       this.#liElement.addEventListener('click', () => {
         modal.innerHTML = '';
-        const modalContent = new DetailModal(this.#movie);
+        const modalContent = new DetailModal(this.#movie as Movie);
 
         modal.showModal();
       });

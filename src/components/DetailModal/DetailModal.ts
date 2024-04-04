@@ -3,13 +3,12 @@ import starImg from '../../images/star_filled.png';
 import './DetailModal.css';
 import MovieApi from '../../API/MovieApi';
 import UserRate from '../UserRate/UserRate';
+import { Genres, Movie, MovieDetail } from '../../index.d';
 
 class DetailModal {
   #modalElement = document.querySelector('dialog');
 
-  #movieDetail: any;
-
-  constructor(movie: any) {
+  constructor(movie: Movie) {
     this.#getMovieDetail(movie.id);
   }
 
@@ -17,21 +16,21 @@ class DetailModal {
     if (this.#modalElement) {
       this.#modalElement.innerHTML = this.#generateSkeleton();
       const detailData = await MovieApi.getDetailData(movieId);
+      console.log(detailData);
 
       this.#modalElement.innerHTML = '';
-      this.#movieDetail = detailData;
       this.#generateContainer(detailData);
       this.#generateUserRate(movieId);
     }
   }
 
-  #getMovieGenres(genres: any[]) {
+  #getMovieGenres(genres: Genres[]) {
     const genresName = genres.map((genre) => genre.name);
 
     return genresName.join(', ');
   }
 
-  #generateContainer(detailData: any) {
+  #generateContainer(detailData: MovieDetail) {
     const container = document.createElement('div');
 
     container.classList.add('modal-container');
@@ -42,7 +41,7 @@ class DetailModal {
     this.#modalElement?.appendChild(container);
   }
 
-  #generateHeader(detailData: any) {
+  #generateHeader(detailData: MovieDetail) {
     const container = document.createElement('div');
     const title = document.createElement('h3');
 
@@ -88,7 +87,7 @@ class DetailModal {
   }
 
   /* eslint-disable max-lines-per-function */
-  #generateContent(detailData: any) {
+  #generateContent(detailData: MovieDetail) {
     const container = document.createElement('div');
     const content = /* html */ `
         <div class="modal-img-container">

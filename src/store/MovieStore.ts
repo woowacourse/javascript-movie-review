@@ -2,13 +2,9 @@ import MovieApi from '../API/MovieApi';
 import { Movie } from '../index.d';
 
 class MovieStore {
-  #moviesData: any[];
+  #moviesData: Movie[] = [];
 
   #pageCount: number = 1;
-
-  constructor() {
-    this.#moviesData = [];
-  }
 
   async getMovies() {
     const responseData = await MovieApi.getPopularMovies(this.#pageCount);

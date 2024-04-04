@@ -2,7 +2,7 @@ import MovieApi from '../API/MovieApi';
 import { Movie } from '../index.d';
 
 class SearchMovieStore {
-  #searchMoviesData: any[] = [];
+  #searchMoviesData: Movie[] = [];
 
   #query: string = '';
 
@@ -12,6 +12,7 @@ class SearchMovieStore {
 
   async searchMovies() {
     const responseData = await MovieApi.getSearchData(this.#query, this.#presentPage);
+
     const moviesData = responseData.results;
 
     this.#totalPages = responseData.total_pages;
