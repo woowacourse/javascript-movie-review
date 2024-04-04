@@ -1,7 +1,7 @@
 // Import necessary dependencies and constants
 import { fetchPopularMovieList, fetchSearchMovieList } from '../../apis/getMovieData';
 import { SETTING, VIEW_TYPE } from '../../constants/constant';
-import { ViewType } from '../../interface/Movie';
+import setupIntersectionObserver from '../../utils/setupIntersectionObserver';
 import view from '../../view/view';
 import Skeleton from '../skeleton/skeleton';
 
@@ -38,16 +38,10 @@ class MovieListWrapper {
 
     itemView.append(title, itemList, endList);
 
-    this.setupIntersectionObserver();
+    this.infiniteScroll();
   }
 
-  setupIntersectionObserver() {
-    const option = {
-      root: null,
-      rootMargin: '0px 0px 0px 0px',
-      threshold: 0,
-    };
-
+  infiniteScroll() {
     const endList = document.querySelector('.end-list');
 
     const onIntersect = async (entries) => {
@@ -55,12 +49,12 @@ class MovieListWrapper {
         if (entry.isIntersecting && !this.#isLoading) {
           this.#isLoading = true;
           view.showSkeleton();
-          const result = await this.getResult();
+          const result = await this.getMovieList();
 
           if (result) {
             const [movies, totalPages] = result;
             view.hideSkeleton();
-            if (this.shouldStopObserving(movies, totalPages)) observer.unobserve(endList); // 무한 스크롤 종료
+            if (this.shouldStopObserving(movies, totalPages)) return;
             view.renderMovieCard(movies);
             this.#isLoading = false;
             this.plusPage();
@@ -68,12 +62,11 @@ class MovieListWrapper {
         }
       });
     };
-  
-    const observer = new IntersectionObserver(onIntersect, option);
-    observer.observe(endList);
+
+    setupIntersectionObserver(onIntersect, endList)
   }
 
-  async getResult() {
+  async getMovieList() {
     switch (this.#viewType) {
       case VIEW_TYPE.POPULAR:
         return await fetchPopularMovieList(this.#currentPage);
