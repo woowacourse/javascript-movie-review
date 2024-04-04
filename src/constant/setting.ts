@@ -3,6 +3,8 @@ export const TITLE_TEXT = {
   SEARCH: (title: string) => `"${title}" 검색 결과`,
 };
 
+export const LOCALSTORAGE_KEY = 'userVotes';
+
 export const MAX_PAGE_PER_REQUEST = 20;
 
 export const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w220_and_h330_face';

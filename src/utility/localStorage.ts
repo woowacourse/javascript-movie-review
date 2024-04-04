@@ -1,10 +1,12 @@
+import { LOCALSTORAGE_KEY } from '../constant/setting';
+
 export const setUserVotesToLocalStorage = (key: string, value: string) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
 
 export const getUserVotesFromLocalStorage = () => {
   const userVoteData: IVoteData[] = JSON.parse(
-    localStorage.getItem('userVotes') || '[]',
+    localStorage.getItem(LOCALSTORAGE_KEY) || '[]',
   );
   return userVoteData;
 };
@@ -18,7 +20,7 @@ export const getUserVoteScoreFromLocalStorage = (movieID: number) => {
 
 export const addUserVotesToLocalStorage = (voteData: IVoteData) => {
   const existingVoteData: IVoteData[] = JSON.parse(
-    localStorage.getItem('userVotes') || '[]',
+    localStorage.getItem(LOCALSTORAGE_KEY) || '[]',
   );
   const existingVote = existingVoteData.find((data) => data.id === voteData.id);
 
@@ -28,5 +30,5 @@ export const addUserVotesToLocalStorage = (voteData: IVoteData) => {
     existingVoteData.push(voteData);
   }
 
-  localStorage.setItem('userVotes', JSON.stringify(existingVoteData));
+  localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(existingVoteData));
 };
