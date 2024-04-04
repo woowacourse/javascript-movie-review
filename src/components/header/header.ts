@@ -2,7 +2,7 @@ import logoPng from '../../images/logo.png';
 
 interface Props {
   onLogoClick?: () => void;
-  inputSubmitHandle?: (value: string) => void;
+  inputSubmitHandle?: (value: string) => void | undefined;
 }
 
 const Header = ({ onLogoClick, inputSubmitHandle }: Props) => {
@@ -18,10 +18,10 @@ const Header = ({ onLogoClick, inputSubmitHandle }: Props) => {
     logo.appendChild(logoImage);
 
     const searchBox = document.createElement('form');
-    searchBox.className = 'search-box closed';
+    searchBox.className = 'search-box hidden';
 
     const searchInput = document.createElement('input');
-    searchInput.className = 'search-input closed';
+    searchInput.className = 'search-input hidden';
     searchInput.placeholder = '검색';
 
     const searchButton = document.createElement('button');
@@ -53,31 +53,26 @@ const Header = ({ onLogoClick, inputSubmitHandle }: Props) => {
         searchBox.addEventListener('submit', event => {
           event.preventDefault();
 
-          const isSearchInputClosed = searchInput.classList.contains('closed');
+          const isSearchInputClosed = searchInput.classList.contains('hidden');
           const searchInputValue = searchInput.value.trim();
 
           if (screenWidth <= 767) {
-            if (isSearchInputClosed) {
-              toggleElementsVisibility(false);
-            } else if (searchInputValue === '') {
-              toggleElementsVisibility(true);
+            if (isSearchInputClosed || searchInputValue === '') {
+              toggleElementsVisibility(!isSearchInputClosed);
             } else {
               inputSubmitHandle(searchInputValue);
               toggleElementsVisibility(true);
             }
-          } else {
-            if (searchInputValue !== '') {
-              inputSubmitHandle(searchInputValue);
-            }
+          } else if (searchInputValue !== '') {
+            inputSubmitHandle(searchInputValue);
           }
         });
       }
     });
 
     const toggleElementsVisibility = (isSearchClosed: boolean) => {
-      searchBox.classList.toggle('closed', isSearchClosed);
-      searchInput.classList.toggle('closed', isSearchClosed);
-      logo.classList.toggle('closed', !isSearchClosed);
+      searchInput.classList.toggle('hidden', isSearchClosed);
+      logo.classList.toggle('hidden', !isSearchClosed);
     };
 
     window.dispatchEvent(new Event('resize'));

@@ -25,14 +25,13 @@ header {
 .search-box {
   display: flex;
   justify-content: space-between;
-  width: 320px;
   background: #fff;
   padding: 8px 13px;
   border-radius: 4px;
 }
 
 .search-input {
-  width: 100%;
+  width: 275px;
   border: 0;
 }
 
@@ -46,14 +45,7 @@ header {
 
 /* mobile 규격 */
 @media screen and (max-width: 767px) {
-  .logo.closed,
-  .search-input.closed {
-    display: none;
-  }
-  .search-box {
-    width: 100%;
-  }
-  .search-box.closed {
-    width: fit-content;
+  .search-input {
+    width: calc(100vw - 105px);
   }
 }
