@@ -1,10 +1,18 @@
+:root {
+  --black-50-dim: rgba(201, 201, 201, 0.25);
+  --black-50: #f1f1f1;
+  --black-100: #383839;
+  --black-200: #212122;
+  --black-300: #111111;
+  --black-400: #000000;
+}
 * {
   box-sizing: border-box;
 }
 
 body {
   font-size: 14px;
-  background-color: #222222;
+  background-color: var(--black-300);
   color: #fff;
   -ms-overflow-style: none;
 }
@@ -49,4 +57,22 @@ button.primary {
 
 .hidden {
   display: none;
+}
+
+.font-body {
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+
+.font-thick {
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  text-align: left;
 }

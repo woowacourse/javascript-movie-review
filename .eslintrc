@@ -12,4 +12,6 @@
   },
   "extends": ["eslint:recommended", "plugin:prettier/recommended"],
   "ignorePatterns": ["webpack.config.js", "babel.config.js", ".eslintrc"],
+
+  "overrides": [{ "files": ["__tests__/**/*"], "env": { "jest": true } }],
 }

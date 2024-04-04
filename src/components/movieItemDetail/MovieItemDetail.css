@@ -1,0 +1,105 @@
+/* 전체 */
+.movie-detail {
+  display: flex;
+  flex-direction: column;
+  background: var(--black-200);
+}
+
+/* 헤더부 */
+.movie-detail-header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--black-50-dim);
+}
+
+.movie-detail-header__text {
+  font-size: 20px;
+}
+
+/* 포스터이미지 */
+.movie-detail-content__poster-image {
+  width: 260px;
+  height: 400px;
+}
+
+/* 디테일 */
+
+.movie-detail-content {
+  display: flex;
+  padding: 36px 32px 48px;
+  column-gap: 32px;
+}
+
+/* 디테일 본문 */
+.movie-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  line-height: 1.5;
+
+  row-gap: 40px;
+}
+
+.movie-explanation {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  row-gap: 16px;
+  max-height: 336px;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+}
+
+.movie-explanation::-webkit-scrollbar {
+  width: 4px;
+}
+.movie-explanation::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 4px;
+}
+
+/* 디테일 헤더 */
+
+.movie-explanation__header {
+  display: flex;
+  column-gap: 16px;
+}
+
+.movie-explanation__header-rating {
+  display: flex;
+  align-items: center;
+}
+
+/* 내 별점 */
+.movie-description__rating {
+  display: flex;
+  justify-content: flex-start;
+  padding: 28px;
+  align-items: center;
+  width: 384px;
+  height: 64px;
+  gap: 12px;
+  border-radius: 16px;
+  background-color: var(--black-100);
+}
+
+.movie-description__rating .star-rating {
+  display: flex;
+}
+
+.movie-description__rating .star-icon {
+  cursor: pointer;
+}
+
+.rating-caption {
+  white-space: pre;
+}
+
+@media screen and (max-width: 768px) {
+  .movie-detail-content__poster-image {
+    display: none;
+  }
+}

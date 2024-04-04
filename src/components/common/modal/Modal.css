@@ -1,0 +1,42 @@
+.modal {
+  visibility: hidden;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.modal-container {
+  z-index: 11;
+}
+
+.modal-backdrop {
+  width: 100%;
+  height: 100%;
+
+  background: rgba(1, 1, 1, 0.4);
+  transition: opacity 0.24s ease-in-out;
+
+  z-index: 10;
+}
+
+.modal.modal-open {
+  visibility: visible;
+}
+
+@media screen and (max-width: 767px) {
+  .modal-container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .modal-container {
+    position: fixed;
+    left: 50vw;
+    top: 50vh;
+    transform: translate(-50%, -50%);
+  }
+}

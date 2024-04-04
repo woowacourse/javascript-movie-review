@@ -1,3 +1,8 @@
+.item-title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
 .item-caption {
   display: flex;
   gap: 10px;
@@ -8,4 +13,8 @@
 .item-star-icon {
   width: 16px;
   height: 16px;
+}
+
+.item-card:hover {
+  cursor: pointer;
 }

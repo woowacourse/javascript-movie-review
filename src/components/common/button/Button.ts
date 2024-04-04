@@ -6,7 +6,7 @@ interface ButtonProps {
 }
 
 class Button {
-  $target: HTMLButtonElement = document.createElement('button');
+  readonly $target: HTMLButtonElement = document.createElement('button');
 
   constructor(props: ButtonProps) {
     this.$target.classList.add(...(props.classNames ?? []));

@@ -31,13 +31,19 @@
 }
 
 .item-list {
-  display: grid;
-  margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
-  grid-row-gap: 48px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 48px 0;
+  column-gap: 100px;
+  row-gap: 48px;
 }
 
+.item-card {
+  width: 180px;
+}
+
+/* 스켈레톤 */
 .item-card .skeleton {
   background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
   background-size: 400%;
