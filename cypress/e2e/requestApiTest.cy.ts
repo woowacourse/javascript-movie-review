@@ -15,7 +15,7 @@ describe('영화 목록 API 호출 성공 테스트', () => {
       url: popularMovieUrl,
     }).as('fetchPopularMovies');
 
-    cy.get('ul.item-list > li').its('length').should('eq', 20);
+    cy.get('ul.item-list > li.movie-item').its('length').should('eq', 20);
   });
 
   it('올바른 검색어 입력 시 20개의 검색 영화 목록을 볼 수 있다.', () => {
@@ -32,6 +32,6 @@ describe('영화 목록 API 호출 성공 테스트', () => {
       url: searchMovieUrl,
     }).as('fetchSearchedMovies');
 
-    cy.get('ul.item-list > li').its('length').should('eq', 20);
+    cy.get('ul.item-list > li.movie-item').its('length').should('eq', 20);
   });
 });
