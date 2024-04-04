@@ -34,6 +34,7 @@ class MovieContainer {
     this.movieListContainer.addEventListener('click', async (event) => {
       // TODO: subject 방식 말고 다른 방식으로 리펙토링하기
       if (!(event.target instanceof Element)) return;
+      if (event.target.closest('li')?.classList.contains('skeleton')) return;
 
       const li$ = event.target.closest('li');
       const movieId = parseInt(li$?.id!);
@@ -60,7 +61,10 @@ class MovieContainer {
     const skeletonMovieList = this.skeletonList.create(createSkeletonMovieItem);
     const wrappedSkeletonMovieListWithLi = wrapItemWithLi(skeletonMovieList);
 
-    wrappedSkeletonMovieListWithLi.forEach((item) => this.movieListContainer.append(item));
+    wrappedSkeletonMovieListWithLi.forEach((item) => {
+      item.classList.add('skeleton');
+      this.movieListContainer.append(item);
+    });
 
     this.firstSkeletonItem = wrappedSkeletonMovieListWithLi[0]; // 새로운 아이템 push를 위한 진입점 마킹
 
