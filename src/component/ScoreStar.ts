@@ -36,7 +36,7 @@ class ScoreStar {
         .map((_, i) => `<li id=${i}><img src='${storedStarScore / 2 > i ? starFilledIcon : starUnfilledIcon}'/></li>`)
         .join('')}
     </ul>
-    <div class='selected-star-score'>${storedStarScore || ''}</div>
+    ${storedStarScore ? `<div class='selected-star-score'>${storedStarScore}</div>` : ''}
     <div class='selected-star-score-description'>
         ${storedStarScore === 0 ? '별점을 남겨주세요' : STAR_SCORE_DESCRIPTION[storedStarScore / 2 - 1]}
     </div>
