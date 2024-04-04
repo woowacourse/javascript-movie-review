@@ -47,38 +47,10 @@ class MovieContainer {
     this.removeRetryButton();
   }
 
-  createEmptySearchResult() {
-    const emptyResultContainer = document.createElement('div');
-    emptyResultContainer.classList.add('empty-result');
-
-    const emptyResultImage = document.createElement('img');
-    emptyResultImage.src = ASSETS.resultEmptyImage;
-
-    const emptyResultHeader = document.createElement('p');
-    const emptyResultDescription = document.createElement('p');
-    emptyResultHeader.textContent = IN_APP_MESSAGE.emptyResultHeader;
-    emptyResultDescription.textContent = IN_APP_MESSAGE.emptyResultDescription;
-
-    emptyResultContainer.append(emptyResultImage, emptyResultHeader, emptyResultDescription);
-    return emptyResultContainer;
-  }
-
   removeSkeleton() {
     this.skeletonList.forEach((skeleton) => {
       skeleton.remove();
     });
-  }
-
-  setEmptySearchResult(listLength: number) {
-    const emptySearchResultParagraph = $OptionalSelector('div.empty-result');
-
-    if (listLength > 0) {
-      emptySearchResultParagraph?.remove();
-    }
-
-    if (listLength <= 0 && !emptySearchResultParagraph) {
-      $('.item-view').appendChild(this.createEmptySearchResult());
-    }
   }
 
   async fillMovieDataToSkeletonList(
@@ -118,12 +90,40 @@ class MovieContainer {
     $('.item-view').insertBefore(retryButton, $('ul.item-list'));
   }
 
-  removeRetryButton() {
-    $OptionalSelector('#retry-button')?.remove();
-  }
-
   setTitle(title: string) {
     this.sectionTitle.textContent = title;
+  }
+
+  private createEmptySearchResult() {
+    const emptyResultContainer = document.createElement('div');
+    emptyResultContainer.classList.add('empty-result');
+
+    const emptyResultImage = document.createElement('img');
+    emptyResultImage.src = ASSETS.resultEmptyImage;
+
+    const emptyResultHeader = document.createElement('p');
+    const emptyResultDescription = document.createElement('p');
+    emptyResultHeader.textContent = IN_APP_MESSAGE.emptyResultHeader;
+    emptyResultDescription.textContent = IN_APP_MESSAGE.emptyResultDescription;
+
+    emptyResultContainer.append(emptyResultImage, emptyResultHeader, emptyResultDescription);
+    return emptyResultContainer;
+  }
+
+  private setEmptySearchResult(listLength: number) {
+    const emptySearchResultParagraph = $OptionalSelector('div.empty-result');
+
+    if (listLength > 0) {
+      emptySearchResultParagraph?.remove();
+    }
+
+    if (listLength <= 0 && !emptySearchResultParagraph) {
+      $('.item-view').appendChild(this.createEmptySearchResult());
+    }
+  }
+
+  private removeRetryButton() {
+    $OptionalSelector('#retry-button')?.remove();
   }
 }
 

@@ -34,7 +34,15 @@ class UserScoreContainer {
     this.initContainer();
   }
 
-  initContainer() {
+  setUserScore(userScore: UserScoreType) {
+    this.userScore = userScore;
+  }
+
+  render() {
+    return this.container;
+  }
+
+  private initContainer() {
     const userScoreTitle = document.createElement('span');
     userScoreTitle.classList.add('user-score-title');
     userScoreTitle.textContent = '내 별점';
@@ -44,13 +52,13 @@ class UserScoreContainer {
     this.container.append(userScoreTitle, this.userScoreStarsContainer, this.userScoreText, this.userScoreDescription);
   }
 
-  updateUserScoreStatus(userScore: UserScoreType | null) {
+  private updateUserScoreStatus(userScore: UserScoreType | null) {
     this.updateUserScoreStars(userScore);
     this.updateUserScoreText(userScore);
     this.updateUserScoreDescription(userScore);
   }
 
-  updateUserScoreStars(userScore: UserScoreType | null) {
+  private updateUserScoreStars(userScore: UserScoreType | null) {
     const userScoreArray = this.getUserScoreArray(userScore);
     this.userScoreStars.forEach((star, index) => {
       if (userScoreArray[index]) star.classList.add('filled');
@@ -58,11 +66,11 @@ class UserScoreContainer {
     });
   }
 
-  updateUserScoreText(userScore: UserScoreType | null) {
+  private updateUserScoreText(userScore: UserScoreType | null) {
     this.userScoreText.textContent = userScore?.toString() || '0';
   }
 
-  updateUserScoreDescription(userScore: UserScoreType | null) {
+  private updateUserScoreDescription(userScore: UserScoreType | null) {
     if (userScore !== null && userScore in CONFIG.userScore) {
       this.userScoreDescription.textContent = CONFIG.userScore[userScore] ?? IN_APP_MESSAGE.emptyUserScore;
       return;
@@ -70,7 +78,7 @@ class UserScoreContainer {
     this.userScoreDescription.textContent = IN_APP_MESSAGE.emptyUserScore;
   }
 
-  getUserScoreArray(userScore: UserScoreType | null) {
+  private getUserScoreArray(userScore: UserScoreType | null) {
     return Array.from({ length: Object.keys(CONFIG.userScore).length }, (_, index) => {
       if (userScore && index < Math.floor(userScore / 2)) {
         return true;
@@ -79,7 +87,7 @@ class UserScoreContainer {
     });
   }
 
-  getUserScoreByStarIndex(index: number) {
+  private getUserScoreByStarIndex(index: number) {
     const userScore = (index + 1) * 2;
     if (userScore in CONFIG.userScore) {
       return userScore as keyof typeof CONFIG.userScore;
@@ -87,7 +95,7 @@ class UserScoreContainer {
     return null;
   }
 
-  addEventUserScoreStars(star: HTMLDivElement, index: number) {
+  private addEventUserScoreStars(star: HTMLDivElement, index: number) {
     const userScore = this.getUserScoreByStarIndex(index);
     if (userScore) {
       star.addEventListener('click', () => this.handleClickUserScoreStar(userScore));
@@ -96,7 +104,7 @@ class UserScoreContainer {
     }
   }
 
-  createUserScoreStars() {
+  private createUserScoreStars() {
     return Array.from({ length: Object.keys(CONFIG.userScore).length }, (_, index) => {
       const scoreForStar = this.getUserScoreByStarIndex(index);
       const star = document.createElement('div');
@@ -107,37 +115,29 @@ class UserScoreContainer {
     });
   }
 
-  createUserScoreStarsContainer() {
+  private createUserScoreStarsContainer() {
     const userScoreStarsContainer = document.createElement('div');
     userScoreStarsContainer.classList.add('star-icons');
     userScoreStarsContainer.append(...this.userScoreStars);
     return userScoreStarsContainer;
   }
 
-  createUserScoreText() {
+  private createUserScoreText() {
     const userScoreText = document.createElement('span');
     userScoreText.classList.add('user-score');
     return userScoreText;
   }
 
-  createUserScoreDescription() {
+  private createUserScoreDescription() {
     const userScoreDescription = document.createElement('span');
     userScoreDescription.classList.add('user-score-description');
     return userScoreDescription;
   }
 
-  handleClickUserScoreStar(userScore: UserScoreType) {
+  private handleClickUserScoreStar(userScore: UserScoreType) {
     this.setUserScore(userScore);
     this.updateUserScoreStatus(this.userScore);
     this.updateUserScore({ movieId: this.movieId, userScore });
-  }
-
-  setUserScore(userScore: UserScoreType) {
-    this.userScore = userScore;
-  }
-
-  render() {
-    return this.container;
   }
 }
 
