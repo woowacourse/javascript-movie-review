@@ -44,6 +44,7 @@ button {
   font-size: 2rem;
   font-weight: bold;
   user-select: none;
+  margin-top: 40px;
 }
 
 /* https://andrew.hedges.name/experiments/aspect_ratio/ */
@@ -220,7 +221,12 @@ header {
   border-bottom: 1px solid white;
   margin-bottom: 48px;
 
-  position: relative;
+  position: fixed;
+  top: 0;
+
+  + * {
+    margin-top: 72px;
+  }
 }
 
 h3 {
