@@ -3,14 +3,11 @@ import './style.css';
 
 const { $ } = DOM;
 
-const Skeleton = {
+const skeletonManager = {
   render(count: number) {
     const skeleton = document.createElement('ul');
     skeleton.classList.add('item-list', 'item-list--skeleton');
     skeleton.innerHTML = this.get(count);
-
-    // const showMoreButton = $('.btn');
-    // showMoreButton?.insertAdjacentElement('beforebegin', skeleton);
 
     return skeleton;
   },
@@ -34,4 +31,4 @@ const Skeleton = {
   },
 };
 
-export default Skeleton;
+export default skeletonManager;

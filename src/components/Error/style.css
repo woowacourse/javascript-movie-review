@@ -1,0 +1,55 @@
+.error-msg {
+  text-align: center;
+  font-size: 16rem;
+  color: red;
+}
+
+.error-container h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  color: red;
+  margin-bottom: 15px;
+}
+
+.error-container button {
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 70px;
+  padding: 10px 20px;
+  color: white;
+  background-color: red;
+}
+
+.search-error > div {
+  display: flex;
+  justify-content: center;
+  font-size: 5rem;
+  color: red;
+  margin: 100px 0 50px;
+}
+
+@media screen and (max-width: 600px) {
+  .error-msg {
+    font-size: 10rem;
+  }
+
+  .error-container h2 {
+    font-size: 1rem;
+  }
+
+  .error-container button {
+    font-size: 1rem;
+    padding: 5px 10px;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .error-msg {
+    font-size: 5rem;
+  }
+
+  .error-container h2,
+  .error-container button {
+    font-size: 0.8rem;
+  }
+}

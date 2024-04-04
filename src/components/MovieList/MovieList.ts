@@ -1,29 +1,24 @@
 import './style.css';
 import { MovieListType, MovieType } from '../../types/movie';
-import createMovieItem from '../MovieItem/MovieItem';
 import DOM from '../../utils/DOM';
-import Skeleton from '../Skeleton/Skeleton';
+import skeletonManager from '../Skeleton/Skeleton';
+import movieItemManager from '../MovieItem/MovieItem';
 
 const { $ } = DOM;
 
-const MovieListManager = {
+const movieListManager = {
   renderMovieList(movieList: MovieListType, isLastPage: boolean) {
     const ul = document.createElement('ul');
     ul.classList.add('item-list');
 
     movieList.forEach((movie: MovieType) => {
-      ul.appendChild(createMovieItem(movie));
+      ul.appendChild(movieItemManager.render(movie));
     });
 
-    Skeleton.remove();
-    this.removeButtonIfLastPage(isLastPage);
+    skeletonManager.remove();
 
     return $('.item-container')?.appendChild(ul);
   },
-
-  removeButtonIfLastPage(isLastPage: boolean) {
-    if (isLastPage) $('.btn')?.remove();
-  },
 };
 
-export default MovieListManager;
+export default movieListManager;

@@ -1,7 +1,7 @@
 import './style.css';
-import MovieContentManager from '../MovieContents/MovieContents';
+import movieContentManager from '../MovieContents/MovieContents';
 import DOM from '../../utils/DOM';
-import errorMessage from '../../error/errorMessage';
+import errorDisplay from '../Error/ErrorDisplay';
 
 const { $ } = DOM;
 
@@ -9,7 +9,7 @@ interface Props {
   imageSource: string;
 }
 
-const HeaderManager = {
+const headerManager = {
   render({ imageSource }: Props) {
     const header = document.createElement('header');
     const templates = /* html */ `
@@ -29,7 +29,7 @@ const HeaderManager = {
     header.querySelector('.search-box')?.addEventListener('submit', async (event: Event) => {
       event.preventDefault();
       $('main')?.remove();
-      $('.search-error-msg')?.remove();
+      $('.error-container')?.remove();
 
       const movie = this.getMovieName(event);
       if (movie.trim() === '') {
@@ -48,16 +48,16 @@ const HeaderManager = {
   },
 
   displaySearchError() {
-    const errorElement = errorMessage.noSearchedMovieError('검색된 영화가 없습니다 💢');
+    const errorElement = errorDisplay.getErrorMessageTemplate(200, '검색된 영화가 없습니다 💢');
     $('#app')?.insertAdjacentHTML('beforeend', errorElement);
   },
 
   async renderMovie(movie: string) {
-    const movieContents = await MovieContentManager.renderMain(`"${movie}" 검색 결과`);
-    MovieContentManager.renderMovieData({ type: 'search', input: movie });
+    const movieContents = await movieContentManager.renderMain(`"${movie}" 검색 결과`);
+    movieContentManager.renderMovieData({ type: 'search', input: movie });
 
     $('#app')?.appendChild(movieContents);
   },
 };
 
-export default HeaderManager;
+export default headerManager;

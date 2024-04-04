@@ -5,25 +5,35 @@
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
-  height: 270px;
   background-size: contain;
+  width: 300px;
+  height: 450px;
 }
 
 .item-title {
   margin-top: 16px;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
 .item-score {
+  margin-top: 16px;
+}
+
+.item-score span {
   display: flex;
   align-items: center;
-  margin-top: 16px;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   gap: 11px;
 }
 
 .item-score::after {
   margin-left: 8px;
+}
+
+@media screen and (max-width: 380px) {
+  .item-thumbnail {
+    width: 150px;
+    height: auto;
+  }
 }

@@ -1,13 +1,14 @@
 import './style.css';
 import Movie from '../../domain/Movie';
 import { PropsType } from '../../types/props';
-import Skeleton from '../Skeleton/Skeleton';
+import skeletonManager from '../Skeleton/Skeleton';
 import DOM from '../../utils/DOM';
-import MovieListManager from '../MovieList/MovieList';
+import movieListManager from '../MovieList/MovieList';
+import { setIntersectionObserver, disconnectObserver, connectObserver } from '../../utils/observer';
 
 const { $ } = DOM;
 
-const MovieContentManager = {
+const movieContentManager = {
   renderMain(title: string) {
     const main = document.createElement('main');
 
@@ -15,7 +16,7 @@ const MovieContentManager = {
       <section class="item-view">
         <h2>${title}</h2>
         <div class="item-container"></div>
-        <button class="btn primary full-width">더 보기</button>
+        <div class="scroll-end"></div>
       </section>
       `;
 
@@ -28,28 +29,33 @@ const MovieContentManager = {
     const movie = new Movie();
     const { movieList, isLastPage } = await this.setMovieData(movie, { type, input });
 
-    MovieListManager.renderMovieList(movieList, isLastPage);
+    movieListManager.renderMovieList(movieList, isLastPage);
 
     if (!isLastPage) {
-      this.setEventListener(movie, { type, input });
+      this.handleNextPageObserver(movie, { type, input });
     }
   },
 
+  async handleNextPageObserver(movie: Movie, { type, input }: PropsType) {
+    const target = $('.scroll-end') as HTMLElement;
+    const observer = setIntersectionObserver(async () => {
+      const { movieList, isLastPage } = await this.setMovieData(movie, { type, input });
+      movieListManager.renderMovieList(movieList, isLastPage);
+
+      if (isLastPage) {
+        disconnectObserver(observer);
+      }
+    });
+    connectObserver(observer, target);
+  },
+
   async setMovieData(movie: Movie, { type, input }: PropsType) {
-    $('.item-container')?.appendChild(Skeleton.render(20));
+    $('.item-container')?.appendChild(skeletonManager.render(20));
 
     const { movieList, isLastPage } = await movie.handleMovieData(type, input);
 
     return { movieList, isLastPage };
   },
-
-  setEventListener(movie: Movie, { type, input }: PropsType) {
-    $('.btn')?.addEventListener('click', async () => {
-      const { movieList, isLastPage } = await this.setMovieData(movie, { type, input });
-
-      MovieListManager.renderMovieList(movieList, isLastPage);
-    });
-  },
 };
 
-export default MovieContentManager;
+export default movieContentManager;
