@@ -66,6 +66,7 @@ header {
   padding: 0 20px;
   border-bottom: 1px solid var(--content-color);
   margin-bottom: 48px;
+  z-index: 10;
 }
 
 header h1 {

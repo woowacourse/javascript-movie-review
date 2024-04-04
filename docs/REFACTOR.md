@@ -9,6 +9,7 @@
 - [x] 스켈레톤 UI에서 linear-gradient, background-size -> @Keyfarames로
 - [x] entries.forEach 내의 콜백 함수에서 비동기 처리 x - for of 등으로
 - [x] 변경된 별점에 해당하는 부분만 업데이트
+- [x] 영화 카드 컴포넌트가 hover 시, header위에 올라오는 현상
 
 ## 1단계 피드백 후 반영
 
