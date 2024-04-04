@@ -19,11 +19,19 @@ const skeleton = {
     const $itemCard = document.createElement('div');
     const $thumbnail = this.createThumbnail();
     const $title = this.createTitle();
+    const $spinner = this.createSpinner();
 
     $itemCard.classList.add('item-card');
     $itemCard.appendChild($thumbnail);
     $itemCard.appendChild($title);
+    $itemCard.appendChild($spinner);
     return $itemCard;
+  },
+
+  createSpinner() {
+    const $spinner = document.createElement('div');
+    $spinner.classList.add('loading-spinner');
+    return $spinner;
   },
 
   createCaption() {

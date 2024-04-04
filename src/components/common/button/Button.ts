@@ -11,8 +11,7 @@ class Button {
   $target: HTMLButtonElement = document.createElement('button');
 
   constructor(props: ButtonProps) {
-    if (typeof props.id === 'undefined') return;
-    this.$target.id = props.id;
+    if (props.id) this.$target.id = props.id;
     this.$target.classList.add(...(props.classNames ?? []));
     this.$target.append(...(props.children ?? []));
     this.setEvent(props.onClick);

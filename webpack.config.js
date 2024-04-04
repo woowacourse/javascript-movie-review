@@ -6,7 +6,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
   entry: './src/index.ts',
-  mode: 'production',
+  mode: isProduction ? 'production' : 'development',
   resolve: {
     extensions: ['.ts', '.js'],
   },
@@ -23,7 +23,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html',
-      publicPath: isProduction ? '/javascript-movie-review/dist/' : '.'
+      publicPath: isProduction ? '/javascript-movie-review/dist/' : '.',
     }),
 
     new DotEnv(),
@@ -37,7 +37,11 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: ['style-loader', { loader: 'css-loader', options: { url: false } }],
+      },
+      {
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,

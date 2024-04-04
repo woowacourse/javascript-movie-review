@@ -1,27 +1,10 @@
-import { Genre } from '../types/movie';
-
-type GenreRecord = Record<number, Genre>;
-
-const genre: GenreRecord = {
-  28: 'Action',
-  12: 'Adventure',
-  16: 'Animation',
-  35: 'Comedy',
-  80: 'Crime',
-  99: 'Documentary',
-  18: 'Drama',
-  10751: 'Family',
-  14: 'Fantasy',
-  36: 'History',
-  27: 'Horror',
-  10402: 'Music',
-  9648: 'Mystery',
-  10749: 'Romance',
-  878: 'Science Fiction',
-  10770: 'TV Movie',
-  53: 'Thriller',
-  10752: 'War',
-  37: 'Western',
+const SCORE_TEXT = {
+  0: '별점을 매겨주세요!',
+  2: '최악이예요',
+  4: '별로예요',
+  6: '보통이에요',
+  8: '재미있어요',
+  10: '명작이에요',
 };
 
-export { genre };
+export { SCORE_TEXT };

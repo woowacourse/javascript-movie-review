@@ -1,3 +1,5 @@
+import { SCORE_TEXT } from '../constants/movie';
+
 export type Genre =
   | 'Action'
   | 'Adventure'
@@ -50,11 +52,23 @@ export interface MovieSearchResult {
   movieCount: number;
 }
 
+export interface MovieDetailResponse extends Omit<MovieResponseResult, 'genre_ids'> {
+  genres: {
+    id: number;
+    name: string;
+  }[];
+}
+
 export interface Movie {
   id: number;
   title: string;
   imageSrc: string;
   score: number;
-  genre: Genre[];
   description: string;
 }
+
+export interface MovieDetail extends Movie {
+  genres: string[];
+}
+
+export type StarScore = keyof typeof SCORE_TEXT;

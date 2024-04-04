@@ -1,4 +1,5 @@
-import './MovieListContainer.css';
+import './MovieListContainer.scss';
+
 import { getPopularMovies, searchMoviesByTitle } from '../../apis/movie';
 import { Movie } from '../../types/movie';
 import { dom } from '../../utils/dom';
@@ -6,37 +7,54 @@ import MovieItem from '../movieItem/MovieItem';
 import CONFIG from '../../constants/config';
 import skeleton from '../common/Skeleton';
 import movieInfo from '../../domain/movieInfo';
+import MovieDetailModal from '../movieDetailModal/movieDetailModal';
 
 class MovieListContainer {
   $target = document.createElement('ul');
   page = CONFIG.FIRST_PAGE;
+  movieDetailModal = new MovieDetailModal();
 
   constructor() {
     this.$target.classList.add('item-list');
     this.$target.appendChild(skeleton.create(CONFIG.MOVIE_COUNT_PER_PAGE));
 
-    this.fetchMovies(this.page)
-      .then(({ movies, totalPages }) => {
-        this.paint(movieInfo.createAll(movies), totalPages);
-      })
-      .catch(error => {
-        if (error instanceof Error) this.handleErrorToast(error.message);
-      });
+    this.fetchMovies(this.page).then(fetchData => {
+      if (!fetchData) return;
+      const { movies, totalPages } = fetchData;
+      this.paint(movieInfo.createAll(movies), totalPages);
+    });
+
+    document.body.appendChild(this.movieDetailModal.$target);
   }
 
   paint(movies: Movie[], totalPages: number) {
     this.$target.replaceChildren();
-    this.$target.append(...movies.map(movie => new MovieItem().create(movie)));
+    this.$target.append(...movies.map(movie => new MovieItem(this.movieDetailModal).create(movie)));
     this.validateMoreButton(totalPages);
   }
 
   async attach() {
-    const movieItems = Array.from({ length: CONFIG.MOVIE_COUNT_PER_PAGE }).map(() => new MovieItem());
+    const movieItems = Array.from({ length: CONFIG.MOVIE_COUNT_PER_PAGE }).map(
+      () => new MovieItem(this.movieDetailModal),
+    );
     this.page += 1;
     this.$target.append(...movieItems.map(movieItem => movieItem.$target));
-    const { movies, totalPages } = await this.fetchMovies(this.page);
+
+    const fetchData = await this.fetchMovies(this.page);
+    if (!fetchData) return;
+    const { movies, totalPages, movieCount } = fetchData;
     movies.map((movie, index) => movieItems[index].paint(movieInfo.create(movie)));
-    this.validateMoreButton(totalPages);
+    const isValidMoreButton = this.validateMoreButton(totalPages);
+    if (!isValidMoreButton) this.erase(totalPages, movieCount);
+  }
+
+  erase(totalPages: number, movieCount: number) {
+    const restMovieCount = totalPages * CONFIG.MOVIE_COUNT_PER_PAGE - movieCount;
+    const length = this.$target.children.length;
+
+    Array.from({ length: restMovieCount }, (_, i) => i + 1).forEach(idx => {
+      this.$target.removeChild(this.$target.childNodes[length - idx]);
+    });
   }
 
   async fetchMovies(page: number) {
@@ -44,8 +62,12 @@ class MovieListContainer {
     const mode = urlSearchParams.get('mode') ?? 'popular';
     const title = urlSearchParams.get('title') ?? '';
 
-    const movies = mode === 'search' ? await searchMoviesByTitle(title, page) : await getPopularMovies(page);
-    return movies;
+    try {
+      return mode === 'search' ? await searchMoviesByTitle(title, page) : await getPopularMovies(page);
+    } catch (error) {
+      const { message } = error as Error;
+      this.handleErrorToast(message);
+    }
   }
 
   validateMoreButton(totalPages: number) {
@@ -53,9 +75,10 @@ class MovieListContainer {
     const $moreButton = dom.getElement(this.$target.parentElement, '#more-button');
     if (this.page === totalPages) {
       $moreButton.classList.add('hidden');
-      return;
+      return false;
     }
     $moreButton.classList.remove('hidden');
+    return true;
   }
 
   initPageNumber() {
@@ -63,11 +86,12 @@ class MovieListContainer {
   }
 
   handleErrorToast(errorMessage: string) {
-    const $toastButton = dom.getElement<HTMLButtonElement>(document.body, '#toast_button');
+    const $toastButton = dom.getElement<HTMLButtonElement>(document.body, '#toast-button');
     const clickEvent = new CustomEvent('onToast', {
       detail: errorMessage,
       bubbles: true,
     });
+
     $toastButton.dispatchEvent(clickEvent);
   }
 }

@@ -1,6 +1,5 @@
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -9,6 +8,7 @@ header {
   padding: 0 20px;
   border-bottom: 1px solid white;
   margin-bottom: 48px;
+  gap: 20px;
 }
 
 header h1 {
@@ -22,13 +22,16 @@ header h1 {
 
 header>.search-box {
   display: flex;
+  justify-content: space-between;
   background: #fff;
-  padding: 8px;
+  padding: 8px 4px;
   border-radius: 4px;
 }
 
-header .search-box>input {
+.search-input {
   border: 0;
+  transition: width 1s;
+  width: 30vw;
 }
 
 header .search-box>.search-button {
@@ -41,4 +44,64 @@ header .search-box>.search-button {
 
 .search-button-icon {
   width: 14px;
+}
+
+.mini-search-button {
+  display: none;
+}
+
+.clicked-logo {
+  display: none;
+}
+
+.clicked-header {
+  justify-content: flex-end;
+}
+
+.clicked-form {
+  visibility: visible;
+}
+
+@media (max-width: 400px) {
+  .search-input {
+    width: 0;
+    padding: 0;
+  }
+
+  .mini-search-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .clicked-form {
+    display: flex;
+    justify-content: space-between;
+    width: 90vw;
+    animation: expand 0.5s ease-out;
+  }
+
+  .clicked-input {
+    width: 90vw;
+  }
+}
+
+@media (min-width: 400px) {
+  .clicked-logo {
+    display: flex;
+  }
+}
+
+@keyframes expand {
+  from {
+    width: 36px;
+  }
+
+  to {
+    width: 90vw;
+  }
 }

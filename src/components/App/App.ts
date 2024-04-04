@@ -31,7 +31,6 @@ class App {
       <section class="item-view">
         <h2 id="title">${MESSAGE.HOME_TITLE}</h2>
         <slot class="slot-movie-list"></slot>
-        <button id="toast-button"></button>
       </section>
     </main>
     `;
@@ -52,12 +51,13 @@ class App {
   }
 
   setEvent() {
-    const $button = dom.getElement<HTMLButtonElement>(this.$target, '#toast-button');
-
-    $button.addEventListener<any>('onToast', (e: CustomEvent) => {
+    const $toastButton = dom.getElement<HTMLButtonElement>(document.body, '#toast-button');
+    $toastButton.addEventListener<any>('onToast', (e: CustomEvent) => {
       const message = e.detail;
       this.toast.on(message);
     });
+
+    this.#handleInfinityScroll();
   }
 
   #createHeader() {
@@ -66,11 +66,19 @@ class App {
       onSubmit: async (e: SubmitEvent) => {
         e.preventDefault();
         const $input = dom.getElement<HTMLInputElement>(this.$target, '#search-input');
+
+        if ($input.offsetWidth === 0) {
+          this.#handleClickMiniSearchButton();
+          return;
+        }
+
         if (!$input.value) return;
         history.pushState('', '', `?mode=search&title=${$input.value}`);
 
         this.movieListContainer.initPageNumber();
-        const { movies, totalPages, movieCount } = await this.movieListContainer.fetchMovies(CONFIG.FIRST_PAGE);
+        const fetchData = await this.movieListContainer.fetchMovies(CONFIG.FIRST_PAGE);
+        if (!fetchData) return;
+        const { movies, totalPages, movieCount } = fetchData;
         this.updateTitle(movieCount, $input.value);
         this.movieListContainer.paint(movieInfo.createAll(movies), totalPages);
       },
@@ -104,6 +112,33 @@ class App {
 
   handleClickMoreMovies() {
     this.movieListContainer.attach();
+  }
+
+  #handleInfinityScroll() {
+    const $moreButton = dom.getElement<HTMLButtonElement>(this.$target, '#more-button');
+
+    const options = {
+      root: null,
+      rootMargin: '0px 0px 150px 0px',
+      threshold: 0,
+    };
+
+    const io = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          !$moreButton.classList.contains('hidden') && this.handleClickMoreMovies();
+        }
+      });
+    }, options);
+
+    io.observe($moreButton);
+  }
+
+  #handleClickMiniSearchButton() {
+    dom.getElement(this.$target, '#logo').classList.add('clicked-logo');
+    dom.getElement(this.$target, '.search-box').classList.add('clicked-form');
+    dom.getElement(this.$target, '.search-input').classList.add('clicked-input');
+    dom.getElement(this.$target, 'header').classList.add('clicked-header');
   }
 }
 export default App;

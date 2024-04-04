@@ -1,23 +1,32 @@
 import './MovieItem.css';
 
 import FILLED_STAR from '../../assets/images/star_filled.png';
-import { Movie } from '../../types/movie';
+import NO_IMAGE from '../../assets/images/no_image.png';
+import { Movie, MovieDetailResponse } from '../../types/movie';
 import { dom } from '../../utils/dom';
 import skeleton from '../common/Skeleton';
+import { getDetailMovie } from '../../apis/movie';
+import MovieDetailModal from '../movieDetailModal/movieDetailModal';
 
 class MovieItem {
   $target = document.createElement('li');
+  movieDetailModal: MovieDetailModal;
+  movieId: number = -1;
 
-  constructor() {
+  constructor(movieDetailModal: MovieDetailModal) {
     this.$target.appendChild(skeleton.create(1));
+    this.movieDetailModal = movieDetailModal;
   }
 
   paint(movie: Movie) {
-    const $title = dom.getElement<HTMLParagraphElement>(this.$target, '.item-title');
+    this.movieId = movie.id;
     this.#renderThumbnail(movie.imageSrc, movie.title);
     this.#renderCaption(movie.score);
+    const $title = dom.getElement<HTMLParagraphElement>(this.$target, '.item-title');
     $title.textContent = movie.title;
     $title.classList.remove('skeleton');
+
+    this.setEvent();
   }
 
   create(movie: Movie) {
@@ -25,11 +34,26 @@ class MovieItem {
     return this.$target;
   }
 
+  setEvent() {
+    this.$target.addEventListener('click', () => {
+      dom.getElement<HTMLImageElement>(this.$target, '.item-thumbnail').classList.add('loading');
+      dom.getElement<HTMLImageElement>(this.$target, '.loading-spinner').classList.add('loading');
+
+      getDetailMovie(this.movieId).then(res => {
+        const response = res as MovieDetailResponse;
+        this.movieDetailModal.open(response);
+        [...document.querySelectorAll('.loading')].forEach(loadingElement =>
+          loadingElement.classList.remove('loading'),
+        );
+      });
+    });
+  }
+
   #renderThumbnail(imageSrc: string, title: string) {
     const $thumbnail = dom.getElement<HTMLImageElement>(this.$target, '.item-thumbnail');
 
     const image = new Image();
-    image.src = imageSrc;
+    image.src = imageSrc === '' ? NO_IMAGE : imageSrc;
     image.onload = () => {
       $thumbnail.src = image.src;
       $thumbnail.setAttribute('alt', title);
