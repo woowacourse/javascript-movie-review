@@ -11,6 +11,7 @@ const infiniteScroll = {
     const scrollEnd = document.querySelector('#scroll-end-box');
     if (scrollEnd) {
       const options = {
+        root: document,
         threshold,
       };
 
