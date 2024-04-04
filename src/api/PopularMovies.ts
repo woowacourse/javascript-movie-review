@@ -1,5 +1,7 @@
 import fetchWrapper from '../utils/fetchWrapper';
+
 import { POPULAR_MOVIES } from '../constants/url';
+
 import { ResponseMoviePage } from '../types/ResponseMoviePage';
 
 interface PopularMoviesProps {

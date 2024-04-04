@@ -1,0 +1,158 @@
+.modal {
+  display: none;
+}
+
+.modal--open {
+  display: block;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.modal-container {
+  z-index: var(--z-modal-container);
+  box-sizing: border-box;
+  position: fixed;
+  inset: 50%;
+  transform: translate(-50%, -50%);
+  width: 740px;
+  height: 534px;
+
+  border-radius: 8px;
+  background: var(--grayscale-500);
+}
+
+.movie-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 60px;
+  width: 100%;
+
+  padding: 12px 32px;
+  background-color: rgba(0, 0, 0, 0.8);
+
+  border-bottom: 1px solid var(--border);
+  max-lines: 1;
+}
+
+.close-button {
+  position: absolute;
+  top: 12px;
+  right: 32px;
+}
+
+.movie-detail-title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  user-select: none;
+}
+
+.detail-items {
+  display: flex;
+  gap: 32px;
+
+  background-color: rgba(0, 0, 0, 0.8);
+
+  padding: 36px 32px 48px 32px;
+}
+
+.backdrop-image {
+  position: absolute;
+  background-size: cover;
+  background-position: center;
+  z-index: var(--z-modal-backdrop-image);
+  inset: 0;
+}
+.detail-poster-container {
+  display: block;
+  width: 260px;
+  height: 390px;
+}
+
+.detail-poster {
+  display: block;
+  width: 260px;
+  height: 390px;
+}
+
+.detail-contents {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  width: 100%;
+  height: 390px;
+}
+
+.detail-genre-score {
+  display: flex;
+  width: 100%;
+  gap: 16px;
+
+  height: 20px;
+}
+
+.detail-genre {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.detail-score-container {
+  display: flex;
+  width: fit-content;
+
+  gap: 6px;
+}
+
+.detail-overview {
+  height: 100%;
+  overflow: scroll;
+}
+
+@media (max-width: 1200px) {
+  .modal-container {
+    inset: auto 0 0 0;
+    transform: none;
+    width: 100%;
+    height: fit-content;
+
+    border-radius: 8px 8px 0 0;
+  }
+
+  .movie-detail-header {
+    justify-content: start;
+  }
+
+  .movie-detail-title {
+    text-align: start;
+    margin-right: 44px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .detail-items {
+    display: flex;
+    gap: 32px;
+
+    background-color: rgba(0, 0, 0, 0.8);
+
+    padding: 32px 32px 48px 32px;
+  }
+
+  .detail-poster-container {
+    display: none;
+  }
+}

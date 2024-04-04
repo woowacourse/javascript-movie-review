@@ -1,11 +1,16 @@
 :root {
   --grayscale-500: #222222;
-  --grayscale-400: #444444;
+  --grayscale-400: #383839;
   --grayscale-300: #666666;
   --grayscale-200: #999999;
   --grayscale-100: #bbbbbb;
   --white: #ffffff;
   --primary: #f33f3f;
+  --border: rgba(241, 241, 241, 0.25);
+
+  --z-modal-backdrop-image: -10;
+  --z-floating-button: 10;
+  --z-modal-container: 20;
 }
 
 * {
@@ -16,6 +21,10 @@ body {
   font-size: 14px;
   background-color: var(--grayscale-500);
   color: var(--white);
+}
+
+.body--overflow-hidden {
+  overflow: hidden;
 }
 
 a {
@@ -41,4 +50,46 @@ button {
 
 .full-width {
   width: 100%;
+}
+
+.font-title {
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  text-align: center;
+}
+
+.font-body-bold {
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+
+.font-body {
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+
+.floating-button {
+  position: fixed;
+  z-index: var(--z-floating-button);
+  background-color: transparent;
+  filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+
+  bottom: 48px;
+  right: 48px;
+}
+
+.floating-button-image {
+  height: 48px;
+  width: 48px;
 }

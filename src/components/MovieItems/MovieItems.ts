@@ -2,42 +2,66 @@
 import './style.css';
 
 import Button from '../Button/Button';
+import MovieItem from '../MovieItem/MovieItem';
+
+import { MovieService, PopularMoviesService } from '../../services/MovieService';
 
 import { ResponseMovieItem } from '../../types/ResponseMovieItem';
-import MovieItem from '../MovieItem/MovieItem';
-import { MovieService, PopularMoviesService } from '../../services/MovieService';
+
+import SETTING from '../../constants/setting';
 
 class MovieItems {
   moviesService: MovieService;
+  intersectionObserver: IntersectionObserver;
   private template: HTMLElement;
 
   constructor() {
-    this.template = document.createElement('main');
-    this.template.classList.add('item-view');
     this.moviesService = new PopularMoviesService();
-    this.createElements();
-    this.fetchMovieItems();
+    this.intersectionObserver = new IntersectionObserver(this.observerCallback.bind(this), {
+      threshold: 0.5,
+    });
+    this.template = this.createTemplate();
+    this.createTemplate();
+    this.resetMovieItems();
   }
 
-  getElement() {
-    return this.template;
+  observerCallback(
+    entries: IntersectionObserverEntry[],
+    intersectionObserver: IntersectionObserver,
+  ) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        intersectionObserver.unobserve(entry.target);
+        this.fetchMovieItems();
+      }
+    });
   }
 
-  createElements() {
+  observeTargetItem(intersectionObserver: IntersectionObserver, items: NodeListOf<Element>) {
+    const targetItem = items[items.length - 10];
+    intersectionObserver.observe(targetItem);
+  }
+
+  createTemplate() {
+    const div = document.createElement('main');
+    div.classList.add('item-view');
+
     const h2 = document.createElement('h2');
     h2.textContent = '지금 인기 있는 영화';
     const ul = document.createElement('ul');
     ul.classList.add('item-list');
 
-    this.template.appendChild(h2);
-    this.template.appendChild(ul);
+    div.appendChild(h2);
+    div.appendChild(ul);
 
-    const button = Button.createElements({
-      className: ['btn', 'primary', 'full-width'],
-      text: '더 보기',
+    const button = Button.createTemplate({
+      className: ['btn', 'secondary', 'full-width'],
+      text: '목록을 불러오고 있어요',
       onClick: this.fetchMovieItems.bind(this),
     });
-    this.template.appendChild(button);
+    div.appendChild(button);
+
+    return div;
   }
 
   changeShowMoreButton() {
@@ -46,16 +70,25 @@ class MovieItems {
     button.disabled = this.moviesService.isLastPage;
     button.textContent = this.moviesService.isLastPage
       ? '더이상 불러올 목록이 없어요. :('
-      : '더 보기';
+      : '목록을 불러오고 있어요';
+  }
+
+  truncatedQuery() {
+    if (this.moviesService.query && this.moviesService.query.length > 6) {
+      return this.moviesService.query.slice(0, 6) + '...';
+    }
+
+    return this.moviesService.query;
   }
 
   resetMovieItems() {
     const h2 = this.template?.querySelector('h2');
     if (!(h2 instanceof HTMLHeadingElement)) return;
     h2.textContent = this.moviesService.query
-      ? `"${this.moviesService.query}"검색 결과`
+      ? `"${this.truncatedQuery()}"검색 결과`
       : '지금 인기있는 영화';
     this.removeMovieItems();
+    this.fetchMovieItems();
   }
 
   removeMovieItems() {
@@ -66,7 +99,7 @@ class MovieItems {
 
   createSkeletonMovieItem() {
     const fragment = document.createDocumentFragment();
-    const skeletonItems = Array.from({ length: 20 }).map(() => {
+    const skeletonItems = Array.from({ length: SETTING.itemsOnPage }).map(() => {
       const movieItem = new MovieItem();
       fragment.appendChild(movieItem.getElement());
       return movieItem;
@@ -84,8 +117,16 @@ class MovieItems {
 
   createMovieItem(movies: ResponseMovieItem[], skeletonItems: MovieItem[]) {
     movies.forEach((movie, index) => {
-      const { poster_path, title, vote_average } = movie;
-      skeletonItems[index].insertInfo({ poster_path, title, vote_average });
+      const { id, title, genre_ids, poster_path, backdrop_path, overview, vote_average } = movie;
+      skeletonItems[index].insertInfo({
+        id,
+        title,
+        genre_ids,
+        poster_path,
+        backdrop_path,
+        overview,
+        vote_average,
+      });
     });
     this.removeSkeletonMovieItem();
     this.changeShowMoreButton();
@@ -95,7 +136,15 @@ class MovieItems {
     const skeletonItems = this.createSkeletonMovieItem();
     this.moviesService
       .fetchMovies()
-      .then((movies) => this.createMovieItem(movies, skeletonItems))
+      .then((movies) => {
+        this.createMovieItem(movies, skeletonItems);
+        if (!this.moviesService.isLastPage && this.template.querySelectorAll('.item-card').length) {
+          this.observeTargetItem(
+            this.intersectionObserver,
+            this.template.querySelectorAll('.item-card'),
+          );
+        }
+      })
       .catch((error) => {
         document.dispatchEvent(new CustomEvent('APIError', { detail: error, bubbles: true }));
       });
@@ -105,6 +154,10 @@ class MovieItems {
     if (this.moviesService.isLastPage) {
       return this.moviesService.isLastPage;
     }
+  }
+
+  getElement() {
+    return this.template;
   }
 }
 

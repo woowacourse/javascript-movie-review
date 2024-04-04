@@ -1,14 +1,13 @@
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: var(--grayscale-500);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid white;
-  margin-bottom: 48px;
+  border-bottom: 1px solid var(--grayscale-300);
+  margin-bottom: 60px;
 }
 
 header h1 {
@@ -18,4 +17,20 @@ header h1 {
   font-weight: bold;
   letter-spacing: -0.1rem;
   color: var(--primary);
+}
+
+@media (max-width: 530px) {
+  .logo--hidden {
+    display: none;
+  }
+
+  header {
+    margin-bottom: 40px;
+  }
+}
+
+@media (min-width: 530px) and (max-width: 1200px) {
+  header {
+    margin-bottom: 48px;
+  }
 }
