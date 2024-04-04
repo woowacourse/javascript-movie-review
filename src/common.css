@@ -215,6 +215,10 @@ header > .search-form {
   background: var(--white-color);
   padding: 8px;
   border-radius: 4px;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 header .search-form > .search-input {
@@ -222,7 +226,8 @@ header .search-form > .search-input {
 }
 
 header .search-form > .search-button {
-  width: 14px;
+  width: 18px;
+  height: 18px;
   border: 0;
   text-indent: -1000rem;
   background: url('./images/search_button.png') transparent no-repeat 0 1px;
@@ -230,27 +235,23 @@ header .search-form > .search-button {
 }
 
 @media screen and (max-width: 834px) {
-  header .search-form {
-    transition: width 0.3s ease;
+  header > .search-form {
+    position: absolute;
+    right: 20px;
+    width: 44px;
   }
 
-  header .search-form--longer {
-    display: flex;
-    width: 100%;
-  }
+  header > .search-form:hover {
+    width: calc(100% - 40px);
+    padding-right: 13px;
 
+    & .search-input {
+      width: 100%;
+      margin-right: 4px;
+    }
+  }
   header .search-form > .search-input {
-    display: none;
-    transition: width 0.3s ease;
-  }
-
-  header .search-form > .search-input--longer {
-    display: flex;
-    width: 100%;
-  }
-
-  .invisible {
-    display: none;
+    width: 0%;
   }
 }
 

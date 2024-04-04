@@ -27,7 +27,6 @@ class MovieApp {
 
   searchPage: MoviePage = new MoviePage();
 
-
   constructor() {
     this.init();
   }
@@ -44,7 +43,7 @@ class MovieApp {
 
     this.createMain(POPULAR_MOVIE_TITLE);
     this.setSearchFormEvent();
-    this.handleSearchWidth();
+    this.preventSearchEvent();
 
     await this.renderMainContents({ renderType: RENDER_TYPE.POPULAR });
 
@@ -176,27 +175,28 @@ class MovieApp {
       const input = searchInput.value;
       const page = this.categorizeRenderType('search');
       page.resetPage();
-      this.handleSearchWidth();
+
+      searchInput.focus();
+      this.preventSearchEvent();
+
       this.updateMainHtml(SEARCH_MOVIE_TITLE(input));
       await this.renderMainContents({ renderType: RENDER_TYPE.SEARCH, input });
       infiniteScroll.startObserving(this, { renderType: RENDER_TYPE.SEARCH, input });
     }
   }
 
-  handleSearchWidth() {
+  preventSearchEvent() {
     const searchForm = document.querySelector('#search-form') as HTMLFormElement;
+    if (!searchForm) return;
+    searchForm.reset();
 
-    if (searchForm && window.innerWidth <= 834) {
-      searchForm.addEventListener(
-        'click',
-        (event: Event) => {
-          event.preventDefault();
-          searchForm.reset();
-          this.toggleSearchWidth(searchForm);
-        },
-        { once: true },
-      );
-    }
+    searchForm.addEventListener(
+      'click',
+      (event: Event) => {
+        event.preventDefault();
+      },
+      { once: true },
+    );
   }
 
   handleMovieApp({ renderType, input }: RenderInputType) {
