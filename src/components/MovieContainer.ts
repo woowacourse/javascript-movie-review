@@ -10,15 +10,18 @@ import { NO_SEARCH } from '../resource';
 import { SUBTITLE, resizeMobileWidth } from '../constant/movie';
 import { hiddenElement, showElement } from '../util/hiddenElement';
 import { MovieData } from '../api/apiType';
+import { showAlert } from './Alert';
 class MovieContainer {
   #page;
   #query;
   #isDataLoading;
+  #isOffline;
 
   constructor(element: HTMLElement) {
     this.#page = 0;
     this.#query = '';
     this.#isDataLoading = false;
+    this.#isOffline = false;
 
     this.#getTemplate(element);
   }
@@ -48,6 +51,7 @@ class MovieContainer {
     this.#query = query;
     ul.innerHTML = '';
     this.#isDataLoading = false;
+    this.#isOffline = false;
   }
 
   searchBarClose = () => {
@@ -87,12 +91,14 @@ class MovieContainer {
     section?.addEventListener('click', this.searchBarClose);
 
     window.addEventListener('offline', () => {
-      --this.#page;
-      throw new Error('네트워크 오류입니다 ❌');
+      showAlert('네트워크 오류입니다');
+      this.#page;
+      this.#isOffline = true;
     });
 
     window.addEventListener('online', () => {
-      this.#getMovies(this.#page, this.#query);
+      this.#isOffline = false;
+      this.renderMovies();
     });
   }
 
@@ -147,18 +153,22 @@ class MovieContainer {
       const movieData = await (query ? getSearchMovieList(query, page) : getPopularMovieList(page));
       return movieData;
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof Error && !this.#isOffline) {
         this.#removeSkeleton();
 
         const [status, message] = error.message.split('-');
 
-        const movie = document.querySelector('ul.item-list');
-        if (!(movie instanceof HTMLElement)) return;
-
-        this.#isDataLoading = true;
-        movie.innerHTML = ErrorPage({ status, message }).outerHTML;
+        this.showErrorPage({ status, message });
       }
     }
+  }
+
+  showErrorPage({ status, message }: { status: string; message: string }) {
+    const movie = document.querySelector('ul.item-list');
+    if (!(movie instanceof HTMLElement)) return;
+
+    this.#isDataLoading = true;
+    movie.innerHTML = ErrorPage({ status, message }).outerHTML;
   }
 
   #inputSkeleton() {

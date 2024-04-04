@@ -1,7 +1,7 @@
 import { getDataWithAuth } from '.';
 import { ERROR_MESSAGE } from '../constant/api';
 
-export const catchError = async (url: string) => {
+export const throwError = async (url: string) => {
   return await getDataWithAuth(url).then(async (response) => {
     const data = await response.json();
     if (!response.ok) {
