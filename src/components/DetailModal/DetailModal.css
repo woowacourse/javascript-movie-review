@@ -124,7 +124,6 @@ dialog::backdrop {
 
 .modal-img.skeleton {
   background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
-  background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
   border-radius: 8px;
 }
@@ -136,7 +135,6 @@ dialog::backdrop {
   height: 20px;
   margin-top: 10px;
   background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
-  background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
   border-radius: 8px;
 }

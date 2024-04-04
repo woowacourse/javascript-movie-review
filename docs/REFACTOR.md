@@ -6,6 +6,7 @@
 - [x] 모바일 환경 input 창을 여는 방식 - width가 0 일때 보다는 너비에 따라 class 명을 다르게 주는 방식으로
 - [x] any 타입 수정하기
 - [x] 로컬스토리지에 별점 저장 시 Map 자료구조 활용
+- [x] 스켈레톤 UI에서 linear-gradient, background-size -> @Keyfarames로
 
 ## 1단계 피드백 후 반영
 

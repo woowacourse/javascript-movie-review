@@ -16,7 +16,6 @@ class DetailModal {
     if (this.#modalElement) {
       this.#modalElement.innerHTML = this.#generateSkeleton();
       const detailData = await MovieApi.getDetailData(movieId);
-      console.log(detailData);
 
       this.#modalElement.innerHTML = '';
       this.#generateContainer(detailData);
