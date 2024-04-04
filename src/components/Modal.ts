@@ -87,11 +87,11 @@ export default class Modal {
             <div class="my-vote">
               <p class="my-vote-title text-detail-vote">내 별점</p>
               <div class="my-vote-body">
-                <button><img src=${StarEmpty}/></button>
-                <button><img src=${StarEmpty}/></button>
-                <button><img src=${StarEmpty}/></button>
-                <button><img src=${StarEmpty}/></button>
-                <button><img src=${StarEmpty}/></button>
+                <button><img src=${StarEmpty} /></button>
+                <button><img src=${StarEmpty} /></button>
+                <button><img src=${StarEmpty} /></button>
+                <button><img src=${StarEmpty} /></button>
+                <button><img src=${StarEmpty} /></button>
               </div>
               <p class="my-vote-number text-detail-vote-contents">0</p>
               <p class="my-vote-description text-detail-vote-contents">남겨주세요</p>
