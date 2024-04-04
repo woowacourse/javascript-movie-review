@@ -8,12 +8,12 @@ export const pagination = {
     scrollTrigger: HTMLElement,
     onIntersect: () => void,
   ) {
-    if (dataLength < MAX_PAGE_PER_REQUEST) {
-      pagination.displayMaxPageInfo();
-      ScrollUtility.disconnectObserver();
+    if (dataLength === MAX_PAGE_PER_REQUEST) {
+      ScrollUtility.infiniteScroll(scrollTrigger, () => onIntersect());
       return;
     }
-    ScrollUtility.infiniteScroll(scrollTrigger, () => onIntersect());
+    ScrollUtility.disconnectObserver();
+    pagination.displayMaxPageInfo();
   },
 
   createMaxPageInfo() {
