@@ -161,6 +161,7 @@ class MovieModal {
   }
 
   #setModalState() {
+    const modalBackdropElement = $('.modal-backdrop');
     const movieItemULElement = $('.item-list');
     const modalCancelButtonElement = $('.modal-cancel-button');
     const modalElement = $('.modal') as HTMLDivElement;
@@ -172,6 +173,18 @@ class MovieModal {
         document.body.style.overflow = 'hidden';
       });
     }
+
+    if (modalBackdropElement) {
+      modalBackdropElement.addEventListener('click', (event) => {
+        if (event.target === modalBackdropElement) {
+          modalElement?.classList.add('modal-close');
+          modalElement?.classList.remove('modal-open');
+          document.body.style.overflow = 'unset';
+          this.#clearMovieModalItem();
+        }
+      });
+    }
+
     if (modalCancelButtonElement) {
       modalCancelButtonElement.addEventListener('click', () => {
         modalElement?.classList.add('modal-close');
@@ -180,6 +193,19 @@ class MovieModal {
         this.#clearMovieModalItem();
       });
     }
+
+    document.addEventListener('keydown', (event) => {
+      const modalElement = $('.modal') as HTMLDivElement;
+      if (
+        event.key === 'Escape' &&
+        modalElement.classList.contains('modal-open')
+      ) {
+        modalElement?.classList.add('modal-close');
+        modalElement?.classList.remove('modal-open');
+        document.body.style.overflow = 'unset';
+        this.#clearMovieModalItem();
+      }
+    });
   }
 
   #handleMyVoteButtonClick() {
