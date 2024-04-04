@@ -2,7 +2,7 @@ import logoPng from '../../images/logo.png';
 
 interface Props {
   onLogoClick?: () => void;
-  inputSubmitHandle?: (value: string) => void | undefined;
+  inputSubmitHandle?: (value: string) => void;
 }
 
 const Header = ({ onLogoClick, inputSubmitHandle }: Props) => {
@@ -18,10 +18,10 @@ const Header = ({ onLogoClick, inputSubmitHandle }: Props) => {
     logo.appendChild(logoImage);
 
     const searchBox = document.createElement('form');
-    searchBox.className = 'search-box hidden';
+    searchBox.className = 'search-box';
 
     const searchInput = document.createElement('input');
-    searchInput.className = 'search-input hidden';
+    searchInput.className = 'search-input closed';
     searchInput.placeholder = '검색';
 
     const searchButton = document.createElement('button');
@@ -49,30 +49,42 @@ const Header = ({ onLogoClick, inputSubmitHandle }: Props) => {
     window.addEventListener('resize', () => {
       const screenWidth = window.innerWidth;
 
-      if (inputSubmitHandle) {
-        searchBox.addEventListener('submit', event => {
-          event.preventDefault();
+      searchBox.addEventListener('submit', event => {
+        event.preventDefault();
 
-          const isSearchInputClosed = searchInput.classList.contains('hidden');
-          const searchInputValue = searchInput.value.trim();
+        const isSearchInputClosed = searchInput.classList.contains('closed');
+        const searchInputValue = searchInput.value.trim();
 
-          if (screenWidth <= 767) {
-            if (isSearchInputClosed || searchInputValue === '') {
-              toggleElementsVisibility(!isSearchInputClosed);
-            } else {
-              inputSubmitHandle(searchInputValue);
-              toggleElementsVisibility(true);
-            }
-          } else if (searchInputValue !== '') {
-            inputSubmitHandle(searchInputValue);
-          }
-        });
-      }
+        if (screenWidth <= 767) {
+          mobileSearchBox(isSearchInputClosed, searchInputValue);
+        } else {
+          defaultSearchBox(searchInputValue);
+        }
+      });
     });
 
+    const mobileSearchBox = (isSearchInputClosed: boolean, searchInputValue: string) => {
+      if (inputSubmitHandle) {
+        if (isSearchInputClosed) {
+          toggleElementsVisibility(false);
+        } else if (searchInputValue === '') {
+          toggleElementsVisibility(true);
+        } else {
+          inputSubmitHandle(searchInputValue);
+          toggleElementsVisibility(true);
+        }
+      }
+    };
+
+    const defaultSearchBox = (searchInputValue: string) => {
+      if (inputSubmitHandle && searchInputValue !== '') {
+        inputSubmitHandle(searchInputValue);
+      }
+    };
+
     const toggleElementsVisibility = (isSearchClosed: boolean) => {
-      searchInput.classList.toggle('hidden', isSearchClosed);
-      logo.classList.toggle('hidden', !isSearchClosed);
+      searchInput.classList.toggle('closed', isSearchClosed);
+      logo.classList.toggle('closed', !isSearchClosed);
     };
 
     window.dispatchEvent(new Event('resize'));
