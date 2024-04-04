@@ -2,6 +2,7 @@ import { getData } from './getData';
 import { BASE_URL, ERROR_MESSAGE } from '../constant/setting';
 
 const API_KEY = process.env.API_KEY as string;
+const MOVIE_URL = `${BASE_URL}/movie/`;
 
 export const getMovieDetailData = async (movieID: number) => {
   if (!API_KEY) {
@@ -13,7 +14,7 @@ export const getMovieDetailData = async (movieID: number) => {
     language: 'ko-KR',
   };
 
-  const movieDatailUrl = `${BASE_URL}${movieID}?${new URLSearchParams(
+  const movieDatailUrl = `${MOVIE_URL}${movieID}?${new URLSearchParams(
     params,
   ).toString()}`;
 
