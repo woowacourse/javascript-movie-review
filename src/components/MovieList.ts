@@ -39,19 +39,24 @@ export default class MovieList {
   }
 
   renderPreviousPopularList() {
+    this.#listType = POPULAR;
+    this.#changeTitle();
+    this.#ulElement.innerHTML = '';
     const movieDatas = movieStore.movies;
-    if (!(movieDatas.length === 0)) {
-      this.#listType = POPULAR;
-      this.#changeTitle();
-      this.#ulElement.innerHTML = '';
-      this.#appendMovieCard(movieDatas);
+
+    if (movieDatas.length === 0) {
+      this.generateMovieList();
+      return;
     }
+
+    this.#appendMovieCard(movieDatas);
   }
 
   renderSearchList(query: string) {
     searchMovieStore.query = query;
     this.#ulElement.innerHTML = '';
     this.#listType = SEARCH;
+    this.generateMovieList();
   }
 
   #changeTitle() {
@@ -94,6 +99,7 @@ export default class MovieList {
   }
 
   #appendMovieCard(newData: Movie[]) {
+    if (!newData) return;
     newData.forEach((movieData: Movie) => {
       const card = new MovieCard({
         movie: movieData,

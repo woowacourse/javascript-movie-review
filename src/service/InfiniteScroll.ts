@@ -1,13 +1,10 @@
 const InfiniteScrollService = {
   initObserver(target: HTMLElement, callbackFunc: () => void) {
-    const observer = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver(async (entries) => {
       if (!target) this.disconnectObserver(observer);
-
-      entries.forEach(async (entry) => {
-        if (entry.isIntersecting) {
-          callbackFunc();
-        }
-      });
+      if (entries[0].isIntersecting) {
+        callbackFunc();
+      }
     });
     this.connectObserver(target, observer);
   },
