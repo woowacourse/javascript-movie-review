@@ -5,8 +5,9 @@ import emptyPng from '../../images/empty_poster.png';
 import filledStar from '../../images/star_filled.png';
 import emptyStar from '../../images/star_empty.png';
 import { Movie } from '../../interface/Movie';
-import { RATING_MESSAGES } from '../../constants/constant';
+import { LOCALSTORAGE_KEY, RATING_MESSAGES } from '../../constants/constant';
 import MovieDetailContent from './MovieDetailContent';
+import localStorageService from '../../utils/localStorageService';
 
 class MovieDetailModal extends Modal {
   #movieId: number;
@@ -16,7 +17,7 @@ class MovieDetailModal extends Modal {
   constructor(movieId: number) {
     super();
     this.#movieId = movieId;
-    this.#userMovies = JSON.parse(localStorage.getItem('userMovies') as string) || [];
+    this.#userMovies = localStorageService.getValue(LOCALSTORAGE_KEY.USER_MOVIES);
     this.renderMovieDetail();
   }
 
@@ -85,7 +86,7 @@ class MovieDetailModal extends Modal {
       this.#userMovies.push(newUserMovie);
     }
 
-    localStorage.setItem('userMovies', JSON.stringify(this.#userMovies));
+    localStorageService.setValue(LOCALSTORAGE_KEY.USER_MOVIES, this.#userMovies);
   }
 }
 
