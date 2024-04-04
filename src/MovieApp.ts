@@ -16,6 +16,7 @@ import movieDetailModal from './components/movieDetailModal/movieDetailModal';
 import MoviePage from './domain/MoviePage';
 import infiniteScroll from './utils/infiniteScroll';
 import movieData from './domain/movieData';
+import INFINITE_SCROLL from './constants/infiniteScroll';
 
 interface CategorizeRenderType {
   popular: MoviePage;
@@ -47,7 +48,7 @@ class MovieApp {
 
     await this.renderMainContents({ renderType: RENDER_TYPE.POPULAR });
 
-    infiniteScroll.startObserving(this, { renderType: RENDER_TYPE.POPULAR });
+    infiniteScroll.startObserving(this, { renderType: RENDER_TYPE.POPULAR, threshold: INFINITE_SCROLL.THRESHOLD });
   }
 
   updateMainHtml(titleMessage: string) {
@@ -181,7 +182,7 @@ class MovieApp {
 
       this.updateMainHtml(SEARCH_MOVIE_TITLE(input));
       await this.renderMainContents({ renderType: RENDER_TYPE.SEARCH, input });
-      infiniteScroll.startObserving(this, { renderType: RENDER_TYPE.SEARCH, input });
+      infiniteScroll.startObserving(this, { renderType: RENDER_TYPE.SEARCH, input, threshold: INFINITE_SCROLL.THRESHOLD });
     }
   }
 

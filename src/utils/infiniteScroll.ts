@@ -1,14 +1,17 @@
 import MovieApp from '../MovieApp';
-import INFINITE_SCROLL from '../constants/infiniteScroll';
 import { RenderInputType } from '../types/props';
 
+interface ObservingType extends RenderInputType {
+  threshold: number;
+}
+
 const infiniteScroll = {
-  startObserving(movieApp: MovieApp, { renderType, input }: RenderInputType) {
+  startObserving(movieApp: MovieApp, { renderType, input, threshold }: ObservingType) {
     if (movieApp.categorizeRenderType(renderType).isLastPage) return;
     const scrollEnd = document.querySelector('#scroll-end-box');
     if (scrollEnd) {
       const options = {
-        threshold: INFINITE_SCROLL.THRESHOLD,
+        threshold,
       };
 
       const observers = new IntersectionObserver((entries, observer) => {
