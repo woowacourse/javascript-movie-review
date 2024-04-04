@@ -1,6 +1,7 @@
 import { $ } from './util/selector';
 
 const SearchButtonClickEvent = new Event('clickSearchButton');
+const EmptyInputEvent = new Event('emptyInputEvent');
 
 class SearchBox {
   private searchBox;
@@ -8,23 +9,7 @@ class SearchBox {
   constructor() {
     this.searchBox = this.createElement();
 
-    this.searchBox.addEventListener('submit', (event) => {
-      const inputElement = $<HTMLInputElement>('input', this.searchBox);
-
-      // TODO: 리펙토링
-      if (inputElement && window.getComputedStyle(inputElement).getPropertyValue('display') === 'none') {
-        inputElement.style.display = 'inline-block';
-        this.searchBox.classList.add('full-cover-width');
-        event.preventDefault();
-      } else if (window.getComputedStyle(inputElement).getPropertyValue('display') !== 'none') {
-        this.searchBox.classList.remove('full-cover-width');
-
-        const width = window.innerWidth;
-        if (width <= 660) inputElement.style.display = 'none';
-
-        this.searchBox.dispatchEvent(SearchButtonClickEvent);
-      }
-    });
+    this.handleSubmit();
   }
 
   createElement() {
@@ -46,6 +31,35 @@ class SearchBox {
 
   get() {
     return this.searchBox;
+  }
+
+  private handleSubmit() {
+    this.searchBox.addEventListener('submit', (event) => {
+      const inputElement = $<HTMLInputElement>('input', this.searchBox);
+
+      // TODO: 리펙토링
+      if (inputElement && window.getComputedStyle(inputElement).getPropertyValue('display') === 'none') {
+        inputElement.style.display = 'inline-block';
+        this.searchBox.classList.add('full-cover-width');
+        event.preventDefault();
+      } else if (window.getComputedStyle(inputElement).getPropertyValue('display') !== 'none') {
+        this.searchBox.classList.remove('full-cover-width');
+
+        const width = window.innerWidth;
+        if (width <= 660) inputElement.style.display = 'none';
+
+        this.searchBox.dispatchEvent(SearchButtonClickEvent);
+      }
+    });
+
+    const input$ = $<HTMLInputElement>('input', this.searchBox);
+
+    if (input$) {
+      input$.addEventListener('input', () => {
+        if (input$.value === '') this.searchBox.dispatchEvent(EmptyInputEvent);
+        else this.searchBox.dispatchEvent(SearchButtonClickEvent);
+      });
+    }
   }
 }
 
