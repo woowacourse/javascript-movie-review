@@ -86,7 +86,7 @@ export class App {
   }
 
   retryAddMovieList(error: Error) {
-    if (this.tryCount > CONFIG.fetchRetryLimit) {
+    if (this.tryCount >= CONFIG.fetchRetryLimit) {
       toast(ERROR_MESSAGE.RETRY_LIMIT_EXCEEDED);
       return;
     }
