@@ -1,12 +1,22 @@
+.movie-item:hover .item-thumbnail {
+  transform: translate(0px, -10px);
+  transition: all 0.45s ease-in-out;
+  box-shadow:
+    rgba(243, 63, 63, 0.25) 0px 14px 28px,
+    rgba(243, 63, 63, 0.25) 0px 6px 10px;
+}
+
 .item-card {
   display: flex;
   flex-direction: column;
+
+  cursor: pointer;
 }
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
-  height: 270px;
+  width: 100%;
+  height: 273px;
   background-size: contain;
 }
 
@@ -34,4 +44,10 @@
 
 .item-score::after {
   margin-left: 8px;
+}
+
+@media screen and (max-width: 673px) {
+  .item-thumbnail {
+    height: 220px;
+  }
 }

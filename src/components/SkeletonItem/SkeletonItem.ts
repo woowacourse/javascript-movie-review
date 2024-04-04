@@ -1,7 +1,7 @@
 const SkeletonItem = () => {
   const li = document.createElement('li');
 
-  li.classList.add('skeleton-item');
+  li.classList.add('skeleton', 'skeleton-item', 'hide-skeleton');
 
   li.innerHTML = `
     <div class="item-card">

@@ -3,7 +3,7 @@ import { RULES } from '../../constants/rule';
 import { MovieInfo } from '../../domain/Movies';
 import { NO_IMAGE, STAR_FILLED } from '../../resource';
 
-const MovieItem = ({ title, poster_path, vote_average }: MovieInfo) => {
+const MovieItem = ({ id, title, poster_path, vote_average }: MovieInfo) => {
   const li = document.createElement('li');
   const link = document.createElement('a');
   const itemCard = document.createElement('div');
@@ -14,16 +14,21 @@ const MovieItem = ({ title, poster_path, vote_average }: MovieInfo) => {
 
   li.classList.add('movie-item');
   itemCard.classList.add('item-card');
-  thumbnail.classList.add('item-thumbnail');
+  thumbnail.classList.add('item-thumbnail', 'skeleton');
   movieTitle.classList.add('item-title');
   itemScore.classList.add('item-score');
 
   thumbnail.src = poster_path ? `${POSTER_BASE_URL}${poster_path}` : NO_IMAGE;
 
+  li.setAttribute('data-movie-id', String(id));
   thumbnail.setAttribute('loading', 'lazy');
   thumbnail.setAttribute('alt', title);
 
   movieTitle.textContent = title;
+
+  thumbnail.addEventListener('load', () => {
+    thumbnail.classList.remove('skeleton');
+  });
 
   scoreImg.src = STAR_FILLED;
   scoreImg.alt = '별점';

@@ -1,3 +1,4 @@
+@import url('../src/components/TopButton/top-button.css');
 @import url('../src/components/Header/header.css');
 @import url('../src/components/Title/title.css');
 @import url('../src/components/SearchBox/search-box.css');
@@ -6,6 +7,15 @@
 @import url('../src/components/SkeletonItem/skeleton-item.css');
 @import url('../src/components/Alert/alert.css');
 @import url('../src/components/ErrorPage/error-page.css');
+@import url('../src/components/ModalWrapper/modal-wrapper.css');
+@import url('../src/components/MovieDetailModal/movie-detail-modal.css');
+
+:root {
+  --background: #222222;
+  --primary: #f33f3f;
+  --grey-1: #383839;
+  --grey-2: #f1f1f1;
+}
 
 * {
   box-sizing: border-box !important;
@@ -13,8 +23,12 @@
 
 body {
   font-size: 14px;
-  background-color: #222222;
+  background-color: var(--background);
   color: #fff;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 a {
@@ -63,4 +77,19 @@ button {
 
   clip: rect(0, 0, 0, 0);
   clip-path: polygon(0 0, 0 0, 0 0);
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+header.shrinked .title {
+  opacity: 0;
+  width: 1px;
+  margin: -1px;
+  pointer-events: none;
+}
+
+header.shrinked .search-box {
+  width: 320px;
 }
