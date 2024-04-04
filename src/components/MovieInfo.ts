@@ -67,6 +67,41 @@ class MovieInfo {
     modalElement.innerHTML = modalHTML;
     return modalElement;
   }
+
+  generateSkeletonModal() {
+    const modalElement = this.createSkeletonModalElement();
+    document.body.appendChild(modalElement);
+
+    return modalElement;
+  }
+
+  // eslint-disable-next-line max-lines-per-function
+  createSkeletonModalElement() {
+    const modalElement = document.createElement('div');
+    modalElement.classList.add('modal', 'modal--open');
+
+    const modalHTML = /* html */ `
+      <div class="modal-backdrop"></div>
+      <div class="modal-container .skeleton-container">
+        <div class="modal-header">
+          <h3 class="detail-title skeleton"></h3>
+        </div>
+        <div class="modal-body">
+          <div class="detail-poster skeleton"></div>
+          <div class="modal-contents">
+            <div class="detail-text-container skeleton">
+              <div class="detail-text-top skeleton"></div>
+              <p class="detail-overview skeleton"></p>
+            </div>
+            <div class="my-vote skeleton"></div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    modalElement.innerHTML = modalHTML;
+    return modalElement;
+  }
 }
 
 const movieInfo = new MovieInfo();

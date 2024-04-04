@@ -16,11 +16,17 @@ export default class Modal {
     this.#movieId = movieId;
   }
 
+  // eslint-disable-next-line max-lines-per-function
   async generateModal() {
     this.#removeExistingModal();
+
+    const skeletonModalElement = movieInfo.generateSkeletonModal();
+
     const movieDetail = await movieInfo.fetchMovieDetail(this.#movieId);
     const modalContent = movieInfo.prepareModalContent(movieDetail);
     const modalElement = movieInfo.createModalElement(modalContent);
+
+    skeletonModalElement.remove();
 
     document.body.appendChild(modalElement);
     this.#modalElement = modalElement;
