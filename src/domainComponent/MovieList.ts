@@ -133,7 +133,7 @@ class MovieList {
 
           if (isLastPage) {
             hideElement(this.#seeMoreButton.element);
-            if (this.#moviePosterBoard.length === 0) {
+            if (this.#moviePosterBoard.isEmpty) {
               this.#title.setTitle("관련 영화가 존재하지 않습니다.");
             }
           } else revealElement(this.#seeMoreButton.element);

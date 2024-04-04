@@ -8,8 +8,8 @@ class MoviePosterBoard {
   element = createElement("ul", { attrs: { class: "item-list" } });
 
   #length = 0;
-  get length() {
-    return this.#length;
+  get isEmpty() {
+    return this.#length === 0;
   }
   addMoviePosters(
     movieInfos: MovieInfo[],
