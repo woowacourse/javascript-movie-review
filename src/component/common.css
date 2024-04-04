@@ -156,6 +156,16 @@ button {
 .item-score {
   margin-top: 16px;
   font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  vertical-align: middle;
+
+  img {
+    height: 24px;
+    position: relative;
+    top: -2px;
+  }
 }
 
 .item-score::after {
