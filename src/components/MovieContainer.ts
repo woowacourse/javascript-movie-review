@@ -72,7 +72,7 @@ class MovieContainer {
     const io = new IntersectionObserver(
       (entries, observer) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && !this.#isDataLoading) {
             this.renderMovies();
           }
         });
@@ -89,7 +89,6 @@ class MovieContainer {
   }
 
   async renderMovies() {
-    if (this.#isDataLoading) return;
     this.#inputSkeleton();
     await this.#inputMovies();
   }
