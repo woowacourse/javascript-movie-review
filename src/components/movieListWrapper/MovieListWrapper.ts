@@ -1,6 +1,12 @@
 import { fetchPopularMovieList, fetchSearchMovieList } from '../../apis/fetchData';
+import { COUNT_OF_MOVIES } from '../../constants/constant';
 import PageService from '../../domain/PageService';
 import { Movie, MovieAPIResponse } from '../../interface/Movie';
+import { Dom } from '../../utils/Dom';
+import InfiniteScroll from '../../utils/InfiniteScroll';
+import createMovieDetailModal from '../modal/detailModal';
+import Modal from '../modal/EmptyModal';
+
 import { showSkeleton, updateCard } from '../movieCard/movieCard';
 
 export class MovieListWrapper {
@@ -17,8 +23,7 @@ export class MovieListWrapper {
   }
 
   async create() {
-    const section = document.querySelector('.item-view');
-    if (!section) return;
+    const section = Dom.getElement(document, '.item-view');
     section.replaceChildren();
 
     const title = document.createElement('h2');
@@ -28,30 +33,29 @@ export class MovieListWrapper {
     ul.className = 'item-list';
     ul.replaceChildren();
 
-    const addButton: HTMLButtonElement = document.createElement('button');
-    addButton.className = 'btn primary full-width';
-    addButton.textContent = '더 보기';
+    const addLayerDiv: HTMLElement = document.createElement('div');
+    addLayerDiv.className = 'loading';
 
     section.append(title, ul);
-
-    await this.selectUpdatingMovieType(addButton);
-
-    section.appendChild(addButton);
-
-    addButton.addEventListener('click', async () => {
-      await this.selectUpdatingMovieType(addButton);
+    section.appendChild(addLayerDiv);
+    const observe = new InfiniteScroll({
+      target: addLayerDiv,
+      callback: this.selectUpdatingMovieType.bind(this),
+      loadingMessage: '로딩중...',
     });
+    observe.observeIntersection();
+
+    await this.selectUpdatingMovieType(observe);
   }
 
-  async selectUpdatingMovieType(addButton: HTMLButtonElement) {
+  async selectUpdatingMovieType(observe: InfiniteScroll) {
     const liList = this.loadMovieList();
-    if (!liList) return;
     switch (this.#getName) {
       case 'popular':
         {
           const result = await fetchPopularMovieList(this.#currentPage.getCurrentPage());
           if (!result) return;
-          this.updateMoviesCardList(liList, result, addButton);
+          this.updateMoviesCardList(liList, result, observe);
           if (result[2] === 0) {
             this.displayNoResultsMessage();
           }
@@ -61,7 +65,7 @@ export class MovieListWrapper {
         {
           const result = await fetchSearchMovieList(this.#inputValue, this.#currentPage.getCurrentPage());
           if (!result) return;
-          this.updateMoviesCardList(liList, result, addButton);
+          this.updateMoviesCardList(liList, result, observe);
           if (result[2] === 0) {
             this.displayNoResultsMessage();
           }
@@ -70,46 +74,47 @@ export class MovieListWrapper {
       default: {
         const result: MovieAPIResponse = await fetchPopularMovieList(this.#currentPage.getCurrentPage());
         if (!result) return;
-        this.updateMoviesCardList(liList, result, addButton);
+        this.updateMoviesCardList(liList, result, observe);
         if (result[2] === 0) {
           this.displayNoResultsMessage();
         }
       }
     }
   }
-  updateMoviesCardList(liList: HTMLElement[], result: MovieAPIResponse, addButton: HTMLButtonElement) {
+  updateMoviesCardList(liList: HTMLElement[], result: MovieAPIResponse, observe: InfiniteScroll) {
     const [movies, totalPages] = result;
-    if (this.#currentPage.isPageInRange(totalPages)) {
-      addButton.classList.add('none');
-    }
     this.#currentPage.nextPage();
     this.completeMovieList(liList, movies);
+    if (this.#currentPage.isPageInRange(totalPages)) {
+      observe.unobserve();
+    }
   }
 
   displayNoResultsMessage() {
-    const section = document.querySelector('.item-view');
-    if (!section) return;
-    const ul = section?.querySelector('ul');
+    const section = Dom.getElement(document, '.item-view');
+    const ul = Dom.getElement(section, 'ul');
     const totalResult = document.createElement('h3');
     totalResult.className = 'no-result';
     totalResult.textContent = '현재 검색결과가 존재하지 않습니다.';
-    section?.appendChild(totalResult);
-    ul?.remove();
+    section.appendChild(totalResult);
+    ul.remove();
   }
 
   completeMovieList(liList: HTMLElement[], movies: Movie[]) {
     movies.forEach((movie: Movie, index) => {
       updateCard(liList[index], movie);
+      liList[index].addEventListener('click', async () =>
+        new Modal('modal--open', await createMovieDetailModal(movie.id)).open(),
+      );
     });
-    document.querySelectorAll('li.skeleton').forEach(element => {
+    Dom.getElementAll(document, 'li.skeleton').forEach(element => {
       element.remove();
     });
   }
 
   loadMovieList() {
-    const itemList = document.querySelector('.item-list');
-    if (!itemList) return;
-    const liList = Array.from({ length: 20 }, () => showSkeleton());
+    const itemList = Dom.getElement(document, '.item-list');
+    const liList = Array.from({ length: COUNT_OF_MOVIES }, () => showSkeleton());
     itemList.append(...liList);
     return liList;
   }

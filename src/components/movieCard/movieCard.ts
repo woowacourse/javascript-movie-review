@@ -1,12 +1,12 @@
 import filledStar from '../../images/star_filled.png';
 import emptyPng from '../../images/empty_poster.png';
 import { Movie } from '../../interface/Movie';
+import { Dom } from '../../utils/Dom';
 
 export function showSkeleton() {
   const movieCard = document.createElement('li');
   movieCard.className = 'skeleton';
-  const link = document.createElement('a');
-  link.href = '#';
+  const link = document.createElement('div');
 
   const itemCard = document.createElement('div');
   itemCard.className = 'item-card';
@@ -29,8 +29,9 @@ export function showSkeleton() {
 
 export function updateCard(li: HTMLElement, movie: Movie) {
   li.classList.toggle('skeleton');
-  const thumbnail: HTMLImageElement | null = li.querySelector('.item-thumbnail.skeleton');
-  if (!thumbnail) return;
+  li.setAttribute('aria-label', `${movie.title} 상세보기 버튼`);
+
+  const thumbnail: HTMLImageElement = Dom.getElement<HTMLImageElement>(li, '.item-thumbnail.skeleton');
 
   thumbnail.src = movie.poster_path
     ? `https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}.jpg`
@@ -39,13 +40,11 @@ export function updateCard(li: HTMLElement, movie: Movie) {
   thumbnail.loading = 'lazy';
   thumbnail.alt = movie.title;
 
-  const title = li.querySelector('.item-title.skeleton');
-  if (!title) return;
+  const title = Dom.getElement(li, '.item-title.skeleton');
   title.classList.toggle('skeleton');
   title.textContent = movie.title;
 
-  const score = li.querySelector('.item-score.skeleton');
-  if (!score) return;
+  const score = Dom.getElement(li, '.item-score.skeleton');
   score.classList.toggle('skeleton');
   score.textContent = movie.vote_average.toString();
 

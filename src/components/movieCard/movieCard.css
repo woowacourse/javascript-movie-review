@@ -18,18 +18,14 @@
   }
 }
 
-/* movie-list */
-.item-list {
-  display: grid;
-  margin: 48px;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
-  grid-row-gap: 48px;
-}
-
 .item-card {
   display: flex;
   flex-direction: column;
+  transition: transform 0.2s ease;
+}
+
+.item-card:hover {
+  transform: scale(1.1);
 }
 
 .item-thumbnail {
@@ -61,4 +57,49 @@
 .item-score.skeleton::after {
   font-size: 0;
   content: 'loading';
+}
+
+@media (max-width: 1100px) {
+  .item-thumbnail {
+    border-radius: 8px;
+    width: 180px;
+    height: 270px;
+    background-size: contain;
+  }
+  .item-title {
+    margin-top: 16px;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  .item-score {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 8px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .item-thumbnail {
+    border-radius: 8px;
+    width: 34vw;
+    height: 51vw;
+    background-size: contain;
+  }
+
+  .item-title {
+    margin-top: 2vw;
+    font-size: 4vw;
+    font-weight: bold;
+  }
+
+  .item-score {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2vw;
+    font-size: 4vw;
+  }
 }

@@ -7,15 +7,24 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
   margin: 0 auto;
+  align-items: center;
 }
 
 .item-view h2 {
+  width: calc(4 * 180px + 3 * 10vw);
   margin: 0 48px;
   font-size: 2rem;
   font-weight: bold;
   user-select: none;
+}
+
+.item-list {
+  display: grid;
+  margin: 48px;
+  grid-template-columns: repeat(4, 180px);
+  grid-column-gap: 10vw;
+  grid-row-gap: 48px;
 }
 
 .item-view,
@@ -44,4 +53,36 @@ button.primary {
 
 button.none {
   display: none;
+}
+
+.loading {
+  text-align: center;
+  font-size: 20px;
+}
+
+@media (max-width: 1100px) {
+  .item-view h2 {
+    width: calc(3 * 180px + 2 * 12vw);
+    margin: 0 48px;
+    font-size: 2rem;
+    font-weight: bold;
+    user-select: none;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(3, 180px); /* 열을 3개로 줄임 */
+    grid-column-gap: 12vw; /* 열 간격을 줄임 */
+  }
+}
+
+@media (max-width: 768px) {
+  .item-view h2 {
+    width: calc(2 * 34vw + 1 * 10vw);
+    font-size: 1.5rem;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(2, 34vw);
+    grid-column-gap: 10vw;
+  }
 }
