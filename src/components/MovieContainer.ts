@@ -4,11 +4,10 @@ import { getSearchMovieList } from '../api/searchMovieList';
 import MovieItem from './MovieItem';
 
 import SkeletonItem from './common/SkeletonItem';
-import { showAlert } from './common/Alert';
 import ErrorPage from './common/ErrorPage';
 
 import { NO_SEARCH } from '../resource';
-import { ALERT_MESSAGE, SUBTITLE, resizeMobileWidth } from '../constant/movie';
+import { SUBTITLE, resizeMobileWidth } from '../constant/movie';
 import { hiddenElement, showElement } from '../util/hiddenElement';
 import { MovieData } from '../api/apiType';
 class MovieContainer {
@@ -86,6 +85,15 @@ class MovieContainer {
   setEvent() {
     const section = document.querySelector('.item-view');
     section?.addEventListener('click', this.searchBarClose);
+
+    window.addEventListener('offline', () => {
+      --this.#page;
+      throw new Error('네트워크 오류입니다 ❌');
+    });
+
+    window.addEventListener('online', () => {
+      this.#getMovies(this.#page, this.#query);
+    });
   }
 
   async renderMovies() {
@@ -144,12 +152,6 @@ class MovieContainer {
 
         const [status, message] = error.message.split('-');
 
-        if (status === 'Failed to fetch') {
-          showAlert(ALERT_MESSAGE.network);
-          this.#reRequest();
-          throw new Error();
-        }
-
         const movie = document.querySelector('ul.item-list');
         if (!(movie instanceof HTMLElement)) return;
 
@@ -157,13 +159,6 @@ class MovieContainer {
         movie.innerHTML = ErrorPage({ status, message }).outerHTML;
       }
     }
-  }
-
-  #reRequest() {
-    setTimeout(() => {
-      this.#getMovies(this.#page, this.#query);
-      this.#isDataLoading = false;
-    }, 3000);
   }
 
   #inputSkeleton() {
