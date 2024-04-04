@@ -1,4 +1,4 @@
-import { ALERT_MESSAGE, resizeMobileWidth } from '../../constant/movie';
+import { ALERT_MESSAGE } from '../../constant/movie';
 import { hiddenElement, showElement } from '../../util/hiddenElement';
 import { keydownEvent } from '../../util/keydownEvent';
 import { isMobile, handleResize } from '../../util/handleResize';

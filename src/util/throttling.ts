@@ -1,10 +1,10 @@
-export const throttleOnRendering = (callback: any, delay = 400) => {
-  let timer: NodeJS.Timeout | null = null;
+export const throttleOnRendering = (callback: (...args: any[]) => any, delay = 400) => {
+  let timer: number | null = null;
 
-  return () => {
+  return (...args: any[]) => {
     if (timer === null) {
-      timer = setTimeout(() => {
-        callback();
+      timer = window.setTimeout(() => {
+        callback(...args);
         timer = null;
       }, delay);
     }
