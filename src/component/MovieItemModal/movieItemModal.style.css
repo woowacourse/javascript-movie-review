@@ -112,13 +112,17 @@ dialog {
 }
 
 .modal-movie-overview {
-  overflow: hidden;
+  overflow-y: auto;
   white-space: normal;
-  text-overflow: ellipsis;
+  overflow: auto;
   display: -webkit-box;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   word-break: keep-all;
+}
+
+.modal-movie-overview::-webkit-scrollbar {
+  display: none;
 }
 
 /* 별점 */
