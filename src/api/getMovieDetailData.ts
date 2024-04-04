@@ -1,8 +1,7 @@
 import { getData } from './getData';
-import { ERROR_MESSAGE } from '../constant/setting';
+import { BASE_URL, ERROR_MESSAGE } from '../constant/setting';
 
 const API_KEY = process.env.API_KEY as string;
-const BASE_URL = 'https://api.themoviedb.org/3/movie/';
 
 export const getMovieDetailData = async (movieID: number) => {
   if (!API_KEY) {

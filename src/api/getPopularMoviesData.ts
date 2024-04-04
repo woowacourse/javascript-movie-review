@@ -1,8 +1,7 @@
 import { getData } from './getData';
-import { ERROR_MESSAGE } from '../constant/setting';
+import { BASE_URL, ERROR_MESSAGE } from '../constant/setting';
 
 const API_KEY = process.env.API_KEY as string;
-const BASE_URL = 'https://api.themoviedb.org/3';
 const POPULAR_MOVIES_URL = `${BASE_URL}/movie/popular`;
 
 export const getPopularMoviesData = async (currentPage: string) => {
