@@ -16,6 +16,12 @@ class SearchMovieStore {
     const moviesData = responseData.results;
 
     this.#totalPages = responseData.total_pages;
+
+    if (this.#totalPages === 1) {
+      const listEnd = document.querySelector('.list-end') as HTMLElement;
+      listEnd.style.display = 'none';
+    }
+
     this.#pushNewData(moviesData);
     this.increasePageCount();
 

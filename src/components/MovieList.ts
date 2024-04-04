@@ -56,6 +56,9 @@ export default class MovieList {
     searchMovieStore.query = query;
     this.#ulElement.innerHTML = '';
     this.#listType = SEARCH;
+
+    const listEnd = document.querySelector('.list-end') as HTMLElement;
+    listEnd.style.display = 'block';
   }
 
   #changeTitle() {
