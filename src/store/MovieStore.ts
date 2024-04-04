@@ -1,18 +1,13 @@
 import { Movie } from '../index.d';
+
+import { fetchPopularMovies } from './API';
+
 import { ERROR_2XX } from '../constants';
 
 import ErrorRender from '../components/ErrorRender';
 
-const options = {
-  method: 'GET',
-  headers: {
-    accept: 'application/json',
-    Authorization: `Bearer ${process.env.TOKEN}`,
-  },
-};
-
 class MovieStore {
-  #moviesData: any[];
+  #moviesData: Movie[];
 
   #pageCount: number = 1;
 
@@ -20,10 +15,7 @@ class MovieStore {
     this.#moviesData = [];
   }
 
-  /* eslint-disable max-lines-per-function */
   async getMovies() {
-    await this.#delay(); // Skeleton UI 확인을 위한 강제 delay
-
     try {
       const responseData = await this.#fetchMoviesData();
       this.#pushNewData(responseData);
@@ -33,29 +25,26 @@ class MovieStore {
     }
   }
 
-  /* eslint-disable max-lines-per-function */
   async #fetchMoviesData() {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/popular?language=ko&page=${this.#pageCount}`,
-      options,
-    );
-
-    if (!response.ok) {
-      throw new ErrorRender(String(response.status)).renderError();
-    }
+    const response = await fetchPopularMovies(this.#pageCount);
+    this.#handleResponseError(response);
 
     const responseJSON = await response.json();
-
-    if (String(response.status)[0] === ERROR_2XX && responseJSON.results.length === 0) {
-      throw new ErrorRender(String(response.status)).renderError();
-    }
+    this.#handleResponseJSONError(response, responseJSON);
 
     return responseJSON.results;
   }
 
-  async #delay() {
-    const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-    await delay(2000);
+  #handleResponseError(response: Response) {
+    if (!response.ok) {
+      throw new ErrorRender(String(response.status)).renderError();
+    }
+  }
+
+  #handleResponseJSONError(response: Response, responseJSON: any) {
+    if (String(response.status)[0] === ERROR_2XX && responseJSON.results.length === 0) {
+      throw new ErrorRender(String(response.status)).renderError();
+    }
   }
 
   increasePageCount() {

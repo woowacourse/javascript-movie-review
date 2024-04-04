@@ -3,8 +3,11 @@
 }
 
 body {
-  font-size: 14px;
+  position: relative;
   background-color: var(--black);
+
+  font-family: Roboto;
+  font-size: 14px;
   color: var(--white);
 }
 
@@ -18,8 +21,9 @@ button {
 }
 
 #app {
-  margin-top: 150px;
+  margin-top: 120px;
   padding-bottom: 48px;
+  width: 100%;
 }
 
 *:focus {
@@ -34,7 +38,8 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  max-width: 1200px;
+
   margin: 0 auto;
 }
 
@@ -59,11 +64,19 @@ button {
   flex-direction: column;
 }
 
+.item-card:hover {
+  cursor: pointer;
+}
+
 .item-thumbnail {
   border-radius: 8px;
   width: 180px;
   height: 270px;
   background-size: contain;
+}
+
+.item-thumbnail:hover {
+  box-shadow: 0px 0px 14px 5px rgba(255, 255, 255, 0.3);
 }
 
 .item-title {
@@ -73,10 +86,12 @@ button {
 }
 
 .item-score {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   margin-top: 16px;
+
   font-size: 1.2rem;
-  display: inline-block;
-  vertical-align: middle;
 }
 
 .item-score::after {
@@ -128,21 +143,22 @@ button.primary {
 }
 
 header {
-  width: 100%;
-  min-width: 1200px;
-  height: 72px;
-  background-color: var(--black);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid var(--white);
-  margin-bottom: 48px;
 
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 10;
+
+  border-bottom: 1px solid var(--white);
+  margin-bottom: 48px;
+
+  width: 100vw;
+  height: 72px;
+  background-color: var(--black);
 }
 
 header h1 {
@@ -165,6 +181,10 @@ header > .search-box {
   border-radius: 4px;
 }
 
+header > .search-box:hover {
+  box-shadow: 0px 0px 8px 4px rgba(255, 255, 255, 0.3);
+}
+
 header .search-box > input {
   border: 0;
 }
@@ -175,4 +195,152 @@ header .search-box > .search-button {
   text-indent: -1000rem;
   background: url('../images/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+@media only screen and (min-width: 1280px) {
+  /* 1280px 이상: 피씨 스타일 */
+
+  .item-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 1200px;
+
+    margin: 0 auto;
+  }
+
+  .item-view h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    user-select: none;
+  }
+
+  /* https://andrew.hedges.name/experiments/aspect_ratio/ */
+
+  .item-list {
+    display: grid;
+    margin: 48px 0;
+    grid-template-columns: repeat(4, 180px);
+    grid-column-gap: 160px;
+    grid-row-gap: 48px;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1280px) {
+  /* 768px 이상 ~ 1280px 이하: 태블릿 스타일 */
+  #app {
+    margin-top: 108px;
+  }
+
+  .item-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 674px;
+    margin: 0 auto;
+  }
+
+  .item-list {
+    display: grid;
+    margin: 36px 0;
+    grid-template-columns: repeat(3, 180px);
+    grid-column-gap: 60px;
+    grid-row-gap: 55px;
+  }
+
+  header {
+    min-width: 674px;
+  }
+}
+
+@media only screen and (min-width: 390px) and (max-width: 767px) {
+  /* 390px 이상 ~ 768px 이하: 모바일 스타일 */
+  #app {
+    margin-top: 100px;
+  }
+
+  .item-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 316px;
+    margin: 0 auto;
+  }
+
+  .item-list {
+    display: grid;
+    margin: 24px 0;
+    grid-template-columns: repeat(2, 140px);
+    grid-column-gap: 50px;
+    grid-row-gap: 55px;
+  }
+
+  .item-thumbnail {
+    border-radius: 15px;
+    width: 140px;
+    height: 220px;
+    background-size: contain;
+  }
+
+  header {
+    min-width: 120px;
+  }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 390px) {
+  /* 320px 이상 ~ 390px 이하: 모바일 스타일 */
+  #app {
+    margin-top: 100px;
+  }
+
+  .item-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .item-list {
+    display: grid;
+    margin: 24px 0;
+    grid-template-columns: repeat(2, 140px);
+    grid-column-gap: 24px;
+    grid-row-gap: 28px;
+  }
+
+  .item-thumbnail {
+    border-radius: 15px;
+    width: 140px;
+    height: 220px;
+    background-size: contain;
+  }
+
+  header {
+    min-width: 120px;
+    padding: 0 5px;
+  }
+
+  header .search-box > input {
+    width: 150px;
+  }
+}
+
+#goToTop {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  text-align: center;
+
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 25px;
+
+  background-color: var(--red);
+}
+
+#goToTop:hover {
+  box-shadow: 0px 0px 8px 4px rgba(255, 255, 255, 0.4);
+  cursor: pointer;
 }

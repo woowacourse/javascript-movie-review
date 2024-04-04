@@ -14,3 +14,11 @@ export interface Movie {
   video: boolean;
   vote_average: number;
 }
+
+export interface ModalContent {
+  title: string;
+  posterPath: any;
+  genres: string;
+  voteAverage: string;
+  overview: string;
+}

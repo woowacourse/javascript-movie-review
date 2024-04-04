@@ -1,8 +1,42 @@
+/* Color ******************************************/
 :root {
-  /* color */
   --white: #fff;
   --light-gray: #f0f0f0;
   --gray: #aaa;
   --black: #222;
   --red: #f33f3f;
+}
+
+/* Typography *************************************/
+.text-detail-title {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  text-align: center;
+}
+
+.text-detail-contents {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  text-align: left;
+  color: rgba(241, 241, 241, 1);
+}
+
+.text-detail-vote {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+
+.text-detail-vote-contents {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  text-align: center;
 }

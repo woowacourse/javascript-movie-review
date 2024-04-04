@@ -19,6 +19,7 @@ export default class ErrorRender {
     if (this.#status[0] === ERROR_2XX) this.#renderNoResult();
     if (this.#status[0] === ERROR_4XX) this.#renderClientError();
     if (this.#status[0] === ERROR_5XX) this.#renderServerError();
+    return new Error('오류');
   }
 
   #renderNoResult() {

@@ -1,22 +1,57 @@
 import { Movie } from './index.d';
 
-import { SKELETON_UI_FIXED } from './constants';
+import { SKELETON_UI_PC, SKELETON_UI_TABLET, SKELETON_UI_MOBILE, MOBILE_SIZE, TABLET_SIZE } from './constants';
 
-import MoreButton from './components/MoreButton';
-import MovieCard from './components/MovieCard';
 import movieStore from './store/MovieStore';
-import SearchBox from './components/SearchBox';
 import searchMovieStore from './store/SearchMovieStore';
+
+import SearchBox from './components/SearchBox';
+import MovieCard from './components/MovieCard';
+import Modal from './components/Modal';
+
+import Logo from './images/logo.png';
 
 type Tpage = 'popular' | 'search';
 
 export default class App {
   #pageType: Tpage = 'popular';
 
+  #observer: IntersectionObserver | null = null;
+
+  #isLoading: boolean = false;
+
+  #skeletonBySize: number = SKELETON_UI_PC;
+
   async run() {
+    this.#insertLogo();
     this.#generateMovieList();
     this.#generateSearchBox();
     this.#addHomeButtonEvent();
+    this.#initEventListeners();
+    this.#setupIntersectionObserver();
+    this.#goToTop();
+  }
+
+  #insertLogo() {
+    const homeButton = document.getElementById('home-button');
+    const imgElement = document.createElement('img');
+
+    imgElement.src = Logo;
+    imgElement.alt = 'MovieList 로고';
+
+    homeButton?.appendChild(imgElement);
+  }
+
+  #getSkeletonCount() {
+    const width = window.innerWidth;
+
+    if (width <= MOBILE_SIZE) {
+      return SKELETON_UI_MOBILE;
+    }
+    if (width <= TABLET_SIZE) {
+      return SKELETON_UI_TABLET;
+    }
+    return this.#skeletonBySize;
   }
 
   #generateMovieList() {
@@ -35,14 +70,22 @@ export default class App {
   async #generateItemList(title: string, fetchData: () => Promise<Movie[]>, store: any) {
     this.#changeTitle(title);
     this.#removePreviousError();
-    const ulElement = document.querySelector('ul.item-list');
 
-    if (ulElement) {
-      this.#generateSkeletonUI(ulElement as HTMLElement);
-      const newData = await fetchData();
-      this.#removeSkeletonUI();
-      this.#appendMovieCard(newData, ulElement as HTMLElement);
-    }
+    const ulElement = document.querySelector('ul.item-list');
+    if (!ulElement) return;
+
+    const skeletonCount = this.#getSkeletonCount();
+    this.#generateSkeletonUI(ulElement as HTMLElement, skeletonCount);
+
+    const newData = await fetchData();
+
+    this.#removeSkeletonUI();
+
+    if (!newData) return;
+
+    this.#appendMovieCard(newData, ulElement as HTMLElement);
+
+    this.#observeSentinel();
   }
 
   #changeTitle(title: string) {
@@ -62,20 +105,16 @@ export default class App {
       ulElement?.appendChild(card.element);
     });
 
-    this.#generateMoreButton();
+    this.#addSentinel();
   }
 
-  // eslint-disable-next-line max-lines-per-function
-  #generateSkeletonUI(ulElement: HTMLElement) {
-    this.#removeMoreButton();
-
+  #generateSkeletonUI(ulElement: HTMLElement, skeletonCount: number) {
     const fragment = new DocumentFragment();
 
-    for (let i = 0; i < SKELETON_UI_FIXED; i++) {
+    for (let i = 0; i < skeletonCount; i++) {
       const card = new MovieCard({
         classes: ['skeleton-container'],
       });
-
       fragment.appendChild(card.element);
     }
 
@@ -92,34 +131,68 @@ export default class App {
     }
   }
 
-  /* eslint-disable max-lines-per-function */
-  #generateMoreButton() {
-    this.#removeMoreButton();
+  #setupIntersectionObserver() {
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.2,
+    };
 
-    if (searchMovieStore.presentPage === searchMovieStore.totalPages) return;
+    this.#observer = new IntersectionObserver(this.#handleIntersection, options);
 
-    const itemView = document.querySelector('section.item-view');
-
-    const moreBtn = new MoreButton({
-      onClick: () => {
-        if (this.#pageType === 'popular') {
-          movieStore.increasePageCount();
-          this.#generateMovieList();
-        } else {
-          searchMovieStore.increasePageCount();
-          this.#generateSearchMovieList();
-        }
-      },
-    });
-
-    itemView?.appendChild(moreBtn.element);
+    this.#observeSentinel();
   }
 
-  #removeMoreButton() {
-    const moreButton = document.getElementById('more-button');
-    if (moreButton) {
-      moreButton.parentNode?.removeChild(moreButton);
+  #addSentinel() {
+    const ulElement = document.querySelector('ul.item-list');
+
+    if (ulElement) {
+      const sentinel = document.createElement('li');
+      sentinel.classList.add('sentinel');
+      ulElement.appendChild(sentinel);
+      this.#observeSentinel();
     }
+  }
+
+  #removeSentinel() {
+    const sentinelElement = document.querySelector('li.sentinel');
+    if (sentinelElement) {
+      sentinelElement.remove();
+    }
+  }
+
+  #observeSentinel() {
+    const sentinel = document.querySelector('.sentinel');
+    if (sentinel && this.#observer) {
+      this.#observer.observe(sentinel);
+    }
+  }
+
+  #handleIntersection = (entries: IntersectionObserverEntry[]) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.2 && !this.#isLoading) {
+        this.#loadMoreMovies();
+      }
+    });
+  };
+
+  // eslint-disable-next-line max-lines-per-function
+  async #loadMoreMovies() {
+    if (searchMovieStore.presentPage === searchMovieStore.totalPages) return;
+
+    this.#removeSentinel();
+
+    this.#isLoading = true;
+
+    if (this.#pageType === 'popular') {
+      await movieStore.increasePageCount();
+      await this.#generateMovieList();
+    } else {
+      await searchMovieStore.increasePageCount();
+      await this.#generateSearchMovieList();
+    }
+
+    this.#isLoading = false;
   }
 
   #removePreviousError() {
@@ -130,6 +203,7 @@ export default class App {
     }
   }
 
+  // eslint-disable-next-line max-lines-per-function
   #generateSearchBox() {
     const header = document.querySelector('header');
     const ulElement = document.querySelector('ul.item-list');
@@ -154,7 +228,6 @@ export default class App {
         this.#pageType = 'popular';
         this.#changeTitle('지금 인기 있는 영화');
         this.#removePreviousError();
-        this.#removeMoreButton();
         this.#renderAllMovieList();
       });
     }
@@ -169,5 +242,34 @@ export default class App {
 
     ulElement.innerHTML = '';
     this.#appendMovieCard(movieDatas, ulElement as HTMLElement);
+    this.#observeSentinel();
+  }
+
+  #initEventListeners() {
+    const itemList = document.querySelector('ul.item-list');
+
+    if (itemList) {
+      itemList.addEventListener('click', this.#handleMovieCardClick.bind(this));
+    }
+  }
+
+  #handleMovieCardClick(event: any) {
+    const clickedElement = event.target.closest('.item-card');
+
+    if (clickedElement) {
+      const movieId = Number(clickedElement.dataset.movieid);
+      const modal = Modal.getInstance(movieId);
+      modal.openModal();
+    }
+  }
+
+  #goToTop() {
+    const topButton = document.querySelector('#goToTop');
+
+    if (topButton) {
+      topButton.addEventListener('click', () => {
+        window.scrollTo(0, 0);
+      });
+    }
   }
 }

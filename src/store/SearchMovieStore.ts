@@ -1,18 +1,13 @@
 import { Movie } from '../index.d';
+
 import { ERROR_2XX } from '../constants';
 
 import ErrorRender from '../components/ErrorRender';
 
-const searchOptions = {
-  method: 'GET',
-  headers: {
-    accept: 'application/json',
-    Authorization: `Bearer ${process.env.TOKEN}`,
-  },
-};
+import { fetchSearchMovies } from './API';
 
 class SearchMovieStore {
-  #searchMoviesData: any[];
+  #searchMoviesData: Movie[];
 
   #totalPages: number = 0;
 
@@ -24,10 +19,7 @@ class SearchMovieStore {
     this.#searchMoviesData = [];
   }
 
-  /* eslint-disable max-lines-per-function */
   async searchMovies() {
-    await this.#delay(); // Skeleton UI 확인을 위한 강제 delay
-
     try {
       const responseData = await this.#fetchSearchData();
       const { results } = responseData;
@@ -39,29 +31,26 @@ class SearchMovieStore {
     }
   }
 
-  /* eslint-disable max-lines-per-function */
   async #fetchSearchData() {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/search/movie?query=${this.#query}&include_adult=false&language=ko&page=${this.#presentPage}`,
-      searchOptions,
-    );
-
-    if (!response.ok) {
-      throw new ErrorRender(String(response.status)).renderError();
-    }
+    const response = await fetchSearchMovies(this.#query, this.#presentPage);
+    this.#handleResponseError(response);
 
     const responseJSON = await response.json();
-
-    if (String(response.status)[0] === ERROR_2XX && responseJSON.results.length === 0) {
-      throw new ErrorRender(String(response.status)).renderError();
-    }
+    this.#handleResponseJSONError(response, responseJSON);
 
     return responseJSON;
   }
 
-  async #delay() {
-    const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-    await delay(2000);
+  #handleResponseError(response: Response) {
+    if (!response.ok) {
+      throw new ErrorRender(String(response.status)).renderError();
+    }
+  }
+
+  #handleResponseJSONError(response: Response, responseJSON: any) {
+    if (String(response.status)[0] === ERROR_2XX && responseJSON.results.length === 0) {
+      throw new ErrorRender(String(response.status)).renderError();
+    }
   }
 
   increasePageCount() {
