@@ -36,22 +36,28 @@ const movieItemManager = {
 
   handleModal(movieItem: HTMLLIElement, movie: MovieType) {
     movieItem?.addEventListener('click', async () => {
-      const { movieList } = await httpRequest.getSearchedMovies(1, movie.title);
-
-      const genreIds = movieList[0].genre_ids;
-      const genreNames = await Promise.all(
-        genreIds.map((genreId: number) => this.genreIdConverter(genreId)),
-      );
-
-      movieList[0].genre_ids = genreNames.join(', ');
-      $('main')?.appendChild(modalManager.render(movieList[0]));
+      const movieList = await this.convertGenreIdToName(movie);
+      $('main')?.appendChild(modalManager.render(movieList));
 
       this.lockScroll();
-      dispatchCustomEvent<MovieScore>('openModal', { movie: movieList[0] });
+
+      dispatchCustomEvent<MovieScore>('openModal', { movie: movieList });
     });
   },
 
-  async genreIdConverter(genreID: number) {
+  async convertGenreIdToName(movie: MovieType) {
+    const { movieList } = await httpRequest.getSearchedMovies(1, movie.title);
+
+    const genreIds = movieList[0].genre_ids;
+    const genreNames = await Promise.all(
+      genreIds.map((genreId: number) => this.getGenreNameById(genreId)),
+    );
+
+    movieList[0].genre_ids = genreNames.join(', ');
+    return movieList[0];
+  },
+
+  async getGenreNameById(genreID: number) {
     const response = await fetch(URL.GENRE);
     const data = await response.json();
     const result = data.genres.find((genre: { id: number; name: string }) => genre.id === genreID);
