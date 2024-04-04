@@ -2,12 +2,13 @@ import Header from "../components/Header/Header";
 import MovieDetailModal from "./MovieDetailModal";
 import MovieList from "./MovieList";
 import MoviePageReceiver from "../apis/MoviePageReceiver";
+import { NOW_POPULAR_MOVIE } from "./constants";
 
 class MovieReviewMain {
   elements: HTMLElement[];
   #header;
   #movieListController = new MovieList(
-    "지금 인기있는 영화",
+    NOW_POPULAR_MOVIE,
     async () => {
       return { movieInfos: [], isLastPage: false };
     },
@@ -29,7 +30,7 @@ class MovieReviewMain {
 
   #createHeader() {
     const homeButtonClickAction = () => {
-      const title = "지금 인기있는 영화";
+      const title = NOW_POPULAR_MOVIE;
       const fetchFunc = this.#moviePageReceiver.getFetchPopularMoviePage();
 
       this.#movieListController.init({ title, fetchFunc });

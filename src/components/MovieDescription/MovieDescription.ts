@@ -1,5 +1,6 @@
 import "./style.css";
 
+import { NO_SYNOPSIS_MESSAGE } from "./constant";
 import createElement from "../../utils/createElement";
 import starFilled from "./star_filled.png";
 
@@ -14,7 +15,7 @@ class MovieDescription {
     const {
       genres = ["장르 없음"],
       rating = 0,
-      description = "등록된 시놉시스가 존재하지 않습니다.",
+      description = NO_SYNOPSIS_MESSAGE,
     } = option ?? {};
     const genreRatingParagraph = this.#createGenreRatingParagraph(
       genres,
@@ -22,7 +23,7 @@ class MovieDescription {
     );
     this.element.append(
       genreRatingParagraph,
-      description.trim() ? description : "등록된 시놉시스가 존재하지 않습니다."
+      description.trim() ? description : NO_SYNOPSIS_MESSAGE
     );
   }
 

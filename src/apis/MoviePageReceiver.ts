@@ -1,3 +1,9 @@
+import {
+  ORIGINAL_POSTER_SRC_HEADER,
+  POPULAR_URL_HEADER,
+  SMALL_POSTER_SRC_HEADER,
+} from "./constant";
+
 interface MovieInfo {
   title: string;
   imgSrc: string;
@@ -90,11 +96,6 @@ interface MoveDetailResponse {
   vote_count: number;
 }
 class MoviePageReceiver {
-  #popularPage = 1;
-  #posterSrcHeader = `https://image.tmdb.org/t/p/w220_and_h330_face/`;
-  #posterOriginSrcHeader = "https://image.tmdb.org/t/p/original/";
-  #popularUrlHeader =
-    "https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=";
   #options = {
     method: "GET",
     headers: {
@@ -107,7 +108,7 @@ class MoviePageReceiver {
     let nowPage = 1;
 
     return (async () => {
-      const url = `${this.#popularUrlHeader}${nowPage}`;
+      const url = `${POPULAR_URL_HEADER}${nowPage}`;
 
       nowPage++;
 
@@ -115,7 +116,7 @@ class MoviePageReceiver {
         const movieInfos = this.#getMovieInfosInPage(pageResponse);
         return {
           movieInfos,
-          isLastPage: this.#popularPage === pageResponse.total_pages,
+          isLastPage: nowPage >= pageResponse.total_pages,
         };
       });
     }).bind(this);
@@ -134,7 +135,7 @@ class MoviePageReceiver {
         const movieInfos = this.#getMovieInfosInPage(pageResponse);
         return {
           movieInfos,
-          isLastPage: this.#popularPage === pageResponse.total_pages,
+          isLastPage: nowPage >= pageResponse.total_pages,
         };
       });
     }).bind(this);
@@ -152,7 +153,7 @@ class MoviePageReceiver {
 
   #getMovieDetail(obj: MoveDetailResponse): MovieDetail {
     const title = obj.title;
-    const posterSrc = this.#posterOriginSrcHeader + obj.poster_path;
+    const posterSrc = ORIGINAL_POSTER_SRC_HEADER + obj.poster_path;
     const genres =
       obj.genres.length > 0
         ? obj.genres.map((genre) => genre.name)
@@ -171,7 +172,7 @@ class MoviePageReceiver {
     return tmdbPageResponse.results.map((result) => {
       return {
         title: result.title,
-        imgSrc: this.#posterSrcHeader + result.poster_path,
+        imgSrc: ORIGINAL_POSTER_SRC_HEADER + result.poster_path,
         rating: result.vote_average,
         id: result.id,
       };

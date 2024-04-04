@@ -1,5 +1,6 @@
 import "./style.css";
 
+import { MY_STAR_RATING } from "./constant";
 import MovieDescription from "../MovieDescription/MovieDescription";
 import MovieThumbnail from "../MovieThumbnail/createMovieThumbnail";
 import StarRating from "../StarRating/StarRating";
@@ -66,7 +67,7 @@ class MovieDetailWithRating {
     });
     const title = createElement("h2", {
       attrs: { class: "movie-detail-with-rating__rating-container__title" },
-      content: "내 별점",
+      content: MY_STAR_RATING,
     });
     const starRating = new StarRating({ starNumber: 5, increase: 2, start: 2 });
     if (userRating !== "0") starRating.value = Number(userRating);

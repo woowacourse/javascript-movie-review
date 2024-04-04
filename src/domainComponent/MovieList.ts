@@ -2,6 +2,7 @@ import "./style.css";
 
 import { MovieInfo } from "../components/MoviePreview/createMoviePreview";
 import MoviePosterBoard from "../components/MoviePosterBoard/MoviePosterBoard";
+import { NO_RELEAVANT_MOVIE_MESSAGE } from "./constants";
 import PrimaryButton from "../components/Button/createPrimaryButton";
 import SubTitle from "../components/SubTitle/SubTitle";
 import createElement from "../utils/createElement";
@@ -134,7 +135,7 @@ class MovieList {
           if (isLastPage) {
             hideElement(this.#seeMoreButton.element);
             if (this.#moviePosterBoard.isEmpty) {
-              this.#title.setTitle("관련 영화가 존재하지 않습니다.");
+              this.#title.setTitle(NO_RELEAVANT_MOVIE_MESSAGE);
             }
           } else revealElement(this.#seeMoreButton.element);
 
