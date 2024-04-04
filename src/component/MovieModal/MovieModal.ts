@@ -247,14 +247,14 @@ class MovieModal {
     const myVoteScoreNumberElement = $('.my-vote-score-number');
     const myVoteScoreTextElement = $('.my-vote-score-text');
     const voteScore = getUserVoteScoreFromLocalStorage(movieID);
-    const starCount = voteScore / 2 - 1;
+    const starCount = voteScore / 2;
 
     if (myVoteButtonWrapperElement) {
       myVoteButtonWrapperElement.childNodes.forEach((myVoteButton, index) => {
         const myVoteButtonElement = myVoteButton as HTMLButtonElement;
         const myVoteButtonImageElement =
           myVoteButtonElement.firstChild as HTMLImageElement;
-        if (index <= starCount && myVoteButtonImageElement) {
+        if (index + 1 <= starCount && myVoteButtonImageElement) {
           myVoteButtonImageElement.src = starFilledImage;
           return;
         }
