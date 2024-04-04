@@ -21,3 +21,16 @@ export interface Movie {
   vote_average: number;
   vote_count: number;
 }
+
+interface MovieGenre {
+  id: number;
+  name: string;
+}
+
+export interface MovieDetail {
+  genres: MovieGenre[];
+  overview: string;
+  poster_path: string;
+  title: string;
+  vote_average: number;
+}

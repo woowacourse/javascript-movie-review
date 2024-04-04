@@ -1,6 +1,8 @@
 import EventComponent from "./abstract/EventComponent";
 import QueryState from "../states/QueryState";
+
 import { $ } from "../utils/dom";
+
 import { HTMLTemplate, TargetId } from "../types/common";
 import IMAGES from "../images";
 
@@ -10,6 +12,7 @@ interface MovieHeaderProps {
   targetId: TargetId;
   queryState: QueryState;
 }
+
 export default class MovieHeader extends EventComponent {
   private queryState: QueryState;
 
@@ -23,28 +26,41 @@ export default class MovieHeader extends EventComponent {
       <h1 id="movie-list-logo"><img src="${IMAGES.logo}" alt="MovieList 로고" /></h1>
       <div class="search-box">
           <form id="search-form">
-            <input id="search-input" name="search-query" type="text" placeholder="검색" maxLength="${MOVIE_QUERY_MAX_LENGTH}"/>
-            <button class="search-button">검색</button>
+            <input id="search-input" class="search-input" name="search-query" type="text" placeholder="검색" maxLength="${MOVIE_QUERY_MAX_LENGTH}"/>
+            <button id="search-button" class="search-button">검색</button>
           </form>
       </div>
-  `;
+    `;
   }
 
   protected setEvent(): void {
-    const $form = $<HTMLFormElement>("search-form");
     const $movieListLogo = $<HTMLHeadElement>("movie-list-logo");
+    const $form = $<HTMLFormElement>("search-form");
 
-    $form?.addEventListener("submit", (event) =>
-      this.onSearchMovieSubmit(event, $form)
-    );
-
-    $movieListLogo?.addEventListener("click", this.onLogoClick.bind(this));
+    $movieListLogo?.addEventListener("click", this.onLogoClick);
+    $form?.addEventListener("submit", this.onSearchMovieSubmit);
   }
 
-  private onSearchMovieSubmit(event: Event, form: HTMLFormElement): void {
+  private onLogoClick = (): void => {
+    this.queryState.set("");
+    $<HTMLFormElement>("search-form")?.reset();
+  };
+
+  private onSearchMovieSubmit = (event: Event): void => {
+    const $searchInput = $<HTMLInputElement>("search-input");
+
     event.preventDefault();
 
-    const searchQuery = form["search-query"].value;
+    if (
+      $searchInput &&
+      ($searchInput.style.display === "none" ||
+        window.getComputedStyle($searchInput).display === "none")
+    ) {
+      this.showInputField($searchInput);
+      return;
+    }
+
+    const searchQuery = $searchInput?.value;
 
     if (!searchQuery) {
       alert("검색어를 입력해 주세요.");
@@ -52,11 +68,10 @@ export default class MovieHeader extends EventComponent {
     }
 
     this.queryState.set(searchQuery);
-  }
+  };
 
-  private onLogoClick(): void {
-    this.queryState.set("");
-
-    $<HTMLFormElement>("search-form")?.reset();
+  private showInputField($inputElement: HTMLInputElement): void {
+    $inputElement.style.display = "inline";
+    $inputElement.focus();
   }
 }

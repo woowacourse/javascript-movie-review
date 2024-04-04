@@ -1,10 +1,9 @@
-@import "./reset.css";
-
 * {
   box-sizing: border-box !important;
 }
 
 body {
+  max-width: 100%;
   font-size: 14px;
   background-color: #222222;
   color: #fff;
@@ -26,6 +25,12 @@ button {
 *:focus {
   outline: none;
 }
+
+.no-scroll {
+  overflow: hidden;
+  height: 100%;
+}
+
 .item-view,
 .item-test {
   width: 100%;
@@ -35,11 +40,13 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  width: 100%;
   margin: 0 auto;
 }
 
 .item-view h2 {
+  width: auto;
+  margin-left: 5%;
   font-size: 2rem;
   font-weight: bold;
   user-select: none;
@@ -50,8 +57,8 @@ button {
 .item-list {
   display: grid;
   margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  place-items: center;
+  grid-template-columns: repeat(4, 1fr);
   grid-row-gap: 48px;
 }
 
@@ -61,16 +68,25 @@ button {
 }
 
 .item-thumbnail {
-  border-radius: 8px;
   width: 180px;
   height: 270px;
+  border-radius: 8px;
   background-size: contain;
+  object-fit: cover;
+}
+
+.item-thumbnail:hover {
+  transition: box-shadow 0.3s ease;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
 .item-title {
-  margin-top: 16px;
+  width: 180px;
+  height: 2.2rem;
+  margin-top: 1rem;
   font-size: 1.2rem;
   font-weight: bold;
+  overflow: hidden;
 }
 
 .item-score {
@@ -127,9 +143,9 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -155,8 +171,12 @@ header > .search-box {
   border-radius: 4px;
 }
 
-header .search-box input {
+.search-input {
   border: 0;
+}
+
+.search-input-hidden {
+  display: none;
 }
 
 header .search-box .search-button {
@@ -169,8 +189,8 @@ header .search-box .search-button {
 
 .movie-list-title {
   overflow: hidden;
-  text-overflow: ellipsis;
   width: 100%;
+  text-overflow: ellipsis;
 }
 
 .unexpected-case-container {
@@ -180,11 +200,138 @@ header .search-box .search-button {
   transform: translate(-50%, -50%);
 }
 .unexpected-case-image {
-  object-fit: cover;
   width: 300px;
+  object-fit: cover;
 }
+
 .unexpected-case-message {
+  margin-top: 0.5rem;
   font-size: 1.5rem;
   text-align: center;
-  margin-top: 0.5rem;
+}
+
+/* 모달 */
+.modal:not(.modal-open) {
+  display: none;
+}
+
+.modal-open {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: fixed;
+  width: 80%;
+  height: 30rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  background-color: #212122;
+  line-height: 1.5rem;
+  color: #f1f1f1;
+}
+
+.modal-content {
+  height: 100%;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 10%;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid #333;
+}
+
+.modal-title {
+  flex-grow: 1;
+  font-size: 20px;
+  text-align: center;
+}
+
+.close-button {
+  padding: 0.3125rem 0.5rem;
+  border: none;
+  border-radius: 50%;
+  background-color: #383839;
+  color: #f1f1f1;
+}
+
+.modal-body {
+  display: flex;
+  height: 90%;
+  padding: 2rem;
+}
+
+.modal-image {
+  display: flex;
+  align-items: center;
+  margin-right: 1.5rem;
+}
+
+.modal-image img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.modal-image {
+  display: flex;
+  align-items: flex-start;
+  margin-right: 1.5rem;
+}
+
+.modal-info > div {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 1rem;
+}
+
+.movie-rating {
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+}
+
+.movie-overview {
+  overflow: auto;
+}
+
+/* 별점 */
+.star-rating-container {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 4rem;
+  margin-top: auto;
+  padding: 0.625rem;
+  border-radius: 1rem;
+  background-color: #383839;
+}
+
+.star-rating-container > div {
+  margin-right: 0.625rem;
 }

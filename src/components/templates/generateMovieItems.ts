@@ -1,22 +1,20 @@
+import { roundNumber } from "../../utils/roundNumber";
+import { BASE_POSTER_URL } from "../../constants/urls";
 import { HTMLTemplate } from "../../types/common";
-import IMAGES from "../../images";
 import { FetchedMovieData, Movie } from "../../types/movies";
-
-export type Path = string;
-
-const BASE_POSTER_URL = "https://image.tmdb.org/t/p/w220_and_h330_face";
+import IMAGES from "../../images";
 
 const generateMovieItem = (movie: Movie): HTMLTemplate => {
-  const { title, poster_path, vote_average } = movie;
+  const { id, title, poster_path, vote_average } = movie;
   return `
-    <li>
+    <li data-movie-id="${id}">
       <a href="#">
         <div class="item-card">
           <img class="item-thumbnail" src="${BASE_POSTER_URL}${poster_path}" loading="lazy" alt="${title}" />
           <p class="item-title">${title}</p>
           <p class="item-score">
             <img src="${IMAGES.starFilled}" alt="별점" />
-            ${vote_average}
+            ${roundNumber(vote_average, 1)}
           </p>
         </div>
       </a>
