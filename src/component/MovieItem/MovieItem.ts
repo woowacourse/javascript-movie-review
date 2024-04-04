@@ -1,6 +1,7 @@
 import starFilledImg from '../../image/star_filled.png';
 import posterEmptyImg from '../../image/poster_empty.png';
 import { IMAGE_BASE_URL } from '../../constant/setting';
+import { formatNumberToOneDecimalPlace } from '../../utility/converter';
 
 class MovieItem {
   #movieItemInfo;
@@ -31,7 +32,7 @@ class MovieItem {
     const scoreElement = liElement.querySelector('span');
     if (scoreElement) {
       scoreElement.textContent = String(
-        this.#movieItemInfo.vote_average.toFixed(1),
+        formatNumberToOneDecimalPlace(this.#movieItemInfo.vote_average),
       );
     }
 

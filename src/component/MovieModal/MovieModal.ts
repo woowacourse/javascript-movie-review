@@ -7,7 +7,12 @@ import starFilledImage from '../../image/star_filled.png';
 import starEmptyImage from '../../image/star_empty.png';
 import modalCloseImage from '../../image/modal_close.png';
 import posterEmptyImg from '../../image/poster_empty.png';
-import { ERROR_MESSAGE, IMAGE_BASE_URL, VOTE_SCORE_MESSAGES } from '../../constant/setting';
+import {
+  ERROR_MESSAGE,
+  IMAGE_BASE_URL,
+  VOTE_SCORE_MESSAGES,
+} from '../../constant/setting';
+import { formatNumberToOneDecimalPlace } from '../../utility/converter';
 
 class MovieModal {
   createMovieModalSection() {
@@ -214,8 +219,7 @@ class MovieModal {
       this.#updateMyVote(movieDetail.id);
     }
 
-    titleElement.textContent =
-      movieDetail.title || ERROR_MESSAGE.NO_TITLE;
+    titleElement.textContent = movieDetail.title || ERROR_MESSAGE.NO_TITLE;
 
     posterElement.src = movieDetail.poster_path
       ? `${IMAGE_BASE_URL}${movieDetail.poster_path}`
@@ -229,7 +233,7 @@ class MovieModal {
 
     const voteAverage = movieDetail.vote_average;
     voteAverageElement.textContent = voteAverage
-      ? String(voteAverage.toFixed(1))
+      ? String(formatNumberToOneDecimalPlace(voteAverage))
       : ERROR_MESSAGE.NO_VOTE;
 
     const overview = movieDetail.overview;
