@@ -8,6 +8,7 @@
 - [x] 로컬스토리지에 별점 저장 시 Map 자료구조 활용
 - [x] 스켈레톤 UI에서 linear-gradient, background-size -> @Keyfarames로
 - [x] entries.forEach 내의 콜백 함수에서 비동기 처리 x - for of 등으로
+- [x] 변경된 별점에 해당하는 부분만 업데이트
 
 ## 1단계 피드백 후 반영
 

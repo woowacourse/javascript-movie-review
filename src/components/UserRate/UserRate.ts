@@ -36,6 +36,33 @@ class UserRate {
     this.#divElement.appendChild(this.#generateText());
   }
 
+  #updateUserRate(selectedButtonId: any) {
+    const modalRate = document.querySelector('.modal-rate');
+    const modalRateText = document.querySelector('.modal-rate-text');
+
+    if (!modalRate || !modalRateText) return;
+
+    modalRate.replaceChildren(this.#generateRate());
+    modalRateText.replaceChildren(this.#generateText());
+    this.#updateStarBox(selectedButtonId);
+  }
+
+  #updateStarBox(selectedButtonId: any) {
+    const buttons = document.querySelectorAll('.modal-user-star-button');
+
+    buttons.forEach((button) => {
+      const img = button.querySelector('img');
+      const buttonId = Number(button.id.split('-')[1]);
+      const flag = buttonId <= Number(selectedButtonId.split('-')[1]) ? 'filled' : 'empty';
+
+      button.classList.remove('filled', 'empty');
+      button.classList.add(flag);
+
+      if (!img) return;
+      img.src = flag === 'filled' ? starImg : emptyStarImg;
+    });
+  }
+
   #generateSubtitle() {
     const span = document.createElement('span');
 
@@ -58,14 +85,15 @@ class UserRate {
   #generateButton() {
     const container = document.createElement('div');
 
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= 5; i += 1) {
       const button = document.createElement('button');
       const img = document.createElement('img');
+      const flag = i * 2 <= this.#rate ? 'filled' : 'empty';
 
       button.type = 'button';
       button.id = `star-${i}`;
-      button.classList.add('modal-user-star-button');
-      img.src = i * 2 <= this.#rate ? starImg : emptyStarImg;
+      button.classList.add('modal-user-star-button', flag);
+      img.src = flag === 'filled' ? starImg : emptyStarImg;
       button.appendChild(img);
 
       container.appendChild(button);
@@ -79,13 +107,13 @@ class UserRate {
   #addClickEvent(buttonContainer: HTMLDivElement) {
     buttonContainer.addEventListener('click', (event) => {
       const target = event.target as HTMLElement;
-      if (!target.closest('button')) return;
+      const selectedId = target.closest('button')?.id;
+      if (!selectedId) return;
 
-      const buttonId = target.closest('button')?.id.split('-')[1];
-      const rate = String(Number(buttonId) * 2);
+      this.#rate = Number(selectedId.split('-')[1]) * 2;
 
-      updateUserRateToLocalStorage(this.#movieId, rate);
-      this.#renderUserRate();
+      updateUserRateToLocalStorage(this.#movieId, String(this.#rate));
+      this.#updateUserRate(selectedId);
     });
   }
 
