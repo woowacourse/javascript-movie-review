@@ -64,6 +64,10 @@ button {
   flex-direction: column;
 }
 
+.item-card:hover {
+  cursor: pointer;
+}
+
 .item-thumbnail {
   border-radius: 8px;
   width: 180px;
@@ -222,8 +226,8 @@ header .search-box > .search-button {
   }
 }
 
-@media only screen and (min-width: 834px) and (max-width: 1280px) {
-  /* 834px 이상 ~ 1280px 이하: 태블릿 스타일 */
+@media only screen and (min-width: 768px) and (max-width: 1280px) {
+  /* 768px 이상 ~ 1280px 이하: 태블릿 스타일 */
   #app {
     margin-top: 108px;
   }
@@ -240,7 +244,7 @@ header .search-box > .search-button {
     display: grid;
     margin: 36px 0;
     grid-template-columns: repeat(3, 180px);
-    grid-column-gap: 64px;
+    grid-column-gap: 60px;
     grid-row-gap: 55px;
   }
 
@@ -249,8 +253,8 @@ header .search-box > .search-button {
   }
 }
 
-@media only screen and (min-width: 390px) and (max-width: 834px) {
-  /* 390px 이상 ~ 834px 이하: 모바일 스타일 */
+@media only screen and (min-width: 390px) and (max-width: 767px) {
+  /* 390px 이상 ~ 768px 이하: 모바일 스타일 */
   #app {
     margin-top: 100px;
   }
@@ -267,8 +271,8 @@ header .search-box > .search-button {
     display: grid;
     margin: 24px 0;
     grid-template-columns: repeat(2, 140px);
-    grid-column-gap: 36px;
-    grid-row-gap: 32px;
+    grid-column-gap: 50px;
+    grid-row-gap: 55px;
   }
 
   .item-thumbnail {
