@@ -33,6 +33,18 @@ describe("실제 api를 호출하는 테스트", () => {
       "해당 키워드에 해당하는 영화가 없습니다."
     );
   });
+
+  it("페이지 하단으로 스크롤을 옮기면 다음 영화 리스트 20개를 렌더링한다.", () => {
+    // given
+    const movieItemCount = 20;
+    cy.get(".item-list li").should("have.length", movieItemCount);
+
+    // when
+    cy.window().scrollTo("bottom");
+
+    // then
+    cy.get(".item-list li").should("have.length", movieItemCount * 2);
+  });
 });
 
 describe("인터셉터를 사용하는 테스트", () => {
