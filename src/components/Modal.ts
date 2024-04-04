@@ -5,6 +5,13 @@ import NoImage from '../images/no-image.png';
 import StarFilled from '../images/star_filled.png';
 import StarEmpty from '../images/star_empty.png';
 
+interface ModalContent {
+  title: string;
+  posterPath: any;
+  genres: string;
+  voteAverage: string;
+  overview: string;
+}
 export default class Modal {
   #isOpen = false;
 
@@ -29,12 +36,26 @@ export default class Modal {
     this.#removeExistingModal();
 
     const movieDetail = await this.#fetchMovieDetail();
+    const modalContent = this.#prepareModalContent(movieDetail);
 
-    const modalElement = this.#createModalElement(movieDetail);
+    const modalElement = this.#createModalElement(modalContent);
     document.body.appendChild(modalElement);
     this.#modalElement = modalElement;
 
     this.#setupModalEventListener(this.#modalElement);
+  }
+
+  #prepareModalContent(movieDetail: any) {
+    const { title, poster_path, genres, vote_average, overview } = movieDetail;
+
+    return {
+      title,
+      posterPath: poster_path ? `https://image.tmdb.org/t/p/w500${poster_path}` : NoImage,
+      genres: genres.map((genre: any) => genre.name).join(', '),
+
+      voteAverage: vote_average.toFixed(2),
+      overview: overview || '해당 영화의 줄거리 정보가 없습니다.',
+    };
   }
 
   get Element() {
@@ -56,19 +77,17 @@ export default class Modal {
   }
 
   // eslint-disable-next-line max-lines-per-function
-  #createModalElement(movieDetail: any) {
+  #createModalElement(content: ModalContent) {
+    const { title, posterPath, genres, voteAverage, overview } = content;
+
     const modalElement = document.createElement('div');
     modalElement.classList.add('modal', 'modal--open');
-
-    const posterPath = movieDetail.poster_path ? `https://image.tmdb.org/t/p/w500${movieDetail.poster_path}` : NoImage;
-    const genres = movieDetail.genres.map((genre: any) => genre.name).join(', ');
-    const overview = movieDetail.overview ? movieDetail.overview : '해당 영화의 줄거리 정보가 없습니다.';
 
     const modalHTML = /* html */ `
       <div class="modal-backdrop"></div>
       <div class="modal-container">
         <div class="modal-header">
-          <h3 class="detail-title text-detail-title">${movieDetail.title}</h3>
+          <h3 class="detail-title text-detail-title">${title}</h3>
           <button class="modal-close-button"></button>
         </div>
         <div class="modal-body">
@@ -79,7 +98,7 @@ export default class Modal {
                 <p class="detail-genres text-detail-contents">${genres}</p>
                 <p class="detail-vote_average text-detail-contents">
                   <img src=${StarFilled} alt="별점" class="star-start" />
-                  ${movieDetail.vote_average.toFixed(2)}
+                  ${voteAverage}
                 </p>
               </div>
               <p class="detail-overview text-detail-contents">${overview}</p>
@@ -87,11 +106,7 @@ export default class Modal {
             <div class="my-vote">
               <p class="my-vote-title text-detail-vote">내 별점</p>
               <div class="my-vote-body">
-                <button><img src=${StarEmpty} /></button>
-                <button><img src=${StarEmpty} /></button>
-                <button><img src=${StarEmpty} /></button>
-                <button><img src=${StarEmpty} /></button>
-                <button><img src=${StarEmpty} /></button>
+                ${Array(5).fill(`<button><img src=${StarEmpty} /></button>`).join('')}
               </div>
               <p class="my-vote-number text-detail-vote-contents">0</p>
               <p class="my-vote-description text-detail-vote-contents">남겨주세요</p>
@@ -118,48 +133,35 @@ export default class Modal {
     });
   }
 
-  // eslint-disable-next-line max-lines-per-function
   async openModal() {
     if (this.#isOpen) return;
 
     document.body.style.overflow = 'hidden';
     await this.generateModal();
-
     this.#VoteHandler();
-
     document.addEventListener('keydown', this.#handleKeyDown);
 
     this.#isOpen = true;
   }
 
-  // eslint-disable-next-line max-lines-per-function
   #VoteHandler() {
     const savedVotes = localStorage.getItem('myVoteResult');
-    if (savedVotes) {
-      const savedVotesJSON = JSON.parse(savedVotes);
-      this.#myVoteResult = savedVotesJSON;
-    }
+    const voteForMovie = savedVotes ? JSON.parse(savedVotes)[this.#movieId] : null;
 
-    const voteForMovie = this.#myVoteResult[this.#movieId];
     if (voteForMovie) {
       this.#updateVoteStar(voteForMovie);
       this.#updateVoteText(voteForMovie);
     }
   }
 
-  // eslint-disable-next-line max-lines-per-function
   #updateVoteStar(voteForMovie: number) {
     const starButtons = this.#modalElement?.querySelectorAll('.my-vote-body button img');
 
-    if (starButtons) {
-      starButtons.forEach((starButton, index) => {
-        if (index < voteForMovie / 2) {
-          starButton.setAttribute('src', StarFilled);
-        } else {
-          starButton.setAttribute('src', StarEmpty);
-        }
-      });
-    }
+    if (!starButtons) return;
+
+    starButtons.forEach((starButton, index) => {
+      starButton.setAttribute('src', index < voteForMovie / 2 ? StarFilled : StarEmpty);
+    });
   }
 
   #updateVoteText(voteForMovie: number) {
@@ -204,7 +206,6 @@ export default class Modal {
     }
   }
 
-  // eslint-disable-next-line max-lines-per-function
   handleStarClick(starIndex: number) {
     const myVoteNumber = this.#modalElement?.querySelector('.my-vote-number');
     const myVoteDescription = this.#modalElement?.querySelector('.my-vote-description');
@@ -214,17 +215,23 @@ export default class Modal {
     const starButtons = this.#modalElement?.querySelectorAll('.my-vote-body button img');
     if (!starButtons) return;
 
+    this.updateStarButtons(starButtons, starIndex);
+    this.updateVoteInfo(myVoteNumber, myVoteDescription, starIndex);
+  }
+
+  updateStarButtons(starButtons: NodeListOf<Element>, starIndex: number) {
     starButtons.forEach((starButton, index) => {
-      if (index <= starIndex) {
-        starButton.setAttribute('src', StarFilled);
-      } else {
-        starButton.setAttribute('src', StarEmpty);
-      }
+      starButton.setAttribute('src', index <= starIndex ? StarFilled : StarEmpty);
     });
+  }
+
+  updateVoteInfo(myVoteNumber: Element, myVoteDescription: Element, starIndex: number) {
+    const newMyVoteNumber = myVoteNumber as HTMLElement;
+    const newMyVoteDescription = myVoteDescription as HTMLElement;
 
     const myVoteKey = (starIndex + 1) * 2;
-    myVoteNumber.textContent = myVoteKey.toString();
-    myVoteDescription.textContent = VOTE[myVoteKey];
+    newMyVoteNumber.textContent = myVoteKey.toString();
+    newMyVoteDescription.textContent = VOTE[myVoteKey];
 
     this.#myVoteResult[this.#movieId] = myVoteKey;
     localStorage.setItem('myVoteResult', JSON.stringify(this.#myVoteResult));

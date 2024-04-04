@@ -13,7 +13,8 @@
     "consistent-return": "off",
     "no-return-await": "off",
     "no-plusplus": "off",
-
+    "camelcase": "off",
+    "object-curly-newline": "off",
   },
   "env": {
     "es6": true,
