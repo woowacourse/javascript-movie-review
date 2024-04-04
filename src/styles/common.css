@@ -68,13 +68,6 @@ header {
   margin-bottom: 48px;
 }
 
-@media only screen and (max-width: 834px) {
-  header > .search-box input {
-    width: 0px;
-    padding: 0px;
-  }
-}
-
 header h1 {
   cursor: pointer;
   user-select: none;
@@ -102,6 +95,19 @@ header > .search-box {
   border: 0;
 }
 
+.search-open {
+  width: 100px;
+  transition: width 0.3s ease;
+  z-index: 9;
+  border: 0;
+}
+
+.search-close {
+  width: 0px;
+  padding: 0px;
+  border: 0;
+}
+
 .search-button {
   width: 18px;
   height: 18px;
@@ -112,12 +118,6 @@ header > .search-box {
 #search-button-img {
   width: 18px;
   height: 18px;
-}
-
-.search-open {
-  width: 100px !important;
-  transition: width 0.3s ease;
-  z-index: 9;
 }
 
 /* ul */

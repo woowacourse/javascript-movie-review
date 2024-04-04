@@ -28,6 +28,7 @@ export default class SearchBox {
     input.classList.add('search-input');
     container.appendChild(input);
 
+    this.#observeSize(input);
     this.#searchBoxElement.appendChild(container);
   }
 
@@ -47,15 +48,32 @@ export default class SearchBox {
     this.#searchBoxElement.addEventListener('submit', (event) => {
       event.preventDefault();
       const target = event.target as HTMLFormElement;
-
       const input = document.querySelector('input[name=query]');
 
-      if (input?.getBoundingClientRect().width === 0) {
+      if (input?.classList.contains('search-close')) {
         input.classList.add('search-open');
+        input.classList.remove('search-close');
       } else {
         this.#onSearch(target.query.value);
       }
     });
+  }
+
+  #observeSize(element: HTMLElement) {
+    const observer = new ResizeObserver((entries) => {
+      const { width } = entries[0].contentRect;
+
+      if (width < 834) {
+        element.classList.add('search-close');
+        element.classList.remove('search-open');
+        element.classList.remove('search-input');
+      } else {
+        element.classList.remove('search-close');
+        element.classList.add('search-input');
+      }
+    });
+
+    observer.observe(document.documentElement);
   }
 
   get element() {
