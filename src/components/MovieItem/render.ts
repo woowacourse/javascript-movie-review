@@ -2,10 +2,9 @@ import createElement from '../../utils/createElement';
 import starImg from '../../../templates/star_filled.png';
 import formatToDecimalPlaces from '../../utils/formatToDecimalPlaces';
 import { BASE_IMAGE_URL } from '../../constants/api/api';
-import NoImage from '../ui/NoIamge';
+import NoImage from '../ui/NoImage';
 import { Movie } from '../../domain/movie';
-
-const THUMBNAIL_SIZE = 'w500';
+import { THUMBNAIL_SIZE } from '../../constants/ui';
 
 const createItemScore = (vote_average: number) => {
   const itemScoreContainer = createElement('div', { className: 'item-score-container' });
@@ -21,11 +20,10 @@ const createItemScore = (vote_average: number) => {
 const createItemImage = (posterPath: string, title: string) => {
   if (posterPath === null) return NoImage();
   const image = createElement('img', {
-    className: 'item-thumbnail skeleton',
+    className: 'item-thumbnail',
     src: `${BASE_IMAGE_URL}${THUMBNAIL_SIZE}${posterPath}`,
     loading: 'lazy',
     alt: `${title} 포스터 이미지`,
-    onload: toggleSkeleton,
   });
 
   return image;
@@ -36,8 +34,7 @@ const toggleSkeleton = (event: Event) => {
   thumbnail.classList.remove('skeleton');
 };
 
-export const createItemCardContent = (movie: Movie) => {
-  const { posterPath, title, voteAverage } = movie;
+export const createItemCardContent = ({ posterPath, title, voteAverage }: Movie) => {
   const itemImage = createItemImage(posterPath, title);
   const itemTitle = createElement('p', { className: 'item-title', textContent: title });
   const itemScore = createItemScore(voteAverage);
@@ -47,7 +44,7 @@ export const createItemCardContent = (movie: Movie) => {
 };
 
 export const renderHandler = (movie: Movie) => {
-  const li = createElement('li');
+  const li = createElement('li', { 'data-id': movie.id });
   const a = createElement('a');
   const itemCard = createElement('div', { className: 'item-card' });
   const itemCardContent = createItemCardContent(movie);

@@ -1,8 +1,8 @@
 import MovieListBanner from '../MovieListBanner/MovieListBanner';
 import isHTMLElement from '../../utils/isHTMLElement';
 import MovieItem from '../MovieItem/MovieItem';
-import ShowMoreButton from '../ShowMoreButton/ShowMoreButton';
 import { Movie } from '../../domain/movie';
+import createElement from '../../utils/createElement';
 
 export const createMovieItems = (movies: Movie[]) => {
   const ul = document.querySelector('ul');
@@ -20,9 +20,7 @@ const assembleContent = (ul: HTMLElement) => {
   if (!isHTMLElement(section)) return;
   const headerBanner = MovieListBanner();
   if (!headerBanner) return;
-  const createShowMoreButton = ShowMoreButton();
-  if (!isHTMLElement(ul)) return;
-  [headerBanner, ul, createShowMoreButton].forEach((item) => section.appendChild(item));
+  [headerBanner, ul].forEach((item) => section.appendChild(item));
 };
 
 export const renderHandler = (movies: Movie[]) => {

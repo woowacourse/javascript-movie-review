@@ -28,6 +28,7 @@ main {
 *:focus {
   outline: none;
 }
+
 .item-view,
 .item-test {
   width: 100%;
@@ -36,9 +37,10 @@ main {
 .item-view {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  width: 1200px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 0 20px;
 }
 
 .item-view h2 {
@@ -52,21 +54,41 @@ main {
 .item-list {
   display: grid;
   margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
-  grid-row-gap: 48px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 48px;
+  justify-items: center;
+  width: 100%;
+}
+
+.item-thumbnail-container {
+  width: 100%;
+  height: 270px;
+}
+
+@media screen and (max-width: 1024px) {
+  .item-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .item-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .item-card {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 180px;
 }
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
+  width: 100%;
   height: 270px;
-  background-size: contain;
+  object-fit: cover;
 }
 
 .item-title {
@@ -125,7 +147,7 @@ button.primary {
 }
 
 .item-card .skeleton {
-  /* background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0); */
+  width: 100%;
   background: linear-gradient(-90deg, #7d7d7d, #f0f0f0, #aaa, #f0f0f0);
   background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
@@ -147,7 +169,6 @@ button.primary {
 header {
   position: fixed;
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: rgba(1, 1, 1, 0.6);
   backdrop-filter: blur(20px);
@@ -157,6 +178,7 @@ header {
   align-items: center;
   padding: 0 20px;
   border-bottom: 1px solid rgb(71, 71, 71);
+  z-index: 1000;
 }
 
 header h1 {
@@ -172,10 +194,16 @@ header > .search-form {
   background: #fff;
   padding: 8px;
   border-radius: 4px;
+  display: flex;
+  align-items: center;
+  width: 300px;
+  transition: width 0.3s ease;
 }
 
 header .search-form > input {
   border: 0;
+  flex: 1;
+  margin-right: 8px;
 }
 
 header .search-form > .search-button {
@@ -184,6 +212,47 @@ header .search-form > .search-button {
   text-indent: -1000rem;
   background: url('./search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 767px) {
+  header > .search-form {
+    width: 40px;
+    padding: 8px;
+    justify-content: flex-end;
+  }
+
+  header .search-form > input {
+    width: 0;
+    padding: 0;
+    opacity: 0;
+    transition: width 0.3s ease, padding 0.3s ease, opacity 0.3s ease;
+  }
+
+  header .search-form:hover,
+  header .search-form:focus-within {
+    width: 300px;
+  }
+
+  header .search-form:hover > input,
+  header .search-form:focus-within > input {
+    width: 100%;
+    padding: 0 8px;
+    opacity: 1;
+  }
+
+  header .search-form > input::placeholder {
+    color: transparent;
+  }
+
+  header .search-form:hover > input::placeholder,
+  header .search-form:focus-within > input::placeholder {
+    color: #999;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+  }
 }
 
 .error-container {
@@ -248,4 +317,195 @@ header .search-form > .search-button {
 
   font-size: 1.5rem;
   font-weight: 900;
+}
+
+.movie-detail-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.movie-detail-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: solid 1px #7d7d7d;
+}
+
+.movie-detail-header h2 {
+  font-size: 24px;
+  margin: 0;
+  color: white;
+}
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+.movie-detail-content {
+  display: flex;
+}
+.movie-detail-thumbnail {
+  width: 30%;
+  margin-right: 20px;
+}
+.movie-detail-thumbnail img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+.movie-detail-info {
+  width: 70%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.movie-info-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.movie-genres-and-rating {
+  display: flex;
+  gap: 10px;
+}
+
+.movie-title {
+  font-size: 36px;
+  margin: 0 0 10px;
+}
+
+.description {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.bottom-info {
+  display: flex;
+  justify-content: space-between;
+  background-color: #555;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.my-score-container {
+  display: flex;
+  gap: 10px;
+}
+
+.bottom-info div {
+  display: flex;
+  align-items: center;
+}
+
+.bottom-info img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.movie-detail-container {
+  position: fixed;
+  height: 460px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 800px;
+  background-color: #111;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  line-height: 1.6;
+}
+
+@media screen and (max-width: 768px) {
+  .movie-genres-and-rating {
+    display: flex;
+    align-items: center;
+  }
+
+  .movie-detail-container {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: none;
+    width: 100%;
+    max-width: none;
+    height: 45%;
+    overflow-y: auto;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .movie-detail-thumbnail {
+    max-width: 1px;
+    max-height: 1px;
+    display: hidden;
+  }
+
+  .movie-detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .movie-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .close-btn {
+    top: 20px;
+    right: 20px;
+  }
+
+  .movie-detail-content {
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 80%;
+    line-height: 1.6;
+  }
+
+  .movie-detail-info {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: space-between;
+    justify-content: space-between;
+  }
+
+  .movie-detail-score-comment {
+    display: none;
+  }
+
+  .bottom-info {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.no-more-pages {
+  background-color: #191919;
+  padding: 20px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: #c8c8c8;
+  text-align: center;
 }

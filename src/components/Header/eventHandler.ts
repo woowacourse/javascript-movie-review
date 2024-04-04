@@ -2,9 +2,9 @@ import uiFeedBackManager from '../../services/UIFeedBackManager';
 import { API_ENDPOINT, API_OPTION } from '../../constants/api/api';
 import { createMovieItems } from '../MovieContainer/render';
 import removeHTMLElements from '../../utils/removeHTMLElements';
-import { addShowMoreButtonEventListener } from '../ShowMoreButton/eventHandler';
 import pageManager from '../../services/PageManager';
 import scrollToTop from '../../utils/scrollToTop';
+import addInfiniteScrollEventListener from '../../services/loadMorePage';
 
 const updateMovieListBanner = (keyword: string) => {
   const h2 = document.querySelector('h2');
@@ -17,7 +17,7 @@ const getMovieListDataByKeyword = async (keyword: string) => {
 
   if (moviePage) createMovieItems(moviePage.movies);
   pageManager.resetPage();
-  addShowMoreButtonEventListener('search', keyword);
+  addInfiniteScrollEventListener('search', keyword);
 };
 
 const validateAndLoadMovieList = (keyword: string) => {

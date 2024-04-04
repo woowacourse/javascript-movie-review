@@ -13,9 +13,12 @@ const createHeaderContainer = () => {
 };
 
 const createLogo = () => {
+  const HREF_VALUE = '/javascript-movie-review/dist';
+
   const a = createElement('a', {
-    href: 'http://localhost:8080',
+    href: HREF_VALUE,
   });
+
   const headerLogoImage = createElement('img', { src: headerLogo, alt: 'MovieList' });
   a.appendChild(headerLogoImage);
 
