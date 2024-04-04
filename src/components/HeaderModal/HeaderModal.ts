@@ -11,12 +11,10 @@ class HeaderModal extends Modal {
     contents?: (string | HTMLElement)[];
     isOpen?: boolean;
     title?: string;
-    closeAction?: (event?: Event) => void;
   }) {
     super(option);
     const header = this.#createHeader({
       title: option?.title,
-      closeAction: option?.closeAction,
     });
     this.container.prepend(header);
   }
@@ -25,32 +23,28 @@ class HeaderModal extends Modal {
     this.titleElement.textContent = title;
   }
 
-  #createHeader(option?: {
-    title?: string;
-    closeAction?: (event?: Event) => void;
-  }) {
-    const { title, closeAction } = option ?? {};
+  #createHeader(option?: { title?: string }) {
+    const { title } = option ?? {};
     const header = createElement("header", {
       attrs: { class: "modal--header" },
     });
 
     if (title) this.setTitle(title);
 
-    const closeButton = this.#createCloseButton(closeAction);
+    const closeButton = this.#createCloseButton();
 
     header.append(this.titleElement, closeButton);
 
     return header;
   }
 
-  #createCloseButton(closeAction?: (event?: Event) => void) {
+  #createCloseButton() {
     const closeButton = createElement<HTMLButtonElement>("button", {
       attrs: { class: "modal--close-button" },
       content: "X",
     });
 
     closeButton.addEventListener("click", this.close.bind(this));
-    if (closeAction) closeButton.addEventListener("click", closeAction);
 
     return closeButton;
   }

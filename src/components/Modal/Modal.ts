@@ -7,11 +7,14 @@ class Modal {
   protected container;
   protected contents = createElement("div");
   protected backdrop;
+  protected closeAction;
+
   constructor(option?: {
-    contents?: (HTMLElement | string)[];
+    contents?: (string | HTMLElement)[];
     isOpen?: boolean;
+    closeAction?: () => void;
   }) {
-    const { contents = [], isOpen = true } = option ?? {};
+    const { contents = [], isOpen = true, closeAction } = option ?? {};
     this.backdrop = createElement("div", {
       attrs: { class: "modal-backdrop" },
     });
@@ -24,6 +27,8 @@ class Modal {
     if (isOpen) this.open();
     if (!isOpen) this.close();
 
+    if (closeAction) this.closeAction = closeAction;
+
     this.#setEvent();
   }
 
@@ -33,6 +38,7 @@ class Modal {
 
   close() {
     this.element.classList.add("display-none");
+    if (this.closeAction) this.closeAction();
   }
 
   replaceContents(...elements: HTMLElement[]) {
