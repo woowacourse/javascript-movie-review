@@ -1,5 +1,4 @@
 function startInfiniteScroll(callback: any, observer$: HTMLElement) {
-  console.log(observer$);
   const options = {
     root: null,
     rootMargin: '0px 0px 0px 0px',
