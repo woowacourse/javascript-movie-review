@@ -406,6 +406,16 @@ header .search-box > .search-button {
   }
 }
 
+.move-top-button {
+  scale: 150%;
+  position: fixed;
+  border-radius: 20px;
+  bottom: 40px;
+  right: 40px;
+  z-index: 30;
+  border: 3px solid #222222;
+}
+
 #toast_message {
   opacity: 0;
   position: fixed;

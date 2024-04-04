@@ -20,6 +20,11 @@ const BUTTON = {
     innerText: '',
     classes: ['item-votestar'],
   } as IButton,
+
+  moveTop: {
+    innerText: '🔝',
+    classes: ['move-top-button'],
+  } as IButton,
 };
 
 const CONTAINER_TITLE = {
