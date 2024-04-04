@@ -1,7 +1,9 @@
 .search-box {
-  background   : #fff;
-  padding      : 8px;
-  border-radius: 4px;
+  background     : #fff;
+  padding        : 8px;
+  border-radius  : 4px;
+  display        : flex;
+  justify-content: space-between;
 }
 
 .search-box>input {
@@ -15,4 +17,23 @@
   text-indent    : -1000rem;
   background     : url("./search_button.png") transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+@media screen and (max-width:480px) {
+  .search-box>input {
+    display: none;
+  }
+
+  .search-box>.search-button {
+    pointer-events: none;
+  }
+
+  .search-box.clicked>.search-button {
+    pointer-events: painted;
+  }
+
+  .search-box.clicked>input {
+    display: inline-block;
+    width  : 100%;
+  }
 }

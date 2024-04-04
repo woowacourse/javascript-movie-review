@@ -1,6 +1,6 @@
 import "./style.css";
 
-import MovieThumbnail from "./createMovieThumbnail";
+import MovieThumbnail from "../MovieThumbnail/createMovieThumbnail";
 import createElement from "../../utils/createElement";
 import starFills from "./star_filled.png";
 
@@ -8,6 +8,7 @@ export interface MovieInfo {
   title: string;
   imgSrc: string;
   rating: number;
+  id: string;
 }
 
 class MoviePreview {

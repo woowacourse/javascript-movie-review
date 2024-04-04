@@ -1,4 +1,5 @@
 .item-card {
+  max-height    : 347px;
   display       : flex;
   flex-direction: column;
 }
@@ -11,14 +12,24 @@
 }
 
 .item-title {
+  display    : inline-block;
+  box-sizing : content-box !important;
+  height     : 42px;
   margin-top : 16px;
   font-size  : 1.2rem;
   font-weight: bold;
+
+  overflow     : hidden;
+  text-overflow: ellipsis;
+  white-space  : nowrap;
 }
 
 .item-score {
-  margin-top: 16px;
-  font-size : 1.2rem;
+  display    : block;
+  margin-top : 16px;
+  font-size  : 1.2rem;
+  display    : flex;
+  align-items: center;
 }
 
 .item-score::after {

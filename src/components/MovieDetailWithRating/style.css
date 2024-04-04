@@ -1,0 +1,96 @@
+.movie-detail-with-rating {
+  padding: 3vh;
+  width  : 826px;
+  height : 517px;
+
+  display        : flex;
+  flex-direction : column;
+  flex-wrap      : wrap;
+  justify-content: space-between
+}
+
+.movie-detail-with-rating>.movie-thumbnail {
+  margin-right: 30px;
+  height      : 433px;
+  width       : 292px;
+}
+
+.movie-detail-with-rating>.movie-thumbnail>.item-thumbnail {
+  height: 433px;
+  width : 292px;
+}
+
+.movie-detail-with-rating__not-poster-container {
+  height         : 433px;
+  width          : 438px;
+  display        : flex;
+  flex-direction : column;
+  justify-content: space-between;
+}
+
+.movie-detail-with-rating>.movie-thumbnail>.item-thumbnail.visibility-hidden-no-position {
+  width : 0px !important;
+  height: 0px !important;
+}
+
+
+.movie-detail-with-rating__rating-container {
+  width        : 438px;
+  height       : 64px;
+  top          : 465px;
+  left         : 356px;
+  padding      : 0px;
+  gap          : 12px;
+  border-radius: 16px;
+
+  opacity   : 0px;
+  background: #383839;
+
+
+  display        : flex;
+  flex-direction : row;
+  align-items    : center;
+  justify-content: center;
+}
+
+.movie-detail-with-rating>.movie-thumbnail>.skeleton {
+  background     : linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background-size: 400%;
+  animation      : skeleton-animation 5s infinite ease-out;
+  border-radius  : 8px;
+}
+
+@media screen and (max-width:850px) {
+
+  .modal>aside>header {
+    width: 100vw;
+  }
+
+  .modal>aside>div>section>.movie-thumbnail {
+    display: none;
+  }
+
+  .modal>aside>div>section>.movie-thumbnail {
+    display: none;
+  }
+
+  .modal>aside>div>section {
+    width: 100vw;
+  }
+
+  .modal>aside>div>section>.movie-detail-with-rating {
+    width  : 100vw;
+    display: flex;
+
+
+    align-items: center;
+  }
+
+  .modal>aside>div>section>.movie-detail-with-rating__not-poster-container>.movie-description {
+    width: 90vw;
+  }
+
+  .modal>aside>div>section>.movie-detail-with-rating__not-poster-container>.movie-detail-with-rating__rating-container {
+    width: 90vw;
+  }
+}

@@ -1,5 +1,7 @@
+import "./style.css";
+
 import createElement from "../../utils/createElement";
-import { createMovieThumbnailSkeleton } from "./utils/createMovieSkeleton";
+import { createMovieThumbnailSkeleton } from "../MoviePreview/utils/createMovieSkeleton";
 
 class MovieThumbnail {
   element = createElement<HTMLDivElement>("div");
@@ -16,9 +18,8 @@ class MovieThumbnail {
   #createImg(src: string, alt: string) {
     const img = createElement<HTMLImageElement>("img", {
       attrs: {
-        class: "item-thumbnail visibility-hidden-no-position",
+        class: "item-thumbnail display-none",
         src,
-        loading: "lazy",
         alt,
       },
     });
@@ -29,7 +30,7 @@ class MovieThumbnail {
     this.#img.onload = () => {
       this.#skeletonThumbnail.classList.add("display-none");
 
-      this.#img.classList.remove("visibility-hidden-no-position");
+      this.#img.classList.remove("display-none");
     };
   }
 }

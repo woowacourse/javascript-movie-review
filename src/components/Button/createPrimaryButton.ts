@@ -5,12 +5,12 @@ class PrimaryButton {
 
   constructor(options?: {
     content?: string;
-    type?: "full width";
+    type?: "full-width" | "opacity-zero";
     onClickFunc?: (event?: Event) => void;
   }) {
     const {
       content = "",
-      type = "full width",
+      type = "full-width",
       onClickFunc = () => {},
     } = options ?? {};
     this.element = createElement<HTMLButtonElement>("button", {

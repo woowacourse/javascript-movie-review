@@ -1,5 +1,11 @@
 * {
-  box-sizing: border-box !important;
+  box-sizing        : border-box !important;
+  -ms-overflow-style: none;
+  scrollbar-width   : none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
 }
 
 body {
@@ -67,8 +73,16 @@ button.primary {
   display: none !important;
 }
 
+.display-inline-block {
+  display: inline-block !important
+}
+
 .visibility-hidden-no-position {
   visibility: hidden;
   width     : 0 !important;
   height    : 0 !important;
+}
+
+.opacity-zero {
+  opacity: 0;
 }
