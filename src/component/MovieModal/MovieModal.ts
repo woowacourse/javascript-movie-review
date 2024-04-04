@@ -170,12 +170,14 @@ class MovieModal {
       movieItemULElement.addEventListener('click', () => {
         modalElement?.classList.add('modal-open');
         modalElement?.classList.remove('modal-close');
+        document.body.style.overflow = 'hidden';
       });
     }
     if (modalCancelButtonElement) {
       modalCancelButtonElement.addEventListener('click', () => {
         modalElement?.classList.add('modal-close');
         modalElement?.classList.remove('modal-open');
+        document.body.style.overflow = 'unset';
       });
     }
   }
