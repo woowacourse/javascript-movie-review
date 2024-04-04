@@ -5,6 +5,9 @@
   --white: #ffffff;
   --modal-shadow: rgba(0, 0, 0, 0.7);
   --red: #f33f3f;
+  --mobile-width: 674px;
+  --tablet-width: 820px;
+  --notebook-width: 1220px;
 }
 
 * {

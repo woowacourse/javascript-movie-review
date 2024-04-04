@@ -11,11 +11,11 @@
   width: 1200px;
   margin: 0 auto;
 
-  @media screen and (max-width: 1220px) {
+  @media screen and (max-width: var(--notebook-width)) {
     padding: 0 20px 0 20px;
   }
 
-  @media screen and (max-width: 674px) {
+  @media screen and (max-width: var(--mobile-width)) {
     .item-view {
       width: max-content;
     }
@@ -34,11 +34,11 @@
   grid-template-columns: repeat(4, 180px);
   grid-column-gap: 160px;
   grid-row-gap: 48px;
-  @media screen and (max-width: 1220px) {
+  @media screen and (max-width: var(--notebook-width)) {
     grid-template-columns: repeat(3, 180px);
   }
 
-  @media screen and (max-width: 674px) {
+  @media screen and (max-width: var(--mobile-width)) {
     grid-template-columns: repeat(2, 180px);
   }
 
