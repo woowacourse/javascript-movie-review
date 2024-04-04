@@ -6,7 +6,7 @@ class MovieSearchInput {
       class: 'search-box',
     });
     const input = createElement('input', {
-      type: 'text',
+      type: 'search',
       class: 'search-input',
       placeholder: '검색',
       maxlength: '30',
