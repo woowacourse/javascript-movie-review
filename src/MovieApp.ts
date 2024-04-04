@@ -48,7 +48,10 @@ class MovieApp {
 
     await this.renderMainContents({ renderType: RENDER_TYPE.POPULAR });
 
-    infiniteScroll.startObserving(this, { renderType: RENDER_TYPE.POPULAR, threshold: INFINITE_SCROLL.THRESHOLD });
+    infiniteScroll.startObserving(this, {
+      renderType: RENDER_TYPE.POPULAR,
+      threshold: INFINITE_SCROLL.THRESHOLD,
+    });
   }
 
   updateMainHtml(titleMessage: string) {
@@ -126,6 +129,7 @@ class MovieApp {
   createScrollEnd() {
     const div = document.createElement('div');
     div.id = 'scroll-end-box';
+    div.className = 'scroll-end-box';
     return div;
   }
 
@@ -182,7 +186,11 @@ class MovieApp {
 
       this.updateMainHtml(SEARCH_MOVIE_TITLE(input));
       await this.renderMainContents({ renderType: RENDER_TYPE.SEARCH, input });
-      infiniteScroll.startObserving(this, { renderType: RENDER_TYPE.SEARCH, input, threshold: INFINITE_SCROLL.THRESHOLD });
+      infiniteScroll.startObserving(this, {
+        renderType: RENDER_TYPE.SEARCH,
+        input,
+        threshold: INFINITE_SCROLL.THRESHOLD,
+      });
     }
   }
 
