@@ -46,6 +46,7 @@ const movieItemManager = {
       movieList[0].genre_ids = genreNames.join(', ');
       $('main')?.appendChild(modalManager.render(movieList[0]));
 
+      this.lockScroll();
       dispatchCustomEvent<MovieScore>('openModal', { movie: movieList[0] });
     });
   },
@@ -56,6 +57,15 @@ const movieItemManager = {
     const result = data.genres.find((genre: { id: number; name: string }) => genre.id === genreID);
 
     return result.name;
+  },
+
+  lockScroll() {
+    document.body.style.cssText = `
+      position:fixed;
+      top: -${window.scrollY}px;
+      overflow-y: scroll;
+      width: 100%;
+    `;
   },
 };
 

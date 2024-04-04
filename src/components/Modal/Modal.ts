@@ -45,16 +45,20 @@ const modalManager = {
   },
 
   handleModal(modal: HTMLDivElement) {
-    this.clickClose(modal);
+    this.closeModal(modal);
     this.useEscClose(modal);
   },
 
-  clickClose(modal: HTMLDivElement) {
+  closeModal(modal: HTMLDivElement) {
     modal?.addEventListener('click', (e) => {
       const element = e.target as HTMLElement;
 
-      if (element.className === 'modal-backdrop' || element.className === 'modal-close-btn') {
+      if (
+        element.className === ('modal-backdrop' || 'modal-close-btn') ||
+        element.parentElement?.className === 'modal-close-btn'
+      ) {
         modal.remove();
+        this.openScroll();
       }
     });
   },
@@ -65,6 +69,12 @@ const modalManager = {
         modal.remove();
       }
     });
+  },
+
+  openScroll() {
+    const scrollY = document.body.style.top;
+    document.body.style.cssText = '';
+    window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
   },
 };
 
