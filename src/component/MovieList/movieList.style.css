@@ -63,7 +63,7 @@
   text-align: center;
   font-size: 25px;
   font-weight: bold;
-  color: white;
+  color: var(--white);
 }
 
 .error-wrapper {

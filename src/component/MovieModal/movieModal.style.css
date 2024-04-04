@@ -7,7 +7,7 @@
 }
 
 .modal-backdrop {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: var(--modal-shadow);
   width: 100vw;
   height: 100vh;
   position: fixed;
@@ -24,8 +24,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  background-color: #212122;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 4px;
+  background-color: var(--dark-gray);
+  box-shadow: var(--modal-shadow) 0px 4px 4px;
   align-items: flex-start;
   overflow: hidden;
 }
@@ -37,7 +37,7 @@
   justify-content: space-between;
   align-items: center;
   padding-right: 22px;
-  border-bottom: 1px solid #f1f1f140;
+  border-bottom: 1px solid var(--light-gray);
 }
 
 .modal-title {
@@ -105,7 +105,7 @@
   align-items: center;
   gap: 12px;
   padding-left: 16px;
-  background-color: #383839;
+  background-color: var(--gray);
   border-radius: 16px;
 }
 
