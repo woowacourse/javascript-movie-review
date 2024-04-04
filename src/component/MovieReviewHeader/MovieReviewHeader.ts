@@ -7,7 +7,7 @@ const MovieReviewHeader = {
       class: '.home-link',
     });
     const linkElement = createElement('a', {
-      href: '/',
+      href: '/javascript-movie-review/dist/',
     });
     const logoElement = createElement('img', {
       src: `${logoImg}`,
