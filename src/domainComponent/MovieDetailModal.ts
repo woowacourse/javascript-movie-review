@@ -31,19 +31,12 @@ class MovieDetailModal extends HeaderModal {
     this.replaceContents(this.#skeleton);
     this.setTitle(" ");
     this.#fetchFunc(movieId)
-      .then((movieDetail) => {
-        this.setTitle(movieDetail.title);
-        this.#movieDetail = new MovieDetailWithRating({
-          ...movieDetail,
-          thumbnailSrc: movieDetail.posterSrc,
-          userRating:
-            this.#storage.getMovieInfo(movieId)?.userRating.toString() ?? "0",
-          setRatingAction: (rating: number) => {
-            this.#storage.setMovieInfo.bind(this.#storage)(movieId, {
-              userRating: rating,
-            });
-          },
-        });
+      .then((response) => {
+        this.setTitle(response.title);
+        this.#movieDetail = this.#createMovieDetailWithRating(
+          response,
+          movieId
+        );
         this.replaceContents(this.#movieDetail.element);
       })
       .catch((e: Error) => {
@@ -51,6 +44,29 @@ class MovieDetailModal extends HeaderModal {
           createNetworkFallback(() => this.setMovieDetail.bind(this)(movieId))
         );
       });
+  }
+
+  #createMovieDetailWithRating(
+    response: {
+      posterSrc: string;
+      title: string;
+      genres: string[];
+      rating: number;
+      description?: string;
+    },
+    movieId: string
+  ) {
+    return new MovieDetailWithRating({
+      ...response,
+      thumbnailSrc: response.posterSrc,
+      userRating:
+        this.#storage.getMovieInfo(movieId)?.userRating.toString() ?? "0",
+      setRatingAction: (rating: number) => {
+        this.#storage.setMovieInfo.bind(this.#storage)(movieId, {
+          userRating: rating,
+        });
+      },
+    });
   }
 }
 

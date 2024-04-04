@@ -37,9 +37,57 @@ interface MovieInfoInPage {
 interface MovieDetail {
   posterSrc: string;
   title: string;
-  genres: [];
+  genres: string[];
   rating: number;
   description?: string;
+}
+
+interface MoveDetailResponse {
+  adult: boolean;
+  backdrop_path: string;
+  belongs_to_collection: {
+    id: number;
+    name: string;
+    poster_path: string;
+    backdrop_path: string;
+  };
+  budget: number;
+  genres: {
+    id: number;
+    name: string;
+  }[];
+  homepage: string;
+  id: number;
+  imdb_id: string;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  production_companies: {
+    id: number;
+    logo_path: string;
+    name: string;
+    origin_country: string;
+  }[];
+  production_countries: {
+    iso_3166_1: string;
+    name: string;
+  }[];
+  release_date: string;
+  revenue: number;
+  runtime: number;
+  spoken_languages: {
+    english_name: string;
+    iso_639_1: string;
+    name: string;
+  }[];
+  status: string;
+  tagline: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
 }
 class MoviePageReceiver {
   #popularPage = 1;
@@ -101,10 +149,13 @@ class MoviePageReceiver {
     return detail;
   }
 
-  #getMovieDetail(obj: any): MovieDetail {
+  #getMovieDetail(obj: MoveDetailResponse): MovieDetail {
     const title = obj.title;
     const posterSrc = this.#posterOriginSrcHeader + obj.poster_path;
-    const genres = obj.genres?.map((genre: any) => genre.name) ?? ["장르 없음"];
+    const genres =
+      obj.genres.length > 0
+        ? obj.genres.map((genre) => genre.name)
+        : ["장르 없음"];
     const rating = obj.vote_average;
     const description = obj.overview;
 
