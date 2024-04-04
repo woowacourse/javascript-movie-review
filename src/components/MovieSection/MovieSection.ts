@@ -1,21 +1,21 @@
-import Component from "../../common/Component";
-
-import MovieListContainer from "./MovieListContainer";
+import Component from "../common/Component";
+import MovieListContainer from "../MovieListContainer/MovieListContainer";
 
 import { $ } from "../../utils/dom";
+import { Optional } from "../../types/utility";
 
-export default class MovieSection extends Component<{}, {}> {
-  private $container: MovieListContainer | undefined;
+import "./MovieSection.css";
 
-  private searchKeyword: string | undefined;
+export default class MovieSection extends Component {
+  private searchKeyword: Optional<string>;
 
   protected getTemplate() {
     return /*html*/ `
       <div id="movie-list">
-        <h2 id="main-title"></h2>
+        <h2 id="main-title" class="font-bold select-none main-title"></h2>
       </div>
-      <div id="empty-result" class="empty-result hidden"></div>
-      <button id="next-button" class="btn primary full-width">더 보기</button>
+      <ul id="empty-result" class="flex flex-col text-center text-base hidden empty-result"></ul>
+      <div id="scroll-trigger" class="h-5 full-width"></div>
     `;
   }
 
@@ -31,15 +31,7 @@ export default class MovieSection extends Component<{}, {}> {
     const $div = $<HTMLDivElement>("#movie-list");
     if (!$div) return;
 
-    this.$container = new MovieListContainer($div, { searchKeyword: this.searchKeyword });
-  }
-
-  protected setEvent(): void {
-    const button = $<HTMLButtonElement>("#next-button");
-
-    button?.addEventListener("click", () => {
-      this.$container?.handleRenderMovieList();
-    });
+    new MovieListContainer($div, { searchKeyword: this.searchKeyword });
   }
 
   private renderMainTitle() {

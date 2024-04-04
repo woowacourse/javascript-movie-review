@@ -1,0 +1,5 @@
+@media screen and (max-width: 677px) {
+  .rating-message {
+    display: none;
+  }
+}

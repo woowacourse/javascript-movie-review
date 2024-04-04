@@ -1,0 +1,49 @@
+.item-thumbnail {
+  height: 16.875rem;
+  width: 11.25rem;
+}
+
+.item-title {
+  margin-top: 1rem;
+
+  font-size: 1.125rem;
+  line-height: 1.6875rem;
+}
+
+.item-score {
+  margin-top: 1rem;
+
+  font-size: 1.125rem;
+  line-height: 1.6875rem;
+
+  gap: 0.5rem;
+}
+
+.empty-result {
+  font-size: 1.125rem;
+  line-height: 2.25rem;
+}
+
+@media screen and (max-width: 677px) {
+  .item-thumbnail {
+    width: 8.75rem;
+    height: 13.75rem;
+  }
+
+  .item-title {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .item-score {
+    margin-top: 0.5rem;
+
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .empty-result {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
+}

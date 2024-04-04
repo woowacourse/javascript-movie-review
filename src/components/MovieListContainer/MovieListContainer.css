@@ -1,0 +1,24 @@
+.item-list {
+  display: grid;
+  margin: 3rem 0;
+
+  grid-template-columns: repeat(4, 11.25rem);
+  grid-column-gap: 4rem;
+  grid-row-gap: 3rem;
+}
+
+@media screen and (max-width: 1220px) {
+  .item-list {
+    margin: 36px 0;
+    grid-template-columns: repeat(3, 180px);
+    grid-column-gap: 64px;
+  }
+}
+
+@media screen and (max-width: 677px) {
+  .item-list {
+    margin: 24px 0;
+    grid-template-columns: repeat(2, 140px);
+    grid-column-gap: 64px;
+  }
+}
