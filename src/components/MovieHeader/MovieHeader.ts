@@ -1,13 +1,19 @@
 import SearchBox from '../SearchBox/SearchBox';
 import { logo } from '../../resources';
+import Button from '../Button/Button';
+import { BUTTONS } from '../../constants/INFORMATION';
+import './MovieHeader.css';
 
 const MovieHeader = {
   create(logoImgOnclick: () => void, searchBoxOnClick: () => void) {
     const header = document.createElement('header');
+
     const logoImgContainer = this.createLogoImgContainer(logoImgOnclick);
-    const searchBox = SearchBox.create(searchBoxOnClick);
+    const searchCloseButton = Button.create(BUTTONS.searchClose, () => header.classList.remove('clicked'));
+    const searchBox = SearchBox.create(header, searchBoxOnClick);
 
     header.appendChild(logoImgContainer);
+    header.appendChild(searchCloseButton);
     header.appendChild(searchBox);
 
     return header;
@@ -17,8 +23,8 @@ const MovieHeader = {
     const logoImgContainer = document.createElement('h1');
     const logoImg = document.createElement('img');
 
-    logoImg.setAttribute('src', logo);
-    logoImg.setAttribute('alt', 'MovieList 로고');
+    logoImg.src = logo;
+    logoImg.alt = 'MovieList 로고';
 
     logoImgContainer.appendChild(logoImg);
     logoImgContainer.addEventListener('click', logoImgOnclick);

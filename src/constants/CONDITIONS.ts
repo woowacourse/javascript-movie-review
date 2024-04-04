@@ -1,6 +1,7 @@
 const CONDITIONS = {
-  movieItemCount: 20,
   popularMoviesTotalPage: 500,
+  supplement: 1000,
+  mobileViewWidth: 750,
 };
 
 export default CONDITIONS;

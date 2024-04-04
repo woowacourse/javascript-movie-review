@@ -1,12 +1,11 @@
-import CONDITIONS from '../../constants/CONDITIONS';
+import { MOVIE_ITEM } from '../../../constants/INFORMATION';
+import './MovieItemsSkeleton.css';
 
 const MovieitemsSkeleton = {
-  create(): HTMLUListElement {
-    const movieItems = document.createElement('ul');
+  create(): DocumentFragment {
+    const movieItems = document.createDocumentFragment();
 
-    movieItems.classList.add('item-list');
-
-    Array.from({ length: CONDITIONS.movieItemCount }).forEach(() => {
+    Array.from({ length: MOVIE_ITEM.count }).forEach(() => {
       movieItems.appendChild(this.createMovieItemSkeleton());
     });
 
@@ -16,21 +15,9 @@ const MovieitemsSkeleton = {
   createMovieItemSkeleton() {
     const movieItem = document.createElement('li');
 
-    const movieItemLink = this.createMovieItemLink(this.createMovieItemCardSkeleton());
-
-    movieItem.appendChild(movieItemLink);
+    movieItem.appendChild(this.createMovieItemCardSkeleton());
 
     return movieItem;
-  },
-
-  createMovieItemLink(movieItemCard: HTMLElement) {
-    const movieItemLink = document.createElement('a');
-
-    movieItemLink.setAttribute('href', '#');
-
-    movieItemLink.appendChild(movieItemCard);
-
-    return movieItemLink;
   },
 
   createMovieItemCardSkeleton() {

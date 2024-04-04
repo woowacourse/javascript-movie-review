@@ -1,20 +1,28 @@
 import { fetchPopularMovies, fetchSearchMovies } from '../../domain/Movies/Request/sendRequest';
-import { BUTTONS, CONTAINER_TITLE } from '../../constants/INFORMATION';
+import { CONTAINER_TITLE } from '../../constants/INFORMATION';
 import MovieItems from '../MovieItems/MovieItems';
 import ResponseData from '../../interfaces/ResponseData';
-import MovieitemsSkeleton from '../MovieItems/MovieItemsSkeleton';
+import MovieitemsSkeleton from '../Skeleton/MovieItemsSkeleton/MovieItemsSkeleton';
 import SearchValidator from '../../domain/Validator/SearchValidator';
 import ToastPopup from '../ToastPopup/ToastPopup';
 import CONDITIONS from '../../constants/CONDITIONS';
-import Button from '../Button/Button';
+import MovieItemDetailModalInstance from '../../typeAliases/MovieItemDetailModalInstance';
+import throttle from '../../utils/throttle';
+import './ItemView.css';
 
 class ItemView {
-  #page: number;
+  #page: number = 0;
+  #totalPages: number = 1;
+  #searchValue: string = '';
   #itemView = document.createElement('section');
+  #itemList = document.createElement('ul');
+  #moiveItemDetailModal: MovieItemDetailModalInstance;
 
-  constructor() {
-    this.#page = 0;
+  constructor(moiveItemDetailModal: MovieItemDetailModalInstance) {
     this.#itemView.classList.add('item-view');
+    this.#itemList.classList.add('item-list');
+
+    this.#moiveItemDetailModal = moiveItemDetailModal;
 
     this.createItemView(CONTAINER_TITLE.popular);
   }
@@ -23,16 +31,26 @@ class ItemView {
     return this.#itemView;
   }
 
-  createItemView(itemViewTitle: string, search?: string) {
+  createItemView(itemViewTitle: string) {
     this.#page = 0;
     this.#itemView.replaceChildren();
-
-    const button = Button.create(BUTTONS.showMore, () => this.mountItems(button, search));
+    this.#itemList.replaceChildren();
 
     this.#itemView.appendChild(this.createTitle(itemViewTitle));
-    this.#itemView.appendChild(button);
+    this.#itemView.appendChild(this.#itemList);
 
-    this.mountItems(button, search);
+    this.createMovieItems();
+    this.setScrollHandler();
+  }
+
+  setScrollHandler() {
+    window.addEventListener(
+      'scroll',
+      throttle(() => {
+        if (window.innerHeight + window.scrollY + CONDITIONS.supplement >= document.body.offsetHeight)
+          this.createMovieItems();
+      }, 1000),
+    );
   }
 
   createTitle(containerTitle: string) {
@@ -43,30 +61,45 @@ class ItemView {
     return title;
   }
 
-  async mountItems(button: HTMLElement, search?: string) {
-    this.#page++;
-
+  createSkeleton() {
     const skeleton = MovieitemsSkeleton.create();
-    button.insertAdjacentElement('beforebegin', skeleton);
+    const skeletonList = skeleton.querySelectorAll('li');
 
-    const movieListData: ResponseData = await this.getMovieListData(search);
-    MovieItems.replaceSkeletons(skeleton, movieListData);
+    this.#itemList.appendChild(skeleton);
 
-    if (this.#page === movieListData.total_pages || this.#page === CONDITIONS.popularMoviesTotalPage) {
-      button.remove();
-    }
+    return skeletonList;
   }
 
-  async getMovieListData(search?: string) {
-    if (search) {
-      return await fetchSearchMovies(this.#page, search);
+  async createMovieItems() {
+    if (this.#page === this.#totalPages || this.#page === CONDITIONS.popularMoviesTotalPage) return;
+
+    const skeletonList = this.createSkeleton();
+
+    const moviesData: ResponseData = await this.getMoviesData();
+    this.#totalPages = moviesData.total_pages;
+
+    MovieItems.replaceSkeletons({
+      skeletonList,
+      moviesData,
+      moiveItemDetailModal: this.#moiveItemDetailModal,
+      itemList: this.#itemList,
+    });
+  }
+
+  async getMoviesData() {
+    this.#page++;
+
+    if (this.#searchValue) {
+      return await fetchSearchMovies(this.#page, this.#searchValue);
     }
     return await fetchPopularMovies(this.#page);
   }
 
   showPopularMovies() {
+    this.#searchValue = '';
+
     const searchBoxInput = document.querySelector('input');
-    if (searchBoxInput) searchBoxInput.value = '';
+    if (searchBoxInput) searchBoxInput.value = this.#searchValue;
 
     this.createItemView(CONTAINER_TITLE.popular);
   }
@@ -76,7 +109,9 @@ class ItemView {
       const trimmedSearchInputText = document.querySelector('input')?.value.replace(/ +/g, ' ').trim();
 
       if (trimmedSearchInputText) {
-        this.createItemView(`"${trimmedSearchInputText}"${CONTAINER_TITLE.searchResult}`, trimmedSearchInputText);
+        this.#searchValue = trimmedSearchInputText;
+
+        this.createItemView(`"${trimmedSearchInputText}"${CONTAINER_TITLE.searchResult}`);
       }
       if (!trimmedSearchInputText) SearchValidator.validate();
     } catch (e) {

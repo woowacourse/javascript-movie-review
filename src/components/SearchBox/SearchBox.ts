@@ -1,11 +1,15 @@
+import CONDITIONS from '../../constants/CONDITIONS';
 import { BUTTONS } from '../../constants/INFORMATION';
 import Button from '../Button/Button';
 
 const SearchBox = {
-  create(onSearching: () => void) {
+  create(header: HTMLElement, onSearching: () => void) {
     const searchBox = document.createElement('div');
+
     const searchInput = this.createSearchInput();
-    const searchButton = Button.create(BUTTONS.search, onSearching);
+    const searchButton = Button.create(BUTTONS.search, () => {
+      this.handleSearchButtonOnClick(header, () => onSearching());
+    });
 
     searchBox.classList.add('search-box');
 
@@ -24,10 +28,22 @@ const SearchBox = {
   createSearchInput() {
     const searchInput = document.createElement('input');
 
-    searchInput.setAttribute('type', 'text');
-    searchInput.setAttribute('placeholder', '검색');
+    searchInput.type = 'text';
+    searchInput.placeholder = '검색';
 
     return searchInput;
+  },
+
+  handleSearchButtonOnClick(header: HTMLElement, onSearching: () => void) {
+    if (window.innerWidth > CONDITIONS.mobileViewWidth) onSearching();
+
+    if (window.innerWidth <= CONDITIONS.mobileViewWidth && header.classList.contains('clicked')) {
+      onSearching();
+    }
+
+    if (window.innerWidth <= CONDITIONS.mobileViewWidth) {
+      header.classList.add('clicked');
+    }
   },
 };
 

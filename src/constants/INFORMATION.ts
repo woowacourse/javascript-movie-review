@@ -10,6 +10,16 @@ const BUTTONS = {
     innerText: '더 보기',
     classList: ['btn', 'primary', 'full-width'],
   } as ButtonData,
+
+  modalClose: {
+    innerText: 'X',
+    classList: ['movie-item-detail_close-button'],
+  } as ButtonData,
+
+  searchClose: {
+    innerText: 'Ｘ',
+    classList: ['search-close-button'],
+  } as ButtonData,
 };
 
 const CONTAINER_TITLE = {
@@ -17,4 +27,26 @@ const CONTAINER_TITLE = {
   searchResult: ' 검색 결과',
 };
 
-export { BUTTONS, CONTAINER_TITLE };
+const MY_RATING = {
+  title: '내 별점',
+  default: '0' as '0',
+  starCount: 5,
+  ment: {
+    0: '이 영화 어떤가요?',
+    2: '최악이예요',
+    4: '별로예요',
+    6: '보통이에요',
+    8: '재미있어요',
+    10: '명작이에요',
+  },
+};
+
+const EMPTY_OVERVIEW = '해당 영화는 줄거리가 존재하지 않습니다.';
+
+const MOVIE_ITEM = {
+  count: 20,
+};
+
+const STORAGE_KEY = 'userMovies';
+
+export { BUTTONS, CONTAINER_TITLE, MY_RATING, EMPTY_OVERVIEW, MOVIE_ITEM, STORAGE_KEY };
