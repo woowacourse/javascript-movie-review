@@ -1,3 +1,5 @@
+import ratingMessages from '../fixtures/rating-messages.json';
+
 describe('영화 리스트 E2E 테스트', () => {
   beforeEach(() => {
     // https://docs.cypress.io/api/commands/intercept
@@ -29,7 +31,7 @@ describe('영화 리스트 E2E 테스트', () => {
   
     it('인기 있는 영화가 로딩 된 후에는 skeleton UI가 다 사라지고 영화 리스트를 20개 보여준다.', () => {
       cy.wait('@getPopularMovies').then(() => {
-        cy.get('.item-list > li.skeleton-list.none').should('have.length', 20);
+        cy.get('.item-list > li.skeleton-list.hidden').should('have.length', 20);
         cy.get('.item-list > li.movie-list').should('have.length', 20);
       });
     });
@@ -44,7 +46,7 @@ describe('영화 리스트 E2E 테스트', () => {
   })
   
   context('검색어 기반 영화 리스트 테스트', () => {
-    it('해리 포터 검색 후, 검색어 기반 영화 리스트를 보여준다.', () => {
+    it('검색 키워드 입력 후, 검색어 기반 영화 리스트를 보여준다.', () => {
       cy.get('.search-box > input').type('해리 포터');
       cy.get('.search-box').submit();
   
@@ -76,23 +78,25 @@ describe('영화 리스트 E2E 테스트', () => {
         cy.get('.item-list > li.movie-list').eq(1).click();
 
         cy.wait('@getDetailMovie').then(interception => {
-          const movieDetailTitle = cy.get('.modal--open').get('.detail-title');
+          const movieDetailTitle = cy.get('.modal.visible').get('.detail-title');
           expect(movieDetailTitle.should('have.text', movieTitle));
         });
       });
     });
 
-    it('영화 상세 모달에서 두 번째 별을 누르면 평점이 4점이 된다.', () => {
-      const voteNumber = '4'
-      const voteText = '별로예요'
-
+    it('영화 상세 모달에서 별을 누르면 그에 해당하는 평점과 텍스트가 표시된다.', () => {
       cy.wait('@getPopularMovies').then(() => {
         cy.get('.item-list > li.movie-list').eq(1).click();
-
-        cy.wait('@getDetailMovie').then(interception => {
-          cy.get('.detail-stars > img').eq(1).click();
-          cy.get('.detail-vote-number').should('have.text', voteNumber);
-          cy.get('.detail-vote-text').should('have.text', voteText);
+  
+        cy.wait('@getDetailMovie').then(() => {
+          cy.get('.detail-stars > img').each(($star, index) => {
+            const voteNumber = (index+1) * 2; 
+            const voteText = ratingMessages[voteNumber.toString()]; 
+  
+            cy.wrap($star).trigger('click');
+            cy.get('.detail-vote-number').should('have.text', voteNumber.toString());
+            cy.get('.detail-vote-text').should('have.text', voteText);
+          });
         });
       });
     });
@@ -108,5 +112,4 @@ describe('영화 리스트 E2E 테스트', () => {
       });
     });
   })
-
 });

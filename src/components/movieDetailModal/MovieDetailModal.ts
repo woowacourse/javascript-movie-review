@@ -1,7 +1,5 @@
 import Modal from '../modal/Modal';
 import { fetchMovieDetail } from '../../apis/getMovieData';
-import closeIcon from '../../images/close_icon.png';
-import emptyPng from '../../images/empty_poster.png';
 import filledStar from '../../images/star_filled.png';
 import emptyStar from '../../images/star_empty.png';
 import { Movie } from '../../interface/Movie';
