@@ -23,6 +23,7 @@ const init = () => {
 
   movieContainer.render();
   movieContainer.setEvent();
+  movieContainer.infiniteScroll();
 
   app.addEventListener('search', (event) => {
     movieContainer.render(event.detail);

@@ -1,4 +1,4 @@
-export const throttleOnRendering = (callback: (...args: any[]) => any, delay = 400) => {
+export const throttleOnRendering = (callback: (...args: any[]) => void, delay = 400) => {
   let timer: number | null = null;
 
   return (...args: any[]) => {

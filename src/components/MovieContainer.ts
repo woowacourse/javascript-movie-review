@@ -10,7 +10,6 @@ import ErrorPage from './common/ErrorPage';
 import { NO_SEARCH } from '../resource';
 import { ALERT_MESSAGE, SUBTITLE, resizeMobileWidth } from '../constant/movie';
 import { hiddenElement, showElement } from '../util/hiddenElement';
-import { throttleOnRendering } from './../util/throttling';
 import { MovieData } from '../api/apiType';
 class MovieContainer {
   #page;
@@ -67,33 +66,26 @@ class MovieContainer {
   };
 
   infiniteScroll() {
-    const isScrollEnded = window.innerHeight + window.scrollY + 100 >= document.body.offsetHeight;
-    if (isScrollEnded) {
-      this.renderMovies();
-    }
+    const bottom = document.querySelector('.bottom');
+    if (bottom === null) return;
+
+    const io = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.renderMovies();
+          }
+        });
+      },
+      { threshold: 0.3 },
+    );
+
+    io.observe(bottom);
   }
 
   setEvent() {
-    window.addEventListener(
-      'scroll',
-      throttleOnRendering(() => {
-        this.infiniteScroll();
-      }),
-    );
-
     const section = document.querySelector('.item-view');
     section?.addEventListener('click', this.searchBarClose);
-
-    window.addEventListener('offline', () => {
-      showAlert(ALERT_MESSAGE.network);
-      this.#reRequest();
-    });
-
-    window.addEventListener('online', () => {
-      this.#inputMovies();
-    });
-    //TODO: 이 부분 이벤트 받아서 온라인인지 오프라인인지, 이벤트 타입ㅂ으로 구분해서
-    // 재요청 보내게 하고나....에러 페이지 띄우지 못하게 하기...
   }
 
   async renderMovies() {
@@ -143,16 +135,6 @@ class MovieContainer {
     return !movieData || movieData.length < 20;
   }
 
-  onNetWorkError() {
-    window.addEventListener('offline', () => {
-      showAlert(ALERT_MESSAGE.network);
-      // throw new Error();
-    });
-
-    window.addEventListener('online', () => {
-      this.#reRequest();
-    });
-  }
   async #getMovies(page: number, query: string) {
     try {
       const movieData = await (query ? getSearchMovieList(query, page) : getPopularMovieList(page));
@@ -163,11 +145,11 @@ class MovieContainer {
 
         const [status, message] = error.message.split('-');
 
-        // if (status === 'Failed to fetch') {
-        //   showAlert(ALERT_MESSAGE.network);
-        //   this.#reRequest();
-        //   throw new Error();
-        // }
+        if (status === 'Failed to fetch') {
+          showAlert(ALERT_MESSAGE.network);
+          this.#reRequest();
+          throw new Error();
+        }
 
         const movie = document.querySelector('ul.item-list');
         if (!(movie instanceof HTMLElement)) return;
@@ -183,8 +165,6 @@ class MovieContainer {
       this.#getMovies(this.#page, this.#query);
       this.#isDataLoading = false;
     }, 3000);
-    //네트워크가 끊기고 다시 요청을 보내고 싶어서 이렇게 했는데,
-    //보통은 네트워크 에러처리를 어떤식으로 하는 지 궁금합니다!
   }
 
   #inputSkeleton() {
@@ -209,13 +189,16 @@ class MovieContainer {
 
     const h2 = document.createElement('h2');
     const movieList = document.createElement('ul');
+    const bottom = document.createElement('div');
 
     h2.classList.add('subtitle');
     section.classList.add('item-view');
     movieList.classList.add('item-list');
+    bottom.classList.add('bottom');
 
     section.appendChild(h2);
     section.appendChild(movieList);
+    section.appendChild(bottom);
 
     element.appendChild(section);
   }
