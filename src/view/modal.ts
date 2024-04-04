@@ -1,4 +1,5 @@
 import fetchMovieDetail, { IMovieDetailResponse } from '../api/fetchMovieDetail';
+import { cacheingMovieDetailInLocalStorage, getCachedMovieDetail } from '../store/localStorage';
 
 import { createMovieDetailContainer } from './modal/movieDetail';
 import createMovieDetailSkeleton from './modal/movieDetailSkeleton';
@@ -34,12 +35,20 @@ function getClearModal() {
   return originalModal;
 }
 
+async function getMovieDetail(id: number) {
+  const { data: cachedData } = getCachedMovieDetail(id);
+  if (cachedData) return cachedData;
+  const movieResponse: IMovieDetailResponse = await fetchMovieDetail(id);
+  cacheingMovieDetailInLocalStorage(movieResponse);
+  return movieResponse;
+}
+
 export async function renderMovieDetailModal(id: number) {
   const modal = getClearModal();
   const movieDetailSkeleton = createMovieDetailSkeleton();
   modal.append(movieDetailSkeleton);
   document.body.classList.add('no-scroll-y');
   modal.showModal();
-  const movieResponse: IMovieDetailResponse = await fetchMovieDetail(id);
+  const movieResponse = await getMovieDetail(id);
   movieDetailSkeleton.replaceWith(createMovieDetailContainer(movieResponse));
 }
