@@ -2,6 +2,7 @@ import filledStar from '../../images/star_filled.png';
 import emptyPng from '../../images/empty_poster.png';
 import { Movie } from '../../interface/Movie';
 import MovieDetailModal from '../movieDetailModal/MovieDetailModal';
+import imageUrl from '../../utils/imageUrl';
 
 const MovieCard = (movie: Movie) => {
   const movieCard = render(movie);
@@ -19,7 +20,7 @@ const render = (movie: Movie) => {
 
   const thumbnail = document.createElement('img');
   thumbnail.className = 'item-thumbnail skeleton';
-  thumbnail.src = movie.posterPath ? `https://image.tmdb.org/t/p/w220_and_h330_face/${movie.posterPath}.jpg` : emptyPng;
+  thumbnail.src = movie.posterPath ? imageUrl('small', movie.posterPath) : emptyPng;
   thumbnail.loading = 'lazy';
   thumbnail.alt = movie.title;
   thumbnail.onload = () => {

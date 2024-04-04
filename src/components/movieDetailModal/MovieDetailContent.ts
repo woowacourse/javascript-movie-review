@@ -4,6 +4,7 @@ import emptyPng from '../../images/empty_poster.png';
 import filledStar from '../../images/star_filled.png';
 import emptyStar from '../../images/star_empty.png';
 import { EMPTY_CONTENT, SETTING } from '../../constants/constant';
+import imageUrl from '../../utils/imageUrl';
 
 class MovieDetailContent {
   #movie;
@@ -63,7 +64,7 @@ class MovieDetailContent {
   createThumbnail() {
     const thumbnail = document.createElement('img');
     thumbnail.className = 'detail-thumbnail';
-    thumbnail.src = this.#movie.posterPath ? `https://image.tmdb.org/t/p/w500/${this.#movie.posterPath}.jpg` : emptyPng;
+    thumbnail.src = this.#movie.posterPath ? imageUrl('large', this.#movie.posterPath) : emptyPng;
     thumbnail.alt = this.#movie.title;
 
     return thumbnail;
