@@ -1,3 +1,12 @@
+:root {
+  --light-gray: #f1f1f140;
+  --gray: #383839
+  --dark-gray: #222222;
+  --white: #ffffff;
+  --modal-shadow: rgba(0, 0, 0, 0.7);
+  --red: #f33f3f;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -8,8 +17,8 @@
 
 body {
   font-size: 14px;
-  background-color: #222222;
-  color: #fff;
+  background-color: var(--dark-gray);
+  color: var(--white);
 }
 
 ul {

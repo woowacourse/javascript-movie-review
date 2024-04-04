@@ -1,7 +1,7 @@
 import MovieReviewApp from './MovieReviewApp';
 
-import './common.style.css';
-import './reset.style.css';
+import './styles/common.style.css';
+import './styles/reset.style.css';
 
 import './component/MovieReviewHeader/movieReviewHeader.style.css';
 import './component/MovieSearchInput/movieSearchInput.style.css';
