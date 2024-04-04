@@ -1,5 +1,4 @@
 import MovieCard from '../components/movieCard/movieCard';
-import toast from '../components/toast/toast';
 import { Movie } from '../interface/Movie';
 
 const view = {

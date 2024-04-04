@@ -2,7 +2,7 @@ import Modal from '../modal/Modal';
 import { fetchMovieDetail } from '../../apis/getMovieData';
 import filledStar from '../../images/star_filled.png';
 import emptyStar from '../../images/star_empty.png';
-import { Movie } from '../../interface/Movie';
+import { StorageMovie } from '../../interface/Movie';
 import { LOCALSTORAGE_KEY, RATING_MESSAGES } from '../../constants/constant';
 import MovieDetailContent from './MovieDetailContent';
 import localStorageService from '../../utils/localStorageService';
@@ -10,7 +10,7 @@ import localStorageService from '../../utils/localStorageService';
 class MovieDetailModal extends Modal {
   #movieId: number;
   #movie: any;
-  #userMovies: Movie[] = [];
+  #userMovies: StorageMovie[] = [];
 
   constructor(movieId: number) {
     super();
@@ -80,7 +80,7 @@ class MovieDetailModal extends Modal {
     if (existingMovieIndex !== -1) {
       this.#userMovies[existingMovieIndex].userVote = this.#movie.userVote;
     } else {
-      const newUserMovie: Movie = { ...this.#movie, userVote: this.#movie.userVote };
+      const newUserMovie: StorageMovie = { ...this.#movie, userVote: this.#movie.userVote };
       this.#userMovies.push(newUserMovie);
     }
 

@@ -1,4 +1,4 @@
-import { Movie } from '../../interface/Movie';
+import { DetailMovie } from '../../interface/Movie';
 import closeIcon from '../../images/close_icon.png';
 import emptyPng from '../../images/empty_poster.png';
 import filledStar from '../../images/star_filled.png';
@@ -8,7 +8,7 @@ import { EMPTY_CONTENT, SETTING } from '../../constants/constant';
 class MovieDetailContent {
   #movie;
 
-  constructor(movie: Movie) {
+  constructor(movie: DetailMovie) {
     this.#movie = movie;
   }
 
