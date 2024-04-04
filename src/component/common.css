@@ -233,15 +233,15 @@ img.logo:hover {
 }
 
 .empty-result img {
-  width: 100%;
-  margin-bottom: 5vh;
+  width: 90%;
+  margin-bottom: 4vh;
 }
 
 .empty-result p {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-weight: 600;
   text-align: center;
-  line-height: 36px;
+  line-height: 32px;
 }
 
 /* Screen Size Breakpoints ************************/
@@ -313,5 +313,47 @@ img.logo:hover {
   .item-list {
     grid-template-columns: repeat(2, minmax(120px, 180px));
     grid-gap: calc(90vw / 12);
+  }
+
+  .empty-result {
+    margin: 0 auto;
+    max-width: 40vh;
+  }
+
+  .empty-result img {
+    width: 80%;
+    margin-bottom: 3vh;
+  }
+
+  .empty-result p {
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    line-height: 28px;
+  }
+}
+
+@media (max-width: 440px) {
+  .search-box {
+    position: absolute;
+    display: flex;
+    right: 20px;
+    z-index: 10;
+    width: 32px;
+    transition: width 0.5s ease;
+  }
+
+  .search-box.active {
+    width: calc(100% - 40px);
+  }
+
+  .search-box > input {
+    display: none;
+  }
+
+  .search-box.active > input {
+    flex-grow: 1;
+    width: 100%;
+    display: block;
   }
 }
