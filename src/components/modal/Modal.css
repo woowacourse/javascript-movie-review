@@ -1,0 +1,60 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-container {
+  position: fixed;
+  overflow-y: auto;
+  border-radius: 8px;
+  background: var(--grey-500);
+}
+
+/* 데스크탑 규격 */
+@media screen and (min-width: 1024px) {
+  .modal-container {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 826px;
+    height: 577px;
+  }
+}
+
+/* tablet 규격 */
+@media screen and (min-width: 767px) and (max-width: 1023px) {
+  .modal-container {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 740px;
+    height: 544px;
+  }
+}
+
+/* mobile 규격 */
+@media screen and (max-width: 767px) {
+  .modal-container {
+    bottom: 0;
+    width: 100%;
+    max-height: 70vh;
+  }
+  .modal-container::-webkit-scrollbar {
+    width: 8px;
+  }
+  .modal-container::-webkit-scrollbar-thumb {
+    height: 30%;
+    background: rgba(92, 92, 92, 0.4);
+    border-radius: 10px;
+  }
+  .modal-container::-webkit-scrollbar-track {
+    background: rgba(92, 92, 92, 0.1);
+  }
+}

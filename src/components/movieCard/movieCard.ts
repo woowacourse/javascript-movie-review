@@ -1,6 +1,8 @@
 import filledStar from '../../images/star_filled.png';
 import emptyPng from '../../images/empty_poster.png';
 import { Movie } from '../../interface/Movie';
+import MovieDetailModal from '../movieDetailModal/MovieDetailModal';
+import imageUrl from '../../utils/imageUrl';
 
 const MovieCard = (movie: Movie) => {
   const movieCard = render(movie);
@@ -18,9 +20,7 @@ const render = (movie: Movie) => {
 
   const thumbnail = document.createElement('img');
   thumbnail.className = 'item-thumbnail skeleton';
-  thumbnail.src = movie.poster_path
-    ? `https://image.tmdb.org/t/p/w220_and_h330_face/${movie.poster_path}.jpg`
-    : emptyPng;
+  thumbnail.src = movie.posterPath ? imageUrl('small', movie.posterPath) : emptyPng;
   thumbnail.loading = 'lazy';
   thumbnail.alt = movie.title;
   thumbnail.onload = () => {
@@ -33,7 +33,7 @@ const render = (movie: Movie) => {
 
   const score = document.createElement('p');
   score.className = 'item-score';
-  score.textContent = String(movie.vote_average);
+  score.textContent = movie.voteAverage;
 
   const scoreImage = document.createElement('img');
   scoreImage.src = filledStar;
@@ -43,6 +43,15 @@ const render = (movie: Movie) => {
   itemCard.append(thumbnail, title, score);
   anchor.appendChild(itemCard);
   list.appendChild(anchor);
+
+  list.addEventListener('click', () => {
+    const main = document.querySelector('main');
+    if (!main) return;
+
+    const movieDetailModal = new MovieDetailModal(movie.id);
+    main.appendChild(movieDetailModal.element);
+    movieDetailModal.open();
+  });
 
   return list;
 };

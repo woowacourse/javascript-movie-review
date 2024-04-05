@@ -25,6 +25,14 @@ button {
   outline: none;
 }
 
-.none {
+.hidden {
   display: none;
+}
+
+.visible {
+  display: block;
+}
+
+.modal-open {
+  overflow: hidden;
 }

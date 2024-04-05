@@ -1,5 +1,4 @@
 import MovieCard from '../components/movieCard/movieCard';
-import toast from '../components/toast/toast';
 import { Movie } from '../interface/Movie';
 
 const view = {
@@ -27,14 +26,14 @@ const view = {
   showSkeleton() {
     const skeletons = document.querySelectorAll('.skeleton-list');
     skeletons.forEach(element => {
-      element.classList.remove('none');
+      element.classList.remove('hidden');
     });
   },
 
   hideSkeleton() {
     const skeletons = document.querySelectorAll('.skeleton-list');
     skeletons.forEach(element => {
-      element.classList.add('none');
+      element.classList.add('hidden');
     });
   },
 };
