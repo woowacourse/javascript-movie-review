@@ -98,13 +98,19 @@ class EditableStarRating {
   }
 
   private restoreStarCount() {
+    const totalStarCount = 5;
+
     Array.from({ length: this.selectedStarCount }).forEach((_, index) => {
       (this.starElements[index] as HTMLImageElement).src = starFills;
     });
 
-    Array.from({ length: 5 - this.selectedStarCount }).forEach((_, index) => {
-      (this.starElements[4 - index] as HTMLImageElement).src = starEmpty;
-    });
+    Array.from({ length: totalStarCount - this.selectedStarCount }).forEach(
+      (_, index) => {
+        (
+          this.starElements[totalStarCount - index - 1] as HTMLImageElement
+        ).src = starEmpty;
+      }
+    );
 
     this.updateTextByRating(this.selectedStarCount);
   }
