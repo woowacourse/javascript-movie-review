@@ -39,7 +39,7 @@ class MovieDetailModal {
 
   private async getMovieDetailData(movieId: string) {
     const res = await fetchMovieDetail(movieId);
-    if (!res || !res.genres) return;
+    if (!res?.genres) return;
 
     const movieDetailInfo: MovieDetail = {
       title: res.title,
