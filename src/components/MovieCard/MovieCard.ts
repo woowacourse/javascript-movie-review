@@ -1,6 +1,7 @@
 import { Movie } from '../../index.d';
 import starFilledImg from '../../images/star_filled.png';
 import './MovieCard.css';
+import DetailModal from '../DetailModal/DetailModal';
 
 interface Props {
   classes?: string[];
@@ -13,6 +14,7 @@ export default class MovieCard {
   #movie;
 
   constructor({ classes, movie }: Props) {
+    this.#liElement.classList.add('item-card');
     if (classes) this.#liElement.classList.add(...classes);
     if (movie) {
       this.#movie = movie;
@@ -20,38 +22,46 @@ export default class MovieCard {
     } else {
       this.#generateSkeletonMovieItem();
     }
+    this.#addDetailModalEvent();
   }
 
   /* eslint-disable max-lines-per-function */
   #generateMovieItem(movie: Movie) {
     const element = /* html */ ` 
-    <a href="#">
-       <div class="item-card">
-         <img
-           class="item-thumbnail"
-           src="https:image.tmdb.org/t/p/w220_and_h330_face${movie.poster_path}"
-           loading="lazy"
-           alt="${movie.title}"
-         />
-         <p class="item-title">${movie.title}</p>
-         <p class="item-score">${movie.vote_average.toFixed(2)}<img src="${starFilledImg}" alt="별점" class="star-start" /></p>
-       </div>
-     </a>`;
+      <img
+        class="item-thumbnail"
+        src="https://image.tmdb.org/t/p/w220_and_h330_face${movie.poster_path}"
+        loading="lazy"
+        alt="${movie.title}"
+      />
+      <p class="item-title">${movie.title}</p>
+      <p class="item-score">${movie.vote_average.toFixed(2)}<img src="${starFilledImg}" alt="별점" class="star-start" /></p>
+     `;
 
     this.#liElement.innerHTML = element;
   }
 
   #generateSkeletonMovieItem() {
     const element = /* html */ ` 
-    <a href="#">
-      <div class="item-card">
-        <div class="item-thumbnail skeleton"></div>
-        <div class="item-title skeleton"></div>
-        <div class="item-score skeleton"></div>
-      </div>
-     </a>`;
+      <div class="item-thumbnail skeleton"></div>
+      <div class="item-title skeleton"></div>
+      <div class="item-score skeleton"></div>
+     `;
 
     this.#liElement.innerHTML = element;
+  }
+
+  #addDetailModalEvent() {
+    const modal = document.querySelector('dialog');
+
+    if (modal) {
+      this.#liElement.addEventListener('click', () => {
+        modal.innerHTML = '';
+        const modalContent = new DetailModal(this.#movie as Movie);
+
+        modal.showModal();
+      });
+    }
   }
 
   get element() {

@@ -1,7 +1,7 @@
 import { Movie } from '../index.d';
+import InfiniteScrollService from '../service/InfiniteScroll';
 import movieStore from '../store/MovieStore';
 import searchMovieStore from '../store/SearchMovieStore';
-import MoreButton from './MoreButton';
 import MovieCard from './MovieCard/MovieCard';
 
 const SKELETON_UI_FIXED = 8; // 스켈레톤 UI 갯수
@@ -15,10 +15,21 @@ export default class MovieList {
 
   constructor() {
     this.#ulElement.classList.add('item-list');
-    this.generateMovieList();
+    this.#infiniteScroll();
+  }
+
+  async #infiniteScroll() {
+    const target = document.querySelector('.list-end') as HTMLElement;
+
+    if (target) {
+      InfiniteScrollService.initObserver(target, () => {
+        this.generateMovieList();
+      });
+    }
   }
 
   async generateMovieList() {
+    if (this.#listType === SEARCH && searchMovieStore.presentPage > searchMovieStore.totalPages) return;
     this.#changeTitle();
     this.#removePreviousError();
     this.#generateSkeletonUI();
@@ -28,19 +39,26 @@ export default class MovieList {
   }
 
   renderPreviousPopularList() {
+    this.#listType = POPULAR;
+    this.#changeTitle();
+    this.#ulElement.innerHTML = '';
     const movieDatas = movieStore.movies;
-    if (!(movieDatas.length === 0)) {
-      this.#listType = POPULAR;
-      this.#ulElement.innerHTML = '';
-      this.#appendMovieCard(movieDatas);
+
+    if (movieDatas.length === 0) {
+      this.generateMovieList();
+      return;
     }
+
+    this.#appendMovieCard(movieDatas);
   }
 
   renderSearchList(query: string) {
     searchMovieStore.query = query;
     this.#ulElement.innerHTML = '';
     this.#listType = SEARCH;
-    this.generateMovieList();
+
+    const listEnd = document.querySelector('.list-end') as HTMLElement;
+    listEnd.style.display = 'block';
   }
 
   #changeTitle() {
@@ -60,7 +78,6 @@ export default class MovieList {
   }
 
   #generateSkeletonUI() {
-    this.#removeMoreButton();
     const fragment = new DocumentFragment();
 
     for (let i = 0; i < SKELETON_UI_FIXED; i++) {
@@ -84,6 +101,7 @@ export default class MovieList {
   }
 
   #appendMovieCard(newData: Movie[]) {
+    if (!newData) return;
     newData.forEach((movieData: Movie) => {
       const card = new MovieCard({
         movie: movieData,
@@ -91,33 +109,6 @@ export default class MovieList {
 
       this.#ulElement.appendChild(card.element);
     });
-    this.#generateMoreButton();
-  }
-
-  #removeMoreButton() {
-    const moreButton = document.getElementById('more-button');
-    if (moreButton) {
-      moreButton.parentNode?.removeChild(moreButton);
-    }
-  }
-
-  #generateMoreButton() {
-    this.#removeMoreButton();
-    if (this.#listType === SEARCH && searchMovieStore.presentPage === searchMovieStore.totalPages) return;
-    const itemView = document.querySelector('section.item-view');
-    const moreBtn = new MoreButton({
-      onClick: () => {
-        if (this.#listType === POPULAR) {
-          movieStore.increasePageCount();
-          this.generateMovieList();
-        } else {
-          searchMovieStore.increasePageCount();
-          this.generateMovieList();
-        }
-      },
-    });
-
-    itemView?.appendChild(moreBtn.element);
   }
 
   get element() {

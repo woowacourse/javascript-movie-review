@@ -1,0 +1,140 @@
+@media only screen and (max-width: 834px) {
+  dialog {
+    max-width: 100%;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  dialog .modal-container {
+    width: 100vw;
+    height: 100%;
+    padding-bottom: 20px;
+  }
+  .modal-img-container {
+    display: none;
+  }
+  dialog .modal-content-container {
+    padding: 0;
+  }
+  dialog .modal-content {
+    width: 90%;
+    /* margin: 0 20px; */
+  }
+  dialog .modal-rate-text {
+    display: none;
+  }
+
+  dialog .modal-img.skeleton {
+    display: none;
+  }
+
+  dialog .modal-description {
+    width: 100%;
+  }
+}
+
+dialog {
+  /* width: 826px;
+  height: 577px; */
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-container {
+  width: 826px;
+  height: 577px;
+  background: var(--modal-background-color);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 36px;
+  height: 60px;
+
+  border-bottom: 1px solid rgba(241, 241, 241, 0.25);
+}
+
+.modal-title {
+  max-width: 250px;
+  color: rgba(241, 241, 241, 1);
+}
+
+.modal-button {
+  position: absolute;
+  top: 12px;
+  right: 32px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 36px;
+  height: 36px;
+
+  border: 0;
+  border-radius: 50%;
+  background: rgba(56, 56, 57, 1);
+  color: var(--content-color);
+}
+
+.modal-content-container {
+  display: flex;
+  padding: 0 32px;
+  color: rgba(241, 241, 241, 1);
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 32px;
+}
+
+.modal-img-container {
+  width: 300px;
+  height: 433px;
+}
+
+.modal-img {
+  width: 300px;
+  height: 433px;
+}
+
+.modal-genre-star-box {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 16px;
+}
+
+.modal-star {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.modal-img.skeleton {
+  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  animation: skeleton-animation 5s infinite ease-out;
+  border-radius: 8px;
+}
+
+.modal-title.skeleton,
+.modal-score.skeleton {
+  max-width: 250px;
+  width: 440px;
+  height: 20px;
+  margin-top: 10px;
+  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  animation: skeleton-animation 5s infinite ease-out;
+  border-radius: 8px;
+}

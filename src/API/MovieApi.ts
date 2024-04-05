@@ -10,6 +10,7 @@ interface optionsType {
 
 const POPULAR_URL = 'https://api.themoviedb.org/3/movie/popular?language=ko&page=';
 const SEARCH_URL = 'https://api.themoviedb.org/3/search/movie?query=';
+const DETAIL_URL = 'https://api.themoviedb.org/3/movie/';
 const GET_OPTIONS = {
   method: 'GET',
   headers: {
@@ -49,6 +50,13 @@ const MovieApi = {
   async getSearchData(query: string, page: number) {
     const url = `${SEARCH_URL}${query}&include_adult=false&language=ko&page=${page}`;
     const responseData = await this.fetchData(url, GET_OPTIONS);
+
+    return responseData;
+  },
+
+  async getDetailData(movieId: number) {
+    const url = `${DETAIL_URL}${movieId}?language=ko-KR`;
+    const responseData = await fetch(url, GET_OPTIONS).then((response) => response.json());
 
     return responseData;
   },

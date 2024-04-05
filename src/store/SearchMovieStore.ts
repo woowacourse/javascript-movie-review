@@ -2,20 +2,28 @@ import MovieApi from '../API/MovieApi';
 import { Movie } from '../index.d';
 
 class SearchMovieStore {
-  #searchMoviesData: any[] = [];
+  #searchMoviesData: Movie[] = [];
 
   #query: string = '';
 
-  #totalPages: number = 0;
+  #totalPages: number = 100;
 
   #presentPage: number = 1;
 
   async searchMovies() {
     const responseData = await MovieApi.getSearchData(this.#query, this.#presentPage);
+
     const moviesData = responseData.results;
 
     this.#totalPages = responseData.total_pages;
+
+    if (this.#totalPages === 1) {
+      const listEnd = document.querySelector('.list-end') as HTMLElement;
+      listEnd.style.display = 'none';
+    }
+
     this.#pushNewData(moviesData);
+    this.increasePageCount();
 
     return moviesData;
   }

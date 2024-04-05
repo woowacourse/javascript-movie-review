@@ -1,6 +1,13 @@
 .item-card {
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.item-card:hover {
+  z-index: 9;
+  transform: translateY(-20px);
 }
 
 .item-thumbnail {
@@ -29,7 +36,6 @@
 }
 
 /* skeleton */
-
 .item-score::after {
   margin-left: 8px;
 }
@@ -42,7 +48,6 @@
 
 .item-card .skeleton {
   background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
-  background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
   border-radius: 8px;
 }

@@ -11,7 +11,7 @@ export default class App {
   }
 
   async run() {
-    const itemView = document.querySelector('.item-view');
+    const itemView = document.getElementById('item-view-container');
 
     itemView?.appendChild(this.#movieListElement.element);
     this.#generateSearchBox();
@@ -31,10 +31,13 @@ export default class App {
 
   #addHomeButtonEvent() {
     const homeButton = document.getElementById('home-button');
+    const input = document.querySelector('input[name=query]') as HTMLInputElement;
 
-    if (homeButton) {
+    if (homeButton && input) {
       homeButton.addEventListener('click', () => {
         this.#movieListElement.renderPreviousPopularList();
+        input.value = '';
+        input.classList.remove('search-open');
       });
     }
   }

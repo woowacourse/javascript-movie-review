@@ -34,8 +34,10 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  width: 100%;
   margin: 0 auto;
+  padding-top: 120px;
+  align-items: center;
 }
 
 .item-view h2 {
@@ -54,8 +56,8 @@ button {
 
 /* header */
 header {
+  position: fixed;
   width: 100%;
-  min-width: 1200px;
   height: 72px;
   background-color: #222;
   display: flex;
@@ -64,6 +66,7 @@ header {
   padding: 0 20px;
   border-bottom: 1px solid var(--content-color);
   margin-bottom: 48px;
+  z-index: 10;
 }
 
 header h1 {
@@ -76,6 +79,7 @@ header h1 {
 }
 
 #home-button {
+  position: inherit;
   background-color: transparent;
   border: none;
 }
@@ -84,27 +88,77 @@ header > .search-box {
   background: var(--content-color);
   padding: 8px;
   border-radius: 4px;
+  display: flex;
 }
 
-header .search-box > input {
+.search-input {
+  width: 300px;
   border: 0;
 }
 
-header .search-box > .search-button {
-  width: 14px;
+.search-open {
+  width: 100px;
+  transition: width 0.3s ease;
+  z-index: 9;
   border: 0;
-  text-indent: -1000rem;
-  background: var(--search-box-img) transparent no-repeat 0 1px;
-  background-size: contain;
+}
+
+.search-close {
+  width: 0px;
+  padding: 0px;
+  border: 0;
+}
+
+.search-button {
+  width: 18px;
+  height: 18px;
+  border: 0;
+  padding: 0;
+}
+
+#search-button-img {
+  width: 18px;
+  height: 18px;
 }
 
 /* ul */
 .item-list {
   display: grid;
+  justify-items: center;
   margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
-  grid-row-gap: 48px;
+  grid-row-gap: 64px;
+  grid-column-gap: 64px;
+}
+
+@media only screen and (max-width: 834px) {
+  .item-list {
+    grid-template-columns: repeat(2, 140px);
+    /* 180px이었음 */
+    grid-column-gap: 36px;
+  }
+  .item-card {
+    width: 140px;
+  }
+  .item-thumbnail {
+    width: 140px;
+    height: 220px;
+  }
+  .item-title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+}
+
+@media only screen and (min-width: 834px) and (max-width: 1279px) {
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+  }
+}
+
+@media only screen and (min-width: 1279px) {
+  .item-list {
+    grid-template-columns: repeat(4, 180px);
+  }
 }
 
 /* button */
@@ -122,12 +176,12 @@ button.primary {
 /* skeleton */
 @keyframes skeleton-animation {
   0% {
-    background-position: 0% 50%;
+    background-size: 100% 100%;
   }
   50% {
-    background-position: 100% 50%;
+    background-size: 400% 100%;
   }
   100% {
-    background-position: 0% 50%;
+    background-size: 100% 100%;
   }
 }
