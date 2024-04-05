@@ -7,13 +7,11 @@ interface IMovieState {
 }
 
 interface IMovieStateMethod {
-  // eslint-disable-next-line no-unused-vars
   setUrl: (url: string) => void;
   getUrl: () => string;
   initializePage: () => void;
   increasePage: () => void;
   getPage: () => number;
-  // eslint-disable-next-line no-unused-vars
   setQuery: (query: string) => void;
   getQuery: () => string;
 }

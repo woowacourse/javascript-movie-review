@@ -1,0 +1,208 @@
+.hidden {
+  display: none;
+}
+
+.no-scroll-y {
+  overflow-y: hidden;
+}
+
+.flex-XY-aligned {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-Y-center {
+  display: flex;
+  align-items: center;
+}
+
+.padding-32 {
+  padding: 32px;
+}
+
+.gap-16 {
+  gap: 16px;
+}
+
+.h-433 {
+  height: 433px;
+}
+
+.w-16 {
+  width: 16px;
+}
+
+.w-96 {
+  width: 96px;
+}
+
+.w-292 {
+  width: 292px;
+}
+
+.w-396 {
+  width: 396px;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+.max-width-60 {
+  max-width: 60%;
+}
+
+.h-20 {
+  height: 20px;
+}
+
+.w-14 {
+  width: 14px;
+}
+
+.w-100 {
+  width: 100px;
+}
+
+.w-1-ratio {
+  width: 100%;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.right-20 {
+  right: 20px;
+}
+
+.movie-detail-button {
+  background: none;
+  color: inherit;
+  text-decoration: none;
+  text-align: left;
+  transition: 0.2s ease-in-out;
+}
+
+.movie-detail-button:hover {
+  transform: translate(0, -5%);
+}
+
+.movie-modal {
+  background: #212122;
+  overflow-y: hidden;
+  color: #f1f1f1;
+  border-radius: 16px;
+}
+
+.movie-detail-header {
+  text-align: center;
+  border-bottom: 1px solid #f1f1f140;
+  height: 60px;
+  position: relative;
+  font-size: 20px;
+}
+
+.close-button {
+  position: absolute;
+  right: 30px;
+  top: 12px;
+  border-radius: 100%;
+  background: #515151;
+  padding: 12px;
+}
+
+.transition-background {
+  transition-property: background-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.close-button:hover {
+  background: #383839;
+}
+
+dialog::backdrop {
+  background: #00000099;
+}
+
+.movie-detail-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 16px;
+}
+
+.movie-detail-info > div:first-child {
+  height: 24px;
+}
+
+.movie-detail-info > div:nth-child(2) {
+  height: 280px;
+  line-height: 20px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 14;
+  -webkit-box-orient: vertical;
+}
+
+.movie-detail-info > div:last-child {
+  height: 64px;
+  width: 100%;
+  background: #383839;
+  border-radius: 16px;
+  display: flex;
+  padding: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-rate-box {
+  display: flex;
+  gap: 12px;
+}
+
+.rate-result {
+  width: 120px;
+}
+
+.star-image {
+  height: 32px;
+  width: 32px;
+}
+
+.one-line-ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.topScrollButton {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  padding: 4px;
+  font-size: 36px;
+  transition: 0.2s ease-in-out;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  pointer-events: auto;
+}
+
+.topScrollButton.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.topScrollButton:hover {
+  transform: translate(0, -8%);
+}
+
+.mobile-search-button {
+  width: 35px;
+  background-color: white;
+  aspect-ratio: 1/1;
+  border-radius: 4px;
+}

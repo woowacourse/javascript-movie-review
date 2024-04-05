@@ -2,6 +2,7 @@ declare namespace Cypress {
   interface Chainable {
     interceptMovieSearchAPI(): Chainable<any>;
     interceptPopularMovieAPI(): Chainable<any>;
+    interceptMovieDetailAPI(): Chainable<any>;
   }
 }
 
@@ -23,4 +24,14 @@ Cypress.Commands.add('interceptMovieSearchAPI', () => {
     },
     { fixture: 'movie-search.json' },
   ).as('getSearchMovies');
+});
+
+Cypress.Commands.add('interceptMovieDetailAPI', () => {
+  cy.intercept(
+    {
+      method: 'GET',
+      url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/\d{6,7}/,
+    },
+    { fixture: 'movie-detail.json' },
+  ).as('getMovieDetail');
 });

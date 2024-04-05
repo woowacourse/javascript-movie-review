@@ -1,10 +1,10 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-alert */
 import fetchMovies from '../../api/fetchMovies';
-
 import starFilledImage from '../../assets/images/star_filled.png';
-import getSeeMoreButton from '../getSeeMoreButton';
 import movieStateMethod from '../../store/movieStore';
+import { renderMovieDetailModal } from '../modal';
+import { removeScrollEvent } from '../event/scrollEvent';
 
 interface IMovieItemProps {
   id: number;
@@ -21,6 +21,7 @@ interface ITMDBResponse {
 
 function getImage(props: IMovieItemProps) {
   const img = document.createElement('img');
+  img.classList.add('item-thumbnail');
   img.alt = props.title;
   img.src = `https://image.tmdb.org/t/p/w500/${props.poster_path}`;
   img.loading = 'lazy';
@@ -57,20 +58,18 @@ function getMovieItemCard(props: IMovieItemProps) {
 
 function getMovieItem(props: IMovieItemProps) {
   const movieItem = document.createElement('li');
-  const movieItemLink = document.createElement('a');
+  const movieItemButton = document.createElement('button');
   const movieItemCard = getMovieItemCard(props);
-
-  movieItemLink.appendChild(movieItemCard);
-  movieItem.appendChild(movieItemLink);
+  movieItemButton.classList.add('movie-detail-button');
+  movieItemButton.onclick = () => renderMovieDetailModal(props.id);
+  movieItemButton.appendChild(movieItemCard);
+  movieItem.appendChild(movieItemButton);
   return movieItem;
 }
 
-function checkPage(
-  { page, totalPage }: { page: number; totalPage: number },
-  button = document.getElementById('see-more-button'),
-) {
+function checkPage({ page, totalPage }: { page: number; totalPage: number }) {
   if (page === totalPage) {
-    button?.classList.add('hidden');
+    removeScrollEvent();
   }
 }
 
@@ -86,6 +85,7 @@ export async function getMovieItems() {
     total_pages: totalPage,
   }: ITMDBResponse = await fetchMovies().catch((error: Error) => handleGetMovieItemsError(error));
   const movieElements = results.map((info: IMovieItemProps) => getMovieItem(info)) as HTMLElement[];
+  checkPage({ page, totalPage });
   return { elements: movieElements, page, totalPage };
 }
 
@@ -96,11 +96,17 @@ function getMainTitle() {
   return mainTitle;
 }
 
-async function getMovieList(button?: HTMLButtonElement) {
+function createNoMovieMessage() {
+  const div = document.createElement('div');
+  div.innerText = '검색 결과가 없습니다.';
+  return div;
+}
+
+async function getMovieList() {
   const movieList = document.createElement('ul');
-  const { elements: movieItems, page, totalPage } = await getMovieItems();
-  checkPage({ page, totalPage }, button);
+  const { elements: movieItems } = await getMovieItems();
   movieList.classList.add('item-list');
+  if (movieItems.length === 0) movieList.append(createNoMovieMessage());
   movieList.append(...movieItems);
   return movieList;
 }
@@ -109,8 +115,7 @@ export async function getMovieListContainer() {
   const movieListContainer = document.createElement('section');
   movieListContainer.classList.add('item-view');
   const mainTitle = getMainTitle();
-  const button = getSeeMoreButton();
-  const movieList = await getMovieList(button);
-  movieListContainer.append(mainTitle, movieList, button);
+  const movieList = await getMovieList();
+  movieListContainer.append(mainTitle, movieList);
   return movieListContainer;
 }
