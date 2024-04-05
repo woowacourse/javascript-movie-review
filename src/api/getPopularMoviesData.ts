@@ -1,4 +1,4 @@
-import { fetchData } from "./getMovieData";
+import { fetchData } from "./fetchData";
 import Movie from "../movie/Movie";
 
 const API_KEY = process.env.API_KEY as string;
@@ -23,6 +23,7 @@ export const getPopularMoviesData = async (currentPage: string) => {
   ).toString()}`;
 
   const popularMovies = await fetchData(popularMovieUrl);
+
   if (popularMovies && popularMovies.results) {
     const movies = popularMovies.results.map(
       (item: IMovieItemData) => new Movie(item)

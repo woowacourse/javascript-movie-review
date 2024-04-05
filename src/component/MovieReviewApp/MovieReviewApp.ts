@@ -1,12 +1,19 @@
 import MovieReviewHeader from "../MovieReviewHeader/MovieReviewHeader";
 import MovieSearchInput from "../MovieSearchInput/MovieSearchInput";
 import MovieListController from "../../controller/MovieListController";
+import MovieItemModal from "../MovieItemModal/MovieItemModal";
 
 import { $ } from "../../utility/dom";
 
 class MovieReviewApp {
+  #movieItemModal;
+
+  constructor() {
+    this.#movieItemModal = new MovieItemModal();
+  }
+
   #renderMovieReviewHeader() {
-    const headerElement = $("header");
+    const headerElement = $(".main-header");
 
     const movieSearchInput = new MovieSearchInput();
 
@@ -16,13 +23,39 @@ class MovieReviewApp {
     }
   }
 
-  #renderMovieReviewMain() {
+  async #renderMovieReviewMain() {
     const movieListController = new MovieListController();
+  }
+
+  #renderMovieItemModal() {
+    const mainSection = $("main") as HTMLElement;
+
+    const modalElement = this.#movieItemModal.getModal();
+    mainSection.appendChild(modalElement);
+
+    this.#movieItemModal.setModalCloseHandler();
+  }
+
+  #handleMovieItemClick() {
+    const itemViewSection = $(".item-view") as HTMLElement;
+
+    itemViewSection.addEventListener("click", async (e) => {
+      const targetElement = e.target as HTMLElement;
+
+      const liElement = targetElement.closest("li");
+      if (liElement) {
+        await this.#movieItemModal.setModalContent(liElement.id);
+
+        this.#movieItemModal.openModal();
+      }
+    });
   }
 
   render() {
     this.#renderMovieReviewHeader();
     this.#renderMovieReviewMain();
+    this.#renderMovieItemModal();
+    this.#handleMovieItemClick();
   }
 }
 

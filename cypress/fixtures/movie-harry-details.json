@@ -1,0 +1,69 @@
+{
+  "adult": false,
+  "backdrop_path": "/urDWNffjwmNi5IQaezw9GwqkUXa.jpg",
+  "belongs_to_collection": {
+      "id": 1241,
+      "name": "해리 포터 시리즈",
+      "poster_path": "/eVPs2Y0LyvTLZn6AP5Z6O2rtiGB.jpg",
+      "backdrop_path": "/hWK8gTH2riuv65Ej43hPSeE16Mu.jpg"
+  },
+  "budget": 250000000,
+  "genres": [
+      {
+          "id": 12,
+          "name": "모험"
+      },
+      {
+          "id": 14,
+          "name": "판타지"
+      }
+  ],
+  "homepage": "",
+  "id": 767,
+  "imdb_id": "tt0417741",
+  "original_language": "en",
+  "original_title": "Harry Potter and the Half-Blood Prince",
+  "overview": "어둠의 세력이 더욱 강력해져 머글 세계와 호그와트까지 위협해온다. 위험한 기운을 감지한 덤블도어 교수는 다가올 전투에 대비하기 위해 해리 포터와 함께 대장정의 길을 나선다. 볼드모트를 물리칠 수 있는 유일한 단서이자 그의 영혼을 나누어 놓은 7개의 호크룩스를 파괴하는 미션을 수행해야만 하는 것! 또한 덤블도어 교수는 호크룩스를 찾는 기억여행에 결정적 도움을 줄 슬러그혼 교수를 호그와트로 초청한다. 한편 학교에서는 계속된 수업과 함께 로맨스의 기운도 무르익는다. 해리는 자신도 모르게 지니에게 점점 끌리게 되고, 새로운 여자 친구가 생긴 론에게 헤르미온느는 묘한 질투심을 느끼는데...",
+  "popularity": 130.116,
+  "poster_path": "/yrGlb3HLtjGp39mv4MJ5UuIHcj4.jpg",
+  "production_companies": [
+      {
+          "id": 174,
+          "logo_path": "/zhD3hhtKB5qyv7ZeL4uLpNxgMVU.png",
+          "name": "Warner Bros. Pictures",
+          "origin_country": "US"
+      },
+      {
+          "id": 437,
+          "logo_path": "/nu20mtwbEIhUNnQ5NXVhHsNknZj.png",
+          "name": "Heyday Films",
+          "origin_country": "GB"
+      }
+  ],
+  "production_countries": [
+      {
+          "iso_3166_1": "GB",
+          "name": "United Kingdom"
+      },
+      {
+          "iso_3166_1": "US",
+          "name": "United States of America"
+      }
+  ],
+  "release_date": "2009-07-15",
+  "revenue": 933959197,
+  "runtime": 153,
+  "spoken_languages": [
+      {
+          "english_name": "English",
+          "iso_639_1": "en",
+          "name": "English"
+      }
+  ],
+  "status": "Released",
+  "tagline": "마지막 전투를 준비하라",
+  "title": "해리 포터와 혼혈왕자",
+  "video": false,
+  "vote_average": 7.693,
+  "vote_count": 18758
+}

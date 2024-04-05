@@ -1,6 +1,7 @@
 import MovieList from "./MovieList";
 import { getSearchedMoviesData } from "../../api/getSearchedMoviesData";
 import { $, createElement } from "../../utility/dom";
+import { infiniteScroll } from "../../utility/infiniteScroll";
 
 const MAX_PAGE_PER_REQUEST = 20;
 
@@ -36,11 +37,13 @@ class SearchedMovieList extends MovieList {
       const movies = await this.#getSearchedMoviesData();
       const liList = this.createEmptyMovieItems(movies, ul);
 
+      infiniteScroll.addInfiniteScroll(async () => {
+        this.#handleSearchedPageEnd(movies);
+      });
+
       setTimeout(() => {
         this.updateMovieItemsWithData(movies, liList);
-
-        this.#handleSearchedPageEnd(movies);
-      }, 1000);
+      }, 500);
     } catch (error) {
       if (error instanceof Error) {
         this.createErrorUI(error.message);
@@ -55,20 +58,14 @@ class SearchedMovieList extends MovieList {
     );
   }
 
-  #handleSearchedPageEnd(data: IMovieItemData[]) {
+  async #handleSearchedPageEnd(data: IMovieItemData[]) {
     if (data.length === MAX_PAGE_PER_REQUEST) {
-      this.removeMoreMoviesButton();
-
-      const moreMoviesButton = this.createMoreMoviesButton();
-      moreMoviesButton.addEventListener("click", () =>
-        this.#createSearchedMovieItems()
-      );
+      await this.#createSearchedMovieItems();
 
       this.#currentPage += 1;
       return;
     }
 
-    this.removeMoreMoviesButton();
     this.displayMaxPageInfo();
   }
 }

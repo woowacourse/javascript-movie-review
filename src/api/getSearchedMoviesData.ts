@@ -1,4 +1,4 @@
-import { fetchData } from "./getMovieData";
+import { fetchData } from "./fetchData";
 import Movie from "../movie/Movie";
 
 const API_KEY = process.env.API_KEY as string;
@@ -27,8 +27,7 @@ export const getSearchedMoviesData = async (
   ).toString()}`;
 
   const searchedMovies = await fetchData(searchMovieUrl);
-
-  if (searchedMovies.results.length === 0) {
+  if (searchedMovies.page === 1 && searchedMovies.results.length === 0) {
     throw new Error("해당 키워드에 해당하는 영화가 없습니다.");
   }
 

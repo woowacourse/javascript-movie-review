@@ -1,5 +1,4 @@
 import MovieItem from "../MovieItem/MovieItem";
-import MoreMoviesButton from "../MoreMoviesButton/MoreMoviesButton";
 import hangsungImg from "../../image/wooteco-icon.png";
 import { $, $$, createElement } from "../../utility/dom";
 
@@ -58,9 +57,11 @@ class MovieList {
   updateMovieItemsWithData(movies: IMovieItemData[], liList: HTMLLIElement[]) {
     this.removeSkeleton();
 
-    const movieItems = movies.map(({ title, poster_path, vote_average }) => {
-      return new MovieItem({ title, poster_path, vote_average });
-    });
+    const movieItems = movies.map(
+      ({ title, id, poster_path, vote_average }) => {
+        return new MovieItem({ title, id, poster_path, vote_average });
+      }
+    );
 
     movieItems.forEach((movieItem: MovieItem, index: number) => {
       const li = liList[index];
@@ -71,7 +72,6 @@ class MovieList {
   }
 
   displayMaxPageInfo() {
-    this.removeMoreMoviesButton();
     const maxPageInfo = this.createMaxPageInfo();
 
     this.movieListSection.appendChild(maxPageInfo);
@@ -84,17 +84,6 @@ class MovieList {
     maxPageInfoElement.textContent = "목록의 끝에 도달했습니다 🚀";
 
     return maxPageInfoElement;
-  }
-
-  createMoreMoviesButton() {
-    const moreMoviesButton = MoreMoviesButton.createMoreMoviesButton();
-    this.movieListSection.appendChild(moreMoviesButton);
-
-    return moreMoviesButton;
-  }
-
-  removeMoreMoviesButton() {
-    $(".more-movies-btn")?.remove();
   }
 
   removeSkeleton() {
