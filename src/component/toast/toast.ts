@@ -1,10 +1,10 @@
-function toast(errorMessage) {
+function toast(errorMessage: string, target: HTMLElement = document.body) {
   const toastElement = document.createElement('div');
   toastElement.classList.add('toast');
   toastElement.textContent = errorMessage;
   toastElement.setAttribute('aria-live', 'assertive');
 
-  document.body.appendChild(toastElement);
+  target.appendChild(toastElement);
 
   setTimeout(() => toastElement.remove(), 2500);
 }

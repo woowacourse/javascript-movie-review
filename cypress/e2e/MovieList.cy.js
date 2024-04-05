@@ -1,7 +1,11 @@
 import { MOVIE_LIST_TYPE } from '../../src/constant/config.ts';
 import ERROR_MESSAGE from '../../src/constant/errorMessage.ts';
 
-describe('영화 e2e 테스트', () => {
+describe('[MovieList] 영화 목록 화면 테스트', () => {
+  beforeEach(() => {
+    cy.testAPIWithFixture(MOVIE_LIST_TYPE.popular.type, 'movie-popular.json');
+    cy.testAPIWithFixture(MOVIE_LIST_TYPE.search.type, 'movie-single-page.json');
+  });
   it('로고를 클릭하면 메인 페이지로 돌아간다', () => {
     cy.visitHome();
 
@@ -15,24 +19,36 @@ describe('영화 e2e 테스트', () => {
     cy.get('.search-box').get('input').should('not.have.value');
   });
 
-  it('더보기를 누르면 영화 리스트를 더 불러온다.', () => {
+  it('화면 최하단으로 스크롤을 내리면 영화 리스트를 더 불러온다.', () => {
     cy.visitHome();
+    cy.wait(3000);
 
-    cy.contains('더 보기').click();
-    cy.get('ul.item-list > li').should('have.length.greaterThan', 20);
+    cy.get('ul.item-list > li').then(($content) => {
+      const initialContentCount = $content.length;
+
+      cy.scrollTo('bottom');
+      cy.wait(3000);
+
+      cy.get('ul.item-list > li').should('have.length.greaterThan', initialContentCount);
+    });
   });
 
-  it('더 불러올 영화 목록이 없으면 더 보기 버튼을 띄우지 않는다.', () => {
+  it('더 이상 불러올 영화 목록이 없을 경우, 화면 최하단으로 스크롤을 내려도 영화 데이터 요청이 이루어지지 않는다.', () => {
     cy.testAPIWithFixture(MOVIE_LIST_TYPE.popular.type, 'movie-single-page.json');
-
     cy.visitHome();
+    cy.wait(3000);
 
-    cy.contains('더 보기').should('have.css', 'visibility', 'hidden');
+    cy.get('ul.item-list > li').then(($content) => {
+      const initialContentCount = $content.length;
+
+      cy.scrollTo('bottom');
+      cy.wait(3000);
+
+      cy.get('ul.item-list > li').should('have.length', initialContentCount);
+    });
   });
 
   it('키워드로 검색하면 검색 페이지로 전환된다.', () => {
-    cy.testAPIWithFixture(MOVIE_LIST_TYPE.search.type, 'movie-single-page.json');
-
     cy.visitHome();
     cy.addSearchInput('쿵푸');
     cy.submitSearchInput();
@@ -47,7 +63,7 @@ describe('영화 e2e 테스트', () => {
     cy.addSearchInput('쿵푸');
     cy.submitSearchInput();
 
-    cy.get('.empty-search-result').contains('검색 결과가 없습니다.').should('exist');
+    cy.get('.empty-result').contains('검색 결과가 없습니다.').should('exist');
   });
 
   it('검색어를 입력하지 않으면 검색어가 없다고 안내한다.', () => {

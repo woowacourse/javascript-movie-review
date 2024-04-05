@@ -1,11 +1,30 @@
 * {
-  box-sizing: border-box !important;
+  box-sizing: border-box;
 }
+
+/* Colors *****************************************/
+
+:root {
+  --primary-color: #f33f3f;
+  --lighten-color: #f6a88a;
+  --grey-100: #ffffff;
+  --grey-200: #f0f0f0;
+  --grey-300: #aaaaaa;
+  --grey-400: #747886;
+  --grey-500: #383839;
+  --grey-600: #222222;
+  --grey-700: #000000;
+  --modal-bg-color: rgba(0, 0, 0, 0.6);
+  --loading-overlay-bg-color: rgba(0, 0, 0, 0.5);
+  --loading-animation-bg-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Common Elements *******************************/
 
 body {
   font-size: 14px;
-  background-color: #222222;
-  color: #fff;
+  background-color: var(--grey-600);
+  color: var(--grey-100);
 }
 
 a {
@@ -17,6 +36,17 @@ button {
   cursor: pointer;
 }
 
+button.btn {
+  border: 0;
+  border-radius: 8px;
+  height: 30px;
+  color: var(--grey-100);
+}
+
+button.primary {
+  background: var(--primary-color);
+}
+
 #app {
   padding-bottom: 48px;
 }
@@ -24,6 +54,23 @@ button {
 *:focus {
   outline: none;
 }
+
+/* Common Style Sets ****************************/
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.display-none {
+  display: none;
+}
+
+.display-inline {
+  display: inline-block;
+}
+
+/* Element Classes *****************************/
+
 .item-view,
 .item-test {
   width: 100%;
@@ -33,7 +80,9 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -41,43 +90,65 @@ button {
   font-size: 2rem;
   font-weight: bold;
   user-select: none;
+  width: 100%;
+  max-width: 864px;
 }
-
-/* https://andrew.hedges.name/experiments/aspect_ratio/ */
 
 .item-list {
   display: grid;
   margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
-  grid-row-gap: 48px;
+  grid-gap: 48px;
 }
 
 .item-card {
   display: flex;
   flex-direction: column;
+  transform: scale(1);
+  transition: transform 0.3s ease;
+}
+
+.item-card:hover {
+  cursor: pointer;
+  transform: scale(1.08);
+  transition: transform 0.3s ease;
+}
+
+.item-thumbnail-box {
+  border-radius: 8px;
+  position: relative;
+  aspect-ratio: 2/3;
 }
 
 .item-thumbnail {
   border-radius: 8px;
-  width: 180px;
-  height: 270px;
-  background-size: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
 }
 
 .item-title {
   margin-top: 16px;
-  font-size: 1.2rem;
+  font-size: 18px;
   font-weight: bold;
+  line-height: 24px;
 }
 
 .item-score {
   margin-top: 16px;
-  font-size: 1.2rem;
+  font-size: 16px;
 }
 
-.item-score::after {
+.item-score.loaded::after {
   margin-left: 8px;
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: url('../asset/star_filled.png');
+  background-size: cover;
+  position: relative;
+  top: 2px;
 }
 
 .item-title.skeleton::after,
@@ -94,19 +165,8 @@ button {
   margin-top: 48px;
 }
 
-button.btn {
-  border: 0;
-  border-radius: 8px;
-  height: 30px;
-  color: #fff;
-}
-
-button.primary {
-  background: #f33f3f;
-}
-
 .item-card .skeleton {
-  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background: linear-gradient(-90deg, var(--grey-200), var(--grey-300), var(--grey-200), var(--grey-300));
   background-size: 400%;
   animation: skeleton-animation 5s infinite ease-out;
   border-radius: 8px;
@@ -123,16 +183,16 @@ button.primary {
     background-position: 0% 50%;
   }
 }
+
 header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
-  background-color: #222;
+  background-color: var(--grey-600);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid var(--grey-100);
   margin-bottom: 48px;
 }
 
@@ -142,27 +202,158 @@ header h1 {
   font-size: 2rem;
   font-weight: bold;
   letter-spacing: -0.1rem;
-  color: #f33f3f;
+  color: var(--primary-color);
 }
 
-header > img.logo:hover {
+img.logo:hover {
   cursor: pointer;
 }
 
-header > .search-box {
-  background: #fff;
+.search-box {
+  background: var(--grey-100);
   padding: 8px;
   border-radius: 4px;
 }
 
-header .search-box > input {
+.search-box > input {
   border: 0;
 }
 
-header .search-box > .search-button {
+.search-box > .search-button {
   width: 14px;
   border: 0;
   text-indent: -1000rem;
   background: url('../asset/search_button.png') transparent no-repeat 0 1px;
   background-size: contain;
+}
+
+.empty-result {
+  margin: 0 auto;
+  max-width: 40vh;
+}
+
+.empty-result img {
+  width: 90%;
+  margin-bottom: 4vh;
+}
+
+.empty-result p {
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 32px;
+}
+
+/* Screen Size Breakpoints ************************/
+/*
+  --breakpoint-desktop: 920px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-tablet-small: 560px;
+  --breakpoint-smartphone: 440px;
+*/
+
+@media (max-width: 920px) {
+  .item-view h2 {
+    width: 660px;
+  }
+
+  .item-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 660px;
+    margin: 0 auto;
+  }
+
+  .item-list {
+    display: grid;
+    margin: 48px 0;
+    grid-template-columns: repeat(3, 180px);
+    grid-column-gap: 60px;
+    grid-row-gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .item-view h2 {
+    max-width: 90vw;
+  }
+
+  .item-view {
+    max-width: 90vw;
+  }
+
+  .item-list {
+    grid-template-columns: repeat(3, minmax(140px, 180px));
+    grid-gap: calc(90vw / 12);
+  }
+
+  .poster-image {
+    display: none;
+  }
+
+  .modal-container {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    max-width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  .movie-info-container {
+    gap: 48px;
+  }
+}
+
+@media (max-width: 560px) {
+  .item-list {
+    grid-template-columns: repeat(2, minmax(120px, 180px));
+    grid-gap: calc(90vw / 12);
+  }
+
+  .empty-result {
+    margin: 0 auto;
+    max-width: 40vh;
+  }
+
+  .empty-result img {
+    width: 80%;
+    margin-bottom: 3vh;
+  }
+
+  .empty-result p {
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    line-height: 28px;
+  }
+}
+
+@media (max-width: 440px) {
+  .search-box {
+    position: absolute;
+    display: flex;
+    right: 20px;
+    z-index: 10;
+    width: 32px;
+    transition: width 0.5s ease;
+  }
+
+  .search-box.active {
+    width: calc(100% - 40px);
+  }
+
+  .search-box > input {
+    display: none;
+  }
+
+  .search-box.active > input {
+    flex-grow: 1;
+    width: 100%;
+    display: block;
+  }
 }

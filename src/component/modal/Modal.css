@@ -1,0 +1,15 @@
+dialog {
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+
+  width: 95%;
+  max-width: 826px;
+  min-height: 485px;
+  max-height: 577px;
+}
+
+dialog::backdrop {
+  background: var(--modal-bg-color);
+}

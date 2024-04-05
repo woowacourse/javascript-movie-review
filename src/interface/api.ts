@@ -27,3 +27,9 @@ export interface QueryUrl {
   endpoint: string;
   query: { [key: string]: string | number | boolean };
 }
+
+export interface fetchAPIParams {
+  url: string;
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  body?: object;
+}
