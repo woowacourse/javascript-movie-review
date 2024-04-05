@@ -1,6 +1,6 @@
 export const $ = <T extends string>(
   selector: T,
-  target = document
+  target = document,
 ): HTMLElement | null => {
   const targetElement = target.querySelector(selector);
 
@@ -23,7 +23,7 @@ export const $$ = <T extends string>(selector: T, target = document) => {
 
 export const createElement = <K extends keyof HTMLElementTagNameMap>(
   tagName: K,
-  attributes?: Record<string, string>
+  attributes?: Record<string, string>,
 ): HTMLElement => {
   const element = document.createElement(tagName);
 

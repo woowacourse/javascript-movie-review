@@ -1,21 +1,20 @@
-header {
+.app-header {
   width: 100%;
-  min-width: 1200px;
   height: 72px;
-  background-color: #222;
+  background-color: var(--dark-gray);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid var(--white);
   margin-bottom: 48px;
 }
 
-header h1 {
+.home-link {
   cursor: pointer;
   user-select: none;
   font-size: 2rem;
   font-weight: bold;
   letter-spacing: -0.1rem;
-  color: #f33f3f;
+  color: var(--red);
 }

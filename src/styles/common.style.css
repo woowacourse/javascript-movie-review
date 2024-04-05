@@ -1,0 +1,49 @@
+:root {
+  --light-gray: #f1f1f140;
+  --gray: #383839;
+  --dark-gray: #222222;
+  --white: #ffffff;
+  --modal-shadow: rgba(0, 0, 0, 0.7);
+  --red: #f33f3f;
+  --mobile-width: 674px;
+  --tablet-width: 820px;
+  --notebook-width: 1220px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#app {
+  padding-bottom: 48px;
+}
+
+body {
+  font-size: 14px;
+  background-color: var(--dark-gray);
+  color: var(--white);
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+*:focus {
+  outline: none;
+}
+
+.skeleton {
+  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background-size: 400%;
+  animation: skeleton-animation 5s infinite ease-out;
+  border-radius: 8px;
+}

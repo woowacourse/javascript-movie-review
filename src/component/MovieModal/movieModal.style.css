@@ -1,0 +1,162 @@
+.modal-close {
+  display: none;
+}
+
+.modal-open {
+  display: block;
+}
+
+.modal-backdrop {
+  background-color: var(--modal-shadow);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  inset: 0px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-skeleton {
+  background: linear-gradient(-90deg, #aaa, #f0f0f0, #aaa, #f0f0f0);
+  background-size: 400%;
+  animation: skeleton-animation 5s infinite ease-out;
+  border-radius: 8px;
+}
+
+.modal-container {
+  max-width: 826px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--dark-gray);
+  box-shadow: var(--modal-shadow) 0px 4px 4px;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
+.modal-header {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 22px;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.modal-title-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.modal-title.modal-skeleton::after {
+  display: inline-block;
+  width: 50%;
+  font-size: 20px;
+  content: 'loading';
+}
+
+.modal-cancel-button {
+  border-style: none;
+  background-color: transparent;
+}
+
+.modal-cancel-image {
+  width: 36px;
+  height: 36px;
+}
+
+.modal-content {
+  display: flex;
+  gap: 32px;
+  padding: 36px 32px 48px 32px;
+}
+
+.modal-poster-wrapper {
+  flex: 1;
+}
+
+.modal-poster {
+  width: 292px;
+  height: 433px;
+}
+
+.modal-detail-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-genres-and-vote-average-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.modal-vote-average-wrapper {
+  display: flex;
+  gap: 4px;
+}
+
+.modal-overview {
+  height: 310px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 15;
+  -webkit-box-orient: vertical;
+}
+
+.modal-my-vote-wrapper {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-left: 16px;
+  background-color: var(--gray);
+  border-radius: 16px;
+}
+
+.my-vote-button {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  vertical-align: middle;
+  border-style: none;
+  background-color: transparent;
+}
+
+.my-vote-button-image {
+  width: 100%;
+}
+
+@media screen and (max-width: var(--tablet-width)) {
+  .modal-container {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+  }
+
+  .modal-poster-wrapper {
+    display: none;
+  }
+
+  .my-vote-button-wrapper {
+    justify-content: center;
+  }
+
+  .my-vote-score-text {
+    display: none;
+  }
+}

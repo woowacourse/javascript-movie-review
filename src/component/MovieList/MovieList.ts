@@ -1,27 +1,30 @@
-import MovieItem from "../MovieItem/MovieItem";
-import MoreMoviesButton from "../MoreMoviesButton/MoreMoviesButton";
-import { getSearchedMoviesData } from "../../api/getSearchedMoviesData";
-import { getPopularMoviesData } from "../../api/getPopularMoviesData";
-import { $, $$, createElement } from "../../utility/dom";
-import { validation } from "../../utility/validation";
-import hangsungImg from "../../image/wooteco-icon.png";
+import MovieItem from '../MovieItem/MovieItem';
+import { getSearchedMoviesData } from '../../api/getSearchedMoviesData';
+import { getPopularMoviesData } from '../../api/getPopularMoviesData';
+import { getMovieDetailData } from '../../api/getMovieDetailData';
+import { $, $$, createElement } from '../../utility/dom';
+import { validation } from '../../utility/validation';
+import hangsungImg from '../../image/wooteco-icon.png';
 import {
   ERROR_MESSAGE,
   INFO_MESSAGE,
   MAX_PAGE_PER_REQUEST,
-  TAB,
   TITLE_TEXT,
-} from "../../constant/setting";
+} from '../../constant/setting';
+import MovieModal from '../MovieModal/MovieModal';
+import { pagination } from '../../utility/pagination';
 
 class MovieList {
-  #title: string;
+  #movieID: number;
   #movieListSection;
   #popularCurrentPage = 1;
   #searchCurrentPage = 1;
+  #movieModal: MovieModal;
 
   constructor() {
-    this.#title = "";
-    this.#movieListSection = $(".item-view") as Element;
+    this.#movieModal = new MovieModal();
+    this.#movieID = 0;
+    this.#movieListSection = $('.item-view') as Element;
 
     this.#createPopularMoviesSection();
     this.#renderPopularMovieItems();
@@ -29,58 +32,69 @@ class MovieList {
   }
 
   #createPopularMoviesSection() {
-    const movieListTitle = createElement("h2");
+    const movieListTitle = createElement('h2');
     movieListTitle.textContent = TITLE_TEXT.POPULAR;
 
-    const movieListUl = createElement("ul", {
-      class: "item-list",
+    const movieListUl = createElement('ul', {
+      class: 'item-list',
     });
 
     this.#movieListSection.appendChild(movieListTitle);
     this.#movieListSection.appendChild(movieListUl);
+    this.#movieModal.createMovieModalSection();
   }
 
   async #renderPopularMovieItems() {
-    const ul = $(".item-list");
+    const ulElement = $('.item-list');
+    const liList = this.#createEmptyMovieItems(ulElement);
+    const scrollTrigger = $('.item-list')?.lastChild as HTMLLIElement;
 
     try {
       const data = await getPopularMoviesData(
-        this.#popularCurrentPage.toString()
+        this.#popularCurrentPage.toString(),
       );
-      const liList = this.#createEmptyMovieItems(data, ul);
-
-      setTimeout(() => {
-        this.#updateMovieItemsWithData(data, liList);
-        this.#handlePopularPagination(data);
-      }, 1000);
+      if (data.length > 0) {
+        pagination.paginate(data.length, scrollTrigger, () =>
+          this.#onPopularIntersect(),
+        );
+      }
+      this.#removeSkeleton('.skeleton');
+      this.#updateMovieItemsWithData(data, liList);
     } catch (error) {
+      this.#removeSkeleton('.skeleton');
       this.#handleError(error as Error);
     }
-    this.#removeMoreMoviesButton(TAB.POPULAR);
-  }
-
-  #handlePopularPagination(data: IMovieItemData[]) {
-    if (data.length === MAX_PAGE_PER_REQUEST) {
-      const moreMoviesButton = this.#createMoreMoviesButton(TAB.POPULAR);
-
-      moreMoviesButton.addEventListener("click", () => {
-        this.#popularCurrentPage += 1;
-        this.#renderPopularMovieItems();
-      });
-
-      return;
-    }
-
-    this.#removeMoreMoviesButton(TAB.POPULAR);
-    this.#displayMaxPageInfo();
+    this.#setupItemClick();
   }
 
   #setupSearchFormSubmit() {
-    const searchForm = $(".search-box");
+    const searchForm = $('.search-box');
 
-    searchForm?.addEventListener("submit", (event) => {
+    searchForm?.addEventListener('submit', (event) => {
       this.#handleSearchFormSubmit(event, searchForm);
     });
+  }
+
+  #setupItemClick() {
+    const ulElement = $('.item-list');
+    ulElement?.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      const clickedLi = target.closest('li');
+      if (clickedLi) {
+        this.#movieID = Number(clickedLi.id);
+        this.#renderMovieDetailModal(this.#movieID);
+      }
+    });
+  }
+
+  #onPopularIntersect() {
+    this.#popularCurrentPage += 1;
+    this.#renderPopularMovieItems();
+  }
+
+  #onSearchIntersect(titleInput: string) {
+    this.#searchCurrentPage += 1;
+    this.#renderSearchedMovieItems(titleInput);
   }
 
   #handleSearchFormSubmit(event: Event, searchForm: HTMLElement | null) {
@@ -89,7 +103,7 @@ class MovieList {
     this.#searchCurrentPage = 1;
 
     const titleInput = (
-      searchForm?.querySelector(".search-input") as HTMLInputElement
+      searchForm?.querySelector('.search-input') as HTMLInputElement
     ).value;
 
     if (!validation.validateEmptyInput(titleInput)) {
@@ -97,92 +111,93 @@ class MovieList {
       return;
     }
 
-    this.#title = titleInput;
-    this.#movieListSection.innerHTML = "";
+    this.#movieListSection.innerHTML = '';
     this.#createSearchedMoviesSection(titleInput);
     this.#renderSearchedMovieItems(titleInput);
   }
 
   #createSearchedMoviesSection(titleInput: string) {
-    const movieListTitle = createElement("h2");
+    const movieListTitle = createElement('h2');
     movieListTitle.textContent = TITLE_TEXT.SEARCH(titleInput);
 
-    const searchedMovieListUl = createElement("ul", {
-      class: "item-list",
+    const searchedMovieListUl = createElement('ul', {
+      class: 'item-list',
     });
 
     this.#movieListSection.appendChild(movieListTitle);
     this.#movieListSection.appendChild(searchedMovieListUl);
+    this.#movieModal.createMovieModalSection();
   }
 
   async #renderSearchedMovieItems(titleInput: string) {
-    const ul = $("ul");
+    const ulElement = $('.item-list');
+    const liList = this.#createEmptyMovieItems(ulElement);
+    const scrollTrigger = $('.item-list')?.lastChild as HTMLLIElement;
 
     try {
       const data = await this.#getSearchedMoviesData(titleInput);
       if (data.length > 0) {
-        const liList = this.#createEmptyMovieItems(data, ul);
-
-        setTimeout(() => {
-          this.#updateMovieItemsWithData(data, liList);
-          this.#handleSearchPagination(data);
-        }, 1000);
+        pagination.paginate(data.length, scrollTrigger, () =>
+          this.#onSearchIntersect(titleInput),
+        );
       }
+      this.#removeSkeleton('.skeleton');
+      this.#updateMovieItemsWithData(data, liList);
     } catch (error) {
+      this.#removeSkeleton('.skeleton');
       this.#handleError(error as Error);
     }
-
-    this.#removeMoreMoviesButton(TAB.SEARCH);
+    this.#setupItemClick();
   }
 
   async #getSearchedMoviesData(titleInput: string) {
     return await getSearchedMoviesData(
       this.#searchCurrentPage.toString(),
-      titleInput
+      titleInput,
     );
   }
 
-  #handleSearchPagination(data: IMovieItemData[]) {
-    if (data.length === MAX_PAGE_PER_REQUEST) {
-      const moreMoviesButton = this.#createMoreMoviesButton(TAB.SEARCH);
-
-      moreMoviesButton.addEventListener("click", () => {
-        this.#searchCurrentPage += 1;
-        this.#renderSearchedMovieItems(this.#title);
-      });
-
-      return;
+  async #renderMovieDetailModal(movieID: number) {
+    try {
+      const data = await this.#getMovieDetailData(movieID);
+      this.#movieModal.setMovieModalItem(data);
+      this.#removeSkeleton('.modal-skeleton');
+    } catch (error) {
+      this.#handleError(error as Error);
     }
+  }
 
-    this.#removeMoreMoviesButton(TAB.SEARCH);
-    this.#displayMaxPageInfo();
+  async #getMovieDetailData(movieID: number) {
+    return await getMovieDetailData(movieID);
   }
 
   // NOTE: 인기순 및 검색 리스트 공통 메서드
   #createMovieItem() {
-    const li = createElement("li");
-    const article = createElement("article", {
-      class: "item-card",
+    const li = createElement('li', {
+      class: 'item',
     });
-    const tumbnailContainer = createElement("div", {
-      class: "thumbnail-container skeleton",
+    const article = createElement('article', {
+      class: 'item-card',
     });
-    const thumbnail = createElement("img", {
-      class: "item-thumbnail",
-      loading: "lazy",
-      alt: "",
+    const tumbnailContainer = createElement('div', {
+      class: 'thumbnail-container skeleton',
+    });
+    const thumbnail = createElement('img', {
+      class: 'item-thumbnail',
+      loading: 'lazy',
+      alt: '',
     }) as HTMLImageElement;
-    const title = createElement("p", {
-      class: "item-title skeleton",
+    const title = createElement('p', {
+      class: 'item-title skeleton',
     });
-    const scoreWrapper = createElement("div", {
-      class: "item-score-wrapper",
+    const scoreWrapper = createElement('div', {
+      class: 'item-score-wrapper',
     });
-    const score = createElement("span", {
-      class: "item-score skeleton",
+    const score = createElement('span', {
+      class: 'item-score skeleton',
     });
-    const starImg = createElement("img", {
-      class: "item-filled-star",
+    const starImg = createElement('img', {
+      class: 'item-filled-star',
     }) as HTMLImageElement;
 
     scoreWrapper.appendChild(score);
@@ -196,23 +211,24 @@ class MovieList {
     return li;
   }
 
-  #createEmptyMovieItems(
-    data: IMovieItemData[],
-    ul: HTMLElement | null
-  ): HTMLLIElement[] {
-    return data.map(() => {
-      const liElement = this.#createMovieItem() as HTMLLIElement;
+  #createEmptyMovieItems(ul: HTMLElement | null): HTMLLIElement[] {
+    const skeletonData = Array.from({ length: MAX_PAGE_PER_REQUEST }).map(
+      () => {
+        return this.#createMovieItem() as HTMLLIElement;
+      },
+    );
+
+    skeletonData.forEach((liElement) => {
       ul?.appendChild(liElement);
-      return liElement;
     });
+
+    return skeletonData;
   }
 
   #updateMovieItemsWithData(data: IMovieItemData[], liList: HTMLLIElement[]) {
-    this.#removeSkeleton();
-
     const movieItems = data.map(
-      ({ title, poster_path, vote_average }) =>
-        new MovieItem({ title, poster_path, vote_average })
+      ({ title, poster_path, vote_average, id }) =>
+        new MovieItem({ title, poster_path, vote_average, id }),
     );
 
     movieItems.forEach((movieItem: MovieItem, index: number) => {
@@ -223,58 +239,35 @@ class MovieList {
     });
   }
 
-  #createMaxPageInfo() {
-    const maxPageInfoElement = createElement("p", {
-      class: "max-page-info",
-    });
-    maxPageInfoElement.textContent = INFO_MESSAGE.MAX_PAGE;
-
-    return maxPageInfoElement;
-  }
-
-  #displayMaxPageInfo() {
-    const maxPageInfo = this.#createMaxPageInfo();
-
-    this.#movieListSection.appendChild(maxPageInfo);
-  }
-
-  #createMoreMoviesButton(tab: string) {
-    const moreMoviesButton = MoreMoviesButton.createMoreMoviesButton(tab);
-    this.#movieListSection.appendChild(moreMoviesButton);
-
-    return moreMoviesButton;
-  }
-
-  #removeMoreMoviesButton(tab: string) {
-    $(`.${tab}MoreMoviesButton`)?.remove();
-  }
-
-  #removeSkeleton() {
-    const skeletonElements = $$(".skeleton");
-
+  #removeSkeleton(selector: string) {
+    const skeletonElements = $$(selector);
     if (skeletonElements) {
       skeletonElements.forEach((element) => {
-        element.classList.remove("skeleton");
+        if (element.classList.contains('modal-skeleton')) {
+          element.classList.remove('modal-skeleton');
+        } else {
+          element.classList.remove('skeleton');
+        }
       });
     }
   }
 
   #crateErrorUI(message: string) {
-    const sectionElement = $(".item-view");
-    const errorWrapper = createElement("div", {
-      class: "error-wrapper",
+    const sectionElement = $('.item-view');
+    const errorWrapper = createElement('div', {
+      class: 'error-wrapper',
     });
-    const imgElement = createElement("img", {
-      class: "wooteco-icon",
+    const imgElement = createElement('img', {
+      class: 'wooteco-icon',
       src: hangsungImg,
     });
-    const textElement = createElement("p", {
-      class: "error-message",
+    const textElement = createElement('p', {
+      class: 'error-message',
     });
     textElement.textContent = message;
 
     if (sectionElement) {
-      sectionElement.innerHTML = "";
+      sectionElement.innerHTML = '';
       sectionElement.appendChild(errorWrapper);
     }
 
@@ -285,11 +278,11 @@ class MovieList {
   }
 
   #handleError(error: Error) {
-    if (typeof error === "object" && error.message) {
+    if (typeof error === 'object' && error.message) {
       this.#crateErrorUI(error.message);
-    } else {
-      this.#crateErrorUI(ERROR_MESSAGE.UNKNOWN);
+      return;
     }
+    this.#crateErrorUI(ERROR_MESSAGE.UNKNOWN);
   }
 }
 
