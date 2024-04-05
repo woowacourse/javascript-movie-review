@@ -1,9 +1,10 @@
-import IRespondData from '../../interfaces/FetchMovieListDTO';
+import IRespondData from '../../interfaces/IMovieList';
 import IMovieData from '../../interfaces/IMovieData';
 import { starFilled } from '../../resources';
 import { getDomElement, getAllDomElements } from '../../util/DOM';
-import { MOVIE_POSTER_URL } from '../../constants/URLs';
+import { MOVIE_THUMBNAIL_URL } from '../../constants/URLs';
 import Skeleton from '../Skeleton/Skeleton';
+import MovieInfoModal from '../MovieInfoModal/MovieInfoModal';
 
 const MovieItems = {
   createSkeleton() {
@@ -15,7 +16,10 @@ const MovieItems = {
 
   async replaceAllSkeletons(movieItems: HTMLUListElement, respondData: IRespondData) {
     const itemCards = getAllDomElements('li', movieItems);
-    itemCards.forEach((item, index) => this.replaceSkeleton(item, respondData.results[index]));
+    itemCards.forEach((item, index) => {
+      this.replaceSkeleton(item, respondData.results[index]);
+      this.addShowModal(item, respondData.results[index]);
+    });
   },
 
   replaceSkeleton(itemCard: HTMLElement, movieData: IMovieData) {
@@ -24,40 +28,36 @@ const MovieItems = {
     }
     this.replaceThumbnail(itemCard, movieData);
     this.replaceTitle(itemCard, movieData);
-    this.replaceScore(itemCard, movieData);
+    this.replaceVoteAverage(itemCard, movieData);
   },
 
   replaceThumbnail(itemCard: HTMLElement, movieData: IMovieData) {
-    const oldThumbnail = getDomElement('.item-thumbnail', itemCard);
-    const newThumbnail = document.createElement('img');
+    const thumbnail = getDomElement<HTMLImageElement>('.item-thumbnail', itemCard);
 
-    newThumbnail.classList.add('item-thumbnail');
-    newThumbnail.src = `${MOVIE_POSTER_URL}${movieData.poster_path}`;
-    newThumbnail.loading = 'lazy';
-    newThumbnail.alt = movieData.title;
-
-    oldThumbnail.replaceWith(newThumbnail);
+    thumbnail.classList.add('item-thumbnail');
+    thumbnail.src = `${MOVIE_THUMBNAIL_URL}${movieData.poster_path}`;
+    thumbnail.loading = 'lazy';
+    thumbnail.alt = movieData.title;
+    thumbnail.onload = () => thumbnail.classList.toggle('skeleton');
   },
 
   replaceTitle(itemCard: HTMLElement, movieData: IMovieData) {
-    const oldTitle = getDomElement('.item-title', itemCard);
-    const newTitle = document.createElement('p');
+    const title = getDomElement('.item-title', itemCard);
 
-    newTitle.classList.add('item-title');
-    newTitle.textContent = movieData.title;
+    title.classList.add('item-title');
+    title.textContent = movieData.title;
 
-    oldTitle.replaceWith(newTitle);
+    title.classList.toggle('skeleton');
   },
 
-  replaceScore(itemCard: HTMLElement, movieData: IMovieData) {
-    const oldScore = getDomElement('.item-score', itemCard);
-    const newScore = document.createElement('p');
+  replaceVoteAverage(itemCard: HTMLElement, movieData: IMovieData) {
+    const voteAverage = getDomElement('.item-vote-average', itemCard);
 
-    newScore.classList.add('item-score');
-    newScore.textContent = `${movieData.vote_average.toFixed(1)} `;
-    newScore.appendChild(this.createStarElement());
+    voteAverage.classList.add('item-vote-average');
+    voteAverage.textContent = `${movieData.vote_average.toFixed(1)} `;
+    voteAverage.appendChild(this.createStarElement());
 
-    oldScore.replaceWith(newScore);
+    voteAverage.classList.toggle('skeleton');
   },
 
   createStarElement(): HTMLElement {
@@ -67,23 +67,13 @@ const MovieItems = {
     return star;
   },
 
-  createMovieItemLink(movieItemCard: HTMLElement) {
-    const movieItemLink = document.createElement('a');
-
-    movieItemLink.setAttribute('href', '#');
-
-    movieItemLink.appendChild(movieItemCard);
-
-    return movieItemLink;
-  },
-
   replaceMovieCardSkeleton(itemCard: HTMLElement, movieData: IMovieData) {
     if (movieData === undefined) {
       return itemCard.remove();
     }
     this.replaceThumbnail(itemCard, movieData);
     this.replaceTitle(itemCard, movieData);
-    this.replaceScore(itemCard, movieData);
+    this.replaceVoteAverage(itemCard, movieData);
   },
 
   createMovieItemThumbnailSkeleton() {
@@ -100,11 +90,17 @@ const MovieItems = {
     return movieItemTitle;
   },
 
-  createMovieItemScoreSkeleton() {
-    const movieItemScore = document.createElement('div');
-    movieItemScore.classList.add('item-score', 'skeleton');
+  createMovieItemVoteAverageSkeleton() {
+    const movieItemVoteAverage = document.createElement('div');
+    movieItemVoteAverage.classList.add('item-vote-average', 'skeleton');
 
-    return movieItemScore;
+    return movieItemVoteAverage;
+  },
+
+  addShowModal(item: HTMLElement, movieData: IMovieData) {
+    item.addEventListener('click', () => {
+      new MovieInfoModal(movieData.id);
+    });
   },
 };
 

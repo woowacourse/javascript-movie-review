@@ -1,5 +1,7 @@
 import ToastPopup from '../../components/ToastPopup/ToastPopup';
-import { POPULAR_MOVIES_URL, MOVIE_SEARCH_URL } from '../../constants/URLs';
+import { POPULAR_MOVIES_URL, MOVIE_SEARCH_URL, MOVIE_DETAIL_URL } from '../../constants/URLs';
+import { getDomElement } from '../../util/DOM';
+import checkNetworkStatus from '../Validator/NetworkValidator';
 
 async function fetchPopularMovies(page: number) {
   const KEY = process.env.API_KEY;
@@ -11,19 +13,12 @@ async function fetchPopularMovies(page: number) {
       language: 'ko-KR',
       page: `${page}`,
     });
-
   try {
-    const response = await fetch(popularMovieUrl);
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const popularMovies = await response.json();
-    return popularMovies;
+    return await requestMovieData(popularMovieUrl);
   } catch (error) {
-    ToastPopup(`인기 영화를 불러오는 도중 오류가 발생했습니다. ${error}`);
-    console.error('fetchPopularMovies 오류:', error);
-    return null;
+    ToastPopup(`${error}`, 10000);
+    getDomElement('.list-end').remove();
+    throw new Error();
   }
 }
 
@@ -38,20 +33,53 @@ async function fetchSearchMovies(page: number, userInput: string) {
       language: 'ko-KR',
       page: `${page}`,
     });
-
   try {
-    const response = await fetch(movieSearchUrl);
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const popularMovies = await response.json();
-    return popularMovies;
+    return await requestMovieData(movieSearchUrl);
   } catch (error) {
-    ToastPopup(`영화 검색 결과를 불러오는 도중 오류가 발생했습니다. ${error}`);
-    console.error('fetchSearchMovies 오류:', error);
-    return null;
+    ToastPopup(`${error}`, 10000);
+    getDomElement('.list-end').remove();
+    throw new Error();
   }
 }
 
-export { fetchPopularMovies, fetchSearchMovies };
+async function fetchMovieDetail(id: number) {
+  const KEY = process.env.API_KEY;
+  const movieDetailUrl =
+    MOVIE_DETAIL_URL +
+    `/${id}` +
+    '?' +
+    new URLSearchParams({
+      api_key: KEY as string,
+      language: 'ko-KR',
+    });
+  try {
+    return await requestMovieData(movieDetailUrl);
+  } catch (error) {
+    ToastPopup(`${error}`, 10000);
+    getDomElement('.list-end').remove();
+    throw new Error();
+  }
+}
+
+async function requestMovieData(url: string): Promise<any> {
+  const isOnline = await checkNetworkStatus();
+  if (!isOnline) {
+    throw new Error('네트워크 연결이 없습니다.');
+  }
+
+  const response = await fetch(url);
+  if (response.status === 401) {
+    const toastMessage = getDomElement('#toast_message');
+    toastMessage.setAttribute('hover', 'true');
+    toastMessage.style.cursor = 'pointer';
+    toastMessage.onclick = () => {
+      window.open('https://github.com/greetings1012/javascript-movie-review');
+    };
+    throw new Error('API KEY 검증에 실패했습니다. 클릭하면 개발자의 Github로 이동합니다.');
+  }
+
+  const popularMovies = await response.json();
+  return popularMovies;
+}
+
+export { fetchPopularMovies, fetchSearchMovies, fetchMovieDetail };

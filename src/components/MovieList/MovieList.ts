@@ -1,10 +1,10 @@
 import { fetchPopularMovies, fetchSearchMovies } from '../../domain/Request/sendRequest';
-import { BUTTON, CONTAINER_TITLE } from '../../constants/INFORMATION';
-import Button from '../Button/Button';
+import { CONTAINER_TITLE, FETCHING_MOVIE_MESSAGE } from '../../constants/INFORMATION';
 import MovieItems from '../MovieItems/MovieItems';
-import IRespondData from '../../interfaces/FetchMovieListDTO';
+import IRespondData from '../../interfaces/IMovieList';
 import { getDomElement } from '../../util/DOM';
 import OPTIONS from '../../constants/OPTIONS';
+import setupInfiniteScroll from '../../util/InfiniteScroll';
 
 class MovieList {
   #page: number;
@@ -12,23 +12,25 @@ class MovieList {
   constructor(search?: string) {
     this.#page = 0;
     this.#search = search;
-    if (search) {
-      this.create(`"${search}"${CONTAINER_TITLE.searchResult}`, search);
+    if (this.#search) {
+      this.create(`"${this.#search}"${CONTAINER_TITLE.searchResult}`);
     } else {
-      this.create(CONTAINER_TITLE.popular, search);
+      this.create(CONTAINER_TITLE.popular);
     }
   }
 
-  create(movieListTitle: string, search?: string) {
+  async create(movieListTitle: string) {
     const movieList = getDomElement('.item-view');
-    const button = Button.create(BUTTON.showMore);
+    const listEnd = document.createElement('div');
+    listEnd.classList.add('list-end');
 
     movieList.appendChild(this.createTitle(movieListTitle));
-    movieList.appendChild(button);
+    movieList.appendChild(listEnd);
+    this.mountItems(listEnd);
 
-    this.mountItems(button, search);
-    button.addEventListener('click', () => this.mountItems(button, search));
-    return movieList;
+    await setupInfiniteScroll(listEnd, this.mountItems.bind(this), this.#search, FETCHING_MOVIE_MESSAGE);
+
+    getDomElement('#app').appendChild(movieList);
   }
 
   createTitle(containerTitle: string) {
@@ -39,20 +41,20 @@ class MovieList {
     return title;
   }
 
-  async mountItems(button: HTMLElement, search?: string) {
+  async mountItems(listEnd: HTMLElement): Promise<void> {
     const skeleton = MovieItems.createSkeleton();
-    button.insertAdjacentElement('beforebegin', skeleton);
+    listEnd.insertAdjacentElement('beforebegin', skeleton);
 
-    const movieListData: IRespondData = await this.getMovieListData(search);
+    const movieListData: IRespondData = await this.getMovieListData();
     MovieItems.replaceAllSkeletons(skeleton, movieListData);
     if (this.#page === movieListData.total_pages || this.#page === OPTIONS.maxPage) {
-      button.remove();
+      listEnd.remove();
     }
   }
 
-  async getMovieListData(search?: string) {
-    if (search) {
-      return await fetchSearchMovies(++this.#page, search);
+  async getMovieListData() {
+    if (this.#search) {
+      return await fetchSearchMovies(++this.#page, this.#search);
     } else {
       return await fetchPopularMovies(++this.#page);
     }

@@ -1,22 +1,20 @@
 import SearchBox from '../SearchBox/SearchBox';
 import { logo } from '../../resources';
 import MovieList from '../MovieList/MovieList';
-import SearchValidator from '../../domain/Validator/SearchValidator';
-import ToastPopup from '../ToastPopup/ToastPopup';
 import { getDomElement } from '../../util/DOM';
 
 const MovieHeader = {
   create() {
     const header = document.createElement('header');
     const logoImgContainer = this.createLogoImgContainer();
-    const searchBox = SearchBox.create();
 
     header.appendChild(logoImgContainer);
+    getDomElement('#app').appendChild(header);
+
+    const searchBox = SearchBox.create();
     header.appendChild(searchBox);
 
-    this.setHandle(logoImgContainer, searchBox);
-
-    getDomElement('#app').appendChild(header);
+    this.setHandle(logoImgContainer);
   },
 
   createLogoImgContainer() {
@@ -31,15 +29,8 @@ const MovieHeader = {
     return logoImgContainer;
   },
 
-  setHandle(logoImgContainer: HTMLElement, searchBox: HTMLElement) {
-    logoImgContainer.addEventListener('click', () => this.showPopularMovies(searchBox));
-    const searchButton = getDomElement('button', searchBox);
-    searchButton.addEventListener('click', () => this.showSearchMovies(searchBox));
-    searchBox.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        this.showSearchMovies(searchBox);
-      }
-    });
+  setHandle(logoImgContainer: HTMLElement) {
+    logoImgContainer.addEventListener('click', () => this.showPopularMovies());
   },
 
   createMovieList(inputText?: string) {
@@ -49,21 +40,12 @@ const MovieHeader = {
     new MovieList(inputText);
   },
 
-  showPopularMovies(searchBox: HTMLElement) {
+  showPopularMovies() {
+    const searchBox = getDomElement('.search-box');
     const searchBoxInput = getDomElement<HTMLInputElement>('input', searchBox);
     searchBoxInput.value = '';
 
     this.createMovieList();
-  },
-
-  showSearchMovies(searchBox: HTMLElement) {
-    try {
-      const trimmedSearchInputText = getDomElement<HTMLInputElement>('input', searchBox).value.replace(/ +/g, ' ');
-      SearchValidator.validate(trimmedSearchInputText.trim());
-      this.createMovieList(trimmedSearchInputText);
-    } catch (e) {
-      if (e instanceof Error) ToastPopup(e.message);
-    }
   },
 };
 
