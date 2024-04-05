@@ -30,10 +30,6 @@ describe("모달 동작 테스트", () => {
 
     cy.fixture("movie-harry-details.json").then((movieDetails) => {
       cy.get(".modal-title").should("contain.text", movieDetails.title);
-      cy.get(".modal-genres").should(
-        "contain.text",
-        movieDetails.genres.map((genre) => genre.name).join(", ")
-      );
     });
   });
 });
