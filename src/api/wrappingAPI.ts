@@ -10,3 +10,15 @@ export const wrappingMovieAPI = ({ ...movieData }) => {
   };
   return movieDataCommon;
 };
+
+export const wrappingMovieDetailAPI = ({ ...movieDetailData }) => {
+  const movieDataCommon = {
+    movieId: movieDetailData.id,
+    genres: movieDetailData.genres,
+    movieTitle: movieDetailData.title,
+    voteAverage: movieDetailData.vote_average,
+    overview: movieDetailData.overview,
+    posterPath: movieDetailData.poster_path,
+  };
+  return movieDataCommon;
+};

@@ -1,13 +1,14 @@
-import { POPULAR_MOVIES_URL } from '.';
-import { MovieDataType } from './apiType';
-import { catchError } from './errorStatus';
+import { MovieData } from './apiType';
+import { throwError } from './errorStatus';
 import { wrappingMovieAPI } from './wrappingAPI';
 
-export const getPopularMovieList = async (page = 1): Promise<MovieDataType[]> => {
-  const url = `${POPULAR_MOVIES_URL}?language=ko-KR&page=${page}`;
-  const movieData = await catchError(url);
+import { CONSTANT_URL, URL_LANGUAGE } from '../constant/api';
 
-  const dataCleaning = movieData.map((movieData: MovieDataType) => {
+export const getPopularMovieList = async (page = 1): Promise<MovieData[]> => {
+  const url = `${CONSTANT_URL.popularMovie}?${URL_LANGUAGE}&page=${page}`;
+  const movieData = await throwError(url);
+
+  const dataCleaning = movieData.results.map((movieData: MovieData) => {
     return wrappingMovieAPI(movieData);
   });
 

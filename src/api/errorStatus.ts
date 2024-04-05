@@ -1,7 +1,7 @@
 import { getDataWithAuth } from '.';
-import { showAlert } from '../components/Alert';
+import { ERROR_MESSAGE } from '../constant/api';
 
-export const catchError = async (url: string) => {
+export const throwError = async (url: string) => {
   return await getDataWithAuth(url).then(async (response) => {
     const data = await response.json();
     if (!response.ok) {
@@ -9,14 +9,14 @@ export const catchError = async (url: string) => {
       handleErrorResponse(response.status);
     }
 
-    return data.results;
+    return data;
   });
 };
 
 const handleErrorResponse = (status: number) => {
-  if (status === 401) throw new Error('401-인증되지 않은 사용자 입니다');
-  if (status === 404) throw new Error('404-Not Found');
-  if (status === 500) throw new Error('500-Internal Server Error');
-  if (status === 503) throw new Error('503-Service Unavailable');
-  throw new Error(`${status}-ERROR`);
+  if (status === 401) throw new Error(ERROR_MESSAGE.fourZeroOne);
+  if (status === 404) throw new Error(ERROR_MESSAGE.fourZeroFour);
+  if (status === 500) throw new Error(ERROR_MESSAGE.fiveZeroZero);
+  if (status === 503) throw new Error(ERROR_MESSAGE.fiveZeroThree);
+  throw new Error(`${status}-${ERROR_MESSAGE.etc}`);
 };

@@ -1,8 +1,21 @@
-import { POSTER_BASE_URL } from '../api';
-import { MovieDataType } from '../api/apiType';
+import { CONSTANT_URL } from './../constant/api';
+import { MovieData } from '../api/apiType';
 import { NO_IMAGE, STAR_FILLED } from '../resource';
 
-const MovieItem = ({ movieTitle, posterPath, voteAverage }: MovieDataType) => {
+const setClickEvent = (element: HTMLElement) => {
+  element.addEventListener('click', (event) => {
+    const currentTarget = event.currentTarget as HTMLElement;
+
+    event.target?.dispatchEvent(
+      new CustomEvent('open-movie-detail', {
+        bubbles: true,
+        detail: currentTarget.id,
+      }),
+    );
+  });
+};
+
+const MovieItem = ({ movieTitle, posterPath, voteAverage, movieId }: MovieData) => {
   const li = document.createElement('li');
   const link = document.createElement('a');
   const itemCard = document.createElement('div');
@@ -12,12 +25,13 @@ const MovieItem = ({ movieTitle, posterPath, voteAverage }: MovieDataType) => {
   const scoreImg = document.createElement('img');
 
   li.classList.add('movie-item');
+  li.id = movieId.toString();
   itemCard.classList.add('item-card');
   thumbnail.classList.add('item-thumbnail');
   movieTitleTag.classList.add('item-title');
   itemScore.classList.add('item-score');
 
-  thumbnail.src = posterPath ? `${POSTER_BASE_URL}${posterPath}` : NO_IMAGE;
+  thumbnail.src = posterPath ? `${CONSTANT_URL.poster}${posterPath}` : NO_IMAGE;
 
   thumbnail.setAttribute('loading', 'lazy');
   thumbnail.setAttribute('alt', movieTitle);
@@ -36,6 +50,8 @@ const MovieItem = ({ movieTitle, posterPath, voteAverage }: MovieDataType) => {
 
   link.appendChild(itemCard);
   li.appendChild(link);
+
+  setClickEvent(li);
 
   return li;
 };

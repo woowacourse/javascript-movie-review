@@ -1,13 +1,14 @@
-import { MOVIE_SEARCH_URL } from '.';
-import { MovieDataType } from './apiType';
-import { catchError } from './errorStatus';
+import { MovieData } from './apiType';
+import { throwError } from './errorStatus';
 import { wrappingMovieAPI } from './wrappingAPI';
 
-export const getSearchMovieList = async (query: string, page = 1): Promise<MovieDataType[]> => {
-  const url = `${MOVIE_SEARCH_URL}?query=${query}&language=ko-KR&page=${page}`;
+import { CONSTANT_URL, URL_LANGUAGE } from '../constant/api';
 
-  const movieData = await catchError(url);
-  const dataCleaning = movieData.map((movieData: MovieDataType) => {
+export const getSearchMovieList = async (query: string, page = 1): Promise<MovieData[]> => {
+  const url = `${CONSTANT_URL.movieSearch}?query=${query}&${URL_LANGUAGE}&page=${page}`;
+
+  const movieData = await throwError(url);
+  const dataCleaning = movieData.results.map((movieData: MovieData) => {
     return wrappingMovieAPI(movieData);
   });
 

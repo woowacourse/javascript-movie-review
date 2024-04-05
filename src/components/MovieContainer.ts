@@ -1,19 +1,28 @@
-import { MovieDataType } from '../api/apiType';
 import { getPopularMovieList } from '../api/popularMovieList';
-import SkeletonItem from './SkeletonItem';
-import MovieItem from './MovieItem';
 import { getSearchMovieList } from '../api/searchMovieList';
-import { showAlert } from './Alert';
-import { NO_SEARCH } from '../resource';
-import ErrorPage from './ErrorPage';
 
+import MovieItem from './MovieItem';
+
+import SkeletonItem from './common/SkeletonItem';
+import ErrorPage from './common/ErrorPage';
+
+import { NO_SEARCH } from '../resource';
+import { SUBTITLE, resizeMobileWidth } from '../constant/movie';
+import { hiddenElement, showElement } from '../util/hiddenElement';
+import { MovieData } from '../api/apiType';
+import { showAlert } from './Alert';
 class MovieContainer {
   #page;
   #query;
+  #isDataLoading;
+  #isOffline;
 
   constructor(element: HTMLElement) {
-    this.#page = 1;
+    this.#page = 0;
     this.#query = '';
+    this.#isDataLoading = false;
+    this.#isOffline = false;
+
     this.#getTemplate(element);
   }
 
@@ -23,83 +32,120 @@ class MovieContainer {
   }
 
   initData(query: string) {
-    const ul = document.querySelector('ul.item-list');
     const subtitle = document.querySelector('.subtitle');
-    if (!(ul instanceof HTMLElement)) return;
+
     if (!(subtitle instanceof HTMLElement)) return;
 
     query
-      ? (subtitle.textContent = `"${query}" 검색결과 입니다.`)
-      : (subtitle.textContent = '지금 인기 있는 영화');
+      ? (subtitle.textContent = `"${query}" ${SUBTITLE.search}`)
+      : (subtitle.textContent = SUBTITLE.popular);
 
-    this.#page = 1;
-    this.#query = query;
-    ul.innerHTML = '';
+    this.#resetData(query);
   }
 
-  #getTemplate(element: HTMLElement) {
-    const section = document.createElement('section');
+  #resetData(query: string) {
+    const ul = document.querySelector('ul.item-list');
+    if (!(ul instanceof HTMLElement)) return;
 
-    const h2 = document.createElement('h2');
-    const movieList = document.createElement('ul');
-    const button = document.createElement('button');
+    this.#page = 0;
+    this.#query = query;
+    ul.innerHTML = '';
+    this.#isDataLoading = false;
+    this.#isOffline = false;
+  }
 
-    h2.classList.add('subtitle');
-    section.classList.add('item-view');
-    movieList.classList.add('item-list');
-    button.classList.add('btn', 'primary', 'full-width');
+  searchBarClose = () => {
+    if (window.innerWidth <= resizeMobileWidth) {
+      const title = document.querySelector('h1');
+      const searchBox = document.querySelector('.search-box');
+      const searchInput = document.querySelector('.search-input');
 
-    button.textContent = '더 보기';
+      searchBox?.classList.add('mobile-search');
 
-    section.appendChild(h2);
-    section.appendChild(movieList);
-    section.appendChild(button);
+      hiddenElement(searchInput);
+      showElement(title);
+    }
+    return;
+  };
 
-    element.appendChild(section);
+  infiniteScroll() {
+    const bottom = document.querySelector('.bottom');
+    if (bottom === null) return;
+
+    const io = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !this.#isDataLoading) {
+            this.renderMovies();
+          }
+        });
+      },
+      { threshold: 0.3 },
+    );
+
+    io.observe(bottom);
   }
 
   setEvent() {
-    const moreButton = document.querySelector('.btn');
-    moreButton?.addEventListener('click', () => {
-      if (this.#page > 500) {
-        moreButton?.classList.add('hidden');
-        showAlert('마지막 페이지 입니다!', 3000);
-        return;
-      }
+    const section = document.querySelector('.item-view');
+    section?.addEventListener('click', this.searchBarClose);
 
+    window.addEventListener('offline', () => {
+      showAlert('네트워크 오류입니다');
+      this.#page;
+      this.#isOffline = true;
+    });
+
+    window.addEventListener('online', () => {
+      this.#isOffline = false;
       this.renderMovies();
     });
   }
 
   async renderMovies() {
     this.#inputSkeleton();
-
     await this.#inputMovies();
   }
 
   async #inputMovies() {
-    const ul = document.querySelector('ul.item-list');
-    if (!(ul instanceof HTMLElement)) return;
-
+    this.#isDataLoading = true;
+    this.#page += 1;
     const movieData = await this.#getMovies(this.#page, this.#query);
+    this.#isDataLoading = false;
 
-    if (movieData && !movieData.length) {
-      ul.innerHTML = `<img src=${NO_SEARCH} class="error"/>`;
+    this.#updateBasedOnData(movieData);
+  }
+
+  #updateBasedOnData(movieData: MovieData[] | undefined) {
+    const movie = document.querySelector('ul.item-list');
+    if (!(movie instanceof HTMLElement)) return;
+
+    if (this.#noSearchMovies(movieData)) {
+      movie.innerHTML = `<img src=${NO_SEARCH} class="error"/>`;
     }
 
-    const viewMoreButton = document.querySelector('.btn');
-    !movieData || movieData.length < 20
-      ? viewMoreButton?.classList.add('hidden')
-      : viewMoreButton?.classList.remove('hidden');
+    if (this.#noMoreMovies(movieData)) {
+      this.#isDataLoading = true;
+    }
 
     if (movieData) {
-      this.#createMovieItems(movieData).forEach((movieItem) => {
-        ul.appendChild(movieItem);
-      });
+      this.#addMovieItems(movieData, movie);
       this.#removeSkeleton();
-
-      this.#page += 1;
     }
+  }
+
+  #addMovieItems(movieData: MovieData[], element: HTMLElement) {
+    this.#createMovieItems(movieData).forEach((movieItem) => {
+      element.appendChild(movieItem);
+    });
+  }
+
+  #noSearchMovies(movieData: MovieData[] | undefined) {
+    return movieData && !movieData.length;
+  }
+
+  #noMoreMovies(movieData: MovieData[] | undefined) {
+    return !movieData || movieData.length < 20;
   }
 
   async #getMovies(page: number, query: string) {
@@ -107,24 +153,22 @@ class MovieContainer {
       const movieData = await (query ? getSearchMovieList(query, page) : getPopularMovieList(page));
       return movieData;
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof Error && !this.#isOffline) {
         this.#removeSkeleton();
 
         const [status, message] = error.message.split('-');
 
-        if (status === 'Failed to fetch') {
-          showAlert('네트워크 연결을 확인해주세요 🐣', 3000);
-          throw new Error();
-        }
-
-        const ul = document.querySelector('ul.item-list');
-        if (!(ul instanceof HTMLElement)) return;
-
-        const viewMoreButton = document.querySelector('.btn');
-        viewMoreButton?.classList.add('hidden');
-        ul.innerHTML = ErrorPage({ status, message }).outerHTML;
+        this.showErrorPage({ status, message });
       }
     }
+  }
+
+  showErrorPage({ status, message }: { status: string; message: string }) {
+    const movie = document.querySelector('ul.item-list');
+    if (!(movie instanceof HTMLElement)) return;
+
+    this.#isDataLoading = true;
+    movie.innerHTML = ErrorPage({ status, message }).outerHTML;
   }
 
   #inputSkeleton() {
@@ -140,8 +184,27 @@ class MovieContainer {
     skeletonItems.forEach((item) => item?.remove());
   }
 
-  #createMovieItems(data: MovieDataType[]): HTMLElement[] {
+  #createMovieItems(data: MovieData[]): HTMLElement[] {
     return data.map((prop) => MovieItem(prop));
+  }
+
+  #getTemplate(element: HTMLElement) {
+    const section = document.createElement('section');
+
+    const h2 = document.createElement('h2');
+    const movieList = document.createElement('ul');
+    const bottom = document.createElement('div');
+
+    h2.classList.add('subtitle');
+    section.classList.add('item-view');
+    movieList.classList.add('item-list');
+    bottom.classList.add('bottom');
+
+    section.appendChild(h2);
+    section.appendChild(movieList);
+    section.appendChild(bottom);
+
+    element.appendChild(section);
   }
 }
 

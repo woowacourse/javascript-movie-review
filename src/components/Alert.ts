@@ -20,7 +20,7 @@ const Alert = (message: string) => {
   return container;
 };
 
-export const showAlert = (message: string, timeout: number) => {
+export const showAlert = (message: string, timeout = 3000) => {
   const alert = Alert(message);
 
   document.querySelector('#app')?.appendChild(alert);
