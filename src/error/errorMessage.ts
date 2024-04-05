@@ -1,3 +1,4 @@
+import { ERROR_MESSAGE } from '../constants/errorMessage';
 import './style.css';
 
 const errorMessage = {
@@ -14,16 +15,14 @@ const errorMessage = {
 
   serverError() {
     const templates = /* html */ `
-      <h2 class="error-msg">서버 에러가 발생했습니다.</h2>
-      <h2 class="error-msg">잠시 후 다시 이용해 주세요.</h2>
+      <h2 class="error-msg">${ERROR_MESSAGE.SERVER_ERROR}</h2>
     `;
     return templates;
   },
 
   clientError() {
     const templates = /* html */ `
-      <h2 class="error-msg">잘못된 요청입니다.</h2>
-      <h2 class="error-msg">다시 시도해 주세요.</h2>
+      <h2 class="error-msg">${ERROR_MESSAGE.CLIENT_ERROR}</h2>
       `;
     return templates;
   },

@@ -6,3 +6,8 @@ export interface PropsType {
   type: RenderType;
   input?: string;
 }
+
+export interface RenderInputType {
+  renderType: RenderType;
+  input?: string;
+}

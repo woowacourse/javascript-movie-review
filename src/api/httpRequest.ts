@@ -1,3 +1,5 @@
+import { ERROR_MESSAGE } from '../constants/errorMessage';
+import { API_PATH, RENDER_TYPE } from '../constants/movie';
 import { MovieListType } from '../types/movie';
 import HTTPError from './HttpError';
 
@@ -9,7 +11,7 @@ async function tryCatchApi(link: string) {
     const response = await fetch(link);
     return response;
   } catch (error) {
-    throw new HTTPError(0, '다시 시도해 주세요.');
+    throw new HTTPError(0, ERROR_MESSAGE.EXCEPTION_ERROR);
   }
 }
 
@@ -17,43 +19,65 @@ const httpRequest = {
   async fetchPopularMovies(
     page: number,
   ): Promise<{ movieList: MovieListType; isLastPage: boolean }> {
-    const response = await tryCatchApi(
-      `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}&api_key=${process.env.API_KEY}`,
-    );
+    const url = `${API_PATH}/movie/${RENDER_TYPE.POPULAR}?${new URLSearchParams({
+      api_key: `${process.env.API_KEY}`,
+      language: 'ko-KR',
+      page: `${page}`,
+    })}`;
 
-    if (response.status !== 200) throw new HTTPError(response.status, '다시 시도해 주세요.');
+    const response = await tryCatchApi(url);
+
+    if (response.status !== 200)
+      throw new HTTPError(response.status, ERROR_MESSAGE.EXCEPTION_ERROR);
 
     const responseData = await response.json();
     const movieList = responseData.results;
 
-    const totalPages = responseData.total_pages;
-
-    const currentPages = responseData.page;
+    const { total_pages: totalPages, page: currentPages } = responseData;
     const isLastPage = totalPages === currentPages;
     return { movieList, isLastPage };
   },
 
   async fetchSearchedMovies(
     page: number,
-    input?: string,
+    input: string,
   ): Promise<{ movieList: MovieListType; isLastPage: boolean }> {
-    const response = await tryCatchApi(
-      `https://api.themoviedb.org/3/search/movie?query=${input}&include_adult=false&language=ko-KR&page=${page}&api_key=${process.env.API_KEY}`,
-    );
+    const url = `${API_PATH}/${RENDER_TYPE.SEARCH}/movie?${new URLSearchParams({
+      api_key: `${process.env.API_KEY}`,
+      language: 'ko-KR',
+      page: `${page}`,
+      query: `${input}`,
+    })}`;
 
-    if (response.status !== 200) throw new HTTPError(response.status, '다시 시도해 주세요.');
+    const response = await tryCatchApi(url);
+
+    if (response.status !== 200)
+      throw new HTTPError(response.status, ERROR_MESSAGE.EXCEPTION_ERROR);
 
     const responseData = await response.json();
     const movieList = responseData.results;
     if (movieList.length === 0) {
-      throw new HTTPError(response.status, '검색된 영화가 없습니다.');
+      throw new HTTPError(response.status, ERROR_MESSAGE.NO_SEARCHED_RESULTS);
     }
 
-    const totalPages = responseData.total_pages;
-
-    const currentPages = responseData.page;
+    const { total_pages: totalPages, page: currentPages } = responseData;
     const isLastPage = totalPages === currentPages;
     return { movieList, isLastPage };
+  },
+
+  async fetchMovieDetail(movieId: number) {
+    const url = `${API_PATH}/movie/${movieId}?${new URLSearchParams({
+      api_key: `${process.env.API_KEY}`,
+      language: 'ko-KR',
+    })}`;
+
+    const response = await tryCatchApi(url);
+
+    if (response.status !== 200)
+      throw new HTTPError(response.status, ERROR_MESSAGE.EXCEPTION_ERROR);
+
+    const movieDetail = await response.json();
+    return movieDetail;
   },
 };
 

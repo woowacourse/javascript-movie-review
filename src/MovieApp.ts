@@ -1,32 +1,32 @@
 import {
-  MOVIE_PATH,
+  MOVIE_POSTER_PATH,
   POPULAR_MOVIE_TITLE,
   RENDER_TYPE,
   SEARCH_MOVIE_TITLE,
 } from './constants/movie';
-import { LOGO, NO_IMAGE, STAR_FILLED } from './images/index';
-import { MovieListType, MovieType } from './types/movie';
-import { RenderType } from './types/props';
-import httpRequest from './api/httpRequest';
-import HTTPError from './api/HttpError';
-import errorMessage from './error/errorMessage';
+import { NO_IMAGE } from './images/index';
+import { MovieListType } from './types/movie';
+import { RenderInputType, RenderType } from './types/props';
+import {
+  HEADER_TEMPLATE,
+  MOVIE_ITEM_TEMPLATE,
+  SKELETON_ITEM_TEMPLATE,
+} from './constants/templates';
+import movieDetailModal from './components/movieDetailModal/movieDetailModal';
+import MoviePage from './domain/MoviePage';
+import infiniteScroll from './utils/infiniteScroll';
+import movieData from './domain/movieData';
+import INFINITE_SCROLL from './constants/infiniteScroll';
 
-interface MovieDataType {
-  movieList: MovieListType;
-  isLastPage: boolean;
-}
-
-type RequestFunctionType = (page: number, input?: string) => Promise<MovieDataType>;
-
-type HandleMovieDataTableType = { [key in RenderType]: () => Promise<MovieDataType> };
-
-interface RenderInputType {
-  renderType: RenderType;
-  input?: string;
+interface CategorizeRenderType {
+  popular: MoviePage;
+  search: MoviePage;
 }
 
 class MovieApp {
-  #page: number = 0;
+  popularPage: MoviePage = new MoviePage();
+
+  searchPage: MoviePage = new MoviePage();
 
   constructor() {
     this.init();
@@ -34,44 +34,112 @@ class MovieApp {
 
   async init() {
     const container = document.querySelector('#app');
-    const header = this.createHeader();
-    container?.prepend(header);
-    this.createMain(POPULAR_MOVIE_TITLE);
-    document.querySelector('#search')?.addEventListener('submit', (event: Event) => {
-      event.preventDefault();
-      this.handleSearchFormSubmit();
-    });
-    this.renderMainContents(RENDER_TYPE.POPULAR);
-  }
+    if (!container) return;
 
-  handleSearchFormSubmit() {
-    const searchForm = document.querySelector('#search');
-    if (searchForm instanceof HTMLElement) {
-      const formData = new FormData(searchForm as HTMLFormElement);
-      const inputValue = formData.get('search') as string;
-      this.resetPage();
-      this.updateMainHtml(SEARCH_MOVIE_TITLE);
-      this.renderMainContents(RENDER_TYPE.SEARCH, inputValue);
-    }
+    const header = this.createHeader();
+    const detailModal = movieDetailModal.createModal();
+
+    container.prepend(header);
+    container.appendChild(detailModal);
+
+    this.createMain(POPULAR_MOVIE_TITLE);
+    this.setSearchFormEvent();
+    this.preventSearchEvent();
+
+    await this.renderMainContents({ renderType: RENDER_TYPE.POPULAR });
+
+    infiniteScroll.startObserving(this, {
+      renderType: RENDER_TYPE.POPULAR,
+      threshold: INFINITE_SCROLL.THRESHOLD,
+    });
   }
 
   updateMainHtml(titleMessage: string) {
     this.deleteMain();
+    this.deleteScrollEnd();
     this.createMain(titleMessage);
   }
 
   createHeader() {
     const header = document.createElement('header');
-    const templates = /* html */ `
-      <h1><img src=${LOGO} alt="MovieList 로고" /></h1>
-      <form class="search-box" id="search">
-        <input type="text" name="search" id="search" placeholder="검색" />
-        <button type="submit" class="search-button">검색</button>
-      </form>
-    `;
-    header.innerHTML = templates;
-
+    header.innerHTML = HEADER_TEMPLATE;
     return header;
+  }
+
+  createMain(titleMessage: string) {
+    const main = document.createElement('main');
+    const section = this.createSection(titleMessage);
+    main.appendChild(section);
+
+    const scrollEnd = this.createScrollEnd();
+
+    const container = document.querySelector('#app');
+    if (container) {
+      container.appendChild(main);
+      container.appendChild(scrollEnd);
+    }
+  }
+
+  createSection(titleMessage: string) {
+    const section = document.createElement('section');
+    section.classList.add('item-view');
+    section.id = 'section--item-view';
+
+    const ul = this.createItemList();
+    const h2 = document.createElement('h2');
+    h2.textContent = titleMessage;
+
+    section.appendChild(h2);
+    section.appendChild(ul);
+    return section;
+  }
+
+  createItemList() {
+    const ul = document.createElement('ul');
+    ul.classList.add('item-list');
+    ul.id = 'item-list';
+    movieDetailModal.handleDetailModal(ul);
+    return ul;
+  }
+
+  createMainSkeleton(renderType: RenderType) {
+    const ul = document.querySelector('#item-list') as HTMLElement;
+    if (!ul) return;
+
+    const templates = document
+      .createRange()
+      .createContextualFragment(SKELETON_ITEM_TEMPLATE.repeat(20));
+    ul.appendChild(templates);
+
+    this.categorizeRenderType(renderType).isLoading = true;
+  }
+
+  createMainContents(movieList: MovieListType) {
+    const ul = document.querySelector('#item-list') as HTMLElement;
+    if (!ul) return;
+
+    const templates = movieList.map((movie) => {
+      const imagePath = movie.poster_path ? `${MOVIE_POSTER_PATH}/${movie.poster_path}` : NO_IMAGE;
+      return MOVIE_ITEM_TEMPLATE(movie, imagePath);
+    });
+
+    ul.insertAdjacentHTML('beforeend', templates.join(''));
+  }
+
+  createScrollEnd() {
+    const div = document.createElement('div');
+    div.id = 'scroll-end-box';
+    div.className = 'scroll-end-box';
+    return div;
+  }
+
+  async renderMainContents({ renderType, input }: RenderInputType) {
+    const { movieList, isLastPage: isLastPageValue } = await movieData.handleMovieData(this, {
+      renderType,
+      input,
+    });
+    this.categorizeRenderType(renderType).isLastPage = isLastPageValue;
+    this.createMainContents(movieList);
   }
 
   deleteMain() {
@@ -79,149 +147,88 @@ class MovieApp {
     if (main) main.remove();
   }
 
-  createMain(titleMessage: string) {
-    const main = document.createElement('main');
-    const section = this.createSection(titleMessage);
-    main.appendChild(section);
-    const container = document.querySelector('#app');
-    if (container) container.appendChild(main);
+  deleteScrollEnd() {
+    const scrollEnd = document.querySelector('#scroll-end-box');
+    if (scrollEnd) scrollEnd.remove();
   }
 
-  createSection(titleMessage: string) {
-    const section = document.createElement('section');
-    section.classList.add('item-view');
-    section.id = 'section--item-view'
-    section.innerHTML = /* html */ `<h2>${titleMessage}</h2>`;
-    return section;
+  deleteSkeleton(renderType: RenderType) {
+    const skeletons = document.querySelectorAll('.li--skeleton');
+    if (skeletons) {
+      skeletons.forEach((skeleton) => skeleton.remove());
+    }
+    this.categorizeRenderType(renderType).isLoading = false;
   }
 
-  createMainSkeleton() {
-    const ul = document.createElement('ul');
-    ul.classList.add('item-list');
-    ul.id = 'skeleton';
+  setSearchFormEvent() {
+    const searchForm = document.querySelector('#search-form') as HTMLFormElement;
 
-    const skeletonItem = /* html */ `
-      <li>
-        <a>
-          <div class="item-card">
-            <div class="item-thumbnail skeleton"></div>
-            <div class="item-title skeleton"></div>
-            <div class="item-score skeleton"></div>
-          </div>
-        </a>
-      </li>  
-    `;
-
-    ul.innerHTML = skeletonItem.repeat(20);
-    const itemView = document.querySelector('#section--item-view');
-    if (itemView) itemView.appendChild(ul);
+    if (searchForm) {
+      searchForm.addEventListener('submit', (event: Event) => {
+        event.preventDefault();
+        this.handleSearchFormSubmit();
+        this.toggleSearchWidth(searchForm);
+        this.searchPage.resetIsLastPage();
+      });
+    }
   }
 
-  handleMovieData(type: RenderType, input?: string): Promise<MovieDataType> {
-    this.updatePage();
-    const handleMovieDataTable: HandleMovieDataTableType = {
-      popular: () => this.getMovieData(httpRequest.fetchPopularMovies),
-      search: () => this.getMovieData(httpRequest.fetchSearchedMovies, input),
+  async handleSearchFormSubmit() {
+    const searchInput = document.querySelector('#search') as HTMLInputElement;
+
+    if (searchInput instanceof HTMLInputElement) {
+      const input = searchInput.value;
+      const page = this.categorizeRenderType('search');
+      page.resetPage();
+
+      searchInput.focus();
+      this.preventSearchEvent();
+
+      this.updateMainHtml(SEARCH_MOVIE_TITLE(input));
+      await this.renderMainContents({ renderType: RENDER_TYPE.SEARCH, input });
+      infiniteScroll.startObserving(this, {
+        renderType: RENDER_TYPE.SEARCH,
+        input,
+        threshold: INFINITE_SCROLL.THRESHOLD,
+      });
+    }
+  }
+
+  preventSearchEvent() {
+    const searchForm = document.querySelector('#search-form') as HTMLFormElement;
+    if (!searchForm) return;
+    searchForm.reset();
+
+    searchForm.addEventListener(
+      'click',
+      (event: Event) => {
+        event.preventDefault();
+      },
+      { once: true },
+    );
+  }
+
+  handleMovieApp({ renderType, input }: RenderInputType) {
+    this.categorizeRenderType(renderType).updatePage();
+    this.renderMainContents({ renderType, input });
+  }
+
+  toggleSearchWidth(searchForm: HTMLFormElement) {
+    const logo = document.querySelector('#logo-img') as HTMLImageElement;
+    const searchInput = document.querySelector('#search') as HTMLInputElement;
+
+    searchForm.classList.toggle('search-form--longer');
+    searchInput.classList.toggle('search-input--longer');
+    logo.classList.toggle('invisible');
+    searchInput.focus();
+  }
+
+  categorizeRenderType(renderType: RenderType): MoviePage {
+    const categorizeRenderTypeTable: CategorizeRenderType = {
+      popular: this.popularPage,
+      search: this.searchPage,
     };
-    const getDataFunction = handleMovieDataTable[type];
-    return getDataFunction();
-  }
-
-  async getMovieData(requestFunction: RequestFunctionType, input?: string): Promise<MovieDataType> {
-    try {
-      const { movieList, isLastPage } = await requestFunction(this.#page, input);
-      const filteredMovieList = movieList.map((movie) => ({
-        id: movie.id,
-        poster_path: movie.poster_path,
-        title: movie.title,
-        vote_average: movie.vote_average,
-      }));
-      return { movieList: filteredMovieList, isLastPage };
-    } catch (error) {
-      const customError = error as HTTPError;
-      errorMessage.apiError(customError.statusCode, customError.message ?? '');
-      return { movieList: [], isLastPage: true };
-    }
-  }
-
-  updatePage() {
-    this.#page += 1;
-  }
-
-  resetPage() {
-    this.#page = 0;
-  }
-
-  deleteSkeleton() {
-    const skeleton = document.querySelector('#skeleton');
-    if (skeleton) skeleton.remove();
-  }
-
-  showMovieData(movieList: MovieListType) {
-    this.deleteSkeleton();
-    const ul = document.createElement('ul');
-    ul.classList.add('item-list');
-
-    const templateItem = (movie: MovieType, imagePath: string) => /* html */ `
-      <li>
-        <a>
-          <div class="item-card">
-            <img
-              class="item-thumbnail"
-              src="${imagePath}"
-              loading="lazy"
-              alt="${movie.title}"
-            />
-            <p class="item-title">${movie.title}</p>
-            <p class="item-score">
-              <img src=${STAR_FILLED} alt="별점" />${movie.vote_average.toFixed(1)}
-            </p>
-          </div>
-        </a>
-      </li>  
-    `;
-
-    const templates = movieList.map((movie) => {
-      const imagePath = movie.poster_path ? `${MOVIE_PATH}/${movie.poster_path}` : NO_IMAGE;
-      return templateItem(movie, imagePath);
-    });
-    ul.innerHTML = templates.join('');
-    return ul;
-  }
-
-  createShowMoreButton(renderType: RenderType, input?: string) {
-    const button = document.createElement('button');
-    button.classList.add('btn', 'primary', 'full-width');
-    button.id = 'show-more-btn';
-    button.textContent = '더 보기';
-    button.addEventListener('click', () => this.renderMainContents(renderType, input));
-    return button;
-  }
-
-  createMainContents(
-    { movieList, isLastPage }: MovieDataType,
-    { renderType, input }: RenderInputType,
-  ) {
-    const movieData = this.showMovieData(movieList);
-    const itemView = document.querySelector('#section--item-view');
-    if (itemView && !isLastPage) {
-      const showMoreButton = this.createShowMoreButton(renderType, input);
-      itemView.appendChild(movieData);
-      itemView.appendChild(showMoreButton);
-    }
-  }
-
-  async renderMainContents(renderType: RenderType, input?: string) {
-    this.deleteShowMoreButton();
-    this.createMainSkeleton();
-
-    const { movieList, isLastPage } = await this.handleMovieData(renderType, input);
-    this.createMainContents({ movieList, isLastPage }, { renderType, input });
-  }
-
-  deleteShowMoreButton() {
-    const showMoreButton = document.querySelector('#show-more-btn');
-    if (showMoreButton) showMoreButton.remove();
+    return categorizeRenderTypeTable[renderType];
   }
 }
 

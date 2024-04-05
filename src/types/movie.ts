@@ -11,3 +11,13 @@ export interface MovieDataType {
   movieList: MovieListType;
   isLastPage: boolean;
 }
+
+interface GenreType {
+  id: number;
+  name: string;
+}
+
+export interface MovieDetailType extends MovieType {
+  genres: GenreType[];
+  overview: string;
+}
