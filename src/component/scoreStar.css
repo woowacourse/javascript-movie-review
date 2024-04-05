@@ -1,0 +1,40 @@
+.score-star {
+  background-color: #383839;
+  padding: 20px;
+  border-radius: 16px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.star-list {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  li {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.star-list img {
+  width: 25px;
+  height: 25px;
+  border: 0;
+}
+
+.selected-star-score {
+  min-width: 16px; /*10의 자리까지의 수가 존재하므로*/
+}
+
+@media (max-width: 660px) {
+  .score-star {
+    justify-content: center;
+  }
+
+  .selected-star-score-description {
+    display: none;
+  }
+}

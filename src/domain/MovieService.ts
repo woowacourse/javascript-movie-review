@@ -1,55 +1,45 @@
-import { MOVIE_SEARCH_URL, POPULAR_MOVIES_URL } from '../constant/config';
-import fetchDataFromUrl from '../util/fetchDataFromUrl';
-import Movie from './Movie';
-import getEnvVariable from '../util/getEnvVariable';
+import TMDB from '../api/DB/TMDB';
+import renderToast from '../component/toast/toast';
+import { MovieServiceType } from './MovieServiceType';
 
-interface MovieListData {
-  total_pages: number;
-  results: { id: number; title: string; poster_path: string; vote_average: number; overview: string }[];
-}
+type validAPIName = 'TMDB';
 
-interface MoviePageData extends MovieListData {
-  pageNumber: number;
-}
+const API_FACTORY: Record<validAPIName, MovieServiceType> = {
+  TMDB: TMDB,
+};
+class MovieService implements MovieServiceType {
+  private readonly api;
 
-class MovieService {
-  async fetchPopularMovieList(pageNumber: number) {
-    const { total_pages, results } = await fetchDataFromUrl(POPULAR_MOVIES_URL, {
-      api_key: getEnvVariable('API_KEY'),
-      language: 'ko-KR',
-      page: pageNumber,
-    });
-
-    return this.createMoviePageData({ total_pages, results, pageNumber });
+  constructor(apiName: validAPIName) {
+    this.api = API_FACTORY[apiName];
   }
 
-  async fetchSearchResult({ query, pageNumber }: { query: string; pageNumber: number }) {
-    const { total_pages, results } = await fetchDataFromUrl(MOVIE_SEARCH_URL, {
-      api_key: getEnvVariable('API_KEY'),
-      language: 'ko-KR',
-      query,
-      page: pageNumber,
-    });
-
-    return this.createMoviePageData({ total_pages, results, pageNumber });
+  async fetchPopularMovieList(currentPage: number) {
+    try {
+      return await this.api.fetchPopularMovieList(currentPage);
+    } catch (error) {
+      if (error instanceof Error) renderToast(error.message);
+      // TODO: null이 아닌 오류 객체를 반환
+      return null;
+    }
   }
 
-  // 중간 도메인 객체
-  createMoviePageData({ total_pages, results, pageNumber }: MoviePageData) {
-    const movieList: Movie[] = results.map(
-      (result) =>
-        new Movie({
-          id: result.id,
-          title: result.title,
-          posterPath: result.poster_path,
-          voteAverage: result.vote_average,
-        }),
-    );
+  async fetchSearchResult(props: { query: string; currentPage: number }) {
+    try {
+      return await this.api.fetchSearchResult(props);
+    } catch (error) {
+      if (error instanceof Error) renderToast(error.message);
+      return null;
+    }
+  }
 
-    return {
-      hasNextPage: total_pages > pageNumber,
-      movieList,
-    };
+  async fetchMovieDetail(movieId: number) {
+    try {
+      return await this.api.fetchMovieDetail(movieId);
+    } catch (error) {
+      if (error instanceof Error) renderToast(error.message);
+      return null;
+    }
   }
 }
 

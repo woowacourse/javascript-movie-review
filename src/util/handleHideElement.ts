@@ -1,13 +1,19 @@
 import { $ } from './selector';
 
-function handleElementVisibilityBySelector(target: string, visibility: boolean) {
+function handleElementDisplayBySelector(target: string, isDisplay: boolean) {
   const targetElement = $<HTMLElement>(target);
 
-  if (targetElement) targetElement.style.visibility = visibility ? 'visible' : 'hidden';
+  if (targetElement) {
+    if (isDisplay) targetElement.classList.remove('none-display');
+    else targetElement.classList.add('none-display');
+  }
 }
 
-function handleElementVisibilityByElement(targetElement: HTMLElement, visibility: boolean) {
-  if (targetElement) targetElement.style.visibility = visibility ? 'visible' : 'hidden';
+function handleElementDisplayByElement(targetElement: HTMLElement, isDisplay: boolean) {
+  if (targetElement) {
+    if (isDisplay) targetElement.classList.remove('none-display');
+    else targetElement.classList.add('none-display');
+  }
 }
 
-export { handleElementVisibilityBySelector, handleElementVisibilityByElement };
+export { handleElementDisplayBySelector, handleElementDisplayByElement };

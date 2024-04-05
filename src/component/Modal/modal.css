@@ -1,0 +1,141 @@
+.modal-backdrop {
+  background: #00000099;
+  min-width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0px;
+}
+
+.modal-container {
+  background-color: #212122;
+  border-radius: 8px;
+
+  min-width: 100px;
+  min-height: 100px;
+}
+
+@media (max-width: 660px) {
+  .modal-backdrop {
+    justify-content: center;
+    align-items: flex-end;
+  }
+
+  .modal-container {
+    border-radius: 0;
+    width: 100%;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+  }
+}
+
+.movie-detail-modal {
+  width: 826px;
+  height: 577px;
+  display: flex;
+  flex-direction: column;
+
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+
+@media (max-width: 834px) {
+  .movie-detail-modal {
+    width: 740px;
+    height: 544px;
+  }
+}
+
+@media (max-width: 660px) {
+  .movie-detail-modal {
+    width: 100%;
+    height: 485px;
+  }
+}
+
+.modal-header {
+  min-height: 60px;
+  width: 100%;
+  position: relative;
+  border-bottom: 1px solid #f1f1f140;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-header > h3 {
+  width: 70%;
+  text-align: center;
+}
+
+.modal-close-button {
+  position: absolute;
+  margin-top: auto;
+  margin-bottom: auto;
+  right: 10px;
+  border-radius: 100px;
+  width: 36px;
+  height: 36px;
+  background-color: #383839;
+  border: none;
+}
+
+.modal-content-container {
+  height: 517px;
+  width: 100%;
+  padding: 35px;
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+
+@media (max-width: 660px) {
+  .modal-content-container {
+    height: 425px;
+  }
+}
+
+.modal-content-container > img {
+  min-width: 40%;
+  object-fit: cover;
+  background-color: gray;
+}
+
+@media (max-width: 660px) {
+  .modal-content-container > img {
+    display: none;
+  }
+}
+
+.movie-description-container {
+  flex-grow: 1.2;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.movie-description-container p {
+  height: 100%;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+.genre-score-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.score-container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
