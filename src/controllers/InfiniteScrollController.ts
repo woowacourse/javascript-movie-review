@@ -11,9 +11,7 @@ class InfiniteScrollController {
     }
   };
 
-  private static options = {};
-
-  private static observer = new IntersectionObserver(this.callback, this.options);
+  private static observer = new IntersectionObserver(this.callback);
 
   public static initObserveTarget() {
     this.observer.observe($('.item-list li:last-child')!);
