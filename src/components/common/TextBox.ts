@@ -1,4 +1,4 @@
-import { setAttributes } from '../../utils/domUtils';
+import { configureElement } from '../../utils/domUtils';
 
 interface Props {
   type: 'p' | 'h1' | 'h2' | 'h3';
@@ -10,7 +10,7 @@ interface Props {
 
 export default function TextBox({ type, attrs = {} }: Props): HTMLParagraphElement | HTMLHeadingElement {
   const element = document.createElement(type);
-  setAttributes(element, attrs);
+  configureElement(element, attrs);
 
   return element;
 }

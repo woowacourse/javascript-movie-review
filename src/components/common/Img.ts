@@ -1,4 +1,4 @@
-import { setAttributes } from '../../utils/domUtils';
+import { configureElement } from '../../utils/domUtils';
 
 interface Props {
   img?: {
@@ -12,7 +12,7 @@ interface Props {
 export default function Img({ img }: Props) {
   const $img = document.createElement('img');
 
-  if (img) setAttributes($img, img);
+  if (img) configureElement($img, img);
 
   return $img;
 }

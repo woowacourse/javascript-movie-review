@@ -1,4 +1,4 @@
-import { setAttributes } from '../../utils/domUtils';
+import { configureElement } from '../../utils/domUtils';
 
 interface Props {
   type: 'header' | 'main' | 'section' | 'div';
@@ -11,7 +11,7 @@ interface Props {
 
 export default function Wrapper({ type, attrs = {} }: Props) {
   const $wrapper = document.createElement(type);
-  setAttributes($wrapper, attrs);
+  configureElement($wrapper, attrs);
 
   return $wrapper;
 }

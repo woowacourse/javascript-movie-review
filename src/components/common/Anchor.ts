@@ -1,4 +1,4 @@
-import { setAttributes } from '../../utils/domUtils';
+import { configureElement } from '../../utils/domUtils';
 
 interface Props {
   anchor: {
@@ -8,7 +8,7 @@ interface Props {
 
 export default function Anchor({ anchor }: Props) {
   const $anchor = document.createElement('a');
-  setAttributes($anchor, anchor);
+  configureElement($anchor, anchor);
 
   return $anchor;
 }

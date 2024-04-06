@@ -38,7 +38,6 @@ function makeDescription() {
   return $wrapper;
 }
 
-// eslint-disable-next-line max-lines-per-function
 export default function DetailModal() {
   const $modal = Dialog({ dialog: { class: 'detail-modal' } });
 

@@ -1,4 +1,4 @@
-import { setAttributes } from '../../utils/domUtils';
+import { configureElement } from '../../utils/domUtils';
 
 interface Props {
   dialog: {
@@ -9,7 +9,7 @@ interface Props {
 
 export default function Dialog({ dialog }: Props) {
   const $dialog = document.createElement('dialog');
-  setAttributes($dialog, dialog);
+  configureElement($dialog, dialog);
 
   return $dialog;
 }

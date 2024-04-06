@@ -1,6 +1,3 @@
-/* fetch response 구조분해 할당을 위하여 다음 규칙 비활성화 */
-/* eslint-disable camelcase */
-
 import MY_SCORE_TEXT from '../constants/constants';
 import IMG_SRC from '../constants/imgSrc';
 import LocalStorageAPI from '../services/LocalStorageAPI';
@@ -8,7 +5,6 @@ import TmdbAPI from '../services/TmdbAPI';
 import { $, $$ } from '../utils/domUtils';
 
 class DetailModalController {
-  /* 리뷰어님의 피드백을 받고 싶어서 극단적으로 요소들의 state를 만들어봤습니다 */
   public static state = {
     currentId: '',
     $modal: <HTMLDialogElement>{},

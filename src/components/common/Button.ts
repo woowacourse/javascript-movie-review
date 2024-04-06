@@ -1,4 +1,4 @@
-import { setAttributes } from '../../utils/domUtils';
+import { configureElement } from '../../utils/domUtils';
 
 interface Props {
   button: {
@@ -13,7 +13,7 @@ interface Props {
 
 export default function Button({ button }: Props) {
   const $button = document.createElement('button');
-  if (button) setAttributes($button, button);
+  if (button) configureElement($button, button);
 
   return $button;
 }

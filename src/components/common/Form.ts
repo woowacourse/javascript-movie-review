@@ -1,4 +1,4 @@
-import { setAttributes } from '../../utils/domUtils';
+import { configureElement } from '../../utils/domUtils';
 
 interface Props {
   form?: {
@@ -9,7 +9,7 @@ interface Props {
 
 export default function Form({ form = {} }: Props) {
   const $form = document.createElement('form');
-  setAttributes($form, form);
+  configureElement($form, form);
 
   return $form;
 }

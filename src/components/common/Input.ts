@@ -1,4 +1,4 @@
-import { setAttributes } from '../../utils/domUtils';
+import { configureElement } from '../../utils/domUtils';
 
 interface Props {
   input: {
@@ -12,7 +12,7 @@ interface Props {
 
 export default function Input({ input }: Props) {
   const $input = document.createElement('input');
-  setAttributes($input, input);
+  configureElement($input, input);
 
   return $input;
 }
