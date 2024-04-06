@@ -26,9 +26,9 @@ class MovieListController {
   }
 
   private static async fetchAndRenderMovies() {
-    // this.showMovieListSkeleton();
+    this.showMovieListSkeleton();
     const { results, total_pages, total_results, status_code } = await TmdbAPI.fetch(this.state);
-    // this.hideMovieListSkeleton();
+    this.hideMovieListSkeleton();
 
     if (status_code) this.printErrorMessage(status_code);
     else if (!total_results) this.printMovieNotFoundMessage();
@@ -43,13 +43,13 @@ class MovieListController {
     }
   }
 
-  // private static hideMovieListSkeleton() {
-  //   DomController.hideMovieListSkeleton();
-  // }
+  private static hideMovieListSkeleton() {
+    DomController.hideMovieListSkeleton();
+  }
 
-  // private static showMovieListSkeleton() {
-  //   DomController.showMovieListSkeleton();
-  // }
+  private static showMovieListSkeleton() {
+    DomController.showMovieListSkeleton();
+  }
 
   private static setInfiniteScrollWhenNotLastPage(total_pages: number) {
     if (total_pages > Number(this.state.page)) {
