@@ -108,6 +108,12 @@ button {
   content: 'loading';
 }
 
+.item-thumbnail {
+  width: 180px;
+  height: 270px;
+  background-color: gray;
+}
+
 .full-width {
   width: 100%;
 }

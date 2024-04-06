@@ -25,7 +25,7 @@ const handleMovieItemClick = (event: Event) => {
 export default function MovieItem({ posterPath, id, title, voteAverage }: Props) {
   const $listItem = ListItem();
   const $wrapper = Wrapper({ type: 'div', attrs: { id: `${id}`, class: 'item-card', click: handleMovieItemClick } });
-  const $poster = Img({ img: { src: `${TmdbAPI.IMG_URL}${posterPath}`, alt: title } });
+  const $poster = Img({ img: { src: `${TmdbAPI.IMG_URL}${posterPath}`, alt: title, class: 'item-thumbnail' } });
   const $title = TextBox({ type: 'p', attrs: { text: title, class: 'item-title' } });
   const $score = TextBox({ type: 'p', attrs: { text: voteAverage.toFixed(1), class: 'item-score' } });
   const $starImg = Img({ img: { src: IMG_SRC.start_filled, alt: '별점' } });
