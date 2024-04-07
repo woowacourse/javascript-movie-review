@@ -61,5 +61,22 @@ button.primary {
 }
 
 .display-none {
-  display: none;
+  display: none !important;
+}
+
+.display-block {
+  display: block !important;
+}
+
+.display-flex {
+  display: flex !important;
+}
+
+.justify-space-between {
+  justify-content: space-between !important;
+}
+
+.invisible-element {
+  visibility: hidden;
+  width: 20px;
 }

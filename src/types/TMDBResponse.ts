@@ -1,13 +1,14 @@
-interface TMDBResponse {
+export interface TMDBResponse {
   page: number;
   results: MovieInfo[];
   total_pages: number;
   total_results: number;
 }
 
-interface MovieInfo {
+export interface MovieInfo {
   adult: boolean;
   backdrop_path: string;
+  genres?: Genres[];
   genre_ids: number[];
   id: number;
   original_language: string;
@@ -22,4 +23,7 @@ interface MovieInfo {
   vote_count: number;
 }
 
-export default TMDBResponse;
+export interface Genres {
+  id: number;
+  name: string;
+}

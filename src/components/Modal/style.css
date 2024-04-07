@@ -1,0 +1,132 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.movie-detail-section {
+  position: fixed;
+  border-radius: 8px;
+  background: #212122;
+}
+
+@media (min-width: 801px) {
+  .movie-detail-section {
+    width: 900px;
+    height: 650px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .movie-detail-section .movie-detail-container .movie-detail-img {
+    width: 350px;
+    height: 500px;
+  }
+
+  .movie-detail-section .movie-detail-container .movie-detail-description {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    max-height: 30vh;
+    overflow: scroll;
+  }
+}
+
+@media (max-width: 800px) {
+  .movie-detail-section {
+    width: 100%;
+    bottom: 0;
+    left: 0;
+  }
+
+  .movie-detail-section .movie-detail-container .movie-detail-img {
+    width: 300px;
+    height: 400px;
+  }
+
+  .movie-detail-section .movie-detail-container .movie-detail-description {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    max-height: 20vh;
+    overflow: scroll;
+  }
+
+  .movie-detail-section .movie-detail-container .movie-detail-outline {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 720px) {
+  .movie-detail-section .movie-detail-container .movie-detail-img {
+    width: 200px;
+    height: 300px;
+  }
+
+  .movie-detail-section .movie-detail-container .movie-detail-description {
+    max-height: 15vh;
+    overflow: scroll;
+  }
+}
+
+@media (max-width: 600px) {
+  .movie-detail-section .movie-detail-container .movie-detail-img {
+    display: none;
+  }
+
+  .movie-detail-section .movie-detail-container .movie-detail-description {
+    margin-bottom: 3rem;
+  }
+
+  .movie-detail-section h1 {
+    font-size: 1.3rem !important;
+    white-space: nowrap;
+  }
+}
+
+.movie-detail-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 18px 32px;
+  border-bottom: 1px solid #f1f1f140;
+}
+
+.movie-detail-section h1 {
+  font-size: 1.7rem;
+  display: flex;
+  align-items: center;
+}
+
+.movie-detail-section .movie-detail-container {
+  display: flex;
+  padding: 5%;
+}
+
+.movie-detail-section .movie-detail-container .movie-detail-wrapper {
+  padding: 0 1.5rem 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-detail-section .movie-detail-container .star-img {
+  padding: 0 0.5rem 0 1rem;
+}
+
+.movie-detail-section .movie-detail-container .movie-detail-outline {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.movie-detail-section
+  .movie-detail-container
+  .movie-detail-wrapper
+  .star-container {
+  margin-top: auto;
+}

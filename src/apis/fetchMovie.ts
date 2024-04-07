@@ -1,4 +1,4 @@
-import TMDBResponse from "../types/TMDBResponse";
+import { TMDBResponse, MovieInfo } from "../types/TMDBResponse";
 
 const options = {
   method: "GET",
@@ -13,23 +13,46 @@ const isValidPage = (page: number) =>
 
 export const fetchPopularMovie = async (
   page: number
-): Promise<TMDBResponse> => {
-  if (!isValidPage(page)) throw new Error();
-  const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`;
+): Promise<TMDBResponse | null> => {
+  try {
+    if (!isValidPage(page)) throw new Error();
+    const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`;
 
-  const res = await fetch(url, options);
+    const res = await fetch(url, options);
 
-  return (await res.json()) as TMDBResponse;
+    return (await res.json()) as TMDBResponse;
+  } catch {
+    return null;
+  }
 };
 
 export const fetchTargetMovie = async (
   page: number,
   movieName: string
-): Promise<TMDBResponse> => {
-  if (!isValidPage(page)) throw new Error();
-  const url = `https://api.themoviedb.org/3/search/movie?query=${movieName}&include_adult=false&language=ko-KR&page=${page}`;
+): Promise<TMDBResponse | null> => {
+  try {
+    if (!isValidPage(page)) throw new Error();
+    const url = `https://api.themoviedb.org/3/search/movie?query=${movieName}&include_adult=false&language=ko-KR&page=${page}`;
 
-  const res = await fetch(url, options);
+    const res = await fetch(url, options);
 
-  return (await res.json()) as TMDBResponse;
+    return (await res.json()) as TMDBResponse;
+  } catch {
+    return null;
+  }
+};
+
+export const fetchMovieDetail = async (
+  movieId: string
+): Promise<MovieInfo | null> => {
+  try {
+    const id = parseInt(movieId);
+    const url = `https://api.themoviedb.org/3/movie/${id}?language=ko-KR`;
+
+    const res = await fetch(url, options);
+
+    return (await res.json()) as MovieInfo;
+  } catch {
+    return null;
+  }
 };

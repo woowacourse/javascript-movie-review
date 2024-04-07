@@ -1,8 +1,8 @@
 import { $ } from "./utils/selector";
 import MoviePosterBoard from "./components/MoviePosterBoard/MoviePosterBoard";
-import createHeader from "./components/Header/createHeader";
+import Header from "./components/Header/Header";
 
-class MoviePosterController {
+class DOMController {
   static moviePosterBoard = new MoviePosterBoard("popular");
 
   static renderPopularMoviePosterBoard() {
@@ -13,7 +13,7 @@ class MoviePosterController {
   }
 
   static renderHeader() {
-    const header = createHeader();
+    const header = new Header().element;
 
     $("body")?.append(header);
   }
@@ -30,4 +30,4 @@ class MoviePosterController {
   }
 }
 
-export default MoviePosterController;
+export default DOMController;

@@ -2,20 +2,44 @@
   display: grid;
   margin: 48px 0;
   grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
   grid-row-gap: 48px;
+  justify-content: space-between;
+}
+
+.item-list li:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  transition: 0.3s;
+}
+
+@media (min-width: 800px) and (max-width: 1200px) {
+  .item-list {
+    grid-template-columns: repeat(3, 180px);
+  }
+}
+
+@media (min-width: 512px) and (max-width: 800px) {
+  .item-list {
+    grid-template-columns: repeat(2, 180px);
+  }
+}
+
+@media (max-width: 512px) {
+  .item-list {
+    grid-template-columns: repeat(1, 180px);
+  }
 }
 
 .item-view,
 .item-test {
   width: 100%;
+  padding: 0 15% 0 15%;
 }
 
 .item-view {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
   margin: 0 auto;
 }
 
