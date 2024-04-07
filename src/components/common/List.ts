@@ -1,4 +1,4 @@
-import { setAttributes } from '../../utils/domUtils';
+import { configureElement } from '../../utils/domUtils';
 
 interface Props {
   type: 'ul';
@@ -9,7 +9,7 @@ interface Props {
 
 export default function List({ type, attrs = {} }: Props) {
   const $list = document.createElement(type);
-  setAttributes($list, attrs);
+  configureElement($list, attrs);
 
   return $list;
 }

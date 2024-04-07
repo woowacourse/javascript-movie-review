@@ -1,9 +1,9 @@
-import { setAttributes } from '../../utils/domUtils';
+import { configureElement } from '../../utils/domUtils';
 
 interface Props {
-  img: {
-    src: string;
-    alt: string;
+  img?: {
+    src?: string;
+    alt?: string;
     loading?: 'auto' | 'lazy' | 'eager';
     class?: string;
   };
@@ -11,7 +11,8 @@ interface Props {
 
 export default function Img({ img }: Props) {
   const $img = document.createElement('img');
-  setAttributes($img, img);
+
+  if (img) configureElement($img, img);
 
   return $img;
 }

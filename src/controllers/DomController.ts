@@ -5,8 +5,7 @@ class DomController {
   public static state = {
     $listTitle: <HTMLHeadingElement>{},
     $movieList: <HTMLUListElement>{},
-    $movieListSkeleton: <HTMLUListElement>{},
-    $moreButton: <HTMLButtonElement>{}
+    $movieListSkeleton: <HTMLUListElement>{}
   };
 
   /* Dom 로딩 후 반드시 초기화 한다. */
@@ -14,7 +13,6 @@ class DomController {
     this.state.$listTitle = $<HTMLHeadingElement>('.item-view h2')!;
     this.state.$movieList = $<HTMLUListElement>('.item-list')!;
     this.state.$movieListSkeleton = $<HTMLUListElement>('.item-list.skeleton')!;
-    this.state.$moreButton = $<HTMLButtonElement>('.item-view button')!;
   }
 
   public static updateListTitle(query: string) {
@@ -44,14 +42,6 @@ class DomController {
 
   public static showMovieListSkeleton() {
     this.state.$movieListSkeleton.classList.remove('hidden');
-  }
-
-  public static hideMoreButton() {
-    this.state.$moreButton.classList.add('hidden');
-  }
-
-  public static showMoreButton() {
-    this.state.$moreButton.classList.remove('hidden');
   }
 }
 

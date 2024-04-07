@@ -6,7 +6,7 @@ import TextBox from '../common/TextBox';
 
 export default function Logo() {
   const $h1 = TextBox({ type: 'h1' });
-  const $anchor = Anchor({ anchor: { href: '/' } });
+  const $anchor = Anchor({ anchor: { href: 'https://vi-wolhwa.github.io/javascript-movie-review/dist/' } });
   const $img = Img({ img: { src: IMG_SRC.logo, alt: 'MovieList 로고' } });
 
   appendChildren([$h1, $anchor], [$img]);

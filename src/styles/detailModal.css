@@ -1,0 +1,168 @@
+.detail-modal::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.detail-modal {
+  position: fixed;
+  top: auto;
+  max-width: 100vh;
+}
+
+@media (min-width: 834px) {
+  .detail-modal {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .detail-modal-wrapper {
+    width: 740px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .detail-modal-wrapper {
+    width: 826px;
+  }
+}
+
+.detail-modal-wrapper {
+  display: flex;
+  gap: 18px;
+  flex-direction: column;
+  padding: 0;
+  right: 0;
+  left: 0;
+  background-color: #212122;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: white;
+  text-align: left;
+  letter-spacing: 0.5px;
+}
+
+.detail-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px, 32px;
+  border-bottom: 1px solid rgba(241, 241, 241, 0.25);
+  height: 60px;
+}
+
+.detail-modal-title {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: center;
+}
+
+.detail-modal-close-button {
+  align-items: left;
+  border: 0;
+  position: absolute;
+  right: 32px;
+  width: 36px;
+  height: 36px;
+  background-color: rgba(56, 56, 57, 1);
+  font-size: 30px;
+  line-height: 20px;
+  border-radius: 50%;
+  justify-self: left;
+}
+
+.detail-modal-body {
+  display: flex;
+  gap: 32px;
+  padding: 32px 32px 48px 32px;
+}
+
+.detail-modal-poster-wrapper {
+  display: none;
+}
+
+@media (min-width: 834px) {
+  .detail-modal-poster-wrapper {
+    display: block;
+  }
+
+  .detail-modal-poster-image {
+    width: 260px;
+    height: 400px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .detail-modal-poster-wrapper {
+    display: block;
+  }
+
+  .detail-modal-poster-image {
+    width: 292px;
+    height: 433px;
+  }
+}
+
+.detail-modal-desc-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.genres-and-score-wrapper {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 18px, 32px;
+}
+
+.detail-modal-overview {
+  margin-top: 16px;
+  overflow: hidden;
+}
+
+.detail-modal-score-box {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  align-items: center;
+  align-self: flex-end !important;
+  justify-self: flex-end !important;
+  height: 64px;
+  border-radius: 16px;
+  background-color: rgba(56, 56, 57, 1);
+}
+
+.detail-modal-score-title {
+  margin-left: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: left;
+  letter-spacing: 0.5px;
+}
+
+.detail-modal-score-number {
+  width: 15px;
+  text-align: right;
+}
+
+.detail-modal-score-text {
+  margin-left: 15px;
+}
+
+.detail-modal-stars {
+  display: flex;
+}
+
+.detail-modal-star-button {
+  border: 0;
+  width: 20px;
+  height: 20px;
+  background: none;
+  background-image: url(https://vi-wolhwa.github.io/javascript-movie-review/dist/6c9611deedf4b85849c9.png);
+  background-size: 20px 20px;
+  border: 0;
+}

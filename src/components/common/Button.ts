@@ -1,17 +1,19 @@
-import { setAttributes } from '../../utils/domUtils';
+import { configureElement } from '../../utils/domUtils';
 
 interface Props {
   button: {
     type?: string;
     text?: string;
     class?: string;
-    click?: () => void;
+    click?: EventListener;
+    name?: string;
+    value?: string;
   };
 }
 
 export default function Button({ button }: Props) {
   const $button = document.createElement('button');
-  setAttributes($button, button);
+  if (button) configureElement($button, button);
 
   return $button;
 }
