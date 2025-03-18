@@ -1,15 +1,16 @@
-const logBanana = () => {
-  console.log("바나나");
-};
-const logApple = () => {
-  setTimeout(() => {
-    console.log("사과");
-  }, 1000);
-};
-const logOrange = () => {
-  console.log("오렌지");
-};
+import Header from "./components/Header";
+import { $ } from "./util/selector";
 
-logBanana();
-logApple();
-logOrange();
+addEventListener("load", () => {
+  renderHeader();
+  // renderTab();
+  // renderFilter();
+  // renderRestaurantList();
+  // renderModal();
+});
+
+const renderHeader = () => {
+  const wrap = $("#wrap");
+  const header = Header();
+  wrap?.insertAdjacentHTML("afterbegin", header);
+};
