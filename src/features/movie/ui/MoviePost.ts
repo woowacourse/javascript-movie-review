@@ -1,9 +1,8 @@
 import { IMovie } from "../../../shared/types/movies";
 
 const MoviePost = (movie: IMovie) => {
-  const li = document.createElement("li");
-
-  li.innerHTML = /*html*/ `
+  return /*html*/ `
+  <li>
     <div class="item">
       <img
         class="thumbnail"
@@ -19,9 +18,8 @@ const MoviePost = (movie: IMovie) => {
         <strong>${movie.title}</strong>
       </div>
     </div>
+  </li>
   `;
-
-  return li;
 };
 
 export default MoviePost;
