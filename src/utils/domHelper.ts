@@ -1,11 +1,28 @@
-export function $(selector: string, scope: Document | HTMLElement = document) {
+export interface Attribute {
+  class: string;
+  [key: string]: string;
+}
+
+export const $ = (
+  selector: string,
+  scope: Document | HTMLElement = document
+) => {
   if (!selector) throw new Error("Selector is not selected");
 
   return scope.querySelector(selector);
-}
+};
 
-export function $$(selector: string, scope: Document | HTMLElement = document) {
+export const $$ = (
+  selector: string,
+  scope: Document | HTMLElement = document
+) => {
   if (!selector) throw new Error("Selector is not selected");
 
   return scope.querySelectorAll(selector);
-}
+};
+
+export const parseAttribute = (attribute: Attribute) => {
+  return Object.entries(attribute)
+    .map(([key, value]) => `${key} = ${value}`)
+    .join("");
+};

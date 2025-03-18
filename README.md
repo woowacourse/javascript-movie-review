@@ -23,6 +23,7 @@ FE 레벨1 영화 리뷰 미션
 
 - [x] render 함수로 App 컴포넌트 렌더링(App은 최상위 컴포넌트)
 - [x] domHelper 함수 작성(selector가 없을 때의 예외처리)
+- [x] 공통 버튼 컴포넌트 구현
 
 - [x] Header 구현
   - 별점, 제목, 해당 영화 이미지를 props로 받는다.
