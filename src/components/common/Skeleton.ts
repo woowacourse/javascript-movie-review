@@ -16,7 +16,8 @@ export const Skeleton = ({
 
   skeletonElement.width = width;
   skeletonElement.height = height;
-  skeletonElement.classList.add('skeleton-gradient', classList.join(' '));
+  classList &&
+    skeletonElement.classList.add('skeleton-gradient', classList.join(' '));
 
   return skeletonElement;
 };
