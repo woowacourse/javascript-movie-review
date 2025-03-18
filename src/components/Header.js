@@ -1,5 +1,6 @@
 import Button from './Button';
 import Gnb from './Gnb';
+import MoviePreviewInfo from './MoviePreviewInfo';
 import createElement from './utils/createElement';
 import BUTTON from '../constants/constant';
 
@@ -29,38 +30,12 @@ const Header = () => {
     classNames: ['top-rated-movie'],
   });
 
-  const $rate = createElement({ tag: 'div', classNames: ['rate'] });
-
-  const $starImg = createElement({
-    tag: 'img',
-    classNames: ['star'],
-    src: ['./images/star_empty.png'],
-  });
-
-  const $rateValue = createElement({
-    tag: 'span',
-    classNames: ['rate-value'],
-
-  });
-
-  $rateValue.textContent = '9.5';
-
-  const $title = createElement({
-    tag: 'div',
-    classNames: ['title'],
-  });
-
-  $title.textContent = '인사이드 아웃2';
-
   $header.append($backgroundContainer);
   $backgroundContainer.append($overlay);
   $backgroundContainer.append($topRatedContainer);
   $topRatedContainer.append(Gnb());
   $topRatedContainer.append($topRatedMovie);
-  $topRatedMovie.append($rate);
-  $rate.append($starImg);
-  $rate.append($rateValue);
-  $topRatedMovie.append($title);
+  $topRatedMovie.append(MoviePreviewInfo());
   $topRatedMovie.append(Button({ text: BUTTON.DETAIL }));
 
   return $header;
