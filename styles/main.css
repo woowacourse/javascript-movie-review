@@ -93,8 +93,43 @@ button.primary {
   margin-bottom: 8px;
 }
 
-h1.logo {
+.logo {
+  position: relative;
   font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-img {
+  position: absolute;
+  top: 0;
+  left: 0px;
+}
+
+.search-form {
+  display: flex;
+  border-radius: 32px;
+  border: 2px solid var(--color-gray-300);
+  padding: 6px 16px;
+  width: 525px;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.search-form > input {
+  background: transparent;
+  color: var(--color-white);
+  display: flex;
+  flex-grow: 1;
+}
+
+.search-form > input::placeholder {
+  color: var(--color-white);
+}
+
+.search-form > button {
+  padding: 0;
 }
 
 .rate {

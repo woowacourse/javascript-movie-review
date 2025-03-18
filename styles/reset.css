@@ -127,3 +127,16 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+input {
+  border: none;
+  padding: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+button {
+  border: 0;
+  background: transparent;
+}
