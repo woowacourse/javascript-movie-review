@@ -63,6 +63,7 @@ button.primary {
   position: relative;
   background-position: center center;
   background-size: cover;
+  background-image: url("https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/stKGOm8UyhuLPR9sZLjs5AkmncA.jpg");
   height: 500px;
   padding: 48px;
 }
