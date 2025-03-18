@@ -1,6 +1,6 @@
 import { Movie } from "../main";
 
-const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
+export const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
 
 const MovieList = (movies: Movie[]) => {
   return /*html*/ `

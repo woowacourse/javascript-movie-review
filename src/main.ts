@@ -11,9 +11,7 @@ export interface Movie {
 
 export const BASE_URL = "https://api.themoviedb.org/3/movie";
 
-const App = () => {
-  let movies: Movie[] = [];
-
+const App = async () => {
   const options = {
     method: "GET",
     headers: {
@@ -22,26 +20,19 @@ const App = () => {
     },
   };
 
-  fetch(`${BASE_URL}/popular?language=en-US&page=1`, options)
-    .then(async (res) => {
-      const data = await res.json();
-      movies = data.results;
+  const raw = await fetch(`${BASE_URL}/popular?language=en-US&page=1`, options);
+  const data = await raw.json();
+  const movies: Movie[] = data.results;
+  const topRatedMovie: Movie = movies[0];
 
-      const root = document.querySelector("#wrap");
-      if (root) root.innerHTML = template();
-    })
-    .then((res) => console.log(res))
-    .catch((err) => console.error(err));
+  const root = document.querySelector("#wrap");
 
-  const template = () => /*html*/ `
-      ${Header()}
-      <div class="container">
-        <main>
-          ${MovieList(movies)}
-        </main>
-      </div>
-      ${Footer()}
-    `;
+  root?.prepend(Header(topRatedMovie));
+
+  const main = document.querySelector("main");
+  main?.insertAdjacentHTML("afterbegin", MovieList(movies));
+
+  root?.insertAdjacentHTML("beforeend", Footer());
 };
 
 App();
