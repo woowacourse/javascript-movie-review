@@ -27,7 +27,7 @@ const App = async () => {
 
   const root = document.querySelector("#wrap");
 
-  root?.prepend(Header(topRatedMovie));
+  root?.insertAdjacentHTML("afterbegin", Header(topRatedMovie));
 
   const main = document.querySelector("main");
   main?.insertAdjacentHTML("afterbegin", MovieList(movies));
