@@ -2,6 +2,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import MoreMoviesButton from "./components/MoreMoviesButton";
 import MovieList from "./components/MovieList";
+import { isHTMLElement } from "./utils/typeGuards";
 
 export interface Movie {
   id: number;
@@ -30,15 +31,14 @@ class App {
     this.#renderHeader(this.#movies[0]);
     this.#renderMoviesContainer();
     this.#renderMovies(movies);
-    this.#renderMoreMoviesButton();
+
+    const $moreMoviesButton = document.querySelector(".more-button-container");
+    if (isHTMLElement($moreMoviesButton))
+      new MoreMoviesButton($moreMoviesButton, {
+        refetchMovies: () => this.#refetchMovies(),
+      });
+
     this.#renderFooter();
-
-    this.#addEventListeners();
-  }
-
-  #addEventListeners() {
-    const moreButton = document.querySelector(".more-movies-button");
-    moreButton?.addEventListener("click", () => this.#refetchMovies());
   }
 
   async #refetchMovies() {
@@ -92,11 +92,6 @@ class App {
   #renderFooter() {
     const root = document.querySelector("#wrap");
     root?.insertAdjacentHTML("beforeend", Footer());
-  }
-
-  #renderMoreMoviesButton() {
-    const container = document.querySelector(".container");
-    container?.insertAdjacentHTML("beforeend", MoreMoviesButton());
   }
 
   #removeMoreMoviesButton() {
