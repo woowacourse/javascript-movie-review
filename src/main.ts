@@ -2,6 +2,7 @@ import { getMovies } from "./apis/MovieApi";
 import MovieList from "./components/MovieList";
 import Button from "./components/Button";
 import { isElement } from "./utils";
+import { MAX_MOVIE_PAGE } from "./constants/costants";
 
 addEventListener("load", async () => {
   let page = 1;
@@ -25,6 +26,10 @@ addEventListener("load", async () => {
     if (isElement(target) && target.closest(".show-more")) {
       page = page + 1;
       await renderMoviesList();
+      if (page === MAX_MOVIE_PAGE) {
+        document.querySelector(".show-more")?.remove();
+        return;
+      }
     }
   });
 });

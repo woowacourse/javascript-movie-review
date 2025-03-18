@@ -1,7 +1,7 @@
 import { MoviesResponse } from "../../types/movieApiType";
 
 export async function getMovies({ page }: { page: number }) {
-  const url = `https://api.themoviedb.org/3/movie/popular?language=en-US&page=${page}`;
+  const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`;
   const options = {
     method: "GET",
     headers: {
@@ -12,6 +12,10 @@ export async function getMovies({ page }: { page: number }) {
 
   const response = fetch(url, options)
     .then((res) => res.json())
+    .then((json) => {
+      console.log(json);
+      return json;
+    })
     .catch((err) => console.error(err));
   return response as unknown as MoviesResponse;
 }
