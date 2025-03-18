@@ -1,3 +1,5 @@
+export type HTMLTagName = keyof HTMLElementTagNameMap;
+
 export interface MovieDetail {
   adult: boolean;
   backdrop_path: null | string;
