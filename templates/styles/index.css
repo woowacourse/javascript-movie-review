@@ -1,6 +1,47 @@
-@import "./colors.css";
-@import "./main.css";
-@import "./modal.css";
-@import "./reset.css";
-@import "./tab.css";
-@import "./thumbnail.css";
+@import './colors.css';
+@import './main.css';
+@import './modal.css';
+@import './reset.css';
+@import './tab.css';
+@import './thumbnail.css';
+
+.border-none {
+  background: none;
+  border: none;
+}
+
+.border-radius {
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.rounded-2xl {
+  border-radius: 32px;
+}
+
+.outline-2 {
+  outline-width: 2px;
+  outline-color: var(--color-white);
+}
+
+.w-525 {
+  width: 525px;
+}
+
+.px6-py16 {
+  padding: 6px 16px;
+}

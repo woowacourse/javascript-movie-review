@@ -11,3 +11,7 @@
   --color-ffffff: #ffffff;
   --color-242a32: #242a32;
 }
+
+.text-white {
+  color: var(--color-white);
+}
