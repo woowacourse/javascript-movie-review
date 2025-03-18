@@ -1,18 +1,7 @@
 import Header from "./component/common/Header.js";
-import MovieList from "./component/common/MovieList.js";
+import {loadPopularMovies} from "./api/fetch.ts";
 
-addEventListener("load", () => {
+addEventListener("load", async() => {
   Header();
-  MovieList(movieData).createList();
+ await loadPopularMovies();
 });
-
-const movieData=[
-  {img:"",
-    rating:5,
-    title:"안녕"
-  },
-  {img:"",
-    rating:6,
-    title:"안녕"
-  },
-]

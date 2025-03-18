@@ -1,9 +1,11 @@
+const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
+
 function MovieItem({ img, rating, title }) {
   function template() {
     return `<div class="item">
         <img
           class="thumbnail"
-          src="https://media.themoviedb.org/t/p/w440_and_h660_face/pmemGuhr450DK8GiTT44mgwWCP7.jpg"
+          src="${BASE_IMAGE_URL}${img}"
           alt="${title}"
         />
         <div class="item-desc">
