@@ -10,7 +10,7 @@ export const Button = ({ type, onClick, classList, props }: ButtonProps) => {
   const buttonElement = <HTMLButtonElement>createElement('button', props);
 
   buttonElement.type = type;
-  buttonElement.classList.add(classList.join(' '));
+  classList && buttonElement.classList.add(classList.join(' '));
 
   buttonElement.addEventListener('click', () => {
     onClick();

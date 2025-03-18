@@ -12,7 +12,7 @@ export const Icon = ({ size, src, classList, props }: IconProps) => {
   iconElement.width = size;
   iconElement.height = size;
   iconElement.src = src;
-  iconElement.classList.add(classList.join(' '));
+  classList && iconElement.classList.add(classList.join(' '));
 
   return iconElement;
 };

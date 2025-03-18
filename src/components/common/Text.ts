@@ -3,7 +3,7 @@ import { createElement } from '../../utils/createElement.ts';
 
 export const Text = ({ classList, props }: ComponentProps) => {
   const textElement = <HTMLParagraphElement>createElement('p', props);
-  textElement.classList.add(classList.join(' '));
+  classList && textElement.classList.add(classList.join(' '));
 
   return textElement;
 };
