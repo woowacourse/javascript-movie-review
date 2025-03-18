@@ -1,6 +1,7 @@
 import { createElement } from '../../utils/createElement';
 import { Button } from './Button';
 import { Icon } from './Icon';
+import { SearchBar } from './SearchBar';
 import { Text } from './Text';
 
 export const Header = () => {
@@ -58,11 +59,16 @@ export const Header = () => {
     },
   });
 
+  const searchBar = SearchBar({ onSubmit: () => {} });
+
   headerElement.appendChild(backgroundContainer);
   backgroundContainer.append(overlay, topRatedContainer);
-  topRatedContainer.append(logoImg, topRatedMovie);
+  topRatedContainer.append(logoImg, searchBar, topRatedMovie);
   topRatedMovie.append(rateDiv, titleText, detailButton);
   rateDiv.append(starImg, rateText);
+
+  const app = document.querySelector('#app');
+  app?.appendChild(headerElement);
 
   return headerElement;
 };

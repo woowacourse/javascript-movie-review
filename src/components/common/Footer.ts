@@ -19,5 +19,8 @@ export const Footer = () => {
 
   footerElement.append(text, icon);
 
+  const app = document.querySelector('#app');
+  app?.appendChild(footerElement);
+
   return footerElement;
 };
