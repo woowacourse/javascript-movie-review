@@ -1,5 +1,5 @@
 import "./MovieListSection.css";
-import MovieItem from "../UI/Movie/MovieItem";
+import MovieItem from "../Movie/MovieItem";
 
 class MovieListSection {
   constructor(title, movies) {

@@ -1,9 +1,9 @@
 import Header from "./UI/Header/Header";
 import Movie from "./UI/Movie/MovieItem";
 import Thumbnail from "./UI/Thumbnail/Thumbnail";
-import MovieListSection from "./MovieListSection/MovieListSection";
-import Button from "./Button/Button";
-import Footer from "./Footer/Footer";
+import MovieListSection from "./UI/MovieListSection/MovieListSection.js";
+import Button from "./UI/Button/Button.js";
+import Footer from "./UI/Footer/Footer.js";
 
 const movie = {
   page: 2,
