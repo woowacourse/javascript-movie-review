@@ -1,13 +1,21 @@
 import { createElement } from '../../util/utils'
 import MovieItem from './MovieItem'
 
-function MovieList() {
-  const li = createElement('li')
-  function createList(dataList) {
-    dataList.map((data) => {
-      MovieItem({ img: data.img, rating: data.rating, title: data.title })
+function MovieList(dataList) {
+
+  function createList() {
+    const docfrag = document.createDocumentFragment();
+    dataList.forEach((data) => {
+      const li = createElement('li');
+      li.innerHTML = MovieItem({ img: data.img, rating: data.rating, title: data.title });
+      docfrag.appendChild(li);
     })
+    document.getElementById("thumbnailList").appendChild(docfrag);
   }
+
+  return {createList};
 }
 
-export default MovieList
+
+
+export default MovieList;
