@@ -1,4 +1,6 @@
-const Header = () => {
+import Button from "./Button";
+
+function Header() {
   return /*html*/ `<header>
     <div class="background-container">
       <div class="overlay" aria-hidden="true"></div>
@@ -12,11 +14,11 @@ const Header = () => {
             <span class="rate-value">9.5</span>
           </div>
           <div class="title">인사이드 아웃2</div>
-          <button class="primary detail">자세히 보기</button>
+         ${Button({ text: "자세히보기" })}
         </div>
       </div>
     </div>
   </header>`;
-};
+}
 
 export default Header;
