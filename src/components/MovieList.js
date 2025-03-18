@@ -2,23 +2,6 @@ import createElement from './utils/createElement';
 import MoviePreviewInfo from './MoviePreviewInfo';
 
 const MovieList = () => {
-  const $container = createElement({
-    tag: 'div',
-    classNames: ['container'],
-  });
-
-  const $main = createElement({
-    tag: 'main',
-  });
-
-  const $section = createElement({
-    tag: 'section',
-  });
-
-  const $h2 = createElement({
-    tag: 'h2',
-  });
-
   const $ul = createElement({
     tag: 'ul',
     classNames: ['thumbnail-list'],
@@ -40,12 +23,6 @@ const MovieList = () => {
     alt: '인사이드 아웃 2',
   });
 
-  $h2.textContent = '지금 인기 있는 영화';
-
-  $container.appendChild($main);
-  $main.appendChild($section);
-  $section.appendChild($h2);
-  $section.appendChild($ul);
   $ul.appendChild($li);
   $li.appendChild($div);
   $div.appendChild($img);
@@ -53,7 +30,7 @@ const MovieList = () => {
     bigFont: false,
   }));
 
-  return $container;
+  return $ul;
 };
 
 export default MovieList;

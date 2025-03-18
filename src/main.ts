@@ -1,9 +1,9 @@
 import Header from "./components/Header";
-import MovieList from "./components/MovieList";
+import MovieContainer from "./components/MovieContainer";
 
 const $body = document.querySelector("body");
 
 if ($body) {
   $body.appendChild(Header());
-  $body.appendChild(MovieList());
+  $body.appendChild(MovieContainer());
 }
