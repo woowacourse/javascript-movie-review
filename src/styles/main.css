@@ -43,6 +43,11 @@ button.primary {
   border-radius: 4px;
 }
 
+.detail-button {
+  width: 1280px;
+  height: 49px;
+}
+
 #wrap {
   min-width: 1440px;
   background-color: var(--color-bluegray-100);
