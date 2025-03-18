@@ -31,7 +31,7 @@ FE 레벨1 영화 리뷰 미션
 - [x] Input.js
 - [x] SerchInput.js
 - [x] MovieItem.js
-- [] Footer.js
+- [x] Footer.js
 - [x] Header.js
 
 [feature]
