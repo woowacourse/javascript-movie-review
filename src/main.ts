@@ -2,6 +2,7 @@ import Header from "./UI/Header/Header";
 import Movie from "./UI/Movie/MovieItem";
 import Thumbnail from "./UI/Thumbnail/Thumbnail";
 import MovieListSection from "./MovieListSection/MovieListSection";
+import Button from "./Button/Button";
 
 const movie = {
   page: 2,
@@ -350,8 +351,10 @@ const $movieListSection = new MovieListSection(
   movie.results
 ).render();
 
+const $moreButton = new Button().render();
+
 console.log($movieListSection);
 if (body) {
   body.innerHTML = "";
-  body.append($header, $movieListSection);
+  body.append($header, $movieListSection, $moreButton);
 }
