@@ -28,7 +28,10 @@ class App {
     const movies = await this.#fetchMovies(this.#page);
     this.#movies = movies;
 
-    this.#renderHeader(this.#movies[0]);
+    const $header = document.querySelector("header");
+    if (isHTMLElement($header))
+      new Header($header, { topRatedMovie: this.#movies[0] });
+
     this.#renderMoviesContainer();
     this.#renderMovies(movies);
 
@@ -69,11 +72,6 @@ class App {
     const movies: Movie[] = data.results;
 
     return movies;
-  }
-
-  #renderHeader(topRatedMovie: Movie) {
-    const root = document.querySelector("#wrap");
-    root?.insertAdjacentHTML("afterbegin", Header(topRatedMovie));
   }
 
   #renderMoviesContainer() {
