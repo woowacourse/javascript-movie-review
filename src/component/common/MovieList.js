@@ -3,16 +3,20 @@ import MovieItem from './MovieItem.js'
 import roundRating from '../../util/roundRating.js';
 
 function MovieList(dataList) {
-  function createList() {
+  function template() {
+    const ul = createElement('ul');
+    ul.classList.add('thumbnail-list');
+    ul.id = 'thumbnailList';
     const docfrag = document.createDocumentFragment();
     dataList.forEach((data) => {
       const li = createElement('li');
       li.innerHTML = MovieItem({ img: data.poster_path, rating: roundRating(data.vote_average), title: data.title });
       docfrag.appendChild(li);
     })
-    document.getElementById("thumbnailList").appendChild(docfrag);
+    ul.appendChild(docfrag);
+    return ul;
   }
-  return {createList};
+  return {template};
 }
 
 

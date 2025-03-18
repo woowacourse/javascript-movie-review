@@ -35,8 +35,8 @@ export interface TMDBResponse {
   }
 
 
-export async function fetchPopularMovies() {
-    const popularMovieUrl = "https://api.themoviedb.org/3/movie/popular?language=ko-Kr&page=1";
+export async function fetchPopularMovies(pageIndex:number) {
+    const popularMovieUrl = `https://api.themoviedb.org/3/movie/popular?language=ko-Kr&page=${pageIndex}`;
     const options = {
       headers: {
         Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
@@ -48,7 +48,7 @@ export async function fetchPopularMovies() {
     return results;
   }
   
-  export async function loadPopularMovies() {
-    const popularMovies = await fetchPopularMovies();
-    MovieList(popularMovies).createList();
+  export async function loadPopularMovies(pageIndex:number) {
+    const popularMovies = await fetchPopularMovies(pageIndex);
+    //MovieList(popularMovies).createList();
   }
