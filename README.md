@@ -27,7 +27,7 @@ FE 레벨1 영화 리뷰 미션
 
 - [ ] Icon
 - [ ] Image
-- [ ] Text
+- [x] Text
 - [ ] Button
 - [ ] Skeleton
 - [ ] Search Bar
