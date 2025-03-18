@@ -1,5 +1,6 @@
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import MoreMoviesButton from "./components/MoreMoviesButton";
 import MovieList from "./components/MovieList";
 
 export interface Movie {
@@ -18,10 +19,11 @@ const App = async () => {
 
   renderHeader(topRatedMovie);
   renderMovies(movies);
+  renderMoreMoviesButton();
   renderFooter();
 };
 
-async function fetchMovies(page: number) {
+const fetchMovies = async (page: number) => {
   const options = {
     method: "GET",
     headers: {
@@ -39,21 +41,26 @@ async function fetchMovies(page: number) {
   const topRatedMovie: Movie = movies[0];
 
   return { movies, topRatedMovie };
-}
+};
 
-function renderHeader(topRatedMovie: Movie) {
+const renderHeader = (topRatedMovie: Movie) => {
   const root = document.querySelector("#wrap");
   root?.insertAdjacentHTML("afterbegin", Header(topRatedMovie));
-}
+};
 
-function renderMovies(movies: Movie[]) {
+const renderMovies = (movies: Movie[]) => {
   const main = document.querySelector("main");
   main?.insertAdjacentHTML("afterbegin", MovieList(movies));
-}
+};
 
-function renderFooter() {
+const renderFooter = () => {
   const root = document.querySelector("#wrap");
   root?.insertAdjacentHTML("beforeend", Footer());
-}
+};
+
+const renderMoreMoviesButton = () => {
+  const main = document.querySelector("main");
+  main?.insertAdjacentHTML("beforeend", MoreMoviesButton());
+};
 
 App();
