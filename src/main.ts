@@ -1,5 +1,5 @@
 import { Button } from './component/button/Button.ts';
-import { MovieItem } from './component/movie-item/MovieItem.ts';
+import MovieGrid from './component/movie-grid/MovieGrid.ts';
 import { SearchBar } from './component/search-bar/SearchBar.ts';
 
 addEventListener('load', () => {
@@ -10,14 +10,15 @@ addEventListener('load', () => {
     score: 4.5,
     imgUrl: './search-icon.png',
   };
-  const movieItem = new MovieItem({ data: testData });
+
+  const movieGrid = new MovieGrid({ movieItems: [testData, testData], gridTitle: '그리드 테스트 제목' });
 
   const button = new Button({ cssType: 'detail', innerText: '테스트 버튼' });
   const loadButton = new Button({ cssType: 'load-more', innerText: '테스트 버튼2' });
 
-  if (searchBar.element && movieItem.element && button.element) {
+  if (searchBar.element && movieGrid.element && button.element) {
     body?.appendChild(searchBar.element);
-    body?.appendChild(movieItem.element);
+    body?.appendChild(movieGrid.element);
     body?.appendChild(button.element);
     body?.appendChild(loadButton.element);
   }

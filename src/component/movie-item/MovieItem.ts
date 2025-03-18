@@ -13,7 +13,7 @@ export class MovieItem {
   }
 
   render() {
-    this.#container.innerHTML = `<div class="item">
+    this.#container.innerHTML = `<li><div class="item">
                   <img
                     class="thumbnail"
                     src=${this.#data.imgUrl}
@@ -27,10 +27,11 @@ export class MovieItem {
                     </p>
                     <strong class = 'text-subtitle'>${this.#data.title}</strong>
                   </div>
-                </div>`;
+                </div></li>`;
   }
 
   get element() {
-    return this.#container.firstElementChild;
+    // @TODO
+    return this.#container.firstElementChild || document.createElement('div');
   }
 }
