@@ -95,20 +95,22 @@ button.show-more {
 }
 
 .top-rated-search {
-  padding: 16px 32px;
-  border: 1.5px solid white;
-  border-radius: 32px;
-  padding: 8px 16px;
   display: flex;
   justify-content: space-between;
-  width: 525px;
+  padding: 8px 16px;
   margin: auto;
+  border: 1.5px solid white;
+  border-radius: 32px;
+  width: 525px;
 }
 
 .top-rated-search-input {
-  background-color: transparent;
-  font-size: 16px;
+  width: 100%;
   border: none;
+  font-size: 16px;
+  outline: none;
+  background-color: transparent;
+  color: white;
 }
 
 .top-rated-search-input::placeholder {
