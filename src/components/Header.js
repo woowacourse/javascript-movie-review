@@ -1,5 +1,7 @@
+import Button from './Button';
 import Gnb from './Gnb';
 import createElement from './utils/createElement';
+import BUTTON from '../constants/constant';
 
 const Header = () => {
   const $header = createElement({
@@ -50,13 +52,6 @@ const Header = () => {
 
   $title.textContent = '인사이드 아웃2';
 
-  const $button = createElement({
-    tag: 'button',
-    classNames: ['primary', 'detail'],
-  });
-
-  $button.textContent = '자세히 보기';
-
   $header.append($backgroundContainer);
   $backgroundContainer.append($overlay);
   $backgroundContainer.append($topRatedContainer);
@@ -66,7 +61,7 @@ const Header = () => {
   $rate.append($starImg);
   $rate.append($rateValue);
   $topRatedMovie.append($title);
-  $topRatedMovie.append($button);
+  $topRatedMovie.append(Button({ text: BUTTON.DETAIL }));
 
   return $header;
 };
