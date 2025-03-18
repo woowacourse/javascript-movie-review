@@ -31,9 +31,8 @@ FE 레벨1 영화 리뷰 미션
 - [x] Button
 - [x] Skeleton
 - [x] Search Bar
-- [ ] MovieList
-- [ ] MovieImage
-- [ ] MovieItem
+- [x] MovieList
+- [x] MovieItem
 - [ ] MovieSkeleton
 - [x] Header
 - [x] Footer
