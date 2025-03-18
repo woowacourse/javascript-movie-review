@@ -57,6 +57,7 @@ button.primary {
 .container {
   max-width: 1280px;
   margin: 0 auto;
+  padding: 64px 0;
 }
 
 .background-container {
@@ -122,6 +123,7 @@ button.primary {
   color: var(--color-white);
   display: flex;
   flex-grow: 1;
+  font-size: 16px;
 }
 
 .search-form > input::placeholder {
