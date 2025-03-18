@@ -132,3 +132,41 @@ footer.footer {
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
 }
+
+.search-input {
+  display: flex;
+  width: 525px;
+  padding: 6px 16px;
+  justify-content: space-between;
+  align-items: center;
+
+  position: absolute;
+  left: 457px;
+  top: 40px;
+
+  color: var(--color-white);
+  font-family: "DM Sans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+
+  border-radius: 32px;
+  border: 2px solid var(--color-gray-300);
+  background: transparent;
+}
+::placeholder {
+  color: var(--color-white);
+  font-family: "DM Sans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.search-button-icon {
+  position: absolute;
+  left: 930px;
+  top: 44px;
+  background: transparent;
+}

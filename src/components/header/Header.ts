@@ -1,5 +1,6 @@
 import { images } from "../../assets/images";
 import Button from "../@common/Button";
+import Input from "../@common/Input";
 
 interface HeaderProps {
   rate: number;
@@ -16,6 +17,22 @@ const Header = (props: HeaderProps) => {
             
           </div>
           <div class="top-rated-container">
+            <div class="input-container">
+            ${Input({
+              attribute: {
+                class: "search-input",
+                type: "text",
+                placeholder: "검색어를 입력하세요",
+              },
+            })}
+              <input type="text" class="search-input" placeholder="검색어를 입력하세요" />
+              ${Button({
+                attribute: {
+                  class: "search-button-icon",
+                },
+                children: `<img src="${images.search}" alt="search" />`,
+              })}
+            </div>
             <h1 class="logo">
               <img src="${images.logo}" alt="MovieList" />
             </h1>
