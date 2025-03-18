@@ -11,6 +11,7 @@ export interface Movie {
 }
 
 export const BASE_URL = "https://api.themoviedb.org/3/movie";
+const MAX_PAGE = 2;
 
 const App = async () => {
   let page = 1;
@@ -29,6 +30,11 @@ const App = async () => {
     page += 1;
     const { movies: newMovies } = await fetchMovies(page);
     renderMovies(newMovies);
+
+    if (page >= MAX_PAGE) {
+      removeMoreMoviesButton();
+      return;
+    }
   });
 };
 
@@ -78,6 +84,10 @@ const renderFooter = () => {
 const renderMoreMoviesButton = () => {
   const container = document.querySelector(".container");
   container?.insertAdjacentHTML("beforeend", MoreMoviesButton());
+};
+
+const removeMoreMoviesButton = () => {
+  document.querySelector(".more-movies-button")?.remove();
 };
 
 App();
