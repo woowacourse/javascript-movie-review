@@ -1,0 +1,17 @@
+@import './component/search-bar/search-bar.css';
+@import './reset.css';
+@import './theme.css';
+@import './component/movie-item/movie-item.css'; /*삭제 예정*/
+
+body {
+  background-color: var(--color-bluegray-100);
+}
+
+input {
+  border: none;
+  background: none;
+  outline: none;
+  &:focus::placeholder {
+    opacity: 0;
+  }
+}

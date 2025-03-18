@@ -18,3 +18,13 @@
   font-weight: 400;
   letter-spacing: 0;
 }
+
+.text-subtitle {
+  color: var(--color-white);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
+/* 디자인 시스템 (컬러, 폰트)*/
