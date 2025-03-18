@@ -1,3 +1,4 @@
+import Gnb from './Gnb';
 import createElement from './utils/createElement';
 
 const Header = () => {
@@ -19,17 +20,6 @@ const Header = () => {
   const $topRatedContainer = createElement({
     tag: 'div',
     classNames: ['top-rated-container'],
-  });
-
-  const $logo = createElement({
-    tag: 'h1',
-    classNames: ['logo'],
-  });
-
-  const $logoImg = createElement({
-    tag: 'img',
-    src: ['./images/logo.png'],
-    alt: 'MovieList',
   });
 
   const $topRatedMovie = createElement({
@@ -70,8 +60,7 @@ const Header = () => {
   $header.append($backgroundContainer);
   $backgroundContainer.append($overlay);
   $backgroundContainer.append($topRatedContainer);
-  $topRatedContainer.append($logo);
-  $logo.append($logoImg);
+  $topRatedContainer.append(Gnb());
   $topRatedContainer.append($topRatedMovie);
   $topRatedMovie.append($rate);
   $rate.append($starImg);
