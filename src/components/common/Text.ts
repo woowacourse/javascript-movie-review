@@ -1,12 +1,8 @@
-import { createElement, ElementProps } from '../../utils/createElement.ts';
+import { ComponentProps } from '../../types/Component.types.ts';
+import { createElement } from '../../utils/createElement.ts';
 
-type TextProps = {
-  classList: string[];
-  props: ElementProps;
-};
-
-export const Text = ({ classList, props }: TextProps) => {
-  const textElement = createElement('p', props);
+export const Text = ({ classList, props }: ComponentProps) => {
+  const textElement = <HTMLParagraphElement>createElement('p', props);
   textElement.classList.add(classList.join(' '));
 
   return textElement;
