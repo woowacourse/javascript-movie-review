@@ -1,4 +1,4 @@
-import { MovieItem as MovieItemType } from '../../../types/Movie';
+import { MovieItem as MovieItemType } from '../../types/Movie.types';
 import { createElement } from '../../utils/createElement';
 import { Icon } from '../common/Icon';
 import { Text } from '../common/Text';
@@ -29,7 +29,6 @@ export const MovieItem = ({ ...props }: MovieItemType) => {
   const starIcon = Icon({
     size: 16,
     src: './images/star_empty.png',
-    classList: ['star'],
   });
 
   const titleText = Text({

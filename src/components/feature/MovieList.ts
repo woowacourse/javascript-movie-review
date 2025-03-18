@@ -1,13 +1,17 @@
 import {
   MovieItem as MovieItemType,
   MovieList as MovieListType,
-} from '../../../types/Movie';
+} from '../../types/Movie.types';
 import { createElement } from '../../utils/createElement';
 import { Text } from '../common/Text';
 import { MovieItem } from './MovieItem';
 
-export const MovieList = ({ ...props }: MovieListType) => {
-  // const {  results, total_pages, total_results } = props;
+export const MovieList = ({
+  page,
+  results,
+  total_pages,
+  total_results,
+}: MovieListType) => {
   const sectionElement = <HTMLDivElement>createElement('section');
 
   const text = Text({
@@ -20,12 +24,15 @@ export const MovieList = ({ ...props }: MovieListType) => {
   movieUl.classList.add('thumbnail-list');
 
   movieUl.append(
-    ...props.results.map((movie: MovieItemType) => {
+    ...results.map((movie: MovieItemType) => {
       return MovieItem({ ...movie });
     }),
   );
 
   sectionElement.append(text, movieUl);
+
+  const app = document.querySelector('#app');
+  app?.appendChild(sectionElement);
 
   return sectionElement;
 };
