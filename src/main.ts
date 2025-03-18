@@ -1,3 +1,8 @@
+import { SearchBar } from './component/SearchBar.ts';
+
 addEventListener('load', () => {
-  console.log('hi');
+  const searchBar = new SearchBar();
+  if (searchBar.element) {
+    document.querySelector('body')?.appendChild(searchBar.element);
+  }
 });

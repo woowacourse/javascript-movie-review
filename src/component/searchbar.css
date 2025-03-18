@@ -1,0 +1,24 @@
+.searchbar {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  width: 525px;
+  padding: 6px 16px;
+  border: 2px solid var(--color-gray-300);
+  color: var(--color-gray-300);
+  border-radius: 150px;
+}
+
+.searchbar__input {
+  flex: 1;
+  &::placeholder {
+    color: var(--color-white);
+  }
+}
+
+.searchbar__icon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
