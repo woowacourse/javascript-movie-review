@@ -6,7 +6,7 @@ const MovieList = (movies: Movie[]) => {
   return /*html*/ `
     ${movies
       .map(
-        ({ poster_path, title, vote_average }) => `
+        ({ poster_path, title, vote_average }) => /*html*/ `
         <li>
             <div class="item">
                 <img

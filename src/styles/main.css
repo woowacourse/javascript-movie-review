@@ -85,8 +85,36 @@ button.primary {
   z-index: 2;
   max-width: 1280px;
   margin: 0 auto;
+  position: relative;
 }
 
+.search-bar-container {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 525px;
+  padding: 10px 20px;
+  color: var(--color-white);
+  font-size: 16px;
+  border-radius: 30px;
+  border: 2px solid var(--color-white);
+  display: flex;
+}
+
+.search-bar-container input {
+  background-color: transparent;
+  border: none;
+  color: white;
+  flex: 1;
+  font-size: 16px;
+  &:focus {
+    outline: none;
+  }
+  &::placeholder {
+    color: var(--color-white);
+  }
+}
 .top-rated-movie {
   margin-top: 64px;
 }
