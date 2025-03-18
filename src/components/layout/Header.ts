@@ -1,5 +1,6 @@
 import { createElement } from "../../utils/createElement.ts";
 import { $ } from "../../utils/dom.ts";
+import Button from "../common/Button.ts";
 import Rate from "../common/Rate.ts";
 
 type HeaderProps = {
@@ -17,16 +18,19 @@ const Header = ({ title }: HeaderProps) => {
           </h1>
           <div class="top-rated-movie">
             <div class="title">${title}</div>
-            <button class="primary detail">자세히 보기</button>
+            
           </div>
       </div>
     </header>
   `);
 
-  const rate = Rate({ size: 32, rate: 10 });
+  const rate = Rate({ rate: 10 });
+  const button = Button({text:"자세히 보기",className:["primary","detail"]})
   if (!rate) return;
 
- $(".top-rated-movie", header).appendChild(rate);
+  const topRateMovie =  $(".top-rated-movie", header)
+  topRateMovie.prepend(rate);
+  topRateMovie.appendChild(button);
 
   return header;
 };
