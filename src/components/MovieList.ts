@@ -3,6 +3,12 @@ import { Movie } from "../main";
 export const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
 
 const MovieList = (movies: Movie[]) => {
+  const posterImage = (poster_path: Movie["poster_path"]) => {
+    return poster_path
+      ? `${IMAGE_BASE_URL}${poster_path}`
+      : "./images/dizzy_planet.png";
+  };
+
   return /*html*/ `
     ${movies
       .map(
@@ -11,7 +17,7 @@ const MovieList = (movies: Movie[]) => {
             <div class="item">
                 <img
                 class="thumbnail"
-                src="${IMAGE_BASE_URL}${poster_path}"
+                src="${posterImage(poster_path)}"
                 alt="${title}"
                 />
                 <div class="item-desc">
