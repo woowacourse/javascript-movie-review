@@ -22,7 +22,12 @@ export const $$ = (
 };
 
 export const parseAttribute = (attribute: Attribute) => {
+  console.log(
+    Object.entries(attribute)
+      .map(([key, value]) => `${key} = ${value}`)
+      .join("")
+  );
   return Object.entries(attribute)
-    .map(([key, value]) => `${key} = ${value}`)
+    .map(([key, value]) => `${key}="${value}"`)
     .join("");
 };
