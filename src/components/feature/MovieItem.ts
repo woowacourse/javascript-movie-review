@@ -27,7 +27,8 @@ export const MovieItem = ({ ...props }: MovieItemType) => {
   });
 
   const starIcon = Icon({
-    size: 16,
+    width: 16,
+    height: 16,
     src: './images/star_empty.png',
   });
 

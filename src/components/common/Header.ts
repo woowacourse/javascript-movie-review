@@ -16,9 +16,11 @@ export const Header = () => {
   overlay.classList.add('overlay');
 
   const topRatedContainer = <HTMLDivElement>createElement('div');
+  topRatedContainer.classList.add('top-rated-container');
 
   const logoImg = Icon({
-    size: 123,
+    width: 117,
+    height: 20,
     src: './images/logo.png',
     classList: ['logo'],
     props: { alt: 'MovieLogo' },
@@ -31,10 +33,10 @@ export const Header = () => {
   rateDiv.classList.add('rate');
 
   const starImg = Icon({
-    size: 32,
+    width: 32,
+    height: 32,
     src: './images/star_empty.png',
   });
-  starImg.classList.add('star');
 
   const rateText = Text({
     classList: ['rate-value'],

@@ -19,7 +19,8 @@ export const IconButton = ({
   });
 
   const icon = Icon({
-    size: 24,
+    width: 24,
+    height: 24,
     src: src,
     classList: classList,
     props: props,

@@ -13,7 +13,8 @@ export const Footer = () => {
   });
 
   const icon = Icon({
-    size: 180,
+    width: 180,
+    height: 30,
     src: './images/woowacourse_logo.png',
   });
 
