@@ -3,6 +3,7 @@ import Movie from "./UI/Movie/MovieItem";
 import Thumbnail from "./UI/Thumbnail/Thumbnail";
 import MovieListSection from "./MovieListSection/MovieListSection";
 import Button from "./Button/Button";
+import Footer from "./Footer/Footer";
 
 const movie = {
   page: 2,
@@ -353,8 +354,10 @@ const $movieListSection = new MovieListSection(
 
 const $moreButton = new Button().render();
 
+const $footer = new Footer().render();
+
 console.log($movieListSection);
 if (body) {
   body.innerHTML = "";
-  body.append($header, $movieListSection, $moreButton);
+  body.append($header, $movieListSection, $moreButton, $footer);
 }
