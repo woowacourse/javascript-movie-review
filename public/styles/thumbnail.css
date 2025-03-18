@@ -1,8 +1,9 @@
 @import "./colors.css";
 
 .movie-list-section {
-  margin: 4rem 0;
   padding: 0 5rem;
+  width: 1440px;
+  margin: 4rem auto;
 }
 
 .thumbnail-list {

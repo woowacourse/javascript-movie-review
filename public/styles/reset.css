@@ -128,3 +128,16 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+button {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  padding: 0;
+}

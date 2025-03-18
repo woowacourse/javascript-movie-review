@@ -49,9 +49,9 @@ button.primary {
 }
 
 #wrap h2 {
-  font-size: 1.4rem;
+  font-size: 1.85rem;
   font-weight: bold;
-  margin-bottom: 32px;
+  margin-bottom: 3.5rem;
 }
 
 .container {
@@ -65,6 +65,32 @@ button.primary {
   background-size: cover;
   height: 500px;
   padding: 48px;
+  background-image: url("https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/stKGOm8UyhuLPR9sZLjs5AkmncA.jpg");
+}
+
+.search-box {
+  border-radius: 32px;
+  border: 2px solid var(--color-gray-300);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32.8125rem;
+  gap: 1rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 0;
+  color: var(--color-gray-300);
+  font-size: 1.1rem;
+}
+
+.search-input::placeholder {
+  color: var(--color-gray-300);
 }
 
 .overlay {
@@ -94,7 +120,7 @@ button.primary {
 }
 
 h1.logo {
-  font-size: 2rem;
+  font-size: 2.5rem;
 }
 
 .rate {
