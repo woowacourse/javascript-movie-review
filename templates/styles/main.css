@@ -12,6 +12,18 @@ a {
   text-decoration: none;
 }
 
+header {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+}
+
+.header-container {
+  position: fixed;
+}
+
 body {
   font-size: 16px;
   color: var(--color-white);
@@ -37,6 +49,8 @@ button {
   border: 0;
   padding: 8px 16px;
   cursor: pointer;
+  background-color: transparent;
+  
 }
 
 button.primary {
@@ -81,8 +95,12 @@ button.primary {
 }
 
 .top-rated-container {
+  display: flex;
+  justify-items: center;
+
+
   user-select: none;
-  position: relative;
+  position: fixed;
   z-index: 2;
   max-width: 1280px;
   margin: 0 auto;
@@ -97,7 +115,11 @@ button.primary {
 }
 
 h1.logo {
+  margin-right: auto;
   font-size: 2rem;
+  position: absolute;
+  left: 0;
+  margin-left: 40px;
 }
 
 .rate {

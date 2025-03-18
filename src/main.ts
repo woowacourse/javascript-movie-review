@@ -1,11 +1,5 @@
-import image from "../templates/images/star_filled.png";
+import Header from "./component/common/Header.js";
 
 addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
-
-  if (app) {
-    app.appendChild(buttonImage);
-  }
+  Header();
 });

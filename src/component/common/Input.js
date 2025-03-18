@@ -1,6 +1,6 @@
 function Input({placeholder, eventName}) {
     return `
-        <inputm type="text" data-action="${eventName}" placeholder="${placeholder}"></input>
+        <input type="text" data-action="${eventName}" placeholder="${placeholder}"></input>
     `
 }
 
