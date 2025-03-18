@@ -1,16 +1,18 @@
 import { MovieResult } from "../../types/movieApiType";
 
 export default function MovieList(moviesResult: MovieResult[]) {
-  const ul = document.createElement("ul");
-  ul.className = "thumbnail-list";
+  const $ul = document.createElement("ul");
+  $ul.className = "thumbnail-list";
   moviesResult.forEach((movieResult) => {
-    const li = document.createElement("li");
+    const $li = document.createElement("li");
 
-    li.innerHTML = /*html*/ `
+    $li.innerHTML = /*html*/ `
         <div class="item">
           <img
             class="thumbnail"
-            src="https://media.themoviedb.org/t/p/w440_and_h660_face/${movieResult.backdrop_path}"
+            src="https://media.themoviedb.org/t/p/w440_and_h660_face/${
+              movieResult.backdrop_path ?? "AuSip6e3uvQgPnnFQjzdTrOVPx7.jpg"
+            }"
             alt="${movieResult.title}"
           />
           <div class="item-desc">
@@ -24,7 +26,7 @@ export default function MovieList(moviesResult: MovieResult[]) {
         </div>
     `;
 
-    ul.appendChild(li);
+    $ul.appendChild($li);
   });
-  return ul;
+  return $ul;
 }
