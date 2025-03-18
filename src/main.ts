@@ -1,4 +1,4 @@
-import movieList from "./components/movieList";
+import movieList from "./components/movie/movieList";
 
 const url = "https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1";
 
