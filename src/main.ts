@@ -1,3 +1,5 @@
+import movieList from "./components/movieList";
+
 const url = "https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1";
 
 const options = {
@@ -10,5 +12,8 @@ const options = {
 
 fetch(url, options)
   .then((res) => res.json())
-  .then((json) => console.log(json))
+  .then((json) => {
+    const { results, page } = json;
+    movieList(results);
+  })
   .catch((err) => console.error(err));

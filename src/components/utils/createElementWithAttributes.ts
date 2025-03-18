@@ -2,7 +2,7 @@ type ElementAttributes = {
   [key: string]: string;
 };
 
-type ElementOptions = {
+export type ElementOptions = {
   tag: keyof HTMLElementTagNameMap;
   id?: string;
   className?: string;
