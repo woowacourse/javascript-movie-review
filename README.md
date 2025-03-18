@@ -25,13 +25,13 @@ FE 레벨1 영화 리뷰 미션
 
 [common]
 
-- Button.js
-- StarRating.js 는 별 아이콘과 숫자로 이루어짐
-- TabButton.js
-- SearchInput.js
-- MovieItem.js
-- Footer.js
-- Header.js
+- [x] Button.js
+- [] StarRating.js 는 별 아이콘과 숫자로 이루어짐
+- [] TabButton.js
+- [] SearchInput.js
+- [] MovieItem.js
+- [] Footer.js
+- [] Header.js
 
 [feature]
 
