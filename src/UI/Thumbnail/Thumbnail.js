@@ -1,6 +1,9 @@
 import "./Thumbnail.css";
 
 class Thumbnail {
+  constructor(movie) {
+    this.movie = movie;
+  }
   render() {
     const $header = document.createElement("header");
 
@@ -10,10 +13,10 @@ class Thumbnail {
         <div class="top-rated-container">
           <div class="top-rated-movie">
             <div class="rate">
-              <img src="./images/star_empty.png" class="star" />
-              <span class="rate-value">9.5</span>
+              <img src="${this.movie.src}" class="star" />
+              <span class="rate-value">${this.movie.rate}</span>
             </div>
-            <div class="title">인사이드 아웃2</div>
+            <div class="title">${this.movie.title}</div>
             <button class="primary detail">자세히 보기</button>
           </div>
         </div>
