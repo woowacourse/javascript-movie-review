@@ -11,6 +11,7 @@ export const SearchBar = ({ onSubmit, classList, props }: SearchBarProps) => {
 
   formElement.classList.add(
     'w-525',
+    'h-36',
     'flex',
     'items-center',
     'justify-between',
