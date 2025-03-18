@@ -22,9 +22,23 @@
 .text-subtitle {
   color: var(--color-white);
   font-weight: 700;
-  font-size: 20px;
+  font-size: 1.25rem;
   line-height: 100%;
   letter-spacing: 0%;
+}
+
+.text-button--detail {
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 100%;
+  letter-spacing: 0.24px;
+}
+
+.text-button--load-more {
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 100%;
+  letter-spacing: 0.24px;
 }
 
 /* 디자인 시스템 (컬러, 폰트)*/

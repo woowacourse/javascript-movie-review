@@ -1,7 +1,8 @@
 @import './component/search-bar/search-bar.css';
 @import './reset.css';
 @import './theme.css';
-@import './component/movie-item/movie-item.css'; /*삭제 예정*/
+@import './component/movie-item/movie-item.css';
+@import './component/button/button.css';
 
 body {
   background-color: var(--color-bluegray-100);
@@ -14,4 +15,14 @@ input {
   &:focus::placeholder {
     opacity: 0;
   }
+}
+
+button {
+  border: none;
+  background: none;
+  background-color: var(--color-lightblue-90);
+  color: var(--color-white);
+  border-radius: 8px;
+  padding: 10px 0;
+  cursor: pointer;
 }
