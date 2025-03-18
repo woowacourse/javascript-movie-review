@@ -1,15 +1,15 @@
 import createElement from './utils/createElement';
 import MovieItem from './MovieItem';
 
-const MovieList = () => {
+const MovieList = ({ popularMovies }) => {
   const $ul = createElement({
     tag: 'ul',
     classNames: ['thumbnail-list'],
   });
 
-  for (let i = 0; i < 30; i++) {
-    $ul.appendChild(MovieItem());
-  }
+  popularMovies.forEach((popularMovie) => {
+    $ul.appendChild(MovieItem({ popularMovie }));
+  });
 
   return $ul;
 };

@@ -1,7 +1,12 @@
 import createElement from './utils/createElement';
 import MoviePreviewInfo from './MoviePreviewInfo';
 
-const MovieItem = () => {
+const imageUrl = (path, size = 400) => `https://image.tmdb.org/t/p/w${size}${path}`;
+
+const MovieItem = ({ popularMovie }) => {
+  const title = popularMovie?.title;
+  const posterPath = popularMovie?.poster_path;
+
   const $li = createElement({
     tag: 'li',
   });
@@ -14,13 +19,14 @@ const MovieItem = () => {
   const $img = createElement({
     tag: 'img',
     classNames: ['thumbnail'],
-    src: 'https://media.themoviedb.org/t/p/w440_and_h660_face/pmemGuhr450DK8GiTT44mgwWCP7.jpg',
-    alt: '인사이드 아웃 2',
+    src: `${imageUrl(posterPath)}`,
+    alt: `${title}`,
   });
 
   $li.appendChild($div);
   $div.appendChild($img);
   $div.appendChild(MoviePreviewInfo({
+    popularMovie,
     bigFont: false,
   }));
 

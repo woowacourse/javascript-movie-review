@@ -1,6 +1,9 @@
 import createElement from './utils/createElement';
 
-const MoviePreviewInfo = ({ bigFont = true }) => {
+const MoviePreviewInfo = ({ popularMovie, bigFont = true }) => {
+  const title = popularMovie?.title;
+  const voteAverage = popularMovie?.vote_average;
+
   const $fragment = document.createDocumentFragment();
 
   const $rate = createElement({ tag: 'div', classNames: ['rate'] });
@@ -17,7 +20,7 @@ const MoviePreviewInfo = ({ bigFont = true }) => {
 
   });
 
-  $rateValue.textContent = '9.5';
+  $rateValue.textContent = voteAverage;
 
   const $title = createElement({
     tag: 'div',
@@ -29,7 +32,7 @@ const MoviePreviewInfo = ({ bigFont = true }) => {
   $rate.append($rateValue);
   $fragment.append($title);
 
-  $title.textContent = '인사이드 아웃2';
+  $title.textContent = title;
 
   return $fragment;
 };
