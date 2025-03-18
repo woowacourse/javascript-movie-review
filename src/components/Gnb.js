@@ -19,9 +19,9 @@ const Gnb = () => {
     classNames: ['search-bar'],
   });
 
-  $fragment.append($logo);
-  $logo.append($logoImg);
-  $fragment.append($searchBar);
+  $fragment.appendChild($logo);
+  $logo.appendChild($logoImg);
+  $fragment.appendChild($searchBar);
 
   return $fragment;
 };

@@ -17,9 +17,9 @@ const Header = () => {
     'aria-hidden': 'true',
   });
 
-  $header.append($backgroundContainer);
-  $backgroundContainer.append($overlay);
-  $backgroundContainer.append(TopRatedContainer());
+  $header.appendChild($backgroundContainer);
+  $backgroundContainer.appendChild($overlay);
+  $backgroundContainer.appendChild(TopRatedContainer());
 
   return $header;
 };
