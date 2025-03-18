@@ -1,7 +1,10 @@
 @import "./colors.css";
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
 
 * {
   box-sizing: border-box;
+  font-family: "Pretendard Variable", Pretendard, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
 
 a {
@@ -117,6 +120,8 @@ span.rate-value {
 .title {
   font-size: 3rem;
   font-weight: bold;
+  
+
 }
 
 footer.footer {
@@ -131,4 +136,30 @@ footer.footer {
 
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
+}
+
+.search-input-box {
+  width:525px;
+  height:36px;
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border : 2px solid #D1D5DB ;
+  border-radius: 100px;
+  
+  padding: 6px 16px;
+}
+
+input {
+  width:100%;
+  color: var(--color-white);
+  font-size:16px;
+  border: none;
+  background-color: transparent;
+}
+
+input::placeholder {
+  color: var(--color-white) ;
 }
