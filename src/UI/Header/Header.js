@@ -1,16 +1,10 @@
-import Component from "../Component/Component";
 import "./Header.css";
 
-class Header extends Component {
-  $target;
+class Header {
+  render() {
+    const $div = document.createElement("div");
 
-  constructor($target) {
-    super($target);
-  }
-
-  template() {
-    return /*html*/ `
-    <div class="header-container">
+    $div.innerHTML = /*html*/ `
     <h1 class="logo">
       <img src="./images/logo.png" alt="MovieList" />
     </h1>
@@ -20,8 +14,9 @@ class Header extends Component {
         <img src="./images/Search.png" />
       </button>
     </div>
-  </div>
-  `;
+    `;
+
+    return $div;
   }
 
   setEvent() {}
