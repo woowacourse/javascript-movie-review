@@ -26,7 +26,10 @@ const Core = () => {
     _render();
   };
 
-  return { render };
+  const reRender = () => {
+    _render();
+  };
+  return { render, reRender };
 };
 
-export const { render } = Core();
+export const { render, reRender } = Core();

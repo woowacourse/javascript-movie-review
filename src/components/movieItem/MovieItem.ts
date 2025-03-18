@@ -1,3 +1,5 @@
+import { images } from "../../assets/images";
+
 interface MovieItemProps {
   title: string;
   rate: number;
@@ -16,7 +18,7 @@ const MovieItem = (props: MovieItemProps) => {
                   />
                   <div class="item-desc">
                     <p class="rate">
-                      <img src="./images/star_empty.png" class="star" />
+                      <img src="${images.starEmpty}" class="star" />
                       <span>${rate}</span>
                     </p>
                     <strong>${title}</strong>
