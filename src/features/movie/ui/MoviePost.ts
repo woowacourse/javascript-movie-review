@@ -7,7 +7,7 @@ const MoviePost = (movie: IMovie) => {
       <img
         class="thumbnail"
         src="https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}"
-        alt=${movie.title}
+        alt=${movie.name}
       />
       <div class="item-desc">
         <p class="rate">
@@ -15,7 +15,7 @@ const MoviePost = (movie: IMovie) => {
             >${movie.vote_average}</span
           >
         </p>
-        <strong>${movie.title}</strong>
+        <strong>${movie.name}</strong>
       </div>
     </div>
   </li>
