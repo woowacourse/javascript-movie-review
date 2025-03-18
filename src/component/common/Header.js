@@ -1,22 +1,23 @@
-import SearchForm from "./SearchForm"
+import SearchForm from './SearchForm'
 
-function Header(){
-    function template() {
+function Header() {
+  function template() {
     return `
-    <div class="header-container">
-        <h1 class="logo">
+    
+     <h1 class="logo">
             <img src="./images/logo.png" alt="MovieList" />
         </h1>
-        <div class="top-rated-container">
-            ${SearchForm()}
-        </div>
-    </div>
-    `}
+    <div class="header-container">
 
-    function render() {
-        document.querySelector('header').innerHTML = template();
-    }
-    render();
+            ${SearchForm()}
+    </div>
+    `
+  }
+
+  function render() {
+    document.querySelector('header').innerHTML = template()
+  }
+  render()
 }
 
-export default Header;
+export default Header
