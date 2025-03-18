@@ -6,14 +6,14 @@ class Thumbnail {
   }
   render() {
     const $header = document.createElement("header");
-
+    console.log(this.movie);
     $header.innerHTML = /*html*/ `
       <div class="background-container">
         <div class="overlay" aria-hidden="true"></div>
         <div class="top-rated-container">
           <div class="top-rated-movie">
             <div class="rate">
-              <img src="${this.movie.src}" class="star" />
+              <img src="${this.movie.poster_path}" class="star" />
               <span class="rate-value">${this.movie.rate}</span>
             </div>
             <div class="title">${this.movie.title}</div>
