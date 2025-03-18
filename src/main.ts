@@ -3,6 +3,24 @@ import Header from "./components/layout/Header.ts";
 import MovieItem from "./components/movie/MovieItem.ts";
 import { $ } from "./utils/dom.ts";
 
+async function fetchPopularMovieList() {
+  const url = "https://api.themoviedb.org/3/movie/popular";
+  const options = {
+    headers: {
+      Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
+      accept: 'application/json'
+    }
+  }
+
+  const response = await fetch(url, options)
+  .then(res => res.json())
+  .then(json => console.log(json))
+  .catch(err => console.error(err));
+	
+	return response;
+}
+
+console.log(fetchPopularMovieList());
 
 addEventListener("load", () => {
   const app = $("#app");
@@ -18,7 +36,7 @@ addEventListener("load", () => {
 
   if (app) {
     app.appendChild(header);
-    app.appendChild(footer);
     app.appendChild(movieItem);
+    app.appendChild(footer);
   }
 });
