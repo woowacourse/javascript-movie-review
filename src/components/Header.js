@@ -1,8 +1,5 @@
-import Button from './Button';
-import Gnb from './Gnb';
-import MoviePreviewInfo from './MoviePreviewInfo';
+import TopRatedContainer from './TopRatedContainer';
 import createElement from './utils/createElement';
-import BUTTON from '../constants/constant';
 
 const Header = () => {
   const $header = createElement({
@@ -20,23 +17,9 @@ const Header = () => {
     'aria-hidden': 'true',
   });
 
-  const $topRatedContainer = createElement({
-    tag: 'div',
-    classNames: ['top-rated-container'],
-  });
-
-  const $topRatedMovie = createElement({
-    tag: 'div',
-    classNames: ['top-rated-movie'],
-  });
-
   $header.append($backgroundContainer);
   $backgroundContainer.append($overlay);
-  $backgroundContainer.append($topRatedContainer);
-  $topRatedContainer.append(Gnb());
-  $topRatedContainer.append($topRatedMovie);
-  $topRatedMovie.append(MoviePreviewInfo());
-  $topRatedMovie.append(Button({ text: BUTTON.DETAIL }));
+  $backgroundContainer.append(TopRatedContainer());
 
   return $header;
 };
