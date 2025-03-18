@@ -18,9 +18,18 @@ const App = async () => {
   const { movies, topRatedMovie } = await fetchMovies(page);
 
   renderHeader(topRatedMovie);
+  renderMoviesContainer();
   renderMovies(movies);
   renderMoreMoviesButton();
   renderFooter();
+
+  const moreButton = document.querySelector(".more-movies-button");
+
+  moreButton?.addEventListener("click", async () => {
+    page += 1;
+    const { movies: newMovies } = await fetchMovies(page);
+    renderMovies(newMovies);
+  });
 };
 
 const fetchMovies = async (page: number) => {
@@ -48,9 +57,17 @@ const renderHeader = (topRatedMovie: Movie) => {
   root?.insertAdjacentHTML("afterbegin", Header(topRatedMovie));
 };
 
+const renderMoviesContainer = () => {
+  const section = document.querySelector("main section");
+  section?.insertAdjacentHTML(
+    "afterbegin",
+    "<h2>지금 인기 있는 영화</h2><ul class='thumbnail-list'></ul>"
+  );
+};
+
 const renderMovies = (movies: Movie[]) => {
-  const main = document.querySelector("main");
-  main?.insertAdjacentHTML("afterbegin", MovieList(movies));
+  const ul = document.querySelector(".thumbnail-list");
+  ul?.insertAdjacentHTML("beforeend", MovieList(movies));
 };
 
 const renderFooter = () => {
@@ -59,8 +76,8 @@ const renderFooter = () => {
 };
 
 const renderMoreMoviesButton = () => {
-  const main = document.querySelector("main");
-  main?.insertAdjacentHTML("beforeend", MoreMoviesButton());
+  const container = document.querySelector(".container");
+  container?.insertAdjacentHTML("beforeend", MoreMoviesButton());
 };
 
 App();
