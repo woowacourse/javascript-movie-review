@@ -25,7 +25,7 @@ const Header = (props: HeaderProps) => {
                 placeholder: "검색어를 입력하세요",
               },
             })}
-              <input type="text" class="search-input" placeholder="검색어를 입력하세요" />
+              
               ${Button({
                 attribute: {
                   class: "search-button-icon",
