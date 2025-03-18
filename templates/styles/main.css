@@ -93,10 +93,6 @@ button.primary {
   margin-bottom: 8px;
 }
 
-h1.logo {
-  font-size: 2rem;
-}
-
 .rate {
   display: flex;
   align-items: baseline;
