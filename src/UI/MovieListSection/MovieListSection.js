@@ -3,8 +3,6 @@ import MovieItem from "../Movie/MovieItem";
 
 class MovieListSection {
   constructor(title, movies) {
-    console.log(title, movies);
-
     this.title = title;
     this.movies = movies;
   }
