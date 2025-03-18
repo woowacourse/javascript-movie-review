@@ -1,5 +1,3 @@
-import image from "../templates/images/star_filled.png";
-
 console.log("npm run dev 명령어를 통해 영화 리뷰 미션을 시작하세요");
 
 console.log(
@@ -21,13 +19,13 @@ console.log(
     "  \\ \\  \\\\  \\\\ \\  \\_|\\ \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\ \\  \\|\\__\\_\\  \\ \n" +
     "   \\ \\__\\\\ _\\\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\ \\____________\\\n" +
     "    \\|__|\\|__|\\|_______|\\|__|/       \\|__|\\|_______|\\|____________|",
-  "color: #d81b60; font-size: 14px; font-weight: bold;"
+  "color: #d81b60; font-size: 14px; font-weight: bold;",
 );
 
 addEventListener("load", () => {
   const app = document.querySelector("#app");
   const buttonImage = document.createElement("img");
-  buttonImage.src = image;
+  // buttonImage.src = image;
 
   if (app) {
     app.appendChild(buttonImage);
