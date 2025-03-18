@@ -1,6 +1,6 @@
 import createElement from './utils/createElement';
 
-const MoviePreviewInfo = () => {
+const MoviePreviewInfo = ({ bigFont = true }) => {
   const $fragment = document.createDocumentFragment();
 
   const $rate = createElement({ tag: 'div', classNames: ['rate'] });
@@ -13,7 +13,7 @@ const MoviePreviewInfo = () => {
 
   const $rateValue = createElement({
     tag: 'span',
-    classNames: ['rate-value'],
+    classNames: [bigFont ? 'rate-value' : null],
 
   });
 
@@ -21,7 +21,7 @@ const MoviePreviewInfo = () => {
 
   const $title = createElement({
     tag: 'div',
-    classNames: ['title'],
+    classNames: [bigFont ? 'title' : null],
   });
 
   $fragment.append($rate);

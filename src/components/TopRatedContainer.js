@@ -17,7 +17,9 @@ const TopRatedContainer = () => {
 
   $topRatedContainer.append(Gnb());
   $topRatedContainer.append($topRatedMovie);
-  $topRatedMovie.append(MoviePreviewInfo());
+  $topRatedMovie.append(MoviePreviewInfo({
+    bigFont: true,
+  }));
   $topRatedMovie.append(Button({ text: BUTTON.DETAIL }));
 
   return $topRatedContainer;
