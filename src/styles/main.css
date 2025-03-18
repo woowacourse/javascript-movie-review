@@ -90,6 +90,35 @@ button.show-more {
   margin: 0 auto;
 }
 
+.top-rated-header {
+  position: relative;
+}
+
+.top-rated-search {
+  padding: 16px 32px;
+  border: 1.5px solid white;
+  border-radius: 32px;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  width: 525px;
+  margin: auto;
+}
+
+.top-rated-search-input {
+  background-color: transparent;
+  font-size: 16px;
+  border: none;
+}
+
+.top-rated-search-input::placeholder {
+  color: white;
+}
+
+.top-rated-search-button {
+  background-color: transparent;
+}
+
 .top-rated-movie {
   margin-top: 64px;
 }
@@ -99,7 +128,9 @@ button.show-more {
 }
 
 h1.logo {
+  position: absolute;
   font-size: 2rem;
+  top: 10px;
 }
 
 .rate {
