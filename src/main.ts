@@ -1,4 +1,4 @@
-import Header from "./components/layout/header.ts";
+import Header from "./components/layout/Header.ts";
 import { $ } from "./utils/dom.ts";
 
 

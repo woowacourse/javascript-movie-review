@@ -1,7 +1,13 @@
 import { createElement } from "../../utils/createElement.ts";
+import { $ } from "../../utils/dom.ts";
+import Rate from "../common/Rate.ts";
 
-const Header = ({title}:{title:string}) => {
-  return createElement(/*html*/ `
+type HeaderProps = {
+  title: string;
+};
+
+const Header = ({ title }: HeaderProps) => {
+  const header = createElement(/*html*/ `
     <header>
       <div class="background-container">
         <div class="overlay" aria-hidden="true"></div>
@@ -10,17 +16,19 @@ const Header = ({title}:{title:string}) => {
             <img src="./images/logo.png" alt="MovieList" />
           </h1>
           <div class="top-rated-movie">
-            <div class="rate">
-              <img src="./images/star_empty.png" class="star" />
-              <span class="rate-value">9.5</span>
-            </div>
             <div class="title">${title}</div>
             <button class="primary detail">자세히 보기</button>
           </div>
       </div>
-    </header>  
-  `)
-  
-}
+    </header>
+  `);
+
+  const rate = Rate({ size: 32, rate: 10 });
+  if (!rate) return;
+
+ $(".top-rated-movie", header).appendChild(rate);
+
+  return header;
+};
 
 export default Header;
