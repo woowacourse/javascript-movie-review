@@ -30,7 +30,7 @@ FE 레벨1 영화 리뷰 미션
 - [x] TabButton.js
 - [x] Input.js
 - [x] SerchInput.js
-- [] MovieItem.js
+- [x] MovieItem.js
 - [] Footer.js
 - [x] Header.js
 
