@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# E2E test reports
+# cypress
+cypress/screenshots
+cypress/videos
