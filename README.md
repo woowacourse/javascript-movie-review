@@ -26,12 +26,14 @@ FE 레벨1 영화 리뷰 미션
 ## UI (Component)
 
 - [x] Icon
+- [x] IconButton
 - [x] Text
 - [x] Button
 - [x] Skeleton
-- [ ] Search Bar
-- [ ] Carousel
+- [x] Search Bar
 - [ ] MovieList
+- [ ] MovieImage
 - [ ] MovieItem
-- [ ] Footer
+- [ ] MovieSkeleton
 - [ ] Header
+- [ ] Footer
