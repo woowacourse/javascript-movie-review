@@ -43,6 +43,27 @@ button.primary {
   border-radius: 4px;
 }
 
+.more-button {
+  width: 100%;
+}
+
+.sub-title {
+  color: #fff;
+  font-family: Poppins;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+
+  padding: 80px;
+  gap: 32px;
+}
+
 #wrap {
   min-width: 1440px;
   background-color: var(--color-bluegray-100);

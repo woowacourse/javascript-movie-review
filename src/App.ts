@@ -1,3 +1,4 @@
+import Button from "./components/@common/Button";
 import Header from "./components/header/Header";
 import MovieItem from "./components/movieItem/MovieItem";
 import { reRender } from "./utils/Core";
@@ -27,6 +28,8 @@ const App = () => {
 
   return `
     ${Header({ rate: 9.5, title: "인사이드 아웃2" })}
+    <div class="app-layout">
+    <h1 class="sub-title">지금 인기 있는 영화</h1>
     <ul class="thumbnail-list">
     ${movies
       .map((movie) =>
@@ -38,6 +41,13 @@ const App = () => {
       )
       .join("")}
     </ul>
+    ${Button({
+      attribute: {
+        class: "primary detail more-button",
+      },
+      children: "더 보기",
+    })}
+    </div>
   `;
 };
 
