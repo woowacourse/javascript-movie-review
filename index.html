@@ -7,17 +7,20 @@
     <link rel="stylesheet" href="./styles/main.css" />
     <link rel="stylesheet" href="./styles/tab.css" />
     <link rel="stylesheet" href="./styles/thumbnail.css" />
+    <link rel="stylesheet" href="./src/ui/components/css/index.css" />
     <title>영화 리뷰</title>
   </head>
   <body>
-    <div id="wrap">
+    <div id="app">
       <header>
         <div class="background-container">
           <div class="overlay" aria-hidden="true"></div>
           <div class="top-rated-container">
-            <h1 class="logo">
-              <img src="./images/logo.png" alt="MovieList" />
-            </h1>
+            <div class="search-header">
+              <h1 class="logo">
+                <img src="./images/logo.png" alt="MovieList" />
+              </h1>
+            </div>
             <div class="top-rated-movie">
               <div class="rate">
                 <img src="./images/star_empty.png" class="star" />
@@ -491,11 +494,6 @@
         <p><img src="./images/woowacourse_logo.png" width="180" /></p>
       </footer>
     </div>
+    <script type="module" src="./src/main.ts"></script>
   </body>
 </html>
-
-<!--
-  포스터 원본: https://image.tmdb.org/t/p/original//pmemGuhr450DK8GiTT44mgwWCP7.jpg
-  포스터 썸네일: https://media.themoviedb.org/t/p/w440_and_h660_face/pmemGuhr450DK8GiTT44mgwWCP7.jpg
-  배너 원본: https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/stKGOm8UyhuLPR9sZLjs5AkmncA.jpg
--->
