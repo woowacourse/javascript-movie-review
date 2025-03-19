@@ -4,14 +4,16 @@ const MovieResults = () => {
   const movieList: MovieList[] = [];
   let page = 0;
 
-  const addMovieList = (page: number, list: MovieList[]) => {
+  const addMovieList = (newPage: number, list: MovieList[]) => {
     movieList.push(...list);
-    page = page;
+    page = newPage;
   };
 
   return {
-    movieList: movieList,
-    page: page,
+    getMovieList: () => [...movieList],
+    getPage: () => page,
     addMovieList: addMovieList,
   };
 };
+
+export default MovieResults;

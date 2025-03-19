@@ -1,3 +1,7 @@
+import MovieResults from "./domain/MovieResults";
+
+const movieResults = MovieResults();
+
 const getPopularMovieList = async () => {
   const TOKEN = import.meta.env.VITE_TMDB_TOKEN;
   const url =
@@ -11,9 +15,9 @@ const getPopularMovieList = async () => {
   };
 
   const data = await fetch(url, options);
-  const movieList = await data.json();
+  const { page, results: movieList } = await data.json();
 
-  console.log(movieList);
+  movieResults.addMovieList(page, movieList);
 };
 
 getPopularMovieList();
