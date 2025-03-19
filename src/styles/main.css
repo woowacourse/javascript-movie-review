@@ -133,9 +133,9 @@ footer.footer {
   font-size: 1.1rem;
 }
 
-/* footer.footer p:not(:last-child) {
+footer.footer p:not(:last-child) {
   margin-bottom: 8px;
-} */
+}
 
 #search-input {
   background-color: transparent;

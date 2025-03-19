@@ -9,9 +9,11 @@ export const Footer = () => {
 
   const text = Text({
     props: {
-      textContent: '&copy; 우아한테크코스 All Rights Reserved.',
+      textContent: '© 우아한테크코스 All Rights Reserved.',
     },
   });
+
+  const p = createElement<HTMLParagraphElement>('p');
 
   const icon = Img({
     width: '180',
@@ -19,7 +21,8 @@ export const Footer = () => {
     src: './images/woowacourse_logo.png',
   });
 
-  footerElement.append(text, icon);
+  p.appendChild(icon);
+  footerElement.append(text, p);
 
   const app = document.querySelector('#app');
   app?.appendChild(footerElement);
