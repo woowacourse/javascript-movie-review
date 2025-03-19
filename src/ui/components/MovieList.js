@@ -1,4 +1,5 @@
-import Movie from '../../domain/models/Movie.ts'
+import Movie from "../../domain/models/Movie.ts";
+import MovieCard from "./Movie.js";
 
 export default class MovieList {
   constructor(containerSelector, moviesData, currentPage, totalPage) {
@@ -6,23 +7,18 @@ export default class MovieList {
     this.moviesData = moviesData;
   }
 
-  init() { }
+  init() {}
 
   loadInitMovie() {
-    this.moviesData.forEach(movieData => {
+    this.moviesData.forEach((movieData) => {
       const movie = new Movie(movieData);
-      // console.log(movie)
-
-      const renderedElement = movie.render();
-      console.log(renderedElement); // 반환된 값 확인
-      console.log(renderedElement instanceof HTMLElement); // true여야 함
-      // this.container.appendChild(renderedElement);
-
-      this.container.appendChild(movie.render());
+      const movieCard = new MovieCard(movie);
+      console.log(movieCard);
+      this.container.appendChild(movieCard.render());
     });
   }
 
-  addLoadMoreButton() { }
+  addLoadMoreButton() {}
 
-  async loadMoreMovies() { }
+  async loadMoreMovies() {}
 }

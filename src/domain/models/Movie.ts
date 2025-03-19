@@ -25,6 +25,19 @@ export default class Movie {
   getVoteAverage(): string {
     return this.voteAverage.toFixed(1);
   }
+
+  render(): HTMLElement {
+    const movieElement = document.createElement('div');
+    movieElement.classList.add('movie-item');
+    
+    movieElement.innerHTML = `
+      <img src="${this.getPosterUrl()}" alt="${this.title}">
+      <h3>${this.title}</h3>
+      <p>평점: ${this.getVoteAverage()}</p>
+    `;
+    
+    return movieElement;
+  }
 }
 
 
