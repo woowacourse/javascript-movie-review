@@ -1,11 +1,14 @@
 import { IMovie } from "../../../shared/types/movies";
 
 const MoviePost = (movie: IMovie) => {
+  const moviePost = document.createElement("li");
+
   const movieTitle = movie.name ? movie.name : movie.title;
   const movieImgPath = movie.poster_path
     ? `https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}`
     : "images/nullImage.png";
-  return /*html*/ `
+
+  moviePost.innerHTML = /*html*/ `
   <li>
     <div class="item">
       <img
@@ -24,6 +27,8 @@ const MoviePost = (movie: IMovie) => {
     </div>
   </li>
   `;
+
+  return moviePost;
 };
 
 export default MoviePost;

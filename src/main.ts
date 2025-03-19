@@ -16,8 +16,7 @@ addEventListener("DOMContentLoaded", async () => {
   Header(movies.results[0]);
 
   if ($movieList) {
-    moviesText = addMoviePost(movies.results, moviesText);
-    $movieList.innerHTML = moviesText;
+    addMoviePost(movies.results, $movieList);
   }
 
   const $movieContainer = document.getElementById("movie-container");
@@ -29,7 +28,7 @@ addEventListener("DOMContentLoaded", async () => {
   $moreMoviesButton?.addEventListener("click", async () => {
     if (!$movieList) return;
 
-    addMoreMovies(moviesText, $movieList);
+    addMoreMovies($movieList);
   });
 
   const searchForm = document.querySelector(".search-form");
@@ -78,8 +77,7 @@ addEventListener("DOMContentLoaded", async () => {
     );
 
     if ($movieList) {
-      moviesText = addMoviePost(searchedMovies.results, moviesText);
-      $movieList.innerHTML = moviesText;
+      addMoviePost(searchedMovies.results, $movieList);
     }
 
     const newUrl = `${window.location.pathname}?${params.toString()}`;
@@ -87,15 +85,13 @@ addEventListener("DOMContentLoaded", async () => {
   });
 });
 
-function addMoviePost(movieList: IMovie[], movieText: string) {
+function addMoviePost(movieList: IMovie[], $movieList: HTMLElement) {
   movieList.forEach((movie: IMovie) => {
-    movieText += MoviePost(movie);
+    $movieList.appendChild(MoviePost(movie));
   });
-
-  return movieText;
 }
 
-async function addMoreMovies(moviesText: string, $movieList: HTMLElement) {
+async function addMoreMovies($movieList: HTMLElement) {
   const params = new URLSearchParams(window.location.search);
   const page = params.get("page");
   const query = params.get("query");
@@ -112,15 +108,11 @@ async function addMoreMovies(moviesText: string, $movieList: HTMLElement) {
       parseInt(params.get("page")!)
     );
 
-    moviesText = addMoviePost(searchedMovies.results, moviesText);
+    addMoviePost(searchedMovies.results, $movieList);
   } else {
     const movies = await getMovieList({ page: parseInt(params.get("page")!) });
 
-    moviesText = addMoviePost(movies.results, moviesText);
-  }
-
-  if ($movieList) {
-    $movieList.innerHTML = moviesText;
+    addMoviePost(movies.results, $movieList);
   }
 
   const newUrl = `${window.location.pathname}?${params.toString()}`;
