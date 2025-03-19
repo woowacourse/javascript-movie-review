@@ -26,15 +26,22 @@
   height: 3.88356rem;
 }
 
+.item {
+  user-select: none;
+  cursor: pointer;
+}
+
 .thumbnail {
   width: 200px;
   height: 300px;
   border-radius: 8px;
 }
 
-.item {
-  user-select: none;
-  cursor: pointer;
+.item-desc {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .item-desc > *:not(:last-child) {

@@ -1,5 +1,7 @@
 import { MovieDetail } from "../../../types/type";
 
+const defaultPosterPath = "/images/default-poster.svg";
+
 const IMAGE_PATH_PREFIX = "https://image.tmdb.org/t/p/w440_and_h660_face";
 const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
   const $rate = createElement("p", {
@@ -27,7 +29,7 @@ const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
   });
   const $poster = createElement("img", {
     className: "thumbnail",
-    src: IMAGE_PATH_PREFIX + poster_path,
+    src: poster_path ? IMAGE_PATH_PREFIX + poster_path : defaultPosterPath,
     alt: title,
   });
   $item.append($poster, $description);
