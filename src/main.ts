@@ -4,6 +4,7 @@ import Button from "./components/Button";
 import { isElement } from "./utils";
 import { DEFAULT_BACK_DROP_URL, MAX_MOVIE_PAGE } from "./constants/costants";
 import { MovieResult } from "../types/movieApiType";
+import TopRatedMovie from "./components/TopRatedMovie";
 
 addEventListener("load", async () => {
   let page = 1;
@@ -23,11 +24,18 @@ addEventListener("load", async () => {
       movies = moviesResponse.results;
       totalPages = moviesResponse.total_pages;
 
+      const $topRatedContainer = document.querySelector(".top-rated-container");
+      $topRatedContainer?.append(
+        TopRatedMovie({
+          title: movies[0].title,
+          voteAverage: movies[0].vote_average,
+        })
+      );
+
       /** 헤더 백그라운드 */
       const $backgroundContainer = document.querySelector(
         ".background-container"
       );
-
       const backgroundImage = movies[0].backdrop_path
         ? `${DEFAULT_BACK_DROP_URL}${movies[0].backdrop_path}`
         : "./images/default_thumbnail.png";
