@@ -7,13 +7,22 @@ function Header() {
     className: 'logo',
     children: [
       createDOMElement({
-        tag: 'img',
-        className: 'logo-img',
+        tag: 'a',
         attributes: {
-          src: 'images/logo.png',
-          alt: 'MovieList'
-        }
+          href: '/'
+        },
+        children: [
+          createDOMElement({
+            tag: 'img',
+            className: 'logo-img',
+            attributes: {
+              src: 'images/logo.png',
+              alt: 'MovieList'
+            }
+          })
+        ]
       }),
+
       SearchBar()
     ]
   });
