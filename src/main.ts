@@ -55,16 +55,25 @@ addEventListener("load", async () => {
     const { target } = event;
 
     if (isElement(target) && target.closest(".top-rated-search")) {
-      const value = (
-        target.querySelector(".top-rated-search-input") as HTMLInputElement
-      )?.value;
+      const $searchInput = target.querySelector(
+        ".top-rated-search-input"
+      ) as HTMLInputElement;
+      const value = $searchInput?.value;
+
+      (target as HTMLFormElement).reset();
 
       if (value) {
         searchKeyword = value;
         page = 1;
+
+        const $title = document.querySelector(".thumbnail-title");
+        if ($title) $title.textContent = `"${searchKeyword}" 검색 결과`;
+
         const response = await getMovieByName({ name: searchKeyword, page });
+
         const $ul = document.querySelector(".thumbnail-list");
         if ($ul) $ul.innerHTML = "";
+
         movies = response.results;
         renderMoviesList();
       }
