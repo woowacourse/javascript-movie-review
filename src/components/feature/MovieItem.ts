@@ -11,7 +11,9 @@ export const MovieItem = ({ ...props }: MovieItemType) => {
 
   // TODO : URL 분리
   const movieImg = Img({
-    src: 'https://image.tmdb.org/t/p/w220_and_h330_face' + poster_path,
+    src: poster_path
+      ? 'https://image.tmdb.org/t/p/w220_and_h330_face' + poster_path
+      : './images/no_image.png',
     classList: ['thumbnail'],
     props: {
       alt: title,
