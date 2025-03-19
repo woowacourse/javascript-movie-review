@@ -1,4 +1,5 @@
 import { Movie } from "../components/movie/types";
+
 export interface MovieData {
   page: number;
   results: Movie[];

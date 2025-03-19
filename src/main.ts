@@ -1,5 +1,6 @@
 import { getPopularMovies } from "./apis/getPopularMovies";
 import { getSearchedMovies } from "./apis/getSearchedMovies";
+import backgroundContainer from "./components/backgroundContainer";
 import movieContainer from "./components/movie/movieContainer";
 import { $ } from "./components/utils/selectors";
 
@@ -18,6 +19,12 @@ const onSearch = async (event: Event) => {
 
     const loadMoreCallback = async (pageNumber: number) =>
       await getSearchedMovies(searchKeyword, pageNumber);
+
+    const $backgroundContainer = $(".background-container");
+    $backgroundContainer?.remove();
+
+    const $searchBox = $(".search-box");
+    $searchBox?.classList.add("search-active");
 
     const $movieContainer = $(".movie-container");
     $movieContainer?.remove();
@@ -48,6 +55,9 @@ const initializeMovie = async () => {
   const $main = $("main");
   $main?.append($movieContainer);
 };
+
+const $header = $("header");
+$header?.append(backgroundContainer);
 
 await initializeMovie();
 

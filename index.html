@@ -14,45 +14,28 @@
   <body>
     <div id="wrap">
       <header>
-        <div class="background-container">
-          <div class="overlay overlay-background" aria-hidden="true"></div>
-          <img
-            src="https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/stKGOm8UyhuLPR9sZLjs5AkmncA.jpg"
-            alt="배너 이미지"
-            class="overlay overlay-image"
-          />
-          <div class="top-rated-container">
-            <section class="top-bar">
-              <h1 class="logo">
-                <img src="./images/logo.png" alt="MovieList" />
-              </h1>
-              <form id="search-bar-container" class="search-bar-container">
-                <input
-                  id="search-bar"
-                  class="search-bar"
-                  name="search-bar"
-                  type="text"
-                  placeholder="검색어를 입력하세요"
+        <div class="search-box">
+          <section class="top-bar">
+            <h1 class="logo">
+              <img src="./images/logo.png" alt="MovieList" />
+            </h1>
+            <form id="search-bar-container" class="search-bar-container">
+              <input
+                id="search-bar"
+                class="search-bar"
+                name="search-bar"
+                type="text"
+                placeholder="검색어를 입력하세요"
+              />
+              <button type="submit" class="search-bar-button">
+                <img
+                  src="./images/search_icon.png"
+                  alt="검색 아이콘"
+                  class="search-icon"
                 />
-                <button type="submit" class="search-bar-button">
-                  <img
-                    src="./images/search_icon.png"
-                    alt="검색 아이콘"
-                    class="search-icon"
-                  />
-                </button>
-              </form>
-            </section>
-
-            <div class="top-rated-movie">
-              <div class="rate">
-                <img src="./images/star_empty.png" class="star" />
-                <span class="rate-value">9.5</span>
-              </div>
-              <div class="title">인사이드 아웃2</div>
-              <button class="primary detail">자세히 보기</button>
-            </div>
-          </div>
+              </button>
+            </form>
+          </section>
         </div>
       </header>
       <div class="container">

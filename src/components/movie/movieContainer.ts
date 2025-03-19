@@ -1,8 +1,9 @@
 import { createElementWithAttributes } from "../utils/createElementWithAttributes";
 import movieList from "./movieList";
 import { Movie } from "./types";
+import { MovieData } from "../../apis/getSearchedMovies";
 
-type LoadMoreCallback = (pageNumber: number) => Promise<Movie[]>;
+type LoadMoreCallback = (pageNumber: number) => Promise<MovieData>;
 
 const movieContainer = (
   movieListTitle: string,

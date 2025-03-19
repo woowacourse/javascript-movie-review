@@ -94,16 +94,28 @@ button.primary {
   margin: 0 auto;
 }
 
+.search-box {
+  position: relative;
+  z-index: 3;
+}
+
+.search-active {
+  margin-bottom: 100px;
+}
+
 .top-bar {
+  width: 100%;
+  max-width: 1280px;
+  position: absolute;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-right: 374px;
+  padding: 48px 374px 72px 84px;
 }
 
 .top-rated-movie {
-  margin-top: 64px;
+  margin-top: 128px;
 }
 
 .top-rated-movie > *:not(:last-child) {
