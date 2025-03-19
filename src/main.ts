@@ -20,12 +20,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   const wrap = document.querySelector("#wrap");
   wrap?.prepend(header);
 
+  const title = document.querySelector("h2");
+  if (!title) return;
+  title.classList.add("main-title");
+  title.textContent = "지금 인기 있는 영화";
+
   const main = document.querySelector("main");
   if (!main) return;
 
   const renderMovies = () => {
     const movieListComponent = MovieList({
-      title: "지금 인기 있는 영화",
       movieItems: moviesState.list,
     });
 
@@ -49,6 +53,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("Error in main.ts:", error);
   }
 
+  const container = document.querySelector(".container");
+  if (!container) return;
+
   const button = Button({
     text: "더 보기",
     onClick: async () => {
@@ -58,5 +65,5 @@ document.addEventListener("DOMContentLoaded", async () => {
     },
   });
 
-  main?.appendChild(button);
+  container?.appendChild(button);
 });

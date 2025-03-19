@@ -59,6 +59,7 @@ button.primary {
   font-size: 24px;
   line-height: 100%;
   letter-spacing: 0.24px;
+  margin: 0 0 64px 0;
 }
 
 .search-wrapper {
@@ -106,7 +107,6 @@ button.primary {
 #wrap h2 {
   font-size: 1.4rem;
   font-weight: bold;
-  margin-bottom: 32px;
 }
 
 .container {
@@ -172,6 +172,16 @@ span.rate-value {
 .title {
   font-size: 3rem;
   font-weight: bold;
+}
+
+.main-title {
+  margin: 64px 80px 0 80px;
+  color: #fff;
+  font-family: Poppins;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 }
 
 footer.footer {

@@ -2,17 +2,12 @@ import MovieItem from "./MovieItem";
 import { Movie } from "../../types/movie";
 
 type MovieListProps = {
-  title: string;
   movieItems?: Movie[];
 };
 
-const MovieList = ({ title, movieItems = [] }: MovieListProps) => {
+const MovieList = ({ movieItems = [] }: MovieListProps) => {
   const movieContainer = document.createElement("section");
   movieContainer.classList.add("movie-container");
-
-  const heading = document.createElement("h2");
-  heading.textContent = title;
-  movieContainer.appendChild(heading);
 
   const ul = document.createElement("ul");
   ul.classList.add("thumbnail-list");
