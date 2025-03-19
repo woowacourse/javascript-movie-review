@@ -1,6 +1,5 @@
 import movieItem from "./movieItem";
 import { createElementWithAttributes } from "../utils/createElementWithAttributes";
-import { $ } from "../utils/selectors";
 import { Movie } from "./types";
 
 const movieList = (movies: Movie[]) => {
@@ -10,12 +9,7 @@ const movieList = (movies: Movie[]) => {
     children: movies.map((movie) => movieItem(movie)),
   });
 
-  const $container = $(".movie-list");
-  if ($container instanceof Element === false) {
-    return;
-  }
-
-  $container.append($movieList);
+  return $movieList;
 };
 
 export default movieList;
