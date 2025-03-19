@@ -1,8 +1,26 @@
+type QueryParams = {
+  [key: string]: string | number | boolean | undefined;
+};
+
 const TOKEN = import.meta.env.VITE_TMDB_TOKEN;
 const BASE_URL = "https://api.themoviedb.org/3";
 
-const baseApi = async (path: string, page: number) => {
-  const url = `${BASE_URL}${path}?language=ko-KR&page=${page}`;
+const baseApi = async (path: string, query?: QueryParams) => {
+  const defaultParams = { language: "ko-KR" };
+
+  const searchParams = new URLSearchParams(
+    Object.entries({ ...defaultParams, ...query }).reduce(
+      (acc, [key, value]) => {
+        if (value !== undefined) {
+          acc[key] = String(value);
+        }
+        return acc;
+      },
+      {} as Record<string, string>,
+    ),
+  );
+
+  const url = `${BASE_URL}${path}?${searchParams.toString()}`;
   const options = {
     method: "GET",
     headers: {
@@ -11,8 +29,8 @@ const baseApi = async (path: string, page: number) => {
     },
   };
 
-  const data = await fetch(url, options);
-  return data.json();
+  const response = await fetch(url, options);
+  return response.json();
 };
 
 export default baseApi;
