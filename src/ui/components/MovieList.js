@@ -44,4 +44,13 @@ export default class MovieList {
     const movieList = document.querySelector(".thumbnail-list");
     movieList.textContent = "";
   }
+
+  updateMovieListTitle(query) {
+    const movieListTitle = document.querySelector(".movie-list-title");
+    if (query) {
+      movieListTitle.textContent = `"${query}" 검색 결과`;
+      return;
+    }
+    movieListTitle.textContent = "지금 인기 있는 영화";
+  }
 }

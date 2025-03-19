@@ -17,6 +17,7 @@ export default class MovieListHandler {
     
     this.updateMovieList(moviesData);
     this.handleMoreClickButton(query);
+    this.movieList?.updateMovieListTitle(query);
   }
 
   private updateMovieList(moviesData: ApiResponse<MovieResponse>) {
