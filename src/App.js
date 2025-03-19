@@ -15,7 +15,7 @@ class App {
   }
 
   async #init() {
-    this.#movies = await this.#fetchMovies();
+    this.#movies = await this.#fetchPopularMovies();
     this.#$target.appendChild(this.#template());
     this.#mount();
   }
@@ -37,7 +37,7 @@ class App {
     return template.content;
   }
 
-  async #fetchMovies(page = 1) {
+  async #fetchPopularMovies(page = 1) {
     try {
       const response = await fetch(
         `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`,
@@ -64,8 +64,8 @@ class App {
   }
 
   #mount() {
-    const $background = this.#$target.querySelector(".background-container");
-    $background.style.backgroundImage = `url(https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces${
+    const $Banner = this.#$target.querySelector("#Banner");
+    $Banner.style.backgroundImage = `url(https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces${
       this.#movies[0].backdrop_path
     })`;
 
@@ -80,7 +80,9 @@ class App {
 
     const $moreButton = this.#$target.querySelector(".primary.more");
     $moreButton.addEventListener("click", async () => {
-      const newMovies = await this.#fetchMovies(this.#movies.length / 20 + 1);
+      const newMovies = await this.#fetchPopularMovies(
+        this.#movies.length / 20 + 1
+      );
       const $movieList = this.#$target.querySelector(".thumbnail-list");
 
       const template = document.createElement("template");
@@ -93,8 +95,53 @@ class App {
         $moreButton.style.display = "none";
       }
     });
+
     const $searchForm = this.#$target.querySelector("#search-form");
-    $searchForm.addEventListener("submit", async () => {});
+    $searchForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const { query } = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=ko-KR&page=1`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            "영화 정보를 불러오는 데 실패했습니다. 다시 시도해 주세요."
+          );
+        }
+
+        const $Banner = this.#$target.querySelector("#Banner");
+        if ($Banner) {
+          $Banner.remove();
+        }
+
+        const searchedMovies = await response.json();
+
+        const $movieList = this.#$target.querySelector(".thumbnail-list");
+
+        const template = document.createElement("template");
+        template.innerHTML = searchedMovies.results.map(MovieItem).join("");
+        $movieList.replaceChildren(template.content);
+
+        this.#movies = searchedMovies.results;
+
+        if (this.#movies.length >= searchedMovies.total_results) {
+          $moreButton.style.display = "none";
+        }
+      } catch (error) {
+        alert(error.message);
+        return [];
+      }
+    });
   }
 }
 

@@ -1,6 +1,6 @@
 const Banner = ({ vote_average, title }) => {
   return /* html */ `
-    <div class="background-container">
+    <div id="Banner" class="background-container">
       <div class="overlay" aria-hidden="true" ></div>
       <div class="top-rated-container">
         <div class="top-rated-movie">
