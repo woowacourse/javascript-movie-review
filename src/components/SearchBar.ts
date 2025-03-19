@@ -86,6 +86,11 @@ class SearchBar {
             seeMoreButton.remove();
           }
 
+          if (data.total_results === 0) {
+            const noThumbnail = document.querySelector(".no-thumbnail");
+            noThumbnail?.classList.toggle("hidden");
+          }
+
           data.results.forEach(({ title, poster_path, vote_average }) => {
             const movieItem = new MovieItem({
               title,
