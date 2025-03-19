@@ -5,7 +5,7 @@ function Header() {
     return `
     
      <h1 class="logo" data-action="reload">
-            <img src="./images/logo.png" alt="MovieList" />
+            <img data-action="reload" src="./images/logo.png" alt="MovieList" />
         </h1>
     <div class="header-container">
 

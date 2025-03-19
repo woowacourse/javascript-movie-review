@@ -38,6 +38,8 @@ h1.logo {
   position: fixed;
   top: 26px;
   margin-left: 50px;
+  cursor: pointer;
+  z-index:500;
 }
 
 /* h1.logo {

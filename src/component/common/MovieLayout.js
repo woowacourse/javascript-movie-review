@@ -2,7 +2,6 @@ import MovieList from "./MovieList.js";
 import Button from "./Button.js";
 import { fetchPopularMovies } from "../../api/fetch.js";
 
-
 async function MovieLayout({title, eventName}) {
     function template(movieData) {
         return `
