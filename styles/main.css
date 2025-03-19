@@ -101,8 +101,15 @@ button.primary {
   margin-bottom: 8px;
 }
 
-h1.logo {
+button.logo {
+  background: none;
   font-size: 2rem;
+  cursor: pointer;
+}
+
+button.logo :hover {
+  scale: 1.1;
+  transition: 0.3s;
 }
 
 .rate {

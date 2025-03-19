@@ -17,9 +17,9 @@ const Header = (movie: IMovie) => {
       </div>
       <div class="top-rated-container">
         <div class="header-container">
-          <h1 class="logo">
+          <a href="/" class="logo">
             <img src="./images/logo.png" alt="MovieList" />
-          </h1>
+          </a>
           <form class="search-form">
             <input name="search-input" type="text" placeholder="검색어를 입력하세요" />
             <button type="submit" class="search-button">

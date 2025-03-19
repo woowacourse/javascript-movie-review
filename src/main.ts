@@ -9,7 +9,6 @@ addEventListener("DOMContentLoaded", async () => {
   const $movieList = document.querySelector(
     ".thumbnail-list"
   ) as HTMLElement | null;
-  let moviesText = "";
 
   const movies = await getMovieList({ page: 1 });
 
@@ -50,7 +49,6 @@ addEventListener("DOMContentLoaded", async () => {
     const $movieList = document.querySelector(
       ".thumbnail-list"
     ) as HTMLElement | null;
-    moviesText = "";
 
     const $movieListTitle = document.querySelector(".movie-list-title");
 
