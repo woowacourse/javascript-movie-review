@@ -1,9 +1,9 @@
 import { HTMLTagName } from "../../types/type";
 
-export function createElement<T extends HTMLTagName>(
+export const createElement = <T extends HTMLTagName>(
   tag: T,
   props: Partial<HTMLElementTagNameMap[T]> = {}
-): HTMLElement {
+): HTMLElement => {
   const element = document.createElement(tag);
 
   for (const [key, value] of Object.entries(props)) {
@@ -19,4 +19,10 @@ export function createElement<T extends HTMLTagName>(
   }
 
   return element;
-}
+};
+
+export const wrapFragment = (children: HTMLElement[]): DocumentFragment => {
+  const fragment = document.createDocumentFragment();
+  fragment.append(...children);
+  return fragment;
+};

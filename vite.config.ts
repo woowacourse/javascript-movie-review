@@ -8,7 +8,7 @@ export default defineConfig({
       include: [/src\/components\/.+\.ts$/],
       imports: [
         {
-          "@/utils/dom.ts": ["createElement"],
+          "@/utils/dom.ts": ["createElement", "wrapFragment"],
         },
       ],
       dirs: ["src/components"],

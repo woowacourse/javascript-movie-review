@@ -7,4 +7,5 @@
 export {}
 declare global {
   const createElement: typeof import('@/utils/dom.ts')['createElement']
+  const wrapFragment: typeof import('@/utils/dom.ts')['wrapFragment']
 }
