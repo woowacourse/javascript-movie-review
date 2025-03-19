@@ -4,7 +4,7 @@ import Header from "./shared/ui/Header";
 import { IMovie } from "./shared/types/movies";
 import { CustomButton } from "./shared/ui/CustomButton";
 import { getSearchedPost } from "./features/search/api/getSearchedPost";
-
+import EmptySearchResult from "./features/search/ui/EmptySearchResult";
 addEventListener("DOMContentLoaded", async () => {
   const $movieList = document.querySelector(
     ".thumbnail-list"
@@ -89,6 +89,22 @@ addEventListener("DOMContentLoaded", async () => {
 });
 
 function addMoviePost(movieList: IMovie[], $movieList: HTMLElement) {
+  if (movieList.length === 0) {
+    showEmptySearchResult();
+
+    return;
+  }
+
+  const $emptySearchResult = document.querySelector(
+    ".empty-search-result-container"
+  );
+  const $moreMoviesButton = document.getElementById("more-movies-button");
+
+  if ($emptySearchResult) {
+    $emptySearchResult.remove();
+    $moreMoviesButton?.classList.remove("disabled");
+  }
+
   movieList.forEach((movie: IMovie) => {
     $movieList.appendChild(MoviePost(movie));
   });
@@ -132,4 +148,18 @@ function disableMoreButton(totalPages: number, currentPage: number) {
   if (totalPages === currentPage) {
     $moreMoviesButton?.classList.add("disabled");
   }
+}
+
+function showEmptySearchResult() {
+  const $movieContainer = document.getElementById("movie-container");
+  const $emptySearchResult = document.querySelector(
+    ".empty-search-result-container"
+  );
+
+  if (!$emptySearchResult) {
+    $movieContainer?.appendChild(EmptySearchResult());
+  }
+
+  const $moreMoviesButton = document.getElementById("more-movies-button");
+  $moreMoviesButton?.classList.add("disabled");
 }
