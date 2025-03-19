@@ -32,7 +32,5 @@ class Thumbnail {
 
     return $div;
   }
-
-  setEvent() {}
 }
 export default Thumbnail;

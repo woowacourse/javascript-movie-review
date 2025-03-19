@@ -42,7 +42,5 @@ class MovieItem {
 
     return $li;
   }
-
-  setEvent() {}
 }
 export default MovieItem;

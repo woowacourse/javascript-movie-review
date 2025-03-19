@@ -78,7 +78,5 @@ class MovieListSection {
     }
     return `"${this.title}" 검색 결과`;
   }
-
-  setEvent() {}
 }
 export default MovieListSection;
