@@ -20,7 +20,6 @@ class MovieListSection {
     const totalMovie = this.movies.length;
     const startIndex = Math.max(0, totalMovie - 20);
 
-    console.log("@@@@@@@@@@@@@@@@", totalMovie);
     if (totalMovie <= 20) {
       this.movies.forEach((movie) => {
         const $item = new MovieItem(movie, false).render();

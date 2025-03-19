@@ -7,7 +7,7 @@ class TitleSearchBar {
   }
 
   render() {
-    console.log("this.setSearchKeyword, ", this.setSearchKeyword);
+    // console.log("this.setSearchKeyword, ", this.setSearchKeyword);
     const $div = document.createElement("div");
     $div.classList.add("title-search-bar");
 

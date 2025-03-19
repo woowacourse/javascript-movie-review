@@ -6,16 +6,6 @@ import Footer from "./UI/Footer/Footer";
 import { getPopularityMovie } from "./Domain/getPopularityMovie";
 import { searchMovie } from "./Domain/searchMovie";
 
-// const movieData = await getPopularityMovie(1);
-
-// let result = [];
-// if (movieData) {
-//   result = movieData.results.map((movie) => ({
-//     ...movie,
-//     poster_path: `https://image.tmdb.org/t/p/w300${movie.poster_path}`,
-//   }));
-// }
-
 class App {
   #movies;
   #isLoading;
@@ -23,6 +13,7 @@ class App {
   #searchKeyword;
   #searchPage;
   #mode;
+  #show;
 
   constructor() {
     this.#movies = [];
@@ -30,12 +21,13 @@ class App {
     this.#page = 1;
     this.#searchPage = 1;
     this.#mode = "popular";
+    this.#show = true;
   }
 
   async init() {
-    const result = await this.getMoviesResults(); // 로딩이 t -> f
+    const { results } = await this.getMoviesResults(); // 로딩이 t -> f
 
-    this.setMovies([...this.#movies, ...result]); // 새로운 영화목록 반영 UI 렌더
+    this.setMovies([...this.#movies, ...results]); // 새로운 영화목록 반영 UI 렌더
   }
 
   async getMoviesResults() {
@@ -46,14 +38,15 @@ class App {
     if (data !== null) {
       this.setIsLoading(false);
 
-      return data.results.map((movie) => ({
+      const results = data.results.map((movie) => ({
         ...movie,
         poster_path: `https://image.tmdb.org/t/p/w300${movie.poster_path}`,
         vote_average: movie.vote_average.toFixed(1),
       }));
+      return { results, totalPage: data.total_pages };
     }
 
-    return [];
+    return { results: [] };
   }
 
   async getSearchMovies() {
@@ -64,12 +57,19 @@ class App {
     if (data !== null) {
       this.setIsLoading(false);
 
-      return data.results.map((movie) => ({
+      const results = data.results.map((movie) => ({
         ...movie,
         poster_path: `https://image.tmdb.org/t/p/w300${movie.poster_path}`,
         vote_average: movie.vote_average.toFixed(1),
       }));
+      return { results, totalPage: data.total_pages };
     }
+    return { results: [] };
+  }
+
+  setShow(show) {
+    this.#show = show;
+    this.render();
   }
 
   setMovies(newMovies) {
@@ -85,8 +85,13 @@ class App {
   setSearchKeyword = async (searchKeyword) => {
     this.#searchKeyword = searchKeyword;
 
-    const searchResult = await this.getSearchMovies();
-    this.setMovies(searchResult);
+    const { results, totalPage } = await this.getSearchMovies(); // t-> f
+
+    if (totalPage === this.#searchPage) {
+      this.setShow(false);
+    }
+
+    this.setMovies(results);
   };
 
   setMode = (mode) => {
@@ -112,8 +117,6 @@ class App {
 
     const $thumbnail = new Thumbnail(this.#movies[0]).render();
 
-    // 제거해주는부분
-
     const $movieListSection = new MovieListSection(
       this.#searchKeyword,
       this.#movies,
@@ -124,39 +127,16 @@ class App {
 
     $wrap.append($thumbnail);
     $wrap.append($header);
-    // const $moreButton = new Button().render();
-
-    // const $footer = new Footer().render();
-
-    // if (this.#movies.length !== 0) {
-    // const $thumbnail = new Thumbnail(this.#movies[0]).render();
-
-    // const $movieListSection = new MovieListSection(
-    //   "지금 인기 있는 영화",
-    //   this.#movies
-    // ).render();
 
     const $moreButton = new Button().render();
 
-    // const $div = document.createElement("div");
-    // $div.textContent = "로딩중";
-    // body.innerHTML = "";
-
-    // // $wrap.append($thumbnail);
-    // // $wrap.append($header);
-
-    // if (this.#isLoading) {
-    //   $main.appendChild($div); // Todo: 스켈레톤 UI로 변경
-    // } else {
-    //   $main.appendChild($movieListSection);
-    // }
     $main.appendChild($movieListSection);
-    $main.appendChild($moreButton);
+    if (this.#show) {
+      $main.appendChild($moreButton);
+      $moreButton.addEventListener("click", this.handleButtonClick);
+    }
     $container.appendChild($main);
     $wrap.appendChild($container);
-
-    $moreButton.addEventListener("click", this.handleButtonClick);
-    // }
 
     const $footer = new Footer().render();
     body.appendChild($footer);
@@ -167,11 +147,20 @@ class App {
       this.#page += 1;
       const results = await this.getMoviesResults(); // t-> f
       this.setMovies([...this.#movies, ...results]); //
+
+      if (totalPage === this.#page) {
+        this.setShow(false);
+      }
       return;
     }
 
     this.#searchPage += 1;
-    const results = await this.getSearchMovies(); // t-> f
+    const { results, totalPage } = await this.getSearchMovies(); // t-> f
+
+    if (totalPage <= this.#searchPage) {
+      this.setShow(false);
+    }
+
     this.setMovies([...this.#movies, ...results]); //
   };
 }
