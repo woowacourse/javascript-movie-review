@@ -2,6 +2,7 @@ import { createElement } from "../../util/dom";
 
 export default function Hero() {
   const backgroundHero = createElement("div", {
+    id: "hero",
     className: "background-container",
   });
 
@@ -14,8 +15,9 @@ export default function Hero() {
                  <span class="rate-value">9.5</span>
                </div>
                <div class="title">인사이드 아웃2</div>
-               <button class="primary detail">자세히 보기</button>
+              <button class="primary detail">자세히 보기</button>
              </div>
            </div>`;
+
   return backgroundHero;
 }
