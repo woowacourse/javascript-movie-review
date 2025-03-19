@@ -8,7 +8,7 @@ function MovieItem({ title, poster_path, vote_average }) {
 
   const thumbnailImage = ThumbnailImage({
     title,
-    imagePath: poster_path,
+    poster_path,
   });
   const movieCaption = MovieCaption({
     title,
