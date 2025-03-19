@@ -16,12 +16,17 @@ export default function createMovieLoader(
       ? { query: searchTerm, ...queryObj, page }
       : { ...queryObj, page };
 
-    const { results } = await fetchUrl<TMDBResponse>(url, queryObject, options);
+    const { results, total_pages } = await fetchUrl<TMDBResponse>(
+      url,
+      queryObject,
+      options
+    );
 
+    const pageLimit = Math.min(TOTAL_PAGE, total_pages);
     if (results.length === 0) throw new Error("검색 값을 찾지 못했어요.");
     page++;
 
-    if (page >= TOTAL_PAGE) return { results, isLastPage: true };
+    if (page > pageLimit) return { results, isLastPage: true };
     return { results, isLastPage: false };
   };
 }
