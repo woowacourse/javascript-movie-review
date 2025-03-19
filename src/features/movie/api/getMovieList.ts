@@ -1,4 +1,5 @@
-const url = "https://api.themoviedb.org/3/tv/popular";
+const url = (page: number) =>
+  `https://api.themoviedb.org/3/tv/popular?page=${page}`;
 const options = {
   method: "GET",
   headers: {
@@ -7,8 +8,8 @@ const options = {
   },
 };
 
-export const getMovieList = async () => {
-  const response = await fetch(url, options);
+export const getMovieList = async ({ page }: { page: number }) => {
+  const response = await fetch(url(page), options);
 
   if (!response.ok) {
     throw new Error("Failed to fetch movie list");

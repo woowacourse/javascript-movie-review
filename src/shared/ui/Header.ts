@@ -1,4 +1,5 @@
 import { IMovie } from "../types/movies";
+import { CustomButton } from "./CustomButton";
 
 const Header = (movie: IMovie) => {
   const $header = document.getElementById("header");
@@ -10,7 +11,9 @@ const Header = (movie: IMovie) => {
   $header.innerHTML = /*html*/ `
     <div class="background-container">
       <div class="overlay" aria-hidden="true">
-        <img src="https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}" alt="MovieList" />
+        <img src="https://media.themoviedb.org/t/p/w440_and_h660_face${
+          movie.poster_path
+        }" alt="MovieList" />
       </div>
       <div class="top-rated-container">
         <h1 class="logo">
@@ -22,7 +25,7 @@ const Header = (movie: IMovie) => {
             <span class="rate-value">${movie.vote_average}</span>
           </div>
           <div class="title">${movie.name}</div>
-          <button class="primary detail">자세히 보기</button>
+          ${CustomButton({ title: "자세히 보기" }).outerHTML}
         </div>
       </div>
     </div>
