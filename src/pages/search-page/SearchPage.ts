@@ -14,13 +14,16 @@ class SearchPage {
   }
 
   async init() {
-    // this.#movieListData = await extractedMovieData(SYSTEM_CONSTANTS.SEARCH_URL(searchValue, page));
+    const params = new URLSearchParams(window.location.search);
+    const query = params.get('query');
+    if (query) {
+      this.#movieListData = await extractedMovieData(SYSTEM_CONSTANTS.SEARCH_URL(query, 1));
+    }
     this.render();
   }
 
   render() {
-    console.log('fpsejfld e');
-    // this.renderDynamicSection();
+    this.renderDynamicSection();
   }
 
   renderDynamicSection() {
