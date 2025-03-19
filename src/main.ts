@@ -4,24 +4,33 @@ import movieContainer from "./components/movie/movieContainer";
 import { $ } from "./components/utils/selectors";
 import { Movie } from "./components/movie/types";
 
-const onSearch = async () => {
-  const searchKeyword = "짱구"; // event.target.value
-  const results: Movie[] = await getSearchedMovies(searchKeyword);
+const onSearch = async (event: Event) => {
+  if (event.target instanceof HTMLFormElement === false) {
+    return;
+  }
 
-  const loadMoreCallback = async (pageNumber: number) =>
-    await getSearchedMovies(searchKeyword, pageNumber);
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  const searchKeyword = formData.get("search-bar");
 
-  const $movieContainer = $(".movie-container");
-  $movieContainer?.remove();
+  if (typeof searchKeyword === "string") {
+    const results: Movie[] = await getSearchedMovies(searchKeyword);
 
-  const $searchedMovieContainer = movieContainer(
-    `${searchKeyword} 검색 결과`,
-    results,
-    loadMoreCallback
-  );
+    const loadMoreCallback = async (pageNumber: number) =>
+      await getSearchedMovies(searchKeyword, pageNumber);
 
-  const $main = $("main");
-  $main?.append($searchedMovieContainer);
+    const $movieContainer = $(".movie-container");
+    $movieContainer?.remove();
+
+    const $searchedMovieContainer = movieContainer(
+      `${searchKeyword} 검색 결과`,
+      results,
+      loadMoreCallback
+    );
+
+    const $main = $("main");
+    $main?.append($searchedMovieContainer);
+  }
 };
 
 const initializeMovie = async () => {
@@ -40,5 +49,7 @@ const initializeMovie = async () => {
   $main?.append($movieContainer);
 };
 
-// await initializeMovie();
-await onSearch();
+await initializeMovie();
+
+const $searchBar = $("#search-bar-container");
+$searchBar?.addEventListener("submit", onSearch);

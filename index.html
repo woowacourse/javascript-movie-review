@@ -26,19 +26,22 @@
               <h1 class="logo">
                 <img src="./images/logo.png" alt="MovieList" />
               </h1>
-              <div id="search-bar-container" class="search-bar-container">
+              <form id="search-bar-container" class="search-bar-container">
                 <input
                   id="search-bar"
                   class="search-bar"
+                  name="search-bar"
                   type="text"
                   placeholder="검색어를 입력하세요"
                 />
-                <img
-                  src="./images/search_icon.png"
-                  alt="검색 아이콘"
-                  class="search-icon"
-                />
-              </div>
+                <button type="submit" class="search-bar-button">
+                  <img
+                    src="./images/search_icon.png"
+                    alt="검색 아이콘"
+                    class="search-icon"
+                  />
+                </button>
+              </form>
             </section>
 
             <div class="top-rated-movie">
