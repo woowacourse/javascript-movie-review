@@ -1,9 +1,10 @@
 import MovieListController from "./controller/MovieListController";
 import SearchMovieListController from "./controller/SearchMovieListController";
 
-const sectionElement = document.querySelector("section") as HTMLElement;
-const movieListController = new MovieListController(sectionElement);
-await movieListController.getPopularMovieList();
+const mainElement = document.querySelector("main") as HTMLElement;
+const movieListController = new MovieListController(mainElement);
+
+await movieListController.renderMovieList();
 
 const searchBarElement = document.querySelector(
   ".search-bar",
@@ -16,7 +17,16 @@ searchBarElement.addEventListener("submit", async (event) => {
   const target = formElement.querySelector("input") as HTMLInputElement;
   const searchValue = target.value;
 
-  const sectionElement = document.querySelector("section") as HTMLElement;
+  new SearchMovieListController(mainElement, searchValue);
+});
 
-  new SearchMovieListController(sectionElement, searchValue);
+const headerLogoElement = document.querySelector(".header-wrapper .logo");
+
+headerLogoElement?.addEventListener("click", async () => {
+  await movieListController.renderExistingMovieList();
+
+  const inputElement = searchBarElement.querySelector(
+    "input",
+  ) as HTMLInputElement;
+  inputElement.value = "";
 });

@@ -5,19 +5,19 @@ import MovieListSection from "../component/MovieListSection";
 import { IMovieResult } from "../types/movieResultType";
 
 class SearchMovieListController {
-  sectionElement;
+  mainElement;
   searchText;
   page = 0;
 
-  constructor(sectionElement: HTMLElement, searchText: string) {
-    this.sectionElement = sectionElement;
+  constructor(mainElement: HTMLElement, searchText: string) {
+    this.mainElement = mainElement;
     this.searchText = searchText;
 
     this.renderMovieList();
   }
 
   bindEvents() {
-    const seeMoreElement = this.sectionElement.querySelector(".see-more");
+    const seeMoreElement = this.mainElement.querySelector(".see-more");
     seeMoreElement?.addEventListener("click", () => {
       this.addMovieList();
     });
@@ -44,8 +44,7 @@ class SearchMovieListController {
       sectionElement = MovieEmptySection(`"${this.searchText}" 검색 결과`);
     }
 
-    this.sectionElement.replaceWith(sectionElement);
-    this.sectionElement = sectionElement;
+    this.mainElement.replaceChildren(sectionElement);
 
     this.bindEvents();
   }
@@ -54,7 +53,7 @@ class SearchMovieListController {
     const movieList = await this.getSearchMovieList();
 
     movieList.forEach((movie) => {
-      this.sectionElement.querySelector("ul")?.appendChild(MovieItem(movie));
+      this.mainElement.querySelector("ul")?.appendChild(MovieItem(movie));
     });
   }
 }
