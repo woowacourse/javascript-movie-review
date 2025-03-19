@@ -43,6 +43,16 @@ button.primary {
   border-radius: 4px;
 }
 
+button.more {
+  color: var(--color-white);
+  font-weight: bold;
+  background-color: var(--color-lightblue-90);
+  width: 100%;
+  padding: 10px 0px;
+  border-radius: 8px;
+  font-size: 24px;
+}
+
 #wrap {
   min-width: 1440px;
   background-color: var(--color-bluegray-100);
