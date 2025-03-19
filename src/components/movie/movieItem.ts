@@ -1,5 +1,6 @@
 import { ElementOptions } from "../utils/createElementWithAttributes";
 import { Movie } from "./types";
+import noImage from "/images/no_image.png";
 
 const movieItem = (movie: Movie): ElementOptions => {
   return {
@@ -10,7 +11,10 @@ const movieItem = (movie: Movie): ElementOptions => {
         tag: "img",
         className: "thumbnail",
         attributes: {
-          src: `https://image.tmdb.org/t/p/w440_and_h660_face${movie.poster_path}`,
+          src:
+            movie.poster_path === null
+              ? noImage
+              : `https://image.tmdb.org/t/p/w440_and_h660_face${movie.poster_path}`,
           alt: movie.title,
         },
       },
