@@ -1,17 +1,20 @@
 import { MovieResult } from "../../types/movieApiType";
+import { DEFAULT_BACK_DROP_URL } from "../constants/costants";
 
 export default function MovieList(moviesResult: MovieResult[]) {
   const $ul = document.querySelector(".thumbnail-list");
   moviesResult.forEach((movieResult) => {
     const $li = document.createElement("li");
 
+    const backgroundImage = movieResult.backdrop_path
+      ? `${DEFAULT_BACK_DROP_URL}${movieResult.backdrop_path}`
+      : "./images/default_thumbnail.png";
+
     $li.innerHTML = /*html*/ `
         <div class="item">
           <img
             class="thumbnail"
-            src="https://media.themoviedb.org/t/p/w440_and_h660_face/${
-              movieResult.backdrop_path ?? "AuSip6e3uvQgPnnFQjzdTrOVPx7.jpg"
-            }"
+            src="${backgroundImage}"
             alt="${movieResult.title}"
           />
           <div class="item-desc">

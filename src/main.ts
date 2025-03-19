@@ -2,7 +2,7 @@ import { getMovieByName, getMovies } from "./apis/MovieApi";
 import MovieList from "./components/MovieList";
 import Button from "./components/Button";
 import { isElement } from "./utils";
-import { MAX_MOVIE_PAGE } from "./constants/costants";
+import { DEFAULT_BACK_DROP_URL, MAX_MOVIE_PAGE } from "./constants/costants";
 import { MovieResult } from "../types/movieApiType";
 
 addEventListener("load", async () => {
@@ -22,6 +22,16 @@ addEventListener("load", async () => {
       const moviesResponse = await getMovies({ page });
       movies = moviesResponse.results;
       totalPages = moviesResponse.total_pages;
+
+      /** 헤더 백그라운드 */
+      const $backgroundContainer = document.querySelector(
+        ".background-container"
+      );
+
+      const backgroundImage = movies[0].backdrop_path
+        ? `${DEFAULT_BACK_DROP_URL}${movies[0].backdrop_path}`
+        : "./images/default_thumbnail.png";
+      ($backgroundContainer as HTMLElement)!.style.backgroundImage = `url(${backgroundImage})`;
     } else {
       const moviesResponse = await getMovieByName({
         name: searchKeyword,
