@@ -49,3 +49,16 @@ padding-left: 20px;
 .disappear {
   display: none;
 }
+
+.nothing-text {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.nothing-img {
+  width: 72px;
+  height: 62px;
+  margin: auto;
+  margin-bottom: 10px;
+}
