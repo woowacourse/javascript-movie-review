@@ -2,6 +2,7 @@ import getSearchedMovieList from "../../apis/getSearchedMovieList";
 import { replaceMovieListBox } from "../../main";
 import { removeBanner } from "../Banner/Banner";
 import { setKeyword, setMovieListType } from "../MovieListBox/MovieListBox";
+import { replaceSkeletonList } from "../Skeleton/List/SkeletonList";
 
 const handleSearchFormSubmit = async (e: Event) => {
   e.preventDefault();
@@ -9,17 +10,27 @@ const handleSearchFormSubmit = async (e: Event) => {
   const searchValue = target["search-input"].value;
 
   try {
-    const searchResult = await getSearchedMovieList(searchValue, 1);
     removeBanner();
+    replaceSkeletonList();
+
+    const searchResult = await getSearchedMovieList(searchValue, 1);
     replaceMovieListBox({
       title: `"${searchValue}" 검색 결과`,
       movieResult: searchResult,
     });
+
     setMovieListType("search");
     setKeyword(searchValue);
   } catch (error) {
     if (error instanceof Error) {
-      alert(error.message);
+      // removeBanner();
+      // replaceMovieListBox({
+      //   title: `"${searchValue}" 검색 결과`,
+      //   movieResult: { page: 0, results: [], total_pages: 0, total_results: 0 },
+      // });
+      // setTimeout(() => {
+      //   alert(error.message);
+      // }, 300);
     }
   }
 };

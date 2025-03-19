@@ -2,6 +2,10 @@ import { MovieListSectionProps } from "../../../types/type";
 import $MovieList, { addMovieItem } from "../MovieList/MovieList";
 import getPopularMovieList from "../../apis/getPopularMovieList";
 import getSearchedMovieList from "../../apis/getSearchedMovieList";
+import {
+  addSkeletonList,
+  removeSkeletonList,
+} from "../Skeleton/List/SkeletonList";
 
 type MovieListType = "popular" | "search";
 interface MovieState {
@@ -38,20 +42,24 @@ const $MovieListBoxRender = () => {
     movieState.page += 1;
 
     if (movieState.type === "popular") {
+      addSkeletonList();
       const { page, total_pages, results } = await getPopularMovieList(
         movieState.page
       );
 
       removeMoreButton({ condition: page === total_pages });
+      removeSkeletonList();
       addMovieItem(results);
       return;
     }
 
+    addSkeletonList();
     const { page, total_pages, results } = await getSearchedMovieList(
       movieState.keyword,
       movieState.page
     );
     removeMoreButton({ condition: page === total_pages });
+    removeSkeletonList();
     addMovieItem(results);
   };
 
