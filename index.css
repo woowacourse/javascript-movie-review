@@ -5,11 +5,17 @@
 @import "public/styles/tab.css";
 @import "public/styles/thumbnail.css";
 @import "src/components/header/header.css";
-
+@import "src/components/hero/hero.css";
+@import "src/components/button/button.css";
+@import "src/components/fallback/fallback.css";
 .show {
   display: block;
 }
 
 .hide {
   display: none;
+}
+
+.width-100 {
+  width: 100%;
 }
