@@ -1,8 +1,8 @@
-import { IMovie } from "../type";
-import Button from "./Button";
-import SearchBar from "./SearchBar";
+import { IMovie } from '../type';
+import Button from './Button';
+import SearchBar from './SearchBar';
 
-const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w1920";
+const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w1920';
 function Header({ movie }: { movie: IMovie }) {
   return /*html*/ `<header>
     <div class="background-container">
@@ -20,7 +20,7 @@ function Header({ movie }: { movie: IMovie }) {
             <span class="rate-value">${movie.vote_average.toFixed(1)}</span>
           </div>
           <div class="title">${movie.title}</div>
-         ${Button({ text: "자세히보기" })}
+         ${Button({ text: '자세히보기' })}
         </div>
       </div>
     </div>
