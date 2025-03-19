@@ -26,4 +26,4 @@ FE 레벨1 영화 리뷰 미션
 
 TODO
 
-- [ ] Header 분리하기 (logo, search만 포함되도록)
+- [x] Header 분리하기 (logo, search만 포함되도록)

@@ -63,6 +63,9 @@ class SearchMovieBoard {
     }
 
     this.#renderMovies(movies);
+
+    if (movies.length < LOAD_COUNT) return;
+
     this.#initMoreMoviesButton();
   }
 
