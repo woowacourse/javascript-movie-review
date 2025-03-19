@@ -4,8 +4,11 @@ import { $, $$ } from "./dom.ts";
 
 export const loadMovies = async (movies: MovieResponse): Promise<void> => {
   movies.results.forEach((movie: Movie) => {
+    const posterPath = movie.poster_path;
     const movieElement = MovieItem({
-      src: `https://image.tmdb.org/t/p/w440_and_h660_face/${movie.poster_path}`,
+      src: posterPath
+        ? `https://image.tmdb.org/t/p/w440_and_h660_face/${movie.poster_path}`
+        : "./images/default-poster.png",
       title: movie.title,
       rate: movie.vote_average,
     });
