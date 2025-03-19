@@ -5,10 +5,12 @@ class Thumbnail {
     this.movie = movie;
   }
   render() {
-    const $header = document.createElement("header");
+    const $div = document.createElement("div");
+    $div.classList.add("background-container");
+    $div.style.backgroundImage = `url("${this.movie.poster_path}")`;
+
     console.log(this.movie);
-    $header.innerHTML = /*html*/ `
-      <div class="background-container" style="background-image: url('${this.movie.poster_path}')">
+    $div.innerHTML = /*html*/ `
         <div class="overlay" aria-hidden="true"></div>
         <div class="top-rated-container">
           <div class="top-rated-movie">
@@ -23,7 +25,7 @@ class Thumbnail {
       </div>
     `;
 
-    return $header;
+    return $div;
   }
 
   setEvent() {}

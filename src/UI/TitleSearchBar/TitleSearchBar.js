@@ -1,8 +1,9 @@
-import "./Header.css";
+import "./TitleSearchBar.css";
 
 class Header {
   render() {
     const $div = document.createElement("div");
+    $div.classList.add("title-search-bar");
 
     $div.innerHTML = /*html*/ `
     <h1 class="logo">

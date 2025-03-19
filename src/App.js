@@ -1,4 +1,4 @@
-import Header from "./UI/Header/Header";
+import TitleSearchBar from "./UI/TitleSearchBar/TitleSearchBar";
 import Thumbnail from "./UI/Thumbnail/Thumbnail";
 import MovieListSection from "./UI/MovieListSection/MovieListSection";
 import Button from "./UI/Button/Button";
@@ -43,24 +43,26 @@ class App {
 
   setIsLoad() {
     this.#isLoad = !this.#isLoad;
-    console.log(this.#isLoad);
     this.render();
   }
 
   render() {
-    console.log(this.#isLoad);
     const body = document.querySelector("body");
+
     const $wrap = document.createElement("div");
     $wrap.id = "wrap";
 
-    const $header = new Header().render();
-    console.log(this.#movies);
+    const $header = new TitleSearchBar().render();
+
+    const $container = document.createElement("div");
+    $container.classList.add("container");
+    const $main = document.createElement("main");
 
     if (this.#movies.length !== 0) {
       const $thumbnail = new Thumbnail(this.#movies[0]).render();
 
       const $movieListSection = new MovieListSection(
-        "인기순",
+        "지금 인기 있는 영화",
         this.#movies
       ).render();
 
@@ -71,19 +73,23 @@ class App {
       const $div = document.createElement("div");
       $div.textContent = "로딩중";
       body.innerHTML = "";
-      console.log($div);
-      console.log($header);
 
-      $wrap.append($header);
       $wrap.append($thumbnail);
+      $wrap.append($header);
 
       if (this.#isLoad) {
-        $wrap.appendChild($movieListSection);
+        $main.appendChild($movieListSection);
       } else {
-        $wrap.appendChild($div);
+        $main.appendChild($div);
       }
-      $wrap.append($moreButton, $footer);
+
+      $main.appendChild($moreButton);
+
+      $container.appendChild($main);
+      $wrap.appendChild($container);
+
       body.appendChild($wrap);
+      body.appendChild($footer);
     }
   }
 }
