@@ -93,9 +93,68 @@ button.primary {
   margin-bottom: 8px;
 }
 
+.top-header {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 20px;
+  height: 80px;
+}
+
+.logo-search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+}
+
 h1.logo {
   font-size: 2rem;
+  position: absolute;
+  left: 0;
+  z-index: 3;
 }
+
+.search-bar {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 500px;
+  padding: 5px;
+  border: 2px solid white;
+  border-radius: 30px;
+  background: transparent;
+  z-index: 3;
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+  color: white;
+  padding: 10px;
+}
+
+.search-bar button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: white;
+  padding: 10px
+}
+
+
 
 .rate {
   display: flex;
