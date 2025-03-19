@@ -1,10 +1,9 @@
-interface FetchOptions {
+import { ERROR_MESSAGE } from "../setting/settings";
+
+export interface FetchOptions {
   headers?: Record<string, string>;
   method?: string;
   body?: BodyInit | null;
-}
-interface Query {
-  [key: string]: string | number;
 }
 
 //language=en-US&page=1
@@ -15,6 +14,10 @@ export async function fetchUrl<T>(
 ): Promise<T> {
   const queryString = new URLSearchParams(queryObject).toString();
   const finalUrl = queryString ? `${url}?${queryString}` : url;
+
   const response = await fetch(finalUrl, options);
+
+  if (!response.ok) throw new Error(ERROR_MESSAGE.FETCH_ERROR);
+
   return response.json();
 }
