@@ -141,7 +141,7 @@ class App {
       $header.classList.remove("scrolled");
     });
 
-    const $moreButton = this.#$target.querySelector(".primary.more");
+    const $moreButton = this.#$target.querySelector("#more-button");
     $moreButton.addEventListener("click", () => {
       this.#query
         ? this.#handleSearchedMoviesMore($moreButton)
@@ -161,7 +161,7 @@ class App {
       if ($Banner) {
         $Banner.remove();
       }
-      const $movieList = this.#$target.querySelector(".thumbnail-list");
+      const $movieList = this.#$target.querySelector("#movie-list");
 
       const $title = this.#$target.querySelector("#list-title");
       $title.textContent = `"${this.#query}" 검색 결과`;
@@ -175,7 +175,7 @@ class App {
           <div></div>
           <div class="center">
             <img src="./images/not_found.png"/>
-            <h2>검색 결과가 없습니다.</h2>
+            <h2 data-testid='no-result-message'>검색 결과가 없습니다.</h2>
           </div>
         `;
         $movieList.replaceChildren(template.content);

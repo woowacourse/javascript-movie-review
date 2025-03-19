@@ -6,10 +6,10 @@ const MovieList = (movies) => {
     <main>
       <section>
         ${ListTitle()}
-        <ul class="thumbnail-list" data-testid="movie-list">
+        <ul id="movie-list" class="thumbnail-list" data-testid="movie-list">
           ${movies.map((movie) => MovieItem(movie)).join("")}
         </ul>
-        <button class="primary more">더 보기</button>
+        <button id="more-button" class="primary more" data-testid='more-button'>더 보기</button>
       </section>
     </main>
   `;
