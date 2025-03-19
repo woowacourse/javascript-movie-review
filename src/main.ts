@@ -1,7 +1,8 @@
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import MovieList from "./components/MovieList";
 import { MovieInfo } from "../types/movieType.ts";
+import ContentsContainer from "./components/ContentsContainer.ts";
+import MovieService from "./services/MovieService.ts";
 
 const options = {
   method: "GET",
@@ -12,22 +13,13 @@ const options = {
 };
 
 async function getPopularMovies() {
-  const response = await fetch(
-    `${import.meta.env.VITE_REQUEST_URL}/movie/popular?language=ko-KR&page=1`,
-    options
-  );
+  const movieService = new MovieService();
+  const data = await movieService.getPopularMovies();
+  // 헤더 렌더링
+  renderHeader(data.results[0]);
 
-  if (response.status === 200) {
-    const data = await response.json();
-    // 헤더 렌더링
-    renderHeader(data.results[0]);
-
-    // MovieList 렌더링
-    const movieList = new MovieList(data.results);
-    const $listContainer = movieList.renderMovieList();
-    const $section = document.querySelector("section");
-    $section?.appendChild($listContainer);
-  }
+  // 컨텐츠 컨테이너
+  ContentsContainer(data.results);
 }
 
 function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
