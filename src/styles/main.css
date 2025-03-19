@@ -63,7 +63,6 @@ button.primary {
   position: relative;
   background-position: center center;
   background-size: cover;
-  height: 500px;
   padding: 48px;
 }
 
@@ -82,7 +81,7 @@ button.primary {
   position: relative;
   z-index: 2;
   max-width: 1280px;
-  margin: 0 auto;
+  margin: 0 auto 200px;
 }
 
 .top-rated-movie {

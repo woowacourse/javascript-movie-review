@@ -30,6 +30,8 @@ const SearchBar = () => {
 
 const searchMovie = async (input: string) => {
   const movies = await fetchSearchMovieList(input, 1);
+  $(".top-rated-container").classList.add("hidden");
+
   $(".thumbnail-list").replaceChildren();
   loadMovies(movies);
   $("#caption").innerText = `"${input}" 검색 결과`;
