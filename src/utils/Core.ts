@@ -12,32 +12,23 @@ export interface Event {
   callback: EventCallback;
 }
 
-export interface Effect {
-  callback(): unknown;
-  deps: unknown[];
-}
-
 interface Options<T = unknown> {
   currentStateKey: number;
-  currentEffectsKey: number;
   states: T[];
   events: Event[];
-  effects: Effect[];
   root: null | Element;
   rootComponent: null | (() => string);
 }
 
-interface Dispatch<T> {
+export interface Dispatch<T> {
   (value: T): void;
 }
 
 function Core() {
   const options: Options<UnPack<Parameters<typeof useState>>> = {
     currentStateKey: 0,
-    currentEffectsKey: 0,
     states: [],
     events: [],
-    effects: [],
     root: null,
     rootComponent: null,
   };
@@ -65,7 +56,6 @@ function Core() {
     if (!root || !rootComponent) return;
     root.innerHTML = rootComponent();
     options.currentStateKey = 0;
-    options.currentEffectsKey = 0;
 
     _addEvent();
 

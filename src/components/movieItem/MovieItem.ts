@@ -8,6 +8,7 @@ interface MovieItemProps {
 
 const MovieItem = (props: MovieItemProps) => {
   const { title, rate, src } = props;
+
   return `
               <li>
                 <div class="item">
