@@ -7,7 +7,7 @@ class MovieItem {
   #data: MovieData;
 
   constructor({ data }: MovieItemProps) {
-    this.#container = document.createElement('div');
+    this.#container = document.createElement('li');
     this.#data = data;
     this.render();
   }
@@ -32,7 +32,7 @@ class MovieItem {
 
   get element() {
     // @TODO
-    return this.#container.firstElementChild || document.createElement('div');
+    return this.#container;
   }
 }
 

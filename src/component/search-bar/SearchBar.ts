@@ -1,23 +1,21 @@
 class SearchBar {
-  container: HTMLElement;
+  #container: HTMLElement;
 
   constructor() {
-    this.container = document.createElement('div');
-
+    this.#container = document.createElement('div');
+    this.#container.classList.add('searchbar');
     this.render();
   }
 
   render() {
-    this.container.innerHTML = `
-    <div class="searchbar">
+    this.#container.innerHTML = `
       <input placeholder="검색어를 입력하세요" class="text-placeholder searchbar__input"/>
       <img src="./search-icon.png" class="searchbar__icon"/>
-    </div>
   `;
   }
 
   get element() {
-    return this.container.firstElementChild;
+    return this.#container;
   }
 }
 

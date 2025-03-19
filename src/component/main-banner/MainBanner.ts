@@ -10,6 +10,7 @@ class MainBanner {
 
   constructor({ data }: MovieBannerProps) {
     this.#container = document.createElement('div');
+    this.#container.classList.add('main-banner');
     this.#data = data;
 
     this.render();
@@ -17,7 +18,6 @@ class MainBanner {
 
   render() {
     this.#container.innerHTML = `
-        <div class="main-banner"> 
            <div class="overlay" aria-hidden="true">
              <img class = "main-banner__image" src=${this.#data.imgUrl} alt=${this.#data.title}/>
            </div>
@@ -29,8 +29,7 @@ class MainBanner {
             </div>
               <div class="main-banner__title text-title">${this.#data.title}</div>
               <div class="main-banner__button">${this.#detailButtonElement()}</div>
-        </div>
-    </div>`;
+        </div>`;
   }
 
   #detailButtonElement() {
@@ -38,7 +37,7 @@ class MainBanner {
   }
 
   get element() {
-    return this.#container.firstElementChild;
+    return this.#container;
   }
 }
 

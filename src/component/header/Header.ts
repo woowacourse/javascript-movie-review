@@ -4,25 +4,24 @@ class Header {
   #container;
 
   constructor() {
-    this.#container = document.createElement('div');
+    this.#container = document.createElement('header');
+    this.#container.className = 'header';
 
     this.render();
   }
 
   get element() {
-    return this.#container.firstElementChild;
+    return this.#container;
   }
 
   render() {
     this.#container.innerHTML = `
-     <header class="header">
        <h1 class="logo">
          <img src="./logo.png" alt="MovieList" />
        </h1>
        <div class="header__searchbar">
          ${this.#searchBarElement()}
        </div>
-     </header>
     `;
   }
 
