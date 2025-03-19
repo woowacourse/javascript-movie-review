@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./src/styles/main.css" />
     <link rel="stylesheet" href="./src/styles/tab.css" />
     <link rel="stylesheet" href="./src/styles/thumbnail.css" />
+    <link rel="stylesheet" href="./src/styles/searchBar.css" />
     <script type="module" src="/src/main.ts"></script>
     <title>영화 리뷰</title>
   </head>
@@ -16,9 +17,25 @@
         <div class="background-container">
           <div class="overlay" aria-hidden="true"></div>
           <div class="top-rated-container">
-            <h1 class="logo">
-              <img src="./images/logo.png" alt="MovieList" />
-            </h1>
+            <section class="top-bar">
+              <h1 class="logo">
+                <img src="./images/logo.png" alt="MovieList" />
+              </h1>
+              <div id="search-bar-container" class="search-bar-container">
+                <input
+                  id="search-bar"
+                  class="search-bar"
+                  type="text"
+                  placeholder="검색어를 입력하세요"
+                />
+                <img
+                  src="./images/search_icon.png"
+                  alt="검색 아이콘"
+                  class="search-icon"
+                />
+              </div>
+            </section>
+
             <div class="top-rated-movie">
               <div class="rate">
                 <img src="./images/star_empty.png" class="star" />
