@@ -7,7 +7,6 @@ import MovieItem from "./components/MovieList/MovieItem.js";
 class App {
   #$target;
   #movies = [];
-  #isSearching = false;
   #query = "";
   #searchedMoviesLength = 0;
 
@@ -167,6 +166,9 @@ class App {
       const template = document.createElement("template");
       template.innerHTML = searchedMovies.results.map(MovieItem).join("");
       $movieList.replaceChildren(template.content);
+
+      const $title = this.#$target.querySelector("#list-title");
+      $title.textContent = `"${this.#query}" 검색 결과`;
 
       this.#movies = searchedMovies.results;
       this.#searchedMoviesLength = searchedMovies.total_results;
