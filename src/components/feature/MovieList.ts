@@ -5,12 +5,11 @@ import { createElement } from '../../utils/createElement';
 import { Button } from '../common/Button';
 import { Text } from '../common/Text';
 import { MovieItem } from './MovieItem';
+import { MovieSkeleton } from './MovieSkeleton';
+import { NoResult } from '../common/NoResult';
 
 export const MovieList = async () => {
   let isSearch = movieFetcher.getSearchState();
-  await movieFetcher.getPopularMovies(1);
-  const movieResponse = movieFetcher.getCurrentMovieResponse();
-
   const mainElement = createElement<HTMLDivElement>('main');
   const sectionElement = createElement<HTMLDivElement>('section', {
     classList: 'container',
@@ -27,7 +26,47 @@ export const MovieList = async () => {
     classList: 'thumbnail-list',
   });
 
-  const renderMovieList = () => {
+  const moreBtn = Button({
+    type: 'button',
+    onClick: async () => {
+      if (
+        movieFetcher.getCurrentMovieResponse().page <
+        movieFetcher.getCurrentMovieResponse().total_pages
+      ) {
+        moreBtn.disabled = true;
+        moreBtn.textContent = '로딩 중...';
+        isSearch
+          ? await movieFetcher.getNextPageSearchMovies()
+          : await movieFetcher.getNextPagePopularMovies();
+        renderMovieList();
+        moreBtn.disabled = false;
+        moreBtn.textContent = '더보기';
+      }
+    },
+    classList: ['w-full', 'primary'],
+    props: {
+      textContent: '더보기',
+    },
+  });
+
+  sectionElement.append(text, movieUl, moreBtn);
+  mainElement.append(sectionElement);
+
+  const app = document.querySelector('#app');
+  if (app?.firstChild) {
+    app.insertBefore(mainElement, app.firstChild.nextSibling);
+  } else {
+    app?.appendChild(mainElement);
+  }
+
+  const skeletonElements = Array.from({ length: 20 }, () => MovieSkeleton());
+  movieUl.append(...skeletonElements);
+
+  await movieFetcher.getPopularMovies(1);
+
+  renderMovieList();
+
+  function renderMovieList() {
     movieUl.innerHTML = '';
     isSearch = movieFetcher.getSearchState();
     const currentResponse = movieFetcher.getCurrentMovieResponse();
@@ -44,51 +83,13 @@ export const MovieList = async () => {
 
     if (isSearch) {
       text.textContent = `검색 결과: ${movieFetcher.getQuery()}`;
-    }
-  };
 
-  movieFetcherEvent.subscribe(renderMovieList);
-
-  if (movieResponse.results) {
-    const movieElements = movieResponse.results.map((movie: MovieItemType) => {
-      return MovieItem({ ...movie });
-    });
-    movieUl.append(...movieElements);
-  }
-
-  const moreBtn = Button({
-    type: 'button',
-    onClick: async () => {
-      if (movieResponse.page < movieResponse.total_pages) {
-        moreBtn.disabled = true;
-        moreBtn.textContent = '로딩 중...';
-
-        isSearch
-          ? await movieFetcher.getNextPageSearchMovies()
-          : await movieFetcher.getNextPagePopularMovies();
-
-        renderMovieList();
-        moreBtn.disabled = false;
-        moreBtn.textContent = '더보기';
+      // 여기서 검색 결과가 없으면 noContent 띄우기
+      if (!currentResult.length) {
+        movieUl.append(NoResult());
       }
-    },
-    classList: ['w-full', 'primary'],
-    props: {
-      textContent: '더보기',
-    },
-  });
-
-  mainElement.append(sectionElement);
-  sectionElement.append(text, movieUl, moreBtn);
-
-  const app = document.querySelector('#app');
-
-  if (app?.firstChild) {
-    app.insertBefore(mainElement, app.firstChild.nextSibling);
+    }
   }
-  if (!app?.firstChild) {
-    app?.appendChild(mainElement);
-  }
-
+  movieFetcherEvent.subscribe(renderMovieList);
   return mainElement;
 };
