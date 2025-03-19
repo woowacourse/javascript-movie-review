@@ -1,8 +1,15 @@
+import { Movie } from "../components/movie/types";
+export interface MovieData {
+  page: number;
+  results: Movie[];
+  total_pages: number;
+  total_results: number;
+}
+
 export const getSearchedMovies = async (
   searchKeyword: string,
   pageNumber = 1
 ) => {
-  console.log("searchKeyword, pageNumber", searchKeyword, pageNumber);
   const query = encodeURIComponent(searchKeyword); // 사용자 입력값을 인코딩
 
   const url = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=ko-KR&page=${pageNumber}`;
@@ -21,8 +28,16 @@ export const getSearchedMovies = async (
       throw new Error("성공적으로 받아오지 못했습니다.");
     }
 
-    const { results } = await res.json();
-    return results;
+    const response = await res.json();
+
+    return (
+      response ?? {
+        results: [],
+        page: 1,
+        total_pages: 1,
+        total_results: 0,
+      }
+    );
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error(error.message);

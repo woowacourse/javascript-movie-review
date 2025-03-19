@@ -2,7 +2,6 @@ import { getPopularMovies } from "./apis/getPopularMovies";
 import { getSearchedMovies } from "./apis/getSearchedMovies";
 import movieContainer from "./components/movie/movieContainer";
 import { $ } from "./components/utils/selectors";
-import { Movie } from "./components/movie/types";
 
 const onSearch = async (event: Event) => {
   if (event.target instanceof HTMLFormElement === false) {
@@ -14,7 +13,8 @@ const onSearch = async (event: Event) => {
   const searchKeyword = formData.get("search-bar");
 
   if (typeof searchKeyword === "string") {
-    const results: Movie[] = await getSearchedMovies(searchKeyword);
+    const { results, page, total_pages, total_results } =
+      await getSearchedMovies(searchKeyword);
 
     const loadMoreCallback = async (pageNumber: number) =>
       await getSearchedMovies(searchKeyword, pageNumber);
@@ -23,18 +23,18 @@ const onSearch = async (event: Event) => {
     $movieContainer?.remove();
 
     const $searchedMovieContainer = movieContainer(
-      `${searchKeyword} 검색 결과`,
+      `"${searchKeyword}" 검색 결과`,
       results,
       loadMoreCallback
     );
-
     const $main = $("main");
     $main?.append($searchedMovieContainer);
   }
 };
 
 const initializeMovie = async () => {
-  const results: Movie[] = await getPopularMovies();
+  const { results, page, total_pages, total_results } =
+    await getPopularMovies();
 
   const loadMoreCallback = async (pageNumber: number) =>
     await getPopularMovies(pageNumber);

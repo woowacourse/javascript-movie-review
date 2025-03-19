@@ -20,6 +20,30 @@ const movieContainer = (
     ],
   });
 
+  if (movies.length === 0) {
+    const $noSearchContainer = createElementWithAttributes({
+      tag: "div",
+      className: "no_search_container",
+      children: [
+        {
+          tag: "img",
+          className: "no_search_result_img",
+          attributes: {
+            src: "./images/no_search_result.png",
+            alt: "검색 결과가 없습니다.",
+          },
+        },
+        {
+          tag: "h3",
+          textContent: "검색 결과가 없습니다.",
+          className: "no_search_result_text",
+        },
+      ],
+    });
+    $movieContainer.append($noSearchContainer);
+    return $movieContainer;
+  }
+
   const $movieList = movieList(movies);
 
   const $seeMoreButton = createElementWithAttributes({
@@ -31,7 +55,7 @@ const movieContainer = (
   let pageNumber = 1;
   $seeMoreButton.addEventListener("click", async () => {
     pageNumber += 1;
-    const results = await loadMoreCallback(pageNumber);
+    const { results } = await loadMoreCallback(pageNumber);
     const $newMovieList = movieList(results);
     $movieList.append(...$newMovieList.children);
   });

@@ -15,8 +15,15 @@ export const getPopularMovies = async (page = 1) => {
       throw new Error("성공적으로 받아오지 못했습니다.");
     }
 
-    const { results } = await res.json();
-    return results;
+    const response = await res.json();
+    return (
+      response ?? {
+        results: [],
+        page: 1,
+        total_pages: 1,
+        total_results: 0,
+      }
+    );
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error(error.message);
