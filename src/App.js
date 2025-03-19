@@ -38,17 +38,29 @@ class App {
   }
 
   async #fetchMovies(page = 1) {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
-        },
+    try {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          "영화 정보를 불러오는 데 실패했습니다. 다시 시도해 주세요."
+        );
       }
-    );
-    const data = await response.json();
-    return data.results;
+
+      const data = await response.json();
+      return data.results;
+    } catch (error) {
+      alert(error.message);
+      return [];
+    }
   }
 
   #mount() {
@@ -81,6 +93,8 @@ class App {
         $moreButton.style.display = "none";
       }
     });
+    const $searchForm = this.#$target.querySelector("#search-form");
+    $searchForm.addEventListener("submit", async () => {});
   }
 }
 
