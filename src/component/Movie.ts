@@ -1,13 +1,16 @@
-import { IMovie } from "../type";
+import { IMovie } from '../type';
 
-const POSTER_BASE_URL = "https://media.themoviedb.org/t/p/w440_and_h660_face/";
+const POSTER_BASE_URL = 'https://media.themoviedb.org/t/p/w440_and_h660_face/';
+const DEFAULT_IMAGE_URL = 'https://placehold.co/200x300?text=No+Image';
+
 function Movie({ movie }: { movie: IMovie }) {
+  const poster_path = movie.poster_path ? POSTER_BASE_URL + movie.poster_path : DEFAULT_IMAGE_URL;
+
   return /*html */ `
-  <li>
-    <div class="item">
+  <li class="item">
       <img
         class="thumbnail"
-        src=${POSTER_BASE_URL}${movie.poster_path}
+        src=${poster_path}
         alt=${movie.title}
       />
       <div class="item-desc">
@@ -17,7 +20,7 @@ function Movie({ movie }: { movie: IMovie }) {
         </p>
         <strong>${movie.title}</strong>
       </div>
-    </div>
+
   </li>`;
 }
 

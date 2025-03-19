@@ -1,5 +1,5 @@
-describe("template spec", () => {
-  it("passes", () => {
-    cy.visit("localhost:5173");
+describe('template spec', () => {
+  it('passes', () => {
+    cy.visit('localhost:5173');
   });
 });
