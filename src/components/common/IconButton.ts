@@ -1,7 +1,6 @@
 import { ComponentProps } from '../../types/Component.types';
-import { createElement } from '../../utils/createElement';
-
-import { Icon } from './Icon';
+import { Button } from './Button';
+import { Img } from './Img';
 
 type IconButtonProps = {
   src: string;
@@ -14,24 +13,23 @@ export const IconButton = ({
   classList,
   props,
 }: IconButtonProps) => {
-  const iconButtonElement = <HTMLButtonElement>createElement('button', {
+  const buttonProps = { ...props };
+  const buttonClasses = ['border-none', ...(classList || [])];
+
+  const iconButtonElement = Button({
     type: 'button',
+    onClick,
+    classList: buttonClasses,
+    props: buttonProps,
   });
 
-  const icon = Icon({
-    width: 24,
-    height: 24,
-    src: src,
-    classList: classList,
-    props: props,
+  const icon = Img({
+    width: '24',
+    height: '24',
+    src,
   });
 
-  iconButtonElement.classList.add('border-none');
   iconButtonElement.appendChild(icon);
-
-  iconButtonElement.addEventListener('click', () => {
-    onClick();
-  });
 
   return iconButtonElement;
 };
