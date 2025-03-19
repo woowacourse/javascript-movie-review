@@ -4,6 +4,7 @@ import fetchSearchMovies from '../fetch/fetchSearchMovies';
 import movies from '../store/movies';
 import page from '../store/page';
 import createElement from './utils/createElement';
+import MovieList from './MovieList';
 
 const Button = ({ text, type }) => {
   const $button = createElement({
@@ -27,15 +28,19 @@ const Button = ({ text, type }) => {
     }
 
     movies.addMovies(fetchedMovies);
-    
-    document.querySelector('header').remove();
-    document.querySelector('.container').remove();
-    document.querySelector('footer').remove();
 
-    Main({
-        movies: movies.getMovies(),
-        isReRender: true
-    });
+    if (fetchedMovies.length === 0) {
+      $button.classList.add('disappear')
+    }
+    
+    document.querySelector('.thumbnail-list').remove();
+
+    document.querySelector('section').appendChild(
+      MovieList({
+          movies: movies.getMovies(),
+      })
+    )
+
     
   });
 

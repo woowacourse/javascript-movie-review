@@ -1,5 +1,5 @@
 export default async function fetchPopularMovies(page) {
-  
+
   const popularMovieUrl = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`;
   const options = {
     method: 'GET',

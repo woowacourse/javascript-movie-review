@@ -3,6 +3,7 @@ import MovieContainer from "./MovieContainer";
 import Main from "./Main";
 import createElement from "./utils/createElement";
 import movies from "../store/movies";
+import MovieList from "./MovieList";
 
 const SearchBar = () => {
     const $form = createElement({
@@ -47,15 +48,14 @@ const SearchBar = () => {
         const searchedMovies = await fetchSearchMovies(query, 1);
         movies.updateMovies(searchedMovies);
 
-        document.querySelector('header').remove();
-        document.querySelector('.container').remove();
-        document.querySelector('footer').remove();
+        document.querySelector('.thumbnail-list').remove();
  
-        Main({
-            movies: movies.getMovies(),
-            isReRender: true
-        });
-        
+        document.querySelector('section').appendChild(
+            MovieList({
+                movies: movies.getMovies(),
+            })
+          )
+      
     });
     
 

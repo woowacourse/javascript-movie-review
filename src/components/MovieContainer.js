@@ -19,6 +19,7 @@ const MovieContainer = ({ movies }) => {
 
   const $h2 = createElement({
     tag: 'h2',
+    classNames:['list-title']
   });
 
   $h2.textContent = '지금 인기 있는 영화';
@@ -27,6 +28,7 @@ const MovieContainer = ({ movies }) => {
   $main.appendChild($section);
   $section.appendChild($h2);
   $section.appendChild(MovieList({ movies }));
+
   $main.appendChild(Button({ text: BUTTON.MORE, type: 'more'}));
 
   return $container;

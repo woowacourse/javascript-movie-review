@@ -29,6 +29,7 @@ const Main = ({ movies, isReRender }) => {
     $container.appendChild(
       MovieContainer({
         movies,
+        isReRender
       })
     );
 

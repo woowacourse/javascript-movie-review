@@ -45,3 +45,7 @@ padding-left: 20px;
 .more {
   width: 100%;
 }
+
+.disappear {
+  display: none;
+}
