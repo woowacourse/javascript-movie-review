@@ -25,7 +25,7 @@ class MovieItem {
                         >${this.#data.score}</span
                       >
                     </p>
-                    <strong class = 'text-subtitle'>${this.#data.title}</strong>
+                    <strong class = 'text-body'>${this.#data.title}</strong>
                   </div>
                 </div></li>`;
   }

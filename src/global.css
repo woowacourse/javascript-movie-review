@@ -6,6 +6,7 @@
 @import './component/movie-grid/movie-grid.css';
 @import './component/header/header.css';
 @import './component/footer/footer.css';
+@import './component/main-banner/main-banner.css';
 
 body {
   background-color: var(--color-bluegray-100);

@@ -2,11 +2,9 @@ import SearchBar from '../search-bar/SearchBar';
 
 class Header {
   #container;
-  #searchBar;
 
   constructor() {
     this.#container = document.createElement('div');
-    this.#searchBar = new SearchBar();
 
     this.render();
   }
@@ -29,7 +27,7 @@ class Header {
   }
 
   #searchBarElement() {
-    return this.#searchBar.element?.outerHTML;
+    return new SearchBar().element?.outerHTML;
   }
 }
 

@@ -20,6 +20,12 @@
 }
 
 .text-subtitle {
+  font-weight: 600;
+  font-size: 2rem;
+  letter-spacing: 0.24px;
+}
+
+.text-body {
   color: var(--color-white);
   font-weight: 700;
   font-size: 1.25rem;
@@ -27,18 +33,23 @@
   letter-spacing: 0%;
 }
 
-.text-button--detail {
+.text-button--small {
   font-weight: 600;
   font-size: 1rem;
   line-height: 100%;
   letter-spacing: 0.24px;
 }
 
-.text-button--load-more {
+.text-button--medium {
   font-weight: 600;
   font-size: 1.5rem;
   line-height: 100%;
   letter-spacing: 0.24px;
+}
+
+.text-title {
+  font-weight: 600;
+  font-size: 4rem;
 }
 
 /* 디자인 시스템 (컬러, 폰트)*/
