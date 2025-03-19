@@ -1,5 +1,6 @@
 import { IPage } from "../../types/domain";
 import { TMDB_TOKEN } from "../constants/api";
+import { toggleNoThumbnail, toggleSkeletonList } from "../utils/Render";
 import MovieItem from "./MovieItem";
 
 class SearchBar {
@@ -34,7 +35,8 @@ class SearchBar {
     const query = searchBar.value;
 
     this.changeTitleStyle(query);
-    this.toggleNoThumbnail("hidden");
+    toggleNoThumbnail("hidden");
+    toggleSkeletonList("show");
 
     thumbnailList?.replaceChildren();
 
@@ -84,6 +86,7 @@ class SearchBar {
       )
         .then((response) => response.json())
         .then((data: IPage) => {
+          toggleSkeletonList("hidden");
           const seeMoreButton = document.querySelector(
             "#seeMore"
           ) as HTMLButtonElement;
@@ -91,7 +94,7 @@ class SearchBar {
           if (pageNumber < data.total_pages)
             seeMoreButton.classList.remove("hidden");
 
-          if (data.total_results === 0) this.toggleNoThumbnail("show");
+          if (data.total_results === 0) toggleNoThumbnail("show");
 
           data.results.forEach(({ title, poster_path, vote_average }) => {
             const movieItem = new MovieItem({
@@ -106,12 +109,6 @@ class SearchBar {
     } catch (error) {
       alert("검색 결과를 불러올 수 없습니다.");
     }
-  }
-
-  toggleNoThumbnail(option: "show" | "hidden") {
-    const noThumbnail = document.querySelector(".no-thumbnail");
-    if (option === "show") noThumbnail?.classList.remove("hidden");
-    if (option === "hidden") noThumbnail?.classList.add("hidden");
   }
 }
 

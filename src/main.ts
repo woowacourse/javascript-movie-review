@@ -1,8 +1,10 @@
 import { IPage } from "../types/domain";
 import MovieItem from "./components/MovieItem";
 import SearchBar from "./components/SearchBar";
+import SkeletonUl from "./components/SkeletonUl";
 import TextButton from "./components/TextButton";
 import { TMDB_KEY } from "./constants/api";
+import { toggleSkeletonList } from "./utils/Render";
 
 const thumbnailList = document.querySelector("ul.thumbnail-list");
 const mainSection = document.querySelector("main section");
@@ -10,7 +12,7 @@ const mainSection = document.querySelector("main section");
 const getMovieData = () => {
   const itemCount = document.querySelectorAll("ul.thumbnail-list li").length;
   const pageNumber = itemCount / 20 + 1;
-
+  toggleSkeletonList("show");
   try {
     fetch(
       `https://api.themoviedb.org/3/movie/popular?language=ko-KR&region=KR&page=${pageNumber}&api_key=${TMDB_KEY}`
@@ -21,12 +23,17 @@ const getMovieData = () => {
           const movieItem = new MovieItem({ title, vote_average, poster_path });
           const movieItemElement = movieItem.create();
           thumbnailList?.appendChild(movieItemElement);
+
+          toggleSkeletonList("hidden");
         });
       });
   } catch (error) {
     alert("잘못됨");
   }
 };
+
+const skeletonUl = new SkeletonUl();
+mainSection?.appendChild(skeletonUl.create());
 
 const seeMoreButton = new TextButton({
   id: "seeMore",

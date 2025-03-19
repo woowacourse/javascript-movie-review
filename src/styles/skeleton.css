@@ -1,0 +1,27 @@
+.skeleton-list {
+  margin: 0 auto 56px;
+  display: grid;
+  grid-template-columns: repeat(5, 200px);
+  gap: 70px;
+}
+
+.skeleton-list .thumbnail {
+  background: linear-gradient(
+    140deg,
+    var(--color-bluegray-90) 40%,
+    var(--color-bluegray-80) 50%,
+    var(--color-bluegray-90) 60%
+  );
+  background-size: 300%;
+  animation: glow 3s infinite linear;
+}
+
+@keyframes glow {
+  0% {
+    background-position: 0%;
+  }
+
+  100% {
+    background-position: 300%;
+  }
+}
