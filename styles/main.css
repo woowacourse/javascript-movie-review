@@ -163,6 +163,7 @@ footer.footer p:not(:last-child) {
   margin-right: 8px;
   border: none;
   color: white;
+  width: 100%;
 }
 
 .search-form input::placeholder {
@@ -176,4 +177,18 @@ footer.footer p:not(:last-child) {
 .search-button {
   background: none;
   border: none;
+}
+
+.movie-list-title {
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 56px;
+}
+
+.disabled {
+  display: none;
+}
+
+.background-container-disabled {
+  height: 100px;
 }

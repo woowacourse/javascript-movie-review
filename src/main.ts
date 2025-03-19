@@ -37,21 +37,37 @@ addEventListener("DOMContentLoaded", async () => {
   searchForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    const $overlay = document.querySelector(".overlay");
+    $overlay?.classList.add("disabled");
+
+    const $topRatedMovie = document.querySelector(".top-rated-movie");
+    $topRatedMovie?.classList.add("disabled");
+
+    const $backgroundContainer = document.querySelector(
+      ".background-container"
+    );
+    $backgroundContainer?.classList.add("background-container-disabled");
+
     const $movieList = document.querySelector(
       ".thumbnail-list"
     ) as HTMLElement | null;
     moviesText = "";
 
+    const $movieListTitle = document.querySelector(".movie-list-title");
+
     const formData = new FormData(e.target as HTMLFormElement);
     let searchQuery = formData.get("search-input");
 
-    console.log("@@@@@@", searchQuery);
+    if ($movieListTitle) {
+      $movieListTitle.textContent = `"${searchQuery}" 검색 결과`;
+    }
 
     const params = new URLSearchParams(window.location.search);
     const page = params.get("page");
 
     if (!page) {
-      params.append("page", "2");
+      params.append("page", "1");
+      params.append("query", searchQuery as string);
     } else {
       params.set("page", (parseInt(page) + 1).toString());
     }
@@ -82,15 +98,26 @@ function addMoviePost(movieList: IMovie[], movieText: string) {
 async function addMoreMovies(moviesText: string, $movieList: HTMLElement) {
   const params = new URLSearchParams(window.location.search);
   const page = params.get("page");
+  const query = params.get("query");
 
   if (!page) {
     params.append("page", "2");
   } else {
     params.set("page", (parseInt(page) + 1).toString());
   }
-  const movies = await getMovieList({ page: parseInt(params.get("page")!) });
 
-  moviesText = addMoviePost(movies.results, moviesText);
+  if (query) {
+    const searchedMovies = await getSearchedPost(
+      query as string,
+      parseInt(params.get("page")!)
+    );
+
+    moviesText = addMoviePost(searchedMovies.results, moviesText);
+  } else {
+    const movies = await getMovieList({ page: parseInt(params.get("page")!) });
+
+    moviesText = addMoviePost(movies.results, moviesText);
+  }
 
   if ($movieList) {
     $movieList.innerHTML = moviesText;
