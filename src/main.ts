@@ -22,7 +22,8 @@ const renderHeader = async () => {
 };
 
 const renderMovieList = async () => {
-  const { results: movies } = await getPopularMovies({ page: 1 });
+  let page = 499;
+  const { results: movies } = await getPopularMovies({ page });
 
   const container = $('.container');
   if (!container) return;
@@ -30,21 +31,21 @@ const renderMovieList = async () => {
   const movieList = MovieList({ movies });
   const moreButton = Button({
     text: '더보기',
-    onClick: handleMoreButtonClick
+    onClick: () => handleMoreButtonClick(page, moreButton)
   });
 
   container.appendChild(movieList);
   container.appendChild(moreButton);
 };
 
-const handleMoreButtonClick = async () => {
+const handleMoreButtonClick = async (page: number, moreButton: HTMLElement) => {
+  if (page === 499) {
+    moreButton.remove();
+  }
   const container = $('.thumbnail-list') as HTMLElement;
   if (!container) return;
 
-  const currentPage = Number(container.dataset.page || 1) + 1;
-  container.dataset.page = String(currentPage);
-
-  const { results: newMovies } = await getPopularMovies({ page: currentPage });
+  const { results: newMovies } = await getPopularMovies({ page: page + 1 });
 
   const fragment = document.createDocumentFragment();
 

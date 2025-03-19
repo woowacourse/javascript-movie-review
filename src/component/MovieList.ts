@@ -13,7 +13,6 @@ function MovieList({ movies }: { movies: IMovie[] }) {
       createDOMElement({
         tag: 'ul',
         className: 'thumbnail-list',
-        attributes: { 'data-page': '1' },
         children: movies.map((movie) => Movie({ movie }))
       })
     ]
