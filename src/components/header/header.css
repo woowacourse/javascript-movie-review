@@ -1,0 +1,29 @@
+.header-container {
+  height: 50px;
+}
+
+.header {
+  display: flex;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  gap: 240px;
+  top: 10px;
+  max-width: 1280px;
+  width: 100%;
+  z-index: 2;
+}
+
+.search-bar {
+  display: flex;
+  width: 526px;
+  border-radius: 32px;
+  border: 2px solid var(--color-white);
+  background-color: inherit;
+  padding: 6px 16px;
+  color: var(--color-white);
+}
+
+.search-bar::placeholder {
+  color: var(--color-white);
+}
