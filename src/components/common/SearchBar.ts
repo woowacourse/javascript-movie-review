@@ -1,5 +1,7 @@
-import { loadMovies } from "../../main.ts";
+import { fetchSearchMovieList } from "../../utils/api.ts";
 import { $ } from "../../utils/dom.ts";
+import { loadMovies } from "../../utils/loadMovies.ts";
+import LoadMoreButton from "../movie/LoadMoreButton.ts";
 
 const SearchBar = () => {
   const searchBar = document.createElement("div");
@@ -14,36 +16,31 @@ const SearchBar = () => {
   searchBar.appendChild(button);
 
   button.addEventListener("click", () => {
-    console.log(fetchSearchMovieList(input.value, 1));
+    searchMovie(input.value);
   });
 
   input.addEventListener("keydown", async (e) => {
     if (e.key === "Enter") {
-      const movies = await fetchSearchMovieList(input.value, 1);
-      $(".thumbnail-list").replaceChildren();
-      loadMovies(movies);
-      $("#caption").innerText = `"${input.value}" 검색 결과`;
+      searchMovie(input.value);
     }
   });
 
   return searchBar;
 };
 
-export default SearchBar;
+const searchMovie = async (input: string) => {
+  const movies = await fetchSearchMovieList(input, 1);
+  $(".thumbnail-list").replaceChildren();
+  loadMovies(movies);
+  $("#caption").innerText = `"${input}" 검색 결과`;
 
-const fetchSearchMovieList = async (search: string, currentPage: number) => {
-  const url = `https://api.themoviedb.org/3/search/movie?query=${search}&language=ko-KR&page=${currentPage}`;
-  const options = {
-    headers: {
-      Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
-      accept: "application/json",
-    },
-  };
+  $(".load-more").remove();
 
-  const response = await fetch(url, options);
-  if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
-  }
-
-  return response.json();
+  $(".thumbnail-list").after(
+    LoadMoreButton({
+      loadFn: (currentPage: number) => fetchSearchMovieList(input, currentPage),
+    })
+  );
 };
+
+export default SearchBar;
