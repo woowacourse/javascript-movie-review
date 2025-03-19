@@ -1,11 +1,11 @@
 import Header from "./components/Header.ts";
 import NavigationBar from "./components/NavigationBar.ts";
-import MovieItem from "./components/MovieItem.ts";
+import MovieList from "./components/MovieList.ts";
 import Input from "./components/Input.ts";
 import Button from "./components/Button.ts";
-import fetchMovies from "./api/http.ts";
+import { fetchMovies, moviesState } from "./store/movieService.ts";
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const input = Input({
     type: "text",
     placeholder: "검색어를 입력하세요",
@@ -20,36 +20,34 @@ document.addEventListener("DOMContentLoaded", () => {
   const wrap = document.querySelector("#wrap");
   wrap?.prepend(header);
 
+  const main = document.querySelector("main");
+  if (!main) return;
+
+  const renderMovies = () => {
+    const movieListComponent = MovieList({
+      title: "지금 인기 있는 영화",
+      movieItems: moviesState.list,
+    });
+
+    main.appendChild(movieListComponent);
+  };
+
+  try {
+    await fetchMovies();
+    renderMovies();
+    // console.log("moviesState:", moviesState); // 제대로 데이터 들어옴
+  } catch (error: any) {
+    console.error("Error in main.ts:", error);
+  }
+
   const button = Button({
     text: "더 보기",
-    onClick: () => {
+    onClick: async () => {
       console.log("버튼 클릭");
+      await fetchMovies(moviesState.currentPage + 1);
+      renderMovies();
     },
   });
 
-  const section = document.querySelector("section");
-  section?.appendChild(button);
-
-  fetchMovies()
-    .then((data: any) => {
-      // console.log("Fetched movie data:", data);
-      const thumbnailList = document.querySelector(".thumbnail-list");
-      if (!thumbnailList) return;
-
-      thumbnailList.innerHTML = "";
-      data.results.forEach((movie: any) => {
-        console.log(movie);
-
-        const movieItem = MovieItem({
-          rate: movie.vote_average,
-          title: movie.title,
-          imgSrc: movie.poster_path,
-        });
-
-        thumbnailList.appendChild(movieItem);
-      });
-    })
-    .catch((error: Error) => {
-      console.error("Error in main.ts:", error);
-    });
+  main?.appendChild(button);
 });
