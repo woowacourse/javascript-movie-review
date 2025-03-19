@@ -3,7 +3,7 @@ interface Button {
 }
 
 function Button({ text }: Button) {
-  return `<button class="primary detail">${text}</button>`;
+  return `<button class="primary">${text}</button>`;
 }
 
 export default Button;

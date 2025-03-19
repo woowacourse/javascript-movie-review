@@ -79,8 +79,3 @@ body.modal-open {
   font-size: 2rem;
   margin: 0 0 8px;
 }
-
-.detail {
-  max-height: 430px;
-  overflow-y: auto;
-}
