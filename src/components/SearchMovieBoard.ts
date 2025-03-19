@@ -4,7 +4,6 @@ import MoreMoviesButton from "./MoreMoviesButton";
 import MovieList from "./MovieList";
 
 const BASE_URL = "https://api.themoviedb.org/3";
-const MAX_PAGE = 500;
 const LOAD_COUNT = 20;
 
 interface Props {
@@ -21,7 +20,7 @@ class SearchMovieBoard {
     this.#props = props;
     this.#page = 1;
     this.#render();
-    this.#initMoreMoviesButton();
+
     this.#fetchAndRenderMovies();
   }
 
@@ -43,10 +42,28 @@ class SearchMovieBoard {
       });
   }
 
+  #renderNoResult() {
+    const h2 = document.querySelector(".movie-list-container h2");
+    if (isHTMLElement(h2))
+      h2.insertAdjacentHTML(
+        "afterend",
+        `<div class="no-search-result">
+            <img src="./images/dizzy_planet.png"/>
+            <p>검색 결과가 없습니다</p>
+        </div>`
+      );
+  }
+
   async #fetchAndRenderMovies() {
-    const movies = await this.#fetchMovies();
-    console.log(movies);
+    const { movies } = await this.#fetchMovies();
+
+    if (movies.length === 0) {
+      this.#renderNoResult();
+      return;
+    }
+
     this.#renderMovies(movies);
+    this.#initMoreMoviesButton();
   }
 
   #renderMovies(movies: Movie[]) {
@@ -72,15 +89,16 @@ class SearchMovieBoard {
     const data = await raw.json();
     const movies: Movie[] = data.results;
 
-    return movies;
+    return { movies, total_pages: data.total_pages };
   }
 
   async #refetchMovies() {
     this.#page += 1;
-    const newMovies = await this.#fetchMovies();
+    const { movies: newMovies, total_pages } = await this.#fetchMovies();
+    console.log(total_pages);
     this.#renderMovies(newMovies);
 
-    if (newMovies.length < LOAD_COUNT || this.#page >= MAX_PAGE) {
+    if (newMovies.length < LOAD_COUNT || this.#page >= total_pages) {
       this.#removeMoreMoviesButton();
       return;
     }
