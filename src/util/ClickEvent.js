@@ -1,6 +1,16 @@
 import { fetchPopularMovies } from "../api/fetch.js";
 import { fetchSearchMovies } from "../api/fetch.js";
 
+function removeButton(movieLayout, total_pages, pageIndex){
+  if(total_pages<pageIndex){
+    movieLayout.setState(
+      {
+        isPossibleMore:false,
+    }
+    )
+  }
+}
+
 
 async function clickEvent(movieLayout) {
     document.addEventListener("click", onClick);
@@ -12,9 +22,12 @@ async function clickEvent(movieLayout) {
     const readMoreMovieList = (function () {
       let pageIndex = 2;
       async function loadMovieData() {
-        const cachedData = await fetchPopularMovies(pageIndex);
+        const {results, total_pages} = await fetchPopularMovies(pageIndex);
         pageIndex++;
-        return cachedData;
+
+        removeButton(movieLayout, total_pages, pageIndex)
+
+        return results;
       }
       return async function () {
         const movieData = await loadMovieData();
@@ -28,9 +41,12 @@ async function clickEvent(movieLayout) {
         const layoutTitleText = document.getElementById("movieListTitle").innerText;
         const regex = /"([^"]*)"/;
         const searchKeyword = layoutTitleText.match(regex)[1];
-        const cachedData = await fetchSearchMovies(searchKeyword,pageIndex);
+        const {results, total_pages} = await fetchSearchMovies(searchKeyword,pageIndex);
         pageIndex++;
-         return cachedData;
+
+        removeButton(movieLayout, total_pages, pageIndex)
+        
+         return results;
       }
       return async function () {
         const movieData = await loadMovieData();
@@ -56,4 +72,5 @@ async function clickEvent(movieLayout) {
   }
 
 export default clickEvent;
+
 

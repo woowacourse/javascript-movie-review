@@ -53,6 +53,6 @@ async function fetchUtil(url: string) {
   };
 
   const response = await fetch(url, options);
-  const { results } = (await response.json()) as TMDBResponse;
-  return results;
+  const {results, total_pages} = (await response.json()) as TMDBResponse;
+  return {results, total_pages};
 }

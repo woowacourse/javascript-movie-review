@@ -11,7 +11,7 @@ async function submitEvent(movieLayout: MovieLayout) {
     const formData = new FormData(form);
     const searchKeyword = String(formData.get("searchInput"));
 
-    const searchData = await fetchSearchMovies(searchKeyword, 1);
+    const {results: searchData} = await fetchSearchMovies(searchKeyword, 1);
     movieLayout.setState({title: `"${searchKeyword}" 검색 결과`, eventName: 'readMoreSearchList', movieData: searchData});
   }
 
