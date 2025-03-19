@@ -1,6 +1,7 @@
 import Footer from "./components/Footer.js";
-import HeaderArea from "./components/HeaderArea/index.js";
+import Banner from "./components/Banner/index.js";
 import MovieList from "./components/MovieList/index.js";
+import Header from "./components/Header/index.js";
 
 class App {
   #$target;
@@ -20,8 +21,9 @@ class App {
   #template() {
     const template = document.createElement("template");
     template.innerHTML = /* html */ `
-        <div id="wrap">
-        ${HeaderArea()}
+      <div id="wrap">
+        ${Header()}
+        ${Banner()}
 
         <div class="container">
           ${MovieList(this.#movies)}
