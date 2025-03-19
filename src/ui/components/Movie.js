@@ -7,6 +7,7 @@ export default class Movie {
   }
 
   render() {
+    console.log("Rendering movie:", this.title, this.posterPath, this.voteAverage);
     const li = document.createElement("li");
 
     li.innerHTML = `

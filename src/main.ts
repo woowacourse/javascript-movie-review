@@ -1,7 +1,8 @@
 import image from "../templates/images/star_filled.png";
 import SearchBar from "./ui/components/SearchBar.js";
 import MovieService from "./domain/services/MovieService.js";
-addEventListener("load", () => {
+import MovieList from "./ui/components/MovieList.js";
+addEventListener("load", async () => {
   const app = document.querySelector("#app");
   const buttonImage = document.createElement("img");
   buttonImage.src = image;
@@ -10,10 +11,14 @@ addEventListener("load", () => {
     app.appendChild(buttonImage);
     SearchBar.createSearchBar();
     const movieService = new MovieService();
-    movieService.getPopularResults().then(({movies, page, totalPages}) => {
-      console.log(movies);
-      console.log(page);
-      console.log(totalPages);
-    });
+    const moviesData = await movieService.getPopularResults();
+
+    const movieList = new MovieList(
+      "ul",
+      moviesData.movies,
+      moviesData.page,
+      moviesData.totalPages
+    );
+    movieList.loadInitMovie();
   }
 });
