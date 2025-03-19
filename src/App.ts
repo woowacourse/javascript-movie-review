@@ -10,6 +10,7 @@ import {
   setMovies,
   appendMovies,
   appendSearchResults,
+  totalResults,
 } from "./store/store";
 import { useEvents } from "./utils/Core";
 
@@ -80,7 +81,10 @@ const App = () => {
   const displayMovieList =
     searchInputValue.trim().length > 0 ? searchResults : movies;
 
-  return `
+  console.log("searchResults", searchResults);
+  console.log("movies", movies);
+
+  return ` 
     ${Header({
       rate: movies[0].vote_count,
       title: movies[0].title,
@@ -105,12 +109,16 @@ const App = () => {
                 )
                 .join("")}
             </ul>
-            ${Button({
-              attribute: {
-                class: "primary detail more-button",
-              },
-              children: "더 보기",
-            })}`
+     ${
+       totalResults === searchResults.length
+         ? ""
+         : Button({
+             attribute: {
+               class: "primary detail more-button",
+             },
+             children: "더 보기",
+           })
+     }`
       }
     </div>
     ${Footer()}

@@ -3,6 +3,7 @@ import {
   searchInputValue,
   setSearchInputValue,
   setSearchResults,
+  setTotalResults,
 } from "../../store/store";
 import { useEvents } from "../../utils/Core";
 import Button from "../@common/Button";
@@ -47,6 +48,7 @@ const Header = (props: HeaderProps) => {
       const response = await fetch(url, options);
       const data = await response.json();
       const results = data.results || [];
+      setTotalResults(data.total_results);
       setSearchResults(results);
     } catch (error) {
       console.error("Error fetching data:", error);
