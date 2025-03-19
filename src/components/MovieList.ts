@@ -1,8 +1,7 @@
 import { MovieResult } from "../../types/movieApiType";
 
 export default function MovieList(moviesResult: MovieResult[]) {
-  const $ul = document.createElement("ul");
-  $ul.className = "thumbnail-list";
+  const $ul = document.querySelector(".thumbnail-list");
   moviesResult.forEach((movieResult) => {
     const $li = document.createElement("li");
 
@@ -26,7 +25,7 @@ export default function MovieList(moviesResult: MovieResult[]) {
         </div>
     `;
 
-    $ul.appendChild($li);
+    $ul?.appendChild($li);
   });
   return $ul;
 }

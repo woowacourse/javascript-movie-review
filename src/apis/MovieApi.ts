@@ -19,8 +19,14 @@ export async function getMovies({ page }: { page: number }) {
   return response as unknown as MoviesResponse;
 }
 
-export async function getMovieByName({ name }: { name: string }) {
-  const url = `https://api.themoviedb.org/3/search/movie?query=${name}&include_adult=false&language=ko-KR&page=1`;
+export async function getMovieByName({
+  name,
+  page,
+}: {
+  name: string;
+  page: number;
+}) {
+  const url = `https://api.themoviedb.org/3/search/movie?query=${name}&include_adult=false&language=ko-KR&page=${page}`;
   const options = {
     method: "GET",
     headers: {

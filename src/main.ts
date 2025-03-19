@@ -3,9 +3,11 @@ import MovieList from "./components/MovieList";
 import Button from "./components/Button";
 import { isElement } from "./utils";
 import { MAX_MOVIE_PAGE } from "./constants/costants";
+import { MovieResult } from "../types/movieApiType";
 
 addEventListener("load", async () => {
   let page = 1;
+  let movies: MovieResult[] = (await getMovies({ page: page })).results;
 
   const $mainSection = document.querySelector("main section");
   const $container = document.querySelector(".container");
@@ -13,19 +15,19 @@ addEventListener("load", async () => {
     Button({ className: "show-more", textContent: "더 보기" })
   );
 
-  const renderMoviesList = async () => {
-    const responseData = await getMovies({ page: page });
-    $mainSection?.appendChild(MovieList(responseData.results));
+  const renderMoviesList = () => {
+    const $movies = MovieList(movies);
+    if ($movies) $mainSection?.appendChild($movies);
   };
 
-  await renderMoviesList();
+  renderMoviesList();
 
   window.addEventListener("click", async (event) => {
     const { target } = event;
 
     if (isElement(target) && target.closest(".show-more")) {
       page = page + 1;
-      await renderMoviesList();
+      renderMoviesList();
       if (page === MAX_MOVIE_PAGE) {
         document.querySelector(".show-more")?.remove();
         return;
@@ -43,7 +45,11 @@ addEventListener("load", async () => {
       )?.value;
 
       if (value) {
-        const response = await getMovieByName({ name: value });
+        page = 1;
+        const response = await getMovieByName({ name: value, page });
+        if ($mainSection) $mainSection.innerHTML = "";
+        movies = response.results;
+        renderMoviesList();
       }
     }
   });
