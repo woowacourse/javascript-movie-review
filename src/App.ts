@@ -2,6 +2,7 @@ import Button from "./components/@common/Button";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
 import MovieItem from "./components/movieItem/MovieItem";
+import Skeleton from "./components/skeleton/Skeleton";
 import {
   movies,
   searchInputValue,
@@ -11,6 +12,8 @@ import {
   appendMovies,
   appendSearchResults,
   totalResults,
+  isLoading,
+  setIsLoading,
 } from "./store/store";
 import { useEvents } from "./utils/Core";
 
@@ -27,6 +30,10 @@ const App = () => {
         }
       );
       const data = await response.json();
+      if (data) setIsLoading(false);
+      console.log("isLoading", isLoading);
+      console.log("data", data);
+
       return data.results;
     } catch (error) {
       console.error("Error fetching data in App:", error);
@@ -100,13 +107,15 @@ const App = () => {
           ? `<div class="no-results">검색 결과가 없습니다.</div>`
           : `<ul class="thumbnail-list">
               ${displayMovieList
-                .map((movie) =>
-                  MovieItem({
-                    title: movie.title,
-                    rate: movie.vote_count,
-                    src: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-                  })
-                )
+                .map((movie) => {
+                  return isLoading
+                    ? Skeleton()
+                    : MovieItem({
+                        title: movie.title,
+                        rate: movie.vote_count,
+                        src: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+                      });
+                })
                 .join("")}
             </ul>
      ${

@@ -41,3 +41,10 @@ export const appendSearchResults = (newResults: any[]) => {
 export const resetPage = () => {
   currentPage = 1;
 };
+
+export let isLoading = true;
+
+export const setIsLoading = (value: boolean) => {
+  isLoading = value;
+  reRender();
+};
