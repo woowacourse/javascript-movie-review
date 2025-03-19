@@ -64,6 +64,10 @@ section {
   background-size: cover;
   height: 500px;
   padding: 48px;
+  background-image: url('https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/stKGOm8UyhuLPR9sZLjs5AkmncA.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .overlay {
@@ -132,3 +136,15 @@ footer.footer {
 /* footer.footer p:not(:last-child) {
   margin-bottom: 8px;
 } */
+
+#search-input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  color: white;
+}
+
+#search-input::placeholder {
+  color: white;
+}

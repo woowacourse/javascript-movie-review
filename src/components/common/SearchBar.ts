@@ -21,10 +21,9 @@ export const SearchBar = ({ onSubmit, classList, props }: SearchBarProps) => {
   );
 
   const input = <HTMLInputElement>createElement('input', {
+    id: 'search-input',
     type: 'text',
     placeholder: '검색어를 입력해주세요.',
-    style:
-      'background-color: transparent; border: none; outline: none; width: 100%; color: white;',
   });
 
   const iconBtn = IconButton({
