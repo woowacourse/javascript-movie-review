@@ -31,15 +31,20 @@ class SearchBar {
   onSearchClick() {
     const searchBar = document.querySelector(".search-bar") as HTMLInputElement;
     const thumbnailList = document.querySelector("ul.thumbnail-list");
-
     const query = searchBar.value;
+
     this.changeTitleStyle(query);
+    this.toggleNoThumbnail("hidden");
+
     thumbnailList?.replaceChildren();
+
     this.getSearchResult(query);
 
     const seeMoreButton = document.querySelector(
       "#seeMore"
     ) as HTMLButtonElement;
+
+    seeMoreButton.classList.add("hidden");
     seeMoreButton.onclick = () => {
       this.getSearchResult(query);
     };
@@ -79,17 +84,14 @@ class SearchBar {
       )
         .then((response) => response.json())
         .then((data: IPage) => {
-          if (pageNumber >= data.total_pages) {
-            const seeMoreButton = document.querySelector(
-              "#seeMore"
-            ) as HTMLButtonElement;
-            seeMoreButton.remove();
-          }
+          const seeMoreButton = document.querySelector(
+            "#seeMore"
+          ) as HTMLButtonElement;
+          seeMoreButton.classList.add("hidden");
+          if (pageNumber < data.total_pages)
+            seeMoreButton.classList.remove("hidden");
 
-          if (data.total_results === 0) {
-            const noThumbnail = document.querySelector(".no-thumbnail");
-            noThumbnail?.classList.toggle("hidden");
-          }
+          if (data.total_results === 0) this.toggleNoThumbnail("show");
 
           data.results.forEach(({ title, poster_path, vote_average }) => {
             const movieItem = new MovieItem({
@@ -104,6 +106,12 @@ class SearchBar {
     } catch (error) {
       alert("검색 결과를 불러올 수 없습니다.");
     }
+  }
+
+  toggleNoThumbnail(option: "show" | "hidden") {
+    const noThumbnail = document.querySelector(".no-thumbnail");
+    if (option === "show") noThumbnail?.classList.remove("hidden");
+    if (option === "hidden") noThumbnail?.classList.add("hidden");
   }
 }
 
