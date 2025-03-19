@@ -47,3 +47,17 @@ p.rate > span {
   width: 16px;
   top: 1px;
 }
+
+/* skeleton ui */
+.skeleton-thumbnail {
+  width: 200px;
+  height: 300px;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.skeleton-text {
+  width: 65%;
+  height: 15px;
+  background-color: rgba(0, 0, 0, 0.5);
+  margin-block: 10px;
+}

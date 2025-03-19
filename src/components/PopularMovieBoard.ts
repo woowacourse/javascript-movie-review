@@ -1,7 +1,7 @@
 import { Movie } from "../main";
 import { isHTMLElement } from "../utils/typeGuards";
 import MoreMoviesButton from "./MoreMoviesButton";
-import MovieList from "./MovieList";
+import MovieList, { MovieListSkeleton } from "./MovieList";
 import TopRatedMovie, { TopRatedMovieSkeleton } from "./TopRatedMovie";
 
 export const BASE_URL = "https://api.themoviedb.org/3/movie";
@@ -15,7 +15,6 @@ class PopularMovieBoard {
     this.#parentElement = parentElement;
     this.#page = 1;
     this.#render();
-    this.#initMoreMoviesButton();
     this.#fetchAndRenderMovies();
   }
 
@@ -34,28 +33,36 @@ class PopularMovieBoard {
       </section>
       <section class="movie-list-container">
           <h2>지금 인기 있는 영화</h2>
-          <ul class='thumbnail-list'></ul>
+          <ul class='thumbnail-list'>${MovieListSkeleton()}</ul>
           <div class="more-button-container"></div>
       </section>
     `;
   }
 
   async #fetchAndRenderMovies() {
-    const movies = await this.#fetchMovies();
+    const movies = await this.#fetchedMovies();
 
     const $topRated = document.querySelector(".top-rated-container");
     if (isHTMLElement($topRated))
       $topRated.innerHTML = TopRatedMovie(movies[0]);
 
     this.#renderMovies(movies);
+    this.#initMoreMoviesButton();
   }
 
   #renderMovies(movies: Movie[]) {
     const ul = document.querySelector(".thumbnail-list");
+
+    if (!isHTMLElement(ul)) return;
+
+    if (this.#page === 1) {
+      ul.innerHTML = MovieList(movies);
+      return;
+    }
     ul?.insertAdjacentHTML("beforeend", MovieList(movies));
   }
 
-  async #fetchMovies() {
+  async #fetchedMovies() {
     const options = {
       method: "GET",
       headers: {
@@ -76,7 +83,7 @@ class PopularMovieBoard {
 
   async #refetchMovies() {
     this.#page += 1;
-    const newMovies = await this.#fetchMovies();
+    const newMovies = await this.#fetchedMovies();
     this.#renderMovies(newMovies);
 
     if (this.#page >= MAX_PAGE) {

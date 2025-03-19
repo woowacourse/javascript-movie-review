@@ -1,7 +1,7 @@
 import { Movie } from "../main";
 import { isHTMLElement } from "../utils/typeGuards";
 import MoreMoviesButton from "./MoreMoviesButton";
-import MovieList from "./MovieList";
+import MovieList, { MovieListSkeleton } from "./MovieList";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 const LOAD_COUNT = 20;
@@ -20,7 +20,6 @@ class SearchMovieBoard {
     this.#props = props;
     this.#page = 1;
     this.#render();
-
     this.#fetchAndRenderMovies();
   }
 
@@ -28,7 +27,7 @@ class SearchMovieBoard {
     this.#parentElement.innerHTML = /*html*/ `
       <section class="movie-list-container" style="padding-top: 100px">
           <h2>"${this.#props.searchParams}" 검색 결과 </h2>
-          <ul class='thumbnail-list'></ul>
+          <ul class='thumbnail-list'>${MovieListSkeleton()}</ul>
           <div class="more-button-container"></div>
       </section>
     `;
@@ -55,7 +54,7 @@ class SearchMovieBoard {
   }
 
   async #fetchAndRenderMovies() {
-    const { movies } = await this.#fetchMovies();
+    const { movies } = await this.#fetchedMovies();
 
     if (movies.length === 0) {
       this.#renderNoResult();
@@ -71,10 +70,18 @@ class SearchMovieBoard {
 
   #renderMovies(movies: Movie[]) {
     const ul = document.querySelector(".thumbnail-list");
+
+    if (!isHTMLElement(ul)) return;
+
+    if (this.#page === 1) {
+      ul.innerHTML = MovieList(movies);
+      return;
+    }
+
     ul?.insertAdjacentHTML("beforeend", MovieList(movies));
   }
 
-  async #fetchMovies() {
+  async #fetchedMovies() {
     const options = {
       method: "GET",
       headers: {
@@ -97,13 +104,12 @@ class SearchMovieBoard {
 
   async #refetchMovies() {
     this.#page += 1;
-    const { movies: newMovies, total_pages } = await this.#fetchMovies();
-    console.log(total_pages);
+    const { movies: newMovies, total_pages } = await this.#fetchedMovies();
+
     this.#renderMovies(newMovies);
 
     if (newMovies.length < LOAD_COUNT || this.#page >= total_pages) {
       this.#removeMoreMoviesButton();
-      return;
     }
   }
 
