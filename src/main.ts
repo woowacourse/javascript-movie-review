@@ -1,35 +1,26 @@
-import image from "../templates/images/star_filled.png";
+import MovieList from "./components/MovieList";
 
-console.log("npm run dev 명령어를 통해 영화 리뷰 미션을 시작하세요");
+const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
+  },
+};
 
-console.log(
-  "%c" +
-    " _____ ______   ________  ___      ___ ___  _______                \n" +
-    "|\\   _ \\  _   \\|\\   __  \\|\\  \\    /  /|\\  \\|\\  ___ \\               \n" +
-    "\\ \\  \\\\\\__\\ \\  \\ \\  \\|\\  \\ \\  \\  /  / | \\  \\ \\   __/|              \n" +
-    " \\ \\  \\\\|__| \\  \\ \\  \\\\\\  \\ \\  \\/  / / \\ \\  \\ \\  \\_|/__            \n" +
-    "  \\ \\  \\    \\ \\  \\ \\  \\\\\\  \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\           \n" +
-    "   \\ \\__\\    \\ \\__\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\          \n" +
-    "    \\|__|     \\|__|\\|_______|\\|__|/       \\|__|\\|_______|          \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    " ________  _______   ___      ___ ___  _______   ___       __      \n" +
-    "|\\   __  \\|\\  ___ \\ |\\  \\    /  /|\\  \\|\\  ___ \\ |\\  \\     |\\  \\    \n" +
-    "\\ \\  \\|\\  \\ \\   __/|\\ \\  \\  /  / | \\  \\ \\   __/|\\ \\  \\    \\ \\  \\   \n" +
-    " \\ \\   _  _\\ \\  \\_|/_\\ \\  \\/  / / \\ \\  \\ \\  \\_|/_\\ \\  \\  __\\ \\  \\  \n" +
-    "  \\ \\  \\\\  \\\\ \\  \\_|\\ \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\ \\  \\|\\__\\_\\  \\ \n" +
-    "   \\ \\__\\\\ _\\\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\ \\____________\\\n" +
-    "    \\|__|\\|__|\\|_______|\\|__|/       \\|__|\\|_______|\\|____________|",
-  "color: #d81b60; font-size: 14px; font-weight: bold;"
-);
+async function getPopularMovies() {
+  const response = await fetch(
+    `${import.meta.env.VITE_REQUEST_URL}/movie/popular?language=ko-KR&page=1`,
+    options
+  );
 
-addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
-
-  if (app) {
-    app.appendChild(buttonImage);
+  if (response.status === 200) {
+    const data = await response.json();
+    const movieList = new MovieList(data.results);
+    const $listContainer = movieList.renderMovieList();
+    const $section = document.querySelector("section");
+    $section?.appendChild($listContainer);
   }
-});
+}
+
+getPopularMovies();
