@@ -6,6 +6,7 @@ import {
   addSkeletonList,
   removeSkeletonList,
 } from "../Skeleton/List/SkeletonList";
+import { networkErrorBoundary } from "../ErrorBox/ErrorBox";
 
 type MovieListType = "popular" | "search";
 interface MovieState {
@@ -23,11 +24,31 @@ const removeMoreButton = ({ condition }: { condition: boolean }) => {
   $moreButton?.remove();
 };
 
+interface RenderMoreMovieListParameter {
+  currentPage: number;
+  fetchFn: (page: number) => Promise<any>;
+}
+
+const renderMoreMovieList = async ({
+  currentPage,
+  fetchFn,
+}: RenderMoreMovieListParameter) => {
+  addSkeletonList();
+  const { page, total_pages, results } = await fetchFn(currentPage);
+  removeMoreButton({ condition: page === total_pages });
+  removeSkeletonList();
+  addMovieItem(results);
+};
+
 const $MovieListBoxRender = () => {
   const movieState: MovieState = {
     type: "popular",
     keyword: "",
     page: 1,
+  };
+
+  const initCurrentPage = () => {
+    movieState.page = 1;
   };
 
   const setMovieListType = (type: MovieListType) => {
@@ -42,25 +63,21 @@ const $MovieListBoxRender = () => {
     movieState.page += 1;
 
     if (movieState.type === "popular") {
-      addSkeletonList();
-      const { page, total_pages, results } = await getPopularMovieList(
-        movieState.page
+      networkErrorBoundary(() =>
+        renderMoreMovieList({
+          currentPage: movieState.page,
+          fetchFn: getPopularMovieList,
+        })
       );
-
-      removeMoreButton({ condition: page === total_pages });
-      removeSkeletonList();
-      addMovieItem(results);
       return;
     }
 
-    addSkeletonList();
-    const { page, total_pages, results } = await getSearchedMovieList(
-      movieState.keyword,
-      movieState.page
+    networkErrorBoundary(() =>
+      renderMoreMovieList({
+        currentPage: movieState.page,
+        fetchFn: (page) => getSearchedMovieList(movieState.keyword, page),
+      })
     );
-    removeMoreButton({ condition: page === total_pages });
-    removeSkeletonList();
-    addMovieItem(results);
   };
 
   const $MovieListBox = ({ title, movieResult }: MovieListSectionProps) => {
@@ -88,8 +105,8 @@ const $MovieListBoxRender = () => {
     return $movieListBox;
   };
 
-  return { setKeyword, setMovieListType, $MovieListBox };
+  return { initCurrentPage, setKeyword, setMovieListType, $MovieListBox };
 };
 
-export const { setKeyword, setMovieListType, $MovieListBox } =
+export const { initCurrentPage, setKeyword, setMovieListType, $MovieListBox } =
   $MovieListBoxRender();
