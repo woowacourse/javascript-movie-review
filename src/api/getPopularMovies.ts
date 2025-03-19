@@ -1,10 +1,7 @@
 import { IMovie } from '../type';
 
-export interface PopularMoviesResponse {
-  page: number;
+interface PopularMoviesResponse extends Response {
   results: IMovie[];
-  total_pages: number;
-  total_results: number;
 }
 
 const getPopularMovies = async ({ page }: { page: number }): Promise<PopularMoviesResponse> => {

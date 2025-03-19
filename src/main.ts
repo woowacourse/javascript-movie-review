@@ -1,28 +1,37 @@
 import getPopularMovies from './api/getPopularMovies';
 import Button from './component/Button';
 import Footer from './component/Footer';
-import Header from './component/Header';
+import Banner from './component/Banner';
 import Movie from './component/Movie';
 import MovieList from './component/MovieList';
 import { $ } from './util/selector';
+import Header from './component/Header';
 
 addEventListener('load', async () => {
+  renderBanner();
   renderHeader();
   renderMovieList();
   renderFooter();
 });
 
-const renderHeader = async () => {
+const renderBanner = async () => {
   const { results: movies } = await getPopularMovies({ page: 1 });
 
   const wrap = $('#wrap');
 
-  const header = Header({ movie: movies[1] });
+  const banner = Banner({ movie: movies[1] });
+  wrap?.prepend(banner);
+};
+
+const renderHeader = () => {
+  const wrap = $('#wrap');
+
+  const header = Header();
   wrap?.prepend(header);
 };
 
 const renderMovieList = async () => {
-  let page = 499;
+  let page = 1;
   const { results: movies } = await getPopularMovies({ page });
 
   const container = $('.container');
