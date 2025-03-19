@@ -1,9 +1,8 @@
-import { getSearchMovieResult } from "./api/getSearchMovieResult";
-import MovieListSection from "./component/MovieListSection";
 import MovieListController from "./controller/MovieListController";
+import SearchMovieListController from "./controller/SearchMovieListController";
 
-const ulElement = document.querySelector(".thumbnail-list") as HTMLUListElement;
-const movieListController = new MovieListController(ulElement);
+const sectionElement = document.querySelector("section") as HTMLElement;
+const movieListController = new MovieListController(sectionElement);
 await movieListController.getPopularMovieList();
 
 const searchBarElement = document.querySelector(
@@ -17,14 +16,7 @@ searchBarElement.addEventListener("submit", async (event) => {
   const target = formElement.querySelector("input") as HTMLInputElement;
   const searchValue = target.value;
 
-  const { results: searchMovieList } = await getSearchMovieResult(
-    searchValue,
-    1,
-  );
+  const sectionElement = document.querySelector("section") as HTMLElement;
 
-  const sectionElement = document.querySelector("section");
-
-  sectionElement?.replaceWith(
-    MovieListSection(`"${searchValue}" 겅색 결과`, searchMovieList),
-  );
+  new SearchMovieListController(sectionElement, searchValue);
 });

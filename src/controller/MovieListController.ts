@@ -5,16 +5,16 @@ import { IMovieItem, IMovieResult } from "../types/movieResultType";
 
 class MovieListController {
   movieResults;
-  element;
+  sectionElement;
 
-  constructor(element: HTMLUListElement) {
+  constructor(sectionElement: HTMLElement) {
     this.movieResults = MovieResults();
-    this.element = element;
+    this.sectionElement = sectionElement;
     this.bindEvents();
   }
 
   bindEvents() {
-    const seeMoreElement = document.querySelector(".see-more");
+    const seeMoreElement = this.sectionElement.querySelector(".see-more");
     seeMoreElement?.addEventListener("click", () =>
       this.getPopularMovieList(this.movieResults.getPage() + 1),
     );
@@ -31,7 +31,7 @@ class MovieListController {
 
   renderMovieList(movieList: IMovieItem[]) {
     movieList.forEach((movie) => {
-      this.element?.appendChild(MovieItem(movie));
+      this.sectionElement.querySelector("ul")?.appendChild(MovieItem(movie));
     });
   }
 }
