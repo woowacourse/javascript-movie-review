@@ -1,8 +1,8 @@
-import { Movie } from "../type";
+import { IMovie } from "../type";
 
 export interface PopularMoviesResponse {
   page: number;
-  results: Movie[];
+  results: IMovie[];
   total_pages: number;
   total_results: number;
 }

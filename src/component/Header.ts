@@ -1,9 +1,9 @@
-import { Movie } from "../type";
+import { IMovie } from "../type";
 import Button from "./Button";
 import SearchBar from "./SearchBar";
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w1920";
-function Header({ movie }: { movie: Movie }) {
+function Header({ movie }: { movie: IMovie }) {
   return /*html*/ `<header>
     <div class="background-container">
       <div class="overlay" aria-hidden="true">

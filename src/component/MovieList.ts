@@ -1,15 +1,11 @@
+import { IMovie } from "../type";
 import Movie from "./Movie";
 
-function MovieList() {
+function MovieList({ movies }: { movies: IMovie[] }) {
   return /*html */ `
     <h2>지금 인기 있는 영화</h2>
         <ul class="thumbnail-list">
-        ${Movie()}
-        ${Movie()}
-        ${Movie()}
-        ${Movie()}
-        ${Movie()}
-        ${Movie()}
+        ${movies.map((movie) => Movie({ movie })).join("")}
     </ul>`;
 }
 
