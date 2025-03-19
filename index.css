@@ -8,6 +8,7 @@
 @import "src/components/hero/hero.css";
 @import "src/components/button/button.css";
 @import "src/components/fallback/fallback.css";
+@import "src/components/Toast/toast.css";
 .show {
   display: block;
 }
@@ -18,4 +19,35 @@
 
 .width-100 {
   width: 100%;
+}
+
+.skeleton-thumbnail {
+  background-color: azure;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-thumbnail::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(200, 240, 236, 0.495),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
 }

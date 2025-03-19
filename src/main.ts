@@ -1,63 +1,151 @@
 /// <reference types="vite/client" />
 
-// 항상 skeleton을 숨기도록 보장:
-// 만약 loadSearchMovies 호출 중 에러가 발생할 경우에도 skeleton이 남아있지 않도록, try...finally 구문을 사용해 요청 성공/실패와 상관없이 skeleton을 숨기도록 개선.
-
-// abortController vs 로딩 중 버튼 비활성화 고려:
-// 사용자가 로딩 중에 여러 번 클릭하는 것을 방지하기 위해, #loadMore 버튼을 일시적으로 비활성화하는 것도 좋습니다.
-
-import type { TMDBResponse, Result } from "../types/TMDB";
 import createMovieLoader from "./service/createMovieLoader";
+import { createElementsFragment } from "./util/dom";
 import { URLS, defaultOptions, defaultQueryObject } from "./setting/settings";
+import MovieItem from "./components/moveItem/movieItem";
+import Header from "./components/header/Header";
+import Hero from "./components/hero/hero";
+import type { Result } from "../types/TMDB";
+import Button from "./components/button/button";
+import Toast from "./components/Toast/Toast";
 import { showSkeleton, hideSkeleton } from "./view/skeleton";
 
-// const movieList = document.createElement("ul");
+let loadMovies = createMovieLoader(
+  URLS.popularMovieUrl,
+  defaultQueryObject,
+  defaultOptions
+);
 
-// function createMovieElement(results: Result[]) {
-//   movieList.classList.add("item-list");
+async function init() {
+  createMovieList(loadMovies);
 
-//   results.forEach(({ title, vote_average }) => {
-//     const movieElement = document.createElement("li");
-//     movieElement.textContent = `${title}  ${vote_average}점`;
-//     movieList.appendChild(movieElement);
-//   });
-// }
+  const $wrap = document.querySelector("#wrap");
 
-// document.querySelector("#app")?.append(movieList);
+  $wrap?.prepend(Header());
 
-// let loadMovies = createMovieLoader(
-//   URLS.popularMovieUrl,
-//   defaultQueryObject,
-//   defaultOptions
-// );
-// const { results } = await loadMovies(); // 첫 페이지 로드
-// hideSkeleton();
-// createMovieElement(results);
+  $wrap?.prepend(Hero());
 
-// document
-//   .querySelector("#search-movie")
-//   ?.addEventListener("submit", async (e) => {
-//     e.preventDefault();
-//     const searchTerm = (e.target as HTMLFormElement).elements["search-input"]
-//       .value;
-//     loadMovies = createMovieLoader(
-//       URLS.searchMovieUrl,
-//       defaultQueryObject,
-//       defaultOptions,
-//       searchTerm
-//     );
-//     const { results } = await loadMovies();
+  const $main = document.querySelector(".main");
+  const loadMoreButton = Button({
+    className: ["primary", "width-100"],
+    placeholder: "더보기",
+    id: "load-more",
+    onClick: () => createMovieList(loadMovies),
+  });
+  const inputForm = document.querySelector(".input-form");
+  inputForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const formData = new FormData(inputForm);
+    const searchValue = formData.get("search-bar");
 
-//     createMovieElement(results);
-//   });
+    handleSearch(searchValue);
+  });
 
-// document.querySelector("#loadMore")?.addEventListener("click", async () => {
-//   showSkeleton();
-//   const { results, isLastPage } = await loadMovies();
-//   hideSkeleton();
+  const $logo = document.querySelector(".logo");
+  $logo?.addEventListener("click", handleLogoClick);
 
-//   if (isLastPage) {
-//     document.querySelector("#loadMore").style.display = "none";
-//   }
-//   createMovieElement(results);
-// });
+  $main?.append(loadMoreButton);
+}
+
+function addMovies(results: Result[], reset?: boolean) {
+  const $list = document.querySelector("#thumbnail-list");
+
+  if (reset && $list) $list.innerHTML = "";
+
+  const movieItems = results.map((result: Result) => {
+    const { title, poster_path, vote_average } = result;
+    const movieItem = MovieItem({
+      title,
+      src: poster_path,
+      rate: vote_average,
+    });
+    return movieItem;
+  });
+
+  $list?.appendChild(createElementsFragment(movieItems));
+}
+
+async function handleLogoClick() {
+  location.reload();
+}
+
+async function createMovieList(
+  loadMovies: () => Promise<{ results: Result[]; isLastPage: boolean }>,
+  reset?: boolean
+) {
+  showSkeleton();
+  const { results, isLastPage } = await loadMovies();
+
+  hideSkeleton();
+
+  if (isLastPage) {
+    document.getElementById("load-more")?.classList.add("hide");
+  }
+  addMovies(results, reset);
+}
+
+async function handleSearch(searchValue: string) {
+  updateSearchDescription(searchValue);
+  prepareUIForSearch();
+
+  try {
+    const loadMovies = createMovieLoader(
+      URLS.searchMovieUrl,
+      defaultQueryObject,
+      defaultOptions,
+      searchValue
+    );
+
+    await createMovieList(loadMovies, true);
+    finalizeUISuccess();
+  } catch (error: any) {
+    handleSearchError(error);
+  }
+}
+
+function updateSearchDescription(searchValue: string): void {
+  const description = document.getElementById("description");
+  if (description) {
+    description.textContent = `"${searchValue}" 검색 결과`;
+  }
+}
+
+function prepareUIForSearch(): void {
+  const fallbackDiv = document.getElementById("fallback-div");
+  fallbackDiv?.classList.add("hide");
+
+  const hero = document.getElementById("hero");
+  hero?.classList.add("hide");
+
+  const loadMore = document.querySelector("#load-more");
+  loadMore?.classList.remove("hide");
+
+  const thumbnailList = document.querySelector("#thumbnail-list");
+  thumbnailList?.classList.add("hide");
+  const movies = document.querySelector(".movies");
+  movies?.classList.remove("hide");
+}
+
+function finalizeUISuccess(): void {
+  const movies = document.querySelector(".movies");
+  movies?.classList.remove("hide");
+
+  const thumbnailList = document.querySelector("#thumbnail-list");
+  thumbnailList?.classList.remove("hide");
+}
+
+function handleSearchError(error: any): void {
+  const movies = document.querySelector(".movies");
+  movies?.classList.add("hide");
+
+  Toast.showToast(error.message, "error", 5000);
+
+  const loadMore = document.querySelector("#load-more");
+  loadMore?.classList.add("hide");
+
+  const fallbackDiv = document.getElementById("fallback-div");
+  fallbackDiv?.classList.remove("hide");
+}
+
+await init();
