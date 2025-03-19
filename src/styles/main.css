@@ -93,8 +93,16 @@ button.primary {
   margin-bottom: 8px;
 }
 
-h1.logo {
+div.logo {
   font-size: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.logo > img {
+  position: absolute;
+  left: 0;
+  top: 9px;
 }
 
 .rate {

@@ -1,5 +1,6 @@
 import { IPage } from "../types/domain";
 import MovieItem from "./components/MovieItem";
+import SearchBar from "./components/SearchBar";
 import TextButton from "./components/TextButton";
 import { TMDB_TOKEN } from "./constants/api";
 
@@ -35,3 +36,7 @@ const seeMoreButton = new TextButton({
 mainSection?.appendChild(seeMoreButton.create());
 
 getMovieData();
+
+const searchBar = new SearchBar();
+const logo = document.querySelector(".logo");
+logo?.appendChild(searchBar.create());

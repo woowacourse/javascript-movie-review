@@ -1,0 +1,30 @@
+.search-container {
+  display: flex;
+
+  width: 525px;
+  height: 36px;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--color-white);
+  border: 2px solid var(--color-gray-300);
+  border-radius: 32px;
+  gap: 10px;
+  padding: 6px 16px;
+}
+
+.search-bar {
+  border: none;
+  background: transparent;
+  display: flex;
+  width: 90%;
+  border-width: 2px;
+  padding: 6px 16px;
+}
+
+.search-bar::placeholder {
+  color: var(--color-white);
+}
+
+#search {
+  cursor: pointer;
+}
