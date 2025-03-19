@@ -34,6 +34,11 @@ addEventListener("DOMContentLoaded", async () => {
 
   searchForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
+    const $thumbnailList = document.querySelector(".thumbnail-list");
+
+    if ($thumbnailList) {
+      $thumbnailList.innerHTML = "";
+    }
 
     const $overlay = document.querySelector(".overlay");
     $overlay?.classList.add("disabled");
@@ -107,12 +112,24 @@ async function addMoreMovies($movieList: HTMLElement) {
     );
 
     addMoviePost(searchedMovies.results, $movieList);
+    disableMoreButton(
+      searchedMovies.total_pages,
+      parseInt(params.get("page")!)
+    );
   } else {
     const movies = await getMovieList({ page: parseInt(params.get("page")!) });
 
     addMoviePost(movies.results, $movieList);
+    disableMoreButton(movies.total_pages, parseInt(params.get("page")!));
   }
 
   const newUrl = `${window.location.pathname}?${params.toString()}`;
   history.pushState(null, "", newUrl);
+}
+
+function disableMoreButton(totalPages: number, currentPage: number) {
+  const $moreMoviesButton = document.getElementById("more-movies-button");
+  if (totalPages === currentPage) {
+    $moreMoviesButton?.classList.add("disabled");
+  }
 }
