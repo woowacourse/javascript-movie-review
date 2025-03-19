@@ -23,3 +23,8 @@ export interface MovieData {
   total_pages: number;
   total_results: number;
 }
+
+export interface MovieListSectionProps {
+  title: string;
+  movieResult: MovieData;
+}

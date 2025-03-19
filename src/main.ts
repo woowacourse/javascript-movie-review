@@ -1,18 +1,43 @@
+import { MovieListSectionProps } from "../types/type";
 import getPopularMovieList from "./apis/getPopularMovieList";
-import $SearchBox from "./components/SearchBox/SearchBox";
-import $MovieListSection from "./components/MovieListSection/MovieListSection";
+import $Banner from "./components/Banner/Banner";
+import { networkErrorBoundary } from "./components/ErrorBox/ErrorBox";
+import $HeaderBox from "./components/HeaderBox/HeaderBox";
+import {
+  $MovieListBox,
+  initCurrentPage,
+} from "./components/MovieListBox/MovieListBox";
+import { replaceSkeletonList } from "./components/Skeleton/List/SkeletonList";
 
-const app = document.querySelector("#wrap");
-const footer = document.querySelector("footer")!;
+const $header = document.querySelector("header");
+$header?.append($Banner(), $HeaderBox());
 
-const data = await getPopularMovieList(1);
-app?.insertBefore(
-  $MovieListSection({
-    title: "지금 인기 있는 영화",
-    movieList: data.results,
-  }),
-  footer
-);
+export const replaceMovieListBox = ({
+  title,
+  movieResult,
+}: MovieListSectionProps) => {
+  initCurrentPage();
+  const $movieListSection = document.querySelector(
+    ".movie-list-section"
+  ) as HTMLElement;
 
-const topRatedContainer = document.querySelector(".top-rated-container")!;
-topRatedContainer.prepend($SearchBox());
+  $movieListSection.replaceChildren(
+    $MovieListBox({
+      title,
+      movieResult,
+    })
+  );
+};
+
+const initPopularMovieListRender = async () => {
+  replaceSkeletonList();
+
+  const popularMovieListResult = await getPopularMovieList(1);
+
+  replaceMovieListBox({
+    title: "인기있는 영화",
+    movieResult: popularMovieListResult,
+  });
+};
+
+networkErrorBoundary(() => initPopularMovieListRender());
