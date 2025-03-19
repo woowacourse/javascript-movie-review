@@ -24,6 +24,7 @@ section {
 
 main {
   margin: 64px 0;
+  min-width: 1280px;
 }
 
 .star {
@@ -215,6 +216,15 @@ span.rate-value {
   line-height: 100%;
   letter-spacing: 0.24px;
   cursor: pointer;
+}
+
+.empty-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }
 
 footer.footer {

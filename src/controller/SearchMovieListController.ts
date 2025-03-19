@@ -1,4 +1,5 @@
 import { getSearchMovieResult } from "../api/getSearchMovieResult";
+import MovieEmptySection from "../component/MovieEmptySection";
 import MovieItem from "../component/MovieItem";
 import MovieListSection from "../component/MovieListSection";
 import { IMovieResult } from "../types/movieResultType";
@@ -33,10 +34,15 @@ class SearchMovieListController {
   async renderMovieList() {
     const movieList = await this.getSearchMovieList();
 
-    const sectionElement = MovieListSection(
-      `"${this.searchText}" 검색 결과`,
-      movieList,
-    );
+    let sectionElement;
+    if (movieList.length !== 0) {
+      sectionElement = MovieListSection(
+        `"${this.searchText}" 검색 결과`,
+        movieList,
+      );
+    } else {
+      sectionElement = MovieEmptySection(`"${this.searchText}" 검색 결과`);
+    }
 
     this.sectionElement.replaceWith(sectionElement);
     this.sectionElement = sectionElement;
