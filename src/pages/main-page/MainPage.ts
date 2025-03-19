@@ -1,40 +1,21 @@
 import MainBanner from '../../component/main-banner/MainBanner';
 import MovieGrid from '../../component/movie-grid/MovieGrid';
-
-const mockData = [
-  {
-    title: '테스트 타이틀',
-    imgUrl: '/image.png',
-    score: 4.5,
-  },
-  {
-    title: '테스트 타이틀',
-    imgUrl: '/image.png',
-    score: 4.5,
-  },
-  {
-    title: '테스트 타이틀',
-    imgUrl: '/image.png',
-    score: 4.5,
-  },
-  {
-    title: '테스트 타이틀',
-    imgUrl: '/image.png',
-    score: 4.5,
-  },
-  {
-    title: '테스트 타이틀',
-    imgUrl: '/image.png',
-    score: 4.5,
-  },
-];
+import { extractedMovieData } from '../../domain/APIManager';
 
 export class MainPage {
   #container;
+  #movieListData = [];
 
   constructor() {
     this.#container = document.createElement('div');
+    this.#container.classList.add('main-page');
 
+    this.init();
+  }
+
+  async init() {
+    this.#movieListData = await extractedMovieData();
+    console.log(this.#movieListData);
     this.render();
   }
 
@@ -46,12 +27,11 @@ export class MainPage {
   }
 
   #mainBannerElement() {
-    console.log(new MainBanner({ data: mockData[0] }).element);
-    return new MainBanner({ data: mockData[0] }).element;
+    return new MainBanner({ data: this.#movieListData[0] }).element;
   }
 
   #movieGridElement() {
-    return new MovieGrid({ movieItems: mockData, gridTitle: '지금 인기 있는 영화' }).element;
+    return new MovieGrid({ movieItems: this.#movieListData, gridTitle: '지금 인기 있는 영화' }).element;
   }
 
   get element() {
