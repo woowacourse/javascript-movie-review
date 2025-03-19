@@ -1,45 +1,54 @@
 import { MovieItem as MovieItemType } from '../../types/Movie.types';
 import { createElement } from '../../utils/createElement';
-import { Icon } from '../common/Icon';
+import { Img } from '../common/Img';
 import { Text } from '../common/Text';
 
 export const MovieItem = ({ ...props }: MovieItemType) => {
   const { title, vote_average, poster_path } = props;
-  const liElement = <HTMLLIElement>createElement('li');
+  const liElement = <HTMLLIElement>createElement('li', {
+    classList: 'flex flex-col justify-start gap-10',
+  });
 
-  const itemDiv = <HTMLDivElement>createElement('div');
-  itemDiv.classList.add('item');
+  // TODO : URL 분리
+  const movieImg = Img({
+    src: 'https://image.tmdb.org/t/p/w220_and_h330_face' + poster_path,
+    classList: ['thumbnail'],
+    props: {
+      alt: title,
+    },
+  });
 
-  const movieImg = <HTMLImageElement>createElement('img');
-  movieImg.src = poster_path;
-  movieImg.width = 200;
-  movieImg.height = 300;
-  movieImg.alt = title;
+  const descItemDiv = <HTMLDivElement>createElement('div', {
+    classList: 'flex flex-col gap-10',
+  });
 
-  const descItemDiv = <HTMLDivElement>createElement('div');
-  descItemDiv.classList.add('item-desc');
+  const rateDiv = <HTMLDivElement>createElement('div', {
+    classList: 'flex gap-8',
+  });
 
   const rateText = Text({
-    classList: ['rate'],
+    classList: ['text-lg', 'font-semibold', 'text-yellow'],
     props: {
       textContent: `${vote_average}`,
     },
   });
 
-  const starIcon = Icon({
-    width: 16,
-    height: 16,
+  const starIcon = Img({
+    width: '16',
+    height: '16',
     src: './images/star_empty.png',
   });
 
   const titleText = Text({
+    classList: ['text-xl', 'font-bold'],
     props: {
       textContent: title,
     },
   });
 
   liElement.append(movieImg, descItemDiv);
-  descItemDiv.append(rateText, starIcon, titleText);
+  descItemDiv.append(rateDiv, titleText);
+  rateDiv.append(starIcon, rateText);
 
   return liElement;
 };
