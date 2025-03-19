@@ -1,5 +1,5 @@
 import { ApiResponse } from "../types/movie";
-import { getFetchData } from "../utils/getfetchData";
+import { getFetchData } from "../utils/getFetchData";
 
 export async function getPopularityMovie(
   page: Number

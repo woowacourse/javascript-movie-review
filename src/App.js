@@ -49,6 +49,9 @@ class App {
   render() {
     console.log(this.#isLoad);
     const body = document.querySelector("body");
+    const $wrap = document.createElement("div");
+    $wrap.id = "wrap";
+
     const $header = new Header().render();
     console.log(this.#movies);
 
@@ -70,14 +73,15 @@ class App {
       console.log($div);
       console.log($header);
 
-      body.append($header);
+      $wrap.append($header);
 
       if (this.#isLoad) {
-        body.appendChild($movieListSection);
+        $wrap.appendChild($movieListSection);
       } else {
-        body.appendChild($div);
+        $wrap.appendChild($div);
       }
-      body.append($moreButton, $footer);
+      $wrap.append($moreButton, $footer);
+      body.appendChild($wrap);
     }
   }
 }
