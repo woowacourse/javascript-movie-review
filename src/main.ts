@@ -2,6 +2,7 @@ import getPopularMovies from './api/getPopularMovies';
 import Button from './component/Button';
 import Footer from './component/Footer';
 import Header from './component/Header';
+import Movie from './component/Movie';
 import MovieList from './component/MovieList';
 import { $ } from './util/selector';
 
@@ -11,7 +12,6 @@ addEventListener('load', async () => {
   renderFooter();
 });
 
-// ✅ 헤더 렌더링 (createDOMElement 사용)
 const renderHeader = async () => {
   const { results: movies } = await getPopularMovies({ page: 1 });
 
@@ -21,7 +21,6 @@ const renderHeader = async () => {
   wrap?.prepend(header);
 };
 
-// ✅ 영화 목록 렌더링 (appendChild 사용)
 const renderMovieList = async () => {
   const { results: movies } = await getPopularMovies({ page: 1 });
 
@@ -30,29 +29,33 @@ const renderMovieList = async () => {
 
   const movieList = MovieList({ movies });
   const moreButton = Button({
-    text: '더보기'
-    // onClick: handleMoreButtonClick
+    text: '더보기',
+    onClick: handleMoreButtonClick
   });
 
   container.appendChild(movieList);
   container.appendChild(moreButton);
 };
 
-// // ✅ "더보기" 버튼 클릭 시 추가 영화 로드
-// const handleMoreButtonClick = async () => {
-//   const container = $('.thumbnail-list');
-//   if (!container) return;
+const handleMoreButtonClick = async () => {
+  const container = $('.thumbnail-list') as HTMLElement;
+  if (!container) return;
 
-//   const currentPage = Number(container.dataset.page || 1) + 1;
-//   container.dataset.page = String(currentPage);
+  const currentPage = Number(container.dataset.page || 1) + 1;
+  container.dataset.page = String(currentPage);
 
-//   const { results: newMovies } = await getPopularMovies({ page: currentPage });
-//   const newMovieList = MovieList({ movies: newMovies });
+  const { results: newMovies } = await getPopularMovies({ page: currentPage });
 
-//   container.appendChild(newMovieList);
-// };
+  const fragment = document.createDocumentFragment();
 
-// ✅ 푸터 렌더링 (createDOMElement 사용)
+  newMovies.forEach((movie) => {
+    const newMovie = Movie({ movie });
+    fragment.appendChild(newMovie);
+  });
+
+  container.appendChild(fragment);
+};
+
 const renderFooter = () => {
   const wrap = $('#wrap');
   if (!wrap) return;

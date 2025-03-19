@@ -13,7 +13,8 @@ function MovieList({ movies }: { movies: IMovie[] }) {
       createDOMElement({
         tag: 'ul',
         className: 'thumbnail-list',
-        children: movies.map((movie) => Movie({ movie })) // 개별 영화 리스트 추가
+        attributes: { 'data-page': '1' },
+        children: movies.map((movie) => Movie({ movie }))
       })
     ]
   });
