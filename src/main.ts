@@ -1,6 +1,7 @@
 import Button from "./components/common/Button.ts";
 import Footer from "./components/layout/Footer.ts";
 import Header from "./components/layout/Header.ts";
+import Caption from "./components/movie/Caption.ts";
 import MovieItem from "./components/movie/MovieItem.ts";
 import { $ } from "./utils/dom.ts";
 
@@ -72,8 +73,6 @@ export const loadMovies = async (
     loadMoreButton.classList.add("hidden");
 };
 
-// const movies: MovieResponse = await fetchPopularMovieList(currentPage);
-
 loadMoreButton.addEventListener("click", async () => {
   currentPage++;
   const movies: MovieResponse = await fetchPopularMovieList(currentPage);
@@ -93,6 +92,7 @@ addEventListener("load", async () => {
   if (app) {
     app.appendChild(wrapper);
     wrapper.appendChild(header);
+    wrapper.appendChild(Caption({ title: "지금 인기 있는 영화" }));
     wrapper.appendChild(movieList);
 
     wrapper.appendChild(loadMoreButton);

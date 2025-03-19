@@ -1,12 +1,12 @@
 import { createElement } from "../../utils/createElement.ts";
 
-type MovieItem={
-  src:string,
-  rate:number,
-  title:string
-}
+type MovieItem = {
+  src: string;
+  rate: number;
+  title: string;
+};
 
-const MovieItem = ({src,rate,title}:MovieItem)=>{
+const MovieItem = ({ src, rate, title }: MovieItem) => {
   return createElement(/*html*/ `
     <li>
       <div class="item">
@@ -25,7 +25,7 @@ const MovieItem = ({src,rate,title}:MovieItem)=>{
         </div>
       </div>
     </li>
-  `)
-}
+  `);
+};
 
 export default MovieItem;

@@ -22,6 +22,7 @@ const SearchBar = () => {
       const movies = await fetchSearchMovieList(input.value, 1);
       $(".thumbnail-list").replaceChildren();
       loadMovies(movies);
+      $("#caption").innerText = `"${input.value}" 검색 결과`;
     }
   });
 
