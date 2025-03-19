@@ -17,32 +17,46 @@ import { getPopularityMovie } from "./Domain/getPopularityMovie";
 
 class App {
   #movies;
-  #isLoad;
+  #isLoading;
   #page;
 
   constructor() {
     this.#movies = [];
-    this.#isLoad = false;
+    this.#isLoading = false;
     this.#page = 1;
   }
 
   async init() {
-    const data = await getPopularityMovie(1);
+    const result = await this.getMoviesResults();
 
-    const result = data.results.map((movie) => ({
-      ...movie,
-      poster_path: `https://image.tmdb.org/t/p/w300${movie.poster_path}`,
-      vote_average: movie.vote_average.toFixed(1),
-    }));
-
-    if (data !== null) {
-      this.#movies = result;
-      this.setIsLoad();
-    }
+    this.setMovies([...this.#movies, ...result]);
   }
 
-  setIsLoad() {
-    this.#isLoad = !this.#isLoad;
+  async getMoviesResults() {
+    this.setIsLoading(true);
+
+    const data = await getPopularityMovie(this.#page);
+
+    if (data !== null) {
+      this.setIsLoading(false);
+
+      return data.results.map((movie) => ({
+        ...movie,
+        poster_path: `https://image.tmdb.org/t/p/w300${movie.poster_path}`,
+        vote_average: movie.vote_average.toFixed(1),
+      }));
+    }
+
+    return [];
+  }
+
+  setMovies(newMovies) {
+    this.#movies = newMovies;
+    this.render();
+  }
+
+  setIsLoading(isLoading) {
+    this.#isLoading = isLoading;
     this.render();
   }
 
@@ -77,10 +91,10 @@ class App {
       $wrap.append($thumbnail);
       $wrap.append($header);
 
-      if (this.#isLoad) {
-        $main.appendChild($movieListSection);
+      if (this.#isLoading) {
+        $main.appendChild($div); // Todo: 스켈레톤 UI로 변경
       } else {
-        $main.appendChild($div);
+        $main.appendChild($movieListSection);
       }
 
       $main.appendChild($moreButton);
@@ -90,8 +104,17 @@ class App {
 
       body.appendChild($wrap);
       body.appendChild($footer);
+
+      $moreButton.addEventListener("click", this.handleButtonClick);
     }
   }
+
+  handleButtonClick = async () => {
+    this.#page += 1;
+    const results = await this.getMoviesResults();
+
+    this.setMovies([...this.#movies, ...results]);
+  };
 }
 
 export default App;

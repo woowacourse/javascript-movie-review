@@ -45,7 +45,7 @@ FE 레벨1 영화 리뷰 미션
 
 ### 도메인
 
-- [ ] 영화 목록 불러오기
+- [x] 영화 목록 불러오기
 - [ ] 검색
 
 Co-authored-by: kimyou1102 <kimyou1102@users.noreply.github.com>
