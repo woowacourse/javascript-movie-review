@@ -69,14 +69,7 @@ button.primary {
   position: relative;
   background-position: center center;
   background-size: cover;
-  height: 500px;
   padding: 48px;
-}
-
-.header-background-container {
-  height: 100px;
-  position: relative;
-  align-content: center;
 }
 
 .overlay {
@@ -94,6 +87,7 @@ button.primary {
   position: relative;
   z-index: 2;
   max-width: 1280px;
+  height: 350px;
   margin: 0 auto;
 }
 
