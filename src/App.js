@@ -113,8 +113,9 @@ class App {
     const $thumbnail = new Thumbnail(this.#movies[0]).render();
 
     // 제거해주는부분
+
     const $movieListSection = new MovieListSection(
-      "지금 인기 있는 영화",
+      this.#searchKeyword,
       this.#movies,
       this.#isLoading
     ).render();

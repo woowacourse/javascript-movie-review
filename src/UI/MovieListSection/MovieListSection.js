@@ -12,7 +12,8 @@ class MovieListSection {
     const $section = document.createElement("section");
     const $title = document.createElement("h2");
 
-    $title.textContent = this.title;
+    $title.textContent = this.getTitle();
+
     const $ul = document.createElement("ul");
     $ul.classList.add("thumbnail-list");
 
@@ -42,6 +43,13 @@ class MovieListSection {
 
     $section.append($title, $ul);
     return $section;
+  }
+
+  getTitle() {
+    if (this.title === undefined) {
+      return "지금 인기 있는 영화";
+    }
+    return `"${this.title}" 검색 결과`;
   }
 
   setEvent() {}
