@@ -1,6 +1,7 @@
 import getSearchedMovieList from "../../apis/getSearchedMovieList";
 import { replaceMovieListBox } from "../../main";
 import { removeBanner } from "../Banner/Banner";
+import { setKeyword, setMovieListType } from "../MovieListBox/MovieListBox";
 
 const handleSearchFormSubmit = async (e: Event) => {
   e.preventDefault();
@@ -12,8 +13,10 @@ const handleSearchFormSubmit = async (e: Event) => {
     removeBanner();
     replaceMovieListBox({
       title: `"${searchValue}" 검색 결과`,
-      movieList: searchResult.results,
+      movieResult: searchResult,
     });
+    setMovieListType("search");
+    setKeyword(searchValue);
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message);
