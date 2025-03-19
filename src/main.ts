@@ -41,3 +41,21 @@ getMovieData();
 const searchBar = new SearchBar();
 const logo = document.querySelector(".logo");
 logo?.appendChild(searchBar.create());
+
+const searchBarElement = document.querySelector(
+  ".search-bar"
+) as HTMLInputElement;
+
+const handleKeyDown = (event: KeyboardEvent) => {
+  if (event.key === "Enter") {
+    searchBar.onSearchClick();
+  }
+};
+
+searchBarElement.onfocus = () => {
+  window.addEventListener("keydown", handleKeyDown);
+};
+
+searchBarElement.onblur = () => {
+  window.removeEventListener("keydown", handleKeyDown);
+};
