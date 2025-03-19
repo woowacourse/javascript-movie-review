@@ -59,6 +59,7 @@ button.primary {
   max-width: 1280px;
   margin: 0 auto;
   padding: 64px 0;
+  width: 100%;
 }
 
 .background-container {
@@ -188,4 +189,17 @@ footer.footer {
 
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
+}
+
+.no-result {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.no-result > p {
+  color: var(--color-white);
+  font-size: 36px;
+  font-weight: 600;
 }

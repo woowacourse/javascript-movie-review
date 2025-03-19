@@ -1,10 +1,11 @@
 import { IMovie } from '../type';
+import { Response } from './type';
 
-interface searchMoviesResponse extends Response {
+interface SearchMoviesResponse extends Response {
   results: IMovie[];
 }
 
-const getSearchMovies = async ({ page, query }: { page: number; query: string }): Promise<searchMoviesResponse> => {
+const getSearchMovies = async ({ page, query }: { page: number; query: string }): Promise<SearchMoviesResponse> => {
   const response = await fetch(
     `https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=${page}&query=${query}`,
     {
