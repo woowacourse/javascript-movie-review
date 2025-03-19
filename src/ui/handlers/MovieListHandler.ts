@@ -2,7 +2,6 @@ import Movie from "../../domain/models/Movie.js";
 import MovieList from "../components/MovieList.js";
 import MovieService from "../../domain/services/MovieService.js";
 import MovieCard from "../components/Movie.js";
-import { store } from "../../store/store.js";
 import { ApiResponse, MovieResponse } from "../../types/types.js";
 
 export default class MovieListHandler {
@@ -11,12 +10,13 @@ export default class MovieListHandler {
   constructor(private movieService: MovieService) {}
 
   async initMovieList(query?: string) {
-    const moviesData = query 
+    const moviesData = query
       ? await this.movieService.searchMovies(query, 1)
       : await this.movieService.getPopularResults();
-    
+
     this.updateMovieList(moviesData);
-    this.handleMoreClickButton(query);
+    this.handleMoreClickButton(moviesData);
+    this.movieList?.updateMovieListTitle(query);
   }
 
   private updateMovieList(moviesData: ApiResponse<MovieResponse>) {
@@ -31,22 +31,28 @@ export default class MovieListHandler {
     this.movieList.init();
   }
 
-  async handleMoreClickButton(query: string | undefined) {
+  async handleMoreClickButton(newMoviesData: {
+    movies: Movie[];
+    page: number;
+    totalPages: number;
+  }) {
     const loadMoreButton = document.querySelector(".add-movie");
     if (!loadMoreButton) return;
     loadMoreButton.addEventListener("click", async () => {
-      await this.handleLoadMore(query);
+      await this.handleLoadMore(newMoviesData);
     });
   }
 
-  async handleLoadMore(query: string | undefined) {
-    const pageNumber = this.movieList?.currentPage + 1;
-    let newMoviesData: { movies: Movie[]; page: number; totalPages: number };
-    if (store.getMode() === "popularAdd") {
-      newMoviesData = await this.movieService.getPopularResults(pageNumber);
-    } else {
-      newMoviesData = await this.movieService.searchMovies(query, pageNumber);
-    }
+  async handleLoadMore(newMoviesData: {
+    movies: Movie[];
+    page: number;
+    totalPages: number;
+  }) {
+    // if (store.getMode() === "popularAdd") {
+    //   newMoviesData = await this.movieService.getPopularResults(pageNumber);
+    // } else {
+    //   newMoviesData = await this.movieService.searchMovies(query, pageNumber);
+    // }
     newMoviesData.movies.forEach((movieData) => {
       const movie = new Movie(movieData);
       const movieCard = new MovieCard(movie);

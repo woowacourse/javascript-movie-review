@@ -1,4 +1,3 @@
-import { store } from "../../store/store.js";
 import SearchHandler from "../handlers/SearchHandler.js";
 
 class SearchBar {
@@ -17,7 +16,6 @@ class SearchBar {
     input.addEventListener("keypress", async (e) => {
       if (e.key === "Enter") {
         await this.searchHandler.handleSearch(e.target.value);
-        store.setMode('searchAdd');
       }
     });
 
@@ -26,7 +24,6 @@ class SearchBar {
 
     searchButton.addEventListener("click", async () => {
       await this.searchHandler.handleSearch(input.value);
-      store.setMode('searchAdd');
     });
 
     const buttonImage = document.createElement("img");
