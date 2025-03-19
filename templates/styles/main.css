@@ -103,6 +103,41 @@ button.more {
   margin: 0 auto;
 }
 
+.search-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.search-input {
+  display: flex;
+  width: 525px;
+  padding: 6px 16px;
+  border-radius: 32px;
+  outline: none;
+  border: 2px solid #d1d5db;
+  color: #fff;
+  background-color: transparent;
+}
+
+.search-input::placeholder {
+  color: #fff;
+}
+
+.search-input:focus {
+  outline: none;
+}
+
+.search-button {
+  position: absolute;
+  top: 50%;
+  right: -20px;
+  border: none;
+  transform: translate(-50%, -50%);
+  background-color: transparent;
+}
+
 .top-rated-movie {
   margin-top: 64px;
 }
