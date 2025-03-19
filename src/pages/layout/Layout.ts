@@ -1,22 +1,15 @@
-// import Footer from '../../component/footer/Footer';
 import Footer from '../../component/footer/Footer';
 import Header from '../../component/header/Header';
-
-interface LayoutProps {
-  childrenElement: Element;
-}
+import { renderInnerContentsByRoute } from '../../route/router';
 
 class Layout {
   #container;
-  #childrenElement;
   #header;
   #footer;
 
-  constructor({ childrenElement }: LayoutProps) {
+  constructor() {
     this.#container = document.createElement('div');
     this.#container.classList.add('layout');
-
-    this.#childrenElement = childrenElement;
 
     this.#header = new Header();
     this.#footer = new Footer();
@@ -30,7 +23,10 @@ class Layout {
 
   render() {
     if (this.#header.element) this.#container.appendChild(this.#header.element);
-    this.#container.appendChild(this.#childrenElement);
+    const contentContainer = document.createElement('div');
+    contentContainer.classList.add('content');
+    contentContainer.appendChild(renderInnerContentsByRoute());
+    this.#container.appendChild(contentContainer);
     if (this.#footer.element) this.#container.appendChild(this.#footer.element);
 
     document.querySelector('body')?.appendChild(this.#container);

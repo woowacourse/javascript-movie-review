@@ -2,7 +2,6 @@ import MovieItem from '../movie-item/MovieItem';
 
 interface MovieGridProps {
   movieItems: MovieData[];
-  gridTitle: string;
 }
 
 class MovieGrid {

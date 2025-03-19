@@ -2,10 +2,13 @@ import SearchBar from '../search-bar/SearchBar';
 
 class Header {
   #container;
+  #searchBar;
 
   constructor() {
     this.#container = document.createElement('header');
     this.#container.className = 'header';
+
+    this.#searchBar = new SearchBar();
 
     this.render();
   }
@@ -19,14 +22,13 @@ class Header {
        <h1 class="logo">
          <img src="./logo.png" alt="MovieList" />
        </h1>
-       <div class="header__searchbar">
-         ${this.#searchBarElement()}
-       </div>
     `;
-  }
 
-  #searchBarElement() {
-    return new SearchBar().element?.outerHTML;
+    const searchBarWrapper = document.createElement('div');
+    searchBarWrapper.className = 'header__searchbar';
+    searchBarWrapper.appendChild(this.#searchBar.element);
+
+    this.#container.appendChild(searchBarWrapper);
   }
 }
 

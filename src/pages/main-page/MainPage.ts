@@ -2,6 +2,7 @@ import Button from '../../component/button/Button';
 import MainBanner from '../../component/main-banner/MainBanner';
 import MovieGrid from '../../component/movie-grid/MovieGrid';
 import { Title } from '../../component/title/Title';
+import { SYSTEM_CONSTANTS } from '../../constants/systemConstants';
 import { extractedMovieData } from '../../domain/APIManager';
 
 export class MainPage {
@@ -17,7 +18,7 @@ export class MainPage {
   }
 
   async init() {
-    this.#movieListData = await extractedMovieData();
+    this.#movieListData = await extractedMovieData(SYSTEM_CONSTANTS.MAIN_URL(this.#currentPage));
     this.render();
   }
 
@@ -45,7 +46,7 @@ export class MainPage {
   }
 
   #movieGridElement() {
-    return new MovieGrid({ movieItems: this.#movieListData, gridTitle: '지금 인기 있는 영화' }).element;
+    return new MovieGrid({ movieItems: this.#movieListData }).element;
   }
 
   #loadMoreButtonElement() {
@@ -54,7 +55,7 @@ export class MainPage {
 
   #loadMoreData = async () => {
     this.#currentPage += 1;
-    this.#movieListData = await extractedMovieData(this.#currentPage);
+    this.#movieListData = await extractedMovieData(SYSTEM_CONSTANTS.MAIN_URL(this.#currentPage));
     this.renderDynamicSection();
   };
 

@@ -17,8 +17,8 @@ interface MovieListJSON {
   adult: boolean;
 }
 
-export async function extractedMovieData(page: number = 1) {
-  const movieJSON = await fetchMovieList(page);
+export async function extractedMovieData(url: string) {
+  const movieJSON = await fetchMovieList(url);
   const movieListData = movieJSON.map((movieItem: MovieListJSON) => ({
     title: movieItem.title,
     imgUrl: `${SYSTEM_CONSTANTS.BASE_IMG_URL}${movieItem.poster_path}`,
@@ -28,8 +28,7 @@ export async function extractedMovieData(page: number = 1) {
   return movieListData;
 }
 
-async function fetchMovieList(page: number) {
-  const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`;
+async function fetchMovieList(url: string) {
   const options = {
     method: 'GET',
     headers: {
