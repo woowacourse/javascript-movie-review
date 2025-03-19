@@ -1,25 +1,29 @@
-import HttpError from './HttpError';
 import { ENV } from './env';
+import HttpError from './HttpError';
 
-export const QUERY_PARAMS = {
-  MOVIE: 'movie/popular',
-  SEARCH: 'search/movie',
-} as const;
+export const API_OPTION = {
+  headers: {
+    accept: 'application/json',
+    Authorization: `Bearer ${ENV.VITE_TMBD_HEADER}`,
+  },
+};
 
 export default class Fetcher {
   private baseUrl: string;
+  private activeHttpRequests: AbortController[] = [];
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
   }
 
-  public async get<T>(url: string): Promise<T> {
+  public async get<T>(url: string, headers = {}): Promise<T> {
+    this.cleanUp();
+
+    const httpAbortCtrl = new AbortController();
     const response = await fetch(`${this.baseUrl}/${url}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + ENV.VITE_TMBD_HEADER,
-      },
+      headers,
       method: 'GET',
+      signal: httpAbortCtrl.signal,
     });
 
     if (!response.ok) {
@@ -27,5 +31,9 @@ export default class Fetcher {
     }
 
     return response.json();
+  }
+
+  cleanUp() {
+    this.activeHttpRequests.forEach((abortCtrl) => abortCtrl.abort());
   }
 }
