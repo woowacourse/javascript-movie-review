@@ -14,7 +14,7 @@ const renderHeader = async () => {
   const { results: movies } = await getPopularMovies({ page: 1 });
 
   const wrap = $("#wrap");
-  const header = Header({ movie: movies[0] });
+  const header = Header({ movie: movies[1] });
   wrap?.insertAdjacentHTML("afterbegin", header);
 };
 
