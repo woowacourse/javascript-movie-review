@@ -4,3 +4,18 @@
   grid-template-columns: repeat(5, 200px);
   gap: 70px;
 }
+
+.info-text-wrap {
+  width: 100%;
+  text-align: center;
+}
+
+.info-text-wrap > p {
+  font-size: 36px;
+  font-weight: 600;
+  margin-top: 30px;
+}
+
+.block {
+  display: block;
+}

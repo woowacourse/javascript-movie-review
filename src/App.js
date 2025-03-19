@@ -27,6 +27,10 @@ class App {
   async init() {
     const { results } = await this.getMoviesResults(); // 로딩이 t -> f
 
+    if (results === null) {
+      this.setMovies(null);
+      return;
+    }
     this.setMovies([...this.#movies, ...results]); // 새로운 영화목록 반영 UI 렌더
   }
 
@@ -46,7 +50,7 @@ class App {
       return { results, totalPage: data.total_pages };
     }
 
-    return { results: [] };
+    return { results: null };
   }
 
   async getSearchMovies() {
@@ -64,7 +68,7 @@ class App {
       }));
       return { results, totalPage: data.total_pages };
     }
-    return { results: [] };
+    return { results: null };
   }
 
   setShow(show) {
@@ -120,11 +124,12 @@ class App {
 
     const $header = new TitleSearchBar(this.onSubmit).render();
 
+    $wrap.append($header);
+    body.appendChild($wrap);
+
     const $container = document.createElement("div");
     $container.classList.add("container");
     const $main = document.createElement("main");
-
-    const $thumbnail = new Thumbnail(this.#movies[0]).render();
 
     const $movieListSection = new MovieListSection(
       this.#searchKeyword,
@@ -132,20 +137,23 @@ class App {
       this.#isLoading
     ).render();
 
-    body.appendChild($wrap);
-
-    $wrap.append($thumbnail);
-    $wrap.append($header);
-
-    const $moreButton = new Button().render();
+    if (this.#movies !== null && this.#movies.length !== 0) {
+      const $thumbnail = new Thumbnail(this.#movies[0]).render();
+      $wrap.append($thumbnail);
+    }
 
     $main.appendChild($movieListSection);
-    if (this.#show) {
-      $main.appendChild($moreButton);
-      $moreButton.addEventListener("click", this.handleButtonClick);
-    }
     $container.appendChild($main);
     $wrap.appendChild($container);
+
+    if (this.#movies !== null && this.#movies.length !== 0) {
+      const $moreButton = new Button().render();
+
+      if (this.#show) {
+        $main.appendChild($moreButton);
+        $moreButton.addEventListener("click", this.handleButtonClick);
+      }
+    }
 
     const $footer = new Footer().render();
     body.appendChild($footer);
