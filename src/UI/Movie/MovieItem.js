@@ -16,12 +16,17 @@ class MovieItem {
 
     const { title, poster_path, vote_average } = this.movie;
 
+    console.log(poster_path);
     $li.innerHTML = /*html*/ `
     
         <div class="item">
             <img
             class="thumbnail"
-            src=${poster_path}
+            src=${
+              poster_path === "https://image.tmdb.org/t/p/w300null"
+                ? "./images/nullImage.png"
+                : poster_path
+            }
             alt=${title}
             />
             <div class="item-desc">
