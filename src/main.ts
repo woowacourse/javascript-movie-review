@@ -1,3 +1,4 @@
+import MovieItem from "./component/MovieItem";
 import MovieResults from "./domain/MovieResults";
 
 const movieResults = MovieResults();
@@ -21,3 +22,7 @@ const getPopularMovieList = async () => {
 };
 
 getPopularMovieList();
+
+const ulElement = document.querySelector(".thumbnail-list");
+
+ulElement?.appendChild(MovieItem());
