@@ -31,6 +31,7 @@ const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
     className: "thumbnail",
     src: poster_path ? IMAGE_PATH_PREFIX + poster_path : defaultPosterPath,
     alt: title,
+    loading: "lazy",
   });
   $item.append($poster, $description);
   return $item;
