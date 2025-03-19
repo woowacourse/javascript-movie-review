@@ -1,6 +1,7 @@
 import { images } from "../../assets/images";
 import {
   searchInputValue,
+  setIsSearchError,
   setSearchInputValue,
   setSearchResults,
   setTotalResults,
@@ -51,6 +52,7 @@ const Header = (props: HeaderProps) => {
       setTotalResults(data.total_results);
       setSearchResults(results);
     } catch (error) {
+      setIsSearchError(true);
       console.error("Error fetching data:", error);
     }
   };
@@ -62,7 +64,8 @@ const Header = (props: HeaderProps) => {
             
           </div>
           <div class="top-rated-container">
-            <div class="input-container">
+           <div class="input-container">
+            <form>
             ${Input({
               attribute: {
                 class: "search-input",
@@ -78,6 +81,7 @@ const Header = (props: HeaderProps) => {
                 },
                 children: `<img src="${images.search}" alt="search" />`,
               })}
+             </form>
             </div>
             <h1 class="logo">
               <img src="${images.logo}" alt="MovieList" />
