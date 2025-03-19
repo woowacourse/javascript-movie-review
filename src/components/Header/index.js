@@ -5,7 +5,9 @@ const Header = () => {
     <header class="header">
       <div class="header-container">
         <h1 class="logo">
-          <img src="./images/logo.png" alt="MovieList" />
+          <a href="/">
+            <img src="./images/logo.png" alt="MovieList" />
+          </a>
         </h1>
         ${SearchBar()}
         <div class="empty"></div>
