@@ -1,8 +1,12 @@
 import SearchBar from './SearchBar';
 import createElement from './utils/createElement';
 
+
 const Gnb = () => {
-  const $fragment = document.createDocumentFragment();
+  const $div = createElement({
+    tag: 'div',
+    classNames: ['gnb']
+  });
 
   const $logo = createElement({
     tag: 'h1',
@@ -15,11 +19,11 @@ const Gnb = () => {
     alt: 'MovieList',
   });
 
-  $fragment.appendChild($logo);
+  $div.appendChild($logo);
   $logo.appendChild($logoImg);
-  $fragment.appendChild(SearchBar());
+  $div.appendChild(SearchBar());
 
-  return $fragment;
+  return $div;
 };
 
 export default Gnb;
