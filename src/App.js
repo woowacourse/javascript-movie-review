@@ -65,6 +65,22 @@ class App {
       }
       $header.classList.remove("scrolled");
     });
+
+    const $moreButton = this.#$target.querySelector(".primary.more");
+    $moreButton.addEventListener("click", async () => {
+      const newMovies = await this.#fetchMovies(this.#movies.length / 20 + 1);
+      const $movieList = this.#$target.querySelector(".thumbnail-list");
+
+      const template = document.createElement("template");
+      template.innerHTML = newMovies.map(MovieItem).join("");
+      $movieList.append(template.content);
+
+      this.#movies = [...this.#movies, ...newMovies];
+
+      if (this.#movies.length / 20 >= 500) {
+        $moreButton.style.display = "none";
+      }
+    });
   }
 }
 
