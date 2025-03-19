@@ -34,7 +34,7 @@ class SearchMovieListController {
     const movieList = await this.getSearchMovieList();
 
     const sectionElement = MovieListSection(
-      `"${this.searchText}" 겅색 결과`,
+      `"${this.searchText}" 검색 결과`,
       movieList,
     );
 
