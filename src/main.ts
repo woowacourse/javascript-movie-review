@@ -11,7 +11,7 @@ addEventListener("load", async () => {
     
     const movieService = new MovieService();
     const movieListHandler = new MovieListHandler(movieService);
-    await movieListHandler.initMovieList();
+    await movieListHandler.initMovieList(query);
 
 
     //TODO: searchBar를 searchHandler내부로 이동하도록 refactor

@@ -36,9 +36,10 @@ export default class MovieService {
     }
   }
 
-
-  
-  async searchMovies(query: string, page: number = 1): Promise<{
+  async searchMovies(
+    query: string,
+    page: number = 1
+  ): Promise<{
     movies: Movie[];
     page: number;
     totalPages: number;
@@ -58,6 +59,4 @@ export default class MovieService {
       totalPages: response.total_pages,
     };
   }
-
-
 }
