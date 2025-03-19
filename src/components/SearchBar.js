@@ -1,8 +1,11 @@
+import fetchSearchMovies from "../fetch/fetchSearchMovies";
+import MovieContainer from "./MovieContainer";
+import Main from "./Main";
 import createElement from "./utils/createElement";
 
 const SearchBar = () => {
-    const $div = createElement({
-        tag: 'div',
+    const $form = createElement({
+        tag: 'form',
         classNames: ['search-bar-container']
     });
 
@@ -22,11 +25,28 @@ const SearchBar = () => {
         src: './images/searchButtonIcon.png',
     });
 
-    $div.appendChild($input);
-    $div.appendChild($button);
+    $form.appendChild($input);
+    $form.appendChild($button);
     $button.appendChild($img);
 
-    return $div;
+    $form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const query = document.querySelector('.search-bar').value;
+        const searchedMovies = await fetchSearchMovies(query);
+
+        document.querySelector('header').remove();
+        document.querySelector('.container').remove();
+        document.querySelector('footer').remove();
+ 
+        Main({
+            popularMovies: searchedMovies,
+            isReRender: true
+        });
+        
+    });
+    
+
+    return $form;
 }
 
 export default SearchBar;

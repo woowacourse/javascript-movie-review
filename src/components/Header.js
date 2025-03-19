@@ -3,7 +3,6 @@ import createElement from './utils/createElement';
 import imageUrl from '../utils/imageUrl';
 
 const Header = ({popularMovie}) => {
-  console.log(popularMovie)
   const title = popularMovie?.title;
   const posterPath = popularMovie?.poster_path;
 
