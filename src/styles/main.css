@@ -188,3 +188,11 @@ footer.footer {
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
 }
+
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}

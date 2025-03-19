@@ -163,15 +163,31 @@ class App {
       }
       const $movieList = this.#$target.querySelector(".thumbnail-list");
 
+      const $title = this.#$target.querySelector("#list-title");
+      $title.textContent = `"${this.#query}" 검색 결과`;
+
+      this.#searchedMoviesLength = searchedMovies.total_results;
+
+      if (this.#searchedMoviesLength === 0) {
+        const template = document.createElement("template");
+        template.innerHTML = /* html */ `
+          <div></div>
+          <div></div>
+          <div class="center">
+            <img src="./images/not_found.png"/>
+            <h2>검색 결과가 없습니다.</h2>
+          </div>
+        `;
+        $movieList.replaceChildren(template.content);
+        $moreButton.style.display = "none";
+        return;
+      }
+
       const template = document.createElement("template");
       template.innerHTML = searchedMovies.results.map(MovieItem).join("");
       $movieList.replaceChildren(template.content);
 
-      const $title = this.#$target.querySelector("#list-title");
-      $title.textContent = `"${this.#query}" 검색 결과`;
-
       this.#movies = searchedMovies.results;
-      this.#searchedMoviesLength = searchedMovies.total_results;
 
       if (this.#movies.length >= this.#searchedMoviesLength) {
         $moreButton.style.display = "none";
