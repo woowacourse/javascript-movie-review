@@ -43,6 +43,10 @@ button.primary {
   border-radius: 4px;
 }
 
+button#seeMore {
+  width: 100%;
+}
+
 #wrap {
   min-width: 1440px;
   background-color: var(--color-bluegray-100);
