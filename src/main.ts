@@ -18,9 +18,10 @@ const renderHeader = async () => {
   wrap?.insertAdjacentHTML("afterbegin", header);
 };
 
-const renderMovieList = () => {
+const renderMovieList = async () => {
+  const { results: movies } = await getPopularMovies({ page: 1 });
   const container = $(".container");
-  const movieList = MovieList();
+  const movieList = MovieList({ movies });
   container?.insertAdjacentHTML("afterbegin", movieList);
 };
 

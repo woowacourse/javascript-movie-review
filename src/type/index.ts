@@ -1,4 +1,4 @@
-export interface Movie {
+export interface IMovie {
   adult: boolean;
   backdrop_path: null;
   genre_ids: number[];
