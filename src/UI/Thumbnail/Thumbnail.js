@@ -8,7 +8,6 @@ class Thumbnail {
     const $div = document.createElement("div");
     $div.classList.add("background-container");
 
-    // console.log(this.movie);
     if (!this.movie) {
       $div.innerHTML = ""; // Todo: 스켈레톤 UI로 변경
       return $div;

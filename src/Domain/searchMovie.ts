@@ -9,10 +9,8 @@ export async function searchMovie(
     const data = await getFetchData<ApiResponse>(
       `https://api.themoviedb.org/3/search/movie?query=${searchKeyword}&include_adult=false&language=ko-KR&page=${page}`
     );
-    console.log(data);
     return data;
   } catch (error) {
-    console.error(error);
     return null;
   }
 }

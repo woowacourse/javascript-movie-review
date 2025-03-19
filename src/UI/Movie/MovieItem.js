@@ -8,7 +8,7 @@ class MovieItem {
 
   render() {
     const $li = document.createElement("li");
-    console.log("로딩", this.isLoading);
+
     if (this.isLoading) {
       $li.classList.add("skeleton-box");
       return $li;
@@ -16,7 +16,6 @@ class MovieItem {
 
     const { title, poster_path, vote_average } = this.movie;
 
-    console.log(poster_path);
     $li.innerHTML = /*html*/ `
     
         <div class="item">
