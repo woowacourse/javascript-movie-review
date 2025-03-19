@@ -25,8 +25,6 @@ export class MainPage {
     this.#container.appendChild(this.#mainBannerElement());
     this.#container.appendChild(this.#titleElement());
     this.renderDynamicSection();
-
-    console.log(this.#container);
   }
 
   renderDynamicSection() {

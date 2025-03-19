@@ -1,4 +1,3 @@
-import Button from '../../component/button/Button';
 import MainBanner from '../../component/main-banner/MainBanner';
 import MovieGrid from '../../component/movie-grid/MovieGrid';
 import { Title } from '../../component/title/Title';
