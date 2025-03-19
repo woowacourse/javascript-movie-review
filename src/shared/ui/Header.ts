@@ -16,9 +16,17 @@ const Header = (movie: IMovie) => {
         }" alt="MovieList" />
       </div>
       <div class="top-rated-container">
-        <h1 class="logo">
-          <img src="./images/logo.png" alt="MovieList" />
-        </h1>
+        <div class="header-container">
+          <h1 class="logo">
+            <img src="./images/logo.png" alt="MovieList" />
+          </h1>
+          <div class="search-container">
+            <input type="text" placeholder="검색어를 입력하세요" />
+            <button class="search-button">
+              <img src="./images/search.png" alt="Search" />
+            </button>
+          </div>
+        </div>
         <div class="top-rated-movie">
           <div class="rate">
             <img src="./images/star_empty.png" class="star" />

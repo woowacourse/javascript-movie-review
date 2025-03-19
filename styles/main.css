@@ -140,3 +140,40 @@ footer.footer {
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
 }
+
+.header-container {
+  display: flex;
+  justify-content: center;
+}
+
+.search-container {
+  width: 40%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid white;
+  border-radius: 32px;
+  padding: 6px 16px;
+}
+
+.search-container input {
+  background: transparent;
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin-right: 8px;
+  border: none;
+  color: white;
+}
+
+.search-container input::placeholder {
+  color: white;
+}
+
+.search-container input:focus {
+  outline: none;
+}
+
+.search-button {
+  background: none;
+  border: none;
+}
