@@ -1,4 +1,4 @@
-@import "./colors.css";
+@import './colors.css';
 
 * {
   box-sizing: border-box;
@@ -15,8 +15,7 @@ body {
   background-color: var(--color-bluegray-80);
 }
 
-#wrap,
-section {
+#app {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -24,10 +23,6 @@ section {
 
 main {
   margin: 64px 0;
-}
-
-.star {
-  width: 24px;
 }
 
 button {
@@ -43,12 +38,16 @@ button.primary {
   border-radius: 4px;
 }
 
-#wrap {
+#app {
   min-width: 1440px;
   background-color: var(--color-bluegray-100);
 }
 
-#wrap h2 {
+section {
+  padding: 48px;
+}
+
+#app h2 {
   font-size: 1.4rem;
   font-weight: bold;
   margin-bottom: 32px;
@@ -99,13 +98,14 @@ h1.logo {
 
 .rate {
   display: flex;
+  gap: 8px;
   align-items: baseline;
   color: var(--color-yellow);
 }
 
 .rate > img {
   position: relative;
-  top: 2px;
+  top: 4px;
 }
 
 span.rate-value {
@@ -129,6 +129,6 @@ footer.footer {
   font-size: 1.1rem;
 }
 
-footer.footer p:not(:last-child) {
+/* footer.footer p:not(:last-child) {
   margin-bottom: 8px;
-}
+} */

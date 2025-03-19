@@ -3,6 +3,7 @@
 @import './modal.css';
 @import './reset.css';
 @import './tab.css';
+@import './text.css';
 @import './thumbnail.css';
 
 .border-none {
@@ -13,12 +14,36 @@
 .border-radius {
 }
 
+.w-full {
+  width: 100%;
+}
+
+.gap-4 {
+  gap: 4px;
+}
+
+.gap-8 {
+  gap: 8px;
+}
+
+.gap-10 {
+  gap: 10px;
+}
+
 .flex {
   display: flex;
 }
 
+.flex-col {
+  flex-direction: column;
+}
+
 .flex-row {
   flex-direction: row;
+}
+
+.justify-start {
+  justify-content: flex-start;
 }
 
 .justify-between {
@@ -27,6 +52,10 @@
 
 .items-center {
   align-items: center;
+}
+
+.items-baseline {
+  align-items: baseline;
 }
 
 .rounded-2xl {
@@ -44,6 +73,10 @@
 
 .h-36 {
   height: 36px;
+}
+
+.mb-32 {
+  margin-bottom: 32px;
 }
 
 .px6-py16 {

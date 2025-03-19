@@ -15,3 +15,7 @@
 .text-white {
   color: var(--color-white);
 }
+
+.text-yellow {
+  color: var(--color-yellow);
+}
