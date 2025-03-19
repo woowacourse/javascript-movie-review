@@ -11,7 +11,7 @@ class TitleSearchBar {
     const $div = document.createElement("div");
     $div.classList.add("title-search-bar");
 
-    const $searchBar = document.createElement("div");
+    const $searchBar = document.createElement("form");
     $searchBar.classList.add("search-bar");
 
     const $input = document.createElement("input");
@@ -35,15 +35,14 @@ class TitleSearchBar {
     $searchBar.appendChild($button);
     $button.appendChild($img);
 
-    $button.addEventListener("click", this.handleClick);
+    $searchBar.addEventListener("submit", this.handleClick);
 
     return $div;
   }
 
   handleClick = async (e) => {
-    console.log(this);
+    e.preventDefault();
     const $input = document.querySelector(".search-input");
-
     console.log("value", $input.value);
     await this.setSearchKeyword($input.value);
     this.setMode("search");
