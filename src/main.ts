@@ -1,6 +1,7 @@
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import MovieBoard from "./components/MovieBoard";
+import PopularMovieBoard from "./components/PopularMovieBoard";
+import SearchMovieBoard from "./components/SearchMovieBoard";
 import { isHTMLElement } from "./utils/typeGuards";
 
 export interface Movie {
@@ -15,12 +16,21 @@ class App {
     this.#initialSetup();
   }
 
+  #renderSearchResult(searchParams: string) {
+    const $section = document.querySelector("main");
+    if (isHTMLElement($section))
+      new SearchMovieBoard($section, { searchParams });
+  }
+
   async #initialSetup() {
     const $header = document.querySelector("header");
-    if (isHTMLElement($header)) new Header($header, { search: () => {} });
+    if (isHTMLElement($header))
+      new Header($header, {
+        search: (params: string) => this.#renderSearchResult(params),
+      });
 
     const $section = document.querySelector("main");
-    if (isHTMLElement($section)) new MovieBoard($section, { type: "POPULAR" });
+    if (isHTMLElement($section)) new PopularMovieBoard($section);
 
     this.#renderFooter();
   }

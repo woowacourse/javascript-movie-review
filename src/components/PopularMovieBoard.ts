@@ -5,60 +5,18 @@ import MovieList from "./MovieList";
 import TopRatedMovie, { TopRatedMovieSkeleton } from "./TopRatedMovie";
 
 export const BASE_URL = "https://api.themoviedb.org/3/movie";
+const MAX_PAGE = 500;
 
-type MovieBoardType = "POPULAR" | "SEARCH_RESULT";
-
-interface Props {
-  type: MovieBoardType;
-}
-
-type CurrentBoard = (
-  | {
-      type: "POPULAR";
-      maxPage: number;
-      topRatedMovie?: Movie;
-    }
-  | {
-      type: "SEARCH_RESULT";
-    }
-) & {
-  title: string;
-  fetchUrl: (page: number) => string;
-};
-
-class MovieBoard {
+class PopularMovieBoard {
   #parentElement;
   #page;
-  #currentBoard: CurrentBoard;
 
-  constructor(parentElement: HTMLElement, props: Props) {
+  constructor(parentElement: HTMLElement) {
     this.#parentElement = parentElement;
     this.#page = 1;
-    this.#currentBoard = this.#initCurrentBoard(props.type);
     this.#render();
     this.#initMoreMoviesButton();
     this.#fetchAndRenderMovies();
-  }
-
-  #initCurrentBoard(type: Props["type"]) {
-    if (type === "POPULAR") {
-      return {
-        type,
-        title: "지금 인기 있는 영화",
-        fetchUrl(page: number) {
-          return `${BASE_URL}/popular?language=en-US&page=${page}`;
-        },
-        maxPage: 500,
-      };
-    } else {
-      return {
-        type,
-        title: "검색 결과",
-        fetchUrl(page: number) {
-          return `${BASE_URL}/popular?language=en-US&page=${page}`;
-        },
-      };
-    }
   }
 
   #initMoreMoviesButton() {
@@ -72,10 +30,10 @@ class MovieBoard {
   #render() {
     this.#parentElement.innerHTML = /*html*/ `
       <section class="top-rated-container">
-        ${this.#currentBoard.type === "POPULAR" && TopRatedMovieSkeleton()}
+        ${TopRatedMovieSkeleton()}
       </section>
       <section class="movie-list-container">
-          <h2>${this.#currentBoard.title}</h2>
+          <h2>지금 인기 있는 영화</h2>
           <ul class='thumbnail-list'></ul>
           <div class="more-button-container"></div>
       </section>
@@ -106,13 +64,13 @@ class MovieBoard {
       },
     };
 
-    const raw = await fetch(this.#currentBoard.fetchUrl(this.#page), options);
+    const raw = await fetch(
+      `${BASE_URL}/popular?language=en-US&page=${this.#page}`,
+      options
+    );
     const data = await raw.json();
     const movies: Movie[] = data.results;
 
-    if (this.#currentBoard.type === "POPULAR") {
-      this.#currentBoard.topRatedMovie = movies[0];
-    }
     return movies;
   }
 
@@ -121,10 +79,7 @@ class MovieBoard {
     const newMovies = await this.#fetchMovies();
     this.#renderMovies(newMovies);
 
-    if (
-      this.#currentBoard.type === "POPULAR" &&
-      this.#page >= this.#currentBoard.maxPage
-    ) {
+    if (this.#page >= MAX_PAGE) {
       this.#removeMoreMoviesButton();
       return;
     }
@@ -135,4 +90,4 @@ class MovieBoard {
   }
 }
 
-export default MovieBoard;
+export default PopularMovieBoard;

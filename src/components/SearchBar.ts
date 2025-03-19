@@ -1,5 +1,5 @@
 interface Props {
-  search: () => void;
+  search: (params: string) => void;
 }
 
 class SearchBar {
@@ -25,8 +25,18 @@ class SearchBar {
   }
 
   #addEventListeners() {
-    const moreButton = document.querySelector("form.search-bar");
-    moreButton?.addEventListener("click", () => this.#props.search());
+    const searchForm = document.querySelector("form.search-bar");
+
+    searchForm?.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const inputElement = searchForm.querySelector("input");
+      const params = inputElement?.value.trim();
+
+      if (!params) return; // 빈 문자열 입력 시 무시
+
+      this.#props.search(params);
+    });
   }
 }
 

@@ -2,7 +2,7 @@ import { isHTMLElement } from "../utils/typeGuards";
 import SearchBar from "./SearchBar";
 
 interface Props {
-  search: () => void;
+  search: (params: string) => void;
 }
 class Header {
   #parentElement;
@@ -28,7 +28,7 @@ class Header {
     const $searchBar = document.querySelector(".search-bar-container");
     if (isHTMLElement($searchBar))
       new SearchBar($searchBar, {
-        search: () => this.#props.search(),
+        search: (params) => this.#props.search(params),
       });
   }
 }
