@@ -5,6 +5,7 @@ import createElement from './utils/createElement';
 import BUTTON from '../constants/constant';
 
 const TopRatedContainer = ({popularMovie}) => {
+
   const $topRatedContainer = createElement({
     tag: 'div',
     classNames: ['top-rated-container'],
@@ -19,7 +20,7 @@ const TopRatedContainer = ({popularMovie}) => {
   $topRatedContainer.append($topRatedMovie);
   $topRatedMovie.append(MoviePreviewInfo({
     bigFont: true,
-    popularMovie
+    movie: popularMovie
   }));
   $topRatedMovie.append(Button({ text: BUTTON.DETAIL }));
 

@@ -2,9 +2,9 @@ import MoviePreviewInfo from './MoviePreviewInfo';
 import createElement from './utils/createElement';
 import imageUrl from '../utils/imageUrl';
 
-const MovieItem = ({ popularMovie }) => {
-  const title = popularMovie?.title;
-  const posterPath = popularMovie?.poster_path;
+const MovieItem = ({ movie }) => {
+  const title = movie?.title;
+  const posterPath = movie?.poster_path;
 
   const $li = createElement({
     tag: 'li',
@@ -25,7 +25,7 @@ const MovieItem = ({ popularMovie }) => {
   $li.appendChild($div);
   $div.appendChild($img);
   $div.appendChild(MoviePreviewInfo({
-    popularMovie,
+    movie,
     bigFont: false,
   }));
 

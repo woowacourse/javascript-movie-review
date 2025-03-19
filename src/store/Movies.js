@@ -1,6 +1,6 @@
 import fetchPopularMovies from "../fetch/fetchPopularMovies";
 
-export default class Movies {
+class Movies {
     #movies
 
      constructor() {
@@ -10,7 +10,15 @@ export default class Movies {
     updateMovies(movies) {
         this.#movies = movies;
     }
+
     getMovies() {
         return this.#movies;
     }
+
+    addMovies(movies) {
+        this.#movies = [...this.#movies, ...movies];
+    }
 }
+
+const movies = new Movies();
+export default movies;

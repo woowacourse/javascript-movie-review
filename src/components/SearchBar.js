@@ -2,6 +2,7 @@ import fetchSearchMovies from "../fetch/fetchSearchMovies";
 import MovieContainer from "./MovieContainer";
 import Main from "./Main";
 import createElement from "./utils/createElement";
+import movies from "../store/movies";
 
 const SearchBar = () => {
     const $form = createElement({
@@ -32,14 +33,27 @@ const SearchBar = () => {
     $form.addEventListener('submit', async (event) => {
         event.preventDefault();
         const query = document.querySelector('.search-bar').value;
-        const searchedMovies = await fetchSearchMovies(query);
+
+        const params = new URLSearchParams(window.location.search);
+
+        if (params.has("query")) {
+        params.set("query", query);
+        } else {
+        params.append("query", query);
+        }
+
+        // URL 업데이트 (페이지 새로고침 없이)
+        window.history.replaceState({}, "", `${window.location.pathname}?${params.toString()}`);
+
+        const searchedMovies = await fetchSearchMovies(query, 1);
+        movies.updateMovies(searchedMovies);
 
         document.querySelector('header').remove();
         document.querySelector('.container').remove();
         document.querySelector('footer').remove();
  
         Main({
-            popularMovies: searchedMovies,
+            movies: movies.getMovies(),
             isReRender: true
         });
         

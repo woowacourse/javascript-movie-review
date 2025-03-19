@@ -3,7 +3,7 @@ import MovieContainer from "./MovieContainer";
 import Footer from "./Footer";
 import createElement from "./utils/createElement";
 
-const Main = ({ popularMovies, isReRender }) => {
+const Main = ({ movies, isReRender }) => {
   const $body = document.querySelector("body");
 
   if ($body) {
@@ -22,13 +22,13 @@ const Main = ({ popularMovies, isReRender }) => {
 
     $container.appendChild(
       Header({
-        popularMovie: popularMovies[0],
+        popularMovie: movies[0],
       })
     );
 
     $container.appendChild(
       MovieContainer({
-        popularMovies: popularMovies,
+        movies,
       })
     );
 

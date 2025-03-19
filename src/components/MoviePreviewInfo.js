@@ -1,8 +1,8 @@
 import createElement from './utils/createElement';
 
-const MoviePreviewInfo = ({ popularMovie, bigFont = true }) => {
-  const title = popularMovie?.title;
-  const voteAverage = popularMovie?.vote_average;
+const MoviePreviewInfo = ({ movie, bigFont = true }) => {
+  const title = movie?.title;
+  const voteAverage = movie?.vote_average;
 
   const $fragment = document.createDocumentFragment();
 

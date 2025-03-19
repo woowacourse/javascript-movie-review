@@ -3,7 +3,7 @@ import createElement from './utils/createElement';
 import Button from './Button';
 import BUTTON from '../constants/constant';
 
-const MovieContainer = ({ popularMovies }) => {
+const MovieContainer = ({ movies }) => {
   const $container = createElement({
     tag: 'div',
     classNames: ['container'],
@@ -26,7 +26,7 @@ const MovieContainer = ({ popularMovies }) => {
   $container.appendChild($main);
   $main.appendChild($section);
   $section.appendChild($h2);
-  $section.appendChild(MovieList({ popularMovies }));
+  $section.appendChild(MovieList({ movies }));
   $main.appendChild(Button({ text: BUTTON.MORE }));
 
   return $container;
