@@ -25,9 +25,42 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   });
 
-  // Input 컴포넌트 사용하는 코드
-  // const header = document.querySelector(".header");
-  // header?.appendChild(input);
   const section = document.querySelector("section");
   section?.appendChild(button);
+
+  // TMDB API 호출을 위한 설정
+  const apiUrl =
+    "https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1";
+  const bearerToken = import.meta.env.VITE_TMDB_BEARER_TOKEN;
+
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${bearerToken}`,
+    },
+  };
+
+  // API 호출 및 영화 데이터 렌더링
+  fetch(apiUrl, options)
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then((data) => {
+      console.log("Fetched movie data:", data);
+      const thumbnailList = document.querySelector(".thumbnail-list");
+      if (!thumbnailList) return;
+
+      thumbnailList.innerHTML = "";
+
+      data.results.forEach((movie: any) => {
+        console.log(movie);
+      });
+    })
+    .catch((error) => {
+      console.error("Error fetching movies:", error);
+    });
 });
