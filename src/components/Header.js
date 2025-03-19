@@ -1,14 +1,16 @@
+import LogoSearchBar from "./LogoSearchBar";
+
 function Header({ title, poster_path, vote_average }) {
   const $header = document.createElement("header");
+  const $logoSearchBar = LogoSearchBar();
+
   $header.innerHTML = `
   <div class="background-container">
     <div class="overlay" aria-hidden="true">  
     </div>
     <img src="https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${poster_path}" class="banner"/>
     <div class="top-rated-container">
-        <h1 class="logo">
-            <img src="./logo.png" alt="MovieList" />
-        </h1>
+        ${$logoSearchBar}
     <div class="top-rated-movie">
       <div class="rate">
         <img src="./star_empty.png" class="star" />
