@@ -1,9 +1,8 @@
 import "./TitleSearchBar.css";
 
 class TitleSearchBar {
-  constructor(setSearchKeyword, setMode) {
-    this.setSearchKeyword = setSearchKeyword;
-    this.setMode = setMode;
+  constructor(onSubmit) {
+    this.onSubmit = onSubmit;
   }
 
   render() {
@@ -35,17 +34,16 @@ class TitleSearchBar {
     $searchBar.appendChild($button);
     $button.appendChild($img);
 
-    $searchBar.addEventListener("submit", this.handleClick);
+    $searchBar.addEventListener("submit", this.onSubmit);
 
     return $div;
   }
 
-  handleClick = async (e) => {
-    e.preventDefault();
-    const $input = document.querySelector(".search-input");
-    console.log("value", $input.value);
-    await this.setSearchKeyword($input.value);
-    this.setMode("search");
-  };
+  // handleClick = async (e) => {
+  //   e.preventDefault();
+  //   const $input = document.querySelector(".search-input");
+  //   await this.setSearchKeyword($input.value);
+  //   this.setMode("search");
+  // };
 }
 export default TitleSearchBar;

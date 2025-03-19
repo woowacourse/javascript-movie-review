@@ -99,6 +99,18 @@ class App {
     this.render();
   };
 
+  onSubmit = async (e) => {
+    e.preventDefault();
+
+    const $input = document.querySelector(".search-input");
+
+    this.#searchPage = 1;
+    this.setShow(true);
+
+    await this.setSearchKeyword($input.value);
+    this.setMode("search");
+  };
+
   render() {
     const body = document.querySelector("body");
     body.innerHTML = "";
@@ -106,10 +118,7 @@ class App {
     const $wrap = document.createElement("div");
     $wrap.id = "wrap";
 
-    const $header = new TitleSearchBar(
-      this.setSearchKeyword,
-      this.setMode
-    ).render();
+    const $header = new TitleSearchBar(this.onSubmit).render();
 
     const $container = document.createElement("div");
     $container.classList.add("container");
