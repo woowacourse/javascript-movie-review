@@ -2,34 +2,44 @@ import MovieList from "./MovieList.js";
 import Button from "./Button.js";
 import { fetchPopularMovies } from "../../api/fetch.js";
 
-async function MovieLayout({title, eventName}) {
-    function template(movieData) {
+class MovieLayout {
+    #state
+
+    constructor(movieData) {
+        this.#state = {
+            title: "지금 인기 있는 영화",
+            eventName: "readMoreMovieList",
+            isPossibleMore:true,
+            movieData,
+        }
+        this.render();
+    }
+
+    setState(newState) {
+        this.#state = {...this.#state, ...newState};
+        this.render();
+    }
+
+    template() {
         return `
-            <h2 id="movieListTitle" class="text-xl">${title}</h2>
+            <h2 id="movieListTitle" class="text-xl">${this.#state.title}</h2>
             <div id="movieListContainer">
-                ${MovieList(movieData).template().outerHTML}
+                ${MovieList(this.#state.movieData).template().outerHTML}
             </div>
-            ${Button({content: '더보기', eventName, type: 't', width:'100%'})}
+            ${this.#state.isPossibleMore? Button({content: '더보기', eventName: this.#state.eventName, type: 't', width:'100%'}) : ""}
         `}
-    function newMovieListRender(dataList) {
+    
+    render(){
+        document.getElementById('MovieSection').innerHTML = this.template();
+    }
+
+    newMovieListRender(dataList) {
         const ul = MovieList(dataList).template();
         document.getElementById('movieListContainer').appendChild(ul);
     }
-    
-    async function initialRender(){
-        const initialData = await fetchPopularMovies(1);
-        document.getElementById('MovieSection').innerHTML = template(initialData);
-    }
 
-    function render(movieData){
-        document.getElementById('MovieSection').innerHTML = template(movieData);
-    }
-
-    return {
-        initialRender,
-        render, 
-        newMovieListRender
-    }
 }
+
+   
 
 export default MovieLayout;

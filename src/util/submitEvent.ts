@@ -3,7 +3,7 @@ import MovieLayout from "../component/common/MovieLayout.js";
 
 const getHTML = (id: string): HTMLElement | null => document.getElementById(id);
 
-async function submitEvent() {
+async function submitEvent(movieLayout: MovieLayout) {
   document.addEventListener("submit", onSubmit.bind(this));
 
   async function getSearchData(event: Event, form: HTMLFormElement): Promise<void> {
@@ -12,7 +12,7 @@ async function submitEvent() {
     const searchKeyword = String(formData.get("searchInput"));
 
     const searchData = await fetchSearchMovies(searchKeyword, 1);
-    (await MovieLayout({ title: `"${searchKeyword}" 검색 결과`, eventName: "readMoreSearchList" })).render(searchData);
+    movieLayout.setState({title: `"${searchKeyword}" 검색 결과`, eventName: 'readMoreSearchList', movieData: searchData});
   }
 
 

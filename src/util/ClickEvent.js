@@ -1,9 +1,8 @@
-import MovieLayout from "../component/common/MovieLayout.js";
 import { fetchPopularMovies } from "../api/fetch.js";
 import { fetchSearchMovies } from "../api/fetch.js";
 
 
-async function clickEvent() {
+async function clickEvent(movieLayout) {
     document.addEventListener("click", onClick);
 
     function reload() {
@@ -19,7 +18,6 @@ async function clickEvent() {
       }
       return async function () {
         const movieData = await loadMovieData();
-        const movieLayout = await MovieLayout({ title: 'q2' });
         movieLayout.newMovieListRender(movieData);
       };
     })();
@@ -36,7 +34,6 @@ async function clickEvent() {
       }
       return async function () {
         const movieData = await loadMovieData();
-        const movieLayout = await MovieLayout({ title: 'q2' });
         movieLayout.newMovieListRender(movieData);
       };
     })();
