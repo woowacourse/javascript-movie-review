@@ -54,9 +54,10 @@ const wrapper = document.createElement("div");
 wrapper.setAttribute("id", "wrap");
 const loadMoreButton = Button({ text: "더보기", className: ["load-more"] });
 
-const loadMovies = async (currentPage: number): Promise<void> => {
-  const movies: MovieResponse = await fetchPopularMovieList(currentPage);
-
+export const loadMovies = async (
+  movies: MovieResponse
+  // currentPage: number
+): Promise<void> => {
   movies.results.forEach((movie: Movie) => {
     const movieElement = MovieItem({
       src: `https://image.tmdb.org/t/p/w440_and_h660_face/${movie.poster_path}`,
@@ -71,9 +72,12 @@ const loadMovies = async (currentPage: number): Promise<void> => {
     loadMoreButton.classList.add("hidden");
 };
 
-loadMoreButton.addEventListener("click", () => {
+// const movies: MovieResponse = await fetchPopularMovieList(currentPage);
+
+loadMoreButton.addEventListener("click", async () => {
   currentPage++;
-  loadMovies(currentPage);
+  const movies: MovieResponse = await fetchPopularMovieList(currentPage);
+  loadMovies(movies);
 });
 
 addEventListener("load", async () => {
@@ -83,7 +87,8 @@ addEventListener("load", async () => {
   if (!header) return;
   const footer = Footer();
 
-  loadMovies(currentPage);
+  const movies: MovieResponse = await fetchPopularMovieList(currentPage);
+  loadMovies(movies);
 
   if (app) {
     app.appendChild(wrapper);

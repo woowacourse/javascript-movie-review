@@ -14,14 +14,12 @@ const Header = ({ title }: HeaderProps) => {
       <div class="background-container">
         <div class="overlay" aria-hidden="true"></div>
         
-        <div class="top-header">
-          <div class="logo-search-container">
-            <h1 class="logo">
-              <img src="./images/logo.png" alt="MovieList" />
-            </h1>
-          </div>
+        <div class="logo-search-container">
+          <h1 class="logo">
+            <img src="./images/logo.png" alt="MovieList" />
+          </h1>
         </div>
-
+        
         <div class="top-rated-container">
           <div class="top-rated-movie">
             <div class="title">${title}</div>
