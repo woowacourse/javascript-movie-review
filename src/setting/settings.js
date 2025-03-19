@@ -13,6 +13,7 @@ export const defaultOptions = {
 };
 export const defaultQueryObject = {
   language: "ko-KR",
+  include_adult: false,
 };
 
 export const TOTAL_PAGE = 500;
