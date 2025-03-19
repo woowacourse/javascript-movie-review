@@ -5,6 +5,7 @@
 @import './tab.css';
 @import './text.css';
 @import './thumbnail.css';
+@import './animation.css';
 
 .border-none {
   background: none;
