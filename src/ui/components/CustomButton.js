@@ -1,6 +1,12 @@
-//html에서 어쩌구 받아온 변수
+export default class CustomButton {
+  constructor(fieldName) {
+    this.fieldName = fieldName;
+  }
 
-
-//클래스 만들고
-
-//함수어쩌구 만들고 (ㅇ인수: )
+  render() {
+    const button = document.createElement("button");
+    button.textContent = this.fieldName.content;
+    button.className = this.fieldName.className;
+    return button;
+  }
+}

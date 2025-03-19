@@ -1,5 +1,7 @@
 import Movie from "../../domain/models/Movie.ts";
 import MovieCard from "./Movie.js";
+import CustomButton from './CustomButton.js';
+import { ADD_MOVIE_BUTTON } from "../../shared/CustomButton.ts";
 
 export default class MovieList {
   constructor(containerSelector, moviesData, currentPage, totalPage) {
@@ -7,18 +9,26 @@ export default class MovieList {
     this.moviesData = moviesData;
   }
 
-  init() {}
+  init() {
+    this.loadInitMovie();
+    this.addLoadMoreButton();
+  }
 
   loadInitMovie() {
     this.moviesData.forEach((movieData) => {
       const movie = new Movie(movieData);
       const movieCard = new MovieCard(movie);
-      console.log(movieCard);
       this.container.appendChild(movieCard.render());
     });
   }
 
-  addLoadMoreButton() {}
+  addLoadMoreButton() {
+    const loadMoreButton = new CustomButton(ADD_MOVIE_BUTTON);
+    console.log(loadMoreButton)
+    const section = document.querySelector('section');
+    section.appendChild(loadMoreButton.render());
+  }
 
-  async loadMoreMovies() {}
+  async loadMoreMovies() {
+  }
 }
