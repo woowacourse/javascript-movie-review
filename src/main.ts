@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   const navigationBar = NavigationBar({ input });
-  const header = Header({ navigationBar });
 
+  const header = Header({ navigationBar, movie: null });
   const wrap = document.querySelector("#wrap");
   wrap?.prepend(header);
 
@@ -34,8 +34,17 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   try {
     await fetchMovies();
+
+    if (moviesState.list.length > 0) {
+      const updatedHeader = Header({
+        navigationBar,
+        movie: moviesState.list[0],
+      });
+
+      header.replaceWith(updatedHeader);
+    }
+
     renderMovies();
-    // console.log("moviesState:", moviesState); // 제대로 데이터 들어옴
   } catch (error: any) {
     console.error("Error in main.ts:", error);
   }
