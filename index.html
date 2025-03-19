@@ -3,10 +3,48 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="./index.css" />
+    <script type="module" src="./src/main.ts"></script>
     <title>영화 리뷰</title>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <div id="wrap">
+      <div class="container">
+        <main class="main">
+          <section class="movies">
+            <h2 id="description">지금 인기 있는 영화</h2>
+            <ul class="thumbnail-list" id="thumbnail-list"></ul>
+            <ul class="thumbnail-list skeleton-list" id="thumbnail-list">
+              <li><div class="skeleton-thumbnail thumbnail"></div></li>
+              <li><div class="skeleton-thumbnail thumbnail"></div></li>
+              <li><div class="skeleton-thumbnail thumbnail"></div></li>
+              <li><div class="skeleton-thumbnail thumbnail"></div></li>
+              <li><div class="skeleton-thumbnail thumbnail"></div></li>
+              <li><div class="skeleton-thumbnail thumbnail"></div></li>
+              <li><div class="skeleton-thumbnail thumbnail"></div></li>
+              <li><div class="skeleton-thumbnail thumbnail"></div></li>
+              <li><div class="skeleton-thumbnail thumbnail"></div></li>
+              <li><div class="skeleton-thumbnail thumbnail"></div></li>
+            </ul>
+          </section>
+          <div class="fallback-div hide" id="fallback-div">
+            <img src="./images/fallback_no_movies.png" alt="머리 아픈 행성이" />
+            <h1 class="title">검색 결과가 없습니다.</h1>
+          </div>
+        </main>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; 우아한테크코스 All Rights Reserved.</p>
+        <p><img src="./images/woowacourse_logo.png" width="180" /></p>
+      </footer>
+    </div>
   </body>
 </html>
+
+<!--
+  포스터 원본: https://image.tmdb.org/t/p/original//pmemGuhr450DK8GiTT44mgwWCP7.jpg
+  포스터 썸네일: https://media.themoviedb.org/t/p/w440_and_h660_face/pmemGuhr450DK8GiTT44mgwWCP7.jpg
+  배너 원본: https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/stKGOm8UyhuLPR9sZLjs5AkmncA.jpg
+-->
