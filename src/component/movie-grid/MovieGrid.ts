@@ -8,21 +8,18 @@ interface MovieGridProps {
 class MovieGrid {
   #container;
   #movieItems;
-  #gridTitle;
 
-  constructor({ movieItems = [], gridTitle }: MovieGridProps) {
+  constructor({ movieItems = [] }: MovieGridProps) {
     this.#container = document.createElement('main');
     this.#movieItems = movieItems;
-    this.#gridTitle = gridTitle;
     this.render();
   }
 
   render() {
-    this.#container.innerHTML = `<section>
-    <h2>${this.#gridTitle}</h2>
-            <ul class="thumbnail-list">
+    this.#container.innerHTML = `
+    <ul class="thumbnail-list">
     ${this.#movieItemElements()}
-    </section>`;
+    </ul>`;
   }
 
   #movieItemElements() {

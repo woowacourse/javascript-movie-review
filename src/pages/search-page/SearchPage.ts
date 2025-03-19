@@ -4,7 +4,7 @@ import MovieGrid from '../../component/movie-grid/MovieGrid';
 import { Title } from '../../component/title/Title';
 import { extractedMovieData } from '../../domain/APIManager';
 
-export class MainPage {
+class SearchPage {
   #container;
   #movieListData = [];
   #currentPage = 1;
@@ -35,7 +35,7 @@ export class MainPage {
       loadMoreButton.remove();
     }
     this.#container.appendChild(this.#movieGridElement());
-    this.#container.appendChild(this.#loadMoreButtonElement());
+    // this.#container.appendChild(this.#loadMoreButtonElement());
   }
 
   #titleElement() {
@@ -50,9 +50,9 @@ export class MainPage {
     return new MovieGrid({ movieItems: this.#movieListData, gridTitle: '지금 인기 있는 영화' }).element;
   }
 
-  #loadMoreButtonElement() {
-    return new Button({ cssType: 'medium', innerText: '더보기', onClick: this.#loadMoreData }).element;
-  }
+  //   #loadMoreButtonElement() {
+  //     return new Button({ cssType: 'medium', innerText: '더보기', onClick: this.#loadMoreData }).element;
+  //   }
 
   #loadMoreData = async () => {
     this.#currentPage += 1;
@@ -64,3 +64,5 @@ export class MainPage {
     return this.#container;
   }
 }
+
+export default SearchPage;

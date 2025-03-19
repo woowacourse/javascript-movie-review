@@ -9,6 +9,8 @@
 @import './component/main-banner/main-banner.css';
 @import './pages/main-page/main-page.css';
 @import './pages/layout/layout.css';
+@import './component/title/title.css';
+
 body {
   background-color: var(--color-bluegray-100);
 }

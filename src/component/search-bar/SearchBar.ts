@@ -1,10 +1,15 @@
 class SearchBar {
   #container: HTMLElement;
+  #searchInput = '';
 
   constructor() {
     this.#container = document.createElement('div');
     this.#container.classList.add('searchbar');
     this.render();
+
+    // this.#container.querySelector('input')?.addEventListener('onchange', () => {
+    //   this.#searchInput
+    // });
   }
 
   render() {
