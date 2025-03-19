@@ -91,6 +91,7 @@ header .search-bar {
   width: 525px;
   height: 36px;
   border-radius: 32px;
+  display: flex;
   justify-content: space-between;
   padding-top: 6px;
   padding-right: 16px;
@@ -99,6 +100,7 @@ header .search-bar {
 }
 
 .search-input {
+  width: 100%;
   background-color: transparent;
   box-shadow: none;
   border: none;
@@ -124,6 +126,14 @@ header .search-bar {
 
 .search-input:focus::placeholder {
   opacity: 0;
+}
+
+.search-button {
+  background-color: transparent;
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .background-container {
