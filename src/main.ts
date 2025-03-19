@@ -5,6 +5,7 @@ import { isElement } from "./utils";
 import { DEFAULT_BACK_DROP_URL, MAX_MOVIE_PAGE } from "./constants/costants";
 import { MovieResult } from "../types/movieApiType";
 import TopRatedMovie from "./components/TopRatedMovie";
+import MovieListSkeleton from "./components/MovieListSkeleton";
 
 addEventListener("load", async () => {
   let page = 1;
@@ -14,16 +15,26 @@ addEventListener("load", async () => {
 
   const $mainSection = document.querySelector("main section");
   const $container = document.querySelector(".container");
+  const $ul = document.querySelector(".thumbnail-list");
+  const $notFound = document.querySelector(".not-found");
+
   $container?.appendChild(
     Button({ className: "show-more", textContent: "더 보기" })
   );
 
   const renderMoviesList = async () => {
+    const $skeleton = MovieListSkeleton();
+
+    if ($skeleton) $mainSection?.appendChild($skeleton);
+
     if (searchKeyword === "") {
+      // loading = true
       const moviesResponse = await getMovies({ page });
+      // loading = false
       movies = moviesResponse.results;
       totalPages = moviesResponse.total_pages;
 
+      // 인기영화 정보 보여주기
       const $topRatedContainer = document.querySelector(".top-rated-container");
       $topRatedContainer?.append(
         TopRatedMovie({
@@ -38,17 +49,16 @@ addEventListener("load", async () => {
       );
       const backgroundImage = movies[0].backdrop_path
         ? `${DEFAULT_BACK_DROP_URL}${movies[0].backdrop_path}`
-        : "./images/default_thumbnail.png";
+        : "./images/default_thumbnail.jpeg";
       ($backgroundContainer as HTMLElement)!.style.backgroundImage = `url(${backgroundImage})`;
     } else {
+      // loading = true
       const moviesResponse = await getMovieByName({
         name: searchKeyword,
         page,
       });
+      // loading = false
       movies = moviesResponse.results;
-
-      const $ul = document.querySelector(".thumbnail-list");
-      const $notFound = document.querySelector(".not-found");
 
       if (movies.length === 0) {
         $ul?.classList.add("close");
@@ -68,6 +78,8 @@ addEventListener("load", async () => {
       $showMore?.classList.remove("open");
     }
 
+    // loading 전달
+    if ($ul) $ul.innerHTML = "";
     const $movies = MovieList(movies);
     if ($movies) $mainSection?.appendChild($movies);
   };

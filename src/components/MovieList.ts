@@ -8,7 +8,9 @@ export default function MovieList(moviesResult: MovieResult[]) {
 
     const backgroundImage = movieResult.backdrop_path
       ? `${DEFAULT_BACK_DROP_URL}${movieResult.backdrop_path}`
-      : "./images/default_thumbnail.png";
+      : "./images/default_thumbnail.jpeg";
+
+    // 서버로부터 데이터를 받아오는 동안
 
     $li.innerHTML = /*html*/ `
         <div class="item">
@@ -18,7 +20,7 @@ export default function MovieList(moviesResult: MovieResult[]) {
             alt="${movieResult.title}"
           />
           <div class="item-desc">
-            <p class="rate">
+            <p class="rate loading">
               <img src="./images/star_empty.png" class="star" /><span
                 >${movieResult.vote_average}</span
               >
