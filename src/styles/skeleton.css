@@ -6,6 +6,7 @@
 }
 
 .skeleton-list .thumbnail {
+  cursor: auto;
   background: linear-gradient(
     140deg,
     var(--color-bluegray-90) 40%,
