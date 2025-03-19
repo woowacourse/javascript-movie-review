@@ -38,6 +38,7 @@ export async function getMovieByName({
   const response = fetch(url, options)
     .then((res) => res.json())
     .then((json) => {
+      console.log(json);
       return json;
     })
     .catch((err) => console.error(err));

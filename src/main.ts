@@ -7,7 +7,9 @@ import { MovieResult } from "../types/movieApiType";
 
 addEventListener("load", async () => {
   let page = 1;
-  let movies: MovieResult[] = (await getMovies({ page: page })).results;
+  let totalPages: number = 1;
+  let movies: MovieResult[] = (await getMovies({ page })).results;
+  let searchKeyword = "";
 
   const $mainSection = document.querySelector("main section");
   const $container = document.querySelector(".container");
@@ -15,7 +17,20 @@ addEventListener("load", async () => {
     Button({ className: "show-more", textContent: "더 보기" })
   );
 
-  const renderMoviesList = () => {
+  const renderMoviesList = async () => {
+    if (searchKeyword === "") {
+      const moviesResponse = await getMovies({ page });
+      movies = moviesResponse.results;
+      totalPages = moviesResponse.total_pages;
+    } else {
+      const moviesResponse = await getMovieByName({
+        name: searchKeyword,
+        page,
+      });
+      movies = moviesResponse.results;
+      totalPages = moviesResponse.total_pages;
+    }
+
     const $movies = MovieList(movies);
     if ($movies) $mainSection?.appendChild($movies);
   };
@@ -28,7 +43,7 @@ addEventListener("load", async () => {
     if (isElement(target) && target.closest(".show-more")) {
       page = page + 1;
       renderMoviesList();
-      if (page === MAX_MOVIE_PAGE) {
+      if (page === Math.min(MAX_MOVIE_PAGE, totalPages)) {
         document.querySelector(".show-more")?.remove();
         return;
       }
@@ -45,9 +60,11 @@ addEventListener("load", async () => {
       )?.value;
 
       if (value) {
+        searchKeyword = value;
         page = 1;
-        const response = await getMovieByName({ name: value, page });
-        if ($mainSection) $mainSection.innerHTML = "";
+        const response = await getMovieByName({ name: searchKeyword, page });
+        const $ul = document.querySelector(".thumbnail-list");
+        if ($ul) $ul.innerHTML = "";
         movies = response.results;
         renderMoviesList();
       }
