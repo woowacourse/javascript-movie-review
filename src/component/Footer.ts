@@ -1,10 +1,28 @@
+import createDOMElement from '../util/createDomElement';
+
 function Footer() {
-  return /*html */ `
-    <footer class="footer">
-      <p>&copy; 우아한테크코스 All Rights Reserved.</p>
-      <p><img src="./images/woowacourse_logo.png" width="180" /></p>
-    </footer>
-  `;
+  return createDOMElement({
+    tag: 'footer',
+    className: 'footer',
+    children: [
+      createDOMElement({
+        tag: 'p',
+        innerText: '© 우아한테크코스 All Rights Reserved.'
+      }),
+      createDOMElement({
+        tag: 'p',
+        children: [
+          createDOMElement({
+            tag: 'img',
+            attributes: {
+              src: './images/woowacourse_logo.png',
+              width: '180'
+            }
+          })
+        ]
+      })
+    ]
+  });
 }
 
 export default Footer;

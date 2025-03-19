@@ -4,6 +4,7 @@ interface DOMElementProps {
   tag: string;
   children?: HTMLElement[];
   event?: Event;
+  attributes?: Record<string, string>;
   [key: string]: any;
 }
 
@@ -18,6 +19,10 @@ const createDOMElement = ({
 
   Object.entries(event).forEach(([eventName, eventHandler]) => {
     element.addEventListener(eventName, eventHandler);
+  });
+
+  Object.entries(attributes).forEach(([attrName, attributes]) => {
+    element.setAttribute(attrName, attributes);
   });
 
   Object.entries(props).forEach(([propName, propValue]) => {
