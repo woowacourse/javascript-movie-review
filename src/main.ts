@@ -1,17 +1,20 @@
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import MovieList from "./components/MovieList";
+import getPopularMovies from "./api/getPopularMovies";
+import Footer from "./component/Footer";
+import Header from "./component/Header";
+import MovieList from "./component/MovieList";
 import { $ } from "./util/selector";
 
-addEventListener("load", () => {
+addEventListener("load", async () => {
   renderHeader();
   renderMovieList();
   renderFooter();
 });
 
-const renderHeader = () => {
+const renderHeader = async () => {
+  const { results: movies } = await getPopularMovies({ page: 1 });
+
   const wrap = $("#wrap");
-  const header = Header();
+  const header = Header({ movie: movies[0] });
   wrap?.insertAdjacentHTML("afterbegin", header);
 };
 
