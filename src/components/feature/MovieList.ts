@@ -3,6 +3,7 @@ import {
   MovieList as MovieListType,
 } from '../../types/Movie.types';
 import { createElement } from '../../utils/createElement';
+import { Button } from '../common/Button';
 import { Text } from '../common/Text';
 import { MovieItem } from './MovieItem';
 
@@ -12,16 +13,21 @@ export const MovieList = ({
   total_pages,
   total_results,
 }: MovieListType) => {
-  const sectionElement = <HTMLDivElement>createElement('section');
+  const mainElement = <HTMLDivElement>createElement('main');
+  const sectionElement = <HTMLDivElement>createElement('section', {
+    classList: 'container',
+  });
 
   const text = Text({
+    classList: ['text-2xl', 'font-bold', 'mb-32'],
     props: {
       textContent: '지금 인기 있는 영화',
     },
   });
 
-  const movieUl = <HTMLUListElement>createElement('ul');
-  movieUl.classList.add('thumbnail-list');
+  const movieUl = <HTMLUListElement>createElement('ul', {
+    classList: 'thumbnail-list',
+  });
 
   movieUl.append(
     ...results.map((movie: MovieItemType) => {
@@ -29,10 +35,20 @@ export const MovieList = ({
     }),
   );
 
-  sectionElement.append(text, movieUl);
+  const moreBtn = Button({
+    type: 'button',
+    onClick: () => {},
+    classList: ['w-full', 'primary'],
+    props: {
+      textContent: '더보기',
+    },
+  });
+
+  mainElement.append(sectionElement);
+  sectionElement.append(text, movieUl, moreBtn);
 
   const app = document.querySelector('#app');
-  app?.appendChild(sectionElement);
+  app?.appendChild(mainElement);
 
-  return sectionElement;
+  return mainElement;
 };
