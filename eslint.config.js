@@ -7,10 +7,12 @@ export default [
     languageOptions: {
       ecmaVersion: "latest",
     },
+    parser: "@typescript-eslint/parser",
     plugins: {
       prettier: eslintPluginPrettier,
     },
     rules: {
+      "@typescript-eslint/explicit-function-return-type": "off",
       "max-depth": ["error", 1],
       "max-params": ["error", 3],
       ...eslintConfigPrettier.rules,

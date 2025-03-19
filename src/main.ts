@@ -1,5 +1,5 @@
 const getPopularMovieList = async () => {
-  const TOKEN = import.meta.env.VITE_API_URL;
+  const TOKEN = import.meta.env.VITE_TMDB_TOKEN;
   const url =
     "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1";
   const options = {
