@@ -6,7 +6,7 @@ const MovieList = (movies: Movie[]) => {
   const posterImage = (poster_path: Movie["poster_path"]) => {
     return poster_path
       ? `${IMAGE_BASE_URL}${poster_path}`
-      : "./images/dizzy_planet.png";
+      : "./images/null_image.png";
   };
 
   return /*html*/ `
