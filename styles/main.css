@@ -50,7 +50,7 @@ button.primary {
 }
 
 #wrap h2 {
-  font-size: 1.4rem;
+  font-size: 2.2rem;
   font-weight: bold;
   margin-bottom: 32px;
 }
@@ -107,7 +107,12 @@ button.primary {
 }
 
 .logo {
-  position: relative;
+  position: absolute;
+  z-index: 1;
+  top: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1280px;
   font-size: 2rem;
   display: flex;
   align-items: center;

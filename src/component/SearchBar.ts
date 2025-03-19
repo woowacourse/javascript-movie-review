@@ -1,6 +1,7 @@
 import createDOMElement from '../util/createDomElement';
 
 function SearchBar() {
+  //const { results: movies } = await getPopularMovies({ page });
   return createDOMElement({
     tag: 'form',
     className: 'search-form',
@@ -18,8 +19,19 @@ function SearchBar() {
           })
         ]
       })
-    ]
+    ],
+    event: { submit: handleSearchMovies }
   });
 }
 
+function handleSearchMovies(e: Event) {
+  e.preventDefault();
+
+  const banner = document.querySelector('header');
+  banner?.remove();
+
+  const main = document.querySelector('main');
+  if (!main) return;
+  main.style.padding = '100px 0 64px';
+}
 export default SearchBar;
