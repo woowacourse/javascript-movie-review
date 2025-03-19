@@ -13,7 +13,7 @@ class MovieItem {
   }
 
   render() {
-    this.#container.innerHTML = `<li><div class="item">
+    this.#container.innerHTML = `<div class="item">
                   <img
                     class="thumbnail"
                     src=${this.#data.imgUrl}
@@ -27,7 +27,7 @@ class MovieItem {
                     </p>
                     <strong class = 'text-body'>${this.#data.title}</strong>
                   </div>
-                </div></li>`;
+                </div>`;
   }
 
   get element() {

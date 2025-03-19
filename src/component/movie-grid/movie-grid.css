@@ -1,6 +1,11 @@
 .thumbnail-list {
   margin: 0 auto 56px;
   display: grid;
-  grid-template-columns: repeat(5, 200px);
+  grid-template-columns: repeat(5, auto);
+  grid-template-rows: repeat(4, auto);
   gap: 70px;
+}
+
+h2 {
+  margin: 50px;
 }

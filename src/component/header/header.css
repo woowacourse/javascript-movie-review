@@ -1,7 +1,8 @@
 .header {
   width: 1280px;
   height: 100px;
-  position: relative;
+  position: sticky;
+  z-index: 100;
 }
 
 .logo {

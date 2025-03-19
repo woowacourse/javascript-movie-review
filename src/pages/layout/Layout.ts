@@ -14,6 +14,8 @@ class Layout {
 
   constructor({ childrenElement }: LayoutProps) {
     this.#container = document.createElement('div');
+    this.#container.classList.add('layout');
+
     this.#childrenElement = childrenElement;
 
     this.#header = new Header();
@@ -27,10 +29,11 @@ class Layout {
   }
 
   render() {
-    const body = document.querySelector('body')!;
-    if (this.#header.element) body.appendChild(this.#header.element);
-    body.appendChild(this.#childrenElement);
-    if (this.#footer.element) body.appendChild(this.#footer.element);
+    if (this.#header.element) this.#container.appendChild(this.#header.element);
+    this.#container.appendChild(this.#childrenElement);
+    if (this.#footer.element) this.#container.appendChild(this.#footer.element);
+
+    document.querySelector('body')?.appendChild(this.#container);
   }
 }
 
