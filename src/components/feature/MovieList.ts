@@ -84,6 +84,13 @@ export const MovieList = async () => {
     if (isSearch) {
       text.textContent = `검색 결과: ${movieFetcher.getQuery()}`;
 
+      if (currentResult.length) {
+        const skeletonElements = Array.from({ length: 20 }, () =>
+          MovieSkeleton(),
+        );
+        movieUl.append(...skeletonElements);
+      }
+
       // 여기서 검색 결과가 없으면 noContent 띄우기
       if (!currentResult.length) {
         movieUl.append(NoResult());
