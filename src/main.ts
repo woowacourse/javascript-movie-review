@@ -17,12 +17,12 @@ const getPopularMovieList = async () => {
 
   const data = await fetch(url, options);
   const { page, results: movieList } = await data.json();
-
   movieResults.addMovieList(page, movieList);
 };
 
-getPopularMovieList();
+await getPopularMovieList();
 
 const ulElement = document.querySelector(".thumbnail-list");
-
-ulElement?.appendChild(MovieItem());
+movieResults.getMovieList().forEach((movie) => {
+  ulElement?.appendChild(MovieItem(movie));
+});

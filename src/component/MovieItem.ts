@@ -1,6 +1,7 @@
+import { IMovieItem } from "../types/movieResultType";
 import createDOMElement from "../util/createDomElement";
 
-const MovieItem = () => {
+const MovieItem = (movie: IMovieItem) => {
   return createDOMElement({
     tag: "li",
     children: [
@@ -11,8 +12,8 @@ const MovieItem = () => {
           createDOMElement({
             tag: "img",
             class: "thumbnail",
-            src: "https://media.themoviedb.org/t/p/w440_and_h660_face/pmemGuhr450DK8GiTT44mgwWCP7.jpg",
-            alt: "인사이드 아웃 2",
+            src: `https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}`,
+            alt: movie.title,
           }),
           createDOMElement({
             tag: "div",
@@ -29,13 +30,13 @@ const MovieItem = () => {
                   }),
                   createDOMElement({
                     tag: "span",
-                    textContent: "7.7",
+                    textContent: movie.vote_average,
                   }),
                 ],
               }),
               createDOMElement({
                 tag: "strong",
-                textContent: "인사이드 아웃 2",
+                textContent: movie.title,
               }),
             ],
           }),

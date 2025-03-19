@@ -1,10 +1,10 @@
-import { MovieList } from "../types/movieResultType";
+import { IMovieItem } from "../types/movieResultType";
 
 const MovieResults = () => {
-  const movieList: MovieList[] = [];
+  const movieList: IMovieItem[] = [];
   let page = 0;
 
-  const addMovieList = (newPage: number, list: MovieList[]) => {
+  const addMovieList = (newPage: number, list: IMovieItem[]) => {
     movieList.push(...list);
     page = newPage;
   };
