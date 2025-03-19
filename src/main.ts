@@ -66,3 +66,8 @@ searchBarElement.onfocus = () => {
 searchBarElement.onblur = () => {
   window.removeEventListener("keydown", handleKeyDown);
 };
+
+const logoImage = document.querySelector(".logo img");
+logoImage?.addEventListener("click", () => {
+  window.location.reload();
+});
