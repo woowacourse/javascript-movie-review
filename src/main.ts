@@ -5,16 +5,27 @@ import { IMovie } from "./shared/types/movies";
 import { CustomButton } from "./shared/ui/CustomButton";
 import { getSearchedPost } from "./features/search/api/getSearchedPost";
 import EmptySearchResult from "./features/search/ui/EmptySearchResult";
+import { createSkeletons } from "./features/movie/ui/MovieSkeleton";
+import "./styles/skeleton.css";
+import "./styles/loading-indicator.css";
+
 addEventListener("DOMContentLoaded", async () => {
   const $movieList = document.querySelector(
     ".thumbnail-list"
   ) as HTMLElement | null;
+
+  // 첫 로딩 시 스켈레톤 UI 표시
+  if ($movieList) {
+    showSkeletons($movieList);
+  }
 
   const movies = await getMovieList({ page: 1 });
 
   Header(movies.results[0]);
 
   if ($movieList) {
+    // 데이터 로드 후 스켈레톤 UI를 실제 데이터로 교체
+    $movieList.innerHTML = "";
     addMoviePost(movies.results, $movieList);
   }
 
@@ -27,17 +38,30 @@ addEventListener("DOMContentLoaded", async () => {
   $moreMoviesButton?.addEventListener("click", async () => {
     if (!$movieList) return;
 
-    addMoreMovies($movieList);
+    // 더보기 버튼 클릭 시 로딩 상태 표시
+    const loadingIndicator = document.createElement("div");
+    loadingIndicator.classList.add("loading-indicator");
+    $movieList.appendChild(loadingIndicator);
+
+    await addMoreMovies($movieList);
+
+    // 로딩 완료 후 로딩 인디케이터 제거
+    const indicator = document.querySelector(".loading-indicator");
+    indicator?.remove();
   });
 
   const searchForm = document.querySelector(".search-form");
 
   searchForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const $thumbnailList = document.querySelector(".thumbnail-list");
+    const $thumbnailList = document.querySelector(
+      ".thumbnail-list"
+    ) as HTMLElement | null;
 
     if ($thumbnailList) {
+      // 검색 시작 시 기존 결과 제거하고 스켈레톤 UI 표시
       $thumbnailList.innerHTML = "";
+      showSkeletons($thumbnailList);
     }
 
     const $overlay = document.querySelector(".overlay");
@@ -50,10 +74,6 @@ addEventListener("DOMContentLoaded", async () => {
       ".background-container"
     );
     $backgroundContainer?.classList.add("background-container-disabled");
-
-    const $movieList = document.querySelector(
-      ".thumbnail-list"
-    ) as HTMLElement | null;
 
     const $movieListTitle = document.querySelector(".movie-list-title");
 
@@ -80,14 +100,21 @@ addEventListener("DOMContentLoaded", async () => {
       parseInt(params.get("page")!)
     );
 
-    if ($movieList) {
-      addMoviePost(searchedMovies.results, $movieList);
+    if ($thumbnailList) {
+      // 검색 결과 로드 후 스켈레톤 UI를 실제 데이터로 교체
+      $thumbnailList.innerHTML = "";
+      addMoviePost(searchedMovies.results, $thumbnailList);
     }
 
     const newUrl = `${window.location.pathname}?${params.toString()}`;
     history.pushState(null, "", newUrl);
   });
 });
+
+// 스켈레톤 UI를 표시하는 함수
+function showSkeletons($container: HTMLElement, count: number = 10) {
+  $container.appendChild(createSkeletons(count));
+}
 
 function addMoviePost(movieList: IMovie[], $movieList: HTMLElement) {
   if (movieList.length === 0) {
