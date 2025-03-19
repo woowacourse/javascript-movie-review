@@ -28,6 +28,18 @@ addEventListener("load", async () => {
         page,
       });
       movies = moviesResponse.results;
+
+      const $ul = document.querySelector(".thumbnail-list");
+      const $notFound = document.querySelector(".not-found");
+
+      if (movies.length === 0) {
+        if ($ul) $ul.classList.add("close");
+        if ($notFound) $notFound.classList.remove("close");
+      } else {
+        if ($ul) $ul.classList.remove("close");
+        if ($notFound) $notFound.classList.add("close");
+      }
+
       totalPages = moviesResponse.total_pages;
     }
 
