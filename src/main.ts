@@ -27,8 +27,10 @@ type Movie = {
   vote_count: number;
 };
 
-async function fetchPopularMovieList(): Promise<MovieResponse> {
-  const url = "https://api.themoviedb.org/3/movie/popular?language=ko-KR";
+const fetchPopularMovieList = async (
+  currentPage: number
+): Promise<MovieResponse> => {
+  const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${currentPage}`;
   const options = {
     headers: {
       Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
@@ -42,19 +44,18 @@ async function fetchPopularMovieList(): Promise<MovieResponse> {
   }
 
   return response.json();
-}
+};
 
+let currentPage = 1;
 const movieList = document.createElement("ul");
 movieList.classList.add("thumbnail-list");
 
-addEventListener("load", async () => {
-  const app = $("#app");
+const wrapper = document.createElement("div");
+wrapper.setAttribute("id", "wrap");
+const loadMoreButton = Button({ text: "더보기", className: ["load-more"] });
 
-  const header = Header({ title: "인사이드 아웃2" });
-  if (!header) return;
-  const footer = Footer();
-
-  const movies: MovieResponse = await fetchPopularMovieList();
+const loadMovies = async (currentPage: number): Promise<void> => {
+  const movies: MovieResponse = await fetchPopularMovieList(currentPage);
 
   movies.results.forEach((movie: Movie) => {
     const movieElement = MovieItem({
@@ -66,13 +67,23 @@ addEventListener("load", async () => {
     movieList.appendChild(movieElement);
   });
 
-  const wrapper = document.createElement("div");
-  wrapper.setAttribute("id", "wrap");
-
-  const loadMoreButton = Button({ text: "더보기", className: ["load-more"] });
-
   if (movies.page === movies.total_pages)
     loadMoreButton.classList.add("hidden");
+};
+
+loadMoreButton.addEventListener("click", () => {
+  currentPage++;
+  loadMovies(currentPage);
+});
+
+addEventListener("load", async () => {
+  const app = $("#app");
+
+  const header = Header({ title: "인사이드 아웃2" });
+  if (!header) return;
+  const footer = Footer();
+
+  loadMovies(currentPage);
 
   if (app) {
     app.appendChild(wrapper);
