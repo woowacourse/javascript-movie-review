@@ -1,4 +1,4 @@
-import { getMovies } from "./apis/MovieApi";
+import { getMovieByName, getMovies } from "./apis/MovieApi";
 import MovieList from "./components/MovieList";
 import Button from "./components/Button";
 import { isElement } from "./utils";
@@ -29,6 +29,21 @@ addEventListener("load", async () => {
       if (page === MAX_MOVIE_PAGE) {
         document.querySelector(".show-more")?.remove();
         return;
+      }
+    }
+  });
+
+  window.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const { target } = event;
+
+    if (isElement(target) && target.closest(".top-rated-search")) {
+      const value = (
+        target.querySelector(".top-rated-search-input") as HTMLInputElement
+      )?.value;
+
+      if (value) {
+        const response = await getMovieByName({ name: value });
       }
     }
   });
