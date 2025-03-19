@@ -146,7 +146,7 @@ footer.footer p:not(:last-child) {
   justify-content: center;
 }
 
-.search-container {
+.search-form {
   width: 40%;
   margin: auto;
   display: flex;
@@ -156,7 +156,7 @@ footer.footer p:not(:last-child) {
   padding: 6px 16px;
 }
 
-.search-container input {
+.search-form input {
   background: transparent;
   font-size: 1.1rem;
   max-width: 600px;
@@ -165,11 +165,11 @@ footer.footer p:not(:last-child) {
   color: white;
 }
 
-.search-container input::placeholder {
+.search-form input::placeholder {
   color: white;
 }
 
-.search-container input:focus {
+.search-form input:focus {
   outline: none;
 }
 

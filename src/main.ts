@@ -3,6 +3,7 @@ import MoviePost from "./features/movie/ui/MoviePost";
 import Header from "./shared/ui/Header";
 import { IMovie } from "./shared/types/movies";
 import { CustomButton } from "./shared/ui/CustomButton";
+import { getSearchedPost } from "./features/search/api/getSearchedPost";
 
 addEventListener("DOMContentLoaded", async () => {
   const $movieList = document.querySelector(
@@ -29,6 +30,44 @@ addEventListener("DOMContentLoaded", async () => {
     if (!$movieList) return;
 
     addMoreMovies(moviesText, $movieList);
+  });
+
+  const searchForm = document.querySelector(".search-form");
+
+  searchForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const $movieList = document.querySelector(
+      ".thumbnail-list"
+    ) as HTMLElement | null;
+    moviesText = "";
+
+    const formData = new FormData(e.target as HTMLFormElement);
+    let searchQuery = formData.get("search-input");
+
+    console.log("@@@@@@", searchQuery);
+
+    const params = new URLSearchParams(window.location.search);
+    const page = params.get("page");
+
+    if (!page) {
+      params.append("page", "2");
+    } else {
+      params.set("page", (parseInt(page) + 1).toString());
+    }
+
+    const searchedMovies = await getSearchedPost(
+      searchQuery as string,
+      parseInt(params.get("page")!)
+    );
+
+    if ($movieList) {
+      moviesText = addMoviePost(searchedMovies.results, moviesText);
+      $movieList.innerHTML = moviesText;
+    }
+
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    history.pushState(null, "", newUrl);
   });
 });
 
