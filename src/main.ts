@@ -1,5 +1,6 @@
 import MovieItem from "./component/MovieItem";
 import MovieResults from "./domain/MovieResults";
+import { IMovieResult } from "./types/movieResultType";
 
 const movieResults = MovieResults();
 
@@ -15,19 +16,24 @@ const getPopularMovieList = async (page: number) => {
   };
 
   const data = await fetch(url, options);
-  const { page: newPage, results: movieList } = await data.json();
+  const { page: newPage, results: movieList }: IMovieResult = await data.json();
   movieResults.addMovieList(newPage, movieList);
+
+  return movieList;
 };
 
-await getPopularMovieList(1);
+const movieList = await getPopularMovieList(1);
 
 const ulElement = document.querySelector(".thumbnail-list");
-movieResults.getMovieList().forEach((movie) => {
+movieList.forEach((movie) => {
   ulElement?.appendChild(MovieItem(movie));
 });
 
 const seeMoreElement = document.querySelector(".see-more");
 
 seeMoreElement?.addEventListener("click", async () => {
-  await getPopularMovieList(movieResults.getPage() + 1);
+  const movieList = await getPopularMovieList(movieResults.getPage() + 1);
+  movieList.forEach((movie) => {
+    ulElement?.appendChild(MovieItem(movie));
+  });
 });
