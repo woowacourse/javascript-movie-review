@@ -26,7 +26,6 @@ const MovieItem = (props: MovieItemProps) => {
                   </div>
                 </div>
               </li>
-              
   `;
 };
 

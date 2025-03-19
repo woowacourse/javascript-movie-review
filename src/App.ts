@@ -14,28 +14,31 @@ import {
   totalResults,
   isLoading,
   setIsLoading,
+  setIsError,
+  isError,
+  isMoreError,
+  setIsMoreError,
+  isSearchError,
+  setTotalResults,
 } from "./store/store";
 import { useEvents } from "./utils/Core";
 
 const App = () => {
   const fetchData = async (page = 1) => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}&page=${page}`,
-        {
-          headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`,
-          },
-          method: "GET",
-        }
-      );
+      const response = await fetch(`${import.meta.env.VITE_API_URL}=${page}`, {
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`,
+        },
+        method: "GET",
+      });
       const data = await response.json();
       if (data) setIsLoading(false);
-      console.log("isLoading", isLoading);
       console.log("data", data);
-
+      setTotalResults(data.total_results);
       return data.results;
     } catch (error) {
+      setIsError(true);
       console.error("Error fetching data in App:", error);
     }
   };
@@ -63,6 +66,7 @@ const App = () => {
         appendSearchResults(data.results);
       } catch (error) {
         console.error("Error fetching search results:", error);
+        setIsMoreError(true);
       }
     } else {
       const newMovies = await fetchData(nextPage);
@@ -88,20 +92,27 @@ const App = () => {
   const displayMovieList =
     searchInputValue.trim().length > 0 ? searchResults : movies;
 
-  console.log("searchResults", searchResults);
-  console.log("movies", movies);
-
-  return ` 
-    ${Header({
-      rate: movies[0].vote_count,
-      title: movies[0].title,
-    })}
+  return ` ${
+    isError || !movies.length
+      ? `<div class="movie-list-error">에러가 발생했습니다. 다시 시도해주세요.</div>`
+      : Header({
+          rate: movies[0]?.vote_count ?? 0, // Optional chaining과 Nullish coalescing 사용
+          title: movies[0]?.title ?? "",
+        })
+  }
+  
     <div class="app-layout">
       <h1 class="sub-title">${
         searchInputValue.length > 0
           ? `${searchInputValue} 검색 결과`
           : "지금 인기 있는 영화"
       }</h1>
+
+      ${
+        isSearchError
+          ? `<div class="no-results">검색 결과를 불러오는데 실패하였습니다.</div>`
+          : ""
+      }
       ${
         searchInputValue.length > 0 && displayMovieList.length === 0
           ? `<div class="no-results">검색 결과가 없습니다.</div>`
@@ -118,20 +129,22 @@ const App = () => {
                 })
                 .join("")}
             </ul>
-     ${
-       totalResults === searchResults.length
-         ? ""
-         : Button({
-             attribute: {
-               class: "primary detail more-button",
-             },
-             children: "더 보기",
-           })
-     }`
+      ${isMoreError ? `<div>영화 목록을 불러오는 데 실패했습니다.</div>` : ""}
+    ${
+      //더 불러올 영화가 없을 때는 버튼을 보여주지 않음
+      totalResults === searchResults.length
+        ? ""
+        : Button({
+            attribute: {
+              class: "primary detail more-button",
+            },
+            children: "더 보기",
+          })
+    }`
       }
     </div>
     ${Footer()}
-  `;
+    `;
 };
 
 export default App;
