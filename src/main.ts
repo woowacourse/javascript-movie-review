@@ -1,7 +1,9 @@
-import Button from "./components/Button.ts";
 import Header from "./components/Header.ts";
-import Input from "./components/Input.ts";
 import NavigationBar from "./components/NavigationBar.ts";
+import MovieItem from "./components/MovieItem.ts";
+import Input from "./components/Input.ts";
+import Button from "./components/Button.ts";
+import fetchMovies from "./api/http.ts";
 
 document.addEventListener("DOMContentLoaded", () => {
   const input = Input({
@@ -28,39 +30,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const section = document.querySelector("section");
   section?.appendChild(button);
 
-  // TMDB API 호출을 위한 설정
-  const apiUrl =
-    "https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1";
-  const bearerToken = import.meta.env.VITE_TMDB_BEARER_TOKEN;
-
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${bearerToken}`,
-    },
-  };
-
-  // API 호출 및 영화 데이터 렌더링
-  fetch(apiUrl, options)
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      return res.json();
-    })
-    .then((data) => {
-      console.log("Fetched movie data:", data);
+  fetchMovies()
+    .then((data: any) => {
+      // console.log("Fetched movie data:", data);
       const thumbnailList = document.querySelector(".thumbnail-list");
       if (!thumbnailList) return;
 
       thumbnailList.innerHTML = "";
-
       data.results.forEach((movie: any) => {
         console.log(movie);
+
+        const movieItem = MovieItem({
+          rate: movie.vote_average,
+          title: movie.title,
+          imgSrc: movie.poster_path,
+        });
+
+        thumbnailList.appendChild(movieItem);
       });
     })
-    .catch((error) => {
-      console.error("Error fetching movies:", error);
+    .catch((error: Error) => {
+      console.error("Error in main.ts:", error);
     });
 });
