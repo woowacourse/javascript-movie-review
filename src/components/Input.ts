@@ -12,7 +12,7 @@ const Input = ({ type, placeholder, onClick }: InputProps) => {
       <input type="${
         type ?? "text"
       }" class="search-input" placeholder="${placeholder}" />
-      <img src="/images/Search.png" class="search-icon" alt="검색" />
+      <img src="images/Search.png" class="search-icon" alt="검색" />
     `;
 
   // TODO 이벤트 연결

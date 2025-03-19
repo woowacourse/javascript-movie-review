@@ -3,7 +3,7 @@ import NavigationBar from "./components/NavigationBar.ts";
 import MovieList from "./components/MovieList.ts";
 import Input from "./components/Input.ts";
 import Button from "./components/Button.ts";
-import { fetchMovies, moviesState } from "./store/movieService.ts";
+import { fetchMovies, moviesState, isLastPage } from "./store/movieService.ts";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const input = Input({
@@ -56,14 +56,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   const container = document.querySelector(".container");
   if (!container) return;
 
-  const button = Button({
+  const moreButton = Button({
     text: "더 보기",
     onClick: async () => {
-      console.log("버튼 클릭");
+      if (isLastPage()) {
+        alert("마지막 페이지입니다.");
+        moreButton.setAttribute("disabled", "true");
+        return;
+      }
       await fetchMovies(moviesState.currentPage + 1);
       renderMovies();
     },
   });
 
-  container?.appendChild(button);
+  container?.appendChild(moreButton);
 });

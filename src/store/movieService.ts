@@ -5,6 +5,11 @@ import { mapToMovie } from "../utils/mapper";
 const moviesState = {
   list: [] as Movie[],
   currentPage: 1,
+  totalPages: 0,
+};
+
+const isLastPage = (): boolean => {
+  return moviesState.currentPage === moviesState.totalPages;
 };
 
 const fetchMovies = async (page = 1) => {
@@ -25,6 +30,7 @@ const fetchMovies = async (page = 1) => {
 
     moviesState.list = data.results.map((item: any) => mapToMovie(item));
     moviesState.currentPage = page;
+    moviesState.totalPages = data.total_pages;
 
     console.log(moviesState.list);
 
@@ -35,4 +41,4 @@ const fetchMovies = async (page = 1) => {
   }
 };
 
-export { moviesState, fetchMovies };
+export { moviesState, fetchMovies, isLastPage };
