@@ -1,10 +1,11 @@
 import { createElement } from '../../utils/createElement';
-import { Icon } from './Icon';
+import { Img } from './Img';
 import { Text } from './Text';
 
 export const Footer = () => {
-  const footerElement = <HTMLButtonElement>createElement('footer');
-  footerElement.classList.add('footer');
+  const footerElement = createElement<HTMLButtonElement>('footer', {
+    classList: 'footer',
+  });
 
   const text = Text({
     props: {
@@ -12,9 +13,9 @@ export const Footer = () => {
     },
   });
 
-  const icon = Icon({
-    width: 180,
-    height: 30,
+  const icon = Img({
+    width: '180',
+    height: '30',
     src: './images/woowacourse_logo.png',
   });
 
