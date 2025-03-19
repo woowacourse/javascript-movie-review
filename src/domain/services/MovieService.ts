@@ -35,4 +35,29 @@ export default class MovieService {
       throw error;
     }
   }
+
+
+  
+  async searchMovies(query: string, page: number = 1): Promise<{
+    movies: Movie[];
+    page: number;
+    totalPages: number;
+  }> {
+    const response = await this.api.searchMovies(query, page);
+    return {
+      movies: response.results.map(
+        (movie) =>
+          new Movie({
+            id: movie.id,
+            title: movie.title,
+            posterPath: movie.poster_path || "",
+            voteAverage: movie.vote_average,
+          })
+      ),
+      page: response.page,
+      totalPages: response.total_pages,
+    };
+  }
+
+
 }

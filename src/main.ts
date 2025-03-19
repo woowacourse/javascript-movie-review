@@ -10,6 +10,9 @@ addEventListener("load", async () => {
 
     const movieService = new MovieService();
     const moviesData = await movieService.getPopularResults();
+    
+    const searchExample = await movieService.searchMovies("짱구",1);
+    console.log(searchExample);
 
     const movieList = new MovieList(
       ".thumbnail-list",

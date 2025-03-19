@@ -62,4 +62,13 @@ export default class TmdbApi {
     };
     return this.fetchData<APIResponse<MovieResponse>>(endpoint, params);
   }
+
+  async searchMovies(query: string, page: number = 1): Promise<APIResponse<MovieResponse>> {
+    const endpoint = '/search/movie';
+    const params = {
+      query,
+      page: page.toString(),
+    };
+    return this.fetchData<APIResponse<MovieResponse>>(endpoint, params);
+  }
 }
