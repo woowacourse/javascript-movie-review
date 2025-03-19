@@ -48,3 +48,24 @@ export const setIsLoading = (value: boolean) => {
   isLoading = value;
   reRender();
 };
+
+export let isError = false;
+
+export const setIsError = (value: boolean) => {
+  isError = value;
+  reRender();
+};
+
+export let isMoreError = false;
+
+export const setIsMoreError = (value: boolean) => {
+  isMoreError = value;
+  reRender();
+};
+
+export let isSearchError = false;
+
+export const setIsSearchError = (value: boolean) => {
+  isSearchError = value;
+  reRender();
+};
