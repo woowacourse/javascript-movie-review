@@ -41,6 +41,7 @@ class PopularMovieBoard {
 
   async #fetchAndRenderMovies() {
     const movies = await this.#fetchedMovies();
+    if (!movies) return;
 
     const $topRated = document.querySelector(".top-rated-container");
     if (isHTMLElement($topRated))
@@ -70,20 +71,30 @@ class PopularMovieBoard {
         Authorization: `Bearer ${import.meta.env.VITE_TMDB_ACCESS_TOKEN}`,
       },
     };
+    try {
+      const raw = await fetch(
+        `${BASE_URL}/popular?language=en-US&page=${this.#page}`,
+        options
+      );
+      const data = await raw.json();
+      const movies: Movie[] = data.results;
+      return movies;
+    } catch (e) {
+      const $main = document.querySelector("main");
+      if (!isHTMLElement($main)) return;
 
-    const raw = await fetch(
-      `${BASE_URL}/popular?language=en-US&page=${this.#page}`,
-      options
-    );
-    const data = await raw.json();
-    const movies: Movie[] = data.results;
-
-    return movies;
+      $main.innerHTML = `<div class="fallback-screen" style="min-height:500px; ">
+        <img src="./images/dizzy_planet.png"/>
+        <p>오류가 발생했습니다</p>
+      </div>`;
+    }
   }
 
   async #refetchMovies() {
     this.#page += 1;
     const newMovies = await this.#fetchedMovies();
+    if (!newMovies) return;
+
     this.#renderMovies(newMovies);
 
     if (this.#page >= MAX_PAGE) {

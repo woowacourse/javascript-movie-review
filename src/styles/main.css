@@ -13,9 +13,13 @@ body {
   font-size: 16px;
   color: var(--color-white);
   background-color: var(--color-bluegray-100);
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
 #wrap {
+  flex: 1;
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -31,6 +35,7 @@ body {
 
 main {
   margin-bottom: 64px;
+  flex: 1;
 }
 
 .star {

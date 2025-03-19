@@ -46,7 +46,7 @@ class SearchMovieBoard {
     if (isHTMLElement(h2))
       h2.insertAdjacentHTML(
         "afterend",
-        `<div class="no-search-result">
+        `<div class="fallback-screen">
             <img src="./images/dizzy_planet.png"/>
             <p>검색 결과가 없습니다</p>
         </div>`
