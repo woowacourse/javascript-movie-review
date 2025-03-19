@@ -145,7 +145,7 @@ class App {
   handleButtonClick = async () => {
     if (this.#mode === "popular") {
       this.#page += 1;
-      const results = await this.getMoviesResults(); // t-> f
+      const { results, totalPage } = await this.getMoviesResults(); // t-> f
       this.setMovies([...this.#movies, ...results]); //
 
       if (totalPage === this.#page) {

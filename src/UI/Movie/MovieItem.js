@@ -8,11 +8,9 @@ class MovieItem {
 
   render() {
     const $li = document.createElement("li");
-
+    console.log("로딩", this.isLoading);
     if (this.isLoading) {
-      const $div = document.createElement("div");
-      $li.textContent = "로딩중";
-      $li.style.background = "red";
+      $li.classList.add("skeleton-box");
       return $li;
     }
 
