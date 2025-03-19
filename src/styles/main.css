@@ -73,6 +73,12 @@ button.primary {
   padding: 48px;
 }
 
+.header-background-container {
+  height: 100px;
+  position: relative;
+  align-content: center;
+}
+
 .overlay {
   position: absolute;
   top: 0;
@@ -93,6 +99,9 @@ button.primary {
 
 .top-rated-header {
   position: relative;
+  max-width: 1280px;
+  margin: 0 auto;
+  z-index: 2;
 }
 
 .top-rated-search {
