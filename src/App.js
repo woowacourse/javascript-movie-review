@@ -32,6 +32,7 @@ class App {
     const result = data.results.map((movie) => ({
       ...movie,
       poster_path: `https://image.tmdb.org/t/p/w300${movie.poster_path}`,
+      vote_average: movie.vote_average.toFixed(1),
     }));
 
     if (data !== null) {
@@ -74,6 +75,7 @@ class App {
       console.log($header);
 
       $wrap.append($header);
+      $wrap.append($thumbnail);
 
       if (this.#isLoad) {
         $wrap.appendChild($movieListSection);

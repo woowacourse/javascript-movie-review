@@ -4,6 +4,7 @@
   background-size: cover;
   height: 500px;
   padding: 48px;
+  background-repeat: no-repeat;
 }
 
 .overlay {
