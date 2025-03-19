@@ -8,7 +8,7 @@ import { MovieResult } from "../types/movieApiType";
 addEventListener("load", async () => {
   let page = 1;
   let totalPages: number = 1;
-  let movies: MovieResult[] = (await getMovies({ page })).results;
+  let movies: MovieResult[] = [];
   let searchKeyword = "";
 
   const $mainSection = document.querySelector("main section");
@@ -33,14 +33,21 @@ addEventListener("load", async () => {
       const $notFound = document.querySelector(".not-found");
 
       if (movies.length === 0) {
-        if ($ul) $ul.classList.add("close");
-        if ($notFound) $notFound.classList.remove("close");
+        $ul?.classList.add("close");
+        $notFound?.classList.remove("close");
       } else {
-        if ($ul) $ul.classList.remove("close");
-        if ($notFound) $notFound.classList.add("close");
+        $ul?.classList.remove("close");
+        $notFound?.classList.add("close");
       }
 
       totalPages = moviesResponse.total_pages;
+    }
+
+    const $showMore = document.querySelector(".show-more");
+    if (page !== Math.min(MAX_MOVIE_PAGE, totalPages)) {
+      $showMore?.classList.add("open");
+    } else {
+      $showMore?.classList.remove("open");
     }
 
     const $movies = MovieList(movies);
@@ -55,10 +62,6 @@ addEventListener("load", async () => {
     if (isElement(target) && target.closest(".show-more")) {
       page = page + 1;
       renderMoviesList();
-      if (page === Math.min(MAX_MOVIE_PAGE, totalPages)) {
-        document.querySelector(".show-more")?.remove();
-        return;
-      }
     }
   });
 

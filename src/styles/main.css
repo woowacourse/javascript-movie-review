@@ -43,8 +43,9 @@ button.primary {
   border-radius: 4px;
 }
 
-button.show-more {
+.show-more {
   width: 100%;
+  display: none;
 }
 
 #wrap {
@@ -181,4 +182,8 @@ footer.footer p:not(:last-child) {
 
 .close {
   display: none;
+}
+
+.open {
+  display: block;
 }
