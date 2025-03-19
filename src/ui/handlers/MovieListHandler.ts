@@ -3,14 +3,24 @@ import MovieList from "../components/MovieList.js";
 import MovieService from "../../domain/services/MovieService.js";
 import MovieCard from "../components/Movie.js";
 import { store } from "../../store/store.js";
+import { ApiResponse, MovieResponse } from "../../types/types.js";
 
 export default class MovieListHandler {
   private movieList: MovieList | undefined;
 
   constructor(private movieService: MovieService) {}
 
-  async initMovieList(query: string) {
-    const moviesData = await this.movieService.getPopularResults();
+  async initMovieList(query?: string) {
+    const moviesData = query 
+      ? await this.movieService.searchMovies(query, 1)
+      : await this.movieService.getPopularResults();
+    
+    this.updateMovieList(moviesData);
+    this.handleMoreClickButton(query);
+  }
+
+  private updateMovieList(moviesData: ApiResponse<MovieResponse>) {
+    MovieList.removeMovieList();
     this.movieList = new MovieList(
       ".thumbnail-list",
       moviesData.movies,
@@ -19,10 +29,9 @@ export default class MovieListHandler {
       this.movieService
     );
     this.movieList.init();
-    this.handleMoreClickButton(query);
   }
 
-  async handleMoreClickButton(query: string) {
+  async handleMoreClickButton(query: string | undefined) {
     const loadMoreButton = document.querySelector(".add-movie");
     if (!loadMoreButton) return;
     loadMoreButton.addEventListener("click", async () => {
@@ -30,7 +39,7 @@ export default class MovieListHandler {
     });
   }
 
-  async handleLoadMore(query: string) {
+  async handleLoadMore(query: string | undefined) {
     const pageNumber = this.movieList?.currentPage + 1;
     let newMoviesData: { movies: Movie[]; page: number; totalPages: number };
     if (store.getMode() === "popularAdd") {

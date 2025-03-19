@@ -37,7 +37,7 @@ export default class MovieService {
   }
 
   async searchMovies(
-    query: string,
+    query: string | undefined,
     page: number = 1
   ): Promise<{
     movies: Movie[];
