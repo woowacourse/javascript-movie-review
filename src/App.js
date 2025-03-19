@@ -28,10 +28,14 @@ class App {
 
   async init() {
     const data = await getPopularityMovie(1);
-    console.log(data);
+
+    const result = data.results.map((movie) => ({
+      ...movie,
+      poster_path: `https://image.tmdb.org/t/p/w300${movie.poster_path}`,
+    }));
 
     if (data !== null) {
-      this.#movies = data.results;
+      this.#movies = result;
       this.setIsLoad();
     }
   }
@@ -69,9 +73,9 @@ class App {
       body.append($header);
 
       if (this.#isLoad) {
-        body.appendChild($div);
-      } else {
         body.appendChild($movieListSection);
+      } else {
+        body.appendChild($div);
       }
       body.append($moreButton, $footer);
     }
