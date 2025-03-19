@@ -1,8 +1,6 @@
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import MoreMoviesButton from "./components/MoreMoviesButton";
 import MovieBoard from "./components/MovieBoard";
-import MovieList from "./components/MovieList";
 import { isHTMLElement } from "./utils/typeGuards";
 
 export interface Movie {
@@ -18,9 +16,8 @@ class App {
   }
 
   async #initialSetup() {
-    // const $header = document.querySelector("header");
-    // if (isHTMLElement($header))
-    //   new Header($header, { topRatedMovie: this.#movies[0] });
+    const $header = document.querySelector("header");
+    if (isHTMLElement($header)) new Header($header);
 
     const $section = document.querySelector("main");
     if (isHTMLElement($section)) new MovieBoard($section, { type: "POPULAR" });
@@ -29,7 +26,7 @@ class App {
   }
 
   #renderFooter() {
-    const root = document.querySelector("#wrap");
+    const root = document.querySelector("body");
     root?.insertAdjacentHTML("beforeend", Footer());
   }
 }

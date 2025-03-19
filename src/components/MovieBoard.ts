@@ -2,6 +2,7 @@ import { Movie } from "../main";
 import { isHTMLElement } from "../utils/typeGuards";
 import MoreMoviesButton from "./MoreMoviesButton";
 import MovieList from "./MovieList";
+import TopRatedMovie, { TopRatedMovieSkeleton } from "./TopRatedMovie";
 
 export const BASE_URL = "https://api.themoviedb.org/3/movie";
 
@@ -11,11 +12,18 @@ interface Props {
   type: MovieBoardType;
 }
 
-type CurrentBoard = {
-  type: MovieBoardType;
+type CurrentBoard = (
+  | {
+      type: "POPULAR";
+      maxPage: number;
+      topRatedMovie?: Movie;
+    }
+  | {
+      type: "SEARCH_RESULT";
+    }
+) & {
   title: string;
   fetchUrl: (page: number) => string;
-  maxPage?: number;
 };
 
 class MovieBoard {
@@ -63,17 +71,24 @@ class MovieBoard {
 
   #render() {
     this.#parentElement.innerHTML = /*html*/ `
-        <div class="top-rated"></div>
-        <section>
-            <h2>${this.#currentBoard.title}</h2>
-            <ul class='thumbnail-list'></ul>
-            <div class="more-button-container"></div>
-        </section>
+      <section class="top-rated-container">
+        ${this.#currentBoard.type === "POPULAR" && TopRatedMovieSkeleton()}
+      </section>
+      <section class="movie-list-container">
+          <h2>${this.#currentBoard.title}</h2>
+          <ul class='thumbnail-list'></ul>
+          <div class="more-button-container"></div>
+      </section>
     `;
   }
 
   async #fetchAndRenderMovies() {
     const movies = await this.#fetchMovies();
+
+    const $topRated = document.querySelector(".top-rated-container");
+    if (isHTMLElement($topRated))
+      $topRated.innerHTML = TopRatedMovie(movies[0]);
+
     this.#renderMovies(movies);
   }
 
@@ -95,6 +110,9 @@ class MovieBoard {
     const data = await raw.json();
     const movies: Movie[] = data.results;
 
+    if (this.#currentBoard.type === "POPULAR") {
+      this.#currentBoard.topRatedMovie = movies[0];
+    }
     return movies;
   }
 
@@ -104,7 +122,7 @@ class MovieBoard {
     this.#renderMovies(newMovies);
 
     if (
-      this.#currentBoard.maxPage &&
+      this.#currentBoard.type === "POPULAR" &&
       this.#page >= this.#currentBoard.maxPage
     ) {
       this.#removeMoreMoviesButton();
