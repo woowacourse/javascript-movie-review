@@ -21,9 +21,26 @@
   border: 2px solid var(--color-white);
   background-color: inherit;
   padding: 6px 16px;
+  padding-right: 30px;
   color: var(--color-white);
 }
 
 .search-bar::placeholder {
   color: var(--color-white);
+}
+
+.input-form {
+  position: relative;
+}
+
+.search-btn {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+
+  border: none;
+  background-color: inherit;
+  padding: 0px;
+
+  csor: pointer;
 }

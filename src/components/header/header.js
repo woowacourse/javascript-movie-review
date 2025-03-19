@@ -8,14 +8,32 @@ export default function Header() {
     alt: "MovieList",
   });
 
+  const $form = createElement("form", {
+    className: "input-form",
+  });
+
+  const $searchButton = createElement("button", {
+    className: "search-btn",
+  });
+
+  const $searchImg = createElement("img", {
+    src: "./images/Search.png",
+    alt: "돋보기",
+  });
+
+  $searchButton.appendChild($searchImg);
+
   const $input = createElement("input", {
     type: "text",
+    name: "search-bar",
     className: "search-bar",
     placeholder: "검색어를 입력하세요",
   });
 
+  $form.append($input, $searchButton);
+
   $h1.appendChild($img);
-  $header.append($h1, $input);
+  $header.append($h1, $form);
 
   $div.appendChild($header);
 
