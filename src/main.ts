@@ -14,7 +14,11 @@ const $wrap = createElement({
 
 if ($body) {
   $body.appendChild($wrap);
-  $wrap.appendChild(Header());
+  $wrap.appendChild(
+    Header({
+      popularMovie: popularMovies[0],
+    })
+  );
   $wrap.appendChild(
     MovieContainer({
       popularMovies,

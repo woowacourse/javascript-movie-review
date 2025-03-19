@@ -1,7 +1,7 @@
 import TopRatedContainer from './TopRatedContainer';
 import createElement from './utils/createElement';
 
-const Header = () => {
+const Header = ({popularMovie}) => {
   const $header = createElement({
     tag: 'header',
   });
@@ -19,7 +19,7 @@ const Header = () => {
 
   $header.appendChild($backgroundContainer);
   $backgroundContainer.appendChild($overlay);
-  $backgroundContainer.appendChild(TopRatedContainer());
+  $backgroundContainer.appendChild(TopRatedContainer({popularMovie}));
 
   return $header;
 };
