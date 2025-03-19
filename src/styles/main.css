@@ -119,6 +119,23 @@ span.rate-value {
   font-weight: bold;
 }
 
+.load-more{ 
+  background-color: var(--color-lightblue-90);
+  width:1280px;
+  height:50px;
+
+  color: var(--color-white);
+  font-weight: bold;
+  font-size:24px;
+
+  margin:0 auto 56px;
+  border-radius: 4px;
+}
+
+.hidden{
+  display: none;
+}
+
 footer.footer {
   min-height: 180px;
   background-color: var(--color-bluegray-80);
