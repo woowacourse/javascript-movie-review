@@ -1,3 +1,7 @@
+import { IPage } from "../../types/domain";
+import { TMDB_TOKEN } from "../constants/api";
+import MovieItem from "./MovieItem";
+
 class SearchBar {
   constructor() {}
 
@@ -11,16 +15,73 @@ class SearchBar {
         class="search-bar"
         placeholder="검색어를 입력하세요"
       />
-      <img
-        id="search"
-        src="./images/search_button.png"
-        alt="SearchButton"
-      />
     `;
 
     searchContainerElement.insertAdjacentHTML("beforeend", content);
+    const imgButton = document.createElement("img");
+    imgButton.id = "search";
+    imgButton.src = "./images/search_button.png";
+    imgButton.alt = "SearchButton";
+    imgButton.onclick = () => this.onSearchClick();
+    searchContainerElement.appendChild(imgButton);
 
     return searchContainerElement;
+  }
+
+  onSearchClick() {
+    const searchBar = document.querySelector(".search-bar") as HTMLInputElement;
+    const thumbnailList = document.querySelector("ul.thumbnail-list");
+
+    thumbnailList?.replaceChildren();
+    const query = searchBar.value;
+    this.getSearchResult(query);
+
+    const seeMoreButton = document.querySelector(
+      "#seeMore"
+    ) as HTMLButtonElement;
+    seeMoreButton.onclick = () => {
+      this.getSearchResult(query);
+    };
+  }
+
+  getSearchResult(query: string) {
+    const thumbnailList = document.querySelector("ul.thumbnail-list");
+    const itemCount = document.querySelectorAll("ul.thumbnail-list li").length;
+    const pageNumber = itemCount / 20 + 1;
+    const options = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${TMDB_TOKEN}`,
+      },
+    };
+
+    try {
+      fetch(
+        `https://api.themoviedb.org/3/search/movie?page=${pageNumber}&query=${query}&language=ko-KR`,
+        options
+      )
+        .then((response) => response.json())
+        .then((data: IPage) => {
+          if (pageNumber >= data.total_pages) {
+            const seeMoreButton = document.querySelector(
+              "#seeMore"
+            ) as HTMLButtonElement;
+            seeMoreButton.remove();
+          }
+
+          data.results.forEach(({ title, poster_path, vote_average }) => {
+            const movieItem = new MovieItem({
+              title,
+              vote_average,
+              poster_path,
+            });
+            const movieItemElement = movieItem.create();
+            thumbnailList?.appendChild(movieItemElement);
+          });
+        });
+    } catch (error) {
+      alert("검색 결과를 불러올 수 없습니다.");
+    }
   }
 }
 

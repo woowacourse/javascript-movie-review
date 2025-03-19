@@ -2,7 +2,7 @@ import { IPage } from "../types/domain";
 import MovieItem from "./components/MovieItem";
 import SearchBar from "./components/SearchBar";
 import TextButton from "./components/TextButton";
-import { TMDB_TOKEN } from "./constants/api";
+import { TMDB_KEY } from "./constants/api";
 
 const thumbnailList = document.querySelector("ul.thumbnail-list");
 const mainSection = document.querySelector("main section");
@@ -13,7 +13,7 @@ const getMovieData = () => {
 
   try {
     fetch(
-      `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${pageNumber}&api_key=${TMDB_TOKEN}`
+      `https://api.themoviedb.org/3/movie/popular?language=ko-KR&region=KR&page=${pageNumber}&api_key=${TMDB_KEY}`
     )
       .then((response) => response.json())
       .then((data: IPage) => {
@@ -29,6 +29,7 @@ const getMovieData = () => {
 };
 
 const seeMoreButton = new TextButton({
+  id: "seeMore",
   title: "더보기",
   onClick: getMovieData,
   type: "primary",

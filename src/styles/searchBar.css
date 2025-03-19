@@ -13,6 +13,7 @@
 }
 
 .search-bar {
+  color: var(--color-white);
   border: none;
   background: transparent;
   display: flex;
