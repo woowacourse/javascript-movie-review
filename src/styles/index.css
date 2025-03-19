@@ -62,9 +62,8 @@
   border-radius: 32px;
 }
 
-.outline-2 {
-  outline-width: 2px;
-  outline-color: var(--color-white);
+.border-2 {
+  border: 2px solid var(--color-white);
 }
 
 .w-525 {
@@ -81,4 +80,8 @@
 
 .px6-py16 {
   padding: 6px 16px;
+}
+
+.gap-250 {
+  gap: 250px;
 }

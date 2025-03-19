@@ -66,10 +66,13 @@ export const Header = () => {
   });
 
   const searchBar = SearchBar({ onSubmit: () => {} });
+  const headerSection = createElement('section');
+  headerSection.classList.add('flex', 'flex-row', 'items-center', 'gap-250');
 
   headerElement.appendChild(backgroundContainer);
   backgroundContainer.append(overlay, topRatedContainer);
-  topRatedContainer.append(logoImg, searchBar, topRatedMovie);
+  headerSection.append(logoImg, searchBar);
+  topRatedContainer.append(headerSection, topRatedMovie);
   topRatedMovie.append(rateDiv, titleText, detailButton);
   rateDiv.append(starImg, rateText);
 

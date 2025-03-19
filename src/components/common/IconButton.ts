@@ -3,11 +3,15 @@ import { Button } from './Button';
 import { Img } from './Img';
 
 type IconButtonProps = {
+  width: string;
+  height: string;
   src: string;
   onClick: VoidFunction;
 } & ComponentProps;
 
 export const IconButton = ({
+  width,
+  height,
   src,
   onClick,
   classList,
@@ -24,8 +28,8 @@ export const IconButton = ({
   });
 
   const icon = Img({
-    width: '24',
-    height: '24',
+    width: width,
+    height: height,
     src,
   });
 

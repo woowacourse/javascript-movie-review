@@ -16,8 +16,7 @@ export const SearchBar = ({ onSubmit, classList, props }: SearchBarProps) => {
     'items-center',
     'justify-between',
     'rounded-2xl',
-    'outline-2',
-    'text-white',
+    'border-2',
     'px6-py16',
   );
 
@@ -25,10 +24,12 @@ export const SearchBar = ({ onSubmit, classList, props }: SearchBarProps) => {
     type: 'text',
     placeholder: '검색어를 입력해주세요.',
     style:
-      'background-color: transparent; border: none; outline: none; width: 100%;',
+      'background-color: transparent; border: none; outline: none; width: 100%; color: white;',
   });
 
   const iconBtn = IconButton({
+    width: '16',
+    height: '16',
     src: 'images/search.png',
     onClick: () => onSubmit,
     classList,
