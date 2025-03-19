@@ -5,10 +5,10 @@ import movies from '../store/movies';
 import page from '../store/page';
 import createElement from './utils/createElement';
 
-const Button = ({ text }) => {
+const Button = ({ text, type }) => {
   const $button = createElement({
     tag: 'button',
-    classNames: ['primary', 'detail'],
+    classNames: ['primary', `${type}`],
   });
 
   $button.textContent = text;

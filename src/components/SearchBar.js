@@ -42,7 +42,6 @@ const SearchBar = () => {
         params.append("query", query);
         }
 
-        // URL 업데이트 (페이지 새로고침 없이)
         window.history.replaceState({}, "", `${window.location.pathname}?${params.toString()}`);
 
         const searchedMovies = await fetchSearchMovies(query, 1);

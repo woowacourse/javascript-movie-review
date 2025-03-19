@@ -22,7 +22,7 @@ const TopRatedContainer = ({popularMovie}) => {
     bigFont: true,
     movie: popularMovie
   }));
-  $topRatedMovie.append(Button({ text: BUTTON.DETAIL }));
+  $topRatedMovie.append(Button({ text: BUTTON.DETAIL, type: 'detail' }));
 
   return $topRatedContainer;
 };

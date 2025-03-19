@@ -27,7 +27,7 @@ const MovieContainer = ({ movies }) => {
   $main.appendChild($section);
   $section.appendChild($h2);
   $section.appendChild(MovieList({ movies }));
-  $main.appendChild(Button({ text: BUTTON.MORE }));
+  $main.appendChild(Button({ text: BUTTON.MORE, type: 'more'}));
 
   return $container;
 };
