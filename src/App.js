@@ -27,9 +27,9 @@ class App {
   }
 
   async init() {
-    const result = await this.getMoviesResults();
+    const result = await this.getMoviesResults(); // 로딩이 t -> f
 
-    this.setMovies([...this.#movies, ...result]);
+    this.setMovies([...this.#movies, ...result]); // 새로운 영화목록 반영 UI 렌더
   }
 
   async getMoviesResults() {
@@ -61,7 +61,10 @@ class App {
   }
 
   render() {
+    console.log("this.로딩", this.#isLoading);
+
     const body = document.querySelector("body");
+    body.innerHTML = "";
 
     const $wrap = document.createElement("div");
     $wrap.id = "wrap";
@@ -72,48 +75,63 @@ class App {
     $container.classList.add("container");
     const $main = document.createElement("main");
 
-    if (this.#movies.length !== 0) {
-      const $thumbnail = new Thumbnail(this.#movies[0]).render();
+    const $thumbnail = new Thumbnail(this.#movies[0]).render();
 
-      const $movieListSection = new MovieListSection(
-        "지금 인기 있는 영화",
-        this.#movies
-      ).render();
+    // 제거해주는부분
+    const $movieListSection = new MovieListSection(
+      "지금 인기 있는 영화",
+      this.#movies,
+      this.#isLoading
+    ).render();
 
-      const $moreButton = new Button().render();
+    body.appendChild($wrap);
 
-      const $footer = new Footer().render();
+    $wrap.append($thumbnail);
+    $wrap.append($header);
+    // const $moreButton = new Button().render();
 
-      const $div = document.createElement("div");
-      $div.textContent = "로딩중";
-      body.innerHTML = "";
+    // const $footer = new Footer().render();
 
-      $wrap.append($thumbnail);
-      $wrap.append($header);
+    // if (this.#movies.length !== 0) {
+    // const $thumbnail = new Thumbnail(this.#movies[0]).render();
 
-      if (this.#isLoading) {
-        $main.appendChild($div); // Todo: 스켈레톤 UI로 변경
-      } else {
-        $main.appendChild($movieListSection);
-      }
+    // const $movieListSection = new MovieListSection(
+    //   "지금 인기 있는 영화",
+    //   this.#movies
+    // ).render();
 
-      $main.appendChild($moreButton);
+    const $moreButton = new Button().render();
 
-      $container.appendChild($main);
-      $wrap.appendChild($container);
+    // const $div = document.createElement("div");
+    // $div.textContent = "로딩중";
+    // body.innerHTML = "";
 
-      body.appendChild($wrap);
-      body.appendChild($footer);
+    // // $wrap.append($thumbnail);
+    // // $wrap.append($header);
 
-      $moreButton.addEventListener("click", this.handleButtonClick);
-    }
+    // if (this.#isLoading) {
+    //   $main.appendChild($div); // Todo: 스켈레톤 UI로 변경
+    // } else {
+    //   $main.appendChild($movieListSection);
+    // }
+    $main.appendChild($movieListSection);
+    $main.appendChild($moreButton);
+    $container.appendChild($main);
+    $wrap.appendChild($container);
+
+    $moreButton.addEventListener("click", this.handleButtonClick);
+    // }
+
+    const $footer = new Footer().render();
+    body.appendChild($footer);
   }
 
   handleButtonClick = async () => {
     this.#page += 1;
-    const results = await this.getMoviesResults();
+    const results = await this.getMoviesResults(); // t-> f
 
-    this.setMovies([...this.#movies, ...results]);
+    console.log("버튼클릭 - 로딩", this.#isLoading);
+    this.setMovies([...this.#movies, ...results]); //
   };
 }
 

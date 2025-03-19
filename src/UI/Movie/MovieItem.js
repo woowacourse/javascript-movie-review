@@ -1,12 +1,20 @@
 import "./MovieItem.css";
 
 class MovieItem {
-  constructor(movie) {
+  constructor(movie, isLoading) {
     this.movie = movie;
+    this.isLoading = isLoading;
   }
 
   render() {
     const $li = document.createElement("li");
+
+    if (this.isLoading) {
+      const $div = document.createElement("div");
+      $li.textContent = "로딩중";
+      $li.style.background = "red";
+      return $li;
+    }
 
     const { title, poster_path, vote_average } = this.movie;
 
