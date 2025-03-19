@@ -12,7 +12,7 @@ const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
     className: "star",
   });
   const $rateValue = createElement("span", {
-    textContent: `${vote_average}`,
+    textContent: `${vote_average.toFixed(1)}`,
   });
   $rate.append($star, $rateValue);
 
