@@ -1,7 +1,6 @@
-import createElement from './utils/createElement';
 import MoviePreviewInfo from './MoviePreviewInfo';
-
-const imageUrl = (path, size = 400) => `https://image.tmdb.org/t/p/w${size}${path}`;
+import createElement from './utils/createElement';
+import imageUrl from '../utils/imageUrl';
 
 const MovieItem = ({ popularMovie }) => {
   const title = popularMovie?.title;

@@ -9,7 +9,7 @@ const SearchBar = () => {
     const $input = createElement({
         tag: 'input',
         classNames: ['search-bar'],
-        value: "검색어를 입력하세요"
+        placeholder: "검색어를 입력하세요"
     });
 
     const $button = createElement({
