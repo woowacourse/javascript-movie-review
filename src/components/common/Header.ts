@@ -1,3 +1,4 @@
+import { movieFetcher } from '../../domain/MovieFetcher';
 import { createElement } from '../../utils/createElement';
 import { Button } from './Button';
 import { Img } from './Img';
@@ -65,7 +66,9 @@ export const Header = () => {
     },
   });
 
-  const searchBar = SearchBar({ onSubmit: () => {} });
+  const searchBar = SearchBar({
+    onSubmit: async (value) => await movieFetcher.getSearchMovies(1, value),
+  });
   const headerSection = createElement('section');
   headerSection.classList.add('flex', 'flex-row', 'items-center', 'gap-250');
 
