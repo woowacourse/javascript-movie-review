@@ -1,19 +1,44 @@
-import movieList from "./components/movie/movieList";
+import { getPopularMovies } from "./apis/getPopularMovies";
+import { getSearchedMovies } from "./apis/getSearchedMovies";
+import movieContainer from "./components/movie/movieContainer";
+import { $ } from "./components/utils/selectors";
+import { Movie } from "./components/movie/types";
 
-const url = "https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1";
+const onSearch = async () => {
+  const searchKeyword = "짱구"; // event.target.value
+  const results: Movie[] = await getSearchedMovies(searchKeyword);
 
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${import.meta.env.VITE_TMDB_ACCESS_TOKEN}`,
-  },
+  const loadMoreCallback = async (pageNumber: number) =>
+    await getSearchedMovies(searchKeyword, pageNumber);
+
+  const $movieContainer = $(".movie-container");
+  $movieContainer?.remove();
+
+  const $searchedMovieContainer = movieContainer(
+    `${searchKeyword} 검색 결과`,
+    results,
+    loadMoreCallback
+  );
+
+  const $main = $("main");
+  $main?.append($searchedMovieContainer);
 };
 
-fetch(url, options)
-  .then((res) => res.json())
-  .then((json) => {
-    const { results, page } = json;
-    movieList(results);
-  })
-  .catch((err) => console.error(err));
+const initializeMovie = async () => {
+  const results: Movie[] = await getPopularMovies();
+
+  const loadMoreCallback = async (pageNumber: number) =>
+    await getPopularMovies(pageNumber);
+
+  const $movieContainer = movieContainer(
+    "지금 인기 있는 영화",
+    results,
+    loadMoreCallback
+  );
+
+  const $main = $("main");
+  $main?.append($movieContainer);
+};
+
+// await initializeMovie();
+await onSearch();
