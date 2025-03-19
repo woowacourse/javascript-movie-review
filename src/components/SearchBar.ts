@@ -32,8 +32,9 @@ class SearchBar {
     const searchBar = document.querySelector(".search-bar") as HTMLInputElement;
     const thumbnailList = document.querySelector("ul.thumbnail-list");
 
-    thumbnailList?.replaceChildren();
     const query = searchBar.value;
+    this.changeTitleStyle(query);
+    thumbnailList?.replaceChildren();
     this.getSearchResult(query);
 
     const seeMoreButton = document.querySelector(
@@ -42,6 +43,22 @@ class SearchBar {
     seeMoreButton.onclick = () => {
       this.getSearchResult(query);
     };
+  }
+
+  changeTitleStyle(query: string) {
+    const overlay = document.querySelector(".overlay") as HTMLDivElement;
+    const topRatedContainer = document.querySelector(
+      ".top-rated-movie"
+    ) as HTMLDivElement;
+    const backgroundContainer = document.querySelector(
+      ".background-container"
+    ) as HTMLDivElement;
+    const subTitle = document.querySelector(".subTitle") as HTMLHeadingElement;
+
+    subTitle.textContent = `"${query}" 검색 결과`;
+    overlay.style.display = "none";
+    topRatedContainer.style.display = "none";
+    backgroundContainer.style.height = "auto";
   }
 
   getSearchResult(query: string) {
