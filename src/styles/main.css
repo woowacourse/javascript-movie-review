@@ -64,7 +64,6 @@ button.primary {
   position: relative;
   background-position: center center;
   background-size: cover;
-  background-image: url("https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/stKGOm8UyhuLPR9sZLjs5AkmncA.jpg");
   height: 500px;
   padding: 48px;
 }
@@ -80,17 +79,23 @@ button.primary {
 
 .header {
   position: fixed;
-  top: 40px;
-  left: calc(50% - 640px);
+  top: 0;
   z-index: 9999;
   width: 100%;
-  max-width: 1280px;
+  padding: 40px calc(50% - 640px);
+  transition: backdrop-filter 0.3s ease;
+}
+
+.header.scrolled {
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 1280px;
 }
 
 .search-bar-container {
