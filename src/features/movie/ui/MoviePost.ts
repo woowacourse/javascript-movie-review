@@ -2,12 +2,15 @@ import { IMovie } from "../../../shared/types/movies";
 
 const MoviePost = (movie: IMovie) => {
   const movieTitle = movie.name ? movie.name : movie.title;
+  const movieImgPath = movie.poster_path
+    ? `https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}`
+    : "images/nullImage.png";
   return /*html*/ `
   <li>
     <div class="item">
       <img
         class="thumbnail"
-        src="https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}"
+        src=${movieImgPath}
         alt=${movieTitle}
       />
       <div class="item-desc">
