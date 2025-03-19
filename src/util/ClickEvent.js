@@ -1,5 +1,6 @@
 import { fetchPopularMovies } from "../api/fetch.js";
 import { fetchSearchMovies } from "../api/fetch.js";
+import hideskeleton from "./hideskeleton.ts";
 
 function removeButton(movieLayout, total_pages, pageIndex){
   if(total_pages<pageIndex){
@@ -21,6 +22,7 @@ async function clickEvent(movieLayout) {
   
     const readMoreMovieList = (function () {
       let pageIndex = 2;
+      setTimeout(hideskeleton, 500);
       async function loadMovieData() {
         const {results, total_pages} = await fetchPopularMovies(pageIndex);
         pageIndex++;
@@ -32,6 +34,7 @@ async function clickEvent(movieLayout) {
       return async function () {
         const movieData = await loadMovieData();
         movieLayout.newMovieListRender(movieData);
+        hideskeleton();
       };
     })();
 
@@ -51,6 +54,7 @@ async function clickEvent(movieLayout) {
       return async function () {
         const movieData = await loadMovieData();
         movieLayout.newMovieListRender(movieData);
+        hideskeleton();
       };
     })();
 

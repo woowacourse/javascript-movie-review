@@ -1,6 +1,7 @@
 import MovieList from "./MovieList.js";
 import Button from "./Button.js";
 import { fetchPopularMovies } from "../../api/fetch.js";
+import hideskeleton from "../../util/hideskeleton.js";
 
 class MovieLayout {
     #state
@@ -31,6 +32,7 @@ class MovieLayout {
     
     render(){
         document.getElementById('MovieSection').innerHTML = this.template();
+        hideskeleton();
     }
 
     newMovieListRender(dataList) {
