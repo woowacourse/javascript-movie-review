@@ -1,0 +1,15 @@
+@import "public/styles/colors.css";
+@import "public/styles/main.css";
+@import "public/styles/modal.css";
+@import "public/styles/reset.css";
+@import "public/styles/tab.css";
+@import "public/styles/thumbnail.css";
+@import "src/components/header/header.css";
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
