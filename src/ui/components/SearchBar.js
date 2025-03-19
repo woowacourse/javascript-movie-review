@@ -7,8 +7,18 @@ class SearchBar {
     input.classList.add("search-bar-input");
     input.placeholder = "검색어를 입력하세요...";
 
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        console.log("엔터키 입력값:", e.target.value);
+      }
+    });
+
     const searchButton = document.createElement("button");
     searchButton.classList.add("search-bar-button");
+
+    searchButton.addEventListener("click", () => {
+      console.log("검색 버튼 클릭 입력값:", input.value);
+    });
 
     const buttonImage = document.createElement("img");
     buttonImage.src = "/images/find.png";
