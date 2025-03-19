@@ -16,12 +16,15 @@ export default class Fetcher {
     this.baseUrl = baseUrl;
   }
 
-  public async get<T>(url: string, headers = {}): Promise<T> {
+  public async get<T>(url: string): Promise<T> {
     this.cleanUp();
 
     const httpAbortCtrl = new AbortController();
     const response = await fetch(`${this.baseUrl}/${url}`, {
-      headers,
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${ENV.VITE_TMBD_HEADER}`,
+      },
       method: 'GET',
       signal: httpAbortCtrl.signal,
     });
