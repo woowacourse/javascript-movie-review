@@ -38,7 +38,8 @@ const SearchBar = () => {
         const params = new URLSearchParams(window.location.search);
 
         if (params.has("query")) {
-        params.set("query", query);
+            params.set("query", query);
+            document.querySelector('.list-title').textContent = `"${query}" 검색 결과`;
         } else {
         params.append("query", query);
         }

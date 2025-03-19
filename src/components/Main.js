@@ -3,7 +3,7 @@ import MovieContainer from "./MovieContainer";
 import Footer from "./Footer";
 import createElement from "./utils/createElement";
 
-const Main = ({ movies, isReRender }) => {
+const Main = ({ movies }) => {
   const $body = document.querySelector("body");
 
   if ($body) {
@@ -29,7 +29,6 @@ const Main = ({ movies, isReRender }) => {
     $container.appendChild(
       MovieContainer({
         movies,
-        isReRender
       })
     );
 

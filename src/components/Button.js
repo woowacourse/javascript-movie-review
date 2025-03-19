@@ -48,7 +48,3 @@ const Button = ({ text, type }) => {
 };
 
 export default Button;
-
-
-
-
