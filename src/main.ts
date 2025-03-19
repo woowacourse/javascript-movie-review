@@ -5,18 +5,17 @@ import { IMovie } from "./shared/types/movies";
 import { CustomButton } from "./shared/ui/CustomButton";
 
 addEventListener("DOMContentLoaded", async () => {
-  const $movieList = document.querySelector(".thumbnail-list");
+  const $movieList = document.querySelector(
+    ".thumbnail-list"
+  ) as HTMLElement | null;
   let moviesText = "";
 
   const movies = await getMovieList({ page: 1 });
 
   Header(movies.results[0]);
 
-  movies.results.forEach((movie: IMovie) => {
-    moviesText += MoviePost(movie);
-  });
-
   if ($movieList) {
+    moviesText = addMoviePost(movies.results, moviesText);
     $movieList.innerHTML = moviesText;
   }
 
@@ -27,22 +26,37 @@ addEventListener("DOMContentLoaded", async () => {
 
   const $moreMoviesButton = document.getElementById("more-movies-button");
   $moreMoviesButton?.addEventListener("click", async () => {
-    const params = new URLSearchParams(window.location.search);
-    const page = params.get("page");
+    if (!$movieList) return;
 
-    if (!page) {
-      params.append("page", "2");
-    } else {
-      params.set("page", (parseInt(page) + 1).toString());
-    }
-    const movies = await getMovieList({ page: parseInt(params.get("page")!) });
-    movies.results.forEach((movie: IMovie) => {
-      moviesText += MoviePost(movie);
-    });
-    if ($movieList) {
-      $movieList.innerHTML = moviesText;
-    }
-    const newUrl = `${window.location.pathname}?${params.toString()}`;
-    history.pushState(null, "", newUrl);
+    addMoreMovies(moviesText, $movieList);
   });
 });
+
+function addMoviePost(movieList: IMovie[], movieText: string) {
+  movieList.forEach((movie: IMovie) => {
+    movieText += MoviePost(movie);
+  });
+
+  return movieText;
+}
+
+async function addMoreMovies(moviesText: string, $movieList: HTMLElement) {
+  const params = new URLSearchParams(window.location.search);
+  const page = params.get("page");
+
+  if (!page) {
+    params.append("page", "2");
+  } else {
+    params.set("page", (parseInt(page) + 1).toString());
+  }
+  const movies = await getMovieList({ page: parseInt(params.get("page")!) });
+
+  moviesText = addMoviePost(movies.results, moviesText);
+
+  if ($movieList) {
+    $movieList.innerHTML = moviesText;
+  }
+
+  const newUrl = `${window.location.pathname}?${params.toString()}`;
+  history.pushState(null, "", newUrl);
+}
