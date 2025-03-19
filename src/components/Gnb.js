@@ -1,3 +1,4 @@
+import SearchBar from './SearchBar';
 import createElement from './utils/createElement';
 
 const Gnb = () => {
@@ -14,14 +15,9 @@ const Gnb = () => {
     alt: 'MovieList',
   });
 
-  const $searchBar = createElement({
-    tag: 'input',
-    classNames: ['search-bar'],
-  });
-
   $fragment.appendChild($logo);
   $logo.appendChild($logoImg);
-  $fragment.appendChild($searchBar);
+  $fragment.appendChild(SearchBar());
 
   return $fragment;
 };
