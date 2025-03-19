@@ -41,6 +41,7 @@ button.primary {
   font-weight: bold;
   background-color: var(--color-lightblue-90);
   border-radius: 4px;
+  width: 100%;
 }
 
 #wrap {
@@ -95,6 +96,10 @@ button.primary {
 
 .top-rated-movie {
   margin-top: 64px;
+}
+
+.top-rated-movie > button {
+  width: auto;
 }
 
 .top-rated-movie > *:not(:last-child) {
