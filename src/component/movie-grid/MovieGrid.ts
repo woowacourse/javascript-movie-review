@@ -1,4 +1,4 @@
-import { MovieItem } from '../movie-item/MovieItem';
+import MovieItem from '../movie-item/MovieItem';
 
 interface MovieGridProps {
   movieItems: MovieData[];
@@ -21,11 +21,11 @@ class MovieGrid {
     this.#container.innerHTML = `<section>
     <h2>${this.#gridTitle}</h2>
             <ul class="thumbnail-list">
-    ${this.#createMovieItems()}
+    ${this.#movieItemElements()}
     </section>`;
   }
 
-  #createMovieItems() {
+  #movieItemElements() {
     return this.#movieItems.map((movieItem) => new MovieItem({ data: movieItem }).element.outerHTML).join('');
   }
 

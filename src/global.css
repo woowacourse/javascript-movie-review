@@ -4,6 +4,8 @@
 @import './component/movie-item/movie-item.css';
 @import './component/button/button.css';
 @import './component/movie-grid/movie-grid.css';
+@import './component/header/header.css';
+@import './component/footer/footer.css';
 
 body {
   background-color: var(--color-bluegray-100);

@@ -1,4 +1,4 @@
-export class SearchBar {
+class SearchBar {
   container: HTMLElement;
 
   constructor() {
@@ -20,3 +20,5 @@ export class SearchBar {
     return this.container.firstElementChild;
   }
 }
+
+export default SearchBar;

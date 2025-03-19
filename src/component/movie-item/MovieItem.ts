@@ -2,7 +2,7 @@ interface MovieItemProps {
   data: MovieData;
 }
 
-export class MovieItem {
+class MovieItem {
   #container: HTMLElement;
   #data: MovieData;
 
@@ -35,3 +35,5 @@ export class MovieItem {
     return this.#container.firstElementChild || document.createElement('div');
   }
 }
+
+export default MovieItem;

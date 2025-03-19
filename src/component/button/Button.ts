@@ -3,7 +3,7 @@ interface ButtonProps {
   innerText: string;
 }
 
-export class Button {
+class Button {
   #button;
 
   constructor({ cssType, innerText }: ButtonProps) {
@@ -21,3 +21,5 @@ export class Button {
     return this.#button;
   }
 }
+
+export default Button;
