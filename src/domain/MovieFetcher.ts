@@ -1,6 +1,7 @@
 import { MovieItem, MovieResponse } from '../types/Movie.types';
-import { ENV } from './env';
-import Fetcher from './Fetcher';
+import { ENV } from '../api/env';
+import Fetcher from '../api/Fetcher';
+import { movieFetcherEvent } from './MovieFetcherEvent';
 
 export const QUERY_PARAMS = {
   MOVIE: 'movie/popular',
@@ -10,6 +11,8 @@ export const QUERY_PARAMS = {
 class MovieFetcher {
   private movieFetcher: Fetcher;
   private isLoading: boolean = false;
+  private isSearch: boolean = false;
+  private query: string = '';
   private currentPage: number = 1;
   private movieResponse: MovieResponse = {} as MovieResponse;
   private movieResult: MovieItem[] = [];
@@ -28,7 +31,9 @@ class MovieFetcher {
     const response = await this.movieFetcher.get<MovieResponse>(url);
     this.movieResponse = response;
     this.movieResult = [...this.movieResult, ...response.results];
+    this.isLoading = false;
 
+    movieFetcherEvent.notify();
     return response;
   }
 
@@ -40,8 +45,8 @@ class MovieFetcher {
     return await this.getMovieData(url);
   }
 
-  public async getNextPagePopularMovies(): Promise<MovieResponse | undefined> {
-    return await this.getPopularMovies(this.currentPage + 1);
+  public async getNextPagePopularMovies() {
+    await this.getPopularMovies(this.currentPage + 1);
   }
 
   public async getSearchMovies(
@@ -50,21 +55,36 @@ class MovieFetcher {
   ): Promise<MovieResponse | undefined> {
     if (page === 1) this.movieResult = [];
 
+    this.isSearch = true;
     this.currentPage = page;
+    this.query = query;
+
     const url = `${this.MOVIE_API_END_POINT.SEARCH}?query=${query}&page=${page}`;
     return await this.getMovieData(url);
+  }
+
+  public async getNextPageSearchMovies() {
+    await this.getSearchMovies(this.currentPage + 1, this.query);
   }
 
   public getLoadingState(): boolean {
     return this.isLoading;
   }
 
-  public getCurrentMovieList(): MovieResponse {
+  public getSearchState(): boolean {
+    return this.isSearch;
+  }
+
+  public getCurrentMovieResponse(): MovieResponse {
     return this.movieResponse;
   }
 
   public getMovieResult(): MovieItem[] {
     return this.movieResult;
+  }
+
+  public getQuery(): string {
+    return this.query;
   }
 }
 
