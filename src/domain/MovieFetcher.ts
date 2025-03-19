@@ -28,18 +28,26 @@ class MovieFetcher {
 
   private async getMovieData(url: string): Promise<MovieResponse | undefined> {
     this.isLoading = true;
+
+    movieFetcherEvent.notify();
+
     const response = await this.movieFetcher.get<MovieResponse>(url);
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
     this.movieResponse = response;
     this.movieResult = [...this.movieResult, ...response.results];
+
     this.isLoading = false;
 
     movieFetcherEvent.notify();
+
     return response;
   }
 
   public async getPopularMovies(
     page: number,
   ): Promise<MovieResponse | undefined> {
+    this.isSearch = false;
     this.currentPage = page;
     const url = `${this.MOVIE_API_END_POINT.POPULAR}?page=${page}`;
     return await this.getMovieData(url);

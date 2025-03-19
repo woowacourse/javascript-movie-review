@@ -64,13 +64,33 @@ export const MovieList = async () => {
 
   await movieFetcher.getPopularMovies(1);
 
-  renderMovieList();
-
   function renderMovieList() {
     movieUl.innerHTML = '';
     isSearch = movieFetcher.getSearchState();
+
     const currentResponse = movieFetcher.getCurrentMovieResponse();
     const currentResult = movieFetcher.getMovieResult();
+
+    if (isSearch) {
+      text.textContent = `검색 결과: ${movieFetcher.getQuery()}`;
+      const isLoading = movieFetcher.getLoadingState();
+
+      if (isLoading) {
+        const skeletonElements = Array.from(
+          { length: currentResult.length || 20 },
+          () => MovieSkeleton(),
+        );
+        movieUl.append(...skeletonElements);
+        return;
+      }
+
+      if (!currentResult.length) {
+        movieUl.append(NoResult());
+        moreBtn.style.display = 'none';
+        return;
+      }
+    }
+
     const movieElements = currentResult.map((movie: MovieItemType) => {
       return MovieItem({ ...movie });
     });
@@ -80,23 +100,8 @@ export const MovieList = async () => {
     if (currentResponse.page === currentResponse.total_pages) {
       moreBtn.style.display = 'none';
     }
-
-    if (isSearch) {
-      text.textContent = `검색 결과: ${movieFetcher.getQuery()}`;
-
-      if (currentResult.length) {
-        const skeletonElements = Array.from({ length: 20 }, () =>
-          MovieSkeleton(),
-        );
-        movieUl.append(...skeletonElements);
-      }
-
-      // 여기서 검색 결과가 없으면 noContent 띄우기
-      if (!currentResult.length) {
-        movieUl.append(NoResult());
-      }
-    }
   }
+  renderMovieList();
   movieFetcherEvent.subscribe(renderMovieList);
   return mainElement;
 };
