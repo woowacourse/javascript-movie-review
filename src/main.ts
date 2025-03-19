@@ -15,7 +15,8 @@ addEventListener("load", async () => {
       ".thumbnail-list",
       moviesData.movies,
       moviesData.page,
-      moviesData.totalPages
+      moviesData.totalPages,
+      movieService
     );
     movieList.init();
   }
