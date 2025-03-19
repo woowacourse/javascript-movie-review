@@ -1,8 +1,8 @@
-import MovieList from './MovieList.js'
+import SearchHandler from "../handlers/SearchHandler.js";
 
 class SearchBar {
-  constructor(movieService) {
-    this.movieService = movieService;
+  constructor(searchHandler) {
+    this.searchHandler = searchHandler;
   }
 
   createSearchBar() {
@@ -15,24 +15,15 @@ class SearchBar {
 
     input.addEventListener("keypress", async (e) => {
       if (e.key === "Enter") {
-        console.log("엔터키 입력값:", e.target.value);
-        const searchQuery = e.target.value;
-        const searchExample = await this.movieService.searchMovies(searchQuery, 1);
-        MovieList.removeMovieList();
-        const movieList = new MovieList(".thumbnail-list",
-          searchExample.movies,
-          searchExample.page,
-          searchExample.totalPages,
-          this.movieService);
-        movieList.loadInitMovie();
+        await this.searchHandler.handleSearch(e.target.value);
       }
     });
 
     const searchButton = document.createElement("button");
     searchButton.classList.add("search-bar-button");
 
-    searchButton.addEventListener("click", () => {
-      console.log("검색 버튼 클릭 입력값:", input.value);
+    searchButton.addEventListener("click", async () => {
+      await this.searchHandler.handleSearch(input.value);
     });
 
     const buttonImage = document.createElement("img");
@@ -46,12 +37,10 @@ class SearchBar {
     searchBarContainer.appendChild(searchButton);
 
     const searchHeader = document.querySelector(".search-header");
-    console.log("searchHeader 확인:", searchHeader);
-
-    searchHeader.appendChild(searchBarContainer);
+    if (searchHeader) {
+      searchHeader.appendChild(searchBarContainer);
+    }
   }
-
-
 }
 
 export default SearchBar;
