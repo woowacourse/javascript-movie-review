@@ -1,9 +1,9 @@
 @import "./colors.css";
 
 .thumbnail-list {
-  margin: 0 auto 56px;
+  margin-bottom: 56px;
   display: grid;
-  grid-template-columns: repeat(5, 200px);
+  grid-template-columns: repeat(5, 1fr);
   gap: 70px;
 }
 
