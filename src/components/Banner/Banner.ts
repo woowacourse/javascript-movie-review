@@ -1,3 +1,17 @@
+export const removeBanner = () => {
+  const $header = document.querySelector("header") as HTMLElement;
+  $header.classList.remove("banner-open");
+
+  const $banner = document.querySelector(".background-container");
+  $banner?.remove();
+};
+
+export const addBanner = () => {
+  const $header = document.querySelector("header") as HTMLElement;
+  $header.classList.add("banner-open");
+  $header.prepend($Banner());
+};
+
 const $Banner = () => {
   const $backgroundContainer = createElement("div", {
     className: "background-container",

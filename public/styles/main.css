@@ -55,8 +55,11 @@ button.primary {
 }
 
 .header {
-  height: 500px;
   position: relative;
+}
+
+.banner-open {
+  height: 500px;
 }
 
 .header-box {
@@ -73,7 +76,7 @@ button.primary {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1rem;
+  padding: 0 1.25rem;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
