@@ -1,10 +1,18 @@
+import { isHTMLElement } from "../utils/typeGuards";
 import SearchBar from "./SearchBar";
 
+interface Props {
+  search: () => void;
+}
 class Header {
   #parentElement;
-  constructor(parentElement: HTMLElement) {
+  #props;
+
+  constructor(parentElement: HTMLElement, props: Props) {
     this.#parentElement = parentElement;
+    this.#props = props;
     this.#render();
+    this.#renderSearchBar();
   }
 
   #render() {
@@ -12,8 +20,16 @@ class Header {
         <h1 class="logo">
             <img src="./images/logo.png" alt="MovieList" />
         </h1>
-        ${SearchBar()}
+        <div class="search-bar-container"></div>
     `;
+  }
+
+  #renderSearchBar() {
+    const $searchBar = document.querySelector(".search-bar-container");
+    if (isHTMLElement($searchBar))
+      new SearchBar($searchBar, {
+        search: () => this.#props.search(),
+      });
   }
 }
 

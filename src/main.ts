@@ -17,7 +17,7 @@ class App {
 
   async #initialSetup() {
     const $header = document.querySelector("header");
-    if (isHTMLElement($header)) new Header($header);
+    if (isHTMLElement($header)) new Header($header, { search: () => {} });
 
     const $section = document.querySelector("main");
     if (isHTMLElement($section)) new MovieBoard($section, { type: "POPULAR" });

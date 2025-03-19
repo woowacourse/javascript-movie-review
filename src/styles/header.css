@@ -12,13 +12,13 @@ h1.logo {
   font-size: 2rem;
 }
 
-.search-bar-container {
+.search-bar {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 525px;
-  padding: 10px 20px;
+  padding: 3px 20px;
   color: var(--color-white);
   font-size: 16px;
   border-radius: 30px;
@@ -26,7 +26,12 @@ h1.logo {
   display: flex;
 }
 
-.search-bar-container input {
+.search-bar button {
+  background-color: transparent;
+  border: none;
+}
+
+.search-bar input {
   background-color: transparent;
   border: none;
   color: white;
