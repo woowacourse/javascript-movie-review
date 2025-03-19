@@ -1,3 +1,4 @@
+import { getPopularMovieResult } from "./api/getPopularMovieResult";
 import MovieItem from "./component/MovieItem";
 import MovieResults from "./domain/MovieResults";
 import { IMovieResult } from "./types/movieResultType";
@@ -5,18 +6,8 @@ import { IMovieResult } from "./types/movieResultType";
 const movieResults = MovieResults();
 
 const getPopularMovieList = async (page: number) => {
-  const TOKEN = import.meta.env.VITE_TMDB_TOKEN;
-  const url = `https://api.themoviedb.org/3/movie/popular?language=en-US&page=${page}`;
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${TOKEN}`,
-    },
-  };
-
-  const data = await fetch(url, options);
-  const { page: newPage, results: movieList }: IMovieResult = await data.json();
+  const { page: newPage, results: movieList }: IMovieResult =
+    await getPopularMovieResult(page);
   movieResults.addMovieList(newPage, movieList);
 
   return movieList;
