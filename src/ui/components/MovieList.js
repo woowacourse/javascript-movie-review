@@ -48,4 +48,9 @@ export default class MovieList {
       this.container.appendChild(movieCard.render());
     });
   }
+
+  static removeMovieList() {
+    const movieList = document.querySelector('.thumbnail-list');
+    movieList.textContent = '';
+  }
 }

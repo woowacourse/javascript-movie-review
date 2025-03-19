@@ -6,13 +6,11 @@ addEventListener("load", async () => {
   const app = document.querySelector("#app");
 
   if (app) {
-    SearchBar.createSearchBar();
-
     const movieService = new MovieService();
     const moviesData = await movieService.getPopularResults();
-    
-    const searchExample = await movieService.searchMovies("짱구",1);
-    console.log(searchExample);
+
+    const searchBar = new SearchBar(movieService);
+    searchBar.createSearchBar();
 
     const movieList = new MovieList(
       ".thumbnail-list",

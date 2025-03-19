@@ -1,5 +1,11 @@
+import MovieList from './MovieList.js'
+
 class SearchBar {
-  static createSearchBar() {
+  constructor(movieService) {
+    this.movieService = movieService;
+  }
+
+  createSearchBar() {
     const searchBarContainer = document.createElement("div");
     searchBarContainer.classList.add("search-bar-container");
 
@@ -7,9 +13,18 @@ class SearchBar {
     input.classList.add("search-bar-input");
     input.placeholder = "검색어를 입력하세요...";
 
-    input.addEventListener("keypress", (e) => {
+    input.addEventListener("keypress", async (e) => {
       if (e.key === "Enter") {
         console.log("엔터키 입력값:", e.target.value);
+        const searchQuery = e.target.value;
+        const searchExample = await this.movieService.searchMovies(searchQuery, 1);
+        MovieList.removeMovieList();
+        const movieList = new MovieList(".thumbnail-list",
+          searchExample.movies,
+          searchExample.page,
+          searchExample.totalPages,
+          this.movieService);
+        movieList.loadInitMovie();
       }
     });
 
@@ -35,6 +50,8 @@ class SearchBar {
 
     searchHeader.appendChild(searchBarContainer);
   }
+
+
 }
 
 export default SearchBar;
