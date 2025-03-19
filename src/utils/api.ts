@@ -1,4 +1,6 @@
 import { MovieResponse } from "../../types/movie.ts";
+import SkeletonMovieItem from "../components/movie/SkeletonMovieItem.ts";
+import { $, $$ } from "./dom.ts";
 
 const OPTIONS = {
   headers: {
@@ -7,29 +9,62 @@ const OPTIONS = {
   },
 };
 
+const showSkeleton = (count: number = 20) => {
+  const container = $(".thumbnail-list");
+  if (!container) return;
+
+  for (let i = 0; i < count; i++) {
+    container.appendChild(SkeletonMovieItem());
+  }
+};
+
+const hideSkeleton = () => {
+  $$(".skeleton")?.forEach((s) => s.remove());
+};
+
 export const fetchPopularMovieList = async (
   currentPage: number
 ): Promise<MovieResponse> => {
-  const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${currentPage}`;
+  showSkeleton();
 
-  const response = await fetch(url, OPTIONS);
-  if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
+  try {
+    const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${currentPage}`;
+    const response = await fetch(url, OPTIONS);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    hideSkeleton();
+    return data;
+  } catch (error) {
+    console.error("데이터 로드 실패:", error);
+    hideSkeleton();
+    throw error;
   }
-
-  return response.json();
 };
 
 export const fetchSearchMovieList = async (
   search: string,
   currentPage: number
 ): Promise<MovieResponse> => {
-  const url = `https://api.themoviedb.org/3/search/movie?query=${search}&language=ko-KR&page=${currentPage}`;
+  showSkeleton();
 
-  const response = await fetch(url, OPTIONS);
-  if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
+  try {
+    const url = `https://api.themoviedb.org/3/search/movie?query=${search}&language=ko-KR&page=${currentPage}`;
+    const response = await fetch(url, OPTIONS);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    hideSkeleton();
+    return data;
+  } catch (error) {
+    console.error("검색 데이터 로드 실패:", error);
+    hideSkeleton();
+    throw error;
   }
-
-  return response.json();
 };
