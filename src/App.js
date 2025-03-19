@@ -4,6 +4,7 @@ import MovieListSection from "./UI/MovieListSection/MovieListSection";
 import Button from "./UI/Button/Button";
 import Footer from "./UI/Footer/Footer";
 import { getPopularityMovie } from "./Domain/getPopularityMovie";
+import { searchMovie } from "./Domain/searchMovie";
 
 // const movieData = await getPopularityMovie(1);
 
@@ -19,11 +20,16 @@ class App {
   #movies;
   #isLoading;
   #page;
+  #searchKeyword;
+  #searchPage;
+  #mode;
 
   constructor() {
     this.#movies = [];
     this.#isLoading = false;
     this.#page = 1;
+    this.#searchPage = 1;
+    this.#mode = "popular";
   }
 
   async init() {
@@ -50,6 +56,22 @@ class App {
     return [];
   }
 
+  async getSearchMovies() {
+    this.setIsLoading(true);
+
+    const data = await searchMovie(this.#searchPage, this.#searchKeyword);
+
+    if (data !== null) {
+      this.setIsLoading(false);
+
+      return data.results.map((movie) => ({
+        ...movie,
+        poster_path: `https://image.tmdb.org/t/p/w300${movie.poster_path}`,
+        vote_average: movie.vote_average.toFixed(1),
+      }));
+    }
+  }
+
   setMovies(newMovies) {
     this.#movies = newMovies;
     this.render();
@@ -60,16 +82,29 @@ class App {
     this.render();
   }
 
-  render() {
-    console.log("this.로딩", this.#isLoading);
+  setSearchKeyword = async (searchKeyword) => {
+    this.#searchKeyword = searchKeyword;
 
+    const searchResult = await this.getSearchMovies();
+    this.setMovies(searchResult);
+  };
+
+  setMode = (mode) => {
+    this.#mode = mode;
+    this.render();
+  };
+
+  render() {
     const body = document.querySelector("body");
     body.innerHTML = "";
 
     const $wrap = document.createElement("div");
     $wrap.id = "wrap";
 
-    const $header = new TitleSearchBar().render();
+    const $header = new TitleSearchBar(
+      this.setSearchKeyword,
+      this.setMode
+    ).render();
 
     const $container = document.createElement("div");
     $container.classList.add("container");
@@ -127,10 +162,15 @@ class App {
   }
 
   handleButtonClick = async () => {
-    this.#page += 1;
-    const results = await this.getMoviesResults(); // t-> f
+    if (this.#mode === "popular") {
+      this.#page += 1;
+      const results = await this.getMoviesResults(); // t-> f
+      this.setMovies([...this.#movies, ...results]); //
+      return;
+    }
 
-    console.log("버튼클릭 - 로딩", this.#isLoading);
+    this.#searchPage += 1;
+    const results = await this.getSearchMovies(); // t-> f
     this.setMovies([...this.#movies, ...results]); //
   };
 }
