@@ -3,7 +3,7 @@ import { createElement } from '../../utils/createElement';
 import { IconButton } from './IconButton';
 
 type SearchBarProps = {
-  onSubmit: VoidFunction;
+  onSubmit: (value: string) => void;
 } & ComponentProps;
 
 export const SearchBar = ({ onSubmit, classList, props }: SearchBarProps) => {
@@ -31,14 +31,16 @@ export const SearchBar = ({ onSubmit, classList, props }: SearchBarProps) => {
     width: '16',
     height: '16',
     src: 'images/search.png',
-    onClick: () => onSubmit,
+    onClick: () => {
+      onSubmit(input.value);
+    },
     classList,
     props,
   });
 
   formElement.addEventListener('submit', (event) => {
     event.preventDefault();
-    onSubmit();
+    onSubmit(input.value);
   });
 
   formElement.appendChild(input);
