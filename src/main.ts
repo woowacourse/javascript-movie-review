@@ -71,7 +71,8 @@ addEventListener("DOMContentLoaded", async () => {
       params.append("page", "1");
       params.append("query", searchQuery as string);
     } else {
-      params.set("page", (parseInt(page) + 1).toString());
+      params.set("page", "1");
+      params.set("query", searchQuery as string);
     }
 
     const searchedMovies = await getSearchedPost(
