@@ -7,6 +7,11 @@
   font-family: 'Pretendard Variable', Pretendard, BlinkMacSystemFont, system-ui, Roboto,
     'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic',
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+  color: white;
+}
+
+.wt-200 {
+  width: 200px;
 }
 
 a {
@@ -72,6 +77,7 @@ button {
 }
 
 button.primary {
+  width:100%;
   color: var(--color-white);
   font-weight: bold;
   background-color: var(--color-lightblue-90);
@@ -79,7 +85,6 @@ button.primary {
 }
 
 #wrap {
-  //min-width: 1440px;
   background-color: var(--color-bluegray-100);
 }
 
@@ -195,3 +200,4 @@ input {
 input::placeholder {
   color: var(--color-white);
 }
+

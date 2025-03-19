@@ -1,6 +1,6 @@
-function Button({content, eventName, type}) {
+function Button({content, eventName, type, width}) {
     return `
-        <button type="${type}" class="primary" data-action="${eventName}">${content}</button>
+        <button type="${type}" style=${width ? `width: ${width}` : ""} class="primary" data-action="${eventName}">${content}</button>
     `;
 }
 

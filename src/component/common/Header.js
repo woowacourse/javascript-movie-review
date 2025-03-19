@@ -4,7 +4,7 @@ function Header() {
   function template() {
     return `
     
-     <h1 class="logo">
+     <h1 class="logo" data-action="reload">
             <img src="./images/logo.png" alt="MovieList" />
         </h1>
     <div class="header-container">

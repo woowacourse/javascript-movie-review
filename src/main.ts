@@ -1,12 +1,12 @@
 import Header from "./component/common/Header.js";
-import {loadPopularMovies} from "./api/fetch.ts";
 import MovieLayout from "./component/common/MovieLayout.js";
-import clickEvent from "./util/ClickEvent.js";
+import clickEvent from "./util/clickEvent.js";
+import submitEvent from "./util/submitEvent.js";
 
 addEventListener("load", async() => {
+  await submitEvent();
   clickEvent();
   Header();
- //await loadPopularMovies(1);
- (await MovieLayout({title: '인기 영화 보기'})).render();
+ (await MovieLayout({title: '인기 영화 보기', eventName:'readMoreMovieList'})).initialRender();
 
 });

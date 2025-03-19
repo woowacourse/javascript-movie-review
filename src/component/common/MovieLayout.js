@@ -3,26 +3,31 @@ import Button from "./Button.js";
 import { fetchPopularMovies } from "../../api/fetch.js";
 
 
-async function MovieLayout({title}) {
-    const initialData = await fetchPopularMovies(1);
-
-    function template() {
+async function MovieLayout({title, eventName}) {
+    function template(movieData) {
         return `
-            <h2>${title}</h2>
+            <h2 id="movieListTitle" class="text-xl">${title}</h2>
             <div id="movieListContainer">
-                ${MovieList(initialData).template().outerHTML}
+                ${MovieList(movieData).template().outerHTML}
             </div>
-            ${Button({content: '더보기', eventName: 'readMoreMovieList', type: 't'})}
+            ${Button({content: '더보기', eventName, type: 't', width:'100%'})}
         `}
     function newMovieListRender(dataList) {
         const ul = MovieList(dataList).template();
         document.getElementById('movieListContainer').appendChild(ul);
     }
-    function render(){
-        document.getElementById('MovieSection').innerHTML = template();
+    
+    async function initialRender(){
+        const initialData = await fetchPopularMovies(1);
+        document.getElementById('MovieSection').innerHTML = template(initialData);
+    }
+
+    function render(movieData){
+        document.getElementById('MovieSection').innerHTML = template(movieData);
     }
 
     return {
+        initialRender,
         render, 
         newMovieListRender
     }
