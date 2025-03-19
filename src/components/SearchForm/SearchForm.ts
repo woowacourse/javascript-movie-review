@@ -1,18 +1,22 @@
 import getSearchedMovieList from "../../apis/getSearchedMovieList";
 import { replaceMovieListBox } from "../../main";
 import { removeBanner } from "../Banner/Banner";
+import { addErrorBox } from "../ErrorBox/ErrorBox";
 import { setKeyword, setMovieListType } from "../MovieListBox/MovieListBox";
 import { replaceSkeletonList } from "../Skeleton/List/SkeletonList";
 
-const handleSearchFormSubmit = async (e: Event) => {
-  e.preventDefault();
-  const target = e.target as HTMLFormElement;
+const handleSearchFormSubmit = async (event: Event) => {
+  event.preventDefault();
+  const target = event.target as HTMLFormElement;
   const searchValue = target["search-input"].value;
+  if (searchValue === "") {
+    alert("검색어를 입력해주세요.");
+    return;
+  }
 
   try {
     removeBanner();
     replaceSkeletonList();
-
     const searchResult = await getSearchedMovieList(searchValue, 1);
     replaceMovieListBox({
       title: `"${searchValue}" 검색 결과`,
@@ -23,14 +27,7 @@ const handleSearchFormSubmit = async (e: Event) => {
     setKeyword(searchValue);
   } catch (error) {
     if (error instanceof Error) {
-      // removeBanner();
-      // replaceMovieListBox({
-      //   title: `"${searchValue}" 검색 결과`,
-      //   movieResult: { page: 0, results: [], total_pages: 0, total_results: 0 },
-      // });
-      // setTimeout(() => {
-      //   alert(error.message);
-      // }, 300);
+      addErrorBox(error.message);
     }
   }
 };
