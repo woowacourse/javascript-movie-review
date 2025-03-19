@@ -1,52 +1,56 @@
 import { createElement } from '../../utils/createElement';
 import { Button } from './Button';
-import { Icon } from './Icon';
+import { Img } from './Img';
 import { SearchBar } from './SearchBar';
 import { Text } from './Text';
 
 export const Header = () => {
-  const headerElement = <HTMLHeadElement>createElement('header');
+  const headerElement = createElement<HTMLHeadElement>('header');
 
-  const backgroundContainer = <HTMLDivElement>createElement('div');
-  backgroundContainer.classList.add('background-container');
-
-  const overlay = <HTMLDivElement>createElement('div', {
-    'aria-hidden': 'true',
+  const backgroundContainer = createElement<HTMLDivElement>('div', {
+    classList: 'background-container',
   });
-  overlay.classList.add('overlay');
 
-  const topRatedContainer = <HTMLDivElement>createElement('div');
-  topRatedContainer.classList.add('top-rated-container');
+  const overlay = createElement<HTMLDivElement>('div', {
+    'aria-hidden': 'true',
+    classList: 'overlay',
+  });
 
-  const logoImg = Icon({
-    width: 117,
-    height: 20,
+  const topRatedContainer = createElement<HTMLDivElement>('div', {
+    classList: 'top-rated-container',
+  });
+
+  const logoImg = Img({
+    width: '117',
+    height: '20',
     src: './images/logo.png',
     classList: ['logo'],
     props: { alt: 'MovieLogo' },
   });
 
-  const topRatedMovie = <HTMLDivElement>createElement('div');
-  topRatedMovie.classList.add('top-rated-movie');
+  const topRatedMovie = createElement<HTMLDivElement>('div', {
+    classList: 'top-rated-movie',
+  });
 
-  const rateDiv = <HTMLDivElement>createElement('div');
-  rateDiv.classList.add('rate');
+  const rateDiv = createElement<HTMLDivElement>('div', {
+    classList: 'rate',
+  });
 
-  const starImg = Icon({
-    width: 32,
-    height: 32,
+  const starImg = Img({
+    width: '32',
+    height: '32',
     src: './images/star_empty.png',
   });
 
   const rateText = Text({
-    classList: ['rate-value'],
+    classList: ['text-2xl', 'font-semibold', 'text-yellow'],
     props: {
       textContent: '9.5',
     },
   });
 
   const titleText = Text({
-    classList: ['title'],
+    classList: ['text-3xl', 'font-semibold'],
     props: {
       textContent: '인사이드 아웃2',
     },
