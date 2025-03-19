@@ -89,6 +89,14 @@ addEventListener("load", async () => {
         const $ul = document.querySelector(".thumbnail-list");
         if ($ul) $ul.innerHTML = "";
 
+        const $topRatedContainer = document.querySelector(
+          ".top-rated-container"
+        );
+        const $overlay = document.querySelector(".overlay");
+
+        $topRatedContainer?.classList.add("close");
+        $overlay?.classList.add("close");
+
         movies = response.results;
         renderMoviesList();
       }
