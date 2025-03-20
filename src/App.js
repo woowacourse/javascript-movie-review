@@ -46,7 +46,10 @@ class App {
         ...movie,
         poster_path: `https://image.tmdb.org/t/p/w300${movie.poster_path}`,
         vote_average: movie.vote_average.toFixed(1),
+        backdrop_path: `https://image.tmdb.org/t/p/w300${movie.backdrop_path}`,
       }));
+      console.log(results);
+
       return { results, totalPage: data.total_pages };
     }
 
@@ -65,6 +68,7 @@ class App {
         ...movie,
         poster_path: `https://image.tmdb.org/t/p/w300${movie.poster_path}`,
         vote_average: movie.vote_average.toFixed(1),
+        backdrop_path: `https://image.tmdb.org/t/p/w300${movie.backdrop_path}`,
       }));
       return { results, totalPage: data.total_pages };
     }

@@ -13,7 +13,7 @@ class Thumbnail {
       return $div;
     }
 
-    $div.style.backgroundImage = `url("${this.movie.poster_path}")`;
+    $div.style.backgroundImage = `url("${this.movie.backdrop_path}")`;
 
     $div.innerHTML = /*html*/ `
         <div class="overlay" aria-hidden="true"></div>
