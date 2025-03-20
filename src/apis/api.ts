@@ -5,21 +5,27 @@ class HTTPClient {
   baseUrl: string = "";
   apiKey: string = "";
 
-  constructor(baseUrl: string, apiKey: string) {
+  constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
-    this.apiKey = apiKey;
   }
 
   async get(url: string) {
+    const headers = {
+      "Content-Type": "application/json",
+      ...(this.apiKey && { Authorization: `Bearer ${this.apiKey}` }),
+    };
+
     const response = await fetch(this.baseUrl + url, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.apiKey}`,
-      },
+      headers,
     });
 
     return response.json();
   }
+
+  setApiKey(apiKey: string) {
+    this.apiKey = apiKey;
+  }
 }
 
-export const tmdbClient = new HTTPClient(BASE_URL, TMDB_API_KEY);
+export const tmdbClient = new HTTPClient(BASE_URL);
+tmdbClient.setApiKey(TMDB_API_KEY);
