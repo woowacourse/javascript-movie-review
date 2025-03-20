@@ -1,6 +1,11 @@
 import { Movie } from "../types/movie";
 
-class MovieList {
+interface MovieListContract {
+  skeleton: string;
+  ui: string;
+}
+
+class MovieList implements MovieListContract {
   private static IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
 
   #movies: Movie[];

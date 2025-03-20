@@ -1,6 +1,11 @@
 import { Movie } from "../types/movie";
 
-class TopRatedMovie {
+interface TopRatedMovieContract {
+  skeleton: string;
+  ui: string;
+}
+
+class TopRatedMovie implements TopRatedMovieContract {
   private static IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
 
   #movie: Movie;
