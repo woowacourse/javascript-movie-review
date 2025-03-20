@@ -24,7 +24,7 @@ class MainBanner {
            
         <div class="main-banner__info">
            <div class="main-banner__rate">
-                <img src="./star_empty.png" class="main-banner__rating-star" />
+                <img src="https://h0ngju.github.io/javascript-movie-review/star_empty.png" class="main-banner__rating-star" />
                 <span class="main-banner__rate-value text-subtitle">${this.#data.score}</span>
             </div>
               <div class="main-banner__title text-title">${this.#data.title}</div>

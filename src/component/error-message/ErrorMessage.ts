@@ -16,7 +16,7 @@ class ErrorMessage {
 
   render() {
     this.#container.innerHTML = `
-        <img src="./no-result.png" alt="으아아 행성이"/>
+        <img src="https://h0ngju.github.io/javascript-movie-review/no-result.png" alt="으아아 행성이"/>
         <p class="text-subtitle">${this.#errorMessage}</p>
     `;
   }

@@ -15,7 +15,7 @@ class SearchBar {
   render() {
     this.#container.innerHTML = `
       <input placeholder="검색어를 입력하세요" class="text-placeholder searchbar__input" />
-      <img src="./search-icon.png" class="searchbar__icon"/>
+      <img src="https://h0ngju.github.io/javascript-movie-review/search-icon.png" class="searchbar__icon"/>
   `;
   }
 

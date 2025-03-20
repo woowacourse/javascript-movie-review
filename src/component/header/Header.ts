@@ -21,7 +21,7 @@ class Header {
   render() {
     this.#container.innerHTML = `
     <h1 class="logo"/>
-         <img src="./logo.png" alt="MovieList" ></h1>
+         <img src="https://h0ngju.github.io/javascript-movie-review/logo.png" alt="MovieList" ></h1>
     `;
 
     this.#bindLogoClickEvent();

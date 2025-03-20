@@ -14,7 +14,7 @@ class MovieItem {
 
   #matchImgUrl() {
     if (this.#data.imgUrl.includes('null')) {
-      return './empty-item.png';
+      return 'https://h0ngju.github.io/javascript-movie-review/empty-item.png';
     }
     return this.#data.imgUrl;
   }
@@ -25,7 +25,7 @@ class MovieItem {
         <img class="thumbnail" src=${this.#matchImgUrl()} alt=${this.#data.title}/>
         <div class="item-desc">
           <p class="rate">
-            <img src="./star_empty.png" class="star" />
+            <img src="https://h0ngju.github.io/javascript-movie-review/star_empty.png" class="star" />
             <span>${this.#data.score}</span>
           </p>
           <strong class = 'text-body'>${this.#data.title}</strong>
