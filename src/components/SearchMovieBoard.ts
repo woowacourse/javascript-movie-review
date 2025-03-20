@@ -1,16 +1,16 @@
-import { Movie } from "../main";
+import { Movie } from "../types/movie";
 import { isHTMLElement } from "../utils/typeGuards";
 import MoreMoviesButton from "./MoreMoviesButton";
 import MovieList, { MovieListSkeleton } from "./MovieList";
-
-const BASE_URL = "https://api.themoviedb.org/3";
-const LOAD_COUNT = 20;
 
 interface Props {
   searchParams: string;
 }
 
 class SearchMovieBoard {
+  private static BASE_URL = "https://api.themoviedb.org/3";
+  private static LOAD_COUNT = 20;
+
   #parentElement;
   #props;
   #page;
@@ -67,7 +67,7 @@ class SearchMovieBoard {
 
     this.#renderMovies(movies);
 
-    if (movies.length < LOAD_COUNT) return;
+    if (movies.length < SearchMovieBoard.LOAD_COUNT) return;
 
     this.#initMoreMoviesButton();
   }
@@ -95,7 +95,7 @@ class SearchMovieBoard {
     };
 
     const raw = await fetch(
-      `${BASE_URL}/search/movie?query=${
+      `${SearchMovieBoard.BASE_URL}/search/movie?query=${
         this.#props.searchParams
       }&include_adult=false&language=ko-KR&page=${this.#page}`,
       options
@@ -112,7 +112,10 @@ class SearchMovieBoard {
 
     this.#renderMovies(newMovies);
 
-    if (newMovies.length < LOAD_COUNT || this.#page >= total_pages) {
+    if (
+      newMovies.length < SearchMovieBoard.LOAD_COUNT ||
+      this.#page >= total_pages
+    ) {
       this.#removeMoreMoviesButton();
     }
   }

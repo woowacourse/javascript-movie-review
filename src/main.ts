@@ -4,13 +4,6 @@ import PopularMovieBoard from "./components/PopularMovieBoard";
 import SearchMovieBoard from "./components/SearchMovieBoard";
 import { isHTMLElement } from "./utils/typeGuards";
 
-export interface Movie {
-  id: number;
-  poster_path: string;
-  vote_average: number;
-  title: string;
-}
-
 class App {
   constructor() {
     this.#initialSetup();

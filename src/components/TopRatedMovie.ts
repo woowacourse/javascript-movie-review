@@ -1,4 +1,4 @@
-import { Movie } from "../main";
+import { Movie } from "../types/movie";
 import { IMAGE_BASE_URL } from "./MovieList";
 
 export const TopRatedMovieSkeleton = () => {

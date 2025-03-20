@@ -1,13 +1,13 @@
-import { Movie } from "../main";
+import { Movie } from "../types/movie";
 import { isHTMLElement } from "../utils/typeGuards";
 import MoreMoviesButton from "./MoreMoviesButton";
 import MovieList, { MovieListSkeleton } from "./MovieList";
 import TopRatedMovie, { TopRatedMovieSkeleton } from "./TopRatedMovie";
 
-export const BASE_URL = "https://api.themoviedb.org/3/movie";
-const MAX_PAGE = 500;
-
 class PopularMovieBoard {
+  private static BASE_URL = "https://api.themoviedb.org/3/movie";
+  private static MAX_PAGE = 500;
+
   #parentElement;
   #page;
 
@@ -73,7 +73,9 @@ class PopularMovieBoard {
     };
     try {
       const raw = await fetch(
-        `${BASE_URL}/popular?language=ko-KR&page=${this.#page}`,
+        `${PopularMovieBoard.BASE_URL}/popular?language=ko-KR&page=${
+          this.#page
+        }`,
         options
       );
       const data = await raw.json();
@@ -100,7 +102,7 @@ class PopularMovieBoard {
 
     this.#renderMovies(newMovies);
 
-    if (this.#page >= MAX_PAGE || this.#page >= total_pages) {
+    if (this.#page >= PopularMovieBoard.MAX_PAGE || this.#page >= total_pages) {
       this.#removeMoreMoviesButton();
       return;
     }

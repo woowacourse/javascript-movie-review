@@ -29,7 +29,7 @@ describe.skip("비동기 API 테스트", () => {
   });
 });
 
-describe("Fixture를 이용한 테스트 ", () => {
+describe("인기 있는 영화 페이지 E2E 테스트 ", () => {
   beforeEach(() => {
     cy.intercept(
       {
