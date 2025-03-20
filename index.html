@@ -3,10 +3,58 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/styles/reset.css" />
+    <link rel="stylesheet" href="./src/styles/main.css" />
+    <link rel="stylesheet" href="./src/styles/tab.css" />
+    <link rel="stylesheet" href="./src/styles/thumbnail.css" />
+    <link rel="stylesheet" href="./src/styles/searchBar.css" />
+    <link rel="stylesheet" href="./src/styles/skeleton.css" />
+    <script type="module" src="/src/main.ts"></script>
     <title>영화 리뷰</title>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <div id="wrap">
+      <header>
+        <div class="search-box">
+          <section class="top-bar">
+            <h1 class="logo">
+              <a href="./index.html">
+                <img src="./images/logo.png" alt="MovieList" />
+              </a>
+            </h1>
+            <form id="search-bar-container" class="search-bar-container">
+              <input
+                id="search-bar"
+                class="search-bar"
+                name="search-bar"
+                type="text"
+                placeholder="검색어를 입력하세요"
+              />
+              <button type="submit" class="search-bar-button">
+                <img
+                  src="./images/search_icon.png"
+                  alt="검색 아이콘"
+                  class="search-icon"
+                />
+              </button>
+            </form>
+          </section>
+        </div>
+      </header>
+      <div class="container">
+        <main></main>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; 우아한테크코스 All Rights Reserved.</p>
+        <p><img src="./images/woowacourse_logo.png" width="180" /></p>
+      </footer>
+    </div>
   </body>
 </html>
+
+<!--
+  포스터 원본: https://image.tmdb.org/t/p/original//pmemGuhr450DK8GiTT44mgwWCP7.jpg
+  포스터 썸네일: https://media.themoviedb.org/t/p/w440_and_h660_face/pmemGuhr450DK8GiTT44mgwWCP7.jpg
+  배너 원본: https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/stKGOm8UyhuLPR9sZLjs5AkmncA.jpg
+-->
