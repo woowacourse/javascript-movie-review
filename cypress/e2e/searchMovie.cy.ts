@@ -42,7 +42,7 @@ describe("영화 검색 기능 테스트", () => {
       expect(cy.get(".skeleton-list").should("not.exist"));
       expect(cy.get(".item").should("have.length", 20));
       cy.get(".item").each(($item) => {
-        expect($item.find(".movie-title").text()).to.include(searchValue);
+        expect($item.find(".movie-title").text()).to.contain(searchValue);
       });
     });
 
