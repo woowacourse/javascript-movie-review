@@ -11,10 +11,10 @@ export default class MovieListHandler {
   constructor(private movieService: MovieService) {}
 
   async initMovieList(query?: string) {
-    const moviesData = query 
+    const moviesData = query
       ? await this.movieService.searchMovies(query, 1)
       : await this.movieService.getPopularResults();
-    
+
     this.updateMovieList(moviesData);
     this.handleMoreClickButton(query);
     this.movieList?.updateMovieListTitle(query);
