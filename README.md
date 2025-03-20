@@ -13,36 +13,56 @@ API 통신을 처리할 때 고려해야 하는 다양한 문제를 직접 경�
 
 ### 1. 🎬 영화 목록 조회 (인기순)
 
-- [ ] 영화 목록의 1페이지를 불러오며 더보기 버튼을 누르면 그 다음의 영화 목록을 불러 올 수 있다.
-  - [ ] 단, 페이지 끝에 도달한 경우에는 더보기 버튼을 화면에 출력하지 않는다.
-  - [ ] 인기순은 TMDB에서 제공하는 API의 속성 이름을 나타내는 것이므로 별도로 받은 데이터를 정렬하지 않습니다.
-  - [ ] 영화는 한 번의 요청당 20개씩 영화 목록을 보여준다.
-- [ ] 영화 목록 아이템에 대한 Skeleton UI를 구현한다.
+- [x] 영화 목록의 1페이지를 불러오며 더보기 버튼을 누르면 그 다음의 영화 목록을 불러 올 수 있다.
+  - [x] 단, 페이지 끝에 도달한 경우에는 더보기 버튼을 화면에 출력하지 않는다.
+  - [x] 인기순은 TMDB에서 제공하는 API의 속성 이름을 나타내는 것이므로 별도로 받은 데이터를 정렬하지 않습니다.
+  - [x] 영화는 한 번의 요청당 20개씩 영화 목록을 보여준다.
+- [x] 영화 목록 아이템에 대한 Skeleton UI를 구현한다.
   - Skeleton UI는 템플릿으로 제공되는 파일 이외로 자유롭게 구현할 수 있다.
 
 ### 2. 🔎 검색
 
-- [ ] 영화 검색 API를 이용하여 내가 보고 싶은 영화를 검색할 수 있다.
-  - [ ] 엔터키를 눌러 검색할 수 있다
-  - [ ] 검색 버튼을 클릭하여 검색할 수 있다
-- [ ] 영화 목록 조회와 같이 검색한 결과에 한해 정보를 보여주는 화면의 요구사항은 동일하다
+- [x] 영화 검색 API를 이용하여 내가 보고 싶은 영화를 검색할 수 있다.
+  - [x] 엔터키를 눌러 검색할 수 있다
+  - [x] 검색 버튼을 클릭하여 검색할 수 있다
+- [x] 영화 목록 조회와 같이 검색한 결과에 한해 정보를 보여주는 화면의 요구사항은 동일하다
 
 ### 3. ⚠️ 오류
 
-- [ ] 오류가 발생하는 경우에는 사용자를 위한 오류 메시지를 띄워 준다.
+- [x] 오류가 발생하는 경우에는 사용자를 위한 오류 메시지를 띄워 준다.
   - 어떤 오류를 대응해야 하고, 어떤 UI로 보여줄 것인지는 자율적으로 결정한다.
 
-## 필요한 컴포넌트
+## 📁 폴더구조
 
-- 컴포넌트 명은 순수 ts,js 로 만들었기 때문에 소문자 카멜케이스로! 대문자로 시작하는 파스칼 케이스는 리액트를 연상시킨다.
-- header
-  - [ ] overlay : 영화의 사진
-  - [ ] top-rated-container
-    - [ ] logo : 무비 리스트 로고
-    - [ ] search-bar : 검색창
-    - [ ] top-rated-movie : 별점, 제목, 자세히 보기 버튼
-- main
-  - [ ] thumbnail-list : 영화 리스트
-    - [ ] item : 영화 1개
-  - [ ] load-more-button: 더 보기 버튼
-- footer
+📦cypress
+┣ 📂e2e
+┃ ┣ 📜popularMovie.cy.ts : 인기 있는 영화 테스트
+┃ ┗ 📜searchMovie.cy.ts : 영화 검색 테스트
+📦src
+┣ 📂apis
+┃ ┣ 📜getPopularMovies.ts : 인기 있는 영화 api
+┃ ┗ 📜getSearchedMovies.ts : 영화 검색 api
+┣ 📂components
+┃ ┣ 📂movie
+┃ ┃ ┣ 📜movieContainer.ts : 영화 관련 타이틀, 영화 리스트를 담은 컴포넌트
+┃ ┃ ┣ 📜movieItem.ts : 영화 1개
+┃ ┃ ┣ 📜movieList.ts : 영화 리스트
+┃ ┃ ┗ 📜types.ts : 영화 관련 타입
+┃ ┣ 📂skeleton
+┃ ┃ ┣ 📜skeletonContainer.ts : 스켈레톤
+┃ ┃ ┗ 📜skeletonTitleContainer.ts : 스켈레톤 타이틀
+┃ ┣ 📂utils
+┃ ┃ ┣ 📜createElementWithAttributes.ts : DOM 요소를 생성하기 위한 유틸 함수
+┃ ┃ ┗ 📜selectors.ts : DOM 요소 select 하기 위한 유틸 함수
+┃ ┗ 📜backgroundContainer.ts : 헤더에 포함될 인기 있는 영화 사진, 정보
+┣ 📂styles
+┃ ┣ 📜colors.css
+┃ ┣ 📜index.css
+┃ ┣ 📜main.css
+┃ ┣ 📜modal.css
+┃ ┣ 📜reset.css
+┃ ┣ 📜searchBar.css
+┃ ┣ 📜skeleton.css
+┃ ┣ 📜tab.css
+┃ ┗ 📜thumbnail.css
+┗ 📜main.ts : 진입점
