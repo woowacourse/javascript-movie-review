@@ -35,11 +35,15 @@ searchBarElement.addEventListener("submit", async (event) => {
   const target = formElement.querySelector("input") as HTMLInputElement;
   const searchValue = target.value;
 
+  document.querySelector(".background-container")?.classList.add("search");
+
   new SearchMovieListController(mainElement, searchValue);
 });
 
 headerLogoElement?.addEventListener("click", async () => {
   await movieListController.renderExistingMovieList();
+
+  document.querySelector(".background-container")?.classList.remove("search");
 
   const inputElement = searchBarElement.querySelector(
     "input",

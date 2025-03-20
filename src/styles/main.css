@@ -134,6 +134,11 @@ header .search-bar {
   padding: 48px;
 }
 
+.background-container.search {
+  visibility: hidden;
+  height: 50px;
+}
+
 .overlay {
   position: absolute;
   top: 0;
