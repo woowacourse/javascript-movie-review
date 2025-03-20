@@ -1,5 +1,6 @@
 import MovieItem from '../movie-item/MovieItem';
-import EmptyResult from '../../component/empty-result/EmptyResult';
+import { ERROR_MESSAGE } from '../../constants/errorMessage';
+import ErrorMessage from '../error-message/ErrorMessage';
 
 interface MovieGridProps {
   movieItems: MovieData[];
@@ -27,7 +28,7 @@ class MovieGrid {
   }
 
   #emptyListElement() {
-    return new EmptyResult().element.outerHTML;
+    return new ErrorMessage({ errorMessage: ERROR_MESSAGE.NO_RESULT }).element.outerHTML;
   }
 
   #movieItemElements() {

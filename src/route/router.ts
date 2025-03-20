@@ -1,15 +1,21 @@
 import { MainPage } from '../pages/main-page/MainPage';
 import SearchPage from '../pages/search-page/SearchPage';
+import ErrorPage from '../pages/error-page/ErrorPage';
 
 function routes(): Record<string, () => HTMLElement> {
   return {
     '/': () => new MainPage().element,
     '/search': () => new SearchPage().element,
+    '/error': () => new ErrorPage().element,
   };
 }
 
 export async function renderInnerContentsByRoute() {
   let currentPath = window.location.pathname;
+
+  if (currentPath.startsWith('/error')) {
+    currentPath = '/error';
+  }
   if (currentPath.startsWith('/search')) {
     currentPath = '/search';
   }

@@ -1,6 +1,6 @@
 import Footer from '../../component/footer/Footer';
 import Header from '../../component/header/Header';
-import { renderContent, renderInnerContentsByRoute } from '../../route/router';
+import { renderContent } from '../../route/router';
 
 class Layout {
   #container;

@@ -10,7 +10,7 @@
 @import './pages/main-page/main-page.css';
 @import './pages/layout/layout.css';
 @import './component/title/title.css';
-@import './component/empty-result/empty-results.css';
+@import './component/error-message/error-message.css';
 
 body {
   background-color: var(--color-bluegray-100);

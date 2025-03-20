@@ -1,11 +1,15 @@
-import { ERROR_MESSAGE } from '../../constants/errorMessage';
+interface ErrorResultOption {
+  errorMessage: string;
+}
 
-class EmptyResult {
+class ErrorMessage {
   #container;
+  #errorMessage;
 
-  constructor() {
+  constructor({ errorMessage }: ErrorResultOption) {
     this.#container = document.createElement('div');
     this.#container.classList.add('empty-result');
+    this.#errorMessage = errorMessage;
 
     this.render();
   }
@@ -13,7 +17,7 @@ class EmptyResult {
   render() {
     this.#container.innerHTML = `
         <img src="./no-result.png" alt="으아아 행성이"/>
-        <p class="text-subtitle">${ERROR_MESSAGE.NO_RESULT}</p>
+        <p class="text-subtitle">${this.#errorMessage}</p>
     `;
   }
 
@@ -22,4 +26,4 @@ class EmptyResult {
   }
 }
 
-export default EmptyResult;
+export default ErrorMessage;

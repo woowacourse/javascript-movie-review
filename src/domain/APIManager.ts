@@ -1,4 +1,5 @@
 import { SYSTEM_CONSTANTS } from '../constants/systemConstants';
+import { redirectToPage } from '../route/router';
 
 interface MovieListJSON {
   id: number;
@@ -43,8 +44,10 @@ async function fetchMovieList(url: string) {
     const res = await fetch(url, options);
     const json = await res.json();
     return json;
-  } catch (err) {
-    console.error(err);
-    return null;
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      ////
+      redirectToPage('/error');
+    }
   }
 }
