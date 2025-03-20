@@ -1,35 +1,105 @@
-import image from "../templates/images/star_filled.png";
+import getPopularMovies from './api/getPopularMovies';
+import Button from './component/Button';
+import Footer from './component/Footer';
+import Banner from './component/Banner';
+import Movie from './component/Movie';
+import MovieList from './component/MovieList';
+import { $ } from './util/selector';
+import Header from './component/Header';
+import Skeleton from './component/Skeleton';
+import SkeletonList from './component/SkeletonList';
 
-console.log("npm run dev 명령어를 통해 영화 리뷰 미션을 시작하세요");
+const API_PAGE_LIMIT = 500;
+const INITIAL_PAGE = 1;
+const MOVIE_INDEX_FOR_BANNER = 1;
 
-console.log(
-  "%c" +
-    " _____ ______   ________  ___      ___ ___  _______                \n" +
-    "|\\   _ \\  _   \\|\\   __  \\|\\  \\    /  /|\\  \\|\\  ___ \\               \n" +
-    "\\ \\  \\\\\\__\\ \\  \\ \\  \\|\\  \\ \\  \\  /  / | \\  \\ \\   __/|              \n" +
-    " \\ \\  \\\\|__| \\  \\ \\  \\\\\\  \\ \\  \\/  / / \\ \\  \\ \\  \\_|/__            \n" +
-    "  \\ \\  \\    \\ \\  \\ \\  \\\\\\  \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\           \n" +
-    "   \\ \\__\\    \\ \\__\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\          \n" +
-    "    \\|__|     \\|__|\\|_______|\\|__|/       \\|__|\\|_______|          \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    " ________  _______   ___      ___ ___  _______   ___       __      \n" +
-    "|\\   __  \\|\\  ___ \\ |\\  \\    /  /|\\  \\|\\  ___ \\ |\\  \\     |\\  \\    \n" +
-    "\\ \\  \\|\\  \\ \\   __/|\\ \\  \\  /  / | \\  \\ \\   __/|\\ \\  \\    \\ \\  \\   \n" +
-    " \\ \\   _  _\\ \\  \\_|/_\\ \\  \\/  / / \\ \\  \\ \\  \\_|/_\\ \\  \\  __\\ \\  \\  \n" +
-    "  \\ \\  \\\\  \\\\ \\  \\_|\\ \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\ \\  \\|\\__\\_\\  \\ \n" +
-    "   \\ \\__\\\\ _\\\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\ \\____________\\\n" +
-    "    \\|__|\\|__|\\|_______|\\|__|/       \\|__|\\|_______|\\|____________|",
-  "color: #d81b60; font-size: 14px; font-weight: bold;"
-);
-
-addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
-
-  if (app) {
-    app.appendChild(buttonImage);
-  }
+addEventListener('load', async () => {
+  renderBanner();
+  renderHeader();
+  renderMovieList();
+  renderFooter();
 });
+
+const renderBanner = async () => {
+  const wrap = $('#wrap');
+
+  const bannerSkeleton = Skeleton({ height: 500 });
+  wrap?.prepend(bannerSkeleton);
+
+  const response = await getPopularMovies({ page: 1 });
+  if (!response) return;
+  const movies = response.results;
+
+  if (movies.length !== 0) {
+    const banner = Banner({ movie: movies[MOVIE_INDEX_FOR_BANNER] });
+    bannerSkeleton?.replaceWith(banner);
+  }
+};
+
+const renderHeader = () => {
+  const wrap = $('#wrap');
+
+  const header = Header();
+  wrap?.prepend(header);
+};
+
+const renderMovieList = async () => {
+  const container = $('.container');
+  if (!container) return;
+
+  const skeletonList = SkeletonList({ height: 300 });
+  container.appendChild(skeletonList);
+
+  let page = INITIAL_PAGE;
+
+  const response = await getPopularMovies({ page });
+  if (!response) return;
+
+  const movies = response.results;
+
+  if (movies.length !== 0) {
+    const movieList = MovieList({ movies, title: '지금 인기 있는 영화' });
+
+    const moreButton = Button({
+      text: '더보기',
+      id: 'moreButton',
+      onClick: () => handleMoreButtonClick(++page, moreButton)
+    });
+
+    skeletonList.replaceWith(movieList);
+    container.appendChild(moreButton);
+  }
+};
+
+const renderFooter = () => {
+  const wrap = $('#wrap');
+  if (!wrap) return;
+
+  const footer = Footer();
+  wrap.appendChild(footer);
+};
+
+const handleMoreButtonClick = async (page: number, moreButton: HTMLElement) => {
+  if (page >= API_PAGE_LIMIT - 1) {
+    moreButton.remove();
+  }
+  const container = $('.thumbnail-list') as HTMLElement;
+  if (!container) return;
+
+  const skeletonList = SkeletonList({ height: 300 });
+  container.appendChild(skeletonList);
+
+  const response = await getPopularMovies({ page });
+  if (!response) return;
+  const newMovies = response.results;
+
+  skeletonList.remove();
+
+  const fragment = document.createDocumentFragment();
+  newMovies.forEach((movie) => {
+    const newMovie = Movie({ movie });
+    fragment.appendChild(newMovie);
+  });
+
+  container.appendChild(fragment);
+};
