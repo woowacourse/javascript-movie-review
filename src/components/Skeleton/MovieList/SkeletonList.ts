@@ -1,4 +1,4 @@
-import $SkeletonItem from "../Item/SkeletonItem";
+import $SkeletonItem from "./MovieItem/SkeletonItem";
 
 export const replaceSkeletonList = () => {
   const $movieListSection = document.querySelector(
