@@ -38,27 +38,24 @@ class MovieListSection {
     $section.appendChild($title);
 
     if (totalMovie <= 20) {
-      this.movies.forEach((movie) => {
-        const $item = new MovieItem(movie, false).render();
-        $ul.appendChild($item);
-      });
+      this.renderMovieItemByArray(this.movies, $ul);
 
       $section.appendChild($ul);
       return $section;
     }
 
-    this.movies.slice(0, startIndex).forEach((movie) => {
-      const $item = new MovieItem(movie, false).render();
-      $ul.appendChild($item);
-    });
-
-    this.movies.slice(startIndex).forEach((movie) => {
-      const $item = new MovieItem(movie, this.isLoading).render();
-      $ul.appendChild($item);
-    });
+    this.renderMovieItemByArray(this.movies.slice(0, startIndex), $ul);
+    this.renderMovieItemByArray(this.movies.slice(startIndex), $ul);
 
     $section.append($title, $ul);
     return $section;
+  }
+
+  renderMovieItemByArray(movies, $ul) {
+    return movies.forEach((movie) => {
+      const $item = new MovieItem(movie, this.isLoading).render();
+      $ul.appendChild($item);
+    });
   }
 
   getTitle() {
