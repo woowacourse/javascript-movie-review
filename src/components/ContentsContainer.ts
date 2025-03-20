@@ -3,6 +3,8 @@ import MovieService from "../services/MovieService";
 import Button from "./Button";
 import MovieList from "./MovieList";
 
+const MAXIMUM_PAGE = 500;
+
 function ContentsContainer(results: MovieInfo[], contentTitle: string) {
   // MovieList 렌더링
   // Todo: handler로 분리하기
@@ -24,12 +26,15 @@ function ContentsContainer(results: MovieInfo[], contentTitle: string) {
     const movieList = new MovieList(additionalData.results);
     const $listContainer = movieList.renderMovieList();
     const $section = document.querySelector("section");
+    const $moreButton = event.target as HTMLButtonElement;
+    if (movieService.currentPage === MAXIMUM_PAGE) {
+      $moreButton.remove();
+    }
     $section?.appendChild($listContainer);
   }
 
   // 더보기 버튼
   const $main = document.querySelector("main");
-
   if ($main) {
     // 기존 "더 보기" 버튼 제거 (중복 방지)
     const existingButton = $main.querySelector("button.more");
@@ -37,6 +42,7 @@ function ContentsContainer(results: MovieInfo[], contentTitle: string) {
       existingButton.remove();
     }
   }
+
   const $button = Button("더 보기", "more", clickMoreMovies);
 
   $main?.appendChild($button);
