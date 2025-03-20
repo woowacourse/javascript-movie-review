@@ -78,6 +78,7 @@ export default class MovieListHandler {
         this.movieList &&
         this.movieList.currentPage >= this.movieList.totalPage
       ) {
+        console.log("remove load more button");
         const loadMoreButton = document.querySelector(".add-movie");
         loadMoreButton?.remove();
       }

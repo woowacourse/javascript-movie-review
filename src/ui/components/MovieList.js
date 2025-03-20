@@ -43,9 +43,12 @@ export default class MovieList {
   }
 
   addLoadMoreButton() {
+    // 기존 버튼이 있다면 제거
+    const existingButton = document.querySelector(".add-movie");
+    existingButton?.remove();
+
+    // 마지막 페이지면 버튼을 추가하지 않음
     if (this.currentPage >= this.totalPage) {
-      const loadMoreButton = document.querySelector(".add-movie");
-      loadMoreButton?.remove();
       return;
     }
 
