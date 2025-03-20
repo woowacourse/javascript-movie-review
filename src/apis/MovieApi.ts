@@ -1,4 +1,5 @@
 import { MoviesResponse } from "../../types/movieApiType";
+import { DOMAIN_TMDB } from "../constants";
 
 const options = {
   method: "GET",
@@ -16,17 +17,16 @@ async function fetchWithErrorHandling(url: string) {
 }
 
 export async function getMovies({ page }: { page: number }) {
-  const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`;
+  const url = `${DOMAIN_TMDB}/3/movie/popular?language=ko-KR&page=${page}`;
   return fetchWithErrorHandling(url);
 }
 
-export async function getMovieByName({
-  name,
-  page,
-}: {
+interface GetMovieByNameRequest {
   name: string;
   page: number;
-}) {
-  const url = `https://api.themoviedb.org/3/search/movie?query=${name}&include_adult=false&language=ko-KR&page=${page}`;
+}
+
+export async function getMovieByName({ name, page }: GetMovieByNameRequest) {
+  const url = `${DOMAIN_TMDB}/3/search/movie?query=${name}&include_adult=false&language=ko-KR&page=${page}`;
   return fetchWithErrorHandling(url);
 }

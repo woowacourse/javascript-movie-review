@@ -11,15 +11,17 @@ const $error = document.querySelector(".error");
 const $h2 = $error?.querySelector("h2");
 
 const changeHeaderBackground = () => {
-  const $backgroundContainer = document.querySelector(".background-container");
+  const $backgroundContainer = document.querySelector(
+    ".background-container"
+  ) as HTMLElement;
 
   if (store.searchKeyword === "") {
     const backgroundImage = store.movies[0].backdrop_path
       ? `${DEFAULT_BACK_DROP_URL}${store.movies[0].backdrop_path}`
       : "./images/default_thumbnail.jpeg";
-    ($backgroundContainer as HTMLElement)!.style.backgroundImage = `url(${backgroundImage})`;
+    $backgroundContainer.style.backgroundImage = `url(${backgroundImage})`;
   } else {
-    ($backgroundContainer as HTMLElement)!.style.backgroundImage = "";
+    $backgroundContainer.style.backgroundImage = "";
   }
 };
 
