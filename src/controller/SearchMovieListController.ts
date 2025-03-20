@@ -24,22 +24,31 @@ class SearchMovieListController {
   }
 
   async getSearchMovieList() {
-    const { page: newPage, results: movieList }: IMovieResult =
-      await getSearchMovieResult(this.searchText, this.page + 1);
+    const {
+      page: newPage,
+      total_pages: totalPage,
+      results: movieList,
+    }: IMovieResult = await getSearchMovieResult(
+      this.searchText,
+      this.page + 1,
+    );
     this.page = newPage;
 
-    return movieList;
+    const hasMore = newPage !== totalPage;
+
+    return { movieList, hasMore };
   }
 
   async renderMovieList() {
-    const movieList = await this.getSearchMovieList();
+    const { movieList, hasMore } = await this.getSearchMovieList();
 
     let sectionElement;
     if (movieList.length !== 0) {
-      sectionElement = MovieListSection(
-        `"${this.searchText}" 검색 결과`,
+      sectionElement = MovieListSection({
+        title: `"${this.searchText}" 검색 결과`,
         movieList,
-      );
+        hasMore,
+      });
     } else {
       sectionElement = MovieEmptySection(`"${this.searchText}" 검색 결과`);
     }
@@ -50,11 +59,13 @@ class SearchMovieListController {
   }
 
   async addMovieList() {
-    const movieList = await this.getSearchMovieList();
+    const { movieList, hasMore } = await this.getSearchMovieList();
 
     movieList.forEach((movie) => {
       this.mainElement.querySelector("ul")?.appendChild(MovieItem(movie));
     });
+
+    if (!hasMore) this.mainElement.querySelector(".see-more")?.remove();
   }
 }
 

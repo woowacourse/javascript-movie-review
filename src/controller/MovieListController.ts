@@ -21,17 +21,27 @@ class MovieListController {
   }
 
   async getPopularMovieList(page: number = 1) {
-    const { page: newPage, results: movieList }: IMovieResult =
-      await getPopularMovieResult(page);
+    const {
+      page: newPage,
+      total_pages: totalPage,
+      results: movieList,
+    }: IMovieResult = await getPopularMovieResult(page);
 
     this.movieResults.addMovieList(newPage, movieList); // 도메인 업데이트
+    this.movieResults.initialTotalPage(totalPage);
 
-    return movieList;
+    const hasMore = newPage !== totalPage;
+
+    return { movieList, hasMore };
   }
 
   async renderMovieList() {
-    const movieList = await this.getPopularMovieList();
-    const sectionElement = MovieListSection("지금 인기 있는 영화", movieList);
+    const { movieList, hasMore } = await this.getPopularMovieList();
+    const sectionElement = MovieListSection({
+      title: "지금 인기 있는 영화",
+      movieList,
+      hasMore,
+    });
 
     this.mainElement.replaceChildren(sectionElement);
     this.bindEvents();
@@ -39,7 +49,12 @@ class MovieListController {
 
   async renderExistingMovieList() {
     const movieList = this.movieResults.getMovieList();
-    const sectionElement = MovieListSection("지금 인기 있는 영화", movieList);
+    const hasMore = this.movieResults.hasMore();
+    const sectionElement = MovieListSection({
+      title: "지금 인기 있는 영화",
+      movieList,
+      hasMore,
+    });
 
     this.mainElement.replaceChildren(sectionElement);
 
@@ -47,13 +62,15 @@ class MovieListController {
   }
 
   async addMovieList() {
-    const movieList = await this.getPopularMovieList(
+    const { movieList, hasMore } = await this.getPopularMovieList(
       this.movieResults.getPage() + 1,
     );
 
     movieList.forEach((movie) => {
       this.mainElement.querySelector("ul")?.appendChild(MovieItem(movie));
     });
+
+    if (!hasMore) this.mainElement.querySelector(".see-more")?.remove();
   }
 }
 

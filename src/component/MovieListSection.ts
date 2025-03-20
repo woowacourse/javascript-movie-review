@@ -2,7 +2,17 @@ import { IMovieItem } from "../types/movieResultType";
 import createDOMElement from "../util/createDomElement";
 import MovieItem from "./MovieItem";
 
-const MovieListSection = (title: string, movieList: IMovieItem[]) => {
+interface IMovieListSectionProps {
+  title: string;
+  movieList: IMovieItem[];
+  hasMore: boolean;
+}
+
+const MovieListSection = ({
+  title,
+  movieList,
+  hasMore,
+}: IMovieListSectionProps) => {
   return createDOMElement({
     tag: "section",
     children: [
@@ -15,11 +25,13 @@ const MovieListSection = (title: string, movieList: IMovieItem[]) => {
         class: "thumbnail-list",
         children: movieList.map((movie) => MovieItem(movie)),
       }),
-      createDOMElement({
-        tag: "div",
-        class: "see-more",
-        textContent: "더 보기",
-      }),
+      hasMore
+        ? createDOMElement({
+            tag: "div",
+            class: "see-more",
+            textContent: "더 보기",
+          })
+        : null,
     ],
   });
 };
