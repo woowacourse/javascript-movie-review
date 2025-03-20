@@ -18,6 +18,8 @@ export default class MovieListHandler {
     this.updateMovieList(moviesData);
     this.handleMoreClickButton(query);
     this.movieList?.updateMovieListTitle(query);
+    console.log(this.movieList?.currentPage);
+    console.log(this.movieList?.totalPage);
   }
 
   private updateMovieList(moviesData: ApiResponse<MovieResponse>) {
@@ -59,5 +61,10 @@ export default class MovieListHandler {
       const movieCard = new MovieCard(movie);
       this.movieList?.container.appendChild(movieCard.render());
     });
+
+    if (this.movieList && this.movieList.currentPage >= this.movieList.totalPage) {
+      const loadMoreButton = document.querySelector(".add-movie");
+      loadMoreButton?.remove();
+    }
   }
 }

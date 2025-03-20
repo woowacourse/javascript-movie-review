@@ -32,8 +32,11 @@ export default class MovieList {
   }
 
   addLoadMoreButton() {
-    const existingButton = document.querySelector(".add-movie");
-    if (existingButton) return;
+    if (this.currentPage >= this.totalPage) {
+      const loadMoreButton = document.querySelector(".add-movie");
+      loadMoreButton?.remove();
+      return;
+    }
 
     const loadMoreButton = new CustomButton(ADD_MOVIE_BUTTON);
     const section = document.querySelector("section");
