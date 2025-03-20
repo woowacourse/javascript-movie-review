@@ -1,8 +1,8 @@
-import { MovieDetail } from "../../../types/type";
+import { MovieDetail } from "../../../../../types/type";
 
 const defaultPosterPath = "/images/default-poster.svg";
+const imagePathPreFix = "https://image.tmdb.org/t/p/w440_and_h660_face";
 
-const IMAGE_PATH_PREFIX = "https://image.tmdb.org/t/p/w440_and_h660_face";
 const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
   const $rate = createElement("p", {
     className: "rate",
@@ -30,7 +30,7 @@ const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
   });
   const $poster = createElement("img", {
     className: "thumbnail",
-    src: poster_path ? IMAGE_PATH_PREFIX + poster_path : defaultPosterPath,
+    src: poster_path ? imagePathPreFix + poster_path : defaultPosterPath,
     alt: title,
     loading: "lazy",
   });

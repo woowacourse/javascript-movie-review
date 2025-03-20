@@ -1,11 +1,11 @@
 import { MovieListSectionProps } from "../../../types/type";
-import $MovieList, { addMovieItem } from "../MovieList/MovieList";
+import $MovieList, { addMovieItem } from "./MovieList/MovieList";
 import getPopularMovieList from "../../apis/getPopularMovieList";
 import getSearchedMovieList from "../../apis/getSearchedMovieList";
 import {
   addSkeletonList,
   removeSkeletonList,
-} from "../Skeleton/List/SkeletonList";
+} from "../Skeleton/MovieList/SkeletonList";
 import asyncErrorBoundary from "../ErrorBoundary/Async/asyncErrorBoundary";
 import { addErrorBox } from "../ErrorBox/ErrorBox";
 

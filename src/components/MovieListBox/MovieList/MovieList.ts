@@ -1,6 +1,6 @@
-import { MovieDetail } from "../../../types/type";
-import $EmptyList from "../EmptyList/EmptyList";
-import $MovieItem from "../MovieItem/MovieItem";
+import { MovieDetail } from "../../../../types/type";
+import $EmptyList from "../../EmptyList/EmptyList";
+import $MovieItem from "./MovieItem/MovieItem";
 
 export const addMovieItem = (movieList: MovieDetail[]) => {
   const $movieList = document.querySelector(
