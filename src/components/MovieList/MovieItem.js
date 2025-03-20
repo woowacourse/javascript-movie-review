@@ -1,6 +1,6 @@
 const MovieItem = ({ poster_path, title, vote_average }) => {
   const imageUrl = poster_path
-    ? `https://media.themoviedb.org/t/p/w440_and_h660_face${poster_path}`
+    ? `${import.meta.env.VITE_TMDB_API_POSTER_URL}${poster_path}`
     : "./images/logo.png";
 
   return /* html */ `

@@ -25,7 +25,9 @@ class App {
     if (movies.length) {
       const $banner = document.querySelector("#banner");
       if ($banner) {
-        $banner.style.backgroundImage = `url(https://image.tmdb.org/t/p/original${movies[0].backdrop_path})`;
+        $banner.style.backgroundImage = `url(${
+          import.meta.env.VITE_TMDB_API_BANNER_URL
+        }${movies[0].backdrop_path})`;
       }
     }
   }
