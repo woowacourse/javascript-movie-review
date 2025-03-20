@@ -8,16 +8,6 @@ const Skeleton = ({ height }: { height: number }) => {
     attributes: {
       style: `height: ${height}px`
     }
-    // children: [
-    //   createDOMElement({
-    //     tag: 'div',
-    //     className: 'skeleton-image'
-    //   }),
-    //   createDOMElement({
-    //     tag: 'div',
-    //     className: 'skeleton-text'
-    //   })
-    // ]
   });
 };
 

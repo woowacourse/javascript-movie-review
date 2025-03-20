@@ -7,6 +7,7 @@ import MovieList from './component/MovieList';
 import { $ } from './util/selector';
 import Header from './component/Header';
 import Skeleton from './component/Skeleton';
+import SkeletonList from './component/SkeletonList';
 
 const API_PAGE_LIMIT = 500;
 const INITIAL_PAGE = 1;
@@ -27,9 +28,8 @@ const renderBanner = async () => {
   const { results: movies } = await getPopularMovies({ page: INITIAL_PAGE });
 
   if (movies.length !== 0) {
-    bannerSkeleton.remove();
     const banner = Banner({ movie: movies[MOVIE_INDEX_FOR_BANNER] });
-    wrap?.prepend(banner);
+    bannerSkeleton?.replaceWith(banner);
 
     renderHeader();
   }
@@ -43,20 +43,26 @@ const renderHeader = () => {
 };
 
 const renderMovieList = async () => {
-  let page = INITIAL_PAGE;
-  const { results: movies } = await getPopularMovies({ page });
-
   const container = $('.container');
   if (!container) return;
 
-  const movieList = MovieList({ movies, title: '지금 인기 있는 영화' });
-  const moreButton = Button({
-    text: '더보기',
-    onClick: () => handleMoreButtonClick(++page, moreButton)
-  });
+  const skeletonList = SkeletonList({ height: 300 });
+  container.appendChild(skeletonList);
 
-  container.appendChild(movieList);
-  container.appendChild(moreButton);
+  let page = INITIAL_PAGE;
+  const { results: movies } = await getPopularMovies({ page });
+
+  if (movies.length !== 0) {
+    const movieList = MovieList({ movies, title: '지금 인기 있는 영화' });
+
+    const moreButton = Button({
+      text: '더보기',
+      onClick: () => handleMoreButtonClick(++page, moreButton)
+    });
+
+    skeletonList.replaceWith(movieList);
+    container.appendChild(moreButton);
+  }
 };
 
 const renderFooter = () => {
@@ -74,10 +80,14 @@ const handleMoreButtonClick = async (page: number, moreButton: HTMLElement) => {
   const container = $('.thumbnail-list') as HTMLElement;
   if (!container) return;
 
+  const skeletonList = SkeletonList({ height: 300 });
+  container.appendChild(skeletonList);
+
   const { results: newMovies } = await getPopularMovies({ page });
 
-  const fragment = document.createDocumentFragment();
+  skeletonList.remove();
 
+  const fragment = document.createDocumentFragment();
   newMovies.forEach((movie) => {
     const newMovie = Movie({ movie });
     fragment.appendChild(newMovie);
