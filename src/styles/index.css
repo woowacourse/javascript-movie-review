@@ -7,4 +7,5 @@
 @import "../components/Header/header.css";
 @import "../components/Banner/banner.css";
 @import "../components/Footer/footer.css";
-@import "../components/MovieList/thumbnail.css";
+@import "../components/MovieList/movie-list.css";
+@import "../components/Skeleton/skeleton.css";
