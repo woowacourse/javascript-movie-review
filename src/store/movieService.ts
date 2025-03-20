@@ -1,29 +1,41 @@
 import fetchMovies from "../api/http";
-import { Movie } from "../../types/movie";
+import { Movie, MovieType } from "../../types/movie";
 import { popularApiUrl, searchApiUrl } from "../api/config";
 import { mapToMovie } from "../utils/mapper";
 
-const moviesState = {
+const moviesPopularState = {
   list: [] as Movie[],
   currentPage: 1,
   totalPages: 0,
 };
 
-const isLastPage = (): boolean => {
-  return moviesState.currentPage === moviesState.totalPages;
+const moviesSearchedState = {
+  list: [] as Movie[],
+  currentPage: 1,
+  totalPages: 0,
 };
 
-const fetchPopularMovies = async (page = 1) => {
+const isLastPage = (movieType: MovieType): boolean => {
+  if (movieType === "popular") {
+    return moviesPopularState.currentPage === moviesPopularState.totalPages;
+  }
+
+  if (movieType === "search") {
+    return moviesSearchedState.currentPage === moviesSearchedState.totalPages;
+  }
+
+  return false;
+};
+
+const fetchPopularMovies = async (page = 1): Promise<Movie[]> => {
   try {
     const data = await fetchMovies(`${popularApiUrl}&page=${page}`);
 
-    moviesState.list = data.results.map((item: any) => mapToMovie(item));
-    moviesState.currentPage = page;
-    moviesState.totalPages = data.total_pages;
+    moviesPopularState.list = data.results.map((item: any) => mapToMovie(item));
+    moviesPopularState.currentPage = page;
+    moviesPopularState.totalPages = data.total_pages;
 
-    // console.log(moviesState.list);
-
-    return moviesState.list;
+    return moviesPopularState.list;
   } catch (error) {
     console.error("Error fetching movies:", error);
     throw error;
@@ -40,13 +52,25 @@ const fetchSearchedMovies = async (
     )}&page=${page}&language=ko-KR&region=ko-KR&include_adult=false`;
 
     const data = await fetchMovies(url);
-    const movies = data.results.map((item: any) => mapToMovie(item));
 
-    return movies;
+    moviesSearchedState.list = data.results.map((item: any) =>
+      mapToMovie(item)
+    );
+    moviesSearchedState.currentPage = page;
+    moviesSearchedState.totalPages = data.total_pages;
+
+    return moviesSearchedState.list;
   } catch (error) {
     console.error("Error fetching searched movies:", error);
+    alert("영화 정보를 가져오는 중 오류가 발생했습니다.");
     throw error;
   }
 };
 
-export { moviesState, fetchPopularMovies, isLastPage, fetchSearchedMovies };
+export {
+  moviesPopularState,
+  moviesSearchedState,
+  fetchPopularMovies,
+  isLastPage,
+  fetchSearchedMovies,
+};
