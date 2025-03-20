@@ -1,35 +1,43 @@
-import image from "../templates/images/star_filled.png";
+/// <reference types="vite/client" />
 
-console.log("npm run dev 명령어를 통해 영화 리뷰 미션을 시작하세요");
+import createMovieLoader from "./service/createMovieLoader";
+import { URLS, defaultOptions, defaultQueryObject } from "./setting/settings";
+import Header from "./components/header/header";
+import Hero from "./components/hero/hero";
+import Button from "./components/button/button";
+import state from "./state/state.ts";
+import createMovieList from "./service/createMovieList";
 
-console.log(
-  "%c" +
-    " _____ ______   ________  ___      ___ ___  _______                \n" +
-    "|\\   _ \\  _   \\|\\   __  \\|\\  \\    /  /|\\  \\|\\  ___ \\               \n" +
-    "\\ \\  \\\\\\__\\ \\  \\ \\  \\|\\  \\ \\  \\  /  / | \\  \\ \\   __/|              \n" +
-    " \\ \\  \\\\|__| \\  \\ \\  \\\\\\  \\ \\  \\/  / / \\ \\  \\ \\  \\_|/__            \n" +
-    "  \\ \\  \\    \\ \\  \\ \\  \\\\\\  \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\           \n" +
-    "   \\ \\__\\    \\ \\__\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\          \n" +
-    "    \\|__|     \\|__|\\|_______|\\|__|/       \\|__|\\|_______|          \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    " ________  _______   ___      ___ ___  _______   ___       __      \n" +
-    "|\\   __  \\|\\  ___ \\ |\\  \\    /  /|\\  \\|\\  ___ \\ |\\  \\     |\\  \\    \n" +
-    "\\ \\  \\|\\  \\ \\   __/|\\ \\  \\  /  / | \\  \\ \\   __/|\\ \\  \\    \\ \\  \\   \n" +
-    " \\ \\   _  _\\ \\  \\_|/_\\ \\  \\/  / / \\ \\  \\ \\  \\_|/_\\ \\  \\  __\\ \\  \\  \n" +
-    "  \\ \\  \\\\  \\\\ \\  \\_|\\ \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\ \\  \\|\\__\\_\\  \\ \n" +
-    "   \\ \\__\\\\ _\\\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\ \\____________\\\n" +
-    "    \\|__|\\|__|\\|_______|\\|__|/       \\|__|\\|_______|\\|____________|",
-  "color: #d81b60; font-size: 14px; font-weight: bold;"
-);
+function init() {
+  state.loadMovies = createMovieLoader(
+    URLS.popularMovieUrl,
+    defaultQueryObject,
+    defaultOptions
+  );
+  setupHeaderAndHero();
+  createMovieList(state.loadMovies);
+  setupLoadMoreButton();
+}
 
-addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
-
-  if (app) {
-    app.appendChild(buttonImage);
+function setupHeaderAndHero() {
+  const $wrap = document.getElementById("wrap");
+  if ($wrap) {
+    $wrap.prepend(Header());
+    $wrap.prepend(Hero());
   }
-});
+}
+
+function setupLoadMoreButton() {
+  const $thumbnailContainer = document.getElementById("thumbnail-container");
+  if ($thumbnailContainer) {
+    const loadMoreButton = Button({
+      className: ["primary", "width-100"],
+      placeholder: "더보기",
+      id: "load-more",
+      onClick: () => createMovieList(state.loadMovies),
+    });
+    $thumbnailContainer.append(loadMoreButton);
+  }
+}
+
+init();

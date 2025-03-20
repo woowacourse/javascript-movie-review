@@ -4,3 +4,11 @@
 @import "./reset.css";
 @import "./tab.css";
 @import "./thumbnail.css";
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
