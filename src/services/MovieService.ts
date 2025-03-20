@@ -45,9 +45,9 @@ class MovieService {
     this.currentPage = this.currentPage + 1;
   }
 
-  //   resetPage() {
-  //     this.currentPage = 1;
-  //   }
+  getCurrentPage() {
+    return this.currentPage;
+  }
 }
 
 export default MovieService;
