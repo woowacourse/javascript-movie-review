@@ -1,7 +1,6 @@
 interface Props {
   refetchMovies: () => void;
 }
-
 class MoreMoviesButton {
   #parentElement;
   #props;

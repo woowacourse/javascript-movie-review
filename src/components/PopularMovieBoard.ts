@@ -1,5 +1,6 @@
 import { Movie } from "../types/movie";
 import { isHTMLElement } from "../utils/typeGuards";
+import ErrorScreen from "./ErrorScreen";
 import MoreMoviesButton from "./MoreMoviesButton";
 import MovieList from "./MovieList";
 import TopRatedMovie from "./TopRatedMovie";
@@ -55,7 +56,6 @@ class PopularMovieBoard {
 
   #renderMovies(movies: Movie[]): void {
     const ul = document.querySelector(".thumbnail-list");
-
     if (!isHTMLElement(ul)) return;
 
     if (this.#page === 1) {
@@ -85,13 +85,7 @@ class PopularMovieBoard {
 
       return { movies, total_pages: data.total_pages };
     } catch (e) {
-      const $main = document.querySelector("main");
-      if (!isHTMLElement($main)) return { movies: [], total_pages: 0 };
-
-      $main.innerHTML = `<div class="fallback-screen">
-        <img src="./images/dizzy_planet.png"/>
-        <p>오류가 발생했습니다</p>
-      </div>`;
+      new ErrorScreen("오류가 발생했습니다.").render();
 
       return { movies: [], total_pages: 0 };
     }
