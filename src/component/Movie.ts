@@ -1,11 +1,13 @@
+import { IMAGE_BASE_URL } from '../constant';
 import { IMovie } from '../type';
 import createDOMElement from '../util/createDomElement';
 
-const POSTER_BASE_URL = 'https://media.themoviedb.org/t/p/w440_and_h660_face/';
 const DEFAULT_IMAGE_URL = 'https://placehold.co/200x300?text=No+Image';
 
 function Movie({ movie }: { movie: IMovie }) {
-  const poster_path = movie.poster_path ? POSTER_BASE_URL + movie.poster_path : DEFAULT_IMAGE_URL;
+  const poster_path = movie.poster_path
+    ? IMAGE_BASE_URL + '/w440_and_h660_face/' + movie.poster_path
+    : DEFAULT_IMAGE_URL;
 
   return createDOMElement({
     tag: 'li',
