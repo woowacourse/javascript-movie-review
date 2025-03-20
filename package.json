@@ -4,7 +4,7 @@
   "description": "우아한테크코스 레벨1 영화 리뷰 미션 저장소",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite dev --host 0.0.0.0",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test-unit": "jest --no-cache",
