@@ -8,10 +8,16 @@ const MessageModal = (message: string) => {
       createDOMElement({
         tag: "div",
         class: "modal-content-box",
-        children: createDOMElement({
-          tag: "span",
-          textContent: message,
-        }),
+        children: [
+          createDOMElement({
+            tag: "img",
+            src: "./images/empty_planet.svg",
+          }),
+          createDOMElement({
+            tag: "span",
+            textContent: message,
+          }),
+        ],
       }),
     ],
   });

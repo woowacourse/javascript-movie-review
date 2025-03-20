@@ -14,7 +14,7 @@ const MovieEmptySection = (title: string) => {
         children: [
           createDOMElement({
             tag: "img",
-            src: "./images/empty_planet.png",
+            src: "./images/empty_planet.svg",
           }),
           createDOMElement({
             tag: "h2",

@@ -11,10 +11,18 @@ import { IMovieResult } from "../types/movieResultType";
 class MovieListController {
   movieResults;
   mainElement;
+  openModal;
 
-  constructor(mainElement: HTMLElement) {
+  constructor({
+    mainElement,
+    openModal,
+  }: {
+    mainElement: HTMLElement;
+    openModal: (text: string) => void;
+  }) {
     this.movieResults = MovieResults();
     this.mainElement = mainElement;
+    this.openModal = openModal;
   }
 
   bindEvents() {
@@ -54,9 +62,16 @@ class MovieListController {
       movieList,
       hasMore,
     });
+    const backgroundThumbnailSectionElement = BackgroundThumbnailSection(
+      movieList[0],
+    );
+    skeletonBackgroundElement.replaceWith(backgroundThumbnailSectionElement);
 
-    skeletonBackgroundElement.replaceWith(
-      BackgroundThumbnailSection(movieList[0]),
+    const detailButtonElement = backgroundThumbnailSectionElement.querySelector(
+      "button.detail",
+    ) as HTMLButtonElement;
+    detailButtonElement.addEventListener("click", () =>
+      this.openModal("아직 지원되지 않은 기능입니다."),
     );
 
     this.mainElement.replaceChildren(sectionElement);

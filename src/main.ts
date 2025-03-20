@@ -9,8 +9,13 @@ const searchBarElement = document.querySelector(
 ) as HTMLFormElement;
 const headerLogoElement = document.querySelector(".header-wrapper .logo");
 
-const movieListController = new MovieListController(mainElement);
-
+const movieListController = new MovieListController({
+  mainElement,
+  openModal: (text: string) => {
+    messageModalController.changeContentMessage(text);
+    messageModalController.messageModalElement.showModal();
+  },
+});
 const messageModalController = new MessageModalController(mainElement);
 
 try {
