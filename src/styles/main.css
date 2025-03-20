@@ -237,3 +237,25 @@ footer.footer {
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
 }
+
+dialog {
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent; /* 기본 배경 제거 */
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content-box {
+  padding: 30px;
+  border-radius: 20px;
+  background-color: var(--color-white);
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
