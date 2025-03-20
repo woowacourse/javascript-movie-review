@@ -1,7 +1,6 @@
 import "./MovieListSection.css";
-import MovieItem from "../Movie/MovieItem";
+import MovieItem from "../MovieItem/MovieItem";
 import EmptyView from "../EmptyView/EmptyView";
-
 class MovieListSection {
   constructor(title, movies, isLoading) {
     this.title = title;
