@@ -25,7 +25,7 @@ class MovieLayout {
         if(this.#state.movieData.length === 0){
             return`
             <div class="flex-center gap-16">
-                <img src="../public/images/hangsung.png" />
+                <img src="./images/hangsung.png" />
                 <div class="text-xl">검색 결과가 없습니다.</div>
             </div>
             `

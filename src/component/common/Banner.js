@@ -6,7 +6,7 @@ function Banner(data){
         <div class="overlay" aria-hidden="true"></div>
           <div class="top-rated-movie">
             <div class="rate">
-              <img src="./public/images/star_empty.png" class="star" />
+              <img src="./images/star_empty.png" class="star" />
               <span class="rate-value">${roundRating(data.vote_average)}</span>
             </div>
             <div class="title">${data.title}</div>
