@@ -30,7 +30,7 @@ class SearchBar {
     });
 
     const buttonImage = document.createElement("img");
-    buttonImage.src = "/images/find.png";
+    buttonImage.src = "images/find.png";
     buttonImage.alt = "검색";
     buttonImage.classList.add("search-icon");
 
