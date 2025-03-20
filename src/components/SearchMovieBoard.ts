@@ -97,7 +97,7 @@ class SearchMovieBoard {
     const raw = await fetch(
       `${BASE_URL}/search/movie?query=${
         this.#props.searchParams
-      }&include_adult=false&language=en-US&page=${this.#page}`,
+      }&include_adult=false&language=ko-KR&page=${this.#page}`,
       options
     );
     const data = await raw.json();

@@ -40,7 +40,7 @@ class PopularMovieBoard {
   }
 
   async #fetchAndRenderMovies() {
-    const movies = await this.#fetchedMovies();
+    const { movies } = await this.#fetchedMovies();
     if (!movies) return;
 
     const $topRated = document.querySelector(".top-rated-container");
@@ -63,7 +63,7 @@ class PopularMovieBoard {
     ul?.insertAdjacentHTML("beforeend", MovieList(movies));
   }
 
-  async #fetchedMovies() {
+  async #fetchedMovies(): Promise<{ movies: Movie[]; total_pages: number }> {
     const options = {
       method: "GET",
       headers: {
@@ -73,31 +73,34 @@ class PopularMovieBoard {
     };
     try {
       const raw = await fetch(
-        `${BASE_URL}/popular?language=en-US&page=${this.#page}`,
+        `${BASE_URL}/popular?language=ko-KR&page=${this.#page}`,
         options
       );
       const data = await raw.json();
       const movies: Movie[] = data.results;
-      return movies;
+
+      return { movies, total_pages: data.total_pages };
     } catch (e) {
       const $main = document.querySelector("main");
-      if (!isHTMLElement($main)) return;
+      if (!isHTMLElement($main)) return { movies: [], total_pages: 0 };
 
       $main.innerHTML = `<div class="fallback-screen" style="min-height:500px; ">
         <img src="./images/dizzy_planet.png"/>
         <p>오류가 발생했습니다</p>
       </div>`;
+
+      return { movies: [], total_pages: 0 };
     }
   }
 
   async #refetchMovies() {
     this.#page += 1;
-    const newMovies = await this.#fetchedMovies();
+    const { movies: newMovies, total_pages } = await this.#fetchedMovies();
     if (!newMovies) return;
 
     this.#renderMovies(newMovies);
 
-    if (this.#page >= MAX_PAGE) {
+    if (this.#page >= MAX_PAGE || this.#page >= total_pages) {
       this.#removeMoreMoviesButton();
       return;
     }

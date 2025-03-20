@@ -1,4 +1,5 @@
 .env
+cypress.env.json
 
 # Logs
 logs
