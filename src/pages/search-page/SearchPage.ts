@@ -56,7 +56,8 @@ class SearchPage {
       loadMoreButton.remove();
     }
 
-    this.#container.appendChild(this.#movieGridElement());
+    if (this.#totalPage !== 0) this.#container.appendChild(this.#movieGridElement());
+
     if (this.#currentPage !== this.#totalPage) this.#container.appendChild(this.#loadMoreButtonElement());
   }
 
