@@ -1,3 +1,7 @@
+// components/SearchBar.js
+import { fetchSearchedMovies } from "../../APIs/movieAPI.ts";
+import store from "../../store/store.ts";
+
 const SearchBar = () => {
   return /* html */ `
     <div class="search-bar-container">
@@ -11,4 +15,27 @@ const SearchBar = () => {
   `;
 };
 
+function attachSearchEvent() {
+  const $searchForm = document.querySelector("#search-form");
+  if ($searchForm) {
+    $searchForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const formData = new FormData($searchForm);
+      const query = formData.get("query");
+      if (!query) return;
+
+      const searchedMovies = await fetchSearchedMovies(query);
+      if (searchedMovies) {
+        store.setState({
+          movies: searchedMovies.results,
+          query: query,
+          searchedMoviesLength: searchedMovies.total_results,
+        });
+      }
+      $searchForm.reset();
+    });
+  }
+}
+
+export { attachSearchEvent };
 export default SearchBar;
