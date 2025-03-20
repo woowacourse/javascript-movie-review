@@ -3,6 +3,7 @@ import Banner from "./components/Banner/index.js";
 import MovieList from "./components/MovieList/index.js";
 import Header from "./components/Header/index.js";
 import MovieItem from "./components/MovieList/MovieItem.js";
+import SkeletonMovieItem from "./components/MovieList/SkeletonMovieItem.js";
 
 class App {
   #$target;
@@ -92,10 +93,22 @@ class App {
   }
 
   async #handlePopularMoviesMore($moreButton) {
+    const $movieList = this.#$target.querySelector("#movie-list");
+
+    const skeletonCount = 20;
+    const skeletonTemplate = document.createElement("template");
+    skeletonTemplate.innerHTML = new Array(skeletonCount)
+      .fill(null)
+      .map(() => SkeletonMovieItem())
+      .join("");
+    $movieList.appendChild(skeletonTemplate.content);
+
     const newMovies = await this.#fetchPopularMovies(
       this.#movies.length / 20 + 1
     );
-    const $movieList = this.#$target.querySelector(".thumbnail-list");
+
+    const skeletons = $movieList.querySelectorAll(".skeleton-item");
+    skeletons.forEach((skeleton) => skeleton.remove());
 
     const template = document.createElement("template");
     template.innerHTML = newMovies.map(MovieItem).join("");
@@ -109,11 +122,22 @@ class App {
   }
 
   async #handleSearchedMoviesMore($moreButton) {
+    const $movieList = this.#$target.querySelector("#movie-list");
+
+    const skeletonCount = 20;
+    const skeletonTemplate = document.createElement("template");
+    skeletonTemplate.innerHTML = new Array(skeletonCount)
+      .fill(null)
+      .map(() => SkeletonMovieItem())
+      .join("");
+    $movieList.appendChild(skeletonTemplate.content);
+
     const newMovies = await this.#fetchSearchedMovies(
-      this.#query,
       this.#movies.length / 20 + 1
     );
-    const $movieList = this.#$target.querySelector(".thumbnail-list");
+
+    const skeletons = $movieList.querySelectorAll(".skeleton-item");
+    skeletons.forEach((skeleton) => skeleton.remove());
 
     const template = document.createElement("template");
     template.innerHTML = newMovies.results.map(MovieItem).join("");
