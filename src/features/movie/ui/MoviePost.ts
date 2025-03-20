@@ -9,7 +9,6 @@ const MoviePost = (movie: IMovie) => {
     : "images/nullImage.png";
 
   moviePost.innerHTML = /*html*/ `
-  <li>
     <div class="item">
       <img
         class="thumbnail"
@@ -25,7 +24,6 @@ const MoviePost = (movie: IMovie) => {
         <strong>${movieTitle}</strong>
       </div>
     </div>
-  </li>
   `;
 
   return moviePost;
