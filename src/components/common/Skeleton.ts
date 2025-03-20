@@ -1,5 +1,5 @@
 import { ComponentProps } from '../../types/Component.types';
-import { createElement } from '../../utils/createElement';
+import { Box } from './Box';
 
 type SkeletonProps = {
   width: number;
@@ -12,11 +12,11 @@ export const Skeleton = ({
   classList,
   props,
 }: SkeletonProps) => {
-  const skeletonElement = <HTMLImageElement>createElement('div', props);
-
-  skeletonElement.width = width;
-  skeletonElement.height = height;
-  classList && skeletonElement.classList.add(`skeleton-gradient ${classList}`);
-
-  return skeletonElement;
+  return Box({
+    classList: ['skeleton-gradient', ...(classList || [])],
+    props: {
+      style: `width: ${width}px; height: ${height}px;`,
+      ...props,
+    },
+  });
 };
