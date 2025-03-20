@@ -5,7 +5,7 @@ function MovieCaption({ title, vote_average }) {
   $movieCaption.innerHTML = ` 
   <p class="rate">
     <img src="./star_empty.png" class="star" />
-    <span>${vote_average}</span>
+    <span>${vote_average.toFixed(1)}</span>
   </p>
   <strong>${title}</strong>
 `;
