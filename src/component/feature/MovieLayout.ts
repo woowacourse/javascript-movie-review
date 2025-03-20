@@ -1,12 +1,12 @@
-import MovieList from './MovieList.js'
-import Button from './Button.js'
-import { fetchPopularMovies } from '../../api/fetch.js'
+import MovieList from '../common/MovieList.js'
+import Button from '../common/Button.js'
 import hideskeleton from '../../util/hideskeleton.js'
+import { IMovieData, IMovieState } from '../../../types/movieDataType'
 
 class MovieLayout {
-  #state
+  #state: IMovieState
 
-  constructor(movieData) {
+  constructor(movieData: IMovieData[]) {
     this.#state = {
       title: '지금 인기 있는 영화',
       eventName: 'readMoreMovieList',
@@ -16,13 +16,13 @@ class MovieLayout {
     this.render()
   }
 
-  setState(newState) {
+  setState(newState: IMovieState) {
     this.#state = { ...this.#state, ...newState }
     this.render()
   }
 
   template() {
-    if (this.#state.movieData.length === 0) {
+    if (this.#state.movieData?.length === 0) {
       return `
             <div class="flex-center gap-16">
                 <img src="./images/hangsung.png" />
@@ -50,13 +50,14 @@ class MovieLayout {
   }
 
   render() {
-    document.getElementById('MovieSection').innerHTML = this.template()
+    const movieSectionEl = document.getElementById('MovieSection')
+    if (movieSectionEl) movieSectionEl.innerHTML = this.template()
     hideskeleton()
   }
 
-  newMovieListRender(dataList) {
+  newMovieListRender(dataList: IMovieData[]) {
     const ul = MovieList(dataList).template()
-    document.getElementById('movieListContainer').appendChild(ul)
+    document.getElementById('movieListContainer')?.appendChild(ul)
   }
 }
 

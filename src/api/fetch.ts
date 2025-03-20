@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+import {IMovieData} from "../../types/movieDataType";
 
 export interface ImportMetaEnv {
     readonly VITE_TMDB_TOKEN: string;
@@ -11,27 +12,10 @@ export interface ImportMeta {
 
 export interface TMDBResponse {
     page: number;
-    results: Result[];
+    results: IMovieData[];
     total_pages: number;
     total_results: number;
   }
-  
-export interface Result {
-  adult: boolean;
-  backdrop_path: null | string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: null | string;
-  release_date: Date;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
 
 
 export async function fetchPopularMovies(pageIndex:number) {

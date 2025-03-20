@@ -1,8 +1,9 @@
 import { fetchPopularMovies } from "../api/fetch.js";
 import { fetchSearchMovies } from "../api/fetch.js";
-import hideskeleton from "./hideskeleton.ts";
+import hideskeleton from "../util/hideskeleton.ts";
+import { IMovieLayout } from "../../types/movieDataType";
 
-function removeButton(movieLayout, total_pages, pageIndex){
+function removeButton(movieLayout:IMovieLayout, total_pages:number, pageIndex:number){
   if(total_pages<pageIndex){
     movieLayout.setState(
       {
@@ -13,7 +14,7 @@ function removeButton(movieLayout, total_pages, pageIndex){
 }
 
 
-async function clickEvent(movieLayout) {
+async function clickEvent(movieLayout:IMovieLayout) {
     document.addEventListener("click", onClick);
 
     function reload() {
@@ -41,9 +42,18 @@ async function clickEvent(movieLayout) {
     const readMoreSearchList = (function () {
       let pageIndex = 2;
       async function loadMovieData() {
-        const layoutTitleText = document.getElementById("movieListTitle").innerText;
+        const layoutTitleText = document.getElementById("movieListTitle")?.innerText;
+
         const regex = /"([^"]*)"/;
-        const searchKeyword = layoutTitleText.match(regex)[1];
+        const match = layoutTitleText?.match(regex);
+
+        if (!match) {
+            console.error("검색어를 찾을 수 없습니다:", layoutTitleText);
+            return;
+        }
+
+        const searchKeyword = match[1];
+
         const {results, total_pages} = await fetchSearchMovies(searchKeyword,pageIndex);
         pageIndex++;
 
@@ -53,15 +63,18 @@ async function clickEvent(movieLayout) {
       }
       return async function () {
         const movieData = await loadMovieData();
-        movieLayout.newMovieListRender(movieData);
+        if (movieData) movieLayout.newMovieListRender(movieData);
         hideskeleton();
       };
     })();
 
   
-    async function onClick(event) {
-      const target = event.target.closest("[data-action]");
-      if (!target) return;
+    async function onClick(event: DocumentEventMap['click']) {
+      const target = event.target instanceof Element 
+      ? event.target.closest("[data-action]") 
+      : null;
+  
+      if (!(target instanceof HTMLElement)) return; 
   
       if (target.dataset.action === 'readMoreMovieList') {
         await readMoreMovieList();
