@@ -26,3 +26,4 @@ dist-ssr
 templates/
 
 .env
+cypress.env.json
