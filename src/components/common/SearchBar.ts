@@ -2,6 +2,7 @@ import { fetchSearchMovieList } from "../../utils/api.ts";
 import { $ } from "../../utils/dom.ts";
 import { loadMovies } from "../../utils/loadMovies.ts";
 import LoadMoreButton from "../movie/LoadMoreButton.ts";
+import NoSearchResults from "../movie/NoSearchResults.ts";
 
 const SearchBar = () => {
   const searchBar = document.createElement("div");
@@ -34,10 +35,15 @@ const searchMovie = async (input: string) => {
   $(".overlay-img").classList.add("hidden");
 
   $(".thumbnail-list").replaceChildren();
-  loadMovies(movies);
+  $(".load-more").remove();
   $("#caption").innerText = `"${input}" 검색 결과`;
 
-  $(".load-more").remove();
+  if (movies.results.length === 0) {
+    $(".thumbnail-list").after(NoSearchResults());
+    return;
+  }
+
+  loadMovies(movies);
 
   if (movies.results.length > 0) {
     $(".thumbnail-list").after(

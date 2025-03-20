@@ -8,7 +8,7 @@ export const loadMovies = async (movies: MovieResponse): Promise<void> => {
     const movieElement = MovieItem({
       src: posterPath
         ? `https://image.tmdb.org/t/p/w440_and_h660_face/${movie.poster_path}`
-        : "./images/default-poster.png",
+        : "./images/default_poster.png",
       title: movie.title,
       rate: movie.vote_average,
     });

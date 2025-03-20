@@ -54,6 +54,6 @@ addEventListener("load", async () => {
         loadFn: fetchPopularMovieList,
       })
     );
-    wrapper.appendChild(footer);
+    app.appendChild(footer);
   }
 });

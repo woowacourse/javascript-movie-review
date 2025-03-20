@@ -19,7 +19,6 @@ body {
 section {
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
 main {
@@ -44,8 +43,9 @@ button.primary {
 }
 
 #wrap {
-  min-width: 1440px;
+  /* min-width: 1440px; */
   background-color: var(--color-bluegray-100);
+  min-height: calc(100vh - 180px);
 }
 
 #wrap h2 {
@@ -238,4 +238,20 @@ footer.footer p:not(:last-child) {
 .item-desc.skeleton-box {
   width: 200px;
   height: 24px;
+}
+
+.no-result{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-result img{
+  width:72px;
+}
+
+.no-result h1{
+  font-size:3rem;
+  font-weight: bold;
 }
