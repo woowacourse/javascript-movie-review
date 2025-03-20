@@ -33,7 +33,7 @@ const baseApi = async (path: string, query?: QueryParams) => {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(`${errorData.status_code}`);
+    throw new Error(errorData.status_code);
   }
 
   return await response.json();

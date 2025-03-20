@@ -1,4 +1,5 @@
-import MessageModal from "./component/MessageModal";
+import { ERROR_MESSAGE } from "./constant/errorMessage";
+import MessageModalController from "./controller/ModalController";
 import MovieListController from "./controller/MovieListController";
 import SearchMovieListController from "./controller/SearchMovieListController";
 
@@ -10,16 +11,16 @@ const headerLogoElement = document.querySelector(".header-wrapper .logo");
 
 const movieListController = new MovieListController(mainElement);
 
+const messageModalController = new MessageModalController(mainElement);
+
 try {
   await movieListController.renderMovieList();
 } catch (error) {
-  console.log(error);
-  const modalElement = MessageModal("aaa") as HTMLDialogElement;
-  mainElement.appendChild(modalElement);
-  modalElement.showModal();
-  modalElement.addEventListener("click", (e) => {
-    if (e.target === e.currentTarget) modalElement.close();
-  });
+  messageModalController.changeContentMessage(
+    ERROR_MESSAGE[Number((error as Error).message)] ||
+      "알 수 없는 오류가 발생했습니다.",
+  );
+  messageModalController.messageModalElement.showModal();
 }
 
 searchBarElement.addEventListener("submit", async (event) => {
