@@ -7,6 +7,10 @@
   border-radius: 32px;
   border: 2px solid #D1D5DB;
   padding: 6px 16px;
+  margin: 0 auto;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .search-bar-input {
