@@ -9,7 +9,7 @@ function Header() {
       createDOMElement({
         tag: 'a',
         attributes: {
-          href: '/'
+          href: '/javascript-movie-review'
         },
         children: [
           createDOMElement({
