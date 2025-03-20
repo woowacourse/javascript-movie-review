@@ -10,8 +10,6 @@ export default function MovieList(moviesResult: MovieResult[]) {
       ? `${DEFAULT_BACK_DROP_URL}${movieResult.backdrop_path}`
       : "./images/default_thumbnail.jpeg";
 
-    // 서버로부터 데이터를 받아오는 동안
-
     $li.innerHTML = /*html*/ `
         <div class="item">
           <img
