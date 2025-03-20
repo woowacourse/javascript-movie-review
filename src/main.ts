@@ -31,17 +31,21 @@ addEventListener("load", async () => {
       // loading = true
       const moviesResponse = await getMovies({ page });
       // loading = false
-      movies = moviesResponse.results;
+      movies = [...movies, ...moviesResponse.results];
       totalPages = moviesResponse.total_pages;
 
-      // 인기영화 정보 보여주기
-      const $topRatedContainer = document.querySelector(".top-rated-container");
-      $topRatedContainer?.append(
-        TopRatedMovie({
-          title: movies[0].title,
-          voteAverage: movies[0].vote_average,
-        })
-      );
+      if (!document.querySelector(".top-rated-movie")) {
+        // 인기영화 정보 보여주기
+        const $topRatedContainer = document.querySelector(
+          ".top-rated-container"
+        );
+        $topRatedContainer?.append(
+          TopRatedMovie({
+            title: movies[0].title,
+            voteAverage: movies[0].vote_average,
+          })
+        );
+      }
 
       /** 헤더 백그라운드 */
       const $backgroundContainer = document.querySelector(
