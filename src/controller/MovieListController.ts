@@ -2,6 +2,8 @@ import { getPopularMovieResult } from "../api/getPopularMovieResult";
 import BackgroundThumbnailSection from "../component/BackgroundThumbnailSection";
 import MovieItem from "../component/MovieItem";
 import MovieListSection from "../component/MovieListSection";
+import SkeletonMovieItem from "../component/Skeleton/SkeletonMovieItem";
+import SkeletonMovieListSection from "../component/Skeleton/SkeletonMovieListSection";
 import MovieResults from "../domain/MovieResults";
 import { IMovieResult } from "../types/movieResultType";
 
@@ -37,6 +39,9 @@ class MovieListController {
   }
 
   async renderMovieList() {
+    const skeletonSectionElement = SkeletonMovieListSection();
+    this.mainElement.replaceChildren(skeletonSectionElement);
+
     const { movieList, hasMore } = await this.getPopularMovieList();
     const sectionElement = MovieListSection({
       title: "지금 인기 있는 영화",
@@ -68,9 +73,21 @@ class MovieListController {
   }
 
   async addMovieList() {
+    const skeletonElements = Array.from({ length: 20 }).map(() =>
+      SkeletonMovieItem(),
+    );
+
+    skeletonElements.forEach((skeletonElement) => {
+      this.mainElement.querySelector("ul")?.appendChild(skeletonElement);
+    });
+
     const { movieList, hasMore } = await this.getPopularMovieList(
       this.movieResults.getPage() + 1,
     );
+
+    skeletonElements.forEach((skeletonElement) => {
+      skeletonElement.remove();
+    });
 
     movieList.forEach((movie) => {
       this.mainElement.querySelector("ul")?.appendChild(MovieItem(movie));
