@@ -18,7 +18,14 @@ const createHeaderSection = () => {
         props: { alt: 'MovieLogo' },
       }),
       SearchBar({
-        onSubmit: async (value) => await movieFetcher.getSearchMovies(1, value),
+        onSubmit: async (value) => {
+          document.querySelector('.top-rated-movie')?.replaceChildren();
+          document.querySelector('.overlay')?.classList.add('hidden');
+          document
+            .querySelector('.background-container')
+            ?.classList.add('search-header-container');
+          await movieFetcher.getSearchMovies(1, value);
+        },
       }),
     ],
   });
@@ -65,9 +72,11 @@ const createBackgroundContainer = () => {
     classList: ['background-container'],
     props: {
       children: [
-        createElement<HTMLDivElement>('div', {
-          'aria-hidden': 'true',
-          classList: 'overlay',
+        Box({
+          classList: ['overlay'],
+          props: {
+            'aria-hidden': 'true',
+          },
         }),
         Box({
           classList: ['top-rated-container'],
