@@ -60,10 +60,10 @@ button.primary {
 }
 
 .background-container {
-  position: relative;
+  /* position: relative; */
   background-position: center center;
   background-size: cover;
-  height: 500px;
+  height: 400px;
   padding: 48px;
 }
 
