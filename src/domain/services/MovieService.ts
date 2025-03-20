@@ -32,6 +32,7 @@ export default class MovieService {
       };
     } catch (error) {
       console.error("영화 목록 가져오기 실패:", error);
+      alert("영화 목록 가져오기 실패");
       throw error;
     }
   }
@@ -44,19 +45,25 @@ export default class MovieService {
     page: number;
     totalPages: number;
   }> {
-    const response = await this.api.searchMovies(query, page);
-    return {
-      movies: response.results.map(
-        (movie) =>
-          new Movie({
-            id: movie.id,
-            title: movie.title,
-            posterPath: movie.poster_path || "",
-            voteAverage: movie.vote_average,
-          })
-      ),
-      page: response.page,
-      totalPages: response.total_pages,
-    };
+    try {
+      const response = await this.api.searchMovies(query, page);
+      return {
+        movies: response.results.map(
+          (movie) =>
+            new Movie({
+              id: movie.id,
+              title: movie.title,
+              posterPath: movie.poster_path || "",
+              voteAverage: movie.vote_average,
+            })
+        ),
+        page: response.page,
+        totalPages: response.total_pages,
+      };
+    } catch (error) {
+      console.error("영화 검색 실패", error);
+      alert("영화 검색 실패");
+      throw error;
+    }
   }
 }
