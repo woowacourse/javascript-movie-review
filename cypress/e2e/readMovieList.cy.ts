@@ -17,7 +17,7 @@ describe("Fixture를 이용한 테스트", () => {
     it("영화 목록 API를 호출하면 한 번에 20개씩 목록에 나열되어야 한다", () => {
       cy.wait("@getPopularMovies").then((interception) => {
 
-        const popularMovies = interception.response.body.results;
+        const popularMovies = interception.response?.body.results;
         expect(popularMovies.length).to.equal(20);
   
 

@@ -1,7 +1,7 @@
-import { fetchSearchMovies } from "../api/fetch";
-import MovieLayout from "../component/common/MovieLayout.js";
+import { fetchSearchMovies } from "../api/fetch.js";
+import MovieLayout from "../component/feature/MovieLayout";
 
-async function submitEvent(this:SubmitEvent, movieLayout: MovieLayout) {
+async function submitEvent(this:void, movieLayout: MovieLayout) {
   document.addEventListener("submit", onSubmit.bind(this));
 
   async function getSearchData(event: Event, form: HTMLFormElement): Promise<void> {
