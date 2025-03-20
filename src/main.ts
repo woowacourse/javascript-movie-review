@@ -90,7 +90,7 @@ const $header = $("header");
 $header?.append(backgroundContainer);
 
 try {
-  await initializeMovie();
+  initializeMovie();
 
   const $searchBar = $("#search-bar-container");
   $searchBar?.addEventListener("submit", onSearch);
