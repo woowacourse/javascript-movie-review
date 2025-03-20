@@ -1,168 +1,66 @@
-import Footer from "./components/Footer.js";
+// App.js
+import Header from "./components/Header/index.js";
+import Footer from "./components/Footer/index.js";
 import Banner from "./components/Banner/index.js";
 import MovieList from "./components/MovieList/index.js";
-import Header from "./components/Header/index.js";
-import MovieItem from "./components/MovieList/MovieItem.js";
-import SkeletonMovieItem from "./components/MovieList/SkeletonMovieItem.js";
-import { fetchPopularMovies, fetchSearchedMovies } from "./APIs/movieAPI.js";
+import { fetchPopularMovies, fetchSearchedMovies } from "./APIs/movieAPI.ts";
+import store from "./store/store.ts";
+import { attachMoreButtonEvent } from "./components/MoreButton.js";
 
 class App {
-  #$target;
-  #movies = [];
-  #query = "";
-  #searchedMoviesLength = 0;
-
   constructor($target) {
-    this.#$target = $target;
+    this.$target = $target;
 
-    this.#init();
+    store.subscribe(() => this.render());
+    if (store.getState().movies.length === 0) {
+      this.loadPopularMovies();
+    }
+    this.render();
+    this.mount();
   }
 
-  async #init() {
-    this.#movies = await fetchPopularMovies();
-    this.#$target.appendChild(this.#template());
-    this.#mount();
+  async loadPopularMovies() {
+    const movies = await fetchPopularMovies();
+    store.setState({ movies });
+
+    if (movies.length) {
+      const $banner = document.querySelector("#banner");
+      if ($banner) {
+        $banner.style.backgroundImage = `url(https://image.tmdb.org/t/p/original${movies[0].backdrop_path})`;
+      }
+    }
   }
 
-  #template() {
-    const template = document.createElement("template");
-    template.innerHTML = /* html */ `
+  render() {
+    const state = store.getState();
+    this.$target.innerHTML = `
       <div id="wrap">
         ${Header()}
-        ${Banner(this.#movies[0])}
-
+        ${!state.query && state.movies.length ? Banner(state.movies[0]) : ""}
         <div class="container">
-          ${MovieList(this.#movies)}
+          ${MovieList({
+            movies: state.movies,
+            query: state.query,
+            searchedMoviesLength: state.searchedMoviesLength,
+          })}
         </div>
-
         ${Footer()}
       </div>
     `;
-    return template.content;
+
+    attachMoreButtonEvent();
   }
 
-  async #handlePopularMoviesMore($moreButton) {
-    const $movieList = this.#$target.querySelector("#movie-list");
-
-    const skeletonCount = 20;
-    const skeletonTemplate = document.createElement("template");
-    skeletonTemplate.innerHTML = new Array(skeletonCount)
-      .fill(null)
-      .map(() => SkeletonMovieItem())
-      .join("");
-    $movieList.appendChild(skeletonTemplate.content);
-
-    const newMovies = await fetchPopularMovies(this.#movies.length / 20 + 1);
-
-    const skeletons = $movieList.querySelectorAll(".skeleton-item");
-    skeletons.forEach((skeleton) => skeleton.remove());
-
-    const template = document.createElement("template");
-    template.innerHTML = newMovies.map(MovieItem).join("");
-    $movieList.append(template.content);
-
-    this.#movies = [...this.#movies, ...newMovies];
-
-    if (this.#movies.length / 20 >= 500) {
-      $moreButton.remove();
-    }
-  }
-
-  async #handleSearchedMoviesMore($moreButton) {
-    const $movieList = this.#$target.querySelector("#movie-list");
-
-    const skeletonCount = 20;
-    const skeletonTemplate = document.createElement("template");
-    skeletonTemplate.innerHTML = new Array(skeletonCount)
-      .fill(null)
-      .map(() => SkeletonMovieItem())
-      .join("");
-    $movieList.appendChild(skeletonTemplate.content);
-
-    const newMovies = await fetchSearchedMovies(this.#movies.length / 20 + 1);
-
-    const skeletons = $movieList.querySelectorAll(".skeleton-item");
-    skeletons.forEach((skeleton) => skeleton.remove());
-
-    const template = document.createElement("template");
-    template.innerHTML = newMovies.results.map(MovieItem).join("");
-    $movieList.append(template.content);
-
-    this.#movies = [...this.#movies, ...newMovies.results];
-
-    if (this.#movies.length >= this.#searchedMoviesLength) {
-      $moreButton.remove();
-    }
-  }
-
-  #mount() {
-    const $Banner = this.#$target.querySelector("#Banner");
-    $Banner.style.backgroundImage = `url(https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces${
-      this.#movies[0].backdrop_path
-    })`;
-
+  mount() {
     window.addEventListener("scroll", () => {
-      const $header = this.#$target.querySelector("header");
-      if (window.scrollY > 0) {
-        $header.classList.add("scrolled");
-        return;
+      const $header = document.querySelector("#header");
+      if ($header) {
+        if (window.scrollY > 0) {
+          $header.classList.add("scrolled");
+        } else {
+          $header.classList.remove("scrolled");
+        }
       }
-      $header.classList.remove("scrolled");
-    });
-
-    const $moreButton = this.#$target.querySelector("#more-button");
-    $moreButton.addEventListener("click", () => {
-      this.#query
-        ? this.#handleSearchedMoviesMore($moreButton)
-        : this.#handlePopularMoviesMore($moreButton);
-    });
-
-    const $searchForm = this.#$target.querySelector("#search-form");
-    $searchForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const formData = new FormData(event.target);
-      const { query } = Object.fromEntries(formData.entries());
-      this.#query = query;
-
-      const searchedMovies = await fetchSearchedMovies(this.#query);
-
-      const $Banner = this.#$target.querySelector("#Banner");
-      if ($Banner) {
-        $Banner.remove();
-      }
-      const $movieList = this.#$target.querySelector("#movie-list");
-
-      const $title = this.#$target.querySelector("#list-title");
-      $title.textContent = `"${this.#query}" 검색 결과`;
-
-      this.#searchedMoviesLength = searchedMovies.total_results;
-
-      if (this.#searchedMoviesLength === 0) {
-        const template = document.createElement("template");
-        template.innerHTML = /* html */ `
-          <div></div>
-          <div></div>
-          <div class="center">
-            <img src="./images/not_found.png"/>
-            <h2 data-testid='no-result-message'>검색 결과가 없습니다.</h2>
-          </div>
-        `;
-        $movieList.replaceChildren(template.content);
-        $moreButton.remove();
-        return;
-      }
-
-      const template = document.createElement("template");
-      template.innerHTML = searchedMovies.results.map(MovieItem).join("");
-      $movieList.replaceChildren(template.content);
-
-      this.#movies = searchedMovies.results;
-
-      if (this.#movies.length >= this.#searchedMoviesLength) {
-        $moreButton.remove();
-      }
-
-      $searchForm.reset();
     });
   }
 }
