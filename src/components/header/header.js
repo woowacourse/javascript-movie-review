@@ -1,9 +1,17 @@
 import { createElement } from "../../util/dom";
+import { addEventListenerBySelector } from "../../util/dom";
+import handleSearch from "../../service/handleSearch";
+
 export default function Header() {
-  const $div = createElement("div", { className: "header-container" });
+  const $headerContainer = createElement("div", {
+    className: "header-container",
+  });
+
   const $header = createElement("header", { className: "header" });
-  const $h1 = createElement("h1", { className: "logo" });
-  const $img = createElement("img", {
+
+  const $logo = createElement("h1", { className: "logo" });
+
+  const $logoImg = createElement("img", {
     src: "./images/logo.png",
     alt: "MovieList",
   });
@@ -21,8 +29,6 @@ export default function Header() {
     alt: "돋보기",
   });
 
-  $searchButton.appendChild($searchImg);
-
   const $input = createElement("input", {
     type: "text",
     name: "search-bar",
@@ -30,12 +36,22 @@ export default function Header() {
     placeholder: "검색어를 입력하세요",
   });
 
+  $form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const searchValue = formData.get("search-bar");
+    handleSearch(searchValue);
+  });
+
+  $logo.addEventListener("click", () => {
+    location.reload();
+  });
+
+  $searchButton.appendChild($searchImg);
   $form.append($input, $searchButton);
+  $logo.appendChild($logoImg);
+  $header.append($logo, $form);
+  $headerContainer.appendChild($header);
 
-  $h1.appendChild($img);
-  $header.append($h1, $form);
-
-  $div.appendChild($header);
-
-  return $div;
+  return $headerContainer;
 }
