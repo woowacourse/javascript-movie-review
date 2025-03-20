@@ -19,7 +19,6 @@ export default class Movie {
   }
 
   getPosterUrl(): string {
-    console.log(this.posterPath);
     if(this.posterPath === "") {
       return './images/nullImage.png';
     }

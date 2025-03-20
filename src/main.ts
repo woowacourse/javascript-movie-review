@@ -1,21 +1,23 @@
-import image from "../templates/images/star_filled.png";
-import SearchBar from "./ui/components/SearchBar.js";
+import TmdbApi from "./api/tmdbApi.js";
 import MovieService from "./domain/services/MovieService.js";
+import SearchBar from "./ui/components/SearchBar.js";
 import MovieListHandler from "./ui/handlers/MovieListHandler.js";
 import SearchHandler from "./ui/handlers/SearchHandler.js";
 
-addEventListener("load", async () => {
-  const app = document.querySelector("#app");
+const tmdbApi = new TmdbApi(import.meta.env.VITE_API_KEY || "");
+const movieService = new MovieService(tmdbApi);
+const movieListHandler = new MovieListHandler(movieService);
+const searchHandler = new SearchHandler(movieListHandler);
 
+window.addEventListener("load", async () => {
+  const searchBar = new SearchBar(searchHandler);
+  searchBar.createSearchBar();
 
-  if (app) {
-    
-    const movieService = new MovieService();
-    const movieListHandler = new MovieListHandler(movieService);
-    await movieListHandler.initMovieList();
+  
+  const logo = document.querySelector(".logo");
+  logo?.addEventListener("click", () => {
+    movieListHandler.handleLogoClick();
+  });
 
-    const searchHandler = new SearchHandler(movieListHandler);
-    const searchBar = new SearchBar(searchHandler);
-    searchBar.createSearchBar();
-  }
+  await movieListHandler.initMovieList();
 });

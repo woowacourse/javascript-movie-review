@@ -7,8 +7,11 @@ import { ApiResponse, MovieResponse } from "../../types/types.js";
 
 export default class MovieListHandler {
   private movieList: MovieList | undefined;
+  private movieService: MovieService;
 
-  constructor(private movieService: MovieService) {}
+  constructor(movieService: MovieService) {
+    this.movieService = movieService;
+  }
 
   async initMovieList(query?: string) {
     const moviesData = query
@@ -83,5 +86,22 @@ export default class MovieListHandler {
         loadMoreButton?.remove();
       }
     }, 1000);
+  }
+
+  handleSearch(query: string) {
+    if (!query.trim()) {
+      this.initMovieList();
+      return;
+    }
+
+    MovieList.removeMovieList();
+    this.movieService.searchMovies(query).then((movies) => {
+      this.movieList = new MovieList(".thumbnail-list", movies, 1, 500, this.movieService);
+      this.movieList.init();
+    });
+  }
+
+  handleLogoClick() {
+    this.initMovieList();
   }
 }
