@@ -1,9 +1,7 @@
 import { fetchSearchMovies } from "../api/fetch";
 import MovieLayout from "../component/common/MovieLayout.js";
 
-const getHTML = (id: string): HTMLElement | null => document.getElementById(id);
-
-async function submitEvent(movieLayout: MovieLayout) {
+async function submitEvent(this:SubmitEvent, movieLayout: MovieLayout) {
   document.addEventListener("submit", onSubmit.bind(this));
 
   async function getSearchData(event: Event, form: HTMLFormElement): Promise<void> {
@@ -24,6 +22,8 @@ async function submitEvent(movieLayout: MovieLayout) {
     if (form.id === "searchForm") {
         await getSearchData(event, form);
     }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
     form.reset();
   }

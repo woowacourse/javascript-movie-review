@@ -1,5 +1,4 @@
 /// <reference types="vite/client" />
-import MovieList from "../component/common/MovieList.js";
 
 export interface ImportMetaEnv {
     readonly VITE_TMDB_TOKEN: string;
