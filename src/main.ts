@@ -13,6 +13,11 @@ import {
 document.addEventListener("DOMContentLoaded", async () => {
   const main = document.querySelector("main");
   if (!main) return;
+  const title = document.querySelector("h2");
+  if (!title) return;
+
+  title.classList.add("main-title");
+  title.textContent = "지금 인기 있는 영화";
 
   const input = Input({
     type: "text",
@@ -24,9 +29,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.log(">>> 검색 결과:", searchedMovies);
 
         main.innerHTML = "";
+
         const movieListComponent = MovieList({
           movieItems: searchedMovies,
         });
+
+        title.textContent = `"${query}" 검색 결과`;
+
         main.appendChild(movieListComponent);
       } catch (error: any) {
         console.error("검색 영화 호출 중 오류 발생:", error);
@@ -39,11 +48,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const header = Header({ navigationBar, movie: null });
   const wrap = document.querySelector("#wrap");
   wrap?.prepend(header);
-
-  const title = document.querySelector("h2");
-  if (!title) return;
-  title.classList.add("main-title");
-  title.textContent = "지금 인기 있는 영화";
 
   const renderMovies = () => {
     const movieListComponent = MovieList({

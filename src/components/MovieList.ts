@@ -26,12 +26,14 @@ const MovieList = ({ movieItems = [] }: MovieListProps) => {
     movieContainer.appendChild(ul);
   }
 
-  movieContainer.innerHTML = `
-  <div class="empty-container">
+  if (movieItems.length === 0) {
+    movieContainer.innerHTML = `
+       <div class="empty-container">
         <img src="images/empty_logo.png" alt="우아한테크코스 로고" />
         <h2 class="empty-content">검색 결과가 없습니다.</h2>
       </div>
   `;
+  }
 
   return movieContainer;
 };

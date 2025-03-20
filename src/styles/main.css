@@ -186,6 +186,7 @@ span.rate-value {
 
 .empty-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
@@ -193,9 +194,11 @@ span.rate-value {
 }
 
 .empty-content {
+  margin: 36px 0;
+  font-size: 1.4rem;
+  font-weight: bold;
   font-family: Poppins;
   font-weight: 600;
-  font-size: 36px;
   line-height: 100%;
   letter-spacing: 0%;
 }
