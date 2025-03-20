@@ -10,7 +10,7 @@ export const API_OPTION = {
 
 export default class Fetcher {
   private baseUrl: string;
-  private activeHttpRequests: AbortController[] = [];
+  private currentController: AbortController[] = [];
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
@@ -19,14 +19,14 @@ export default class Fetcher {
   public async get<T>(url: string): Promise<T> {
     this.cleanUp();
 
-    const httpAbortCtrl = new AbortController();
+    const curHttpCtrl = new AbortController();
     const response = await fetch(`${this.baseUrl}/${url}`, {
       headers: {
         accept: 'application/json',
         Authorization: `Bearer ${ENV.VITE_TMBD_HEADER}`,
       },
       method: 'GET',
-      signal: httpAbortCtrl.signal,
+      signal: curHttpCtrl.signal,
     });
 
     if (!response.ok) {
@@ -37,6 +37,6 @@ export default class Fetcher {
   }
 
   cleanUp() {
-    this.activeHttpRequests.forEach((abortCtrl) => abortCtrl.abort());
+    this.currentController.forEach((abortCtrl) => abortCtrl.abort());
   }
 }
