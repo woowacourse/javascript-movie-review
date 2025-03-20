@@ -1,0 +1,11 @@
+@import "./colors.css";
+@import "./main.css";
+@import "./modal.css";
+@import "./reset.css";
+@import "./tab.css";
+
+@import "../components/Header/header.css";
+@import "../components/Banner/banner.css";
+@import "../components/Footer/footer.css";
+@import "../components/MovieList/movie-list.css";
+@import "../components/Skeleton/skeleton.css";
