@@ -11,7 +11,7 @@ interface ErrorBoxProps {
 
 const $ErrorBox = ({ text }: ErrorBoxProps) => {
   const $errorPlanet = createElement("img", {
-    src: "./images/empty-planet.svg",
+    src: "./empty-planet.svg",
     className: "empty-planet",
     alt: text,
   });
