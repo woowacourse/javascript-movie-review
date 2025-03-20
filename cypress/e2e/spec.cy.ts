@@ -5,7 +5,7 @@ describe("The Home Page", () => {
   });
 });
 
-describe("The Home Page", () => {
+describe("영화 목록 조회, 검색 테스트", () => {
   beforeEach(() => {
     cy.visit("http://localhost:5173");
   });
