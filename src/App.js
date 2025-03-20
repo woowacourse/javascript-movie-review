@@ -34,46 +34,6 @@ class App {
     this.setMovies([...this.#movies, ...results]); // 새로운 영화목록 반영 UI 렌더
   }
 
-  async getMoviesResults() {
-    this.setIsLoading(true);
-
-    const data = await getPopularityMovie(this.#page);
-
-    if (data !== null) {
-      this.setIsLoading(false);
-
-      const results = data.results.map((movie) => ({
-        ...movie,
-        poster_path: `https://image.tmdb.org/t/p/w300${movie.poster_path}`,
-        vote_average: movie.vote_average.toFixed(1),
-        backdrop_path: `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`,
-      }));
-
-      return { results, totalPage: data.total_pages };
-    }
-
-    return { results: null };
-  }
-
-  async getSearchMovies() {
-    this.setIsLoading(true);
-
-    const data = await searchMovie(this.#searchPage, this.#searchKeyword);
-
-    if (data !== null) {
-      this.setIsLoading(false);
-
-      const results = data.results.map((movie) => ({
-        ...movie,
-        poster_path: `https://image.tmdb.org/t/p/w300${movie.poster_path}`,
-        vote_average: movie.vote_average.toFixed(1),
-        backdrop_path: `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`,
-      }));
-      return { results, totalPage: data.total_pages };
-    }
-    return { results: null };
-  }
-
   setShow(show) {
     this.#show = show;
     this.render();
@@ -106,6 +66,77 @@ class App {
     this.render();
   };
 
+  async getMoviesResults() {
+    return this.getMovies(getPopularityMovie, [this.#page]);
+  }
+
+  async getSearchMovies() {
+    return this.getMovies(searchMovie, [this.#searchPage, this.#searchKeyword]);
+  }
+
+  async getMovies(apiCall, params) {
+    this.setIsLoading(true);
+
+    const data = await apiCall(...params);
+
+    if (data !== null) {
+      this.setIsLoading(false);
+
+      const results = data.results.map((movie) => ({
+        ...movie,
+        poster_path: `https://image.tmdb.org/t/p/w300${movie.poster_path}`,
+        vote_average: movie.vote_average.toFixed(1),
+        backdrop_path: `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`,
+      }));
+
+      return { results, totalPage: data.total_pages };
+    }
+
+    return { results: null };
+  }
+
+  render() {
+    const body = document.querySelector("body");
+    body.innerHTML = "";
+
+    const $wrap = document.createElement("div");
+    $wrap.id = "wrap";
+
+    const $header = new TitleSearchBar(this.onSubmit).render();
+
+    if (this.hasMovies()) {
+      const $thumbnail = new Thumbnail(this.#movies[0]).render();
+      $wrap.append($thumbnail);
+    }
+
+    const $container = document.createElement("div");
+    $container.classList.add("container");
+
+    const $main = document.createElement("main");
+
+    const $movieListSection = new MovieListSection(
+      this.#searchKeyword,
+      this.#movies,
+      this.#isLoading
+    ).render();
+
+    body.appendChild($wrap);
+    $wrap.append($header);
+    $wrap.appendChild($container);
+    $container.appendChild($main);
+    $main.appendChild($movieListSection);
+
+    if (this.hasMovies() && this.#show) {
+      const $moreButton = new Button().render();
+
+      $main.appendChild($moreButton);
+      $moreButton.addEventListener("click", this.handleButtonClick);
+    }
+
+    const $footer = new Footer().render();
+    body.appendChild($footer);
+  }
+
   onSubmit = async (e) => {
     e.preventDefault();
 
@@ -117,50 +148,6 @@ class App {
     await this.setSearchKeyword($input.value);
     this.setMode("search");
   };
-
-  render() {
-    const body = document.querySelector("body");
-    body.innerHTML = "";
-
-    const $wrap = document.createElement("div");
-    $wrap.id = "wrap";
-
-    const $header = new TitleSearchBar(this.onSubmit).render();
-
-    $wrap.append($header);
-    body.appendChild($wrap);
-
-    const $container = document.createElement("div");
-    $container.classList.add("container");
-    const $main = document.createElement("main");
-
-    const $movieListSection = new MovieListSection(
-      this.#searchKeyword,
-      this.#movies,
-      this.#isLoading
-    ).render();
-
-    if (this.#movies !== null && this.#movies.length !== 0) {
-      const $thumbnail = new Thumbnail(this.#movies[0]).render();
-      $wrap.append($thumbnail);
-    }
-
-    $main.appendChild($movieListSection);
-    $container.appendChild($main);
-    $wrap.appendChild($container);
-
-    if (this.#movies !== null && this.#movies.length !== 0) {
-      const $moreButton = new Button().render();
-
-      if (this.#show) {
-        $main.appendChild($moreButton);
-        $moreButton.addEventListener("click", this.handleButtonClick);
-      }
-    }
-
-    const $footer = new Footer().render();
-    body.appendChild($footer);
-  }
 
   handleButtonClick = async () => {
     if (this.#mode === "popular") {
@@ -183,6 +170,10 @@ class App {
 
     this.setMovies([...this.#movies, ...results]); //
   };
+
+  hasMovies() {
+    return this.#movies !== null && this.#movies.length !== 0;
+  }
 }
 
 export default App;
