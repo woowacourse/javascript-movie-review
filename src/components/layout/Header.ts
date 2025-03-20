@@ -16,7 +16,8 @@ const Header = ({ title, imageUrl, voteAverage }: HeaderProps) => {
       <div class="background-container">
         <div class="overlay" aria-hidden="true">
         <img src=${imageUrl} class="overlay-img" />
-        </div>
+        <div class="backdrop"></div>
+      </div>
         
         <div class="logo-search-container">
           <h1 class="logo">
@@ -47,6 +48,9 @@ const Header = ({ title, imageUrl, voteAverage }: HeaderProps) => {
   const topRateMovie = $(".top-rated-movie", header);
   topRateMovie.prepend(rate);
   topRateMovie.appendChild(button);
+
+  const logo = $(".logo", header);
+  logo.addEventListener("click", () => location.reload());
 
   return header;
 };
