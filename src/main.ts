@@ -3,14 +3,34 @@ import NavigationBar from "./components/NavigationBar.ts";
 import MovieList from "./components/MovieList.ts";
 import Input from "./components/Input.ts";
 import Button from "./components/Button.ts";
-import { fetchMovies, moviesState, isLastPage } from "./store/movieService.ts";
+import {
+  fetchPopularMovies,
+  moviesState,
+  isLastPage,
+  fetchSearchedMovies,
+} from "./store/movieService.ts";
 
 document.addEventListener("DOMContentLoaded", async () => {
+  const main = document.querySelector("main");
+  if (!main) return;
+
   const input = Input({
     type: "text",
     placeholder: "검색어를 입력하세요",
-    onClick: () => {
-      console.log("검색 아이콘 클릭");
+    onSearch: async (query: string) => {
+      try {
+        const searchedMovies = await fetchSearchedMovies(query);
+
+        console.log(">>> 검색 결과:", searchedMovies);
+
+        main.innerHTML = "";
+        const movieListComponent = MovieList({
+          movieItems: searchedMovies,
+        });
+        main.appendChild(movieListComponent);
+      } catch (error: any) {
+        console.error("검색 영화 호출 중 오류 발생:", error);
+      }
     },
   });
 
@@ -25,9 +45,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   title.classList.add("main-title");
   title.textContent = "지금 인기 있는 영화";
 
-  const main = document.querySelector("main");
-  if (!main) return;
-
   const renderMovies = () => {
     const movieListComponent = MovieList({
       movieItems: moviesState.list,
@@ -37,7 +54,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   };
 
   try {
-    await fetchMovies();
+    await fetchPopularMovies();
 
     if (moviesState.list.length > 0) {
       const updatedHeader = Header({
@@ -65,7 +82,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         moreButton.setAttribute("disabled", "true");
         return;
       }
-      await fetchMovies(moviesState.currentPage + 1);
+      await fetchPopularMovies(moviesState.currentPage + 1);
       renderMovies();
     },
   });

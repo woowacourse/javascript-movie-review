@@ -1,10 +1,10 @@
 type InputProps = {
   type: "text" | null;
   placeholder: string;
-  onClick: () => void;
+  onSearch: (query: string) => void;
 };
 
-const Input = ({ type, placeholder, onClick }: InputProps) => {
+const Input = ({ type, placeholder, onSearch }: InputProps) => {
   const searchWrapper = document.createElement("div");
   searchWrapper.classList.add("search-wrapper");
 
@@ -15,11 +15,25 @@ const Input = ({ type, placeholder, onClick }: InputProps) => {
       <img src="images/Search.png" class="search-icon" alt="검색" />
     `;
 
-  // TODO 이벤트 연결
+  const searchInput = searchWrapper.querySelector(
+    ".search-input"
+  ) as HTMLInputElement;
   const searchIcon = searchWrapper.querySelector(".search-icon");
-  if (searchIcon) {
-    searchIcon.addEventListener("click", onClick);
-  }
+
+  const handleSearch = () => {
+    const query = searchInput.value.trim();
+    if (query !== "") {
+      onSearch(query);
+    }
+  };
+
+  searchIcon?.addEventListener("click", handleSearch);
+
+  searchInput?.addEventListener("keydown", (event: KeyboardEvent) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  });
 
   return searchWrapper;
 };
