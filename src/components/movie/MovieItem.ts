@@ -18,11 +18,6 @@ const MovieItem = ({ src, rate, title }: MovieItem) => {
           alt=${title}
         />
         <div class="item-desc">
-          <!-- <p class="rate">
-            <img src="./images/star_empty.png" class="star" /><span
-              >${rate}</span
-            >
-          </p> -->
           <strong>${title}</strong>
         </div>
       </div>
