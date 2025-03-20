@@ -1,6 +1,6 @@
 import Button from "./components/Button";
 import { renderMoviesList } from "./domains/renderMoviesList";
-import "./event/index";
+import "./events/index";
 
 addEventListener("load", async () => {
   const $container = document.querySelector(".container");

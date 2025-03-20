@@ -1,4 +1,4 @@
-import { store } from "./../store/index";
+import { store } from "./../stores";
 import { getMovieByName, getMovies } from "../apis/MovieApi";
 import MovieList from "../components/MovieList";
 import MovieListSkeleton from "../components/MovieListSkeleton";

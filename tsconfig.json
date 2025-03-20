@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "types", "src/components/Button.ts"]
+  "include": ["src", "types"]
 }

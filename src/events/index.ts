@@ -1,5 +1,5 @@
 import { renderMoviesList } from "../domains/renderMoviesList";
-import { store } from "../store";
+import { store } from "../stores";
 import { isElement } from "../utils";
 
 window.addEventListener("click", async (event) => {
