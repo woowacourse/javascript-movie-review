@@ -17,7 +17,7 @@ class SearchBar {
     this.#parentElement.innerHTML = `
     <form class="search-bar">
         <input placeholder="검색어를 입력하세요"/>
-        <button>
+        <button type="submit">
           <img src="./images/search_button.png" />
         </button>
     </form >
