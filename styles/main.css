@@ -222,3 +222,30 @@ footer.footer p:not(:last-child) {
   font-size: 36px;
   font-weight: 600;
 }
+
+.error-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  font-size: 36px;
+  font-weight: 600;
+}
+
+.error-page-button {
+  width: 100%;
+  font-size: 24px;
+}
+
+.error-page-button:hover {
+  scale: 1.1;
+  transition: 0.3s;
+}
+
+.error-page-image {
+  width: 150px;
+  height: 130px;
+  object-fit: cover;
+}

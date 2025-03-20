@@ -1,3 +1,5 @@
+import ErrorPage from "../../../shared/ui/components/ErrorPage";
+
 const url = (page: number) =>
   `https://api.themoviedb.org/3/tv/popular?page=${page}`;
 const options = {
@@ -18,6 +20,7 @@ export const getMovieList = async ({ page }: { page: number }) => {
 
     return response.json();
   } catch (error) {
-    alert("영화를 불러오는데 실패했습니다.");
+    const $container = document.querySelector(".container");
+    $container!.replaceChildren(ErrorPage());
   }
 };
