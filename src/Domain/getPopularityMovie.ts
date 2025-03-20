@@ -6,7 +6,7 @@ export async function getPopularityMovie(
 ): Promise<ApiResponse | null> {
   try {
     const data = await getFetchData<ApiResponse>(
-      `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page=${page}&sort_by=popularity.desc`
+      `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`
     );
     return data;
   } catch (error) {
