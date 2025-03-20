@@ -9,7 +9,7 @@ import { Text } from './Text';
 
 const createHeaderSection = () => {
   return createElement('section', {
-    classList: 'flex flex-row items-center gap-250',
+    classList: 'section-container',
     children: [
       IconButton({
         width: '117',

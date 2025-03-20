@@ -9,7 +9,7 @@ const DEFAULT_IMAGE_URL = './images/no_image.png';
 
 const createRatingSection = (vote_average: number) => {
   return Box({
-    classList: ['flex', 'gap-8'],
+    classList: ['movie-rate'],
     props: {
       children: [
         Img({
@@ -30,7 +30,7 @@ const createRatingSection = (vote_average: number) => {
 
 const createDescriptionSection = (title: string, vote_average: number) => {
   return Box({
-    classList: ['flex', 'flex-col', 'gap-10'],
+    classList: ['movie-description'],
     props: {
       children: [
         createRatingSection(vote_average),
@@ -61,7 +61,7 @@ export const MovieItem = ({
   poster_path,
 }: MovieItemType) => {
   return createElement<HTMLLIElement>('li', {
-    classList: 'movie-item flex flex-col justify-start gap-10',
+    classList: 'movie-item',
     children: [
       createMovieImage(title, poster_path),
       createDescriptionSection(title, vote_average),

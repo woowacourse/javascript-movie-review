@@ -24,8 +24,7 @@ export const SearchBar = ({ onSubmit, classList, props }: SearchBarProps) => {
 
   const formElement = createElement<HTMLFormElement>('form', {
     ...props,
-    classList:
-      'w-525 h-36 flex items-center justify-between rounded-2xl border-2 px6-py16',
+    classList: 'form-container',
     children: [input, iconBtn],
   });
 
