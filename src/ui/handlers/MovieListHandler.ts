@@ -35,13 +35,19 @@ export default class MovieListHandler {
   async handleMoreClickButton(query: string | undefined) {
     const loadMoreButton = document.querySelector(".add-movie");
     if (!loadMoreButton) return;
-    loadMoreButton.addEventListener("click", async () => {
+
+    const newButton = loadMoreButton.cloneNode(true);
+    loadMoreButton.parentNode?.replaceChild(newButton, loadMoreButton);
+
+    newButton.addEventListener("click", async () => {
       await this.handleLoadMore(query);
     });
   }
 
   async handleLoadMore(query: string | undefined) {
     const pageNumber = this.movieList?.currentPage + 1;
+    this.movieList?.addPageNumber();
+    console.log(`pageNumber: ${pageNumber}`);
     let newMoviesData: { movies: Movie[]; page: number; totalPages: number };
     if (store.getMode() === "popularAdd") {
       newMoviesData = await this.movieService.getPopularResults(pageNumber);
