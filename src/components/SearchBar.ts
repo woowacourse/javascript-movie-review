@@ -8,35 +8,27 @@ import {
 import MovieItem from "./MovieItem";
 
 class SearchBar {
-  constructor() {}
+  #element;
+
+  constructor() {
+    this.#element = document.createElement("div");
+  }
 
   create() {
-    const searchContainerElement = document.createElement("div");
-    searchContainerElement.classList.add("search-container");
+    this.#element.classList.add("search-container");
+    this.#element.appendChild(this.#getInputElement());
+    this.#element.appendChild(this.#getImageButton());
 
-    const content = /*html*/ `
-      <input
-        type="text"
-        class="search-bar"
-        placeholder="검색어를 입력하세요"
-      />
-    `;
-
-    searchContainerElement.insertAdjacentHTML("beforeend", content);
-    const imgButton = document.createElement("img");
-    imgButton.id = "search";
-    imgButton.src = "./images/search_button.png";
-    imgButton.alt = "SearchButton";
-    imgButton.onclick = () => this.onSearchClick();
-    searchContainerElement.appendChild(imgButton);
-
-    return searchContainerElement;
+    return this.#element;
   }
 
   async onSearchClick() {
     const searchBar = document.querySelector(".search-bar") as HTMLInputElement;
     const thumbnailList = document.querySelector("ul.thumbnail-list");
     const query = searchBar.value;
+    const seeMoreButton = document.querySelector(
+      "#seeMore"
+    ) as HTMLButtonElement;
 
     this.#changeTitleStyle(query);
     toggleNoThumbnail("hidden");
@@ -46,13 +38,40 @@ class SearchBar {
 
     await this.#renderSearchResult(query);
 
-    const seeMoreButton = document.querySelector(
-      "#seeMore"
-    ) as HTMLButtonElement;
-
     seeMoreButton.onclick = async () => {
       await this.#renderSearchResult(query);
     };
+  }
+
+  #getInputElement() {
+    const searchInput = document.createElement("input");
+    searchInput.type = "text";
+    searchInput.classList.add("search-bar");
+    searchInput.placeholder = "검색어를 입력하세요";
+    searchInput.onfocus = () => {
+      window.addEventListener("keydown", (e) => this.#handleEnterKeyDown(e));
+    };
+    searchInput.onblur = () => {
+      window.removeEventListener("keydown", (e) => this.#handleEnterKeyDown(e));
+    };
+
+    return searchInput;
+  }
+
+  #getImageButton() {
+    const imgButton = document.createElement("img");
+    imgButton.id = "search";
+    imgButton.src = "./images/search_button.png";
+    imgButton.alt = "SearchButton";
+    imgButton.onclick = () => this.onSearchClick();
+
+    return imgButton;
+  }
+
+  #handleEnterKeyDown(event: KeyboardEvent) {
+    if (event.key === "Enter") {
+      this.onSearchClick();
+    }
   }
 
   #changeTitleStyle(query: string) {
