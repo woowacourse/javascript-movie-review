@@ -21,15 +21,6 @@ class App {
   async loadPopularMovies() {
     const movies = await fetchPopularMovies();
     store.setState({ movies });
-
-    if (movies.length) {
-      const $banner = document.querySelector("#banner");
-      if ($banner) {
-        $banner.style.backgroundImage = `url(${
-          import.meta.env.VITE_TMDB_API_BANNER_URL
-        }${movies[0].backdrop_path})`;
-      }
-    }
   }
 
   render() {
@@ -54,11 +45,19 @@ class App {
         ${Footer()}
       </div>
     `;
-    this.mount();
+
+    this.mount(state);
   }
 
-  mount() {
+  mount(state) {
     attachMoreButtonEvent();
+
+    const $banner = document.querySelector("#banner");
+    if (state.movies.length && $banner) {
+      $banner.style.backgroundImage = `url(${
+        import.meta.env.VITE_TMDB_API_BANNER_URL
+      }${state.movies[0].backdrop_path})`;
+    }
 
     window.addEventListener("scroll", () => {
       const $header = document.querySelector("#header");

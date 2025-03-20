@@ -6,7 +6,7 @@ const Header = () => {
     <header id="header" class="header">
       <div class="header-container">
         <h1 class="logo">
-          <a href="/">
+          <a href="/javascript-movie-review">
             <img src="./images/logo.png" alt="MovieList" />
           </a>
         </h1>
