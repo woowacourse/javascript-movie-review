@@ -95,3 +95,34 @@ describe("검색 기능 E2E 테스트", () => {
     cy.get(".more-movies-button").should("not.exist");
   });
 });
+
+describe("검색 결과가 없을때 E2E 테스트", () => {
+  beforeEach(() => {
+    cy.intercept(
+      {
+        method: "GET",
+        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie*/,
+      },
+      { fixture: "movie-not-found.json" }
+    ).as("getNotFound");
+
+    cy.visit("localhost:5173");
+  });
+
+  it("검색 결과가 없을때 사용자에게 알려준다", () => {
+    cy.get("form.search-bar input")
+      .should("exist")
+      .type("ㅁ닝러ㅏ인러ㅏㅣㅇ너라ㅣ어라ㅣㅇ");
+    cy.get('form.search-bar button[type="submit"]').should("exist").click();
+
+    cy.wait("@getNotFound").then((interception) => {
+      if (!interception.response) {
+        throw new Error("No response received from interception");
+      }
+      const searchedMovies = interception.response.body.results;
+      expect(searchedMovies.length).to.equal(0);
+
+      cy.get(".fallback-screen p").should("have.text", "검색 결과가 없습니다");
+    });
+  });
+});
