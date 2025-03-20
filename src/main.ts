@@ -16,10 +16,9 @@ const wrapper = document.createElement("div");
 wrapper.setAttribute("id", "wrap");
 
 addEventListener("load", async () => {
-  console.log("화면은 켜짐");
   const app = $("#app");
 
-  const header = Header({ title: "인사이드 아웃2" });
+  const header = Header({ title: "로딩중 ...", imageUrl: "", voteAverage: 0 });
   if (!header) return;
   const footer = Footer();
 
@@ -36,6 +35,18 @@ addEventListener("load", async () => {
     wrapper.appendChild(movieList);
 
     const movies: MovieResponse = await fetchPopularMovieList(currentPage);
+    const topMovie = movies.results[0];
+
+    if (topMovie) {
+      const updatedHeader = Header({
+        title: topMovie.title,
+        imageUrl: `https://image.tmdb.org/t/p/w500${topMovie.poster_path}`,
+        voteAverage: topMovie.vote_average,
+      });
+
+      if (updatedHeader) wrapper.replaceChild(updatedHeader, header);
+    }
+
     loadMovies(movies);
 
     wrapper.appendChild(

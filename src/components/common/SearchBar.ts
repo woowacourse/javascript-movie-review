@@ -31,6 +31,7 @@ const SearchBar = () => {
 const searchMovie = async (input: string) => {
   const movies = await fetchSearchMovieList(input, 1);
   $(".top-rated-container").classList.add("hidden");
+  $(".overlay-img").classList.add("hidden");
 
   $(".thumbnail-list").replaceChildren();
   loadMovies(movies);
@@ -38,11 +39,14 @@ const searchMovie = async (input: string) => {
 
   $(".load-more").remove();
 
-  $(".thumbnail-list").after(
-    LoadMoreButton({
-      loadFn: (currentPage: number) => fetchSearchMovieList(input, currentPage),
-    })
-  );
+  if (movies.results.length > 0) {
+    $(".thumbnail-list").after(
+      LoadMoreButton({
+        loadFn: (currentPage: number) =>
+          fetchSearchMovieList(input, currentPage),
+      })
+    );
+  }
 };
 
 export default SearchBar;

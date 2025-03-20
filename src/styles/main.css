@@ -51,7 +51,7 @@ button.primary {
 #wrap h2 {
   font-size: 1.4rem;
   font-weight: bold;
-  margin: 35px 80px;
+  margin: 35px 120px;
 }
 
 .container {
@@ -70,11 +70,20 @@ button.primary {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
   height: 100%;
-  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
+
+.overlay img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 
 .top-rated-container {
   user-select: none;
@@ -152,7 +161,6 @@ h1.logo {
   color: white;
   padding: 10px
 }
-
 
 
 .rate {

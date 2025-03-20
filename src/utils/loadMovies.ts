@@ -1,6 +1,6 @@
 import { Movie, MovieResponse } from "../../types/movie.ts";
 import MovieItem from "../components/movie/MovieItem.ts";
-import { $, $$ } from "./dom.ts";
+import { $ } from "./dom.ts";
 
 export const loadMovies = async (movies: MovieResponse): Promise<void> => {
   movies.results.forEach((movie: Movie) => {

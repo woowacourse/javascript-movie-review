@@ -8,7 +8,7 @@ const Rate = ({ rate }: RateProps) => {
   const rateElement = createElement(/*html*/ `
     <div class="rate">
         <img src="./images/star_empty.png" class="star" />
-        <span class="rate-value">${rate}</span>
+        <span class="rate-value">${rate.toFixed(1)}</span>
     </div>
     `);
 

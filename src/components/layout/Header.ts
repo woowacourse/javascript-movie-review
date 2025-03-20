@@ -6,13 +6,17 @@ import SearchBar from "../common/SearchBar.ts";
 
 type HeaderProps = {
   title: string;
+  imageUrl: string;
+  voteAverage: number;
 };
 
-const Header = ({ title }: HeaderProps) => {
+const Header = ({ title, imageUrl, voteAverage }: HeaderProps) => {
   const header = createElement(/*html*/ `
     <header>
       <div class="background-container">
-        <div class="overlay" aria-hidden="true"></div>
+        <div class="overlay" aria-hidden="true">
+        <img src=${imageUrl} class="overlay-img" />
+        </div>
         
         <div class="logo-search-container">
           <h1 class="logo">
@@ -29,7 +33,7 @@ const Header = ({ title }: HeaderProps) => {
   `);
 
   const searchBar = SearchBar();
-  const rate = Rate({ rate: 10 });
+  const rate = Rate({ rate: voteAverage });
   const button = Button({
     text: "자세히 보기",
     className: ["primary", "detail"],

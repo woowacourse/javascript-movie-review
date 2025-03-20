@@ -28,7 +28,7 @@ export const fetchPopularMovieList = async (
   showSkeleton();
 
   try {
-    const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${currentPage}`;
+    const url = `https://api.themoviedb.org/3/movie/popular?include_adult=false&language=ko-KR&page=${currentPage}`;
     const response = await fetch(url, OPTIONS);
 
     if (!response.ok) {
@@ -52,7 +52,7 @@ export const fetchSearchMovieList = async (
   showSkeleton();
 
   try {
-    const url = `https://api.themoviedb.org/3/search/movie?query=${search}&language=ko-KR&page=${currentPage}`;
+    const url = `https://api.themoviedb.org/3/search/movie?query=${search}&include_adult=false&language=ko-KR&page=${currentPage}`;
     const response = await fetch(url, OPTIONS);
 
     if (!response.ok) {
