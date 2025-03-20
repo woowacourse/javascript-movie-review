@@ -7,7 +7,6 @@ import { getSearchedPost } from "./features/search/api/getSearchedPost";
 import EmptySearchResult from "./features/search/ui/EmptySearchResult";
 import { createSkeletons } from "./features/movie/ui/MovieSkeleton";
 import "./styles/skeleton.css";
-import "./styles/loading-indicator.css";
 
 addEventListener("DOMContentLoaded", async () => {
   const $movieList = document.querySelector(
