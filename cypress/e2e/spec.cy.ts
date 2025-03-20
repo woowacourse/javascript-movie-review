@@ -21,7 +21,7 @@ describe("E2E테스트", () => {
     });
     it("검색어를 입력했을 때 목록이 없다면 빈 화면을 보여준다.", () => {
       cy.search("없는제목우아아아아아아");
-      cy.get(".not-found").contains("검색 결과가 없습니다.").should("exist");
+      cy.get(".error").contains("검색 결과가 없습니다.").should("exist");
     });
   });
 });

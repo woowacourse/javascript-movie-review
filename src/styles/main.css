@@ -161,7 +161,7 @@ span.rate-value {
   font-weight: bold;
 }
 
-.not-found {
+.error {
   display: flex;
   flex-direction: column;
   justify-content: center;

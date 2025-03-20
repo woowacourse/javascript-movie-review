@@ -10,12 +10,18 @@ export async function getMovies({ page }: { page: number }) {
     },
   };
 
-  const response = fetch(url, options)
-    .then((res) => res.json())
-    .then((json) => {
-      return json;
-    })
-    .catch((err) => console.error(err));
+  // try {
+  //   const response = await fetch(url, options);
+  //   return response.json() as unknown as MoviesResponse;
+  // } catch (error) {
+  //   throw Error(`${error.status}`);
+  // }
+
+  const response = fetch(url, options).then((res) => {
+    if (res.ok) return res.json();
+    throw new Error(String(res.status));
+  });
+
   return response as unknown as MoviesResponse;
 }
 
@@ -41,6 +47,10 @@ export async function getMovieByName({
       console.log(json);
       return json;
     })
-    .catch((err) => console.error(err));
+    .catch((err) => {
+      throw Error(`${err.status}`);
+    });
   return response as unknown as MoviesResponse;
+
+  // return (await fetch(url, options)).json() as unknown as MoviesResponse;
 }

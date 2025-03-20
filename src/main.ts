@@ -16,7 +16,8 @@ addEventListener("load", async () => {
   const $mainSection = document.querySelector("main section");
   const $container = document.querySelector(".container");
   const $ul = document.querySelector(".thumbnail-list");
-  const $notFound = document.querySelector(".not-found");
+  const $error = document.querySelector(".error");
+  const $h2 = $error?.querySelector("h2");
 
   $container?.appendChild(
     Button({ className: "show-more", textContent: "더 보기" })
@@ -29,10 +30,30 @@ addEventListener("load", async () => {
 
     if (searchKeyword === "") {
       // loading = true
-      const moviesResponse = await getMovies({ page });
-      // loading = false
-      movies = [...movies, ...moviesResponse.results];
-      totalPages = moviesResponse.total_pages;
+      try {
+        const moviesResponse = await getMovies({ page });
+        // loading = false
+        movies = [...movies, ...moviesResponse.results];
+        totalPages = moviesResponse.total_pages;
+      } catch (error: any) {
+        $ul?.classList.add("close");
+        $error?.classList.remove("close");
+
+        if ($ul) $ul.innerHTML = "";
+
+        if (error.message === "400" && $h2) {
+          // page = 501
+          $h2.textContent = "검색 가능한 페이지 수를 넘겼습니다.";
+        }
+        if (error.message === "401" && $h2) {
+          console.log(error);
+
+          // 토큰 인증 오류
+          $h2.textContent =
+            "사용자 인증 정보가 잘못되었습니다. 정보를 다시 확인해주세요.";
+        }
+        return;
+      }
 
       if (!document.querySelector(".top-rated-movie")) {
         // 인기영화 정보 보여주기
@@ -62,14 +83,15 @@ addEventListener("load", async () => {
         page,
       });
       // loading = false
-      movies = moviesResponse.results;
+      movies = [...movies, ...moviesResponse.results];
 
       if (movies.length === 0) {
         $ul?.classList.add("close");
-        $notFound?.classList.remove("close");
+        $error?.classList.remove("close");
+        if ($h2) $h2.textContent = "검색 결과가 없습니다.";
       } else {
         $ul?.classList.remove("close");
-        $notFound?.classList.add("close");
+        $error?.classList.add("close");
       }
 
       totalPages = moviesResponse.total_pages;
@@ -118,8 +140,6 @@ addEventListener("load", async () => {
         const $title = document.querySelector(".thumbnail-title");
         if ($title) $title.textContent = `"${searchKeyword}" 검색 결과`;
 
-        const response = await getMovieByName({ name: searchKeyword, page });
-
         const $ul = document.querySelector(".thumbnail-list");
         if ($ul) $ul.innerHTML = "";
 
@@ -131,7 +151,8 @@ addEventListener("load", async () => {
         $topRatedContainer?.classList.add("close");
         $overlay?.classList.add("close");
 
-        movies = response.results;
+        movies = [];
+
         renderMoviesList();
       }
     }
