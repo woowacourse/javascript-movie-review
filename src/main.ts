@@ -3,6 +3,7 @@ import Footer from "./components/layout/Footer.ts";
 import Header from "./components/layout/Header.ts";
 import Caption from "./components/movie/Caption.ts";
 import LoadMoreButton from "./components/movie/LoadMoreButton.ts";
+import NoSearchResults from "./components/movie/NoSearchResults.ts";
 import SkeletonMovieItem from "./components/movie/SkeletonMovieItem.ts";
 import { fetchPopularMovieList } from "./utils/api.ts";
 import { $ } from "./utils/dom.ts";
@@ -34,26 +35,31 @@ addEventListener("load", async () => {
     }
     wrapper.appendChild(movieList);
 
-    const movies: MovieResponse = await fetchPopularMovieList(currentPage);
-    const topMovie = movies.results[0];
+    try {
+      const movies: MovieResponse = await fetchPopularMovieList(currentPage);
+      const topMovie = movies.results[0];
 
-    if (topMovie) {
-      const updatedHeader = Header({
-        title: topMovie.title,
-        imageUrl: `https://image.tmdb.org/t/p/w500${topMovie.poster_path}`,
-        voteAverage: topMovie.vote_average,
-      });
+      if (topMovie) {
+        const updatedHeader = Header({
+          title: topMovie.title,
+          imageUrl: `https://image.tmdb.org/t/p/w500${topMovie.poster_path}`,
+          voteAverage: topMovie.vote_average,
+        });
 
-      if (updatedHeader) wrapper.replaceChild(updatedHeader, header);
+        if (updatedHeader) wrapper.replaceChild(updatedHeader, header);
+      }
+
+      loadMovies(movies);
+
+      wrapper.appendChild(
+        LoadMoreButton({
+          loadFn: fetchPopularMovieList,
+        })
+      );
+    } catch (error) {
+      wrapper.appendChild(NoSearchResults("영화 목록을 가져오지 못했습니다."));
     }
 
-    loadMovies(movies);
-
-    wrapper.appendChild(
-      LoadMoreButton({
-        loadFn: fetchPopularMovieList,
-      })
-    );
     app.appendChild(footer);
   }
 });

@@ -30,27 +30,31 @@ const SearchBar = () => {
 };
 
 const searchMovie = async (input: string) => {
-  const movies = await fetchSearchMovieList(input, 1);
-  $(".top-rated-container").classList.add("hidden");
-  $(".overlay-img").classList.add("hidden");
-
   $(".thumbnail-list").replaceChildren();
   $(".load-more").remove();
   $("#caption").innerText = `"${input}" 검색 결과`;
 
-  if (movies.results.length === 0) {
-    $(".thumbnail-list").after(NoSearchResults());
-    return;
-  }
+  try {
+    const movies = await fetchSearchMovieList(input, 1);
+    $(".top-rated-container").classList.add("hidden");
+    $(".overlay-img").classList.add("hidden");
 
-  loadMovies(movies);
+    if (movies.results.length === 0) {
+      $(".thumbnail-list").after(NoSearchResults("검색 결과가 없습니다."));
+      return;
+    }
 
-  if (movies.results.length > 0) {
+    loadMovies(movies);
+
     $(".thumbnail-list").after(
       LoadMoreButton({
         loadFn: (currentPage: number) =>
           fetchSearchMovieList(input, currentPage),
       })
+    );
+  } catch (error) {
+    $(".thumbnail-list").after(
+      NoSearchResults("영화 목록을 가져오는 데 실패했습니다.")
     );
   }
 };
