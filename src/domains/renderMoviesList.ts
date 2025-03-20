@@ -11,6 +11,16 @@ const $error = document.querySelector(".error");
 const $h2 = $error?.querySelector("h2");
 
 const renderHeaderBackground = () => {
+  if (!document.querySelector(".top-rated-movie")) {
+    const $topRatedContainer = document.querySelector(".top-rated-container");
+    $topRatedContainer?.append(
+      TopRatedMovie({
+        title: store.movies[0].title,
+        voteAverage: store.movies[0].vote_average,
+      })
+    );
+  }
+
   const $backgroundContainer = document.querySelector(".background-container");
   const backgroundImage = store.movies[0].backdrop_path
     ? `${DEFAULT_BACK_DROP_URL}${store.movies[0].backdrop_path}`
@@ -22,16 +32,6 @@ const renderTotalList = async () => {
   const moviesResponse = await getMovies({ page: store.page });
   store.movies = [...store.movies, ...moviesResponse.results];
   store.totalPages = moviesResponse.total_pages;
-
-  if (!document.querySelector(".top-rated-movie")) {
-    const $topRatedContainer = document.querySelector(".top-rated-container");
-    $topRatedContainer?.append(
-      TopRatedMovie({
-        title: store.movies[0].title,
-        voteAverage: store.movies[0].vote_average,
-      })
-    );
-  }
 
   renderHeaderBackground();
 };
@@ -56,7 +56,6 @@ const renderSearchList = async () => {
 
 export const renderMoviesList = async () => {
   const $skeleton = MovieListSkeleton();
-
   if ($skeleton) $mainSection?.appendChild($skeleton);
 
   try {
