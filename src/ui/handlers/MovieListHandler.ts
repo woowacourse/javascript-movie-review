@@ -50,19 +50,35 @@ export default class MovieListHandler {
     const pageNumber = this.movieList?.currentPage + 1;
     this.movieList?.addPageNumber();
     console.log(`pageNumber: ${pageNumber}`);
-    let newMoviesData: { movies: Movie[]; page: number; totalPages: number };
-    if (store.getMode() === "popularAdd") {
-      newMoviesData = await this.movieService.getPopularResults(pageNumber);
-    } else {
-      newMoviesData = await this.movieService.searchMovies(query, pageNumber);
-    }
-    newMoviesData.movies.forEach((movieData) => {
-      const movie = new Movie(movieData);
-      const movieCard = new MovieCard(movie);
-      this.movieList?.container.appendChild(movieCard.render());
-    });
 
-    if (this.movieList && this.movieList.currentPage >= this.movieList.totalPage) {
+    const skeletonCards: HTMLElement[] = [];
+    for (let i = 0; i < 5; i++) {
+      const skeletonCard = new MovieCard(null).renderSkeleton();
+      skeletonCards.push(skeletonCard);
+      this.movieList?.container.appendChild(skeletonCard);
+    }
+
+    let newMoviesData: { movies: Movie[]; page: number; totalPages: number };
+    setTimeout(async () => {
+      if (store.getMode() === "popularAdd") {
+        newMoviesData = await this.movieService.getPopularResults(pageNumber);
+      } else {
+        newMoviesData = await this.movieService.searchMovies(query, pageNumber);
+      }
+
+      skeletonCards.forEach((skeleton) => skeleton.remove());
+
+      newMoviesData.movies.forEach((movieData) => {
+        const movie = new Movie(movieData);
+        const movieCard = new MovieCard(movie);
+        this.movieList?.container.appendChild(movieCard.render());
+      });
+    }, 1000);
+
+    if (
+      this.movieList &&
+      this.movieList.currentPage >= this.movieList.totalPage
+    ) {
       const loadMoreButton = document.querySelector(".add-movie");
       loadMoreButton?.remove();
     }

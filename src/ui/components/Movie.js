@@ -25,4 +25,24 @@ export default class MovieCard {
 
     return li;
   }
+
+  renderSkeleton() {
+    const li = document.createElement("li");
+    li.classList.add("skeleton-card");
+
+    li.innerHTML = `
+      <div class="item">
+        <div class="skeleton skeleton-thumbnail"></div>
+        <div class="item-desc">
+          <p class="rate">
+            <div class="skeleton skeleton-star"></div>
+            <div class="skeleton skeleton-rate"></div>
+          </p>
+          <div class="skeleton skeleton-title"></div>
+        </div>
+      </div>
+    `;
+
+    return li;
+  }
 }
