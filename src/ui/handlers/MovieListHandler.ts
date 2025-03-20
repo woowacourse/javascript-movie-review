@@ -73,14 +73,14 @@ export default class MovieListHandler {
         const movieCard = new MovieCard(movie);
         this.movieList?.container.appendChild(movieCard.render());
       });
-    }, 1000);
 
-    if (
-      this.movieList &&
-      this.movieList.currentPage >= this.movieList.totalPage
-    ) {
-      const loadMoreButton = document.querySelector(".add-movie");
-      loadMoreButton?.remove();
-    }
+      if (
+        this.movieList &&
+        this.movieList.currentPage >= this.movieList.totalPage
+      ) {
+        const loadMoreButton = document.querySelector(".add-movie");
+        loadMoreButton?.remove();
+      }
+    }, 1000);
   }
 }
