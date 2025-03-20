@@ -1,4 +1,5 @@
 import { getPopularMovieResult } from "../api/getPopularMovieResult";
+import BackgroundThumbnailSection from "../component/BackgroundThumbnailSection";
 import MovieItem from "../component/MovieItem";
 import MovieListSection from "../component/MovieListSection";
 import MovieResults from "../domain/MovieResults";
@@ -42,6 +43,11 @@ class MovieListController {
       movieList,
       hasMore,
     });
+
+    this.mainElement?.insertAdjacentElement(
+      "beforebegin",
+      BackgroundThumbnailSection(movieList[0]),
+    );
 
     this.mainElement.replaceChildren(sectionElement);
     this.bindEvents();
