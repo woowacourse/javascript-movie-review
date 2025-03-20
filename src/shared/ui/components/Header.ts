@@ -17,7 +17,7 @@ const Header = (movie: IMovie) => {
       </div>
       <div class="top-rated-container">
         <div class="header-container">
-          <a href="/" class="logo">
+          <a href="/javascript-movie-review/" class="logo">
             <img src="images/logo.png" alt="MovieList" />
           </a>
           <form class="search-form">
