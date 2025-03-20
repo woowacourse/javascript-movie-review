@@ -32,6 +32,7 @@ function SearchBar() {
 const handleSearchMovies = async (e: Event) => {
   e.preventDefault();
 
+  // 헤더 날리기
   const banner = document.querySelector('header');
   banner?.remove();
 
@@ -44,7 +45,9 @@ const handleSearchMovies = async (e: Event) => {
 
   const searchKeyword = String(data.get('keyword'));
 
+  // 화면 업데이트
   let currentPage = 1;
+
   const { results: movies, total_pages, page } = await getSearchMovies({ page: currentPage, query: searchKeyword });
 
   const searchedMovieList = MovieList({ movies, title: `"${searchKeyword}" 검색 결과` });
@@ -52,6 +55,7 @@ const handleSearchMovies = async (e: Event) => {
 
   container?.replaceChildren(searchedMovieList);
 
+  // 더보기 버튼 추가
   if (total_pages !== page) {
     const moreButton = Button({
       text: '더보기',

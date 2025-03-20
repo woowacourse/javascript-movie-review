@@ -51,6 +51,14 @@ const renderMovieList = async () => {
   container.appendChild(moreButton);
 };
 
+const renderFooter = () => {
+  const wrap = $('#wrap');
+  if (!wrap) return;
+
+  const footer = Footer();
+  wrap.appendChild(footer);
+};
+
 const handleMoreButtonClick = async (page: number, moreButton: HTMLElement) => {
   if (page >= API_PAGE_LIMIT - 1) {
     moreButton.remove();
@@ -68,12 +76,4 @@ const handleMoreButtonClick = async (page: number, moreButton: HTMLElement) => {
   });
 
   container.appendChild(fragment);
-};
-
-const renderFooter = () => {
-  const wrap = $('#wrap');
-  if (!wrap) return;
-
-  const footer = Footer();
-  wrap.appendChild(footer);
 };
