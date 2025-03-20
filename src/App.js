@@ -48,7 +48,6 @@ class App {
         vote_average: movie.vote_average.toFixed(1),
         backdrop_path: `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`,
       }));
-      console.log(results);
 
       return { results, totalPage: data.total_pages };
     }
