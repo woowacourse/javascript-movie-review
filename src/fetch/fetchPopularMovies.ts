@@ -9,6 +9,6 @@ export default async function fetchPopularMovies(page: number) {
   };
 
   const response = await fetch(popularMovieUrl, options);
-  const { results } = await response.json();
-  return results;
+  const { results, totalPages } = await response.json();
+  return { results, totalPages };
 }

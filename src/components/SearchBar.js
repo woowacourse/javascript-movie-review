@@ -44,8 +44,8 @@ const SearchBar = () => {
 
         document.querySelector('.list-title').textContent = `"${query}" 검색 결과`;
 
-        const searchedMovies = await fetchSearchMovies(query, PAGE);
-        movies.updateMovies(searchedMovies);
+        const searchMovieData = await fetchSearchMovies(query, PAGE);
+        movies.updateMovies(searchMovieData.results);
 
         const $thumbnailList = document.querySelector('.thumbnail-list');
         if ($thumbnailList) $thumbnailList.remove();

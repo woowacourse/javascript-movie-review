@@ -20,18 +20,21 @@ const Button = ({ text, type }) => {
     const params = new URLSearchParams(window.location.search);
     
     let fetchedMovies;
+    const currentPage = page.getPage();
     if(params.has("query")) {
-       fetchedMovies = await fetchSearchMovies(params.get("query"), page.getPage());
+      fetchedMovies = await fetchSearchMovies(params.get("query"), currentPage);
     }
     else {
-      fetchedMovies = await fetchPopularMovies(page.getPage());
+      fetchedMovies = await fetchPopularMovies(currentPage);
     }
 
-    movies.addMovies(fetchedMovies);
+    movies.addMovies(fetchedMovies.results);
 
-    if (fetchedMovies.length === 0) {
-      $button.classList.add('disappear')
+    if (fetchedMovies.totalPages  === currentPage) {
+      $button.classList.toggle('disappear');
     }
+
+    console.log(movies.movieList);
     
     document.querySelector('.thumbnail-list').remove();
 
@@ -40,8 +43,6 @@ const Button = ({ text, type }) => {
           movies: movies.movieList,
       })
     )
-
-    
   });
 
   return $button;

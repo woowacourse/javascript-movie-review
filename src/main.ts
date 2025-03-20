@@ -3,8 +3,8 @@ import Main from "./components/Main";
 import movies from "./store/Movies";
 
 const PAGE = 1;
-const popularMovies = await fetchPopularMovies(PAGE);
-movies.updateMovies(popularMovies);
+const popularMovieData = await fetchPopularMovies(PAGE);
+movies.updateMovies(popularMovieData.results);
 
 Main({
   movies: movies.movieList,
