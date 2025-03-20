@@ -1,0 +1,68 @@
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
+  display: block;
+}
+
+.skeleton.thumbnail {
+  width: 200px;
+  height: 300px;
+  margin-bottom: 8px;
+}
+
+.skeleton.rate {
+  width: 60px;
+  height: 20px;
+  margin-bottom: 8px;
+}
+
+.skeleton.title {
+  width: 150px;
+  height: 24px;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.item {
+  position: relative;
+  width: 200px;
+  margin: 0 8px;
+}
+
+.item-desc {
+  padding: 8px;
+}
+
+.no-results {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  gap: 24px;
+}
+
+.no-results-image {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.no-results-text {
+  font-family: Poppins;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: white;
+  text-align: center;
+} 
