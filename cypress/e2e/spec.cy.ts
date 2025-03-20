@@ -43,6 +43,8 @@ describe("영화 리뷰 페이지 테스트", () => {
           fixture: "movie-popular.json",
         }
       ).as("getPopularMovies");
+
+      cy.visit("localhost:5173");
     });
 
     it("영화 API를 통해 영화 목록을 받아온다.", () => {
@@ -50,6 +52,29 @@ describe("영화 리뷰 페이지 테스트", () => {
         const popularMovies = interception.response.body.results;
         expect(popularMovies.length).to.equal(20);
       });
+    });
+  });
+});
+
+describe("api 요청에 실패하면 에러 페이지가 나온다.", () => {
+  beforeEach(() => {
+    cy.intercept(
+      {
+        method: "GET",
+        url: /^https:\/\/api.themoviedb.org\/3\/tv\/popular*/,
+      },
+      {
+        statusCode: 404,
+      }
+    ).as("getPopularMoviesError");
+
+    cy.visit("localhost:5173");
+  });
+
+  it("영화 API 요청에 실패하면 에러 페이지가 보인다.", () => {
+    cy.visit("localhost:5173");
+    cy.wait("@getPopularMoviesError").then(() => {
+      cy.get(".error-page-container").should("exist");
     });
   });
 });
