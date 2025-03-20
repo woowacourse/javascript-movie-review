@@ -9,7 +9,7 @@ export const $ = (
 ) => {
   if (!selector) throw new Error("Selector is not selected");
 
-  return scope.querySelector(selector);
+  return scope.querySelector(selector) as HTMLElement;
 };
 
 export const $$ = (
