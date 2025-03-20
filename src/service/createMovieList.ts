@@ -1,4 +1,4 @@
-import { hideElement, showElement } from "../view/InputView";
+import { hideElement, showElement, hideImgSkeleton } from "../view/InputView";
 import MovieItem from "../components/moveItem/movieItem";
 import type { Result } from "../../types/TMDB";
 import { createElementsFragment } from "../util/dom";
@@ -30,6 +30,7 @@ function addMovies(results: Result[], reset?: boolean) {
       title,
       src: poster_path,
       rate: vote_average,
+      onload: hideImgSkeleton,
     });
     return movieItem;
   });
