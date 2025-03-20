@@ -41,7 +41,7 @@ export const getSearchedMovies = async (
     );
   } catch (error: unknown) {
     if (error instanceof Error) {
-      console.error(error.message);
+      throw new Error(error.message);
     }
   }
 };

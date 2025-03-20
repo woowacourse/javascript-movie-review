@@ -12,7 +12,6 @@ export const getPopularMovies = async (page = 1) => {
   try {
     const res = await fetch(url, options);
 
-    //
     if (!res.ok) {
       throw new Error("성공적으로 받아오지 못했습니다.");
     }
@@ -28,13 +27,7 @@ export const getPopularMovies = async (page = 1) => {
     );
   } catch (error: unknown) {
     if (error instanceof Error) {
-      console.error(error.message);
-      return {
-        results: [],
-        page: 500,
-        total_pages: 500,
-        total_results: 0,
-      };
+      throw new Error(error.message);
     }
   }
 };

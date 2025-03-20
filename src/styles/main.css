@@ -193,3 +193,7 @@ footer.footer {
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
 }
+
+.error-container {
+  margin-top: 150px;
+}
