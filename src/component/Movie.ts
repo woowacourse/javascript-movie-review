@@ -1,6 +1,6 @@
+import createDOMElement from '../util/createDomElement';
 import { IMAGE_BASE_URL } from '../constant';
 import { IMovie } from '../type';
-import createDOMElement from '../util/createDomElement';
 
 const DEFAULT_IMAGE_URL = 'https://placehold.co/200x300?text=No+Image';
 

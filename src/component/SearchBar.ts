@@ -1,10 +1,10 @@
 import getSearchMovies from '../api/getSearchMovies';
 import createDOMElement from '../util/createDomElement';
-import { $ } from '../util/selector';
 import Button from './Button';
 import Movie from './Movie';
 import MovieList from './MovieList';
 import SkeletonList from './SkeletonList';
+import { $ } from '../util/selector';
 
 function SearchBar() {
   return createDOMElement({
@@ -54,8 +54,9 @@ const handleSearchMovies = async (e: Event) => {
   container?.replaceChildren(skeletonList);
   // 화면 업데이트
   let currentPage = 1;
-
-  const { results: movies, total_pages, page } = await getSearchMovies({ page: currentPage, query: searchKeyword });
+  const response = await getSearchMovies({ page: currentPage, query: searchKeyword });
+  if (!response) return;
+  const { results: movies, total_pages, page } = response;
 
   const searchedMovieList = MovieList({ movies, title: `"${searchKeyword}" 검색 결과` });
 
@@ -82,7 +83,9 @@ const handleMoreButtonClick = async (page: number, query: string, total_pages: n
   const skeletonList = SkeletonList({ height: 300 });
   container.appendChild(skeletonList);
 
-  const { results: newMovies } = await getSearchMovies({ page, query });
+  const response = await getSearchMovies({ page, query });
+  if (!response) return;
+  const { results: newMovies } = response;
 
   skeletonList.remove();
 
