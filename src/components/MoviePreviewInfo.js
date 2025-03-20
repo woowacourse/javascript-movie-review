@@ -1,10 +1,10 @@
 import createElement from './utils/createElement';
 
-const STAR_IMG_SRC = './images/star_empty.png';
+const STAR_IMG_SRC = './star_empty.png';
 
 const MoviePreviewInfo = ({ movie, bigFont = true }) => {
-  const title = movie.title;
-  const voteAverage = movie.vote_average;
+  const title = movie?.title;
+  const voteAverage = movie?.vote_average;
   
 
   const $fragment = document.createDocumentFragment();
