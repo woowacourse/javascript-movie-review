@@ -9,11 +9,16 @@ const options = {
 };
 
 export const getSearchedPost = async (query: string, page: number) => {
-  const response = await fetch(url(query, page), options);
+  try {
+    const response = await fetch(url(query, page), options);
 
-  if (!response.ok) {
+    if (!response.ok) {
+      throw new Error("Failed to fetch searched post");
+    }
+
     throw new Error("Failed to fetch searched post");
+  } catch (error) {
+    alert("검색한 키워드로 영화를 불러오는데 실패했습니다.");
+    location.replace("/");
   }
-
-  return response.json();
 };

@@ -9,10 +9,15 @@ const options = {
 };
 
 export const getMovieList = async ({ page }: { page: number }) => {
-  const response = await fetch(url(page), options);
+  try {
+    const response = await fetch(url(page), options);
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch movie list");
+    if (!response.ok) {
+      throw new Error("Failed to fetch movie list");
+    }
+
+    return response.json();
+  } catch (error) {
+    alert("영화를 불러오는데 실패했습니다.");
   }
-  return response.json();
 };
