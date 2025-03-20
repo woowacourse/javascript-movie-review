@@ -22,6 +22,15 @@ class MovieLayout {
     }
 
     template() {
+        if(this.#state.movieData.length === 0){
+            return`
+            <div class="flex-center gap-16">
+                <img src="../public/images/hangsung.png" />
+                <div class="text-xl">검색 결과가 없습니다.</div>
+            </div>
+            `
+        }
+
         return `
             <h2 id="movieListTitle" class="text-xl">${this.#state.title}</h2>
             <div id="movieListContainer">
