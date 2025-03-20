@@ -109,7 +109,7 @@ button.primary {
 
 .logo {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   top: 3%;
   left: 50%;
   transform: translateX(-50%);
@@ -202,4 +202,13 @@ footer.footer p:not(:last-child) {
   color: var(--color-white);
   font-size: 36px;
   font-weight: 600;
+}
+.skeleton-banner {
+  width: 100%;
+  height: 100%;
+  background-color: #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

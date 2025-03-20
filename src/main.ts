@@ -6,6 +6,7 @@ import Movie from './component/Movie';
 import MovieList from './component/MovieList';
 import { $ } from './util/selector';
 import Header from './component/Header';
+import Skeleton from './component/Skeleton';
 
 const API_PAGE_LIMIT = 500;
 const INITIAL_PAGE = 1;
@@ -13,18 +14,25 @@ const MOVIE_INDEX_FOR_BANNER = 1;
 
 addEventListener('load', async () => {
   renderBanner();
-  renderHeader();
   renderMovieList();
   renderFooter();
 });
 
 const renderBanner = async () => {
-  const { results: movies } = await getPopularMovies({ page: INITIAL_PAGE });
-
   const wrap = $('#wrap');
 
-  const banner = Banner({ movie: movies[MOVIE_INDEX_FOR_BANNER] });
-  wrap?.prepend(banner);
+  const bannerSkeleton = Skeleton({ height: 500 });
+  wrap?.prepend(bannerSkeleton);
+
+  const { results: movies } = await getPopularMovies({ page: INITIAL_PAGE });
+
+  if (movies.length !== 0) {
+    bannerSkeleton.remove();
+    const banner = Banner({ movie: movies[MOVIE_INDEX_FOR_BANNER] });
+    wrap?.prepend(banner);
+
+    renderHeader();
+  }
 };
 
 const renderHeader = () => {
