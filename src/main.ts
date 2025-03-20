@@ -18,10 +18,10 @@ function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
   $container?.prepend($header);
 }
 
-async function main() {
+async function renderContent() {
   // 이벤트 등록
-  const $input = document.querySelector(".search-input");
-  const $button = document.querySelector(".search-button");
+  const $input = document.querySelector(".search-input") as HTMLInputElement;
+  const $button = document.querySelector(".search-button") as HTMLButtonElement;
   const $section = document.querySelector("section") as HTMLDivElement;
   // 컨텐츠 컨테이너
   ContentsContainer(data.results, "지금 인기 있는 영화");
@@ -62,8 +62,9 @@ function renderFooter() {
   const $footer = Footer();
   $container?.appendChild($footer);
 }
+
 renderHeader(data.results[0]);
 
-main();
+renderContent();
 
 renderFooter();
