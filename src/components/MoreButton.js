@@ -6,7 +6,7 @@ const MoreButton = () => {
 };
 
 export function attachMoreButtonEvent() {
-  const $button = document.getElementById("more-button");
+  const $button = document.querySelector("#more-button");
   if ($button) {
     $button.addEventListener("click", async () => {
       const state = store.getState();

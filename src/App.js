@@ -15,7 +15,6 @@ class App {
       this.loadPopularMovies();
     }
     this.render();
-    this.mount();
   }
 
   async loadPopularMovies() {
@@ -47,10 +46,12 @@ class App {
       </div>
     `;
 
-    attachMoreButtonEvent();
+    this.mount();
   }
 
   mount() {
+    attachMoreButtonEvent();
+
     window.addEventListener("scroll", () => {
       const $header = document.querySelector("#header");
       if ($header) {
