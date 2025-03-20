@@ -10,13 +10,10 @@ describe("", () => {
 
 describe("영화 fixture관련 테스트", () => {
   beforeEach(() => {
-    console.log("🚀 BeforeEach 실행됨!"); // 실행 여부 확인
-
     cy.intercept(
       "GET",
       "https://api.themoviedb.org/3/discover/movie*",
       (req) => {
-        console.log("🛑 API 요청을 가로챘음:", req);
         req.reply({ fixture: "movies.json" });
       }
     ).as("fetchMovies");
@@ -25,9 +22,7 @@ describe("영화 fixture관련 테스트", () => {
   });
 
   it("초기 fetchData 시 영화 목록이 20개인지 확인", () => {
-    cy.wait("@fetchMovies").then((interception) => {
-      console.log("✅ Intercepted Response:", interception.response?.body);
-    });
+    cy.wait("@fetchMovies").then((interception) => {});
 
     cy.get(".item", { timeout: 10000 }).should("have.length", 20);
   });
