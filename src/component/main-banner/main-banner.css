@@ -1,0 +1,56 @@
+.main-banner {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  height: 500px;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+
+  position: absolute;
+  background-color: var(--color-bluegray-80);
+  z-index: 10;
+  opacity: 0.3;
+}
+
+.main-banner__info {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 90px;
+}
+
+.main-banner__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.main-banner__title {
+  z-index: 12;
+  color: var(--color-white);
+}
+
+.main-banner__rating-star {
+  width: 32px;
+  height: 32px;
+}
+
+.main-banner__rate-value {
+  color: var(--color-yellow);
+}
+
+.main-banner__rate {
+  z-index: 12;
+  display: flex;
+  justify-content: left;
+  gap: 16px;
+}
+
+.main-banner__button {
+  z-index: 12;
+}

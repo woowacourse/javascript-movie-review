@@ -1,0 +1,7 @@
+.thumbnail-list {
+  width: auto;
+  display: grid;
+  grid-template-columns: repeat(5, 200px);
+  grid-template-rows: repeat(4, auto);
+  gap: 70px;
+}
