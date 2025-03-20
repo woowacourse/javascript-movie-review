@@ -1,5 +1,7 @@
 import createElement from './utils/createElement';
 
+const LOGO_IMG_SRC = './images/woowacourse_logo.png';
+
 const Footer = () => {
   const $footer = createElement({
     tag: 'footer',
@@ -13,8 +15,6 @@ const Footer = () => {
   const $p = createElement({
     tag: 'p',
   });
-
-  const LOGO_IMG_SRC = './images/woowacourse_logo.png';
 
   const $img = createElement({
     tag: 'img',

@@ -5,6 +5,7 @@ import MovieList from "./MovieList";
 
 const SEARCH_BUTTON_IMAGE_SRC = './images/searchButtonIcon.png';
 const PAGE = 1;
+const SEARCH_BAR_PLACEHOLDER = "검색어를 입력하세요";
 
 const SearchBar = () => {
     const $form = createElement({
@@ -15,7 +16,7 @@ const SearchBar = () => {
     const $input = createElement({
         tag: 'input',
         classNames: ['search-bar'],
-        placeholder: "검색어를 입력하세요"
+        placeholder: SEARCH_BAR_PLACEHOLDER,
     });
 
     const $button = createElement({
