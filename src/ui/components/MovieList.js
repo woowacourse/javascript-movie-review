@@ -24,6 +24,23 @@ export default class MovieList {
   }
 
   loadInitMovie() {
+    const noResultsItem = document.querySelector(".no-results");
+    if (noResultsItem) {
+      noResultsItem.remove();
+    }
+
+    if (!this.moviesData || this.moviesData.length === 0) {
+      const section = document.querySelector("section");
+      const noResultsItem = document.createElement("div");
+      noResultsItem.classList.add("no-results");
+      noResultsItem.innerHTML = `
+        <img src="./images/aaaahangsung.png" alt="no results" class="no-results-image">
+        <p class="no-results-text">검색 결과가 없습니다</p>
+      `;
+      section.appendChild(noResultsItem);
+      return;
+    }
+
     const skeletonCards = [];
     for (let i = 0; i < this.moviesData.length; i++) {
       const skeletonCard = new MovieCard(null).renderSkeleton();
