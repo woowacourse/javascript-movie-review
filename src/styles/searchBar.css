@@ -26,6 +26,10 @@
   color: var(--color-white);
 }
 
+.search-bar:focus {
+  outline: none;
+}
+
 #search {
   cursor: pointer;
 }
