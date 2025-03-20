@@ -3,7 +3,5 @@ import { Header } from './components/common/Header';
 import { MovieList } from './components/feature/MovieList';
 
 export const App = async () => {
-  Header();
-  MovieList();
-  Footer();
+  document.querySelector('#app')?.append(Header(), await MovieList(), Footer());
 };
