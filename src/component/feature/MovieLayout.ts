@@ -2,8 +2,7 @@ import MovieList from "../common/MovieList.js";
 import Button from "../common/Button.js";
 import hideskeleton from "../../util/hideskeleton.js";
 import {IMovieData,IMovieState} from "../../../types/movieDataType";
-
-
+import createSkeletonData from "../../util/createSkeletonData.js";
 
 class MovieLayout {
     #state:IMovieState;
@@ -21,6 +20,18 @@ class MovieLayout {
     setState(newState:IMovieState) {
         this.#state = {...this.#state, ...newState};
         this.render();
+    }
+
+    static skeletonRender() {
+        const skeletonTemplate = `
+        <h2 id="movieListTitle" class="text-xl"></h2>
+        <div id="movieListContainer">
+            ${MovieList(createSkeletonData).template().outerHTML}
+        </div>
+    `
+    const movieSectionEl = document.getElementById('MovieSection')
+    if (movieSectionEl) movieSectionEl.innerHTML = skeletonTemplate;
+        
     }
 
     template() {

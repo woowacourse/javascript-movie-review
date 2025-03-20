@@ -6,6 +6,7 @@ import { fetchPopularMovies } from "./api/fetch.js";
 import Banner from "./component/common/Banner.js";
 
 addEventListener("load", async() => {
+  MovieLayout.skeletonRender();
   const movieData = await fetchPopularMovies(1);
   const movieLayout = new MovieLayout(movieData.results);
   const bannerElement = document.getElementById('bannerSection');
