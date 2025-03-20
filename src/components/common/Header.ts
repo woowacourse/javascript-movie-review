@@ -2,6 +2,7 @@ import { movieFetcher } from '../../domain/MovieFetcher';
 import { createElement } from '../../utils/createElement';
 import { Box } from './Box';
 import { Button } from './Button';
+import { IconButton } from './IconButton';
 import { Img } from './Img';
 import { SearchBar } from './SearchBar';
 import { Text } from './Text';
@@ -10,11 +11,14 @@ const createHeaderSection = () => {
   return createElement('section', {
     classList: 'flex flex-row items-center gap-250',
     children: [
-      Img({
+      IconButton({
         width: '117',
         height: '20',
         src: './images/logo.png',
         classList: ['logo'],
+        onClick: () => {
+          window.location.reload();
+        },
         props: { alt: 'MovieLogo' },
       }),
       SearchBar({
