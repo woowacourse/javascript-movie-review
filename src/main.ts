@@ -4,12 +4,14 @@ import PopularMovieBoard from "./components/PopularMovieBoard";
 import SearchMovieBoard from "./components/SearchMovieBoard";
 import { isHTMLElement } from "./utils/typeGuards";
 
-class App {
-  constructor() {
-    this.#initialSetup();
-  }
+interface AppContract {
+  render: () => void;
+}
 
-  #initialSetup() {
+class App implements AppContract {
+  constructor() {}
+
+  public render() {
     this.#renderHeader();
     this.#renderPopularMovies();
     this.#renderFooter();
@@ -41,4 +43,5 @@ class App {
   }
 }
 
-new App();
+const app = new App();
+app.render();
