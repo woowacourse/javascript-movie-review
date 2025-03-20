@@ -2,6 +2,8 @@ import type { FetchOptions } from "../util/fetch";
 import { fetchUrl } from "../util/fetch";
 import type { TMDBResponse } from "../../types/TMDB";
 import { TOTAL_PAGE } from "../setting/settings";
+import { ERROR_MESSAGE } from "../setting/ErrorMessage";
+import Toast from "../components/Toast/Toast";
 
 export default function createMovieLoader(
   url: string,
@@ -15,18 +17,23 @@ export default function createMovieLoader(
     const queryObject = searchTerm
       ? { query: searchTerm, ...queryObj, page }
       : { ...queryObj, page };
+    let response = null;
+    try {
+      response = await fetchUrl<TMDBResponse>(url, queryObject, options);
+    } catch (error) {
+      Toast.showToast(error.message, "error", 5000);
+      return { results: [], isLastPage: true };
+    }
 
-    const { results, total_pages } = await fetchUrl<TMDBResponse>(
-      url,
-      queryObject,
-      options
-    );
+    if (!response || !response.results)
+      throw new Error(ERROR_MESSAGE.FETCH_ERROR);
+    if (response.results.length === 0) throw new Error(ERROR_MESSAGE.NO_DATA);
 
+    const { results, total_pages } = response;
     const pageLimit = Math.min(TOTAL_PAGE, total_pages);
-    if (results.length === 0) throw new Error("검색 값을 찾지 못했어요.");
+
     page++;
 
-    if (page > pageLimit) return { results, isLastPage: true };
-    return { results, isLastPage: false };
+    return { results, isLastPage: page > pageLimit };
   };
 }
