@@ -1,4 +1,3 @@
-// components/MoreButton.js
 import { fetchPopularMovies, fetchSearchedMovies } from "../APIs/movieAPI.ts";
 import store from "../store/store.ts";
 

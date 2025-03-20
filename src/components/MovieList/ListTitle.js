@@ -1,4 +1,3 @@
-// components/ListTitle.js
 const ListTitle = ({ query }) => {
   const title = query ? `"${query}" 검색 결과` : "지금 인기 있는 영화";
   return /* html */ `

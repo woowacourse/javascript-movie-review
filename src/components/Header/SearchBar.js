@@ -1,4 +1,3 @@
-// components/SearchBar.js
 import { fetchSearchedMovies } from "../../APIs/movieAPI.ts";
 import store from "../../store/store.ts";
 

@@ -1,4 +1,3 @@
-// App.js
 import Header from "./components/Header/index.js";
 import Footer from "./components/Footer/index.js";
 import Banner from "./components/Banner/index.js";

@@ -1,8 +1,6 @@
-// components/Header/index.js
 import SearchBar, { attachSearchEvent } from "./SearchBar.js";
 
 const Header = () => {
-  // DOM에 삽입 후 SearchBar 이벤트 핸들러 등록
   setTimeout(() => attachSearchEvent(), 0);
   return /* html */ `
     <header id="header" class="header">
