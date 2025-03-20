@@ -1,5 +1,5 @@
 interface Props {
-  search: (params: string) => void;
+  onSearchSubmitted: (params: string) => void;
 }
 
 class SearchBar {
@@ -35,7 +35,7 @@ class SearchBar {
 
       if (!params) return; // 빈 문자열 입력 시 무시
 
-      this.#props.search(params);
+      this.#props.onSearchSubmitted(params);
     });
   }
 }

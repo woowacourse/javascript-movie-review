@@ -88,7 +88,7 @@ class PopularMovieBoard {
       const $main = document.querySelector("main");
       if (!isHTMLElement($main)) return { movies: [], total_pages: 0 };
 
-      $main.innerHTML = `<div class="fallback-screen" style="min-height:500px; ">
+      $main.innerHTML = `<div class="fallback-screen">
         <img src="./images/dizzy_planet.png"/>
         <p>오류가 발생했습니다</p>
       </div>`;

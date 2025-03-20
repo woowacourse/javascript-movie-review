@@ -25,6 +25,10 @@ body {
   background-color: var(--color-bluegray-100);
 }
 
+.search-movie-list-container {
+  padding-top: 100px;
+}
+
 .movie-list-container {
   width: min(1440px, 100%);
   margin: auto;

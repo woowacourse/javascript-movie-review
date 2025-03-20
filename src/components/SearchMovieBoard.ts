@@ -25,7 +25,7 @@ class SearchMovieBoard {
 
   #renderInitialLayout(): void {
     this.#parentElement.innerHTML = /*html*/ `
-      <section class="movie-list-container" style="padding-top: 100px">
+      <section class="movie-list-container search-movie-list-container">
           <h2>"${this.#props.searchParams}" 검색 결과 </h2>
           <ul class='thumbnail-list'>${new MovieList([]).skeleton}</ul>
           <div class="more-button-container"></div>
