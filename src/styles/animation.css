@@ -1,3 +1,12 @@
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes skeleton-gradient {
   0% {
     background-color: rgba(165, 165, 165, 0.1);

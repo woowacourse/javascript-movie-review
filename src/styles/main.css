@@ -148,3 +148,9 @@ footer.footer p:not(:last-child) {
 #search-input::placeholder {
   color: white;
 }
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
