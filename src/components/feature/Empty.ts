@@ -13,6 +13,7 @@ export const Empty = () => {
           src: './images/dizzy_planet.png',
         }),
         Text({
+          classList: ['text-2xl', 'font-semibold', 'mt-24'],
           props: { textContent: '검색 결과가 없습니다.' },
         }),
       ],
