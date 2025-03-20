@@ -10,7 +10,7 @@ class MovieLayout {
         this.#state = {
             title: "지금 인기 있는 영화",
             eventName: "readMoreMovieList",
-            isPossibleMore:true,
+            isPossibleMore: movieData.length === 20,
             movieData,
         }
         this.render();
