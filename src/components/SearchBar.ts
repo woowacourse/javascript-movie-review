@@ -1,6 +1,10 @@
 import { IPage } from "../../types/domain";
-import { TMDB_TOKEN } from "../constants/api";
-import { toggleNoThumbnail, toggleSkeletonList } from "../utils/Render";
+import api from "../api/api";
+import {
+  toggleNoThumbnail,
+  toggleSeeMoreButton,
+  toggleSkeletonList,
+} from "../utils/Render";
 import MovieItem from "./MovieItem";
 
 class SearchBar {
@@ -29,30 +33,29 @@ class SearchBar {
     return searchContainerElement;
   }
 
-  onSearchClick() {
+  async onSearchClick() {
     const searchBar = document.querySelector(".search-bar") as HTMLInputElement;
     const thumbnailList = document.querySelector("ul.thumbnail-list");
     const query = searchBar.value;
 
-    this.changeTitleStyle(query);
+    this.#changeTitleStyle(query);
     toggleNoThumbnail("hidden");
     toggleSkeletonList("show");
 
     thumbnailList?.replaceChildren();
 
-    this.getSearchResult(query);
+    await this.#renderSearchResult(query);
 
     const seeMoreButton = document.querySelector(
       "#seeMore"
     ) as HTMLButtonElement;
 
-    seeMoreButton.classList.add("hidden");
-    seeMoreButton.onclick = () => {
-      this.getSearchResult(query);
+    seeMoreButton.onclick = async () => {
+      await this.#renderSearchResult(query);
     };
   }
 
-  changeTitleStyle(query: string) {
+  #changeTitleStyle(query: string) {
     const overlay = document.querySelector(".overlay") as HTMLDivElement;
     const topRatedContainer = document.querySelector(
       ".top-rated-movie"
@@ -68,47 +71,32 @@ class SearchBar {
     backgroundContainer.style.height = "auto";
   }
 
-  getSearchResult(query: string) {
+  async #renderSearchResult(query: string) {
     const thumbnailList = document.querySelector("ul.thumbnail-list");
     const itemCount = document.querySelectorAll("ul.thumbnail-list li").length;
     const pageNumber = itemCount / 20 + 1;
-    const options = {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${TMDB_TOKEN}`,
-      },
-    };
 
-    try {
-      fetch(
-        `https://api.themoviedb.org/3/search/movie?page=${pageNumber}&query=${query}&language=ko-KR`,
-        options
-      )
-        .then((response) => response.json())
-        .then((data: IPage) => {
-          toggleSkeletonList("hidden");
-          const seeMoreButton = document.querySelector(
-            "#seeMore"
-          ) as HTMLButtonElement;
-          seeMoreButton.classList.add("hidden");
-          if (pageNumber < data.total_pages)
-            seeMoreButton.classList.remove("hidden");
+    toggleSkeletonList("show");
+    toggleSeeMoreButton("hidden");
 
-          if (data.total_results === 0) toggleNoThumbnail("show");
+    const searchResult = await this.#getSearchResult(pageNumber, query);
+    if (pageNumber < searchResult.total_pages) toggleSeeMoreButton("show");
+    if (searchResult.total_results === 0) toggleNoThumbnail("show");
+    toggleSkeletonList("hidden");
 
-          data.results.forEach(({ title, poster_path, vote_average }) => {
-            const movieItem = new MovieItem({
-              title,
-              vote_average,
-              poster_path,
-            });
-            const movieItemElement = movieItem.create();
-            thumbnailList?.appendChild(movieItemElement);
-          });
-        });
-    } catch (error) {
-      alert("검색 결과를 불러올 수 없습니다.");
-    }
+    searchResult.results.forEach(({ title, poster_path, vote_average }) => {
+      const movieItem = new MovieItem({
+        title,
+        vote_average,
+        poster_path,
+      });
+      const movieItemElement = movieItem.create();
+      thumbnailList?.appendChild(movieItemElement);
+    });
+  }
+
+  async #getSearchResult(pageNumber: number, query: string) {
+    return (await api.getSearchData(pageNumber, query)) as IPage;
   }
 }
 
