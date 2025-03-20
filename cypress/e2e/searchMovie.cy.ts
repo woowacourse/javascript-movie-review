@@ -18,7 +18,7 @@ describe('검색 e2e 테스트', () => {
 
     cy.wait(3000);
 
-    cy.get('#search-input').type('해리포터');
+    cy.get('.search-input').type('해리포터');
     cy.get('.search-bar').click();
     cy.get('.skeleton-item').should('have.length', 20);
 
@@ -33,7 +33,7 @@ describe('검색 e2e 테스트', () => {
 
     cy.wait(3000);
 
-    cy.get('#search-input').type('세라랑 메리랑 페어 ㅎ.ㅎ');
+    cy.get('.search-input').type('세라랑 메리랑 페어 ㅎ.ㅎ');
     cy.get('.search-bar').click();
     cy.get('.skeleton-item').should('have.length', 20);
 
