@@ -1,8 +1,8 @@
 import MovieList from './MovieList';
 import createElement from './utils/createElement';
 import Button from './Button';
-import BUTTON from '../constants/constant';
-import test from './test';
+
+const BUTTON_MORE =  '더보기'
 
 const MovieContainer = ({ movies }) => {
   const $container = createElement({
@@ -29,7 +29,7 @@ const MovieContainer = ({ movies }) => {
   $main.appendChild($section);
   $section.appendChild($h2);
   $section.appendChild(MovieList({ movies }));
-  $main.appendChild(Button({ text: BUTTON.MORE, type: 'more'}));
+  $main.appendChild(Button({ text: BUTTON_MORE, type: 'more'}));
 
   return $container;
 };

@@ -1,6 +1,6 @@
 import createElement from "./utils/createElement";
 
-const test = () => {
+const SkeletonMovieItem = () => {
     const $div = createElement({
         tag: 'div'
     })
@@ -23,4 +23,4 @@ const test = () => {
 }
 
 
-export default test;
+export default SkeletonMovieItem;

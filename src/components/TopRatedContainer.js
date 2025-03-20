@@ -2,7 +2,8 @@ import Button from './Button';
 import Gnb from './Gnb';
 import MoviePreviewInfo from './MoviePreviewInfo';
 import createElement from './utils/createElement';
-import BUTTON from '../constants/constant';
+
+const BUTTON_DETAIL = '자세히 보기';
 
 const TopRatedContainer = ({popularMovie}) => {
 
@@ -22,7 +23,7 @@ const TopRatedContainer = ({popularMovie}) => {
     bigFont: true,
     movie: popularMovie
   }));
-  $topRatedMovie.append(Button({ text: BUTTON.DETAIL, type: 'detail' }));
+  $topRatedMovie.append(Button({ text: BUTTON_DETAIL, type: 'detail' }));
 
   return $topRatedContainer;
 };

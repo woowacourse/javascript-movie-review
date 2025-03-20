@@ -1,6 +1,6 @@
 import MovieItem from './MovieItem';
+import SkeletonMovieItem from './skeletonMovieItem';
 import NothingMovieList from './NothingMovieList';
-import test from './test';
 import createElement from './utils/createElement';
 
 const MovieList = ({ movies }) => {
@@ -18,7 +18,7 @@ const MovieList = ({ movies }) => {
   });
 
   movies.forEach(() => {
-    $ul.appendChild(test());
+    $ul.appendChild(SkeletonMovieItem());
   });
 
   return $ul;
