@@ -104,7 +104,7 @@ class App {
     this.#movies = [...this.#movies, ...newMovies];
 
     if (this.#movies.length / 20 >= 500) {
-      $moreButton.style.display = "none";
+      $moreButton.remove();
     }
   }
 
@@ -122,7 +122,7 @@ class App {
     this.#movies = [...this.#movies, ...newMovies.results];
 
     if (this.#movies.length >= this.#searchedMoviesLength) {
-      $moreButton.style.display = "none";
+      $moreButton.remove();
     }
   }
 
@@ -179,7 +179,7 @@ class App {
           </div>
         `;
         $movieList.replaceChildren(template.content);
-        $moreButton.style.display = "none";
+        $moreButton.remove();
         return;
       }
 
@@ -190,8 +190,10 @@ class App {
       this.#movies = searchedMovies.results;
 
       if (this.#movies.length >= this.#searchedMoviesLength) {
-        $moreButton.style.display = "none";
+        $moreButton.remove();
       }
+
+      $searchForm.reset();
     });
   }
 }
