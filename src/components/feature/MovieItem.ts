@@ -61,7 +61,7 @@ export const MovieItem = ({
   poster_path,
 }: MovieItemType) => {
   return createElement<HTMLLIElement>('li', {
-    classList: 'flex flex-col justify-start gap-10',
+    classList: 'movie-item flex flex-col justify-start gap-10',
     children: [
       createMovieImage(title, poster_path),
       createDescriptionSection(title, vote_average),

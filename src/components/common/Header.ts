@@ -22,6 +22,7 @@ const createHeaderSection = () => {
         props: { alt: 'MovieLogo' },
       }),
       SearchBar({
+        classList: ['search-bar'],
         onSubmit: async (value) => {
           document.querySelector('.top-rated-movie')?.replaceChildren();
           document.querySelector('.overlay')?.classList.add('hidden');

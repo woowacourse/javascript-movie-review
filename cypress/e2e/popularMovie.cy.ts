@@ -19,8 +19,7 @@ describe('인기있는 영화 목록 조회 e2e 테스트', () => {
   it('더보기 버튼을 누르면 스켈레톤이 보이고, 기존 데이터에 20개가 더 추가된 데이터를 보여준다.', () => {
     cy.get('.moreBtn').click();
 
-    cy.wait(5000);
-    // cy.get('.skeleton-item').should('have.length', 20);
+    cy.get('.skeleton-item').should('have.length', 20);
     cy.get('ul.thumbnail-list').children().should('have.length', 40);
   });
 });
