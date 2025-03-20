@@ -1,5 +1,5 @@
 import MovieItem from './MovieItem';
-import SkeletonMovieItem from './skeletonMovieItem';
+import SkeletonMovieItem from './SkeletonMovieItem';
 import NothingMovieList from './NothingMovieList';
 import createElement from './utils/createElement';
 
@@ -17,9 +17,9 @@ const MovieList = ({ movies }) => {
     $ul.appendChild(MovieItem({ movie }));
   });
 
-  movies.forEach(() => {
-    $ul.appendChild(SkeletonMovieItem());
-  });
+  // movies.forEach(() => {
+  //   $ul.appendChild(SkeletonMovieItem());
+  // });
 
   return $ul;
 };
