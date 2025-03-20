@@ -2,6 +2,8 @@ import { getSearchMovieResult } from "../api/getSearchMovieResult";
 import MovieEmptySection from "../component/MovieEmptySection";
 import MovieItem from "../component/MovieItem";
 import MovieListSection from "../component/MovieListSection";
+import SkeletonMovieItem from "../component/Skeleton/SkeletonMovieItem";
+import SkeletonMovieListSection from "../component/Skeleton/SkeletonMovieListSection";
 import { IMovieResult } from "../types/movieResultType";
 
 class SearchMovieListController {
@@ -40,6 +42,9 @@ class SearchMovieListController {
   }
 
   async renderMovieList() {
+    const skeletonSectionElement = SkeletonMovieListSection();
+    this.mainElement.replaceChildren(skeletonSectionElement);
+
     const { movieList, hasMore } = await this.getSearchMovieList();
 
     let sectionElement;
@@ -59,7 +64,19 @@ class SearchMovieListController {
   }
 
   async addMovieList() {
+    const skeletonElements = Array.from({ length: 20 }).map(() =>
+      SkeletonMovieItem(),
+    );
+
+    skeletonElements.forEach((skeletonElement) => {
+      this.mainElement.querySelector("ul")?.appendChild(skeletonElement);
+    });
+
     const { movieList, hasMore } = await this.getSearchMovieList();
+
+    skeletonElements.forEach((skeletonElement) => {
+      skeletonElement.remove();
+    });
 
     movieList.forEach((movie) => {
       this.mainElement.querySelector("ul")?.appendChild(MovieItem(movie));
