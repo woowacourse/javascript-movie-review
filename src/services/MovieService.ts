@@ -28,6 +28,19 @@ class MovieService {
     return [];
   }
 
+  async getSearchResult(searchWord: string) {
+    const response = await fetch(
+      `${this.baseUrl}/search/movie?query=${searchWord}&include_adult=false?language=ko-KR&page=${this.currentPage}`,
+      options
+    );
+
+    if (response.status === 200) {
+      const data = await response.json();
+      return data;
+    }
+    return [];
+  }
+
   nextPage() {
     this.currentPage = this.currentPage + 1;
   }
