@@ -4,8 +4,8 @@ import imageUrl from '../utils/imageUrl';
 import Gnb from './Gnb';
 
 const Header = ({popularMovie}) => {
-  const title = popularMovie.title;
-  const posterPath = popularMovie.poster_path;
+  const title = popularMovie?.title;
+  const posterPath = popularMovie?.poster_path;
 
   const $header = createElement({
     tag: 'header',
