@@ -5,15 +5,15 @@ describe("영화 검색 기능 테스트", () => {
     createIntercept({
       id: "getPopularMovieList",
       url: "^https://api.themoviedb.org/3/movie/popular*",
-      fixtureUrl: "popularMovieData.json",
       delay: 1000,
+      staticResponse: { fixture: "popularMovieData.json" },
     });
 
     createIntercept({
       id: "getSearchMovieList",
       url: "^https://api.themoviedb.org/3/search/movie*",
-      fixtureUrl: "searchMovieData.json",
       delay: 1000,
+      staticResponse: { fixture: "searchMovieData.json" },
     });
 
     cy.visit("http://localhost:5173/");

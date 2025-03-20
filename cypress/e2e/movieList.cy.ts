@@ -5,8 +5,8 @@ describe("영화 리스트(초기 화면) 테스트", () => {
     createIntercept({
       id: "getPopularMovieList",
       url: "^https://api.themoviedb.org/3/movie/popular*",
-      fixtureUrl: "popularMovieData.json",
       delay: 1000,
+      staticResponse: { fixture: "popularMovieData.json" },
     });
 
     cy.visit("http://localhost:5173/");

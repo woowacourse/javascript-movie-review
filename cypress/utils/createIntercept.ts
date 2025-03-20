@@ -1,15 +1,30 @@
+interface GenericStaticResponse<Fixture, Body> {
+  fixture?: Fixture;
+  body?: Body;
+  headers?: { [key: string]: string };
+  statusCode?: number;
+  forceNetworkError?: boolean;
+  throttleKbps?: number;
+  delay?: number;
+}
+
+type StaticResponse = GenericStaticResponse<
+  string,
+  string | object | boolean | ArrayBuffer | null
+>;
+
 interface CreateInterceptParameter {
   id: string;
   url: string;
-  fixtureUrl: string;
   delay?: number;
+  staticResponse: StaticResponse;
 }
 
 export const createIntercept = ({
   id,
   url,
-  fixtureUrl,
   delay = 0,
+  staticResponse,
 }: CreateInterceptParameter) => {
   const urlRegexp = new RegExp(url);
 
@@ -21,7 +36,7 @@ export const createIntercept = ({
     (req) => {
       req.continue((res) => {
         res.setDelay(delay);
-        res.send({ fixture: fixtureUrl });
+        res.send(staticResponse);
       });
     }
   ).as(id);
