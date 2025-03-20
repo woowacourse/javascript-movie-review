@@ -1,3 +1,4 @@
+import { redirectToPage } from '../../route/router';
 import SearchBar from '../search-bar/SearchBar';
 
 class Header {
@@ -19,16 +20,26 @@ class Header {
 
   render() {
     this.#container.innerHTML = `
-       <h1 class="logo">
-         <img src="./logo.png" alt="MovieList" />
-       </h1>
+    <h1 class="logo"/>
+         <img src="./logo.png" alt="MovieList" ></h1>
     `;
+
+    this.#bindLogoClickEvent();
 
     const searchBarWrapper = document.createElement('div');
     searchBarWrapper.className = 'header__searchbar';
     searchBarWrapper.appendChild(this.#searchBar.element);
 
     this.#container.appendChild(searchBarWrapper);
+  }
+
+  #bindLogoClickEvent() {
+    const logo = this.#container.querySelector('.logo img');
+    if (logo) {
+      logo.addEventListener('click', () => {
+        redirectToPage('/');
+      });
+    }
   }
 }
 

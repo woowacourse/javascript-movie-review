@@ -4,11 +4,13 @@ import MovieGrid from '../../component/movie-grid/MovieGrid';
 import { Title } from '../../component/title/Title';
 import { SYSTEM_CONSTANTS } from '../../constants/systemConstants';
 import { extractedMovieData } from '../../domain/APIManager';
+import mainPageLoadingTemplate from './loadingTemplate';
 
 export class MainPage {
   #container;
   #movieListData = [];
   #currentPage = 1;
+  #isLoading: boolean = true;
 
   constructor() {
     this.#container = document.createElement('div');
@@ -18,11 +20,20 @@ export class MainPage {
   }
 
   async init() {
+    this.#isLoading = true;
+    this.render();
+
     this.#movieListData = await extractedMovieData(SYSTEM_CONSTANTS.MAIN_URL(this.#currentPage));
+    this.#isLoading = false;
     this.render();
   }
 
   render() {
+    this.#container.innerHTML = '';
+    if (this.#isLoading) {
+      this.#container.innerHTML = mainPageLoadingTemplate;
+      return;
+    }
     this.#container.appendChild(this.#mainBannerElement());
     this.#container.appendChild(this.#titleElement());
     this.renderDynamicSection();

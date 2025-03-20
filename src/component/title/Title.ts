@@ -7,17 +7,14 @@ export class Title {
   #text;
 
   constructor({ text }: TitleProps) {
-    this.#container = document.createElement('div');
+    this.#container = document.createElement('h2');
     this.#text = text;
 
     this.render();
   }
 
-  // @todo : movie-gird--title 수정하기
   render() {
-    this.#container.innerHTML = `
-        <h2 class="title">${this.#text}</h2>
-    `;
+    this.#container.innerText = `${this.#text}`;
   }
 
   get element() {

@@ -1,11 +1,12 @@
 import Footer from '../../component/footer/Footer';
 import Header from '../../component/header/Header';
-import { renderInnerContentsByRoute } from '../../route/router';
+import { renderContent, renderInnerContentsByRoute } from '../../route/router';
 
 class Layout {
   #container;
   #header;
   #footer;
+  #contentContainer;
 
   constructor() {
     this.#container = document.createElement('div');
@@ -14,6 +15,15 @@ class Layout {
     this.#header = new Header();
     this.#footer = new Footer();
 
+    this.#contentContainer = document.createElement('div');
+    this.#contentContainer.classList.add('content');
+
+    this.#container.appendChild(this.#header.element);
+    this.#container.appendChild(this.#contentContainer);
+    this.#container.appendChild(this.#footer.element);
+
+    document.querySelector('body')?.appendChild(this.#container);
+
     this.render();
   }
 
@@ -21,15 +31,8 @@ class Layout {
     return this.#container;
   }
 
-  render() {
-    if (this.#header.element) this.#container.appendChild(this.#header.element);
-    const contentContainer = document.createElement('div');
-    contentContainer.classList.add('content');
-    contentContainer.appendChild(renderInnerContentsByRoute());
-    this.#container.appendChild(contentContainer);
-    if (this.#footer.element) this.#container.appendChild(this.#footer.element);
-
-    document.querySelector('body')?.appendChild(this.#container);
+  async render() {
+    await renderContent();
   }
 }
 

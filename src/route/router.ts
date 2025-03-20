@@ -1,36 +1,39 @@
 import { MainPage } from '../pages/main-page/MainPage';
 import SearchPage from '../pages/search-page/SearchPage';
 
-const routes: Record<string, HTMLElement> = {
-  '/': new MainPage().element,
-  '/search': new SearchPage().element,
-};
+function routes(): Record<string, () => HTMLElement> {
+  return {
+    '/': () => new MainPage().element,
+    '/search': () => new SearchPage().element,
+  };
+}
 
-export function renderInnerContentsByRoute() {
+export async function renderInnerContentsByRoute() {
   let currentPath = window.location.pathname;
   if (currentPath.startsWith('/search')) {
     currentPath = '/search';
   }
-  return routes[currentPath];
+
+  return routes()[currentPath]();
 }
 
-export function redirectToPage(url: string) {
-  // window.location.href = url;
+export async function redirectToPage(url: string) {
   history.pushState({}, '', url);
-  renderContent();
+  await renderContent();
 }
 
-export function renderContent() {
-  const layoutContainer = document.querySelector('.layout');
+export async function renderContent() {
+  const layoutContainer = document.querySelector('.content');
   if (layoutContainer) {
-    console.log('없어짐');
-    const oldContent = layoutContainer.querySelector('.content');
-    if (oldContent) oldContent.remove();
+    const oldContent = layoutContainer.querySelector('.render-content');
+    if (oldContent) {
+      oldContent.remove();
+    }
 
-    const newContent = renderInnerContentsByRoute();
+    const newContent = await renderInnerContentsByRoute();
+
     if (newContent) {
-      console.log('새로 만듦', newContent);
-      newContent.classList.add('content');
+      newContent.classList.add('render-content');
       layoutContainer.appendChild(newContent);
     }
   }
