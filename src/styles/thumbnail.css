@@ -1,0 +1,65 @@
+@import "./colors.css";
+
+.fallback-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  font-size: 2rem;
+  font-weight: 900;
+  min-height: 500px;
+}
+
+.thumbnail-list {
+  margin-bottom: 56px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 70px;
+}
+
+.thumbnail {
+  width: 200px;
+  height: 300px;
+  border-radius: 8px;
+}
+
+.item {
+  user-select: none;
+  cursor: pointer;
+}
+
+.item-desc > *:not(:last-child) {
+  position: relative;
+  margin-bottom: 4px;
+  line-height: 1.2rem;
+}
+
+p.rate {
+  display: flex;
+  align-items: baseline;
+  color: var(--color-yellow);
+}
+
+p.rate > span {
+  margin-left: 4px;
+}
+
+.item .star {
+  width: 16px;
+  top: 1px;
+}
+
+/* skeleton ui */
+.skeleton-thumbnail {
+  width: 200px;
+  height: 300px;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.skeleton-text {
+  width: 65%;
+  height: 15px;
+  background-color: rgba(0, 0, 0, 0.5);
+  margin-block: 10px;
+}
