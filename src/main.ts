@@ -9,23 +9,30 @@ class App {
     this.#initialSetup();
   }
 
+  #initialSetup() {
+    this.#renderHeader();
+    this.#renderPopularMovies();
+    this.#renderFooter();
+  }
+
+  #renderHeader() {
+    const $header = document.querySelector("header");
+    if (isHTMLElement($header))
+      new Header($header, {
+        onSearchSubmitted: (params: string) => this.#renderSearchResult(params),
+        onLogoClicked: () => this.#renderPopularMovies(),
+      });
+  }
+
   #renderSearchResult(searchParams: string) {
     const $section = document.querySelector("main");
     if (isHTMLElement($section))
       new SearchMovieBoard($section, { searchParams });
   }
 
-  async #initialSetup() {
-    const $header = document.querySelector("header");
-    if (isHTMLElement($header))
-      new Header($header, {
-        search: (params: string) => this.#renderSearchResult(params),
-      });
-
+  #renderPopularMovies() {
     const $section = document.querySelector("main");
     if (isHTMLElement($section)) new PopularMovieBoard($section);
-
-    this.#renderFooter();
   }
 
   #renderFooter() {

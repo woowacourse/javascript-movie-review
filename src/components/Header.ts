@@ -2,7 +2,8 @@ import { isHTMLElement } from "../utils/typeGuards";
 import SearchBar from "./SearchBar";
 
 interface Props {
-  search: (params: string) => void;
+  onSearchSubmitted: (params: string) => void;
+  onLogoClicked: () => void;
 }
 class Header {
   #parentElement;
@@ -13,13 +14,16 @@ class Header {
     this.#props = props;
     this.#render();
     this.#renderSearchBar();
+    this.#addEventListeners();
   }
 
   #render() {
     this.#parentElement.innerHTML = /*html*/ `
-        <h1 class="logo">
-            <img src="./images/logo.png" alt="MovieList" />
-        </h1>
+        <button class="logo">
+          <h1>
+              <img src="./images/logo.png" alt="MovieList" />
+          </h1>
+        </button>
         <div class="search-bar-container"></div>
     `;
   }
@@ -28,8 +32,15 @@ class Header {
     const $searchBar = document.querySelector(".search-bar-container");
     if (isHTMLElement($searchBar))
       new SearchBar($searchBar, {
-        search: (params) => this.#props.search(params),
+        onSearchSubmitted: (params) => this.#props.onSearchSubmitted(params),
       });
+  }
+
+  #addEventListeners() {
+    const $logo = document.querySelector(".logo");
+    if (isHTMLElement($logo)) {
+      $logo.addEventListener("click", () => this.#props.onLogoClicked());
+    }
   }
 }
 
