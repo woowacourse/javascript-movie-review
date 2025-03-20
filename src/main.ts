@@ -3,49 +3,58 @@ import Header from "./components/Header";
 import { MovieInfo } from "../types/movieType.ts";
 import ContentsContainer from "./components/ContentsContainer.ts";
 import MovieService from "./services/MovieService.ts";
+import LogoSearchBar from "./components/LogoSearchBar.js";
 
-async function getPopularMovies() {
-  const movieService = new MovieService();
-  const data = await movieService.getPopularMovies();
-  // 헤더 렌더링
-  renderHeader(data.results[0]);
+const movieService = new MovieService();
+const data = await movieService.getPopularMovies();
 
+function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
+  const $container = document.querySelector("#wrap");
+
+  const $header = Header({ title, poster_path, vote_average });
+  const $logoSearchBar = LogoSearchBar();
+  $header.querySelector(".top-rated-container")?.prepend($logoSearchBar);
+
+  $container?.prepend($header);
+}
+
+async function main() {
   // 이벤트 등록
   const $input = document.querySelector(".search-input");
   const $button = document.querySelector(".search-button");
   const $section = document.querySelector("section") as HTMLDivElement;
+  // 컨텐츠 컨테이너
+  ContentsContainer(data.results, "지금 인기 있는 영화");
 
   $input?.addEventListener("keydown", async (event) => {
     const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === "Enter") {
       const inputValue = (event.target as HTMLInputElement).value;
+
+      if (inputValue === "") {
+        alert("검색어를 입력해주세요.");
+      } else {
+        const searchResult = await movieService.getSearchResult(inputValue);
+        if ($section) {
+          $section.innerHTML = "";
+        }
+        ContentsContainer(searchResult.results, `"${inputValue}" 검색 결과`);
+      }
+    }
+  });
+
+  $button?.addEventListener("click", async () => {
+    const inputValue = $input?.value;
+    if (inputValue === "") {
+      alert("검색어를 입력해주세요.");
+    } else {
       const searchResult = await movieService.getSearchResult(inputValue);
       if ($section) {
         $section.innerHTML = "";
       }
-      console.log(document.querySelector("main"));
       ContentsContainer(searchResult.results, `"${inputValue}" 검색 결과`);
     }
   });
-
-  $button?.addEventListener("click", async (event) => {
-    const inputValue = $input?.value;
-    const searchResult = await movieService.getSearchResult(inputValue);
-    if ($section) {
-      $section.innerHTML = "";
-    }
-    ContentsContainer(searchResult.results, `"${inputValue}" 검색 결과`);
-  });
-
-  // 컨텐츠 컨테이너
-  ContentsContainer(data.results, "지금 인기 있는 영화");
-}
-
-function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
-  const $container = document.querySelector("#wrap");
-  const $header = Header({ title, poster_path, vote_average });
-
-  $container?.prepend($header);
 }
 
 function renderFooter() {
@@ -53,7 +62,8 @@ function renderFooter() {
   const $footer = Footer();
   $container?.appendChild($footer);
 }
+renderHeader(data.results[0]);
 
-getPopularMovies();
+main();
 
 renderFooter();
