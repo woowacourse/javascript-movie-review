@@ -34,7 +34,7 @@ const Header = ({ title, imageUrl, voteAverage }: HeaderProps) => {
   `);
 
   const searchBar = SearchBar();
-  const rate = Rate({ rate: voteAverage });
+  const rate = Rate({ rate: voteAverage, className: ["rate-value"] });
   const button = Button({
     text: "자세히 보기",
     className: ["primary", "detail"],

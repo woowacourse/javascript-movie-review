@@ -1,4 +1,6 @@
 import { createElement } from "../../utils/createElement.ts";
+import { $ } from "../../utils/dom.ts";
+import Rate from "../common/Rate.ts";
 
 type MovieItem = {
   src: string;
@@ -7,7 +9,7 @@ type MovieItem = {
 };
 
 const MovieItem = ({ src, rate, title }: MovieItem) => {
-  return createElement(/*html*/ `
+  const movieItem = createElement(/*html*/ `
     <li>
       <div class="item">
         <img
@@ -16,16 +18,20 @@ const MovieItem = ({ src, rate, title }: MovieItem) => {
           alt=${title}
         />
         <div class="item-desc">
-          <p class="rate">
+          <!-- <p class="rate">
             <img src="./images/star_empty.png" class="star" /><span
               >${rate}</span
             >
-          </p>
+          </p> -->
           <strong>${title}</strong>
         </div>
       </div>
     </li>
   `);
+
+  $(".item-desc", movieItem).prepend(Rate({ rate: rate }));
+
+  return movieItem;
 };
 
 export default MovieItem;
