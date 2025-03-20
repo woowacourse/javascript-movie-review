@@ -38,3 +38,21 @@ p.rate > span {
   width: 16px;
   top: 1px;
 }
+
+.skeleton {
+  animation: skeleton-gradient 1.8s infinite ease-in-out;
+}
+
+@keyframes skeleton-gradient {
+  0% {
+    background-color: rgba(165, 165, 165, 0.1);
+  }
+
+  50% {
+    background-color: rgba(165, 165, 165, 0.3);
+  }
+
+  100% {
+    background-color: rgba(165, 165, 165, 0.1);
+  }
+}
