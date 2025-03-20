@@ -4,6 +4,7 @@ import MovieList from "./components/MovieList/index.js";
 import Header from "./components/Header/index.js";
 import MovieItem from "./components/MovieList/MovieItem.js";
 import SkeletonMovieItem from "./components/MovieList/SkeletonMovieItem.js";
+import { fetchPopularMovies, fetchSearchedMovies } from "./APIs/movieAPI.js";
 
 class App {
   #$target;
@@ -18,7 +19,7 @@ class App {
   }
 
   async #init() {
-    this.#movies = await this.#fetchPopularMovies();
+    this.#movies = await fetchPopularMovies();
     this.#$target.appendChild(this.#template());
     this.#mount();
   }
@@ -40,58 +41,6 @@ class App {
     return template.content;
   }
 
-  async #fetchPopularMovies(page = 1) {
-    try {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(
-          "영화 정보를 불러오는 데 실패했습니다. 다시 시도해 주세요."
-        );
-      }
-
-      const data = await response.json();
-      return data.results;
-    } catch (error) {
-      alert(error.message);
-      return [];
-    }
-  }
-
-  async #fetchSearchedMovies(query, page = 1) {
-    try {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=ko-KR&page=${page}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(
-          "영화 정보를 불러오는 데 실패했습니다. 다시 시도해 주세요."
-        );
-      }
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      alert(error.message);
-      return [];
-    }
-  }
-
   async #handlePopularMoviesMore($moreButton) {
     const $movieList = this.#$target.querySelector("#movie-list");
 
@@ -103,9 +52,7 @@ class App {
       .join("");
     $movieList.appendChild(skeletonTemplate.content);
 
-    const newMovies = await this.#fetchPopularMovies(
-      this.#movies.length / 20 + 1
-    );
+    const newMovies = await fetchPopularMovies(this.#movies.length / 20 + 1);
 
     const skeletons = $movieList.querySelectorAll(".skeleton-item");
     skeletons.forEach((skeleton) => skeleton.remove());
@@ -132,9 +79,7 @@ class App {
       .join("");
     $movieList.appendChild(skeletonTemplate.content);
 
-    const newMovies = await this.#fetchSearchedMovies(
-      this.#movies.length / 20 + 1
-    );
+    const newMovies = await fetchSearchedMovies(this.#movies.length / 20 + 1);
 
     const skeletons = $movieList.querySelectorAll(".skeleton-item");
     skeletons.forEach((skeleton) => skeleton.remove());
@@ -179,7 +124,7 @@ class App {
       const { query } = Object.fromEntries(formData.entries());
       this.#query = query;
 
-      const searchedMovies = await this.#fetchSearchedMovies(this.#query);
+      const searchedMovies = await fetchSearchedMovies(this.#query);
 
       const $Banner = this.#$target.querySelector("#Banner");
       if ($Banner) {
