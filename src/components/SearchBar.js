@@ -38,6 +38,8 @@ const SearchBar = () => {
         const query = $input.value.trim();    
         if (!query) return;
 
+        document.querySelector('.background-container').classList.add('disappear');
+
         const params = new URLSearchParams(window.location.search);
         params.set("query", query);
         window.history.replaceState({}, "", `${window.location.pathname}?${params.toString()}`);

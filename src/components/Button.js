@@ -34,8 +34,6 @@ const Button = ({ text, type }) => {
       $button.classList.toggle('disappear');
     }
 
-    console.log(movies.movieList);
-    
     document.querySelector('.thumbnail-list').remove();
 
     document.querySelector('section').appendChild(

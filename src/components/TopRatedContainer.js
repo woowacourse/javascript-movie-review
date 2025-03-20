@@ -1,5 +1,4 @@
 import Button from './Button';
-import Gnb from './Gnb';
 import MoviePreviewInfo from './MoviePreviewInfo';
 import createElement from './utils/createElement';
 
@@ -17,7 +16,6 @@ const TopRatedContainer = ({popularMovie}) => {
     classNames: ['top-rated-movie'],
   });
 
-  $topRatedContainer.append(Gnb());
   $topRatedContainer.append($topRatedMovie);
   $topRatedMovie.append(MoviePreviewInfo({
     bigFont: true,

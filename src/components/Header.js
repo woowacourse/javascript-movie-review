@@ -1,6 +1,7 @@
 import TopRatedContainer from './TopRatedContainer';
 import createElement from './utils/createElement';
 import imageUrl from '../utils/imageUrl';
+import Gnb from './Gnb';
 
 const Header = ({popularMovie}) => {
   const title = popularMovie.title;
@@ -27,6 +28,7 @@ const Header = ({popularMovie}) => {
     alt: `${title}`,
   })
 
+  $header.appendChild(Gnb());
   $header.appendChild($backgroundContainer);
   $backgroundContainer.appendChild($overlay);
   $overlay.appendChild($img);
