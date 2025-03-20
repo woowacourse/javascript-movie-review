@@ -1,5 +1,5 @@
 import { ERROR_MESSAGE } from "./constant/errorMessage";
-import MessageModalController from "./controller/ModalController";
+import MessageModalController from "./controller/MessageModalController";
 import MovieListController from "./controller/MovieListController";
 import SearchMovieListController from "./controller/SearchMovieListController";
 
