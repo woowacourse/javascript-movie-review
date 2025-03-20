@@ -6,7 +6,6 @@ import { CustomButton } from "./shared/ui/CustomButton";
 import { getSearchedPost } from "./features/search/api/getSearchedPost";
 import EmptySearchResult from "./features/search/ui/EmptySearchResult";
 import { createSkeletons } from "./features/movie/ui/MovieSkeleton";
-import "./styles/skeleton.css";
 
 addEventListener("DOMContentLoaded", async () => {
   const $movieList = document.querySelector(
