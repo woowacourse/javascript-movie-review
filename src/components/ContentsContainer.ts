@@ -5,9 +5,9 @@ import MovieList from "./MovieList";
 
 const MAXIMUM_PAGE = 500;
 
-function ContentsContainer(results: MovieInfo[], contentTitle: string) {
-  // MovieList 렌더링
-  // Todo: handler로 분리하기
+async function ContentsContainer(results: MovieInfo[], contentTitle: string) {
+  const $main = document.querySelector("main");
+  const movieService = new MovieService();
   const movieList = new MovieList(results);
   const $listContainer = movieList.renderMovieList();
   const $section = document.querySelector("section");
@@ -18,8 +18,25 @@ function ContentsContainer(results: MovieInfo[], contentTitle: string) {
   $section?.appendChild($h2);
   $section?.appendChild($listContainer);
 
-  const movieService = new MovieService();
+  removeButton();
+  const $button = Button("더 보기", "more", clickMoreMovies);
+  $main?.appendChild($button);
 
+  if (document.querySelector(".contentContainer")) {
+    document.querySelector(".contentContainer")?.remove();
+  }
+  const $contentContainer = document.createElement("div");
+  $contentContainer.classList.add("contentContainer");
+
+  if (results.length === 0) {
+    $contentContainer.innerHTML = `
+        <img src="./no_results.png">
+        <div>검색 결과가 없습니다.</div>
+    `;
+    $main?.appendChild($contentContainer);
+    removeButton();
+  } else {
+  }
   async function clickMoreMovies(event: MouseEvent) {
     movieService.nextPage();
     const additionalData = await movieService.getPopularMovies();
@@ -33,19 +50,13 @@ function ContentsContainer(results: MovieInfo[], contentTitle: string) {
     $section?.appendChild($listContainer);
   }
 
-  // 더보기 버튼
-  const $main = document.querySelector("main");
-  if ($main) {
+  function removeButton() {
     // 기존 "더 보기" 버튼 제거 (중복 방지)
-    const existingButton = $main.querySelector("button.more");
+    const existingButton = $main?.querySelector("button.more");
     if (existingButton) {
       existingButton.remove();
     }
   }
-
-  const $button = Button("더 보기", "more", clickMoreMovies);
-
-  $main?.appendChild($button);
 }
 
 export default ContentsContainer;

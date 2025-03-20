@@ -83,6 +83,7 @@ button.more {
   left: 0;
   height: 500px;
   z-index: 1;
+  width: 100%;
 }
 
 .overlay {
@@ -108,6 +109,20 @@ button.more {
   top: 0;
   left: 50%;
   transform: translate(-50%, 0);
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  font-size: 36px;
+  font-weight: 600;
+  gap: 16px;
+}
+.contentContainer img {
+  width: 72px;
+  height: 64px;
 }
 
 .search-input {
