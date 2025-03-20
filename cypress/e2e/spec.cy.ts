@@ -9,6 +9,12 @@ describe("Fixture를 이용한 E2E 테스트", () => {
       { fixture: "movie-popular.json" }
     ).as("getPopularMovies");
 
+    cy.intercept(
+      "GET",
+      /^https:\/\/api\.themoviedb\.org\/3\/search\/movie(\?.*)?$/,
+      { fixture: "movie-search.json" }
+    ).as("getSearchMovies");
+
     cy.visit("http://localhost:5173");
   });
 
@@ -36,5 +42,14 @@ describe("Fixture를 이용한 E2E 테스트", () => {
 
     // 영화 개수가 40개인지 확인
     cy.get(".thumbnail-list > li").should("have.length", 40);
+  });
+
+  it("짱구 검색 후 더보기 버튼 클릭시 더보기 버튼이 사라져야한다.", () => {
+    cy.get(".search-input").click();
+    cy.get(".search-input").type("짱구");
+    cy.get(".search-input").type("{enter}");
+    cy.wait("@getSearchMovies");
+    cy.get(".more-button").should("exist").click();
+    cy.get(".more-button").should("not.exist");
   });
 });
