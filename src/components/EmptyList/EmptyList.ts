@@ -1,6 +1,6 @@
 const $EmptyList = () => {
   const $emptyPlanet = createElement("img", {
-    src: "./images/empty-planet.svg",
+    src: "./empty-planet.svg",
     className: "empty-planet",
     alt: "검색 결과가 없습니다.",
   });

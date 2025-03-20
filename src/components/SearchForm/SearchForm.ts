@@ -47,7 +47,7 @@ const $SearchForm = () => {
     type: "submit",
   });
   const $searchIcon = createElement("img", {
-    src: "/images/search.svg",
+    src: "./search.svg",
     alt: "search",
   });
   $searchButton.appendChild($searchIcon);
