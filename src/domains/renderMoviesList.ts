@@ -12,30 +12,10 @@ const $h2 = $error?.querySelector("h2");
 
 const renderTotalList = async () => {
   // loading = true
-  try {
-    const moviesResponse = await getMovies({ page: store.page });
-    // loading = false
-    store.movies = [...store.movies, ...moviesResponse.results];
-    store.totalPages = moviesResponse.total_pages;
-  } catch (error: any) {
-    $ul?.classList.add("close");
-    $error?.classList.remove("close");
-
-    if ($ul) $ul.innerHTML = "";
-
-    if (error.message === "400" && $h2) {
-      // page = 501
-      $h2.textContent = "검색 가능한 페이지 수를 넘겼습니다.";
-    }
-    if (error.message === "401" && $h2) {
-      console.log(error);
-
-      // 토큰 인증 오류
-      $h2.textContent =
-        "사용자 인증 정보가 잘못되었습니다. 정보를 다시 확인해주세요.";
-    }
-    return;
-  }
+  const moviesResponse = await getMovies({ page: store.page });
+  // loading = false
+  store.movies = [...store.movies, ...moviesResponse.results];
+  store.totalPages = moviesResponse.total_pages;
 
   if (!document.querySelector(".top-rated-movie")) {
     // 인기영화 정보 보여주기
@@ -58,14 +38,36 @@ const renderTotalList = async () => {
 
 const renderSearchList = async () => {
   // loading = true
+
+  const moviesResponse = await getMovieByName({
+    name: store.searchKeyword,
+    page: store.page,
+  });
+  // loading = false
+  store.movies = [...store.movies, ...moviesResponse.results];
+  store.totalPages = moviesResponse.total_pages;
+
+  if (store.movies.length === 0) {
+    $ul?.classList.add("close");
+    $error?.classList.remove("close");
+    if ($h2) $h2.textContent = "검색 결과가 없습니다.";
+  } else {
+    $ul?.classList.remove("close");
+    $error?.classList.add("close");
+  }
+};
+
+export const renderMoviesList = async () => {
+  const $skeleton = MovieListSkeleton();
+
+  if ($skeleton) $mainSection?.appendChild($skeleton);
+
   try {
-    const moviesResponse = await getMovieByName({
-      name: store.searchKeyword,
-      page: store.page,
-    });
-    // loading = false
-    store.movies = [...store.movies, ...moviesResponse.results];
-    store.totalPages = moviesResponse.total_pages;
+    if (store.searchKeyword === "") {
+      await renderTotalList();
+    } else {
+      await renderSearchList();
+    }
   } catch (error: any) {
     $ul?.classList.add("close");
     $error?.classList.remove("close");
@@ -84,27 +86,6 @@ const renderSearchList = async () => {
         "사용자 인증 정보가 잘못되었습니다. 정보를 다시 확인해주세요.";
     }
     return;
-  }
-
-  if (store.movies.length === 0) {
-    $ul?.classList.add("close");
-    $error?.classList.remove("close");
-    if ($h2) $h2.textContent = "검색 결과가 없습니다.";
-  } else {
-    $ul?.classList.remove("close");
-    $error?.classList.add("close");
-  }
-};
-
-export const renderMoviesList = async () => {
-  const $skeleton = MovieListSkeleton();
-
-  if ($skeleton) $mainSection?.appendChild($skeleton);
-
-  if (store.searchKeyword === "") {
-    await renderTotalList();
-  } else {
-    await renderSearchList();
   }
 
   const $showMore = document.querySelector(".show-more");
