@@ -45,4 +45,11 @@ describe("", () => {
     cy.get(".search-bar-button").click();
     cy.get(".thumbnail-list").contains("짱구 스트리트 화이어 2");
   });
+
+  it("더보기 버튼을 누르면 영화가 추가로 보여진다. ", () => {
+    cy.get(".more").click();
+    cy.get(".thumbnail-list")
+      .find(".item")
+      .should("have.length.greaterThan", 20);
+  });
 });
