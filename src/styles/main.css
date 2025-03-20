@@ -184,6 +184,22 @@ span.rate-value {
   line-height: normal;
 }
 
+.empty-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin: 56px 0 64px;
+}
+
+.empty-content {
+  font-family: Poppins;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
 footer.footer {
   min-height: 180px;
   background-color: var(--color-bluegray-80);

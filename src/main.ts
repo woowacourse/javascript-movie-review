@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const container = document.querySelector(".container");
   if (!container) return;
 
+  // TODO 검색 결과 없으면 버튼 사라지도록 처리
   const moreButton = Button({
     text: "더 보기",
     onClick: async () => {
