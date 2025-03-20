@@ -25,6 +25,11 @@ class MovieService {
       const data = await response.json();
       return data;
     }
+
+    if (response.status === 500) {
+      alert("데이터를 불러오는 중 문제가 발생했습니다. 다시 시도해주세요😅");
+    }
+
     return [];
   }
 
@@ -37,6 +42,9 @@ class MovieService {
     if (response.status === 200) {
       const data = await response.json();
       return data;
+    }
+    if (response.status === 500) {
+      alert("데이터를 불러오는 중 문제가 발생했습니다. 다시 시도해주세요😅");
     }
     return [];
   }
