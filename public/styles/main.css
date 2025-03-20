@@ -70,7 +70,7 @@ button.primary {
   position: relative;
 }
 
-.search-box {
+.search-form {
   border-radius: 32px;
   border: 2px solid var(--color-gray-300);
   display: flex;

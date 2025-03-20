@@ -34,7 +34,7 @@ const handleSearchFormSubmit = async (event: Event) => {
 
 const $SearchForm = () => {
   const $searchForm = createElement("form", {
-    className: "search-box",
+    className: "search-form",
   });
   const $searchInput = createElement("input", {
     className: "search-input",
