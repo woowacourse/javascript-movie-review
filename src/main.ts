@@ -8,10 +8,7 @@ import {
   $MovieListBox,
   initCurrentPage,
 } from "./components/MovieListBox/MovieListBox";
-import { replaceSkeletonList } from "./components/Skeleton/List/SkeletonList";
-
-const $header = document.querySelector("header");
-$header?.append($Banner(), $HeaderBox());
+import { replaceSkeletonList } from "./components/Skeleton/MovieList/SkeletonList";
 
 export const replaceMovieListBox = ({
   title,
@@ -40,6 +37,9 @@ const initPopularMovieListRender = async () => {
     movieResult: popularMovieListResult,
   });
 };
+
+const $header = document.querySelector("header");
+$header?.append($Banner(), $HeaderBox());
 
 asyncErrorBoundary({
   asyncFn: () => initPopularMovieListRender(),

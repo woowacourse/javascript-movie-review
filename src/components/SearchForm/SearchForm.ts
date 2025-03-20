@@ -3,12 +3,13 @@ import { replaceMovieListBox } from "../../main";
 import { removeBanner } from "../Banner/Banner";
 import { addErrorBox } from "../ErrorBox/ErrorBox";
 import { setKeyword, setMovieListType } from "../MovieListBox/MovieListBox";
-import { replaceSkeletonList } from "../Skeleton/List/SkeletonList";
+import { replaceSkeletonList } from "../Skeleton/MovieList/SkeletonList";
 
 const handleSearchFormSubmit = async (event: Event) => {
   event.preventDefault();
   const target = event.target as HTMLFormElement;
   const searchValue = target["search-input"].value;
+
   if (searchValue === "") {
     alert("검색어를 입력해주세요.");
     return;
