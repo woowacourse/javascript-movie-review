@@ -13,9 +13,9 @@ addEventListener("DOMContentLoaded", async () => {
 
   const movies = await getMovieList({ page: 1 });
 
-  Header(movies.results[0]);
+  if (movies && $movieList) {
+    Header(movies.results[0]);
 
-  if ($movieList) {
     $movieList.innerHTML = "";
     addMoviePost(movies.results, $movieList);
   }
