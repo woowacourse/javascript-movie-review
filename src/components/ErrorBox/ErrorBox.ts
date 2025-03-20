@@ -5,7 +5,7 @@ export const addErrorBox = (text: string) => {
   $movieListSection.replaceChildren($ErrorBox({ text }));
 };
 
-export const networkErrorBoundary = async (asyncFn: () => Promise<void>) => {
+export const asyncErrorBoundary = async (asyncFn: () => Promise<void>) => {
   try {
     await asyncFn();
   } catch (error) {

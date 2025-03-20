@@ -6,7 +6,7 @@ import {
   addSkeletonList,
   removeSkeletonList,
 } from "../Skeleton/List/SkeletonList";
-import { networkErrorBoundary } from "../ErrorBox/ErrorBox";
+import { asyncErrorBoundary } from "../ErrorBox/ErrorBox";
 
 type MovieListType = "popular" | "search";
 interface MovieState {
@@ -63,7 +63,7 @@ const $MovieListBoxRender = () => {
     movieState.page += 1;
 
     if (movieState.type === "popular") {
-      networkErrorBoundary(() =>
+      asyncErrorBoundary(() =>
         renderMoreMovieList({
           currentPage: movieState.page,
           fetchFn: getPopularMovieList,
@@ -72,7 +72,7 @@ const $MovieListBoxRender = () => {
       return;
     }
 
-    networkErrorBoundary(() =>
+    asyncErrorBoundary(() =>
       renderMoreMovieList({
         currentPage: movieState.page,
         fetchFn: (page) => getSearchedMovieList(movieState.keyword, page),
