@@ -4,6 +4,7 @@ import { $ } from '../util/selector';
 import Button from './Button';
 import Movie from './Movie';
 import MovieList from './MovieList';
+import SkeletonList from './SkeletonList';
 
 function SearchBar() {
   return createDOMElement({
@@ -29,29 +30,34 @@ function SearchBar() {
   });
 }
 
-const handleSearchMovies = async (e: Event) => {
-  e.preventDefault();
-
-  // 헤더 날리기
+const removeHeader = () => {
   const banner = document.querySelector('header');
   banner?.remove();
 
   const main = document.querySelector('main');
   if (!main) return;
   main.style.padding = '100px 0 64px';
+};
+
+const handleSearchMovies = async (e: Event) => {
+  e.preventDefault();
+  removeHeader();
 
   const form = e.target as HTMLFormElement;
   const data = new FormData(form);
 
   const searchKeyword = String(data.get('keyword'));
 
+  const container = $('.container');
+
+  const skeletonList = SkeletonList({ height: 300 });
+  container?.replaceChildren(skeletonList);
   // 화면 업데이트
   let currentPage = 1;
 
   const { results: movies, total_pages, page } = await getSearchMovies({ page: currentPage, query: searchKeyword });
 
   const searchedMovieList = MovieList({ movies, title: `"${searchKeyword}" 검색 결과` });
-  const container = $('.container');
 
   container?.replaceChildren(searchedMovieList);
 
@@ -73,7 +79,12 @@ const handleMoreButtonClick = async (page: number, query: string, total_pages: n
   const container = $('.thumbnail-list') as HTMLElement;
   if (!container) return;
 
+  const skeletonList = SkeletonList({ height: 300 });
+  container.appendChild(skeletonList);
+
   const { results: newMovies } = await getSearchMovies({ page, query });
+
+  skeletonList.remove();
 
   const fragment = document.createDocumentFragment();
 

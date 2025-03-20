@@ -3,7 +3,7 @@ import createDOMElement from '../util/createDomElement.js';
 const Skeleton = ({ height }: { height: number }) => {
   return createDOMElement({
     tag: 'div',
-    className: 'banner skeleton-banner',
+    className: 'skeleton',
 
     attributes: {
       style: `height: ${height}px`
