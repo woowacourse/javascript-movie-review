@@ -18,8 +18,16 @@ describe("Fixture를 이용한 E2E 테스트", () => {
 
         if (query === "짱구") {
           req.reply({ fixture: "movie-search.json" });
-        } else {
+        } else if (query === "ㅇㅇㅇㅇㅇ") {
           req.reply({ fixture: "movie-no-result.json" });
+        } else {
+          req.reply({
+            statusCode: 404,
+            body: {
+              status_message: "서버 오류입니다.",
+              status_code: 34,
+            },
+          });
         }
       }
     ).as("getSearchMovies");
@@ -68,5 +76,13 @@ describe("Fixture를 이용한 E2E 테스트", () => {
     cy.get(".search-input").type("{enter}");
     cy.wait("@getSearchMovies");
     cy.get(".info-text-wrap > p").should("contain", "검색 결과가 없습니다.");
+  });
+
+  it("서버에서 데이터를 못 받을시 에러 페이지가 랜더링 된다.", () => {
+    cy.get(".search-input").click();
+    cy.get(".search-input").type("에러입니다");
+    cy.get(".search-input").type("{enter}");
+    cy.wait("@getSearchMovies");
+    cy.get(".info-text-wrap > p").should("contain", "오류가 발생했습니다.");
   });
 });
