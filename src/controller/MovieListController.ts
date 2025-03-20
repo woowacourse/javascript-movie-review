@@ -6,7 +6,7 @@ import SkeletonBackgroundThumbnailSection from "../component/Skeleton/SkeletonBa
 import SkeletonMovieItem from "../component/Skeleton/SkeletonMovieItem";
 import SkeletonMovieListSection from "../component/Skeleton/SkeletonMovieListSection";
 import MovieResults from "../domain/MovieResults";
-import { IMovieResult } from "../types/movieResultType";
+import { IMovieItem, IMovieResult } from "../types/movieResultType";
 
 class MovieListController {
   movieResults;
@@ -32,22 +32,33 @@ class MovieListController {
     });
   }
 
-  async getPopularMovieList(page: number = 1) {
+  async fetchAndStoreMovies(page: number = 1) {
     const {
       page: newPage,
       total_pages: totalPage,
       results: movieList,
     }: IMovieResult = await getPopularMovieResult(page);
 
-    this.movieResults.addMovieList(newPage, movieList); // 도메인 업데이트
+    this.movieResults.addMovieList(newPage, movieList);
     this.movieResults.initialTotalPage(totalPage);
 
-    const hasMore = newPage !== totalPage;
-
-    return { movieList, hasMore };
+    return { movieList, hasMore: newPage !== totalPage };
   }
 
-  async renderMovieList() {
+  async render() {
+    const skeletonBackgroundElement = this.renderSkeleton();
+
+    const { movieList, hasMore } = await this.fetchAndStoreMovies();
+    this.renderMovieList({
+      movieList,
+      hasMore,
+      skeletonBackgroundElement,
+    });
+
+    this.bindEvents();
+  }
+
+  renderSkeleton() {
     const skeletonSectionElement = SkeletonMovieListSection();
     this.mainElement.replaceChildren(skeletonSectionElement);
     const skeletonBackgroundElement = SkeletonBackgroundThumbnailSection();
@@ -56,12 +67,25 @@ class MovieListController {
       skeletonBackgroundElement,
     );
 
-    const { movieList, hasMore } = await this.getPopularMovieList();
+    return skeletonBackgroundElement;
+  }
+
+  renderMovieList({
+    movieList,
+    hasMore,
+    skeletonBackgroundElement,
+  }: {
+    movieList: IMovieItem[];
+    hasMore: boolean;
+    skeletonBackgroundElement: HTMLElement;
+  }) {
     const sectionElement = MovieListSection({
       title: "지금 인기 있는 영화",
       movieList,
       hasMore,
     });
+    this.mainElement.replaceChildren(sectionElement);
+
     const backgroundThumbnailSectionElement = BackgroundThumbnailSection(
       movieList[0],
     );
@@ -73,9 +97,16 @@ class MovieListController {
     detailButtonElement.addEventListener("click", () =>
       this.openModal("아직 지원되지 않은 기능입니다."),
     );
+  }
 
-    this.mainElement.replaceChildren(sectionElement);
-    this.bindEvents();
+  renderBackgroundSection() {
+    const skeletonBackgroundElement = SkeletonBackgroundThumbnailSection();
+    this.mainElement?.insertAdjacentElement(
+      "beforebegin",
+      skeletonBackgroundElement,
+    );
+
+    return skeletonBackgroundElement;
   }
 
   async renderExistingMovieList() {
@@ -93,25 +124,26 @@ class MovieListController {
   }
 
   async addMovieList() {
-    const skeletonElements = Array.from({ length: 20 }).map(() =>
+    const movieListContainer = this.mainElement.querySelector("ul");
+    if (!movieListContainer) return;
+
+    // 스켈레톤 추가
+    const skeletonElements = Array.from({ length: 20 }, () =>
       SkeletonMovieItem(),
     );
+    skeletonElements.forEach((skeleton) =>
+      movieListContainer.appendChild(skeleton),
+    );
 
-    skeletonElements.forEach((skeletonElement) => {
-      this.mainElement.querySelector("ul")?.appendChild(skeletonElement);
-    });
-
-    const { movieList, hasMore } = await this.getPopularMovieList(
+    const { movieList, hasMore } = await this.fetchAndStoreMovies(
       this.movieResults.getPage() + 1,
     );
 
-    skeletonElements.forEach((skeletonElement) => {
-      skeletonElement.remove();
-    });
-
-    movieList.forEach((movie) => {
-      this.mainElement.querySelector("ul")?.appendChild(MovieItem(movie));
-    });
+    // 스켈레톤 제거 후 새로운 영화 추가
+    skeletonElements.forEach((skeleton) => skeleton.remove());
+    movieList.forEach((movie) =>
+      movieListContainer.appendChild(MovieItem(movie)),
+    );
 
     if (!hasMore) this.mainElement.querySelector(".see-more")?.remove();
   }

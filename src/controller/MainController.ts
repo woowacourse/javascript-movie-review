@@ -31,7 +31,7 @@ class MainController {
 
   async render() {
     try {
-      await this.movieListController.renderMovieList();
+      await this.movieListController.render();
     } catch (error) {
       this.messageModalController.changeContentMessage(
         ERROR_MESSAGE[Number((error as Error).message)] ||
