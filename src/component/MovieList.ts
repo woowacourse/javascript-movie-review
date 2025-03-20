@@ -1,7 +1,7 @@
-import { IMovie } from '../type';
 import createDOMElement from '../util/createDomElement';
 import MessageDisplay from './MessageDisplay';
 import Movie from './Movie';
+import { IMovie } from '../type';
 
 function MovieList({ title, movies }: { title: string; movies: IMovie[] }) {
   return createDOMElement({

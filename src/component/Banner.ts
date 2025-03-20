@@ -1,7 +1,7 @@
-import { IMAGE_BASE_URL } from '../constant';
-import { IMovie } from '../type';
 import createDOMElement from '../util/createDomElement';
 import Button from './Button';
+import { IMAGE_BASE_URL } from '../constant';
+import { IMovie } from '../type';
 
 function Banner({ movie }: { movie: IMovie }) {
   const { backdrop_path, vote_average, title } = movie;
