@@ -18,6 +18,10 @@
   cursor: pointer;
 }
 
+.item-desc {
+  margin-top: 4px;
+}
+
 .item-desc > *:not(:last-child) {
   position: relative;
   margin-bottom: 4px;
