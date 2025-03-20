@@ -1,7 +1,8 @@
 import { MovieListSectionProps } from "../types/type";
 import getPopularMovieList from "./apis/getPopularMovieList";
 import $Banner from "./components/Banner/Banner";
-import { asyncErrorBoundary } from "./components/ErrorBox/ErrorBox";
+import asyncErrorBoundary from "./components/ErrorBoundary/Async/asyncErrorBoundary";
+import { addErrorBox } from "./components/ErrorBox/ErrorBox";
 import $HeaderBox from "./components/HeaderBox/HeaderBox";
 import {
   $MovieListBox,
@@ -40,4 +41,7 @@ const initPopularMovieListRender = async () => {
   });
 };
 
-asyncErrorBoundary(() => initPopularMovieListRender());
+asyncErrorBoundary({
+  asyncFn: () => initPopularMovieListRender(),
+  fallbackComponent: (errorMessage) => addErrorBox(errorMessage),
+});

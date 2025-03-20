@@ -6,7 +6,8 @@ import {
   addSkeletonList,
   removeSkeletonList,
 } from "../Skeleton/List/SkeletonList";
-import { asyncErrorBoundary } from "../ErrorBox/ErrorBox";
+import asyncErrorBoundary from "../ErrorBoundary/Async/asyncErrorBoundary";
+import { addErrorBox } from "../ErrorBox/ErrorBox";
 
 type MovieListType = "popular" | "search";
 interface MovieState {
@@ -63,21 +64,25 @@ const $MovieListBoxRender = () => {
     movieState.page += 1;
 
     if (movieState.type === "popular") {
-      asyncErrorBoundary(() =>
-        renderMoreMovieList({
-          currentPage: movieState.page,
-          fetchFn: getPopularMovieList,
-        })
-      );
+      asyncErrorBoundary({
+        asyncFn: () =>
+          renderMoreMovieList({
+            currentPage: movieState.page,
+            fetchFn: getPopularMovieList,
+          }),
+        fallbackComponent: (errorMessage) => addErrorBox(errorMessage),
+      });
       return;
     }
 
-    asyncErrorBoundary(() =>
-      renderMoreMovieList({
-        currentPage: movieState.page,
-        fetchFn: (page) => getSearchedMovieList(movieState.keyword, page),
-      })
-    );
+    asyncErrorBoundary({
+      asyncFn: () =>
+        renderMoreMovieList({
+          currentPage: movieState.page,
+          fetchFn: (page) => getSearchedMovieList(movieState.keyword, page),
+        }),
+      fallbackComponent: (errorMessage) => addErrorBox(errorMessage),
+    });
   };
 
   const $MovieListBox = ({ title, movieResult }: MovieListSectionProps) => {
