@@ -52,4 +52,14 @@ describe("", () => {
       .find(".item")
       .should("have.length.greaterThan", 20);
   });
+
+  // it("더보기 버튼을 눌렀을 때, 더 보여질 영화가 없으면 더보기 버튼이 사라진다. ", () => {
+  // cy.get(".primary more").should("not.be.visible");
+  // });
+
+  it("검색 결과가 없을 때, '검색 결과가 없습니다' 문구가 보인다. ", () => {
+    cy.get(".search-bar").type("앎으우구");
+    cy.get(".search-bar-button").click();
+    cy.get(".nothing-text").contains("검색 결과가 없습니다.");
+  });
 });
