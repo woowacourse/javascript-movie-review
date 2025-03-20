@@ -1,7 +1,7 @@
 import TitleSearchBar from "./UI/Header/TitleSearchBar/TitleSearchBar";
 import Thumbnail from "./UI/Header/Thumbnail/Thumbnail";
 import Button from "./UI/MoviesContainer/Button/Button";
-import Footer from "./UI/Footer/Footer";
+import Footer from "./UI/Layout/Footer/Footer";
 import { getPopularityMovie } from "./Domain/getPopularityMovie";
 import { searchMovie } from "./Domain/searchMovie";
 import MovieListSection from "./UI/MoviesContainer/MovieListSection/MovieListSection";
