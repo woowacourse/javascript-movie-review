@@ -1,6 +1,6 @@
-import { MovieList } from '../types/Movie.types';
+import { MovieResponse } from '../types/Movie.types';
 
-export const MOVIE_RESPONSE: MovieList = {
+export const MOVIE_RESPONSE: MovieResponse = {
   page: 1,
   results: [
     {
