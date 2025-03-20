@@ -17,23 +17,13 @@ export const IconButton = ({
   classList,
   props,
 }: IconButtonProps) => {
-  const buttonProps = { ...props };
-  const buttonClasses = ['border-none', ...(classList || [])];
-
-  const iconButtonElement = Button({
+  return Button({
     type: 'button',
     onClick,
-    classList: buttonClasses,
-    props: buttonProps,
+    classList: ['border-none', ...(classList || [])],
+    props: {
+      ...props,
+      children: [Img({ width, height, src })],
+    },
   });
-
-  const icon = Img({
-    width: width,
-    height: height,
-    src,
-  });
-
-  iconButtonElement.appendChild(icon);
-
-  return iconButtonElement;
 };
