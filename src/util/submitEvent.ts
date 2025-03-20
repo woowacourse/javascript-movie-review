@@ -23,6 +23,8 @@ async function submitEvent(this:SubmitEvent, movieLayout: MovieLayout) {
         await getSearchData(event, form);
     }
 
+    document.getElementById('bannerSection')?.setAttribute('style','display: none');
+
     window.scrollTo({ top: 0, behavior: "smooth" });
 
     form.reset();

@@ -142,7 +142,7 @@ button.primary {
   background-size: cover;
   height: 500px;
   padding: 48px;
-  background-image: url('https://media.themoviedb.org/t/p/w440_and_h660_face/pmemGuhr450DK8GiTT44mgwWCP7.jpg');
+  /* background-image: url('https://media.themoviedb.org/t/p/w440_and_h660_face/pmemGuhr450DK8GiTT44mgwWCP7.jpg'); */
 }
 
 .overlay {
@@ -237,3 +237,6 @@ input::placeholder {
   color: var(--color-white);
 }
 
+#bannerSection {
+  display:block;
+}
