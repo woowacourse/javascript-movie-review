@@ -2,6 +2,7 @@ import { getPopularMovieResult } from "../api/getPopularMovieResult";
 import BackgroundThumbnailSection from "../component/BackgroundThumbnailSection";
 import MovieItem from "../component/MovieItem";
 import MovieListSection from "../component/MovieListSection";
+import SkeletonBackgroundThumbnailSection from "../component/Skeleton/SkeletonBackgroundThumbnailSection";
 import SkeletonMovieItem from "../component/Skeleton/SkeletonMovieItem";
 import SkeletonMovieListSection from "../component/Skeleton/SkeletonMovieListSection";
 import MovieResults from "../domain/MovieResults";
@@ -41,6 +42,11 @@ class MovieListController {
   async renderMovieList() {
     const skeletonSectionElement = SkeletonMovieListSection();
     this.mainElement.replaceChildren(skeletonSectionElement);
+    const skeletonBackgroundElement = SkeletonBackgroundThumbnailSection();
+    this.mainElement?.insertAdjacentElement(
+      "beforebegin",
+      skeletonBackgroundElement,
+    );
 
     const { movieList, hasMore } = await this.getPopularMovieList();
     const sectionElement = MovieListSection({
@@ -49,8 +55,7 @@ class MovieListController {
       hasMore,
     });
 
-    this.mainElement?.insertAdjacentElement(
-      "beforebegin",
+    skeletonBackgroundElement.replaceWith(
       BackgroundThumbnailSection(movieList[0]),
     );
 

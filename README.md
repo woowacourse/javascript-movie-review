@@ -25,6 +25,7 @@ FE 레벨1 영화 리뷰 미션
   - [x] 새로운 데이터를 ui에 추가한다.
 - [x] MovieListController 리팩토링
 - [x] Skeleton UI
+  - [x] background Skeleton 처리
 - [x] 오버레이 구현
 
 - 도메인에 데이터를 추가하는 이유

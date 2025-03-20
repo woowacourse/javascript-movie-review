@@ -7,6 +7,7 @@ const SkeletonMovieListSection = () => {
     children: [
       createDOMElement({
         tag: "h2",
+        class: "skeleton list-title",
       }),
       createDOMElement({
         tag: "ul",
