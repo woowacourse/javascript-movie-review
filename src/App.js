@@ -1,8 +1,9 @@
 import Header from "./components/Header/index.js";
 import Footer from "./components/Footer/index.js";
 import Banner from "./components/Banner/index.js";
+import SkeletonBanner from "./components/Skeleton/SkeletonBanner.js";
 import MovieList from "./components/MovieList/index.js";
-import { fetchPopularMovies, fetchSearchedMovies } from "./APIs/movieAPI.ts";
+import { fetchPopularMovies } from "./APIs/movieAPI.ts";
 import store from "./store/store.ts";
 import { attachMoreButtonEvent } from "./components/MoreButton.js";
 
@@ -34,7 +35,13 @@ class App {
     this.$target.innerHTML = `
       <div id="wrap">
         ${Header()}
-        ${!state.query && state.movies.length ? Banner(state.movies[0]) : ""}
+        ${
+          !state.query
+            ? state.movies.length
+              ? Banner(state.movies[0])
+              : SkeletonBanner()
+            : ""
+        }
         <div class="container">
           ${MovieList({
             movies: state.movies,
@@ -45,7 +52,6 @@ class App {
         ${Footer()}
       </div>
     `;
-
     this.mount();
   }
 
