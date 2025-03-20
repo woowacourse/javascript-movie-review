@@ -28,6 +28,10 @@ const Header = (props: HeaderProps) => {
     fetchSearchMovieList(searchInputValue);
   });
 
+  addEvent("click", ".logo", () => {
+    window.location.href = "/";
+  });
+
   return `
     <header class="header">
         <div class="background-container">
