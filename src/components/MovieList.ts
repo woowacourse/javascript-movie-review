@@ -1,5 +1,6 @@
 import { MovieInfo } from "../../types/movieType.ts";
 import Movie from "./Movie.ts";
+import Skeleton from "./Skeleton.js";
 
 class MovieList {
   movieList: Movie[];
@@ -15,8 +16,13 @@ class MovieList {
     $listContainer.classList.add("thumbnail-list");
 
     this.movieList.forEach((movieInstance) => {
-      const $movie = movieInstance.movieRender();
-      $listContainer.appendChild($movie);
+      const $skeleton = Skeleton();
+      $listContainer.appendChild($skeleton);
+
+      setTimeout(() => {
+        const $movie = movieInstance.movieRender();
+        $listContainer.replaceChild($movie, $skeleton);
+      }, 2000);
     });
 
     return $listContainer;
