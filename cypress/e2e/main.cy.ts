@@ -51,3 +51,64 @@ describe("메인 화면 테스트", () => {
     });
   });
 });
+
+describe("오류 테스트", () => {
+  it("메인 화면 - 오류 발생시 오류를 보여준다.", () => {
+    cy.intercept(
+      {
+        method: "GET",
+        url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular*/,
+      },
+      {
+        statusCode: 500, // 오류 상태 코드
+        body: "Internal Server Error", // 오류 메시지
+      }
+    );
+
+    cy.visit("http://localhost:5173");
+
+    // 오류 메시지가 표시되는지 확인
+    cy.get(".no-result h2")
+      .invoke("text")
+      .should("eq", "영화 목록을 가져오지 못했습니다.");
+  });
+});
+
+// describe("메인 화면 테스트-마지막 페이지 도달", () => {
+//   beforeEach(() => {
+//     // https://docs.cypress.io/api/commands/intercept
+//     cy.intercept(
+//       {
+//         method: "GET",
+//         url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular*/,
+//       },
+//       { fixture: "last-movie-list.json" }
+//     ).as("getLastMovieList");
+
+//     cy.visit("http://localhost:5173");
+//     cy.viewport(1200, 3000);
+//   });
+
+//   it("마지막 페이지 도달시 더보기 버튼이 사라진다.", () => {
+//     cy.wait("@getLastMovieList").then((interception) => {
+//       cy.get(".load-more").click();
+//       cy.get(".load-more").should("not.exist");
+
+//       //   cy.get(".load-more").should("exist");
+//       // cy.get(".load-more", { timeout: 2000 }).should("not.be.visible");
+
+//       // const popularMovies = interception.response.body.results;
+//       // const topMovie = popularMovies[0];
+
+//       // cy.get(".overlay-img")
+//       //   .invoke("attr", "src")
+//       //   .should("eq", `https://image.tmdb.org/t/p/w500${topMovie.poster_path}`);
+
+//       // cy.get(".title").invoke("text").should("eq", topMovie.title);
+
+//       // cy.get(".rate-value")
+//       //   .invoke("text")
+//       //   .should("eq", topMovie.vote_average.toFixed(1));
+//     });
+//   });
+// });
