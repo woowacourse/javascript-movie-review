@@ -15,6 +15,7 @@ const MOVIE_INDEX_FOR_BANNER = 1;
 
 addEventListener('load', async () => {
   renderBanner();
+  renderHeader();
   renderMovieList();
   renderFooter();
 });
@@ -25,13 +26,13 @@ const renderBanner = async () => {
   const bannerSkeleton = Skeleton({ height: 500 });
   wrap?.prepend(bannerSkeleton);
 
-  const { results: movies } = await getPopularMovies({ page: INITIAL_PAGE });
+  const response = await getPopularMovies({ page: 1 });
+  if (!response) return;
+  const movies = response.results;
 
   if (movies.length !== 0) {
     const banner = Banner({ movie: movies[MOVIE_INDEX_FOR_BANNER] });
     bannerSkeleton?.replaceWith(banner);
-
-    renderHeader();
   }
 };
 
@@ -50,7 +51,11 @@ const renderMovieList = async () => {
   container.appendChild(skeletonList);
 
   let page = INITIAL_PAGE;
-  const { results: movies } = await getPopularMovies({ page });
+
+  const response = await getPopularMovies({ page });
+  if (!response) return;
+
+  const movies = response.results;
 
   if (movies.length !== 0) {
     const movieList = MovieList({ movies, title: '지금 인기 있는 영화' });
@@ -83,7 +88,9 @@ const handleMoreButtonClick = async (page: number, moreButton: HTMLElement) => {
   const skeletonList = SkeletonList({ height: 300 });
   container.appendChild(skeletonList);
 
-  const { results: newMovies } = await getPopularMovies({ page });
+  const response = await getPopularMovies({ page });
+  if (!response) return;
+  const newMovies = response.results;
 
   skeletonList.remove();
 

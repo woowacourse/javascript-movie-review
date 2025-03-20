@@ -216,7 +216,6 @@ footer.footer p:not(:last-child) {
   position: relative;
 }
 
-/* ✅ 스켈레톤 애니메이션 */
 .skeleton::after {
   position: absolute;
   top: 0;
@@ -228,7 +227,6 @@ footer.footer p:not(:last-child) {
   animation: skeleton-loading 0.8s infinite ease-in-out;
 }
 
-/* ✅ 스켈레톤 애니메이션 키프레임 */
 @keyframes skeleton-loading {
   0% {
     background-position: -200% 0;
@@ -236,4 +234,11 @@ footer.footer p:not(:last-child) {
   100% {
     background-position: 200% 0;
   }
+}
+
+.error-ui {
+  padding: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
