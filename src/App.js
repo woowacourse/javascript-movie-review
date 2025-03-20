@@ -25,13 +25,13 @@ class App {
   }
 
   async init() {
-    const { results } = await this.getMoviesResults(); // 로딩이 t -> f
+    const { results } = await this.getMoviesResults();
 
     if (results === null) {
       this.setMovies(null);
       return;
     }
-    this.setMovies([...this.#movies, ...results]); // 새로운 영화목록 반영 UI 렌더
+    this.setMovies([...this.#movies, ...results]);
   }
 
   setShow(show) {
@@ -52,7 +52,7 @@ class App {
   setSearchKeyword = async (searchKeyword) => {
     this.#searchKeyword = searchKeyword;
 
-    const { results, totalPage } = await this.getSearchMovies(); // t-> f
+    const { results, totalPage } = await this.getSearchMovies();
 
     if (totalPage === this.#searchPage) {
       this.setShow(false);
@@ -152,8 +152,8 @@ class App {
   handleButtonClick = async () => {
     if (this.#mode === "popular") {
       this.#page += 1;
-      const { results, totalPage } = await this.getMoviesResults(); // t-> f
-      this.setMovies([...this.#movies, ...results]); //
+      const { results, totalPage } = await this.getMoviesResults();
+      this.setMovies([...this.#movies, ...results]);
 
       if (totalPage === this.#page) {
         this.setShow(false);
@@ -162,13 +162,13 @@ class App {
     }
 
     this.#searchPage += 1;
-    const { results, totalPage } = await this.getSearchMovies(); // t-> f
+    const { results, totalPage } = await this.getSearchMovies();
 
     if (totalPage <= this.#searchPage) {
       this.setShow(false);
     }
 
-    this.setMovies([...this.#movies, ...results]); //
+    this.setMovies([...this.#movies, ...results]);
   };
 
   hasMovies() {
