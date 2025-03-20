@@ -22,10 +22,6 @@ const renderErrorState = () => {
     classList: 'error-container',
   });
 
-  const errorIcon = createElement('div', {
-    classList: 'w-full',
-  });
-
   const errorMessage = Text({
     classList: ['text-2xl', 'font-bold'],
     props: {
@@ -35,7 +31,7 @@ const renderErrorState = () => {
   });
 
   // 오류 UI 추가
-  errorContainer.append(errorIcon, errorMessage);
+  errorContainer.append(errorMessage);
 
   sectionElement.insertBefore(errorContainer, movieUl);
 };
