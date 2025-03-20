@@ -34,13 +34,11 @@ function updateSearchDescription(searchValue: string): void {
 function prepareUIForSearch(): void {
   const $fallback = document.getElementById("fallback-div");
   const $hero = document.getElementById("hero");
-  const $loadMore = document.getElementById("load-more");
   const $thumbnailList = document.getElementById("thumbnail-list");
 
   hideElement($fallback);
   hideElement($hero);
   hideElement($thumbnailList);
-  showElement($loadMore);
 }
 
 function finalizeUISuccess(): void {
@@ -54,13 +52,11 @@ function finalizeUISuccess(): void {
 function handleSearchError(error: unknown): void {
   const $thumbnailContainer = document.getElementById("thumbnail-container");
   const $fallback = document.getElementById("fallback-div");
-  const $loadMore = document.getElementById("load-more");
 
   if (error instanceof Error) {
     Toast.showToast(error.message, "error", 5000);
   }
 
   hideElement($thumbnailContainer);
-  hideElement($loadMore);
   showElement($fallback);
 }

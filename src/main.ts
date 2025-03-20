@@ -2,7 +2,7 @@
 
 import createMovieLoader from "./service/createMovieLoader";
 import { URLS, defaultOptions, defaultQueryObject } from "./setting/settings";
-import Header from "./components/header/Header";
+import Header from "./components/header/header";
 import Hero from "./components/hero/hero";
 import Button from "./components/button/button";
 import state from "./state/state.ts";
@@ -28,15 +28,15 @@ function setupHeaderAndHero() {
 }
 
 function setupLoadMoreButton() {
-  const $main = document.querySelector(".main");
-  if ($main) {
+  const $thumbnailContainer = document.getElementById("thumbnail-container");
+  if ($thumbnailContainer) {
     const loadMoreButton = Button({
       className: ["primary", "width-100"],
       placeholder: "더보기",
       id: "load-more",
       onClick: () => createMovieList(state.loadMovies),
     });
-    $main.append(loadMoreButton);
+    $thumbnailContainer.append(loadMoreButton);
   }
 }
 
