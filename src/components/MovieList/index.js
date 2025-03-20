@@ -2,13 +2,14 @@ import ListTitle from "./ListTitle.js";
 import MovieItem from "./MovieItem.js";
 import MoreButton from "../MoreButton/MoreButton.js";
 import SkeletonMovieItem from "../Skeleton/SkeletonMovieItem.js";
+import { ERROR_MESSAGES, MOVIE_COUNT } from "../../constants/config.js";
 
 const MovieList = ({ movies, query, searchedMoviesLength }) => {
   const showMoreButton = !query || movies.length < searchedMoviesLength;
 
   let movieContent = "";
   if (movies.length === 0 && !query) {
-    movieContent = new Array(20)
+    movieContent = new Array(MOVIE_COUNT.UNIT)
       .fill(0)
       .map(() => SkeletonMovieItem())
       .join("");
@@ -17,7 +18,7 @@ const MovieList = ({ movies, query, searchedMoviesLength }) => {
                     <div></div>
                     <div class="center">
                       <img src="./images/not_found.png"/>
-                      <h2 data-testid='no-result-message'>검색 결과가 없습니다.</h2>
+                      <h2 data-testid='no-result-message'>${ERROR_MESSAGES.NO_RESULT}</h2>
                     </div>`;
   } else {
     movieContent = movies.map((movie) => MovieItem(movie)).join("");

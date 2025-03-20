@@ -1,4 +1,5 @@
 import { Movie, MovieResponse } from "../../types/movie";
+import { ERROR_MESSAGES } from "../constants/config";
 
 export const fetchPopularMovies = async (
   page: number = 1
@@ -17,9 +18,7 @@ export const fetchPopularMovies = async (
     );
 
     if (!response.ok) {
-      throw new Error(
-        "영화 정보를 불러오는 데 실패했습니다. 다시 시도해 주세요."
-      );
+      throw new Error(ERROR_MESSAGES.MOVIE_FETCH_FAILED);
     }
 
     const data = await response.json();
@@ -50,9 +49,7 @@ export const fetchSearchedMovies = async (
     );
 
     if (!response.ok) {
-      throw new Error(
-        "영화 정보를 불러오는 데 실패했습니다. 다시 시도해 주세요."
-      );
+      throw new Error(ERROR_MESSAGES.MOVIE_FETCH_FAILED);
     }
 
     const data = await response.json();
