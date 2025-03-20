@@ -1,8 +1,7 @@
+import { IMAGE_BASE_URL } from '../constant';
 import { IMovie } from '../type';
 import createDOMElement from '../util/createDomElement';
 import Button from './Button';
-
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w1920';
 
 function Banner({ movie }: { movie: IMovie }) {
   const { backdrop_path, vote_average, title } = movie;
@@ -26,7 +25,7 @@ function BackDrop({ backDropUrl }: { backDropUrl: string | null }) {
     children: [
       createDOMElement({
         tag: 'img',
-        attributes: { src: `${IMAGE_BASE_URL}${backDropUrl}` }
+        attributes: { src: `${IMAGE_BASE_URL}/w1920/${backDropUrl}` }
       })
     ]
   });
