@@ -1,14 +1,10 @@
-import { createElementWithAttributes } from "./utils/createElementWithAttributes";
+import { createElementWithAttributes } from "../utils/createElementWithAttributes";
 
-const skeletonUI = (count: number) => {
+const skeletonContainer = (count: number) => {
   const $skeletonContainer = createElementWithAttributes({
     tag: "section",
     className: "skeleton-container",
     children: [
-      {
-        tag: "h2",
-        className: "skeleton skeleton-container-title",
-      },
       {
         tag: "ul",
         className: "skeleton-thumbnail-list",
@@ -33,4 +29,4 @@ const skeletonUI = (count: number) => {
   return $skeletonContainer;
 };
 
-export default skeletonUI;
+export default skeletonContainer;

@@ -2,7 +2,8 @@ import { getPopularMovies } from "./apis/getPopularMovies";
 import { getSearchedMovies } from "./apis/getSearchedMovies";
 import backgroundContainer from "./components/backgroundContainer";
 import movieContainer from "./components/movie/movieContainer";
-import skeletonUI from "./components/skeletonUI";
+import skeletonContainer from "./components/skeleton/skeletonContainer";
+import skeletonContainerTitle from "./components/skeleton/skeletonTitleContainer";
 import { $ } from "./components/utils/selectors";
 
 const onSearch = async (event: Event) => {
@@ -17,7 +18,9 @@ const onSearch = async (event: Event) => {
 
     $(".movie-container")?.remove();
 
-    const $skeleton = skeletonUI(20);
+    const $skeleton = skeletonContainer(20);
+    $skeleton.prepend(skeletonContainerTitle());
+
     $main?.append($skeleton);
 
     const { results, page, total_pages, total_results } =
@@ -41,7 +44,8 @@ const onSearch = async (event: Event) => {
 const initializeMovie = async () => {
   const $main = $("main");
 
-  const $skeleton = skeletonUI(20);
+  const $skeleton = skeletonContainer(20);
+  $skeleton.prepend(skeletonContainerTitle());
   $main?.append($skeleton);
 
   const { results, page, total_pages, total_results } =

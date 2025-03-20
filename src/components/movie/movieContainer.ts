@@ -61,11 +61,13 @@ const movieContainer = (
     pageNumber += 1;
 
     const { results, total_pages } = await loadMoreCallback(pageNumber);
-    const $newMovieList = movieList(results);
-    $movieList.append(...$newMovieList.children);
+
     if (pageNumber === total_pages || pageNumber === MAX_PAGES) {
       $seeMoreButton.remove();
     }
+
+    const $newMovieList = movieList(results);
+    $movieList.append(...$newMovieList.children);
   });
 
   $movieContainer.append($movieList);
