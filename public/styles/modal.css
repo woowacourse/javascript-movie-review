@@ -11,17 +11,15 @@ body.modal-open {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경을 위해 설정 */
-  backdrop-filter: blur(10px); /* 블러 효과 적용 */
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 10;
-  visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
+  visibility: hidden;
   opacity: 0;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .modal-background.active {

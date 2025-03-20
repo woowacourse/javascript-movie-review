@@ -22,32 +22,34 @@
 }
 
 .skeleton-thumbnail {
-  background-color: azure;
+  background-color: rgba(139, 177, 195, 0.7);
   position: relative;
   overflow: hidden;
+  border-radius: 4px;
 }
 
 .skeleton-thumbnail::after {
   content: "";
   position: absolute;
   top: 0;
-  left: -100%;
+  left: 0;
   width: 100%;
   height: 100%;
   background: linear-gradient(
     90deg,
-    transparent,
-    rgba(200, 240, 236, 0.495),
-    transparent
+    transparent 0%,
+    rgba(166, 177, 195, 0.3) 50%,
+    transparent 100%
   );
-  animation: shimmer 1.5s infinite;
+  animation: shimmer 1.2s infinite linear;
+  will-change: transform;
 }
 
 @keyframes shimmer {
   0% {
-    left: -100%;
+    transform: translateX(-100%);
   }
   100% {
-    left: 100%;
+    transform: translateX(100%);
   }
 }
