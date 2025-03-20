@@ -12,7 +12,16 @@ describe("Fixture를 이용한 E2E 테스트", () => {
     cy.intercept(
       "GET",
       /^https:\/\/api\.themoviedb\.org\/3\/search\/movie(\?.*)?$/,
-      { fixture: "movie-search.json" }
+      (req) => {
+        const url = new URL(req.url);
+        const query = url.searchParams.get("query");
+
+        if (query === "짱구") {
+          req.reply({ fixture: "movie-search.json" });
+        } else {
+          req.reply({ fixture: "movie-no-result.json" });
+        }
+      }
     ).as("getSearchMovies");
 
     cy.visit("http://localhost:5173");
@@ -51,5 +60,13 @@ describe("Fixture를 이용한 E2E 테스트", () => {
     cy.wait("@getSearchMovies");
     cy.get(".more-button").should("exist").click();
     cy.get(".more-button").should("not.exist");
+  });
+
+  it("없는 영화 검색 시 검색 결과 없습니다 페이지가 랜더링 된다.", () => {
+    cy.get(".search-input").click();
+    cy.get(".search-input").type("ㅇㅇㅇㅇㅇ");
+    cy.get(".search-input").type("{enter}");
+    cy.wait("@getSearchMovies");
+    cy.get(".info-text-wrap > p").should("contain", "검색 결과가 없습니다.");
   });
 });
