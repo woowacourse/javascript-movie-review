@@ -1,12 +1,13 @@
+import { Movie } from "../../types/responseType/responseType";
 import { reRender } from "../utils/Core";
 
 export let currentPage = 1; // 현재 페이지 추적
-export let movies: any[] = []; //전체 영화 리스트
+export let movies: Movie[] = []; //전체 영화 리스트
 export let searchInputValue: string = ""; // 검색어
-export let searchResults: any[] = []; // 검색 결과
+export let searchResults: Movie[] = []; // 검색 결과
 export let totalResults: number = 0; // 검색 결과 총 개수
 
-export const setMovies = (newMovies: any[]) => {
+export const setMovies = (newMovies: Movie[]) => {
   movies = newMovies;
   reRender();
 };
@@ -16,7 +17,7 @@ export const setSearchInputValue = (value: string) => {
   reRender();
 };
 
-export const setSearchResults = (results: any[]) => {
+export const setSearchResults = (results: Movie[]) => {
   searchResults = results;
   reRender();
 };
@@ -26,13 +27,13 @@ export const setTotalResults = (total: number) => {
   reRender();
 };
 
-export const appendMovies = (newMovies: any[]) => {
+export const appendMovies = (newMovies: Movie[]) => {
   movies = [...movies, ...newMovies];
   currentPage += 1;
   reRender();
 };
 
-export const appendSearchResults = (newResults: any[]) => {
+export const appendSearchResults = (newResults: Movie[]) => {
   searchResults = [...searchResults, ...newResults];
   currentPage += 1;
   reRender();
