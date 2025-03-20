@@ -2,7 +2,7 @@ import { Movie } from "../main";
 import { IMAGE_BASE_URL } from "./MovieList";
 
 export const TopRatedMovieSkeleton = () => {
-  return `
+  return /*html*/ `
   <div class="background-container">
     <div class="overlay" aria-hidden="true"></div>
     <div class="top-rated-movie">

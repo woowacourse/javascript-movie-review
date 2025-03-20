@@ -43,6 +43,10 @@ class SearchMovieBoard {
 
   #renderNoResult() {
     const h2 = document.querySelector(".movie-list-container h2");
+    const ul = document.querySelector("ul.thumbnail-list");
+
+    if (isHTMLElement(ul)) ul.innerHTML = "";
+
     if (isHTMLElement(h2))
       h2.insertAdjacentHTML(
         "afterend",
