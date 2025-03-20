@@ -12,10 +12,17 @@ class MovieItem {
     this.render();
   }
 
+  #matchImgUrl() {
+    if (this.#data.imgUrl.includes('null')) {
+      return './empty-item.png';
+    }
+    return this.#data.imgUrl;
+  }
+
   render() {
     this.#container.innerHTML = `
       <div class="item">
-        <img class="thumbnail" src=${this.#data.imgUrl} alt=${this.#data.title}/>
+        <img class="thumbnail" src=${this.#matchImgUrl()} alt=${this.#data.title}/>
         <div class="item-desc">
           <p class="rate">
             <img src="./star_empty.png" class="star" />
