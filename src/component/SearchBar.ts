@@ -66,6 +66,7 @@ const handleSearchMovies = async (e: Event) => {
   if (total_pages !== page) {
     const moreButton = Button({
       text: '더보기',
+      id: 'moreButton',
       onClick: () => handleMoreButtonClick(++currentPage, searchKeyword, total_pages, moreButton)
     });
 

@@ -62,6 +62,7 @@ const renderMovieList = async () => {
 
     const moreButton = Button({
       text: '더보기',
+      id: 'moreButton',
       onClick: () => handleMoreButtonClick(++page, moreButton)
     });
 
