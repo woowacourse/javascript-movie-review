@@ -112,6 +112,10 @@ button.logo :hover {
   transition: 0.3s;
 }
 
+button.add-more-button {
+  width: 100%;
+}
+
 .rate {
   display: flex;
   align-items: baseline;
