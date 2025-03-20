@@ -7,6 +7,12 @@ export let searchInputValue: string = ""; // 검색어
 export let searchResults: Movie[] = []; // 검색 결과
 export let totalResults: number = 0; // 검색 결과 총 개수
 
+export let isLoading = true; //로딩 상태
+
+export let isMoreError = false; // 더보기 에러 상태
+export let isError = false; // 에러 상태
+export let isSearchError = false; // 검색 에러 상태
+
 export const setMovies = (newMovies: Movie[]) => {
   movies = newMovies;
   reRender();
@@ -43,28 +49,20 @@ export const resetPage = () => {
   currentPage = 1;
 };
 
-export let isLoading = true;
-
 export const setIsLoading = (value: boolean) => {
   isLoading = value;
   reRender();
 };
-
-export let isError = false;
 
 export const setIsError = (value: boolean) => {
   isError = value;
   reRender();
 };
 
-export let isMoreError = false;
-
 export const setIsMoreError = (value: boolean) => {
   isMoreError = value;
   reRender();
 };
-
-export let isSearchError = false;
 
 export const setIsSearchError = (value: boolean) => {
   isSearchError = value;
