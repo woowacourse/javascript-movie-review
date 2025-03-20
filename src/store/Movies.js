@@ -1,22 +1,22 @@
 import fetchPopularMovies from "../fetch/fetchPopularMovies";
 
 class Movies {
-    #movies
+    #movieList
 
      constructor() {
-        this.#movies = [];
+        this.#movieList = [];
+    }
+
+    get movieList() {
+        return this.#movieList
     }
 
     updateMovies(movies) {
-        this.#movies = movies;
-    }
-
-    getMovies() {
-        return this.#movies;
+        this.#movieList = movies;
     }
 
     addMovies(movies) {
-        this.#movies = [...this.#movies, ...movies];
+        this.#movieList = [...this.#movieList, ...movies];
     }
 }
 

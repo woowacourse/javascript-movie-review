@@ -13,9 +13,10 @@ const Gnb = () => {
     classNames: ['logo'],
   });
 
+  const LOGO_IMG_SRC = './images/logo.png';
   const $logoImg = createElement({
     tag: 'img',
-    src: ['./images/logo.png'],
+    src: LOGO_IMG_SRC,
     alt: 'MovieList',
   });
 

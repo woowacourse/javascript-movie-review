@@ -30,13 +30,13 @@ const MovieList = ({ movies }) => {
     return $fragment;
   }
 
-  // movies.forEach((movie) => {
-  //   $ul.appendChild(MovieItem({ movie }));
-  // });
-
-  movies.forEach((moive) => {
-    $ul.appendChild(test());
+  movies.forEach((movie) => {
+    $ul.appendChild(MovieItem({ movie }));
   });
+
+  // movies.forEach(() => {
+  //   $ul.appendChild(test());
+  // });
 
   return $ul;
 };

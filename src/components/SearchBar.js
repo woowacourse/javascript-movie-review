@@ -22,9 +22,10 @@ const SearchBar = () => {
         classNames: ['search-bar-button'],
     });
 
+    const SEARCH_BUTTON_IMAGE_SRC = './images/searchButtonIcon.png';
     const $img = createElement({
         tag: 'img',
-        src: './images/searchButtonIcon.png',
+        src: SEARCH_BUTTON_IMAGE_SRC,
     });
 
     $form.appendChild($input);

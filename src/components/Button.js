@@ -37,7 +37,7 @@ const Button = ({ text, type }) => {
 
     document.querySelector('section').appendChild(
       MovieList({
-          movies: movies.getMovies(),
+          movies: movies.movieList,
       })
     )
 

@@ -3,9 +3,8 @@ import createElement from './utils/createElement';
 import imageUrl from '../utils/imageUrl';
 
 const Header = ({popularMovie}) => {
-  const title = popularMovie?.title;
-  const posterPath = popularMovie?.poster_path;
-
+  const title = popularMovie.title;
+  const posterPath = popularMovie.poster_path;
 
   const $header = createElement({
     tag: 'header',
@@ -15,7 +14,6 @@ const Header = ({popularMovie}) => {
     tag: 'div',
     classNames: ['background-container'],
   });
-
   
   const $overlay = createElement({
     tag: 'div',

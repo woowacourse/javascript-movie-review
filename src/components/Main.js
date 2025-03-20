@@ -22,7 +22,7 @@ const Main = ({ movies }) => {
 
     $container.appendChild(
       Header({
-        popularMovie: movies[0],
+        popularMovie: movies[0], // STEP 2에서 추가 구현하는 부분
       })
     );
 

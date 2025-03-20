@@ -14,13 +14,16 @@ const Footer = () => {
     tag: 'p',
   });
 
+  const LOGO_IMG_SRC = './images/woowacourse_logo.png';
+
   const $img = createElement({
     tag: 'img',
-    src: './images/woowacourse_logo.png',
+    src: LOGO_IMG_SRC,
     width: '180',
   });
 
-  $copy.textContent = '우아한테크코스 All Rights Reserved.';
+  const COPY_TEXT = '우아한테크코스 All Rights Reserved.';
+  $copy.textContent = COPY_TEXT;
 
   $footer.appendChild($copy);
   $footer.appendChild($p);

@@ -1,11 +1,11 @@
 import fetchPopularMovies from "./fetch/fetchPopularMovies";
 import Main from "./components/Main";
 import movies from "./store/movies";
-import MovieList from "./components/MovieList";
 
-const popularMovies = await fetchPopularMovies(1);
+const PAGE = 1;
+const popularMovies = await fetchPopularMovies(PAGE);
 movies.updateMovies(popularMovies);
 
 Main({
-  movies: movies.getMovies(),
+  movies: movies.movieList,
 });
