@@ -76,7 +76,12 @@ button#seeMore {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: black;
+  background: linear-gradient(
+    140deg,
+    var(--color-bluegray-90) 40%,
+    var(--color-bluegray-80) 50%,
+    var(--color-bluegray-90) 60%
+  );
 
   background-size: cover;
   background-position: center;

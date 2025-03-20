@@ -64,11 +64,11 @@ const searchBar = new SearchBar();
 const logo = document.querySelector(".logo");
 const logoImage = document.querySelector(".logo img");
 
-await renderTitleMovie();
+renderTitleMovie();
 logoImage?.addEventListener("click", () => {
   window.location.reload();
 });
 logo?.appendChild(searchBar.create());
 mainSection?.appendChild(skeletonUl.create());
 mainSection?.appendChild(seeMoreButton.create());
-await renderMovieData();
+renderMovieData();
