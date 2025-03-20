@@ -7,15 +7,19 @@ type ImgProps = {
   src: string;
 } & ComponentProps;
 
-export const Img = ({ width, height, src, classList, props }: ImgProps) => {
-  const imgProps = {
-    width: width || '',
-    height: height || '',
+export const Img = ({
+  width = '',
+  height = '',
+  src,
+  classList,
+  props,
+}: ImgProps) => {
+  const imgElement = createElement<HTMLImageElement>('img', {
+    width,
+    height,
     src,
     ...props,
-  };
-
-  const imgElement = createElement<HTMLImageElement>('img', imgProps);
+  });
 
   if (classList && classList.length > 0) {
     imgElement.classList.add(...classList);
