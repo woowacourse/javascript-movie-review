@@ -11,6 +11,8 @@ export const getPopularMovies = async (page = 1) => {
 
   try {
     const res = await fetch(url, options);
+
+    //
     if (!res.ok) {
       throw new Error("성공적으로 받아오지 못했습니다.");
     }

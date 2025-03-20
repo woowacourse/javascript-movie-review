@@ -2,46 +2,52 @@ import { getPopularMovies } from "./apis/getPopularMovies";
 import { getSearchedMovies } from "./apis/getSearchedMovies";
 import backgroundContainer from "./components/backgroundContainer";
 import movieContainer from "./components/movie/movieContainer";
+import skeletonUI from "./components/skeletonUI";
 import { $ } from "./components/utils/selectors";
 
 const onSearch = async (event: Event) => {
-  if (event.target instanceof HTMLFormElement === false) {
-    return;
-  }
+  if (!(event.target instanceof HTMLFormElement)) return;
 
   event.preventDefault();
   const formData = new FormData(event.target);
   const searchKeyword = formData.get("search-bar");
 
   if (typeof searchKeyword === "string") {
+    const $main = $("main");
+
+    $(".movie-container")?.remove();
+
+    const $skeleton = skeletonUI(20);
+    $main?.append($skeleton);
+
     const { results, page, total_pages, total_results } =
       await getSearchedMovies(searchKeyword);
 
+    $skeleton.remove();
+
     const loadMoreCallback = async (pageNumber: number) =>
       await getSearchedMovies(searchKeyword, pageNumber);
-
-    const $backgroundContainer = $(".background-container");
-    $backgroundContainer?.remove();
-
-    const $searchBox = $(".search-box");
-    $searchBox?.classList.add("search-active");
-
-    const $movieContainer = $(".movie-container");
-    $movieContainer?.remove();
 
     const $searchedMovieContainer = movieContainer(
       `"${searchKeyword}" 검색 결과`,
       { results, page, total_pages, total_results },
       loadMoreCallback
     );
-    const $main = $("main");
+
     $main?.append($searchedMovieContainer);
   }
 };
 
 const initializeMovie = async () => {
+  const $main = $("main");
+
+  const $skeleton = skeletonUI(20);
+  $main?.append($skeleton);
+
   const { results, page, total_pages, total_results } =
     await getPopularMovies();
+
+  $skeleton.remove();
 
   const loadMoreCallback = async (pageNumber: number) =>
     await getPopularMovies(pageNumber);
@@ -52,7 +58,6 @@ const initializeMovie = async () => {
     loadMoreCallback
   );
 
-  const $main = $("main");
   $main?.append($movieContainer);
 };
 
