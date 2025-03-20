@@ -1,14 +1,26 @@
+import MessageModal from "./component/MessageModal";
 import MovieListController from "./controller/MovieListController";
 import SearchMovieListController from "./controller/SearchMovieListController";
 
 const mainElement = document.querySelector("main") as HTMLElement;
-const movieListController = new MovieListController(mainElement);
-
-await movieListController.renderMovieList();
-
 const searchBarElement = document.querySelector(
   ".search-bar",
 ) as HTMLFormElement;
+const headerLogoElement = document.querySelector(".header-wrapper .logo");
+
+const movieListController = new MovieListController(mainElement);
+
+try {
+  await movieListController.renderMovieList();
+} catch (error) {
+  console.log(error);
+  const modalElement = MessageModal("aaa") as HTMLDialogElement;
+  mainElement.appendChild(modalElement);
+  modalElement.showModal();
+  modalElement.addEventListener("click", (e) => {
+    if (e.target === e.currentTarget) modalElement.close();
+  });
+}
 
 searchBarElement.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -19,8 +31,6 @@ searchBarElement.addEventListener("submit", async (event) => {
 
   new SearchMovieListController(mainElement, searchValue);
 });
-
-const headerLogoElement = document.querySelector(".header-wrapper .logo");
 
 headerLogoElement?.addEventListener("click", async () => {
   await movieListController.renderExistingMovieList();

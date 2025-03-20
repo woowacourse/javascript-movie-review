@@ -30,7 +30,13 @@ const baseApi = async (path: string, query?: QueryParams) => {
   };
 
   const response = await fetch(url, options);
-  return response.json();
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(`${errorData.status_code}`);
+  }
+
+  return await response.json();
 };
 
 export default baseApi;
