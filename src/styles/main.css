@@ -43,6 +43,10 @@ button.primary {
   border-radius: 4px;
 }
 
+button#seeMore {
+  width: 100%;
+}
+
 #wrap {
   min-width: 1440px;
   background-color: var(--color-bluegray-100);
@@ -65,13 +69,22 @@ button.primary {
   background-size: cover;
   height: 500px;
   padding: 48px;
+  text-shadow: -2px 0px black, 0px 2px black, 2px 0px black, 0px -2px black;
 }
 
 .overlay {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: linear-gradient(
+    140deg,
+    var(--color-bluegray-90) 40%,
+    var(--color-bluegray-80) 50%,
+    var(--color-bluegray-90) 60%
+  );
+
+  background-size: cover;
+  background-position: center;
   width: 100%;
   height: 100%;
   z-index: 1;
@@ -93,8 +106,17 @@ button.primary {
   margin-bottom: 8px;
 }
 
-h1.logo {
+div.logo {
   font-size: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.logo > img {
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  top: 9px;
 }
 
 .rate {
