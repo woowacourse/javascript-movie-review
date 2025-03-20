@@ -9,6 +9,8 @@ export default async function fetchSearchMovies(query: string, page: number) {
   };
 
   const response = await fetch(searchMovieUrl, options);
-  const { results } = await response.json();
-  return results;
+  const { results, total_pages } = await response.json();
+  const totalPages = total_pages;
+
+  return { results, totalPages };
 }
