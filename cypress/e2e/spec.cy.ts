@@ -39,4 +39,10 @@ describe("", () => {
     // cy.get(".").contains("").should("be.visible");
     cy.get(".thumbnail-list").find(".item").should("have.length", 20);
   });
+
+  it("짱구를 검색했을 경우 '짱구 스트리트 화이어 2' 영화가 보여진다.", () => {
+    cy.get(".search-bar").type("짱구");
+    cy.get(".search-bar-button").click();
+    cy.get(".thumbnail-list").contains("짱구 스트리트 화이어 2");
+  });
 });
