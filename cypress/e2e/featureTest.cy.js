@@ -3,30 +3,34 @@ describe("1단계 - 영화 목록 불러오기 테스트", () => {
     cy.intercept(
       "GET",
       "https://api.themoviedb.org/3/movie/popular?api_key=*&language=ko-KR&page=1",
-      { fixture: "popular_movies_page1.json" }
+      { fixture: "popular_movies_page1.json" },
     ).as("getPopularMoviesPage1");
 
     cy.intercept(
       "GET",
       "https://api.themoviedb.org/3/movie/popular?api_key=*&language=ko-KR&page=2",
-      { fixture: "popular_movies_page2.json" }
+      { fixture: "popular_movies_page2.json" },
     ).as("getPopularMoviesPage2");
 
-    // ✅ 검색 요청 (query=짱구, page=1)
     cy.intercept(
       "GET",
-      "https://api.themoviedb.org/3/search/movie?query=%EC%A7%B1%EA%B5%AC&include_adult=false&language=ko-KR&page=1",
-      { fixture: "search_movies_page1.json" }
+      "https://api.themoviedb.org/3/search/movie?api_key=*&language=ko-KR&query=%EC%A7%B1%EA%B5%AC&page=1",
+      { fixture: "search_movies_page1.json" },
     ).as("getSearchPage1");
 
-    // ✅ 검색 요청 (query=짱구, page=2 - 더보기)
     cy.intercept(
       "GET",
-      "https://api.themoviedb.org/3/search/movie?query=%EC%A7%B1%EA%B5%AC&include_adult=false&language=ko-KR&page=2",
-      { fixture: "search_movies_page2.json" }
+      "https://api.themoviedb.org/3/search/movie?api_key=*&language=ko-KR&query=%EC%A7%B1%EA%B5%AC&page=2",
+      { fixture: "search_movies_page2.json" },
     ).as("getSearchPage2");
 
-    cy.intercept("GET", "**/search/movie?*", { fixture: "no_results.json" }).as("getNoResults");
+    cy.intercept(
+      {
+        method: "GET",
+        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie(?!.*query=%EC%A7%B1%EA%B5%AC)/,
+      },
+      { fixture: "no_results.json" },
+    ).as("getNoResults");
 
     cy.visit("http://localhost:5173");
     cy.viewport(1024, 768);
@@ -97,8 +101,6 @@ describe("1단계 - 영화 목록 불러오기 테스트", () => {
 
   describe("검색 결과 없음", () => {
     it("사용자가 키워드(영화가 존재하지 않는)를 검색하면 검색결과가 없다는 페이지가 렌더링 된다.", () => {
-      // cy.intercept("GET", "**/search/movie?*", { fixture: "no_results.json" }).as("getNoResults");
-
       cy.get(".search-bar-input").type("네ㅔㄱㅇ");
       cy.get(".search-bar-button").click();
 
