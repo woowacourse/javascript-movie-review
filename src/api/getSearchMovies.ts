@@ -1,4 +1,5 @@
 import { IMovie } from '../type';
+import { BASE_URL } from './constant';
 import { Response } from './type';
 
 interface SearchMoviesResponse extends Response {
@@ -7,7 +8,7 @@ interface SearchMoviesResponse extends Response {
 
 const getSearchMovies = async ({ page, query }: { page: number; query: string }): Promise<SearchMoviesResponse> => {
   const response = await fetch(
-    `https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=${page}&query=${query}`,
+    `${BASE_URL}/search/movie?include_adult=false&language=en-US&page=${page}&query=${query}`,
     {
       method: 'GET',
       headers: {
