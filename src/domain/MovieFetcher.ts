@@ -17,31 +17,47 @@ class MovieFetcher {
   private movieResponse: MovieResponse = {} as MovieResponse;
   private movieResult: MovieItem[] = [];
 
-  private MOVIE_API_END_POINT = {
-    POPULAR: QUERY_PARAMS.MOVIE,
-    SEARCH: QUERY_PARAMS.SEARCH,
-  };
+  private error: Error | null = null;
 
   constructor() {
     this.movieFetcher = new Fetcher(ENV.VITE_API_URL);
   }
 
-  private async getMovieData(url: string): Promise<MovieResponse | undefined> {
+  private async fetchMovieData(
+    url: string,
+  ): Promise<MovieResponse | undefined> {
     this.isLoading = true;
-
+    this.error = null;
     movieFetcherEvent.notify();
 
-    const response = await this.movieFetcher.get<MovieResponse>(url);
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    try {
+      const response = await this.movieFetcher.get<MovieResponse>(url);
+      await this.delay(3000);
 
+      this.updateMovieData(response);
+
+      this.isLoading = false;
+      movieFetcherEvent.notify();
+
+      return response;
+    } catch (error) {
+      this.isLoading = false;
+      this.error = error as Error;
+      movieFetcherEvent.notify();
+    }
+  }
+
+  private updateMovieData(response: MovieResponse): void {
     this.movieResponse = response;
     this.movieResult = [...this.movieResult, ...response.results];
+  }
 
-    this.isLoading = false;
+  private async fetchMovies(url: string): Promise<MovieResponse | undefined> {
+    return await this.fetchMovieData(url);
+  }
 
-    movieFetcherEvent.notify();
-
-    return response;
+  private delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   public async getPopularMovies(
@@ -49,8 +65,8 @@ class MovieFetcher {
   ): Promise<MovieResponse | undefined> {
     this.isSearch = false;
     this.currentPage = page;
-    const url = `${this.MOVIE_API_END_POINT.POPULAR}?page=${page}`;
-    return await this.getMovieData(url);
+    const url = `${QUERY_PARAMS.MOVIE}?page=${page}`;
+    return await this.fetchMovies(url);
   }
 
   public async getNextPagePopularMovies() {
@@ -61,38 +77,41 @@ class MovieFetcher {
     page: number,
     query: string,
   ): Promise<MovieResponse | undefined> {
-    if (page === 1) this.movieResult = [];
-
+    this.movieResult = [];
     this.isSearch = true;
     this.currentPage = page;
     this.query = query;
 
-    const url = `${this.MOVIE_API_END_POINT.SEARCH}?query=${query}&page=${page}`;
-    return await this.getMovieData(url);
+    const url = `${QUERY_PARAMS.SEARCH}?query=${query}&page=${page}`;
+    return await this.fetchMovies(url);
   }
 
   public async getNextPageSearchMovies() {
     await this.getSearchMovies(this.currentPage + 1, this.query);
   }
 
-  public getLoadingState(): boolean {
+  get movies(): MovieItem[] {
+    return this.movieResult ?? [];
+  }
+
+  get isLoadingState(): boolean {
     return this.isLoading;
   }
 
-  public getSearchState(): boolean {
+  get isSearchState(): boolean {
     return this.isSearch;
   }
 
-  public getCurrentMovieResponse(): MovieResponse {
+  get currentMovieResponse(): MovieResponse {
     return this.movieResponse;
   }
 
-  public getMovieResult(): MovieItem[] {
-    return this.movieResult;
+  get queryText(): string {
+    return this.query;
   }
 
-  public getQuery(): string {
-    return this.query;
+  get errorState(): Error | null {
+    return this.error;
   }
 }
 
