@@ -1,4 +1,4 @@
-import { IMovie } from "../../../shared/types/movies";
+import { IMovie } from "../../../../shared/types/movies";
 
 const MoviePost = (movie: IMovie) => {
   const moviePost = document.createElement("li");

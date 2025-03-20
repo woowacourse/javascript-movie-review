@@ -1,4 +1,4 @@
-import { IMovie } from "../types/movies";
+import { IMovie } from "../../types/movies";
 import { CustomButton } from "./CustomButton";
 
 const Header = (movie: IMovie) => {
