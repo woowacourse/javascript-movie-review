@@ -74,6 +74,9 @@
 .h-36 {
   height: 36px;
 }
+.mt-24 {
+  margin-top: 24px;
+}
 
 .mb-32 {
   margin-bottom: 32px;
@@ -85,4 +88,23 @@
 
 .gap-250 {
   gap: 250px;
+}
+
+.hidden {
+  display: none;
+}
+
+.search-header-container {
+  background-image: none;
+  height: 40px;
+}
+
+.result-container {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
