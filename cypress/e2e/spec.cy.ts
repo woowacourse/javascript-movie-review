@@ -2,18 +2,12 @@
 
 describe("Fixture를 이용한 E2E 테스트", () => {
   beforeEach(() => {
-    // 첫 번째 요청 (초기 로딩)
+    // 인기 영화 요청 (초기 로딩)
     cy.intercept(
       "GET",
       /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular(\?.*)?$/,
       { fixture: "movie-popular.json" }
     ).as("getPopularMovies");
-
-    cy.intercept(
-      "GET",
-      /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular\?language=ko-KR&page=2$/,
-      { fixture: "movie-popular-page2.json" }
-    ).as("getPopularMoviesPage2");
 
     cy.visit("http://localhost:5173");
   });
@@ -38,7 +32,7 @@ describe("Fixture를 이용한 E2E 테스트", () => {
     cy.get(".more-button").should("exist").click();
 
     // 두 번째 API 응답 기다리기
-    cy.wait("@getPopularMoviesPage2");
+    cy.wait("@getPopularMovies");
 
     // 영화 개수가 40개인지 확인
     cy.get(".thumbnail-list > li").should("have.length", 40);
