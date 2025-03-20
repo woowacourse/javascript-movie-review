@@ -28,6 +28,7 @@ export const fetchMovies = (apiUrl: string = popularApiUrl) => {
     })
     .catch((error) => {
       console.error("Error fetching movies:", error);
+      alert("영화 정보를 가져오는 중 오류가 발생했습니다.");
       throw error;
     });
 };

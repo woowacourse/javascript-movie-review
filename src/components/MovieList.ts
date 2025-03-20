@@ -2,12 +2,16 @@ import MovieItem from "./MovieItem";
 import { Movie } from "../../types/movie";
 
 type MovieListProps = {
-  movieItems?: Movie[];
+  movieItems?: Movie[] | null;
 };
 
 const MovieList = ({ movieItems = [] }: MovieListProps) => {
   const movieContainer = document.createElement("section");
   movieContainer.classList.add("movie-container");
+
+  if (movieItems === null) {
+    return;
+  }
 
   if (movieItems.length !== 0) {
     const ul = document.createElement("ul");
