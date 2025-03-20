@@ -1,4 +1,5 @@
 import { MoviesResponse } from "../../types/movieApiType";
+
 async function fetchWithErrorHandling(url: string) {
   const options = {
     method: "GET",
