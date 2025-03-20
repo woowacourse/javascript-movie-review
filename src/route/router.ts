@@ -11,7 +11,11 @@ function routes(): Record<string, () => HTMLElement> {
 }
 
 export async function renderInnerContentsByRoute() {
+  const base = '/javascript-movie-review';
   let currentPath = window.location.pathname;
+  if (currentPath.startsWith(base)) {
+    currentPath = currentPath.replace(base, '') || '/';
+  }
 
   if (currentPath.startsWith('/error')) {
     currentPath = '/error';
