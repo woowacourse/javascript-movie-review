@@ -13,13 +13,19 @@ const MovieList = ({ movies }) => {
     return NothingMovieList();
   }
 
-  movies.forEach((movie) => {
-    $ul.appendChild(MovieItem({ movie }));
-  });
+  if(movies === "loading") {
+    [1,1,1].forEach(() => {
+      $ul.appendChild(SkeletonMovieItem());
+    });
+    
+  }
 
-  // movies.forEach(() => {
-  //   $ul.appendChild(SkeletonMovieItem());
-  // });
+  else {
+    movies.forEach((movie) => {
+      $ul.appendChild(MovieItem({ movie }));
+    });
+  }
+
 
   return $ul;
 };

@@ -5,9 +5,15 @@ import deleteParams from "./utils/deleteParams";
 
 deleteParams();
 
+Main({
+  movies: "loading",
+});
+
 const PAGE = 1;
 const popularMovieData = await fetchPopularMovies(PAGE);
 movies.updateMovies(popularMovieData.results);
+
+document.querySelector("#wrap")?.remove();
 
 Main({
   movies: movies.movieList,
