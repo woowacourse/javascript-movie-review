@@ -1,10 +1,10 @@
 import Main from './Main';
+import MovieList from './MovieList';
 import fetchPopularMovies from '../fetch/fetchPopularMovies';
 import fetchSearchMovies from '../fetch/fetchSearchMovies';
-import movies from '../store/movies';
+import movies from '../store/Movies';
 import page from '../store/page';
 import createElement from './utils/createElement';
-import MovieList from './MovieList';
 
 const Button = ({ text, type }) => {
   const $button = createElement({

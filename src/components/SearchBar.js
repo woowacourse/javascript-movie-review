@@ -1,9 +1,10 @@
 import fetchSearchMovies from "../fetch/fetchSearchMovies";
-import MovieContainer from "./MovieContainer";
-import Main from "./Main";
 import createElement from "./utils/createElement";
-import movies from "../store/movies";
+import movies from "../store/Movies";
 import MovieList from "./MovieList";
+
+const SEARCH_BUTTON_IMAGE_SRC = './images/searchButtonIcon.png';
+const PAGE = 1;
 
 const SearchBar = () => {
     const $form = createElement({
@@ -22,46 +23,40 @@ const SearchBar = () => {
         classNames: ['search-bar-button'],
     });
 
-    const SEARCH_BUTTON_IMAGE_SRC = './images/searchButtonIcon.png';
     const $img = createElement({
         tag: 'img',
         src: SEARCH_BUTTON_IMAGE_SRC,
     });
 
-    $form.appendChild($input);
-    $form.appendChild($button);
     $button.appendChild($img);
+    $form.append($input, $button);
 
-    $form.addEventListener('submit', async (event) => {
+    const handleSearch = async (event) => {
         event.preventDefault();
-        const query = document.querySelector('.search-bar').value;
+       
+        const query = $input.value.trim();    
+        if (!query) return;
 
         const params = new URLSearchParams(window.location.search);
-
-        if (params.has("query")) {
-            params.set("query", query);
-            document.querySelector('.list-title').textContent = `"${query}" 검색 결과`;
-        } else {
-        params.append("query", query);
-        }
-
+        params.set("query", query);
         window.history.replaceState({}, "", `${window.location.pathname}?${params.toString()}`);
 
-        const searchedMovies = await fetchSearchMovies(query, 1);
+        document.querySelector('.list-title').textContent = `"${query}" 검색 결과`;
+
+        const searchedMovies = await fetchSearchMovies(query, PAGE);
         movies.updateMovies(searchedMovies);
 
-        document.querySelector('.thumbnail-list').remove();
- 
+        const $thumbnailList = document.querySelector('.thumbnail-list');
+        if ($thumbnailList) $thumbnailList.remove();
+
         document.querySelector('section').appendChild(
-            MovieList({
-                movies: movies.getMovies(),
-            })
-          )
-      
-    });
-    
+            MovieList({ movies: movies.movieList })
+        );
+    };
+
+    $form.addEventListener('submit', handleSearch);
 
     return $form;
-}
+};
 
 export default SearchBar;

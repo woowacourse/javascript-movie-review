@@ -1,14 +1,16 @@
 import createElement from './utils/createElement';
 
+const STAR_IMG_SRC = './images/star_empty.png';
+
 const MoviePreviewInfo = ({ movie, bigFont = true }) => {
   const title = movie.title;
   const voteAverage = movie.vote_average;
+  
 
   const $fragment = document.createDocumentFragment();
 
   const $rate = createElement({ tag: 'div', classNames: ['rate'] });
 
-  const STAR_IMG_SRC = './images/star_empty.png';
   const $starImg = createElement({
     tag: 'img',
     classNames: ['star'],

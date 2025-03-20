@@ -1,6 +1,7 @@
 import SearchBar from './SearchBar';
 import createElement from './utils/createElement';
 
+const LOGO_IMG_SRC = './images/logo.png';
 
 const Gnb = () => {
   const $div = createElement({
@@ -13,7 +14,6 @@ const Gnb = () => {
     classNames: ['logo'],
   });
 
-  const LOGO_IMG_SRC = './images/logo.png';
   const $logoImg = createElement({
     tag: 'img',
     src: LOGO_IMG_SRC,
