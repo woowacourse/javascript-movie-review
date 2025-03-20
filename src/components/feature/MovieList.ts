@@ -92,7 +92,7 @@ let movieUl = createElement<HTMLUListElement>('ul', {
 
 const moreBtn = Button({
   height: '48',
-  classList: ['w-full', 'primary', 'text-xl'],
+  classList: ['moreBtn', 'w-full', 'primary', 'text-xl'],
   props: { textContent: '더보기' },
   onClick: async () => {
     await handleMoreButtonClick();
