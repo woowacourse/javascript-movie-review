@@ -5,7 +5,7 @@
 > javascript-movie-review
 > FE 레벨1 영화 리뷰 미션
 
-[🔗 배포 주소](https://shinjungoh.github.io/javascript-movie-review/)
+[🔗 배포 주소]("https://ha-kuku.github.io/javascript-movie-review")
 
 <br>
 
