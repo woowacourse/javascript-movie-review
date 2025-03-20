@@ -5,7 +5,7 @@ import SkeletonBanner from "./components/Skeleton/SkeletonBanner.js";
 import MovieList from "./components/MovieList/index.js";
 import { fetchPopularMovies } from "./APIs/movieAPI.ts";
 import store from "./store/store.ts";
-import { attachMoreButtonEvent } from "./components/MoreButton.js";
+import { attachMoreButtonEvent } from "./components/MoreButton/MoreButton.js";
 
 class App {
   constructor($target) {

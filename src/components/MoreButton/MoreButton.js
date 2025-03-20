@@ -1,5 +1,8 @@
-import { fetchPopularMovies, fetchSearchedMovies } from "../APIs/movieAPI.ts";
-import store from "../store/store.ts";
+import {
+  fetchPopularMovies,
+  fetchSearchedMovies,
+} from "../../APIs/movieAPI.ts";
+import store from "../../store/store.ts";
 
 const MoreButton = () => {
   return /* html */ `<button id="more-button" class="primary more" data-testid="more-button">더 보기</button>`;

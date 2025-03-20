@@ -1,6 +1,6 @@
 import ListTitle from "./ListTitle.js";
 import MovieItem from "./MovieItem.js";
-import MoreButton from "../MoreButton.js";
+import MoreButton from "../MoreButton/MoreButton.js";
 import SkeletonMovieItem from "../Skeleton/SkeletonMovieItem.js";
 
 const MovieList = ({ movies, query, searchedMoviesLength }) => {
