@@ -2,7 +2,7 @@ import Button from '../../component/button/Button';
 import MovieGrid from '../../component/movie-grid/MovieGrid';
 import { Title } from '../../component/title/Title';
 import { SYSTEM_CONSTANTS } from '../../constants/systemConstants';
-import { extractedMovieData } from '../../domain/APIManager';
+import { extractedeData } from '../../domain/APIManager';
 import searchPageLoadingTemplate from './loadingTemplate';
 
 class SearchPage {
@@ -11,6 +11,7 @@ class SearchPage {
   #isLoading: boolean = true;
   #query: string;
   #currentPage = 1;
+  #totalPage = 0;
 
   constructor() {
     this.#container = document.createElement('div');
@@ -27,7 +28,11 @@ class SearchPage {
     this.render();
 
     if (this.#query) {
-      this.#movieListData = await extractedMovieData(SYSTEM_CONSTANTS.SEARCH_URL(this.#query, 1));
+      const { movieListData, totalPage } = await extractedeData(
+        SYSTEM_CONSTANTS.SEARCH_URL(this.#query, this.#currentPage),
+      );
+      this.#movieListData = movieListData;
+      this.#totalPage = totalPage;
     }
     this.#isLoading = false;
     this.render();
@@ -52,7 +57,7 @@ class SearchPage {
     }
 
     this.#container.appendChild(this.#movieGridElement());
-    this.#container.appendChild(this.#loadMoreButtonElement());
+    if (this.#currentPage !== this.#totalPage) this.#container.appendChild(this.#loadMoreButtonElement());
   }
 
   #movieGridElement() {
@@ -65,7 +70,8 @@ class SearchPage {
 
   #loadMoreData = async () => {
     this.#currentPage += 1;
-    this.#movieListData = await extractedMovieData(SYSTEM_CONSTANTS.SEARCH_URL(this.#query, this.#currentPage));
+    const { movieListData } = await extractedeData(SYSTEM_CONSTANTS.MAIN_URL(this.#currentPage));
+    this.#movieListData = movieListData;
     this.renderDynamicSection();
   };
 

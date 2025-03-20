@@ -17,15 +17,17 @@ interface MovieListJSON {
   adult: boolean;
 }
 
-export async function extractedMovieData(url: string) {
+export async function extractedeData(url: string) {
   const movieJSON = await fetchMovieList(url);
-  const movieListData = movieJSON.map((movieItem: MovieListJSON) => ({
+  const movieListData = movieJSON.results.map((movieItem: MovieListJSON) => ({
     title: movieItem.title,
     imgUrl: `${SYSTEM_CONSTANTS.BASE_IMG_URL}${movieItem.poster_path}`,
     score: Number(movieItem.vote_average.toFixed(1)),
   }));
 
-  return movieListData;
+  const totalPage = movieJSON.total_pages;
+
+  return { movieListData, totalPage };
 }
 
 async function fetchMovieList(url: string) {
@@ -40,7 +42,8 @@ async function fetchMovieList(url: string) {
   try {
     const res = await fetch(url, options);
     const json = await res.json();
-    return json.results;
+    console.log(json);
+    return json;
   } catch (err) {
     console.error(err);
     return null;
