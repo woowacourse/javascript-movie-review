@@ -20,6 +20,7 @@ describe("영화 검색 기능 테스트", () => {
   });
 
   it("검색 기능 테스트 및 더보기 버튼 테스트", () => {
+    const searchValue = "짱구";
     expect(cy.get(".skeleton-list").should("exist"));
 
     // 인기 영화 초기 렌더링
@@ -28,7 +29,7 @@ describe("영화 검색 기능 테스트", () => {
       expect(popularMovieList.length).to.equal(20);
     });
 
-    cy.get(".search-input").type("짱구");
+    cy.get(".search-input").type(searchValue);
     cy.get(".search-form").submit();
 
     expect(cy.get(".skeleton-list").should("exist"));
@@ -40,6 +41,9 @@ describe("영화 검색 기능 테스트", () => {
 
       expect(cy.get(".skeleton-list").should("not.exist"));
       expect(cy.get(".item").should("have.length", 20));
+      cy.get(".item").each(($item) => {
+        expect($item.find(".movie-title").text()).to.include(searchValue);
+      });
     });
 
     // 더보기 버튼 클릭

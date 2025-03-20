@@ -17,6 +17,7 @@ const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
   $rate.append($star, $rateValue);
 
   const $movieTitle = createElement("strong", {
+    className: "movie-title",
     textContent: title,
   });
   const $description = createElement("div", {
