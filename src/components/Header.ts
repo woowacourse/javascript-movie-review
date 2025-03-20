@@ -1,11 +1,10 @@
 import { Movie } from "../../types/movie";
 
 type HeaderProps = {
-  navigationBar: HTMLDivElement;
   movie?: Movie | null;
 };
 
-const Header = ({ navigationBar, movie }: HeaderProps) => {
+const Header = ({ movie }: HeaderProps) => {
   const header = document.createElement("header");
 
   const backgroundImageUrl =
@@ -29,11 +28,6 @@ const Header = ({ navigationBar, movie }: HeaderProps) => {
     </div>
   </div>
 `;
-
-  const topRatedContainer = header.querySelector(".top-rated-container");
-  if (topRatedContainer) {
-    topRatedContainer.prepend(navigationBar);
-  }
 
   return header;
 };
