@@ -46,6 +46,7 @@ const renderTotalList = async () => {
 
 const renderSearchList = async () => {
   changeHeaderBackground();
+
   const moviesResponse = await getMovieByName({
     name: store.searchKeyword,
     page: store.page,
@@ -84,12 +85,9 @@ export const renderMoviesList = async () => {
   }
 
   const $showMore = document.querySelector(".show-more");
-  if (store.page !== Math.min(MAX_MOVIE_PAGE, store.totalPages)) {
-    console.log(1);
+  if (store.page !== Math.min(MAX_MOVIE_PAGE, store.totalPages))
     $showMore?.classList.add("open");
-  } else {
-    $showMore?.classList.remove("open");
-  }
+  else $showMore?.classList.remove("open");
 
   if ($ul) $ul.innerHTML = "";
   const $movies = MovieList(store.movies);
