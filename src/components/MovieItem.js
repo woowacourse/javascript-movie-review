@@ -3,8 +3,8 @@ import createElement from './utils/createElement';
 import imageUrl from '../utils/imageUrl';
 
 const MovieItem = ({ movie }) => {
-  const title = movie.title;
-  const posterPath = movie.poster_path;
+  const title = movie?.title;
+  const posterPath = movie?.poster_path;
 
   const $li = createElement({
     tag: 'li',
