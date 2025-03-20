@@ -42,7 +42,6 @@ async function fetchMovieList(url: string) {
   try {
     const res = await fetch(url, options);
     const json = await res.json();
-    console.log(json);
     return json;
   } catch (err) {
     console.error(err);

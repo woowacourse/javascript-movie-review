@@ -44,20 +44,16 @@ class SearchPage {
       this.#container.innerHTML = searchPageLoadingTemplate(this.#query);
       return;
     }
-    console.log('render return 이후');
     this.#container.appendChild(this.#titleElement());
     this.renderDynamicSection();
   }
 
   renderDynamicSection() {
-    console.log('renderDynamicSection 작동');
     const loadMoreButton = document.querySelector('.button--medium');
     if (loadMoreButton) {
       loadMoreButton.remove();
     }
-
-    if (this.#totalPage !== 0) this.#container.appendChild(this.#movieGridElement());
-
+    this.#container.appendChild(this.#movieGridElement());
     if (this.#currentPage !== this.#totalPage) this.#container.appendChild(this.#loadMoreButtonElement());
   }
 
@@ -77,7 +73,6 @@ class SearchPage {
   };
 
   #titleElement() {
-    console.log('title Element');
     return new Title({ text: `"${this.#query}" 검색 결과` }).element;
   }
 

@@ -23,7 +23,6 @@ class MovieGrid {
       </ul>`;
       return;
     }
-    console.log('자곧ㅇㄹㅇㄴㄹㅇㄹ');
     this.#container.innerHTML = this.#emptyListElement();
   }
 
