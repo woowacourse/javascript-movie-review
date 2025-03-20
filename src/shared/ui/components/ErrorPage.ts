@@ -5,7 +5,7 @@ const ErrorPage = () => {
   errorPageContainer.className = "error-page-container";
 
   errorPageContainer.innerHTML = /*html*/ `
-      <img src="./images/으아아행성이.png" alt="error-page-image" class="error-page-image" />
+      <img src="images/으아아행성이.png" alt="error-page-image" class="error-page-image" />
       <h1>오류가 발생했습니다.</h1>
       ${
         CustomButton({
