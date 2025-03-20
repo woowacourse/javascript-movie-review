@@ -3,4 +3,8 @@
 @import "./modal.css";
 @import "./reset.css";
 @import "./tab.css";
-@import "./thumbnail.css";
+
+@import "../components/Header/header.css";
+@import "../components/Banner/banner.css";
+@import "../components/Footer/footer.css";
+@import "../components/MovieList/thumbnail.css";
