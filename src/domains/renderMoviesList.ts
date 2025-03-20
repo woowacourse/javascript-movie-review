@@ -3,7 +3,7 @@ import { getMovieByName, getMovies } from "../apis/MovieApi";
 import MovieList from "../components/MovieList";
 import MovieListSkeleton from "../components/MovieListSkeleton";
 import TopRatedMovie from "../components/TopRatedMovie";
-import { DEFAULT_BACK_DROP_URL, MAX_MOVIE_PAGE } from "../constants/constants";
+import { DEFAULT_BACK_DROP_URL, MAX_MOVIE_PAGE } from "../constants";
 
 const $mainSection = document.querySelector("main section");
 const $ul = document.querySelector(".thumbnail-list");
