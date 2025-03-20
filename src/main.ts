@@ -1,35 +1,70 @@
-import image from "../templates/images/star_filled.png";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import { MovieInfo } from "../types/movieType.ts";
+import ContentsContainer from "./components/ContentsContainer.ts";
+import MovieService from "./services/MovieService.ts";
+import LogoSearchBar from "./components/LogoSearchBar.js";
 
-console.log("npm run dev 명령어를 통해 영화 리뷰 미션을 시작하세요");
+const movieService = new MovieService();
+const data = await movieService.getPopularMovies();
 
-console.log(
-  "%c" +
-    " _____ ______   ________  ___      ___ ___  _______                \n" +
-    "|\\   _ \\  _   \\|\\   __  \\|\\  \\    /  /|\\  \\|\\  ___ \\               \n" +
-    "\\ \\  \\\\\\__\\ \\  \\ \\  \\|\\  \\ \\  \\  /  / | \\  \\ \\   __/|              \n" +
-    " \\ \\  \\\\|__| \\  \\ \\  \\\\\\  \\ \\  \\/  / / \\ \\  \\ \\  \\_|/__            \n" +
-    "  \\ \\  \\    \\ \\  \\ \\  \\\\\\  \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\           \n" +
-    "   \\ \\__\\    \\ \\__\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\          \n" +
-    "    \\|__|     \\|__|\\|_______|\\|__|/       \\|__|\\|_______|          \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    " ________  _______   ___      ___ ___  _______   ___       __      \n" +
-    "|\\   __  \\|\\  ___ \\ |\\  \\    /  /|\\  \\|\\  ___ \\ |\\  \\     |\\  \\    \n" +
-    "\\ \\  \\|\\  \\ \\   __/|\\ \\  \\  /  / | \\  \\ \\   __/|\\ \\  \\    \\ \\  \\   \n" +
-    " \\ \\   _  _\\ \\  \\_|/_\\ \\  \\/  / / \\ \\  \\ \\  \\_|/_\\ \\  \\  __\\ \\  \\  \n" +
-    "  \\ \\  \\\\  \\\\ \\  \\_|\\ \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\ \\  \\|\\__\\_\\  \\ \n" +
-    "   \\ \\__\\\\ _\\\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\ \\____________\\\n" +
-    "    \\|__|\\|__|\\|_______|\\|__|/       \\|__|\\|_______|\\|____________|",
-  "color: #d81b60; font-size: 14px; font-weight: bold;"
-);
+function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
+  const $container = document.querySelector("#wrap");
 
-addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
+  const $header = Header({ title, poster_path, vote_average });
+  const $logoSearchBar = LogoSearchBar();
+  $header.querySelector(".top-rated-container")?.prepend($logoSearchBar);
 
-  if (app) {
-    app.appendChild(buttonImage);
-  }
-});
+  $container?.prepend($header);
+}
+
+async function renderContent() {
+  // 이벤트 등록
+  const $input = document.querySelector(".search-input") as HTMLInputElement;
+  const $button = document.querySelector(".search-button") as HTMLButtonElement;
+  const $section = document.querySelector("section") as HTMLDivElement;
+  // 컨텐츠 컨테이너
+  ContentsContainer(data.results, "지금 인기 있는 영화");
+
+  $input?.addEventListener("keydown", async (event) => {
+    const keyboardEvent = event as KeyboardEvent;
+    if (keyboardEvent.key === "Enter") {
+      const inputValue = (event.target as HTMLInputElement).value;
+
+      if (inputValue === "") {
+        alert("검색어를 입력해주세요.");
+      } else {
+        const searchResult = await movieService.getSearchResult(inputValue);
+        if ($section) {
+          $section.innerHTML = "";
+        }
+        ContentsContainer(searchResult.results, `"${inputValue}" 검색 결과`);
+      }
+    }
+  });
+
+  $button?.addEventListener("click", async () => {
+    const inputValue = $input?.value;
+    if (inputValue === "") {
+      alert("검색어를 입력해주세요.");
+    } else {
+      const searchResult = await movieService.getSearchResult(inputValue);
+      if ($section) {
+        $section.innerHTML = "";
+      }
+      ContentsContainer(searchResult.results, `"${inputValue}" 검색 결과`);
+    }
+  });
+}
+
+function renderFooter() {
+  const $container = document.querySelector("#wrap");
+  const $footer = Footer();
+  $container?.appendChild($footer);
+}
+
+renderHeader(data.results[0]);
+
+renderContent();
+
+renderFooter();
