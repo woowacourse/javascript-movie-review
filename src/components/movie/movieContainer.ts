@@ -1,13 +1,14 @@
 import { createElementWithAttributes } from "../utils/createElementWithAttributes";
 import movieList from "./movieList";
-import { Movie } from "./types";
 import { MovieData } from "../../apis/getSearchedMovies";
 
 type LoadMoreCallback = (pageNumber: number) => Promise<MovieData>;
 
+const MAX_PAGES = 500;
+
 const movieContainer = (
   movieListTitle: string,
-  movies: Movie[],
+  movieData: MovieData,
   loadMoreCallback: LoadMoreCallback
 ) => {
   const $movieContainer = createElementWithAttributes({
@@ -21,7 +22,9 @@ const movieContainer = (
     ],
   });
 
-  if (movies.length === 0) {
+  const { results, total_pages, total_results } = movieData;
+
+  if (total_results === 0) {
     const $noSearchContainer = createElementWithAttributes({
       tag: "div",
       className: "no_search_container",
@@ -45,7 +48,7 @@ const movieContainer = (
     return $movieContainer;
   }
 
-  const $movieList = movieList(movies);
+  const $movieList = movieList(results);
 
   const $seeMoreButton = createElementWithAttributes({
     tag: "button",
@@ -56,12 +59,19 @@ const movieContainer = (
   let pageNumber = 1;
   $seeMoreButton.addEventListener("click", async () => {
     pageNumber += 1;
-    const { results } = await loadMoreCallback(pageNumber);
+
+    const { results, total_pages } = await loadMoreCallback(pageNumber);
     const $newMovieList = movieList(results);
     $movieList.append(...$newMovieList.children);
+    if (pageNumber === total_pages || pageNumber === MAX_PAGES) {
+      $seeMoreButton.remove();
+    }
   });
 
-  $movieContainer.append($movieList, $seeMoreButton);
+  $movieContainer.append($movieList);
+  if (pageNumber !== total_pages) {
+    $movieContainer.append($seeMoreButton);
+  }
 
   return $movieContainer;
 };

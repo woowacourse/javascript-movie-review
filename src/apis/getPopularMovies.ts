@@ -27,6 +27,12 @@ export const getPopularMovies = async (page = 1) => {
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error(error.message);
+      return {
+        results: [],
+        page: 500,
+        total_pages: 500,
+        total_results: 0,
+      };
     }
   }
 };

@@ -31,7 +31,7 @@ const onSearch = async (event: Event) => {
 
     const $searchedMovieContainer = movieContainer(
       `"${searchKeyword}" 검색 결과`,
-      results,
+      { results, page, total_pages, total_results },
       loadMoreCallback
     );
     const $main = $("main");
@@ -48,7 +48,7 @@ const initializeMovie = async () => {
 
   const $movieContainer = movieContainer(
     "지금 인기 있는 영화",
-    results,
+    { results, page, total_pages, total_results },
     loadMoreCallback
   );
 
