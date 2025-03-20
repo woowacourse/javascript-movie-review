@@ -1,5 +1,4 @@
 import { createElement } from "../../util/dom";
-import { addEventListenerBySelector } from "../../util/dom";
 import handleSearch from "../../service/handleSearch";
 
 export default function Header() {
