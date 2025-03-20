@@ -14,7 +14,6 @@ addEventListener("DOMContentLoaded", async () => {
     ".thumbnail-list"
   ) as HTMLElement | null;
 
-  // 첫 로딩 시 스켈레톤 UI 표시
   if ($movieList) {
     showSkeletons($movieList);
   }
@@ -24,7 +23,6 @@ addEventListener("DOMContentLoaded", async () => {
   Header(movies.results[0]);
 
   if ($movieList) {
-    // 데이터 로드 후 스켈레톤 UI를 실제 데이터로 교체
     $movieList.innerHTML = "";
     addMoviePost(movies.results, $movieList);
   }
@@ -38,16 +36,7 @@ addEventListener("DOMContentLoaded", async () => {
   $moreMoviesButton?.addEventListener("click", async () => {
     if (!$movieList) return;
 
-    // 더보기 버튼 클릭 시 로딩 상태 표시
-    const loadingIndicator = document.createElement("div");
-    loadingIndicator.classList.add("loading-indicator");
-    $movieList.appendChild(loadingIndicator);
-
     await addMoreMovies($movieList);
-
-    // 로딩 완료 후 로딩 인디케이터 제거
-    const indicator = document.querySelector(".loading-indicator");
-    indicator?.remove();
   });
 
   const searchForm = document.querySelector(".search-form");
@@ -59,7 +48,6 @@ addEventListener("DOMContentLoaded", async () => {
     ) as HTMLElement | null;
 
     if ($thumbnailList) {
-      // 검색 시작 시 기존 결과 제거하고 스켈레톤 UI 표시
       $thumbnailList.innerHTML = "";
       showSkeletons($thumbnailList);
     }
@@ -101,7 +89,6 @@ addEventListener("DOMContentLoaded", async () => {
     );
 
     if ($thumbnailList) {
-      // 검색 결과 로드 후 스켈레톤 UI를 실제 데이터로 교체
       $thumbnailList.innerHTML = "";
       addMoviePost(searchedMovies.results, $thumbnailList);
     }
@@ -111,7 +98,6 @@ addEventListener("DOMContentLoaded", async () => {
   });
 });
 
-// 스켈레톤 UI를 표시하는 함수
 function showSkeletons($container: HTMLElement, count: number = 10) {
   $container.appendChild(createSkeletons(count));
 }
