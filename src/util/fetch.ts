@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE } from "../setting/settings";
+import { ERROR_MESSAGE } from "../setting/ErrorMessage";
 
 export interface FetchOptions {
   headers?: Record<string, string>;
@@ -6,10 +6,9 @@ export interface FetchOptions {
   body?: BodyInit | null;
 }
 
-//language=en-US&page=1
 export async function fetchUrl<T>(
   url: string,
-  queryObject: URLSearchParams, // 기본값 설정
+  queryObject: URLSearchParams,
   options: FetchOptions = {}
 ): Promise<T> {
   const queryString = new URLSearchParams(queryObject).toString();
@@ -17,7 +16,8 @@ export async function fetchUrl<T>(
 
   const response = await fetch(finalUrl, options);
 
-  if (!response.ok) throw new Error(ERROR_MESSAGE.FETCH_ERROR);
+  if (!response.ok || !navigator.onLine)
+    throw new Error(ERROR_MESSAGE.FETCH_ERROR);
 
-  return response.json();
+  return response.json() || [];
 }
