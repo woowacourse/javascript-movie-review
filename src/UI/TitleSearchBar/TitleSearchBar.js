@@ -37,12 +37,5 @@ class TitleSearchBar {
 
     return $div;
   }
-
-  // handleClick = async (e) => {
-  //   e.preventDefault();
-  //   const $input = document.querySelector(".search-input");
-  //   await this.setSearchKeyword($input.value);
-  //   this.setMode("search");
-  // };
 }
 export default TitleSearchBar;

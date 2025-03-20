@@ -11,7 +11,5 @@ class Footer {
 
     return $footer;
   }
-
-  setEvent() {}
 }
 export default Footer;

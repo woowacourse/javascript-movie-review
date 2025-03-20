@@ -8,7 +8,5 @@ class Button {
 
     return $button;
   }
-
-  setEvent() {}
 }
 export default Button;
