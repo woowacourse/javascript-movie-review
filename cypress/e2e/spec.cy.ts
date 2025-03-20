@@ -47,8 +47,6 @@ describe("영화 리뷰 페이지 테스트", () => {
 
     it("영화 API를 통해 영화 목록을 받아온다.", () => {
       cy.wait("@getPopularMovies").then((interception) => {
-        console.log(interception);
-
         const popularMovies = interception.response.body.results;
         expect(popularMovies.length).to.equal(20);
       });
