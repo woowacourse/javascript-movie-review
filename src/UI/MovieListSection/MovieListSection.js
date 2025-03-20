@@ -1,5 +1,6 @@
 import "./MovieListSection.css";
 import MovieItem from "../Movie/MovieItem";
+import EmptyView from "../EmptyView/EmptyView";
 
 class MovieListSection {
   constructor(title, movies, isLoading) {
@@ -11,11 +12,6 @@ class MovieListSection {
   render() {
     const $section = document.createElement("section");
     const $title = document.createElement("h2");
-    const $div = document.createElement("div");
-    const $p = document.createElement("p");
-    const $img = document.createElement("img");
-
-    $div.classList.add("info-text-wrap");
 
     $title.textContent = this.getTitle();
 
@@ -23,10 +19,7 @@ class MovieListSection {
     $ul.classList.add("thumbnail-list");
 
     if (this.movies === null) {
-      $p.textContent = "오류가 발생했습니다.";
-      $div.appendChild($img);
-      $div.appendChild($p);
-      $img.setAttribute("src", "./images/noResult.png");
+      const $div = new EmptyView("오류가 발생했습니다.").render();
       $section.appendChild($div);
       return $section;
     }
@@ -35,11 +28,7 @@ class MovieListSection {
     const startIndex = Math.max(0, totalMovie - 20);
 
     if (totalMovie === 0) {
-      $p.textContent = "검색 결과가 없습니다.";
-      $div.appendChild($img);
-      $div.appendChild($p);
-      $img.setAttribute("src", "./images/noResult.png");
-
+      const $div = new EmptyView("검색 결과가 없습니다.").render();
       $section.appendChild($title);
       $section.appendChild($div);
 
