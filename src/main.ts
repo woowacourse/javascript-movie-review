@@ -5,9 +5,6 @@ import ContentsContainer from "./components/ContentsContainer.ts";
 import MovieService from "./services/MovieService.ts";
 import LogoSearchBar from "./components/LogoSearchBar.js";
 
-const movieService = new MovieService();
-const data = await movieService.getPopularMovies();
-
 function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
   const $container = document.querySelector("#wrap");
 
@@ -18,13 +15,13 @@ function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
   $container?.prepend($header);
 }
 
-async function renderContent() {
+async function renderContent(movieService: MovieService, results: MovieInfo[]) {
   // 이벤트 등록
   const $input = document.querySelector(".search-input") as HTMLInputElement;
   const $button = document.querySelector(".search-button") as HTMLButtonElement;
   const $section = document.querySelector("section") as HTMLDivElement;
   // 컨텐츠 컨테이너
-  ContentsContainer(data.results, "지금 인기 있는 영화");
+  ContentsContainer(results, "지금 인기 있는 영화");
 
   $input?.addEventListener("keydown", async (event) => {
     const keyboardEvent = event as KeyboardEvent;
@@ -63,8 +60,15 @@ function renderFooter() {
   $container?.appendChild($footer);
 }
 
-renderHeader(data.results[0]);
+async function main() {
+  const movieService = new MovieService();
+  const data = await movieService.getPopularMovies();
 
-renderContent();
+  renderHeader(data.results[0]);
 
-renderFooter();
+  renderContent(movieService, data.results);
+
+  renderFooter();
+}
+
+main();
