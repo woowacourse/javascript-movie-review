@@ -1,6 +1,6 @@
 import { store } from "./../store/index";
 import { getMovieByName, getMovies } from "../apis/MovieApi";
-import MovieList from "../components/MovieList";
+import MovieList from "../components/ThumbnailList";
 import MovieListSkeleton from "../components/MovieListSkeleton";
 import TopRatedMovie from "../components/TopRatedMovie";
 import { DEFAULT_BACK_DROP_URL, MAX_MOVIE_PAGE } from "../constants";

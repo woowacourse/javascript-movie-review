@@ -1,8 +1,8 @@
 import { MovieResult } from "../../types/movieApiType";
 import { DEFAULT_BACK_DROP_URL } from "../constants";
 
-export default function MovieList(moviesResult: MovieResult[]) {
-  const $ul = document.querySelector(".thumbnail-list");
+export default function ThumbnailList(moviesResult: MovieResult[]) {
+  const $thumbnailList = document.querySelector(".thumbnail-list");
   moviesResult.forEach((movieResult) => {
     const $li = document.createElement("li");
 
@@ -28,7 +28,7 @@ export default function MovieList(moviesResult: MovieResult[]) {
         </div>
     `;
 
-    $ul?.appendChild($li);
+    $thumbnailList?.appendChild($li);
   });
-  return $ul;
+  return $thumbnailList;
 }
