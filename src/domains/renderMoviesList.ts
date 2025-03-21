@@ -4,18 +4,17 @@ import MovieList from "../components/ThumbnailList";
 import MovieListSkeleton from "../components/MovieListSkeleton";
 import TopRatedMovie from "../components/TopRatedMovie";
 import { DEFAULT_BACK_DROP_URL, MAX_MOVIE_PAGE } from "../constants";
+import { $ } from "../utils";
 
-const $mainSection = document.querySelector("main section") as HTMLElement;
-const $ul = document.querySelector(".thumbnail-list") as HTMLElement;
-const $error = document.querySelector(".error") as HTMLElement;
-const $h2 = $error.querySelector("h2") as HTMLElement;
+const $mainSection = $("main section");
+const $ul = $(".thumbnail-list");
+const $error = $(".error");
+const $h2 = $error.querySelector("h2");
 
 const changeHeaderBackground = () => {
-  const $backgroundContainer = document.querySelector(
-    ".background-container"
-  ) as HTMLElement;
+  const $backgroundContainer = $(".background-container");
 
-  if (store.searchKeyword === "") {
+  if (!store.searchKeyword) {
     const backgroundImage = store.movies[0].backdrop_path
       ? `${DEFAULT_BACK_DROP_URL}${store.movies[0].backdrop_path}`
       : "./images/default_thumbnail.jpeg";
@@ -26,9 +25,8 @@ const changeHeaderBackground = () => {
 };
 
 const renderHeaderBackground = () => {
-  if (!document.querySelector(".top-rated-movie")) {
-    const $topRatedContainer = document.querySelector(".top-rated-container");
-    $topRatedContainer?.append(
+  if (!$(".top-rated-movie")) {
+    $(".top-rated-container").append(
       TopRatedMovie({
         title: store.movies[0].title,
         voteAverage: store.movies[0].vote_average,
@@ -86,7 +84,7 @@ export const renderMoviesList = async () => {
     return;
   }
 
-  const $showMore = document.querySelector(".show-more");
+  const $showMore = $(".show-more");
   if (store.page !== Math.min(MAX_MOVIE_PAGE, store.totalPages))
     $showMore?.classList.add("open");
   else $showMore?.classList.remove("open");

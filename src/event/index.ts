@@ -1,6 +1,6 @@
 import { renderMoviesList } from "../domains/renderMoviesList";
 import { store } from "../store";
-import { isElement } from "../utils";
+import { $, isElement } from "../utils";
 
 window.addEventListener("click", async (event) => {
   const { target } = event;
@@ -26,17 +26,17 @@ window.addEventListener("submit", async (event) => {
     store.searchKeyword = value;
     store.page = 1;
 
-    const $title = document.querySelector(".thumbnail-title");
+    const $title = $(".thumbnail-title");
     if ($title) $title.textContent = `"${store.searchKeyword}" 검색 결과`;
 
-    const $thumbnailList = document.querySelector(".thumbnail-list");
+    const $thumbnailList = $(".thumbnail-list");
     if ($thumbnailList) $thumbnailList.innerHTML = "";
 
-    document.querySelector(".top-rated-container")?.classList.add("close");
-    document.querySelector(".overlay")?.classList.add("close");
+    $(".top-rated-container")?.classList.add("close");
+    $(".overlay")?.classList.add("close");
 
     store.movies = [];
 
-    renderMoviesList();
+    await renderMoviesList();
   }
 });
