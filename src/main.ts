@@ -7,7 +7,6 @@ import LogoSearchBar from "./components/Header/LogoSearchBar.js";
 
 function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
   const $container = document.querySelector("#wrap");
-
   const $header = Header({ title, poster_path, vote_average });
   const $logoSearchBar = LogoSearchBar();
   $header.querySelector(".top-rated-container")?.prepend($logoSearchBar);
@@ -23,7 +22,7 @@ async function renderContent(movieService: MovieService, results: MovieInfo[]) {
   // 컨텐츠 컨테이너
   ContentsContainer(results, "지금 인기 있는 영화");
 
-  $input?.addEventListener("keydown", async (event) => {
+  $input?.addEventListener("keypress", async (event) => {
     const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === "Enter") {
       const inputValue = (event.target as HTMLInputElement).value;
