@@ -1,35 +1,47 @@
-import image from "../templates/images/star_filled.png";
+import { MovieListSectionProps } from "../types/type";
+import getPopularMovieList from "./apis/getPopularMovieList";
+import $Banner from "./components/Banner/Banner";
+import asyncErrorBoundary from "./components/ErrorBoundary/Async/asyncErrorBoundary";
+import { addErrorBox } from "./components/ErrorBox/ErrorBox";
+import $HeaderBox from "./components/HeaderBox/HeaderBox";
+import {
+  $MovieListBox,
+  initCurrentPage,
+} from "./components/MovieListBox/MovieListBox";
+import { replaceSkeletonList } from "./components/Skeleton/MovieList/SkeletonList";
 
-console.log("npm run dev 명령어를 통해 영화 리뷰 미션을 시작하세요");
+export const replaceMovieListBox = ({
+  title,
+  movieResult,
+}: MovieListSectionProps) => {
+  initCurrentPage();
+  const $movieListSection = document.querySelector(
+    ".movie-list-section"
+  ) as HTMLElement;
 
-console.log(
-  "%c" +
-    " _____ ______   ________  ___      ___ ___  _______                \n" +
-    "|\\   _ \\  _   \\|\\   __  \\|\\  \\    /  /|\\  \\|\\  ___ \\               \n" +
-    "\\ \\  \\\\\\__\\ \\  \\ \\  \\|\\  \\ \\  \\  /  / | \\  \\ \\   __/|              \n" +
-    " \\ \\  \\\\|__| \\  \\ \\  \\\\\\  \\ \\  \\/  / / \\ \\  \\ \\  \\_|/__            \n" +
-    "  \\ \\  \\    \\ \\  \\ \\  \\\\\\  \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\           \n" +
-    "   \\ \\__\\    \\ \\__\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\          \n" +
-    "    \\|__|     \\|__|\\|_______|\\|__|/       \\|__|\\|_______|          \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    " ________  _______   ___      ___ ___  _______   ___       __      \n" +
-    "|\\   __  \\|\\  ___ \\ |\\  \\    /  /|\\  \\|\\  ___ \\ |\\  \\     |\\  \\    \n" +
-    "\\ \\  \\|\\  \\ \\   __/|\\ \\  \\  /  / | \\  \\ \\   __/|\\ \\  \\    \\ \\  \\   \n" +
-    " \\ \\   _  _\\ \\  \\_|/_\\ \\  \\/  / / \\ \\  \\ \\  \\_|/_\\ \\  \\  __\\ \\  \\  \n" +
-    "  \\ \\  \\\\  \\\\ \\  \\_|\\ \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\ \\  \\|\\__\\_\\  \\ \n" +
-    "   \\ \\__\\\\ _\\\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\ \\____________\\\n" +
-    "    \\|__|\\|__|\\|_______|\\|__|/       \\|__|\\|_______|\\|____________|",
-  "color: #d81b60; font-size: 14px; font-weight: bold;"
-);
+  $movieListSection.replaceChildren(
+    $MovieListBox({
+      title,
+      movieResult,
+    })
+  );
+};
 
-addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
+const initPopularMovieListRender = async () => {
+  replaceSkeletonList();
 
-  if (app) {
-    app.appendChild(buttonImage);
-  }
+  const popularMovieListResult = await getPopularMovieList(1);
+
+  replaceMovieListBox({
+    title: "인기있는 영화",
+    movieResult: popularMovieListResult,
+  });
+};
+
+const $header = document.querySelector("header");
+$header?.append($Banner(), $HeaderBox());
+
+asyncErrorBoundary({
+  asyncFn: () => initPopularMovieListRender(),
+  fallbackComponent: (errorMessage) => addErrorBox(errorMessage),
 });

@@ -19,19 +19,21 @@
   "bugs": {
     "url": "https://github.com/woowacourse-projects/javascript-movie-review/issues"
   },
-  "homepage": "https://{username}.github.io/javascript-movie-review",
+  "homepage": "https://eunsoa.github.io/javascript-movie-review",
   "devDependencies": {
-    "vite": "^6.1.0",
     "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-typescript": "^7.18.6",
+    "@types/cypress": "^1.1.6",
     "@types/jest": "^29.4.0",
     "babel-jest": "^29.3.1",
-    "jest": "^29.3.1",
     "cypress": "^12.3.0",
     "eslint": "^8.35.0",
+    "jest": "^29.3.1",
     "prettier": "^2.8.4",
-    "typescript": "~5.7.2"
+    "typescript": "~5.7.2",
+    "unplugin-auto-import": "^19.1.1",
+    "vite": "^6.1.0"
   },
   "jest": {
     "transform": {
