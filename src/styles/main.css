@@ -15,7 +15,7 @@ body {
   background-color: var(--color-bluegray-80);
 }
 
-#wrap,
+#movie-review-wrap,
 section {
   display: flex;
   flex-direction: column;
@@ -48,12 +48,12 @@ button.primary {
   display: none;
 }
 
-#wrap {
+#movie-review-wrap {
   min-width: 1440px;
   background-color: var(--color-bluegray-100);
 }
 
-#wrap h2 {
+#movie-review-wrap h2 {
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 32px;
