@@ -1,7 +1,7 @@
 import Skeleton from "./Skeleton";
 
 export default function MovieListSkeleton() {
-  const $ul = document.querySelector(".thumbnail-list");
+  const $movieListSkeleton = document.querySelector(".thumbnail-list");
 
   for (let i = 0; i < 20; i++) {
     const $li = document.createElement("li");
@@ -20,7 +20,7 @@ export default function MovieListSkeleton() {
     $item.append($itemDesc);
 
     $li.append($item);
-    $ul?.append($li);
+    $movieListSkeleton?.append($li);
   }
-  return $ul;
+  return $movieListSkeleton;
 }
