@@ -24,7 +24,6 @@ export default function createMovieLoader(
       Toast.showToast(error.message, "error", 5000);
       return { results: [], isLastPage: true };
     }
-
     if (!response || !response.results)
       throw new Error(ERROR_MESSAGE.FETCH_ERROR);
     if (response.results.length === 0) throw new Error(ERROR_MESSAGE.NO_DATA);

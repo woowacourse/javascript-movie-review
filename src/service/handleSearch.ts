@@ -8,7 +8,6 @@ import Toast from "../components/Toast/Toast";
 export default async function handleSearch(searchValue: string) {
   updateSearchDescription(searchValue);
   prepareUIForSearch();
-
   try {
     state.loadMovies = createMovieLoader(
       URLS.searchMovieUrl,
@@ -16,7 +15,6 @@ export default async function handleSearch(searchValue: string) {
       defaultOptions,
       searchValue
     );
-
     await createMovieList(state.loadMovies, true);
     finalizeUISuccess();
   } catch (error) {

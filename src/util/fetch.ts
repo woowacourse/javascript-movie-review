@@ -14,10 +14,20 @@ export async function fetchUrl<T>(
   const queryString = new URLSearchParams(queryObject).toString();
   const finalUrl = queryString ? `${url}?${queryString}` : url;
 
-  const response = await fetch(finalUrl, options);
+  try {
+    const response = await fetch(finalUrl, options);
 
-  if (!response.ok || !navigator.onLine)
+    if (!response.ok) {
+      throw new Error(ERROR_MESSAGE.SERVER_ERROR);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    if (!navigator.onLine) {
+      throw new Error(ERROR_MESSAGE.NETWORK_DISCONNECTED);
+    }
+
     throw new Error(ERROR_MESSAGE.FETCH_ERROR);
-
-  return response.json() || [];
+  }
 }
