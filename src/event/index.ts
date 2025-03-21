@@ -6,7 +6,7 @@ window.addEventListener("click", async (event) => {
   const { target } = event;
 
   if (isElement(target) && target.closest(".show-more")) {
-    store.page = store.page + 1;
+    store.page += 1;
     renderMoviesList();
   }
 });
@@ -15,30 +15,28 @@ window.addEventListener("submit", async (event) => {
   event.preventDefault();
   const { target } = event;
 
-  if (!isElement(target) || !target.closest(".top-rated-search")) return;
+  if (!isElement(target)) return;
 
-  const value = (
-    target.querySelector(".top-rated-search-input") as HTMLInputElement
-  ).value;
+  if (target.closest(".top-rated-search")) {
+    const formData = new FormData(target as HTMLFormElement);
+    const modalInput = Object.fromEntries(formData);
 
-  if (!value) return;
+    const value = modalInput.search.toString();
 
-  store.searchKeyword = value;
-  store.page = 1;
+    store.searchKeyword = value;
+    store.page = 1;
 
-  const $title = document.querySelector(".thumbnail-title");
-  if ($title) $title.textContent = `"${store.searchKeyword}" 검색 결과`;
+    const $title = document.querySelector(".thumbnail-title");
+    if ($title) $title.textContent = `"${store.searchKeyword}" 검색 결과`;
 
-  const $ul = document.querySelector(".thumbnail-list");
-  if ($ul) $ul.innerHTML = "";
+    const $thumbnailList = document.querySelector(".thumbnail-list");
+    if ($thumbnailList) $thumbnailList.innerHTML = "";
 
-  const $topRatedContainer = document.querySelector(".top-rated-container");
-  const $overlay = document.querySelector(".overlay");
+    document.querySelector(".top-rated-container")?.classList.add("close");
+    document.querySelector(".overlay")?.classList.add("close");
 
-  $topRatedContainer?.classList.add("close");
-  $overlay?.classList.add("close");
+    store.movies = [];
 
-  store.movies = [];
-
-  renderMoviesList();
+    renderMoviesList();
+  }
 });
