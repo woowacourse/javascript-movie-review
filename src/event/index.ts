@@ -23,25 +23,25 @@ window.addEventListener("submit", async (event) => {
 
     (target as HTMLFormElement).reset();
 
-    if (value) {
-      store.searchKeyword = value;
-      store.page = 1;
+    if (!value) return;
 
-      const $title = document.querySelector(".thumbnail-title");
-      if ($title) $title.textContent = `"${store.searchKeyword}" 검색 결과`;
+    store.searchKeyword = value;
+    store.page = 1;
 
-      const $ul = document.querySelector(".thumbnail-list");
-      if ($ul) $ul.innerHTML = "";
+    const $title = document.querySelector(".thumbnail-title");
+    if ($title) $title.textContent = `"${store.searchKeyword}" 검색 결과`;
 
-      const $topRatedContainer = document.querySelector(".top-rated-container");
-      const $overlay = document.querySelector(".overlay");
+    const $ul = document.querySelector(".thumbnail-list");
+    if ($ul) $ul.innerHTML = "";
 
-      $topRatedContainer?.classList.add("close");
-      $overlay?.classList.add("close");
+    const $topRatedContainer = document.querySelector(".top-rated-container");
+    const $overlay = document.querySelector(".overlay");
 
-      store.movies = [];
+    $topRatedContainer?.classList.add("close");
+    $overlay?.classList.add("close");
 
-      renderMoviesList();
-    }
+    store.movies = [];
+
+    renderMoviesList();
   }
 });
