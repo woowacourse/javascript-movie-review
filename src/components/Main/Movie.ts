@@ -1,4 +1,4 @@
-import { MovieInfo } from "../../types/movieType";
+import { MovieInfo } from "../../../types/movieType.js";
 import MovieItem from "./MovieItem.js";
 
 class Movie {

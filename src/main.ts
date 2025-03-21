@@ -1,9 +1,9 @@
-import Footer from "./components/Footer";
-import Header from "./components/Header";
+import Footer from "./components/Footer/Footer.js";
+import Header from "./components/Header/Header.js";
 import { MovieInfo } from "../types/movieType.ts";
-import ContentsContainer from "./components/ContentsContainer.ts";
+import ContentsContainer from "./components/Main/ContentsContainer.ts";
 import MovieService from "./services/MovieService.ts";
-import LogoSearchBar from "./components/LogoSearchBar.js";
+import LogoSearchBar from "./components/Header/LogoSearchBar.js";
 
 function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
   const $container = document.querySelector("#wrap");

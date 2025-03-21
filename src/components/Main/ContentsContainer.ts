@@ -1,6 +1,6 @@
-import { MovieInfo } from "../../types/movieType";
-import MovieService from "../services/MovieService";
-import Button from "./Button";
+import { MovieInfo } from "../../../types/movieType";
+import MovieService from "../../services/MovieService";
+import Button from "../Button/Button";
 import MovieList from "./MovieList";
 
 const MAXIMUM_PAGE = 500;
