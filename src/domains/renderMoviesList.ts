@@ -5,10 +5,10 @@ import MovieListSkeleton from "../components/MovieListSkeleton";
 import TopRatedMovie from "../components/TopRatedMovie";
 import { DEFAULT_BACK_DROP_URL, MAX_MOVIE_PAGE } from "../constants";
 
-const $mainSection = document.querySelector("main section");
-const $ul = document.querySelector(".thumbnail-list");
-const $error = document.querySelector(".error");
-const $h2 = $error?.querySelector("h2");
+const $mainSection = document.querySelector("main section") as HTMLElement;
+const $ul = document.querySelector(".thumbnail-list") as HTMLElement;
+const $error = document.querySelector(".error") as HTMLElement;
+const $h2 = $error.querySelector("h2") as HTMLElement;
 
 const changeHeaderBackground = () => {
   const $backgroundContainer = document.querySelector(
@@ -57,25 +57,25 @@ const renderSearchList = async () => {
   store.totalPages = moviesResponse.total_pages;
 
   if (store.movies.length === 0) {
-    $ul?.classList.add("close");
-    $error?.classList.remove("close");
+    $ul.classList.add("close");
+    $error.classList.remove("close");
     if ($h2) $h2.textContent = "검색 결과가 없습니다.";
   } else {
-    $ul?.classList.remove("close");
-    $error?.classList.add("close");
+    $ul.classList.remove("close");
+    $error.classList.add("close");
   }
 };
 
 export const renderMoviesList = async () => {
   const $skeleton = MovieListSkeleton();
-  if ($skeleton) $mainSection?.appendChild($skeleton);
+  if ($skeleton) $mainSection.appendChild($skeleton);
 
   try {
     if (store.searchKeyword === "") await renderTotalList();
     else await renderSearchList();
   } catch (error: any) {
-    $ul?.classList.add("close");
-    $error?.classList.remove("close");
+    $ul.classList.add("close");
+    $error.classList.remove("close");
 
     if ($ul) $ul.innerHTML = "";
     if (error.message === "400" && $h2)
@@ -93,5 +93,5 @@ export const renderMoviesList = async () => {
 
   if ($ul) $ul.innerHTML = "";
   const $movies = MovieList(store.movies);
-  if ($movies) $mainSection?.appendChild($movies);
+  if ($movies) $mainSection.appendChild($movies);
 };
