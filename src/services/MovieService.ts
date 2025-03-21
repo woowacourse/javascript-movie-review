@@ -1,3 +1,5 @@
+import APIHandler from "../ApiHandler";
+
 const options = {
   method: "GET",
   headers: {
@@ -16,37 +18,17 @@ class MovieService {
   }
 
   async getPopularMovies() {
-    const response = await fetch(
-      `${this.baseUrl}/movie/popular?language=ko-KR&page=${this.currentPage}`,
-      options
+    const movies = await APIHandler.get(
+      `/movie/popular?language=ko-KR&page=${this.currentPage}`
     );
-
-    if (response.status === 200) {
-      const data = await response.json();
-      return data;
-    }
-
-    if (response.status === 500) {
-      alert("데이터를 불러오는 중 문제가 발생했습니다. 다시 시도해주세요😅");
-    }
-
-    return [];
+    return movies;
   }
 
   async getSearchResult(searchWord: string) {
-    const response = await fetch(
-      `${this.baseUrl}/search/movie?query=${searchWord}&include_adult=false?language=ko-KR&page=${this.currentPage}`,
-      options
+    const searchResult = await APIHandler.get(
+      `/search/movie?query=${searchWord}&include_adult=false&language=ko-KR&page=${this.currentPage}`
     );
-
-    if (response.status === 200) {
-      const data = await response.json();
-      return data;
-    }
-    if (response.status === 500) {
-      alert("데이터를 불러오는 중 문제가 발생했습니다. 다시 시도해주세요😅");
-    }
-    return [];
+    return searchResult;
   }
 
   nextPage() {
