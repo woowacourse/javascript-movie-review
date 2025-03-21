@@ -1,9 +1,10 @@
+import { MOVIE_ITEM_PER_PAGE } from "../constants";
 import Skeleton from "./Skeleton";
 
 export default function MovieListSkeleton() {
   const $movieListSkeleton = document.querySelector(".thumbnail-list");
 
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < MOVIE_ITEM_PER_PAGE; i++) {
     const $li = document.createElement("li");
     const $item = document.createElement("div");
     $item.className = "item";
