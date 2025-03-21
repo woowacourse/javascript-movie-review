@@ -75,14 +75,6 @@ h1.logo {
   z-index:500;
 }
 
-/* h1.logo {
-  margin-right: auto;
-  font-size: 2rem;
-  position: fixed;
-  left: 0;
-  margin-left: 40px;
-} */
-
 body {
   font-size: 16px;
   color: var(--color-white);
@@ -142,7 +134,6 @@ button.primary {
   background-size: cover;
   height: 500px;
   padding: 48px;
-  /* background-image: url('https://media.themoviedb.org/t/p/w440_and_h660_face/pmemGuhr450DK8GiTT44mgwWCP7.jpg'); */
 }
 
 .overlay {

@@ -2,7 +2,6 @@
 
 describe("Fixture를 이용한 테스트", () => {
     beforeEach(() => {
-      // https://docs.cypress.io/api/commands/intercept
       cy.intercept(
         {
           method: "GET",

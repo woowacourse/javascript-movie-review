@@ -28,7 +28,6 @@ describe("Fixture를 이용한 테스트", () => {
       .find("button")
       .click();
 
-    // 검색 API 응답 대기
     cy.wait("@getSearchMovies").then((interception) => {
        cy.get(".thumbnail-list > li").should("have.length", 20);
        
