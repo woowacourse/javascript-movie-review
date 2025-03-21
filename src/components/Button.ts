@@ -5,7 +5,7 @@ interface ButtonProps {
 
 export default function Button({ className, textContent }: ButtonProps) {
   const $button = document.createElement("button");
-  $button.className = `${className} primary`;
+  $button.className = `primary ${className}`;
   $button.textContent = textContent;
 
   return $button;
