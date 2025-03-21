@@ -28,7 +28,7 @@ async function renderContent(movieService: MovieService, results: MovieInfo[]) {
     if (keyboardEvent.key === "Enter") {
       const inputValue = (event.target as HTMLInputElement).value;
 
-      if (inputValue === "") {
+      if (inputValue.trim() === "") {
         alert("검색어를 입력해주세요.");
       } else {
         const searchResult = await movieService.getSearchResult(inputValue);
@@ -42,7 +42,7 @@ async function renderContent(movieService: MovieService, results: MovieInfo[]) {
 
   $button?.addEventListener("click", async () => {
     const inputValue = $input?.value;
-    if (inputValue === "") {
+    if (inputValue.trim() === "") {
       alert("검색어를 입력해주세요.");
     } else {
       const searchResult = await movieService.getSearchResult(inputValue);
