@@ -1,6 +1,6 @@
 import { MovieSkeleton } from "./components/MovieSkeleton";
 
-export const createSkeletons = (count: number = 10) => {
+export const createSkeletons = (count = 10) => {
   const skeleton = document.createElement("div");
   skeleton.classList.add("skeleton");
 
