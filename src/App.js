@@ -142,6 +142,8 @@ class App {
 
     const $input = document.querySelector(".search-input");
 
+    if ($input.value === "") return;
+
     this.#searchPage = 1;
     this.setShow(true);
 
