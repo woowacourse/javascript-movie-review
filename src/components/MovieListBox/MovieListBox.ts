@@ -48,16 +48,10 @@ const $MovieListBoxRender = () => {
     page: 1,
   };
 
-  const initCurrentPage = () => {
-    movieState.page = 1;
-  };
-
-  const setMovieListType = (type: MovieListType) => {
+  const setMovieListState = ({ type, keyword, page }: MovieState) => {
     movieState.type = type;
-  };
-
-  const setKeyword = (keyword: string) => {
     movieState.keyword = keyword;
+    movieState.page = page;
   };
 
   const handleMoreButtonClick = async () => {
@@ -88,6 +82,7 @@ const $MovieListBoxRender = () => {
   const $MovieListBox = ({ title, movieResult }: MovieListSectionProps) => {
     const $fragment = document.createDocumentFragment();
     const $title = createElement("h2", {
+      className: "movie-list-title",
       textContent: title,
     });
     const $movieList = $MovieList(movieResult.results);
@@ -110,8 +105,7 @@ const $MovieListBoxRender = () => {
     return $movieListBox;
   };
 
-  return { initCurrentPage, setKeyword, setMovieListType, $MovieListBox };
+  return { setMovieListState, $MovieListBox };
 };
 
-export const { initCurrentPage, setKeyword, setMovieListType, $MovieListBox } =
-  $MovieListBoxRender();
+export const { setMovieListState, $MovieListBox } = $MovieListBoxRender();

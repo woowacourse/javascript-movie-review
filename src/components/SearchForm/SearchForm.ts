@@ -2,7 +2,7 @@ import getSearchedMovieList from "../../apis/getSearchedMovieList";
 import { replaceMovieListBox } from "../../main";
 import { removeBanner } from "../Banner/Banner";
 import { addErrorBox } from "../ErrorBox/ErrorBox";
-import { setKeyword, setMovieListType } from "../MovieListBox/MovieListBox";
+import { setMovieListState } from "../MovieListBox/MovieListBox";
 import { replaceSkeletonList } from "../Skeleton/MovieList/SkeletonList";
 
 const handleSearchFormSubmit = async (event: Event) => {
@@ -24,8 +24,11 @@ const handleSearchFormSubmit = async (event: Event) => {
       movieResult: searchResult,
     });
 
-    setMovieListType("search");
-    setKeyword(searchValue);
+    setMovieListState({
+      type: "search",
+      keyword: searchValue,
+      page: 1,
+    });
   } catch (error) {
     if (error instanceof Error) {
       addErrorBox(error.message);
