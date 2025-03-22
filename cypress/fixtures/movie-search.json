@@ -52,12 +52,7 @@
     {
       "adult": false,
       "backdrop_path": "/vW7lwVHkRePHzayZfoKOyYBeZqO.jpg",
-      "genre_ids": [
-        16,
-        12,
-        35,
-        10751
-      ],
+      "genre_ids": [16, 12, 35, 10751],
       "id": 1221404,
       "original_language": "ja",
       "original_title": "映画クレヨンしんちゃん オラたちの恐竜日記",
@@ -73,11 +68,7 @@
     {
       "adult": false,
       "backdrop_path": "/rPfjyws2DDm5lPPj5OQ5HjPDC8Q.jpg",
-      "genre_ids": [
-        10751,
-        16,
-        35
-      ],
+      "genre_ids": [10751, 16, 35],
       "id": 453575,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん 襲来！！宇宙人シリリ",
@@ -93,11 +84,7 @@
     {
       "adult": false,
       "backdrop_path": "/mBASjOb6DecQGZGPvnPlhOgnAUj.jpg",
-      "genre_ids": [
-        12,
-        16,
-        35
-      ],
+      "genre_ids": [12, 16, 35],
       "id": 371236,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん オラの引越し物語 サボテン大襲撃",
@@ -113,13 +100,7 @@
     {
       "adult": false,
       "backdrop_path": "/nR7e6of0ZVxB8v04gGbjOJ9rb8w.jpg",
-      "genre_ids": [
-        12,
-        16,
-        35,
-        10751,
-        14
-      ],
+      "genre_ids": [12, 16, 35, 10751, 14],
       "id": 424656,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん 爆睡！ユメミーワールド大突撃",
@@ -135,10 +116,7 @@
     {
       "adult": false,
       "backdrop_path": "/kLNS5oNxWE2vpZNbr0wQ8M2RifQ.jpg",
-      "genre_ids": [
-        35,
-        16
-      ],
+      "genre_ids": [35, 16],
       "id": 305143,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん ガチンコ!逆襲のロボとーちゃん",
@@ -154,11 +132,7 @@
     {
       "adult": false,
       "backdrop_path": "/8XuyqEV6d2W2DakBT816tR0ET2V.jpg",
-      "genre_ids": [
-        16,
-        12,
-        10751
-      ],
+      "genre_ids": [16, 12, 10751],
       "id": 596302,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん 新婚旅行ハリケーン ～失われたひろし～",
@@ -174,9 +148,7 @@
     {
       "adult": false,
       "backdrop_path": "/72CrSHUiw22J0oAMMCMV4NZ4KNT.jpg",
-      "genre_ids": [
-        16
-      ],
+      "genre_ids": [16],
       "id": 163786,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん バカうまっ！Ｂ級グルメサバイバル！！",
@@ -192,10 +164,7 @@
     {
       "adult": false,
       "backdrop_path": "/lAoaliIyDNDJnj1FGp8rmGdLtMq.jpg",
-      "genre_ids": [
-        35,
-        16
-      ],
+      "genre_ids": [35, 16],
       "id": 163772,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん 嵐を呼ぶ!オラと宇宙のプリンセス",
@@ -211,10 +180,7 @@
     {
       "adult": false,
       "backdrop_path": "/d0nNFIypCjGrM0lGopxDZkF8e28.jpg",
-      "genre_ids": [
-        16,
-        35
-      ],
+      "genre_ids": [16, 35],
       "id": 128884,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん 嵐を呼ぶ 歌うケツだけ爆弾！",
@@ -230,10 +196,7 @@
     {
       "adult": false,
       "backdrop_path": "/zlHeQg9OTYED2Gm4ZErdvElsUFg.jpg",
-      "genre_ids": [
-        16,
-        35
-      ],
+      "genre_ids": [16, 35],
       "id": 955666,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん もののけニンジャ珍風伝",
@@ -249,15 +212,7 @@
     {
       "adult": false,
       "backdrop_path": "/gjEiHrj8dSsgL25XbIxT9o5qO3u.jpg",
-      "genre_ids": [
-        16,
-        35,
-        28,
-        12,
-        10751,
-        14,
-        878
-      ],
+      "genre_ids": [16, 35, 28, 12, 10751, 14, 878],
       "id": 1059572,
       "original_language": "ja",
       "original_title": "しん！クレヨンしんちゃんTHE MOVIE 超能力大決戦 ～とべとべ手巻き寿司～",
@@ -273,11 +228,7 @@
     {
       "adult": false,
       "backdrop_path": "/tMu1ceUmscHoOJFCkz3HmTRBAg3.jpg",
-      "genre_ids": [
-        16,
-        35,
-        12
-      ],
+      "genre_ids": [16, 35, 12],
       "id": 37280,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん 嵐を呼ぶモーレツ！オトナ帝国の逆襲",
@@ -293,10 +244,7 @@
     {
       "adult": false,
       "backdrop_path": "/ubpleh5Oj6ymlZsGUGo77hOKXXR.jpg",
-      "genre_ids": [
-        16,
-        35
-      ],
+      "genre_ids": [16, 35],
       "id": 89458,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん 暗黒タマタマ大追跡",
@@ -312,11 +260,7 @@
     {
       "adult": false,
       "backdrop_path": "/tmj4cc8LKfAwxnF32M6fQk67tkK.jpg",
-      "genre_ids": [
-        16,
-        35,
-        12
-      ],
+      "genre_ids": [16, 35, 12],
       "id": 117087,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん 嵐を呼ぶジャングル",
@@ -332,10 +276,7 @@
     {
       "adult": false,
       "backdrop_path": "/iGu27QGQtquhweyxXoVK4N6FkHs.jpg",
-      "genre_ids": [
-        16,
-        35
-      ],
+      "genre_ids": [16, 35],
       "id": 128868,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん アクション仮面VSハイグレ魔王",
@@ -351,9 +292,7 @@
     {
       "adult": false,
       "backdrop_path": "/g2U2a6yhXJMDFCIMH14Ol4GdzXI.jpg",
-      "genre_ids": [
-        16
-      ],
+      "genre_ids": [16],
       "id": 104154,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん 雲黒斎の野望",
@@ -369,11 +308,7 @@
     {
       "adult": false,
       "backdrop_path": "/oEu96CmVL9kjneOzjatLeeSZYS2.jpg",
-      "genre_ids": [
-        35,
-        12,
-        16
-      ],
+      "genre_ids": [35, 12, 16],
       "id": 507562,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん 爆盛！カンフーボーイズ ～拉麺大乱～",

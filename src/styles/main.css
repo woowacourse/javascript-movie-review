@@ -76,7 +76,6 @@ button.primary {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-
 }
 
 .overlay img {
@@ -85,8 +84,8 @@ button.primary {
   object-fit: cover;
 }
 
-.backdrop{
-  background-color: rgba(0,0,0,0.5);
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
   top: 0;
   left: 0;
@@ -113,7 +112,7 @@ button.primary {
 .top-header {
   display: flex;
   align-items: center;
-  justify-content: center; 
+  justify-content: center;
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
@@ -137,7 +136,7 @@ h1.logo {
   position: absolute;
   left: 0;
   z-index: 3;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .search-bar {
@@ -169,9 +168,8 @@ h1.logo {
   cursor: pointer;
   font-size: 20px;
   color: white;
-  padding: 10px
+  padding: 10px;
 }
-
 
 .rate {
   display: flex;
@@ -195,20 +193,20 @@ span.rate-value {
   font-weight: bold;
 }
 
-.load-more{ 
+.load-more {
   background-color: var(--color-lightblue-90);
-  width:1280px;
-  height:50px;
+  width: 1280px;
+  height: 50px;
 
   color: var(--color-white);
   font-weight: bold;
-  font-size:24px;
+  font-size: 24px;
 
-  margin:0 auto 56px;
+  margin: 0 auto 56px;
   border-radius: 4px;
 }
 
-.hidden{
+.hidden {
   display: none;
 }
 
@@ -226,7 +224,6 @@ footer.footer p:not(:last-child) {
   margin-bottom: 8px;
 }
 
-
 .skeleton-box {
   background: linear-gradient(90deg, #383838 25%, #383838 50%, #323232 75%);
   background-size: 200% 100%;
@@ -235,14 +232,18 @@ footer.footer p:not(:last-child) {
 }
 
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 .thumbnail.skeleton-box {
   width: 200px;
   height: 300px;
-  margin-bottom:10px;
+  margin-bottom: 10px;
 }
 
 .item-desc.skeleton-box {
@@ -250,18 +251,18 @@ footer.footer p:not(:last-child) {
   height: 24px;
 }
 
-.no-result{
-  display:flex;
+.no-result {
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.no-result img{
-  width:72px;
+.no-result img {
+  width: 72px;
 }
 
-.no-result h1{
-  font-size:3rem;
+.no-result h1 {
+  font-size: 3rem;
   font-weight: bold;
 }
