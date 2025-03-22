@@ -11,8 +11,8 @@ export function buildQuery(
   plainQuery: { [key: string]: string },
   searchTerm: string | undefined,
   page: number
-): { [key: string]: any } {
+): { [key: string]: string } {
   return searchTerm
-    ? { query: searchTerm, ...plainQuery, page }
-    : { ...plainQuery, page };
+    ? { query: searchTerm, ...plainQuery, page: String(page) }
+    : { ...plainQuery, page: String(page) };
 }

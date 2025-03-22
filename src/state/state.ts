@@ -1,6 +1,6 @@
 import type { Result } from "../../types/TMDB";
 
-interface StateTypes {
+export interface StateTypes {
   loadMovies:
     | (() => Promise<{ results: Result[]; isLastPage: boolean }>)
     | null;

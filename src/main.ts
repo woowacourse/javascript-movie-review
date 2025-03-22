@@ -9,6 +9,7 @@ import {
 } from "./setting/settings.ts";
 
 import state from "./state/state.ts";
+import type { StateTypes } from "./state/state.ts";
 
 import {
   renderHeaderAndHero,
@@ -28,7 +29,8 @@ const initState = () => ({
   loadMovies: initMovies(),
 });
 
-const renderApp = (state) => {
+const renderApp = (state: StateTypes) => {
+  if (!state.loadMovies) return;
   renderHeaderAndHero();
   renderMovieList(state.loadMovies);
   renderLoadMoreButton(state);

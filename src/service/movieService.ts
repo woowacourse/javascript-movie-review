@@ -1,24 +1,28 @@
 import { fetchUrl } from "../util/fetch";
 import { validateResponse } from "../util/validation";
-import { TMDBResponse } from "../../types/TMDB";
+import type { TMDBResponse } from "../../types/TMDB";
 
 export async function fetchMovies(
   url: string,
-  queryObject: { [key: string]: any },
+  queryObject: { [key: string]: string },
   options: FetchOptions,
   onError: (error: Error) => void
 ): Promise<TMDBResponse> {
   try {
-    const response = await fetchUrl<TMDBResponse>(url, queryObject, options);
+    const response = await fetchUrl<TMDBResponse>(
+      url,
+      new URLSearchParams(queryObject),
+      options
+    );
     validateResponse(response);
     return response;
   } catch (error) {
     if (onError) {
-      onError(error);
+      onError(error as Error);
     } else {
       throw error;
     }
 
-    return { results: [], total_pages: 0 };
+    return { results: [], total_pages: 0, page: 1, total_results: 0 };
   }
 }

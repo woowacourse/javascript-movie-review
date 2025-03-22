@@ -8,18 +8,20 @@ export function createElement<K extends keyof HTMLElementTagNameMap>(
 ): HTMLElementTagNameMap[K] {
   const element = document.createElement(tag) as HTMLElementTagNameMap[K];
 
-  Object.entries(props).forEach(([key, value]) => {
+  for (const [key, value] of Object.entries(props)) {
     if (key === "className") {
       if (Array.isArray(value)) {
         element.classList.add(...value);
       } else if (typeof value === "string") {
         element.classList.add(value);
       }
-      return;
+      continue;
     }
 
-    if (key in element) (element as any)[key] = value;
-  });
+    if (key in element) {
+      (element as Record<string, unknown>)[key] = value;
+    }
+  }
 
   return element;
 }
