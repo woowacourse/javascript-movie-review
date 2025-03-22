@@ -16,19 +16,27 @@ import {
   renderLoadMoreButton,
 } from "./view/MovieView.ts";
 
-function main() {
-  state.loadMovies = createMovieLoader(
+const initMovies = () =>
+  createMovieLoader(
     URLS.popularMovieUrl,
     defaultQueryObject,
     defaultOptions,
-    (error) => {
-      Toast.showToast(error.message, "error", 5000);
-    }
+    (error) => Toast.showToast(error.message, "error", 5000)
   );
 
+const initState = () => ({
+  loadMovies: initMovies(),
+});
+
+const renderApp = (state) => {
   renderHeaderAndHero();
   updateMovieList(state.loadMovies);
   renderLoadMoreButton(state);
-}
+};
+
+const main = () => {
+  Object.assign(state, initState());
+  renderApp(state);
+};
 
 main();
