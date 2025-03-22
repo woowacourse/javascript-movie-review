@@ -31,6 +31,12 @@ export async function redirectToPage(url: string) {
   await renderContent();
 }
 
+export function initRouter() {
+  window.addEventListener('popstate', () => {
+    renderContent();
+  });
+}
+
 export async function renderContent() {
   const $layoutContainer = $({ selector: '.content' });
   if ($layoutContainer) {
