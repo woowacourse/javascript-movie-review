@@ -1,4 +1,4 @@
-import { PaginatedMovies } from "../types/domain";
+import { Movie, PaginatedMovies } from "../types/domain";
 import api from "./api/api";
 import MovieItem from "./components/MovieItem";
 import SearchBar from "./components/SearchBar";
@@ -35,11 +35,15 @@ async function getMovieData() {
   const itemCount = document.querySelectorAll("ul.thumbnail-list li").length;
   const pageNumber = itemCount / MOVIE_AMOUNT_IN_PAGE + 1;
 
-  return (await api.getMovieData(pageNumber)) as PaginatedMovies;
+  try {
+    return (await api.getMovieData(pageNumber)) as PaginatedMovies;
+  } catch (error) {
+    if (error instanceof Error) alert(error.message);
+  }
 }
 
 async function renderTitleMovie() {
-  const topMovieData = (await getMovieData()).results[0];
+  const topMovieData = (await getMovieData())?.results[0] as Movie;
   const movieTitle = topMovieData.title;
   const movieRate = topMovieData.vote_average;
   const movieBackdropUrl = BACKDROP_IMG_PREFIX + topMovieData.backdrop_path;
@@ -63,7 +67,7 @@ async function renderMovieData() {
   const skeletonUlElement = document.querySelector(".skeleton-list");
   toggleVisibility(skeletonUlElement, "show");
 
-  const movieData = (await getMovieData()).results;
+  const movieData = (await getMovieData())?.results as Movie[];
 
   movieData.forEach(({ title, poster_path, vote_average }) => {
     const movieItem = new MovieItem({ title, vote_average, poster_path });

@@ -98,13 +98,13 @@ class SearchBar {
     toggleVisibility(seeMoreButton, "hidden");
 
     const searchResult = await this.#getSearchResult(pageNumber, query);
-    if (pageNumber < searchResult.total_pages)
+    if (searchResult && pageNumber < searchResult.total_pages)
       toggleVisibility(seeMoreButton, "show");
-    if (searchResult.total_results === 0)
+    if (searchResult && searchResult.total_results === 0)
       toggleVisibility(DOM.$noThumbnail, "show");
     toggleVisibility(skeletonUlElement, "hidden");
 
-    searchResult.results.forEach(({ title, poster_path, vote_average }) => {
+    searchResult?.results.forEach(({ title, poster_path, vote_average }) => {
       const movieItem = new MovieItem({
         title,
         vote_average,
@@ -116,7 +116,11 @@ class SearchBar {
   }
 
   async #getSearchResult(pageNumber: number, query: string) {
-    return (await api.getSearchData(pageNumber, query)) as PaginatedMovies;
+    try {
+      return (await api.getSearchData(pageNumber, query)) as PaginatedMovies;
+    } catch (error) {
+      if (error instanceof Error) alert(error.message);
+    }
   }
 }
 
