@@ -2,7 +2,6 @@ import { MovieItem, MovieResponse } from '../types/Movie.types';
 import { ENV } from '../api/env';
 import Fetcher from '../api/Fetcher';
 import { movieFetcherEvent } from './MovieFetcherEvent';
-import { delay } from '../utils/delay';
 
 export const API_PATH = {
   MOVIE: 'movie/popular',
@@ -36,7 +35,6 @@ class MovieFetcher {
 
     movieFetcherEvent.notify();
     const response = await this.movieFetcher.get<MovieResponse>(url);
-    await delay(1000);
 
     this.isLoading = false;
     this.updateMovieData(response);
@@ -70,12 +68,10 @@ class MovieFetcher {
     if (page === 1) {
       this.movieResult = [];
     }
-
     this.isSearch = true;
     this.currentPage = page;
     this.query = query;
 
-    movieFetcherEvent.notify();
     const url = `${API_PATH.SEARCH}?query=${query}&page=${page}`;
     return await this.fetchMovieData(url);
   }
