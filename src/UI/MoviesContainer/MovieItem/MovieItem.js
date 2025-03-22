@@ -1,3 +1,4 @@
+import { IMG_PATH } from "../../../constants/constants";
 import "./MovieItem.css";
 
 class MovieItem {
@@ -22,7 +23,7 @@ class MovieItem {
             <img
             class="thumbnail"
             src=${
-              poster_path === "https://image.tmdb.org/t/p/w300null"
+              poster_path === `${IMG_PATH}/w300null`
                 ? "./images/nullImage.png"
                 : poster_path
             }

@@ -5,6 +5,7 @@ import Footer from "./UI/Layout/Footer/Footer";
 import { getPopularityMovie } from "./Domain/getPopularityMovie";
 import { searchMovie } from "./Domain/searchMovie";
 import MovieListSection from "./UI/MoviesContainer/MovieListSection/MovieListSection";
+import { IMG_PATH } from "./constants/constants";
 
 class App {
   #movies;
@@ -84,9 +85,9 @@ class App {
 
       const results = data.results.map((movie) => ({
         ...movie,
-        poster_path: `https://image.tmdb.org/t/p/w300${movie.poster_path}`,
+        poster_path: `${IMG_PATH}/w300${movie.poster_path}`,
         vote_average: movie.vote_average.toFixed(1),
-        backdrop_path: `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`,
+        backdrop_path: `${IMG_PATH}/w1280${movie.backdrop_path}`,
       }));
 
       return { results, totalPage: data.total_pages };
