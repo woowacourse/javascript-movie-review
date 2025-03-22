@@ -15,7 +15,7 @@ const renderErrorState = () => {
   const error = movieFetcher.errorState;
   if (!error) return;
 
-  titleText.style.display = 'none'; // 제목도 숨김
+  titleText.style.display = 'none';
   movieUl.style.display = 'none';
   moreBtn.style.display = 'none';
   const errorContainer = createElement('div', {
@@ -30,9 +30,7 @@ const renderErrorState = () => {
     },
   });
 
-  // 오류 UI 추가
   errorContainer.append(errorMessage);
-
   sectionElement.insertBefore(errorContainer, movieUl);
 };
 
@@ -167,7 +165,7 @@ const renderMovieList = () => {
     return;
   }
 
-  if (isSearch && results.length === 0) {
+  if (results.length === 0) {
     renderEmptyState();
     return;
   }
@@ -184,9 +182,6 @@ export const MovieList = async (): Promise<HTMLElement> => {
   const app = document.querySelector('#app');
   if (app?.firstChild) {
     app.insertBefore(mainElement, app.firstChild.nextSibling);
-  }
-  if (app) {
-    app.appendChild(mainElement);
   }
 
   renderMoreLoadingState(20);
