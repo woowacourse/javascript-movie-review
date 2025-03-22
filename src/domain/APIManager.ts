@@ -61,5 +61,6 @@ async function fetchMovieList(url: string) {
 
 function errorHandlerByStatusCode(statusCode: number) {
   const errorMessage = STATUS_CODE_MESSAGE[statusCode] ?? `${statusCode} 에러가 발생했습니다.`;
+  redirectToPage('/error');
   throw new Error(errorMessage);
 }
