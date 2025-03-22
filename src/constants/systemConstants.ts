@@ -6,4 +6,7 @@ export const SYSTEM_CONSTANTS = Object.freeze({
     `https://api.themoviedb.org/3/movie/popular?language=ko-KR&include_adult=false&page=${page}`,
 });
 
-// todo : 상수에 대한 응집도 높히기
+export const IMAGE_URL = Object.freeze({
+  LOGO: 'https://h0ngju.github.io/javascript-movie-review/logo.png',
+  WOOWA_LOGO: 'https://h0ngju.github.io/javascript-movie-review/woowacourse_logo.png',
+});
