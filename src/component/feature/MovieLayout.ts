@@ -4,6 +4,7 @@ import hideskeleton from "../../util/hideskeleton.js";
 import {MovieData,MovieState} from "../../../types/movieDataType";
 import createSkeletonData from "../../util/createSkeletonData.js";
 import { getElement } from "../../util/utils.js";
+import { MOVIE_COUNT_PER_PAGE } from "../../constant/constant.js";
 
 class MovieLayout {
     #state:MovieState;
@@ -12,7 +13,7 @@ class MovieLayout {
         this.#state = {
             title: "지금 인기 있는 영화",
             eventName: "readMoreMovieList",
-            isPossibleMore: movieData.length === 20,
+            isPossibleMore: movieData.length === MOVIE_COUNT_PER_PAGE,
             movieData,
         }
         this.render();

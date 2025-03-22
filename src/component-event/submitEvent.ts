@@ -1,5 +1,6 @@
 import { fetchSearchMovies } from "../api/fetch.js";
 import MovieLayout from "../component/feature/MovieLayout";
+import { MOVIE_COUNT_PER_PAGE } from "../constant/constant.js";
 import { getElement } from "../util/utils.js";
 
 async function submitEvent(this:void, movieLayout: MovieLayout) {
@@ -11,7 +12,7 @@ async function submitEvent(this:void, movieLayout: MovieLayout) {
     const searchKeyword = String(formData.get("searchInput"));
 
     const {results: searchData} = await fetchSearchMovies(searchKeyword, 1);
-    movieLayout.setState({title: `"${searchKeyword}" 검색 결과`, eventName: 'readMoreSearchList', movieData: searchData, isPossibleMore: searchData.length === 20});
+    movieLayout.setState({title: `"${searchKeyword}" 검색 결과`, eventName: 'readMoreSearchList', movieData: searchData, isPossibleMore: searchData.length === MOVIE_COUNT_PER_PAGE});
   }
 
 
