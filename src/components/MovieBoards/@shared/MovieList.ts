@@ -43,9 +43,11 @@ class MovieList implements MovieListContract {
           ({ poster_path, title, vote_average }) => /*html*/ `
             <li>
               <div class="item">
-                <img class="thumbnail" src="${this.#posterImage(
-                  poster_path
-                )}" alt="${title}" />
+                <img 
+                  class="thumbnail" 
+                  src="${this.#posterImage(poster_path)}" alt="${title}" 
+                  onerror="this.onerror=null; this.src='./images/dizzy_planet.png';"
+                  />
                 <div class="item-desc">
                   <p class="rate">
                     <img src="./images/star_empty.png" class="star" />
