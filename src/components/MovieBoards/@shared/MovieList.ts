@@ -16,22 +16,18 @@ class MovieList implements MovieListContract {
 
   public get skeleton(): string {
     return /*html*/ `
-      ${Array.from({ length: 20 })
-        .map(
-          () => /*html*/ `
-            <li>
-              <div class="skeleton-item">
-                <div class="skeleton-thumbnail"></div>
-                <div class="skeleton-item-desc">
-                  <div class="skeleton-text"></div>
-                  <div class="skeleton-text" style="width: 50%"></div>
-                </div>
-              </div>
-            </li>
-          `
-        )
-        .join("")}
-    `;
+      <li>
+        <div class="skeleton-item">
+          <div class="skeleton-thumbnail"></div>
+          <div class="skeleton-item-desc">
+            <div class="skeleton-text"></div>
+            <div class="skeleton-text" style="width: 50%"></div>
+          </div>
+        </div>
+      </li>
+    `
+      .repeat(20)
+      .trim();
   }
 
   #posterImage(poster_path: Movie["poster_path"]): string {
