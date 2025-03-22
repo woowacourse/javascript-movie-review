@@ -10,6 +10,9 @@ async function ContentsContainer(results: MovieInfo[], contentTitle: string) {
   const $main = document.querySelector("main");
   const movieService = new MovieService();
   const $section = document.querySelector("section");
+
+  const isSearchMode = contentTitle.includes('"');
+
   const $h2 = document.createElement("h2");
   $h2.innerText = contentTitle;
   $section?.appendChild($h2);
@@ -17,6 +20,7 @@ async function ContentsContainer(results: MovieInfo[], contentTitle: string) {
   const movieList = new MovieList(results);
   const $movieList = movieList.renderMovieList();
   $section?.appendChild($movieList);
+  hideSkeleton();
   removeButton();
 
   const $button = Button("더 보기", "more", clickMoreMovies);
@@ -41,18 +45,27 @@ async function ContentsContainer(results: MovieInfo[], contentTitle: string) {
 
     showSkeleton(20, "section");
 
-    const additionalData = await movieService.getPopularMovies();
-
+    let additionalData;
+    if (isSearchMode) {
+      const searchQuery = contentTitle
+        .replace(/['"]/g, "")
+        .replace(" 검색 결과", "");
+      additionalData = await movieService.getSearchResult(searchQuery);
+    } else {
+      additionalData = await movieService.getPopularMovies();
+    }
     hideSkeleton();
+    const $moreButton = event.target as HTMLButtonElement;
     const movieList = new MovieList(additionalData.results);
     const $movieList = movieList.renderMovieList();
 
-    const $moreButton = event.target as HTMLButtonElement;
-    if (movieService.currentPage === MAXIMUM_PAGE) {
+    $section?.appendChild($movieList);
+    if (
+      movieService.currentPage === MAXIMUM_PAGE ||
+      movieService.currentPage === additionalData.total_pages
+    ) {
       $moreButton.remove();
     }
-
-    $section?.appendChild($movieList);
   }
 
   function removeButton() {
