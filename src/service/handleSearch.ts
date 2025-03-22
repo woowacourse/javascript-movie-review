@@ -6,8 +6,8 @@ import Toast from "../components/Toast/Toast";
 import { updateMovieList } from "../view/MovieView.ts";
 
 export default async function handleSearch(searchValue: string) {
-  updateSearchDescription(searchValue);
-  prepareUIForSearch();
+  setSearchResultTitle(searchValue);
+  setSearchLoadingState();
   state.loadMovies = createMovieLoader(
     URLS.searchMovieUrl,
     defaultQueryObject,
@@ -16,17 +16,17 @@ export default async function handleSearch(searchValue: string) {
     searchValue
   );
   await updateMovieList(state.loadMovies, true);
-  finalizeUISuccess();
+  displaySearchResults();
 }
 
-function updateSearchDescription(searchValue: string): void {
+function setSearchResultTitle(searchValue: string): void {
   const description = document.getElementById("description");
   if (description) {
     description.textContent = `"${searchValue}" 검색 결과`;
   }
 }
 
-function prepareUIForSearch(): void {
+function setSearchLoadingState(): void {
   const $fallback = document.getElementById("fallback");
   const $hero = document.getElementById("hero");
   const $thumbnailList = document.getElementById("thumbnail-list");
@@ -36,7 +36,7 @@ function prepareUIForSearch(): void {
   hideElement($thumbnailList);
 }
 
-function finalizeUISuccess(): void {
+function displaySearchResults(): void {
   const $thumbnailContainer = document.getElementById("thumbnail-container");
   const $thumbnailList = document.getElementById("thumbnail-list");
 
