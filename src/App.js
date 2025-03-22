@@ -17,13 +17,15 @@ class App {
 
   constructor() {
     this.#movies = [];
-    this.#isLoading = false;
+    this.#isLoading = true;
     this.#page = 1;
     this.#searchPage = 1;
     this.#show = true;
   }
 
   async init() {
+    const body = document.querySelector("body");
+    body.innerHTML = "로딩 중";
     const { results } = await this.getMoviesResults();
 
     if (results === null) {
@@ -31,6 +33,7 @@ class App {
       return;
     }
     this.setMovies([...this.#movies, ...results]);
+    this.setIsLoading(false);
   }
 
   setShow(show) {
@@ -45,7 +48,6 @@ class App {
 
   setIsLoading(isLoading) {
     this.#isLoading = isLoading;
-    this.render();
   }
 
   setSearchKeyword = async (searchKeyword) => {
