@@ -1,3 +1,4 @@
+import { createApi } from "../../../api/ApiFactory";
 import { Movie } from "../../../types/movie";
 import { isHTMLElement } from "../../../utils/typeGuards";
 import ErrorScreen from "../@shared/ErrorScreen";
@@ -6,15 +7,20 @@ import MovieList from "../@shared/MovieList";
 import TopRatedMovie from "./TopRatedMovie";
 
 class PopularMovieBoard {
-  private static BASE_URL = "https://api.themoviedb.org/3/movie";
-  private static MAX_PAGE = 500;
+  private static readonly MAX_PAGE = 500;
 
   #parentElement;
   #page;
+  #api;
 
   constructor(parentElement: HTMLElement) {
     this.#parentElement = parentElement;
     this.#page = 1;
+
+    const errorRenderer = () =>
+      new ErrorScreen("오류가 발생했습니다.").render();
+    this.#api = createApi(errorRenderer);
+
     this.#renderInitialLayout();
     this.#fetchAndRenderMovies();
   }
@@ -66,27 +72,14 @@ class PopularMovieBoard {
   }
 
   async #movieData(): Promise<{ movies: Movie[]; total_pages: number }> {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${import.meta.env.VITE_TMDB_ACCESS_TOKEN}`,
-      },
-    };
     try {
-      const raw = await fetch(
-        `${PopularMovieBoard.BASE_URL}/popular?language=ko-KR&page=${
-          this.#page
-        }`,
-        options
-      );
-      const data = await raw.json();
-      const movies: Movie[] = data.results;
-
-      return { movies, total_pages: data.total_pages };
+      const data = await this.#api.fetchPopularMovies(this.#page);
+      return {
+        movies: data.results,
+        total_pages: data.total_pages,
+      };
     } catch (e) {
-      new ErrorScreen("오류가 발생했습니다.").render();
-
+      console.log(e);
       return { movies: [], total_pages: 0 };
     }
   }
