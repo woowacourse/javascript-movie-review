@@ -30,9 +30,15 @@ const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
   });
   const $poster = createElement("img", {
     className: "thumbnail",
-    src: poster_path ? imagePathPreFix + poster_path : defaultPosterPath,
+    src: "./placeholder-poster.svg",
     alt: title,
     loading: "lazy",
+    onerror: "this.src='./error-poster.svg'",
+    onload: function () {
+      this.src = poster_path
+        ? imagePathPreFix + poster_path
+        : defaultPosterPath;
+    },
   });
   $item.append($poster, $description);
   return $item;
