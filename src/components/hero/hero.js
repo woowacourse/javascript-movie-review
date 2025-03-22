@@ -1,4 +1,4 @@
-import { paths } from "../../setting/settings";
+import { paths } from "../../setting/settings.ts";
 import { createElement } from "../../util/dom";
 
 export default function Hero() {

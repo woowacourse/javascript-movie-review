@@ -3,4 +3,4 @@ export const ERROR_MESSAGE = {
   NO_DATA: "검색 값을 찾지 못했어요.",
   SERVER_ERROR: "서버에서 오류가 발생했습니다. 관리자에게 문의하세요.",
   NETWORK_DISCONNECTED: "인터넷 연결이 끊어졌습니다. 연결을 확인해 주세요.",
-};
+} as const;

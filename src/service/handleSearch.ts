@@ -1,6 +1,10 @@
 import createMovieLoader from "./createMovieLoader";
 import state from "../state/state.ts";
-import { URLS, defaultOptions, defaultQueryObject } from "../setting/settings";
+import {
+  URLS,
+  defaultOptions,
+  defaultQueryObject,
+} from "../setting/settings.ts";
 import { hideElement, showElement } from "../view/MovieView.ts";
 import Toast from "../components/Toast/Toast";
 import { updateMovieList } from "../view/MovieView.ts";

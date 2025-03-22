@@ -1,6 +1,6 @@
 import type { FetchOptions } from "../util/fetch";
 
-import { TOTAL_PAGE } from "../setting/settings";
+import { TOTAL_PAGE } from "../setting/settings.ts";
 import { getPlainQuery, buildQuery } from "../util/query";
 import { fetchMovies } from "./movieService";
 

@@ -2,7 +2,11 @@
 
 import Toast from "./components/Toast/Toast";
 import createMovieLoader from "./service/createMovieLoader";
-import { URLS, defaultOptions, defaultQueryObject } from "./setting/settings";
+import {
+  URLS,
+  defaultOptions,
+  defaultQueryObject,
+} from "./setting/settings.ts";
 
 import state from "./state/state.ts";
 

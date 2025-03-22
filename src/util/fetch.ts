@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE } from "../setting/ErrorMessage";
+import { ERROR_MESSAGE } from "../setting/ErrorMessage.ts";
 
 export interface FetchOptions {
   headers?: Record<string, string>;

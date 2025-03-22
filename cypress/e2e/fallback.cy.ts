@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE } from "../../src/setting/ErrorMessage";
+import { ERROR_MESSAGE } from "../../src/setting/ErrorMessage.ts";
 
 const localHostUrl = Cypress.env("LOCAL_HOST_URL");
 

@@ -1,6 +1,6 @@
 import { createElement } from "../../util/dom";
 import handleSearch from "../../service/handleSearch";
-import { paths } from "../../setting/settings";
+import { paths } from "../../setting/settings.ts";
 
 export default function Header() {
   const $headerContainer = createElement("div", {
