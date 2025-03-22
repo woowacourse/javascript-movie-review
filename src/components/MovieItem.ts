@@ -24,6 +24,7 @@ class MovieItem {
         <img
         class="thumbnail"
         src=${IMG_PREFIX + this.#posterPath}
+        onload="this.src='${IMG_PREFIX + this.#posterPath}"
         onerror="this.src='./images/null_image.png'"
         alt=${this.#title}
         />
