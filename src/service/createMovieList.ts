@@ -20,10 +20,10 @@ export default async function createMovieList(
     document.getElementById("load-more")?.classList.add("hide");
   }
 
-  addMovies(results, reset);
+  renderMovies(results, reset);
 }
 
-function addMovies(results: Result[], reset?: boolean) {
+function renderMovies(results: Result[], reset?: boolean) {
   const $list = document.getElementById("thumbnail-list");
 
   if (reset && $list) $list.innerHTML = "";

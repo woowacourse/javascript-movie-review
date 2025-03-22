@@ -14,12 +14,12 @@ function init() {
     defaultQueryObject,
     defaultOptions
   );
-  setupHeaderAndHero();
+  renderHeaderAndHero();
   createMovieList(state.loadMovies);
-  setupLoadMoreButton();
+  renderLoadMoreButton();
 }
 
-function setupHeaderAndHero() {
+function renderHeaderAndHero() {
   const $wrap = document.getElementById("wrap");
   if ($wrap) {
     $wrap.prepend(Header());
@@ -27,7 +27,7 @@ function setupHeaderAndHero() {
   }
 }
 
-function setupLoadMoreButton() {
+function renderLoadMoreButton() {
   const $thumbnailContainer = document.getElementById("thumbnail-container");
   if ($thumbnailContainer) {
     const loadMoreButton = Button({
