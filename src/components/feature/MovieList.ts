@@ -11,6 +11,7 @@ import { MovieItem } from './MovieItem';
 import { MovieSkeleton } from './MovieSkeleton';
 import { Empty } from './Empty';
 import { Img } from '../common/Img';
+
 const renderErrorState = () => {
   const error = movieFetcher.errorState;
   if (!error) return;
@@ -117,14 +118,11 @@ const handleMoreButtonClick = async () => {
     : movieFetcher.getNextPagePopularMovies());
 };
 
-const renderSearchLoadingState = (itemCount: number) => {
+const renderLoadingState = (itemCount: number, append: boolean) => {
   const skeletons = createSkeletonItems(itemCount);
-  movieUl.innerHTML = '';
-  movieUl.append(...skeletons);
-};
-
-const renderMoreLoadingState = (itemCount: number) => {
-  const skeletons = createSkeletonItems(itemCount);
+  if (!append) {
+    movieUl.innerHTML = '';
+  }
   movieUl.append(...skeletons);
 };
 
@@ -146,34 +144,20 @@ const renderMovies = (movies: MovieItemType[], response: MovieResponse) => {
 };
 
 const renderMovieList = () => {
-  const results = movieFetcher.movies || [];
-  const query = movieFetcher.queryText;
-  const response = movieFetcher.currentMovieResponse;
-  const isLoading = movieFetcher.isLoadingState;
-  const isSearch = movieFetcher.isSearchState;
-  const error = movieFetcher.errorState;
+  const {
+    movies: results = [],
+    queryText: query,
+    currentMovieResponse: response,
+    isLoadingState: isLoading,
+    isSearchState: isSearch,
+    errorState: error,
+  } = movieFetcher;
 
   updateListTitle(titleText, isSearch, query);
 
-  if (error) {
-    renderErrorState();
-    return;
-  }
-
-  if (isLoading && isSearch) {
-    renderSearchLoadingState(20);
-    return;
-  }
-
-  if (results.length === 0) {
-    renderEmptyState();
-    return;
-  }
-
-  if (isLoading) {
-    renderMoreLoadingState(20);
-    return;
-  }
+  if (error) return renderErrorState();
+  if (isLoading) return renderLoadingState(20, !isSearch);
+  if (results.length === 0) return renderEmptyState();
 
   renderMovies(results, response);
 };
@@ -184,7 +168,7 @@ export const MovieList = async (): Promise<HTMLElement> => {
     app.insertBefore(mainElement, app.firstChild.nextSibling);
   }
 
-  renderMoreLoadingState(20);
+  renderLoadingState(20, false);
   await movieFetcher.getPopularMovies(1);
 
   renderMovieList();
