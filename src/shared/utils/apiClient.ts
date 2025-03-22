@@ -5,7 +5,7 @@ export const apiClient = async (
   endPoint: string,
   headers = {}
 ) => {
-  const url = `https://api.themoviedb.org/3${endPoint}`;
+  const API_URL = `https://api.themoviedb.org/3${endPoint}`;
   const options = {
     method,
     headers: {
@@ -15,7 +15,7 @@ export const apiClient = async (
     },
   };
 
-  const response = await fetch(url, options);
+  const response = await fetch(API_URL, options);
   if (!response.ok) {
     throw new Error("Failed to fetch movie list");
   }
