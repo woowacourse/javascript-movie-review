@@ -1,6 +1,8 @@
 import "./MovieListSection.css";
 import MovieItem from "../MovieItem/MovieItem";
 import EmptyView from "../EmptyView/EmptyView";
+import { MOVIE } from "../../../constants/movie";
+
 class MovieListSection {
   constructor(title, movies, isLoading) {
     this.title = title;
@@ -36,7 +38,7 @@ class MovieListSection {
 
     $section.appendChild($title);
 
-    if (totalMovie <= 20) {
+    if (totalMovie <= MOVIE.MAX_MOVIES_PER_PAGE) {
       this.renderMovieItemByArray(this.movies, $ul);
 
       $section.appendChild($ul);
