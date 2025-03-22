@@ -1,3 +1,5 @@
+export type StatusCode = keyof typeof STATUS_MESSAGE;
+
 export const STATUS_MESSAGE = {
   400: `🚨 요청이 올바르지 않습니다. 입력 내용을 확인해주세요. 🚨`,
   401: `🔒 인증되지 않은 요청입니다. 로그인 후 이용해주세요. 🔒`,
