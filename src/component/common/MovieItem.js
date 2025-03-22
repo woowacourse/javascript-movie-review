@@ -1,5 +1,4 @@
 const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
-//import nullIma
 
 function MovieItem({ img, rating, title }) {
   

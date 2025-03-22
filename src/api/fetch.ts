@@ -1,5 +1,5 @@
 /// <reference types="vite/client" />
-import {IMovieData} from "../../types/movieDataType";
+import {MovieData} from "../../types/movieDataType";
 
 export interface ImportMetaEnv {
     readonly VITE_TMDB_TOKEN: string;
@@ -12,7 +12,7 @@ export interface ImportMeta {
 
 export interface TMDBResponse {
     page: number;
-    results: IMovieData[];
+    results: MovieData[];
     total_pages: number;
     total_results: number;
   }

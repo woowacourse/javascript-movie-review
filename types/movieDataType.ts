@@ -1,4 +1,4 @@
-export interface IMovieData {
+export interface MovieData {
     adult: boolean;
     backdrop_path: null | string;
     genre_ids: number[];
@@ -17,17 +17,17 @@ export interface IMovieData {
 
   
 
-export interface IMovieState {
+export interface MovieState {
   title?:string;
   eventName?:string;
   isPossibleMore?:boolean;
-  movieData?:IMovieData[];
+  movieData?:MovieData[];
 }
 
-export interface IMovieLayout {
-  setState(newState:IMovieState): void;
+export interface MovieLayout {
+  setState(newState:MovieState): void;
   render(): void;
   template(): string;
-  newMovieListRender(dataList: IMovieData[]): void;
+  newMovieListRender(dataList: MovieData[]): void;
 }
   

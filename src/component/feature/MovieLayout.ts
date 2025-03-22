@@ -1,13 +1,13 @@
 import MovieList from "../common/MovieList.js";
 import Button from "../common/Button.js";
 import hideskeleton from "../../util/hideskeleton.js";
-import {IMovieData,IMovieState} from "../../../types/movieDataType";
+import {MovieData,MovieState} from "../../../types/movieDataType";
 import createSkeletonData from "../../util/createSkeletonData.js";
 
 class MovieLayout {
-    #state:IMovieState;
+    #state:MovieState;
 
-    constructor(movieData: IMovieData[]) {
+    constructor(movieData: MovieData[]) {
         this.#state = {
             title: "지금 인기 있는 영화",
             eventName: "readMoreMovieList",
@@ -17,7 +17,7 @@ class MovieLayout {
         this.render();
     }
 
-    setState(newState:IMovieState) {
+    setState(newState:MovieState) {
         this.#state = {...this.#state, ...newState};
         this.render();
     }
@@ -58,7 +58,7 @@ class MovieLayout {
         hideskeleton();
     }
 
-    newMovieListRender(dataList:IMovieData[]) {
+    newMovieListRender(dataList:MovieData[]) {
         const ul = MovieList(dataList).template();
         document.getElementById('movieListContainer')?.appendChild(ul);
     }

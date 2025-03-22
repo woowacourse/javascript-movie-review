@@ -1,9 +1,9 @@
 import { fetchPopularMovies } from "../api/fetch.js";
 import { fetchSearchMovies } from "../api/fetch.js";
 import hideskeleton from "../util/hideskeleton.ts";
-import { IMovieLayout } from "../../types/movieDataType";
+import { MovieLayout } from "../../types/movieDataType";
 
-function removeButton(movieLayout:IMovieLayout, total_pages:number, pageIndex:number){
+function removeButton(movieLayout:MovieLayout, total_pages:number, pageIndex:number){
   if(total_pages<pageIndex){
     movieLayout.setState(
       {
@@ -14,7 +14,7 @@ function removeButton(movieLayout:IMovieLayout, total_pages:number, pageIndex:nu
 }
 
 
-async function clickEvent(movieLayout:IMovieLayout) {
+async function clickEvent(movieLayout:MovieLayout) {
     document.addEventListener("click", onClick);
 
     function reload() {
