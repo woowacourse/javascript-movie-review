@@ -1,10 +1,12 @@
+import { MOVIE_AMOUNT_IN_PAGE } from "../constants/movie";
+
 class SkeletonUl {
   constructor() {}
 
   create() {
     const skeletonUlElement = document.createElement("ul");
     skeletonUlElement.classList.add("skeleton-list");
-    Array.from({ length: 20 }).forEach(() =>
+    Array.from({ length: MOVIE_AMOUNT_IN_PAGE }).forEach(() =>
       skeletonUlElement.appendChild(this.#createSkeletonLi())
     );
 

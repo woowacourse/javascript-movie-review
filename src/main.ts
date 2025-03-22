@@ -4,7 +4,7 @@ import MovieItem from "./components/MovieItem";
 import SearchBar from "./components/SearchBar";
 import SkeletonUl from "./components/SkeletonUl";
 import TextButton from "./components/TextButton";
-import { BACKDROP_IMG_PREFIX } from "./constants/movie";
+import { BACKDROP_IMG_PREFIX, MOVIE_AMOUNT_IN_PAGE } from "./constants/movie";
 import { toggleVisibility } from "./utils/Render";
 
 const thumbnailList = document.querySelector("ul.thumbnail-list");
@@ -33,7 +33,7 @@ renderMovieData();
 
 async function getMovieData() {
   const itemCount = document.querySelectorAll("ul.thumbnail-list li").length;
-  const pageNumber = itemCount / 20 + 1;
+  const pageNumber = itemCount / MOVIE_AMOUNT_IN_PAGE + 1;
 
   return (await api.getMovieData(pageNumber)) as PaginatedMovies;
 }

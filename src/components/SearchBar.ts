@@ -1,5 +1,6 @@
 import { PaginatedMovies } from "../../types/domain";
 import api from "../api/api";
+import { MOVIE_AMOUNT_IN_PAGE } from "../constants/movie";
 import DOM from "../utils/DOM";
 import { toggleVisibility } from "../utils/Render";
 import MovieItem from "./MovieItem";
@@ -90,7 +91,7 @@ class SearchBar {
   async #renderSearchResult(query: string) {
     const thumbnailList = document.querySelector("ul.thumbnail-list");
     const itemCount = document.querySelectorAll("ul.thumbnail-list li").length;
-    const pageNumber = itemCount / 20 + 1;
+    const pageNumber = itemCount / MOVIE_AMOUNT_IN_PAGE + 1;
 
     toggleVisibility(DOM.$skeletonUlElement, "show");
     toggleVisibility(DOM.$seeMoreButton, "hidden");
