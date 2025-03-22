@@ -1,3 +1,4 @@
+import { STATUS_CODE_MESSAGE } from '../constants/errorMessage';
 import { SYSTEM_CONSTANTS } from '../constants/systemConstants';
 import { redirectToPage } from '../route/router';
 
@@ -31,6 +32,11 @@ export async function extractedData(url: string) {
   return { movieListData, totalPage };
 }
 
+function fetchErrorHandler(error: Error) {
+  redirectToPage('/error');
+  throw new Error(`${error.message} 에러가 발생했습니다.`);
+}
+
 async function fetchMovieList(url: string) {
   const options = {
     method: 'GET',
@@ -42,12 +48,18 @@ async function fetchMovieList(url: string) {
 
   try {
     const response = await fetch(url, options);
+    if (!response.ok) errorHandlerByStatusCode(response.status);
+
     const responsedData = await response.json();
     return responsedData;
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      ////
-      redirectToPage('/error');
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      fetchErrorHandler(error);
     }
   }
+}
+
+function errorHandlerByStatusCode(statusCode: number) {
+  const errorMessage = STATUS_CODE_MESSAGE[statusCode] ?? `${statusCode} 에러가 발생했습니다.`;
+  throw new Error(errorMessage);
 }
