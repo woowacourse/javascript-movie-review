@@ -1,5 +1,5 @@
 import Layout from './pages/layout/Layout';
 
-addEventListener('load', () => {
+window.addEventListener('load', () => {
   new Layout();
 });
