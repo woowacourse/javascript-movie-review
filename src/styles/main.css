@@ -1,0 +1,268 @@
+@import "./colors.css";
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+body {
+  font-size: 16px;
+  color: var(--color-white);
+  background-color: var(--color-bluegray-80);
+}
+
+#wrap,
+section {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  margin: 64px 0;
+}
+
+.star {
+  width: 24px;
+}
+
+button {
+  border: 0;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+button.primary {
+  color: var(--color-white);
+  font-weight: bold;
+  background-color: var(--color-lightblue-90);
+  border-radius: 4px;
+}
+
+#wrap {
+  /* min-width: 1440px; */
+  background-color: var(--color-bluegray-100);
+  min-height: calc(100vh - 180px);
+}
+
+#wrap h2 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 35px 120px;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.background-container {
+  position: relative;
+  background-position: center center;
+  background-size: cover;
+  padding: 48px;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.overlay img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.top-rated-container {
+  user-select: none;
+  position: relative;
+  z-index: 2;
+  max-width: 1280px;
+  margin: 0 auto 200px;
+}
+
+.top-rated-movie {
+  margin-top: 64px;
+}
+
+.top-rated-movie > *:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.top-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 20px;
+  height: 80px;
+}
+
+.logo-search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+}
+
+h1.logo {
+  font-size: 2rem;
+  position: absolute;
+  left: 0;
+  z-index: 3;
+  cursor: pointer;
+}
+
+.search-bar {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 500px;
+  padding: 5px;
+  border: 2px solid white;
+  border-radius: 30px;
+  background: transparent;
+  z-index: 3;
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+  color: white;
+  padding: 10px;
+}
+
+.search-bar button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: white;
+  padding: 10px;
+}
+
+.rate {
+  display: flex;
+  align-items: baseline;
+  color: var(--color-yellow);
+}
+
+.rate > img {
+  position: relative;
+  top: 2px;
+}
+
+span.rate-value {
+  margin-left: 8px;
+  font-weight: bold;
+  font-size: 1.66rem;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.load-more {
+  background-color: var(--color-lightblue-90);
+  width: 1280px;
+  height: 50px;
+
+  color: var(--color-white);
+  font-weight: bold;
+  font-size: 24px;
+
+  margin: 0 auto 56px;
+  border-radius: 4px;
+}
+
+.hidden {
+  display: none;
+}
+
+footer.footer {
+  min-height: 180px;
+  background-color: var(--color-bluegray-80);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+footer.footer p:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.skeleton-box {
+  background: linear-gradient(90deg, #383838 25%, #383838 50%, #323232 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.thumbnail.skeleton-box {
+  width: 200px;
+  height: 300px;
+  margin-bottom: 10px;
+}
+
+.item-desc.skeleton-box {
+  width: 200px;
+  height: 24px;
+}
+
+.no-result {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-result img {
+  width: 72px;
+}
+
+.no-result h1 {
+  font-size: 3rem;
+  font-weight: bold;
+}
