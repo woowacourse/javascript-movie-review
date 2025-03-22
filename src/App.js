@@ -13,7 +13,6 @@ class App {
   #page;
   #searchKeyword;
   #searchPage;
-  #mode;
   #show;
 
   constructor() {
@@ -21,7 +20,6 @@ class App {
     this.#isLoading = false;
     this.#page = 1;
     this.#searchPage = 1;
-    this.#mode = "popular";
     this.#show = true;
   }
 
@@ -60,11 +58,6 @@ class App {
     }
 
     this.setMovies(results);
-  };
-
-  setMode = (mode) => {
-    this.#mode = mode;
-    this.render();
   };
 
   async getMoviesResults() {
@@ -147,28 +140,18 @@ class App {
     this.setShow(true);
 
     await this.setSearchKeyword($input.value);
-    this.setMode("search");
   };
 
   handleButtonClick = async () => {
-    if (this.#mode === "popular") {
+    if (this.#searchKeyword) {
+      this.#searchPage += 1;
+      const { results, totalPage } = await this.getSearchMovies();
+      if (totalPage <= this.#searchPage) this.setShow(false);
+    } else {
       this.#page += 1;
       const { results, totalPage } = await this.getMoviesResults();
-      this.setMovies([...this.#movies, ...results]);
-
-      if (totalPage === this.#page) {
-        this.setShow(false);
-      }
-      return;
+      if (totalPage === this.#page) this.setShow(false);
     }
-
-    this.#searchPage += 1;
-    const { results, totalPage } = await this.getSearchMovies();
-
-    if (totalPage <= this.#searchPage) {
-      this.setShow(false);
-    }
-
     this.setMovies([...this.#movies, ...results]);
   };
 
